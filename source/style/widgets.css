@@ -601,6 +601,9 @@ html[QxFocused] {
 
 
 
+
+
+
 /*
   ------------------------------------------
     INLINE WIDGET
@@ -620,99 +623,95 @@ html[QxFocused] {
 
 
 
+
+
+
+
+
 /*
   ------------------------------------------
     TAB
   ------------------------------------------
 */
 
-.QxTabFrame{
+.QxTabFrame,
+.QxTab,
+.QxTabBar,
+.QxTabPane,
+.QxTabPage{
   overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
+  position: absolute;  
+}
+
+.QxTabFrame,
+.QxTab,
+.QxTabBar,
+.QxTabPane,
+.QxTabPage {
+  overflow: -moz-scrollbars-none;
 }
 
 .QxTabBar {
-  overflow: hidden;
-  position: absolute;
   white-space: nowrap;
   z-index: 2;
-
-  margin-left: 6px;
-  margin-right: 6px;
-}
-
-.QxTabPane,
-.QxTabPage {
-  overflow: hidden;
-  position: absolute;
+  margin-left: 1px;
 }
 
 .QxTabPane{
   z-index: 1;
 }
 
-.QxTabBar,
-.QxTab,
-.QxTabPane,
-.QxTabPage {
-  overflow: -moz-scrollbars-none;
-}
-
 .QxTab{
-	position: relative;
-	float: left;
-
-  padding: 2px 6px 2px 8px;
   cursor: default;
+  z-index: 1;
 
   background-color: ThreeDFace;
 
-  border-bottom: 1px solid ThreeDHighlight;
   border-left: 1px solid ThreeDHighlight;
   border-right: 2px outset;
   -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
 }
 
 .QxTab-Checked{
-  border-bottom: 1px solid ThreeDFace;
+  z-index: 2; 
 }
-
-
-
-
-
 
 .QxTabBar-TopLeft .QxTab,
 .QxTabBar-TopRight .QxTab{
   border-top: 1px solid ThreeDHighlight;
+
+  padding: 3px 6px 2px 8px;
+}
+
+.QxTabBar-TopLeft .QxTab-Checked,
+.QxTabBar-TopRight .QxTab-Checked{
+  padding: 2px 6px 3px 8px;
 }
 
 .QxTabBar-BottomLeft .QxTab,
 .QxTabBar-BottomRight .QxTab{
   border-bottom: 2px outset;
   -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+  
+  padding: 1px 6px 3px 8px;
+}
+
+.QxTabBar-BottomLeft .QxTab-Checked,
+.QxTabBar-BottomRight .QxTab-Checked{
+  padding: 2px 6px 2px 8px;
 }
 
 
 
 
 
-.QxTabBar-TopLeft .QxTab,
-.QxTabBar-BottomLeft .QxTab{
-  float: left;
-}
 
-.QxTabBar-TopRight .QxTab,
-.QxTabBar-BottomRight .QxTab{
-  float: right;
-}
 
 
 
 /*
   ------------------------------------------
-    IFRAME, HTMLAREA
+    IFRAME / HTMLAREA
   ------------------------------------------
 */
 
@@ -729,6 +728,11 @@ html[QxFocused] {
 .QxHtmlArea {
   overflow: -moz-scrollbars-none;
 }
+
+
+
+
+
 
 /*
   ------------------------------------------
@@ -764,6 +768,11 @@ html[QxFocused] {
 .QxListItem-Lead{
   border-color: ThreeDShadow;
 }
+
+
+
+
+
 
 /*
   ------------------------------------------
@@ -869,6 +878,11 @@ html[QxFocused] {
   overflow: hidden;
 }
 
+
+
+
+
+
 /*
   ------------------------------------------
     COMBO BOX
@@ -908,6 +922,9 @@ html[QxFocused] {
 .QxComboBox .QxListItem-Lead{
   border-color: #fff;
 }
+
+
+
 
 
 
@@ -959,6 +976,7 @@ html[QxFocused] {
   border-top: 1px solid ThreeDShadow;
   border-bottom: 1px solid ThreeDHighlight;
 }
+
 
 
 
