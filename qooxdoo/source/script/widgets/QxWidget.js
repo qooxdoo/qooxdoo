@@ -1398,53 +1398,60 @@ proto.getNextSibling = function()
   return cs[cs.indexOf(this) + 1];
 };
 
-proto.getActiveSiblingHelper = function(calc, ignoreClasses)
+QxWidget.getActiveSiblingHelperIgnore = function(vIgnoreClasses, vInstance)
 {
-  var p = this.getParent();
-
-  if(p == null) {
-    return null;
-  };
-  
-  if (!ignoreClasses) {
-    ignoreClasses = [];
-  };
-
-  var cs = p.getChildren();
-  
-  var i = cs.indexOf(this) + calc;
-  var cv = cs[i];
-  
-  function shouldIgnore(inst)
-  {
-    for (var j=0; j<ignoreClasses.length; j++) {
-      if (cv instanceof ignoreClasses[j]) {
-        return true;
-      };
+  for (var j=0; j<vIgnoreClasses.length; j++) {
+    if (vInstance instanceof vIgnoreClasses[j]) {
+      return true;
     };
-    
-    return false;
   };
   
-  while(!cv.isEnabled() || shouldIgnore(cv))
+  return false;
+};
+
+QxWidget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIgnoreClasses, vMode)
+{
+  if (!vIgnoreClasses) {
+    vIgnoreClasses = [];
+  };
+
+  var vChilds = vParent.getChildren();
+  var vPosition;
+  
+  if (isInvalid(vMode))
   {
-    i += calc;
-    cv = cs[i];
+    vPosition = vChilds.indexOf(vObject) + vCalc;
+  }
+  else
+  {
+    vPosition = vMode == "first" ? 0 : vChilds.length-1;  
+  };
+  
+  var vInstance = vChilds[vPosition];
+  
+  while(!vInstance.isEnabled() || QxWidget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
+  {
+    vPosition += vCalc;
+    vInstance = vChilds[vPosition];
     
-    if (!cv) {
+    if (!vInstance) {
       return null;
     };
   };
-
-  return cv;
+  
+  return vInstance;
 };
 
-proto.getPreviousActiveSibling = function(ignoreClasses) {
-  return this.getActiveSiblingHelper(-1, ignoreClasses);
+proto.getPreviousActiveSibling = function(vIgnoreClasses) 
+{
+  var vPrev = QxWidget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
+  return vPrev ? vPrev : this.getParent().getLastActiveChild();
 };
 
-proto.getNextActiveSibling = function(ignoreClasses) {
-  return this.getActiveSiblingHelper(1, ignoreClasses);  
+proto.getNextActiveSibling = function(vIgnoreClasses) 
+{
+  var vMext = QxWidget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
+  return vMext ? vMext : this.getParent().getFirstActiveChild();
 };
 
 /*!
@@ -1474,6 +1481,15 @@ proto.isLastChild = function()
 
   return pa.getLastChild() == this;
 };
+
+proto.getFirstActiveChild = function(vIgnoreClasses) {
+  return QxWidget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
+};
+
+proto.getLastActiveChild = function(vIgnoreClasses) {
+  return QxWidget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
+};
+
 
 proto._firstChildCache = null;
 proto._lastChildCache = null;
@@ -4953,7 +4969,7 @@ proto.execute = function()
 {
   var vCommand = this.getCommand();
   if (vCommand) {
-    vCommand.execute();
+    vCommand.execute(this);
   };
 
   if (this.hasEventListeners("execute")) {

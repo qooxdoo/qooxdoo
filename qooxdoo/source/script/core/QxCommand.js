@@ -20,9 +20,9 @@ QxCommand.addProperty({ name : "shortcut", type : String });
 QxCommand.addProperty({ name : "keyCode", type : Number });
 QxCommand.addProperty({ name : "manager", type : Object });
 
-proto.execute = function() 
+proto.execute = function(vTarget) 
 {
-  this.dispatchEvent(new QxEvent("execute"));
+  this.dispatchEvent(new QxDataEvent("execute", vTarget));
   return false;
 };
 
