@@ -2102,30 +2102,12 @@ proto._renderVerticalRunning = false;
 proto._renderHorizontalOmit = false;
 proto._renderVerticalOmit = false;
 
-proto._renderHorizontal = function(vHint) 
-{
-  if (this._renderHorizontalRunning || this._renderHorizontalOmit) {
-    return;
-  };
-  
-  this._renderHorizontalRunning = true;
-  var r = this._renderHelper("horizontal", "Horizontal", vHint, "left", "width", "right", "Left", "Width", "Right", "minWidth", "maxWidth", "MinWidth", "MaxWidth");
-  this._renderHorizontalRunning = false;
-  
-  return r;
+proto._renderHorizontal = function(vHint) {
+  return this._renderHelper("horizontal", "Horizontal", vHint, "left", "width", "right", "Left", "Width", "Right", "minWidth", "maxWidth", "MinWidth", "MaxWidth");
 };
 
-proto._renderVertical = function(vHint) 
-{
-  if (this._renderVerticalRunning || this._renderVerticalOmit) {
-    return;
-  };
-
-  this._renderVerticalRunning = true;
-  var r = this._renderHelper("vertical", "Vertical", vHint, "top", "height", "bottom", "Top", "Height", "Bottom", "minHeight", "maxHeight", "MinHeight", "MaxHeight");
-  this._renderVerticalRunning = false;
-  
-  return r;
+proto._renderVertical = function(vHint) {
+  return this._renderHelper("vertical", "Vertical", vHint, "top", "height", "bottom", "Top", "Height", "Bottom", "minHeight", "maxHeight", "MinHeight", "MaxHeight");
 };
 
 proto._omitHorizontalRendering = function() {
@@ -2163,6 +2145,8 @@ proto._renderInitialDone_vertical = false;
 
 proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameStop, vNameStartUp, vNameRangeUp, vNameStopUp, vNameRangeMin, vNameRangeMax, vNameRangeMinUp, vNameRangeMaxUp)
 {
+  
+  
   var vParent = this.getParent();
 
   if (vParent == null || !this.isCreated()) {
@@ -2179,14 +2163,14 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     return true;
   };
   
-  
+  //this.debug("render: " + vId);
   
 
   // if parent is not ready and my own dimension is not auto and the parent dimension is not null
   // we will wait for the parent to render
   if (!vParent["_renderInitialDone_" + vId] && this["get" + vNameRangeUp]() != "auto" && vParent["get" + vNameRangeUp]() != null) 
   {
-    //this.subug("parent not done");
+    // this.subug("parent not done: " + vId);
     return true;
   };
   
@@ -2211,8 +2195,6 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
   try
   {
-    //this.subug("rendering " + vId + ": " + vHint);
-
     switch(vHint)
     {
       case "initial":
@@ -2220,18 +2202,15 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       case "parent":
       case "activate":
         this._computeDimensionPixelValue(vNameStart, vNameStartUp, vNameRangeUp, vNameStopUp);
-        this._computeDimensionPixelValue(vNameRange, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameStop, vNameStartUp, vNameRangeUp, vNameStopUp);
+
+      case "padding":
+      case "border":
+        this._computeDimensionPixelValue(vNameRange, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameRangeMin, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameRangeMax, vNameStartUp, vNameRangeUp, vNameStopUp);
         break;
-
-      case vNameStart:
-      case vNameRange:
-      case vNameStop:
-        this._computeDimensionPixelValue(vHint, vNameStartUp, vNameRangeUp, vNameStopUp);
-        break;
-
+        
       case vNameRangeMin:
       case vNameRangeMax:
         // Inform and recalculate parent information
@@ -2239,14 +2218,10 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
           return vParent["_setChildrenDepend" + vNameRangeUp](this);
         };
       
+      case vNameStart:
+      case vNameRange:
+      case vNameStop:
         this._computeDimensionPixelValue(vHint, vNameStartUp, vNameRangeUp, vNameStopUp);
-        break;
-
-      case "padding":
-      case "border":
-        this._computeDimensionPixelValue(vNameRange, vNameStartUp, vNameRangeUp, vNameStopUp);
-        this._computeDimensionPixelValue(vNameRangeMin, vNameStartUp, vNameRangeUp, vNameStopUp);
-        this._computeDimensionPixelValue(vNameRangeMax, vNameStartUp, vNameRangeUp, vNameStopUp);
         break;
     };
 
@@ -2267,15 +2242,10 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       return true;
     };
     
-    
 
-
-    //this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
+    // this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
     // this.subug("info: " + this["_pixelof_" + vNameRange] + ", " + this["_valueof_" + vNameRange]);
     // this.subug("limit: min=" + vValueRangeMin + ", max=" + vValueRangeMax);
-
-
-    
 
 
     var vComputedPosition;
@@ -2285,7 +2255,6 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     function limitSize(vValue) {
       return vValue.limit(vValueRangeMin, vValueRangeMax);
     };
-
 
 
     if (vUseRange)
@@ -2328,39 +2297,29 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
 
 
-    if (typeof vComputedPosition == "undefined") {
-      vComputedPosition = null;
-    };
+
 
     if (typeof vComputedSize == "undefined") {
       vComputedSize = null;
     };
     
-    /*
-    else if (vComputedSize < 0)
+    if (typeof vComputedPosition == "undefined") 
     {
-      if (vHint == "initial") 
-      {
-        this["_renderInitialDone_" + vId] = false;
-      };
-      
-      return;
-    };
-    */
-    
-
-
+      vComputedPosition = null;
+    }
     // add padding of parent widget
-    if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute") {
+    else if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute") 
+    {
       vComputedPosition += vParent["getComputedPadding" + vNameStartUp]();
     };
     
 
-    
     // this.subug("computed: position=" + vComputedPosition + ", size=" + vComputedSize + " ... " + vHint);
 
     var vPositionChanged = vComputedPosition != this["_computedLast" + vNameStartUp];
     var vSizeChanged = vComputedSize != this["_computedLast" + vNameRangeUp];
+    
+    // this.subug("do apply: " + vPositionChanged + ", " + vSizeChanged);
 
     if (vPositionChanged || vSizeChanged)
     {
