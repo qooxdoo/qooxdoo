@@ -3,7 +3,7 @@ function QxDragAndDropManager()
   if (QxDragAndDropManager._instance) {
     return QxDragAndDropManager._instance;
   };
-
+  
   QxTarget.call(this);
   
   var vDoc = window.application.getClientWindow().getClientDocument();
@@ -16,6 +16,7 @@ function QxDragAndDropManager()
     vCur.setTimerCreate(false);
     vCur.setStyleProperty("top", "-1000px");
     vCur.setParent(vDoc);
+    vCur.setZIndex(10000);
   };
   
   this._data = {};
@@ -424,6 +425,13 @@ proto.cancelDrag = function(e) {
   this._endDrag(null, e);
 };
 
+proto.globalCancelDrag = function() 
+{
+  if (this._dragCache && this._dragCache.dragHandlerActive) {
+    this._endDragCore();
+  };
+};
+
 /*!
   This will be called to the end of each drag and drop session
 */
@@ -441,6 +449,12 @@ proto._endDrag = function(currentDestinationWidget, e)
   // Fire dragout event
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
 
+  // Call helper
+  this._endDragCore();
+};
+
+proto._endDragCore = function()
+{
   // Remove cursor
   this.setCursor(null);
 
@@ -460,7 +474,7 @@ proto._endDrag = function(currentDestinationWidget, e)
 
   // Cleanup widgets
   this.setSourceWidget(null);
-  this.setDestinationWidget(null);
+  this.setDestinationWidget(null);  
 };
 
 

@@ -22,10 +22,4 @@ body, html{
   overflow: -moz-scrollbars-unscrollable;
 }
 
-/*
-  We want to scroll content with body
-*/
-html > body {
-  position: relative;
-}
 

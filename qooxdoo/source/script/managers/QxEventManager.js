@@ -528,7 +528,7 @@ proto._onmouseevent_post = function(e, t)
   vDispatchTarget.dispatchEvent(vEventObject);
   
   
-  
+
   
   
   // Handle Special Post Events
@@ -552,7 +552,7 @@ proto._onmouseevent_post = function(e, t)
       };
       break;
   };
-
+  
 
 
 
@@ -596,8 +596,18 @@ proto._ondragevent = function(e) {
 proto._onwindowblur = function(e)
 {
   // Hide Popups, Tooltips, ...
-  if (typeof QxPopupManager == "function") {
+  if (isValidFunction(QxPopupManager)) {
     (new QxPopupManager).update();
+  };
+  
+  // Hide Menus
+  if (isValidFunction(QxMenuManager)) {
+    (new QxMenuManager).update();
+  };
+
+  // Cancel Drag Operations
+  if (isValidFunction(QxDragAndDropManager)) {
+    (new QxDragAndDropManager).globalCancelDrag();
   };
 
   // Send blur event to client document
@@ -607,7 +617,7 @@ proto._onwindowblur = function(e)
 proto._onwindowfocus = function(e)
 {
   // Hide Popups, Tooltips, ...
-  if (typeof QxPopupManager == "function") {
+  if (isValidFunction(QxPopupManager)) {
     (new QxPopupManager).update();
   };
 

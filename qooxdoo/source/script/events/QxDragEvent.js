@@ -3,7 +3,7 @@ function QxDragEvent(vType, vMouseEvent, vAutoDispose)
   this._mouseEvent = vMouseEvent;
   this._manager = new QxDragAndDropManager;
 
-  QxMouseEvent.call(this, vType, vMouseEvent._domEvent, vAutoDispose);
+  QxMouseEvent.call(this, vType, vMouseEvent ? vMouseEvent._domEvent : null, vAutoDispose);
 };
 
 QxDragEvent.extend(QxMouseEvent, "QxDragEvent");
