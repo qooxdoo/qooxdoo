@@ -1,4 +1,4 @@
-function QxSpinner()
+function QxSpinner( min, value, max )
 {
   QxWidget.call(this);
   
@@ -46,7 +46,7 @@ function QxSpinner()
   
   this._downbutton.add(this._downbuttonimage);
   this.add(this._downbutton);
-  
+
   
   // ***********************************************************************
   //   TIMER
@@ -68,6 +68,22 @@ function QxSpinner()
   this._downbutton.addEventListener("mousedown", this._onmousedown, this);  
   this._manager.addEventListener("change", this._onchange, this);      
   this._timer.addEventListener("interval", this._oninterval, this);
+
+  // ***********************************************************************
+  //   INITIALIZATION
+  // ***********************************************************************
+
+  if(isValidNumber(min)) {
+    this.setMin(min);
+  };
+
+  if(isValidNumber(value)) {
+    this.setValue(value);
+  };
+
+  if(isValidNumber(max)) {
+    this.setMax(max);
+  }; 
 };
 
 QxSpinner.extend(QxWidget, "QxSpinner");
