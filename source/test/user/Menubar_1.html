@@ -33,6 +33,7 @@
       });
       
       
+      
 
       var m1 = new QxMenu;
       
@@ -138,7 +139,7 @@
 
       m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
       
-      var mb4_suba_01 = new QxMenuButton("New Window", c1, c1);
+      var mb4_suba_01 = new QxMenuButton("New Window", null, c1);
       var mb4_suba_b1 = new QxMenuSeparator();
       var mb4_suba_02 = new QxMenuRadioButton("Overlapping", c1, true);
       var mb4_suba_03 = new QxMenuRadioButton("Split Horizontally", c1);
@@ -175,7 +176,7 @@
       var mbb3 = new QxMenuBarButton("View", m3);
       var mbb4 = new QxMenuBarButton("Options", m4);
       var mbb5 = new QxMenuBarButton("Help", m5);
-      
+            
       mb1.add(mbb1, mbb2, mbb3, mbb4, mbb5);
       
       d.add(mb1);
