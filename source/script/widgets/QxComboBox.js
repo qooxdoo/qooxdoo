@@ -423,9 +423,9 @@ proto._closePopup = function()
 
 proto._onmousedown = function(e)
 {
-  var t = e.getManagerTarget();
+  var t = e.getActiveTarget();
   
-  if ( typeof t == "undefined" ) {
+  if (typeof t == "undefined") {
     return;
   };
   
@@ -433,7 +433,8 @@ proto._onmousedown = function(e)
     t = t.getParent();
   };
 
-  if (t instanceof QxListItem) {
+  if (t instanceof QxListItem) 
+  {
     if( !t.isEnabled() ) {
       return;
     };

@@ -296,7 +296,7 @@ proto._onmouseover = function(e)
     HANDLING FOR HOVERING MYSELF
   ------------------------------ */
 
-  var t = e.getManagerTarget();
+  var t = e.getActiveTarget();
 
   if (t == this)
   {
@@ -368,7 +368,7 @@ proto._onmouseout = function(e)
   this._openTimer.stop();
 
   // start the close timer to hide a menu if needed
-  var t = e.getManagerTarget();
+  var t = e.getActiveTarget();
   if (t != this && t.hasMenu()) {
     this._closeTimer.start();
   };

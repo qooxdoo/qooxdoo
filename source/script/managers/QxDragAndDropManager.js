@@ -5,7 +5,19 @@ function QxDragAndDropManager()
   };
 
   QxTarget.call(this);
-
+  
+  var vDoc = window.application.getClientWindow().getClientDocument();
+  var vCur;
+  
+  for (i in QxDragAndDropManager._cursors)
+  {
+    vCur = QxDragAndDropManager._cursors[i];
+    
+    vCur.setTimerCreate(false);
+    vCur.setStyleProperty("top", "-1000px");
+    vCur.setParent(vDoc);
+  };
+  
   this._data = {};
   this._actions = {};
 
@@ -147,7 +159,6 @@ proto._fireUserEvents = function(fromWidget, toWidget, e)
   {
     var outEvent = new QxDragEvent("dragout", e);
 
-    outEvent._relatedTargetEvaluated = true;
     outEvent._relatedTarget = toWidget;
 
     fromWidget.dispatchEvent(outEvent, true);
@@ -161,7 +172,6 @@ proto._fireUserEvents = function(fromWidget, toWidget, e)
       var overEvent = new QxDragEvent("dragover", e);
 
       // set relatedTarget
-      overEvent._relatedTargetEvaluated = true;
       overEvent._relatedTarget = fromWidget;
 
       toWidget.dispatchEvent(overEvent, true);
@@ -239,6 +249,8 @@ proto._handleMouseMove = function(e)
   if (!this._dragCache) {
     return;
   };
+  
+  
 
   /*
     Default handling if drag handler is activated
@@ -252,7 +264,9 @@ proto._handleMouseMove = function(e)
 
     // Get current target
     var currentDropTarget = this.getDropTarget(e);
-
+    
+    // window.status = "move: " + (new Date).valueOf() + " :: " + currentDropTarget
+    
     // Update action
     this.setCurrentAction(currentDropTarget ? this._evalNewAction(e.getShiftKey(), e.getCtrlKey(), e.getAltKey()) : null);
 
@@ -483,8 +497,9 @@ proto._renderCursor = function()
       newCursor = QxDragAndDropManager._cursors.nodrop;
   };
 
-  newCursor.setLeft(this._dragCache.pageX + 5);
-  newCursor.setTop(this._dragCache.pageY + 15);
+  // Don't use properties: This is 100 times faster ;) 
+  newCursor._applyPositionHorizontal(this._dragCache.pageX + 5);
+  newCursor._applyPositionVertical(this._dragCache.pageY + 15);
 
   this.setCursor(newCursor);
 };
@@ -492,11 +507,11 @@ proto._renderCursor = function()
 proto._modifyCursor = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propOldValue) {
-    propOldValue.setParent(null, uniqModIds);
+    propOldValue.setStyleProperty("display", "none");
   };
 
   if (propValue) {
-    propValue.setParent(window.application.getClientWindow().getClientDocument(), uniqModIds);
+    propValue.removeStyleProperty("display");
   };
 
   return true;
@@ -529,10 +544,15 @@ proto.supportsDrop = function(vWidget)
   return false;
 };
 
+/*!
+
+#param e[QxMouseEvent]: Current MouseEvent for dragdrop action
+*/
 proto.getDropTarget = function(e)
 {
-  var currentWidget = e.getDragDropTarget();
-
+  // don't operate on anonymous widgets
+  var currentWidget = e.getActiveTarget();
+  
   while (currentWidget != null)
   {
     if (this.supportsDrop(currentWidget)) {

@@ -29,7 +29,7 @@
 
     with(c1)
     {
-      setLeft(20);
+      setLeft(0);
       setTop(48);
 
       setPaddingTop(5);
@@ -37,52 +37,35 @@
       setPaddingBottom(5);
       setPaddingLeft(5);
 
-      setWidth(100);
-      setHeight(100);
+      setHeight(20);
+      setWidth("100%");
 
-      setBackgroundColor("orange");
+      setBackgroundColor("yellow");
       setBorder(new QxBorder(10, "solid", "black"));
     };
+
 
     var c2 = new QxWidget;
 
     with(c2)
     {
-      setLeft(200);
-      setTop(48);
+      setLeft(0);
+      setTop(148);
 
       setPaddingTop(5);
       setPaddingRight(5);
       setPaddingBottom(5);
       setPaddingLeft(5);
 
-      setWidth(100, null, "area");
-      setHeight(100, null, "area");
+      setHeight(20);
+      setWidth("100%", null, "inner");
 
-      setBackgroundColor("orange");
+      setBackgroundColor("yellow");
       setBorder(new QxBorder(10, "solid", "black"));
     };
 
-    var c3 = new QxWidget;
 
-    with(c3)
-    {
-      setLeft(400);
-      setTop(48);
-
-      setPaddingTop(5);
-      setPaddingRight(5);
-      setPaddingBottom(5);
-      setPaddingLeft(5);
-
-      setWidth(100, null, "inner");
-      setHeight(100, null, "inner");
-
-      setBackgroundColor("orange");
-      setBorder(new QxBorder(10, "solid", "black"));
-    };
-
-    this.getClientWindow().getDocument().add(c1, c2, c3);
+    this.getClientWindow().getDocument().add(c1, c2);
   };
   </script>
 </body>

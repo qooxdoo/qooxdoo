@@ -92,7 +92,9 @@ proto.dispatchEvent = function(e, dispose)
   };
 
   // Setup Target
-  e.setTarget(this);
+  if (!e._target) {
+    e._target = this;
+  };
 
   // Dispatch Event
   this._dispatchEvent(e, dispose);

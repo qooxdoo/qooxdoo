@@ -568,6 +568,9 @@ proto._appendElement = function(otherObject)
     try
     {
       pl.appendChild(el);
+      
+      // always scroll to top (fix memory function in gecko, ...)
+      el.scrollTop = el.scrollLeft = pl.scrollTop = pl.scrollLeft = 0;
     }
     catch(ex)
     {
@@ -795,8 +798,6 @@ proto._createElementWrapper = function(uniqModIds)
   };
 };
 
-// disable time creator while in development
-// proto._createElementWrapper = proto._createElement;
 
 
 /*
@@ -880,7 +881,7 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 
     // add reference to widget instance
     propValue._QxWidget = this;
-
+    
     // apply cached properties and attributes
     this._applyStyleProperties(propValue, uniqModIds);
     this._applyHtmlProperties(propValue, uniqModIds);
@@ -948,22 +949,19 @@ QxWidget.__oninlineevent = function(e)
 
 proto._oninlineevent = function(e)
 {
+  if (!e) {
+    e = window.event;
+  };
+  
   switch(e.type)
   {
     case "focus":
-      //this.setFocused(true);
-      break;
-
     case "blur":
-      //this.setFocused(false);
-      break;
-
     case "select":
     case "scroll":
       break;
 
     case "propertychange":
-      // this.debug("Uncatched inline event: " + e.propertyName);
       break;
 
     default:

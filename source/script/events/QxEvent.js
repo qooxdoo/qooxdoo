@@ -12,24 +12,20 @@ QxEvent.extend(QxObject, "QxEvent");
 proto._bubbles = false;
 proto._propagationStopped = true;
 proto._defaultPrevented = false;
+
 proto._type = "";
+
 proto._target = null;
 proto._currentTarget = null;
 proto._relatedTarget = null;
 
-proto.dispose = function()
-{
-  if(this._disposed) {
-    return;
-  };
 
-  this._target = null;
-  this._currentTarget = null;
-  this._relatedTarget = null;
 
-  QxObject.prototype.dispose.call(this);
-};
-
+/*
+  -------------------------------------------------------------------------------
+    SETTER
+  -------------------------------------------------------------------------------
+*/
 
 proto.setType = function(t) {
   this._type = t;
@@ -68,6 +64,15 @@ proto.preventDefault = function() {
 };
 
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    GETTER
+  -------------------------------------------------------------------------------
+*/
+
 proto.getType = function() {
   return this._type;
 };
@@ -94,4 +99,27 @@ proto.getCurrentTarget = function() {
 
 proto.getRelatedTarget = function() {
   return this._relatedTarget;
+};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if(this._disposed) {
+    return;
+  };
+
+  this._target = null;
+  this._currentTarget = null;
+  this._relatedTarget = null;
+
+  QxObject.prototype.dispose.call(this);
 };

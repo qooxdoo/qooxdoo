@@ -694,9 +694,8 @@ proto.handleMouseDown = function(vItem, e)
 proto._ondragup = function(e)
 {
   this.getBoundedWidget().removeEventListener("mouseup", this._ondragup, this);
-  
-  this._activeDragSession = false;
   this.getBoundedWidget().setCapture(false);
+  this._activeDragSession = false;
 };
 
 proto.handleMouseUp = function(vItem, e)
@@ -768,7 +767,6 @@ proto._onmouseevent = function(oItem, e, bOver)
   var vShiftKey = e.getShiftKey();
 
 
-
   // ********************************************************************
   //   Do we need to update the anchor?
   // ********************************************************************
@@ -795,6 +793,12 @@ proto._onmouseevent = function(oItem, e, bOver)
     
     // Update anchor item
     this.setAnchorItem(oItem);
+    
+    if (this._activeDragSession) 
+    {
+      // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
+      this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+    };
 
     if (!this.getItemSelected(oItem)) {
       this.renderItemSelectionState(oItem, true);
@@ -822,12 +826,10 @@ proto._onmouseevent = function(oItem, e, bOver)
     {
       if (this._addToCurrentSelection)
       {
-        this.scrollItemIntoView(this.getNext(oItem) || oItem);
         this._selectItemRange(currentAnchorItem, oItem, false);
       }
       else
       {
-        this.scrollItemIntoView(this.getPrevious(oItem) || oItem);
         this._deselectItemRange(currentAnchorItem, oItem);
       };      
     }
@@ -837,15 +839,16 @@ proto._onmouseevent = function(oItem, e, bOver)
     {
       if (this._addToCurrentSelection)
       {
-        this.scrollItemIntoView(this.getPrevious(oItem) || oItem);
         this._selectItemRange(oItem, currentAnchorItem, false);
       }
       else
       {
-        this.scrollItemIntoView(this.getNext(oItem) || oItem);
         this._deselectItemRange(oItem, currentAnchorItem);
       };      
     };
+    
+    // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
+    this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
   }
   
   
