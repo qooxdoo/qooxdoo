@@ -707,6 +707,43 @@ proto._beforeHide = function(uniqModIds) {};
 
 
 
+/*
+------------------------------------------------------------------------------------
+  CREATOR
+------------------------------------------------------------------------------------
+*/
+
+/*
+QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", 20);
+QxWidget._createList = {};
+
+QxWidget.addToCreateList = function(vWidget) {
+  QxWidget._createList[vWidget.toHash()] = vWidget;
+};
+
+QxWidget.removeFromCreateList = function(vWidget) {
+  delete QxWidget._createList[vWidget.toHash()];
+};
+
+QxWidget._timeCreator = function()
+{
+  if (this._timeCreatorRun) {
+    return;
+  };
+  
+  this._timeCreatorRun = true;
+  
+  for (var vHash in QxWidget._createList)
+  {
+    QxWidget._createList[vHash]._createElement();
+    delete QxWidget._createList[vHash];
+    
+    break;    
+  };
+  
+  delete this._timeCreatorRun;
+};
+*/
 
 /*
 ------------------------------------------------------------------------------------
@@ -753,6 +790,17 @@ proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
       else if (!this.isCreated())
       {
         this._createElement(uniqModIds);
+        
+        /*       
+        if (this instanceof QxAtom || this instanceof QxContainer) 
+        {
+          this._createElement(uniqModIds);
+        }
+        else
+        {
+          QxWidget.addToCreateList(this);
+        };
+        */
       }
       else
       {
