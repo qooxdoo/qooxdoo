@@ -26,7 +26,7 @@ function QxListView(columns)
   this._rowCreateQueue = [];
 
   this._rowCreateTimer = new QxTimer(10);
-  this._rowCreateTimer.addEventListener("timer", this._onrowcreate, this);
+  this._rowCreateTimer.addEventListener("interval", this._onrowcreate, this);
   this._rowCreateTimer.start();
 
 
@@ -34,17 +34,17 @@ function QxListView(columns)
   this._rowAppendQueue = [];
 
   this._rowAppendTimer = new QxTimer(100);
-  this._rowAppendTimer.addEventListener("timer", this._onrowappend, this);
+  this._rowAppendTimer.addEventListener("interval", this._onrowappend, this);
   this._rowAppendTimer.start();
 
   // scroll timer (fix smooth scrolling)
   this._scrollSmoothTimer = new QxTimer(1);
-  this._scrollSmoothTimer.addEventListener("timer", this._onscrollsmooth, this);
+  this._scrollSmoothTimer.addEventListener("interval", this._onscrollsmooth, this);
 
   // scroll timer (for opera, doesn't support onscroll on divs nativly)
   if ((new QxClient).isOpera()) {
     this._scrollEmuTimer = new QxTimer(100);
-    this._scrollEmuTimer.addEventListener("timer", this._onscrollemu, this);
+    this._scrollEmuTimer.addEventListener("interval", this._onscrollemu, this);
     this._scrollEmuTimer.start();
   };
 
@@ -1348,7 +1348,7 @@ proto.dispose = function()
 
   // disable and dispose row create timer
   if (this._rowCreateTimer) {
-    this._rowCreateTimer.removeEventListener("timer", this._onrowcreate, this);
+    this._rowCreateTimer.removeEventListener("interval", this._onrowcreate, this);
     this._rowCreateTimer.dispose();
     delete this._rowCreateTimer;
   };
@@ -1357,20 +1357,20 @@ proto.dispose = function()
 
   // disable and dispose row append timer
   if (this._rowAppendTimer) {
-    this._rowAppendTimer.removeEventListener("timer", this._onrowappend, this);
+    this._rowAppendTimer.removeEventListener("interval", this._onrowappend, this);
     this._rowAppendTimer.dispose();
     delete this._rowAppendTimer;
   };
 
 
   if (this._scrollSmoothTimer) {
-    this._scrollSmoothTimer.removeEventListener("timer", this._onscrollsmooth, this);
+    this._scrollSmoothTimer.removeEventListener("interval", this._onscrollsmooth, this);
     this._scrollSmoothTimer.dispose();
     delete this._scrollSmoothTimer;
   };
 
   if (this._scrollEmuTimer) {
-    this._scrollEmuTimer.removeEventListener("timer", this._onscrollemu, this);
+    this._scrollEmuTimer.removeEventListener("interval", this._onscrollemu, this);
     this._scrollEmuTimer.dispose();
     delete this._scrollEmuTimer;
   };

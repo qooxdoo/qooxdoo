@@ -3,10 +3,10 @@ function QxToolTip(text, icon)
   QxPopup.call(this, text, icon);
   
   this._showTimer = new QxTimer(this.getShowInterval());
-  this._showTimer.addEventListener("timer", this._onshowtimer, this);
+  this._showTimer.addEventListener("interval", this._onshowtimer, this);
   
   this._hideTimer = new QxTimer(this.getHideInterval());
-  this._hideTimer.addEventListener("timer", this._onhidetimer, this);
+  this._hideTimer.addEventListener("interval", this._onhidetimer, this);
   
   this.addEventListener("mouseover", this._onmouseover);
   this.addEventListener("mouseout", this._onmouseover);
@@ -129,14 +129,14 @@ proto.dispose = function()
 
   if (this._showTimer) 
   {  
-    this._showTimer.removeEventListener("timer", this._onshowtimer, this);
+    this._showTimer.removeEventListener("interval", this._onshowtimer, this);
     this._showTimer.dispose();
     this._showTimer = null;
   };
   
   if (this._hideTimer) 
   {
-    this._hideTimer.removeEventListener("timer", this._onhidetimer, this);
+    this._hideTimer.removeEventListener("interval", this._onhidetimer, this);
     this._hideTimer.dispose();
     this._hideTimer = null;
   };

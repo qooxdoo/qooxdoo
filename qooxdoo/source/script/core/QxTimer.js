@@ -97,8 +97,8 @@ proto.restartwith = function(vInterval)
 
 proto._oninterval=function()
 {
-  if(this.getEnabled() && this.hasEventListeners("timer")) {
-    this.dispatchEvent(new QxEvent("timer"), true);
+  if(this.getEnabled() && this.hasEventListeners("interval")) {
+    this.dispatchEvent(new QxEvent("interval"), true);
   };
 };
 
