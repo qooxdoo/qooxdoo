@@ -83,16 +83,24 @@ function isValidNumber(v) {
   return typeof v == "number" && !isNaN(v);
 };
 
-function isValidString(v) {
-  return typeof v == "string" && v != "";
-};
-
 function isInvalidNumber(v) {
   return typeof v != "number" || isNaN(v);
 };
 
+function isValidString(v) {
+  return typeof v == "string" && v != "";
+};
+
 function isInvalidString(v) {
   return typeof v != "string" || v == "";
+};
+
+function isValidArray(v) {
+  return typeof v == "object" && typeof v.push == "function";
+};
+
+function isInvalidArray(v) {
+  return typeof v != "object" || typeof v.push != "function";
 };
 
 
@@ -618,7 +626,7 @@ Function.prototype.addProperty = function(p)
   {
     var thisModId = this.toHash() + "_" + p.name;
 
-    if (isInvalid(uniqModIds))
+    if (isInvalidArray(uniqModIds))
     {
       var uniqModIds = [thisModId];
     }
@@ -634,7 +642,7 @@ Function.prototype.addProperty = function(p)
     // Handle "null" as "null", otherwise check if the property is a type and cast newValue
     var fixedValue = newValue == null ? null : isValid(p.type) ? p.type(newValue) : newValue;
     var oldValue = this[valueKey];
-    
+
     // Allow to check and transform the new value before storage
     if (typeof this[checkKey] == "function")
     {
@@ -644,7 +652,7 @@ Function.prototype.addProperty = function(p)
       catch(ex)
       {
         this.debug("Failed to check property " + p.name + ": " + ex);
-        return false;        
+        return false;
       };
     };
 
