@@ -133,11 +133,11 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   {
     case "left":
     case "right":
-      var vSet = { setWidth : null, setLeft : 0, setRight : 0, setHorizontalAlign: "center" };
+      var vSet = { setWidth : null, setLeft : 0, setRight : 0 };
       break;
       
     default:
-      var vSet = { setLeft : null, setRight : null, setWidth : "auto", setHorizontalAlign: null };
+      var vSet = { setLeft : null, setRight : null, setWidth : "auto" };
   };      
     
   var ch = this.getChildren();
