@@ -3,7 +3,7 @@
 cd `dirname $0`/..
 
 chmod a+rx tools/*.sh
-tools/makepublic.sh
+tools/makedocs.sh
 
 rm -rf build/*
 mkdir -p build/distribution/public
