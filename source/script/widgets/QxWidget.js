@@ -1398,6 +1398,55 @@ proto.getNextSibling = function()
   return cs[cs.indexOf(this) + 1];
 };
 
+proto.getActiveSiblingHelper = function(calc, ignoreClasses)
+{
+  var p = this.getParent();
+
+  if(p == null) {
+    return null;
+  };
+  
+  if (!ignoreClasses) {
+    ignoreClasses = [];
+  };
+
+  var cs = p.getChildren();
+  
+  var i = cs.indexOf(this) + calc;
+  var cv = cs[i];
+  
+  function shouldIgnore(inst)
+  {
+    for (var j=0; j<ignoreClasses.length; j++) {
+      if (cv instanceof ignoreClasses[j]) {
+        return true;
+      };
+    };
+    
+    return false;
+  };
+  
+  while(!cv.isEnabled() || shouldIgnore(cv))
+  {
+    i += calc;
+    cv = cs[i];
+    
+    if (!cv) {
+      return null;
+    };
+  };
+
+  return cv;
+};
+
+proto.getPreviousActiveSibling = function(ignoreClasses) {
+  return this.getActiveSiblingHelper(-1, ignoreClasses);
+};
+
+proto.getNextActiveSibling = function(ignoreClasses) {
+  return this.getActiveSiblingHelper(1, ignoreClasses);  
+};
+
 /*!
   Check if the widget is the first child.
 */
