@@ -325,6 +325,13 @@ __DATA__
     
     <class>QxTextile</class>
   </package>
+  
+  <package name="command">
+    <depends>core</depends>
+    <depends>application</depends>
+    
+    <class>QxCommand</class>
+  </package>
 
   <package name="widget">
     <depends>target</depends>

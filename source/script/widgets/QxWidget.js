@@ -268,17 +268,21 @@ QxWidget.addProperty({ name : "contextMenu", type : Object });
 */
 QxWidget.addProperty({ name : "state", type : String });
 
-
 /*!
   Capture all events and map them to this widget
 */
 QxWidget.addProperty({ name : "capture", type : Boolean, defaultValue : false });
 
-
 /*!
   Contains the support drop types for drag and drop support
 */
 QxWidget.addProperty({ name : "dropDataTypes", type : Object });
+
+/*!
+  A command called if the widget should be excecuted (a placeholder for buttons, ...)
+*/
+QxWidget.addProperty({ name : "command", type : Object });
+
 
 
 
@@ -4791,4 +4795,30 @@ proto._cloneRecursive = function(cloneInstance)
     cloneChild = ch[i].clone(true);
     cloneInstance.add(cloneChild);
   };  
+};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    COMMAND INTERFACE
+  -------------------------------------------------------------------------------
+*/
+
+proto.execute = function()
+{
+  var vCommand = this.getCommand();  
+  if (vCommand) {
+    vCommand.execute();
+  };
+  
+  if (this.hasEventListeners("execute")) {
+    this.dispatchEvent(new QxEvent("execute"));
+  };
+  
+  if (this.hasEventListeners("action")) {
+    this.dispatchEvent(new QxEvent("action"));
+  };    
 };

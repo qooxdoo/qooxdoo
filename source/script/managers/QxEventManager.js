@@ -20,6 +20,9 @@ function QxEventManager(vClientWindow)
   if (isValid(vClientWindow)) {
     this.attachEvents(vClientWindow);
   };
+  
+  // Init Command Interface
+  this._commands = {};  
 };
 
 QxEventManager.extend(QxManager, "QxEventManager");
@@ -63,6 +66,42 @@ proto._modifyCaptureWidget = function(propValue, propOldValue, propName, uniqMod
   };
 
   return true;
+};
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    COMMAND INTERFACE
+  -------------------------------------------------------------------------------
+*/
+
+proto.addCommand = function(vCommand) {
+  this._commands[vCommand.toHash()] = vCommand;
+};
+
+proto.removeCommand = function(vCommand) {
+  delete this._commands[vCommand.toHash()];
+};
+
+proto._checkKeyEventMatch = function(e)
+{
+  var vCommand;
+  
+  for (var vHash in this._commands)
+  {
+    vCommand = this._commands[vHash];
+
+    if (vCommand.getEnabled() && vCommand._matchesKeyEvent(e))
+    {
+      // allow the user to stop the event 
+      // through the execute event.
+      if (!vCommand.execute()) {
+        e.preventDefault();
+      };
+    };
+  };
 };
 
 
@@ -260,6 +299,11 @@ proto._onkeyevent = function(e)
 
     // Create Event Object
     var s = new QxKeyEvent(e.type, e, false);
+    
+    // Check for commands
+    if (e.type == "keypress") {
+      this._checkKeyEventMatch(s);
+    };
 
     // Starting Object Internal Event Dispatcher
     // This handles the real event action
@@ -561,6 +605,17 @@ proto.dispose = function()
   this._lastMouseEventType = null;
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;
+  
+  if (this._commands)
+  {
+    for (var vHash in this._commands) 
+    {
+      this._commands[vHash].dispose();
+      delete this._commands[vHash];  
+    };
+    
+    this._commands = null;
+  };  
 
   QxObject.prototype.dispose.call(this);
 };
