@@ -116,14 +116,15 @@
 
       m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
       
-      var mb4_suba_01 = new QxMenuButton("New Window");
-      var mb4_suba_02 = new QxMenuButton("Overlapping");
-      var mb4_suba_03 = new QxMenuButton("Split Horizontally");
-      var mb4_suba_04 = new QxMenuButton("Split Vertically");
+      var mb4_suba_01 = new QxMenuCheckBox("New Window");
+      var mb4_suba_02 = new QxMenuCheckBox("Overlapping");
+      var mb4_suba_03 = new QxMenuCheckBox("Split Horizontally");
+      var mb4_suba_04 = new QxMenuCheckBox("Split Vertically");
+      var ms4 = new QxMenuSeparator();
       var mb4_suba_05 = new QxMenuButton("Next Window");
       var mb4_suba_06 = new QxMenuButton("Previous Window");
 
-      m4_suba.add(mb4_suba_01, mb4_suba_02, mb4_suba_03, mb4_suba_04, mb4_suba_05, mb4_suba_06);
+      m4_suba.add(mb4_suba_01, mb4_suba_02, mb4_suba_03, mb4_suba_04, ms4, mb4_suba_05, mb4_suba_06);
 
 
  
