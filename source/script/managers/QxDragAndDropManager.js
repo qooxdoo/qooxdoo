@@ -234,6 +234,8 @@ proto._handleMouseDown = function(e)
     dragHandlerActive: false,
     hasFiredDragStart: false
   };
+  
+  this._dragCache.sourceTopLevel = this._dragCache.sourceWidget.getTopLevelWidget();
 };
 
 
@@ -561,19 +563,22 @@ if ((new QxClient).isGecko())
 {
   proto.getDropTarget = function(e)
   {
-    var currentWidget;
+    var currentWidget = e.getTarget();
     
     // work around gecko bug (all other browsers are correct)
     // clicking on a free space and drag prohibit the get of 
     // a valid event target. The target is always the element
     // which was the one with the mousedown event before.
-    if (e.getTarget() != this._dragCache.sourceWidget)
+    if (currentWidget == this._dragCache.sourceWidget)
     {
-      currentWidget = e.getActiveTarget();
+      // currentWidget = QxEventManager.getActiveTargetObject(QxDOM.getElementFromPoint(e.getPageX(), e.getPageY()));
+      
+      // this is around 8-12 times faster as the above method 
+      currentWidget = this._dragCache.sourceTopLevel.getWidgetFromPoint(e.getPageX(), e.getPageY());
     }
     else
     {
-      currentWidget = QxEventManager.getActiveTargetObject(QxDOM.getElementFromPoint(e.getPageX(), e.getPageY()));
+      currentWidget = QxEventManager.getActiveTargetObject(null, currentWidget);
     };
     
     while (currentWidget != null)
