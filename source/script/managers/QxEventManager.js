@@ -583,8 +583,11 @@ proto._onmouseevent_post = function(e, t)
   -------------------------------------------------------------------------------
 */
 
-proto._ondragevent = function(e) {
+proto._ondragevent = function(e) 
+{
   e.preventDefault();
+  e.returnValue = false;
+  e.preventBubble();
 };
 
 
