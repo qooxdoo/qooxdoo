@@ -1,4 +1,4 @@
-function QxMenuButton(vText, vIcon, vHint, vSubMenu)
+function QxMenuButton(vText, vIcon, vHint, vMenu)
 {
   QxWidget.call(this);
 
@@ -6,9 +6,9 @@ function QxMenuButton(vText, vIcon, vHint, vSubMenu)
   this.setLeft(0);
   this.setRight(0);
 
-  // 22 is the default height of QxMenuButtons with 16px icons
+  // 20 is the default height of QxMenuButtons with 16px icons
   // so sync all buttons to minimum reach this height
-  this.setMinHeight(22);
+  this.setMinHeight(20);
 
   if (isValidString(vText)) {
     this.setText(vText);
@@ -22,8 +22,8 @@ function QxMenuButton(vText, vIcon, vHint, vSubMenu)
     this.setHint(vHint);
   };
 
-  if (isValid(vSubMenu)) {
-    this.setSubMenu(vSubMenu);
+  if (isValid(vMenu)) {
+    this.setMenu(vMenu);
   };
 };
 
@@ -40,8 +40,8 @@ QxMenuButton.extend(QxWidget, "QxMenuButton");
 QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
 QxMenuButton.addProperty({ name : "hint", type : String });
+QxMenuButton.addProperty({ name : "menu", type : Object });
 
-QxMenuButton.addProperty({ name : "subMenu", type : Object });
 QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
 
 
@@ -130,7 +130,7 @@ proto._modifyHint = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-proto._modifySubMenu = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyMenu = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayArrow = isValid(propValue);
   return true;
@@ -140,9 +140,10 @@ proto._modifySubMenu = function(propValue, propOldValue, propName, uniqModIds)
 
 
 
-proto.hasSubMenu = function() {
-  return Boolean(this.getSubMenu());
+proto.hasMenu = function() {
+  return Boolean(this.getMenu());
 };
+
 
 
 
@@ -215,6 +216,14 @@ proto._innerWidthChanged = function()
   this._layoutInternalWidgetsHorizontal("inner-width");
 };
 
+proto._innerHeightChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerHeight();
+
+  // Update placement of icon and text
+  this._layoutInternalWidgetsVertical("inner-height");
+};
 
 
 
@@ -222,32 +231,47 @@ proto._innerWidthChanged = function()
 
 proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
-  var xpos = this.getComputedPaddingLeft();
-
+  var vParent = this.getParent();
+  
   if (this._iconObject) {
-    this._iconObject._applyPositionHorizontal(xpos);
+    this._iconObject._applyPositionHorizontal(vParent._childIconPosition);
   };
-
-  xpos += this.getParent()._maxIcon + this.getParent().getIconTextGap();
-
+  
   if (this._textObject) {
-    this._textObject._applyPositionHorizontal(xpos);
+    this._textObject._applyPositionHorizontal(vParent._childTextPosition);
   };
-
-  xpos += this.getParent()._maxText + this.getParent().getTextHintGap();
 
   if (this._hintObject) {
-    this._hintObject._applyPositionHorizontal(xpos);
+    this._hintObject._applyPositionHorizontal(vParent._childHintPosition);
   };
 
-  xpos += this.getParent()._maxHint + this.getParent().getHintArrowGap();
-
   if (this._arrowObject) {
-    this._arrowObject._applyPositionHorizontal(xpos);
+    this._arrowObject._applyPositionHorizontal(vParent._childArrowPosition);
   };
 };
 
+proto._layoutInternalWidgetsVertical = function(vHint)
+{
+  
+  var vInner = this.getInnerHeight();
+  
+  
+  if (this._iconObject) {
+    this._iconObject._applyPositionVertical((vInner - this._iconObject.getPreferredHeight()) / 2);
+  };
+  
+  if (this._textObject) {
+    this._textObject._applyPositionVertical((vInner - this._textObject.getPreferredHeight()) / 2);
+  };
 
+  if (this._hintObject) {
+    this._hintObject._applyPositionVertical((vInner - this._hintObject.getPreferredHeight()) / 2);
+  };
+  
+  if (this._arrowObject) {
+    this._arrowObject._applyPositionVertical((vInner - this._arrowObject.getPreferredHeight()) / 2);
+  };  
+};
 
 
 

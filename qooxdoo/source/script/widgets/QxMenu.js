@@ -36,9 +36,9 @@ QxMenu.extend(QxPopup, "QxMenu");
 ------------------------------------------------------------------------------------
 */
 
-QxMenu.addProperty({ name : "iconTextGap", type : Number, defaultValue : 6 });
-QxMenu.addProperty({ name : "textHintGap", type : Number, defaultValue : 6 });
-QxMenu.addProperty({ name : "hintArrowGap", type : Number, defaultValue : 6 });
+QxMenu.addProperty({ name : "iconContentGap", type : Number, defaultValue : 6 });
+QxMenu.addProperty({ name : "textHintGap", type : Number, defaultValue : 10 });
+QxMenu.addProperty({ name : "contentArrowGap", type : Number, defaultValue : 6 });
 
 QxMenu.addProperty({ name : "hoverItem", type : Object });
 QxMenu.addProperty({ name : "openItem", type : Object });
@@ -52,7 +52,7 @@ QxMenu.addProperty({ name : "closeInterval", type : Number, defaultValue : 250 }
 QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -6 });
 QxMenu.addProperty({ name : "subMenuVerticalOffset", type : Number, defaultValue : -2 });
 
-
+QxMenu.addProperty({ name : "minIconWidth", type : Number, defaultValue: 16 });
 
 
 
@@ -83,7 +83,7 @@ proto._modifyOpenItem = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propOldValue)
   {
-    var vOldSub = propOldValue.getSubMenu();
+    var vOldSub = propOldValue.getMenu();
 
     if (vOldSub)
     {
@@ -96,7 +96,7 @@ proto._modifyOpenItem = function(propValue, propOldValue, propName, uniqModIds)
 
   if (propValue)
   {
-    var vSub = propValue.getSubMenu();
+    var vSub = propValue.getMenu();
 
     if (vSub)
     {
@@ -132,88 +132,60 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
 {
+  // Store max values in the following variables
+  var vMaxPaddingLeft = 0;
+  var vMaxPaddingRight = 0;
+  
+  var vMaxIconWidth = this.getMinIconWidth();
+  var vMaxTextWidth = 0;
+  var vMaxHintWidth = 0;
+  var vMaxArrowWidth = 0;
+
+  var vMaxTextWidth = 0;
+  var vMaxContentWidth = 0;
+  
+  // Cache gaps
+  var vIconContentGap = this.getIconContentGap();
+  var vContentArrowGap = this.getContentArrowGap();
+  var vTextHintGap = this.getTextHintGap();  
+
+  // Prepare children loop
   var ch = this.getChildren();
   var chl = ch.length;
   var chc;
-
-  // this.debug("Render depend width: " + vModifiedWidget + ", " + vHint);
-
-  var vMaxPaddingLeft = 0;
-  var vMaxPaddingRight = 0;
-
-  var vMaxIcon = 0;
-  var vMaxText = 0;
-  var vMaxHint = 0;
-  var vMaxArrow = 0;
-
+  
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
 
-    // this.debug("Read from: " + chc + " icon=" + chc._calculatedIconWidth + ", text=" + chc._calculatedTextWidth + ", hint=" + chc._calculatedHintWidth + ", arrow=" + chc._calculatedArrowWidth);
-
     vMaxPaddingLeft = Math.max(vMaxPaddingLeft, chc.getComputedPaddingLeft());
     vMaxPaddingRight = Math.max(vMaxPaddingRight, chc.getComputedPaddingRight());
 
-    vMaxIcon = Math.max(vMaxIcon, chc._calculatedIconWidth);
-    vMaxText = Math.max(vMaxText, chc._calculatedTextWidth);
-    vMaxHint = Math.max(vMaxHint, chc._calculatedHintWidth);
-    vMaxArrow = Math.max(vMaxArrow, chc._calculatedArrowWidth);
-  };
-
-  // this.debug("Max-Values: icon=" + vMaxIcon + ", text=" + vMaxText + ", hint=" + vMaxHint + ", arrow=" + vMaxArrow);
-
-  this._maxIcon = vMaxIcon;
-  this._maxText = vMaxText;
-  this._maxHint = vMaxHint;
-  this._maxArrow = vMaxArrow;
-
-
-
-  var newInnerWidth = vMaxPaddingLeft + vMaxPaddingRight;
-
-  if (vMaxIcon > 0)
-  {
-    newInnerWidth += vMaxIcon;
-  };
-
-  if (vMaxText > 0)
-  {
-    if (vMaxIcon > 0)
+    vMaxIconWidth = Math.max(vMaxIconWidth, chc._calculatedIconWidth);
+    vMaxArrowWidth = Math.max(vMaxArrowWidth, chc._calculatedArrowWidth);    
+    
+    if (chc._calculatedHintWidth > 0)
     {
-      newInnerWidth += this.getIconTextGap();
-    };
-
-    newInnerWidth += vMaxText;
-  };
-
-  if (vMaxHint > 0)
-  {
-    if (vMaxText > 0)
-    {
-      newInnerWidth += this.getTextHintGap();
+      vMaxTextWidth = Math.max(vMaxTextWidth, chc._calculatedTextWidth);
+      vMaxHintWidth = Math.max(vMaxHintWidth, chc._calculatedHintWidth);
     }
-
-    newInnerWidth += vMaxHint;
-  };
-
-  if (vMaxArrow > 0)
-  {
-    if (vMaxHint > 0)
+    else
     {
-      newInnerWidth += this.getHintArrowGap();
+      vMaxContentWidth = Math.max(vMaxContentWidth, chc._calculatedTextWidth);
     };
-
-    newInnerWidth += vMaxArrow;
   };
 
+  // Calculate content max value
+  vMaxContentWidth = Math.max(vMaxContentWidth, (vMaxTextWidth + vTextHintGap + vMaxHintWidth));
 
-  this.setInnerWidth(newInnerWidth+4, null, true);
+  // Cache positions for children layout  
+  this._childIconPosition = vMaxPaddingLeft;
+  this._childTextPosition = this._childIconPosition + vMaxIconWidth + vIconContentGap;
+  this._childHintPosition = this._childTextPosition + vMaxTextWidth + vTextHintGap;
+  this._childArrowPosition = this._childTextPosition + vMaxContentWidth + vContentArrowGap;
 
-
-
-
-
+  // Apply new inner width
+  this.setInnerWidth((vMaxPaddingLeft + vMaxIconWidth + vIconContentGap + vMaxContentWidth + vContentArrowGap + vMaxArrowWidth + vMaxPaddingRight), null, true);
 };
 
 
@@ -275,6 +247,8 @@ proto._onmouseover = function(e)
 
 
 
+
+
   /* ------------------------------
     HANDLING FOR HOVERING ITEMS
   ------------------------------ */
@@ -288,7 +262,7 @@ proto._onmouseover = function(e)
     this._openTimer.stop();
 
     // if the new one has also a sub menu
-    if (t.hasSubMenu())
+    if (t.hasMenu())
     {
       // check if we should use fast reopen (this will open the menu instantly)
       if (this.getFastReopen())
@@ -320,7 +294,7 @@ proto._onmouseover = function(e)
     this._openTimer.stop();
 
     // and restart it if the new one has a menu, too
-    if (t.hasSubMenu()) {
+    if (t.hasMenu()) {
       this._openTimer.start();
     };
   };
@@ -333,7 +307,7 @@ proto._onmouseout = function(e)
 
   // start the close timer to hide a menu if needed
   var t = e.getManagerTarget();
-  if (t != this && t.hasSubMenu()) {
+  if (t != this && t.hasMenu()) {
     this._closeTimer.start();
   };
 
@@ -348,7 +322,7 @@ proto._onopentimer = function(e)
 
   // if we have a item which is currently hovered, open it
   var vHover = this.getHoverItem();
-  if (vHover && vHover.hasSubMenu()) {
+  if (vHover && vHover.hasMenu()) {
     this.setOpenItem(vHover);
   };
 };
