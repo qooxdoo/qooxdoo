@@ -51,7 +51,7 @@ proto._modifyCurrentContextMenu = function(propValue, propOldValue, propName, un
 
 proto.dispose = function()
 {
-  if (this._disposed) {
+  if (this.getDisposed()) {
     return;
   };
 
@@ -62,7 +62,7 @@ proto.dispose = function()
   if (this._focusManager) {
     this._focusManager.dispose();
   };
-
+  
   QxTarget.prototype.dispose.call(this);
 
   return true;
