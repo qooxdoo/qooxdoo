@@ -10,15 +10,8 @@ function QxClientWindow(windowElement)
   this._element = windowElement;
   
   // Add Unload Event
-  if ((new QxClient).isMshtml())
-  {
-    this._element.attachEvent("onunload", new Function("(new QxApplication).dispose()"));
-  }
-  else
-  {
-    this._element.addEventListener("unload", new Function("(new QxApplication).dispose()"), false);
-  };
-
+  this._addUnloadEvent();
+  
   // Document
   this._clientDocument = new QxClientDocument(this);
 
@@ -39,6 +32,31 @@ proto.getDocument = function() { return this._clientDocument; };
 proto.isCreated = function() { return true; };
 proto.getElement = function() { return this._element; };
 proto.contains = function() { return false; };
+
+if ((new QxClient).isMshtml())
+{
+  proto._addUnloadEvent = function() {
+    this._element.attachEvent("onunload", new Function("(new QxApplication).dispose();"));
+  };  
+}
+else if ((new QxClient).isGecko())
+{
+  proto._addUnloadEvent = function() {
+    this._element.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+  };  
+}
+else
+{
+  proto._addUnloadEvent = function() 
+  {
+    var el = this._element;
+
+    // check for existing function (otherwise old operas <7.6 fails here)
+    if (el.addEventListener) {
+      el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+    };
+  };  
+};
 
 proto._modifyCurrentContextMenu = function(propValue, propOldValue, propName, uniqModIds)
 {
