@@ -2,6 +2,8 @@ function QxTabPane()
 {
   QxWidget.call(this);
 
+  this.setState("bottom");
+
   this.setLeft(0);
   this.setRight(0);
   
@@ -45,8 +47,8 @@ proto._applyState = function()
 {
   var vParent = this.getParent();
   
-  if (!vParent || !this.isCreated()) {
-    return;
+  if (!vParent || !this.isCreated() || !vParent.getBar().isCreated()) {
+    return true;
   };
   
   var vBarHeight = vParent.getBar().getPixelOfHeight();

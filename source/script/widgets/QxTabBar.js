@@ -144,6 +144,9 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
     return true;
   };
   
+  // this could be used for implemented scrolling buttons
+  // var vFull = this.getComputedBoxWidth();
+  
   if (this.getAlignTabsToLeft())
   {
     var vReset = "setRight";
@@ -160,7 +163,7 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   var ch = this.getChildren();
   var chl = ch.length;
   var chc;
-
+  
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];

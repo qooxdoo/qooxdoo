@@ -1,6 +1,6 @@
-function QxTab(vText, vIcon, vChecked)
+function QxTab(vText, vIcon, vIconWidth, vIconHeight, vChecked)
 {
-  QxAtom.call(this, vText, vIcon);
+  QxAtom.call(this, vText, vIcon, vIconWidth, vIconHeight);
 
   if (isValid(vChecked)) {
     this.setChecked(vChecked);
@@ -113,12 +113,10 @@ proto._onkeyup = function(e)
   switch(e.getKeyCode())
   {
     case QxKeyEvent.keys.left:
-    case QxKeyEvent.keys.up:
       vPrevious = this.getParent().getAlignTabsToLeft();
       break;
 
     case QxKeyEvent.keys.right:
-    case QxKeyEvent.keys.down:
       vPrevious = !this.getParent().getAlignTabsToLeft();
       break;
 
@@ -136,4 +134,26 @@ proto._onmousedown = function(e)
 {
   this.setFocused(true);
   this.setChecked(true);  
+};
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+  
+  this.removeEventListener("mousedown", this._onmousedown);  
+  this.removeEventListener("keyup", this._onkeyup);
+  
+  QxAtom.prototype.dispose.call(this);  
 };
