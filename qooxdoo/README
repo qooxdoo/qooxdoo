@@ -1,0 +1,36 @@
+Following a description of the things you can do with qooxdoo and 
+what qooxdoo can do for you. This article push your decision in 
+the right direction. We are welcome you as another new qooxdoo 
+developer.
+
+
+Startup
+---------
+
+qooxdoo is an Open Source (licensed under LGPL) DOM-based 
+javascript toolkit. qooxdoo continue where simple HTML is not 
+enough anymore and this way it can you help to get your rich web
+application interface done easier than ever. qooxdoo includes 
+simple to use focus and event interfaces. 
+
+qooxdoo work in most of the current browsers. This also include 
+recent versions of Opera and Safari. You don't anymore need to 
+detect the client browser if you work with qooxdoo widgets. 
+
+You are able to simple put your widgets in the page and place 
+them somewhere with a simple coordination like system. Also you 
+are able to align a widget to all four directions (top, right, 
+bottom, left).
+
+
+License
+---------
+
+qooxdoo is licensed under LGPL. This means you can do the following:
+
+* use qooxdoo for whatever you want
+* redistribute or sell qooxdoo to anybody (including source code)
+* modify qooxdoo to match your needs
+
+You must leave all copyrights intact and must redistribute the 
+full source code with your modifications.
