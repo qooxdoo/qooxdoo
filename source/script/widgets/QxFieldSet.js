@@ -150,19 +150,19 @@ proto._renderHeight = function(size)
   return true;
 };
 
-proto.getComputedInsetLeft = function() {
+proto.getComputedBorderLeft = proto.getComputedInsetLeft = function() {
   return QxDOM.getComputedMarginLeft(this._frame) + QxDOM.getComputedInsetLeft(this._frame) + QxDOM.getComputedMarginLeft(this._content);
 };
 
-proto.getComputedInsetRight = function() {
+proto.getComputedBorderRight = proto.getComputedInsetRight = function() {
   return QxDOM.getComputedMarginRight(this._frame) + QxDOM.getComputedInsetRight(this._frame) + QxDOM.getComputedMarginRight(this._content);
 };
 
-proto.getComputedInsetTop = function() {
+proto.getComputedBorderTop = proto.getComputedInsetTop = function() {
   return QxDOM.getComputedMarginTop(this._frame) + QxDOM.getComputedInsetTop(this._frame) + QxDOM.getComputedMarginTop(this._content);
 };
 
-proto.getComputedInsetBottom = function() {
+proto.getComputedBorderBottom = proto.getComputedInsetBottom = function() {
   return QxDOM.getComputedMarginBottom(this._frame) + QxDOM.getComputedInsetBottom(this._frame) + QxDOM.getComputedMarginBottom(this._content);
 };
 
@@ -182,15 +182,15 @@ proto.getComputedInnerHeight = function() {
   return this.getElement().offsetHeight - this.getComputedInsetTop() - this.getComputedInsetBottom() - this.getComputedPaddingTop() - this.getComputedPaddingBottom();
 };
 
-proto._applyXSize = function(size)
+proto._applySizeHorizontal = function(size)
 {
-  QxWidget.prototype._applyXSize.call(this, size);
+  QxWidget.prototype._applySizeHorizontal.call(this, size);
   return this._renderWidth();
 };
 
-proto._applyYSize = function(size)
+proto._applySizeVertical = function(size)
 {
-  QxWidget.prototype._applyYSize.call(this, size);
+  QxWidget.prototype._applySizeVertical.call(this, size);
   return this._renderHeight();
 };
 

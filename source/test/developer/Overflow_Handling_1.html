@@ -25,10 +25,10 @@
   <div class="manualFrame" style="top:300px;left:20px;width:220px;height:110px">
     <p>Select Overflow Style:</p>  
     <ul>
-      <li><a href="javascript:void(c1.setOverflow('hidden'))">Hidden</a></li>
-      <li><a href="javascript:void(c1.setOverflow('scrollX'))">ScrollX</a></li>
-      <li><a href="javascript:void(c1.setOverflow('scrollY'))">ScrollY</a></li>
-      <li><a href="javascript:void(c1.setOverflow('scroll'))">Scroll</a></li>
+      <li><a href="javascript:void(w1.setOverflow('hidden'))">Hidden</a></li>
+      <li><a href="javascript:void(w1.setOverflow('scrollX'))">ScrollX</a></li>
+      <li><a href="javascript:void(w1.setOverflow('scrollY'))">ScrollY</a></li>
+      <li><a href="javascript:void(w1.setOverflow('scroll'))">Scroll</a></li>
     </ul>
   </div>
    
@@ -37,23 +37,22 @@
     
   window.application.main = function()
   {
-    c1 = new QxWidget;
+    w1 = new QxWidget;
       
-    c1.setHeight(200);
-    c1.setWidth(400);
-    c1.setTop(48);
-    c1.setLeft(20);
-    c1.setStyleProperty("whiteSpace", "normal");
-      
-    this.getClientWindow().getDocument().add(c1);
-      
-    c1.getElement().innerHTML = "In Deutschland gibt es rund 120.000 Vermögensmillionäre. Sie gelten als die Reichen im Lande. Damit sind ihnen zwei Dinge ganz sicher: Neid und immer neue Begehrlichkeiten des Fiskus. Wer da glaubt, von einer Million als Bonvivant gut leben zu können, der kennt das deutsche Steuerrecht schlecht. Stellen wir uns den steuerehrlichen Herrn Michel vor, der eine Million erarbeitet oder geerbt hat. Vielleicht ist er ein Winzer, der sich zur Ruhe gesetzt und die Weinberge verkauft hat, vielleicht ist er auch ein in die Jahre gekommener Handwerker oder Zahnarzt. Jedenfalls will Herr Michel, da er keine weiteren Einkünfte hat, von dieser Million leben. Er beschliesst also: keine Segeljacht in Marbella und keine Villa im Tessin. Vielmehr legt er seine Million in festverzinslichen Wertpapieren an. Dazu wählt er zum Beispiel Bundesobligationen. Der Staat bietet ihm für diese fünfjährigen Papiere zur Zeit 6,09 Prozent. Herr Michel bekommt also 60.900 DM brutto im Jahr. Nun macht Herr Michel seine Steuererklärung, verrechnet den Zinsabschlag mit seiner Einkommensteuerbelastung, macht Freibeträge geltend, nutzt abzugsfähige Sonderausgaben und den Altersentlastungsbeitrag. Mit einigem Geschick reduziert er sein zu versteuerndes Einkommen so auf nur mehr 45.000 DM. Darauf hat er dann knapp 10.500 DM Steuern zu zahlen. Es bleiben ihm von seinem Zinsertrag also 50.400 DM übrig. Doch damit nicht genug. Nun wird dem treuen Michel - er hat schliesslich ein Vermögen - noch Vermögensteuer abverlangt. Wieder nutzt er alle Freibeträge, reduziert sein steuerpflichtiges Vermögen auf 920.000 DM, und doch greift der Fiskus kräftig zu. Wenn es nach den neuesten Plänen der Regierung geht, muss Michel ein Prozent des Gesamtbetrages zahlen. Für ihn bedeutet das, noch einmal 9.200 DM an den Staat zu überweisen. Seine Bilanz: Für die Million Anlagekapital in Bundesobligationen behält er am Ende 41.200 DM Zinsertrag übrig - genausoviel wie die Inflationsrate, die derzeit Michels D-Mark entwertet. Das Fazit: Der steuerliche Millionär muss unter den gegenwärtigen Umständen froh sein, wenn er keinen realen Vermögensverlust erleidet.";      
-  
-    with(c1.getStyle())
+    with(w1)
     {
-      background = "#fff";
-      border = "1px solid #000";
+      setHeight(200);
+      setWidth(400);
+      setTop(48);
+      setLeft(20);
+      setStyleProperty("whiteSpace", "normal");
+      setTimerCreate(false);
+      setBorder(QxBorder.presets.black);
+      setBackgroundColor("#fff");
     };
+      
+    this.getClientWindow().getDocument().add(w1);
+    w1.getElement().innerHTML = "In Deutschland gibt es rund 120.000 Vermögensmillionäre. Sie gelten als die Reichen im Lande. Damit sind ihnen zwei Dinge ganz sicher: Neid und immer neue Begehrlichkeiten des Fiskus. Wer da glaubt, von einer Million als Bonvivant gut leben zu können, der kennt das deutsche Steuerrecht schlecht. Stellen wir uns den steuerehrlichen Herrn Michel vor, der eine Million erarbeitet oder geerbt hat. Vielleicht ist er ein Winzer, der sich zur Ruhe gesetzt und die Weinberge verkauft hat, vielleicht ist er auch ein in die Jahre gekommener Handwerker oder Zahnarzt. Jedenfalls will Herr Michel, da er keine weiteren Einkünfte hat, von dieser Million leben. Er beschliesst also: keine Segeljacht in Marbella und keine Villa im Tessin. Vielmehr legt er seine Million in festverzinslichen Wertpapieren an. Dazu wählt er zum Beispiel Bundesobligationen. Der Staat bietet ihm für diese fünfjährigen Papiere zur Zeit 6,09 Prozent. Herr Michel bekommt also 60.900 DM brutto im Jahr. Nun macht Herr Michel seine Steuererklärung, verrechnet den Zinsabschlag mit seiner Einkommensteuerbelastung, macht Freibeträge geltend, nutzt abzugsfähige Sonderausgaben und den Altersentlastungsbeitrag. Mit einigem Geschick reduziert er sein zu versteuerndes Einkommen so auf nur mehr 45.000 DM. Darauf hat er dann knapp 10.500 DM Steuern zu zahlen. Es bleiben ihm von seinem Zinsertrag also 50.400 DM übrig. Doch damit nicht genug. Nun wird dem treuen Michel - er hat schliesslich ein Vermögen - noch Vermögensteuer abverlangt. Wieder nutzt er alle Freibeträge, reduziert sein steuerpflichtiges Vermögen auf 920.000 DM, und doch greift der Fiskus kräftig zu. Wenn es nach den neuesten Plänen der Regierung geht, muss Michel ein Prozent des Gesamtbetrages zahlen. Für ihn bedeutet das, noch einmal 9.200 DM an den Staat zu überweisen. Seine Bilanz: Für die Million Anlagekapital in Bundesobligationen behält er am Ende 41.200 DM Zinsertrag übrig - genausoviel wie die Inflationsrate, die derzeit Michels D-Mark entwertet. Das Fazit: Der steuerliche Millionär muss unter den gegenwärtigen Umständen froh sein, wenn er keinen realen Vermögensverlust erleidet.";      
   };
   </script>
 </body>

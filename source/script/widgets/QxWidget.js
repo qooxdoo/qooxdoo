@@ -740,16 +740,16 @@ QxWidget._timeCreator = function()
   
   while((vCurrent = vList[0]) && ((new Date).valueOf() - vStart) < QxWidget._createMaxTimeout)
   {
-    vParent = vCurrent.getParent();
+    if (vCurrent.isCreated()) {
+      vList.shift();
+      continue;
+    };
     
-    // QxDebug("QxWidget", "WIDGET: " + vCurrent);
+    vParent = vCurrent.getParent();
     
     if (vParent && vParent.isCreated()) 
     {      
-      // create widget
       vCurrent._createElement();
-      
-      // delete from list
       vList.shift();
       QxWidget._createListLength--;      
     };
@@ -766,9 +766,7 @@ QxWidget._timeCreator = function()
     vWin.dispatchEvent(new QxDataEvent("creatorInterval", 100 - Math.round(QxWidget._createListLength / QxWidget._createListMaxCount * 100)), true);
   };
   
-  // QxDebug("QxWidget", "DO: " + vProgress);
-  
-  if (QxWidget._createList.length == 0) 
+  if (QxWidget._createListLength == 0) 
   {
     window.clearInterval(QxWidget._createTimer);
     QxWidget._createTimer = null;    
@@ -779,7 +777,7 @@ QxWidget._timeCreator = function()
       vWin.dispatchEvent(new QxEvent("creatorStopped"), true);
     };    
   };
-
+  
   delete this._timeCreatorRun;
 };
 
@@ -798,7 +796,7 @@ proto._createElementWrapper = function(uniqModIds)
 };
 
 // disable time creator while in development
-proto._createElementWrapper = proto._createElement;
+// proto._createElementWrapper = proto._createElement;
 
 
 /*
@@ -2924,6 +2922,8 @@ proto._computeDimensionPixelValue = function(vId, vNameStartUp, vNameRangeUp, vN
 
         case "area":
           // border is faster and more trusty then inset, but does not respect scrollbars (do we need this?)
+          // this[pixelKey] += this["getComputedInset" + vNameStartUp]() + this["getComputedInset" + vNameStopUp]();
+          
           this[pixelKey] += this["getComputedBorder" + vNameStartUp]() + this["getComputedBorder" + vNameStopUp]();
       };
   };
@@ -4842,11 +4842,10 @@ proto.clone = function(cloneRecursive, customPropertyList)
     };
   }
   while(sourcePropertyListLength--);
-
+  
   // Apply properties to new clone instance
   propertyListLength = propertyList.length-1;
   do {
-
     propertyName = propertyList[propertyListLength].toFirstUp();
     cloneInstance["set" + propertyName](this["get" + propertyName]());
   }

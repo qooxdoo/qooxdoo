@@ -19,33 +19,70 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p>Test for common setter and getter implementation.</p>
+    <p></p>
   </div>
 
   <script type="text/javascript">
   window.application.main = function()
   {
-    var d = this.getClientWindow().getDocument();
-    
     var c1 = new QxWidget;
 
-    c1.set({
-      width : 200, height: 100,
-      top: 48, left: 20,
-      backgroundColor: "orange"
-    });
-    
-    d.add(c1);    
-    
-    
-    
-    this.debug("Dimensions (Mode 1): " + c1.get(["width", "height"]));
+    with(c1)
+    {
+      setLeft(20);
+      setTop(48);
 
-    var i = c1.get({"width" : null, "height" : null });
-    this.debug("Dimensions (Mode 2): " + i.width + "x" + i.height);
+      setPaddingTop(5);
+      setPaddingRight(5);
+      setPaddingBottom(5);
+      setPaddingLeft(5);
 
-    var i = c1.get(["width", "height"], "hash");
-    this.debug("Dimensions (Mode 3): " + i.width + "x" + i.height);
+      setWidth(100);
+      setHeight(100);
+
+      setBackgroundColor("orange");
+      setBorder(new QxBorder(10, "solid", "black"));
+    };
+
+    var c2 = new QxWidget;
+
+    with(c2)
+    {
+      setLeft(200);
+      setTop(48);
+
+      setPaddingTop(5);
+      setPaddingRight(5);
+      setPaddingBottom(5);
+      setPaddingLeft(5);
+
+      setWidth(100, null, "area");
+      setHeight(100, null, "area");
+
+      setBackgroundColor("orange");
+      setBorder(new QxBorder(10, "solid", "black"));
+    };
+
+    var c3 = new QxWidget;
+
+    with(c3)
+    {
+      setLeft(400);
+      setTop(48);
+
+      setPaddingTop(5);
+      setPaddingRight(5);
+      setPaddingBottom(5);
+      setPaddingLeft(5);
+
+      setWidth(100, null, "inner");
+      setHeight(100, null, "inner");
+
+      setBackgroundColor("orange");
+      setBorder(new QxBorder(10, "solid", "black"));
+    };
+
+    this.getClientWindow().getDocument().add(c1, c2, c3);
   };
   </script>
 </body>

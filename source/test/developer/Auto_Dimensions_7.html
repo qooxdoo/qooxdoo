@@ -246,7 +246,7 @@
       });
 
       wParent.addEventListener("moveVertical", function() { 
-      	wParent2.setTop(this.getTop() + this.getPixelOfHeight());
+      	wParent2.setTop(this.getTop() + this.getPixelOfHeight() + 10);
       });
 
 	    wParent.addEventListener("resizeHorizontal", function() { 
@@ -254,7 +254,7 @@
       });
 
 	    wParent.addEventListener("resizeVertical", function() { 
-       	wParent2.setTop(this.getTop() + this.getPixelOfHeight());
+       	wParent2.setTop(this.getTop() + this.getPixelOfHeight() + 10);
       });
 
       wParent.add(wChild1, wChild2, wChild3, wChild4, wChild5, wChild6, wChild7);      

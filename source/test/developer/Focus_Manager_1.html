@@ -32,35 +32,31 @@
     
     for (var i=0; i<colors.length; i++)
     {
-      var c1 = new QxWidget;
+      var w1 = new QxWidget;
       
-      this.getClientWindow().getDocument().add(c1);
+      this.getClientWindow().getDocument().add(w1);
       
-      c1.setWidth(75);
-      c1.setLeft(20 + (i * 90));
-      c1.setTop(48);
-      c1.setHeight(50);
-      c1.setWidth(80);
-      c1.setBackgroundColor("#fff");
-      c1.setColor("#898989");
-      c1.setTabIndex(i+1);
+      w1.setWidth(75);
+      w1.setLeft(20 + (i * 90));
+      w1.setTop(48);
+      w1.setHeight(50);
+      w1.setWidth(80);
+      w1.setBackgroundColor("#fff");
+      w1.setColor("#898989");
+      w1.setTabIndex(i+1);
+      w1.setBorder(new QxBorder(2, "solid", colors[i]));
       
-      c1.getElement().style.border = "2px solid " + colors[i];
-      
-      c1.getElement().innerHTML = c1.toHash();
-      
-      
-      c1.addEventListener("mouseover", function(e)
+      w1.addEventListener("mouseover", function(e)
       {
         this.getElement().style.color = "#000";
       })
 
-      c1.addEventListener("mouseout", function(e)
+      w1.addEventListener("mouseout", function(e)
       {
         this.getElement().style.color = "#898989";
       })
       
-      c1.addEventListener("keyup", function(e)
+      w1.addEventListener("keyup", function(e)
       {
         if (e.getKeyCode() != QxKeyEvent.keys.tab)
         {

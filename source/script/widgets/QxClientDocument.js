@@ -36,7 +36,6 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint) {};
 
 
 
-
 proto._modifyParent = function() { return true; };
 proto._modifyVisible = function() { return true; };
 
@@ -66,6 +65,8 @@ proto.getDocumentElement = function() { return this._document; };
 
 proto.getEventManager = function() { return this._window.getEventManager(); };
 proto.getFocusManager = function() { return this._window.getFocusManager(); };
+
+proto._createElement = proto.createElementWrapper = function() { return true; };
 
 proto.isCreated = function() { return true; };
 proto.isFocusRoot = function() { return true; };
