@@ -23,10 +23,10 @@ proto._lastDestinationEvent = null;
 
 // icons for drag and drop user feedback
 QxDragAndDropManager._cursors = {
-  move : new QxImage("../../images/core/cursers/move.gif", 13, 9),
-  copy : new QxImage("../../images/core/cursers/copy.gif", 19, 15),
-  alias : new QxImage("../../images/core/cursers/alias.gif", 19, 15),
-  nodrop : new QxImage("../../images/core/cursers/nodrop.gif", 20, 20)
+  move : new QxImage("../../images/core/cursors/move.gif", 13, 9),
+  copy : new QxImage("../../images/core/cursors/copy.gif", 19, 15),
+  alias : new QxImage("../../images/core/cursors/alias.gif", 19, 15),
+  nodrop : new QxImage("../../images/core/cursors/nodrop.gif", 20, 20)
 };
 
 
