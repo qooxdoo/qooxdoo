@@ -5,7 +5,7 @@ function QxSpinner()
   this.setWidth(60);
   this.setHeight(22);
   this.setBorder(QxBorder.presets.inset);
-  this.setTabIndex(1);  
+  this.setTabIndex(-1);  
 
   // ***********************************************************************
   //   RANGE MANAGER
