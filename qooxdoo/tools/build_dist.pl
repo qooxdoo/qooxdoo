@@ -576,6 +576,7 @@ __DATA__
   
   
   <package name="all">
+    <depends>application</depends>
     <depends>textile</depends>
     <depends>data</depends>
     <depends>inline</depends>
