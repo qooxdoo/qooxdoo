@@ -2143,20 +2143,18 @@ proto._activateRendering = function()
 proto._renderInitialDone_horizontal = false;
 proto._renderInitialDone_vertical = false;
 
-proto._renderCheck = function(vId, vParent) {
-  return true;  
-};
-
 proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameStop, vNameStartUp, vNameRangeUp, vNameStopUp, vNameRangeMin, vNameRangeMax, vNameRangeMinUp, vNameRangeMaxUp)
 {
   var vParent = this.getParent();
 
-  if (vParent == null || !this.isCreated()) {
+  if (vParent == null || !this.isCreated()) 
+  {
     // this.subug("no element or parent!");
     return true;
   };
   
-  if (!this["_renderInitialDone_" + vId]) {
+  if (!this["_renderInitialDone_" + vId]) 
+  {
     // this.subug("force hint to initial!!!!");
     vHint = "initial";
   }
@@ -2166,18 +2164,16 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
   };
   
   //this.debug("render: " + vId);
-  
 
   // if parent is not ready and my own dimension is not auto and the parent dimension is not null
   // we will wait for the parent to render
-  if (!vParent["_renderInitialDone_" + vId] && this["get" + vNameRangeUp]() != "auto" && vParent["get" + vNameRangeUp]() != null) 
+  if (!vParent["_renderInitialDone_" + vId] && this["get" + vNameRangeUp]() != "auto") 
   {
-    // this.subug("parent not done: " + vId);
-    return true;
-  };
-  
-  if (!this._renderCheck(vId, vParent)) {
-    return true;
+    if (vParent["get" + vNameRangeUp]() != null || (vParent["get" + vNameStartUp]() != null && vParent["get" + vNameStopUp]() != null))
+    {
+      //this.subug("parent not done: " + vId);
+      return true;
+    };
   };
   
   // this.debug("Render-" + vId + ": " + vHint);
