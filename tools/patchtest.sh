@@ -18,7 +18,6 @@ do
   dfile=`echo $file | sed s:source:public:g`
   mkdir -p `dirname $dfile`
   cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g > $dfile
-  chmod -v og+r $dfile
 done
 
 echo ">>> Done, patching files"
