@@ -75,13 +75,32 @@ function QxComboBox()
 
 QxComboBox.extend(QxWidget, "QxComboBox");
 
+
+/*
+  -------------------------------------------------------------------------------
+    PROPERTIES
+  -------------------------------------------------------------------------------
+*/
+
 QxComboBox.addProperty({ name: "editable", type: Boolean, defaultValue: false, getAlias: "isEditable" });
 QxComboBox.addProperty({ name: "selected", type: Object });
 QxComboBox.addProperty({ name: "value", type: Object });
 QxComboBox.addProperty({ name: "pagingInterval", type: Number, defaultValue: 10 });
 QxComboBox.addProperty({ name: "maxListHeight", type: Number, defaultValue: 180 });
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    CONFIGURATION
+  -------------------------------------------------------------------------------
+*/
+
 QxComboBox._arrowImage = "../../images/core/arrows/down.gif";
+
+
+
 
 
 /*

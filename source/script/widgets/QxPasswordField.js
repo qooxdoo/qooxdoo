@@ -1,6 +1,6 @@
-function QxPasswordField(sText)
+function QxPasswordField(vText)
 {
-  QxTextField.call(this, sText);
+  QxTextField.call(this, vText);
   
   this.setHtmlProperty("type", "password");
 };
