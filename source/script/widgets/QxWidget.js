@@ -3748,7 +3748,7 @@ proto.isFocusRoot = function() { return false; };
 proto._modifyFocused = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (!this.isCreated()) {
-    return;
+    return true;
   };
 
   if (propValue)
