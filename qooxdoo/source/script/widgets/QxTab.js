@@ -1,19 +1,17 @@
 function QxTab(vText, vIcon, vChecked)
 {
-  QxToolBarButton.call(this, vText, vIcon);
+  QxAtom.call(this, vText, vIcon);
 
   this.addEventListener("keyup", this._onkeyup);
-  
-  this.setTop(3);
-  this.setBottom(null);
-  this.setHeight("auto");
   
   if (isValid(vChecked)) {
     this.setChecked(vChecked);
   };
+  
+  this.addEventListener("mousedown", this._onmousedown);  
 };
 
-QxTab.extend(QxToolBarButton, "QxTab");
+QxTab.extend(QxAtom, "QxTab");
 
 QxTab.addProperty({ name : "page", type : Object });
 QxTab.addProperty({ name : "group" });
@@ -73,29 +71,6 @@ proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxWidget.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
-  
-  if (propValue == "checked")
-  {
-    this.setHeight(null);
-    this.setTop(0);
-    this.setBottom(0)
-    
-    
-  }
-  else
-  {
-    this.setBottom(null);
-    this.setTop(3);
-    this.setHeight("auto");
-    
-  };
-  
-  
-  return true;
-};
 
 
 
@@ -134,15 +109,10 @@ proto._onkeyup = function(e)
 
 
 
-proto._onmouseover = function(e) {};
-proto._onmouseout = function(e) {};
-proto._onmouseup = function(e) {};
 
 proto._onmousedown = function(e) 
 {
   this.setChecked(true);  
-  
-  
 };
 
 

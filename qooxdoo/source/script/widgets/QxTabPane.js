@@ -29,8 +29,6 @@ proto._updatePlacement = function()
     return;
   };
   
-  this.debug("UPDATE PLACEMENT");
-  
   if (this.getPlaceOnTop())
   {
     this.setBottom(vParent.getBar().getPixelOfHeight() - 2);
