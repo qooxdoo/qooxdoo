@@ -61,6 +61,3 @@ function showTestFiles() {
   document.writeln('</select>');
 
 }
-var devstr = " Application_1.html Atom_1.html Atom_2.html Atom_3.html Auto_Dimensions_1.html Auto_Dimensions_2.html Auto_Dimensions_3.html Auto_Dimensions_4.html Auto_Dimensions_5.html Auto_Dimensions_6.html Clone_1.html Clone_2.html Cross_Browser_1.html Cross_Browser_2.html Data_Handling_1.html Event_Manager_1.html Event_Manager_2.html Focus_Manager_1.html Focus_Manager_2.html Index.html Inline_1.html Overflow_Handling_1.html Popups_1.html Positioning_1.html Widget_2.html Widget_3.html Widget_6.html Widget_7.html Widget_8.html Widget_9.html";
-var usrstr = " Atom_1.html Atom_2.html Bar_Selector_1.html Border_1.html Button_1.html Checkbox_1.html Combobox_1.html Drag_And_Drop_1.html Enabled_Disabled_1.html Fieldset_1.html Focus_Manager_1.html Iframe_1.html Image_1.html Index.html List_1.html Listview_1.html Menu_1.html Radiobutton_1.html Tabs_1.html Toolbar_1.html Toolbar_2.html Tooltips_1.html Tree_1.html Widget_1.html";
-showTestFiles();
