@@ -1,11 +1,11 @@
 #!/usr/bin/perl 
 
-# 
-# $Id$
-#  
-# Packaging script for qooxdoo. Call with --help to get usage information 
-#   packages only JavaScript source, no CSS or anything else
-#
+=pod 
+ $Id$
+  
+Packaging script for qooxdoo. Call with --help to get usage information 
+packages only JavaScript source, no CSS or anything else.
+=cut
 
 use Getopt::Std;
 use File::Find;
@@ -82,6 +82,85 @@ print "Now compressing ".@neededFiles ." files \n";
 $text =~ s/\/\*!?(?:.|[\r\n])*?\*\///gm;  # multi-line comments, see http://ostermiller.org/findcomment.html
 $text =~ s|//.*\n||g;                   # single-line comments see http://perlmonks.thepen.com/117150.html
 
+# cleanup '{', '}', '(', ')' ';' 
+$text =~ s|(\s+\{)|{|gm;
+$text =~ s|(\s+\})|}|gm;
+$text =~ s|(\s+\()|(|gm;
+$text =~ s|(\s+\))|)|gm;
+$text =~ s|(\{\s+)|{|gm;
+$text =~ s|(\}\s+)|}|gm;
+$text =~ s|(\(\s+)|(|gm;
+$text =~ s|(\)\s+)|)|gm;
+$text =~ s|(\;\s+)|;|gm;
+$text =~ s|(\;\s+[^a-zA-Z])|;|gm;
+
+# shrink around '=='
+$text =~ s|\s+==|==|gm;
+$text =~ s|==\s+|==|gm;
+
+# shrink around '!='
+$text =~ s|"\s+\!=|!=|gm;
+$text =~ s|\!=\s+|!=|gm;
+
+# shrink around '='
+$text =~ s|\s+=|=|gm;
+$text =~ s|=\s+|=|gm; 
+
+# shrink around ','
+$text =~ s|\s+,|,|gm;
+$text =~ s|,\s+|,|gm;
+
+  # shrink around ':'
+$text =~ s|\s+:|:|gm;
+$text =~ s|:\s+|:|gm;
+
+# shrink around '?'
+$text =~ s|\s+\?|?|gm;
+$text =~ s|\?\s+|?|gm;
+
+# shrink around '+'
+$text =~ s|\s+\+|+|gm;
+$text =~ s|\+\s+|+|gm;
+
+  # shrink around '-'
+$text =~ s|\s+\-|-|gm;
+$text =~ s|\-\s+|-|gm;
+
+# shrink around '*'
+$text =~ s|\s+\*|*|gm;
+$text =~ s|\*\s+|*|gm;
+
+# shrink around '/'
+$text =~ s|\s+\/|/|gm;
+$text =~ s|\/\s+|/|gm;
+
+# shrink around '<'
+$text =~ s|\s+\<|<|gm;
+$text =~ s|\<\s+|<|gm;
+
+# shrink around '>'
+$text =~ s|\s+\>|>|gm;
+$text =~ s|\>\s+|>|gm;
+
+# shrink around ']'
+$text =~ s|\s+\]|]|gm;
+$text =~ s|\]\s+|]|gm;
+
+# shrink around '['
+$text =~ s|\s+\[|[|gm;
+$text =~ s|\[\s+|[|gm;
+
+# shrink around '||'
+$text =~ s|\s+\|\|||||gm;
+$text =~ s|\|\|\s+||||gm;
+
+# shrink around '&&'
+$text =~ s|\s+\&\&|&&|gm;
+$text =~ s|\&\&\s+|&&|gm;
+
+# strip extra white space
+$text =~ s|\s{2,}| |gm; 
+
 $text =~ s/\s*\n$//gm;                  # remove empty lines
 $text =~ s/^\s*//gm;                    # remove whitespace from beginning of line
 $text =~ s/\n/ /gm;                      # put all on one line
@@ -102,6 +181,7 @@ close OUTFILE;
 ####################################################################
 
 =pod
+ private subroutine (searchFiles):
  wanted subroutine for File::Find's find
 =cut
 sub searchFiles {
@@ -117,6 +197,7 @@ sub searchFiles {
 }
 
 =pod
+ private subroutine (appendFiles): 
  loop over @neededFiles and content of all files to $text
 =cut 
 sub appendFiles() {
@@ -129,6 +210,7 @@ sub appendFiles() {
 }
 
 =pod
+ private subroutine (get_dependencies): 
 =cut
 sub get_dependencies {
     # list of package names that will be packed into outputFile
@@ -145,7 +227,8 @@ sub get_dependencies {
 }
 
 =pod
-recursive subroutine to get names of files, that the provided package is dependent on
+ private subroutine (add_dependencies): 
+ recursive subroutine to get names of files, that the provided package is dependent on
 =cut
 sub add_dependencies {
     my ($packageName, $stackRef) = @_;
@@ -155,7 +238,9 @@ sub add_dependencies {
     push @$stackRef, @{$dependencies{$packageName}};
 }
 
-=pod print usage information 
+=pod
+ private subroutine (HELP_MESSAGE): 
+ print usage information 
 =cut
 sub HELP_MESSAGE() {
     my $out = shift;
