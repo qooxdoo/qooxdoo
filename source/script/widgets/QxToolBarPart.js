@@ -4,7 +4,6 @@ function QxToolBarPart()
 
   this.setTop(0);
   this.setBottom(0);
-  //this.setHeight("auto");
   
   this._handle = new QxToolBarPartHandle;
   this.add(this._handle);
