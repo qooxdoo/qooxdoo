@@ -23,7 +23,7 @@ QxTreeFile.extend(QxTreeElement, "QxTreeFile");
   -------------------------------------------------------------------------------
 */
 
-QxTreeFile.addProperty({ name : "iconURI", type : String, defaultValue : "../../images/icons/crystal/16/file.png" });
+QxTreeFile.addProperty({ name : "iconURI", type : String, defaultValue : "icons/16/file.png" });
 
 
 
@@ -38,6 +38,6 @@ proto._renderImplIcon = function() {
     return true;
   };
 
-  this._iconImage.src = this.getIconURI();
+  this._iconImage.src = (new QxImageManager).buildURI(this.getIconURI());
   return true;
 };

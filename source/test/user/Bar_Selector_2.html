@@ -96,13 +96,13 @@
       bs.setBorder( QxBorder.presets.black );
       bs.setPlaceBarOn("left");
 
-      var bsb1 = new QxBarSelectorButton("Display", "../../images/icons/crystal/16/display.png");
-      var bsb2 = new QxBarSelectorButton("Sunshine", "../../images/icons/crystal/16/dvd.png");
-      var bsb3 = new QxBarSelectorButton("Paint", "../../images/icons/crystal/16/colorize.png");
-      var bsb4 = new QxBarSelectorButton("Icons", "../../images/icons/crystal/16/iconthemes.png");
-      var bsb5 = new QxBarSelectorButton("Graphics", "../../images/icons/crystal/16/exec.png", null, null, true);
-      var bsb6 = new QxBarSelectorButton("Applications", "../../images/icons/crystal/16/package.png");
-      var bsb7 = new QxBarSelectorButton("System", "../../images/icons/crystal/16/configure.png");
+      var bsb1 = new QxBarSelectorButton("Display", "icons/16/display.png");
+      var bsb2 = new QxBarSelectorButton("Sunshine", "icons/16/ktip.png");
+      var bsb3 = new QxBarSelectorButton("Paint", "icons/16/colorize.png");
+      var bsb4 = new QxBarSelectorButton("Icons", "icons/16/iconthemes.png");
+      var bsb5 = new QxBarSelectorButton("Graphics", "icons/16/exec.png", null, null, true);
+      var bsb6 = new QxBarSelectorButton("Applications", "icons/16/package.png");
+      var bsb7 = new QxBarSelectorButton("System", "icons/16/configure.png");
 
       bsb1.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
       bsb2.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
@@ -140,10 +140,10 @@
       p6.add(f6);
       p7.add(f7);
 
-      var r1 = new QxRadioButton("Top", "top", null, true);
+      var r1 = new QxRadioButton("Top", "top");
       var r2 = new QxRadioButton("Right", "right");
       var r3 = new QxRadioButton("Bottom", "bottom");
-      var r4 = new QxRadioButton("Left", "left");
+      var r4 = new QxRadioButton("Left", "left", null, true);
 
       r1.setTop(50);
       r2.setTop(70);

@@ -6,21 +6,23 @@ function QxDragAndDropManager()
   
   QxTarget.call(this);
   
-  var vDoc = window.application.getClientWindow().getClientDocument();
-  var vCur;
-  
-  for (i in QxDragAndDropManager._cursors)
-  {
-    vCur = QxDragAndDropManager._cursors[i];
-    
-    vCur.setTimerCreate(false);
-    vCur.setStyleProperty("top", "-1000px");
-    vCur.setParent(vDoc);
-    vCur.setZIndex(10000);
-  };
-  
   this._data = {};
   this._actions = {};
+  this._cursors = {};
+
+  var d = window.application.getClientWindow().getClientDocument();
+  var a = [ "move", "copy", "alias", "nodrop" ];
+  var c;
+  
+  for (var i=0; i<a.length; i++)
+  {
+    c = this._cursors[a[i]] = new QxImage("cursors/" + a[i] + ".gif");
+    
+    c.setTimerCreate(false);
+    c.setStyleProperty("top", "-1000px");
+    c.setZIndex(10000);
+    c.setParent(d);    
+  };
 
   QxDragAndDropManager._instance = this;
 };
@@ -34,13 +36,7 @@ QxDragAndDropManager.addProperty({ name : "currentAction", type : String });
 
 proto._lastDestinationEvent = null;
 
-// icons for drag and drop user feedback
-QxDragAndDropManager._cursors = {
-  move : new QxImage("../../images/core/cursors/move.gif", 13, 9),
-  copy : new QxImage("../../images/core/cursors/copy.gif", 19, 15),
-  alias : new QxImage("../../images/core/cursors/alias.gif", 19, 15),
-  nodrop : new QxImage("../../images/core/cursors/nodrop.gif", 20, 20)
-};
+
 
 
 
@@ -496,19 +492,19 @@ proto._renderCursor = function()
   switch(this.getCurrentAction())
   {
     case "move":
-      newCursor = QxDragAndDropManager._cursors.move;
+      newCursor = this._cursors.move;
       break;
 
     case "copy":
-      newCursor = QxDragAndDropManager._cursors.copy;
+      newCursor = this._cursors.copy;
       break;
 
     case "alias":
-      newCursor = QxDragAndDropManager._cursors.alias;
+      newCursor = this._cursors.alias;
       break;
 
     default:
-      newCursor = QxDragAndDropManager._cursors.nodrop;
+      newCursor = this._cursors.nodrop;
   };
 
   // Don't use properties: This is 100 times faster ;) 

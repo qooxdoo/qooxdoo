@@ -425,6 +425,7 @@ __DATA__
     <depends>manager</depends>
     <depends>terminator</depends>
 
+    <class>QxImageManager</class>
     <class>QxImagePreloaderManager</class>
     <class>QxImagePreloader</class>
     <class>QxImage</class>
@@ -536,6 +537,7 @@ __DATA__
   <package name="dragndrop">
     <depends>event</depends>  
     <depends>manager</depends>
+    <depends>image</depends>
     
     <class>QxDragEvent</class>
     <class>QxDragAndDropManager</class>

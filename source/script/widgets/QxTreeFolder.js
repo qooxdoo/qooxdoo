@@ -21,8 +21,8 @@ QxTreeFolder.extend(QxTreeElement, "QxTreeFolder");
 */
 
 QxTreeFolder.addProperty({ name : "open", type : Boolean, defaultValue : false });
-QxTreeFolder.addProperty({ name : "iconOpenURI", type : String, defaultValue : "../../images/icons/crystal/16/folder_open.png" });
-QxTreeFolder.addProperty({ name : "iconCloseURI", type : String, defaultValue : "../../images/icons/crystal/16/folder.png" });
+QxTreeFolder.addProperty({ name : "iconOpenURI", type : String, defaultValue : "icons/16/folder_open.png" });
+QxTreeFolder.addProperty({ name : "iconCloseURI", type : String, defaultValue : "icons/16/folder.png" });
 
 
 
@@ -312,7 +312,7 @@ proto._renderImplIcon = function()
     return true;
   };
 
-  var newSrc = this.getActive() ? this.getIconOpenURI() : this.getIconCloseURI();
+  var newSrc = (new QxImageManager).buildURI(this.getActive() ? this.getIconOpenURI() : this.getIconCloseURI());
 
   if (newSrc != this._iconImage.src) {
     this._iconImage.src = newSrc;
