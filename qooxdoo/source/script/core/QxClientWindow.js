@@ -22,14 +22,28 @@ function QxClientWindow(windowElement)
 
 QxClientWindow.extend(QxTarget, "QxClientWindow");
 
+
+
+/*
+------------------------------------------------------------------------------------
+  GETTER
+------------------------------------------------------------------------------------
+*/
+
 proto.getEventManager = function() { return this._eventManager; };
 proto.getFocusManager = function() { return this._focusManager; };
 proto.getClientDocument = function() { return this._clientDocument; };
 proto.getDocument = function() { return this._clientDocument; };
-
-proto.isCreated = function() { return true; };
 proto.getElement = function() { return this._element; };
-proto.contains = function() { return false; };
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UNLOAD SUPPORT
+------------------------------------------------------------------------------------
+*/
 
 if ((new QxClient).isMshtml())
 {
@@ -56,14 +70,17 @@ else
   };  
 };
 
-proto._modifyCurrentContextMenu = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propOldValue) {
-    propOldValue.setVisible(false);
-  };
 
-  return true;
-};
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {
