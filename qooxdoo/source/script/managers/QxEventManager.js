@@ -437,15 +437,19 @@ proto._onmouseevent_post = function(e, t)
   // Needed for Tooltips, ...
   QxMouseEvent._storeEventState(s);
 
-  // hide popups and menus
-  if (t == "mousedown") 
-  {
+  // hide popups
+  if (t == "mousedown") {
     (new QxPopupManager).update(o);
-    (new QxMenuManager).update();
   };
 
   // Dispatch Event through target (eventtarget-)object
   o.dispatchEvent(s);
+
+  // hide menus
+  if (t == "mousedown" && !s.getPropagationStopped()) {
+    (new QxMenuManager).update();
+  };
+
 
   // Handle Special Post Events
   if (typeof QxToolTipManager == "function")
