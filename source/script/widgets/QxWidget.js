@@ -820,6 +820,14 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
         
         this._render("initial");
         this._wasVisible = true;
+        
+        // Be sure that all children will be rendered correctly
+        var ch = this.getChildren();
+        var chl = ch.length;
+        
+        for (var i=0; i<chl; i++) {
+          ch[i]._render("initial");
+        };
       }
       else
       {
@@ -2161,7 +2169,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     // this.subug("no element or parent!");
     return true;
   };
-
+  
   if (!this["_renderInitialDone_" + vId]) {
     // this.subug("force hint to initial!!!!");
     vHint = "initial";
@@ -2170,6 +2178,9 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
   {
     return true;
   };
+  
+  
+  
 
   // if parent is not ready and my own dimension is not auto and the parent dimension is not null
   // we will wait for the parent to render
