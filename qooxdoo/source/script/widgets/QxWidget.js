@@ -4326,7 +4326,7 @@ proto._modifyBackgroundImage = function(propValue, propOldValue, propName, uniqM
 proto._evalBackgroundImage = function()
 {
   var s = this.getStyleProperty("backgroundImage");
-  return s.replace(/^url\(/i, "").replace(/\)$/, "");
+  return isInvalid(s) ? "" : s.replace(/^url\(/i, "").replace(/\)$/, "");
 };
 
 
