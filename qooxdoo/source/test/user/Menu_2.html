@@ -71,6 +71,16 @@
       q9.addEventListener("execute", function(e) {
         alert("Search Again");
       });      
+
+      var q10 = new QxCommand();
+      q10.addEventListener("execute", function(e) {
+        alert("Syntax Highlighting");
+      });      
+
+      var q11 = new QxCommand(null, QxKeyEvent.keys.esc);
+      q11.addEventListener("execute", function(e) {
+        alert("Escape");
+      });      
       
       
       
@@ -106,7 +116,7 @@
       var m1 = new QxMenu;
 
       var mb1_01 = new QxMenuButton("View/Lists");
-      var mb1_02 = new QxMenuButton("Syntax Highlighting");
+      var mb1_02 = new QxMenuButton("Syntax Highlighting", null, q10);
       var ms1    = new QxMenuSeparator();
       var mb1_03 = new QxMenuButton("Window Font");
       var mb1_04 = new QxMenuButton("Printer Font", null, null, m3);
