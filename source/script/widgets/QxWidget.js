@@ -2244,12 +2244,28 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
 
 
+
+    if (vComputedSize < 0)
+    {
+      if (vHint == "initial") 
+      {
+        this["_renderInitialDone_" + vId] = false;
+      };
+      
+      return;
+    };
+
+
+
+
     // add padding of parent widget
     if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute") {
       vComputedPosition += vParent["getComputedPadding" + vNameStartUp]();
     };
     
-    // this.subug("computed: position=" + vComputedPosition + ", size=" + vComputedSize);
+
+    
+    // this.subug("computed: position=" + vComputedPosition + ", size=" + vComputedSize + " ... " + vHint);
 
     var vPositionChanged = vComputedPosition != this["_computedLast" + vNameStartUp];
     var vSizeChanged = vComputedSize != this["_computedLast" + vNameRangeUp];
@@ -2258,10 +2274,15 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     {
       if (vPositionChanged)
       {
-        // this.subug("position changed: " + vComputedPosition);
-
-        // Apply new value to node
-        this["_applyPosition" + vIdUp](vComputedPosition);
+        try
+        {
+          // Apply new value to node
+          this["_applyPosition" + vIdUp](vComputedPosition);
+        }
+        catch(ex)
+        {
+          this.debug("Failed to apply position: " + vComputedPosition);
+        };        
 
         // Store new value
         this["_computedLast" + vNameStartUp] = vComputedPosition;
@@ -2278,8 +2299,15 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
       if (vSizeChanged)
       {
-        // Apply new value to node
-        this["_applySize" + vIdUp](vComputedSize);
+        try
+        {
+          // Apply new value to node
+          this["_applySize" + vIdUp](vComputedSize);
+        }
+        catch(ex)
+        {
+          this.debug("Failed to apply size: " + vComputedSize);
+        };
 
         // Store new value
         this["_computedLast" + vNameRangeUp] = vComputedSize;
