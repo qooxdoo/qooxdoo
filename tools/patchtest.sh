@@ -20,4 +20,4 @@ do
   cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g > $dfile
 done
 
-echo ">>> Done, patching files"
+echo ">>> Done"
