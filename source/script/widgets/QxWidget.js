@@ -3407,7 +3407,10 @@ proto.getPreferredWidth = function()
     }
     else
     {
-      this._preferred_width = this._calculatePreferredDimensions().width;
+      var r = this._calculatePreferredDimensions();
+      
+      this._preferred_width = r.width;
+      this._preferred_height = r.height;
     };
   };
 
@@ -3437,7 +3440,10 @@ proto.getPreferredHeight = function()
     }
     else
     {
-      this._preferred_height = this._calculatePreferredDimensions().height;
+      var r = this._calculatePreferredDimensions();
+      
+      this._preferred_width = r.width;
+      this._preferred_height = r.height;
     };
   };
   
