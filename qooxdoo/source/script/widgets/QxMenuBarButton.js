@@ -134,8 +134,10 @@ proto._onmouseout = function(e) {
   };
 };
 
-proto._onmousedown = function(e) {
+proto._onmousedown = function(e) 
+{
   this.setState(this.getState() == "pressed" ? "hover" : "pressed");
+  e.setPropagationStopped(true);
 };
 
 
