@@ -423,7 +423,7 @@ proto._onkeydown = function(e)
 proto._hoverPrevious = function(e)
 {
   var vHover = this.getHoverItem();
-  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastChild() : vHover.getPreviousActiveSibling([QxMenuSeparator]) : this.getLastChild();
+  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([QxMenuSeparator]) : this.getLastActiveChild();
   
   this.setHoverItem(vPrev);
 };
@@ -431,7 +431,7 @@ proto._hoverPrevious = function(e)
 proto._hoverNext = function(e)
 {
   var vHover = this.getHoverItem();
-  var vNext = vHover ? vHover.isLastChild() ? this.getFirstChild() : vHover.getNextActiveSibling([QxMenuSeparator]) : this.getFirstChild();
+  var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([QxMenuSeparator]) : this.getFirstActiveChild();
   
   this.setHoverItem(vNext);
 };
@@ -460,18 +460,30 @@ proto._goLeft = function(e)
 proto._goRight = function(e)
 {
   var vHover = this.getHoverItem();
-  if (!vHover) {
-    return;
+
+  if (vHover) 
+  {
+    var vMenu = vHover.getMenu();
+  
+    if (vMenu) 
+    {
+      this.setOpenItem(vHover);
+    
+      // mark first item in new submenu
+      vMenu.setHoverItem(vMenu.getFirstChild());
+    
+      return;
+    };
   };
   
-  var vMenu = vHover.getMenu();
+  var vOpener = this.getOpener();
   
-  if (vMenu) 
+  if (vOpener instanceof QxMenuBarButton)
   {
-    this.setOpenItem(vHover);
+    var vOpenerParent = this.getOpener().getParent();
     
-    // mark first item in new submenu
-    vMenu.setHoverItem(vMenu.getFirstChild());
+    (new QxApplication).setActiveWidget(vOpenerParent);
+    vOpenerParent._onkeydown(e);
   };  
 };
 
@@ -482,12 +494,11 @@ proto._doExecute = function(e)
     vHover.execute();
   }; 
   
-  this.setVisible(false);
+  (new QxMenuManager()).update();
 };
 
-proto._doEscape = function(e)
-{
-  this.setVisible(false);
+proto._doEscape = function(e) {
+  (new QxMenuManager()).update();
 };
 
 

@@ -1,6 +1,6 @@
-function QxMenuRadioButton(vText, vShortcut, vChecked)
+function QxMenuRadioButton(vText, vCommand, vChecked)
 {
-  QxMenuCheckBox.call(this, vText, vShortcut, vChecked);
+  QxMenuCheckBox.call(this, vText, vCommand, vChecked);
   
   
 };

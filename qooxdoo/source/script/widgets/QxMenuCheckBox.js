@@ -1,9 +1,9 @@
 /*!
   A checkbox for the menu system.
 */
-function QxMenuCheckBox(vText, vShortcut, vChecked)
+function QxMenuCheckBox(vText, vCommand, vChecked)
 {
-  QxMenuButton.call(this, vText, this._source, vShortcut);
+  QxMenuButton.call(this, vText, this._source, vCommand);
    
   if (isValid(vChecked)) {
     this.setChecked(vChecked);
