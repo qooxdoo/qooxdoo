@@ -19,11 +19,7 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p>Introduce all classes needed for creating real QxToolBars. This includes QxToolBars,
-    QxToolBarParts, QxToolBarSeparator and QxToolBarButtons.</p>
-
-    <p>The QxToolBarButtons and QxRadioButtons in this example are beautifully
-    decoupled by "global" QxDataEvent.</p>
+    <p>Introduce QxMenu which opens on QxToolBarMenuButtons.</p>
   </div>
 
   <script type="text/javascript">
@@ -64,18 +60,18 @@
       
 
       var btns1 = [
-        { type : "menu", icon : "new", text : "New", menu : m1 },
-        { type : "menu", icon : "copy", text : "Edit", menu : m2 }
+        { type : "menu", icon : "filenew", text : "New", menu : m1 },
+        { type : "menu", icon : "document", text : "Edit", menu : m2 }
       ];
 
       var btns2 = [
-        { type : "button", icon : "upload", text : "Upload" },
-        { type : "button", icon : "download", text : "Download" }
+        { type : "button", icon : "up", text : "Upload" },
+        { type : "button", icon : "down", text : "Download" }
       ];
 
       var btns3 = [
-        { type : "button", icon : "pack", text : "Compress" },
-        { type : "button", icon : "unpack", text : "Decompress" }
+        { type : "button", icon : "idea", text : "Tip" },
+        { type : "button", icon : "help", text : "Help" }
       ];
 
       var bars = [ btns1, btns2, btns3 ];
@@ -106,7 +102,7 @@
               break;
               
             case "menu":
-              var o = new QxToolBarMenuButton(btn.text, "../../images/widgets/toolbar/" + btn.icon + ".gif", 23, 23, btn.menu);
+              var o = new QxToolBarMenuButton(btn.text, "icons/22/" + btn.icon + ".png", 22, 22, btn.menu);
               
               // beautiful decoupling: toolbar buttons don't know about radio boxes
               
@@ -116,7 +112,7 @@
               break;              
 
             case "button":
-              var o = new QxToolBarButton(btn.text, "../../images/widgets/toolbar/" + btn.icon + ".gif", 23, 23);
+              var o = new QxToolBarButton(btn.text, "icons/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
               
