@@ -23,7 +23,7 @@ QxMenuCheckBox.addProperty({ name : "checked", type : Boolean, defaultValue : fa
 ------------------------------------------------------------------------------------
 */
 
-proto._source = "../../images/core/checkbox.gif";
+proto._source = "widgets/menu/checkbox.gif";
 
 proto._pureCreateFillIcon = function()
 {

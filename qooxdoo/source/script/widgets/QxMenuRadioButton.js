@@ -15,7 +15,7 @@ QxMenuRadioButton.addProperty({ name : "group" });
 ------------------------------------------------------------------------------------
 */
 
-proto._source = "../../images/core/radiobutton.gif";
+proto._source = "widgets/menu/radiobutton.gif";
 
 
 

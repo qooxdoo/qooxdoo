@@ -92,10 +92,6 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue || propOldValue)
   {
-    // Omit uniqModIds here, otherwise the later setLoaded(true)
-    // will not be executed (recursion preventation)
-    this.setLoaded(false);
-    
     if (propValue)
     {
       this.setPreloader(new QxImagePreloader((new QxImageManager).buildURI(propValue)), uniqModIds);
@@ -119,18 +115,12 @@ proto._modifyPreloader = function(propValue, propOldValue, propName, uniqModIds)
 
   if (propValue)
   {
+    // Omit uniqModIds here, otherwise the later setLoaded(true)
+    // will not be executed (recursion preventation)
+    this.setLoaded(false);
+
     if (propValue.getIsLoaded())
     {
-      if (this.getLoaded())
-      {
-        if (this.isCreated())
-        {
-          this._apply();
-        };
-        
-        return true;
-      };
-      
       this.setLoaded(true, uniqModIds);
     }
     else

@@ -27,8 +27,8 @@ function QxSpinner( min, value, max )
   // ***********************************************************************
   this._upbutton = new QxWidget();
   this._upbutton.set({ top: 0, bottom: "50%", width: 16, right: 0, border: QxBorder.presets.outset, canSelect : false });
-  
-  this._upbuttonimage = new QxImage(QxSpinner._arrowUpImage, 5, 3);
+
+  this._upbuttonimage = new QxImage("widgets/arrows/up_small.gif", 5, 3);
   this._upbuttonimage.set({ top: 1, left: 3, anonymous : true });
   
   this._upbutton.add(this._upbuttonimage);
@@ -41,7 +41,7 @@ function QxSpinner( min, value, max )
   this._downbutton = new QxWidget();
   this._downbutton.set({ top: "50%", bottom: 0, width: 16, right: 0, border: QxBorder.presets.outset, canSelect : false });
   
-  this._downbuttonimage = new QxImage(QxSpinner._arrowDownImage, 5, 3);
+  this._downbuttonimage = new QxImage("widgets/arrows/down_small.gif", 5, 3);
   this._downbuttonimage.set({ top: 1, left: 3, anonymous : true });
   
   this._downbutton.add(this._downbuttonimage);
@@ -136,17 +136,6 @@ QxSpinner.addProperty({ name : "timerDecrease", type : Number, defaultValue : 2 
 */
 QxSpinner.addProperty({ name : "amountGrowth", type : Number, defaultValue : 1.01 });
 
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    CONFIGURATION
-  -------------------------------------------------------------------------------
-*/
-
-QxSpinner._arrowUpImage = "../../images/core/arrows/up_small.gif";
-QxSpinner._arrowDownImage = "../../images/core/arrows/down_small.gif";
 
 
 
