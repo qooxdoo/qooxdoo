@@ -220,16 +220,16 @@ String.prototype.toFirstUp = function() {
 
 String.prototype.toCamelCase = function()
 {
-	var sArray = this.split('-');
+	var vArr = this.split('-');
 
-	if(sArray.length == 1) {
-		return sArray[0];
+	if(vArr.length == 1) {
+		return vArr[0];
   };
 
-	var ret = sArray[0];
+	var ret = vArr[0];
 	var s;
 
-	for(var i = 1, len = sArray.length; i < len; i++, s = sArray[i]) {
+	for(var i=1, len=vArr.length; i<len; i++, s=vArr[i]) {
 		ret += s.charAt(0).toUpperCase() + s.substring(1);
 	};
 
