@@ -832,13 +832,27 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 
         this._createChildren();
       };
+      
+      this._invalidatePreferred();
     }
     else
     {
       this.setDisplay(null);
+      
+      // this.debug("Omit Check: " + this._renderHorizontalOmitted + ", " + this._renderVerticalOmitted);
+      
+      if (this._renderHorizontalOmitted) 
+      {
+        this._renderHorizontal("force");
+        this._renderHorizontalOmitted = false;
+      };
+      
+      if (this._renderVerticalOmitted) 
+      {
+        this._renderVertical("force");
+        this._renderVerticalOmitted = false;
+      };
     };
-    
-    this._invalidatePreferred();
     
     this._beforeShow(uniqModIds);
     this.setVisibility("inherit", uniqModIds);
@@ -2116,6 +2130,14 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
   // this.debug("Render-" + vId + ": " + vHint);
 
   this["_renderInitialDone_" + vId] = true;
+  
+  // Omit rendering on non visible widgets
+  if (vHint != "initial" && this._wasVisible && !this.getVisible())
+  {
+    // this.debug("Omit rendering");
+    this["_render" + vIdUp + "Omitted"] = true;
+    return true;
+  };
 
   try
   {
