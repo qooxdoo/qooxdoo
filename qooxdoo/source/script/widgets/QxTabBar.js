@@ -1,23 +1,39 @@
 function QxTabBar()
 {
-  QxToolBar.call(this);
+  QxWidget.call(this);
 
   this.setLeft(0);
   this.setRight(0);
+  
+  this.setHeight("auto");
 
   this._updatePlacement();
   this._updateState();
 
   this._manager = new QxRadioButtonManager();
-  this._manager.addEventListener("changeSelected", this._updatePage, this);
+  this._manager.addEventListener("changeSelected", this._onchange, this);
 };
 
-QxTabBar.extend(QxToolBar, "QxTabBar");
+QxTabBar.extend(QxWidget, "QxTabBar");
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
 QxTabBar.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : true });
 QxTabBar.addProperty({ name : "alignTabsToLeft", type : Boolean, defaultValue : true });
 QxTabBar.addProperty({ name : "activeTabHeightDiff", type : Number, defaultValue : 2 });
 QxTabBar.addProperty({ name : "activeTabOverlap", type : Number, defaultValue : 2 });
+
+
+
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -57,6 +73,17 @@ proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propName, uniqM
 
 
 
+/*
+------------------------------------------------------------------------------------
+  EVENTS
+------------------------------------------------------------------------------------
+*/
+
+proto._onchange = function(e) {
+  this._layoutInternalWidgets("change-active-tab");
+};
+
+
 
 
 
@@ -65,23 +92,6 @@ proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propName, uniqM
   UPDATE
 ------------------------------------------------------------------------------------
 */
-
-proto._updatePage = function(e)
-{
-  var oldTab = e.getOldValue();
-  var newTab = e.getNewValue();
-
-  if (oldTab && oldTab.getPage()) {
-    oldTab.getPage().setVisible(false);
-  };
-
-  if (newTab && newTab.getPage()) {
-    newTab.getPage().setVisible(true);
-  };
-
-  this._layoutInternalWidgetsVertical("change-active-tab");
-  this._layoutInternalWidgetsHorizontal("change-active-tab");
-};
 
 proto._updatePlacement = function()
 {
@@ -113,6 +123,12 @@ proto._updateState = function() {
   LAYOUTER
 ------------------------------------------------------------------------------------
 */
+
+proto._layoutInternalWidgets = function(vHint) 
+{
+  this._layoutInternalWidgetsHorizontal(vHint);
+  this._layoutInternalWidgetsVertical(vHint);
+};
 
 proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
@@ -326,4 +342,30 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
 
   this._maxHeight = maxHeight;
   return this._maxActiveHeight = maxHeight + this.getActiveTabHeightDiff() + (this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom());
+};
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+  
+  if (this._manager)
+  {
+    this._manager.dispose();
+    this._manager = null;
+  };
+  
+  this._maxHeight = this._maxActiveHeight = null;
+  
+  QxWidget.prototype.dispose.call(this);
 };

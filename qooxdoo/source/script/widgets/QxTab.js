@@ -84,6 +84,11 @@ proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
   if (this.getGroup()) {
     this.getGroup().setSelected(this, uniqModIds);
   };
+  
+  var vPage = this.getPage();
+  if (vPage) {
+    vPage.setVisible(propValue);
+  };
 
   this.setState(propValue ? "checked" : null, uniqModIds); 
   return true;
