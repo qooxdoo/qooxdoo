@@ -1,0 +1,32 @@
+To run qooxdoo:
+* Modern Browser:
+  
+  officially supported are
+  - Internet Explorer 6.0
+  - Mozilla >= 1.7
+  - Opera >= 8
+
+  also should work:
+  - Internet Explorer 5.5
+  - Mozilla >= 1.3
+  - Opera >= 7.2
+  - Safari >= 1.2
+
+----------------------------------------------------------------------
+
+To compile documentation and build a full qooxdoo package:
+* bash
+* python
+
+----------------------------------------------------------------------
+
+To build self configured qooxdoo dist packages
+* perl
+* perl-modules:
+  - XML-NamespaceSupport
+  - XML-SAX
+  - Storable
+  - Test-Harness
+  - Test-Simple
+  - XML-Simple
+
