@@ -26,15 +26,20 @@ QxClientDocument.extend(QxWidget, "QxClientDocument");
 
 QxClientDocument.addProperty({ name : "theme", type : String });
 
-proto._themes = [ "Win9x", "WinXP" ];
+
+
+
+/*
+------------------------------------------------------------------------------------
+  OVERWRITE WIDGET FUNCTIONS/PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
 proto._renderInitialDone_horizontal = true;
 proto._renderInitialDone_vertical = true;
 
 proto._childOuterWidthChanged = function(vModifiedChild, vHint) {};
 proto._childOuterHeightChanged = function(vModifiedChild, vHint) {};
-
-
 
 proto._modifyParent = function() { return true; };
 proto._modifyVisible = function() { return true; };
@@ -79,6 +84,17 @@ proto.canGetFocus = function() { return true; };
 proto._visualizeBlur = function() {};
 proto._visualizeFocus = function() {};
 
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  WINDOW RESIZE HANDLING
+------------------------------------------------------------------------------------
+*/
+
 proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
@@ -102,6 +118,18 @@ proto._onresize = function(e)
     this._innerHeightChanged();
   };
 };
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  THEME SUPPORT
+------------------------------------------------------------------------------------
+*/
+
+proto._themes = [ "Win9x", "WinXP" ];
 
 proto.getThemes = function()
 {
@@ -142,6 +170,16 @@ proto._modifyTheme = function(propValue, propOldValue, propName, uniqModIds)
   this.setCssClassName(vClass);
   return true;
 };
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  INLINE WIDGET SUPPORT
+------------------------------------------------------------------------------------
+*/
 
 proto.add = function()
 {
@@ -189,9 +227,18 @@ proto._getParentNodeForChild = function(otherObject)
   return this.getElement();
 };
 
-/*!
-  Disposing document
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
 */
+
 proto.dispose = function()
 {
   if (this.getDisposed()) {
