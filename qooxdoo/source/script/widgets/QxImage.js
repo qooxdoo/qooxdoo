@@ -236,12 +236,12 @@ else
   {
     this.setHtmlProperty("src", this.getSource());
 
-    // Outer changed
-    this._outerChanged("load");
-    
     // Invalidate Preferred
     this._invalidatePreferred();    
 
+    // Outer changed
+    this._outerChanged("load");
+    
     // should we call here something to fix the layout
     // if the image has changed and the size is different now...
     if (this.hasEventListeners("load")) {
