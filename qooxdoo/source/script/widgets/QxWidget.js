@@ -2178,7 +2178,14 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     //this.subug("parent not done");
     return true;
   };
-
+  
+  /*
+  if (this instanceof QxToolBarButton && !vParent["_renderInitialDone_" + vId]) {
+    this.debug("parent not done");
+    return true;
+  };
+  */
+  
   // this.debug("Render-" + vId + ": " + vHint);
 
   this["_renderInitialDone_" + vId] = true;
@@ -2248,12 +2255,16 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       // this.debug("OMIT RENDERING");
       return true;
     };
+    
+    
 
-    // this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
+
+    //this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
     // this.subug("info: " + this["_pixelof_" + vNameRange] + ", " + this["_valueof_" + vNameRange]);
     // this.subug("limit: min=" + vValueRangeMin + ", max=" + vValueRangeMax);
 
 
+    
 
 
     var vComputedPosition;
