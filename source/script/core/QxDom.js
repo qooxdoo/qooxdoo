@@ -699,7 +699,7 @@ if ((new QxClient).isGecko())
 
         var posi = QxDOM.getComputedStyleProperty(pa, "position");
 
-        if (posi == "absolute" || posi == "relative" || posi == "fixed") {
+        if (posi == "absolute" || posi == "fixed") {
           val -= QxDOM.getComputedBorderLeft(pa) + QxDOM.getComputedPaddingLeft(pa);
           break;
         };
@@ -736,7 +736,7 @@ if ((new QxClient).isGecko())
 
         var posi = QxDOM.getComputedStyleProperty(pa, "position");
 
-        if (posi == "absolute" || posi == "relative" || posi == "fixed") {
+        if (posi == "absolute" || posi == "fixed") {
           val -= QxDOM.getComputedBorderTop(pa) + QxDOM.getComputedPaddingTop(pa);
           break;
         };
