@@ -263,73 +263,189 @@ __DATA__
 <?xml version="1.0" ?>
 <dependencies>
 
-  <package name="types">
-    <class>QxColor</class>
+  <package name="core">
+    <class>QxExtend</class>
+    <class>QxObject</class>
+  </package>
+  
+  <package name="event">
+    <depends>core</depends>
+    
+    <class>QxEvent</class>
+    <class>QxDataEvent</class>
+  </package>
+
+  <package name="debug">
+    <depends>core</depends>
+    
+    <class>QxDebug</class> 
+  </package> 
+
+  <package name="target">
+    <depends>event</depends>
+    
+    <class>QxTarget</class>
+  </package>
+  
+  <package name="manager">
+    <depends>core</depends>
+    
+    <class>QxManager</class>  
+  </package>
+
+  <package name="dom">
+    <depends>core</depends>
+    
+    <class>QxClient</class>
+    <class>QxDom</class>    
+  </package>
+  
+  <package name="variable">
+    <depends>core</depends>
+    
+    <class>QxVariable</class>
     <class>QxInteger</class>
     <class>QxNumber</class>
     <class>QxString</class>
-    <class>QxTextile</class>
-    <class>QxVariable</class>
-  </package>
-
-  <package name="core">
-    <depends>types</depends>
-    <class>QxExtend</class>
-    <class>QxObject</class>
-    <class>QxClient</class>
-    <class>QxDom</class>
-    <class>QxDebug</class>
-    <class>QxTarget</class>
-    <class>QxData</class>
-    <class>QxApplication</class>
-    <class>QxClientWindow</class>
-    <class>QxBorder</class>
-    <class>QxTimer</class>
-    <class>QxXmlHttpLoader</class>
   </package>
   
-  <package name="events">
-    <depends>core</depends>
-    <class>QxEvent</class>
-    <class>QxDataEvent</class>
-    <class>QxFocusEvent</class>
-    <class>QxKeyEvent</class>
+  <package name="color">
+    <depends>variable</depends>
+    
+    <class>QxColor</class>
+  </package>
+  
+  <package name="textile">
+    <depends>variable</depends>
+    
+    <class>QxTextile</class>
+  </package>
+
+  <package name="widget">
+    <depends>target</depends>
+    <depends>dom</depends>
+    <depends>color</depends>
+
+    <class>QxBorder</class>
+    <class>QxWidget</class>  
+  </package>  
+  
+  <package name="eventmanager">
+    <depends>event</depends>
+    <depends>target</depends>
+    <depends>manager</depends>    
+
     <class>QxMouseEvent</class>
-  </package>
-      
-  <package name="managers">
-    <depends>core</depends>
-    <class>QxManager</class>
-    <class>QxMenuManager</class>
-    <class>QxDataManager</class>
+    <class>QxKeyEvent</class>
     <class>QxEventManager</class>
-    <class>QxFocusManager</class>
-    <class>QxPopupManager</class>
-    <class>QxToolTipManager</class>
-    <class>QxTimerManager</class>
-    <class>QxImagePreloaderManager</class>
   </package>
-      
-  <package name="basicwidget">
-    <depends>events</depends>
-    <depends>managers</depends>
-    <class>QxWidget</class>
-    <class>QxAtom</class>
-    <class>QxClientDocument</class>
+  
+  <package name="focusmanager">
+    <depends>event</depends>
+    <depends>target</depends>
+    <depends>manager</depends>    
+
+    <class>QxFocusEvent</class>
+    <class>QxFocusManager</class>
+  </package>  
+
+  <package name="application">
+    <depends>widget</depends>
+    <depends>eventmanager</depends>
+    <depends>focusmanager</depends>
+    
+    <class>QxApplication</class>
+    <class>QxClientWindow</class>
+    <class>QxClientDocument</class>    
+  </package>
+  
+  <package name="timer">
+    <depends>manager</depends>
+  
+    <class>QxTimerManager</class>
+    <class>QxTimer</class>
+  </package>
+  
+  <package name="data">
+    <depends>event</depends>
+    <depends>manager</depends>    
+    <depends>timer</depends>
+  
+    <class>QxData</class>
+    <class>QxXmlHttpLoader</class>
+    <class>QxDataManager</class>
+  </package>  
+
+  <package name="selection">
+    <depends>core</depends>
+    <depends>manager</depends>    
+   
+    <class>QxSelectionStorage</class>
+    <class>QxSelectionManager</class>
+  </package>
+   
+  <package name="radio">
+    <depends>manager</depends>
+  
+    <class>QxRadioButtonManager</class>
+  </package>  
+  
+  <package name="inline">
+    <depends>widget</depends>
+    
     <class>QxInline</class>
   </package>
   
-  <package name="extrawidget">
-    <depends>basicwidget</depends>
+  <package name="terminator">
+    <depends>widget</depends>
+    
     <class>QxTerminator</class>
-    <class>QxPopup</class>
+  </package>
+  
+  <package name="container">
+    <depends>widget</depends>
+    
+    <class>QxContainer</class>  
+  </package>  
+
+  <package name="image">
+    <depends>manager</depends>
+    <depends>terminator</depends>
+
+    <class>QxImagePreloaderManager</class>
+    <class>QxImagePreloader</class>
+    <class>QxImage</class>
+  </package>
+  
+  <package name="atom">
+    <depends>widget</depends>
+    <depends>image</depends>
+    <depends>container</depends>
+  
+    <class>QxAtom</class>
     <class>QxButton</class>
-    <class>QxContainer</class>
+  </package>
+  
+  <package name="popup">
+    <depends>atom</depends>
+
+    <class>QxPopupManager</class>
+    <class>QxPopup</class>
+  </package>
+  
+  <package name="tooltip">
+    <depends>popup</depends>
+    <depends>timer</depends>
+    
+    <class>QxToolTipManager</class>
     <class>QxToolTip</class>
   </package>
   
   <package name="toolbar">
-    <depends>basicwidget</depends>
+    <depends>widget</depends>
+    <depends>atom</depends>
+    <depends>radio</depends>
+    
     <class>QxToolBar</class>
     <class>QxToolBarPart</class>
     <class>QxToolBarButton</class>
@@ -340,38 +456,44 @@ __DATA__
   </package>
   
   <package name="menu">
-    <depends>extrawidget</depends>
+    <depends>widget</depends>
+    <depends>manager</depends>
+    
+    <class>QxMenuManager</class>
     <class>QxMenu</class>
     <class>QxMenuButton</class>
     <class>QxMenuCheckBox</class>
     <class>QxMenuRadioButton</class>
     <class>QxMenuSeparator</class>
+  </package>  
+
+  <package name="menubar">
+    <depends>widget</depends>
+    <depends>menu</depends>    
+    
     <class>QxMenuBar</class>
     <class>QxMenuBarButton</class>
   </package>
   
-  
-  <package name="image">
-    <depends>basicwidget</depends>
-    <class>QxImagePreloader</class>
-    <class>QxImage</class>
-  </package>
-  
   <package name="list">
-    <depends>core</depends>
-    <class>QxSelectionStorage</class>
-    <class>QxSelectionManager</class>
+    <depends>widget</depends>
+    <depends>atom</depends>
+    <depends>selection</depends>
+  
     <class>QxList</class>
     <class>QxListItem</class>
+  </package>
+  
+  <package name="combobox">
+    <depends>list</depends>
+    <depends>widget</depends>
+    
     <class>QxComboBox</class>
   </package>
   
-  <package name="popup">
-    <depends>basicwidget</depends>  
-  </package>
-  
   <package name="tree">
-    <depends>basicwidget</depends>  
+    <depends>widget</depends>  
+    
     <class>QxTreeElement</class>
     <class>QxTreeFile</class>
     <class>QxTreeFolder</class>
@@ -379,34 +501,53 @@ __DATA__
   </package>
   
   <package name="dragndrop">
-    <depends>core</depends>  
+    <depends>event</depends>  
+    <depends>manager</depends>
+    
     <class>QxDragEvent</class>
     <class>QxDragAndDropManager</class>
   </package>
   
-  <package name="input">
-    <depends>basicwidget</depends>
+  <package name="form">
+    <depends>widget</depends>
+
     <class>QxForm</class>
     <class>QxTextField</class>
     <class>QxPasswordField</class>
     <class>QxTextArea</class>
-    <class>QxInputCheckIcon</class>
-    <class>QxRadioButtonManager</class>
-    <class>QxRadioButton</class>
+    <class>QxFieldSet</class>
   </package>
   
-  <package name="tabbar">
-    <depends>basicwidget</depends>
-    <class>QxTabFrame</class>
-    <class>QxTabBar</class>
-    <class>QxTabPane</class>
+  <package name="formsel">
+    <depends>atom</depends>
+    <depends>radio</depends>
+    
+    <class>QxInputCheckIcon</class>
+    <class>QxCheckBox</class>
+    <class>QxRadioButton</class>
+  </package>  
+  
+  <package name="tabcore">
+    <depends>radio</depends>
+    <depends>atom</depends>
+
     <class>QxTabPage</class>
     <class>QxTab</class>
   </package>
   
+  <package name="tabbar">
+    <depends>widget</depends>
+    <depends>tabcore</depends>
+    
+    <class>QxTabFrame</class>
+    <class>QxTabBar</class>
+    <class>QxTabPane</class>
+  </package>
+  
   <package name="barselector">
-    <depends>toolbar</depends>
-    <depends>tabbar</depends>
+    <depends>widget</depends>
+    <depends>tabcore</depends>
+    
     <class>QxBarSelectorFrame</class>
     <class>QxBarSelectorBar</class>
     <class>QxBarSelectorPane</class>
@@ -414,13 +555,17 @@ __DATA__
     <class>QxBarSelectorButton</class>
   </package>
   
-  <package name="otherwidgets"> 
-    <depends>basicwidget</depends>
-    <depends>timer</depends>
-    <class>QxListView</class>
-    <class>QxFieldSet</class>
+  <package name="iframe"> 
+    <depends>widget</depends>
+    
     <class>QxIframe</class>
   </package>
-
+  
+  <package name="listview">
+    <depends>widget</depends>
+    <depends>timer</depends>
+    
+    <class>QxListView</class>
+  </package>  
 </dependencies>
 
