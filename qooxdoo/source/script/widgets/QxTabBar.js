@@ -166,6 +166,7 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   
   var vPref;
   var vLeft;
+  var vIndex;
   
   for (var i=0; i<chl; i++)
   {
@@ -186,14 +187,17 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
       {
         vLeft = vLastLeft - this.getActiveTabOverlap();
         vLastLeft += vPref - (2 * this.getActiveTabOverlap());
+        vIndex = 2;
       }
       else
       {
         vLeft = vLastLeft;
         vLastLeft += vPref;
+        vIndex = 1;
       };
       
       chc[vSet](vLeft);
+      chc.setZIndex(vIndex);
     };
   };
 };
