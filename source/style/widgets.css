@@ -897,9 +897,7 @@ html[QxFocused] {
 .QxMenuButton-Hover,
 .QxMenuCheckBox-Hover,
 .QxMenuRadioButton-Hover{
-  background-color: highlight;
-  background-color: #4D91F3;
-  color: highlighttext;
+  background-color: #459ED9;
 }
 
 .QxMenuButton .QxImage,

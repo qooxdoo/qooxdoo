@@ -25,6 +25,8 @@ function QxMenuButton(vText, vIcon, vShortcut, vMenu)
   if (isValid(vMenu)) {
     this.setMenu(vMenu);
   };
+  
+  this.addEventListener("mousedown", this._onmousedown);
 };
 
 QxMenuButton.extend(QxWidget, "QxMenuButton");
@@ -344,6 +346,20 @@ proto.getNeededArrowWidth = function() {
 };
 
 
+
+
+/*
+------------------------------------------------------------------------------------
+  EVENTS
+------------------------------------------------------------------------------------
+*/
+
+proto._onmousedown = function(e)
+{
+  if (this.hasEventListeners("action")) {
+    this.dispatchEvent(new QxEvent("action"));
+  };  
+};
 
 
 
