@@ -62,6 +62,8 @@ proto._pureCreateFillIcon = function()
 
 
 
+
+
 /*
   -------------------------------------------------------------------------------
     MODIFIER
@@ -77,6 +79,22 @@ proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
+/*!
+Fix Internet Explorer behaviour to prohibit checked state for non visible input fields.
+*/
+if ((new QxClient).isMshtml())
+{
+  proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
+  {
+    QxWidget.prototype._modifyVisible.call(this, propValue, propOldValue, propName, uniqModIds);
+    
+    if (this._iconObject && propValue) {
+      this._iconObject.getElement().checked = this.getChecked();
+    };
+    
+    return true;
+  };
+};
 
 
 
