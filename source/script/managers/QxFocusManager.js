@@ -24,10 +24,6 @@ proto._attachedClientWindow = null;
 
 proto._modifyFocusedWidget = function(propValue, propOldValue, propName, uniqModIds)
 {
-  if (propValue == propOldValue) {
-    return;
-  };
-
   var cIn = typeof propValue == "object" && propValue != null;
   var cOut = typeof propOldValue == "object" && propOldValue != null;
 
