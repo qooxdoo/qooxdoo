@@ -1,0 +1,1 @@
+function QxInteger(v) { return Math.round(QxNumber(v)); };

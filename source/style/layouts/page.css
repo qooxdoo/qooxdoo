@@ -1,0 +1,21 @@
+@import url(../core.css);
+@import url(../test.css);
+@import url(../themes.css);
+@import url(../widgets.css);
+
+#testFoot{
+  top: 0;
+  bottom: auto;
+  width: 300px;
+  left: 300px;
+  border-top: 0 none;
+  border-bottom: 2px solid #fff;
+}
+
+#testFrame{
+  display: none;
+}
+
+#testDebug{
+  bottom: 15px;
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Some simple tests for QxAtom, the new constructor which is desired as parent class for buttons, menuentries, icons, checkboxes, ...
+    it should be really fast. All render functions are highly optimized.</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    // test no1
+    var nl1 = new QxAtom("Test #1", "../../images/icons/crystal/16/reload.png");
+    nl1.setTop(48);
+    nl1.setLeft(20);
+    nl1.setBorder(QxBorder.presets.black);
+    nl1.setBackgroundColor("white");
+    nl1.setPadding(4);
+    d.add(nl1);
+
+    // test no2
+    var nl2 = new QxAtom("Test #2");
+    nl2.setTop(48);
+    nl2.setLeft(120);
+    nl2.setBorder(QxBorder.presets.black);
+    nl2.setBackgroundColor("white");
+    nl2.setPadding(4);
+    d.add(nl2);
+
+    // test no3
+    var nl3 = new QxAtom(null, "../../images/icons/crystal/16/reload.png");
+    nl3.setTop(48);
+    nl3.setLeft(200);
+    nl3.setBorder(QxBorder.presets.black);
+    nl3.setBackgroundColor("white");
+    nl3.setPadding(4);
+    d.add(nl3);
+
+    // test no4
+    var nl4 = new QxAtom("<h3>Some great HTML</h3><p>for <b>you</b></p>", "../../images/icons/crystal/32/reload.png");
+    nl4.setTop(48);
+    nl4.setLeft(250);
+    nl4.setBorder(QxBorder.presets.black);
+    nl4.setBackgroundColor("white");
+    nl4.setPadding(4);
+    d.add(nl4);
+
+    // test no5    
+    var nl5 = new QxAtom;
+    with(nl5)
+    {
+      setTop(200);
+      setLeft(20);
+      setBorder(QxBorder.presets.outset);
+      setPadding(2, 4);
+      
+      setIcon("../../images/icons/crystal/48/icons.png");
+      setText(QxTextile("*File Information*:\nJPEG-Photo\nCreated: 01/03/05"));
+    };
+    d.add(nl5);
+  };
+  </script>
+</body>
+</html>

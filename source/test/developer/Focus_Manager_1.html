@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+  
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>    
+  
+  <div id="testDescription">
+    <p>First test of the included QxFocusManager. This manager handles the focus events and send the active focus
+    to the widget which has send an requested for this. Each QxWidget could set the property tabIndex which allows,
+    like in simple HTML, to define the order of the elements when pressing the TAB key.</p>
+    <p>Focus a widget and press any key to see that only the currently focused widget receive your QxKeyEvent.</p>
+  </div>  
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var colors = [ "red", "blue", "yellow", "green" ];
+    
+    for (var i=0; i<colors.length; i++)
+    {
+      var c1 = new QxWidget;
+      
+      this.getClientWindow().getDocument().add(c1);
+      
+      c1.setWidth(75);
+      c1.setLeft(20 + (i * 90));
+      c1.setTop(48);
+      c1.setHeight(50);
+      c1.setWidth(80);
+      c1.setBackgroundColor("#fff");
+      c1.setColor("#898989");
+      c1.setTabIndex(i+1);
+      
+      c1.getElement().style.border = "2px solid " + colors[i];
+      
+      c1.getElement().innerHTML = c1.toHash();
+      
+      
+      c1.addEventListener("mouseover", function(e)
+      {
+        this.getElement().style.color = "#000";
+      })
+
+      c1.addEventListener("mouseout", function(e)
+      {
+        this.getElement().style.color = "#898989";
+      })
+      
+      c1.addEventListener("keyup", function(e)
+      {
+        if (e.getKeyCode() != QxKeyEvent.keys.tab)
+        {
+          this.getElement().innerHTML = this.toHash() + "<br/>Key: " + e.getKeyCode();
+          e.setPropagationStopped(true);
+          e.setPreventDefault(true);
+        };
+      });
+    };
+  };
+  </script>
+</body>
+</html>  

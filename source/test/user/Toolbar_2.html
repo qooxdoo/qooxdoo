@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Introducing QxToolBarCheckBox and QxToolBarRadioButton.</p>
+  </div>
+
+  <script type="text/javascript">
+    window.application.main = function()
+    {
+      var d = this.getClientWindow().getDocument();
+
+      function changeLayout(e) {
+        this.setShow(e.getNewValue());
+      };
+
+      var tb = new QxToolBar;
+      with(tb)
+      {
+        setTop(48);
+        setLeft(20);
+        setRight(335);
+        setParent(d);
+      };
+      
+
+      var tbp1 = new QxToolBarPart;
+      tb.add(tbp1);
+
+      var tbp2 = new QxToolBarPart;
+      tb.add(tbp2);
+
+      var tbp3 = new QxToolBarPart;
+      tb.add(tbp3);
+
+      var tbp4 = new QxToolBarPart;
+      tb.add(tbp4);
+
+
+
+      // Default
+      var tbd1 = new QxToolBarButton("Default", "../../images/widgets/toolbar/new.gif");
+      tbp1.add(tbd1);
+      d.addEventListener("changeLayout", changeLayout, tbd1);
+
+
+      // Checkbox
+      var tbc1 = new QxToolBarCheckBox("Check", "../../images/widgets/toolbar/pack.gif", true);
+      tbp2.add(tbc1);
+      d.addEventListener("changeLayout", changeLayout, tbc1);
+
+
+      // Radio
+      var tbr1 = new QxToolBarRadioButton("Radio1", "../../images/widgets/toolbar/upload.gif");
+      tbp3.add(tbr1);
+      d.addEventListener("changeLayout", changeLayout, tbr1);
+
+      var tbr2 = new QxToolBarRadioButton("Radio2", "../../images/widgets/toolbar/download.gif", true);
+      tbp3.add(tbr2);
+      d.addEventListener("changeLayout", changeLayout, tbr2);
+
+      var tbr3 = new QxToolBarRadioButton("Radio3", "../../images/widgets/toolbar/new.gif");
+      tbp3.add(tbr3);
+      d.addEventListener("changeLayout", changeLayout, tbr3);
+
+      // Radio Mananger
+      var tbr_manager = new QxRadioButtonManager(null, [tbr1, tbr2, tbr3]);
+
+
+
+
+      // Radio
+      var tbs1 = new QxToolBarRadioButton("Radio1", "../../images/widgets/toolbar/upload.gif");
+      tbp4.add(tbs1);
+      tbs1.setDisableUncheck(true);
+      d.addEventListener("changeLayout", changeLayout, tbs1);
+
+      var tbs2 = new QxToolBarRadioButton("Radio2", "../../images/widgets/toolbar/download.gif", true);
+      tbp4.add(tbs2);
+      tbs2.setDisableUncheck(true);
+      d.addEventListener("changeLayout", changeLayout, tbs2);
+
+      var tbs3 = new QxToolBarRadioButton("Radio3", "../../images/widgets/toolbar/new.gif");
+      tbp4.add(tbs3);
+      tbs3.setDisableUncheck(true);
+      d.addEventListener("changeLayout", changeLayout, tbs3);
+
+      // Radio Mananger
+      var tbs_manager = new QxRadioButtonManager(null, [tbs1, tbs2, tbs3]);
+
+
+//tbs1._invalidatePreferred();
+
+
+      var rd1 = new QxRadioButton("Show Icons and Text", "both");
+      var rd2 = new QxRadioButton("Show Icons", "icon");
+      var rd3 = new QxRadioButton("Show Text", "text");
+
+      with(rd1)
+      {
+        setTop(140);
+        setLeft(20);
+      };
+
+      with(rd2)
+      {
+        setTop(160);
+        setLeft(20);
+      };
+
+      with(rd3)
+      {
+        setTop(180);
+        setLeft(20);
+      };
+
+
+      var rbm = new QxRadioButtonManager();
+
+      rbm.add(rd1);
+      rbm.add(rd2);
+      rbm.add(rd3);
+
+      // beautiful decoupling: radio boxes don't know about toolbar buttons
+      rbm.addEventListener("changeSelected", function(e)
+      {
+        d.dispatchEvent( new QxDataEvent("changeLayout", e.getNewValue().getValue() ) );
+      });
+
+      d.add(rd1, rd2, rd3);
+
+
+      // apply default layout
+      rd1.setChecked(true);
+
+
+      // Themes
+      var themes = d.getThemes();
+      var rbm = new QxRadioButtonManager();
+
+      for (var i=0; i<themes.length; i++)
+      {
+        var rd = new QxRadioButton(themes[i], themes[i]);
+
+        with(rd) {
+          setTop(220 + (i * 20));
+          setLeft(20);
+        };
+
+        rbm.add(rd);
+        d.add(rd);
+
+        if (themes[i] == d.getTheme()) {
+          rd.setChecked(true);
+        };                
+      };
+
+      rbm.addEventListener("changeSelected", function(e) { d.dispatchEvent(new QxDataEvent("changeTheme", e.getNewValue().getValue())); });
+      d.addEventListener("changeTheme", function(e) { d.setTheme(e.getNewValue()); });
+
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>This is a test for the QxImage constructor. It supports automatic preloading through QxImagePreloader, with error and load
+    QxEvents which will be fired, and cross-browser PNG with extended alpha channels.</p>
+
+    <p>PNG file in HTML (in Internet Explorer this should not be transparent):</p>
+    <img src="../../images/icons/crystal/48/fish.png" width="48" height="48"/>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    var i1 = new QxImage("../../images/icons/crystal/48/fish.png", 48, 48);
+    with(i1) {
+      setTop(48);
+      setLeft(20);
+    };
+
+    d.add(i1);
+
+
+
+    var i2 = new QxImage("../../images/icons/crystal/48/fish.png", 48, 48);
+    with(i2) {
+      setTop(48);
+      setLeft(100);
+    };
+
+    d.add(i2);
+
+
+
+
+    var i3 = new QxImage("../../images/icons/crystal/48/fish.png", 100, 100);
+    with(i3) {
+      setTop(120);
+      setLeft(60);
+    };
+
+    i3.addEventListener("load", function() {
+      new QxDebug("Bigger Image", "Preferred (Original) Size: " + i3.getPreferredWidth() + "x" + i3.getPreferredHeight());
+    });
+
+    d.add(i3);
+
+
+
+
+    var i4 = new QxImage("../../images/icons/crystal/48/fish.png", 24, 24);
+    with(i4) {
+      setTop(120);
+      setLeft(20);
+    };
+
+    i4.addEventListener("load", function() {
+      new QxDebug("Smaller Image", "Preferred (Original) Size: " + i4.getPreferredWidth() + "x" + i4.getPreferredHeight());
+    });
+
+    d.add(i4);
+  };
+  </script>
+</body>
+</html>

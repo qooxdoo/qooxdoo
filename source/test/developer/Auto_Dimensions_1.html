@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p></p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var c1 = new QxWidget;
+
+    with(c1)
+    {
+      setLeft(20);
+      setTop(48);
+
+      setWidth("auto");
+      setHeight("auto");
+
+      setBackgroundColor("black");
+    };
+
+    var c2 = new QxWidget;
+
+    with(c2)
+    {
+      setLeft(20);
+      setTop(20);
+
+      setWidth(200);
+      setHeight(200);
+
+      setBackgroundColor("orange");
+    };
+
+    c1.add(c2);
+
+    this.getClientWindow().getDocument().add(c1);
+  };
+  </script>
+</body>
+</html>
