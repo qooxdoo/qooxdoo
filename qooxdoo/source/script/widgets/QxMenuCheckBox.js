@@ -52,12 +52,12 @@ proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
 
 /*
 ------------------------------------------------------------------------------------
-  EVENTS
+  EXECUTE
 ------------------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+proto.execute = function()
 {
   this.setChecked(!this.getChecked());  
-  QxMenuButton.prototype._onmousedown.call(this, e);
+  QxMenuButton.prototype.execute.call(this);
 };

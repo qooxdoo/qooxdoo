@@ -5,8 +5,8 @@ function QxMenu()
   // Configure dimensions
   this.setWidth("auto");
   this.setHeight(null);
-  this.setMinWidth(100);
   this.setTimerCreate(false);
+  this.setMinWidth(120);
 
   // Add timers
   this._openTimer = new QxTimer(this.getOpenInterval());
@@ -47,7 +47,7 @@ QxMenu.addProperty({ name : "fastReopen", type : Boolean, defaultValue : false }
 QxMenu.addProperty({ name : "openInterval", type : Number, defaultValue : 250 });
 QxMenu.addProperty({ name : "closeInterval", type : Number, defaultValue : 250 });
 
-QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -4 });
+QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -3 });
 QxMenu.addProperty({ name : "subMenuVerticalOffset", type : Number, defaultValue : -2 });
 
 QxMenu.addProperty({ name : "minIconColumnWidth", type : Number, defaultValue : 16 });
@@ -233,14 +233,23 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   this._childTextPosition = this._childIconPosition + vUseIconWidth;
   
   var vUseEndPos = this._childTextPosition + vMaxContentWidth;
+  var vUseMaxArrow = vMaxArrowWidth > 0 ? vContentArrowGap + vMaxArrowWidth : 4;
+  var vUseInnerWidth = vMaxPaddingLeft + vUseEndPos + vUseMaxArrow + vMaxPaddingRight;
+  var vUseOuterFrame = this.getComputedBorderLeft() + this.getComputedPaddingLeft() + this.getComputedPaddingRight() + this.getComputedBorderRight();
+  var vUseOuterWidth = vUseInnerWidth + vUseOuterFrame;
+  
+  // Handle min width and use new calculated position if calculated need width is lesser than minwidth.
+  var vMinWidth = this.getMinWidth();
+  if (vMinWidth != null && vUseOuterWidth < vMinWidth) {
+    vUseEndPos = vMinWidth - vUseOuterFrame - vMaxPaddingLeft - vMaxPaddingRight - vUseMaxArrow;
+  };
   
   this._childShortcutPosition = vUseEndPos - vMaxShortcutWidth;
   this._childArrowPosition = vUseEndPos + vContentArrowGap;
   
-  var vUseInnerWidth = vMaxPaddingLeft + vUseEndPos + (vMaxArrowWidth > 0 ? vContentArrowGap + vMaxArrowWidth : 0) + vMaxPaddingRight;
-
   // Apply new inner width
-  this.setInnerWidth(vUseInnerWidth, null, true);
+  //this.setInnerWidth(vUseInnerWidth, null, true);
+  this.setWidth(vUseOuterWidth, null, true);
 };
 
 
@@ -389,38 +398,46 @@ proto._onclosetimer = function(e)
   this.setOpenItem(null);
 };
 
+/*!
+  Wraps key events to target functions
+*/
 proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
     case QxKeyEvent.keys.up:
-      this._hoverPrevious(e);
+      this._onkeydown_up(e);
       break;
       
     case QxKeyEvent.keys.down:
-      this._hoverNext(e);
+      this._onkeydown_down(e);
       break;
       
     case QxKeyEvent.keys.left:
-      this._goLeft(e);
+      this._onkeydown_left(e);
       break;
       
     case QxKeyEvent.keys.right:
-      this._goRight(e);
+      this._onkeydown_right(e);
       break;
       
     case QxKeyEvent.keys.enter:
-      this._doExecute();
+      this._onkeydown_enter(e);
       break;
 
     case QxKeyEvent.keys.esc:
-      this._doEscape();
+      this._onkeydown_esc(e);
       break;
+      
+    default:
+      return;
   };
+  
+  // Stop all matching events
+  e.preventDefault();
 };
 
-
-proto._hoverPrevious = function(e)
+proto._onkeydown_up = function(e)
 {
   var vHover = this.getHoverItem();
   var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([QxMenuSeparator]) : this.getLastActiveChild();
@@ -428,7 +445,7 @@ proto._hoverPrevious = function(e)
   this.setHoverItem(vPrev);
 };
 
-proto._hoverNext = function(e)
+proto._onkeydown_down = function(e)
 {
   var vHover = this.getHoverItem();
   var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([QxMenuSeparator]) : this.getFirstActiveChild();
@@ -436,7 +453,7 @@ proto._hoverNext = function(e)
   this.setHoverItem(vNext);
 };
 
-proto._goLeft = function(e)
+proto._onkeydown_left = function(e)
 {
   var vOpener = this.getOpener();
   
@@ -457,10 +474,10 @@ proto._goLeft = function(e)
   };
 };
 
-proto._goRight = function(e)
+proto._onkeydown_right = function(e)
 {
   var vHover = this.getHoverItem();
-
+  
   if (vHover) 
   {
     var vMenu = vHover.getMenu();
@@ -474,20 +491,56 @@ proto._goRight = function(e)
     
       return;
     };
-  };
-  
-  var vOpener = this.getOpener();
+  }
+  else if (!this.getOpenItem())
+  {
+    var vFirst = this.getFirstActiveChild();
+    
+    if (vFirst) {
+      vFirst.hasMenu() ? this.setOpenItem(vFirst) : this.setHoverItem(vFirst);
+    };
+  }; 
+
+  var vOpener = this.getOpener();  
   
   if (vOpener instanceof QxMenuBarButton)
   {
     var vOpenerParent = this.getOpener().getParent();
     
+    // jump to next menubarbutton
     (new QxApplication).setActiveWidget(vOpenerParent);
     vOpenerParent._onkeydown(e);
-  };  
+  }
+  else if (vOpener instanceof QxMenuButton && vHover)
+  {
+    // search for menubar if existing
+    // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
+    var vOpenerParent = vOpener.getParent();
+    
+    while (vOpenerParent)
+    {
+      if (vOpenerParent instanceof QxMenuBar)
+      {
+        // jump to next menubarbutton
+        (new QxApplication).setActiveWidget(vOpenerParent);
+        vOpenerParent._onkeydown(e);        
+
+        break;
+      };
+      
+      // get next parent
+      try {
+        vOpenerParent = vOpenerParent.getOpener().getParent();
+      } 
+      catch(ex)
+      {
+        break;
+      };
+    };
+  };
 };
 
-proto._doExecute = function(e)
+proto._onkeydown_enter = function(e)
 {
   var vHover = this.getHoverItem();
   if (vHover) {
@@ -497,7 +550,7 @@ proto._doExecute = function(e)
   (new QxMenuManager()).update();
 };
 
-proto._doEscape = function(e) {
+proto._onkeydown_esc = function(e) {
   (new QxMenuManager()).update();
 };
 
@@ -526,6 +579,12 @@ proto.dispose = function()
     this._closeTimer.dispose();
     this._closeTimer = null;  
   };
+  
+  // Remove event listeners
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mousemove", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseout);
+  this.removeEventListener("keydown", this._onkeydown);  
   
   return QxPopup.prototype.dispose.call(this);  
 };

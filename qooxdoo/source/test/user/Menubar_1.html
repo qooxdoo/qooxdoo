@@ -51,10 +51,10 @@
       var mb2_01 = new QxMenuButton("Undo", null, c1);
       var mb2_02 = new QxMenuButton("Redo", null, c1);
       var mb2_b1 = new QxMenuSeparator();
-      var mb2_03 = new QxMenuButton("Cut", "../../images/icons/crystal/16/editcut.png");
-      var mb2_04 = new QxMenuButton("Copy", "../../images/icons/crystal/16/editcopy.png");
-      var mb2_05 = new QxMenuButton("Paste", "../../images/icons/crystal/16/editpaste.png");
-      var mb2_06 = new QxMenuButton("Delete", "../../images/icons/crystal/16/editdelete.png");
+      var mb2_03 = new QxMenuButton("Cut", "../../images/icons/crystal/16/editcut.png", c1);
+      var mb2_04 = new QxMenuButton("Copy", "../../images/icons/crystal/16/editcopy.png", c1);
+      var mb2_05 = new QxMenuButton("Paste", "../../images/icons/crystal/16/editpaste.png", c1);
+      var mb2_06 = new QxMenuButton("Delete", "../../images/icons/crystal/16/editdelete.png", c1);
       var mb2_b2 = new QxMenuSeparator();
       var mb2_07 = new QxMenuButton("Select All", null, c1);
       var mb2_08 = new QxMenuButton("Find", null, c1);
@@ -74,6 +74,7 @@
       var m3_suba = new QxMenu;
       var m3_subb = new QxMenu;
       var m3_subc = new QxMenu;
+      var m3_subd = new QxMenu;
 
       var mb3_01 = new QxMenuCheckBox("File List", c1, false);
       var mb3_02 = new QxMenuCheckBox("Syntax Highlighting", c1, true);
@@ -82,8 +83,10 @@
       var mb3_04 = new QxMenuButton("Printer Font", null, null, m3_suba);
       var mb3_05 = new QxMenuButton("Editor Font", null, null, m3_subb);
       var mb3_06 = new QxMenuButton("Export Font", null, null, m3_subc);
+      var mb3_b2 = new QxMenuSeparator();
+      var mb3_07 = new QxMenuButton("Advanced", null, null, m3_subd);
       
-      m3.add(mb3_01, mb3_02, mb3_03, mb3_b1, mb3_04, mb3_05, mb3_06);
+      m3.add(mb3_01, mb3_02, mb3_03, mb3_b1, mb3_04, mb3_05, mb3_06, mb3_b2, mb3_07);
       
       var mb3_suba_01 = new QxMenuButton("Tahoma, 11pt", null, c1);
       var mb3_suba_02 = new QxMenuButton("Tahoma, 12pt", null, c1);
@@ -108,8 +111,20 @@
       var mb3_subc_05 = new QxMenuButton("Courier, 15pt", null, c1);
 
       m3_subc.add(mb3_subc_01, mb3_subc_02, mb3_subc_03, mb3_subc_04, mb3_subc_05);      
+      
+      var mb3_subd_02_suba = new QxMenu();
+      
+      var mb3_subd_02_suba_01 = new QxMenuButton("First", null, c1);
+      var mb3_subd_02_suba_02 = new QxMenuButton("Second", null, c1);
+      var mb3_subd_02_suba_03 = new QxMenuButton("Third", null, c1);
+      
+      mb3_subd_02_suba.add(mb3_subd_02_suba_01, mb3_subd_02_suba_02, mb3_subd_02_suba_03);
+      
+      var mb3_subd_01 = new QxMenuButton("First", null, c1);
+      var mb3_subd_02 = new QxMenuButton("Second", null, c1, mb3_subd_02_suba);
+      var mb3_subd_03 = new QxMenuButton("Third", null, c1);
 
-            
+      m3_subd.add(mb3_subd_01, mb3_subd_02, mb3_subd_03);
       
       var m4 = new QxMenu;
       
@@ -144,7 +159,7 @@
       
       m5.add(mb5_01, mb5_02);
       
-      d.add(m1, m2, m3, m3_suba, m3_subb, m3_subc, m4, m4_suba, m5);
+      d.add(m1, m2, m3, m3_suba, m3_subb, m3_subc, m3_subd, mb3_subd_02_suba, m4, m4_suba, m5);
 
       var mb1 = new QxMenuBar;
       

@@ -158,6 +158,11 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
+  
+  // Remove event listeners
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseout);
+  this.removeEventListener("mousedown", this._onmousedown);  
 
   QxWidget.prototype.dispose.call(this);
 };
