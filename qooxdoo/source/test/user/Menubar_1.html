@@ -31,9 +31,9 @@
       
       var mb1_01 = new QxMenuButton("New");
       var mb1_02 = new QxMenuButton("Open");
-      var mb1_03 = new QxMenuButton("Save", null, "Strg+S");
+      var mb1_03 = new QxMenuButton("Save", null, "Ctrl+S");
       var mb1_04 = new QxMenuButton("Save as");
-      var mb1_05 = new QxMenuButton("Close", null, "Strg+Q");
+      var mb1_05 = new QxMenuButton("Close", null, "Ctrl+Q");
       var mb1_06 = new QxMenuButton("Restore last saved");
       
       m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06);
@@ -41,17 +41,17 @@
 
       var m2 = new QxMenu;
 
-      var mb2_01 = new QxMenuButton("Undo", null, "Strg+Z");
-      var mb2_02 = new QxMenuButton("Redo", null, "Strg+Y");
+      var mb2_01 = new QxMenuButton("Undo", null, "Ctrl+Z");
+      var mb2_02 = new QxMenuButton("Redo", null, "Ctrl+Y");
       var mb2_b1 = new QxMenuSeparator();
       var mb2_03 = new QxMenuButton("Cut", "../../images/icons/crystal/16/editcut.png", "Strg+X");
       var mb2_04 = new QxMenuButton("Copy", "../../images/icons/crystal/16/editcopy.png", "Strg+C");
       var mb2_05 = new QxMenuButton("Paste", "../../images/icons/crystal/16/editpaste.png", "Strg+V");
       var mb2_06 = new QxMenuButton("Delete", "../../images/icons/crystal/16/editdelete.png", "Entf");
       var mb2_b2 = new QxMenuSeparator();
-      var mb2_07 = new QxMenuButton("Select All", null, "Strg+A");
-      var mb2_08 = new QxMenuButton("Find", null, "Strg+F");
-      var mb2_09 = new QxMenuButton("Find Again", null, "Strg+G");
+      var mb2_07 = new QxMenuButton("Select All", null, "Ctrl+A");
+      var mb2_08 = new QxMenuButton("Find", null, "Ctrl+F");
+      var mb2_09 = new QxMenuButton("Find Again", null, "Ctrl+G");
       
       
       
@@ -68,9 +68,9 @@
       var m3_subb = new QxMenu;
       var m3_subc = new QxMenu;
 
-      var mb3_01 = new QxMenuButton("List");
-      var mb3_02 = new QxMenuButton("Syntax Highlighting");
-      var mb3_03 = new QxMenuButton("Font");
+      var mb3_01 = new QxMenuCheckBox("File List", null, false);
+      var mb3_02 = new QxMenuCheckBox("Syntax Highlighting", null, true);
+      var mb3_03 = new QxMenuCheckBox("Statusbar", null, true);
       var mb3_b1 = new QxMenuSeparator();
       var mb3_04 = new QxMenuButton("Printer Font", null, null, m3_suba);
       var mb3_05 = new QxMenuButton("Editor Font", null, null, m3_subb);
@@ -116,16 +116,18 @@
 
       m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
       
-      var mb4_suba_01 = new QxMenuCheckBox("New Window");
-      var mb4_suba_02 = new QxMenuCheckBox("Overlapping");
-      var mb4_suba_03 = new QxMenuCheckBox("Split Horizontally");
-      var mb4_suba_04 = new QxMenuCheckBox("Split Vertically");
-      var ms4 = new QxMenuSeparator();
+      var mb4_suba_01 = new QxMenuButton("New Window");
+      var mb4_suba_b1 = new QxMenuSeparator();
+      var mb4_suba_02 = new QxMenuRadioButton("Overlapping", "Ctrl+Alt+O", true);
+      var mb4_suba_03 = new QxMenuRadioButton("Split Horizontally", "Ctrl+Alt+H");
+      var mb4_suba_04 = new QxMenuRadioButton("Split Vertically", "Ctrl+Alt+V");
+      var mb4_suba_b2 = new QxMenuSeparator();
       var mb4_suba_05 = new QxMenuButton("Next Window");
       var mb4_suba_06 = new QxMenuButton("Previous Window");
 
-      m4_suba.add(mb4_suba_01, mb4_suba_02, mb4_suba_03, mb4_suba_04, ms4, mb4_suba_05, mb4_suba_06);
+      m4_suba.add(mb4_suba_01, mb4_suba_b1, mb4_suba_02, mb4_suba_03, mb4_suba_04, mb4_suba_b2, mb4_suba_05, mb4_suba_06);
 
+      var mb4_manager = new QxRadioButtonManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
 
  
       var m5 = new QxMenu;

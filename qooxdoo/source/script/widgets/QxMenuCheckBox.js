@@ -1,34 +1,65 @@
-function QxMenuCheckBox(vText, vShortcut)
+/*!
+  A checkbox for the menu system.
+*/
+function QxMenuCheckBox(vText, vShortcut, vChecked)
 {
   QxMenuButton.call(this, vText, null, vShortcut);
   
+  this.setIcon(this._source);
   
-  
+  if (isValid(vChecked)) {
+    this.setChecked(vChecked);
+  };
 };
 
 QxMenuCheckBox.extend(QxMenuButton, "QxMenuCheckBox");
 
-QxMenuCheckBox.removeProperty({ name : "icon" });
+QxMenuCheckBox.addProperty({ name : "name", type : String });
+QxMenuCheckBox.addProperty({ name : "value", type : String });
+QxMenuCheckBox.addProperty({ name : "checked", type : Boolean, defaultValue : false, getAlias : "isChecked" });
 
-QxMenuCheckBox.addProperty({ name : "checked", type : Boolean, defaultValue : false });
 
-proto._displayIcon = true;
-proto._modifyIcon = null;
+/*
+------------------------------------------------------------------------------------
+  ICON HANDLING
+------------------------------------------------------------------------------------
+*/
 
-proto._hasIcon = function() {
-  return true;
-};
+proto._source = "../../images/core/checkbox.gif";
 
 proto._pureCreateFillIcon = function()
 {
-  var i = this._iconObject = new QxInputCheckIcon();
-  
-  i.setType("checkbox");
-  i.setAnonymous(true);
-  i.setEnabled(this.isEnabled());
-  i.setChecked(this.getChecked());
-  i.setParent(this);
-  
-  i._addCssClassName("QxMenuButtonIcon");
+  QxMenuButton.prototype._pureCreateFillIcon.call(this);  
+  this._iconObject.setVisible(this.getChecked());
 };
 
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIERS
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (this._iconObject) {
+    this._iconObject.setVisible(propValue);
+  };
+  
+  return true;
+};
+
+
+
+/*
+------------------------------------------------------------------------------------
+  EVENTS
+------------------------------------------------------------------------------------
+*/
+
+proto._onmousedown = function(e)
+{
+  this.setChecked(!this.getChecked());  
+  QxMenuButton.prototype._onmousedown.call(this, e);
+};
