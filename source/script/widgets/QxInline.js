@@ -1,4 +1,4 @@
-function QxInlineWidget()
+function QxInline()
 {
   QxWidget.call(this);
   
@@ -6,9 +6,9 @@ function QxInlineWidget()
   this.setWidth(null);
 };
 
-QxInlineWidget.extend(QxWidget, "QxInlineWidget");
+QxInline.extend(QxWidget, "QxInline");
 
-QxInlineWidget.addProperty({ name : "inlineNodeId", type : String });
+QxInline.addProperty({ name : "inlineNodeId", type : String });
 
 proto._modifyInlineNodeId = function(propValue, propOldValue, propName, uniqModIds)
 {

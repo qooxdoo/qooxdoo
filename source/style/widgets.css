@@ -678,14 +678,14 @@ html[QxFocused] {
   ------------------------------------------
 */
 
-.QxInlineWidget {
+.QxInline {
   display: block;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
 
-:root .QxInlineWidget{
+:root .QxInline{
   overflow: visible;
 }
 
