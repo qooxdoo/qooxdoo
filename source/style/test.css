@@ -94,15 +94,23 @@
   -moz-border-left-colors: ThreeDShadow ThreeDHighlight;
 }
 
-#testFiles {
-  position:absolute;
-  left: 550px;
-  top: 0px;
-}
-
 * html #testFrame{
   height: expression((document.body.offsetHeight - 72) + "px");
   width: expression((document.body.offsetWidth - 328) + "px");
+}
+
+#testFiles {
+  position:absolute;
+  right: 320px;
+  top: 0px;
+  font-size: 11px;
+  background: #052B5C;
+  color: #fff;
+  border: 1px solid #052B5C;
+}
+
+#testFiles option{
+  padding: 1px 3px;
 }
 
 .manualFrame{

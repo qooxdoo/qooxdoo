@@ -86,7 +86,7 @@ html[QxFocused] {
 
 
 .QxContainer{
-  position: absolute; 
+  position: absolute;
 }
 
 
@@ -112,10 +112,10 @@ html[QxFocused] {
 .QxInputCheckIcon{
   height: 13px;
   width: 13px;
-  
+
   -moz-user-focus: none;
   user-focus: none;
-  
+
   -moz-user-select: none;
   user-select: none;
 
@@ -180,7 +180,7 @@ html[QxFocused] {
 
 .QxToolBarPartHandleLine,
 .QxToolBarSeparatorLine{
-  position: absolute; 
+  position: absolute;
 }
 
 .QxToolBarPart{
@@ -195,7 +195,7 @@ html[QxFocused] {
 .QxToolBarPart,
 .QxToolBarPartHandle{
   position: relative !important;
-  float: left; 
+  float: left;
 }
 
 .QxToolBarButton,
@@ -657,15 +657,15 @@ html[QxFocused] {
 .QxTab{
 	position: relative;
 	float: left;
-	
+
   padding: 2px 6px 2px 8px;
-  cursor: default;	
-  
+  cursor: default;
+
   background-color: ThreeDFace;
 
   border-left: 1px solid ThreeDHighlight;
   border-right: 2px outset;
-  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;  
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
 }
 
 
@@ -875,27 +875,28 @@ html[QxFocused] {
 
 /*
   ------------------------------------------
-    MENU 
+    MENU
   ------------------------------------------
 */
 
 .QxMenu{
-  border: 1px solid black;
+  border: 2px outset;
+  background: Menu;
 }
 
 .QxMenuButton{
   position: relative;
   padding: 2px 4px;
+  border: 1px solid Menu;
 }
 
 .QxMenuButton-Hover{
-  background-color: highlight;
-  color: highlighttext;
+  background-color: #709CCC;
+  border: 1px solid #3A6EA5;
 }
 
 .QxMenuButton-Open{
-  background: green;
-  color: #fff;
+  background-color: #3A6EA5;
 }
 
 .QxMenuButton .QxImage,
