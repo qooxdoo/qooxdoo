@@ -659,6 +659,7 @@ html[QxFocused] {
 
 .QxTabPane{
   z-index: 1;
+  background-color: ThreeDFace;
 }
 
 .QxTab{
