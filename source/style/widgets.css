@@ -132,6 +132,11 @@ html[QxFocused] {
 
 
 
+/*
+  ------------------------------------------
+    POPUP/MENU/TOOLTIP
+  ------------------------------------------
+*/
 
 .QxPopup,
 .QxToolTip,
@@ -150,10 +155,21 @@ html[QxFocused] {
   color: InfoText;
 
   border: 1px solid InfoText;
-  padding: 1px 3px;
+  padding: 1px 3px 2px;
 
   z-index: 1000000;
 }
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    BUTTON
+  ------------------------------------------
+*/
 
 .QxButton {
 	position: absolute;
