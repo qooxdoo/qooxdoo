@@ -535,7 +535,7 @@ QxDOM.getComputedPreferredSize = function(el)
 
     // Reset current styles  
     elst.width = elst.height = "auto";
-    elst.position = "static";
+    elst.position = "absolute";
     elst.display = "inline";   
     elst.visibility = "hidden";
     
