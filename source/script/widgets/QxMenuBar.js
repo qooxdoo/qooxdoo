@@ -59,53 +59,91 @@ proto._modifyMenu = function(propValue, propOldValue, propName, uniqModIds)
 ------------------------------------------------------------------------------------
 */
 
+/*!
+  Wraps key events to target functions
+*/
 proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
     case QxKeyEvent.keys.left:
-      this._goLeft(e);
+      this._onkeydown_left(e);
       break;
       
     case QxKeyEvent.keys.right:
-      this._goRight(e);
+      this._onkeydown_right(e);
       break;  
   };
 };
 
-proto._goLeft = function(e)
+proto._onkeydown_left = function(e)
 {
   var vMenu = this.getMenu();
-  
   if (!vMenu) {
     return;
   };
   
   var vOpener = vMenu.getOpener();
-  
   if (!vOpener) {
     return;
   };
   
-  var vPrev = vOpener ? vOpener.isFirstChild() ? this.getLastChild() : vOpener.getPreviousActiveSibling() : this.getLastChild();
+  var vPrev = vOpener ? vOpener.isFirstChild() ? this.getLastActiveChild() : vOpener.getPreviousActiveSibling() : this.getLastActiveChild();
   vPrev.setState("pressed");
+
+  var vPrevMenu = vPrev.getMenu();
+  if (vPrevMenu)
+  {
+    var vPrevFirst = vPrevMenu.getFirstActiveChild();
+    if (vPrevFirst) {
+      vPrevMenu.setHoverItem(vPrevFirst);      
+    };
+  };
 };
 
-proto._goRight = function(e)
+proto._onkeydown_right = function(e)
 {
   var vMenu = this.getMenu();
-  
   if (!vMenu) {
     return;
   };
   
   var vOpener = vMenu.getOpener();
-  
   if (!vOpener) {
     return;
   };
   
-  var vNext = vOpener ? vOpener.isLastChild() ? this.getFirstChild() : vOpener.getNextActiveSibling() : this.getFirstChild();
+  var vNext = vOpener ? vOpener.isLastChild() ? this.getFirstActiveChild() : vOpener.getNextActiveSibling() : this.getFirstActiveChild();
   vNext.setState("pressed");
+  
+  var vNextMenu = vNext.getMenu();
+  if (vNextMenu)
+  {
+    var vNextFirst = vNextMenu.getFirstActiveChild();
+    if (vNextFirst) {
+      vNextMenu.setHoverItem(vNextFirst);      
+    };  
+  };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+  
+  // Remove event listeners
+  this.removeEventListener("keydown", this._onkeydown);
+  
+  return QxWidget.prototype.dispose.call(this);
+};

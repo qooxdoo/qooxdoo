@@ -63,12 +63,12 @@ proto._modifyName = function(propValue, propOldValue, propName, uniqModIds)
 
 /*
 ------------------------------------------------------------------------------------
-  EVENTS
+  EXECUTE
 ------------------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+proto.execute = function()
 {
   this.setChecked(true);  
-  QxMenuButton.prototype._onmousedown.call(this, e);
+  QxMenuButton.prototype.execute.call(this);
 };
