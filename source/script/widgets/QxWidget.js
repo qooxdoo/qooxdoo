@@ -1730,7 +1730,7 @@ proto.setWidth = function(propValue, uniqModIds, vMode, vKeepAuto)
   // Apply new values, so that the getters submit the new value.
   this._valueWidth = propValue;
   this._nullWidth = propValue == null;
-
+  
   // Call modifier
   try{
     var r = this._modifyHorizontalDimension(propValue, propOldValue, "width", uniqModIds);
@@ -2088,12 +2088,66 @@ proto._render = function(vHint)
   this._renderVertical(vHint);
 };
 
-proto._renderHorizontal = function(vHint) {
-  return this._renderHelper("horizontal", "Horizontal", vHint, "left", "width", "right", "Left", "Width", "Right", "minWidth", "maxWidth", "MinWidth", "MaxWidth");
+proto._renderHorizontalRunning = false;
+proto._renderVerticalRunning = false;
+
+proto._renderHorizontalOmit = false;
+proto._renderVerticalOmit = false;
+
+proto._renderHorizontal = function(vHint) 
+{
+  if (this._renderHorizontalRunning || this._renderHorizontalOmit) {
+    return;
+  };
+  
+  this._renderHorizontalRunning = true;
+  var r = this._renderHelper("horizontal", "Horizontal", vHint, "left", "width", "right", "Left", "Width", "Right", "minWidth", "maxWidth", "MinWidth", "MaxWidth");
+  this._renderHorizontalRunning = false;
+  
+  return r;
 };
 
-proto._renderVertical = function(vHint) {
-  return this._renderHelper("vertical", "Vertical", vHint, "top", "height", "bottom", "Top", "Height", "Bottom", "minHeight", "maxHeight", "MinHeight", "MaxHeight");
+proto._renderVertical = function(vHint) 
+{
+  if (this._renderVerticalRunning || this._renderVerticalOmit) {
+    return;
+  };
+
+  this._renderVerticalRunning = true;
+  var r = this._renderHelper("vertical", "Vertical", vHint, "top", "height", "bottom", "Top", "Height", "Bottom", "minHeight", "maxHeight", "MinHeight", "MaxHeight");
+  this._renderVerticalRunning = false;
+  
+  return r;
+};
+
+proto._omitHorizontalRendering = function() {
+  this._renderHorizontalOmit = true;
+};
+
+proto._activateHorizontalRendering = function() {
+  this._renderHorizontalOmit = false;
+  this._renderHorizontal("activate");
+};
+
+proto._omitVerticalRendering = function() {
+  this._renderVerticalOmit = true;
+};
+
+proto._activateVerticalRendering = function() {
+  this._renderVerticalOmit = false;
+  this._renderVertical("activate");
+};
+
+proto._omitRendering = function()
+{
+  this._omitHorizontalRendering(); 
+  this._omitVerticalRendering();
+};
+
+proto._activateRendering = function()
+{
+  this._activateHorizontalRendering();
+  this._activateVerticalRendering();
 };
 
 proto._renderInitialDone_horizontal = false;
@@ -2146,6 +2200,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       case "initial":
       case "force":
       case "parent":
+      case "activate":
         this._computeDimensionPixelValue(vNameStart, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameRange, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameStop, vNameStartUp, vNameRangeUp, vNameStopUp);
@@ -2188,9 +2243,16 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     var vUseRange = vValueRange != null;
     var vUseStop = vValueStop != null;
 
-    // this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop);
+    // Omit initial null rendering
+    if ((vHint == "initial" || vHint == "parent") && !vUseStart && !vUseRange && !vUseStop && vValueRangeMin == -Infinity && vValueRangeMax == Infinity) {
+      // this.debug("OMIT RENDERING");
+      return true;
+    };
+
+    // this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
     // this.subug("info: " + this["_pixelof_" + vNameRange] + ", " + this["_valueof_" + vNameRange]);
     // this.subug("limit: min=" + vValueRangeMin + ", max=" + vValueRangeMax);
+
 
 
 
@@ -2243,7 +2305,17 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
 
 
-    if (vComputedSize < 0)
+
+    if (typeof vComputedPosition == "undefined") {
+      vComputedPosition = null;
+    };
+
+    if (typeof vComputedSize == "undefined") {
+      vComputedSize = null;
+    };
+    
+    /*
+    else if (vComputedSize < 0)
     {
       if (vHint == "initial") 
       {
@@ -2252,8 +2324,8 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       
       return;
     };
-
-
+    */
+    
 
 
     // add padding of parent widget
@@ -2270,31 +2342,6 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
     if (vPositionChanged || vSizeChanged)
     {
-      if (vPositionChanged)
-      {
-        try
-        {
-          // Apply new value to node
-          this["_applyPosition" + vIdUp](vComputedPosition);
-        }
-        catch(ex)
-        {
-          this.debug("Failed to apply position: " + vComputedPosition);
-        };        
-
-        // Store new value
-        this["_computedLast" + vNameStartUp] = vComputedPosition;
-
-        // Emit Signals
-        if (this.hasEventListeners("move")) {
-          this.dispatchEvent(new QxEvent("move"));
-        };
-
-        if (this.hasEventListeners("move" + vIdUp)) {
-          this.dispatchEvent(new QxEvent("move" + vIdUp));
-        };
-      };
-
       if (vSizeChanged)
       {
         try
@@ -2318,9 +2365,34 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
         if (this.hasEventListeners("resize" + vIdUp)) {
           this.dispatchEvent(new QxEvent("resize" + vIdUp));
         };
-        
+
         // Inform children
         this["_inner" + vNameRangeUp + "Changed"]();
+      };
+    
+      if (vPositionChanged)
+      {
+        try
+        {
+          // Apply new value to node
+          this["_applyPosition" + vIdUp](vComputedPosition);
+        }
+        catch(ex)
+        {
+          this.debug("Failed to apply position: " + vComputedPosition);
+        };        
+
+        // Store new value
+        this["_computedLast" + vNameStartUp] = vComputedPosition;
+
+        // Emit Signals
+        if (this.hasEventListeners("move")) {
+          this.dispatchEvent(new QxEvent("move"));
+        };
+
+        if (this.hasEventListeners("move" + vIdUp)) {
+          this.dispatchEvent(new QxEvent("move" + vIdUp));
+        };
       };
 
       if (vHint != "initial") {
@@ -2676,7 +2748,8 @@ proto._computeDimensionPixelValue = function(vId, vNameStartUp, vNameRangeUp, vN
           this[pixelKey] += this["getComputedPadding" + vNameStartUp]() + this["getComputedPadding" + vNameStopUp]();
 
         case "area":
-          this[pixelKey] += this["getComputedInset" + vNameStartUp]() + this["getComputedInset" + vNameStopUp]();
+          // border is faster and more trusty then inset, but does not respect scrollbars (do we need this?)
+          this[pixelKey] += this["getComputedBorder" + vNameStartUp]() + this["getComputedBorder" + vNameStopUp]();
       };
   };
 };
@@ -2744,7 +2817,7 @@ proto._modifyHorizontalHelper = function(propValue, propName)
 
   // Value cache
   this["_valueof_" + propName] = propValue;
-
+  
   // Render
   this._renderHorizontal(propName);
   

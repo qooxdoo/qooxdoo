@@ -5,10 +5,14 @@ function QxBarSelectorFrame()
   this._bar = new QxBarSelectorBar;
   this._pane = new QxBarSelectorPane;
 
-  this.add(this._pane, this._bar);
+  this.setPlaceBarOn("top");
+
+  // If we add the bar before the pane it will always be rendered first
+  // and so we need not any event system to inform them from each other.
+  this.add(this._bar, this._pane);
   
-  this._bar.addEventListener("resizeVertical", this._pane._applyState, this._pane);
-  this._bar.addEventListener("resizeHorizontal", this._pane._applyState, this._pane);
+  // if the bar will resize any time later (make it more safe)
+  this._bar.addEventListener("resize", this._pane._applyState, this._pane);
 };
 
 QxBarSelectorFrame.extend(QxWidget, "QxBarSelectorFrame");
@@ -20,7 +24,7 @@ QxBarSelectorFrame.extend(QxWidget, "QxBarSelectorFrame");
   -------------------------------------------------------------------------------
 */
 
-QxBarSelectorFrame.addProperty({ name : "placeBarOn", type : String, defaultValue : "top" });
+QxBarSelectorFrame.addProperty({ name : "placeBarOn", type : String });
 
 QxBarSelectorFrame.paneMap = { top : "bottom", right : "left", bottom : "top", left : "right" };
 

@@ -2,8 +2,6 @@ function QxBarSelectorBar()
 {
   QxWidget.call(this);
 
-  this.setState("top");
-  
   this._manager = new QxRadioButtonManager();
 };
 
@@ -42,9 +40,7 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
 
   this.setCssClassName(vClasses, uniqModIds);
   
-  this._applyState();
-  
-  return true;
+  return this._applyState();
 };
 
 
@@ -55,55 +51,63 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
   UPDATE
 ------------------------------------------------------------------------------------
 */
-QxBarSelectorBar.states = 
-{
-  top: {
-    setBottom : null,
-    setWidth : null,
-    setTop : 0,
-    setHeight : "auto",
-    setLeft : 0,
-    setRight : 0
-  },
-  
-  right: {
-    setLeft : null,
-    setHeight: null,
-    setRight : 0,
-    setWidth : "auto",
-    setBottom : 0,
-    setTop : 0   
-  },
-  
-  bottom: {
-    setTop : null,
-    setWidth : null,
-    setBottom : 0,
-    setHeight : "auto",
-    setLeft : 0,
-    setRight : 0
-  },
-  
-  left: {
-    setRight : null,
-    setHeight: null,
-    setLeft : 0,
-    setWidth : "auto",
-    setBottom : 0,
-    setTop : 0
-}};
-// please keep: this end is not nice, but is seems that the optimizer 
-// has currently problems in optimizing property lists.
 
-
-proto._applyState = function()
+proto._applyState = function() 
 {
-  var h = QxBarSelectorBar.states[this.getState()];
-  for (var i in h) {
-    this[i](h[i]);
-  };
+  this._omitRendering();
+  this["_applyState_" + this.getState()]();
+  this._activateRendering();
+    
+  return true;
 };
 
+proto._applyState_top = function()
+{
+  this.setBottom(null);
+  this.setWidth(null);
+
+  this.setHeight("auto");
+  
+  this.setLeft(0);
+  this.setRight(0);
+  this.setTop(0);  
+};
+
+proto._applyState_right = function()
+{
+  this.setLeft(null);
+  this.setHeight(null);
+
+  this.setWidth("auto");
+  
+  this.setRight(0);  
+  this.setBottom(0);
+  this.setTop(0);  
+};
+
+proto._applyState_bottom = function()
+{
+  this.setWidth(null);
+  this.setTop(null);
+
+  this.setHeight("auto");
+
+  this.setLeft(0);
+  this.setRight(0);
+  this.setBottom(0);  
+};
+
+proto._applyState_left = function()
+{
+  this.setRight(null);
+  this.setHeight(null);
+
+  this.setWidth("auto");
+
+  this.setLeft(0);
+  this.setBottom(0);
+  this.setTop(0);
+};
 
 
 
@@ -113,52 +117,81 @@ proto._applyState = function()
 ------------------------------------------------------------------------------------
 */
 
-proto._layoutInternalWidgets = function(vHint) 
-{
-  this._layoutInternalWidgetsHorizontal(vHint);
-  this._layoutInternalWidgetsVertical(vHint);
-};
+proto._layoutInternalWidgetsRunning = false;
 
-proto._layoutInternalWidgetsHorizontal = function(vHint)
+proto._layoutInternalWidgets = proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
+  if (this._layoutInternalWidgetsRunning) {
+    return true; 
+  };
+  
   var vPane = this.getParent().getPane();
 
   if (!this.isCreated() || !vPane.isCreated()) {
     return true;
   };
-
-  // this.debug("LAYOUT HORIZONTAL: " + vHint + ": " + this.getState());
   
+  this._layoutInternalWidgetsRunning = true;
+
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
+    
   switch(this.getState())
   {
     case "left":
     case "right":
-      var vSet = { setWidth : null, setLeft : 0, setRight : 0, setHeight : "auto" };
-      break;
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];
+        
+        chc._omitRendering();
+        
+        chc.setWidth(null);
+        chc.setTop(null);
+        chc.setBottom(null);
+        chc.setLeft(0);
+        chc.setRight(0);
+        chc.setHeight("auto");        
+        
+        chc._innerWidthChanged();
+        chc._innerHeightChanged();
+        
+        chc._activateRendering(); 
+      };
+      
+      break;    
       
     default:
-      var vSet = { setLeft : null, setRight : null, setHeight : null, setTop : 0, setBottom : 0, setWidth : "auto" };
-  };      
-    
-  var ch = this.getChildren();
-  var chl = ch.length;
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];
+        
+        chc._omitRendering();
+        
+        chc.setLeft(null);
+        chc.setRight(null);
+        chc.setHeight(null);
+        chc.setTop(0);
+        chc.setBottom(0);
+        chc.setWidth("auto");        
+        
+        chc._innerWidthChanged();
+        chc._innerHeightChanged();
+        
+        chc._activateRendering();
+      };
+      
+      break;      
+  };   
   
-  for (var i=0; i<chl; i++)
-  {
-    for (var j in vSet) 
-    {
-      ch[i][j](vSet[j]);
-    };
-    
-    if (ch[i]._wasVisible) {
-      ch[i]._recalculateFrame();
-    };
-  };
+  this._layoutInternalWidgetsRunning = false;
 };
 
 proto._layoutInternalWidgetsVertical = function(vHint) { 
   return;
 };
+
 
 
 
@@ -196,18 +229,15 @@ proto._innerHeightChanged = function()
 {
   // Invalidate internal cache
   this._invalidateInnerHeight();
-
-  // Update placement of icon and text
-  this._layoutInternalWidgetsVertical("inner-height");
+  
+  // Update placement of buttons
+  this._layoutInternalWidgetsHorizontal("inner-height");
 };
 
 proto._innerWidthChanged = function()
 {
   // Invalidate internal cache
   this._invalidateInnerWidth();
-
-  // Update placement of icon and text
-  this._layoutInternalWidgetsHorizontal("inner-width");
 };
 
 
@@ -222,11 +252,21 @@ proto._innerWidthChanged = function()
 ------------------------------------------------------------------------------------
 */
 
-proto._childOuterWidthChanged = function(vModifiedChild, vHint) {
+proto._childOuterWidthChanged = function(vModifiedChild, vHint)
+{
+  if (this._layoutInternalWidgetsRunning) {
+    return; 
+  };
+  
   return !this._wasVisible ? true : this.getWidth() == "auto" ? this._setChildrenDependWidth(vModifiedChild, vHint) : this._layoutInternalWidgetsHorizontal(vHint);
 };
 
-proto._childOuterHeightChanged = function(vModifiedChild, vHint) {
+proto._childOuterHeightChanged = function(vModifiedChild, vHint) 
+{
+  if (this._layoutInternalWidgetsRunning) {
+    return; 
+  };
+
   return !this._wasVisible ? true : this.getHeight() == "auto" ? this._setChildrenDependHeight(vModifiedChild, vHint) : this._layoutInternalWidgetsVertical(vHint);
 };
 
