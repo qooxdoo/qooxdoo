@@ -19,7 +19,11 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p></p>
+    <p>Test for event blocking, needed for dialogs.</p>
+    <p>
+      <a href="javascript:window.application.getClientWindow().getClientDocument().block()">Block</a>
+      <a href="javascript:window.application.getClientWindow().getClientDocument().release()">Release</a>
+    </p>
   </div>
 
   <script type="text/javascript">
@@ -38,6 +42,10 @@
       setBackgroundColor("orange");
     };
     
+    c1.addEventListener("click", function(e) {
+      alert("click");
+    });
+
     this.getClientWindow().getDocument().add(c1);
   };
   </script>

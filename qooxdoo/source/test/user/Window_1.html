@@ -25,20 +25,45 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-    var c1 = new QxWidget;
+    var w1 = new QxWindow;
 
-    with(c1)
+    with(w1)
     {
-      setLeft(20);
-      setTop(48);
-
-      setWidth(200);
-      setHeight(100);
-
-      setBackgroundColor("orange");
+      setBorder(QxBorder.presets.outset);
+    
+      setWidth(400);
+      setHeight(250);
+      setTop(100);
+      setLeft(100);
     };
     
-    this.getClientWindow().getDocument().add(c1);
+    this.getClientWindow().getDocument().add(w1);
+    
+    var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
+    a1.set({ top: 4, left: 4 });
+    w1._pane.add(a1);
+    
+    
+    
+    var tf1 = new QxTabFrame;
+    tf1.set({ left: 0, top: 52, right: 0, bottom: 0 });
+
+    var t1_1 = new QxTab("Explore", null, null, null, true);
+    var t1_2 = new QxTab("Internet");
+    var t1_3 = new QxTab("Future");
+
+    tf1.getBar().add(t1_1, t1_2, t1_3);
+
+    var p1_1 = new QxTabPage(t1_1);
+    var p1_2 = new QxTabPage(t1_2);
+    var p1_3 = new QxTabPage(t1_3);
+
+    tf1.getPane().add(p1_1, p1_2, p1_3);    
+    
+    w1._pane.add(tf1);
+    
+    w1.setVisible(true);
+    
   };
   </script>
 </body>

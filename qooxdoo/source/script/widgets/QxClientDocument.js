@@ -20,6 +20,12 @@ function QxClientDocument(clientWindow)
 
   // Activate focus handling
   this.setTabIndex(1);
+  
+  // Blocker and Dialog Support
+  this._blocker = new QxBlocker;
+  
+  this._layerDialogs = [];
+  this._windowDialogs = [];
 };
 
 QxClientDocument.extend(QxWidget, "QxClientDocument");
@@ -85,6 +91,20 @@ proto._visualizeBlur = function() {};
 proto._visualizeFocus = function() {};
 
 
+
+/*
+------------------------------------------------------------------------------------
+  BLOCKER AND DIALOG SUPPORT
+------------------------------------------------------------------------------------
+*/
+
+proto.block = function() {
+  this.add(this._blocker);
+};
+
+proto.release = function() {
+  this.remove(this._blocker);
+};
 
 
 

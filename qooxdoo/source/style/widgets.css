@@ -18,6 +18,24 @@
 
 
 
+
+/*
+  ------------------------------------------
+    BLOCKER
+  ------------------------------------------
+*/
+
+.QxBlocker {
+  position: absolute;
+  overflow: hidden;
+  cursor: default;
+}
+  
+.QxBlocker {
+  overflow: -moz-scrollbars-none;
+}
+
+
 /*
   ------------------------------------------
     ENABLED/DISABLED
