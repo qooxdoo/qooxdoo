@@ -428,7 +428,7 @@ proto._endDrag = function(currentDestinationWidget, e)
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
 
   // Remove cursor
-  this._removeCursor();
+  this.setCursor(null);
 
   var d = window.application.getClientWindow().getClientDocument();
   d.removeEventListener("losecapture", this.cancelDrag, this);
@@ -457,17 +457,6 @@ proto._endDrag = function(currentDestinationWidget, e)
     IMPLEMENTATION OF CURSOR UPDATES
   -------------------------------------------------------------------------------
 */
-
-/*!
-  Removes the current used cursor from clientDocument
-*/
-proto._removeCursor = function()
-{
-  var c = this.getCursor();
-  if (c) {
-    c.setParent(null);
-  };
-};
 
 /*!
   Select and setup the current used cursor
