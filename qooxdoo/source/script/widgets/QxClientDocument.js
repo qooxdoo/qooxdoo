@@ -152,7 +152,7 @@ proto.add = function()
   {
     for (var i=0; i<l-1; i++)
     {
-      if (a[i] instanceof QxInlineWidget) {
+      if (a[i] instanceof QxInline) {
         a[i].setInlineNodeId(t);
       };
 
@@ -169,7 +169,7 @@ proto.add = function()
 
 proto._getParentNodeForChild = function(otherObject)
 {
-  if (otherObject instanceof QxInlineWidget)
+  if (otherObject instanceof QxInline)
   {
     var inlineNodeId = otherObject.getInlineNodeId();
 
