@@ -30,34 +30,33 @@
     var d = this.getClientWindow().getDocument();
     
     
-    var c1 = new QxWidget;
-    with(c1)
+    var w1 = new QxAtom("Click on me");
+    with(w1)
     {
       setTop(48);
       setLeft(20);
-      setBackgroundColor("#fff");
+      setBackgroundColor("#BDD2EF");
       setWidth(100);
       setHeight(100);    
       setBorder(QxBorder.presets.outset);
+      setHorizontalAlign("center");
     };
-    d.add(c1);
-    
-    c1.getElement().innerHTML = "Click on me";
+    d.add(w1);
     
 
-    var c2 = new QxWidget;
-    with(c2)
+    var w2 = new QxAtom("Click on me");
+    with(w2)
     {
       setTop(48);
       setLeft(140);
-      setBackgroundColor("#fff");
+      setBackgroundColor("#D1DFAD");
       setWidth(100);
       setHeight(100);    
       setBorder(QxBorder.presets.outset);
+      setHorizontalAlign("center");
     };
-    d.add(c2);
+    d.add(w2);
     
-    c2.getElement().innerHTML = "Click on me";
     
 
     
@@ -75,7 +74,7 @@
       setPadding(2, 4);
     };
     
-    c1.addEventListener("click", function(e)
+    w1.addEventListener("click", function(e)
     {
       p1.setTop(e.getPageY() + 3);
       p1.setLeft(e.getPageX() + 3);
@@ -95,7 +94,7 @@
       setPadding(2, 4);
     };
     
-    c2.addEventListener("click", function(e)
+    w2.addEventListener("click", function(e)
     {
       p2.setTop(e.getPageY() + 3);
       p2.setLeft(e.getPageX() + 3);

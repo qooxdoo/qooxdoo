@@ -41,6 +41,17 @@ QxTextField.addProperty({ name : "selectionText", type : String });
 
 /*
   -------------------------------------------------------------------------------
+    CLONING
+  -------------------------------------------------------------------------------
+*/
+
+// Extend ignore list with selection properties
+proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText";
+
+
+
+/*
+  -------------------------------------------------------------------------------
     MODIFIERS
   -------------------------------------------------------------------------------
 */

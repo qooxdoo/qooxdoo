@@ -5,6 +5,7 @@ function QxMenu()
   // Configure dimensions
   this.setWidth("auto");
   this.setHeight(null);
+  this.setMinWidth(100);
 
   // Add timers
   this._openTimer = new QxTimer(this.getOpenInterval());

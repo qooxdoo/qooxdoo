@@ -29,7 +29,7 @@
 
     var w1 = new QxWidget;
 
-    w1.set({ backgroundColor: "yellow", border: QxBorder.presets.groove, width: 100, height: 100, top: 48, left: 20 });
+    w1.set({ backgroundColor: "yellow", border: QxBorder.presets.groove, width: 100, height: 100, top: 48, left: 20, timerCreate : false });
     
     d.add(w1);
 
@@ -58,14 +58,14 @@
 
 
     var w2 = new QxWidget;
-    w2.set({ border: new QxBorder(1, "solid", "black"), backgroundColor: "#fff", top: 200, left: 20, width: "auto", height: "auto" });
+    w2.set({ border: new QxBorder(1, "solid", "black"), backgroundColor: "#fff", top: 200, left: 20, width: "auto", height: "auto", timerCreate : false });
 
     var w3 = new QxAtom("Foo Bar");
-    w3.set({ border: QxBorder.presets.outset, backgroundColor: "blue", top: 30, left: 20 });
+    w3.set({ border: QxBorder.presets.outset, backgroundColor: "blue", top: 30, left: 20, timerCreate : false });
     w2.add(w3);
 
     var w4 = new QxAtom("Hello World");
-    w4.set({ border: new QxBorder(20, "solid", "yellow"), backgroundColor: "red", top: 10, left: 150 });
+    w4.set({ border: new QxBorder(20, "solid", "yellow"), backgroundColor: "red", top: 10, left: 150, timerCreate : false });
     w2.add(w4);
 
 
