@@ -2,22 +2,41 @@ function QxTab(vText, vIcon, vChecked)
 {
   QxAtom.call(this, vText, vIcon);
 
-  this.addEventListener("keyup", this._onkeyup);
-  
   if (isValid(vChecked)) {
     this.setChecked(vChecked);
   };
   
+  this.setTabIndex(1);
+  
   this.addEventListener("mousedown", this._onmousedown);  
+  this.addEventListener("keyup", this._onkeyup);
 };
 
 QxTab.extend(QxAtom, "QxTab");
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
 QxTab.addProperty({ name : "page", type : Object });
 QxTab.addProperty({ name : "group" });
 QxTab.addProperty({ name : "name", type : String });
 QxTab.addProperty({ name : "checked", type : Boolean });
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIER
+------------------------------------------------------------------------------------
+*/
 
 proto._modifyGroup = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -66,57 +85,51 @@ proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
     this.getGroup().setSelected(this, uniqModIds);
   };
 
-  this.setState(propValue ? "checked" : null);
-
+  this.setState(propValue ? "checked" : null, uniqModIds); 
   return true;
 };
 
+proto._visualizeFocus = function() {};
+proto._visualizeBlur = function() {};
 
 
 
+
+/*
+------------------------------------------------------------------------------------
+  EVENT HANDLER
+------------------------------------------------------------------------------------
+*/
 
 proto._onkeyup = function(e)
 {
-  var toPrev;
+  var vPrevious;
 
   switch(e.getKeyCode())
   {
     case QxKeyEvent.keys.left:
     case QxKeyEvent.keys.up:
-      toPrev = this.getParent().getAlignTabsToLeft();
+      vPrevious = this.getParent().getAlignTabsToLeft();
       break;
 
     case QxKeyEvent.keys.right:
     case QxKeyEvent.keys.down:
-      toPrev = !this.getParent().getAlignTabsToLeft();
+      vPrevious = !this.getParent().getAlignTabsToLeft();
       break;
 
     default:
       return;
   };
 
-  switch(toPrev)
-  {
-    case true:
-      return this.isFirstChild() ? this.getParent().getLastChild().setFocused(true) : this.getPreviousSibling().setFocused(true);
-
-    case false:
-      return this.isLastChild() ? this.getParent().getFirstChild().setFocused(true) : this.getNextSibling().setFocused(true);
-  };
+  var vChild = vPrevious ? this.isFirstChild() ? this.getParent().getLastChild() : this.getPreviousSibling() : this.isLastChild() ? this.getParent().getFirstChild() : this.getNextSibling();
+  
+  vChild.setFocused(true);
+  vChild.setChecked(true);
 };
-
-
-
-
-
 
 proto._onmousedown = function(e) 
 {
+  this.setFocused(true);
   this.setChecked(true);  
 };
-
-
-
-
-
 

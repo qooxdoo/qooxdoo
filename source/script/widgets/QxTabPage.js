@@ -29,6 +29,8 @@ proto._modifyTab = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-proto._shouldBecomeCreated = function() {
-  return false;
+proto._shouldBecomeCreated = function() 
+{
+  var vTab = this.getTab();
+  return vTab ? vTab.getChecked() : false;  
 };
