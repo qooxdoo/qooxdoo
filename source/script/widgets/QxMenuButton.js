@@ -1,4 +1,4 @@
-function QxMenuButton(vText, vIcon, vHint, vMenu)
+function QxMenuButton(vText, vIcon, vShortcut, vMenu)
 {
   QxWidget.call(this);
 
@@ -7,7 +7,7 @@ function QxMenuButton(vText, vIcon, vHint, vMenu)
   this.setRight(0);
 
   // 20 is the default height of QxMenuButtons with 16px icons
-  // so sync all buttons to minimum reach this height
+  // so sync all buttons to have at least this height
   this.setMinHeight(20);
 
   if (isValidString(vText)) {
@@ -18,8 +18,8 @@ function QxMenuButton(vText, vIcon, vHint, vMenu)
     this.setIcon(vIcon);
   };
 
-  if (isValidString(vHint)) {
-    this.setHint(vHint);
+  if (isValidString(vShortcut)) {
+    this.setShortcut(vShortcut);
   };
 
   if (isValid(vMenu)) {
@@ -39,7 +39,7 @@ QxMenuButton.extend(QxWidget, "QxMenuButton");
 
 QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
-QxMenuButton.addProperty({ name : "hint", type : String });
+QxMenuButton.addProperty({ name : "shortcut", type : String });
 QxMenuButton.addProperty({ name : "menu", type : Object });
 
 QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
@@ -58,17 +58,17 @@ QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../
 
 proto._iconObject = null;
 proto._textObject = null;
-proto._hintObject = null;
+proto._shortcutObject = null;
 proto._arrowObject = null;
 
 proto._showIcon = true;
 proto._showText = true;
-proto._showHint = true;
+proto._showShortcut = true;
 proto._showArrow = true;
 
 proto._displayIcon = false;
 proto._displayText = false;
-proto._displayHint = false;
+proto._displayShortcut = false;
 proto._displayArrow = false;
 
 
@@ -95,8 +95,8 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
       this._pureCreateFillText();
     };
 
-    if (this._displayHint && !this._hintObject) {
-      this._pureCreateFillHint();
+    if (this._displayShortcut && !this._shortcutObject) {
+      this._pureCreateFillShortcut();
     };
 
     if (this._displayArrow && !this._arrowObject) {
@@ -124,9 +124,9 @@ proto._modifyText = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-proto._modifyHint = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyShortcut = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this._displayHint = isValid(propValue);
+  this._displayShortcut = isValid(propValue);
   return true;
 };
 
@@ -176,15 +176,15 @@ proto._pureCreateFillText = function()
   this._textObject._addCssClassName("QxMenuButtonText");
 };
 
-proto._pureCreateFillHint = function()
+proto._pureCreateFillShortcut = function()
 {
-  this._hintObject = new QxContainer();
-  this._hintObject.setHtml(this.getHint());
+  this._shortcutObject = new QxContainer();
+  this._shortcutObject.setHtml(this.getShortcut());
 
-  this._hintObject.setAnonymous(true);
-  this._hintObject.setEnabled(this.isEnabled());
-  this._hintObject.setParent(this);
-  this._hintObject._addCssClassName("QxMenuButtonHint");
+  this._shortcutObject.setAnonymous(true);
+  this._shortcutObject.setEnabled(this.isEnabled());
+  this._shortcutObject.setParent(this);
+  this._shortcutObject._addCssClassName("QxMenuButtonShortcut");
 };
 
 proto._pureCreateFillArrow = function()
@@ -245,8 +245,8 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
     this._textObject._applyPositionHorizontal(vParent._childTextPosition);
   };
 
-  if (this._hintObject) {
-    this._hintObject._applyPositionHorizontal(vParent._childHintPosition);
+  if (this._shortcutObject) {
+    this._shortcutObject._applyPositionHorizontal(vParent._childShortcutPosition);
   };
 
   if (this._arrowObject) {
@@ -256,10 +256,8 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
 
 proto._layoutInternalWidgetsVertical = function(vHint)
 {
-  
   var vInner = this.getInnerHeight();
-  
-  
+   
   if (this._iconObject) {
     this._iconObject._applyPositionVertical((vInner - this._iconObject.getPreferredHeight()) / 2);
   };
@@ -268,8 +266,8 @@ proto._layoutInternalWidgetsVertical = function(vHint)
     this._textObject._applyPositionVertical((vInner - this._textObject.getPreferredHeight()) / 2);
   };
 
-  if (this._hintObject) {
-    this._hintObject._applyPositionVertical((vInner - this._hintObject.getPreferredHeight()) / 2);
+  if (this._shortcutObject) {
+    this._shortcutObject._applyPositionVertical((vInner - this._shortcutObject.getPreferredHeight()) / 2);
   };
   
   if (this._arrowObject) {
@@ -283,14 +281,14 @@ proto._layoutInternalWidgetsVertical = function(vHint)
 
 proto._calculatedIconWidth = 0;
 proto._calculatedTextWidth = 0;
-proto._calculatedHintWidth = 0;
+proto._calculatedShortcutWidth = 0;
 proto._calculatedArrowWidth = 0;
 
 proto._measure = function()
 {
   this._calculatedIconWidth = this._displayIcon ? this._iconObject.getAnyWidth() : 0;
   this._calculatedTextWidth = this._displayText ? this._textObject.getAnyWidth() : 0;
-  this._calculatedHintWidth = this._displayHint ? this._hintObject.getAnyWidth() : 0;
+  this._calculatedShortcutWidth = this._displayShortcut ? this._shortcutObject.getAnyWidth() : 0;
   this._calculatedArrowWidth = this._displayArrow ? this._arrowObject.getAnyWidth() : 0;
 };
 
