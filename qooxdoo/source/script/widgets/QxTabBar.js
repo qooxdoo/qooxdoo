@@ -6,7 +6,7 @@ function QxTabBar()
   this.setRight(0);
 
   this._updatePlacement();
-  this._updateAlignment();
+  this._updateState();
 
   this._manager = new QxRadioButtonManager();
   this._manager.addEventListener("changeSelected", this._updatePage, this);
@@ -50,7 +50,8 @@ proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds
 
 proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this._updateAlignment();
+  this._updateState();
+  
   return true;
 };
 
@@ -78,8 +79,8 @@ proto._updatePage = function(e)
     newTab.getPage().setVisible(true);
   };
 
-  this._layoutInternalWidgetsVertical();
-  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical("change-active-tab");
+  this._layoutInternalWidgetsHorizontal("change-active-tab");
 };
 
 proto._updatePlacement = function()
@@ -95,10 +96,6 @@ proto._updatePlacement = function()
     this.setBottom(0);
   };
 
-  this._updateState();
-};
-
-proto._updateAlignment = function() {
   this._updateState();
 };
 
@@ -119,28 +116,34 @@ proto._updateState = function() {
 
 proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
+  // "position" will be called if we move a child
+  // we move the child here, so we don't need to handle this.
+  if (!isValidString(vHint) || vHint == "position") {
+    return;
+  };
+
   var vPane = this.getParent().getPane();
 
   if (!this.isCreated() || !vPane.isCreated()) {
     return true;
   };
-
-  var vLastLeft = this.getAlignTabsToLeft() ? vPane.getComputedBorderLeft() : vPane.getComputedBorderRight();
-
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-
+  
   if (this.getAlignTabsToLeft())
   {
     var vReset = "setRight";
     var vSet = "setLeft";
+    var vLastLeft = vPane.getComputedBorderLeft();
   }
   else
   {
     var vReset = "setLeft";
     var vSet = "setRight";
+    var vLastLeft = vPane.getComputedBorderRight();
   };
+
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
 
   for (var i=0; i<chl; i++)
   {
@@ -176,24 +179,27 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   if (!this.isCreated() || !vPane.isCreated()) {
     return true;
   };
-
-  var vPaneBorder = this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom();
+  
   var vActiveDiff = this.getActiveTabHeightDiff();
-
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
+  var vMax = this._maxHeight;
+  var vActiveMax = this._maxActiveHeight;
 
   if (this.getPlaceOnTop())
   {
     var vReset = "setBottom";
     var vSet = "setTop";
+    var vPaneBorder = vPane.getComputedBorderTop();
   }
   else
   {
     var vReset = "setTop";
     var vSet = "setBottom";
+    var vPaneBorder = vPane.getComputedBorderBottom();
   };
+
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
 
   for (var i=0; i<chl; i++)
   {
@@ -202,17 +208,17 @@ proto._layoutInternalWidgetsVertical = function(vHint)
     if (chc instanceof QxTab && chc.getVisible())
     {
       chc[vReset](null);
-      chc.setMinHeight(this._maxHeight);
 
       if (chc.getChecked())
       {
         chc[vSet](0);
-        chc.setHeight(this._maxActiveHeight);
+        chc.setHeight(vActiveMax);
       }
       else
       {
         chc[vSet](vActiveDiff);
         chc.setHeight("auto");
+        chc.setMinHeight(vMax);
       };
     };
   };
@@ -281,36 +287,12 @@ proto._innerWidthChanged = function()
 ------------------------------------------------------------------------------------
 */
 
-proto._childOuterWidthChanged = function(vModifiedChild, vHint)
-{
-  if (!this._wasVisible) {
-    return;
-  };
-
-  if (this.getWidth() == "auto")
-  {
-    return this._setChildrenDependWidth(vModifiedChild, vHint);
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal();
-  };
+proto._childOuterWidthChanged = function(vModifiedChild, vHint) {
+  return !this._wasVisible ? true : this.getWidth() == "auto" ? this._setChildrenDependWidth(vModifiedChild, vHint) : this._layoutInternalWidgetsHorizontal(vHint);
 };
 
-proto._childOuterHeightChanged = function(vModifiedChild, vHint)
-{
-  if (!this._wasVisible) {
-    return;
-  };
-
-  if (this.getHeight() == "auto")
-  {
-    return this._setChildrenDependHeight(vModifiedChild, vHint);
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical();
-  };
+proto._childOuterHeightChanged = function(vModifiedChild, vHint) {
+  return !this._wasVisible ? true : this.getHeight() == "auto" ? this._setChildrenDependHeight(vModifiedChild, vHint) : this._layoutInternalWidgetsVertical(vHint);
 };
 
 
@@ -334,8 +316,6 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
     return null;
   };
 
-  var vPaneBorder = this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom();
-
   var ch = this.getChildren();
   var chl = ch.length;
 
@@ -345,5 +325,5 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   };
 
   this._maxHeight = maxHeight;
-  return this._maxActiveHeight = maxHeight + this.getActiveTabHeightDiff() + vPaneBorder;
+  return this._maxActiveHeight = maxHeight + this.getActiveTabHeightDiff() + (this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom());
 };
