@@ -2,9 +2,12 @@ function QxMenuSeparator()
 {
   QxWidget.call(this);
   
+  this.setTimerCreate(false);
+  
   this._line = new QxWidget();
   this._line.setCssClassName("QxMenuSeparatorLine");
   this._line.setAnonymous(true);
+  this._line.setTimerCreate(false);
   
   this.add(this._line);
   

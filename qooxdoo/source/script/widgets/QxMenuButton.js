@@ -10,6 +10,8 @@ function QxMenuButton(vText, vIcon, vCommand, vMenu)
   // so sync all buttons to have at least this height
   this.setMinHeight(20);
 
+  this.setTimerCreate(false);
+
   if (isValidString(vText)) {
     this.setText(vText);
   };
