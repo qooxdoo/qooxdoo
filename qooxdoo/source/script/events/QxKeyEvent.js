@@ -66,6 +66,12 @@ QxKeyEvent.keys =
   numpad_plus : 107
 };
 
+// create dynamic codes copy
+QxKeyEvent.codes = {};
+for (var i in QxKeyEvent.keys) {
+  QxKeyEvent.codes[QxKeyEvent.keys[i]] = i;
+};
+
 // ******************************************************************************************************
 
 proto._domEvent = null;
