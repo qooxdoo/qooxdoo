@@ -4,45 +4,45 @@ function QxTabPane()
 
   this.setLeft(0);
   this.setRight(0);
-
-  this._updatePlacement();
-
+  
   this.setBorder(QxBorder.presets.outset);
 };
 
 QxTabPane.extend(QxWidget, "QxTabPane");
 
-QxTabPane.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : false });
-
-proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds) 
 {
-  this.getParent().setPlaceBarOnTop(!propValue, uniqModIds);
-  this._updatePlacement();
-
-  return true;
+  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);  
+  return this._applyState();
 };
 
-proto._updatePlacement = function()
+proto._modifyState = function(propValue, propOldValue, propName, uniqModIds) 
+{
+  QxWidget.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
+  return this._applyState();
+};
+
+proto._applyState = function()
 {
   var vParent = this.getParent();
-  if (!vParent) {
+  
+  if (!vParent || !this.isCreated()) {
     return;
   };
   
-  if (this.getPlaceOnTop())
-  {
-    this.setBottom(vParent.getBar().getPixelOfHeight() - 2);
-    this.setTop(0);
-    this.setState("top");
-  }
-  else
-  {
-    this.setTop(vParent.getBar().getPixelOfHeight() - 2);
-    this.setBottom(0);
-    this.setState("bottom");
-  };
-};
+  var vBarHeight = vParent.getBar().getPixelOfHeight();
 
-proto._onlayout = function() {
-  this._updatePlacement();
+  switch(this.getState())
+  {
+    case "top":
+      this.setBottom(vBarHeight - this.getComputedBorderBottom());
+      this.setTop(0);
+      break;      
+
+    default:
+      this.setTop(vBarHeight - this.getComputedBorderTop());
+      this.setBottom(0);
+  };
+  
+  return true;
 };

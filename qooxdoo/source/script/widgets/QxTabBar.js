@@ -17,6 +17,53 @@ QxTabBar.extend(QxToolBar, "QxTabBar");
 QxTabBar.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : true });
 QxTabBar.addProperty({ name : "alignTabsToLeft", type : Boolean, defaultValue : true });
 
+
+/*
+------------------------------------------------------------------------------------
+  UTILITY
+------------------------------------------------------------------------------------
+*/
+
+proto.getManager = function() {
+  return this._manager;
+};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIERS
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this.getParent().setPlaceBarOnTop(propValue, uniqModIds);
+  this._updatePlacement();
+
+  return true;
+};
+
+proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._updateAlignment();
+  return true;
+};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UPDATE
+------------------------------------------------------------------------------------
+*/
+
 proto._updatePage = function(e)
 {
   var oldTab = e.getOldValue();
@@ -31,18 +78,6 @@ proto._updatePage = function(e)
   };
   
   this._layoutInternalWidgetsVertical();
-};
-
-proto.getManager = function() {
-  return this._manager;
-};
-
-proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this.getParent().setPlaceBarOnTop(propValue, uniqModIds);
-  this._updatePlacement();
-
-  return true;
 };
 
 proto._updatePlacement = function()
@@ -61,20 +96,24 @@ proto._updatePlacement = function()
   this._updateState();
 };
 
-proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._updateAlignment();
-  return true;
-};
-
 proto._updateAlignment = function() {
   this._updateState();
 };
 
-proto._updateState = function() 
-{
+proto._updateState = function() {
   this.setState((this.getPlaceOnTop() ? "top" : "bottom") + (this.getAlignTabsToLeft() ? "Left" : "Right"));
 };
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  LAYOUTER
+------------------------------------------------------------------------------------
+*/
 
 proto._layoutInternalWidgetsVertical = function(vHint) 
 {
@@ -185,6 +224,18 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  BASICS
+  
+  Extend this core functions of QxWidget.
+------------------------------------------------------------------------------------
+*/
+
 proto._onnewchild = function(otherObject)
 {
   if (this.getHeight() == "auto") 
@@ -209,6 +260,17 @@ proto._onremovechild = function(otherObject)
   };
 };
 
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: INNER DIMENSION SIGNAL
+
+  should be called always when the inner dimension have been modified
+------------------------------------------------------------------------------------
+*/
+
 proto._innerHeightChanged = function()
 {
   // Invalidate internal cache
@@ -217,6 +279,16 @@ proto._innerHeightChanged = function()
   // Update placement of icon and text
   this._layoutInternalWidgetsVertical("inner-height");
 };
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    AUTO CALCULATOR
+  -------------------------------------------------------------------------------
+*/
 
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
 {
