@@ -521,6 +521,7 @@ __DATA__
   <package name="combobox">
     <depends>list</depends>
     <depends>widget</depends>
+    <depends>image</depends>
     
     <class>QxComboBox</class>
   </package>
@@ -580,6 +581,7 @@ __DATA__
   <package name="listview">
     <depends>widget</depends>
     <depends>timer</depends>
+    <depends>image</depends>
     
     <class>QxListView</class>
   </package>
@@ -587,6 +589,7 @@ __DATA__
   <package name="spinner">
     <depends>widget</depends>
     <depends>range</depends>
+    <depends>image</depends>
     
     <class>QxSpinner</class>
   </package>  

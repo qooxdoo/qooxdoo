@@ -45,10 +45,6 @@ QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
 QxMenuButton.addProperty({ name : "menu", type : Object });
 
-QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
-
-
-
 
 
 
@@ -193,7 +189,7 @@ proto._pureCreateFillShortcut = function()
 proto._pureCreateFillArrow = function()
 {
   var a = this._arrowObject = new QxImage();
-  a.setSource(this.getArrow());
+  a.setSource("widgets/arrows/next.gif");
 
   a.setAnonymous(true);
   a.setEnabled(this.isEnabled());

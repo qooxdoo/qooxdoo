@@ -71,10 +71,6 @@ function QxListView(columns)
 
 QxListView.extend(QxWidget, "QxListView");
 
-QxListView._blankURI = "../../images/core/blank.gif";
-QxListView._sortUpURI = "../../images/core/arrows/up.gif";
-QxListView._sortDownURI = "../../images/core/arrows/down.gif";
-
 QxListView._useFragment = Boolean(document.createDocumentFragment);
 
 proto._initialRowCount = 100;
@@ -469,7 +465,7 @@ proto._validateDataDefaultGetter = function(cType)
       return String.fromCharCode(160);
 
     case "image":
-      return QxListView._blankURI;
+      return (new QxImageManager).buildURI("core/blank.gif");
 
     // ******************************
     // EXTEND WITH NEW TYPES HERE
@@ -1446,7 +1442,7 @@ QxListView.init = function()
   h12.className = "QxListViewHeaderInnerTextBox";
   h13.className = "QxListViewHeaderInnerSortImage";
 
-  h13.src = QxListView._sortDownURI;
+  h13.src = (new QxImageManager).buildURI("widgets/arrows/down.gif");
   h13.style.visibility = "hidden";
 
   h2.cellSpacing = h2.cellPadding = "0";
@@ -1521,7 +1517,7 @@ QxListView.init = function()
     // ******************************
   };
 
-  QxListView._protoTypeElements.image.src = QxListView._blankURI;
+  QxListView._protoTypeElements.image.src = (new QxImageManager).buildURI("core/blank.gif");
 };
 
 QxListView.init();

@@ -8,8 +8,8 @@ function QxImageManager()
   this.addIconTheme("Crystal SVG", "crystalsvg");
   this.addIconTheme("Nuvola", "nuvola");
   
-  // Add default cursor themes
-  this.addCursorTheme("Windows", "windows");
+  // Add default widget themes
+  this.addWidgetTheme("Windows", "windows");
 
   QxManager.call(this);
   
@@ -19,11 +19,12 @@ function QxImageManager()
 QxImageManager.extend(QxManager, "QxImageManager");
 
 QxImageManager.addProperty({ name : "path", type : String, defaultValue : "../../images/" });
+
 QxImageManager.addProperty({ name : "iconTheme", type : String, defaultValue : "crystalsvg" });
-QxImageManager.addProperty({ name : "cursorTheme", type : String, defaultValue : "windows" });
+QxImageManager.addProperty({ name : "widgetTheme", type : String, defaultValue : "windows" });
 
 proto._iconThemes = {};
-proto._cursorThemes = {};
+proto._widgetThemes = {};
 
 
 
@@ -54,13 +55,15 @@ proto.buildURI = function(vPath)
         case "file":
           return vPath;
       };
-      
-      if (vPath.substring(0, 5) == "icons") {
-        return this.getPath() + "icons/" + this.getIconTheme() + "/" + vPath.substring(6);
-      };
 
-      if (vPath.substring(0, 7) == "cursors") {
-        return this.getPath() + "cursors/" + this.getCursorTheme() + "/" + vPath.substring(8);
+      // Fix path for theme support      
+      if (vPath.indexOf("icons") == 0) 
+      {
+        return this.getPath() + "icons/" + this.getIconTheme() + "/" + vPath.substring(6);
+      }
+      else if (vPath.indexOf("widgets") == 0) 
+      {
+        return this.getPath() + "widgets/" + this.getWidgetTheme() + "/" + vPath.substring(8);
       };
 
       return this.getPath() + vPath;
@@ -111,9 +114,9 @@ proto._checkIconTheme = function(propValue)
     return propValue;
   };
   
-  for (var i in this._themes) 
+  for (var i in this._iconThemes) 
   {
-    if (this._iconThemes.title == propValue) {
+    if (this._iconThemes[i].title == propValue) {
       return i;
     };
   };
@@ -169,63 +172,63 @@ proto.removeIconTheme = function(vHash, vTitle, vId)
 
 /*
 ------------------------------------------------------------------------------------
-  CURSOR THEME MANAGMENT
+  CORE THEME MANAGMENT
 ------------------------------------------------------------------------------------
 */
 
-proto._checkCursorTheme = function(propValue)
+proto._checkWidgetTheme = function(propValue)
 {
-  if (this._cursorThemes[propValue]) {
+  if (this._widgetThemes[propValue]) {
     return propValue;
   };
   
-  for (var i in this._themes) {
-    if (this._cursorThemes.title == propValue) {
+  for (var i in this._widgetThemes) {
+    if (this._widgetThemes[i].title == propValue) {
       return i;
     };
   };
   
-  throw new Error("Invalid cursor theme id/title: " + propValue + "!");
+  throw new Error("Invalid widget theme id/title: " + propValue + "!");
 };
 
-proto._modifyCursorTheme = function(propValue, propOldValue, propName, uniqModIds) {
+proto._modifyWidgetTheme = function(propValue, propOldValue, propName, uniqModIds) {
   return this._updateImages();  
 };
 
-proto.addCursorTheme = function(vHash, vTitle, vId, vPath)
+proto.addWidgetTheme = function(vHash, vTitle, vId, vPath)
 {
   if (isInvalidString(vTitle)) {
-    throw new Error("Please define the title of the new cursor theme.");
+    throw new Error("Please define the title of the new widget theme.");
   };
   
   if (isInvalidString(vId)) {
     var vId = vTitle.toLowerCase();
   };
   
-  if (this._cursorThemes[vId]) {
+  if (this._widgetThemes[vId]) {
     throw new Error("Theme is already defined: " + vId);
   };
   
-  this._cursorThemes[vId] = { title : vTitle, path : vPath ? vPath : vId };
+  this._widgetThemes[vId] = { title : vTitle, path : vPath ? vPath : vId };
 };
 
-proto.removeCursorTheme = function(vHash, vTitle, vId)
+proto.removeWidgetTheme = function(vHash, vTitle, vId)
 {
   if (isInvalidString(vTitle)) {
-    throw new Error("Please define the title of the cursor theme which should be removed.");
+    throw new Error("Please define the title of the widget theme which should be removed.");
   };
   
   if (isInvalidString(vId)) {
     var vId = vTitle.toLowerCase();
   };
   
-  if (this.getDefaultCursorTheme() == vId) {
-    throw new Error("Could not remove default theme " + this.getDefaultCursorTheme() + "!");
+  if (this.getDefaultWidgetTheme() == vId) {
+    throw new Error("Could not remove default theme " + this.getDefaultWidgetTheme() + "!");
   };
 
-  if (this.getCursorTheme() == vId) {
-    this.resetCursorTheme();
+  if (this.getWidgetTheme() == vId) {
+    this.resetWidgetTheme();
   };
   
-  delete this._cursorThemes[vId];
+  delete this._widgetThemes[vId];
 };

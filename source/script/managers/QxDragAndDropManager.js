@@ -16,7 +16,7 @@ function QxDragAndDropManager()
   
   for (var i=0; i<a.length; i++)
   {
-    c = this._cursors[a[i]] = new QxImage("cursors/" + a[i] + ".gif");
+    c = this._cursors[a[i]] = new QxImage("widgets/cursors/" + a[i] + ".gif");
     
     c.setTimerCreate(false);
     c.setStyleProperty("top", "-1000px");

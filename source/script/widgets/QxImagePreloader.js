@@ -8,7 +8,7 @@ function QxImagePreloader(vSource)
   if(m.has(vSource)) {
     return m.get(vSource);
   };
-
+  
   QxTarget.call(this);
 
   // Create Image-Node

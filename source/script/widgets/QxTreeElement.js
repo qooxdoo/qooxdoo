@@ -9,6 +9,22 @@ function QxTreeElement(vLabel)
 
   // the tree is internally a nested unordered list
   this.setTagName("li");
+  
+  // build correct uris for images
+  var im = new QxImageManager();
+  
+  this._navigationLineURI = im.buildURI("widgets/tree/line.gif");
+
+  this._navigationCrossURI = im.buildURI("widgets/tree/cross.gif");
+  this._navigationCrossPlusURI = im.buildURI("widgets/tree/cross_plus.gif");
+  this._navigationCrossMinusURI = im.buildURI("widgets/tree/cross_minus.gif");
+
+  this._navigationEndURI = im.buildURI("widgets/tree/end.gif");
+  this._navigationEndPlusURI = im.buildURI("widgets/tree/end_plus.gif");
+  this._navigationEndMinusURI = im.buildURI("widgets/tree/end_minus.gif");
+
+  this._navigationSimplePlusURI = im.buildURI("widgets/tree/plus.gif");
+  this._navigationSimpleMinusURI = im.buildURI("widgets/tree/minus.gif");
 
   // event handler
   this.addEventListener("click", this._onclick);
@@ -41,27 +57,6 @@ QxTreeElement.addProperty({ name : "label", type : String });
 QxTreeElement.addProperty({ name : "level", type : Number, defaultValue : 1 });
 QxTreeElement.addProperty({ name : "active", type : Boolean, defaultValue : false });
 QxTreeElement.addProperty({ name : "parentTree" });
-
-
-/*
-  -------------------------------------------------------------------------------
-    IMAGE URIS
-  -------------------------------------------------------------------------------
-*/
-
-proto._navigationLineURI = "../../images/widgets/tree/line.gif";
-
-proto._navigationCrossURI = "../../images/widgets/tree/cross.gif";
-proto._navigationCrossPlusURI = "../../images/widgets/tree/cross_plus.gif";
-proto._navigationCrossMinusURI = "../../images/widgets/tree/cross_minus.gif";
-
-proto._navigationEndURI = "../../images/widgets/tree/end.gif";
-proto._navigationEndPlusURI = "../../images/widgets/tree/end_plus.gif";
-proto._navigationEndMinusURI = "../../images/widgets/tree/end_minus.gif";
-
-proto._navigationSimplePlusURI = "../../images/widgets/tree/plus.gif";
-proto._navigationSimpleMinusURI = "../../images/widgets/tree/minus.gif";
-
 
 
 

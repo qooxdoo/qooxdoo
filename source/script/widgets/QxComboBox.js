@@ -50,7 +50,7 @@ function QxComboBox()
   this._button = new QxWidget();
   this._button.set({ top: 0, bottom: 0, width: 16, right: 0, border: QxBorder.presets.outset, canSelect : false });
   
-  this._buttonimage = new QxImage(QxComboBox._arrowImage, 7, 4);
+  this._buttonimage = new QxImage("widgets/arrows/down.gif", 7, 4);
   this._buttonimage.set({ top: 5, left: 2 });
   
   this._button.add(this._buttonimage);
@@ -88,16 +88,6 @@ QxComboBox.addProperty({ name: "value", type: Object });
 QxComboBox.addProperty({ name: "pagingInterval", type: Number, defaultValue: 10 });
 QxComboBox.addProperty({ name: "maxListHeight", type: Number, defaultValue: 180 });
 
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    CONFIGURATION
-  -------------------------------------------------------------------------------
-*/
-
-QxComboBox._arrowImage = "../../images/core/arrows/down.gif";
 
 
 

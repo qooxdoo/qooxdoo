@@ -47,12 +47,6 @@ L="$L widgets/QxTextField"
 L="$L widgets/QxPasswordField"
 L="$L widgets/QxTextArea"
 
-# Other Widgets
-L="$L widgets/QxForm"
-L="$L widgets/QxListView"
-L="$L widgets/QxFieldSet"
-L="$L widgets/QxIframe"
-
 # Timer Support
 L="$L managers/QxTimerManager"
 L="$L core/QxTimer"
@@ -89,6 +83,12 @@ L="$L widgets/QxPopup"
 # Tooltip Support
 L="$L managers/QxToolTipManager"
 L="$L widgets/QxToolTip"
+
+# Other Widgets
+L="$L widgets/QxForm"
+L="$L widgets/QxListView"
+L="$L widgets/QxFieldSet"
+L="$L widgets/QxIframe"
 
 # ToolBar Support
 L="$L widgets/QxToolBar"
