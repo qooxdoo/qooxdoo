@@ -2,8 +2,9 @@
 
 cd `dirname $0`/..
 
-chmod og+x tools/*.sh
-chmod og+x tools/*.py
+chmod ug+x tools/*.sh
+chmod ug+x tools/*.py
+chmod ug+x tools/*.pl
 
 tools/makesource.sh
 tools/makepublic.sh

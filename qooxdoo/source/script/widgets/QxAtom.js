@@ -896,6 +896,61 @@ proto._cloneRecursive = function(cloneInstance)
 
 
 
+
+
+
+
+
+
+
+
+
+/*!
+  Get the preferred width of the widget.
+*/
+proto.getPreferredWidth = function()
+{
+  if (this.getWidth() == "auto") 
+  {
+    if (!this._wasVisible) {
+      this._renderHorizontal("initial"); 
+    };
+  
+    return this._pixelof_width;
+  };
+
+  if (this._preferred_width == null && this.getChildrenLength() > 0) {
+    this._preferred_width = this._calculateChildrenDependWidth() + this.getComputedPaddingLeft() + this.getComputedPaddingRight() + this.getComputedInsetLeft() + this.getComputedInsetRight();
+  };
+
+  return this._preferred_width;
+};
+
+/*!
+  Get the preferred height of the widget.
+*/
+
+proto.getPreferredHeight = function()
+{
+  if (this.getHeight() == "auto") 
+  {
+    if (!this._wasVisible) {
+      this._renderVertical("initial"); 
+    };
+  
+    return this._pixelof_height;
+  };
+
+  if (this._preferred_height == null && this.getChildrenLength() > 0) {
+    this._preferred_height = this._calculateChildrenDependHeight() + this.getComputedPaddingTop() + this.getComputedPaddingBottom() + this.getComputedInsetTop() + this.getComputedInsetBottom();  
+  };
+  
+  return this._preferred_height;
+};
+
+
+
+
 /*
 ------------------------------------------------------------------------------------
   DISPOSER
