@@ -26,6 +26,13 @@ function QxBorder(bWidth, bStyle, bColor)
 
 QxBorder.extend(QxTarget, "QxBorder");
 
+
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
+
 QxBorder.addProperty({ name : "topWidth", type : Number, defaultValue : 0, impl : "borderTopProperty" });
 QxBorder.addProperty({ name : "rightWidth", type : Number, defaultValue : 0, impl : "borderRightProperty" });
 QxBorder.addProperty({ name : "bottomWidth", type : Number, defaultValue : 0, impl : "borderBottomProperty" });
@@ -41,8 +48,24 @@ QxBorder.addProperty({ name : "rightColor", type : QxColor, defaultValue : "tran
 QxBorder.addProperty({ name : "bottomColor", type : QxColor, defaultValue : "transparent", impl : "borderBottomProperty" });
 QxBorder.addProperty({ name : "leftColor", type : QxColor, defaultValue : "transparent", impl : "borderLeftProperty" });
 
+
+
+/*
+------------------------------------------------------------------------------------
+  HELPER
+------------------------------------------------------------------------------------
+*/
+
 QxBorder.styleDecl = { top : "borderTop", right : "borderRight", bottom : "borderBottom", left : "borderLeft" };
 QxBorder.geckoColorDecl = { top : "MozBorderTopColors", right : "MozBorderRightColors", bottom : "MozBorderBottomColors", left : "MozBorderLeftColors" };
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UTILITY
+------------------------------------------------------------------------------------
+*/
 
 QxBorder.fromString = function(s)
 {
@@ -86,37 +109,22 @@ QxBorder.fromString = function(s)
   return b;
 };
 
-
-proto.dispose = function()
+proto._generateDefString = function(bWidth, bStyle, bColor)
 {
-  if (typeof this._widgets == "object") {
-    for (var i; i<this._widgets.length; i++) {
-      delete this._widgets[i];
-    };
-  };
+  var sWidth = typeof bWidth == "number" && bWidth >= 0 && bWidth < 1000 ? bWidth + "px" : "0px";
+  var bStyle = typeof bStyle == "string" && bStyle != "" ? bStyle : "solid";
+  var bColor = typeof bColor == "string" ? bColor : "";
 
-  delete this._widgets;
-
-  if (typeof this._props == "object") {
-    for (var i in this._props) {
-      delete this._props[i];
-    };
-  };
-
-  delete this._props;
-
-  if (typeof this._defs == "object") {
-    for (var i in this._defs) {
-      delete this._defs[i];
-    };
-  };
-
-  delete this._defs;
-
-  return QxTarget.prototype.dispose.call(this);
+  return sWidth + " " + bStyle + " " + (bColor != "" ? " " + bColor : "");
 };
 
 
+
+/*
+------------------------------------------------------------------------------------
+  WIDGET CONNECTION
+------------------------------------------------------------------------------------
+*/
 
 /*!
 Add widget to use this border
@@ -143,6 +151,11 @@ proto.removeWidget = function(o)
 
 
 
+/*
+------------------------------------------------------------------------------------
+  COMBINED SETTERS
+------------------------------------------------------------------------------------
+*/
 
 proto.setWidth = function(bWidth, uniqModIds)
 {
@@ -174,14 +187,15 @@ proto.setColor = function(bColor, uniqModIds)
   return true;
 };
 
-proto._generateDefString = function(bWidth, bStyle, bColor)
-{
-  var sWidth = typeof bWidth == "number" && bWidth >= 0 && bWidth < 1000 ? bWidth + "px" : "0px";
-  var bStyle = typeof bStyle == "string" && bStyle != "" ? bStyle : "solid";
-  var bColor = typeof bColor == "string" ? bColor : "";
 
-  return sWidth + " " + bStyle + " " + (bColor != "" ? " " + bColor : "");
-};
+
+
+
+/*
+------------------------------------------------------------------------------------
+  BORDER MODIFIER AND SYNCER
+------------------------------------------------------------------------------------
+*/
 
 proto._modifyBorderTopProperty = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -390,6 +404,16 @@ proto._sync = function(bProp)
   };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  BORDER APPLY IMPLEMENTATION
+------------------------------------------------------------------------------------
+*/
+
 if ((new QxClient).isGecko())
 {
   proto._applyWidgetProp = function(o, bProp)
@@ -492,10 +516,12 @@ else
 
 
 
-
 /*
-  Some presets for common border styles
+------------------------------------------------------------------------------------
+  PRESETS
+------------------------------------------------------------------------------------
 */
+
 QxBorder.presets = {
   inset : new QxBorder(2, "inset"),
   outset : new QxBorder(2, "outset"),
@@ -518,4 +544,42 @@ with(QxBorder.presets.thinInset) {
 with(QxBorder.presets.thinOutset) {
   setLeftColor("ThreeDHighlight");
   setTopColor("ThreeDHighlight");
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (typeof this._widgets == "object") {
+    for (var i; i<this._widgets.length; i++) {
+      delete this._widgets[i];
+    };
+  };
+
+  delete this._widgets;
+
+  if (typeof this._props == "object") {
+    for (var i in this._props) {
+      delete this._props[i];
+    };
+  };
+
+  delete this._props;
+
+  if (typeof this._defs == "object") {
+    for (var i in this._defs) {
+      delete this._defs[i];
+    };
+  };
+
+  delete this._defs;
+
+  return QxTarget.prototype.dispose.call(this);
 };
