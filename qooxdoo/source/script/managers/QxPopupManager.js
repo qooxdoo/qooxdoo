@@ -15,9 +15,9 @@ proto.update = function(oTarget)
 {
   var p;
   
-  for (var hc in this._objects)
+  for (var vHash in this._objects)
   {
-    p = this._objects[hc];
+    p = this._objects[vHash];
     
     if(!p.getAutoHide()) {
       continue;
