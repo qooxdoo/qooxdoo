@@ -31,7 +31,7 @@ QxMenu.extend(QxPopup, "QxMenu");
 */
 
 QxMenu.addProperty({ name : "iconContentGap", type : Number, defaultValue : 4 });
-QxMenu.addProperty({ name : "textHintGap", type : Number, defaultValue : 10 });
+QxMenu.addProperty({ name : "textShortcutGap", type : Number, defaultValue : 10 });
 QxMenu.addProperty({ name : "contentArrowGap", type : Number, defaultValue : 6 });
 
 QxMenu.addProperty({ name : "hoverItem", type : Object });
@@ -46,9 +46,10 @@ QxMenu.addProperty({ name : "closeInterval", type : Number, defaultValue : 250 }
 QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -6 });
 QxMenu.addProperty({ name : "subMenuVerticalOffset", type : Number, defaultValue : -2 });
 
-QxMenu.addProperty({ name : "minIconWidth", type : Number, defaultValue: 16 });
-QxMenu.addProperty({ name : "minArrowWidth", type : Number, defaultValue: 4 });
-
+QxMenu.addProperty({ name : "defaultIconWidth", type : Number, defaultValue: 16 });
+QxMenu.addProperty({ name : "defaultIconHeight", type : Number, defaultValue: 16 });
+QxMenu.addProperty({ name : "defaultArrowWidth", type : Number, defaultValue: 4 });
+QxMenu.addProperty({ name : "defaultArrowHeight", type : Number, defaultValue: 7 });
 
 
 
@@ -167,10 +168,10 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   var vMaxPaddingLeft = 0;
   var vMaxPaddingRight = 0;
   
-  var vMaxIconWidth = this.getMinIconWidth();
+  var vMaxIconWidth = this.getDefaultIconWidth();
   var vMaxTextWidth = 0;
-  var vMaxHintWidth = 0;
-  var vMaxArrowWidth = this.getMinArrowWidth();
+  var vMaxShortcutWidth = 0;
+  var vMaxArrowWidth = this.getDefaultArrowWidth();
 
   var vMaxTextWidth = 0;
   var vMaxContentWidth = 0;
@@ -178,7 +179,7 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   // Cache gaps
   var vIconContentGap = this.getIconContentGap();
   var vContentArrowGap = this.getContentArrowGap();
-  var vTextHintGap = this.getTextHintGap();  
+  var vTextShortcutGap = this.getTextShortcutGap();  
 
   // Prepare children loop
   var ch = this.getChildren();
@@ -197,10 +198,10 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
       vMaxIconWidth = Math.max(vMaxIconWidth, chc._calculatedIconWidth);
       vMaxArrowWidth = Math.max(vMaxArrowWidth, chc._calculatedArrowWidth);    
       
-      if (chc._calculatedHintWidth > 0)
+      if (chc._calculatedShortcutWidth > 0)
       {
         vMaxTextWidth = Math.max(vMaxTextWidth, chc._calculatedTextWidth);
-        vMaxHintWidth = Math.max(vMaxHintWidth, chc._calculatedHintWidth);
+        vMaxShortcutWidth = Math.max(vMaxShortcutWidth, chc._calculatedShortcutWidth);
       }
       else
       {
@@ -210,12 +211,12 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   };
 
   // Calculate content max value
-  vMaxContentWidth = Math.max(vMaxContentWidth, (vMaxTextWidth + vTextHintGap + vMaxHintWidth));
+  vMaxContentWidth = Math.max(vMaxContentWidth, (vMaxTextWidth + vTextShortcutGap + vMaxShortcutWidth));
 
   // Cache positions for children layout  
   this._childIconPosition = vMaxPaddingLeft;
   this._childTextPosition = this._childIconPosition + vMaxIconWidth + vIconContentGap;
-  this._childHintPosition = this._childTextPosition + vMaxTextWidth + vTextHintGap;
+  this._childShortcutPosition = this._childTextPosition + vMaxContentWidth - vMaxShortcutWidth;
   this._childArrowPosition = this._childTextPosition + vMaxContentWidth + vContentArrowGap;
 
   // Apply new inner width
