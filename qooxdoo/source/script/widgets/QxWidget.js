@@ -809,7 +809,7 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
         // this.subug("layout mode: auto");
 
         this._createChildren();
-
+        
         if (vAutoWidth) {
           this._setChildrenDependWidth();
         };
@@ -818,8 +818,6 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
           this._setChildrenDependHeight();
         };
         
-        // this.debug("render...");
-
         this._render("initial");
         this._wasVisible = true;
       }
@@ -2860,10 +2858,6 @@ proto._dependHeightCache = null;
 
 proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, vStart, vRange, vStop)
 {
-  if (this instanceof QxToolBarButton)
-  this.debug("_calculateChildrenDependHelper: " + vModifiedWidget + ", " + vHint);
-  
-  
   if (this[vCache] == null || this[vCache].length == 0)
   {
     var vChildren = this.getChildren();
@@ -2872,20 +2866,24 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
     if (vChildrenLength == 0) {
       return null;
     };
-
+    
     var vDependCache = this[vCache] = [];
     var vCurrentChild;
+    var vCurrentNeeded;
 
     for (var i=0; i<vChildrenLength; i++)
     {
       vCurrentChild = vChildren[i];
 
-      if(vCurrentChild.isCreated()) {
+      if(vCurrentChild.isCreated()) 
+      {
+        vCurrentNeeded = vCurrentChild._computeNeededSize(vStart, vRange, vStop);
+        
         // this.debug("Child: " + vCurrentChild._computeNeededSize(vStart, vRange, vStop));
-        vDependCache.push({ widget : vCurrentChild, size : vCurrentChild._computeNeededSize(vStart, vRange, vStop)});
+        vDependCache.push({ widget : vCurrentChild, size : vCurrentNeeded ? vCurrentNeeded : 0 });
       };
     };
-
+    
     vDependCache.sort(this._compareDependSize);
   }
   else
@@ -2904,13 +2902,15 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
       };
       
       // this.debug("POST-FIX: " + vRange + " : " + vModifiedWidget);
-    };    
+    };
     
     if (vModifiedWidget && vModifiedWidget != this)
     {
       var vDependCache = this[vCache];
       var vDependCacheLength = vDependCache.length;
+      
       var vChildFound = false;
+      var vCurrentNeeded;
       
       if (vHint != "add")
       {
@@ -2922,7 +2922,8 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
             if (vModifiedWidget.getParent() == this)
             {
               // this.debug("Update for: " + vModifiedWidget);
-              vDependCache[i].size = vModifiedWidget._computeNeededSize(vStart, vRange, vStop);
+              vCurrentNeeded = vModifiedWidget._computeNeededSize(vStart, vRange, vStop);
+              vDependCache[i].size = vCurrentNeeded ? vCurrentNeeded : 0;
             }
   
             // Remove child from array
@@ -2942,7 +2943,8 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
       {
         if(vModifiedWidget.getParent() == this)
         {
-          vDependCache.push({ widget : vModifiedWidget, size : vModifiedWidget._computeNeededSize(vStart, vRange, vStop)});
+          vCurrentNeeded = vModifiedWidget._computeNeededSize(vStart, vRange, vStop);
+          vDependCache.push({ widget : vModifiedWidget, size : vCurrentNeeded ? vCurrentNeeded : 0 });
         }
         else
         {
