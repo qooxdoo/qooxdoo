@@ -488,6 +488,8 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     {
       el.value = this.resetValue();  
       this._textfield.selectAll();
+      
+      return;
     };
   }
   else  
@@ -513,7 +515,10 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     // fix for negative integer handling  
     if (val == "-" && acceptEmpty && this.getMin() < 0) 
     {
-      el.value = val;
+      if (el.value != val) {
+        el.value = val;
+      };
+      
       return;
     };
     
@@ -551,10 +556,10 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     };
     
     // apply value fix
-    if (doFix) {
+    if (doFix && el.value != fixedVal) {
       el.value = fixedVal;
     };
-    
+  
     // inform manager
     if (!acceptEdit) {
       this._manager.setValue(fixedVal);
