@@ -9,6 +9,7 @@ function QxEventManager(vClientWindow)
   var o = this;
   this.__onmouseevent = function(e) { return o._onmouseevent(e); };
   this.__onkeyevent = function(e) { return o._onkeyevent(e); };
+  this.__ondragevent = function(e) { return o._ondragevent(e); };
 
   // Some Window Events
   this.__onwindowblur = function(e) { return o._onwindowblur(e); };
@@ -25,6 +26,7 @@ QxEventManager.extend(QxManager, "QxEventManager");
 
 QxEventManager.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", (new QxClient).isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
 QxEventManager.keyEventTypes = [ "keydown", "keypress", "keyup" ];
+QxEventManager.dragEventTypes = (new QxClient).isGecko() ? [ "dragdrop", "dragenter", "dragexit", "draggesture", "dragover" ] : [];
 
 QxEventManager.addProperty({ name : "allowClientContextMenu", type : Boolean, defaultValue : false });
 QxEventManager.addProperty({ name : "captureWidget" });
@@ -74,8 +76,9 @@ proto._modifyCaptureWidget = function(propValue, propOldValue, propName, uniqMod
 
 proto.attachEvents = function(clientWindow)
 {
-  if (this._attachedClientWindow)
+  if (this._attachedClientWindow) {
     return false;
+  };
 
   //this.debug("Attach to clientWindow");
 
@@ -84,6 +87,7 @@ proto.attachEvents = function(clientWindow)
   // Add dom events
   this.attachEventTypes(QxEventManager.mouseEventTypes, this.__onmouseevent);
   this.attachEventTypes(QxEventManager.keyEventTypes, this.__onkeyevent);
+  this.attachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
   // Add window events
   var winElem = clientWindow.getElement();
@@ -95,8 +99,9 @@ proto.attachEvents = function(clientWindow)
 
 proto.detachEvents = function()
 {
-  if (!this._attachedClientWindow)
+  if (!this._attachedClientWindow) {
     return false;
+  };
 
   // Remove window events
   var winElem = this._attachedClientWindow.getElement();
@@ -105,6 +110,7 @@ proto.detachEvents = function()
   // Remove dom events
   this.detachEventTypes(QxEventManager.mouseEventTypes, this.__onmouseevent);
   this.detachEventTypes(QxEventManager.keyEventTypes, this.__onkeyevent);
+  this.detachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
   this._attachedClientWindow = null;
 };
@@ -202,6 +208,18 @@ proto._getTargetObject = function(n)
 };
 
 
+
+/*
+  -------------------------------------------------------------------------------
+    DRAG EVENTS
+    
+    Currently only to stop non needed events
+  -------------------------------------------------------------------------------
+*/
+
+proto._ondragevent = function(e) {
+  e.preventDefault();
+};
 
 
 /*
@@ -353,12 +371,6 @@ else
       t = "mousewheel";
     }
 
-    // Omit mozillas included image drag&drop implementation
-    else if (t == "mousedown" && e.target.tagName == "IMG")
-    {
-      e.preventDefault();
-    }
-
     // ignore click or dblclick events with other then the left mouse button
     else if ((t == "click" || t == "dblclick") && e.button != QxMouseEvent.buttons.left)
     {
@@ -386,8 +398,6 @@ proto._onmouseevent_post = function(e, t)
   {
     this._onactivateevent(e);
   };
-
-  //window.status = (new Date).valueOf() + " :: " + e.type + " :: " + this.getCaptureWidget() + " :: " + e.target;
 
   if (this.getCaptureWidget())
   {
@@ -426,12 +436,8 @@ proto._onmouseevent_post = function(e, t)
     };
   };
 
-  // window.status = "TARGET: " + o;
-
-
   // Create Mouse Event Object
   var s = new QxMouseEvent(t, e, false);
-
 
   // Store last Event in MouseEvent Constructor
   // Needed for Tooltips, ...
@@ -449,7 +455,6 @@ proto._onmouseevent_post = function(e, t)
   if (t == "mousedown" && !s.getPropagationStopped()) {
     (new QxMenuManager).update();
   };
-
 
   // Handle Special Post Events
   if (typeof QxToolTipManager == "function")
