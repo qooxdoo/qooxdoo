@@ -665,6 +665,11 @@ proto.handleMouseDown = function(vItem, e)
     return;
   };
 
+  // Keep selection on right click on already selected item
+  if (e.isRightButton() && this.getItemSelected(vItem)) {
+    return;
+  };
+
   // Shift Key
   //   or
   // Click on an unseleted item (without Strg)
