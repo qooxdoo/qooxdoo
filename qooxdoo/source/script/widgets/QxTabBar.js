@@ -72,3 +72,9 @@ proto._updateAlignment = function() {
 proto._updateState = function() {
   this.setState((this.getPlaceOnTop() ? "top" : "bottom") + (this.getAlignTabsToLeft() ? "Left" : "Right"));
 };
+
+/*
+proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) {
+  return this._calculateChildrenDependHelper(vModifiedWidget, vHint, "_dependHeightCache", "top", "height", "bottom") + 3;
+};
+*/

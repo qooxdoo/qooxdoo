@@ -1,14 +1,38 @@
 function QxTab(vText, vIcon, vChecked)
 {
-  QxToolBarRadioButton.call(this, vText, vIcon, vChecked);
+  QxToolBarButton.call(this, vText, vIcon);
 
-  this.setDisableUncheck(true);
   this.addEventListener("keyup", this._onkeyup);
+  
+  this.setTop(3);
+  this.setBottom(null);
+  this.setHeight("auto");
+  
+  if (isValid(vChecked)) {
+    this.setChecked(vChecked);
+  };
 };
 
-QxTab.extend(QxToolBarRadioButton, "QxTab");
+QxTab.extend(QxToolBarButton, "QxTab");
 
 QxTab.addProperty({ name : "page", type : Object });
+QxTab.addProperty({ name : "group" });
+QxTab.addProperty({ name : "name", type : String });
+QxTab.addProperty({ name : "checked", type : Boolean });
+
+
+proto._modifyGroup = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propOldValue) {
+    propOldValue.remove(this, uniqModIds);
+  };
+
+  if (propValue) {
+    propValue.add(this, uniqModIds);
+  };
+
+  return true;
+};
 
 proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -40,27 +64,41 @@ proto._modifyPage = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
 {
-  QxToolBarRadioButton.prototype._modifyChecked.call(this, propValue, propOldValue, propName, uniqModIds);
-
-  this.setTabIndex(propValue ? 1 : null, uniqModIds);
-
-  if (this.isCreated()) {
-    this.setFocused(propValue, uniqModIds);
+  if (this.getGroup()) {
+    this.getGroup().setSelected(this, uniqModIds);
   };
+
+  this.setState(propValue ? "checked" : null);
 
   return true;
 };
 
-proto._modifyFocused = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
 {
-  QxToolBarRadioButton.prototype._modifyFocused.call(this, propValue, propOldValue, propName, uniqModIds);
-
-  if (propValue) {
-    this.setChecked(propValue, uniqModIds);
+  QxWidget.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
+  
+  if (propValue == "checked")
+  {
+    this.setHeight(null);
+    this.setTop(0);
+    this.setBottom(0)
+    
+    
+  }
+  else
+  {
+    this.setBottom(null);
+    this.setTop(3);
+    this.setHeight("auto");
+    
   };
-
+  
+  
   return true;
 };
+
+
+
 
 proto._onkeyup = function(e)
 {
@@ -91,3 +129,24 @@ proto._onkeyup = function(e)
       return this.isLastChild() ? this.getParent().getFirstChild().setFocused(true) : this.getNextSibling().setFocused(true);
   };
 };
+
+
+
+
+
+proto._onmouseover = function(e) {};
+proto._onmouseout = function(e) {};
+proto._onmouseup = function(e) {};
+
+proto._onmousedown = function(e) 
+{
+  this.setChecked(true);  
+  
+  
+};
+
+
+
+
+
+

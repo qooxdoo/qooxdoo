@@ -14,8 +14,6 @@ QxTabPane.extend(QxWidget, "QxTabPane");
 
 QxTabPane.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : false });
 
-proto.borderSize = 2;
-
 proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds)
 {
   this.getParent().setPlaceBarOnTop(!propValue, uniqModIds);
@@ -26,29 +24,27 @@ proto._modifyPlaceOnTop = function(propValue, propOldValue, propName, uniqModIds
 
 proto._updatePlacement = function()
 {
+  var vParent = this.getParent();
+  if (!vParent) {
+    return;
+  };
+  
   this.debug("UPDATE PLACEMENT");
   
   if (this.getPlaceOnTop())
   {
-    this.setBottom(this._lastBarHeight);
+    this.setBottom(vParent.getBar().getPixelOfHeight() - 2);
     this.setTop(0);
     this.setState("top");
   }
   else
   {
-    this.setTop(this._lastBarHeight);
+    this.setTop(vParent.getBar().getPixelOfHeight() - 2);
     this.setBottom(0);
     this.setState("bottom");
   };
 };
 
-proto._lastBarHeight = null;
-
-proto._onlayout = function()
-{
-  this._lastBarHeight = this.getParent().getBar().getPixelOfHeight() - this.borderSize;
-  
-  this.debug("BAR-HEIGHT: " + this._lastBarHeight);
-  
+proto._onlayout = function() {
   this._updatePlacement();
 };

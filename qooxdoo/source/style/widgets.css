@@ -668,11 +668,45 @@ html[QxFocused] {
 
   background-color: ThreeDFace;
 
+  border-bottom: 1px solid ThreeDHighlight;
   border-left: 1px solid ThreeDHighlight;
   border-right: 2px outset;
   -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
 }
 
+.QxTab-Checked{
+  border-bottom: 1px solid ThreeDFace;
+}
+
+
+
+
+
+
+.QxTabBar-TopLeft .QxTab,
+.QxTabBar-TopRight .QxTab{
+  border-top: 1px solid ThreeDHighlight;
+}
+
+.QxTabBar-BottomLeft .QxTab,
+.QxTabBar-BottomRight .QxTab{
+  border-bottom: 2px outset;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+}
+
+
+
+
+
+.QxTabBar-TopLeft .QxTab,
+.QxTabBar-BottomLeft .QxTab{
+  float: left;
+}
+
+.QxTabBar-TopRight .QxTab,
+.QxTabBar-BottomRight .QxTab{
+  float: right;
+}
 
 
 
