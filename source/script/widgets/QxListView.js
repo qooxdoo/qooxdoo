@@ -1077,11 +1077,11 @@ proto._syncScrollLeft = function() {
 
 
 
-proto._modifyBoxWidth = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyHorizontalDimension = function(propValue, propOldValue, propName, uniqModIds)
 {
-  QxWidget.prototype._modifyBoxWidth.call(this, propValue, propOldValue, propName, uniqModIds);
+  QxWidget.prototype._modifyHorizontalDimension.call(this, propValue, propOldValue, propName, uniqModIds);
 
-  if (this._wasVisible) {
+  if (propName == "width" && this._wasVisible) {
     QxDOM.setWidth(this._header, QxDOM.getComputedInnerWidth(this._content));
   };
 
