@@ -287,6 +287,9 @@ proto._onkeyevent = function(e)
 
     e.returnValue = false;
 
+    // hide menus
+    (new QxMenuManager).update();
+    
     this._attachedClientWindow.getFocusManager()._ontabevent(e);
   }
   else
@@ -574,16 +577,22 @@ proto._onactivateevent = function(e)
   };
 
   var o = n._QxWidget;
-
-  while(o != null && !o.canGetFocus()) {
-    o = o.getParent();
+  var oactive = o;
+  
+  if (o) 
+  {
+    while(o != null && !o.canGetFocus()) {
+      o = o.getParent();
+    };
+   
+    if(o) {    
+      o.setFocused(true);
+    };
+    
+    if (oactive != o) {
+      (new QxApplication).setActiveWidget(oactive);
+    };
   };
-
-  if(o == null) {
-    return;
-  };
-
-  o.setFocused(true);
 };
 
 
