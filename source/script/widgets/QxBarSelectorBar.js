@@ -133,11 +133,11 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   {
     case "left":
     case "right":
-      var vSet = { setWidth : null, setLeft : 0, setRight : 0 };
+      var vSet = { setWidth : null, setLeft : 0, setRight : 0, setHeight : "auto" };
       break;
       
     default:
-      var vSet = { setLeft : null, setRight : null, setWidth : "auto" };
+      var vSet = { setLeft : null, setRight : null, setHeight : null, setTop : 0, setBottom : 0, setWidth : "auto" };
   };      
     
   var ch = this.getChildren();
@@ -150,7 +150,9 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
       ch[i][j](vSet[j]);
     };
     
-    ch[i]._recalculateFrame();
+    if (ch[i]._wasVisible) {
+      ch[i]._recalculateFrame();
+    };
   };
 };
 

@@ -43,11 +43,16 @@ proto._applyState = function()
 {
   var vParent = this.getParent();
   
-  if (!vParent || !this.isCreated() || !vParent.getBar().isCreated()) {
+  if (!vParent || !this.isCreated()) {
     return true;
   };
   
   var vBar = vParent.getBar();
+  
+  if (!vBar.isCreated()) {
+    return true;
+  };
+  
   var vTop = 0, vRight = 0, vBottom = 0, vLeft = 0;
 
   switch(this.getState())
