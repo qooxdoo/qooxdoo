@@ -9,15 +9,15 @@
   <meta http-equiv="Expires" content="-1" />
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta name="MSSmartTagsPreventParsing" content="yes" />
-  
+
   <title>qooxdoo: The new era of web interface development</title>
   <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
 
   <script type="text/javascript" src="../../../tools/script/includer.js"></script>
 </head>
 <body>
-  <script type="text/javascript" src="../../../tools/script/layout.js"></script>    
-  
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
   <div id="testDescription">
     <p>Some tests for some of the most used properties of QxWidget (coordinates, dimensions, backgroundColor, opacity, ...).</p>
     <p>Also here are the first test of some widgets which extend QxWidget: QxTextField and QxPasswordField. These extended
@@ -28,47 +28,47 @@
   window.application.main = function()
   {
     var d = this.getClientWindow().getDocument();
-    
+
     function textChange(e) {
       this.debug("Text changed: " + e.getNewValue());
-    }    
+    }
 
     var t1 = new QxTextField;
     t1.setText("textfield");
     t1.setTop(48);
     t1.setLeft(20);
-    
+
     t1.addEventListener("changeText", textChange);
     t1.addEventListener("input", function(e) {
       this.debug("Input: " + e.getNewValue());
     });
-    
+
     d.add(t1);
-    
-    
-    
+
+
+
 
     var t2 = new QxPasswordField;
     t2.setText("passwordfield");
     t2.setTop(80);
     t2.setLeft(20);
-    
+
     t2.addEventListener("changeText", textChange);
-    
+
     d.add(t2);
-    
-    
+
+
     var t3 = new QxTextArea;
     t3.setText("textarea");
     t3.setTop(110);
     t3.setLeft(20);
     t3.setWidth(300);
     t3.setHeight(60);
-    
+
     t3.addEventListener("changeText", textChange);
-    
+
     d.add(t3);
-    
+
 
     var t4 = new QxTextField;
     t4.setText("textfield");
@@ -78,30 +78,31 @@
     t4.setWidth(200);
     t4.setMaxLength(100);
     t4.setReadOnly(true);
-    
+
     t4.addEventListener("changeText", textChange);
-    
+
     d.add(t4);
-    
-    
+
+
     var t5 = new QxTextField;
     t5.setText("You are foo!");
     t5.setTop(240);
     t5.setLeft(20);
-    
+    t5.setTimerCreate(false);
+
     t5.addEventListener("changeText", textChange);
-    
+
     d.add(t5);
-    
+
     t5.setSelectionStart(4);
     t5.setSelectionLength(3);
 
     this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
 
     t5.setSelectionText("are not");
-    
+
     this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
-    
+
     t5.setSelectionLength(0);
     this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
 
@@ -110,4 +111,4 @@
   };
   </script>
 </body>
-</html>  
+</html>

@@ -25,7 +25,7 @@ function QxMenuButton(vText, vIcon, vCommand, vMenu)
   if (isValid(vMenu)) {
     this.setMenu(vMenu);
   };
-  
+
   this.addEventListener("mousedown", this._onmousedown);
 };
 
@@ -41,7 +41,6 @@ QxMenuButton.extend(QxWidget, "QxMenuButton");
 
 QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
-QxMenuButton.addProperty({ name : "command", type : Object });
 QxMenuButton.addProperty({ name : "menu", type : Object });
 
 QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
@@ -150,7 +149,7 @@ proto._pureCreateFillIcon = function()
   i.setAnonymous(true);
   i.setEnabled(this.isEnabled());
   i.setParent(this);
-  
+
   i._addCssClassName("QxMenuButtonIcon");
 };
 
@@ -162,7 +161,7 @@ proto._pureCreateFillText = function()
   t.setAnonymous(true);
   t.setEnabled(this.isEnabled());
   t.setParent(this);
-  
+
   t._addCssClassName("QxMenuButtonText");
 };
 
@@ -174,7 +173,7 @@ proto._pureCreateFillShortcut = function()
   s.setAnonymous(true);
   s.setEnabled(this.isEnabled());
   s.setParent(this);
-  
+
   s._addCssClassName("QxMenuButtonShortcut");
 };
 
@@ -186,7 +185,7 @@ proto._pureCreateFillArrow = function()
   a.setAnonymous(true);
   a.setEnabled(this.isEnabled());
   a.setParent(this);
-  
+
   a._addCssClassName("QxMenuButtonArrow");
 };
 
@@ -228,11 +227,11 @@ proto._innerHeightChanged = function()
 proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
   var vParent = this.getParent();
-  
+
   if (this._iconObject) {
     this._iconObject._applyPositionHorizontal(vParent._childIconPosition);
   };
-  
+
   if (this._textObject) {
     this._textObject._applyPositionHorizontal(vParent._childTextPosition);
   };
@@ -249,11 +248,11 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
 proto._layoutInternalWidgetsVertical = function(vHint)
 {
   var vInner = this.getInnerHeight();
-  
+
   if (this._iconObject) {
     this._iconObject._applyPositionVertical((vInner - this._iconObject.getPreferredHeight()) / 2);
   };
-  
+
   if (this._textObject) {
     this._textObject._applyPositionVertical((vInner - this._textObject.getPreferredHeight()) / 2);
   };
@@ -261,10 +260,10 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   if (this._shortcutObject) {
     this._shortcutObject._applyPositionVertical((vInner - this._shortcutObject.getPreferredHeight()) / 2);
   };
-  
+
   if (this._arrowObject) {
     this._arrowObject._applyPositionVertical((vInner - this._arrowObject.getPreferredHeight()) / 2);
-  };  
+  };
 };
 
 
@@ -286,7 +285,7 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
   if (this._displayIcon && vModifiedWidget == this._iconObject && vHint == "unload") {
     return true;
   };
-  
+
   // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
 
   var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
@@ -308,11 +307,11 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
           case this._arrowObject:
             return this._layoutInternalWidgetsVertical(vHint);
         };
-    };      
+    };
   }
   else
   {
-    this.setInnerHeight(newHeight, null, true);  
+    this.setInnerHeight(newHeight, null, true);
   };
 
   return true;

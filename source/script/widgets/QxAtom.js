@@ -155,8 +155,8 @@ proto._modifyShow = function(propValue, propOldValue, propName, uniqModIds)
   {
     /* --------------------------------------------------
      1. Toggle the display of existing objects
-        We use the parent property instead of a simple 
-        display to remove non visible html blocks 
+        We use the parent property instead of a simple
+        display to remove non visible html blocks
         completly from the DOM-tree.
     -------------------------------------------------- */
     if (this._textObject)
@@ -170,11 +170,11 @@ proto._modifyShow = function(propValue, propOldValue, propName, uniqModIds)
       // we need to toggle the visibility of the existing icon object
       this._iconObject.setParent(this._displayIcon ? this : null);
     };
-    
-    
+
+
 
     /* --------------------------------------------------
-     2. Check if we have any non auto configuration 
+     2. Check if we have any non auto configuration
         and force a relayout on this axis.
     -------------------------------------------------- */
     if (this._textObject && this._iconObject)
@@ -187,23 +187,23 @@ proto._modifyShow = function(propValue, propOldValue, propName, uniqModIds)
         this._layoutInternalWidgetsVertical("show");
       };
     };
-    
-    
-    
+
+
+
     /* --------------------------------------------------
      3. (Post-) Create missing objects
     -------------------------------------------------- */
     if (!this._textObject && this._displayText)
     {
       // we need to post-create the text object
-      this._pureCreateFillText();      
+      this._pureCreateFillText();
     };
 
     if (!this._iconObject && this._displayIcon)
     {
       // we need to post-create the icon object
-      this._pureCreateFillIcon();      
-    };    
+      this._pureCreateFillIcon();
+    };
   };
 
   return true;
@@ -234,7 +234,7 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
 {
   // We need to inform the text and icon object about any changes.
-  
+
   if (this._iconObject) {
     this._iconObject.setEnabled(propValue);
   };
@@ -242,7 +242,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
   if (this._textObject) {
     this._textObject.setEnabled(propValue);
   };
-  
+
   return QxWidget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
@@ -251,7 +251,7 @@ proto._modifyIconPosition = function(propValue, propOldValue, propName, uniqModI
   if (!this._wasVisible) {
     return true;
   };
-  
+
   if (1 == 1 || this._displayText && this._displayIcon)
   {
     // Search for a simple position switch first...
@@ -261,32 +261,32 @@ proto._modifyIconPosition = function(propValue, propOldValue, propName, uniqModI
         if (propOldValue == "right") {
           return this._layoutInternalWidgetsHorizontal("icon-position");
         };
-        
+
         break;
-      
+
       case "right":
         if (propOldValue == "left") {
           return this._layoutInternalWidgetsHorizontal("icon-position");
         };
-        
+
         break;
-      
+
       case "top":
         if (propOldValue == "bottom") {
           return this._layoutInternalWidgetsVertical("icon-position");
         };
-        
+
         break;
-      
+
       case "bottom":
         if (propOldValue == "top") {
           return this._layoutInternalWidgetsVertical("icon-position");
         };
-        
+
         break;
     };
-    
-    // ...if nothing was found use the more complex 
+
+    // ...if nothing was found use the more complex
     // re-calculation and -layouting.
     if (this.getWidth() == "auto")
     {
@@ -296,7 +296,7 @@ proto._modifyIconPosition = function(propValue, propOldValue, propName, uniqModI
     {
       this._layoutInternalWidgetsHorizontal("icon-position");
     };
-    
+
     if (this.getHeight() == "auto")
     {
       this._setChildrenDependHeight(this, "icon-position");
@@ -314,8 +314,8 @@ proto._modifyIconTextGap = function(propValue, propOldValue, propName, uniqModId
 {
   if (!this._wasVisible) {
     return true;
-  };  
-  
+  };
+
   if (this._displayText && this._displayIcon)
   {
     switch(this.getIconPosition())
@@ -338,7 +338,7 @@ proto._modifyHorizontalAlign = function(propValue, propOldValue, propName, uniqM
   if (!this._wasVisible || this.getWidth() == "auto") {
     return true;
   };
-  
+
   return this._layoutInternalWidgetsHorizontal("align");
 };
 
@@ -347,7 +347,7 @@ proto._modifyVerticalAlign = function(propValue, propOldValue, propName, uniqMod
   if (!this._wasVisible || this.getHeight() == "auto") {
     return true;
   };
-  
+
   return this._layoutInternalWidgetsVertical("align");
 };
 
@@ -373,6 +373,9 @@ proto._pureCreateFillText = function()
   // copy enabled status to  text
   t.setEnabled(this.isEnabled());
 
+  // disable timer create
+  t.setTimerCreate(false);
+
   // set parent
   t.setParent(this);
 };
@@ -392,6 +395,9 @@ proto._pureCreateFillIcon = function()
 
   // copy enabled status to icon
   i.setEnabled(this.isEnabled());
+
+  // disable timer create
+  i.setTimerCreate(false);
 
   // set parent
   i.setParent(this);
@@ -455,13 +461,13 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   if (this._displayIcon && vModifiedWidget == this._iconObject && vHint == "unload") {
     return true;
   };
-  
+
   //this.debug("depend width: widget=" + vModifiedWidget + ", hint=" + vHint);
 
   var newWidth = this._calculateChildrenDependWidth(vModifiedWidget, vHint);
-  
+
   // this.debug("NewCalculatedWidth: " + newWidth + ", " + this._wasVisible + " == " + this._widthModeValue);
-  
+
   // If the width did not change the setter below will not re-layout the children.
   // We will force this here if the icon or text was appended, to ensure a perfect layout.
   if (this._widthMode == "inner" && this._widthModeValue == newWidth)
@@ -486,7 +492,7 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
   if (this._displayIcon && vModifiedWidget == this._iconObject && vHint == "unload") {
     return true;
   };
-  
+
   // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
 
   var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
@@ -502,7 +508,7 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
   }
   else
   {
-    this.setInnerHeight(newHeight, null, true);  
+    this.setInnerHeight(newHeight, null, true);
   };
 
   return true;
@@ -531,14 +537,14 @@ proto._calculateChildrenDependHelper = function(vNameRangeUp, vNameStart, vNameS
   if (this._displayText && this._textObject && this._textObject.getParent() != this) {
     return null;
   };
-  
+
   if (this._displayIcon && this._iconObject && this._iconObject.getParent() != this) {
     return null;
-  }; 
-  
+  };
+
   if(this._displayIcon && (!this._iconObject || (!this._iconObject.getLoaded() && isInvalid(this._iconObject["get" + vNameRangeUp]())))) {
     return null;
-  };  
+  };
 
   if (this._displayText && this._displayIcon)
   {
@@ -547,7 +553,7 @@ proto._calculateChildrenDependHelper = function(vNameRangeUp, vNameStart, vNameS
       case vNameStart:
       case vNameStop:
         return this._textObject["getAny" + vNameRangeUp]() + this.getIconTextGap() + this._iconObject["getAny" + vNameRangeUp]();
-        
+
       default:
         return Math.max(Math.max(this._textObject["getAny" + vNameRangeUp](), this._iconObject["getAny" + vNameRangeUp]()), 0);
     };
@@ -564,7 +570,7 @@ proto._calculateChildrenDependHelper = function(vNameRangeUp, vNameStart, vNameS
   {
     // need be 0 (not null) to keep the padding working correctly.
     return 0;
-  };  
+  };
 };
 
 
@@ -585,7 +591,7 @@ proto._innerWidthChanged = function()
 
   // Update placement of icon and text
   this._layoutInternalWidgetsHorizontal("inner-width");
-  
+
   // Update children
   var ch = this._children;
   var chl = ch.length;
@@ -598,7 +604,7 @@ proto._innerWidthChanged = function()
     if (chc != this._textObject && chc != this._iconObject) {
       chc._renderHorizontal("parent");
     };
-  }; 
+  };
 };
 
 
@@ -649,7 +655,7 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
     case "position":
     case "size":
       break;
-      
+
     default:
       if (this.getWidth() == "auto")
       {
@@ -660,7 +666,7 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
         this._layoutInternalWidgetsHorizontal(vHint);
       };
   };
-  
+
   // new, inherit from widget
   QxWidget.prototype._childOuterWidthChanged.call(this, vModifiedChild, vHint);
 };
@@ -677,7 +683,7 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
     case "position":
     case "size":
       break;
-      
+
     default:
       if (this.getHeight() == "auto")
       {
@@ -688,7 +694,7 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
         this._layoutInternalWidgetsVertical(vHint);
       };
   };
-  
+
   // new, inherit from widget
   QxWidget.prototype._childOuterHeightChanged.call(this, vModifiedChild, vHint);
 };
@@ -717,45 +723,45 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
   {
     var vTextPos = 0;
     var vIconPos = 0;
-    
+
     var vBoxSize;
-  
+
     if (this._displayText && this._displayIcon)
     {
       if (!this._textObject || !this._iconObject) {
         return;
       };
-  
+
       var vTextSize = this._textObject["getAny" + vNameRangeUp]();
       var vIconSize = this._iconObject["getAny" + vNameRangeUp]();
-      
+
       // this.debug("DIR=" + vDirection + ", TSIZE=" + vTextSize + ", ISIZE=" + vIconSize);
-  
+
       switch(this.getIconPosition())
       {
         case vNameStart:
           vTextPos = vIconSize + this.getIconTextGap();
           vBoxSize = vTextPos + vTextSize;
           break;
-        
+
         case vNameStop:
           vIconPos = vTextSize + this.getIconTextGap();
           vBoxSize = vIconPos + vIconSize;
           break;
-          
+
         default:
-          if(vTextSize > vIconSize) 
+          if(vTextSize > vIconSize)
           {
             vIconPos = (vTextSize - vIconSize) / 2;
-          } 
+          }
           else
           {
             vTextPos = (vIconSize - vTextSize) / 2;
           };
-  
+
           vBoxSize = Math.max(vTextSize, vIconSize);
       };
-    }   
+    }
     else if (this._displayText)
     {
       vBoxSize = this._textObject["getAny" + vNameRangeUp]();
@@ -766,34 +772,34 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
     }
     else
     {
-      return;  
+      return;
     };
-  
+
     var vBoxPos = this["getComputedPadding" + vPaddingStartUp]();
-  
-    switch(this["get" + vDirection + "Align"]()) 
+
+    switch(this["get" + vDirection + "Align"]())
     {
       case "center":
       case "middle":
         vBoxPos += (this["getInner" + vNameRangeUp]() - vBoxSize) / 2;
         break;
-    
+
       case "right":
       case "bottom":
         vBoxPos += this["getInner" + vNameRangeUp]() - vBoxSize;
         break;
     };
-  
+
     vIconPos += vBoxPos;
-    vTextPos += vBoxPos; 
-    
+    vTextPos += vBoxPos;
+
     // this.debug("ICON=" + vIconPos + ", TEXT=" + vTextPos);
-  
+
     // Apply new values
     if (this._iconObject) {
       this._iconObject["_applyPosition" + vDirection](vIconPos);
     };
-    
+
     if (this._textObject) {
       this._textObject["_applyPosition" + vDirection](vTextPos);
     };
@@ -802,8 +808,8 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
   {
     throw new Error("Failed to internal render widgets: " + ex);
   };
-  
-  return true;  
+
+  return true;
 };
 
 
@@ -815,14 +821,14 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
 /*
 ------------------------------------------------------------------------------------
   BASICS
-  
+
   Extend this core functions of QxWidget.
 ------------------------------------------------------------------------------------
 */
 
 proto._onnewchild = function(otherObject)
 {
-  if (this.getWidth() == "auto") 
+  if (this.getWidth() == "auto")
   {
     this._setChildrenDependWidth(otherObject, "append-child");
   }
@@ -830,8 +836,8 @@ proto._onnewchild = function(otherObject)
   {
     this._layoutInternalWidgetsHorizontal("append-child");
   };
-  
-  if (this.getHeight() == "auto") 
+
+  if (this.getHeight() == "auto")
   {
     this._setChildrenDependHeight(otherObject, "append-child");
   }
@@ -843,7 +849,7 @@ proto._onnewchild = function(otherObject)
 
 proto._onremovechild = function(otherObject)
 {
-  if (this.getWidth() == "auto") 
+  if (this.getWidth() == "auto")
   {
     this._setChildrenDependWidth(otherObject, "remove-child");
   }
@@ -851,8 +857,8 @@ proto._onremovechild = function(otherObject)
   {
     this._layoutInternalWidgetsHorizontal("remove-child");
   };
-  
-  if (this.getHeight() == "auto") 
+
+  if (this.getHeight() == "auto")
   {
     this._setChildrenDependHeight(otherObject, "remove-child");
   }
@@ -881,16 +887,16 @@ proto._cloneRecursive = function(cloneInstance)
   var chc;
   var cloneChild;
 
-  for (var i=0; i<chl; i++) 
+  for (var i=0; i<chl; i++)
   {
     chc = ch[i];
-    
+
     if (chc != this._iconObject && chc != this._textObject)
     {
       cloneChild = chc.clone(true);
       cloneInstance.add(cloneChild);
     };
-  };  
+  };
 };
 
 
@@ -910,12 +916,12 @@ proto._cloneRecursive = function(cloneInstance)
 */
 proto.getPreferredWidth = function()
 {
-  if (this.getWidth() == "auto") 
+  if (this.getWidth() == "auto")
   {
     if (!this._wasVisible) {
-      this._renderHorizontal("initial"); 
+      this._renderHorizontal("initial");
     };
-  
+
     return this._pixelof_width;
   };
 
@@ -932,19 +938,19 @@ proto.getPreferredWidth = function()
 
 proto.getPreferredHeight = function()
 {
-  if (this.getHeight() == "auto") 
+  if (this.getHeight() == "auto")
   {
     if (!this._wasVisible) {
-      this._renderVertical("initial"); 
+      this._renderVertical("initial");
     };
-  
+
     return this._pixelof_height;
   };
 
   if (this._preferred_height == null && this.getChildrenLength() > 0) {
-    this._preferred_height = this._calculateChildrenDependHeight() + this.getComputedPaddingTop() + this.getComputedPaddingBottom() + this.getComputedInsetTop() + this.getComputedInsetBottom();  
+    this._preferred_height = this._calculateChildrenDependHeight() + this.getComputedPaddingTop() + this.getComputedPaddingBottom() + this.getComputedInsetTop() + this.getComputedInsetBottom();
   };
-  
+
   return this._preferred_height;
 };
 
@@ -962,7 +968,7 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return true;
   };
-  
+
   if (this._iconObject)
   {
     this._iconObject.dispose();
@@ -974,8 +980,8 @@ proto.dispose = function()
     this._textObject.dispose();
     this._textObject = null;
   };
-  
+
   this._showText = this._showIcon = this._displayText = this._displayIcon = null;
-  
+
   return QxWidget.prototype.dispose.call(this);
 };
