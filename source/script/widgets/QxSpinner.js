@@ -106,6 +106,11 @@ QxSpinner.addProperty({ name : "incrementAmount", type : Number, defaultValue : 
 QxSpinner.addProperty({ name : "wheelIncrementAmount", type : Number, defaultValue : 1 });
 
 /*!
+  The amount to increment on each pageup / pagedown keypress
+*/ 
+QxSpinner.addProperty({ name : "pageIncrementAmount", type : Number, defaultValue : 10 });
+
+/*!
   The current value of the interval (this should be used internally only).
 */ 
 QxSpinner.addProperty({ name : "interval", type : Number, defaultValue : 100 });
@@ -222,28 +227,53 @@ proto._onkeydown = function(e)
 {
   var vCode = e.getKeyCode();
 
-  if (this._tickIncrease == null && (vCode == QxKeyEvent.keys.up || vCode == QxKeyEvent.keys.down))
+  if (this._intervalIncrease == null)
   {
-    this._tickIncrease = vCode == QxKeyEvent.keys.up;
-    
-    this._resetIncrements();
-    this._ensureValidValue();
-    this._increment();
-    
-    this._timer.startWith(this.getFirstInterval());
+    switch(vCode)
+    {
+      case QxKeyEvent.keys.up:
+      case QxKeyEvent.keys.down:
+        this._intervalIncrease = vCode == QxKeyEvent.keys.up;
+        this._intervalMode = "single";
+        
+        this._resetIncrements();
+        this._ensureValidValue();
+
+        this._increment();
+        this._timer.startWith(this.getFirstInterval());
+
+        break;
+
+      case QxKeyEvent.keys.pageup:
+      case QxKeyEvent.keys.pagedown:
+        this._intervalIncrease = vCode == QxKeyEvent.keys.pageup;
+        this._intervalMode = "page";
+
+        this._resetIncrements();
+        this._ensureValidValue();
+
+        this._pageIncrement();
+        this._timer.startWith(this.getFirstInterval());
+        
+        break;
+    };
   };
 };
 
 proto._onkeyup = function(e)
 {
-  if (this._tickIncrease != null)
+  if (this._intervalIncrease != null)
   {
     switch(e.getKeyCode())
     {
       case QxKeyEvent.keys.up:
       case QxKeyEvent.keys.down:
+      case QxKeyEvent.keys.pageup:
+      case QxKeyEvent.keys.pagedown:
         this._timer.stop();
-        this._tickIncrease = null;
+        
+        this._intervalIncrease = null;
+        this._intervalMode = null;
     };
   };
 };
@@ -273,7 +303,7 @@ proto._onmousedown = function(e)
   vButton.addEventListener("mouseup", this._onmouseup, this);
   vButton.addEventListener("mouseout", this._onmouseup, this);
   
-  this._tickIncrease = vButton == this._upbutton;
+  this._intervalIncrease = vButton == this._upbutton;
   this._resetIncrements();
   this._increment();
   
@@ -296,7 +326,7 @@ proto._onmouseup = function(e)
   this._textfield.setFocused(true);
   
   this._timer.stop();
-  this._tickIncrease = null;
+  this._intervalIncrease = null;
 };
 
 proto._onmousewheel = function(e)
@@ -382,18 +412,26 @@ proto.getMin = function() {
   -------------------------------------------------------------------------------
 */
 
-proto._tickIncrease = null;
+proto._intervalIncrease = null;
 
 proto._oninterval = function(e)
 {
   this._timer.stop();
   this.setInterval(Math.max(this.getMinTimer(), this.getInterval()-this.getTimerDecrease()));
 
-  if (this.getInterval() == this.getMinTimer()) {
-    this.setIncrementAmount(this.getAmountGrowth() * this.getIncrementAmount());
+  if (this._intervalMode == "page")
+  {
+    this._pageIncrement();
+  }
+  else
+  {
+    if (this.getInterval() == this.getMinTimer()) {
+      this.setIncrementAmount(this.getAmountGrowth() * this.getIncrementAmount());
+    };
+    
+    this._increment();
   };
 
-  this._increment();
   this._timer.restartWith(this.getInterval());
 };
 
@@ -415,21 +453,33 @@ proto._ensureValidValue = function(e)
     return;
   };
   
-  var val = parseInt(el.value);
-  if (!isNaN(val)) {
-    this._manager.setValue(val);
-  };
+  if (el.value != "")
+  {
+    var val = parseInt(el.value);
+    if (!isNaN(val)) {
+      this._manager.setValue(val);
+    };
   
-  var fixedValue = this._manager.getValue();  
-  this._textfield.setText(fixedValue);
+    var fixedValue = this._manager.getValue();  
 
-  if (fixedValue != el.value) {
-    el.value = fixedValue;
+    this._textfield.setText(fixedValue);
+
+    if (fixedValue != el.value) {
+      el.value = fixedValue;
+    };
+  }
+  else
+  {
+    this._textfield.setText("");  
   };
 };
 
 proto._increment = function() {
-  this._manager.setValue(this._manager.getValue() + ((this._tickIncrease ? 1 : - 1) * this.getIncrementAmount()));
+  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getIncrementAmount()));
+};
+
+proto._pageIncrement = function() {
+  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageIncrementAmount()));
 };
 
 proto._resetIncrements = function()
