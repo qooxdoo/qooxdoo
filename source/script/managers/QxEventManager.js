@@ -287,15 +287,19 @@ proto._onkeyevent = function(e)
 
     e.returnValue = false;
 
-    // hide menus
+    // Hide Menus
     (new QxMenuManager).update();
     
     this._attachedClientWindow.getFocusManager()._ontabevent(e);
   }
   else
   {
+    // Hide Menus
+    if (k == QxKeyEvent.keys.esc) {
+      (new QxMenuManager).update();
+    };
+    
     var o = this.getCaptureWidget() || (new QxApplication).getActiveWidget();
-
     if (o == null || !o.getEnabled()) {
       return;
     };
