@@ -350,7 +350,29 @@ proto._oninput = function(e) {
 
 proto._onchange = function(e)
 {
-  this._textfield.setText(this._manager.getValue());
+  var vValue = this._manager.getValue();
+  
+  this._textfield.setText(vValue);
+  
+  if (vValue == this.getMin()) 
+  {
+    this._downbutton.setBorder(QxBorder.presets.outset);
+    this._downbutton.setEnabled(false);
+  }
+  else
+  {
+    this._downbutton.setEnabled(true);
+  };
+  
+  if (vValue == this.getMax()) 
+  {
+    this._upbutton.setBorder(QxBorder.presets.outset);
+    this._upbutton.setEnabled(false);
+  }
+  else
+  {
+    this._upbutton.setEnabled(true);
+  };
   
   if (this.hasEventListeners("change")) {
     this.dispatchEvent(new QxEvent("change"));
