@@ -51,6 +51,18 @@ proto._beforeHide = function(uniqModIds)
   this._hideTimeStamp = new Date;
 };
 
+proto._makeActive = function() {
+  (new QxApplication).setActiveWidget(this);    
+};
+
+proto._makeInactive = function()
+{
+  var vApp = (new QxApplication)
+  if (vApp.getActiveWidget() == this) {
+    vApp.setActiveWidget(vApp.getClientWindow().getClientDocument());
+  };  
+};
+
 proto._shouldBecomeCreated = function() {
   return false;
 };
