@@ -1,8 +1,5 @@
-function QxBarSelectorPane() 
-{
+function QxBarSelectorPane() {
   QxWidget.call(this);
-  
-  this.setState("bottom");
 };
 
 QxBarSelectorPane.extend(QxWidget, "QxBarSelectorPane");
