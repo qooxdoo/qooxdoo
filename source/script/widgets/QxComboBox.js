@@ -425,6 +425,10 @@ proto._onmousedown = function(e)
 {
   var t = e.getManagerTarget();
   
+  if ( typeof t == "undefined" ) {
+    return;
+  };
+  
   if (t instanceof QxImage) {
     t = t.getParent();
   };
