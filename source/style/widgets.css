@@ -906,6 +906,8 @@ html[QxFocused] {
 
 .QxMenuSeparator{
   padding: 3px 4px 2px 4px;
+  font-size: 0;
+  line-height: 0;
 }
 
 .QxMenuSeparatorLine{

@@ -122,6 +122,7 @@ L="$L widgets/QxBarSelectorPage"
 L="$L widgets/QxBarSelectorButton"
 
 # Menu Support
+L="$L managers/QxMenuManager"
 L="$L widgets/QxMenu"
 L="$L widgets/QxMenuButton"
 L="$L widgets/QxMenuSeparator"
