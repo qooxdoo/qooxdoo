@@ -294,7 +294,7 @@ proto._onkeyevent = function(e)
   };
 
   var k = e.keyCode || e.charCode;
-
+  
   if (k == QxKeyEvent.keys.tab)
   {
     if ((new QxClient).isNotMshtml()) {
@@ -338,7 +338,7 @@ proto._onkeyevent = function(e)
 
     // Cleanup Event Object
     s.dispose();
-
+    
     return r;
   };
 };
@@ -496,18 +496,21 @@ proto._onmouseevent_post = function(e, t)
     vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
   };
 
+
+
   // Find related target object
-  if (t == "mouseover" || t == "mouseout")
+  switch(t)
   {
-    vRelatedTarget = QxEventManager.getRelatedActiveTargetObjectFromEvent(e);
-
-    // Ignore events where the related target and
-    // the real target are equal - from our sight
-    if (vRelatedTarget == vTarget) {
-      return;
-    };
-  };
-
+    case "mouseover":
+    case "mouseout":
+      vRelatedTarget = QxEventManager.getRelatedActiveTargetObjectFromEvent(e);
+      
+      // Ignore events where the related target and
+      // the real target are equal - from our sight
+      if (vRelatedTarget == vActiveTarget) {
+        return;
+      };
+  };  
 
 
 
@@ -595,6 +598,13 @@ proto._ondragevent = function(e) {
 
 proto._onwindowblur = function(e)
 {
+  if (this._ignoreBlur) {
+    delete this._ignoreBlur;
+    return;
+  };
+  
+  this._allowFocus = true;
+  
   // Hide Popups, Tooltips, ...
   if (isValidFunction(QxPopupManager)) {
     (new QxPopupManager).update();
@@ -611,18 +621,27 @@ proto._onwindowblur = function(e)
   };
 
   // Send blur event to client document
-  this._attachedClientWindow.getDocument().dispatchEvent(new QxEvent("blur"), true);
+  var vDoc = this._attachedClientWindow.getDocument();
+  if (vDoc.hasEventListeners("blur")) {
+    vDoc.dispatchEvent(new QxEvent("blur"), true);
+  };
 };
 
 proto._onwindowfocus = function(e)
 {
-  // Hide Popups, Tooltips, ...
-  if (isValidFunction(QxPopupManager)) {
-    (new QxPopupManager).update();
+  // Make focus more intelligent and only allow focus if 
+  // a previous blur occured
+  if (!this._allowFocus) {
+    return;
   };
-
+  
+  delete this._allowFocus;
+  
   // Send focus event to client document
-  this._attachedClientWindow.getDocument().dispatchEvent(new QxEvent("focus"), true);
+  var vDoc = this._attachedClientWindow.getDocument();
+  if (vDoc.hasEventListeners("focus")) {
+    vDoc.dispatchEvent(new QxEvent("focus"), true);
+  };
 };
 
 proto._onwindowresize = function(e)
@@ -642,7 +661,7 @@ proto._onactivateevent = function(e)
   if(n == null) {
     return;
   };
-
+  
   var o = n._QxWidget;
   var oactive = o;
   
@@ -660,6 +679,12 @@ proto._onactivateevent = function(e)
       (new QxApplication).setActiveWidget(oactive);
     };
   };
+  
+  // this will also stops activating through browser
+  // e.preventDefault();
+
+  // the more intelli method, ignore blur after mousedown event
+  this._ignoreBlur = true;
 };
 
 
