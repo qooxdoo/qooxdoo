@@ -12,6 +12,9 @@ function QxApplication()
 
   window.onload = function() { window.application.init(); };
   
+  // Alpha new init method
+  // this._loadHandle = window.setInterval("if (window.application) window.application.initcheck()", 20);
+  
   QxApplication._instance = this;
 };
 
@@ -19,6 +22,39 @@ QxApplication.extend(QxTarget, "QxApplication");
 
 proto._clientWindow = null;
 proto._activeWidget = null;
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    APPLICATION INIT
+  -------------------------------------------------------------------------------
+*/
+
+proto.coreObjects = [ "QxClient", "QxClientWindow", "QxClientDocument", "QxWidget", "QxEventManager", "QxFocusManager", "QxTarget", "QxEvent", "QxMouseEvent", "QxKeyEvent" ];
+
+proto.initcheck = function()
+{
+  var ok = true;
+  
+  if (!document.body) {
+    return;
+  };
+  
+  var c = this.coreObjects;
+
+  for (var i=0, cl=c.length; i<cl; i++) {
+    if (typeof window[c[i]] != "function") {
+      ok = false;
+    };
+  };
+  
+  if (ok) 
+  {
+    window.clearInterval(this._loadHandle);
+    return this.init();
+  };
+};
 
 proto.init = function()
 {
@@ -53,6 +89,14 @@ proto.init = function()
   this.debug("Main Object Perf: " + mper);
 };
 
+
+
+/*
+  -------------------------------------------------------------------------------
+    UTILITIES
+  -------------------------------------------------------------------------------
+*/
+
 proto.setActiveWidget = function(v) {
   this._activeWidget = v;
 };
@@ -65,6 +109,15 @@ proto.getClientWindow = function() {
   return this._clientWindow;
 };
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    PATH
+  -------------------------------------------------------------------------------
+*/
+
 proto.getPath = function()
 {
   var p = window.location.href;
@@ -72,6 +125,15 @@ proto.getPath = function()
   
   return v;
 };
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {
