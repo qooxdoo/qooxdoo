@@ -71,7 +71,6 @@ foreach (@packageNames) { push @neededFiles, get_dependencies($_); }
 my %t = ();
 @neededFiles = grep ++$t{$_} < 2, @neededFiles;
 
-
 # put all the files into $text
 find(\&searchFiles, ($basedir));
 appendFiles();
@@ -226,7 +225,7 @@ sub get_dependencies {
     # then add specified suffix to all files before returning this list
     my (%temp, @files) = ();
     grep { push @files, @{$packages{$_}}; } grep ++$temp{$_} < 2, @depStack;
-    return grep { $_ .= $fileSuffix; } @files;
+    return grep { $_ .= $fileSuffix if $_ ; } @files;
 }
 
 =pod
