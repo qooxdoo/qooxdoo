@@ -1,15 +1,34 @@
-function QxDragEvent(sType, oMouseEvent)
+function QxDragEvent(vType, vMouseEvent, vAutoDispose)
 {
-  QxMouseEvent.call(this, sType, oMouseEvent && oMouseEvent._event);
-  
+  this._mouseEvent = vMouseEvent;
   this._manager = new QxDragAndDropManager;
+
+  QxMouseEvent.call(this, vType, vMouseEvent._domEvent, vAutoDispose);
 };
 
 QxDragEvent.extend(QxMouseEvent, "QxDragEvent");
 
+/*
+  -------------------------------------------------------------------------------
+    UTILITY
+  -------------------------------------------------------------------------------
+*/
+
 proto.getManager = function() {
   return this._manager;
 };
+
+proto.getMouseEvent = function() {
+  return this._mouseEvent;
+};
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    FRONTEND FUNCTION
+  -------------------------------------------------------------------------------
+*/
 
 proto.startDrag = function()
 {
@@ -20,6 +39,16 @@ proto.startDrag = function()
   this.stopPropagation();
   this._manager.startDrag();
 };
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DATA SUPPORT
+  -------------------------------------------------------------------------------
+*/
 
 proto.addData = function(sType, oData) {
   this._manager.addData(sType, oData);
@@ -37,6 +66,15 @@ proto.getDropDataTypes = function() {
   return this._manager.getDropDataTypes();
 };
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    ACTION SUPPORT
+  -------------------------------------------------------------------------------
+*/
+
 proto.addAction = function(sAction) {
   this._manager.addAction(sAction);
 };
@@ -53,51 +91,65 @@ proto.clearActions = function() {
   this._manager.clearActions();
 };
 
-proto.getTarget = function()
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    TARGET SUPPORT
+  -------------------------------------------------------------------------------
+*/
+
+proto._evalTarget = function()
 {
-  switch (this._type)
+  switch(this._type)
   {
     case "dragstart":
     case "dragend":
     case "dragover":
     case "dragout":
     case "dragmove": 
+      // Will be setuped through QxDragAndDropManager
       return this._target;
-
-    case "dragdrop": 
+          
+    case "dragdrop":
       return this._manager.getDestinationWidget();
-
-    default: 
-      return QxMouseEvent.prototype.getTarget.call(this);
+    
+    default:
+      return QxMouseEvent.prototype._evalTarget.call(this);  
   };
 };
 
-proto.getRelatedTarget = function()
+proto._evalRelatedTarget = function()
 {
-  switch (this._type)
+  switch(this._type)
   {
     case "dragover":
     case "dragout": 
-      return this._relatedTarget;
-
-    case "dragdrop": 
+      // Will be setuped through QxDragAndDropManager
+      return this._relatedTarget;    
+    
+    case "dragdrop":
       return this._manager.getSourceWidget();
-
-    case "dragend": 
+    
+    case "dragend":
       return this._manager.getDestinationWidget();
-
-    default: 
-      return QxMouseEvent.prototype.getRelatedTarget.call(this);
-  };
+      
+    default:
+      return QxMouseEvent.prototype._evalRelatedTarget.call(this);        
+  }; 
 };
 
 
 
-proto.getRealTarget = function() {
-  return QxMouseEvent.prototype.getTarget.call(this);
-};
 
 
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {
@@ -106,5 +158,7 @@ proto.dispose = function()
   };
 
   QxMouseEvent.prototype.dispose.call(this);
+  
   this._relatedTarget = null;
+  this._target = null;
 };

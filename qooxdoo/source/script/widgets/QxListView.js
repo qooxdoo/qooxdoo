@@ -90,6 +90,8 @@ proto._perLoopRowAppendCount = 100;
 */
 proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 {
+  this._contentProtoRow = QxListView._contentProtoRow.cloneNode(true);
+
   QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
 
 
@@ -118,8 +120,6 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
   this._contentTable = this._content.firstChild;
   this._contentColGroup = this._contentTable.firstChild;
   this._contentBody = this._contentTable.lastChild;
-
-  this._contentProtoRow = QxListView._contentProtoRow.cloneNode(true);
 
   var o = this;
   this._content.onscroll = function() { o._onscroll(); };
@@ -210,6 +210,10 @@ proto._cacheAdditionalColumnData = function()
 
 proto._onrowcreate = function()
 {
+  if (!this.isCreated()) {
+    return;
+  };
+  
   var q = this._rowCreateQueue;
   var l = q.length-1;
 
@@ -722,6 +726,8 @@ proto._createRow = function(rowData, rowTarget)
   catch(ex) {
     throw new Error("Failed on column: " + i + ": " + ex);
   };
+
+  //this.debug(this + " :: " + this._contentProtoRow);
 
   var newRow = this._contentProtoRow.cloneNode(true);
   newRow.style.display = "";

@@ -96,13 +96,28 @@ function isInvalidString(v) {
 };
 
 function isValidArray(v) {
-  return typeof v == "object" && typeof v.push == "function";
+  return typeof v == "object" && v != null && typeof v.push == "function";
 };
 
 function isInvalidArray(v) {
-  return typeof v != "object" || typeof v.push != "function";
+  return typeof v != "object" || v == null || typeof v.push != "function";
 };
 
+function isValidObject(v) {
+  return typeof v == "object" && v != null && typeof v.push != "function";
+};
+
+function isInvalidObject(v) {
+  return typeof v != "object" || v == null || typeof v.push == "function";
+};
+
+function isValidFunction(v) {
+  return typeof v == "function";
+};
+
+function isInvalidFunction(v) {
+  return typeof v == "function";
+};
 
 /* ********************************************************************
    Add Methods to Number
@@ -674,7 +689,7 @@ Function.prototype.addProperty = function(p)
         }
         catch(ex)
         {
-          this.debug("Failed to modify property " + p.name + ": " + ex);
+          this.debug("Failed to modify property " + p.name + ": " + ex.message);
           return false;
         };
       };

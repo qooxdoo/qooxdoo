@@ -198,11 +198,15 @@ proto.detachEventTypes = function(eventTypes, functionPointer)
 
 /*
   -------------------------------------------------------------------------------
-    HELPER
+    HELPER METHODS
   -------------------------------------------------------------------------------
 */
 
-proto._getTargetObject = function(n)
+// BUG: http://xscroll.mozdev.org/
+// If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
+// it can not return the correct event target for DOMMouseScroll.
+
+QxEventManager.getTargetObject = function(n)
 {
   // Walk up the tree and search for an QxWidget
   while(n != null && n._QxWidget == null)
@@ -216,14 +220,28 @@ proto._getTargetObject = function(n)
     };
   };
 
-  // Ignore Event if no attached QxWidget could be found
-  if(n == null || n._QxWidget == null) {
-    return;
+  return n ? n._QxWidget : null;
+};
+
+QxEventManager.getTargetObjectFromEvent = function(e) {
+  return QxEventManager.getTargetObject(e.target || e.srcElement);
+};
+
+QxEventManager.getRelatedTargetObjectFromEvent = function(e) {
+  return QxEventManager.getTargetObject(e.relatedTarget || (e.type == "mouseover" ? e.fromElement : e.toElement));
+};
+
+QxEventManager.getActiveTargetObject = function(n, o)
+{
+  if (!o) 
+  {
+    var o = QxEventManager.getTargetObject(n);
+
+    if (!o) {
+      return null;
+    };
   };
-
-  // Short Hand Variable for attached QxWidget
-  var o = n._QxWidget;
-
+  
   // Search parent tree
   while(o)
   {
@@ -242,23 +260,21 @@ proto._getTargetObject = function(n)
 
     o = o.getParent();
   };
-
+  
   return o;
 };
 
-
-
-/*
-  -------------------------------------------------------------------------------
-    DRAG EVENTS
-    
-    Currently only to stop non needed events
-  -------------------------------------------------------------------------------
-*/
-
-proto._ondragevent = function(e) {
-  e.preventDefault();
+QxEventManager.getActiveTargetObjectFromEvent = function(e) {
+  return QxEventManager.getActiveTargetObject(e.target || e.srcElement);
 };
+
+QxEventManager.getRelatedActiveTargetObjectFromEvent = function(e) {
+  return QxEventManager.getActiveTargetObject(e.relatedTarget || (e.type == "mouseover" ? e.fromElement : e.toElement));
+};
+
+
+
+
 
 
 /*
@@ -354,10 +370,6 @@ if((new QxClient).isMshtml())
 {
   proto._onmouseevent = function(e)
   {
-    if (this.getDisposed() || typeof QxClient != "function" || typeof QxMouseEvent != "function") {
-      return;
-    };
-
     if(!e) {
       e = this._attachedClientWindow.getElement().event;
     };
@@ -410,125 +422,166 @@ else
 {
   proto._onmouseevent = function(e)
   {
-    if (this.getDisposed() || typeof QxClient != "function" || typeof QxMouseEvent != "function") {
-      return;
-    };
-
     var t = e.type;
-
-    // normalize mousewheel event
-    if (t == "DOMMouseScroll")
+    
+    switch(t)
     {
-      t = "mousewheel";
-    }
-
-    // ignore click or dblclick events with other then the left mouse button
-    else if ((t == "click" || t == "dblclick") && e.button != QxMouseEvent.buttons.left)
-    {
-      return;
+      case "DOMMouseScroll":
+        // normalize mousewheel event
+        t = "mousewheel";
+        break;
+        
+      case "click":
+      case "dblclick":
+        // ignore click or dblclick events with other then the left mouse button
+        if (e.button != QxMouseEvent.buttons.left) {
+          return;
+        };
     };
 
     this._onmouseevent_post(e, t);
   };
 };
 
+
+/*!
+  This is the crossbrowser post handler for all mouse events.
+*/
 proto._onmouseevent_post = function(e, t)
 {
-  // Should we prohibit the contextmenu?
-  if(t == "contextmenu" && !this.getAllowClientContextMenu())
+  var vEventObject, vDispatchTarget, vTarget, vActiveTarget, vRelatedTarget;
+  
+  switch(t)
   {
-    if(!(new QxClient).isMshtml()) {
-      e.preventDefault();
-    };
+    case "contextmenu":
+      if (!this.getAllowClientContextMenu()) 
+      {
+        if(!(new QxClient).isMshtml()) {
+          e.preventDefault();
+        };
 
-    e.returnValue = false;
-  }
-
-  // Send activate event
-  else if(t == "mousedown")
-  {
-    this._onactivateevent(e);
+        e.returnValue = false;        
+      };
+      
+      break;
+      
+    case "mousedown":
+      this._onactivateevent(e);
+      break;
   };
-
-  if (this.getCaptureWidget())
+  
+  
+  
+  
+  
+  // Check for capturing, if enabled the target is the captured widget.
+  vDispatchTarget = this.getCaptureWidget();
+  
+  // Event Target Object
+  vTarget = QxEventManager.getTargetObjectFromEvent(e);
+  
+  // If no capturing is active search for a valid target object
+  if (!isValidObject(vDispatchTarget)) 
   {
-    var o = this.getCaptureWidget();
+    // Get Target Object
+    vDispatchTarget = vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
+
+    // Ignore events which have no target object
+    if (!isValidObject(vDispatchTarget)) {
+      return;
+    };
   }
   else
   {
-    // Cross-Browser Target
-    var n = e.target || e.srcElement;
+    vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
+  };
 
-    // BUG: http://xscroll.mozdev.org/
-    // If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
-    // it can not return the correct event target for DOMMouseScroll.
+  // Find related target object
+  if (t == "mouseover" || t == "mouseout")
+  {
+    vRelatedTarget = QxEventManager.getRelatedActiveTargetObjectFromEvent(e);
 
-    // Get Target Object
-    var o = this._getTargetObject(n);
-
-    if (typeof o == "undefined" || o==null) {
+    // Ignore events where the related target and
+    // the real target are equal - from our sight
+    if (vRelatedTarget == vTarget) {
       return;
     };
   };
 
-  // Fix Mouseover and Mouseout
-  if (t == "mouseover" || t == "mouseout")
-  {
-    var nr = e.relatedTarget || (t == "mouseover" ? e.fromElement : e.toElement);
-    var or = this._getTargetObject(nr);
 
-    if (typeof or != "undefined" && or != null)
-    {
-      // Ignore events where the related target and
-      // the real target are equal - from our sight
-      if (or == o) {
-        return;
-      };
-    };
-  };
+
+
 
   // Create Mouse Event Object
-  var s = new QxMouseEvent(t, e, false);
-
+  vEventObject = new QxMouseEvent(t, e, false, vTarget, vActiveTarget, vRelatedTarget);
+  
   // Store last Event in MouseEvent Constructor
   // Needed for Tooltips, ...
-  QxMouseEvent._storeEventState(s);
+  QxMouseEvent._storeEventState(vEventObject);
 
-  // hide popups
+  // Hide Popups
   if (t == "mousedown") {
     (new QxPopupManager).update(o);
   };
 
   // Dispatch Event through target (eventtarget-)object
-  o.dispatchEvent(s);
-
-  // hide menus
-  if (t == "mousedown" && !s.getPropagationStopped()) {
-    (new QxMenuManager).update();
-  };
-
+  vDispatchTarget.dispatchEvent(vEventObject);
+  
+  
+  
+  
+  
   // Handle Special Post Events
-  if (typeof QxToolTipManager == "function")
+  switch(t)
   {
-    switch(t)
-    {
-      case "mouseover":
-        (new QxToolTipManager).handleMouseOver(s);
-        break;
+    case "mousedown":
+      if (!vEventObject.getPropagationStopped()) {
+        (new QxMenuManager).update();
+      };
+      break;
+    
+    case "mouseover":
+      if (isValidFunction(QxToolTipManager)) {
+        (new QxToolTipManager).handleMouseOver(vEventObject);
+      };
+      break;
 
-      case "mouseout":
-        (new QxToolTipManager).handleMouseOut(s);
-        break;
-    };
+    case "mouseout":
+      if (isValidFunction(QxToolTipManager)) {
+        (new QxToolTipManager).handleMouseOut(vEventObject);
+      };
+      break;
   };
+
+
+
 
   // Send Event Object to Drag&Drop Manager
-  if (typeof QxDragAndDropManager == "function") {
-    (new QxDragAndDropManager).handleMouseEvent(s);
+  if (isValidFunction(QxDragAndDropManager)) {
+    (new QxDragAndDropManager).handleMouseEvent(vEventObject);
   };
 
+
+
+
   // Dispose Event Object
-  s.dispose();
+  vEventObject.dispose();
+  vEventObject = null;
+};
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DRAG EVENTS
+    
+    Currently only to stop non needed events
+  -------------------------------------------------------------------------------
+*/
+
+proto._ondragevent = function(e) {
+  e.preventDefault();
 };
 
 
@@ -608,8 +661,9 @@ proto._onactivateevent = function(e)
 
 proto.dispose = function()
 {
-  if (this.getDisposed())
+  if (this.getDisposed()) {
     return;
+  };
 
   this.detachEvents();
 
