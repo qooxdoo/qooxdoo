@@ -57,7 +57,7 @@ proto._makeActive = function() {
 
 proto._makeInactive = function()
 {
-  var vApp = (new QxApplication)
+  var vApp = new QxApplication;
   if (vApp.getActiveWidget() == this) {
     vApp.setActiveWidget(vApp.getClientWindow().getClientDocument());
   };  
