@@ -48,3 +48,7 @@ proto._onmouseup = function(e)
 
   this.setState("hover");
 };
+
+proto._renderCheck = function(vId, vParent) {
+  return vParent["_renderInitialDone_" + vId];  
+};

@@ -2143,10 +2143,12 @@ proto._activateRendering = function()
 proto._renderInitialDone_horizontal = false;
 proto._renderInitialDone_vertical = false;
 
+proto._renderCheck = function(vId, vParent) {
+  return true;  
+};
+
 proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameStop, vNameStartUp, vNameRangeUp, vNameStopUp, vNameRangeMin, vNameRangeMax, vNameRangeMinUp, vNameRangeMaxUp)
 {
-  
-  
   var vParent = this.getParent();
 
   if (vParent == null || !this.isCreated()) {
@@ -2174,12 +2176,9 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     return true;
   };
   
-  /*
-  if (this instanceof QxToolBarButton && !vParent["_renderInitialDone_" + vId]) {
-    this.debug("parent not done");
+  if (!this._renderCheck(vId, vParent)) {
     return true;
   };
-  */
   
   // this.debug("Render-" + vId + ": " + vHint);
 
