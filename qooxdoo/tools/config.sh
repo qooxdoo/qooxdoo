@@ -62,6 +62,7 @@ L="$L core/QxXmlHttpLoader"
 L="$L core/QxData"
 
 # Image Support
+L="$L managers/QxImageManager"
 L="$L managers/QxImagePreloaderManager"
 L="$L widgets/QxImagePreloader"
 L="$L widgets/QxImage"

@@ -625,6 +625,14 @@ Function.prototype.addProperty = function(p)
     };
   };
 
+  this.prototype["getDefault" + p.method] = function(uniqModIds) {
+    return p.defaultValue;
+  };
+
+  this.prototype["setDefault" + p.method] = function(newValue, uniqModIds) {
+    return p.defaultValue = newValue;
+  };
+
   this.prototype["force" + p.method] = function(newValue)
   {
     this[valueKey] = newValue;
@@ -636,7 +644,7 @@ Function.prototype.addProperty = function(p)
   this.prototype["reset" + p.method] = function(uniqModIds) {
     return this["set" + p.method](p.defaultValue, uniqModIds);
   };
-
+  
   this.prototype["set" + p.method] = function(newValue, uniqModIds)
   {
     var thisModId = this.toHash() + "_" + p.name;

@@ -23,7 +23,7 @@
     QxEvents which will be fired, and cross-browser PNG with extended alpha channels.</p>
 
     <p>PNG file in HTML (in Internet Explorer this should not be transparent):</p>
-    <img src="../../images/icons/crystal/48/fish.png" width="48" height="48"/>
+    <img src="../../images/icons/crystalsvg/48/hwinfo.png" width="48" height="48"/>
   </div>
 
   <script type="text/javascript">
@@ -31,8 +31,9 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var i1 = new QxImage("../../images/icons/crystal/48/fish.png", 48, 48);
-    with(i1) {
+    var i1 = new QxImage("icons/48/hwinfo.png", 48, 48);
+    with(i1) 
+    {
       setTop(48);
       setLeft(20);
     };
@@ -41,8 +42,9 @@
 
 
 
-    var i2 = new QxImage("../../images/icons/crystal/48/fish.png", 48, 48);
-    with(i2) {
+    var i2 = new QxImage("icons/48/hwinfo.png", 48, 48);
+    with(i2) 
+    {
       setTop(48);
       setLeft(100);
     };
@@ -52,32 +54,89 @@
 
 
 
-    var i3 = new QxImage("../../images/icons/crystal/48/fish.png", 100, 100);
-    with(i3) {
+    var i3 = new QxImage("icons/48/hwinfo.png", 100, 100);
+    with(i3) 
+    {
       setTop(120);
       setLeft(60);
     };
 
+    /*
     i3.addEventListener("load", function() {
-      new QxDebug("Bigger Image", "Preferred (Original) Size: " + i3.getPreferredWidth() + "x" + i3.getPreferredHeight());
+      new QxDebug("Bigger Symbol", "Preferred (Original) Size: " + this.getPreferredWidth() + "x" + this.getPreferredHeight());
     });
+    */
 
     d.add(i3);
 
 
 
 
-    var i4 = new QxImage("../../images/icons/crystal/48/fish.png", 24, 24);
-    with(i4) {
+    var i4 = new QxImage("icons/48/hwinfo.png", 24, 24);
+    with(i4) 
+    {
       setTop(120);
       setLeft(20);
     };
 
+    /*
     i4.addEventListener("load", function() {
-      new QxDebug("Smaller Image", "Preferred (Original) Size: " + i4.getPreferredWidth() + "x" + i4.getPreferredHeight());
+      new QxDebug("Smaller Symbol", "Preferred (Original) Size: " + this.getPreferredWidth() + "x" + this.getPreferredHeight());
     });
+    */
 
     d.add(i4);
+    
+    
+    
+    
+    var i5 = new QxImage("http://www.google.com/images/google_sm.gif");
+    with(i5)
+    {
+      setTop(300);
+      setLeft(20);
+    };
+    
+    /*
+    i5.addEventListener("load", function() {
+      new QxDebug("Google Image", "Preferred (Original) Size: " + this.getPreferredWidth() + "x" + this.getPreferredHeight());
+    });    
+    */
+    
+    d.add(i5);
+    
+
+
+    
+    
+    var b1 = new QxButton("Crystal SVG", "icons/16/icons.png");
+    
+    with(b1)
+    {
+      setTop(48);
+      setLeft(300);
+      setHorizontalAlign("center");      
+    };
+    
+    b1.addEventListener("click", function(e) {
+      (new QxImageManager).setIconTheme("crystalsvg");  
+    });
+    
+    var b2 = new QxButton("Nuvola", "icons/16/icons.png");
+    
+    with(b2)
+    {
+      setTop(48);
+      setLeft(400);
+      setHorizontalAlign("center");      
+    };
+    
+    b2.addEventListener("click", function(e) {
+      (new QxImageManager).setIconTheme("nuvola");  
+    });
+    
+    d.add(b1, b2);
+    
   };
   </script>
 </body>

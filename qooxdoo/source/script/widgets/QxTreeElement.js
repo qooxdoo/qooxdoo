@@ -28,7 +28,6 @@ QxTreeElement.extend(QxWidget, "QxTreeElement");
   -------------------------------------------------------------------------------
 */
 
-QxTreeElement._blankURI = "../../images/core/blank.gif";
 QxTreeElement._indentCache = [];
 
 
@@ -242,7 +241,7 @@ proto._renderImplIcon = function()
     return true;
   };
 
-  this._iconImage.src = QxTreeElement._blankURI;
+  this._iconImage.src = (new QxImageManager).getBlank();
 
   return true;
 };
@@ -276,7 +275,7 @@ proto._renderImplNavigation = function()
 
   if (!vParentTree.useTreeLines())
   {
-    newSrc = QxTreeElement._blankURI;
+    newSrc = (new QxImageManager).getBlank();
   }
   else if (this.isLastChild())
   {
@@ -356,7 +355,7 @@ proto._renderImplIndent = function()
       else
       {
         io = new Image();
-        io.src = QxTreeElement._blankURI;
+        io.src = (new QxImageManager).getBlank();
         this._indentCell.appendChild(io);
       };
     }
@@ -394,7 +393,7 @@ proto._renderImplIndent = function()
 
     if (vNoLines || vParent.isLastChild())
     {
-      nI = QxTreeElement._blankURI;
+      nI = (new QxImageManager).getBlank();
     }
     else
     {
@@ -643,7 +642,7 @@ QxTreeElement.init = function()
   lt2.className = "QxTreeElementNavigationCell";
 
   li2 = new Image();
-  li2.src = QxTreeElement._blankURI;
+  li2.src = (new QxImageManager).getBlank();
   li2.height = 16;
   li2.width = 19;
   lt2.appendChild(li2);
@@ -654,7 +653,7 @@ QxTreeElement.init = function()
   lt3.className = "QxTreeElementIconCell";
 
   li3 = new Image();
-  li3.src = QxTreeElement._blankURI;
+  li3.src = (new QxImageManager).getBlank();
   li3.height = 16;
   li3.width = 16;
   lt3.appendChild(li3);

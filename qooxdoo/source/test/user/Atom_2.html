@@ -84,9 +84,9 @@
     <p>
       Icon:
       <a href="javascript:void(at1.setIcon(null))">null</a> |
-      <a href="javascript:void(at1.setIcon(im_16))">16px</a> |
-      <a href="javascript:void(at1.setIcon(im_32))">32px</a> |
-      <a href="javascript:void(at1.setIcon(im_48))">48px</a>
+      <a href="javascript:void(at1.setIcon('icons/16/date.png'))">16px</a> |
+      <a href="javascript:void(at1.setIcon('icons/32/colorize.png'))">32px</a> |
+      <a href="javascript:void(at1.setIcon('icons/48/agent.png'))">48px</a>
     </p>
     <p>
       Position:
@@ -163,15 +163,11 @@
   </div>
 
   <script type="text/javascript">
-  var at1, im_16, im_32, im_38;
+  var at1;
 
   window.application.main = function()
   {
-    im_48 = "../../images/icons/crystal/48/satellite.png";
-    im_32 = "../../images/icons/crystal/32/colorize.png";
-    im_16 = "../../images/icons/crystal/16/server.png";
-
-    at1 = new QxAtom("My first QxAtom", im_32);
+    at1 = new QxAtom("My first QxAtom", "icons/32/colorize.png");
     
     with(at1)
     {

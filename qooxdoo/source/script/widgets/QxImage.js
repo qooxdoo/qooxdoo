@@ -8,8 +8,11 @@ function QxImage(vSource, vWidth, vHeight)
   this.setTagName("IMG");
   this.setCanSelect(false);
   
+  this._manager = new QxImageManager;
+  this._manager.add(this);
+  
   // Load default placeholder image.
-  this.setHtmlProperty("src", QxImage._blank);
+  this.setHtmlProperty("src", this._manager.getBlank());
 
   if (isValid(vWidth)) {
     this.setWidth(vWidth);
@@ -22,8 +25,6 @@ function QxImage(vSource, vWidth, vHeight)
   if (isValid(vSource)) {
     this.setSource(vSource);
   };
-  
-  //(new QxImageManager).add(this);
 };
 
 QxImage.extend(QxTerminator, "QxImage");
@@ -56,14 +57,6 @@ QxImage.addProperty({ name : "loaded", type : Boolean, defaultValue : false });
 
 
 
-
-/*
-------------------------------------------------------------------------------------
-  STATIC CONFIGURATION
-------------------------------------------------------------------------------------
-*/
-
-QxImage._blank = "../../images/core/blank.gif";
 
 
 
@@ -102,10 +95,10 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds)
     // Omit uniqModIds here, otherwise the later setLoaded(true)
     // will not be executed (recursion preventation)
     this.setLoaded(false);
-
+    
     if (propValue)
     {
-      this.setPreloader(new QxImagePreloader(propValue), uniqModIds);
+      this.setPreloader(new QxImagePreloader((new QxImageManager).buildURI(propValue)), uniqModIds);
     }
     else if (propOldValue)
     {
@@ -128,6 +121,16 @@ proto._modifyPreloader = function(propValue, propOldValue, propName, uniqModIds)
   {
     if (propValue.getIsLoaded())
     {
+      if (this.getLoaded())
+      {
+        if (this.isCreated())
+        {
+          this._apply();
+        };
+        
+        return true;
+      };
+      
       this.setLoaded(true, uniqModIds);
     }
     else
@@ -183,14 +186,16 @@ if ((new QxClient).isMshtml())
 
   proto._postApply = function(vEnabled)
   {
-    if (this.getPreloader().getIsPng() && vEnabled)
+    var pl = this.getPreloader();
+    
+    if (pl.getIsPng() && vEnabled)
     {
-      this.setHtmlProperty("src", QxImage._blank);
-      this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.getSource() + "',sizingMethod='scale')");
+      this.setHtmlProperty("src", this._manager.getBlank());
+      this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + pl.getSource() + "',sizingMethod='scale')");
     }
     else
     {
-      this.setHtmlProperty("src", this.getSource());
+      this.setHtmlProperty("src", pl.getSource());
       vEnabled ? this.removeStyleProperty("filter") : this.setStyleProperty("filter", "Gray() Alpha(Opacity=50)");
     };
   };
@@ -236,7 +241,7 @@ else
 {
   proto._apply = function()
   {
-    this.setHtmlProperty("src", this.getSource());
+    this.setHtmlProperty("src", this.getPreloader().getSource());
 
     // Invalidate Preferred
     this._invalidatePreferred();    
@@ -302,7 +307,7 @@ proto.dispose = function()
     return true;
   };
   
-  //(new QxImageManager).remove(this);
+  (new QxImageManager).remove(this);
   
   return QxWidget.prototype.dispose.call(this);
 };

@@ -60,6 +60,7 @@ proto._isPng = false;
 */
 
 proto.getUri = function() { return this._source; };
+proto.getSource = function() { return this._source; };
 
 if((new QxClient).isGecko())
 {
