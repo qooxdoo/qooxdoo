@@ -137,3 +137,7 @@ L="$L widgets/QxTreeElement"
 L="$L widgets/QxTreeFile"
 L="$L widgets/QxTreeFolder"
 L="$L widgets/QxTree"
+
+# Spinner
+L="$L managers/QxRangeManager"
+L="$L widgets/QxSpinner"

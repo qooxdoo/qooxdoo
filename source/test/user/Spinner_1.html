@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p></p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();  
+    var s1 = new QxSpinner;
+
+    with(s1)
+    {
+      setLeft(20);
+      setTop(48);
+    };
+
+    d.add(s1);
+    
+    var s2 = new QxSpinner;
+    
+    with(s2)
+    {
+      setLeft(100);
+      setTop(48);
+      setValue(30);
+      setMin(-30);
+      setMax(30);
+    };
+    
+    d.add(s2);
+    
+    var s3 = new QxSpinner;
+    
+    with(s3)
+    {
+      setLeft(180);
+      setTop(48);
+      setValue(0);
+      setMin(-3000);
+      setMax(3000);
+    };
+    
+    d.add(s3);    
+  };
+  </script>
+</body>
+</html>
