@@ -2,25 +2,12 @@ function QxBarSelectorBar()
 {
   QxWidget.call(this);
 
-  this.setHeight("auto"); 
-  this.setWidth("auto");
-   
   this.setState("top");
   
   this._manager = new QxRadioButtonManager();
 };
 
 QxBarSelectorBar.extend(QxWidget, "QxBarSelectorBar");
-
-
-
-/*
-------------------------------------------------------------------------------------
-  PROPERTIES
-------------------------------------------------------------------------------------
-*/
-
-
 
 
 /*
@@ -32,9 +19,6 @@ QxBarSelectorBar.extend(QxWidget, "QxBarSelectorBar");
 proto.getManager = function() {
   return this._manager;
 };
-
-
-
 
 
 
@@ -66,16 +50,11 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
 
 
 
-
-
-
-
 /*
 ------------------------------------------------------------------------------------
   UPDATE
 ------------------------------------------------------------------------------------
 */
-
 QxBarSelectorBar.states = 
 {
   top: {
@@ -116,6 +95,7 @@ QxBarSelectorBar.states =
 // please keep: this end is not nice, but is seems that the optimizer 
 // has currently problems in optimizing property lists.
 
+
 proto._applyState = function()
 {
   var h = QxBarSelectorBar.states[this.getState()];
@@ -123,7 +103,6 @@ proto._applyState = function()
     this[i](h[i]);
   };
 };
-
 
 
 
@@ -175,20 +154,9 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   };
 };
 
-proto._layoutInternalWidgetsVertical = function(vHint)
-{
-  var vPane = this.getParent().getPane();
-
-  if (!this.isCreated() || !vPane.isCreated()) {
-    return true;
-  };
-  
-  // this.debug("LAYOUT VERTICAL: " + vHint);
-
+proto._layoutInternalWidgetsVertical = function(vHint) { 
   return;
 };
-
-
 
 
 
