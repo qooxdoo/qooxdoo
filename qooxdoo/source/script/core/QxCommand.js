@@ -16,9 +16,8 @@ function QxCommand(vShortcut, vKeyCode, vManager)
 QxCommand.extend(QxTarget, "QxCommand");
 
 QxCommand.addProperty({ name : "checked", type : Boolean, defaultValue : false });
-QxCommand.addProperty({ name : "value"});
-QxCommand.addProperty({ name : "shortcut" });
-QxCommand.addProperty({ name : "keyCode" });
+QxCommand.addProperty({ name : "shortcut", type : String });
+QxCommand.addProperty({ name : "keyCode", type : Number });
 QxCommand.addProperty({ name : "manager", type : Object });
 
 proto.execute = function() 
@@ -27,7 +26,7 @@ proto.execute = function()
   return false;
 };
 
-proto._shortcutParts = null;
+proto._shortcutParts = {};
 
 proto._modifyShortcut = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -72,8 +71,8 @@ proto._modifyManager = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._matchesKeyEvent = function(e)
 {
-  // pre check for configured shortcut
-  if (isInvalid(this.getShortcut())) {
+  // pre check for configured shortcut or keycode
+  if (!(isValid(this.getShortcut()) || isValid(this.getKeyCode()))) {
     return false;
   };
 
@@ -90,6 +89,12 @@ proto._matchesKeyEvent = function(e)
   /* ------------------------------------------
     #1 : Check if keycode defined is the same
          as the one from the event.
+         
+         For example this match something
+         like: Esc, Space, ... 
+         
+         any integer number which represents
+         a valid key code
   ------------------------------------------ */
 
   // Check for key code
@@ -101,7 +106,6 @@ proto._matchesKeyEvent = function(e)
     case vEventCode:
       return true;
   };
-
 
 
   /* ------------------------------------------
@@ -160,7 +164,30 @@ proto._matchesKeyEvent = function(e)
 
 
 
-
+proto.toString = function()
+{
+  var vShortcut = this.getShortcut();
+  var vKeyCode = this.getKeyCode();
+  var vString = "";
+  
+  if (isValidString(vShortcut))
+  {
+    vString = vShortcut;
+    
+    if (isValidNumber(vKeyCode))
+    {
+      var vTemp = QxKeyEvent.codes[vKeyCode];
+      vString += "+" + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
+    };      
+  }
+  else if (isValidNumber(vKeyCode))
+  {
+    var vTemp = QxKeyEvent.codes[vKeyCode];
+    vString = vTemp ? vTemp.toFirstUp() : String(vKeyCode);
+  };
+  
+  return vString;
+};
 
 
 
