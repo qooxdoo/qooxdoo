@@ -634,6 +634,19 @@ Function.prototype.addProperty = function(p)
     // Handle "null" as "null", otherwise check if the property is a type and cast newValue
     var fixedValue = newValue == null ? null : isValid(p.type) ? p.type(newValue) : newValue;
     var oldValue = this[valueKey];
+    
+    // Allow to check and transform the new value before storage
+    if (typeof this[checkKey] == "function")
+    {
+      try{
+        fixedValue = this[checkKey](fixedValue, oldValue, p.name, uniqModIds);
+      }
+      catch(ex)
+      {
+        this.debug("Failed to check property " + p.name + ": " + ex);
+        return false;        
+      };
+    };
 
     if (fixedValue != oldValue)
     {
@@ -644,7 +657,8 @@ Function.prototype.addProperty = function(p)
       // Check if there is a modifier implementation
       if (typeof this[modifyKey] == "function")
       {
-        try{
+        try
+        {
           var r = this[modifyKey](fixedValue, oldValue, p.name, uniqModIds);
           if (!r) {
             throw new Error("Failed without exception: " + p.name + " [" + p.implMethod + "|" + r + "]");
