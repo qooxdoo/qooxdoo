@@ -12,7 +12,7 @@ function QxComboBox()
   //   LIST  
   // ***********************************************************************
   this._list = new QxList();
-  this._list.set({ top: 0, left: 0, bottom: 0, right: 0, overflow: "auto" });
+  this._list.set({ top: 0, left: 0, bottom: 0, right: 0, overflow: "auto", timerCreate: false });
   
 
   // ***********************************************************************
@@ -27,7 +27,7 @@ function QxComboBox()
   //   POPUP
   // ***********************************************************************
   this._popup = new QxPopup();  
-  this._popup.set({ autoHide: false, width: 150, height: 180 });
+  this._popup.set({ autoHide: false, width: 150, height: 180, timerCreate: false });
   this._popup.add(this._list);
   
 

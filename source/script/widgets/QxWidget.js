@@ -525,7 +525,7 @@ proto._createChildren = function()
 
         case false:
           if (cho._shouldBecomeCreated()) {
-            cho._createElement();
+            cho._createElementWrapper();
           };
 
           break;
@@ -705,8 +705,8 @@ proto._beforeHide = function(uniqModIds) {};
 QxWidget._createList = [];
 QxWidget._createListLength = 0;
 QxWidget._createListMaxCount = 0;
-QxWidget._createMaxTimeout = 200;
-QxWidget._createInterval = 50;
+QxWidget._createMaxTimeout = 500;
+QxWidget._createInterval = 10;
 
 QxWidget.addToCreateList = function(vWidget)
 {
@@ -716,6 +716,11 @@ QxWidget.addToCreateList = function(vWidget)
 
   if (QxWidget._createTimer == null) 
   {
+    var vWin = window.application.getClientWindow();
+    if (vWin && vWin.hasEventListeners("creatorStarted")) {
+      vWin.dispatchEvent(new QxEvent("creatorStarted"), true);
+    };      
+    
     this._createStart = (new Date).valueOf();
     QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", QxWidget._createInterval);
   };
@@ -736,6 +741,9 @@ QxWidget._timeCreator = function()
   while((vCurrent = vList[0]) && ((new Date).valueOf() - vStart) < QxWidget._createMaxTimeout)
   {
     vParent = vCurrent.getParent();
+    
+    // QxDebug("QxWidget", "WIDGET: " + vCurrent);
+    
     if (vParent && vParent.isCreated()) 
     {      
       // create widget
@@ -747,15 +755,29 @@ QxWidget._timeCreator = function()
     };
   };
   
+  /*
   var vProgress = 100 - Math.round(QxWidget._createListLength / QxWidget._createListMaxCount * 100);
   for (var s="Progress: ", i=0; i<vProgress; i+=5) { s += "*"; };
   window.status = s;
+  */
+  
+  var vWin = window.application.getClientWindow();
+  if (vWin && vWin.hasEventListeners("creatorInterval")) {
+    vWin.dispatchEvent(new QxDataEvent("creatorInterval", 100 - Math.round(QxWidget._createListLength / QxWidget._createListMaxCount * 100)), true);
+  };
+  
+  // QxDebug("QxWidget", "DO: " + vProgress);
   
   if (QxWidget._createList.length == 0) 
   {
     window.clearInterval(QxWidget._createTimer);
     QxWidget._createTimer = null;    
     QxWidget._createListMaxCount = 0;
+    
+    var vWin = window.application.getClientWindow();
+    if (vWin && vWin.hasEventListeners("creatorStopped")) {
+      vWin.dispatchEvent(new QxEvent("creatorStopped"), true);
+    };    
   };
 
   delete this._timeCreatorRun;
@@ -823,7 +845,6 @@ proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
       }
       else if (!this.isCreated())
       {
-        // this._createElement(uniqModIds);
         this._createElementWrapper(uniqModIds);
       }
       else
@@ -963,10 +984,6 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
   {
     if (!this.isCreated())
     {
-      // no return here, setVisible in modifyElement will not be executed
-      // because visible is already true and so the call will be blocked.
-      // this._createElement();
-
       // new logic, force visible to false again and wait for creation
       this.forceVisible(false);
       this._createElementWrapper();

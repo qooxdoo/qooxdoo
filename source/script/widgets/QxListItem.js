@@ -11,6 +11,7 @@ function QxListItem(vText, vIcon, vValue)
   this.setRight(0);
 
   this.setCanSelect(false);
+  this.setTimerCreate(false);
 };
 
 QxListItem.extend(QxAtom, "QxListItem");
