@@ -1,153 +1,282 @@
 function QxBarSelectorBar()
 {
-  QxToolBar.call(this);
-  
+  QxWidget.call(this);
+
+  this.setHeight("auto"); 
+  this.setWidth("auto");
+   
   this.setState("top");
-  this._updatePlacement();
-
+  
   this._manager = new QxRadioButtonManager();
-  this._manager.addEventListener("changeSelected", this._updatePage);
 };
 
-QxBarSelectorBar.extend(QxToolBar, "QxBarSelectorBar");
+QxBarSelectorBar.extend(QxWidget, "QxBarSelectorBar");
 
-QxBarSelectorBar.addProperty({ name : "placeOn", type : String, defaultValue : "top" });
-QxBarSelectorBar.removeProperty({ name : "alignTabsToLeft" });
 
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-  
-  switch(this.getPlaceOn())
-  {
-    case "left":
-    case "right":
-      this._updateChilds("100%");
-  };  
-  
-  return true;
-};
 
-proto.getAlignTabsToLeft = function() {
-  return true;
-};
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
-proto._updatePage = function(e)
-{
-  var oldTab = e.getOldValue();
-  var newTab = e.getNewValue();
 
-  if (oldTab && oldTab.getPage()) {
-    oldTab.getPage().setVisible(false);
-  };
 
-  if (newTab && newTab.getPage()) {
-    newTab.getPage().setVisible(true);
-  };
-};
+
+/*
+------------------------------------------------------------------------------------
+  UTILITY
+------------------------------------------------------------------------------------
+*/
 
 proto.getManager = function() {
   return this._manager;
 };
 
-proto._modifyPlaceOn = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this.getParent().setPlaceBarOn(propValue, uniqModIds);
-  this.setState(propValue, uniqModIds);
-  
-  this._updatePlacement();
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  STATE MODIFIER
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
+{
+  var vClasses = this.getCssClassName();
+
+  if (isValidString(propOldValue)) {
+    vClasses = vClasses.remove(this.classname + "-" + propOldValue.toFirstUp(), " ");
+  };
+
+  if (isValidString(propValue)) {
+    vClasses = vClasses.add(this.classname + "-" + propValue.toFirstUp(), " ");
+  };
+
+  this.setCssClassName(vClasses, uniqModIds);
+  
+  this._applyState();
+  
   return true;
 };
 
-proto._updatePlacement = function()
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UPDATE
+------------------------------------------------------------------------------------
+*/
+
+QxBarSelectorBar.states = 
 {
-  switch(this.getPlaceOn())
-  {
-    case "top":
-      this._updateChilds(null);
-      
-      this.setWidth(null);
-      this.setRight(0);  
-      this.setLeft(0);
+  top: {
+    setBottom : null,
+    setWidth : null,
+    setTop : 0,
+    setHeight : "auto",
+    setLeft : 0,
+    setRight : 0
+  },
+  
+  right: {
+    setLeft : null,
+    setHeight: null,
+    setRight : 0,
+    setWidth : "auto",
+    setBottom : 0,
+    setTop : 0   
+  },
+  
+  bottom: {
+    setTop : null,
+    setWidth : null,
+    setBottom : 0,
+    setHeight : "auto",
+    setLeft : 0,
+    setRight : 0
+  },
+  
+  left: {
+    setRight : null,
+    setHeight: null,
+    setLeft : 0,
+    setWidth : "auto",
+    setBottom : 0,
+    setTop : 0
+}};
+// please keep: this end is not nice, but is seems that the optimizer 
+// has currently problems in optimizing property lists.
 
-      this.setBottom(null);
-      this.setTop(0);
-      
-      this.setHeight("auto");
-      
-      break;
-      
-    case "bottom":
-      this._updateChilds(null);
-    
-    
-      this.setWidth(null);    
-      this.setRight(0);  
-      this.setLeft(0);
-      
-      this.setTop(null);
-      this.setBottom(0);
-      
-      this.setHeight("auto");
-      
-      break;
-      
-    case "left":
-      this.setHeight(null);
-      this.setTop(0);
-      this.setBottom(0);
-
-      this.setRight(null);
-      this.setLeft(0);
-      
-      this.setWidth("auto");
-      this._updateChilds("100%");
-      break;
-      
-    case "right":
-      this.setHeight(null);
-      this.setTop(0);
-      this.setBottom(0);
-
-      this.setLeft(null);
-      this.setRight(0);
-      
-      this.setWidth("auto");
-      this._updateChilds("100%");
-      break;
+proto._applyState = function()
+{
+  var h = QxBarSelectorBar.states[this.getState()];
+  for (var i in h) {
+    this[i](h[i]);
   };
 };
 
-proto._updateChilds = function(vWidth)
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  LAYOUTER
+------------------------------------------------------------------------------------
+*/
+
+proto._layoutInternalWidgets = function(vHint) 
 {
-  if (!this.isCreated()) {
-    return;
+  this._layoutInternalWidgetsHorizontal(vHint);
+  this._layoutInternalWidgetsVertical(vHint);
+};
+
+proto._layoutInternalWidgetsHorizontal = function(vHint)
+{
+  var vPane = this.getParent().getPane();
+
+  if (!this.isCreated() || !vPane.isCreated()) {
+    return true;
   };
+
+  // this.debug("LAYOUT HORIZONTAL: " + vHint + ": " + this.getState());
   
+  switch(this.getState())
+  {
+    case "left":
+    case "right":
+      var vSet = { setWidth : null, setLeft : 0, setRight : 0, setHorizontalAlign: "center" };
+      break;
+      
+    default:
+      var vSet = { setLeft : null, setRight : null, setWidth : "auto", setHorizontalAlign: null };
+  };      
+    
   var ch = this.getChildren();
   var chl = ch.length;
   
-  switch(vWidth)
+  for (var i=0; i<chl; i++)
   {
-    case "100%":
-      var max = 0;
-      
-      for (var i=0; i<chl; i++) {
-        max = Math.max(max, ch[i].getElement().firstChild.offsetWidth);
-      };
-      
-      for (var i=0; i<chl; i++) {
-        ch[i].getElement().firstChild.style.width = max + "px";
-      };  
-      
-      break;
-      
-    case null:
-      for (var i=0; i<chl; i++) {
-        ch[i].getElement().firstChild.style.width = "";
-      };
-      
-      break;
+    for (var j in vSet) 
+    {
+      ch[i][j](vSet[j]);  
+    };    
   };
+};
+
+proto._layoutInternalWidgetsVertical = function(vHint)
+{
+  var vPane = this.getParent().getPane();
+
+  if (!this.isCreated() || !vPane.isCreated()) {
+    return true;
+  };
+
+  // this.debug("LAYOUT VERTICAL: " + vHint);
+};
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  BASICS
+
+  Extend this core functions of QxWidget.
+------------------------------------------------------------------------------------
+*/
+
+proto._onnewchild = function(otherObject) {
+  this._layoutInternalWidgetsHorizontal("append-child");
+};
+
+proto._onremovechild = function(otherObject) {
+  this._layoutInternalWidgetsHorizontal("remove-child");
+};
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: INNER DIMENSION SIGNAL
+
+  should be called always when the inner dimension have been modified
+------------------------------------------------------------------------------------
+*/
+
+proto._innerHeightChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerHeight();
+
+  // Update placement of icon and text
+  this._layoutInternalWidgetsVertical("inner-height");
+};
+
+proto._innerWidthChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerWidth();
+
+  // Update placement of icon and text
+  this._layoutInternalWidgetsHorizontal("inner-width");
+};
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: OUTER DIMENSION SIGNAL
+
+  should be called always when the outer dimensions have been modified
+------------------------------------------------------------------------------------
+*/
+
+proto._childOuterWidthChanged = function(vModifiedChild, vHint) {
+  return !this._wasVisible ? true : this.getWidth() == "auto" ? this._setChildrenDependWidth(vModifiedChild, vHint) : this._layoutInternalWidgetsHorizontal(vHint);
+};
+
+proto._childOuterHeightChanged = function(vModifiedChild, vHint) {
+  return !this._wasVisible ? true : this.getHeight() == "auto" ? this._setChildrenDependHeight(vModifiedChild, vHint) : this._layoutInternalWidgetsVertical(vHint);
+};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+  
+  if (this._manager)
+  {
+    this._manager.dispose();
+    this._manager = null;
+  };
+  
+  QxWidget.prototype.dispose.call(this);
 };

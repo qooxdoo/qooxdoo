@@ -783,38 +783,45 @@ html[QxFocused] {
   ------------------------------------------
 */
 
-.QxBarSelectorFrame{
+.QxBarSelectorPane,
+.QxBarSelectorPage,
+.QxBarSelectorFrame,
+.QxBarSelectorBar{
   overflow: hidden;
   position: absolute;
-  white-space: nowrap;
 }
 
 .QxBarSelectorBar {
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-
   background: #fff;
 }
 
+.QxBarSelectorPane{
+  background: #EFF4FB;
+}
+
+.QxBarSelectorButton{
+  padding: 4px; 
+}
+
+.QxBarSelectorButton-Pressed,
+.QxBarSelectorButton-Checked{
+  background: #C1D2EE;
+}
+
 .QxBarSelectorBar-Top{
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid #316AC5;
 }
 
 .QxBarSelectorBar-Right{
-  border-left: 1px solid #BDBDBD;
+  border-left: 1px solid #316AC5;
 }
 
 .QxBarSelectorBar-Bottom{
-  border-top: 1px solid #BDBDBD;
+  border-top: 1px solid #316AC5;
 }
 
 .QxBarSelectorBar-Left{
-  border-right: 1px solid #BDBDBD;
-}
-
-.QxBarSelectorPane{
-  background: #EFEFEF;
+  border-right: 1px solid #316AC5;
 }
 
 .QxBarSelectorBar-Top .QxBarSelectorButton,
@@ -822,64 +829,50 @@ html[QxFocused] {
   position: relative;
   float: left;
 
+  /*
   padding: 5px 6px 3px;
   border-left: 1px solid #fff;
   border-right: 1px solid #fff;
 
   margin-left: 3px;
   margin-right: 3px;
+  */
 }
 
 .QxBarSelectorBar-Left .QxBarSelectorButton,
 .QxBarSelectorBar-Right .QxBarSelectorButton{
-  position: static;
+  position: relative;
 
-  padding: 5px 6px 3px;
+  /*
+  padding: 4px 7px 2px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
 
   margin-bottom: 6px;
-}
-
-.QxBarSelectorButton-Pressed,
-.QxBarSelectorButton-Checked{
-  background: #DEDEDE;
-}
-
-.QxBarSelectorBar-Top .QxBarSelectorButton,
-.QxBarSelectorBar-Bottom .QxBarSelectorButton{
-  height: 100%;
+  */
 }
 
 .QxBarSelectorBar-Top .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Bottom .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Top .QxBarSelectorButton-Checked,
 .QxBarSelectorBar-Bottom .QxBarSelectorButton-Checked{
-  border-left-color: #BDBDBD;
-  border-right-color: #BDBDBD;
+  /*
+  border-left-color: #316AC5;
+  border-right-color: #316AC5;
+  */
 }
 
 .QxBarSelectorBar-Left .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Right .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Left .QxBarSelectorButton-Checked,
 .QxBarSelectorBar-Right .QxBarSelectorButton-Checked{
-  border-top-color: #BDBDBD;
-  border-bottom-color: #BDBDBD;
+  /*
+  border-top-color: #316AC5;
+  border-bottom-color: #316AC5;
+  */
 }
 
-* html .QxBarSelectorBar-Left .QxAtomTable{
-  height: auto;
-}
 
-* html .QxBarSelectorBar-Right .QxAtomTable{
-  height: auto;
-}
-
-.QxBarSelectorPane,
-.QxBarSelectorPage {
-  position: absolute;
-  overflow: hidden;
-}
 
 
 

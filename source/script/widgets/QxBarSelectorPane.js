@@ -1,74 +1,77 @@
-function QxBarSelectorPane()
+function QxBarSelectorPane() 
 {
   QxWidget.call(this);
-
+  
   this.setState("bottom");
-  this._updatePlacement();
 };
 
 QxBarSelectorPane.extend(QxWidget, "QxBarSelectorPane");
 
-QxBarSelectorPane.addProperty({ name : "placeOn", type : String, defaultValue : "bottom" });
 
-proto._modifyPlaceOn = function(propValue, propOldValue, propName, uniqModIds)
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MODIFIER
+  -------------------------------------------------------------------------------
+*/
+
+proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds) 
 {
-  this.setState(propValue, uniqModIds);
-
-  this.getParent().setPlaceBarOn(QxBarSelectorFrame.paneMap[propValue], uniqModIds);
-  this._updatePlacement();
-  
-  return true;
+  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);  
+  return this._applyState();
 };
 
-proto._updatePlacement = function()
+proto._modifyState = function(propValue, propOldValue, propName, uniqModIds) 
 {
-  var bpa = this.getParent();
-  var bel = bpa ? bpa.getBar().getElement() : null;
+  QxWidget.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
+  return this._applyState();
+};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    LAYOUTER
+  -------------------------------------------------------------------------------
+*/
+
+proto._applyState = function()
+{
+  var vParent = this.getParent();
   
-  switch(this.getPlaceOn())
+  if (!vParent || !this.isCreated() || !vParent.getBar().isCreated()) {
+    return true;
+  };
+  
+  var vBar = vParent.getBar();
+  var vTop = 0, vRight = 0, vBottom = 0, vLeft = 0;
+
+  switch(this.getState())
   {
     case "top":
-      this.setLeft(0);
-      this.setRight(0);
-
-      if (bel) {
-        this.setBottom(bel.offsetHeight);
-      };
-      
-      this.setTop(0);
-      break;
-      
-    case "bottom":
-      this.setLeft(0);
-      this.setRight(0);
-
-      if (bel) {
-        this.setTop(bel.offsetHeight);
-      };
-      
-      this.setBottom(0);
-      break;
-      
-    case "left":
-      this.setTop(0);
-      this.setBottom(0);
-
-      if (bel) {
-        this.setRight(bel.offsetWidth);
-      };
-      
-      this.setLeft(0);
-      break;
+      vBottom = vBar.getComputedBoxHeight() - this.getComputedBorderBottom();
+      break;      
       
     case "right":
-      this.setTop(0);
-      this.setBottom(0);
-
-      if (bel) {
-        this.setLeft(bel.offsetWidth);
-      };
-      
-      this.setRight(0);
+      vLeft = vBar.getComputedBoxWidth() - this.getComputedBorderLeft();
       break;
+    
+    case "left":
+      vRight = vBar.getComputedBoxWidth() - this.getComputedBorderRight();
+      break;      
+
+    default:
+      vTop = vBar.getComputedBoxHeight() - this.getComputedBorderTop();
   };
+  
+  this.setTop(vTop);
+  this.setRight(vRight);
+  this.setBottom(vBottom);
+  this.setLeft(vLeft);
+  
+  return true;
 };
