@@ -856,15 +856,16 @@ proto._oninlineevent = function(e)
   switch(e.type)
   {
     case "focus":
-      this.setFocused(true);
+      //this.setFocused(true);
       break;
       
     case "blur":
-      this.setFocused(false);
+      //this.setFocused(false);
       break;
       
     case "select":
-      break;
+    case "scroll":
+      break;    
       
     case "propertychange":
       // this.debug("Uncatched inline event: " + e.propertyName);
