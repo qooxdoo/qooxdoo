@@ -122,31 +122,26 @@ proto.getDomTargetByTagName = function(elemTagName, stopElem)
 {
   var dt = this.getDomTarget();
 
-  while(dt && dt.tagName != elemTagName && dt != stopElem)
+  while(dt && dt.tagName != elemTagName && dt != stopElem) {
     dt = dt.parentNode;
+  };
 
-  if (dt && dt.tagName == elemTagName)
+  if (dt && dt.tagName == elemTagName) {
     return dt;
+  };
 
   return null;
 };
 
 
-/*
-  Dispose Implementation
-*/
-proto.dispose = function()
-{
-  if(this._disposed)
-    return;
 
-  this._domEvent = null;
-  QxEvent.prototype.dispose.call(this);
-};
 
 /*
-  Prevent Default
+  -------------------------------------------------------------------------------
+    PREVENT DEFAULT SUPPORT
+  -------------------------------------------------------------------------------
 */
+
 if((new QxClient).isMshtml())
 {
   proto.preventDefault = function()
@@ -171,9 +166,17 @@ proto.getDefaultPrevented = function()
 {
   return this._defaultPrevented;
 };
+
+
+
+
+
 /*
-  Property: Target
+  -------------------------------------------------------------------------------
+    TARGET SUPPORT
+  -------------------------------------------------------------------------------
 */
+
 proto._target = null;
 proto._targetEvaluated = false;
 proto._dragDropTarget = null;
@@ -271,9 +274,16 @@ proto._evalManagerTarget = function()
 };
 
 
+
+
+
+
 /*
-  Property: RelatedTarget
+  -------------------------------------------------------------------------------
+    RELATED TARGET
+  -------------------------------------------------------------------------------
 */
+
 proto._relatedTarget = null;
 proto._relatedTargetEvaluated = false;
 
@@ -304,9 +314,16 @@ proto._evalRelatedTarget = function()
   return n == null ? null : n._QxWidget;
 };
 
+
+
+
+
 /*
-  Property: Button
+  -------------------------------------------------------------------------------
+    BUTTON SUPPORT
+  -------------------------------------------------------------------------------
 */
+
 proto._button = 0;
 proto._buttonEvaluated = false;
 
@@ -365,9 +382,15 @@ else
   QxMouseEvent._button = -1;
 };
 
+
+
+
 /*
-  Property: WheelDelta
+  -------------------------------------------------------------------------------
+    WHEEL SUPPORT
+  -------------------------------------------------------------------------------
 */
+
 proto._wheelDelta = 0;
 proto._wheelDeltaEvaluated = false;
 
@@ -394,3 +417,20 @@ else
   };
 };
 
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
+proto.dispose = function()
+{
+  if(this._disposed)
+    return;
+
+  this._domEvent = null;
+  QxEvent.prototype.dispose.call(this);
+};
