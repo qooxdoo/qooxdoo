@@ -886,7 +886,7 @@ html[QxFocused] {
 
 .QxMenuButton{
   position: relative;
-  padding: 2px 4px;
+  padding: 1px 8px 1px 4px;
   border: 1px solid Menu;
 }
 
