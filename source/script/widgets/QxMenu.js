@@ -2,9 +2,6 @@ function QxMenu()
 {
   QxPopup.call(this);
 
-  // Disable popup auto hide
-  this.setAutoHide(false);
-
   // Configure dimensions
   this.setWidth("auto");
   this.setHeight(null);
@@ -57,6 +54,35 @@ QxMenu.addProperty({ name : "minIconWidth", type : Number, defaultValue: 16 });
 
 
 
+
+
+/*
+------------------------------------------------------------------------------------
+  MANAGER
+------------------------------------------------------------------------------------
+*/
+
+proto._menuManager = new QxMenuManager();
+
+proto._beforeShow = function(uniqModIds)
+{
+  QxAtom.prototype._beforeShow.call(this, uniqModIds);
+  
+  this._menuManager.add(this);
+  this.bringToFront();  
+};
+
+proto._beforeHide = function(uniqModIds)
+{
+  QxAtom.prototype._beforeHide.call(this, uniqModIds);
+  
+  this.sendToBack();
+  this._menuManager.remove(this);
+};
+
+
+
+
 /*
 ------------------------------------------------------------------------------------
   MODIFIER
@@ -101,7 +127,7 @@ proto._modifyOpenItem = function(propValue, propOldValue, propName, uniqModIds)
     {
       vSub.setOpener(propValue);
       vSub.setParentMenu(this);
-
+      
       vSub.setTop(propValue.getComputedPageBoxTop() + this.getSubMenuVerticalOffset());
       vSub.setLeft(this.getComputedPageBoxLeft() + this.getComputedBoxWidth() + this.getSubMenuHorizontalOffset());
 
