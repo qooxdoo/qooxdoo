@@ -6,9 +6,6 @@ function QxMenu()
   this.setWidth("auto");
   this.setHeight(null);
 
-  // Configure style
-  this.setBorder(QxBorder.presets.outset);
-
   // Add timers
   this._openTimer = new QxTimer(this.getOpenInterval());
   this._openTimer.addEventListener("timer", this._onopentimer, this);
@@ -33,7 +30,7 @@ QxMenu.extend(QxPopup, "QxMenu");
 ------------------------------------------------------------------------------------
 */
 
-QxMenu.addProperty({ name : "iconContentGap", type : Number, defaultValue : 6 });
+QxMenu.addProperty({ name : "iconContentGap", type : Number, defaultValue : 4 });
 QxMenu.addProperty({ name : "textHintGap", type : Number, defaultValue : 10 });
 QxMenu.addProperty({ name : "contentArrowGap", type : Number, defaultValue : 6 });
 
@@ -143,6 +140,14 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
   this.setHoverItem(null);
   this.setOpenItem(null);
+  
+  if (propOldValue)
+  {
+    var vOpener = this.getOpener();
+    if (vOpener) {
+      vOpener.setState(null);
+    };
+  };
 
   return QxWidget.prototype._modifyVisible.call(this, propValue, propOldValue, propName, uniqModIds);
 };

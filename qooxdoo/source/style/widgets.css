@@ -882,21 +882,18 @@ html[QxFocused] {
 .QxMenu{
   border: 2px outset;
   background: Menu;
+  padding: 2px 1px 1px 2px;
 }
 
 .QxMenuButton{
   position: relative;
-  padding: 1px 8px 1px 4px;
+  padding: 1px 6px 1px 2px;
   border: 1px solid Menu;
 }
 
 .QxMenuButton-Hover{
-  background-color: #709CCC;
-  border: 1px solid #3A6EA5;
-}
-
-.QxMenuButton-Open{
-  background-color: #3A6EA5;
+  background-color: highlight;
+  color: highlighttext;
 }
 
 .QxMenuButton .QxImage,
@@ -914,4 +911,43 @@ html[QxFocused] {
   height: 2px;
   border-top: 1px solid ThreeDShadow;
   border-bottom: 1px solid ThreeDHighlight;
+}
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    MENUBAR
+  ------------------------------------------
+*/
+
+.QxMenuBar {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  visibility: visible;
+  white-space: nowrap;
+}
+
+.QxMenuBar {
+  overflow: -moz-scrollbars-none;
+}
+
+.QxMenuBarButton{
+  display: block;
+  position: absolute;
+  visibility: visible;
+  white-space: nowrap;
+  cursor: default;
+  border: 0 none;
+  padding: 4px 8px 3px 8px;
+}
+
+.QxMenuBar .QxMenuBarButton{
+	position: relative;
+	vertical-align: top;
+	float: left;
 }
