@@ -27,17 +27,23 @@ body.QxThemeWinXP .QxMenuSeparator{
   margin-left: 24px;
 }
 
-body.QxThemeWinXP .QxMenuButton{
+body.QxThemeWinXP .QxMenuButton,
+body.QxThemeWinXP .QxMenuCheckBox,
+body.QxThemeWinXP .QxMenuRadioButton{
   border: 0 none;
 }
 
-body.QxThemeWinXP .QxMenuButton-Hover{
+body.QxThemeWinXP .QxMenuButton-Hover,
+body.QxThemeWinXP .QxMenuCheckBox-Hover,
+body.QxThemeWinXP .QxMenuRadioButton-Hover{
   border: 1px solid #0A246A;
   background-color: #B7BFD4;
   color: black;
 }
 
-body.QxThemeWinXP .QxMenuButton-Hover *{
+body.QxThemeWinXP .QxMenuButton-Hover *,
+body.QxThemeWinXP .QxMenuCheckBox-Hover *,
+body.QxThemeWinXP .QxMenuRadioButton-Hover *{
   margin-left: -1px; 
 }
 
