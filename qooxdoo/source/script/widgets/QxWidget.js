@@ -702,18 +702,23 @@ proto._beforeHide = function(uniqModIds) {};
 ------------------------------------------------------------------------------------
 */
 
-// we need to play a little bit more with the timer interval here
-QxWidget._createList = {};
+QxWidget._createList = [];
+QxWidget._createListLength = 0;
+QxWidget._createListMaxCount = 0;
+QxWidget._createMaxTimeout = 200;
+QxWidget._createInterval = 50;
 
 QxWidget.addToCreateList = function(vWidget)
 {
-  if (QxWidget._createTimer == null)
+  QxWidget._createList.push(vWidget);
+  QxWidget._createListMaxCount++;
+  QxWidget._createListLength++;
+
+  if (QxWidget._createTimer == null) 
   {
     this._createStart = (new Date).valueOf();
-    QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", 1);
+    QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", QxWidget._createInterval);
   };
-
-  QxWidget._createList[vWidget.toHash()] = vWidget;
 };
 
 QxWidget._timeCreator = function()
@@ -723,40 +728,35 @@ QxWidget._timeCreator = function()
   };
 
   this._timeCreatorRun = true;
-
-  var vCurrent;
-  var vLoopCount = 0;
-  var vCreateCount = 0;
-
-  for (var vHash in QxWidget._createList)
+  
+  var vParent, vCurrent;
+  var vList = QxWidget._createList;
+  var vStart = (new Date).valueOf();
+  
+  while((vCurrent = vList[0]) && ((new Date).valueOf() - vStart) < QxWidget._createMaxTimeout)
   {
-    vCurrent = QxWidget._createList[vHash];
-    vLoopCount++;
-
-    if (vCurrent.getParent().isCreated())
-    {
-      vCreateCount++;
-
+    vParent = vCurrent.getParent();
+    if (vParent && vParent.isCreated()) 
+    {      
+      // create widget
       vCurrent._createElement();
-      delete QxWidget._createList[vHash];
-
-      // 3 seems to be a good balance between 1 and 10
-      // should this be a property
-      if (vCreateCount >= 3) {
-        break;
-      };
+      
+      // delete from list
+      vList.shift();
+      QxWidget._createListLength--;      
     };
   };
-
-  if (vLoopCount == 0)
+  
+  var vProgress = 100 - Math.round(QxWidget._createListLength / QxWidget._createListMaxCount * 100);
+  for (var s="Progress: ", i=0; i<vProgress; i+=5) { s += "*"; };
+  window.status = s;
+  
+  if (QxWidget._createList.length == 0) 
   {
     window.clearInterval(QxWidget._createTimer);
-    QxWidget._createTimer = null;
-
-    // QxDebug("QxWidget", "Create Time: " + ((new Date).valueOf() - this._createStart) + "ms");
+    QxWidget._createTimer = null;    
+    QxWidget._createListMaxCount = 0;
   };
-
-  // window.status = (new Date).valueOf();
 
   delete this._timeCreatorRun;
 };
