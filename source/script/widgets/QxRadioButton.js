@@ -1,6 +1,6 @@
-function QxRadioButton(vText, vName, vChecked, vValue, vGroup)
+function QxRadioButton(vText, vValue, vName, vChecked, vGroup)
 {
-  QxCheckBox.call(this, vText, vName, vChecked, vValue);
+  QxCheckBox.call(this, vText, vValue, vName, vChecked);
   
   if (isValid(vGroup)) {
     this.setGroup(vGroup);
