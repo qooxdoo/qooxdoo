@@ -3,10 +3,8 @@
 */
 function QxMenuCheckBox(vText, vShortcut, vChecked)
 {
-  QxMenuButton.call(this, vText, null, vShortcut);
-  
-  this.setIcon(this._source);
-  
+  QxMenuButton.call(this, vText, this._source, vShortcut);
+   
   if (isValid(vChecked)) {
     this.setChecked(vChecked);
   };
