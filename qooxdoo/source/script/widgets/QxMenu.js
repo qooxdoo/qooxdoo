@@ -425,10 +425,6 @@ proto._onkeydown = function(e)
       this._onkeydown_enter(e);
       break;
 
-    case QxKeyEvent.keys.esc:
-      this._onkeydown_esc(e);
-      break;
-      
     default:
       return;
   };
@@ -550,9 +546,6 @@ proto._onkeydown_enter = function(e)
   (new QxMenuManager()).update();
 };
 
-proto._onkeydown_esc = function(e) {
-  (new QxMenuManager()).update();
-};
 
 
 
