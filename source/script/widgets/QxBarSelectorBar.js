@@ -168,8 +168,10 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   {
     for (var j in vSet) 
     {
-      ch[i][j](vSet[j]);  
-    };    
+      ch[i][j](vSet[j]);
+    };
+    
+    ch[i]._recalculateFrame();
   };
 };
 
@@ -180,8 +182,10 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   if (!this.isCreated() || !vPane.isCreated()) {
     return true;
   };
-
+  
   // this.debug("LAYOUT VERTICAL: " + vHint);
+
+  return;
 };
 
 
