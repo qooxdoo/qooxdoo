@@ -2,13 +2,15 @@ function QxMenuButton(vText, vIcon, vHint, vSubMenu)
 {
   QxWidget.call(this);
 
-  this._overTimer = new QxTimer(500);
-  this._outTimer = new QxTimer(500);
+  this.setHeight("auto");
+  this.setLeft(0);
+  this.setRight(0);
 
-  this._overTimer.addEventListener("timer", this._onovertimer, this);
-  this._outTimer.addEventListener("timer", this._onouttimer, this);
+  // 22 is the default height of QxMenuButtons with 16px icons
+  // so sync all buttons to minimum reach this height
+  this.setMinHeight(22);
 
-  if (isValid(vText)) {
+  if (isValidString(vText)) {
     this.setText(vText);
   };
 
@@ -16,23 +18,24 @@ function QxMenuButton(vText, vIcon, vHint, vSubMenu)
     this.setIcon(vIcon);
   };
 
-  if (isValid(vHint)) {
+  if (isValidString(vHint)) {
     this.setHint(vHint);
   };
 
   if (isValid(vSubMenu)) {
     this.setSubMenu(vSubMenu);
   };
-
-  this.setHeight("auto");
-  this.setLeft(0);
-  this.setRight(0);
-
-
-
 };
 
 QxMenuButton.extend(QxWidget, "QxMenuButton");
+
+
+
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
 QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
@@ -42,6 +45,16 @@ QxMenuButton.addProperty({ name : "subMenu", type : Object });
 QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
 
 
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  STATUS FLAGS
+------------------------------------------------------------------------------------
+*/
 
 proto._iconObject = null;
 proto._textObject = null;
@@ -57,6 +70,18 @@ proto._displayIcon = false;
 proto._displayText = false;
 proto._displayHint = false;
 proto._displayArrow = false;
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIER
+------------------------------------------------------------------------------------
+*/
 
 proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -87,44 +112,46 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-
-
 proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayIcon = isValid(propValue);
-
-
-
   return true;
 };
 
 proto._modifyText = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayText = isValid(propValue);
-
-
-
   return true;
 };
 
 proto._modifyHint = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayHint = isValid(propValue);
-
-
-
   return true;
 };
 
 proto._modifySubMenu = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayArrow = isValid(propValue);
-
-
-
   return true;
 };
 
+
+
+
+
+proto.hasSubMenu = function() {
+  return Boolean(this.getSubMenu());
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  ELEMENT CREATORS
+------------------------------------------------------------------------------------
+*/
 
 proto._pureCreateFillIcon = function()
 {
@@ -168,34 +195,63 @@ proto._pureCreateFillArrow = function()
 
 
 
-proto._renderChildrenX = function(childrenHint, applyHint)
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: INNER DIMENSION SIGNAL
+
+  should be called always when the inner dimension have been modified
+------------------------------------------------------------------------------------
+*/
+
+proto._innerWidthChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerWidth();
+
+  // Update placement of icon and text
+  this._layoutInternalWidgetsHorizontal("inner-width");
+};
+
+
+
+
+
+
+proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
   var xpos = this.getComputedPaddingLeft();
 
   if (this._iconObject) {
-    this._iconObject._applyXPos(xpos);
+    this._iconObject._applyPositionHorizontal(xpos);
   };
 
   xpos += this.getParent()._maxIcon + this.getParent().getIconTextGap();
 
   if (this._textObject) {
-    this._textObject._applyXPos(xpos);
+    this._textObject._applyPositionHorizontal(xpos);
   };
 
   xpos += this.getParent()._maxText + this.getParent().getTextHintGap();
 
   if (this._hintObject) {
-    this._hintObject._applyXPos(xpos);
+    this._hintObject._applyPositionHorizontal(xpos);
   };
 
   xpos += this.getParent()._maxHint + this.getParent().getHintArrowGap();
 
   if (this._arrowObject) {
-    this._arrowObject._applyXPos(xpos);
+    this._arrowObject._applyPositionHorizontal(xpos);
   };
-
-
 };
+
+
+
+
+
+
 
 proto._calculatedIconWidth = 0;
 proto._calculatedTextWidth = 0;
@@ -208,88 +264,17 @@ proto._measure = function()
   this._calculatedTextWidth = this._displayText ? this._textObject.getAnyWidth() : 0;
   this._calculatedHintWidth = this._displayHint ? this._hintObject.getAnyWidth() : 0;
   this._calculatedArrowWidth = this._displayArrow ? this._arrowObject.getAnyWidth() : 0;
-
-  //this._invalidateLayoutHorizontal("calculated-width");
 };
 
 
 
 
 
-proto._startOverTimer = function()
-{
-  this._stopOutTimer();
-  this._overTimer.start();
-};
-
-proto._stopOverTimer = function()
-{
-  this._overTimer.stop();
-};
-
-proto._startOutTimer = function()
-{
-  this._stopOverTimer();
-  this._outTimer.start();
-};
-
-proto._stopOutTimer = function()
-{
-  this._outTimer.stop();
-};
-
-
-
-proto._onovertimer = function(e)
-{
-  this._overTimer.stop();
-
-  this.debug("Show Menu");
-
-
-  if (!this.getSubMenu().isVisible())
-  {
-    this.getSubMenu()._opener = this;
-
-    this.getSubMenu().setTop(this.getComputedPageBoxTop());
-    this.getSubMenu().setLeft(this.getComputedPageBoxLeft() + this.getComputedBoxWidth());
-
-    this.getSubMenu().setVisible(true);
-
-  };
-
-};
-
-proto._onouttimer = function(e)
-{
-  this._outTimer.stop();
-
-  this.debug("Hide Menu");
-
-  this.getSubMenu().setVisible(false);
-  this.getSubMenu()._opener = null;
-
-};
-
-proto._onmouseover = function(e)
-{
-  this.setState("hover");
-
-  if (this._displayArrow) {
-    this._startOverTimer();
-  };
-};
-
-proto._onmouseout = function(e)
-{
-  this.setState(null);
-
-  if (this._displayArrow) {
-    this._startOutTimer();
-  };
-};
-
-
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {
@@ -299,5 +284,3 @@ proto.dispose = function()
 
   return QxWidget.prototype.dispose.call(this);
 };
-
-

@@ -3,8 +3,13 @@
 cd `dirname $0`/..
 cd tools
 
+echo ">>> Creating includer script..."
+
 cat script/includer.js.in > script/includer.js
 grep -v \"\" config.sh | sed s:"L=\"\$L ":"inc(\"":g | sed s:"\"$":"\");":g | sed s:"\# ":"// ":g >> script/includer.js
+
+
+echo ">>> Creating layout script..."
 
 cat script/layout.js.in > script/layout.js
 
