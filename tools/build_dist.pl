@@ -23,7 +23,7 @@ my $outputFile = $opt_f || 'qooxdoo.js';
 my $package = $opt_p;
 my $basedir = $opt_b || '.';
 my $fileSuffix = $opt_e || '.js';
-my $dependenciesFile = $opt_d || 'dependencies.xml';
+my $dependenciesFile = $opt_d || './tools/dependencies.xml';
 
 if ( !$package ) {
     print "The -p option is mandatory. Run '$0 --help' if you need more information\n";
@@ -34,7 +34,9 @@ if ( !$package ) {
 %excludedirs = ( 'CVS' => 1, '.cache' => 1, 'public' => 1);
 
 # read in package and dependency definition file
-my $ref = XMLin($dependenciesFile);
+my $xmldata;
+{ local undef $/; $xmldata = <DATA>; }
+my $ref = XMLin($xmldata);
 
 foreach (keys %{$ref->{'package'}} ) {
     my $classes = $ref->{'package'}->{$_}->{class};
@@ -203,7 +205,9 @@ sub searchFiles {
 sub appendFiles() {
     local $/ = undef;  
     foreach (@neededFiles) {
-        open F, $fileLocations{$_} or die "can't open ".$fileLocations{$_}." for depency ".$_;
+        open F, $fileLocations{$_} 
+             or die "Can't open '$fileLocations{$_}' for dependency $_! \n".
+                    "Have you set the basedir option? Currently set to '$basedir'";
         $text .= <F> and print "Appending contents of $fileLocations{$_} \n";
         close F;
     }
@@ -232,7 +236,8 @@ sub get_dependencies {
 =cut
 sub add_dependencies {
     my ($packageName, $stackRef) = @_;
-    die "invalid package referenced '$packageName'\n" unless $packages{$packageName};
+    die "invalid package referenced '$packageName'\nYour dependency definitions are wrong!" 
+        unless $packages{$packageName};
     
     foreach ( @{$dependencies{$packageName}} ) { add_dependencies($_, $stackRef); }
     push @$stackRef, @{$dependencies{$packageName}};
@@ -244,18 +249,180 @@ sub add_dependencies {
 =cut
 sub HELP_MESSAGE() {
     my $out = shift;
-    my $packagelist;
-    foreach (keys %packages) { $packagelist .= "                 $_\n";}
-print  $out
-"  -f <file_name>     of the output file (set to 'qooxdoo.js' if not specified)\n".
+print  $out "\nAvailable parameters:\n".
+"  -f <file_name>     of the output file (set to 'qooxdoo.js' if not specified). NOTE: File will be truncated\n".
 "  -e <file_ending>   suffix of the input files (default is '.js')\n".
 "  -d <dep_xml_file>  location of dependency and package definition file (default is './dependencies.xml')\n".
 "  -b <base_dir>      base directory from which searching for dependencies should\n".
 "                     be started (defaults to current directory)\n".
-"  -p <package>   comma-separated list of package names that should be packed into the output file.\n".       
-"                 Available packages are: (default is 'basicwidget'):\n".
-"                 $packagelist";
-                              
+"  -p <package>   comma-separated list of package names that should be packed into the output file.\n\n";       
 } 
 
+__DATA__
+
+
+
+<?xml version="1.0" ?>
+<dependencies>
+
+  <package name="types">
+    <class>QxColor</class>
+    <class>QxInteger</class>
+    <class>QxNumber</class>
+    <class>QxString</class>
+    <class>QxTextile</class>
+    <class>QxVariable</class>
+  </package>
+
+  <package name="core">
+    <depends>types</depends>
+    <class>QxExtend</class>
+    <class>QxObject</class>
+    <class>QxClient</class>
+    <class>QxDom</class>
+    <class>QxDebug</class>
+    <class>QxTarget</class>
+    <class>QxData</class>
+    <class>QxApplication</class>
+    <class>QxClientWindow</class>
+    <class>QxBorder</class>
+    <class>QxTimer</class>
+    <class>QxXmlHttpLoader</class>
+  </package>
+  
+  <package name="events">
+    <depends>core</depends>
+    <class>QxEvent</class>
+    <class>QxDataEvent</class>
+    <class>QxFocusEvent</class>
+    <class>QxKeyEvent</class>
+    <class>QxMouseEvent</class>
+  </package>
+      
+  <package name="managers">
+    <depends>core</depends>
+    <class>QxManager</class>
+    <class>QxMenuManager</class>
+    <class>QxDataManager</class>
+    <class>QxEventManager</class>
+    <class>QxFocusManager</class>
+    <class>QxPopupManager</class>
+    <class>QxToolTipManager</class>
+    <class>QxTimerManager</class>
+    <class>QxImagePreloaderManager</class>
+  </package>
+      
+  <package name="basicwidget">
+    <depends>events</depends>
+    <depends>managers</depends>
+    <class>QxWidget</class>
+    <class>QxAtom</class>
+    <class>QxClientDocument</class>
+    <class>QxInline</class>
+  </package>
+  
+  <package name="extrawidget">
+    <depends>basicwidget</depends>
+    <class>QxTerminator</class>
+    <class>QxPopup</class>
+    <class>QxButton</class>
+    <class>QxContainer</class>
+    <class>QxToolTip</class>
+  </package>
+  
+  <package name="toolbar">
+    <depends>basicwidget</depends>
+    <class>QxToolBar</class>
+    <class>QxToolBarPart</class>
+    <class>QxToolBarButton</class>
+    <class>QxToolBarSeparator</class>
+    <class>QxToolBarCheckBox</class>
+    <class>QxToolBarRadioButton</class>
+    <class>QxToolBarMenuButton</class>
+  </package>
+  
+  <package name="menu">
+    <depends>extrawidget</depends>
+    <class>QxMenu</class>
+    <class>QxMenuButton</class>
+    <class>QxMenuCheckBox</class>
+    <class>QxMenuRadioButton</class>
+    <class>QxMenuSeparator</class>
+    <class>QxMenuBar</class>
+    <class>QxMenuBarButton</class>
+  </package>
+  
+  
+  <package name="image">
+    <depends>basicwidget</depends>
+    <class>QxImagePreloader</class>
+    <class>QxImage</class>
+  </package>
+  
+  <package name="list">
+    <depends>core</depends>
+    <class>QxSelectionStorage</class>
+    <class>QxSelectionManager</class>
+    <class>QxList</class>
+    <class>QxListItem</class>
+    <class>QxComboBox</class>
+  </package>
+  
+  <package name="popup">
+    <depends>basicwidget</depends>  
+  </package>
+  
+  <package name="tree">
+    <depends>basicwidget</depends>  
+    <class>QxTreeElement</class>
+    <class>QxTreeFile</class>
+    <class>QxTreeFolder</class>
+    <class>QxTree</class>
+  </package>
+  
+  <package name="dragndrop">
+    <depends>core</depends>  
+    <class>QxDragEvent</class>
+    <class>QxDragAndDropManager</class>
+  </package>
+  
+  <package name="input">
+    <depends>basicwidget</depends>
+    <class>QxForm</class>
+    <class>QxTextField</class>
+    <class>QxPasswordField</class>
+    <class>QxTextArea</class>
+    <class>QxInputCheckIcon</class>
+    <class>QxRadioButtonManager</class>
+    <class>QxRadioButton</class>
+  </package>
+  
+  <package name="tabbar">
+    <depends>basicwidget</depends>
+    <class>QxTabFrame</class>
+    <class>QxTabBar</class>
+    <class>QxTabPane</class>
+    <class>QxTabPage</class>
+    <class>QxTab</class>
+  </package>
+  
+  <package name="barselector">
+    <depends>toolbar</depends>
+    <depends>tabbar</depends>
+    <class>QxBarSelectorFrame</class>
+    <class>QxBarSelectorBar</class>
+    <class>QxBarSelectorPane</class>
+    <class>QxBarSelectorPage</class>
+    <class>QxBarSelectorButton</class>
+  </package>
+  
+  <package name="otherwidgets"> 
+    <depends>basicwidget</depends>
+    <depends>timer</depends>
+    <class>QxListView</class>
+    <class>QxFieldSet</class>
+    <class>QxIframe</class>
+  </package>
+
+</dependencies>
 
