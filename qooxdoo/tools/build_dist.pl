@@ -170,6 +170,7 @@ $text =~ s/\n/ /gm;                      # put all on one line
 print "Writing file $outputFile! \n";
 
 open OUTFILE, "+>$outputFile" or die "Can't open file '".$outputFile."' for output";
+print OUTFILE "/* Built with following packages-string: '$package' */";
 print OUTFILE $text;
 close OUTFILE;
 
