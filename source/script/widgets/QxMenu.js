@@ -6,6 +6,7 @@ function QxMenu()
   this.setWidth("auto");
   this.setHeight(null);
   this.setMinWidth(100);
+  this.setTimerCreate(false);
 
   // Add timers
   this._openTimer = new QxTimer(this.getOpenInterval());
@@ -16,7 +17,9 @@ function QxMenu()
 
   // Add event listeners
   this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mousemove", this._onmouseover);
   this.addEventListener("mouseout", this._onmouseout);
+  this.addEventListener("keydown", this._onkeydown);
 };
 
 QxMenu.extend(QxPopup, "QxMenu");
@@ -66,7 +69,9 @@ proto._beforeShow = function(uniqModIds)
   QxAtom.prototype._beforeShow.call(this, uniqModIds);
   
   this._menuManager.add(this);
-  this.bringToFront();  
+  this.bringToFront();
+  
+  this._makeActive();
 };
 
 proto._beforeHide = function(uniqModIds)
@@ -75,6 +80,8 @@ proto._beforeHide = function(uniqModIds)
   
   this.sendToBack();
   this._menuManager.remove(this);
+  
+  this._makeInactive();
 };
 
 
@@ -103,6 +110,8 @@ proto._modifyHoverItem = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._modifyOpenItem = function(propValue, propOldValue, propName, uniqModIds)
 {
+  var vMakeActive = false;
+  
   if (propOldValue)
   {
     var vOldSub = propOldValue.getMenu();
@@ -111,11 +120,10 @@ proto._modifyOpenItem = function(propValue, propOldValue, propName, uniqModIds)
     {
       vOldSub.setParentMenu(null);
       vOldSub.setOpener(null);
-
       vOldSub.setVisible(false);
     };
   };
-
+  
   if (propValue)
   {
     var vSub = propValue.getMenu();
@@ -381,6 +389,106 @@ proto._onclosetimer = function(e)
   this.setOpenItem(null);
 };
 
+proto._onkeydown = function(e)
+{
+  switch(e.getKeyCode())
+  {
+    case QxKeyEvent.keys.up:
+      this._hoverPrevious(e);
+      break;
+      
+    case QxKeyEvent.keys.down:
+      this._hoverNext(e);
+      break;
+      
+    case QxKeyEvent.keys.left:
+      this._goLeft(e);
+      break;
+      
+    case QxKeyEvent.keys.right:
+      this._goRight(e);
+      break;
+      
+    case QxKeyEvent.keys.enter:
+      this._doExecute();
+      break;
+
+    case QxKeyEvent.keys.esc:
+      this._doEscape();
+      break;
+  };
+};
+
+
+proto._hoverPrevious = function(e)
+{
+  var vHover = this.getHoverItem();
+  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastChild() : vHover.getPreviousActiveSibling([QxMenuSeparator]) : this.getLastChild();
+  
+  this.setHoverItem(vPrev);
+};
+
+proto._hoverNext = function(e)
+{
+  var vHover = this.getHoverItem();
+  var vNext = vHover ? vHover.isLastChild() ? this.getFirstChild() : vHover.getNextActiveSibling([QxMenuSeparator]) : this.getFirstChild();
+  
+  this.setHoverItem(vNext);
+};
+
+proto._goLeft = function(e)
+{
+  var vOpener = this.getOpener();
+  
+  if (vOpener instanceof QxMenuButton)
+  {
+    var vOpenerParent = this.getOpener().getParent();
+  
+    vOpenerParent.setOpenItem(null);  
+    vOpenerParent.setHoverItem(vOpener);
+    vOpenerParent._makeActive();
+  }
+  else if (vOpener instanceof QxMenuBarButton)
+  {
+    var vOpenerParent = this.getOpener().getParent();
+    
+    (new QxApplication).setActiveWidget(vOpenerParent);
+    vOpenerParent._onkeydown(e);
+  };
+};
+
+proto._goRight = function(e)
+{
+  var vHover = this.getHoverItem();
+  if (!vHover) {
+    return;
+  };
+  
+  var vMenu = vHover.getMenu();
+  
+  if (vMenu) 
+  {
+    this.setOpenItem(vHover);
+    
+    // mark first item in new submenu
+    vMenu.setHoverItem(vMenu.getFirstChild());
+  };  
+};
+
+proto._doExecute = function(e)
+{
+  var vHover = this.getHoverItem();
+  if (vHover) {
+    vHover.execute();
+  }; 
+  
+  this.setVisible(false);
+};
+
+proto._doEscape = function(e)
+{
+  this.setVisible(false);
+};
 
 
 
