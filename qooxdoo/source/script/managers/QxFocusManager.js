@@ -136,8 +136,10 @@ proto._ontabevent = function(e)
   };
 
   // If there was a widget found, focus it
-  if(next) {
+  if(next) 
+  {
     next.setFocused(true);
+    next._ontabfocus();
   };
 };
 
