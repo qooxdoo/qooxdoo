@@ -165,7 +165,7 @@ proto._onkeypress = function(e)
 
   if (vCode == QxKeyEvent.keys.enter && !e.getAltKey())
   {
-    this._ensureValidValue(true, false, false);
+    this._checkValue(true, false, false);
     this._textfield.selectAll();
   }
   else
@@ -222,7 +222,7 @@ proto._onkeydown = function(e)
         this._intervalMode = "single";
         
         this._resetIncrements();
-        this._ensureValidValue(true, false, false);
+        this._checkValue(true, false, false);
 
         this._increment();
         this._timer.startWith(this.getFirstInterval());
@@ -235,7 +235,7 @@ proto._onkeydown = function(e)
         this._intervalMode = "page";
 
         this._resetIncrements();
-        this._ensureValidValue(true, false, false);
+        this._checkValue(true, false, false);
 
         this._pageIncrement();
         this._timer.startWith(this.getFirstInterval());
@@ -279,7 +279,7 @@ proto._onmousedown = function(e)
     return;
   };
 
-  this._ensureValidValue(true);
+  this._checkValue(true);
   
   var vButton = e.getCurrentTarget();
   
@@ -330,7 +330,7 @@ proto._onmousewheel = function(e)
 */
 
 proto._oninput = function(e) {
-  this._ensureValidValue(true, true);
+  this._checkValue(true, true);
 };
 
 proto._onchange = function(e)
@@ -343,22 +343,26 @@ proto._onchange = function(e)
   {
     this._downbutton.setBorder(QxBorder.presets.outset);
     this._downbutton.setEnabled(false);
+    this._downbuttonimage.setEnabled(false);
     this._timer.stop();
   }
   else
   {
     this._downbutton.setEnabled(true);
+    this._downbuttonimage.setEnabled(true);
   };
   
   if (vValue == this.getMax()) 
   {
     this._upbutton.setBorder(QxBorder.presets.outset);
     this._upbutton.setEnabled(false);
+    this._upbuttonimage.setEnabled(false);
     this._timer.stop();
   }
   else
   {
     this._upbutton.setEnabled(true);
+    this._upbuttonimage.setEnabled(true);
   };
   
   if (this.hasEventListeners("change")) {
@@ -367,7 +371,7 @@ proto._onchange = function(e)
 };
 
 proto._onblur = function(e) {
-  this._ensureValidValue(false);
+  this._checkValue(false);
 };
 
 
@@ -385,9 +389,8 @@ proto.setValue = function(nValue) {
   this._manager.setValue(nValue);
 };
 
-proto.getValue = function()
-{
-  this._ensureValidValue(true);
+proto.getValue = function() {
+  this._checkValue(true);
   return this._manager.getValue();
 };
 
@@ -471,15 +474,13 @@ proto._oninterval = function(e)
   -------------------------------------------------------------------------------
 */
 
-proto._ensureValidValue = function(acceptEmpty, acceptEdit)
+proto._checkValue = function(acceptEmpty, acceptEdit)
 {
   var el = this._textfield.getElement();  
   
   if (!el) {
     return;
   };
-  
-  // this.debug("VAL: " + el.value);
   
   if (el.value == "")
   {
@@ -497,15 +498,13 @@ proto._ensureValidValue = function(acceptEmpty, acceptEdit)
     // fix leading '0'   
     if (val.length > 1)
     {
-      while(val.charAt(0) == "0") 
-      {
+      while(val.charAt(0) == "0") {
         val = val.substr(1, val.length);
       };
       
       var f1 = parseInt(val) || 0;
       
-      if (f1 != el.value)
-      {
+      if (f1 != el.value) {
         el.value = f1;
         return;      
       };
@@ -518,57 +517,45 @@ proto._ensureValidValue = function(acceptEmpty, acceptEdit)
       return;
     };
     
+    // parse the string
     val = parseInt(val);
     
+    // main check routine
     var doFix = true;
     var fixedVal = this._manager._checkValue(val);
     
     if (isNaN(fixedVal)) {
       fixedVal = this._manager.getValue();
     };
-    
-    // this.debug("S1: '" + val + "', '" + fixedVal + "'")
-    
-    
+
+    // handle empty string    
     if (acceptEmpty && val == "")
     {
       doFix = false;
     }   
     else if (!isNaN(val)) 
     {
+      // check for editmode in keypress events
       if (acceptEdit)
       {
-        if (val > fixedVal)
+        // fix min/max values
+        if (val > fixedVal && !(val > 0 && fixedVal <= 0) && String(val).length < String(fixedVal).length)
         {
-          if (val > 0 && fixedVal <= 0)
-          {
-            
-          }          
-          else if (String(val).length < String(fixedVal).length)
-          {
-            doFix = false;  
-          };          
+          doFix = false;  
         }
-        else if (val < fixedVal)
+        else if (val < fixedVal && !(val < 0 && fixedVal >= 0) && String(val).length < String(fixedVal).length)
         {
-          if (val < 0 && fixedVal >= 0)
-          {
-            
-          }
-          else if (String(val).length < String(fixedVal).length)
-          {
-            doFix = false;  
-          };
+          doFix = false;  
         };
       };
     };
     
-    if (doFix)
-    {
-      // this.debug("FIX: " + el.value + " -> " + fixedVal);
+    // apply value fix
+    if (doFix) {
       el.value = fixedVal;
     };
     
+    // inform manager
     if (!acceptEdit) {
       this._manager.setValue(fixedVal);
     };
@@ -583,8 +570,7 @@ proto._pageIncrement = function() {
   this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageIncrementAmount()));
 };
 
-proto._resetIncrements = function()
-{
+proto._resetIncrements = function() {
   this.resetIncrementAmount();
   this.resetInterval();
 };
