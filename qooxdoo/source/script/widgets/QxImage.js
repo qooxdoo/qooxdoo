@@ -283,7 +283,7 @@ proto.getPreferredWidth = function() {
   call to the preloader. This is so simple - we need not any caching here.
 */
 proto.getPreferredHeight = function() {
-  return this.getLoaded() ? this.getPreloader().getWidth() : 0;
+  return this.getLoaded() ? this.getPreloader().getHeight() : 0;
 };
 
 
