@@ -16,7 +16,8 @@ QxTabBar.extend(QxToolBar, "QxTabBar");
 
 QxTabBar.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : true });
 QxTabBar.addProperty({ name : "alignTabsToLeft", type : Boolean, defaultValue : true });
-
+QxTabBar.addProperty({ name : "activeTabHeightDiff", type : Number, defaultValue : 2 });
+QxTabBar.addProperty({ name : "activeTabOverlay", type : Number, defaultValue : 2 });
 
 /*
 ------------------------------------------------------------------------------------
@@ -78,6 +79,7 @@ proto._updatePage = function(e)
   };
   
   this._layoutInternalWidgetsVertical();
+  this._layoutInternalWidgetsHorizontal();
 };
 
 proto._updatePlacement = function()
@@ -115,15 +117,30 @@ proto._updateState = function() {
 ------------------------------------------------------------------------------------
 */
 
-proto._layoutInternalWidgetsVertical = function(vHint) 
+proto._layoutInternalWidgetsHorizontal = function(vHint) 
 {
-  var vLeftValues = [];
-  var vWidthValues = [];
-  var vLastLeft = 2;
-
+  var vPane = this.getParent().getPane();
+  
+  if (!this.isCreated() || !vPane.isCreated()) {
+    return true;
+  };
+  
+  var vLastLeft = this.getAlignTabsToLeft() ? vPane.getComputedBorderLeft() : vPane.getComputedBorderRight();
+  
   var ch = this.getChildren();
   var chl = ch.length;
   var chc;
+  
+  if (this.getAlignTabsToLeft())
+  {
+    var vReset = "setRight";
+    var vSet = "setLeft";
+  }
+  else
+  {
+    var vReset = "setLeft";
+    var vSet = "setRight";
+  };  
   
   for (var i=0; i<chl; i++)
   {
@@ -131,98 +148,76 @@ proto._layoutInternalWidgetsVertical = function(vHint)
     
     if (chc instanceof QxTab && chc.getVisible())
     {
-      vWidthValues[i] = chc.getPreferredWidth();
-
+      // wait for all things to load up correclty (means QxTab with images, ...)
+      if (chc.getPreferredWidth() == null) {
+        return true;
+      };
+      
+      chc[vReset](null);
+      
       if (chc.getChecked())
-      {
-        vLeftValues[i] = vLastLeft - 2;
-        vLastLeft += vWidthValues[i] - 4;
+      {      
+        chc[vSet](vLastLeft - this.getActiveTabOverlay());
+        vLastLeft += chc.getPreferredWidth() - (2 * this.getActiveTabOverlay());
       }
       else
       {
-        vLeftValues[i] = vLastLeft;
-        vLastLeft += vWidthValues[i];
+        chc[vSet](vLastLeft);
+        vLastLeft += chc.getPreferredWidth();
       };
-    }; 
-  };
+    };    
+  };  
+};
+
+proto._layoutInternalWidgetsVertical = function(vHint) 
+{
+  var vPane = this.getParent().getPane();
   
-  if (this.getAlignTabsToLeft())
-  {
-    for (var i=0; i<chl; i++)
-    {
-      chc = ch[i];
-      
-      if (chc instanceof QxTab && chc.getVisible())
-      {
-        chc.setRight(null);
-        chc.setLeft(vLeftValues[i]);         
-        chc.setWidth(vWidthValues[i]);
-      };
-    };  
-  }
-  else
-  {
-    for (var i=0; i<chl; i++)
-    {
-      chc = ch[i];
-      
-      if (chc instanceof QxTab && chc.getVisible())
-      {
-        chc.setLeft(null);
-        chc.setRight(vLeftValues[i]);
-        chc.setWidth(vWidthValues[i]);        
-      };
-    };  
+  if (!this.isCreated() || !vPane.isCreated()) {
+    return true;
   };
-  
+
+  var vPaneBorder = this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom();
+  var vActiveDiff = this.getActiveTabHeightDiff();
+
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;  
   
   if (this.getPlaceOnTop())
   {
-    for (var i=0; i<chl; i++)
-    {
-      chc = ch[i];
-      
-      if (chc instanceof QxTab && chc.getVisible())
-      {
-        chc.setBottom(null);
-        
-        if (chc.getChecked())
-        {
-          chc.setTop(0);
-          chc.setHeight(chc.getPreferredHeight() + 4);
-        }
-        else
-        {
-          chc.setTop(2);
-          chc.setHeight("auto");
-        };        
-      };
-    };    
+    var vReset = "setBottom";
+    var vSet = "setTop";
   }
   else
   {
-    for (var i=0; i<chl; i++)
+    var vReset = "setTop";
+    var vSet = "setBottom";
+  };
+  
+  for (var i=0; i<chl; i++)
+  {
+    chc = ch[i];
+    
+    if (chc instanceof QxTab && chc.getVisible())
     {
-      chc = ch[i];
+      chc[vReset](null);
+      chc.setMinHeight(this._maxHeight);
       
-      if (chc instanceof QxTab && chc.getVisible())
+      if (chc.getChecked())
       {
-        chc.setTop(null);
-        
-        if (chc.getChecked())
-        {
-          chc.setBottom(0);
-          chc.setHeight(chc.getPreferredHeight() + 4);
-        }
-        else
-        {
-          chc.setBottom(2);
-          chc.setHeight("auto");
-        };        
-      };
-    };    
+        chc[vSet](0);
+        chc.setHeight(this._maxActiveHeight);
+      }
+      else
+      {
+        chc[vSet](vActiveDiff);
+        chc.setHeight("auto");
+      };        
+    };
   };
 };
+
 
 
 
@@ -236,28 +231,12 @@ proto._layoutInternalWidgetsVertical = function(vHint)
 ------------------------------------------------------------------------------------
 */
 
-proto._onnewchild = function(otherObject)
-{
-  if (this.getHeight() == "auto") 
-  {
-    this._setChildrenDependHeight(otherObject, "append-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("append-child");
-  };
+proto._onnewchild = function(otherObject) {
+  this._layoutInternalWidgetsHorizontal("append-child");
 };
 
-proto._onremovechild = function(otherObject)
-{
-  if (this.getHeight() == "auto") 
-  {
-    this._setChildrenDependHeight(otherObject, "remove-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("remove-child");
-  };
+proto._onremovechild = function(otherObject) {
+  this._layoutInternalWidgetsHorizontal("remove-child");
 };
 
 
@@ -280,6 +259,60 @@ proto._innerHeightChanged = function()
   this._layoutInternalWidgetsVertical("inner-height");
 };
 
+proto._innerWidthChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerWidth();
+
+  // Update placement of icon and text
+  this._layoutInternalWidgetsHorizontal("inner-width");
+};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: OUTER DIMENSION SIGNAL
+
+  should be called always when the outer dimensions have been modified
+------------------------------------------------------------------------------------
+*/
+
+proto._childOuterWidthChanged = function(vModifiedChild, vHint)
+{
+  if (!this._wasVisible) {
+    return;
+  };
+
+  if (this.getWidth() == "auto")
+  {
+    return this._setChildrenDependWidth(vModifiedChild, vHint);
+  }
+  else
+  {
+    this._layoutInternalWidgetsHorizontal();
+  };
+};
+
+proto._childOuterHeightChanged = function(vModifiedChild, vHint)
+{
+  if (!this._wasVisible) {
+    return;
+  };
+
+  if (this.getHeight() == "auto")
+  {
+    return this._setChildrenDependHeight(vModifiedChild, vHint);
+  }
+  else
+  {
+    this._layoutInternalWidgetsVertical();
+  };
+};
+
 
 
 
@@ -290,17 +323,27 @@ proto._innerHeightChanged = function()
   -------------------------------------------------------------------------------
 */
 
+proto._maxHeight = 0;
+proto._maxActiveHeight = 0;
+
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
 {
-  var maxHeight = 0;
+  var vPane = this.getParent().getPane();
+  
+  if (!vPane.isCreated()) {
+    return null;
+  };
+  
+  var vPaneBorder = this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom();
 
   var ch = this.getChildren();
   var chl = ch.length;
   
+  var maxHeight = 0;
   for (var i=0; i<chl; i++) {
     maxHeight = Math.max(ch[i].getPreferredHeight(), maxHeight)
   };
   
-  // TODO: this '4' should be calculated
-  return maxHeight + 4;
+  this._maxHeight = maxHeight;
+  return this._maxActiveHeight = maxHeight + this.getActiveTabHeightDiff() + vPaneBorder;
 };
