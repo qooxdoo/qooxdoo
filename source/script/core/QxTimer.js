@@ -80,7 +80,7 @@ proto.restart = function()
   this.start();
 };
 
-proto.restartwith = function(vInterval)
+proto.restartWith = function(vInterval)
 {
   this.stop();
   this.startWith(vInterval);
