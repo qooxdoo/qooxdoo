@@ -191,6 +191,7 @@ html[QxFocused] {
 .QxToolBarButton,
 .QxToolBarCheckBox,
 .QxToolBarRadioButton,
+.QxToolBarMenuButton,
 .QxToolBarSeparator,
 .QxToolBarPart,
 .QxToolBarPartHandle{
@@ -200,13 +201,15 @@ html[QxFocused] {
 
 .QxToolBarButton,
 .QxToolBarCheckBox,
-.QxToolBarRadioButton{
+.QxToolBarRadioButton,
+.QxToolBarMenuButton{
   padding: 3px 4px 3px 4px;
 }
 
 .QxToolBarButton-Hover,
 .QxToolBarCheckBox-Hover,
-.QxToolBarRadioButton-Hover{
+.QxToolBarRadioButton-Hover,
+.QxToolBarMenuButton-Hover{
   padding: 2px 3px 2px 3px;
   border: 1px outset;
 }
@@ -216,7 +219,9 @@ html[QxFocused] {
 .QxToolBarCheckBox-Checked,
 .QxToolBarCheckBox-Pressed,
 .QxToolBarRadioButton-Checked,
-.QxToolBarRadioButton-Pressed{
+.QxToolBarRadioButton-Pressed,
+.QxToolBarMenuButton-Checked,
+.QxToolBarMenuButton-Pressed{
   padding: 2px 3px 2px 3px;
   border: 1px inset;
 }

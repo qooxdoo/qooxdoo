@@ -50,7 +50,8 @@ body.QxThemeWin9x .QxToolBarSeparatorLine{
 
 body.QxThemeWin9x .QxToolBarButton-Hover,
 body.QxThemeWin9x .QxToolBarCheckBox-Hover,
-body.QxThemeWin9x .QxToolBarRadioButton-Hover{
+body.QxThemeWin9x .QxToolBarRadioButton-Hover,
+body.QxThemeWin9x .QxToolBarMenuButton-Hover{
   padding: 2px 3px 2px 3px;
 
 	border-left: 1px solid ThreeDHighlight;
@@ -64,7 +65,9 @@ body.QxThemeWin9x .QxToolBarButton-Pressed,
 body.QxThemeWin9x .QxToolBarCheckBox-Checked,
 body.QxThemeWin9x .QxToolBarCheckBox-Pressed,
 body.QxThemeWin9x .QxToolBarRadioButton-Checked,
-body.QxThemeWin9x .QxToolBarRadioButton-Pressed{
+body.QxThemeWin9x .QxToolBarRadioButton-Pressed,
+body.QxThemeWin9x .QxToolBarMenuButton-Checked,
+body.QxThemeWin9x .QxToolBarMenuButton-Pressed{
   padding: 3px 2px 1px 4px;
 
 	border-left: 1px solid ThreeDShadow;
@@ -75,6 +78,7 @@ body.QxThemeWin9x .QxToolBarRadioButton-Pressed{
 
 body.QxThemeWin9x .QxToolBarButton-Checked,
 body.QxThemeWin9x .QxToolBarCheckBox-Checked,
-body.QxThemeWin9x .QxToolBarRadioButton-Checked{
+body.QxThemeWin9x .QxToolBarRadioButton-Checked,
+body.QxThemeWin9x .QxToolBarMenuButton-Checked{
   background: url(radiobuttonbackground.gif) top left;
 }

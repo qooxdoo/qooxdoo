@@ -130,12 +130,16 @@ proto._onmouseover = function(e)
 
 proto._onmouseout = function(e) {
   if (this.getState() == "hover") {
-    this.setState("normal");
+    this.setState(null);
   };
 };
 
 proto._onmousedown = function(e) 
 {
+  if(e.isNotLeftButton()) {
+    return;
+  };
+
   this.setState(this.getState() == "pressed" ? "hover" : "pressed");
   e.setPropagationStopped(true);
 };

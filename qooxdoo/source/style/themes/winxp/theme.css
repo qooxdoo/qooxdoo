@@ -81,13 +81,15 @@ body.QxThemeWinXP .QxToolBarSeparatorLine{
 
 body.QxThemeWinXP .QxToolBarButton,
 body.QxThemeWinXP .QxToolBarCheckBox,
-body.QxThemeWinXP .QxToolBarRadioButton{
+body.QxThemeWinXP .QxToolBarRadioButton,
+body.QxThemeWinXP .QxToolBarMenuButton{
   margin-right: 1px;
 }
 
 body.QxThemeWinXP .QxToolBarButton-Hover,
 body.QxThemeWinXP .QxToolBarCheckBox-Hover,
-body.QxThemeWinXP .QxToolBarRadioButton-Hover{
+body.QxThemeWinXP .QxToolBarRadioButton-Hover,
+body.QxThemeWinXP .QxToolBarMenuButton-Hover{
   padding: 2px 3px 2px 3px;
   border: 1px solid #666666;
   background: #B7BFD4;
@@ -98,7 +100,9 @@ body.QxThemeWinXP .QxToolBarButton-Pressed,
 body.QxThemeWinXP .QxToolBarCheckBox-Checked,
 body.QxThemeWinXP .QxToolBarCheckBox-Pressed,
 body.QxThemeWinXP .QxToolBarRadioButton-Checked,
-body.QxThemeWinXP .QxToolBarRadioButton-Pressed{
+body.QxThemeWinXP .QxToolBarRadioButton-Pressed,
+body.QxThemeWinXP .QxToolBarMenuButton-Checked,
+body.QxThemeWinXP .QxToolBarMenuButton-Pressed{
   padding: 2px 3px 2px 3px;
   border: 1px solid #0A246A;
   background: #8893B1;
@@ -106,6 +110,7 @@ body.QxThemeWinXP .QxToolBarRadioButton-Pressed{
 
 body.QxThemeWinXP .QxToolBarButton-Checked,
 body.QxThemeWinXP .QxToolBarCheckBox-Checked,
-body.QxThemeWinXP .QxToolBarRadioButton-Checked{
+body.QxThemeWinXP .QxToolBarRadioButton-Checked,
+body.QxThemeWinXP .QxToolBarMenuButton-Checked{
   background: #DBD8D1;
 }
