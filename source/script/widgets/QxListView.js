@@ -963,6 +963,8 @@ proto._onclick = function(e)
   -------------------------------------------------------------------------------
 */
 
+/* Currently unsupported */
+/*
 proto._oncontextmenu = function(e)
 {
   // PRE-CHECK MENU
@@ -1017,8 +1019,7 @@ proto._oncontextmenu = function(e)
   menu.setTop(e.getClientY());
   menu.setVisible(true);
 };
-
-
+*/
 
 
 
