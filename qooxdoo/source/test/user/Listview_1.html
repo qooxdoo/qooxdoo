@@ -53,7 +53,7 @@ div.QxListViewContentBox-Size{
     {
       var d = this.getClientWindow().getDocument();
 
-      var showImages = true;
+      var showImages = false;
 
       var c = [
         {
@@ -215,7 +215,7 @@ div.QxListViewContentBox-Size{
 
 
 
-
+      /*
       g.addEventListener("changeSelection", function(e) {
         this.debug("Change Selection: " + e.getNewValue());
       });
@@ -227,36 +227,9 @@ div.QxListViewContentBox-Size{
       g.addEventListener("changeSelectionMode", function(e) {
         this.debug("Change SelectionMode: " + e.getNewValue());
       });
+      */
 
-
-
-      var contextConfig = [
-          { type: "button", text: "Kopieren",      cmd: "copy" },
-          { type: "button", text: "Verschieben",   cmd: "move" },
-          { type: "button", text: "Löschen",       cmd: "delete" },
-          { type: "separator" },
-          { type: "button", text: "Umbenennen",    cmd: "rename" },
-          { type: "button", text: "Rechte ändern", cmd: "chmod" },
-          { type: "separator" },
-          { type: "button", text: "Download",      cmd: "download" },
-          { type: "button", text: "Packen",        cmd: "pack" },
-          { type: "button", text: "Entpacken",     cmd: "unpack" }
-      ];
-
-      var contextItems = [];
-      var context = new QxMenu;
-
-      for( var i=0; i<contextConfig.length; i++ ) {
-        if( contextConfig[i].type == "button" ) {
-          contextItems[i] = new QxMenuButton( contextConfig[i].text );
-          context.add( contextItems[i] );
-        } else {
-          context.add( new QxMenuSeparator );
-        };
-      };
-
-      g.setContextMenu(context);
-      d.add(g, context);
+      d.add(g);
     };
   </script>
 </body>
