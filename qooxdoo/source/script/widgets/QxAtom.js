@@ -728,6 +728,8 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
   
       var vTextSize = this._textObject["getAny" + vNameRangeUp]();
       var vIconSize = this._iconObject["getAny" + vNameRangeUp]();
+      
+      // this.debug("DIR=" + vDirection + ", TSIZE=" + vTextSize + ", ISIZE=" + vIconSize);
   
       switch(this.getIconPosition())
       {
@@ -784,13 +786,15 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
   
     vIconPos += vBoxPos;
     vTextPos += vBoxPos; 
+    
+    // this.debug("ICON=" + vIconPos + ", TEXT=" + vTextPos);
   
     // Apply new values
-    if (this._iconObject && isValidNumber(vIconPos)) {
+    if (this._iconObject) {
       this._iconObject["_applyPosition" + vDirection](vIconPos);
     };
     
-    if (this._textObject && isValidNumber(vTextPos)) {
+    if (this._textObject) {
       this._textObject["_applyPosition" + vDirection](vTextPos);
     };
   }
