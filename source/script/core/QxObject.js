@@ -124,6 +124,8 @@ proto.set = function(propertyValues)
       throw new Error("Setter of property " + prop + " returned with an error: " + ex);
     };
   };
+  
+  return this;
 };
 
 /*!
