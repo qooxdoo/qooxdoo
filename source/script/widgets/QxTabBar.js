@@ -137,7 +137,7 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   if (!isValidString(vHint) || vHint == "position") {
     return;
   };
-
+  
   var vPane = this.getParent().getPane();
 
   if (!this.isCreated() || !vPane.isCreated()) {
@@ -164,29 +164,36 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   var chl = ch.length;
   var chc;
   
+  var vPref;
+  var vLeft;
+  
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
 
     if (chc instanceof QxTab && chc.getVisible())
     {
+      vPref = chc.getPreferredWidth();
+      
       // wait for all things to load up correclty (means QxTab with images, ...)
-      if (chc.getPreferredWidth() == null) {
+      if (vPref == null) {
         return true;
-      };
+      };      
 
       chc[vReset](null);
-
+      
       if (chc.getChecked())
       {
-        chc[vSet](vLastLeft - this.getActiveTabOverlap());
-        vLastLeft += chc.getPreferredWidth() - (2 * this.getActiveTabOverlap());
+        vLeft = vLastLeft - this.getActiveTabOverlap();
+        vLastLeft += vPref - (2 * this.getActiveTabOverlap());
       }
       else
       {
-        chc[vSet](vLastLeft);
-        vLastLeft += chc.getPreferredWidth();
+        vLeft = vLastLeft;
+        vLastLeft += vPref;
       };
+      
+      chc[vSet](vLeft);
     };
   };
 };
@@ -280,7 +287,7 @@ proto._innerHeightChanged = function()
   // Invalidate internal cache
   this._invalidateInnerHeight();
 
-  // Update placement of icon and text
+  // Update placement of tabs
   this._layoutInternalWidgetsVertical("inner-height");
 };
 
@@ -289,8 +296,16 @@ proto._innerWidthChanged = function()
   // Invalidate internal cache
   this._invalidateInnerWidth();
 
-  // Update placement of icon and text
+  // Update placement of tabs
   this._layoutInternalWidgetsHorizontal("inner-width");
+  
+  // Update children
+  var ch = this._children;
+  var chl = ch.length;
+
+  for (var i=0; i<chl; i++) {
+    ch[i]._renderHorizontal("parent");
+  };  
 };
 
 
