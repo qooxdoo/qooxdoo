@@ -36,7 +36,7 @@ proto._onmousedown = function(e)
   if(e.isNotLeftButton()) {
     return;
   };
-
+  
   this.setState("pressed");
 };
 
@@ -47,4 +47,5 @@ proto._onmouseup = function(e)
   };
 
   this.setState("hover");
+  this.execute();
 };
