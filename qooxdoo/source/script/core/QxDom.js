@@ -542,12 +542,6 @@ QxDOM.getComputedPreferredSize = function(el)
     elst.display = "";
   };  
 
-  // Overwrite
-  // Hack to allow initial left or right positions QxBarSelector
-  if (el.className.contains("QxBarSelectorButton")) {
-    elst.position = "absolute";
-  };
-
   elst.width = elst.height = "auto";
   if (pa.tagName != "BODY") {
     past.width = past.height = "100000px";
@@ -558,17 +552,34 @@ QxDOM.getComputedPreferredSize = function(el)
   var result = { width : el.offsetWidth, height : el.offsetHeight };
 
   // Restore old values
-  elst.width = _el_w;
-  elst.height = _el_h;
-  elst.position = _el_p;
-  elst.display = _el_p;
-
-  if (pa.tagName != "BODY") {
-    past.width = _pa_w;
-    past.height = _pa_h;
+  try
+  {
+    elst.width = _el_w;
+    elst.height = _el_h;
+    elst.position = _el_p;
+    elst.display = _el_p;
+  }
+  catch(ex)
+  {
+    QxDebug("QxDOM", "Failed to recover element dimensions: '" + _el_w + "', '" + _el_h + "' " + el.className + ": " + ex);
+    return null;
   };
   
-  // QxDebug("QxDOM", "MeasuredPreferred: " + result.width + "x" + result.height);
+  try
+  {
+    if (pa.tagName != "BODY") 
+    {
+      past.width = _pa_w;
+      past.height = _pa_h;
+    };
+  }
+  catch(ex)
+  {
+    QxDebug("QxDOM", "Failed to recover parent dimensions: '" + _pa_w + "', '" + _pa_h + "' " + pa.className + ": " + ex);
+    return null;
+  }; 
+  
+  // alert(el.className + ": " + result.width + "x" + result.height);
 
   return result;
 };
