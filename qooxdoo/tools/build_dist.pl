@@ -291,6 +291,12 @@ __DATA__
     
     <class>QxManager</class>  
   </package>
+  
+  <package name="range">
+    <depends>manager</depends>
+    
+    <class>QxRangeManager</class>
+  </package>  
 
   <package name="dom">
     <depends>core</depends>
@@ -567,7 +573,12 @@ __DATA__
     <class>QxListView</class>
   </package>
   
-  
+  <package name="spinner">
+    <depends>widget</depends>
+    <depends>range</depends>
+    
+    <class>QxSpinner</class>
+  </package>  
   
   
   
@@ -593,6 +604,7 @@ __DATA__
     <depends>barselector</depends>
     <depends>iframe</depends>
     <depends>listview</depends>
+    <depends>spinner</depends>
   </package>
   
 </dependencies>
