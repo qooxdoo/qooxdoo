@@ -2223,7 +2223,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
 
     // add padding of parent widget
-    if (isValidNumber(vComputedPosition)) {
+    if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute") {
       vComputedPosition += vParent["getComputedPadding" + vNameStartUp]();
     };
     

@@ -162,6 +162,7 @@ proto._pureCreateFillIcon = function()
   this._iconObject.setAnonymous(true);
   this._iconObject.setEnabled(this.isEnabled());
   this._iconObject.setParent(this);
+  this._iconObject._addCssClassName("QxMenuButtonIcon");
 };
 
 proto._pureCreateFillText = function()
@@ -172,6 +173,7 @@ proto._pureCreateFillText = function()
   this._textObject.setAnonymous(true);
   this._textObject.setEnabled(this.isEnabled());
   this._textObject.setParent(this);
+  this._textObject._addCssClassName("QxMenuButtonText");
 };
 
 proto._pureCreateFillHint = function()
@@ -182,6 +184,7 @@ proto._pureCreateFillHint = function()
   this._hintObject.setAnonymous(true);
   this._hintObject.setEnabled(this.isEnabled());
   this._hintObject.setParent(this);
+  this._hintObject._addCssClassName("QxMenuButtonHint");
 };
 
 proto._pureCreateFillArrow = function()
@@ -192,6 +195,7 @@ proto._pureCreateFillArrow = function()
   this._arrowObject.setAnonymous(true);
   this._arrowObject.setEnabled(this.isEnabled());
   this._arrowObject.setParent(this);
+  this._arrowObject._addCssClassName("QxMenuButtonArrow");
 };
 
 

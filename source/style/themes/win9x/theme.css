@@ -1,33 +1,3 @@
-/*
-body.QxThemeWin9x .QxMenu{
-  background: Menu;
-  padding: 1px;
-  border: 2px outset;
-
-  -moz-border-top-colors: ThreeDLightShadow ThreeDHighlight;
-  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
-  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
-  -moz-border-left-colors: ThreeDLightShadow ThreeDHighlight;
-
-  margin-left: -1px;
-}
-
-body.QxThemeWin9x .QxMenuSeparator div{
-  border-top: 1px solid ThreeDShadow;
-  border-bottom: 1px solid ThreeDHighlight;
-}
-
-body.QxThemeWin9x .QxMenuButton-Active{
-  padding: 0;
-  border: 1px solid #0A246A;
-  background-color: highlight;
-  color: highlighttext;
-}
-
-body.QxThemeWin9x .QxMenuButton-Active *{
-  color: highlighttext;
-}
-
 body.QxThemeWin9x .QxMenuBarButton-Hover{
   border: 1px solid ThreeDHighlight;
   border-right-color: ThreeDShadow;
@@ -42,10 +12,18 @@ body.QxThemeWin9x .QxMenuBarButton-Pressed{
   padding: 3px 7px 2px 7px;
 }
 
-body.QxThemeWin9x .QxMenuButtonIconCell{
-  width: 20px;
+body.QxThemeWin9x .QxMenu{
+  background: Menu;
+  padding: 1px;
+  border: 2px outset;
+
+  -moz-border-top-colors: ThreeDLightShadow ThreeDHighlight;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-left-colors: ThreeDLightShadow ThreeDHighlight;
+
+  margin-left: -1px;
 }
-*/
 
 
 
