@@ -88,20 +88,24 @@ proto._goLeft = function(e)
   };
   
   var vPrev = vOpener ? vOpener.isFirstChild() ? this.getLastChild() : vOpener.getPreviousActiveSibling() : this.getLastChild();
-  
-  //this.debug(vOpener + " : " + vPrev + " : " + vPrev.getText());
-  
-  var vNewMenu = vPrev.getMenu();
-  
-  if (!vNewMenu) {
-    return;
-  };
-  
-  vNewMenu.setOpener(vPrev);
-  this.setMenu(vNewMenu);
+  vPrev.setState("pressed");
 };
 
 proto._goRight = function(e)
 {
+  var vMenu = this.getMenu();
   
+  if (!vMenu) {
+    return;
+  };
+  
+  var vOpener = vMenu.getOpener();
+  
+  if (!vOpener) {
+    return;
+  };
+  
+  var vNext = vOpener ? vOpener.isLastChild() ? this.getFirstChild() : vOpener.getNextActiveSibling() : this.getFirstChild();
+  vNext.setState("pressed");
 };
+
