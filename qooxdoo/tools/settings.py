@@ -23,30 +23,44 @@ outreplace["propOldValue"] = "_b2"
 outreplace["propName"] = "_b3"
 outreplace["uniqModIds"] = "_b4"
 
-outreplace["_usedVerticalDimensions"] = "_c1"
-outreplace["_usedHorizontalDimensions"] = "_c2"
-outreplace["_updatePixelBox"] = "_c3"
-outreplace["_typeBox"] = "_c4"
-outreplace["_pixelBox"] = "_c5"
-
 outreplace["_modify"] = "_e1"
 outreplace["_eval"] = "_e2"
 
-outreplace["_syncGeckoBorder"] = "_f1"
-outreplace["_pixelAvailableRender"] = "_f2"
-outreplace["_renderImplNavigation"] = "_f3"
-outreplace["_renderImplIndent"] = "_f4"
-outreplace["_renderImpl"] = "_f5"
+outreplace["_pureCreateFill"] = "_e3"
+outreplace["vModifiedWidget"] = "_e4"
+outreplace["vHint"] = "_e5"
 
-outreplace["_domEvent"] = "_g1"
-outreplace["renderChildrenDependDimensions"] = "_g2"
-outreplace["isCreated"] = "_g3"
-outreplace["_instance"] = "_g4"
-outreplace["_disposed"] = "_g5"
+outreplace["_iconObject"] = "_f1"
+outreplace["_textObject"] = "_f2"
+outreplace["_shortcutObject"] = "_f3"
+outreplace["_arrowObject"] = "_f4"
+
+outreplace["_onmousedown"] = "_g1"
+outreplace["_onmouseup"] = "_g2"
+outreplace["_onclick"] = "_g3"
+outreplace["_onkeydown"] = "_g4"
+outreplace["_onkeyup"] = "_g5"
+outreplace["_onkeypress"] = "_g6"
+
+outreplace["_displayIcon"] = "_c1"
+outreplace["_displayText"] = "_c2"
+outreplace["_displayShortcut"] = "_c3"
+outreplace["_displayArrow"] = "_c4"
+outreplace["_showIcon"] = "_c5"
+outreplace["_showText"] = "_c6"
+outreplace["_showShortcut"] = "_c7"
+outreplace["_showArrow"] = "_c8"
+
+outreplace["_layoutInternalWidgetsHorizontal"] = "_d1"
+outreplace["_layoutInternalWidgetsVertical"] = "_d2"
+outreplace["_applyPosition"] = "_d3"
+outreplace["_invalidateInner"] = "_d4"
+outreplace["_calculateChildrenDepend"] = "_d5"
 
 # Border
 outreplace["_props"] = "_h1"
 outreplace["_defs"] = "_h2"
+outreplace["_syncGeckoBorder"] = "_h3"
 
 # ClientWindow
 outreplace["_element"] = "_h3"
@@ -74,7 +88,7 @@ outreplace["_listeners"] = "_i5"
 outreplace["_dispatchEvent"] = "_i6"
 
 # Timer
-outreplace["_ontimer"] = "_i7"
+outreplace["_oninterval"] = "_i7"
 outreplace["_intervalHandle"] = "_i8"
 
 # SelectionManager
