@@ -369,6 +369,7 @@ __DATA__
     
     <class>QxApplication</class>
     <class>QxClientWindow</class>
+    <class>QxBlocker</class>
     <class>QxClientDocument</class>    
   </package>
   
@@ -594,6 +595,14 @@ __DATA__
     <class>QxSpinner</class>
   </package>  
   
+  <package name="window">
+    <depends>manager</depends>
+    <depends>popup</depends>
+    
+    <class>QxWindowManager</class>
+    <class>QxWindow</class>
+  </package>
+  
   
   
   
@@ -619,6 +628,7 @@ __DATA__
     <depends>iframe</depends>
     <depends>listview</depends>
     <depends>spinner</depends>
+    <depends>window</depends>
   </package>
   
 </dependencies>

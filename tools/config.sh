@@ -27,6 +27,7 @@ L="$L events/QxDataEvent"
 
 # Basic Widgets
 L="$L widgets/QxWidget"
+L="$L widgets/QxBlocker"
 L="$L widgets/QxClientDocument"
 L="$L widgets/QxInline"
 L="$L widgets/QxTerminator"
@@ -145,3 +146,7 @@ L="$L widgets/QxSpinner"
 
 # Command
 L="$L core/QxCommand"
+
+# Window
+L="$L managers/QxWindowManager"
+L="$L widgets/QxWindow"
