@@ -12,9 +12,16 @@ function QxWidget()
   // need to have the target element created already.
   this._htmlProperties = copyCreateHash(this._htmlProperties);
   this._htmlProperties.id = "QxWidget-" + (++QxWidget._count);
-  this._htmlProperties.hideFocus = false;
   this._htmlProperties.className = this.classname;
-  this._htmlProperties.unselectable = "on";
+  
+  // Only overwrite the following if unset through copyCreateHash
+  if (isInvalid(this._htmlProperties.hideFocus)) {
+    this._htmlProperties.hideFocus = false;
+  };
+  
+  if (isInvalid(this._htmlProperties.unselectable)) {
+    this._htmlProperties.unselectable = "on";
+  };
 
   this._htmlAttributes = copyCreateHash(this._htmlAttributes);
   this._styleProperties = copyCreateHash(this._styleProperties);
@@ -438,6 +445,16 @@ proto.isCreated = function() {
 };
 
 /*!
+  Used for propertiy handlers which require that the element is created.
+*/
+proto._visualPropertyCheck = function() 
+{
+  if (!this.isCreated()) {
+    throw new Error("Create the element first!");
+  };  
+};
+
+/*!
   Get style element of created widget
 
   This should be used with caution since in some cases
@@ -757,6 +774,9 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     // reset id and name
     propOldValue.id = "";
     propOldValue.name = "";
+    
+    // remove events
+    this._removeInlineEvents(propOldValue);    
   };
 
   if (propValue)
@@ -771,12 +791,92 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     this._applyHtmlProperties(propValue, uniqModIds);
     this._applyHtmlAttributes(propValue, uniqModIds);
     
+    // inline events
+    this._addInlineEvents(propValue);
+    
     // make visibible
     this.setVisible(true, uniqModIds);
   };
 
   return true;
 };
+
+
+
+if ((new QxClient).isMshtml())
+{
+  proto._addInlineEvents = function(el) 
+  {
+    el.onpropertychange = QxWidget.__oninlineevent;
+    
+    el.attachEvent("onselect", QxWidget.__oninlineevent);
+    el.attachEvent("onscroll", QxWidget.__oninlineevent);
+    el.attachEvent("onfocus", QxWidget.__oninlineevent);
+    el.attachEvent("onblur", QxWidget.__oninlineevent);
+  };    
+  
+  proto._removeInlineEvents = function(el) 
+  {
+    el.onpropertychange = null;
+
+    el.detachEvent("onselect", QxWidget.__oninlineevent);
+    el.detachEvent("onscroll", QxWidget.__oninlineevent);
+    el.detachEvent("onfocus", QxWidget.__oninlineevent);
+    el.detachEvent("onblur", QxWidget.__oninlineevent);
+  };
+}
+else
+{
+  proto._addInlineEvents = function(el) 
+  {
+    el.addEventListener("select", QxWidget.__oninlineevent, false);
+    el.addEventListener("scroll", QxWidget.__oninlineevent, false);
+    el.addEventListener("focus", QxWidget.__oninlineevent, false);
+    el.addEventListener("blur", QxWidget.__oninlineevent, false);
+  };
+  
+  proto._removeInlineEvents = function(el)
+  {
+    el.removeEventListener("select", QxWidget.__oninlineevent, false);
+    el.removeEventListener("scroll", QxWidget.__oninlineevent, false);
+    el.removeEventListener("focus", QxWidget.__oninlineevent, false);
+    el.removeEventListener("blur", QxWidget.__oninlineevent, false);
+  };  
+};
+
+QxWidget.__oninlineevent = function(e) 
+{
+  if (this._QxWidget) {
+    return this._QxWidget._oninlineevent(e);
+  };
+};
+
+proto._oninlineevent = function(e)
+{
+  switch(e.type)
+  {
+    case "focus":
+      this.setFocused(true);
+      break;
+      
+    case "blur":
+      this.setFocused(false);
+      break;
+      
+    case "select":
+      break;
+      
+    case "propertychange":
+      // this.debug("Uncatched inline event: " + e.propertyName);
+      break;
+      
+    default:
+      this.debug("Uncatched inline event: " + e.type);
+  };  
+};
+
+
+
 
 proto._wasVisible = false;
 
@@ -3851,6 +3951,7 @@ proto.setMargin = function()
 
 proto.canGetFocus = function() { return this.isCreated() && this.getTabIndex() >= 0 && this.isEnabled(); };
 proto.isFocusRoot = function() { return false; };
+proto._ontabfocus = function() {};
 
 proto._modifyFocused = function(propValue, propOldValue, propName, uniqModIds)
 {
