@@ -2,21 +2,24 @@
    Class: QxTimer
 ******************************************************************** */
 
-function QxTimer(interval)
+/*!
+  Global timer support. Simplifies javascript intervals for objects.
+*/
+function QxTimer(vInterval)
 {
   QxTarget.call(this);
 
-  if (isValid(interval)) {
-    this.setInterval(interval);
+  this.setEnabled(false);
+
+  if (isValidNumber(vInterval)) {
+    this.setInterval(vInterval);
   };
 
   (new QxTimerManager).add(this);
 
   // Object wrapper to timer event
   var o = this;
-  this.__ontimer = function() { o._ontimer(); };
-
-  this.setEnabled(false);
+  this.__oninterval = function() { o._oninterval(); };
 };
 
 QxTimer.extend(QxTarget, "QxTimer");
@@ -25,38 +28,93 @@ QxTimer.addProperty({ name : "interval", type : Number, defaultValue : 1000 });
 
 proto._intervalHandle = null;
 
-proto.start = function()
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIER
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
 {
-  if(this.getEnabled()) {
-    this.stop();
+  if (propOldValue)
+  {
+    window.clearInterval(this._intervalHandle);
+    this._intervalHandle = null;
+  }
+  else if (propValue)
+  {
+    this._intervalHandle = window.setInterval(this.__oninterval, this.getInterval());
   };
 
+  return QxTarget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  USER-ACCESS
+------------------------------------------------------------------------------------
+*/
+
+proto.start = function() {
   this.setEnabled(true);
-
-  // Setup new interval
-  this._intervalHandle = window.setInterval(this.__ontimer, this.getInterval());
 };
 
-proto.stop = function()
+proto.startWith = function(vInterval)
 {
-  this.setEnabled(false);
-
-  // Clear interval
-  window.clearInterval(this._intervalHandle);
-  this._intervalHandle=null;
+  this.setInterval(vInterval);
+  this.start();
 };
 
-/* Object implementation for timer event */
-proto._ontimer=function()
+proto.stop = function() {
+  this.setEnabled(false);
+};
+
+proto.restart = function()
+{
+  this.stop();
+  this.start();
+};
+
+proto.restartwith = function(vInterval)
+{
+  this.stop();
+  this.startWith(vInterval);
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  EVENT-MAPPER
+------------------------------------------------------------------------------------
+*/
+
+proto._oninterval=function()
 {
   if(this.getEnabled() && this.hasEventListeners("timer")) {
     this.dispatchEvent(new QxEvent("timer"), true);
   };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
+
 proto.dispose = function()
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   };
 
@@ -64,7 +122,10 @@ proto.dispose = function()
   this.stop();
 
   // Clear object wrapper function
-  this.__ontimer = null;
+  this.__oninterval = null;
+
+  // Clear handle
+  this._intervalHandler = null;
 
   // Call QxTarget to do the other dispose work
   return QxTarget.prototype.dispose.call(this);
