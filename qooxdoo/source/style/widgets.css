@@ -804,7 +804,6 @@ html[QxFocused] {
   padding: 4px;
 }
 
-.QxBarSelectorButton-Pressed,
 .QxBarSelectorButton-Checked{
   background: #C1D2EE;
 }
@@ -854,16 +853,12 @@ html[QxFocused] {
   margin-bottom: 3px;
 }
 
-.QxBarSelectorBar-Top .QxBarSelectorButton-Pressed,
-.QxBarSelectorBar-Bottom .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Top .QxBarSelectorButton-Checked,
 .QxBarSelectorBar-Bottom .QxBarSelectorButton-Checked{
   border-left-color: #316AC5;
   border-right-color: #316AC5;
 }
 
-.QxBarSelectorBar-Left .QxBarSelectorButton-Pressed,
-.QxBarSelectorBar-Right .QxBarSelectorButton-Pressed,
 .QxBarSelectorBar-Left .QxBarSelectorButton-Checked,
 .QxBarSelectorBar-Right .QxBarSelectorButton-Checked{
   border-top-color: #316AC5;
