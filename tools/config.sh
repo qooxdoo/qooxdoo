@@ -97,6 +97,7 @@ L="$L widgets/QxToolBarButton"
 L="$L widgets/QxToolBarSeparator"
 L="$L widgets/QxToolBarCheckBox"
 L="$L widgets/QxToolBarRadioButton"
+L="$L widgets/QxToolBarMenuButton"
 
 # List Support
 L="$L core/QxSelectionStorage"

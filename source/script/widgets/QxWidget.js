@@ -1456,11 +1456,11 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
 {
   var vClasses = this.getCssClassName();
 
-  if (isValid(propOldValue)) {
+  if (isValidString(propOldValue)) {
     vClasses = vClasses.remove(this.classname + "-" + propOldValue.toFirstUp(), " ");
   };
 
-  if (isValid(propValue)) {
+  if (isValidString(propValue)) {
     vClasses = vClasses.add(this.classname + "-" + propValue.toFirstUp(), " ");
   };
 

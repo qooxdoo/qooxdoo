@@ -38,13 +38,34 @@
         setLeft(20);
         setRight(335);
       };
+      
+      var m1 = new QxMenu;
+      
+      var mb1 = new QxMenuButton("Folder");
+      var ms1 = new QxMenuSeparator;
+      var mb2 = new QxMenuButton("Word Document");
+      var mb3 = new QxMenuButton("Text File");
+      var mb4 = new QxMenuButton("Image");
+      
+      m1.add(mb1, ms1, mb2, mb3, mb4);
+      d.add(m1);
+      
+      
+      var m2 = new QxMenu;
+      
+      var mb5 = new QxMenuButton("Copy", "../../images/icons/crystal/16/editcopy.png", "Ctrl+C");
+      var mb6 = new QxMenuButton("Move", "../../images/icons/crystal/16/editcut.png", "Ctrl+M");
+      var mb7 = new QxMenuButton("Delete", "../../images/icons/crystal/16/editdelete.png", "Ctrl+D");
+      
+      m2.add(mb5, mb6, mb7);
+      d.add(m2);
+      
+      
+      
 
       var btns1 = [
-        { type : "button", icon : "new", text : "New" },
-        { type : "separator" },
-        { type : "button", icon : "copy", text : "Copy" },
-        { type : "button", icon : "move", text : "Move" },
-        { type : "button", icon : "delete", text : "Delete" }
+        { type : "menu", icon : "new", text : "New", menu : m1 },
+        { type : "menu", icon : "copy", text : "Edit", menu : m2 }
       ];
 
       var btns2 = [
@@ -83,12 +104,21 @@
             case "separator":
               var o = new QxToolBarSeparator;
               break;
+              
+            case "menu":
+              var o = new QxToolBarMenuButton(btn.text, "../../images/widgets/toolbar/" + btn.icon + ".gif", 23, 23, btn.menu);
+              
+              // beautiful decoupling: toolbar buttons don't know about radio boxes
+              
+              // uncomment this to omit changes on one button              
+              // if (btn.icon != "upload")
+              d.addEventListener("changeLayout", changeLayout, o );
+              break;              
 
             case "button":
               var o = new QxToolBarButton(btn.text, "../../images/widgets/toolbar/" + btn.icon + ".gif", 23, 23);
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
-              
               
               // uncomment this to omit changes on one button              
               // if (btn.icon != "upload")

@@ -142,7 +142,7 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
   if (propOldValue)
   {
     var vOpener = this.getOpener();
-    if (vOpener) {
+    if (vOpener && vOpener.getState() != "hover") {
       vOpener.setState(null);
     };
   };
