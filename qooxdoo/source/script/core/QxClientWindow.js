@@ -22,8 +22,6 @@ function QxClientWindow(windowElement)
 
 QxClientWindow.extend(QxTarget, "QxClientWindow");
 
-QxClientWindow.addProperty({ name : "currentContextMenu" });
-
 proto.getEventManager = function() { return this._eventManager; };
 proto.getFocusManager = function() { return this._focusManager; };
 proto.getClientDocument = function() { return this._clientDocument; };

@@ -259,7 +259,7 @@ QxWidget.addProperty({ name : "canSelect", type : Boolean, defaultValue : true }
 QxWidget.addProperty({ name : "toolTip", type : Object });
 
 /*!
-  Contains the context menu object connected to the widget.
+  Contains the context menu object connected to the widget. (Need real implementation)
 */
 QxWidget.addProperty({ name : "contextMenu", type : Object });
 
