@@ -416,6 +416,25 @@ __DATA__
     <class>QxImagePreloader</class>
     <class>QxImage</class>
   </package>
+ 
+  <package name="form">
+    <depends>widget</depends>
+
+    <class>QxForm</class>
+    <class>QxTextField</class>
+    <class>QxPasswordField</class>
+    <class>QxTextArea</class>
+    <class>QxFieldSet</class>
+  </package>
+  
+  <package name="formsel">
+    <depends>atom</depends>
+    <depends>radio</depends>
+    
+    <class>QxInputCheckIcon</class>
+    <class>QxCheckBox</class>
+    <class>QxRadioButton</class>
+  </package> 
   
   <package name="atom">
     <depends>widget</depends>
@@ -508,25 +527,6 @@ __DATA__
     <class>QxDragAndDropManager</class>
   </package>
   
-  <package name="form">
-    <depends>widget</depends>
-
-    <class>QxForm</class>
-    <class>QxTextField</class>
-    <class>QxPasswordField</class>
-    <class>QxTextArea</class>
-    <class>QxFieldSet</class>
-  </package>
-  
-  <package name="formsel">
-    <depends>atom</depends>
-    <depends>radio</depends>
-    
-    <class>QxInputCheckIcon</class>
-    <class>QxCheckBox</class>
-    <class>QxRadioButton</class>
-  </package>  
-  
   <package name="tabcore">
     <depends>radio</depends>
     <depends>atom</depends>
@@ -566,6 +566,35 @@ __DATA__
     <depends>timer</depends>
     
     <class>QxListView</class>
-  </package>  
+  </package>
+  
+  
+  
+  
+  
+  
+  
+  
+  <package name="all">
+    <depends>textile</depends>
+    <depends>data</depends>
+    <depends>inline</depends>
+    <depends>popup</depends>
+    <depends>tooltip</depends>
+    <depends>toolbar</depends>
+    <depends>menubar</depends>
+    <depends>list</depends>
+    <depends>combobox</depends>
+    <depends>tree</depends>
+    <depends>dragndrop</depends>   
+    <depends>form</depends>
+    <depends>formsel</depends>
+    <depends>tabbar</depends>
+    <depends>barselector</depends>
+    <depends>iframe</depends>
+    <depends>listview</depends>
+  </package>
+  
 </dependencies>
 
+  
