@@ -15,7 +15,7 @@ function QxData(c)
   this._processRequestQueue = false;
 
   var o = this;
-  this._interval.addEventListener("timer", function() {
+  this._interval.addEventListener("interval", function() {
     o.checkProcess();
   });
   

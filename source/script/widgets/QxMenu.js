@@ -8,10 +8,10 @@ function QxMenu()
 
   // Add timers
   this._openTimer = new QxTimer(this.getOpenInterval());
-  this._openTimer.addEventListener("timer", this._onopentimer, this);
+  this._openTimer.addEventListener("interval", this._onopentimer, this);
 
   this._closeTimer = new QxTimer(this.getCloseInterval());
-  this._closeTimer.addEventListener("timer", this._onclosetimer, this);
+  this._closeTimer.addEventListener("interval", this._onclosetimer, this);
 
   // Add event listeners
   this.addEventListener("mouseover", this._onmouseover);
