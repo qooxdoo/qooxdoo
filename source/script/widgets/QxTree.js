@@ -236,6 +236,9 @@ proto._onkeydown = function(e)
 
       break;
   };
+  
+  // be sure to be again active (fix especially for gecko based browsers)
+  (new QxApplication).setActiveWidget(this);
 };
 
 proto.getLastTreeChild = function()
