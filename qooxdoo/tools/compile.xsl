@@ -11,7 +11,7 @@
 <xsl:output method="html" omit-xml-declaration="yes" doctype-public="-//W3C//DTD HTML 4.01//EN" doctype-system="http://www.w3.org/TR/html40/strict.dtd" indent="no" encoding="iso-8859-1"/>
 -->
 
-<xsl:output method="xml" omit-xml-declaration="no" doctype-public="-//W3C//DTD XHTML 1.1//EN" doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" indent="no" encoding="utf-8"/>
+<xsl:output method="xml" omit-xml-declaration="no" doctype-public="-//W3C//DTD XHTML 1.1//EN" doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" indent="no" encoding="iso-8859-15"/>
 
 <xsl:param name="job" select="'default'"/>
 <xsl:param name="mode" select="'default'"/>
