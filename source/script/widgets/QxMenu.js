@@ -50,6 +50,7 @@ QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultVal
 QxMenu.addProperty({ name : "subMenuVerticalOffset", type : Number, defaultValue : -2 });
 
 QxMenu.addProperty({ name : "minIconWidth", type : Number, defaultValue: 16 });
+QxMenu.addProperty({ name : "minArrowWidth", type : Number, defaultValue: 4 });
 
 
 
@@ -164,7 +165,7 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   var vMaxIconWidth = this.getMinIconWidth();
   var vMaxTextWidth = 0;
   var vMaxHintWidth = 0;
-  var vMaxArrowWidth = 0;
+  var vMaxArrowWidth = this.getMinArrowWidth();
 
   var vMaxTextWidth = 0;
   var vMaxContentWidth = 0;
