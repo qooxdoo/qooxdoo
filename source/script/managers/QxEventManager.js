@@ -524,7 +524,7 @@ proto._onmouseevent_post = function(e, t)
 
   // Hide Popups
   if (t == "mousedown") {
-    (new QxPopupManager).update(o);
+    (new QxPopupManager).update(vActiveTarget);
   };
 
   // Dispatch Event through target (eventtarget-)object

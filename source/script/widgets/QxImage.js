@@ -22,6 +22,8 @@ function QxImage(vSource, vWidth, vHeight)
   if (isValid(vSource)) {
     this.setSource(vSource);
   };
+  
+  (new QxImageManager).add(this);
 };
 
 QxImage.extend(QxTerminator, "QxImage");
@@ -299,6 +301,8 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return true;
   };
+  
+  (new QxImageManager).remove(this);
   
   return QxWidget.prototype.dispose.call(this);
 };
