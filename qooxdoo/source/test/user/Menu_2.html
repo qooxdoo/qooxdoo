@@ -77,12 +77,15 @@
         alert("Syntax Highlighting");
       });      
 
-      var q11 = new QxCommand(null, QxKeyEvent.keys.esc);
+      var q11 = new QxCommand("Esc");
       q11.addEventListener("execute", function(e) {
         alert("Escape");
-      });      
+      });
       
-      
+      var q12 = new QxCommand(null, QxKeyEvent.keys.space);
+      q12.addEventListener("execute", function(e) {
+        alert("Space");
+      });
       
       
 
@@ -115,10 +118,10 @@
 
       var m1 = new QxMenu;
 
-      var mb1_01 = new QxMenuButton("View/Lists");
+      var mb1_01 = new QxMenuButton("View/Lists", null, q12);
       var mb1_02 = new QxMenuButton("Syntax Highlighting", null, q10);
       var ms1    = new QxMenuSeparator();
-      var mb1_03 = new QxMenuButton("Window Font");
+      var mb1_03 = new QxMenuButton("Window Font", null, q11);
       var mb1_04 = new QxMenuButton("Printer Font", null, null, m3);
       var ms2    = new QxMenuSeparator();
       var mb1_05 = new QxMenuButton("Undo", null, q1);

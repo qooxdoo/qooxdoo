@@ -73,7 +73,7 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
   
   if (vParent.getMenu() == this.getMenu())
   {
-    if (propValue == null)
+    if (propValue == null || propValue == "hover")
     {
       vParent.setMenu(null, uniqModIds);  
     };

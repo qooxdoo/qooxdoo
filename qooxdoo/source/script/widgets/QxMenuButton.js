@@ -67,6 +67,7 @@ proto._displayText = false;
 proto._displayShortcut = false;
 proto._displayArrow = false;
 
+proto._valueShortcut = "";
 
 
 
@@ -117,7 +118,17 @@ proto._modifyText = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._modifyCommand = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this._displayShortcut = isValid(propValue) && isValidString(propValue.getShortcut());
+  if (isValid(propValue))
+  {
+    this._displayShortcut = true;
+    this._valueShortcut = propValue.toString();
+  }
+  else
+  {
+    this._displayShortcut = false;
+    this._valueShortcut = "";
+  }; 
+  
   return true;
 };
 
@@ -168,7 +179,7 @@ proto._pureCreateFillText = function()
 proto._pureCreateFillShortcut = function()
 {
   var s = this._shortcutObject = new QxContainer();
-  s.setHtml(this.getCommand().getShortcut());
+  s.setHtml(this._valueShortcut);
 
   s.setAnonymous(true);
   s.setEnabled(this.isEnabled());
