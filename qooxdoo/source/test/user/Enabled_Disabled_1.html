@@ -9,45 +9,44 @@
   <meta http-equiv="Expires" content="-1" />
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta name="MSSmartTagsPreventParsing" content="yes" />
-  
+
   <title>qooxdoo: The new era of web interface development</title>
   <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
 
   <script type="text/javascript" src="../../../tools/script/includer.js"></script>
 </head>
 <body>
-  <script type="text/javascript" src="../../../tools/script/layout.js"></script>    
-  
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
   <div id="testDescription">
     <p>Some test for the enable property in QxObject which will be extended from QxWidget and any other
     widget which need additional handling on a change of this property. Keep in mind: Disabled QxWidgets will be ignored
     from the QxEventManager and the QxFocusManager.</p>
-  </div>  
+  </div>
 
   <script type="text/javascript">
   window.application.main = function()
   {
-      
+
     var d = this.getClientWindow().getDocument();
 
-    var w1 = new QxWidget;
+    var w1 = new QxContainer("Basic Container");
+
+    with(w1)
+    {
+      setWidth(75);
+      setLeft(20);
+      setTop(48);
+      setHeight(50);
+      setWidth(80);
+      setBackgroundColor("#fff");
+      setColor("blue");
+      setTabIndex(1);
+      setBorder(new QxBorder(2, "solid", "blue"));
+      setEnabled(false);
+    };
 
     d.add(w1);
-      
-    w1.setWidth(75);
-    w1.setLeft(20);
-    w1.setTop(48);
-    w1.setHeight(50);
-    w1.setWidth(80);
-    w1.setBackgroundColor("#fff");
-    w1.setColor("blue");
-    w1.setTabIndex(1);
-    
-    w1.getElement().style.border = "2px solid blue";
-      
-    w1.getElement().innerHTML = "Widget " + w1.toHash();
-      
-    w1.setEnabled(false);
 
     w1.addEventListener("mouseover", function(e)
     {
@@ -60,7 +59,7 @@
       if( this.getEnabled() )
         this.getElement().style.color = "blue";
     });
-    
+
     var c1t = new QxCheckBox("Enabled");
     with(c1t)
       {
@@ -69,14 +68,14 @@
       addEventListener("changeChecked", function(e) { w1.setEnabled(e.getValue()); });
     };
 
-    d.add(c1t);    
+    d.add(c1t);
 
     //------
     // atom
     //------
 
     var a1 = new QxAtom("Atom", "../../images/icons/crystal/32/clock.png");
-      
+
     with(a1) {
       setTop(190);
       setLeft(20);
@@ -84,7 +83,7 @@
       setPadding(2, 4);
       setBackgroundColor("#FFFF6D");
     };
-    
+
     d.add(a1);
 
     var swa1 = new QxCheckBox("Enabled");
@@ -197,4 +196,4 @@
 
   </script>
 </body>
-</html>  
+</html>

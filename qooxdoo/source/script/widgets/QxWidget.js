@@ -13,12 +13,12 @@ function QxWidget()
   this._htmlProperties = copyCreateHash(this._htmlProperties);
   this._htmlProperties.id = "QxWidget-" + (++QxWidget._count);
   this._htmlProperties.className = this.classname;
-  
+
   // Only overwrite the following if unset through copyCreateHash
   if (isInvalid(this._htmlProperties.hideFocus)) {
     this._htmlProperties.hideFocus = false;
   };
-  
+
   if (isInvalid(this._htmlProperties.unselectable)) {
     this._htmlProperties.unselectable = "on";
   };
@@ -80,7 +80,10 @@ QxWidget.addProperty({ name : "tagName", type : String, defaultValue : "DIV" });
 */
 QxWidget.addProperty({ name : "cssClassName", type : String });
 
-
+/*!
+  Timer based creation wanted?
+*/
+QxWidget.addProperty({ name : "timerCreate", type : Boolean, defaultValue : true });
 
 
 
@@ -451,11 +454,11 @@ proto.isCreated = function() {
 /*!
   Used for propertiy handlers which require that the element is created.
 */
-proto._visualPropertyCheck = function() 
+proto._visualPropertyCheck = function()
 {
   if (!this.isCreated()) {
     throw new Error("Create the element first!");
-  };  
+  };
 };
 
 /*!
@@ -491,22 +494,8 @@ proto._getParentNodeForChild = function(otherObject) {
 };
 
 
-
 proto._createChildren = function()
 {
-  var ch = this._children;
-  var chl = ch.length;
-
-  for (var i=0; i<chl; i++) {
-    if (!ch[i].isCreated()) {
-      ch[i]._createElement();
-    };
-  };
-};
-
-
-proto._createChildren = function()
-{  
   var ch = this.getChildren();
   var chl = ch.length;
   var cho;
@@ -569,7 +558,7 @@ proto._shouldBecomeVisible = function() {
 proto._appendElement = function(otherObject)
 {
   // this.subug("append element");
-  
+
   var pl = this._getParentNodeForChild(otherObject);
 
   if (pl)
@@ -584,7 +573,7 @@ proto._appendElement = function(otherObject)
     {
       throw new Error("Could not append element: " + el + " to " + pl + ": " + ex);
     };
-    
+
     this._postAppendChild(otherObject);
   }
   else
@@ -599,16 +588,16 @@ proto._appendElement = function(otherObject)
 proto._removeElement = function(otherObject)
 {
   // this.subug("remove element: " + otherObject);
-  
+
   var el = otherObject.getElement();
   var pl = el.parentNode;
-  
+
   // this.subug("elements: " + el + ", " + pl);
 
-  if (pl) 
+  if (pl)
   {
     //this.subug("do remove it!");
-    
+
     try
     {
       pl.removeChild(el);
@@ -617,17 +606,17 @@ proto._removeElement = function(otherObject)
     {
       throw new Error("Could not remove element: " + el + ": " + ex);
     };
-    
+
     this._postRemoveChild(otherObject);
   };
 };
 
-proto._postAppendChild = function(otherObject) 
+proto._postAppendChild = function(otherObject)
 {
   if (!this._wasVisible) {
     return;
   };
-  
+
   this._invalidatePreferred();
   this._onnewchild(otherObject);
 };
@@ -637,18 +626,18 @@ proto._onnewchild = function(otherObject)
   if (this.getWidth() == "auto") {
     this._setChildrenDependWidth(otherObject, "append-child");
   };
-  
+
   if (this.getHeight() == "auto") {
     this._setChildrenDependHeight(otherObject, "append-child");
-  };  
+  };
 };
 
-proto._postRemoveChild = function(otherObject) 
+proto._postRemoveChild = function(otherObject)
 {
   if (!this._wasVisible) {
     return;
   };
-  
+
   this._invalidatePreferred();
   this._onremovechild(otherObject);
 };
@@ -658,10 +647,10 @@ proto._onremovechild = function(otherObject)
   if (this.getWidth() == "auto") {
     this._setChildrenDependWidth(otherObject, "remove-child");
   };
-  
+
   if (this.getHeight() == "auto") {
     this._setChildrenDependHeight(otherObject, "remove-child");
-  };   
+  };
 };
 
 /*!
@@ -670,7 +659,7 @@ proto._onremovechild = function(otherObject)
 proto._appendMyself = function()
 {
   //this.subug("append myself");
-  
+
   var pa = this.getParent();
   if (pa) {
     pa._appendElement(this);
@@ -683,7 +672,7 @@ proto._appendMyself = function()
 proto._removeMyself = function(vParent)
 {
   //this.subug("remove myself");
-  
+
   if (vParent) {
     vParent._removeElement(this);
   };
@@ -713,16 +702,18 @@ proto._beforeHide = function(uniqModIds) {};
 ------------------------------------------------------------------------------------
 */
 
-/*
-QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", 20);
+// we need to play a little bit more with the timer interval here
 QxWidget._createList = {};
 
-QxWidget.addToCreateList = function(vWidget) {
-  QxWidget._createList[vWidget.toHash()] = vWidget;
-};
+QxWidget.addToCreateList = function(vWidget)
+{
+  if (QxWidget._createTimer == null)
+  {
+    this._createStart = (new Date).valueOf();
+    QxWidget._createTimer = window.setInterval("QxWidget._timeCreator()", 1);
+  };
 
-QxWidget.removeFromCreateList = function(vWidget) {
-  delete QxWidget._createList[vWidget.toHash()];
+  QxWidget._createList[vWidget.toHash()] = vWidget;
 };
 
 QxWidget._timeCreator = function()
@@ -730,20 +721,63 @@ QxWidget._timeCreator = function()
   if (this._timeCreatorRun) {
     return;
   };
-  
+
   this._timeCreatorRun = true;
-  
+
+  var vCurrent;
+  var vLoopCount = 0;
+  var vCreateCount = 0;
+
   for (var vHash in QxWidget._createList)
   {
-    QxWidget._createList[vHash]._createElement();
-    delete QxWidget._createList[vHash];
-    
-    break;    
+    vCurrent = QxWidget._createList[vHash];
+    vLoopCount++;
+
+    if (vCurrent.getParent().isCreated())
+    {
+      vCreateCount++;
+
+      vCurrent._createElement();
+      delete QxWidget._createList[vHash];
+
+      // 3 seems to be a good balance between 1 and 10
+      // should this be a property
+      if (vCreateCount >= 3) {
+        break;
+      };
+    };
   };
-  
+
+  if (vLoopCount == 0)
+  {
+    window.clearInterval(QxWidget._createTimer);
+    QxWidget._createTimer = null;
+
+    // QxDebug("QxWidget", "Create Time: " + ((new Date).valueOf() - this._createStart) + "ms");
+  };
+
+  // window.status = (new Date).valueOf();
+
   delete this._timeCreatorRun;
 };
-*/
+
+proto._createElementWrapper = function(uniqModIds)
+{
+  var vParent = this.getParent();
+
+  if (this.getTimerCreate() && vParent.getWidth() != "auto" && vParent.getHeight() != "auto")
+  {
+    QxWidget.addToCreateList(this);
+  }
+  else
+  {
+    this._createElement(uniqModIds);
+  };
+};
+
+// disable time creator while in development
+proto._createElementWrapper = proto._createElement;
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -758,7 +792,7 @@ proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
   if (propOldValue)
   {
     propOldValue._removeChild(this);
-    
+
     if (this.isCreated())
     {
       this._removeMyself(propOldValue);
@@ -789,22 +823,12 @@ proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
       }
       else if (!this.isCreated())
       {
-        this._createElement(uniqModIds);
-        
-        /*       
-        if (this instanceof QxAtom || this instanceof QxContainer) 
-        {
-          this._createElement(uniqModIds);
-        }
-        else
-        {
-          QxWidget.addToCreateList(this);
-        };
-        */
+        // this._createElement(uniqModIds);
+        this._createElementWrapper(uniqModIds);
       }
       else
       {
-        this._appendMyself();        
+        this._appendMyself();
         this._render("force");
       };
     };
@@ -826,9 +850,9 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     // reset id and name
     propOldValue.id = "";
     propOldValue.name = "";
-    
+
     // remove events
-    this._removeInlineEvents(propOldValue);    
+    this._removeInlineEvents(propOldValue);
   };
 
   if (propValue)
@@ -842,10 +866,10 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     this._applyStyleProperties(propValue, uniqModIds);
     this._applyHtmlProperties(propValue, uniqModIds);
     this._applyHtmlAttributes(propValue, uniqModIds);
-    
+
     // inline events
     this._addInlineEvents(propValue);
-    
+
     // make visibible
     this.setVisible(true, uniqModIds);
   };
@@ -857,17 +881,17 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 
 if ((new QxClient).isMshtml())
 {
-  proto._addInlineEvents = function(el) 
+  proto._addInlineEvents = function(el)
   {
     el.onpropertychange = QxWidget.__oninlineevent;
-    
+
     el.attachEvent("onselect", QxWidget.__oninlineevent);
     el.attachEvent("onscroll", QxWidget.__oninlineevent);
     el.attachEvent("onfocus", QxWidget.__oninlineevent);
     el.attachEvent("onblur", QxWidget.__oninlineevent);
-  };    
-  
-  proto._removeInlineEvents = function(el) 
+  };
+
+  proto._removeInlineEvents = function(el)
   {
     el.onpropertychange = null;
 
@@ -879,24 +903,24 @@ if ((new QxClient).isMshtml())
 }
 else
 {
-  proto._addInlineEvents = function(el) 
+  proto._addInlineEvents = function(el)
   {
     el.addEventListener("select", QxWidget.__oninlineevent, false);
     el.addEventListener("scroll", QxWidget.__oninlineevent, false);
     el.addEventListener("focus", QxWidget.__oninlineevent, false);
     el.addEventListener("blur", QxWidget.__oninlineevent, false);
   };
-  
+
   proto._removeInlineEvents = function(el)
   {
     el.removeEventListener("select", QxWidget.__oninlineevent, false);
     el.removeEventListener("scroll", QxWidget.__oninlineevent, false);
     el.removeEventListener("focus", QxWidget.__oninlineevent, false);
     el.removeEventListener("blur", QxWidget.__oninlineevent, false);
-  };  
+  };
 };
 
-QxWidget.__oninlineevent = function(e) 
+QxWidget.__oninlineevent = function(e)
 {
   if (this._QxWidget) {
     return this._QxWidget._oninlineevent(e);
@@ -910,22 +934,22 @@ proto._oninlineevent = function(e)
     case "focus":
       //this.setFocused(true);
       break;
-      
+
     case "blur":
       //this.setFocused(false);
       break;
-      
+
     case "select":
     case "scroll":
-      break;    
-      
+      break;
+
     case "propertychange":
       // this.debug("Uncatched inline event: " + e.propertyName);
       break;
-      
+
     default:
       this.debug("Uncatched inline event: " + e.type);
-  };  
+  };
 };
 
 
@@ -937,11 +961,16 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue)
   {
-    if (!this.isCreated()) 
+    if (!this.isCreated())
     {
       // no return here, setVisible in modifyElement will not be executed
       // because visible is already true and so the call will be blocked.
-      this._createElement();
+      // this._createElement();
+
+      // new logic, force visible to false again and wait for creation
+      this.forceVisible(false);
+      this._createElementWrapper();
+      return true;
     };
 
     // this.debug("Make visible");
@@ -949,7 +978,7 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
     if (!this._wasVisible)
     {
       this.setDisplay(null);
-      
+
       // this is needed for all relative or preferred dimensions to do now,
       // otherwise they will fail in QxDOM
       this._appendMyself();
@@ -962,7 +991,7 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
         // this.subug("layout mode: auto");
 
         this._createChildren();
-        
+
         if (vAutoWidth) {
           this._setChildrenDependWidth();
         };
@@ -970,14 +999,14 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
         if (vAutoHeight) {
           this._setChildrenDependHeight();
         };
-        
+
         this._render("initial");
         this._wasVisible = true;
-        
+
         // Be sure that all children will be rendered correctly
         var ch = this.getChildren();
         var chl = ch.length;
-        
+
         for (var i=0; i<chl; i++) {
           ch[i]._render("initial");
         };
@@ -991,28 +1020,28 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 
         this._createChildren();
       };
-      
+
       this._invalidatePreferred();
     }
     else
     {
       this.setDisplay(null);
-      
+
       // this.debug("Omit Check: " + this._renderHorizontalOmitted + ", " + this._renderVerticalOmitted);
-      
-      if (this._renderHorizontalOmitted) 
+
+      if (this._renderHorizontalOmitted)
       {
         this._renderHorizontal("force");
         this._renderHorizontalOmitted = false;
       };
-      
-      if (this._renderVerticalOmitted) 
+
+      if (this._renderVerticalOmitted)
       {
         this._renderVertical("force");
         this._renderVerticalOmitted = false;
       };
     };
-    
+
     this._beforeShow(uniqModIds);
     this.setVisibility("inherit", uniqModIds);
   }
@@ -1638,9 +1667,9 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
   };
 
   this.setCssClassName(vClasses, uniqModIds);
-  
+
   this._recalculateFrame();
-  
+
   return true;
 };
 
@@ -1891,7 +1920,7 @@ proto.setWidth = function(propValue, uniqModIds, vMode, vKeepAuto)
   // Apply new values, so that the getters submit the new value.
   this._valueWidth = propValue;
   this._nullWidth = propValue == null;
-  
+
   // Call modifier
   try{
     var r = this._modifyHorizontalDimension(propValue, propOldValue, "width", uniqModIds);
@@ -2283,7 +2312,7 @@ proto._activateVerticalRendering = function() {
 
 proto._omitRendering = function()
 {
-  this._omitHorizontalRendering(); 
+  this._omitHorizontalRendering();
   this._omitVerticalRendering();
 };
 
@@ -2300,13 +2329,13 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 {
   var vParent = this.getParent();
 
-  if (vParent == null || !this.isCreated()) 
+  if (vParent == null || !this.isCreated())
   {
     // this.subug("no element or parent!");
     return true;
   };
-  
-  if (!this["_renderInitialDone_" + vId]) 
+
+  if (!this["_renderInitialDone_" + vId])
   {
     // this.subug("force hint to initial!!!!");
     vHint = "initial";
@@ -2315,12 +2344,12 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
   {
     return true;
   };
-  
+
   //this.debug("render: " + vId);
 
   // if parent is not ready and my own dimension is not auto and the parent dimension is not null
   // we will wait for the parent to render
-  if (!vParent["_renderInitialDone_" + vId] && this["get" + vNameRangeUp]() != "auto") 
+  if (!vParent["_renderInitialDone_" + vId] && this["get" + vNameRangeUp]() != "auto")
   {
     if (vParent["get" + vNameRangeUp]() != null || (vParent["get" + vNameStartUp]() != null && vParent["get" + vNameStopUp]() != null))
     {
@@ -2328,11 +2357,11 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       return true;
     };
   };
-  
+
   // this.debug("Render-" + vId + ": " + vHint);
 
   this["_renderInitialDone_" + vId] = true;
-  
+
   // Omit rendering on non visible widgets
   if (vHint != "initial" && this._wasVisible && !this.getVisible())
   {
@@ -2358,14 +2387,14 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
         this._computeDimensionPixelValue(vNameRangeMin, vNameStartUp, vNameRangeUp, vNameStopUp);
         this._computeDimensionPixelValue(vNameRangeMax, vNameStartUp, vNameRangeUp, vNameStopUp);
         break;
-        
+
       case vNameRangeMin:
       case vNameRangeMax:
         // Inform and recalculate parent information
         if (vParent["get" + vNameRangeUp]() == "auto") {
           return vParent["_setChildrenDepend" + vNameRangeUp](this);
         };
-      
+
       case vNameStart:
       case vNameRange:
       case vNameStop:
@@ -2389,7 +2418,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       // this.debug("OMIT RENDERING");
       return true;
     };
-    
+
 
     // this.subug("data: start=" + vValueStart + ", range=" + vValueRange + ", stop=" + vValueStop + ", hint=" + vHint);
     // this.subug("info: " + this["_pixelof_" + vNameRange] + ", " + this["_valueof_" + vNameRange]);
@@ -2417,7 +2446,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
       if (!vUseRange)
       {
         if (vUseStop)
-        { 
+        {
           vComputedSize = limitSize(vParent["getInner" + vNameRangeUp]() - this["getComputedMargin" + vNameStartUp]() - this["getComputedMargin" + vNameStopUp]() - vComputedPosition - vValueStop);
         }
         else if (vValueRangeMin > 0)
@@ -2437,7 +2466,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
         vComputedSize = limitSize(this["getPreferred" + vNameRangeUp]());
       };
-      
+
       vComputedPosition = vParent["getInner" + vNameRangeUp]() - this["getComputedMargin" + vNameStartUp]() - this["getComputedMargin" + vNameStopUp]() - vComputedSize - vValueStop;
     };
 
@@ -2450,23 +2479,23 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
     if (typeof vComputedSize == "undefined") {
       vComputedSize = null;
     };
-    
-    if (typeof vComputedPosition == "undefined") 
+
+    if (typeof vComputedPosition == "undefined")
     {
       vComputedPosition = null;
     }
     // add padding of parent widget
-    else if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute") 
+    else if (isValidNumber(vComputedPosition) && this._evalCurrentStyleProperty("position") == "absolute")
     {
       vComputedPosition += vParent["getComputedPadding" + vNameStartUp]();
     };
-    
+
 
     // this.subug("computed: position=" + vComputedPosition + ", size=" + vComputedSize + " ... " + vHint);
 
     var vPositionChanged = vComputedPosition != this["_computedLast" + vNameStartUp];
     var vSizeChanged = vComputedSize != this["_computedLast" + vNameRangeUp];
-    
+
     // this.subug("do apply: " + vPositionChanged + ", " + vSizeChanged);
 
     if (vPositionChanged || vSizeChanged)
@@ -2498,7 +2527,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
         // Inform children
         this["_inner" + vNameRangeUp + "Changed"]();
       };
-    
+
       if (vPositionChanged)
       {
         try
@@ -2509,7 +2538,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
         catch(ex)
         {
           this.debug("Failed to apply position: " + vComputedPosition);
-        };        
+        };
 
         // Store new value
         this["_computedLast" + vNameStartUp] = vComputedPosition;
@@ -2600,51 +2629,51 @@ proto._recalculateFrame = function(vHint)
   this._recalculateFrameHeight(vHint);
 };
 
-proto._recalculateFrameWidth = function(vHint) 
+proto._recalculateFrameWidth = function(vHint)
 {
   if (!this._wasVisible) {
     return;
   };
-  
+
   switch(vHint)
   {
     case "padding":
       if (this._widthMode == "inner") {
         return this._renderHorizontal(vHint);
       };
-      
+
       break;
-    
+
     case "border":
       if (this._widthMode == "inner" || this._widthMode == "area") {
         return this._renderHorizontal(vHint);
       };
   };
-  
+
   this._innerWidthChanged();
 };
 
-proto._recalculateFrameHeight = function(vHint) 
+proto._recalculateFrameHeight = function(vHint)
 {
   if (!this._wasVisible) {
     return;
   };
-  
+
   switch(vHint)
   {
     case "padding":
       if (this._heightMode == "inner") {
         return this._renderVertical(vHint);
       };
-      
+
       break;
-    
+
     case "border":
       if (this._heightMode == "inner" || this._heightMode == "area") {
         return this._renderVertical(vHint);
       };
   };
-  
+
   this._innerHeightChanged();
 };
 
@@ -2663,7 +2692,7 @@ proto._innerWidthChanged = function()
 {
   // Invalidate internal cache
   this._invalidateInnerWidth();
-  
+
   // Update children
   var ch = this._children;
   var chl = ch.length;
@@ -2842,7 +2871,7 @@ proto._computeDimensionPixelValue = function(vId, vNameStartUp, vNameRangeUp, vN
 
   var pixelKey = "_pixelof_" + vId;
   var valueKey = "_valueof_" + vId;
-  
+
   //if (this instanceof QxToolBarButton)
   //this.debug("TYPE: " + vId + ": " + this["_typeof_" + vId]);
 
@@ -2946,10 +2975,10 @@ proto._modifyHorizontalHelper = function(propValue, propName)
 
   // Value cache
   this["_valueof_" + propName] = propValue;
-  
+
   // Render
   this._renderHorizontal(propName);
-  
+
   return true;
 };
 
@@ -2979,7 +3008,7 @@ proto._modifyVerticalHelper = function(propValue, propName)
   // Render
   this._renderVertical(propName);
 
-  return true;  
+  return true;
 };
 
 
@@ -2998,7 +3027,7 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   // this.debug("depend width: widget=" + vModifiedWidget + ", hint=" + vHint);
 
   var newWidth = this._calculateChildrenDependWidth(vModifiedWidget, vHint);
-  
+
   if (newWidth != null)
   {
     this.setWidth(newWidth, null, "inner", true);
@@ -3020,7 +3049,7 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
   // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
 
   var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
-  
+
   if (newHeight != null)
   {
     this.setHeight(newHeight, null, "inner", true);
@@ -3068,7 +3097,7 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
     if (vChildrenLength == 0) {
       return null;
     };
-    
+
     var vDependCache = this[vCache] = [];
     var vCurrentChild;
     var vCurrentNeeded;
@@ -3077,15 +3106,15 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
     {
       vCurrentChild = vChildren[i];
 
-      if(vCurrentChild.isCreated()) 
+      if(vCurrentChild.isCreated())
       {
         vCurrentNeeded = vCurrentChild._computeNeededSize(vStart, vRange, vStop);
-        
+
         // this.debug("Child: " + vCurrentChild._computeNeededSize(vStart, vRange, vStop));
         vDependCache.push({ widget : vCurrentChild, size : vCurrentNeeded ? vCurrentNeeded : 0 });
       };
     };
-    
+
     vDependCache.sort(this._compareDependSize);
   }
   else
@@ -3097,23 +3126,23 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
         vModifiedWidget = this._lastChildWithInvalidatedPreferredHeight;
         this._lastChildWithInvalidatedPreferredHeight = null;
       }
-      else if (vRange == "width" && this._lastChildWithInvalidatedPreferredWidth) 
+      else if (vRange == "width" && this._lastChildWithInvalidatedPreferredWidth)
       {
         vModifiedWidget = this._lastChildWithInvalidatedPreferredWidth;
         this._lastChildWithInvalidatedPreferredWidth = null;
       };
-      
+
       // this.debug("POST-FIX: " + vRange + " : " + vModifiedWidget);
     };
-    
+
     if (vModifiedWidget && vModifiedWidget != this)
     {
       var vDependCache = this[vCache];
       var vDependCacheLength = vDependCache.length;
-      
+
       var vChildFound = false;
       var vCurrentNeeded;
-      
+
       if (vHint != "add")
       {
         for (var i=0; i<vDependCacheLength; i++)
@@ -3127,19 +3156,19 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
               vCurrentNeeded = vModifiedWidget._computeNeededSize(vStart, vRange, vStop);
               vDependCache[i].size = vCurrentNeeded ? vCurrentNeeded : 0;
             }
-  
+
             // Remove child from array
             else
             {
               vDependCache.splice(i, 1);
             };
-  
+
             vChildFound = true;
             break;
           };
         };
       };
-  
+
       // Add child to array
       if (vHint == "add" || !vChildFound)
       {
@@ -3153,14 +3182,14 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
           throw new Error("No change while recalculating the dependCache!");
         };
       };
-  
+
       vDependCache.sort(this._compareDependSize);
     }
-  
+
     else
     {
       var vDependCache = this[vCache];
-    };    
+    };
   };
 
   return vDependCache.length > 0 ? vDependCache[0].size : null;
@@ -3545,17 +3574,17 @@ proto.getOffsetHeight = function()
 proto._preferred_width = null;
 proto._preferred_height = null;
 
-proto._invalidatePreferred = function() 
+proto._invalidatePreferred = function()
 {
   this._preferred_width = this._preferred_height = null;
-  
+
   var pa = this.getParent();
   if (pa) {
     pa._childrenPreferredInvalidated(this);
   };
 };
 
-proto._invalidatePreferredWidth = function() 
+proto._invalidatePreferredWidth = function()
 {
   this._preferred_width = null;
 
@@ -3565,7 +3594,7 @@ proto._invalidatePreferredWidth = function()
   };
 };
 
-proto._invalidatePreferredHeight = function() 
+proto._invalidatePreferredHeight = function()
 {
   this._preferred_height = null;
 
@@ -3592,12 +3621,12 @@ proto._calculatePreferredDimensions = function()
 */
 proto.getPreferredWidth = function()
 {
-  if (this.getWidth() == "auto") 
+  if (this.getWidth() == "auto")
   {
     if (!this._wasVisible) {
-      this._renderHorizontal("initial"); 
+      this._renderHorizontal("initial");
     };
-  
+
     return this._pixelof_width;
   };
 
@@ -3610,7 +3639,7 @@ proto.getPreferredWidth = function()
     else
     {
       var r = this._calculatePreferredDimensions();
-      
+
       this._preferred_width = r.width;
       this._preferred_height = r.height;
     };
@@ -3625,12 +3654,12 @@ proto.getPreferredWidth = function()
 
 proto.getPreferredHeight = function()
 {
-  if (this.getHeight() == "auto") 
+  if (this.getHeight() == "auto")
   {
     if (!this._wasVisible) {
-      this._renderVertical("initial"); 
+      this._renderVertical("initial");
     };
-  
+
     return this._pixelof_height;
   };
 
@@ -3638,17 +3667,17 @@ proto.getPreferredHeight = function()
   {
     if (this.getChildrenLength() > 0)
     {
-      this._preferred_height = this._calculateChildrenDependHeight() + this.getComputedPaddingTop() + this.getComputedPaddingBottom() + this.getComputedInsetTop() + this.getComputedInsetBottom();  
+      this._preferred_height = this._calculateChildrenDependHeight() + this.getComputedPaddingTop() + this.getComputedPaddingBottom() + this.getComputedInsetTop() + this.getComputedInsetBottom();
     }
     else
     {
       var r = this._calculatePreferredDimensions();
-      
+
       this._preferred_width = r.width;
       this._preferred_height = r.height;
     };
   };
-  
+
   return this._preferred_height;
 };
 
@@ -3667,18 +3696,18 @@ proto._childrenPreferredWidthInvalidated = function(vModifiedWidget)
   if (!this._wasVisible) {
     return;
   };
-  
+
   this._lastChildWithInvalidatedPreferredWidth = vModifiedWidget;
 
-  if (this.getWidth() == "auto") 
+  if (this.getWidth() == "auto")
   {
-    //this.debug("Children preferred width invalidated! [1]");  
+    //this.debug("Children preferred width invalidated! [1]");
     this._setChildrenDependWidth(vModifiedWidget, "preferred");
   }
   else
   {
     //this.debug("Children preferred width invalidated! [2]");
-    this._invalidatePreferredWidth(vModifiedWidget);  
+    this._invalidatePreferredWidth(vModifiedWidget);
   };
 };
 
@@ -3687,18 +3716,18 @@ proto._childrenPreferredHeightInvalidated = function(vModifiedWidget)
   if (!this._wasVisible) {
     return;
   };
-  
+
   this._lastChildWithInvalidatedPreferredHeight = vModifiedWidget;
 
-  if (this.getHeight() == "auto") 
+  if (this.getHeight() == "auto")
   {
-    //this.debug("Children preferred height invalidated! [1]");  
+    //this.debug("Children preferred height invalidated! [1]");
     this._setChildrenDependHeight(vModifiedWidget, "preferred");
   }
   else
   {
     //this.debug("Children preferred height invalidated! [2]");
-    this._invalidatePreferredHeight(vModifiedWidget);  
+    this._invalidatePreferredHeight(vModifiedWidget);
   };
 };
 
@@ -3775,7 +3804,7 @@ proto._modifyPaddingHorizontal = function(propValue, propOldValue, propName, uni
   // if we want a inner or area (min-/max-) width/height
   // we must recalculate our dimensions now.
   this._recalculateFrameWidth("padding");
-  
+
   // this also changes the preferred width
   this._invalidatePreferredWidth();
 
@@ -3797,7 +3826,7 @@ proto._modifyPaddingVertical = function(propValue, propOldValue, propName, uniqM
   // if we want a inner or area (min-/max-) width/height
   // we must recalculate our dimensions now.
   this._recalculateFrameHeight("padding");
-  
+
   // this also changes the preferred height
   this._invalidatePreferredHeight();
 
@@ -3945,9 +3974,9 @@ proto.setPadding = function()
 
   // Inform Childs
   this._recalculateFrame("padding");
-  
+
   // This also changes the preferred dimensions
-  this._invalidatePreferred();  
+  this._invalidatePreferred();
 
   return true;
 };
@@ -4326,11 +4355,11 @@ if((new QxClient).isMshtml())
   proto._modifyCanSelect = function(propValue, propOldValue, propName, uniqModIds) {
     return propValue ? this.removeHtmlProperty("unselectable") : this.setHtmlProperty("unselectable", "on");
   };
-  
+
   proto._evalCanSelect = function(propName)
   {
     var v = this.getHtmlProperty("unselectable");
-    return v != "on" || v == null;  
+    return v != "on" || v == null;
   };
 }
 else if((new QxClient).isGecko())
@@ -4351,13 +4380,13 @@ else if((new QxClient).isGecko())
 
     return true;
   };
-  
+
   proto._evalCanSelect = function(propName)
   {
     // be forward/crossbrowser compatible
     var v = (new QxClient).isGecko() ? this.getStyleProperty("MozUserSelect") : null;
     var v = v == null ? this.getStyleProperty("userSelect") : v;
-    return v != "none" || v == null;  
+    return v != "none" || v == null;
   };
 }
 else
@@ -4365,7 +4394,7 @@ else
   proto._modifyCanSelect = function(propValue, propOldValue, propName, uniqModIds) {
     return propValue ? this.removeStyleProperty("userSelect") : this.setStyleProperty("userSelect", "none");
   };
-  
+
   proto._evalCanSelect = function(propName)
   {
     throw new Error("_evalCanSelect is not implemented for this client!");
@@ -4394,7 +4423,7 @@ if((new QxClient).isMshtml())
 {
   proto._modifyOpacity = function(propValue, propOldValue, propName, uniqModIds)
   {
-    if(propValue == null || propValue > 1) 
+    if(propValue == null || propValue > 1)
     {
       this.removeStyleProperty("filter");
     }
@@ -4404,12 +4433,12 @@ if((new QxClient).isMshtml())
     }
     else
     {
-      throw new Error("Unsupported opacity value: " + propValue);  
+      throw new Error("Unsupported opacity value: " + propValue);
     };
-    
+
     return true;
   };
-  
+
   proto._evalOpacity = function()
   {
     var o = this.getStyleProperty("filter");
@@ -4425,14 +4454,14 @@ if((new QxClient).isMshtml())
       return 1;
     };
 
-    return parseInt(RegExp.$1)/100;  
+    return parseInt(RegExp.$1)/100;
   };
 }
 else
 {
   proto._modifyOpacity = function(propValue, propOldValue, propName, uniqModIds)
   {
-    if(propValue == null || propValue > 1) 
+    if(propValue == null || propValue > 1)
     {
       if ((new QxClient).isGecko())
       {
@@ -4448,10 +4477,10 @@ else
     else if (isValidNumber(propValue))
     {
       propValue = propValue.limit(0, 1);
-      
+
       // should we omit geckos flickering here
       // and limit the max value to 0.99?
-      
+
       if ((new QxClient).isGecko())
       {
         this.setStyleProperty("MozOpacity", propValue);
@@ -4463,7 +4492,7 @@ else
 
       this.setStyleProperty("opacity", propValue);
     };
-    
+
     return true;
   };
 
@@ -4478,7 +4507,7 @@ else
       return 1;
     };
 
-    return parseFloat(o);  
+    return parseFloat(o);
   };
 };
 
@@ -4687,9 +4716,9 @@ proto._modifyBorder = function(propValue, propOldValue, propName, uniqModIds)
   // if we want a inner or area (min-/max-) width/height
   // we must recalculate our dimensions now.
   this._recalculateFrame("border");
-  
+
   // this also changes the preferred dimensions
-  this._invalidatePreferred();  
+  this._invalidatePreferred();
 
   return true;
 };
@@ -4715,13 +4744,13 @@ proto.dispose = function()
   if (isValid(this._children))
   {
     var chl = ch.length;
-    
+
     for (var i=chl-1; i>=0; i--)
     {
       this._children[i].dispose();
       delete this._children[i];
     };
-    
+
     delete this._children;
   };
 
@@ -4842,7 +4871,7 @@ proto._cloneRecursive = function(cloneInstance)
   for (var i=0; i<chl; i++) {
     cloneChild = ch[i].clone(true);
     cloneInstance.add(cloneChild);
-  };  
+  };
 };
 
 
@@ -4857,16 +4886,16 @@ proto._cloneRecursive = function(cloneInstance)
 
 proto.execute = function()
 {
-  var vCommand = this.getCommand();  
+  var vCommand = this.getCommand();
   if (vCommand) {
     vCommand.execute();
   };
-  
+
   if (this.hasEventListeners("execute")) {
     this.dispatchEvent(new QxEvent("execute"));
   };
-  
+
   if (this.hasEventListeners("action")) {
     this.dispatchEvent(new QxEvent("action"));
-  };    
+  };
 };
