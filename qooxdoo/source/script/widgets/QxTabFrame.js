@@ -12,7 +12,24 @@ function QxTabFrame()
 
 QxTabFrame.extend(QxWidget, "QxTabFrame");
 
+
+/*
+  -------------------------------------------------------------------------------
+    PROPERTIES
+  -------------------------------------------------------------------------------
+*/
+
 QxTabFrame.addProperty({ name : "placeBarOnTop", type : Boolean, defaultValue : true });
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    UTILITY
+  -------------------------------------------------------------------------------
+*/
 
 proto.getPane = function() {
   return this._pane;
@@ -22,6 +39,15 @@ proto.getBar = function() {
   return this._bar;
 };
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MODIFIER
+  -------------------------------------------------------------------------------
+*/
+
 proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._bar.setPlaceOnTop(propValue, uniqModIds);
@@ -29,6 +55,14 @@ proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propName, uniqMod
 
   return true;
 };
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    DISPOSER
+  -------------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {

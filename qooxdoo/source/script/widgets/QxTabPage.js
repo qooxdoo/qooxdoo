@@ -14,7 +14,23 @@ function QxTabPage(vTab)
 
 QxTabPage.extend(QxWidget, "QxTabPage");
 
+
+/*
+  -------------------------------------------------------------------------------
+    PROPERTIES
+  -------------------------------------------------------------------------------
+*/
+
 QxTabPage.addProperty({ name : "tab", type : Object });
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MODIFIER
+  -------------------------------------------------------------------------------
+*/
 
 proto._modifyTab = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -28,6 +44,14 @@ proto._modifyTab = function(propValue, propOldValue, propName, uniqModIds)
 
   return true;
 };
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    OVERWRITE WIDGET LOGIC
+  -------------------------------------------------------------------------------
+*/
 
 proto._shouldBecomeCreated = function() 
 {
