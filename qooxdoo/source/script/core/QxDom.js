@@ -511,77 +511,63 @@ else
   QxDOM.getComputedScreenDocumentBottom = function(el) {};
 };
 
-
 // Preferred Size
-// Doesn't work perfectly in Opera 7.54 and 8.0 Beta 1 (mainly QxAtoms)
 QxDOM.getComputedPreferredSize = function(el)
 {
-  if (isInvalid(el)) {
-    throw new Error("QxDOM.getComputedPreferredSize: No element given!");
-  };
-
-  var elst = el.style;
-  var pa = el.parentNode;
-
-  if (isInvalid(pa)) {
-    throw new Error("QxDOM.getComputedPreferredSize: Element has no parent!");
-  };
-  
-  var past = pa.style;
-  
-  // Store old values
-  var _el_w = isValid(elst.width) ? elst.width : "";
-  var _el_h = isValid(elst.height) ? elst.height : "";
-  var _el_p = isValid(elst.position) ? elst.position : "";
-  var _el_d = isValid(elst.display) ? elst.display : "";
-
-  var _pa_w = isValid(past.width) ? past.width : "";
-  var _pa_h = isValid(past.height) ? past.height : "";
-
-  if (_el_d == "none") {
-    elst.display = "";
-  };  
-
-  elst.width = elst.height = "auto";
-  if (pa.tagName != "BODY") {
-    past.width = past.height = "100000px";
-  };
-  
-  // Get new size
-  // scrollWidth or scrollHeight doesn't include the border!
-  var result = { width : el.offsetWidth, height : el.offsetHeight };
-
-  // Restore old values
   try
   {
+    var elst = el.style;
+    
+    // Parents
+    var _pa = el.parentNode;
+    var _ne = el.nextChild;
+    var _do = el.ownerDocument.body;
+    
+    // Store old style values
+    var _el_w = isValidString(elst.width) ? elst.width : "";
+    var _el_h = isValidString(elst.height) ? elst.height : "";
+    var _el_p = isValidString(elst.position) ? elst.position : "";
+    var _el_d = isValidString(elst.display) ? elst.display : "";    
+    var _el_v = isValidString(elst.visibility) ? elst.visibility : "";    
+
+    // Move out of parent
+    _pa.removeChild(el);
+
+    // Reset current styles  
+    elst.width = elst.height = "auto";
+    elst.position = "static";
+    elst.display = "inline";   
+    elst.visibility = "hidden";
+    
+    // Move to body
+    _do.appendChild(el);
+    
+    // Get new size
+    // scrollWidth or scrollHeight doesn't include the border!
+    var r = { width : el.offsetWidth, height : el.offsetHeight };    
+    
+    // Move out of body
+    _do.removeChild(el);
+    
+    // Recover old style values
     elst.width = _el_w;
     elst.height = _el_h;
     elst.position = _el_p;
-    elst.display = _el_p;
+    elst.display = _el_p;    
+    elst.visibility = _el_v; 
+    
+    // Move to previous parent
+    _ne ? _pa.insertBefore(el, _ne) : _pa.appendChild(el);
+    
+    // QxDebug("QxDOM", "Preferred: " + r.width + "x" + r.height);
+    
+    // Return
+    return r;
   }
   catch(ex)
   {
-    QxDebug("QxDOM", "Failed to recover element dimensions: '" + _el_w + "', '" + _el_h + "' " + el.className + ": " + ex);
-    return null;
-  };
-  
-  try
-  {
-    if (pa.tagName != "BODY") 
-    {
-      past.width = _pa_w;
-      past.height = _pa_h;
-    };
-  }
-  catch(ex)
-  {
-    QxDebug("QxDOM", "Failed to recover parent dimensions: '" + _pa_w + "', '" + _pa_h + "' " + pa.className + ": " + ex);
-    return null;
-  }; 
-  
-  // alert(el.className + ": " + result.width + "x" + result.height);
-
-  return result;
+    throw new Error("Failed to detect preferred size for " + el + ": " + ex);
+  };  
 };
 
 QxDOM.getComputedPreferredWidth  = function(el) { return QxDOM.getComputedPreferredSize(el).width; };
