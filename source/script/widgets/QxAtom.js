@@ -718,8 +718,6 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
     var vTextPos = 0;
     var vIconPos = 0;
     
-    // this.debug("DISPLAY: " + this._displayIcon + ", " + this._displayText);
-  
     var vBoxSize;
   
     if (this._displayText && this._displayIcon)
@@ -744,9 +742,12 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
           break;
           
         default:
-          if( vTextSize > vIconSize ) {
+          if(vTextSize > vIconSize) 
+          {
             vIconPos = (vTextSize - vIconSize) / 2;
-          } else {
+          } 
+          else
+          {
             vTextPos = (vIconSize - vTextSize) / 2;
           };
   
@@ -766,25 +767,23 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
       return;  
     };
   
-  
     var vBoxPos = this["getComputedPadding" + vPaddingStartUp]();
   
-    switch(this["get"+vDirection+"Align"]()) {
-  
-    case "center":
-    case "middle":
-      vBoxPos += (this["getInner" + vNameRangeUp]() - vBoxSize) / 2;
-      break;
-    case "right":
-    case "bottom":
-      vBoxPos += this["getInner" + vNameRangeUp]() - vBoxSize;
-      break;
+    switch(this["get" + vDirection + "Align"]()) 
+    {
+      case "center":
+      case "middle":
+        vBoxPos += (this["getInner" + vNameRangeUp]() - vBoxSize) / 2;
+        break;
+    
+      case "right":
+      case "bottom":
+        vBoxPos += this["getInner" + vNameRangeUp]() - vBoxSize;
+        break;
     };
   
     vIconPos += vBoxPos;
-    vTextPos += vBoxPos;
-  
-  
+    vTextPos += vBoxPos; 
   
     // Apply new values
     if (this._iconObject && isValidNumber(vIconPos)) {
