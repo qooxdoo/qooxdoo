@@ -38,7 +38,6 @@ QxWidget.extend(QxTarget, "QxWidget");
 QxWidget._count = 0;
 
 
-
 /*
 ------------------------------------------------------------------------------------
   BASIC PROPERTIES
@@ -4333,6 +4332,30 @@ proto._removeCssClassName = function(propValue) {
 
 
 
+/*
+------------------------------------------------------------------------------------
+  WIDGET FROM POINT
+------------------------------------------------------------------------------------
+*/
+
+proto.getWidgetFromPoint = function(x, y)
+{
+  var ret = this.getWidgetFromPointHelper(x, y);
+  return ret && ret != this ? ret : null;
+};
+
+proto.getWidgetFromPointHelper = function(x, y)
+{
+  var ch = this.getChildren();
+  
+  for (var chl=ch.length, i=0; i<chl; i++) {
+    if (QxDOM.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
+      return ch[i].getWidgetFromPointHelper(x, y);
+    };    
+  };
+  
+  return this;
+};
 
 
 

@@ -604,12 +604,11 @@ else
   };
 };
 
-
 QxDOM.getElementFromPoint = function(x, y) {
   return QxDOM.getElementFromPointHandler(document.body, x, y);
 };
 
-QxDOM.getElementFromPointHandler = function(node, x, y)
+QxDOM.getElementFromPointHandler = function(node, x, y, recursive)
 {
   var ch = node.childNodes;
   var chl = ch.length-1;
@@ -618,46 +617,101 @@ QxDOM.getElementFromPointHandler = function(node, x, y)
     return null;
   };
 
-  var chc;
-  var xstart, ystart, xstop, ystop;
+  var chc, subres, ret;
 
   do
   {
     chc = ch[chl];
+    ret = QxDOM.getElementFromPointChecker(chc, x, y);
     
-    if (chc.nodeType != 1) {
-      continue;
-    };
-    
-    xstart = QxDOM.getOffsetLeft(chc);
-    if (x > xstart)
+    if (ret)
     {
-      ystart = QxDOM.getOffsetTop(chc);
-      if (y > ystart)
+      if (typeof recursive == "boolean" && recursive == false && 2 == 1)
       {
-        xstop = xstart + chc.offsetWidth;
-        
-        // QxContainer is something bad, mozilla seems not to be fast enough to
-        // get the correct "shown" width, ugly -> use preferredwidth to fix this
-        if (xstop == xstart && chc.className == "QxContainer") {
-          xstop = xstart + chc._QxWidget.getAnyWidth();
-        };
-        
-        if (x < xstop)
-        {
-          ystop = ystart + chc.offsetHeight;
-          if (y < ystop)
-          {
-            subres = QxDOM.getElementFromPointHandler(chc, x-xstart-QxDOM.getComputedBorderLeft(chc), y-ystart-QxDOM.getComputedBorderTop(chc));
-            return subres ? subres : chc;
-          };
-        };
-      };
-    };
+        return chc;  
+      }
+      else
+      {
+        subres = QxDOM.getElementFromPointHandler(chc, x-ret[0]-QxDOM.getComputedBorderLeft(chc), y-ret[2]-QxDOM.getComputedBorderTop(chc));
+        return subres ? subres : chc;
+      };      
+    };   
   }
   while(chl--);
   
   return null;
+};
+
+QxDOM.getElementFromPointChecker = function(chc, x, y)
+{
+  var xstart, ystart, xstop, ystop;
+  
+  if (chc.nodeType != 1) {
+    return false;
+  };
+  
+  xstart = QxDOM.getOffsetLeft(chc);
+  if (x > xstart)
+  {
+    ystart = QxDOM.getOffsetTop(chc);
+    if (y > ystart)
+    {
+      xstop = xstart + chc.offsetWidth;
+      
+      // QxContainer is something bad, mozilla seems not to be fast enough to
+      // get the correct "shown" width, ugly -> use preferredwidth to fix this
+      if (xstop == xstart && chc.className == "QxContainer") {
+        xstop = xstart + chc._QxWidget.getAnyWidth();
+      };
+      
+      if (x < xstop)
+      {
+        ystop = ystart + chc.offsetHeight;
+        if (y < ystop)
+        {
+          return [ xstart, xstop, ystart, ystop ];         
+        };
+      };
+    };
+  };
+  
+  return false; 
+};
+
+QxDOM.getElementAbsolutePointChecker = function(chc, x, y)
+{
+  var xstart, ystart, xstop, ystop;
+  
+  if (chc.nodeType != 1) {
+    return false;
+  };
+  
+  xstart = QxDOM.getComputedPageBoxLeft(chc);
+  if (x > xstart)
+  {
+    ystart = QxDOM.getComputedPageBoxTop(chc);
+    if (y > ystart)
+    {
+      xstop = xstart + chc.offsetWidth;
+      
+      // QxContainer is something bad, mozilla seems not to be fast enough to
+      // get the correct "shown" width, ugly -> use preferredwidth to fix this
+      if (xstop == xstart && chc.className == "QxContainer") {
+        xstop = xstart + chc._QxWidget.getAnyWidth();
+      };
+      
+      if (x < xstop)
+      {
+        ystop = ystart + chc.offsetHeight;
+        if (y < ystop)
+        {
+          return [ xstart, xstop, ystart, ystop ];         
+        };
+      };
+    };
+  };
+  
+  return false; 
 };
 
 /*
