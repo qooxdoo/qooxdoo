@@ -420,6 +420,9 @@ proto._onmousedown = function(e)
   
   switch(t)
   {
+    case this._textfield:
+      return;
+    
     case this._atom:
     case this._button:
     case this._buttonimage:
