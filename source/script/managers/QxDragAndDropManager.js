@@ -240,6 +240,7 @@ proto._handleMouseDown = function(e)
 /*!
 Handler for mouse move events
 */
+
 proto._handleMouseMove = function(e)
 {
   // Return if dragCache was not filled before
@@ -247,8 +248,6 @@ proto._handleMouseMove = function(e)
     return;
   };
   
-  
-
   /*
     Default handling if drag handler is activated
   */
@@ -558,22 +557,56 @@ proto.supportsDrop = function(vWidget)
 
 #param e[QxMouseEvent]: Current MouseEvent for dragdrop action
 */
-proto.getDropTarget = function(e)
+if ((new QxClient).isGecko())
 {
-  // don't operate on anonymous widgets
-  var currentWidget = e.getActiveTarget();
-  
-  while (currentWidget != null)
+  proto.getDropTarget = function(e)
   {
-    if (this.supportsDrop(currentWidget)) {
-      return currentWidget;
+    var currentWidget;
+    
+    // work around gecko bug (all other browsers are correct)
+    // clicking on a free space and drag prohibit the get of 
+    // a valid event target. The target is always the element
+    // which was the one with the mousedown event before.
+    if (e.getTarget() != this._dragCache.sourceWidget)
+    {
+      currentWidget = e.getActiveTarget();
+    }
+    else
+    {
+      currentWidget = QxEventManager.getActiveTargetObject(QxDOM.getElementFromPoint(e.getPageX(), e.getPageY()));
     };
-
-    currentWidget = currentWidget.getParent();
+    
+    while (currentWidget != null)
+    {
+      if (this.supportsDrop(currentWidget)) {
+        return currentWidget;
+      };
+  
+      currentWidget = currentWidget.getParent();
+    };
+  
+    return null;
   };
-
-  return null;
+}
+else
+{
+  proto.getDropTarget = function(e)
+  {
+    var currentWidget = e.getActiveTarget();
+    
+    while (currentWidget != null)
+    {
+      if (this.supportsDrop(currentWidget)) {
+        return currentWidget;
+      };
+  
+      currentWidget = currentWidget.getParent();
+    };
+  
+    return null;
+  }; 
 };
+
 
 
 
