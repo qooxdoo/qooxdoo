@@ -1,0 +1,166 @@
+<?xml version="1.0" ?>
+<!-- $Id$ -->
+<dependencies>
+
+  <package name="types">
+    <class>QxColor</class>
+    <class>QxInteger</class>
+    <class>QxNumber</class>
+    <class>QxString</class>
+    <class>QxTextile</class>
+    <class>QxVariable</class>
+  </package>
+
+  <package name="core">
+    <depends>types</depends>
+    <class>QxExtend</class>
+    <class>QxObject</class>
+    <class>QxClient</class>
+    <class>QxDom</class>
+    <class>QxDebug</class>
+    <class>QxTarget</class>
+    <class>QxData</class>
+    <class>QxApplication</class>
+    <class>QxClientWindow</class>
+    <class>QxBorder</class>
+    <class>QxTimer</class>
+    <class>QxXmlHttpLoader</class>
+  </package>
+  
+  <package name="events">
+    <depends>core</depends>
+    <class>QxEvent</class>
+    <class>QxDataEvent</class>
+    <class>QxFocusEvent</class>
+    <class>QxKeyEvent</class>
+    <class>QxMouseEvent</class>
+  </package>
+      
+  <package name="managers">
+    <depends>core</depends>
+    <class>QxManager</class>
+    <class>QxMenuManager</class>
+    <class>QxDataManager</class>
+    <class>QxEventManager</class>
+    <class>QxFocusManager</class>
+    <class>QxPopupManager</class>
+    <class>QxToolTipManager</class>
+    <class>QxTimerManager</class>
+    <class>QxImagePreloaderManager</class>
+  </package>
+      
+  <package name="basicwidget">
+    <depends>events</depends>
+    <depends>managers</depends>
+    <class>QxWidget</class>
+    <class>QxAtom</class>
+    <class>QxClientDocument</class>
+    <class>QxInline</class>
+  </package>
+  
+  <package name="extrawidget">
+    <depends>basicwidget</depends>
+    <class>QxTerminator</class>
+    <class>QxPopup</class>
+    <class>QxButton</class>
+    <class>QxContainer</class>
+    <class>QxToolTip</class>
+  </package>
+  
+  <package name="toolbar">
+    <depends>basicwidget</depends>
+    <class>QxToolBar</class>
+    <class>QxToolBarPart</class>
+    <class>QxToolBarButton</class>
+    <class>QxToolBarSeparator</class>
+    <class>QxToolBarCheckBox</class>
+    <class>QxToolBarRadioButton</class>
+    <class>QxToolBarMenuButton</class>
+  </package>
+  
+  <package name="menu">
+    <depends>extrawidget</depends>
+    <class>QxMenu</class>
+    <class>QxMenuButton</class>
+    <class>QxMenuCheckBox</class>
+    <class>QxMenuRadioButton</class>
+    <class>QxMenuSeparator</class>
+    <class>QxMenuBar</class>
+    <class>QxMenuBarButton</class>
+  </package>
+  
+  
+  <package name="image">
+    <depends>basicwidget</depends>
+    <class>QxImagePreloader</class>
+    <class>QxImage</class>
+  </package>
+  
+  <package name="list">
+    <depends>core</depends>
+    <class>QxSelectionStorage</class>
+    <class>QxSelectionManager</class>
+    <class>QxList</class>
+    <class>QxListItem</class>
+    <class>QxComboBox</class>
+  </package>
+  
+  <package name="popup">
+    <depends>basicwidget</depends>  
+  </package>
+  
+  <package name="tree">
+    <depends>basicwidget</depends>  
+    <class>QxTreeElement</class>
+    <class>QxTreeFile</class>
+    <class>QxTreeFolder</class>
+    <class>QxTree</class>
+  </package>
+  
+  <package name="dragndrop">
+    <depends>core</depends>  
+    <class>QxDragEvent</class>
+    <class>QxDragAndDropManager</class>
+  </package>
+  
+  <package name="input">
+    <depends>basicwidget</depends>
+    <class>QxForm</class>
+    <class>QxTextField</class>
+    <class>QxPasswordField</class>
+    <class>QxTextArea</class>
+    <class>QxInputCheckIcon</class>
+    <class>QxRadioButtonManager</class>
+    <class>QxRadioButton</class>
+  </package>
+  
+  <package name="tabbar">
+    <depends>basicwidget</depends>
+    <class>QxTabFrame</class>
+    <class>QxTabBar</class>
+    <class>QxTabPane</class>
+    <class>QxTabPage</class>
+    <class>QxTab</class>
+  </package>
+  
+  <package name="barselector">
+    <depends>toolbar</depends>
+    <depends>tabbar</depends>
+    <class>QxBarSelectorFrame</class>
+    <class>QxBarSelectorBar</class>
+    <class>QxBarSelectorPane</class>
+    <class>QxBarSelectorPage</class>
+    <class>QxBarSelectorButton</class>
+  </package>
+  
+  <package name="otherwidgets"> 
+    <depends>basicwidget</depends>
+    <depends>timer</depends>
+    <class>QxListView</class>
+    <class>QxFieldSet</class>
+    <class>QxIframe</class>
+  </package>
+
+</dependencies>
+
+
