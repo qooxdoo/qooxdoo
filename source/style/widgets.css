@@ -665,6 +665,7 @@ html[QxFocused] {
 .QxTab{
   cursor: default;
   z-index: 1;
+  margin-top: 1px;
 
   background-color: ThreeDFace;
 
@@ -675,6 +676,7 @@ html[QxFocused] {
 
 .QxTab-Checked{
   z-index: 2; 
+  margin-top: 0;
 }
 
 .QxTabBar-TopLeft .QxTab,

@@ -18,8 +18,6 @@ QxTabBar.addProperty({ name : "placeOnTop", type : Boolean, defaultValue : true 
 QxTabBar.addProperty({ name : "alignTabsToLeft", type : Boolean, defaultValue : true });
 QxTabBar.addProperty({ name : "activeTabHeightDiff", type : Number, defaultValue : 2 });
 QxTabBar.addProperty({ name : "activeTabOverlap", type : Number, defaultValue : 2 });
-QxTabBar.addProperty({ name : "inactiveTabVerticalTopOffset", type : Number, defaultValue : 1 });
-QxTabBar.addProperty({ name : "inactiveTabVerticalBottomOffset", type : Number, defaultValue : 0 });
 
 /*
 ------------------------------------------------------------------------------------
@@ -180,7 +178,6 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   };
 
   var vPaneBorder = this.getPlaceOnTop() ? vPane.getComputedBorderTop() : vPane.getComputedBorderBottom();
-  var vInactiveOffset = this.getPlaceOnTop() ? this.getInactiveTabVerticalTopOffset() : this.getInactiveTabVerticalBottomOffset();
   var vActiveDiff = this.getActiveTabHeightDiff();
 
   var ch = this.getChildren();
@@ -214,7 +211,7 @@ proto._layoutInternalWidgetsVertical = function(vHint)
       }
       else
       {
-        chc[vSet](vActiveDiff + vInactiveOffset);
+        chc[vSet](vActiveDiff);
         chc.setHeight("auto");
       };
     };
