@@ -1,0 +1,904 @@
+.QxWidget {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  visibility: visible;
+  white-space: nowrap;
+}
+
+.QxWidget {
+  overflow: -moz-scrollbars-none;
+}
+
+.QxDisabled{
+  color: gray !important;
+}
+
+.QxFocused {
+  outline: 1px dotted invert;
+  -moz-outline: 1px dotted invert;
+}
+
+input[QxFocused],
+textarea[QxFocused],
+body[QxFocused],
+html[QxFocused] {
+  outline: none;
+  -moz-outline: none;
+}
+
+
+
+
+
+.QxPasswordField,
+.QxTextField {
+  font-size: 11px;
+  font-family: Tahoma, "Lucida Sans Unicode", "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, sans-serif;
+  overflow: hidden;
+  padding: 2px;
+  position: absolute;
+  line-height: 11px;
+  width: 150px;
+}
+
+* html .QxTextField{
+  padding-top: 3px;
+}
+
+* html .QxTextField{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+* html .QxPasswordField{
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.QxPasswordField,
+.QxTextField {
+  overflow: -moz-scrollbars-none;
+}
+
+.QxTextArea{
+  font-family: Bitstream Vera Sans Mono, monospace;
+  font-size: 11px;
+  height: 100px;
+  padding: 2px;
+  position: absolute;
+  width: 250px;
+}
+
+.QxTextField-Focused,
+.QxPasswordField-Focused,
+.QxTextArea-Focused {
+  outline: none;
+  -moz-outline: none;
+}
+
+.QxImage{
+  display: inline;
+  position: absolute;
+}
+
+
+
+
+.QxContainer{
+  position: absolute; 
+}
+
+
+
+
+
+.QxAtomBase{
+  position: absolute;
+  cursor: default;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.QxAtomBase {
+  overflow: -moz-scrollbars-none;
+}
+
+.QxAtomBase .QxImage,
+.QxAtomBase .QxInputCheckIcon{
+  position: absolute;
+}
+
+.QxInputCheckIcon{
+  height: 13px;
+  width: 13px;
+  
+  -moz-user-focus: none;
+  user-focus: none;
+  
+  -moz-user-select: none;
+  user-select: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.QxRadioButton,
+.QxCheckBox{
+  padding: 2px;
+}
+
+
+
+
+
+
+.QxPopup,
+.QxToolTip,
+.QxMenu {
+  display: -moz-popup !important;
+  visibility: hidden;
+
+  z-index: 100000;
+
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.QxToolTip {
+  background-color: Infobackground;
+  color: InfoText;
+
+  border: 1px solid InfoText;
+  padding: 1px 3px;
+
+  z-index: 1000000;
+}
+
+.QxButton {
+	position: absolute;
+	padding: 2px 4px;
+}
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    TOOLBAR
+  ------------------------------------------
+*/
+
+.QxToolBar {
+	position: absolute;
+	white-space: nowrap;
+	border: 1px solid ThreeDShadow;
+	overflow: hidden;
+}
+
+.QxToolBarPartHandleLine,
+.QxToolBarSeparatorLine{
+  position: absolute; 
+}
+
+.QxToolBarPart{
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.QxToolBarButton,
+.QxToolBarCheckBox,
+.QxToolBarRadioButton,
+.QxToolBarSeparator,
+.QxToolBarPart,
+.QxToolBarPartHandle{
+  position: relative !important;
+  float: left; 
+}
+
+.QxToolBarButton,
+.QxToolBarCheckBox,
+.QxToolBarRadioButton{
+  padding: 3px 4px 3px 4px;
+}
+
+.QxToolBarButton-Hover,
+.QxToolBarCheckBox-Hover,
+.QxToolBarRadioButton-Hover{
+  padding: 2px 3px 2px 3px;
+  border: 1px outset;
+}
+
+.QxToolBarButton-Checked,
+.QxToolBarButton-Pressed,
+.QxToolBarCheckBox-Checked,
+.QxToolBarCheckBox-Pressed,
+.QxToolBarRadioButton-Checked,
+.QxToolBarRadioButton-Pressed{
+  padding: 2px 3px 2px 3px;
+  border: 1px inset;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    TREE
+  ------------------------------------------
+*/
+
+.QxTree{
+  position: absolute;
+
+  user-select: none;
+  -moz-user-select: none;
+
+  cursor: default;
+}
+
+.QxTree table{
+  vertical-align: top;
+  display: none;
+
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.QxTree ul ul{
+  display: none;
+}
+
+.QxTree ul,
+.QxTree li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  user-select: none;
+  -moz-user-select: none;
+}
+
+
+/*
+  fix layout problem in mshtml if QxTree has no label
+  border force to to collapse margins
+*/
+* html .QxTree ul{
+  border-top: 1px solid #fff;
+  margin-top: -1px;
+}
+
+.QxTree li{
+  display: block;
+}
+
+.QxTree table{
+  position: relative;
+  top: 0;
+  bottom: 0;
+}
+
+.QxTree,
+.QxTreeFile,
+.QxTreeFolder{
+  cursor: default;
+  display: block;
+  white-space: nowrap;
+
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.QxTree img,
+.QxTreeFile img,
+.QxTreeFolder img{
+  vertical-align: bottom;
+  width: 16px;
+  height: 16px;
+
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.QxTreeElementNavigationCell img,
+.QxTreeElementIndentCell img{
+  width: 19px;
+  height: 16px;
+}
+
+.QxTreeElementIconCell{
+  padding-right: 2px;
+}
+
+.QxTreeElementLabelCell{
+  padding-right: 4px;
+  padding-left: 2px;
+  white-space: nowrap;
+}
+
+.QxTreeElementLabelCellHover{
+  text-decoration: underline;
+  color: #000080;
+}
+
+.QxTreeElementLabelCellSelected{
+  background: #3662E7;
+  color: #fff;
+}
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    LISTVIEW
+  ------------------------------------------
+*/
+
+.QxListView{
+  position: absolute;
+  overflow: hidden;
+
+  cursor: default;
+  border: 1px solid ThreeDShadow;
+
+  width: 400px;
+  height: 150px;
+}
+
+.QxListViewHeader,
+.QxListViewContent{
+  position: absolute;
+
+  left: 0;
+  top: 0;
+}
+
+.QxListViewHeader{
+  background: ThreeDFace;
+  overflow: hidden;
+  z-index: 101;
+
+  /*
+    initial invisible
+    let first rendering switch this
+    looks nicer
+  */
+  visibility: hidden;
+}
+
+.QxListViewContent{
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+}
+
+
+/*
+  :: Tables
+*/
+
+/* block mshtml */
+.QxListViewHeader > .QxListViewHeaderTable,
+.QxListViewContent > .QxListViewContentTable{
+  table-layout: fixed;
+}
+
+.QxListViewHeaderTable{
+  position: relative;
+}
+
+.QxListViewContentTable{
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /*
+    keep this in sync with header height
+    slows down script if calculated there in runtime
+  */
+  margin-top: 20px;
+}
+
+
+
+/*
+  :: Cells
+*/
+
+.QxListViewContentCell,
+.QxListViewHeaderCell{
+  text-align: left;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: normal;
+
+  cursor: inherit;
+  user-select: none;
+  -moz-user-select: none;
+
+  margin: 0;
+}
+
+.QxListViewHeaderCell{
+  border-top: 0 none;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #666666;
+  border-bottom: 2px solid ThreedShadow;
+
+  padding: 3px 4px 3px 4px;
+}
+
+.QxListViewContentCell{
+  background: #fff;
+
+  border: 1px solid #fff;
+  border-bottom: 1px solid ThreedLightShadow;
+  border-right: 1px solid ThreedLightShadow;
+
+  padding: 1px 4px 1px 4px;
+}
+
+.QxListViewHeaderInner{
+  width: 100%;
+}
+
+.QxListViewHeaderInnerText{
+  text-align: left;
+  width: 100%;
+}
+
+.QxListViewHeaderInnerSort{
+  text-align: right;
+  width: 11px;
+}
+
+
+.QxListViewHeaderInnerTextBox{
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.QxListViewHeaderInnerSortImage{
+  width: 7px;
+  height: 4px;
+  margin-left: 3px;
+  margin-right: 1px;
+
+  vertical-align: middle;
+}
+
+.QxListViewContentBox{
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+}
+
+.QxListViewHeaderOverflow .QxListViewHeaderInnerTextBox,
+.QxListViewContentOverflow .QxListViewContentBox{
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+/*
+  :: Selection
+*/
+
+.QxListViewContentRowSelected .QxListViewContentCell{
+  background: Highlight;
+  color: HighlightText;
+
+  border-top-color: Highlight;
+  border-left-color: Highlight;
+
+  border-bottom-color: ThreedShadow;
+  border-right-color: ThreedShadow;
+
+  filter: Alpha(Opacity=100, FinishOpacity=75, Style=1, StartX=0, StartY=0, FinishX=0, FinishY=100);
+}
+
+
+
+/*
+  :: Boxes
+*/
+
+.QxListViewContentBox img{
+	position: relative;
+	top: -1px;
+
+	width: 16px;
+	height: 16px;
+
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    FIELDSET
+  ------------------------------------------
+*/
+
+.QxFieldSet{
+  position: absolute;
+  padding: 0;
+
+  width: 150px;
+  height: 100px;
+}
+
+.QxFieldSetFrame{
+  position: absolute;
+  margin-top: 7px;
+
+  border: 2px groove;
+  -moz-border-top-colors: ThreeDShadow ThreeDHighlight;
+  -moz-border-right-colors: ThreeDHighlight ThreeDShadow;
+  -moz-border-bottom-colors: ThreeDHighlight ThreeDShadow;
+  -moz-border-left-colors: ThreeDShadow ThreeDHighlight;
+}
+
+.QxFieldSetLegend{
+  display: none;
+  position: absolute;
+
+  font-size: 11px;
+  font-weight: normal;
+  background: threedface;
+
+  margin: -8px 35px 0 8px;
+  padding: 1px 3px 1px 3px;
+
+  -moz-user-select: none;
+  user-select: none;
+
+  cursor: default;
+
+  white-space:nowrap;
+}
+
+.QxFieldSetContent{
+  position: absolute;
+  margin: 12px 11px 8px 11px;
+  overflow: hidden;
+}
+
+.QxFieldSetContent {
+  overflow: -moz-scrollbars-none;
+}
+
+
+
+
+/*
+  ------------------------------------------
+    INLINE WIDGET
+  ------------------------------------------
+*/
+
+.QxInlineWidget {
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+:root .QxInlineWidget{
+  overflow: visible;
+}
+
+
+
+/*
+  ------------------------------------------
+    TAB
+  ------------------------------------------
+*/
+
+.QxTabFrame{
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.QxTabBar {
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 2;
+
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.QxTabPane,
+.QxTabPage {
+  overflow: hidden;
+  position: absolute;
+}
+
+.QxTabPane{
+  z-index: 1;
+}
+
+.QxTabBar,
+.QxTab,
+.QxTabPane,
+.QxTabPage {
+  overflow: -moz-scrollbars-none;
+}
+
+.QxTab{
+	position: relative;
+	float: left;
+	
+  padding: 2px 6px 2px 8px;
+  cursor: default;	
+  
+  background-color: ThreeDFace;
+
+  border-left: 1px solid ThreeDHighlight;
+  border-right: 2px outset;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;  
+}
+
+
+
+
+/*
+  ------------------------------------------
+    IFRAME, HTMLAREA
+  ------------------------------------------
+*/
+
+.QxIframe,
+.QxHtmlArea {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  visibility: visible;
+  background: ThreeDFace;
+}
+
+.QxIframe,
+.QxHtmlArea {
+  overflow: -moz-scrollbars-none;
+}
+
+/*
+  ------------------------------------------
+    LIST
+  ------------------------------------------
+*/
+
+.QxList{
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  visibility: visible;
+
+  background: #fff;
+  border: 1px solid #000;
+  width: 120px;
+}
+
+.QxListItem{
+  border: 1px solid #fff;
+  padding: 1px 5px 3px;
+  position: relative;
+  cursor: default;
+}
+
+.QxListItem-Selected,
+.QxListItem-Selected *{
+  border-color: highlight;
+  background-color: highlight;
+  color: highlighttext;
+}
+
+.QxListItem-Lead{
+  border-color: ThreeDShadow;
+}
+
+/*
+  ------------------------------------------
+    BAR BUTTON
+  ------------------------------------------
+*/
+
+.QxBarSelectorFrame{
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.QxBarSelectorBar {
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+
+  background: #fff;
+}
+
+.QxBarSelectorBar-Top{
+  border-bottom: 1px solid #BDBDBD;
+}
+
+.QxBarSelectorBar-Right{
+  border-left: 1px solid #BDBDBD;
+}
+
+.QxBarSelectorBar-Bottom{
+  border-top: 1px solid #BDBDBD;
+}
+
+.QxBarSelectorBar-Left{
+  border-right: 1px solid #BDBDBD;
+}
+
+.QxBarSelectorPane{
+  background: #EFEFEF;
+}
+
+.QxBarSelectorBar-Top .QxBarSelectorButton,
+.QxBarSelectorBar-Bottom .QxBarSelectorButton{
+  position: relative;
+  float: left;
+
+  padding: 5px 6px 3px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.QxBarSelectorBar-Left .QxBarSelectorButton,
+.QxBarSelectorBar-Right .QxBarSelectorButton{
+  position: static;
+
+  padding: 5px 6px 3px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+
+  margin-bottom: 6px;
+}
+
+.QxBarSelectorButton-Pressed,
+.QxBarSelectorButton-Checked{
+  background: #DEDEDE;
+}
+
+.QxBarSelectorBar-Top .QxBarSelectorButton,
+.QxBarSelectorBar-Bottom .QxBarSelectorButton{
+  height: 100%;
+}
+
+.QxBarSelectorBar-Top .QxBarSelectorButton-Pressed,
+.QxBarSelectorBar-Bottom .QxBarSelectorButton-Pressed,
+.QxBarSelectorBar-Top .QxBarSelectorButton-Checked,
+.QxBarSelectorBar-Bottom .QxBarSelectorButton-Checked{
+  border-left-color: #BDBDBD;
+  border-right-color: #BDBDBD;
+}
+
+.QxBarSelectorBar-Left .QxBarSelectorButton-Pressed,
+.QxBarSelectorBar-Right .QxBarSelectorButton-Pressed,
+.QxBarSelectorBar-Left .QxBarSelectorButton-Checked,
+.QxBarSelectorBar-Right .QxBarSelectorButton-Checked{
+  border-top-color: #BDBDBD;
+  border-bottom-color: #BDBDBD;
+}
+
+* html .QxBarSelectorBar-Left .QxAtomTable{
+  height: auto;
+}
+
+* html .QxBarSelectorBar-Right .QxAtomTable{
+  height: auto;
+}
+
+.QxBarSelectorPane,
+.QxBarSelectorPage {
+  position: absolute;
+  overflow: hidden;
+}
+
+/*
+  ------------------------------------------
+    COMBO BOX
+  ------------------------------------------
+*/
+
+.QxComboBox{
+  position: absolute;
+  background: #fff;
+}
+
+.QxComboBox .QxWidget{
+  background: threedface;
+  padding: 0;
+}
+
+.QxComboBox .QxTextField{
+  border: 0 none;
+  padding: 0;
+  margin: 0;
+  padding-top: 2px;
+  background: none;
+}
+
+* html .QxComboBox .QxTextField{
+  padding-top: 4px;
+}
+
+.QxComboBox-Mark,
+.QxComboBox-Mark .QxTextField,
+.QxComboBox-Mark .QxAtom,
+.QxComboBox-Mark .QxAtom *{
+  background-color: highlight;
+  color: highlighttext;
+}
+
+.QxComboBox .QxListItem-Lead{
+  border-color: #fff;
+}
+
+
+
+
+/*
+  ------------------------------------------
+    MENU 
+  ------------------------------------------
+*/
+
+.QxMenu{
+  border: 1px solid black;
+}
+
+.QxMenuButton{
+  position: relative;
+  padding: 2px 4px;
+}
+
+.QxMenuButton-Hover{
+  background-color: highlight;
+  color: highlighttext;
+}
+
+.QxMenuButton-Open{
+  background: green;
+  color: #fff;
+}
+
+.QxMenuButton .QxImage,
+.QxMenuButton .QxContainer{
+  position: absolute;
+}

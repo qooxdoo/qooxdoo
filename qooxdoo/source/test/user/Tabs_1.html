@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Tabbar implementation.</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    var tf = new QxTabFrame;
+    tf.set({ left: 20, top: 48, right: 335, bottom: 48 });
+
+    var t1 = new QxTab("Edit", null, true);
+    var t2 = new QxTab("Find");
+    var t3 = new QxTab("Backup");
+
+    tf.getBar().add(t1, t2, t3);
+
+    var p1 = new QxTabPage(t1);
+    var p2 = new QxTabPage(t2);
+    var p3 = new QxTabPage(t3);
+
+    tf.getPane().add(p1, p2, p3);
+
+    var f1 = new QxTextField("Edit Input");
+    var f2 = new QxTextField("Find Input");
+    var f3 = new QxTextField("Backup Input");
+
+    p1.add(f1);
+    p2.add(f2);
+    p3.add(f3);
+
+    var c1 = new QxCheckBox("Place bar on top");
+    var c2 = new QxCheckBox("Align tabs to left");
+
+    c1.setTop(50);
+    c1.setChecked(true);
+
+    c2.setTop(70);
+    c2.setChecked(true);
+
+    p1.add(c1, c2);
+
+    c1.addEventListener("changeChecked", function(e) {
+      tf.setPlaceBarOnTop(e.getNewValue());
+    });
+
+    c2.addEventListener("changeChecked", function(e) {
+      tf.getBar().setAlignTabsToLeft(e.getNewValue());
+    });
+
+    d.add(tf);
+  };
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Combobox implementation</p>
+  </div>
+
+  <select style="position:absolute; left:500px; top:48px; width: 120px;">
+    <option>Item No 1</option>
+    <option>Item No 2</option>
+    <option>Item No 3</option>
+    <option>Item No 4</option>
+    <option>Item No 5</option>
+    <option>Item No 6</option>
+    <option>Item No 7</option>
+    <option>Item No 8</option>
+    <option>Item No 9</option>
+    <option>Item No 10</option>
+    <option>Item No 11</option>
+    <option>Item No 12</option>
+    <option>Item No 13</option>
+    <option>Item No 14</option>
+    <option>Item No 15</option>
+    <option>Item No 16</option>
+    <option>Item No 17</option>
+    <option>Item No 18</option>
+    <option>Item No 19</option>
+    <option>Item No 20</option>
+    <option>Item No 21</option>
+    <option>Item No 22</option>
+    <option>Item No 23</option>
+    <option>Item No 24</option>
+    <option>Item No 23</option>
+    <option>Item No 24</option>
+    <option>Item No 25</option>
+    <option>Item No 26</option>
+    <option>Item No 27</option>
+    <option>Item No 28</option>
+    <option>Item No 29</option>
+    <option>Item No 30</option>
+  </select>
+
+  <script type="text/javascript">
+    window.application.main = function()
+    {
+      var d = this.getClientWindow().getDocument();
+
+      var c1 = new QxComboBox();
+      
+      c1.set({ top: 48, left: 20 });
+      
+      
+      var item;
+
+      for( var i=1; i<=30; i++ ) 
+      {
+        item = new QxListItem("Item No " + i);
+        !(i % 10) && (item.setEnabled(false));
+        c1.getList().add(item);
+      };
+      
+      c1.setSelected(c1.getList().getFirstChild());
+      
+
+
+      var b1 = new QxCheckBox("Editable");
+      
+      b1.set({ top: 50, left: 150 });
+      
+      d.add(b1);
+      
+      b1.addEventListener("changeChecked", function(e) {
+        c1.setEditable(e.getNewValue());
+      });
+
+
+
+
+      var c2 = new QxComboBox(); 
+      
+      c2.set({ top: 48, left: 350 });
+      
+      for( var i=1; i<=6; i++ ) 
+      {
+        item = new QxListItem("Item No " + i);
+        c2.getList().add(item);
+      };      
+
+      d.add(c1, c2);
+      
+      
+      // Pre-create popup
+      // c1.createPopup();
+    };
+  </script>
+</body>
+</html>

@@ -133,8 +133,3 @@ L="$L widgets/QxTreeElement"
 L="$L widgets/QxTreeFile"
 L="$L widgets/QxTreeFolder"
 L="$L widgets/QxTree"
-
-# Menu II
-L="$L widgets/QxMenu2"
-L="$L widgets/QxMenuButton2"
-L="$L widgets/QxMenuSeparator2"

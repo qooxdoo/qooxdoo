@@ -1,0 +1,89 @@
+body.QxThemeWinXP .QxMenu{
+  padding: 1px;
+  background: #fff url(menubackground.gif) top left repeat-y;
+  border: 1px solid #808080; /* ThreeDShadow */
+}
+
+body.QxThemeWinXP .QxMenuSeparator{
+  margin-left: 24px;
+}
+
+body.QxThemeWinXP .QxMenuSeparator div{  
+  border-bottom: 1px solid #808080; /* ThreeDShadow */
+}
+
+body.QxThemeWinXP .QxMenuButton-Active{
+  padding: 0;
+  border: 1px solid #0A246A;
+  background-color: #B7BFD4;
+}
+
+body.QxThemeWinXP .QxMenuBarButton-Hover{
+  background: #B7BFD4;
+  border: 1px solid #000;
+  padding: 3px 7px 2px 7px;
+}
+
+body.QxThemeWinXP .QxMenuBarButton-Pressed{
+  background: #DBD8D1;
+  border: 1px solid #808080; /* ThreeDShadow */
+  border-bottom: 0 none;
+  padding: 3px 7px 3px 7px;
+}
+
+body.QxThemeWinXP .QxMenuButtonIconCell{
+  width: 24px;
+}
+
+
+
+
+body.QxThemeWinXP .QxToolBar{
+  border: 1px solid #D4D0C8; /* ThreeDFace */
+}
+
+body.QxThemeWinXP .QxToolBarPart{
+  background: #DBD8D1;
+}
+
+body.QxThemeWinXP .QxToolBarPartHandleLine{
+  background: url(toolbarparthandle.gif) top repeat-y;
+  width: 7px;
+}
+
+body.QxThemeWinXP .QxToolBarSeparatorLine{
+	border-left: 1px solid #808080; /* ThreeDShadow */
+}
+
+
+
+body.QxThemeWinXP .QxToolBarButton,
+body.QxThemeWinXP .QxToolBarCheckBox,
+body.QxThemeWinXP .QxToolBarRadioButton{
+  margin-right: 1px;
+}
+
+body.QxThemeWinXP .QxToolBarButton-Hover,
+body.QxThemeWinXP .QxToolBarCheckBox-Hover,
+body.QxThemeWinXP .QxToolBarRadioButton-Hover{
+  padding: 2px 3px 2px 3px;
+  border: 1px solid #666666;
+  background: #B7BFD4;
+}
+
+body.QxThemeWinXP .QxToolBarButton-Checked,
+body.QxThemeWinXP .QxToolBarButton-Pressed,
+body.QxThemeWinXP .QxToolBarCheckBox-Checked,
+body.QxThemeWinXP .QxToolBarCheckBox-Pressed,
+body.QxThemeWinXP .QxToolBarRadioButton-Checked,
+body.QxThemeWinXP .QxToolBarRadioButton-Pressed{
+  padding: 2px 3px 2px 3px;
+  border: 1px solid #0A246A;
+  background: #8893B1;
+}
+
+body.QxThemeWinXP .QxToolBarButton-Checked,
+body.QxThemeWinXP .QxToolBarCheckBox-Checked,
+body.QxThemeWinXP .QxToolBarRadioButton-Checked{
+  background: #DBD8D1;
+}

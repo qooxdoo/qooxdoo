@@ -1,0 +1,1 @@
+function QxString(v) { return String(v); };

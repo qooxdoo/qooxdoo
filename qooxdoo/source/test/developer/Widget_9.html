@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Test for common setter and getter implementation.</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+    
+    var c1 = new QxWidget;
+
+    c1.set({
+      width : 200, height: 100,
+      top: 48, left: 20,
+      backgroundColor: "orange"
+    });
+    
+    d.add(c1);    
+    
+    
+    
+    this.debug("Dimensions (Mode 1): " + c1.get(["width", "height"]));
+
+    var i = c1.get({"width" : null, "height" : null });
+    this.debug("Dimensions (Mode 2): " + i.width + "x" + i.height);
+
+    var i = c1.get(["width", "height"], "hash");
+    this.debug("Dimensions (Mode 3): " + i.width + "x" + i.height);
+  };
+  </script>
+</body>
+</html>

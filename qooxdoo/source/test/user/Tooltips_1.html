@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+  
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>    
+  
+  <div id="testDescription"> 
+    <p>Test for QxToolTips. Each QxToolTip could be assigned to any 
+    instance of QxWidget. You could also use one QxToolTip instance
+    for multiple QxWidgets (to show the same tooltip any multiple items).</p>
+  </div>
+  
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+    
+    var c1 = new QxWidget;
+    with(c1)
+    {
+      setTop(48);
+      setLeft(20);
+      setBackgroundColor("#fff");
+      setWidth(100);
+      setHeight(100); 
+      setTabIndex(1);   
+    };
+    d.add(c1);
+    c1.setBorder(QxBorder.presets.outset);
+    
+    c1.getElement().innerHTML = "Hover me";
+
+
+    var c2 = new QxWidget;
+    with(c2)
+    {
+      setTop(48);
+      setLeft(140);
+      setBackgroundColor("#fff");
+      setWidth(100);
+      setHeight(100);    
+      setTabIndex(1);
+    };
+    d.add(c2);
+    c2.setBorder(QxBorder.presets.outset);
+    
+    c2.getElement().innerHTML = "Hover me";
+    
+    
+    var c3 = new QxWidget;
+    with(c3)
+    {
+      setTop(48);
+      setLeft(260);
+      setBackgroundColor("#fff");
+      setWidth(100);
+      setHeight(100);
+      setTabIndex(1);    
+    };
+    d.add(c3);
+    c3.setBorder(QxBorder.presets.outset);
+    
+    c3.getElement().innerHTML = "Hover me";
+    
+    
+    var c4 = new QxWidget;
+    with(c4)
+    {
+      setTop(48);
+      setLeft(380);
+      setBackgroundColor("#fff");
+      setWidth(100);
+      setHeight(100);
+      setTabIndex(1);    
+    };
+    d.add(c4);
+    c4.setBorder(QxBorder.presets.outset);    
+    
+    c4.getElement().innerHTML = "Hover me";
+    
+    
+    
+    var tt1 = new QxToolTip("Hello World #1");
+    c1.setToolTip(tt1);
+    c2.setToolTip(tt1);
+    
+    var tt2 = new QxToolTip(null, "../../images/icons/crystal/16/help.png");
+    c3.setToolTip(tt2);
+
+    var tt3 = new QxToolTip("Hello World #3", "../../images/icons/crystal/16/help.png");
+    c4.setToolTip(tt3);
+  };
+  </script>
+</body>
+</html>  

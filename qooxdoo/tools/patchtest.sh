@@ -15,5 +15,5 @@ for file in `find source/test/ -name "*.html"`;
 do
   dfile=`echo $file | sed s:source:public:g`
   mkdir -p `dirname $dfile`
-  cat $file | sed s:"script/includer.js":"../../script/qooxdoo.js":g > $dfile
+  cat $file | sed s:"../../../script/includer.js":"../../script/qooxdoo.js":g > $dfile
 done

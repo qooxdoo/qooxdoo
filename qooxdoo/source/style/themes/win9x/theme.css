@@ -1,0 +1,101 @@
+body.QxThemeWin9x .QxMenu{
+  background: Menu;
+  padding: 1px;
+  border: 2px outset;
+
+  -moz-border-top-colors: ThreeDLightShadow ThreeDHighlight;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-left-colors: ThreeDLightShadow ThreeDHighlight;
+
+  margin-left: -1px;
+}
+
+body.QxThemeWin9x .QxMenuSeparator div{
+  border-top: 1px solid ThreeDShadow;
+  border-bottom: 1px solid ThreeDHighlight;
+}
+
+body.QxThemeWin9x .QxMenuButton-Active{
+  padding: 0;
+  border: 1px solid #0A246A;
+  background-color: highlight;
+  color: highlighttext;
+}
+
+body.QxThemeWin9x .QxMenuButton-Active *{
+  color: highlighttext;
+}
+
+body.QxThemeWin9x .QxMenuBarButton-Hover{
+  border: 1px solid ThreeDHighlight;
+  border-right-color: ThreeDShadow;
+  border-bottom-color: ThreeDShadow;
+  padding: 3px 7px 2px 7px;
+}
+
+body.QxThemeWin9x .QxMenuBarButton-Pressed{
+  border: 1px solid ThreeDHighlight;
+  border-left-color: ThreeDShadow;
+  border-top-color: ThreeDShadow;
+  padding: 3px 7px 2px 7px;
+}
+
+body.QxThemeWin9x .QxMenuButtonIconCell{
+  width: 20px;
+}
+
+
+
+
+body.QxThemeWin9x .QxToolBar{
+  border: 1px solid ThreeDShadow;
+  border-top: 1px solid ThreeDHighlight;
+  border-left: 1px solid ThreeDHighlight;
+}
+
+body.QxThemeWin9x .QxToolBarPartHandleLine{
+  width: 4px;
+
+	border-left: 1px solid ThreeDHighlight;
+	border-bottom: 1px solid ThreeDShadow;
+	border-right: 1px solid ThreeDShadow;
+	border-top: 1px solid ThreeDHighlight;
+}
+
+body.QxThemeWin9x .QxToolBarSeparatorLine{
+	border-left: 1px solid ThreeDShadow;
+	border-right: 1px solid ThreeDHighlight;
+}
+
+
+body.QxThemeWin9x .QxToolBarButton-Hover,
+body.QxThemeWin9x .QxToolBarCheckBox-Hover,
+body.QxThemeWin9x .QxToolBarRadioButton-Hover{
+  padding: 2px 3px 2px 3px;
+
+	border-left: 1px solid ThreeDHighlight;
+	border-bottom: 1px solid ThreeDShadow;
+	border-right: 1px solid ThreeDShadow;
+	border-top: 1px solid ThreeDHighlight;
+}
+
+body.QxThemeWin9x .QxToolBarButton-Checked,
+body.QxThemeWin9x .QxToolBarButton-Pressed,
+body.QxThemeWin9x .QxToolBarCheckBox-Checked,
+body.QxThemeWin9x .QxToolBarCheckBox-Pressed,
+body.QxThemeWin9x .QxToolBarRadioButton-Checked,
+body.QxThemeWin9x .QxToolBarRadioButton-Pressed{
+  padding: 3px 2px 1px 4px;
+
+	border-left: 1px solid ThreeDShadow;
+	border-bottom: 1px solid ThreeDHighlight;
+	border-right: 1px solid ThreeDHighlight;
+	border-top: 1px solid ThreeDShadow;
+}
+
+body.QxThemeWin9x .QxToolBarButton-Checked,
+body.QxThemeWin9x .QxToolBarCheckBox-Checked,
+body.QxThemeWin9x .QxToolBarRadioButton-Checked{
+  background: url(radiobuttonbackground.gif) top left;
+}
