@@ -11,16 +11,16 @@ function QxImage(vSource, vWidth, vHeight)
   // Load default placeholder image.
   this.setHtmlProperty("src", QxImage._blank);
 
-  if (isValid(vSource)) {
-    this.setSource(vSource);
-  };
-
   if (isValid(vWidth)) {
     this.setWidth(vWidth);
   };
 
   if (isValid(vHeight)) {
     this.setHeight(vHeight);
+  };
+  
+  if (isValid(vSource)) {
+    this.setSource(vSource);
   };
 };
 
@@ -140,7 +140,7 @@ proto._modifyPreloader = function(propValue, propOldValue, propName, uniqModIds)
 
 proto._modifyLoaded = function(propValue, propOldValue, propName, uniqModIds)
 {
-  if (propValue)
+  if (propValue && this.isCreated())
   {
     this._apply();
   }
@@ -189,14 +189,14 @@ if ((new QxClient).isMshtml())
     else
     {
       this.setHtmlProperty("src", this.getSource());
-      this.setStyleProperty("filter", vEnabled ? "" : "Gray() Alpha(Opacity=50)");
+      vEnabled ? this.removeStyleProperty("filter") : this.setStyleProperty("filter", "Gray() Alpha(Opacity=50)");
     };
   };
 
   proto._apply = function()
   {
     var pl = this.getPreloader();
-
+    
     if (this.getHeight() == null) {
       this.setStyleProperty("pixelHeight", pl.getHeight());
     };
