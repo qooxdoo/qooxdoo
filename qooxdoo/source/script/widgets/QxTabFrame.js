@@ -5,7 +5,8 @@ function QxTabFrame()
   this._bar = new QxTabBar;
   this._pane = new QxTabPane;
 
-  this.add(this._bar, this._pane);
+  // The bar needs the pane, so please keep this order
+  this.add(this._pane, this._bar);
 
   this._bar.addEventListener("resizeVertical", this._pane._applyState, this._pane);
 };

@@ -643,14 +643,26 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
     return;
   };
 
-  if (this.getWidth() == "auto")
+  switch(vHint)
   {
-    return this._setChildrenDependWidth(vModifiedChild, vHint);
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal(vHint);
+    case "position-and-size":
+    case "position":
+    case "size":
+      break;
+      
+    default:
+      if (this.getWidth() == "auto")
+      {
+        return this._setChildrenDependWidth(vModifiedChild, vHint);
+      }
+      else
+      {
+        this._layoutInternalWidgetsHorizontal(vHint);
+      };
   };
+  
+  // new, inherit from widget
+  QxWidget.prototype._childOuterWidthChanged.call(this, vModifiedChild, vHint);
 };
 
 proto._childOuterHeightChanged = function(vModifiedChild, vHint)
@@ -659,14 +671,26 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
     return;
   };
 
-  if (this.getHeight() == "auto")
+  switch(vHint)
   {
-    return this._setChildrenDependHeight(vModifiedChild, vHint);
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical(vHint);
+    case "position-and-size":
+    case "position":
+    case "size":
+      break;
+      
+    default:
+      if (this.getHeight() == "auto")
+      {
+        return this._setChildrenDependHeight(vModifiedChild, vHint);
+      }
+      else
+      {
+        this._layoutInternalWidgetsVertical(vHint);
+      };
   };
+  
+  // new, inherit from widget
+  QxWidget.prototype._childOuterHeightChanged.call(this, vModifiedChild, vHint);
 };
 
 
