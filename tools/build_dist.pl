@@ -480,8 +480,9 @@ __DATA__
   </package>
   
   <package name="menu">
-    <depends>widget</depends>
+    <depends>popup</depends>
     <depends>manager</depends>
+    <depends>timer</depends>
     
     <class>QxMenuManager</class>
     <class>QxMenu</class>
