@@ -30,12 +30,13 @@
       var bs = new QxBarSelectorFrame;
       bs.set({ left: 20, top: 48, right: 335, bottom: 48 });
       bs.setBorder( QxBorder.presets.black );
+      //bs.setPlaceBarOn("left");
 
       var bsb1 = new QxBarSelectorButton("Display", "../../images/icons/crystal/32/display.png");
       var bsb2 = new QxBarSelectorButton("Sunshine", "../../images/icons/crystal/32/babelfish.png");
       var bsb3 = new QxBarSelectorButton("Paint", "../../images/icons/crystal/32/colorize.png");
       var bsb4 = new QxBarSelectorButton("Icons", "../../images/icons/crystal/32/icons.png");
-      var bsb5 = new QxBarSelectorButton("Graphics", "../../images/icons/crystal/32/graphics.png", true);
+      var bsb5 = new QxBarSelectorButton("Graphics", "../../images/icons/crystal/32/graphics.png", 32, 32, true);
       var bsb6 = new QxBarSelectorButton("Applications", "../../images/icons/crystal/32/package.png");
       var bsb7 = new QxBarSelectorButton("System", "../../images/icons/crystal/32/system.png");
 
@@ -67,7 +68,7 @@
       p6.add(f6);
       p7.add(f7);
 
-      var r1 = new QxRadioButton("Top", "top", true);
+      var r1 = new QxRadioButton("Top", "top", null, true);
       var r2 = new QxRadioButton("Right", "right");
       var r3 = new QxRadioButton("Bottom", "bottom");
       var r4 = new QxRadioButton("Left", "left");
