@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+  <meta http-equiv="MsThemeCompatible" content="yes">
+  <meta http-equiv="ImageToolBar" content="no">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+
+  <style type="text/css">
+    .QxBarSelectorBar {
+      background: #EFF4FB;
+    }
+    
+    .QxBarSelectorPane{
+      background: #fff;
+    }
+    
+    .QxBarSelectorPage{
+     margin: 10px;
+    }
+    
+    .QxBarSelectorButton{
+      border: 1px solid #EFF4FB;
+      padding: 4px;
+    }
+    
+    .QxBarSelectorButton-Pressed,
+    .QxBarSelectorButton-Checked{
+      background: #fff;
+    }
+    
+    .QxBarSelectorBar-Top{
+      border-bottom: 0 none;
+    }
+    
+    .QxBarSelectorBar-Right{
+      border-left: 0 none;
+    }
+    
+    .QxBarSelectorBar-Bottom{
+      border-top: 0 none;
+    }
+    
+    .QxBarSelectorBar-Left{
+      border-right: 0 none;
+    }
+    
+    .QxBarSelectorBar-Top .QxBarSelectorButton,
+    .QxBarSelectorBar-Bottom .QxBarSelectorButton{
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    
+    .QxBarSelectorBar-Left .QxBarSelectorButton,
+    .QxBarSelectorBar-Right .QxBarSelectorButton{
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+    
+    .QxBarSelectorBar-Top .QxBarSelectorButton-Pressed,
+    .QxBarSelectorBar-Bottom .QxBarSelectorButton-Pressed,
+    .QxBarSelectorBar-Top .QxBarSelectorButton-Checked,
+    .QxBarSelectorBar-Bottom .QxBarSelectorButton-Checked{
+      border-left-color: #fff;
+      border-right-color: #fff;
+    }
+    
+    .QxBarSelectorBar-Left .QxBarSelectorButton-Pressed,
+    .QxBarSelectorBar-Right .QxBarSelectorButton-Pressed,
+    .QxBarSelectorBar-Left .QxBarSelectorButton-Checked,
+    .QxBarSelectorBar-Right .QxBarSelectorButton-Checked{
+      border-top-color: #fff;
+      border-bottom-color: #fff;
+    }
+  </style>
+
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Yet Another Bar Selector Example</p>
+  </div>
+
+  <script type="text/javascript">
+    window.application.main = function()
+    {
+      var d = this.getClientWindow().getDocument();
+
+      var bs = new QxBarSelectorFrame;
+      bs.set({ left: 20, top: 48, right: 335, bottom: 48 });
+      bs.setBorder( QxBorder.presets.black );
+      bs.setPlaceBarOn("left");
+
+      var bsb1 = new QxBarSelectorButton("Display", "../../images/icons/crystal/16/display.png");
+      var bsb2 = new QxBarSelectorButton("Sunshine", "../../images/icons/crystal/16/dvd.png");
+      var bsb3 = new QxBarSelectorButton("Paint", "../../images/icons/crystal/16/colorize.png");
+      var bsb4 = new QxBarSelectorButton("Icons", "../../images/icons/crystal/16/iconthemes.png");
+      var bsb5 = new QxBarSelectorButton("Graphics", "../../images/icons/crystal/16/exec.png", null, null, true);
+      var bsb6 = new QxBarSelectorButton("Applications", "../../images/icons/crystal/16/package.png");
+      var bsb7 = new QxBarSelectorButton("System", "../../images/icons/crystal/16/configure.png");
+
+      bsb1.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb2.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb3.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb4.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb5.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb6.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+      bsb7.set({ minWidth: 120, iconPosition: "left", horizontalAlign: "left" });
+
+      bs.getBar().add(bsb1, bsb2, bsb3, bsb4, bsb5, bsb6, bsb7);
+
+      var p1 = new QxBarSelectorPage(bsb1);
+      var p2 = new QxBarSelectorPage(bsb2);
+      var p3 = new QxBarSelectorPage(bsb3);
+      var p4 = new QxBarSelectorPage(bsb4);
+      var p5 = new QxBarSelectorPage(bsb5);
+      var p6 = new QxBarSelectorPage(bsb6);
+      var p7 = new QxBarSelectorPage(bsb7);
+
+      bs.getPane().add(p1, p2, p3, p4, p5, p6, p7);
+
+      var f1 = new QxTextField("Display Input");
+      var f2 = new QxTextField("Sunshine Input");
+      var f3 = new QxTextField("Paint Input");
+      var f4 = new QxTextField("Icons Input");
+      var f5 = new QxTextField("Images Input");
+      var f6 = new QxTextField("Applications Input");
+      var f7 = new QxTextField("System Input");
+
+      p1.add(f1);
+      p2.add(f2);
+      p3.add(f3);
+      p4.add(f4);
+      p5.add(f5);
+      p6.add(f6);
+      p7.add(f7);
+
+      var r1 = new QxRadioButton("Top", "top", null, true);
+      var r2 = new QxRadioButton("Right", "right");
+      var r3 = new QxRadioButton("Bottom", "bottom");
+      var r4 = new QxRadioButton("Left", "left");
+
+      r1.setTop(50);
+      r2.setTop(70);
+      r3.setTop(90);
+      r4.setTop(110);
+
+      p1.add(r1, r2, r3, r4);
+
+      var rm = new QxRadioButtonManager(null, [r1, r2, r3, r4]);
+
+      rm.addEventListener("changeSelected", function(e) {
+        bs.setPlaceBarOn(e.getNewValue().getValue());
+      });
+
+      // bs.setPlaceBarOn("right");
+
+      d.add(bs);
+    };
+  </script>
+</body>
+</html>
