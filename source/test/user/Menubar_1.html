@@ -40,11 +40,12 @@
 
 
       var m2 = new QxMenu;
+      var m3 = new QxMenu;
 
       var mb2_01 = new QxMenuButton("Undo", null, "Strg+Z");
       var mb2_02 = new QxMenuButton("Redo", null, "Strg+Y");
       var mb2_b1 = new QxMenuSeparator();
-      var mb2_03 = new QxMenuButton("Cut", "../../images/icons/crystal/16/editcut.png", "Strg+X");
+      var mb2_03 = new QxMenuButton("Cut", "../../images/icons/crystal/16/editcut.png", "Strg+X", m3);
       var mb2_04 = new QxMenuButton("Copy", "../../images/icons/crystal/16/editcopy.png", "Strg+C");
       var mb2_05 = new QxMenuButton("Paste", "../../images/icons/crystal/16/editpaste.png", "Strg+V");
       var mb2_06 = new QxMenuButton("Delete", "../../images/icons/crystal/16/editdelete.png", "Entf");
@@ -52,6 +53,9 @@
       var mb2_07 = new QxMenuButton("Select All", null, "Strg+A");
       var mb2_08 = new QxMenuButton("Find", null, "Strg+F");
       var mb2_09 = new QxMenuButton("Find Again", null, "Strg+G");
+      
+      
+      
 
       mb2_05.setEnabled(false);
       mb2_06.setEnabled(false);

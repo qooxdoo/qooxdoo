@@ -889,10 +889,12 @@ html[QxFocused] {
   position: relative;
   padding: 1px 6px 1px 2px;
   border: 1px solid Menu;
+  overflow: hidden;
 }
 
 .QxMenuButton-Hover{
   background-color: highlight;
+  background-color: #4D91F3;
   color: highlighttext;
 }
 
@@ -902,7 +904,7 @@ html[QxFocused] {
 }
 
 .QxMenuSeparator{
-  padding: 3px 4px 2px 4px;
+  padding: 3px 2px 2px 2px;
   font-size: 0;
   line-height: 0;
 }
@@ -912,6 +914,7 @@ html[QxFocused] {
   border-top: 1px solid ThreeDShadow;
   border-bottom: 1px solid ThreeDHighlight;
 }
+
 
 
 

@@ -43,14 +43,11 @@ QxMenu.addProperty({ name : "fastReopen", type : Boolean, defaultValue : false }
 QxMenu.addProperty({ name : "openInterval", type : Number, defaultValue : 250 });
 QxMenu.addProperty({ name : "closeInterval", type : Number, defaultValue : 250 });
 
-QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -6 });
+QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : Number, defaultValue : -4 });
 QxMenu.addProperty({ name : "subMenuVerticalOffset", type : Number, defaultValue : -2 });
 
-QxMenu.addProperty({ name : "defaultIconWidth", type : Number, defaultValue: 16 });
-QxMenu.addProperty({ name : "defaultIconHeight", type : Number, defaultValue: 16 });
-QxMenu.addProperty({ name : "defaultArrowWidth", type : Number, defaultValue: 4 });
-QxMenu.addProperty({ name : "defaultArrowHeight", type : Number, defaultValue: 7 });
-
+QxMenu.addProperty({ name : "minIconColumnWidth", type : Number, defaultValue : 16 });
+QxMenu.addProperty({ name : "showIconColumnWithoutAnyIcon", type : Boolean, defaultValue : true });
 
 
 
@@ -168,10 +165,10 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   var vMaxPaddingLeft = 0;
   var vMaxPaddingRight = 0;
   
-  var vMaxIconWidth = this.getDefaultIconWidth();
+  var vMaxIconWidth = 0;
   var vMaxTextWidth = 0;
   var vMaxShortcutWidth = 0;
-  var vMaxArrowWidth = this.getDefaultArrowWidth();
+  var vMaxArrowWidth = 0;
 
   var vMaxTextWidth = 0;
   var vMaxContentWidth = 0;
@@ -195,32 +192,46 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
       vMaxPaddingLeft = Math.max(vMaxPaddingLeft, chc.getComputedPaddingLeft());
       vMaxPaddingRight = Math.max(vMaxPaddingRight, chc.getComputedPaddingRight());
   
-      vMaxIconWidth = Math.max(vMaxIconWidth, chc._calculatedIconWidth);
-      vMaxArrowWidth = Math.max(vMaxArrowWidth, chc._calculatedArrowWidth);    
+      vMaxIconWidth = Math.max(vMaxIconWidth, chc.getNeededIconWidth());
+      vMaxArrowWidth = Math.max(vMaxArrowWidth, chc.getNeededArrowWidth());    
       
-      if (chc._calculatedShortcutWidth > 0)
+      if (chc.getNeededShortcutWidth() > 0)
       {
-        vMaxTextWidth = Math.max(vMaxTextWidth, chc._calculatedTextWidth);
-        vMaxShortcutWidth = Math.max(vMaxShortcutWidth, chc._calculatedShortcutWidth);
+        vMaxTextWidth = Math.max(vMaxTextWidth, chc.getNeededTextWidth());
+        vMaxShortcutWidth = Math.max(vMaxShortcutWidth, chc.getNeededShortcutWidth());
       }
       else
       {
-        vMaxContentWidth = Math.max(vMaxContentWidth, chc._calculatedTextWidth);
+        vMaxContentWidth = Math.max(vMaxContentWidth, chc.getNeededTextWidth());
       };
     };
   };
+  
+  // Show icon column
+  if (vMaxIconWidth > 0 || this.getShowIconColumnWithoutAnyIcon()) {
+    vMaxIconWidth = Math.max(vMaxIconWidth, this.getMinIconColumnWidth());
+  };
+  
 
   // Calculate content max value
   vMaxContentWidth = Math.max(vMaxContentWidth, (vMaxTextWidth + vTextShortcutGap + vMaxShortcutWidth));
 
   // Cache positions for children layout  
   this._childIconPosition = vMaxPaddingLeft;
-  this._childTextPosition = this._childIconPosition + vMaxIconWidth + vIconContentGap;
-  this._childShortcutPosition = this._childTextPosition + vMaxContentWidth - vMaxShortcutWidth;
-  this._childArrowPosition = this._childTextPosition + vMaxContentWidth + vContentArrowGap;
+  
+  var vUseIconWidth = vMaxIconWidth > 0 ? (vMaxIconWidth + vIconContentGap) : 0;
+  
+  this._childTextPosition = this._childIconPosition + vUseIconWidth;
+  
+  var vUseEndPos = this._childTextPosition + vMaxContentWidth;
+  
+  this._childShortcutPosition = vUseEndPos - vMaxShortcutWidth;
+  this._childArrowPosition = vUseEndPos + vContentArrowGap;
+  
+  var vUseInnerWidth = vMaxPaddingLeft + vUseEndPos + (vMaxArrowWidth > 0 ? vContentArrowGap + vMaxArrowWidth : 0) + vMaxPaddingRight;
 
   // Apply new inner width
-  this.setInnerWidth((vMaxPaddingLeft + vMaxIconWidth + vIconContentGap + vMaxContentWidth + vContentArrowGap + vMaxArrowWidth + vMaxPaddingRight), null, true);
+  this.setInnerWidth(vUseInnerWidth, null, true);
 };
 
 

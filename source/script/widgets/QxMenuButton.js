@@ -61,11 +61,6 @@ proto._textObject = null;
 proto._shortcutObject = null;
 proto._arrowObject = null;
 
-proto._showIcon = true;
-proto._showText = true;
-proto._showShortcut = true;
-proto._showArrow = true;
-
 proto._displayIcon = false;
 proto._displayText = false;
 proto._displayShortcut = false;
@@ -104,12 +99,7 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     };
   };
 
-  // create basic widget
-  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-
-  this._measure();
-
-  return true;
+  return QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
 proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
@@ -135,10 +125,6 @@ proto._modifyMenu = function(propValue, propOldValue, propName, uniqModIds)
   this._displayArrow = isValid(propValue);
   return true;
 };
-
-
-
-
 
 proto.hasMenu = function() {
   return Boolean(this.getMenu());
@@ -257,7 +243,7 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
 proto._layoutInternalWidgetsVertical = function(vHint)
 {
   var vInner = this.getInnerHeight();
-   
+  
   if (this._iconObject) {
     this._iconObject._applyPositionVertical((vInner - this._iconObject.getPreferredHeight()) / 2);
   };
@@ -279,17 +265,78 @@ proto._layoutInternalWidgetsVertical = function(vHint)
 
 
 
-proto._calculatedIconWidth = 0;
-proto._calculatedTextWidth = 0;
-proto._calculatedShortcutWidth = 0;
-proto._calculatedArrowWidth = 0;
 
-proto._measure = function()
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: CHILDREN DEPEND DIMENSIONS: MAIN
+------------------------------------------------------------------------------------
+*/
+
+proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
 {
-  this._calculatedIconWidth = this._displayIcon ? this._iconObject.getAnyWidth() : 0;
-  this._calculatedTextWidth = this._displayText ? this._textObject.getAnyWidth() : 0;
-  this._calculatedShortcutWidth = this._displayShortcut ? this._shortcutObject.getAnyWidth() : 0;
-  this._calculatedArrowWidth = this._displayArrow ? this._arrowObject.getAnyWidth() : 0;
+  // Ingore unload event if we have a valid icon to load.
+  // Note: This does not handle missing images correctly.
+  if (this._displayIcon && vModifiedWidget == this._iconObject && vHint == "unload") {
+    return true;
+  };
+  
+  // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
+
+  var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
+
+  // If the height did not change the setter below will not re-layout the children.
+  // We will force this here if the icon or text was appended, to ensure a perfect layout.
+  if (this._heightMode == "inner" && this._heightModeValue == newHeight)
+  {
+    switch(vHint)
+    {
+      case "load":
+      case "append-child":
+      case "preferred":
+        switch(vModifiedWidget)
+        {
+          case this._iconObject:
+          case this._textObject:
+          case this._hintObject:
+          case this._arrowObject:
+            return this._layoutInternalWidgetsVertical(vHint);
+        };
+    };      
+  }
+  else
+  {
+    this.setInnerHeight(newHeight, null, true);  
+  };
+
+  return true;
+};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UTILITY FUNCTIONS FOR PARENT
+------------------------------------------------------------------------------------
+*/
+
+proto.getNeededIconWidth = function() {
+  return this._displayIcon ? this._iconObject.getAnyWidth() : 0;
+};
+
+proto.getNeededTextWidth = function() {
+  return this._displayText ? this._textObject.getAnyWidth() : 0;
+};
+
+proto.getNeededShortcutWidth = function() {
+  return this._displayShortcut ? this._shortcutObject.getAnyWidth() : 0;
+};
+
+proto.getNeededArrowWidth = function() {
+  return this._displayArrow ? this._arrowObject.getAnyWidth() : 0;
 };
 
 
