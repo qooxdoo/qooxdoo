@@ -132,4 +132,3 @@ proto._onmousedown = function(e)
   this.setFocused(true);
   this.setChecked(true);  
 };
-

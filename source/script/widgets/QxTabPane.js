@@ -10,6 +10,15 @@ function QxTabPane()
 
 QxTabPane.extend(QxWidget, "QxTabPane");
 
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MODIFIER
+  -------------------------------------------------------------------------------
+*/
+
 proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds) 
 {
   QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);  
@@ -21,6 +30,16 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
   QxWidget.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
   return this._applyState();
 };
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    LAYOUTER
+  -------------------------------------------------------------------------------
+*/
 
 proto._applyState = function()
 {
