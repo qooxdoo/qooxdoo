@@ -58,23 +58,28 @@
 
       var mb1_01 = new QxMenuButton("Ansichten/Listen");
       var mb1_02 = new QxMenuButton("Syntaxhervorhebung");
+      var ms1    = new QxMenuSeparator();
       var mb1_03 = new QxMenuButton("Schriftart einstellen");
       var mb1_04 = new QxMenuButton("Druckerschrift", null, null, m3);
+      var ms2    = new QxMenuSeparator();
       var mb1_05 = new QxMenuButton("Rückgängig", null, "Strg+Z");
       var mb1_06 = new QxMenuButton("Wiederherstellen", null, "Strg+Y");
+      var ms3    = new QxMenuSeparator();
       var mb1_07 = new QxMenuButton("Ausschneiden", "../../images/icons/crystal/16/editcut.png", "Strg+X");
       var mb1_08 = new QxMenuButton("Kopieren", "../../images/icons/crystal/16/editcopy.png", "Strg+C");
       var mb1_09 = new QxMenuButton("Einfügen", "../../images/icons/crystal/16/editpaste.png", "Strg+V");
       var mb1_10 = new QxMenuButton("Löschen", "../../images/icons/crystal/16/editdelete.png", "Entf");
       var mb1_11 = new QxMenuButton("Alles markieren", null, "Strg+A");
+      var ms4    = new QxMenuSeparator();
       var mb1_12 = new QxMenuButton("Seite durchsuchen", null, "Strg+F");
       var mb1_13 = new QxMenuButton("Abwärts suchen", null, "Strg+G");
+      var ms5    = new QxMenuSeparator();
       var mb1_14 = new QxMenuButton("Ansicht", null, null, m2);
       var mb1_15 = new QxMenuButton("Editor-Einstellungen...");
       var mb1_16 = new QxMenuButton("Editor-Erweiterungen");
       var mb1_17 = new QxMenuButton("Framework-Einstellungen");
 
-      m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06, mb1_07, mb1_08, mb1_09, mb1_10, mb1_11, mb1_12, mb1_13, mb1_14, mb1_15, mb1_16, mb1_17);
+      m1.add(mb1_01, mb1_02, ms1, mb1_03, mb1_04, ms2, mb1_05, mb1_06, ms3, mb1_07, mb1_08, mb1_09, mb1_10, mb1_11, ms4, mb1_12, mb1_13, ms5, mb1_14, mb1_15, mb1_16, mb1_17);
 
 
       d.add(m1, m2, m3);

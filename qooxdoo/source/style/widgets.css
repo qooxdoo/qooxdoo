@@ -903,3 +903,13 @@ html[QxFocused] {
 .QxMenuButton .QxContainer{
   position: absolute;
 }
+
+.QxMenuSeparator{
+  padding: 3px 4px 2px 4px;
+}
+
+.QxMenuSeparatorLine{
+  height: 2px;
+  border-top: 1px solid ThreeDShadow;
+  border-bottom: 1px solid ThreeDHighlight;
+}
