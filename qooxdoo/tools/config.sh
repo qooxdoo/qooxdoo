@@ -141,3 +141,6 @@ L="$L widgets/QxTree"
 # Spinner
 L="$L managers/QxRangeManager"
 L="$L widgets/QxSpinner"
+
+# Command
+L="$L core/QxCommand"

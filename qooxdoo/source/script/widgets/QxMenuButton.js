@@ -1,4 +1,4 @@
-function QxMenuButton(vText, vIcon, vShortcut, vMenu)
+function QxMenuButton(vText, vIcon, vCommand, vMenu)
 {
   QxWidget.call(this);
 
@@ -18,8 +18,8 @@ function QxMenuButton(vText, vIcon, vShortcut, vMenu)
     this.setIcon(vIcon);
   };
 
-  if (isValidString(vShortcut)) {
-    this.setShortcut(vShortcut);
+  if (isValid(vCommand)) {
+    this.setCommand(vCommand);
   };
 
   if (isValid(vMenu)) {
@@ -41,7 +41,7 @@ QxMenuButton.extend(QxWidget, "QxMenuButton");
 
 QxMenuButton.addProperty({ name : "text", type : String });
 QxMenuButton.addProperty({ name : "icon", type : String });
-QxMenuButton.addProperty({ name : "shortcut", type : String });
+QxMenuButton.addProperty({ name : "command", type : Object });
 QxMenuButton.addProperty({ name : "menu", type : Object });
 
 QxMenuButton.addProperty({ name : "arrow", type : String, defaultValue : "../../images/core/arrows/next.gif" });
@@ -116,9 +116,9 @@ proto._modifyText = function(propValue, propOldValue, propName, uniqModIds)
   return true;
 };
 
-proto._modifyShortcut = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyCommand = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this._displayShortcut = isValid(propValue);
+  this._displayShortcut = isValid(propValue) && isValidString(propValue.getShortcut());
   return true;
 };
 
@@ -169,7 +169,7 @@ proto._pureCreateFillText = function()
 proto._pureCreateFillShortcut = function()
 {
   var s = this._shortcutObject = new QxContainer();
-  s.setHtml(this.getShortcut());
+  s.setHtml(this.getCommand().getShortcut());
 
   s.setAnonymous(true);
   s.setEnabled(this.isEnabled());
@@ -354,11 +354,8 @@ proto.getNeededArrowWidth = function() {
 ------------------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
-{
-  if (this.hasEventListeners("action")) {
-    this.dispatchEvent(new QxEvent("action"));
-  };  
+proto._onmousedown = function(e) {
+  this.execute();
 };
 
 
