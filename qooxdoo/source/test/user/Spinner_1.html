@@ -31,36 +31,45 @@
     with(s1)
     {
       setLeft(20);
-      setTop(48);
+      setTop(64);
     };
 
     d.add(s1);
+
+	d.add( (new QxAtom("[100]").set({left:20, top:48, opacity:0.5})) );
+	d.add( (new QxAtom("[0]").set({left:20, top:90, opacity:0.5})) );
     
     var s2 = new QxSpinner;
     
     with(s2)
     {
       setLeft(100);
-      setTop(48);
+      setTop(64);
       setValue(30);
       setMin(-30);
       setMax(30);
     };
     
     d.add(s2);
+
+	d.add( (new QxAtom("30").set({left:100, top:48, opacity:0.5})) );
+	d.add( (new QxAtom("-30").set({left:100, top:90, opacity:0.5})) );
     
     var s3 = new QxSpinner;
     
     with(s3)
     {
       setLeft(180);
-      setTop(48);
+      setTop(64);
       setValue(0);
       setMin(-3000);
       setMax(3000);
     };
     
     d.add(s3);    
+
+	d.add( (new QxAtom("3000").set({left:180, top:48, opacity:0.5})) );
+	d.add( (new QxAtom("-3000").set({left:180, top:90, opacity:0.5})) );
     
     /*
     s3._manager.addEventListener("changeValue", function(e) {
@@ -73,27 +82,30 @@
     with(s4)
     {
       setLeft(260);
-      setTop(48);
+      setTop(64);
       setValue(0);
       setMin(100);
       setMax(200);
     };
     
     d.add(s4);    
-        
 
-    var s5 = new QxSpinner;
+	d.add( (new QxAtom("200").set({left:260, top:48, opacity:0.5})) );
+	d.add( (new QxAtom("100").set({left:260, top:90, opacity:0.5})) );
+	        
+
+    var s5 = new QxSpinner( -200, null, -100);
     
     with(s5)
     {
       setLeft(340);
-      setTop(48);
-      setValue(0);
-      setMin(-200);
-      setMax(-100);
+      setTop(64);
     };
     
     d.add(s5);     
+
+	d.add( (new QxAtom("-100").set({left:340, top:48, opacity:0.5})) );
+	d.add( (new QxAtom("-200").set({left:340, top:90, opacity:0.5})) );
     
   };
   </script>
