@@ -14,7 +14,7 @@ use XML::Simple;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 
-our($opt_f, $opt_p, $opt_b, $opt_e, $opt_d, %packages, %dependencies, %excludedirs);
+our($opt_f, $opt_p, $opt_b, $opt_e, %packages, %dependencies, %excludedirs);
 
 getopts('f:p:b:e:d:');
 
@@ -23,7 +23,6 @@ my $outputFile = $opt_f || 'qooxdoo.js';
 my $package = $opt_p;
 my $basedir = $opt_b || '.';
 my $fileSuffix = $opt_e || '.js';
-my $dependenciesFile = $opt_d || './tools/dependencies.xml';
 
 if ( !$package ) {
     print "The -p option is mandatory. Run '$0 --help' if you need more information\n";
@@ -252,7 +251,6 @@ sub HELP_MESSAGE() {
 print  $out "\nAvailable parameters:\n".
 "  -f <file_name>     of the output file (set to 'qooxdoo.js' if not specified). NOTE: File will be truncated\n".
 "  -e <file_ending>   suffix of the input files (default is '.js')\n".
-"  -d <dep_xml_file>  location of dependency and package definition file (default is './dependencies.xml')\n".
 "  -b <base_dir>      base directory from which searching for dependencies should\n".
 "                     be started (defaults to current directory)\n".
 "  -p <package>   comma-separated list of package names that should be packed into the output file.\n\n";       
