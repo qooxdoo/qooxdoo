@@ -75,7 +75,6 @@ proto._modifyHoverItem = function(propValue, propOldValue, propName, uniqModIds)
     propValue.setState("hover");
   };
 
-
   return true;
 };
 
@@ -157,21 +156,24 @@ proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
-
-    vMaxPaddingLeft = Math.max(vMaxPaddingLeft, chc.getComputedPaddingLeft());
-    vMaxPaddingRight = Math.max(vMaxPaddingRight, chc.getComputedPaddingRight());
-
-    vMaxIconWidth = Math.max(vMaxIconWidth, chc._calculatedIconWidth);
-    vMaxArrowWidth = Math.max(vMaxArrowWidth, chc._calculatedArrowWidth);    
     
-    if (chc._calculatedHintWidth > 0)
+    if (chc instanceof QxMenuButton)
     {
-      vMaxTextWidth = Math.max(vMaxTextWidth, chc._calculatedTextWidth);
-      vMaxHintWidth = Math.max(vMaxHintWidth, chc._calculatedHintWidth);
-    }
-    else
-    {
-      vMaxContentWidth = Math.max(vMaxContentWidth, chc._calculatedTextWidth);
+      vMaxPaddingLeft = Math.max(vMaxPaddingLeft, chc.getComputedPaddingLeft());
+      vMaxPaddingRight = Math.max(vMaxPaddingRight, chc.getComputedPaddingRight());
+  
+      vMaxIconWidth = Math.max(vMaxIconWidth, chc._calculatedIconWidth);
+      vMaxArrowWidth = Math.max(vMaxArrowWidth, chc._calculatedArrowWidth);    
+      
+      if (chc._calculatedHintWidth > 0)
+      {
+        vMaxTextWidth = Math.max(vMaxTextWidth, chc._calculatedTextWidth);
+        vMaxHintWidth = Math.max(vMaxHintWidth, chc._calculatedHintWidth);
+      }
+      else
+      {
+        vMaxContentWidth = Math.max(vMaxContentWidth, chc._calculatedTextWidth);
+      };
     };
   };
 
@@ -227,6 +229,7 @@ proto._onmouseover = function(e)
 
 
 
+
   /* ------------------------------
     HANDLING FOR HOVERING MYSELF
   ------------------------------ */
@@ -242,9 +245,6 @@ proto._onmouseover = function(e)
 
     return;
   };
-
-
-
 
 
 
@@ -334,4 +334,34 @@ proto._onclosetimer = function(e)
 
   // reset the current opened item
   this.setOpenItem(null);
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+  
+  if (this._openTimer) 
+  {
+    this._openTimer.dispose();
+    this._openTimer = null;  
+  };
+  
+  if (this._closeTimer) 
+  {
+    this._closeTimer.dispose();
+    this._closeTimer = null;  
+  };
+  
+  return QxPopup.prototype.dispose.call(this);  
 };

@@ -125,7 +125,11 @@ proto.dispose = function()
   this.__oninterval = null;
 
   // Clear handle
-  this._intervalHandler = null;
+  if (this._intervalHandler)
+  {
+    window.clearInterval(this._intervalHandle);
+    this._intervalHandler = null;
+  };
 
   // Call QxTarget to do the other dispose work
   return QxTarget.prototype.dispose.call(this);
