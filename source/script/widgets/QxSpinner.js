@@ -17,7 +17,7 @@ function QxSpinner()
   //   TEXTFIELD
   // ***********************************************************************  
   this._textfield = new QxTextField();
-  this._textfield.set({ left: 0, right: 16, bottom: 0, top: 0, textAlign : "right", text : this.getValue() });
+  this._textfield.set({ left: 0, right: 16, bottom: 0, top: 0, textAlign : "right", text : this._manager.getValue() });
   
   this.add(this._textfield);
   
@@ -79,21 +79,6 @@ QxSpinner.extend(QxWidget, "QxSpinner");
     PROPERTIES
   -------------------------------------------------------------------------------
 */
-
-/*!
-  The value.
-*/
-QxSpinner.addProperty({ name : "value", type : Number, defaultValue : 0 });
-
-/*!
-  The minimum value.
-*/
-QxSpinner.addProperty({ name : "min", type : Number });
-
-/*!
-  The maximum value.
-*/
-QxSpinner.addProperty({ name : "max", type : Number });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
@@ -180,7 +165,7 @@ proto._onkeypress = function(e)
 
   if (vCode == QxKeyEvent.keys.enter && !e.getAltKey())
   {
-    this._ensureValidValue();
+    this._ensureValidValue(true, false, false);
     this._textfield.selectAll();
   }
   else
@@ -237,7 +222,7 @@ proto._onkeydown = function(e)
         this._intervalMode = "single";
         
         this._resetIncrements();
-        this._ensureValidValue();
+        this._ensureValidValue(true, false, false);
 
         this._increment();
         this._timer.startWith(this.getFirstInterval());
@@ -250,7 +235,7 @@ proto._onkeydown = function(e)
         this._intervalMode = "page";
 
         this._resetIncrements();
-        this._ensureValidValue();
+        this._ensureValidValue(true, false, false);
 
         this._pageIncrement();
         this._timer.startWith(this.getFirstInterval());
@@ -294,7 +279,7 @@ proto._onmousedown = function(e)
     return;
   };
 
-  this._ensureValidValue();
+  this._ensureValidValue(true);
   
   var vButton = e.getCurrentTarget();
   
@@ -345,7 +330,7 @@ proto._onmousewheel = function(e)
 */
 
 proto._oninput = function(e) {
-  this._ensureValidValue();
+  this._ensureValidValue(true, true);
 };
 
 proto._onchange = function(e)
@@ -358,6 +343,7 @@ proto._onchange = function(e)
   {
     this._downbutton.setBorder(QxBorder.presets.outset);
     this._downbutton.setEnabled(false);
+    this._timer.stop();
   }
   else
   {
@@ -368,6 +354,7 @@ proto._onchange = function(e)
   {
     this._upbutton.setBorder(QxBorder.presets.outset);
     this._upbutton.setEnabled(false);
+    this._timer.stop();
   }
   else
   {
@@ -380,7 +367,7 @@ proto._onchange = function(e)
 };
 
 proto._onblur = function(e) {
-  this._ensureValidValue();
+  this._ensureValidValue(false);
 };
 
 
@@ -400,8 +387,12 @@ proto.setValue = function(nValue) {
 
 proto.getValue = function()
 {
-  this._ensureValidValue();
+  this._ensureValidValue(true);
   return this._manager.getValue();
+};
+
+proto.resetValue = function() {
+  return this._manager.resetValue();
 };
 
 proto.setMax = function(vMax) {
@@ -453,6 +444,19 @@ proto._oninterval = function(e)
     
     this._increment();
   };
+  
+  switch(this._intervalIncrease)
+  {
+    case true:
+      if (this.getValue() == this.getMax()) {
+        return;
+      };
+    
+    case false:
+      if (this.getValue() == this.getMin()) {
+        return;
+      };
+  };
 
   this._timer.restartWith(this.getInterval());
 };
@@ -467,7 +471,7 @@ proto._oninterval = function(e)
   -------------------------------------------------------------------------------
 */
 
-proto._ensureValidValue = function(e)
+proto._ensureValidValue = function(acceptEmpty, acceptEdit)
 {
   var el = this._textfield.getElement();  
   
@@ -475,24 +479,99 @@ proto._ensureValidValue = function(e)
     return;
   };
   
-  if (el.value != "")
-  {
-    var val = parseInt(el.value);
-    if (!isNaN(val)) {
-      this._manager.setValue(val);
-    };
+  // this.debug("VAL: " + el.value);
   
-    var fixedValue = this._manager.getValue();  
-
-    this._textfield.setText(fixedValue);
-
-    if (fixedValue != el.value) {
-      el.value = fixedValue;
+  if (el.value == "")
+  {
+    if (!acceptEmpty)
+    {
+      el.value = this.resetValue();  
+      this._textfield.selectAll();
     };
   }
-  else
+  else  
   {
-    this._textfield.setText("");  
+    // cache working variable
+    var val = el.value;
+    
+    // fix leading '0'   
+    if (val.length > 1)
+    {
+      while(val.charAt(0) == "0") 
+      {
+        val = val.substr(1, val.length);
+      };
+      
+      var f1 = parseInt(val) || 0;
+      
+      if (f1 != el.value)
+      {
+        el.value = f1;
+        return;      
+      };
+    };
+    
+    // fix for negative integer handling  
+    if (val == "-" && acceptEmpty && this.getMin() < 0) 
+    {
+      el.value = val;
+      return;
+    };
+    
+    val = parseInt(val);
+    
+    var doFix = true;
+    var fixedVal = this._manager._checkValue(val);
+    
+    if (isNaN(fixedVal)) {
+      fixedVal = this._manager.getValue();
+    };
+    
+    // this.debug("S1: '" + val + "', '" + fixedVal + "'")
+    
+    
+    if (acceptEmpty && val == "")
+    {
+      doFix = false;
+    }   
+    else if (!isNaN(val)) 
+    {
+      if (acceptEdit)
+      {
+        if (val > fixedVal)
+        {
+          if (val > 0 && fixedVal <= 0)
+          {
+            
+          }          
+          else if (String(val).length < String(fixedVal).length)
+          {
+            doFix = false;  
+          };          
+        }
+        else if (val < fixedVal)
+        {
+          if (val < 0 && fixedVal >= 0)
+          {
+            
+          }
+          else if (String(val).length < String(fixedVal).length)
+          {
+            doFix = false;  
+          };
+        };
+      };
+    };
+    
+    if (doFix)
+    {
+      // this.debug("FIX: " + el.value + " -> " + fixedVal);
+      el.value = fixedVal;
+    };
+    
+    if (!acceptEdit) {
+      this._manager.setValue(fixedVal);
+    };
   };
 };
 

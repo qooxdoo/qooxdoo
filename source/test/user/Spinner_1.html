@@ -61,6 +61,40 @@
     };
     
     d.add(s3);    
+    
+    /*
+    s3._manager.addEventListener("changeValue", function(e) {
+      this.debug("Value: " + e.getNewValue());
+    });
+    */
+    
+    var s4 = new QxSpinner;
+    
+    with(s4)
+    {
+      setLeft(260);
+      setTop(48);
+      setValue(0);
+      setMin(100);
+      setMax(200);
+    };
+    
+    d.add(s4);    
+        
+
+    var s5 = new QxSpinner;
+    
+    with(s5)
+    {
+      setLeft(340);
+      setTop(48);
+      setValue(0);
+      setMin(-200);
+      setMax(-100);
+    };
+    
+    d.add(s5);     
+    
   };
   </script>
 </body>
