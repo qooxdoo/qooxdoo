@@ -885,21 +885,29 @@ html[QxFocused] {
   padding: 2px 1px 1px 2px;
 }
 
-.QxMenuButton{
+.QxMenuButton,
+.QxMenuCheckBox,
+.QxMenuRadioButton{
   position: relative;
   padding: 1px 6px 1px 2px;
   border: 1px solid Menu;
   overflow: hidden;
 }
 
-.QxMenuButton-Hover{
+.QxMenuButton-Hover,
+.QxMenuCheckBox-Hover,
+.QxMenuRadioButton-Hover{
   background-color: highlight;
   background-color: #4D91F3;
   color: highlighttext;
 }
 
 .QxMenuButton .QxImage,
-.QxMenuButton .QxContainer{
+.QxMenuButton .QxContainer,
+.QxMenuCheckBox .QxImage,
+.QxMenuCheckBox .QxContainer,
+.QxMenuRadioButton .QxImage,
+.QxMenuRadioButton .QxContainer{
   position: absolute;
 }
 

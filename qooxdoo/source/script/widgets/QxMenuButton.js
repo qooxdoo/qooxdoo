@@ -142,46 +142,50 @@ proto.hasMenu = function() {
 
 proto._pureCreateFillIcon = function()
 {
-  this._iconObject = new QxImage();
-  this._iconObject.setSource(this.getIcon());
+  var i = this._iconObject = new QxImage();
+  i.setSource(this.getIcon());
 
-  this._iconObject.setAnonymous(true);
-  this._iconObject.setEnabled(this.isEnabled());
-  this._iconObject.setParent(this);
-  this._iconObject._addCssClassName("QxMenuButtonIcon");
+  i.setAnonymous(true);
+  i.setEnabled(this.isEnabled());
+  i.setParent(this);
+  
+  i._addCssClassName("QxMenuButtonIcon");
 };
 
 proto._pureCreateFillText = function()
 {
-  this._textObject = new QxContainer();
-  this._textObject.setHtml(this.getText());
+  var t = this._textObject = new QxContainer();
+  t.setHtml(this.getText());
 
-  this._textObject.setAnonymous(true);
-  this._textObject.setEnabled(this.isEnabled());
-  this._textObject.setParent(this);
-  this._textObject._addCssClassName("QxMenuButtonText");
+  t.setAnonymous(true);
+  t.setEnabled(this.isEnabled());
+  t.setParent(this);
+  
+  t._addCssClassName("QxMenuButtonText");
 };
 
 proto._pureCreateFillShortcut = function()
 {
-  this._shortcutObject = new QxContainer();
-  this._shortcutObject.setHtml(this.getShortcut());
+  var s = this._shortcutObject = new QxContainer();
+  s.setHtml(this.getShortcut());
 
-  this._shortcutObject.setAnonymous(true);
-  this._shortcutObject.setEnabled(this.isEnabled());
-  this._shortcutObject.setParent(this);
-  this._shortcutObject._addCssClassName("QxMenuButtonShortcut");
+  s.setAnonymous(true);
+  s.setEnabled(this.isEnabled());
+  s.setParent(this);
+  
+  s._addCssClassName("QxMenuButtonShortcut");
 };
 
 proto._pureCreateFillArrow = function()
 {
-  this._arrowObject = new QxImage();
-  this._arrowObject.setSource(this.getArrow());
+  var a = this._arrowObject = new QxImage();
+  a.setSource(this.getArrow());
 
-  this._arrowObject.setAnonymous(true);
-  this._arrowObject.setEnabled(this.isEnabled());
-  this._arrowObject.setParent(this);
-  this._arrowObject._addCssClassName("QxMenuButtonArrow");
+  a.setAnonymous(true);
+  a.setEnabled(this.isEnabled());
+  a.setParent(this);
+  
+  a._addCssClassName("QxMenuButtonArrow");
 };
 
 
