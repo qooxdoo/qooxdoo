@@ -105,6 +105,7 @@ function QxWindow(vWindowTitle)
 QxWindow.extend(QxPopup, "QxWindow");
 
 QxWindow.addProperty({ name : "modal", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "opener", type : Object });
 
 
 /*
@@ -114,6 +115,14 @@ QxWindow.addProperty({ name : "modal", type : Boolean, defaultValue : false });
 */
 
 proto._windowManager = new QxWindowManager();
+
+
+
+/*
+------------------------------------------------------------------------------------
+  OVERWRITE POPUP METHODS
+------------------------------------------------------------------------------------
+*/
 
 proto._beforeShow = function(uniqModIds)
 {
@@ -133,19 +142,32 @@ proto._beforeHide = function(uniqModIds)
   this._makeInactive();
 };
 
-proto.sendToBack = function() {
-  return;
-};
-
-proto.close = function() {
-  this.setVisible(false);
-};
-
 proto.bringToFront = proto.sendToBack = function() {
   throw new Error("Warning: bringToFront() and sendToBack() are not supported by QxWindow!");
 };
 
 
+
+
+
+/*
+------------------------------------------------------------------------------------
+  UTILITY
+------------------------------------------------------------------------------------
+*/
+
+proto.close = function() {
+  this.setVisible(false);
+};
+
+proto.open = function(vOpener) 
+{
+  if (isValid(vOpener)) {
+    this.setOpener(vOpener);
+  };
+
+  this.setVisible(true);
+};
 
 
 
@@ -231,6 +253,63 @@ proto.dispose = function()
     return;
   };
   
+  this.removeEventListener("mousedown", this._onwindowmousedown, this);
   
+  if (this._titlebar) 
+  {
+    this._titlebar.removeEventListener("mousedown", this._ontitlemousedown, this);
+    this._titlebar.removeEventListener("mouseup", this._ontitlemouseup, this);
+    this._titlebar.removeEventListener("mousemove", this._ontitlemousemove, this);
+
+    this._titlebar.dispose();
+    this._titlebar = null;
+  };
+  
+  if (this._title) 
+  {
+    this._title.dispose();
+    this._title = null;
+  };
+
+  if (this._icon) 
+  {
+    this._icon.removeEventListener("mousedown", this._oniconmousedown, this);
+    
+    this._icon.dispose();
+    this._icon = null;
+  };
+
+  if (this._closeButton) 
+  {
+    this._closeButton.removeEventListener("click", this._onclosebuttonmousedown, this);  
+    
+    this._closeButton.dispose();
+    this._closeButton = null;
+  };
+
+  if (this._restoreButton) 
+  {
+    this._restoreButton.dispose();
+    this._restoreButton = null;
+  };
+
+  if (this._minimizeButton) 
+  {
+    this._minimizeButton.dispose();
+    this._minimizeButton = null;
+  };
+
+  if (this._pane) 
+  {
+    this._pane.dispose();
+    this._pane = null;
+  };
+
+  if (this._statusbar) 
+  {
+    this._statusbar.dispose();
+    this._statusbar = null;
+  };
+
   return QxPopup.prototype.dispose.call(this);
 };
