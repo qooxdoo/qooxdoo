@@ -1124,3 +1124,27 @@ html[QxFocused] {
 * html .QxSpinner .QxTextField{
   padding-top: 3px;
 }
+
+
+
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    WINDOW
+  ------------------------------------------
+*/
+
+.QxWindow{
+  background: ThreeDFace;
+}
+
+.QxWindow .QxWindowPane{
+  position: absolute; 
+  background: ThreeDFace;
+  color: black;
+}

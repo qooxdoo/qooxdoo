@@ -146,7 +146,7 @@ QxWidget.addProperty({ name : "verticalAlign", type : String, impl : "stylePrope
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "zIndex", type : String, impl : "styleProperty" });
+QxWidget.addProperty({ name : "zIndex", type : Number, impl : "styleProperty" });
 
 /*!
   Mapping to native style property background-color.
@@ -1903,11 +1903,9 @@ proto._modifyStyleProperty = function(propValue, propOldValue, propName, uniqMod
 {
   this._styleProperties[propName] = propValue;
 
-  var el = this.getElement();
-
-  if (el) {
-    el.style[propName] = propValue == null || typeof propValue == "undefined" ? "" : propValue;
-  };
+  try {
+    this.getElement().style[propName] = isValid(propValue) ? propValue : "";
+  } catch(ex) {};
 
   return true;
 };

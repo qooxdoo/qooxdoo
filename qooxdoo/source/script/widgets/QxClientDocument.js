@@ -23,9 +23,7 @@ function QxClientDocument(clientWindow)
   
   // Blocker and Dialog Support
   this._blocker = new QxBlocker;
-  
-  this._layerDialogs = [];
-  this._windowDialogs = [];
+  this._modalWidgets = [];
 };
 
 QxClientDocument.extend(QxWidget, "QxClientDocument");
@@ -98,13 +96,46 @@ proto._visualizeFocus = function() {};
 ------------------------------------------------------------------------------------
 */
 
-proto.block = function() {
+proto.block = function(activeWidget) 
+{
   this.add(this._blocker);
+  
+  if (activeWidget)
+  {
+    this._modalWidgets.push(activeWidget);
+    
+    var o = activeWidget.getZIndex();
+    this._blocker.setZIndex(o);
+    activeWidget.setZIndex(o+1);
+  }
+  else
+  {
+    this._blocker.setZIndex(1e7);
+  };
 };
 
-proto.release = function() {
-  this.remove(this._blocker);
+proto.release = function(activeWidget) 
+{
+  if (activeWidget) 
+  {
+    this._modalWidgets.remove(activeWidget);
+  };
+  
+  var l = this._modalWidgets.length;
+  if (l == 0)
+  {
+    this.remove(this._blocker);  
+  }
+  else
+  {
+    var oldActiveWidget = this._modalWidgets[l-1];
+    
+    var o = oldActiveWidget.getZIndex();
+    this._blocker.setZIndex(o);
+    oldActiveWidget.setZIndex(o+1);
+  };
 };
+
 
 
 
