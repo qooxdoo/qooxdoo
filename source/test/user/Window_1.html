@@ -25,19 +25,32 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-    var w1 = new QxWindow;
+    var d = this.getClientWindow().getDocument();
+    
+    var w1 = new QxWindow("First Window");
+    w1.setSpace(100, 400, 100, 250);
+    d.add(w1);
+    
+    var w2 = new QxWindow("Second Window");
+    w2.setSpace(300, 300, 200, 150);
+    d.add(w2);
+    
+    var w3 = new QxWindow("Third Window");
+    w3.setSpace(200, 400, 300, 200);
+    d.add(w3);
+    
+    var wm1 = new QxWindow("First Modal Dialog");
+    wm1.setSpace(150, 200, 150, 200);
+    wm1.setModal(true);
+    d.add(wm1);
+    
+    var wm2 = new QxWindow("Second Modal Dialog");
+    wm2.setSpace(100, 200, 100, 200);
+    wm2.setModal(true);
+    d.add(wm2);
 
-    with(w1)
-    {
-      setBorder(QxBorder.presets.outset);
-    
-      setWidth(400);
-      setHeight(250);
-      setTop(100);
-      setLeft(100);
-    };
-    
-    this.getClientWindow().getDocument().add(w1);
+
+
     
     var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
     a1.set({ top: 4, left: 4 });
@@ -62,8 +75,33 @@
     
     w1._pane.add(tf1);
     
-    w1.setVisible(true);
     
+    var at1 = new QxAtom("Second Window", "icons/32/clock.png");
+    w2._pane.add(at1);
+    
+    
+    
+    
+    var btn1 = new QxButton("Open Modal Dialog 1");
+    w3._pane.add(btn1);
+    
+    btn1.addEventListener("click", function(e) {
+      wm1.setVisible(true);
+    });
+    
+
+    var btn2 = new QxButton("Open Modal Dialog 2");
+    wm1._pane.add(btn2);
+    
+    btn2.addEventListener("click", function(e) {
+      wm2.setVisible(true);
+    });
+    
+    
+    
+    w1.setVisible(true);
+    w2.setVisible(true);
+    w3.setVisible(true);
   };
   </script>
 </body>
