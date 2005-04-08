@@ -1148,3 +1148,17 @@ html[QxFocused] {
   background: ThreeDFace;
   color: black;
 }
+
+.QxWindow .QxWindowCaptionBar{
+  color: #fff;
+  font-weight: bold;
+  position: absolute;
+  
+  background-color: #808080;
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#808080', endColorStr='#C0C0C0', gradientType='1')
+}
+
+.QxWindow-Active .QxWindowCaptionBar{
+  background-color: #0A246A;
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#0A246A', endColorStr='#A6CAF0', gradientType='1')
+}

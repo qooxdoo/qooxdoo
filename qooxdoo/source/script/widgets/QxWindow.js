@@ -1,4 +1,4 @@
-function QxWindow(vWindowTitle)
+function QxWindow(vCaption, vIcon)
 {
   QxPopup.call(this);
   
@@ -6,30 +6,29 @@ function QxWindow(vWindowTitle)
   this.setPadding(2);
   
   // ***********************************************************************
-  //   TITLEBAR
+  //   CAPTIONBAR
   // ***********************************************************************    
-  this._titlebar = new QxWidget;
-  this._titlebar.set({ top : 0, left: 0, right : 0, height: 18, backgroundColor: "#0B256B", color : "#FFFFFF" });
-  this.add(this._titlebar);
+  this._captionbar = new QxWidget;
+  this._captionbar.set({ cssClassName : "QxWindowCaptionBar", top : 0, left: 0, right : 0, height: 18 });
+  this.add(this._captionbar);
   
   
   
   // ***********************************************************************
-  //   TITLE TEXT
+  //   CAPTION TEXT
   // ***********************************************************************      
-  this._title = new QxContainer(isValidString(vWindowTitle) ? vWindowTitle : "");
-  this._title.set({ left : 20, top : 2 });
-  this._title.setStyleProperty("fontWeight", "bold");
-  this._titlebar.add(this._title);
+  this._caption = new QxContainer(this.getCaption());
+  this._caption.set({ left : 20, top : 2 });
+  this._captionbar.add(this._caption);
   
   
   
   // ***********************************************************************
   //   ICON
   // ***********************************************************************      
-  this._icon = new QxImage("icons/16/bookmark.png");
+  this._icon = new QxImage(this.getIcon());
   this._icon.set({ left : 2, top : 1 });
-  this._titlebar.add(this._icon);
+  this._captionbar.add(this._icon);
   
   
   
@@ -41,19 +40,19 @@ function QxWindow(vWindowTitle)
   this._closeButton.set({ right: 1, top: 2, height: 14, width: 16, paddingLeft: 1, border: QxBorder.presets.outset, backgroundColor: "Threedface" });
   this._closeImage = new QxImage("widgets/window/close.gif");
   this._closeButton.add(this._closeImage);
-  this._titlebar.add(this._closeButton);
+  this._captionbar.add(this._closeButton);
 
   this._restoreButton = new QxWidget;
   this._restoreButton.set({ right: 18, top: 2, height: 14, width: 16, paddingLeft: 1, border: QxBorder.presets.outset, backgroundColor: "Threedface" });
   this._restoreImage = new QxImage("widgets/window/restore.gif");
   this._restoreButton.add(this._restoreImage);
-  this._titlebar.add(this._restoreButton);
+  this._captionbar.add(this._restoreButton);
 
   this._minimizeButton = new QxWidget;
   this._minimizeButton.set({ right: 34, top: 2, height: 14, width: 16, paddingLeft: 1, border: QxBorder.presets.outset, backgroundColor: "Threedface" });
   this._minimizeImage = new QxImage("widgets/window/minimize.gif");
   this._minimizeButton.add(this._minimizeImage);
-  this._titlebar.add(this._minimizeButton);
+  this._captionbar.add(this._minimizeButton);
 
   
   
@@ -90,15 +89,29 @@ function QxWindow(vWindowTitle)
   
   this.addEventListener("mousedown", this._onwindowmousedown, this);
   
-  this._titlebar.addEventListener("mousedown", this._ontitlemousedown, this);
-  this._titlebar.addEventListener("mouseup", this._ontitlemouseup, this);
-  this._titlebar.addEventListener("mousemove", this._ontitlemousemove, this);
+  this._captionbar.addEventListener("mousedown", this._ontitlemousedown, this);
+  this._captionbar.addEventListener("mouseup", this._ontitlemouseup, this);
+  this._captionbar.addEventListener("mousemove", this._ontitlemousemove, this);
   
   this._icon.addEventListener("mousedown", this._oniconmousedown, this);
   
   this._closeButton.addEventListener("click", this._onclosebuttonmousedown, this);
   
 
+
+
+
+  // ***********************************************************************
+  //   ARGUMENTS
+  // ***********************************************************************    
+  
+  if (isValidString(vCaption)) {
+    this.setCaption(vCaption);
+  };
+  
+  if (isValidString(vIcon)) {
+    this.setIcon(vIcon);
+  };
   
 };
 
@@ -106,6 +119,24 @@ QxWindow.extend(QxPopup, "QxWindow");
 
 QxWindow.addProperty({ name : "modal", type : Boolean, defaultValue : false });
 QxWindow.addProperty({ name : "opener", type : Object });
+
+/*
+  Supported states (by state property):
+  null (normal), minmized, maximized
+*/
+
+QxWindow.addProperty({ name : "caption", type : String, defaultValue : "Caption" });
+QxWindow.addProperty({ name : "icon", type : String, defaultValue : "icons/16/exec.png" });
+
+QxWindow.addProperty({ name : "active", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showIcon", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "resizeable", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true });
+
+
 
 
 /*
@@ -149,6 +180,39 @@ proto.bringToFront = proto.sendToBack = function() {
 
 
 
+/*
+------------------------------------------------------------------------------------
+  MODIFIERS
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyActive = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propValue)
+  {
+    this.addCssClassNameDetail("active") 
+    this._windowManager.setActiveWindow(this, uniqModIds);
+  }
+  else
+  {
+    this.removeCssClassNameDetail("active");
+  };
+  
+  return true;  
+};
+
+proto._modifyCaption = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._caption.setHtml(propValue ? propValue : "");  
+  return true;
+};
+
+proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._icon.setSource(propValue ? propValue : (new QxImageManager).getBlank());  
+  return true;
+};
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -179,7 +243,7 @@ proto.open = function(vOpener)
 */
 
 proto._onwindowmousedown = function(e) {
-  this._windowManager.setActiveWindow(this);
+  this.setActive(true);
 };
 
 proto._ontitlemousedown = function(e)
@@ -189,7 +253,7 @@ proto._ontitlemousedown = function(e)
   };
   
   // Enable capturing
-  this._titlebar.setCapture(true);
+  this._captionbar.setCapture(true);
   
   // Measuring offsets
   this._dragSession = {
@@ -205,7 +269,7 @@ proto._ontitlemouseup = function(e)
   };
   
   // Disable capturing
-  this._titlebar.setCapture(false);  
+  this._captionbar.setCapture(false);  
 
   // Move window to last position  
   var s = this.getElement().style;
@@ -255,20 +319,20 @@ proto.dispose = function()
   
   this.removeEventListener("mousedown", this._onwindowmousedown, this);
   
-  if (this._titlebar) 
+  if (this._captionbar) 
   {
-    this._titlebar.removeEventListener("mousedown", this._ontitlemousedown, this);
-    this._titlebar.removeEventListener("mouseup", this._ontitlemouseup, this);
-    this._titlebar.removeEventListener("mousemove", this._ontitlemousemove, this);
+    this._captionbar.removeEventListener("mousedown", this._ontitlemousedown, this);
+    this._captionbar.removeEventListener("mouseup", this._ontitlemouseup, this);
+    this._captionbar.removeEventListener("mousemove", this._ontitlemousemove, this);
 
-    this._titlebar.dispose();
-    this._titlebar = null;
+    this._captionbar.dispose();
+    this._captionbar = null;
   };
   
-  if (this._title) 
+  if (this._caption) 
   {
-    this._title.dispose();
-    this._title = null;
+    this._caption.dispose();
+    this._caption = null;
   };
 
   if (this._icon) 

@@ -31,11 +31,11 @@
     w1.setSpace(100, 400, 100, 250);
     d.add(w1);
     
-    var w2 = new QxWindow("Second Window");
+    var w2 = new QxWindow("Second Window", "icons/16/colorize.png");
     w2.setSpace(300, 300, 200, 150);
     d.add(w2);
     
-    var w3 = new QxWindow("Third Window");
+    var w3 = new QxWindow("Third Window", "icons/16/network.png");
     w3.setSpace(200, 400, 300, 200);
     d.add(w3);
     
@@ -77,6 +77,7 @@
     
     
     var at1 = new QxAtom("Second Window", "icons/32/clock.png");
+    at1.setLocation(4, 4);
     w2._pane.add(at1);
     
     
