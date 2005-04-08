@@ -244,6 +244,7 @@ html[QxFocused] {
 .QxButton {
 	position: absolute;
 	padding: 2px 4px;
+	background: Threedface;
 }
 
 
@@ -1141,24 +1142,36 @@ html[QxFocused] {
 
 .QxWindow{
   background: ThreeDFace;
+  padding: 2px;
 }
 
 .QxWindow .QxWindowPane{
   position: absolute; 
   background: ThreeDFace;
   color: black;
+  padding: 4px 0;
 }
 
 .QxWindow .QxWindowCaptionBar{
   color: #fff;
   font-weight: bold;
   position: absolute;
+  padding: 1px 2px;
   
   background-color: #808080;
-  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#808080', endColorStr='#C0C0C0', gradientType='1')
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#808080', endColorStr='#C0C0C0', gradientType='1');
 }
 
 .QxWindow-Active .QxWindowCaptionBar{
   background-color: #0A246A;
-  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#0A246A', endColorStr='#A6CAF0', gradientType='1')
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#0A246A', endColorStr='#A6CAF0', gradientType='1');
+}
+
+.QxWindow .QxWindowCaptionBar .QxButton{
+  padding: 0;
+  padding-left: 1px;
+}
+
+.QxWindow .QxWindowStatusBar{
+  position: absolute;
 }
