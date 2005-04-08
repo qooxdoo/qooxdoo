@@ -32,11 +32,11 @@
     d.add(w1);
     
     var w2 = new QxWindow("Second Window", "icons/16/colorize.png");
-    w2.setSpace(300, 300, 200, 150);
+    w2.setSpace(300, 300, 200, 350);
     d.add(w2);
     
     var w3 = new QxWindow("Third Window", "icons/16/network.png");
-    w3.setSpace(200, 400, 300, 200);
+    w3.setSpace(250, 400, 300, 200);
     d.add(w3);
     
     var wm1 = new QxWindow("First Modal Dialog");
@@ -45,8 +45,9 @@
     d.add(wm1);
     
     var wm2 = new QxWindow("Second Modal Dialog");
-    wm2.setSpace(100, 200, 100, 200);
+    wm2.setSpace(100, 200, 100, 150);
     wm2.setModal(true);
+    wm2.setShowClose(false);
     d.add(wm2);
 
 
@@ -76,7 +77,7 @@
     w1._pane.add(tf1);
     
     
-    var at1 = new QxAtom("Second Window", "icons/32/clock.png");
+    var at1 = new QxAtom("Second Window", "icons/22/clock.png");
     at1.setLocation(4, 4);
     w2._pane.add(at1);
     
@@ -98,6 +99,117 @@
       wm2.setVisible(true);
     });
     
+    
+    
+    var fs1 = new QxFieldSet("Settings");
+    fs1.setLocation(4, 30);
+    fs1.setRight(4);
+    fs1.setBottom(4);
+    
+    
+    var chk1 = new QxCheckBox("Show Icon");
+    chk1.setLocation(0, 0);
+    chk1.setChecked(true);
+    chk1.addEventListener("changeChecked", function(e) {
+      w2.setShowIcon(e.getNewValue());
+    });
+    
+    var chk2 = new QxCheckBox("Show Caption");
+    chk2.setLocation(0, 20);    
+    chk2.setChecked(true);
+    chk2.addEventListener("changeChecked", function(e) {
+      w2.setShowCaption(e.getNewValue());
+    });
+    
+    
+    
+    var chk3 = new QxCheckBox("Resizeable");
+    chk3.setLocation(0, 50);    
+    chk3.setChecked(true);
+    chk3.addEventListener("changeChecked", function(e) {
+      w2.setResizeable(e.getNewValue());
+    });
+
+    var chk4 = new QxCheckBox("Moveable");
+    chk4.setLocation(0, 70);    
+    chk4.setChecked(true);
+    chk4.addEventListener("changeChecked", function(e) {
+      w2.setMoveable(e.getNewValue());
+    });
+    
+    
+    
+    var chk5 = new QxCheckBox("Show Close");
+    chk5.setLocation(0, 100);    
+    chk5.setChecked(true);
+    chk5.addEventListener("changeChecked", function(e) {
+      w2.setShowClose(e.getNewValue());
+    });
+        
+    var chk6 = new QxCheckBox("Show Maximize/Restore");
+    chk6.setLocation(0, 120);    
+    chk6.setChecked(true);
+    chk6.addEventListener("changeChecked", function(e) {
+      w2.setShowMaximize(e.getNewValue());
+    });
+        
+    var chk7 = new QxCheckBox("Show Minimize");
+    chk7.setLocation(0, 140);    
+    chk7.setChecked(true);
+    chk7.addEventListener("changeChecked", function(e) {
+      w2.setShowMinimize(e.getNewValue());
+    });
+    
+    
+    
+    var chk8 = new QxCheckBox("Allow Close");
+    chk8.setLocation(0, 170);    
+    chk8.setChecked(true);
+    chk8.addEventListener("changeChecked", function(e) {
+      w2.setAllowClose(e.getNewValue());
+    });
+        
+    var chk9 = new QxCheckBox("Allow Maximize");
+    chk9.setLocation(0, 190);    
+    chk9.setChecked(true);
+    chk9.addEventListener("changeChecked", function(e) {
+      w2.setAllowMaximize(e.getNewValue());
+    });
+        
+    var chk10 = new QxCheckBox("Allow Minimize");
+    chk10.setLocation(0, 210);    
+    chk10.setChecked(true);
+    chk10.addEventListener("changeChecked", function(e) {
+      w2.setAllowMinimize(e.getNewValue());
+    });    
+     
+    
+    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10);
+    w2._pane.add(fs1);
+    
+    
+    
+    var warn1 = new QxAtom("Do you want to delete all<br/>your personal data?", "icons/32/important.png");
+    
+    warn1.setTop(10);
+    warn1.setLeft(10);
+    
+    var btn3 = new QxButton("Yes", "icons/16/button_ok.png");
+    var btn4 = new QxButton("No", "icons/16/button_cancel.png");
+    
+    btn3.addEventListener("click", function(e) {
+      alert("Thank you!");
+      wm2.close();
+    });
+    
+    btn4.addEventListener("click", function(e) {
+      alert("Sorry, please click 'Yes'!");
+    });
+
+    btn3.set({ bottom : 10, right : 10 });
+    btn4.set({ bottom : 10, left : 10 });
+    
+    wm2._pane.add(btn3, btn4, warn1);
     
     
     w1.setVisible(true);

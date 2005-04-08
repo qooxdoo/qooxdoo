@@ -28,8 +28,10 @@ function QxWidget()
 
   // This lists manage the usage of dimension
   // properties for each direction
-  this._usedDimensionsHorizontal = copyCreateArray(this._usedDimensionsHorizontal);
-  this._usedDimensionsVertical = copyCreateArray(this._usedDimensionsVertical);
+  //this._usedDimensionsHorizontal = copyCreateArray(this._usedDimensionsHorizontal);
+  //this._usedDimensionsVertical = copyCreateArray(this._usedDimensionsVertical);
+  this._usedDimensionsHorizontal = [];
+  this._usedDimensionsVertical = [];
 };
 
 QxWidget.extend(QxTarget, "QxWidget");
@@ -598,7 +600,7 @@ proto._removeElement = function(otherObject)
 
   if (pl)
   {
-    //this.subug("do remove it!");
+    // this.subug("do remove it!");
 
     try
     {
@@ -673,8 +675,6 @@ proto._appendMyself = function()
 */
 proto._removeMyself = function(vParent)
 {
-  //this.subug("remove myself");
-
   if (vParent) {
     vParent._removeElement(this);
   };
@@ -1066,7 +1066,7 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
     this.setVisibility("hidden", uniqModIds);
     this.setDisplay("none");
   };
-
+  
   return true;
 };
 
@@ -2005,7 +2005,7 @@ proto.setWidth = function(propValue, uniqModIds, vMode, vKeepAuto)
   }
   catch(ex)
   {
-    // this.debug("Failed to modify property width: " + ex);
+    this.debug("Failed to modify property width: " + ex);
     return false;
   };
 
@@ -2072,7 +2072,7 @@ proto.setHeight = function(propValue, uniqModIds, vMode, vKeepAuto)
   }
   catch(ex)
   {
-    // this.debug("Failed to modify property height: " + ex);
+    this.debug("Failed to modify property height: " + ex);
     return false;
   };
 
@@ -2297,7 +2297,7 @@ proto._manageHorizontalDimensions = function(propName, propValue)
   }
   else if (this._usedDimensionsHorizontal.length == 2)
   {
-    throw new Error("List max reached. Unable to add: " + propName + "!");
+    throw new Error("List max reached. Unable to add: " + propName + "(" + propValue + ")!, List: " + this._usedDimensionsHorizontal);
   }
   else
   {
@@ -2323,7 +2323,7 @@ proto._manageVerticalDimensions = function(propName, propValue)
   }
   else if (this._usedDimensionsVertical.length == 2)
   {
-    throw new Error("List max reached. Unable to add: " + propName + "!");
+    throw new Error("List max reached. Unable to add: " + propName + "(" + propValue + ")!, List: " + this._usedDimensionsVertical);
   }
   else
   {

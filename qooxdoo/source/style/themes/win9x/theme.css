@@ -82,3 +82,11 @@ body.QxThemeWin9x .QxToolBarRadioButton-Checked,
 body.QxThemeWin9x .QxToolBarMenuButton-Checked{
   background: url(radiobuttonbackground.gif) top left;
 }
+
+body.QxThemeWin9x .QxWindow > .QxWindowCaptionBar{
+  background: #808080 url(windowcaption_inactive.png) top right repeat-y;  
+}
+
+body.QxThemeWin9x .QxWindow-Active > .QxWindowCaptionBar{
+  background: #0A246A url(windowcaption_active.png) top right repeat-y;
+}
