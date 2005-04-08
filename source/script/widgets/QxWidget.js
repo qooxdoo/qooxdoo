@@ -4327,6 +4327,13 @@ proto._removeCssClassName = function(propValue) {
   this.setCssClassName(this.getCssClassName().remove(propValue, " "));
 };
 
+proto.addCssClassNameDetail = function(propValue) {
+  this._addCssClassName(this.classname + "-" + propValue.toFirstUp());
+};
+
+proto.removeCssClassNameDetail = function(propValue) {
+  this._removeCssClassName(this.classname + "-" + propValue.toFirstUp());
+};
 
 
 
