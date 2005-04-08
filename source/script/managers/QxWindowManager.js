@@ -33,6 +33,14 @@ proto._modifyActiveWindow = function(propValue, propOldValue, propName, uniqModI
 {
   (new QxPopupManager).update();
   
+  if (propValue) {
+    propValue.setActive(true, uniqModIds);
+  };
+
+  if (propOldValue) {
+    propOldValue.setActive(false, uniqModIds);
+  };
+  
   this.sort();
   
   if (propOldValue && propOldValue.getModal()) {
