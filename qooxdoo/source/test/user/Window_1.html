@@ -188,11 +188,14 @@
     w2._pane.add(fs1);
     
     
+    var icon1 = new QxImage("icons/32/important.png");
+    var warn1 = new QxContainer("Do you want to delete all your personal data?");
     
-    var warn1 = new QxAtom("Do you want to delete all<br/>your personal data?", "icons/32/important.png");
+    icon1.setTop(10);
+    icon1.setLeft(10);
     
     warn1.setTop(10);
-    warn1.setLeft(10);
+    warn1.setLeft(48);
     
     var btn3 = new QxButton("Yes", "icons/16/button_ok.png");
     var btn4 = new QxButton("No", "icons/16/button_cancel.png");
@@ -209,7 +212,7 @@
     btn3.set({ bottom : 10, right : 10 });
     btn4.set({ bottom : 10, left : 10 });
     
-    wm2._pane.add(btn3, btn4, warn1);
+    wm2._pane.add(btn3, btn4, icon1, warn1);
     
     
     w1.setVisible(true);

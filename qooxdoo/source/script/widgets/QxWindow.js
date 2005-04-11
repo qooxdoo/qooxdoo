@@ -3,8 +3,12 @@ function QxWindow(vCaption, vIcon)
   QxPopup.call(this);
 
   this.setBorder(QxBorder.presets.outset);
+  this.setMinWidth(200);
+  this.setMinHeight(100);
 
   this.addEventListener("mousedown", this._onwindowmousedown, this);
+  this.addEventListener("mouseup", this._onwindowmouseup, this);
+  this.addEventListener("mousemove", this._onwindowmousemove, this);
 
 
 
@@ -721,8 +725,140 @@ proto._maximize = function()
 ------------------------------------------------------------------------------------
 */
 
-proto._onwindowmousedown = function(e) {
+proto._onwindowmousedown = function(e) 
+{
   this.focus();
+  
+  if (this._resizeMode)
+  {
+    this.setCapture(true);
+    this._resizeActive = true;;
+  }
+  else
+  {
+    delete this._resizeActive;
+  };
+};
+
+proto._onwindowmouseup = function(e) 
+{
+  if (this._resizeActive)
+  {
+    this.setCapture(false);   
+    delete this._resizeActive; 
+    delete this._resizeMode;
+    
+    if (this._resizeFrame && this._resizeFrame.getParent())
+    {
+      this.setLeft(this._resizeFrame.getComputedPageBoxLeft());
+      this.setTop(this._resizeFrame.getComputedPageBoxTop());
+      this.setWidth(this._resizeFrame.getComputedBoxWidth());
+      this.setHeight(this._resizeFrame.getComputedBoxHeight());
+      
+      this.debug(this._resizeFrame.getComputedPageBoxLeft());
+      
+      this._resizeFrame.setParent(null);     
+    };    
+  };
+};
+
+proto._near = function(p, e) {
+  return e > (p - 4) && e < (p + 4);
+};
+
+proto._onwindowmousemove = function(e) 
+{
+  if (this._resizeActive)
+  {
+    if (!this._resizeFrame)
+    {
+      this._resizeFrame = new QxWidget();
+
+      this._resizeFrame.setBorder(QxBorder.presets.black);
+      this._resizeFrame.setTimerCreate(false);
+      this._resizeFrame.setOpacity(0.3);
+    };
+    
+    window.status = "Resize: " + e.getPageX() + "x" + e.getPageY();
+
+    this._resizeFrame.setLeft(this.getComputedPageBoxLeft());
+    this._resizeFrame.setTop(this.getComputedPageBoxTop());
+
+    this._resizeFrame.setWidth(this.getComputedBoxWidth());
+    this._resizeFrame.setHeight(this.getComputedBoxHeight());
+      
+    this._resizeFrame.setZIndex(this.getZIndex() + 1);
+
+    switch(this._resizeMode)
+    {
+      case "nw":
+      case "sw":
+      case "w":
+        this._resizeFrame.setLeft(e.getPageX());
+        this._resizeFrame.setWidth(this.getComputedBoxWidth() + (this.getComputedPageBoxLeft() - e.getPageX()));
+        break
+      
+      case "ne":
+      case "se":
+      case "e":
+        this._resizeFrame.setWidth(e.getPageX() - this.getComputedPageBoxLeft());
+        break
+    };
+    
+    switch(this._resizeMode)
+    {
+      case "nw":
+      case "ne":
+      case "n":
+        this._resizeFrame.setTop(e.getPageY());
+        this._resizeFrame.setHeight(this.getComputedBoxHeight() + (this.getComputedPageBoxTop() - e.getPageY()));
+        break;
+      
+      case "sw":
+      case "se":
+      case "s":
+        this._resizeFrame.setHeight(e.getPageY() - this.getComputedPageBoxTop());
+        break;
+    };
+    
+    this._resizeFrame.setParent(this.getTopLevelWidget());
+  
+  }
+  else
+  {
+    var ex = e.getPageX();
+    var ey = e.getPageY();
+  
+    var pt = this.getComputedPageBoxTop();
+    var pr = this.getComputedPageBoxRight();
+    var pb = this.getComputedPageBoxBottom();
+    var pl = this.getComputedPageBoxLeft();
+    
+    var nt = this._near(pt, ey);
+    var nr = this._near(pr, ex);
+    var nb = this._near(pb, ey);
+    var nl = this._near(pl, ex);
+    
+    var m;
+    if (nt)
+    {
+      m = nl ? "nw" : nr ? "ne" : "n";
+    }
+    else if (nb)
+    {
+      m = nl ? "sw" : nr ? "se" : "s";
+    }
+    else
+    {
+      m = nl ? "w" : nr ? "e" : null;
+    };
+    
+    this._resizeMode = m;
+    this.setCursor(m ? m + "-resize" : m);
+    
+    window.status = pl + "," + pt + "," + pr + "," + pb + " :: " + ex + "x" + ey + " :: " + nt + "," + nr + "," + nb + "," + nl + " :: " + m;
+    
+  };
 };
 
 proto._oniconmousedown = function(e) {
@@ -841,6 +977,8 @@ proto.dispose = function()
   };
 
   this.removeEventListener("mousedown", this._onwindowmousedown, this);
+  this.removeEventListener("mouseup", this._onwindowmouseup, this);
+  this.removeEventListener("mousemove", this._onwindowmousemove, this);
 
 
   if (this._caption)
