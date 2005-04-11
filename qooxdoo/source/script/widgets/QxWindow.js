@@ -446,7 +446,7 @@ proto._pureCreateFillMaximizeButton = function()
 proto._modifyCaption = function(propValue, propOldValue, propName, uniqModIds)
 {
   var o = this._caption;
-
+  
   if (this._updateUseCaption())
   {
     if (o)
@@ -507,6 +507,10 @@ proto._modifyShowCaption = function(propValue, propOldValue, propName, uniqModId
 
 proto._layoutCaption = function()
 {
+  if (!this._icon || !this._icon.isCreated()) {
+    return;
+  };
+  
   if (this._caption) {
     this._caption.setLeft(this._displayIcon ? this._icon.getAnyWidth() + 3 : 0)
   };
@@ -545,8 +549,6 @@ proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
     o.setSource(propValue);
   };
 
-  this._layoutCaption();
-
   return true;
 };
 
@@ -560,6 +562,7 @@ proto._pureCreateFillIcon = function()
 
   o.setLocation(1, 0);
   o.addEventListener("mousedown", this._oniconmousedown, this);
+  o.addEventListener("load", this._oniconload, this);
 
   o.setParent(this._captionbar);
 };
@@ -730,7 +733,9 @@ proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
 };
 
-
+proto._oniconload = function(e) {
+  this._layoutCaption();
+};
 
 
 
