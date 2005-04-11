@@ -143,6 +143,7 @@ html[QxFocused] {
 
 .QxContainer{
   position: absolute;
+  white-space: normal;
 }
 
 
