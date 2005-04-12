@@ -267,10 +267,14 @@ proto._modifyAllowMinimize = function(propValue, propOldValue, propName, uniqMod
   return this._applyAllowMinimize();
 };
 
+proto._modifyModal = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._applyAllowMinimize();
+};
+
 proto._applyAllowMinimize = function()
 {
   if (this._minimizeButton) {
-    this._minimizeButton.setEnabled(this.getAllowMinimize());
+    this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
   };
 
   return true;
@@ -745,6 +749,12 @@ proto._onwindowmousedown = function(e)
     
     this._resizeActive = true;
     this._resizeFirst = true;
+    
+    var pa = this.getParent();
+    this._resizeParentOffsetX = pa.getComputedPageBoxLeft() + pa.getComputedBorderLeft();
+    this._resizeParentOffsetY = pa.getComputedPageBoxTop() + pa.getComputedBorderTop();
+    this._resizeParentOffsetRight = pa.getComputedPageBoxRight() - pa.getComputedBorderRight();
+    this._resizeParentOffsetBottom = pa.getComputedPageBoxBottom() - pa.getComputedBorderBottom();
   }
   else
   {
@@ -764,13 +774,16 @@ proto._onwindowmouseup = function(e)
     
     if (this._resizeFrame && this._resizeFrame.getParent())
     {
-      this.setLeft(this._resizeFrame.getComputedPageBoxLeft());
-      this.setTop(this._resizeFrame.getComputedPageBoxTop());
+      this.setLeft(this._resizeFrame.getComputedPageBoxLeft() - this._resizeParentOffsetX);
+      this.setTop(this._resizeFrame.getComputedPageBoxTop() - this._resizeParentOffsetY);
       this.setWidth(this._resizeFrame.getComputedBoxWidth());
       this.setHeight(this._resizeFrame.getComputedBoxHeight());
       
       this._resizeFrame.setParent(null);     
     };    
+    
+    delete this._resizeParentOffsetX;
+    delete this._resizeParentOffsetY;
   };
 };
 
@@ -780,7 +793,7 @@ proto._near = function(p, e) {
 
 proto._onwindowmousemove = function(e) 
 {
-  if (!this.getResizeable()) {
+  if (!this.getResizeable() || this.getState() != null) {
     return;
   };
   
@@ -795,19 +808,19 @@ proto._onwindowmousemove = function(e)
       case "nw":
       case "sw":
       case "w":
-        l = e.getPageX();
+        l = Math.max( e.getPageX(), this._resizeParentOffsetX );
         w = this.getComputedBoxWidth() + this.getComputedPageBoxLeft() - l;
         
         // handle limits
         w = w.limit(this.getMinWidth(), this.getMaxWidth());
         l = this.getComputedPageBoxRight() - w;
-        break
+        break;
       
       case "ne":
       case "se":
       case "e":
         l = this.getComputedPageBoxLeft();
-        w = e.getPageX() - l;
+        w = Math.min( e.getPageX(), this._resizeParentOffsetRight ) - l;
         
         // handle limits
         w = w.limit(this.getMinWidth(), this.getMaxWidth());
@@ -825,7 +838,7 @@ proto._onwindowmousemove = function(e)
       case "nw":
       case "ne":
       case "n":
-        t = e.getPageY();
+        t = Math.max( e.getPageY(), this._resizeParentOffsetY );
         h = this.getComputedBoxHeight() + this.getComputedPageBoxTop() - t;
         
         // handle limits
@@ -837,7 +850,7 @@ proto._onwindowmousemove = function(e)
       case "se":
       case "s":
         t = this.getComputedPageBoxTop();
-        h = e.getPageY() - t;
+        h = Math.min( e.getPageY(), this._resizeParentOffsetBottom ) - t;
         
         // handle limits
         h = h.limit(this.getMinHeight(), this.getMaxHeight());
@@ -852,11 +865,11 @@ proto._onwindowmousemove = function(e)
     };
     
     if (typeof l != "undefined") {
-      f._applyPositionHorizontal(l);
+      f._applyPositionHorizontal(l - this._resizeParentOffsetX );
     };
     
     if (typeof t != "undefined") {
-      f._applyPositionVertical(t);
+      f._applyPositionVertical(t - this._resizeParentOffsetY);
     };
     
     if (typeof w != "undefined") {
@@ -929,7 +942,7 @@ proto._oniconload = function(e) {
 
 proto._oncaptionmousedown = function(e)
 {
-  if (e.isNotLeftButton() || !this.getMoveable()) {
+  if (e.isNotLeftButton() || !this.getMoveable() || this.getState() != null) {
     return;
   };
 
@@ -937,9 +950,15 @@ proto._oncaptionmousedown = function(e)
   this._captionbar.setCapture(true);
 
   // Measuring offsets
+  var pa = this.getParent();
   this._dragSession = {
-    offsetX : e.getPageX() - this.getComputedPageBoxLeft(),
-    offsetY : e.getPageY() - this.getComputedPageBoxTop()
+    offsetX : e.getPageX() - this.getComputedPageBoxLeft() + pa.getComputedPageBoxLeft() + pa.getComputedBorderLeft(),
+    offsetY : e.getPageY() - this.getComputedPageBoxTop()  + pa.getComputedPageBoxTop()  + pa.getComputedBorderTop(),
+
+    parentAvailableAreaLeft   : pa.getComputedPageAreaLeft()   + 5,
+    parentAvailableAreaTop    : pa.getComputedPageAreaTop()    + 5,
+    parentAvailableAreaRight  : pa.getComputedPageAreaRight()  - 5,
+    parentAvailableAreaBottom : pa.getComputedPageAreaBottom() - 5      
   };
 };
 
@@ -964,6 +983,16 @@ proto._oncaptionmouseup = function(e)
 proto._oncaptionmousemove = function(e)
 {
   if (!this._dragSession) {
+    return;
+  };
+  
+  var pageX = e.getPageX();
+  if ( pageX < this._dragSession.parentAvailableAreaLeft || pageX > this._dragSession.parentAvailableAreaRight ) {
+    return;
+  };
+
+  var pageY = e.getPageY();
+  if ( pageY < this._dragSession.parentAvailableAreaTop || pageY > this._dragSession.parentAvailableAreaBottom ) {
     return;
   };
 
