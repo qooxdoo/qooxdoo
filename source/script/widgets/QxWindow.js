@@ -11,6 +11,16 @@ function QxWindow(vCaption, vIcon)
   this.addEventListener("mousemove", this._onwindowmousemove, this);
 
 
+  // ***********************************************************************
+  //   RESIZEFRAME
+  // ***********************************************************************
+  this._resizeFrame = new QxWidget();
+  
+  this._resizeFrame.setBorder(QxBorder.presets.black);
+  this._resizeFrame.setTimerCreate(false);
+  this._resizeFrame.setOpacity(0.3);
+
+
 
   // ***********************************************************************
   //   CAPTIONBAR
@@ -732,7 +742,9 @@ proto._onwindowmousedown = function(e)
   if (this._resizeMode)
   {
     this.setCapture(true);
-    this._resizeActive = true;;
+    
+    this._resizeActive = true;
+    this._resizeFirst = true;
   }
   else
   {
@@ -744,9 +756,11 @@ proto._onwindowmouseup = function(e)
 {
   if (this._resizeActive)
   {
-    this.setCapture(false);   
+    this.setCapture(false);
+    
     delete this._resizeActive; 
     delete this._resizeMode;
+    delete this._resizeFirst;
     
     if (this._resizeFrame && this._resizeFrame.getParent())
     {
@@ -755,54 +769,55 @@ proto._onwindowmouseup = function(e)
       this.setWidth(this._resizeFrame.getComputedBoxWidth());
       this.setHeight(this._resizeFrame.getComputedBoxHeight());
       
-      this.debug(this._resizeFrame.getComputedPageBoxLeft());
-      
       this._resizeFrame.setParent(null);     
     };    
   };
 };
 
 proto._near = function(p, e) {
-  return e > (p - 4) && e < (p + 4);
+  return e > (p - 5) && e < (p + 5);
 };
 
 proto._onwindowmousemove = function(e) 
 {
+  if (!this.getResizeable()) {
+    return;
+  };
+  
   if (this._resizeActive)
   {
-    if (!this._resizeFrame)
-    {
-      this._resizeFrame = new QxWidget();
+    var l, t, w, h;
 
-      this._resizeFrame.setBorder(QxBorder.presets.black);
-      this._resizeFrame.setTimerCreate(false);
-      this._resizeFrame.setOpacity(0.3);
-    };
-    
-    window.status = "Resize: " + e.getPageX() + "x" + e.getPageY();
-
-    this._resizeFrame.setLeft(this.getComputedPageBoxLeft());
-    this._resizeFrame.setTop(this.getComputedPageBoxTop());
-
-    this._resizeFrame.setWidth(this.getComputedBoxWidth());
-    this._resizeFrame.setHeight(this.getComputedBoxHeight());
-      
-    this._resizeFrame.setZIndex(this.getZIndex() + 1);
+    var f = this._resizeFrame;
 
     switch(this._resizeMode)
     {
       case "nw":
       case "sw":
       case "w":
-        this._resizeFrame.setLeft(e.getPageX());
-        this._resizeFrame.setWidth(this.getComputedBoxWidth() + (this.getComputedPageBoxLeft() - e.getPageX()));
+        l = e.getPageX();
+        w = this.getComputedBoxWidth() + this.getComputedPageBoxLeft() - l;
+        
+        // handle limits
+        w = w.limit(this.getMinWidth(), this.getMaxWidth());
+        l = this.getComputedPageBoxRight() - w;
         break
       
       case "ne":
       case "se":
       case "e":
-        this._resizeFrame.setWidth(e.getPageX() - this.getComputedPageBoxLeft());
-        break
+        l = this.getComputedPageBoxLeft();
+        w = e.getPageX() - l;
+        
+        // handle limits
+        w = w.limit(this.getMinWidth(), this.getMaxWidth());
+        break;
+        
+      default:
+        if (this._resizeFirst) {
+          l = this.getComputedPageBoxLeft();
+          w = this.getComputedBoxWidth();
+        };
     };
     
     switch(this._resizeMode)
@@ -810,54 +825,85 @@ proto._onwindowmousemove = function(e)
       case "nw":
       case "ne":
       case "n":
-        this._resizeFrame.setTop(e.getPageY());
-        this._resizeFrame.setHeight(this.getComputedBoxHeight() + (this.getComputedPageBoxTop() - e.getPageY()));
+        t = e.getPageY();
+        h = this.getComputedBoxHeight() + this.getComputedPageBoxTop() - t;
+        
+        // handle limits
+        h = h.limit(this.getMinHeight(), this.getMaxHeight());
+        t = this.getComputedPageBoxBottom() - h;
         break;
       
       case "sw":
       case "se":
       case "s":
-        this._resizeFrame.setHeight(e.getPageY() - this.getComputedPageBoxTop());
+        t = this.getComputedPageBoxTop();
+        h = e.getPageY() - t;
+        
+        // handle limits
+        h = h.limit(this.getMinHeight(), this.getMaxHeight());
         break;
+        
+      default:
+        if (this._resizeFirst) 
+        {
+          t = this.getComputedPageBoxTop();
+          h = this.getComputedBoxHeight();     
+        };        
     };
     
-    this._resizeFrame.setParent(this.getTopLevelWidget());
-  
+    if (typeof l != "undefined") {
+      f._applyPositionHorizontal(l);
+    };
+    
+    if (typeof t != "undefined") {
+      f._applyPositionVertical(t);
+    };
+    
+    if (typeof w != "undefined") {
+      f._applySizeHorizontal(w);
+    };
+    
+    if (typeof h != "undefined") {
+      f._applySizeVertical(h);
+    };
+
+    // Apply current to use parent and adjust zIndex
+    if (this._resizeFirst) 
+    {
+      f.setZIndex(this.getZIndex() + 1);
+      f.setParent(this.getParent());
+      
+      delete this._resizeFirst;
+    };
   }
   else
   {
-    var ex = e.getPageX();
-    var ey = e.getPageY();
-  
-    var pt = this.getComputedPageBoxTop();
-    var pr = this.getComputedPageBoxRight();
-    var pb = this.getComputedPageBoxBottom();
-    var pl = this.getComputedPageBoxLeft();
+    var resizeMode = "";
     
-    var nt = this._near(pt, ey);
-    var nr = this._near(pr, ex);
-    var nb = this._near(pb, ey);
-    var nl = this._near(pl, ex);
-    
-    var m;
-    if (nt)
-    {
-      m = nl ? "nw" : nr ? "ne" : "n";
+    if (this._near(this.getComputedPageBoxTop(), e.getPageY())) {
+      resizeMode = "n";
     }
-    else if (nb)
+    else if (this._near(this.getComputedPageBoxBottom(), e.getPageY())) {
+      resizeMode = "s";
+    };
+    
+    if (this._near(this.getComputedPageBoxLeft(), e.getPageX())) {
+      resizeMode += "w";
+    }
+    else if (this._near(this.getComputedPageBoxRight(), e.getPageX())) {
+      resizeMode += "e";  
+    };
+    
+    if (resizeMode != "")
     {
-      m = nl ? "sw" : nr ? "se" : "s";
+      this._resizeMode = resizeMode;
+      this.setCursor(resizeMode + "-resize");
     }
     else
     {
-      m = nl ? "w" : nr ? "e" : null;
+      delete this._resizeMode;
+      this.setCursor(null);
     };
-    
-    this._resizeMode = m;
-    this.setCursor(m ? m + "-resize" : m);
-    
-    window.status = pl + "," + pt + "," + pr + "," + pb + " :: " + ex + "x" + ey + " :: " + nt + "," + nr + "," + nb + "," + nl + " :: " + m;
-    
   };
 };
 
@@ -1054,8 +1100,6 @@ proto.dispose = function()
   if (this._statusbar)
   {
     this._statusbar.dispose();
-    this._statusbar = null;
+    this._statusbar = null
   };
-
-  return QxPopup.prototype.dispose.call(this);
 };
