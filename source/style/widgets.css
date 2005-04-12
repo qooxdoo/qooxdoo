@@ -171,6 +171,9 @@ html[QxFocused] {
   position: absolute;
 }
 
+.QxAtomBase .QxContainer{
+  white-space: nowrap;
+}
 
 
 
