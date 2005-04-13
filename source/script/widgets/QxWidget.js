@@ -345,7 +345,7 @@ QxWidget.addProperty({ name : "paddingLeft", type : Number, defaultValue : 0, im
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "left", impl : "horizontalDimension", groups : [ "location", "space" ] });
+QxWidget.addProperty({ name : "left", impl : "horizontalDimension", groups : [ "location", "space", "edge" ] });
 
 /*!
   The distance from the outer right border to the parent right area edge.
@@ -354,7 +354,7 @@ QxWidget.addProperty({ name : "left", impl : "horizontalDimension", groups : [ "
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "right", impl : "horizontalDimension" });
+QxWidget.addProperty({ name : "right", impl : "horizontalDimension", groups : [ "edge" ] });
 
 /*!
   The width of the box (including padding and border).
@@ -398,7 +398,7 @@ QxWidget.addProperty({ name : "maxWidth", impl : "horizontalLimitDimension", def
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "top", impl : "verticalDimension", groups : [ "location", "space" ] });
+QxWidget.addProperty({ name : "top", impl : "verticalDimension", groups : [ "location", "space", "edge" ] });
 
 /*!
   The distance from the outer bottom border to the parent bottom area edge.
@@ -407,7 +407,7 @@ QxWidget.addProperty({ name : "top", impl : "verticalDimension", groups : [ "loc
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "bottom", impl : "verticalDimension" });
+QxWidget.addProperty({ name : "bottom", impl : "verticalDimension", groups : [ "edge" ] });
 
 /*!
   The height of the box (including padding and border).
@@ -3960,6 +3960,7 @@ proto._modifyMarginVertical = function(propValue, propOldValue, propName, uniqMo
 */
 QxWidget.cssLikeShortHandService = function(params)
 {
+
   var l = params.length;
 
   if (l > 4) {
@@ -3974,15 +3975,15 @@ QxWidget.cssLikeShortHandService = function(params)
   {
     v = params[i];
 
-    if (v == "" || v == null)
-    {
-      forceList.push(null);
-      styleList.push("");
-    }
-    else if (typeof v == "number" && !isNaN(v))
+    if (isValidNumber(v))
     {
       forceList.push(v);
       styleList.push(Math.round(v) + "px");
+    }
+    else if (v == "" || v == null)
+    {
+      forceList.push(null);
+      styleList.push("");
     }
     else
     {
@@ -4099,6 +4100,34 @@ proto.setMargin = function()
   return true;
 };
 
+/*!
+
+*/
+proto.setEdge = function()
+{
+  try{
+    var r = QxWidget.cssLikeShortHandService(arguments);
+  }
+  catch(ex) {
+    throw new Error("Invalid value for edge: " + ex);
+  };
+
+  var forceList = r[0];
+  
+  this._omitRendering();
+
+  this.setWidth(null);
+  this.setHeight(null);
+
+  this.setTop(forceList[0]);
+  this.setRight(forceList[1]);
+  this.setBottom(forceList[2]);
+  this.setLeft(forceList[3]);
+
+  this._activateRendering();
+
+  return true;
+};
 
 
 
