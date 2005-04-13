@@ -32,7 +32,7 @@
     d.add(w1);
     
     var w2 = new QxWindow("Second Window", "icons/16/colorize.png");
-    w2.setSpace(300, 320, 200, 310);
+    w2.setSpace(300, 320, 200, 400);
     d.add(w2);
     
     var w3 = new QxWindow("Third Window", "icons/16/network.png");
@@ -79,8 +79,8 @@
     w1._pane.add(tf1);
     
     
-    var at1 = new QxAtom("Second Window", "icons/22/clock.png");
-    at1.setLocation(4, 4);
+    var at1 = new QxAtom("Your second window", "icons/22/clock.png");
+    at1.setLocation(8, 8);
     w2._pane.add(at1);
     
     
@@ -104,7 +104,7 @@
     
     
     var fs1 = new QxFieldSet("Settings");
-    fs1.setLocation(4, 30);
+    fs1.setLocation(4, 40);
     fs1.setRight(4);
     fs1.setBottom(4);
     
@@ -185,37 +185,54 @@
       w2.setAllowMinimize(e.getNewValue());
     });    
      
-     
-    var chk11 = new QxCheckBox("Direct Move");
-    chk11.setLocation(0, 100);    
-    chk11.setChecked(true);
-    chk11.addEventListener("changeChecked", function(e) {
-      w2.setDirectMove(e.getNewValue());
-    });  
-    
-    var chk12 = new QxCheckBox("Direct Resize");
-    chk12.setLocation(0, 120);    
-    chk12.setChecked(false);
-    chk12.addEventListener("changeChecked", function(e) {
-      w2.setDirectResize(e.getNewValue());
-    });           
-    
-    var chk13 = new QxCheckBox("Translucent Move");
-    chk13.setLocation(0, 150);    
-    chk13.setChecked(false);
-    chk13.addEventListener("changeChecked", function(e) {
-      w2.setTranslucentMove(e.getNewValue());
-    });  
-    
-    var chk14 = new QxCheckBox("Translucent Resize");
-    chk14.setLocation(0, 170);    
-    chk14.setChecked(false);
-    chk14.addEventListener("changeChecked", function(e) {
-      w2.setTranslucentResize(e.getNewValue());
-    });      
     
     
-    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, chk11, chk12, chk13, chk14);
+    
+    var l1 = new QxAtom("Move Method", "icons/16/info.png");
+    l1.setLocation(0, 100);
+    
+    var rb1 = new QxRadioButton("Frame", "frame");
+    rb1.setLocation(0, 120);    
+    
+    var rb2 = new QxRadioButton("Opaque", "opaque");
+    rb2.setLocation(0, 140);    
+    rb2.setChecked(true);    
+
+    var rb3 = new QxRadioButton("Translucent", "translucent");
+    rb3.setLocation(0, 160);    
+    
+    var rbm1 = new QxRadioButtonManager("move", [rb1, rb2, rb3]);
+    
+    rbm1.addEventListener("changeSelected", function(e) {
+      w2.setMoveMethod(e.getNewValue().getValue());
+    });
+    
+    
+    
+    
+    var l2 = new QxAtom("Resize Method", "icons/16/info.png");
+    l2.setLocation(0, 190);
+    
+    var rb4 = new QxRadioButton("Frame", "frame");
+    rb4.setLocation(0, 210);    
+    rb4.setChecked(true);    
+    
+    var rb5 = new QxRadioButton("Opaque", "opaque");
+    rb5.setLocation(0, 230);    
+
+    var rb6 = new QxRadioButton("Translucent", "translucent");
+    rb6.setLocation(0, 250);    
+    
+    var rbm2 = new QxRadioButtonManager("move", [rb4, rb5, rb6]);
+    
+    rbm2.addEventListener("changeSelected", function(e) {
+      w2.setResizeMethod(e.getNewValue().getValue());
+    });
+    
+    
+        
+    
+    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, l1, rb1, rb2, rb3, l2, rb4, rb5, rb6);
     w2._pane.add(fs1);
     
     
