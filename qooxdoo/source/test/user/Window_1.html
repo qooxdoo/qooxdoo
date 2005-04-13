@@ -247,9 +247,18 @@
     });
     
     
+    
+    
+    var chk11 = new QxCheckBox("Show Statusbar");
+    chk11.setLocation(140, 140);    
+    chk11.setChecked(false);
+    chk11.addEventListener("changeChecked", function(e) {
+      w2.setShowStatusbar(e.getNewValue());
+    });       
+    
         
     
-    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, l1, rb1, rb2, rb3, l2, rb4, rb5, rb6, rb7);
+    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, l1, rb1, rb2, rb3, l2, rb4, rb5, rb6, rb7, chk11);
     w2._pane.add(fs1);
     
     

@@ -1178,4 +1178,5 @@ html[QxFocused] {
 
 .QxWindow .QxWindowStatusBar{
   position: absolute;
+  padding: 0 4px;
 }
