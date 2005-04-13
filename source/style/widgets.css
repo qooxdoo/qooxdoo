@@ -1154,6 +1154,7 @@ html[QxFocused] {
   background: ThreeDFace;
   color: black;
   padding: 4px 0;
+  overflow: hidden;
 }
 
 .QxWindow .QxWindowCaptionBar{

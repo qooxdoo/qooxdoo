@@ -50,7 +50,7 @@
     
     var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
     a1.set({ top: 4, left: 4 });
-    w1._pane.add(a1);
+    w1.add(a1);
     
     
     
@@ -69,17 +69,17 @@
 
     tf1.getPane().add(p1_1, p1_2, p1_3);    
     
-    w1._pane.add(tf1);
+    w1.add(tf1);
     
     
     var at1 = new QxAtom("Second Window", "icons/22/clock.png");
     at1.setLocation(4, 4);
-    w2._pane.add(at1);
+    w2.add(at1);
     
 
     var at2 = new QxAtom("Third Window", "icons/48/colors.png");
     at2.setLocation(4, 4);
-    w3._pane.add(at2);
+    w3.add(at2);
     
     
     
@@ -170,7 +170,7 @@
      
     
     fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10);
-    w2._pane.add(fs1);
+    w2.add(fs1);
     
        
     w1.setVisible(true);

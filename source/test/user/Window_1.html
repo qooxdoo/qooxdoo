@@ -60,7 +60,7 @@
     
     var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
     a1.set({ top: 4, left: 4 });
-    w1._pane.add(a1);
+    w1.add(a1);
     
     
     
@@ -79,19 +79,19 @@
 
     tf1.getPane().add(p1_1, p1_2, p1_3);    
     
-    w1._pane.add(tf1);
+    w1.add(tf1);
     
     
     var at1 = new QxAtom("Your second window", "icons/22/clock.png");
     at1.setLocation(8, 8);
-    w2._pane.add(at1);
+    w2.add(at1);
     
     
     
     
     var btn1 = new QxButton("Open Modal Dialog 1", "icons/16/wizard.png");
-    btn1.setLocation(10, 10);
-    w3._pane.add(btn1);
+    btn1.setLocation(4, 4);
+    w3.add(btn1);
     
     btn1.addEventListener("click", function(e) {
       wm1.setVisible(true);
@@ -99,17 +99,17 @@
     
 
     var btn2 = new QxButton("Open Modal Dialog 2", "icons/16/wizard.png");
-    btn2.setLocation(10, 10);
-    wm1._pane.add(btn2);
+    btn2.setLocation(4, 4);
+    wm1.add(btn2);
     
     btn2.addEventListener("click", function(e) {
       wm2.setVisible(true);
     });
     
     
-    var chkm1 = new QxCheckBox("Modal?", null, null, true);
-    chkm1.setLocation(10, 40);
-    wm1._pane.add(chkm1);
+    var chkm1 = new QxCheckBox("Modal", null, null, true);
+    chkm1.setLocation(4, 50);
+    wm1.add(chkm1);
     
     chkm1.addEventListener("changeChecked", function(e) {
       wm1.setModal(e.getNewValue());
@@ -259,7 +259,7 @@
         
     
     fs1.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8, chk9, chk10, l1, rb1, rb2, rb3, l2, rb4, rb5, rb6, rb7, chk11);
-    w2._pane.add(fs1);
+    w2.add(fs1);
     
     
     var icon1 = new QxImage("icons/32/important.png");
@@ -286,7 +286,7 @@
     btn3.set({ bottom : 10, right : 10 });
     btn4.set({ bottom : 10, left : 10 });
     
-    wm2._pane.add(btn3, btn4, icon1, warn1);
+    wm2.add(btn3, btn4, icon1, warn1);
     
     
     w1.setVisible(true);

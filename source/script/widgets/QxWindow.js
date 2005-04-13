@@ -24,14 +24,14 @@ function QxWindow(vCaption, vIcon)
   c.addEventListener("mousedown", this._oncaptionmousedown, this);
   c.addEventListener("mouseup", this._oncaptionmouseup, this);
   c.addEventListener("mousemove", this._oncaptionmousemove, this);
-  this.add(c);
+  this.addToWindow(c);
 
   // ***********************************************************************
   //   PANE
   // ***********************************************************************
   c = this._pane = new QxWidget;
   c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 0, left: 0, right: 0 });
-  this.add(c);
+  this.addToWindow(c);
 
   // ***********************************************************************
   //   ARGUMENTS
@@ -157,6 +157,27 @@ QxWindow.addProperty({ name : "moveMethod", type : String, defaultValue : "opaqu
 proto._windowManager = new QxWindowManager();
 
 
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIY ADDER LOGIC
+------------------------------------------------------------------------------------
+*/
+
+proto.addToWindow = proto.add;
+
+proto.addToPane = function() {
+  this._pane.add.apply(this._pane, arguments);
+};
+
+proto.addToCaptionbar = function() {
+  this._captionbar.add.apply(this._captionbar, arguments);
+};
+
+// Overwrite default
+proto.add = proto.addToPane;
 
 
 
@@ -509,7 +530,7 @@ proto._pureCreateFillCloseButton = function()
 
   this._applyAllowClose();
 
-  this._captionbar.add(ob);
+  this.addToCaptionbar(ob);
 };
 
 proto._pureCreateFillMinimizeButton = function()
@@ -522,7 +543,7 @@ proto._pureCreateFillMinimizeButton = function()
 
   this._applyAllowMinimize();
 
-  this._captionbar.add(ob);
+  this.addToCaptionbar(ob);
 };
 
 proto._pureCreateFillRestoreButton = function()
@@ -539,7 +560,7 @@ proto._pureCreateFillRestoreButton = function()
     return this.getParent().getParent().getState() == "maximized";
   };
 
-  this._captionbar.add(ob);
+  this.addToCaptionbar(ob);
 };
 
 proto._pureCreateFillMaximizeButton = function()
@@ -556,7 +577,7 @@ proto._pureCreateFillMaximizeButton = function()
     return this.getParent().getParent().getState() != "maximized";
   };
 
-  this._captionbar.add(ob);
+  this.addToCaptionbar(ob);
 };
 
 
@@ -574,7 +595,7 @@ proto._pureCreateFillStatusbar = function()
 {
   c = this._statusbar = new QxAtom;
   c.set({ cssClassName : "QxWindowStatusBar", width: null, bottom: 0, left: 0, right: 0, height: 18, border : QxBorder.presets.thinInset, text : this.getStatus() });
-  this.add(c);
+  this.addToWindow(c);
 };
 
 proto._modifyStatus = function(propValue, propOldValue, propName, uniqModIds)
@@ -590,7 +611,7 @@ proto._modifyShowStatusbar = function(propValue, propOldValue, propName, uniqMod
 {
   if (propValue)
   {
-    this._statusbar ? this.add(this._statusbar) : this._pureCreateFillStatusbar();
+    this._statusbar ? this.addToWindow(this._statusbar) : this._pureCreateFillStatusbar();
     this._pane.setBottom(18); 
   }
   else
