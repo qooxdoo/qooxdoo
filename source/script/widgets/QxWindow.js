@@ -922,6 +922,9 @@ proto._onwindowmousedown = function(e)
     // enable capturing
     this.setCapture(true);
     
+    // activate global cursor
+    this.getTopLevelWidget().setGlobalCursor(this.getCursor());
+    
     // measuring and caching of values for resize session
     var pa = this.getParent();
     
@@ -1011,6 +1014,9 @@ proto._onwindowmouseup = function(e)
   {
     // disable capturing
     this.setCapture(false);
+    
+    // deactivate global cursor
+    this.getTopLevelWidget().setGlobalCursor(null);    
 
     // sync sizes to frame    
     switch(this.getResizeMethod())

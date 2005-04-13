@@ -29,7 +29,7 @@ function QxClientDocument(clientWindow)
 QxClientDocument.extend(QxWidget, "QxClientDocument");
 
 QxClientDocument.addProperty({ name : "theme", type : String });
-
+QxClientDocument.addProperty({ name : "globalCursor", type : String });
 
 
 
@@ -136,6 +136,64 @@ proto.release = function(activeWidget)
   };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  GLOBAL CURSOR SUPPORT
+
+  REF: http://www.xml.com/pub/a/2000/06/07/xmlterm/
+       http://www.mozilla.org/docs/web-developer/css1technote/css1tojs.html
+------------------------------------------------------------------------------------
+*/
+
+if ((new QxClient).isMshtml())
+{
+  proto._modifyGlobalCursor = function(propValue, propOldValue, propName, uniqModIds)
+  {
+    var s = this._cursorStyleSheetElement;
+    
+    if (!s) {
+      s = this._cursorStyleSheetElement = this._document.createStyleSheet();
+    };
+
+    // mshtml direct method
+    s.cssText = isValidString(propValue) ? "*{cursor:" + propValue + " !important}" : "";
+    
+    return true;
+  };
+}
+else
+{
+  proto._modifyGlobalCursor = function(propValue, propOldValue, propName, uniqModIds)
+  {
+    var s = this._cursorStyleSheetElement;
+    
+    if (!s)
+    {
+      s = this._cursorStyleSheetElement = this._document.createElement("style");
+      s.type = "text/css";
+      this._document.getElementsByTagName("head")[0].appendChild(s);
+    };
+
+    var sheet = s.sheet;
+
+    // clean out old rule(s)
+    var l = sheet.cssRules.length;
+    for (var i=l-1; i>=0; i--) {
+      sheet.deleteRule(i);
+    };
+
+    // add new cursor style
+    if (isValidString(propValue)) {
+      sheet.insertRule("*{cursor:" + propValue + " !important}", 0);
+    };
+    
+    return true;
+  };
+};
 
 
 
