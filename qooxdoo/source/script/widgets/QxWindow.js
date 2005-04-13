@@ -105,7 +105,7 @@ QxWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true })
 /*!
   The resize method to use
 
-  Possible values: frame, opaque, translucent
+  Possible values: frame, opaque, lazyopaque, translucent
 */
 QxWindow.addProperty({ name : "resizeMethod", type : String, defaultValue : "frame" });
 
@@ -766,45 +766,139 @@ proto._onwindowmousedown = function(e)
   
   if (this._resizeMode)
   {
+    // enable capturing
     this.setCapture(true);
     
-    this._resizeActive = true;
-    this._resizeFirst = true;
-    
+    // measuring and caching of values for resize session
     var pa = this.getParent();
-    this._resizeParentOffsetX = pa.getComputedPageBoxLeft() + pa.getComputedBorderLeft();
-    this._resizeParentOffsetY = pa.getComputedPageBoxTop() + pa.getComputedBorderTop();
-    this._resizeParentOffsetRight = pa.getComputedPageBoxRight() - pa.getComputedBorderRight();
-    this._resizeParentOffsetBottom = pa.getComputedPageBoxBottom() - pa.getComputedBorderBottom();
+    
+    var l = pa.getComputedPageAreaLeft();
+    var t = pa.getComputedPageAreaTop();
+    var r = pa.getComputedPageAreaRight();
+    var b = pa.getComputedPageAreaBottom();    
+    
+    // handle frame and translucently
+    switch(this.getResizeMethod())
+    {
+      case "translucent":
+        this.setOpacity(0.5);
+        break;
+      
+      case "frame":
+        var f = this._frame;
+      
+        f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
+        f._applyPositionVertical(this.getComputedPageBoxTop() - t);
+      
+        f._applySizeHorizontal(this.getComputedBoxWidth());
+        f._applySizeVertical(this.getComputedBoxHeight());
+      
+        f.setZIndex(this.getZIndex() + 1);
+        f.setParent(this.getParent());    
+        break;
+    };    
+    
+    // create resize session
+    var s = this._resizeSession = {};
+    
+    switch(this._resizeMode)
+    {
+      case "nw":
+      case "sw":
+      case "w":
+        s.boxWidth = this.getComputedBoxWidth();
+        s.boxRight = this.getComputedPageBoxRight();
+        // no break here
+
+      case "ne":
+      case "se":
+      case "e":      
+        s.boxLeft = this.getComputedPageBoxLeft();
+        
+        s.parentAreaOffsetLeft = l;
+        s.parentAreaOffsetRight = r; 
+        
+        s.minWidth = this.getMinWidth();
+        s.maxWidth = this.getMaxWidth();      
+    };
+    
+    switch(this._resizeMode)
+    {
+      case "nw":
+      case "ne":
+      case "n":
+        s.boxHeight = this.getComputedBoxHeight();
+        s.boxBottom = this.getComputedPageBoxBottom();          
+        // no break here
+
+      case "sw":
+      case "se":
+      case "s":      
+        s.boxTop = this.getComputedPageBoxTop();
+        
+        s.parentAreaOffsetTop = t;
+        s.parentAreaOffsetBottom = b;        
+        
+        s.minHeight = this.getMinWidth();
+        s.maxHeight = this.getMaxWidth();      
+    };
   }
   else
   {
-    delete this._resizeActive;
+    // cleanup resize session
+    delete this._resizeSession;
   };
 };
 
 proto._onwindowmouseup = function(e) 
 {
-  if (this._resizeActive)
+  var s = this._resizeSession;
+  
+  if (s)
   {
+    // disable capturing
     this.setCapture(false);
-    
-    delete this._resizeActive; 
-    delete this._resizeMode;
-    delete this._resizeFirst;
-    
-    if (this._frame && this._frame.getParent())
+
+    // sync sizes to frame    
+    switch(this.getResizeMethod())
     {
-      this.setLeft(this._frame.getComputedPageBoxLeft() - this._resizeParentOffsetX);
-      this.setTop(this._frame.getComputedPageBoxTop() - this._resizeParentOffsetY);
-      this.setWidth(this._frame.getComputedBoxWidth());
-      this.setHeight(this._frame.getComputedBoxHeight());
-      
-      this._frame.setParent(null);     
-    };    
+      case "frame":
+        var o = this._frame;
+        if (!(o && o.getParent())) {
+          break;
+        };
+        // no break here
+        
+      case "lazyopaque":  
+        if (isValidNumber(s.lastLeft)) {
+          this.setLeft(s.lastLeft);
+        };
+         
+        if (isValidNumber(s.lastTop)) {
+          this.setTop(s.lastTop);
+        };
+          
+        if (isValidNumber(s.lastWidth)) {
+          this.setWidth(s.lastWidth);
+        };
+          
+        if (isValidNumber(s.lastHeight)) {
+          this.setHeight(s.lastHeight);
+        };
+        
+        if (this.getResizeMethod() == "frame") {
+          this._frame.setParent(null);      
+        };
+        break;
+        
+      case "translucent":
+        this.setOpacity(null);
+        break;
+    };
     
-    delete this._resizeParentOffsetX;
-    delete this._resizeParentOffsetY;
+    // cleanup session
+    delete this._resizeMode;
+    delete this._resizeSession;     
   };
 };
 
@@ -818,40 +912,24 @@ proto._onwindowmousemove = function(e)
     return;
   };
   
-  if (this._resizeActive)
+  var s = this._resizeSession;
+  
+  if (s)
   {
-    var l, t, w, h;
-
-    var f = this._frame;
-
     switch(this._resizeMode)
     {
       case "nw":
       case "sw":
       case "w":
-        l = Math.max( e.getPageX(), this._resizeParentOffsetX );
-        w = this.getComputedBoxWidth() + this.getComputedPageBoxLeft() - l;
-        
-        // handle limits
-        w = w.limit(this.getMinWidth(), this.getMaxWidth());
-        l = this.getComputedPageBoxRight() - w;
+        s.lastWidth = (s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft)).limit(s.minWidth, s.maxWidth);
+        s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
         break;
       
       case "ne":
       case "se":
       case "e":
-        l = this.getComputedPageBoxLeft();
-        w = Math.min( e.getPageX(), this._resizeParentOffsetRight ) - l;
-        
-        // handle limits
-        w = w.limit(this.getMinWidth(), this.getMaxWidth());
+        s.lastWidth = (Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft).limit(s.minWidth, s.maxWidth);
         break;
-        
-      default:
-        if (this._resizeFirst) {
-          l = this.getComputedPageBoxLeft();
-          w = this.getComputedBoxWidth();
-        };
     };
     
     switch(this._resizeMode)
@@ -859,55 +937,82 @@ proto._onwindowmousemove = function(e)
       case "nw":
       case "ne":
       case "n":
-        t = Math.max( e.getPageY(), this._resizeParentOffsetY );
-        h = this.getComputedBoxHeight() + this.getComputedPageBoxTop() - t;
-        
-        // handle limits
-        h = h.limit(this.getMinHeight(), this.getMaxHeight());
-        t = this.getComputedPageBoxBottom() - h;
+        s.lastHeight = (s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop)).limit(s.minHeight, s.maxHeight);
+        s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
         break;
       
       case "sw":
       case "se":
       case "s":
-        t = this.getComputedPageBoxTop();
-        h = Math.min( e.getPageY(), this._resizeParentOffsetBottom ) - t;
-        
-        // handle limits
-        h = h.limit(this.getMinHeight(), this.getMaxHeight());
+        s.lastHeight = (Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop).limit(s.minHeight, s.maxHeight);
         break;
+    };    
+    
+    switch(this.getResizeMethod())
+    {
+      case "opaque":
+      case "translucent":
+        switch(this._resizeMode)
+        {
+          case "nw":
+          case "sw":
+          case "w":
+            this.setLeft(s.lastLeft);
+            // no break here
+              
+          case "ne":
+          case "se":
+          case "e":
+            this.setWidth(s.lastWidth);
+        };     
+        
+        switch(this._resizeMode)
+        {
+          case "nw":
+          case "ne":
+          case "n":
+            this.setTop(s.lastTop);
+            // no break here
+              
+          case "sw":
+          case "se":
+          case "s":
+            this.setHeight(s.lastHeight);
+        };
+        
+        break;       
+        
         
       default:
-        if (this._resizeFirst) 
-        {
-          t = this.getComputedPageBoxTop();
-          h = this.getComputedBoxHeight();     
-        };        
-    };
-    
-    if (typeof l != "undefined") {
-      f._applyPositionHorizontal(l - this._resizeParentOffsetX );
-    };
-    
-    if (typeof t != "undefined") {
-      f._applyPositionVertical(t - this._resizeParentOffsetY);
-    };
-    
-    if (typeof w != "undefined") {
-      f._applySizeHorizontal(w);
-    };
-    
-    if (typeof h != "undefined") {
-      f._applySizeVertical(h);
-    };
-
-    // Apply current to use parent and adjust zIndex
-    if (this._resizeFirst) 
-    {
-      f.setZIndex(this.getZIndex() + 1);
-      f.setParent(this.getParent());
+        var o = this.getResizeMethod() == "frame" ? this._frame : this;
       
-      delete this._resizeFirst;
+        switch(this._resizeMode)
+        {
+          case "nw":
+          case "sw":
+          case "w":
+            o._applyPositionHorizontal(s.lastLeft);
+            // no break here
+              
+          case "ne":
+          case "se":
+          case "e":
+            o._applySizeHorizontal(s.lastWidth);
+        };     
+        
+        switch(this._resizeMode)
+        {
+          case "nw":
+          case "ne":
+          case "n":
+            o._applyPositionVertical(s.lastTop);
+            // no break here
+              
+          case "sw":
+          case "se":
+          case "s":
+            o._applySizeVertical(s.lastHeight);
+        };          
     };
   }
   else
