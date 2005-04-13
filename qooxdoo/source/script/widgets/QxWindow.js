@@ -948,59 +948,70 @@ proto._oncaptionmousedown = function(e)
     return;
   };
 
-  // Enable capturing
+  // enable capturing
   this._captionbar.setCapture(true);
 
-  // Measuring offsets
+  // measuring and caching of values for drag session
   var pa = this.getParent();
-  this._dragSession = {
-    offsetX : e.getPageX() - this.getComputedPageBoxLeft() + pa.getComputedPageBoxLeft() + pa.getComputedBorderLeft(),
-    offsetY : e.getPageY() - this.getComputedPageBoxTop()  + pa.getComputedPageBoxTop()  + pa.getComputedBorderTop(),
+  
+  var l = pa.getComputedPageAreaLeft();
+  var t = pa.getComputedPageAreaTop();
+  var r = pa.getComputedPageAreaRight();
+  var b = pa.getComputedPageAreaBottom();
+  
+  this._dragSession =  
+  {
+    offsetX : e.getPageX() - this.getComputedPageBoxLeft() + l,
+    offsetY : e.getPageY() - this.getComputedPageBoxTop() + t,
 
-    parentAvailableAreaLeft   : pa.getComputedPageAreaLeft()   + 5,
-    parentAvailableAreaTop    : pa.getComputedPageAreaTop()    + 5,
-    parentAvailableAreaRight  : pa.getComputedPageAreaRight()  - 5,
-    parentAvailableAreaBottom : pa.getComputedPageAreaBottom() - 5      
+    parentAvailableAreaLeft : l + 5,
+    parentAvailableAreaTop : t + 5,
+    parentAvailableAreaRight : r - 5,
+    parentAvailableAreaBottom : b - 5      
   };
 };
 
 proto._oncaptionmouseup = function(e)
 {
-  if (!this._dragSession) {
+  var s = this._dragSession;
+  
+  if (!s) {
     return;
   };
-
-  // Disable capturing
+  
+  // disable capturing
   this._captionbar.setCapture(false);
 
-  // Move window to last position
-  var s = this.getElement().style;
-  this.setLeft(parseInt(s.left));
-  this.setTop(parseInt(s.top));
-
-  // Cleanup session
+  // move window to last position
+  if (isValidNumber(s.lastX)) {  
+    this.setLeft(s.lastX);
+  };
+  
+  if (isValidNumber(s.lastY)) {
+    this.setTop(s.lastY);  
+  };  
+  
+  // cleanup session
   delete this._dragSession;
 };
 
 proto._oncaptionmousemove = function(e)
 {
-  if (!this._dragSession) {
-    return;
-  };
+  var s = this._dragSession;
   
-  var pageX = e.getPageX();
-  if ( pageX < this._dragSession.parentAvailableAreaLeft || pageX > this._dragSession.parentAvailableAreaRight ) {
+  // pre check for active session and capturing
+  if (!s || !this._captionbar.getCapture()) {
     return;
   };
 
-  var pageY = e.getPageY();
-  if ( pageY < this._dragSession.parentAvailableAreaTop || pageY > this._dragSession.parentAvailableAreaBottom ) {
-    return;
+  // pre check if we go out of the available area  
+  if (!e.getPageX().inrange(s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !e.getPageY().inrange(s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
+    return; 
   };
 
-  // Use the fast methods
-  this._applyPositionHorizontal(e.getPageX() - this._dragSession.offsetX);
-  this._applyPositionVertical(e.getPageY() - this._dragSession.offsetY);
+  // use the fast and direct dom methods
+  this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+  this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
 };
 
 
@@ -1060,81 +1071,87 @@ proto.dispose = function()
   this.removeEventListener("mousemove", this._onwindowmousemove, this);
 
 
-
-
-  if (this._caption)
+  var w = this._caption;
+  if (w)
   {
-    this._caption.dispose();
+    w.dispose();
     this._caption = null;
   };
 
-  if (this._icon)
+  w = this._icon;
+  if (w)
   {
-    this._icon.removeEventListener("mousedown", this._oniconmousedown, this);
-
-    this._icon.dispose();
+    w.removeEventListener("mousedown", this._oniconmousedown, this);
+    w.dispose();
+    
     this._icon = null;
   };
 
-  if (this._closeButton)
+  w = this._closeButton;
+  if (w)
   {
-    this._closeButton.removeEventListener("click", this._onclosebuttonclick, this);
-    this._closeButton.removeEventListener("mousedown", this._onbuttonmousedown, this);
+    w.removeEventListener("click", this._onclosebuttonclick, this);
+    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
 
-    this._closeButton.dispose();
+    w.dispose();
     this._closeButton = null;
   };
 
-  if (this._restoreButton)
+  w = this._restoreButton;
+  if (w)
   {
-    this._restoreButton.removeEventListener("click", this._onrestorebuttonclick, this);
-    this._restoreButton.removeEventListener("mousedown", this._onbuttonmousedown, this);
+    w.removeEventListener("click", this._onrestorebuttonclick, this);
+    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
 
-    this._restoreButton.dispose();
+    w.dispose();
     this._restoreButton = null;
   };
 
-  if (this._maximizeButton)
+  w = this._maximizeButton;
+  if (w)
   {
-    this._maximizeButton.removeEventListener("click", this._onmaximizebuttonclick, this);
-    this._maximizeButton.removeEventListener("mousedown", this._onbuttonmousedown, this);
+    w.removeEventListener("click", this._onmaximizebuttonclick, this);
+    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
 
-    this._maximizeButton.dispose();
+    w.dispose();
     this._maximizeButton = null;
   };
 
-  if (this._minimizeButton)
+  w = this._minimizeButton;
+  if (w)
   {
-    this._minimizeButton.removeEventListener("click", this._onminimizebuttonclick, this);
-    this._minimizeButton.removeEventListener("mousedown", this._onbuttonmousedown, this);
+    w.removeEventListener("click", this._onminimizebuttonclick, this);
+    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
 
-    this._minimizeButton.dispose();
+    w.dispose();
     this._minimizeButton = null;
   };
 
 
 
 
-
-  if (this._captionbar)
+  w = this._captionbar;
+  if (w)
   {
-    this._captionbar.removeEventListener("mousedown", this._oncaptionmousedown, this);
-    this._captionbar.removeEventListener("mouseup", this._oncaptionmouseup, this);
-    this._captionbar.removeEventListener("mousemove", this._oncaptionmousemove, this);
+    w.removeEventListener("mousedown", this._oncaptionmousedown, this);
+    w.removeEventListener("mouseup", this._oncaptionmouseup, this);
+    w.removeEventListener("mousemove", this._oncaptionmousemove, this);
 
-    this._captionbar.dispose();
+    w.dispose();
     this._captionbar = null;
   };
 
-  if (this._pane)
+  w = this._pane;
+  if (w)
   {
-    this._pane.dispose();
+    w.dispose();
     this._pane = null;
   };
 
-  if (this._statusbar)
+  w = this._statusbar;
+  if (w)
   {
-    this._statusbar.dispose();
+    w.dispose();
     this._statusbar = null
   };
 };
