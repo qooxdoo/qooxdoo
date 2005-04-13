@@ -92,15 +92,29 @@ QxWindow.addProperty({ name : "allowMinimize", type : Boolean, defaultValue : tr
 QxWindow.addProperty({ name : "showCaption", type : Boolean, defaultValue : true });
 QxWindow.addProperty({ name : "showIcon", type : Boolean, defaultValue : true });
 
+/*!
+  If the window is resizeable
+*/
 QxWindow.addProperty({ name : "resizeable", type : Boolean, defaultValue : true });
+
+/*!
+  If the window is moveable
+*/
 QxWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true });
 
-QxWindow.addProperty({ name : "directMove", type : Boolean, defaultValue : true });
-QxWindow.addProperty({ name : "directResize", type : Boolean, defaultValue : false });
+/*!
+  The resize method to use
 
-QxWindow.addProperty({ name : "translucentMove", type : Boolean, defaultValue : false });
-QxWindow.addProperty({ name : "translucentResize", type : Boolean, defaultValue : false });
+  Possible values: frame, opaque, translucent
+*/
+QxWindow.addProperty({ name : "resizeMethod", type : String, defaultValue : "frame" });
 
+/*!
+  The move method to use
+
+  Possible values: frame, opaque, translucent
+*/
+QxWindow.addProperty({ name : "moveMethod", type : String, defaultValue : "opaque" });
 
 
 /*
@@ -976,26 +990,25 @@ proto._oncaptionmousedown = function(e)
   };
   
   // handle frame and translucently
-  if (this.getDirectMove()) 
+  switch(this.getMoveMethod())
   {
-    if (this.getTranslucentMove()) 
-    {
+    case "translucent":
       this._dragSession.oldOpacity = this.getOpacity();
       this.setOpacity(0.5);
-    };
-  }  
-  else
-  {
-    var f = this._frame;
+      break;
     
-    f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
-    f._applyPositionVertical(this.getComputedPageBoxTop() - t);
+    case "frame":
+      var f = this._frame;
     
-    f._applySizeHorizontal(this.getComputedBoxWidth());
-    f._applySizeVertical(this.getComputedBoxHeight());
+      f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
+      f._applyPositionVertical(this.getComputedPageBoxTop() - t);
     
-    f.setZIndex(this.getZIndex() + 1);
-    f.setParent(this.getParent());
+      f._applySizeHorizontal(this.getComputedBoxWidth());
+      f._applySizeVertical(this.getComputedBoxHeight());
+    
+      f.setZIndex(this.getZIndex() + 1);
+      f.setParent(this.getParent());    
+      break;
   };
 };
 
@@ -1020,15 +1033,15 @@ proto._oncaptionmouseup = function(e)
   };
   
   // handle frame and translucently
-  if (this.getDirectMove()) 
+  switch(this.getMoveMethod())
   {
-    if (this.getTranslucentMove()) {
+    case "translucent":
       this.setOpacity(this._dragSession.oldOpacity);
-    };
-  }
-  else
-  {
-    this._frame.setParent(null);
+      break;
+    
+    case "frame":
+      this._frame.setParent(null);
+      break;    
   };
   
   // cleanup session
@@ -1050,15 +1063,16 @@ proto._oncaptionmousemove = function(e)
   };
 
   // use the fast and direct dom methods
-  if (this.getDirectMove()) 
+  switch(this.getMoveMethod())
   {
-    this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-    this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
-  }
-  else
-  {
-    this._frame._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-    this._frame._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+    case "frame":
+      this._frame._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+      this._frame._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+      break;
+    
+    default:
+      this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+      this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
   };
 };
 
