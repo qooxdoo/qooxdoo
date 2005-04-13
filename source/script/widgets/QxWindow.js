@@ -1062,17 +1062,9 @@ proto._oncaptionmousemove = function(e)
   };
 
   // use the fast and direct dom methods
-  switch(this.getMoveMethod())
-  {
-    case "frame":
-      this._frame._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-      this._frame._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
-      break;
-    
-    default:
-      this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-      this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
-  };
+  var o = this.getMoveMethod() == "frame" ? this._frame : this;
+  o._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+  o._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
 };
 
 
