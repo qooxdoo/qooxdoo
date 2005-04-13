@@ -14,9 +14,7 @@ function QxWindow(vCaption, vIcon)
   //   RESIZE AND MOVE FRAME
   // ***********************************************************************
   var c = this._frame = new QxWidget();
-  
-  c.setTimerCreate(false);
-  c.setBorder(QxBorder.presets.shadow);
+  c.set({ timerCreate : false, border : QxBorder.presets.shadow });
 
   // ***********************************************************************
   //   CAPTIONBAR
@@ -88,17 +86,17 @@ QxWindow.addProperty({ name : "caption", type : String });
 /*!
   Should the close button be shown
 */
-QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true, impl : "showButton" });
+QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : true, impl : "showButton" });
+QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true, impl : "showButton" });
+QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true });
 
 /*!
   Should the user have the ability to close the window
@@ -192,7 +190,11 @@ proto.bringToFront = proto.sendToBack = function() {
   throw new Error("Warning: bringToFront() and sendToBack() are not supported by QxWindow!");
 };
 
-proto._layoutInternalWidgetsHorizontal = proto._layoutInternalWidgetsVertical = function() {
+proto._layoutInternalWidgetsHorizontal = function() {
+  return true;
+};
+
+proto._layoutInternalWidgetsVertical = function() {
   return true;
 };
 
@@ -296,12 +298,42 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
   return QxPopup.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
-proto._modifyShowButton = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyShowClose = function(propValue, propOldValue, propName, uniqModIds)
 {
+  if (propValue && !this._closeButton) {
+    this._pureCreateFillCloseButton();
+  };  
+  
   this._layoutCommands();
   return true;
 };
 
+proto._modifyShowMaximize = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propValue) 
+  {
+    if (!this._maximizeButton) {
+      this._pureCreateFillMaximizeButton();
+    };
+    
+    if (!this._restoreButton) {
+      this._pureCreateFillRestoreButton();
+    };
+  };  
+  
+  this._layoutCommands();
+  return true;
+};
+
+proto._modifyShowMinimize = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propValue && !this._minimizeButton) {
+    this._pureCreateFillMinimizeButton();
+  };  
+  
+  this._layoutCommands();
+  return true;
+};
 
 
 
@@ -319,8 +351,25 @@ proto._modifyAllowMinimize = function(propValue, propOldValue, propName, uniqMod
   return this._applyAllowMinimize();
 };
 
-proto._modifyModal = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._applyAllowMinimize();
+proto._modifyModal = function(propValue, propOldValue, propName, uniqModIds) 
+{
+  this._applyAllowMinimize();
+  this._applyAllowMaximize();
+
+  this._layoutCommands();
+  
+  if (this.getActive())
+  {
+    // the window manager need to think we are modal
+    this.forceModal(true);
+    this.setVisible(false);
+    
+    // recover value
+    this.forceModal(propValue);
+    this.setVisible(true);
+  };
+  
+  return true;
 };
 
 proto._applyAllowMinimize = function()
