@@ -21,26 +21,16 @@ function QxWindow(vCaption, vIcon)
   // ***********************************************************************
   c = this._captionbar = new QxWidget;
   c.set({ cssClassName : "QxWindowCaptionBar", top : 0, left: 0, right : 0, height: 18 });
-
   c.addEventListener("mousedown", this._oncaptionmousedown, this);
   c.addEventListener("mouseup", this._oncaptionmouseup, this);
   c.addEventListener("mousemove", this._oncaptionmousemove, this);
-
   this.add(c);
 
   // ***********************************************************************
   //   PANE
   // ***********************************************************************
   c = this._pane = new QxWidget;
-  c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 18, left: 0, right: 0 });
-  this.add(c);
-
-  // ***********************************************************************
-  //   STATUSBAR
-  // ***********************************************************************
-  c = this._statusbar = new QxWidget;
-  c.set({ cssClassName : "QxWindowStatusBar", bottom: 0, left: 0, right: 0, height: 18 });
-  c.setBorder(QxBorder.presets.thinInset);
+  c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 0, left: 0, right: 0 });
   this.add(c);
 
   // ***********************************************************************
@@ -84,6 +74,11 @@ QxWindow.addProperty({ name : "opener", type : Object });
 QxWindow.addProperty({ name : "caption", type : String });
 
 /*!
+  The text of the statusbar
+*/
+QxWindow.addProperty({ name : "status", type : String, defaultValue : "Ready" });
+
+/*!
   Should the close button be shown
 */
 QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true });
@@ -97,6 +92,11 @@ QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : tru
   Should the minimize button be shown
 */
 QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true });
+
+/*!
+  Should the statusbar be shown
+*/
+QxWindow.addProperty({ name : "showStatusbar", type : Boolean, defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
@@ -230,6 +230,10 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
       if (!this._maximizeButton) {
         this._pureCreateFillMaximizeButton();
       };
+    };
+    
+    if (this.getShowStatusbar()) {
+      this._pureCreateFillStatusbar();
     };
 
     if (this.getShowClose() && !this._closeButton) {
@@ -553,6 +557,52 @@ proto._pureCreateFillMaximizeButton = function()
   };
 
   this._captionbar.add(ob);
+};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  STATUSBAR
+------------------------------------------------------------------------------------
+*/
+
+proto._pureCreateFillStatusbar = function()
+{
+  c = this._statusbar = new QxAtom;
+  c.set({ cssClassName : "QxWindowStatusBar", width: null, bottom: 0, left: 0, right: 0, height: 18, border : QxBorder.presets.thinInset, text : this.getStatus() });
+  this.add(c);
+};
+
+proto._modifyStatus = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (this._statusbar) {
+    this._statusbar.setText(propValue, uniqModIds);
+  };
+  
+  return true;
+};
+
+proto._modifyShowStatusbar = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propValue)
+  {
+    this._statusbar ? this.add(this._statusbar) : this._pureCreateFillStatusbar();
+    this._pane.setBottom(18); 
+  }
+  else
+  {
+    if (this._statusbar) {
+      this.remove(this._statusbar);
+    };
+  
+    this._pane.setBottom(0);   
+  };
+  
+  return true;
 };
 
 
