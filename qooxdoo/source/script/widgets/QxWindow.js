@@ -993,7 +993,6 @@ proto._oncaptionmousedown = function(e)
   switch(this.getMoveMethod())
   {
     case "translucent":
-      this._dragSession.oldOpacity = this.getOpacity();
       this.setOpacity(0.5);
       break;
     
@@ -1036,7 +1035,7 @@ proto._oncaptionmouseup = function(e)
   switch(this.getMoveMethod())
   {
     case "translucent":
-      this.setOpacity(this._dragSession.oldOpacity);
+      this.setOpacity(null);
       break;
     
     case "frame":
