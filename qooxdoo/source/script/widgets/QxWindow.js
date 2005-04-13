@@ -16,9 +16,8 @@ function QxWindow(vCaption, vIcon)
   // ***********************************************************************
   this._frame = new QxWidget();
   
-  this._frame.setBorder(QxBorder.presets.black);
   this._frame.setTimerCreate(false);
-  this._frame.setOpacity(0.3);
+  this._frame.setBorder(QxBorder.presets.shadow);
 
 
 
