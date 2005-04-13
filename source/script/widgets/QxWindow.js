@@ -286,12 +286,14 @@ proto._modifyAllowMaximize = function(propValue, propOldValue, propName, uniqMod
 
 proto._applyAllowMaximize = function()
 {
+  var e = this.getAllowMaximize() && this.getResizeable() && (this.getMaxWidth() == null || this.getMaxWidth() == Infinity) && (this.getMaxHeight() == null || this.getMaxHeight() == Infinity);
+  
   if (this._maximizeButton) {
-    this._maximizeButton.setEnabled(this.getAllowMaximize() && this.getResizeable());
+    this._maximizeButton.setEnabled(e);
   };
 
   if (this._restoreButton) {
-    this._restoreButton.setEnabled(this.getAllowMaximize() && this.getResizeable());
+    this._restoreButton.setEnabled(e);
   };
 
   return true;
@@ -1050,10 +1052,14 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
+  
+  
 
   this.removeEventListener("mousedown", this._onwindowmousedown, this);
   this.removeEventListener("mouseup", this._onwindowmouseup, this);
   this.removeEventListener("mousemove", this._onwindowmousemove, this);
+
+
 
 
   if (this._caption)
