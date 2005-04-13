@@ -33,6 +33,9 @@
     
     var w2 = new QxWindow("Second Window", "icons/16/colorize.png");
     w2.setSpace(300, 320, 200, 420);
+    // w2.setShowClose(false);
+    // w2.setShowMaximize(false);
+    // w2.setShowMinimize(false);
     d.add(w2);
     
     var w3 = new QxWindow("Third Window", "icons/16/network.png");
@@ -86,7 +89,8 @@
     
     
     
-    var btn1 = new QxButton("Open Modal Dialog 1");
+    var btn1 = new QxButton("Open Modal Dialog 1", "icons/16/wizard.png");
+    btn1.setLocation(10, 10);
     w3._pane.add(btn1);
     
     btn1.addEventListener("click", function(e) {
@@ -94,11 +98,21 @@
     });
     
 
-    var btn2 = new QxButton("Open Modal Dialog 2");
+    var btn2 = new QxButton("Open Modal Dialog 2", "icons/16/wizard.png");
+    btn2.setLocation(10, 10);
     wm1._pane.add(btn2);
     
     btn2.addEventListener("click", function(e) {
       wm2.setVisible(true);
+    });
+    
+    
+    var chkm1 = new QxCheckBox("Modal?", null, null, true);
+    chkm1.setLocation(10, 40);
+    wm1._pane.add(chkm1);
+    
+    chkm1.addEventListener("changeChecked", function(e) {
+      wm1.setModal(e.getNewValue());
     });
     
     
