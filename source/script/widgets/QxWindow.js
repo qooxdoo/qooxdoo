@@ -12,13 +12,13 @@ function QxWindow(vCaption, vIcon)
 
 
   // ***********************************************************************
-  //   RESIZEFRAME
+  //   RESIZE AND MOVE FRAME
   // ***********************************************************************
-  this._resizeFrame = new QxWidget();
+  this._frame = new QxWidget();
   
-  this._resizeFrame.setBorder(QxBorder.presets.black);
-  this._resizeFrame.setTimerCreate(false);
-  this._resizeFrame.setOpacity(0.3);
+  this._frame.setBorder(QxBorder.presets.black);
+  this._frame.setTimerCreate(false);
+  this._frame.setOpacity(0.3);
 
 
 
@@ -95,6 +95,11 @@ QxWindow.addProperty({ name : "showIcon", type : Boolean, defaultValue : true })
 QxWindow.addProperty({ name : "resizeable", type : Boolean, defaultValue : true });
 QxWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true });
 
+QxWindow.addProperty({ name : "directMove", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "directResize", type : Boolean, defaultValue : false });
+
+QxWindow.addProperty({ name : "translucentMove", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "translucentResize", type : Boolean, defaultValue : false });
 
 
 
@@ -774,14 +779,14 @@ proto._onwindowmouseup = function(e)
     delete this._resizeMode;
     delete this._resizeFirst;
     
-    if (this._resizeFrame && this._resizeFrame.getParent())
+    if (this._frame && this._frame.getParent())
     {
-      this.setLeft(this._resizeFrame.getComputedPageBoxLeft() - this._resizeParentOffsetX);
-      this.setTop(this._resizeFrame.getComputedPageBoxTop() - this._resizeParentOffsetY);
-      this.setWidth(this._resizeFrame.getComputedBoxWidth());
-      this.setHeight(this._resizeFrame.getComputedBoxHeight());
+      this.setLeft(this._frame.getComputedPageBoxLeft() - this._resizeParentOffsetX);
+      this.setTop(this._frame.getComputedPageBoxTop() - this._resizeParentOffsetY);
+      this.setWidth(this._frame.getComputedBoxWidth());
+      this.setHeight(this._frame.getComputedBoxHeight());
       
-      this._resizeFrame.setParent(null);     
+      this._frame.setParent(null);     
     };    
     
     delete this._resizeParentOffsetX;
@@ -803,7 +808,7 @@ proto._onwindowmousemove = function(e)
   {
     var l, t, w, h;
 
-    var f = this._resizeFrame;
+    var f = this._frame;
 
     switch(this._resizeMode)
     {
@@ -969,6 +974,29 @@ proto._oncaptionmousedown = function(e)
     parentAvailableAreaRight : r - 5,
     parentAvailableAreaBottom : b - 5      
   };
+  
+  // handle frame and translucently
+  if (this.getDirectMove()) 
+  {
+    if (this.getTranslucentMove()) 
+    {
+      this._dragSession.oldOpacity = this.getOpacity();
+      this.setOpacity(0.5);
+    };
+  }  
+  else
+  {
+    var f = this._frame;
+    
+    f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
+    f._applyPositionVertical(this.getComputedPageBoxTop() - t);
+    
+    f._applySizeHorizontal(this.getComputedBoxWidth());
+    f._applySizeVertical(this.getComputedBoxHeight());
+    
+    f.setZIndex(this.getZIndex() + 1);
+    f.setParent(this.getParent());
+  };
 };
 
 proto._oncaptionmouseup = function(e)
@@ -989,7 +1017,19 @@ proto._oncaptionmouseup = function(e)
   
   if (isValidNumber(s.lastY)) {
     this.setTop(s.lastY);  
-  };  
+  };
+  
+  // handle frame and translucently
+  if (this.getDirectMove()) 
+  {
+    if (this.getTranslucentMove()) {
+      this.setOpacity(this._dragSession.oldOpacity);
+    };
+  }
+  else
+  {
+    this._frame.setParent(null);
+  };
   
   // cleanup session
   delete this._dragSession;
@@ -1010,8 +1050,16 @@ proto._oncaptionmousemove = function(e)
   };
 
   // use the fast and direct dom methods
-  this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-  this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+  if (this.getDirectMove()) 
+  {
+    this._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+    this._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+  }
+  else
+  {
+    this._frame._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
+    this._frame._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+  };
 };
 
 

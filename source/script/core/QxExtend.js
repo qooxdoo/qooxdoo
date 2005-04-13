@@ -140,6 +140,12 @@ Number.prototype.limit = function(vmin, vmax)
   };
 };
 
+Number.prototype.inrange = function(vmin, vmax)
+{
+  return this > vmin && this < vmax;
+};
+
+
 /* ********************************************************************
    Add Methods to Array
 ******************************************************************** */
