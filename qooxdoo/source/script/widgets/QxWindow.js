@@ -9,50 +9,41 @@ function QxWindow(vCaption, vIcon)
   this.addEventListener("mousedown", this._onwindowmousedown, this);
   this.addEventListener("mouseup", this._onwindowmouseup, this);
   this.addEventListener("mousemove", this._onwindowmousemove, this);
-
-
+  
   // ***********************************************************************
   //   RESIZE AND MOVE FRAME
   // ***********************************************************************
-  this._frame = new QxWidget();
+  var c = this._frame = new QxWidget();
   
-  this._frame.setTimerCreate(false);
-  this._frame.setBorder(QxBorder.presets.shadow);
-
-
+  c.setTimerCreate(false);
+  c.setBorder(QxBorder.presets.shadow);
 
   // ***********************************************************************
   //   CAPTIONBAR
   // ***********************************************************************
-  this._captionbar = new QxWidget;
-  this._captionbar.set({ cssClassName : "QxWindowCaptionBar", top : 0, left: 0, right : 0, height: 18 });
+  c = this._captionbar = new QxWidget;
+  c.set({ cssClassName : "QxWindowCaptionBar", top : 0, left: 0, right : 0, height: 18 });
 
-  this._captionbar.addEventListener("mousedown", this._oncaptionmousedown, this);
-  this._captionbar.addEventListener("mouseup", this._oncaptionmouseup, this);
-  this._captionbar.addEventListener("mousemove", this._oncaptionmousemove, this);
+  c.addEventListener("mousedown", this._oncaptionmousedown, this);
+  c.addEventListener("mouseup", this._oncaptionmouseup, this);
+  c.addEventListener("mousemove", this._oncaptionmousemove, this);
 
-  this.add(this._captionbar);
-
-
+  this.add(c);
 
   // ***********************************************************************
   //   PANE
   // ***********************************************************************
-  this._pane = new QxWidget;
-  this._pane.set({ cssClassName : "QxWindowPane", top : 18, bottom: 18, left: 0, right: 0 });
-  this.add(this._pane);
-
-
+  c = this._pane = new QxWidget;
+  c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 18, left: 0, right: 0 });
+  this.add(c);
 
   // ***********************************************************************
   //   STATUSBAR
   // ***********************************************************************
-  this._statusbar = new QxWidget;
-  this._statusbar.set({ cssClassName : "QxWindowStatusBar", bottom: 0, left: 0, right: 0, height: 18 });
-  this._statusbar.setBorder(QxBorder.presets.thinInset);
-  this.add(this._statusbar);
-
-
+  c = this._statusbar = new QxWidget;
+  c.set({ cssClassName : "QxWindowStatusBar", bottom: 0, left: 0, right: 0, height: 18 });
+  c.setBorder(QxBorder.presets.thinInset);
+  this.add(c);
 
   // ***********************************************************************
   //   ARGUMENTS
@@ -73,22 +64,65 @@ QxWindow.extend(QxPopup, "QxWindow");
   null (normal), minmized, maximized
 */
 
+/*!
+  If the window is active, only one window in a single QxWindowManager could
+  have set this to true at the same time.
+*/
 QxWindow.addProperty({ name : "active", type : Boolean, defaultValue : false });
+
+/*!
+  Should be window be modal (this disable minimize and maximize buttons)
+*/
 QxWindow.addProperty({ name : "modal", type : Boolean, defaultValue : false });
+
+/*!
+  The opener (button) of the window
+*/
 QxWindow.addProperty({ name : "opener", type : Object });
 
+/*!
+  The text of the caption
+*/
 QxWindow.addProperty({ name : "caption", type : String });
-QxWindow.addProperty({ name : "icon", type : String });
 
+/*!
+  Should the close button be shown
+*/
 QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true, impl : "showButton" });
+
+/*!
+  Should the maximize button be shown
+*/
 QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : true, impl : "showButton" });
+
+/*!
+  Should the minimize button be shown
+*/
 QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true, impl : "showButton" });
 
+/*!
+  Should the user have the ability to close the window
+*/
 QxWindow.addProperty({ name : "allowClose", type : Boolean, defaultValue : true });
+
+/*!
+  Should the user have the ability to maximize the window
+*/
 QxWindow.addProperty({ name : "allowMaximize", type : Boolean, defaultValue : true });
+
+/*!
+  Should the user have the ability to minimize the window
+*/
 QxWindow.addProperty({ name : "allowMinimize", type : Boolean, defaultValue : true });
 
+/*!
+  If the text (in the captionbar) should be visible
+*/
 QxWindow.addProperty({ name : "showCaption", type : Boolean, defaultValue : true });
+
+/*!
+  If the icon (in the captionbar) should be visible
+*/
 QxWindow.addProperty({ name : "showIcon", type : Boolean, defaultValue : true });
 
 /*!
@@ -181,11 +215,11 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
     };
 
     // Create Buttons if needed.
-    if (this.getShowMinimize() && !this._minimizeButton) {
+    if (this.getShowMinimize() && !this._minimizeButton && !this.getModal()) {
       this._pureCreateFillMinimizeButton();
     };
 
-    if (this.getShowMaximize())
+    if (this.getShowMaximize() && !this.getModal())
     {
       if (!this._restoreButton) {
         this._pureCreateFillRestoreButton();
@@ -838,8 +872,8 @@ proto._onwindowmousedown = function(e)
         s.parentAreaOffsetTop = t;
         s.parentAreaOffsetBottom = b;        
         
-        s.minHeight = this.getMinWidth();
-        s.maxHeight = this.getMaxWidth();      
+        s.minHeight = this.getMinHeight();
+        s.maxHeight = this.getMaxHeight();      
     };
   }
   else
