@@ -1936,12 +1936,20 @@ proto._applyStyleProperties = function(el)
 ------------------------------------------------------------------------------------
 */
 
-proto.getAnyWidth = function() {
-  return this.getWidth() || this.getPreferredWidth() || this.getComputedBoxWidth() || 0;
+proto.getAnyWidth = function() 
+{
+  var w = this.getWidth();
+  var wu = w == "auto" ? null : w;
+  
+  return wu || this.getPreferredWidth() || this.getComputedBoxWidth() || 0;
 };
 
-proto.getAnyHeight = function() {
-  return this.getHeight() || this.getPreferredHeight() || this.getComputedBoxHeight() || 0;
+proto.getAnyHeight = function() 
+{
+  var h = this.getHeight();
+  var hu = h == "auto" ? null : h;
+
+  return hu || this.getPreferredHeight() || this.getComputedBoxHeight() || 0;
 };
 
 
@@ -3728,7 +3736,6 @@ proto.getPreferredWidth = function()
 /*!
   Get the preferred height of the widget.
 */
-
 proto.getPreferredHeight = function()
 {
   if (this.getHeight() == "auto")
@@ -3758,6 +3765,14 @@ proto.getPreferredHeight = function()
   return this._preferred_height;
 };
 
+/*!
+  Set dimensions to preferred values.
+*/
+proto.pack = function()
+{
+  this.setWidth(this.getPreferredWidth());
+  this.setHeight(this.getPreferredHeight());
+};
 
 proto._childrenPreferredInvalidated = function(vModifiedWidget)
 {
