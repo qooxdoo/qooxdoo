@@ -1153,7 +1153,6 @@ html[QxFocused] {
   position: absolute; 
   background: ThreeDFace;
   color: black;
-  padding: 4px 0;
   overflow: hidden;
 }
 

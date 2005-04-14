@@ -147,6 +147,16 @@ QxWindow.addProperty({ name : "resizeMethod", type : String, defaultValue : "fra
 */
 QxWindow.addProperty({ name : "moveMethod", type : String, defaultValue : "opaque" });
 
+/*!
+  If the preferred width should be also the minimum width. (Recommend!)
+*/
+QxWindow.addProperty({ name : "usePreferredWidthAsMin", type : Boolean, defaultValue : true });
+
+/*!
+  If the preferred height should be also the minimum height. (Recommend!)
+*/
+QxWindow.addProperty({ name : "usePreferredHeightAsMin", type : Boolean, defaultValue : true });
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -156,6 +166,26 @@ QxWindow.addProperty({ name : "moveMethod", type : String, defaultValue : "opaqu
 
 proto._windowManager = new QxWindowManager();
 
+
+
+
+/*
+------------------------------------------------------------------------------------
+  SUB WIDGET GETTER
+------------------------------------------------------------------------------------
+*/
+
+proto.getPane = function() {
+  return this._pane;
+};
+
+proto.getCaptionbar = function() {
+  return this._captionbar;
+};
+
+proto.getStatusbar = function() {
+  return this._statusbar;
+};
 
 
 
@@ -217,6 +247,18 @@ proto._layoutInternalWidgetsHorizontal = function() {
 
 proto._layoutInternalWidgetsVertical = function() {
   return true;
+};
+
+proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) {  
+  return this._pane.getAnyWidth();
+};
+
+proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
+{
+  var h = this.getShowStatusbar() && this._statusbar ? this._statusbar.getAnyHeight() : 0;
+  h += this._pane.getAnyHeight() + this._captionbar.getAnyHeight();
+  
+  return h;
 };
 
 proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
@@ -974,8 +1016,8 @@ proto._onwindowmousedown = function(e)
         s.parentAreaOffsetLeft = l;
         s.parentAreaOffsetRight = r; 
         
-        s.minWidth = this.getMinWidth();
-        s.maxWidth = this.getMaxWidth();      
+        s.minWidth = this.getUsePreferredWidthAsMin() ? Math.max(this.getMinWidth(), this.getPreferredWidth()) : this.getMinWidth();
+        s.maxWidth = this.getMaxWidth();
     };
     
     switch(this._resizeMode)
@@ -995,7 +1037,7 @@ proto._onwindowmousedown = function(e)
         s.parentAreaOffsetTop = t;
         s.parentAreaOffsetBottom = b;        
         
-        s.minHeight = this.getMinHeight();
+        s.minHeight = this.getUsePreferredHeightAsMin() ? Math.max(this.getMinHeight(), this.getPreferredHeight()) : this.getMinHeight();
         s.maxHeight = this.getMaxHeight();      
     };
   }
