@@ -2513,7 +2513,7 @@ proto._renderHelper = function(vId, vIdUp, vHint, vNameStart, vNameRange, vNameS
 
 
     function limitSize(vValue) {
-      return vValue.limit(vValueRangeMin, vValueRangeMax);
+      return isValidNumber(vValue) ? vValue.limit(vValueRangeMin, vValueRangeMax) : 0;
     };
 
 
@@ -2837,9 +2837,16 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
     return;
   };
 
-  if (this.getWidth() == "auto")
+  var w = this.getWidth();
+  
+  if (w == "auto")
   {
     return this._setChildrenDependWidth(vModifiedChild, vHint);
+  }
+  else if (w == null || typeof w == "string")
+  {
+    this._lastChildWithInvalidatedPreferredWidth = vModifiedChild;
+    this._invalidatePreferredWidth();
   };
 };
 
@@ -2849,9 +2856,16 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
     return;
   };
 
-  if (this.getHeight() == "auto")
+  var h = this.getHeight();
+  
+  if (h == "auto")
   {
     return this._setChildrenDependHeight(vModifiedChild, vHint);
+  }
+  else if (h == null || typeof h == "string")
+  {
+    this._lastChildWithInvalidatedPreferredHeight = vModifiedChild;
+    this._invalidatePreferredHeight();
   };
 };
 
@@ -3109,10 +3123,8 @@ proto._modifyVerticalHelper = function(propValue, propName)
 
 proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
 {
-  // this.debug("depend width: widget=" + vModifiedWidget + ", hint=" + vHint);
-
   var newWidth = this._calculateChildrenDependWidth(vModifiedWidget, vHint);
-
+  
   if (newWidth != null)
   {
     this.setWidth(newWidth, null, "inner", true);
@@ -3131,10 +3143,8 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) {
 
 proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
 {
-  // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
-
   var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
-
+  
   if (newHeight != null)
   {
     this.setHeight(newHeight, null, "inner", true);
@@ -3191,7 +3201,8 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
     {
       vCurrentChild = vChildren[i];
 
-      if(vCurrentChild.isCreated())
+      //if(vCurrentChild.isCreated())
+      if (vCurrentChild._wasVisible)
       {
         vCurrentNeeded = vCurrentChild._computeNeededSize(vStart, vRange, vStop);
 
@@ -3216,8 +3227,6 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
         vModifiedWidget = this._lastChildWithInvalidatedPreferredWidth;
         this._lastChildWithInvalidatedPreferredWidth = null;
       };
-
-      // this.debug("POST-FIX: " + vRange + " : " + vModifiedWidget);
     };
 
     if (vModifiedWidget && vModifiedWidget != this)
@@ -3237,7 +3246,6 @@ proto._calculateChildrenDependHelper = function(vModifiedWidget, vHint, vCache, 
             // Update child in array
             if (vModifiedWidget.getParent() == this)
             {
-              // this.debug("Update for: " + vModifiedWidget);
               vCurrentNeeded = vModifiedWidget._computeNeededSize(vStart, vRange, vStop);
               vDependCache[i].size = vCurrentNeeded ? vCurrentNeeded : 0;
             }
@@ -3788,17 +3796,17 @@ proto._childrenPreferredWidthInvalidated = function(vModifiedWidget)
   if (!this._wasVisible) {
     return;
   };
-
+  
   this._lastChildWithInvalidatedPreferredWidth = vModifiedWidget;
 
   if (this.getWidth() == "auto")
   {
-    //this.debug("Children preferred width invalidated! [1]");
+    // this.debug("Children preferred width invalidated! [1]: " + vModifiedWidget.getCssClassName());
     this._setChildrenDependWidth(vModifiedWidget, "preferred");
   }
   else
   {
-    //this.debug("Children preferred width invalidated! [2]");
+    //this.debug("Children preferred width invalidated! [2]: " + vModifiedWidget);
     this._invalidatePreferredWidth(vModifiedWidget);
   };
 };
@@ -3808,7 +3816,7 @@ proto._childrenPreferredHeightInvalidated = function(vModifiedWidget)
   if (!this._wasVisible) {
     return;
   };
-
+  
   this._lastChildWithInvalidatedPreferredHeight = vModifiedWidget;
 
   if (this.getHeight() == "auto")
