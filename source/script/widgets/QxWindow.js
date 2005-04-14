@@ -32,7 +32,7 @@ function QxWindow(vCaption, vIcon)
   c = this._pane = new QxWidget;
   c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 0, left: 0, right: 0 });
   this.addToWindow(c);
-
+  
   // ***********************************************************************
   //   ARGUMENTS
   // ***********************************************************************
@@ -249,11 +249,11 @@ proto._layoutInternalWidgetsVertical = function() {
   return true;
 };
 
-proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) {  
+proto._calculateChildrenDependWidth = function() {  
   return this._pane.getAnyWidth();
 };
 
-proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
+proto._calculateChildrenDependHeight = function() 
 {
   var h = this.getShowStatusbar() && this._statusbar ? this._statusbar.getAnyHeight() : 0;
   h += this._pane.getAnyHeight() + this._captionbar.getAnyHeight();
@@ -307,10 +307,14 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
   return QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
+proto._setChildrenDependWidth = QxWidget.prototype._setChildrenDependWidth;
+proto._setChildrenDependHeight = QxWidget.prototype._setChildrenDependHeight;
 
+proto._childOuterWidthChanged = QxWidget.prototype._childOuterWidthChanged;
+proto._childOuterHeightChanged = QxWidget.prototype._childOuterHeightChanged;
 
-
-
+proto._calculateChildrenDependHelper = QxWidget.prototype._calculateChildrenDependHelper;
+ 
 /*
 ------------------------------------------------------------------------------------
   MODIFIERS
