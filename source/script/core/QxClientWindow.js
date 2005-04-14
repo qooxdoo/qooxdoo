@@ -10,8 +10,10 @@ function QxClientWindow(windowElement)
   this._element = windowElement;
   
   // Add Unload Event
-  this._addUnloadEvent();
-  
+  if (windowElement == window) {
+    this._addUnloadEvent();
+  };
+
   // Document
   this._clientDocument = new QxClientDocument(this);
 

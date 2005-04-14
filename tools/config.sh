@@ -150,3 +150,6 @@ L="$L core/QxCommand"
 # Window
 L="$L managers/QxWindowManager"
 L="$L widgets/QxWindow"
+
+# Native Window
+L="$L core/QxNativeWindow"

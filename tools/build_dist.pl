@@ -603,7 +603,11 @@ __DATA__
     <class>QxWindow</class>
   </package>
   
-  
+  <package name="nativewindow">
+    <depends>target</depends>
+    
+    <class>QxNativeWindow</class>
+  </package>
   
   
   
