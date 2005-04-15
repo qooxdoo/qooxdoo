@@ -156,40 +156,48 @@ proto.detachEvents = function()
 
 proto.attachEventTypes = function(eventTypes, functionPointer)
 {
-  var d = this._attachedClientWindow.getClientDocument().getElement();
-
-  // MSHTML Method to add events
-  if (d.attachEvent) {
-    for (var i=0; i<eventTypes.length; i++) {
-      d.attachEvent("on" + eventTypes[i], functionPointer);
+  try
+  {
+    var d = this._attachedClientWindow.getClientDocument().getElement();
+  
+    // MSHTML Method to add events
+    if (d.attachEvent) {
+      for (var i=0; i<eventTypes.length; i++) {
+        d.attachEvent("on" + eventTypes[i], functionPointer);
+      };
+    }
+  
+    // Default W3C Method to add events
+    else if (d.addEventListener) {
+      for (var i=0; i<eventTypes.length; i++) {
+        d.addEventListener(eventTypes[i], functionPointer, false);
+      };
     };
   }
-
-  // Default W3C Method to add events
-  else if (d.addEventListener) {
-    for (var i=0; i<eventTypes.length; i++) {
-      d.addEventListener(eventTypes[i], functionPointer, false);
-    };
-  };
+  catch(ex) {};  
 };
 
 proto.detachEventTypes = function(eventTypes, functionPointer)
 {
-  var d = this._attachedClientWindow.getClientDocument().getElement();
-
-  // MSHTML Method to add events
-  if (d.detachEvent) {
-    for (var i=0; i<eventTypes.length; i++) {
-      d.detachEvent("on" + eventTypes[i], functionPointer);
+  try
+  {
+    var d = this._attachedClientWindow.getClientDocument().getElement();
+  
+    // MSHTML Method to add events
+    if (d.detachEvent) {
+      for (var i=0; i<eventTypes.length; i++) {
+        d.detachEvent("on" + eventTypes[i], functionPointer);
+      };
+    }
+  
+    // Default W3C Method to add events
+    else if (d.removeEventListener) {
+      for (var i=0; i<eventTypes.length; i++) {
+        d.removeEventListener(eventTypes[i], functionPointer, false);
+      };
     };
   }
-
-  // Default W3C Method to add events
-  else if (d.removeEventListener) {
-    for (var i=0; i<eventTypes.length; i++) {
-      d.removeEventListener(eventTypes[i], functionPointer, false);
-    };
-  };
+  catch(ex) {};
 };
 
 

@@ -25,6 +25,41 @@
   <script type="text/javascript">   
   window.application.main = function()
   {
+    var w1 = new QxNativeWindow("My first QxNativeWindow");
+
+    w1.addEventListener("ready", function()
+    {    
+      this.getPane().setPadding(10);
+      
+      var a1 = new QxAtom("Welcome to your first own QxNativeWindow.<br/>Have fun!", "icons/32/favorites.png");
+      a1.set({ top: 0, left: 0 });
+      a1.setTimerCreate(false);
+      this.add(a1);
+
+      var chk1 = new QxCheckBox("Modal");
+      chk1.setTimerCreate(false);
+      chk1.set({ top : 40, left : 0 });
+      chk1.addEventListener("changeChecked", function(e) { w1.setModal(e.getNewValue()); });
+
+      var btn1 = new QxButton("Yes", "icons/16/button_ok.png");
+      btn1.setTimerCreate(false);
+      btn1.set({ top: 70, left : 0 });
+      btn1.addEventListener("click", function(e) { alert("Yes"); });
+      
+      var btn2 = new QxButton("No", "icons/16/button_cancel.png");
+      btn2.setTimerCreate(false);
+      btn2.set({ top: 70, right : 0 });
+      btn2.addEventListener("click", function(e) { alert("No"); });
+      
+      this.add(chk1, btn1, btn2);
+    });
+    
+    
+    
+    
+    
+    
+    
     var d = this.getClientWindow().getDocument();
 
     var btn1 = new QxButton("Open Native Window");
@@ -37,42 +72,8 @@
 
     d.add(btn1);
 
-    var w1 = new QxNativeWindow;
 
-    w1.main = function()
-    {    
-      this.getPane().setPadding(10);
-          
-      var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
-      a1.set({ top: 0, left: 0 });
-      a1.setTimerCreate(false);
-      this.add(a1);
-
-      var btn1 = new QxButton("Yes", "icons/16/button_ok.png");
-      btn1.setTimerCreate(false);
-      btn1.set({ top: 70, left : 0 });
-      
-      var btn2 = new QxButton("No", "icons/16/button_cancel.png");
-      btn2.setTimerCreate(false);
-      btn2.set({ top: 70, right : 0 });
-      
-      this.add(btn1, btn2);
-
-
-
-      function btnClick2() { alert("Clicked on: " + this.getText()); };
-
-      var btn3 = new QxButton("Button No #1");
-      with(btn3)
-        {
-          setTop(144);
-          setLeft(0);
-          addEventListener("click", btnClick2);
-        };
-
-      btn3.setTimerCreate(false);
-      this.add(btn3);
-    };
+    
 
     var fs1 = new QxFieldSet("Settings (initial)");
     fs1.setLocation(20, 96);
