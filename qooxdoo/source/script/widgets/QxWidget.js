@@ -485,7 +485,7 @@ proto.getStyle = function()
   Create widget with empty element (of specified tagname).
 */
 proto._createElement = function(uniqModIds) {
-  return this.setElement(document.createElement(this.getTagName()), uniqModIds);
+  return this.setElement(this.getTopLevelWidget().getDocumentElement().createElement(this.getTagName()), uniqModIds);
 };
 
 /*!
@@ -561,7 +561,7 @@ proto._shouldBecomeVisible = function() {
 */
 proto._appendElement = function(otherObject)
 {
-  // this.subug("append element");
+  //  this.subug("append element");
 
   var pl = this._getParentNodeForChild(otherObject);
 
@@ -4212,16 +4212,19 @@ if ((new QxClient).isOpera())
 
     // Create Layer above all content
     // resize it to body dimensions, and push it to the body
-    var z = document.createElement("div");
-    z.style.height = (document.body.offsetHeight) + "px";
-    z.style.width = (document.body.offsetWidth) + "px";
+
+    var d = this.getTopLevelWidget().getDocumentElement();
+
+    var z = d.createElement("div");
+    z.style.height = (d.body.offsetHeight) + "px";
+    z.style.width = (d.body.offsetWidth) + "px";
     z.style.top = "0px";
     z.style.left = "0px";
     z.style.position = "absolute";
     z.style.backgroundColor = "blue";
     z.style.zIndex = "100000000000000";
 
-    document.body.appendChild(z);
+    d.body.appendChild(z);
 
     var el = this.getElement();
 
@@ -4237,7 +4240,7 @@ if ((new QxClient).isOpera())
     el.style.left = l;
 
     // Remove overlay layer
-    document.body.removeChild(z);
+    d.body.removeChild(z);
   };
 }
 else
