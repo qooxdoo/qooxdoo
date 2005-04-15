@@ -19,40 +19,120 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p>Testing auto dimension possibility of QxWindow.</p>
+    <p>Native Windows.</p>
   </div>
 
-  <script type="text/javascript">
+  <script type="text/javascript">   
   window.application.main = function()
   {
     var d = this.getClientWindow().getDocument();
-    
 
-    var nw1 = new QxNativeWindow;
-    
-    nw1.open();
-    
-    
-    
-    
-    var dnw1 = nw1.getClientWindow().getClientDocument();
-    
-    dnw1.setBackgroundColor("white");
-    
-    var w1 = new QxAtom("Hello World", "icons/32/colors.png");
-    
-    w1.setLocation(50, 50);
-    
-    dnw1.add(w1);
-    
-    alert(dnw1);
-    
-    alert(dnw1.getElement().innerHTML);
-    
-    
-    
+    var btn1 = new QxButton("Open Native Window");
+    with(btn1)
+    {
+      setTop(48);
+      setLeft(20);
+      addEventListener("click", function() { w1.open(); } );
+    };
+
+    d.add(btn1);
+
+    var w1 = new QxNativeWindow;
+
+    w1.main = function()
+    {    
+      this.getPane().setPadding(10);
+          
+      var a1 = new QxAtom("Welcome to your first own Window.<br/>Have fun!", "icons/32/favorites.png");
+      a1.set({ top: 0, left: 0 });
+      a1.setTimerCreate(false);
+      this.add(a1);
+
+      var btn1 = new QxButton("Yes", "icons/16/button_ok.png");
+      btn1.setTimerCreate(false);
+      btn1.set({ top: 70, left : 0 });
+      
+      var btn2 = new QxButton("No", "icons/16/button_cancel.png");
+      btn2.setTimerCreate(false);
+      btn2.set({ top: 70, right : 0 });
+      
+      this.add(btn1, btn2);
 
 
+
+      function btnClick2() { alert("Clicked on: " + this.getText()); };
+
+      var btn3 = new QxButton("Button No #1");
+      with(btn3)
+        {
+          setTop(144);
+          setLeft(0);
+          addEventListener("click", btnClick2);
+        };
+
+      btn3.setTimerCreate(false);
+      this.add(btn3);
+    };
+
+    var fs1 = new QxFieldSet("Settings (initial)");
+    fs1.setLocation(20, 96);
+    fs1.setDimension( 200, "auto");
+    
+    
+    var chk1 = new QxCheckBox("Resizeable");
+    chk1.setLocation(0, 0);    
+    chk1.setChecked(true);
+    chk1.addEventListener("changeChecked", function(e) {
+      w1.setResizeable(e.getNewValue());
+    });
+
+    var chk2 = new QxCheckBox("Show Statusbar");
+    chk2.setLocation(0, 20);    
+    chk2.setChecked(false);
+    chk2.addEventListener("changeChecked", function(e) {
+      w1.setShowStatusbar(e.getNewValue());
+    });       
+    
+    fs1.add(chk1, chk2);
+    fs1.setTimerCreate(false);
+    d.add(fs1);
+
+
+    var fs2 = new QxFieldSet("Settings (runtime)");
+    fs2.setLocation(20, fs1.getComputedClientBoxBottom() + 20);
+    fs2.setDimension(fs1.getComputedBoxWidth(), "auto");
+    
+    
+    var btn1 = new QxButton("Set Caption");
+    with(btn1)
+    {
+      setLocation(0, 0);    
+      addEventListener("click", function() { w1.setCaption("Hello, World!"); } );
+    };
+
+    var chk2 = new QxCheckBox("Show Statusbar");
+    chk2.setLocation(0, 20);    
+    chk2.setChecked(false);
+    chk2.addEventListener("changeChecked", function(e) {
+      w1.setShowStatusbar(e.getNewValue());
+    });       
+    
+    fs2.add(btn1, chk2);
+
+    fs1.addEventListener("resizeHorizontal", function() { 
+      fs2.setWidth(this.getPixelOfWidth());
+    });
+
+    fs1.addEventListener("resizeVertical", function() { 
+      fs2.setTop(this.getTop() + this.getPixelOfHeight() + 10);
+    });
+
+    fs2.addEventListener("resizeHorizontal", function() { 
+      fs1.setWidth(this.getPixelOfWidth());
+    });
+
+    d.add(fs2);
+    
   };
   </script>
 </body>
