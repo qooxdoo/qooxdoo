@@ -8,11 +8,10 @@ function QxClientWindow(windowElement)
 
   // Bind element nodes
   this._element = windowElement;
+  this._element._QxClientWindow = this;
   
   // Add Unload Event
-  if (windowElement == window) {
-    this._addUnloadEvent();
-  };
+  this._addUnloadEvent(windowElement);
 
   // Document
   this._clientDocument = new QxClientDocument(this);
@@ -49,22 +48,40 @@ proto.getElement = function() { return this._element; };
 
 if ((new QxClient).isMshtml())
 {
-  proto._addUnloadEvent = function() {
-    this._element.attachEvent("onunload", new Function("(new QxApplication).dispose();"));
+  proto._addUnloadEvent = function(el) 
+  {
+    if (el == window)
+    {
+      el.attachEvent("onunload", new Function("(new QxApplication).dispose();"));
+    }
+    else
+    {
+      el.attachEvent("onunload", function(e) {
+        el._QxClientWindow.dispose();
+      });
+    };
   };  
 }
 else if ((new QxClient).isGecko())
 {
-  proto._addUnloadEvent = function() {
-    this._element.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+  proto._addUnloadEvent = function(el) 
+  {
+    if (el == window)
+    {
+      el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+    }
+    else
+    {
+      el.addEventListener("unload", function(e) {
+        el._QxClientWindow.dispose();
+      }, false);  
+    };
   };  
 }
 else
 {
-  proto._addUnloadEvent = function() 
+  proto._addUnloadEvent = function(el) 
   {
-    var el = this._element;
-
     // check for existing function (otherwise old operas <7.6 fails here)
     if (el.addEventListener) {
       el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
@@ -90,12 +107,28 @@ proto.dispose = function()
     return;
   };
 
-  if (this._eventManager) {
+  if (this._element)
+  {
+    this._element._QxClientWindow = null;
+    this._element = null;
+  };
+
+  if (this._eventManager) 
+  {
     this._eventManager.dispose();
+    this._eventManager = null;
   };
     
-  if (this._focusManager) {
+  if (this._focusManager) 
+  {
     this._focusManager.dispose();
+    this._focusManager = null;
+  };
+  
+  if (this._clientDocument) 
+  {
+    this._clientDocument.dispose();
+    this._clientDocument = null;
   };
   
   QxTarget.prototype.dispose.call(this);

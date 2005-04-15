@@ -129,11 +129,30 @@ proto.attachEvents = function(clientWindow)
   this.attachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
   // Add window events
-  var winElem = clientWindow.getElement();
+  this.attachWindowEvents();
+};
 
-  winElem.onblur = this.__onwindowblur;
-  winElem.onfocus = this.__onwindowfocus;
-  winElem.onresize = this.__onwindowresize;
+if ((new QxClient).isMshtml())
+{
+  proto.attachWindowEvents = function()
+  {
+    var winElem = this._attachedClientWindow.getElement();
+
+    winElem.attachEvent("onblur", this.__onwindowblur);
+    winElem.attachEvent("onfocus", this.__onwindowfocus);
+    winElem.attachEvent("onresize", this.__onwindowresize);
+  };
+}
+else
+{
+  proto.attachWindowEvents = function()
+  {
+    var winElem = this._attachedClientWindow.getElement();
+  
+    winElem.addEventListener("blur", this.__onwindowblur, false);
+    winElem.addEventListener("focus", this.__onwindowfocus, false);
+    winElem.addEventListener("resize", this.__onwindowresize, false);
+  };  
 };
 
 proto.detachEvents = function()
@@ -143,8 +162,7 @@ proto.detachEvents = function()
   };
 
   // Remove window events
-  var winElem = this._attachedClientWindow.getElement();
-  winElem.onblur = winElem.onfocus = winElem.onresize = null;
+  this.detachWindowEvents();
 
   // Remove dom events
   this.detachEventTypes(QxEventManager.mouseEventTypes, this.__onmouseevent);
@@ -152,6 +170,37 @@ proto.detachEvents = function()
   this.detachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
   this._attachedClientWindow = null;
+};
+
+if ((new QxClient).isMshtml())
+{
+  proto.detachWindowEvents = function()
+  {
+    try
+    {
+      var winElem = this._attachedClientWindow.getElement();
+    
+      winElem.detachEvent("onblur", this.__onwindowblur);
+      winElem.detachEvent("onfocus", this.__onwindowfocus);
+      winElem.detachEvent("onresize", this.__onwindowresize);
+    }
+    catch(ex) {};
+  };
+}
+else
+{
+  proto.detachWindowEvents = function()
+  {
+    try
+    {
+      var winElem = this._attachedClientWindow.getElement();
+
+      winElem.removeEventListener("blur", this.__onwindowblur, false);
+      winElem.removeEventListener("focus", this.__onwindowfocus, false);
+      winElem.removeEventListener("resize", this.__onwindowresize, false);
+    }
+    catch(ex) {};
+  };
 };
 
 proto.attachEventTypes = function(eventTypes, functionPointer)
