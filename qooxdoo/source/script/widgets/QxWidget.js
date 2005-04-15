@@ -961,6 +961,7 @@ proto._oninlineevent = function(e)
     case "blur":
     case "select":
     case "scroll":
+    case "load":
       break;
 
     case "propertychange":
@@ -4936,10 +4937,10 @@ proto.dispose = function()
     delete this._children;
   };
 
-  var el = this.getElement();
-  if(el) {
-    el._QxWidget = null;
-  };
+  try{
+    this.getElement()._QxWidget = null;
+  }
+  catch(ex) {};
 
   delete this._usedDimensionsHorizontal;
   delete this._usedDimensionsVertical;
