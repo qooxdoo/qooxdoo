@@ -287,7 +287,10 @@ QxWidget.addProperty({ name : "dropDataTypes", type : Object });
 */
 QxWidget.addProperty({ name : "command", type : Object });
 
-
+/*!
+  Appearance of the widget
+*/
+QxWidget.addProperty({ name : "appearance", type : String });
 
 
 
@@ -1753,6 +1756,22 @@ proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
 
 
 
+
+/*
+------------------------------------------------------------------------------------
+  APPEARANCE MODIFIER
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyAppearance = function(propValue, propOldValue, propName, uniqModIds)
+{
+  //var tm = window.application.getThemeManager();
+  
+  //tm.setAppearance(this, propValue);
+  //tm.addAppearance(this);
+  
+  return true;
+};
 
 
 
