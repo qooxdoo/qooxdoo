@@ -13,13 +13,25 @@ function QxNativeWindow(vCaption)
 
 QxNativeWindow.extend(QxTarget, "QxNativeWindow");
 
-QxNativeWindow.addProperty({ name : "width", type : Number, defaultValue : 400 });
-QxNativeWindow.addProperty({ name : "height", type : Number, defaultValue : 250 });
+/*!
+  The outer width of the window.
+*/
+QxNativeWindow.addProperty({ name : "width", defaultValue : 400, groups : [ "dimension" ] });
 
-QxNativeWindow.addProperty({ name : "left", type : Number });
-QxNativeWindow.addProperty({ name : "top", type : Number });
+/*!
+  The outer height of the window.
+*/
+QxNativeWindow.addProperty({ name : "height", defaultValue : 250, groups : [ "dimension" ] });
 
+/*!
+  The left screen coordinate of the window.
+*/
+QxNativeWindow.addProperty({ name : "left", type : Number, defaultValue : 100, groups : [ "location" ] });
 
+/*!
+  The top screen coordinate of the window.
+*/
+QxNativeWindow.addProperty({ name : "top", type : Number, defaultValue : 200, groups : [ "location" ] });
 
 /*!
   Should be window be modal
@@ -42,11 +54,39 @@ QxNativeWindow.addProperty({ name : "status", type : String, defaultValue : "Rea
 QxNativeWindow.addProperty({ name : "showStatusbar", type : Boolean, defaultValue : false });
 
 /*!
+  Should the menubar be shown
+*/
+QxNativeWindow.addProperty({ name : "showMenubar", type : Boolean, defaultValue : false });
+
+/*!
+  Should the location(bar) be shown
+*/
+QxNativeWindow.addProperty({ name : "showLocation", type : Boolean, defaultValue : false });
+
+/*!
+  Should the toolbar be shown
+*/
+QxNativeWindow.addProperty({ name : "showToolbar", type : Boolean, defaultValue : false });
+
+/*!
+  Should the caption be shown
+*/
+QxNativeWindow.addProperty({ name : "showCaption", type : Boolean, defaultValue : true });
+
+/*!
   If the window is resizeable
 */
 QxNativeWindow.addProperty({ name : "resizeable", type : Boolean, defaultValue : true });
 
+/*!
+  If the window is moveable
+*/
+QxNativeWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true });
 
+/*!
+  If the window is able to scroll and has visible scrollbars if needed
+*/
+QxNativeWindow.addProperty({ name : "allowScrollbars", type : Boolean, defaultValue : false });
 
 
 
@@ -93,15 +133,17 @@ proto.add = proto.addToPane;
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyCaption = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._applyCaption();  
-  return true;
+proto._modifyCaption = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._applyCaption();  
+};
+
+proto._modifyShowCaption = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._applyCaption();    
 };
 
 proto._applyCaption = function()
 {
-  if (this._window) 
+  if (this._window && this._instance) 
   {
     var v = "";
     
@@ -115,6 +157,8 @@ proto._applyCaption = function()
     
     this._instance.getClientDocument().getDocumentElement().title = v;
   };
+  
+  return true;
 };
 
 
@@ -143,15 +187,24 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */ 
   
-  var conf = "";
+  var conf = "dependent=yes,";
   
   if (isValidNumber(this.getWidth())) {
     conf += "width=" + this.getWidth() + ",";
   };
-  
-  if (isValidNumber(this.getHeight())) {
+   
+  if (isValidNumber(this.getHeight())) 
+  {
     conf += "height=" + this.getHeight() + ",";
   };
+  
+  if (isValidNumber(this.getLeft())) {
+    conf += "left=" + this.getLeft() + ",";
+  };
+  
+  if (isValidNumber(this.getTop())) {
+    conf += "top=" + this.getTop() + ",";
+  };  
   
   /*
     http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -164,7 +217,11 @@ proto.open = function()
 
   conf += "resizable=" + (this.getResizeable() ? "yes" : "no") + ",";
   conf += "status=" + (this.getShowStatusbar() ? "yes" : "no") + ",";
-  
+  conf += "location=" + (this.getShowLocation() ? "yes" : "no") + ",";
+  conf += "menubar=" + (this.getShowMenubar() ? "yes" : "no") + ",";
+  conf += "toolbar=" + (this.getShowToolbar() ? "yes" : "no") + ",";
+  conf += "scrollbars=" + (this.getAllowScrollbars() ? "yes" : "no") + ",";
+  conf += "modal=" + (this.getModal() ? "yes" : "no") + ",";
 
 
   /* 
@@ -178,6 +235,20 @@ proto.open = function()
 
 
 
+
+  /* 
+  -----------------------------------------------------------------------------
+    BLOCKER
+  -----------------------------------------------------------------------------
+  */
+  
+  if (this.getModal()) {
+    window.application.getClientWindow().getClientDocument().block();
+  };
+  
+
+
+
   /* 
   -----------------------------------------------------------------------------
     OPEN WINDOW
@@ -185,6 +256,22 @@ proto.open = function()
   */
   
   this._window = window.open("about:blank", "w" + this.toHash(), conf);
+  this._window._QxClientWindow = this;
+  
+
+  /* 
+  -----------------------------------------------------------------------------
+    POST FIX (ESPECIALLY FOR GECKO)
+  -----------------------------------------------------------------------------
+  */  
+  
+  if (isValidNumber(this.getWidth()) && isValidNumber(this.getHeight())) {
+    this._window.resizeTo(this.getWidth(), this.getHeight());
+  };
+
+  if (isValidNumber(this.getLeft()) && isValidNumber(this.getTop())) {
+    this._window.moveTo(this.getLeft(), this.getTop());
+  };
 };
 
 
@@ -221,10 +308,28 @@ proto.blur = function()
 
 proto._ontimer = function(e)
 {
-  if (!this._window || this._timerRun) {
+  if (this._readyState && (!this._window || (this._window && this._window.closed))) 
+  {
+    if (this.getModal()) {
+      window.application.getClientWindow().getClientDocument().release();
+    };    
+    
+    this._timer.stop();
+    
+    if (this._instance) 
+    {
+      this._instance.dispose();
+      this._instance = null;
+    };
+    
+    this._readyState = null;    
     return;
   };
   
+  if (!this._window || this._timerRun) {
+    return;
+  };
+
   this._timerRun = true;
   
   
@@ -240,13 +345,27 @@ proto._ontimer = function(e)
       break;
 
     case 1:
+      // Find stylesheet
+      var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
+
+      for (var i=0, l=ls.length; i<l; i++)
+      {
+        if (ls[i].getAttribute("href").indexOf("layouts/") != -1) {
+          var s = ls[i].getAttribute("href");
+          break;
+        };
+      };
+      
       var d = this._window.document;
 
       d.open("text/html", true);
       
       d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
-      d.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
-      d.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">');
+      
+      // Some magick for our optimizer
+      d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
+      d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
+      
       d.write('<head>');
       d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
       d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
@@ -255,12 +374,16 @@ proto._ontimer = function(e)
       d.write('<meta http-equiv="Expires" content="-1" />');
       d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
       d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
-      d.write('<title>' + this.getCaption() + '</title>');
-      d.write('<link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>');
-      d.write('</head>');
-      d.write('<body>');
-      d.write('</body>');
-      d.write('</html>');
+      
+      if (this.getShowCaption()) {
+        d.write('<title>' + this.getCaption() + '</title>');
+      };
+      
+      if (isValidString(s)) {
+        d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
+      };
+       
+      d.write('</head><body></body></html>');
       
       d.close();
       
@@ -299,18 +422,55 @@ proto._ontimer = function(e)
       this._window.focus();
       this._readyState++;
       
+      this._timer.restart();      
       break;
       
-    case 5:
-      this._timer.restartWith(10);
-    
+    case 5:     
+      if (!this.getMoveable()) {
+        this._window.moveTo(this.getLeft(), this.getTop());
+      };
+      
+      if (!this.getResizeable()) 
+      {
+        if (this.getWidth() == "auto" || this.getHeight() == "auto")
+        {
+          if (this.getWidth() == "auto") {
+            w = this._instance.getClientDocument().getPreferredWidth();
+          };
+        
+          if (this.getHeight() == "auto") {
+            h = this._instance.getClientDocument().getPreferredHeight();
+          };          
+            
+          if (isValidNumber(h)) 
+          {
+            if ((new QxClient).isMshtml())
+            {
+              this._window.resizeTo(isValidNumber(w) ? w + 4 : this.getWidth(), isValidNumber(h) ? h + 4 + 24 : this.getHeight());  
+            }
+            else
+            {
+              if (isValidNumber(w)) {
+                this._window.innerWidth = w;
+              };
+              
+              if (isValidNumber(h)) {
+                this._window.innerHeight = h;
+              };
+            };
+          };
+        }
+        else
+        {
+          this._window.resizeTo(this.getWidth(), this.getHeight()); 
+        };
+      };
+      
       if (this.getModal()) {
         this._window.focus();
       };
       
-      
-      
-
+      break;
   };  
   
   delete this._timerRun;
@@ -333,12 +493,6 @@ proto.dispose = function()
     return;
   };
   
-  if (this._pane)
-  {
-    this._pane.dispose();
-    this._pane = null;
-  };
-  
   if (this._timer)
   {
     this._timer.removeEventListener("interval", this._ontimer);
@@ -346,12 +500,37 @@ proto.dispose = function()
     
     this._timer = null;
   };
+
+  if (this._instance) 
+  {
+    this._instance.dispose();
+    this._instance = null;
+  };
   
-  QxTarget.prototype.dispose.call(this);
-  
+  if (this._pane)
+  {
+    this._pane.dispose();
+    this._pane = null;
+  };  
+
   if (this._window)
   {
     this.close();
+
+    try
+    {
+      if (this._window._QxClientWindow)
+      {
+        this._window._QxClientWindow.dispose();
+        this._window._QxClientWindow = null;
+      };
+    }
+    catch(ex) {};
+
     this._window = null;
   };
+  
+  this._readyState = null;
+  
+  return QxTarget.prototype.dispose.call(this);
 };
