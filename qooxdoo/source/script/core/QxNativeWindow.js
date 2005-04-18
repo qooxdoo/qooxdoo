@@ -443,8 +443,8 @@ proto._ontimer = function(e)
           if (this.getHeight() == "auto") {
             h = this._instance.getClientDocument().getPreferredHeight();
           };          
-            
-          if (isValidNumber(h)) 
+
+          if (isValidNumber(w) || isValidNumber(h)) 
           {
             if ((new QxClient).isMshtml())
             {
@@ -457,7 +457,11 @@ proto._ontimer = function(e)
               };
               
               if (isValidNumber(h)) {
-                this._window.innerHeight = h;
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
+                // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
+                if( this._window.innerHeight != 150 && h != 150) {
+                  this._window.innerHeight = h;
+                };
               };
             };
           };
