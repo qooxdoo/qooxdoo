@@ -29,8 +29,22 @@
     
     w1.setDimension(280, 170);
 
+    /*
+    w1.setSource("http://www.google.de");
+
     w1.addEventListener("ready", function()
-    {    
+    {
+      this.debug("ready");
+    });
+
+    w1.addEventListener("load", function()
+    {
+      this.debug("load");
+    });
+    */
+    
+    w1.addEventListener("ready", function()
+    {
       this.getPane().setPadding(10);
       
       var a1 = new QxAtom("Welcome to your first own QxNativeWindow.<br/>Have fun!", "icons/32/favorites.png");
@@ -162,27 +176,34 @@
     
     
     
-    var tf2 = new QxTextField(400);
+    var tf2 = new QxTextField(280);
     tf2.setLocation(0, 102);
     tf2.setWidth(50);    
     
     var btn2 = new QxButton("Set Width", "icons/16/button_ok.png");
     btn2.setLocation(55, 100);    
-    btn2.addEventListener("click", function() { w1.setWidth(tf2.getText()); });    
+    btn2.addEventListener("click", function() { w1.setWidth(parseInt(tf2.getText())); });    
+
+    var btn4 = new QxButton("Set Auto Width", "icons/16/button_ok.png");
+    btn4.setLocation(155, 100);    
+    btn4.addEventListener("click", function() { chk1.setChecked(false); w1.setWidth("auto"); });    
     
 
 
-    var tf3 = new QxTextField(250);
+    var tf3 = new QxTextField(170);
     tf3.setLocation(0, 132);
     tf3.setWidth(50);    
     
     var btn3 = new QxButton("Set Height", "icons/16/button_ok.png");
     btn3.setLocation(55, 130);    
-    btn3.addEventListener("click", function() { w1.setHeight(tf3.getText()); });    
+    btn3.addEventListener("click", function() { w1.setHeight(parseInt(tf3.getText())); });    
+    
+    var btn5 = new QxButton("Set Auto Height", "icons/16/button_ok.png");
+    btn5.setLocation(155, 130);    
+    btn5.addEventListener("click", function() { chk1.setChecked(false); w1.setHeight("auto"); });    
     
     
-    
-    fs2.add(tf1, btn1, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3);
+    fs2.add(tf1, btn1, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3, btn4, btn5);
     
     
     

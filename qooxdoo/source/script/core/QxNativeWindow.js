@@ -1,9 +1,17 @@
-function QxNativeWindow(vCaption)
+function QxNativeWindow(vCaption, vSource)
 {
   QxTarget.call(this);
 
+  var o = this;
+  this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
+  this.__onload = function(e) { return o._onload(e); };
+
   this._timer = new QxTimer(50);
   this._timer.addEventListener("interval", this._ontimer, this);
+
+  if (isValid(vSource)) {
+    this.setSource(vSource);
+  };
   
   if (isValidString(vCaption)) {
     this.setCaption(vCaption);
@@ -42,6 +50,11 @@ QxNativeWindow.addProperty({ name : "modal", type : Boolean, defaultValue : fals
   The text of the caption
 */
 QxNativeWindow.addProperty({ name : "caption", type : String });
+
+/*!
+  The source url
+*/
+QxNativeWindow.addProperty({ name : "source", type : String });
 
 /*!
   The text of the statusbar
@@ -168,6 +181,25 @@ proto._applyCaption = function()
 
 /*
 ------------------------------------------------------------------------------------
+  SOURCE
+------------------------------------------------------------------------------------
+*/
+
+proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
+
+  if( this._window )
+  {
+    this._window.replace(isValidString(propValue) ? propValue : "about:blank");
+  };
+
+  return true;
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
   UTILITY
 ------------------------------------------------------------------------------------
 */
@@ -235,7 +267,6 @@ proto.open = function()
 
 
 
-
   /* 
   -----------------------------------------------------------------------------
     BLOCKER
@@ -254,10 +285,13 @@ proto.open = function()
     OPEN WINDOW
   -----------------------------------------------------------------------------
   */
-  
-  this._window = window.open("about:blank", "w" + this.toHash(), conf);
+
+  this._window = window.open( "about:blank", "w" + this.toHash(), conf);
   this._window._QxClientWindow = this;
   
+  
+
+
 
   /* 
   -----------------------------------------------------------------------------
@@ -345,48 +379,65 @@ proto._ontimer = function(e)
       break;
 
     case 1:
-      // Find stylesheet
-      var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
 
-      for (var i=0, l=ls.length; i<l; i++)
+      if ( isValidString(this.getSource()) )
       {
-        if (ls[i].getAttribute("href").indexOf("layouts/") != -1) {
-          var s = ls[i].getAttribute("href");
-          break;
+        if ((new QxClient).isMshtml()) {
+          this._window.onreadystatechange = this.__onreadystatechange;
+        } else {
+          this._window.onload = this.__onload;
         };
-      };
-      
-      var d = this._window.document;
 
-      d.open("text/html", true);
+        this._window.location.replace(this.getSource());
+
+        this._readyState = 5;
+      }
+      else
+      {
+
+        // Find stylesheet
+        var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
+
+        for (var i=0, l=ls.length; i<l; i++)
+          {
+            if (ls[i].getAttribute("href").indexOf("layouts/") != -1) {
+              var s = ls[i].getAttribute("href");
+              break;
+            };
+          };
       
-      d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
+        var d = this._window.document;
+
+        d.open("text/html", true);
       
-      // Some magick for our optimizer
-      d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
-      d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
+        d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
       
-      d.write('<head>');
-      d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
-      d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
-      d.write('<meta http-equiv="ImageToolBar" content="no" />');
-      d.write('<meta http-equiv="Pragma" content="no-cache" />');
-      d.write('<meta http-equiv="Expires" content="-1" />');
-      d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
-      d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
+        // Some magick for our optimizer
+        d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
+        d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
       
-      if (this.getShowCaption()) {
-        d.write('<title>' + this.getCaption() + '</title>');
-      };
+        d.write('<head>');
+        d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
+        d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
+        d.write('<meta http-equiv="ImageToolBar" content="no" />');
+        d.write('<meta http-equiv="Pragma" content="no-cache" />');
+        d.write('<meta http-equiv="Expires" content="-1" />');
+        d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
+        d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
       
-      if (isValidString(s)) {
-        d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
-      };
+        if (this.getShowCaption()) {
+          d.write('<title>' + this.getCaption() + '</title>');
+        };
+      
+        if (isValidString(s)) {
+          d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
+        };
        
-      d.write('</head><body></body></html>');
+        d.write('</head><body></body></html>');
       
-      d.close();
-      
+        d.close();
+      };
+
       this._readyState++;
       break;      
       
@@ -482,6 +533,17 @@ proto._ontimer = function(e)
   delete this._timerRun;
 };
 
+proto._onreadystatechange = function()
+{
+  if (this._window.document.readyState == "complete") {
+    this.dispatchEvent(new QxEvent("load"));
+  };
+};
+
+proto._onload = function()
+{
+  this.dispatchEvent(new QxEvent("load"));
+};
 
 
 
