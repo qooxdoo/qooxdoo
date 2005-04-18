@@ -434,6 +434,8 @@ proto._ontimer = function(e)
       {
         if (this.getWidth() == "auto" || this.getHeight() == "auto")
         {
+          var w, h;
+          
           if (this.getWidth() == "auto") {
             w = this._instance.getClientDocument().getPreferredWidth();
           };
