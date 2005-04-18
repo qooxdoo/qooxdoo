@@ -26,6 +26,8 @@
   window.application.main = function()
   {
     var w1 = new QxNativeWindow("My first QxNativeWindow");
+    
+    w1.setDimension(280, 170);
 
     w1.addEventListener("ready", function()
     {    
@@ -35,11 +37,12 @@
       a1.set({ top: 0, left: 0 });
       a1.setTimerCreate(false);
       this.add(a1);
-
-      var chk1 = new QxCheckBox("Modal");
-      chk1.setTimerCreate(false);
-      chk1.set({ top : 40, left : 0 });
-      chk1.addEventListener("changeChecked", function(e) { w1.setModal(e.getNewValue()); });
+      
+      var btnpack = new QxButton("Pack Window", "icons/16/blockdevice.png");
+      btnpack.setLocation(0, 40);
+      btnpack.addEventListener("click", function(e) {
+        w1.pack();
+      });      
 
       var btn1 = new QxButton("Yes", "icons/16/button_ok.png");
       btn1.setTimerCreate(false);
@@ -51,7 +54,7 @@
       btn2.set({ top: 70, right : 0 });
       btn2.addEventListener("click", function(e) { alert("No"); });
       
-      this.add(chk1, btn1, btn2);
+      this.add(btn1, btn2);
     });
     
     
@@ -62,11 +65,12 @@
     
     var d = this.getClientWindow().getDocument();
 
-    var btn1 = new QxButton("Open Native Window");
+    var btn1 = new QxButton("Open Native Window", "icons/16/background.png");
     with(btn1)
     {
       setTop(48);
       setLeft(20);
+      
       addEventListener("click", function() { w1.open(); } );
     };
 
@@ -77,10 +81,10 @@
 
     var fs1 = new QxFieldSet("Settings (initial)");
     fs1.setLocation(20, 96);
-    fs1.setDimension( 200, "auto");
+    fs1.setDimension(300, "auto");
     
     
-    var chk1 = new QxCheckBox("Resizeable");
+    var chk1 = new QxCheckBox("Resizeable (Could be disabled at runtime, too)");
     chk1.setLocation(0, 0);    
     chk1.setChecked(true);
     chk1.addEventListener("changeChecked", function(e) {
@@ -93,44 +97,99 @@
     chk2.addEventListener("changeChecked", function(e) {
       w1.setShowStatusbar(e.getNewValue());
     });       
+
+    var chk3 = new QxCheckBox("Show Menubar");
+    chk3.setLocation(0, 40);    
+    chk3.setChecked(false);
+    chk3.addEventListener("changeChecked", function(e) {
+      w1.setShowMenubar(e.getNewValue());
+    });  
     
-    fs1.add(chk1, chk2);
+    var chk4 = new QxCheckBox("Show Location");
+    chk4.setLocation(0, 60);    
+    chk4.setChecked(false);
+    chk4.addEventListener("changeChecked", function(e) {
+      w1.setShowLocation(e.getNewValue());
+    });  
+    
+    var chk5 = new QxCheckBox("Show Toolbar");
+    chk5.setLocation(0, 80);    
+    chk5.setChecked(false);
+    chk5.addEventListener("changeChecked", function(e) {
+      w1.setShowToolbar(e.getNewValue());
+    });  
+    
+    var chk6 = new QxCheckBox("Allow Scrollbars (do not work here, omitted by CSS)");
+    chk6.setLocation(0, 100);    
+    chk6.setChecked(false);
+    chk6.addEventListener("changeChecked", function(e) {
+      w1.setAllowScrollbars(e.getNewValue());
+    });  
+                    
+    fs1.add(chk1, chk2, chk3, chk4, chk5, chk6);
     fs1.setTimerCreate(false);
     d.add(fs1);
 
 
-    var fs2 = new QxFieldSet("Settings (runtime)");
+    
+    
+    var fs2 = new QxFieldSet("Settings (initial and runtime)");
     fs2.setLocation(20, fs1.getComputedClientBoxBottom() + 20);
-    fs2.setDimension(fs1.getComputedBoxWidth(), "auto");
+    fs2.setDimension(300, "auto");
+    
+    var tf1 = new QxTextField("My first QxNativeWindow");
+    tf1.setLocation(0, 2);
+    tf1.setWidth(150);
+    
+    var btn1 = new QxButton("Set Caption", "icons/16/button_ok.png");
+    btn1.setLocation(155, 0);    
+    btn1.addEventListener("click", function() { w1.setCaption(tf1.getText()); });
+    
+    var chkb1 = new QxCheckBox("Show Caption");
+    chkb1.setLocation(0, 30);
+    chkb1.setChecked(true);
+    chkb1.addEventListener("changeChecked", function(e) { w1.setShowCaption(e.getNewValue()); });
+
+    var chkb2 = new QxCheckBox("Modal (initial add modal=yes for gecko)");
+    chkb2.setLocation(0, 50);
+    chkb2.setChecked(false);
+    chkb2.addEventListener("changeChecked", function(e) { w1.setModal(e.getNewValue()); });
+      
+    var chkb3 = new QxCheckBox("Moveable");
+    chkb3.setLocation(0, 70);
+    chkb3.setChecked(true);
+    chkb3.addEventListener("changeChecked", function(e) { w1.setMoveable(e.getNewValue()); });
     
     
-    var btn1 = new QxButton("Set Caption");
-    with(btn1)
-    {
-      setLocation(0, 0);    
-      addEventListener("click", function() { w1.setCaption("Hello, World!"); } );
-    };
-
-    var chk2 = new QxCheckBox("Show Statusbar");
-    chk2.setLocation(0, 20);    
-    chk2.setChecked(false);
-    chk2.addEventListener("changeChecked", function(e) {
-      w1.setShowStatusbar(e.getNewValue());
-    });       
     
-    fs2.add(btn1, chk2);
+    var tf2 = new QxTextField(400);
+    tf2.setLocation(0, 102);
+    tf2.setWidth(50);    
+    
+    var btn2 = new QxButton("Set Width", "icons/16/button_ok.png");
+    btn2.setLocation(55, 100);    
+    btn2.addEventListener("click", function() { w1.setWidth(tf2.getText()); });    
+    
 
-    fs1.addEventListener("resizeHorizontal", function() { 
-      fs2.setWidth(this.getPixelOfWidth());
-    });
 
-    fs1.addEventListener("resizeVertical", function() { 
-      fs2.setTop(this.getTop() + this.getPixelOfHeight() + 10);
-    });
+    var tf3 = new QxTextField(250);
+    tf3.setLocation(0, 132);
+    tf3.setWidth(50);    
+    
+    var btn3 = new QxButton("Set Height", "icons/16/button_ok.png");
+    btn3.setLocation(55, 130);    
+    btn3.addEventListener("click", function() { w1.setHeight(tf3.getText()); });    
+    
+    
+    
+    fs2.add(tf1, btn1, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3);
+    
+    
+    
+    
+    
 
-    fs2.addEventListener("resizeHorizontal", function() { 
-      fs1.setWidth(this.getPixelOfWidth());
-    });
+
 
     d.add(fs2);
     

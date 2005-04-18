@@ -56,8 +56,13 @@ if ((new QxClient).isMshtml())
     }
     else
     {
-      el.attachEvent("onunload", function(e) {
-        el._QxClientWindow.dispose();
+      el.attachEvent("onunload", function(e) 
+      {
+        if (el._QxClientWindow) 
+        {
+          el._QxClientWindow.dispose();
+          el._QxClientWindow = null;
+        };
       });
     };
   };  
@@ -72,8 +77,13 @@ else if ((new QxClient).isGecko())
     }
     else
     {
-      el.addEventListener("unload", function(e) {
-        el._QxClientWindow.dispose();
+      el.addEventListener("unload", function(e) 
+      {
+        if (el._QxClientWindow) 
+        {
+          el._QxClientWindow.dispose();
+          el._QxClientWindow = null;
+        };
       }, false);  
     };
   };  
@@ -83,8 +93,20 @@ else
   proto._addUnloadEvent = function(el) 
   {
     // check for existing function (otherwise old operas <7.6 fails here)
-    if (el.addEventListener) {
-      el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+    if (el.addEventListener) 
+    {
+      if (el == window)
+      {
+        el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
+      }
+      else
+      {
+        if (el._QxClientWindow) 
+        {
+          el._QxClientWindow.dispose();
+          el._QxClientWindow = null;
+        };
+      };
     };
   };  
 };
