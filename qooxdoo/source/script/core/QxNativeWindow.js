@@ -267,9 +267,8 @@ proto.open = function()
   */
 
   this._isLoaded = false;
-  this._readyState = 0;  
+  this._readyState = isValidString(this.getSource()) ? 5 : 0;
   this._timer.restart();
-
 
 
   /* 
@@ -291,8 +290,11 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
 
-  this._window = window.open("about:blank", "w" + this.toHash(), conf);
-  this._window._QxClientWindow = this;
+  this._window = window.open(isValidString(this.getSource()) ? this.getSource() : "about:blank", "w" + this.toHash(), conf);
+  
+  try{
+    this._window._QxNativeWindow = this;
+  } catch(ex) {};  
   
   // should we remove this events?
   // in mshtml and gecko they just does not work (we have coded some workarounds)
@@ -485,13 +487,16 @@ proto._ontimer = function(e)
       break;
       
     case 5:     
-      try{
+      try
+      {
         if (this._window.document.readyState == "complete") {
           this._onload();
         };
       }
       catch(ex)
       {
+        // browsers prohibit the cross-domain-scripting here
+        
         // Windows XP SP1:
         // IE 6.0.2800.1106.xpsp2 throws an exception if the document is loaded and prohibit the access to it
         
@@ -577,7 +582,6 @@ proto._onload = function()
 
 
 
-
 /*
 ------------------------------------------------------------------------------------
   DISPOSER
@@ -622,10 +626,10 @@ proto.dispose = function()
 
     try
     {
-      if (this._window._QxClientWindow)
+      if (this._window._QxNativeWindow)
       {
-        this._window._QxClientWindow.dispose();
-        this._window._QxClientWindow = null;
+        this._window._QxNativeWindow.dispose();
+        this._window._QxNativeWindow = null;
       };
     }
     catch(ex) {};
