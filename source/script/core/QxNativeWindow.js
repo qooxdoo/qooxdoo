@@ -222,6 +222,8 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 ------------------------------------------------------------------------------------
 */
 
+proto._isOpened = false;
+
 proto._isLoaded = false;
 
 proto.isLoaded = function() {
@@ -286,9 +288,9 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
 
+  this._isOpened = false;
   this._isLoaded = false;
   this._readyState = isValidString(this.getSource()) ? 5 : 0;
-  this._timer.restart();
 
 
   /* 
@@ -311,6 +313,7 @@ proto.open = function()
   */
 
   this._window = window.open(isValidString(this.getSource()) ? this.getSource() : "about:blank", "w" + this.toHash(), conf);
+  this._timer.restart();
   
   try{
     this._window._QxNativeWindow = this;
@@ -412,7 +415,8 @@ proto.blur = function()
 
 proto._ontimer = function(e)
 {
-  if (this._readyState && (!this._window || (this._window && this._window.closed))) 
+
+  if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed))) 
   {
     if (this.getModal()) {
       window.application.getClientWindow().getClientDocument().release();
@@ -426,12 +430,18 @@ proto._ontimer = function(e)
       this._instance = null;
     };
     
+    this._isOpened = false;
+    this._isLoaded = false;
     this._readyState = null;    
     return;
   };
   
   if (!this._window || this._timerRun) {
     return;
+  };
+
+  if (this._window) {
+    this._isOpened = true;
   };
 
   this._timerRun = true;
@@ -449,62 +459,51 @@ proto._ontimer = function(e)
       break;
 
     case 1:
-      if (isValidString(this.getSource()))
-      {
-        // replace current location
-        this._window.location.replace(this.getSource());
+      // Find stylesheet
+      var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
 
-        // update ready state
-        this._readyState = 5;
-      }
-      else
-      {
-        // Find stylesheet
-        var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
-
-        for (var i=0, l=ls.length; i<l; i++)
+      for (var i=0, l=ls.length; i<l; i++)
         {
           if (ls[i].getAttribute("href").indexOf("layouts/") != -1) 
-          {
-            var s = ls[i].getAttribute("href");
-            break;
-          };
+            {
+              var s = ls[i].getAttribute("href");
+              break;
+            };
         };
       
-        // Building new document
-        var d = this._window.document;
+      // Building new document
+      var d = this._window.document;
 
-        d.open("text/html", true);
+      d.open("text/html", true);
       
-        d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
+      d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
       
-        // Some magick for our optimizer
-        d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
-        d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
+      // Some magick for our optimizer
+      d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
+      d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
       
-        d.write('<head>');
-        d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
-        d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
-        d.write('<meta http-equiv="ImageToolBar" content="no" />');
-        d.write('<meta http-equiv="Pragma" content="no-cache" />');
-        d.write('<meta http-equiv="Expires" content="-1" />');
-        d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
-        d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
+      d.write('<head>');
+      d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
+      d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
+      d.write('<meta http-equiv="ImageToolBar" content="no" />');
+      d.write('<meta http-equiv="Pragma" content="no-cache" />');
+      d.write('<meta http-equiv="Expires" content="-1" />');
+      d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
+      d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
       
-        if (this.getShowCaption()) {
-          d.write('<title>' + this.getCaption() + '</title>');
-        };
-      
-        if (isValidString(s)) {
-          d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
-        };
-       
-        d.write('</head><body></body></html>');
-      
-        d.close();
-        
-        this._readyState++;
+      if (this.getShowCaption()) {
+        d.write('<title>' + this.getCaption() + '</title>');
       };
+      
+      if (isValidString(s)) {
+        d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
+      };
+       
+      d.write('</head><body></body></html>');
+      
+      d.close();
+        
+      this._readyState++;
       
       break;      
       
@@ -545,7 +544,7 @@ proto._ontimer = function(e)
       this._timer.restart();      
       break;
       
-    case 5:     
+    case 5:
       try
       {
         if (this._window.document.readyState == "complete") {
@@ -624,8 +623,8 @@ proto._onreadystatechange = function()
 {
   if (!this._isLoaded && this._window.document && this._window.document.readyState == "complete") 
   {
-    this.dispatchEvent(new QxEvent("load"));
     this._isLoaded = true;
+    this.dispatchEvent(new QxEvent("load"));
   };
 };
 
@@ -633,8 +632,8 @@ proto._onload = function()
 {
   if (!this._isLoaded) 
   {
-    this.dispatchEvent(new QxEvent("load"));
     this._isLoaded = true;
+    this.dispatchEvent(new QxEvent("load"));
   };
 };
 
