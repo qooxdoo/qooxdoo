@@ -222,6 +222,9 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 ------------------------------------------------------------------------------------
 */
 
+proto._chromeBorderSize = 4;
+proto._chromeCaptionSize = 24;
+
 proto._isOpened = false;
 
 proto._isLoaded = false;
@@ -248,12 +251,20 @@ proto.open = function()
   var conf = "dependent=yes,";
   
   if (isValidNumber(this.getWidth())) {
-    conf += "width=" + this.getWidth() + ",";
+    if ((new QxClient).isMshtml()) {
+      conf += "width=" + (this.getWidth() - this._chromeBorderSize) + ",";      
+    } else {
+      conf += "width=" + this.getWidth() + ",";      
+    };
   };
    
   if (isValidNumber(this.getHeight())) 
   {
-    conf += "height=" + this.getHeight() + ",";
+    if ((new QxClient).isMshtml()) {
+      conf += "height=" + (this.getHeight()  - this._chromeBorderSize) + ",";      
+    } else {
+      conf += "height=" + this.getHeight() + ",";      
+    };
   };
   
   if (isValidNumber(this.getLeft())) {
@@ -273,6 +284,7 @@ proto.open = function()
     Code: 2102      
   */
 
+  
   conf += "resizable=" + (this.getResizeable() ? "yes" : "no") + ",";
   conf += "status=" + (this.getShowStatusbar() ? "yes" : "no") + ",";
   conf += "location=" + (this.getShowLocation() ? "yes" : "no") + ",";
@@ -321,9 +333,10 @@ proto.open = function()
   
   // should we remove this events?
   // in mshtml and gecko they just does not work (we have coded some workarounds)
+  /*
   QxDOM.addEventListener(this._window, "load", this.__onload);
   QxDOM.addEventListener(this._window, "readystatechange", this.__onreadystatechange);
-  
+  */
 
 
 
@@ -333,6 +346,7 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */  
   
+  /*
   if (isValidNumber(this.getWidth()) && isValidNumber(this.getHeight())) {
     this._window.resizeTo(this.getWidth(), this.getHeight());
   };
@@ -340,6 +354,7 @@ proto.open = function()
   if (isValidNumber(this.getLeft()) && isValidNumber(this.getTop())) {
     this._window.moveTo(this.getLeft(), this.getTop());
   };
+  */
 };
 
 
@@ -353,15 +368,15 @@ proto.open = function()
 */
 
 proto.centerToScreen = function() {
-  return this._centerHelper((screen.width - this.getWidth() - 4) / 2, (screen.height - this.getHeight() - 24) / 2);
+  return this._centerHelper((screen.width - this.getWidth() - this._chromeBorderSize) / 2, (screen.height - this.getHeight() - this._chromeCaptionSize) / 2);
 };
 
 proto.centerToScreenArea = function() {
-  return this._centerHelper((screen.availWidth - this.getWidth() - 4) / 2, (screen.availHeight - this.getHeight() - 24 - 4) / 2);
+  return this._centerHelper((screen.availWidth - this.getWidth() - this._chromeBorderSize) / 2, (screen.availHeight - this.getHeight() - this._chromeCaptionSize - this._chromeBorderSize) / 2);
 };
 
 proto.centerToOpener = function() {
-  return this._centerHelper(((QxDOM.getWindowInnerWidth(window) - this.getWidth() - 4) / 2) + QxDOM.getComputedScreenBoxLeft(window.document.body), ((QxDOM.getWindowInnerHeight(window) - this.getHeight() - 24 - 4) / 2) + QxDOM.getComputedScreenBoxTop(window.document.body));
+  return this._centerHelper(((QxDOM.getWindowInnerWidth(window) - this.getWidth() - this._chromeBorderSize) / 2) + QxDOM.getComputedScreenBoxLeft(window.document.body), ((QxDOM.getWindowInnerHeight(window) - this.getHeight() - this._chromeCaptionSize - this._chromeBorderSize) / 2) + QxDOM.getComputedScreenBoxTop(window.document.body));
 };
 
 proto._centerHelper = function(l, t)
@@ -585,7 +600,7 @@ proto._ontimer = function(e)
           {
             if ((new QxClient).isMshtml())
             {
-              this._window.resizeTo(isValidNumber(w) ? w + 4 : this.getWidth(), isValidNumber(h) ? h + 4 + 24 : this.getHeight());  
+              this._window.resizeTo(isValidNumber(w) ? w + this._chromeBorderSize : this.getWidth(), isValidNumber(h) ? h + this._chromeBorderSize + this._chromeCaptionSize : this.getHeight());  
             }
             else
             {
@@ -624,6 +639,7 @@ proto._onreadystatechange = function()
   if (!this._isLoaded && this._window.document && this._window.document.readyState == "complete") 
   {
     this._isLoaded = true;
+    this._window.focus();
     this.dispatchEvent(new QxEvent("load"));
   };
 };
@@ -633,6 +649,7 @@ proto._onload = function()
   if (!this._isLoaded) 
   {
     this._isLoaded = true;
+    this._window.focus();
     this.dispatchEvent(new QxEvent("load"));
   };
 };
@@ -676,8 +693,10 @@ proto.dispose = function()
   {
     if (!this._window.closed)
     {
+      /*
       QxDOM.removeEventListener(this._window, "load", this.__onload);
       QxDOM.removeEventListener(this._window, "readystatechange", this.__onreadystatechange);
+      */
     };
 
     this.close();
