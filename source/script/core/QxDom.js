@@ -807,6 +807,12 @@ else
   };
 };
 
+
+
+
+
+
+
 if ((new QxClient).isMshtml())
 {
   QxDOM.addEventListener = function(e, t, f) {
@@ -825,5 +831,88 @@ else
 
   QxDOM.removeEventListener = function(e, t, f) {
     e.removeEventListener(t, f, false);
+  };
+};
+
+
+
+
+
+
+
+if ((new QxClient).isMshtml())
+{
+  QxDOM.getWindowInnerWidth = function(w) 
+  {
+    if (w.document.documentElement && w.document.documentElement.clientWidth)
+    {
+      return w.document.documentElement.clientWidth;
+    }
+    else if (w.document.body)
+    {
+      return w.document.body.clientWidth;
+    };
+    
+    return 0;
+  };
+  
+  QxDOM.getWindowInnerHeight = function(w) 
+  {
+    if (w.document.documentElement && w.document.documentElement.clientHeight)
+    {
+      return w.document.documentElement.clientHeight;
+    }
+    else if (w.document.body)
+    {
+      return w.document.body.clientHeight;
+    };
+    
+    return 0;
+  };
+  
+  QxDOM.getClientScrollLeft = function(w) 
+  {
+    if (w.document.documentElement && w.document.documentElement.scrollLeft)
+    {
+      return w.document.documentElement.scrollLeft;
+    }
+    else if (w.document.body)
+    {
+      return w.document.body.scrollTop;
+    };    
+    
+    return 0;    
+  };
+  
+  QxDOM.getClientScrollTop = function(w) 
+  {
+    if (w.document.documentElement && w.document.documentElement.scrollTop)
+    {
+      return w.document.documentElement.scrollTop;
+    }
+    else if (w.document.body)
+    {
+      return w.document.body.scrollTop;
+    };   
+    
+    return 0;    
+  };  
+}
+else
+{
+  QxDOM.getWindowInnerWidth = function(w) {
+    return w.innerWidth;
+  };
+
+  QxDOM.getWindowInnerHeight = function(w) {
+    return w.innerHeight;
+  };
+  
+  QxDOM.getClientScrollLeft = function(w) {
+    return w.document.body.scrollLeft;
+  };
+
+  QxDOM.getClientScrollTop = function(w) {
+    return w.document.body.scrollTop;
   };
 };
