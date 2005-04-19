@@ -2,21 +2,20 @@ function QxNativeWindow(vCaption, vSource)
 {
   QxTarget.call(this);
 
+  this._timer = new QxTimer(50);
+  this._timer.addEventListener("interval", this._ontimer, this);
+
   var o = this;
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
   this.__onload = function(e) { return o._onload(e); };
 
-  this._timer = new QxTimer(50);
-  this._timer.addEventListener("interval", this._ontimer, this);
-
-  if (isValid(vSource)) {
+  if (isValidString(vSource)) {
     this.setSource(vSource);
   };
   
   if (isValidString(vCaption)) {
     this.setCaption(vCaption);
   };
-  
 };
 
 QxNativeWindow.extend(QxTarget, "QxNativeWindow");
@@ -126,7 +125,7 @@ proto.getPane = function() {
 proto.addToWindow = proto.add;
 
 proto.addToPane = function() {
-  this._pane.add.apply( this._pane, arguments);
+  this._pane.add.apply(this._pane, arguments);
 };
 
 // Overwrite default
@@ -187,9 +186,8 @@ proto._applyCaption = function()
 
 proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 
-  if( this._window )
-  {
-    this._window.replace(isValidString(propValue) ? propValue : "about:blank");
+  if(this._window && !this._window.closed) {
+    this._window.location.replace(isValidString(propValue) ? propValue : "javascript:/" + "/");
   };
 
   return true;
@@ -203,6 +201,12 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
   UTILITY
 ------------------------------------------------------------------------------------
 */
+
+proto._isLoaded = false;
+
+proto.isLoaded = function() {
+  return this._isLoaded;
+};
 
 proto.close = function() 
 {
@@ -262,6 +266,7 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
 
+  this._isLoaded = false;
   this._readyState = 0;  
   this._timer.restart();
 
@@ -286,9 +291,13 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
 
-  this._window = window.open( "about:blank", "w" + this.toHash(), conf);
+  this._window = window.open("about:blank", "w" + this.toHash(), conf);
   this._window._QxClientWindow = this;
   
+  // should we remove this events?
+  // in mshtml and gecko they just does not work (we have coded some workarounds)
+  QxDOM.addEventListener(this._window, "load", this.__onload);
+  QxDOM.addEventListener(this._window, "readystatechange", this.__onreadystatechange);
   
 
 
@@ -366,11 +375,11 @@ proto._ontimer = function(e)
 
   this._timerRun = true;
   
-  
-  
   switch(this._readyState)
   {
     case 0:
+      this._isLoaded = false;
+    
       var d = this._window.document;
       if (d && d.body) {
         this._readyState++;
@@ -379,33 +388,29 @@ proto._ontimer = function(e)
       break;
 
     case 1:
-
-      if ( isValidString(this.getSource()) )
+      if (isValidString(this.getSource()))
       {
-        if ((new QxClient).isMshtml()) {
-          this._window.onreadystatechange = this.__onreadystatechange;
-        } else {
-          this._window.onload = this.__onload;
-        };
-
+        // replace current location
         this._window.location.replace(this.getSource());
 
+        // update ready state
         this._readyState = 5;
       }
       else
       {
-
         // Find stylesheet
         var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
 
         for (var i=0, l=ls.length; i<l; i++)
+        {
+          if (ls[i].getAttribute("href").indexOf("layouts/") != -1) 
           {
-            if (ls[i].getAttribute("href").indexOf("layouts/") != -1) {
-              var s = ls[i].getAttribute("href");
-              break;
-            };
+            var s = ls[i].getAttribute("href");
+            break;
           };
+        };
       
+        // Building new document
         var d = this._window.document;
 
         d.open("text/html", true);
@@ -436,9 +441,10 @@ proto._ontimer = function(e)
         d.write('</head><body></body></html>');
       
         d.close();
+        
+        this._readyState++;
       };
-
-      this._readyState++;
+      
       break;      
       
     case 2:
@@ -473,10 +479,27 @@ proto._ontimer = function(e)
       this._window.focus();
       this._readyState++;
       
+      this._onload();
+      
       this._timer.restart();      
       break;
       
     case 5:     
+      try{
+        if (this._window.document.readyState == "complete") {
+          this._onload();
+        };
+      }
+      catch(ex)
+      {
+        // Windows XP SP1:
+        // IE 6.0.2800.1106.xpsp2 throws an exception if the document is loaded and prohibit the access to it
+        
+        // Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.7) Gecko/20050414 Firefox/1.0.3
+        // behaves the same way
+        this._onload();
+      };
+      
       if (!this.getMoveable()) {
         this._window.moveTo(this.getLeft(), this.getTop());
       };
@@ -535,14 +558,20 @@ proto._ontimer = function(e)
 
 proto._onreadystatechange = function()
 {
-  if (this._window.document.readyState == "complete") {
+  if (!this._isLoaded && this._window.document && this._window.document.readyState == "complete") 
+  {
     this.dispatchEvent(new QxEvent("load"));
+    this._isLoaded = true;
   };
 };
 
 proto._onload = function()
 {
-  this.dispatchEvent(new QxEvent("load"));
+  if (!this._isLoaded) 
+  {
+    this.dispatchEvent(new QxEvent("load"));
+    this._isLoaded = true;
+  };
 };
 
 
@@ -583,6 +612,12 @@ proto.dispose = function()
 
   if (this._window)
   {
+    if (!this._window.closed)
+    {
+      QxDOM.removeEventListener(this._window, "load", this.__onload);
+      QxDOM.removeEventListener(this._window, "readystatechange", this.__onreadystatechange);
+    };
+
     this.close();
 
     try
