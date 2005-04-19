@@ -806,3 +806,24 @@ else
     return el.offsetTop;
   };
 };
+
+if ((new QxClient).isMshtml())
+{
+  QxDOM.addEventListener = function(e, t, f) {
+    e.attachEvent("on" + t, f);
+  };
+
+  QxDOM.removeEventListener = function(e, t, f) {
+    e.detachEvent("on" + t, f);
+  };
+}
+else
+{
+  QxDOM.addEventListener = function(e, t, f) {
+    e.addEventListener(t, f, false);
+  };
+
+  QxDOM.removeEventListener = function(e, t, f) {
+    e.removeEventListener(t, f, false);
+  };
+};
