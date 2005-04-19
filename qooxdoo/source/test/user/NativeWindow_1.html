@@ -29,19 +29,15 @@
     
     w1.setDimension(280, 170);
 
-    /*
-    w1.setSource("http://www.google.de");
+    //w1.setSource("http://www.google.de");
 
-    w1.addEventListener("ready", function()
-    {
-      this.debug("ready");
+    w1.addEventListener("ready", function() {
+      this.debug("window fired ready event");
     });
 
-    w1.addEventListener("load", function()
-    {
-      this.debug("load");
+    w1.addEventListener("load", function() {
+      this.debug("window fired load event");
     });
-    */
     
     w1.addEventListener("ready", function()
     {
@@ -151,6 +147,8 @@
     fs2.setLocation(20, fs1.getComputedClientBoxBottom() + 20);
     fs2.setDimension(300, "auto");
     
+    
+    
     var tf1 = new QxTextField("My first QxNativeWindow");
     tf1.setLocation(0, 2);
     tf1.setWidth(150);
@@ -159,51 +157,62 @@
     btn1.setLocation(155, 0);    
     btn1.addEventListener("click", function() { w1.setCaption(tf1.getText()); });
     
+    var tf6 = new QxTextField();
+    tf6.setLocation(0, 32);
+    tf6.setWidth(150);
+    
+    var btn6 = new QxButton("Set Source", "icons/16/button_ok.png");
+    btn6.setLocation(155, 30);    
+    btn6.addEventListener("click", function() { w1.setSource(tf6.getText()); });
+    
+    
+    
+    
     var chkb1 = new QxCheckBox("Show Caption");
-    chkb1.setLocation(0, 30);
+    chkb1.setLocation(0, 60);
     chkb1.setChecked(true);
     chkb1.addEventListener("changeChecked", function(e) { w1.setShowCaption(e.getNewValue()); });
 
     var chkb2 = new QxCheckBox("Modal (initial add modal=yes for gecko)");
-    chkb2.setLocation(0, 50);
+    chkb2.setLocation(0, 80);
     chkb2.setChecked(false);
     chkb2.addEventListener("changeChecked", function(e) { w1.setModal(e.getNewValue()); });
       
     var chkb3 = new QxCheckBox("Moveable");
-    chkb3.setLocation(0, 70);
+    chkb3.setLocation(0, 100);
     chkb3.setChecked(true);
     chkb3.addEventListener("changeChecked", function(e) { w1.setMoveable(e.getNewValue()); });
     
     
     
     var tf2 = new QxTextField(280);
-    tf2.setLocation(0, 102);
+    tf2.setLocation(0, 132);
     tf2.setWidth(50);    
     
     var btn2 = new QxButton("Set Width", "icons/16/button_ok.png");
-    btn2.setLocation(55, 100);    
+    btn2.setLocation(55, 130);    
     btn2.addEventListener("click", function() { w1.setWidth(parseInt(tf2.getText())); });    
 
     var btn4 = new QxButton("Set Auto Width", "icons/16/button_ok.png");
-    btn4.setLocation(155, 100);    
+    btn4.setLocation(155, 130);    
     btn4.addEventListener("click", function() { chk1.setChecked(false); w1.setWidth("auto"); });    
     
 
 
     var tf3 = new QxTextField(170);
-    tf3.setLocation(0, 132);
+    tf3.setLocation(0, 162);
     tf3.setWidth(50);    
     
     var btn3 = new QxButton("Set Height", "icons/16/button_ok.png");
-    btn3.setLocation(55, 130);    
+    btn3.setLocation(55, 160);    
     btn3.addEventListener("click", function() { w1.setHeight(parseInt(tf3.getText())); });    
     
     var btn5 = new QxButton("Set Auto Height", "icons/16/button_ok.png");
-    btn5.setLocation(155, 130);    
+    btn5.setLocation(155, 160);    
     btn5.addEventListener("click", function() { chk1.setChecked(false); w1.setHeight("auto"); });    
     
     
-    fs2.add(tf1, btn1, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3, btn4, btn5);
+    fs2.add(tf1, btn1, tf6, btn6, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3, btn4, btn5);
     
     
     
