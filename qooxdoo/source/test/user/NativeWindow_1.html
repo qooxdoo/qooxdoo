@@ -193,8 +193,8 @@
     btn2.setLocation(55, 130);    
     btn2.addEventListener("click", function() { w1.setWidth(parseInt(tf2.getText())); });    
 
-    var btn4 = new QxButton("Set Auto Width", "icons/16/button_ok.png");
-    btn4.setLocation(155, 130);    
+    var btn4 = new QxButton("Auto", "icons/16/run.png");
+    btn4.setLocation(140, 130);    
     btn4.addEventListener("click", function() { chk1.setChecked(false); w1.setWidth("auto"); });    
     
 
@@ -207,12 +207,27 @@
     btn3.setLocation(55, 160);    
     btn3.addEventListener("click", function() { w1.setHeight(parseInt(tf3.getText())); });    
     
-    var btn5 = new QxButton("Set Auto Height", "icons/16/button_ok.png");
-    btn5.setLocation(155, 160);    
+    var btn5 = new QxButton("Auto", "icons/16/run.png");
+    btn5.setLocation(143, 160);    
     btn5.addEventListener("click", function() { chk1.setChecked(false); w1.setHeight("auto"); });    
     
     
-    fs2.add(tf1, btn1, tf6, btn6, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3, btn4, btn5);
+    
+    var btn7 = new QxButton("Center to screen", "icons/16/kpersonalizer.png");
+    btn7.setLocation(0, 200);
+    btn7.addEventListener("click", function() { w1.centerToScreen() });
+    
+    var btn8 = new QxButton("Center to screen area", "icons/16/kpersonalizer.png");
+    btn8.setLocation(0, 230);
+    btn8.addEventListener("click", function() { w1.centerToScreenArea() });
+    
+    var btn9 = new QxButton("Center to opener", "icons/16/kpersonalizer.png");
+    btn9.setLocation(0, 260);
+    btn9.addEventListener("click", function() { w1.centerToOpener() });
+    
+            
+    
+    fs2.add(tf1, btn1, tf6, btn6, chkb1, chkb2, chkb3, tf2, btn2, tf3, btn3, btn4, btn5, btn7, btn8, btn9);
     
     
     

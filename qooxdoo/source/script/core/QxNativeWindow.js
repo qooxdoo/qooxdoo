@@ -134,8 +134,28 @@ proto.add = proto.addToPane;
 
 
 
+/*
+------------------------------------------------------------------------------------
+  COORDINATES
+------------------------------------------------------------------------------------
+*/
 
+proto._modifyLeft = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._applyPosition();
+};
 
+proto._modifyTop = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._applyPosition();
+};
+
+proto._applyPosition = function()
+{
+  if (this._window && !this._window.closed) {
+    this._window.moveTo(this.getLeft(), this.getTop());
+  };
+
+  return true;  
+};
 
 
 
@@ -318,6 +338,45 @@ proto.open = function()
     this._window.moveTo(this.getLeft(), this.getTop());
   };
 };
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    CENTER SUPPORT
+  -------------------------------------------------------------------------------
+*/
+
+proto.centerToScreen = function() {
+  return this._centerHelper((screen.width - this.getWidth() - 4) / 2, (screen.height - this.getHeight() - 24) / 2);
+};
+
+proto.centerToScreenArea = function() {
+  return this._centerHelper((screen.availWidth - this.getWidth() - 4) / 2, (screen.availHeight - this.getHeight() - 24 - 4) / 2);
+};
+
+proto.centerToOpener = function() {
+  return this._centerHelper(((QxDOM.getWindowInnerWidth(window) - this.getWidth() - 4) / 2) + QxDOM.getComputedScreenBoxLeft(window.document.body), ((QxDOM.getWindowInnerHeight(window) - this.getHeight() - 24 - 4) / 2) + QxDOM.getComputedScreenBoxTop(window.document.body));
+};
+
+proto._centerHelper = function(l, t)
+{
+  // to force the move of the window
+  this.forceLeft(0);
+  this.forceTop(0);
+  
+  // set new values
+  this.setLeft(l);
+  this.setTop(t);
+
+  // focus window if opened
+  if (this._window && !this._window.closed) {
+    this._window.focus();
+  };
+};
+
 
 
 
