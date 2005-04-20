@@ -459,9 +459,7 @@ proto._ontimer = function(e)
         }
         else
         {
-          if (d.body) {
-            this._readyState++;
-          };
+          this._readyState = 1;
         };
       };
       

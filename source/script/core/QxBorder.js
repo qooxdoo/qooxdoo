@@ -109,14 +109,46 @@ QxBorder.fromString = function(s)
   return b;
 };
 
-proto._generateDefString = function(bWidth, bStyle, bColor)
+if ((new QxClient).isOpera())
 {
-  var sWidth = typeof bWidth == "number" && bWidth >= 0 && bWidth < 1000 ? bWidth + "px" : "0px";
-  var bStyle = typeof bStyle == "string" && bStyle != "" ? bStyle : "solid";
-  var bColor = typeof bColor == "string" ? bColor : "";
-
-  return sWidth + " " + bStyle + " " + (bColor != "" ? " " + bColor : "");
+  proto._generateDefString = function(bWidth, bStyle, bColor)
+  {
+    var sWidth = typeof bWidth == "number" && bWidth >= 0 && bWidth < 1000 ? bWidth + "px" : "0px";
+    var bStyle = typeof bStyle == "string" && bStyle != "" ? bStyle : "solid";
+    var bColor = typeof bColor == "string" ? bColor : "";
+    
+    // Fix default border color for complex border types
+    if (bColor == "")
+    {
+      switch(bStyle)
+      {
+        case "groove":
+        case "ridge":
+          bColor = "ThreeDHighlight";
+          break;
+        
+        case "outset":
+        case "inset":
+          bColor = "ThreeDFace";
+          break;
+      };
+    };  
+  
+    return sWidth + " " + bStyle + " " + (bColor != "" ? " " + bColor : "");
+  };
+}
+else
+{
+  proto._generateDefString = function(bWidth, bStyle, bColor)
+  {
+    var sWidth = typeof bWidth == "number" && bWidth >= 0 && bWidth < 1000 ? bWidth + "px" : "0px";
+    var bStyle = typeof bStyle == "string" && bStyle != "" ? bStyle : "solid";
+    var bColor = typeof bColor == "string" ? bColor : "";
+    
+    return sWidth + " " + bStyle + " " + (bColor != "" ? " " + bColor : "");
+  };
 };
+
 
 
 
