@@ -205,7 +205,7 @@ proto._applyCaption = function()
 
 proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 
-  if(this._window && !this._window.closed) {
+  if(this._window && this._window.closed == false) {
     this._window.location.replace(isValidString(propValue) ? propValue : ("javascript:/" + "/"));
   };
 
@@ -401,7 +401,7 @@ proto.blur = function()
 proto._ontimer = function(e)
 {
 
-  if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed))) 
+  if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed != false))) 
   {
     if (this.getModal()) {
       window.application.getClientWindow().getClientDocument().release();
@@ -428,7 +428,7 @@ proto._ontimer = function(e)
   if (this._window) {
     this._isOpened = true;
   };
-
+  
   this._timerRun = true;
   
   switch(this._readyState)
@@ -554,7 +554,6 @@ proto._ontimer = function(e)
       break;
       
     case 5:
-
       // workaround for mshtml (see case 0 below)
       try {
         if (this._window.document.readyState == "complete") {
