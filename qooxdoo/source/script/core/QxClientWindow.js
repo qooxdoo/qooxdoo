@@ -90,25 +90,7 @@ else if ((new QxClient).isGecko())
 }
 else
 {
-  proto._addUnloadEvent = function(el) 
-  {
-    // check for existing function (otherwise old operas <7.6 fails here)
-    if (el.addEventListener) 
-    {
-      if (el == window)
-      {
-        el.addEventListener("unload", new Function("(new QxApplication).dispose();"), false);
-      }
-      else
-      {
-        if (el._QxClientWindow) 
-        {
-          el._QxClientWindow.dispose();
-          el._QxClientWindow = null;
-        };
-      };
-    };
-  };  
+  proto._addUnloadEvent = function(el) {};  
 };
 
 

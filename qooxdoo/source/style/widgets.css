@@ -660,6 +660,14 @@ html[QxFocused] {
   -moz-border-left-colors: ThreeDShadow ThreeDHighlight;
 }
 
+/* some magick for opera 7.x - 8.x */
+@media all and (min-width: 0px) 
+{
+  .QxFieldSetFrame{
+    border: 2px groove ThreeDHighlight;
+  }
+}
+
 .QxFieldSetLegend{
   display: none;
   position: absolute;
