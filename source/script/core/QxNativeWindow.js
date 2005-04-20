@@ -2,11 +2,10 @@ function QxNativeWindow(vCaption, vSource)
 {
   QxTarget.call(this);
 
-  this._timer = new QxTimer(50);
+  this._timer = new QxTimer(1);
   this._timer.addEventListener("interval", this._ontimer, this);
 
   var o = this;
-  this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
   this.__onload = function(e) { return o._onload(e); };
 
   if (isValidString(vSource)) {
@@ -207,7 +206,7 @@ proto._applyCaption = function()
 proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 
   if(this._window && !this._window.closed) {
-    this._window.location.replace(isValidString(propValue) ? propValue : "javascript:/" + "/");
+    this._window.location.replace(isValidString(propValue) ? propValue : ("javascript:/" + "/"));
   };
 
   return true;
@@ -302,7 +301,7 @@ proto.open = function()
 
   this._isOpened = false;
   this._isLoaded = false;
-  this._readyState = isValidString(this.getSource()) ? 5 : 0;
+  this._readyState = 0;
 
 
   /* 
@@ -324,37 +323,8 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
 
-  this._window = window.open(isValidString(this.getSource()) ? this.getSource() : "about:blank", "w" + this.toHash(), conf);
+  this._window = window.open("about:blank", "w" + this.toHash(), conf);
   this._timer.restart();
-  
-  try{
-    this._window._QxNativeWindow = this;
-  } catch(ex) {};  
-  
-  // should we remove this events?
-  // in mshtml and gecko they just does not work (we have coded some workarounds)
-  /*
-  QxDOM.addEventListener(this._window, "load", this.__onload);
-  QxDOM.addEventListener(this._window, "readystatechange", this.__onreadystatechange);
-  */
-
-
-
-  /* 
-  -----------------------------------------------------------------------------
-    POST FIX (ESPECIALLY FOR GECKO)
-  -----------------------------------------------------------------------------
-  */  
-  
-  /*
-  if (isValidNumber(this.getWidth()) && isValidNumber(this.getHeight())) {
-    this._window.resizeTo(this.getWidth(), this.getHeight());
-  };
-
-  if (isValidNumber(this.getLeft()) && isValidNumber(this.getTop())) {
-    this._window.moveTo(this.getLeft(), this.getTop());
-  };
-  */
 };
 
 
@@ -467,8 +437,32 @@ proto._ontimer = function(e)
       this._isLoaded = false;
     
       var d = this._window.document;
-      if (d && d.body) {
-        this._readyState++;
+      if (d) 
+      {
+        try {
+          this._window._QxNativeWindow = this;
+        } catch(ex) {};  
+  
+        if (isValidString(this.getSource()))
+        {
+          try
+          {
+            // in mshtml it seems not to work, even not for onreadystatechange
+            // (workaround see case 5 below)
+            QxDOM.addEventListener(this._window, "load", this.__onload);
+          }
+          catch(ex) {
+          };
+
+          this._window.location.replace(this.getSource());
+          this._readyState = 5;          
+        }
+        else
+        {
+          if (d.body) {
+            this._readyState++;
+          };
+        };
       };
       
       break;
@@ -560,23 +554,13 @@ proto._ontimer = function(e)
       break;
       
     case 5:
-      try
-      {
+
+      // workaround for mshtml (see case 0 below)
+      try {
         if (this._window.document.readyState == "complete") {
           this._onload();
         };
-      }
-      catch(ex)
-      {
-        // browsers prohibit the cross-domain-scripting here
-        
-        // Windows XP SP1:
-        // IE 6.0.2800.1106.xpsp2 throws an exception if the document is loaded and prohibit the access to it
-        
-        // Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.7) Gecko/20050414 Firefox/1.0.3
-        // behaves the same way
-        this._onload();
-      };
+      } catch(ex) {};
       
       if (!this.getMoveable()) {
         this._window.moveTo(this.getLeft(), this.getTop());
@@ -634,16 +618,6 @@ proto._ontimer = function(e)
   delete this._timerRun;
 };
 
-proto._onreadystatechange = function()
-{
-  if (!this._isLoaded && this._window.document && this._window.document.readyState == "complete") 
-  {
-    this._isLoaded = true;
-    this._window.focus();
-    this.dispatchEvent(new QxEvent("load"));
-  };
-};
-
 proto._onload = function()
 {
   if (!this._isLoaded) 
@@ -693,10 +667,7 @@ proto.dispose = function()
   {
     if (!this._window.closed)
     {
-      /*
       QxDOM.removeEventListener(this._window, "load", this.__onload);
-      QxDOM.removeEventListener(this._window, "readystatechange", this.__onreadystatechange);
-      */
     };
 
     this.close();
