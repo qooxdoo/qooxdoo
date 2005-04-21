@@ -1339,15 +1339,12 @@ proto.remove = function()
 proto.removeAll = function()
 {
   var cs = this.getChildren();
-  var co;
-  var l = cs.length;
+  var co = cs[0];
 
-  for (var i = 0; i < l; i++)
+  while (co)
   {
-    co = cs[i];
-
     this.remove(co);
-    co.dispose();
+    co = cs[0];
   };
 };
 
