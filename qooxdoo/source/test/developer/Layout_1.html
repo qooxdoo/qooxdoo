@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <meta http-equiv="MsThemeCompatible" content="yes" />
+  <meta http-equiv="ImageToolBar" content="no" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Tests for new Layout Managers</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+    
+    var b = new QxBox;
+    b.setLocation(20, 48);
+    b.setDimension(700, 100);
+    b.setBackgroundColor("white");
+    b.setBorder(QxBorder.presets.black);
+    
+    
+    var w1 = new QxWidget;
+    w1.setDimension(20, 50);
+    w1.setBackgroundColor("orange");
+    
+    
+    var w2 = new QxWidget;
+    w2.setDimension(30, 10);
+    w2.setBackgroundColor("blue");
+    
+    var a1 = new QxAtom("Inner Atom", "icons/32/clock.png");
+    
+    var i1 = new QxTextField("Test");
+    
+    var a2 = new QxAtom("Super Box");
+    
+    b.add(w1, w2, a1, i1, a2);
+    
+    
+    
+    
+    
+    var b1 = new QxButton("Start", "icons/16/configure.png");
+    b1.setLocation(0, 0);
+    b1.addEventListener("click", function(e) {
+      b.setAlign("left");
+    });
+    
+    var b2 = new QxButton("Center", "icons/16/configure.png");
+    b2.setLocation(0, 30);
+    b2.addEventListener("click", function(e) {
+      b.setAlign("center");
+    });
+
+    var b3 = new QxButton("End", "icons/16/configure.png");
+    b3.setLocation(0, 60);
+    b3.addEventListener("click", function(e) {
+      b.setAlign("right");
+    });
+    
+    
+    
+    
+    var fs1 = new QxFieldSet("Settings");
+    fs1.setLocation(20, 200);
+    fs1.setDimension("auto", "auto");
+    
+    fs1.add(b1, b2, b3);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    d.add(b, fs1);
+    
+    
+  };
+  </script>
+</body>
+</html>

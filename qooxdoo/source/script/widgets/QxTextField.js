@@ -135,10 +135,43 @@ if ((new QxClient).isGecko())
   };   
 };
 
+proto.getPreferredWidth = function()
+{
+  var el = this.getElement();
+  
+  if (el)
+  {
+    var w = el.style.width;
+    el.style.width = "";
 
+    var o = el.offsetWidth;    
+    
+    el.style.width = isValid(w) ? w : "";
+    
+    return o;
+  };
+  
+  return 0;
+};
 
+proto.getPreferredHeight = function()
+{
+  var el = this.getElement();
+  
+  if (el)
+  {
+    var h = el.style.height;
+    el.style.height = "";
 
-
+    var o = el.offsetHeight;    
+    
+    el.style.height = isValid(h) ? h : "";
+    
+    return o;
+  };
+  
+  return 0;
+};
 
 
 
@@ -198,8 +231,6 @@ proto._oninlineevent = function(e)
 
   return QxWidget.prototype._oninlineevent.call(this, e);  
 };
-
-
 
 
 
