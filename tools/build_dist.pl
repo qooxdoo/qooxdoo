@@ -609,6 +609,13 @@ __DATA__
     <class>QxNativeWindow</class>
   </package>
   
+  <package name="box">
+    <depends>widget</depends>
+    
+    <class>QxBox</class>
+    <class>QxHBox</class>
+    <class>QxVBox</class>
+  </package>
   
   
   

@@ -1188,3 +1188,17 @@ html[QxFocused] {
   position: absolute;
   padding: 0 4px;
 }
+
+
+
+
+
+/*
+  ------------------------------------------
+    BOX
+  ------------------------------------------
+*/
+
+.QxBox{
+  position: absolute; 
+}
