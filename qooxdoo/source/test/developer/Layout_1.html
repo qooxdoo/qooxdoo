@@ -32,6 +32,8 @@
     b.setDimension(700, 100);
     b.setBackgroundColor("white");
     b.setBorder(QxBorder.presets.black);
+    b.setHeight("auto");
+    b.setWidth("auto");
     
     
     var w1 = new QxWidget;
@@ -46,41 +48,68 @@
     var a1 = new QxAtom("Inner Atom", "icons/32/clock.png");
     
     var i1 = new QxTextField("Test");
+    i1.setMarginRight(10);
     
     var a2 = new QxAtom("Super Box");
     
     b.add(w1, w2, a1, i1, a2);
+    d.add(b);
     
     
-    
-    
-    
-    var b1 = new QxButton("Start", "icons/16/configure.png");
-    b1.setLocation(0, 0);
-    b1.addEventListener("click", function(e) {
-      b.setAlign("left");
-    });
-    
-    var b2 = new QxButton("Center", "icons/16/configure.png");
-    b2.setLocation(0, 30);
-    b2.addEventListener("click", function(e) {
-      b.setAlign("center");
-    });
 
-    var b3 = new QxButton("End", "icons/16/configure.png");
-    b3.setLocation(0, 60);
-    b3.addEventListener("click", function(e) {
-      b.setAlign("right");
+    
+    
+
+
+    var fs1 = new QxFieldSet("Alignment");
+    fs1.setLocation(20, 200);
+    fs1.setDimension(250, 200);
+    
+    d.add(fs1);    
+    
+    
+    
+    var label1 = new QxAtom("Horizontal");
+    label1.setLocation(0, 3);
+    
+    var label2 = new QxAtom("Vertical");
+    label2.setLocation(0, 33);
+    
+    var sel1 = new QxComboBox();
+    sel1.setLocation(60, 0);
+    
+    var sel2 = new QxComboBox();
+    sel2.setLocation(60, 30);    
+    
+    var li1_1 = new QxListItem("Left");
+    var li1_2 = new QxListItem("Center");
+    var li1_3 = new QxListItem("Right");
+
+    var li2_1 = new QxListItem("Top");
+    var li2_2 = new QxListItem("Middle");
+    var li2_3 = new QxListItem("Bottom");
+    
+    sel1.getList().add(li1_1, li1_2, li1_3);
+    sel2.getList().add(li2_1, li2_2, li2_3);
+    
+    sel1.setSelected(li1_1);
+    sel2.setSelected(li2_1);
+    
+    
+    
+    
+    sel1.addEventListener("changeSelected", function(e) {
+      b.setHorizontalBlockAlign(e.getNewValue().getText().toLowerCase());
+    });
+    
+    sel2.addEventListener("changeSelected", function(e) {
+      b.setVerticalBlockAlign(e.getNewValue().getText().toLowerCase());
     });
     
     
+
     
-    
-    var fs1 = new QxFieldSet("Settings");
-    fs1.setLocation(20, 200);
-    fs1.setDimension("auto", "auto");
-    
-    fs1.add(b1, b2, b3);
+    fs1.add(label1, label2, sel1, sel2);
     
     
     
@@ -91,7 +120,7 @@
     
     
     
-    d.add(b, fs1);
+    
     
     
   };

@@ -9,25 +9,27 @@ function QxBox()
 QxBox.extend(QxWidget, "QxBox");
 
 /*
-  Alignment of box content
+  Horizontal alignment of box content block (if orientation==horizontal)
   
-  Possible values: left|top, center, right|bottom
+  Possible values: left, center, right
 */
-QxBox.addProperty({ name : "align", type : String, defaultValue : "left" });
+QxBox.addProperty({ name : "horizontalBlockAlign", type : String, defaultValue : "left" });
+
+/*
+  Vertical alignment of box content block (if orientation==vertical)
+  
+  Possible values: top, middle, bottom
+*/
+QxBox.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "top" });
 
 /*!
   Orientation of box
   
   Possible values: horizontal or vertical
 */
-QxBox.addProperty({ name : "orient", type : String, defaultValue : "horizontal" });
+QxBox.addProperty({ name : "orientation", type : String, defaultValue : "horizontal" });
 
-/*!
-  This describes how to layout the controls when there are no flexing children and there is any remaining space. 
 
-  Possible values are: start, center, end
-*/
-QxBox.addProperty({ name : "align", type : String });
 
 
 
@@ -228,6 +230,8 @@ proto._layoutInternalWidgetsHorizontal = function()
       };
     };
     
+    w += chc.getMarginLeft() + chc.getMarginRight();
+    
     // this.debug("Width[" + chc + "]:" + w);
     
     sum += w;   
@@ -237,7 +241,7 @@ proto._layoutInternalWidgetsHorizontal = function()
   
   var startpos = 0;
   
-  switch(this.getAlign())
+  switch(this.getHorizontalBlockAlign())
   {
     case "left":
       break;
@@ -281,41 +285,87 @@ proto._layoutInternalWidgetsVertical = function()
 
 
 
-proto._checkAlign = function(propValue, propOldValue, propName, uniqModIds)
+
+
+
+
+
+
+
+
+
+proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
 {
-  if (this.getOrient() == "horizontal")
-  {
-    switch(propValue)
-    {
-      case "left":  
-      case "right":
-      
-      case "center":
-        return propValue;
-        
-      default:
-        throw new Error("Unallowed alignment for QxBox with orientation: " + this.getOrient());      
-    };
-  }
-  else
-  {
-    switch(propValue)
-    {
-      case "top":  
-      case "bottom":
-      
-      case "center":
-        return propValue;
-        
-      default:
-        throw new Error("Unallowed alignment for QxBox with orientation: " + this.getOrient());      
-    };    
-  };
+  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical();
+  
+  return true;
+};
+
+proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical();
+  
+  return true;
+};
+
+proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical();
+  
+  return true;
 };
 
 
-proto._modifyAlign = function(propValue, propOldValue, propName, uniqModIds)
+
+
+
+
+
+
+
+
+
+proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
 {
-  this._layoutInternalWidgetsHorizontal();
-  return true;
+  if (this.getOrientation() == "vertical") {
+    return QxWidget.prototype._calculateChildrenDependWidth.call(this, vModifiedWidget, vHint);
+  };
+  
+  var w = 0;
+  
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
+  
+  for (var i=0; i<chl; i++)
+  {
+    chc = ch[i];
+    w += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
+  };
+  
+  return w;
+};
+
+proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
+{
+  if (this.getOrientation() == "horizontal") {
+    return QxWidget.prototype._calculateChildrenDependHeight.call(this, vModifiedWidget, vHint);
+  };  
+  
+  var h = 0;
+  
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
+  
+  for (var i=0; i<chl; i++)
+  {
+    chc = ch[i];
+    h += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom();
+  };
+  
+  return h;
 };
