@@ -103,11 +103,17 @@ proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue)
   {
-    propValue.getTopLevelWidget().add(this._popup);
+    var p = propValue.getTopLevelWidget();
+    if (p) {
+      p.add(this._popup);
+    };
   }
   else if (propOldValue)
   {
-    propOldValue.getTopLevelWidget().remove(this._popup);
+    var p = propOldValue.getTopLevelWidget();
+    if (p) {
+      p.remove(this._popup);
+    };
   };
   
   return QxWidget.prototype._modifyParent.call(this, propValue, propOldValue, propName, uniqModIds);
@@ -301,7 +307,17 @@ proto.createPopup = function()
     p.setLeft(this.getComputedPageBoxLeft() + 1);
     p.setTop(this.getComputedPageBoxBottom());
     p.setWidth(this.getComputedBoxWidth() - 2);    
-    
+  };    
+
+  var pa = this.getParent();
+  var pt = pa ? pa.getTopLevelWidget() : null;
+  
+  if (pt) {
+    pt.add(p);    
+  };  
+
+  if (!p.isCreated()) 
+  {
     p._createElement();
     p.setVisible(false);
   };
@@ -358,7 +374,10 @@ proto._openPopup = function()
     l.setOverflow("hidden");
   };
     
-  
+  // force syncronisation of popup position and size
+  p.setLeft(this.getComputedPageBoxLeft() + 1);
+  p.setTop(this.getComputedPageBoxBottom());
+  p.setWidth(this.getComputedBoxWidth() - 2);    
   
   // Handle editable 
   if (this.isEditable()) 
@@ -437,6 +456,7 @@ proto._onmousedown = function(e)
     case this._textfield:
       return;
     
+    case this:
     case this._atom:
     case this._button:
     case this._buttonimage:
