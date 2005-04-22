@@ -3,7 +3,8 @@ function QxBarSelectorButton(vText, vIcon, vIconWidth, vIconHeight, vChecked)
   QxTab.call(this, vText, vIcon, vIconWidth, vIconHeight, vChecked);
 
   this.setIconPosition("top");
-  this.setHorizontalAlign("center");
+  this.setHorizontalBlockAlign("center");
+  this.setVerticalBlockAlign("middle");
 };
 
 QxBarSelectorButton.extend(QxTab, "QxBarSelectorButton");
