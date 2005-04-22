@@ -676,7 +676,7 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
   if (!this._wasVisible) {
     return;
   };
-
+  
   switch(vHint)
   {
     case "position-and-size":
