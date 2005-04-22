@@ -146,6 +146,8 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
     return;
   };
   
+  this._layoutInternalWidgetsVertical(vHint);
+  
   switch(vHint)
   {
     case "position-and-size":
@@ -172,7 +174,7 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
   if (!this._wasVisible) {
     return;
   };
-
+  
   switch(vHint)
   {
     case "position-and-size":
@@ -244,15 +246,10 @@ proto._layoutInternalWidgetsHorizontal = function()
     sum += w;   
   };
     
-  // this.debug("Positions: " + p);
-  
   var startpos = 0;
   
   switch(this.getHorizontalBlockAlign())
   {
-    case "left":
-      break;
-      
     case "center":
       startpos = (inner - sum) / 2;
       break;
@@ -262,16 +259,11 @@ proto._layoutInternalWidgetsHorizontal = function()
       break;
   };
 
-
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
-
-    chc.setLeft(startpos + p[i]);    
-  };
-
-  
-  
+    chc._applyPositionHorizontal(startpos + p[i]);    
+  }; 
 };
 
 
@@ -415,4 +407,58 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   };
   
   return h;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
+{
+  var newWidth = this._calculateChildrenDependWidth(vModifiedWidget, vHint);
+
+  // this.debug("NewCalculatedWidth: " + newWidth + ", " + this._wasVisible + " == " + this._widthModeValue);
+
+  // If the width did not change the setter below will not re-layout the children.
+  // We will force this here if the icon or text was appended, to ensure a perfect layout.
+  if (this._widthMode == "inner" && this._widthModeValue == newWidth)
+  {
+    if (vHint == "size") {
+      return this._layoutInternalWidgetsHorizontal(vHint);
+    };
+  }
+  else
+  {
+    this.setInnerWidth(newWidth, null, true);
+  };
+
+  return true;
+};
+
+proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
+{
+  var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
+
+  // If the height did not change the setter below will not re-layout the children.
+  // We will force this here if the icon or text was appended, to ensure a perfect layout.
+  if (this._heightMode == "inner" && this._heightModeValue == newHeight)
+  {
+    if (vHint == "size") {
+      return this._layoutInternalWidgetsVertical(vHint);
+    };
+  }
+  else
+  {
+    this.setInnerHeight(newHeight, null, true);
+  };
+
+  return true;
 };
