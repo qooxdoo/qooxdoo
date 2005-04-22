@@ -2,6 +2,9 @@ function QxBox(vOrientation, vBlockAlign, vChildrenAlign)
 {
   QxWidget.call(this);
   
+  this.setWidth("auto");
+  this.setHeight("auto");
+
   if (isValid(vOrientation)) {
     this.setOrientation(vOrientation);
   };
@@ -223,16 +226,16 @@ proto._layoutInternalWidgetsHorizontal = function()
         sum += w;   
       };
         
-      var startpos = 0;
+      var startpos = this.getPaddingLeft();
       
       switch(this.getHorizontalBlockAlign())
       {
         case "center":
-          startpos = (inner - sum) / 2;
+          startpos += (inner - sum) / 2;
           break;
           
         case "right":
-          startpos = inner - sum;
+          startpos += inner - sum;
           break;
       };
     
@@ -258,16 +261,16 @@ proto._layoutInternalWidgetsHorizontal = function()
       {
         chc = ch[i];  
         cust = chc.getHorizontalAlign();
-        pos = 0;
+        pos = this.getPaddingLeft();
         
         switch(isValidString(cust) ? cust : glob)
         {
           case "right":
-            pos = inner-chc.getAnyWidth();
+            pos += inner-chc.getAnyWidth();
             break;
             
           case "center":
-            pos = Math.floor((inner-chc.getAnyWidth())/2);
+            pos += Math.floor((inner-chc.getAnyWidth())/2);
             break;
         };
         
@@ -300,16 +303,16 @@ proto._layoutInternalWidgetsVertical = function()
       {
         chc = ch[i];  
         cust = chc.getVerticalAlign();
-        pos = 0;
+        pos = this.getPaddingTop();
         
         switch(isValidString(cust) ? cust : glob)
         {
           case "bottom":
-            pos = inner-chc.getAnyHeight();
+            pos += inner-chc.getAnyHeight();
             break;
             
           case "middle":
-            pos = Math.floor((inner-chc.getAnyHeight())/2);
+            pos += Math.floor((inner-chc.getAnyHeight())/2);
             break;
         };
         
@@ -346,16 +349,16 @@ proto._layoutInternalWidgetsVertical = function()
         sum += h;   
       };
         
-      var startpos = 0;
+      var startpos = this.getPaddingTop();
       
       switch(this.getVerticalBlockAlign())
       {
         case "middle":
-          startpos = (inner - sum) / 2;
+          startpos += (inner - sum) / 2;
           break;
           
         case "bottom":
-          startpos = inner - sum;
+          startpos += inner - sum;
           break;
       };
     
@@ -383,26 +386,29 @@ proto._layoutInternalWidgetsVertical = function()
 
 proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this.getWidth() == "auto" ? this._setChildrenDependWidth(this, "orientation") : this._layoutInternalWidgetsHorizontal("orientation");
-  this.getHeight() == "auto" ? this._setChildrenDependHeight(this, "orientation") : this._layoutInternalWidgetsVertical("orientation");
+  if (this._wasVisible)
+  {
+    this.getWidth() == "auto" ? this._setChildrenDependWidth(this, "orientation") : this._layoutInternalWidgetsHorizontal("orientation");
+    this.getHeight() == "auto" ? this._setChildrenDependHeight(this, "orientation") : this._layoutInternalWidgetsVertical("orientation");
+  };
   
   return true;
 };
 
 proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._layoutInternalWidgetsHorizontal();
+  return this._wasVisible ? this._layoutInternalWidgetsHorizontal() : true;
 };
 
 proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._layoutInternalWidgetsVertical();
+  return this._wasVisible ? this._layoutInternalWidgetsVertical() : true;
 };
 
 proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._layoutInternalWidgetsHorizontal();
+  return this._wasVisible ? this._layoutInternalWidgetsHorizontal() : true;
 };
 
 proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._layoutInternalWidgetsVertical();
+  return this._wasVisible ? this._layoutInternalWidgetsVertical() : true;
 };
 
 
@@ -463,8 +469,6 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
 proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
 {
   var newWidth = this._calculateChildrenDependWidth(vModifiedWidget, vHint);
-
-  // this.debug("NewCalculatedWidth: " + newWidth + ", " + this._wasVisible + " == " + this._widthModeValue);
 
   // If the width did not change the setter below will not re-layout the children.
   // We will force this here if the icon or text was appended, to ensure a perfect layout.
