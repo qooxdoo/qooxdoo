@@ -1,5 +1,5 @@
 function QxVBox(vBlockAlign, vChildrenAlign) {
-  QxBox.call("vertical", vBlockAlign, vChildrenAlign);
+  QxBox.call( this, "vertical", vBlockAlign, vChildrenAlign);
 };
 
 QxVBox.extend(QxBox, "QxVBox");

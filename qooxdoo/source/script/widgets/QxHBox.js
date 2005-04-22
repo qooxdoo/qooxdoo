@@ -1,5 +1,5 @@
 function QxHBox(vBlockAlign, vChildrenAlign) {
-  QxBox.call("horizontal", vBlockAlign, vChildrenAlign);
+  QxBox.call( this, "horizontal", vBlockAlign, vChildrenAlign);
 };
 
 QxHBox.extend(QxBox, "QxHBox");
