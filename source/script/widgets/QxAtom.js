@@ -828,44 +828,14 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
 
 proto._onnewchild = function(otherObject)
 {
-  if (this.getWidth() == "auto")
-  {
-    this._setChildrenDependWidth(otherObject, "append-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("append-child");
-  };
-
-  if (this.getHeight() == "auto")
-  {
-    this._setChildrenDependHeight(otherObject, "append-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("append-child");
-  };
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "append-child") : this._layoutInternalWidgetsHorizontal("append-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "append-child") : this._layoutInternalWidgetsVertical("append-child");
 };
 
 proto._onremovechild = function(otherObject)
 {
-  if (this.getWidth() == "auto")
-  {
-    this._setChildrenDependWidth(otherObject, "remove-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("remove-child");
-  };
-
-  if (this.getHeight() == "auto")
-  {
-    this._setChildrenDependHeight(otherObject, "remove-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("remove-child");
-  };
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "remove-child") : this._layoutInternalWidgetsHorizontal("remove-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "remove-child") : this._layoutInternalWidgetsVertical("remove-child");
 };
 
 

@@ -1199,11 +1199,15 @@ html[QxFocused] {
   ------------------------------------------
 */
 
-.QxBox{
+.QxBox, 
+.QxHBox,
+.QxVBox{
   position: absolute; 
   overflow: hidden;
 }
 
-.QxBox{
+.QxBox,
+.QxHBox,
+.QxVBox{
   overflow: -moz-scrollbars-none;
 }
