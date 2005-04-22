@@ -1970,6 +1970,10 @@ proto.getAnyWidth = function()
   var w = this.getWidth();
   var wu = w == "auto" ? null : w;
   
+  if (!wu && !this.isCreated()) {
+    return 0;
+  };
+  
   return wu || this.getPreferredWidth() || this.getComputedBoxWidth() || 0;
 };
 
@@ -1977,6 +1981,10 @@ proto.getAnyHeight = function()
 {
   var h = this.getHeight();
   var hu = h == "auto" ? null : h;
+
+  if (!hu && !this.isCreated()) {
+    return 0;
+  };
 
   return hu || this.getPreferredHeight() || this.getComputedBoxHeight() || 0;
 };
