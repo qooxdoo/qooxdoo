@@ -1201,4 +1201,9 @@ html[QxFocused] {
 
 .QxBox{
   position: absolute; 
+  overflow: hidden;
+}
+
+.QxBox{
+  overflow: -moz-scrollbars-none;
 }

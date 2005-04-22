@@ -58,15 +58,29 @@
     
 
     
+    var win = new QxWindow("Settings");
+    win.setLocation(200, 200);
+    win.setDimension(300, 300);
+    win.getPane().setPadding(10);
+    d.add(win);
+    
     
 
 
     var fs1 = new QxFieldSet("Alignment");
-    fs1.setLocation(20, 200);
-    fs1.setDimension(250, 200);
+    fs1.setLocation(0, 0);
+    fs1.setHeight("auto");
+    fs1.setRight(0);
     
-    d.add(fs1);    
+    win.add(fs1);    
     
+    var fs2 = new QxFieldSet("Dimensions");
+    fs2.setLocation(0, 100);
+    fs2.setHeight("auto");
+    fs2.setRight(0);
+    
+    win.add(fs2);   
+
     
     
     var label1 = new QxAtom("Horizontal");
@@ -74,12 +88,32 @@
     
     var label2 = new QxAtom("Vertical");
     label2.setLocation(0, 33);
+
+    var label3 = new QxAtom("Width");
+    label3.setLocation(0, 3);
+    
+    var label4 = new QxAtom("Height");
+    label4.setLocation(0, 33);        
     
     var sel1 = new QxComboBox();
     sel1.setLocation(60, 0);
+    sel1.setWidth(null);
+    sel1.setRight(0);
     
     var sel2 = new QxComboBox();
     sel2.setLocation(60, 30);    
+    sel2.setWidth(null);
+    sel2.setRight(0);    
+
+    var sel3 = new QxComboBox();
+    sel3.setLocation(60, 0);  
+    sel3.setWidth(null);
+    sel3.setRight(0);    
+    
+    var sel4 = new QxComboBox();
+    sel4.setLocation(60, 30);           
+    sel4.setWidth(null);
+    sel4.setRight(0);    
     
     var li1_1 = new QxListItem("Left");
     var li1_2 = new QxListItem("Center");
@@ -89,11 +123,27 @@
     var li2_2 = new QxListItem("Middle");
     var li2_3 = new QxListItem("Bottom");
     
+    var li3_1 = new QxListItem("Auto");
+    var li3_2 = new QxListItem("200");
+    var li3_3 = new QxListItem("400");
+    var li3_4 = new QxListItem("600");
+    var li3_5 = new QxListItem("800");
+    
+    var li4_1 = new QxListItem("Auto");
+    var li4_2 = new QxListItem("200");
+    var li4_3 = new QxListItem("400");
+    var li4_4 = new QxListItem("600");
+    var li4_5 = new QxListItem("800");
+
     sel1.getList().add(li1_1, li1_2, li1_3);
     sel2.getList().add(li2_1, li2_2, li2_3);
+    sel3.getList().add(li3_1, li3_2, li3_3, li3_4, li3_5);
+    sel4.getList().add(li4_1, li4_2, li4_3, li4_4, li4_5);
     
     sel1.setSelected(li1_1);
     sel2.setSelected(li2_1);
+    sel3.setSelected(li3_1);
+    sel4.setSelected(li4_1);
     
     
     
@@ -106,10 +156,20 @@
       b.setVerticalBlockAlign(e.getNewValue().getText().toLowerCase());
     });
     
-    
+    sel3.addEventListener("changeSelected", function(e) 
+    {
+      var v = e.getNewValue().getText().toLowerCase();
+      b.setWidth(v == "auto" ? v : parseInt(v));
+    });    
 
+    sel4.addEventListener("changeSelected", function(e) 
+    {
+      var v = e.getNewValue().getText().toLowerCase();
+      b.setHeight(v == "auto" ? v : parseInt(v));
+    });    
     
     fs1.add(label1, label2, sel1, sel2);
+    fs2.add(label3, label4, sel3, sel4);
     
     
     
@@ -117,8 +177,7 @@
     
     
     
-    
-    
+    win.setVisible(true);
     
     
     
