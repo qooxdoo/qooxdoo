@@ -1,9 +1,18 @@
-function QxBox()
+function QxBox(vOrientation, vBlockAlign, vChildrenAlign) 
 {
   QxWidget.call(this);
   
-  
-  
+  if (isValid(vOrientation)) {
+    this.setOrientation(vOrientation);
+  };
+
+  if (isValid(vBlockAlign)) {
+    this.getOrientation() == "horizontal" ? this.setHorizontalBlockAlign(vBlockAlign) : this.setVerticalChildrenAlign(vChildrenAlign);
+  };
+
+  if (isValid(vChildrenAlign)) {
+    this.getOrientation() == "horizontal" ? this.setHorizontalChildrenAlign(vChildrenAlign) : this.setVerticalChildrenAlign(vChildrenAlign);
+  };
 };
 
 QxBox.extend(QxWidget, "QxBox");
@@ -56,44 +65,14 @@ QxBox.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue 
 
 proto._onnewchild = function(otherObject)
 {
-  if (this.getWidth() == "auto")
-  {
-    this._setChildrenDependWidth(otherObject, "append-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("append-child");
-  };
-
-  if (this.getHeight() == "auto")
-  {
-    this._setChildrenDependHeight(otherObject, "append-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("append-child");
-  };
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "append-child") : this._layoutInternalWidgetsHorizontal("append-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "append-child") : this._layoutInternalWidgetsVertical("append-child");
 };
 
 proto._onremovechild = function(otherObject)
 {
-  if (this.getWidth() == "auto")
-  {
-    this._setChildrenDependWidth(otherObject, "remove-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("remove-child");
-  };
-
-  if (this.getHeight() == "auto")
-  {
-    this._setChildrenDependHeight(otherObject, "remove-child");
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("remove-child");
-  };
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "remove-child") : this._layoutInternalWidgetsHorizontal("remove-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "remove-child") : this._layoutInternalWidgetsVertical("remove-child");
 };
 
 
@@ -208,155 +187,222 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
 
 
 
-
+/*
+------------------------------------------------------------------------------------
+  RENDERER: PLACEMENT OF CHILDREN
+------------------------------------------------------------------------------------
+*/
 
 proto._layoutInternalWidgetsHorizontal = function()
 {
-  var inner = this.getInnerWidth();
-  
-  var sum = 0;
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  var w;
-  var p = [];
-  
-  for (var i=0; i<chl; i++)
+  switch(this.getOrientation())
   {
-    chc = ch[i];
-    
-    p.push(sum);
-    
-    w = chc.getWidth();
-    
-    if (w == "auto" || w == null)
-    {
-      if (chc.isCreated())
-      {
-        w = chc.getPreferredWidth() || chc.getComputedBoxWidth() || 0;
-      }
-      else
-      {
-        w = 0;
-      };
-    };
-    
-    w += chc.getMarginLeft() + chc.getMarginRight();
-    sum += w;   
-  };
-    
-  var startpos = 0;
-  
-  switch(this.getHorizontalBlockAlign())
-  {
-    case "center":
-      startpos = (inner - sum) / 2;
-      break;
+    case "horizontal":
+      var inner = this.getInnerWidth();
       
-    case "right":
-      startpos = inner - sum;
-      break;
+      var sum = 0;
+      
+      var ch = this.getChildren();
+      var chl = ch.length;
+      var chc;
+      var w;
+      var p = [];
+      
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];
+        
+        p.push(sum);
+        
+        w = chc.getWidth();
+        if (w == "auto" || w == null) {
+          w = chc.isCreated() ? (chc.getPreferredWidth() || chc.getComputedBoxWidth() || 0) : 0;
+        };
+        
+        w += chc.getMarginLeft() + chc.getMarginRight();
+        sum += w;   
+      };
+        
+      var startpos = 0;
+      
+      switch(this.getHorizontalBlockAlign())
+      {
+        case "center":
+          startpos = (inner - sum) / 2;
+          break;
+          
+        case "right":
+          startpos = inner - sum;
+          break;
+      };
+    
+      for (var i=0; i<chl; i++) {
+        ch[i]._applyPositionHorizontal(startpos + p[i]);    
+      };     
+      
+      break;      
+      
+      
+      
+    case "vertical":
+      var inner = this.getInnerWidth();
+      
+      var ch = this.getChildren();
+      var chl = ch.length;
+      var chc;
+      
+      var glob = this.getHorizontalChildrenAlign();
+      var cust, pos;
+      
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];  
+        cust = chc.getHorizontalAlign();
+        pos = 0;
+        
+        switch(isValidString(cust) ? cust : glob)
+        {
+          case "right":
+            pos = inner-chc.getAnyWidth();
+            break;
+            
+          case "center":
+            pos = Math.floor((inner-chc.getAnyWidth())/2);
+            break;
+        };
+        
+        chc._applyPositionHorizontal(pos);
+      };
+      
+      break; 
   };
-
-  for (var i=0; i<chl; i++)
-  {
-    chc = ch[i];
-    chc._applyPositionHorizontal(startpos + p[i]);    
-  }; 
+  
+  return true;
 };
 
 
 
 proto._layoutInternalWidgetsVertical = function()
 {
-  var inner = this.getInnerHeight();
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  
-  var glob = this.getVerticalChildrenAlign();
-  var cust, pos;
-  
-  for (var i=0; i<chl; i++)
+  switch(this.getOrientation())
   {
-    chc = ch[i];  
-    cust = chc.getVerticalAlign();
-    pos = 0;
-    
-    switch(isValidString(cust) ? cust : glob)
-    {
-      case "bottom":
-        pos = inner-chc.getAnyHeight();
-        break;
+    case "horizontal":
+      var inner = this.getInnerHeight();
+      
+      var ch = this.getChildren();
+      var chl = ch.length;
+      var chc;
+      
+      var glob = this.getVerticalChildrenAlign();
+      var cust, pos;
+      
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];  
+        cust = chc.getVerticalAlign();
+        pos = 0;
         
-      case "middle":
-        pos = Math.floor((inner-chc.getAnyHeight())/2);
-        break;
-    };
+        switch(isValidString(cust) ? cust : glob)
+        {
+          case "bottom":
+            pos = inner-chc.getAnyHeight();
+            break;
+            
+          case "middle":
+            pos = Math.floor((inner-chc.getAnyHeight())/2);
+            break;
+        };
+        
+        chc._applyPositionVertical(pos);
+      };
+      
+      break;
+
+
+
+    case "vertical":
+      var inner = this.getInnerHeight();
+      
+      var sum = 0;
+      
+      var ch = this.getChildren();
+      var chl = ch.length;
+      var chc;
+      var h;
+      var p = [];
+      
+      for (var i=0; i<chl; i++)
+      {
+        chc = ch[i];
+        
+        p.push(sum);
+        
+        h = chc.getHeight();
+        if (h == "auto" || h == null) {
+          h = chc.isCreated() ? (chc.getPreferredHeight() || chc.getComputedBoxHeight() || 0) : 0;
+        };
+        
+        h += chc.getMarginTop() + chc.getMarginBottom();
+        sum += h;   
+      };
+        
+      var startpos = 0;
+      
+      switch(this.getVerticalBlockAlign())
+      {
+        case "middle":
+          startpos = (inner - sum) / 2;
+          break;
+          
+        case "bottom":
+          startpos = inner - sum;
+          break;
+      };
     
-    chc._applyPositionVertical(pos);
+      for (var i=0; i<chl; i++) {
+        ch[i]._applyPositionVertical(startpos + p[i]);    
+      };    
+      
+      break;    
   };
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._layoutInternalWidgetsHorizontal();
-  this._layoutInternalWidgetsVertical();
   
-  return true;
+  return true; 
 };
 
-proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._layoutInternalWidgetsHorizontal();
-  this._layoutInternalWidgetsVertical();
-  
-  return true;
-};
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIER
+------------------------------------------------------------------------------------
+*/
 
 proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModIds)
 {
-  this._layoutInternalWidgetsHorizontal();
-  this._layoutInternalWidgetsVertical();
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(this, "orientation") : this._layoutInternalWidgetsHorizontal("orientation");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(this, "orientation") : this._layoutInternalWidgetsVertical("orientation");
   
   return true;
 };
 
-proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._layoutInternalWidgetsHorizontal();
-  this._layoutInternalWidgetsVertical();
-  
-  return true;
+proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._layoutInternalWidgetsHorizontal();
 };
 
-proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._layoutInternalWidgetsHorizontal();
-  this._layoutInternalWidgetsVertical();
-  
-  return true;
+proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._layoutInternalWidgetsVertical();
+};
+
+proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._layoutInternalWidgetsHorizontal();
+};
+
+proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
+  return this._layoutInternalWidgetsVertical();
 };
 
 
@@ -366,6 +412,11 @@ proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName,
 
 
 
+/*
+------------------------------------------------------------------------------------
+  RENDERER: CHILDREN DEPEND DIMENSIONS: MAIN
+------------------------------------------------------------------------------------
+*/
 
 proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
 {
@@ -408,18 +459,6 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   
   return h;
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 proto._setChildrenDependWidth = function(vModifiedWidget, vHint)
 {

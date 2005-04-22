@@ -132,15 +132,27 @@ QxWidget.addProperty({ name : "visibility", type : String, impl : "styleProperty
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "textAlign", type : String, impl : "styleProperty", groups : [ "align" ] });
+QxWidget.addProperty({ name : "textAlign", type : String, impl : "styleProperty" });
 
 /*!
   Mapping to native style property vertical-align.
 
+  This is used by many layout managers, too.
+  
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "verticalAlign", type : String, impl : "styleProperty", groups : [ "align" ] });
+QxWidget.addProperty({ name : "verticalAlign", type : String, impl : "styleProperty" });
+
+/*!
+  Mapping to no(!) native style property - as something like this is not available through html styling.
+  
+  This is used by many layout managers, too.
+
+  This should be used with caution since in some cases
+  this might give unrespected results.
+*/
+QxWidget.addProperty({ name : "horizontalAlign", type : String });
 
 /*!
   Mapping to native style property z-index.

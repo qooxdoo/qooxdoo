@@ -60,29 +60,46 @@
     
     var win = new QxWindow("Settings");
     win.setLocation(500, 100);
-    win.setDimension(250, 400);
+    win.setDimension(280, 380);
+    win.setResizeable(false);
+    win.setShowClose(false);
+    win.setShowMinimize(false);
+    win.setShowMaximize(false);
     win.getPane().setPadding(10);
     
-    
-    
 
+
+    var rb1 = new QxRadioButton("Horizontal Orientation (H)", null, null, true);
+    rb1.setLocation(0, 0);
+    
+    var rb2 = new QxRadioButton("Vertical Orientation (V)");
+    rb2.setLocation(0, 20);
+    
+    var rg1 = new QxRadioButtonManager("orientation", [rb1, rb2]);
+    rg1.addEventListener("changeSelected", function(e) {
+      b.setOrientation(e.getNewValue().getText().split(" ")[0].toLowerCase());
+    });
+    
+    win.add(rb1, rb2);
+    
+    
 
     var fs1 = new QxFieldSet("Block Alignment");
-    fs1.setLocation(0, 0);
+    fs1.setLocation(0, 50);
     fs1.setHeight("auto");
     fs1.setRight(0);
     
     win.add(fs1);    
     
     var fs2 = new QxFieldSet("Dimensions");
-    fs2.setLocation(0, 100);
+    fs2.setLocation(0, 150);
     fs2.setHeight("auto");
     fs2.setRight(0);
     
     win.add(fs2);   
     
     var fs3 = new QxFieldSet("Children Alignment");
-    fs3.setLocation(0, 200);
+    fs3.setLocation(0, 250);
     fs3.setHeight("auto");
     fs3.setRight(0);
     
@@ -92,51 +109,51 @@
 
     
     
-    var label1 = new QxAtom("Horizontal");
+    var label1 = new QxAtom("Horizontal (H)");
     label1.setLocation(0, 3);
     
-    var label2 = new QxAtom("Vertical");
+    var label2 = new QxAtom("Vertical (V)");
     label2.setLocation(0, 33);
 
-    var label3 = new QxAtom("Width");
+    var label3 = new QxAtom("Width (H+V)");
     label3.setLocation(0, 3);
     
-    var label4 = new QxAtom("Height");
+    var label4 = new QxAtom("Height (H+V)");
     label4.setLocation(0, 33);        
     
-    var label5 = new QxAtom("Horizontal");
+    var label5 = new QxAtom("Horizontal (V)");
     label5.setLocation(0, 3);
     
-    var label6 = new QxAtom("Vertical");
+    var label6 = new QxAtom("Vertical (H)");
     label6.setLocation(0, 33);        
 
     var sel1 = new QxComboBox();
-    sel1.setLocation(60, 0);
+    sel1.setLocation(80, 0);
     sel1.setWidth(null);
     sel1.setRight(0);
     
     var sel2 = new QxComboBox();
-    sel2.setLocation(60, 30);    
+    sel2.setLocation(80, 30);    
     sel2.setWidth(null);
     sel2.setRight(0);    
 
     var sel3 = new QxComboBox();
-    sel3.setLocation(60, 0);  
+    sel3.setLocation(80, 0);  
     sel3.setWidth(null);
     sel3.setRight(0);    
     
     var sel4 = new QxComboBox();
-    sel4.setLocation(60, 30);           
+    sel4.setLocation(80, 30);           
     sel4.setWidth(null);
     sel4.setRight(0);    
     
     var sel5 = new QxComboBox();
-    sel5.setLocation(60, 0);  
+    sel5.setLocation(80, 0);  
     sel5.setWidth(null);
     sel5.setRight(0);    
     
     var sel6 = new QxComboBox();
-    sel6.setLocation(60, 30);           
+    sel6.setLocation(80, 30);           
     sel6.setWidth(null);
     sel6.setRight(0);       
     
