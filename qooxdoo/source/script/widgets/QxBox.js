@@ -30,7 +30,19 @@ QxBox.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "
 QxBox.addProperty({ name : "orientation", type : String, defaultValue : "horizontal" });
 
 
-//QxBox.addProperty({ name : "verti
+/*!
+  Horizontal alignment of each child in the block
+  
+  Possible values: left, center, right
+*/
+QxBox.addProperty({ name : "horizontalChildrenAlign", type : String, defaultValue : "center" });
+
+/*!
+  Vertical alignment of each child in the block
+  
+  Possible values: top, middle, bottom
+*/
+QxBox.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "middle" });
 
 
 
@@ -229,13 +241,10 @@ proto._layoutInternalWidgetsHorizontal = function()
     };
     
     w += chc.getMarginLeft() + chc.getMarginRight();
-    
-    // this.debug("Width[" + chc + "]:" + w);
-    
     sum += w;   
   };
     
-  this.debug("Positions: " + p);
+  // this.debug("Positions: " + p);
   
   var startpos = 0;
   
@@ -269,8 +278,34 @@ proto._layoutInternalWidgetsHorizontal = function()
 
 proto._layoutInternalWidgetsVertical = function()
 {
-
-
+  var inner = this.getInnerHeight();
+  
+  var ch = this.getChildren();
+  var chl = ch.length;
+  var chc;
+  
+  var glob = this.getVerticalChildrenAlign();
+  var cust, pos;
+  
+  for (var i=0; i<chl; i++)
+  {
+    chc = ch[i];  
+    cust = chc.getVerticalAlign();
+    pos = 0;
+    
+    switch(isValidString(cust) ? cust : glob)
+    {
+      case "bottom":
+        pos = inner-chc.getAnyHeight();
+        break;
+        
+      case "middle":
+        pos = Math.floor((inner-chc.getAnyHeight())/2);
+        break;
+    };
+    
+    chc._applyPositionVertical(pos);
+  };
 };
 
 
@@ -316,7 +351,21 @@ proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModId
   return true;
 };
 
+proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical();
+  
+  return true;
+};
 
+proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds)
+{
+  this._layoutInternalWidgetsHorizontal();
+  this._layoutInternalWidgetsVertical();
+  
+  return true;
+};
 
 
 

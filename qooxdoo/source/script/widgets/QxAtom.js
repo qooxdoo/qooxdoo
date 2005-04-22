@@ -46,8 +46,8 @@ QxAtom.addProperty({ name : "iconTextGap", type : Number, defaultValue : 4 });
 QxAtom.addProperty({ name : "iconWidth", type : Number });
 QxAtom.addProperty({ name : "iconHeight", type : Number });
 
-QxAtom.addProperty({ name : "horizontalAlign", type : String, defaultValue : "left" });
-QxAtom.addProperty({ name : "verticalAlign", type : String, defaultValue : "middle" });
+QxAtom.addProperty({ name : "horizontalBlockAlign", type : String, defaultValue : "left" });
+QxAtom.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "middle" });
 
 
 
@@ -333,7 +333,7 @@ proto._modifyIconTextGap = function(propValue, propOldValue, propName, uniqModId
   return true;
 };
 
-proto._modifyHorizontalAlign = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (!this._wasVisible || this.getWidth() == "auto") {
     return true;
@@ -342,7 +342,7 @@ proto._modifyHorizontalAlign = function(propValue, propOldValue, propName, uniqM
   return this._layoutInternalWidgetsHorizontal("align");
 };
 
-proto._modifyVerticalAlign = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (!this._wasVisible || this.getHeight() == "auto") {
     return true;
@@ -777,7 +777,7 @@ proto._layoutInternalWidgetsHelper = function(vHint, vNameRangeUp, vDirection, v
 
     var vBoxPos = this["getComputedPadding" + vPaddingStartUp]();
 
-    switch(this["get" + vDirection + "Align"]())
+    switch(this["get" + vDirection + "BlockAlign"]())
     {
       case "center":
       case "middle":
