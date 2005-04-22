@@ -30,7 +30,7 @@ QxBox.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "
 QxBox.addProperty({ name : "orientation", type : String, defaultValue : "horizontal" });
 
 
-
+//QxBox.addProperty({ name : "verti
 
 
 
@@ -134,8 +134,6 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
     return;
   };
   
-  this.debug("CHILD_OUTER_WIDTH: " + vModifiedChild + " : " + vHint + " :: " + vModifiedChild.getPreferredWidth());
-
   switch(vHint)
   {
     case "position-and-size":
