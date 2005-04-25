@@ -617,8 +617,18 @@ __DATA__
     <class>QxVBox</class>
   </package>
   
+  <package name="flowpanel">
+    <depends>widget</depends>
+    
+    <class>QxFlowPanel</class>
+  </package>
   
-  
+  <package name="dockpanel">
+    <depends>widget</depends>
+    
+    <class>QxDockPanel</class>
+  </package>
+
   <package name="all">
     <depends>application</depends>
     <depends>textile</depends>
