@@ -220,25 +220,20 @@ proto._layoutInternalWidgetsHorizontal = function()
       
       for (var i=0; i<chl; i++)
       {
-        chc = ch[i];
-        
+        // add current value to array        
         p.push(sum);
-        
-        w = chc.getWidth();
-        if (w == "auto" || w == null) {
-          w = chc.isCreated() ? (chc.getPreferredWidth() || chc.getComputedBoxWidth() || 0) : 0;
-        };
-        
-        w += chc.getMarginLeft() + chc.getMarginRight();
-        sum += w;   
-        
-        if (i!=chl-1) {
-          sum += spacing;
-        };
+
+        // calculate new value for next child
+        chc = ch[i];
+        sum += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight() + spacing;   
       };
+
+      // substract last spacing
+      sum -= spacing;
         
       var startpos = this.getPaddingLeft();
       
+      // handle block alignment
       switch(this.getHorizontalBlockAlign())
       {
         case "center":
@@ -250,6 +245,7 @@ proto._layoutInternalWidgetsHorizontal = function()
           break;
       };
     
+      // apply new positions
       for (var i=0; i<chl; i++) {
         ch[i]._applyPositionHorizontal(startpos + p[i]);    
       };     
@@ -285,7 +281,10 @@ proto._layoutInternalWidgetsHorizontal = function()
             break;
         };
         
-        chc._applyPositionHorizontal(pos);
+        // we need full control for correct position handling
+        // so we need the remove the configured margin from the
+        // calculated position value
+        chc._applyPositionHorizontal(pos - chc.getMarginLeft());
       };
       
       break; 
@@ -326,8 +325,11 @@ proto._layoutInternalWidgetsVertical = function()
             pos += Math.floor((inner-chc.getAnyHeight())/2);
             break;
         };
-        
-        chc._applyPositionVertical(pos);
+
+        // we need full control for correct position handling
+        // so we need the remove the configured margin from the
+        // calculated position value
+        chc._applyPositionVertical(pos - chc.getMarginTop());
       };
       
       break;
@@ -348,25 +350,20 @@ proto._layoutInternalWidgetsVertical = function()
       
       for (var i=0; i<chl; i++)
       {
-        chc = ch[i];
-        
+        // add current value to array        
         p.push(sum);
-        
-        h = chc.getHeight();
-        if (h == "auto" || h == null) {
-          h = chc.isCreated() ? (chc.getPreferredHeight() || chc.getComputedBoxHeight() || 0) : 0;
-        };
-        
-        h += chc.getMarginTop() + chc.getMarginBottom();
-        sum += h;
-        
-        if (i!=chl-1) {
-          sum += spacing;
-        };        
+
+        // calculate new value for next child
+        chc = ch[i];
+        sum += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom() + spacing;   
       };
+
+      // substract last spacing
+      sum -= spacing;
         
       var startpos = this.getPaddingTop();
       
+      // handle block alignment
       switch(this.getVerticalBlockAlign())
       {
         case "middle":
@@ -378,6 +375,7 @@ proto._layoutInternalWidgetsVertical = function()
           break;
       };
     
+      // apply new positions
       for (var i=0; i<chl; i++) {
         ch[i]._applyPositionVertical(startpos + p[i]);    
       };    
@@ -473,14 +471,11 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
-    w += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
-    
-    if (i!=chl-1) {
-      w += spacing;
-    };    
+    w += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight() + spacing;
   };
   
-  return w;
+  // substract last spacing
+  return w - spacing;
 };
 
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
@@ -499,14 +494,11 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
-    h += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom();
-
-    if (i!=chl-1) {
-      w += spacing;
-    };    
+    h += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom() + spacing;
   };
-  
-  return h;
+
+  // substract last spacing
+  return h - spacing;
 };
 
 proto._setChildrenDependWidth = function(vModifiedWidget, vHint)

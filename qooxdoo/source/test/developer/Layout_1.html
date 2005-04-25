@@ -46,9 +46,10 @@
     w2.setBackgroundColor("blue");
     
     var a1 = new QxAtom("Inner Atom", "icons/32/clock.png");
+    a1.setMarginRight(10);
     
     var i1 = new QxTextField("Test");
-    i1.setMarginRight(10);
+    i1.setMarginTop(20);
     
     var a2 = new QxAtom("Super Box");
     
@@ -135,6 +136,9 @@
     var label7 = new QxAtom("Spacing");
     label7.setLocation(0, 3);          
 
+    var label8 = new QxAtom("Padding");
+    label8.setLocation(0, 33);          
+
     var sel1 = new QxComboBox();
     sel1.setLocation(80, 0);
     sel1.setWidth(null);
@@ -169,6 +173,11 @@
     sel7.setLocation(80, 0);  
     sel7.setWidth(null);
     sel7.setRight(0);    
+
+    var sel8 = new QxComboBox();
+    sel8.setLocation(80, 30);  
+    sel8.setWidth(null);
+    sel8.setRight(0);      
     
     var li1_1 = new QxListItem("Left");
     var li1_2 = new QxListItem("Center");
@@ -203,6 +212,11 @@
     var li7_3 = new QxListItem("5px");
     var li7_4 = new QxListItem("10px");
 
+    var li8_1 = new QxListItem("0px");
+    var li8_2 = new QxListItem("3px");
+    var li8_3 = new QxListItem("5px");
+    var li8_4 = new QxListItem("10px");
+
     sel1.getList().add(li1_1, li1_2, li1_3);
     sel2.getList().add(li2_1, li2_2, li2_3);
     sel3.getList().add(li3_1, li3_2, li3_3, li3_4, li3_5);
@@ -210,6 +224,7 @@
     sel5.getList().add(li5_1, li5_2, li5_3);
     sel6.getList().add(li6_1, li6_2, li6_3);
     sel7.getList().add(li7_1, li7_2, li7_3, li7_4);
+    sel8.getList().add(li8_1, li8_2, li8_3, li8_4);
     
     sel1.setSelected(li1_1);
     sel2.setSelected(li2_1);
@@ -218,6 +233,7 @@
     sel5.setSelected(li5_2);
     sel6.setSelected(li6_2);
     sel7.setSelected(li7_1);
+    sel8.setSelected(li8_1);
     
     
     
@@ -254,7 +270,9 @@
       b.setSpacing(parseInt(e.getNewValue().getText()));
     });     
     
-    
+    sel8.addEventListener("changeSelected", function(e) {
+      b.setPadding(parseInt(e.getNewValue().getText()));
+    });     
     
     
     
@@ -274,7 +292,7 @@
     fs1.add(label1, label2, sel1, sel2);
     fs2.add(label3, label4, sel3, sel4);
     fs3.add(label5, label6, sel5, sel6);
-    fs4.add(label7, sel7);
+    fs4.add(label7, label8, sel7, sel8);
     
     
     
