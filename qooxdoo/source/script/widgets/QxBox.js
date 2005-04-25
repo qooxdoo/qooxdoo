@@ -41,7 +41,6 @@ QxBox.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "
 */
 QxBox.addProperty({ name : "orientation", type : String, defaultValue : "horizontal" });
 
-
 /*!
   Horizontal alignment of each child in the block
   
@@ -62,6 +61,14 @@ QxBox.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue 
   Possible values: any positive integer value
 */
 QxBox.addProperty({ name : "spacing", type : Number, defaultValue : 0 });
+
+/*!
+  Ignore margins of the opposite direction
+  
+  This means a QxHBox ignores marginTop and marginBottom, and 
+  a QxVBox ignores marginLeft and marginRight of its children.
+*/
+QxBox.addProperty({ name : "ignoreOppositeMargin", type : Boolean, defaultValue : false });
 
 
 /*
@@ -262,6 +269,8 @@ proto._layoutInternalWidgetsHorizontal = function()
       var chc;
       
       var glob = this.getHorizontalChildrenAlign();
+      var ign = this.getIgnoreOppositeMargin();
+      
       var cust, pos;
       
       for (var i=0; i<chl; i++)
@@ -284,7 +293,11 @@ proto._layoutInternalWidgetsHorizontal = function()
         // we need full control for correct position handling
         // so we need the remove the configured margin from the
         // calculated position value
-        chc._applyPositionHorizontal(pos - chc.getMarginLeft());
+        if (ign) {
+          pos -= chc.getMarginLeft();
+        };
+        
+        chc._applyPositionHorizontal(pos);
       };
       
       break; 
@@ -307,6 +320,8 @@ proto._layoutInternalWidgetsVertical = function()
       var chc;
       
       var glob = this.getVerticalChildrenAlign();
+      var ign = this.getIgnoreOppositeMargin();
+      
       var cust, pos;
       
       for (var i=0; i<chl; i++)
@@ -329,7 +344,11 @@ proto._layoutInternalWidgetsVertical = function()
         // we need full control for correct position handling
         // so we need the remove the configured margin from the
         // calculated position value
-        chc._applyPositionVertical(pos - chc.getMarginTop());
+        if (ign) {
+          pos -= chc.getMarginTop();
+        };
+                
+        chc._applyPositionVertical(pos);
       };
       
       break;
@@ -421,6 +440,23 @@ proto._modifySpacing = function(propValue, propOldValue, propName, uniqModIds)
     {
       this.getHeight() == "auto" ? this._setChildrenDependHeight(null, "spacing") : this._layoutInternalWidgetsVertical("spacing");
     };   
+  };
+  
+  return true;
+};
+
+proto._modifyIgnoreOppositeMargin = function(propValue, propOldValue, propName, uniqModIds) 
+{
+  if (this._wasVisible)
+  {
+    if (this.getOrientation() != "horizontal")
+    {
+      this._layoutInternalWidgetsHorizontal("spacing");
+    }
+    else
+    {
+      this._layoutInternalWidgetsVertical("spacing");
+    };
   };
   
   return true;
