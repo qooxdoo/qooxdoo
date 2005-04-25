@@ -60,7 +60,7 @@
     
     var win = new QxWindow("Settings");
     win.setLocation(500, 100);
-    win.setDimension(280, 380);
+    win.setDimension(280, 480);
     win.setResizeable(false);
     win.setShowClose(false);
     win.setShowMinimize(false);
@@ -105,7 +105,12 @@
     
     win.add(fs3);   
 
+    var fs4 = new QxFieldSet("Options");
+    fs4.setLocation(0, 350);
+    fs4.setHeight("auto");
+    fs4.setRight(0);
     
+    win.add(fs4);        
 
     
     
@@ -125,7 +130,10 @@
     label5.setLocation(0, 3);
     
     var label6 = new QxAtom("Vertical (H)");
-    label6.setLocation(0, 33);        
+    label6.setLocation(0, 33);   
+    
+    var label7 = new QxAtom("Spacing");
+    label7.setLocation(0, 3);          
 
     var sel1 = new QxComboBox();
     sel1.setLocation(80, 0);
@@ -157,6 +165,11 @@
     sel6.setWidth(null);
     sel6.setRight(0);       
     
+    var sel7 = new QxComboBox();
+    sel7.setLocation(80, 0);  
+    sel7.setWidth(null);
+    sel7.setRight(0);    
+    
     var li1_1 = new QxListItem("Left");
     var li1_2 = new QxListItem("Center");
     var li1_3 = new QxListItem("Right");
@@ -184,6 +197,11 @@
     var li6_1 = new QxListItem("Top");
     var li6_2 = new QxListItem("Middle");
     var li6_3 = new QxListItem("Bottom");    
+    
+    var li7_1 = new QxListItem("0px");
+    var li7_2 = new QxListItem("3px");
+    var li7_3 = new QxListItem("5px");
+    var li7_4 = new QxListItem("10px");
 
     sel1.getList().add(li1_1, li1_2, li1_3);
     sel2.getList().add(li2_1, li2_2, li2_3);
@@ -191,6 +209,7 @@
     sel4.getList().add(li4_1, li4_2, li4_3, li4_4, li4_5);
     sel5.getList().add(li5_1, li5_2, li5_3);
     sel6.getList().add(li6_1, li6_2, li6_3);
+    sel7.getList().add(li7_1, li7_2, li7_3, li7_4);
     
     sel1.setSelected(li1_1);
     sel2.setSelected(li2_1);
@@ -198,6 +217,7 @@
     sel4.setSelected(li4_1);
     sel5.setSelected(li5_2);
     sel6.setSelected(li6_2);
+    sel7.setSelected(li7_1);
     
     
     
@@ -230,10 +250,31 @@
       b.setVerticalChildrenAlign(e.getNewValue().getText().toLowerCase());
     });     
     
+    sel7.addEventListener("changeSelected", function(e) {
+      b.setSpacing(parseInt(e.getNewValue().getText()));
+    });     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     fs1.add(label1, label2, sel1, sel2);
     fs2.add(label3, label4, sel3, sel4);
     fs3.add(label5, label6, sel5, sel6);
-    
+    fs4.add(label7, sel7);
     
     
     
