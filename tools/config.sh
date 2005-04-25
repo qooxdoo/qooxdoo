@@ -158,3 +158,9 @@ L="$L core/QxNativeWindow"
 L="$L widgets/QxBox"
 L="$L widgets/QxVBox"
 L="$L widgets/QxHBox"
+
+# Flow Panel
+L="$L widgets/QxFlowPanel"
+
+# Dock Panel
+L="$L widgets/QxDockPanel"

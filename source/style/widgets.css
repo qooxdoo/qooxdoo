@@ -1211,3 +1211,23 @@ html[QxFocused] {
 .QxVBox{
   overflow: -moz-scrollbars-none;
 }
+
+
+
+
+/*
+  ------------------------------------------
+    PANEL
+  ------------------------------------------
+*/
+
+.QxFlowPanel,
+.QxDockPanel{
+  position: absolute; 
+  overflow: hidden;  
+};
+
+.QxFlowPanel,
+.QxDockPanel{
+  overflow: -moz-scrollbars-none;
+}

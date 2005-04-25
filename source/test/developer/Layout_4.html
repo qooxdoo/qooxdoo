@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <meta http-equiv="MsThemeCompatible" content="yes" />
+  <meta http-equiv="ImageToolBar" content="no" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Layout Manager: QxFlowPanel</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    var fp = new QxFlowPanel;
+    fp.setEdge(48, 335, 48, 20);
+    fp.setBorder(QxBorder.presets.outset);
+    fp.setPadding(10);
+    
+    var w1 = new QxWidget;
+    w1.setDimension(20, 20);
+    w1.setBackgroundColor("orange");
+    w1.setBorder(QxBorder.presets.black);
+
+    var w2 = new QxWidget;
+    w2.setDimension(60, 30);
+    w2.setBackgroundColor("blue");
+    w2.setBorder(QxBorder.presets.black);
+    
+    var w3 = new QxWidget;
+    w3.setDimension(100, 30);
+    w3.setBackgroundColor("yellow");
+    w3.setBorder(QxBorder.presets.black);
+
+    var w4 = new QxWidget;
+    w4.setDimension(50, 100);
+    w4.setBackgroundColor("green");
+    w4.setBorder(QxBorder.presets.black);
+    
+    var w5 = new QxWidget;
+    w5.setDimension(33, 33);
+    w5.setBackgroundColor("cyan");
+    w5.setBorder(QxBorder.presets.black);
+
+    var w6 = new QxWidget;
+    w6.setDimension(66, 66);
+    w6.setBackgroundColor("magenta");
+    w6.setBorder(QxBorder.presets.black);
+
+    var w7 = new QxWidget;
+    w7.setDimension(90, 10);
+    w7.setBackgroundColor("red");
+    w7.setBorder(QxBorder.presets.black);
+
+    var w8 = new QxWidget;
+    w8.setDimension(30, 20);
+    w8.setBackgroundColor("white");
+    w8.setBorder(QxBorder.presets.black);    
+
+    fp.add(w1, w2, w3, w4, w5, w6, w7, w8);    
+    d.add(fp);
+  };
+  </script>
+</body>
+</html>
