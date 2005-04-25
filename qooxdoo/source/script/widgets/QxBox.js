@@ -56,6 +56,12 @@ QxBox.addProperty({ name : "horizontalChildrenAlign", type : String, defaultValu
 */
 QxBox.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "middle" });
 
+/*!
+  Spacing between widgets (like cellspacing in HTML tables)
+  
+  Possible values: any positive integer value
+*/
+QxBox.addProperty({ name : "spacing", type : Number, defaultValue : 0 });
 
 
 /*
@@ -209,6 +215,7 @@ proto._layoutInternalWidgetsHorizontal = function()
       var chl = ch.length;
       var chc;
       var w;
+      var spacing = this.getSpacing();
       var p = [];
       
       for (var i=0; i<chl; i++)
@@ -224,6 +231,10 @@ proto._layoutInternalWidgetsHorizontal = function()
         
         w += chc.getMarginLeft() + chc.getMarginRight();
         sum += w;   
+        
+        if (i!=chl-1) {
+          sum += spacing;
+        };
       };
         
       var startpos = this.getPaddingLeft();
@@ -332,6 +343,7 @@ proto._layoutInternalWidgetsVertical = function()
       var chl = ch.length;
       var chc;
       var h;
+      var spacing = this.getSpacing();
       var p = [];
       
       for (var i=0; i<chl; i++)
@@ -346,7 +358,11 @@ proto._layoutInternalWidgetsVertical = function()
         };
         
         h += chc.getMarginTop() + chc.getMarginBottom();
-        sum += h;   
+        sum += h;
+        
+        if (i!=chl-1) {
+          sum += spacing;
+        };        
       };
         
       var startpos = this.getPaddingTop();
@@ -395,20 +411,37 @@ proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModId
   return true;
 };
 
+proto._modifySpacing = function(propValue, propOldValue, propName, uniqModIds) 
+{
+  if (this._wasVisible)
+  {
+    if (this.getOrientation() == "horizontal")
+    {
+      this.getWidth() == "auto" ? this._setChildrenDependWidth(null, "spacing") : this._layoutInternalWidgetsHorizontal("spacing");
+    }
+    else
+    {
+      this.getHeight() == "auto" ? this._setChildrenDependHeight(null, "spacing") : this._layoutInternalWidgetsVertical("spacing");
+    };   
+  };
+  
+  return true;
+};
+
 proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsHorizontal() : true;
+  return this._wasVisible ? this._layoutInternalWidgetsHorizontal("block-align") : true;
 };
 
 proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsVertical() : true;
+  return this._wasVisible ? this._layoutInternalWidgetsVertical("block-align") : true;
 };
 
 proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsHorizontal() : true;
+  return this._wasVisible ? this._layoutInternalWidgetsHorizontal("children-align") : true;
 };
 
 proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsVertical() : true;
+  return this._wasVisible ? this._layoutInternalWidgetsVertical("children-align") : true;
 };
 
 
@@ -431,6 +464,7 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
   };
   
   var w = 0;
+  var spacing = this.getSpacing();
   
   var ch = this.getChildren();
   var chl = ch.length;
@@ -440,6 +474,10 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
   {
     chc = ch[i];
     w += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
+    
+    if (i!=chl-1) {
+      w += spacing;
+    };    
   };
   
   return w;
@@ -452,6 +490,7 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   };  
   
   var h = 0;
+  var spacing = this.getSpacing();
   
   var ch = this.getChildren();
   var chl = ch.length;
@@ -461,6 +500,10 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   {
     chc = ch[i];
     h += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom();
+
+    if (i!=chl-1) {
+      w += spacing;
+    };    
   };
   
   return h;
