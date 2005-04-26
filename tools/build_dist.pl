@@ -615,24 +615,30 @@ __DATA__
     <class>QxLayout</class>
   </package>
   
-  <package name="box">
+  <package name="boxlayout">
     <depends>layout</depends>
     
-    <class>QxBox</class>
-    <class>QxHBox</class>
-    <class>QxVBox</class>
+    <class>QxBoxLayout</class>
+    <class>QxHorizontalBoxLayout</class>
+    <class>QxVerticalBoxLayout</class>
   </package>
   
-  <package name="flowpanel">
+  <package name="flowlayout">
     <depends>layout</depends>
     
-    <class>QxFlowPanel</class>
+    <class>QxFlowLayout</class>
   </package>
   
-  <package name="dockpanel">
+  <package name="docklayout">
     <depends>layout</depends>
     
-    <class>QxDockPanel</class>
+    <class>QxDockLayout</class>
+  </package>
+
+  <package name="gridlayout">
+    <depends>layout</depends>
+    
+    <class>QxGridLayout</class>
   </package>
 
   <package name="all">
@@ -656,8 +662,13 @@ __DATA__
     <depends>listview</depends>
     <depends>spinner</depends>
     <depends>window</depends>
+    <depends>nativewindow</depends>
+    <depends>layout</depends>
+    <depends>boxlayout</depends>
+    <depends>flowlayout</depends>
+    <depends>docklayout</depends>
+    <depends>gridlayout</depends>
   </package>
-  
 </dependencies>
 
   
