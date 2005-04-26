@@ -19,7 +19,7 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p>Layout Manager: QxHBox, QxVBox</p>
+    <p>Layout Manager: QxHorizontalBoxLayout, QxVerticalBoxLayout</p>
   </div>
 
   <script type="text/javascript">
@@ -30,18 +30,18 @@
     var w1 = new QxWindow("Login");
     w1.setLocation(100, 100);
 
-    var v1 = new QxVBox;
+    var v1 = new QxVerticalBoxLayout;
     v1.setPadding(10);
     v1.setEdge(0);
     v1.setVerticalBlockAlign("middle");
 
-    var h1 = new QxHBox;
+    var h1 = new QxHorizontalBoxLayout;
     h1.add( new QxContainer("Login:"), new QxTextField );
 
-    var h2 = new QxHBox;
+    var h2 = new QxHorizontalBoxLayout;
     h2.add( new QxContainer("Password:"), new QxPasswordField );
 
-    var h3 = new QxHBox;
+    var h3 = new QxHorizontalBoxLayout;
     h3.add( new QxButton("Ok"), new QxButton("Cancel") );
 
     v1.add( h1, h2, h3 );

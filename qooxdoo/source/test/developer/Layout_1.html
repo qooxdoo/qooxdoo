@@ -27,14 +27,14 @@
   {
     var d = this.getClientWindow().getDocument();
     
-    var b = new QxBox;
+    var b = new QxBoxLayout;
     b.setLocation(20, 48);
     b.setDimension(700, 100);
     b.setBackgroundColor("white");
     b.setBorder(QxBorder.presets.black);
     b.setHeight("auto");
     b.setWidth("auto");
-    b.setIgnoreOppositeMargin(true);
+    b.setIgnoreOrthogonalMargin(true);
     
     
     
@@ -82,7 +82,8 @@
     
     var rg1 = new QxRadioButtonManager("orientation", [rb1, rb2]);
     rg1.addEventListener("changeSelected", function(e) {
-      b.setOrientation(e.getNewValue().getText().split(" ")[0].toLowerCase());
+      var align = e.getNewValue().getText().split(" ")[0].toLowerCase();
+      b.setOrientation(align);
     });
     
     win.add(rb1, rb2);
@@ -183,7 +184,7 @@
     sel8.setWidth(null);
     sel8.setRight(0);      
     
-    var chk1 = new QxCheckBox("Ignore Opposite Margin");
+    var chk1 = new QxCheckBox("Ignore Orthogonal Margin");
     chk1.setLocation(80, 60);
     chk1.setChecked(true);
     
@@ -283,7 +284,7 @@
     });     
     
     chk1.addEventListener("changeChecked", function(e) {
-      b.setIgnoreOppositeMargin(e.getNewValue());
+      b.setIgnoreOrthogonalMargin(e.getNewValue());
     });
     
     
