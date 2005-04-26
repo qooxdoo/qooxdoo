@@ -169,4 +169,4 @@ L="$L widgets/QxFlowLayout"
 L="$L widgets/QxDockLayout"
 
 # Grid Layout
-L="$L widgets/QxDockLayout"
+L="$L widgets/QxGridLayout"
