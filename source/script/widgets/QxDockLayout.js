@@ -78,7 +78,7 @@ proto._layoutInternalWidgetsHorizontal = function()
   for (var i=0; i<chl; i++) 
   {
     chc = ch[i];
-    cht = chc.getLayoutHint()
+    cht = chc.getLayoutHint();
     
     switch(cht)
     {
@@ -202,7 +202,7 @@ proto._layoutInternalWidgetsVertical = function()
   for (var i=0; i<chl; i++) 
   {
     chc = ch[i];
-    cht = chc.getLayoutHint()
+    cht = chc.getLayoutHint();
     
     switch(cht)
     {
@@ -298,7 +298,7 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
   for (var i=0; i<chl; i++) 
   {
     chc = ch[i];
-    cht = chc.getLayoutHint()
+    cht = chc.getLayoutHint();
     
     switch(cht)
     {
@@ -344,7 +344,7 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
   for (var i=0; i<chl; i++) 
   {
     chc = ch[i];
-    cht = chc.getLayoutHint()
+    cht = chc.getLayoutHint();
     
     switch(cht)
     {
