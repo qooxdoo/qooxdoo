@@ -157,13 +157,16 @@ L="$L core/QxNativeWindow"
 # Layout Core
 L="$L widgets/QxLayout"
 
-# Layout Boxes
-L="$L widgets/QxBox"
-L="$L widgets/QxVBox"
-L="$L widgets/QxHBox"
+# Box Layout
+L="$L widgets/QxBoxLayout"
+L="$L widgets/QxVerticalBoxLayout"
+L="$L widgets/QxHorizontalBoxLayout"
 
-# Flow Panel
-L="$L widgets/QxFlowPanel"
+# Flow Layout
+L="$L widgets/QxFlowLayout"
 
-# Dock Panel
-L="$L widgets/QxDockPanel"
+# Dock Layout
+L="$L widgets/QxDockLayout"
+
+# Grid Layout
+L="$L widgets/QxDockLayout"

@@ -1195,39 +1195,25 @@ html[QxFocused] {
 
 /*
   ------------------------------------------
-    BOX
+    LAYOUT
   ------------------------------------------
 */
 
-.QxBox, 
-.QxHBox,
-.QxVBox{
+.QxBoxLayout, 
+.QxHorizontalBoxLayout,
+.QxVerticalBoxLayout,
+.QxFlowLayout,
+.QxDockLayout,
+.QxGridLayout{
   position: absolute; 
   overflow: hidden;
 }
 
-.QxBox,
-.QxHBox,
-.QxVBox{
-  overflow: -moz-scrollbars-none;
-}
-
-
-
-
-/*
-  ------------------------------------------
-    PANEL
-  ------------------------------------------
-*/
-
-.QxFlowPanel,
-.QxDockPanel{
-  position: absolute; 
-  overflow: hidden;  
-};
-
-.QxFlowPanel,
-.QxDockPanel{
+.QxBoxLayout,
+.QxHorizontalBoxLayout,
+.QxVerticalBoxLayout,
+.QxFlowLayout,
+.QxDockLayout,
+.QxGridLayout{
   overflow: -moz-scrollbars-none;
 }
