@@ -154,6 +154,9 @@ L="$L widgets/QxWindow"
 # Native Window
 L="$L core/QxNativeWindow"
 
+# Layout Core
+L="$L widgets/QxLayout"
+
 # Layout Boxes
 L="$L widgets/QxBox"
 L="$L widgets/QxVBox"

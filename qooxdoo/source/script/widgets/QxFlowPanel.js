@@ -1,13 +1,23 @@
 function QxFlowPanel()
 {
-  QxWidget.call(this);
-  
+  QxLayout.call(this);  
 };
 
-QxFlowPanel.extend(QxWidget, "QxFlowPanel");
+QxFlowPanel.extend(QxLayout, "QxFlowPanel");
 
-QxFlowPanel.addProperty({ name : "horizontalSpacing", type : Number, defaultValue : 10 });
-QxFlowPanel.addProperty({ name : "verticalSpacing", type : Number, defaultValue : 10 });
+/*!
+  Horizontal spacing between widgets (like cellspacing in HTML tables)
+  
+  Possible values: any positive integer value
+*/
+QxFlowPanel.addProperty({ name : "horizontalSpacing", type : Number, defaultValue : 0 });
+
+/*!
+  Vertical spacing between widgets (like cellspacing in HTML tables)
+  
+  Possible values: any positive integer value
+*/
+QxFlowPanel.addProperty({ name : "verticalSpacing", type : Number, defaultValue : 0 });
 
 /*
   Horizontal alignment of box content block
@@ -21,28 +31,8 @@ QxFlowPanel.addProperty({ name : "horizontalBlockAlign", type : String, defaultV
   
   Possible values: top, middle, bottom
 */
-QxFlowPanel.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "middle" });
+QxFlowPanel.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "top" });
 
-
-/*
-------------------------------------------------------------------------------------
-  BASICS
-
-  Extend this core functions of QxWidget.
-------------------------------------------------------------------------------------
-*/
-
-proto._onnewchild = QxBox.prototype._onnewchild;
-proto._onremovechild = QxBox.prototype._onremovechild;
-
-proto._innerWidthChanged = QxBox.prototype._innerWidthChanged;
-proto._innerHeightChanged = QxBox.prototype._innerHeightChanged;
-
-proto._childOuterWidthChanged = QxBox.prototype._childOuterWidthChanged;
-proto._childOuterHeightChanged = QxBox.prototype._childOuterHeightChanged;
-
-proto._setChildrenDependWidth = QxBox.prototype._setChildrenDependWidth;
-proto._setChildrenDependHeight = QxBox.prototype._setChildrenDependHeight;
 
 
 
@@ -55,6 +45,9 @@ proto._setChildrenDependHeight = QxBox.prototype._setChildrenDependHeight;
 
 proto._layoutInternalWidgetsHorizontal = function()
 {
+  // --------------------------------------------------------------------------------------------
+  // Cache data from configuration
+  // --------------------------------------------------------------------------------------------
   var innerWidth = this.getInnerWidth();
   var innerHeight = this.getInnerHeight();
   
@@ -67,158 +60,148 @@ proto._layoutInternalWidgetsHorizontal = function()
   var paddingLeft = this.getPaddingLeft();
   var paddingTop = this.getPaddingTop();
   
+
+  // --------------------------------------------------------------------------------------------
+  // Working variables
+  // --------------------------------------------------------------------------------------------
+  var accumulatedWidth = 0;
+  var accumulatedHeight = 0;
+  
+  var childNeededWidth;
+  var childNeededHeight;
+  
+  var currentRow;  
+  var childCalculatedLeft, childCalculatedTop;  
+  
+  var maxRequiredRowHeight = 0;
+  
+  var rows = [];
+  var childOffsetLeft = [];
+  
+  
+  // --------------------------------------------------------------------------------------------
+  // Method to store row data  
+  // --------------------------------------------------------------------------------------------
+  function storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight)
+  {
+    var r = {
+      width : accumulatedWidth,
+      height : maxRequiredRowHeight,
+      offsetTop : accumulatedHeight
+    };
+    
+    switch(blockAlign)
+    {
+      case "center":
+        r.offsetLeft = (innerWidth - accumulatedWidth) / 2;
+        break;
+      
+      case "right":
+        r.offsetLeft = innerWidth - accumulatedWidth;
+        break;
+      
+      default:
+        r.offsetLeft = 0;
+    };
+    
+    rows.push(r);
+  };  
+  
+  
+  // --------------------------------------------------------------------------------------------
+  // Summarize children data and positions
+  // --------------------------------------------------------------------------------------------
   var ch = this.getChildren();
   var chl = ch.length;
   var chc;
-  
-  var sumX = 0;
-  var sumY = 0;
-  
-  var tempX;
-  var tempY;
-  
-  var rowWidths = [];
-  var rowHeights = [];
-  var rowXStarts = [];
-  var rowCount = 0;
-  
-  var maxY = 0;
-  
-  var posX = [];
-  var posY = [];
-  
+    
   for (var i=0; i<chl; i++)
   {
     chc = ch[i];
     
-    tempX = chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
-    tempY = chc.getAnyHeight();
+    // measure child
+    childNeededWidth = chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
+    childNeededHeight = chc.getAnyHeight();
     
-    if ((sumX + tempX) > innerWidth)
+    if ((accumulatedWidth + childNeededWidth) > innerWidth)
     {
-      // this.debug("MAX REACHED: " + innerWidth);
+      // store current row data
+      storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight);
       
-      chc.__row = ++rowCount;      
-      
-      rowWidths.push(sumX);
-      rowHeights.push(maxY);
-      
-      switch (blockAlign)
-      {
-        case "center":
-          rowXStarts.push(paddingLeft + ((innerWidth - sumX) / 2));
-          break;
+      // store row id to dom node
+      chc.__row = rows.length;
 
-        case "right":
-          rowXStarts.push(paddingLeft + innerWidth - sumX);
-          break;
-          
-        default:
-          rowXStarts.push(paddingLeft);
-          break;
-      };
-
-      sumY += maxY + spacingY;
-      
-      // this.debug("CHILD: " + i + " :: " + 0 + "x" + sumY);
+      // add row to height
+      accumulatedHeight += maxRequiredRowHeight + spacingY;
       
       // store values for this child
-      posX.push(0);
-      posY.push(sumY);
+      childOffsetLeft.push(0);
 
       // calculate new values for next child
-      sumX = tempX + spacingX;
-      maxY = tempY;
+      accumulatedWidth = childNeededWidth + spacingX;
+      maxRequiredRowHeight = childNeededHeight;
     }
     else
     {
-      // this.debug("CHILD: " + i + " :: " + sumX + "x" + sumY);
-      
-      chc.__row = rowCount;
+      // store row id to dom node
+      chc.__row = rows.length;
       
       // store values for this child
-      posX.push(sumX);
-      posY.push(sumY);
+      childOffsetLeft.push(accumulatedWidth);
       
       // calculate new values for next child
-      sumX += tempX + spacingX;  
-      maxY = Math.max(maxY, tempY);
+      accumulatedWidth += childNeededWidth + spacingX;  
+      maxRequiredRowHeight = Math.max(maxRequiredRowHeight, childNeededHeight);
     };
   };  
   
-  rowWidths.push(sumX);
-  rowHeights.push(maxY);  
+  // store current row data
+  storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight);  
   
-  switch (blockAlign)
-  {
-    case "center":
-      rowXStarts.push(paddingLeft + ((innerWidth - sumX) / 2));
-      break;
+  
 
-    case "right":
-      rowXStarts.push(paddingLeft + innerWidth - sumX);
-      break;
-      
-    default:
-      rowXStarts.push(paddingLeft);
-      break;
-  };  
-  
-  this.debug("POS-X: " + posX);
-  this.debug("POS-Y: " + posY);
-  
-  this.debug("ROW-X-STARTS: " + rowXStarts);
-  this.debug("ROW-HEIGHTS: " + rowHeights);
-
-  var currentRow;
-  
+  // --------------------------------------------------------------------------------------------  
+  // Calculate offsets and apply children alignments, finally apply data
+  // --------------------------------------------------------------------------------------------
   for (var i=0; i<chl; i++) 
   {
     chc = ch[i];
     
-    // cache row number and delete from child
-    currentRow = chc.__row;
+    // cache row number and delete from dom node
+    currentRow = rows[chc.__row];
     delete chc.__row;  
     
     // calculate new position values (taking children alignment into account now)
-    tempX = rowXStarts[currentRow] + posX[i];
-    tempY = paddingTop + posY[i];
+    childCalculatedLeft = paddingLeft + currentRow.offsetLeft + childOffsetLeft[i];
+    childCalculatedTop = paddingTop + currentRow.offsetTop;
     
     switch(childrenAlign)
     {
       case "middle":
-        tempY += (rowHeights[currentRow] - chc.getAnyHeight()) / 2;
+        childCalculatedTop += (currentRow.height - chc.getAnyHeight()) / 2;
         break;
       
       case "bottom":
-        tempY += rowHeights[currentRow] - chc.getAnyHeight();
+        childCalculatedTop += currentRow.height - chc.getAnyHeight();
         break;      
     };  
 
     // apply new positions    
-    chc._applyPositionHorizontal(tempX);
-    chc._applyPositionVertical(tempY);
+    chc._applyPositionHorizontal(childCalculatedLeft);
+    chc._applyPositionVertical(childCalculatedTop);
   };   
   
   return true;
 };
 
-
-
-
-
 proto._layoutInternalWidgetsVertical = function() {
   return true;
 };
 
-
 proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) {
-  return 200;  
+  throw new Error("Auto Width is not supported by QxFlowPanel");
 };
 
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) {
-  return 200;  
+  throw new Error("Auto Height is not supported by QxFlowPanel");
 };
-    
-    
-  

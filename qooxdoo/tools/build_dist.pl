@@ -609,8 +609,14 @@ __DATA__
     <class>QxNativeWindow</class>
   </package>
   
-  <package name="box">
+  <package name="layout">
     <depends>widget</depends>
+    
+    <class>QxLayout</class>
+  </package>
+  
+  <package name="box">
+    <depends>layout</depends>
     
     <class>QxBox</class>
     <class>QxHBox</class>
@@ -618,13 +624,13 @@ __DATA__
   </package>
   
   <package name="flowpanel">
-    <depends>widget</depends>
+    <depends>layout</depends>
     
     <class>QxFlowPanel</class>
   </package>
   
   <package name="dockpanel">
-    <depends>widget</depends>
+    <depends>layout</depends>
     
     <class>QxDockPanel</class>
   </package>
