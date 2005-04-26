@@ -41,7 +41,15 @@ proto._innerWidthChanged = function()
   this._invalidateInnerWidth();
   
   // Update placement of children
-  this._layoutInternalWidgetsHorizontal("inner-width")
+  this._layoutInternalWidgetsHorizontal("inner-width");
+  
+  // Update children
+  var ch = this._children;
+  var chl = ch.length;
+
+  for (var i=0; i<chl; i++) {
+    ch[i]._renderHorizontal("parent");
+  };  
 };
 
 
@@ -51,7 +59,15 @@ proto._innerHeightChanged = function()
   this._invalidateInnerHeight();
 
   // Update placement of children
-  this._layoutInternalWidgetsVertical("inner-height")
+  this._layoutInternalWidgetsVertical("inner-height");
+  
+  // Update children
+  var ch = this._children;
+  var chl = ch.length;
+
+  for (var i=0; i<chl; i++) {
+    ch[i]._renderVertical("parent");
+  };  
 };
 
 

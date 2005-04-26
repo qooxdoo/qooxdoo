@@ -86,6 +86,11 @@ QxWidget.addProperty({ name : "cssClassName", type : String });
 */
 QxWidget.addProperty({ name : "timerCreate", type : Boolean, defaultValue : true });
 
+/*!
+  Hint for layout managers
+*/
+QxWidget.addProperty({ name : "layoutHint", defaultValue : "auto" });
+
 
 
 /*

@@ -27,14 +27,14 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var fp = new QxFlowLayout;
-    fp.setEdge(48, 335, 48, 20);
-    fp.setBorder(QxBorder.presets.outset);
-    fp.setPadding(10);
-    fp.setHorizontalSpacing(10);
-    fp.setVerticalSpacing(10);
-    fp.setHorizontalBlockAlign("center");
-    fp.setVerticalChildrenAlign("middle");
+    var fl = new QxFlowLayout;
+    fl.setEdge(48, 335, 48, 20);
+    fl.setBorder(QxBorder.presets.outset);
+    fl.setPadding(10);
+    fl.setHorizontalSpacing(10);
+    fl.setVerticalSpacing(10);
+    fl.setHorizontalBlockAlign("center");
+    fl.setVerticalChildrenAlign("middle");
     
     var w1 = new QxWidget;
     w1.setDimension(20, 20);
@@ -76,8 +76,8 @@
     w8.setBackgroundColor("white");
     w8.setBorder(QxBorder.presets.black);    
 
-    fp.add(w1, w2, w3, w4, w5, w6, w7, w8);    
-    d.add(fp);
+    fl.add(w1, w2, w3, w4, w5, w6, w7, w8);    
+    d.add(fl);
   };
   </script>
 </body>
