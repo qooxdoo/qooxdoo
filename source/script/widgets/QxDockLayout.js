@@ -318,7 +318,7 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
       case "right":
         tempSize = chc.getAnyWidth();
         tempSize = isValidNumber(tempSize) ? tempSize : 0;        
-        accumulatedWidth += Math.min(Math.max(tempSize, chc.getMinWidth(), chc.getMaxWidth()));
+        accumulatedWidth += Math.min(Math.max(tempSize, chc.getMinWidth()), chc.getMaxWidth());
         break;
         
       default:
@@ -326,7 +326,7 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
     };
   };    
   
-  return Math.max(0, Math.max(accumulatedWidth, maxSingleRequiredWidth));
+  return Math.max(0, accumulatedWidth + maxSingleRequiredWidth);
 };
 
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
@@ -372,7 +372,7 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
     };
   };    
   
-  return accumulatedHeight + maxSingleRequiredHeight;
+  return Math.max(0, accumulatedHeight + maxSingleRequiredHeight);
 };
 
 proto._prepareSizeValue = function(size, full, min, max) 
