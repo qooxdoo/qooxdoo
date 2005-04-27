@@ -17,7 +17,7 @@ QxGridLayout.extend(QxLayout, "QxGridLayout");
 QxGridLayout.addProperty({ name : "rowCount", type : Number, defaultValue : 2 });
 QxGridLayout.addProperty({ name : "colCount", type : Number, defaultValue : 2 });
 
-QxGridLayout.addProperty({ name : "colMode", type : String, defaultValue : "max" });
+QxGridLayout.addProperty({ name : "colMode", type : String, defaultValue : "clip" });
 QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
 
 
@@ -186,7 +186,7 @@ proto._layoutInternalWidgetsHorizontal = function()
   var usevirt = isValid(this._virtualCols);
   var virt;
   
-  var clip;
+  var clip, clipsize;
   var cwidth, cspanwidth;
   var colMode = this.getColMode();
   
@@ -222,16 +222,18 @@ proto._layoutInternalWidgetsHorizontal = function()
               break;
               
             case "clip":
-              var clip = chc.getClip();
+              clip = chc.getClip();
+              clipsize = Math.min(chc.getAnyWidth(), cspanwidth);
+
               if (isValidArray(clip))
               {
-                clip = clip.copy();
-                clip[1] = cspanwidth;
+                clip[1] = clipsize;
+                chc.forceClip(null);
                 chc.setClip(clip);
               }
               else
               {
-                chc.setClip([0, cspanwidth, 0, 0]);
+                chc.setClip([0, clipsize, 0, 0]);
               };
               
               chc.setMaxWidth(Infinity);
@@ -316,17 +318,21 @@ proto._layoutInternalWidgetsVertical = function()
               break;
               
             case "clip":
-              var clip = chc.getClip();
+              clip = chc.getClip();
+              clipsize = Math.min(chc.getAnyHeight(), rspanheight);
+
               if (isValidArray(clip))
               {
-                clip = clip.copy();
-                clip[0] = rspanheight;
+                clip[2] = clipsize;
+                chc.forceClip(null);
                 chc.setClip(clip);
               }
               else
               {
-                chc.setClip([rspanheight, 0, 0, 0]);
-              };        
+                chc.setClip([0, 0, clipsize, 0]);
+              };
+              
+              chc.setMaxHeight(null);
               break;
               
             default:
