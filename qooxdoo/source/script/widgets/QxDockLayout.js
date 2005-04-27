@@ -15,6 +15,11 @@ QxDockLayout.addProperty({ name : "respectAutoRequirements", type : Boolean, def
 ------------------------------------------------------------------------------------
 */
 
+/*!
+  Add/Append another widget. Allows to add multiple 
+  widgets at once. The last param could be used to 
+  define the docking of the childrens.
+*/
 proto.add = function()
 {
   var l = arguments.length;

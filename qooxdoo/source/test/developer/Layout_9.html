@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <meta http-equiv="MsThemeCompatible" content="yes" />
+  <meta http-equiv="ImageToolBar" content="no" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Layout Manager: QxDockLayout. Simple example with static dimensions of the children and the layout widget.</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    var dl = new QxGridLayout("150,30%,200", "20%,100,30%,75,*");
+    dl.setEdge(48, 335, 48, 20);
+    dl.setBorder(QxBorder.presets.outset);    
+    dl.setPadding(10);
+    dl.setOverflow("auto");
+    
+    var w1 = new QxWidget;
+    w1.setDimension(200, 200);
+    w1.setBackgroundColor("orange");
+    w1.setBorder(QxBorder.presets.black);
+    dl.add(w1, { row : 1, col : 1, colspan : 2, rowspan : 2 });
+
+    var w3 = new QxWidget;
+    w3.setDimension(100, 30);
+    w3.setBackgroundColor("yellow");
+    w3.setBorder(QxBorder.presets.black);
+    dl.add(w3, { row : 1, col : 3 });
+
+    var w4 = new QxWidget;
+    w4.setDimension(30, 400);
+    w4.setBackgroundColor("green");
+    w4.setBorder(QxBorder.presets.black);
+    dl.add(w4, { row : 1, col : 4, rowspan : 3 });
+    
+    var w7 = new QxWidget;
+    w7.setDimension(90, 90);
+    w7.setBackgroundColor("red");
+    w7.setBorder(QxBorder.presets.black);
+    dl.add(w7, { row : 2, col : 3 });
+  
+    var w9 = new QxWidget;
+    w9.setDimension(33, 33);
+    w9.setBackgroundColor("cyan");
+    w9.setBorder(QxBorder.presets.black);
+    dl.add(w9, { row : 3, col : 1 });
+
+    var w10 = new QxWidget;
+    w10.setDimension(150, 66);
+    w10.setBackgroundColor("purple");
+    w10.setBorder(QxBorder.presets.black);
+    dl.add(w10, { row : 3, col : 2, colspan : 2 });
+
+    d.add(dl);
+  };
+  </script>
+</body>
+</html>
