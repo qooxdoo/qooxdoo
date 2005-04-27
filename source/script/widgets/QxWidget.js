@@ -238,6 +238,10 @@ Overflow modes:
 */
 QxWidget.addProperty({ name : "overflow", type : String });
 
+/*!
+  Clipping of the widget
+*/
+QxWidget.addProperty({ name : "clip", type : Object });
 
 
 
@@ -308,8 +312,6 @@ QxWidget.addProperty({ name : "command", type : Object });
   Appearance of the widget
 */
 QxWidget.addProperty({ name : "appearance", type : String });
-
-
 
 
 
@@ -1141,8 +1143,8 @@ proto.getTopLevelWidget = function()
 };
 
 /*!
-  Add/Append another widget. Allows to add multiple at
-  one, a parameter could be a widget.
+  Add/Append another widget. Allows to add multiple 
+  widgets at once. 
 */
 proto.add = function()
 {
@@ -4773,8 +4775,34 @@ proto._evalBackgroundImage = function()
 };
 
 
+/*
+  -------------------------------------------------------------------------------
+    CLIPPING
+  -------------------------------------------------------------------------------
+*/
 
-
+proto._modifyClip = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (propValue)
+  {
+    try{
+      var r = QxWidget.cssLikeShortHandService(propValue);
+    }
+    catch(ex) {
+      throw new Error("Invalid value for padding: " + ex);
+    };
+    
+    r = r[1];
+  
+    this.setStyleProperty("clip", "rect(" + r[0] + ", " + r[1] + ", " + r[2] + ", " + r[3] + ")");
+  }
+  else
+  {
+    this.removeStyleProperty("clip");
+  };
+  
+  return true;  
+};
 
 
 
