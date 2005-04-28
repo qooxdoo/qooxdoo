@@ -5,11 +5,7 @@ function QxGridLayout(vRowConfig, vColConfig)
   this._rowConfig = isValid(vRowConfig) ? vRowConfig : "auto,auto";
   this._colConfig = isValid(vColConfig) ? vColConfig : "100,100";
   
-  this._rowHeights = this._rowConfig.split(",");
-  this._colWidths = this._colConfig.split(",");
-  
-  this.setRowCount(this._rowHeights.length);
-  this.setColCount(this._colWidths.length);
+  this.init();
 };
 
 QxGridLayout.extend(QxLayout, "QxGridLayout");
@@ -17,7 +13,7 @@ QxGridLayout.extend(QxLayout, "QxGridLayout");
 QxGridLayout.addProperty({ name : "rowCount", type : Number, defaultValue : 2 });
 QxGridLayout.addProperty({ name : "colCount", type : Number, defaultValue : 2 });
 
-QxGridLayout.addProperty({ name : "colMode", type : String, defaultValue : "clip" });
+QxGridLayout.addProperty({ name : "constraintMode", type : String, defaultValue : "clip" });
 QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
 
 
@@ -46,6 +42,16 @@ proto.remove = function(w)
   w.setLayoutHint(null);
 };
 
+proto.init = function()
+{
+  this._rowHeights = this._rowConfig.split(",");
+  this._colWidths = this._colConfig.split(",");
+  
+  this.setRowCount(this._rowHeights.length);
+  this.setColCount(this._colWidths.length); 
+};
+
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -71,7 +77,7 @@ proto._normalizeHorizontalData = function(f)
       var chc, chh;
       var maxv = 0;
       
-      var rc = this.getRowCount();
+      var vRowCount = this.getRowCount();
       
       for (var j=0; j<chl; j++)
       {
@@ -128,8 +134,6 @@ proto._normalizeVerticalData = function(f)
       var chc, chh;
       var maxv = 0;
       
-      var rc = this.getColCount();
-      
       for (var j=0; j<chl; j++)
       {
         chc = ch[j];
@@ -167,32 +171,39 @@ proto._normalizeVerticalData = function(f)
   };
 };
 
-proto._layoutInternalWidgetsHorizontal = function()
+proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
+  /* ---------------------------------------
+     Recalculate dimensions (if needed)
+  --------------------------------------- */
   var innerWidth = this.getInnerWidth();
+
+  if (vHint == "inner-width") {  
+    this._normalizeHorizontalData(innerWidth);
+  };
   
-  this._normalizeHorizontalData(innerWidth);
   
-  var rc = this.getRowCount();
-  var cc = this.getColCount();
   
+  /* ---------------------------------------
+     Prepare variables
+  --------------------------------------- */
+  var vConstraintMode = this.getConstraintMode();
+  var vUseVirtualCells = isValid(this._virtualCells);
+  
+  var vRowCount = this.getRowCount();
+  var vColCount = this.getColCount();
+  
+  var vPaddingLeft = this.getPaddingLeft();
+  var vCurrentLeft = vPaddingLeft;
+
   var ch = this.getChildren();
   var chl = ch.length;
-  var chc, chh;
+
+  var chc, chh, virt, clip, clipsize, cwidth, cspanwidth;
   
-  var padx = this.getPaddingLeft();
-  var posx = padx;
-  
-  var usevirt = isValid(this._virtualCols);
-  var virt;
-  
-  var clip, clipsize;
-  var cwidth, cspanwidth;
-  var colMode = this.getColMode();
-  
-  for (var i=0; i<rc; i++)
+  for (var i=0; i<vRowCount; i++)
   {
-    for (var j=0; j<cc; j++)
+    for (var j=0; j<vColCount; j++)
     {
       cwidth = this._normalizedColWidths[j];
       
@@ -212,9 +223,9 @@ proto._layoutInternalWidgetsHorizontal = function()
             };               
           };
           
-          chc._applyPositionHorizontal(posx);
+          chc._applyPositionHorizontal(vCurrentLeft);
           
-          switch(colMode)
+          switch(vConstraintMode)
           {
             case "max":
               chc.setMaxWidth(cspanwidth);
@@ -244,11 +255,11 @@ proto._layoutInternalWidgetsHorizontal = function()
               chc.setClip(null);
           };
           
-          if (usevirt)
+          if (vUseVirtualCells)
           {
-            virt = this._virtualCols[i*cc+j];
+            virt = this._virtualCells[i*vColCount+j];
            
-            virt.style.left = posx + "px";
+            virt.style.left = vCurrentLeft + "px";
             virt.style.width = cspanwidth + "px";
             
             virt.style.borderLeft = j == 0 ? "1px solid white" : "0 none";
@@ -256,41 +267,48 @@ proto._layoutInternalWidgetsHorizontal = function()
         };
       };
       
-      posx += cwidth;
+      vCurrentLeft += cwidth;
     };  
 
-    posx = padx;
+    vCurrentLeft = vPaddingLeft;
   };
 };
 
-proto._layoutInternalWidgetsVertical = function() 
+proto._layoutInternalWidgetsVertical = function(vHint) 
 {
+  /* ---------------------------------------
+     Recalculate dimensions (if needed)
+  --------------------------------------- */
   var innerHeight = this.getInnerHeight();
   
-  this._normalizeVerticalData(innerHeight);
+  if (vHint == "inner-height") {  
+    this._normalizeVerticalData(innerHeight);
+  };
   
-  var rc = this.getRowCount();
-  var cc = this.getColCount();
+  
+  
+  /* ---------------------------------------
+     Prepare variables
+  --------------------------------------- */  
+  var vConstraintMode = this.getConstraintMode();
+  var vUseVirtualCells = isValid(this._virtualCells);
+  
+  var vRowCount = this.getRowCount();
+  var vColCount = this.getColCount();
+  
+  var vPaddingTop = this.getPaddingTop();
+  var vCurrentTop = vPaddingTop;
   
   var ch = this.getChildren();
   var chl = ch.length;
-  var chc, chh;
   
-  var pady = this.getPaddingTop();
-  var posy = pady;
+  var chc, chh, virt, clip, rheight, rspanheight;
   
-  var usevirt = isValid(this._virtualCols);
-  var virt;  
-  
-  var clip;
-  var rheight, rspanheight;
-  var colMode = this.getColMode();
-  
-  for (var i=0; i<rc; i++)
+  for (var i=0; i<vRowCount; i++)
   {
     rheight = this._normalizedRowHeights[i];
     
-    for (var j=0; j<cc; j++)
+    for (var j=0; j<vColCount; j++)
     {
       for (var k=0; k<chl; k++)
       {
@@ -308,9 +326,9 @@ proto._layoutInternalWidgetsVertical = function()
             };               
           };
           
-          chc._applyPositionVertical(posy);
+          chc._applyPositionVertical(vCurrentTop);
 
-          switch(colMode)
+          switch(vConstraintMode)
           {
             case "max":          
               chc.setMaxHeight(rspanheight);
@@ -340,11 +358,11 @@ proto._layoutInternalWidgetsVertical = function()
               chc.setClip(null);
           };
         
-          if (usevirt)
+          if (vUseVirtualCells)
           {
-            virt = this._virtualCols[i*cc+j];
+            virt = this._virtualCells[i*vColCount+j];
           
-            virt.style.top = posy + "px";
+            virt.style.top = vCurrentTop + "px";
             virt.style.height = rspanheight + "px";
             
             virt.style.borderTop = i == 0 ? "1px solid white" : "0 none";
@@ -353,7 +371,7 @@ proto._layoutInternalWidgetsVertical = function()
       };
     };  
     
-    posy += rheight;
+    vCurrentTop += rheight;
   };
 };
 
@@ -374,23 +392,23 @@ proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint)
 
 
 
-proto._virtualCols = null;
+proto._virtualCells = null;
 
-proto._createVirtualCols = function()
+proto._createVirtualCells = function()
 {
-  var rc = this.getRowCount();
-  var cc = this.getColCount();  
+  var vRowCount = this.getRowCount();
+  var vColCount = this.getColCount();  
   
-  var c = this._virtualCols = [];
+  var c = this._virtualCells = [];
   var p = this.getParent();
   var e = this.getElement();
   var d = p.getTopLevelWidget().getDocumentElement();
   
   var n;
   
-  for (var i=0; i<rc; i++)
+  for (var i=0; i<vRowCount; i++)
   {
-    for (var j=0; j<cc; j++)
+    for (var j=0; j<vColCount; j++)
     {
       n = d.createElement("div");
       n.style.position="absolute";
@@ -404,7 +422,7 @@ proto._createVirtualCols = function()
 
 
 proto._beforeShow = function(uniqModIds) {
-  this._createVirtualCols();
+  this._createVirtualCells();
 };
 
 
@@ -413,12 +431,12 @@ proto._beforeShow = function(uniqModIds) {
 
 
 
-proto._modifyColMode = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyConstraintMode = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (this._wasVisible) 
   {
-    this._layoutInternalWidgetsHorizontal();
-    this._layoutInternalWidgetsVertical();
+    this._layoutInternalWidgetsHorizontal("constraint-mode");
+    this._layoutInternalWidgetsVertical("constraint-mode");
   };
   
   return true;  
