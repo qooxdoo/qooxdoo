@@ -4789,7 +4789,7 @@ proto._modifyClip = function(propValue, propOldValue, propName, uniqModIds)
       var r = QxWidget.cssLikeShortHandService(propValue);
     }
     catch(ex) {
-      throw new Error("Invalid value for padding: " + ex);
+      throw new Error("Invalid value for clip: " + ex);
     };
     
     r = r[1];
