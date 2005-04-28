@@ -5,17 +5,27 @@ function QxGridLayout(vRowConfig, vColConfig)
   this._rowConfig = isValid(vRowConfig) ? vRowConfig : "auto,auto";
   this._colConfig = isValid(vColConfig) ? vColConfig : "100,100";
   
-  this.init();
+  this.initConfig();
 };
 
 QxGridLayout.extend(QxLayout, "QxGridLayout");
 
-QxGridLayout.addProperty({ name : "rowCount", type : Number, defaultValue : 2 });
-QxGridLayout.addProperty({ name : "colCount", type : Number, defaultValue : 2 });
+/*
+------------------------------------------------------------------------------------
+  PROPERTIES
+------------------------------------------------------------------------------------
+*/
 
 QxGridLayout.addProperty({ name : "constraintMode", type : String, defaultValue : "clip" });
 QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
 
+
+
+/*
+------------------------------------------------------------------------------------
+  DATA
+------------------------------------------------------------------------------------
+*/
 
 proto._rowHeights = null;
 proto._colWidths = null;
@@ -25,6 +35,17 @@ proto._colConfig = null;
 
 proto._normalizedRowHeights = null;
 proto._normalizedColWidths = null;
+
+proto._virtualCells = null;
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  REDEFINE WIDGET METHODS
+------------------------------------------------------------------------------------
+*/
 
 /*!
   Add/Append another widget. Allows to add multiple 
@@ -42,20 +63,93 @@ proto.remove = function(w)
   w.setLayoutHint(null);
 };
 
-proto.init = function()
-{
-  this._rowHeights = this._rowConfig.split(",");
-  this._colWidths = this._colConfig.split(",");
-  
-  this.setRowCount(this._rowHeights.length);
-  this.setColCount(this._colWidths.length); 
+proto._beforeShow = function(uniqModIds) {
+  this._createVirtualCells();
 };
+
 
 
 
 /*
 ------------------------------------------------------------------------------------
-  RENDERER: PLACEMENT OF CHILDREN
+  HANDLING FOR GRID CONFIGURATION
+------------------------------------------------------------------------------------
+*/
+
+proto.initConfig = function()
+{
+  this._rowHeights = this._rowConfig.split(",");
+  this._colWidths = this._colConfig.split(",");
+  
+  this._rowCount = this._rowHeights.length;
+  this._colCount = this._colWidths.length;
+};
+
+proto.getRowCount = function() {
+  return this._rowCount;
+};
+
+proto.getColCount = function() {
+  return this._colCount;
+};
+
+proto._createVirtualCells = function()
+{
+  var vRowCount = this.getRowCount();
+  var vColCount = this.getColCount();  
+  
+  var c = this._virtualCells = [];
+  var p = this.getParent();
+  var e = this.getElement();
+  var d = p.getTopLevelWidget().getDocumentElement();
+  
+  var n;
+  
+  for (var i=0; i<vRowCount; i++)
+  {
+    for (var j=0; j<vColCount; j++)
+    {
+      n = d.createElement("div");
+      n.style.position="absolute";
+      n.style.border = "1px solid white";
+      
+      c.push(n);
+      e.appendChild(n);
+    };
+  };
+};
+
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIER
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyConstraintMode = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (this._wasVisible) 
+  {
+    this._layoutInternalWidgetsHorizontal("constraint-mode");
+    this._layoutInternalWidgetsVertical("constraint-mode");
+  };
+  
+  return true;  
+};
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  HORIZONTAL VALUE NORMALIZER
 ------------------------------------------------------------------------------------
 */
 
@@ -116,6 +210,15 @@ proto._normalizeHorizontalData = function(f)
   };  
 };
 
+
+
+
+/*
+------------------------------------------------------------------------------------
+  VERTICAL VALUE NORMALIZER
+------------------------------------------------------------------------------------
+*/
+
 proto._normalizeVerticalData = function(f) 
 {
   var v, t;
@@ -170,6 +273,17 @@ proto._normalizeVerticalData = function(f)
     ar[i] = v;
   };
 };
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: HORIZONTAL PLACEMENT OF CHILDREN
+------------------------------------------------------------------------------------
+*/
 
 proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
@@ -274,6 +388,16 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   };
 };
 
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  RENDERER: VERTICAL PLACEMENT OF CHILDREN
+------------------------------------------------------------------------------------
+*/
+
 proto._layoutInternalWidgetsVertical = function(vHint) 
 {
   /* ---------------------------------------
@@ -376,6 +500,12 @@ proto._layoutInternalWidgetsVertical = function(vHint)
 };
 
 
+
+
+
+
+
+
 proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
 {
   return 500;
@@ -384,60 +514,4 @@ proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint)
 proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
 {
   return 500;
-};
-
-
-
-
-
-
-
-proto._virtualCells = null;
-
-proto._createVirtualCells = function()
-{
-  var vRowCount = this.getRowCount();
-  var vColCount = this.getColCount();  
-  
-  var c = this._virtualCells = [];
-  var p = this.getParent();
-  var e = this.getElement();
-  var d = p.getTopLevelWidget().getDocumentElement();
-  
-  var n;
-  
-  for (var i=0; i<vRowCount; i++)
-  {
-    for (var j=0; j<vColCount; j++)
-    {
-      n = d.createElement("div");
-      n.style.position="absolute";
-      n.style.border = "1px solid white";
-      
-      c.push(n);
-      e.appendChild(n);
-    };
-  };
-};
-
-
-proto._beforeShow = function(uniqModIds) {
-  this._createVirtualCells();
-};
-
-
-
-
-
-
-
-proto._modifyConstraintMode = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (this._wasVisible) 
-  {
-    this._layoutInternalWidgetsHorizontal("constraint-mode");
-    this._layoutInternalWidgetsVertical("constraint-mode");
-  };
-  
-  return true;  
 };
