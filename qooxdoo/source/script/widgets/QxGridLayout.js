@@ -160,31 +160,31 @@ proto._normalizeHorizontalData = function(f)
   var a = this._colWidths;
   var ar = this._normalizedColWidths = [];
   
+  var vChildren = this.getChildren();
+  var vChildrenLength = vChildren.length;
+  var vCurrentChild, vCurrentLayoutHint;
+  var vMaxNeededWidth;
+      
   for (var i=0, l=a.length; i<l; i++)
   {
     v = a[i];
     
     if (v == "auto")
     {
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc, chh;
-      var maxv = 0;
+      vMaxNeededWidth = 0;
       
-      var vRowCount = this.getRowCount();
-      
-      for (var j=0; j<chl; j++)
+      for (var j=0; j<vChildrenLength; j++)
       {
-        chc = ch[j];
-        chh = chc.getLayoutHint();
+        vCurrentChild = vChildren[j];
+        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
           
-        if (chh.col == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(chh.colspan) || chh.colspan <= 1))
+        if (vCurrentLayoutHint.col == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(vCurrentLayoutHint.colspan) || vCurrentLayoutHint.colspan <= 1))
         {
-          maxv = Math.max(chc.getAnyWidth(), maxv);          
+          vMaxNeededWidth = Math.max(vCurrentChild.getAnyWidth(), vMaxNeededWidth);          
         };
       };
       
-      ar[i] = maxv;
+      ar[i] = vMaxNeededWidth;
       continue;
     }
     else if (typeof v == "string" && v != "auto" && v != "*")
@@ -226,29 +226,32 @@ proto._normalizeVerticalData = function(f)
   var a = this._rowHeights;
   var ar = this._normalizedRowHeights = [];
   
+  var vChildren = this.getChildren();
+  var vChildrenLength = vChildren.length;
+  
+  var vCurrentChild, vCurrentLayoutHint;
+  var vMaxNeededHeight;
+
   for (var i=0, l=a.length; i<l; i++)
   {
     v = a[i];
     
     if (v == "auto")
     {
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc, chh;
-      var maxv = 0;
+      vMaxNeededHeight = 0
       
-      for (var j=0; j<chl; j++)
+      for (var j=0; j<vChildrenLength; j++)
       {
-        chc = ch[j];
-        chh = chc.getLayoutHint();
+        vCurrentChild = vChildren[j];
+        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
           
-        if (chh.row == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(chh.rowspan) || chh.rowspan <= 1))
+        if (vCurrentLayoutHint.row == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(vCurrentLayoutHint.rowspan) || vCurrentLayoutHint.rowspan <= 1))
         {
-          maxv = Math.max(chc.getAnyHeight(), maxv);          
+          vMaxNeededHeight = Math.max(vCurrentChild.getAnyHeight(), vMaxNeededHeight);          
         };
       };
       
-      ar[i] = maxv;
+      ar[i] = vMaxNeededHeight;
       continue;
     }
     else if (typeof v == "string" && v != "auto" && v != "*")
@@ -310,78 +313,78 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
   var vPaddingLeft = this.getPaddingLeft();
   var vCurrentLeft = vPaddingLeft;
 
-  var ch = this.getChildren();
-  var chl = ch.length;
+  var vChildren = this.getChildren();
+  var vChildrenLength = vChildren.length;
 
-  var chc, chh, virt, clip, clipsize, cwidth, cspanwidth;
+  var vCurrentChild, vCurrentLayoutHint, vVirtualCell, vClip, vClipSize, vColWidth, vColSpanWidth;
   
   for (var i=0; i<vRowCount; i++)
   {
     for (var j=0; j<vColCount; j++)
     {
-      cwidth = this._normalizedColWidths[j];
+      vColWidth = this._normalizedColWidths[j];
       
-      for (var k=0; k<chl; k++)
+      for (var k=0; k<vChildrenLength; k++)
       {
-        chc = ch[k];
-        chh = chc.getLayoutHint();
+        vCurrentChild = vChildren[k];
+        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
         
-        if (chh.row == (i+1) && chh.col == (j+1)) 
+        if (vCurrentLayoutHint.row == (i+1) && vCurrentLayoutHint.col == (j+1)) 
         {
-          cspanwidth = cwidth;
+          vColSpanWidth = vColWidth;
 
-          if (isValidNumber(chh.colspan) && chh.colspan > 1)
+          if (isValidNumber(vCurrentLayoutHint.colspan) && vCurrentLayoutHint.colspan > 1)
           {
-            for (var l=1; l<chh.colspan; l++) {
-              cspanwidth += this._normalizedColWidths[j+l]
+            for (var l=1; l<vCurrentLayoutHint.colspan; l++) {
+              vColSpanWidth += this._normalizedColWidths[j+l]
             };               
           };
           
-          chc._applyPositionHorizontal(vCurrentLeft);
+          vCurrentChild._applyPositionHorizontal(vCurrentLeft);
           
           switch(vConstraintMode)
           {
             case "max":
-              chc.setMaxWidth(cspanwidth);
-              chc.setClip(null);
+              vCurrentChild.setMaxWidth(vColSpanWidth);
+              vCurrentChild.setClip(null);
               break;
               
             case "clip":
-              clip = chc.getClip();
-              clipsize = Math.min(chc.getAnyWidth(), cspanwidth);
+              vClip = vCurrentChild.getClip();
+              vClipSize = Math.min(vCurrentChild.getAnyWidth(), vColSpanWidth);
 
-              if (isValidArray(clip))
+              if (isValidArray(vClip))
               {
-                clip[1] = clipsize;
-                chc.forceClip(null);
-                chc.setClip(clip);
+                vClip[1] = vClipSize;
+                vCurrentChild.forceClip(null);
+                vCurrentChild.setClip(vClip);
               }
               else
               {
-                chc.setClip([0, clipsize, 0, 0]);
+                vCurrentChild.setClip([0, vClipSize, 0, 0]);
               };
               
-              chc.setMaxWidth(Infinity);
+              vCurrentChild.setMaxWidth(Infinity);
               break;
               
             default:
-              chc.setMaxWidth(Infinity);
-              chc.setClip(null);
+              vCurrentChild.setMaxWidth(Infinity);
+              vCurrentChild.setClip(null);
           };
           
           if (vUseVirtualCells)
           {
-            virt = this._virtualCells[i*vColCount+j];
+            vVirtualCell = this._virtualCells[i*vColCount+j];
            
-            virt.style.left = vCurrentLeft + "px";
-            virt.style.width = cspanwidth + "px";
+            vVirtualCell.style.left = vCurrentLeft + "px";
+            vVirtualCell.style.width = vColSpanWidth + "px";
             
-            virt.style.borderLeft = j == 0 ? "1px solid white" : "0 none";
+            vVirtualCell.style.borderLeft = j == 0 ? "1px solid white" : "0 none";
           };
         };
       };
       
-      vCurrentLeft += cwidth;
+      vCurrentLeft += vColWidth;
     };  
 
     vCurrentLeft = vPaddingLeft;
@@ -423,79 +426,79 @@ proto._layoutInternalWidgetsVertical = function(vHint)
   var vPaddingTop = this.getPaddingTop();
   var vCurrentTop = vPaddingTop;
   
-  var ch = this.getChildren();
-  var chl = ch.length;
+  var vChildren = this.getChildren();
+  var vChildrenLength = vChildren.length;
   
-  var chc, chh, virt, clip, rheight, rspanheight;
+  var vCurrentChild, vCurrentLayoutHint, vVirtualCell, vClip, vRowHeight, vRowSpanHeight;
   
   for (var i=0; i<vRowCount; i++)
   {
-    rheight = this._normalizedRowHeights[i];
+    vRowHeight = this._normalizedRowHeights[i];
     
     for (var j=0; j<vColCount; j++)
     {
-      for (var k=0; k<chl; k++)
+      for (var k=0; k<vChildrenLength; k++)
       {
-        chc = ch[k];
-        chh = chc.getLayoutHint();
+        vCurrentChild = vChildren[k];
+        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
         
-        if (chh.row == (i+1) && chh.col == (j+1))
+        if (vCurrentLayoutHint.row == (i+1) && vCurrentLayoutHint.col == (j+1))
         {
-          rspanheight = rheight;
+          vRowSpanHeight = vRowHeight;
 
-          if (isValidNumber(chh.rowspan) && chh.rowspan > 1)
+          if (isValidNumber(vCurrentLayoutHint.rowspan) && vCurrentLayoutHint.rowspan > 1)
           {
-            for (var l=1; l<chh.rowspan; l++) {
-              rspanheight += this._normalizedRowHeights[i+l]
+            for (var l=1; l<vCurrentLayoutHint.rowspan; l++) {
+              vRowSpanHeight += this._normalizedRowHeights[i+l]
             };               
           };
           
-          chc._applyPositionVertical(vCurrentTop);
+          vCurrentChild._applyPositionVertical(vCurrentTop);
 
           switch(vConstraintMode)
           {
             case "max":          
-              chc.setMaxHeight(rspanheight);
-              chc.setClip(null);
+              vCurrentChild.setMaxHeight(vRowSpanHeight);
+              vCurrentChild.setClip(null);
               break;
               
             case "clip":
-              clip = chc.getClip();
-              clipsize = Math.min(chc.getAnyHeight(), rspanheight);
+              vClip = vCurrentChild.getClip();
+              vClipSize = Math.min(vCurrentChild.getAnyHeight(), vRowSpanHeight);
 
-              if (isValidArray(clip))
+              if (isValidArray(vClip))
               {
-                clip[2] = clipsize;
-                chc.forceClip(null);
-                chc.setClip(clip);
+                vClip[2] = vClipSize;
+                vCurrentChild.forceClip(null);
+                vCurrentChild.setClip(vClip);
               }
               else
               {
-                chc.setClip([0, 0, clipsize, 0]);
+                vCurrentChild.setClip([0, 0, vClipSize, 0]);
               };
               
-              chc.setMaxHeight(null);
+              vCurrentChild.setMaxHeight(null);
               break;
               
             default:
-              chc.setMaxHeight(Infinity);
-              chc.setClip(null);
+              vCurrentChild.setMaxHeight(Infinity);
+              vCurrentChild.setClip(null);
           };
         
           if (vUseVirtualCells)
           {
-            virt = this._virtualCells[i*vColCount+j];
+            vVirtualCell = this._virtualCells[i*vColCount+j];
           
-            virt.style.top = vCurrentTop + "px";
-            virt.style.height = rspanheight + "px";
+            vVirtualCell.style.top = vCurrentTop + "px";
+            vVirtualCell.style.height = vRowSpanHeight + "px";
             
-            virt.style.borderTop = i == 0 ? "1px solid white" : "0 none";
+            vVirtualCell.style.borderTop = i == 0 ? "1px solid white" : "0 none";
           };
         };        
       };
     };  
     
-    vCurrentTop += rheight;
+    vCurrentTop += vRowHeight;
   };
 };
 
@@ -504,7 +507,11 @@ proto._layoutInternalWidgetsVertical = function(vHint)
 
 
 
-
+/*
+------------------------------------------------------------------------------------
+  RENDERER: CHILDREN DEPEND DIMENSIONS
+------------------------------------------------------------------------------------
+*/
 
 proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
 {
