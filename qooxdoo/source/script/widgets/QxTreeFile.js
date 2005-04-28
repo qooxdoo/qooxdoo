@@ -23,7 +23,7 @@ QxTreeFile.extend(QxTreeElement, "QxTreeFile");
   -------------------------------------------------------------------------------
 */
 
-QxTreeFile.addProperty({ name : "iconURI", type : String, defaultValue : "icons/16/file.png" });
+QxTreeFile.addProperty({ name : "iconURI", type : String, defaultValue : "icons/16/doc.png" });
 
 
 
