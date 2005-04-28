@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <meta http-equiv="MsThemeCompatible" content="yes" />
+  <meta http-equiv="ImageToolBar" content="no" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+
+  <div id="testDescription">
+    <p>Layout Manager</p>
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getDocument();
+
+    d.add((new QxAtom('<a href="http://winfx.msdn.microsoft.com/library/default.asp?url=/library/en-us/wcp_conceptual/winfx/layout/overviews/tablevsgrid_ovw.asp" target="_blank">http://winfx.msdn.microsoft.com/library/default.asp?url=/library/en-us/wcp_conceptual/winfx/layout/overviews/tablevsgrid_ovw.asp', "./images/grid_dialog_box.png").set({ left:20, top:400, iconPosition: "top",  })));
+
+    w = new QxWindow("Grid Dialog Sample");
+    w.setSpace(20, 500, 48, 200);
+
+    var dl = new QxGridLayout("50,50,50,50", "auto,100,100,100,100");
+    dl.setDimension(480, 200);
+    
+    var w1 = new QxImage("icons/32/clock.png", 32, 32);
+    dl.add(w1, { row : 1, col : 1 });
+
+    var w2 = new QxContainer("Type the name of a program, folder, document, or<br/>Internet resource, and Windows will open it for you.");
+    dl.add(w2, { row : 1, col : 2, colspan: 4 });
+
+    var w3 = new QxContainer("Open:");
+    dl.add(w3, { row : 2, col : 1 });
+
+    var w4 = new QxTextField("d:\\local\\pictures");
+    dl.add(w4, { row : 2, col : 2, colspan: 4 });
+
+    var w5 = new QxButton("Ok");
+    w5.setWidth(80);
+    w5.setHorizontalBlockAlign("center");
+    dl.add(w5, { row : 4, col : 3 });
+
+    var w6 = new QxButton("Cancel");
+    w6.setWidth(80);
+    w6.setHorizontalBlockAlign("center");
+    dl.add(w6, { row : 4, col : 4 });
+
+    var w7 = new QxButton("Browse...");
+    w7.setWidth(80);
+    w7.setHorizontalBlockAlign("center");
+    dl.add(w7, { row : 4, col : 5 });
+
+    w.add(dl);
+
+    d.add(w);
+
+    w.setVisible(true);
+  };
+  </script>
+
+  
+
+</body>
+</html>
