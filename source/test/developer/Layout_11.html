@@ -27,54 +27,84 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var dl = new QxGridLayout("200,30%,200", "20%,100,30%,75,auto");
+    var dl = new QxGridLayout("auto,auto,auto", "auto,auto,auto,auto");
     dl.setEdge(48, 335, 48, 20);
     dl.setBorder(QxBorder.presets.outset);    
     dl.setPadding(10);
     dl.setOverflow("auto");
     
     var w1 = new QxWidget;
-    w1.setDimension(200, 250);
+    w1.setDimension(20, 20);
     w1.setBackgroundColor("orange");
     w1.setBorder(QxBorder.presets.black);
-    dl.add(w1, { row : 1, col : 1, colspan : 2, rowspan : 2 });
+    dl.add(w1, { row : 1, col : 1 });
 
+    var w2 = new QxWidget;
+    w2.setDimension(60, 110);
+    w2.setBackgroundColor("blue");
+    w2.setBorder(QxBorder.presets.black);
+    dl.add(w2, { row : 1, col : 2 });
+    
     var w3 = new QxWidget;
-    w3.setDimension(150, 100);
+    w3.setDimension(100, 30);
     w3.setBackgroundColor("yellow");
     w3.setBorder(QxBorder.presets.black);
     dl.add(w3, { row : 1, col : 3 });
 
     var w4 = new QxWidget;
-    w4.setDimension(30, 400);
+    w4.setDimension(30, 80);
     w4.setBackgroundColor("green");
     w4.setBorder(QxBorder.presets.black);
-    dl.add(w4, { row : 1, col : 4, rowspan : 3 });
+    dl.add(w4, { row : 1, col : 4 });
     
-    var w11 = new QxWidget;
-    w11.setDimension(50, 50);
-    w11.setBackgroundColor("blue");
-    w11.setBorder(QxBorder.presets.black);
-    dl.add(w11, { row : 1, col : 5 });    
-    
+    var w5 = new QxWidget;
+    w5.setDimension(33, 33);
+    w5.setBackgroundColor("cyan");
+    w5.setBorder(QxBorder.presets.black);
+    dl.add(w5, { row : 2, col : 1 });
+
     var w7 = new QxWidget;
-    w7.setDimension(90, 90);
+    w7.setDimension(90, 10);
     w7.setBackgroundColor("red");
     w7.setBorder(QxBorder.presets.black);
-    dl.add(w7, { row : 2, col : 3 });
-  
-    var w9 = new QxWidget;
-    w9.setDimension(30, 180);
-    w9.setBackgroundColor("cyan");
-    w9.setBorder(QxBorder.presets.black);
-    dl.add(w9, { row : 3, col : 1 });
-
-    var w10 = new QxWidget;
-    w10.setDimension(150, 66);
-    w10.setBackgroundColor("purple");
-    w10.setBorder(QxBorder.presets.black);
-    dl.add(w10, { row : 3, col : 2, colspan : 2 });
+    dl.add(w7, { row : 2, col : 2 });
     
+    var w8 = new QxWidget;
+    w8.setDimension(40, 80);
+    w8.setBackgroundColor("white");
+    w8.setBorder(QxBorder.presets.black);
+    dl.add(w8, { row : 2, col : 3 });   
+    
+    var w9 = new QxWidget;
+    w9.setDimension(60, 45);
+    w9.setBackgroundColor("gray");
+    w9.setBorder(QxBorder.presets.black);
+    dl.add(w9, { row : 2, col : 4 });    
+  
+    var w10 = new QxWidget;
+    w10.setDimension(33, 33);
+    w10.setBackgroundColor("magenta");
+    w10.setBorder(QxBorder.presets.black);
+    dl.add(w10, { row : 3, col : 1 });
+
+    var w11 = new QxWidget;
+    w11.setDimension(50, 66);
+    w11.setBackgroundColor("purple");
+    w11.setBorder(QxBorder.presets.black);
+    dl.add(w11, { row : 3, col : 2 });
+    
+    var w12 = new QxWidget;
+    w12.setDimension(20, 80);
+    w12.setBackgroundColor("orange");
+    w12.setBorder(QxBorder.presets.black);
+    dl.add(w12, { row : 3, col : 3 });
+    
+    var w13 = new QxWidget;
+    w13.setDimension(56, 26);
+    w13.setBackgroundColor("yellow");
+    w13.setBorder(QxBorder.presets.black);
+    dl.add(w13, { row : 3, col : 4 });        
+
     d.add(dl);
   };
   </script>
