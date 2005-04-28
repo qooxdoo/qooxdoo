@@ -2,13 +2,35 @@ function QxGridLayout(vRowConfig, vColConfig)
 {
   QxLayout.call(this);  
   
-  this._rowConfig = isValid(vRowConfig) ? vRowConfig : "auto,auto";
-  this._colConfig = isValid(vColConfig) ? vColConfig : "100,100";
+  this._rowHeights = [];
+  this._colWidths = [];
   
-  this.initConfig();
+  this._computedRowTypes = [];
+  this._computedColTypes = [];
+  
+  this._computedRowHeights = [];
+  this._computedColWidths = [];
+  
+  this._virtualCells = [];
+  
+  if (isValidString(vRowConfig))
+  {
+    for (var i=0, a=vRowConfig.split(","), l=a.length; i<l; i++) {
+      this.addRow(a[i]);
+    };
+  };
+
+  if (isValidString(vColConfig))
+  {
+    for (var i=0, a=vColConfig.split(","), l=a.length; i<l; i++) {
+      this.addCol(a[i]);
+    };
+  };
 };
 
 QxGridLayout.extend(QxLayout, "QxGridLayout");
+
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -18,25 +40,6 @@ QxGridLayout.extend(QxLayout, "QxGridLayout");
 
 QxGridLayout.addProperty({ name : "constraintMode", type : String, defaultValue : "clip" });
 QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
-
-
-
-/*
-------------------------------------------------------------------------------------
-  DATA
-------------------------------------------------------------------------------------
-*/
-
-proto._rowHeights = null;
-proto._colWidths = null;
-
-proto._rowConfig = null;
-proto._colConfig = null;
-
-proto._normalizedRowHeights = null;
-proto._normalizedColWidths = null;
-
-proto._virtualCells = null;
 
 
 
@@ -53,6 +56,14 @@ proto._virtualCells = null;
 */
 proto.add = function(w, h)
 {
+  if (isInvalidNumber(h.colspan)) {
+    h.colspan = 1;
+  };
+
+  if (isInvalidNumber(h.rowspan)) {
+    h.rowspan = 1;
+  };
+  
   w.setParent(this);
   w.setLayoutHint(h);
 };
@@ -63,26 +74,141 @@ proto.remove = function(w)
   w.setLayoutHint(null);
 };
 
-proto._beforeShow = function(uniqModIds) {
-  this._createVirtualCells();
-};
+
+
 
 
 
 
 /*
 ------------------------------------------------------------------------------------
-  HANDLING FOR GRID CONFIGURATION
+  ROW/COL UTILITIES
 ------------------------------------------------------------------------------------
 */
 
-proto.initConfig = function()
+proto.addRow = function(vHeight)
 {
-  this._rowHeights = this._rowConfig.split(",");
-  this._colWidths = this._colConfig.split(",");
+  var vPos = this._rowHeights.length + 1;  
+  var vComputed, vType;
   
+  switch(typeof vHeight)
+  {
+    case "number":
+      vComputed = vHeight;
+      vType = "static";
+      break;
+      
+    case "string":
+      if (vHeight == "auto")
+      {
+        vType = "auto";
+        vComputed = this._computeAutoRowHeight(vPos, vHeight);
+        break;
+      }
+      else if (vHeight.indexOf("*") == 0)
+      {
+        vType = "any";
+        vComputed = this._computeAnyRowHeight(vPos, vHeight);
+        break;
+      }
+      else if (vHeight.indexOf("%") == (vHeight.length-1))
+      {
+        vType = "percent";
+        vComputed = this._computePercentRowHeight(vPos, vHeight);
+        break;
+      };
+      
+      var vTemp = parseInt(vHeight);
+      if (!isNaN(vTemp))
+      {
+        vComputed = vTemp;
+        vType = "static";        
+        break;
+      };
+      
+    default:
+      throw new Error("Unsupported Row Type: " + vHeight);
+  };
+  
+  this._rowHeights.push(vHeight);  
   this._rowCount = this._rowHeights.length;
+  
+  if (isValidString(vType)) {
+    this._computedRowTypes.push(vType);
+  };
+  
+  if (isValidNumber(vComputed)) {
+    this._computedRowHeights.push(vComputed);
+  };
+  
+  
+  
+  for (var i=0, l=this.getColCount(); i<l; i++) {
+    this._virtualCells.push(document.createElement("div"));    
+  };
+  
+};
+
+proto.addCol = function(vWidth)
+{
+  var vPos = this._colWidths.length + 1;  
+  var vComputed, vType;
+  
+  switch(typeof vWidth)
+  {
+    case "number":
+      vComputed = vWidth;
+      vType = "static";
+      break;
+      
+    case "string":
+      if (vWidth == "auto")
+      {
+        vType = "auto";
+        vComputed = this._computeAutoColWidth(vPos, vWidth);
+        break;
+      }
+      else if (vWidth.indexOf("*") == 0)
+      {
+        vType = "any";
+        vComputed = this._computeAnyColWidth(vPos, vWidth);
+        break;
+      }
+      else if (vWidth.indexOf("%") == (vWidth.length-1))
+      {
+        vType = "percent";
+        vComputed = this._computePercentColWidth(vPos, vWidth);
+        break;
+      };
+      
+      var vTemp = parseInt(vWidth);
+      if (!isNaN(vTemp))
+      {
+        vComputed = vTemp;
+        vType = "static";        
+        break;
+      };
+            
+    default:
+      throw new Error("Unsupported Col Type: " + vWidth);
+  };
+  
+  this._colWidths.push(vWidth);
   this._colCount = this._colWidths.length;
+  
+  if (isValidString(vType)) {
+    this._computedColTypes.push(vType);
+  };
+  
+  if (isValidNumber(vComputed)) {
+    this._computedColWidths.push(vComputed);
+  };
+  
+
+  // mhh, does this work?  
+  for (var i=0, l=this.getRowCount(); i<l; i++) {
+    this._virtualCells.insertAt(document.createElement("div"), i*this._colCount);
+  };  
 };
 
 proto.getRowCount = function() {
@@ -93,33 +219,6 @@ proto.getColCount = function() {
   return this._colCount;
 };
 
-proto._createVirtualCells = function()
-{
-  var vRowCount = this.getRowCount();
-  var vColCount = this.getColCount();  
-  
-  var c = this._virtualCells = [];
-  var p = this.getParent();
-  var e = this.getElement();
-  var d = p.getTopLevelWidget().getDocumentElement();
-  
-  var n;
-  
-  for (var i=0; i<vRowCount; i++)
-  {
-    for (var j=0; j<vColCount; j++)
-    {
-      n = d.createElement("div");
-      n.style.position="absolute";
-      n.style.border = "1px solid white";
-      
-      c.push(n);
-      e.appendChild(n);
-    };
-  };
-};
-
-
 
 
 
@@ -128,397 +227,510 @@ proto._createVirtualCells = function()
 
 /*
 ------------------------------------------------------------------------------------
-  MODIFIER
+  LAYOUT
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyConstraintMode = function(propValue, propOldValue, propName, uniqModIds)
+proto._layoutHorizontalInitialDone = false;
+
+proto._layoutInternalWidgetsHorizontal = function(vHint)
 {
-  if (this._wasVisible) 
-  {
-    this._layoutInternalWidgetsHorizontal("constraint-mode");
-    this._layoutInternalWidgetsVertical("constraint-mode");
+  if (!this._layoutHorizontalInitialDone) {
+    vHint = "initial";
   };
   
-  return true;  
-};
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  HORIZONTAL VALUE NORMALIZER
-------------------------------------------------------------------------------------
-*/
-
-proto._normalizeHorizontalData = function(f) 
-{
-  var v, t;
+  //this.debug("LAYOUT HORIZONTAL: " + vHint);
   
-  var a = this._colWidths;
-  var ar = this._normalizedColWidths = [];
+  var vCol;
   
-  var vChildren = this.getChildren();
-  var vChildrenLength = vChildren.length;
-  var vCurrentChild, vCurrentLayoutHint;
-  var vMaxNeededWidth;
-      
-  for (var i=0, l=a.length; i<l; i++)
+  switch(vHint)
   {
-    v = a[i];
-    
-    if (v == "auto")
-    {
-      vMaxNeededWidth = 0;
-      
-      for (var j=0; j<vChildrenLength; j++)
-      {
-        vCurrentChild = vChildren[j];
-        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
-          
-        if (vCurrentLayoutHint.col == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(vCurrentLayoutHint.colspan) || vCurrentLayoutHint.colspan <= 1))
-        {
-          vMaxNeededWidth = Math.max(vCurrentChild.getAnyWidth(), vMaxNeededWidth);          
-        };
+    case "initial":
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
+        this._layoutHorizontal(chc);
       };
+      break;
       
-      ar[i] = vMaxNeededWidth;
-      continue;
-    }
-    else if (typeof v == "string" && v != "auto" && v != "*")
-    {
-      t = parseInt(v);
-      
-      if (!isNaN(t))
+    case "append-child":
+      var vChange = false;
+    
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
       {
-        if (v.contains("%"))
+        vCol = chc.getLayoutHint().col;
+        
+        if (vChange)
         {
-          ar[i] = Math.round(f / 100 * t);
-          continue;
+          this._layoutHorizontal(chc);
         }
         else
         {
-          ar[i] = t;  
-          continue;
+          switch(this._computedColTypes[vCol-1])
+          {
+            case "auto":
+              this._layoutHorizontal(chc);
+              vChange = true;
+              break;
+          };          
         };
       };
-    };
+      
+      break;      
     
-    ar[i] = v;
+    case "inner-width":
+      var vChange = false;
+      
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+      {
+        vCol = chc.getLayoutHint().col;
+        
+        if (vChange)
+        {
+          this._layoutHorizontal(chc);
+        }
+        else
+        {
+          switch(this._computedColTypes[vCol-1])
+          {
+            case "percent":
+            case "any":
+              this._layoutHorizontal(chc);
+              vChange = true;
+              break;
+          };
+        };        
+      };
+      
+      break;
+  };
+  
+  this._layoutHorizontalInitialDone = true;
+};
+
+
+
+
+proto._layoutVerticalInitialDone = false;
+
+proto._layoutInternalWidgetsVertical = function(vHint)
+{
+  if (!this._layoutVerticalInitialDone) {
+    vHint = "initial";
+  };
+  
+  //this.debug("LAYOUT VERTICAL: " + vHint);
+  
+  var vRow;
+  
+  switch(vHint)
+  {
+    case "initial":
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
+        this._layoutVertical(chc);
+      };
+      break;
+      
+    case "append-child":
+      var vChange = false;
+    
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+      {
+        vRow = chc.getLayoutHint().row;
+        
+        if (vChange)
+        {
+          this._layoutVertical(chc);
+        }
+        else
+        {
+          switch(this._computedRowTypes[vRow-1])
+          {
+            case "auto":
+              this._layoutVertical(chc);
+              vChange = true;
+              break;
+          };          
+        };
+      };
+      
+      break;
+    
+    case "inner-height":
+      var vChange = false;
+    
+      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+      {
+        vRow = chc.getLayoutHint().row;
+        
+        if (vChange)
+        {
+          this._layoutVertical(chc);
+        }
+        else
+        {
+          switch(this._computedRowTypes[vRow-1])
+          {
+            case "percent":
+            case "any":
+              this._layoutVertical(chc);
+              vChange = true;
+              break;
+          };          
+        };
+      };
+      
+      break;
+  };
+  
+  this._layoutVerticalInitialDone = true;
+};
+
+
+
+
+
+
+
+
+proto._layoutHorizontal = function(vWidget)
+{
+  var vHint = vWidget.getLayoutHint();
+  
+  var vRow = vHint.row-1;
+  var vCol = vHint.col-1;
+  
+  var vColSpan = vHint.colspan;
+  
+  var vColCount = this.getColCount();  
+  var vLeft = this.getPaddingLeft();
+  var vWidth = 0;
+  
+  
+  /* ------------------------------
+     Calculate Position & Size
+  ------------------------------ */ 
+  for (var i=0; i<vCol; i++) {
+    vLeft += this._computedColWidths[i];
+  };
+  
+  for (var j=0; j<vColSpan; j++) {
+    vWidth += this._computedColWidths[i+j];
+  };
+  
+
+  /* ------------------------------
+     Apply position
+  ------------------------------ */  
+  vWidget._applyPositionHorizontal(vLeft);
+  
+  
+  /* ------------------------------
+     Apply clip
+  ------------------------------ */  
+  var vClip = vWidget.getClip();
+  if (vClip)
+  {
+    vClip[1] = vWidth;
+    vWidget.forceClip(null);
+    vWidget.setClip(vClip);
+  }
+  else
+  {
+    vWidget.setClip([0, vWidth, 0, 0])  
+  };
+  
+  
+  /* ------------------------------
+     Virtual Cell Support
+  ------------------------------ */  
+  var vCell = this._virtualCells[(vRow*vColCount) + vCol];
+  var vCellStyle = vCell.style;
+  
+  vCellStyle.position = "absolute";
+  vCellStyle.border = "1px solid #EBE9E5";
+  vCellStyle.left = vLeft + "px";
+  vCellStyle.width = vWidth + "px";
+  vCellStyle.zIndex = "-1";
+
+  if (!vCellStyle.parentNode) {
+    this.getElement().appendChild(vCell);
+  };
+};
+
+proto._layoutVertical = function(vWidget)
+{
+  var vHint = vWidget.getLayoutHint();
+  
+  var vRow = vHint.row-1;
+  var vCol = vHint.col-1;
+  
+  var vRowSpan = vHint.rowspan;
+  
+  var vColCount = this.getColCount();  
+  var vTop = this.getPaddingTop();
+  var vHeight = 0;
+
+
+  /* ------------------------------
+     Calculate Position & Size
+  ------------------------------ */  
+  for (var i=0; i<vRow; i++) {
+    vTop += this._computedRowHeights[i];
+  };
+  
+  for (var j=0; j<vRowSpan; j++) {
+    vHeight += this._computedRowHeights[i+j];
+  };
+  
+  
+  /* ------------------------------
+     Apply position
+  ------------------------------ */  
+  vWidget._applyPositionVertical(vTop);
+
+
+  /* ------------------------------
+     Apply clip
+  ------------------------------ */  
+  var vClip = vWidget.getClip();
+  if (vClip)
+  {
+    vClip[2] = vHeight;
+    vWidget.forceClip(null);
+    vWidget.setClip(vClip);
+  }
+  else
+  {
+    vWidget.setClip([0, 0, vHeight, 0])  
+  };
+  
+
+  /* ------------------------------
+     Virtual Cell Support
+  ------------------------------ */  
+  var vCell = this._virtualCells[(vRow*vColCount) + vCol];
+  var vCellStyle = vCell.style;
+  
+  vCellStyle.position = "absolute";
+  vCellStyle.border = "1px solid #EBE9E5";
+  vCellStyle.top = vTop + "px";
+  vCellStyle.height = vHeight + "px";
+  vCellStyle.zIndex = "-1";
+  
+  if (!vCellStyle.parentNode) {
+    this.getElement().appendChild(vCell);
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+proto._updatePercentCols = function()
+{
+  var vColCount = this.getColCount();
+  
+  for (var i=0; i<vColCount; i++) {
+    if (this._computedColTypes[i] == "percent") {
+      this._computedColWidths[i] = this._computePercentColWidth(i, this._colWidths[i]);
+    }; 
+  };  
+};
+
+proto._updatePercentRows = function()
+{
+  var vRowCount = this.getRowCount();
+  
+  for (var i=0; i<vRowCount; i++) {
+    if (this._computedRowTypes[i] == "percent") {
+      this._computedRowHeights[i] = this._computePercentRowHeight(i, this._rowHeights[i]);
+    }; 
   };  
 };
 
 
 
 
-/*
-------------------------------------------------------------------------------------
-  VERTICAL VALUE NORMALIZER
-------------------------------------------------------------------------------------
-*/
 
-proto._normalizeVerticalData = function(f) 
+
+
+proto._updateAutoRows = function(otherObject)
 {
-  var v, t;
+  var vHint = otherObject.getLayoutHint();
+  var vRow = vHint.row;
   
-  var a = this._rowHeights;
-  var ar = this._normalizedRowHeights = [];
-  
-  var vChildren = this.getChildren();
-  var vChildrenLength = vChildren.length;
-  
-  var vCurrentChild, vCurrentLayoutHint;
-  var vMaxNeededHeight;
+  if (this._computedColTypes[vRow-1] == "auto") {  
+    this._computedRowHeights[vRow-1] = this._computeAutoRowHeight(vRow);
+  };
+};
 
-  for (var i=0, l=a.length; i<l; i++)
-  {
-    v = a[i];
-    
-    if (v == "auto")
-    {
-      vMaxNeededHeight = 0
-      
-      for (var j=0; j<vChildrenLength; j++)
-      {
-        vCurrentChild = vChildren[j];
-        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
-          
-        if (vCurrentLayoutHint.row == (i+1) && (this.getRespectSpansInAuto() || isInvalidNumber(vCurrentLayoutHint.rowspan) || vCurrentLayoutHint.rowspan <= 1))
-        {
-          vMaxNeededHeight = Math.max(vCurrentChild.getAnyHeight(), vMaxNeededHeight);          
-        };
-      };
-      
-      ar[i] = vMaxNeededHeight;
-      continue;
-    }
-    else if (typeof v == "string" && v != "auto" && v != "*")
-    {
-      t = parseInt(v);
-      
-      if (!isNaN(t))
-      {
-        if (v.contains("%"))
-        {
-          ar[i] = Math.round(f / 100 * t);
-          continue;
-        }
-        else
-        {
-          ar[i] = t;  
-          continue;
-        };
-      };
+
+proto._updateAutoCols = function(otherObject)
+{
+  var vHint = otherObject.getLayoutHint();
+  var vCol = vHint.col;
+  
+  if (this._computedColTypes[vCol-1] == "auto") {  
+    this._computedColWidths[vCol-1] = this._computeAutoColWidth(vCol);  
+  };
+};
+
+
+
+
+
+
+
+
+proto._onnewchild = function(otherObject)
+{
+  this._updateAutoRows(otherObject);
+  this._updateAutoCols(otherObject);
+  
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "append-child") : this._layoutInternalWidgetsHorizontal("append-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "append-child") : this._layoutInternalWidgetsVertical("append-child");
+};
+
+proto._onremovechild = function(otherObject)
+{
+  this._updateAutoRows(otherObject);
+  this._updateAutoCols(otherObject);
+  
+  this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "remove-child") : this._layoutInternalWidgetsHorizontal("remove-child");
+  this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "remove-child") : this._layoutInternalWidgetsVertical("remove-child");
+};
+
+
+
+
+
+
+
+
+proto._innerWidthChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerWidth();
+  
+  // Update percent cols
+  this._updatePercentCols();
+  
+  // Update placement of children
+  this._layoutInternalWidgetsHorizontal("inner-width");
+  
+  // Update children
+  var ch = this._children;
+  var chl = ch.length;
+
+  for (var i=0; i<chl; i++) {
+    ch[i]._renderHorizontal("parent");
+  };  
+};
+
+
+proto._innerHeightChanged = function()
+{
+  // Invalidate internal cache
+  this._invalidateInnerHeight();
+
+  // Update percent rows
+  this._updatePercentRows();
+
+  // Update placement of children
+  this._layoutInternalWidgetsVertical("inner-height");
+  
+  // Update children
+  var ch = this._children;
+  var chl = ch.length;
+
+  for (var i=0; i<chl; i++) {
+    ch[i]._renderVertical("parent");
+  };  
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+proto._computePercentRowHeight = function(vPos, vHeight)
+{
+  if (!this.isCreated()) {
+    return 0;
+  };
+  
+  vHeight = parseFloat(vHeight);
+  
+  if (isNaN(vHeight)) {
+    return 0;
+  };
+  
+  return Math.round(this.getInnerHeight() * vHeight / 100);
+};
+
+proto._computePercentColWidth = function(vPos, vWidth)
+{
+  if (!this.isCreated()) {
+    return 0;
+  };
+  
+  vWidth = parseFloat(vWidth);
+  
+  if (isNaN(vWidth)) {
+    return 0;
+  };
+  
+  return Math.round(this.getInnerWidth() * vWidth / 100);  
+};
+
+
+
+
+
+
+
+
+
+proto._computeAutoRowHeight = function(vPos)
+{
+  var vMaxHeight = 0;
+  
+  for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+  {  
+    if (chc.getLayoutHint().row == vPos) {
+      vMaxHeight = Math.max(chc.getAnyHeight(), vMaxHeight);
     };
-    
-    ar[i] = v;
   };
+  
+  return vMaxHeight;
 };
 
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: HORIZONTAL PLACEMENT OF CHILDREN
-------------------------------------------------------------------------------------
-*/
-
-proto._layoutInternalWidgetsHorizontal = function(vHint)
+proto._computeAutoColWidth = function(vPos)
 {
-  /* ---------------------------------------
-     Recalculate dimensions (if needed)
-  --------------------------------------- */
-  var innerWidth = this.getInnerWidth();
-
-  if (vHint == "inner-width") {  
-    this._normalizeHorizontalData(innerWidth);
+  var vMaxWidth = 0;
+  
+  for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+  {  
+    if (chc.getLayoutHint().col == vPos) {
+      vMaxWidth = Math.max(chc.getAnyWidth(), vMaxWidth);
+    };
   };
   
-  
-  
-  /* ---------------------------------------
-     Prepare variables
-  --------------------------------------- */
-  var vConstraintMode = this.getConstraintMode();
-  var vUseVirtualCells = isValid(this._virtualCells);
-  
-  var vRowCount = this.getRowCount();
-  var vColCount = this.getColCount();
-  
-  var vPaddingLeft = this.getPaddingLeft();
-  var vCurrentLeft = vPaddingLeft;
-
-  var vChildren = this.getChildren();
-  var vChildrenLength = vChildren.length;
-
-  var vCurrentChild, vCurrentLayoutHint, vVirtualCell, vClip, vClipSize, vColWidth, vColSpanWidth;
-  
-  for (var i=0; i<vRowCount; i++)
-  {
-    for (var j=0; j<vColCount; j++)
-    {
-      vColWidth = this._normalizedColWidths[j];
-      
-      for (var k=0; k<vChildrenLength; k++)
-      {
-        vCurrentChild = vChildren[k];
-        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
-        
-        if (vCurrentLayoutHint.row == (i+1) && vCurrentLayoutHint.col == (j+1)) 
-        {
-          vColSpanWidth = vColWidth;
-
-          if (isValidNumber(vCurrentLayoutHint.colspan) && vCurrentLayoutHint.colspan > 1)
-          {
-            for (var l=1; l<vCurrentLayoutHint.colspan; l++) {
-              vColSpanWidth += this._normalizedColWidths[j+l]
-            };               
-          };
-          
-          vCurrentChild._applyPositionHorizontal(vCurrentLeft);
-          
-          switch(vConstraintMode)
-          {
-            case "max":
-              vCurrentChild.setMaxWidth(vColSpanWidth);
-              vCurrentChild.setClip(null);
-              break;
-              
-            case "clip":
-              vClip = vCurrentChild.getClip();
-              vClipSize = Math.min(vCurrentChild.getAnyWidth(), vColSpanWidth);
-
-              if (isValidArray(vClip))
-              {
-                vClip[1] = vClipSize;
-                vCurrentChild.forceClip(null);
-                vCurrentChild.setClip(vClip);
-              }
-              else
-              {
-                vCurrentChild.setClip([0, vClipSize, 0, 0]);
-              };
-              
-              vCurrentChild.setMaxWidth(Infinity);
-              break;
-              
-            default:
-              vCurrentChild.setMaxWidth(Infinity);
-              vCurrentChild.setClip(null);
-          };
-          
-          if (vUseVirtualCells)
-          {
-            vVirtualCell = this._virtualCells[i*vColCount+j];
-           
-            vVirtualCell.style.left = vCurrentLeft + "px";
-            vVirtualCell.style.width = vColSpanWidth + "px";
-            
-            vVirtualCell.style.borderLeft = j == 0 ? "1px solid white" : "0 none";
-          };
-        };
-      };
-      
-      vCurrentLeft += vColWidth;
-    };  
-
-    vCurrentLeft = vPaddingLeft;
-  };
+  return vMaxWidth;
 };
 
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: VERTICAL PLACEMENT OF CHILDREN
-------------------------------------------------------------------------------------
-*/
-
-proto._layoutInternalWidgetsVertical = function(vHint) 
-{
-  /* ---------------------------------------
-     Recalculate dimensions (if needed)
-  --------------------------------------- */
-  var innerHeight = this.getInnerHeight();
-  
-  if (vHint == "inner-height") {  
-    this._normalizeVerticalData(innerHeight);
-  };
-  
-  
-  
-  /* ---------------------------------------
-     Prepare variables
-  --------------------------------------- */  
-  var vConstraintMode = this.getConstraintMode();
-  var vUseVirtualCells = isValid(this._virtualCells);
-  
-  var vRowCount = this.getRowCount();
-  var vColCount = this.getColCount();
-  
-  var vPaddingTop = this.getPaddingTop();
-  var vCurrentTop = vPaddingTop;
-  
-  var vChildren = this.getChildren();
-  var vChildrenLength = vChildren.length;
-  
-  var vCurrentChild, vCurrentLayoutHint, vVirtualCell, vClip, vRowHeight, vRowSpanHeight;
-  
-  for (var i=0; i<vRowCount; i++)
-  {
-    vRowHeight = this._normalizedRowHeights[i];
-    
-    for (var j=0; j<vColCount; j++)
-    {
-      for (var k=0; k<vChildrenLength; k++)
-      {
-        vCurrentChild = vChildren[k];
-        vCurrentLayoutHint = vCurrentChild.getLayoutHint();
-        
-        if (vCurrentLayoutHint.row == (i+1) && vCurrentLayoutHint.col == (j+1))
-        {
-          vRowSpanHeight = vRowHeight;
-
-          if (isValidNumber(vCurrentLayoutHint.rowspan) && vCurrentLayoutHint.rowspan > 1)
-          {
-            for (var l=1; l<vCurrentLayoutHint.rowspan; l++) {
-              vRowSpanHeight += this._normalizedRowHeights[i+l]
-            };               
-          };
-          
-          vCurrentChild._applyPositionVertical(vCurrentTop);
-
-          switch(vConstraintMode)
-          {
-            case "max":          
-              vCurrentChild.setMaxHeight(vRowSpanHeight);
-              vCurrentChild.setClip(null);
-              break;
-              
-            case "clip":
-              vClip = vCurrentChild.getClip();
-              vClipSize = Math.min(vCurrentChild.getAnyHeight(), vRowSpanHeight);
-
-              if (isValidArray(vClip))
-              {
-                vClip[2] = vClipSize;
-                vCurrentChild.forceClip(null);
-                vCurrentChild.setClip(vClip);
-              }
-              else
-              {
-                vCurrentChild.setClip([0, 0, vClipSize, 0]);
-              };
-              
-              vCurrentChild.setMaxHeight(null);
-              break;
-              
-            default:
-              vCurrentChild.setMaxHeight(Infinity);
-              vCurrentChild.setClip(null);
-          };
-        
-          if (vUseVirtualCells)
-          {
-            vVirtualCell = this._virtualCells[i*vColCount+j];
-          
-            vVirtualCell.style.top = vCurrentTop + "px";
-            vVirtualCell.style.height = vRowSpanHeight + "px";
-            
-            vVirtualCell.style.borderTop = i == 0 ? "1px solid white" : "0 none";
-          };
-        };        
-      };
-    };  
-    
-    vCurrentTop += vRowHeight;
-  };
-};
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: CHILDREN DEPEND DIMENSIONS
-------------------------------------------------------------------------------------
-*/
-
-proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
-{
-  return 500;
-};
-
-proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
-{
-  return 500;
-};
