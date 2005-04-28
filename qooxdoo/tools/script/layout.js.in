@@ -28,11 +28,14 @@ document.write('<div id="testFoot">');
 //document.write('[<a href="' + tppos + '.html">Previous</a>|<a href="' + tnpos + '.html">Next</a>] &#160;');
 document.write('[<a href="javascript:void(window.application.dispose())">Dispose</a>] &#160;');
 
-if( /\/source\//.test(window.location.href) ) {
-  document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/source\\//, \'\\/public\\/\'))">Public</a>] &#160;');
-} else {
-document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/public\\//, \'\\/source\\/\'))">Source</a>] &#160;');
-}
+if(window.location.href.indexOf("sourceforge.net") == -1 && window.location.href.indexOf("sf.net") == -1)
+{
+  if( /\/source\//.test(window.location.href) ) {
+    document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/source\\//, \'\\/public\\/\'))">Public</a>] &#160;');
+  } else {
+    document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/public\\//, \'\\/source\\/\'))">Source</a>] &#160;');
+  }
+};
 
 if( /\/developer\//.test(window.location.href) ) {
   document.write('[<a href="../user/Index.html">User</a>]');

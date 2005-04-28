@@ -392,7 +392,7 @@ proto._createVirtualCols = function()
   {
     for (var j=0; j<cc; j++)
     {
-      n = d.createElement("div")
+      n = d.createElement("div");
       n.style.position="absolute";
       n.style.border = "1px solid white";
       
