@@ -255,7 +255,7 @@ proto._renderImplNavigation = function()
   {
     if (!this.hasChildren())
     {
-      newSrc = QxTreeElement._blankURI;
+      newSrc = (new QxImageManager).getBlank();
     }
     else if (this.getOpen())
     {
