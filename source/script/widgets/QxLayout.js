@@ -102,7 +102,7 @@ proto._childOuterWidthChanged = function(vModifiedChild, vHint)
       }
       else
       {
-        this._layoutInternalWidgetsHorizontal(vHint);
+        this._layoutInternalWidgetsHorizontal(vHint, vModifiedChild);
       };
   };
 
@@ -129,7 +129,7 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
       }
       else
       {
-        this._layoutInternalWidgetsVertical(vHint);
+        this._layoutInternalWidgetsVertical(vHint, vModifiedChild);
       };
   };
 
