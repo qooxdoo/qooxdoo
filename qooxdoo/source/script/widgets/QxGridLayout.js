@@ -1,4 +1,4 @@
-function QxGridLayout(vRowConfig, vColConfig)
+function QxGridLayout(vRows, vCols)
 {
   QxLayout.call(this);  
   
@@ -13,19 +13,8 @@ function QxGridLayout(vRowConfig, vColConfig)
   
   this._virtualCells = [];
   
-  if (isValidString(vRowConfig))
-  {
-    for (var i=0, a=vRowConfig.split(","), l=a.length; i<l; i++) {
-      this.addRow(a[i]);
-    };
-  };
-
-  if (isValidString(vColConfig))
-  {
-    for (var i=0, a=vColConfig.split(","), l=a.length; i<l; i++) {
-      this.addCol(a[i]);
-    };
-  };
+  this.addRowsFromString(vRows);
+  this.addColsFromString(vCols);
 };
 
 QxGridLayout.extend(QxLayout, "QxGridLayout");
@@ -75,8 +64,25 @@ proto.remove = function(w)
   w.setLayoutHint(null);
 };
 
+proto.addRowsFromString = function(vRows)
+{
+  if (isValidString(vRows))
+  {
+    for (var i=0, a=vRows.split(","), l=a.length; i<l; i++) {
+      this.addRow(a[i]);
+    };
+  };
+};
 
-
+proto.addColsFromString = function(vCols)
+{
+  if (isValidString(vCols))
+  {
+    for (var i=0, a=vCols.split(","), l=a.length; i<l; i++) {
+      this.addCol(a[i]);
+    };
+  };  
+};
 
 
 
@@ -652,6 +658,54 @@ proto._updatePercentRows = function()
 
 
 
+proto._updateAnyCols = function()
+{
+  var vColCount = this.getColCount();
+  var vRet = false;
+  var vNew;
+  
+  for (var i=0; i<vColCount; i++) 
+  {
+    if (this._computedColTypes[i] == "any") 
+    {
+      vNew = this._computeAnyColWidth(i, this._colWidths[i]);
+      
+      if (vNew != this._computedColWidths[i])
+      {
+        this._computedColWidths[i] = vNew;
+        vRet = true;
+      };
+    }; 
+  };
+  
+  return vRet;
+};
+
+proto._updateAnyRows = function()
+{
+  var vRowCount = this.getRowCount();
+  var vRet = false;
+  var vNew;  
+  
+  for (var i=0; i<vRowCount; i++) 
+  {
+    if (this._computedRowTypes[i] == "any") 
+    {
+      vNew = this._computeAnyRowHeight(i, this._rowHeights[i]);
+      
+      if (vNew != this._computedRowHeights[i])
+      {
+        this._computedRowHeights[i] = vNew;
+        vRet = true;
+      };
+    }; 
+  };  
+  
+  return vRet;
+};
+
+
+
 
 
 proto._updateAutoRows = function(otherObject)
@@ -702,22 +756,46 @@ proto._updateAutoCols = function(otherObject)
 
 proto._onnewchild = function(otherObject)
 {
-  if (this._updateAutoRows(otherObject)) {
+  if (this._updateAutoRows(otherObject)) 
+  {
+    // Some overhead, but I have no better implementation idea yet.
+    if (this._updateAnyRows()) {
+      this._layoutInternalWidgetsVertical("inner-height");    
+    };
+
     this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "append-child") : this._layoutInternalWidgetsVertical("append-child");
   };
 
-  if (this._updateAutoCols(otherObject)) {  
+  if (this._updateAutoCols(otherObject)) 
+  { 
+    // Some overhead, but I have no better implementation idea yet. 
+    if (this._updateAnyCols()) {
+      this._layoutInternalWidgetsHorizontal("inner-width");    
+    };
+    
     this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "append-child") : this._layoutInternalWidgetsHorizontal("append-child");
   };  
 };
 
 proto._onremovechild = function(otherObject)
 {
-  if (this._updateAutoRows(otherObject)) {
+  if (this._updateAutoRows(otherObject)) 
+  {
+    // Some overhead, but I have no better implementation idea yet.
+    if (this._updateAnyRows()) {
+      this._layoutInternalWidgetsVertical("inner-height");    
+    };
+    
     this.getHeight() == "auto" ? this._setChildrenDependHeight(otherObject, "remove-child") : this._layoutInternalWidgetsVertical("remove-child");
   };
 
-  if (this._updateAutoCols(otherObject)) {  
+  if (this._updateAutoCols(otherObject)) 
+  {  
+    // Some overhead, but I have no better implementation idea yet. 
+    if (this._updateAnyCols()) {
+      this._layoutInternalWidgetsHorizontal("inner-width");    
+    };
+    
     this.getWidth() == "auto" ? this._setChildrenDependWidth(otherObject, "remove-child") : this._layoutInternalWidgetsHorizontal("remove-child");
   };
 };
@@ -736,6 +814,9 @@ proto._innerWidthChanged = function()
   
   // Update percent cols
   this._updatePercentCols();
+  
+  // Update any cols
+  this._updateAnyCols();
   
   // Update placement of children
   this._layoutInternalWidgetsHorizontal("inner-width");
@@ -757,6 +838,9 @@ proto._innerHeightChanged = function()
 
   // Update percent rows
   this._updatePercentRows();
+  
+  // Update any rows
+  this._updateAnyRows();  
 
   // Update placement of children
   this._layoutInternalWidgetsVertical("inner-height");
@@ -846,4 +930,53 @@ proto._computeAutoColWidth = function(vPos)
   };
   
   return vMaxWidth;
+};
+
+
+
+
+
+
+
+proto._computeAnyRowHeight = function(vPos, vHeight)
+{
+  if (!this.isCreated()) {
+    return 0;
+  };
+
+  var innerHeight = this.getInnerHeight();
+  var rows = this._computedRowHeights;
+  var rowLength = rows.length;
+  var rowTypes = this._computedRowTypes;
+  
+  for(var i=0; i<rowLength; i++)
+  {
+    if (rowTypes[i] != "any") {
+      innerHeight -= rows[i];   
+    };
+  };
+  
+  return Math.max(0, innerHeight);
+};
+
+
+proto._computeAnyColWidth = function(vPos, vWidth)
+{
+  if (!this.isCreated()) {
+    return 0;
+  };
+  
+  var innerWidth = this.getInnerWidth();
+  var cols = this._computedColWidths;
+  var colLength = cols.length;
+  var colTypes = this._computedColTypes;
+  
+  for(var i=0; i<colLength; i++)
+  {
+    if (colTypes[i] != "any") {
+      innerWidth -= cols[i];   
+    };
+  };
+  
+  return Math.max(0, innerWidth);
 };
