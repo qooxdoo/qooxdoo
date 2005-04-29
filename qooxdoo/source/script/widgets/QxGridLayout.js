@@ -466,7 +466,7 @@ proto._layoutHorizontal = function(vWidget)
   var vCellStyle = vCell.style;
   
   vCellStyle.position = "absolute";
-  vCellStyle.border = "1px solid #EBE9E5";
+  vCellStyle.border = "1px solid #4D79FF";
   vCellStyle.left = vLeft + "px";
   vCellStyle.width = vWidth + "px";
   vCellStyle.zIndex = "-1";
@@ -531,7 +531,7 @@ proto._layoutVertical = function(vWidget)
   var vCellStyle = vCell.style;
   
   vCellStyle.position = "absolute";
-  vCellStyle.border = "1px solid #EBE9E5";
+  vCellStyle.border = "1px solid #4D79FF";
   vCellStyle.top = vTop + "px";
   vCellStyle.height = vHeight + "px";
   vCellStyle.zIndex = "-1";
