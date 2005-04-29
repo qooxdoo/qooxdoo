@@ -116,6 +116,8 @@ proto._childOuterHeightChanged = function(vModifiedChild, vHint)
     return;
   };
   
+  this.debug(vModifiedChild + " :: " + vHint);
+  
   switch(vHint)
   {
     case "position-and-size":
