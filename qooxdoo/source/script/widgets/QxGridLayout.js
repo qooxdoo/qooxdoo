@@ -1,4 +1,4 @@
-function QxGridLayout(vRows, vCols)
+function QxGridLayout(vRows, vCols, vShowVirtualCells)
 {
   QxLayout.call(this);  
   
@@ -12,6 +12,10 @@ function QxGridLayout(vRows, vCols)
   this._computedColWidths = [];
   
   this._virtualCells = [];
+  
+  if (isValid(vShowVirtualCells)) {
+    this.setShowVirtualCells(vShowVirtualCells);
+  };
   
   this.addRowsFromString(vRows);
   this.addColsFromString(vCols);

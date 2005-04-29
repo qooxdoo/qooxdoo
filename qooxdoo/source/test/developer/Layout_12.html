@@ -27,12 +27,7 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var dl = new QxGridLayout("200,30%,*", "20%,100,*,75,auto");
-    /*
-    dl.setShowVirtualCells(true);
-    dl.addRowsFromString("200,30%,*");
-    dl.addColsFromString("20%,100,*,75,auto");
-    */
+    var dl = new QxGridLayout("200,30%,*", "20%,100,*,75,auto", false);
     dl.setEdge(48, 335, 48, 20);
     dl.setBorder(QxBorder.presets.outset);    
     dl.setPadding(10);
