@@ -420,8 +420,13 @@ proto._closePopup = function()
 {
   // Syncronise selection: manager -> combobox
   var vCurrent = this._manager.getSelectedItem();
-  this.setSelected(vCurrent);
-  this._manager.setLeadItem(vCurrent);
+  
+  // Do not sync if we are editable and have not selection made
+  if (!(vCurrent == null && this.getEditable()))
+  {
+    this.setSelected(vCurrent);
+    this._manager.setLeadItem(vCurrent);
+  };
   
   // Deactivating capturing
   this.setCapture(false);
@@ -465,6 +470,12 @@ proto._onmousedown = function(e)
       break;
       
     case this._list:
+      // Reset old selection, if combobox is editable and current 
+      // input text does not match any item in the list
+      if (this.getEditable() && !this._findMatchingEditItem()) {
+        this.setSelected(null);
+      };
+      
       this._list._onmousedown(e);
       
       // don't close on click and move to the scrollbars
