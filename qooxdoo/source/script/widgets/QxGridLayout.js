@@ -40,6 +40,7 @@ QxGridLayout.extend(QxLayout, "QxGridLayout");
 
 QxGridLayout.addProperty({ name : "constraintMode", type : String, defaultValue : "clip" });
 QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
+QxGridLayout.addProperty({ name : "showVirtualCells", type : Boolean, defaultValue : false });
 
 
 
@@ -141,12 +142,12 @@ proto.addRow = function(vHeight)
     this._computedRowHeights.push(vComputed);
   };
   
-  
-  
-  for (var i=0, l=this.getColCount(); i<l; i++) {
-    this._virtualCells.push(document.createElement("div"));    
+  if (this.getShowVirtualCells())
+  {
+    for (var i=0, l=this.getColCount(); i<l; i++) {
+      this._virtualCells.push(document.createElement("div"));    
+    };
   };
-  
 };
 
 proto.addCol = function(vWidth)
@@ -203,12 +204,14 @@ proto.addCol = function(vWidth)
   if (isValidNumber(vComputed)) {
     this._computedColWidths.push(vComputed);
   };
-  
 
-  // mhh, does this work?  
-  for (var i=0, l=this.getRowCount(); i<l; i++) {
-    this._virtualCells.insertAt(document.createElement("div"), i*this._colCount);
-  };  
+  if (this.getShowVirtualCells())
+  {
+    // mhh, does this work?  
+    for (var i=0, l=this.getRowCount(); i<l; i++) {
+      this._virtualCells.insertAt(document.createElement("div"), i*this._colCount);
+    };  
+  };
 };
 
 proto.getRowCount = function() {
@@ -233,13 +236,11 @@ proto.getColCount = function() {
 
 proto._layoutHorizontalInitialDone = false;
 
-proto._layoutInternalWidgetsHorizontal = function(vHint)
+proto._layoutInternalWidgetsHorizontal = function(vHint, vModifiedChild)
 {
   if (!this._layoutHorizontalInitialDone) {
     vHint = "initial";
   };
-  
-  //this.debug("LAYOUT HORIZONTAL: " + vHint);
   
   var vCol;
   
@@ -249,6 +250,29 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
       for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
         this._layoutHorizontal(chc);
       };
+      break;
+
+    case "load":
+    case "size":
+      if (vModifiedChild && this._updateAutoCols(vModifiedChild)) 
+      {
+        var vMatchCol = vModifiedChild.getLayoutHint().col;
+        
+        var vLayoutHint;
+        var vCol;
+        
+        for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+        {
+          vLayoutHint = chc.getLayoutHint();
+          vCol = vLayoutHint.col;
+          
+          if (vCol >= vMatchCol || (vCol < vMatchCol && (vLayoutHint.colspan + vCol) >= vMatchCol))
+          {
+            this._layoutHorizontal(chc);     
+          };
+        };
+      };
+      
       break;
       
     case "append-child":
@@ -332,13 +356,11 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
 
 proto._layoutVerticalInitialDone = false;
 
-proto._layoutInternalWidgetsVertical = function(vHint)
+proto._layoutInternalWidgetsVertical = function(vHint, vModifiedChild)
 {
   if (!this._layoutVerticalInitialDone) {
     vHint = "initial";
   };
-  
-  //this.debug("LAYOUT VERTICAL: " + vHint);
   
   var vRow;
   
@@ -348,6 +370,29 @@ proto._layoutInternalWidgetsVertical = function(vHint)
       for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
         this._layoutVertical(chc);
       };
+      break;
+    
+    case "load":  
+    case "size":
+      if (vModifiedChild && this._updateAutoRows(vModifiedChild)) 
+      {
+        var vMatchRow = vModifiedChild.getLayoutHint().row;
+        
+        var vLayoutHint;
+        var vRow;
+        
+        for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
+        {
+          vLayoutHint = chc.getLayoutHint();
+          vRow = vLayoutHint.row;
+          
+          if (vRow >= vMatchRow || (vRow < vMatchRow && (vLayoutHint.rowspan + vRow) >= vMatchRow))
+          {
+            this._layoutVertical(chc);     
+          };
+        };
+      };
+      
       break;
       
     case "append-child":
@@ -483,17 +528,20 @@ proto._layoutHorizontal = function(vWidget)
   /* ------------------------------
      Virtual Cell Support
   ------------------------------ */  
-  var vCell = this._virtualCells[(vRow*vColCount) + vCol];
-  var vCellStyle = vCell.style;
+  if (this.getShowVirtualCells())
+  {
+    var vCell = this._virtualCells[(vRow*vColCount) + vCol];
+    var vCellStyle = vCell.style;
+    
+    vCellStyle.position = "absolute";
+    vCellStyle.border = "1px solid #4D79FF";
+    vCellStyle.left = vLeft + "px";
+    vCellStyle.width = vWidth + "px";
+    vCellStyle.zIndex = "-1";
   
-  vCellStyle.position = "absolute";
-  vCellStyle.border = "1px solid #4D79FF";
-  vCellStyle.left = vLeft + "px";
-  vCellStyle.width = vWidth + "px";
-  vCellStyle.zIndex = "-1";
-
-  if (!vCellStyle.parentNode) {
-    this.getElement().appendChild(vCell);
+    if (!vCellStyle.parentNode) {
+      this.getElement().appendChild(vCell);
+    };
   };
 };
 
@@ -548,17 +596,20 @@ proto._layoutVertical = function(vWidget)
   /* ------------------------------
      Virtual Cell Support
   ------------------------------ */  
-  var vCell = this._virtualCells[(vRow*vColCount) + vCol];
-  var vCellStyle = vCell.style;
-  
-  vCellStyle.position = "absolute";
-  vCellStyle.border = "1px solid #4D79FF";
-  vCellStyle.top = vTop + "px";
-  vCellStyle.height = vHeight + "px";
-  vCellStyle.zIndex = "-1";
-  
-  if (!vCellStyle.parentNode) {
-    this.getElement().appendChild(vCell);
+  if (this.getShowVirtualCells())
+  {
+    var vCell = this._virtualCells[(vRow*vColCount) + vCol];
+    var vCellStyle = vCell.style;
+    
+    vCellStyle.position = "absolute";
+    vCellStyle.border = "1px solid #4D79FF";
+    vCellStyle.top = vTop + "px";
+    vCellStyle.height = vHeight + "px";
+    vCellStyle.zIndex = "-1";
+    
+    if (!vCellStyle.parentNode) {
+      this.getElement().appendChild(vCell);
+    };
   };
 };
 
