@@ -278,10 +278,12 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
     
     case "inner-width":
       var vChange = false;
+      var vLayoutHint, vColSpan;
       
       for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
       {
-        vCol = chc.getLayoutHint().col;
+        vLayoutHint = chc.getLayoutHint();
+        vCol = vLayoutHint.col;
         
         if (vChange)
         {
@@ -296,6 +298,25 @@ proto._layoutInternalWidgetsHorizontal = function(vHint)
               this._layoutHorizontal(chc);
               vChange = true;
               break;
+              
+              
+            default:
+              // Detection for childs which uses rowspan and
+              // override their starting cell and so could have
+              // a cell in their rowspan which type is percent or any
+              vColSpan = vLayoutHint.colspan;
+              
+              for (var j=1; j<vColSpan; j++)
+              {
+                switch(this._computedColTypes[vCol-1+j])
+                {
+                  case "percent":
+                  case "any":
+                    this._layoutHorizontal(chc);
+                    vChange = true;
+                    break;             
+                };
+              };              
           };
         };        
       };
@@ -356,7 +377,7 @@ proto._layoutInternalWidgetsVertical = function(vHint)
     
     case "inner-height":
       var vChange = false;
-      var vLayoutHint, vRowSpan, vRowTemp;
+      var vLayoutHint, vRowSpan;
     
       for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
       {
