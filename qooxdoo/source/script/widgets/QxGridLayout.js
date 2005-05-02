@@ -58,6 +58,51 @@ proto.add = function(w, h)
     h.rowspan = 1;
   };
   
+  if (isValidNumber(h.padding)) 
+  {
+    if (isInvalidNumber(h.paddingLeft)) {
+      h.paddingLeft = h.padding;
+    };
+    
+    if (isInvalidNumber(h.paddingTop)) {
+      h.paddingTop = h.padding;
+    };
+    
+    if (isInvalidNumber(h.paddingRight)) {
+      h.paddingRight = h.padding;
+    };
+    
+    if (isInvalidNumber(h.paddingBottom)) {
+      h.paddingBottom = h.padding;
+    };    
+  }
+  else
+  {
+    if (isInvalidNumber(h.paddingLeft)) {
+      h.paddingLeft = 0;
+    };
+    
+    if (isInvalidNumber(h.paddingTop)) {
+      h.paddingTop = 0;
+    };
+    
+    if (isInvalidNumber(h.paddingRight)) {
+      h.paddingRight = 0;
+    };
+    
+    if (isInvalidNumber(h.paddingBottom)) {
+      h.paddingBottom = 0;
+    };  
+  };    
+  
+  if (isInvalid(h.scaleHorizontal)) {
+    h.scaleHorizontal = false;
+  };
+  
+  if (isInvalid(h.scaleVertical)) {
+    h.scaleVertical = false;
+  };  
+  
   w.setParent(this);
   w.setLayoutHint(h);
 };
@@ -97,10 +142,17 @@ proto.addColsFromString = function(vCols)
 ------------------------------------------------------------------------------------
 */
 
+proto._anyColSum = 0;
+proto._anyRowSum = 0;
+
+proto._computeAnyWeight = function(vValue) {
+  return parseFloat(vValue.substring(1, vValue.length)) || 1;
+};
+
 proto.addRow = function(vHeight)
 {
   var vPos = this._rowHeights.length + 1;  
-  var vComputed, vType;
+  var vComputed, vType, vAnyWeight;
   
   switch(typeof vHeight)
   {
@@ -119,6 +171,7 @@ proto.addRow = function(vHeight)
       else if (vHeight.indexOf("*") == 0)
       {
         vType = "any";
+        this._anyRowSum += this._computeAnyWeight(vHeight);
         vComputed = this._computeAnyRowHeight(vPos, vHeight);
         break;
       }
@@ -182,6 +235,7 @@ proto.addCol = function(vWidth)
       else if (vWidth.indexOf("*") == 0)
       {
         vType = "any";
+        this._anyColSum += this._computeAnyWeight(vWidth);
         vComputed = this._computeAnyColWidth(vPos, vWidth);
         break;
       }
@@ -512,26 +566,23 @@ proto._layoutHorizontal = function(vWidget)
     vWidth += this._computedColWidths[i+j];
   };
   
-
-  /* ------------------------------
-     Apply position
-  ------------------------------ */  
-  vWidget._applyPositionHorizontal(vLeft);
+  var vAvailableWidth = vWidth - vHint.paddingLeft - vHint.paddingRight;
   
   
+ 
   /* ------------------------------
      Apply clip
   ------------------------------ */  
   var vClip = vWidget.getClip();
   if (vClip)
   {
-    vClip[1] = vWidth;
+    vClip[1] = vAvailableWidth;
     vWidget.forceClip(null);
     vWidget.setClip(vClip);
   }
   else
   {
-    vWidget.setClip([0, vWidth, 0, 0])  
+    vWidget.setClip([0, vAvailableWidth, 0, 0])  
   };
   
   
@@ -553,6 +604,35 @@ proto._layoutHorizontal = function(vWidget)
       this.getElement().appendChild(vCell);
     };
   };
+  
+
+  /* ------------------------------
+     Alignment support
+  ------------------------------ */
+  switch(vWidget.getHorizontalAlign())
+  {
+    case "center":
+      vLeft += Math.max((vAvailableWidth - vWidget.getAnyWidth()) / 2, 0);
+      break;
+      
+    case "right":
+      vLeft += Math.max(vAvailableWidth - vWidget.getAnyWidth(), 0);
+      break;
+  };    
+  
+
+  /* ------------------------------
+     Apply position
+  ------------------------------ */  
+  vWidget._applyPositionHorizontal(vLeft + vHint.paddingLeft);  
+  
+  
+  /* ------------------------------
+     Apply size
+  ------------------------------ */    
+  if (vHint.scaleHorizontal) {
+    vWidget._applySizeHorizontal(vAvailableWidth);    
+  };  
 };
 
 proto._layoutVertical = function(vWidget)
@@ -580,12 +660,8 @@ proto._layoutVertical = function(vWidget)
     vHeight += this._computedRowHeights[i+j];
   };
   
+  var vAvailableHeight = vHeight - vHint.paddingTop - vHint.paddingBottom;
   
-  /* ------------------------------
-     Apply position
-  ------------------------------ */  
-  vWidget._applyPositionVertical(vTop);
-
 
   /* ------------------------------
      Apply clip
@@ -593,13 +669,13 @@ proto._layoutVertical = function(vWidget)
   var vClip = vWidget.getClip();
   if (vClip)
   {
-    vClip[2] = vHeight;
+    vClip[2] = vAvailableHeight;
     vWidget.forceClip(null);
     vWidget.setClip(vClip);
   }
   else
   {
-    vWidget.setClip([0, 0, vHeight, 0])  
+    vWidget.setClip([0, 0, vAvailableHeight, 0])  
   };
   
 
@@ -621,6 +697,35 @@ proto._layoutVertical = function(vWidget)
       this.getElement().appendChild(vCell);
     };
   };
+  
+
+  /* ------------------------------
+     Alignment support
+  ------------------------------ */
+  switch(vWidget.getVerticalAlign())
+  {
+    case "middle":
+      vTop += Math.max((vAvailableHeight - vWidget.getAnyHeight()) / 2, 0);
+      break;
+      
+    case "bottom":
+      vTop += Math.max(vAvailableHeight - vWidget.getAnyHeight(), 0);
+      break;
+  };  
+
+  
+  /* ------------------------------
+     Apply position
+  ------------------------------ */
+  vWidget._applyPositionVertical(vTop + vHint.paddingTop);  
+  
+  
+  /* ------------------------------
+     Apply size
+  ------------------------------ */    
+  if (vHint.scaleVertical) {
+    vWidget._applySizeVertical(vAvailableHeight);    
+  };    
 };
 
 
@@ -952,15 +1057,16 @@ proto._computeAnyRowHeight = function(vPos, vHeight)
   var rows = this._computedRowHeights;
   var rowLength = rows.length;
   var rowTypes = this._computedRowTypes;
+  var anyCount = 0;
   
-  for(var i=0; i<rowLength; i++)
+  for (var i=0; i<rowLength; i++)
   {
     if (rowTypes[i] != "any") {
       innerHeight -= rows[i];   
     };
   };
   
-  return Math.max(0, innerHeight);
+  return Math.max(0, Math.round(innerHeight / this._anyRowSum * this._computeAnyWeight(vHeight)));
 };
 
 
@@ -974,13 +1080,14 @@ proto._computeAnyColWidth = function(vPos, vWidth)
   var cols = this._computedColWidths;
   var colLength = cols.length;
   var colTypes = this._computedColTypes;
+  var anyCount = 0;
   
-  for(var i=0; i<colLength; i++)
+  for (var i=0; i<colLength; i++)
   {
     if (colTypes[i] != "any") {
       innerWidth -= cols[i];   
     };
   };
   
-  return Math.max(0, innerWidth);
+  return Math.max(0, Math.round(innerWidth / this._anyColSum * this._computeAnyWeight(vWidth)));
 };
