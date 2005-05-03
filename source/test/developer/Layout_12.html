@@ -27,61 +27,61 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var dl = new QxGridLayout("200,30%,*", "20%,100,*,75,auto", false);
-    dl.setEdge(48, 335, 48, 20);
-    dl.setBorder(QxBorder.presets.outset);    
-    dl.setPadding(10);
-    dl.setOverflow("auto");
+    var gl = new QxGridLayout("200,30%,*", "20%,100,*,75,auto", false);
+    gl.setEdge(48, 335, 48, 20);
+    gl.setBorder(QxBorder.presets.outset);    
+    gl.setPadding(10);
+    gl.setOverflow("auto");
     
     var w1 = new QxWidget;
     w1.setDimension(200, 250);
     w1.setBackgroundColor("orange");
     w1.setBorder(QxBorder.presets.black);
-    dl.add(w1, { row : 1, col : 1, colspan : 2, rowspan : 2 });
+    gl.add(w1, { row : 1, col : 1, colspan : 2, rowspan : 2 });
 
     var w3 = new QxWidget;
     w3.setDimension(150, 100);
     w3.setBackgroundColor("yellow");
     w3.setBorder(QxBorder.presets.black);
-    dl.add(w3, { row : 1, col : 3 });
+    gl.add(w3, { row : 1, col : 3 });
 
     var w4 = new QxWidget;
     w4.setDimension(30, 400);
     w4.setBackgroundColor("green");
     w4.setBorder(QxBorder.presets.black);
-    dl.add(w4, { row : 1, col : 4, rowspan : 3 });
+    gl.add(w4, { row : 1, col : 4, rowspan : 3 });
     
     var w11 = new QxWidget;
     w11.setDimension(50, 50);
     w11.setBackgroundColor("blue");
     w11.setBorder(QxBorder.presets.black);
-    dl.add(w11, { row : 1, col : 5 });    
+    gl.add(w11, { row : 1, col : 5 });    
     
     var w7 = new QxWidget;
     w7.setDimension(90, 90);
     w7.setBackgroundColor("red");
     w7.setBorder(QxBorder.presets.black);
-    dl.add(w7, { row : 2, col : 3 });
+    gl.add(w7, { row : 2, col : 3 });
     
     var w8 = new QxWidget;
     w8.setDimension(20, 320);
     w8.setBackgroundColor("magenta");
     w8.setBorder(QxBorder.presets.black);
-    dl.add(w8, { row : 2, col : 5, rowspan : 2 });
+    gl.add(w8, { row : 2, col : 5, rowspan : 2 });
   
     var w9 = new QxWidget;
     w9.setDimension(30, 180);
     w9.setBackgroundColor("cyan");
     w9.setBorder(QxBorder.presets.black);
-    dl.add(w9, { row : 3, col : 1 });
+    gl.add(w9, { row : 3, col : 1 });
 
     var w10 = new QxWidget;
     w10.setDimension(150, 66);
     w10.setBackgroundColor("purple");
     w10.setBorder(QxBorder.presets.black);
-    dl.add(w10, { row : 3, col : 2, colspan : 2 });
+    gl.add(w10, { row : 3, col : 2, colspan : 2 });
     
-    d.add(dl);
+    d.add(gl);
   };
   </script>
 </body>

@@ -27,53 +27,59 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    d.add((new QxAtom('<a href="http://winfx.msdn.microsoft.com/library/default.asp?url=/library/en-us/wcp_conceptual/winfx/layout/overviews/tablevsgrid_ovw.asp" target="_blank">http://winfx.msdn.microsoft.com/library/default.asp?url=/library/en-us/wcp_conceptual/winfx/layout/overviews/tablevsgrid_ovw.asp', "./images/grid_dialog_box.png").set({ left:20, top:400, iconPosition: "top",  })));
+    d.add((new QxImage("./images/grid_dialog_box.png").set({ left:20, top:200 })));
 
-    var dl = new QxGridLayout("30,25,20,auto", "auto,*,auto,auto,auto");
-    dl.setLocation(20, 48);
-    dl.setDimension(310, 110);
-    dl.setBorder(QxBorder.presets.outset);
-    dl.setPadding(6, 9);
+    var gl = new QxGridLayout("40,auto,20,auto", "auto,*,auto,auto,auto");
+    gl.setLocation(45, 48);
+    gl.setDimension(330, 130);
+    gl.setBorder(QxBorder.presets.outset);
+    gl.setPadding(2, 4);
+    gl.setCellPaddingLeft(3);
+    gl.setCellPaddingRight(3);
+    gl.setCellPaddingTop(3);
+    gl.setCellPaddingBottom(6);
     
     var w1 = new QxImage("icons/22/konqueror.png");
-    dl.add(w1, { row : 1, col : 1 });
+    w1.setVerticalAlign("middle");
+    gl.add(w1, { row : 1, col : 1 });
 
     var w2 = new QxContainer("Type the name of a program, folder, document, or Internet resource, and Windows will open it for you.");
     w2.setCanSelect(false);
     w2.setCursor("default");
-    dl.add(w2, { row : 1, col : 2, colspan : 4 });
+    gl.add(w2, { row : 1, col : 2, colspan : 4 });
 
-    var w3 = new QxContainer("Open:");
+    var w3 = new QxContainer('<span style="text-decoration:underline">O</span>pen:');
     w3.setCanSelect(false);
     w3.setCursor("default");
-    dl.add(w3, { row : 2, col : 1 });
+    w3.setVerticalAlign("middle");
+    gl.add(w3, { row : 2, col : 1 });
 
     var w4 = new QxComboBox;
-    w4.setWidth(260);
     w4.setEditable(true);
     w4.getList().add(new QxListItem("d:\\local\\pictures"));
     w4.setSelected(w4.getList().getFirstChild());
-    dl.add(w4, { row : 2, col : 2, colspan : 4 });
+    w4.setVerticalAlign("middle");
+    gl.add(w4, { row : 2, col : 2, colspan : 4, scaleHorizontal : true });
 
     var w5 = new QxButton("Ok");
     w5.setWidth(70);
     w5.setPadding(3, 4);
     w5.setHorizontalBlockAlign("center");
-    dl.add(w5, { row : 4, col : 3 });
+    gl.add(w5, { row : 4, col : 3 });
 
     var w6 = new QxButton("Cancel");
     w6.setWidth(70);
     w6.setPadding(3, 4);
     w6.setHorizontalBlockAlign("center");
-    dl.add(w6, { row : 4, col : 4 });
+    gl.add(w6, { row : 4, col : 4 });
 
-    var w7 = new QxButton("Browse...");
+    var w7 = new QxButton('<span style="text-decoration:underline">B</span>rowse...');
     w7.setWidth(70);
     w7.setPadding(3, 4);
     w7.setHorizontalBlockAlign("center");
-    dl.add(w7, { row : 4, col : 5 });
+    gl.add(w7, { row : 4, col : 5 });
 
-    d.add(dl);
+    d.add(gl);
   };
   </script> 
 

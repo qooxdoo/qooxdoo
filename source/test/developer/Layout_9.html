@@ -27,49 +27,49 @@
   {
     var d = this.getClientWindow().getDocument();
 
-    var dl = new QxGridLayout("150,30%,200", "20%,100,30%,75");
-    dl.setEdge(48, 335, 48, 20);
-    dl.setBorder(QxBorder.presets.outset);    
-    dl.setPadding(10);
-    dl.setOverflow("auto");
+    var gl = new QxGridLayout("150,30%,200", "20%,100,30%,75");
+    gl.setEdge(48, 335, 48, 20);
+    gl.setBorder(QxBorder.presets.outset);    
+    gl.setPadding(10);
+    gl.setOverflow("auto");
     
     var w1 = new QxAtom("(1, 1; 2, 2)");
     w1.setDimension(200, 200);
     w1.setBackgroundColor("orange");
     w1.setBorder(QxBorder.presets.black);
-    dl.add(w1, { row : 1, col : 1, rowspan : 2, colspan : 2 });
+    gl.add(w1, { row : 1, col : 1, rowspan : 2, colspan : 2 });
 
     var w3 = new QxAtom("(1, 3)");
     w3.setDimension(100, 30);
     w3.setBackgroundColor("yellow");
     w3.setBorder(QxBorder.presets.black);
-    dl.add(w3, { row : 1, col : 3 });
+    gl.add(w3, { row : 1, col : 3 });
 
     var w4 = new QxAtom("(1, 4; 3)");
     w4.setDimension(30, 400);
     w4.setBackgroundColor("green");
     w4.setBorder(QxBorder.presets.black);
-    dl.add(w4, { row : 1, col : 4, rowspan : 3 });
+    gl.add(w4, { row : 1, col : 4, rowspan : 3 });
     
     var w7 = new QxAtom("(2, 3)");
     w7.setDimension(90, 90);
     w7.setBackgroundColor("red");
     w7.setBorder(QxBorder.presets.black);
-    dl.add(w7, { row : 2, col : 3 });
+    gl.add(w7, { row : 2, col : 3 });
   
     var w9 = new QxAtom("(3, 1)");
     w9.setDimension(33, 33);
     w9.setBackgroundColor("cyan");
     w9.setBorder(QxBorder.presets.black);
-    dl.add(w9, { row : 3, col : 1 });
+    gl.add(w9, { row : 3, col : 1 });
 
     var w10 = new QxAtom("(3, 2; 1, 2)");
     w10.setDimension(150, 66);
     w10.setBackgroundColor("purple");
     w10.setBorder(QxBorder.presets.black);
-    dl.add(w10, { row : 3, col : 2, colspan : 2 });
+    gl.add(w10, { row : 3, col : 2, colspan : 2 });
 
-    d.add(dl);
+    d.add(gl);
   };
   </script>
 </body>
