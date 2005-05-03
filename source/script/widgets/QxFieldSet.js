@@ -6,8 +6,11 @@ function QxFieldSet(vLegend)
     this.setLegend(vLegend);
   };
   
-  this.setMinWidth(100);
-  this.setMinHeight(50);
+  this._minWidth = 100;
+  this._minHeight = 50;
+  
+  this.setMinWidth(this._minWidth);
+  this.setMinHeight(this._minHeight);
   
   this._dim = {};
 };
@@ -83,7 +86,11 @@ if ((new QxClient).isGecko())
     // needed, otherwise padding doesn't work
     this._legend.style.width = newWidth + "px";
     
-    this.setMinWidth(newWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend));    
+    if (this.getMinWidth() == this._minWidth)
+    {
+      this._minWidth = newWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend);
+      this.setMinWidth(this._minWidth);
+    };
   };  
 }
 else
@@ -105,7 +112,11 @@ else
       this._legend.style.display = "none";
     };
     
-    this.setMinWidth(this._legend.scrollWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend));
+    if (this.getMinWidth() == this._minWidth)
+    {
+      this._minWidth = this._legend.scrollWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend);
+      this.setMinWidth(this._minWidth);
+    };
   };
 };
 
