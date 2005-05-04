@@ -110,20 +110,10 @@ if ((new QxClient).isGecko())
     return true;
   };  
   
-  proto._visualizeBlur = function()
-  {
-    this.setCssClassName(this.getCssClassName().add("QxFocused", " ").add(this.classname + "-Focused", " "));    
-    
-    // blur throws the same exception as above but is not stopable in any way
-    
-    return true;
-  };
-  
-  
   proto._addInlineEvents = function(el) 
   {
     el.addEventListener("input", QxWidget.__oninlineevent, false);
-    
+
     return QxWidget.prototype._addInlineEvents.call(this, el);
   };
   
