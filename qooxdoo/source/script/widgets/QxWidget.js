@@ -1981,6 +1981,11 @@ proto.getAnyWidth = function()
     return 0;
   };
   
+  // handling inner and area width (somethat hacks - TM)
+  if (this._pixelof_width != null) {
+    wu = Math.max(this._pixelof_width, wu);
+  };
+
   return wu || this.getPreferredWidth() || this.getComputedBoxWidth() || 0;
 };
 
@@ -1991,6 +1996,11 @@ proto.getAnyHeight = function()
 
   if (!hu && !this.isCreated()) {
     return 0;
+  };
+
+  // handling inner and area height (somethat hacks - TM)
+  if (this._pixelof_height != null) {
+    hu = Math.max(this._pixelof_height, hu);
   };
 
   return hu || this.getPreferredHeight() || this.getComputedBoxHeight() || 0;
