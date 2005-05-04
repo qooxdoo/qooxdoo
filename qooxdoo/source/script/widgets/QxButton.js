@@ -10,6 +10,9 @@ function QxButton(vText, vIcon)
   this.addEventListener("mouseout", this._onmouseout, this);
   this.addEventListener("mousedown", this._onmousedown, this);
   this.addEventListener("mouseup", this._onmouseup, this);  
+  
+  this.addEventListener("keydown", this._onkeydown, this);
+  this.addEventListener("click", this._onclick, this);
 };
 
 QxButton.extend(QxAtom, "QxButton");
@@ -54,6 +57,16 @@ proto._onmouseup = function(e)
   e.stopPropagation();  
 };
 
+proto._onkeydown = function(e)
+{
+  if (e.getKeyCode() == QxKeyEvent.keys.enter) {
+    this.execute();
+  };  
+};
+
+proto._onclick = function(e) {
+  this.execute();
+};
 
 
 
