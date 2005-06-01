@@ -261,7 +261,7 @@ proto.setItemSelected = function(vItem, vSelected)
         return;
       };
     
-      // If is currently selected => return
+      // If selection state is not to be changed => return
       if (this.getItemSelected(vItem) == vSelected) {
         return;
       };
@@ -287,8 +287,7 @@ proto.setItemSelected = function(vItem, vSelected)
   
       if (vSelected)
       {
-        
-        
+
         // Precheck for any changes
         var old = item0;
   
@@ -315,8 +314,9 @@ proto.setItemSelected = function(vItem, vSelected)
       }
       else
       {
-        // Pre-check if is currently selected
-        if (!this.isEqual(item0, vItem))
+
+        // Pre-check if item is currently selected
+        if (this.isEqual(item0, vItem))
         {
           // Reset rendering as selected item
           this.renderItemSelectionState(vItem, false);
