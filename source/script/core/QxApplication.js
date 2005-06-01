@@ -23,6 +23,8 @@ QxApplication.extend(QxTarget, "QxApplication");
 proto._clientWindow = null;
 proto._activeWidget = null;
 
+proto._userApplication = null;
+
 
 
 /*
@@ -126,6 +128,20 @@ proto.getPath = function()
   return v;
 };
 
+
+/*
+  -------------------------------------------------------------------------------
+    USER APPLICATION
+  -------------------------------------------------------------------------------
+*/
+
+proto.getUserApplication = function() {
+  return this._userApplication;
+};
+
+proto.setUserApplication = function(userApplication) {
+  this._userApplication = userApplication;
+};
 
 
 

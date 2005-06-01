@@ -8,6 +8,7 @@ L="$L core/QxDom"
 L="$L core/QxDebug"
 L="$L core/QxTarget"
 L="$L core/QxApplication"
+L="$L core/QxUserApplication"
 L="$L core/QxClientWindow"
 
 # Basic Types

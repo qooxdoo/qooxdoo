@@ -15,7 +15,7 @@ outremove = []
 
 # Zeilen die ersetzt werden sollen
 outreplace = {}
-outreplace["addProperty"] = "_a1"
+#outreplace["addProperty"] = "_a1"
 outreplace["_children"] = "_a2"
 
 outreplace["propValue"] = "_b1"
