@@ -316,7 +316,8 @@ proto.setItemSelected = function(vItem, vSelected)
       {
 
         // Pre-check if item is currently selected
-        if (this.isEqual(item0, vItem))
+        // Do not allow deselection in single selection mode
+        if (!this.isEqual(item0, vItem))
         {
           // Reset rendering as selected item
           this.renderItemSelectionState(vItem, false);
