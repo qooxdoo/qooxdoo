@@ -86,8 +86,7 @@ proto.dispose = function()
     return;
   };
 
-  for( var p in this._data )
-  {
+  for( var p in this._data ) {
     delete this._data[p];
   };
 
@@ -214,12 +213,11 @@ proto.addData = function(p)
     throw new Error("Malformed input parameters: name needed!");
   };
 
-  p.method = p.name.toFirstUp();
-
   var valueKey = p.name;
-  var changeKey = "change" + p.method;
+  var methodKey = p.method = valueKey.toFirstUp();
+  var changeKey = "change" + methodKey;
 
-  this["retrieve" + p.method] = function()
+  this["retrieve" + methodKey] = function()
   {
     return this._data[valueKey];
   };
@@ -228,20 +226,20 @@ proto.addData = function(p)
   {
     this._data[valueKey] = p.defaultValue;
 
-    this["retrieveDefault" + p.method] = function() {
+    this["retrieveDefault" + methodKey] = function() {
       return p.defaultValue;
     };
 
-    this["storeDefault" + p.method] = function(newValue) {
+    this["storeDefault" + methodKey] = function(newValue) {
       return p.defaultValue = newValue;
     };
 
-    this["restore" + p.method] = function() {
-      return this["store" + p.method](p.defaultValue);
+    this["restore" + methodKey] = function() {
+      return this["store" + methodKey](p.defaultValue);
     };
   };
 
-  this["store" + p.method] = function(newValue)
+  this["store" + methodKey] = function(newValue)
   {
     var fixedValue = isValid(p.type) ? p.type(newValue) : newValue;
     var oldValue = this._data[valueKey];
@@ -285,5 +283,13 @@ proto.removeData = function(p)
     throw new Error("Malformed input parameters: name needed!");
   };
 
-  this.dispose();
+  var methodKey = p.method;
+  
+  delete this._data[p.name];
+  
+  delete this["retrieve" + methodKey];
+  delete this["store" + methodKey];
+  delete this["retrieveDefault" + methodKey];
+  delete this["storeDefault" + methodKey];
+  delete this["restore" + methodKey];
 };
