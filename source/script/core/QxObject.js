@@ -6,6 +6,8 @@ function QxObject(autoDispose)
 {
   this._pos = QxObject._counter++;
   this._hash = "h" + String(Math.round(Math.random() * 1e6));
+  
+  this._data = {};
 
   if (typeof autoDispose != "boolean" || autoDispose) {
     QxObject._db.push(this);
@@ -83,6 +85,13 @@ proto.dispose = function()
   if (this._disposed) {
     return;
   };
+
+  for( var p in this._data )
+  {
+    delete this._data[p];
+  };
+
+  delete this._data;
 
   this._disposed = true;
 
@@ -188,4 +197,93 @@ proto.get = function(propertyNames, outputHint)
     default:
       throw new Error("Please use a valid array, hash or string as parameter!");
   };
+};
+
+
+/*!
+
+*/
+proto.addData = function(p)
+{
+
+  if(typeof p != "object") {
+    throw new Error("Param should be an object!");
+  };
+
+  if (isInvalid(p.name)) {
+    throw new Error("Malformed input parameters: name needed!");
+  };
+
+  p.method = p.name.toFirstUp();
+
+  var valueKey = p.name;
+  var changeKey = "change" + p.method;
+
+  this["retrieve" + p.method] = function()
+  {
+    return this._data[valueKey];
+  };
+
+  if (typeof p.defaultValue != "undefined")
+  {
+    this._data[valueKey] = p.defaultValue;
+
+    this["retrieveDefault" + p.method] = function() {
+      return p.defaultValue;
+    };
+
+    this["storeDefault" + p.method] = function(newValue) {
+      return p.defaultValue = newValue;
+    };
+
+    this["restore" + p.method] = function() {
+      return this["store" + p.method](p.defaultValue);
+    };
+  };
+
+  this["store" + p.method] = function(newValue)
+  {
+    var fixedValue = isValid(p.type) ? p.type(newValue) : newValue;
+    var oldValue = this._data[valueKey];
+
+    if (fixedValue != oldValue)
+    {
+      // Store new value
+      this._data[valueKey] = fixedValue;
+
+      // Create Event
+      if (this instanceof QxTarget && this.hasEventListeners(changeKey))
+      {
+        var ce = new QxDataEvent(changeKey, fixedValue, oldValue, false);
+        ce.setTarget(this);
+        try{
+          this.dispatchEvent(ce, true);
+        }
+        catch(ex)
+        {
+          throw new Error("Failed to dispatch change event: " + ex);
+        };
+        ce = null;
+      };
+    };
+
+    return fixedValue;
+  };
+};
+
+
+/*!
+
+*/
+proto.removeData = function(p)
+{
+  if(typeof p != "object") {
+    throw new Error("Param should be an object!");
+  };
+
+  if (isInvalid(p.name)) {
+    throw new Error("Malformed input parameters: name needed!");
+  };
+
+  this.dispose();
 };
