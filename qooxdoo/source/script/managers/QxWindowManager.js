@@ -104,8 +104,14 @@ proto.remove = function(oObject)
   
     var l = a.length;
     
-    if (l==1)
+    if (l==0) 
     {
+      // current window is last window
+      oObject.getTopLevelWidget().release(oObject);
+    }
+    else if (l==1)
+    {
+      // current window is second last window
       this.setActiveWindow(a[0]);
     }
     else if (l>1)
