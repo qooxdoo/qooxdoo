@@ -819,6 +819,8 @@ proto._createElementWrapper = function(uniqModIds)
   };
 };
 
+// uncomment the following line to globally disable timer creation
+// proto._createElementWrapper = proto._createElement;
 
 
 /*
@@ -1157,7 +1159,25 @@ proto.add = function()
 
     if (!(o instanceof QxWidget))
     {
-      throw new Error("Invalid Widget: " + o);
+
+        if (o instanceof Array)
+        {
+            var j;
+            for (j=0; j<o.length; j++)
+            {
+                this.add( o[j] );
+            };
+            for (j in o)
+            {
+                if( o[j] instanceof QxWidget) {
+                    this.add( o[j] );
+                };
+            };
+        }
+        else
+        {
+            throw new Error("Invalid Widget: " + o);
+        };
     }
     else
     {
@@ -4772,7 +4792,7 @@ proto._modifyBackgroundImage = function(propValue, propOldValue, propName, uniqM
   }
   else
   {
-    this.setStyleProperty("backgroundImage", "url(" + propValue + ")");
+      this.setStyleProperty("backgroundImage", "url(" + (new QxImageManager).buildURI(propValue) + ")");
   };
 
   return true;
