@@ -160,7 +160,7 @@ function QxColorSelector()
   
   inputArea.setLeft(0);
   inputArea.setWidth(190);
-  inputArea.setTop(130);
+  inputArea.setTop(135);
   inputArea.setHeight(130);
   
   this.add(inputArea);
@@ -275,12 +275,12 @@ function QxColorSelector()
   var hexLabel = new QxAtom("Hexadezimal: #");
   
   hexLabel.setLeft(55);
-  hexLabel.setTop(110);
+  hexLabel.setTop(105);
 
   var hex = this._hex = new QxTextField;
   
   hex.setLeft(132);
-  hex.setTop(106);
+  hex.setTop(101);
   hex.setWidth(55);
   
   inputArea.add(hexLabel, hex);
