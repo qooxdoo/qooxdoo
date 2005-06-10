@@ -102,6 +102,17 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
   return QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
+proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
+{
+  if (this._textObject) {
+    this._textObject.setEnabled(propValue, uniqModIds);
+  };
+  if (this._iconObject) {
+    this._iconObject.setEnabled(propValue, uniqModIds);
+  };
+  return QxWidget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);  
+};
+
 proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
 {
   this._displayIcon = isValid(propValue);
