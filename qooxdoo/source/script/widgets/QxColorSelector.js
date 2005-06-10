@@ -1,4 +1,4 @@
-function QxColorSelector()
+function QxColorSelector(vTemplateColors, vHistoryColors)
 {
   QxWindow.call(this, "Color Selector", "icons/16/colors.png");
 
@@ -26,34 +26,124 @@ function QxColorSelector()
   -------------------------------------------------------------------------------
 */  
  
-  var vField;
-  var vArr = QxColorSelector.presets;
-  var vArrLength = vArr.length;
-  var vSubArr;
-  var vSubArrLength;
-  
-  for (var i=0; i<vArrLength; i++)
+ 
+  if (vTemplateColors && vHistoryColors)
   {
-    vSubArr = vArr[i];
-    vSubArrLength = vSubArr.length;
+    var vField;
+    var vFieldSet;
+    var vBase = QxColorSelector.baseColors;
+    var vBaseLength = vBase.length;
     
-    for (var j=0; j<vSubArrLength; j++)
+    vFieldSet = new QxFieldSet("Basis Farben");
+    
+    vFieldSet.setTop(-6);
+    vFieldSet.setWidth(188);
+    vFieldSet.setHeight(45);
+    vFieldSet.setMinHeight(45);
+    
+    for (var i=0; i<vBaseLength; i++)
     {
       vField = new QxWidget;
       
+      vField.setBackgroundColor(vBase[i]);
       vField.setBorder(QxBorder.presets.inset);
-      vField.setBackgroundColor(vSubArr[j]);
+      vField.setWidth(12);
+      vField.setHeight(12);
+        
+      vField.setLeft(i * 13);        
+      vField.setTop(0);    
       
-      vField.setWidth(20);
-      vField.setHeight(16);
+      vField.addEventListener("click", this._onpaletteclick, this);  
       
-      vField.setLeft(j * 24);        
-      vField.setTop(i * 20);
+      vFieldSet.add(vField);
+    };
+    
+    this.add(vFieldSet);
+    
+    vFieldSet = new QxFieldSet("Template Farben");
+    
+    vFieldSet.setTop(41);
+    vFieldSet.setWidth(188);
+    vFieldSet.setHeight(45);
+    vFieldSet.setMinHeight(45);
+    
+    for (var i=0; i<vBaseLength; i++)
+    {
+      vField = new QxWidget;
+      
+      vField.setBackgroundColor(vTemplateColors[i]);
+      vField.setBorder(QxBorder.presets.inset);
+      vField.setWidth(12);
+      vField.setHeight(12);
+        
+      vField.setLeft(i * 13);        
+      vField.setTop(0);
       
       vField.addEventListener("click", this._onpaletteclick, this);
       
-      this.add(vField);
-    };     
+      vFieldSet.add(vField);      
+    };
+    
+    this.add(vFieldSet);
+    
+    vFieldSet = new QxFieldSet("Eigene Farben");
+    
+    vFieldSet.setTop(88);
+    vFieldSet.setWidth(188);
+    vFieldSet.setHeight(45);
+    vFieldSet.setMinHeight(45);
+    
+    for (var i=0; i<vBaseLength; i++)
+    {
+      vField = new QxWidget;
+      
+      vField.setBackgroundColor(vHistoryColors[i]);
+      vField.setBorder(QxBorder.presets.inset);
+      vField.setWidth(12);
+      vField.setHeight(12);
+        
+      vField.setLeft(i * 13);        
+      vField.setTop(0);     
+      
+      vField.addEventListener("click", this._onpaletteclick, this);
+      
+      vFieldSet.add(vField); 
+    };        
+    
+    this.add(vFieldSet);
+    
+  }
+  else
+  {
+    var vField;
+    var vArr = QxColorSelector.presets;
+    var vArrLength = vArr.length;
+    var vSubArr;
+    var vSubArrLength;
+    
+    for (var i=0; i<vArrLength; i++)
+    {
+      vSubArr = vArr[i];
+      vSubArrLength = vSubArr.length;
+      
+      for (var j=0; j<vSubArrLength; j++)
+      {
+        vField = new QxWidget;
+        
+        vField.setBorder(QxBorder.presets.inset);
+        vField.setBackgroundColor(vSubArr[j]);
+        
+        vField.setWidth(20);
+        vField.setHeight(16);
+        
+        vField.setLeft(j * 24);        
+        vField.setTop(i * 20);
+        
+        vField.addEventListener("click", this._onpaletteclick, this);
+        
+        this.add(vField);
+      };     
+    };
   };
   
   
@@ -160,8 +250,8 @@ function QxColorSelector()
   
   inputArea.setLeft(0);
   inputArea.setWidth(190);
-  inputArea.setTop(135);
-  inputArea.setHeight(130);
+  inputArea.setTop(vTemplateColors && vHistoryColors ? 144 : 135);
+  inputArea.setHeight(90);
   
   this.add(inputArea);
   
@@ -275,15 +365,15 @@ function QxColorSelector()
   var hexLabel = new QxAtom("Hexadezimal: #");
   
   hexLabel.setLeft(55);
-  hexLabel.setTop(105);
+  hexLabel.setTop(241);
 
   var hex = this._hex = new QxTextField;
   
-  hex.setLeft(132);
-  hex.setTop(101);
+  hex.setLeft(133);
+  hex.setTop(237);
   hex.setWidth(55);
   
-  inputArea.add(hexLabel, hex);
+  this.add(hexLabel, hex);
   
   hex.addEventListener("changeText", this._onchangehex, this);
   
@@ -393,6 +483,8 @@ QxColorSelector.presets =
   [[64,0,0],      [128,64,0],    [0,64,0],      [0,64,64],     [0,0,128],     [0,0,64],      [64,0,64],     [64,0,128]   ],
   [[0,0,0],       [128,128,0],   [128,128,64],  [128,128,128], [64,128,128],  [192,192,192], [32,0,32],     [255,255,255]]
 ];
+
+QxColorSelector.baseColors = [ "black", 51, 102, 153, 204, "white", "red", "green", "blue", "yellow", "cyan", "magenta" ];
 
 proto._mode = null;
 
