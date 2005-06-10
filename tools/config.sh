@@ -151,6 +151,7 @@ L="$L core/QxCommand"
 # Window
 L="$L managers/QxWindowManager"
 L="$L widgets/QxWindow"
+L="$L widgets/QxColorPresetPopup"
 L="$L widgets/QxColorSelector"
 
 # Native Window
