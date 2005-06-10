@@ -535,8 +535,8 @@ proto._modifyCurrentColor = function(propValue, propOldValue, propName, uniqModI
     // y: -4 to to 252
     if (this._mode != "lum")
     {
-      this._huePos.setLeft(196+(c[0]/3.6*2.56));
-      this._huePos.setTop(256 - (-4+(c[1]*2.56)));
+      this._huePos.setLeft(c[0] == 0 ? 196 : 196+(c[0]/3.6*2.56));
+      this._huePos.setTop(c[1] == 0 ? 252 : 256-(-4+(c[1]*2.56)));
     };
 
     // range:
