@@ -215,7 +215,6 @@ html[QxFocused] {
 .QxPopup,
 .QxToolTip,
 .QxMenu {
-  display: -moz-popup !important;
   visibility: hidden;
 
   z-index: 100000;
