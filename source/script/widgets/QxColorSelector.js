@@ -5,6 +5,9 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   // Hack: Force classname    
   this.classname = "QxWindow";
   
+  this.webfixMode = vTemplateColors && vHistoryColors;
+  this.layoutOffset = this.webfixMode ? 224 : 196;
+  
   this.setShowStatusbar(false);
   this.setShowMaximize(false);
   this.setShowMinimize(false);
@@ -14,10 +17,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   
   this.getPane().setPadding(8);
   
-  this.setWidth(515);
+  this.setWidth(this.webfixMode ? 543 : 515);
   this.setHeight(400);
   
-
+  
 
   
 /*
@@ -27,17 +30,17 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
 */  
  
  
-  if (vTemplateColors && vHistoryColors)
+  if (this.webfixMode)
   {
     var vField;
     var vFieldSet;
     var vBase = QxColorSelector.baseColors;
     var vBaseLength = vBase.length;
     
-    vFieldSet = new QxFieldSet("Basis Farben");
+    vFieldSet = new QxFieldSet(QxColorSelector.textBaseColors);
     
     vFieldSet.setTop(-6);
-    vFieldSet.setWidth(188);
+    vFieldSet.setWidth(216);
     vFieldSet.setHeight(45);
     vFieldSet.setMinHeight(45);
     
@@ -47,10 +50,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
       
       vField.setBackgroundColor(vBase[i]);
       vField.setBorder(QxBorder.presets.inset);
-      vField.setWidth(12);
-      vField.setHeight(12);
+      vField.setWidth(14);
+      vField.setHeight(14);
         
-      vField.setLeft(i * 13);        
+      vField.setLeft(i * 16);        
       vField.setTop(0);    
       
       vField.addEventListener("click", this._onpaletteclick, this);  
@@ -60,10 +63,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
     
     this.add(vFieldSet);
     
-    vFieldSet = new QxFieldSet("Template Farben");
+    vFieldSet = new QxFieldSet(QxColorSelector.textTemplateColors);
     
     vFieldSet.setTop(41);
-    vFieldSet.setWidth(188);
+    vFieldSet.setWidth(216);
     vFieldSet.setHeight(45);
     vFieldSet.setMinHeight(45);
     
@@ -73,10 +76,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
       
       vField.setBackgroundColor(vTemplateColors[i]);
       vField.setBorder(QxBorder.presets.inset);
-      vField.setWidth(12);
-      vField.setHeight(12);
+      vField.setWidth(14);
+      vField.setHeight(14);
         
-      vField.setLeft(i * 13);        
+      vField.setLeft(i * 16);        
       vField.setTop(0);
       
       vField.addEventListener("click", this._onpaletteclick, this);
@@ -86,10 +89,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
     
     this.add(vFieldSet);
     
-    vFieldSet = new QxFieldSet("Eigene Farben");
+    vFieldSet = new QxFieldSet(QxColorSelector.textHistoryColors);
     
     vFieldSet.setTop(88);
-    vFieldSet.setWidth(188);
+    vFieldSet.setWidth(216);
     vFieldSet.setHeight(45);
     vFieldSet.setMinHeight(45);
     
@@ -99,10 +102,10 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
       
       vField.setBackgroundColor(vHistoryColors[i]);
       vField.setBorder(QxBorder.presets.inset);
-      vField.setWidth(12);
-      vField.setHeight(12);
+      vField.setWidth(14);
+      vField.setHeight(14);
         
-      vField.setLeft(i * 13);        
+      vField.setLeft(i * 16);        
       vField.setTop(0);     
       
       vField.addEventListener("click", this._onpaletteclick, this);
@@ -159,7 +162,7 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   var hueFrame = new QxWidget;
   
   hueFrame.setBorder(QxBorder.presets.inset);
-  hueFrame.setLeft(200);
+  hueFrame.setLeft(this.webfixMode ? 228 : 200);
   hueFrame.setTop(0);
   hueFrame.setWidth(258);
   hueFrame.setHeight(258);
@@ -178,7 +181,7 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   
   var huePos = this._huePos = new QxImage("core/huesaturationhandle.gif", 11, 11);
   
-  huePos.setLeft(196);
+  huePos.setLeft(this.layoutOffset);
   huePos.setTop(-4);
   
   this.add(hueFrame, huePos);
@@ -210,7 +213,7 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   var brightFrame = new QxWidget;
   
   brightFrame.setBorder(QxBorder.presets.inset);
-  brightFrame.setLeft(470);
+  brightFrame.setLeft(this.webfixMode ? 498 : 470);
   brightFrame.setTop(0);
   brightFrame.setWidth(21);
   brightFrame.setHeight(258);
@@ -220,7 +223,7 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   
   var brightPos = this._brightPos = new QxImage("core/brightnesshandle.gif", 35, 11);
   
-  brightPos.setLeft(463);
+  brightPos.setLeft(this.layoutOffset + 267);
   brightPos.setTop(-4);
   
   this.add(brightFrame, brightPos);
@@ -249,8 +252,8 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   var inputArea = new QxWidget;
   
   inputArea.setLeft(0);
-  inputArea.setWidth(190);
-  inputArea.setTop(vTemplateColors && vHistoryColors ? 144 : 135);
+  inputArea.setWidth(this.webfixMode ? 218 : 190);
+  inputArea.setTop(this.webfixMode ? 144 : 135);
   inputArea.setHeight(90);
   
   this.add(inputArea);
@@ -264,41 +267,47 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
 
   var r = this._red = new QxSpinner(0, 0, 255);
   
-  r.setLeft(143);
+  r.setLeft(this.webfixMode ? 171 : 143);
   r.setWidth(45);
   r.setTop(0);
   r.addEventListener("change", this._onchange, this);
   
-  var rl = new QxAtom("Rot:");
+  var rl = new QxAtom(QxColorSelector.textRed);
   
-  rl.setLeft(113);
+  rl.setLeft(this.webfixMode ? 118 : 90);
+  rl.setWidth(50);
+  rl.setHorizontalBlockAlign("right");  
   rl.setTop(5);
   
   
   var g = this._green = new QxSpinner(0, 0, 255);
   
-  g.setLeft(143);
+  g.setLeft(this.webfixMode ? 171 : 143);
   g.setWidth(45);
   g.setTop(30);
   g.addEventListener("change", this._onchange, this);
 
-  var gl = new QxAtom("Grün:");
+  var gl = new QxAtom(QxColorSelector.textGreen);
   
-  gl.setLeft(113);
+  gl.setLeft(this.webfixMode ? 118 : 90);
+  gl.setWidth(50);
+  gl.setHorizontalBlockAlign("right");  
   gl.setTop(35);
 
 
 
   var b = this._blue = new QxSpinner(0, 0, 255);
   
-  b.setLeft(143);
+  b.setLeft(this.webfixMode ? 171 : 143);
   b.setWidth(45);
   b.setTop(60);
   b.addEventListener("change", this._onchange, this);
   
-  var bl = new QxAtom("Blau:");
+  var bl = new QxAtom(QxColorSelector.textBlue);
   
-  bl.setLeft(113);
+  bl.setLeft(this.webfixMode ? 118 : 90);
+  bl.setWidth(50);
+  bl.setHorizontalBlockAlign("right");  
   bl.setTop(65);
 
   
@@ -318,9 +327,11 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   h.setTop(0);
   h.addEventListener("change", this._onchange, this);
   
-  var hl = new QxAtom("Farbton:");
+  var hl = new QxAtom(QxColorSelector.textHue);
   
   hl.setLeft(0);
+  hl.setWidth(50);
+  hl.setHorizontalBlockAlign("right");
   hl.setTop(5);    
   
   
@@ -331,9 +342,11 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   s.setTop(30);
   s.addEventListener("change", this._onchange, this);
   
-  var sl = new QxAtom("Sättigung:");
+  var sl = new QxAtom(QxColorSelector.textSaturation);
   
   sl.setLeft(0);
+  sl.setWidth(50);
+  sl.setHorizontalBlockAlign("right");
   sl.setTop(35);
       
 
@@ -344,9 +357,11 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   l.setTop(60);    
   l.addEventListener("change", this._onchange, this);
   
-  var ll = new QxAtom("Helligkeit:");
+  var ll = new QxAtom(QxColorSelector.textBrightness);
   
   ll.setLeft(0);
+  ll.setWidth(50);
+  ll.setHorizontalBlockAlign("right");
   ll.setTop(65);
   
   inputArea.add(r, rl, g, gl, b, bl, h, hl, s, sl, l, ll);
@@ -362,15 +377,17 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   -------------------------------------------------------------------------------
 */
 
-  var hexLabel = new QxAtom("Hexadezimal: #");
+  var hexLabel = new QxAtom(QxColorSelector.textHex);
   
-  hexLabel.setLeft(55);
+  hexLabel.setLeft(0);
+  hexLabel.setWidth(this.webfixMode ? 158 : 130);
+  hexLabel.setHorizontalBlockAlign("right");
   hexLabel.setTop(241);
 
   var hex = this._hex = new QxTextField;
   
-  hex.setLeft(133);
-  hex.setTop(237);
+  hex.setLeft(this.webfixMode ? 161 : 133);
+  hex.setTop(236);
   hex.setWidth(55);
   
   this.add(hexLabel, hex);
@@ -385,17 +402,17 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   -------------------------------------------------------------------------------
 */  
 
-  var savedColor = this._savedColor = new QxAtom("Aktuelle Farbe");
+  var savedColor = this._savedColor = new QxAtom(QxColorSelector.textSavedColor);
   
   savedColor.setTop(270);
-  savedColor.setLeft(200);
+  savedColor.setLeft(this.webfixMode ? 228 : 200);
   savedColor.setWidth(125);
   savedColor.setHeight(25);
   savedColor.setHorizontalBlockAlign("center");
   savedColor.setBorder(QxBorder.presets.inset);
 
   
-  var newColor = this._newColor = new QxAtom("Neue Farbe");
+  var newColor = this._newColor = new QxAtom(QxColorSelector.textNewColor);
   
   newColor.setTop(270);
   newColor.setRight(33);
@@ -436,8 +453,8 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   -------------------------------------------------------------------------------
 */
   
-  var btncancel = this._btncancel = new QxButton("Cancel", "icons/16/button_cancel.png", 16, 16);
-  var btnok = this._btnok = new QxButton("OK", "icons/16/button_ok.png", 16, 16);
+  var btncancel = this._btncancel = new QxButton(QxColorSelector.textCancel, "icons/16/button_cancel.png", 16, 16);
+  var btnok = this._btnok = new QxButton(QxColorSelector.textOk, "icons/16/button_ok.png", 16, 16);
   
   btncancel.setRight(0);
   btncancel.setTop(335);
@@ -488,8 +505,20 @@ QxColorSelector.baseColors = [ "black", 51, 102, 153, 204, "white", "red", "gree
 
 proto._mode = null;
 
-
-
+QxColorSelector.textBaseColors = "Basic Colors";
+QxColorSelector.textTemplateColors = "Template Colors";
+QxColorSelector.textHistoryColors = "Previous Colors";
+QxColorSelector.textHue = "Hue:"
+QxColorSelector.textSaturation = "Sat:"
+QxColorSelector.textBrightness = "Lum:"
+QxColorSelector.textRed = "Red:"
+QxColorSelector.textGreen = "Green:"
+QxColorSelector.textBlue = "Blue:"
+QxColorSelector.textOk = "OK";
+QxColorSelector.textCancel = "Cancel";
+QxColorSelector.textSavedColor = "Current";
+QxColorSelector.textNewColor = "New";
+QxColorSelector.textHex = "Hex: #";
 
 /*
   -------------------------------------------------------------------------------
@@ -531,11 +560,11 @@ proto._modifyCurrentColor = function(propValue, propOldValue, propName, uniqModI
   if (this._mode != "huearea" && this._mode != "brightarea")
   {
     // range: 
-    // x: 196 to 452
+    // x: this.layoutOffset to 452
     // y: -4 to to 252
     if (this._mode != "lum")
     {
-      this._huePos.setLeft(c[0] == 0 ? 196 : 196+(c[0]/3.6*2.56));
+      this._huePos.setLeft(c[0] == 0 ? this.layoutOffset : this.layoutOffset+(c[0]/3.6*2.56));
       this._huePos.setTop(c[1] == 0 ? 252 : 256-(-4+(c[1]*2.56)));
     };
 
@@ -708,7 +737,7 @@ proto._onhueareaclick = function(e)
   var s = ((e.getPageY() - this.getComputedPageBoxTop()) / 2.56).limit(0, 100);
   var b = pa._lum.getValue();   
 
-  pa._huePos.setLeft(196+(h/3.6*2.56));
+  pa._huePos.setLeft(pa.layoutOffset+(h/3.6*2.56));
   pa._huePos.setTop(-4+(s*2.56));  
   
   pa._mode = "huearea";
