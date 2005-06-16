@@ -682,7 +682,7 @@ QxDOM.getElementAbsolutePointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
   
-  if (chc.nodeType != 1) {
+  if (!chc || chc.nodeType != 1) {
     return false;
   };
   
