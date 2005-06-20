@@ -67,13 +67,28 @@ proto.process = function(dataKey, loader)
   this._storeQueue.push(dataKey);
 
   var o = this;
-  loader.addEventListener("complete", function(e) {
+  loader.addEventListener("complete", function(e) 
+  {
     o.processComplete(e.getData());
     loader.dispose();
   });  
 
-  loader.load(this.makeRequest(dataKey));
-  // sending xmlRequest... (callback := processComplete)
+  try
+  {
+    // sending xmlRequest... (callback := processComplete)
+    loader.load(this.makeRequest(dataKey));
+  }
+  catch(ex)
+  {
+    var t = dataKey.indexOf("[");
+    var p0 = dataKey.substring(0, t);
+    
+    this.dispatchEvent(new QxDataEvent("update" + p0.toFirstUp(), this), true);
+    
+    loader.dispose();    
+    
+    throw new Error("Could not load data: " + ex);
+  };    
 };
 
 /*!
