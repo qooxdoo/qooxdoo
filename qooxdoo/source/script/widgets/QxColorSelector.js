@@ -1,11 +1,27 @@
-function QxColorSelector(vTemplateColors, vHistoryColors)
+function QxColorSelector(vTemplateColors, vHistoryColors, vStandalone)
 {
-  QxWindow.call(this, "Color Selector", "icons/16/colors.png");
+  this.standaloneMode = typeof vStandalone == "boolean" ? vStandalone : false;
+  this.webfixMode = vTemplateColors && vHistoryColors;
+
+  if (this.standaloneMode)
+  {
+    QxPopup.call(this);
+    
+    this.add = this.addToWindow;
+    
+    this.setBorder(null);
+    this.setPadding(10);
+    this.setHeight(385);
+  }
+  else
+  {
+    QxWindow.call(this, "Color Selector", "icons/16/colors.png");
+    this.setHeight(400);
+  };
 
   // Hack: Force classname    
   this.classname = "QxWindow";
   
-  this.webfixMode = vTemplateColors && vHistoryColors;
   this.layoutOffset = this.webfixMode ? 224 : 196;
   
   this.setShowStatusbar(false);
@@ -18,7 +34,7 @@ function QxColorSelector(vTemplateColors, vHistoryColors)
   this.getPane().setPadding(8);
   
   this.setWidth(this.webfixMode ? 543 : 515);
-  this.setHeight(400);
+  
   
   
 
@@ -723,15 +739,19 @@ proto._onhueareamouseup = function(e)
 
 proto._onhueareamousemove = function(e)
 {
-  if (this._hueActive) {
-    var pa = this.getParent().getParent().getParent();
+  if (this._hueActive) 
+  {
+    var pa1 = this.getParent().getParent();
+    var pa = pa1.standaloneMode ? pa1 : pa1.getParent();
+
     pa._onhueareaclick.call(this, e);
   };
 };
 
 proto._onhueareaclick = function(e)
 {
-  var pa = this.getParent().getParent().getParent();
+  var pa1 = this.getParent().getParent();
+  var pa = pa1.standaloneMode ? pa1 : pa1.getParent();
   
   var h = ((e.getPageX() - this.getComputedPageBoxLeft()) / 2.56 * 3.6).limit(0, 360);
   var s = ((e.getPageY() - this.getComputedPageBoxTop()) / 2.56).limit(0, 100);
@@ -781,15 +801,19 @@ proto._onbrightareamouseup = function(e)
 
 proto._onbrightareamousemove = function(e)
 {
-  if (this._brightActive) {
-    var pa = this.getParent().getParent().getParent();
+  if (this._brightActive) 
+  {
+    var pa1 = this.getParent().getParent();
+    var pa = pa1.standaloneMode ? pa1 : pa1.getParent();
+
     pa._onbrightareaclick.call(this, e);
   }; 
 };
 
 proto._onbrightareaclick = function(e)
 {
-  var pa = this.getParent().getParent().getParent();
+  var pa1 = this.getParent().getParent();
+  var pa = pa1.standaloneMode ? pa1 : pa1.getParent();
   
   var h = pa._hue.getValue();
   var s = pa._sat.getValue();
@@ -826,9 +850,6 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
-  
-  
-  
   
   return QxWindow.prototype.dispose.call(this);
 };
