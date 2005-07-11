@@ -9,7 +9,7 @@ function QxColor(v)
 QxColor.m_hex = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
 QxColor.r_hex3 = /^#[0-9A-Fa-f]{3}$/;
 QxColor.r_hex6 = /^#[0-9A-Fa-f]{6}$/;
-QxColor.r_cssrgb = /^rgb\([0-9]{1,3}\.{0,1}[0-9]*,[0-9]{1,3}\.{0,1}[0-9]*,[0-9]{1,3}\.{0,1}[0-9]*\)$/;
+QxColor.r_cssrgb = /^rgb\([0-9]{1,3}\.{0,1}[0-9]*,\s*[0-9]{1,3}\.{0,1}[0-9]*,\s*[0-9]{1,3}\.{0,1}[0-9]*\)$/;
 
 QxColor.r_rgb = /^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/;
 QxColor.r_number = /^[0-9]{1,3}\.{0,1}[0-9]*$/;
@@ -107,7 +107,7 @@ QxColor.read = function(v)
       v = v.substring(4,v.length-1);
     };
 
-    v = v.split(",");
+    v = v.split(/,\s*/);
 
     for (var i=0; i<3; i++)
     {
