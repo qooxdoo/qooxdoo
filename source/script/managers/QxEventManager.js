@@ -601,13 +601,13 @@ proto._onmouseevent_post = function(e, t)
       break;
     
     case "mouseover":
-      if (isValidFunction(QxToolTipManager)) {
+      if (typeof QxToolTipManager == "function") {
         (new QxToolTipManager).handleMouseOver(vEventObject);
       };
       break;
 
     case "mouseout":
-      if (isValidFunction(QxToolTipManager)) {
+      if (typeof QxToolTipManager == "function") {
         (new QxToolTipManager).handleMouseOut(vEventObject);
       };
       break;
@@ -617,7 +617,7 @@ proto._onmouseevent_post = function(e, t)
 
 
   // Send Event Object to Drag&Drop Manager
-  if (isValidFunction(QxDragAndDropManager)) {
+  if (typeof QxDragAndDropManager == "function") {
     (new QxDragAndDropManager).handleMouseEvent(vEventObject);
   };
 
@@ -666,17 +666,17 @@ proto._onwindowblur = function(e)
   this._allowFocus = true;
   
   // Hide Popups, Tooltips, ...
-  if (isValidFunction(QxPopupManager)) {
+  if (typeof QxPopupManager == "function") {
     (new QxPopupManager).update();
   };
   
   // Hide Menus
-  if (isValidFunction(QxMenuManager)) {
+  if (typeof QxMenuManager == "function") {
     (new QxMenuManager).update();
   };
 
   // Cancel Drag Operations
-  if (isValidFunction(QxDragAndDropManager)) {
+  if (typeof QxDragAndDropManager == "function") {
     (new QxDragAndDropManager).globalCancelDrag();
   };
 
