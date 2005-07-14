@@ -1,0 +1,37 @@
+<qx:widgets xmlns:qx='qooxdoo'>
+
+	<qx:button id='btn' text='Click Me!!!' location='20,50'>
+			
+		<!-- function body event listener -->
+		<qx:eventListener type='click' args='event'>
+			btn.setText(btn.getText() + ".");
+			alert(event + "\n\nClicked on: " + this.getText()); 
+		</qx:eventListener>
+
+		<!-- 
+			global object.method delegation
+			when the button is clicked, d.click(event) will be called
+			-->
+		<qx:eventListener type='click' delegate='d.click'/>
+		
+		<!-- 
+			global function delegation
+			when the button is clicked, f(event) will be called
+			-->
+		<qx:eventListener type='click' delegate='f'/>
+		
+	</qx:button>
+	<qx:atom id='atom1' text='Test No #1' icon='icons/16/penguin.png' border='QxBorder.presets.black' location='20,90'/>
+
+	<qx:button text='Test No #2' icon='icons/16/penguin.png' location='20,120'>
+			<qx:eventListener type='click'>
+				atom1.setText(atom1.getText() + ".");
+			</qx:eventListener>
+	</qx:button>
+	
+	<qx:atom text='Test No #3' icon='icons/16/penguin.png' location='20,160'/>
+
+ 	<qx:atom text='a' icon='icons/16/penguin.png' location='20,200'/>
+	<qx:atom text='b' icon='icons/16/penguin.png' location='20,240'/>
+
+</qx:widgets>
