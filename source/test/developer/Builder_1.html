@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" xmlns:qx="http://qooxdoo.sourceforge.net/builder-1.dtd">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <meta http-equiv="MsThemeCompatible" content="yes" />
+  <meta http-equiv="ImageToolBar" content="no" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="MSSmartTagsPreventParsing" content="yes" />
+
+  <title>qooxdoo: The new era of web interface development</title>
+  <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/layout.js"></script>
+  <script type="text/javascript">
+  	window.application.main = function() {
+			new QxBuilder().build(this, document.getElementById('widgets'));
+		}
+		
+		// test delegate object
+		var d = {
+			hello : 'world',
+			click : function(e) {
+				alert(e + '\n\nclick received at delegate object\n\n' + this.hello);
+			}
+		}
+		
+		// test delegate function
+		var f = function(e) {
+				alert(e + '\n\nclick received at delegate function\n\n');
+		}
+  </script>
+  <div id="testDescription">
+    <p>QxBuilder demo.</p>
+    <p>Build your web apps using qooxdooml.</p>
+    <p><pre>&lt;qx:atom 
+    text='Cute' 
+    icon='icons/16/penguin.png' 
+    location='10,10'
+/&gt;</pre>
+    
+  </div>
+  <textarea id='widgets' style='display:none'> 
+		<widgets xmlns:qx='qooxdoo'>
+	
+			<qx:button id='btn' text='Click Me!!!' location='20,50'>
+					
+					<!-- function body event listener -->
+					<qx:eventListener type='click' args='event'>
+					btn.setText(btn.getText() + ".");
+					alert(event + "\n\nClicked on: " + this.getText()); 
+				</qx:eventListener>
+
+				<!-- 
+					global object.method delegation
+					when the button is clicked, d.click(event) will be called
+					-->
+				<qx:eventListener type='click' delegate='d.click'/>
+				
+				<!-- 
+					global function delegation
+					when the button is clicked, f(event) will be called
+					-->
+				<qx:eventListener type='click' delegate='f'/>
+				
+			</qx:button>
+			<qx:atom id='atom1' text='Test No #1' icon='icons/16/penguin.png' border='QxBorder.presets.black' location='20,90'/>
+
+			<qx:button text='Test No #2' icon='icons/16/penguin.png' location='20,120'>
+					<qx:eventListener type='click'>
+						atom1.setText(atom1.getText() + ".");
+					</qx:eventListener>
+			</qx:button>
+			
+			<qx:atom text='Test No #3' icon='icons/16/penguin.png' location='20,160'/>
+		
+	 	<qx:atom text='a' icon='icons/16/penguin.png' location='20,200'/>
+		<qx:atom text='b' icon='icons/16/penguin.png' location='20,240'/>
+		</widgets>
+	</textarea>
+</body>
+</html>
+</body>
+</html>
+
