@@ -10,6 +10,7 @@ L="$L core/QxTarget"
 L="$L core/QxApplication"
 L="$L core/QxUserApplication"
 L="$L core/QxClientWindow"
+L="$L core/QxBuilder"
 
 # Basic Types
 L="$L types/QxVariable"
