@@ -17,8 +17,14 @@ function QxGridLayout(vRows, vCols, vShowVirtualCells)
     this.setShowVirtualCells(vShowVirtualCells);
   };
   
-  this.addRowsFromString(vRows);
-  this.addColsFromString(vCols);
+	if (isValidString(vRows)) {
+		this.addRowsFromString(vRows);
+	};
+	
+	if (isValidString(vCols)) {
+		this.addColsFromString(vCols);
+	};
+
 };
 
 QxGridLayout.extend(QxLayout, "QxGridLayout");
