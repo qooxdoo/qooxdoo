@@ -25,6 +25,11 @@
   <script type="text/javascript">
     window.application.main = function()
     {
+      QxPopup.prototype._shouldBecomeCreated = function() {
+        return true;
+      };
+      
+      
       var d = this.getClientWindow().getDocument();
 
 
@@ -83,6 +88,10 @@
 
 
       d.add(m1, m2, m3);
+      
+      m1.setVisible(false);
+      m2.setVisible(false);
+      m3.setVisible(false);
 
 
 

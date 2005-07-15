@@ -77,13 +77,13 @@ function QxSpinner( min, value, max )
     this.setMin(min);
   };
 
-  if(isValidNumber(value)) {
-    this.setValue(value);
-  };
-
   if(isValidNumber(max)) {
     this.setMax(max);
   }; 
+  
+  if(isValidNumber(value)) {
+    this.setValue(value);
+  };  
 };
 
 QxSpinner.extend(QxWidget, "QxSpinner");

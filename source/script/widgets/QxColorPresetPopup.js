@@ -190,7 +190,7 @@ function QxColorPresetPopup(vTemplateColors, vHistoryColors, vColorSelector)
   o.addEventListener("mousedown", function(e)
   {
     vColorSelector.setSavedColor(this.getCurrentColor());
-    vColorSelector.setCurrentColor(this.getCurrentColor() ? this.getCurrentColor() : [ 127, 255, 255 ]);
+    //vColorSelector.setCurrentColor(this.getCurrentColor() ? this.getCurrentColor() : [ 127, 255, 255 ]);
     vColorSelector.setTop(100);
     vColorSelector.setLeft(100);      
     vColorSelector.setVisible(true);
