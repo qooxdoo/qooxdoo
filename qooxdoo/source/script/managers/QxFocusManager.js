@@ -72,7 +72,10 @@ proto._modifyFocusedWidget = function(propValue, propOldValue, propName, uniqMod
 
     propOldValue.dispatchEvent(s);
 
-    (new QxToolTipManager).handleBlur(s);
+    if ( typeof QxToolTipManager == "function" ) {
+      (new QxToolTipManager).handleBlur(s);
+    };
+
     s.dispose();
 
     (new QxApplication).setActiveWidget(null);
@@ -92,7 +95,10 @@ proto._modifyFocusedWidget = function(propValue, propOldValue, propName, uniqMod
 
     propValue.dispatchEvent(s);
 
-    (new QxToolTipManager).handleFocus(s);
+    if ( typeof QxToolTipManager == "function" ) {
+      (new QxToolTipManager).handleFocus(s);
+    };
+
     s.dispose();
 
     (new QxApplication).setActiveWidget(propValue);
