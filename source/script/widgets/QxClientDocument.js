@@ -24,6 +24,18 @@ function QxClientDocument(clientWindow)
   // Blocker and Dialog Support
   this._blocker = new QxBlocker;
   this._modalWidgets = [];
+  this._modalNativeWindow = null;
+
+  this._blocker.addEventListener("mousedown", function(e) {
+    if (this._modalNativeWindow) {
+      this._modalNativeWindow.focus();
+    };
+  }, this);
+  this._blocker.addEventListener("mouseup", function(e) {
+    if (this._modalNativeWindow) {
+      this._modalNativeWindow.focus();
+    };
+  }, this);
 };
 
 QxClientDocument.extend(QxWidget, "QxClientDocument");
@@ -99,8 +111,8 @@ proto._visualizeFocus = function() {};
 proto.block = function(activeWidget) 
 {
   this.add(this._blocker);
-  
-  if (activeWidget)
+
+  if (typeof QxWindow == "function" && activeWidget instanceof QxWindow)  
   {
     this._modalWidgets.push(activeWidget);
     
@@ -108,8 +120,9 @@ proto.block = function(activeWidget)
     this._blocker.setZIndex(o);
     activeWidget.setZIndex(o+1);
   }
-  else
+  else if (activeWidget instanceof QxNativeWindow)
   {
+    this._modalNativeWindow = activeWidget;
     this._blocker.setZIndex(1e7);
   };
 };
@@ -118,7 +131,14 @@ proto.release = function(activeWidget)
 {
   if (activeWidget) 
   {
-    this._modalWidgets.remove(activeWidget);
+    if (activeWidget instanceof QxNativeWindow)
+    {
+      this._modalNativeWindow = null;
+    }
+    else
+    {
+      this._modalWidgets.remove(activeWidget);
+    };
   };
   
   var l = this._modalWidgets.length;
@@ -296,7 +316,7 @@ proto.add = function()
   var l = a.length;
   var t = a[l-1];
 
-  if (l > 1 && typeof t == "string")
+  if (typeof QxInline == "function" && l > 1 && typeof t == "string")
   {
     for (var i=0; i<l-1; i++)
     {
@@ -317,7 +337,7 @@ proto.add = function()
 
 proto._getParentNodeForChild = function(otherObject)
 {
-  if (otherObject instanceof QxInline)
+  if (typeof QxInline == "function" && otherObject instanceof QxInline)
   {
     var inlineNodeId = otherObject.getInlineNodeId();
 
