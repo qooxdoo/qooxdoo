@@ -2,7 +2,7 @@ function QxNativeWindow(vCaption, vSource)
 {
   QxTarget.call(this);
 
-  this._timer = new QxTimer(1);
+  this._timer = new QxTimer(100);
   this._timer.addEventListener("interval", this._ontimer, this);
 
   var o = this;
@@ -311,7 +311,7 @@ proto.open = function()
   */
   
   if (this.getModal()) {
-    window.application.getClientWindow().getClientDocument().block();
+    window.application.getClientWindow().getClientDocument().block(this);
   };
   
 
@@ -404,7 +404,7 @@ proto._ontimer = function(e)
   if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed != false))) 
   {
     if (this.getModal()) {
-      window.application.getClientWindow().getClientDocument().release();
+      window.application.getClientWindow().getClientDocument().release(this);
     };    
     
     this._timer.stop();
@@ -455,6 +455,7 @@ proto._ontimer = function(e)
           };
 
           this._window.location.replace(this.getSource());
+          this._timer.setInterval(500);
           this._readyState = 5;          
         }
         else
@@ -548,6 +549,7 @@ proto._ontimer = function(e)
       
       this._onload();
       
+      this._timer.setInterval(500);
       this._timer.restart();      
       break;
       
@@ -606,7 +608,7 @@ proto._ontimer = function(e)
       };
       
       if (this.getModal()) {
-        this._window.focus();
+        //        this._window.focus();
       };
       
       break;
@@ -642,7 +644,7 @@ proto.dispose = function()
   
   if (this._timer)
   {
-    this._timer.removeEventListener("interval", this._ontimer);
+    this._timer.removeEventListener("interval", this._ontimer, this);
     this._timer.dispose();
     
     this._timer = null;
