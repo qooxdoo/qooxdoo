@@ -361,7 +361,9 @@ proto._onkeyevent = function(e)
     e.returnValue = false;
 
     // Hide Menus
-    (new QxMenuManager).update();
+    if (typeof QxMenuManager == "function") {
+      (new QxMenuManager).update();
+    };
     
     this._attachedClientWindow.getFocusManager()._ontabevent(e);
   }
@@ -369,7 +371,9 @@ proto._onkeyevent = function(e)
   {
     // Hide Menus
     if (k == QxKeyEvent.keys.esc) {
-      (new QxMenuManager).update();
+      if (typeof QxMenuManager == "function") {
+        (new QxMenuManager).update();
+      };
     };
     
     var o = this.getCaptureWidget() || (new QxApplication).getActiveWidget();
@@ -581,7 +585,9 @@ proto._onmouseevent_post = function(e, t)
 
   // Hide Popups
   if (t == "mousedown") {
-    (new QxPopupManager).update(vActiveTarget);
+    if ( typeof QxPopupManager == "function" ) {
+      (new QxPopupManager).update(vActiveTarget);
+    };
   };
 
   // Dispatch Event through target (eventtarget-)object
@@ -596,7 +602,9 @@ proto._onmouseevent_post = function(e, t)
   {
     case "mousedown":
       if (!vEventObject.getPropagationStopped()) {
-        (new QxMenuManager).update();
+        if ( typeof QxMenuManager == "function" ) {
+          (new QxMenuManager).update();
+        };
       };
       break;
     
