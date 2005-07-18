@@ -405,12 +405,12 @@ function QxColorSelector(vTemplateColors, vHistoryColors, vStandalone)
   hexLabel.setLeft(0);
   hexLabel.setWidth(this.webfixMode ? 158 : 130);
   hexLabel.setHorizontalBlockAlign("right");
-  hexLabel.setTop(192);
+  hexLabel.setTop(this.webfixMode ? 192 : 241);
 
   var hex = this._hex = new QxTextField("7FFFFF");
   
   hex.setLeft(this.webfixMode ? 161 : 133);
-  hex.setTop(187);
+  hex.setTop(this.webfixMode ? 187 : 236);
   hex.setWidth(55);
   
   this.add(hexLabel, hex);
