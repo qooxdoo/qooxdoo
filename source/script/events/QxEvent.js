@@ -1,5 +1,12 @@
 function QxEvent(eType, autoDispose)
 {
+  // if this object is not inherited and autoDispose is not explicitly
+  // set to 'true' use default fallback 'false' - this differs from
+  // the default behaviour of QxObject!
+  if (typeof autoDispose != "boolean" && this.classname == "QxEvent") {
+    autoDispose = false;
+  };
+
   QxObject.call(this, autoDispose);
 
   if (isValid(eType)) {
