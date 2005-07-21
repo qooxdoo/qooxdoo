@@ -98,30 +98,38 @@ proto._modifyLeadItem = function(propValue, propOldValue, propName, uniqModIds)
 proto.getFirst = function() 
 {
   var vItem = this.getBoundedWidget().getFirstChild();
-  return vItem.isEnabled() ? vItem : this.getNext(vItem);
+  return this.getItemEnabled(vItem) ? vItem : this.getNext(vItem);
 };
 
 proto.getLast = function() 
 {
   var vItem = this.getBoundedWidget().getLastChild();
-  return vItem.isEnabled() ? vItem : this.getPrevious(vItem);
+  return this.getItemEnabled(vItem) ? vItem : this.getPrevious(vItem);
 };
 
 proto.getItems = function() {
   return this.getBoundedWidget().getChildren();
 };
 
+proto.getNextSibling = function(vItem) {
+  return vItem.getNextSibling();
+};
+
+proto.getPreviousSibling = function(vItem) {
+  return vItem.getPreviousSibling();
+};
+
 proto.getNext = function(vItem)
 {
   while(vItem)
   {
-    vItem = vItem.getNextSibling();
+    vItem = this.getNextSibling(vItem);
     
     if (!vItem) {
       break;
     };
     
-    if (vItem.isEnabled()) {
+    if (this.getItemEnabled(vItem)) {
       return vItem;
     };    
   };
@@ -133,13 +141,13 @@ proto.getPrevious = function(vItem)
 {
   while(vItem)
   {
-    vItem = vItem.getPreviousSibling();
+    vItem = this.getPreviousSibling(vItem);
     
     if (!vItem) {
       break;
     };
     
-    if (vItem.isEnabled()) {
+    if (this.getItemEnabled(vItem)) {
       return vItem;
     };    
   };  
@@ -203,6 +211,19 @@ proto.getItemEnabled = function(vItem) {
   return vItem.getEnabled();
 };
 
+proto.getItemClassName = function(vItem) {
+  return vItem.getCssClassName();
+};
+
+proto.setItemClassName = function(vItem, vClassName) {
+  return vItem.setCssClassName(vClassName);
+};
+
+proto.getItemBaseClassName = function(vItem) {
+  return vItem.classname;  
+};
+
+
 
 /*
   -------------------------------------------------------------------------------
@@ -212,10 +233,10 @@ proto.getItemEnabled = function(vItem) {
 
 proto._updateState = function(vItem, vState, vIsState)
 {
-  var c = vItem.getCssClassName();
-  var n = vItem.classname + "-" + vState;
+  var c = this.getItemClassName(vItem);
+  var n = this.getItemBaseClassName(vItem) + "-" + vState;
 
-  vItem.setCssClassName(vIsState ? c.add(n, " ") : c.remove(n, " "));  
+  this.setItemClassName(vItem, vIsState ? c.add(n, " ") : c.remove(n, " "));  
 };
 
 proto.renderItemSelectionState = function(vItem, vIsSelected) {
@@ -404,7 +425,7 @@ proto.setSelectedItem = function(vItem)
     return;
   };
   
-  if (!vItem.getEnabled()) {
+  if (!this.getItemEnabled(vItem)) {
     return;
   };
   
@@ -581,6 +602,7 @@ to select a range of items.
 proto._selectItemRange = function(vItem1, vItem2, vDeselect)
 {
   // this.debug("SELECT_RANGE: " + vItem1.toText() + "<->" + vItem2.toText());  
+  // this.debug("SELECT_RANGE: " + vItem1.pos + "<->" + vItem2.pos);  
   
   // Pre-Check a revert call if vItem2 is before vItem1
   if (this.isBefore(vItem2, vItem1)) {
@@ -742,7 +764,7 @@ Internal handler for all mouse events bound to this manager.
 */
 proto._onmouseevent = function(oItem, e, bOver)
 {
-  if (!oItem.getEnabled()) {
+  if (!this.getItemEnabled(oItem)) {
     return;
   };  
   
@@ -790,7 +812,7 @@ proto._onmouseevent = function(oItem, e, bOver)
   // ********************************************************************
   if ((!vCtrlKey && !vShiftKey && !this._activeDragSession || !this.getMultiSelection()))
   {
-    if (!oItem.getEnabled()) {
+    if (!this.getItemEnabled(oItem)) {
       return;
     };
     

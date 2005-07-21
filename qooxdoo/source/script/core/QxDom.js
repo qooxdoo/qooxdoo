@@ -916,3 +916,55 @@ else
     return w.document.body.scrollTop;
   };
 };
+
+
+
+QxDOM.scrollIntoViewX = function(vChild, vParent)
+{
+  if (!vParent) {
+    vParent = vChild.parentNode;
+  };
+  
+  var l = vChild.offsetLeft;
+  var w = vChild.offsetWidth;
+
+  var sl = vParent.scrollLeft;
+  var cw = vParent.clientWidth;
+
+  // Go left
+  if(w > cw || l < sl)
+  {
+    vParent.scrollLeft = l;
+  }
+
+  // Go right
+  else if(l + w > sl + cw)
+  {
+    vParent.scrollLeft = l + w - cw;
+  };
+};
+
+QxDOM.scrollIntoViewY = function(vChild, vParent)
+{
+  if (!vParent) {
+    vParent = vChild.parentNode;
+  };
+  
+  var t = vChild.offsetTop;
+  var h = vChild.offsetHeight;
+
+  var st = vParent.scrollTop;
+  var ch = vParent.clientHeight;
+
+  // Go up
+  if(h > ch || t < st)
+  {
+    vParent.scrollTop = t;
+  }
+
+  // Go down
+  else if(t + h > st + ch)
+  {
+    vParent.scrollTop = t + h - ch;
+  };  
+};
