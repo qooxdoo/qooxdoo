@@ -37,13 +37,13 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-   	new QxBuilder().build(this, document.getElementById("widgets").value);
+   	new QxBuilder().build(this, document.getElementById("widgets"));
 	}
 	</script>
 
 <textarea id='widgets' style='display:none'>
-	<widgets>
-	
+<qx:widgets xmlns:qx='qooxdoo'>
+
 		<qx:inline inlineNodeId='iframe1'>
 		
 			<qx:fieldSet legend='My first inline fieldset' location='0,0' height='auto' width='auto'>
@@ -61,110 +61,110 @@
 			
 		</qx:inline>
 
-		<qx:inline inlineNodeId='iframe2'>
-		
-			<qx:menuBar width='400' height='auto'>
-			
-				<qx:menuBarButton text='File'>
-			
-					<qx:menu>
-						<qx:menuButton text='New'/>
-						<qx:menuButton text='Open'/>
-						<qx:menuButton text='Save'/>
-						<qx:menuButton text='Save As'/>
-						<qx:menuButton text='Close'/>
-						<qx:menuButton text='Restore last saved'/>
-					</qx:menu>    
-					
-				</qx:menuBarButton>
-		
-				<qx:menuBarButton text='Edit'>
-					<qx:menu>
-						<qx:menuButton text='Undo'/>
-						<qx:menuButton text='Redo'/>
-						<qx:menuSeparator/>
-						<qx:menuButton text='Cut' icon='icons/16/editcut.png'/>
-						<qx:menuButton text='Copy' icon='icons/16/editcopy.png'/>
-						<qx:menuButton text='Paste' icon='icons/16/editpaste.png' enabled='false'/>
-						<qx:menuButton text='Delete' icon='icons/16/editdelete.png' enabled='false'/>
-						<qx:menuSeparator/>
-						<qx:menuButton text='Select All'/>
-						<qx:menuButton text='Find'/>
-						<qx:menuButton text='Find Again' enabled='false'/>
-					</qx:menu>    
-				</qx:menuBarButton>
-				
-	    	<qx:menuBarButton text='View'>
-	    		
-	    		<qx:menu>
-	    			<qx:menuCheckBox text='File List' checked='false'/>
-	    			<qx:menuCheckBox text='Syntax Highlighting' checked='true'/>
-	    			<qx:menuCheckBox text='Statusbar' checked='true'/>
-	    			<qx:menuSeparator/>
-		
-						<qx:menuButton text='Printer Font'>
-							<qx:menu>
-								<qx:menuButton text='Tahoma, 11pt'/>
-								<qx:menuButton text='Tahoma, 12pt'/>
-								<qx:menuButton text='Tahoma, 13pt'/>
-								<qx:menuButton text='Tahoma, 14pt'/>
-								<qx:menuButton text='Tahoma, 15pt'/>
-							</qx:menu>
-						</qx:menuButton>	      
-			
-						<qx:menuButton text='Editor Font'>
-							<qx:menu>
-								<qx:menuButton text='Verdana, 11pt'/>
-								<qx:menuButton text='Verdana, 12pt'/>
-								<qx:menuButton text='Verdana, 13pt'/>
-								<qx:menuButton text='Verdana, 14pt'/>
-								<qx:menuButton text='Verdana, 15pt'/>
-							</qx:menu>
-						</qx:menuButton>	      
-			
-						<qx:menuButton text='Export Font'>
-							<qx:menu>
-								<qx:menuButton text='Courier, 11pt'/>
-								<qx:menuButton text='Courier, 12pt'/>
-								<qx:menuButton text='Courier, 13pt'/>
-								<qx:menuButton text='Courier, 14pt'/>
-								<qx:menuButton text='Courier, 15pt'/>
-							</qx:menu>
-						</qx:menuButton>	      
-					</qx:menu>
-				</qx:menuBarButton>
+        <qx:inline inlineNodeId='iframe2'>
+       
+            <qx:menuBar width='400' height='auto' zIndex="2000">
+           
+                <qx:menuBarButton text='File'>
+           
+                    <qx:menu>
+                        <qx:menuButton text='New'/>
+                        <qx:menuButton text='Open'/>
+                        <qx:menuButton text='Save'/>
+                        <qx:menuButton text='Save As'/>
+                        <qx:menuButton text='Close'/>
+                        <qx:menuButton text='Restore last saved'/>
+                    </qx:menu>   
+                   
+                </qx:menuBarButton>
+       
+                <qx:menuBarButton text='Edit'>
+                    <qx:menu>
+                        <qx:menuButton text='Undo'/>
+                        <qx:menuButton text='Redo'/>
+                        <qx:menuSeparator/>
+                        <qx:menuButton text='Cut' icon='icons/16/editcut.png'/>
+                        <qx:menuButton text='Copy'icon='icons/16/editcopy.png'/>
+                        <qx:menuButton text='Paste' icon='icons/16/editpaste.png' enabled='false'/>
+                        <qx:menuButton text='Delete' icon='icons/16/editdelete.png' enabled='false'/>
+                        <qx:menuSeparator/>
+                        <qx:menuButton text='Select All'/>
+                        <qx:menuButton text='Find'/>
+                        <qx:menuButton text='Find Again' enabled='false'/>
+                    </qx:menu>   
+                </qx:menuBarButton>
+               
+            <qx:menuBarButton text='View'>
+               
+                <qx:menu>
+                    <qx:menuCheckBox text='File List' checked='false'/>
+                    <qx:menuCheckBox text='Syntax Highlighting' checked='true'/>
+                    <qx:menuCheckBox text='Statusbar' checked='true'/>
+                    <qx:menuSeparator/>
+       
+                        <qx:menuButton text='Printer Font'>
+                            <qx:menu>
+                                <qx:menuButton text='Tahoma, 11pt'/>
+                                <qx:menuButton text='Tahoma, 12pt'/>
+                                <qx:menuButton text='Tahoma, 13pt'/>
+                                <qx:menuButton text='Tahoma, 14pt'/>
+                                <qx:menuButton text='Tahoma, 15pt'/>
+                            </qx:menu>
+                        </qx:menuButton>         
+           
+                        <qx:menuButton text='Editor Font'>
+                            <qx:menu>
+                                <qx:menuButton text='Verdana, 11pt'/>
+                                <qx:menuButton text='Verdana, 12pt'/>
+                                <qx:menuButton text='Verdana, 13pt'/>
+                                <qx:menuButton text='Verdana, 14pt'/>
+                                <qx:menuButton text='Verdana, 15pt'/>
+                            </qx:menu>
+                        </qx:menuButton>         
+           
+                        <qx:menuButton text='Export Font'>
+                            <qx:menu>
+                                <qx:menuButton text='Courier, 11pt'/>
+                                <qx:menuButton text='Courier, 12pt'/>
+                                <qx:menuButton text='Courier, 13pt'/>
+                                <qx:menuButton text='Courier, 14pt'/>
+                                <qx:menuButton text='Courier, 15pt'/>
+                            </qx:menu>
+                        </qx:menuButton>         
+                    </qx:menu>
+                </qx:menuBarButton>
 
-	    	<qx:menuBarButton text='Options'>
-	    		<qx:menu>
-	    			<qx:menuButton text='View'>
-	    				<qx:menu>
-			    			<qx:menuButton text='New Window'/>
-								<qx:menuSeparator/>
-								<qx:menuRadioButton text='Overlapping' checked='true' group='windowMode'/>
-								<qx:menuRadioButton text='Split Horizontally' group='windowMode'/>
-								<qx:menuRadioButton text='Split Vertically' group='windowMode'/>
-								<qx:menuSeparator/>
-			    			<qx:menuButton text='Next Window'/>
-			    			<qx:menuButton text='Previous Window'/>
-			    		</qx:menu>
-						</qx:menuButton>
-	    			<qx:menuSeparator/>
-						<qx:menuButton text='Editor Preferences...'/>
-						<qx:menuButton text='Editor Extensions'/>
-						<qx:menuButton text='Editor Preferences'/>
-					</qx:menu>
-	    	</qx:menuBarButton>
-	
-	    	<qx:menuBarButton text='Help'>
-	    		<qx:menu>
-			    	<qx:menuButton text='Help'/>
-			    	<qx:menuButton text='About'/>
-	    		</qx:menu>
-	    	</qx:menuBarButton>
-			</qx:menuBar>
-			
-		</qx:inline>
-  </widgets>
+            <qx:menuBarButton text='Options'>
+                <qx:menu>
+                    <qx:menuButton text='View'>
+                        <qx:menu>
+                            <qx:menuButton text='New Window'/>
+                                <qx:menuSeparator/>
+                                <qx:menuRadioButton text='Overlapping' checked='true' group='windowMode'/>
+                                <qx:menuRadioButton text='Split Horizontally' group='windowMode'/>
+                                <qx:menuRadioButton text='Split Vertically' group='windowMode'/>
+                                <qx:menuSeparator/>
+                            <qx:menuButton text='Next Window'/>
+                            <qx:menuButton text='Previous Window'/>
+                        </qx:menu>
+                        </qx:menuButton>
+                    <qx:menuSeparator/>
+                        <qx:menuButton text='Editor Preferences...'/>
+                        <qx:menuButton text='Editor Extensions'/>
+                        <qx:menuButton text='Editor Preferences'/>
+                    </qx:menu>
+            </qx:menuBarButton>
+   
+            <qx:menuBarButton text='Help'>
+                <qx:menu>
+                    <qx:menuButton text='Help'/>
+                    <qx:menuButton text='About'/>
+                </qx:menu>
+            </qx:menuBarButton>
+            </qx:menuBar>
+           
+        </qx:inline>
+  </qx:widgets>
 </textarea>
 </body>
 </html>
