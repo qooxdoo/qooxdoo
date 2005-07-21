@@ -397,6 +397,12 @@ __DATA__
     <class>QxSelectionStorage</class>
     <class>QxSelectionManager</class>
   </package>
+  
+  <package name="domselection">
+    <depends>selection</depends>
+   
+    <class>QxDomSelectionManager</class>
+  </package>  
    
   <package name="radio">
     <depends>manager</depends>

@@ -174,3 +174,7 @@ L="$L widgets/QxDockLayout"
 
 # Grid Layout
 L="$L widgets/QxGridLayout"
+
+# Album
+L="$L managers/QxDomSelectionManager"
+L="$L widgets/QxAlbum"
