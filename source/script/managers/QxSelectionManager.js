@@ -52,6 +52,10 @@ The last selected item
 */
 QxSelectionManager.addProperty({ name : "leadItem", type : Object });
 
+/*!
+Grid selection
+*/
+QxSelectionManager.addProperty({ name : "multiColumnSupport", type : Boolean, defaultValue : false });
 
 
 
@@ -993,9 +997,6 @@ proto.handleKeyDown = function(e)
       // Scroll new item into view
       this.scrollItemIntoView(itemToSelect);
       
-      // Stop event handling
-      e.preventDefault();
-
       // Select a range
       if (e.getShiftKey() && this.getMultiSelection())
       {
@@ -1026,6 +1027,10 @@ proto.handleKeyDown = function(e)
       };
     };
   };
+  
+  // Stop events
+  e.setPreventDefault(true);
+  e.setPropagationStopped(true);
 
   // Recover change event status
   this.setFireChange(oldFireChange);
@@ -1055,12 +1060,18 @@ proto.getItemToSelect = function(oKeyboardEvent)
       return this.getEnd(this.getLeadItem());
 
 
-    case QxKeyEvent.keys.down: 
+    case QxKeyEvent.keys.down:
       return this.getDown(this.getLeadItem());
 
     case QxKeyEvent.keys.up: 
       return this.getUp(this.getLeadItem());
-
+      
+    case QxKeyEvent.keys.left:
+      return this.getLeft(this.getLeadItem());
+    
+    case QxKeyEvent.keys.right:
+      return this.getRight(this.getLeadItem());
+      
 
     case QxKeyEvent.keys.pageup: 
       return this.getPageUp(this.getLeadItem());
@@ -1117,16 +1128,51 @@ proto.getEnd = function() {
   return this.getLast();
 };
 
-proto.getDown = function(vItem) {
-  return !vItem ? this.getFirst() : this.getNext(vItem);
+proto.getDown = function(vItem) 
+{
+  if (!vItem) {
+    return this.getFirst();
+  };
+  
+  return this.getMultiColumnSupport() ? (this.getUnder(vItem) || this.getLast()) : this.getNext(vItem);
 };
 
-proto.getUp = function(vItem) {
+proto.getUp = function(vItem) 
+{
+  if (!vItem) {
+    return this.getLast();
+  };
+  
+  return this.getMultiColumnSupport() ? (this.getAbove(vItem) || this.getFirst()) : this.getPrevious(vItem);
+};
+
+proto.getLeft = function(vItem)
+{
+  if (!this.getMultiColumnSupport()) {
+    return null;
+  };
+  
   return !vItem ? this.getLast() : this.getPrevious(vItem);
 };
 
+proto.getRight = function(vItem)
+{
+  if (!this.getMultiColumnSupport()) {
+    return null;
+  };
+  
+  return !vItem ? this.getFirst() : this.getNext(vItem);
+};
 
+proto.getAbove = function(vItem)
+{
+  throw new Error("getAbove(): Not implemented yet");
+};
 
+proto.getUnder = function(vItem)
+{
+  throw new Error("getUnder(): Not implemented yet");
+};
 
 
 

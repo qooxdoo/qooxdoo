@@ -2,6 +2,8 @@ function QxDomSelectionManager(vBoundedWidget)
 {
   QxSelectionManager.call(this, vBoundedWidget);
   
+  // the children does not fire onmouseover events so we could
+  // not enable this and make it functional
   this.setDragSelection(false);
 
   this._selectedItems.getItemHashCode = this.getItemHashCode;
@@ -72,4 +74,58 @@ proto.scrollItemIntoView = function(vItem) {
 
 proto.getItems = function() {
   return this.getBoundedWidget().getItems();
+};
+
+proto.getAbove = function(vItem)
+{
+  var vParent = vItem.parentNode;
+  var vFound = false;
+  var vLeft = vItem.offsetLeft;
+  var vChild;
+  
+  for (var i=vParent.childNodes.length-1; i>0; i--)
+  {
+    vChild = vParent.childNodes[i];
+    
+    if (vFound == false)
+    {
+      if (vChild == vItem) {
+        vFound = true;
+      };    
+    }
+    else
+    {
+      if (vChild.offsetLeft == vLeft)
+      {
+        return vChild;
+      };
+    };  
+  };
+};
+
+proto.getUnder = function(vItem)
+{
+  var vParent = vItem.parentNode;
+  var vFound = false;
+  var vLeft = vItem.offsetLeft;
+  var vChild;
+  
+  for (var i=0, l=vParent.childNodes.length; i<l; i++)
+  {
+    vChild = vParent.childNodes[i];
+    
+    if (vFound == false)
+    {
+      if (vChild == vItem) {
+        vFound = true;
+      };    
+    }
+    else
+    {
+      if (vChild.offsetLeft == vLeft)
+      {
+        return vChild;
+      };
+    };  
+  };
 };

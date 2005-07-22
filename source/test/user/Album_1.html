@@ -12,59 +12,6 @@
 
   <title>qooxdoo: The new era of web interface development</title>
   <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
-
-  <style type="text/css">
-.albumCell{
-  border: 1px solid #444;
-  background: #fff;
-  margin: 4px;
-  width: 75px;
-  height: 110px; 
-  float: left;
-  overflow: hidden;
-  
-  font-family: Tahoma, Verdana, sans-serif;
-  font-size: 10px;
-
-  cursor: default;
-  
-  -moz-user-select: none;
-  user-select: none;
-} 
-
-.albumCell img{
-  vertical-align: bottom;
-  display: block; 
-} 
-
-.albumCell .albumTitle,
-.albumCell .albumFooter{
-  background: #eee;
-  padding: 2px 4px;
-  text-align: center;
-  cursor: default;
-}
-
-.albumCell .albumTitle{
-  border-bottom: 1px solid #aaa;
-}
-
-.albumCell .albumFooter{
-  border-top: 1px solid #aaa;
-}
-
-.albumCell-Selected{
-  background: #DCE8F6;
-  border: 1px solid #2760A1;
-}
-
-.albumCell-Selected .albumTitle,
-.albumCell-Selected .albumFooter{
-  background: #9BBFE7;
-}
-  
-  </style>
-  
   <script type="text/javascript" src="../../../tools/script/includer.js"></script>
 </head>
 <body>
@@ -77,7 +24,25 @@
   <script type="text/javascript">
     window.application.main = function() 
     {
-      var album = new QxAlbum();
+      var albumList = [];
+      
+      for (var i=0; i<100; i++)
+      {
+        albumList.push({
+          display : "bmzN9ci5",
+          width : 350,
+          height : 350,
+          thumbWidth : 64,
+          thumbHeight : 64,
+          title : "gohome.png",
+          timestamp : Math.random().toString(),
+          comment : "Cool Comment",
+          id : "7686191121780974-10682",
+          src : "../../images/icons/crystalsvg/64/gohome.png"
+        });        
+      };
+      
+      var album = new QxAlbum(albumList);
       
       album.setLeft(20);
       album.setRight(335);

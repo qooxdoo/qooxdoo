@@ -1,11 +1,16 @@
-function QxAlbum()
+function QxAlbum(albumList)
 {
   QxWidget.call(this);
+  
+  this._blank = (new QxImageManager).getBlank();
+  this._list = albumList;
   
   this._addCssClassName("QxWidget");
   this.setOverflow("auto");
   
   this._manager = new QxDomSelectionManager(this);  
+  
+  this._manager.setMultiColumnSupport(true);
 
   this.addEventListener("mousedown", this._onmousedown);
   this.addEventListener("mouseup", this._onmouseup);
@@ -93,8 +98,7 @@ proto.getListItemTarget = function(dt)
 proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
-  this.scrollItemIntoViewY(vItem);
-  
+  this.scrollItemIntoViewY(vItem);  
 };
 
 proto.scrollItemIntoViewX = function(vItem) {
@@ -105,14 +109,17 @@ proto.scrollItemIntoViewY = function(vItem) {
   QxDOM.scrollIntoViewY(vItem, vItem.parentNode.parentNode);
 };
 
+proto.getItems = function() {
+  return this._frame.childNodes;
+};
 
+proto.getFirstChild = function() {
+  return this._frame.childNodes[0];
+};
 
-
-
-
-
-proto._blank = "../../images/core/blank.gif";
-
+proto.getLastChild = function() {
+  return this._frame.childNodes[this._frame.childNodes.length-1];
+};
 
 proto.createView = function()
 {  
@@ -121,48 +128,38 @@ proto.createView = function()
   var protoCell = this.createProtoCell();  
   var frame = this._frame = document.createElement("div");
   
-  var cframe;
-  var cnode;
+  this._frame.className = "clearfix";
   
-  var iwidth = 64;
-  var iheight = 64;
-  var isrc = (new QxImageManager).buildURI("icons/64/gohome.png");
+  var cframe, cnode;
   
-  for (var i=0; i<100; i++)
+  for (var i=0, a=this._list, l=a.length, d; i<l; i++)
   {
-    cframe = protoCell.cloneNode(true);
+    d = a[i];
     
-    cframe.pos = i;
+    cframe = protoCell.cloneNode(true);    
     
     cnode = cframe.childNodes[0];
-    cnode.firstChild.nodeValue = "gohome.png";
+    cnode.firstChild.nodeValue = d.title;
     
     cnode = cframe.childNodes[1];
     
-    cnode.width = iwidth;
-    cnode.height = iheight;
+    cnode.width = d.thumbWidth;
+    cnode.height = d.thumbHeight;
     
     if (cnode.runtimeStyle && !window.opera) {
-      cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + isrc + "',sizingMethod='scale')";
+      cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
     } else {
-      cnode.src = isrc;
+      cnode.src = d.src;
     };
     
-    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((75-iwidth)/2) + "px";
-    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((75-iheight)/2) + "px";
+    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((75-d.thumbWidth)/2) + "px";
+    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((75-d.thumbHeight)/2) + "px";
 
     cnode = cframe.childNodes[2];
-    cnode.firstChild.nodeValue = "PNG, 5,08 KB";
+    cnode.firstChild.nodeValue = d.comment;
     
     frame.appendChild(cframe);    
   };
-  
-  var end = document.createElement("br");
-  end.style.clear="both";
-  
-  frame.appendChild(end);
-  
-  // alert(((new Date).valueOf()-s) + "ms")
   
   return frame;
 };
@@ -193,9 +190,4 @@ proto.createProtoCell = function()
   frame.appendChild(footer);
   
   return frame;
-};
-
-proto.getItems = function()
-{
-  return this._frame.childNodes;
 };
