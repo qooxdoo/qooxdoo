@@ -31,6 +31,17 @@ function copyCreateArray(a) {
   return a && a.length > 0 ? a.copy() : [];
 };
 
+function set()
+{
+  var r = {};
+
+  for (var i=0, a=arguments, l=a.length; i<l; i++) {
+    r[a[i]] = true;
+  };
+
+  return r;
+};
+
 function isValid(v)
 {
   switch(typeof v)
