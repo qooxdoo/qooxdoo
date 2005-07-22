@@ -21,6 +21,10 @@ function QxAlbum(albumList)
 
 QxAlbum.extend(QxWidget, "QxAlbum");
 
+QxAlbum.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue : 100 });
+QxAlbum.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 100 });
+QxAlbum.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
+
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue) 
@@ -125,10 +129,13 @@ proto.createView = function()
 {  
   var s = (new Date).valueOf();
   
-  var protoCell = this.createProtoCell();  
+  var tWidth = this.getThumbMaxWidth();
+  var tHeight = this.getThumbMaxHeight();
+  
+  var protoCell = this.createProtoCell(tWidth, tHeight, this.getDecorHeight());  
   var frame = this._frame = document.createElement("div");
   
-  this._frame.className = "clearfix";
+  this._frame.className = "albumFrame clearfix";
   
   var cframe, cnode;
   
@@ -152,8 +159,8 @@ proto.createView = function()
       cnode.src = d.src;
     };
     
-    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((75-d.thumbWidth)/2) + "px";
-    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((75-d.thumbHeight)/2) + "px";
+    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((tWidth-d.thumbWidth)/2) + "px";
+    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((tHeight-d.thumbHeight)/2) + "px";
 
     cnode = cframe.childNodes[2];
     cnode.firstChild.nodeValue = d.comment;
@@ -164,11 +171,13 @@ proto.createView = function()
   return frame;
 };
 
-proto.createProtoCell = function()
+proto.createProtoCell = function(tWidth, tHeight, fHeight)
 {
   var frame = document.createElement("div");  
   frame.className = "albumCell";
   frame.unselectable = "on";
+  frame.style.width = tWidth + "px";
+  frame.style.height = (tHeight + fHeight) + "px";
   
   var title = document.createElement("div");
   title.className = "albumTitle";

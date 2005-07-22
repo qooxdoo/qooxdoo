@@ -1226,12 +1226,14 @@ html[QxFocused] {
   ------------------------------------------
 */
 
+.QxAlbum .albumFrame{
+  padding: 2px; 
+}
+
 .QxAlbum .albumCell{
   border: 1px solid #444;
   background: #fff;
-  margin: 4px;
-  width: 75px;
-  height: 110px; 
+  margin: 2px;
   float: left;
   overflow: hidden;
   
@@ -1252,9 +1254,11 @@ html[QxFocused] {
 .QxAlbum .albumCell .albumTitle,
 .QxAlbum .albumCell .albumFooter{
   background: #eee;
-  padding: 2px 4px;
+  padding: 3px 6px;
   text-align: center;
   cursor: default;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .QxAlbum .albumCell .albumTitle{
