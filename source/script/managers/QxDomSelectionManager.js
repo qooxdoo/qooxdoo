@@ -42,6 +42,22 @@ proto.getItemHashCode = function(vItem) {
   return vItem.toHash();
 };
 
+proto.getItemLeft = function(vItem) {
+  return vItem.offsetLeft;
+};
+
+proto.getItemTop = function(vItem) {
+  return vItem.offsetTop;
+};
+
+proto.getItemWidth = function(vItem) {
+  return vItem.offsetWidth;
+};
+
+proto.getItemHeight = function(vItem) {
+  return vItem.offsetHeight;
+};
+
 proto.getItemHashCode = function(oItem)
 {
   if (oItem._hash) {
