@@ -1,9 +1,9 @@
-function QxAlbum(albumList)
+function QxGallery(galleryList)
 {
   QxWidget.call(this);
   
   this._blank = (new QxImageManager).getBlank();
-  this._list = albumList;
+  this._list = galleryList;
   
   this._addCssClassName("QxWidget");
   this.setOverflow("auto");
@@ -19,11 +19,11 @@ function QxAlbum(albumList)
   this.addEventListener("keydown", this._onkeydown);
 };
 
-QxAlbum.extend(QxWidget, "QxAlbum");
+QxGallery.extend(QxWidget, "QxGallery");
 
-QxAlbum.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue : 100 });
-QxAlbum.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 100 });
-QxAlbum.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
+QxGallery.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue : 100 });
+QxGallery.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 100 });
+QxGallery.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
 
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -88,7 +88,7 @@ proto._onkeydown = function(e) {
 
 proto.getListItemTarget = function(dt)
 {
-  while(dt.className.indexOf("albumCell") == -1 && dt.tagName != "BODY") {
+  while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
   };
   
@@ -135,7 +135,7 @@ proto.createView = function()
   var protoCell = this.createProtoCell(tWidth, tHeight, this.getDecorHeight());  
   var frame = this._frame = document.createElement("div");
   
-  this._frame.className = "albumFrame clearfix";
+  this._frame.className = "galleryFrame clearfix";
   
   var cframe, cnode;
   
@@ -174,13 +174,13 @@ proto.createView = function()
 proto.createProtoCell = function(tWidth, tHeight, fHeight)
 {
   var frame = document.createElement("div");  
-  frame.className = "albumCell";
+  frame.className = "galleryCell";
   frame.unselectable = "on";
   frame.style.width = tWidth + "px";
   frame.style.height = (tHeight + fHeight) + "px";
   
   var title = document.createElement("div");
-  title.className = "albumTitle";
+  title.className = "galleryTitle";
   title.unselectable = "on";
   var ttext = document.createTextNode("-");
   title.appendChild(ttext);
@@ -189,7 +189,7 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
   image.src = this._blank;
   
   var footer = document.createElement("div");
-  footer.className = "albumFooter";
+  footer.className = "galleryFooter";
   footer.unselectable = "on";
   var ftext = document.createTextNode("-");
   footer.appendChild(ftext);
