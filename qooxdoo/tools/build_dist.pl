@@ -646,6 +646,20 @@ __DATA__
     
     <class>QxGridLayout</class>
   </package>
+  
+  <package name="gallery">
+    <depends>widget</depends>
+    <depends>domselection</depends>
+    
+    <class>QxGallery</class>
+  </package>
+  
+  <package name="gallerylist">
+    <depends>widget</depends>
+    <depends>domselection</depends>
+    
+    <class>QxGalleryList</class>
+  </package>    
 
   <package name="all">
     <depends>application</depends>
