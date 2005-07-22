@@ -1222,7 +1222,7 @@ html[QxFocused] {
 
 /*
   ------------------------------------------
-    ALBUM
+    GALLERY
   ------------------------------------------
 */
 
@@ -1284,5 +1284,82 @@ html[QxFocused] {
 }
 
 .QxGallery .galleryCell-Selected .galleryFooter{
+  border-top: 1px dotted #2760A1; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  ------------------------------------------
+    GALLERY LIST
+  ------------------------------------------
+*/
+
+.QxGalleryList .galleryFrame{
+  padding: 2px; 
+}
+
+.QxGalleryList .galleryCell{
+  border: 1px solid #444;
+  background: #fff;
+  margin: 2px;
+  overflow: hidden;
+  
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 10px;
+
+  cursor: default;
+  
+  -moz-user-select: none;
+  user-select: none;
+} 
+
+.QxGalleryList .galleryCell img{
+  vertical-align: bottom;
+  display: block; 
+} 
+
+.QxGalleryList .galleryCell .galleryTitle,
+.QxGalleryList .galleryCell .galleryFooter{
+  background: #eee;
+  padding: 3px 6px;
+  text-align: center;
+  cursor: default;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.QxGalleryList .galleryCell .galleryTitle{
+  border-bottom: 1px solid #aaa;
+}
+
+.QxGalleryList .galleryCell .galleryFooter{
+  border-top: 1px solid #aaa;
+}
+
+.QxGalleryList .galleryCell-Selected{
+  background: #DCE8F6;
+  border: 1px solid #2760A1;
+}
+
+.QxGalleryList .galleryCell-Selected .galleryTitle,
+.QxGalleryList .galleryCell-Selected .galleryFooter{
+  background: #9BBFE7;
+}
+
+.QxGalleryList .galleryCell-Selected .galleryTitle{
+  border-bottom: 1px dotted #2760A1;
+}
+
+.QxGalleryList .galleryCell-Selected .galleryFooter{
   border-top: 1px dotted #2760A1; 
 }

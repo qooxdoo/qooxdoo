@@ -178,3 +178,4 @@ L="$L widgets/QxGridLayout"
 # Gallery
 L="$L managers/QxDomSelectionManager"
 L="$L widgets/QxGallery"
+L="$L widgets/QxGalleryList"
