@@ -18,17 +18,17 @@
   <script type="text/javascript" src="../../../tools/script/layout.js"></script>
 
   <div id="testDescription">
-    <p>Test file for QxAlbum</p>
+    <p>Test file for QxGallery</p>
   </div>
 
   <script type="text/javascript">
     window.application.main = function() 
     {
-      var albumList = [];
+      var galleryList = [];
       
       for (var i=0; i<100; i++)
       {
-        albumList.push({
+        galleryList.push({
           display : "bmzN9ci5",
           width : 350,
           height : 350,
@@ -42,15 +42,15 @@
         });        
       };
       
-      var album = new QxAlbum(albumList);
+      var gallery = new QxGallery(galleryList);
       
-      album.setLeft(20);
-      album.setRight(335);
-      album.setTop(48);
-      album.setBottom(48);
-      album.setBorder(QxBorder.presets.inset);
+      gallery.setLeft(20);
+      gallery.setRight(335);
+      gallery.setTop(48);
+      gallery.setBottom(48);
+      gallery.setBorder(QxBorder.presets.inset);
       
-      this.getClientWindow().getClientDocument().add(album);
+      this.getClientWindow().getClientDocument().add(gallery);
     };  
   </script>
 </body>
