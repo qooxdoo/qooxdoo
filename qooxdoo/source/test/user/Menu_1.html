@@ -25,10 +25,11 @@
   <script type="text/javascript">
     window.application.main = function()
     {
+	/* uncomment to pre-create menus
       QxPopup.prototype._shouldBecomeCreated = function() {
         return true;
       };
-      
+     */
       
       var d = this.getClientWindow().getDocument();
 
@@ -88,12 +89,12 @@
 
 
       d.add(m1, m2, m3);
-      
+
+	/* uncomment to pre-create menus
       m1.setVisible(false);
       m2.setVisible(false);
       m3.setVisible(false);
-
-
+	*/
 
 
 
