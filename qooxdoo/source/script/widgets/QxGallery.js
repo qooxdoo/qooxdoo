@@ -188,15 +188,15 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
   var image = new Image();
   image.src = this._blank;
   
-  var footer = document.createElement("div");
-  footer.className = "galleryFooter";
-  footer.unselectable = "on";
-  var ftext = document.createTextNode("-");
-  footer.appendChild(ftext);
+  var comment = document.createElement("div");
+  comment.className = "galleryComment";
+  comment.unselectable = "on";
+  var ctext = document.createTextNode("-");
+  comment.appendChild(ctext);
   
   frame.appendChild(title);
   frame.appendChild(image);
-  frame.appendChild(footer);
+  frame.appendChild(comment);
   
   return frame;
 };
