@@ -1304,6 +1304,11 @@ html[QxFocused] {
   ------------------------------------------
 */
 
+.QxGalleryList{
+  position: absolute;
+  visibility: visible;
+}
+
 .QxGalleryList .galleryFrame{
   padding: 2px; 
 }
@@ -1311,7 +1316,7 @@ html[QxFocused] {
 .QxGalleryList .galleryCell{
   margin: 2px;
   padding-bottom: 2px;
-  border-bottom: 1px solid #444;
+  border: 1px solid #EEE;
   
   background: #fff;
   overflow: hidden;
@@ -1333,46 +1338,42 @@ html[QxFocused] {
   display: block; 
 } 
 
-.QxGalleryList .galleryCell div{
-  float: left; 
-  border: 1px solid red;
-}
-
 .QxGalleryList .galleryNumber{
   width: 45px; 
-  padding: 4px;   
+  padding: 4px;
+
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.QxGalleryList .galleryImageContainer{
+  position: absolute;
+  top: 0px;
+  left: 50px;
 }
 
 .QxGalleryList .galleryText{
   padding: 4px; 
-  white-space: normal;
-  
-  
-  float: none;
   position: absolute;
-  left: 120px;
-  
-  
-  
-  
+  top: 0px;
+  left: 130px;
 }
 
 .QxGalleryList .galleryNumber,
 .QxGalleryList .galleryText h3{
   font-weight: bold;
   font-size: 11px;
-  white-space: normal;
 }
 
 .QxGalleryList .galleryText p{
   font-size: 10px; 
-  white-space: normal;
 }
 
 .QxGalleryList .galleryCell-Selected{
-  background: #DCE8F6;
+  background: #9BBCFF;
+  border-color: #3B7CFF;
 }
-
 
 
 
