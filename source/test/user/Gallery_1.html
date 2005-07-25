@@ -12,7 +12,6 @@
 
   <title>qooxdoo: The new era of web interface development</title>
   <link type="text/css" rel="StyleSheet" href="../../style/layouts/application.css"/>
-  
   <script type="text/javascript" src="../../../tools/script/includer.js"></script>
 </head>
 <body>
@@ -51,7 +50,18 @@
       gallery.setBottom(48);
       gallery.setBorder(QxBorder.presets.inset);
       
-      this.getClientWindow().getClientDocument().add(gallery);
+      var d = this.getClientWindow().getClientDocument();
+      d.add(gallery);
+
+      var b1 = new QxButton("decrease");
+      b1.setLeft(400);
+      b1.addEventListener("click", function(e) { 
+                            gallery._list.splice(0,10); 
+                            gallery.getElement().removeChild(gallery._frame);
+                            gallery.getElement().appendChild(gallery.createView());
+                          });
+      d.add(b1);
+      
     };  
   </script>
 </body>
