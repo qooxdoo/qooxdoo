@@ -24,6 +24,8 @@ QxGallery.extend(QxWidget, "QxGallery");
 QxGallery.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue : 100 });
 QxGallery.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 100 });
 QxGallery.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
+QxGallery.addProperty({ name : "showTitle", type : Boolean, defaultValue : true });
+QxGallery.addProperty({ name : "showComment", type : Boolean, defaultValue : true });
 
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -145,10 +147,13 @@ proto.createView = function()
     
     cframe = protoCell.cloneNode(true);    
     
-    cnode = cframe.childNodes[0];
-    cnode.firstChild.nodeValue = d.title;
+    if (this.getShowTitle())
+    {
+      cnode = cframe.childNodes[0];
+      cnode.firstChild.nodeValue = d.title;
+    };
     
-    cnode = cframe.childNodes[1];
+    cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
     
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
@@ -162,8 +167,11 @@ proto.createView = function()
     cnode.style.marginLeft = cnode.style.marginRight = Math.floor((tWidth-d.thumbWidth)/2) + "px";
     cnode.style.marginTop = cnode.style.marginBottom = Math.floor((tHeight-d.thumbHeight)/2) + "px";
 
-    cnode = cframe.childNodes[2];
-    cnode.firstChild.nodeValue = d.comment;
+    if (this.getShowComment())
+    {
+      cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
+      cnode.firstChild.nodeValue = d.comment;
+    };
     
     frame.appendChild(cframe);    
   };
@@ -179,24 +187,31 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
   frame.style.width = tWidth + "px";
   frame.style.height = (tHeight + fHeight) + "px";
   
-  var title = document.createElement("div");
-  title.className = "galleryTitle";
-  title.unselectable = "on";
-  var ttext = document.createTextNode("-");
-  title.appendChild(ttext);
+  if (this.getShowTitle())
+  {
+    var title = document.createElement("div");
+    title.className = "galleryTitle";
+    title.unselectable = "on";
+    var ttext = document.createTextNode("-");
+    title.appendChild(ttext);
+    
+    frame.appendChild(title);
+  };
   
   var image = new Image();
   image.src = this._blank;
-  
-  var comment = document.createElement("div");
-  comment.className = "galleryComment";
-  comment.unselectable = "on";
-  var ctext = document.createTextNode("-");
-  comment.appendChild(ctext);
-  
-  frame.appendChild(title);
   frame.appendChild(image);
-  frame.appendChild(comment);
+  
+  if (this.getShowComment())
+  {
+    var comment = document.createElement("div");
+    comment.className = "galleryComment";
+    comment.unselectable = "on";
+    var ctext = document.createTextNode("-");
+    comment.appendChild(ctext);
+    
+    frame.appendChild(comment);
+  };
   
   return frame;
 };
