@@ -151,6 +151,9 @@ proto.createView = function()
     
     cframe = protoCell.cloneNode(true);    
     
+    cframe.id = d.id;
+    cframe.pos = i;    
+    
     if (this.getShowTitle())
     {
       cnode = cframe.childNodes[0];
@@ -161,8 +164,6 @@ proto.createView = function()
     
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
-    
-    cnode.id = d.id;
     
     if (cnode.runtimeStyle && !window.opera) {
       cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";

@@ -146,12 +146,13 @@ proto.createView = function()
     
     cframe = protoCell.cloneNode(true);    
     
+    cframe.id = d.id;
+    cframe.pos = i;
+        
     cnode = cframe.childNodes[0];
     cnode.firstChild.nodeValue = d.number;
     
     cnode = cframe.childNodes[1].firstChild;
-    
-    cnode.id = d.id;
     
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
