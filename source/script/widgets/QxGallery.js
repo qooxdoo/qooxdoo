@@ -158,6 +158,8 @@ proto.createView = function()
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
     
+    cnode.id = d.id;
+    
     if (cnode.runtimeStyle && !window.opera) {
       cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
     } else {

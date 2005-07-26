@@ -147,6 +147,8 @@ proto.createView = function()
     
     cnode = cframe.childNodes[1].firstChild;
     
+    cnode.id = d.id;
+    
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
     
