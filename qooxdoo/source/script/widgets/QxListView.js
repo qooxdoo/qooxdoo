@@ -209,7 +209,7 @@ proto._onrowcreate = function()
   if (!this.isCreated()) {
     return;
   };
-  
+
   var q = this._rowCreateQueue;
   var l = q.length-1;
 
@@ -894,6 +894,12 @@ proto._onclick = function(e)
     };
 
     r = r.parentNode;
+  };
+
+  if (isNotValid(r._data))
+  {
+    this.debug("Not a valid row: " + r);
+    return;
   };
 
 
