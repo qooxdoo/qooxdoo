@@ -1,34 +1,36 @@
 
 /*!
   A class to generate a widget hierarchy from XML
-  
+
   QxBuilder is not thread safe by design
-  	- state information is stored at the instance level 
+  	- state information is stored at the instance level
   	- only use it from a single thread
 */
-function QxBuilder(flags) {
+function QxBuilder(flags)
+{
+  QxTarget.call(this);
 
 	// map<className, map<propertyName, function>>
 	this._propertyEditors = {};
-  
+
 	this._registerDefaultPropertyEditors();
-	
+
 	// keep track of all created radioButtonManagers : map<string,QxRadioButtonManager>
 	// ToDO this may be need to be made global - if the managers can be shared by other builder instances
 	this._radioButtonManagers = {};
-	
+
 	// keep track of where we are up to within the XML document - to assist in debugging messages
 	this._debugContext = [];
-	
+
 	this._flags = flags || {};
-	
+
 	// ensure the default flags are setup
 	if (this._flags.strict == null) {
-		// strick mode throws exceptions when 
+		// strick mode throws exceptions when
 		//	* widget setters don't exist
 		this._flags.strict = true;
 	};
-	
+
 };
 
 QxBuilder.extend(QxTarget, "QxBuilder");
@@ -60,7 +62,7 @@ proto.buildFromUrl = function(parent, url) {
 	@param node can be either a xml string, or a xml dom document or fragment
 */
 proto.build = function(parent, node) {
-		
+
 		if (parent instanceof QxApplication) {
 			parent = parent.getClientWindow().getDocument();
 		};
@@ -87,10 +89,10 @@ proto.build = function(parent, node) {
 				node = parser.parseFromString(node, "text/xml").documentElement;
 				// TODO handle parse errors
 			};
-			
+
 		};
 		this._buildNodes(parent, node.childNodes);
-		
+
 };
 
 proto._buildNodes = function(parent, nodes) {
@@ -107,19 +109,19 @@ proto._buildNodes = function(parent, nodes) {
 };
 
 proto._buildEventListener = function(widget, args, text) {
-	
+
 	if (isInvalidString(args.type)) {
 		throw this._newBuildError('eventListener requires a string type attribute');
 	};
 
 	var self = this;
-	
-	// are we delegating ?	
+
+	// are we delegating ?
 	if (isValidString(args.delegate)) {
 
 		// remember the build context to be able to display it after built time
 		var dc = this._formatDebugContext();
-	
+
 		if (args.delegate.indexOf('.') > -1) {
 			// delegation to a global method
 			var p = args.delegate.split('.');
@@ -130,11 +132,11 @@ proto._buildEventListener = function(widget, args, text) {
 					if (!window[o]) {
 						throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
 					};
-	
+
 					if (!window[o][m]) {
 						throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
 					};
-					
+
 					window[o][m].apply(window[o], [e]);
 			});
 		}
@@ -146,13 +148,13 @@ proto._buildEventListener = function(widget, args, text) {
 				if (!window[args.delegate]) {
 					throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
 				};
-				
+
 				window[args.delegate].apply(null, [e]);
 			});
 		};
 	}
 	else {
-	
+
 		// build a function object using text as the function body
 		//
 		// the args attribute indicates the name of the event argument
@@ -160,7 +162,7 @@ proto._buildEventListener = function(widget, args, text) {
 		if (!args.args) {
 			args.args = "event";
 		};
-		
+
 		var f = new Function(args.args, text);
 		widget.addEventListener(args.type, f);
 	};
@@ -172,7 +174,7 @@ proto._buildEventListener = function(widget, args, text) {
 */
 proto._buildWidgetFromNode = function(parent, node) {
 
-	var className = this._extractClassName(node);	
+	var className = this._extractClassName(node);
 
 	if (!className) {
 		if (parent instanceof QxAtom) {
@@ -217,25 +219,25 @@ proto._buildWidgetFromNode = function(parent, node) {
 	if (!constructor) {
 		throw this._newBuildError("constructor not found", {className:className});
 	};
-	
+
 	// construct the widget instance - using the default constructor
 	var widget = new constructor();
 
 //	this.debug('created ' + widget+'#'+widget._hash);
-	
+
 	var attribs = this._mapXmlAttribToObject(node, widget);
-	
+
 	delete attribs['qxtype'];
-	
+
 	if (attribs.id) {
 		// register a global refrence for this widget
 		window[attribs.id] = widget;
 		delete attribs.id;
 	};
-	
+
 	// convert any on??  attribs into event listeners
 	for (var a in attribs) {
-	
+
 		if (a.toLowerCase().indexOf('on') == 0 && a.length > 2) {
 
 			// there may be issues here for XHTML based attributes - due to their case
@@ -243,21 +245,21 @@ proto._buildWidgetFromNode = function(parent, node) {
 			type = type.charAt(0) + type.substring(1);
 
 			this._buildEventListener(widget, {type:type,args:'event'}, attribs[a]);
-			
+
 			delete attribs[a];
 		};
 	};
 
-	
+
 	// handle special case of the parent being a QxLayout - need to get the layoutHint
 	var layoutHint;
 	if (typeof QxLayout != "undefined" && parent instanceof QxLayout) {
-	
+
 			// TODO : are layout hints mandatory - can this be determined through metadata ?
 //		if (!attribs.layouthint) {
 //			throw this._newBuildError('layoutHint is required when the parent component is a QxLayout');
 //		};
-		
+
 		if (attribs.layouthint) {
 			try {
 				// TODO: validate the format of the attribute
@@ -328,7 +330,7 @@ proto._findPropertyEditor = function(className, propertyName) {
 	if (w && w.prototype.superclass && w.prototype.superclass.prototype.classname) {
 		return this._findPropertyEditor(w.prototype.superclass.prototype.classname, propertyName);
 	};
-	
+
 	return null;
 };
 
@@ -339,7 +341,7 @@ proto.registerPropertyEditor = function(className, propertyName, editor) {
 
 proto._registerDefaultPropertyEditors = function() {
 	var self = this;
-	
+
 	// a property editor that splits the values on a comma and coerces each one into a suitable type
 	var commaDelimitedPropertyEditor = {};
 	commaDelimitedPropertyEditor.set = function(widget, name, value) {
@@ -347,13 +349,13 @@ proto._registerDefaultPropertyEditors = function() {
 				self._setProperty(widget, name, null);
 				return;
 			};
-	
+
 			var s = value.split(",");
 			var v = [];
 			for (var i = 0; i < s.length; i++) {
 				v[i] = self._coerce(s[i]);
 			};
-			
+
 			self._setProperties(widget, name, v);
 	};
 
@@ -364,7 +366,7 @@ proto._registerDefaultPropertyEditors = function() {
 				self._setProperty(widget, name, null);
 				return;
 			};
-	
+
 			self._setProperty(widget, name, eval(value));
 	};
 
@@ -378,22 +380,22 @@ proto._registerDefaultPropertyEditors = function() {
 			};
 			manager.add(widget);
 	};
-	
+
 	this.registerPropertyEditor('QxWidget', 'location', commaDelimitedPropertyEditor);
 	this.registerPropertyEditor('QxWidget', 'dimension', commaDelimitedPropertyEditor);
 	this.registerPropertyEditor('QxWidget', 'styleproperty', commaDelimitedPropertyEditor);
 	this.registerPropertyEditor('QxWidget', 'border', evalPropertyEditor);
-	
+
 	// create radioGroupManagers on demand, based on a string manager group name
 	this.registerPropertyEditor('QxMenuRadioButton', 'group', radioButtonManagerEditor);
 	this.registerPropertyEditor('QxRadioButton', 'group', radioButtonManagerEditor);
-	
+
 	// a property editor that just tries to coerce the string value into a suitable type
 	this._coercePropertyEditor = {};
 	this._coercePropertyEditor.set = function(widget, name, value) {
 			self._setProperty(widget, name, self._coerce(value));
 	};
-	
+
 };
 
 
@@ -421,7 +423,7 @@ proto._coerce = function(value) {
 	// is it a date ?
 	var d = Date.parse(value);
 	if (d != null && !isNaN(d)) return d;
-		
+
 	// leave it as a string
 	if (typeof value == 'string') {
 		// convert empty string into null
@@ -436,11 +438,11 @@ proto._setProperty = function(widget, name, value) {
 };
 
 proto._setProperties = function(widget, name, value) {
-	
+
 	// TODO : find a cheaper way to find the setter
-	// NOTE : the name is LOWERCASE - hence we iterate all properties of the widget 
+	// NOTE : the name is LOWERCASE - hence we iterate all properties of the widget
 	// 				to try and find a matching one
-	
+
 	var n = "set" + name;
 	for (var a in widget) {
 		if (n == a.toLowerCase()) {
@@ -460,7 +462,7 @@ proto._setProperties = function(widget, name, value) {
 */
 
 proto._extractClassName = function(node) {
-	
+
 	var n;
 	if (node.nodeName.toUpperCase() == "DIV") {
 		if (!node.attributes['qxtype']) {
@@ -480,7 +482,7 @@ proto._extractClassName = function(node) {
 };
 
 proto._serializeToString = function(node) {
-	
+
 	// create serializer object
   var xmlSerializer = new XMLSerializer();
   // serialize
