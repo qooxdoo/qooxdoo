@@ -27,6 +27,10 @@ QxGallery.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 }
 QxGallery.addProperty({ name : "showTitle", type : Boolean, defaultValue : true });
 QxGallery.addProperty({ name : "showComment", type : Boolean, defaultValue : true });
 
+proto.getManager = function() {
+  return this._manager;
+};
+
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue) 

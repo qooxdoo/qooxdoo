@@ -22,6 +22,10 @@ QxGalleryList.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue 
 QxGalleryList.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 60 });
 QxGalleryList.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
 
+proto.getManager = function() {
+  return this._manager;
+};
+
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
   if (propValue) 
