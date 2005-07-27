@@ -1,9 +1,9 @@
-function QxGallery(galleryList)
+function QxGallery(vGalleryList)
 {
   QxWidget.call(this);
   
   this._blank = (new QxImageManager).getBlank();
-  this._list = galleryList;
+  this._list = vGalleryList;
   
   this._addCssClassName("QxWidget");
   this.setOverflow("auto");
@@ -129,6 +129,14 @@ proto.getFirstChild = function() {
 
 proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
+};
+
+proto.update = function(vGalleryList)
+{
+  this._list = vGalleryList;
+  
+  var el = this.getElement();
+  el.replaceChild(this.createView(), el.firstChild);
 };
 
 proto.createView = function()
