@@ -324,6 +324,19 @@ proto.open = function()
   */
 
   this._window = window.open("about:blank", "w" + this.toHash(), conf);
+  
+  if (!this._window) 
+  {
+    this.debug("Window could not be opened. It seems there is a popup blocker active!");
+    
+    // release window again
+    if (this.getModal()) {
+      window.application.getClientWindow().getClientDocument().release(this);
+    };
+    
+    throw new Error("popupblocker");    
+  };
+  
   this._timer.restart();
 };
 
@@ -400,7 +413,6 @@ proto.blur = function()
 
 proto._ontimer = function(e)
 {
-
   if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed != false))) 
   {
     if (this.getModal()) {
