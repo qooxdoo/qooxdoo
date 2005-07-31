@@ -896,7 +896,7 @@ proto._onclick = function(e)
     r = r.parentNode;
   };
 
-  if (isNotValid(r._data))
+  if (isInvalid(r._data))
   {
     this.debug("Not a valid row: " + r);
     return;
