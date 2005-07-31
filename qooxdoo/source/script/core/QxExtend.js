@@ -379,7 +379,7 @@ if (!Function.prototype.apply)
 Function.prototype.extend = function(sFunction, tClassName)
 {
   if (typeof sFunction != "function") {
-    throw new Error("Extend: Function/Constructor to extend from is not a function: " + f);
+    throw new Error("Extend: Function/Constructor to extend from is not a function: " + sFunction);
   };
 
   if (typeof tClassName != "string") {
@@ -661,7 +661,7 @@ Function.prototype.addProperty = function(p)
   this.prototype["reset" + p.method] = function(uniqModIds) {
     return this["set" + p.method](p.defaultValue, uniqModIds);
   };
-  
+
   this.prototype["set" + p.method] = function(newValue, uniqModIds)
   {
     var thisModId = this.toHash() + "_" + p.name;
