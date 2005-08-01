@@ -20,9 +20,9 @@ function QxEventManager(vClientWindow)
   if (isValid(vClientWindow)) {
     this.attachEvents(vClientWindow);
   };
-  
+
   // Init Command Interface
-  this._commands = {};  
+  this._commands = {};
 };
 
 QxEventManager.extend(QxManager, "QxEventManager");
@@ -88,14 +88,14 @@ proto.removeCommand = function(vCommand) {
 proto._checkKeyEventMatch = function(e)
 {
   var vCommand;
-  
+
   for (var vHash in this._commands)
   {
     vCommand = this._commands[vHash];
 
     if (vCommand.getEnabled() && vCommand._matchesKeyEvent(e))
     {
-      // allow the user to stop the event 
+      // allow the user to stop the event
       // through the execute event.
       if (!vCommand.execute()) {
         e.preventDefault();
@@ -148,11 +148,11 @@ else
   proto.attachWindowEvents = function()
   {
     var winElem = this._attachedClientWindow.getElement();
-  
+
     winElem.addEventListener("blur", this.__onwindowblur, false);
     winElem.addEventListener("focus", this.__onwindowfocus, false);
     winElem.addEventListener("resize", this.__onwindowresize, false);
-  };  
+  };
 };
 
 proto.detachEvents = function()
@@ -179,7 +179,7 @@ if ((new QxClient).isMshtml())
     try
     {
       var winElem = this._attachedClientWindow.getElement();
-    
+
       winElem.detachEvent("onblur", this.__onwindowblur);
       winElem.detachEvent("onfocus", this.__onwindowfocus);
       winElem.detachEvent("onresize", this.__onwindowresize);
@@ -208,14 +208,14 @@ proto.attachEventTypes = function(eventTypes, functionPointer)
   try
   {
     var d = this._attachedClientWindow.getClientDocument().getElement();
-  
+
     // MSHTML Method to add events
     if (d.attachEvent) {
       for (var i=0; i<eventTypes.length; i++) {
         d.attachEvent("on" + eventTypes[i], functionPointer);
       };
     }
-  
+
     // Default W3C Method to add events
     else if (d.addEventListener) {
       for (var i=0; i<eventTypes.length; i++) {
@@ -223,7 +223,7 @@ proto.attachEventTypes = function(eventTypes, functionPointer)
       };
     };
   }
-  catch(ex) {};  
+  catch(ex) {};
 };
 
 proto.detachEventTypes = function(eventTypes, functionPointer)
@@ -231,14 +231,14 @@ proto.detachEventTypes = function(eventTypes, functionPointer)
   try
   {
     var d = this._attachedClientWindow.getClientDocument().getElement();
-  
+
     // MSHTML Method to add events
     if (d.detachEvent) {
       for (var i=0; i<eventTypes.length; i++) {
         d.detachEvent("on" + eventTypes[i], functionPointer);
       };
     }
-  
+
     // Default W3C Method to add events
     else if (d.removeEventListener) {
       for (var i=0; i<eventTypes.length; i++) {
@@ -290,7 +290,7 @@ QxEventManager.getRelatedTargetObjectFromEvent = function(e) {
 
 QxEventManager.getActiveTargetObject = function(n, o)
 {
-  if (!o) 
+  if (!o)
   {
     var o = QxEventManager.getTargetObject(n);
 
@@ -298,7 +298,7 @@ QxEventManager.getActiveTargetObject = function(n, o)
       return null;
     };
   };
-  
+
   // Search parent tree
   while(o)
   {
@@ -317,7 +317,7 @@ QxEventManager.getActiveTargetObject = function(n, o)
 
     o = o.getParent();
   };
-  
+
   return o;
 };
 
@@ -351,7 +351,7 @@ proto._onkeyevent = function(e)
   };
 
   var k = e.keyCode || e.charCode;
-  
+
   if (k == QxKeyEvent.keys.tab)
   {
     if ((new QxClient).isNotMshtml()) {
@@ -364,7 +364,7 @@ proto._onkeyevent = function(e)
     if (typeof QxMenuManager == "function") {
       (new QxMenuManager).update();
     };
-    
+
     this._attachedClientWindow.getFocusManager()._ontabevent(e);
   }
   else
@@ -375,7 +375,7 @@ proto._onkeyevent = function(e)
         (new QxMenuManager).update();
       };
     };
-    
+
     var o = this.getCaptureWidget() || (new QxApplication).getActiveWidget();
     if (o == null || !o.getEnabled()) {
       return;
@@ -383,7 +383,7 @@ proto._onkeyevent = function(e)
 
     // Create Event Object
     var s = new QxKeyEvent(e.type, e, false);
-    
+
     // Check for commands
     if (e.type == "keypress") {
       this._checkKeyEventMatch(s);
@@ -399,7 +399,7 @@ proto._onkeyevent = function(e)
 
     // Cleanup Event Object
     s.dispose();
-    
+
     return r;
   };
 };
@@ -484,14 +484,14 @@ else
   proto._onmouseevent = function(e)
   {
     var t = e.type;
-    
+
     switch(t)
     {
       case "DOMMouseScroll":
         // normalize mousewheel event
         t = "mousewheel";
         break;
-        
+
       case "click":
       case "dblclick":
         // ignore click or dblclick events with other then the left mouse button
@@ -511,38 +511,38 @@ else
 proto._onmouseevent_post = function(e, t)
 {
   var vEventObject, vDispatchTarget, vTarget, vActiveTarget, vRelatedTarget;
-  
+
   switch(t)
   {
     case "contextmenu":
-      if (!this.getAllowClientContextMenu()) 
+      if (!this.getAllowClientContextMenu())
       {
         if(!(new QxClient).isMshtml()) {
           e.preventDefault();
         };
 
-        e.returnValue = false;        
+        e.returnValue = false;
       };
-      
+
       break;
-      
+
     case "mousedown":
       this._onactivateevent(e);
       break;
   };
-  
-  
-  
-  
-  
+
+
+
+
+
   // Check for capturing, if enabled the target is the captured widget.
   vDispatchTarget = this.getCaptureWidget();
-  
+
   // Event Target Object
   vTarget = QxEventManager.getTargetObjectFromEvent(e);
-  
+
   // If no capturing is active search for a valid target object
-  if (!isValidObject(vDispatchTarget)) 
+  if (!isValidObject(vDispatchTarget))
   {
     // Get Target Object
     vDispatchTarget = vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
@@ -565,20 +565,20 @@ proto._onmouseevent_post = function(e, t)
     case "mouseover":
     case "mouseout":
       vRelatedTarget = QxEventManager.getRelatedActiveTargetObjectFromEvent(e);
-      
+
       // Ignore events where the related target and
       // the real target are equal - from our sight
       if (vRelatedTarget == vActiveTarget) {
         return;
       };
-  };  
+  };
 
 
 
 
   // Create Mouse Event Object
   vEventObject = new QxMouseEvent(t, e, false, vTarget, vActiveTarget, vRelatedTarget);
-  
+
   // Store last Event in MouseEvent Constructor
   // Needed for Tooltips, ...
   QxMouseEvent._storeEventState(vEventObject);
@@ -592,11 +592,11 @@ proto._onmouseevent_post = function(e, t)
 
   // Dispatch Event through target (eventtarget-)object
   vDispatchTarget.dispatchEvent(vEventObject);
-  
-  
 
-  
-  
+
+
+
+
   // Handle Special Post Events
   switch(t)
   {
@@ -607,7 +607,7 @@ proto._onmouseevent_post = function(e, t)
         };
       };
       break;
-    
+
     case "mouseover":
       if (typeof QxToolTipManager == "function") {
         (new QxToolTipManager).handleMouseOver(vEventObject);
@@ -620,7 +620,7 @@ proto._onmouseevent_post = function(e, t)
       };
       break;
   };
-  
+
 
 
 
@@ -643,12 +643,12 @@ proto._onmouseevent_post = function(e, t)
 /*
   -------------------------------------------------------------------------------
     DRAG EVENTS
-    
+
     Currently only to stop non needed events
   -------------------------------------------------------------------------------
 */
 
-proto._ondragevent = function(e) 
+proto._ondragevent = function(e)
 {
   e.preventDefault();
   e.returnValue = false;
@@ -670,14 +670,14 @@ proto._onwindowblur = function(e)
     delete this._ignoreBlur;
     return;
   };
-  
+
   this._allowFocus = true;
-  
+
   // Hide Popups, Tooltips, ...
   if (typeof QxPopupManager == "function") {
     (new QxPopupManager).update();
   };
-  
+
   // Hide Menus
   if (typeof QxMenuManager == "function") {
     (new QxMenuManager).update();
@@ -697,14 +697,14 @@ proto._onwindowblur = function(e)
 
 proto._onwindowfocus = function(e)
 {
-  // Make focus more intelligent and only allow focus if 
+  // Make focus more intelligent and only allow focus if
   // a previous blur occured
   if (!this._allowFocus) {
     return;
   };
-  
+
   delete this._allowFocus;
-  
+
   // Send focus event to client document
   var vDoc = this._attachedClientWindow.getDocument();
   if (vDoc.hasEventListeners("focus")) {
@@ -729,25 +729,25 @@ proto._onactivateevent = function(e)
   if(n == null) {
     return;
   };
-  
+
   var o = n._QxWidget;
   var oactive = o;
-  
-  if (o) 
+
+  if (o)
   {
     while(o != null && !o.canGetFocus()) {
       o = o.getParent();
     };
-   
-    if(o) {    
+
+    if(o) {
       o.setFocused(true);
     };
-    
+
     if (oactive != o) {
       (new QxApplication).setActiveWidget(oactive);
     };
   };
-  
+
   // this will also stops activating through browser
   // e.preventDefault();
 
@@ -775,17 +775,17 @@ proto.dispose = function()
   this._lastMouseEventType = null;
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;
-  
+
   if (this._commands)
   {
-    for (var vHash in this._commands) 
+    for (var vHash in this._commands)
     {
       this._commands[vHash].dispose();
-      delete this._commands[vHash];  
+      delete this._commands[vHash];
     };
-    
+
     this._commands = null;
-  };  
+  };
 
   QxObject.prototype.dispose.call(this);
 };
