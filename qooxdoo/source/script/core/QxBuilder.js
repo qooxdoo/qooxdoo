@@ -200,7 +200,19 @@ proto._buildWidgetFromNode = function(parent, node) {
 		else {
 			e.type='text/javascript';
 		};
-		e.innerHTML = node.firstChild.nodeValue;
+		
+		// e.innerHTML = node.firstChild.nodeValue;
+		
+		// fix for Internet Explorer by Cristian Bica
+		if ((new QxClient).isMshtml())
+		{
+		  e.innerHTML = eval(node.firstChild.nodeValue);
+		}
+	  else
+	  {
+	    e.innerHTML = node.firstChild.nodeValue;
+	  };
+		
 		document.body.appendChild(e);
 		return;
 	};
