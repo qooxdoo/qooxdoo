@@ -93,6 +93,67 @@ proto.removeAll = function()
   this.getElement().innerHTML = "";
 };
 
+proto.updateImageSrcById = function(vId, vSrc) {
+  return this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
+};
+
+proto.updateImageSrcByPosition = function(vPos, vSrc)
+{
+  if (vPos == -1) {
+    throw new Error("No valid Position: " + vPos);
+  };
+
+  var vNode = this.getNodeByPosition(vPos);
+
+  vNode.getElementsByTagName("IMG")[0].src = vSrc;
+  this._list.src = vSrc;
+};
+
+proto.deleteById = function(vId) {
+  this.deleteByPosition(this.getPositionById(vId));
+};
+
+proto.deleteByPosition = function(vPos)
+{
+  if (vPos == -1) {
+    throw new Error("No valid Position: " + vPos);
+  };
+
+  var vNode = this.getNodeByPosition(vPos);
+  
+  if (vNode) {
+    vNode.parentNode.removeChild(vNode);
+  };
+  
+  this._list.removeAt(vPos);  
+};
+
+proto.getPositionById = function(vId)
+{
+  for (var i=0, a=this._list, l=a.length; i<l; i++) {
+    if (a[i].id == vId) {
+      return i;
+    };
+  };
+  
+  return -1;
+};
+
+proto.getEntryById = function(vId) {
+  return this.getEntryByPosition(this.getPositionById(vId));
+};
+
+proto.getNodeById = function(vId) {
+  return this.getNodeByPosition(this.getPositionById(vId));
+};
+
+proto.getEntryByPosition = function(vPosition) {
+  return vPosition == -1 ? null : this._list[vPosition];
+};
+
+proto.getNodeByPosition = function(vPosition) {
+  return vPosition == -1 ? null : this._frame.childNodes[vPosition];
+};
 
 
 
@@ -307,4 +368,3 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
   
   return frame;
 };
-
