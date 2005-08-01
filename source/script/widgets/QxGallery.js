@@ -133,10 +133,18 @@ proto.getLastChild = function() {
 
 proto.update = function(vGalleryList)
 {
+  this._manager.deselectAll();
+  
   this._list = vGalleryList;
   
   var el = this.getElement();
   el.replaceChild(this.createView(), el.firstChild);
+};
+
+proto.removeAll = function()
+{
+  this._manager.deselectAll();
+  this.getElement().innerHTML = "";
 };
 
 proto.createView = function()
