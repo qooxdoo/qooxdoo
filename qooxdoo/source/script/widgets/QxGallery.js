@@ -21,15 +21,32 @@ function QxGallery(vGalleryList)
 
 QxGallery.extend(QxWidget, "QxGallery");
 
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    PROPERTIES
+  -------------------------------------------------------------------------------
+*/
+
 QxGallery.addProperty({ name : "thumbMaxWidth", type : Number, defaultValue : 100 });
 QxGallery.addProperty({ name : "thumbMaxHeight", type : Number, defaultValue : 100 });
 QxGallery.addProperty({ name : "decorHeight", type : Number, defaultValue : 40 });
 QxGallery.addProperty({ name : "showTitle", type : Boolean, defaultValue : true });
 QxGallery.addProperty({ name : "showComment", type : Boolean, defaultValue : true });
 
-proto.getManager = function() {
-  return this._manager;
-};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MODIFIER
+  -------------------------------------------------------------------------------
+*/
 
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
@@ -44,6 +61,42 @@ proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
   
   return QxWidget.prototype._modifyVisible.call(this, propValue, propOldValue, propName, uniqModIds);
 };
+
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    UTILITIES
+  -------------------------------------------------------------------------------
+*/
+
+proto.getManager = function() {
+  return this._manager;
+};
+
+proto.update = function(vGalleryList)
+{
+  this._manager.deselectAll();
+  
+  this._list = vGalleryList;
+  
+  var el = this.getElement();
+  el.replaceChild(this.createView(), el.firstChild);
+};
+
+proto.removeAll = function()
+{
+  this._manager.deselectAll();
+  this.getElement().innerHTML = "";
+};
+
+
+
+
+
 
 
 /*
@@ -105,6 +158,16 @@ proto.getListItemTarget = function(dt)
   return dt;
 };
 
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    SCROLL-IMPL
+  -------------------------------------------------------------------------------
+*/
+
 proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
@@ -119,6 +182,16 @@ proto.scrollItemIntoViewY = function(vItem) {
   QxDOM.scrollIntoViewY(vItem, vItem.parentNode.parentNode);
 };
 
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    MANAGER REQUIREMENTS
+  -------------------------------------------------------------------------------
+*/
+
 proto.getItems = function() {
   return this._frame.childNodes;
 };
@@ -131,21 +204,17 @@ proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
 };
 
-proto.update = function(vGalleryList)
-{
-  this._manager.deselectAll();
-  
-  this._list = vGalleryList;
-  
-  var el = this.getElement();
-  el.replaceChild(this.createView(), el.firstChild);
-};
 
-proto.removeAll = function()
-{
-  this._manager.deselectAll();
-  this.getElement().innerHTML = "";
-};
+
+
+
+
+
+/*
+  -------------------------------------------------------------------------------
+    INTERNALS
+  -------------------------------------------------------------------------------
+*/
 
 proto.createView = function()
 {  
@@ -238,3 +307,4 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
   
   return frame;
 };
+
