@@ -1,21 +1,24 @@
 function QxGallery(vGalleryList)
 {
   QxWidget.call(this);
-  
+
   this._blank = (new QxImageManager).getBlank();
   this._list = vGalleryList;
-  
+
   this._addCssClassName("QxWidget");
   this.setOverflow("auto");
-  
-  this._manager = new QxDomSelectionManager(this);  
-  
+
+  this._manager = new QxDomSelectionManager(this);
+
   this._manager.setMultiColumnSupport(true);
 
   this.addEventListener("mousedown", this._onmousedown);
   this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mousemove", this._onmousemove);
+
   this.addEventListener("click", this._onclick);
   this.addEventListener("dblclick", this._ondblclick);
+
   this.addEventListener("keydown", this._onkeydown);
 };
 
@@ -50,15 +53,15 @@ QxGallery.addProperty({ name : "showComment", type : Boolean, defaultValue : tru
 
 proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
 {
-  if (propValue) 
+  if (propValue)
   {
     var o = this;
     window.setTimeout(function()
     {
       o.getElement().appendChild(o.createView());
     }, 100);
-  };  
-  
+  };
+
   return QxWidget.prototype._modifyVisible.call(this, propValue, propOldValue, propName, uniqModIds);
 };
 
@@ -80,9 +83,9 @@ proto.getManager = function() {
 proto.update = function(vGalleryList)
 {
   this._manager.deselectAll();
-  
+
   this._list = vGalleryList;
-  
+
   var el = this.getElement();
   el.replaceChild(this.createView(), el.firstChild);
 };
@@ -120,12 +123,12 @@ proto.deleteByPosition = function(vPos)
   };
 
   var vNode = this.getNodeByPosition(vPos);
-  
+
   if (vNode) {
     vNode.parentNode.removeChild(vNode);
   };
-  
-  this._list.removeAt(vPos);  
+
+  this._list.removeAt(vPos);
 };
 
 proto.getPositionById = function(vId)
@@ -135,7 +138,7 @@ proto.getPositionById = function(vId)
       return i;
     };
   };
-  
+
   return -1;
 };
 
@@ -155,7 +158,9 @@ proto.getNodeByPosition = function(vPosition) {
   return vPosition == -1 ? null : this._frame.childNodes[vPosition];
 };
 
-
+proto.getEntryByNode = function(vNode) {
+  return this.getEntryById(vNode.id);
+};
 
 
 
@@ -184,10 +189,45 @@ proto._onmouseup = function(e)
   };
 };
 
+proto._onmousemove = function(e)
+{
+  var vToolTip = this.getToolTip();
+
+  if (vToolTip && typeof QxToolTipManager != "function") {
+    return;
+  };
+
+  var vItem = this.getListItemTarget(e.getDomTarget());
+
+  if (vItem == this._lastItem) {
+    return;
+  };
+
+  if (this._lastItem)
+  {
+    var vEventObject = new QxMouseEvent("mouseout", e, false, this._lastItem);
+    (new QxToolTipManager).handleMouseOut(vEventObject);
+    vEventObject.dispose();
+  };
+
+  if (vItem)
+  {
+    if (this.hasEventListeners("toolTipTargetChange")) {
+      this.dispatchEvent(new QxDataEvent("toolTipTargetChange", vItem));
+    };
+
+    var vEventObject = new QxMouseEvent("mouseout", e, false, vItem);
+    (new QxToolTipManager).handleMouseOver(vEventObject);
+    vEventObject.dispose();
+  };
+
+  this._lastItem = vItem;
+};
+
 proto._onclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
-  
+
   if (vItem) {
     this._manager.handleClick(vItem, e);
   };
@@ -211,11 +251,11 @@ proto.getListItemTarget = function(dt)
   while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
   };
-  
+
   if (dt.tagName == "BODY") {
     return null;
   };
-  
+
   return dt;
 };
 
@@ -232,7 +272,7 @@ proto.getListItemTarget = function(dt)
 proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
-  this.scrollItemIntoViewY(vItem);  
+  this.scrollItemIntoViewY(vItem);
 };
 
 proto.scrollItemIntoViewX = function(vItem) {
@@ -278,45 +318,45 @@ proto.getLastChild = function() {
 */
 
 proto.createView = function()
-{  
+{
   var s = (new Date).valueOf();
-  
+
   var tWidth = this.getThumbMaxWidth();
   var tHeight = this.getThumbMaxHeight();
-  
-  var protoCell = this.createProtoCell(tWidth, tHeight, this.getDecorHeight());  
+
+  var protoCell = this.createProtoCell(tWidth, tHeight, this.getDecorHeight());
   var frame = this._frame = document.createElement("div");
-  
+
   this._frame.className = "galleryFrame clearfix";
-  
+
   var cframe, cnode;
-  
+
   for (var i=0, a=this._list, l=a.length, d; i<l; i++)
   {
     d = a[i];
-    
-    cframe = protoCell.cloneNode(true);    
-    
+
+    cframe = protoCell.cloneNode(true);
+
     cframe.id = d.id;
-    cframe.pos = i;    
-    
+    cframe.pos = i;
+
     if (this.getShowTitle())
     {
       cnode = cframe.childNodes[0];
       cnode.firstChild.nodeValue = d.title;
     };
-    
+
     cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
-    
+
     cnode.width = d.thumbWidth;
     cnode.height = d.thumbHeight;
-    
+
     if (cnode.runtimeStyle && !window.opera) {
       cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
     } else {
       cnode.src = d.src;
     };
-    
+
     cnode.style.marginLeft = cnode.style.marginRight = Math.floor((tWidth-d.thumbWidth)/2) + "px";
     cnode.style.marginTop = cnode.style.marginBottom = Math.floor((tHeight-d.thumbHeight)/2) + "px";
 
@@ -325,21 +365,21 @@ proto.createView = function()
       cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
       cnode.firstChild.nodeValue = d.comment;
     };
-    
-    frame.appendChild(cframe);    
+
+    frame.appendChild(cframe);
   };
-  
+
   return frame;
 };
 
 proto.createProtoCell = function(tWidth, tHeight, fHeight)
 {
-  var frame = document.createElement("div");  
+  var frame = document.createElement("div");
   frame.className = "galleryCell";
   frame.unselectable = "on";
   frame.style.width = tWidth + "px";
   frame.style.height = (tHeight + fHeight) + "px";
-  
+
   if (this.getShowTitle())
   {
     var title = document.createElement("div");
@@ -347,14 +387,14 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
     title.unselectable = "on";
     var ttext = document.createTextNode("-");
     title.appendChild(ttext);
-    
+
     frame.appendChild(title);
   };
-  
+
   var image = new Image();
   image.src = this._blank;
   frame.appendChild(image);
-  
+
   if (this.getShowComment())
   {
     var comment = document.createElement("div");
@@ -362,9 +402,9 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
     comment.unselectable = "on";
     var ctext = document.createTextNode("-");
     comment.appendChild(ctext);
-    
+
     frame.appendChild(comment);
   };
-  
+
   return frame;
 };

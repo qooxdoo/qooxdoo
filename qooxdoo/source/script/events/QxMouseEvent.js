@@ -6,29 +6,29 @@ function QxMouseEvent(vType, vDomEvent, vAutoDispose, vTarget, vActiveTarget, vR
   {
     this._domEvent = vDomEvent;
     this._domTarget = vDomEvent.target || vDomEvent.srcElement;
-    
+
     this._target = isValid(vTarget) ? vTarget : this._evalTarget();
     this._activeTarget = isValid(vActiveTarget) ? vActiveTarget : this._evalActiveTarget();
     this._relatedTarget = isValid(vRelatedTarget) ? vRelatedTarget : this._evalRelatedTarget();
-    
+
     this._pageX = this._evalPageX();
     this._pageY = this._evalPageY();
     this._clientX = this._evalClientX();
     this._clientY = this._evalClientY();
-    
+
     switch(this._button = this._evalButton())
     {
       case "left":
         this._buttonLeft = true;
         break;
-      
+
       case "middle":
         this._buttonMiddle = true;
-        break;      
-      
+        break;
+
       case "right":
         this._buttonRight = true;
-        break;      
+        break;
     };
   };
 };
@@ -79,11 +79,11 @@ proto.getPageY = function() { return this._pageY; };
 
 if ((new QxClient).isGecko())
 {
-  proto._evalPageX = function() { 
-    return this._domEvent.pageX;  
+  proto._evalPageX = function() {
+    return this._domEvent.pageX;
   };
-  
-  proto._evalPageY = function() { 
+
+  proto._evalPageY = function() {
     return this._domEvent.pageY;
   };
 }
@@ -243,16 +243,16 @@ proto.getDefaultPrevented = function() {
 
 proto._target = proto._activeTarget = proto._relatedTarget = null;
 
-proto.getTarget = function() { 
-  return this._target; 
+proto.getTarget = function() {
+  return this._target;
 };
 
-proto.getActiveTarget = function() { 
-  return this._activeTarget; 
+proto.getActiveTarget = function() {
+  return this._activeTarget;
 };
 
-proto.getRelatedTarget = function() { 
-  return this._relatedTarget; 
+proto.getRelatedTarget = function() {
+  return this._relatedTarget;
 };
 
 proto._evalTarget = function() {
@@ -263,7 +263,7 @@ proto._evalActiveTarget = function() {
   return QxEventManager.getActiveTargetObjectFromEvent(this._domEvent);
 };
 
-proto._evalRelatedTarget = function() {  
+proto._evalRelatedTarget = function() {
   return QxEventManager.getRelatedActiveTargetObjectFromEvent(this._domEvent);
 };
 
@@ -308,7 +308,7 @@ proto.isNotRightButton = function() {
 
 if ((new QxClient).isMshtml())
 {
-  proto._evalButton = function() 
+  proto._evalButton = function()
   {
     var b = this._domEvent.button;
     return b == 1 ? "left" : b == 2 ? "right" : b == 4 ? "middle" : null;
@@ -318,7 +318,7 @@ if ((new QxClient).isMshtml())
 }
 else
 {
-  proto._evalButton = function() 
+  proto._evalButton = function()
   {
     var b = this._domEvent.button;
     return b == 0 ? "left" : b == 2 ? "right" : b == 1 ? "middle" : null;
@@ -376,15 +376,15 @@ proto.dispose = function()
   if(this.getDisposed()) {
     return;
   };
-  
+
   QxEvent.prototype.dispose.call(this);
 
   this._domEvent = null;
   this._domTarget = null;
-  
+
   this._target = null;
   this._activeTarget = null;
-  this._relatedTarget = null; 
+  this._relatedTarget = null;
 };
 
 

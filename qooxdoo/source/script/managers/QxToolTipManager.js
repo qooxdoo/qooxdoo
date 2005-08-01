@@ -4,7 +4,7 @@ function QxToolTipManager()
     return QxToolTipManager._instance;
 
   QxManager.call(this);
-  
+
   QxToolTipManager._instance = this;
 };
 
@@ -18,12 +18,12 @@ proto._modifyCurrentToolTip = function(propValue, propOldValue, propName, uniqMo
   if(propOldValue && propOldValue.contains(propValue)) {
     return;
   };
-  
+
   // If old tooltip existing, hide it and clear widget binding
   if(propOldValue)
   {
     propOldValue.setVisible(false);
-    
+
     propOldValue._stopShowTimer();
     propOldValue._stopHideTimer();
   };
@@ -32,7 +32,7 @@ proto._modifyCurrentToolTip = function(propValue, propOldValue, propName, uniqMo
   if(propValue) {
     propValue._startShowTimer();
   };
-  
+
   return true;
 };
 
@@ -41,21 +41,26 @@ proto.handleMouseOver = function(e)
   var to = e.getTarget();
   var c = to;
   var tt;
-  
+
   // this.debug("MouseOver Handler");
+
+  // Allows us to use DOM Nodes as tooltip target :)
+  if (!(c instanceof QxWidget) && c.nodeType == 1) {
+    c = QxEventManager.getTargetObject(c);
+  };
 
   //Search first parent which has a tooltip
   while(c != null && !(tt = c.getToolTip())) {
     c = c.getParent();
   };
-    
+
   // Bind tooltip to widget
   if (tt != null) {
     tt.setBoundToWidget(c);
   };
-    
+
   // Set Property
-  this.setCurrentToolTip(tt);  
+  this.setCurrentToolTip(tt);
 };
 
 proto.handleMouseOut = function(e)
@@ -63,17 +68,17 @@ proto.handleMouseOut = function(e)
   var to = e.getRelatedTarget();
   var from = e.getTarget();
   var cur = this.getCurrentToolTip();
-  
+
   // this.debug("MouseOut Handler");
 
-  // If there was a tooltip and 
+  // If there was a tooltip and
   // - the destination target is the current tooltip
-  //   or 
+  //   or
   // - the current tooltip contains the destination target
   if(cur && (to == cur || cur.contains(to))) {
     return;
   };
-    
+
   // If the destination target exists and the target contains it
   if(to && from.contains(to)) {
     return;
@@ -89,7 +94,7 @@ proto.handleFocus = function(e)
 {
   var c = e.getTarget();
   var tt = c.getToolTip();
-  
+
   // this.debug("Focus Handler");
 
   // Only set new tooltip if focus widget
@@ -98,7 +103,7 @@ proto.handleFocus = function(e)
   {
     // Bind tooltip to widget
     tt.setBoundToWidget(c);
-    
+
     // Set Property
     this.setCurrentToolTip(tt);
   };
