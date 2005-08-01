@@ -55,6 +55,10 @@ proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText
     MODIFIERS
   -------------------------------------------------------------------------------
 */
+
+proto._checkText = function(propValue, propOldValue, propName, uniqModIds) {
+  return typeof propValue == "string" ? propValue : "";
+};
   
 proto._modifyText = function(propValue, propOldValue, propName, uniqModIds) {
   return this.setHtmlProperty("value", propValue);
