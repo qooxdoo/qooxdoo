@@ -221,7 +221,6 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 ------------------------------------------------------------------------------------
 */
 
-proto._chromeBorderSize = 4;
 proto._chromeCaptionSize = 24;
 
 proto._isOpened = false;
@@ -250,19 +249,25 @@ proto.open = function()
   var conf = "dependent=yes,";
   
   if (isValidNumber(this.getWidth())) {
-    if ((new QxClient).isMshtml()) {
-      conf += "width=" + (this.getWidth() - this._chromeBorderSize) + ",";      
-    } else {
-      conf += "width=" + this.getWidth() + ",";      
-    };
+    conf += "width=" + this.getWidth() + ",";      
   };
    
   if (isValidNumber(this.getHeight())) 
   {
-    if ((new QxClient).isMshtml()) {
-      conf += "height=" + (this.getHeight()  - this._chromeBorderSize) + ",";      
-    } else {
-      conf += "height=" + this.getHeight() + ",";      
+    if ((new QxClient).isMshtml())
+    {
+      if (this.getShowMenubar())
+      {
+        conf += "height=" + (this.getHeight() + (this.getAllowScrollbars() ? -20 : -8)) + ",";
+      }
+      else
+      {
+        conf += "height=" + this.getHeight() + ",";
+      };
+    }
+    else
+    {
+      conf += "height=" + this.getHeight() + ",";
     };
   };
   
@@ -351,15 +356,15 @@ proto.open = function()
 */
 
 proto.centerToScreen = function() {
-  return this._centerHelper((screen.width - this.getWidth() - this._chromeBorderSize) / 2, (screen.height - this.getHeight() - this._chromeCaptionSize) / 2);
+  return this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight() - this._chromeCaptionSize) / 2);
 };
 
 proto.centerToScreenArea = function() {
-  return this._centerHelper((screen.availWidth - this.getWidth() - this._chromeBorderSize) / 2, (screen.availHeight - this.getHeight() - this._chromeCaptionSize - this._chromeBorderSize) / 2);
+  return this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight() - this._chromeCaptionSize) / 2);
 };
 
 proto.centerToOpener = function() {
-  return this._centerHelper(((QxDOM.getWindowInnerWidth(window) - this.getWidth() - this._chromeBorderSize) / 2) + QxDOM.getComputedScreenBoxLeft(window.document.body), ((QxDOM.getWindowInnerHeight(window) - this.getHeight() - this._chromeCaptionSize - this._chromeBorderSize) / 2) + QxDOM.getComputedScreenBoxTop(window.document.body));
+  return this._centerHelper(((QxDOM.getWindowInnerWidth(window) - this.getWidth()) / 2) + QxDOM.getComputedScreenBoxLeft(window.document.body), ((QxDOM.getWindowInnerHeight(window) - this.getHeight() - this._chromeCaptionSize) / 2) + QxDOM.getComputedScreenBoxTop(window.document.body));
 };
 
 proto._centerHelper = function(l, t)
@@ -574,53 +579,46 @@ proto._ontimer = function(e)
       } catch(ex) {};
       
       if (!this.getMoveable()) {
-        this._window.moveTo(this.getLeft(), this.getTop());
+        try{
+          this._window.moveTo(this.getLeft(), this.getTop());
+        } catch(ex) {};
       };
       
-      if (!this.getResizeable()) 
+      if (!this.getResizeable() && (this.getWidth() == "auto" || this.getHeight() == "auto")) 
       {
-        if (this.getWidth() == "auto" || this.getHeight() == "auto")
-        {
-          var w, h;
-          
-          if (this.getWidth() == "auto") {
-            w = this._instance.getClientDocument().getPreferredWidth();
-          };
+        var w, h;
         
-          if (this.getHeight() == "auto") {
-            h = this._instance.getClientDocument().getPreferredHeight();
-          };          
+        if (this.getWidth() == "auto") {
+          w = this._instance.getClientDocument().getPreferredWidth();
+        };
+      
+        if (this.getHeight() == "auto") {
+          h = this._instance.getClientDocument().getPreferredHeight();
+        };          
 
-          if (isValidNumber(w) || isValidNumber(h)) 
+        if (isValidNumber(w) || isValidNumber(h)) 
+        {
+          if ((new QxClient).isMshtml())
           {
-            if ((new QxClient).isMshtml())
-            {
-              this._window.resizeTo(isValidNumber(w) ? w + this._chromeBorderSize : this.getWidth(), isValidNumber(h) ? h + this._chromeBorderSize + this._chromeCaptionSize : this.getHeight());  
-            }
-            else
-            {
-              if (isValidNumber(w)) {
-                this._window.innerWidth = w;
-              };
-              
-              if (isValidNumber(h)) {
-                // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
-                // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
-                if( this._window.innerHeight != 150 && h != 150) {
-                  this._window.innerHeight = h;
-                };
+            try {
+              this._window.resizeTo(isValidNumber(w) ? w : this.getWidth(), isValidNumber(h) ? h + this._chromeCaptionSize : this.getHeight());  
+            } catch(ex) {};
+          }
+          else
+          {
+            if (isValidNumber(w)) {
+              this._window.innerWidth = w;
+            };
+            
+            if (isValidNumber(h)) {
+              // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
+              // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
+              if( this._window.innerHeight != 150 && h != 150) {
+                this._window.innerHeight = h;
               };
             };
           };
-        }
-        else
-        {
-          this._window.resizeTo(this.getWidth(), this.getHeight()); 
         };
-      };
-      
-      if (this.getModal()) {
-        //        this._window.focus();
       };
       
       break;
