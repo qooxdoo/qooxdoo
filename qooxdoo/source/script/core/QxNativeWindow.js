@@ -327,7 +327,7 @@ proto.open = function()
     OPEN WINDOW
   -----------------------------------------------------------------------------
   */
-
+  
   this._window = window.open("about:blank", "w" + this.toHash(), conf);
   
   if (!this._window) 
@@ -476,11 +476,20 @@ proto._ontimer = function(e)
 
           this._window.location.replace(this.getSource());
           this._timer.setInterval(500);
-          this._readyState = 5;          
+          this._readyState = 5;  
         }
         else
         {
           this._readyState = 1;
+        };
+        
+        if (!this.getResizeable() && !(new QxClient).isMshtml())
+        {
+          var w = this.getWidth();
+          var h = this.getHeight();
+          var win = this._window;
+          
+          this._window.addEventListener("resize", function(e) { win.resizeTo(w, h); }, false);
         };
       };
       
