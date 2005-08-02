@@ -17,11 +17,16 @@ QxToolTip.extend(QxPopup, "QxToolTip");
 
 QxToolTip.addProperty({ name : "hideOnHover", type : Boolean, defaultValue : true });
 
-QxToolTip.addProperty({ name : "mousePointerOffsetX", type : Number, defaultValue : 1 });
-QxToolTip.addProperty({ name : "mousePointerOffsetY", type : Number, defaultValue : 20 });
+QxToolTip.addProperty({ name : "mousePointerOffsetLeft", type : Number, defaultValue : 4 });
+QxToolTip.addProperty({ name : "mousePointerOffsetTop", type : Number, defaultValue : 22 });
+QxToolTip.addProperty({ name : "mousePointerOffsetRight", type : Number, defaultValue : 0 });
+QxToolTip.addProperty({ name : "mousePointerOffsetBottom", type : Number, defaultValue : -2 });
 
 QxToolTip.addProperty({ name : "showInterval", type : Number, defaultValue : 1000 });
 QxToolTip.addProperty({ name : "hideInterval", type : Number, defaultValue : 4000 });
+
+QxToolTip.addProperty({ name : "axisToleranceX", type : Number, defaultValue : 0.7 });
+QxToolTip.addProperty({ name : "axisToleranceY", type : Number, defaultValue : 0.7 });
 
 QxToolTip.addProperty({ name : "boundToWidget" });
 
@@ -106,9 +111,31 @@ proto._onmouseover = function(e)
 
 proto._onshowtimer = function(e)
 {
-  this.setLeft(QxMouseEvent.getPageX() + this.getMousePointerOffsetX());
-  this.setTop(QxMouseEvent.getPageY() + this.getMousePointerOffsetY());
-
+  var ex = QxMouseEvent.getPageX();
+  var ey = QxMouseEvent.getPageY();
+  
+  if (ex < (QxDOM.getWindowInnerWidth() * this.getAxisToleranceX())) 
+  {
+    this.setRight(null);
+    this.setLeft(ex + this.getMousePointerOffsetLeft());
+  }
+  else
+  {
+    this.setLeft(null);
+    this.setRight(QxDOM.getWindowInnerWidth() - ex - this.getMousePointerOffsetRight());
+  };
+  
+  if (ey < (QxDOM.getWindowInnerHeight() * this.getAxisToleranceY())) 
+  {
+    this.setBottom(null);
+    this.setTop(ey + this.getMousePointerOffsetTop());
+  }
+  else
+  {
+    this.setTop(null);
+    this.setBottom(QxDOM.getWindowInnerHeight() - ey - this.getMousePointerOffsetBottom());
+  };  
+  
   this.setVisible(true);  
   
   return true;
