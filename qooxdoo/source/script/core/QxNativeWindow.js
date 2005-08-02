@@ -249,8 +249,8 @@ proto.open = function()
   var conf = "dependent=yes,";
   
   if (isValidNumber(this.getWidth())) {
-    conf += "width=" + this.getWidth() + ",";      
-  };
+      conf += "width=" + this.getWidth() + ",";      
+    };
    
   if (isValidNumber(this.getHeight())) 
   {
@@ -262,8 +262,8 @@ proto.open = function()
       }
       else
       {
-        conf += "height=" + this.getHeight() + ",";
-      };
+      conf += "height=" + this.getHeight() + ",";      
+    };
     }
     else
     {
@@ -379,7 +379,7 @@ proto._centerHelper = function(l, t)
 
   // focus window if opened
   if (this._window && !this._window.closed) {
-    this._window.focus();
+    this.focus();
   };
 };
 
@@ -396,7 +396,10 @@ proto._centerHelper = function(l, t)
 proto.focus = function() 
 {
   if (this._window) {
-    this._window.focus();
+    try {
+      this._window.focus();
+    } catch(ex) {
+    };
   };
 };
 
@@ -561,7 +564,7 @@ proto._ontimer = function(e)
       break;
       
     case 4:
-      this._window.focus();
+      this.focus();
       this._readyState++;
       
       this._onload();
@@ -580,46 +583,46 @@ proto._ontimer = function(e)
       
       if (!this.getMoveable()) {
         try{
-          this._window.moveTo(this.getLeft(), this.getTop());
+        this._window.moveTo(this.getLeft(), this.getTop());
         } catch(ex) {};
       };
       
       if (!this.getResizeable() && (this.getWidth() == "auto" || this.getHeight() == "auto")) 
       {
-        var w, h;
+          var w, h;
+          
+          if (this.getWidth() == "auto") {
+            w = this._instance.getClientDocument().getPreferredWidth();
+          };
         
-        if (this.getWidth() == "auto") {
-          w = this._instance.getClientDocument().getPreferredWidth();
-        };
-      
-        if (this.getHeight() == "auto") {
-          h = this._instance.getClientDocument().getPreferredHeight();
-        };          
+          if (this.getHeight() == "auto") {
+            h = this._instance.getClientDocument().getPreferredHeight();
+          };          
 
-        if (isValidNumber(w) || isValidNumber(h)) 
-        {
-          if ((new QxClient).isMshtml())
+          if (isValidNumber(w) || isValidNumber(h)) 
           {
+            if ((new QxClient).isMshtml())
+            {
             try {
               this._window.resizeTo(isValidNumber(w) ? w : this.getWidth(), isValidNumber(h) ? h + this._chromeCaptionSize : this.getHeight());  
             } catch(ex) {};
-          }
-          else
-          {
-            if (isValidNumber(w)) {
-              this._window.innerWidth = w;
-            };
-            
-            if (isValidNumber(h)) {
-              // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
-              // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
-              if( this._window.innerHeight != 150 && h != 150) {
-                this._window.innerHeight = h;
+            }
+            else
+            {
+              if (isValidNumber(w)) {
+                this._window.innerWidth = w;
+              };
+              
+              if (isValidNumber(h)) {
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
+                // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
+                if( this._window.innerHeight != 150 && h != 150) {
+                  this._window.innerHeight = h;
+                };
               };
             };
           };
         };
-      };
       
       break;
   };  
@@ -632,7 +635,7 @@ proto._onload = function()
   if (!this._isLoaded) 
   {
     this._isLoaded = true;
-    this._window.focus();
+    this.focus();
     this.dispatchEvent(new QxEvent("load"));
   };
 };
