@@ -80,6 +80,10 @@ proto.getManager = function() {
   return this._manager;
 };
 
+proto.getList = function() {
+  return this._list;
+};
+
 proto.update = function(vGalleryList)
 {
   this._manager.deselectAll();
@@ -160,6 +164,24 @@ proto.getNodeByPosition = function(vPosition) {
 
 proto.getEntryByNode = function(vNode) {
   return this.getEntryById(vNode.id);
+};
+
+proto.addFromPartialList = function(vPartialList)
+{
+  this.concat(vPartialList);
+  
+  for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
+    this._frame.appendChild(this.createCell(a[i]));
+  };
+};
+
+proto.addFromUpdatedList = function(vNewList)
+{
+  for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
+    this._frame.appendChild(this.createCell(a[i]));
+  };  
+  
+  this._list = vNewList;
 };
 
 
@@ -328,61 +350,63 @@ proto.createView = function()
   var tWidth = this.getThumbMaxWidth();
   var tHeight = this.getThumbMaxHeight();
 
-  var protoCell = this.createProtoCell(tWidth, tHeight, this.getDecorHeight());
-  var frame = this._frame = document.createElement("div");
-
-  this._frame.className = "galleryFrame clearfix";
-
-  var cframe, cnode;
-
-  for (var i=0, a=this._list, l=a.length, d; i<l; i++)
-  {
-    d = a[i];
-
-    cframe = protoCell.cloneNode(true);
-
-    cframe.id = d.id;
-    cframe.pos = i;
-
-    if (this.getShowTitle())
-    {
-      cnode = cframe.childNodes[0];
-      cnode.firstChild.nodeValue = d.title;
-    };
-
-    cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
-
-    cnode.width = d.thumbWidth;
-    cnode.height = d.thumbHeight;
-
-    if (cnode.runtimeStyle && !window.opera) {
-      cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
-    } else {
-      cnode.src = d.src;
-    };
-
-    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((tWidth-d.thumbWidth)/2) + "px";
-    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((tHeight-d.thumbHeight)/2) + "px";
-
-    if (this.getShowComment())
-    {
-      cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
-      cnode.firstChild.nodeValue = d.comment;
-    };
-
-    frame.appendChild(cframe);
+  if (!this._protoCell) {
+    this.createProtoCell();
   };
 
-  return frame;
+  this._frame = document.createElement("div");
+  this._frame.className = "galleryFrame clearfix";
+
+  for (var i=0, a=this._list, l=a.length; i<l; i++) {
+    this._frame.appendChild(this.createCell(a[i]));
+  };
+
+  return this._frame;
 };
 
-proto.createProtoCell = function(tWidth, tHeight, fHeight)
+proto.createCell = function(d)
 {
-  var frame = document.createElement("div");
+  var cframe = this._protoCell.cloneNode(true);
+
+  cframe.id = d.id;
+  cframe.pos = i;
+
+  if (this.getShowTitle())
+  {
+    cnode = cframe.childNodes[0];
+    cnode.firstChild.nodeValue = d.title;
+  };
+
+  var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
+
+  cnode.width = d.thumbWidth;
+  cnode.height = d.thumbHeight;
+
+  if (cnode.runtimeStyle && !window.opera) {
+    cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
+  } else {
+    cnode.src = d.src;
+  };
+
+  cnode.style.marginLeft = cnode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
+  cnode.style.marginTop = cnode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
+
+  if (this.getShowComment())
+  {
+    cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
+    cnode.firstChild.nodeValue = d.comment;
+  };
+  
+  return cframe;
+};
+
+proto.createProtoCell = function()
+{
+  var frame = this._protoCell = document.createElement("div");
   frame.className = "galleryCell";
   frame.unselectable = "on";
-  frame.style.width = tWidth + "px";
-  frame.style.height = (tHeight + fHeight) + "px";
+  frame.style.width = this.getThumbMaxWidth() + "px";
+  frame.style.height = (this.getThumbMaxHeight() + this.getDecorHeight()) + "px";
 
   if (this.getShowTitle())
   {
@@ -409,6 +433,4 @@ proto.createProtoCell = function(tWidth, tHeight, fHeight)
 
     frame.appendChild(comment);
   };
-
-  return frame;
 };
