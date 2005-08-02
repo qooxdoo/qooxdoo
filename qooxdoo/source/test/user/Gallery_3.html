@@ -20,6 +20,7 @@
 
   <div id="testDescription">
     <p>Test file for QxGallery, now with QxToolTips assigned.</p>
+    <button onclick="updateAdd()">Update Add</button>
   </div>
 
   <style type="text/css">
@@ -40,6 +41,8 @@
   </style>
 
   <script type="text/javascript">
+    var updateAdd;
+  
     window.application.main = function()
     {
       var galleryList = [];
@@ -86,6 +89,34 @@
 
         this.setToolTip(toolTip);
       });
+      
+      
+      
+      
+      
+      updateAdd = function()
+      {
+        var galleryListUpdated = gallery.getList().copy();
+        
+        for (var i=galleryListUpdated.length, j=i+10; i<j; i++)
+        {
+          galleryListUpdated.push({
+            display : "bmzN9ci5",
+            width : 350,
+            height : 350,
+            thumbWidth : 64,
+            thumbHeight : 64,
+            title : "gohome" + i + ".png",
+            timestamp : Math.random().toString(),
+            comment : "Cool Comment: " + i,
+            id : "7686191121780974-10682-" + i,
+            src : "../../images/icons/crystalsvg/64/colors.png"
+          });
+        };      
+        
+        gallery.addFromUpdatedList(galleryListUpdated);
+      };
+      
     };
   </script>
 </body>
