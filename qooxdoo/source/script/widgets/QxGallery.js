@@ -191,9 +191,7 @@ proto._onmouseup = function(e)
 
 proto._onmousemove = function(e)
 {
-  var vToolTip = this.getToolTip();
-
-  if (vToolTip && typeof QxToolTipManager != "function") {
+  if (typeof QxToolTipManager != "function") {
     return;
   };
 
@@ -212,13 +210,19 @@ proto._onmousemove = function(e)
 
   if (vItem)
   {
-    if (this.hasEventListeners("toolTipTargetChange")) {
-      this.dispatchEvent(new QxDataEvent("toolTipTargetChange", vItem));
+    if (this.hasEventListeners("beforeToolTipAppear")) {
+      this.dispatchEvent(new QxDataEvent("beforeToolTipAppear", vItem));
+    };
+
+    if (!this.getToolTip()) {
+      return;
     };
 
     var vEventObject = new QxMouseEvent("mouseout", e, false, vItem);
     (new QxToolTipManager).handleMouseOver(vEventObject);
     vEventObject.dispose();
+
+    this.setToolTip(null);
   };
 
   this._lastItem = vItem;
