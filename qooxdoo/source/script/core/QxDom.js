@@ -844,6 +844,10 @@ if ((new QxClient).isMshtml())
 {
   QxDOM.getWindowInnerWidth = function(w) 
   {
+    if (!w) {
+      w = window;
+    };
+    
     if (w.document.documentElement && w.document.documentElement.clientWidth)
     {
       return w.document.documentElement.clientWidth;
@@ -858,6 +862,10 @@ if ((new QxClient).isMshtml())
   
   QxDOM.getWindowInnerHeight = function(w) 
   {
+    if (!w) {
+      w = window;
+    };
+    
     if (w.document.documentElement && w.document.documentElement.clientHeight)
     {
       return w.document.documentElement.clientHeight;
@@ -872,6 +880,10 @@ if ((new QxClient).isMshtml())
   
   QxDOM.getClientScrollLeft = function(w) 
   {
+    if (!w) {
+      w = window;
+    };
+    
     if (w.document.documentElement && w.document.documentElement.scrollLeft)
     {
       return w.document.documentElement.scrollLeft;
@@ -886,6 +898,10 @@ if ((new QxClient).isMshtml())
   
   QxDOM.getClientScrollTop = function(w) 
   {
+    if (!w) {
+      w = window;
+    };
+    
     if (w.document.documentElement && w.document.documentElement.scrollTop)
     {
       return w.document.documentElement.scrollTop;
@@ -901,19 +917,19 @@ if ((new QxClient).isMshtml())
 else
 {
   QxDOM.getWindowInnerWidth = function(w) {
-    return w.innerWidth;
+    return (w || window).innerWidth;
   };
 
   QxDOM.getWindowInnerHeight = function(w) {
-    return w.innerHeight;
+    return (w || window).innerHeight;
   };
   
   QxDOM.getClientScrollLeft = function(w) {
-    return w.document.body.scrollLeft;
+    return (w || window).document.body.scrollLeft;
   };
 
   QxDOM.getClientScrollTop = function(w) {
-    return w.document.body.scrollTop;
+    return (w || window).document.body.scrollTop;
   };
 };
 
