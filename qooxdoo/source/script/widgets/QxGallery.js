@@ -100,8 +100,32 @@ proto.removeAll = function()
   this.getElement().innerHTML = "";
 };
 
+proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
+  this.updateImageSrcById(vId, vSrc);
+  this.updateImageDimensionsById(vId, vWidth, vHeight);
+};
+
+proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
+  this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
+};
+
+proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
+  // TBD: compare dimensions with max. thumb size and scale proportionally if necessary 
+  if (vPos == -1) {
+    throw new Error("No valid Position: " + vPos);
+  };
+
+  var cNode = this.getNodeByPosition(vPos).getElementsByTagName("IMG")[0];
+
+  cNode.width = vWidth;
+  cNode.height = vHeight;
+  
+  cNode.style.marginLeft = cNode.style.marginRight = Math.floor((this.getThumbMaxWidth()-vWidth)/2) + "px";
+  cNode.style.marginTop = cNode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-vHeight)/2) + "px";
+};
+
 proto.updateImageSrcById = function(vId, vSrc) {
-  return this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
+  this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
 };
 
 proto.updateImageSrcByPosition = function(vPos, vSrc)
@@ -171,14 +195,14 @@ proto.addFromPartialList = function(vPartialList)
   this.concat(vPartialList);
   
   for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
-    this._frame.appendChild(this.createCell(a[i]));
+    this._frame.appendChild(this.createCell(a[i], i));
   };
 };
 
 proto.addFromUpdatedList = function(vNewList)
 {
   for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
-    this._frame.appendChild(this.createCell(a[i]));
+    this._frame.appendChild(this.createCell(a[i], i));
   };  
   
   this._list = vNewList;
@@ -358,13 +382,13 @@ proto.createView = function()
   this._frame.className = "galleryFrame clearfix";
 
   for (var i=0, a=this._list, l=a.length; i<l; i++) {
-    this._frame.appendChild(this.createCell(a[i]));
+    this._frame.appendChild(this.createCell(a[i], i));
   };
 
   return this._frame;
 };
 
-proto.createCell = function(d)
+proto.createCell = function(d, i)
 {
   var cframe = this._protoCell.cloneNode(true);
 
