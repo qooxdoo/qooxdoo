@@ -106,7 +106,7 @@ proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
 };
 
 proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
-  this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
+  this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);  
 };
 
 proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
@@ -122,6 +122,9 @@ proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
   
   cNode.style.marginLeft = cNode.style.marginRight = Math.floor((this.getThumbMaxWidth()-vWidth)/2) + "px";
   cNode.style.marginTop = cNode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-vHeight)/2) + "px";
+  
+  this._list[vPos].thumbWidth = vWidth;
+  this._list[vPos].thumbHeight = vHeight;
 };
 
 proto.updateImageSrcById = function(vId, vSrc) {
@@ -137,7 +140,7 @@ proto.updateImageSrcByPosition = function(vPos, vSrc)
   var vNode = this.getNodeByPosition(vPos);
 
   vNode.getElementsByTagName("IMG")[0].src = vSrc;
-  this._list.src = vSrc;
+  this._list[vPos].src = vSrc;
 };
 
 proto.deleteById = function(vId) {
@@ -145,7 +148,7 @@ proto.deleteById = function(vId) {
 };
 
 proto.deleteByPosition = function(vPos)
-{
+{  
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
   };
@@ -156,7 +159,7 @@ proto.deleteByPosition = function(vPos)
     vNode.parentNode.removeChild(vNode);
   };
 
-  this._list.removeAt(vPos);
+  this._list.splice(vPos, 1);
 };
 
 proto.getPositionById = function(vId)
@@ -166,7 +169,7 @@ proto.getPositionById = function(vId)
       return i;
     };
   };
-
+  
   return -1;
 };
 
