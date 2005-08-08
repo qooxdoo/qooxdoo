@@ -149,6 +149,8 @@ proto.deleteById = function(vId) {
 
 proto.deleteByPosition = function(vPos)
 {  
+  this._manager.deselectAll();
+  
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
   };
