@@ -115,13 +115,13 @@ proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
     throw new Error("No valid Position: " + vPos);
   };
 
-  var cNode = this.getNodeByPosition(vPos).getElementsByTagName("IMG")[0];
+  var cnode = this.getNodeByPosition(vPos).getElementsByTagName("IMG")[0];
 
-  cNode.width = vWidth;
-  cNode.height = vHeight;
+  cnode.width = vWidth;
+  cnode.height = vHeight;
   
-  cNode.style.marginLeft = cNode.style.marginRight = Math.floor((this.getThumbMaxWidth()-vWidth)/2) + "px";
-  cNode.style.marginTop = cNode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-vHeight)/2) + "px";
+  cnode.style.marginLeft = cnode.style.marginRight = Math.floor((this.getThumbMaxWidth()-vWidth)/2) + "px";
+  cnode.style.marginTop = cnode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-vHeight)/2) + "px";
   
   this._list[vPos].thumbWidth = vWidth;
   this._list[vPos].thumbHeight = vHeight;
@@ -143,7 +143,7 @@ proto.updateImageSrcByPosition = function(vPos, vSrc)
   this._list[vPos].src = vSrc;
 };
 
-proto.deleteById = function(vId) {
+proto.deleteById = function(vId) {  
   this.deleteByPosition(this.getPositionById(vId));
 };
 
@@ -160,7 +160,7 @@ proto.deleteByPosition = function(vPos)
   if (vNode) {
     vNode.parentNode.removeChild(vNode);
   };
-
+  
   this._list.splice(vPos, 1);
 };
 
@@ -376,9 +376,6 @@ proto.createView = function()
 {
   var s = (new Date).valueOf();
 
-  var tWidth = this.getThumbMaxWidth();
-  var tHeight = this.getThumbMaxHeight();
-
   if (!this._protoCell) {
     this.createProtoCell();
   };
@@ -408,8 +405,8 @@ proto.createCell = function(d, i)
 
   var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
 
-  cnode.width = d.thumbWidth;
-  cnode.height = d.thumbHeight;
+  cnode.width = d.thumbWidth + 2;
+  cnode.height = d.thumbHeight + 2;
 
   if (cnode.runtimeStyle && !window.opera) {
     cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
@@ -434,8 +431,8 @@ proto.createProtoCell = function()
   var frame = this._protoCell = document.createElement("div");
   frame.className = "galleryCell";
   frame.unselectable = "on";
-  frame.style.width = this.getThumbMaxWidth() + "px";
-  frame.style.height = (this.getThumbMaxHeight() + this.getDecorHeight()) + "px";
+  frame.style.width = (this.getThumbMaxWidth() + 2) + "px";
+  frame.style.height = (this.getThumbMaxHeight() + this.getDecorHeight() + 2) + "px";
 
   if (this.getShowTitle())
   {
