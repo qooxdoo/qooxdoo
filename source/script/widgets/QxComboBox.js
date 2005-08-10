@@ -375,8 +375,14 @@ proto._openPopup = function()
   };
     
   // force syncronisation of popup position and size
+  // check if there is enough room below the combobox
+  if (mh > (QxDOM.getWindowInnerHeight(window) - this.getComputedPageBoxBottom())) {
+    p.setTop(this.getComputedPageBoxTop() - ((lh > mh) ? mh : lh));
+  } else {
+    p.setTop(this.getComputedPageBoxBottom());
+  };
+  
   p.setLeft(this.getComputedPageBoxLeft() + 1);
-  p.setTop(this.getComputedPageBoxBottom());
   p.setWidth(this.getComputedBoxWidth() - 2);    
   
   // Handle editable 
