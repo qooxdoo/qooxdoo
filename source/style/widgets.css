@@ -346,7 +346,7 @@ html[QxFocused] {
 }
 
 .QxTree table{
-  vertical-align: top;
+  vertical-align: bottom;
   display: none;
 
   user-select: none;
@@ -365,16 +365,6 @@ html[QxFocused] {
 
   user-select: none;
   -moz-user-select: none;
-}
-
-
-/*
-  fix layout problem in mshtml if QxTree has no label
-  border force to to collapse margins
-*/
-* html .QxTree ul{
-  border-top: 1px solid #fff;
-  margin-top: -1px;
 }
 
 .QxTree li{
