@@ -100,7 +100,10 @@ if (QxXmlHttpLoader._activex)
 
 QxXmlHttpLoader.addProperty({ name : "xml" });
 
-proto.load = function(url)
+/*!
+  Load the xml document returned via http request to url.  If vhash is defined, send a post using key/value pairs in vhash as query variable names/values.
+*/
+proto.load = function(url,vhash)
 {
   try
   {
@@ -124,8 +127,33 @@ proto.load = function(url)
       req.addEventListener("load", this.__onreadystatefix, false);
     };
 
-    this.req.open("GET", url, true);
-    return QxXmlHttpLoader._activex ? this.req.send() : this.req.send(null);
+    // if vhash is defined, go with a POST
+    // otherwise use previous behavior (GET)
+    if ((typeof(vhash) == 'object')&&
+        (vhash != null)&&
+        (typeof(vhash.length) == 'number'))
+    {
+      var i = 0;
+      var reqstr = '';
+      for (var k in vhash)
+      {
+        var v = vhash[k];
+        if (i > 0) reqstr += '&';
+        reqstr += k + '=' + v;
+        i++;
+      }
+      this.req.open('POST', url, true);
+    
+      this.req.setRequestHeader("Method", "POST " + url + " HTTP/1.1");
+      this.req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+      return this.req.send(reqstr);
+    }
+    else
+    {
+      this.req.open("GET", url, true);
+      return QxXmlHttpLoader._activex ? this.req.send() : this.req.send(null);
+    }
   }
   catch(e)
   {
@@ -159,7 +187,12 @@ proto._onreadystatechange = function()
       //this.debug("[2/4] Connection to server established.");
       
       // Check HTTP State
-      if (this.req.status != 200 && this.req.status != 0)
+      //   * typeof checks added by FRM, 20050816 to silence ie6 *
+      //   *   complaint of "unspecified error"                  *
+      if ((typeof(this.req) == 'object')&&
+          (typeof(this.req.status) == 'number')&&
+          (this.req.status != 200)&&
+          (this.req.status != 0))
       {
         // opera 7.6 beta1 does not support this
         if (typeof this.req.abort != "undefined")
@@ -199,7 +232,12 @@ proto._onreadystatechange = function()
       //this.debug("[4/4] Downloading done.");
 
       // Check HTTP State
-      if (this.req.status != 200 && this.req.status != 0)
+      //   * typeof checks added by FRM, 20050816 to silence ie6 *
+      //   *   complaint of "unspecified error"                  *
+      if ((typeof(this.req) == 'object')&&
+          (typeof(this.req.status) == 'number')&&
+          (this.req.status != 200)&&
+          (this.req.status != 0))
       {
         // be nice to opera 7.6beta1
         if (this.req.abort) {
@@ -212,24 +250,34 @@ proto._onreadystatechange = function()
       // Typical behaviour on file:// on mshtml
       // Could we check this with something like: /^file\:/.test(path); ? 
       // No browser check here, because it doesn't seem to break other browsers
-      if (!this.req.responseXML.documentElement) 
+      //    * test for this.req.responseXML's objecthood added by *
+      //    * FRM, 20050816                                       *
+      if ((typeof(this.req.responseXML) == 'object')&&(this.req.responseXML != null))
       {
-        // Clear xml file declaration, this breaks non unicode files (like ones with Umlauts)
-        var s = String(this.req.responseText).replace(/<\?xml[^\?]*\?>/, "");
-        this.req.responseXML.loadXML(s);
-      };
-      
-      // Re-check if fixed...
-      if (!this.req.responseXML.documentElement) {
-        throw new Error("Missing Document Element!");
-      };
-        
-      if (this.req.responseXML.documentElement.tagName == "parseerror") {
-        throw new Error("XML-File is not well-formed!");
-      };
-        
-      // Dispatch complete event
-      this.dispatchEvent(new QxDataEvent("complete", this.req.responseXML), true);
+        if (!this.req.responseXML.documentElement) 
+        {
+          // Clear xml file declaration, this breaks non unicode files (like ones with Umlauts)
+          var s = String(this.req.responseText).replace(/<\?xml[^\?]*\?>/, "");
+          //alert('xml: ' + s);
+          this.req.responseXML.loadXML(s);
+        };
+        // Re-check if fixed...
+        if (!this.req.responseXML.documentElement) {
+          throw new Error("Missing Document Element!");
+        };
+          
+        if (this.req.responseXML.documentElement.tagName == "parseerror") {
+          throw new Error("XML-File is not well-formed!");
+        };
+          
+        // Dispatch complete event
+        this.dispatchEvent(new QxDataEvent("complete", this.req.responseXML), true);
+      }
+      else
+      {
+        throw new Error("Response was not a valid xml document");
+        //throw new Error("Response was not a valid xml document [" + this.req.responseText + "]");
+      }
   };
 };
 
