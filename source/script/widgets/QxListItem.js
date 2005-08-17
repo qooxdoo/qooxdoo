@@ -25,3 +25,11 @@ proto.matchesString = function(vText) {
 proto.matchesStringExact = function(vText) {
   return vText != "" && this.getText().toLowerCase() == String(vText).toLowerCase();
 };
+
+proto.matchesValue = function(vText) {
+  return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+};
+
+proto.matchesValueExact = function(vText) {
+  return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
+};

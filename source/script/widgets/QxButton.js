@@ -59,7 +59,7 @@ proto._onmouseup = function(e)
 
 proto._onkeydown = function(e)
 {
-  if (e.getKeyCode() == QxKeyEvent.keys.enter) {
+  if (e.getKeyCode() == QxKeyEvent.keys.enter || e.getKeyCode() == QxKeyEvent.keys.space) {
     this.execute();
   };  
 };
