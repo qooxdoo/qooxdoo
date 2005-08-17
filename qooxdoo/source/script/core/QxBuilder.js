@@ -293,16 +293,75 @@ proto._buildWidgetFromNode = function(parent, node) {
 		this._debugContext.pop();
 	};
 
-	if (typeof QxMenu != "undefined" && widget instanceof QxMenu) {
+  // QxMenu
+	if (typeof QxMenu != "undefined" && widget instanceof QxMenu) 
+	{
 		// add the widget to the document
 		window.application.getClientWindow().getDocument().add(widget);
 		// bind the widget to the menu
 		parent.setMenu(widget);
 	}
-	else if (layoutHint && typeof QxLayout != "undefined" && parent instanceof QxLayout) {
-			parent.add(widget, layoutHint);
-	}
-	else {
+	
+	// QxLayout
+	else if (layoutHint && typeof QxLayout != "undefined" && parent instanceof QxLayout) 
+	{
+    parent.add(widget, layoutHint);
+	}	
+
+  // QxToolTip
+  else if (typeof QxToolTip  != "undefined" && widget instanceof QxToolTip ) 
+  {
+    if ( typeof parent.setToolTip  == "function" ) 
+    {
+      parent.setToolTip(widget);
+    }
+    else
+    {
+      throw this._newBuildError('cannot attach tooltip');
+    };
+  }
+  
+  // QxTabFrame: hierachy: QxTabFrame > QxTab > QxTabPage
+  else if (typeof QxTabFrame != "undefined" && parent instanceof QxTabFrame) 
+  {
+    if (widget instanceof QxTab) 
+    {
+      widget._tabFrame = parent;
+      parent.getBar().add(widget);
+    }
+    else 
+    {
+      throw this._newBuildError('invalid widget hierarchy for QxTabFrame');
+    };
+  }
+  else if (typeof QxTab != "undefined" && parent instanceof QxTab) 
+  {
+    if (widget instanceof QxTabPage) 
+    {
+      widget.setTab(parent);
+      parent._tabFrame.getPane().add(widget);
+    }
+    else
+    {
+      throw this._newBuildError('invalid widget hierarchy for QxTabFrame');
+    };
+  }
+  
+  // QxComboBox; hierachy: QxComboBox > QxListItem
+  else if (typeof QxComboBox != "undefined" && parent instanceof QxComboBox) 
+  {
+    if (widget instanceof QxListItem) 
+    {
+      parent.getList().add(widget);
+    } 
+    else
+    {
+      throw this._newBuildError('invalid widget hierarchy for QxComboBox');
+    };
+  }	
+	
+	else 
+	{
 		parent.add(widget);
 	};
 
