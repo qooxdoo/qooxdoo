@@ -251,6 +251,14 @@ proto.findStringExact = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "StringExact");
 };
 
+proto.findValue = function(vText, vStartIndex) {
+  return this._findItem(vText, vStartIndex || 0, "Value");
+};
+
+proto.findValueExact = function(vText, vStartIndex) {
+  return this._findItem(vText, vStartIndex || 0, "ValueExact");
+};
+
 
 
 
