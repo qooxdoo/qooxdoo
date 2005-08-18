@@ -26,16 +26,25 @@ function QxClientDocument(clientWindow)
   this._modalWidgets = [];
   this._modalNativeWindow = null;
 
-  this._blocker.addEventListener("mousedown", function(e) {
-    if (this._modalNativeWindow) {
-      this._modalNativeWindow.focus();
+  function blockerImpl(e) 
+  {
+    if (this._modalNativeWindow) 
+    {
+      try
+      {
+        this._modalNativeWindow._window.focus();  
+      }
+      catch(ex)
+      {
+        this.debug("Window seems to be closed already! => Releasing Blocker");
+        this.release(this._modalNativeWindow);
+      };
     };
-  }, this);
-  this._blocker.addEventListener("mouseup", function(e) {
-    if (this._modalNativeWindow) {
-      this._modalNativeWindow.focus();
-    };
-  }, this);
+  };
+
+  // Blocker Events
+  this._blocker.addEventListener("mousedown", blockerImpl, this);
+  this._blocker.addEventListener("mouseup", blockerImpl, this);
 };
 
 QxClientDocument.extend(QxWidget, "QxClientDocument");
