@@ -141,7 +141,7 @@ proto.load = function(url,vhash)
         if (i > 0) reqstr += '&';
         reqstr += k + '=' + v;
         i++;
-      }
+      };
       this.req.open('POST', url, true);
     
       this.req.setRequestHeader("Method", "POST " + url + " HTTP/1.1");
@@ -153,7 +153,7 @@ proto.load = function(url,vhash)
     {
       this.req.open("GET", url, true);
       return QxXmlHttpLoader._activex ? this.req.send() : this.req.send(null);
-    }
+    };
   }
   catch(e)
   {
@@ -277,7 +277,7 @@ proto._onreadystatechange = function()
       {
         throw new Error("Response was not a valid xml document");
         //throw new Error("Response was not a valid xml document [" + this.req.responseText + "]");
-      }
+      };
   };
 };
 
