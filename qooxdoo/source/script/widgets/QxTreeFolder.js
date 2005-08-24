@@ -25,6 +25,14 @@ QxTreeFolder.addProperty({ name : "iconOpenURI", type : String, defaultValue : "
 QxTreeFolder.addProperty({ name : "iconCloseURI", type : String, defaultValue : "icons/16/folder.png" });
 
 
+/*!
+  This controls if this folder is displayed as a node (with a minus/plus sign in front)
+  or not. The default implementation returns the value of <code>this.hasChildren()</code>.
+  Override this method to change this behaviour.
+*/
+proto.isTreeNode = function() {
+    return this.hasChildren();
+};
 
 
 /*
@@ -253,7 +261,7 @@ proto._renderImplNavigation = function()
 
   if (!vParentTree.useTreeLines())
   {
-    if (!this.hasChildren())
+    if (!this.isTreeNode())
     {
       newSrc = (new QxImageManager).getBlank();
     }
@@ -268,7 +276,7 @@ proto._renderImplNavigation = function()
   }
   else  if (this.isLastChild())
   {
-    if (!this.hasChildren())
+    if (!this.isTreeNode())
     {
       newSrc = this._navigationEndURI;
     }
@@ -283,7 +291,7 @@ proto._renderImplNavigation = function()
   }
   else
   {
-    if (!this.hasChildren())
+    if (!this.isTreeNode())
     {
       newSrc = this._navigationCrossURI;
     }
