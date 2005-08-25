@@ -378,11 +378,11 @@ if (!Function.prototype.apply)
 
 Function.prototype.extend = function(vFunction, vClassName)
 {
-  if (typeof vFunction != QxGlobal.TYPEOF_FUNCTION) {
+  if (typeof vFunction != "function") {
     throw new Error("Extend: Function/Constructor to extend from is not a function: " + vFunction);
   };
 
-  if (typeof vClassName != QxGlobal.TYPEOF_STRING) {
+  if (typeof vClassName != "string") {
     throw new Error("Extend: Missing or malformed className: " + vClassName);
   };
 
