@@ -119,6 +119,7 @@ proto._evalTarget = function()
     default:
       return QxMouseEvent.prototype._evalTarget.call(this);  
   };
+
 };
 
 proto._evalRelatedTarget = function()

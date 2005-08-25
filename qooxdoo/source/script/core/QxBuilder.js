@@ -227,8 +227,8 @@ proto._buildWidgetFromNode = function(parent, node) {
 		return;
 	};
 
-	var constructor = window[className];
-	if (!constructor) {
+	var classConstructor = window[className];
+	if (!classConstructor) {
 		throw this._newBuildError("constructor not found", {className:className});
 	};
 
