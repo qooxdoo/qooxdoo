@@ -376,20 +376,24 @@ if (!Function.prototype.apply)
    Object Extender
 ******************************************************************** */
 
-Function.prototype.extend = function(sFunction, tClassName)
+Function.prototype.extend = function(vFunction, vClassName)
 {
-  if (typeof sFunction != "function") {
-    throw new Error("Extend: Function/Constructor to extend from is not a function: " + sFunction);
+  if (typeof vFunction != QxGlobal.TYPEOF_FUNCTION) {
+    throw new Error("Extend: Function/Constructor to extend from is not a function: " + vFunction);
   };
 
-  if (typeof tClassName != "string") {
-    throw new Error("Extend: Missing or malformed className: " + tClassName);
+  if (typeof vClassName != QxGlobal.TYPEOF_STRING) {
+    throw new Error("Extend: Missing or malformed className: " + vClassName);
   };
 
-  proto = this.prototype = new sFunction;
+  // build helper function
+  // this omits the initial constructor call while inherit properties
+  var f = new Function();
+  f.prototype = vFunction.prototype;
+  proto = this.prototype = new f;
 
-  proto.superclass = sFunction;
-  proto.classname = tClassName;
+  proto.superclass = vFunction;
+  proto.classname = vClassName;
   proto.constructor = this;
 
   return proto;
