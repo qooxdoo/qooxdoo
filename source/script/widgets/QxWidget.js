@@ -10,7 +10,7 @@ function QxWidget()
 
   // Allows the user to setup styles and attributes without a
   // need to have the target element created already.
-  this._htmlProperties = copyCreateHash(this._htmlProperties);
+  this._htmlProperties = {};
   this._htmlProperties.id = "QxWidget-" + (++QxWidget._count);
   this._htmlProperties.className = this.classname;
 
@@ -23,8 +23,8 @@ function QxWidget()
     this._htmlProperties.unselectable = "on";
   };
 
-  this._htmlAttributes = copyCreateHash(this._htmlAttributes);
-  this._styleProperties = copyCreateHash(this._styleProperties);
+  this._htmlAttributes = {};
+  this._styleProperties = {};
 
   // This lists manage the usage of dimension
   // properties for each direction
@@ -4243,7 +4243,7 @@ proto._modifyFocused = function(propValue, propOldValue, propName, uniqModIds)
   if (!this.isCreated()) {
     return true;
   };
-
+  
   if (propValue)
   {
     this.getTopLevelWidget().getFocusManager().setFocusedWidget(this, uniqModIds);
@@ -4254,7 +4254,7 @@ proto._modifyFocused = function(propValue, propOldValue, propName, uniqModIds)
     this.getTopLevelWidget().getFocusManager().setFocusedWidget(null, uniqModIds);
     this._visualizeBlur();
   };
-
+  
   return true;
 };
 
