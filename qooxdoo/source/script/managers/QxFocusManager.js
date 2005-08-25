@@ -1,7 +1,7 @@
 function QxFocusManager(vClientWindow)
 {
   // don't use QxManager things
-  QxObject.call(this);
+  QxTarget.call(this);
 
   if (isValid(vClientWindow)) {
     this._attachedClientWindow = vClientWindow;
