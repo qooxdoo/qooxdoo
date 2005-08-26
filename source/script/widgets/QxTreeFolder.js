@@ -1,11 +1,11 @@
 function QxTreeFolder(vLabel, vIconOpenURI, vIconCloseURI)
 {
   if (isValid(vIconOpenURI)) {
-    this.setIconOpenURI(vIconOpenURI);
+    this.forceIconOpenURI(vIconOpenURI);
   };
 
   if (isValid(vIconCloseURI)) {
-    this.setIconCloseURI(vIconCloseURI);
+    this.forceIconCloseURI(vIconCloseURI);
   };
 
   QxTreeElement.call(this, vLabel, this._closeIcon);
