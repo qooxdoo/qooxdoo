@@ -14,15 +14,16 @@ use XML::Simple;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 
-our($opt_f, $opt_p, $opt_b, $opt_e, %packages, %dependencies, %excludedirs);
+our($opt_f, $opt_p, $opt_c, $opt_b, $opt_e, %packages, %dependencies, %excludedirs);
 
-getopts('f:p:b:e:d:');
+getopts('f:p:b:e:d:c');
 
 # process command line arguments
 my $outputFile = $opt_f || 'qooxdoo.js';
 my $package = $opt_p;
 my $basedir = $opt_b || '.';
 my $fileSuffix = $opt_e || '.js';
+my $compress = $opt_c || 0;
 
 if ( !$package ) {
     print "The -p option is mandatory. Run '$0 --help' if you need more information\n";
@@ -76,94 +77,97 @@ find(\&searchFiles, ($basedir));
 appendFiles();
 
 
-# remove unnecessary stuff like comments and whitespace
-print "Now compressing ".@neededFiles ." files \n";
+if ( $compress ) {
 
-$text =~ s/\/\*!?(?:.|[\r\n])*?\*\///gm;  # multi-line comments, see http://ostermiller.org/findcomment.html
-$text =~ s|//.*\n||g;                   # single-line comments see http://perlmonks.thepen.com/117150.html
-
-# cleanup '{', '}', '(', ')' ';' 
-$text =~ s|(\s+\{)|{|gm;
-$text =~ s|(\s+\})|}|gm;
-$text =~ s|(\s+\()|(|gm;
-$text =~ s|(\s+\))|)|gm;
-$text =~ s|(\{\s+)|{|gm;
-$text =~ s|(\}\s+)|}|gm;
-$text =~ s|(\(\s+)|(|gm;
-$text =~ s|(\)\s+)|)|gm;
-$text =~ s|(\;\s+)|;|gm;
-$text =~ s|(\;\s+[^a-zA-Z])|;|gm;
-
-# shrink around '=='
-$text =~ s|\s+==|==|gm;
-$text =~ s|==\s+|==|gm;
-
-# shrink around '!='
-$text =~ s|"\s+\!=|!=|gm;
-$text =~ s|\!=\s+|!=|gm;
-
-# shrink around '='
-$text =~ s|\s+=|=|gm;
-$text =~ s|=\s+|=|gm; 
-
-# shrink around ','
-$text =~ s|\s+,|,|gm;
-$text =~ s|,\s+|,|gm;
-
-  # shrink around ':'
-$text =~ s|\s+:|:|gm;
-$text =~ s|:\s+|:|gm;
-
-# shrink around '?'
-$text =~ s|\s+\?|?|gm;
-$text =~ s|\?\s+|?|gm;
-
-# shrink around '+'
-$text =~ s|\s+\+|+|gm;
-$text =~ s|\+\s+|+|gm;
-
-  # shrink around '-'
-$text =~ s|\s+\-|-|gm;
-$text =~ s|\-\s+|-|gm;
-
-# shrink around '*'
-$text =~ s|\s+\*|*|gm;
-$text =~ s|\*\s+|*|gm;
-
-# shrink around '/'
-$text =~ s|\s+\/|/|gm;
-$text =~ s|\/\s+|/|gm;
-
-# shrink around '<'
-$text =~ s|\s+\<|<|gm;
-$text =~ s|\<\s+|<|gm;
-
-# shrink around '>'
-$text =~ s|\s+\>|>|gm;
-$text =~ s|\>\s+|>|gm;
-
-# shrink around ']'
-$text =~ s|\s+\]|]|gm;
-$text =~ s|\]\s+|]|gm;
-
-# shrink around '['
-$text =~ s|\s+\[|[|gm;
-$text =~ s|\[\s+|[|gm;
-
-# shrink around '||'
-$text =~ s|\s+\|\|||||gm;
-$text =~ s|\|\|\s+||||gm;
-
-# shrink around '&&'
-$text =~ s|\s+\&\&|&&|gm;
-$text =~ s|\&\&\s+|&&|gm;
-
-# strip extra white space
-$text =~ s|\s{2,}| |gm; 
-
-$text =~ s/\s*\n$//gm;                  # remove empty lines
-$text =~ s/^\s*//gm;                    # remove whitespace from beginning of line
-$text =~ s/\n/ /gm;                      # put all on one line
+    # remove unnecessary stuff like comments and whitespace
+    print "Now compressing ".@neededFiles ." files \n";
+    
+    $text =~ s/\/\*!?(?:.|[\r\n])*?\*\///gm;  # multi-line comments, see http://ostermiller.org/findcomment.html
+    $text =~ s|//.*\n||g;                   # single-line comments see http://perlmonks.thepen.com/117150.html
+    
+    # cleanup '{', '}', '(', ')' ';' 
+    $text =~ s|(\s+\{)|{|gm;
+    $text =~ s|(\s+\})|}|gm;
+    $text =~ s|(\s+\()|(|gm;
+    $text =~ s|(\s+\))|)|gm;
+    $text =~ s|(\{\s+)|{|gm;
+    $text =~ s|(\}\s+)|}|gm;
+    $text =~ s|(\(\s+)|(|gm;
+    $text =~ s|(\)\s+)|)|gm;
+    $text =~ s|(\;\s+)|;|gm;
+    $text =~ s|(\;\s+[^a-zA-Z])|;|gm;
+    
+    # shrink around '=='
+    $text =~ s|\s+==|==|gm;
+    $text =~ s|==\s+|==|gm;
+    
+    # shrink around '!='
+    $text =~ s|"\s+\!=|!=|gm;
+    $text =~ s|\!=\s+|!=|gm;
+    
+    # shrink around '='
+    $text =~ s|\s+=|=|gm;
+    $text =~ s|=\s+|=|gm; 
+    
+    # shrink around ','
+    $text =~ s|\s+,|,|gm;
+    $text =~ s|,\s+|,|gm;
+    
+      # shrink around ':'
+    $text =~ s|\s+:|:|gm;
+    $text =~ s|:\s+|:|gm;
+    
+    # shrink around '?'
+    $text =~ s|\s+\?|?|gm;
+    $text =~ s|\?\s+|?|gm;
+    
+    # shrink around '+'
+    $text =~ s|\s+\+|+|gm;
+    $text =~ s|\+\s+|+|gm;
+    
+      # shrink around '-'
+    $text =~ s|\s+\-|-|gm;
+    $text =~ s|\-\s+|-|gm;
+    
+    # shrink around '*'
+    $text =~ s|\s+\*|*|gm;
+    $text =~ s|\*\s+|*|gm;
+    
+    # shrink around '/'
+    $text =~ s|\s+\/|/|gm;
+    $text =~ s|\/\s+|/|gm;
+    
+    # shrink around '<'
+    $text =~ s|\s+\<|<|gm;
+    $text =~ s|\<\s+|<|gm;
+    
+    # shrink around '>'
+    $text =~ s|\s+\>|>|gm;
+    $text =~ s|\>\s+|>|gm;
+    
+    # shrink around ']'
+    $text =~ s|\s+\]|]|gm;
+    $text =~ s|\]\s+|]|gm;
+    
+    # shrink around '['
+    $text =~ s|\s+\[|[|gm;
+    $text =~ s|\[\s+|[|gm;
+    
+    # shrink around '||'
+    $text =~ s|\s+\|\|||||gm;
+    $text =~ s|\|\|\s+||||gm;
+    
+    # shrink around '&&'
+    $text =~ s|\s+\&\&|&&|gm;
+    $text =~ s|\&\&\s+|&&|gm;
+    
+    # strip extra white space
+    $text =~ s|\s{2,}| |gm; 
+    
+    $text =~ s/\s*\n$//gm;                  # remove empty lines
+    $text =~ s/^\s*//gm;                    # remove whitespace from beginning of line
+    $text =~ s/\n/ /gm;                      # put all on one line
+}
 
 
 # write modified $text to file
@@ -253,7 +257,8 @@ print  $out "\nAvailable parameters:\n".
 "  -e <file_ending>   suffix of the input files (default is '.js')\n".
 "  -b <base_dir>      base directory from which searching for dependencies should\n".
 "                     be started (defaults to current directory)\n".
-"  -p <package>   comma-separated list of package names that should be packed into the output file.\n\n";       
+"  -p <package>   comma-separated list of package names that should be packed into the output file.\n".      
+"  -c if specified the output is 'compressed' (comments stripped, everything on one line etc.)\n\n";       
 } 
 
 __DATA__
