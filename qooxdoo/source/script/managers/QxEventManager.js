@@ -3,7 +3,7 @@
 */
 function QxEventManager(vClientWindow)
 {
-  QxObject.call(this);
+  QxTarget.call(this);
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
