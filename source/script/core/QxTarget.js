@@ -61,7 +61,14 @@ proto.addEventListener = function(eType, eFunc, eObject)
   Check if there are one or more listeners for an event type
 */
 proto.hasEventListeners = function(eType) {
-  return typeof this._listeners[eType] != "undefined";
+  try
+  {
+    return typeof this._listeners[eType] != "undefined";
+  } 
+  catch(ex)
+  {
+    throw new Error("No listeners object available (" + this.classname + "): " + ex);
+  };
 };
 
 /*!
