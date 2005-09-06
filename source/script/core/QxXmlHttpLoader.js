@@ -127,25 +127,47 @@ proto.load = function(url,vhash)
       req.addEventListener("load", this.__onreadystatefix, false);
     };
 
+    var reqstr;
+    var content_type;
+    switch (typeof vhash)
+    {
+    	case "string":
+      		 reqstr = vhash;
+       		content_type="text/plain";
+		break;
+	case "object":
+    		if (vhash != null)
+		{
+			if (typeof vhash.createElement == "function")
+			{ //FIXME: HOW to recognize XML Document
+				reqstr = vhash;
+				content_type="text/xml";
+			}
+			else
+			{
+				var i = 0;
+				reqstr = "";
+				for (var k in vhash)
+				{
+					var v = vhash[k];
+					if (i > 0) reqstr += "&";
+					reqstr += k + "=" + v;
+					i++;
+				};
+				content_type="application/x-www-form-urlencoded";
+			};
+		};
+		break;
+	default: break;
+    };
+             
     // if vhash is defined, go with a POST
     // otherwise use previous behavior (GET)
-    if (typeof vhash == "object" && vhash != null && typeof vhash.length == "number")
+    if (typeof reqstr != "undefined")
     {
-      var i = 0;
-      var reqstr = "";
-      for (var k in vhash)
-      {
-        var v = vhash[k];
-        if (i > 0) reqstr += "&";
-        reqstr += k + "=" + v;
-        i++;
-      };
-
       this.req.open("POST", url, true);
-
       this.req.setRequestHeader("Method", "POST " + url + " HTTP/1.1");
-      this.req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
+      this.req.setRequestHeader("Content-Type", content_type);
       return this.req.send(reqstr);
     }
     else

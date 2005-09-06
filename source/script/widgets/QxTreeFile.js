@@ -1,7 +1,7 @@
 function QxTreeFile(vLabel, vIconURI)
 {
   if (isValid(vIconURI)) {
-    this.setIconURI(vIconURI);
+    this.forceIconURI(vIconURI);
   };
   
   QxTreeElement.call(this, vLabel);
