@@ -16,8 +16,10 @@ echo ">>> Patching files..."
 for file in `find source/test/ -name "*.html"`; 
 do
   dfile=`echo $file | sed s:source:public:g`
+  name=`basename $file | cut -d"." -f1 | sed s:"_":" ":g`
+
   mkdir -p `dirname $dfile`
-  cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g > $dfile
+  cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g | sed s/"qooxdoo demo release"/"qooxdoo demo release: ${name}"/g > $dfile
 done
 
 echo ">>> Done"
