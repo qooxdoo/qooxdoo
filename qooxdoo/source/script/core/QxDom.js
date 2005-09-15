@@ -835,9 +835,18 @@ else
 };
 
 
-
-
-
+if ((new QxClient).isMshtml())
+{
+  QxDOM.stopEvent = function(e) {
+    e.cancelBubble = true;
+    e.returnValue = false;
+  };
+} else {
+  QxDOM.stopEvent = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+};
 
 
 if ((new QxClient).isMshtml())
