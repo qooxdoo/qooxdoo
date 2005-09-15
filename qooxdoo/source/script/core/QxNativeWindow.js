@@ -1,4 +1,4 @@
-function QxNativeWindow(vCaption, vSource)
+function QxNativeWindow(vCaption, vSource, vName)
 {
   QxTarget.call(this);
 
@@ -14,6 +14,10 @@ function QxNativeWindow(vCaption, vSource)
   
   if (isValidString(vCaption)) {
     this.setCaption(vCaption);
+  };
+
+  if (isValidString(vName)) {
+    this.setName(vName);
   };
 };
 
@@ -53,6 +57,11 @@ QxNativeWindow.addProperty({ name : "caption", type : String });
   The source url
 */
 QxNativeWindow.addProperty({ name : "source", type : String });
+
+/*!
+  The window name
+*/
+QxNativeWindow.addProperty({ name : "name", type : String });
 
 /*!
   The text of the statusbar
@@ -217,6 +226,46 @@ proto._modifySource = function(propValue, propOldValue, propName, uniqModIds) {
 
 /*
 ------------------------------------------------------------------------------------
+  NAME
+------------------------------------------------------------------------------------
+*/
+
+proto.getName = function()
+{
+  if (this._window)
+  {
+    if ( this._window.name == this._valueName )
+    {
+      return this._window.name;
+    }
+    else
+    {
+      throw new Error("window name and name property are not identical");
+    };
+  }
+  else
+  {
+    return this._valueName;
+  };
+};
+
+
+proto._modifyName = function(propValue, propOldValue, propName, uniqModIds)
+{
+
+  if (this._window) 
+  {
+    this._window.name = propValue;
+  };
+
+  return true;
+};
+
+
+
+
+/*
+------------------------------------------------------------------------------------
   UTILITY
 ------------------------------------------------------------------------------------
 */
@@ -236,6 +285,10 @@ proto.close = function()
   if (this._window) {
     this._window.close();
   };
+};
+
+proto.getReady = function() {
+  return this._readyState == 5;
 };
 
 proto.open = function()
@@ -328,7 +381,11 @@ proto.open = function()
   -----------------------------------------------------------------------------
   */
   
-  this._window = window.open("about:blank", "w" + this.toHash(), conf);
+  if ( isInvalidString(this.getName()) ) {
+    this.setName("w" + this.toHash());
+  };
+
+  this._window = window.open("about:blank", this.getName(), conf);
   
   if (!this._window) 
   {
@@ -338,8 +395,6 @@ proto.open = function()
     if (this.getModal()) {
       window.application.getClientWindow().getClientDocument().release(this);
     };
-    
-    throw new Error("popupblocker");    
   };
   
   this._timer.restart();
@@ -424,32 +479,32 @@ proto._ontimer = function(e)
   try
   {
     if (isValidNumber(this._readyState) && this._isOpened && (!this._window || (this._window && this._window.closed != false))) 
+  {
+    if (this.getModal()) {
+      window.application.getClientWindow().getClientDocument().release(this);
+    };    
+    
+    this._timer.stop();
+    
+    if (this._instance) 
     {
-      if (this.getModal()) {
-        window.application.getClientWindow().getClientDocument().release(this);
-      };    
-      
-      this._timer.stop();
-      
-      if (this._instance) 
-      {
-        this._instance.dispose();
-        this._instance = null;
-      };
-      
-      this._isOpened = false;
-      this._isLoaded = false;
-      this._readyState = null;    
-      return;
+      this._instance.dispose();
+      this._instance = null;
     };
     
-    if (!this._window || this._timerRun) {
-      return;
-    };
+    this._isOpened = false;
+    this._isLoaded = false;
+    this._readyState = null;    
+    return;
+  };
   
-    if (this._window) {
-      this._isOpened = true;
-    };
+  if (!this._window || this._timerRun) {
+    return;
+  };
+
+  if (this._window) {
+    this._isOpened = true;
+  };
   }
   catch(ex)
   {
@@ -461,190 +516,190 @@ proto._ontimer = function(e)
   
   try
   {
-    switch(this._readyState)
-    {
-      case 0:
-        this._isLoaded = false;
-      
-        var d = this._window.document;
-        if (d) 
-        {
-          try {
-            this._window._QxNativeWindow = this;
-          } catch(ex) {};  
+  switch(this._readyState)
+  {
+    case 0:
+      this._isLoaded = false;
     
-          if (isValidString(this.getSource()))
-          {
-            try
-            {
-              // in mshtml it seems not to work, even not for onreadystatechange
-              // (workaround see case 5 below)
-              QxDOM.addEventListener(this._window, "load", this.__onload);
-            }
-            catch(ex) {
-            };
-  
-            this._window.location.replace(this.getSource());
-            this._timer.setInterval(500);
-            this._readyState = 5;  
-          }
-          else
-          {
-            this._readyState = 1;
-          };
-          
-          if (!this.getResizeable() && !(new QxClient).isMshtml())
-          {
-            var w = this.getWidth();
-            var h = this.getHeight();
-            var win = this._window;
-            
-            this._window.addEventListener("resize", function(e) { win.resizeTo(w, h); }, false);
-          };
-        };
-        
-        break;
-  
-      case 1:
-        // Find stylesheet
-        var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
-  
-        for (var i=0, l=ls.length; i<l; i++)
-          {
-            if (ls[i].getAttribute("href").indexOf("layouts/") != -1) 
-              {
-                var s = ls[i].getAttribute("href");
-                break;
-              };
-          };
-        
-        // Building new document
-        var d = this._window.document;
-  
-        d.open("text/html", true);
-        
-        d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
-        
-        // Some magick for our optimizer
-        d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
-        d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
-        
-        d.write('<head>');
-        d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
-        d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
-        d.write('<meta http-equiv="ImageToolBar" content="no" />');
-        d.write('<meta http-equiv="Pragma" content="no-cache" />');
-        d.write('<meta http-equiv="Expires" content="-1" />');
-        d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
-        d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
-        
-        if (this.getShowCaption()) {
-          d.write('<title>' + this.getCaption() + '</title>');
-        };
-        
-        if (isValidString(s)) {
-          d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
-        };
-         
-        d.write('</head><body></body></html>');
-        
-        d.close();
-          
-        this._readyState++;
-        
-        break;      
-        
-      case 2:
-        var d = this._window.document;
-        if (d && d.body) 
-        {
-          this._instance = new QxClientWindow(this._window);
-          this._pane = this._instance.getClientDocument();
-        
-          this._readyState++;
-        };
-        
-        break;
-        
-      case 3:
-        try{
-          if (this.hasEventListeners("ready")) {
-            this.dispatchEvent(new QxEvent("ready"));
-          };    
-        }
-        catch(ex)
-        {
-          this.debug("Error in ready implementation: " + ex);
-          this._timer.stop();
-        };
-        
-        this._readyState++;
-        
-        break;
-        
-      case 4:
-        this.focus();
-        this._readyState++;
-        
-        this._onload();
-        
-        this._timer.setInterval(500);
-        this._timer.restart();      
-        break;
-        
-      case 5:
-        // workaround for mshtml (see case 0 below)
+      var d = this._window.document;
+      if (d) 
+      {
         try {
-          if (this._window.document.readyState == "complete") {
-            this._onload();
+          this._window._QxNativeWindow = this;
+        } catch(ex) {};  
+  
+        if (isValidString(this.getSource()))
+        {
+          try
+          {
+            // in mshtml it seems not to work, even not for onreadystatechange
+            // (workaround see case 5 below)
+            QxDOM.addEventListener(this._window, "load", this.__onload);
+          }
+          catch(ex) {
           };
-        } catch(ex) {};
-        
-        if (!this.getMoveable()) {
-          try{
-          this._window.moveTo(this.getLeft(), this.getTop());
-          } catch(ex) {};
+
+          this._window.location.replace(this.getSource());
+          this._timer.setInterval(500);
+          this._readyState = 5;  
+        }
+        else
+        {
+          this._readyState = 1;
         };
         
-        if (!this.getResizeable() && (this.getWidth() == "auto" || this.getHeight() == "auto")) 
+        if (!this.getResizeable() && !(new QxClient).isMshtml())
         {
-            var w, h;
-            
-            if (this.getWidth() == "auto") {
-              w = this._instance.getClientDocument().getPreferredWidth();
-            };
+          var w = this.getWidth();
+          var h = this.getHeight();
+          var win = this._window;
           
-            if (this.getHeight() == "auto") {
-              h = this._instance.getClientDocument().getPreferredHeight();
-            };          
-  
-            if (isValidNumber(w) || isValidNumber(h)) 
+          this._window.addEventListener("resize", function(e) { win.resizeTo(w, h); }, false);
+        };
+      };
+      
+      break;
+
+    case 1:
+      // Find stylesheet
+      var ls = document.getElementsByTagName("head")[0].getElementsByTagName("link");
+
+      for (var i=0, l=ls.length; i<l; i++)
+        {
+          if (ls[i].getAttribute("href").indexOf("layouts/") != -1) 
             {
-              if ((new QxClient).isMshtml())
-              {
-              try {
-                this._window.resizeTo(isValidNumber(w) ? w : this.getWidth(), isValidNumber(h) ? h + this._chromeCaptionSize : this.getHeight());  
-              } catch(ex) {};
-              }
-              else
-              {
-                if (isValidNumber(w)) {
-                  this._window.innerWidth = w;
-                };
-                
-                if (isValidNumber(h)) {
-                  // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
-                  // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
-                  if( this._window.innerHeight != 150 && h != 150) {
-                    this._window.innerHeight = h;
-                  };
+              var s = ls[i].getAttribute("href");
+              break;
+            };
+        };
+      
+      // Building new document
+      var d = this._window.document;
+
+      d.open("text/html", true);
+      
+      d.write('<?xml version="1.0" encoding="iso-8859-1"?>');
+      
+      // Some magick for our optimizer
+      d.write('<!DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.1/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
+      d.write('<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en">');
+      
+      d.write('<head>');
+      d.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />');
+      d.write('<meta http-equiv="MsThemeCompatible" content="yes" />');
+      d.write('<meta http-equiv="ImageToolBar" content="no" />');
+      d.write('<meta http-equiv="Pragma" content="no-cache" />');
+      d.write('<meta http-equiv="Expires" content="-1" />');
+      d.write('<meta http-equiv="Cache-Control" content="no-cache" />');
+      d.write('<meta name="MSSmartTagsPreventParsing" content="yes" />');
+      
+      if (this.getShowCaption()) {
+        d.write('<title>' + this.getCaption() + '</title>');
+      };
+      
+      if (isValidString(s)) {
+        d.write('<link type="text/css" rel="StyleSheet" href="' + s + '"/>');
+      };
+       
+      d.write('</head><body></body></html>');
+      
+      d.close();
+        
+      this._readyState++;
+      
+      break;      
+      
+    case 2:
+      var d = this._window.document;
+      if (d && d.body) 
+      {
+        this._instance = new QxClientWindow(this._window);
+        this._pane = this._instance.getClientDocument();
+      
+        this._readyState++;
+      };
+      
+      break;
+      
+    case 3:
+      try{
+        if (this.hasEventListeners("ready")) {
+          this.dispatchEvent(new QxEvent("ready"));
+        };    
+      }
+      catch(ex)
+      {
+        this.debug("Error in ready implementation: " + ex);
+        this._timer.stop();
+      };
+      
+      this._readyState++;
+      
+      break;
+      
+    case 4:
+      this.focus();
+      this._readyState++;
+      
+      this._onload();
+      
+      this._timer.setInterval(500);
+      this._timer.restart();      
+      break;
+      
+    case 5:
+      // workaround for mshtml (see case 0 below)
+      try {
+        if (this._window.document.readyState == "complete") {
+          this._onload();
+        };
+      } catch(ex) {};
+      
+      if (!this.getMoveable()) {
+        try{
+        this._window.moveTo(this.getLeft(), this.getTop());
+        } catch(ex) {};
+      };
+      
+      if (!this.getResizeable() && (this.getWidth() == "auto" || this.getHeight() == "auto")) 
+      {
+          var w, h;
+          
+          if (this.getWidth() == "auto") {
+            w = this._instance.getClientDocument().getPreferredWidth();
+          };
+        
+          if (this.getHeight() == "auto") {
+            h = this._instance.getClientDocument().getPreferredHeight();
+          };          
+
+          if (isValidNumber(w) || isValidNumber(h)) 
+          {
+            if ((new QxClient).isMshtml())
+            {
+            try {
+              this._window.resizeTo(isValidNumber(w) ? w : this.getWidth(), isValidNumber(h) ? h + this._chromeCaptionSize : this.getHeight());  
+            } catch(ex) {};
+            }
+            else
+            {
+              if (isValidNumber(w)) {
+                this._window.innerWidth = w;
+              };
+              
+              if (isValidNumber(h)) {
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=176320
+                // Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0
+                if( this._window.innerHeight != 150 && h != 150) {
+                  this._window.innerHeight = h;
                 };
               };
             };
           };
-        
-        break;
-    };  
+        };
+      
+      break;
+  };  
   }
   catch(ex)
   {
