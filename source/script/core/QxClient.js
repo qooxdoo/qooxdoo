@@ -13,32 +13,38 @@ function QxClient()
   var v = n.vendor;
   var p = n.product;
   var r = null;
+  var l = null;
 
   if (window.opera)
   {
     r="opera";
+    l = n.language;
   }
   else if (typeof v=="string" && v=="KDE")
   {
     r="khtml";
+    l = n.language;
   }
   else if (typeof p=="string" && p=="Gecko")
   {
     r="gecko";
+    l = n.language;
   }
   else if (/msie/i.test(u))
   {
     r="mshtml";
+    l = n.browserLanguage;
   };
 
   this.engine = r;
+  this.language = l;
 
   this.mshtml = r == "mshtml";
   this.gecko = r == "gecko";
   this.opera = r == "opera";
   this.khtml = r == "khtml";
 
-  n=u=v=p=r=null;
+  n=u=v=p=r=l=null;
 
   QxClient._instance = this;
 };
@@ -47,6 +53,10 @@ QxClient.extend(Object, "QxClient");
 
 proto.getEngine = function() {
   return this.engine;
+};
+
+proto.getLanguage = function() {
+  return this.language;
 };
 
 proto.isMshtml = function() {
