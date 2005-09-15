@@ -1,6 +1,6 @@
-function QxListItem(vText, vIcon, vValue)
+function QxListItem(vText, vIcon, vValue, vIconWidth, vIconHeight)
 {
-  QxAtom.call(this, vText, vIcon);
+  QxAtom.call(this, vText, vIcon, vIconWidth, vIconHeight);
 
   if (isValid(vValue)) {
     this.setValue(vValue);
@@ -19,11 +19,11 @@ QxListItem.extend(QxAtom, "QxListItem");
 QxListItem.addProperty({ name : "value", type : String });
 
 proto.matchesString = function(vText) {
-  return vText != "" && this.getText().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != "" && isValidString(this.getText()) && this.getText().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
 proto.matchesStringExact = function(vText) {
-  return vText != "" && this.getText().toLowerCase() == String(vText).toLowerCase();
+  return vText != "" && isValidString(this.getText()) && this.getText().toLowerCase() == String(vText).toLowerCase();
 };
 
 proto.matchesValue = function(vText) {
@@ -32,4 +32,8 @@ proto.matchesValue = function(vText) {
 
 proto.matchesValueExact = function(vText) {
   return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
+};
+
+proto.matchesValueContains = function(vText) {
+  return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) != -1;
 };
