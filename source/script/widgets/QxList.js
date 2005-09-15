@@ -23,7 +23,7 @@ QxList.extend(QxWidget, "QxList");
 QxList.addProperty({ name : "enableInlineFind", type : Boolean, defaultValue : true });
 
 proto.isFocusRoot = function() { 
-  return true; 
+  return true;
 };
 
 proto._pressedString = "";
@@ -259,7 +259,9 @@ proto.findValueExact = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "ValueExact");
 };
 
-
+proto.findValueContains = function(vText, vStartIndex) {
+  return this._findItem(vText, vStartIndex || 0, "ValueContains");
+};
 
 
 /*
