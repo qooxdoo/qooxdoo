@@ -79,3 +79,23 @@ if(location.href.indexOf("qooxdoo.sourceforge.net") != -1 || location.href.index
   document.write(url_of_counter_file + "?chCounter_mode=js&amp;jscode_version=3.1.1&amp;status=" + cstatus + "&amp;visible=" + visible + "&amp;page_title=" + encodeURIComponent( page_title ));
   document.write("&amp;page_url=" + encodeURIComponent( page_url ) + "&amp;referrer=" + encodeURIComponent( referrer ) + "&amp;res_width=" + screen.width + "&amp;res_height=" + screen.height + "\"><" + "/script>");
 }
+
+var vold;
+
+function mssyncwidth() {
+  vnew=document.body.offsetWidth; if (vnew!=vold) { vold=vnew; return (vnew-328) + "px"; };
+};
+
+function mssyncheight() {
+  vnew=document.body.offsetHeight; if (vnew!=vold) { vold=vnew; return (vnew-72) + "px"; };
+};
+
+var o = document.getElementById("testFrame");
+
+if (o.setExpression)
+{
+  o=o.style;
+
+  o.setExpression("width", "mssyncwidth()");
+  o.setExpression("height", "mssyncheight()");
+};

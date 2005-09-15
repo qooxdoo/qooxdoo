@@ -94,11 +94,6 @@
   -moz-border-left-colors: ThreeDShadow ThreeDHighlight;
 }
 
-* html #testFrame{
-  height: expression((document.body.offsetHeight - 72) + "px");
-  width: expression((document.body.offsetWidth - 328) + "px");
-}
-
 #testFiles {
   position:absolute;
   right: 320px;
