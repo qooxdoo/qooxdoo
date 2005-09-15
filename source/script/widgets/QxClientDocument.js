@@ -28,15 +28,15 @@ function QxClientDocument(clientWindow)
 
   function blockerImpl(e) 
   {
-    if (this._modalNativeWindow) 
+    if (this._modalNativeWindow && this._modalNativeWindow.getReady()) 
     {
       try
       {
-        this._modalNativeWindow._window.focus();  
+        this._modalNativeWindow._window.focus(); 
       }
       catch(ex)
       {
-        this.debug("Window seems to be closed already! => Releasing Blocker");
+        this.debug("Window seems to be closed already! => Releasing Blocker: (" + e.getType() + ")");
         this.release(this._modalNativeWindow);
       };
     };
