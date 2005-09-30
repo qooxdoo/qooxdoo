@@ -9,5 +9,5 @@ fi
 tools/makebuilds.sh noarch
 
 echo "[D-1/1] >>> Syncing with homepage"
-rsync -av build/snapshots/allwithdocs/* ${SFUSER}@qooxdoo.sf.net:/home/groups/q/qo/qooxdoo/htdocs/build
+rsync -avz --delete build/snapshots/allwithdocs/* ${SFUSER}@qooxdoo.sf.net:/home/groups/q/qo/qooxdoo/htdocs/build
 
