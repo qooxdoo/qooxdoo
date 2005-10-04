@@ -233,7 +233,7 @@ proto._buildWidgetFromNode = function(parent, node) {
 	};
 
 	// construct the widget instance - using the default constructor
-	var widget = new constructor();
+	var widget = new classConstructor();
 
 //	this.debug('created ' + widget+'#'+widget._hash);
 
