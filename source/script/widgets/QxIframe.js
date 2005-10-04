@@ -16,6 +16,9 @@ function QxIframe(vSrc)
 QxIframe.extend(QxWidget, "QxIframe");
 
 QxIframe.addProperty({ name : "src", type : String, defaultValue : "javascript:void(0)" });
+QxIframe.addProperty({ name : "frameName", type : String });
+
+
 
 
 /*
@@ -42,6 +45,7 @@ proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
 
   propValue.appendChild(this._realFrame);
 
+  this._applyFrameName();
   this._renderSrc();
 
   // create basic widget
@@ -83,6 +87,24 @@ proto._onload = function()
   this._isLoaded = true;
   this.dispatchEvent(new QxEvent("load"));
 };
+
+proto._applyFrameName = function()
+{
+  var vName = this.getFrameName();
+  this._realFrame.name = isValidString(vName) ? vName : "";
+};
+
+proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
+{
+  if( this.isCreated()) {
+    this._applyFrameName();
+  };
+
+  return true;
+};
+
+
+
 
 /*
   -------------------------------------------------------------------------------
