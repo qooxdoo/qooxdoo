@@ -103,8 +103,12 @@ QxXmlHttpLoader.addProperty({ name : "xml" });
 /*!
   Load the xml document returned via http request to url.  If vhash is defined, send a post using key/value pairs in vhash as query variable names/values.
 */
-proto.load = function(url,vhash)
+proto.load = function(url,vhash,async)
 {
+  if (typeof async == "undefined") {
+    async = true;
+  };
+  
   try
   {
     this.req = QxXmlHttpLoader._activex ? new ActiveXObject(QxXmlHttpLoader._activexobj + ".XMLHTTP") : new XMLHttpRequest();
@@ -165,14 +169,14 @@ proto.load = function(url,vhash)
     // otherwise use previous behavior (GET)
     if (typeof reqstr != "undefined")
     {
-      this.req.open("POST", url, true);
+      this.req.open("POST", url, async);
       this.req.setRequestHeader("Method", "POST " + url + " HTTP/1.1");
       this.req.setRequestHeader("Content-Type", content_type);
       return this.req.send(reqstr);
     }
     else
     {
-      this.req.open("GET", url, true);
+      this.req.open("GET", url, async);
       return QxXmlHttpLoader._activex ? this.req.send() : this.req.send(null);
     };
   }
