@@ -4,6 +4,8 @@ function QxGalleryList(galleryList)
   
   this._blank = (new QxImageManager).getBlank();
   this._list = galleryList;
+  this._listSize = galleryList.length; 
+  this._processedImages = 0;
   
   this.setOverflow("auto");
   
@@ -130,10 +132,7 @@ proto.createView = function()
 {  
   var s = (new Date).valueOf();
   
-  var tWidth = this.getThumbMaxWidth();
-  var tHeight = this.getThumbMaxHeight();
-  
-  var protoCell = this.createProtoCell(tHeight);  
+  var protoCell = this.createProtoCell(this.getThumbMaxHeight());  
   var frame = this._frame = document.createElement("div");
   
   this._frame.className = "galleryFrame clearfix";
@@ -153,18 +152,7 @@ proto.createView = function()
     cnode.firstChild.nodeValue = d.number;
     
     cnode = cframe.childNodes[1].firstChild;
-    
-    cnode.width = d.thumbWidth;
-    cnode.height = d.thumbHeight;
-    
-    if (cnode.runtimeStyle && !window.opera) {
-      cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
-    } else {
-      cnode.src = d.src;
-    };
-    
-    cnode.style.marginLeft = cnode.style.marginRight = Math.floor((tWidth-d.thumbWidth)/2) + "px";
-    cnode.style.marginTop = cnode.style.marginBottom = Math.floor((tHeight-d.thumbHeight)/2) + "px";
+    this.createImageCell(cnode, d);    
 
     cnode = cframe.childNodes[2].firstChild;
     cnode.firstChild.nodeValue = d.title;
@@ -176,6 +164,50 @@ proto.createView = function()
   };
   
   return frame;
+};
+
+proto.createImageCell = function(inode, d) 
+{
+  if (this.hasEventListeners("loadComplete")) {
+    inode.onload = this.imageOnLoad;
+    inode.onerror = this.imageOnError;
+    inode.gallery = this;
+  }
+  
+  inode.width = d.thumbWidth;
+  inode.height = d.thumbHeight;
+  
+  if (inode.runtimeStyle && !window.opera) {
+    inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
+  } else {
+    inode.src = d.src;
+  };
+  
+  inode.style.marginLeft = inode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
+  inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
+};
+
+proto.imageOnComplete = function() 
+{
+  this._processedImages++;
+  
+  if(this._processedImages == this._listSize) {
+    this.dispatchEvent(new QxEvent("loadComplete"), true); 
+  }
+};
+
+proto.imageOnLoad = function()
+{  
+  this.gallery.imageOnComplete();  
+  this.onload = null;
+  this.onerror = null;
+};
+
+proto.imageOnError = function()
+{
+  this.gallery.imageOnComplete();
+  this.onload = null;
+  this.onerror = null;  
 };
 
 proto.createProtoCell = function(tHeight)
