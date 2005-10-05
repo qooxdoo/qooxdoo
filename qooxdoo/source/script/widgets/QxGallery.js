@@ -406,7 +406,7 @@ proto.createCell = function(d, i)
   };
 
   var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
-  this.createCellImage(cnode, d);
+  this.createImageCell(cnode, d);
   
   if (this.getShowComment())
   {
@@ -417,7 +417,7 @@ proto.createCell = function(d, i)
   return cframe;
 };
 
-proto.createCellImage = function(inode, d) 
+proto.createImageCell = function(inode, d) 
 {
   if (this.hasEventListeners("loadComplete")) {
     inode.onload = this.imageOnLoad;
