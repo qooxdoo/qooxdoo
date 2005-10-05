@@ -4,6 +4,8 @@ function QxGallery(vGalleryList)
 
   this._blank = (new QxImageManager).getBlank();
   this._list = vGalleryList;
+  this._listSize = vGalleryList.length; 
+  this._processedImages = 0;
 
   this._addCssClassName("QxWidget");
   this.setOverflow("auto");
@@ -404,19 +406,8 @@ proto.createCell = function(d, i)
   };
 
   var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
-
-  cnode.width = d.thumbWidth + 2;
-  cnode.height = d.thumbHeight + 2;
-
-  if (cnode.runtimeStyle && !window.opera) {
-    cnode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
-  } else {
-    cnode.src = d.src;
-  };
-
-  cnode.style.marginLeft = cnode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
-  cnode.style.marginTop = cnode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
-
+  this.createCellImage(cnode, d);
+  
   if (this.getShowComment())
   {
     cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
@@ -424,6 +415,49 @@ proto.createCell = function(d, i)
   };
   
   return cframe;
+};
+
+proto.createCellImage = function(inode, d) 
+{
+  if (this.hasEventListeners("loadComplete")) {
+    inode.onload = this.imageOnLoad;
+    inode.onerror = this.imageOnError;
+    inode.gallery = this;
+  }
+  
+  if (inode.runtimeStyle && !window.opera) {
+    inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
+  } else {
+    inode.src = d.src;
+  };
+  
+  inode.width = d.thumbWidth + 2;
+  inode.height = d.thumbHeight + 2; 
+  inode.style.marginLeft = inode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
+  inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
+};
+
+proto.imageOnComplete = function() 
+{
+  this._processedImages++;
+  
+  if(this._processedImages == this._listSize) {
+    this.dispatchEvent(new QxEvent("loadComplete"), true); 
+  }
+};
+
+proto.imageOnLoad = function()
+{  
+  this.gallery.imageOnComplete();  
+  this.onload = null;
+  this.onerror = null;
+};
+
+proto.imageOnError = function()
+{
+  this.gallery.imageOnComplete();
+  this.onload = null;
+  this.onerror = null;  
 };
 
 proto.createProtoCell = function()
