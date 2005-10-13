@@ -16,3 +16,4 @@ qooxdoo: TODO
 * Fix tab layout if layouted on bottom side
 * Optimize event objects, copy data from event managers (target, related target, etc. - omit double evaluation)
 * We need something like a getScrollBar event to fix layout of the previous rendered children.
+* Background images (s. QxBlocker) should be set with the correct image path of QxImageManager (QxBlocker is using QxImageManager's default path)
