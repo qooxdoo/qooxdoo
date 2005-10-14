@@ -60,7 +60,7 @@ function showTestFiles() {
   document.writeln('<select id="testFiles" onchange="window.location.href=this.options[this.selectedIndex].value">');
   for( var i=1; i<arr.length; i++ ) {
     document.write('<option value="' + arr[i] + '"');
-    if( window.location.href.search( new RegExp(arr[i]) )+1 ) {
+    if( window.location.href.search( new RegExp("\/" +arr[i]) )+1 ) {
       document.write(' selected="selected"');
     }
     document.writeln('>' + arr[i].replace(/_/g, " ").replace(/\.html/, "") + '</option>');
@@ -74,7 +74,7 @@ document.title = "qooxdoo demo release: " + location.href.substring(location.hre
 if(location.href.indexOf("qooxdoo.sourceforge.net") != -1 || location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
 {
   var cstatus="active", visible="0", page_title="", url_of_counter_file="http://qooxdoo.oss.schlund.de/counter/counter.php", page_url=unescape(location.href), referrer=(document.referrer) ? document.referrer : "", page_title=(page_title.length == 0) ? document.title : page_title;
-  
+
   document.write("<script type=\"text/javascript\" src=\"");
   document.write(url_of_counter_file + "?chCounter_mode=js&amp;jscode_version=3.1.1&amp;status=" + cstatus + "&amp;visible=" + visible + "&amp;page_title=" + encodeURIComponent( page_title ));
   document.write("&amp;page_url=" + encodeURIComponent( page_url ) + "&amp;referrer=" + encodeURIComponent( referrer ) + "&amp;res_width=" + screen.width + "&amp;res_height=" + screen.height + "\"><" + "/script>");
