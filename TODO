@@ -2,18 +2,6 @@ qooxdoo: TODO
 =============
 
 * generate either "production" or "development" version (i.e. not including QxDebug.js, etc.)
-* QxDebug.js initializes window._start which is used in QxApplication.js as well.
-* global image path (theming?)
-* optimize opacity property handling in QxWidget
-* optimize overflow property handling in QxWidget
-* Mozilla oninput event for textchanges in textfields
-  http://www.xulplanet.com/references/elemref/ref_EventHandlers.html
-* Better handling of atoms with images, send invalidate on image loading complete
 * Add Max OSX Theme
-* Add Themes with property manipulation support (script)
 * Blur by pressing TAB in QxComboBox should not select current item
-* Complete atom2 widget, try to move it to other widgets which extend atom currently
-* Fix tab layout if layouted on bottom side
-* Optimize event objects, copy data from event managers (target, related target, etc. - omit double evaluation)
-* We need something like a getScrollBar event to fix layout of the previous rendered children.
 * Background images (s. QxBlocker) should be set with the correct image path of QxImageManager (QxBlocker is using QxImageManager's default path)
