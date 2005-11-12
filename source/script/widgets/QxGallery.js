@@ -4,7 +4,7 @@ function QxGallery(vGalleryList)
 
   this._blank = (new QxImageManager).getBlank();
   this._list = vGalleryList;
-  this._listSize = vGalleryList.length; 
+  this._listSize = vGalleryList.length;
   this._processedImages = 0;
 
   this._addCssClassName("QxWidget");
@@ -108,11 +108,11 @@ proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
 };
 
 proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
-  this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);  
+  this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
 };
 
 proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
-  // TBD: compare dimensions with max. thumb size and scale proportionally if necessary 
+  // TBD: compare dimensions with max. thumb size and scale proportionally if necessary
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
   };
@@ -121,10 +121,10 @@ proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
 
   cnode.width = vWidth;
   cnode.height = vHeight;
-  
+
   cnode.style.marginLeft = cnode.style.marginRight = Math.floor((this.getThumbMaxWidth()-vWidth)/2) + "px";
   cnode.style.marginTop = cnode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-vHeight)/2) + "px";
-  
+
   this._list[vPos].thumbWidth = vWidth;
   this._list[vPos].thumbHeight = vHeight;
 };
@@ -145,14 +145,14 @@ proto.updateImageSrcByPosition = function(vPos, vSrc)
   this._list[vPos].src = vSrc;
 };
 
-proto.deleteById = function(vId) {  
+proto.deleteById = function(vId) {
   this.deleteByPosition(this.getPositionById(vId));
 };
 
 proto.deleteByPosition = function(vPos)
-{  
+{
   this._manager.deselectAll();
-  
+
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
   };
@@ -162,7 +162,7 @@ proto.deleteByPosition = function(vPos)
   if (vNode) {
     vNode.parentNode.removeChild(vNode);
   };
-  
+
   this._list.splice(vPos, 1);
 };
 
@@ -173,7 +173,7 @@ proto.getPositionById = function(vId)
       return i;
     };
   };
-  
+
   return -1;
 };
 
@@ -200,7 +200,7 @@ proto.getEntryByNode = function(vNode) {
 proto.addFromPartialList = function(vPartialList)
 {
   this.concat(vPartialList);
-  
+
   for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
   };
@@ -210,8 +210,8 @@ proto.addFromUpdatedList = function(vNewList)
 {
   for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
-  };  
-  
+  };
+
   this._list = vNewList;
 };
 
@@ -407,48 +407,48 @@ proto.createCell = function(d, i)
 
   var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
   this.createImageCell(cnode, d);
-  
+
   if (this.getShowComment())
   {
     cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
     cnode.firstChild.nodeValue = d.comment;
   };
-  
+
   return cframe;
 };
 
-proto.createImageCell = function(inode, d) 
+proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete")) {
     inode.onload = this.imageOnLoad;
     inode.onerror = this.imageOnError;
     inode.gallery = this;
-  }
-  
+  };
+
   if (inode.runtimeStyle && !window.opera) {
     inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
   } else {
     inode.src = d.src;
   };
-  
+
   inode.width = d.thumbWidth + 2;
-  inode.height = d.thumbHeight + 2; 
+  inode.height = d.thumbHeight + 2;
   inode.style.marginLeft = inode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
   inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
 };
 
-proto.imageOnComplete = function() 
+proto.imageOnComplete = function()
 {
   this._processedImages++;
-  
+
   if(this._processedImages == this._listSize) {
-    this.dispatchEvent(new QxEvent("loadComplete"), true); 
-  }
+    this.dispatchEvent(new QxEvent("loadComplete"), true);
+  };
 };
 
 proto.imageOnLoad = function()
-{  
-  this.gallery.imageOnComplete();  
+{
+  this.gallery.imageOnComplete();
   this.onload = null;
   this.onerror = null;
 };
@@ -457,7 +457,7 @@ proto.imageOnError = function()
 {
   this.gallery.imageOnComplete();
   this.onload = null;
-  this.onerror = null;  
+  this.onerror = null;
 };
 
 proto.createProtoCell = function()
