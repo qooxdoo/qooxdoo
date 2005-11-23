@@ -34,13 +34,14 @@ if(window.location.href.indexOf("sourceforge.net") == -1 && window.location.href
   } else {
     document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/public\\//, \'\\/source\\/\'))">Go to: Source</a>] &#160;');
   }
-};
 
-if( /\/developer\//.test(window.location.href) ) {
-  document.write('[<a href="../user/Index.html">Go to: User Examples</a>] &#160;');
-} else {
-  document.write('[<a href="../developer/Index.html">Go to: Developer Examples</a>] &#160;');
-}
+  if( /\/developer\//.test(window.location.href) ) {
+    document.write('[<a href="../user/Index.html">Go to: User Examples</a>] &#160;');
+  } else {
+    document.write('[<a href="../developer/Index.html">Go to: Developer Examples</a>] 
+&#160;');
+  }
+};
 
 if (window.location.href.indexOf("release/") != -1) {
   document.write('[<a href="' + window.location.href.replace("release", "dev") + '">Switch to: Development Branch</a>]');
