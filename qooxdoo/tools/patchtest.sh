@@ -13,13 +13,13 @@ mkdir -p public/style
 rsync -av --exclude=CVS --exclude=*.css source/style public/
 
 echo ">>> Patching files..."
-for file in `find source/test/ -name "*.html"`; 
+for file in `find source/test/ -name "*.html"`;
 do
   dfile=`echo $file | sed s:source:public:g`
   name=`basename $file | cut -d"." -f1 | sed s:"_":" ":g`
 
   mkdir -p `dirname $dfile`
-  cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g | sed s/"qooxdoo demo release"/"qooxdoo demo release: ${name}"/g > $dfile
+  cat $file | sed s:"../../../tools/script/includer.js":"../../script/qooxdoo.js":g | sed s/"qooxdoo demo release"/"${name} @ qooxdoo :: demo [release]"/g > $dfile
 done
 
 echo ">>> Done"

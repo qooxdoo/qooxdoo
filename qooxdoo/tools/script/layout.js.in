@@ -69,7 +69,7 @@ function showTestFiles() {
 
 }
 
-document.title = "qooxdoo demo release: " + location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ");
+document.title = location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ") + " @ qooxdoo :: demo [release]";
 
 if(location.href.indexOf("qooxdoo.sourceforge.net") != -1 || location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
 {
