@@ -29,4 +29,4 @@
 # This sends mail to a mailing list, defined by the PROJECTNAME-LISTNAME
 # value. Any changes to any modules in the project will thus generate an
 # email message to the mailing list specified.
-DEFAULT /cvsroot/sitedocs/CVSROOT/cvstools/syncmail %{sVv} qooxdoo-commit@lists.sourceforge.net
+DEFAULT /cvsroot/sitedocs/CVSROOT/cvstools/syncmail -u %{sVv} qooxdoo-commit@lists.sourceforge.net
