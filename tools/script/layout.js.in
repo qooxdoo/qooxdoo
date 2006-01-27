@@ -27,7 +27,7 @@ document.write('<div id="testFrame"></div>');
 document.write('<div id="testFoot">');
 document.write('[<a href="javascript:void(window.application.dispose())">Dispose Application</a>] &#160;');
 
-if(window.location.href.indexOf("sourceforge.net") == -1 && window.location.href.indexOf("sf.net") == -1 && window.location.href.indexOf("oss.schlund.de") == -1)
+if(window.location.href.indexOf("oss.schlund.de") == -1)
 {
   if( /\/source\//.test(window.location.href) ) {
     document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/source\\//, \'\\/public\\/\'))">Go to: Public</a>] &#160;');
@@ -40,10 +40,6 @@ if(window.location.href.indexOf("sourceforge.net") == -1 && window.location.href
   } else {
     document.write('[<a href="../developer/Index.html">Go to: Developer Examples</a>] &#160;');
   }
-};
-
-if (window.location.href.indexOf("release/") != -1) {
-  document.write('[<a href="' + window.location.href.replace("release", "dev") + '">Switch to: Development Branch</a>]');
 };
 
 document.write('</div>');
@@ -71,7 +67,7 @@ function showTestFiles() {
 
 document.title = location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ") + " @ qooxdoo :: demo [release]";
 
-if(location.href.indexOf("qooxdoo.sourceforge.net") != -1 || location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
+if(location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
 {
   var cstatus="active", visible="0", page_title="", url_of_counter_file="http://qooxdoo.oss.schlund.de/counter/counter.php", page_url=unescape(location.href), referrer=(document.referrer) ? document.referrer : "", page_title=(page_title.length == 0) ? document.title : page_title;
 
