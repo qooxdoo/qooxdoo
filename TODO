@@ -1,8 +1,3 @@
-h4. For next release
-
-* Make API nice, clean and consistent
-* Discuss property names: "html", "text" and "content" for QxText, QxHtml and QxLabel.
-
 h4. AJAX Layer
 
 # Implement QxRequestQueue
@@ -32,7 +27,7 @@ h4. Layouter Rework
 * Remove spacing and margins from inner width/height of each QxParent to calculate percents. (Mail: Stanislav Ievlev, 08.02.2006, 13:18 Uhr)
 * Think about additionally supporting dimensions like '100%-10' as in RelativeLayers
 
-h4. Later
+h4. Unsorted
 
 * Support tooltipText in QxWidget (to reuse one QxToolTip instance)
 * Check this for qooxdoo: http://hartshorne.ca/2006/01/23/javascript_cursor_position/
