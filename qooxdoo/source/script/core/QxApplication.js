@@ -38,13 +38,19 @@
 
 ************************************************************************ */
 
-function QxApplicationInit() {
-  window.application.init();
+function QxApplicationInit()
+{
+  if (window.application) {
+    window.application.init();
+  };
 };
 
 function QxApplicationUnload()
 {
-  window.application.dispose();
+  if (window.application) {
+    window.application.dispose();
+  };
+
   window.application = null;
 };
 
