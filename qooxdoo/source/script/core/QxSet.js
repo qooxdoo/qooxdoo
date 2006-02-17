@@ -4,7 +4,7 @@
    -------------------------------------------------------------------------
 
    Copyright:
-     (C) 2004-2005 by Schlund + Partner AG, Germany
+     (C) 2004-2006 by Schlund + Partner AG, Germany
          All rights reserved
 
    License:
