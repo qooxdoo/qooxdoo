@@ -1,8 +1,47 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(eventcore)
+#post(QxDomEventRegistration)
+#post(QxPopupManager)
+#post(QxToolTipManager)
+#post(QxMenuManager)
+#post(QxDragAndDropManager)
+#post(QxMouseEvent)
+#post(QxKeyEvent)
+
+************************************************************************ */
+
 /*!
-  This manager registers and manage all incoming key and mouse events
+  This manager registers and manage all incoming key and mouse events.
 */
 function QxEventManager(vClientWindow)
 {
+  // Don't use QxManager things, but include QxTarget functinality
   QxTarget.call(this);
 
   // Object Wrapper to Events (Needed for DOM-Events)
@@ -10,6 +49,7 @@ function QxEventManager(vClientWindow)
   this.__onmouseevent = function(e) { return o._onmouseevent(e); };
   this.__onkeyevent = function(e) { return o._onkeyevent(e); };
   this.__ondragevent = function(e) { return o._ondragevent(e); };
+  this.__onselectevent = function(e) { return o._onselectevent(e); };
 
   // Some Window Events
   this.__onwindowblur = function(e) { return o._onwindowblur(e); };
@@ -17,7 +57,7 @@ function QxEventManager(vClientWindow)
   this.__onwindowresize = function(e) { return o._onwindowresize(e); };
 
   // Attach Document
-  if (isValid(vClientWindow)) {
+  if (QxUtil.isValid(vClientWindow)) {
     this.attachEvents(vClientWindow);
   };
 
@@ -27,21 +67,39 @@ function QxEventManager(vClientWindow)
 
 QxEventManager.extend(QxManager, "QxEventManager");
 
-QxEventManager.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", (new QxClient).isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
-QxEventManager.keyEventTypes = [ "keydown", "keypress", "keyup" ];
-QxEventManager.dragEventTypes = (new QxClient).isGecko() ? [ "dragdrop", "dragenter", "dragexit", "draggesture", "dragover" ] : [];
+QxEventManager.mouseEventTypes = [ QxConst.EVENT_TYPE_MOUSEOVER, QxConst.EVENT_TYPE_MOUSEMOVE, QxConst.EVENT_TYPE_MOUSEOUT, QxConst.EVENT_TYPE_MOUSEDOWN, QxConst.EVENT_TYPE_MOUSEUP, QxConst.EVENT_TYPE_CLICK, QxConst.EVENT_TYPE_DBLCLICK, QxConst.EVENT_TYPE_CONTEXTMENU, QxClient.isMshtml() ? QxConst.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
+QxEventManager.keyEventTypes = [ QxConst.EVENT_TYPE_KEYDOWN, QxConst.EVENT_TYPE_KEYPRESS, QxConst.EVENT_TYPE_KEYUP ];
 
-QxEventManager.addProperty({ name : "allowClientContextMenu", type : Boolean, defaultValue : false });
-QxEventManager.addProperty({ name : "captureWidget" });
+if (QxClient.isGecko())
+{
+  QxEventManager.dragEventTypes = [ QxConst.EVENT_TYPE_DRAGDROP, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGEXIT, QxConst.EVENT_TYPE_DRAGGESTURE, QxConst.EVENT_TYPE_DRAGOVER ];
+}
+else if (QxClient.isMshtml())
+{
+  QxEventManager.dragEventTypes = [ QxConst.EVENT_TYPE_DRAG, QxConst.EVENT_TYPE_DRAGEND, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGLEAVE, QxConst.EVENT_TYPE_DRAGOVER, QxConst.EVENT_TYPE_DRAGSTART ];
+}
+else
+{
+  QxEventManager.dragEventTypes = [ QxConst.EVENT_TYPE_DRAG, QxConst.EVENT_TYPE_DRAGLEAVE, QxConst.EVENT_TYPE_DRAGSTART, QxConst.EVENT_TYPE_DRAGDROP, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGEXIT, QxConst.EVENT_TYPE_DRAGGESTURE, QxConst.EVENT_TYPE_DRAGOVER ];
+};
+
+
+
+QxEventManager.addProperty({ name : "allowClientContextMenu", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxEventManager.addProperty({ name : "allowClientSelectAll", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+QxEventManager.addProperty({ name : "captureWidget", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget", allowNull : true });
+QxEventManager.addProperty({ name : "focusRoot", type : QxConst.TYPEOF_OBJECT, instance : "QxParent", allowNull : true });
+
+
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    STATE FLAGS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  STATE FLAGS
+---------------------------------------------------------------------------
 */
-
-proto._attachedClientWindow = null;
 
 proto._lastMouseEventType = null;
 proto._lastMouseDown = false;
@@ -49,20 +107,40 @@ proto._lastMouseEventDate = 0;
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    MODIFIERS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
 */
 
-proto._modifyCaptureWidget = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyCaptureWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.setCapture(false, uniqModIds);
+    propOldValue.setCapture(false);
   };
 
   if (propValue) {
-    propValue.setCapture(true, uniqModIds);
+    propValue.setCapture(true);
+  };
+
+  return true;
+};
+
+proto._modifyFocusRoot = function(propValue, propOldValue, propData)
+{
+  // this.debug("FocusRoot: " + propValue + "(from:" + propOldValue + ")");
+
+  if (propOldValue) {
+    propOldValue.setFocusedChild(null);
+  };
+
+  if (propValue)
+  {
+    if (propValue.getFocusedChild() == null) {
+      propValue.setFocusedChild(propValue);
+    };
   };
 
   return true;
@@ -71,18 +149,20 @@ proto._modifyCaptureWidget = function(propValue, propOldValue, propName, uniqMod
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    COMMAND INTERFACE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  COMMAND INTERFACE
+---------------------------------------------------------------------------
 */
 
 proto.addCommand = function(vCommand) {
-  this._commands[vCommand.toHash()] = vCommand;
+  this._commands[vCommand.toHashCode()] = vCommand;
 };
 
 proto.removeCommand = function(vCommand) {
-  delete this._commands[vCommand.toHash()];
+  delete this._commands[vCommand.toHashCode()];
 };
 
 proto._checkKeyEventMatch = function(e)
@@ -100,6 +180,8 @@ proto._checkKeyEventMatch = function(e)
       if (!vCommand.execute()) {
         e.preventDefault();
       };
+
+      break;
     };
   };
 };
@@ -107,52 +189,41 @@ proto._checkKeyEventMatch = function(e)
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    EVENT-MAPPING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT-MAPPING
+---------------------------------------------------------------------------
 */
 
-proto.attachEvents = function(clientWindow)
+proto.attachEvents = function(wobj)
 {
   if (this._attachedClientWindow) {
     return false;
   };
 
-  //this.debug("Attach to clientWindow");
+  // Local
+  var wel = wobj.getElement();
+  var del = wel.document;
+  var bel = del.body;
 
-  this._attachedClientWindow = clientWindow;
+  // Attach client window
+  this._attachedClientWindow = wobj;
+  this._attachedClientWindowElement = wel;
 
-  // Add dom events
+  // Register dom events
   this.attachEventTypes(QxEventManager.mouseEventTypes, this.__onmouseevent);
   this.attachEventTypes(QxEventManager.keyEventTypes, this.__onkeyevent);
   this.attachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
-  // Add window events
-  this.attachWindowEvents();
-};
+  // Register window events
+  QxDom.addEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
+  QxDom.addEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  QxDom.addEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
-if ((new QxClient).isMshtml())
-{
-  proto.attachWindowEvents = function()
-  {
-    var winElem = this._attachedClientWindow.getElement();
-
-    winElem.attachEvent("onblur", this.__onwindowblur);
-    winElem.attachEvent("onfocus", this.__onwindowfocus);
-    winElem.attachEvent("onresize", this.__onwindowresize);
-  };
-}
-else
-{
-  proto.attachWindowEvents = function()
-  {
-    var winElem = this._attachedClientWindow.getElement();
-
-    winElem.addEventListener("blur", this.__onwindowblur, false);
-    winElem.addEventListener("focus", this.__onwindowfocus, false);
-    winElem.addEventListener("resize", this.__onwindowresize, false);
-  };
+  // Register selection events
+  bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
 };
 
 proto.detachEvents = function()
@@ -161,173 +232,208 @@ proto.detachEvents = function()
     return false;
   };
 
-  // Remove window events
-  this.detachWindowEvents();
+  // Local
+  var wel = this._attachedClientWindowElement;
+  var del = wel.document;
+  var bel = del.body;
 
-  // Remove dom events
+  // Unregister dom events
   this.detachEventTypes(QxEventManager.mouseEventTypes, this.__onmouseevent);
   this.detachEventTypes(QxEventManager.keyEventTypes, this.__onkeyevent);
   this.detachEventTypes(QxEventManager.dragEventTypes, this.__ondragevent);
 
+  // Unregister window events
+  QxDom.removeEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
+  QxDom.removeEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  QxDom.removeEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
+
+  // Unregister selection events
+  bel.onselect = del.onselectstart = del.onselectionchange = null;
+
+  // Detach client window
   this._attachedClientWindow = null;
+  this._attachedClientWindowElement = null;
 };
 
-if ((new QxClient).isMshtml())
-{
-  proto.detachWindowEvents = function()
-  {
-    try
-    {
-      var winElem = this._attachedClientWindow.getElement();
 
-      winElem.detachEvent("onblur", this.__onwindowblur);
-      winElem.detachEvent("onfocus", this.__onwindowfocus);
-      winElem.detachEvent("onresize", this.__onwindowresize);
-    }
-    catch(ex) {};
-  };
-}
-else
-{
-  proto.detachWindowEvents = function()
-  {
-    try
-    {
-      var winElem = this._attachedClientWindow.getElement();
-
-      winElem.removeEventListener("blur", this.__onwindowblur, false);
-      winElem.removeEventListener("focus", this.__onwindowfocus, false);
-      winElem.removeEventListener("resize", this.__onwindowresize, false);
-    }
-    catch(ex) {};
-  };
-};
-
-proto.attachEventTypes = function(eventTypes, functionPointer)
-{
-  try
-  {
-    var d = this._attachedClientWindow.getClientDocument().getElement();
-
-    // MSHTML Method to add events
-    if (d.attachEvent) {
-      for (var i=0; i<eventTypes.length; i++) {
-        d.attachEvent("on" + eventTypes[i], functionPointer);
-      };
-    }
-
-    // Default W3C Method to add events
-    else if (d.addEventListener) {
-      for (var i=0; i<eventTypes.length; i++) {
-        d.addEventListener(eventTypes[i], functionPointer, false);
-      };
-    };
-  }
-  catch(ex) {};
-};
-
-proto.detachEventTypes = function(eventTypes, functionPointer)
-{
-  try
-  {
-    var d = this._attachedClientWindow.getClientDocument().getElement();
-
-    // MSHTML Method to add events
-    if (d.detachEvent) {
-      for (var i=0; i<eventTypes.length; i++) {
-        d.detachEvent("on" + eventTypes[i], functionPointer);
-      };
-    }
-
-    // Default W3C Method to add events
-    else if (d.removeEventListener) {
-      for (var i=0; i<eventTypes.length; i++) {
-        d.removeEventListener(eventTypes[i], functionPointer, false);
-      };
-    };
-  }
-  catch(ex) {};
-};
 
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    HELPER METHODS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT-MAPPING HELPER
+---------------------------------------------------------------------------
+*/
+
+proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
+{
+  try
+  {
+    // Gecko is a bit buggy to handle key events on document if not previously focused
+    // I think they will fix this sometimes, and we should add a version check here.
+    // Internet Explorer has problems to use 'window', so there we use the 'body' element
+    // as previously.
+    if (QxClient.isGecko()) {
+      var d = this._attachedClientWindow.getElement();
+    } else {
+      var d = this._attachedClientWindow.getClientDocument().getElement();
+    };
+
+    for (var i=0, l=vEventTypes.length; i<l; i++) {
+      QxDom.addEventListener(d, vEventTypes[i], vFunctionPointer);
+    };
+  }
+  catch(ex)
+  {
+    throw new Error("QxEventManager: Failed to attach window event types: " + vEventTypes + ": " + ex);
+  };
+};
+
+proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
+{
+  try
+  {
+    if (QxClient.isGecko()) {
+      var d = this._attachedClientWindow.getElement();
+    } else {
+      var d = this._attachedClientWindow.getClientDocument().getElement();
+    };
+
+    for (var i=0, l=vEventTypes.length; i<l; i++) {
+      QxDom.removeEventListener(d, vEventTypes[i], vFunctionPointer);
+    };
+  }
+  catch(ex)
+  {
+    throw new Error("QxEventManager: Failed to detach window event types: " + vEventTypes + ": " + ex);
+  };
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HELPER METHODS
+---------------------------------------------------------------------------
 */
 
 // BUG: http://xscroll.mozdev.org/
 // If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
 // it can not return the correct event target for DOMMouseScroll.
 
-QxEventManager.getTargetObject = function(n)
+QxEventManager.getOriginalTargetObject = function(vNode)
 {
+  // Events on the HTML element, when using absolute locations which
+  // are outside the HTML element. Opera does not seem to fire events
+  // on the HTML element.
+  if (vNode == document.documentElement) {
+    vNode = document.body;
+  };
+
   // Walk up the tree and search for an QxWidget
-  while(n != null && n._QxWidget == null)
+  while(vNode != null && vNode._QxWidget == null)
   {
     try {
-      n = n.parentNode;
+      vNode = vNode.parentNode;
     }
-    catch(e)
+    catch(vDomEvent)
     {
-      n = null;
+      vNode = null;
     };
   };
 
-  return n ? n._QxWidget : null;
+  return vNode ? vNode._QxWidget : null;
 };
 
-QxEventManager.getTargetObjectFromEvent = function(e) {
-  return QxEventManager.getTargetObject(e.target || e.srcElement);
-};
-
-QxEventManager.getRelatedTargetObjectFromEvent = function(e) {
-  return QxEventManager.getTargetObject(e.relatedTarget || (e.type == "mouseover" ? e.fromElement : e.toElement));
-};
-
-QxEventManager.getActiveTargetObject = function(n, o)
+QxEventManager.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 {
-  if (!o)
-  {
-    var o = QxEventManager.getTargetObject(n);
+  var vNode = vDomEvent.target || vDomEvent.srcElement;
 
-    if (!o) {
+  // Especially to fix key events.
+  // 'vWindow' is the window reference then
+  if (vWindow)
+  {
+    var vDocument = vWindow.document;
+
+    if (vNode == vWindow || vNode == vDocument || vNode == vDocument.documentElement || vNode == vDocument.body) {
+      return vDocument.body._QxWidget;
+    };
+  };
+
+  return QxEventManager.getOriginalTargetObject(vNode);
+};
+
+QxEventManager.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
+  return QxEventManager.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == QxConst.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+};
+
+
+
+
+
+
+
+QxEventManager.getTargetObject = function(vNode, vObject)
+{
+  if (!vObject)
+  {
+    var vObject = QxEventManager.getOriginalTargetObject(vNode);
+
+    if (!vObject) {
       return null;
     };
   };
 
   // Search parent tree
-  while(o)
+  while(vObject)
   {
     // Break if current object is disabled -
     // event should be ignored then.
-    if (!o.getEnabled()) {
-      return;
+    if (!vObject.getEnabled()) {
+      return null;
     };
 
     // If object is anonymous, search for
     // first parent which is not anonymous
     // and not disabled
-    if (!o.getAnonymous()) {
+    if (!vObject.getAnonymous()) {
       break;
     };
 
-    o = o.getParent();
+    vObject = vObject.getParent();
   };
 
-  return o;
+  return vObject;
 };
 
-QxEventManager.getActiveTargetObjectFromEvent = function(e) {
-  return QxEventManager.getActiveTargetObject(e.target || e.srcElement);
+QxEventManager.getTargetObjectFromEvent = function(vDomEvent) {
+  return QxEventManager.getTargetObject(vDomEvent.target || vDomEvent.srcElement);
 };
 
-QxEventManager.getRelatedActiveTargetObjectFromEvent = function(e) {
-  return QxEventManager.getActiveTargetObject(e.relatedTarget || (e.type == "mouseover" ? e.fromElement : e.toElement));
+QxEventManager.getRelatedTargetObjectFromEvent = function(vDomEvent) {
+  return QxEventManager.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == QxConst.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
+
+if (QxClient.isMshtml())
+{
+  QxEventManager.stopDomEvent = function(vDomEvent) {
+    vDomEvent.returnValue = false;
+  };
+}
+else
+{
+  QxEventManager.stopDomEvent = function(vDomEvent)
+  {
+    vDomEvent.preventDefault();
+    vDomEvent.returnValue = false;
+  };
+};
+
 
 
 
@@ -335,82 +441,118 @@ QxEventManager.getRelatedActiveTargetObjectFromEvent = function(e) {
 
 
 /*
-  -------------------------------------------------------------------------------
-    KEY EVENTS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  KEY EVENTS
+---------------------------------------------------------------------------
 */
 
-proto._onkeyevent = function(e)
+proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof QxKeyEvent != "function") {
+  if (this.getDisposed() || typeof QxKeyEvent != QxConst.TYPEOF_FUNCTION || !window.application.isReady()) {
     return;
   };
 
-  if(!e) {
-    e = this._attachedClientWindow.getElement().event;
+
+
+
+  if(!vDomEvent) {
+    vDomEvent = this._attachedClientWindow.getElement().event;
   };
 
-  var k = e.keyCode || e.charCode;
+  var vType = vDomEvent.type;
+  var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
+  var vKeyCode = vDomEvent.keyCode || vDomEvent.charCode;
 
-  if (k == QxKeyEvent.keys.tab)
+
+
+
+  // Hide Menus
+  switch(vKeyCode)
   {
-    if ((new QxClient).isNotMshtml()) {
-      e.preventDefault();
-    };
+    case QxKeyEvent.keys.esc:
+    case QxKeyEvent.keys.tab:
+      if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
+        QxMenuManager.update();
+      };
 
-    e.returnValue = false;
+      break;
+  };
 
-    // Hide Menus
-    if (typeof QxMenuManager == "function") {
-      (new QxMenuManager).update();
-    };
 
-    this._attachedClientWindow.getFocusManager()._ontabevent(e);
-  }
-  else
+
+
+
+
+  // Find current active qooxdoo object
+  var vTarget = this.getCaptureWidget() || this.getFocusRoot().getActiveChild();
+
+  if (vTarget == null || !vTarget.getEnabled()) {
+    return false;
+  };
+
+  var vDomEventTarget = vTarget.getElement();
+
+
+
+
+
+  // TODO: Move this to KeyEvent?
+
+  // Prohibit CTRL+A
+  if (!this.getAllowClientSelectAll())
   {
-    // Hide Menus
-    if (k == QxKeyEvent.keys.esc) {
-      if (typeof QxMenuManager == "function") {
-        (new QxMenuManager).update();
+    if (vDomEvent.ctrlKey && (vKeyCode == 65 || vKeyCode == 97))
+    {
+      switch(vDomTarget.tagName)
+      {
+        case "INPUT":
+        case "TEXTAREA":
+        case "IFRAME":
+          break;
+
+        default:
+          QxEventManager.stopDomEvent(vDomEvent);
       };
     };
-
-    var o = this.getCaptureWidget() || (new QxApplication).getActiveWidget();
-    if (o == null || !o.getEnabled()) {
-      return;
-    };
-
-    // Create Event Object
-    var s = new QxKeyEvent(e.type, e, false);
-
-    // Check for commands
-    if (e.type == "keypress") {
-      this._checkKeyEventMatch(s);
-    };
-
-    // Starting Object Internal Event Dispatcher
-    // This handles the real event action
-    var r = o.dispatchEvent(s);
-
-    if (typeof QxDragAndDropManager == "function") {
-      (new QxDragAndDropManager).handleKeyEvent(s);
-    };
-
-    // Cleanup Event Object
-    s.dispose();
-
-    return r;
   };
+
+
+
+
+
+  // Create Event Object
+  var vKeyEventObject = new QxKeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
+
+  // Check for commands
+  if (vDomEvent.type == QxConst.EVENT_TYPE_KEYDOWN) {
+    this._checkKeyEventMatch(vKeyEventObject);
+  };
+
+  // Starting Objects Internal Event Dispatcher
+  // This handles the real event action
+  vTarget.dispatchEvent(vKeyEventObject);
+
+  // Send event to QxDragAndDropManager
+  if (typeof QxDragAndDropManager !== QxConst.TYPEOF_UNDEFINED) {
+    QxDragAndDropManager.handleKeyEvent(vKeyEventObject);
+  };
+
+  // Cleanup Event Object
+  vKeyEventObject.dispose();
+
+  // Flush Queues
+  QxWidget.flushGlobalQueues();
 };
 
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    MOUSE EVENTS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MOUSE EVENTS
+---------------------------------------------------------------------------
 */
 
 /*!
@@ -424,279 +566,462 @@ proto._onkeyevent = function(e)
   3. click
   4. mousedown
   5. mouseup
-  6. dblclick
+  6. click
+  7. dblclick
 */
 
-if((new QxClient).isMshtml())
+if(QxClient.isMshtml())
 {
-  proto._onmouseevent = function(e)
+  proto._onmouseevent = function(vDomEvent)
   {
-    if(!e) {
-      e = this._attachedClientWindow.getElement().event;
+    if (!window.application.isReady()) {
+      return;
     };
 
-    var t = e.type;
+    window.application.postLoad();
 
-    if(t == "mousemove")
+    if(!vDomEvent) {
+      vDomEvent = this._attachedClientWindow.getElement().event;
+    };
+
+    var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
+    var vType = vDomEvent.type;
+
+    if(vType == QxConst.EVENT_TYPE_MOUSEMOVE)
     {
-      if (this._mouseIsDown && e.button == 0)
+      if (this._mouseIsDown && vDomEvent.button == 0)
       {
-        this._onmouseevent_post(e, "mouseup");
+        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_MOUSEUP);
         this._mouseIsDown = false;
       };
     }
     else
     {
-      if(t == "mousedown")
+      if(vType == QxConst.EVENT_TYPE_MOUSEDOWN)
       {
         this._mouseIsDown = true;
       }
-      else if(t == "mouseup")
+      else if(vType == QxConst.EVENT_TYPE_MOUSEUP)
       {
         this._mouseIsDown = false;
       };
 
-      // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla do this
-      if(t=="mouseup" && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
+      if(vType == QxConst.EVENT_TYPE_MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(e, "mousedown");
+        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_MOUSEDOWN);
       }
-
-      // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla do this
-      else if(t=="dblclick" && this._lastMouseEventType=="mouseup" && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
+      else if(vType == QxConst.EVENT_TYPE_DBLCLICK && this._lastMouseEventType == QxConst.EVENT_TYPE_MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(e, "click");
+        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_CLICK);
       };
 
-      if (t == "mousedown" || t == "mouseup" || t == "click" || t == "dblclick" || t == "contextmenu")
+      switch(vType)
       {
-        this._lastMouseEventType = t;
-        this._lastMouseEventDate = (new Date).valueOf();
-        this._lastMouseDown = t == "mousedown";
+        case QxConst.EVENT_TYPE_MOUSEDOWN:
+        case QxConst.EVENT_TYPE_MOUSEUP:
+        case QxConst.EVENT_TYPE_CLICK:
+        case QxConst.EVENT_TYPE_DBLCLICK:
+        case QxConst.EVENT_TYPE_CONTEXTMENU:
+          this._lastMouseEventType = vType;
+          this._lastMouseEventDate = (new Date).valueOf();
+          this._lastMouseDown = vType == QxConst.EVENT_TYPE_MOUSEDOWN;
       };
     };
 
-    this._onmouseevent_post(e, t);
+    this._onmouseevent_post(vDomEvent, vType, vDomTarget);
   };
 }
 else
 {
-  proto._onmouseevent = function(e)
+  proto._onmouseevent = function(vDomEvent)
   {
-    var t = e.type;
+    if (!window.application.isReady()) {
+      return;
+    };
 
-    switch(t)
+    window.application.postLoad();
+
+    var vDomTarget = vDomEvent.target;
+    var vType = vDomEvent.type;
+
+    switch(vType)
     {
-      case "DOMMouseScroll":
+      case QxConst.EVENT_TYPE_DOMMOUSESCROLL:
         // normalize mousewheel event
-        t = "mousewheel";
+        vType = QxConst.EVENT_TYPE_MOUSEWHEEL;
         break;
 
-      case "click":
-      case "dblclick":
+      case QxConst.EVENT_TYPE_CLICK:
+      case QxConst.EVENT_TYPE_DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
-        if (e.button != QxMouseEvent.buttons.left) {
+        if (vDomEvent.button != QxMouseEvent.buttons.left) {
           return;
+        };
+
+      case QxConst.EVENT_TYPE_MOUSEDOWN:
+        if(vDomTarget && vDomTarget.localName == "IMG") {
+          QxEventManager.stopDomEvent(vDomEvent);
         };
     };
 
-    this._onmouseevent_post(e, t);
+    this._onmouseevent_post(vDomEvent, vType, vDomTarget);
   };
 };
+
+
 
 
 /*!
   This is the crossbrowser post handler for all mouse events.
 */
-proto._onmouseevent_post = function(e, t)
+proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 {
-  var vEventObject, vDispatchTarget, vTarget, vActiveTarget, vRelatedTarget;
-
-  switch(t)
+  try
   {
-    case "contextmenu":
-      if (!this.getAllowClientContextMenu())
-      {
-        if(!(new QxClient).isMshtml()) {
-          e.preventDefault();
+    var vEventObject, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget;
+
+
+
+
+
+
+
+    // Check for capturing, if enabled the target is the captured widget.
+    vDispatchTarget = this.getCaptureWidget();
+
+    // Event Target Object
+    vOriginalTarget = QxEventManager.getOriginalTargetObject(vDomTarget);
+
+    // If no capturing is active search for a valid target object
+    if (!QxUtil.isValidObject(vDispatchTarget))
+    {
+      // Get Target Object
+      vDispatchTarget = vTarget = QxEventManager.getTargetObject(null, vOriginalTarget);
+    }
+    else
+    {
+      vTarget = QxEventManager.getTargetObject(null, vOriginalTarget);
+    };
+
+    if (!vTarget) {
+      return false;
+    };
+
+
+
+
+
+    switch(vType)
+    {
+      case QxConst.EVENT_TYPE_CONTEXTMENU:
+        if (!this.getAllowClientContextMenu()) {
+          QxEventManager.stopDomEvent(vDomEvent);
         };
 
-        e.returnValue = false;
-      };
+        break;
 
-      break;
+      case QxConst.EVENT_TYPE_MOUSEDOWN:
+        QxFocusManager.mouseFocus = true;
 
-    case "mousedown":
-      this._onactivateevent(e);
-      break;
-  };
+        var vRoot = vTarget.getFocusRoot();
+
+        if (vRoot)
+        {
+          this.setFocusRoot(vRoot);
+
+          vRoot.setActiveChild(vTarget);
+          vRoot.setFocusedChild(vTarget.isFocusable() ? vTarget : vRoot);
+        };
+
+        // the more intelli method, ignore blur after mousedown event
+        this._ignoreBlur = true;
+
+        break;
+    };
 
 
 
 
 
-  // Check for capturing, if enabled the target is the captured widget.
-  vDispatchTarget = this.getCaptureWidget();
+    // Check if is seeable (this is really needed for Opera as of 8.5)
+    if ((vTarget && !vTarget.isSeeable()) || (vDispatchTarget && !vDispatchTarget.isSeeable())) {
+      return false;
+    };
 
-  // Event Target Object
-  vTarget = QxEventManager.getTargetObjectFromEvent(e);
+    var vDomEventTarget = vTarget.getElement();
 
-  // If no capturing is active search for a valid target object
-  if (!isValidObject(vDispatchTarget))
+
+
+
+    // Find related target object
+    switch(vType)
+    {
+      case QxConst.EVENT_TYPE_MOUSEOVER:
+      case QxConst.EVENT_TYPE_MOUSEOUT:
+        vRelatedTarget = QxEventManager.getRelatedTargetObjectFromEvent(vDomEvent);
+
+        // Ignore events where the related target and
+        // the real target are equal - from our sight
+        if (vRelatedTarget == vTarget) {
+          return;
+        };
+    };
+
+
+
+    try
+    {
+      // Create Mouse Event Object
+      vEventObject = new QxMouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
+    }
+    catch(ex)
+    {
+      return this.error("Failed to create mouse event: " + ex);
+    };
+
+
+    // Store last Event in MouseEvent Constructor
+    // Needed for Tooltips, ...
+    QxMouseEvent._storeEventState(vEventObject);
+
+
+
+    try
+    {
+      // Dispatch Event through target (eventtarget-)object
+      var vReturnValue = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
+    }
+    catch(ex)
+    {
+      return this.error("Failed to dispatch mouse event: " + ex);
+    };
+
+
+
+
+
+    // Handle Special Post Events
+    switch(vType)
+    {
+      case QxConst.EVENT_TYPE_MOUSEDOWN:
+        if (typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
+          QxPopupManager.update(vTarget);
+        };
+
+        if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
+          QxMenuManager.update(vTarget);
+        };
+
+        break;
+
+      case QxConst.EVENT_TYPE_MOUSEOVER:
+        if (typeof QxToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+          QxToolTipManager.handleMouseOver(vEventObject);
+        };
+
+        break;
+
+      case QxConst.EVENT_TYPE_MOUSEOUT:
+        if (typeof QxToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+          QxToolTipManager.handleMouseOut(vEventObject);
+        };
+
+        break;
+
+      case QxConst.EVENT_TYPE_MOUSEWHEEL:
+        // priority for the real target not the (eventually captured) dispatch target
+        vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : QxEventManager.stopDomEvent(vDomEvent);
+
+        break;
+    };
+
+
+
+
+    // Send Event Object to Drag&Drop Manager
+    if (typeof QxDragAndDropManager  !== QxConst.TYPEOF_UNDEFINED && vTarget) {
+      QxDragAndDropManager.handleMouseEvent(vEventObject);
+    };
+
+
+
+
+    // Prevent gecko default handling
+    // Is this really needed anymore?
+    /*
+    if(QxClient.isGecko() && vDispatchTarget && !vDispatchTarget.isSelectable() && !vDispatchTarget.isFocusable()) {
+      vDomEvent.preventDefault();
+    };
+    */
+
+
+
+
+    // Dispose Event Object
+    vEventObject.dispose();
+    vEventObject = null;
+
+
+
+
+    // Flush Queues
+    QxWidget.flushGlobalQueues();
+  }
+  catch(ex)
   {
-    // Get Target Object
-    vDispatchTarget = vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
+    return this.error("Failed to handle mouse event: " + ex);
+  };
+};
 
-    // Ignore events which have no target object
-    if (!isValidObject(vDispatchTarget)) {
+if (QxClient.isGecko())
+{
+  proto._onmousewheel = function(vTarget, vEvent)
+  {
+    if(vTarget == null) {
       return;
     };
-  }
-  else
-  {
-    vActiveTarget = QxEventManager.getActiveTargetObject(null, vTarget);
-  };
 
-
-
-  // Find related target object
-  switch(t)
-  {
-    case "mouseover":
-    case "mouseout":
-      vRelatedTarget = QxEventManager.getRelatedActiveTargetObjectFromEvent(e);
-
-      // Ignore events where the related target and
-      // the real target are equal - from our sight
-      if (vRelatedTarget == vActiveTarget) {
-        return;
-      };
-  };
-
-
-
-
-  // Create Mouse Event Object
-  vEventObject = new QxMouseEvent(t, e, false, vTarget, vActiveTarget, vRelatedTarget);
-
-  // Store last Event in MouseEvent Constructor
-  // Needed for Tooltips, ...
-  QxMouseEvent._storeEventState(vEventObject);
-
-  // Hide Popups
-  if (t == "mousedown") {
-    if ( typeof QxPopupManager == "function" ) {
-      (new QxPopupManager).update(vActiveTarget);
+    // ingore if overflow is configured as hidden
+    // in this case send the event to the parent instead
+    if(vTarget.getOverflowY() == QxWidget.SCROLL_VALUE_HIDDEN) {
+      return this._onmousewheel(vTarget.getParent(), vEvent);
     };
+
+    var vScrollTop = vTarget.getScrollTop();
+    var vDelta = 20 * vEvent.getWheelDelta();
+
+    // if already at the top edge and the user scrolls up
+    // then send the event to the parent instead
+    if(vScrollTop == 0 && vDelta > 0) {
+      return this._onmousewheel(vTarget.getParent(), vEvent);
+    };
+
+    var vScrollHeight = vTarget.getScrollHeight();
+    var vClientHeight = vTarget.getClientHeight();
+
+    // if already at the bottom edge and the user scrolls down
+    // then send the event to the parent instead
+    if(vScrollTop + vClientHeight >= vScrollHeight && vDelta < 0) {
+      return this._onmousewheel(vTarget.getParent(), vEvent);
+    };
+
+    // apply new scroll position
+    vTarget.setScrollTop(vScrollTop - vDelta);
+
+    // stop default handling, that works sometimes, too
+    vEvent.preventDefault();
   };
-
-  // Dispatch Event through target (eventtarget-)object
-  vDispatchTarget.dispatchEvent(vEventObject);
-
-
-
-
-
-  // Handle Special Post Events
-  switch(t)
-  {
-    case "mousedown":
-      if (!vEventObject.getPropagationStopped()) {
-        if ( typeof QxMenuManager == "function" ) {
-          (new QxMenuManager).update();
-        };
-      };
-      break;
-
-    case "mouseover":
-      if (typeof QxToolTipManager == "function") {
-        (new QxToolTipManager).handleMouseOver(vEventObject);
-      };
-      break;
-
-    case "mouseout":
-      if (typeof QxToolTipManager == "function") {
-        (new QxToolTipManager).handleMouseOut(vEventObject);
-      };
-      break;
-  };
-
-
-
-
-  // Send Event Object to Drag&Drop Manager
-  if (typeof QxDragAndDropManager == "function") {
-    (new QxDragAndDropManager).handleMouseEvent(vEventObject);
-  };
-
-
-
-
-  // Dispose Event Object
-  vEventObject.dispose();
-  vEventObject = null;
+}
+else
+{
+  proto._onmousewheel = QxUtil.returnTrue;
 };
 
 
 
 
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    DRAG EVENTS
+---------------------------------------------------------------------------
+  DRAG EVENTS
 
     Currently only to stop non needed events
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
-proto._ondragevent = function(e)
+proto._ondragevent = function(vEvent)
 {
-  e.preventDefault();
-  e.returnValue = false;
-  e.preventBubble();
+  if (!vEvent) {
+    vEvent = window.event;
+  };
+
+  QxEventManager.stopDomEvent(vEvent);
 };
 
 
 
 
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    OTHER EVENTS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  SELECT EVENTS
+---------------------------------------------------------------------------
+*/
+
+proto._onselectevent = function(e)
+{
+  if(!e) {
+    e = window.event;
+  };
+
+  var vTarget = QxEventManager.getOriginalTargetObjectFromEvent(e);
+
+  if(vTarget && !vTarget.getSelectable()) {
+    QxEventManager.stopDomEvent(e);
+  };
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  WINDOW EVENTS
+---------------------------------------------------------------------------
 */
 
 proto._onwindowblur = function(e)
 {
-  if (this._ignoreBlur) {
+  if (!window.application.isReady()) {
+    return;
+  };
+
+  if (this._ignoreBlur)
+  {
     delete this._ignoreBlur;
     return;
   };
 
   this._allowFocus = true;
 
+  // Disable capturing
+  this.setCaptureWidget(null);
+
   // Hide Popups, Tooltips, ...
-  if (typeof QxPopupManager == "function") {
-    (new QxPopupManager).update();
+  if (typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
+    QxPopupManager.update();
   };
 
   // Hide Menus
-  if (typeof QxMenuManager == "function") {
-    (new QxMenuManager).update();
+  if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
+    QxMenuManager.update();
   };
 
   // Cancel Drag Operations
-  if (typeof QxDragAndDropManager == "function") {
-    (new QxDragAndDropManager).globalCancelDrag();
+  if (typeof QxDragAndDropManager !== QxConst.TYPEOF_UNDEFINED) {
+    QxDragAndDropManager.globalCancelDrag();
   };
 
   // Send blur event to client document
-  var vDoc = this._attachedClientWindow.getDocument();
-  if (vDoc.hasEventListeners("blur")) {
-    vDoc.dispatchEvent(new QxEvent("blur"), true);
+  if (this._attachedClientWindow) {
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_BLUR);
   };
 };
 
 proto._onwindowfocus = function(e)
 {
+  if (!window.application.isReady()) {
+    return;
+  };
+
   // Make focus more intelligent and only allow focus if
   // a previous blur occured
   if (!this._allowFocus) {
@@ -705,61 +1030,29 @@ proto._onwindowfocus = function(e)
 
   delete this._allowFocus;
 
+  // Disable capturing
+  this.setCaptureWidget(null);
+
   // Send focus event to client document
-  var vDoc = this._attachedClientWindow.getDocument();
-  if (vDoc.hasEventListeners("focus")) {
-    vDoc.dispatchEvent(new QxEvent("focus"), true);
+  if (this._attachedClientWindow) {
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_FOCUS);
   };
 };
 
 proto._onwindowresize = function(e)
 {
   // Send resize event to client document
-  this._attachedClientWindow.getDocument().dispatchEvent(new QxEvent("resize"), true);
+  this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_RESIZE);
 };
 
-proto._onactivateevent = function(e)
-{
-  var n = e.target || e.srcElement;
 
-  while(n != null && n._QxWidget == null) {
-    n = n.parentNode;
-  };
 
-  if(n == null) {
-    return;
-  };
-
-  var o = n._QxWidget;
-  var oactive = o;
-
-  if (o)
-  {
-    while(o != null && !o.canGetFocus()) {
-      o = o.getParent();
-    };
-
-    if(o) {
-      o.setFocused(true);
-    };
-
-    if (oactive != o) {
-      (new QxApplication).setActiveWidget(oactive);
-    };
-  };
-
-  // this will also stops activating through browser
-  // e.preventDefault();
-
-  // the more intelli method, ignore blur after mousedown event
-  this._ignoreBlur = true;
-};
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSE
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -770,7 +1063,13 @@ proto.dispose = function()
 
   this.detachEvents();
 
-  this._attachedClientWindow = null;
+  delete this.__onmouseevent;
+  delete this.__onkeyevent;
+  delete this.__ondragevent;
+  delete this.__onselectevent;
+  delete this.__onwindowblur;
+  delete this.__onwindowfocus;
+  delete this.__onwindowresize;
 
   this._lastMouseEventType = null;
   this._lastMouseDown = null;

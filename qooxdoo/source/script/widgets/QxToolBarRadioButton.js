@@ -1,44 +1,125 @@
-function QxToolBarRadioButton(vText, vIcon, vChecked)
-{
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(toolbar)
+#require(QxRadioManager)
+
+************************************************************************ */
+
+function QxToolBarRadioButton(vText, vIcon, vChecked) {
   QxToolBarCheckBox.call(this, vText, vIcon, vChecked);
 };
 
 QxToolBarRadioButton.extend(QxToolBarCheckBox, "QxToolBarRadioButton");
 
-QxToolBarRadioButton.addProperty({ name : "group" });
-QxToolBarRadioButton.addProperty({ name : "name", type : String });
-QxToolBarRadioButton.addProperty({ name : "disableUncheck", type : Boolean, defaultValue : false });
 
-proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
+
+
+/*
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
+*/
+
+/*!
+  The assigned QxRadioManager which handles the switching between registered buttons
+*/
+QxToolBarRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxRadioManager", allowNull : true });
+
+/*!
+  The name of the radio group. All the radio elements in a group (registered by the same manager)
+  have the same name (and could have a different value).
+*/
+QxToolBarRadioButton.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+
+/*!
+  Prohibit the deselction of the checked radio button when clicked on it.
+*/
+QxToolBarRadioButton.addProperty({ name : "disableUncheck", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  QxToolBarCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propName, uniqModIds);
+  QxToolBarCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 
-  if (this.getGroup()) {
-    this.getGroup().setSelected(this, uniqModIds);
+  var vManager = this.getManager();
+  if (vManager) {
+    vManager.handleItemChecked(this, propValue);
   };
 
   return true;
 };
 
-proto._modifyGroup = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.remove(this, uniqModIds);
+    propOldValue.remove(this);
   };
 
   if (propValue) {
-    propValue.add(this, uniqModIds);
+    propValue.add(this);
   };
 
   return true;
 };
 
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENTS
+---------------------------------------------------------------------------
+*/
+
 proto._onmouseup = function(e)
 {
-  if(e.isNotLeftButton()) {
-    return;
+  this.setCapture(false);
+  
+  if (!this.hasState(QxConst.STATE_ABANDONED))
+  {
+    this.addState(QxConst.STATE_OVER);
+    this.setChecked(this.getDisableUncheck() || !this.getChecked());
+    this.execute();      
   };
-
-  this.setChecked(this.getDisableUncheck() || !this.getChecked());
+  
+  this.removeState(QxConst.STATE_ABANDONED);
+  this.removeState(QxConst.STATE_PRESSED);
+  
+  e.stopPropagation();
 };
-

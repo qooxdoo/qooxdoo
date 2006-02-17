@@ -1,10 +1,44 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(selection)
+
+************************************************************************ */
+
+/*!
+  This class represents a selection and manage incoming events for widgets which need selection support.
+*/
 function QxSelectionManager(vBoundedWidget)
 {
   QxTarget.call(this);
 
-  this._selectedItems = new QxSelectionStorage();
+  this._selectedItems = new QxSelectionStorage(this);
 
-  if (isValid(vBoundedWidget)) {
+  if (QxUtil.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
   };
 };
@@ -12,107 +46,125 @@ function QxSelectionManager(vBoundedWidget)
 QxSelectionManager.extend(QxManager, "QxSelectionManager");
 
 /*
-  -------------------------------------------------------------------------------
-    PROPERTIES
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
 /*!
 This contains the currently assigned widget (QxList, ...)
 */
-QxSelectionManager.addProperty({ name : "boundedWidget", type : Object });
+QxSelectionManager.addProperty({ name : "boundedWidget", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 Should multiple selection be allowed?
 */
-QxSelectionManager.addProperty({ name : "multiSelection", type : Boolean, defaultValue : true });
+QxSelectionManager.addProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Enable drag selection?
 */
-QxSelectionManager.addProperty({ name : "dragSelection", type : Boolean, defaultValue : true });
+QxSelectionManager.addProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should the user be able to select
 */
-QxSelectionManager.addProperty({ name : "canDeselect", type : Boolean, defaultValue : true });
+QxSelectionManager.addProperty({ name : "canDeselect", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should a change event be fired?
 */
-QxSelectionManager.addProperty({ name : "fireChange", type : Boolean, defaultValue : true });
+QxSelectionManager.addProperty({ name : "fireChange", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 The current anchor in range selections.
 */
-QxSelectionManager.addProperty({ name : "anchorItem", type : Object });
+QxSelectionManager.addProperty({ name : "anchorItem", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 The last selected item
 */
-QxSelectionManager.addProperty({ name : "leadItem", type : Object });
+QxSelectionManager.addProperty({ name : "leadItem", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 Grid selection
 */
-QxSelectionManager.addProperty({ name : "multiColumnSupport", type : Boolean, defaultValue : false });
+QxSelectionManager.addProperty({ name : "multiColumnSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+
+
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
 */
 
-proto._modifyAnchorItem = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyAnchorItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemAnchorState(propOldValue, false);
   };
-  
+
   if (propValue) {
     this.renderItemAnchorState(propValue, true);
   };
-  
+
   return true;
 };
 
-proto._modifyLeadItem = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyLeadItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemLeadState(propOldValue, false);
   };
-  
+
   if (propValue) {
     this.renderItemLeadState(propValue, true);
   };
-  
+
   return true;
 };
 
 
 
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    MAPPING TO BOUNDED WIDGET
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MAPPING TO BOUNDED WIDGET
+---------------------------------------------------------------------------
 */
 
-proto.getFirst = function() 
-{
-  var vItem = this.getBoundedWidget().getFirstChild();
-  return this.getItemEnabled(vItem) ? vItem : this.getNext(vItem);
+proto._getFirst = function() {
+  return this.getBoundedWidget().getFirstVisibleChild();
 };
 
-proto.getLast = function() 
+proto._getLast = function() {
+  return this.getBoundedWidget().getLastVisibleChild();
+};
+
+proto.getFirst = function()
 {
-  var vItem = this.getBoundedWidget().getLastChild();
-  return this.getItemEnabled(vItem) ? vItem : this.getPrevious(vItem);
+  var vItem = this._getFirst();
+  if (vItem) {
+    return vItem.isEnabled() ? vItem : this.getNext(vItem);
+  };
+};
+
+proto.getLast = function()
+{
+  var vItem = this._getLast();
+  if (vItem) {
+    return vItem.isEnabled() ? vItem : this.getPrevious(vItem);
+  };
 };
 
 proto.getItems = function() {
-  return this.getBoundedWidget().getChildren();
+  return this.getBoundedWidget().getVisibleChildren();
 };
 
 proto.getNextSibling = function(vItem) {
@@ -128,14 +180,14 @@ proto.getNext = function(vItem)
   while(vItem)
   {
     vItem = this.getNextSibling(vItem);
-    
+
     if (!vItem) {
       break;
     };
-    
+
     if (this.getItemEnabled(vItem)) {
       return vItem;
-    };    
+    };
   };
 
   return null;
@@ -146,15 +198,15 @@ proto.getPrevious = function(vItem)
   while(vItem)
   {
     vItem = this.getPreviousSibling(vItem);
-    
+
     if (!vItem) {
       break;
     };
-    
+
     if (this.getItemEnabled(vItem)) {
       return vItem;
-    };    
-  };  
+    };
+  };
 
   return null;
 };
@@ -172,13 +224,13 @@ proto.isEqual = function(vItem1, vItem2) {
 
 
 /*
-  -------------------------------------------------------------------------------
-    MAPPING TO ITEM PROPERTIES
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MAPPING TO ITEM PROPERTIES
+---------------------------------------------------------------------------
 */
 
 proto.getItemHashCode = function(vItem) {
-  return vItem.toHash();
+  return vItem.toHashCode();
 };
 
 
@@ -186,13 +238,13 @@ proto.getItemHashCode = function(vItem) {
 
 
 /*
-  -------------------------------------------------------------------------------
-    MAPPING TO ITEM DIMENSIONS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MAPPING TO ITEM DIMENSIONS
+---------------------------------------------------------------------------
 */
 
-proto.scrollItemIntoView = function(vItem) {
-  vItem.scrollIntoView();
+proto.scrollItemIntoView = function(vItem, vTopLeft) {
+  vItem.scrollIntoView(vTopLeft);
 };
 
 proto.getItemLeft = function(vItem) {
@@ -215,53 +267,37 @@ proto.getItemEnabled = function(vItem) {
   return vItem.getEnabled();
 };
 
-proto.getItemClassName = function(vItem) {
-  return vItem.getCssClassName();
-};
 
-proto.setItemClassName = function(vItem, vClassName) {
-  return vItem.setCssClassName(vClassName);
-};
 
-proto.getItemBaseClassName = function(vItem) {
-  return vItem.classname;  
-};
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    ITEM CSS STATE MANAGMENT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  ITEM STATE MANAGMENT
+---------------------------------------------------------------------------
 */
 
-proto._updateState = function(vItem, vState, vIsState)
-{
-  var c = this.getItemClassName(vItem);
-  var n = this.getItemBaseClassName(vItem) + "-" + vState;
-
-  this.setItemClassName(vItem, vIsState ? c.add(n, " ") : c.remove(n, " "));  
-};
-
 proto.renderItemSelectionState = function(vItem, vIsSelected) {
-  this._updateState(vItem, "Selected", vIsSelected);
+  vIsSelected ? vItem.addState(QxConst.STATE_SELECTED) : vItem.removeState(QxConst.STATE_SELECTED);
 };
 
 proto.renderItemAnchorState = function(vItem, vIsAnchor) {
-  this._updateState(vItem, "Anchor", vIsAnchor);
+  vIsAnchor ? vItem.addState(QxConst.STATE_ANCHOR) : vItem.removeState(QxConst.STATE_ANCHOR);
 };
 
 proto.renderItemLeadState = function(vItem, vIsLead) {
-  this._updateState(vItem, "Lead", vIsLead);
+  vIsLead ? vItem.addState(QxConst.STATE_LEAD) : vItem.removeState(QxConst.STATE_LEAD);
 };
+
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    SELECTION HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  SELECTION HANDLING
+---------------------------------------------------------------------------
 */
 
 proto.getItemSelected = function(vItem) {
@@ -285,7 +321,7 @@ proto.setItemSelected = function(vItem, vSelected)
       if (!this.getItemEnabled(vItem)) {
         return;
       };
-    
+
       // If selection state is not to be changed => return
       if (this.getItemSelected(vItem) == vSelected) {
         return;
@@ -294,12 +330,12 @@ proto.setItemSelected = function(vItem, vSelected)
       // Otherwise render new state
       this.renderItemSelectionState(vItem, vSelected);
 
-      // Add item to selection hash / delete it from there     
+      // Add item to selection hash / delete it from there
       vSelected ? this._selectedItems.add(vItem) : this._selectedItems.remove(vItem);
 
       // Dispatch change Event
-      this._dispatchChange();    
-      
+      this._dispatchChange();
+
       break;
 
 
@@ -307,56 +343,54 @@ proto.setItemSelected = function(vItem, vSelected)
     // Multiple item selection is NOT allowed
     case false:
       var item0 = this.getSelectedItems()[0];
-  
-      
-  
+
+
+
       if (vSelected)
       {
-
         // Precheck for any changes
         var old = item0;
-  
+
         if (this.isEqual(vItem, old)) {
           return;
         };
-  
+
         // Reset rendering of previous selected item
         if (old != null) {
           this.renderItemSelectionState(old, false);
         };
-  
+
         // Render new item as selected
         this.renderItemSelectionState(vItem, true);
-        
+
         // Reset current selection hash
         this._selectedItems.removeAll();
-        
+
         // Add new one
         this._selectedItems.add(vItem);
-        
+
         // Dispatch change Event
         this._dispatchChange();
       }
       else
       {
-
         // Pre-check if item is currently selected
         // Do not allow deselection in single selection mode
         if (!this.isEqual(item0, vItem))
         {
           // Reset rendering as selected item
           this.renderItemSelectionState(vItem, false);
-          
+
           // Reset current selection hash
           this._selectedItems.removeAll();
-          
+
           // Dispatch change Event
           this._dispatchChange();
         };
       };
-      
+
       break;
-   
+
   };
 };
 
@@ -380,20 +414,20 @@ proto.getSelectedItem = function() {
 
 /*!
 Select given items
-  
+
 #param vItems[Array of QxWidgets]: Items to select
 */
 proto.setSelectedItems = function(vItems)
 {
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
-  var oldFireChange = this.getFireChange();  
+  var oldFireChange = this.getFireChange();
   this.setFireChange(false);
-  
+
   // Deselect all currently selected items
   this._deselectAll();
-  
+
   // Apply new selection
   var vItem;
   var vItemLength = vItems.length;
@@ -401,14 +435,14 @@ proto.setSelectedItems = function(vItems)
   for (var i=0; i<vItemLength; i++)
   {
     vItem = vItems[i];
-    
+
     if (!this.getItemEnabled(vItem)) {
       continue;
-    };    
-    
+    };
+
     // Add item to selection
     this._selectedItems.add(vItem);
-    
+
     // Render new state for item
     this.renderItemSelectionState(vItem, true);
   };
@@ -428,33 +462,33 @@ proto.setSelectedItem = function(vItem)
   if (!vItem) {
     return;
   };
-  
+
   if (!this.getItemEnabled(vItem)) {
     return;
   };
-  
+
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
-  var oldFireChange = this.getFireChange();  
-  this.setFireChange(false);  
-  
+  var oldFireChange = this.getFireChange();
+  this.setFireChange(false);
+
   // Deselect all currently selected items
   this._deselectAll();
-  
+
   // Add item to selection
   this._selectedItems.add(vItem);
-    
+
   // Render new state for item
-  this.renderItemSelectionState(vItem, true);  
-    
+  this.renderItemSelectionState(vItem, true);
+
   // Recover change event status
   this.setFireChange(oldFireChange);
 
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };  
+  };
 };
 
 
@@ -467,14 +501,14 @@ proto.setSelectedItem = function(vItem)
 proto.selectAll = function()
 {
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
   var oldFireChange = this.getFireChange();
   this.setFireChange(false);
-  
+
   // Call sub method to select all items
   this._selectAll();
-  
+
   // Recover change event status
   this.setFireChange(oldFireChange);
 
@@ -497,25 +531,25 @@ proto._selectAll = function()
   var vItem;
   var vItems = this.getItems();
   var vItemsLength = vItems.length;
-  
+
   // Reset current selection hash
   this._selectedItems.removeAll();
 
   for (var i=0; i<vItemsLength; i++)
   {
     vItem = vItems[i];
-    
+
     if (!this.getItemEnabled(vItem)) {
       continue;
-    };    
-    
+    };
+
     // Add item to selection
     this._selectedItems.add(vItem);
 
     // Render new state for item
     this.renderItemSelectionState(vItem, true);
   };
-  
+
   return true;
 };
 
@@ -529,14 +563,14 @@ proto._selectAll = function()
 proto.deselectAll = function()
 {
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
   var oldFireChange = this.getFireChange();
   this.setFireChange(false);
-  
+
   // Call sub method to deselect all items
   this._deselectAll();
-  
+
   // Recover change event status
   this.setFireChange(oldFireChange);
 
@@ -556,10 +590,10 @@ proto._deselectAll = function()
   for (var i = 0; i < items.length; i++) {
     this.renderItemSelectionState(items[i], false);
   };
-  
+
   // Delete all entries in selectedItems hash
   this._selectedItems.removeAll();
-  
+
   return true;
 };
 
@@ -568,21 +602,21 @@ proto._deselectAll = function()
 
 /*!
 Select a range of items.
-  
+
 #param vItem1[QxWidget]: Start item
 #param vItem2[QxWidget]: Stop item
 */
 proto.selectItemRange = function(vItem1, vItem2)
 {
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
   var oldFireChange = this.getFireChange();
   this.setFireChange(false);
-  
+
   // Call sub method to select the range of items
   this._selectItemRange(vItem1, vItem2, true);
-  
+
   // Recover change event status
   this.setFireChange(oldFireChange);
 
@@ -598,16 +632,16 @@ proto.selectItemRange = function(vItem1, vItem2)
 /*!
 Sub method for selectItemRange. Handles the real work
 to select a range of items.
-  
+
 #param vItem1[QxWidget]: Start item
-#param vItem2[QxWidget]: Stop item  
+#param vItem2[QxWidget]: Stop item
 #param vDelect[Boolean]: Deselect currently selected items first?
 */
 proto._selectItemRange = function(vItem1, vItem2, vDeselect)
 {
-  // this.debug("SELECT_RANGE: " + vItem1.toText() + "<->" + vItem2.toText());  
-  // this.debug("SELECT_RANGE: " + vItem1.pos + "<->" + vItem2.pos);  
-  
+  // this.debug("SELECT_RANGE: " + vItem1.toText() + "<->" + vItem2.toText());
+  // this.debug("SELECT_RANGE: " + vItem1.pos + "<->" + vItem2.pos);
+
   // Pre-Check a revert call if vItem2 is before vItem1
   if (this.isBefore(vItem2, vItem1)) {
     return this._selectItemRange(vItem2, vItem1, vDeselect);
@@ -617,37 +651,37 @@ proto._selectItemRange = function(vItem1, vItem2, vDeselect)
   if (vDeselect) {
     this._deselectAll();
   };
-  
+
   var vCurrentItem = vItem1;
 
   while (vCurrentItem != null)
   {
-    if (this.getItemEnabled(vCurrentItem)) 
+    if (this.getItemEnabled(vCurrentItem))
     {
       // Add item to selection
       this._selectedItems.add(vCurrentItem);
-      
+
       // Render new state for item
       this.renderItemSelectionState(vCurrentItem, true);
-    };  
+    };
 
     // Stop here if we reached target item
     if (this.isEqual(vCurrentItem, vItem2)) {
       break;
     };
-    
+
     // Get next item
     vCurrentItem = this.getNext(vCurrentItem);
   };
-  
+
   return true;
 };
 
 /*!
-Internal method for deselection of ranges. 
-  
+Internal method for deselection of ranges.
+
 #param vItem1[QxWidget]: Start item
-#param vItem2[QxWidget]: Stop item  
+#param vItem2[QxWidget]: Stop item
 */
 proto._deselectItemRange = function(vItem1, vItem2)
 {
@@ -662,7 +696,7 @@ proto._deselectItemRange = function(vItem1, vItem2)
   {
     // Add item to selection
     this._selectedItems.remove(vCurrentItem);
-    
+
     // Render new state for item
     this.renderItemSelectionState(vCurrentItem, false);
 
@@ -678,9 +712,9 @@ proto._deselectItemRange = function(vItem1, vItem2)
 
 
 /*
-  -------------------------------------------------------------------------------
-    MOUSE EVENT HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MOUSE EVENT HANDLING
+---------------------------------------------------------------------------
 */
 
 proto._activeDragSession = false;
@@ -688,12 +722,12 @@ proto._activeDragSession = false;
 proto.handleMouseDown = function(vItem, e)
 {
   // Only allow left and right button
-  if (e.isNotLeftButton() && e.isNotRightButton()) {
+  if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
     return;
   };
 
   // Keep selection on right click on already selected item
-  if (e.isRightButton() && this.getItemSelected(vItem)) {
+  if (e.isRightButtonPressed() && this.getItemSelected(vItem)) {
     return;
   };
 
@@ -710,41 +744,41 @@ proto.handleMouseDown = function(vItem, e)
     // Update lead item
     this.setLeadItem(vItem);
   };
-  
-  
+
+
   // Handle dragging
   this._activeDragSession = this.getDragSelection();
 
   if (this._activeDragSession)
   {
     // Add mouseup listener and register as capture widget
-    this.getBoundedWidget().addEventListener("mouseup", this._ondragup, this);
+    this.getBoundedWidget().addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._ondragup, this);
     this.getBoundedWidget().setCapture(true);
-  };  
+  };
 };
 
 proto._ondragup = function(e)
 {
-  this.getBoundedWidget().removeEventListener("mouseup", this._ondragup, this);
+  this.getBoundedWidget().removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._ondragup, this);
   this.getBoundedWidget().setCapture(false);
   this._activeDragSession = false;
 };
 
 proto.handleMouseUp = function(vItem, e)
 {
-  if (e.isNotLeftButton()) {
+  if (!e.isLeftButtonPressed()) {
     return;
   };
 
   if (e.getCtrlKey() || this.getItemSelected(vItem) && !this._activeDragSession) {
     this._onmouseevent(vItem, e);
   };
-  
+
   if (this._activeDragSession)
   {
     this._activeDragSession = false;
     this.getBoundedWidget().setCapture(false);
-  };  
+  };
 };
 
 proto.handleMouseOver = function(oItem, e)
@@ -770,8 +804,8 @@ proto._onmouseevent = function(oItem, e, bOver)
 {
   if (!this.getItemEnabled(oItem)) {
     return;
-  };  
-  
+  };
+
   // ********************************************************************
   //   Init
   // ********************************************************************
@@ -802,7 +836,7 @@ proto._onmouseevent = function(oItem, e, bOver)
   // ********************************************************************
   //   Do we need to update the anchor?
   // ********************************************************************
-  
+
   if (!currentAnchorItem || selectedCount == 0 || (vCtrlKey && !vShiftKey && this.getMultiSelection() && !this.getDragSelection()))
   {
     this.setAnchorItem(oItem);
@@ -819,14 +853,14 @@ proto._onmouseevent = function(oItem, e, bOver)
     if (!this.getItemEnabled(oItem)) {
       return;
     };
-    
+
     // Remove current selection
     this._deselectAll();
-    
+
     // Update anchor item
     this.setAnchorItem(oItem);
-    
-    if (this._activeDragSession) 
+
+    if (this._activeDragSession)
     {
       // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
       this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
@@ -839,11 +873,11 @@ proto._onmouseevent = function(oItem, e, bOver)
     // Clear up and add new one
     //this._selectedItems.removeAll();
     this._selectedItems.add(oItem);
-    
+
     this._addToCurrentSelection = true;
   }
 
-  
+
   // ********************************************************************
   //   Mode #2: (De-)Select item range in mouse drag session
   // ********************************************************************
@@ -852,7 +886,7 @@ proto._onmouseevent = function(oItem, e, bOver)
     if (oldLead) {
       this._deselectItemRange(currentAnchorItem, oldLead);
     };
-    
+
     // Drag down
     if (this.isBefore(currentAnchorItem, oItem))
     {
@@ -863,9 +897,9 @@ proto._onmouseevent = function(oItem, e, bOver)
       else
       {
         this._deselectItemRange(currentAnchorItem, oItem);
-      };      
+      };
     }
-    
+
     // Drag up
     else
     {
@@ -876,14 +910,14 @@ proto._onmouseevent = function(oItem, e, bOver)
       else
       {
         this._deselectItemRange(oItem, currentAnchorItem);
-      };      
+      };
     };
-    
+
     // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
     this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
   }
-  
-  
+
+
   // ********************************************************************
   //   Mode #3: Add new item to current selection (ctrl pressed)
   // ********************************************************************
@@ -892,7 +926,7 @@ proto._onmouseevent = function(oItem, e, bOver)
     if (!this._activeDragSession) {
       this._addToCurrentSelection = !(this.getCanDeselect() && this.getItemSelected(oItem));
     };
-    
+
     this.setItemSelected(oItem, this._addToCurrentSelection);
     this.setAnchorItem(oItem);
   }
@@ -907,12 +941,12 @@ proto._onmouseevent = function(oItem, e, bOver)
       this._addToCurrentSelection = !(this.getCanDeselect() && this.getItemSelected(oItem));
     };
 
-    if (this._addToCurrentSelection) 
+    if (this._addToCurrentSelection)
     {
       this._selectItemRange(currentAnchorItem, oItem, false);
     }
     else
-    { 
+    {
       this._deselectItemRange(currentAnchorItem, oItem);
     };
   }
@@ -942,7 +976,7 @@ proto._onmouseevent = function(oItem, e, bOver)
   // Recover change event status
   this.setFireChange(oldFireChange);
 
-  // Dispatch change Event  
+  // Dispatch change Event
   if(oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
   };
@@ -952,15 +986,15 @@ proto._onmouseevent = function(oItem, e, bOver)
 
 
 /*
-  -------------------------------------------------------------------------------
-    KEY EVENT HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  KEY EVENT HANDLER
+---------------------------------------------------------------------------
 */
 
 proto.handleKeyDown = function(e)
 {
   var oldVal = this._getChangeValue();
-  
+
   // Temporary disabling of event fire
   var oldFireChange = this.getFireChange();
   this.setFireChange(false);
@@ -973,8 +1007,8 @@ proto.handleKeyDown = function(e)
     if (this.getMultiSelection())
     {
       this._selectAll();
-      
-      // Update lead item to this new last 
+
+      // Update lead item to this new last
       // (or better here: first) selected item
       this.setLeadItem(this.getFirst());
     };
@@ -985,23 +1019,26 @@ proto.handleKeyDown = function(e)
   {
     var aIndex = this.getAnchorItem();
     var itemToSelect = this.getItemToSelect(e);
-    
-    // this.debug("Anchor: " + (aIndex ? aIndex.getText() : "null"));
-    // this.debug("ToSelect: " + (itemToSelect ? itemToSelect.getText() : "null"));
+
+    // this.debug("Anchor: " + (aIndex ? aIndex.getLabel() : "null"));
+    // this.debug("ToSelect: " + (itemToSelect ? itemToSelect.getLabel() : "null"));
 
     if (itemToSelect && this.getItemEnabled(itemToSelect))
     {
       // Update lead item to this new last selected item
       this.setLeadItem(itemToSelect);
-      
+
       // Scroll new item into view
       this.scrollItemIntoView(itemToSelect);
-      
+
+      // Stop event handling
+      e.preventDefault();
+
       // Select a range
       if (e.getShiftKey() && this.getMultiSelection())
       {
         // Make it a little bit more failsafe:
-        // Set anchor if not given already. Allows us to select 
+        // Set anchor if not given already. Allows us to select
         // a range without any previous selection.
         if (aIndex == null) {
           this.setAnchorItem(itemToSelect);
@@ -1014,44 +1051,69 @@ proto.handleKeyDown = function(e)
       {
         // Clear current selection
         this._deselectAll();
-        
+
         // Update new item to be selected
         this.renderItemSelectionState(itemToSelect, true);
 
-        // Add item to new selection        
+        // Add item to new selection
         this._selectedItems.add(itemToSelect);
 
-        // Update anchor to this new item 
+        // Update anchor to this new item
         // (allows following shift range selection)
         this.setAnchorItem(itemToSelect);
+      }
+      else if (e.getKeyCode() == QxKeyEvent.keys.space)
+      {
+        if (this._selectedItems.contains(itemToSelect))
+        {
+          // Update new item to be selected
+          this.renderItemSelectionState(itemToSelect, false);
+
+          // Add item to new selection
+          this._selectedItems.remove(itemToSelect);
+
+          // Fix anchor item
+          this.setAnchorItem(this._selectedItems.getFirst());
+        }
+        else
+        {
+          // Clear current selection
+          if (!e.getCtrlKey() || !this.getMultiSelection()) {
+            this._deselectAll();
+          };
+
+          // Update new item to be selected
+          this.renderItemSelectionState(itemToSelect, true);
+
+          // Add item to new selection
+          this._selectedItems.add(itemToSelect);
+
+          // Update anchor to this new item
+          // (allows following shift range selection)
+          this.setAnchorItem(itemToSelect);
+        };
       };
     };
   };
-  
-  // Stop events
-  e.setPreventDefault(true);
-  e.setPropagationStopped(true);
 
   // Recover change event status
   this.setFireChange(oldFireChange);
 
-  // Dispatch change Event  
+  // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
   };
 };
 
-proto.getItemToSelect = function(oKeyboardEvent)
+proto.getItemToSelect = function(vKeyboardEvent)
 {
-  var e = oKeyboardEvent;
-
   // Don't handle ALT here
-  if (e.getAltKey()) {
+  if (vKeyboardEvent.getAltKey()) {
     return null;
   };
 
   // Handle event by keycode
-  switch (e.getKeyCode())
+  switch (vKeyboardEvent.getKeyCode())
   {
     case QxKeyEvent.keys.home:
       return this.getHome(this.getLeadItem());
@@ -1063,21 +1125,28 @@ proto.getItemToSelect = function(oKeyboardEvent)
     case QxKeyEvent.keys.down:
       return this.getDown(this.getLeadItem());
 
-    case QxKeyEvent.keys.up: 
+    case QxKeyEvent.keys.up:
       return this.getUp(this.getLeadItem());
-      
+
+
     case QxKeyEvent.keys.left:
       return this.getLeft(this.getLeadItem());
-    
+
     case QxKeyEvent.keys.right:
       return this.getRight(this.getLeadItem());
-      
 
-    case QxKeyEvent.keys.pageup: 
-      return this.getPageUp(this.getLeadItem());
 
-    case QxKeyEvent.keys.pagedown: 
-      return this.getPageDown(this.getLeadItem());
+    case QxKeyEvent.keys.pageup:
+      return this.getPageUp(this.getLeadItem()) || this.getHome(this.getLeadItem());
+
+    case QxKeyEvent.keys.pagedown:
+      return this.getPageDown(this.getLeadItem()) || this.getEnd(this.getLeadItem());
+
+
+    case QxKeyEvent.keys.space:
+      if (vKeyboardEvent.getCtrlKey()) {
+        return this.getLeadItem();
+      };
   };
 
   return null;
@@ -1087,9 +1156,9 @@ proto.getItemToSelect = function(oKeyboardEvent)
 
 
 /*
-  -------------------------------------------------------------------------------
-    CHANGE HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  CHANGE HANDLING
+---------------------------------------------------------------------------
 */
 
 proto._dispatchChange = function()
@@ -1097,8 +1166,10 @@ proto._dispatchChange = function()
   if (!this.getFireChange()) {
     return;
   };
-  
-  this.dispatchEvent(new QxDataEvent("changeSelection", this.getSelectedItems()));
+
+  if (this.hasEventListeners("changeSelection")) {
+    this.dispatchEvent(new QxDataEvent("changeSelection", this.getSelectedItems()), true);
+  };
 };
 
 proto._hasChanged = function(sOldValue) {
@@ -1115,9 +1186,9 @@ proto._getChangeValue = function() {
 
 
 /*
-  -------------------------------------------------------------------------------
-    POSITION HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  POSITION HANDLING
+---------------------------------------------------------------------------
 */
 
 proto.getHome = function() {
@@ -1128,21 +1199,21 @@ proto.getEnd = function() {
   return this.getLast();
 };
 
-proto.getDown = function(vItem) 
+proto.getDown = function(vItem)
 {
   if (!vItem) {
     return this.getFirst();
   };
-  
+
   return this.getMultiColumnSupport() ? (this.getUnder(vItem) || this.getLast()) : this.getNext(vItem);
 };
 
-proto.getUp = function(vItem) 
+proto.getUp = function(vItem)
 {
   if (!vItem) {
     return this.getLast();
   };
-  
+
   return this.getMultiColumnSupport() ? (this.getAbove(vItem) || this.getFirst()) : this.getPrevious(vItem);
 };
 
@@ -1151,7 +1222,7 @@ proto.getLeft = function(vItem)
   if (!this.getMultiColumnSupport()) {
     return null;
   };
-  
+
   return !vItem ? this.getLast() : this.getPrevious(vItem);
 };
 
@@ -1160,7 +1231,7 @@ proto.getRight = function(vItem)
   if (!this.getMultiColumnSupport()) {
     return null;
   };
-  
+
   return !vItem ? this.getFirst() : this.getNext(vItem);
 };
 
@@ -1176,10 +1247,14 @@ proto.getUnder = function(vItem)
 
 
 
+
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    PAGE HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PAGE HANDLING
+---------------------------------------------------------------------------
 */
 
 /*!
@@ -1189,9 +1264,10 @@ Jump a "page" up.
 */
 proto.getPageUp = function(vItem)
 {
-  var vBound = this.getBoundedWidget();
-  var vParentScrollTop = vBound.getScrollTop();
-  
+  var vBoundedWidget = this.getBoundedWidget();
+  var vParentScrollTop = vBoundedWidget.getScrollTop();
+  var vParentClientHeight = vBoundedWidget.getClientHeight();
+
   // Find next item
   var newItem;
   var nextItem = this.getLeadItem();
@@ -1204,43 +1280,36 @@ proto.getPageUp = function(vItem)
   var tryLoops = 0;
   while (tryLoops < 2)
   {
-    while (nextItem && (this.getItemTop(nextItem) - this.getItemHeight(nextItem) >= vParentScrollTop)) 
-    {
-      newItem = this.getUp(nextItem);
-      
-      if (newItem == null) {
-        break;
-      };
-      
-      nextItem = newItem;
+    while (nextItem && (this.getItemTop(nextItem) - this.getItemHeight(nextItem) >= vParentScrollTop)) {
+      nextItem = this.getUp(nextItem);
     };
 
     // This should never occour after the fix above
-    if (nextItem == null) 
-    {
-      // this.debug("No item found, stop here");
-      tryLoops = 2;
+    if (nextItem == null) {
       break;
     };
 
     // If the nextItem is not anymore the leadItem
     // Means: There has occured a change.
     // We break here. This is normally the second step.
-    if (nextItem != this.getLeadItem()) {
+    if (nextItem != this.getLeadItem())
+    {
+      // be sure that the top is reached
+      this.scrollItemIntoView(nextItem, true);
       break;
     };
 
     // Update scrolling (this is normally the first step)
-    vBound.setScrollTop(vParentScrollTop - vBound.getClientHeight() - this.getItemHeight(nextItem));
-    
+    // this.debug("Scroll-Up: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
+    vBoundedWidget.setScrollTop(vParentScrollTop - vParentClientHeight - this.getItemHeight(nextItem));
+
     // Use the real applied value instead of the calulated above
-    vParentScrollTop = vBound.getScrollTop();
-    
+    vParentScrollTop = vBoundedWidget.getScrollTop();
+
     // Increment counter
     tryLoops++;
   };
 
-  // this.debug("NextItem: " + (nextItem ? nextItem.getText() : "null"));
   return nextItem;
 };
 
@@ -1251,10 +1320,15 @@ Jump a "page" down.
 */
 proto.getPageDown = function(vItem)
 {
-  var vBound = this.getBoundedWidget();
-  var vParentScrollTop = vBound.getScrollTop();
-  var vParentClientHeight = vBound.getClientHeight();
-  
+  var vBoundedWidget = this.getBoundedWidget();
+  var vParentScrollTop = vBoundedWidget.getScrollTop();
+  var vParentClientHeight = vBoundedWidget.getClientHeight();
+
+  // this.debug("Bound: " + (vBoundedWidget._getTargetNode() != vBoundedWidget.getElement()));
+
+  // this.debug("ClientHeight-1: " + vBoundedWidget._getTargetNode().clientHeight);
+  // this.debug("ClientHeight-2: " + vBoundedWidget.getElement().clientHeight);
+
   // Find next item
   var newItem;
   var nextItem = this.getLeadItem();
@@ -1267,23 +1341,17 @@ proto.getPageDown = function(vItem)
   var tryLoops = 0;
   while (tryLoops < 2)
   {
+    // this.debug("Loop: " + tryLoops);
+    // this.debug("Info: " + nextItem + " :: " + (this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) + " <> " + (vParentScrollTop + vParentClientHeight));
+    // this.debug("Detail: " + vParentScrollTop + ", " + vParentClientHeight);
+
     // Find next
-    while (nextItem && ((this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) 
-    {
-      newItem = this.getDown(nextItem);
-      
-      if (newItem == null) {
-        break;
-      };
-      
-      nextItem = newItem;
+    while (nextItem && ((this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
+      nextItem = this.getDown(nextItem);
     };
 
     // This should never occour after the fix above
-    if (nextItem == null) 
-    {
-      // this.debug("No item found, stop here");
-      tryLoops = 2;
+    if (nextItem == null) {
       break;
     };
 
@@ -1295,16 +1363,18 @@ proto.getPageDown = function(vItem)
     };
 
     // Update scrolling (this is normally the first step)
-    vBound.setScrollTop(vParentScrollTop + vParentClientHeight - (2 * this.getItemHeight(nextItem)));
-    
+    // this.debug("Scroll-Down: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
+    vBoundedWidget.setScrollTop(vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem));
+
     // Use the real applied value instead of the calulated above
-    vParentScrollTop = vBound.getScrollTop();
-    
+    vParentScrollTop = vBoundedWidget.getScrollTop();
+
     // Increment counter
     tryLoops++;
   };
-  
-  // this.debug("NextItem: " + (nextItem ? nextItem.getText() : "null"));
+
+  //this.debug("Select: " + nextItem._labelObject.getHtml());
+
   return nextItem;
 };
 
@@ -1318,9 +1388,9 @@ proto.getPageDown = function(vItem)
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSE
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -1329,10 +1399,11 @@ proto.dispose = function()
     return;
   };
 
-  if (this._selectedItems) {
+  if (this._selectedItems)
+  {
     this._selectedItems.dispose();
     this._selectedItems = null;
   };
-  
+
   return QxTarget.prototype.dispose.call(this);
 };

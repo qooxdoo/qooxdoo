@@ -1,391 +1,125 @@
-function QxDockLayout()
-{
-  QxLayout.call(this);  
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(layout)
+#require(QxDockLayoutImpl)
+
+************************************************************************ */
+
+function QxDockLayout() {
+  QxParent.call(this);
 };
 
-QxDockLayout.extend(QxLayout, "QxDockLayout");
+QxDockLayout.extend(QxParent, "QxDockLayout");
 
-QxDockLayout.addProperty({ name : "respectAutoRequirements", type : Boolean, defaultValue : true });
+/*!
+  The layout mode (in which order the children should be layouted)
+*/
+QxDockLayout.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ORIENTATION_VERTICAL, possibleValues : [ QxConst.ORIENTATION_VERTICAL, QxConst.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
+
+/*
+  Overwrite from QxWidget, we do not support 'auto' and 'flex'
+*/
+QxDockLayout.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
+QxDockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+QxDockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+QxDockLayout.changeProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercent" });
+QxDockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+QxDockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+
+
+
 
 
 
 /*
-------------------------------------------------------------------------------------
-  CUSTOM WIDGET ADDER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  INIT LAYOUT IMPL
+---------------------------------------------------------------------------
 */
 
 /*!
-  Add/Append another widget. Allows to add multiple 
-  widgets at once. The last param could be used to 
-  define the docking of the childrens.
+  This creates an new instance of the layout impl this widget uses
 */
-proto.add = function()
-{
-  var l = arguments.length;
-  var d = arguments[l-1];
-  var o;
-  
-  if (isValidString(d)) 
-  {
-    l--;
-  }
-  else
-  {
-    d = "auto";
-  };
-
-  for (var i=0; i<l; i++)
-  {
-    o = arguments[i];
-    
-    if (!(o instanceof QxWidget))
-    {
-      throw new Error("Invalid Widget: " + o);
-    }
-    else
-    {
-      o.setParent(this);
-      o.setLayoutHint(d);
-    };
-  };
-
-  return this;  
+proto._createLayoutImpl = function() {
+  return new QxDockLayoutImpl(this);
 };
 
 
 
 
 /*
-------------------------------------------------------------------------------------
-  RENDERER: PLACEMENT OF CHILDREN
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  ENHANCED CHILDREN FEATURES
+---------------------------------------------------------------------------
 */
 
-proto._layoutInternalWidgetsHorizontal = function()
-{
-  var innerWidth = this.getInnerWidth();
-  if (innerWidth == 0) {
-    return;
-  };
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc, cht;
-  
-  var grouped = {
-    left : [],
-    right : [],
-    orthogonal : [],
-    auto : []
-  };
-  
-  for (var i=0; i<chl; i++) 
-  {
-    chc = ch[i];
-    cht = chc.getLayoutHint();
-    
-    switch(cht)
-    {
-      case "left":
-      case "right":
-      case "auto":
-        grouped[cht].push(chc);
-        break;
-        
-      case "top":
-      case "bottom":
-        grouped["orthogonal"].push(chc);
-        break;
-        
-      default:
-        throw new Error("QxDockLayout does not support layout hint '" + cht + "' for child " + chc);
-    };
-  };
-
-  if (grouped.auto.length > 1) {
-    throw new Error("QxDockLayout can not handle multiple auto children!");
-  };
-
-  
-  
-  /*
-  -----------------------
-    LEFT
-  -----------------------
-  */
-  var leftList = grouped.left;
-  var leftLength = leftList.length;
-  var leftLast = 0;  
-  
-  for (var i=0; i<leftLength; i++)
-  {
-    chc = leftList[i];
-    
-    chc._applyPositionHorizontal(leftLast);
-    leftLast += this._prepareSizeValue(chc.getAnyWidth(), innerWidth, chc.getMinWidth(), chc.getMaxWidth());
-  };
-  
-  
-  
-  /*
-  -----------------------
-    RIGHT
-  -----------------------
-  */
-  var rightList = grouped.right;
-  var rightLength = rightList.length;
-  var rightLast = innerWidth;
-  
-  for (var i=0; i<rightLength; i++)
-  {
-    chc = rightList[i];
-    
-    rightLast -= this._prepareSizeValue(chc.getAnyWidth(), innerWidth, chc.getMinWidth(), chc.getMaxWidth());
-    chc._applyPositionHorizontal(rightLast);
-  };  
-  
-  
-
-  /*
-  -----------------------
-    ORTHOGONAL
-  -----------------------
-  */
-  var orthogonalList = grouped.orthogonal;
-  var orthogonalLength = orthogonalList.length;
-  
-  for (var i=0; i<orthogonalLength; i++)
-  {
-    chc = orthogonalList[i];
-    
-    chc._applyPositionHorizontal(0);
-    chc._applySizeHorizontal(innerWidth);    
-  };
-  
-  
-  
-  /*
-  -----------------------
-    AUTO
-  -----------------------
-  */  
-  var autoList = grouped.auto;
-  var autoLength = autoList.length;
-  var autoItem = autoList[0];
-  var autoSpace = Math.max(0, rightLast - leftLast);
-  
-  if (autoItem)
-  {
-    autoItem._applyPositionHorizontal(leftLast);
-    autoItem._applySizeHorizontal(autoSpace);
-  };
+/*!
+  Add multiple childrens and make them left aligned
+*/
+proto.addLeft = function() {
+  this._addAlignedHorizontal(QxConst.ALIGN_LEFT, arguments);
 };
 
-
-
-
-
-proto._layoutInternalWidgetsVertical = function() 
-{
-  var innerHeight = this.getInnerHeight();
-  if (innerHeight == 0) {
-    return;
-  };
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc, cht;
-  
-  var grouped = {
-    top : [],
-    bottom : [],
-    orthogonal : [],
-    auto : []
-  };
-  
-  for (var i=0; i<chl; i++) 
-  {
-    chc = ch[i];
-    cht = chc.getLayoutHint();
-    
-    switch(cht)
-    {
-      case "top":
-      case "bottom":
-      case "auto":
-        grouped[cht].push(chc);
-        break;
-        
-      case "left":
-      case "right":
-        grouped["orthogonal"].push(chc);
-        break;
-        
-      default:
-        throw new Error("QxDockLayout does not support layout hint '" + cht + "' for child " + chc);
-    };
-  };
-  
-  if (grouped.auto.length > 1) {
-    throw new Error("QxDockLayout can not handle multiple auto children!");
-  };
-  
-
-
-  /*
-  -----------------------
-    TOP
-  -----------------------
-  */
-  var topList = grouped.top;
-  var topLength = topList.length;
-  var topLast = 0;  
-  
-  for (var i=0; i<topLength; i++)
-  {
-    chc = topList[i];
-    
-    chc._applyPositionVertical(topLast);    
-    topLast += this._prepareSizeValue(chc.getAnyHeight(), innerHeight, chc.getMinHeight(), chc.getMaxHeight());
-  };
-  
-  
-  
-  /*
-  -----------------------
-    BOTTOM
-  -----------------------
-  */
-  var bottomList = grouped.bottom;
-  var bottomLength = bottomList.length;
-  var bottomLast = innerHeight;
-  
-  for (var i=0; i<bottomLength; i++)
-  {
-    chc = bottomList[i];
-    
-    bottomLast -= this._prepareSizeValue(chc.getAnyHeight(), innerHeight, chc.getMinHeight(), chc.getMaxHeight());
-    chc._applyPositionVertical(bottomLast);
-  };
-  
-  
- 
-  /*
-  -----------------------
-    ORTHOGONAL AND AUTO
-  -----------------------
-  */
-  var otherList = grouped.orthogonal.concat(grouped.auto);
-  var otherSpace = Math.max(0, bottomLast - topLast);
-  
-  for (var i=0, l=otherList.length; i<l; i++)
-  {
-    chc = otherList[i];
-    
-    chc._applyPositionVertical(topLast);
-    chc._applySizeVertical(otherSpace);
-  };
+/*!
+  Add multiple childrens and make them right aligned
+*/
+proto.addRight = function() {
+  this._addAlignedHorizontal(QxConst.ALIGN_RIGHT, arguments);
 };
 
-proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
-{
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  
-  var accumulatedWidth = 0;
-  var maxSingleRequiredWidth = 0;
-  var respectAutoRequirements = this.getRespectAutoRequirements();
-  
-  var tempSize;
-  
-  for (var i=0; i<chl; i++) 
-  {
-    chc = ch[i];
-    cht = chc.getLayoutHint();
-    
-    switch(cht)
-    {
-      case "top":
-      case "bottom":
-        tempSize = chc.getAnyWidth();
-        tempSize = isValidNumber(tempSize) ? tempSize : 0;
-        maxSingleRequiredWidth = Math.max(Math.min(Math.max(chc.getMinWidth(), tempSize), chc.getMaxWidth()), maxSingleRequiredWidth);
-        break;
-        
-      case "auto":        
-        if (!respectAutoRequirements) {
-          break;
-        };
-
-      case "left":
-      case "right":
-        tempSize = chc.getAnyWidth();
-        tempSize = isValidNumber(tempSize) ? tempSize : 0;        
-        accumulatedWidth += Math.min(Math.max(tempSize, chc.getMinWidth()), chc.getMaxWidth());
-        break;
-        
-      default:
-        throw new Error("QxDockLayout does not support layout hint '" + cht + "' for child " + chc);
-    };
-  };    
-  
-  return Math.max(0, accumulatedWidth + maxSingleRequiredWidth);
+/*!
+  Add multiple childrens and make them top aligned
+*/
+proto.addTop = function() {
+  this._addAlignedVertical(QxConst.ALIGN_TOP, arguments);
 };
 
-proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
-{
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  
-  var accumulatedHeight = 0;
-  var maxSingleRequiredHeight = 0;
-  var respectAutoRequirements = this.getRespectAutoRequirements();
-  
-  var tempSize;
-  
-  for (var i=0; i<chl; i++) 
-  {
-    chc = ch[i];
-    cht = chc.getLayoutHint();
-    
-    switch(cht)
-    {
-      case "top":
-      case "bottom":
-        tempSize = chc.getAnyHeight();
-        tempSize = isValidNumber(tempSize) ? tempSize : 0;        
-        accumulatedHeight += Math.min(Math.max(tempSize, chc.getMinHeight()), chc.getMaxHeight());
-        break;
-
-      case "auto":        
-        if (!respectAutoRequirements) {
-          break;
-        };        
-        
-      case "left":
-      case "right":
-        tempSize = chc.getAnyHeight();
-        tempSize = isValidNumber(tempSize) ? tempSize : 0;      
-        maxSingleRequiredHeight = Math.max(Math.min(Math.max(chc.getMinHeight(), tempSize), chc.getMaxHeight()), maxSingleRequiredHeight);
-        break;
-        
-      default:
-        throw new Error("QxDockLayout does not support layout hint '" + cht + "' for child " + chc);
-    };
-  };    
-  
-  return Math.max(0, accumulatedHeight + maxSingleRequiredHeight);
+/*!
+  Add multiple childrens and make them bottom aligned
+*/
+proto.addBottom = function() {
+  this._addAlignedVertical(QxConst.ALIGN_BOTTOM, arguments);
 };
 
-proto._prepareSizeValue = function(size, full, min, max) 
+proto._addAlignedVertical = function(vAlign, vArgs)
 {
-  var t = typeof size == "string" ? Math.round(parseInt(size) * full / 100) : size;
-  if (!isValidNumber) {
-    return null;
+  for (var i=0, l=vArgs.length; i<l; i++) {
+    vArgs[i].setVerticalAlign(vAlign);
   };
+  
+  this.add.apply(this, vArgs); 
+};
 
-  return t.limit(min, max);
+proto._addAlignedHorizontal = function(vAlign, vArgs)
+{
+  for (var i=0, l=vArgs.length; i<l; i++) {
+    vArgs[i].setHorizontalAlign(vAlign);
+  };
+  
+  this.add.apply(this, vArgs); 
 };

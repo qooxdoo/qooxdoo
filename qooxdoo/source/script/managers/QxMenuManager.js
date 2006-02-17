@@ -1,28 +1,82 @@
-function QxMenuManager()
-{
-  if(QxMenuManager._instance) {
-    return QxMenuManager._instance;
-  };
+/* ************************************************************************
 
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(menu)
+
+************************************************************************ */
+
+/*!
+  This singleton manages multiple instances of QxMenu and their state.
+*/
+function QxMenuManager(){
   QxManager.call(this);
-
-  QxMenuManager._instance = this;
 };
 
 QxMenuManager.extend(QxManager, "QxMenuManager");
 
-proto.update = function(oTarget)
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
+
+proto.update = function(vTarget)
 {
-  var m;
-  
-  for (var vHash in this._objects)
+  var vMenu, vHashCode;
+  var vAll = this.getAll();
+
+  for (vHashCode in vAll)
   {
-    m = this._objects[vHash];
-    
-    if(!m.getAutoHide()) {
+    vMenu = vAll[vHashCode];
+
+    if(!vMenu.getAutoHide()) {
       continue;
     };
-    
-    m.setVisible(false);   
+
+    if (!vTarget || vMenu.getOpener() != vTarget) {
+      vMenu.hide();
+    };
   };
 };
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+QxMenuManager = new QxMenuManager;

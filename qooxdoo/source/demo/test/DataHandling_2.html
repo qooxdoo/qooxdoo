@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>    
+  
+  <div id="demoDescription">
+    <p>Test for QxXmlHttpLoader, QxWindow, QxList and xpath.</p>
+  </div>
+  
+  <script type="text/javascript">
+
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getClientDocument();
+
+    var win = new QxWindow('Name List','icons/16/groupevent.png');
+    win.set({left:150,top:150,width:300,height:300});
+  
+    var list = new QxList;
+    list.set({top:5,left:5,width:null,height:null,bottom:40,right:5});;
+    win.add(list);
+    
+    var ajax = new QxXmlHttpLoader();
+    
+    ajax.addEventListener('complete', function(e) {
+        var xml = e.getData();
+        var nodes = xml.selectNodes("//item");
+        for (var i=0; i < nodes.length; i++) {
+            list.add(new QxListItem(nodes[i].text));
+        }        
+        QxWidget.flushGlobalQueues();
+    });
+
+    var bt = new QxButton('load items 1');
+    bt.set({bottom:5,left:5});
+    bt.addEventListener('execute',function(e) {
+        list.removeAll();
+        ajax.load('data/items/1.xml?r=' + Math.round(Math.random()^Math.random()*100000));
+    });
+    win.add(bt);
+
+    var bt = new QxButton('load items 2');
+    bt.set({bottom:5,right:5});
+    bt.addEventListener('execute',function(e) {
+        list.removeAll();
+        ajax.load('data/items/2.xml?r=' + Math.round(Math.random()^Math.random()*100000));
+    });
+    win.add(bt);
+
+    d.add(win);
+    
+    win.open();
+    
+    ajax.load('data/items/1.xml?r=' + Math.round(Math.random()^Math.random()*100000));
+  };
+  </script>
+</body>
+</html>  

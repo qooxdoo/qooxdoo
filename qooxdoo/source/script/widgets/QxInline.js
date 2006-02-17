@@ -1,39 +1,45 @@
-function QxInline()
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(guicore)
+
+************************************************************************ */
+
+function QxInline(vId)
 {
-  QxWidget.call(this);
+  QxCanvasLayout.call(this);
   
-  this.setHeight("auto");
-  this.setWidth(null);
-};
+  this.setStyleProperty(QxConst.PROPERTY_POSITION, QxConst.CORE_RELATIVE);
 
-QxInline.extend(QxWidget, "QxInline");
-
-QxInline.addProperty({ name : "inlineNodeId", type : String });
-
-proto._modifyInlineNodeId = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (this.isCreated()) {
-    throw new Error("You couldn't change this anymore. Widget is already created!");
+  if (QxUtil.isValidString(vId)) {
+    this.setInlineNodeId(vId);
   };
-  
-  return true;  
 };
 
-proto.renderX = function(hint)
-{
-  if (hint == "parent-dimensions" || hint == "parent-width") {
-    this._renderChildrenX("parent-width");
-  };
-  
-  return QxWidget.prototype.renderX.call(this, hint);
-};
+QxInline.extend(QxCanvasLayout, "QxInline");
 
-proto.renderY = function(hint)
-{
-  if (hint == "parent-dimensions" || hint == "parent-height") {
-    this._renderChildrenY("parent-height");
-  };
-  
-  return QxWidget.prototype.renderY.call(this, hint);
-};
-
+QxInline.addProperty({ name : "inlineNodeId", type : QxConst.TYPEOF_STRING });

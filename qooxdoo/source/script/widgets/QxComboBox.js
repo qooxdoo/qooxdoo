@@ -1,263 +1,158 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(form)
+#require(QxDomLocation)
+#require(QxList)
+#require(QxPopup)
+#require(QxAtom)
+#require(QxTextField)
+#require(QxImage)
+
+************************************************************************ */
+
 function QxComboBox()
 {
-  QxWidget.call(this);
-  
-  this.setWidth(120);
-  this.setHeight(22);
-  this.setBorder(QxBorder.presets.inset);
-  this.setTabIndex(1);
- 
-  
-  // ***********************************************************************
-  //   LIST  
-  // ***********************************************************************
-  this._list = new QxList();
-  this._list.set({ top: 0, left: 0, bottom: 0, right: 0, overflow: "auto", timerCreate: false });
-  
+  QxHorizontalBoxLayout.call(this);
 
-  // ***********************************************************************
+
+  // ************************************************************************
+  //   LIST
+  // ************************************************************************
+  var l = this._list = new QxList;
+
+  l.setAppearance("combo-box-list");
+
+
+  // ************************************************************************
   //   MANAGER
-  // ***********************************************************************
-  this._manager = this._list.getManager();
-  this._manager.set({ multiSelection : false, dragSelection: false });
-  this._manager.addEventListener("changeSelection", this._onchangeselection, this);
- 
- 
-  // ***********************************************************************
+  // ************************************************************************
+  var m = this._manager = this._list.getManager();
+
+  m.setMultiSelection(false);
+  m.setDragSelection(false);
+
+
+  // ************************************************************************
   //   POPUP
-  // ***********************************************************************
-  this._popup = new QxPopup();  
-  this._popup.set({ autoHide: false, width: 150, height: 180, timerCreate: false });
-  this._popup.add(this._list);
-  
+  // ************************************************************************
+  var p = this._popup = new QxPopup;
 
-  // ***********************************************************************
-  //   ATOM AND TEXTFIELD
-  // ***********************************************************************
-  this._atom = new QxAtom();
-  this._atom.set({ width: null, top: 3, left: 4, right: 16, tabIndex : -1 });
-  
-  this._textfield = new QxTextField();
-  this._textfield.setTop((new QxClient).isGecko() ? 1 : 0);
-  this._textfield.set({ left: 4, right: 16, tabIndex : -1 });
-  
-  (this.isEditable() ? this._atom : this._textfield).setStyleProperty("visibility", "hidden");
+  p.setAppearance("combo-box-popup");
+  p.setAutoHide(false);
+
+  p.add(l);
 
 
-  // ***********************************************************************
+  // ************************************************************************
+  //   TEXTFIELD
+  // ************************************************************************
+  var f = this._field = new QxTextField;
+
+  f.setAppearance("combo-box-text-field");
+
+  this.add(f);
+
+
+  // ************************************************************************
   //   BUTTON
-  // ***********************************************************************
-  this._button = new QxWidget();
-  this._button.set({ top: 0, bottom: 0, width: 16, right: 0, border: QxBorder.presets.outset, canSelect : false });
-  
-  this._buttonimage = new QxImage("widgets/arrows/down.gif", 7, 4);
-  this._buttonimage.set({ top: 5, left: 2 });
-  
-  this._button.add(this._buttonimage);
-  
+  // ************************************************************************
 
-  // ***********************************************************************
-  //   COMBINE
-  // ***********************************************************************  
-  this.add(this._textfield, this._atom, this._button);
-  
+  // Use QxAtom instead of QxButton here to omit the registration
+  // of the unneeded and complex button events.
+  var b = this._button = new QxAtom(null, "widgets/arrows/down.gif");
 
-  // ***********************************************************************
-  //   EVENTS
-  // ***********************************************************************    
-  this.addEventListener("mousedown", this._onmousedown);
-  this.addEventListener("mouseup", this._onmouseup);
-  this.addEventListener("mouseover", this._onmouseover);
-  this.addEventListener("keydown", this._onkeydown);
-  this.addEventListener("keypress", this._onkeypress);
-  this.addEventListener("mousewheel", this._onmousewheel);
+  b.setAppearance("combo-box-button");
+  b.setTabIndex(-1);
+
+  this.add(b);
+
+
+  // ************************************************************************
+  //   BEHAVIOR
+  // ************************************************************************
+  this.setTabIndex(1);
+  this.setEditable(false);
+
+
+  // ************************************************************************
+  //   WIDGET MOUSE EVENTS
+  // ************************************************************************
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+
+
+  // ************************************************************************
+  //   WIDGET KEY EVENTS
+  // ************************************************************************
+  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
+
+
+  // ************************************************************************
+  //   CHILDREN EVENTS
+  // ************************************************************************
+  p.addEventListener(QxConst.EVENT_TYPE_APPEAR, this._onpopupappear, this);
+  f.addEventListener(QxConst.EVENT_TYPE_INPUT, this._oninput, this);
+
+
+  // ************************************************************************
+  //   REMAPPING
+  // ************************************************************************
+  this.remapChildrenHandlingTo(l);
 };
 
-QxComboBox.extend(QxWidget, "QxComboBox");
+QxComboBox.extend(QxHorizontalBoxLayout, "QxComboBox");
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    PROPERTIES
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
-QxComboBox.addProperty({ name: "editable", type: Boolean, defaultValue: false, getAlias: "isEditable" });
-QxComboBox.addProperty({ name: "selected", type: Object });
-QxComboBox.addProperty({ name: "value", type: Object });
-QxComboBox.addProperty({ name: "pagingInterval", type: Number, defaultValue: 10 });
-QxComboBox.addProperty({ name: "maxListHeight", type: Number, defaultValue: 180 });
+QxComboBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "combo-box" });
 
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    MODIFIERS
-  -------------------------------------------------------------------------------
-*/
-  
-proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    var p = propValue.getTopLevelWidget();
-    if (p) {
-      p.add(this._popup);
-    };
-  }
-  else if (propOldValue)
-  {
-    var p = propOldValue.getTopLevelWidget();
-    if (p) {
-      p.remove(this._popup);
-    };
-  };
-  
-  return QxWidget.prototype._modifyParent.call(this, propValue, propOldValue, propName, uniqModIds);
-};
-
-proto._modifySelected = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this.setValue(propValue ? propValue.getText() : "", uniqModIds);
-  
-  if (propValue) 
-  {
-    this._manager.setSelectedItems([propValue]);
-  }
-  else
-  {
-    this._manager.deselectAll();  
-  };
-  
-  return true;
-};
-
-proto._modifyValue = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var vText = isValid(propValue) ? propValue : "";
-  
-  if (this.isEditable())
-  {
-    this._textfield.setText(vText, uniqModIds);
-  }
-  else
-  {
-    this._atom.setText(vText, uniqModIds);
-  };
-  
-  this.setSelected(vText == "" ? null : this.getList().findStringExact(vText), uniqModIds);
-  return true;
-};
-
-proto._modifyEditable = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var l = this._atom;
-  var t = this._textfield;
-  
-  if (this.isCreated())
-  {
-    l.setVisible(!propValue);
-    t.setVisible(propValue);
-      
-    if (propValue)
-    {
-      t.setText(this.getValue());
-    }
-    else
-    {
-      l.setText(this.getValue());
-    };
-  }
-  else
-  {
-    if (propValue)
-    {
-      l.setStyleProperty("visibility", "hidden");
-      t.removeStyleProperty("visibility");
-    }
-    else
-    {
-      t.setStyleProperty("visibility", "hidden");
-      l.removeStyleProperty("visibility");
-    };    
-  };
-  
-  this._modifyEditablePost(propValue);  
-  return true;
-};
-
-
-if ((new QxClient).isMshtml())
-{
-  proto._modifyEditablePost = function(propValue)
-  {
-    var t = this._textfield;
-    
-    if (propValue)
-    {
-      t.setHtmlProperty("unselectable", false); 
-      t.setHtmlProperty("tabIndex", 1);
-    }
-    else
-    {
-      t.setHtmlProperty("unselectable", true); 
-      t.setHtmlProperty("tabIndex", -1);      
-    };  
-  };
-}
-else if ((new QxClient).isGecko())
-{
-  proto._modifyEditablePost = function(propValue)
-  {
-    var t = this._textfield;
-    
-    if (propValue)
-    {
-      t.setStyleProperty("MozUserFocus", "normal");
-      t.setStyleProperty("userFocus", "normal");  
-    }
-    else
-    {
-      t.setStyleProperty("MozUserFocus", "ignore");
-      t.setStyleProperty("userFocus", "ignore");
-    };  
-  };
-}
-else
-{
-  proto._modifyEditablePost = function(propValue)
-  {
-    var t = this._textfield;
-    
-    if (propValue)
-    {
-      t.setStyleProperty("userFocus", "normal");  
-      t.setHtmlProperty("tabIndex", 1);
-    }
-    else
-    {
-      t.setStyleProperty("userFocus", "ignore");
-      t.setHtmlProperty("tabIndex", -1);      
-    };  
-  };  
-};
-
+QxComboBox.addProperty({ name: "editable", type: QxConst.TYPEOF_BOOLEAN, getAlias: "isEditable" });
+QxComboBox.addProperty({ name: "selected", type: QxConst.TYPEOF_OBJECT, instance : "QxListItem" });
+QxComboBox.addProperty({ name: "value", type : QxConst.TYPEOF_STRING });
+QxComboBox.addProperty({ name: "pagingInterval", type: QxConst.TYPEOF_NUMBER, defaultValue: 10 });
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    GETTER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
 */
-
-proto.getList = function() {
-  return this._list;
-};
 
 proto.getManager = function() {
   return this._manager;
@@ -267,20 +162,99 @@ proto.getPopup = function() {
   return this._popup;
 };
 
-proto.getAtom = function() {
-  return this._atom;
+proto.getList = function() {
+  return this._list;
 };
 
-proto.getTextField = function() {
-  return this._textfield;
+proto.getField = function() {
+  return this._field;
 };
 
 proto.getButton = function() {
   return this._button;
 };
 
-proto.getButtonImage = function() {
-  return this._buttonimage;
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifySelected = function(propValue, propOldValue, propData)
+{
+  this._fromSelected = true;
+
+  // only do this if we called setSelected seperatly
+  // and not from the property "value".
+  if (!this._fromValue) {
+    this.setValue(propValue ? propValue.getLabel() : QxConst.CORE_EMPTY);
+  };
+
+  // reset manager cache
+  this._manager.setLeadItem(propValue);
+  this._manager.setAnchorItem(propValue);
+
+  // sync to manager
+  this._manager.setSelectedItem(propValue);
+
+  // reset hint
+  delete this._fromSelected;
+
+  return true;
+};
+
+proto._modifyValue = function(propValue, propOldValue, propData)
+{
+  this._fromValue = true;
+
+  // only do this if we called setValue seperatly
+  // and not from the event QxConst.EVENT_TYPE_INPUT.
+  if (!this._fromInput) {
+    this._field.setValue(propValue);
+  };
+
+  // only do this if we called setValue seperatly
+  // and not from the property "selected".
+  if (!this._fromSelected)
+  {
+    // inform selected property
+    var vSelItem = this._list.findStringExact(propValue);
+
+    // ignore disabled items
+    if (vSelItem != null && !vSelItem.getEnabled()) {
+      vSelItem = null;
+    };
+
+    this.setSelected(vSelItem);
+
+    // be sure that the manager get informed
+    // if 'selected' was already 'null'
+    if (vSelItem == null) {
+      this._manager.deselectAll();
+    };
+  };
+
+  // reset hint
+  delete this._fromValue;
+
+  return true;
+};
+
+proto._modifyEditable = function(propValue, propOldValue, propData)
+{
+  var f = this._field;
+
+  f.setReadOnly(!propValue);
+  f.setCursor(propValue ? null : QxConst.CORE_DEFAULT);
+  f.setSelectable(propValue);
+
+  return true;
 };
 
 
@@ -289,418 +263,349 @@ proto.getButtonImage = function() {
 
 
 /*
-  -------------------------------------------------------------------------------
-    UTILITY
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  OTHER EVENT HANDLER
+---------------------------------------------------------------------------
 */
 
-/*!
-  If you want to pre-create the popup and the list call this function
-  anywhere in your code.
-*/
-proto.createPopup = function()
+proto._onpopupappear = function(e)
 {
-  var p = this._popup;
-  
-  if (!p.isCreated()) 
-  {
-    p.setLeft(this.getComputedPageBoxLeft() + 1);
-    p.setTop(this.getComputedPageBoxBottom());
-    p.setWidth(this.getComputedBoxWidth() - 2);    
-  };    
-
-  var pa = this.getParent();
-  var pt = pa ? pa.getTopLevelWidget() : null;
-  
-  if (pt) {
-    pt.add(p);    
-  };  
-
-  if (!p.isCreated()) 
-  {
-    p._createElement();
-    p.setVisible(false);
+  var vSelItem = this.getSelected();
+  if (vSelItem) {
+    vSelItem.scrollIntoView();
   };
 };
 
+proto._oninput = function(e)
+{
+  // Hint for modifier
+  this._fromInput = true;
+
+  this.setValue(this._field.getComputedValue());
+
+  // be sure that the found item is in view
+  if (this.getPopup().isSeeable() && this.getSelected()) {
+    this.getSelected().scrollIntoView();
+  };
+
+  delete this._fromInput;
+};
 
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    EVENT HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MOUSE EVENT HANDLER
+---------------------------------------------------------------------------
 */
-
-proto._togglePopup = function() 
-{
-  if(this._popup.getVisible())
-  {
-    this._closePopup();
-    
-    if (!this.getEditable()) {
-      this.setState("mark");
-    };
-  }
-  else
-  {
-    this._openPopup();
-  };
-};
-
-proto._openPopup = function()
-{
-  var p = this._popup;
-  var l = this._list;
-  var m = this._manager;
-
-  // initial creation of popups and list
-  this.createPopup();
-
-  // setup height and scrolling  
-  var lh = l.getPreferredHeight();
-  var mh = this.getMaxListHeight();
-    
-  if (lh > mh)
-  {
-    p.setHeight(mh);    
-    l.setOverflow("scrollY");
-  }
-  else
-  {
-    p.setHeight(lh);
-    l.setOverflow("hidden");
-  };
-    
-  // force syncronisation of popup position and size
-  // check if there is enough room below the combobox
-  if (mh > (QxDOM.getWindowInnerHeight(window) - this.getComputedPageBoxBottom())) {
-    p.setTop(this.getComputedPageBoxTop() - ((lh > mh) ? mh : lh));
-  } else {
-    p.setTop(this.getComputedPageBoxBottom());
-  };
-  
-  p.setLeft(this.getComputedPageBoxLeft() + 1);
-  p.setWidth(this.getComputedBoxWidth() - 2);    
-  
-  // Handle editable 
-  if (this.isEditable()) 
-  {
-    var vFound = this._findMatchingEditItem();
-    if (vFound)
-    {
-      m.setSelectedItem(vFound);
-    }
-    else
-    {
-      var oldFireChange = m.getFireChange();
-      m.setFireChange(false);
-      
-      m.deselectAll();  
-      m.setLeadItem(null);
-      
-      m.setFireChange(oldFireChange);
-    };
-  };
-  
-  // Syncronise current selection
-  var vCurrent = this._manager.getSelectedItem();
-  if (vCurrent) {
-    m.setLeadItem(vCurrent);
-    m.scrollItemIntoView(vCurrent);
-  };  
-  
-  // Activate capture
-  this.setCapture(true);  
-  
-  // Reset state
-  this.setState(null);
-  
-  // Finally show the popup
-  p.setVisible(true);
-};
-
-proto._closePopup = function()
-{
-  // Syncronise selection: manager -> combobox
-  var vCurrent = this._manager.getSelectedItem();
-  
-  // Do not sync if we are editable and have not selection made
-  if (!(vCurrent == null && this.getEditable()))
-  {
-    this.setSelected(vCurrent);
-    this._manager.setLeadItem(vCurrent);
-  };
-  
-  // Deactivating capturing
-  this.setCapture(false);
-  
-  // Finally hide the popup  
-  this._popup.setVisible(false);
-};
 
 proto._onmousedown = function(e)
 {
-  var t = e.getActiveTarget();
-  
-  if (typeof t == "undefined") {
-    return;
-  };
-  
-  if (t instanceof QxImage) {
-    t = t.getParent();
-  };
+  var vTarget = e.getTarget();
 
-  if (t instanceof QxListItem) 
+  switch(vTarget)
   {
-    if( !t.isEnabled() ) {
-      return;
-    };
+    case this._field:
+      if (this.getEditable()) {
+        break;
+      };
 
-    t = t.getParent();
-  };
-  
-  switch(t)
-  {
-    case this._textfield:
-      return;
-    
-    case this:
-    case this._atom:
+      // no break here
+
     case this._button:
-    case this._buttonimage:
+      this._button.addState(QxConst.STATE_PRESSED);
       this._togglePopup();
-      this._button.setBorder(QxBorder.presets.inset);
       break;
-      
+
+    case this:
     case this._list:
-      // Reset old selection, if combobox is editable and current 
-      // input text does not match any item in the list
-      if (this.getEditable() && !this._findMatchingEditItem()) {
-        this.setSelected(null);
-      };
-      
-      this._list._onmousedown(e);
-      
-      // don't close on click and move to the scrollbars
-      if (e.getTarget() != this._list) {
-        this._closePopup();
-      };
-      
       break;
-      
-    // Mshtml click on scrollbar
-    case this._popup:
-      break;
-    
+
     default:
-      var sel = this.getSelected();
-      
-      this._manager.deselectAll();
-      
-      if (sel) {
-        this._manager.setSelectedItem(sel);
+      if (vTarget instanceof QxListItem)
+      {
+        this._list._onmousedown(e);
+        this.setSelected(this._list.getSelectedItem());
+
+        this._closePopup();
+      }
+      else if (this._popup.isSeeable())
+      {
+        this._popup.hide();
+        this.setCapture(false);
       };
-    
-      this._closePopup(); 
+  };
+};
+
+proto._onmouseup = function(e)
+{
+  switch(e.getTarget())
+  {
+    case this._field:
+      if (this.getEditable()) {
+        break;
+      };
+
+      // no break here
+
+    case this._button:
+      this._button.removeState(QxConst.STATE_PRESSED);
       break;
-  };
-};
-
-proto._onmouseup = function(e) {
-  this._button.setBorder(QxBorder.presets.outset);
-};
-
-proto._findMatchingEditItem = function() {
-  return this._list.findStringExact(this._textfield.getElement().value);
-};
-
-proto._onkeydown = function(e) 
-{
-  var m = this._manager;
-  
-  if (this._popup.getVisible())
-  {
-    if (e.getKeyCode() == QxKeyEvent.keys.enter)
-    {
-      this.setSelected(this._manager.getSelectedItem());
-      this._closePopup();
-      return;
-    }
-    else if (e.getKeyCode() == QxKeyEvent.keys.esc)
-    {
-      m.setSelectedItem(this.getSelected());
-      m.setLeadItem(this.getSelected());      
-      this._popup.setVisible(false);
-      this.setCapture(false); 
-      return;
-    };  
-  }
-  else if (e.getKeyCode() == QxKeyEvent.keys.enter)
-  {
-    this._openPopup();  
-  };
-  
-
-  if (!this._popup.getVisible() && e.getKeyCode() == QxKeyEvent.keys.pageup)
-  {
-    var vPrevious;
-    var vTemp = this.getSelected();
-    
-    if (vTemp)
-    {
-      var vInterval = this.getPagingInterval();
-    
-      do {
-        vPrevious = vTemp;
-      }
-      while(--vInterval && (vTemp = m.getPrevious(vPrevious)));
-    }
-    else
-    {
-      vPrevious = m.getLast();
-    };
-    
-    this.setSelected(vPrevious);
-  }
-  else if (!this._popup.getVisible() && e.getKeyCode() == QxKeyEvent.keys.pagedown)
-  {
-    var vNext;
-    var vTemp = this.getSelected();
-    
-    if (vTemp)
-    {
-      var vInterval = this.getPagingInterval();
-
-      do {
-        vNext = vTemp;
-      }
-      while(--vInterval && (vTemp = m.getNext(vNext)));
-    }
-    else
-    {
-      vNext = m.getFirst();
-    };
-    
-    this.setSelected(vNext);  
-  }
-  else if (!this.isEditable() || this._popup.getVisible()) 
-  {
-    this._list._onkeydown(e);
-  }
-  else if (e.getKeyCode() == QxKeyEvent.keys.up || e.getKeyCode() == QxKeyEvent.keys.down)
-  {
-    var vFound = this._findMatchingEditItem();
-
-    if (vFound)
-    {
-      m.setSelectedItem(vFound);    
-      m.setLeadItem(vFound);
-    }
-    else
-    {
-      m.deselectAll();  
-      m.setLeadItem(null);
-    };
-    
-    this._list._onkeydown(e);
-  }
-  
-  // pagedown and pageup need a created popup
-  else if (this._popup.isCreated() && (e.getKeyCode() == QxKeyEvent.keys.pageup || e.getKeyCode() == QxKeyEvent.keys.pagedown))
-  {
-    var vFound = this._findMatchingEditItem();
-    
-    if (vFound)
-    {
-      m.setSelectedItem(vFound);    
-      m.setLeadItem(vFound);
-    }
-    else
-    {
-      m.deselectAll();  
-      m.setLeadItem(null);
-    };
-    
-    this._list._onkeydown(e);    
-  };
-};
-
-proto._onkeypress = function(e) 
-{
-  if (!this.isEditable() || this._popup.getVisible()) {
-    this._list._onkeypress(e);
   };
 };
 
 proto._onmouseover = function(e)
 {
-  var t = e.getTarget();
+  var vTarget = e.getTarget();
 
-  if (t instanceof QxImage) {
-    t = t.getParent();
-  };
-  
-  if (t instanceof QxListItem && t.getEnabled()) 
+  if (vTarget instanceof QxListItem)
   {
-    var m = this._manager;
-    
-    m.deselectAll();
-    m.setLeadItem(t);
-    m.setSelectedItem(t);
+    var vManager = this._manager;
+
+    vManager.deselectAll();
+
+    vManager.setLeadItem(vTarget);
+    vManager.setAnchorItem(vTarget);
+
+    vManager.setSelectedItem(vTarget);
   };
 };
 
 proto._onmousewheel = function(e)
 {
-  if (!this._popup.getVisible())
+  if (!this._popup.isSeeable())
   {
     var toSelect;
-    
+
     var isSelected = this.getSelected();
-    
+
     if (e.getWheelDelta() < 0)
     {
-      toSelect = isSelected ? this._manager.getNext(isSelected) : this._manager.getFirst();         
+      toSelect = isSelected ? this._manager.getNext(isSelected) : this._manager.getFirst();
     }
     else
     {
       toSelect = isSelected ? this._manager.getPrevious(isSelected) : this._manager.getLast();
     };
-    
+
     if (toSelect)
     {
       this.setSelected(toSelect);
     };
-  };  
-};
-
-proto._onchangeselection = function(e)
-{
-  if (!this._popup.getVisible())
-  {
-    this.setSelected(this._manager.getSelectedItem());
   };
 };
 
-proto._visualizeBlur = function()
-{
-  this.setState(null);
 
-  // TODO: close popup but do *not* select current item
-  //  this._closePopup();
 
-  QxWidget.prototype._visualizeBlur.call(this);
-};
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  KEY EVENT HANDLER
+---------------------------------------------------------------------------
+*/
+
+proto._onkeydown = function(e)
+{
+  var vManager = this._manager;
+  var vKeyCode = e.getKeyCode();
+  var vKeys = QxKeyEvent.keys;
+  var vVisible = this._popup.isSeeable();
+
+  switch(vKeyCode)
+  {
+    // Handle <ENTER>
+    case vKeys.enter:
+      if (vVisible)
+      {
+        this.setSelected(this._manager.getSelectedItem());
+        this._closePopup();
+      }
+      else
+      {
+        this._openPopup();
+      };
+
+      return;
+
+    // Handle <ESC>
+    case vKeys.esc:
+      if (vVisible)
+      {
+        vManager.setLeadItem(this._oldSelected);
+        vManager.setAnchorItem(this._oldSelected);
+
+        vManager.setSelectedItem(this._oldSelected);
+
+        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : QxConst.CORE_EMPTY);
+
+        this._closePopup();
+      };
+
+      return;
+
+    // Handle <PAGEUP>
+    case vKeys.pageup:
+      if (!vVisible)
+      {
+        var vPrevious;
+        var vTemp = this.getSelected();
+
+        if (vTemp)
+        {
+          var vInterval = this.getPagingInterval();
+
+          do {
+            vPrevious = vTemp;
+          } while(--vInterval && (vTemp = vManager.getPrevious(vPrevious)));
+        }
+        else
+        {
+          vPrevious = vManager.getLast();
+        };
+
+        this.setSelected(vPrevious);
+
+        return;
+      };
+
+      break;
+
+    // Handle <PAGEDOWN>
+    case vKeys.pagedown:
+      if (!vVisible)
+      {
+        var vNext;
+        var vTemp = this.getSelected();
+
+        if (vTemp)
+        {
+          var vInterval = this.getPagingInterval();
+
+          do {
+            vNext = vTemp;
+          } while(--vInterval && (vTemp = vManager.getNext(vNext)));
+        }
+        else
+        {
+          vNext = vManager.getFirst();
+        };
+
+        this.setSelected(vNext);
+
+        return;
+      };
+
+      break;
+  };
+
+  // Default Handling
+  if (!this.isEditable() || vVisible)
+  {
+    this._list._onkeydown(e);
+
+    var vSelected = this._manager.getSelectedItem();
+
+    if (!vVisible)
+    {
+      this.setSelected(vSelected);
+    }
+    else if (vSelected)
+    {
+      this._field.setValue(vSelected.getLabel());
+    };
+
+    return;
+  };
+
+  switch(vKeyCode)
+  {
+    case vKeys.pageup:
+    case vKeys.pagedown:
+      if (!this._popup.isCreated()) {
+        return;
+      };
+
+      // no break here
+
+    case vKeys.up:
+    case vKeys.down:
+      this._list._onkeydown(e);
+      this.setSelected(this._manager.getSelectedItem());
+      break;
+  };
+};
+
+proto._onkeypress = function(e)
+{
+  if (!this.isEditable()) {
+    this._list._onkeypress(e);
+  };
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  POPUP HELPER
+---------------------------------------------------------------------------
+*/
+
+proto._oldSelected = null;
+
+proto._openPopup = function()
+{
+  var p = this._popup;
+  var el = this.getElement();
+
+  if (!p.isCreated()) {
+    this.createDispatchEvent("beforeInitialOpen");
+  };
+
+  if (this._list.getChildrenLength() == 0) {
+    return;
+  };
+
+  p.setLeft(QxDom.getComputedPageBoxLeft(el)+1);
+  p.setTop(QxDom.getComputedPageBoxTop(el) + QxDom.getComputedBoxHeight(el));
+  p.setWidth(this.getBoxWidth()-2);
+
+  p.setParent(this.getTopLevelWidget());
+  p.show();
+
+  this._oldSelected = this.getSelected();
+
+  this.setCapture(true);
+};
+
+proto._closePopup = function()
+{
+  this._popup.hide();
+
+  this.setCapture(false);
+  this.setFocused(true);
+};
+
+proto._togglePopup = function() {
+  this._popup.isSeeable() ? this._closePopup() : this._openPopup();
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSE
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -708,42 +613,36 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
-  
-  if (this._list) {
+
+  if (this._list)
+  {
     this._list.dispose();
     this._list = null;
   };
 
-  if (this._manager) {
+  if (this._manager)
+  {
     this._manager.dispose();
     this._manager = null;
   };
 
-  if (this._popup) {
+  if (this._popup)
+  {
     this._popup.dispose();
     this._popup = null;
   };
 
-  if (this._atom) {
-    this._atom.dispose();
-    this._atom = null;
+  if (this._field)
+  {
+    this._field.dispose();
+    this._field = null;
   };
 
-  if (this._textfield) {
-    this._textfield.dispose();
-    this._textfield = null;
-  };
-  
-  if (this._button) {
+  if (this._button)
+  {
     this._button.dispose();
     this._button = null;
   };
 
-  if (this._buttonimage) {
-    this._buttonimage.dispose();
-    this._buttonimage = null;
-  };
-  
-  return QxWidget.prototype.dispose.call(this);
+  return QxHorizontalBoxLayout.prototype.dispose.call(this);
 };
-

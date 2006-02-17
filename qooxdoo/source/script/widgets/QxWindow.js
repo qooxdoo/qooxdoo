@@ -1,859 +1,418 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(window)
+#post(QxDomDimension)
+#post(QxDomLocation)
+
+************************************************************************ */
+
 function QxWindow(vCaption, vIcon)
 {
   QxPopup.call(this);
 
-  this.setBorder(QxBorder.presets.outset);
-  this.setMinWidth(200);
-  this.setMinHeight(100);
+  // ************************************************************************
+  //   FUNCTIONAL STYLE
+  // ************************************************************************
 
-  this.addEventListener("mousedown", this._onwindowmousedown, this);
-  this.addEventListener("mouseup", this._onwindowmouseup, this);
-  this.addEventListener("mousemove", this._onwindowmousemove, this);
+  this.setMinWidth(QxConst.CORE_AUTO);
+  this.setMinHeight(QxConst.CORE_AUTO);
+  this.setAutoHide(false);
 
-  // ***********************************************************************
+
+
+  // ************************************************************************
+  //   MANAGER
+  // ************************************************************************
+
+  // Init Focus Manager
+  this.activateFocusRoot();
+
+
+  // ************************************************************************
   //   RESIZE AND MOVE FRAME
-  // ***********************************************************************
-  var c = this._frame = new QxWidget();
-  c.set({ timerCreate : false, border : QxBorder.presets.shadow });
+  // ************************************************************************
 
-  // ***********************************************************************
+  var f = this._frame = new QxTerminator;
+  f.setAppearance("window-resize-frame");
+
+
+  // ************************************************************************
+  //   LAYOUT
+  // ************************************************************************
+
+  var l = this._layout = new QxVerticalBoxLayout;
+  l.setEdge(0);
+  this.add(l);
+
+
+  // ************************************************************************
   //   CAPTIONBAR
-  // ***********************************************************************
-  c = this._captionbar = new QxWidget;
-  c.set({ cssClassName : "QxWindowCaptionBar", top : 0, left: 0, right : 0, height: 18 });
-  c.addEventListener("mousedown", this._oncaptionmousedown, this);
-  c.addEventListener("mouseup", this._oncaptionmouseup, this);
-  c.addEventListener("mousemove", this._oncaptionmousemove, this);
-  this.addToWindow(c);
+  // ************************************************************************
 
-  // ***********************************************************************
+  var cb = this._captionBar = new QxHorizontalBoxLayout;
+  cb.setAppearance("window-captionbar");
+  l.add(cb);
+
+
+  // ************************************************************************
+  //   CAPTIONICON
+  // ************************************************************************
+
+  if (QxUtil.isValidString(vIcon))
+  {
+    var ci = this._captionIcon = new QxImage(vIcon);
+    ci.setAppearance("window-captionbar-icon");
+    cb.add(ci);
+  };
+
+
+  // ************************************************************************
+  //   CAPTIONTITLE
+  // ************************************************************************
+
+  var ct = this._captionTitle = new QxLabel(vCaption);
+  ct.setAppearance("window-captionbar-title");
+  ct.setSelectable(false);
+  cb.add(ct);
+
+
+  // ************************************************************************
+  //   CAPTIONFLEX
+  // ************************************************************************
+
+  var cf = this._captionFlex = new QxHorizontalSpacer;
+  cb.add(cf);
+
+
+  // ************************************************************************
+  //   CAPTIONBUTTONS: MINIMIZE
+  // ************************************************************************
+
+  var bm = this._minimizeButton = new QxButton(null, "widgets/window/minimize.gif");
+
+  bm.setAppearance("window-captionbar-minimize-button");
+  bm.setTabIndex(-1);
+
+  bm.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+  bm.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+
+  cb.add(bm);
+
+
+  // ************************************************************************
+  //   CAPTIONBUTTONS: RESTORE
+  // ************************************************************************
+
+  var br = this._restoreButton = new QxButton(null, "widgets/window/restore.gif");
+
+  br.setAppearance("window-captionbar-restore-button");
+  br.setTabIndex(-1);
+
+  br.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
+  br.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+
+  // don't add initially
+  // cb.add(br);
+
+
+  // ************************************************************************
+  //   CAPTIONBUTTONS: MAXIMIZE
+  // ************************************************************************
+
+  var bx = this._maximizeButton = new QxButton(null, "widgets/window/maximize.gif");
+
+  bx.setAppearance("window-captionbar-maximize-button");
+  bx.setTabIndex(-1);
+
+  bx.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
+  bx.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+
+  cb.add(bx);
+
+
+  // ************************************************************************
+  //   CAPTIONBUTTONS: CLOSE
+  // ************************************************************************
+
+  var bc = this._closeButton = new QxButton(null, "widgets/window/close.gif");
+
+  bc.setAppearance("window-captionbar-close-button");
+  bc.setTabIndex(-1);
+
+  bc.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclosebuttonclick, this);
+  bc.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+
+  cb.add(bc);
+
+
+  // ************************************************************************
   //   PANE
-  // ***********************************************************************
-  c = this._pane = new QxWidget;
-  c.set({ cssClassName : "QxWindowPane", top : 18, bottom: 0, left: 0, right: 0 });
-  this.addToWindow(c);
+  // ************************************************************************
 
-  // ***********************************************************************
-  //   ARGUMENTS
-  // ***********************************************************************
-  if (isValidString(vIcon)) {
-    this.setIcon(vIcon);
-  };
+  var p = this._pane = new QxCanvasLayout;
+  p.setHeight(QxConst.CORE_FLEX);
+  l.add(p);
 
-  if (isValidString(vCaption)) {
-    this.setCaption(vCaption);
-  };
+
+  // ************************************************************************
+  //   STATUSBAR
+  // ************************************************************************
+
+  var sb = this._statusBar = new QxHorizontalBoxLayout;
+  sb.setAppearance("window-statusbar");
+
+
+  // ************************************************************************
+  //   STATUSTEXT
+  // ************************************************************************
+
+  var st = this._statusText = new QxLabel("Ready");
+  st.setAppearance("window-statusbar-text");
+  st.setSelectable(false);
+  sb.add(st);
+
+
+  // ************************************************************************
+  //   INIT
+  // ************************************************************************
+
+  this.setCaption(vCaption);
+  this.setIcon(vIcon);
+
+
+  // ************************************************************************
+  //   EVENTS: WINDOW
+  // ************************************************************************
+
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onwindowmouseup, this);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onwindowmousemove, this);
+
+
+  // ************************************************************************
+  //   EVENTS: CAPTIONBAR
+  // ************************************************************************
+
+  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._oncaptionmousedown, this);
+  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._oncaptionmouseup, this);
+  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._oncaptionmousemove, this);
+  cb.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._oncaptiondblblick, this);
+
+
+  // ************************************************************************
+  //   REMAPPING
+  // ************************************************************************
+  this.remapChildrenHandlingTo(this._pane);
 };
 
 QxWindow.extend(QxPopup, "QxWindow");
 
+
+
 /*
-  Supported states (by state property):
-  null (normal), minmized, maximized
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
+
+/*!
+  Appearance of the widget
+*/
+QxWindow.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
 
 /*!
   If the window is active, only one window in a single QxWindowManager could
   have set this to true at the same time.
 */
-QxWindow.addProperty({ name : "active", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "active", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-QxWindow.addProperty({ name : "modal", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+/*!
+  Should be window be modal (this disable minimize and maximize buttons)
+*/
+QxWindow.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
 
 /*!
   The opener (button) of the window
 */
-QxWindow.addProperty({ name : "opener", type : Object });
+QxWindow.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The text of the caption
 */
-QxWindow.addProperty({ name : "caption", type : String });
+QxWindow.addProperty({ name : "caption", type : QxConst.TYPEOF_STRING });
+
+/*!
+  The icon of the caption
+*/
+QxWindow.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
 
 /*!
   The text of the statusbar
 */
-QxWindow.addProperty({ name : "status", type : String, defaultValue : "Ready" });
+QxWindow.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
 
 /*!
   Should the close button be shown
 */
-QxWindow.addProperty({ name : "showClose", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-QxWindow.addProperty({ name : "showMaximize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-QxWindow.addProperty({ name : "showMinimize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the statusbar be shown
 */
-QxWindow.addProperty({ name : "showStatusbar", type : Boolean, defaultValue : false });
+QxWindow.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
 */
-QxWindow.addProperty({ name : "allowClose", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to maximize the window
 */
-QxWindow.addProperty({ name : "allowMaximize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "allowMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to minimize the window
 */
-QxWindow.addProperty({ name : "allowMinimize", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "allowMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the text (in the captionbar) should be visible
 */
-QxWindow.addProperty({ name : "showCaption", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showCaption", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the icon (in the captionbar) should be visible
 */
-QxWindow.addProperty({ name : "showIcon", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "showIcon", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is resizeable
 */
-QxWindow.addProperty({ name : "resizeable", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is moveable
 */
-QxWindow.addProperty({ name : "moveable", type : Boolean, defaultValue : true });
+QxWindow.addProperty({ name : "moveable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
-
-  Possible values: frame, opaque, lazyopaque, translucent
 */
-QxWindow.addProperty({ name : "resizeMethod", type : String, defaultValue : "frame" });
+QxWindow.addProperty({ name : "resizeMethod", type : QxConst.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The move method to use
-
-  Possible values: frame, opaque, translucent
 */
-QxWindow.addProperty({ name : "moveMethod", type : String, defaultValue : "opaque" });
+QxWindow.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
 /*!
-  If the preferred width should be also the minimum width. (Recommend!)
+  Center the window on open
 */
-QxWindow.addProperty({ name : "usePreferredWidthAsMin", type : Boolean, defaultValue : true });
-
-/*!
-  If the preferred height should be also the minimum height. (Recommend!)
-*/
-QxWindow.addProperty({ name : "usePreferredHeightAsMin", type : Boolean, defaultValue : true });
-
-
-/*
-------------------------------------------------------------------------------------
-  MANAGER
-------------------------------------------------------------------------------------
-*/
-
-proto._windowManager = new QxWindowManager();
+QxWindow.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
 
 /*
-------------------------------------------------------------------------------------
-  SUB WIDGET GETTER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  STRINGS
+---------------------------------------------------------------------------
+*/
+
+QxWindow.MODE_OPAQUE = "opaque";
+QxWindow.MODE_LAZYOPAQUE = "lazyopaque";
+QxWindow.MODE_FRAME = "frame";
+QxWindow.MODE_TRANSLUCENT = "translucent";
+
+QxWindow.MODE_MINIMIZED = "minimized";
+QxWindow.MODE_MAXIMIZED = "maximized";
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
 */
 
 proto.getPane = function() {
   return this._pane;
 };
 
-proto.getCaptionbar = function() {
-  return this._captionbar;
+proto.getCaptionBar = function() {
+  return this._captionBar;
 };
 
-proto.getStatusbar = function() {
-  return this._statusbar;
+proto.getStatusBar = function() {
+  return this._statusBar;
 };
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  MODIFIY ADDER LOGIC
-------------------------------------------------------------------------------------
-*/
-
-proto.addToWindow = proto.add;
-
-proto.addToPane = function() {
-  this._pane.add.apply(this._pane, arguments);
-};
-
-proto.addToCaptionbar = function() {
-  this._captionbar.add.apply(this._captionbar, arguments);
-};
-
-// Overwrite default
-proto.add = proto.addToPane;
-
-
-
-/*
-------------------------------------------------------------------------------------
-  OVERWRITE POPUP METHODS
-------------------------------------------------------------------------------------
-*/
-
-proto._beforeShow = function(uniqModIds)
-{
-  QxAtom.prototype._beforeShow.call(this, uniqModIds);
-
-  (new QxPopupManager).update();
-
-  this._windowManager.add(this);
-  this._makeActive();
-
-  this._layoutCommands();
-};
-
-proto._beforeHide = function(uniqModIds)
-{
-  QxAtom.prototype._beforeHide.call(this, uniqModIds);
-
-  this._windowManager.remove(this);
-  this._makeInactive();
-};
-
-proto.bringToFront = proto.sendToBack = function() {
-  throw new Error("Warning: bringToFront() and sendToBack() are not supported by QxWindow!");
-};
-
-proto._layoutInternalWidgetsHorizontal = function() {
-  return true;
-};
-
-proto._layoutInternalWidgetsVertical = function() {
-  return true;
-};
-
-proto._calculateChildrenDependWidth = function() {
-  return this._pane.getAnyWidth();
-};
-
-proto._calculateChildrenDependHeight = function()
-{
-  var h = this.getShowStatusbar() && this._statusbar ? this._statusbar.getAnyHeight() : 0;
-  h += this._pane.getAnyHeight() + this._captionbar.getAnyHeight();
-
-  return h;
-};
-
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    // this will add the class QxAtomBase to all widgets
-    // which extends QxAtom.
-    this._addCssClassName("QxAtomBase");
-
-    // Create icon if needed.
-    if (this._displayIcon && !this._icon) {
-      this._pureCreateFillIcon();
-    };
-
-    // Create caption if needed.
-    if (this._displayCaption && !this._caption) {
-      this._pureCreateFillCaption();
-    };
-
-    // Create Buttons if needed.
-    if (this.getShowMinimize() && !this._minimizeButton && !this.getModal()) {
-      this._pureCreateFillMinimizeButton();
-    };
-
-    if (this.getShowMaximize() && !this.getModal())
-    {
-      if (!this._restoreButton) {
-        this._pureCreateFillRestoreButton();
-      };
-
-      if (!this._maximizeButton) {
-        this._pureCreateFillMaximizeButton();
-      };
-    };
-
-    if (this.getShowStatusbar()) {
-      this._pureCreateFillStatusbar();
-    };
-
-    if (this.getShowClose() && !this._closeButton) {
-      this._pureCreateFillCloseButton();
-    };
-  };
-
-  return QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-};
-
-proto._setChildrenDependWidth = QxWidget.prototype._setChildrenDependWidth;
-proto._setChildrenDependHeight = QxWidget.prototype._setChildrenDependHeight;
-
-proto._childOuterWidthChanged = QxWidget.prototype._childOuterWidthChanged;
-proto._childOuterHeightChanged = QxWidget.prototype._childOuterHeightChanged;
-
-proto._calculateChildrenDependHelper = QxWidget.prototype._calculateChildrenDependHelper;
-
-/*
-------------------------------------------------------------------------------------
-  MODIFIERS
-------------------------------------------------------------------------------------
-*/
-
-proto._displayIcon = false;
-proto._displayCaption = false;
-
-proto._modifyActive = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    this.addCssClassNameDetail("active");
-    this._windowManager.setActiveWindow(this, uniqModIds);
-  }
-  else
-  {
-    this.removeCssClassNameDetail("active");
-  };
-
-  return true;
-};
-
-proto._checkState = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (!this.getResizeable() && (propOldValue != "minimized" || this._previousState != propValue)) {
-    throw new Error("This state is not allowed: " + propValue + "!");
-  };
-
-  return propValue;
-};
-
-proto._modifyState = function(propValue, propOldValue, propName, uniqModIds)
-{
-  switch(propValue)
-  {
-    case "minimized":
-      this._minimize();
-      break;
-
-    case "maximized":
-      this._maximize();
-      break;
-
-    default:
-      this._restore();
-  };
-
-  this._previousState = propOldValue;
-
-  return QxPopup.prototype._modifyState.call(this, propValue, propOldValue, propName, uniqModIds);
-};
-
-proto._modifyShowClose = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue && !this._closeButton) {
-    this._pureCreateFillCloseButton();
-  };
-
-  this._layoutCommands();
-  return true;
-};
-
-proto._modifyShowMaximize = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    if (!this._maximizeButton) {
-      this._pureCreateFillMaximizeButton();
-    };
-
-    if (!this._restoreButton) {
-      this._pureCreateFillRestoreButton();
-    };
-  };
-
-  this._layoutCommands();
-  return true;
-};
-
-proto._modifyShowMinimize = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue && !this._minimizeButton) {
-    this._pureCreateFillMinimizeButton();
-  };
-
-  this._layoutCommands();
-  return true;
-};
-
-
-
-/*
-------------------------------------------------------------------------------------
-  ALLOW COMMANDS
-------------------------------------------------------------------------------------
-*/
-
-proto._modifyResizeable = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._applyAllowMaximize();
-};
-
-proto._modifyAllowMinimize = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._applyAllowMinimize();
-};
-
-proto._modifyModal = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._applyAllowMinimize();
-  this._applyAllowMaximize();
-
-  this._layoutCommands();
-
-  if (this.getActive())
-  {
-    // the window manager need to think we are modal
-    this.forceModal(true);
-    this.setVisible(false);
-
-    // recover value
-    this.forceModal(propValue);
-    this.setVisible(true);
-  };
-
-  return true;
-};
-
-proto._applyAllowMinimize = function()
-{
-  if (this._minimizeButton) {
-    this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
-  };
-
-  return true;
-};
-
-proto._modifyAllowMaximize = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._applyAllowMaximize();
-};
-
-proto._applyAllowMaximize = function()
-{
-  var e = this.getAllowMaximize() && this.getResizeable() && (this.getMaxWidth() == null || this.getMaxWidth() == Infinity) && (this.getMaxHeight() == null || this.getMaxHeight() == Infinity);
-
-  if (this._maximizeButton) {
-    this._maximizeButton.setEnabled(e);
-  };
-
-  if (this._restoreButton) {
-    this._restoreButton.setEnabled(e);
-  };
-
-  return true;
-};
-
-proto._modifyAllowClose = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._applyAllowClose();
-};
-
-proto._applyAllowClose = function()
-{
-  if (this._closeButton) {
-    this._closeButton.setEnabled(this.getAllowClose());
-  };
-
-  return true;
-};
-
-
-/*
-------------------------------------------------------------------------------------
-  COMMANDS
-------------------------------------------------------------------------------------
-*/
-
-proto._layoutCommands = function()
-{
-  var s = 0;
-
-  if (this._closeButton)
-  {
-    if (this.getShowClose())
-    {
-      this._closeButton.setRight(s);
-
-      if (this._captionbar._wasVisible) {
-        this._closeButton.setVisible(true);
-      };
-
-      s += this._closeButton.getWidth() + 2;
-    }
-    else
-    {
-      this._closeButton.setVisible(false);
-    };
-  };
-
-  if (this._maximizeButton && this._restoreButton)
-  {
-    if (this.getShowMaximize())
-    {
-      if (this.getState() == "maximized")
-      {
-        this._maximizeButton.setVisible(false);
-
-        this._restoreButton.setRight(s);
-
-        if (this._captionbar._wasVisible) {
-          this._restoreButton.setVisible(true);
-        };
-
-        s += this._restoreButton.getWidth();
-      }
-      else
-      {
-        this._restoreButton.setVisible(false);
-
-        this._maximizeButton.setRight(s);
-
-        if (this._captionbar._wasVisible) {
-          this._maximizeButton.setVisible(true);
-        };
-
-        s += this._maximizeButton.getWidth();
-      };
-    }
-    else
-    {
-      this._maximizeButton.setVisible(false);
-      this._restoreButton.setVisible(false);
-    };
-  };
-
-  if (this._minimizeButton)
-  {
-    if (this.getShowMinimize())
-    {
-      this._minimizeButton.setRight(s);
-
-      if (this._captionbar._wasVisible) {
-        this._minimizeButton.setVisible(true);
-      };
-    }
-    else
-    {
-      this._minimizeButton.setVisible(false);
-    };
-  };
-};
-
-proto._pureCreateFillCloseButton = function()
-{
-  var ob = this._closeButton = new QxButton(null, "widgets/window/close.gif");
-
-  ob.set({ top: 0, height: 15, width: 16, tabIndex : -1 });
-  ob.addEventListener("click", this._onclosebuttonclick, this);
-  ob.addEventListener("mousedown", this._onbuttonmousedown, this);
-
-  this._applyAllowClose();
-
-  this.addToCaptionbar(ob);
-};
-
-proto._pureCreateFillMinimizeButton = function()
-{
-  var ob = this._minimizeButton = new QxButton(null, "widgets/window/minimize.gif");
-
-  ob.set({ top: 0, height: 15, width: 16, tabIndex : -1 });
-  ob.addEventListener("click", this._onminimizebuttonclick, this);
-  ob.addEventListener("mousedown", this._onbuttonmousedown, this);
-
-  this._applyAllowMinimize();
-
-  this.addToCaptionbar(ob);
-};
-
-proto._pureCreateFillRestoreButton = function()
-{
-  var ob = this._restoreButton = new QxButton(null, "widgets/window/restore.gif");
-
-  ob.set({ top: 0, height: 15, width: 16, tabIndex : -1 });
-  ob.addEventListener("click", this._onrestorebuttonclick, this);
-  ob.addEventListener("mousedown", this._onbuttonmousedown, this);
-
-  this._applyAllowMaximize();
-
-  ob._shouldBecomeCreated = function() {
-    return this.getParent().getParent().getState() == "maximized";
-  };
-
-  this.addToCaptionbar(ob);
-};
-
-proto._pureCreateFillMaximizeButton = function()
-{
-  var ob = this._maximizeButton = new QxButton(null, "widgets/window/maximize.gif");
-
-  ob.set({ top: 0, height: 15, width: 16, tabIndex : -1 });
-  ob.addEventListener("click", this._onmaximizebuttonclick, this);
-  ob.addEventListener("mousedown", this._onbuttonmousedown, this);
-
-  this._applyAllowMaximize();
-
-  ob._shouldBecomeCreated = function() {
-    return this.getParent().getParent().getState() != "maximized";
-  };
-
-  this.addToCaptionbar(ob);
-};
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  STATUSBAR
-------------------------------------------------------------------------------------
-*/
-
-proto._pureCreateFillStatusbar = function()
-{
-  c = this._statusbar = new QxAtom;
-  c.set({ cssClassName : "QxWindowStatusBar", width: null, bottom: 0, left: 0, right: 0, height: 18, border : QxBorder.presets.thinInset, text : this.getStatus() });
-  this.addToWindow(c);
-};
-
-proto._modifyStatus = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (this._statusbar) {
-    this._statusbar.setText(propValue, uniqModIds);
-  };
-
-  return true;
-};
-
-proto._modifyShowStatusbar = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    this._statusbar ? this.addToWindow(this._statusbar) : this._pureCreateFillStatusbar();
-    this._pane.setBottom(18);
-  }
-  else
-  {
-    if (this._statusbar) {
-      this.remove(this._statusbar);
-    };
-
-    this._pane.setBottom(0);
-  };
-
-  return true;
-};
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  CAPTION
-------------------------------------------------------------------------------------
-*/
-
-proto._modifyCaption = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var o = this._caption;
-
-  if (this._updateUseCaption())
-  {
-    if (o)
-    {
-      o.setHtml(propValue);
-      o.setParent(this._captionbar);
-    }
-    else
-    {
-      this._pureCreateFillCaption();
-    };
-  }
-  else if (o)
-  {
-    o.setParent(null);
-    o.setHtml(propValue);
-  };
-
-  return true;
-};
-
-proto._updateUseCaption = function() {
-  return this._displayCaption = this.getCaption() && this.getShowCaption();
-};
-
-proto._pureCreateFillCaption = function()
-{
-  var o = this._caption = new QxContainer(this.getCaption());
-
-  o.setTop(1);
-  this._layoutCaption();
-
-  o.setParent(this._captionbar);
-};
-
-proto._modifyShowCaption = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var o = this._caption;
-
-  if (this._updateUseCaption())
-  {
-    if (o)
-    {
-      o.setParent(this._captionbar);
-    }
-    else
-    {
-      this._pureCreateFillCaption();
-    };
-  }
-  else if (o)
-  {
-    o.setParent(null);
-  };
-
-  return true;
-};
-
-proto._layoutCaption = function()
-{
-  if (!this._icon || !this._icon.isCreated()) {
-    return;
-  };
-
-  if (this._caption) {
-    this._caption.setLeft(this._displayIcon ? this._icon.getAnyWidth() + 3 : 0)
-  };
-};
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  ICON
-------------------------------------------------------------------------------------
-*/
-
-proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var o = this._icon;
-
-  if (this._updateUseIcon())
-  {
-    if (o)
-    {
-      o.setSource(propValue);
-      o.setParent(this._captionbar);
-    }
-    else
-    {
-      this._pureCreateFillIcon();
-    };
-  }
-  else if (o)
-  {
-    o.setParent(null);
-    o.setSource(propValue);
-  };
-
-  return true;
-};
-
-proto._updateUseIcon = function() {
-  return this._displayIcon = this.getIcon() && this.getShowIcon();
-};
-
-proto._pureCreateFillIcon = function()
-{
-  var o = this._icon = new QxImage(this.getIcon(), this.getIconWidth(), this.getIconHeight());
-
-  o.setLocation(1, 0);
-  o.addEventListener("mousedown", this._oniconmousedown, this);
-  o.addEventListener("load", this._oniconload, this);
-
-  o.setParent(this._captionbar);
-};
-
-proto._modifyShowIcon = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var o = this._icon;
-
-  if (this._updateUseIcon())
-  {
-    if (o)
-    {
-      o.setParent(this._captionbar);
-    }
-    else
-    {
-      this._pureCreateFillIcon();
-    };
-  }
-  else if (o)
-  {
-    o.setParent(null);
-  };
-
-  this._layoutCaption();
-
-  return true;
-};
-
-
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  UTILITY
-------------------------------------------------------------------------------------
-*/
 
 proto.close = function() {
-  this.setVisible(false);
+  this.hide();
+};
+
+proto.centerToBrowser = function()
+{
+  var d = window.application.getClientWindow().getClientDocument();
+
+  this.setLeft((d.getClientWidth() / 2) - (this.getBoxWidth() / 2));
+  this.setTop((d.getClientHeight() / 2) - (this.getBoxHeight() / 2));
 };
 
 proto.open = function(vOpener)
 {
-  if (isValid(vOpener)) {
+  if (QxUtil.isValid(vOpener)) {
     this.setOpener(vOpener);
   };
 
-  this.setVisible(true);
+  if (this.getCentered()) {
+    this.centerToBrowser();
+  };
+
+  this.show();
 };
 
 proto.focus = function() {
@@ -864,87 +423,406 @@ proto.blur = function() {
   this.setActive(false);
 };
 
-
-
-/*
-------------------------------------------------------------------------------------
-  USER ACCESS TO STATES
-------------------------------------------------------------------------------------
-*/
-
 proto.maximize = function() {
-  this.setState("maximized");
+  this.setMode(QxWindow.MODE_MAXIMIZED);
 };
 
 proto.minimize = function() {
-  this.setState("minimized");
+  this.setMode(QxWindow.MODE_MINIMIZED);
 };
 
 proto.restore = function() {
-  this.setState(null);
+  this.setMode(null);
 };
+
+
+
+
+
 
 
 
 /*
-------------------------------------------------------------------------------------
-  STATE LAYOUT IMPLEMENTATION
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  APPEAR/DISAPPEAR
+---------------------------------------------------------------------------
 */
 
-proto._previousState = null;
+proto._beforeAppear = function()
+{
+  QxCanvasLayout.prototype._beforeAppear.call(this);
+
+  QxPopupManager.update();
+
+  QxWindowManager.add(this);
+  this._makeActive();
+};
+
+proto._beforeDisappear = function()
+{
+  QxCanvasLayout.prototype._beforeDisappear.call(this);
+
+  // Be sure to disable any capturing inside invisible parts
+  // Is this to much overhead?
+  // Are there any other working solutions?
+  var vWidget = this.getTopLevelWidget().getEventManager().getCaptureWidget();
+  if (vWidget && this.contains(vWidget)) {
+    vWidget.setCapture(false);
+  };
+
+  QxWindowManager.remove(this);
+  this._makeInactive();
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  ZIndex Positioning
+---------------------------------------------------------------------------
+*/
+
+proto._minZIndex = 1e5;
+
+proto._sendTo = function()
+{
+  var vAll = QxUtil.convertObjectValuesToArray(QxWindowManager.getAll()).sort(QxCompare.byZIndex);
+  var vLength = vAll.length;
+  var vIndex = this._minZIndex;
+
+  for (var i=0; i<vLength; i++) {
+    vAll[i].setZIndex(vIndex++);
+  };
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
+*/
+
+proto._modifyActive = function(propValue, propOldValue, propData)
+{
+  if (propOldValue)
+  {
+    if (this.getFocused()) {
+      this.setFocused(false);
+    };
+
+    if (QxWindowManager.getActiveWindow() == this) {
+      QxWindowManager.setActiveWindow(null);
+    };
+
+    this.removeState(QxConst.STATE_ACTIVE);
+    this._captionBar.removeState(QxConst.STATE_ACTIVE);
+  }
+  else
+  {
+    // Switch focus
+    // Also do this if gets inactive as this moved the focus outline
+    // away from any focused child.
+    if (!this.getFocusedChild()) {
+      this.setFocused(true);
+    };
+
+    QxWindowManager.setActiveWindow(this);
+    this.bringToFront();
+
+    this.addState(QxConst.STATE_ACTIVE);
+    this._captionBar.addState(QxConst.STATE_ACTIVE);
+  };
+
+  return true;
+};
+
+proto._modifyModal = function(propValue, propOldValue, propData)
+{
+  // Inform blocker
+  if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
+  {
+    var vTop = this.getTopLevelWidget();
+    propValue ? vTop.block(this) : vTop.release(this);
+  };
+
+  // Disallow minimize and close for modal dialogs
+  this._closeButtonManager();
+  this._minimizeButtonManager();
+
+  return true;
+};
+
+proto._modifyAllowClose = function(propValue, propOldValue, propData) {
+  return this._closeButtonManager();
+};
+
+proto._modifyAllowMaximize = function(propValue, propOldValue, propData) {
+  return this._maximizeButtonManager();
+};
+
+proto._modifyAllowMinimize = function(propValue, propOldValue, propData) {
+  return this._minimizeButtonManager();
+};
+
+proto._modifyMode = function(propValue, propOldValue, propData)
+{
+  switch(propValue)
+  {
+    case QxWindow.MODE_MINIMIZED:
+      this._minimize();
+      break;
+
+    case QxWindow.MODE_MAXIMIZED:
+      this._maximize();
+      break;
+
+    default:
+      switch(propOldValue)
+      {
+        case QxWindow.MODE_MAXIMIZED:
+          this._restoreFromMaximized();
+          break;
+
+        case QxWindow.MODE_MINIMIZED:
+          this._restoreFromMinimized();
+          break;
+      };
+  };
+
+  return true;
+};
+
+proto._modifyShowCaption = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    this._captionBar.addAt(this._captionTitle, this.getShowIcon() ? 1 : 0);
+  }
+  else
+  {
+    this._captionBar.remove(this._captionTitle);
+  };
+
+  return true;
+};
+
+proto._modifyShowIcon = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    this._captionBar.addAtBegin(this._captionIcon);
+  }
+  else
+  {
+    this._captionBar.remove(this._captionIcon);
+  };
+
+  return true;
+};
+
+proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    this._layout.addAtEnd(this._statusBar);
+  }
+  else
+  {
+    this._layout.remove(this._statusBar);
+  };
+
+  return true;
+};
+
+proto._modifyShowClose = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    this._captionBar.addAtEnd(this._closeButton);
+  }
+  else
+  {
+    this._captionBar.remove(this._closeButton);
+  };
+
+  return true;
+};
+
+proto._modifyShowMaximize = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    var t = this.getMode() == QxConst.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
+
+    if (this.getShowMinimize())
+    {
+      this._captionBar.addAfter(t, this._minimizeButton);
+    }
+    else
+    {
+      this._captionBar.addAfter(t, this._captionFlex);
+    };
+  }
+  else
+  {
+    this._captionBar.remove(this._maximizeButton);
+    this._captionBar.remove(this._restoreButton);
+  };
+
+  return true;
+};
+
+proto._modifyShowMinimize = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    this._captionBar.addAfter(this._minimizeButton, this._captionFlex);
+  }
+  else
+  {
+    this._captionBar.remove(this._minimizeButton);
+  };
+
+  return true;
+};
+
+proto._minimizeButtonManager = function()
+{
+  this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
+
+  return true;
+};
+
+proto._closeButtonManager = function()
+{
+  this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
+
+  return true;
+};
+
+proto._maximizeButtonManager = function()
+{
+  var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
+
+  this._maximizeButton.setEnabled(b);
+  this._restoreButton.setEnabled(b);
+
+  return true;
+};
+
+proto._modifyStatus = function(propValue, propOldValue, propData)
+{
+  this._statusText.setHtml(propValue);
+
+  return true;
+};
+
+proto._modifyMaxWidth = function(propValue, propOldValue, propData) {
+  return this._maximizeButtonManager();
+};
+
+proto._modifyMaxHeight = function(propValue, propOldValue, propData) {
+  return this._maximizeButtonManager();
+};
+
+proto._modifyResizeable = function(propValue, propOldValue, propData) {
+  return this._maximizeButtonManager();
+};
+
+proto._modifyCaption = function(propValue, propOldValue, propData)
+{
+  this._captionTitle.setHtml(propValue);
+  return true;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  STATE LAYOUT IMPLEMENTATION
+---------------------------------------------------------------------------
+*/
 
 proto._minimize = function()
 {
   this.blur();
-  this.setVisible(false);
+  this.hide();
 };
 
-proto._restore = function()
+proto._restoreFromMaximized = function()
 {
-  if (this.getVisible()) {
-    this._omitRendering();
-  };
-
+  // restore previous dimension and location
   this.setLeft(this._previousLeft ? this._previousLeft : null);
+  this.setWidth(this._previousWidth ? this._previousWidth : null);
   this.setRight(this._previousRight ? this._previousRight : null);
+
   this.setTop(this._previousTop ? this._previousTop : null);
+  this.setHeight(this._previousHeight ? this._previousHeight : null);
   this.setBottom(this._previousBottom ? this._previousBottom : null);
 
-  this.setWidth(this._previousWidth ? this._previousWidth : null);
-  this.setHeight(this._previousHeight ? this._previousHeight : null);
+  // update state
+  this.removeState(QxConst.STATE_MAXIMIZED);
 
-  this.getVisible() ? this._activateRendering() : this.setVisible(true);
+  // toggle button
+  if (this.getShowMaximize())
+  {
+    var cb = this._captionBar;
+    var v = cb.indexOf(this._restoreButton);
 
-  this._layoutCommands();
+    cb.remove(this._restoreButton);
+    cb.addAt(this._maximizeButton, v);
+  };
+
+  // finally focus the window
+  this.focus();
+};
+
+proto._restoreFromMinimized = function()
+{
+  this.show();
   this.focus();
 };
 
 proto._maximize = function()
 {
-  if (this.getVisible()) {
-    this._omitRendering();
-  };
-
+  // store current dimension and location
   this._previousLeft = this.getLeft();
   this._previousWidth = this.getWidth();
   this._previousRight = this.getRight();
-
   this._previousTop = this.getTop();
   this._previousHeight = this.getHeight();
   this._previousBottom = this.getBottom();
 
+  // setup new dimension and location
   this.setWidth(null);
   this.setLeft(0);
   this.setRight(0);
-
   this.setHeight(null);
   this.setTop(0);
   this.setBottom(0);
 
-  this.getVisible() ? this._activateRendering() : this.setVisible(true);
+  // update state
+  this.addState(QxConst.STATE_MAXIMIZED);
 
-  this._layoutCommands();
+  // toggle button
+  if (this.getShowMaximize())
+  {
+    var cb = this._captionBar;
+    var v = cb.indexOf(this._maximizeButton);
+
+    cb.remove(this._maximizeButton);
+    cb.addAt(this._restoreButton, v);
+  };
+
+  // finally focus the window
   this.focus();
 };
 
@@ -953,17 +831,18 @@ proto._maximize = function()
 
 
 
+
 /*
-------------------------------------------------------------------------------------
-  EVENTS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENTS: WINDOW
+---------------------------------------------------------------------------
 */
 
 proto._onwindowmousedown = function(e)
 {
   this.focus();
 
-  if (this._resizeMode)
+  if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
   {
     // enable capturing
     this.setCapture(true);
@@ -971,78 +850,80 @@ proto._onwindowmousedown = function(e)
     // activate global cursor
     this.getTopLevelWidget().setGlobalCursor(this.getCursor());
 
+    // caching element
+    var el = this.getElement();
+
     // measuring and caching of values for resize session
     var pa = this.getParent();
+    var pl = pa.getElement();
 
-    var l = pa.getComputedPageAreaLeft();
-    var t = pa.getComputedPageAreaTop();
-    var r = pa.getComputedPageAreaRight();
-    var b = pa.getComputedPageAreaBottom();
+    var l = QxDom.getComputedPageAreaLeft(pl);
+    var t = QxDom.getComputedPageAreaTop(pl);
+    var r = QxDom.getComputedPageAreaRight(pl);
+    var b = QxDom.getComputedPageAreaBottom(pl);
 
     // handle frame and translucently
     switch(this.getResizeMethod())
     {
-      case "translucent":
+      case QxWindow.MODE_TRANSLUCENT:
         this.setOpacity(0.5);
         break;
 
-      case "frame":
+      case QxWindow.MODE_FRAME:
         var f = this._frame;
 
-        f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
-        f._applyPositionVertical(this.getComputedPageBoxTop() - t);
+        if (f.getParent() != this.getParent())
+        {
+          f.setParent(this.getParent());
+          QxWidget.flushGlobalQueues();
+        };
 
-        f._applySizeHorizontal(this.getComputedBoxWidth());
-        f._applySizeVertical(this.getComputedBoxHeight());
+        f._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(el) - l);
+        f._applyRuntimeTop(QxDom.getComputedPageBoxTop(el) - t);
+
+        f._applyRuntimeWidth(QxDom.getComputedBoxWidth(el));
+        f._applyRuntimeHeight(QxDom.getComputedBoxHeight(el));
 
         f.setZIndex(this.getZIndex() + 1);
-        f.setParent(this.getParent());
+
         break;
     };
 
     // create resize session
     var s = this._resizeSession = {};
 
-    switch(this._resizeMode)
+    if (this._resizeWest)
     {
-      case "nw":
-      case "sw":
-      case "w":
-        s.boxWidth = this.getComputedBoxWidth();
-        s.boxRight = this.getComputedPageBoxRight();
-        // no break here
-
-      case "ne":
-      case "se":
-      case "e":
-        s.boxLeft = this.getComputedPageBoxLeft();
-
-        s.parentAreaOffsetLeft = l;
-        s.parentAreaOffsetRight = r;
-
-        s.minWidth = this.getUsePreferredWidthAsMin() ? Math.max(this.getMinWidth(), this.getPreferredWidth()) : this.getMinWidth();
-        s.maxWidth = this.getMaxWidth();
+      s.boxWidth = QxDom.getComputedBoxWidth(el);
+      s.boxRight = QxDom.getComputedPageBoxRight(el);
     };
 
-    switch(this._resizeMode)
+    if (this._resizeWest || this._resizeEast)
     {
-      case "nw":
-      case "ne":
-      case "n":
-        s.boxHeight = this.getComputedBoxHeight();
-        s.boxBottom = this.getComputedPageBoxBottom();
-        // no break here
+      s.boxLeft = QxDom.getComputedPageBoxLeft(el);
 
-      case "sw":
-      case "se":
-      case "s":
-        s.boxTop = this.getComputedPageBoxTop();
+      s.parentAreaOffsetLeft = l;
+      s.parentAreaOffsetRight = r;
 
-        s.parentAreaOffsetTop = t;
-        s.parentAreaOffsetBottom = b;
+      s.minWidth = this.getMinWidthValue();
+      s.maxWidth = this.getMaxWidthValue();
+    };
 
-        s.minHeight = this.getUsePreferredHeightAsMin() ? Math.max(this.getMinHeight(), this.getPreferredHeight()) : this.getMinHeight();
-        s.maxHeight = this.getMaxHeight();
+    if (this._resizeNorth)
+    {
+      s.boxHeight = QxDom.getComputedBoxHeight(el);
+      s.boxBottom = QxDom.getComputedPageBoxBottom(el);
+    };
+
+    if (this._resizeNorth || this._resizeSouth)
+    {
+      s.boxTop = QxDom.getComputedPageBoxTop(el);
+
+      s.parentAreaOffsetTop = t;
+      s.parentAreaOffsetBottom = b;
+
+      s.minHeight = this.getMinHeightValue();
+      s.maxHeight = this.getMaxHeightValue();
     };
   }
   else
@@ -1067,42 +948,46 @@ proto._onwindowmouseup = function(e)
     // sync sizes to frame
     switch(this.getResizeMethod())
     {
-      case "frame":
+      case QxWindow.MODE_FRAME:
         var o = this._frame;
         if (!(o && o.getParent())) {
           break;
         };
         // no break here
 
-      case "lazyopaque":
-        if (isValidNumber(s.lastLeft)) {
+      case QxWindow.MODE_LAZYOPAQUE:
+        if (QxUtil.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
         };
 
-        if (isValidNumber(s.lastTop)) {
+        if (QxUtil.isValidNumber(s.lastTop)) {
           this.setTop(s.lastTop);
         };
 
-        if (isValidNumber(s.lastWidth)) {
+        if (QxUtil.isValidNumber(s.lastWidth)) {
           this.setWidth(s.lastWidth);
         };
 
-        if (isValidNumber(s.lastHeight)) {
+        if (QxUtil.isValidNumber(s.lastHeight)) {
           this.setHeight(s.lastHeight);
         };
 
-        if (this.getResizeMethod() == "frame") {
+        if (this.getResizeMethod() == QxWindow.MODE_FRAME) {
           this._frame.setParent(null);
         };
         break;
 
-      case "translucent":
+      case QxWindow.MODE_TRANSLUCENT:
         this.setOpacity(null);
         break;
     };
 
     // cleanup session
-    delete this._resizeMode;
+    delete this._resizeNorth;
+    delete this._resizeEast;
+    delete this._resizeSouth;
+    delete this._resizeWest;
+
     delete this._resizeSession;
   };
 };
@@ -1113,7 +998,7 @@ proto._near = function(p, e) {
 
 proto._onwindowmousemove = function(e)
 {
-  if (!this.getResizeable() || this.getState() != null) {
+  if (!this.getResizeable() || this.getMode() != null) {
     return;
   };
 
@@ -1121,177 +1006,219 @@ proto._onwindowmousemove = function(e)
 
   if (s)
   {
-    switch(this._resizeMode)
+    if (this._resizeWest)
     {
-      case "nw":
-      case "sw":
-      case "w":
-        s.lastWidth = (s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft)).limit(s.minWidth, s.maxWidth);
-        s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
-        break;
-
-      case "ne":
-      case "se":
-      case "e":
-        s.lastWidth = (Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft).limit(s.minWidth, s.maxWidth);
-        break;
+      s.lastWidth = (s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft)).limit(s.minWidth, s.maxWidth);
+      s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
+    }
+    else if (this._resizeEast)
+    {
+      s.lastWidth = (Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft).limit(s.minWidth, s.maxWidth);
     };
 
-    switch(this._resizeMode)
+    if (this._resizeNorth)
     {
-      case "nw":
-      case "ne":
-      case "n":
-        s.lastHeight = (s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop)).limit(s.minHeight, s.maxHeight);
-        s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
-        break;
-
-      case "sw":
-      case "se":
-      case "s":
-        s.lastHeight = (Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop).limit(s.minHeight, s.maxHeight);
-        break;
+      s.lastHeight = (s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop)).limit(s.minHeight, s.maxHeight);
+      s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
+    }
+    else if (this._resizeSouth)
+    {
+      s.lastHeight = (Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop).limit(s.minHeight, s.maxHeight);
     };
 
     switch(this.getResizeMethod())
     {
-      case "opaque":
-      case "translucent":
-        switch(this._resizeMode)
+      case QxWindow.MODE_OPAQUE:
+      case QxWindow.MODE_TRANSLUCENT:
+        if (this._resizeWest || this._resizeEast)
         {
-          case "nw":
-          case "sw":
-          case "w":
-            this.setLeft(s.lastLeft);
-            // no break here
+          this.setWidth(s.lastWidth);
 
-          case "ne":
-          case "se":
-          case "e":
-            this.setWidth(s.lastWidth);
+          if (this._resizeWest) {
+            this.setLeft(s.lastLeft);
+          };
         };
 
-        switch(this._resizeMode)
+        if (this._resizeNorth || this._resizeSouth)
         {
-          case "nw":
-          case "ne":
-          case "n":
-            this.setTop(s.lastTop);
-            // no break here
+          this.setHeight(s.lastHeight);
 
-          case "sw":
-          case "se":
-          case "s":
-            this.setHeight(s.lastHeight);
+          if (this._resizeNorth) {
+            this.setTop(s.lastTop);
+          };
         };
 
         break;
 
-
       default:
-        var o = this.getResizeMethod() == "frame" ? this._frame : this;
+        var o = this.getResizeMethod() == QxWindow.MODE_FRAME ? this._frame : this;
 
-        switch(this._resizeMode)
+        if (this._resizeWest || this._resizeEast)
         {
-          case "nw":
-          case "sw":
-          case "w":
-            o._applyPositionHorizontal(s.lastLeft);
-            // no break here
+          o._applyRuntimeWidth(s.lastWidth);
 
-          case "ne":
-          case "se":
-          case "e":
-            o._applySizeHorizontal(s.lastWidth);
+          if (this._resizeWest) {
+            o._applyRuntimeLeft(s.lastLeft);
+          };
         };
 
-        switch(this._resizeMode)
+        if (this._resizeNorth || this._resizeSouth)
         {
-          case "nw":
-          case "ne":
-          case "n":
-            o._applyPositionVertical(s.lastTop);
-            // no break here
+          o._applyRuntimeHeight(s.lastHeight);
 
-          case "sw":
-          case "se":
-          case "s":
-            o._applySizeVertical(s.lastHeight);
+          if (this._resizeNorth) {
+            o._applyRuntimeTop(s.lastTop);
+          };
         };
     };
   }
   else
   {
-    var resizeMode = "";
+    var resizeMode = QxConst.CORE_EMPTY;
+    var el = this.getElement();
 
-    if (this._near(this.getComputedPageBoxTop(), e.getPageY())) {
-      resizeMode = "n";
-    }
-    else if (this._near(this.getComputedPageBoxBottom(), e.getPageY())) {
-      resizeMode = "s";
-    };
+    this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-    if (this._near(this.getComputedPageBoxLeft(), e.getPageX())) {
-      resizeMode += "w";
-    }
-    else if (this._near(this.getComputedPageBoxRight(), e.getPageX())) {
-      resizeMode += "e";
-    };
-
-    if (resizeMode != "")
+    if (this._near(QxDom.getComputedPageBoxTop(el), e.getPageY()))
     {
-      this._resizeMode = resizeMode;
+      resizeMode = "n";
+      this._resizeNorth = true;
+    }
+    else if (this._near(QxDom.getComputedPageBoxBottom(el), e.getPageY()))
+    {
+      resizeMode = "s";
+      this._resizeSouth = true;
+    };
+
+    if (this._near(QxDom.getComputedPageBoxLeft(el), e.getPageX()))
+    {
+      resizeMode += "w";
+      this._resizeWest = true;
+    }
+    else if (this._near(QxDom.getComputedPageBoxRight(el), e.getPageX()))
+    {
+      resizeMode += "e";
+      this._resizeEast = true;
+    };
+
+    if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
+    {
       this.setCursor(resizeMode + "-resize");
     }
     else
     {
-      delete this._resizeMode;
       this.setCursor(null);
     };
   };
+
+  e.preventDefault();
 };
 
-proto._oniconmousedown = function(e) {
-  e.stopPropagation();
-};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENTS: BUTTONS
+---------------------------------------------------------------------------
+*/
 
 proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
 };
 
-proto._oniconload = function(e) {
-  this._layoutCaption();
+proto._onminimizebuttonclick = function(e)
+{
+  this.minimize();
+
+  // we need to be sure that the button gets the right states after clicking
+  // because the button will move and does not get the mouseup event anymore
+  this._minimizeButton.removeState(QxConst.STATE_PRESSED);
+  this._minimizeButton.removeState(QxConst.STATE_ABANDONED);
+  this._minimizeButton.removeState(QxConst.STATE_OVER);
+
+  e.stopPropagation();
+};
+
+proto._onrestorebuttonclick = function(e)
+{
+  this.restore();
+
+  // we need to be sure that the button gets the right states after clicking
+  // because the button will move and does not get the mouseup event anymore
+  this._restoreButton.removeState(QxConst.STATE_PRESSED);
+  this._restoreButton.removeState(QxConst.STATE_ABANDONED);
+  this._restoreButton.removeState(QxConst.STATE_OVER);
+
+  e.stopPropagation();
+};
+
+proto._onmaximizebuttonclick = function(e)
+{
+  this.maximize();
+
+  // we need to be sure that the button gets the right states after clicking
+  // because the button will move and does not get the mouseup event anymore
+  this._maximizeButton.removeState(QxConst.STATE_PRESSED);
+  this._maximizeButton.removeState(QxConst.STATE_ABANDONED);
+  this._maximizeButton.removeState(QxConst.STATE_OVER);
+
+  e.stopPropagation();
+};
+
+proto._onclosebuttonclick = function(e)
+{
+  this.close();
+
+  // we need to be sure that the button gets the right states after clicking
+  // because the button will move and does not get the mouseup event anymore
+  this._closeButton.removeState(QxConst.STATE_PRESSED);
+  this._closeButton.removeState(QxConst.STATE_ABANDONED);
+  this._closeButton.removeState(QxConst.STATE_OVER);
+
+  e.stopPropagation();
 };
 
 
 
+
+
+
+
 /*
-------------------------------------------------------------------------------------
-  CAPTION EVENTS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENTS: CAPTIONBAR
+---------------------------------------------------------------------------
 */
 
 proto._oncaptionmousedown = function(e)
 {
-  if (e.isNotLeftButton() || !this.getMoveable() || this.getState() != null) {
+  if (!e.isLeftButtonPressed() || !this.getMoveable() || this.getMode() != null) {
     return;
   };
 
   // enable capturing
-  this._captionbar.setCapture(true);
+  this._captionBar.setCapture(true);
+
+  // element cache
+  var el = this.getElement();
 
   // measuring and caching of values for drag session
   var pa = this.getParent();
+  var pl = pa.getElement();
 
-  var l = pa.getComputedPageAreaLeft();
-  var t = pa.getComputedPageAreaTop();
-  var r = pa.getComputedPageAreaRight();
-  var b = pa.getComputedPageAreaBottom();
+  var l = QxDom.getComputedPageAreaLeft(pl);
+  var t = QxDom.getComputedPageAreaTop(pl);
+  var r = QxDom.getComputedPageAreaRight(pl);
+  var b = QxDom.getComputedPageAreaBottom(pl);
 
   this._dragSession =
   {
-    offsetX : e.getPageX() - this.getComputedPageBoxLeft() + l,
-    offsetY : e.getPageY() - this.getComputedPageBoxTop() + t,
+    offsetX : e.getPageX() - QxDom.getComputedPageBoxLeft(el) + l,
+    offsetY : e.getPageY() - QxDom.getComputedPageBoxTop(el) + t,
 
     parentAvailableAreaLeft : l + 5,
     parentAvailableAreaTop : t + 5,
@@ -1302,21 +1229,27 @@ proto._oncaptionmousedown = function(e)
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case "translucent":
+    case QxWindow.MODE_TRANSLUCENT:
       this.setOpacity(0.5);
       break;
 
-    case "frame":
+    case QxWindow.MODE_FRAME:
       var f = this._frame;
 
-      f._applyPositionHorizontal(this.getComputedPageBoxLeft() - l);
-      f._applyPositionVertical(this.getComputedPageBoxTop() - t);
+      if (f.getParent() != this.getParent())
+      {
+        f.setParent(this.getParent());
+        QxWidget.flushGlobalQueues();
+      };
 
-      f._applySizeHorizontal(this.getComputedBoxWidth());
-      f._applySizeVertical(this.getComputedBoxHeight());
+      f._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(el) - l);
+      f._applyRuntimeTop(QxDom.getComputedPageBoxTop(el) - t);
+
+      f._applyRuntimeWidth(QxDom.getComputedBoxWidth(el));
+      f._applyRuntimeHeight(QxDom.getComputedBoxHeight(el));
 
       f.setZIndex(this.getZIndex() + 1);
-      f.setParent(this.getParent());
+
       break;
   };
 };
@@ -1330,25 +1263,25 @@ proto._oncaptionmouseup = function(e)
   };
 
   // disable capturing
-  this._captionbar.setCapture(false);
+  this._captionBar.setCapture(false);
 
   // move window to last position
-  if (isValidNumber(s.lastX)) {
+  if (QxUtil.isValidNumber(s.lastX)) {
     this.setLeft(s.lastX);
   };
 
-  if (isValidNumber(s.lastY)) {
+  if (QxUtil.isValidNumber(s.lastY)) {
     this.setTop(s.lastY);
   };
 
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case "translucent":
+    case QxWindow.MODE_TRANSLUCENT:
       this.setOpacity(null);
       break;
 
-    case "frame":
+    case QxWindow.MODE_FRAME:
       this._frame.setParent(null);
       break;
   };
@@ -1362,53 +1295,34 @@ proto._oncaptionmousemove = function(e)
   var s = this._dragSession;
 
   // pre check for active session and capturing
-  if (!s || !this._captionbar.getCapture()) {
+  if (!s || !this._captionBar.getCapture()) {
     return;
   };
 
   // pre check if we go out of the available area
-  if (!e.getPageX().inrange(s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !e.getPageY().inrange(s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
+  if (!e.getPageX().betweenRange(s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !e.getPageY().betweenRange(s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
     return;
   };
 
   // use the fast and direct dom methods
-  var o = this.getMoveMethod() == "frame" ? this._frame : this;
-  o._applyPositionHorizontal(s.lastX = e.getPageX() - s.offsetX);
-  o._applyPositionVertical(s.lastY = e.getPageY() - s.offsetY);
+  var o = this.getMoveMethod() == QxWindow.MODE_FRAME ? this._frame : this;
+
+  o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
+  o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
+
+  e.preventDefault();
 };
 
-
-
-
-/*
-------------------------------------------------------------------------------------
-  BUTTON EVENTS
-------------------------------------------------------------------------------------
-*/
-
-proto._onminimizebuttonclick = function(e)
+proto._oncaptiondblblick = function()
 {
-  this.minimize();
-  e.stopPropagation();
+  if (!this._maximizeButton.getEnabled()) {
+    return;
+  };
+
+  return this.getMode() == QxWindow.MODE_MAXIMIZED ? this.restore() : this.maximize();
 };
 
-proto._onrestorebuttonclick = function(e)
-{
-  this.restore();
-  e.stopPropagation();
-};
 
-proto._onmaximizebuttonclick = function(e)
-{
-  this.maximize();
-  e.stopPropagation();
-};
-
-proto._onclosebuttonclick = function(e)
-{
-  this.close();
-  e.stopPropagation();
-};
 
 
 
@@ -1416,105 +1330,94 @@ proto._onclosebuttonclick = function(e)
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   DISPOSER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
 {
   if (this.getDisposed()) {
-    return;
+    return true;
   };
 
-
-
-  this.removeEventListener("mousedown", this._onwindowmousedown, this);
-  this.removeEventListener("mouseup", this._onwindowmouseup, this);
-  this.removeEventListener("mousemove", this._onwindowmousemove, this);
-
-
-  var w = this._caption;
-  if (w)
+  if (this._layout)
   {
-    w.dispose();
-    this._caption = null;
+    this._layout.dispose();
+    this._layout = null;
   };
 
-  w = this._icon;
-  if (w)
+  if (this._frame)
   {
-    w.removeEventListener("mousedown", this._oniconmousedown, this);
-    w.dispose();
-
-    this._icon = null;
+    this._frame.dispose();
+    this._frame = null;
   };
 
-  w = this._closeButton;
-  if (w)
+  if (this._captionBar)
   {
-    w.removeEventListener("click", this._onclosebuttonclick, this);
-    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
+    this._captionBar.dispose();
+    this._captionBar = null;
+  };
 
-    w.dispose();
+  if (this._captionIcon)
+  {
+    this._captionIcon.dispose();
+    this._captionIcon = null;
+  };
+
+  if (this._captionTitle)
+  {
+    this._captionTitle.dispose();
+    this._captionTitle = null;
+  };
+
+  if (this._captionFlex)
+  {
+    this._captionFlex.dispose();
+    this._captionFlex = null;
+  };
+
+  if (this._closeButton)
+  {
+    this._closeButton.dispose();
     this._closeButton = null;
   };
 
-  w = this._restoreButton;
-  if (w)
+  if (this._minimizeButton)
   {
-    w.removeEventListener("click", this._onrestorebuttonclick, this);
-    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
-
-    w.dispose();
-    this._restoreButton = null;
-  };
-
-  w = this._maximizeButton;
-  if (w)
-  {
-    w.removeEventListener("click", this._onmaximizebuttonclick, this);
-    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
-
-    w.dispose();
-    this._maximizeButton = null;
-  };
-
-  w = this._minimizeButton;
-  if (w)
-  {
-    w.removeEventListener("click", this._onminimizebuttonclick, this);
-    w.removeEventListener("mousedown", this._onbuttonmousedown, this);
-
-    w.dispose();
+    this._minimizeButton.dispose();
     this._minimizeButton = null;
   };
 
-
-
-
-  w = this._captionbar;
-  if (w)
+  if (this._maximizeButton)
   {
-    w.removeEventListener("mousedown", this._oncaptionmousedown, this);
-    w.removeEventListener("mouseup", this._oncaptionmouseup, this);
-    w.removeEventListener("mousemove", this._oncaptionmousemove, this);
-
-    w.dispose();
-    this._captionbar = null;
+    this._maximizeButton.dispose();
+    this._maximizeButton = null;
   };
 
-  w = this._pane;
-  if (w)
+  if (this._restoreButton)
   {
-    w.dispose();
+    this._restoreButton.dispose();
+    this._restoreButton = null;
+  };
+
+  if (this._pane)
+  {
+    this._pane.dispose();
     this._pane = null;
   };
 
-  w = this._statusbar;
-  if (w)
+  if (this._statusBar)
   {
-    w.dispose();
-    this._statusbar = null
+    this._statusBar.dispose();
+    this._statusBar = null;
   };
+
+  if (this._statusText)
+  {
+    this._statusText.dispose();
+    this._statusText = null;
+  };
+
+  return QxPopup.prototype.dispose.call(this);
 };

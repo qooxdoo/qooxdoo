@@ -1,152 +1,111 @@
-function QxFocusManager(vClientWindow)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (vCurrentChild) 2004-2005 by Schlund + Partner AG, Germany
+         vAll rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(eventcore)
+#post(QxDomLocation)
+#post(QxFocusEvent)
+#post(QxPopupManager)
+#post(QxToolTipManager)
+
+************************************************************************ */
+
+/*!
+  This object gets an instance in vAll QxClientWindows and manage the focus handling for it.
+*/
+function QxFocusManager(vWidget)
 {
-  // don't use QxManager things
+  // Don't use QxManager things, but include QxTarget functinality
   QxTarget.call(this);
 
-  if (isValid(vClientWindow)) {
-    this._attachedClientWindow = vClientWindow;
+  if (QxUtil.isValidObject(vWidget)) {
+    this._attachedWidget = vWidget;
   };
 };
 
 QxFocusManager.extend(QxManager, "QxFocusManager");
 
-QxFocusManager.addProperty({ name : "focusedWidget" });
+QxFocusManager.mouseFocus = false;
 
-proto._attachedClientWindow = null;
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIERS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
 */
 
-proto._modifyFocusedWidget = function(propValue, propOldValue, propName, uniqModIds)
-{
-  var cIn = typeof propValue == "object" && propValue != null;
-  var cOut = typeof propOldValue == "object" && propOldValue != null;
-
-  if (cIn && typeof QxPopupManager == "function")
-  {
-    (new QxPopupManager).update(propValue);
-  };
-
-  if (cOut)
-  {
-    // Dispatch FocusOut
-    var s = new QxFocusEvent("focusout", false);
-
-    if (cIn) {
-      s.setRelatedTarget(propValue);
-    };
-
-    propOldValue.dispatchEvent(s);
-    s.dispose();
-  };
-
-  if (cIn)
-  {
-    // Dispatch FocusIn
-    var s = new QxFocusEvent("focusin", false);
-
-    if (cOut) {
-      s.setRelatedTarget(propOldValue);
-    };
-
-    propValue.dispatchEvent(s);
-    s.dispose();
-  };
-
-  if (cOut)
-  {
-    // Call Object Property Setter
-    propOldValue.setFocused(false, uniqModIds);
-
-    // Dispatch Blur
-    var s = new QxFocusEvent("blur", false);
-
-    if (cIn) {
-      s.setRelatedTarget(propValue);
-    };
-
-    propOldValue.dispatchEvent(s);
-
-    if ( typeof QxToolTipManager == "function" ) {
-      (new QxToolTipManager).handleBlur(s);
-    };
-
-    s.dispose();
-
-    (new QxApplication).setActiveWidget(null);
-  };
-
-  if (cIn)
-  {
-    // Call Object Property Setter
-    propValue.setFocused(true, uniqModIds);
-
-    // Dispatch Focus
-    var s = new QxFocusEvent("focus", false);
-
-    if (cOut) {
-      s.setRelatedTarget(propOldValue);
-    };
-
-    propValue.dispatchEvent(s);
-
-    if ( typeof QxToolTipManager == "function" ) {
-      (new QxToolTipManager).handleFocus(s);
-    };
-
-    s.dispose();
-
-    (new QxApplication).setActiveWidget(propValue);
-  };
-
-  return true;
+proto.getAttachedWidget = function() {
+  return this._attachedWidget;
 };
 
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    TAB-EVENT HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  TAB-EVENT HANDLING
+---------------------------------------------------------------------------
 */
 
 // Check for TAB pressed
 // * use keydown on mshtml
-// * use keypress on all other (correct) browsers
+// * use keypress on vAll other (correct) browsers
 // = same behaviour
-proto._ontabeventname = (new QxClient).isMshtml() ? "keydown" : "keypress";
+QxFocusManager.tabEventType = QxClient.isMshtml() ? QxConst.EVENT_TYPE_KEYDOWN : QxConst.EVENT_TYPE_KEYPRESS;
 
-proto._ontabevent = function(e)
+proto._onkeyevent = function(vContainer, vEvent)
 {
-  if (e.type != this._ontabeventname || !this._attachedClientWindow) {
+  if (vEvent.getKeyCode() != QxKeyEvent.keys.tab || vEvent.getType() != QxFocusManager.tabEventType) {
     return;
   };
 
-  var cd = this._attachedClientWindow.getDocument();
-  var current = this.getFocusedWidget();
+  QxFocusManager.mouseFocus = false;
+
+  var vCurrent = this.getAttachedWidget().getFocusedChild();
 
   // Support shift key to reverse widget detection order
-  if(!e.shiftKey)
-  {
-    var next = current ? this.getWidgetAfter(cd, current) : this.getFirstWidget(cd);
-  }
-  else
-  {
-    var next = current ? this.getWidgetBefore(cd, current) : this.getLastWidget(cd);
+  if(!vEvent.getShiftKey()) {
+    var vNext = vCurrent ? this.getWidgetAfter(vContainer, vCurrent) : this.getFirstWidget(vContainer);
+  } else {
+    var vNext = vCurrent ? this.getWidgetBefore(vContainer, vCurrent) : this.getLastWidget(vContainer);
   };
 
   // If there was a widget found, focus it
-  if(next) 
+  if(vNext)
   {
-    next.setFocused(true);
-    next._ontabfocus();
+    vNext.setFocused(true);
+    vNext._ontabfocus();
   };
+
+  vEvent.stopPropagation();
+  vEvent.preventDefault();
 };
 
 proto.compareTabOrder = function(c1, c2)
@@ -166,16 +125,16 @@ proto.compareTabOrder = function(c1, c2)
     return t1 - t2;
   };
 
-  var y1 = c1.getComputedPageBoxTop();
-  var y2 = c2.getComputedPageBoxTop();
+  var y1 = QxDom.getComputedPageBoxTop(c1.getElement());
+  var y2 = QxDom.getComputedPageBoxTop(c2.getElement());
 
   if(y1 != y2) {
     return y1 - y2;
   };
 
   // Sort-Check #3: Left-Position
-  var x1 = c1.getComputedPageBoxLeft();
-  var x2 = c2.getComputedPageBoxLeft();
+  var x1 = QxDom.getComputedPageBoxLeft(c1.getElement());
+  var x2 = QxDom.getComputedPageBoxLeft(c2.getElement());
 
   if(x1 != x2) {
     return x1 - x2;
@@ -198,171 +157,182 @@ proto.compareTabOrder = function(c1, c2)
 
 
 /*
-  -------------------------------------------------------------------------------
-    UTILITY/HELPER FUNCTIONS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  UTILITIES FOR TAB HANDLING
+---------------------------------------------------------------------------
 */
 
-proto.getFirstWidget = function(oContainer)
-{
-  return this._getFirst(oContainer, null);
+proto.getFirstWidget = function(vParentContainer) {
+  return this._getFirst(vParentContainer, null);
 };
 
-proto.getLastWidget = function(oContainer)
-{
-  return this._getLast(oContainer, null);
+proto.getLastWidget = function(vParentContainer) {
+  return this._getLast(vParentContainer, null);
 };
 
-proto.getWidgetAfter = function(oContainer, oWidget)
+proto.getWidgetAfter = function(vParentContainer, vWidget)
 {
-  if(oContainer == oWidget) {
-    return this.getFirstWidget(oContainer);
+  if(vParentContainer == vWidget) {
+    return this.getFirstWidget(vParentContainer);
   };
 
-  if(oWidget.getAnonymous()) {
-    oWidget = oWidget.getParent();
+  if(vWidget.getAnonymous()) {
+    vWidget = vWidget.getParent();
   };
 
-  if(oWidget == null) {
+  if(vWidget == null) {
     return [];
   };
 
-  var all = [];
+  var vAll = [];
 
-  this._getAllAfter(oContainer, oWidget, all);
+  this._getAllAfter(vParentContainer, vWidget, vAll);
 
-  all.sort(this.compareTabOrder);
+  vAll.sort(this.compareTabOrder);
 
-  return all.length > 0 ? all[0] : this.getFirstWidget(oContainer);
+  return vAll.length > 0 ? vAll[0] : this.getFirstWidget(vParentContainer);
 };
 
-proto.getWidgetBefore = function(oContainer, oWidget)
+proto.getWidgetBefore = function(vParentContainer, vWidget)
 {
-  if(oContainer == oWidget) {
-    return this.getLastWidget(oContainer);
+  if(vParentContainer == vWidget) {
+    return this.getLastWidget(vParentContainer);
   };
 
-  if(oWidget.getAnonymous()) {
-    oWidget = oWidget.getParent();
+  if(vWidget.getAnonymous()) {
+    vWidget = vWidget.getParent();
   };
 
-  if(oWidget == null) {
+  if(vWidget == null) {
     return [];
   };
 
-  var all = [];
+  var vAll = [];
 
-  this._getAllBefore(oContainer, oWidget, all);
+  this._getAllBefore(vParentContainer, vWidget, vAll);
 
-  all.sort(this.compareTabOrder);
+  vAll.sort(this.compareTabOrder);
 
-  var l = all.length;
-  return l > 0 ? all[l-1] : this.getLastWidget(oContainer);
+  var vChildrenLength = vAll.length;
+  return vChildrenLength > 0 ? vAll[vChildrenLength-1] : this.getLastWidget(vParentContainer);
 };
 
-proto._getAllAfter = function(oCont, oComp, oArray)
+proto._getAllAfter = function(vParent, vWidget, vArray)
 {
-  var cs = oCont.getChildren();
-  var l = cs.length;
+  var vChildren = vParent.getChildren();
+  var vCurrentChild;
+  var vChildrenLength = vChildren.length;
 
-  for (var i = 0; i < l; i++)
+  for (var i = 0; i < vChildrenLength; i++)
   {
-    if(!(cs[i]instanceof QxWidget)) {
+    vCurrentChild = vChildren[i];
+
+    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
-    if(cs[i].canGetFocus() && cs[i].getTabIndex() > 0 && this.compareTabOrder(oComp, cs[i]) < 0)
-    {
-      oArray.push(cs[i]);
+    if(vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0 && this.compareTabOrder(vWidget, vCurrentChild) < 0) {
+      vArray.push(vChildren[i]);
     };
 
-    if(!cs[i].isFocusRoot()) {
-      this._getAllAfter(cs[i], oComp, oArray);
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+      this._getAllAfter(vCurrentChild, vWidget, vArray);
     };
   };
 };
 
-proto._getAllBefore = function(oCont, oComp, oArray)
+proto._getAllBefore = function(vParent, vWidget, vArray)
 {
-  var cs = oCont.getChildren();
-  var l = cs.length;
+  var vChildren = vParent.getChildren();
+  var vCurrentChild;
+  var vChildrenLength = vChildren.length;
 
-  for (var i = 0; i < l; i++)
+  for (var i = 0; i < vChildrenLength; i++)
   {
-    if(!(cs[i]instanceof QxWidget)) {
+    vCurrentChild = vChildren[i];
+
+    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
-    if(cs[i].canGetFocus() && cs[i].getTabIndex() > 0 && this.compareTabOrder(oComp, cs[i]) > 0)
-    {
-      oArray.push(cs[i]);
+    if(vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0 && this.compareTabOrder(vWidget, vCurrentChild) > 0) {
+      vArray.push(vCurrentChild);
     };
 
-    if(!cs[i].isFocusRoot()) {
-      this._getAllBefore(cs[i], oComp, oArray);
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+      this._getAllBefore(vCurrentChild, vWidget, vArray);
     };
   };
 };
 
-proto._getFirst = function(oCont, oFirst)
+proto._getFirst = function(vParent, vFirstWidget)
 {
-  var cs = oCont.getChildren();
-  var l = cs.length;
+  var vChildren = vParent.getChildren();
+  var vCurrentChild;
+  var vChildrenLength = vChildren.length;
 
-  for (var i = 0; i < l; i++)
+  for (var i = 0; i < vChildrenLength; i++)
   {
-    if(!(cs[i]instanceof QxWidget)) {
+    vCurrentChild = vChildren[i];
+
+    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
-    if(cs[i].canGetFocus() && cs[i].getTabIndex() > 0)
+    if(vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0)
     {
-      if(oFirst == null || this.compareTabOrder(cs[i], oFirst) < 0) {
-        oFirst = cs[i];
+      if(vFirstWidget == null || this.compareTabOrder(vCurrentChild, vFirstWidget) < 0) {
+        vFirstWidget = vCurrentChild;
       };
     };
 
-    if(!cs[i].isFocusRoot()) {
-      oFirst = this._getFirst(cs[i], oFirst);
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+      vFirstWidget = this._getFirst(vCurrentChild, vFirstWidget);
     };
   };
 
-  return oFirst;
+  return vFirstWidget;
 };
 
-proto._getLast = function(oCont, oLast)
+proto._getLast = function(vParent, vLastWidget)
 {
-  var cs = oCont.getChildren();
-  var l = cs.length;
+  var vChildren = vParent.getChildren();
+  var vCurrentChild;
+  var vChildrenLength = vChildren.length;
 
-  for (var i = 0; i < l; i++)
+  for (var i = 0; i < vChildrenLength; i++)
   {
-    if(!(cs[i] instanceof QxWidget)) {
+    vCurrentChild = vChildren[i];
+
+    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
-    if(cs[i].canGetFocus() && cs[i].getTabIndex() > 0)
+    if(vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0)
     {
-      if(oLast == null || this.compareTabOrder(cs[i], oLast) > 0) {
-        oLast = cs[i];
+      if(vLastWidget == null || this.compareTabOrder(vCurrentChild, vLastWidget) > 0) {
+        vLastWidget = vCurrentChild;
       };
     };
 
-    if(! cs[i].isFocusRoot()) {
-      oLast = this._getLast(cs[i], oLast);
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+      vLastWidget = this._getLast(vCurrentChild, vLastWidget);
     };
   };
 
-  return oLast;
+  return vLastWidget;
 };
+
+
+
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -371,7 +341,7 @@ proto.dispose = function()
     return;
   };
 
-  this._attachedClientWindow = null;
+  this._attachedWidget = null;
 
   QxObject.prototype.dispose.call(this);
 };

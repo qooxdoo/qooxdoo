@@ -1,225 +1,177 @@
-function QxPopup(vText, vIcon)
-{
-  QxAtom.call(this, vText, vIcon);
+/* ************************************************************************
 
-  this.setZIndex(this._minZindex);
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(popup)
+
+************************************************************************ */
+
+function QxPopup()
+{
+  QxCanvasLayout.call(this);
+
+  this.setZIndex(this._minZIndex);
 };
 
-QxPopup.extend(QxAtom, "QxPopup");
+QxPopup.extend(QxCanvasLayout, "QxPopup");
+
+QxPopup.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "popup" });
 
 /*!
-  Whether to let the system decide when to hide the popup. Setting 
-  this to false gives you better control but it also requires you 
+  Whether to let the system decide when to hide the popup. Setting
+  this to false gives you better control but it also requires you
   to handle the closing of the popup.
 */
-QxPopup.addProperty({ name : "autoHide", type : Boolean, defaultValue : true });
+QxPopup.addProperty({ name : "autoHide", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+
+/*!
+  Make element displayed (if switched to true the widget will be created, if needed, too).
+  Instead of QxWidget, the default is false here.
+*/
+QxPopup.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+proto._showTimeStamp = (new Date(0)).valueOf();
+proto._hideTimeStamp = (new Date(0)).valueOf();
 
 
 
-proto._minZindex = 1e6;
-
-proto._showTimeStamp = new Date(0);
-proto._hideTimeStamp = new Date(0);
-
-proto._popupManager = new QxPopupManager();
 
 
 /*
-------------------------------------------------------------------------------------
-  PARENT/ELEMENT/VISIBLE MODIFIER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  APPEAR/DISAPPEAR
+---------------------------------------------------------------------------
 */
 
-proto._beforeShow = function(uniqModIds)
+proto._beforeAppear = function()
 {
-  QxAtom.prototype._beforeShow.call(this, uniqModIds);
-  
-  this._popupManager.add(this);
-  this._popupManager.update(this);
+  QxCanvasLayout.prototype._beforeAppear.call(this);
 
-  this._showTimeStamp = new Date;
-  this.bringToFront();  
+  QxPopupManager.add(this);
+  QxPopupManager.update(this);
+
+  this._showTimeStamp = (new Date).valueOf();
+  this.bringToFront();
 };
 
-proto._beforeHide = function(uniqModIds)
+proto._beforeDisappear = function()
 {
-  QxAtom.prototype._beforeHide.call(this, uniqModIds);
-  
-  this.sendToBack();
-    
-  this._popupManager.remove(this);
-  this._hideTimeStamp = new Date;
+  QxCanvasLayout.prototype._beforeDisappear.call(this);
+
+  QxPopupManager.remove(this);
+
+  this._hideTimeStamp = (new Date).valueOf();
 };
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  ACTIVE/INACTIVE
+---------------------------------------------------------------------------
+*/
 
 proto._makeActive = function() {
-  (new QxApplication).setActiveWidget(this);    
+  this.getFocusRoot().setActiveChild(this);
 };
 
 proto._makeInactive = function()
 {
-  var vApp = new QxApplication;
-  if (vApp.getActiveWidget() == this) {
-    vApp.setActiveWidget(vApp.getClientWindow().getClientDocument());
-  };  
+  var vRoot = this.getFocusRoot();
+  var vCurrent = vRoot.getActiveChild();
+
+  if (vCurrent == this) {
+    vRoot.setActiveChild(vRoot);
+  };
 };
 
-proto._shouldBecomeCreated = function() {
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  FOCUS
+---------------------------------------------------------------------------
+*/
+
+proto.isFocusable = function() {
   return false;
 };
 
 
 
+
+
 /*
-------------------------------------------------------------------------------------
-  FOCUS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  ZIndex Positioning
+---------------------------------------------------------------------------
 */
 
-proto.getCanFocus = function() { 
-  return false; 
+proto._minZIndex = 1e6;
+
+proto.bringToFront = function()
+{
+  this.forceZIndex(Infinity);
+  this._sendTo();
+};
+
+proto.sendToBack = function()
+{
+  this.forceZIndex(-Infinity);
+  this._sendTo();
+};
+
+proto._sendTo = function()
+{
+  var vPopups = QxUtil.convertObjectValuesToArray(QxPopupManager.getAll());
+  var vMenus = QxUtil.convertObjectValuesToArray(QxMenuManager.getAll());
+
+  var vAll = vPopups.concat(vMenus).sort(QxCompare.byZIndex);
+  var vLength = vAll.length;
+  var vIndex = this._minZIndex;
+
+  for (var i=0; i<vLength; i++) {
+    vAll[i].setZIndex(vIndex++);
+  };
 };
 
 
 
 
+
+
 /*
-------------------------------------------------------------------------------------
-  Z-Index positioning
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  TIMESTAMP HANDLING
+---------------------------------------------------------------------------
 */
-
-if((new QxClient).isMshtml())
-{
-  /*!
-    Makes so that the current popup is displayed behind all other shown popups
-  */
-  proto.sendToBack = function()
-  {
-    if(!this.isCreated() || !this.getParent()) {
-      return;
-    };
-      
-    var min = Infinity;
-    var d = this.getTopLevelWidget().getDocumentElement();
-    var cs = d.body.children;
-    var zi;
-
-    for (var i=0; i<cs.length; i++) {
-      if(cs[i].nodeType == 1) 
-      {
-        zi = cs[i].currentStyle.zIndex;
-        
-        if (zi > this._minZindex) {
-          min = Math.min(min, zi);
-        };
-      };
-    };
-    
-    this.setZIndex(min - 1);
-  };
-  
-  /*!
-    Makes so that the popup is displayed on top of all other shown popups.
-  */
-  proto.bringToFront = function()
-  {
-    if(!this.isCreated() || !this.getParent()) {
-      return;
-    };
-
-    var max = -Infinity;
-    var d = this.getTopLevelWidget().getDocumentElement();      
-
-    var cs = d.body.children;
-
-    for (var i=0; i<cs.length; i++) {
-      if(cs[i].nodeType == 1) {
-        max = Math.max(max, cs[i].currentStyle.zIndex);
-      };
-    };
-    
-    this.setZIndex(max + 1);
-  }; 
-}
-else
-{
-  /*!
-    Makes so that the current popup is displayed behind all other shown popups
-  */
-  proto.sendToBack = function()
-  {
-    if(!this.isCreated() || !this.getParent()) {
-      return;
-    };
-      
-    var min = Infinity;
-    var d = this.getTopLevelWidget().getDocumentElement();
-    var cs = d.body.childNodes;
-    var view = d.defaultView;
-    var zi;
-
-    for (var i=0; i<cs.length; i++)
-    {
-      if(cs[i].nodeType == 1)
-      {
-        zi = cs[i].style.zIndex;
-
-        if(zi == "" || isNaN(zi))
-        {
-          zi = view.getComputedStyle(cs[i], "").zIndex;
-
-          if(zi == "" || isNaN(zi)) {
-            zi = 0;
-          };
-        };
-        
-        if (zi > this._minZindex) {
-          min = Math.min(min, zi);
-        };
-      };    
-    };  
-    
-    this.setZIndex(min - 1);
-  };
-  
-  /*!
-    Makes so that the popup is displayed on top of all other shown popups.
-  */  
-  proto.bringToFront = function()
-  {
-    if(!this.isCreated() || !this.getParent()) {
-      return;
-    };
-
-    var max = -Infinity;
-    var d = this.getTopLevelWidget().getDocumentElement();      
-    var cs = d.body.childNodes;
-    var view = d.defaultView;
-    var zi;
-
-    for (var i=0; i<cs.length; i++)
-    {
-      if(cs[i].nodeType == 1)
-      {
-        zi = cs[i].style.zIndex;
-
-        if(zi == "" || isNaN(zi))
-        {
-          zi = view.getComputedStyle(cs[i], "").zIndex;
-
-          if(zi == "" || isNaN(zi)) {
-            zi = 0;
-          };
-        };
-
-        max = Math.max(max, zi);
-      };
-    };
-
-    this.setZIndex(max + 1);
-  };     
-};
-
 
 proto.getShowTimeStamp = function() {
   return this._showTimeStamp;
@@ -233,23 +185,21 @@ proto.getHideTimeStamp = function() {
 
 
 
+
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   DISPOSER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
 {
-  if(this.getDisposed()) {
+  if (this.getDisposed()) {
     return;
   };
-  
-  if (this._popupManager) 
-  {
-    this._popupManager.remove(this);
-    this._popupManager = null;
-  };
-  
-  return QxAtom.prototype.dispose.call(this);
+
+  this._showTimeStamp = null;
+  this._hideTimeStamp = null;
+
+  return QxCanvasLayout.prototype.dispose.call(this);
 };

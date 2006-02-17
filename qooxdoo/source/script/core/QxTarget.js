@@ -1,181 +1,293 @@
-/* ********************************************************************
-   Class: QxTarget
-******************************************************************** */
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(core)
+#require(QxEvent)
+
+************************************************************************ */
+
 
 /*!
 This is the main constructor for all objects that need to be connected to QxEvent objects.
 
 In objects created with this constructor, you find functions to addEventListener or
 removeEventListener to or from the created object. Each event to connect to has a type in
-form of an identification string. This type could be the name of a regular dom event like "click" or
+form of an identification string. This type could be the name of a regular dom event like QxConst.EVENT_TYPE_CLICK or
 something self-defined like "ready".
 */
-function QxTarget()
-{
-  QxObject.call(this);
-
-  // Do not use copyCreateHash here, this duplicate the calls to
-  // the registered events, which is unwanted!
-  this._listeners = {};
+function QxTarget(vAutoDispose) {
+  QxObject.call(this, vAutoDispose);
 };
 
 QxTarget.extend(QxObject, "QxTarget");
 
-proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxObject.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
 
-  return true;
-};
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT CONNECTION
+---------------------------------------------------------------------------
+*/
 
 /*!
   Add event listener to object
 */
-proto.addEventListener = function(eType, eFunc, eObject)
+proto.addEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
     return;
   };
 
-  if(typeof eFunc != "function") {
-    throw new Error("'" + eFunc + "' is not a function!");
+  if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
+    throw new Error("QxTarget: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
-  if(typeof this._listeners[eType] == "undefined") {
-    this._listeners[eType] = {};
+  if (typeof this._listeners === QxConst.TYPEOF_UNDEFINED)
+  {
+    this._listeners = {};
+    this._listeners[vType] = {};
+  }
+  else if(typeof this._listeners[vType] === QxConst.TYPEOF_UNDEFINED)
+  {
+    this._listeners[vType] = {};
   };
 
-  // Create a special key string to allow identification of each bound action
-  var key = QxObject.toHash(eFunc) + (eObject ? "::" + QxObject.toHash(eObject) : "");
+  // Create a special vKey string to allow identification of each bound action
+  var vKey = QxConst.CORE_EVENTPREFIX + QxObject.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + QxObject.toHashCode(vObject) : QxConst.CORE_EMPTY);
 
   // Finally set up the listeners object
-  this._listeners[eType][key] = {
-    handler : eFunc,
-    object : eObject
-  };
-};
-
-/*!
-  Check if there are one or more listeners for an event type
-*/
-proto.hasEventListeners = function(eType) {
-  try
+  this._listeners[vType][vKey] =
   {
-    return typeof this._listeners[eType] != "undefined";
-  } 
-  catch(ex)
-  {
-    throw new Error("No listeners object available (" + this.classname + "): " + ex);
+    handler : vFunction,
+    object : vObject
   };
 };
 
 /*!
   Remove event listener from object
 */
-proto.removeEventListener = function(eType, eFunc, eObject)
+proto.removeEventListener = function(vType, vFunction, vObject)
 {
-  if(this._disposed || typeof this._listeners[eType] == "undefined") {
-    return;
-  };
-
-  if(typeof eFunc != "function") {
-    throw new Error("'" + eFunc + "' is not a function!");
-  };
-
-  // Create a special key string to allow identification of each bound action
-  var key = QxObject.toHash(eFunc) + (eObject ? "::" + QxObject.toHash(eObject) : "");
-
-  // Delete object entry for this action
-  delete this._listeners[eType][key];
-};
-
-proto.dispatchEvent = function(e, dispose)
-{
-  // Ignore event if eventTarget is disposed
   if(this._disposed) {
     return;
   };
 
-  // Setup Target
-  if (!e._target) {
-    e._target = this;
+  var vListeners = this._listeners;
+  if (!vListeners || typeof vListeners[vType] === QxConst.TYPEOF_UNDEFINED) {
+    return;
+  };
+
+  if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
+    throw new Error("QxTarget: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
+  };
+
+  // Create a special vKey string to allow identification of each bound action
+  var vKey = QxConst.CORE_EVENTPREFIX + QxObject.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + QxObject.toHashCode(vObject) : QxConst.CORE_EMPTY);
+
+  // Delete object entry for this action
+  delete this._listeners[vType][vKey];
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT CONNECTION UTILITIES
+---------------------------------------------------------------------------
+*/
+
+/*!
+  Check if there are one or more listeners for an event type
+*/
+proto.hasEventListeners = function(vType) {
+  return this._listeners && typeof this._listeners[vType] !== QxConst.TYPEOF_UNDEFINED && !QxUtil.isObjectEmpty(this._listeners[vType]);
+};
+
+/*!
+  Checks if the event is registered. If so it creates a event object and dispatch it.
+*/
+proto.createDispatchEvent = function(vType)
+{
+  if (this.hasEventListeners(vType)) {
+    this.dispatchEvent(new QxEvent(vType), true);
+  };
+};
+
+/*!
+  Checks if the event is registered. If so it creates a data event object and dispatch it.
+*/
+proto.createDispatchDataEvent = function(vType, vData)
+{
+  if (this.hasEventListeners(vType)) {
+    this.dispatchEvent(new QxDataEvent(vType, vData), true);
+  };
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT DISPATCH
+---------------------------------------------------------------------------
+*/
+
+/*!
+  Public dispatch implementation
+*/
+proto.dispatchEvent = function(vEvent, vEnableDispose)
+{
+  // Ignore event if eventTarget is disposed
+  if(this.getDisposed()) {
+    return;
+  };
+
+  if (vEvent.getTarget() == null) {
+    vEvent.setTarget(this);
+  };
+
+  if (vEvent.getCurrentTarget() == null) {
+    vEvent.setCurrentTarget(this);
   };
 
   // Dispatch Event
-  this._dispatchEvent(e, dispose);
+  this._dispatchEvent(vEvent, vEnableDispose);
 
-  return !e._defaultPrevented;;
+  return !vEvent._defaultPrevented;
 };
 
-// Internal dispatch implementation
-proto._dispatchEvent = function(e, dispose)
+/*!
+  Internal dispatch implementation
+*/
+proto._dispatchEvent = function(vEvent, vEnableDispose)
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   };
 
-  // Setup current target
-  e.setCurrentTarget(this);
-
-  // Shortcut for listener data
-  var fs = this._listeners[e.getType()];
-
-  if(fs)
+  var vListeners = this._listeners;
+  if (vListeners)
   {
-    var f, o;
+    // Setup current target
+    vEvent.setCurrentTarget(this);
 
-    // Handle all events for the specified type
-    for(var hc in fs)
+    // Shortcut for listener data
+    var vTypeListeners = vListeners[vEvent.getType()];
+
+    if(vTypeListeners)
     {
-      // Shortcuts for handler and object
-      f = fs[hc].handler;
-      o = fs[hc].object;
+      var vFunction, vObject;
 
-      // Call object function
-      if(typeof f == "function") {
-        f.call(typeof o == "object" ? o : this, e);
+      // Handle all events for the specified type
+      for (var vHashCode in vTypeListeners)
+      {
+        // Shortcuts for handler and object
+        vFunction = vTypeListeners[vHashCode].handler;
+        vObject = vTypeListeners[vHashCode].object;
+
+        // Call object function
+        try
+        {
+          if(typeof vFunction === QxConst.TYPEOF_FUNCTION) {
+            vFunction.call(QxUtil.isValid(vObject) ? vObject : this, vEvent);
+          };
+        }
+        catch(ex)
+        {
+          this.error("Could not dispatch event of type \"" + vEvent.getType() + "\": " + ex, "_dispatchEvent");
+        };
       };
     };
   };
 
   // Bubble event to parents
-  var p = this.getParent();
-
-  if(e.getBubbles() && !e.getPropagationStopped() && p && p.getEnabled()) {
-    p._dispatchEvent(e, false);
+  var vParent = this.getParent();
+  if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && vParent && !vParent.getDisposed() && vParent.getEnabled()) {
+    vParent._dispatchEvent(vEvent, false);
   };
 
-  // Dispose event?
-  if (dispose) {
-    e.dispose();
-  };
+  // vEnableDispose event?
+  vEnableDispose && vEvent.dispose();
 };
 
+/*!
+  Internal placeholder for bubbling phase of an event.
+*/
 proto.getParent = function() {
   return null;
 };
 
-proto.dispose = function(propValue, propOldName, propName, uniqModIds)
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   };
 
-  if (typeof this._listeners == "object")
+  if (typeof this._listeners === QxConst.TYPEOF_OBJECT)
   {
-    for(var eType in this._listeners)
+    for (var vType in this._listeners)
     {
-      for(var eKey in this._listeners[eType])
+      for (var vKey in this._listeners[vType])
       {
-        delete this._listeners[eType][eKey];
+        this._listeners[vType][vKey] = null;
+        delete this._listeners[vType][vKey];
       };
 
-      delete this._listeners[eType];
+      this._listeners[vType] = null;
+      delete this._listeners[vType];
     };
   };
 
+  this._listeners = null;
   delete this._listeners;
 
   return QxObject.prototype.dispose.call(this);

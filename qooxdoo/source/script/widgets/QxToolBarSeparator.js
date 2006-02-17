@@ -1,24 +1,43 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(toolbar)
+
+************************************************************************ */
+
 function QxToolBarSeparator()
 {
-  QxWidget.call(this);
-  
-  this.setWidth(8);
-  this.setTop(0);
-  this.setBottom(0);
-  
-  this._line = new QxWidget;
-  
-  with(this._line)
-  {
-    setCssClassName("QxToolBarSeparatorLine");
-    
-    setTop(2);
-    setLeft(3);
-    setWidth(2);
-    setBottom(2);
-  };
-  
-  this.add(this._line);  
+  QxCanvasLayout.call(this);
+
+  var l = new QxTerminator;
+  l.setAppearance("toolbar-separator-line");
+  this.add(l);
 };
 
-QxToolBarSeparator.extend(QxWidget, "QxToolBarSeparator");
+QxToolBarSeparator.extend(QxCanvasLayout, "QxToolBarSeparator");
+
+QxToolBarSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-separator" });

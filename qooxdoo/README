@@ -1,30 +1,20 @@
-Following a description of the things you can do with qooxdoo and 
-what qooxdoo can do for you. This article push your decision in 
-the right direction. We are welcome you as another new qooxdoo 
-developer.
+INTRODUCTION
+----------------------------------------------------------------------------
 
-
-Startup
----------
-
-qooxdoo is an Open Source (licensed under LGPL) DOM-based 
-javascript toolkit. qooxdoo continue where simple HTML is not 
+qooxdoo is an Open Source (licensed under LGPL) DOM-based
+javascript toolkit. qooxdoo continue where simple HTML is not
 enough anymore and this way it can you help to get your rich web
-application interface done easier than ever. qooxdoo includes 
-simple to use focus and event interfaces. 
+application interface done easier than ever. qooxdoo includes
+simple to use focus and event interfaces.
 
-qooxdoo work in most of the current browsers. This also include 
-recent versions of Opera and Safari. You don't anymore need to 
-detect the client browser if you work with qooxdoo widgets. 
-
-You are able to simple put your widgets in the page and place 
-them somewhere with a simple coordination like system. Also you 
-are able to align a widget to all four directions (top, right, 
-bottom, left).
+qooxdoo work in most of the current browsers. This also include
+recent versions of Opera. Safari support is planned. You don't
+anymore need to detect the client browser if you work with
+qooxdoo widgets.
 
 
-License
----------
+LICENSE
+----------------------------------------------------------------------------
 
 qooxdoo is licensed under LGPL. This means you can do the following:
 
@@ -32,5 +22,58 @@ qooxdoo is licensed under LGPL. This means you can do the following:
 * redistribute or sell qooxdoo to anybody (including source code)
 * modify qooxdoo to match your needs
 
-You must leave all copyrights intact and must redistribute the 
+You must leave all copyrights intact and must redistribute the
 full source code with your modifications.
+
+
+INSTALLATION
+----------------------------------------------------------------------------
+
+To build a useable qooxdoo after checkout please run the following first:
+
+$ bash tools/make.sh
+
+After this command has run sucessfully, open the file 
+public/test/user/Index.html in your favorite
+browser.
+
+
+REQUIREMENTS
+----------------------------------------------------------------------------
+
+qooxdoo is compatible to modern web browsers:
+  
+  officially supported are
+  - Internet Explorer 6.0
+  - Mozilla >= 1.7
+  - Opera >= 8
+
+  also should work:
+  - Internet Explorer 5.5
+  - Mozilla >= 1.3
+  - Opera >= 7.2
+  - Safari >= 1.2
+
+----------------------------------------------------------------------
+
+To compile documentation and build a full qooxdoo package:
+
+* bash
+* python >= 2.3
+* xsltproc (libxslt)
+* rsync
+* ssh
+
+----------------------------------------------------------------------
+
+To build self configured qooxdoo dist packages
+
+* perl
+* perl-modules:
+  - XML-NamespaceSupport
+  - XML-SAX
+  - Storable
+  - Test-Harness
+  - Test-Simple
+  - XML-Simple
+

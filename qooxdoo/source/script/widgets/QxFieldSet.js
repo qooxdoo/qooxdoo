@@ -1,233 +1,166 @@
-function QxFieldSet(vLegend)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(form)
+#require(QxAtom)
+#appearance(fieldset)
+
+************************************************************************ */
+
+function QxFieldSet(vLegend, vIcon)
 {
-  QxWidget.call(this);
-  
-  if (isValid(vLegend)) {
-    this.setLegend(vLegend);
+  QxCanvasLayout.call(this);
+
+
+  // ************************************************************************
+  //   SUB WIDGETS
+  // ************************************************************************
+  this._createFrameObject();
+  this._createLegendObject();
+
+
+  // ************************************************************************
+  //   INIT
+  // ************************************************************************
+  this.setLegend(vLegend);
+
+  if (QxUtil.isValidString(vIcon)) {
+    this.setIcon(vIcon);
   };
-  
-  this._minWidth = 100;
-  this._minHeight = 50;
-  
-  this.setMinWidth(this._minWidth);
-  this.setMinHeight(this._minHeight);
-  
-  this._dim = {};
+
+
+  // ************************************************************************
+  //   REMAPPING
+  // ************************************************************************
+  this.remapChildrenHandlingTo(this._frameObject);
 };
 
-QxFieldSet.extend(QxWidget, "QxFieldSet");
+QxFieldSet.extend(QxCanvasLayout, "QxFieldSet");
 
-QxFieldSet.addProperty({ name : "legend", type : String });
-
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    if (!this._frame)
-    {
-      this._frame = QxFieldSet._element.cloneNode(true);
-      this._legend = this._frame.firstChild;
-      this._content = this._frame.lastChild;
-    };
-    
-    propValue.appendChild(this._frame);
-  }
-  else if (propOldValue && this._frame)
-  {
-    propOldValue.removeChild(this._frame);
-  }; 
-  
-  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-  
-  return true;
-};
-
-proto._beforeShow = function()
-{
-  this._renderLegend();
-  this._renderWidth();
-  this._renderHeight();    
-};
-
-if ((new QxClient).isGecko())
-{
-  proto._renderLegend = function() 
-  {
-    if (!this.isCreated()) {
-      return;
-    };
-    
-    var oldWidth1 = this.getElement().style.width;
-    var oldWidth2 = this._frame.style.width;
-    var newWidth;
-    
-    this.getElement().style.width = this._frame.style.width = "10000px";
-    
-    this._legend.style.width = "";
-
-    var l = this.getLegend();
-    if (isValid(l)) 
-    {
-      this._legend.firstChild.nodeValue = l;
-      this._legend.style.display = "block";
-
-      newWidth = this._legend.scrollWidth;
-    }
-    else
-    {
-      this._legend.style.display = "none";
-
-      newWidth = 0;
-    };    
-    
-    this.getElement().style.width = oldWidth1;
-    this._frame.style.width = oldWidth2;
-    
-    // needed, otherwise padding doesn't work
-    this._legend.style.width = newWidth + "px";
-    
-    if (this.getMinWidth() == this._minWidth)
-    {
-      this._minWidth = newWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend);
-      this.setMinWidth(this._minWidth);
-    };
-  };  
-}
-else
-{
-  proto._renderLegend = function() 
-  {
-    if (!this.isCreated()) {
-      return;
-    };
-    
-    var l = this.getLegend();
-    if (isValid(l)) 
-    {
-      this._legend.firstChild.nodeValue = l;
-      this._legend.style.display = "block";
-    }
-    else
-    {
-      this._legend.style.display = "none";
-    };
-    
-    if (this.getMinWidth() == this._minWidth)
-    {
-      this._minWidth = this._legend.scrollWidth + QxDOM.getComputedMarginLeft(this._legend) + QxDOM.getComputedMarginRight(this._legend);
-      this.setMinWidth(this._minWidth);
-    };
-  };
-};
+QxFieldSet.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "field-set" });
 
 
-proto._modifyLegend = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._renderLegend();
-  return true;
-};
-
-proto._getParentNodeForChild = function() {
-  return this._content;  
-};
-
-proto._renderWidth = function(size)
-{
-  if (!this.isCreated()) {
-    return true;
-  };
-  
-  var wFrame = Math.max(0, this.getElement().offsetWidth - QxDOM.getComputedMarginLeft(this._frame) - QxDOM.getComputedMarginRight(this._frame));
-  var wContent = wFrame > 0 ? Math.max(0, wFrame - QxDOM.getComputedInsetLeft(this._frame) - QxDOM.getComputedInsetRight(this._frame) - QxDOM.getComputedMarginLeft(this._content) - QxDOM.getComputedMarginRight(this._content)) : 0;
-  
-  this._frame.style.width = wFrame + "px";
-  this._content.style.width = wContent + "px";
-  
-  return true;
-};
-
-proto._renderHeight = function(size)
-{
-  if (!this.isCreated()) {
-    return true;
-  };
-  
-  var hFrame = Math.max(0, this.getElement().offsetHeight - QxDOM.getComputedMarginTop(this._frame) - QxDOM.getComputedMarginBottom(this._frame));
-  var hContent = hFrame > 0 ? Math.max(0, hFrame - QxDOM.getComputedInsetTop(this._frame) - QxDOM.getComputedInsetBottom(this._frame) - QxDOM.getComputedMarginTop(this._content) - QxDOM.getComputedMarginBottom(this._content)) : 0;
-  
-  this._frame.style.height = hFrame + "px";
-  this._content.style.height = hContent + "px";
-  
-  return true;
-};
-
-proto.getComputedBorderLeft = proto.getComputedInsetLeft = function() {
-  return QxDOM.getComputedMarginLeft(this._frame) + QxDOM.getComputedInsetLeft(this._frame) + QxDOM.getComputedMarginLeft(this._content);
-};
-
-proto.getComputedBorderRight = proto.getComputedInsetRight = function() {
-  return QxDOM.getComputedMarginRight(this._frame) + QxDOM.getComputedInsetRight(this._frame) + QxDOM.getComputedMarginRight(this._content);
-};
-
-proto.getComputedBorderTop = proto.getComputedInsetTop = function() {
-  return QxDOM.getComputedMarginTop(this._frame) + QxDOM.getComputedInsetTop(this._frame) + QxDOM.getComputedMarginTop(this._content);
-};
-
-proto.getComputedBorderBottom = proto.getComputedInsetBottom = function() {
-  return QxDOM.getComputedMarginBottom(this._frame) + QxDOM.getComputedInsetBottom(this._frame) + QxDOM.getComputedMarginBottom(this._content);
-};
-
-proto.getComputedAreaWidth = function() {
-  return this.getElement().offsetWidth - this.getComputedInsetLeft() - this.getComputedInsetRight();
-};
-
-proto.getComputedAreaHeight = function() {
-  return this.getElement().offsetHeight - this.getComputedInsetTop() - this.getComputedInsetBottom();
-};
-
-proto.getComputedInnerWidth = function() {
-  return this.getElement().offsetWidth - this.getComputedInsetLeft() - this.getComputedInsetRight() - this.getComputedPaddingLeft() - this.getComputedPaddingRight();
-};
-
-proto.getComputedInnerHeight = function() {
-  return this.getElement().offsetHeight - this.getComputedInsetTop() - this.getComputedInsetBottom() - this.getComputedPaddingTop() - this.getComputedPaddingBottom();
-};
-
-proto._applySizeHorizontal = function(size)
-{
-  QxWidget.prototype._applySizeHorizontal.call(this, size);
-  return this._renderWidth();
-};
-
-proto._applySizeVertical = function(size)
-{
-  QxWidget.prototype._applySizeVertical.call(this, size);
-  return this._renderHeight();
-};
 
 
 /*
-  ################################################################################
-    Create Clone-able node structure
-  ################################################################################
+---------------------------------------------------------------------------
+  SUB WIDGET CREATION
+---------------------------------------------------------------------------
 */
 
-QxFieldSet.init = function()
+proto._createLegendObject = function()
 {
-  var frame = QxFieldSet._element = document.createElement("div");
+  this._legendObject = new QxAtom;
+  this._legendObject.setAppearance("field-set-legend");
   
-  var legend = document.createElement("div");
-  var legendText = document.createTextNode("-");
-  
-  var content = document.createElement("div");
-  
-  frame.className = "QxFieldSetFrame";
-  legend.className = "QxFieldSetLegend";
-  content.className = "QxFieldSetContent";
-  
-  legend.appendChild(legendText);
-  frame.appendChild(legend);
-  frame.appendChild(content);
+  this.add(this._legendObject);
 };
 
-QxFieldSet.init();
+proto._createFrameObject = function()
+{
+  this._frameObject = new QxCanvasLayout;
+  this._frameObject.setAppearance("field-set-frame");
+
+  this.add(this._frameObject);
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  GETTER FOR SUB WIDGETS
+---------------------------------------------------------------------------
+*/
+
+proto.getFrameObject = function() {
+  return this._frameObject;
+};
+
+proto.getLegendObject = function() {
+  return this._legendObject;
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SETTER/GETTER
+---------------------------------------------------------------------------
+*/
+
+proto.setLegend = function(vLegend) {
+  this._legendObject.setLabel(vLegend);
+};
+
+proto.getLegend = function() {
+  return this._legendObject.getLabel();
+};
+
+proto.setIcon = function(vIcon) {
+  this._legendObject.setIcon(vIcon);
+};
+
+proto.getIcon = function() {
+  this._legendObject.getIcon();
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return true;
+  };
+
+  if (this._legendObject)
+  {
+    this._legendObject.dispose();
+    this._legendObject = null;
+  };
+
+  if (this._frameObject)
+  {
+    this._frameObject.dispose();
+    this._frameObject = null;
+  };
+
+  return QxCanvasLayout.prototype.dispose.call(this);
+};

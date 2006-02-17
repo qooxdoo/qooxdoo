@@ -1,3 +1,37 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(core)
+
+************************************************************************ */
+
+/*!
+  This is the core of all Qx*Manager objects. Allowes basic managment of assigned objects.
+*/
 function QxManager()
 {
   QxTarget.call(this);
@@ -7,35 +41,57 @@ function QxManager()
 
 QxManager.extend(QxTarget, "QxManager");
 
-proto.add = function(oObject)
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  USER API
+---------------------------------------------------------------------------
+*/
+
+proto.add = function(vObject)
 {
-  var h = oObject.toHash();
-  
-  if (this._objects[h])
-  {
-    this.debug("Already known: " + oObject);
-    return false;
+  if (this.getDisposed()) {
+    return;
   };
-    
-  this._objects[h] = oObject;
+
+  this._objects[vObject.toHashCode()] = vObject;
   return true;
 };
 
-proto.remove = function(oObject)
+proto.remove = function(vObject)
 {
-  delete this._objects[oObject.toHash()];
+  if (this.getDisposed()) {
+    return;
+  };
+
+  delete this._objects[vObject.toHashCode()];
   return true;
 };
 
-proto.has = function(oObject)
-{
-  return this._objects[oObject.toHash()] != null;
+proto.has = function(vObject) {
+  return this._objects[vObject.toHashCode()] != null;
 };
 
-proto.get = function(oObject)
-{
-  return this._objects[oObject.toHash()];
+proto.get = function(vObject) {
+  return this._objects[vObject.toHashCode()];
 };
+
+proto.getAll = function() {
+  return this._objects;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
 
 proto.dispose = function()
 {
@@ -43,18 +99,14 @@ proto.dispose = function()
     return;
   };
 
-  if (typeof this._objects != "undefined")
+  if (this._objects)
   {
-    for (var i in this._objects)
-    {
-      if (typeof this._objects[i] == "object")
-        this._objects[i].dispose();
-
+    for (var i in this._objects) {
       delete this._objects[i];
     };
 
     delete this._objects;
   };
 
-  QxTarget.prototype.dispose.call(this);
+  return QxTarget.prototype.dispose.call(this);
 };

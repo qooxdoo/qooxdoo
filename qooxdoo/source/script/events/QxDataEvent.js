@@ -1,34 +1,56 @@
-function QxDataEvent(eType, newValue, oldValue, autoDispose)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(core)
+
+************************************************************************ */
+
+/*!
+  Event object for property changes.
+*/
+function QxDataEvent(vType, vData)
 {
-  QxEvent.call(this, eType, autoDispose);
+  QxEvent.call(this, vType);
 
-  if (typeof newValue != "undefined") {
-    this._newValue = newValue;
-  };
-
-  if (typeof oldValue != "undefined") {
-    this._oldValue = oldValue;
-  };
+  this.setData(vData);
 };
 
 QxDataEvent.extend(QxEvent, "QxDataEvent");
 
-proto._propagationStopped = false;
-
-proto.getValue = proto.getData = proto.getNewValue = function() {
-  return this._newValue;
-};
-
-proto.getOldValue = function() {
-  return this._oldValue;
-};
+QxDataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
+QxDataEvent.addFastProperty({ name : "data" });
 
 proto.dispose = function()
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   };
 
-  this._newValue = this._oldValue = null;
-  QxEvent.prototype.dispose.call(this);
+  this._valueData = null;
+
+  return QxEvent.prototype.dispose.call(this);
 };

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PfxData>
+  <PfxRequest>
+    <PfxSoap reqname="loadByName">Paul</PfxSoap>
+  </PfxRequest>
+  <PfxResult>
+    <name>Fuettner</name>
+    <givenName>Paul</givenName>
+    <age>27</age>
+    <street>Bismarckstrasse</street>
+    <plz>33990</plz>
+    <city>Garbsen</city>
+    <country>Germany</country>
+    <phone>0049.57232067</phone>
+  </PfxResult>
+</PfxData>

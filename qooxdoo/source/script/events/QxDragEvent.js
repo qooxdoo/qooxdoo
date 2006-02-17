@@ -1,22 +1,64 @@
-function QxDragEvent(vType, vMouseEvent, vAutoDispose)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(dragndrop)
+
+************************************************************************ */
+
+/*!
+  The event object for drag and drop sessions
+*/
+function QxDragEvent(vType, vMouseEvent, vTarget, vRelatedTarget)
 {
   this._mouseEvent = vMouseEvent;
-  this._manager = new QxDragAndDropManager;
+  
+  var vOriginalTarget = null;
+  
+  switch(vType)
+  {
+    case QxConst.EVENT_TYPE_DRAGSTART:
+    case QxConst.EVENT_TYPE_DRAGOVER:
+      vOriginalTarget = vMouseEvent.getOriginalTarget();
+  };
 
-  QxMouseEvent.call(this, vType, vMouseEvent ? vMouseEvent._domEvent : null, vAutoDispose);
+  QxMouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
 };
 
 QxDragEvent.extend(QxMouseEvent, "QxDragEvent");
 
-/*
-  -------------------------------------------------------------------------------
-    UTILITY
-  -------------------------------------------------------------------------------
-*/
 
-proto.getManager = function() {
-  return this._manager;
-};
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIY
+---------------------------------------------------------------------------
+*/
 
 proto.getMouseEvent = function() {
   return this._mouseEvent;
@@ -24,132 +66,89 @@ proto.getMouseEvent = function() {
 
 
 
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    FRONTEND FUNCTION
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  APPLICATION CONNECTION
+---------------------------------------------------------------------------
 */
 
 proto.startDrag = function()
 {
-  if (this._type != "dragstart") {
-    throw new Error("QxDragEvent startDrag can only be called during the dragstart event");
+  if (this.getType() != QxConst.EVENT_TYPE_DRAGSTART) {
+    throw new Error("QxDragEvent startDrag can only be called during the dragstart event: " + this.getType());
   };
 
   this.stopPropagation();
-  this._manager.startDrag();
+  QxDragAndDropManager.startDrag();
 };
 
 
 
 
 
+
 /*
-  -------------------------------------------------------------------------------
-    DATA SUPPORT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DATA SUPPORT
+---------------------------------------------------------------------------
 */
 
 proto.addData = function(sType, oData) {
-  this._manager.addData(sType, oData);
+  QxDragAndDropManager.addData(sType, oData);
 };
 
 proto.getData = function(sType) {
-  return this._manager.getData(sType);
+  return QxDragAndDropManager.getData(sType);
 };
 
 proto.clearData = function() {
-  this._manager.clearData();
+  QxDragAndDropManager.clearData();
 };
 
 proto.getDropDataTypes = function() {
-  return this._manager.getDropDataTypes();
+  return QxDragAndDropManager.getDropDataTypes();
 };
 
 
 
 
+
+
 /*
-  -------------------------------------------------------------------------------
-    ACTION SUPPORT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  ACTION SUPPORT
+---------------------------------------------------------------------------
 */
 
 proto.addAction = function(sAction) {
-  this._manager.addAction(sAction);
+  QxDragAndDropManager.addAction(sAction);
 };
 
 proto.removeAction = function(sAction) {
-  this._manager.removeAction(sAction);
+  QxDragAndDropManager.removeAction(sAction);
 };
 
 proto.getAction = function() {
-  return this._manager.getCurrentAction();
+  return QxDragAndDropManager.getCurrentAction();
 };
 
 proto.clearActions = function() {
-  this._manager.clearActions();
+  QxDragAndDropManager.clearActions();
 };
+
+
 
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    TARGET SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-proto._evalTarget = function()
-{
-  switch(this._type)
-  {
-    case "dragstart":
-    case "dragend":
-    case "dragover":
-    case "dragout":
-    case "dragmove": 
-      // Will be setuped through QxDragAndDropManager
-      return this._target;
-          
-    case "dragdrop":
-      return this._manager.getDestinationWidget();
-    
-    default:
-      return QxMouseEvent.prototype._evalTarget.call(this);  
-  };
-
-};
-
-proto._evalRelatedTarget = function()
-{
-  switch(this._type)
-  {
-    case "dragover":
-    case "dragout": 
-      // Will be setuped through QxDragAndDropManager
-      return this._relatedTarget;    
-    
-    case "dragdrop":
-      return this._manager.getSourceWidget();
-    
-    case "dragend":
-      return this._manager.getDestinationWidget();
-      
-    default:
-      return QxMouseEvent.prototype._evalRelatedTarget.call(this);        
-  }; 
-};
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    DISPOSER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -158,8 +157,7 @@ proto.dispose = function()
     return;
   };
 
-  QxMouseEvent.prototype.dispose.call(this);
-  
-  this._relatedTarget = null;
-  this._target = null;
+  this._mouseEvent = null;
+
+  return QxMouseEvent.prototype.dispose.call(this);
 };

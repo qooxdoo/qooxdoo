@@ -1,278 +1,248 @@
-function QxBoxLayout(vOrientation, vBlockAlign, vChildrenAlign) 
-{
-  QxLayout.call(this);
-  
-  this.setWidth("auto");
-  this.setHeight("auto");
+/* ************************************************************************
 
-  if (isValid(vOrientation)) {
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(layout)
+#require(QxHorizontalBoxLayoutImpl)
+#require(QxVerticalBoxLayoutImpl)
+
+************************************************************************ */
+
+function QxBoxLayout(vOrientation)
+{
+  QxParent.call(this);
+
+  // apply orientation
+  if (QxUtil.isValidString(vOrientation)) {
     this.setOrientation(vOrientation);
   };
+};
 
-  if (isValid(vBlockAlign)) {
-    this.getOrientation() == "horizontal" ? this.setHorizontalBlockAlign(vBlockAlign) : this.setVerticalChildrenAlign(vChildrenAlign);
+QxBoxLayout.extend(QxParent, "QxBoxLayout");
+
+QxBoxLayout.STR_REVERSED = "-reversed";
+
+
+
+/*
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
+*/
+
+/*!
+  The orientation of the layout control. Allowed values are QxConst.ORIENTATION_HORIZONTAL (default) and QxConst.ORIENTATION_VERTICAL.
+*/
+QxBoxLayout.addProperty({ name : "orientation", type : QxConst.TYPEOF_STRING, possibleValues : [ QxConst.ORIENTATION_HORIZONTAL, QxConst.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
+
+/*!
+  The spacing between childrens. Could be any positive integer value.
+*/
+QxBoxLayout.addProperty({ name : "spacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+
+/*!
+  The horizontal align of the children. Allowed values are: "left", "center" and "right"
+*/
+QxBoxLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], impl : "layoutOrder", addToQueueRuntime : true });
+
+/*!
+  The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
+*/
+QxBoxLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], impl : "layoutOrder", addToQueueRuntime : true });
+
+/*!
+  Should the children be layouted in reverse order?
+*/
+QxBoxLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "layoutOrder", addToQueueRuntime : true });
+
+/*!
+  Should the widgets be stretched to the available width (orientation==vertical) or height (orientation==horizontal)?
+  This only applies if the child has not configured a own value for this axis.
+*/
+QxBoxLayout.addProperty({ name : "stretchChildrenOrthogonalAxis", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, addToQueueRuntime : true });
+
+/*!
+  If there are min/max values in combination with flex try to optimize placement.
+  This is more complex and produces more time for the layouter but sometimes this feature is needed.
+*/
+QxBoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true });
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  INIT LAYOUT IMPL
+---------------------------------------------------------------------------
+*/
+
+/*!
+  This creates an new instance of the layout impl this widget uses
+*/
+proto._createLayoutImpl = function() {
+  return this.getOrientation() == QxConst.ORIENTATION_VERTICAL ? new QxVerticalBoxLayoutImpl(this) : new QxHorizontalBoxLayoutImpl(this);
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HELPERS
+---------------------------------------------------------------------------
+*/
+
+proto._layoutHorizontal= false;
+proto._layoutVertical= false;
+proto._layoutMode = "left";
+
+proto.isHorizontal = function() {
+  return this._layoutHorizontal;
+};
+
+proto.isVertical = function() {
+  return this._layoutVertical;
+};
+
+proto.getLayoutMode = function()
+{
+  if (this._layoutMode == null) {
+    this._updateLayoutMode();
   };
 
-  if (isValid(vChildrenAlign)) {
-    this.getOrientation() == "horizontal" ? this.setHorizontalChildrenAlign(vChildrenAlign) : this.setVerticalChildrenAlign(vChildrenAlign);
+  return this._layoutMode;
+};
+
+proto._updateLayoutMode = function()
+{
+  this._layoutMode = this._layoutVertical ? this.getVerticalChildrenAlign() : this.getHorizontalChildrenAlign();
+
+  if (this.getReverseChildrenOrder()) {
+    this._layoutMode += QxBoxLayout.STR_REVERSED;
   };
 };
 
-QxBoxLayout.extend(QxLayout, "QxBoxLayout");
+proto._invalidateLayoutMode = function() {
+  this._layoutMode = null;
+};
 
-/*
-  Horizontal alignment of box content block (if orientation==horizontal)
-  
-  Possible values: left, center, right
-*/
-QxBoxLayout.addProperty({ name : "horizontalBlockAlign", type : String, defaultValue : "left" });
 
-/*
-  Vertical alignment of box content block (if orientation==vertical)
-  
-  Possible values: top, middle, bottom
-*/
-QxBoxLayout.addProperty({ name : "verticalBlockAlign", type : String, defaultValue : "top" });
-
-/*!
-  Orientation of box
-  
-  Possible values: horizontal or vertical
-*/
-QxBoxLayout.addProperty({ name : "orientation", type : String, defaultValue : "horizontal" });
-
-/*!
-  Horizontal alignment of each child in the block
-  
-  Possible values: left, center, right
-*/
-QxBoxLayout.addProperty({ name : "horizontalChildrenAlign", type : String, defaultValue : "center" });
-
-/*!
-  Vertical alignment of each child in the block
-  
-  Possible values: top, middle, bottom
-*/
-QxBoxLayout.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "middle" });
-
-/*!
-  Spacing between widgets (like cellspacing in HTML tables)
-  
-  Possible values: any positive integer value
-*/
-QxBoxLayout.addProperty({ name : "spacing", type : Number, defaultValue : 0 });
-
-/*!
-  Ignore margins of the orthogonal direction
-  
-  This means a QxHorizontalBoxLayout ignores marginTop and marginBottom, and 
-  a QxVerticalBoxLayout ignores marginLeft and marginRight of its children.
-*/
-QxBoxLayout.addProperty({ name : "ignoreOrthogonalMargin", type : Boolean, defaultValue : false });
 
 
 
 
 /*
-------------------------------------------------------------------------------------
-  RENDERER: PLACEMENT OF CHILDREN
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
 */
 
-proto._layoutInternalWidgetsHorizontal = function()
+proto._modifyOrientation = function(propValue, propOldValue, propData)
 {
-  switch(this.getOrientation())
+  // update fast access variables
+  this._layoutHorizontal = propValue == QxConst.ORIENTATION_HORIZONTAL;
+  this._layoutVertical = propValue == QxConst.ORIENTATION_VERTICAL;
+
+  // Layout Implementation
+  if (this._layoutImpl)
   {
-    case "horizontal":
-      var inner = this.getInnerWidth();
-      
-      var sum = 0;
-      
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc;
-      var w;
-      var spacing = this.getSpacing();
-      var p = [];
-      
-      for (var i=0; i<chl; i++)
-      {
-        // add current value to array        
-        p.push(sum);
+    this._layoutImpl.dispose();
+    this._layoutImpl = null;
+  };
 
-        // calculate new value for next child
-        chc = ch[i];
-        sum += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight() + spacing;   
-      };
-
-      // substract last spacing
-      sum -= spacing;
-        
-      var startpos = this.getPaddingLeft();
-      
-      // handle block alignment
-      switch(this.getHorizontalBlockAlign())
-      {
-        case "center":
-          startpos += (inner - sum) / 2;
-          break;
-          
-        case "right":
-          startpos += inner - sum;
-          break;
-      };
-    
-      // apply new positions
-      for (var i=0; i<chl; i++) {
-        ch[i]._applyPositionHorizontal(startpos + p[i]);    
-      };     
-      
-      break;      
-      
-      
-      
-    case "vertical":
-      var inner = this.getInnerWidth();
-      
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc;
-      
-      var glob = this.getHorizontalChildrenAlign();
-      var ign = this.getIgnoreOrthogonalMargin();
-      
-      var cust, pos;
-      
-      for (var i=0; i<chl; i++)
-      {
-        chc = ch[i];  
-        cust = chc.getHorizontalAlign();
-        pos = this.getPaddingLeft();
-        
-        switch(isValidString(cust) ? cust : glob)
-        {
-          case "right":
-            pos += inner-chc.getAnyWidth();
-            break;
-            
-          case "center":
-            pos += Math.floor((inner-chc.getAnyWidth())/2);
-            break;
-        };
-        
-        // we need full control for correct position handling
-        // so we need the remove the configured margin from the
-        // calculated position value
-        if (ign) {
-          pos -= chc.getMarginLeft();
-        };
-        
-        chc._applyPositionHorizontal(pos);
-      };
-      
-      break; 
+  if (QxUtil.isValidString(propValue)) {
+    this._layoutImpl = this._createLayoutImpl();
   };
   
+  // call other core modifier
+  return this._modifyLayoutOrder();
+};
+
+proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
+{
+  // update layout mode
+  this._invalidateLayoutMode();
+
+  // call other core modifier
+  return this._modifyLayout();
+};
+
+proto._modifyLayout = function(propValue, propOldValue, propData)
+{
+  // invalidate inner preferred dimensions
+  this._invalidatePreferredInnerDimensions();
+
+  // accumulated width needs to be invalidated
+  this._invalidateAccumulatedChildrenOuterWidth();
+  this._invalidateAccumulatedChildrenOuterHeight();
+
+  // make property handling happy :)
   return true;
 };
 
 
 
-proto._layoutInternalWidgetsVertical = function()
+
+
+/*
+---------------------------------------------------------------------------
+  ACCUMULATED CHILDREN WIDTH/HEIGHT
+--------------------------------------------------------------------------------
+
+  Needed for center/middle and right/bottom alignment
+
+---------------------------------------------------------------------------
+*/
+
+QxWidget.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
+QxWidget.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
+
+proto._computeAccumulatedChildrenOuterWidth = function()
 {
-  switch(this.getOrientation())
-  {
-    case "horizontal":
-      var inner = this.getInnerHeight();
-      
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc;
-      
-      var glob = this.getVerticalChildrenAlign();
-      var ign = this.getIgnoreOrthogonalMargin();
-      
-      var cust, pos;
-      
-      for (var i=0; i<chl; i++)
-      {
-        chc = ch[i];  
-        cust = chc.getVerticalAlign();
-        pos = this.getPaddingTop();
-        
-        switch(isValidString(cust) ? cust : glob)
-        {
-          case "bottom":
-            pos += inner-chc.getAnyHeight();
-            break;
-            
-          case "middle":
-            pos += Math.floor((inner-chc.getAnyHeight())/2);
-            break;
-        };
+  var ch=this.getVisibleChildren(), chc, i=-1, sp=this.getSpacing(), s=-sp;
 
-        // we need full control for correct position handling
-        // so we need the remove the configured margin from the
-        // calculated position value
-        if (ign) {
-          pos -= chc.getMarginTop();
-        };
-                
-        chc._applyPositionVertical(pos);
-      };
-      
-      break;
-
-
-
-    case "vertical":
-      var inner = this.getInnerHeight();
-      
-      var sum = 0;
-      
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var chc;
-      var h;
-      var spacing = this.getSpacing();
-      var p = [];
-      
-      for (var i=0; i<chl; i++)
-      {
-        // add current value to array        
-        p.push(sum);
-
-        // calculate new value for next child
-        chc = ch[i];
-        sum += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom() + spacing;   
-      };
-
-      // substract last spacing
-      sum -= spacing;
-        
-      var startpos = this.getPaddingTop();
-      
-      // handle block alignment
-      switch(this.getVerticalBlockAlign())
-      {
-        case "middle":
-          startpos += (inner - sum) / 2;
-          break;
-          
-        case "bottom":
-          startpos += inner - sum;
-          break;
-      };
-    
-      // apply new positions
-      for (var i=0; i<chl; i++) {
-        ch[i]._applyPositionVertical(startpos + p[i]);    
-      };    
-      
-      break;    
+  while(chc=ch[++i]) {
+    s += chc.getOuterWidth() + sp;
   };
-  
-  return true; 
+
+  return s;
+};
+
+proto._computeAccumulatedChildrenOuterHeight = function()
+{
+  var ch=this.getVisibleChildren(), chc, i=-1, sp=this.getSpacing(), s=-sp;
+
+  while(chc=ch[++i]) {
+    s += chc.getOuterHeight() + sp;
+  };
+
+  return s;
 };
 
 
@@ -282,123 +252,31 @@ proto._layoutInternalWidgetsVertical = function()
 
 
 /*
-------------------------------------------------------------------------------------
-  MODIFIER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  STRETCHING SUPPORT
+---------------------------------------------------------------------------
 */
 
-proto._modifyOrientation = function(propValue, propOldValue, propName, uniqModIds)
+proto._recomputeChildrenStretchingX = function()
 {
-  if (this._wasVisible)
-  {
-    this.getWidth() == "auto" ? this._setChildrenDependWidth(this, "orientation") : this._layoutInternalWidgetsHorizontal("orientation");
-    this.getHeight() == "auto" ? this._setChildrenDependHeight(this, "orientation") : this._layoutInternalWidgetsVertical("orientation");
-  };
-  
-  return true;
-};
+  var ch=this.getVisibleChildren(), chc, i=-1;
 
-proto._modifySpacing = function(propValue, propOldValue, propName, uniqModIds) 
-{
-  if (this._wasVisible)
+  while(chc=ch[++i])
   {
-    if (this.getOrientation() == "horizontal")
-    {
-      this.getWidth() == "auto" ? this._setChildrenDependWidth(null, "spacing") : this._layoutInternalWidgetsHorizontal("spacing");
-    }
-    else
-    {
-      this.getHeight() == "auto" ? this._setChildrenDependHeight(null, "spacing") : this._layoutInternalWidgetsVertical("spacing");
-    };   
-  };
-  
-  return true;
-};
-
-proto._modifyIgnoreOrthogonalMargin = function(propValue, propOldValue, propName, uniqModIds) 
-{
-  if (this._wasVisible)
-  {
-    if (this.getOrientation() != "horizontal")
-    {
-      this._layoutInternalWidgetsHorizontal("spacing");
-    }
-    else
-    {
-      this._layoutInternalWidgetsVertical("spacing");
+    if (chc._recomputeStretchingX() && chc._recomputeBoxWidth()) {
+      chc._recomputeOuterWidth();
     };
   };
-  
-  return true;
 };
 
-proto._modifyHorizontalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsHorizontal("block-align") : true;
-};
-
-proto._modifyVerticalBlockAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsVertical("block-align") : true;
-};
-
-proto._modifyHorizontalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsHorizontal("children-align") : true;
-};
-
-proto._modifyVerticalChildrenAlign = function(propValue, propOldValue, propName, uniqModIds) {
-  return this._wasVisible ? this._layoutInternalWidgetsVertical("children-align") : true;
-};
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: CHILDREN DEPEND DIMENSIONS: MAIN
-------------------------------------------------------------------------------------
-*/
-
-proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) 
+proto._recomputeChildrenStretchingY = function()
 {
-  if (this.getOrientation() == "vertical") {
-    return QxWidget.prototype._calculateChildrenDependWidth.call(this, vModifiedWidget, vHint);
-  };
-  
-  var w = 0;
-  var spacing = this.getSpacing();
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  
-  for (var i=0; i<chl; i++)
-  {
-    chc = ch[i];
-    w += chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight() + spacing;
-  };
-  
-  // substract last spacing
-  return w - spacing;
-};
+  var ch=this.getVisibleChildren(), chc, i=-1;
 
-proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) 
-{
-  if (this.getOrientation() == "horizontal") {
-    return QxWidget.prototype._calculateChildrenDependHeight.call(this, vModifiedWidget, vHint);
-  };  
-  
-  var h = 0;
-  var spacing = this.getSpacing();
-  
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-  
-  for (var i=0; i<chl; i++)
+  while(chc=ch[++i])
   {
-    chc = ch[i];
-    h += chc.getMarginTop() + chc.getAnyHeight() + chc.getMarginBottom() + spacing;
+    if (chc._recomputeStretchingY() && chc._recomputeBoxHeight()) {
+      chc._recomputeOuterHeight();
+    };
   };
-
-  // substract last spacing
-  return h - spacing;
 };

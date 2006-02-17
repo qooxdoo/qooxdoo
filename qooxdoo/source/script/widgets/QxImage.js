@@ -1,3 +1,37 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(image)
+#package(guicore)
+#post(QxImageManager)
+#post(QxImagePreloader)
+
+************************************************************************ */
+
 /*!
   This widget is for all images in qooxdoo projects.
 */
@@ -5,47 +39,45 @@ function QxImage(vSource, vWidth, vHeight)
 {
   QxTerminator.call(this);
 
-  this.setTagName("IMG");
-  this.setCanSelect(false);
-  
-  this._manager = new QxImageManager;
-  this._manager.add(this);
-  
-  // Load default placeholder image.
-  this.setHtmlProperty("src", this._manager.getBlank());
+  // Reset Alt and Title
+  this.setHtmlProperty(QxImage.ATTR_ALT, QxConst.CORE_EMPTY);
+  this.setHtmlProperty(QxImage.ATTR_TITLE, QxConst.CORE_EMPTY);
 
-  if (isValid(vWidth)) {
-    this.setWidth(vWidth);
-  };
+  // Apply constructor arguments
+  this.setSource(QxUtil.isValid(vSource) ? vSource : QxImageManager.BLANK);
 
-  if (isValid(vHeight)) {
-    this.setHeight(vHeight);
-  };
-  
-  if (isValid(vSource)) {
-    this.setSource(vSource);
-  };
+  // Dimensions
+  this.setWidth(QxUtil.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
+  this.setHeight(QxUtil.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
+
+  // Prohibit selection
+  this.setSelectable(false);
 };
 
 QxImage.extend(QxTerminator, "QxImage");
 
+QxImage.ATTR_ALT = QxConst.KEY_ALT;
+QxImage.ATTR_TITLE = "title";
+
+QxImage.BORDER_NONE = "0 none";
+QxImage.RESET_VALIGN = "top";
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   PROPERTIES
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 /*!
   The source uri of the image.
 */
-QxImage.addProperty({ name : "source", type : String });
+QxImage.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
 
 /*!
   The assigned preloader instance of the image.
 */
-QxImage.addProperty({ name : "preloader", type : Object });
+QxImage.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The loading status.
@@ -53,203 +85,491 @@ QxImage.addProperty({ name : "preloader", type : Object });
   True if the image is loaded correctly. False if no image is loaded
   or the one that should be loaded is currently loading or not available.
 */
-QxImage.addProperty({ name : "loaded", type : Boolean, defaultValue : false });
+QxImage.addProperty({ name : "loaded", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
+/*!
+  Should the image be maxified in it's own container?
+*/
+QxImage.addProperty({ name : "resizeToInner", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+/*!
+  Appearance of the widget
+*/
+QxImage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "image" });
 
 
 
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   EVENT MAPPERS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
-proto._onload = function() { this.setLoaded(true); };
+proto._onload = function() {
+  this.setLoaded(true);
+};
 
-proto._onerror = function() 
-{ 
+proto._onerror = function()
+{
+  this.debug("Could not load: " + this.getSource());
+
   this.setLoaded(false);
-  
-  if (this.hasEventListeners("error")) {
-    this.dispatchEvent(new QxEvent("error"), true);
+
+  if (this.hasEventListeners(QxConst.EVENT_TYPE_ERROR)) {
+    this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_ERROR), true);
   };
-  
-  throw new Error("Image path is not valid: " + this.getSource());
 };
 
 
 
 
+
 /*
-------------------------------------------------------------------------------------
-  MODIFIERS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPLAYBLE HANDLING
+---------------------------------------------------------------------------
 */
 
-proto._modifySource = function(propValue, propOldValue, propName, uniqModIds)
+proto._beforeAppear = function()
 {
-  if (propValue || propOldValue)
+  var vSource = this.getSource();
+
+  if (QxUtil.isValidString(vSource)) {
+    QxImageManager._sources[vSource]++;
+  };
+
+  return QxTerminator.prototype._beforeAppear.call(this);
+};
+
+proto._beforeDisappear = function()
+{
+  var vSource = this.getSource();
+
+  if (QxUtil.isValidString(vSource))
+  {
+    if (QxImageManager._sources[vSource] == 1)
+    {
+      delete QxImageManager._sources[vSource];
+    }
+    else
+    {
+      QxImageManager._sources[vSource]--;
+    };
+  };
+
+  return QxTerminator.prototype._beforeDisappear.call(this);
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
+*/
+
+proto._modifySource = function(propValue, propOldValue, propData)
+{
+  if (propValue && typeof QxImageManager._sources[propValue] === QxConst.TYPEOF_UNDEFINED) {
+    QxImageManager._sources[propValue] = 0;
+  };
+
+  if (propOldValue)
+  {
+    if (QxImageManager._sources[propValue] == 1)
+    {
+      delete QxImageManager._sources[propValue];
+    }
+    else
+    {
+      QxImageManager._sources[propValue]--;
+    };
+  };
+
+  if (this.isCreated())
   {
     if (propValue)
     {
-      this.setPreloader(new QxImagePreloader((new QxImageManager).buildURI(propValue)), uniqModIds);
+      this.setPreloader(QxImagePreloaderManager.create(QxImageManager.buildUri(propValue)));
     }
     else if (propOldValue)
     {
-      this.setPreloader(null, uniqModIds);
+      this._resetContent();
+      this.setPreloader(null);
     };
   };
 
   return true;
 };
 
-proto._modifyPreloader = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyPreloader = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
-    propOldValue.removeEventListener("load", this._onload, this);
-    propOldValue.removeEventListener("error", this._onerror, this);
+    // remove event connection
+    propOldValue.removeEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
+    propOldValue.removeEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
   };
 
   if (propValue)
   {
-    // Omit uniqModIds here, otherwise the later setLoaded(true)
-    // will not be executed (recursion preventation)
-    this.setLoaded(false);
+    // Register to image manager
+    QxImageManager.add(this);
 
-    if (propValue.getIsLoaded())
+    // Omit  here, otherwise the later setLoaded(true)
+    // will not be executed (recursion preventation)
+
+    // Changed: Use forceLoaded instead of setLoaded => should be faster
+    this.forceLoaded(false);
+
+    if (propValue.isErroneous())
     {
-      this.setLoaded(true, uniqModIds);
+      this._onerror();
+    }
+    else if (propValue.isLoaded())
+    {
+      this.setLoaded(true);
     }
     else
     {
-      propValue.addEventListener("load", this._onload, this);
-      propValue.addEventListener("error", this._onerror, this);
+      propValue.addEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
+      propValue.addEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
+    };
+  }
+  else
+  {
+    // Remove from image manager
+    QxImageManager.remove(this);
+
+    this.setLoaded(false);
+  };
+
+  return true;
+};
+
+proto._modifyLoaded = function(propValue, propOldValue, propData)
+{
+  if (propValue && this.isCreated())
+  {
+    this._applyContent();
+  }
+  else if (!propValue)
+  {
+    this._invalidatePreferredInnerWidth();
+    this._invalidatePreferredInnerHeight();
+  };
+
+  return true;
+};
+
+proto._modifyElement = function(propValue, propOldValue, propData)
+{
+  if (propValue)
+  {
+    if (!this._image)
+    {
+      this._image = new Image;
+
+      // Possible alternative for MSHTML for PNG images
+      // But it seems not to be faster
+      // this._image = document.createElement(QxConst.CORE_DIV);
+
+      // this costs much performance, move setup to blank gif to error handling
+      // is this SSL save?
+      // this._image.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+
+      this._image.style.border = QxImage.BORDER_NONE;
+      this._image.style.verticalAlign = QxImage.RESET_VALIGN;
+
+      if (!QxClient.isMshtml()) {
+        this._applyEnabled();
+      };
+    };
+
+    propValue.appendChild(this._image);
+  };
+
+  // call widget implmentation
+  QxTerminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+
+  if (propValue)
+  {
+    // initialisize preloader
+    var vSource = this.getSource();
+    if (QxUtil.isValidString(vSource)) {
+      this.setPreloader(QxImagePreloaderManager.create(QxImageManager.buildUri(vSource)));
     };
   };
 
   return true;
 };
 
-proto._modifyLoaded = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue && this.isCreated())
-  {
-    this._apply();
-  }
-  else
-  {
-    // Outer changed
-    this._outerChanged("unload");
-  };
-
-  return true;
-};
-
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-
-  if (propValue && this.getLoaded()) {
-    this._apply();
-  };
-
-  return true;
-};
 
 
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   CLIENT OPTIMIZED MODIFIERS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
-if ((new QxClient).isMshtml())
+proto._postApply = function()
 {
-  proto._modifyOpacity = function() {
-    throw new Error("Mshtml did not support opacity on images!");
+  if (!this.getLoaded()) {
+    return;
   };
 
-  proto._postApply = function(vEnabled)
+  this._postApplyDimensions();
+  this._updateContent();
+};
+
+if (QxClient.isMshtml())
+{
+  QxImage.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
+  QxImage.IMGLOADER_STOP = "',sizingMethod='scale')";
+  QxImage.FILTER_GRAY = "Gray() Alpha(Opacity=30)";
+
+  proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
+    if (this._image) {
+      this._applyEnabled();
+    };
+
+    return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  };
+
+  proto._updateContent = function(vSource)
+  {
+    var i = this._image;
     var pl = this.getPreloader();
-    
-    if (pl.getIsPng() && vEnabled)
+
+    if (pl.getIsPng() && this.getEnabled())
     {
-      this.setHtmlProperty("src", this._manager.getBlank());
-      this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + pl.getSource() + "',sizingMethod='scale')");
+      i.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+      i.style.filter = QxImage.IMGLOADER_START + (vSource || pl.getSource()) + QxImage.IMGLOADER_STOP;
     }
     else
     {
-      this.setHtmlProperty("src", pl.getSource());
-      vEnabled ? this.removeStyleProperty("filter") : this.setStyleProperty("filter", "Gray() Alpha(Opacity=50)");
+      i.src = vSource || pl.getSource();
+      i.style.filter = this.getEnabled() ? QxConst.CORE_EMPTY : QxImage.FILTER_GRAY;
     };
   };
 
-  proto._apply = function()
+  proto._resetContent = function()
   {
-    var pl = this.getPreloader();
-    
-    if (this.getHeight() == null) {
-      this.setStyleProperty("pixelHeight", pl.getHeight());
+    var i = this._image;
+
+    i.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+    i.style.filter = QxConst.CORE_EMPTY;
+  };
+
+  proto._applyEnabled = proto._postApply;
+}
+else
+{
+  proto._postApply = function()
+  {
+    if (!this.getLoaded()) {
+      return;
     };
 
-    if (this.getWidth() == null) {
-      this.setStyleProperty("pixelWidth", pl.getWidth());
-    };
+    this._postApplyDimensions();
+    this._updateContent();
+  };
 
-    // Apply
-    this._postApply(this.getEnabled());
+  proto._updateContent = function(vSource) {
+    this._image.src = vSource || this.getPreloader().getSource();
+  };
 
-    // Invalidate Preferred
-    this._invalidatePreferred(); 
+  proto._resetContent = function() {
+    this._image.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+  };
 
-    // Outer changed
-    this._outerChanged("load");
-    
-    // should we call here something to fix the layout
-    // if the image has changed and the size is different now...
-    if (this.hasEventListeners("load")) {
-      this.dispatchEvent(new QxEvent("load"), true);
+  proto._applyEnabled = function()
+  {
+    if (this._image)
+    {
+      var o = this.getEnabled() ? QxConst.CORE_EMPTY : 0.3;
+      var s = this._image.style;
+
+      s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
     };
   };
 
-  proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
+  proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
-    QxWidget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
+    if (this._image) {
+      this._applyEnabled();
+    };
 
-    // Apply
-    this._postApply(propValue);
-    return true;
+    return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  };
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PREFERRED DIMENSIONS: INNER
+---------------------------------------------------------------------------
+*/
+
+proto._computePreferredInnerWidth = function()
+{
+  if (this.getLoaded())
+  {
+    return this.getPreloader().getWidth();
+  }
+  else if (QxUtil.isValidString(this.getSource()))
+  {
+    var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
+
+    if (vPreloader && vPreloader.isLoaded()) {
+      return vPreloader.getWidth();
+    };
+  };
+
+  return 0;
+};
+
+proto._computePreferredInnerHeight = function()
+{
+  if (this.getLoaded())
+  {
+    return this.getPreloader().getHeight();
+  }
+  else if (QxUtil.isValidString(this.getSource()))
+  {
+    var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
+
+    if (vPreloader && vPreloader.isLoaded()) {
+      return vPreloader.getHeight();
+    };
+  };
+
+  return 0;
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  APPLY
+---------------------------------------------------------------------------
+*/
+
+proto._applyContent = function()
+{
+  QxTerminator.prototype._applyContent.call(this);
+
+  // Images load asyncron, so we need to force flushing here
+  // to get an up-to-date view when an image is loaded.
+  QxWidget.flushGlobalQueues();
+};
+
+if (QxClient.isMshtml())
+{
+  proto._postApplyDimensions = function()
+  {
+    try
+    {
+      var vImageStyle = this._image.style;
+
+      if (this.getResizeToInner())
+      {
+        vImageStyle.pixelWidth = this.getInnerWidth();
+        vImageStyle.pixelHeight = this.getInnerHeight();
+      }
+      else
+      {
+        vImageStyle.pixelWidth = this.getPreferredInnerWidth();
+        vImageStyle.pixelHeight = this.getPreferredInnerHeight();
+      };
+    }
+    catch(ex)
+    {
+      this.error(ex, "_postApplyDimensions");
+    };
   };
 }
 else
 {
-  proto._apply = function()
+  proto._postApplyDimensions = function()
   {
-    this.setHtmlProperty("src", this.getPreloader().getSource());
+    try
+    {
+      var vImageNode = this._image;
 
-    // Invalidate Preferred
-    this._invalidatePreferred();    
+      if (this.getResizeToInner())
+      {
+        vImageNode.width = this.getInnerWidth();
+        vImageNode.height = this.getInnerHeight();
+      }
+      else
+      {
+        vImageNode.width = this.getPreferredInnerWidth();
+        vImageNode.height = this.getPreferredInnerHeight();
+      };
+    }
+    catch(ex)
+    {
+      this.error(ex, "_postApplyDimensions");
+    };
+  };
+};
 
-    // Outer changed
-    this._outerChanged("load");
-    
-    // should we call here something to fix the layout
-    // if the image has changed and the size is different now...
-    if (this.hasEventListeners("load")) {
-      this.dispatchEvent(new QxEvent("load"), true);
+
+
+
+/*
+---------------------------------------------------------------------------
+  CHANGES IN DIMENSIONS
+---------------------------------------------------------------------------
+*/
+
+if (QxClient.isMshtml())
+{
+  proto._changeInnerWidth = function(vNew, vOld)
+  {
+    if (this.getResizeToInner()) {
+      this._image.style.pixelWidth = vNew;
     };
   };
 
-  proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
+  proto._changeInnerHeight = function(vNew, vOld)
   {
-    this.setOpacity(propValue ? 1 : 0.5, uniqModIds);
-    return QxWidget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
+    if (this.getResizeToInner()) {
+      this._image.style.pixelHeight = vNew;
+    };
+  };
+}
+else
+{
+  proto._changeInnerWidth = function(vNew, vOld)
+  {
+    if (this.getResizeToInner()) {
+      this._image.width = vNew;
+    };
+  };
+
+  proto._changeInnerHeight = function(vNew, vOld)
+  {
+    if (this.getResizeToInner()) {
+      this._image.height = vNew;
+    };
   };
 };
 
@@ -258,37 +578,9 @@ else
 
 
 /*
-------------------------------------------------------------------------------------
-  PREFERRED DIMENSIONS
-------------------------------------------------------------------------------------
-*/
-
-/*!
-  Get the preferred width of the widget.
-
-  Simplified from the implementation used in QxWidget. We need only to do a
-  call to the preloader. This is so simple - we need not any caching here.
-*/
-proto.getPreferredWidth = function() {
-  return this.getLoaded() ? this.getPreloader().getWidth() : 0;
-};
-
-/*!
-  Get the preferred height of the widget.
-
-  Simplified from the implementation used in QxWidget. We need only to do a
-  call to the preloader. This is so simple - we need not any caching here.
-*/
-proto.getPreferredHeight = function() {
-  return this.getLoaded() ? this.getPreloader().getHeight() : 0;
-};
-
-
-
-/*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   DISPOSER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -296,8 +588,25 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return true;
   };
-  
-  (new QxImageManager).remove(this);
-  
-  return QxWidget.prototype.dispose.call(this);
+
+  var vPreloader = this.getPreloader();
+  if (vPreloader)
+  {
+    // remove event connection
+    vPreloader.removeEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
+    vPreloader.removeEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
+
+    this.forcePreloader(null);
+  };
+
+  if (this._image)
+  {
+    // Remove leaking filter attribute before leaving page
+    this._image.style.filter = QxConst.CORE_EMPTY;
+    this._image = null;
+  };
+
+  QxImageManager.remove(this);
+
+  return QxTerminator.prototype.dispose.call(this);
 };

@@ -1,207 +1,115 @@
-function QxFlowLayout()
-{
-  QxLayout.call(this);  
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(layout)
+#require(QxFlowLayoutImpl)
+
+************************************************************************ */
+
+function QxFlowLayout() {
+  QxParent.call(this);
 };
 
-QxFlowLayout.extend(QxLayout, "QxFlowLayout");
+QxFlowLayout.extend(QxParent, "QxFlowLayout");
 
 /*!
-  Horizontal spacing between widgets (like cellspacing in HTML tables)
-  
-  Possible values: any positive integer value
+  The spacing between childrens. Could be any positive integer value.
 */
-QxFlowLayout.addProperty({ name : "horizontalSpacing", type : Number, defaultValue : 0 });
+QxFlowLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
-  Vertical spacing between widgets (like cellspacing in HTML tables)
-  
-  Possible values: any positive integer value
+  The spacing between childrens. Could be any positive integer value.
 */
-QxFlowLayout.addProperty({ name : "verticalSpacing", type : Number, defaultValue : 0 });
+QxFlowLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+
+/*!
+  The horizontal align of the children. Allowed values are: "left" and "right"
+*/
+QxFlowLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "right" ], addToQueueRuntime : true });
+
+/*!
+  The vertical align of the children. Allowed values are: "top" and "bottom"
+*/
+QxFlowLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "bottom" ], addToQueueRuntime : true });
+
+/*!
+  Should the children be layouted in reverse order?
+*/
+QxFlowLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true, impl : "layout" });
+
+
+
+
+
 
 /*
-  Horizontal alignment of box content block
-  
-  Possible values: left, center, right
+---------------------------------------------------------------------------
+  INIT LAYOUT IMPL
+---------------------------------------------------------------------------
 */
-QxFlowLayout.addProperty({ name : "horizontalBlockAlign", type : String, defaultValue : "left" });
 
 /*!
-  Vertical alignment of each child in the block
-  
-  Possible values: top, middle, bottom
+  This creates an new instance of the layout impl this widget uses
 */
-QxFlowLayout.addProperty({ name : "verticalChildrenAlign", type : String, defaultValue : "top" });
+proto._createLayoutImpl = function() {
+  return new QxFlowLayoutImpl(this);
+};
 
 
 
 
 
 /*
-------------------------------------------------------------------------------------
-  RENDERER: PLACEMENT OF CHILDREN
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DIMENSION CACHE
+---------------------------------------------------------------------------
 */
 
-proto._layoutInternalWidgetsHorizontal = function()
+proto._changeInnerWidth = function(vNew, vOld)
 {
-  // --------------------------------------------------------------------------------------------
-  // Cache data from configuration
-  // --------------------------------------------------------------------------------------------
-  var innerWidth = this.getInnerWidth();
-  var innerHeight = this.getInnerHeight();
-  
-  var blockAlign = this.getHorizontalBlockAlign();
-  var childrenAlign = this.getVerticalChildrenAlign();
-  
-  var spacingX = this.getHorizontalSpacing();
-  var spacingY = this.getVerticalSpacing();
-  
-  var paddingLeft = this.getPaddingLeft();
-  var paddingTop = this.getPaddingTop();
-  
+  QxParent.prototype._changeInnerWidth.call(this, vNew, vOld);
 
-  // --------------------------------------------------------------------------------------------
-  // Working variables
-  // --------------------------------------------------------------------------------------------
-  var accumulatedWidth = 0;
-  var accumulatedHeight = 0;
-  
-  var childNeededWidth;
-  var childNeededHeight;
-  
-  var currentRow;  
-  var childCalculatedLeft, childCalculatedTop;  
-  
-  var maxRequiredRowHeight = 0;
-  
-  var rows = [];
-  var childOffsetLeft = [];
-  
-  
-  // --------------------------------------------------------------------------------------------
-  // Method to store row data  
-  // --------------------------------------------------------------------------------------------
-  function storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight)
-  {
-    var r = {
-      width : accumulatedWidth,
-      height : maxRequiredRowHeight,
-      offsetTop : accumulatedHeight
-    };
-    
-    switch(blockAlign)
-    {
-      case "center":
-        r.offsetLeft = (innerWidth - accumulatedWidth) / 2;
-        break;
-      
-      case "right":
-        r.offsetLeft = innerWidth - accumulatedWidth;
-        break;
-      
-      default:
-        r.offsetLeft = 0;
-    };
-    
-    rows.push(r);
-  };  
-  
-  
-  // --------------------------------------------------------------------------------------------
-  // Summarize children data and positions
-  // --------------------------------------------------------------------------------------------
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var chc;
-    
-  for (var i=0; i<chl; i++)
-  {
-    chc = ch[i];
-    
-    // measure child
-    childNeededWidth = chc.getMarginLeft() + chc.getAnyWidth() + chc.getMarginRight();
-    childNeededHeight = chc.getAnyHeight();
-    
-    if ((accumulatedWidth + childNeededWidth) > innerWidth)
-    {
-      // store current row data
-      storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight);
-      
-      // store row id to dom node
-      chc.__row = rows.length;
+  // allow 'auto' values for height to update when the inner width changes
+  this._invalidatePreferredInnerHeight();
+};
 
-      // add row to height
-      accumulatedHeight += maxRequiredRowHeight + spacingY;
-      
-      // store values for this child
-      childOffsetLeft.push(0);
 
-      // calculate new values for next child
-      accumulatedWidth = childNeededWidth + spacingX;
-      maxRequiredRowHeight = childNeededHeight;
-    }
-    else
-    {
-      // store row id to dom node
-      chc.__row = rows.length;
-      
-      // store values for this child
-      childOffsetLeft.push(accumulatedWidth);
-      
-      // calculate new values for next child
-      accumulatedWidth += childNeededWidth + spacingX;  
-      maxRequiredRowHeight = Math.max(maxRequiredRowHeight, childNeededHeight);
-    };
-  };  
-  
-  // store current row data
-  storeRow(accumulatedWidth, accumulatedHeight, maxRequiredRowHeight);  
-  
-  
 
-  // --------------------------------------------------------------------------------------------  
-  // Calculate offsets and apply children alignments, finally apply data
-  // --------------------------------------------------------------------------------------------
-  for (var i=0; i<chl; i++) 
-  {
-    chc = ch[i];
-    
-    // cache row number and delete from dom node
-    currentRow = rows[chc.__row];
-    delete chc.__row;  
-    
-    // calculate new position values (taking children alignment into account now)
-    childCalculatedLeft = paddingLeft + currentRow.offsetLeft + childOffsetLeft[i];
-    childCalculatedTop = paddingTop + currentRow.offsetTop;
-    
-    switch(childrenAlign)
-    {
-      case "middle":
-        childCalculatedTop += (currentRow.height - chc.getAnyHeight()) / 2;
-        break;
-      
-      case "bottom":
-        childCalculatedTop += currentRow.height - chc.getAnyHeight();
-        break;      
-    };  
 
-    // apply new positions    
-    chc._applyPositionHorizontal(childCalculatedLeft);
-    chc._applyPositionVertical(childCalculatedTop);
-  };   
-  
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyLayout = function(propValue, propOldValue, propData)
+{
+  // invalidate inner preferred dimensions
+  this._invalidatePreferredInnerDimensions();
+
   return true;
-};
-
-proto._layoutInternalWidgetsVertical = function() {
-  return true;
-};
-
-proto._calculateChildrenDependWidth = function(vModifiedWidget, vHint) {
-  throw new Error("Auto Width is not supported by QxFlowLayout");
-};
-
-proto._calculateChildrenDependHeight = function(vModifiedWidget, vHint) {
-  throw new Error("Auto Height is not supported by QxFlowLayout");
 };
