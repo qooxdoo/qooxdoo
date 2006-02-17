@@ -2,9 +2,6 @@
 
    qooxdoo - the new era of web interface development
 
-   Version:
-     $Id: QxChildrenIterator.js
-
    Authors:
      * Dietrich Sreifert (ds)
        <dietrich dot streifert at visionet dot de>

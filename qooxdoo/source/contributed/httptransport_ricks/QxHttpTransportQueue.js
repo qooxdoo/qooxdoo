@@ -2,9 +2,6 @@
 
    qooxdoo - the new era of web interface development
 
-   Version:
-     $Id$
-
    Copyright:
      (C) 2006 by IT Operations PTY LTD (www.itoperations.com.au)
          All rights reserved
