@@ -1,28 +1,87 @@
-function QxImagePreloaderManager()
-{
-  if(QxImagePreloaderManager._instance) {
-    return QxImagePreloaderManager._instance;
-  };
+/* ************************************************************************
 
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(image)
+
+************************************************************************ */
+
+/*!
+  This singleton manage all QxImagePreloader instances.
+*/
+function QxImagePreloaderManager() {
   QxManager.call(this);
-  
-  QxImagePreloaderManager._instance = this;
 };
 
 QxImagePreloaderManager.extend(QxManager, "QxImagePreloaderManager");
 
-proto.add = function(oObject) {
-  this._objects[oObject.getUri()] = oObject;
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
+
+proto.add = function(vObject) {
+  this._objects[vObject.getUri()] = vObject;
 };
 
-proto.remove = function(oObject) {
-  delete this._objects[oObject.getUri()];
+proto.remove = function(vObject) {
+  delete this._objects[vObject.getUri()];
 };
 
-proto.has = function(oUri) {
-  return this._objects[String(oUri)] != null;
+proto.has = function(vSource) {
+  return this._objects[vSource] != null;
 };
 
-proto.get = function(oUri) {
-  return this._objects[String(oUri)];
+proto.get = function(vSource) {
+  return this._objects[vSource];
 };
+
+proto.create = function(vSource)
+{
+  if (this._objects[vSource]) {
+    return this._objects[vSource];
+  };
+
+  return new QxImagePreloader(vSource);
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+QxImagePreloaderManager = new QxImagePreloaderManager;

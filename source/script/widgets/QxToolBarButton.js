@@ -1,51 +1,55 @@
-function QxToolBarButton(vText, vIcon, vIconWidth, vIconHeight)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(toolbar)
+
+************************************************************************ */
+
+function QxToolBarButton(vText, vIcon, vIconWidth, vIconHeight, vFlash) 
 {
-  QxAtom.call(this, vText, vIcon, vIconWidth, vIconHeight);
+  QxButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
   
-  this.setHeight(null);
-  
-  this.setTop(0);
-  this.setBottom(0);
-  
-  this.addEventListener("mouseover", this._onmouseover);
-  this.addEventListener("mouseout", this._onmouseout);
-  this.addEventListener("mousedown", this._onmousedown);
-  this.addEventListener("mouseup", this._onmouseup);
+  // Omit focus
+  this.setTabIndex(-1);
 };
 
-QxToolBarButton.extend(QxAtom, "QxToolBarButton");
+QxToolBarButton.extend(QxButton, "QxToolBarButton");
 
-proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxAtom.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);
+QxToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-button" });
 
-  this.setState(null, uniqModIds);
-  return true;
-};
 
-proto._onmouseover = function(e) {
-  this.setState("hover");
-};
 
-proto._onmouseout = function(e) {
-  this.setState(null);
-};
 
-proto._onmousedown = function(e)
-{
-  if(e.isNotLeftButton()) {
-    return;
-  };
-  
-  this.setState("pressed");
-};
 
-proto._onmouseup = function(e)
-{
-  if(e.isNotLeftButton()) {
-    return;
-  };
+/*
+---------------------------------------------------------------------------
+  EVENT HANDLER
+---------------------------------------------------------------------------
+*/
 
-  this.setState("hover");
-  this.execute();
-};
+proto._onkeydown = QxUtil.returnTrue;
+proto._onkeyup = QxUtil.returnTrue;

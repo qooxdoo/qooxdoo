@@ -1,26 +1,44 @@
-function QxToolBarPartHandle() 
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(toolbar)
+
+************************************************************************ */
+
+function QxToolBarPartHandle()
 {
-  QxWidget.call(this);
+  QxCanvasLayout.call(this);
   
-  this.setTop(0);
-  this.setBottom(0);
-  this.setLeft(0);
-  this.setWidth(10);
-  
-  this._line = new QxWidget;
-  
-  with(this._line)
-  {
-    setCssClassName("QxToolBarPartHandleLine");
-    
-    setTop(2);
-    setLeft(3);
-    setBottom(2);
-    setWidth(4);
-  };
-  
-  this.add(this._line);
+  var l = new QxTerminator;
+  l.setAppearance("toolbar-part-handle-line");
+  this.add(l);
 };
 
-QxToolBarPartHandle.extend(QxWidget, "QxToolBarPartHandle");
+QxToolBarPartHandle.extend(QxCanvasLayout, "QxToolBarPartHandle");
 
+QxToolBarPartHandle.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part-handle" });
+// QxToolBarPartHandle.changePropertyDefaultValue("appearance", "toolbar-part-handle");

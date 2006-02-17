@@ -1,117 +1,161 @@
-function QxWindowManager()
-{
-  if(QxWindowManager._instance) {
-    return QxWindowManager._instance;
-  };
+/* ************************************************************************
 
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(window)
+#post(QxPopupManager)
+
+************************************************************************ */
+
+/*!
+  This singleton manages QxWindows
+*/
+function QxWindowManager() {
   QxManager.call(this);
-  
-  QxWindowManager._instance = this;
 };
 
 QxWindowManager.extend(QxManager, "QxWindowManager");
 
-QxWindowManager.addProperty({ name : "activeWindow", type : Object });
+QxWindowManager.addProperty({ name : "activeWindow", type : QxConst.TYPEOF_OBJECT });
 
-proto.update = function(oTarget)
-{
-  var m;
-  
-  for (var vHash in this._objects)
-  {
-    m = this._objects[vHash];
-    
-    if(!m.getAutoHide()) {
-      continue;
-    };
-    
-    m.setVisible(false);   
-  };
-};
 
-proto._modifyActiveWindow = function(propValue, propOldValue, propName, uniqModIds)
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 {
-  (new QxPopupManager).update();
-  
-  if (propValue) {
-    propValue.setActive(true, uniqModIds);
-  };
+  QxPopupManager.update();
 
   if (propOldValue) {
-    propOldValue.setActive(false, uniqModIds);
+    propOldValue.setActive(false);
   };
-  
-  this.sort();
-  
+
+  if (propValue) {
+    propValue.setActive(true);
+  };
+
   if (propOldValue && propOldValue.getModal()) {
     propOldValue.getTopLevelWidget().release(propOldValue);
-  };  
+  };
 
   if (propValue && propValue.getModal()) {
     propValue.getTopLevelWidget().block(propValue);
   };
-  
+
   return true;
 };
 
-proto.compareWindows = function(w1, w2) 
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
+
+proto.update = function(oTarget)
 {
-  switch((new QxWindowManager).getActiveWindow())
+  var vWindow, vHashCode;
+  var vAll = this.getAll();
+
+  for (var vHashCode in vAll)
+  {
+    vWindow = vAll[vHashCode];
+
+    if(!vWindow.getAutoHide()) {
+      continue;
+    };
+
+    vWindow.hide();
+  };
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MANAGER INTERFACE
+---------------------------------------------------------------------------
+*/
+
+proto.compareWindows = function(w1, w2)
+{
+  switch(QxWindowManager.getActiveWindow())
   {
     case w1:
       return 1;
-    
+
     case w2:
-      return -1;      
+      return -1;
   };
-  
+
   return w1.getZIndex() - w2.getZIndex();
 };
 
-proto.sort = function(oObject)
+proto.add = function(vWindow)
 {
-  var a = [];
-  for (var i in this._objects) {
-    a.push(this._objects[i]);
-  };  
-  
-  a.sort(this.compareWindows);
+  QxManager.prototype.add.call(this, vWindow);
 
-  var minz = QxWindow.prototype._minZindex;
-  
-  for (var l=a.length, i=0; i<l; i++) {
-    a[i].setZIndex(minz+i);
-  };
+  // this.debug("Add: " + vWindow);
+  this.setActiveWindow(vWindow);
 };
 
-proto.add = function(oObject)
+proto.remove = function(vWindow)
 {
-  QxManager.prototype.add.call(this, oObject);
-  
-  this.setActiveWindow(oObject);
-};
+  QxManager.prototype.remove.call(this, vWindow);
 
-proto.remove = function(oObject)
-{
-  QxManager.prototype.remove.call(this, oObject);
-  
-  if (this.getActiveWindow() == oObject)
+  // this.debug("Remove: " + vWindow);
+
+  if (this.getActiveWindow() == vWindow)
   {
     var a = [];
     for (var i in this._objects) {
       a.push(this._objects[i]);
-    };  
-  
+    };
+
     var l = a.length;
-    
-    if (l==0) 
+
+    if (l==0)
     {
-      // current window is last window
-      oObject.getTopLevelWidget().release(oObject);
+      this.setActiveWindow(null);
     }
     else if (l==1)
     {
-      // current window is second last window
       this.setActiveWindow(a[0]);
     }
     else if (l>1)
@@ -121,3 +165,16 @@ proto.remove = function(oObject)
     };
   };
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+QxWindowManager = new QxWindowManager;

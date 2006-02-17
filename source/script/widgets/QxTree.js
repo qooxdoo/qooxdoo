@@ -1,39 +1,217 @@
-function QxTree(vLabel, vIconOpenURI, vIconCloseURI)
-{
-  if (isValid(vLabel)) {
-    QxTreeFolder.call(this, vLabel, vIconOpenURI, vIconCloseURI);
-  } else {
-    QxTreeElement.call(this);
-  };
+/* ************************************************************************
 
-  this.setTagName("div");
-  this.setLevel(0);
-  this.setParentTree(this);
-  this.setTabIndex(1);
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(tree)
+
+************************************************************************ */
+
+function QxTree(vLabel)
+{
+  QxTreeFolder.call(this, vLabel);
+
+  // ************************************************************************
+  //   INITILISIZE MANAGER
+  // ************************************************************************
+  this._manager = new QxTreeSelectionManager(this);
+
+
+  this._iconObject.setAppearance("tree-icon");
+  this._labelObject.setAppearance("tree-label");
+
+
+  // ************************************************************************
+  //   DEFAULT STATE
+  // ************************************************************************
+  // The tree should be open by default
   this.setOpen(true);
 
-  this.addEventListener("keydown", this._onkeydown);
+  // Fix vertical alignment of empty tree
+  this.addToFolder();
+
+
+  // ************************************************************************
+  //   KEY EVENT LISTENER
+  // ************************************************************************
+  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
 QxTree.extend(QxTreeFolder, "QxTree");
 
 
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    PROPERTIES
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
-QxTree.addProperty({ name : "activeElement" });
-QxTree.addProperty({ name : "useDoubleClick", type : Boolean, defaultValue : false, getAlias : "useDoubleClick" });
-QxTree.addProperty({ name : "useHoverEffects", type : Boolean, defaultValue : true, getAlias : "useHoverEffects" });
-QxTree.addProperty({ name : "useTreeLines", type : Boolean, defaultValue : true, getAlias : "useTreeLines" });
+QxTree.addProperty({ name : "useDoubleClick", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
+QxTree.addProperty({ name : "useTreeLines", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+
+
+
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    COMMON CHECKERS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MANAGER BINDING
+---------------------------------------------------------------------------
+*/
+
+proto.getManager = function() {
+  return this._manager;
+};
+
+proto.getSelectedElement = function() {
+  return this.getSelectedItems()[0];
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  QUEUE HANDLING
+---------------------------------------------------------------------------
+*/
+
+proto.addChildToTreeQueue = function(vChild)
+{
+  if (!vChild._isInTreeQueue && !vChild._isDisplayable) {
+    this.debug("Ignoring invisible child: " + vChild);
+  };
+
+  if (!vChild._isInTreeQueue && vChild._isDisplayable)
+  {
+    QxWidget.addToGlobalWidgetQueue(this);
+
+    if (!this._treeQueue) {
+      this._treeQueue = {};
+    };
+
+    this._treeQueue[vChild.toHashCode()] = vChild;
+
+    vChild._isInTreeQueue = true;
+  };
+};
+
+proto.removeChildFromTreeQueue = function(vChild)
+{
+  if (vChild._isInTreeQueue)
+  {
+    if (this._treeQueue) {
+      delete this._treeQueue[vChild.toHashCode()];
+    };
+
+    delete vChild._isInTreeQueue;
+  };
+};
+
+proto.flushWidgetQueue = function() {
+  this.flushTreeQueue();
+};
+
+proto.flushTreeQueue = function()
+{
+  if (!QxUtil.isObjectEmpty(this._treeQueue))
+  {
+    for (vHashCode in this._treeQueue)
+    {
+      // this.debug("Flushing Tree Child: " + this._treeQueue[vHashCode]);
+      this._treeQueue[vHashCode].flushTree();
+      delete this._treeQueue[vHashCode]._isInTreeQueue;
+    };
+
+    delete this._treeQueue;
+  };
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
+{
+  if (this._initialLayoutDone) {
+    this._updateIndent();
+  };
+
+  return true;
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
+
+proto.getTree = function() {
+  return this;
+};
+
+proto.getParentFolder = function() {
+  return null;
+};
+
+proto.getLevel = function() {
+  return 0;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  COMMON CHECKERS
+---------------------------------------------------------------------------
 */
 
 QxTree.isTreeFolder = function(vObject) {
@@ -41,204 +219,115 @@ QxTree.isTreeFolder = function(vObject) {
 };
 
 QxTree.isOpenTreeFolder = function(vObject) {
-  return vObject instanceof QxTreeFolder && vObject.getOpen() && vObject.getChildrenLength() > 0;
+  return vObject instanceof QxTreeFolder && vObject.getOpen() && vObject.hasContent();
 };
+
+
+
+
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    BASIC MODIFIERS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT HANDLER
+---------------------------------------------------------------------------
 */
-
-proto._modifyParent = function(propValue, propOldValue, propName, uniqModIds)
-{
-  return QxWidget.prototype._modifyParent.call(this, propValue, propOldValue, propName, uniqModIds);
-};
-
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  QxTreeFolder.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
-
-  // Hide
-  this._indentCell.style.display = this._navigationCell.style.display = "none";
-
-  // Apply
-  this._renderImplLabel(this.getLabel());
-  this._renderImplIcon();
-
-  return true;
-};
-
-proto._modifyActiveElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propOldValue) {
-    propOldValue.setActive(false, uniqModIds);
-  };
-
-  if (propValue) {
-    propValue.setActive(true, uniqModIds);
-  };
-
-  return true;
-};
-
-proto._modifyUseTreeLines = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (this.isCreated()) {
-    this._updateTreeLines();
-  };
-
-  return true;
-};
-
-proto._shouldBecomeCreated = function() {
-  return true;
-};
 
 proto._onkeydown = function(e)
 {
-  e.preventDefault();  
-
-  var aE = this.getActiveElement();
+  var vManager = this.getManager();
+  var vSelectedItem = vManager.getSelectedItem();
 
   switch(e.getKeyCode())
   {
     case QxKeyEvent.keys.left:
-      if (QxTree.isTreeFolder(aE))
+      e.preventDefault();
+
+      if (QxTree.isTreeFolder(vSelectedItem))
       {
-        if (!aE.getOpen())
+        if (!vSelectedItem.getOpen())
         {
-          var vParent = aE.getParent();
+          var vParent = vSelectedItem.getParentFolder();
           if (vParent instanceof QxTreeFolder) {
             if (!(vParent instanceof QxTree)) {
-              vParent.setOpen(false);
+              vParent.close();
             };
 
-            this.setActiveElement(vParent);
+            this.setSelectedElement(vParent);
           };
         }
         else
         {
-          return aE.setOpen(false);
+          return vSelectedItem.close();
         };
       }
-      else if (aE instanceof QxTreeFile)
+      else if (vSelectedItem instanceof QxTreeFile)
       {
-        var vParent = aE.getParent();
+        var vParent = vSelectedItem.getParentFolder();
         if (vParent instanceof QxTreeFolder) {
           if (!(vParent instanceof QxTree)) {
-            vParent.setOpen(false);
+            vParent.close();
           };
 
-          this.setActiveElement(vParent);
+          this.setSelectedElement(vParent);
         };
       };
 
       break;
 
     case QxKeyEvent.keys.right:
-      if (QxTree.isTreeFolder(aE)) {
-        return aE.setOpen(true);
+      e.preventDefault();
+
+      if (QxTree.isTreeFolder(vSelectedItem))
+      {
+        if (!vSelectedItem.getOpen())
+        {
+          return vSelectedItem.open();
+        }
+        else if (vSelectedItem.hasContent())
+        {
+          var vFirst = vSelectedItem.getFirstVisibleChildOfFolder();
+          this.setSelectedElement(vFirst);
+          vFirst.open();
+          return;
+        };
       };
 
       break;
 
     case QxKeyEvent.keys.enter:
-      if (QxTree.isTreeFolder(aE)) {
-        return aE.setOpen(!aE.getOpen());
+      e.preventDefault();
+
+      if (QxTree.isTreeFolder(vSelectedItem)) {
+        return vSelectedItem.toggle();
       };
 
       break;
 
-    case QxKeyEvent.keys.up:
-      if (aE)
+    default:
+      if (!this._fastUpdate)
       {
-        if (aE.isFirstChild())
-        {
-          if (aE.getParent() instanceof QxTreeFolder)
-          {
-            this.setActiveElement(aE.getParent());
-          }
-          else
-          {
-            this.setActiveElement(this.getLastTreeChild());
-          };
-        }
-        else
-        {
-          var vPrev = aE.getPreviousSibling();
-
-          while (vPrev instanceof QxTreeElement)
-          {
-            if (QxTree.isOpenTreeFolder(vPrev))
-            {
-              vPrev = vPrev.getLastChild();
-            }
-            else
-            {
-              break;
-            };
-          };
-
-          this.setActiveElement(vPrev);
-        };
-      }
-      else
-      {
-        var vLast = this.getLastTreeChild();
-        if (vLast) {
-          this.setActiveElement(vLast);
-        };
+        this._fastUpdate = true;
+        this._oldItem = vSelectedItem;
       };
 
-      break;
-
-
-    case QxKeyEvent.keys.down:
-      if (aE)
-      {
-        if (QxTree.isOpenTreeFolder(aE))
-        {
-          this.setActiveElement(aE.getFirstChild());
-        }
-        else if (aE.isLastChild())
-        {
-          var vCurrent = aE;
-
-          while(vCurrent.isLastChild())
-          {
-            vCurrent = vCurrent.getParent();
-            if (!vCurrent instanceof QxTreeElement) {
-              return this.setActiveElement(this.getFirstTreeChild());
-            };
-          };
-
-          if (vCurrent instanceof QxTreeElement && vCurrent.getNextSibling() && vCurrent.getNextSibling() instanceof QxTreeElement) {
-            return this.setActiveElement(vCurrent.getNextSibling());
-          };
-
-          this.setActiveElement(this.getFirstTreeChild());
-        }
-        else
-        {
-          this.setActiveElement(aE.getNextSibling());
-        };
-      }
-      else
-      {
-        var vFirst = this.getFirstTreeChild();
-        if (vFirst) {
-          this.setActiveElement(vFirst);
-        };
-      };
-
-      break;
+      vManager.handleKeyDown(e);
   };
-  
-  // be sure to be again active (fix especially for gecko based browsers)
-  (new QxApplication).setActiveWidget(this);
+};
+
+proto._onkeyup = function(e)
+{
+  if (this._fastUpdate)
+  {
+    var vOldItem = this._oldItem;
+    var vNewItem = this.getManager().getSelectedItem();
+
+    vNewItem.getIconObject().addState(QxConst.STATE_SELECTED);
+
+    delete this._fastUpdate;
+    delete this._oldItem;
+  };
 };
 
 proto.getLastTreeChild = function()
@@ -251,26 +340,49 @@ proto.getLastTreeChild = function()
       return vLast;
     };
 
-    vLast = vLast.getLastChild();
+    vLast = vLast.getLastVisibleChildOfFolder();
   };
+
+  return null;
 };
 
 proto.getFirstTreeChild = function() {
   return this;
 };
 
-proto._renderImplNavigation = function() {
-  return true;
+proto.setSelectedElement = function(vElement)
+{
+  var vManager = this.getManager();
+
+  vManager.setSelectedItem(vElement);
+  vManager.setLeadItem(vElement);
 };
 
-proto._renderImplIndent = function() {
-  return true;
-};
 
-proto._visualizeFocus = function() {
-  return true;
-};
 
-proto._visualizeBlur = function() {
-  return true;
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+
+  if (this._manager)
+  {
+    this._manager.dispose();
+    this._manager = null;
+  };
+
+  delete this._oldItem;
+
+  return QxTreeFolder.prototype.dispose.call(this);
 };

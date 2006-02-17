@@ -1,43 +1,71 @@
-function QxTreeFile(vLabel, vIconURI)
-{
-  if (isValid(vIconURI)) {
-    this.forceIconURI(vIconURI);
-  };
-  
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(tree)
+
+************************************************************************ */
+
+function QxTreeFile(vLabel) {
   QxTreeElement.call(this, vLabel);
 };
-
-/*
-  -------------------------------------------------------------------------------
-    EXTEND
-  -------------------------------------------------------------------------------
-*/
 
 QxTreeFile.extend(QxTreeElement, "QxTreeFile");
 
 
 
-/*
-  -------------------------------------------------------------------------------
-    PROPERTIES
-  -------------------------------------------------------------------------------
-*/
-
-QxTreeFile.addProperty({ name : "iconURI", type : String, defaultValue : "icons/16/doc.png" });
-
 
 
 /*
-  -------------------------------------------------------------------------------
-    RENDERER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  INDENT HELPER
+---------------------------------------------------------------------------
 */
 
-proto._renderImplIcon = function() {
-  if (!this.isCreated()) {
-    return true;
+proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn) 
+{
+  if (vUseTreeLines)
+  {
+    if (vIsLastColumn)
+    {
+      return this.isLastChild() ? "end" : "cross";
+    }
+    else
+    {
+      return "line";
+    };
   };
+  
+  return null;
+};
 
-  this._iconImage.src = (new QxImageManager).buildURI(this.getIconURI());
-  return true;
+proto._updateIndent = function() {
+  this.addToTreeQueue();
+};
+
+proto.getItems = function() {
+  return [this];
 };

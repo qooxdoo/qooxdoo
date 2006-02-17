@@ -1,97 +1,146 @@
-function QxIframe(vSrc)
-{
-  QxWidget.call(this);
+/* ************************************************************************
 
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(frame)
+
+************************************************************************ */
+
+function QxIframe(vSource)
+{
+  // **********************************************************************
+  //   INIT
+  // **********************************************************************
+  QxTerminator.call(this);
+
+  QxIframe.init();
+
+  this.setSelectable(false);
   this.setTabIndex(0);
 
   var o = this;
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
   this.__onload = function(e) { return o._onload(e); };
 
-  if (isValid(vSrc)) {
-    this.setSrc(vSrc);
+  if (QxUtil.isValid(vSource)) {
+    this.setSource(vSource);
   };
 };
 
-QxIframe.extend(QxWidget, "QxIframe");
+QxIframe.extend(QxTerminator, "QxIframe");
 
-QxIframe.addProperty({ name : "src", type : String, defaultValue : "javascript:void(0)" });
-QxIframe.addProperty({ name : "frameName", type : String });
-
-
+QxIframe.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "iframe" });
 
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
-proto._realFrame = null;
+QxIframe.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
 
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
+QxIframe.addProperty({ name : "frameName", type : QxConst.TYPEOF_STRING });
+
+
+/*
+---------------------------------------------------------------------------
+  INTERNAL PROPERTIES
+---------------------------------------------------------------------------
+*/
+
+proto._iframeNode = null;
+
+proto.getIframeNode = function() {
+  return this._iframeNode;
+};
+
+proto.setIframeNode = function(vIframeNode) {
+  return this._iframeNode = vIframeNode;
+};
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  if (!this._realFrame)
+  var iframeNode = this.getIframeNode();
+
+  if (!iframeNode)
   {
     // clone proto element and assign iframe
-    this._realFrame = QxIframe._element.cloneNode(true);
+    iframeNode = this.setIframeNode(QxIframe._element.cloneNode(true));
 
-    if ((new QxClient).isMshtml()) {
-      this._realFrame.onreadystatechange = this.__onreadystatechange;
+    if (QxClient.isMshtml()) {
+      iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
-      this._realFrame.onload = this.__onload;
+      iframeNode.onload = this.__onload;
     };
   };
 
-  propValue.appendChild(this._realFrame);
-
   this._applyFrameName();
-  this._renderSrc();
+  this._applySource();
+
+  propValue.appendChild(iframeNode);
 
   // create basic widget
-  QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
+  QxTerminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   return true;
 };
 
-proto._modifySrc = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifySource = function(propValue, propOldValue, propData)
 {
   if( this.isCreated()) {
-    this._renderSrc();
+    this._applySource();
   };
 
   return true;
 };
 
-proto.getIframe = function() {
-  return this._realFrame;
-};
-
-proto._renderSrc = function()
+proto._applySource = function()
 {
-  var currentSrc = this.getSrc();
+  var currentSource = this.getSource();
+
+  if (QxUtil.isInvalidString(currentSource)) {
+    currentSource = QxImageManager.buildUri("core/blank.gif");
+  };
 
   this._isLoaded = false;
-  this._realFrame.src = isValid(currentSrc) ? currentSrc : "javascript:void(0)";
-};
-
-proto._onreadystatechange = function()
-{
-  if (this._realFrame.readyState == "complete") {
-    this.dispatchEvent(new QxEvent("load"));
-  };
-};
-
-proto._onload = function()
-{
-  this._isLoaded = true;
-  this.dispatchEvent(new QxEvent("load"));
+  this.getIframeNode().src = currentSource;
 };
 
 proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
-  this._realFrame.name = isValidString(vName) ? vName : "";
+  this.getIframeNode().name = QxUtil.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
 };
 
 proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
@@ -107,17 +156,41 @@ proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds
 
 
 /*
-  -------------------------------------------------------------------------------
-    WINDOW & DOCUMENT ACCESS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT HANDLER
+---------------------------------------------------------------------------
 */
 
-if ((new QxClient).isMshtml())
+proto._onreadystatechange = function()
+{
+  if (this.getIframeNode().readyState == "complete") {
+    this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_LOAD), true);
+  };
+};
+
+proto._onload = function()
+{
+  this._isLoaded = true;
+  this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_LOAD), true);
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  WINDOW & DOCUMENT ACCESS
+---------------------------------------------------------------------------
+*/
+
+if (QxClient.isMshtml())
 {
   proto.getContentWindow = function()
   {
     if (this.isCreated()) {
-      try { return this.getElement().contentWindow; }
+      try { return this.getIframe().contentWindow; }
       catch (ex) {};
     };
 
@@ -127,7 +200,12 @@ if ((new QxClient).isMshtml())
   proto.getContentDocument = function()
   {
     var win = this.getContentWindow();
-    return win ? win.document : null;
+    if (win) {
+      try { return win.document; }
+      catch (ex) {};
+    };
+    
+    return null;
   };
 }
 else
@@ -141,7 +219,7 @@ else
   proto.getContentDocument = function()
   {
     if (this.isCreated()) {
-      try { return this.getElement().contentDocument; }
+      try { return this.getIframe().contentDocument; }
       catch (ex) {};
     };
 
@@ -150,15 +228,20 @@ else
 };
 
 
+
+
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    LOAD STATUS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  LOAD STATUS
+---------------------------------------------------------------------------
 */
 
 proto._isLoaded = false;
 
-if ((new QxClient).isMshtml())
+if (QxClient.isMshtml())
 {
   proto.isLoaded = function()
   {
@@ -175,10 +258,14 @@ else
 };
 
 
+
+
+
+
 /*
-  -------------------------------------------------------------------------------
-    DISPOSE
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSE
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -187,43 +274,49 @@ proto.dispose = function()
     return;
   };
 
-  if (this.isCreated() && this._realFrame) {
-    this.getElement().removeChild(this._realFrame);
+  if (this._iframeNode)
+  {
+    this._iframeNode.onreadystatechange = null;
+    this._iframeNode.onload = null;
+    
+    this._iframeNode = null;
   };
 
-  this._realFrame = null;
-
-  QxWidget.prototype.dispose.call(this);
+  QxTerminator.prototype.dispose.call(this);
 };
+
+
+
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    INIT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  INIT
+---------------------------------------------------------------------------
 */
 QxIframe.init = function()
 {
+  if (QxIframe._element) {
+    return;
+  };
+
   var f = QxIframe._element = document.createElement("iframe");
 
-  f.frameBorder = "0";
-  f.frameSpacing = "0";
+  f.frameBorder = QxConst.CORE_ZERO;
+  f.frameSpacing = QxConst.CORE_ZERO;
 
-  f.marginWidth = "0";
-  f.marginHeight = "0";
+  f.marginWidth = QxConst.CORE_ZERO;
+  f.marginHeight = QxConst.CORE_ZERO;
 
-  f.width = "100%";
-  f.height = "100%";
+  f.width = QxConst.CORE_HUNDREDPERCENT;
+  f.height = QxConst.CORE_HUNDREDPERCENT;
 
-  f.hspace = "0";
-  f.vspace = "0";
+  f.hspace = QxConst.CORE_ZERO;
+  f.vspace = QxConst.CORE_ZERO;
 
-  f.border = "0";
-  f.scrolling = "auto";
+  f.border = QxConst.CORE_ZERO;
+  f.scrolling = QxConst.CORE_AUTO;
   f.unselectable = "on";
-  f.src = "javascript:void(0)";
-  f.className = "QxIframeFrame";
   f.allowTransparency = "true";
 };
-
-QxIframe.init();

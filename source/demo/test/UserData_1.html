@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    Test for User Data interface
+  </div>
+
+  <script type="text/javascript">
+  window.application.main = function()
+  {
+    var d = this.getClientWindow().getClientDocument();
+
+    var nl1 = new QxButton("Test #1", "icons/16/reload.png", 16, 16);
+    nl1.setTop(48);
+    nl1.setLeft(20);
+    nl1.setBorder(QxBorder.presets.black);
+    nl1.setBackgroundColor(new QxColor("white"));
+    nl1.setPadding(4);
+    d.add(nl1);
+    
+    nl1.addData({ name : "tag", type : "string" });
+    
+    nl1.storeTag("Hello World");
+    
+    nl1.addEventListener("execute", function(e) {
+      alert(this.retrieveTag());
+    });
+  };
+  </script>
+</body>
+</html>

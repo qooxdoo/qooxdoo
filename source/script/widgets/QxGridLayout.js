@@ -1,298 +1,272 @@
-function QxGridLayout(vRows, vCols, vShowVirtualCells)
-{
-  QxLayout.call(this);  
-  
-  this._rowHeights = [];
-  this._colWidths = [];
-  
-  this._computedRowTypes = [];
-  this._computedColTypes = [];
-  
-  this._computedRowHeights = [];
-  this._computedColWidths = [];
-  
-  this._virtualCells = [];
-  
-  if (isValid(vShowVirtualCells)) {
-    this.setShowVirtualCells(vShowVirtualCells);
-  };
-  
-	if (isValidString(vRows)) {
-		this.addRowsFromString(vRows);
-	};
-	
-	if (isValidString(vCols)) {
-		this.addColsFromString(vCols);
-	};
+/* ************************************************************************
 
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(layout)
+
+************************************************************************ */
+
+function QxGridLayout()
+{
+  QxParent.call(this);
+
+  this._columnData = [];
+  this._rowData = [];
+
+  this._spans = [];
 };
 
-QxGridLayout.extend(QxLayout, "QxGridLayout");
+QxGridLayout.extend(QxParent, "QxGridLayout");
+
 
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   PROPERTIES
-------------------------------------------------------------------------------------
-*/
-
-QxGridLayout.addProperty({ name : "constraintMode", type : String, defaultValue : "clip" });
-QxGridLayout.addProperty({ name : "respectSpansInAuto", type : Boolean, defaultValue : false });
-QxGridLayout.addProperty({ name : "showVirtualCells", type : Boolean, defaultValue : false });
-QxGridLayout.addProperty({ name : "cellPaddingTop", type : Number, defaultValue : 0 });
-QxGridLayout.addProperty({ name : "cellPaddingRight", type : Number, defaultValue : 0 });
-QxGridLayout.addProperty({ name : "cellPaddingBottom", type : Number, defaultValue : 0 });
-QxGridLayout.addProperty({ name : "cellPaddingLeft", type : Number, defaultValue : 0 });
-
-
-
-/*
-------------------------------------------------------------------------------------
-  REDEFINE WIDGET METHODS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 /*!
-  Add/Append another widget. Allows to add multiple 
-  widgets at once. 
+  The spacing between childrens. Could be any positive integer value.
 */
-proto.add = function(w, h)
-{
-  if (isInvalidNumber(h.colspan)) {
-    h.colspan = 1;
-  };
+QxGridLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
-  if (isInvalidNumber(h.rowspan)) {
-    h.rowspan = 1;
-  };
-  
-  if (isValidNumber(h.padding)) 
-  {
-    if (isInvalidNumber(h.paddingLeft)) {
-      h.paddingLeft = h.padding;
-    };
-    
-    if (isInvalidNumber(h.paddingTop)) {
-      h.paddingTop = h.padding;
-    };
-    
-    if (isInvalidNumber(h.paddingRight)) {
-      h.paddingRight = h.padding;
-    };
-    
-    if (isInvalidNumber(h.paddingBottom)) {
-      h.paddingBottom = h.padding;
-    };    
-  }
-  else
-  {
-    if (isInvalidNumber(h.paddingLeft)) {
-      h.paddingLeft = this.getCellPaddingLeft();
-    };
-    
-    if (isInvalidNumber(h.paddingTop)) {
-      h.paddingTop = this.getCellPaddingTop();
-    };
-    
-    if (isInvalidNumber(h.paddingRight)) {
-      h.paddingRight = this.getCellPaddingRight();
-    };
-    
-    if (isInvalidNumber(h.paddingBottom)) {
-      h.paddingBottom = this.getCellPaddingBottom();
-    };  
-  };    
-  
-  if (isInvalid(h.scaleHorizontal)) {
-    h.scaleHorizontal = false;
-  };
-  
-  if (isInvalid(h.scaleVertical)) {
-    h.scaleVertical = false;
-  };  
-  
-  w.setParent(this);
-  w.setLayoutHint(h);
-};
+/*!
+  The spacing between childrens. Could be any positive integer value.
+*/
+QxGridLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
-proto.remove = function(w)
-{
-  w.setParent(null);
-  w.setLayoutHint(null);
-};
+/*!
+  The horizontal align of the children. Allowed values are: "left", "center" and "right"
+*/
+QxGridLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
 
-proto.addRowsFromString = function(vRows)
-{
-  if (isValidString(vRows))
-  {
-    for (var i=0, a=vRows.split(","), l=a.length; i<l; i++) {
-      this.addRow(a[i]);
-    };
-  };
-};
+/*!
+  The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
+*/
+QxGridLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
 
-proto.addColsFromString = function(vCols)
-{
-  if (isValidString(vCols))
-  {
-    for (var i=0, a=vCols.split(","), l=a.length; i<l; i++) {
-      this.addCol(a[i]);
-    };
-  };  
-};
+/*!
+  Cell padding top of all cells, if not locally defined
+*/
+QxGridLayout.addProperty({ name : "cellPaddingTop", type : QxConst.TYPEOF_NUMBER });
+
+/*!
+  Cell padding right of all cells, if not locally defined
+*/
+QxGridLayout.addProperty({ name : "cellPaddingRight", type : QxConst.TYPEOF_NUMBER });
+
+/*!
+  Cell padding bottom of all cells, if not locally defined
+*/
+QxGridLayout.addProperty({ name : "cellPaddingBottom", type : QxConst.TYPEOF_NUMBER });
+
+/*!
+  Cell padding left of all cells, if not locally defined
+*/
+QxGridLayout.addProperty({ name : "cellPaddingLeft", type : QxConst.TYPEOF_NUMBER });
+
+
 
 
 
 
 /*
-------------------------------------------------------------------------------------
-  ROW/COL UTILITIES
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  INIT LAYOUT IMPL
+---------------------------------------------------------------------------
 */
 
-proto._anyColSum = 0;
-proto._anyRowSum = 0;
-
-proto._computeAnyWeight = function(vValue) {
-  return parseFloat(vValue.substring(1, vValue.length)) || 1;
+/*!
+  This creates an new instance of the layout impl this widget uses
+*/
+proto._createLayoutImpl = function() {
+  return new QxGridLayoutImpl(this);
 };
 
-proto.addRow = function(vHeight)
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  CORE FUNCTIONS
+---------------------------------------------------------------------------
+*/
+
+proto.add = function(vChild, vCol, vRow)
 {
-  var vPos = this._rowHeights.length + 1;  
-  var vComputed, vType, vAnyWeight;
-  
-  switch(typeof vHeight)
+  vChild._col = vCol;
+  vChild._row = vRow;
+
+  if (this.isFillCell(vCol, vRow)) {
+    throw new Error("Could not insert child " + vChild + " into a fill cell: " + vCol + "x" + vRow);
+  };
+
+  QxParent.prototype.add.call(this, vChild);
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyLayout = function(propValue, propOldValue, propData)
+{
+  // invalidate inner preferred dimensions
+  this._invalidatePreferredInnerDimensions();
+
+  return true;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  GRID SETUP
+---------------------------------------------------------------------------
+*/
+
+proto._syncDataFields = function(vData, vOldLength, vNewLength)
+{
+  if (vNewLength > vOldLength)
   {
-    case "number":
-      vComputed = vHeight;
-      vType = "static";
-      break;
-      
-    case "string":
-      if (vHeight == "auto")
-      {
-        vType = "auto";
-        vComputed = this._computeAutoRowHeight(vPos, vHeight);
-        break;
-      }
-      else if (vHeight.indexOf("*") == 0)
-      {
-        vType = "any";
-        this._anyRowSum += this._computeAnyWeight(vHeight);
-        vComputed = this._computeAnyRowHeight(vPos, vHeight);
-        break;
-      }
-      else if (vHeight.indexOf("%") == (vHeight.length-1))
-      {
-        vType = "percent";
-        vComputed = this._computePercentRowHeight(vPos, vHeight);
-        break;
-      };
-      
-      var vTemp = parseInt(vHeight);
-      if (!isNaN(vTemp))
-      {
-        vComputed = vTemp;
-        vType = "static";        
-        break;
-      };
-      
-    default:
-      throw new Error("Unsupported Row Type: " + vHeight);
-  };
-  
-  this._rowHeights.push(vHeight);  
-  this._rowCount = this._rowHeights.length;
-  
-  if (isValidString(vType)) {
-    this._computedRowTypes.push(vType);
-  };
-  
-  if (isValidNumber(vComputed)) {
-    this._computedRowHeights.push(vComputed);
-  };
-  
-  if (this.getShowVirtualCells())
-  {
-    for (var i=0, l=this.getColCount(); i<l; i++) {
-      this._virtualCells.push(document.createElement("div"));    
+    for (var i=vOldLength; i<vNewLength; i++) {
+      vData[i] = {};
     };
+  }
+  else if (vOldLength > vNewLength)
+  {
+    vData.splice(vNewLength, vOldLength - vNewLength);
   };
 };
 
-proto.addCol = function(vWidth)
-{
-  var vPos = this._colWidths.length + 1;  
-  var vComputed, vType;
-  
-  switch(typeof vWidth)
-  {
-    case "number":
-      vComputed = vWidth;
-      vType = "static";
-      break;
-      
-    case "string":
-      if (vWidth == "auto")
-      {
-        vType = "auto";
-        vComputed = this._computeAutoColWidth(vPos, vWidth);
-        break;
-      }
-      else if (vWidth.indexOf("*") == 0)
-      {
-        vType = "any";
-        this._anyColSum += this._computeAnyWeight(vWidth);
-        vComputed = this._computeAnyColWidth(vPos, vWidth);
-        break;
-      }
-      else if (vWidth.indexOf("%") == (vWidth.length-1))
-      {
-        vType = "percent";
-        vComputed = this._computePercentColWidth(vPos, vWidth);
-        break;
-      };
-      
-      var vTemp = parseInt(vWidth);
-      if (!isNaN(vTemp))
-      {
-        vComputed = vTemp;
-        vType = "static";        
-        break;
-      };
-            
-    default:
-      throw new Error("Unsupported Col Type: " + vWidth);
-  };
-  
-  this._colWidths.push(vWidth);
-  this._colCount = this._colWidths.length;
-  
-  if (isValidString(vType)) {
-    this._computedColTypes.push(vType);
-  };
-  
-  if (isValidNumber(vComputed)) {
-    this._computedColWidths.push(vComputed);
-  };
 
-  if (this.getShowVirtualCells())
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  GRID SETUP: COLUMNS
+---------------------------------------------------------------------------
+*/
+
+proto._columnCount = 0;
+
+proto.setColumnCount = function(vCount)
+{
+  this._columnCount = vCount;
+  this._syncColumnDataFields();
+};
+
+proto.getColumnCount = function() {
+  return this._columnCount;
+};
+
+proto.addColumn = function()
+{
+  this._columnCount++;
+  this._syncColumnDataFields();
+};
+
+proto.removeColumn = function()
+{
+  if (this._columnCount > 0)
   {
-    // mhh, does this work?  
-    for (var i=0, l=this.getRowCount(); i<l; i++) {
-      this._virtualCells.insertAt(document.createElement("div"), i*this._colCount);
-    };  
+    this._columnCount--;
+    this._syncColumnDataFields();
   };
+};
+
+proto._syncColumnDataFields = function()
+{
+  var vData = this._columnData;
+  var vOldLength = vData.length;
+  var vNewLength = this._columnCount;
+
+  this._syncDataFields(vData, vOldLength, vNewLength);
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  GRID SETUP: ROWS
+---------------------------------------------------------------------------
+*/
+
+proto._rowCount = 0;
+
+proto.setRowCount = function(vCount)
+{
+  this._rowCount = vCount;
+  this._syncRowDataFields();
 };
 
 proto.getRowCount = function() {
   return this._rowCount;
 };
 
-proto.getColCount = function() {
-  return this._colCount;
+proto.addRow = function()
+{
+  this._rowCount++;
+  this._syncRowDataFields();
+};
+
+proto.removeRow = function()
+{
+  if (this._rowCount > 0)
+  {
+    this._rowCount--;
+    this._syncRowDataFields();
+  };
+};
+
+proto._syncRowDataFields = function()
+{
+  var vData = this._rowData;
+  var vOldLength = vData.length;
+  var vNewLength = this._rowCount;
+
+  this._syncDataFields(vData, vOldLength, vNewLength);
 };
 
 
@@ -302,592 +276,571 @@ proto.getColCount = function() {
 
 
 /*
-------------------------------------------------------------------------------------
-  LAYOUT
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DATA HANDLING: COLUMNS
+---------------------------------------------------------------------------
 */
 
-proto._layoutHorizontalInitialDone = false;
-
-proto._layoutInternalWidgetsHorizontal = function(vHint, vModifiedChild)
+proto._getColumnProperty = function(vColumnIndex, vProperty)
 {
-  if (!this._layoutHorizontalInitialDone) {
-    vHint = "initial";
-  };
-  
-  var vCol;
-  
-  switch(vHint)
+  try
   {
-    case "initial":
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
-        this._layoutHorizontal(chc);
-      };
-      break;
-
-
-    case "load":
-    case "size":
-    case "load":  
-    case "size":
-      if (!vModifiedChild) {
-        break;
-      };
-      
-      this._updateAutoCols(vModifiedChild);
-
-     
-    case "append-child-light":
-    case "remove-child-light":
-      var vMatchCol = vModifiedChild.getLayoutHint().col;
-      
-      var vLayoutHint;
-      var vCol;
-      
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vLayoutHint = chc.getLayoutHint();
-        vCol = vLayoutHint.col;
-        
-        if (vCol >= vMatchCol || (vCol < vMatchCol && (vLayoutHint.colspan + vCol) >= vMatchCol))
-        {
-          this._layoutHorizontal(chc);     
-        };
-      };
-
-      break;    
-      
-      
-    case "append-child":
-      var vChange = false;
-      
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vCol = chc.getLayoutHint().col;
-        
-        if (vChange)
-        {
-          this._layoutHorizontal(chc);
-        }
-        else
-        {
-          switch(this._computedColTypes[vCol-1])
-          {
-            case "auto":
-              this._layoutHorizontal(chc);
-              vChange = true;
-              break;
-          };          
-        };
-      };
-      
-      break;      
-    
-    case "inner-width":
-      var vChange = false;
-      var vLayoutHint, vColSpan;
-      
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vLayoutHint = chc.getLayoutHint();
-        vCol = vLayoutHint.col;
-        
-        if (vChange)
-        {
-          this._layoutHorizontal(chc);
-        }
-        else
-        {
-          switch(this._computedColTypes[vCol-1])
-          {
-            case "percent":
-            case "any":
-              this._layoutHorizontal(chc);
-              vChange = true;
-              break;
-              
-              
-            default:
-              // Detection for childs which uses rowspan and
-              // override their starting cell and so could have
-              // a cell in their rowspan which type is percent or any
-              vColSpan = vLayoutHint.colspan;
-              
-              for (var j=1; j<vColSpan; j++)
-              {
-                switch(this._computedColTypes[vCol-1+j])
-                {
-                  case "percent":
-                  case "any":
-                    this._layoutHorizontal(chc);
-                    vChange = true;
-                    break;             
-                };
-              };              
-          };
-        };        
-      };
-      
-      break;
+    return this._columnData[vColumnIndex][vProperty] || null;
+  }
+  catch(ex)
+  {
+    this.error("Error while getting column property (" + vColumnIndex + "|" + vProperty + "): " + ex, "_getColumnProperty");
+    return null;
   };
-  
-  this._layoutHorizontalInitialDone = true;
 };
 
-
-
-
-proto._layoutVerticalInitialDone = false;
-
-proto._layoutInternalWidgetsVertical = function(vHint, vModifiedChild)
+proto._setupColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
-  if (!this._layoutVerticalInitialDone) {
-    vHint = "initial";
-  };
-  
-  var vRow;
-  
-  switch(vHint)
-  {
-    case "initial":
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i]) {
-        this._layoutVertical(chc);
-      };
-      break;
-    
-    case "load":  
-    case "size":
-      if (!vModifiedChild) {
-        break;
-      };
-      
-      this._updateAutoRows(vModifiedChild);
-
-    case "append-child-light":
-    case "remove-child-light":
-      var vMatchRow = vModifiedChild.getLayoutHint().row;
-      
-      var vLayoutHint;
-      var vRow;
-      
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vLayoutHint = chc.getLayoutHint();
-        vRow = vLayoutHint.row;
-        
-        if (vRow >= vMatchRow || (vRow < vMatchRow && (vLayoutHint.rowspan + vRow) >= vMatchRow))
-        {
-          this._layoutVertical(chc);     
-        };
-      };
-      
-      break;
-      
-      
-    case "append-child":
-      var vChange = false;
-    
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vRow = chc.getLayoutHint().row;
-        
-        if (vChange)
-        {
-          this._layoutVertical(chc);
-        }
-        else
-        {
-          switch(this._computedRowTypes[vRow-1])
-          {
-            case "auto":
-              this._layoutVertical(chc);
-              vChange = true;
-              break;
-          };          
-        };
-      };
-      
-      break;
-    
-    case "inner-height":
-      var vChange = false;
-      var vLayoutHint, vRowSpan;
-    
-      for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-      {
-        vLayoutHint = chc.getLayoutHint();
-        vRow = vLayoutHint.row;
-        
-        if (vChange)
-        {
-          this._layoutVertical(chc);
-        }
-        else
-        {
-          switch(this._computedRowTypes[vRow-1])
-          {
-            case "percent":
-            case "any":
-              this._layoutVertical(chc);
-              vChange = true;
-              break;
-              
-            default:
-              // Detection for childs which uses rowspan and
-              // override their starting cell and so could have
-              // a cell in their rowspan which type is percent or any
-              vRowSpan = vLayoutHint.rowspan;
-              
-              for (var j=1; j<vRowSpan; j++)
-              {
-                switch(this._computedRowTypes[vRow-1+j])
-                {
-                  case "percent":
-                  case "any":
-                    this._layoutVertical(chc);
-                    vChange = true;
-                    break;             
-                };
-              };
-          };          
-        };
-      };
-      
-      break;
-  };
-  
-  this._layoutVerticalInitialDone = true;
+  this._columnData[vColumnIndex][vProperty] = vValue;
+  this._invalidateColumnLayout();
 };
 
-
-
-
-
-
-
-
-proto._layoutHorizontal = function(vWidget)
+proto._removeColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
-  if (!vWidget.isCreated()) {
+  delete this._columnData[vColumnIndex][vProperty];
+  this._invalidateColumnLayout();
+};
+
+proto._invalidateColumnLayout = function()
+{
+  if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
   };
-  
-  var vHint = vWidget.getLayoutHint();
-  
-  var vRow = vHint.row-1;
-  var vCol = vHint.col-1;
-  
-  var vColSpan = vHint.colspan;
-  
-  var vColCount = this.getColCount();  
-  var vLeft = this.getPaddingLeft();
-  var vWidth = 0;
-  
-  
-  /* ------------------------------
-     Calculate Position & Size
-  ------------------------------ */ 
-  for (var i=0; i<vCol; i++) {
-    vLeft += this._computedColWidths[i];
-  };
-  
-  for (var j=0; j<vColSpan; j++) {
-    vWidth += this._computedColWidths[i+j];
-  };
-  
-  var vAvailableWidth = vWidth - vHint.paddingLeft - vHint.paddingRight;
-  
-  
- 
-  /* ------------------------------
-     Apply clip
-  ------------------------------ */  
-  var vClip = vWidget.getClip();
-  if (vClip)
-  {
-    vClip[1] = vAvailableWidth;
-    vWidget.forceClip(null);
-    vWidget.setClip(vClip);
-  }
-  else
-  {
-    vWidget.setClip([0, vAvailableWidth, 0, 0])  
-  };
-  
-  
-  /* ------------------------------
-     Virtual Cell Support
-  ------------------------------ */  
-  if (this.getShowVirtualCells())
-  {
-    var vCell = this._virtualCells[(vRow*vColCount) + vCol];
-    var vCellStyle = vCell.style;
-    
-    vCellStyle.position = "absolute";
-    vCellStyle.border = "1px solid #4D79FF";
-    vCellStyle.left = vLeft + "px";
-    vCellStyle.width = vWidth + "px";
-    vCellStyle.zIndex = "-1";
-  
-    if (!vCellStyle.parentNode) {
-      this.getElement().appendChild(vCell);
-    };
-  };
-  
 
-  /* ------------------------------
-     Alignment support
-  ------------------------------ */
-  switch(vWidget.getHorizontalAlign())
-  {
-    case "center":
-      vLeft += Math.max((vAvailableWidth - vWidget.getAnyWidth()) / 2, 0);
-      break;
-      
-    case "right":
-      vLeft += Math.max(vAvailableWidth - vWidget.getAnyWidth(), 0);
-      break;
-  };    
-  
-
-  /* ------------------------------
-     Apply position
-  ------------------------------ */  
-  vWidget._applyPositionHorizontal(vLeft + vHint.paddingLeft);  
-  
-  
-  /* ------------------------------
-     Apply size
-  ------------------------------ */    
-  if (vHint.scaleHorizontal) {
-    vWidget._applySizeHorizontal(vAvailableWidth);    
-  };  
+  this.forEachVisibleChild(function() {
+    this.addToQueue(QxConst.PROPERTY_WIDTH);
+  });
 };
 
-proto._layoutVertical = function(vWidget)
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DATA HANDLING: ROWS
+---------------------------------------------------------------------------
+*/
+
+proto._getRowProperty = function(vRowIndex, vProperty)
 {
-  if (!vWidget.isCreated()) {
+  try
+  {
+    return this._rowData[vRowIndex][vProperty] || null;
+  }
+  catch(ex)
+  {
+    this.error("Error while getting row property (" + vRowIndex + "|" + vProperty + "): " + ex, "_getRowProperty");
+    return null;
+  };
+};
+
+proto._setupRowProperty = function(vRowIndex, vProperty, vValue)
+{
+  this._rowData[vRowIndex][vProperty] = vValue;
+  this._invalidateRowLayout();
+};
+
+proto._removeRowProperty = function(vRowIndex, vProperty, vValue)
+{
+  delete this._rowData[vRowIndex][vProperty];
+  this._invalidateRowLayout();
+};
+
+proto._invalidateRowLayout = function()
+{
+  if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
   };
-  
-  var vHint = vWidget.getLayoutHint();
-  
-  var vRow = vHint.row-1;
-  var vCol = vHint.col-1;
-  
-  var vRowSpan = vHint.rowspan;
-  
-  var vColCount = this.getColCount();  
-  var vTop = this.getPaddingTop();
-  var vHeight = 0;
+
+  this.forEachVisibleChild(function() {
+    this.addToQueue(QxConst.PROPERTY_HEIGHT);
+  });
+};
 
 
-  /* ------------------------------
-     Calculate Position & Size
-  ------------------------------ */  
-  for (var i=0; i<vRow; i++) {
-    vTop += this._computedRowHeights[i];
-  };
-  
-  for (var j=0; j<vRowSpan; j++) {
-    vHeight += this._computedRowHeights[i+j];
-  };
-  
-  var vAvailableHeight = vHeight - vHint.paddingTop - vHint.paddingBottom;
-  
 
-  /* ------------------------------
-     Apply clip
-  ------------------------------ */  
-  var vClip = vWidget.getClip();
-  if (vClip)
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES: CELL DIMENSIONS
+---------------------------------------------------------------------------
+*/
+
+// SETTER
+
+proto.setColumnWidth = function(vIndex, vValue)
+{
+  this._setupColumnProperty(vIndex, "widthValue", vValue);
+
+  var vType = QxWidget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+
+  this._setupColumnProperty(vIndex, "widthType", vType);
+
+  var vParsed, vComputed;
+
+  switch(vType)
   {
-    vClip[2] = vAvailableHeight;
-    vWidget.forceClip(null);
-    vWidget.setClip(vClip);
-  }
-  else
-  {
-    vWidget.setClip([0, 0, vAvailableHeight, 0])  
-  };
-  
+    case QxWidget.TYPE_PIXEL:
+      vParsed = vComputed = Math.round(vValue);
+      break;
 
-  /* ------------------------------
-     Virtual Cell Support
-  ------------------------------ */  
-  if (this.getShowVirtualCells())
+    case QxWidget.TYPE_PERCENT:
+    case QxWidget.TYPE_FLEX:
+      vParsed = parseFloat(vValue);
+      vComputed = null;
+      break;
+
+    case QxWidget.TYPE_AUTO:
+      vParsed = vComputed = null;
+      break;
+
+    default:
+      vParsed = vComputed = null;
+  };
+
+  this._setupColumnProperty(vIndex, "widthParsed", vParsed);
+  this._setupColumnProperty(vIndex, "widthComputed", vComputed);
+};
+
+proto.setRowHeight = function(vIndex, vValue)
+{
+  this._setupRowProperty(vIndex, "heightValue", vValue);
+
+  var vType = QxWidget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+  this._setupRowProperty(vIndex, "heightType", vType);
+
+  var vParsed, vComputed;
+
+  switch(vType)
   {
-    var vCell = this._virtualCells[(vRow*vColCount) + vCol];
-    var vCellStyle = vCell.style;
-    
-    vCellStyle.position = "absolute";
-    vCellStyle.border = "1px solid #4D79FF";
-    vCellStyle.top = vTop + "px";
-    vCellStyle.height = vHeight + "px";
-    vCellStyle.zIndex = "-1";
-    
-    if (!vCellStyle.parentNode) {
-      this.getElement().appendChild(vCell);
+    case QxWidget.TYPE_PIXEL:
+      vParsed = vComputed = Math.round(vValue);
+      break;
+
+    case QxWidget.TYPE_PERCENT:
+    case QxWidget.TYPE_FLEX:
+      vParsed = parseFloat(vValue);
+      vComputed = null;
+      break;
+
+    case QxWidget.TYPE_AUTO:
+      vParsed = vComputed = null;
+      break;
+
+    default:
+      vParsed = vComputed = null;
+  };
+
+  this._setupRowProperty(vIndex, "heightParsed", vParsed);
+  this._setupRowProperty(vIndex, "heightComputed", vComputed);
+};
+
+
+
+// GETTER: BOX
+
+proto.getColumnBoxWidth = function(vIndex)
+{
+  var vComputed = this._getColumnProperty(vIndex, "widthComputed");
+
+  if (vComputed != null) {
+    return vComputed;
+  };
+
+  var vType = this._getColumnProperty(vIndex, "widthType");
+  var vParsed = this._getColumnProperty(vIndex, "widthParsed");
+  var vComputed = null;
+
+  switch(vType)
+  {
+    case QxWidget.TYPE_PIXEL:
+      vComputed = Math.max(0, vParsed);
+      break;
+
+    case QxWidget.TYPE_PERCENT:
+      vComputed = this.getInnerWidth() * Math.max(0, vParsed) * 0.01;
+      break;
+
+    case QxWidget.TYPE_AUTO:
+      // TODO
+      vComputed = null;
+      break;
+
+    case QxWidget.TYPE_FLEX:
+      // TODO
+      vComputed = null;
+      break;
+  };
+
+  this._setupColumnProperty(vIndex, "widthComputed", vComputed);
+  return vComputed;
+};
+
+proto.getRowBoxHeight = function(vIndex)
+{
+  var vComputed = this._getRowProperty(vIndex, "heightComputed");
+
+  if (vComputed != null) {
+    return vComputed;
+  };
+
+  var vType = this._getRowProperty(vIndex, "heightType");
+  var vParsed = this._getRowProperty(vIndex, "heightParsed");
+  var vComputed = null;
+
+  switch(vType)
+  {
+    case QxWidget.TYPE_PIXEL:
+      vComputed = Math.max(0, vParsed);
+      break;
+
+    case QxWidget.TYPE_PERCENT:
+      vComputed = this.getInnerHeight() * Math.max(0, vParsed) * 0.01;
+      break;
+
+    case QxWidget.TYPE_AUTO:
+      // TODO
+      vComputed = null;
+      break;
+
+    case QxWidget.TYPE_FLEX:
+      // TODO
+      vComputed = null;
+      break;
+  };
+
+  this._setupRowProperty(vIndex, "heightComputed", vComputed);
+  return vComputed;
+};
+
+
+// GETTER: PADDING
+
+proto.getComputedCellPaddingLeft = function(vCol, vRow) {
+  return this.getColumnPaddingLeft(vCol) || this.getRowPaddingLeft(vRow) || this.getCellPaddingLeft() || 0;
+};
+
+proto.getComputedCellPaddingRight = function(vCol, vRow) {
+  return this.getColumnPaddingRight(vCol) || this.getRowPaddingRight(vRow) || this.getCellPaddingRight() || 0;
+};
+
+proto.getComputedCellPaddingTop = function(vCol, vRow) {
+  return this.getRowPaddingTop(vRow) || this.getColumnPaddingTop(vCol) || this.getCellPaddingTop() || 0;
+};
+
+proto.getComputedCellPaddingBottom = function(vCol, vRow) {
+  return this.getRowPaddingBottom(vRow) || this.getColumnPaddingBottom(vCol) || this.getCellPaddingBottom() || 0;
+};
+
+
+// GETTER: INNER
+
+proto.getColumnInnerWidth = function(vCol, vRow) {
+  return this.getColumnBoxWidth(vCol) - this.getComputedCellPaddingLeft(vCol, vRow) - this.getComputedCellPaddingRight(vCol, vRow);
+};
+
+proto.getRowInnerHeight = function(vCol, vRow) {
+  return this.getRowBoxHeight(vRow) - this.getComputedCellPaddingTop(vCol, vRow) - this.getComputedCellPaddingBottom(vCol, vRow);
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES: CELL ALIGNMENT
+---------------------------------------------------------------------------
+*/
+
+// SETTER
+
+proto.setColumnHorizontalAlignment = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "horizontalAlignment", vValue);
+};
+
+proto.setColumnVerticalAlignment = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "verticalAlignment", vValue);
+};
+
+proto.setRowHorizontalAlignment = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "horizontalAlignment", vValue);
+};
+
+proto.setRowVerticalAlignment = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "verticalAlignment", vValue);
+};
+
+
+
+// GETTER
+
+proto.getColumnHorizontalAlignment = function(vIndex) {
+  return this._getColumnProperty(vIndex, "horizontalAlignment");
+};
+
+proto.getColumnVerticalAlignment = function(vIndex) {
+  return this._getColumnProperty(vIndex, "verticalAlignment");
+};
+
+proto.getRowHorizontalAlignment = function(vIndex) {
+  return this._getRowProperty(vIndex, "horizontalAlignment");
+};
+
+proto.getRowVerticalAlignment = function(vIndex) {
+  return this._getRowProperty(vIndex, "verticalAlignment");
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES: CELL PADDING
+---------------------------------------------------------------------------
+*/
+
+// SETTER
+
+proto.setColumnPaddingTop = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "paddingTop", vValue);
+};
+
+proto.setColumnPaddingRight = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "paddingRight", vValue);
+};
+
+proto.setColumnPaddingBottom = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "paddingBottom", vValue);
+};
+
+proto.setColumnPaddingLeft = function(vIndex, vValue) {
+  this._setupColumnProperty(vIndex, "paddingLeft", vValue);
+};
+
+proto.setRowPaddingTop = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "paddingTop", vValue);
+};
+
+proto.setRowPaddingRight = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "paddingRight", vValue);
+};
+
+proto.setRowPaddingBottom = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "paddingBottom", vValue);
+};
+
+proto.setRowPaddingLeft = function(vIndex, vValue) {
+  this._setupRowProperty(vIndex, "paddingLeft", vValue);
+};
+
+
+
+// GETTER
+
+proto.getColumnPaddingTop = function(vIndex) {
+  return this._getColumnProperty(vIndex, "paddingTop");
+};
+
+proto.getColumnPaddingRight = function(vIndex) {
+  return this._getColumnProperty(vIndex, "paddingRight");
+};
+
+proto.getColumnPaddingBottom = function(vIndex) {
+  return this._getColumnProperty(vIndex, "paddingBottom");
+};
+
+proto.getColumnPaddingLeft = function(vIndex) {
+  return this._getColumnProperty(vIndex, "paddingLeft");
+};
+
+proto.getRowPaddingTop = function(vIndex) {
+  return this._getRowProperty(vIndex, "paddingTop");
+};
+
+proto.getRowPaddingRight = function(vIndex) {
+  return this._getRowProperty(vIndex, "paddingRight");
+};
+
+proto.getRowPaddingBottom = function(vIndex) {
+  return this._getRowProperty(vIndex, "paddingBottom");
+};
+
+proto.getRowPaddingLeft = function(vIndex) {
+  return this._getRowProperty(vIndex, "paddingLeft");
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIMENSION CACHE
+---------------------------------------------------------------------------
+*/
+
+proto._changeInnerWidth = function(vNew, vOld)
+{
+  for (var i=0, l=this.getColumnCount(); i<l; i++) {
+    if (this._getColumnProperty(i, "widthType") == QxWidget.TYPE_PERCENT) {
+      this._setupColumnProperty(i, "widthComputed", null);
     };
   };
-  
 
-  /* ------------------------------
-     Alignment support
-  ------------------------------ */
-  switch(vWidget.getVerticalAlign())
-  {
-    case "middle":
-      vTop += Math.max((vAvailableHeight - vWidget.getAnyHeight()) / 2, 0);
-      break;
-      
-    case "bottom":
-      vTop += Math.max(vAvailableHeight - vWidget.getAnyHeight(), 0);
-      break;
-  };  
-  
-  //this.debug("AVAIL: " + vAvailableHeight + " :: " + vWidget.getAnyHeight());
-
-  
-  /* ------------------------------
-     Apply position
-  ------------------------------ */
-  vWidget._applyPositionVertical(vTop + vHint.paddingTop);  
-  
-  
-  /* ------------------------------
-     Apply size
-  ------------------------------ */    
-  if (vHint.scaleVertical) {
-    vWidget._applySizeVertical(vAvailableHeight);    
-  };    
+  QxParent.prototype._changeInnerWidth.call(this, vNew, vOld);
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-proto._updatePercentCols = function()
+proto._changeInnerHeight = function(vNew, vOld)
 {
-  var vColCount = this.getColCount();
-  
-  for (var i=0; i<vColCount; i++) {
-    if (this._computedColTypes[i] == "percent") {
-      this._computedColWidths[i] = this._computePercentColWidth(i, this._colWidths[i]);
-    }; 
-  };  
-};
-
-proto._updatePercentRows = function()
-{
-  var vRowCount = this.getRowCount();
-  
-  for (var i=0; i<vRowCount; i++) {
-    if (this._computedRowTypes[i] == "percent") {
-      this._computedRowHeights[i] = this._computePercentRowHeight(i, this._rowHeights[i]);
-    }; 
-  };  
-};
-
-
-
-
-
-proto._updateAnyCols = function()
-{
-  var vColCount = this.getColCount();
-  var vRet = false;
-  var vNew;
-  
-  for (var i=0; i<vColCount; i++) 
-  {
-    if (this._computedColTypes[i] == "any") 
-    {
-      vNew = this._computeAnyColWidth(i, this._colWidths[i]);
-      
-      if (vNew != this._computedColWidths[i])
-      {
-        this._computedColWidths[i] = vNew;
-        vRet = true;
-      };
-    }; 
+  for (var i=0, l=this.getRowCount(); i<l; i++) {
+    if (this._getRowProperty(i, "heightType") == QxWidget.TYPE_PERCENT) {
+      this._setupRowProperty(i, "heightComputed", null);
+    };
   };
-  
-  return vRet;
+
+  QxParent.prototype._changeInnerHeight.call(this, vNew, vOld);
 };
 
-proto._updateAnyRows = function()
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIMENSION CACHE
+---------------------------------------------------------------------------
+*/
+
+proto.getInnerWidthForChild = function(vChild) {
+  return this._getColumnProperty(vChild._col, "widthComputed");
+};
+
+proto.getInnerHeightForChild = function(vChild) {
+  return this._getRowProperty(vChild._row, "heightComputed");
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SPAN CELLS
+---------------------------------------------------------------------------
+*/
+
+proto.mergeCells = function(vStartCol, vStartRow, vColLength, vRowLength)
 {
-  var vRowCount = this.getRowCount();
-  var vRet = false;
-  var vNew;  
-  
-  for (var i=0; i<vRowCount; i++) 
+  var vSpans = this._spans;
+  var vLength = vSpans.length;
+
+  // Find end cols/rows
+  var vEndCol = vStartCol + vColLength - 1;
+  var vEndRow = vStartRow + vRowLength - 1;
+
+  if (this._collidesWithSpans(vStartCol, vStartRow, vEndCol, vEndRow))
   {
-    if (this._computedRowTypes[i] == "any") 
-    {
-      vNew = this._computeAnyRowHeight(i, this._rowHeights[i]);
-      
-      if (vNew != this._computedRowHeights[i])
-      {
-        this._computedRowHeights[i] = vNew;
-        vRet = true;
-      };
-    }; 
-  };  
-  
-  return vRet;
+    this.debug("Span collision detected!");
+
+    // Send out warning
+    return false;
+  };
+
+  // Finally store new span entry
+  vSpans.push({ startCol : vStartCol, startRow : vStartRow, endCol : vEndCol, endRow : vEndRow, colLength : vColLength, rowLength : vRowLength });
+
+  // Send out ok
+  return true;
 };
 
+proto.hasSpans = function() {
+  return this._spans.length > 0;
+};
 
-
-
-
-proto._updateAutoRows = function(otherObject)
+proto.getSpanEntry = function(vCol, vRow)
 {
-  var vHint = otherObject.getLayoutHint();
-  var vRow = vHint.row;
-  
-  if (this._computedRowTypes[vRow-1] == "auto") 
-  {  
-    var vNew = this._computeAutoRowHeight(vRow);
-    
-    if (vNew != this._computedRowHeights[vRow-1])
-    {
-      this._computedRowHeights[vRow-1] = vNew;
+  for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
+  {
+    c = s[i];
+
+    if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow) {
+      return c;
+    };
+  };
+
+  return null;
+};
+
+proto.isSpanStart = function(vCol, vRow)
+{
+  for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
+  {
+    c = s[i];
+
+    if (c.startCol == vCol && c.startRow == vRow) {
       return true;
-    };     
+    };
   };
-  
+
   return false;
 };
 
-
-proto._updateAutoCols = function(otherObject)
+proto.isSpanCell = function(vCol, vRow)
 {
-  var vHint = otherObject.getLayoutHint();
-  var vCol = vHint.col;
-  
-  if (this._computedColTypes[vCol-1] == "auto") 
-  {  
-    var vNew = this._computeAutoColWidth(vCol);
-    
-    if (vNew != this._computedColWidths[vCol-1])
-    {
-      this._computedColWidths[vCol-1] = vNew;
+  for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
+  {
+    c = s[i];
+
+    if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow) {
       return true;
     };
   };
-  
+
+  return false;
+};
+
+proto.isFillCell = function(vCol, vRow)
+{
+  for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
+  {
+    c = s[i];
+
+    if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow && (vCol > c.startCol || vRow > c.startRow)) {
+      return true;
+    };
+  };
+
+  return false;
+};
+
+proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
+{
+  for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
+  {
+    c = s[i];
+
+    if (vEndCol >= c.startCol && vStartCol <= c.endCol && vEndRow >= c.startRow && vStartRow <= c.endRow ) {
+      return true;
+    };
+  };
+
   return false;
 };
 
@@ -897,254 +850,23 @@ proto._updateAutoCols = function(otherObject)
 
 
 
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
 
-proto._onnewchild = function(otherObject)
+proto.dispose = function()
 {
-  if (this._updateAutoRows(otherObject)) 
-  {
-    // Some overhead, but I have no better implementation idea yet.
-    if (this._updateAnyRows()) {
-      this._layoutInternalWidgetsVertical("inner-height");    
-    };
-
-    this._layoutInternalWidgetsVertical("append-child", otherObject);
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("append-child-light", otherObject);
+  if (this.getDisposed()) {
+    return;
   };
 
-  if (this._updateAutoCols(otherObject)) 
-  { 
-    // Some overhead, but I have no better implementation idea yet. 
-    if (this._updateAnyCols()) {
-      this._layoutInternalWidgetsHorizontal("inner-width");    
-    };
-    
-    this._layoutInternalWidgetsHorizontal("append-child", otherObject);
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("append-child-light", otherObject);
-  };
-};
 
-proto._onremovechild = function(otherObject)
-{
-  if (this._updateAutoRows(otherObject)) 
-  {
-    // Some overhead, but I have no better implementation idea yet.
-    if (this._updateAnyRows()) {
-      this._layoutInternalWidgetsVertical("inner-height");    
-    };
-    
-    this._layoutInternalWidgetsVertical("remove-child", otherObject);
-  }
-  else
-  {
-    this._layoutInternalWidgetsVertical("remove-child-light", otherObject);
-  };  
+  delete this._columnData;
+  delete this._rowData;
 
-  if (this._updateAutoCols(otherObject)) 
-  {  
-    // Some overhead, but I have no better implementation idea yet. 
-    if (this._updateAnyCols()) {
-      this._layoutInternalWidgetsHorizontal("inner-width");    
-    };
-    
-    this._layoutInternalWidgetsHorizontal("remove-child", otherObject);
-  }
-  else
-  {
-    this._layoutInternalWidgetsHorizontal("remove-child-light", otherObject);  
-  };  
-};
+  delete this._spans;
 
-
-
-
-
-
-
-
-proto._innerWidthChanged = function()
-{
-  // Invalidate internal cache
-  this._invalidateInnerWidth();
-  
-  // Update percent cols
-  this._updatePercentCols();
-  
-  // Update any cols
-  this._updateAnyCols();
-  
-  // Update placement of children
-  this._layoutInternalWidgetsHorizontal("inner-width");
-  
-  // Update children
-  var ch = this._children;
-  var chl = ch.length;
-
-  for (var i=0; i<chl; i++) {
-    ch[i]._renderHorizontal("parent");
-  };  
-};
-
-
-proto._innerHeightChanged = function()
-{
-  // Invalidate internal cache
-  this._invalidateInnerHeight();
-
-  // Update percent rows
-  this._updatePercentRows();
-  
-  // Update any rows
-  this._updateAnyRows();  
-
-  // Update placement of children
-  this._layoutInternalWidgetsVertical("inner-height");
-  
-  // Update children
-  var ch = this._children;
-  var chl = ch.length;
-
-  for (var i=0; i<chl; i++) {
-    ch[i]._renderVertical("parent");
-  };  
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-proto._computePercentRowHeight = function(vPos, vHeight)
-{
-  if (!this.isCreated()) {
-    return 0;
-  };
-  
-  vHeight = parseFloat(vHeight);
-  
-  if (isNaN(vHeight)) {
-    return 0;
-  };
-  
-  return Math.round(this.getInnerHeight() * vHeight / 100);
-};
-
-proto._computePercentColWidth = function(vPos, vWidth)
-{
-  if (!this.isCreated()) {
-    return 0;
-  };
-  
-  vWidth = parseFloat(vWidth);
-  
-  if (isNaN(vWidth)) {
-    return 0;
-  };
-  
-  return Math.round(this.getInnerWidth() * vWidth / 100);  
-};
-
-
-
-
-
-
-
-
-
-proto._computeAutoRowHeight = function(vPos)
-{
-  var vMaxHeight = 0;
-  var vHint;
-  
-  for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-  {  
-    vHint = chc.getLayoutHint();
-    
-    if (vHint.row == vPos) {
-      vMaxHeight = Math.max(chc.getAnyHeight() + vHint.paddingTop + vHint.paddingBottom, vMaxHeight);
-    };
-  };
-  
-  return vMaxHeight;
-};
-
-proto._computeAutoColWidth = function(vPos)
-{
-  var vMaxWidth = 0;
-  var vHint;
-  
-  for (var i=0, ch=this.getChildren(), chl=ch.length, chc=ch[0]; i<chl; i++, chc=ch[i])
-  {  
-    vHint = chc.getLayoutHint();
-    
-    if (vHint.col == vPos) {
-      vMaxWidth = Math.max(chc.getAnyWidth() + vHint.paddingLeft + vHint.paddingRight, vMaxWidth);
-    };
-  };
-  
-  return vMaxWidth;
-};
-
-
-
-
-
-
-
-proto._computeAnyRowHeight = function(vPos, vHeight)
-{
-  if (!this.isCreated()) {
-    return 0;
-  };
-
-  var innerHeight = this.getInnerHeight();
-  var rows = this._computedRowHeights;
-  var rowLength = rows.length;
-  var rowTypes = this._computedRowTypes;
-  var anyCount = 0;
-  
-  for (var i=0; i<rowLength; i++)
-  {
-    if (rowTypes[i] != "any") {
-      innerHeight -= rows[i];   
-    };
-  };
-  
-  return Math.max(0, Math.round(innerHeight / this._anyRowSum * this._computeAnyWeight(vHeight)));
-};
-
-
-proto._computeAnyColWidth = function(vPos, vWidth)
-{
-  if (!this.isCreated()) {
-    return 0;
-  };
-  
-  var innerWidth = this.getInnerWidth();
-  var cols = this._computedColWidths;
-  var colLength = cols.length;
-  var colTypes = this._computedColTypes;
-  var anyCount = 0;
-  
-  for (var i=0; i<colLength; i++)
-  {
-    if (colTypes[i] != "any") {
-      innerWidth -= cols[i];   
-    };
-  };
-  
-  return Math.max(0, Math.round(innerWidth / this._anyColSum * this._computeAnyWeight(vWidth)));
+  return QxParent.prototype.dispose.call(this);
 };

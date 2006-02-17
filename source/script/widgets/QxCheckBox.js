@@ -1,63 +1,108 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(form)
+#require(QxInputCheckIcon)
+
+************************************************************************ */
+
 function QxCheckBox(vText, vValue, vName, vChecked)
 {
   QxAtom.call(this, vText);
 
   this.setTabIndex(1);
+  this.setPadding(2, 3);
 
-  if (isValid(vValue)) {
+  this._createIcon();
+
+  if (QxUtil.isValidString(vValue)) {
     this.setValue(vValue);
   };
 
-  if (isValid(vName)) {
+  if (QxUtil.isValidString(vName)) {
     this.setName(vName);
   };
 
-  if (isValid(vChecked)) {
+  if (QxUtil.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
-  };  
-  
-  this.addEventListener("click", this._onclick);
-  this.addEventListener("keydown", this._onkeydown);
-  this.addEventListener("keyup", this._onkeyup);  
+  };
+
+  this.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
+  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
 QxCheckBox.extend(QxAtom, "QxCheckBox");
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
 */
 
 QxCheckBox.removeProperty({ name : "icon" });
 
-QxCheckBox.addProperty({ name : "name", type : String });
-QxCheckBox.addProperty({ name : "value", type : String });
-QxCheckBox.addProperty({ name : "checked", type : Boolean, defaultValue : false, getAlias : "isChecked" });
+/*!
+  The HTML name of the form element used by the widget
+*/
+QxCheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+
+/*!
+  The HTML value of the form element used by the widget
+*/
+QxCheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
+
+/*!
+  If the widget is checked
+*/
+QxCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+
+
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    ICON HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  ICON HANDLING
+---------------------------------------------------------------------------
 */
 
-proto._displayIcon = true;
-proto._modifyIcon = null;
+proto.INPUT_TYPE = "checkbox";
 
-proto._hasIcon = function() {
-  return true;
-};
-
-proto._pureCreateFillIcon = function()
+proto._createIcon = function()
 {
-  var i = this._iconObject = new QxInputCheckIcon();
-  
-  i.setType("checkbox");
+  var i = this._iconObject = new QxInputCheckIcon;
+
+  i.setType(this.INPUT_TYPE);
   i.setChecked(this.isChecked());
   i.setEnabled(this.isEnabled());
   i.setAnonymous(true);
-  i.setParent(this);  
+
+  this.addAtBegin(i);
 };
 
 
@@ -65,71 +110,88 @@ proto._pureCreateFillIcon = function()
 
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setChecked(propValue);
   };
-  
+
   return true;
 };
 
-/*!
-Fix Internet Explorer behaviour to prohibit checked state for non visible input fields.
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HANDLER
+---------------------------------------------------------------------------
 */
-if ((new QxClient).isMshtml())
+
+proto._handleIcon = function()
 {
-  proto._modifyVisible = function(propValue, propOldValue, propName, uniqModIds)
+  switch(this.getShow())
   {
-    QxWidget.prototype._modifyVisible.call(this, propValue, propOldValue, propName, uniqModIds);
-    
-    if (this._iconObject && propValue) {
-      this._iconObject.getElement().checked = this.getChecked();
-    };
-    
-    return true;
+    case QxAtom.SHOW_ICON:
+    case QxAtom.SHOW_BOTH:
+      this._iconIsVisible = true;
+      break;
+
+    default:
+      this._iconIsVisible = false;
+  };
+
+  if (this._iconIsVisible)
+  {
+    this._iconObject ? this._iconObject.setDisplay(true) : this._createIcon();
+  }
+  else if (this._iconObject)
+  {
+    this._iconObject.setDisplay(false);
   };
 };
 
 
 
+
 /*
-  -------------------------------------------------------------------------------
-    EVENT-HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT-HANDLER
+---------------------------------------------------------------------------
 */
 
-proto._onclick = function(e)
-{
-  var t = e.getDomTarget();
-  this.setChecked(t.tagName == "input" ? t.checked : !this.isChecked());
+proto._onclick = function(e) {
+  this.toggleChecked();
 };
 
 proto._onkeydown = function(e)
 {
   if(e.getKeyCode() == QxKeyEvent.keys.enter && !e.getAltKey()) {
-    this.setChecked(this._iconObject ? !this._iconObject.isChecked() : !this.isChecked());
+    this.toggleChecked();
   };
 };
 
 proto._onkeyup = function(e)
 {
   if(e.getKeyCode() == QxKeyEvent.keys.space) {
-    this.setChecked(this._iconObject ? !this._iconObject.isChecked() : !this.isChecked());
-  };  
-}; 
+    this.toggleChecked();
+  };
+};
+
+
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -138,9 +200,9 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener("click", this._onclick);
-  this.removeEventListener("keydown", this._onkeydown);
-  this.removeEventListener("keyup", this._onkeyup);
+  this.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
+  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 
   return QxAtom.prototype.dispose.call(this);
 };

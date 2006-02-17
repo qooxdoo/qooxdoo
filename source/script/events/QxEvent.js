@@ -1,132 +1,93 @@
-function QxEvent(eType, autoDispose)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(eventcore)
+
+************************************************************************ */
+
+/*!
+  The qooxdoo core event object. Each event object for QxTargets should extend this class.
+*/
+function QxEvent(vType)
 {
-  // if this object is not inherited and autoDispose is not explicitly
-  // set to 'true' use default fallback 'false' - this differs from
-  // the default behaviour of QxObject!
-  if (typeof autoDispose != "boolean" && this.classname == "QxEvent") {
-    autoDispose = false;
-  };
+  QxObject.call(this, false);
 
-  QxObject.call(this, autoDispose);
-
-  if (isValid(eType)) {
-    this._type = eType;
-  };
+  this.setType(vType);
 };
 
 QxEvent.extend(QxObject, "QxEvent");
 
-proto._bubbles = false;
-proto._propagationStopped = true;
-proto._defaultPrevented = false;
+QxEvent.addFastProperty({ name : "type", setOnlyOnce : true });
 
-proto._type = "";
+QxEvent.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
+QxEvent.addFastProperty({ name : "target", setOnlyOnce : true });
+QxEvent.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
+QxEvent.addFastProperty({ name : "currentTarget" });
 
-proto._target = null;
-proto._currentTarget = null;
-proto._relatedTarget = null;
+QxEvent.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
+QxEvent.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
+QxEvent.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
+
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    SETTER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  SHORTCUTS
+---------------------------------------------------------------------------
 */
 
-proto.setType = function(t) {
-  this._type = t;
-};
-
-proto.setBubbles = function(b) {
-  this._bubbles = b;
-};
-
-proto.setPropagationStopped = function(s) {
-  this._propagationStopped = s;
+proto.preventDefault = function() {
+  this.setDefaultPrevented(true);
 };
 
 proto.stopPropagation = function() {
-  this._propagationStopped = true;
+  this.setPropagationStopped(true);
 };
-
-proto.setPreventDefault = function(d) {
-  this._defaultPrevented = d;
-};
-
-proto.setTarget = function(t) {
-  this._target = t;
-};
-
-proto.setCurrentTarget = function(t) {
-  this._currentTarget = t;
-};
-
-proto.setRelatedTarget = function(t) {
-  this._relatedTarget = t;
-};
-
-proto.preventDefault = function() {
-  this.setPreventDefault(true);
-};
-
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    GETTER
-  -------------------------------------------------------------------------------
-*/
-
-proto.getType = function() {
-  return this._type;
-};
-
-proto.getBubbles = function() {
-  return this._bubbles;
-};
-
-proto.getPropagationStopped = function() {
-  return this._propagationStopped;
-};
-
-proto.getPreventDefault = function() {
-  return this._defaultPrevented;
-};
-
-proto.getTarget = function() {
-  return this._target;
-};
-
-proto.getCurrentTarget = function() {
-  return this._currentTarget;
-};
-
-proto.getRelatedTarget = function() {
-  return this._relatedTarget;
-};
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    DISPOSER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   };
 
-  this._target = null;
-  this._currentTarget = null;
-  this._relatedTarget = null;
+  this._valueOriginalTarget = null;
+  this._valueTarget = null;
+  this._valueRelatedTarget = null;
+  this._valueCurrentTarget = null;
 
-  QxObject.prototype.dispose.call(this);
+  return QxObject.prototype.dispose.call(this);
 };

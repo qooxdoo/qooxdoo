@@ -1,422 +1,256 @@
-function QxMouseEvent(vType, vDomEvent, vAutoDispose, vTarget, vActiveTarget, vRelatedTarget)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(eventcore)
+#post(QxMouseEventCore)
+
+************************************************************************ */
+
+/*!
+  A mouse event instance contains all data for each occured mouse event
+*/
+function QxMouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
 {
-  QxEvent.call(this, vType, vAutoDispose);
+  QxDomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
-  if (vDomEvent)
-  {
-    this._domEvent = vDomEvent;
-    this._domTarget = vDomEvent.target || vDomEvent.srcElement;
-
-    this._target = isValid(vTarget) ? vTarget : this._evalTarget();
-    this._activeTarget = isValid(vActiveTarget) ? vActiveTarget : this._evalActiveTarget();
-    this._relatedTarget = isValid(vRelatedTarget) ? vRelatedTarget : this._evalRelatedTarget();
-
-    this._pageX = this._evalPageX();
-    this._pageY = this._evalPageY();
-    this._clientX = this._evalClientX();
-    this._clientY = this._evalClientY();
-
-    switch(this._button = this._evalButton())
-    {
-      case "left":
-        this._buttonLeft = true;
-        break;
-
-      case "middle":
-        this._buttonMiddle = true;
-        break;
-
-      case "right":
-        this._buttonRight = true;
-        break;
-    };
+  if (vRelatedTarget) {
+    this.setRelatedTarget(vRelatedTarget);
   };
 };
 
-QxMouseEvent.extend(QxEvent, "QxMouseEvent");
+QxMouseEvent.extend(QxDomEvent, "QxMouseEvent");
 
 
-/*
-  -------------------------------------------------------------------------------
-    SETUP EVENT CHARACTER
-  -------------------------------------------------------------------------------
-*/
-
-proto._bubbles = true;
-proto._propagationStopped = false;
-proto._preventDefault = false;
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    DOM CONNECTION
-  -------------------------------------------------------------------------------
-*/
-
-proto._domEvent = null;
-proto._domTarget = null;
-
-proto.getDomEvent  = function() { return this._domEvent; };
-proto.getDomTarget = function() { return this._domTarget; };
 
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    PAGE COORDINATES SUPPORT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  SCREEN COORDINATES SUPPORT
+---------------------------------------------------------------------------
 */
 
-proto._pageX = null;
-proto._pageY = null;
+proto.getScreenX = function() {
+  return this.getDomEvent().screenX;
+};
 
-proto.getPageX = function() { return this._pageX; };
-proto.getPageY = function() { return this._pageY; };
+proto.getScreenY = function() {
+  return this.getDomEvent().screenY;
+};
 
-if ((new QxClient).isGecko())
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PAGE COORDINATES SUPPORT
+---------------------------------------------------------------------------
+*/
+
+if (QxClient.isMshtml())
 {
-  proto._evalPageX = function() {
-    return this._domEvent.pageX;
-  };
+  QxMouseEvent.addFastProperty({ name : "pageX", readOnly : true });
+  QxMouseEvent.addFastProperty({ name : "pageY", readOnly : true });
 
-  proto._evalPageY = function() {
-    return this._domEvent.pageY;
-  };
-}
-else if ((new QxClient).isMshtml())
-{
-  if (isInvalid(document.compatMode) || document.compatMode == "BackCompat")
+  if (QxUtil.isInvalid(document.compatMode) || document.compatMode == QxConst.INTERNAL_BACKCOMPAT)
   {
-    proto._evalPageX = function() {
-      return this._domEvent.clientX + document.documentElement.scrollLeft;
+    proto._computePageX = function() {
+      return this.getDomEvent().clientX + document.documentElement.scrollLeft;
     };
 
-    proto._evalPageY = function() {
-      return this._domEvent.clientY + document.documentElement.scrollTop;
+    proto._computePageY = function() {
+      return this.getDomEvent().clientY + document.documentElement.scrollTop;
     };
   }
   else
   {
-    proto._evalPageX = function() {
-      return this._domEvent.clientX + document.body.scrollLeft;
+    proto._computePageX = function() {
+      return this.getDomEvent().clientX + document.body.scrollLeft;
     };
 
-    proto._evalPageY = function() {
-      return this._domEvent.clientY + document.body.scrollTop;
+    proto._computePageY = function() {
+      return this.getDomEvent().clientY + document.body.scrollTop;
+    };
+  };
+}
+else if (QxClient.isGecko())
+{
+  proto.getPageX = function() {
+    return this.getDomEvent().pageX;
+  };
+
+  proto.getPageY = function() {
+    return this.getDomEvent().pageY;
+  };
+}
+else
+{
+  proto.getPageX = function() {
+    return this.getDomEvent().clientX;
+  };
+
+  proto.getPageY = function() {
+    return this.getDomEvent().clientY;
+  };
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  CLIENT COORDINATES SUPPORT
+---------------------------------------------------------------------------
+*/
+
+if (QxClient.isMshtml() || QxClient.isGecko())
+{
+  proto.getClientX = function() {
+    return this.getDomEvent().clientX;
+  };
+
+  proto.getClientY = function() {
+    return this.getDomEvent().clientY;
+  };
+}
+else
+{
+  QxMouseEvent.addFastProperty({ name : "clientX", readOnly : true });
+  QxMouseEvent.addFastProperty({ name : "clientY", readOnly : true });
+
+  proto._computeClientX = function() {
+    return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
+  };
+
+  proto._computeClientY = function() {
+    return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
+  };
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  BUTTON SUPPORT
+---------------------------------------------------------------------------
+*/
+
+QxMouseEvent.addFastProperty({ name : "button", readOnly : true });
+
+proto.isLeftButtonPressed = function() {
+  return this.getButton() === QxConst.BUTTON_LEFT;
+};
+
+proto.isMiddleButtonPressed = function() {
+  return this.getButton() === QxConst.BUTTON_MIDDLE;
+};
+
+proto.isRightButtonPressed = function() {
+  return this.getButton() === QxConst.BUTTON_RIGHT;
+};
+
+if (QxClient.isMshtml())
+{
+  proto._computeButton = function()
+  {
+    switch(this.getDomEvent().button)
+    {
+      case 1:
+        return QxConst.BUTTON_LEFT;
+
+      case 2:
+        return QxConst.BUTTON_RIGHT;
+
+      case 4:
+        return QxConst.BUTTON_MIDDLE;
+
+      default:
+        return QxConst.BUTTON_NONE;
     };
   };
 }
 else
 {
-  // in Konqueror, Opera and iCab, client? really contains the page? value
-  proto._evalPageX = function() { return this._domEvent.clientX; };
-  proto._evalPageY = function() { return this._domEvent.clientY; };
-};
-
-
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    CLIENT COORDINATES SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-proto._clientX = null;
-proto._clientY = null;
-
-proto.getClientX = function() { return this._clientX; };
-proto.getClientY = function() { return this._clientY; };
-
-if ((new QxClient).isMshtml() || (new QxClient).isGecko())
-{
-  proto._evalClientX = function() { return this._domEvent.clientX; };
-  proto._evalClientY = function() { return this._domEvent.clientY; };
-}
-else
-{
-  // in Konqueror, Opera and iCab, client? really contains the page? value
-  proto._evalClientX = function() { return this._domEvent.clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0); };
-  proto._evalClientY = function() { return this._domEvent.clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0); };
-};
-
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    SCREEN COORDINATES SUPPORT
-  -------------------------------------------------------------------------------
-*/
-proto.getScreenX = function() { return this._domEvent.screenX; };
-proto.getScreenY = function() { return this._domEvent.screenY; };
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    SPECIAL KEY SUPPORT
-  -------------------------------------------------------------------------------
-*/
-proto.getCtrlKey = function() { return this._domEvent.ctrlKey; };
-proto.getShiftKey = function() { return this._domEvent.shiftKey; };
-proto.getAltKey = function() { return this._domEvent.altKey; };
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    UTILITIES
-  -------------------------------------------------------------------------------
-*/
-
-/*!
-  Nice utility to get more detailed information from dom event target.
-*/
-proto.getDomTargetByTagName = function(elemTagName, stopElem)
-{
-  var dt = this.getDomTarget();
-
-  while(dt && dt.tagName != elemTagName && dt != stopElem) {
-    dt = dt.parentNode;
-  };
-
-  if (dt && dt.tagName == elemTagName) {
-    return dt;
-  };
-
-  return null;
-};
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    PREVENT DEFAULT SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-if((new QxClient).isMshtml())
-{
-  proto.preventDefault = function()
+  proto._computeButton = function()
   {
-    this._domEvent.returnValue = false;
-    this._defaultPrevented = true;
+    switch(this.getDomEvent().button)
+    {
+      case 0:
+        return QxConst.BUTTON_LEFT;
+
+      case 1:
+        return QxConst.BUTTON_MIDDLE;
+
+      case 2:
+        return QxConst.BUTTON_RIGHT;
+
+      default:
+        return QxConst.BUTTON_NONE;
+    };
+  };
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  WHEEL SUPPORT
+---------------------------------------------------------------------------
+*/
+
+QxMouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true });
+
+if(QxClient.isMshtml())
+{
+  proto._computeWheelDelta = function() {
+    return this.getDomEvent().wheelDelta ? this.getDomEvent().wheelDelta / 40 : 0;
   };
 }
 else
 {
-  proto.preventDefault = function()
-  {
-    this._domEvent.preventDefault();
-    this._domEvent.returnValue = false;
-    this._defaultPrevented = true;
+  proto._computeWheelDelta = function() {
+    return -(this.getDomEvent().detail || 0);
   };
 };
-
-proto.getDefaultPrevented = function() {
-  return this._defaultPrevented;
-};
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    TARGET SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-proto._target = proto._activeTarget = proto._relatedTarget = null;
-
-proto.getTarget = function() {
-  return this._target;
-};
-
-proto.getActiveTarget = function() {
-  return this._activeTarget;
-};
-
-proto.getRelatedTarget = function() {
-  return this._relatedTarget;
-};
-
-proto._evalTarget = function() {
-  return QxEventManager.getTargetObjectFromEvent(this._domEvent);
-};
-
-proto._evalActiveTarget = function() {
-  return QxEventManager.getActiveTargetObjectFromEvent(this._domEvent);
-};
-
-proto._evalRelatedTarget = function() {
-  return QxEventManager.getRelatedActiveTargetObjectFromEvent(this._domEvent);
-};
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    BUTTON SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-proto._button = 0;
-
-proto.getButton = function() {
-  return this._button;
-};
-
-proto.isLeftButton = function() {
-  return this._buttonLeft;
-};
-
-proto.isMiddleButton = function() {
-  return this._buttonMiddle;
-};
-
-proto.isRightButton = function() {
-  return this._buttonRight;
-};
-
-proto.isNotLeftButton = function() {
-  return !this._buttonLeft;
-};
-
-proto.isNotMiddleButton = function() {
-  return !this._buttonMiddle;
-};
-
-proto.isNotRightButton = function() {
-  return !this._buttonRight;
-};
-
-if ((new QxClient).isMshtml())
-{
-  proto._evalButton = function()
-  {
-    var b = this._domEvent.button;
-    return b == 1 ? "left" : b == 2 ? "right" : b == 4 ? "middle" : null;
-  };
-
-  QxMouseEvent.buttons = { left : 1, right : 2, middle : 4 };
-}
-else
-{
-  proto._evalButton = function()
-  {
-    var b = this._domEvent.button;
-    return b == 0 ? "left" : b == 2 ? "right" : b == 1 ? "middle" : null;
-  };
-
-  QxMouseEvent.buttons = { left : 0, right : 2, middle : 1 };
-};
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    WHEEL SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-proto._wheelDelta = 0;
-proto._wheelDeltaEvaluated = false;
-
-proto.getWheelDelta = function()
-{
-  if (this._wheelDeltaEvaluated) {
-    return this._wheelDelta;
-  };
-
-  this._wheelDeltaEvaluated = true;
-  return this._wheelDelta = this._evalWheelDelta();
-};
-
-if((new QxClient).isMshtml())
-{
-  proto._evalWheelDelta = function() {
-    return this._domEvent.wheelDelta ? this._domEvent.wheelDelta / 40 : 0;
-  };
-}
-else
-{
-  proto._evalWheelDelta = function() {
-    return -(this._domEvent.detail || 0);
-  };
-};
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    DISPOSER
-  -------------------------------------------------------------------------------
-*/
-proto.dispose = function()
-{
-  if(this.getDisposed()) {
-    return;
-  };
-
-  QxEvent.prototype.dispose.call(this);
-
-  this._domEvent = null;
-  this._domTarget = null;
-
-  this._target = null;
-  this._activeTarget = null;
-  this._relatedTarget = null;
-};
-
-
-
-
-
-
-
-/*
-  -------------------------------------------------------------------------------
-    LAST EVENT STORAGE SUPPORT
-  -------------------------------------------------------------------------------
-*/
-
-QxMouseEvent._screenX = QxMouseEvent._screenY = QxMouseEvent._clientX = QxMouseEvent._clientY = QxMouseEvent._pageX = QxMouseEvent._pageY = 0;
-QxMouseEvent._button = null;
-
-QxMouseEvent._storeEventState = function(e)
-{
-  QxMouseEvent._screenX = e.getScreenX();
-  QxMouseEvent._screenY = e.getScreenY();
-  QxMouseEvent._clientX = e.getClientX();
-  QxMouseEvent._clientY = e.getClientY();
-  QxMouseEvent._pageX   = e.getPageX();
-  QxMouseEvent._pageY   = e.getPageY();
-  QxMouseEvent._button  = e.getButton();
-};
-
-QxMouseEvent.getScreenX = function() { return QxMouseEvent._screenX; };
-QxMouseEvent.getScreenY = function() { return QxMouseEvent._screenY; };
-QxMouseEvent.getClientX = function() { return QxMouseEvent._clientX; };
-QxMouseEvent.getClientY = function() { return QxMouseEvent._clientY; };
-QxMouseEvent.getPageX   = function() { return QxMouseEvent._pageX;   };
-QxMouseEvent.getPageY   = function() { return QxMouseEvent._pageY;   };
-QxMouseEvent.getButton  = function() { return QxMouseEvent._button;  };

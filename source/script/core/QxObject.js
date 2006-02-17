@@ -1,63 +1,68 @@
-/* ********************************************************************
-   Class: QxObject
-******************************************************************** */
+/* ************************************************************************
 
-function QxObject(autoDispose)
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(core)
+#require(QxMain)
+#require(QxExtend)
+#require(QxConst)
+#require(QxUtil)
+#require(QxSettings)
+#post(QxClient)
+#post(QxObjectCore)
+
+************************************************************************ */
+
+/*!
+  The qooxdoo basic object. All qooxdoo classes extends this one
+*/
+function QxObject(vAutoDispose)
 {
-  this._pos = QxObject._counter++;
-  this._hash = "h" + String(Math.round(Math.random() * 1e6));
-  
-  this._data = {};
+  this._hashCode = QxObjectCounter++;
 
-  if (typeof autoDispose != "boolean" || autoDispose) {
-    QxObject._db.push(this);
+  if (vAutoDispose !== false) {
+    QxObjectDataBase.push(this);
   };
 };
 
 QxObject.extend(Object, "QxObject");
 
-QxObject._counter = 0;
-QxObject._siteCounter = 0;
-QxObject._db = [];
 
-QxObject.toHash = function(o)
-{
-  if(o._hash != null) {
-    return o._hash;
-  };
 
-  return o._hash = "h" + String(Math.round(Math.random() * 1e6));
-};
 
-QxObject.dispose = function()
-{
-  for (var i=QxObject._db.length-1; i>=0; i--)
-  {
-    if (typeof QxObject._db[i] != "undefined")
-    {
-      QxObject._db[i].dispose();
 
-      if (typeof QxObject._db == "undefined") {
-        break;
-      };
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
 
-      delete QxObject._db[i];
-    };
-  };
-
-  delete QxObject._db;
-};
-
-QxObject.addProperty({ name : "enabled", type : Boolean, defaultValue : true, getAlias : "isEnabled" });
-
-proto.debug = function(m) {
-  QxDebug(this.classname + "[" + this._pos + "]", m);
-};
-
-proto.subug = function(m) {
-  QxDebug(this.classname + "[" + this._pos + "]", ":: " + m);
-};
-
+/*!
+  Returns a string represantation of the qooxdoo object.
+*/
 proto.toString = function()
 {
   if(this.classname) {
@@ -67,34 +72,11 @@ proto.toString = function()
   return "[object Object]";
 };
 
-proto.toHash = function() {
-  return this._hash;
-};
-
-proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds) {
-  return true;
-};
-
-proto._disposed = false;
-
 /*!
-  Dispose this object
+  Return unique hash code of object
 */
-proto.dispose = function()
-{
-  if (this._disposed) {
-    return;
-  };
-
-  for( var p in this._data ) {
-    delete this._data[p];
-  };
-
-  delete this._data;
-
-  this._disposed = true;
-
-  delete QxObject._db[this._pos];
+proto.toHashCode = function() {
+  return this._hashCode;
 };
 
 /*!
@@ -111,28 +93,87 @@ proto.isDisposed = function() {
   return this._disposed;
 };
 
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEBUGGING INTERFACE
+---------------------------------------------------------------------------
+*/
+
 /*!
-Set multiple properties at once by using a property list
+  Print out a debug message to the qooxdoo debug console.
+*/
+proto.debug = function(m, c) {
+  QxDebug(this.classname + QxObject.DEBUG_MSG_BEFORE + this._hashCode + QxObject.DEBUG_MSG_AFTER, m, c);
+};
+
+/*!
+  Print out an info message info to the qooxdoo debug console.
+*/
+proto.info = function(m, c) {
+  this.debug(m, "info");
+};
+
+/*!
+  Print out an warning to the qooxdoo debug console.
+*/
+proto.warn = function(m, c) {
+  this.debug(m, "warning");
+};
+
+/*!
+  Print out an error to the qooxdoo debug console.
+*/
+proto.error = function(m, f)
+{
+  if (QxUtil.isValidString(f))
+  {
+    this.debug(QxObject.DEBUG_FUNCERRORPRE + f + QxObject.DEBUG_FUNCERRORPOST + m, QxConst.EVENT_TYPE_ERROR);
+  }
+  else
+  {
+    this.debug(m, QxConst.EVENT_TYPE_ERROR);
+  };
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  COMMON SETTER/GETTER SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/*!
+Sets multiple properties at once by using a property list
 
 #param propertyValues[Property List]: A hash of key-value pairs.
 */
 proto.set = function(propertyValues)
 {
-  if (typeof propertyValues != "object") {
+  if (typeof propertyValues !== QxConst.TYPEOF_OBJECT) {
     throw new Error("Please use a valid hash of property key-values pairs.");
   };
 
   for (var prop in propertyValues)
   {
-    try{
-      this["set" + prop.toFirstUp()](propertyValues[prop]);
+    try
+    {
+      this[QxMain.setter[prop]](propertyValues[prop]);
     }
     catch(ex)
     {
-      throw new Error("Setter of property " + prop + " returned with an error: " + ex);
+      this.error("Setter of property " + prop + " returned with an error: " + ex, "set");
     };
   };
-  
+
   return this;
 };
 
@@ -143,11 +184,11 @@ proto.get = function(propertyNames, outputHint)
 {
   switch(typeof propertyNames)
   {
-    case "string":
-      return this["get" + propertyNames.toFirstUp()]();
+    case QxConst.TYPEOF_STRING:
+      return this[QxConst.INTERNAL_GET + propertyNames.toFirstUp()]();
 
-    case "object":
-      if (typeof propertyNames.length == "number")
+    case QxConst.TYPEOF_OBJECT:
+      if (typeof propertyNames.length === QxConst.TYPEOF_NUMBER)
       {
         if (outputHint == "hash")
         {
@@ -157,7 +198,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              h[propertyNames[i]] = this["get" + propertyNames[i].toFirstUp()]();
+              h[propertyNames[i]] = this[QxConst.INTERNAL_GET + propertyNames[i].toFirstUp()]();
             }
             catch(ex)
             {
@@ -173,7 +214,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              propertyNames[i] = this["get" + propertyNames[i].toFirstUp()]();
+              propertyNames[i] = this[QxConst.INTERNAL_GET + propertyNames[i].toFirstUp()]();
             }
             catch(ex)
             {
@@ -187,7 +228,7 @@ proto.get = function(propertyNames, outputHint)
       else
       {
         for (var i in propertyNames) {
-          propertyNames[i] = this["get" + i.toFirstUp()]();
+          propertyNames[i] = this[QxConst.INTERNAL_GET + i.toFirstUp()]();
         };
 
         return propertyNames;
@@ -199,97 +240,98 @@ proto.get = function(propertyNames, outputHint)
 };
 
 
-/*!
 
+
+
+/*
+---------------------------------------------------------------------------
+  USER DATA
+---------------------------------------------------------------------------
 */
-proto.addData = function(p)
+
+proto.setUserData = function(vKey, vValue)
 {
-
-  if(typeof p != "object") {
-    throw new Error("Param should be an object!");
+  if (!this._userData) {
+    this._userData = {};
   };
 
-  if (isInvalid(p.name)) {
-    throw new Error("Malformed input parameters: name needed!");
+  this._userData[vKey] = vValue;
+};
+
+proto.getUserData = function(vKey)
+{
+  if (!this._userData) {
+    return null;
   };
 
-  var valueKey = p.name;
-  var methodKey = p.method = valueKey.toFirstUp();
-  var changeKey = "change" + methodKey;
-
-  this["retrieve" + methodKey] = function()
-  {
-    return this._data[valueKey];
-  };
-
-  if (typeof p.defaultValue != "undefined")
-  {
-    this._data[valueKey] = p.defaultValue;
-
-    this["retrieveDefault" + methodKey] = function() {
-      return p.defaultValue;
-    };
-
-    this["storeDefault" + methodKey] = function(newValue) {
-      return p.defaultValue = newValue;
-    };
-
-    this["restore" + methodKey] = function() {
-      return this["store" + methodKey](p.defaultValue);
-    };
-  };
-
-  this["store" + methodKey] = function(newValue)
-  {
-    var fixedValue = isValid(p.type) ? p.type(newValue) : newValue;
-    var oldValue = this._data[valueKey];
-
-    if (fixedValue != oldValue)
-    {
-      // Store new value
-      this._data[valueKey] = fixedValue;
-
-      // Create Event
-      if (this instanceof QxTarget && this.hasEventListeners(changeKey))
-      {
-        var ce = new QxDataEvent(changeKey, fixedValue, oldValue, false);
-        ce.setTarget(this);
-        try{
-          this.dispatchEvent(ce, true);
-        }
-        catch(ex)
-        {
-          throw new Error("Failed to dispatch change event: " + ex);
-        };
-        ce = null;
-      };
-    };
-
-    return fixedValue;
-  };
+  return this._userData[vKey];
 };
 
 
-/*!
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
-proto.removeData = function(p)
+
+proto._disposed = false;
+
+/*!
+  Dispose this object
+*/
+proto.dispose = function()
 {
-  if(typeof p != "object") {
-    throw new Error("Param should be an object!");
+  if (this.getDisposed()) {
+    return;
   };
 
-  if (isInvalid(p.name)) {
-    throw new Error("Malformed input parameters: name needed!");
+  // Dispose user data
+  if (this._userData)
+  {
+    for(var vKey in this._userData) {
+      this._userData[vKey] = null;
+    };
+
+    this._userData = null;
   };
 
-  var methodKey = p.method;
-  
-  delete this._data[p.name];
-  
-  delete this["retrieve" + methodKey];
-  delete this["store" + methodKey];
-  delete this["retrieveDefault" + methodKey];
-  delete this["storeDefault" + methodKey];
-  delete this["restore" + methodKey];
+  // Finally cleanup properties
+  if (this._objectproperties)
+  {
+    var a = this._objectproperties.split(QxConst.CORE_COMMA);
+    for (var i=0, l=a.length; i<l; i++) {
+      delete this[QxMain.values[a[i]]];
+    };
+
+    delete this._objectproperties;
+  };
+
+  if (QxSettings.enableDisposerDebug)
+  {
+    for (var vKey in this)
+    {
+      if (this[vKey] !== null && typeof this[vKey] === QxConst.TYPEOF_OBJECT)
+      {
+        this.debug("Missing class implementation to dispose: " + vKey);
+        delete this[vKey];
+      };
+    };
+  };
+
+  /*
+  if (typeof CollectGarbage === QxConst.TYPEOF_FUNCTION) {
+    CollectGarbage();
+  };
+  */
+
+  // Delete Entry from Object DB
+  QxObjectDataBase[this._hashCode] = null;
+  delete QxObjectDataBase[this._hashCode];
+
+  // Mark as disposed
+  this._disposed = true;
 };

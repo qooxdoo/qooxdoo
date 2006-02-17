@@ -1,48 +1,100 @@
-function QxTextField(vText)
-{
-  QxWidget.call(this);
+/* ************************************************************************
 
-  if(isValid(vText)) {
-    this.setText(vText);
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(form)
+
+************************************************************************ */
+
+function QxTextField(vValue)
+{
+  // ************************************************************************
+  //   INIT
+  // ************************************************************************
+  QxTerminator.call(this);
+
+  if (typeof vValue === QxConst.TYPEOF_STRING) {
+    this.setValue(vValue);
   };
 
-  this.setHtmlProperty("type", "text");
-  
-  this.setTabIndex(1);
-  this.setCanSelect(true);
-  
+
+  // ************************************************************************
+  //   BEHAVIOR
+  // ************************************************************************
   this.setTagName("INPUT");
-  this.setTextAlign("left");
-  
-  this.addEventListener("blur", this._onblur);
-  this.addEventListener("focus", this._onfocus);
+  this.setHtmlProperty("type", "text");
+  this.setHtmlAttribute("autocomplete", "OFF");
+  this.setTabIndex(1);
+  this.setSelectable(true);
+
+
+  // ************************************************************************
+  //   EVENTS
+  // ************************************************************************
+  this.enableInlineEvent(QxConst.EVENT_TYPE_INPUT);
+
+  this.addEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur);
+  this.addEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
 };
 
-QxTextField.extend(QxWidget, "QxTextField");
+QxTextField.extend(QxTerminator, "QxTextField");
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    PROPERTIES
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
-  
-QxTextField.addProperty({ name : "text", type : String, defaultValue : "" });
-QxTextField.addProperty({ name : "maxLength", type : Number });
-QxTextField.addProperty({ name : "readOnly", type : Boolean });
 
-QxTextField.addProperty({ name : "selectionStart", type : Number });
-QxTextField.addProperty({ name : "selectionLength", type : Number });
-QxTextField.addProperty({ name : "selectionText", type : String });
+
+QxTextField.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-field" });
+
+QxTextField.addProperty({ name : "value", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_EMPTY });
+QxTextField.addProperty({ name : "maxLength", type : QxConst.TYPEOF_NUMBER });
+QxTextField.addProperty({ name : "readOnly", type : QxConst.TYPEOF_BOOLEAN });
+
+QxTextField.addProperty({ name : "selectionStart", type : QxConst.TYPEOF_NUMBER });
+QxTextField.addProperty({ name : "selectionLength", type : QxConst.TYPEOF_NUMBER });
+QxTextField.addProperty({ name : "selectionText", type : QxConst.TYPEOF_STRING });
+
+QxTextField.addProperty({ name : "validator", type : QxConst.TYPEOF_FUNCTION });
+
+/*!
+  The font property describes how to paint the font on the widget.
+*/
+QxTextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "QxFont", convert : QxFontCache, allowMultipleArguments : true });
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    CLONING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  CLONING
+---------------------------------------------------------------------------
 */
 
 // Extend ignore list with selection properties
@@ -51,26 +103,90 @@ proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText
 
 
 /*
-  -------------------------------------------------------------------------------
-    MODIFIERS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
 */
 
-proto._checkText = function(propValue, propOldValue, propName, uniqModIds) {
-  return typeof propValue == "string" ? propValue : "";
-};
-  
-proto._modifyText = function(propValue, propOldValue, propName, uniqModIds) {
-  return this.setHtmlProperty("value", propValue);
+proto._modifyEnabled = function(propValue, propOldValue, propData)
+{
+  propValue ? this.removeHtmlAttribute(QxConst.CORE_DISABLED) : this.setHtmlAttribute(QxConst.CORE_DISABLED, QxConst.CORE_DISABLED);
+  return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyMaxLength = function(propValue, propOldValue, propName, uniqModIds) {
-  return this.setHtmlProperty("maxLength", propValue);
+proto._modifyValue = function(propValue, propOldValue, propData)
+{
+  this._inValueProperty = true;
+  this.setHtmlProperty(propData.name, propValue == null ? QxConst.CORE_EMPTY : propValue);
+  delete this._inValueProperty;
+
+  return true;
 };
 
-proto._modifyReadOnly = function(propValue, propOldValue, propName, uniqModIds) {
-  return this.setHtmlProperty("readOnly", propValue);
-};  
+proto._modifyMaxLength = function(propValue, propOldValue, propData) {
+  return propValue ? this.setHtmlProperty(propData.name, propValue) : this.removeHtmlProperty(propData.name);
+};
+
+proto._modifyReadOnly = function(propValue, propOldValue, propData) {
+  return propValue ? this.setHtmlProperty(propData.name, propData.name) : this.removeHtmlProperty(propData.name);
+};
+
+proto._modifyFont = function(propValue, propOldValue, propData)
+{
+  this._invalidatePreferredInnerDimensions();
+
+  if (propValue) {
+    propValue.applyWidget(this);
+  } else if (propOldValue) {
+    propOldValue.resetWidget(this);
+  };
+
+  return true;
+};
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
+
+proto.getComputedValue = function(e)
+{
+  this._visualPropertyCheck();
+  return this.getElement().value;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  VALIDATION
+---------------------------------------------------------------------------
+*/
+
+QxTextField.createRegExpValidator = function(vRegExp)
+{
+  return function(s) {
+    return vRegExp.test(s);
+  };
+};
+
+proto.isValid = function()
+{
+  var vValidator = this.getValidator();
+  return !vValidator || vValidator(this.getValue());
+};
+
+proto.isComputedValid = function()
+{
+  var vValidator = this.getValidator();
+  return !vValidator || vValidator(this.getComputedValue());
+};
 
 
 
@@ -78,186 +194,86 @@ proto._modifyReadOnly = function(propValue, propOldValue, propName, uniqModIds) 
 
 
 /*
-  -------------------------------------------------------------------------------
-    GECKO-ADDITIONS
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PREFERRED DIMENSIONS
+---------------------------------------------------------------------------
 */
 
-if ((new QxClient).isGecko())
-{  
-  // Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041108 Firefox/1.0
-  // Date: 2005-02-18
-  
-	// The focus() call is problematic in mozilla. There occurs a 
-	// non-catchable security exception. This is only valid on 
-	// editable textfields.
-	
-	// There is no solution in any of these forums:
-  // http://www.forum4designers.com/archive22-2004-2-46193.html
-  // http://www.webxpertz.net/forums/archive/index.php/t-30734.html
-  // http://www.forum4designers.com/message75791.html
-  // https://lists.latech.edu/pipermail/javascript/2004-June/007883.html
-  
-  // The following solves this. Read the lines above. This bug doesn't occurs 
-  // on readonly fields. So set it readonly first fix the bug. ;)
-
-  proto._visualizeFocus = function()
-  {
-    this.setCssClassName(this.getCssClassName().add("QxFocused", " ").add(this.classname + "-Focused", " "));    
-    
-    try {
-      this.getElement().readOnly = true;
-      this.getElement().focus();      
-      this.getElement().readOnly = this.getReadOnly();      
-    } catch(ex) {};
-  
-    return true;
-  };  
-  
-  proto._addInlineEvents = function(el) 
-  {
-    el.addEventListener("input", QxWidget.__oninlineevent, false);
-
-    return QxWidget.prototype._addInlineEvents.call(this, el);
-  };
-  
-  proto._removeInlineEvents = function(el)
-  {
-    el.removeEventListener("input", QxWidget.__oninlineevent, false);
-    
-    return QxWidget.prototype._removeInlineEvents.call(this, el);
-  };   
+proto._computePreferredInnerWidth = function() {
+  return 120;
 };
 
-proto.getPreferredWidth = function()
-{
-  var el = this.getElement();
-  
-  if (el)
-  {
-    var w = el.style.width;
-    el.style.width = "";
-
-    var o = el.offsetWidth;    
-    
-    el.style.width = isValid(w) ? w : "";
-    
-    return o;
-  };
-  
-  return 0;
+proto._computePreferredInnerHeight = function() {
+  return 15;
 };
 
-proto.getPreferredHeight = function()
-{
-  var el = this.getElement();
-  
-  if (el)
-  {
-    var h = el.style.height;
-    el.style.height = "";
 
-    var o = el.offsetHeight;    
-    
-    el.style.height = isValid(h) ? h : "";
-    
-    return o;
-  };
-  
-  return 0;
-};
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    EVENT-HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  EVENT-HANDLER
+---------------------------------------------------------------------------
 */
 
 proto._textOnFocus = null;
 
 proto._ontabfocus = function(e) {
-  this.selectAll();  
+  this.selectAll();
 };
 
 proto._onfocus = function(e) {
-  this._textOnFocus = this.getElement().value;
+  this._textOnFocus = this.getComputedValue();
 };
 
 proto._onblur = function(e)
 {
-  if (this._textOnFocus != this.getElement().value) {
-    this.setText(this.getElement().value);
+  var vValue = this.getComputedValue().toString();
+
+  if (this._textOnFocus != vValue) {
+    this.setValue(vValue);
   };
-  
+
   this.setSelectionLength(0);
 };
 
-proto._oninlineevent = function(e)
-{
-  if (!e) {
-    e = this.getTopLevelWidget().getDocumentElement().parentWindow.event;
-  };
 
-  switch(e.type)
-  {
-    case "input":      
-      if (this.hasEventListeners("input")) {
-        this.dispatchEvent(new QxDataEvent("input", this.getElement().value));
-      };
-      
-      return true; 
-    
-    case "propertychange":
-      if (e.propertyName == "value") 
-      {
-        if (this.hasEventListeners("input")) {
-          this.dispatchEvent(new QxDataEvent("input", this.getElement().value));
-        };
-        
-        return true;
-      };
-      
-      break;
-    
-  };
 
-  return QxWidget.prototype._oninlineevent.call(this, e);  
-};
+
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    CROSS-BROWSER SELECTION HANDLING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  CROSS-BROWSER SELECTION HANDLING
+---------------------------------------------------------------------------
 */
 
-if ((new QxClient).isMshtml())
+if (QxClient.isMshtml())
 {
   /*!
     Microsoft Documentation:
     http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/createrange.asp
     http://msdn.microsoft.com/workshop/author/dhtml/reference/objects/obj_textrange.asp
   */
-  
-  proto._getRange = function() 
+
+  proto._getRange = function()
   {
-    this._visualPropertyCheck();    
+    this._visualPropertyCheck();
     return this.getElement().createTextRange();
   };
-  
-  proto._getSelectionRange = function() 
+
+  proto._getSelectionRange = function()
   {
     this._visualPropertyCheck();
     return this.getTopLevelWidget().getDocumentElement().selection.createRange();
-  };  
-  
+  };
+
   proto.setSelectionStart = function(vStart)
   {
     this._visualPropertyCheck();
-    
+
     var vText = this.getElement().value;
 
     // a bit hacky, special handling for line-breaks
@@ -270,22 +286,22 @@ if ((new QxClient).isMshtml())
       if (i == -1) {
         break;
       };
-      
+
       vStart--;
       i++;
     };
 
     var vRange = this._getRange();
-    
+
     vRange.collapse();
     vRange.move("character", vStart);
-    vRange.select();    
+    vRange.select();
   };
-  
+
   proto.getSelectionStart = function()
   {
     this._visualPropertyCheck();
-  
+
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
@@ -293,15 +309,15 @@ if ((new QxClient).isMshtml())
     };
 
     var vRange = this._getRange();
-    
+
     vRange.setEndPoint("EndToStart", vSelectionRange);
-    return vRange.text.length;    
+    return vRange.text.length;
   };
-  
+
   proto.setSelectionLength = function(vLength)
   {
     this._visualPropertyCheck();
-    
+
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
@@ -310,26 +326,26 @@ if ((new QxClient).isMshtml())
 
     vSelectionRange.collapse();
     vSelectionRange.moveEnd("character", vLength);
-    vSelectionRange.select();    
+    vSelectionRange.select();
   };
-  
+
   proto.getSelectionLength = function()
   {
     this._visualPropertyCheck();
-  
+
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return 0;
     };
 
-    return vSelectionRange.text.length;    
+    return vSelectionRange.text.length;
   };
-  
+
   proto.setSelectionText = function(vText)
   {
     this._visualPropertyCheck();
-  
+
     var vStart = this.getSelectionStart();
     var vSelectionRange = this._getSelectionRange();
 
@@ -338,41 +354,44 @@ if ((new QxClient).isMshtml())
     };
 
     vSelectionRange.text = vText;
-    
+
     // apply text to internal storage
-    this.setText(this.getElement().value);
-    
+    this.setValue(this.getElement().value);
+
     // recover selection (to behave the same gecko does)
     this.setSelectionStart(vStart);
     this.setSelectionLength(vText.length);
-    
+
     return true;
   };
-  
+
   proto.getSelectionText = function()
   {
     this._visualPropertyCheck();
-  
+
     var vSelectionRange = this._getSelectionRange();
-    
+
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
-      return "";
+      return QxConst.CORE_EMPTY;
     };
 
-    return vSelectionRange.text;    
+    return vSelectionRange.text;
   };
-  
+
   proto.selectAll = function()
   {
     this._visualPropertyCheck();
 
-    this.setSelectionStart(0);
-    this.setSelectionLength(this.getText().length);
-    
+    if (this.getValue() != null)
+    {
+      this.setSelectionStart(0);
+      this.setSelectionLength(this.getValue().length);
+    };
+
     // to be sure we get the element selected
     this.getElement().select();
   };
-  
+
   proto.selectFromTo = function(vStart, vEnd)
   {
     this._visualPropertyCheck();
@@ -383,72 +402,74 @@ if ((new QxClient).isMshtml())
 }
 else
 {
-  proto.setSelectionStart = function(vStart) 
+  proto.setSelectionStart = function(vStart)
   {
     this._visualPropertyCheck();
     this.getElement().selectionStart = vStart;
-  };  
-  
-  proto.getSelectionStart = function() 
+  };
+
+  proto.getSelectionStart = function()
   {
     this._visualPropertyCheck();
     return this.getElement().selectionStart;
   };
-  
+
   proto.setSelectionLength = function(vLength)
   {
     this._visualPropertyCheck();
-    
+
     var el = this.getElement();
-    el.selectionEnd = el.selectionStart + vLength;    
+    if (QxUtil.isValidString(el.value)) {
+      el.selectionEnd = el.selectionStart + vLength;
+    };
   };
-  
+
   proto.getSelectionLength = function()
   {
     this._visualPropertyCheck();
-  
+
     var el = this.getElement();
     return el.selectionEnd - el.selectionStart;
   };
-  
+
   proto.setSelectionText = function(vText)
   {
     this._visualPropertyCheck();
-    
+
     var el = this.getElement();
-    
+
     var vOldText = el.value;
     var vStart = el.selectionStart;
-    
+
     var vOldTextBefore = vOldText.substr(0, vStart);
     var vOldTextAfter = vOldText.substr(el.selectionEnd);
-    
+
     var vValue = el.value = vOldTextBefore + vText + vOldTextAfter;
-    
+
     // recover selection
     el.selectionStart = vStart;
     el.selectionEnd = vStart + vText.length;
-    
+
     // apply new value to internal cache
-    this.setText(vValue);
-    
-    return true;    
+    this.setValue(vValue);
+
+    return true;
   };
-  
+
   proto.getSelectionText = function()
   {
     this._visualPropertyCheck();
 
     return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
   };
-  
+
   proto.selectAll = function()
   {
     this._visualPropertyCheck();
 
     this.getElement().select();
-  };  
-  
+  };
+
   proto.selectFromTo = function(vStart, vEnd)
   {
     this._visualPropertyCheck();
@@ -456,7 +477,7 @@ else
     var el = this.getElement();
     el.selectionStart = vStart;
     el.selectionEnd = vEnd;
-  };  
+  };
 };
 
 
@@ -466,9 +487,9 @@ else
 
 
 /*
-  -------------------------------------------------------------------------------
-    DISPOSER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -477,8 +498,8 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener("blur", this._onblur);
-  this.removeEventListener("focus", this._onfocus);
-  
-  QxWidget.prototype.dispose.call(this);
+  this.removeEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur);
+  this.removeEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
+
+  QxTerminator.prototype.dispose.call(this);
 };

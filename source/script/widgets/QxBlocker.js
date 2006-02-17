@@ -1,17 +1,42 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(guicore)
+
+************************************************************************ */
+
 function QxBlocker()
 {
-  QxWidget.call(this);
-  
-  this.setLocation(0, 0);
-  this.setRight(0);
-  this.setBottom(0);
-  this.setZIndex(1e6);  
-  
-  // mshtml based clients does not reliable block events if object is not visible
-  // we can fix this with something visible (or not ;))
-  if ((new QxClient).isMshtml()) {
-    this.setBackgroundImage((new QxImageManager).getBlank());
-  };
+  QxTerminator.call(this);
+
+  this.setEdge(0);
+  this.setDisplay(false);
 };
 
-QxBlocker.extend(QxWidget, "QxBlocker");
+QxBlocker.extend(QxTerminator, "QxBlocker");
+
+QxBlocker.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "blocker" });

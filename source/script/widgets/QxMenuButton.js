@@ -1,71 +1,90 @@
-function QxMenuButton(vText, vIcon, vCommand, vMenu)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(menu)
+
+************************************************************************ */
+
+function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
 {
-  QxWidget.call(this);
+  QxHorizontalBoxLayout.call(this);
 
-  this.setHeight("auto");
-  this.setLeft(0);
-  this.setRight(0);
 
-  // 20 is the default height of QxMenuButtons with 16px icons
-  // so sync all buttons to have at least this height
-  this.setMinHeight(20);
+  // ************************************************************************
+  //   LAYOUT
+  // ************************************************************************
+  
+  var io = this._iconObject = new QxImage;
+  io.setAnonymous(true);
 
-  this.setTimerCreate(false);
+  var lo = this._labelObject = new QxLabel;
+  lo.setAnonymous(true);
+  lo.setSelectable(false);
 
-  if (isValidString(vText)) {
-    this.setText(vText);
-  };
+  var so = this._shortcutObject = new QxLabel;
+  so.setAnonymous(true);
+  so.setSelectable(false);
 
-  if (isValid(vIcon)) {
-    this.setIcon(vIcon);
-  };
+  var ao = this._arrowObject = new QxImage("widgets/arrows/next.gif");
+  ao.setAnonymous(true);
+  
 
-  if (isValid(vCommand)) {
-    this.setCommand(vCommand);
-  };
+  // ************************************************************************
+  //   INIT
+  // ************************************************************************
 
-  if (isValid(vMenu)) {
-    this.setMenu(vMenu);
-  };
+  this.setLabel(vLabel);
+  this.setIcon(vIcon);
+  this.setCommand(vCommand);
+  this.setMenu(vMenu);
 
-  this.addEventListener("mousedown", this._onmousedown);
+
+  // ************************************************************************
+  //   EVENTS
+  // ************************************************************************
+
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxMenuButton.extend(QxWidget, "QxMenuButton");
+QxMenuButton.extend(QxHorizontalBoxLayout, "QxMenuButton");
 
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   PROPERTIES
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
-QxMenuButton.addProperty({ name : "text", type : String });
-QxMenuButton.addProperty({ name : "icon", type : String });
-QxMenuButton.addProperty({ name : "menu", type : Object });
+QxMenuButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-button" });
 
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  STATUS FLAGS
-------------------------------------------------------------------------------------
-*/
-
-proto._iconObject = null;
-proto._textObject = null;
-proto._shortcutObject = null;
-proto._arrowObject = null;
-
-proto._displayIcon = false;
-proto._displayText = false;
-proto._displayShortcut = false;
-proto._displayArrow = false;
-
-proto._valueShortcut = "";
+QxMenuButton.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+QxMenuButton.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
+QxMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT });
 
 
 
@@ -73,267 +92,194 @@ proto._valueShortcut = "";
 
 
 /*
-------------------------------------------------------------------------------------
-  MODIFIER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
 */
 
-proto._modifyElement = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (propValue)
-  {
-    if (this._displayIcon && !this._iconObject) {
-      this._pureCreateFillIcon();
-    };
+proto._hasIcon = false;
+proto._hasLabel = false;
+proto._hasShortcut = false;
+proto._hasMenu = false;
 
-    if (this._displayText && !this._textObject) {
-      this._pureCreateFillText();
-    };
-
-    if (this._displayShortcut && !this._shortcutObject) {
-      this._pureCreateFillShortcut();
-    };
-
-    if (this._displayArrow && !this._arrowObject) {
-      this._pureCreateFillArrow();
-    };
-  };
-
-  return QxWidget.prototype._modifyElement.call(this, propValue, propOldValue, propName, uniqModIds);
+proto.hasIcon = function() {
+  return this._hasIcon;
 };
 
-proto._modifyEnabled = function(propValue, propOldValue, propName, uniqModIds)
+proto.hasLabel = function() {
+  return this._hasLabel;
+};
+
+proto.hasShortcut = function() {
+  return this._hasShortcut;
+};
+
+proto.hasMenu = function() {
+  return this._hasMenu;
+};
+
+proto.getIconObject = function() {
+  return this._iconObject;
+};
+
+proto.getLabelObject = function() {
+  return this._labelObject;
+};
+
+proto.getShortcutObject = function() {
+  return this._shortcutObject;
+};
+
+proto.getArrowObject = function() {
+  return this._arrowObject;
+};
+
+proto.getParentMenu = function()
 {
-  if (this._textObject) {
-    this._textObject.setEnabled(propValue, uniqModIds);
+  var vParent = this.getParent();
+  if (vParent)
+  {
+    vParent = vParent.getParent();
+    
+    if (vParent && vParent instanceof QxMenu) {
+      return vParent;
+    };
   };
+  
+  return null;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  INIT LAYOUT IMPL
+---------------------------------------------------------------------------
+*/
+
+/*!
+  This creates an new instance of the layout impl this widget uses
+*/
+proto._createLayoutImpl = function() {
+  return new QxMenuButtonLayoutImpl(this);
+};  
+  
+  
+  
+  
+
+/*
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
+*/
+
+proto._modifyEnabled = function(propValue, propOldValue, propData)
+{
   if (this._iconObject) {
-    this._iconObject.setEnabled(propValue, uniqModIds);
+    this._iconObject.setEnabled(propValue);
   };
-  return QxWidget.prototype._modifyEnabled.call(this, propValue, propOldValue, propName, uniqModIds);  
+
+  if (this._labelObject) {
+    this._labelObject.setEnabled(propValue);
+  };
+  
+  return QxBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyIcon = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyIcon = function(propValue, propOldValue, propData)
 {
-  this._displayIcon = isValid(propValue);
-  return true;
-};
-
-proto._modifyText = function(propValue, propOldValue, propName, uniqModIds)
-{
-  this._displayText = isValid(propValue);
-  return true;
-};
-
-proto._modifyCommand = function(propValue, propOldValue, propName, uniqModIds)
-{
-  if (isValid(propValue))
+  this._iconObject.setSource(propValue);
+  
+  if (QxUtil.isValidString(propValue))
   {
-    this._displayShortcut = true;
-    this._valueShortcut = propValue.toString();
+    this._hasIcon = true;
+    
+    if (QxUtil.isInvalidString(propOldValue)) {
+      this.addAtBegin(this._iconObject);
+    };
   }
   else
   {
-    this._displayShortcut = false;
-    this._valueShortcut = "";
-  }; 
+    this._hasIcon = false;
+    this.remove(this._iconObject);
+  };
   
   return true;
 };
 
-proto._modifyMenu = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyLabel = function(propValue, propOldValue, propData)
 {
-  this._displayArrow = isValid(propValue);
-  return true;
-};
-
-proto.hasMenu = function() {
-  return Boolean(this.getMenu());
-};
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  ELEMENT CREATORS
-------------------------------------------------------------------------------------
-*/
-
-proto._pureCreateFillIcon = function()
-{
-  var i = this._iconObject = new QxImage();
-  i.setSource(this.getIcon());
-
-  i.setAnonymous(true);
-  i.setEnabled(this.isEnabled());
-  i.setParent(this);
-
-  i._addCssClassName("QxMenuButtonIcon");
-};
-
-proto._pureCreateFillText = function()
-{
-  var t = this._textObject = new QxContainer();
-  t.setHtml(this.getText());
-
-  t.setAnonymous(true);
-  t.setEnabled(this.isEnabled());
-  t.setParent(this);
-
-  t._addCssClassName("QxMenuButtonText");
-};
-
-proto._pureCreateFillShortcut = function()
-{
-  var s = this._shortcutObject = new QxContainer();
-  s.setHtml(this._valueShortcut);
-
-  s.setAnonymous(true);
-  s.setEnabled(this.isEnabled());
-  s.setParent(this);
-
-  s._addCssClassName("QxMenuButtonShortcut");
-};
-
-proto._pureCreateFillArrow = function()
-{
-  var a = this._arrowObject = new QxImage();
-  a.setSource("widgets/arrows/next.gif");
-
-  a.setAnonymous(true);
-  a.setEnabled(this.isEnabled());
-  a.setParent(this);
-
-  a._addCssClassName("QxMenuButtonArrow");
-};
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: INNER DIMENSION SIGNAL
-
-  should be called always when the inner dimension have been modified
-------------------------------------------------------------------------------------
-*/
-
-proto._innerWidthChanged = function()
-{
-  // Invalidate internal cache
-  this._invalidateInnerWidth();
-
-  // Update placement of icon and text
-  this._layoutInternalWidgetsHorizontal("inner-width");
-};
-
-proto._innerHeightChanged = function()
-{
-  // Invalidate internal cache
-  this._invalidateInnerHeight();
-
-  // Update placement of icon and text
-  this._layoutInternalWidgetsVertical("inner-height");
-};
-
-
-
-
-
-proto._layoutInternalWidgetsHorizontal = function(vHint)
-{
-  var vParent = this.getParent();
-
-  if (this._iconObject) {
-    this._iconObject._applyPositionHorizontal(vParent._childIconPosition);
-  };
-
-  if (this._textObject) {
-    this._textObject._applyPositionHorizontal(vParent._childTextPosition);
-  };
-
-  if (this._shortcutObject) {
-    this._shortcutObject._applyPositionHorizontal(vParent._childShortcutPosition);
-  };
-
-  if (this._arrowObject) {
-    this._arrowObject._applyPositionHorizontal(vParent._childArrowPosition);
-  };
-};
-
-proto._layoutInternalWidgetsVertical = function(vHint)
-{
-  var vInner = this.getInnerHeight();
-
-  if (this._iconObject) {
-    this._iconObject._applyPositionVertical((vInner - this._iconObject.getPreferredHeight()) / 2);
-  };
-
-  if (this._textObject) {
-    this._textObject._applyPositionVertical((vInner - this._textObject.getPreferredHeight()) / 2);
-  };
-
-  if (this._shortcutObject) {
-    this._shortcutObject._applyPositionVertical((vInner - this._shortcutObject.getPreferredHeight()) / 2);
-  };
-
-  if (this._arrowObject) {
-    this._arrowObject._applyPositionVertical((vInner - this._arrowObject.getPreferredHeight()) / 2);
-  };
-};
-
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  RENDERER: CHILDREN DEPEND DIMENSIONS: MAIN
-------------------------------------------------------------------------------------
-*/
-
-proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
-{
-  // Ingore unload event if we have a valid icon to load.
-  // Note: This does not handle missing images correctly.
-  if (this._displayIcon && vModifiedWidget == this._iconObject && vHint == "unload") {
-    return true;
-  };
-
-  // this.debug("depend-height: widget=" + vModifiedWidget + ", hint=" + vHint);
-
-  var newHeight = this._calculateChildrenDependHeight(vModifiedWidget, vHint);
-
-  // If the height did not change the setter below will not re-layout the children.
-  // We will force this here if the icon or text was appended, to ensure a perfect layout.
-  if (this._heightMode == "inner" && this._heightModeValue == newHeight)
+  this._labelObject.setHtml(propValue);
+  
+  if (QxUtil.isValidString(propValue))
   {
-    switch(vHint)
-    {
-      case "load":
-      case "append-child":
-      case "preferred":
-        switch(vModifiedWidget)
-        {
-          case this._iconObject:
-          case this._textObject:
-          case this._hintObject:
-          case this._arrowObject:
-            return this._layoutInternalWidgetsVertical(vHint);
-        };
+    this._hasLabel = true;
+    
+    if (QxUtil.isInvalidString(propOldValue)) {
+      this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     };
   }
   else
   {
-    this.setInnerHeight(newHeight, null, true);
+    this._hasLabel = false;
+    this.remove(this._labelObject);
   };
+  
+  return true;
+};
 
+proto._modifyCommand = function(propValue, propOldValue, propData)
+{
+  var vHtml = propValue ? propValue.getShortcut() : QxConst.CORE_EMPTY;
+  
+  this._shortcutObject.setHtml(vHtml);
+  
+  if (QxUtil.isValidString(vHtml))
+  {
+    this._hasShortcut = true;
+    
+    var vOldHtml = propOldValue ? propOldValue.getShortcut() : QxConst.CORE_EMPTY;
+    
+    if (QxUtil.isInvalidString(vOldHtml)) 
+    {
+      if (this.getLastChild() == this._arrowObject)
+      {
+        this.addBefore(this._shortcutObject, this._arrowObject);
+      }
+      else
+      {
+        this.addAtEnd(this._shortcutObject);
+      };
+    };
+  }
+  else
+  {
+    this._hasShortcut = false;
+    this.remove(this._shortcutObject);
+  };
+  
+  return true;
+};
+
+proto._modifyMenu = function(propValue, propOldValue, propData)
+{
+  if (QxUtil.isValidObject(propValue))
+  {
+    this._hasMenu = true;
+    
+    if (QxUtil.isInvalidObject(propOldValue)) {
+      this.addAtEnd(this._arrowObject);
+    };
+  }
+  else
+  {
+    this._hasMenu = false;
+    this.remove(this._arrowObject);
+  };
+  
   return true;
 };
 
@@ -343,34 +289,9 @@ proto._setChildrenDependHeight = function(vModifiedWidget, vHint)
 
 
 /*
-------------------------------------------------------------------------------------
-  UTILITY FUNCTIONS FOR PARENT
-------------------------------------------------------------------------------------
-*/
-
-proto.getNeededIconWidth = function() {
-  return this._displayIcon ? this._iconObject.getAnyWidth() : 0;
-};
-
-proto.getNeededTextWidth = function() {
-  return this._displayText ? this._textObject.getAnyWidth() : 0;
-};
-
-proto.getNeededShortcutWidth = function() {
-  return this._displayShortcut ? this._shortcutObject.getAnyWidth() : 0;
-};
-
-proto.getNeededArrowWidth = function() {
-  return this._displayArrow ? this._arrowObject.getAnyWidth() : 0;
-};
-
-
-
-
-/*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   EVENTS
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto._onmousedown = function(e) {
@@ -379,10 +300,12 @@ proto._onmousedown = function(e) {
 
 
 
+
+
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   DISPOSER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto.dispose = function()
@@ -391,8 +314,33 @@ proto.dispose = function()
     return;
   };
   
-  // Remove event listeners
-  this.removeEventListener("mousedown", this._onmousedown);
+  // Dispose children
+  if (this._iconObject) 
+  {
+    this._iconObject.dispose();
+    this._iconObject = null;
+  };
 
-  return QxWidget.prototype.dispose.call(this);
+  if (this._labelObject) 
+  {
+    this._labelObject.dispose();
+    this._labelObject = null;
+  };
+
+  if (this._shortcutObject) 
+  {
+    this._shortcutObject.dispose();
+    this._shortcutObject = null;
+  };
+
+  if (this._arrowObject) 
+  {
+    this._arrowObject.dispose();
+    this._arrowObject = null;
+  };
+
+  // Remove event listeners
+  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+
+  return QxCanvasLayout.prototype.dispose.call(this);
 };

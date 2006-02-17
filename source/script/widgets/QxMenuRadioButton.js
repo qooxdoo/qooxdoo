@@ -1,57 +1,105 @@
-function QxMenuRadioButton(vText, vCommand, vChecked)
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(menu)
+#require(QxRadioManager)
+
+************************************************************************ */
+
+function QxMenuRadioButton(vLabel, vCommand, vChecked) 
 {
-  QxMenuCheckBox.call(this, vText, vCommand, vChecked);
+  QxMenuCheckBox.call(this, vLabel, vCommand, vChecked);
   
-  
+  this._iconObject.setAppearance("menu-radio-button-icon");
 };
 
 QxMenuRadioButton.extend(QxMenuCheckBox, "QxMenuRadioButton");
 
-QxMenuRadioButton.addProperty({ name : "group" });
 
 /*
-------------------------------------------------------------------------------------
-  ICON HANDLING
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
-proto._source = "widgets/menu/radiobutton.gif";
+QxMenuRadioButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-radio-button" });
+
+/*!
+  The assigned QxRadioManager which handles the switching between registered buttons
+*/
+QxMenuRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxRadioManager", allowNull : true });
+
+
 
 
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   MODIFIER
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  if (this.getGroup()) {
-    this.getGroup().setSelected(this, uniqModIds);
-  };
+  var vManager = this.getManager();
   
-  return QxMenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propName, uniqModIds);
+  if (vManager) 
+  {
+    if (propValue)
+    {
+      vManager.setSelected(this);
+    }
+    else if (vManager.getSelected() == this)
+    {
+      vManager.setSelected(null);
+    };
+  };
+
+  return QxMenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyGroup = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.remove(this, uniqModIds);
+    propOldValue.remove(this);
   };
 
   if (propValue) {
-    propValue.add(this, uniqModIds);
+    propValue.add(this);
   };
 
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propName, uniqModIds)
+proto._modifyName = function(propValue, propOldValue, propData)
 {
-  if (this.getGroup()) {
-    this.getGroup().setName(propValue, uniqModIds);
+  if (this.getManager()) {
+    this.getManager().setName(propValue);
   };
 
   return true;
@@ -62,13 +110,13 @@ proto._modifyName = function(propValue, propOldValue, propName, uniqModIds)
 
 
 /*
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
   EXECUTE
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 */
 
 proto.execute = function()
 {
-  this.setChecked(true);  
+  this.setChecked(true);
   QxMenuButton.prototype.execute.call(this);
 };

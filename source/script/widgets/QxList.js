@@ -1,43 +1,86 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Version:
+     $Id$
+
+   Copyright:
+     (C) 2004-2005 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(list)
+
+************************************************************************ */
+
 function QxList()
 {
-  QxWidget.call(this);
+  QxVerticalBoxLayout.call(this);
 
-  this.setCanSelect(false);
-  this.setOverflow("auto");
-  this.setTabIndex(1);
 
+  // ************************************************************************
+  //   INITILISIZE MANAGER
+  // ************************************************************************
   this._manager = new QxSelectionManager(this);
 
-  this.addEventListener("mouseover", this._onmouseover);
-  this.addEventListener("mousedown", this._onmousedown);
-  this.addEventListener("mouseup", this._onmouseup);
-  this.addEventListener("click", this._onclick);
-  this.addEventListener("dblclick", this._ondblclick);
 
-  this.addEventListener("keydown", this._onkeydown);
-  this.addEventListener("keypress", this._onkeypress);
+  // ************************************************************************
+  //   BEHAVIOR
+  // ************************************************************************
+  this.setSelectable(false);
+  this.setTabIndex(1);
+
+
+  // ************************************************************************
+  //   MOUSE EVENT LISTENER
+  // ************************************************************************
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
+  this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+
+
+  // ************************************************************************
+  //   KEY EVENT LISTENER
+  // ************************************************************************
+  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
 };
 
-QxList.extend(QxWidget, "QxList");
+QxList.extend(QxVerticalBoxLayout, "QxList");
 
-QxList.addProperty({ name : "enableInlineFind", type : Boolean, defaultValue : true });
+QxList.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list" });
 
-proto.isFocusRoot = function() { 
-  return true;
-};
+QxList.addProperty({ name : "enableInlineFind", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+QxList.addProperty({ name : "markLeadingItem", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
-proto._pressedString = "";
+proto._pressedString = QxConst.CORE_EMPTY;
 
-proto._visualizeBlur = function() {};
-proto._visualizeFocus = function() {};
 
 
 
 
 /*
-  -------------------------------------------------------------------------------
-    MANAGER BINDING
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MANAGER BINDING
+---------------------------------------------------------------------------
 */
 
 proto.getManager = function() {
@@ -64,9 +107,9 @@ proto.getSelectedItems = function() {
 
 
 /*
-  -------------------------------------------------------------------------------
-    MOUSE EVENT HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  MOUSE EVENT HANDLER
+---------------------------------------------------------------------------
 */
 
 proto._onmouseover = function(e)
@@ -118,9 +161,9 @@ proto._ondblclick = function(e)
 
 
 /*
-  -------------------------------------------------------------------------------
-    KEY EVENT HANDLER
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  KEY EVENT HANDLER
+---------------------------------------------------------------------------
 */
 
 proto._onkeydown = function(e)
@@ -133,10 +176,10 @@ proto._onkeydown = function(e)
     var items = this.getSelectedItems();
     var currentItem;
 
-    for (var i=0; i<items.length; i++) 
+    for (var i=0; i<items.length; i++)
     {
       currentItem = items[i];
-      
+
       if (currentItem.hasEventListeners("action")) {
         currentItem._dispachEvent(new QxEvent("action"));
       };
@@ -159,27 +202,27 @@ proto._onkeypress = function(e)
 
   // Reset string after a second of non pressed key
   if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
-    this._pressedString = "";
+    this._pressedString = QxConst.CORE_EMPTY;
   };
 
   // Combine keys the user pressed to a string
   this._pressedString += String.fromCharCode(e.getKeyCode());
-  
+
   // Find matching item
   var matchedItem = this.findString(this._pressedString, null);
-  
+
   if (matchedItem)
   {
     var oldVal = this._manager._getChangeValue();
-    
+
     // Temporary disable change event
     var oldFireChange = this._manager.getFireChange();
     this._manager.setFireChange(false);
-    
+
     // Reset current selection
     this._manager._deselectAll();
 
-    // Update manager 
+    // Update manager
     this._manager.setItemSelected(matchedItem, true);
     this._manager.setAnchorItem(matchedItem);
     this._manager.setLeadItem(matchedItem);
@@ -205,9 +248,9 @@ proto._onkeypress = function(e)
 
 
 /*
-  -------------------------------------------------------------------------------
-    FIND SUPPORT
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  FIND SUPPORT
+---------------------------------------------------------------------------
 */
 
 proto._findItem = function(vUserValue, vStartIndex, vType)
@@ -259,26 +302,92 @@ proto.findValueExact = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "ValueExact");
 };
 
-proto.findValueContains = function(vText, vStartIndex) {
-  return this._findItem(vText, vStartIndex || 0, "ValueContains");
-};
+
+
+
 
 
 /*
-  -------------------------------------------------------------------------------
-    PREFERRED
-  -------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  SORT SUPPORT
+---------------------------------------------------------------------------
 */
 
-proto.getPreferredHeight = function()
+proto._sortItemsCompare = function(a, b) {
+  return a.key < b.key ? -1 : a.key == b.key ? 0 : 1;
+};
+
+proto.sortItemsByString = function(vReverse)
 {
-  var ch = this.getChildren();
-  var chl = ch.length;
-  var sum = 0;
-  
-  for (var i=0; i<chl; i++) {
-    sum += ch[i].getPreferredHeight();
+  var sortitems = [];
+  var items = this.getChildren();
+
+  for(var i=0, l=items.length; i<l; i++) {
+    sortitems[i] = { key : items[i].getLabel(), item : items[i] };
   };
-  
-  return sum;
+
+  sortitems.sort(this._sortItemsCompare);
+  if (vReverse) {
+    sortitems.reverse();
+  };
+
+  for(var i=0; i<l; i++) {
+    this.addAt(sortitems[i].item, i);
+  };
+};
+
+proto.sortItemsByValue = function(vReverse)
+{
+  var sortitems = [];
+  var items = this.getChildren();
+
+  for(var i=0, l=items.length; i<l; i++) {
+    sortitems[i] = { key : items[i].getValue(), item : items[i] };
+  };
+
+  sortitems.sort(this._sortItemsCompare);
+  if (vReverse) {
+    sortitems.reverse();
+  };
+
+  for(var i=0; i<l; i++) {
+    this.addAt(sortitems[i].item, i);
+  };
+};
+
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+
+  if (this._manager)
+  {
+    this._manager.dispose();
+    this._manager = null;
+  };
+
+  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
+  this.removeEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
+
+  return QxVerticalBoxLayout.prototype.dispose.call(this);
 };

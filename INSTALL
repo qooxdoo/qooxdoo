@@ -1,5 +1,0 @@
-To build a useable qooxdoo after checkout please run the following first:
-
-$ bash tools/make.sh
-
-After this command has run sucessfully, open the file public/test/user/Index.html in your favorite browser.
