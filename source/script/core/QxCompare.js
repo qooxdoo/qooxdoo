@@ -2,9 +2,6 @@
 
    qooxdoo - the new era of web interface development
 
-   Version:
-     $Id$
-
    Copyright:
      (C) 2004-2005 by Schlund + Partner AG, Germany
      All rights reserved
