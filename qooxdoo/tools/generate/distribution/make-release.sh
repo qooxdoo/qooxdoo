@@ -14,7 +14,7 @@ basename="qooxdoo-${version}"
 rsync -rlv --delete --delete-excluded build/demo build/docs build/images release/$basename
 rsync -rlv --delete --delete-excluded --exclude=*.js build/themes release/$basename
 rsync -rlv --delete --delete-excluded build/script/qooxdoo.js* release/$basename/script
-rsync -rlv --delete --exclude=CVS --exclude=.cvsignore [A-Z]* release/$basename
+rsync -lv --delete --exclude=CVS --exclude=.cvsignore [A-Z]* release/$basename
 
 cd release
 
