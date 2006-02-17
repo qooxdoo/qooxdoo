@@ -55,6 +55,10 @@ QxIframe.extend(QxTerminator, "QxIframe");
 QxIframe.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "iframe" });
 
 
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   PROPERTIES
@@ -64,6 +68,10 @@ QxIframe.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, def
 QxIframe.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
 
 QxIframe.addProperty({ name : "frameName", type : QxConst.TYPEOF_STRING });
+
+
+
+
 
 
 /*
@@ -81,6 +89,11 @@ proto.getIframeNode = function() {
 proto.setIframeNode = function(vIframeNode) {
   return this._iframeNode = vIframeNode;
 };
+
+
+
+
+
 
 
 /*
@@ -118,7 +131,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 
 proto._modifySource = function(propValue, propOldValue, propData)
 {
-  if( this.isCreated()) {
+  if(this.isCreated()) {
     this._applySource();
   };
 
@@ -151,6 +164,9 @@ proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds
 
   return true;
 };
+
+
+
 
 
 
@@ -204,7 +220,7 @@ if (QxClient.isMshtml())
       try { return win.document; }
       catch (ex) {};
     };
-    
+
     return null;
   };
 }
@@ -278,7 +294,7 @@ proto.dispose = function()
   {
     this._iframeNode.onreadystatechange = null;
     this._iframeNode.onload = null;
-    
+
     this._iframeNode = null;
   };
 
