@@ -16,6 +16,6 @@ xsltproc -o build/docs/changelog/changelog.rss tools/generate/distribution/inter
 
 echo ">>> Syncing to homepage"
 
-rsync -rlvzc --delete build/docs/changelog/* ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/demo/dev/docs/changelog/
+rsync -rlvzc --delete build/docs/changelog/* ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public/docs/changelog/
 
 echo ">>> Done"
