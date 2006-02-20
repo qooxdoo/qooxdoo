@@ -7,11 +7,10 @@
 <!--
 <xsl:output method="html" indent="no" encoding="iso-8859-1"/>
 -->
-<!--
 <xsl:output method="html" omit-xml-declaration="yes" doctype-public="-//W3C//DTD HTML 4.01//EN" doctype-system="http://www.w3.org/TR/html40/strict.dtd" indent="no" encoding="iso-8859-1"/>
--->
-
+<!--
 <xsl:output method="xml" omit-xml-declaration="no" doctype-public="-//W3C//DTD XHTML 1.1//EN" doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" indent="no" encoding="iso-8859-15"/>
+-->
 
 <xsl:param name="job" select="'default'"/>
 <xsl:param name="mode" select="'default'"/>
@@ -250,8 +249,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-      
-      
+
+
         <td><xsl:value-of select="@name"/></td>
         <td><a href="systemobjects/systemobject_{@name}.html">Details...</a></td>
       </tr>
@@ -278,8 +277,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-      
-      
+
+
         <td><xsl:value-of select="@name"/></td>
         <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         <td><a href="systemobject_{../../@name}/functions/function_{@name}.html">Details...</a></td>
@@ -521,8 +520,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-      
-      
+
+
         <td><xsl:value-of select="@name"/></td>
         <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         <td><a href="objects/object_{@name}.html">Details...</a></td>
@@ -550,8 +549,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-      
-      
+
+
         <td><xsl:value-of select="@name"/></td>
         <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         <td><a href="object_{../../@name}/functions/function_{@name}.html">Details...</a></td>
@@ -687,8 +686,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-      
-      
+
+
         <td><strong><a href="classes/class_{$classname}.html"><xsl:value-of select="$classname"/></a></strong></td>
         <td>
           <xsl:choose>
@@ -824,7 +823,7 @@
       <p>This class is <strong>public</strong>. <br/>It can be used by both user and programmer.</p>
     </xsl:otherwise>
   </xsl:choose>
-  
+
   <h2>Properties</h2>
   <table class="list" cellspacing="1" cellpadding="0">
     <thead>
@@ -837,10 +836,10 @@
       <xsl:call-template name="js_inheritedpropertylist">
         <xsl:with-param name="name"><xsl:value-of select="@name"/></xsl:with-param>
         <xsl:with-param name="base"><xsl:value-of select="@name"/></xsl:with-param>
-      </xsl:call-template> 
+      </xsl:call-template>
     </tbody>
-  </table>  
-  
+  </table>
+
   <h2>Functions</h2>
   <table class="list" cellspacing="1" cellpadding="0">
     <thead>
@@ -853,9 +852,9 @@
       <xsl:call-template name="js_inheritedfunctionlist">
         <xsl:with-param name="name"><xsl:value-of select="@name"/></xsl:with-param>
         <xsl:with-param name="base"><xsl:value-of select="@name"/></xsl:with-param>
-      </xsl:call-template> 
+      </xsl:call-template>
     </tbody>
-  </table>    
+  </table>
 
   </xsl:for-each>
 </xsl:template>
@@ -863,14 +862,14 @@
 <xsl:template name="js_inheritedfunctionlist">
   <xsl:param name="name"/>
   <xsl:param name="base"/>
-  
+
   <xsl:for-each select="/data/class[@name = $name]">
     <xsl:if test="count(functions/function) &gt; 0">
       <tr class="maingroup">
         <td colspan="2"><xsl:value-of select="$name"/></td>
-      </tr>      
-    </xsl:if>    
-  
+      </tr>
+    </xsl:if>
+
     <xsl:if test="count(functions/function[not(usagetype='private')]) &gt; 0">
       <tr class="group">
         <td colspan="2">Public</td>
@@ -889,7 +888,7 @@
             </xsl:when>
           </xsl:choose>
         </xsl:variable>
- 
+
         <tr>
           <xsl:attribute name="class">
             <xsl:choose>
@@ -897,18 +896,18 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-          
+
           <td><strong><a href="class_{../../@name}/functions/function_{@name}.html"><xsl:value-of select="@name"/></a></strong></td>
           <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         </tr>
       </xsl:for-each>
     </xsl:if>
-      
+
     <xsl:if test="count(functions/function[usagetype='private']) &gt; 0">
       <tr class="group">
         <td colspan="2">Private</td>
       </tr>
-      
+
       <xsl:for-each select="functions/function[usagetype='private']">
         <xsl:sort select="@name"/>
 
@@ -929,19 +928,19 @@
               <xsl:when test="position() mod 2 = 0">even</xsl:when>
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
-          </xsl:attribute>        
-        
+          </xsl:attribute>
+
           <td><strong><a href="class_{../../@name}/functions/function_{@name}.html"><xsl:value-of select="@name"/></a></strong></td>
           <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         </tr>
-      </xsl:for-each>      
-    </xsl:if>      
+      </xsl:for-each>
+    </xsl:if>
 
     <xsl:if test="/data/class[@name = $name]/inherit/text()">
       <xsl:call-template name="js_inheritedfunctionlist">
         <xsl:with-param name="name" select="/data/class[@name = $name]/inherit/text()"/>
       </xsl:call-template>
-    </xsl:if>  
+    </xsl:if>
   </xsl:for-each>
 </xsl:template>
 
@@ -949,14 +948,14 @@
 <xsl:template name="js_inheritedpropertylist">
   <xsl:param name="name"/>
   <xsl:param name="base"/>
-  
+
   <xsl:for-each select="/data/class[@name = $name]">
     <xsl:if test="count(properties/property) &gt; 0">
       <tr class="maingroup">
         <td colspan="2"><xsl:value-of select="$name"/></td>
-      </tr>      
-    </xsl:if>    
-  
+      </tr>
+    </xsl:if>
+
     <xsl:if test="count(properties/property[not(usagetype='private')]) &gt; 0">
       <tr class="group">
         <td colspan="2">Public</td>
@@ -975,7 +974,7 @@
             </xsl:when>
           </xsl:choose>
         </xsl:variable>
- 
+
         <tr>
           <xsl:attribute name="class">
             <xsl:choose>
@@ -983,18 +982,18 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-          
+
           <td><strong><a href="class_{../../@name}/properties/property_{@name}.html"><xsl:value-of select="@name"/></a></strong></td>
           <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         </tr>
       </xsl:for-each>
     </xsl:if>
-      
+
     <xsl:if test="count(properties/property[usagetype='private']) &gt; 0">
       <tr class="group">
         <td colspan="2">Private</td>
       </tr>
-      
+
       <xsl:for-each select="properties/property[usagetype='private']">
         <xsl:sort select="@name"/>
 
@@ -1015,19 +1014,19 @@
               <xsl:when test="position() mod 2 = 0">even</xsl:when>
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
-          </xsl:attribute>        
-        
+          </xsl:attribute>
+
           <td><strong><a href="class_{../../@name}/properties/property_{@name}.html"><xsl:value-of select="@name"/></a></strong></td>
           <td><xsl:apply-templates select="short/node()|short/text()"/></td>
         </tr>
-      </xsl:for-each>      
-    </xsl:if>      
+      </xsl:for-each>
+    </xsl:if>
 
     <xsl:if test="/data/class[@name = $name]/inherit/text()">
       <xsl:call-template name="js_inheritedpropertylist">
         <xsl:with-param name="name" select="/data/class[@name = $name]/inherit/text()"/>
       </xsl:call-template>
-    </xsl:if>  
+    </xsl:if>
   </xsl:for-each>
 </xsl:template>
 
@@ -1054,7 +1053,7 @@
             <xsl:otherwise>odd</xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
-      
+
         <td><a href="globalfunctions/globalfunction_{@name}.html"><xsl:value-of select="@name"/></a></td>
         <td><xsl:value-of select="short"/></td>
         <td><xsl:value-of select="info/date"/></td>
@@ -1264,7 +1263,7 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-        
+
           <td>
             <xsl:choose>
               <xsl:when test="@mandatory = 'true'">
@@ -1333,7 +1332,7 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-        
+
           <td><xsl:value-of select="@name"/></td>
           <td><xsl:value-of select="@match"/></td>
           <td><a href="groups/group_{@name}.html">Details...</a></td>
@@ -1719,7 +1718,7 @@
             <xsl:otherwise>odd</xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
-      
+
         <td style="text-align:right"><xsl:value-of select="position()"/></td>
         <td>
           <xsl:choose>
@@ -2190,7 +2189,7 @@
                 <xsl:otherwise>odd</xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>
-          
+
             <td class="nr"><xsl:value-of select="position()"/></td>
             <td><xsl:value-of select="../@name"/></td>
             <td><a href="{$pathrel}systemobject_{../@name}.html">Details...</a></td>
@@ -2219,7 +2218,7 @@
                 <xsl:otherwise>odd</xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>
-          
+
             <td class="nr"><xsl:value-of select="position()"/></td>
             <td><xsl:value-of select="../@name"/></td>
             <td><a href="{$pathrel}objects/object_{../@name}.html">Details...</a></td>
@@ -2248,7 +2247,7 @@
                 <xsl:otherwise>odd</xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>
-          
+
             <td class="nr"><xsl:value-of select="position()"/></td>
             <td><xsl:value-of select="../@name"/></td>
             <td><a href="{$pathrel}classes/class_{../@name}.html">Details...</a></td>
@@ -2277,7 +2276,7 @@
                 <xsl:otherwise>odd</xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>
-          
+
             <td class="nr"><xsl:value-of select="position()"/></td>
             <td><xsl:value-of select="../@name"/></td>
             <td><a href="{$pathrel}globalfunctions/globalfunction_{../@name}.html">Details...</a></td>
@@ -2375,7 +2374,7 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-        
+
           <a name="file_{translate($myname, '/', '-')}"/>
           <td><xsl:value-of select="position()"/></td>
           <td><a href="files/file_{translate($myname, '/', '-')}.html"><xsl:value-of select="$myname"/></a></td>
@@ -2412,8 +2411,8 @@
               <xsl:otherwise>odd</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
-        
-        
+
+
           <a name="rule_{@wellid}"/>
           <td><xsl:value-of select="@wellid"/></td>
           <td>
