@@ -21,35 +21,35 @@
   window.application.main = function()
   {
     var gl = new QxGridLayout;
-    
+
     gl.setLocation(20, 48);
     gl.setDimension(462, 128);
     gl.setBorder(QxBorderObject.presets.outset);
     gl.setPadding(2, 4);
     gl.setColumnCount(4);
     gl.setRowCount(2);
-    
+
     gl.setColumnWidth(0, 100);
     gl.setColumnWidth(1, 200);
     gl.setColumnWidth(2, 50);
     gl.setColumnWidth(3, 100);
-    
+
     gl.setRowHeight(0, 40);
     gl.setRowHeight(1, 80);
 
     this.add(gl);
-    
-    
-    
-    
-    
+
+
+
+
+
     var term1 = new QxTerminator;
     term1.setBackgroundColor("yellow");
     gl.add(term1, 0, 0);
-    
-    var term2 = new QxButton("Hello World", "icons/22/fax.png");
+
+    var term2 = new QxButton("Hello World", "icons/22/colors.png");
     gl.add(term2, 1, 0);
-    
+
     var term3 = new QxTerminator;
     term3.setBackgroundColor("green");
     term3.setWidth(100);
@@ -64,24 +64,24 @@
     var term5 = new QxTerminator;
     term5.setBackgroundColor("fuchsia");
     gl.add(term5, 0, 1);
-    
+
     var term6 = new QxTerminator;
     term6.setBackgroundColor("olive");
     term6.setWidth("50%");
     term6.setHorizontalAlign("center");
     gl.add(term6, 1, 1);
-    
+
     var term7 = new QxTerminator;
     term7.setBackgroundColor("maroon");
     gl.add(term7, 2, 1);
-    
+
     var term8 = new QxTerminator;
     term8.setBackgroundColor("navy");
     term8.setHeight(20);
     term8.setVerticalAlign("bottom");
-    gl.add(term8, 3, 1);            
+    gl.add(term8, 3, 1);
   };
-  </script> 
+  </script>
 
 </body>
 </html>
