@@ -27,7 +27,7 @@
 #require(QxDomEventRegistration)
 #post(QxClientWindow)
 #post(QxImageManager)
-#post(QxImagePreloader)
+#post(QxImagePreloaderSystem)
 #post(QxDebug)
 #post(QxDataEvent)
 #post(QxTimer)

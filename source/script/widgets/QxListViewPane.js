@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #package(listview)
+#post(QxVirtualSelectionManager)
 
 ************************************************************************ */
 
@@ -109,7 +110,7 @@ proto._updateLayout = function(vUpdate)
   var vRowCount = Math.ceil(this.getInnerHeight() / this._rowHeight);
   var vData = this._data;
   var vCell;
-  
+
   // this.debug("Row-Count: " + this._lastRowCount + " => " + vRowCount);
 
   // Sync cells: Add new ones and configure them

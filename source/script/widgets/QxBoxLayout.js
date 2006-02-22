@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(layout)
-#require(QxHorizontalBoxLayoutImpl)
-#require(QxVerticalBoxLayoutImpl)
+#post(QxHorizontalBoxLayoutImpl)
+#post(QxVerticalBoxLayoutImpl)
 
 ************************************************************************ */
 
@@ -176,7 +176,7 @@ proto._modifyOrientation = function(propValue, propOldValue, propData)
   if (QxUtil.isValidString(propValue)) {
     this._layoutImpl = this._createLayoutImpl();
   };
-  
+
   // call other core modifier
   return this._modifyLayoutOrder();
 };

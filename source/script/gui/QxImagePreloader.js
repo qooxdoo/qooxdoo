@@ -185,5 +185,5 @@ proto.dispose = function()
 
   this._isLoaded = this._isErroneous = this._isPng = false;
 
-  return QxTarget.prototype.dispose.call(this);;
+  return QxTarget.prototype.dispose.call(this);
 };

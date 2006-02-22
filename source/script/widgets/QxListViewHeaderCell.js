@@ -25,6 +25,8 @@
 #package(listview)
 #require(QxCompare)
 #require(QxUtil)
+#post(QxHorizontalSpacer)
+#post(QxImage)
 
 ************************************************************************ */
 
