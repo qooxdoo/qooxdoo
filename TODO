@@ -34,6 +34,9 @@ h4. Layouter Rework
 
 h4. Unsorted
 
+* Better keyboard support:
+  http://ecmanaut.blogspot.com/2006/02/javascript-libraries-handling-keyboard.html
+
 * Support tooltipText in QxWidget (to reuse one QxToolTip instance)
 * Check this for qooxdoo: http://hartshorne.ca/2006/01/23/javascript_cursor_position/
 
