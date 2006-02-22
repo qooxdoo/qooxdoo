@@ -1,3 +1,8 @@
+h4. Homepage
+
+* Improve homepage to include more project informations above the news section.
+* Install Wiki, Bugzilla and some other tools
+
 h4. AJAX Layer
 
 # Implement QxRequestQueue
