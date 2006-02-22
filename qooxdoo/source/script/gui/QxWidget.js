@@ -3031,9 +3031,16 @@ proto._applyInitialAppearance = function()
 
   if (vAppearance)
   {
-    var r = QxAppearanceManager.getAppearanceThemeObject().initialFrom(this, vAppearance);
-    if (r) {
-      this.set(r);
+    try
+    {
+      var r = QxAppearanceManager.getAppearanceThemeObject().initialFrom(this, vAppearance);
+      if (r) {
+        this.set(r);
+      };
+    }
+    catch(ex)
+    {
+      this.error("Could not apply initial appearance: " + ex, "_applyInitialAppearance");
     };
   };
 };
@@ -3046,9 +3053,16 @@ proto._applyStateAppearance = function()
 
   if (vAppearance)
   {
-    var r = QxAppearanceManager.getAppearanceThemeObject().stateFrom(this, vAppearance);
-    if (r) {
-      this.set(r);
+    try
+    {
+      var r = QxAppearanceManager.getAppearanceThemeObject().stateFrom(this, vAppearance);
+      if (r) {
+        this.set(r);
+      };
+    }
+    catch(ex)
+    {
+      this.error("Could not apply state appearance: " + ex, "_applyStateAppearance");
     };
   };
 };
