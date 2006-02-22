@@ -134,6 +134,11 @@ proto._modifyManager = function(propValue, propOldValue, propData)
 
 proto._matchesKeyEvent = function(e)
 {
+  // pre check if parts are configured
+  if (typeof this._shortcutParts !== QxConst.TYPEOF_OBJECT && this._shortcutParts !== null) {
+    return false;
+  };
+
   // pre check for configured shortcut or keycode
   if (!(QxUtil.isValid(this.getShortcut()) || QxUtil.isValid(this.getKeyCode()))) {
     return false;
