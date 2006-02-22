@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(guicore)
-#post(QxDomStyleSheet)
+#require(QxDomStyleSheet)
 #post(QxBlocker)
 #post(QxFocusManager)
 
