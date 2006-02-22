@@ -956,7 +956,7 @@ def main(conf):
         xmloutput = ""
 
         optfilename = os.path.join(conf["outputCompressed"], item + JSEXT)
-        os.system("/usr/bin/xsltproc -o " + optfilename + " tools/compileng_compress.xsl " + outfilename)
+        os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compileng_compress.xsl " + outfilename)
 
         if conf["outputCombined"]:
           combined += "/* " + infilename + " */ " + file(optfilename, "r").read() + "\n"
