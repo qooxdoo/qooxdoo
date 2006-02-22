@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Introduce QxSplitPane which splits a window or area into nested panes.</p>
+  </div>
+
+    <script type="text/javascript">
+      window.application.main = function() {
+        var doc = this.getClientWindow().getClientDocument();
+
+	var mainW = new QxWindow("Split pane test");
+	mainW.setSpace(20, 400, 48, 250);
+	doc.add(mainW);
+
+        var upperL = new QxLabel("Upper label");
+        var lowerL = new QxLabel("Lower label");
+
+        var rightSP = new QxSplitPane(QxConst.ORIENTATION_VERTICAL);
+        rightSP.setTopWidget(upperL);
+        rightSP.setBottomWidget(lowerL);
+        rightSP.setHeight(QxConst.CORE_HUNDREDPERCENT);
+        rightSP.setWidth(QxConst.CORE_FLEX);
+
+        var leftL = new QxLabel("Left label");
+
+	var mainSP = new QxSplitPane(QxConst.ORIENTATION_HORIZONTAL);
+        mainSP.setLeftWidget(leftL);
+        mainSP.setRightWidget(rightSP);
+        mainSP.setHeight(QxConst.CORE_HUNDREDPERCENT);
+        mainSP.setWidth(QxConst.CORE_HUNDREDPERCENT);
+
+        mainF.add(mainSP);
+
+	mainF.open();
+      };
+    </script>
+  </body>
+</html>
