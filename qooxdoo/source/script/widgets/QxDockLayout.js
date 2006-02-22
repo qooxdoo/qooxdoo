@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(layout)
-#require(QxDockLayoutImpl)
+#post(QxDockLayoutImpl)
 
 ************************************************************************ */
 
@@ -108,8 +108,8 @@ proto._addAlignedVertical = function(vAlign, vArgs)
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setVerticalAlign(vAlign);
   };
-  
-  this.add.apply(this, vArgs); 
+
+  this.add.apply(this, vArgs);
 };
 
 proto._addAlignedHorizontal = function(vAlign, vArgs)
@@ -117,6 +117,6 @@ proto._addAlignedHorizontal = function(vAlign, vArgs)
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setHorizontalAlign(vAlign);
   };
-  
-  this.add.apply(this, vArgs); 
+
+  this.add.apply(this, vArgs);
 };

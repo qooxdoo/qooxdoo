@@ -39,13 +39,6 @@ function QxDragAndDropManager()
   this._data = {};
   this._actions = {};
   this._cursors = {};
-
-  var vCursor;
-  for (var vAction in this._actionNames)
-  {
-    vCursor = this._cursors[vAction] = new QxImage(this._cursorPath + vAction + QxConst.CORE_DOT + this._cursorFormat);
-    vCursor.setZIndex(1e8);
-  };
 };
 
 QxDragAndDropManager.extend(QxManager, "QxDragAndDropManager");
@@ -66,6 +59,35 @@ proto._actionNames =
 proto._cursorPath = "widgets/cursors/";
 proto._cursorFormat = "gif";
 proto._lastDestinationEvent = null;
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  INIT CURSORS
+---------------------------------------------------------------------------
+*/
+
+proto.initCursors = function()
+{
+  if (this._initCursorsDone) {
+    return;
+  };
+
+  var vCursor;
+  for (var vAction in this._actionNames)
+  {
+    vCursor = this._cursors[vAction] = new QxImage(this._cursorPath + vAction + QxConst.CORE_DOT + this._cursorFormat);
+    vCursor.setZIndex(1e8);
+  };
+
+  this._initCursorsDone = true;
+};
+
+
 
 
 
@@ -548,6 +570,8 @@ proto._endDragCore = function()
 */
 proto._renderCursor = function()
 {
+  this.initCursors();
+
   var vNewCursor;
   var vOldCursor = this.getCursor();
 
@@ -803,40 +827,39 @@ proto.dispose = function()
   // Cleanup data and actions
   this.clearData();
   this.clearActions();
-  
+
   this._actions = null;
   this._actionNames = null;
-  this._cursors = null;
 
   this._lastDestinationEvent = null;
 
-  if (QxDragAndDropManager._cursors)
+  if (this._cursors)
   {
-    if (QxDragAndDropManager._cursors.move)
+    if (this._cursors.move)
     {
-      QxDragAndDropManager._cursors.move.dispose();
-      QxDragAndDropManager._cursors.move = null;
+      this._cursors.move.dispose();
+      delete this._cursors.move;
     };
 
-    if (QxDragAndDropManager._cursors.copy)
+    if (this._cursors.copy)
     {
-      QxDragAndDropManager._cursors.copy.dispose();
-      QxDragAndDropManager._cursors.copy = null;
+      this._cursors.copy.dispose();
+      delete this._cursors.copy;
     };
 
-    if (QxDragAndDropManager._cursors.alias)
+    if (this._cursors.alias)
     {
-      QxDragAndDropManager._cursors.alias.dispose();
-      QxDragAndDropManager._cursors.alias = null;
+      this._cursors.alias.dispose();
+      delete this._cursors.alias;
     };
 
-    if (QxDragAndDropManager._cursors.nodrop)
+    if (this._cursors.nodrop)
     {
-      QxDragAndDropManager._cursors.nodrop.dispose();
-      QxDragAndDropManager._cursors.nodrop = null;
+      this._cursors.nodrop.dispose();
+      delete this._cursors.nodrop;
     };
 
-    QxDragAndDropManager._cursors = null;
+    this._cursors = null;
   };
 
   return QxManager.prototype.dispose.call(this);
