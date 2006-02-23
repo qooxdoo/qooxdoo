@@ -5,7 +5,8 @@ h4. Homepage
 
 h4. Documentation
 
-* Add general documentation for the event system and which events are fired by which widget (just the base classes like QxWidget)
+* Drag & Drop Support
+* Transport
 
 h4. AJAX Layer
 
@@ -37,6 +38,8 @@ h4. Layouter Rework
 * Think about additionally supporting dimensions like '100%-10' as in RelativeLayers
 
 h4. Unsorted
+
+* Rename "changeSelection" event of QxSelectionManager to just "change"?
 
 * Better keyboard support:
   http://ecmanaut.blogspot.com/2006/02/javascript-libraries-handling-keyboard.html
