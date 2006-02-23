@@ -44,6 +44,7 @@ function QxCommand(vShortcut, vKeyCode, vManager)
   };
 
   this.setManager(QxUtil.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
+  this._shortcutParts = {};
 };
 
 QxCommand.extend(QxTarget, "QxCommand");
@@ -89,11 +90,11 @@ proto._modifyShortcut = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // split string to get each key which must be pressed
-    var a = propValue.toLowerCase().split(/[-+\s]+/);
-    var al = a.length;
-
     // build a hash with active keys
     this._shortcutParts = {};
+
+    var a = propValue.toLowerCase().split(/[-+\s]+/);
+    var al = a.length;
 
     for (var i=0; i<al; i++) {
       this._shortcutParts[a[i]] = true;
@@ -101,7 +102,7 @@ proto._modifyShortcut = function(propValue, propOldValue, propData)
   }
   else
   {
-    this._shortcutParts = null;
+    this._shortcutParts = {};
   };
 
   return true;
