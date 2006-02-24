@@ -101,3 +101,7 @@ h4. Unsorted
 
 * Some rounded borners like nifty corners or these ones: http://www.456bereastreet.com/archive/200505/transparent_custom_corners_and_borders/
 * Merge some ideas from "prototype" and "moo.fx" to qooxdoo
+
+* Field validation
+* i18n support
+* Crypto features
