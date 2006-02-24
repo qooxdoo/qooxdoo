@@ -73,6 +73,11 @@ QxLabel.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defa
 QxLabel.addProperty({ name : "html", type : QxConst.TYPEOF_STRING });
 
 /*!
+  The alignment of the text.
+*/
+QxLabel.addProperty({ name : "textAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
+
+/*!
   The styles which should be copied
 */
 QxLabel.addProperty({ name : "fontPropertiesProfile", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_DEFAULT, possibleValues : [ QxConst.CORE_NONE, QxConst.CORE_DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
@@ -157,6 +162,12 @@ proto._modifyHtml = function(propValue, propOldValue, propData)
     this._applyContent();
   };
 
+  return true;
+};
+
+proto._modifyTextAlign = function(propValue, propOldValue, propData)
+{
+  this.setStyleProperty("textAlign", propValue);
   return true;
 };
 
