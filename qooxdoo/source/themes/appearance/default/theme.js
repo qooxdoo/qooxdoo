@@ -1278,11 +1278,6 @@ theme.registerAppearance("tree-element",
       height : 16,
       verticalChildrenAlign : QxConst.ALIGN_MIDDLE
     };
-  },
-
-  state : function(vWidget, vTheme, vStates)
-  {
-
   }
 });
 
@@ -1292,8 +1287,30 @@ theme.registerAppearance("tree-element-icon",
   {
     return {
       width : 16,
-      height : 16,
-      source : "icons/16/file-new.png"
+      height : 16
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates)
+  {
+    // The widget is the icon.
+    // We need the property of the QxTreeFile, the QxTreeFolder or of the QxTree
+    var vParent = vWidget.getParent();
+    while (vParent && !(vParent instanceof QxTreeElement)) {
+      vParent = vParent.getParent();
+    };
+
+    if (vParent.getIcon())
+    {
+      return {
+        source : vStates.selected ? vParent.getIconSelected() || vParent.getIcon() : vParent.getIcon()
+      };
+    }
+    else
+    {
+      return {
+        source : "icons/16/file-new.png"
+      };
     };
   }
 });
@@ -1352,8 +1369,24 @@ theme.registerAppearance("tree-folder-icon",
 
   state : function(vWidget, vTheme, vStates)
   {
-    return {
-      source : vStates.selected ? "icons/16/folder-open.png" : "icons/16/folder.png"
+    // The widget is the icon.
+    // We need the property of the QxTreeFile, the QxTreeFolder or of the QxTree
+    var vParent = vWidget.getParent();
+    while (vParent && !(vParent instanceof QxTreeElement)) {
+      vParent = vParent.getParent();
+    };
+
+    if (vParent.getIcon())
+    {
+      return {
+        source : vStates.selected ? vParent.getIconSelected() || vParent.getIcon() : vParent.getIcon()
+      };
+    }
+    else
+    {
+      return {
+        source : vStates.selected ? "icons/16/folder-open.png" : "icons/16/folder.png"
+      };
     };
   }
 });

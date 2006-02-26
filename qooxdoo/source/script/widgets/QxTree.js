@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-function QxTree(vLabel)
+function QxTree(vLabel, vIcon, vIconSelected)
 {
-  QxTreeFolder.call(this, vLabel);
+  QxTreeFolder.call(this, vLabel, vIcon, vIconSelected);
 
   // ************************************************************************
   //   INITILISIZE MANAGER

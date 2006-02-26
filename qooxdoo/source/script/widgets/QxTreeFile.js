@@ -26,12 +26,11 @@
 
 ************************************************************************ */
 
-function QxTreeFile(vLabel) {
-  QxTreeElement.call(this, vLabel);
+function QxTreeFile(vLabel, vIcon, vIconSelected) {
+  QxTreeElement.call(this, vLabel, vIcon, vIconSelected);
 };
 
 QxTreeFile.extend(QxTreeElement, "QxTreeFile");
-
 
 
 

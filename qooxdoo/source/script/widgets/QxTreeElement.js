@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxTreeElement(vLabel)
+function QxTreeElement(vLabel, vIcon, vIconSelected)
 {
   if (this.classname == QxTreeElement.OMIT_CLASS) {
     throw new Error("Please omit the usage of QxTreeElement directly. Choose between QxTreeFolder and QxTreeFile instead!");
@@ -61,6 +61,16 @@ function QxTreeElement(vLabel)
   // Adding subwidgets
   this.add(this._indentObject, this._iconObject, this._labelObject);
 
+  // Set Icons
+  if ((vIcon != null) && (QxUtil.isValidString(vIcon))) {
+    this.setIcon(vIcon);
+    this.setIconSelected(vIcon);
+  };
+  if ((vIconSelected != null) && (QxUtil.isValidString(vIconSelected))) {
+    this.setIconSelected(vIconSelected);
+  };
+
+
   // Set Appearance
   this._iconObject.setAppearance("tree-element-icon");
   this._labelObject.setAppearance("tree-element-label");
@@ -86,6 +96,12 @@ QxTreeElement.OMIT_CLASS = "QxTreeElement";
 QxTreeElement.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-element" });
 
 /*!
+  The icons
+*/
+QxTreeElement.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+QxTreeElement.addProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
+
+/*!
   The label/caption/text of the QxAtom instance
 */
 QxTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
@@ -94,8 +110,6 @@ QxTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
   Selected property
 */
 QxTreeElement.addProperty({ name : "selected", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-
-
 
 
 
