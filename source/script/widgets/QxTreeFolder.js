@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxTreeFolder(vLabel)
+function QxTreeFolder(vLabel, vIcon, vIconSelected)
 {
-  QxTreeElement.call(this, vLabel);
+  QxTreeElement.call(this, vLabel, vIcon, vIconSelected);
 
   this._iconObject.setAppearance("tree-folder-icon");
-  this._labelObject.setAppearance("tree-folder-label");  
-  
+  this._labelObject.setAppearance("tree-folder-label");
+
   this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
   // Remapping of add/remove methods
@@ -55,12 +55,13 @@ QxTreeFolder.extend(QxTreeElement, "QxTreeFolder");
 ---------------------------------------------------------------------------
 */
 
+
 QxTreeFolder.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-folder" });
+QxTreeFolder.changeProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+QxTreeFolder.changeProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
 
 QxTreeFolder.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 QxTreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-
-
 
 
 
@@ -123,11 +124,11 @@ proto._openCallback = function()
 proto._createChildrenStructure = function()
 {
   this.setAppearance(this instanceof QxTree ? "tree-container" : "tree-folder-container");
-  
+
   if (!this._horizontalLayout)
   {
     this.setOrientation(QxConst.ORIENTATION_VERTICAL);
-    
+
     this._horizontalLayout = new QxHorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
@@ -152,7 +153,7 @@ proto._createChildrenStructure = function()
     // opened again invisible.
     this._containerObject.setDisplay(this.getOpen());
     this._containerObject.setParent(this);
-    
+
     // remap remove* functions
     this.remapChildrenHandlingTo(this._containerObject);
   };
@@ -238,14 +239,14 @@ proto.addAtBeginToFolder = function(vChild) {
   return this.addAtToFolder(vChild, 0);
 };
 
-proto.addAtEndToFolder = function(vChild) 
+proto.addAtEndToFolder = function(vChild)
 {
   this._createChildrenStructure();
-  
+
   if (this._containerObject)
-  {  
+  {
     var vLast = this._containerObject.getLastChild();
-    
+
     if (vLast)
     {
       this._handleChildMove(vChild, null, vLast);
@@ -335,7 +336,7 @@ proto._modifyOpen = function(propValue, propOldValue, propData)
 proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
 {
   this._updateLastColumn();
-  
+
   return true;
 };
 
@@ -348,7 +349,7 @@ proto._updateLastColumn = function()
     if (vElement && vElement.firstChild) {
       vElement.firstChild.src = this.BASE_URI + this.getIndentSymbol(this.getTree().getUseTreeLines(), true) + ".gif";
     };
-  };  
+  };
 };
 
 
@@ -403,13 +404,13 @@ proto._onmouseup = function(e)
   {
     case this._indentObject:
     case this._containerObject:
-    case this:  
+    case this:
       break;
-    
+
     default:
       if (!this.getTree().getUseDoubleClick()) {
         this.open();
-      };  
+      };
   };
 };
 
