@@ -40,6 +40,7 @@ QxRangeManager.extend(QxManager, "QxRangeManager");
 QxRangeManager.addProperty({ name : "value", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 QxRangeManager.addProperty({ name : "min", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 QxRangeManager.addProperty({ name : "max", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+QxRangeManager.addProperty({ name : "step", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
 
 QxRangeManager.CHANGE_EVENTTYPE = QxConst.INTERNAL_CHANGE;
 
