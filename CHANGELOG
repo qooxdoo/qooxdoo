@@ -1,6 +1,40 @@
+2006-02-27 16:57  wpbasti
+
+	* source/demo/demolayout.css: Make blue color darker to match
+	  homepage colors better
+
+2006-02-27 15:34  wpbasti
+
+	* tools/generate/make-source.sh: Minor fix for sed problems using
+	  windows
+
+2006-02-27 12:01  wpbasti
+
+	* source/script/gui/QxCommand.js: Minor fixes and improvements
+
+2006-02-26 18:32  wpbasti
+
+	* source/script/managers/QxRangeManager.js: Added step property
+
+2006-02-26 18:03  wpbasti
+
+	* source/: demo/example/Tree_1.html, script/widgets/QxTree.js,
+	  script/widgets/QxTreeElement.js, script/widgets/QxTreeFile.js,
+	  script/widgets/QxTreeFolder.js,
+	  themes/appearance/default/theme.js: Added support for
+	  user-defined tree-icons
+
+2006-02-24 10:39  wpbasti
+
+	* CHANGELOG: Updated
+
 2006-02-24 10:36  wpbasti
 
 	* source/script/widgets/QxLabel.js: Added text-align support
+
+2006-02-24 10:36  wpbasti
+
+	* tools/generate/distribution/make-sync.sh: Minor sync improvement
 
 2006-02-24 10:36  wpbasti
 
