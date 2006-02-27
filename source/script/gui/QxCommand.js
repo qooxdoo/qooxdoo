@@ -35,6 +35,8 @@ function QxCommand(vShortcut, vKeyCode, vManager)
 {
   QxTarget.call(this);
 
+  this._shortcutParts = {};
+
   if (QxUtil.isValid(vShortcut)) {
     this.setShortcut(vShortcut);
   };
@@ -44,7 +46,6 @@ function QxCommand(vShortcut, vKeyCode, vManager)
   };
 
   this.setManager(QxUtil.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
-  this._shortcutParts = {};
 };
 
 QxCommand.extend(QxTarget, "QxCommand");
@@ -52,7 +53,7 @@ QxCommand.extend(QxTarget, "QxCommand");
 QxCommand.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 QxCommand.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
 QxCommand.addProperty({ name : "keyCode", type : QxConst.TYPEOF_NUMBER });
-QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT });
+QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxEventManager" });
 
 
 
@@ -283,8 +284,12 @@ proto.dispose = function()
     return;
   };
 
-  this._ownerWindow = null;
   this._shortcutParts = null;
+
+  var vManager = this.getManager();
+  if (vManager) {
+    vManager.removeCommand(this);
+  };
 
   return QxTarget.prototype.dispose.call(this);
 };
