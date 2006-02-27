@@ -5,7 +5,7 @@ cd `dirname $0`/../..
 echo ">>> Creating includer script..."
 
 cat source/demo/demoinclude.js.in > source/demo/demoinclude.js
-grep -v \"\" tools/generate/internal/config.sh | sed s:"L=\"\$L ":"inc(\"":g | sed s:"\"$":"\");":g | sed s:"\# ":"// ":g >> source/demo/demoinclude.js
+grep -v \"\" tools/generate/internal/config.sh | sed s:"L=\"\$L ":"inc('":g | sed s:"\"":"\");":g | sed s:"\# ":"// ":g | sed s:"'":"\"":g >> source/demo/demoinclude.js
 
 length=`cat tools/generate/internal/config.sh | grep -R "^L" | grep -v "\"\"" | wc -l`
 echo ">>> Includer System Loads $length Files"
