@@ -1,22 +1,18 @@
 INTRODUCTION
 ----------------------------------------------------------------------------
 
-qooxdoo is an Open Source (licensed under LGPL) DOM-based
-javascript toolkit. qooxdoo continue where simple HTML is not
-enough anymore and this way it can you help to get your rich web
-application interface done easier than ever. qooxdoo includes
-simple to use focus and event interfaces.
+qooxdoo is an advanced open-source javascript based gui toolkit.
 
-qooxdoo work in most of the current browsers. This also include
-recent versions of Opera. Safari support is planned. You don't
-anymore need to detect the client browser if you work with
-qooxdoo widgets.
+qooxdoo continues where simple HTML is not enough anymore. This way qooxdoo 
+can help you to get your rich web application interface done - easier than 
+ever before.
 
 
 LICENSE
 ----------------------------------------------------------------------------
 
-qooxdoo is licensed under LGPL. This means you can do the following:
+qooxdoo is licensed under the "GNU Lesser General Public License" (LGPL). 
+This means you can do the following:
 
 * use qooxdoo for whatever you want
 * redistribute or sell qooxdoo to anybody (including source code)
@@ -25,55 +21,48 @@ qooxdoo is licensed under LGPL. This means you can do the following:
 You must leave all copyrights intact and must redistribute the
 full source code with your modifications.
 
+Please make sure you have read and understood the contents of the file 
+LICENSE within the qooxdoo distribution.
+
 
 INSTALLATION
 ----------------------------------------------------------------------------
 
-To build a useable qooxdoo after checkout please run the following first:
+After the first checkout from the qooxdoo repository please run the 
+following command to generate a working version:
 
 $ bash tools/make.sh
 
-After this command has run sucessfully, open the file 
-public/test/user/Index.html in your favorite
-browser.
+Upon successful completion of this command, please point your browser to the 
+file build/demo/index.html in order to browse the demo section.
 
 
-REQUIREMENTS
+BROWSERS
 ----------------------------------------------------------------------------
 
-qooxdoo is compatible to modern web browsers:
+qooxdoo works for most of modern web browsers:
   
-  officially supported are
+* officially supported:
   - Internet Explorer 6.0
-  - Mozilla >= 1.7
+  - Mozilla >= 1.7 (and all similar Gecko-based browsers)
   - Opera >= 8
 
-  also should work:
+* supposed to work:
   - Internet Explorer 5.5
   - Mozilla >= 1.3
   - Opera >= 7.2
   - Safari >= 1.2
 
-----------------------------------------------------------------------
 
-To compile documentation and build a full qooxdoo package:
+REQUIREMENTS
+----------------------------------------------------------------------------
+
+In order to generate a working version and the documentation at least the 
+following packages are required to be installed properly:
 
 * bash
 * python >= 2.3
-* xsltproc (libxslt)
 * rsync
-* ssh
+* xsltproc (libxslt)
 
-----------------------------------------------------------------------
-
-To build self configured qooxdoo dist packages
-
-* perl
-* perl-modules:
-  - XML-NamespaceSupport
-  - XML-SAX
-  - Storable
-  - Test-Harness
-  - Test-Simple
-  - XML-Simple
-
+----------------------------------------------------------------------------
