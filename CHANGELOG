@@ -1,3 +1,32 @@
+2006-02-27 20:41  wpbasti
+
+	* tools/generate/distribution/make-build-release.sh: Minor build
+	  fix
+
+2006-02-27 18:32  ecker
+
+	* source/demo/demolayout.js.in: Minor fix
+
+2006-02-27 17:14  wpbasti
+
+	* source/contributed/: scroller_olsson/QxScroller.js,
+	  scroller_olsson/Scroller_1.html, splitpane_olsson/QxSplitPane.js,
+	  splitpane_olsson/SplitPane_1.html: Minor fixes
+
+2006-02-27 17:12  wpbasti
+
+	* CHANGELOG: Fixed rights
+
+2006-02-27 17:11  wpbasti
+
+	* tools/generate/distribution/: make-build-release.sh,
+	  make-release.sh, make-source-release.sh: Added new source release
+	  script, renamed build release script
+
+2006-02-27 17:11  wpbasti
+
+	* source/script/core/QxMain.js: Version Bump
+
 2006-02-27 16:57  wpbasti
 
 	* source/demo/demolayout.css: Make blue color darker to match
