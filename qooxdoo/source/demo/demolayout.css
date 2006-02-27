@@ -15,7 +15,7 @@ p{
   left: 0px;
   right: 0px;
   width: 100%;
-  background: #335EA8;
+  background: #134275;
   padding: 3px 8px;
   height: 20px;
   color: white;
@@ -47,7 +47,7 @@ p{
   right: 0;
   width: 280px;
   background: #fff;
-  border-left: 10px solid #335EA8;
+  border-left: 10px solid #134275;
   z-index: 1000000000;
 }
 
@@ -83,7 +83,7 @@ p{
   right: 4px;
   z-index: 1000000002;
   overflow: auto;
-  border-bottom: 10px solid #335EA8;
+  border-bottom: 10px solid #134275;
   padding: 0px 6px 0px 4px;
 }
 
