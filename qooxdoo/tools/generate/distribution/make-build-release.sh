@@ -2,9 +2,9 @@
 
 cd `dirname $0`/../../..
 
-#tools/generate/make-source.sh
-#tools/generate/make-docs.sh
-#tools/generate/distribution/make-changelog.sh
+tools/generate/make-source.sh
+tools/generate/make-docs.sh
+tools/generate/distribution/make-changelog.sh
 
 version=`grep version source/script/core/QxMain.js | cut -d'"' -f2`
 basename="qooxdoo-${version}"
