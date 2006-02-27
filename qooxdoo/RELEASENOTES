@@ -1,0 +1,39 @@
+h4. Release 0.5.1 (2006-02-28)
+
+
+h5. Implementation
+
+* QxDragAndDropManager: 
+  Moved cursor creation to seperate init method to prevent premature creation of widgets
+* QxCommand: 
+  Fixed commands for empty shortcut
+* QxLabel: 
+  Added text-align support
+* QxTree:
+  Added support for user-defined tree icons
+* QxRangeManager: 
+  Added step property
+
+* Minor changes: QxIframe, QxApplication
+
+* Fixed some images
+
+
+h5. Contributions
+
+* Added scroller_olsson, splitpane_olsson
+
+
+h5. Documentation
+
+* Fixed doctype to create IE valid pages
+
+
+h5. Tools
+
+* Minor fixes for build scripts
+* Fixed dependency entries
+
+
+h4. Release 0.5 (2006-02-17)
+
