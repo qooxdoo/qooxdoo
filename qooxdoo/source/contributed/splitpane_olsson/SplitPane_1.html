@@ -18,9 +18,9 @@
       window.application.main = function() {
         var doc = this.getClientWindow().getClientDocument();
 
-	var mainW = new QxWindow("Split pane test");
-	mainW.setSpace(20, 400, 48, 250);
-	doc.add(mainW);
+  var mainW = new QxWindow("Split pane test");
+  mainW.setSpace(20, 400, 48, 250);
+  doc.add(mainW);
 
         var upperL = new QxLabel("Upper label");
         var lowerL = new QxLabel("Lower label");
@@ -33,7 +33,7 @@
 
         var leftL = new QxLabel("Left label");
 
-	var mainSP = new QxSplitPane(QxConst.ORIENTATION_HORIZONTAL);
+  var mainSP = new QxSplitPane(QxConst.ORIENTATION_HORIZONTAL);
         mainSP.setLeftWidget(leftL);
         mainSP.setRightWidget(rightSP);
         mainSP.setHeight(QxConst.CORE_HUNDREDPERCENT);
@@ -41,7 +41,7 @@
 
         mainF.add(mainSP);
 
-	mainF.open();
+  mainF.open();
       };
     </script>
   </body>
