@@ -63,6 +63,9 @@ function showTestFiles()
   else if( window.location.href.search(/\/test\//)+1 ) {
     str = teststr;
   }
+  else {
+    str = "";
+  }
 
   var arr = str.split(" ");
   var p = window.location.pathname.replace(/\\/g, "/");
