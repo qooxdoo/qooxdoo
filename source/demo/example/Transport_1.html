@@ -54,6 +54,10 @@
     hlay.add(cm1);
 
 
+    var spin = new QxSpinner(1);
+    hlay.add(spin);
+
+
     var btn = new QxButton("Send", "icons/16/apply.png");
     btn.addEventListener("execute", upd);
     hlay.add(btn);
@@ -102,23 +106,26 @@
         return;
       };
 
-      var req = new QxGetRequest(val.getLabel());
+      var req;
+      for( var i=0, max=parseInt(spin.getValue()); i<max; i++ ) {
+        req = new QxGetRequest(val.getLabel());
 
-      req.addEventListener("sending", function(e) {
-        inf.setValue("Sending");
-      });
+        req.addEventListener("sending", function(e) {
+          inf.setValue("Sending");
+        });
 
-      req.addEventListener("receiving", function(e) {
-        inf.setValue("Receiving");
-      });
+        req.addEventListener("receiving", function(e) {
+          inf.setValue("Receiving");
+        });
 
-      req.addEventListener("completed", function(e)
-      {
-        inf.setValue("Completed");
-        area.setValue(e.getData().getTextContent());
-      });
+        req.addEventListener("completed", function(e)
+        {
+          inf.setValue("Completed");
+          area.setValue(e.getData().getTextContent());
+        });
 
-      req.send();
+        req.send();
+      };
     };
   };
   </script>

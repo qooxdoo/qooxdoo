@@ -73,7 +73,7 @@ QxRequest.addProperty(
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
-QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
 
 
 
