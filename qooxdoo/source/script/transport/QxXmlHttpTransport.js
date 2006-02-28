@@ -189,7 +189,7 @@ QxXmlHttpTransport.addProperty(
   possibleValues : [
                    QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED,
                    QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED
+                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CREATED
 });
@@ -234,11 +234,20 @@ proto.send = function()
   {
     // should only occours on "file://" access
     this.debug("Could not load from file: " + this.getUrl());
-    this.setState(QxConst.REQUEST_STATE_COMPLETED);
+    this.setState(QxConst.REQUEST_STATE_ABORTED);
   };
 };
 
+proto.abort = function()
+{
+  var vRequest = this.getRequest();
 
+  if (vRequest) {
+    vRequest.abort();
+  };
+
+  this.setState(QxConst.REQUEST_STATE_ABORTED);
+};
 
 
 
@@ -276,6 +285,10 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
     case QxConst.REQUEST_STATE_COMPLETED:
       this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
+      break;
+
+    case QxConst.REQUEST_STATE_ABORTED:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
       break;
   };
 

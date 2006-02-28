@@ -299,6 +299,7 @@ var QxConst =
   EVENT_TYPE_SENDING : "sending",
   EVENT_TYPE_RECEIVING : "receiving",
   EVENT_TYPE_COMPLETED : "completed",
+  EVENT_TYPE_ABORTED : "aborted",
 
   REQUEST_STATE_CREATED : "created",
   REQUEST_STATE_CONFIGURED : "configured",
@@ -306,6 +307,7 @@ var QxConst =
   REQUEST_STATE_SENDING : "sending",
   REQUEST_STATE_RECEIVING : "receiving",
   REQUEST_STATE_COMPLETED : "completed",
+  REQUEST_STATE_ABORTED : "aborted",
 
   BUTTON_LEFT : "left",
   BUTTON_MIDDLE : "middle",

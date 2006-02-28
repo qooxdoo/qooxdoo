@@ -31,8 +31,12 @@ function QxRequestQueue()
   QxTarget.call(this);
 
   this._queue = [];
-  this._workingQueue = [];
+  this._working = [];
+
   this._totalRequests = 0;
+
+  this._timer = new QxTimer(10);
+  this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
 QxRequestQueue.extend(QxTarget, "QxRequestQueue");
@@ -48,6 +52,7 @@ QxRequestQueue.extend(QxTarget, "QxRequestQueue");
 
 QxRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
 QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 3 });
+QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 
 
@@ -64,7 +69,12 @@ proto._check = function()
 {
   // Debug output
   if (QxSettings.enableTransportDebug) {
-    this.debug("queue: " + this._queue.length + " | working:" + this._workingQueue.length);
+    this.debug("queue:" + this._queue.length + " | working:" + this._working.length);
+  };
+
+  // Check queues and stop timer if not needed anymore
+  if (this._working.length == 0 && this._queue.length == 0) {
+    this._timer.stop();
   };
 
   // Checking if enabled
@@ -73,7 +83,7 @@ proto._check = function()
   };
 
   // Checking working queue fill
-  if (this._workingQueue.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
+  if (this._working.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
     return;
   };
 
@@ -90,30 +100,69 @@ proto._check = function()
   this._totalRequests++;
 
   // Add to working queue
-  this._workingQueue.push(vTransport);
+  this._working.push(vTransport);
 
   // Establish event connection between QxTransport instance and QxRequest
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, vRequest._onaborted, vRequest);
 
   // Establish event connection between QxTransport and me.
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onaborted, this);
 
   // Finally send request
+  vTransport._start = (new Date).valueOf();
   vTransport.send();
 
   // Retry
-  this._check();
+  if (this._queue.length > 0) {
+    this._check();
+  };
 };
 
 proto._oncompleted = function(e)
 {
-  this._workingQueue.remove(e.getTarget());
+  this._working.remove(e.getTarget());
   this._check();
 };
 
+proto._onaborted = function(e)
+{
+  this._working.remove(e.getTarget());
+  this._check();
+};
 
+proto._oninterval = function(e)
+{
+  var vWorking = this._working;
+
+  if (vWorking.length == 0) {
+    return;
+  };
+
+  var vCurrent = (new Date).valueOf();
+  var vTransport;
+  var vDefaultTimeout = this.getDefaultTimeout();
+  var vTimeout;
+
+  for (var i=0, l=vWorking.length; i<l; i++)
+  {
+    vTransport = vWorking[i];
+    vTimeout = vTransport.getRequest().getTimeout();
+
+    if (vTimeout == null) {
+      vTimeout = vDefaultTimeout;
+    };
+
+    if ((vCurrent - vTransport._start) > vTimeout)
+    {
+      this.debug("Timeout reached for request: " + vTransport);
+      vTransport.abort();
+    };
+  };
+};
 
 
 
@@ -148,12 +197,21 @@ proto.add = function(vRequest)
 
   this._queue.push(vRequest);
   this._check();
+  this._timer.start();
 };
 
 proto.abort = function(vRequest)
 {
+  var vTransport = vRequest.getTransport();
 
-
+  if (vTransport)
+  {
+    vTransport.abort();
+  }
+  else if (this._queue.contains(vRequest))
+  {
+    this._queue.remove(vRequest);
+  };
 };
 
 
@@ -175,7 +233,13 @@ proto.dispose = function()
   };
 
   this._queue = null;
-  this._workingQueue = null;
+  this._working = null;
+
+  if (this._timer)
+  {
+    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer = null;
+  };
 
   return QxTarget.prototype.dispose.call(this);
 };

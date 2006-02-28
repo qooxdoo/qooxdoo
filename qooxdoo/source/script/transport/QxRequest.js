@@ -69,11 +69,11 @@ QxRequest.addProperty(
   possibleValues : [
                    QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_QUEUED,
                    QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED
+                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
-
+QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 
 
 
@@ -141,6 +141,9 @@ proto.isCompleted = function() {
   return this.getState() === QxConst.REQUEST_STATE_COMPLETED;
 };
 
+proto.isAborted = function() {
+  return this.getState() === QxConst.REQUEST_STATE_ABORTED;
+};
 
 
 
@@ -193,6 +196,17 @@ proto._oncompleted = function(e)
   this.dispose();
 };
 
+proto._onaborted = function(e)
+{
+  // Modify internal state
+  this.setState(QxConst.REQUEST_STATE_ABORTED);
+
+  // Bubbling up
+  this.dispatchEvent(e);
+
+  // Automatically dispose after event completion
+  this.dispose();
+};
 
 
 
