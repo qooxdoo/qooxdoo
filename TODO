@@ -39,6 +39,9 @@ h4. Layouter Rework
 
 h4. Unsorted
 
+* QxDebug: Add ex.fileName and ex.lineNumber to debug output if available
+* QxDebug: Allow usage of a newly created window for debug output
+
 * Rename "changeSelection" event of QxSelectionManager to just "change"?
 
 * Better keyboard support:
