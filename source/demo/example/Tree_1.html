@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>In this example the loop for the big folder is increased to 50. Useful to test the performance of the tree.</p>
+    <p>Shows a tree, with user-defined icons for some nodes.</p>
   </div>
 
   <script type="text/javascript">
@@ -33,8 +33,8 @@
       };
 
       this.add(t);
-
-      var te1 = new QxTreeFolder("Desktop", "icons/16/desktop.png", "icons/16/desktop.png");
+      // One icon for selected and one for unselected states
+      var te1 = new QxTreeFolder("Desktop", "icons/16/desktop.png", "icons/16/dictionary.png");
       t.add(te1);
 
       desktop = te1;
@@ -46,7 +46,7 @@
 
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
-
+      // One icon specified, and used for both selected unselected states
       var te1_2_1 = new QxTreeFile("Windows (C:)", "icons/16/harddrive.png");
       var te1_2_2 = new QxTreeFile("Documents (D:)", "icons/16/harddrive.png");
 
@@ -60,7 +60,7 @@
 
       var te2_1 = new QxTreeFolder("Presets");
       var te2_2 = new QxTreeFolder("Sent");
-      var te2_3 = new QxTreeFolder("Trash", "icons/16/trash.png", "icons/16/trash.png");
+      var te2_3 = new QxTreeFolder("Trash", "icons/16/trash.png");
       var te2_4 = new QxTreeFolder("Data");
       var te2_5 = new QxTreeFolder("Edit");
 
