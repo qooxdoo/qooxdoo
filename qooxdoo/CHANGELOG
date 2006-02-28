@@ -1,3 +1,15 @@
+2006-02-28 11:52  wpbasti
+
+	* CHANGELOG, source/script/transport/QxGetRequest.js,
+	  source/script/transport/QxIframeTransport.js,
+	  source/script/transport/QxPostRequest.js,
+	  source/script/transport/QxRequest.js,
+	  source/script/transport/QxRequestQueue.js,
+	  source/script/transport/QxResponse.js,
+	  source/script/transport/QxTransport.js,
+	  source/script/transport/QxXmlHttpTransport.js: Renamed package to
+	  transport
+
 2006-02-28 08:51  wpbasti
 
 	* CHANGELOG: Updated
