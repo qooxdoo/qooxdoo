@@ -51,8 +51,8 @@ QxRequestQueue.extend(QxTarget, "QxRequestQueue");
 */
 
 QxRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
-QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 3 });
-QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
+QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
 
 
 
@@ -114,6 +114,8 @@ proto._check = function()
 
   // Finally send request
   vTransport._start = (new Date).valueOf();
+
+  // Send
   vTransport.send();
 
   // Retry
@@ -147,7 +149,7 @@ proto._oninterval = function(e)
   var vDefaultTimeout = this.getDefaultTimeout();
   var vTimeout;
 
-  for (var i=0, l=vWorking.length; i<l; i++)
+  for (var i=vWorking.length-1; i>0; i--)
   {
     vTransport = vWorking[i];
     vTimeout = vTransport.getRequest().getTimeout();
@@ -158,7 +160,7 @@ proto._oninterval = function(e)
 
     if ((vCurrent - vTransport._start) > vTimeout)
     {
-      this.debug("Timeout reached for request: " + vTransport);
+      this.warn("Timeout reached for request: " + vTransport);
       vTransport.abort();
     };
   };

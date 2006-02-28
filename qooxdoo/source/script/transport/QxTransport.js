@@ -238,7 +238,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
   var vRequest = this.getRequest();
 
   if (QxSettings.enableTransportDebug) {
-    this.debug("State: " + propValue);
+    // this.debug("State: " + propValue);
   };
 
   switch(propValue)
