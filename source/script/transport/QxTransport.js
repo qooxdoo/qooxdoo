@@ -52,7 +52,8 @@ QxTransport.addProperty(
   type           : QxConst.TYPEOF_STRING,
   possibleValues : [
                    QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_SENDING,
-                   QxConst.REQUEST_STATE_RECEIVING, QxConst.REQUEST_STATE_COMPLETED
+                   QxConst.REQUEST_STATE_RECEIVING, QxConst.REQUEST_STATE_COMPLETED,
+                   QxConst.REQUEST_STATE_ABORTED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
@@ -145,7 +146,19 @@ proto.send = function()
   this.error("No Request Type available for: " + vRequest, "handle");
 };
 
+proto.abort = function()
+{
+  var vImplementation = this.getImplementation();
 
+  if (vImplementation)
+  {
+    vImplementation.abort();
+  }
+  else
+  {
+    this.setState(QxConst.REQUEST_STATE_ABORTED);
+  };
+};
 
 
 
@@ -170,6 +183,10 @@ proto._oncompleted = function(e) {
   this.setState(QxConst.REQUEST_STATE_COMPLETED);
 };
 
+proto._onabort = function(e) {
+  this.setState(QxConst.REQUEST_STATE_ABORTED);
+};
+
 
 
 
@@ -189,6 +206,7 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+    propOldValue.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
 
     propOldValue.dispose();
   };
@@ -207,6 +225,7 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+    propValue.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
 
     propValue.send();
   };
@@ -218,7 +237,9 @@ proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
 
-  // this.debug("state: " + propValue);
+  if (QxSettings.enableTransportDebug) {
+    this.debug("State: " + propValue);
+  };
 
   switch(propValue)
   {
@@ -242,11 +263,17 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
         // TODO: Response Headers
 
-        this.dispatchEvent(new QxDataEvent(QxConst.EVENT_TYPE_COMPLETED, vResponse), true);
+        this.createDispatchDataEvent(QxConst.EVENT_TYPE_COMPLETED, vResponse);
       };
 
       // Cleanup connection to implementation and dispose
       this.setImplementation(null);
+      break;
+
+    case QxConst.REQUEST_STATE_ABORTED:
+      this.createDispatchDataEvent(QxConst.EVENT_TYPE_ABORTED, null);
+      this.setImplementation(null);
+      break
   };
 
   return true;
