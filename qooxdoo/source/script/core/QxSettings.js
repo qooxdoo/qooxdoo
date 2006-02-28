@@ -28,9 +28,9 @@
 
 var QxDefaultSettings =
 {
-  enableDebug : false,
   enableWidgetDebug : false,
   enableDisposerDebug : false,
+  enableTransportDebug : false,
 
   applicationLayout : true,
 
@@ -45,7 +45,7 @@ if (typeof QxSettings === "undefined") {
 
 QxSettings._merge = function()
 {
-  for (var vKey in QxDefaultSettings) 
+  for (var vKey in QxDefaultSettings)
   {
     if (typeof QxSettings[vKey] === "undefined") {
       QxSettings[vKey] = QxDefaultSettings[vKey];
