@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
@@ -30,8 +30,8 @@ function QxRequestQueue()
 {
   QxTarget.call(this);
 
-  this._queue = [];  
-  
+  this._queue = [];
+
   this._timer = new QxTimer(50);
   this._timer.addEventListener("interval", this._oninterval, this);
 };
@@ -71,14 +71,14 @@ proto._oninterval = function()
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
-  
+
   // Finally send request
   vTransport.send();
-  
+
   // Stop timer on empty queue
   if (this._queue.length === 0) {
     this._timer.stop();
-  };  
+  };
 };
 
 
@@ -92,12 +92,12 @@ proto._oninterval = function()
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(vRequest) 
+proto.add = function(vRequest)
 {
   this._queue.push(vRequest);
 
-  vRequest.setState(QxConst.EVENT_TYPE_QUEUED);  
-  
+  vRequest.setState(QxConst.EVENT_TYPE_QUEUED);
+
   this._timer.start();
 };
 
@@ -122,15 +122,15 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return true;
   };
-  
+
   this._queue = null;
-  
+
   if (this._timer)
   {
     this._timer.dispose();
     this._timer = null;
-  };  
-  
+  };
+
   return QxTarget.prototype.dispose.call(this);
 };
 

@@ -22,19 +22,19 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
 function QxXmlHttpTransport()
 {
   QxTarget.call(this);
-  
+
   this._requestHeader = {};
-  
+
   this._req = QxXmlHttpTransport.createRequestObject();
-  
-  var o = this;  
+
+  var o = this;
   this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
@@ -60,62 +60,62 @@ QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 QxXmlHttpTransport.supportsOnlyGetMethod = window.location.protocol == "file:";
 QxXmlHttpTransport.requestObjects = [];
 
-QxXmlHttpTransport.isSupported = function() 
+QxXmlHttpTransport.isSupported = function()
 {
-  if (window.XMLHttpRequest) 
+  if (window.XMLHttpRequest)
   {
     // QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
-    
+
     QxXmlHttpTransport._createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
     QxXmlHttpTransport._supportsReusing = true;
     return true;
   };
-  
+
   if (window.ActiveXObject)
   {
     var vServers = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP.2.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
     var vObject;
     var vServer;
-    
+
     for (var i=0, l=vServers.length; i<l; i++)
     {
       vServer = vServers[i];
-      
-      try 
+
+      try
       {
         vObject = new ActiveXObject(vServer);
         break;
-      } 
-      catch(ex) 
+      }
+      catch(ex)
       {
-        vObject = null;  
+        vObject = null;
       };
     };
-    
+
     if (vObject)
     {
       // QxDebug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
-      
+
       QxXmlHttpTransport._activeXServer = vServer;
       QxXmlHttpTransport._createRequestObject = QxXmlHttpTransport._createActiveXRequestObject;
-      QxXmlHttpTransport._supportsReusing = false;      
-      
+      QxXmlHttpTransport._supportsReusing = false;
+
       return true;
     };
   };
-  
-  return false;  
+
+  return false;
 };
 
 /*!
   Support caching of request object
 */
-QxXmlHttpTransport.createRequestObject = function() 
+QxXmlHttpTransport.createRequestObject = function()
 {
-  if (QxXmlHttpTransport._supportsReusing && QxXmlHttpTransport.requestObjects.length > 0) 
+  if (QxXmlHttpTransport._supportsReusing && QxXmlHttpTransport.requestObjects.length > 0)
   {
     // QxDebug("QxXmlHttpTransport", "Reusing request object");
-    return QxXmlHttpTransport.requestObjects.pop(); 
+    return QxXmlHttpTransport.requestObjects.pop();
   }
   else
   {
@@ -129,7 +129,7 @@ QxXmlHttpTransport._createRequestObject = function() {
 };
 
 QxXmlHttpTransport._createNativeRequestObject = function() {
-   return new XMLHttpRequest; 
+   return new XMLHttpRequest;
 };
 
 QxXmlHttpTransport._createActiveXRequestObject = function() {
@@ -154,8 +154,8 @@ QxXmlHttpTransport._createActiveXRequestObject = function() {
 */
 QxXmlHttpTransport.addProperty({ name : "url", type: QxConst.TYPEOF_STRING });
 
-/*! 
-  Determines what type of request to issue 
+/*!
+  Determines what type of request to issue
 */
 QxXmlHttpTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
 
@@ -183,15 +183,15 @@ QxXmlHttpTransport.addProperty({ name : "password", type: QxConst.TYPEOF_STRING 
   The state of the current request
 */
 QxXmlHttpTransport.addProperty(
-{ 
-  name           : "state", 
-  type           : QxConst.TYPEOF_STRING, 
-  possibleValues : [ 
-                   QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED, 
-                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING, 
+{
+  name           : "state",
+  type           : QxConst.TYPEOF_STRING,
+  possibleValues : [
+                   QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED,
+                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
                    QxConst.REQUEST_STATE_COMPLETED
-                   ], 
-  defaultValue   : QxConst.REQUEST_STATE_CREATED 
+                   ],
+  defaultValue   : QxConst.REQUEST_STATE_CREATED
 });
 
 
@@ -213,10 +213,10 @@ proto.getRequest = function() {
 proto.send = function()
 {
   this._lastReadyState = 0;
-  
+
   var vRequest = this.getRequest();
   var vMethod = QxXmlHttpTransport.supportsOnlyGetMethod ? QxConst.METHOD_GET : this.getMethod();
-  
+
   if (this.getUsername())
   {
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous(), this.getUsername(), this.getPassword());
@@ -225,7 +225,7 @@ proto.send = function()
   {
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
   };
-  
+
   try
   {
     vRequest.send(this.getData());
@@ -269,16 +269,16 @@ proto._modifyState = function(propValue, propOldValue, propData)
     case QxConst.REQUEST_STATE_SENDING:
       this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
       break;
-      
+
     case QxConst.REQUEST_STATE_RECEIVING:
       this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
       break;
-    
+
     case QxConst.REQUEST_STATE_COMPLETED:
       this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
-      break;  
+      break;
   };
-  
+
   return true;
 };
 
@@ -310,22 +310,22 @@ The send method has been called, but the status and headers are not yet availabl
 Some data has been received. Calling the responseBody and responseText properties at this state to obtain partial results will return an error, because status and response headers are not fully available.
 
 4: COMPLETED
-All the data has been received, and the complete data is available in the 
+All the data has been received, and the complete data is available in the
 */
 
-QxXmlHttpTransport._nativeMap = 
+QxXmlHttpTransport._nativeMap =
 {
   0 : QxConst.REQUEST_STATE_CREATED,
   1 : QxConst.REQUEST_STATE_CONFIGURED,
   2 : QxConst.REQUEST_STATE_SENDING,
   3 : QxConst.REQUEST_STATE_RECEIVING,
-  4 : QxConst.REQUEST_STATE_COMPLETED  
+  4 : QxConst.REQUEST_STATE_COMPLETED
 };
 
 proto._onreadystatechange = function(e)
 {
   var vReadyState = this.getRequest().readyState;
-  
+
   while (this._lastReadyState < vReadyState) {
     this.setState(QxXmlHttpTransport._nativeMap[++this._lastReadyState]);
   };
@@ -346,7 +346,7 @@ proto._onreadystatechange = function(e)
 proto.setRequestHeader = function(vLabel, vValue)
 {
   this._requestHeader[vLabel] = vValue;
-  this._req.setRequestHeader(vLabel, vValue);  
+  this._req.setRequestHeader(vLabel, vValue);
 };
 
 proto.removeRequestHeader = function()
@@ -370,34 +370,34 @@ proto.removeRequestHeader = function()
 */
 
 /*!
-  Returns a specific header provided by the server upon sending a request, 
+  Returns a specific header provided by the server upon sending a request,
   with header name determined by the argument headerName.
- 
-  Only available at readyState 3 and 4 universally and in readyState 2 
+
+  Only available at readyState 3 and 4 universally and in readyState 2
   in Gecko.
 */
-proto.getResponseHeader = function(vLabel) 
+proto.getResponseHeader = function(vLabel)
 {
   var vResponseHeader = null;
-  
+
   try {
     this.getRequest().getResponseHeader(vLabel) || null;
   } catch(ex) {};
-    
+
   return vResponseHeader;
 };
 
 /*!
   Provides an array of all response headers.
 */
-proto.getAllResponseHeaders = function() 
+proto.getAllResponseHeaders = function()
 {
   var vAllResponseHeaders = [];
-  
+
   try {
     vAllResponseHeaders.append(this.getRequest().getAllResponseHeaders());
   } catch(ex) {};
-  
+
   return vAllResponseHeaders;
 };
 
@@ -418,29 +418,29 @@ proto.getAllResponseHeaders = function()
 /*!
   Returns the current status code of the request if available or -1 if not.
 */
-proto.getStatusCode = function() 
+proto.getStatusCode = function()
 {
   var vStatusCode = -1;
-  
+
   try {
     vStatusCode = this.getRequest().status;
   } catch(ex) {};
-  
+
   return vStatusCode;
 };
-  
+
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
-proto.getStatusText = function() 
+proto.getStatusText = function()
 {
   var vStatusText = QxConst.CORE_EMPTY;
-  
+
   try {
     vStatusText = this.getRequest().statusText;
   } catch(ex) {};
-  
-  return vStatusText;  
+
+  return vStatusText;
 };
 
 
@@ -462,14 +462,14 @@ proto.getStatusText = function()
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseText = function() 
+proto.getResponseText = function()
 {
   var vResponseText = null;
-  
+
   try {
     vResponseText = this.getRequest().responseText;
   } catch(ex) {};
-  
+
   return vResponseText;
 };
 
@@ -478,21 +478,21 @@ proto.getResponseText = function()
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseXml = function() 
+proto.getResponseXml = function()
 {
   var vResponseXML = null;
-  
+
   try {
     vResponseXML = this.getRequest().responseXML;
   } catch(ex) {};
-  
+
   return vResponseXML;
 };
 
 /*!
   Returns the length of the content as fetched thus far
 */
-proto.getFetchedLength = function() 
+proto.getFetchedLength = function()
 {
   var vText = this.getResponseText(true);
   return QxUtil.isValidString(vText) ? vText.length : 0;
@@ -515,16 +515,16 @@ proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };  
-  
+  };
+
   if (this._req)
   {
-    // Should be right, 
+    // Should be right,
     // but is not compatible to mshtml (throws an exception)
     if (!QxClient.isMshtml()) {
       this._req.onreadystatechange = null;
     };
-    
+
     // Aborting
     switch(this._req.readyState)
     {
@@ -533,23 +533,23 @@ proto.dispose = function()
       case 3:
         this._req.abort();
     };
-    
+
     // Supports reusing of request objects
-    if (QxXmlHttpTransport._supportsReusing) 
+    if (QxXmlHttpTransport._supportsReusing)
     {
       // Remove request headers
       for (vLabel in this._requestHeader) {
         this.removeRequestHeader(vLabel);
       };
-      
+
       // Add to object "queue"
       QxXmlHttpTransport.requestObjects.push(this._req);
     };
-    
+
     // Cleanup objects
-    this._requestHeader = null;    
+    this._requestHeader = null;
     this._req = null;
   };
-  
-  return QxTarget.prototype.dispose.call(this);  
+
+  return QxTarget.prototype.dispose.call(this);
 };

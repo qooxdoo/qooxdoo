@@ -22,14 +22,14 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
 function QxIframeTransport()
 {
   QxTarget.call(this);
-    
+
 };
 
 QxIframeTransport.extend(QxTarget, "QxIframeTransport");
@@ -55,5 +55,5 @@ QxIframeTransport.isSupported = function() {
 
 proto.send = function()
 {
-  this.debug("Sending...");  
+  this.debug("Sending...");
 };

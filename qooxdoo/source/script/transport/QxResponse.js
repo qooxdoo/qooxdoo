@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
@@ -61,6 +61,6 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
-  
-  return QxTarget.prototype.dispose.call(this);  
+
+  return QxTarget.prototype.dispose.call(this);
 };
