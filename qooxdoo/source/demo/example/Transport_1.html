@@ -60,7 +60,20 @@
 
 
     var inf = new QxTextField("Status");
+    inf.setWidth(100);
     hlay.add(inf);
+
+
+
+    var checken = new QxCheckBox("enabled");
+    checken.setChecked(true);
+    hlay.add(checken);
+
+    checken.addEventListener("changeChecked", function(e) {
+      QxRequestQueue.setEnabled(e.getData());
+    });
+
+
 
 
 
@@ -71,17 +84,17 @@
     var area = new QxTextArea;
     area.setDimension("100%", "100%");
     fsr.add(area);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    function upd(e) 
+
+
+
+
+
+
+
+
+
+
+    function upd(e)
     {
       var val = cm1.getSelected();
 
