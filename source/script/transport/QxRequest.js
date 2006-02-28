@@ -22,14 +22,14 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
 function QxRequest(vUrl)
 {
   QxTarget.call(this);
-  
+
   this.setUrl(vUrl);
 };
 
@@ -48,27 +48,27 @@ QxRequest.extend(QxTarget, "QxRequest");
 
 QxRequest.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 QxRequest.addProperty(
-{ 
-  name           : "method", 
-  type           : QxConst.TYPEOF_STRING, 
-  possibleValues : [ 
-                   QxConst.METHOD_GET, QxConst.METHOD_POST, 
-                   QxConst.METHOD_PUT, QxConst.METHOD_HEAD, 
-                   QxConst.METHOD_DELETE 
-                   ], 
-  defaultValue   : QxConst.METHOD_POST 
+{
+  name           : "method",
+  type           : QxConst.TYPEOF_STRING,
+  possibleValues : [
+                   QxConst.METHOD_GET, QxConst.METHOD_POST,
+                   QxConst.METHOD_PUT, QxConst.METHOD_HEAD,
+                   QxConst.METHOD_DELETE
+                   ],
+  defaultValue   : QxConst.METHOD_POST
 });
 QxRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 QxRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
 QxRequest.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
 QxRequest.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
 QxRequest.addProperty(
-{ 
-  name           : "state", 
-  type           : QxConst.TYPEOF_STRING, 
-  possibleValues : [ 
-                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_QUEUED, 
-                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING, 
+{
+  name           : "state",
+  type           : QxConst.TYPEOF_STRING,
+  possibleValues : [
+                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_QUEUED,
+                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
                    QxConst.REQUEST_STATE_COMPLETED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
@@ -94,7 +94,7 @@ proto.abort = function() {
   QxRequestQueue.abort(this);
 };
 
-proto.reset = function() 
+proto.reset = function()
 {
   switch(this.getState())
   {
@@ -104,7 +104,7 @@ proto.reset = function()
       // no break
 
     case QxConst.REQUEST_STATE_QUEUED:
-      this.abort();    
+      this.abort();
       break;
   };
 };
@@ -154,41 +154,41 @@ proto.isCompleted = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._onqueued = function(e) 
+proto._onqueued = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_QUEUED);  
-  
+  this.setState(QxConst.REQUEST_STATE_QUEUED);
+
   // Bubbling up
   this.dispatchEvent(e);
 };
 
-proto._onsending = function(e) 
+proto._onsending = function(e)
 {
   // Modify internal state
   this.setState(QxConst.REQUEST_STATE_SENDING);
-  
+
   // Bubbling up
   this.dispatchEvent(e);
 };
 
-proto._onreceiving = function(e) 
+proto._onreceiving = function(e)
 {
   // Modify internal state
   this.setState(QxConst.REQUEST_STATE_RECEIVING);
-  
+
   // Bubbling up
   this.dispatchEvent(e);
 };
 
-proto._oncompleted = function(e) 
+proto._oncompleted = function(e)
 {
   // Modify internal state
   this.setState(QxConst.REQUEST_STATE_COMPLETED);
-  
+
   // Bubbling up
   this.dispatchEvent(e);
-  
+
   // Automatically dispose after event completion
   this.dispose();
 };
@@ -208,7 +208,7 @@ proto._oncompleted = function(e)
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  // this.debug("state: " + propValue);  
+  // this.debug("state: " + propValue);
   return true;
 };
 
@@ -230,6 +230,6 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
-  
-  return QxTarget.prototype.dispose.call(this);  
+
+  return QxTarget.prototype.dispose.call(this);
 };

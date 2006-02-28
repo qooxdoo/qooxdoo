@@ -22,14 +22,14 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
 function QxGetRequest(vUrl)
 {
   QxRequest.call(this, vUrl);
-  
+
   this.setMethod("GET");
 };
 

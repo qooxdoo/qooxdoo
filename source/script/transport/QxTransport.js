@@ -22,14 +22,14 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(transport)
 
 ************************************************************************ */
 
 function QxTransport(vRequest)
 {
   QxTarget.call(this);
-  
+
   this.setRequest(vRequest);
 };
 
@@ -47,11 +47,11 @@ QxTransport.extend(QxTarget, "QxTransport");
 QxTransport.addProperty({ name : "request", type : QxConst.TYPEOF_OBJECT, instance : "QxRequest" });
 QxTransport.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
 QxTransport.addProperty(
-{ 
-  name           : "state", 
-  type           : QxConst.TYPEOF_STRING, 
-  possibleValues : [ 
-                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_SENDING, 
+{
+  name           : "state",
+  type           : QxConst.TYPEOF_STRING,
+  possibleValues : [
+                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_SENDING,
                    QxConst.REQUEST_STATE_RECEIVING, QxConst.REQUEST_STATE_COMPLETED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
@@ -75,28 +75,28 @@ QxTransport.typesReady = false;
 
 QxTransport.typesAvailable = {};
 QxTransport.typesSupported = {};
-  
+
 QxTransport.registerType = function(vClass, vId) {
   QxTransport.typesAvailable[vId] = vClass;
 };
-  
+
 QxTransport.initTypes = function()
 {
   if (QxTransport.typesReady) {
     return;
   };
-  
-  for (var vId in QxTransport.typesAvailable) 
+
+  for (var vId in QxTransport.typesAvailable)
   {
     vTransporterImpl = QxTransport.typesAvailable[vId];
-      
+
     if (vTransporterImpl.isSupported()) {
       QxTransport.typesSupported[vId] = vTransporterImpl;
     };
   };
-    
+
   QxTransport.typesReady = true;
-    
+
   if (QxUtil.isObjectEmpty(QxTransport.typesSupported)) {
     throw new Error("No supported transport types were found!");
   };
@@ -118,17 +118,17 @@ QxTransport.initTypes = function()
 proto.send = function()
 {
   QxTransport.initTypes();
-  
+
   var vUsage = QxTransport.typesOrder;
   var vAvailable = QxTransport.typesAvailable;
   var vTransportImpl;
   var vTransport;
-  
+
   for (var i=0, l=vUsage.length; i<l; i++)
   {
     vTransportImpl = vAvailable[vUsage[i]];
-    
-    if (vTransportImpl) 
+
+    if (vTransportImpl)
     {
       try
       {
@@ -140,8 +140,8 @@ proto.send = function()
         return this.error("Request handler throws error: " + ex, "send");
       };
     };
-  };  
-  
+  };
+
   this.error("No Request Type available for: " + vRequest, "handle");
 };
 
@@ -192,11 +192,11 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
 
     propOldValue.dispose();
   };
-  
+
   if (propValue)
   {
     var vRequest = this.getRequest();
-    
+
     propValue.setUrl(vRequest.getUrl());
     propValue.setMethod(vRequest.getMethod());
     propValue.setAsynchronous(vRequest.getAsynchronous());
@@ -208,45 +208,45 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
 
-    propValue.send();  
+    propValue.send();
   };
-  
+
   return true;
 };
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
-  
+
   // this.debug("state: " + propValue);
-  
+
   switch(propValue)
   {
     case QxConst.REQUEST_STATE_SENDING:
       this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
       break;
-    
+
     case QxConst.REQUEST_STATE_RECEIVING:
       this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
-      break;      
-    
+      break;
+
     case QxConst.REQUEST_STATE_COMPLETED:
       if (this.hasEventListeners(QxConst.EVENT_TYPE_COMPLETED))
       {
         var vImpl = this.getImplementation();
         var vResponse = new QxResponse;
-        
+
         vResponse.setStatusCode(vImpl.getStatusCode());
         vResponse.setTextContent(vImpl.getResponseText());
-        vResponse.setXmlContent(vImpl.getResponseXml());        
-        
+        vResponse.setXmlContent(vImpl.getResponseXml());
+
         // TODO: Response Headers
-        
-        this.dispatchEvent(new QxDataEvent(QxConst.EVENT_TYPE_COMPLETED, vResponse), true);   
+
+        this.dispatchEvent(new QxDataEvent(QxConst.EVENT_TYPE_COMPLETED, vResponse), true);
       };
-      
+
       // Cleanup connection to implementation and dispose
-      this.setImplementation(null);  
+      this.setImplementation(null);
   };
 
   return true;
