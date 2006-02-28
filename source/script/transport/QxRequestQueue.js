@@ -31,9 +31,8 @@ function QxRequestQueue()
   QxTarget.call(this);
 
   this._queue = [];
-
-  this._timer = new QxTimer(50);
-  this._timer.addEventListener("interval", this._oninterval, this);
+  this._workingQueue = [];
+  this._totalRequests = 0;
 };
 
 QxRequestQueue.extend(QxTarget, "QxRequestQueue");
@@ -57,29 +56,80 @@ QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPE
 
 /*
 ---------------------------------------------------------------------------
-  EVENT LISTENERS
+  QUEUE
 ---------------------------------------------------------------------------
 */
 
-proto._oninterval = function()
+proto._check = function()
 {
+  // Debug output
+  if (QxSettings.enableTransportDebug) {
+    this.debug("queue: " + this._queue.length + " | working:" + this._workingQueue.length);
+  };
+
+  // Checking if enabled
+  if (!this.getEnabled()) {
+    return;
+  };
+
+  // Checking working queue fill
+  if (this._workingQueue.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
+    return;
+  };
+
+  // Checking number of total requests
+  if (this.getMaxTotalRequests() != null && this._totalRequests >= this.getMaxTotalRequests()) {
+    return;
+  };
+
   // TODO: How to support concurrent requests?
   var vRequest = this._queue.shift();
   var vTransport = new QxTransport(vRequest);
+
+  // Increment counter
+  this._totalRequests++;
+
+  // Add to working queue
+  this._workingQueue.push(vTransport);
 
   // Establish event connection between QxTransport instance and QxRequest
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
 
+  // Establish event connection between QxTransport and me.
+  vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+
   // Finally send request
   vTransport.send();
 
-  // Stop timer on empty queue
-  if (this._queue.length === 0) {
-    this._timer.stop();
-  };
+  // Retry
+  this._check();
 };
+
+proto._oncompleted = function(e)
+{
+  this._workingQueue.remove(e.getTarget());
+  this._check();
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
+*/
+
+proto._modifyEnabled = function(propValue, propOldValue, propData)
+{
+  this._check();
+  return true;
+};
+
 
 
 
@@ -94,15 +144,16 @@ proto._oninterval = function()
 
 proto.add = function(vRequest)
 {
-  this._queue.push(vRequest);
-
   vRequest.setState(QxConst.EVENT_TYPE_QUEUED);
 
-  this._timer.start();
+  this._queue.push(vRequest);
+  this._check();
 };
 
-proto.abort = function(vRequest) {
-  this.error("Needs implementation", "abort");
+proto.abort = function(vRequest)
+{
+
+
 };
 
 
@@ -124,12 +175,7 @@ proto.dispose = function()
   };
 
   this._queue = null;
-
-  if (this._timer)
-  {
-    this._timer.dispose();
-    this._timer = null;
-  };
+  this._workingQueue = null;
 
   return QxTarget.prototype.dispose.call(this);
 };
