@@ -23,25 +23,18 @@
 /* ************************************************************************
 
 #package(core)
-#require(QxDefaultSettings)
 
 ************************************************************************ */
 
-// hide from global scope
-(function() {
-
-// check and create global storage if not available already
-if (typeof QxSettings === "undefined") {
-  QxSettings = {};
-};
-
-// merge settings from default settings
-for (var vKey in QxDefaultSettings)
+var QxDefaultSettings =
 {
-  if (typeof QxSettings[vKey] === "undefined") {
-    QxSettings[vKey] = QxDefaultSettings[vKey];
-  };
-};
+  enableWidgetDebug : false,
+  enableDisposerDebug : false,
+  enableTransportDebug : true,
 
-// hide from global scope
-})();
+  applicationLayout : true,
+
+  imageCorePath : "../../images",
+  imageIconPath : "../../themes/icons",
+  imageWidgetPath : "../../themes/widgets"
+};
