@@ -189,7 +189,8 @@ QxXmlHttpTransport.addProperty(
   possibleValues : [
                    QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED,
                    QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED
+                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED,
+                   QxConst.REQUEST_STATE_TIMEOUT, QxConst.REQUEST_STATE_FAILED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CREATED
 });
@@ -233,20 +234,56 @@ proto.send = function()
   catch(ex)
   {
     // should only occours on "file://" access
-    this.debug("Could not load from file: " + this.getUrl());
-    this.setState(QxConst.REQUEST_STATE_ABORTED);
+    if (QxSettings.enableTransportDebug) {
+      this.warn("Could not load from file: " + this.getUrl());
+    };
+
+    this.failed();
   };
 };
 
 proto.abort = function()
 {
-  var vRequest = this.getRequest();
-
-  if (vRequest) {
-    vRequest.abort();
+  if (QxSettings.enableTransportDebug) {
+    this.warn("Aborting...");
   };
 
-  this.setState(QxConst.REQUEST_STATE_ABORTED);
+  this._abortRequest(QxConst.REQUEST_STATE_ABORTED);
+};
+
+proto.timeout = function()
+{
+  if (QxSettings.enableTransportDebug) {
+    this.warn("Timeout...");
+  };
+
+  this._abortRequest(QxConst.REQUEST_STATE_TIMEOUT);
+};
+
+proto.failed = function()
+{
+  if (QxSettings.enableTransportDebug) {
+    this.warn("Failed...");
+  };
+
+  this._abortRequest(QxConst.REQUEST_STATE_FAILED);
+};
+
+proto._abortRequest = function(vState)
+{
+  this.warn("Setup State: " + vState);
+  this.setState(vState);
+
+  var vRequest = this.getRequest();
+
+  if (vRequest)
+  {
+    if (QxSettings.enableTransportDebug) {
+      this.warn("Aborting request (" + vState + ")...");
+    };
+
+    vRequest.abort();
+  };
 };
 
 
@@ -263,7 +300,9 @@ proto.abort = function()
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  // this.debug("state: " + propValue);
+  if (QxSettings.enableTransportDebug) {
+    this.debug("State: " + propValue);
+  };
 
   switch(propValue)
   {
@@ -289,6 +328,14 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
     case QxConst.REQUEST_STATE_ABORTED:
       this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
+      break;
+
+    case QxConst.REQUEST_STATE_FAILED:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_FAILED);
+      break;
+
+    case QxConst.REQUEST_STATE_TIMEOUT:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_TIMEOUT);
       break;
   };
 
@@ -338,6 +385,17 @@ QxXmlHttpTransport._nativeMap =
 proto._onreadystatechange = function(e)
 {
   var vReadyState = this.getRequest().readyState;
+
+  this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+
+  switch(this.getState())
+  {
+    case QxConst.REQUEST_STATE_ABORTED:
+    case QxConst.REQUEST_STATE_FAILED:
+    case QxConst.REQUEST_STATE_TIMEOUT:
+      this.warn("Ignore Ready State Change");
+      return;
+  };
 
   while (this._lastReadyState < vReadyState) {
     this.setState(QxXmlHttpTransport._nativeMap[++this._lastReadyState]);
@@ -529,6 +587,8 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
+
+  delete this._abortState;
 
   if (this._req)
   {

@@ -300,6 +300,8 @@ var QxConst =
   EVENT_TYPE_RECEIVING : "receiving",
   EVENT_TYPE_COMPLETED : "completed",
   EVENT_TYPE_ABORTED : "aborted",
+  EVENT_TYPE_FAILED : "failed",
+  EVENT_TYPE_TIMEOUT : "timeout",
 
   REQUEST_STATE_CREATED : "created",
   REQUEST_STATE_CONFIGURED : "configured",
@@ -308,6 +310,8 @@ var QxConst =
   REQUEST_STATE_RECEIVING : "receiving",
   REQUEST_STATE_COMPLETED : "completed",
   REQUEST_STATE_ABORTED : "aborted",
+  REQUEST_STATE_FAILED : "failed",
+  REQUEST_STATE_TIMEOUT : "timeout",
 
   BUTTON_LEFT : "left",
   BUTTON_MIDDLE : "middle",

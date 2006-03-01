@@ -69,7 +69,8 @@ QxRequest.addProperty(
   possibleValues : [
                    QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_QUEUED,
                    QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED
+                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED,
+                   QxConst.REQUEST_STATE_TIMEOUT, QxConst.REQUEST_STATE_FAILED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
@@ -145,6 +146,13 @@ proto.isAborted = function() {
   return this.getState() === QxConst.REQUEST_STATE_ABORTED;
 };
 
+proto.isTimeout = function() {
+  return this.getState() === QxConst.REQUEST_STATE_TIMEOUT;
+};
+
+proto.isFailed = function() {
+  return this.getState() === QxConst.REQUEST_STATE_FAILED;
+};
 
 
 
@@ -208,6 +216,29 @@ proto._onaborted = function(e)
   this.dispose();
 };
 
+proto._ontimeout = function(e)
+{
+  // Modify internal state
+  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+
+  // Bubbling up
+  this.dispatchEvent(e);
+
+  // Automatically dispose after event completion
+  this.dispose();
+};
+
+proto._onfailed = function(e)
+{
+  // Modify internal state
+  this.setState(QxConst.REQUEST_STATE_FAILED);
+
+  // Bubbling up
+  this.dispatchEvent(e);
+
+  // Automatically dispose after event completion
+  this.dispose();
+};
 
 
 
@@ -222,7 +253,7 @@ proto._onaborted = function(e)
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  // this.debug("state: " + propValue);
+  this.debug("State: " + propValue);
   return true;
 };
 

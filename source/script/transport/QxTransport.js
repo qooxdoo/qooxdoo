@@ -53,7 +53,8 @@ QxTransport.addProperty(
   possibleValues : [
                    QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_SENDING,
                    QxConst.REQUEST_STATE_RECEIVING, QxConst.REQUEST_STATE_COMPLETED,
-                   QxConst.REQUEST_STATE_ABORTED
+                   QxConst.REQUEST_STATE_ABORTED, QxConst.REQUEST_STATE_TIMEOUT,
+                   QxConst.REQUEST_STATE_FAILED
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
@@ -148,15 +149,41 @@ proto.send = function()
 
 proto.abort = function()
 {
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Aborting...");
+  };
+
   var vImplementation = this.getImplementation();
 
   if (vImplementation)
   {
+    this.debug("Abort implementation: " + vImplementation.toHashCode());
     vImplementation.abort();
   }
   else
   {
+    this.debug("Forcing state to aborted");
     this.setState(QxConst.REQUEST_STATE_ABORTED);
+  };
+};
+
+proto.timeout = function()
+{
+  if (QxSettings.enableTransportDebug) {
+    this.warn("Timeout...");
+  };
+
+  var vImplementation = this.getImplementation();
+
+  if (vImplementation)
+  {
+    this.warn("Timeout implementation: " + vImplementation.toHashCode());
+    vImplementation.timeout();
+  }
+  else
+  {
+    this.warn("Forcing state to timeout");
+    this.setState(QxConst.REQUEST_STATE_TIMEOUT);
   };
 };
 
@@ -187,6 +214,13 @@ proto._onabort = function(e) {
   this.setState(QxConst.REQUEST_STATE_ABORTED);
 };
 
+proto._onfailed = function(e) {
+  this.setState(QxConst.REQUEST_STATE_FAILED);
+};
+
+proto._ontimeout = function(e) {
+  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+};
 
 
 
@@ -207,6 +241,8 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
+    propOldValue.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
+    propOldValue.removeEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
 
     propOldValue.dispose();
   };
@@ -226,6 +262,8 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
+    propValue.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
+    propValue.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
 
     propValue.send();
   };
@@ -238,7 +276,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
   var vRequest = this.getRequest();
 
   if (QxSettings.enableTransportDebug) {
-    // this.debug("State: " + propValue);
+    this.debug("State: " + propValue);
   };
 
   switch(propValue)
@@ -252,28 +290,40 @@ proto._modifyState = function(propValue, propOldValue, propData)
       break;
 
     case QxConst.REQUEST_STATE_COMPLETED:
-      if (this.hasEventListeners(QxConst.EVENT_TYPE_COMPLETED))
+    case QxConst.REQUEST_STATE_ABORTED:
+    case QxConst.REQUEST_STATE_TIMEOUT:
+    case QxConst.REQUEST_STATE_FAILED:
+      var vImpl = this.getImplementation();
+      var vResponse = new QxResponse;
+
+      vResponse.setStatusCode(vImpl.getStatusCode());
+      vResponse.setTextContent(vImpl.getResponseText());
+      vResponse.setXmlContent(vImpl.getResponseXml());
+
+      // TODO: Response Headers
+
+      var vEventType;
+
+      switch(propValue)
       {
-        var vImpl = this.getImplementation();
-        var vResponse = new QxResponse;
+        case QxConst.REQUEST_STATE_COMPLETED:
+          vEventType = QxConst.EVENT_TYPE_COMPLETED;
+          break;
 
-        vResponse.setStatusCode(vImpl.getStatusCode());
-        vResponse.setTextContent(vImpl.getResponseText());
-        vResponse.setXmlContent(vImpl.getResponseXml());
+        case QxConst.REQUEST_STATE_ABORTED:
+          vEventType = QxConst.EVENT_TYPE_ABORTED;
+          break;
 
-        // TODO: Response Headers
-
-        this.createDispatchDataEvent(QxConst.EVENT_TYPE_COMPLETED, vResponse);
+        case QxConst.REQUEST_STATE_TIMEOUT:
+          vEventType = QxConst.EVENT_TYPE_TIMEOUT;
+          break;
       };
+
+      this.createDispatchDataEvent(vEventType, vResponse);
 
       // Cleanup connection to implementation and dispose
       this.setImplementation(null);
       break;
-
-    case QxConst.REQUEST_STATE_ABORTED:
-      this.createDispatchDataEvent(QxConst.EVENT_TYPE_ABORTED, null);
-      this.setImplementation(null);
-      break
   };
 
   return true;
