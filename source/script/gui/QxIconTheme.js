@@ -45,7 +45,7 @@ function QxIconTheme(vId, vTitle)
   };
 };
 
-QxIconTheme.extend(QxObject, "QxColorTheme");
+QxIconTheme.extend(QxObject, "QxIconTheme");
 
 QxIconTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
 QxIconTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });

@@ -45,7 +45,7 @@ function QxWidgetTheme(vId, vTitle)
   };
 };
 
-QxWidgetTheme.extend(QxObject, "QxColorTheme");
+QxWidgetTheme.extend(QxObject, "QxWidgetTheme");
 
 QxWidgetTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
 QxWidgetTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
