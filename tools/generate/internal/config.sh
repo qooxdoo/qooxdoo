@@ -2,6 +2,7 @@ L=""
 
 # Core Language Additions
 L="$L script/core/QxMain"
+L="$L script/core/QxDefaultSettings"
 L="$L script/core/QxSettings"
 L="$L script/core/QxConst"
 L="$L script/core/QxExtend"
