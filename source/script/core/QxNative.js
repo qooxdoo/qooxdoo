@@ -520,6 +520,100 @@ if (!Function.prototype.apply)
   ADDITIONS FOR ERROR
 ---------------------------------------------------------------------------
 */
+
 Error.prototype.toString = function() {
   return this.message;
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  JAVASCRIPT 1.6 GENERICS
+---------------------------------------------------------------------------
+*/
+
+// By Erik Arvidsson
+// http://erik.eae.net/archives/2006/02/28/00.39.52/
+
+// hide from global scope
+(function() {
+
+// Make generic versions of instance methods
+var makeGeneric = [
+{
+  object: Array,
+  methods:
+  [
+    "join",
+    "reverse",
+    "sort",
+    "push",
+    "pop",
+    "shift",
+    "unshift",
+    "splice",
+    "concat",
+    "slice",
+    "indexOf",
+    "lastIndexOf",
+    "forEach",
+    "map",
+    "filter",
+    "some",
+    "every"
+  ]
+},
+{
+  object: String,
+  methods:
+  [
+    "quote",
+    "substring",
+    "toLowerCase",
+    "toUpperCase",
+    "charAt",
+    "charCodeAt",
+    "indexOf",
+    "lastIndexOf",
+    "toLocaleLowerCase",
+    "toLocaleUpperCase",
+    "localeCompare",
+    "match",
+    "search",
+    "replace",
+    "split",
+    "substr",
+    "concat",
+    "slice"
+  ]
+}];
+
+for (var i=0, l=makeGeneric.length; i<l; i++)
+{
+  var constr = makeGeneric[i].object;
+  var methods = makeGeneric[i].methods;
+
+  for (var j=0; j<methods.length; j++)
+  {
+    var name = methods[j];
+
+    if (!constr[name])
+    {
+      constr[methods[j]] = function (constr, name)
+      {
+        return function (s)
+        {
+          var args = Array.prototype.slice.call(arguments, 1);
+          return constr.prototype[name].apply(s, args);
+        };
+      }(constr, name);
+    };
+  };
+};
+
+// hide from global scope
+})();
