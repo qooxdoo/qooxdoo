@@ -35,7 +35,7 @@ function QxRequestQueue()
 
   this._totalRequests = 0;
 
-  this._timer = new QxTimer(10);
+  this._timer = new QxTimer(1);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
@@ -52,7 +52,7 @@ QxRequestQueue.extend(QxTarget, "QxRequestQueue");
 
 QxRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
 QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
-QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
+QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
 
 
 
@@ -107,10 +107,14 @@ proto._check = function()
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, vRequest._onaborted, vRequest);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
 
   // Establish event connection between QxTransport and me.
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onaborted, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
 
   // Finally send request
   vTransport._start = (new Date).valueOf();
@@ -136,6 +140,29 @@ proto._onaborted = function(e)
   this._check();
 };
 
+proto._ontimeout = function(e)
+{
+  this._working.remove(e.getTarget());
+  this._check();
+};
+
+proto._onfailed = function(e)
+{
+  this._working.remove(e.getTarget());
+  this._check();
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  TIMEOUT HANDLING
+---------------------------------------------------------------------------
+*/
+
 proto._oninterval = function(e)
 {
   var vWorking = this._working;
@@ -160,8 +187,8 @@ proto._oninterval = function(e)
 
     if ((vCurrent - vTransport._start) > vTimeout)
     {
-      this.warn("Timeout reached for request: " + vTransport);
-      vTransport.abort();
+      this.warn("Timeout transport " + vTransport.toHashCode());
+      vTransport.timeout();
     };
   };
 };
@@ -177,7 +204,10 @@ proto._oninterval = function(e)
 
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  this._check();
+  if (propValue) {
+    this._check();
+  };
+
   return true;
 };
 
