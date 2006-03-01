@@ -317,6 +317,10 @@ proto._modifyState = function(propValue, propOldValue, propData)
         case QxConst.REQUEST_STATE_TIMEOUT:
           vEventType = QxConst.EVENT_TYPE_TIMEOUT;
           break;
+
+        case QxConst.REQUEST_STATE_FAILED:
+          vEventType = QxConst.EVENT_TYPE_FAILED;
+          break;
       };
 
       this.createDispatchDataEvent(vEventType, vResponse);
