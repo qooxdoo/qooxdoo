@@ -588,8 +588,6 @@ proto.dispose = function()
     return;
   };
 
-  delete this._abortState;
-
   if (this._req)
   {
     // Should be right,
@@ -620,9 +618,11 @@ proto.dispose = function()
     };
 
     // Cleanup objects
-    this._requestHeader = null;
+
     this._req = null;
   };
+
+  this._requestHeader = null;
 
   return QxTarget.prototype.dispose.call(this);
 };
