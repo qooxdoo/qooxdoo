@@ -271,7 +271,6 @@ proto.failed = function()
 
 proto._abortRequest = function(vState)
 {
-  this.warn("Setup State: " + vState);
   this.setState(vState);
 
   var vRequest = this.getRequest();
@@ -386,14 +385,14 @@ proto._onreadystatechange = function(e)
 {
   var vReadyState = this.getRequest().readyState;
 
-  this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+  // this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
 
   switch(this.getState())
   {
     case QxConst.REQUEST_STATE_ABORTED:
     case QxConst.REQUEST_STATE_FAILED:
     case QxConst.REQUEST_STATE_TIMEOUT:
-      this.warn("Ignore Ready State Change");
+      // this.warn("Ignore Ready State Change");
       return;
   };
 
