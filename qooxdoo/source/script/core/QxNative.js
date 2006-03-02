@@ -417,7 +417,20 @@ String.prototype.endsWith = function(str) {
   return this.lastIndexOf(str) === this.length-str.length;
 };
 
+String.prototype.padding = function(length, char)
+{
+  if (typeof char === QxConst.TYPEOF_UNDEFINED) {
+    char = QxConst.CORE_ZERO;
+  };
 
+  var temp = QxConst.CORE_EMPTY;
+
+  for (var i=length, l=this.length; l<i; l++) {
+    temp += char;
+  };
+
+  return temp + this;
+};
 
 
 
