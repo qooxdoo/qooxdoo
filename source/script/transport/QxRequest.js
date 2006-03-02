@@ -253,7 +253,10 @@ proto._onfailed = function(e)
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  this.debug("State: " + propValue);
+  if (QxSettings.enableTransportDebug) {
+    this.debug("State: " + propValue);
+  };
+
   return true;
 };
 
@@ -276,7 +279,9 @@ proto.dispose = function()
     return;
   };
 
-  this.debug("Disposing...");
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Disposing...");
+  };
 
   return QxTarget.prototype.dispose.call(this);
 };

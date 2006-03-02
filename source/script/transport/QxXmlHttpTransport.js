@@ -115,13 +115,18 @@ QxXmlHttpTransport.createRequestObject = function()
 {
   if (QxXmlHttpTransport._supportsReusing && QxXmlHttpTransport.requestObjects.length > 0)
   {
-    // QxDebug("QxXmlHttpTransport", "Reusing request object");
+    if (QxSettings.enableTransportDebug) {
+      QxDebug("QxXmlHttpTransport", "Reusing request object");
+    };
+
     return QxXmlHttpTransport.requestObjects.pop();
   }
   else
   {
-    QxXmlHttpTransport.requestObjectCount++;
-    QxDebug("QxXmlHttpTransport", "Creating new request object: " + QxXmlHttpTransport.requestObjectCount);
+    if (QxSettings.enableTransportDebug) {
+      QxDebug("QxXmlHttpTransport", "Creating new request object: " + (QxXmlHttpTransport.requestObjectCount++));
+    };
+
     return QxXmlHttpTransport._createRequestObject();
   };
 };
@@ -229,18 +234,28 @@ proto.send = function()
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
   };
 
+  if (this.getAsynchronous())
+  {
+    QxTimer.once(this._send, this, 0);
+  }
+  else
+  {
+    this._send();
+  };
+};
+
+proto._send = function()
+{
   try
   {
-    vRequest.send(this.getData());
+    var vRequest = this.getRequest();
+    if (vRequest) {
+      vRequest.send(this.getData());
+    };
   }
   catch(ex)
   {
-    // should only occours on "file://" access
-    if (QxSettings.enableTransportDebug) {
-      this.warn("Could not load from file: " + this.getUrl());
-    };
-
-    this.failed();
+    this.failedLocally();
   };
 };
 
@@ -269,6 +284,20 @@ proto.failed = function()
   };
 
   this._abortRequest(QxConst.REQUEST_STATE_FAILED);
+};
+
+proto.failedLocally = function()
+{
+  if (this.getState() === QxConst.REQUEST_STATE_FAILED) {
+    return;
+  };
+
+  // should only occours on "file://" access
+  if (QxSettings.enableTransportDebug) {
+    this.warn("Could not load from file: " + this.getUrl());
+  };
+
+  this.failed();
 };
 
 proto._abortRequest = function(vState)
@@ -385,16 +414,24 @@ QxXmlHttpTransport._nativeMap =
 
 proto._onreadystatechange = function(e)
 {
-  var vReadyState = this.getRequest().readyState;
+  var vRequest = this.getRequest();
+  var vReadyState = vRequest.readyState;
+  var vStatusCode = vRequest.status;
 
-  // this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+  this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+
+  // mshtml configures statusCode to '2', when a local
+  // file (using file://) is not accessible
+  if (vReadyState === 4 && vStatusCode === 2) {
+    return this.failedLocally();
+  };
 
   switch(this.getState())
   {
     case QxConst.REQUEST_STATE_ABORTED:
     case QxConst.REQUEST_STATE_FAILED:
     case QxConst.REQUEST_STATE_TIMEOUT:
-      // this.warn("Ignore Ready State Change");
+      this.warn("Ignore Ready State Change");
       return;
   };
 
@@ -589,7 +626,9 @@ proto.dispose = function()
     return;
   };
 
-  this.debug("Disposing...");
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Disposing...");
+  };
 
   if (this._req)
   {

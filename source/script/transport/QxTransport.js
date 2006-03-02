@@ -356,7 +356,9 @@ proto.dispose = function()
     return;
   };
 
-  this.debug("Disposing...");
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Disposing...");
+  };
 
   this.setImplementation(null);
   this.setRequest(null);
