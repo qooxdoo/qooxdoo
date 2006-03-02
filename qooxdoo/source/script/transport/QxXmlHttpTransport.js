@@ -59,6 +59,7 @@ QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 
 QxXmlHttpTransport.supportsOnlyGetMethod = window.location.protocol == "file:";
 QxXmlHttpTransport.requestObjects = [];
+QxXmlHttpTransport.requestObjectCount = 0;
 
 QxXmlHttpTransport.isSupported = function()
 {
@@ -119,7 +120,8 @@ QxXmlHttpTransport.createRequestObject = function()
   }
   else
   {
-    // QxDebug("QxXmlHttpTransport", "Creating new request object");
+    QxXmlHttpTransport.requestObjectCount++;
+    QxDebug("QxXmlHttpTransport", "Creating new request object: " + QxXmlHttpTransport.requestObjectCount);
     return QxXmlHttpTransport._createRequestObject();
   };
 };
@@ -586,6 +588,8 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
+
+  this.debug("Disposing...");
 
   if (this._req)
   {
