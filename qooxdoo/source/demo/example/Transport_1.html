@@ -65,7 +65,7 @@
     hlay.add(btn);
 
 
-    var inf = new QxTextField("Status");
+    var inf = new QxTextField("State");
     inf.setWidth(80);
     hlay.add(inf);
 
@@ -128,6 +128,27 @@
         req.addEventListener("completed", function(e)
         {
           inf.setValue("Completed");
+          code.setValue(e.getData().getStatusCode().toString());
+          area.setValue(e.getData().getTextContent());
+        });
+
+        req.addEventListener("failed", function(e)
+        {
+          inf.setValue("Failed");
+          code.setValue(e.getData().getStatusCode().toString());
+          area.setValue(e.getData().getTextContent());
+        });
+
+        req.addEventListener("timeout", function(e)
+        {
+          inf.setValue("Timeout");
+          code.setValue(e.getData().getStatusCode().toString());
+          area.setValue(e.getData().getTextContent());
+        });
+
+        req.addEventListener("aborted", function(e)
+        {
+          inf.setValue("Aborted");
           code.setValue(e.getData().getStatusCode().toString());
           area.setValue(e.getData().getTextContent());
         });
