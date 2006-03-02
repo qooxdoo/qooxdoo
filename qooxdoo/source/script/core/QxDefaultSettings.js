@@ -35,6 +35,7 @@ var QxDefaultSettings =
   applicationLayout : true,
 
   imageCorePath : "../../images",
+  imageLocalPath : "./",
   imageIconPath : "../../themes/icons",
   imageWidgetPath : "../../themes/widgets"
 };

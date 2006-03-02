@@ -57,6 +57,7 @@ function QxImageManager()
 
   // Apply default pathes
   this.setCorePath(QxSettings.imageCorePath);
+  this.setLocalPath(QxSettings.imageLocalPath);
   this.setIconPath(QxSettings.imageIconPath);
   this.setWidgetPath(QxSettings.imageWidgetPath);
 };
@@ -73,6 +74,7 @@ QxImageManager.extend(QxManager, "QxImageManager");
 */
 
 QxImageManager.addProperty({ name : "corePath", type : QxConst.TYPEOF_STRING, impl : "coreAlias" });
+QxImageManager.addProperty({ name : "localPath", type : QxConst.TYPEOF_STRING, impl : "localAlias" });
 
 QxImageManager.addProperty({ name : "iconPath", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
 QxImageManager.addProperty({ name : "iconTheme", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
@@ -95,6 +97,12 @@ QxImageManager.addProperty({ name : "widgetTheme", type : QxConst.TYPEOF_STRING,
 proto._modifyCoreAlias = function(propValue, propOldValue, propData)
 {
   this.defineAlias("core", propValue);
+  return true;
+};
+
+proto._modifyLocalAlias = function(propValue, propOldValue, propData)
+{
+  this.defineAlias("local", propValue);
   return true;
 };
 
