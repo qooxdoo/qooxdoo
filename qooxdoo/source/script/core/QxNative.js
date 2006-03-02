@@ -565,6 +565,8 @@ Error.prototype.toString = function() {
 
 // http://erik.eae.net/archives/2006/02/28/00.39.52/
 
+// Relicensed under LGPL for qooxdoo.
+
 // hide from global scope
 (function() {
 
