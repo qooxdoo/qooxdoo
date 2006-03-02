@@ -320,3 +320,6 @@ L="$L script/transport/QxIframeTransport"
 
 # Builder
 L="$L script/core/QxBuilder"
+
+# Color Selector
+L="$L script/widgets/QxColorSelector"
