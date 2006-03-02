@@ -67,8 +67,7 @@ QxXmlHttpTransport.isSupported = function()
   {
     // QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
 
-    QxXmlHttpTransport._createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
-    QxXmlHttpTransport._supportsReusing = true;
+    QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
     return true;
   };
 
@@ -98,8 +97,7 @@ QxXmlHttpTransport.isSupported = function()
       // QxDebug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
 
       QxXmlHttpTransport._activeXServer = vServer;
-      QxXmlHttpTransport._createRequestObject = QxXmlHttpTransport._createActiveXRequestObject;
-      QxXmlHttpTransport._supportsReusing = false;
+      QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createActiveXRequestObject;
 
       return true;
     };
@@ -108,30 +106,7 @@ QxXmlHttpTransport.isSupported = function()
   return false;
 };
 
-/*!
-  Support caching of request object
-*/
-QxXmlHttpTransport.createRequestObject = function()
-{
-  if (QxXmlHttpTransport._supportsReusing && QxXmlHttpTransport.requestObjects.length > 0)
-  {
-    if (QxSettings.enableTransportDebug) {
-      QxDebug("QxXmlHttpTransport", "Reusing request object");
-    };
-
-    return QxXmlHttpTransport.requestObjects.pop();
-  }
-  else
-  {
-    if (QxSettings.enableTransportDebug) {
-      QxDebug("QxXmlHttpTransport", "Creating new request object: " + (QxXmlHttpTransport.requestObjectCount++));
-    };
-
-    return QxXmlHttpTransport._createRequestObject();
-  };
-};
-
-QxXmlHttpTransport._createRequestObject = function() {
+QxXmlHttpTransport.createRequestObject = function() {
   throw new Error("XMLHTTP is not supported!");
 };
 
@@ -234,6 +209,8 @@ proto.send = function()
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
   };
 
+  this.debug("Async: " + this.getAsynchronous() + " (" + (typeof this.getAsynchronous()) + ")");
+
   if (this.getAsynchronous())
   {
     QxTimer.once(this._send, this, 0);
@@ -242,6 +219,8 @@ proto.send = function()
   {
     this._send();
   };
+
+
 };
 
 proto._send = function()
@@ -403,7 +382,7 @@ proto._onreadystatechange = function(e)
   var vReadyState = vRequest.readyState;
   var vStatusCode = this.getStatusCode();
 
-  // this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+  this.debug("Ready State: " + vReadyState);
 
   // mshtml configures statusCode to '2', when a local
   // file (using file://) is not accessible
@@ -626,9 +605,11 @@ proto.dispose = function()
     return;
   };
 
+  /*
   if (QxSettings.enableTransportDebug) {
     this.debug("Disposing...");
   };
+  */
 
   var vRequest = this.getRequest();
 
@@ -649,20 +630,7 @@ proto.dispose = function()
         vRequest.abort();
     };
 
-    // Supports reusing of request objects
-    if (QxXmlHttpTransport._supportsReusing)
-    {
-      // Remove request headers
-      for (vLabel in this._requestHeader) {
-        this.removeRequestHeader(vLabel);
-      };
-
-      // Add to object "queue"
-      QxXmlHttpTransport.requestObjects.push(this._req);
-    };
-
     // Cleanup objects
-
     this._req = null;
   };
 
