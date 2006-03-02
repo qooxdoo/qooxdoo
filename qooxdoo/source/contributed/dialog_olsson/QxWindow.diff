@@ -1,0 +1,174 @@
+Index: QxWindow.js
+===================================================================
+RCS file: /cvsroot/qooxdoo/qooxdoo/source/script/widgets/QxWindow.js,v
+retrieving revision 1.29
+diff -u -r1.29 QxWindow.js
+--- QxWindow.js	17 Feb 2006 20:42:45 -0000	1.29
++++ QxWindow.js	1 Mar 2006 22:43:22 -0000
+@@ -177,24 +177,6 @@
+ 
+ 
+   // ************************************************************************
+-  //   STATUSBAR
+-  // ************************************************************************
+-
+-  var sb = this._statusBar = new QxHorizontalBoxLayout;
+-  sb.setAppearance("window-statusbar");
+-
+-
+-  // ************************************************************************
+-  //   STATUSTEXT
+-  // ************************************************************************
+-
+-  var st = this._statusText = new QxLabel("Ready");
+-  st.setAppearance("window-statusbar-text");
+-  st.setSelectable(false);
+-  sb.add(st);
+-
+-
+-  // ************************************************************************
+   //   INIT
+   // ************************************************************************
+ 
+@@ -251,11 +233,6 @@
+ /*!
+   Should be window be modal (this disable minimize and maximize buttons)
+ */
+-QxWindow.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+-
+-/*!
+-  Should be window be modal (this disable minimize and maximize buttons)
+-*/
+ QxWindow.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
+ 
+ /*!
+@@ -274,11 +251,6 @@
+ QxWindow.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+ 
+ /*!
+-  The text of the statusbar
+-*/
+-QxWindow.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
+-
+-/*!
+   Should the close button be shown
+ */
+ QxWindow.addProperty({ name : "showClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+@@ -294,11 +266,6 @@
+ QxWindow.addProperty({ name : "showMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+ 
+ /*!
+-  Should the statusbar be shown
+-*/
+-QxWindow.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+-
+-/*!
+   Should the user have the ability to close the window
+ */
+ QxWindow.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+@@ -383,10 +350,6 @@
+   return this._captionBar;
+ };
+ 
+-proto.getStatusBar = function() {
+-  return this._statusBar;
+-};
+-
+ proto.close = function() {
+   this.hide();
+ };
+@@ -539,22 +502,6 @@
+   return true;
+ };
+ 
+-proto._modifyModal = function(propValue, propOldValue, propData)
+-{
+-  // Inform blocker
+-  if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
+-  {
+-    var vTop = this.getTopLevelWidget();
+-    propValue ? vTop.block(this) : vTop.release(this);
+-  };
+-
+-  // Disallow minimize and close for modal dialogs
+-  this._closeButtonManager();
+-  this._minimizeButtonManager();
+-
+-  return true;
+-};
+-
+ proto._modifyAllowClose = function(propValue, propOldValue, propData) {
+   return this._closeButtonManager();
+ };
+@@ -623,20 +570,6 @@
+   return true;
+ };
+ 
+-proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
+-{
+-  if (propValue)
+-  {
+-    this._layout.addAtEnd(this._statusBar);
+-  }
+-  else
+-  {
+-    this._layout.remove(this._statusBar);
+-  };
+-
+-  return true;
+-};
+-
+ proto._modifyShowClose = function(propValue, propOldValue, propData)
+ {
+   if (propValue)
+@@ -691,14 +624,14 @@
+ 
+ proto._minimizeButtonManager = function()
+ {
+-  this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
++  this._minimizeButton.setEnabled(this.getAllowMinimize());
+ 
+   return true;
+ };
+ 
+ proto._closeButtonManager = function()
+ {
+-  this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
++  this._closeButton.setEnabled(this.getAllowClose());
+ 
+   return true;
+ };
+@@ -713,13 +646,6 @@
+   return true;
+ };
+ 
+-proto._modifyStatus = function(propValue, propOldValue, propData)
+-{
+-  this._statusText.setHtml(propValue);
+-
+-  return true;
+-};
+-
+ proto._modifyMaxWidth = function(propValue, propOldValue, propData) {
+   return this._maximizeButtonManager();
+ };
+@@ -1404,17 +1330,5 @@
+     this._pane = null;
+   };
+ 
+-  if (this._statusBar)
+-  {
+-    this._statusBar.dispose();
+-    this._statusBar = null;
+-  };
+-
+-  if (this._statusText)
+-  {
+-    this._statusText.dispose();
+-    this._statusText = null;
+-  };
+-
+   return QxPopup.prototype.dispose.call(this);
+-};
+\ No newline at end of file
++};
