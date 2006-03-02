@@ -280,6 +280,7 @@ proto.dispose = function()
     for (var i=0, a=this._active, l=a.length; i<l; i++) {
      a[i].dispose();
     };
+  };
 
   this._active = null;
 
