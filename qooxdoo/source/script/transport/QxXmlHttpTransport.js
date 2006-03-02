@@ -209,17 +209,10 @@ proto.send = function()
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
   };
 
-  if (this.getAsynchronous())
-  {
-    QxTimer.once(this._send, this, 0);
-  }
-  else
-  {
-    this._send();
-  };
+  this._send();
 };
 
-proto._send = function()
+proto._sendImpl = function()
 {
   try
   {
@@ -232,6 +225,29 @@ proto._send = function()
   {
     this.failedLocally();
   };
+};
+
+/*
+  Mshtml seems not to allow us to do multiple requests at one time.
+  This helps a bit, but not comparable to the performance of firefox.
+*/
+if (QxClient.isMshtml())
+{
+  proto._send = function()
+  {
+    if (this.getAsynchronous())
+    {
+      QxTimer.once(this._sendImpl, this, 0);
+    }
+    else
+    {
+      this._sendImpl();
+    };
+  };
+}
+else
+{
+  proto._send = proto._sendImpl;
 };
 
 proto.abort = function()
