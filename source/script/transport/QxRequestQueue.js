@@ -274,14 +274,22 @@ proto.dispose = function()
     return true;
   };
 
-  this._queue = null;
-  this._working = null;
+  if (this._working)
+  {
+    for (var i=0, a=this._working, l=a.length; i<l; i++) {
+     a[i].dispose();
+    };
+
+    this._working = null;
+  };
 
   if (this._timer)
   {
     this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer = null;
   };
+
+  this._queue = null;
 
   return QxTarget.prototype.dispose.call(this);
 };
