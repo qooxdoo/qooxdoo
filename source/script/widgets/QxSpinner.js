@@ -153,7 +153,7 @@ QxSpinner.addProperty({ name : "pageIncrementAmount", type : QxConst.TYPEOF_NUMB
 /*!
   The current value of the interval (this should be used internally only).
 */
-QxSpinner.addProperty({ name : QxConst.EVENT_TYPE_INTERVAL, type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+QxSpinner.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 /*!
   The first interval on event based shrink/growth of the value.
