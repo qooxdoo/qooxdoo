@@ -31,7 +31,7 @@ function QxRequestQueue()
   QxTarget.call(this);
 
   this._queue = [];
-  this._working = [];
+  this._active = [];
 
   this._totalRequests = 0;
 
@@ -69,11 +69,11 @@ proto._check = function()
 {
   // Debug output
   if (QxSettings.enableTransportDebug) {
-    this.debug("queue:" + this._queue.length + " | working:" + this._working.length);
+    this.debug("queued:" + this._queue.length + " | active:" + this._active.length + " | total:" + (this._queue.length+this._active.length));
   };
 
   // Check queues and stop timer if not needed anymore
-  if (this._working.length == 0 && this._queue.length == 0) {
+  if (this._active.length == 0 && this._queue.length == 0) {
     this._timer.stop();
   };
 
@@ -82,8 +82,8 @@ proto._check = function()
     return;
   };
 
-  // Checking working queue fill
-  if (this._working.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
+  // Checking active queue fill
+  if (this._active.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
     return;
   };
 
@@ -99,8 +99,8 @@ proto._check = function()
   // Increment counter
   this._totalRequests++;
 
-  // Add to working queue
-  this._working.push(vTransport);
+  // Add to active queue
+  this._active.push(vTransport);
 
   // Establish event connection between QxTransport instance and QxRequest
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
@@ -132,25 +132,25 @@ proto._onsending = function(e) {
 
 proto._oncompleted = function(e)
 {
-  this._working.remove(e.getTarget());
+  this._active.remove(e.getTarget());
   this._check();
 };
 
 proto._onaborted = function(e)
 {
-  this._working.remove(e.getTarget());
+  this._active.remove(e.getTarget());
   this._check();
 };
 
 proto._ontimeout = function(e)
 {
-  this._working.remove(e.getTarget());
+  this._active.remove(e.getTarget());
   this._check();
 };
 
 proto._onfailed = function(e)
 {
-  this._working.remove(e.getTarget());
+  this._active.remove(e.getTarget());
   this._check();
 };
 
@@ -167,9 +167,9 @@ proto._onfailed = function(e)
 
 proto._oninterval = function(e)
 {
-  var vWorking = this._working;
+  var vActive = this._active;
 
-  if (vWorking.length == 0) {
+  if (vActive.length == 0) {
     return;
   };
 
@@ -179,9 +179,9 @@ proto._oninterval = function(e)
   var vTimeout;
   var vTime;
 
-  for (var i=vWorking.length-1; i>0; i--)
+  for (var i=vActive.length-1; i>0; i--)
   {
-    vTransport = vWorking[i];
+    vTransport = vActive[i];
     vTimeout = vTransport.getRequest().getTimeout();
 
     if (vTimeout == null) {
@@ -192,7 +192,8 @@ proto._oninterval = function(e)
 
     if (vTime > vTimeout)
     {
-      this.warn("Timeout transport " + vTransport.toHashCode() + " (" + vTime + ">" + vTimeout + ")");
+      this.warn("Timeout: transport " + vTransport.toHashCode());
+      this.warn(vTime + "ms > " + vTimeout + "ms");
       vTransport.timeout();
     };
   };
@@ -274,14 +275,13 @@ proto.dispose = function()
     return true;
   };
 
-  if (this._working)
+  if (this._active)
   {
-    for (var i=0, a=this._working, l=a.length; i<l; i++) {
+    for (var i=0, a=this._active, l=a.length; i<l; i++) {
      a[i].dispose();
     };
 
-    this._working = null;
-  };
+  this._active = null;
 
   if (this._timer)
   {
