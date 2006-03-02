@@ -2027,3 +2027,35 @@ theme.registerAppearance("spinner-button-down",
     });
   }
 });
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  COLORSELECTOR
+---------------------------------------------------------------------------
+*/
+
+theme.registerAppearance("colorselector",
+{
+  setup : function()
+  {
+    this.border = QxBorderObject.presets.outset;
+  },
+
+  initial : function(vWidget, vTheme)
+  {
+    return {
+      border : this.border,
+      width: QxConst.CORE_AUTO,
+      height: QxConst.CORE_AUTO
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates)
+  {
+
+  }
+});
