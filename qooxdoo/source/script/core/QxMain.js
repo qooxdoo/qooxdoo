@@ -28,7 +28,7 @@
 
 var QxMain =
 {
-  version : "0.5.1",
+  version : "0.5.2-beta1",
   loadStart : (new Date).valueOf(),
 
   classes : {},
