@@ -322,9 +322,6 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
       // Fire event to listeners
       this.createDispatchDataEvent(vEventType, vResponse);
-
-      // Dispose in complete
-      this.dispose();
       break;
   };
 

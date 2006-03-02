@@ -35,7 +35,7 @@ function QxRequestQueue()
 
   this._totalRequests = 0;
 
-  this._timer = new QxTimer(10);
+  this._timer = new QxTimer(50);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
@@ -68,13 +68,13 @@ QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMB
 proto._debug = function()
 {
   // Debug output
-  if (QxSettings.enableTransportDebug)
-  {
-    var vText = this._active.length + "/" + (this._queue.length+this._active.length);
+  var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
+  if (QxSettings.enableTransportDebug) {
     this.debug("Progress: " + vText);
-    window.status = "Request-Queue Progress: " + vText;
   };
+
+  window.status = "Request-Queue Progress: " + vText;
 };
 
 proto._check = function()
@@ -160,6 +160,9 @@ proto._remove = function(vTransport)
 
   // Remove from active transports
   this._active.remove(vTransport);
+
+  // Dispose transport object
+  vTransport.dispose();
 
   // Check again
   this._check();
@@ -310,11 +313,11 @@ proto.dispose = function()
   if (this._active)
   {
     for (var i=0, a=this._active, l=a.length; i<l; i++) {
-     a[i].dispose();
+      this._remove(a[i]);
     };
-  };
 
-  this._active = null;
+    this._active = null;
+  };
 
   if (this._timer)
   {

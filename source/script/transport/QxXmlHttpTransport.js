@@ -209,8 +209,6 @@ proto.send = function()
     vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
   };
 
-  this.debug("Async: " + this.getAsynchronous() + " (" + (typeof this.getAsynchronous()) + ")");
-
   if (this.getAsynchronous())
   {
     QxTimer.once(this._send, this, 0);
@@ -219,8 +217,6 @@ proto.send = function()
   {
     this._send();
   };
-
-
 };
 
 proto._send = function()
@@ -382,7 +378,9 @@ proto._onreadystatechange = function(e)
   var vReadyState = vRequest.readyState;
   var vStatusCode = this.getStatusCode();
 
-  this.debug("Ready State: " + vReadyState);
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Ready State: " + vReadyState);
+  };
 
   // mshtml configures statusCode to '2', when a local
   // file (using file://) is not accessible

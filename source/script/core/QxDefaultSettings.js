@@ -30,7 +30,7 @@ var QxDefaultSettings =
 {
   enableWidgetDebug : false,
   enableDisposerDebug : false,
-  enableTransportDebug : true,
+  enableTransportDebug : false,
 
   applicationLayout : true,
 
