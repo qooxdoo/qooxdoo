@@ -191,7 +191,7 @@ function QxColorSelector()
 
 
   function updateFromRgbSpinner() {
-    this._hexValue.setValue(this._rgbSpinRed.getValue().toString(16).padding(2) + this._rgbSpinGreen.getValue().toString(16).padding(2) + this._rgbSpinBlue.getValue().toString(16).padding(2));
+    this._hexValue.setValue(this._rgbSpinRed.getValue().toString(16).pad(2) + this._rgbSpinGreen.getValue().toString(16).pad(2) + this._rgbSpinBlue.getValue().toString(16).pad(2));
   };
 
   this._rgbSpinRed.addEventListener("change", updateFromRgbSpinner, this);
