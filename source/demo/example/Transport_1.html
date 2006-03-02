@@ -66,8 +66,13 @@
 
 
     var inf = new QxTextField("Status");
-    inf.setWidth(100);
+    inf.setWidth(80);
     hlay.add(inf);
+
+
+    var code = new QxTextField("Code");
+    code.setWidth(40);
+    hlay.add(code);
 
 
 
@@ -123,6 +128,7 @@
         req.addEventListener("completed", function(e)
         {
           inf.setValue("Completed");
+          code.setValue(e.getData().getStatusCode().toString());
           area.setValue(e.getData().getTextContent());
         });
 
