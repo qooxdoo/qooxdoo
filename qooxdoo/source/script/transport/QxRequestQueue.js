@@ -130,6 +130,9 @@ proto._check = function()
   vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._oncompleted, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, this._oncompleted, this);
 
+  // Store send timestamp
+  vTransport._start = (new Date).valueOf();
+
   // Send
   vTransport.send();
 
@@ -180,11 +183,18 @@ proto._remove = function(vTransport)
 ---------------------------------------------------------------------------
 */
 
+proto._activeCount = 0;
+
 proto._onsending = function(e) {
-  e.getTarget()._start = (new Date).valueOf();
+  this._activeCount++;
+  this.debug("ActiveCount: " + this._activeCount);
 };
 
-proto._oncompleted = function(e) {
+proto._oncompleted = function(e)
+{
+  this._activeCount--;
+  this.debug("ActiveCount: " + this._activeCount);
+
   this._remove(e.getTarget());
 };
 
