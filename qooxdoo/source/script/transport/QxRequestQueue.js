@@ -35,7 +35,7 @@ function QxRequestQueue()
 
   this._totalRequests = 0;
 
-  this._timer = new QxTimer(1);
+  this._timer = new QxTimer(10);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
@@ -51,8 +51,8 @@ QxRequestQueue.extend(QxTarget, "QxRequestQueue");
 */
 
 QxRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
-QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
-QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 3 });
+QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 
 
@@ -111,13 +111,11 @@ proto._check = function()
   vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
 
   // Establish event connection between QxTransport and me.
+  vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onaborted, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
-
-  // Finally send request
-  vTransport._start = (new Date).valueOf();
 
   // Send
   vTransport.send();
@@ -128,28 +126,32 @@ proto._check = function()
   };
 };
 
+proto._onsending = function(e) {
+  e.getTarget()._start = (new Date).valueOf();
+};
+
 proto._oncompleted = function(e)
 {
   this._working.remove(e.getTarget());
-  //this._check();
+  this._check();
 };
 
 proto._onaborted = function(e)
 {
   this._working.remove(e.getTarget());
-  //this._check();
+  this._check();
 };
 
 proto._ontimeout = function(e)
 {
   this._working.remove(e.getTarget());
-  //this._check();
+  this._check();
 };
 
 proto._onfailed = function(e)
 {
   this._working.remove(e.getTarget());
-  //this._check();
+  this._check();
 };
 
 
@@ -165,35 +167,34 @@ proto._onfailed = function(e)
 
 proto._oninterval = function(e)
 {
-  var vQueue = this._queue;
   var vWorking = this._working;
 
-  if (vWorking.length > 0)
-  {
-    var vCurrent = (new Date).valueOf();
-    var vTransport;
-    var vDefaultTimeout = this.getDefaultTimeout();
-    var vTimeout;
-
-    for (var i=vWorking.length-1; i>0; i--)
-    {
-      vTransport = vWorking[i];
-      vTimeout = vTransport.getRequest().getTimeout();
-
-      if (vTimeout == null) {
-        vTimeout = vDefaultTimeout;
-      };
-
-      if ((vCurrent - vTransport._start) > vTimeout)
-      {
-        this.warn("Timeout transport " + vTransport.toHashCode());
-        vTransport.timeout();
-      };
-    };
+  if (vWorking.length == 0) {
+    return;
   };
 
-  if (vQueue.length > 0) {
-    this._check();
+  var vCurrent = (new Date).valueOf();
+  var vTransport;
+  var vDefaultTimeout = this.getDefaultTimeout();
+  var vTimeout;
+  var vTime;
+
+  for (var i=vWorking.length-1; i>0; i--)
+  {
+    vTransport = vWorking[i];
+    vTimeout = vTransport.getRequest().getTimeout();
+
+    if (vTimeout == null) {
+      vTimeout = vDefaultTimeout;
+    };
+
+    vTime = vCurrent - vTransport._start;
+
+    if (vTime > vTimeout)
+    {
+      this.warn("Timeout transport " + vTransport.toHashCode() + " (" + vTime + ">" + vTimeout + ")");
+      vTransport.timeout();
+    };
   };
 };
 
