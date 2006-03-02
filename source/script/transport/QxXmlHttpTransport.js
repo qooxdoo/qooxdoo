@@ -199,55 +199,31 @@ proto.send = function()
 
   var vRequest = this.getRequest();
   var vMethod = QxXmlHttpTransport.supportsOnlyGetMethod ? QxConst.METHOD_GET : this.getMethod();
+  var vUrl = this.getUrl();
+
+  vUrl += "?random=" + Math.random();
 
   if (this.getUsername())
   {
-    vRequest.open(vMethod, this.getUrl(), this.getAsynchronous(), this.getUsername(), this.getPassword());
+    vRequest.open(vMethod, vUrl, this.getAsynchronous(), this.getUsername(), this.getPassword());
   }
   else
   {
-    vRequest.open(vMethod, this.getUrl(), this.getAsynchronous());
+    vRequest.open(vMethod, vUrl, this.getAsynchronous());
   };
 
-  this._send();
-};
-
-proto._sendImpl = function()
-{
   try
   {
-    var vRequest = this.getRequest();
-    if (vRequest) {
-      vRequest.send(this.getData());
-    };
+    vRequest.send(this.getData());
   }
   catch(ex)
   {
     this.failedLocally();
   };
-};
 
-/*
-  Mshtml seems not to allow us to do multiple requests at one time.
-  This helps a bit, but not comparable to the performance of firefox.
-*/
-if (QxClient.isMshtml())
-{
-  proto._send = function()
-  {
-    if (this.getAsynchronous())
-    {
-      QxTimer.once(this._sendImpl, this, 0);
-    }
-    else
-    {
-      this._sendImpl();
-    };
+  if (!this.getAsynchronous()) {
+    this._onreadystatechange();
   };
-}
-else
-{
-  proto._send = proto._sendImpl;
 };
 
 proto.abort = function()
@@ -390,13 +366,14 @@ QxXmlHttpTransport._nativeMap =
 
 proto._onreadystatechange = function(e)
 {
-  var vRequest = this.getRequest();
-  var vReadyState = vRequest.readyState;
+  var vReadyState = this.getReadyState();
   var vStatusCode = this.getStatusCode();
 
+  /*
   if (QxSettings.enableTransportDebug) {
     this.debug("Ready State: " + vReadyState);
   };
+  */
 
   // mshtml configures statusCode to '2', when a local
   // file (using file://) is not accessible
@@ -424,6 +401,27 @@ proto._onreadystatechange = function(e)
 };
 
 
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  READY STATE
+---------------------------------------------------------------------------
+*/
+
+proto.getReadyState = function()
+{
+  var vReadyState = null;
+
+  try {
+    vReadyState = this._req.readyState;
+  } catch(ex) {};
+
+  return vReadyState;
+};
 
 
 

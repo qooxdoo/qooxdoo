@@ -134,7 +134,10 @@ proto.send = function()
     {
       try
       {
-        this.setImplementation(new vTransportImpl);
+        vTransport = new vTransportImpl;
+        this.setImplementation(vTransport);
+
+        vTransport.send();
         return true;
       }
       catch(ex)
@@ -235,8 +238,6 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
     propOldValue.removeEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
-
-    propOldValue.dispose();
   };
 
   if (propValue)
@@ -256,8 +257,6 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
-
-    propValue.send();
   };
 
   return true;
@@ -317,8 +316,9 @@ proto._modifyState = function(propValue, propOldValue, propData)
           break;
       };
 
-      // Deconnect and dispose implementation
+      // Disconnect and dispose implementation
       this.setImplementation(null);
+      vImpl.dispose();
 
       // Fire event to listeners
       this.createDispatchDataEvent(vEventType, vResponse);
@@ -353,7 +353,13 @@ proto.dispose = function()
   };
   */
 
-  this.setImplementation(null);
+  var vImpl = this.getImplementation();
+  if (vImpl)
+  {
+    this.setImplementation(null);
+    vImpl.dispose();
+  };
+
   this.setRequest(null);
 
   return QxTarget.prototype.dispose.call(this);
