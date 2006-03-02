@@ -265,7 +265,7 @@ proto.abort = function()
     this.warn("Aborting...");
   };
 
-  this._abortRequest(QxConst.REQUEST_STATE_ABORTED);
+  this.setState(QxConst.REQUEST_STATE_ABORTED);
 };
 
 proto.timeout = function()
@@ -274,7 +274,7 @@ proto.timeout = function()
     this.warn("Timeout...");
   };
 
-  this._abortRequest(QxConst.REQUEST_STATE_TIMEOUT);
+  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
 };
 
 proto.failed = function()
@@ -283,7 +283,7 @@ proto.failed = function()
     this.warn("Failed...");
   };
 
-  this._abortRequest(QxConst.REQUEST_STATE_FAILED);
+  this.setState(QxConst.REQUEST_STATE_FAILED);
 };
 
 proto.failedLocally = function()
@@ -300,21 +300,6 @@ proto.failedLocally = function()
   this.failed();
 };
 
-proto._abortRequest = function(vState)
-{
-  this.setState(vState);
-
-  var vRequest = this.getRequest();
-
-  if (vRequest)
-  {
-    if (QxSettings.enableTransportDebug) {
-      this.warn("Aborting request (" + vState + ")...");
-    };
-
-    vRequest.abort();
-  };
-};
 
 
 
@@ -416,14 +401,19 @@ proto._onreadystatechange = function(e)
 {
   var vRequest = this.getRequest();
   var vReadyState = vRequest.readyState;
-  var vStatusCode = vRequest.status;
+  var vStatusCode = this.getStatusCode();
 
-  this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
+  // this.debug("Ready State: " + vReadyState + " (" + this.getState() + ")");
 
   // mshtml configures statusCode to '2', when a local
   // file (using file://) is not accessible
   if (vReadyState === 4 && vStatusCode === 2) {
     return this.failedLocally();
+  };
+
+  // Typical 404 handling
+  if (vStatusCode == 404) {
+    return this.failed();
   };
 
   switch(this.getState())
@@ -575,9 +565,14 @@ proto.getResponseText = function()
 {
   var vResponseText = null;
 
-  try {
-    vResponseText = this.getRequest().responseText;
-  } catch(ex) {};
+  switch(this.getStatusCode())
+  {
+    case 0:
+    case 200:
+      try {
+        vResponseText = this.getRequest().responseText;
+      } catch(ex) {};
+  };
 
   return vResponseText;
 };
@@ -591,9 +586,14 @@ proto.getResponseXml = function()
 {
   var vResponseXML = null;
 
-  try {
-    vResponseXML = this.getRequest().responseXML;
-  } catch(ex) {};
+  switch(this.getStatusCode())
+  {
+    case 0:
+    case 200:
+      try {
+        vResponseXML = this.getRequest().responseXML;
+      } catch(ex) {};
+  };
 
   return vResponseXML;
 };
@@ -630,21 +630,23 @@ proto.dispose = function()
     this.debug("Disposing...");
   };
 
-  if (this._req)
+  var vRequest = this.getRequest();
+
+  if (vRequest)
   {
     // Should be right,
     // but is not compatible to mshtml (throws an exception)
     if (!QxClient.isMshtml()) {
-      this._req.onreadystatechange = null;
+      vRequest.onreadystatechange = null;
     };
 
     // Aborting
-    switch(this._req.readyState)
+    switch(vRequest.readyState)
     {
       case 1:
       case 2:
       case 3:
-        this._req.abort();
+        vRequest.abort();
     };
 
     // Supports reusing of request objects

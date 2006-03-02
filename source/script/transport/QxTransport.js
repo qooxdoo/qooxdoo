@@ -300,6 +300,8 @@ proto._modifyState = function(propValue, propOldValue, propData)
       vResponse.setTextContent(vImpl.getResponseText());
       vResponse.setXmlContent(vImpl.getResponseXml());
 
+      // this.debug("Result Text: " + vResponse.getTextContent());
+
       // TODO: Response Headers
 
       var vEventType;
