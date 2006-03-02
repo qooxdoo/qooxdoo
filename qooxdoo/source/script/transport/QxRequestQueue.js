@@ -61,16 +61,26 @@ QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMB
 
 /*
 ---------------------------------------------------------------------------
-  QUEUE
+  QUEUE HANDLING
 ---------------------------------------------------------------------------
 */
+
+proto._debug = function()
+{
+  // Debug output
+  if (QxSettings.enableTransportDebug)
+  {
+    var vText = this._active.length + "/" + (this._queue.length+this._active.length);
+
+    this.debug("Progress: " + vText);
+    window.status = "Request-Queue Progress: " + vText;
+  };
+};
 
 proto._check = function()
 {
   // Debug output
-  if (QxSettings.enableTransportDebug) {
-    this.debug("queued:" + this._queue.length + " | active:" + this._active.length + " | total:" + (this._queue.length+this._active.length));
-  };
+  this._debug();
 
   // Check queues and stop timer if not needed anymore
   if (this._active.length == 0 && this._queue.length == 0) {
@@ -102,6 +112,9 @@ proto._check = function()
   // Add to active queue
   this._active.push(vTransport);
 
+  // Debug output
+  this._debug();
+
   // Establish event connection between QxTransport instance and QxRequest
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
@@ -113,9 +126,9 @@ proto._check = function()
   // Establish event connection between QxTransport and me.
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-  vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onaborted, this);
-  vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
-  vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._oncompleted, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._oncompleted, this);
+  vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, this._oncompleted, this);
 
   // Send
   vTransport.send();
@@ -126,33 +139,52 @@ proto._check = function()
   };
 };
 
+proto._remove = function(vTransport)
+{
+  var vRequest = vTransport.getRequest();
+
+  // Destruct event connection between QxTransport instance and QxRequest
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_ABORTED, vRequest._onaborted, vRequest);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
+
+  // Destruct event connection between QxTransport and me.
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._oncompleted, this);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._oncompleted, this);
+  vTransport.removeEventListener(QxConst.EVENT_TYPE_FAILED, this._oncompleted, this);
+
+  // Remove from active transports
+  this._active.remove(vTransport);
+
+  // Check again
+  this._check();
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT HANDLING
+---------------------------------------------------------------------------
+*/
+
 proto._onsending = function(e) {
   e.getTarget()._start = (new Date).valueOf();
 };
 
-proto._oncompleted = function(e)
-{
-  this._active.remove(e.getTarget());
-  this._check();
+proto._oncompleted = function(e) {
+  this._remove(e.getTarget());
 };
 
-proto._onaborted = function(e)
-{
-  this._active.remove(e.getTarget());
-  this._check();
-};
-
-proto._ontimeout = function(e)
-{
-  this._active.remove(e.getTarget());
-  this._check();
-};
-
-proto._onfailed = function(e)
-{
-  this._active.remove(e.getTarget());
-  this._check();
-};
 
 
 

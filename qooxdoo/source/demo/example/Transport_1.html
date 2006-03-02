@@ -56,8 +56,15 @@
     hlay.add(cm1);
 
 
+
+    var async = new QxCheckBox("Async");
+    async.setChecked(true);
+    hlay.add(async);
+
+
     var spin = new QxSpinner(1);
     hlay.add(spin);
+
 
 
     var btn = new QxButton("Send", "icons/16/apply.png");
@@ -116,6 +123,7 @@
       var req;
       for( var i=0, max=parseInt(spin.getValue()); i<max; i++ ) {
         req = new QxGetRequest(val.getLabel());
+        req.setAsynchronous(async.getChecked());
 
         req.addEventListener("sending", function(e) {
           inf.setValue("Sending");
