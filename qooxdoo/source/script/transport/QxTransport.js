@@ -149,40 +149,32 @@ proto.send = function()
 
 proto.abort = function()
 {
-  if (QxSettings.enableTransportDebug) {
-    this.debug("Aborting...");
-  };
-
   var vImplementation = this.getImplementation();
 
   if (vImplementation)
   {
-    this.debug("Abort implementation: " + vImplementation.toHashCode());
+    this.debug("Abort: implementation " + vImplementation.toHashCode());
     vImplementation.abort();
   }
   else
   {
-    this.debug("Forcing state to aborted");
+    this.debug("Abort: forcing state to be aborted");
     this.setState(QxConst.REQUEST_STATE_ABORTED);
   };
 };
 
 proto.timeout = function()
 {
-  if (QxSettings.enableTransportDebug) {
-    this.warn("Timeout...");
-  };
-
   var vImplementation = this.getImplementation();
 
   if (vImplementation)
   {
-    this.warn("Timeout implementation: " + vImplementation.toHashCode());
+    this.warn("Timeout: implementation " + vImplementation.toHashCode());
     vImplementation.timeout();
   }
   else
   {
-    this.warn("Forcing state to timeout");
+    this.warn("Timeout: forcing state to timeout");
     this.setState(QxConst.REQUEST_STATE_TIMEOUT);
   };
 };
