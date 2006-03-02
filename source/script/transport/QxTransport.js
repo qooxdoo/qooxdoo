@@ -323,12 +323,43 @@ proto._modifyState = function(propValue, propOldValue, propData)
           break;
       };
 
+      // Deconnect and dispose implementation
+      this.setImplementation(null);
+
+      // Fire event to listeners
       this.createDispatchDataEvent(vEventType, vResponse);
 
-      // Cleanup connection to implementation and dispose
-      this.setImplementation(null);
+      // Dispose in complete
+      this.dispose();
       break;
   };
 
   return true;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+
+  this.debug("Disposing...");
+
+  this.setImplementation(null);
+  this.setRequest(null);
+
+  return QxTarget.prototype.dispose.call(this);
 };

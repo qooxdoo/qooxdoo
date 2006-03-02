@@ -131,25 +131,25 @@ proto._check = function()
 proto._oncompleted = function(e)
 {
   this._working.remove(e.getTarget());
-  this._check();
+  //this._check();
 };
 
 proto._onaborted = function(e)
 {
   this._working.remove(e.getTarget());
-  this._check();
+  //this._check();
 };
 
 proto._ontimeout = function(e)
 {
   this._working.remove(e.getTarget());
-  this._check();
+  //this._check();
 };
 
 proto._onfailed = function(e)
 {
   this._working.remove(e.getTarget());
-  this._check();
+  //this._check();
 };
 
 
@@ -165,31 +165,35 @@ proto._onfailed = function(e)
 
 proto._oninterval = function(e)
 {
+  var vQueue = this._queue;
   var vWorking = this._working;
 
-  if (vWorking.length == 0) {
-    return;
+  if (vWorking.length > 0)
+  {
+    var vCurrent = (new Date).valueOf();
+    var vTransport;
+    var vDefaultTimeout = this.getDefaultTimeout();
+    var vTimeout;
+
+    for (var i=vWorking.length-1; i>0; i--)
+    {
+      vTransport = vWorking[i];
+      vTimeout = vTransport.getRequest().getTimeout();
+
+      if (vTimeout == null) {
+        vTimeout = vDefaultTimeout;
+      };
+
+      if ((vCurrent - vTransport._start) > vTimeout)
+      {
+        this.warn("Timeout transport " + vTransport.toHashCode());
+        vTransport.timeout();
+      };
+    };
   };
 
-  var vCurrent = (new Date).valueOf();
-  var vTransport;
-  var vDefaultTimeout = this.getDefaultTimeout();
-  var vTimeout;
-
-  for (var i=vWorking.length-1; i>0; i--)
-  {
-    vTransport = vWorking[i];
-    vTimeout = vTransport.getRequest().getTimeout();
-
-    if (vTimeout == null) {
-      vTimeout = vDefaultTimeout;
-    };
-
-    if ((vCurrent - vTransport._start) > vTimeout)
-    {
-      this.warn("Timeout transport " + vTransport.toHashCode());
-      vTransport.timeout();
-    };
+  if (vQueue.length > 0) {
+    this._check();
   };
 };
 
@@ -207,6 +211,8 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   if (propValue) {
     this._check();
   };
+
+  this._timer.setEnabled(propValue);
 
   return true;
 };
@@ -229,7 +235,10 @@ proto.add = function(vRequest)
 
   this._queue.push(vRequest);
   this._check();
-  this._timer.start();
+
+  if (this.getEnabled()) {
+    this._timer.start();
+  };
 };
 
 proto.abort = function(vRequest)

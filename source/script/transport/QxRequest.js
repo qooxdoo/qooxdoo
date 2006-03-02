@@ -276,5 +276,7 @@ proto.dispose = function()
     return;
   };
 
+  this.debug("Disposing...");
+
   return QxTarget.prototype.dispose.call(this);
 };
