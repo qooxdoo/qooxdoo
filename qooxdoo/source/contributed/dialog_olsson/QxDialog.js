@@ -30,8 +30,6 @@
 function QxDialog(vCaption, vIcon)
 {
   QxWindow.call(this, vCaption, vIcon);
-
-  this.setAppearance("dialog");
 };
 
 QxDialog.extend(QxWindow, "QxDialog");
@@ -42,6 +40,12 @@ QxDialog.extend(QxWindow, "QxDialog");
   PROPERTIES
 ---------------------------------------------------------------------------
 */
+
+
+/*!
+  Appearance setting for the class.
+*/
+QxDialog.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "dialog" });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
