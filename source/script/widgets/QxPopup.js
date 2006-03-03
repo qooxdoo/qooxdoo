@@ -50,6 +50,12 @@ QxPopup.addProperty({ name : "autoHide", type : QxConst.TYPEOF_BOOLEAN, defaultV
 */
 QxPopup.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
+/*!
+  Center the popup on open
+*/
+QxPopup.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+
+
 proto._showTimeStamp = (new Date(0)).valueOf();
 proto._hideTimeStamp = (new Date(0)).valueOf();
 
@@ -178,8 +184,19 @@ proto.getHideTimeStamp = function() {
   return this._hideTimeStamp;
 };
 
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
 
+proto.centerToBrowser = function()
+{
+  var d = window.application.getClientWindow().getClientDocument();
 
+  this.setLeft((d.getClientWidth() / 2) - (this.getBoxWidth() / 2));
+  this.setTop((d.getClientHeight() / 2) - (this.getBoxHeight() / 2));
+};
 
 
 

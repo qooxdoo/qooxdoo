@@ -343,11 +343,6 @@ QxWindow.addProperty({ name : "resizeMethod", type : QxConst.TYPEOF_STRING, defa
 */
 QxWindow.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
-/*!
-  Center the window on open
-*/
-QxWindow.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-
 
 
 
@@ -389,14 +384,6 @@ proto.getStatusBar = function() {
 
 proto.close = function() {
   this.hide();
-};
-
-proto.centerToBrowser = function()
-{
-  var d = window.application.getClientWindow().getClientDocument();
-
-  this.setLeft((d.getClientWidth() / 2) - (this.getBoxWidth() / 2));
-  this.setTop((d.getClientHeight() / 2) - (this.getBoxHeight() / 2));
 };
 
 proto.open = function(vOpener)
