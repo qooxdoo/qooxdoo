@@ -194,8 +194,11 @@ proto.centerToBrowser = function()
 {
   var d = window.application.getClientWindow().getClientDocument();
 
-  this.setLeft((d.getClientWidth() / 2) - (this.getBoxWidth() / 2));
-  this.setTop((d.getClientHeight() / 2) - (this.getBoxHeight() / 2));
+  var left = (d.getClientWidth() / 2) - (this.getBoxWidth() / 2);
+  var top = (d.getClientHeight() / 2) - (this.getBoxHeight() / 2);
+
+  this.setLeft(left < 0 ? 0 : left);
+  this.setTop(top < 0 ? 0 : top);
 };
 
 
