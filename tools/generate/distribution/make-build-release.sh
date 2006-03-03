@@ -4,6 +4,7 @@ cd `dirname $0`/../../..
 
 tools/generate/make-source.sh
 tools/generate/make-docs.sh
+tools/utils/fix-rights.sh
 
 version=`grep version source/script/core/QxMain.js | cut -d'"' -f2`
 dir="release/build"
