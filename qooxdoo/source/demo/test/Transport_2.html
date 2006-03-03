@@ -40,15 +40,9 @@
 
 
     var cm1 = new QxComboBox();
-    cm1.add(new QxListItem("data/items/1.xml"));
-    cm1.add(new QxListItem("data/items/2.xml"));
-    cm1.add(new QxListItem("data/loadByName/Anita.xml"));
-    cm1.add(new QxListItem("data/loadByName/Harald.xml"));
-    cm1.add(new QxListItem("data/loadByName/Lisbeth.xml"));
-    cm1.add(new QxListItem("data/loadByName/Paul.xml"));
-    cm1.add(new QxListItem("data/loadByName/404.xml"));
-    cm1.add(new QxListItem("data/big.xml"));
-    cm1.add(new QxListItem("data/bigger.xml"));
+    cm1.add(new QxListItem("data/filesize/40kb.xml"));
+    cm1.add(new QxListItem("data/filesize/400kb.xml"));
+    cm1.add(new QxListItem("data/filesize/4000kb.xml"));
     cm1.setSelected(cm1.getList().getFirstChild());
     cm1.setWidth(200);
     cm1.addEventListener("changeSelected", upd);
@@ -99,10 +93,8 @@
     fsr.setHeight("1*");
     lay.add(fsr);
 
-    var area = new QxTextArea;
-    area.setDimension("100%", "100%");
+    var area = new QxLabel("Disabled because of large filesize");
     fsr.add(area);
-
 
 
 
@@ -137,28 +129,24 @@
         {
           inf.setValue("Completed");
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
         });
 
         req.addEventListener("failed", function(e)
         {
           inf.setValue("Failed");
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
         });
 
         req.addEventListener("timeout", function(e)
         {
           inf.setValue("Timeout");
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
         });
 
         req.addEventListener("aborted", function(e)
         {
           inf.setValue("Aborted");
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
         });
 
         req.send();
