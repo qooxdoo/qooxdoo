@@ -4,6 +4,7 @@ cd `dirname $0`/../../..
 
 tools/make-realclean.sh
 tools/generate/make-source.sh
+tools/utils/fix-rights.sh
 
 version=`grep version source/script/core/QxMain.js | cut -d'"' -f2`
 dir="release/source"
