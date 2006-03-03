@@ -8,7 +8,6 @@ fi
 
 tools/generate/make-source.sh
 tools/generate/make-build.sh
-tools/utils/fix-rights.sh
 
 rsync -rlvzcp --delete build/demo build/images ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public
 rsync -rlvzcp --delete --delete-excluded --exclude=*.js build/themes ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public
