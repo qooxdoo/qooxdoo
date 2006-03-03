@@ -219,6 +219,7 @@ proto.send = function()
   catch(ex)
   {
     this.failedLocally();
+    return;
   };
 
   if (!this.getAsynchronous()) {
