@@ -2,8 +2,11 @@
 
    qooxdoo - the new era of web interface development
 
+   Version:
+     $Id$
+
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
+     (C) 2004-2005 by Schlund + Partner AG, Germany
          All rights reserved
 
    License:
@@ -32,7 +35,6 @@ function QxFrame(vCaption, vIcon)
 QxFrame.extend(QxWindow, "QxFrame");
 
 
-
 /*
 ------------------------------------------------------------------------------------
   PROPERTIES
@@ -40,14 +42,24 @@ QxFrame.extend(QxWindow, "QxFrame");
 */
 
 /*!
+  Appearance setting for the class.
+*/
+QxFrame.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "frame" });
+
+/*!
   The main menu bar if any.
 */
-QxFrame.addProperty({ name : "menuBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : QxMenuBar });
+QxFrame.addProperty({ name : "menuBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxMenuBar" });
+
+/*!
+  The main tool bar if any.
+*/
+QxFrame.addProperty({ name : "toolBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxToolBar" });
 
 /*!
   The status bar if any.
 */
-QxFrame.addProperty({ name : "statusBar", type : QxConst.TYPEOF_OBJECT, allowNull : true});//, instance : QxStatusBar }); //gets an error when instance is used???
+QxFrame.addProperty({ name : "statusBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxStatusBar" });
 
 
 /*
@@ -60,12 +72,28 @@ proto._modifyMenuBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this._layout.addAfter(this.getMenuBar(), this._captionBar);
+    if(propOldValue) {
+      this._layout.remove(propOldValue);
+    };
+
+    this._layout.addAfter(propValue, this._captionBar);
   }
-  else
+
+  return true;
+};
+
+proto._modifyToolBar = function(propValue, propOldValue, propData)
+{
+  if (propValue)
   {
-    this._layout.remove(this.getMenuBar());
-  };
+    if(propOldValue) {
+      this._layout.remove(propOldValue);
+    };
+
+    var menuBar = this.getMenuBar();
+
+    this._layout.addAfter(propValue, menubar ? menuBar : this._captionBar);
+  }
 
   return true;
 };
@@ -74,12 +102,12 @@ proto._modifyStatusBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this._layout.addAtEnd(this.getStatusBar());
+    if(propOldValue) {
+      this._layout.remove(propOldValue);
+    };
+
+    this._layout.addAtEnd(propValue);
   }
-  else
-  {
-    this._layout.remove(this.getStatusBar());
-  };
 
   return true;
 };
