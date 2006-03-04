@@ -2,8 +2,11 @@
 
    qooxdoo - the new era of web interface development
 
+   Version:
+     $Id$
+
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
+     (C) 2004-2005 by Schlund + Partner AG, Germany
          All rights reserved
 
    License:
@@ -20,21 +23,25 @@
 
 /* ****************************************************************************
 
-#package(buttonpane)
+#package(form)
+#require(QxButton)
 
 **************************************************************************** */
 
-function QxButtonPane() {
-  QxBoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
+function QxButtonPane(vOrientation) {
+  QxBoxLayout.call(this, vOrientation);
 
-  var okB     = this._ok     = new QxButton("Ok");
-  okB.setPadding(5,1,2,2);
+  var okB = this._ok = new QxButton("Ok");
+  okB.setPadding(2);
+  okB.addEventListener("execute", this.executeOk);
 
   var cancelB = this._cancel = new QxButton("Cancel");
-  cancelB.setPadding(5,1,2,1);
+  cancelB.setPadding(2);
+  cancelB.addEventListener("execute", this.executeCancel);
 
-  var helpB   = this._help   = new QxButton("Help");
-  helpB.setPadding(5,2,2,1);
+  var helpB = this._help = new QxButton("Help");
+  helpB.setPadding(2);
+  helpB.addEventListener("execute", this.executeHelp);
 
   this.add(okB, cancelB, helpB);
 };
@@ -42,18 +49,17 @@ function QxButtonPane() {
 QxButtonPane.extend(QxBoxLayout, "QxButtonPane");
 
 
-
 /*
-------------------------------------------------------------------------------------
-  STYLES & BEHAVIOR
-------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
 */
 
-//proto._applyInitialStyle = function(statustext)
-//{
-//  this.setBorder(1, QxConst.BORDER_STYLE_INSET, "windowtext");
-//  this.setBackgroundColor("threedface");
-//};
+/*!
+  Appearance setting for the class.
+*/
+QxButtonPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "buttonpane" });
+
 
 /*
 ------------------------------------------------------------------------------------
@@ -61,17 +67,32 @@ QxButtonPane.extend(QxBoxLayout, "QxButtonPane");
 ------------------------------------------------------------------------------------
 */
 
-//proto.getOKButton = function() {
-//  return this._okB;
-//};
+proto.getOkButton = function()
+{
+  return this._okB;
+};
 
-//proto.getCancelButton = function() {
-//  return this._cancelB;
-//};
+proto.getCancelButton = function()
+{
+  return this._cancelB;
+};
 
-//proto.getHelpButton = function() {
-//  return this._helpB;
-//};
+proto.getHelpButton = function()
+{
+  return this._helpB;
+};
+
+proto.executeOk = function(e)
+{
+};
+
+proto.executeCancel = function(e)
+{
+};
+
+proto.executeHelp = function(e)
+{
+};
 
 /*
 ------------------------------------------------------------------------------------
@@ -85,23 +106,23 @@ proto.dispose = function()
     return true;
   };
 
-//  if (this._okB)
-//  {
-//    this._okB.dispose();
-//    this._okB = null;
-//  };
+  if (this._okB)
+  {
+    this._okB.dispose();
+    this._okB = null;
+  };
 
-//  if (this._cancelB)
-//  {
-//    this._cancelB.dispose();
-//    this._cancelB = null;
-//  };
+  if (this._cancelB)
+  {
+    this._cancelB.dispose();
+    this._cancelB = null;
+  };
 
-//  if (this._helpB)
-//  {
-//    this._helpB.dispose();
-//    this._helpB = null;
-//  };
+  if (this._helpB)
+  {
+    this._helpB.dispose();
+    this._helpB = null;
+  };
 
   return QxBoxLayout.prototype.dispose.call(this);
 };
