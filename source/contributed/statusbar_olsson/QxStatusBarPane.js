@@ -2,8 +2,11 @@
 
    qooxdoo - the new era of web interface development
 
+   Version:
+     $Id$
+
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
+     (C) 2004-2005 by Schlund + Partner AG, Germany
          All rights reserved
 
    License:
@@ -24,34 +27,56 @@
 
 **************************************************************************** */
 
-function QxStatusBarPane(vComponent) {
+function QxStatusBarPane(vWidget) {
   QxCanvasLayout.call(this);
 
-  this.setWidth(QxConst.CORE_AUTO);
-
-  this._component = vComponent;
-  vComponent.setPaddingLeft(1);
-  vComponent.setPaddingRight(1);
-
-  this.add(vComponent);
+  if(QxUtil.isValidObject(vWidget)) {
+    this.setWidget(vWidget);
+  };
 };
 
 QxStatusBarPane.extend(QxCanvasLayout, "QxStatusBarPane");
 
 
-
 /*
 ------------------------------------------------------------------------------------
-  STYLES & BEHAVIOR
+  PROPERTIES
 ------------------------------------------------------------------------------------
 */
 
-proto._applyInitialStyle = function()
+/*!
+  Appearance setting for the class.
+*/
+QxStatusBarPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "statusbar-pane" });
+
+/*!
+  The main menu bar if any.
+*/
+QxStatusBarPane.addProperty({ name : "widget", type : QxConst.TYPEOF_OBJECT, allowNull : true });
+
+
+/*
+------------------------------------------------------------------------------------
+  MODIFIERS
+------------------------------------------------------------------------------------
+*/
+
+proto._modifyWidget = function(propValue, propOldValue, propData)
 {
-  this.setBorder(QxBorderObject.presets.inset);
-  this.setColor("windowtext");
-  this.setBackgroundColor("threedface");
-//  this.setBorder(1, QxConst.BORDER_STYLE_INSET, "windowtext");
+  if(propOldValue != null)
+  {
+    this.remove(propOldValue);
+    propOldValue.dispose();
+    propOldValue = null;
+  };
+
+  if(propValue != null)
+  {
+    propValue.setAppearance("statusbar-widget");
+    this.add(propValue);
+  };
+
+  return true;
 };
 
 
@@ -67,10 +92,12 @@ proto.dispose = function()
     return true;
   };
 
-  if (this._component)
+  var widget = this.getWidget();
+
+  if (widget)
   {
-    this._component.dispose();
-    this._component = null;
+    widget.dispose();
+    widget = null;
   };
 
   return QxCanvasLayout.prototype.dispose.call(this);
