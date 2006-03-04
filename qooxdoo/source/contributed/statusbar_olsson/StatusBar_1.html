@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
-<head>
-  <script type="text/javascript">window._htmlstart=(new Date).valueOf()</script>
-
+ <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-  <meta http-equiv="MsThemeCompatible" content="yes" />
-  <meta http-equiv="ImageToolBar" content="no" />
-  <meta name="MSSmartTagsPreventParsing" content="yes" />
-
   <title>qooxdoo demo</title>
-  <link type="text/css" rel="stylesheet" href="../../style/qooxdoo.css"/>
-  <link type="text/css" rel="stylesheet" href="../../style/demolayout.css"/>
+  <link type="text/css" rel="stylesheet" href="../../demo/demolayout.css"/>
+  <script type="text/javascript" src="../../demo/demoinclude.js"></script>
+ </head>
+ <body>
+  <script type="text/javascript" src="../../demo/demolayout.js"></script>
 
-  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
-</head>
-<body>
-  <script type="text/javascript" src="../../../tools/script/demolayout.js"></script>
+  <script type="text/javascript" src="../frame_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../frame_olsson/QxFrame.js"></script>
+  <script type="text/javascript" src="./Definitions.js"></script>
+  <script type="text/javascript" src="./QxStatusBar.js"></script>
+  <script type="text/javascript" src="./QxStatusBarPane.js"></script>
+  <script type="text/javascript" src="../clock_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../clock_olsson/QxClock.js"></script>
+  <script type="text/javascript" src="../clock_olsson/QxDigitalClock.js"></script>
 
   <div id="demoDescription">
     <p>Testing StatusBar implementation.</p>
@@ -28,16 +29,12 @@
     {
       var doc = this.getClientWindow().getClientDocument();
 
-      var mainW = new QxWindow("Test of status bar");
-      mainW.setSpace(20, 400, 48, 250);
-
-      var mainDL = new QxDockLayout();
-      mainDL.setHeight("100%");
-      mainDL.setWidth("100%");
-      mainDL.setBorder(2, "inset");
-      mainDL.setBackgroundColor("white");
+      var mainF = new QxFrame("Test of status bar");
+      mainF.setSpace(20, 400, 48, 250);
 
       var statusSB = new QxStatusBar();
+
+      mainF.setStatusBar(statusSB);
 
       var statusL = new QxLabel("Ready");
       var statusSBP1 = new QxStatusBarPane(statusL);
@@ -63,19 +60,15 @@
         };
       };
 
-      var digitalClockC = new QxClockDigital();
+      var digitalClockC = new QxDigitalClock();
       var statusSBP3 = new QxStatusBarPane(digitalClockC);
       statusSBP3.setLeft(98);
 
       statusSB.add(statusSBP1, statusSBP2, statusSBP3);
 
-      mainDL.addBottom(statusSB);
+      doc.add(mainF);
 
-      mainW.add(mainDL);
-
-      doc.add(mainW);
-
-      mainW.open();
+      mainF.open();
     };
   </script>
 </body>
