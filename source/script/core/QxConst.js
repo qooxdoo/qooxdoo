@@ -56,6 +56,7 @@ var QxConst =
   CORE_COLON : ":",
   CORE_EQUAL : "=",
   CORE_AMPERSAND : "&",
+  CORE_QUESTIONMARK : "?",
   CORE_HASH : "#",
   CORE_SMALLER : "<",
   CORE_BIGGER : ">",
