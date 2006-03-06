@@ -57,7 +57,6 @@ QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 ---------------------------------------------------------------------------
 */
 
-QxXmlHttpTransport.supportsOnlyGetMethod = window.location.protocol == "file:";
 QxXmlHttpTransport.requestObjects = [];
 QxXmlHttpTransport.requestObjectCount = 0;
 
@@ -134,7 +133,7 @@ QxXmlHttpTransport._createActiveXRequestObject = function() {
 /*!
   Target url to issue the request to
 */
-QxXmlHttpTransport.addProperty({ name : "url", type: QxConst.TYPEOF_STRING });
+QxXmlHttpTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 
 /*!
   Determines what type of request to issue
@@ -154,12 +153,12 @@ QxXmlHttpTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
 /*!
   Username to use for HTTP authentication
 */
-QxXmlHttpTransport.addProperty({ name : "username", type: QxConst.TYPEOF_STRING });
+QxXmlHttpTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-QxXmlHttpTransport.addProperty({ name : "password", type: QxConst.TYPEOF_STRING });
+QxXmlHttpTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
 
 /*!
   The state of the current request
@@ -177,6 +176,15 @@ QxXmlHttpTransport.addProperty(
   defaultValue   : QxConst.REQUEST_STATE_CREATED
 });
 
+/*!
+  Request headers
+*/
+QxXmlHttpTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
+
+/*!
+  Parameters
+*/
+QxXmlHttpTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
 
 
@@ -189,6 +197,9 @@ QxXmlHttpTransport.addProperty(
 ---------------------------------------------------------------------------
 */
 
+proto._localRequest = false;
+proto._lastReadyState = 0;
+
 proto.getRequest = function() {
   return this._req;
 };
@@ -198,19 +209,62 @@ proto.send = function()
   this._lastReadyState = 0;
 
   var vRequest = this.getRequest();
-  var vMethod = QxXmlHttpTransport.supportsOnlyGetMethod ? QxConst.METHOD_GET : this.getMethod();
+  var vMethod = this.getMethod();
+  var vAsynchronous = this.getAsynchronous();
   var vUrl = this.getUrl();
 
-  vUrl += "?nocache=" + new Date().valueOf();
 
-  if (this.getUsername())
-  {
-    vRequest.open(vMethod, vUrl, this.getAsynchronous(), this.getUsername(), this.getPassword());
-  }
-  else
-  {
-    vRequest.open(vMethod, vUrl, this.getAsynchronous());
+
+  // --------------------------------------
+  //   Local handling
+  // --------------------------------------
+
+  var vLocalRequest = this._localRequest = QxClient.getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl));
+
+
+
+  // --------------------------------------
+  //   Adding parameters
+  // --------------------------------------
+
+  var vParameters = this.getParameters();
+  var vParametersList = [];
+  for (var vId in vParameters) {
+    vParametersList.push(vId + QxConst.CORE_EQUAL + vParameters[vId]);
   };
+
+  if (vParametersList.length > 0) {
+    vUrl += QxConst.CORE_QUESTIONMARK + vParametersList.join(QxConst.CORE_AMPERSAND);
+  };
+
+
+
+  // --------------------------------------
+  //   Opening connection
+  // --------------------------------------
+
+  if (this.getUsername()) {
+    vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
+  } else {
+    vRequest.open(vMethod, vUrl, vAsynchronous);
+  };
+
+
+
+  // --------------------------------------
+  //   Appliying request header
+  // --------------------------------------
+
+  var vRequestHeaders = this.getRequestHeaders();
+  for (var vId in vRequestHeaders) {
+    vRequest.setRequestHeader(vId, vRequestHeaders[vId]);
+  };
+
+
+
+  // --------------------------------------
+  //   Sending data
+  // --------------------------------------
 
   try
   {
@@ -218,11 +272,26 @@ proto.send = function()
   }
   catch(ex)
   {
-    this.failedLocally();
+    if (vLocalRequest)
+    {
+      this.failedLocally();
+    }
+    else
+    {
+      this.error("Failed to send data: " + ex, "send");
+      this.failed();
+    };
+
     return;
   };
 
-  if (!this.getAsynchronous()) {
+
+
+  // --------------------------------------
+  //   Readystate for sync reqeusts
+  // --------------------------------------
+
+  if (!vAsynchronous) {
     this._onreadystatechange();
   };
 };
@@ -367,66 +436,10 @@ QxXmlHttpTransport._nativeMap =
 
 proto._onreadystatechange = function(e)
 {
-  var vReadyState = this.getReadyState();
-  var vStatusCode = this.getStatusCode();
-
-  /*
-  if (QxSettings.enableTransportDebug) {
-    this.debug("Ready State: " + vReadyState);
-  };
-  */
-
-  // Typical 404 handling (trying these in any readyState)
-  switch(vStatusCode)
-  {
-    case 204: // No Content
-    case 300: // Multiple Choices
-    case 301: // Moved Permanently
-    case 302: // Moved Temporarily
-    case 303: // See Other
-    case 305: // Use Proxy
-    case 400: // Bad Request
-    case 401: // Unauthorized
-    case 402: // Payment Required
-    case 403: // Forbidden
-    case 404: // Not Found
-    case 405: // Method Not Allowed
-    case 406: // Not Acceptable
-    case 407: // Proxy Authentication Required
-    case 408: // Request Time-Out
-    case 409: // Conflict
-    case 410: // Gone
-    case 411: // Length Required
-    case 412: // Precondition Failed
-    case 413: // Request Entity Too Large
-    case 414: // Request-URL Too Large
-    case 415: // Unsupported Media Type
-    case 500: // Server Error
-    case 501: // Not Implemented
-    case 502: // Bad Gateway
-    case 503: // Out of Resources
-    case 504: // Gateway Time-Out
-    case 505: // HTTP Version not supported
-      this.failed();
-  };
-
-  if (vReadyState === 4)
-  {
-    // mshtml configures statusCode to '2', when a local
-    // file (using file://) is not accessible
-    if (vStatusCode === 2) {
-      return this.failedLocally();
-    };
-
-    // At readyState 4 (the final state) other status codes than
-    // 0, 200 and 304 should be handled as failed.
-    if (vStatusCode !== 0 && vStatusCode !== 200 && vStatusCode !== 304) {
-      return this.failed();
-    };
-  };
-
+  // Ignoring already stopped requests
   switch(this.getState())
   {
+    case QxConst.REQUEST_STATE_COMPLETED:
     case QxConst.REQUEST_STATE_ABORTED:
     case QxConst.REQUEST_STATE_FAILED:
     case QxConst.REQUEST_STATE_TIMEOUT:
@@ -434,6 +447,13 @@ proto._onreadystatechange = function(e)
       return;
   };
 
+  // Checking status code
+  var vReadyState = this.getReadyState();
+  if (!QxTransport.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+    return this.failed();
+  };
+
+  // Updating internal state
   while (this._lastReadyState < vReadyState) {
     this.setState(QxXmlHttpTransport._nativeMap[++this._lastReadyState]);
   };

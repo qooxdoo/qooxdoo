@@ -23,6 +23,8 @@
 /* ************************************************************************
 
 #package(transport)
+#post(QxTransportCore)
+#post(QxResponse)
 
 ************************************************************************ */
 
@@ -34,6 +36,8 @@ function QxTransport(vRequest)
 };
 
 QxTransport.extend(QxTarget, "QxTransport");
+
+
 
 
 
@@ -58,51 +62,6 @@ QxTransport.addProperty(
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  TRANSPORT TYPE HANDLING
----------------------------------------------------------------------------
-*/
-
-QxTransport.typesOrder = [ "QxXmlHttpTransport", "QxIframeTransport" ];
-
-QxTransport.typesReady = false;
-
-QxTransport.typesAvailable = {};
-QxTransport.typesSupported = {};
-
-QxTransport.registerType = function(vClass, vId) {
-  QxTransport.typesAvailable[vId] = vClass;
-};
-
-QxTransport.initTypes = function()
-{
-  if (QxTransport.typesReady) {
-    return;
-  };
-
-  for (var vId in QxTransport.typesAvailable)
-  {
-    vTransporterImpl = QxTransport.typesAvailable[vId];
-
-    if (vTransporterImpl.isSupported()) {
-      QxTransport.typesSupported[vId] = vTransporterImpl;
-    };
-  };
-
-  QxTransport.typesReady = true;
-
-  if (QxUtil.isObjectEmpty(QxTransport.typesSupported)) {
-    throw new Error("No supported transport types were found!");
-  };
-};
 
 
 
@@ -247,9 +206,13 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.setUrl(vRequest.getUrl());
     propValue.setMethod(vRequest.getMethod());
     propValue.setAsynchronous(vRequest.getAsynchronous());
-    propValue.setData(vRequest.getData());
+
     propValue.setUsername(vRequest.getUsername());
     propValue.setPassword(vRequest.getPassword());
+
+    propValue.setParameters(vRequest.getParameters());
+    propValue.setRequestHeaders(vRequest.getRequestHeaders());
+    propValue.setData(vRequest.getData());
 
     propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);

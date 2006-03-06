@@ -30,7 +30,11 @@ function QxRequest(vUrl)
 {
   QxTarget.call(this);
 
+  this._requestHeaders = {};
+  this._parameters = {};
+
   this.setUrl(vUrl);
+  this.setProhibitCaching(true);
 };
 
 QxRequest.extend(QxTarget, "QxRequest");
@@ -75,6 +79,8 @@ QxRequest.addProperty(
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
 QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
+QxRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
+
 
 
 
@@ -153,6 +159,7 @@ proto.isTimeout = function() {
 proto.isFailed = function() {
   return this.getState() === QxConst.REQUEST_STATE_FAILED;
 };
+
 
 
 
@@ -245,6 +252,8 @@ proto._onfailed = function(e)
 
 
 
+
+
 /*
 ---------------------------------------------------------------------------
   MODIFIER
@@ -258,6 +267,72 @@ proto._modifyState = function(propValue, propOldValue, propData)
   };
 
   return true;
+};
+
+proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
+{
+  propValue ? this.setParameter("nocache", new Date().valueOf()) : this.removeParameter("nocache");
+
+  return true;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  REQUEST HEADER
+---------------------------------------------------------------------------
+*/
+
+proto.setRequestHeader = function(vId, vValue) {
+  this._requestHeaders[vId] = vValue;
+};
+
+proto.removeRequestHeader = function(vId) {
+  delete this._requestHeaders[vId];
+};
+
+proto.getRequestHeader = function(vId) {
+  return this._requestHeaders[vId] || null;
+};
+
+proto.getRequestHeaders = function() {
+  return this._requestHeaders;
+};
+
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PARAMETERS
+---------------------------------------------------------------------------
+*/
+
+proto.setParameter = function(vId, vValue) {
+  this._parameters[vId] = vValue;
+};
+
+proto.removeParameter = function(vId) {
+  delete this._parameters[vId];
+};
+
+proto.getParameter = function(vId) {
+  return this._parameters[vId] || null;
+};
+
+proto.getParameters = function() {
+  return this._parameters;
 };
 
 
@@ -278,6 +353,9 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
+
+  this._requestHeaders = null;
+  this._parameters = null;
 
   /*
   if (QxSettings.enableTransportDebug) {
