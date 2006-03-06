@@ -185,15 +185,27 @@ proto._remove = function(vTransport)
 
 proto._activeCount = 0;
 
-proto._onsending = function(e) {
-  this._activeCount++;
-  this.debug("ActiveCount: " + this._activeCount);
+proto._onsending = function(e)
+{
+  if (QxSettings.enableTransportDebug)
+  {
+    this._activeCount++;
+    e.getTarget()._counted = true;
+
+    this.debug("ActiveCount: " + this._activeCount);
+  };
 };
 
 proto._oncompleted = function(e)
 {
-  this._activeCount--;
-  this.debug("ActiveCount: " + this._activeCount);
+  if (QxSettings.enableTransportDebug)
+  {
+    if (e.getTarget()._counted)
+    {
+      this._activeCount--;
+      this.debug("ActiveCount: " + this._activeCount);
+    };
+  };
 
   this._remove(e.getTarget());
 };

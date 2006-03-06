@@ -26,8 +26,7 @@
 
 ************************************************************************ */
 
-function QxResponse()
-{
+function QxResponse() {
   QxTarget.call(this);
 };
 
@@ -46,6 +45,30 @@ QxResponse.addProperty({ name : "state", type : QxConst.TYPEOF_NUMBER });
 QxResponse.addProperty({ name : "statusCode", type : QxConst.TYPEOF_NUMBER });
 QxResponse.addProperty({ name : "textContent", type : QxConst.TYPEOF_STRING });
 QxResponse.addProperty({ name : "xmlContent", type : QxConst.TYPEOF_OBJECT });
+QxResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT });
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIERS
+---------------------------------------------------------------------------
+*/
+
+proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
+{
+  for (vKey in propValue) {
+    this.debug("R-Header: " + vKey + "=" + propValue[vKey]);
+  };
+
+  return true;
+};
+
+
 
 
 

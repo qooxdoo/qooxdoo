@@ -201,7 +201,7 @@ proto.send = function()
   var vMethod = QxXmlHttpTransport.supportsOnlyGetMethod ? QxConst.METHOD_GET : this.getMethod();
   var vUrl = this.getUrl();
 
-  vUrl += "?random=" + Math.random();
+  vUrl += "?nocache=" + new Date().valueOf();
 
   if (this.getUsername())
   {
@@ -376,15 +376,53 @@ proto._onreadystatechange = function(e)
   };
   */
 
-  // mshtml configures statusCode to '2', when a local
-  // file (using file://) is not accessible
-  if (vReadyState === 4 && vStatusCode === 2) {
-    return this.failedLocally();
+  // Typical 404 handling (trying these in any readyState)
+  switch(vStatusCode)
+  {
+    case 204: // No Content
+    case 300: // Multiple Choices
+    case 301: // Moved Permanently
+    case 302: // Moved Temporarily
+    case 303: // See Other
+    case 305: // Use Proxy
+    case 400: // Bad Request
+    case 401: // Unauthorized
+    case 402: // Payment Required
+    case 403: // Forbidden
+    case 404: // Not Found
+    case 405: // Method Not Allowed
+    case 406: // Not Acceptable
+    case 407: // Proxy Authentication Required
+    case 408: // Request Time-Out
+    case 409: // Conflict
+    case 410: // Gone
+    case 411: // Length Required
+    case 412: // Precondition Failed
+    case 413: // Request Entity Too Large
+    case 414: // Request-URL Too Large
+    case 415: // Unsupported Media Type
+    case 500: // Server Error
+    case 501: // Not Implemented
+    case 502: // Bad Gateway
+    case 503: // Out of Resources
+    case 504: // Gateway Time-Out
+    case 505: // HTTP Version not supported
+      this.failed();
   };
 
-  // Typical 404 handling
-  if (vStatusCode == 404) {
-    return this.failed();
+  if (vReadyState === 4)
+  {
+    // mshtml configures statusCode to '2', when a local
+    // file (using file://) is not accessible
+    if (vStatusCode === 2) {
+      return this.failedLocally();
+    };
+
+    // At readyState 4 (the final state) other status codes than
+    // 0, 200 and 304 should be handled as failed.
+    if (vStatusCode !== 0 && vStatusCode !== 200 && vStatusCode !== 304) {
+      return this.failed();
+    };
   };
 
   switch(this.getState())
@@ -423,6 +461,8 @@ proto.getReadyState = function()
 
   return vReadyState;
 };
+
+
 
 
 
@@ -478,20 +518,44 @@ proto.getResponseHeader = function(vLabel)
   return vResponseHeader;
 };
 
-/*!
-  Provides an array of all response headers.
-*/
-proto.getAllResponseHeaders = function()
+proto.getStringResponseHeaders = function()
 {
-  var vAllResponseHeaders = [];
+  var vSourceHeader = null;
 
-  try {
-    vAllResponseHeaders.append(this.getRequest().getAllResponseHeaders());
+  try
+  {
+    var vLoadHeader = this._req.getAllResponseHeaders();
+    if (vLoadHeader) {
+      vSourceHeader = vLoadHeader;
+    };
   } catch(ex) {};
 
-  return vAllResponseHeaders;
+  return vSourceHeader;
 };
 
+/*!
+  Provides an hash of all response headers.
+*/
+proto.getResponseHeaders = function()
+{
+  var vSourceHeader = this.getStringResponseHeaders();
+  var vHeader = {};
+
+  if (vSourceHeader)
+  {
+  	var vValues = vSourceHeader.split(/[\r\n]+/g);
+
+  	for(var i=0, l=vValues.length; i<l; i++)
+  	{
+  		var vPair = vValues[i].match(/^([^:]+)\s*:\s*(.+)$/i);
+  		if(vPair) {
+  			vHeader[vPair[1]] = vPair[2];
+  		};
+  	};
+  };
+
+  return vHeader;
+};
 
 
 

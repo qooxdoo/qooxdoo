@@ -388,5 +388,9 @@ var QxConst =
   NAMESPACE_DCQ: "http:/" + "/purl.org/dc/qualifiers/1.0",
   NAMESPACE_SOAPENV : "http:/" + "/schemas.xmlsoap.org/soap/envelope/",
   NAMESPACE_WSDL : "http:/" + "/schemas.xmlsoap.org/wsdl/",
-  NAMESPACE_ADOBESVGEXTENSIONS : "http:/" + "/ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+  NAMESPACE_ADOBESVGEXTENSIONS : "http:/" + "/ns.adobe.com/AdobeSVGViewerExtensions/3.0/",
+
+  MIMETYPE_JAVASCRIPT : "text/javascript",
+  MIMETYPE_JSON : "text/json",
+  MIMETYPE_XML : "application/xml"
 };
