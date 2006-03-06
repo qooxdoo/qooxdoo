@@ -35,6 +35,8 @@
 */
 function QxClient()
 {
+  var vRunsLocally = window.location.protocol === "file:";
+
   var vBrowserUserAgent = navigator.userAgent;
   var vBrowserVendor = navigator.vendor;
   var vBrowserProduct = navigator.product;
@@ -92,6 +94,8 @@ function QxClient()
     vEngineVersionBuild = vVersionHelper[3] || 0;
   };
 
+  this._runsLocally = vRunsLocally;
+
   this._engineName = vEngine;
   this._engineNameMshtml = vEngine === "mshtml";
   this._engineNameGecko = vEngine === "gecko";
@@ -122,6 +126,10 @@ QxClient.extend(QxObject, "QxClient");
   METHODS
 ---------------------------------------------------------------------------
 */
+
+proto.getRunsLocally = function() {
+  return this._runsLocally;
+};
 
 proto.getEngine = function() {
   return this._engineName;
