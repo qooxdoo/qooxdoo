@@ -59,6 +59,7 @@ QxResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT 
 ---------------------------------------------------------------------------
 */
 
+/*
 proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
 {
   for (vKey in propValue) {
@@ -66,6 +67,29 @@ proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
   };
 
   return true;
+};
+*/
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  USER METHODS
+---------------------------------------------------------------------------
+*/
+
+proto.getResponseHeader = function(vHeader)
+{
+  var vAll = this.getResponseHeaders();
+  if (vAll) {
+    return vAll[vHeader] || null;
+  };
+
+  return null;
 };
 
 
