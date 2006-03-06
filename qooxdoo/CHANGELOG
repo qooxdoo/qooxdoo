@@ -1,3 +1,342 @@
+2006-03-06 09:34  wpbasti
+
+	* source/script/widgets/QxTreeElement.js: Minor bugfix
+
+2006-03-04 12:11  wpbasti
+
+	* source/contributed/buttonpane_olsson/: ButtonPane_1.html,
+	  Definitions.js, OptionPane_1.html, OptionPane_2.html,
+	  QxButtonPane.js, QxOptionPane.js, README: Updated
+
+2006-03-04 08:16  wpbasti
+
+	* source/contributed/statusbar_olsson/: Definitions.js,
+	  Frame_1.html, QxFrame.js, QxStatusBar.js, QxStatusBarPane.js,
+	  QxUtil.js, QxWindow.js, README, StatusBar_1.html,
+	  StatusBar_2.html: Updated statusbar
+
+2006-03-04 08:13  wpbasti
+
+	* source/contributed/dialog_olsson/: README, README.txt: Renamed
+	  README
+
+2006-03-04 08:13  wpbasti
+
+	* source/contributed/frame_olsson/: Definitions.js, Frame_1.html,
+	  QxFrame.js, QxUtil.js, QxWindow.js, README: Updated frame
+	  contribution
+
+2006-03-03 12:44  wpbasti
+
+	* source/demo/test/Transport_3.html: Changed max numbers
+
+2006-03-03 12:43  wpbasti
+
+	* tools/generate/distribution/: make-sync-build.sh, make-sync.sh:
+	  Minor optimizations
+
+2006-03-03 12:26  wpbasti
+
+	* source/demo/test/: Transport_1.html, Transport_2.html,
+	  Transport_3.html: Added new example, improved old ones
+
+2006-03-03 12:26  wpbasti
+
+	* source/script/transport/QxRequestQueue.js: Bigger default timeout
+
+2006-03-03 12:26  wpbasti
+
+	* tools/: generate/make-build.sh, generate/make-docs.sh,
+	  generate/distribution/make-build-release.sh,
+	  generate/distribution/make-source-release.sh,
+	  generate/distribution/make-sync-build.sh,
+	  generate/distribution/make-sync-changelog.sh,
+	  generate/distribution/make-sync.sh, utils/fix-rights.sh: Improved
+	  file rights handling in tools
+
+2006-03-03 11:44  wpbasti
+
+	* source/demo/test/: Transport_1.html, Transport_2.html: Improved
+	  transport demos
+
+2006-03-03 11:29  wpbasti
+
+	* source/demo/test/: DataHandling_1.html, DataHandling_2.html:
+	  Remove examples of deprecated code
+
+2006-03-03 11:27  wpbasti
+
+	* source/demo/test/data/: filesize/4000kb.xml, filesize/400kb.xml,
+	  filesize/40kb.xml, persons/anita.xml, persons/harald.xml,
+	  persons/lisbeth.xml, persons/paul.xml: Cleanup data folder
+
+2006-03-03 11:18  wpbasti
+
+	* source/demo/: example/Transport_1.html, test/Transport_1.html,
+	  test/Transport_2.html: Moved and cleanup
+
+2006-03-03 11:17  wpbasti
+
+	* source/script/transport/QxXmlHttpTransport.js: Minor fix
+
+2006-03-03 11:06  wpbasti
+
+	* source/script/widgets/QxPopup.js: Minor fix
+
+2006-03-03 09:44  wpbasti
+
+	* source/contributed/dialog_olsson/QxWindow.diff: Minor cleanup
+
+2006-03-03 08:44  wpbasti
+
+	* source/contributed/dialog_olsson/: Definitions.js, Dialog_1.html,
+	  QxDialog.js, README.txt: Update kent olsson's dialog
+
+2006-03-03 08:38  wpbasti
+
+	* source/script/widgets/: QxPopup.js, QxWindow.js: Moved
+	  centerToBrowser from QxWindow to QxPopup
+
+2006-03-02 18:06  wpbasti
+
+	* source/script/transport/: QxRequestQueue.js, QxTransport.js,
+	  QxXmlHttpTransport.js: Super fine cool wonderful
+
+2006-03-02 16:28  wpbasti
+
+	* source/script/transport/QxXmlHttpTransport.js: Don't use timeout
+	  for all non-mshtml clients
+
+2006-03-02 16:20  wpbasti
+
+	* source/script/: core/QxDefaultSettings.js,
+	  transport/QxRequestQueue.js, transport/QxTransport.js,
+	  transport/QxXmlHttpTransport.js: Removed some debug code, added
+	  status bar information for request queue progress, minor
+	  performance enhancements, improved dispoer in queue
+
+2006-03-02 16:08  wpbasti
+
+	* source/: demo/example/Transport_1.html,
+	  script/transport/QxRequest.js,
+	  script/transport/QxRequestQueue.js,
+	  script/transport/QxTransport.js,
+	  script/transport/QxXmlHttpTransport.js: A lot of bugfixes and
+	  improvements, removed reusing of xmlhttp objects as this seems to
+	  be problematic in firefox 1.0.x
+
+2006-03-02 15:15  ecker
+
+	* source/script/transport/QxRequestQueue.js: Minor fix
+
+2006-03-02 15:11  ecker
+
+	* source/script/transport/: QxTransport.js, QxRequestQueue.js:
+	  Minor changes
+
+2006-03-02 14:38  ecker
+
+	* source/script/: core/QxNative.js, widgets/QxColorSelector.js:
+	  Renamed String.prototype.padding() to pad() ans fixed wrong
+	  argument name
+
+2006-03-02 14:37  wpbasti
+
+	* source/script/transport/QxRequestQueue.js: Improved disposer
+
+2006-03-02 13:46  wpbasti
+
+	* source/: script/core/QxDebug.js, script/core/QxEmu.js,
+	  script/gui/QxAppearanceTheme.js, script/gui/QxFontCache.js,
+	  script/widgets/QxHtml.js, script/widgets/QxTree.js,
+	  script/widgets/QxTreeElement.js, script/widgets/QxTreeFolder.js,
+	  themes/colors/system.js, themes/colors/windowsClassic.js,
+	  themes/colors/windowsLunaBlue.js,
+	  themes/colors/windowsLunaGreen.js,
+	  themes/colors/windowsLunaSilver.js,
+	  themes/colors/windowsRoyale.js: Added missing dependencies
+
+2006-03-02 13:30  wpbasti
+
+	* source/: demo/example/Transport_1.html,
+	  script/transport/QxTransport.js,
+	  script/transport/QxXmlHttpTransport.js: Transport improved again:
+	  better 404 handling, better debug informations
+
+2006-03-02 12:54  wpbasti
+
+	* tools/generate/internal/: patchdemos.sh, syncfiles.sh: Make less
+	  verbose
+
+2006-03-02 12:46  wpbasti
+
+	* source/demo/example/Transport_1.html: Added status code
+	  informations
+
+2006-03-02 12:27  wpbasti
+
+	* source/script/core/QxNative.js: Copyright updated
+
+2006-03-02 12:18  wpbasti
+
+	* source/script/transport/: QxRequest.js, QxRequestQueue.js,
+	  QxTransport.js, QxXmlHttpTransport.js: Greatly improved stability
+	  of transport API for IE, many other improvements
+
+2006-03-02 12:17  wpbasti
+
+	* tools/generate/distribution/make-sync-build.sh: New faster sync
+	  tool (without the creation of the documentation)
+
+2006-03-02 12:17  wpbasti
+
+	* source/script/core/QxNative.js: Copyright updated
+
+2006-03-02 10:56  wpbasti
+
+	* source/: demo/example/Transport_1.html,
+	  script/transport/QxRequest.js,
+	  script/transport/QxRequestQueue.js,
+	  script/transport/QxTransport.js,
+	  script/transport/QxXmlHttpTransport.js: More improvements and
+	  tests for queue impl
+
+2006-03-02 09:39  wpbasti
+
+	* source/contributed/dialog_olsson/: Definitions.js, Dialog_1.html,
+	  QxDialog.js, QxWindow.diff: Added dialog implementation of kent
+	  olsson
+
+2006-03-02 09:20  wpbasti
+
+	* source/script/core/QxMain.js: Version Bump
+
+2006-03-02 09:12  wpbasti
+
+	* source/demo/: example/CookieStorage_1.html,
+	  example/CookieStorage_2.html, example/Cookie_1.html,
+	  test/CookieStorage_1.html, test/CookieStorage_2.html,
+	  test/Cookie_1.html: Moved cookie handling examples to test folder
+
+2006-03-02 09:12  wpbasti
+
+	* source/script/widgets/QxColorSelector.js,
+	  source/themes/appearance/default/theme.js,
+	  tools/generate/internal/config.sh: Added initial color selector
+	  implementation
+
+2006-03-02 09:12  wpbasti
+
+	* source/script/widgets/QxSpinner.js: Minor fix
+
+2006-03-02 09:11  wpbasti
+
+	* source/demo/test/ColorSelector_1.html: Added color selector
+	  example
+
+2006-03-02 09:10  wpbasti
+
+	* source/script/core/QxNative.js: Added support for padding in
+	  Strings
+
+2006-03-02 09:09  wpbasti
+
+	* source/images/: brightness-field.jpg, brightness-handle.gif,
+	  brightness.jpg, huesaturation-field.jpg,
+	  huesaturation-handle.gif, huesaturation.jpg: Minor renaming,
+	  added missing images for color selector
+
+2006-03-02 09:08  wpbasti
+
+	* source/script/: managers/QxImageManager.js,
+	  core/QxDefaultSettings.js: Added support for local path alias
+
+2006-03-01 16:09  wpbasti
+
+	* source/script/core/QxDefaultSettings.js: Dos2unix
+
+2006-03-01 16:07  wpbasti
+
+	* TODO: Updated
+
+2006-03-01 15:50  wpbasti
+
+	* source/script/transport/: QxTransport.js, QxXmlHttpTransport.js:
+	  Minor fixes for failed state
+
+2006-03-01 15:48  ecker
+
+	* source/script/gui/: QxIconTheme.js, QxWidgetTheme.js: Fixed wrong
+	  name of derived class
+
+2006-03-01 15:43  wpbasti
+
+	* source/script/transport/QxXmlHttpTransport.js: Minor cleanups
+
+2006-03-01 15:40  wpbasti
+
+	* source/script/: core/QxConst.js, transport/QxRequest.js,
+	  transport/QxRequestQueue.js, transport/QxTransport.js,
+	  transport/QxXmlHttpTransport.js: Improved handling for abort and
+	  timeouts
+
+2006-03-01 15:36  wpbasti
+
+	* tools/generate/internal/config.sh: Added default settings
+
+2006-03-01 13:20  wpbasti
+
+	* source/script/core/QxNative.js: Minor formatting
+
+2006-03-01 13:01  wpbasti
+
+	* source/script/core/QxNative.js: Added JS-1.6 Generics Support
+
+2006-03-01 13:00  wpbasti
+
+	* source/script/core/: QxDefaultSettings.js, QxSettings.js:
+	  Splitted out default settings in seperate file, improved scope
+	  protection of settings merge
+
+2006-02-28 18:05  wpbasti
+
+	* TODO, source/demo/example/Transport_1.html,
+	  source/script/transport/QxRequest.js,
+	  source/script/transport/QxRequestQueue.js,
+	  source/script/transport/QxTransport.js: some improvements were
+	  made
+
+2006-02-28 16:48  wpbasti
+
+	* source/script/: core/QxConst.js, core/QxSettings.js,
+	  transport/QxRequest.js, transport/QxRequestQueue.js,
+	  transport/QxTransport.js, transport/QxXmlHttpTransport.js: More
+	  improvements to transport implementtion
+
+2006-02-28 14:59  wpbasti
+
+	* source/script/core/QxSettings.js: Removed global enableDebug, was
+	  unused, added new debug flag for transport impl
+
+2006-02-28 14:58  wpbasti
+
+	* source/: script/transport/QxRequestQueue.js,
+	  demo/example/Transport_1.html: Improved queues
+
+2006-02-28 14:41  wpbasti
+
+	* source/demo/example/Tree_1.html: Improved icon switching
+
+2006-02-28 14:36  wpbasti
+
+	* tools/generate/distribution/: make-build-release.sh,
+	  make-source-release.sh: Convert text files for zip archive to DOS
+	  line breaks first
+
+2006-02-28 14:35  wpbasti
+
+	* CHANGELOG: Updated
+
 2006-02-28 11:52  wpbasti
 
 	* CHANGELOG, source/script/transport/QxGetRequest.js,
