@@ -32,6 +32,18 @@
 
 ************************************************************************ */
 
+/*!
+  A combo-box for qooxdoo.
+
+  The major additional feature compared to typical select fields is that it allows
+  it to be editable. Also images are supported inside the popup list.
+
+  Features:
+  * Editable text field
+  * Complete key-navigation
+  * Images inside the list
+  * Images and text inside the list
+*/
 function QxComboBox()
 {
   QxHorizontalBoxLayout.call(this);

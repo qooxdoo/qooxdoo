@@ -28,6 +28,12 @@
 
 ************************************************************************ */
 
+/*!
+  A multi-prupose widget used by many more complex widgets.
+
+  The intended purpose of QxAtom is to easily align the common icon-text combination in different ways.
+  This is useful for all types of buttons, menuentires, tooltips, ...
+*/
 function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   QxBoxLayout.call(this);
