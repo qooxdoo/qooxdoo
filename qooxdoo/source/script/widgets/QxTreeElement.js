@@ -262,12 +262,12 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   QxBoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 
   // Be sure to update previous folder also if it is closed currently (plus/minus symbol)
-  if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent().isDisplayable()) {
+  if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
     propOldValue.getParent().addToTreeQueue();
   };
 
   // Be sure to update new folder also if it is closed currently (plus/minus symbol)
-  if (propValue && !propValue.isDisplayable() && propValue.getParent().isDisplayable()) {
+  if (propValue && !propValue.isDisplayable() && propValue.getParent() && propValue.getParent().isDisplayable()) {
     propValue.getParent().addToTreeQueue();
   };
 
