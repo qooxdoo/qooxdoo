@@ -72,8 +72,21 @@
 
 
     var code = new QxTextField("Code");
-    code.setWidth(40);
+    code.setWidth(30);
     hlay.add(code);
+
+
+    var typ = new QxTextField("Type");
+    typ.setWidth(80);
+    typ.setReadOnly(true);
+    hlay.add(typ);
+
+
+    var len = new QxTextField("Length");
+    len.setWidth(50);
+    len.setReadOnly(true);
+    hlay.add(len);
+
 
 
 
@@ -128,24 +141,32 @@
         req.addEventListener("completed", function(e)
         {
           inf.setValue("Completed");
+          typ.setValue(e.getData().getResponseHeader("Content-Type"));
+          len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
         });
 
         req.addEventListener("failed", function(e)
         {
           inf.setValue("Failed");
+          typ.setValue(e.getData().getResponseHeader("Content-Type"));
+          len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
         });
 
         req.addEventListener("timeout", function(e)
         {
           inf.setValue("Timeout");
+          typ.setValue(e.getData().getResponseHeader("Content-Type"));
+          len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
         });
 
         req.addEventListener("aborted", function(e)
         {
           inf.setValue("Aborted");
+          typ.setValue(e.getData().getResponseHeader("Content-Type"));
+          len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
         });
 
