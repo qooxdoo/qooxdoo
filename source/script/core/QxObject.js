@@ -28,8 +28,8 @@
 #require(QxConst)
 #require(QxUtil)
 #require(QxSettings)
-#post(QxClient)
 #post(QxObjectCore)
+#post(QxClient)
 
 ************************************************************************ */
 
