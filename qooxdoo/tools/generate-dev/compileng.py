@@ -542,7 +542,6 @@ def treebuilder_content(data, item):
 
 
           if treecontext[-1] != "function" and treecontext[-1] != "block" and treecontext[-1] != "if":
-            print "Con: " + treecontext[-1]
             tagstart("block")
 
 
