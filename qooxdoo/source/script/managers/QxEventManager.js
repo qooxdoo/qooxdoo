@@ -657,10 +657,13 @@ else
           return;
         };
 
+      // Seems not to be needed anymore. Otherwise we should reinclude it.
+      /*
       case QxConst.EVENT_TYPE_MOUSEDOWN:
-        if(vDomTarget && vDomTarget.localName == "IMG") {
+        if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget._QxWidget) {
           QxEventManager.stopDomEvent(vDomEvent);
         };
+      */
     };
 
     this._onmouseevent_post(vDomEvent, vType, vDomTarget);
@@ -841,17 +844,6 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     if (typeof QxDragAndDropManager  !== QxConst.TYPEOF_UNDEFINED && vTarget) {
       QxDragAndDropManager.handleMouseEvent(vEventObject);
     };
-
-
-
-
-    // Prevent gecko default handling
-    // Is this really needed anymore?
-    /*
-    if(QxClient.isGecko() && vDispatchTarget && !vDispatchTarget.isSelectable() && !vDispatchTarget.isFocusable()) {
-      vDomEvent.preventDefault();
-    };
-    */
 
 
 
