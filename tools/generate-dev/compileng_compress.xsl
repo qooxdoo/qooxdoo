@@ -28,7 +28,7 @@
 <xsl:template match="block">
   <xsl:apply-templates/>
 
-  <xsl:if test="parent::casecontent or parent::if or count(following-sibling::*) &gt; 0">
+  <xsl:if test="parent::casecontent or parent::if or count(following-sibling::*) &gt; 0 or (parent::content and count(following-sibling::*) = 0)">
     <xsl:value-of select="$blockdivider"/>
   </xsl:if>
 </xsl:template>

@@ -539,6 +539,14 @@ def treebuilder_content(data, item):
 
 
         elif det == "LP":
+
+
+          if treecontext[-1] != "function" and treecontext[-1] != "block" and treecontext[-1] != "if":
+            print "Con: " + treecontext[-1]
+            tagstart("block")
+
+
+
           tagstart("argumentgroup")
 
         elif det == "RP":
@@ -959,7 +967,7 @@ def main(conf):
         os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compileng_compress.xsl " + outfilename)
 
         if conf["outputCombined"]:
-          combined += "/* " + infilename + " */ " + file(optfilename, "r").read() + "\n"
+          combined += "/* " + infilename + " */ " + file(optfilename, "r").read()
 
         if not conf["outputSingle"]:
           os.system("rm -f " + optfilename)
