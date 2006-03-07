@@ -30,7 +30,6 @@
 #require(QxSettings)
 #post(QxObjectCore)
 #post(QxClient)
-#post(QxDataEvent)
 #post(QxDebug)
 
 ************************************************************************ */
