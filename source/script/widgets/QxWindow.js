@@ -173,6 +173,7 @@ function QxWindow(vCaption, vIcon)
 
   var p = this._pane = new QxCanvasLayout;
   p.setHeight(QxConst.CORE_FLEX);
+  p.setOverflow(QxConst.OVERFLOW_VALUE_HIDDEN);
   l.add(p);
 
 
