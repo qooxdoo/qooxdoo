@@ -102,42 +102,48 @@ proto._syncHtml = function()
 {
   var vHtml = [];
 
-  vHtml.push(QxIconHtml.START_IMAGE);
-  vHtml.push(QxImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
-  vHtml.push(QxIconHtml.START_STYLE);
-
-  if (QxUtil.isValidNumber(this.getSpacing()))
+  if (QxUtil.isValidString(this.getIcon()))
   {
-    vHtml.push(QxIconHtml.STYLE_MARGIN);
-    vHtml.push(this.getSpacing());
-    vHtml.push(QxIconHtml.PIXEL_UNIT);
+    vHtml.push(QxIconHtml.START_IMAGE);
+    vHtml.push(QxImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
+    vHtml.push(QxIconHtml.START_STYLE);
+
+    if (QxUtil.isValidNumber(this.getSpacing()))
+    {
+      vHtml.push(QxIconHtml.STYLE_MARGIN);
+      vHtml.push(this.getSpacing());
+      vHtml.push(QxIconHtml.PIXEL_UNIT);
+    };
+
+    if (QxUtil.isValidNumber(this.getIconWidth()))
+    {
+      vHtml.push(QxIconHtml.STYLE_WIDTH);
+      vHtml.push(this.getIconWidth());
+      vHtml.push(QxIconHtml.PIXEL_UNIT);
+    };
+
+    if (QxUtil.isValidNumber(this.getIconHeight()))
+    {
+      vHtml.push(QxIconHtml.STYLE_HEIGHT);
+      vHtml.push(this.getIconHeight());
+      vHtml.push(QxIconHtml.PIXEL_UNIT);
+    };
+
+    if (this._mshtml)
+    {
+      vHtml.push(QxIconHtml.FILTER_START);
+      vHtml.push(QxImage.IMGLOADER_START);
+      vHtml.push(QxImageManager.buildUri(this.getIcon()));
+      vHtml.push(QxImage.IMGLOADER_STOP);
+      vHtml.push(QxConst.CORE_SEMICOLON);
+    };
+
+    vHtml.push(QxIconHtml.STOP_IMAGE);
   };
 
-  if (QxUtil.isValidNumber(this.getIconWidth()))
-  {
-    vHtml.push(QxIconHtml.STYLE_WIDTH);
-    vHtml.push(this.getIconWidth());
-    vHtml.push(QxIconHtml.PIXEL_UNIT);
+  if (QxUtil.isValidString(this.getHtml())) {
+    vHtml.push(this.getHtml());
   };
-
-  if (QxUtil.isValidNumber(this.getIconHeight()))
-  {
-    vHtml.push(QxIconHtml.STYLE_HEIGHT);
-    vHtml.push(this.getIconHeight());
-    vHtml.push(QxIconHtml.PIXEL_UNIT);
-  };
-
-  if (this._mshtml)
-  {
-    vHtml.push(QxIconHtml.FILTER_START);
-    vHtml.push(QxImage.IMGLOADER_START);
-    vHtml.push(QxImageManager.buildUri(this.getIcon()));
-    vHtml.push(QxImage.IMGLOADER_STOP);
-    vHtml.push(QxConst.CORE_SEMICOLON);
-  };
-
-  vHtml.push(QxIconHtml.STOP_IMAGE);
-  vHtml.push(this.getHtml());
 
   this.getElement().innerHTML = vHtml.join(QxConst.CORE_EMPTY);
 };
