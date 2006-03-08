@@ -320,6 +320,7 @@ L="$L script/transport/QxCommonTransport"
 L="$L script/transport/QxXmlHttpTransport"
 L="$L script/transport/QxXmlHttpTransportCore"
 L="$L script/transport/QxIframeTransport"
+L="$L script/transport/QxIframeTransportCore"
 
 # Builder
 L="$L script/core/QxBuilder"
