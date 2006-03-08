@@ -40,9 +40,6 @@ function QxXmlHttpTransport()
 
 QxXmlHttpTransport.extend(QxCommonTransport, "QxXmlHttpTransport");
 
-// basic registration to QxTransport
-// the real availability check (activeX stuff and so on) follows at the first real request
-QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 
 
 

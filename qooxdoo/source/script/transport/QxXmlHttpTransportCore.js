@@ -27,11 +27,18 @@
 
 ************************************************************************ */
 
+// basic registration to QxTransport
+// the real availability check (activeX stuff and so on) follows at the first real request
+QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
+
 QxXmlHttpTransport.requestObjects = [];
 QxXmlHttpTransport.requestObjectCount = 0;
 
 QxXmlHttpTransport.isSupported = function()
 {
+  // Temporary to test the iframe alternative
+  return false;
+
   if (window.XMLHttpRequest)
   {
     // QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
