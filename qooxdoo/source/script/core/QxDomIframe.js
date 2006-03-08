@@ -24,13 +24,87 @@
 
 #package(dom)
 #require(QxDomCore)
+#require(QxClient)
 
 ************************************************************************ */
 
-QxDom.getIframeContentWindow = function(vIframe) {
-	return vIframe.contentWindow /* IE */ || QxDom.getIframeContentDocument(vIframe).defaultView /* Gecko & Opera */ || QxDom.getIframeContentDocument(vIframe).__parent__ || (vIframe.name && document.frames[vIframe.name]) || null;
-};
+if (QxClient.isMshtml())
+{
+  QxDom.getIframeWindow = function(vIframe)
+  {
+    try
+    {
+      return vIframe.contentWindow;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
 
-QxDom.getIframeContentDocument = function(vIframe) {
-  return vIframe.contentDocument /* W3C */ || ((vIframe.contentWindow) && (vIframe.contentWindow.document)) /* IE */ || ((vIframe.name) && (document.frames[vIframe.name]) && (document.frames[vIframe.name].document)) || null;
+  QxDom.getIframeDocument = function(vIframe)
+  {
+    try
+    {
+      var vWin = QxDom.getIframeWindow(vIframe);
+      return vWin ? vWin.document : null;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
+
+  QxDom.getIframeBody = function(vIframe)
+  {
+    try
+    {
+      var vWin = QxDom.getIframeWindow(vIframe);
+      return vWin ? vWin.document.body : null;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
+}
+else
+{
+  QxDom.getIframeWindow = function(vIframe)
+  {
+    try
+    {
+      var vDoc = QxDom.getIframeDocument(vIframe);
+      return vDoc ? vDoc.defaultView : null;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
+
+  QxDom.getIframeDocument = function(vIframe)
+  {
+    try
+    {
+      return vIframe.contentDocument;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
+
+  QxDom.getIframeBody = function(vIframe)
+  {
+    try
+    {
+      var vDoc = QxDom.getIframeDocument(vIframe);
+      return vDoc ? vDoc.document.body : null;
+    }
+    catch(ex)
+    {
+      return null;
+    };
+  };
 };
