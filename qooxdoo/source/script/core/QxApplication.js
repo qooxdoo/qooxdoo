@@ -25,13 +25,11 @@
 #package(core)
 #require(QxClient)
 #require(QxDomEventRegistration)
-#post(QxClientWindow)
 #post(QxImageManager)
 #post(QxImagePreloaderSystem)
 #post(QxDebug)
 #post(QxDataEvent)
 #post(QxTimer)
-#post(QxParent)
 
 ************************************************************************ */
 
@@ -154,11 +152,16 @@ proto._runInitialization = function()
     this.createDispatchEvent(QxConst.EVENT_TYPE_PRE);
 
     // Create client window instance (and client-document, event- and focus-manager, ...)
-    this._clientWindow = new QxClientWindow();
+    if (typeof QxClientWindow === QxConst.TYPEOF_FUNCTION) {
+      this._clientWindow = new QxClientWindow();
+    };
 
     // Build virtual methods for easy additions of childrens and so on
-    this._remappingChildTable = QxParent.prototype._remappingChildTable;
-    QxParent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
+    if (typeof QxParent === QxConst.TYPEOF_FUNCTION)
+    {
+      this._remappingChildTable = QxParent.prototype._remappingChildTable;
+      QxParent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
+    };
 
     // Output the number of currently instanciated objects
     this._printInstanceInfo();
@@ -216,15 +219,19 @@ proto._runPreloadDone = function()
 
 proto._runWidgets = function()
 {
-  var s = (new Date).valueOf();
+  if (typeof QxWidget === QxConst.TYPEOF_FUNCTION)
+  {
+    var s = (new Date).valueOf();
 
-  this.info("Widget phase");
-  this.debug("Rendering widgets");
+    this.info("Widget phase");
+    this.debug("Rendering widgets");
 
-  this._ready = true;
-  QxWidget.flushGlobalQueues(true);
+    this._ready = true;
+    QxWidget.flushGlobalQueues(true);
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+    this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+  };
+
   this._runPost();
 };
 
