@@ -47,7 +47,7 @@ function QxIframeTransport()
   };
 
   this._frame.src = "about:blank";
-  this._frame.id = this._frame.name = vFrameName
+  this._frame.id = this._frame.name = vFrameName;
   this._frame.onload = function(e) { return o._onload(e) };
 
   this._frame.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
