@@ -54,9 +54,8 @@ QxIframeTransport.isSupported = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.send = function()
-{
-  this.debug("Sending...");
+proto.send = function() {
+  this.error("Need implementation", "send");
 };
 
 
