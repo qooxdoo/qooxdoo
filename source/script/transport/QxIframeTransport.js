@@ -261,12 +261,16 @@ proto.getStatusText = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getIframeContentWindow = function() {
-  return QxDom.getIframeContentWindow(this._frame);
+proto.getIframeWindow = function() {
+  return QxDom.getIframeWindow(this._frame);
 };
 
-proto.getIframeContentDocument = function() {
-  return QxDom.getIframeContentDocument(this._frame);
+proto.getIframeDocument = function() {
+  return QxDom.getIframeDocument(this._frame);
+};
+
+proto.getIframeBody = function() {
+  return QxDom.getIframeBody(this._frame);
 };
 
 /*!
@@ -276,11 +280,8 @@ proto.getIframeContentDocument = function() {
 */
 proto.getResponseText = function()
 {
-  var vXml = this.getResponseXml();
-
-  this.debug("XML: " + vXml);
-
-  return "Hello World";
+  var vBody = this.getIframeBody();
+  return vBody ? vBody.innerHTML : QxConst.CORE_EMPTY;
 };
 
 /*!
@@ -289,7 +290,7 @@ proto.getResponseText = function()
   be made available to the caller.
 */
 proto.getResponseXml = function() {
-  return this.getIframeContentDocument();
+  return this.getIframeDocument();
 };
 
 /*!
@@ -303,7 +304,43 @@ proto.getFetchedLength = function()
   // this.error("Need implementation", "getFetchedLength");
 };
 
+proto.getResponseContent = function()
+{
+  if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
+  {
+    if (QxSettings.enableTransportDebug) {
+      this.warn("Transfer not complete, ignoring content!");
+    };
 
+    return null;
+  };
+
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Returning content for mimeType: " + this.getMimeType());
+  };
+
+  switch(this.getMimeType())
+  {
+    case "text/plain":
+      return this.getResponseText();
+
+    case "text/json":
+    case "text/javascript":
+      try {
+        var vReturn = eval(this.getResponseText());
+      } catch(ex) {
+        return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
+      };
+
+      return vReturn;
+
+    case "application/xml":
+      return this.getResponseXml();
+  };
+
+  this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
+  return null;
+};
 
 
 
@@ -324,15 +361,17 @@ proto.dispose = function()
 
   if (this._frame)
   {
+    document.body.removeChild(this._frame);
+
     this._frame.onload = null;
     this._frame.onreadystatechange = null;
-    document.body.removeChild(this._frame);
     this._frame = null;
   };
 
   if (this._form)
   {
     document.body.removeChild(this._form);
+
     this._form = null;
   };
 
