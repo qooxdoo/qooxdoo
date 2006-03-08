@@ -29,18 +29,18 @@
 
 function QxIframeTransport()
 {
-  QxTarget.call(this);
+  QxCommonTransport.call(this);
 
 };
 
-QxIframeTransport.extend(QxTarget, "QxIframeTransport");
+QxIframeTransport.extend(QxCommonTransport, "QxIframeTransport");
 
 // basic registration to QxTransport
 // the real availability check (activeX stuff and so on) follows at the first real request
 QxTransport.registerType(QxIframeTransport, "QxIframeTransport");
 
 QxIframeTransport.isSupported = function() {
-  return false;
+  return true;
 };
 
 

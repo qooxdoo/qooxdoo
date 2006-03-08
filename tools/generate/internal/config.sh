@@ -316,7 +316,9 @@ L="$L script/transport/QxRequestQueue"
 L="$L script/transport/QxTransport"
 L="$L script/transport/QxTransportCore"
 
+L="$L script/transport/QxCommonTransport"
 L="$L script/transport/QxXmlHttpTransport"
+L="$L script/transport/QxXmlHttpTransportCore"
 L="$L script/transport/QxIframeTransport"
 
 # Builder
