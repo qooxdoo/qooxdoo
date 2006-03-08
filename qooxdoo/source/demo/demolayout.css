@@ -107,8 +107,7 @@ p{
 }
 
 #demoDebug .log{
-  overflow: -moz-scrollbars-vertical;
-  overflow-y: auto;
+  overflow: auto;
   position: absolute;
   top: 30px;
   bottom: 0px;
