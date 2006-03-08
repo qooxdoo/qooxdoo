@@ -214,6 +214,8 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.setRequestHeaders(vRequest.getRequestHeaders());
     propValue.setData(vRequest.getData());
 
+    propValue.setMimeType(vRequest.getMimeType());
+
     propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
@@ -251,8 +253,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
       var vResponse = new QxResponse;
 
       vResponse.setStatusCode(vImpl.getStatusCode());
-      vResponse.setTextContent(vImpl.getResponseText());
-      vResponse.setXmlContent(vImpl.getResponseXml());
+      vResponse.setContent(vImpl.getResponseContent());
       vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
       // this.debug("Result Text: " + vResponse.getTextContent());

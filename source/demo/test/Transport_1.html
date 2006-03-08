@@ -151,7 +151,7 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
+          area.setValue(e.getData().getContent());
         });
 
         req.addEventListener("failed", function(e)
@@ -160,7 +160,7 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
+          area.setValue(e.getData().getContent());
         });
 
         req.addEventListener("timeout", function(e)
@@ -169,7 +169,7 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
+          area.setValue(e.getData().getContent());
         });
 
         req.addEventListener("aborted", function(e)
@@ -178,7 +178,7 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getTextContent());
+          area.setValue(e.getData().getContent());
         });
 
         req.send();
