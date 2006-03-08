@@ -109,7 +109,7 @@ QxCommonTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT
 
 /*
 ---------------------------------------------------------------------------
-  METHODS
+  USER METHODS
 ---------------------------------------------------------------------------
 */
 
