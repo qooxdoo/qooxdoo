@@ -24,14 +24,13 @@
 
 #package(transport)
 #require(QxTransport)
+#post(QxXmlHttpTransportCore)
 
 ************************************************************************ */
 
 function QxXmlHttpTransport()
 {
-  QxTarget.call(this);
-
-  this._requestHeader = {};
+  QxCommonTransport.call(this);
 
   this._req = QxXmlHttpTransport.createRequestObject();
 
@@ -39,153 +38,13 @@ function QxXmlHttpTransport()
   this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
-QxXmlHttpTransport.extend(QxTarget, "QxXmlHttpTransport");
+QxXmlHttpTransport.extend(QxCommonTransport, "QxXmlHttpTransport");
 
 // basic registration to QxTransport
 // the real availability check (activeX stuff and so on) follows at the first real request
 QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 
 
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  GLOBAL METHOD DETECTION
----------------------------------------------------------------------------
-*/
-
-QxXmlHttpTransport.requestObjects = [];
-QxXmlHttpTransport.requestObjectCount = 0;
-
-QxXmlHttpTransport.isSupported = function()
-{
-  if (window.XMLHttpRequest)
-  {
-    // QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
-
-    QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
-    return true;
-  };
-
-  if (window.ActiveXObject)
-  {
-    var vServers = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP.2.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-    var vObject;
-    var vServer;
-
-    for (var i=0, l=vServers.length; i<l; i++)
-    {
-      vServer = vServers[i];
-
-      try
-      {
-        vObject = new ActiveXObject(vServer);
-        break;
-      }
-      catch(ex)
-      {
-        vObject = null;
-      };
-    };
-
-    if (vObject)
-    {
-      // QxDebug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
-
-      QxXmlHttpTransport._activeXServer = vServer;
-      QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createActiveXRequestObject;
-
-      return true;
-    };
-  };
-
-  return false;
-};
-
-QxXmlHttpTransport.createRequestObject = function() {
-  throw new Error("XMLHTTP is not supported!");
-};
-
-QxXmlHttpTransport._createNativeRequestObject = function() {
-   return new XMLHttpRequest;
-};
-
-QxXmlHttpTransport._createActiveXRequestObject = function() {
-  return new ActiveXObject(QxXmlHttpTransport._activeXServer);
-};
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  Target url to issue the request to
-*/
-QxXmlHttpTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
-
-/*!
-  Determines what type of request to issue
-*/
-QxXmlHttpTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
-
-/*!
-  Set the request to asynchronous
-*/
-QxXmlHttpTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
-
-/*!
-  Set the data to be sent via this request
-*/
-QxXmlHttpTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
-
-/*!
-  Username to use for HTTP authentication
-*/
-QxXmlHttpTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
-
-/*!
-  Password to use for HTTP authentication
-*/
-QxXmlHttpTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
-
-/*!
-  The state of the current request
-*/
-QxXmlHttpTransport.addProperty(
-{
-  name           : "state",
-  type           : QxConst.TYPEOF_STRING,
-  possibleValues : [
-                   QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED,
-                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED,
-                   QxConst.REQUEST_STATE_TIMEOUT, QxConst.REQUEST_STATE_FAILED
-                   ],
-  defaultValue   : QxConst.REQUEST_STATE_CREATED
-});
-
-/*!
-  Request headers
-*/
-QxXmlHttpTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
-
-/*!
-  Parameters
-*/
-QxXmlHttpTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
 
 
@@ -204,6 +63,17 @@ proto._lastReadyState = 0;
 proto.getRequest = function() {
   return this._req;
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  USER METHODS
+---------------------------------------------------------------------------
+*/
 
 proto.send = function()
 {
@@ -297,33 +167,6 @@ proto.send = function()
   };
 };
 
-proto.abort = function()
-{
-  if (QxSettings.enableTransportDebug) {
-    this.warn("Aborting...");
-  };
-
-  this.setState(QxConst.REQUEST_STATE_ABORTED);
-};
-
-proto.timeout = function()
-{
-  if (QxSettings.enableTransportDebug) {
-    this.warn("Timeout...");
-  };
-
-  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
-};
-
-proto.failed = function()
-{
-  if (QxSettings.enableTransportDebug) {
-    this.warn("Failed...");
-  };
-
-  this.setState(QxConst.REQUEST_STATE_FAILED);
-};
-
 proto.failedLocally = function()
 {
   if (this.getState() === QxConst.REQUEST_STATE_FAILED) {
@@ -339,61 +182,6 @@ proto.failedLocally = function()
 };
 
 
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-proto._modifyState = function(propValue, propOldValue, propData)
-{
-  if (QxSettings.enableTransportDebug) {
-    this.debug("State: " + propValue);
-  };
-
-  switch(propValue)
-  {
-    case QxConst.REQUEST_STATE_CREATED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CREATED);
-      break;
-
-    case QxConst.REQUEST_STATE_CONFIGURED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CONFIGURED);
-      break;
-
-    case QxConst.REQUEST_STATE_SENDING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
-      break;
-
-    case QxConst.REQUEST_STATE_RECEIVING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
-      break;
-
-    case QxConst.REQUEST_STATE_COMPLETED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
-      break;
-
-    case QxConst.REQUEST_STATE_ABORTED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
-      break;
-
-    case QxConst.REQUEST_STATE_FAILED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_FAILED);
-      break;
-
-    case QxConst.REQUEST_STATE_TIMEOUT:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_TIMEOUT);
-      break;
-  };
-
-  return true;
-};
 
 
 
@@ -495,19 +283,9 @@ proto.getReadyState = function()
 ---------------------------------------------------------------------------
 */
 
-proto.setRequestHeader = function(vLabel, vValue)
-{
-  this._requestHeader[vLabel] = vValue;
+proto.setRequestHeader = function(vLabel, vValue) {
   this._req.setRequestHeader(vLabel, vValue);
 };
-
-proto.removeRequestHeader = function()
-{
-  this._requestHeader[vId] = null;
-  this._req.setRequestHeader(vLabel, null);
-};
-
-
 
 
 
@@ -689,6 +467,63 @@ proto.getFetchedLength = function()
 
 
 
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+proto._modifyState = function(propValue, propOldValue, propData)
+{
+  if (QxSettings.enableTransportDebug) {
+    this.debug("State: " + propValue);
+  };
+
+  switch(propValue)
+  {
+    case QxConst.REQUEST_STATE_CREATED:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_CREATED);
+      break;
+
+    case QxConst.REQUEST_STATE_CONFIGURED:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_CONFIGURED);
+      break;
+
+    case QxConst.REQUEST_STATE_SENDING:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
+      break;
+
+    case QxConst.REQUEST_STATE_RECEIVING:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
+      break;
+
+    case QxConst.REQUEST_STATE_COMPLETED:
+      this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
+      break;
+
+    case QxConst.REQUEST_STATE_ABORTED:
+      this.getRequest().abort();
+      this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
+      break;
+
+    case QxConst.REQUEST_STATE_FAILED:
+      this.getRequest().abort();
+      this.createDispatchEvent(QxConst.EVENT_TYPE_FAILED);
+      break;
+
+    case QxConst.REQUEST_STATE_TIMEOUT:
+      this.getRequest().abort();
+      this.createDispatchEvent(QxConst.EVENT_TYPE_TIMEOUT);
+      break;
+  };
+
+  return true;
+};
+
+
+
+
+
 
 
 /*
@@ -732,7 +567,5 @@ proto.dispose = function()
     this._req = null;
   };
 
-  this._requestHeader = null;
-
-  return QxTarget.prototype.dispose.call(this);
+  return QxCommonTransport.prototype.dispose.call(this);
 };
