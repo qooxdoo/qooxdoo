@@ -81,13 +81,13 @@ proto.send = function()
   QxTransport.initTypes();
 
   var vUsage = QxTransport.typesOrder;
-  var vAvailable = QxTransport.typesAvailable;
+  var vSupported = QxTransport.typesSupported;
   var vTransportImpl;
   var vTransport;
 
   for (var i=0, l=vUsage.length; i<l; i++)
   {
-    vTransportImpl = vAvailable[vUsage[i]];
+    vTransportImpl = vSupported[vUsage[i]];
 
     if (vTransportImpl)
     {
