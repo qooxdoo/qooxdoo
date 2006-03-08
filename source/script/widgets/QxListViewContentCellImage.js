@@ -57,3 +57,6 @@ proto.setSource = function(vSource)
     return QxImage.prototype.setSource.call(this, vSource);
   };
 };
+
+// Omit dimension setup in list-view
+proto._postApplyDimensions = QxUtil.returnTrue;
