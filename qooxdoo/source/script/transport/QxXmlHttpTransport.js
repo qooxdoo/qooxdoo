@@ -342,15 +342,15 @@ proto.getResponseHeaders = function()
 
   if (vSourceHeader)
   {
-  	var vValues = vSourceHeader.split(/[\r\n]+/g);
+    var vValues = vSourceHeader.split(/[\r\n]+/g);
 
-  	for(var i=0, l=vValues.length; i<l; i++)
-  	{
-  		var vPair = vValues[i].match(/^([^:]+)\s*:\s*(.+)$/i);
-  		if(vPair) {
-  			vHeader[vPair[1]] = vPair[2];
-  		};
-  	};
+    for(var i=0, l=vValues.length; i<l; i++)
+    {
+      var vPair = vValues[i].match(/^([^:]+)\s*:\s*(.+)$/i);
+      if(vPair) {
+        vHeader[vPair[1]] = vPair[2];
+      };
+    };
   };
 
   return vHeader;
