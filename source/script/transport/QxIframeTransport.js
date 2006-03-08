@@ -50,11 +50,112 @@ QxIframeTransport.isSupported = function() {
 
 /*
 ---------------------------------------------------------------------------
-  CORE METHODS
+  USER METHODS
 ---------------------------------------------------------------------------
 */
 
 proto.send = function()
 {
   this.debug("Sending...");
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  REQUEST HEADER SUPPORT
+---------------------------------------------------------------------------
+*/
+
+proto.setRequestHeader = function(vLabel, vValue) {
+  this.error("Need implementation", "setRequestHeader");
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  RESPONSE HEADER SUPPORT
+---------------------------------------------------------------------------
+*/
+
+proto.getResponseHeader = function(vLabel) {
+  this.error("Need implementation", "getResponseHeader");
+};
+
+/*!
+  Provides an hash of all response headers.
+*/
+proto.getResponseHeaders = function() {
+  this.error("Need implementation", "getResponseHeaders");
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  STATUS SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/*!
+  Returns the current status code of the request if available or -1 if not.
+*/
+proto.getStatusCode = function() {
+  this.error("Need implementation", "getStatusCode");
+};
+
+/*!
+  Provides the status text for the current request if available and null otherwise.
+*/
+proto.getStatusText = function() {
+  this.error("Need implementation", "getStatusText");
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  RESPONSE DATA SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/*!
+  Provides the response text from the request when available and null otherwise.
+  By passing true as the "partial" parameter of this method, incomplete data will
+  be made available to the caller.
+*/
+proto.getResponseText = function() {
+  this.error("Need implementation", "getResponseText");
+};
+
+/*!
+  Provides the XML provided by the response if any and null otherwise.
+  By passing true as the "partial" parameter of this method, incomplete data will
+  be made available to the caller.
+*/
+proto.getResponseXml = function() {
+  this.error("Need implementation", "getResponseXml");
+};
+
+/*!
+  Returns the length of the content as fetched thus far
+*/
+proto.getFetchedLength = function() {
+  this.error("Need implementation", "getFetchedLength");
 };
