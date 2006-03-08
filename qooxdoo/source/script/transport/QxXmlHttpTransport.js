@@ -459,6 +459,44 @@ proto.getFetchedLength = function()
   return QxUtil.isValidString(vText) ? vText.length : 0;
 };
 
+proto.getResponseContent = function()
+{
+  if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
+  {
+    if (QxSettings.enableTransportDebug) {
+      this.warn("Transfer not complete, ignoring content!");
+    };
+
+    return null;
+  };
+
+  if (QxSettings.enableTransportDebug) {
+    this.debug("Returning content for mimeType: " + this.getMimeType());
+  };
+
+  switch(this.getMimeType())
+  {
+    case "text/plain":
+      return this.getResponseText();
+
+    case "text/json":
+    case "text/javascript":
+      try {
+        var vReturn = eval(this.getResponseText());
+      } catch(ex) {
+        return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
+      };
+
+      return vReturn;
+
+    case "application/xml":
+      return this.getResponseXml();
+  };
+
+  this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
+  return null;
+};
+
 
 
 

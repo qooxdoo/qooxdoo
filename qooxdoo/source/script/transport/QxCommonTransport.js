@@ -100,6 +100,11 @@ QxCommonTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OB
 */
 QxCommonTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
+/*!
+  Response mimeType
+*/
+QxCommonTransport.addProperty({ name : "mimeType", type: QxConst.TYPEOF_STRING });
+
 
 
 

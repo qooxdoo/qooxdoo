@@ -37,7 +37,7 @@ QxXmlHttpTransport.requestObjectCount = 0;
 QxXmlHttpTransport.isSupported = function()
 {
   // Temporary to test the iframe alternative
-  return false;
+  // return false;
 
   if (window.XMLHttpRequest)
   {
