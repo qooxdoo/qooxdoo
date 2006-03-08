@@ -22,20 +22,15 @@
 
 /* ************************************************************************
 
-#package(core)
+#package(dom)
+#require(QxDomCore)
 
 ************************************************************************ */
 
-var QxDefaultSettings =
-{
-  enableWidgetDebug : false,
-  enableDisposerDebug : false,
-  enableTransportDebug : true,
+QxDom.getIframeContentWindow = function(vIframe) {
+	return vIframe.contentWindow /* IE */ || QxDom.getIframeContentDocument(vIframe).defaultView /* Gecko & Opera */ || QxDom.getIframeContentDocument(vIframe).__parent__ || (vIframe.name && document.frames[vIframe.name]) || null;
+};
 
-  applicationLayout : true,
-
-  imageCorePath : "../../images",
-  imageLocalPath : "./",
-  imageIconPath : "../../themes/icons",
-  imageWidgetPath : "../../themes/widgets"
+QxDom.getIframeContentDocument = function(vIframe) {
+  return vIframe.contentDocument /* W3C */ || ((vIframe.contentWindow) && (vIframe.contentWindow.document)) /* IE */ || ((vIframe.name) && (document.frames[vIframe.name]) && (document.frames[vIframe.name].document)) || null;
 };

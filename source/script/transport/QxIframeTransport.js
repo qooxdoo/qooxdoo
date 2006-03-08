@@ -25,6 +25,7 @@
 #package(transport)
 #require(QxTransport)
 #post(QxIframeTransportCore)
+#post(QxDomIframe)
 
 ************************************************************************ */
 
@@ -32,20 +33,39 @@ function QxIframeTransport()
 {
   QxCommonTransport.call(this);
 
-  var o = this;
+  var vUniqueId = (new Date).valueOf();
+  var vFrameName = "frame_" + vUniqueId;
+  var vFormName = "form_" + vUniqueId;
 
-  this._frame = document.createElement("iframe");
-  this._frame.id = this._frame.name = "frame_" + (new Date).valueOf();
-  this._frame.setAttribute("id", this._frame.id);
-  this._frame.setAttribute("name", this._frame.name);
+  // Mshtml allows us to define a full HTML as a parameter for createElement.
+  // Using this method is the only (known) working to register the frame
+  // to the known elements of the Internet Explorer.
+  if (QxClient.isMshtml()) {
+    this._frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
+  } else {
+    this._frame = document.createElement("iframe");
+  };
+
+  this._frame.src = "about:blank";
+  this._frame.id = this._frame.name = vFrameName
   this._frame.onload = function(e) { return o._onload(e) };
-  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e) };
+
+  this._frame.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
+  this._frame.style.visibility = "hidden";
+
   document.body.appendChild(this._frame);
 
   this._form = document.createElement("form");
-  this._form.id = this._form.name = "form_" + (new Date).valueOf();
-  this._form.target = this._frame.id;
+  this._form.target = vFrameName;
+  this._form.id = this._form.name = vFormName;
+
+  this._form.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
+  this._form.style.visibility = "hidden";
+
   document.body.appendChild(this._form);
+
+  var o = this;
+  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e) };
 };
 
 QxIframeTransport.extend(QxCommonTransport, "QxIframeTransport");
@@ -91,13 +111,20 @@ proto.send = function()
   this._form.action = vUrl;
   this._form.method = vMethod;
 
+  this.debug("Action: " + this._form.action);
+  this.debug("Method: " + this._form.method);
+  this.debug("Target: " + this._form.target);
 
 
   // --------------------------------------
   //   Sending data
   // --------------------------------------
 
+  this.debug("Before Submit");
+
   this._form.submit();
+
+  this.debug("After Submit");
 };
 
 
@@ -113,15 +140,33 @@ proto.send = function()
 
 proto._onload = function(e)
 {
+  this.debug("onLoad...");
+
+  if (this._form.src) {
+    return;
+  };
+
 	this.setState(QxConst.REQUEST_STATE_COMPLETED);
-
-
 };
 
 proto._onreadystatechange = function(e)
 {
-  this.debug("onReadyStateChange");
+  this.debug("onReadyStateChange... (" + this._frame.readyState + ")");
 
+  switch(this._frame.readyState)
+  {
+    case "loading":
+      this.setState(QxConst.REQUEST_STATE_SENDING);
+      break;
+
+    case "interactive":
+      this.setState(QxConst.REQUEST_STATE_RECEIVING);
+      break;
+
+    case "complete":
+      this.setState(QxConst.REQUEST_STATE_COMPLETED);
+      break;
+  };
 };
 
 
@@ -216,6 +261,14 @@ proto.getStatusText = function()
 ---------------------------------------------------------------------------
 */
 
+proto.getIframeContentWindow = function() {
+  return QxDom.getIframeContentWindow(this._frame);
+};
+
+proto.getIframeContentDocument = function() {
+  return QxDom.getIframeContentDocument(this._frame);
+};
+
 /*!
   Provides the response text from the request when available and null otherwise.
   By passing true as the "partial" parameter of this method, incomplete data will
@@ -223,45 +276,11 @@ proto.getStatusText = function()
 */
 proto.getResponseText = function()
 {
-  var vFrame = this._frame || window.frames[this._frame.id];
+  var vXml = this.getResponseXml();
 
-  if (!vFrame) {
-    return this.error("Frame is not available anymore!", "getResponseText");
-  };
+  this.debug("XML: " + vXml);
 
-  if (vFrame.contentDocument)
-  {
-    this.debug("Using method #1");
-  }
-  else if (vFrame.contentWindow)
-  {
-    this.debug("Using method #2");
-  }
-  else if (vFrame.document)
-  {
-    this.debug("Using method #3");
-  }
-  else
-  {
-    return this.error("Could not access iframes content!", "getResponseText");
-  };
-
-  /*
-	try {   var doc = this.transport.contentDocument.document.body.innerHTML; this.transport.contentDocument.document.close(); }	// For NS6
-	catch (e){
-		try{ var doc = this.transport.contentWindow.document.body.innerHTML; this.transport.contentWindow.document.close(); } // For IE5.5 and IE6
-		 catch (e){
-			 try { var doc = this.transport.document.body.innerHTML; this.transport.document.body.close(); } // for IE5
-				catch (e) {
-					try	{ var doc = window.frames['frame_'+this.uniqueId].document.body.innerText; } // for really nasty browsers
-					catch (e) { } // forget it.
-			 }
-		}
-	}
-	*/
-
-
-
+  return "Hello World";
 };
 
 /*!
@@ -269,12 +288,8 @@ proto.getResponseText = function()
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseXml = function()
-{
-  return null;
-
-  // TODO
-  // this.error("Need implementation", "getResponseXml");
+proto.getResponseXml = function() {
+  return this.getIframeContentDocument();
 };
 
 /*!
@@ -309,9 +324,9 @@ proto.dispose = function()
 
   if (this._frame)
   {
-    document.body.removeChild(this._frame);
     this._frame.onload = null;
     this._frame.onreadystatechange = null;
+    document.body.removeChild(this._frame);
     this._frame = null;
   };
 

@@ -27,6 +27,7 @@ L="$L script/core/QxDomScrollIntoView"
 L="$L script/core/QxDomStyle"
 L="$L script/core/QxDomStyleSheet"
 L="$L script/core/QxDomWindow"
+L="$L script/core/QxDomIframe"
 
 # Common qooxdoo objects
 L="$L script/core/QxDebug"
