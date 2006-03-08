@@ -361,17 +361,24 @@ proto.dispose = function()
 
   if (this._frame)
   {
-    document.body.removeChild(this._frame);
-
     this._frame.onload = null;
     this._frame.onreadystatechange = null;
+
+    // Reset source to a blank image for gecko
+    // Otherwise it will switch into a load-without-end behaviour
+    if (QxClient.isGecko()) {
+      this._frame.src = QxImageManager.buildUri("core/blank.gif");
+    };
+
+    // Finally remove element node
+    document.body.removeChild(this._frame);
+
     this._frame = null;
   };
 
   if (this._form)
   {
     document.body.removeChild(this._form);
-
     this._form = null;
   };
 

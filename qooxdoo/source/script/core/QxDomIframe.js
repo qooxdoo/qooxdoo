@@ -59,8 +59,8 @@ if (QxClient.isMshtml())
   {
     try
     {
-      var vWin = QxDom.getIframeWindow(vIframe);
-      return vWin ? vWin.document.body : null;
+      var vDoc = QxDom.getIframeDocument(vIframe);
+      return vDoc ? vDoc.body : null;
     }
     catch(ex)
     {
