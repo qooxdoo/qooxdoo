@@ -716,7 +716,8 @@ theme.registerAppearance("window-captionbar",
       paddingBottom : 2,
       paddingLeft : 2,
       verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
-      height : QxConst.CORE_AUTO
+      height : QxConst.CORE_AUTO,
+      overflow : QxConst.OVERFLOW_VALUE_HIDDEN
     };
   },
 
@@ -762,7 +763,8 @@ theme.registerAppearance("window-captionbar-title",
     return {
       cursor : QxConst.CORE_DEFAULT,
       font : this.font,
-      marginRight : 2
+      marginRight : 2,
+      wrap : false
     };
   }
 });
