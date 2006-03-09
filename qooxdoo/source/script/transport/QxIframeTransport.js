@@ -111,20 +111,13 @@ proto.send = function()
   this._form.action = vUrl;
   this._form.method = vMethod;
 
-  this.debug("Action: " + this._form.action);
-  this.debug("Method: " + this._form.method);
-  this.debug("Target: " + this._form.target);
 
 
   // --------------------------------------
   //   Sending data
   // --------------------------------------
 
-  this.debug("Before Submit");
-
   this._form.submit();
-
-  this.debug("After Submit");
 };
 
 
@@ -140,8 +133,6 @@ proto.send = function()
 
 proto._onload = function(e)
 {
-  this.debug("onLoad...");
-
   if (this._form.src) {
     return;
   };
@@ -151,8 +142,6 @@ proto._onload = function(e)
 
 proto._onreadystatechange = function(e)
 {
-  this.debug("onReadyStateChange... (" + this._frame.readyState + ")");
-
   switch(this._frame.readyState)
   {
     case "loading":
