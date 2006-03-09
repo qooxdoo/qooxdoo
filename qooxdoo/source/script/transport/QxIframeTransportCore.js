@@ -31,6 +31,14 @@
 // the real availability check (activeX stuff and so on) follows at the first real request
 QxTransport.registerType(QxIframeTransport, "QxIframeTransport");
 
+QxIframeTransport.handles =
+{
+  synchronous : false,
+  asynchronous : true,
+  crossdomain : true,
+  mimetypes : [ "text/plain", "text/html", "application/xml", "text/json", "text/javascript" ]
+};
+
 QxIframeTransport.isSupported = function() {
   return true;
 };

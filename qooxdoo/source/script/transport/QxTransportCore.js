@@ -68,6 +68,21 @@ QxTransport.initTypes = function()
   };
 };
 
+QxTransport.canHandle = function(vImpl, vNeeds, vMimeType)
+{
+  if (!vImpl.handles.mimetypes.contains(vMimeType)) {
+    return false;
+  };
+
+  for (var vKey in vNeeds)
+  {
+    if (!vImpl.handles[vKey]) {
+      return false;
+    };
+  };
+
+  return true;
+};
 
 
 

@@ -150,6 +150,13 @@
         req.setParameter("test2", "value2");
         req.setParameter("test3", "value3");
 
+        // Force to testing iframe implementation
+        // req.setCrossDomain(true);
+
+        // This combination couldn't be handled currently
+        // req.setCrossDomain(true);
+        // req.setAsynchronous(false);
+
         req.addEventListener("sending", function(e) {
           inf.setValue("Sending");
         });

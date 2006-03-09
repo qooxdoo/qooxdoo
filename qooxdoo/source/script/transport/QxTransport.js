@@ -78,21 +78,48 @@ QxTransport.addProperty(
 
 proto.send = function()
 {
+  var vRequest = this.getRequest();
+
+  if (!vRequest) {
+    return this.error("Please attach a request object first", "send");
+  };
+
   QxTransport.initTypes();
 
   var vUsage = QxTransport.typesOrder;
   var vSupported = QxTransport.typesSupported;
-  var vTransportImpl;
-  var vTransport;
 
+  // Mapping settings to mimetype and needs to check later
+  // if the selected transport implementation can handle
+  // fulfill these requirements.
+  var vMimeType = vRequest.getMimeType();
+  var vNeeds = {};
+
+  if (vRequest.getAsynchronous()) {
+    vNeeds.asynchronous = true;
+  } else {
+    vNeeds.synchronous = true;
+  };
+
+  if (vRequest.getCrossDomain()) {
+    vNeeds.crossdomain = true;
+  };
+
+  var vTransportImpl, vTransport;
   for (var i=0, l=vUsage.length; i<l; i++)
   {
     vTransportImpl = vSupported[vUsage[i]];
 
     if (vTransportImpl)
     {
+      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vMimeType)) {
+        continue;
+      };
+
       try
       {
+        this.debug("Using implementation: " + vTransportImpl.classname);
+
         vTransport = new vTransportImpl;
         this.setImplementation(vTransport);
 
@@ -106,7 +133,7 @@ proto.send = function()
     };
   };
 
-  this.error("No Request Type available for: " + vRequest, "handle");
+  this.error("There is no transport implementation available to handle this request: " + vRequest, "handle");
 };
 
 proto.abort = function()
@@ -140,6 +167,9 @@ proto.timeout = function()
     this.setState(QxConst.REQUEST_STATE_TIMEOUT);
   };
 };
+
+
+
 
 
 
