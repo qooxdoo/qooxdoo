@@ -2977,7 +2977,20 @@ proto.isLastVisibleChild = function() {
 
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeState(QxConst.STATE_DISABLED) : this.addState(QxConst.STATE_DISABLED);
+  if (propValue)
+  {
+    this.removeState(QxConst.STATE_DISABLED);
+  }
+  else
+  {
+    this.addState(QxConst.STATE_DISABLED);
+
+    // Also reset some states to be sure a pressed/hovered button gets resetted
+    this.removeState(QxConst.STATE_OVER);
+    this.removeState(QxConst.STATE_ABANDONED);
+    this.removeState(QxConst.STATE_PRESSED);
+  };
+
   return true;
 };
 
