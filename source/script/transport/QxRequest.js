@@ -80,7 +80,7 @@ QxRequest.addProperty(
 });
 QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
 QxRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
-QxRequest.addProperty({ name : "mimeType", type : QxConst.TYPEOF_STRING, defaultValue : "text/plain", possibleValues : [ "text/plain", "text/json", "text/javascript", "application/xml" ] });
+QxRequest.addProperty({ name : "mimeType", type : QxConst.TYPEOF_STRING, defaultValue : "text/plain", possibleValues : [ "text/plain", "text/html", "application/xml", "text/json", "text/javascript" ] });
 
 
 

@@ -12,7 +12,7 @@
 
   <div id="demoDescription">
     <p>Simple test for qooxdoo's transport implementation using some data for an addressbook.</p>
-    <p>Using text content in this case.</p>
+    <p>Using javascript/json content in this case.</p>
   </div>
 
   <script type="text/javascript">
@@ -41,10 +41,10 @@
 
 
     var cm1 = new QxComboBox();
-    cm1.add(new QxListItem("data/persons/anita.txt"));
-    cm1.add(new QxListItem("data/persons/harald.txt"));
-    cm1.add(new QxListItem("data/persons/lisbeth.txt"));
-    cm1.add(new QxListItem("data/persons/paul.txt"));
+    cm1.add(new QxListItem("data/persons/anita.js"));
+    cm1.add(new QxListItem("data/persons/harald.js"));
+    cm1.add(new QxListItem("data/persons/lisbeth.js"));
+    cm1.add(new QxListItem("data/persons/paul.js"));
     cm1.setSelected(cm1.getList().getFirstChild());
     cm1.setWidth(200);
     cm1.addEventListener("changeSelected", upd);
@@ -108,12 +108,23 @@
     fsr.setHeight("1*");
     lay.add(fsr);
 
-    var area = new QxTextArea;
+    var area = new QxVerticalBoxLayout;
+    area.setSpacing(6);
     area.setDimension("100%", "100%");
     fsr.add(area);
 
 
 
+    var fgivenname = new QxLabel("Given Name");
+    var fname = new QxLabel("Name");
+    var fage = new QxLabel("Age");
+    var fstreet = new QxLabel("Street");
+    var fplz = new QxLabel("PLZ");
+    var fcity = new QxLabel("City");
+    var fcountry = new QxLabel("Country");
+    var fphone = new QxLabel("Phone");
+
+    area.add(fgivenname, fname, fage, fstreet, fplz, fcity, fcountry, fphone);
 
 
 
@@ -133,7 +144,7 @@
       for( var i=0, max=parseInt(spin.getValue()); i<max; i++ ) {
         req = new QxGetRequest(val.getLabel());
         req.setAsynchronous(async.getChecked());
-        req.setMimeType("text/plain");
+        req.setMimeType("text/json");
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         req.setParameter("test1", "value1");
         req.setParameter("test2", "value2");
@@ -153,7 +164,19 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
+
+          var vContent = e.getData().getContent();
+
+          fgivenname.setHtml(vContent.givenName.toString());
+          fname.setHtml(vContent.name.toString());
+          fage.setHtml(vContent.age.toString());
+          fstreet.setHtml(vContent.street.toString());
+          fplz.setHtml(vContent.plz.toString());
+          fcity.setHtml(vContent.city.toString());
+          fcountry.setHtml(vContent.country.toString());
+          fphone.setHtml(vContent.phone.toString());
+
+          QxWidget.flushGlobalQueues();
         });
 
         req.addEventListener("failed", function(e)
@@ -162,7 +185,6 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
         });
 
         req.addEventListener("timeout", function(e)
@@ -171,7 +193,6 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
         });
 
         req.addEventListener("aborted", function(e)
@@ -180,7 +201,6 @@
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
           code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
         });
 
         req.send();

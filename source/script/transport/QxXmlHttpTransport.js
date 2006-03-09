@@ -482,19 +482,18 @@ proto.getResponseContent = function()
     case "text/json":
     case "text/javascript":
       try {
-        var vReturn = eval(this.getResponseText());
+        return eval("(" + this.getResponseText() + ")");
       } catch(ex) {
         return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
       };
 
-      return vReturn;
-
     case "application/xml":
       return this.getResponseXml();
-  };
 
-  this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
-  return null;
+    default:
+      this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
+      return null;
+  };
 };
 
 

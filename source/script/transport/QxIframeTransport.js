@@ -255,6 +255,32 @@ proto.getStatusText = function()
 
 
 
+
+/*
+---------------------------------------------------------------------------
+  FRAME UTILITIES
+---------------------------------------------------------------------------
+*/
+
+proto.getIframeWindow = function() {
+  return QxDom.getIframeWindow(this._frame);
+};
+
+proto.getIframeDocument = function() {
+  return QxDom.getIframeDocument(this._frame);
+};
+
+proto.getIframeBody = function() {
+  return QxDom.getIframeBody(this._frame);
+};
+
+
+
+
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   RESPONSE DATA SUPPORT
@@ -273,24 +299,30 @@ proto.getIframeBody = function() {
   return QxDom.getIframeBody(this._frame);
 };
 
-/*!
-  Provides the response text from the request when available and null otherwise.
-  By passing true as the "partial" parameter of this method, incomplete data will
-  be made available to the caller.
-*/
-proto.getResponseText = function()
+proto.getIframeTextContent = function()
 {
   var vBody = this.getIframeBody();
-  return vBody ? vBody.innerHTML : QxConst.CORE_EMPTY;
+
+  if (!vBody) {
+    return null;
+  };
+
+  // Mshtml returns the content inside a PRE
+  // element if we use plain text
+  if (vBody.firstChild.tagName == "PRE")
+  {
+    return vBody.firstChild.innerHTML;
+  }
+  else
+  {
+    return vBody.innerHTML;
+  };
 };
 
-/*!
-  Provides the XML provided by the response if any and null otherwise.
-  By passing true as the "partial" parameter of this method, incomplete data will
-  be made available to the caller.
-*/
-proto.getResponseXml = function() {
-  return this.getIframeDocument();
+proto.getIframeHtmlContent = function()
+{
+  var vBody = this.getIframeBody();
+  return vBody ? vBody.innerHTML : null;
 };
 
 /*!
@@ -322,24 +354,29 @@ proto.getResponseContent = function()
   switch(this.getMimeType())
   {
     case "text/plain":
-      return this.getResponseText();
+      return this.getIframeTextContent();
+      break;
+
+    case "text/html":
+      return this.getIframeHtmlContent();
+      break;
 
     case "text/json":
     case "text/javascript":
       try {
-        var vReturn = eval(this.getResponseText());
+        var vText = this.getIframeTextContent();
+        return vText ? eval("(" + vText + ")") : null;
       } catch(ex) {
         return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
       };
 
-      return vReturn;
-
     case "application/xml":
-      return this.getResponseXml();
-  };
+      return this.getIframeDocument();
 
-  this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
-  return null;
+    default:
+      this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
+      return null;
+  };
 };
 
 

@@ -54,19 +54,6 @@ if (QxClient.isMshtml())
       return null;
     };
   };
-
-  QxDom.getIframeBody = function(vIframe)
-  {
-    try
-    {
-      var vDoc = QxDom.getIframeDocument(vIframe);
-      return vDoc ? vDoc.body : null;
-    }
-    catch(ex)
-    {
-      return null;
-    };
-  };
 }
 else
 {
@@ -94,17 +81,10 @@ else
       return null;
     };
   };
+};
 
-  QxDom.getIframeBody = function(vIframe)
-  {
-    try
-    {
-      var vDoc = QxDom.getIframeDocument(vIframe);
-      return vDoc ? vDoc.document.body : null;
-    }
-    catch(ex)
-    {
-      return null;
-    };
-  };
+QxDom.getIframeBody = function(vIframe)
+{
+  var vDoc = QxDom.getIframeDocument(vIframe);
+  return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
 };
