@@ -36,9 +36,6 @@ QxXmlHttpTransport.requestObjectCount = 0;
 
 QxXmlHttpTransport.isSupported = function()
 {
-  // Temporary to test the iframe alternative
-  return false;
-
   if (window.XMLHttpRequest)
   {
     // QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
