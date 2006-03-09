@@ -56,9 +56,6 @@ QxGalleryList.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER
 QxGalleryList.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
 QxGalleryList.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
 
-proto.getManager = function() {
-  return this._manager;
-};
 
 
 
@@ -74,6 +71,34 @@ proto._applyElementData = function() {
 };
 
 
+
+/*
+---------------------------------------------------------------------------
+  UTILITIES
+---------------------------------------------------------------------------
+*/
+
+proto.getManager = function() {
+  return this._manager;
+};
+
+
+proto.update = function(vGalleryList)
+{
+  this._manager.deselectAll();
+
+  this._list = vGalleryList;
+
+  var el = this.getElement();
+  el.replaceChild(this.createView(), el.firstChild);
+};
+
+
+proto.removeAll = function()
+{
+  this._manager.deselectAll();
+  this.getElement().innerHTML = QxConst.CORE_EMPTY;
+};
 
 
 /*
