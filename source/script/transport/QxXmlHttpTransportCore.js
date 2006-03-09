@@ -31,6 +31,14 @@
 // the real availability check (activeX stuff and so on) follows at the first real request
 QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
 
+QxXmlHttpTransport.handles =
+{
+  synchronous : true,
+  asynchronous : true,
+  crossdomain : false,
+  mimetypes : [ "text/plain", "text/html", "application/xml", "text/json", "text/javascript" ]
+};
+
 QxXmlHttpTransport.requestObjects = [];
 QxXmlHttpTransport.requestObjectCount = 0;
 
