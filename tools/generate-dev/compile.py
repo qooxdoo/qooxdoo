@@ -123,6 +123,8 @@ BLOCKSEPARATORS = [ ",", ";", ":", "(", ")", "{", "}", "[", "]", "?" ]
 SPACEAROUND = [ "in", "instanceof" ]
 SPACEAFTER = [ "throw", "new", "delete", "var", "typeof", "return" ]
 
+SPACES = re.compile("(\s+)")
+
 BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
 
 R_QXEXTEND = re.compile("([a-zA-Z]+)\.extend\(([a-zA-Z0-9_-]+).*\)")
@@ -130,19 +132,25 @@ R_QXREQUIRE = re.compile("#require\(([a-zA-Z0-9_-]+)\)")
 R_QXPOST = re.compile("#post\(([a-zA-Z0-9_-]+)\)")
 R_QXPACKAGE = re.compile("#package\(([a-zA-Z0-9_-]+)\)")
 
-R_WHITESPACE = re.compile("\s")
-R_NONWHITESPACE = re.compile(".*\S.*")
+R_WHITESPACE = re.compile("\s+")
+R_NONWHITESPACE = re.compile("\S+")
 R_NUMBER = re.compile("^[0-9]+")
+R_NEWLINE = re.compile(r"(\n)")
 
 # Ideas from: http://www.regular-expressions.info/examplesprogrammer.html
 # Multicomment RegExp inspired by: http://ostermiller.org/findcomment.html
 
 # builds regexp strings
-S_MULTICOMMENT = "(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)"
-S_SINGLECOMMENT = "(//.*)"
-S_STRING_A = "('[^'\\\r\n]*(\\.[^'\\\r\n]*)*')"
-S_STRING_B = '("[^"\\\r\n]*(\\.[^"\\\r\n]*)*")'
+S_MULTICOMMENT = "/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/"
+S_SINGLECOMMENT = "//.*"
+S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
+S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
 
+S_OPERATORS_1 = r"=|-|\\|\*|%|,|\.|!|\?|\+"
+S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(\^\|)|(\|=)|(\^=)|(&=)"
+S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
+S_OPERATORS_4 = r"(\>\>\>=)"
+S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + "|" + S_OPERATORS_1 + ")"
 
 S_REGEXP = "(\/[^\t\n\r\f\v]+\/g?i?)"
 S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
@@ -150,17 +158,17 @@ S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ",.*\)"
 S_REGEXP_C = "\s*=\s*" + S_REGEXP
 S_REGEXP_D = S_REGEXP + "\.(test|exec)\(.+\)"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
-S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + ")"
+
+S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_OPERATORS + ")"
 
 # compile regexp strings
 R_MULTICOMMENT = re.compile("^" + S_MULTICOMMENT + "$")
 R_SINGLECOMMENT = re.compile("^" + S_SINGLECOMMENT + "$")
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
 R_STRING_B = re.compile("^" + S_STRING_B + "$")
+R_OPERATORS = re.compile(S_OPERATORS)
 R_REGEXP = re.compile(S_REGEXP)
 R_ALL = re.compile(S_ALL)
-
-
 
 
 
@@ -178,198 +186,176 @@ treecontext = []
 
 
 
-def storepart(part, data):
-  global tokenizerFile
-  global tokenizerLine
-  global operatorMode
-
-  if TOKENS.has_key(part):
-    # print "TOKEN: %s" % TOKENS[part]
-    data.append({ "type" : "token", "detail" : TOKENS[part], "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif PROTECTED.has_key(part):
-    # print "PROTECTED: %s" % PROTECTED[part]
-    data.append({ "type" : "protected", "detail" : PROTECTED[part], "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif part in BUILTIN:
-    data.append({ "type" : "builtin", "detail" : "", "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif R_NUMBER.search(part):
-    # print "NUMBER: %s" % part
-    data.append({ "type" : "number", "detail" : "", "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif part == "__$MULTICOMMENT$__":
-    source = protector.pop(0)
-    data.append({ "type" : "comment", "detail" : "multi", "source" : source, "line" : tokenizerLine, "file" : tokenizerFile })
-
-    # add length of comment
-    tokenizerLine += len(source.split("\n")) - 1
-
-  elif part == "__$SINGLECOMMENT$__":
-    source = protector.pop(0)
-    data.append({ "type" : "comment", "detail" : "single", "source" : source, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif part == "__$STRINGA$__":
-    source = protector.pop(0)
-    data.append({ "type" : "string", "detail" : "singlequotes", "source" : source, "line" : tokenizerLine, "file" : tokenizerFile })
-
-    # add length of string
-    tokenizerLine += len(source.split("\n")) - 1
-
-  elif part == "__$STRINGB$__":
-    source = protector.pop(0)
-    data.append({ "type" : "string", "detail" : "doublequotes", "source" : source, "line" : tokenizerLine, "file" : tokenizerFile })
-
-    # add length of string
-    tokenizerLine += len(source.split("\n")) - 1
-
-  elif part == "__$REGEXP$__":
-    data.append({ "type" : "regexp", "detail" : "", "source" : protector.pop(0), "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif part.startswith("_"):
-    # print "PRIVATE NAME: %s" % part
-    data.append({ "type" : "name", "detail" : "private", "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-  elif len(part) > 0:
-    # print "PUBLIC NAME: %s" % part
-    data.append({ "type" : "name", "detail" : "public", "source" : part, "line" : tokenizerLine, "file" : tokenizerFile })
-
-
-
-
-
-
 
 def recoverEscape(s):
   return s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'")
 
 
-def tokenizer(indata, filename):
+
+def tokenize_name(data):
+  global tokenizerFile
+  global tokenizerLine
+
+  if PROTECTED.has_key(data):
+    # print "PROTECTED: %s" % PROTECTED[data]
+    return { "type" : "protected", "detail" : PROTECTED[data], "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+
+  elif data in BUILTIN:
+    return { "type" : "builtin", "detail" : "", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+
+  elif R_NUMBER.search(data):
+    # print "NUMBER: %s" % data
+    return { "type" : "number", "detail" : "", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+
+  elif data.startswith("_"):
+    # print "PRIVATE NAME: %s" % data
+    return { "type" : "name", "detail" : "private", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+
+  elif len(data) > 0:
+    # print "PUBLIC NAME: %s" % data
+    return { "type" : "name", "detail" : "public", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+
+
+
+def tokenize_part(data):
+  global tokenizerFile
+  global tokenizerLine
+
+  result = []
+  temp = ""
+
+  for line in R_NEWLINE.split(data):
+    if line == "\n":
+      result.append({ "type" : "eol", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
+      tokenizerLine += 1
+
+    else:
+      for item in R_WHITESPACE.split(line):
+        for char in item:
+          if TOKENS.has_key(char):
+            if temp != "":
+              if R_NONWHITESPACE.search(temp):
+                result.append(tokenize_name(temp))
+
+              temp = ""
+
+            result.append({ "type" : "token", "detail" : TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerFile })
+
+          else:
+            temp += char
+
+        if temp != "":
+          if R_NONWHITESPACE.search(temp):
+            result.append(tokenize_name(temp))
+
+          temp = ""
+
+  return result
+
+
+
+def tokenizer(data, filename):
   # make global variables available
   global tokenizerLine
   global tokenizerFile
   global operatorMode
-  global protector
 
   # reset global stuff
-  tokenizerLine = 0
+  tokenizerLine = 1
   tokenizerFile = filename
   operatorMode = False
-  protector = []
-
-
 
   # Protect/Replace Escape sequences first
-  indata = indata.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
+  data = data.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
 
-  # Search for parts which should be protected
-  alllist = R_ALL.findall(indata)
+  # Searching for special characters and sequences
+  alllist = R_ALL.findall(data)
+  tokenized = []
 
   for item in alllist:
     fragment = item[0]
 
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
-      indata = indata.replace(fragment, "__$MULTICOMMENT$__", 1)
-      protector.append(recoverEscape(fragment))
+
+      pos = data.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+      data = data[pos+len(fragment):]
+      tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : tokenizerFile, "line" : tokenizerLine })
+
+      tokenizerLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
-      indata = indata.replace(fragment, "__$SINGLECOMMENT$__", 1)
-      protector.append(recoverEscape(fragment))
+
+      pos = data.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+      data = data[pos+len(fragment):]
+      tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : tokenizerFile, "line" : tokenizerLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
-      indata = indata.replace(fragment, "__$STRINGA$__", 1)
-      protector.append(recoverEscape(fragment)[1:-1])
+
+      pos = data.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+      data = data[pos+len(fragment):]
+      tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
-      indata = indata.replace(fragment, "__$STRINGB$__", 1)
-      protector.append(recoverEscape(fragment)[1:-1])
+
+      pos = data.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+      data = data[pos+len(fragment):]
+      tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
+
+    elif R_OPERATORS.match(fragment):
+      # print "Type:Operator: %s" % fragment
+
+      pos = data.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+      data = data[pos+len(fragment):]
+      tokenized.append({ "type" : "token", "detail" : TOKENS[fragment], "source" : fragment, "file" : tokenizerFile, "line" : tokenizerLine })
 
     else:
       fragresult = R_REGEXP.search(fragment)
       if fragresult:
-        # print "Type:RegExp"
-        indata = indata.replace(fragresult.group(0), "__$REGEXP$__", 1)
-        protector.append(recoverEscape(fragresult.group(0)))
+        # print "Type:RegExp: %s" % fragresult.group(0)
+
+        pos = data.find(fragresult.group(0))
+        if pos > 0:
+          tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+
+        data = data[pos+len(fragresult.group(0)):]
+        tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : tokenizerFile, "line" : tokenizerLine })
 
       else:
         print "Type:None!"
 
 
+  tokenized.extend(tokenize_part(recoverEscape(data)))
 
-
-  # Recover: Protect/Replace Escape sequences first
-  indata = recoverEscape(indata)
-
-  # Split after each line and send through our real tokenizer
-  insplit = indata.split("\n")
-  data = []
-  tempStr = ""
-  lastChar = ""
-
-  for line in insplit:
-    tokenizerLine += 1
-
-    for char in line:
-      if R_WHITESPACE.match(char):
-        if R_NONWHITESPACE.match(tempStr):
-          # print "ANALYSE[1a]: %s" % tempStr
-          storepart(tempStr, data)
-
-        tempStr = ""
-        operatorMode = False
-        continue
-
-      elif char in SEPARATORS:
-        if R_NONWHITESPACE.match(tempStr):
-          # print "ANALYSE[1b]: %s" % tempStr
-          storepart(tempStr, data)
-
-        storepart(char, data)
-        tempStr = ""
-        continue
-
-      else:
-        # handles operator between words, without space
-        # for example: e<f or !this
-        if TOKENS.has_key(char):
-          if ((not operatorMode) and tempStr != "") or (len(tempStr) > 0 and tempStr[-1] == "=" and char != "="):
-            storepart(tempStr, data)
-            tempStr = ""
-
-          operatorMode = True
-
-        elif operatorMode:
-          storepart(tempStr, data)
-          tempStr = ""
-          operatorMode = False
-
-        tempStr += char
-
-        if tempStr == "__$MULTICOMMENT$__" or tempStr == "__$SINGLECOMMENT$__" or tempStr == "__$STRINGA$__" or tempStr == "__$STRINGB$__" or tempStr == "__$REGEXP$__":
-          #print "upps: " + tempStr
-          storepart(tempStr, data)
-          tempStr = ""
-
-
-
-    if tempStr != "":
-      storepart(tempStr, data)
-      tempStr = ""
-
-    # print "EOL"
-    data.append({ "type" : "eol", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
+  tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
+  return tokenized
 
 
 
 
-  # print "EOF"
-  data.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
 
-  return data
+
+
+
+
 
 
 
@@ -403,7 +389,6 @@ def treebuilder(data, item):
 
 
 
-
 def treecloser(need=False):
   global xmlindent
   global treecontext
@@ -431,8 +416,6 @@ def treecloser(need=False):
 
 
 
-
-
 def treeblockstart(typ, det, src):
   global xmlindent
   global treecontext
@@ -446,7 +429,6 @@ def treeblockstart(typ, det, src):
 
 
   tagstart("block")
-
 
 
 
@@ -963,7 +945,7 @@ def main(conf):
         xmloutput = ""
 
         optfilename = os.path.join(conf["outputCompressed"], item + JSEXT)
-        os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compileng_compress.xsl " + outfilename)
+        os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compile_compress.xsl " + outfilename)
 
         if conf["outputCombined"]:
           combined += "/* " + infilename + " */ " + file(optfilename, "r").read()
