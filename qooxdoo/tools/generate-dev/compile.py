@@ -317,7 +317,7 @@ def tokenizer(data, filename):
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
 
     elif R_OPERATORS.match(fragment):
-      print "Type:Operator: %s" % fragment
+      # print "Type:Operator: %s" % fragment
 
       pos = data.find(fragment)
       if pos > 0:
