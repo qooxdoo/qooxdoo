@@ -146,11 +146,10 @@ S_SINGLECOMMENT = "//.*"
 S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
 S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
 
-S_OPERATORS_1 = r"=|-|\\|\*|%|,|\.|!|\?|\+"
 S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(\^\|)|(\|=)|(\^=)|(&=)"
 S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
 S_OPERATORS_4 = r"(\>\>\>=)"
-S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + "|" + S_OPERATORS_1 + ")"
+S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
 S_REGEXP = "(\/[^\t\n\r\f\v]+\/g?i?)"
 S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
@@ -318,7 +317,7 @@ def tokenizer(data, filename):
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
 
     elif R_OPERATORS.match(fragment):
-      # print "Type:Operator: %s" % fragment
+      print "Type:Operator: %s" % fragment
 
       pos = data.find(fragment)
       if pos > 0:
