@@ -1028,7 +1028,7 @@ def start():
   outputCombined = ""
   outputSingle = True
 
-  sourceDirectories = ["source/script", "source/themes"]
+  sourceDirectories = ["source/script"]
   sourceFiles = ""
 
   outputBuild = "build/script"
