@@ -4,7 +4,7 @@ cd `dirname $0`/../../..
 
 echo ">>> Patching files..."
 mkdir -p build/demo
-rsync -rl --exclude=CVS --exclude=.cvsignore source/demo --exclude=demoinclude.js* build
+rsync -rl --exclude=.svn source/demo --exclude=demoinclude.js* build
 
 prevfile=""
 for file in `find source/demo/ -name "*.html"`;
