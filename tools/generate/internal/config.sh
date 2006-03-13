@@ -28,6 +28,7 @@ L="$L script/core/QxDomStyle"
 L="$L script/core/QxDomStyleSheet"
 L="$L script/core/QxDomWindow"
 L="$L script/core/QxDomIframe"
+L="$L script/core/QxDomElement"
 
 # Common qooxdoo objects
 L="$L script/core/QxDebug"
