@@ -29,7 +29,7 @@
 /*!
   Removes whitespace-only text node children
 */
-QxDom.cleanElementWhitespace: function(vElement)
+QxDom.cleanElementWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
   {
