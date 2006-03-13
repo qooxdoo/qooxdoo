@@ -24,7 +24,7 @@ echo ">>> Syncing files..."
 rsync -rl --delete build/demo build/docs build/images $dir/$unixbasename
 rsync -rl --delete --exclude=*.js build/themes $dir/$unixbasename
 rsync -rl --delete build/script/qooxdoo.js* $dir/$unixbasename/script
-rsync -l --delete --exclude=CVS --exclude=.cvsignore [A-Z]* $dir/$unixbasename
+rsync -l --delete --exclude=.svn [A-Z]* $dir/$unixbasename
 echo ">>> Done"
 
 cd $dir
