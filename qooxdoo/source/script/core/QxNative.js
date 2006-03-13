@@ -492,6 +492,20 @@ Function.prototype.closure = function(obj)
   };
 };
 
+/*
+  TODO
+  Testing, by prototype.js
+  Is this really leak-free?
+*/
+/*
+Function.prototype.bind = function() {
+  var __method = this, args = $A(arguments), object = args.shift();
+  return function() {
+    return __method.apply(object, args.concat($A(arguments)));
+  };
+};
+*/
+
 // impliment function apply for browsers which don't support it natively
 if (!Function.prototype.apply)
 {
