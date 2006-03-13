@@ -4,16 +4,17 @@ cd `dirname $0`/../../..
 
 echo ">>> Generating Changelog..."
 
-if [ -r CHANGELOG ]; 
-then
-  cp -f CHANGELOG CHANGELOG.old
-  tools/generate/distribution/internal/cvs2cl.pl --accum -f CHANGELOG
-else
-  tools/generate/distribution/internal/cvs2cl.pl -f CHANGELOG
-fi
+chdir="build/docs/changelog"
+mkdir -p $chdir
 
-if [ $? = 0 ]; then
-  rm -f CHANGELOG.*
-fi
+echo "  * XML..."
+rm -f $chdir/changelog.xml
+svn log --xml --verbose > $chdir/changelog.xml
 
+echo "  * Text..."
+xsltproc tools/generate/distribution/internal/svn2cl.xsl $chdir/changelog.xml > CHANGELOG
+cp -f CHANGELOG $chdir/changelog.txt
+
+echo ">>> Fixing file rights"
+find build/docs/changelog/ -type f | xargs chmod 644
 echo ">>> Done"
