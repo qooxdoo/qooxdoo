@@ -141,14 +141,18 @@ proto._createHueSaturationPane = function()
   this._hueSaturationPane.setPadding(6, 4);
   this._hueSaturationPane.setParent(this._controlBar);
 
-  this._hueSaturation = new QxImage("core/huesaturation-field.jpg");
-  this._hueSaturation.setBorder(QxBorderObject.presets.thinInset);
-  this._hueSaturation.setMargin(5, 2);
-  this._hueSaturation.setParent(this._hueSaturationPane);
+  this._hueSaturationField = new QxImage("core/huesaturation-field.jpg");
+  this._hueSaturationField.setBorder(QxBorderObject.presets.thinInset);
+  this._hueSaturationField.setMargin(5);
+  this._hueSaturationField.setParent(this._hueSaturationPane);
 
   this._hueSaturationHandle = new QxImage("core/huesaturation-handle.gif");
   this._hueSaturationHandle.setLocation(0, 0);
   this._hueSaturationHandle.setParent(this._hueSaturationPane);
+
+  this._hueSaturationHandle.addEventListener("mousedown", this._onHueSaturationHandleMouseDown);
+  this._hueSaturationHandle.addEventListener("mouseup", this._onHueSaturationHandleMouseUp);
+  this._hueSaturationHandle.addEventListener("mousemove", this._onHueSaturationHandleMouseMove);
 };
 
 proto._createBrightnessPane = function()
@@ -158,42 +162,18 @@ proto._createBrightnessPane = function()
   this._brightnessPane.setPadding(6, 4);
   this._brightnessPane.setParent(this._controlBar);
 
-  this._brightness = new QxImage("core/brightness-field.jpg");
-  this._brightness.setBorder(QxBorderObject.presets.thinInset);
-  this._brightness.setMargin(5, 7);
-  this._brightness.setParent(this._brightnessPane);
+  this._brightnessField = new QxImage("core/brightness-field.jpg");
+  this._brightnessField.setBorder(QxBorderObject.presets.thinInset);
+  this._brightnessField.setMargin(5, 7);
+  this._brightnessField.setParent(this._brightnessPane);
 
   this._brightnessHandle = new QxImage("core/brightness-handle.gif");
   this._brightnessHandle.setLocation(0, 0);
   this._brightnessHandle.setParent(this._brightnessPane);
 
-  this._brightnessHandle.addEventListener("mousedown", function(e)
-  {
-    this.setCapture(true);
-
-    // Store offset of mouse on mousedown
-    this._brightnessMouseOffset = -QxDom.getComputedPageBoxTop(this.getElement())+e.getPageY();
-  });
-
-  this._brightnessHandle.addEventListener("mouseup", function(e)
-  {
-    this.setCapture(false);
-
-    // Clear stored offset
-    delete this._brightnessMouseOffset;
-  });
-
-  this._brightnessHandle.addEventListener("mousemove", function(e)
-  {
-    if (!this.getCapture()) {
-      return;
-    };
-
-    var vValue = (e.getPageY() - this._brightnessMouseOffset - QxDom.getComputedPageBoxTop(this.getParent().getElement()) - this.getParent().getFirstChild().getMarginTop()).limit(0, 255);
-
-    this.setTop(vValue);
-    this.getParent().getParent().getParent().setBrightness(Math.round(vValue / 2.56));
-  });
+  this._brightnessHandle.addEventListener("mousedown", this._onBrightnessHandleMouseDown);
+  this._brightnessHandle.addEventListener("mouseup", this._onBrightnessHandleMouseUp);
+  this._brightnessHandle.addEventListener("mousemove", this._onBrightnessHandleMouseMove);
 };
 
 
@@ -416,4 +396,90 @@ proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
   this._hsbSpinBrightness.setValue(propValue);
   return true;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  BRIGHTNESS IMPLEMENTATION
+---------------------------------------------------------------------------
+*/
+
+proto._onBrightnessHandleMouseDown = function(e)
+{
+ this.setCapture(true);
+
+  // Store offset of mouse on mousedown
+  this._brightnessMouseOffset = -QxDom.getComputedPageBoxTop(this.getElement())+e.getPageY();
+};
+
+proto._onBrightnessHandleMouseUp = function(e)
+{
+  this.setCapture(false);
+
+  // Clear stored offset
+  delete this._brightnessMouseOffset;
+};
+
+proto._onBrightnessHandleMouseMove = function(e)
+{
+  if (!this.getCapture()) {
+    return;
+  };
+
+  var vValue = (e.getPageY() - this._brightnessMouseOffset - QxDom.getComputedPageBoxTop(this.getParent().getElement()) - this.getParent().getFirstChild().getMarginTop()).limit(0, 256);
+
+  this.setTop(vValue);
+  this.getParent().getParent().getParent().setBrightness(Math.round(vValue / 2.56));
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HUE/SATURATION IMPLEMENTATION
+---------------------------------------------------------------------------
+*/
+
+proto._onHueSaturationHandleMouseDown = function(e)
+{
+ this.setCapture(true);
+
+  // Store offset of mouse on mousedown
+  this._hueSaturationMouseOffsetTop = -QxDom.getComputedPageBoxTop(this.getElement())+e.getPageY();
+  this._hueSaturationMouseOffsetLeft = -QxDom.getComputedPageBoxLeft(this.getElement())+e.getPageX();
+};
+
+proto._onHueSaturationHandleMouseUp = function(e)
+{
+  this.setCapture(false);
+
+  // Clear stored offsets
+  delete this._hueSaturationMouseOffsetTop;
+  delete this._hueSaturationMouseOffsetLeft
+};
+
+proto._onHueSaturationHandleMouseMove = function(e)
+{
+  if (!this.getCapture()) {
+    return;
+  };
+
+  var vTop = (e.getPageY() - this._hueSaturationMouseOffsetTop - QxDom.getComputedPageBoxTop(this.getParent().getElement()) - this.getParent().getFirstChild().getMarginTop()).limit(0, 256);
+  var vLeft = (e.getPageX() - this._hueSaturationMouseOffsetLeft - QxDom.getComputedPageBoxLeft(this.getParent().getElement()) - this.getParent().getFirstChild().getMarginLeft()).limit(0, 256);
+
+  this.setTop(vTop);
+  this.setLeft(vLeft);
+
+  this.getParent().getParent().getParent().setHue(Math.round(vLeft * 1.40625));
+  this.getParent().getParent().getParent().setSaturation(Math.round(vTop / 2.56));
 };
