@@ -11,11 +11,11 @@ h4. Documentation
 
 h4. AJAX Layer
 
-# Implement QxRequestQueue
-## queuing
-## timeouts
-## non-caching (IE!)
-# Implement QxIFrameTransport
+# Implement QxRequestQueue (Done)
+## queuing (Done)
+## timeouts (Done)
+## non-caching (IE!) (Done)
+# Implement QxIFrameTransport (Done, but without form submission)
 # Implement Data Provider
 ## json
 ## xml
