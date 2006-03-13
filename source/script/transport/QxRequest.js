@@ -35,6 +35,18 @@ function QxRequest(vUrl)
 
   this.setUrl(vUrl);
   this.setProhibitCaching(true);
+
+  // TODO:
+  // Should we add implicit handling like this?
+  /*
+  if (this.getMethod() === QxConst.METHOD_POST) {
+    this.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  };
+  */
+
+  // Prototype-Style Request Headers
+  this.setRequestHeader("X-Requested-With", "qooxdoo");
+  this.setRequestHeader("X-Qooxdoo-Version", QxMain.version);
 };
 
 QxRequest.extend(QxTarget, "QxRequest");
