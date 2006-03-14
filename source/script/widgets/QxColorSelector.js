@@ -611,7 +611,7 @@ proto._setBrightnessOnFieldEvent = function(e)
   this._updateContext = "brightnessField";
 
   this._brightnessHandle.setTop(vValue);
-  this.setBrightness(100-Math.round(vValue / 2.56));
+  this.setBrightness(Math.round(vValue / 2.56));
 
   this._updateContext = null;
 };
