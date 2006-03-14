@@ -1,6 +1,80 @@
+2006-03-13 16:56  wpbasti
+
+  * [r2683] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Moved brightness handling out of creator function, added support for
+    hue/saturation control
+
+2006-03-13 16:39  wpbasti
+
+  * [r2682] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Structured code of color selector
+
+2006-03-13 15:36  wpbasti
+
+  * [r2681] trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
+    trunk/qooxdoo/source/script/transport/QxRequest.js:
+    Fixed req headers
+
+2006-03-13 14:57  wpbasti
+
+  * [r2680] trunk/qooxdoo/TODO:
+    Updated TODO
+
+2006-03-13 14:52  wpbasti
+
+  * [r2679] trunk/qooxdoo/source/demo/index.html:
+    Improved index demo
+
+2006-03-13 14:22  wpbasti
+
+  * [r2678] trunk/qooxdoo/tools/utils/print-diff.sh:
+    Removed old cvs related tool
+  * [r2677]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
+    trunk/qooxdoo/tools/generate/distribution/make-source-release.sh,
+    trunk/qooxdoo/tools/generate/internal/patchdemos.sh,
+    trunk/qooxdoo/tools/generate/internal/syncfiles.sh:
+    Removed cvs related excludes in sync scripts, added .svn directory
+
+2006-03-13 14:18  wpbasti
+
+  * [r2676]
+    trunk/qooxdoo/tools/generate/distribution/internal/changelog_html.xsl,
+    trunk/qooxdoo/tools/generate/distribution/internal/changelog_rss.xsl,
+    trunk/qooxdoo/tools/generate/distribution/internal/cvs2cl.pl:
+    Removed old cvs related stuff
+
+2006-03-13 14:17  wpbasti
+
+  * [r2675] trunk/qooxdoo/CHANGELOG,
+    trunk/qooxdoo/tools/generate/distribution/internal/svn2cl.xsl,
+    trunk/qooxdoo/tools/generate/distribution/make-changelog.sh,
+    trunk/qooxdoo/tools/generate/distribution/make-sync-changelog.sh:
+    Updating build scripts (for changelog) to use subversion
+
+2006-03-13 14:16  wpbasti
+
+  * [r2674] trunk/qooxdoo/source/script/core/QxDomElement.js:
+    Minor fix
+
+2006-03-13 12:58  wpbasti
+
+  * [r2673] trunk/qooxdoo/tools/generate/internal/config.sh:
+    New features inspired by prototype
+  * [r2672] trunk/qooxdoo/source/script/transport/QxCommonTransport.js:
+    Some more implicit additions to transport layer
+
+2006-03-13 12:57  wpbasti
+
+  * [r2671] trunk/qooxdoo/source/script/core/QxNative.js:
+    New test for prototype style bind method
+  * [r2670] trunk/qooxdoo/source/script/core/QxDomElement.js:
+    New features inspired by prototype
+
 2006-03-13 11:01  wpbasti
 
-  * trunk/qooxdoo/source/themes/icons/crystalsvg/128/mime-archive.png,
+  * [r2669]
+    trunk/qooxdoo/source/themes/icons/crystalsvg/128/mime-archive.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/128/mime-binary.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/128/mime-calendar.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/128/mime-card.png,
@@ -326,12 +400,12 @@
     trunk/qooxdoo/source/themes/icons/nuvola/64/mime-sourcecode.png,
     trunk/qooxdoo/source/themes/icons/nuvola/64/mime-spreadsheet.png,
     trunk/qooxdoo/source/themes/icons/nuvola/64/mime-text.png,
-    trunk/qooxdoo/source/themes/icons/nuvola/64/mime-video.png: Added
-    mimetype icons
+    trunk/qooxdoo/source/themes/icons/nuvola/64/mime-video.png:
+    Added mimetype icons
 
 2006-03-13 10:07  wpbasti
 
-  * branches/Branch_RELEASE_0_1_5/qooxdoo,
+  * [r2668] branches/Branch_RELEASE_0_1_5/qooxdoo,
     branches/Branch_RELEASE_0_1_5/qooxdoo/.cvsignore,
     branches/Branch_RELEASE_0_1_5/qooxdoo/source/images/core,
     branches/Branch_RELEASE_0_1_5/qooxdoo/source/images/core/.cvsignore,
@@ -1077,36 +1151,37 @@
     trunk/qooxdoo/source/themes/widgets/windows/window/.cvsignore,
     trunk/qooxdoo/tools, trunk/qooxdoo/tools/.cvsignore,
     trunk/qooxdoo/tools/generate/internal,
-    trunk/qooxdoo/tools/generate/internal/.cvsignore: Converted .cvsignore
-    to subversion properties
+    trunk/qooxdoo/tools/generate/internal/.cvsignore:
+    Converted .cvsignore to subversion properties
 
 2006-03-10 10:48  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compile.py: Excluded themes per
-    default
+  * [r2665] trunk/qooxdoo/tools/generate-dev/compile.py:
+    Excluded themes per default
 
 2006-03-10 10:26  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compile.py: Minor cleanup
+  * [r2664] trunk/qooxdoo/tools/generate-dev/compile.py:
+    Minor cleanup
 
 2006-03-10 10:11  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compile.py: Minor fix for single
-    operators
+  * [r2663] trunk/qooxdoo/tools/generate-dev/compile.py:
+    Minor fix for single operators
 
 2006-03-10 09:53  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compile.py,
+  * [r2662] trunk/qooxdoo/tools/generate-dev/compile.py,
     trunk/qooxdoo/tools/generate-dev/compile_compress.xsl,
     trunk/qooxdoo/tools/generate-dev/compile_structure.xsl,
     trunk/qooxdoo/tools/generate-dev/compileng.py,
     trunk/qooxdoo/tools/generate-dev/compileng_compress.xsl,
-    trunk/qooxdoo/tools/generate-dev/compileng_structure.xsl: New and
-    greatly improved tokenizer, renamed from compileng to compile
+    trunk/qooxdoo/tools/generate-dev/compileng_structure.xsl:
+    New and greatly improved tokenizer, renamed from compileng to compile
 
 2006-03-09 12:09  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_1.html,
+  * [r2661] trunk/qooxdoo/source/demo/test/Transport_1.html,
     trunk/qooxdoo/source/demo/test/Transport_2.html,
     trunk/qooxdoo/source/demo/test/Transport_4.html,
     trunk/qooxdoo/source/demo/test/Transport_5.html,
@@ -1121,26 +1196,29 @@
 
 2006-03-09 11:30  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js: Minor
-    improvement
+  * [r2660]
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js:
+    Minor improvement
 
 2006-03-09 11:26  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxMain.js: Version bump
+  * [r2659] trunk/qooxdoo/source/script/core/QxMain.js:
+    Version bump
 
 2006-03-09 11:23  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxIframeTransport.js: Minor
-    debug msg cleanup
+  * [r2658] trunk/qooxdoo/source/script/transport/QxIframeTransport.js:
+    Minor debug msg cleanup
 
 2006-03-09 11:22  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js:
+  * [r2657]
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js:
     Switched back to xmlhttp
 
 2006-03-09 11:18  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_4.html,
+  * [r2656] trunk/qooxdoo/source/demo/test/Transport_4.html,
     trunk/qooxdoo/source/demo/test/Transport_5.html,
     trunk/qooxdoo/source/demo/test/Transport_6.html,
     trunk/qooxdoo/source/demo/test/data/persons/anita.html,
@@ -1155,13 +1233,14 @@
     trunk/qooxdoo/source/script/core/QxDomIframe.js,
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: More
-    improvements to iframe layer, implemented json/javascript and html
-    mimetype support, many new examples
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    More improvements to iframe layer, implemented json/javascript and
+    html mimetype support, many new examples
 
 2006-03-09 08:47  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
+  * [r2655]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-changelog.sh,
     trunk/qooxdoo/tools/generate/distribution/make-source-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh,
@@ -1189,42 +1268,42 @@
     trunk/qooxdoo/tools/utils/print-classlist.sh,
     trunk/qooxdoo/tools/utils/print-diff.sh,
     trunk/qooxdoo/tools/utils/print-fullsize.sh,
-    trunk/qooxdoo/tools/utils/print-propertylist.sh: Using env command
-    instead of hard-coded path for bash execution
+    trunk/qooxdoo/tools/utils/print-propertylist.sh:
+    Using env command instead of hard-coded path for bash execution
 
 2006-03-09 08:43  wpbasti
 
-  * trunk/qooxdoo/source/script/gui/QxWidget.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Some additions
-    and fixes from Jason Priebe
+  * [r2654] trunk/qooxdoo/source/script/gui/QxWidget.js,
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Some additions and fixes from Jason Priebe
 
 2006-03-08 20:15  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxIframeTransport.js: Fixed
-    missing semicolon
+  * [r2653] trunk/qooxdoo/source/script/transport/QxIframeTransport.js:
+    Fixed missing semicolon
 
 2006-03-08 17:02  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_4.html,
+  * [r2652] trunk/qooxdoo/source/demo/test/Transport_4.html,
     trunk/qooxdoo/source/demo/test/data/persons/anita.txt,
     trunk/qooxdoo/source/demo/test/data/persons/harald.txt,
     trunk/qooxdoo/source/demo/test/data/persons/lisbeth.txt,
     trunk/qooxdoo/source/demo/test/data/persons/paul.txt,
     trunk/qooxdoo/source/script/core/QxDomIframe.js,
-    trunk/qooxdoo/source/script/transport/QxIframeTransport.js: More
-    iframe improvements and gecko bugfixes, new example and text data
+    trunk/qooxdoo/source/script/transport/QxIframeTransport.js:
+    More iframe improvements and gecko bugfixes, new example and text data
     files added
 
 2006-03-08 16:41  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDomIframe.js,
+  * [r2651] trunk/qooxdoo/source/script/core/QxDomIframe.js,
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js:
     Multiple iframe updates/fixes
 
 2006-03-08 12:54  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_1.html,
+  * [r2650] trunk/qooxdoo/source/demo/test/Transport_1.html,
     trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxResponse.js,
@@ -1236,43 +1315,47 @@
 
 2006-03-08 12:52  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxTransportCore.js: Minor
-    fix/improvement for local loads in IE
+  * [r2649] trunk/qooxdoo/source/script/transport/QxTransportCore.js:
+    Minor fix/improvement for local loads in IE
 
 2006-03-08 12:18  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
+  * [r2648] trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
     trunk/qooxdoo/source/script/core/QxDomIframe.js,
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
-    trunk/qooxdoo/tools/generate/internal/config.sh: Improved iframe
-    transport
+    trunk/qooxdoo/tools/generate/internal/config.sh:
+    Improved iframe transport
 
 2006-03-08 12:10  wpbasti
 
-  * trunk/qooxdoo/source/demo/demolayout.css: Minor log window fix
+  * [r2647] trunk/qooxdoo/source/demo/demolayout.css:
+    Minor log window fix
 
 2006-03-08 10:15  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxIframeTransport.js: More
-    progress on iframe implementation
+  * [r2646] trunk/qooxdoo/source/script/transport/QxIframeTransport.js:
+    More progress on iframe implementation
 
 2006-03-08 09:37  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxIframeTransportCore.js: Added
-  * trunk/qooxdoo/source/script/transport/QxTransport.js: Bugfix for
-    selection of implementation
+  * [r2645]
+    trunk/qooxdoo/source/script/transport/QxIframeTransportCore.js:
+    Added
+  * [r2644] trunk/qooxdoo/source/script/transport/QxTransport.js:
+    Bugfix for selection of implementation
 
 2006-03-08 09:17  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
+  * [r2643] trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js,
-    trunk/qooxdoo/tools/generate/internal/config.sh: Splitted out iframe
-    core
+    trunk/qooxdoo/tools/generate/internal/config.sh:
+    Splitted out iframe core
 
 2006-03-08 09:09  wpbasti
 
-  * trunk/qooxdoo/source/contributed/buttonpane_olsson/ButtonPane_1.html,
+  * [r2642]
+    trunk/qooxdoo/source/contributed/buttonpane_olsson/ButtonPane_1.html,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
     trunk/qooxdoo/source/contributed/dialog_olsson/Definitions.js,
@@ -1289,167 +1372,187 @@
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js,
-    trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Fixed files
+    trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Fixed files
 
 2006-03-08 09:08  wpbasti
 
-  * trunk/qooxdoo/tools/utils/fix-all.sh,
-    trunk/qooxdoo/tools/utils/fix-trimright.sh: Removed buggy trim-right
+  * [r2641] trunk/qooxdoo/tools/utils/fix-all.sh,
+    trunk/qooxdoo/tools/utils/fix-trimright.sh:
+    Removed buggy trim-right
 
 2006-03-08 09:07  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
-    trunk/qooxdoo/source/script/transport/QxIframeTransport.js: Added
-    placeholder dummy functions to iframe transport
+  * [r2640] trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
+    trunk/qooxdoo/source/script/transport/QxIframeTransport.js:
+    Added placeholder dummy functions to iframe transport
 
 2006-03-08 09:05  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
+  * [r2639] trunk/qooxdoo/source/script/transport/QxCommonTransport.js,
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransportCore.js,
-    trunk/qooxdoo/tools/generate/internal/config.sh: Created common
-    transport interface, moved some parts from QxXmlHttpTransport to this
-    new class, moved core parts of QxXmlHttpTransport to
-    QxXmlHttpTransportCore
+    trunk/qooxdoo/tools/generate/internal/config.sh:
+    Created common transport interface, moved some parts from
+    QxXmlHttpTransport to this new class, moved core parts of
+    QxXmlHttpTransport to QxXmlHttpTransportCore
 
 2006-03-08 08:33  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Make overflow hidden
-    for inner canvas layout
-  * trunk/qooxdoo/source/themes/appearance/default/theme.js: Enhanced
-    title bar handling for window
+  * [r2638] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Make overflow hidden for inner canvas layout
+  * [r2637] trunk/qooxdoo/source/themes/appearance/default/theme.js:
+    Enhanced title bar handling for window
 
 2006-03-08 08:16  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxIconHtml.js: Minor image and
-    html handling improvement for list-view cells
+  * [r2636] trunk/qooxdoo/source/script/widgets/QxIconHtml.js:
+    Minor image and html handling improvement for list-view cells
 
 2006-03-08 08:05  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxApplication.js: More intelligent
-    creation: Don't create client window if not available
+  * [r2635] trunk/qooxdoo/source/script/core/QxApplication.js:
+    More intelligent creation: Don't create client window if not available
 
 2006-03-08 08:04  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2634] trunk/qooxdoo/TODO:
+    Updated
 
 2006-03-08 08:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxListViewContentCellImage.js:
+  * [r2633]
+    trunk/qooxdoo/source/script/widgets/QxListViewContentCellImage.js:
     Small fix for problematic image sizing in list-view widget
 
 2006-03-07 15:57  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxObject.js,
-    trunk/qooxdoo/source/script/core/QxTarget.js: Fixed dep entries
+  * [r2632] trunk/qooxdoo/source/script/core/QxObject.js,
+    trunk/qooxdoo/source/script/core/QxTarget.js:
+    Fixed dep entries
 
 2006-03-07 15:16  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxObject.js: Added more dep entries
+  * [r2631] trunk/qooxdoo/source/script/core/QxObject.js:
+    Added more dep entries
 
 2006-03-07 14:01  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compileng.py: Minor cleanup
+  * [r2630] trunk/qooxdoo/tools/generate-dev/compileng.py:
+    Minor cleanup
 
 2006-03-07 14:00  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxObject.js: Minor dep fix
-  * trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
+  * [r2629] trunk/qooxdoo/source/script/core/QxObject.js:
+    Minor dep fix
+  * [r2628] trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Minor
-    dependency fixes
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Minor dependency fixes
 
 2006-03-07 13:59  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compileng.py,
-    trunk/qooxdoo/tools/generate-dev/compileng_compress.xsl: Changed:
-    Added semicolon to last block of file, remove additional new line
+  * [r2627] trunk/qooxdoo/tools/generate-dev/compileng.py,
+    trunk/qooxdoo/tools/generate-dev/compileng_compress.xsl:
+    Changed: Added semicolon to last block of file, remove additional new
+    line
 
 2006-03-07 11:06  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Fixing clicks
-    on images with links
+  * [r2626] trunk/qooxdoo/TODO:
+    Updated
+  * [r2625] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Fixing clicks on images with links
 
 2006-03-06 16:42  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxRequest.js,
+  * [r2624] trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
     trunk/qooxdoo/source/script/transport/QxTransportCore.js,
     trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js,
-    trunk/qooxdoo/tools/generate/internal/config.sh: Implemented request
-    headers, greatly improved error handling (moved away from xmlhttp to
-    transport), many cleanups and structuring
-  * trunk/qooxdoo/source/script/core/QxClient.js: Added local detection
+    trunk/qooxdoo/tools/generate/internal/config.sh:
+    Implemented request headers, greatly improved error handling (moved
+    away from xmlhttp to transport), many cleanups and structuring
+  * [r2623] trunk/qooxdoo/source/script/core/QxClient.js:
+    Added local detection
 
 2006-03-06 15:19  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js: Added typical mimetypes
+  * [r2622] trunk/qooxdoo/source/script/core/QxConst.js:
+    Added typical mimetypes
 
 2006-03-06 15:17  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/IconHtml_1.html,
+  * [r2621] trunk/qooxdoo/source/demo/test/IconHtml_1.html,
     trunk/qooxdoo/source/demo/test/Transport_1.html,
     trunk/qooxdoo/source/demo/test/Transport_2.html,
-    trunk/qooxdoo/source/demo/test/UserData_1.html: Removed, example for
-    old API
+    trunk/qooxdoo/source/demo/test/UserData_1.html:
+    Removed, example for old API
 
 2006-03-06 12:25  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_1.html,
+  * [r2620] trunk/qooxdoo/source/demo/test/Transport_1.html,
     trunk/qooxdoo/source/demo/test/Transport_2.html,
-    trunk/qooxdoo/source/script/transport/QxResponse.js: Added response
-    header output
+    trunk/qooxdoo/source/script/transport/QxResponse.js:
+    Added response header output
 
 2006-03-06 12:14  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/data/persons/anita.xml,
+  * [r2619] trunk/qooxdoo/source/demo/test/data/persons/anita.xml,
     trunk/qooxdoo/source/demo/test/data/persons/harald.xml,
     trunk/qooxdoo/source/demo/test/data/persons/lisbeth.xml,
-    trunk/qooxdoo/source/demo/test/data/persons/paul.xml: Cleanup
+    trunk/qooxdoo/source/demo/test/data/persons/paul.xml:
+    Cleanup
 
 2006-03-06 11:33  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js,
+  * [r2618] trunk/qooxdoo/source/script/core/QxConst.js,
     trunk/qooxdoo/source/script/core/QxMain.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxResponse.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Improved
-    status error handling even more, added support for responseHeaders
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Improved status error handling even more, added support for
+    responseHeaders
 
 2006-03-06 10:35  wpbasti
 
-  * trunk/qooxdoo/TODO, trunk/qooxdoo/source/script/widgets/QxAtom.js,
+  * [r2617] trunk/qooxdoo/TODO,
+    trunk/qooxdoo/source/script/widgets/QxAtom.js,
     trunk/qooxdoo/source/script/widgets/QxBarView.js,
     trunk/qooxdoo/source/script/widgets/QxBlocker.js,
     trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
     trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
-    trunk/qooxdoo/source/script/widgets/QxComboBox.js: Improved
-    documentation for classes
+    trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    Improved documentation for classes
 
 2006-03-06 09:42  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2616] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-03-06 08:34  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTreeElement.js: Minor bugfix
+  * [r2615] trunk/qooxdoo/source/script/widgets/QxTreeElement.js:
+    Minor bugfix
 
 2006-03-04 11:11  wpbasti
 
-  * trunk/qooxdoo/source/contributed/buttonpane_olsson/ButtonPane_1.html,
+  * [r2614]
+    trunk/qooxdoo/source/contributed/buttonpane_olsson/ButtonPane_1.html,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/OptionPane_1.html,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/OptionPane_2.html,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/QxOptionPane.js,
-    trunk/qooxdoo/source/contributed/buttonpane_olsson/README: Updated
+    trunk/qooxdoo/source/contributed/buttonpane_olsson/README:
+    Updated
 
 2006-03-04 07:16  wpbasti
 
-  * trunk/qooxdoo/source/contributed/statusbar_olsson/Definitions.js,
+  * [r2613]
+    trunk/qooxdoo/source/contributed/statusbar_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/statusbar_olsson/Frame_1.html,
     trunk/qooxdoo/source/contributed/statusbar_olsson/QxFrame.js,
     trunk/qooxdoo/source/contributed/statusbar_olsson/QxStatusBar.js,
@@ -1463,60 +1566,62 @@
 
 2006-03-04 07:13  wpbasti
 
-  * trunk/qooxdoo/source/contributed/dialog_olsson/README,
-    trunk/qooxdoo/source/contributed/dialog_olsson/README.txt: Renamed
-    README
-  * trunk/qooxdoo/source/contributed/frame_olsson/Definitions.js,
+  * [r2612] trunk/qooxdoo/source/contributed/dialog_olsson/README,
+    trunk/qooxdoo/source/contributed/dialog_olsson/README.txt:
+    Renamed README
+  * [r2611] trunk/qooxdoo/source/contributed/frame_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/frame_olsson/Frame_1.html,
     trunk/qooxdoo/source/contributed/frame_olsson/QxFrame.js,
     trunk/qooxdoo/source/contributed/frame_olsson/QxUtil.js,
     trunk/qooxdoo/source/contributed/frame_olsson/QxWindow.js,
-    trunk/qooxdoo/source/contributed/frame_olsson/README: Updated frame
-    contribution
+    trunk/qooxdoo/source/contributed/frame_olsson/README:
+    Updated frame contribution
 
 2006-03-03 11:44  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_3.html: Changed max numbers
+  * [r2610] trunk/qooxdoo/source/demo/test/Transport_3.html:
+    Changed max numbers
 
 2006-03-03 11:43  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh,
-    trunk/qooxdoo/tools/generate/distribution/make-sync.sh: Minor
-    optimizations
+  * [r2609] trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh,
+    trunk/qooxdoo/tools/generate/distribution/make-sync.sh:
+    Minor optimizations
 
 2006-03-03 11:26  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_1.html,
+  * [r2608] trunk/qooxdoo/source/demo/test/Transport_1.html,
     trunk/qooxdoo/source/demo/test/Transport_2.html,
-    trunk/qooxdoo/source/demo/test/Transport_3.html: Added new example,
-    improved old ones
-  * trunk/qooxdoo/source/script/transport/QxRequestQueue.js: Bigger
-    default timeout
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
+    trunk/qooxdoo/source/demo/test/Transport_3.html:
+    Added new example, improved old ones
+  * [r2607] trunk/qooxdoo/source/script/transport/QxRequestQueue.js:
+    Bigger default timeout
+  * [r2606]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-source-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh,
     trunk/qooxdoo/tools/generate/distribution/make-sync-changelog.sh,
     trunk/qooxdoo/tools/generate/distribution/make-sync.sh,
     trunk/qooxdoo/tools/generate/make-build.sh,
     trunk/qooxdoo/tools/generate/make-docs.sh,
-    trunk/qooxdoo/tools/utils/fix-rights.sh: Improved file rights handling
-    in tools
+    trunk/qooxdoo/tools/utils/fix-rights.sh:
+    Improved file rights handling in tools
 
 2006-03-03 10:44  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/Transport_1.html,
-    trunk/qooxdoo/source/demo/test/Transport_2.html: Improved transport
-    demos
+  * [r2605] trunk/qooxdoo/source/demo/test/Transport_1.html,
+    trunk/qooxdoo/source/demo/test/Transport_2.html:
+    Improved transport demos
 
 2006-03-03 10:29  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/DataHandling_1.html,
-    trunk/qooxdoo/source/demo/test/DataHandling_2.html: Remove examples of
-    deprecated code
+  * [r2604] trunk/qooxdoo/source/demo/test/DataHandling_1.html,
+    trunk/qooxdoo/source/demo/test/DataHandling_2.html:
+    Remove examples of deprecated code
 
 2006-03-03 10:27  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/data/filesize,
+  * [r2603] trunk/qooxdoo/source/demo/test/data/filesize,
     trunk/qooxdoo/source/demo/test/data/filesize/4000kb.xml,
     trunk/qooxdoo/source/demo/test/data/filesize/400kb.xml,
     trunk/qooxdoo/source/demo/test/data/filesize/40kb.xml,
@@ -1526,102 +1631,110 @@
     trunk/qooxdoo/source/demo/test/data/persons/anita.xml,
     trunk/qooxdoo/source/demo/test/data/persons/harald.xml,
     trunk/qooxdoo/source/demo/test/data/persons/lisbeth.xml,
-    trunk/qooxdoo/source/demo/test/data/persons/paul.xml: Cleanup data
-    folder
+    trunk/qooxdoo/source/demo/test/data/persons/paul.xml:
+    Cleanup data folder
 
 2006-03-03 10:18  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Transport_1.html,
+  * [r2602] trunk/qooxdoo/source/demo/example/Transport_1.html,
     trunk/qooxdoo/source/demo/example/data,
     trunk/qooxdoo/source/demo/test/Transport_1.html,
-    trunk/qooxdoo/source/demo/test/Transport_2.html: Moved and cleanup
+    trunk/qooxdoo/source/demo/test/Transport_2.html:
+    Moved and cleanup
 
 2006-03-03 10:17  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Minor fix
+  * [r2601] trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Minor fix
 
 2006-03-03 10:06  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxPopup.js: Minor fix
+  * [r2600] trunk/qooxdoo/source/script/widgets/QxPopup.js:
+    Minor fix
 
 2006-03-03 08:44  wpbasti
 
-  * trunk/qooxdoo/source/contributed/dialog_olsson/QxWindow.diff: Minor
-    cleanup
+  * [r2599] trunk/qooxdoo/source/contributed/dialog_olsson/QxWindow.diff:
+    Minor cleanup
 
 2006-03-03 07:44  wpbasti
 
-  * trunk/qooxdoo/source/contributed/dialog_olsson/Definitions.js,
+  * [r2598] trunk/qooxdoo/source/contributed/dialog_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/dialog_olsson/Dialog_1.html,
     trunk/qooxdoo/source/contributed/dialog_olsson/QxDialog.js,
-    trunk/qooxdoo/source/contributed/dialog_olsson/README.txt: Update kent
-    olsson's dialog
+    trunk/qooxdoo/source/contributed/dialog_olsson/README.txt:
+    Update kent olsson's dialog
 
 2006-03-03 07:38  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxPopup.js,
-    trunk/qooxdoo/source/script/widgets/QxWindow.js: Moved centerToBrowser
-    from QxWindow to QxPopup
+  * [r2597] trunk/qooxdoo/source/script/widgets/QxPopup.js,
+    trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Moved centerToBrowser from QxWindow to QxPopup
 
 2006-03-02 17:06  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
+  * [r2596] trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Super
-    fine cool wonderful
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Super fine cool wonderful
 
 2006-03-02 15:28  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Don't use
-    timeout for all non-mshtml clients
+  * [r2595] trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Don't use timeout for all non-mshtml clients
 
 2006-03-02 15:20  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
+  * [r2594] trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Removed
-    some debug code, added status bar information for request queue
-    progress, minor performance enhancements, improved dispoer in queue
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Removed some debug code, added status bar information for request
+    queue progress, minor performance enhancements, improved dispoer in
+    queue
 
 2006-03-02 15:08  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Transport_1.html,
+  * [r2593] trunk/qooxdoo/source/demo/example/Transport_1.html,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: A lot of
-    bugfixes and improvements, removed reusing of xmlhttp objects as this
-    seems to be problematic in firefox 1.0.x
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    A lot of bugfixes and improvements, removed reusing of xmlhttp objects
+    as this seems to be problematic in firefox 1.0.x
 
 2006-03-02 14:15  ecker
 
-  * trunk/qooxdoo/source/script/transport/QxRequestQueue.js: Minor fix
+  * [r2592] trunk/qooxdoo/source/script/transport/QxRequestQueue.js:
+    Minor fix
 
 2006-03-02 14:13  ecker
 
-  * trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
-    trunk/qooxdoo/source/script/transport/QxTransport.js: Minor changes
+  * [r2591] trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
+    trunk/qooxdoo/source/script/transport/QxTransport.js:
+    Minor changes
 
 2006-03-02 13:53  ecker
 
-  * trunk/qooxdoo/source/demo/example/data/big.xml,
-    trunk/qooxdoo/source/demo/example/data/bigger.xml: Fixed invalid xml
+  * [r2590] trunk/qooxdoo/source/demo/example/data/big.xml,
+    trunk/qooxdoo/source/demo/example/data/bigger.xml:
+    Fixed invalid xml
 
 2006-03-02 13:38  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNative.js,
-    trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Renamed
-    String.prototype.padding() to pad() ans fixed wrong argument name
+  * [r2589] trunk/qooxdoo/source/script/core/QxNative.js,
+    trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Renamed String.prototype.padding() to pad() ans fixed wrong argument
+    name
 
 2006-03-02 13:37  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxRequestQueue.js: Improved
-    disposer
+  * [r2588] trunk/qooxdoo/source/script/transport/QxRequestQueue.js:
+    Improved disposer
 
 2006-03-02 12:46  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDebug.js,
+  * [r2587] trunk/qooxdoo/source/script/core/QxDebug.js,
     trunk/qooxdoo/source/script/core/QxEmu.js,
     trunk/qooxdoo/source/script/gui/QxAppearanceTheme.js,
     trunk/qooxdoo/source/script/gui/QxFontCache.js,
@@ -1634,206 +1747,222 @@
     trunk/qooxdoo/source/themes/colors/windowsLunaBlue.js,
     trunk/qooxdoo/source/themes/colors/windowsLunaGreen.js,
     trunk/qooxdoo/source/themes/colors/windowsLunaSilver.js,
-    trunk/qooxdoo/source/themes/colors/windowsRoyale.js: Added missing
-    dependencies
+    trunk/qooxdoo/source/themes/colors/windowsRoyale.js:
+    Added missing dependencies
 
 2006-03-02 12:30  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Transport_1.html,
+  * [r2586] trunk/qooxdoo/source/demo/example/Transport_1.html,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Transport
-    improved again: better 404 handling, better debug informations
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Transport improved again: better 404 handling, better debug
+    informations
 
 2006-03-02 11:54  wpbasti
 
-  * trunk/qooxdoo/tools/generate/internal/patchdemos.sh,
-    trunk/qooxdoo/tools/generate/internal/syncfiles.sh: Make less verbose
+  * [r2585] trunk/qooxdoo/tools/generate/internal/patchdemos.sh,
+    trunk/qooxdoo/tools/generate/internal/syncfiles.sh:
+    Make less verbose
 
 2006-03-02 11:46  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Transport_1.html: Added status code
-    informations
+  * [r2584] trunk/qooxdoo/source/demo/example/Transport_1.html:
+    Added status code informations
 
 2006-03-02 11:27  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNative.js: Copyright updated
+  * [r2583] trunk/qooxdoo/source/script/core/QxNative.js:
+    Copyright updated
 
 2006-03-02 11:18  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxRequest.js,
+  * [r2582] trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Greatly
-    improved stability of transport API for IE, many other improvements
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Greatly improved stability of transport API for IE, many other
+    improvements
 
 2006-03-02 11:17  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh: New
-    faster sync tool (without the creation of the documentation)
-  * trunk/qooxdoo/source/script/core/QxNative.js: Copyright updated
+  * [r2581] trunk/qooxdoo/tools/generate/distribution/make-sync-build.sh:
+    New faster sync tool (without the creation of the documentation)
+  * [r2580] trunk/qooxdoo/source/script/core/QxNative.js:
+    Copyright updated
 
 2006-03-02 09:56  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Transport_1.html,
+  * [r2579] trunk/qooxdoo/source/demo/example/Transport_1.html,
     trunk/qooxdoo/source/demo/example/data/big.xml,
     trunk/qooxdoo/source/demo/example/data/bigger.xml,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: More
-    improvements and tests for queue impl
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    More improvements and tests for queue impl
 
 2006-03-02 08:39  wpbasti
 
-  * trunk/qooxdoo/source/contributed/dialog_olsson,
+  * [r2578] trunk/qooxdoo/source/contributed/dialog_olsson,
     trunk/qooxdoo/source/contributed/dialog_olsson/Definitions.js,
     trunk/qooxdoo/source/contributed/dialog_olsson/Dialog_1.html,
     trunk/qooxdoo/source/contributed/dialog_olsson/QxDialog.js,
-    trunk/qooxdoo/source/contributed/dialog_olsson/QxWindow.diff: Added
-    dialog implementation of kent olsson
+    trunk/qooxdoo/source/contributed/dialog_olsson/QxWindow.diff:
+    Added dialog implementation of kent olsson
 
 2006-03-02 08:20  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxMain.js: Version Bump
+  * [r2577] trunk/qooxdoo/source/script/core/QxMain.js:
+    Version Bump
 
 2006-03-02 08:12  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/CookieStorage_1.html,
+  * [r2575] trunk/qooxdoo/source/demo/example/CookieStorage_1.html,
     trunk/qooxdoo/source/demo/example/CookieStorage_2.html,
     trunk/qooxdoo/source/demo/example/Cookie_1.html,
     trunk/qooxdoo/source/demo/test/CookieStorage_1.html,
     trunk/qooxdoo/source/demo/test/CookieStorage_2.html,
-    trunk/qooxdoo/source/demo/test/Cookie_1.html: Moved cookie handling
-    examples to test folder
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
+    trunk/qooxdoo/source/demo/test/Cookie_1.html:
+    Moved cookie handling examples to test folder
+  * [r2574] trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
     trunk/qooxdoo/source/themes/appearance/default/theme.js,
-    trunk/qooxdoo/tools/generate/internal/config.sh: Added initial color
-    selector implementation
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Minor fix
+    trunk/qooxdoo/tools/generate/internal/config.sh:
+    Added initial color selector implementation
+  * [r2573] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Minor fix
 
 2006-03-02 08:11  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/ColorSelector_1.html: Added color
-    selector example
+  * [r2572] trunk/qooxdoo/source/demo/test/ColorSelector_1.html:
+    Added color selector example
 
 2006-03-02 08:10  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNative.js: Added support for
-    padding in Strings
+  * [r2571] trunk/qooxdoo/source/script/core/QxNative.js:
+    Added support for padding in Strings
 
 2006-03-02 08:09  wpbasti
 
-  * trunk/qooxdoo/source/images/brightness-field.jpg,
+  * [r2570] trunk/qooxdoo/source/images/brightness-field.jpg,
     trunk/qooxdoo/source/images/brightness-handle.gif,
     trunk/qooxdoo/source/images/brightness.jpg,
     trunk/qooxdoo/source/images/huesaturation-field.jpg,
     trunk/qooxdoo/source/images/huesaturation-handle.gif,
-    trunk/qooxdoo/source/images/huesaturation.jpg: Minor renaming, added
-    missing images for color selector
+    trunk/qooxdoo/source/images/huesaturation.jpg:
+    Minor renaming, added missing images for color selector
 
 2006-03-02 08:08  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
-    trunk/qooxdoo/source/script/managers/QxImageManager.js: Added support
-    for local path alias
+  * [r2569] trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
+    trunk/qooxdoo/source/script/managers/QxImageManager.js:
+    Added support for local path alias
 
 2006-03-01 15:09  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDefaultSettings.js: Dos2unix
+  * [r2568] trunk/qooxdoo/source/script/core/QxDefaultSettings.js:
+    Dos2unix
 
 2006-03-01 15:07  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2567] trunk/qooxdoo/TODO:
+    Updated
 
 2006-03-01 14:50  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Minor
-    fixes for failed state
+  * [r2566] trunk/qooxdoo/source/script/transport/QxTransport.js,
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Minor fixes for failed state
 
 2006-03-01 14:48  ecker
 
-  * trunk/qooxdoo/source/script/gui/QxIconTheme.js,
-    trunk/qooxdoo/source/script/gui/QxWidgetTheme.js: Fixed wrong name of
-    derived class
+  * [r2565] trunk/qooxdoo/source/script/gui/QxIconTheme.js,
+    trunk/qooxdoo/source/script/gui/QxWidgetTheme.js:
+    Fixed wrong name of derived class
 
 2006-03-01 14:43  wpbasti
 
-  * trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Minor
-    cleanups
+  * [r2564] trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Minor cleanups
 
 2006-03-01 14:40  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js,
+  * [r2563] trunk/qooxdoo/source/script/core/QxConst.js,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Improved
-    handling for abort and timeouts
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Improved handling for abort and timeouts
 
 2006-03-01 14:36  wpbasti
 
-  * trunk/qooxdoo/tools/generate/internal/config.sh: Added default settings
+  * [r2562] trunk/qooxdoo/tools/generate/internal/config.sh:
+    Added default settings
 
 2006-03-01 12:20  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNative.js: Minor formatting
+  * [r2561] trunk/qooxdoo/source/script/core/QxNative.js:
+    Minor formatting
 
 2006-03-01 12:01  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNative.js: Added JS-1.6 Generics
-    Support
+  * [r2560] trunk/qooxdoo/source/script/core/QxNative.js:
+    Added JS-1.6 Generics Support
 
 2006-03-01 12:00  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
-    trunk/qooxdoo/source/script/core/QxSettings.js: Splitted out default
-    settings in seperate file, improved scope protection of settings merge
+  * [r2559] trunk/qooxdoo/source/script/core/QxDefaultSettings.js,
+    trunk/qooxdoo/source/script/core/QxSettings.js:
+    Splitted out default settings in seperate file, improved scope
+    protection of settings merge
 
 2006-02-28 17:05  wpbasti
 
-  * trunk/qooxdoo/TODO,
+  * [r2558] trunk/qooxdoo/TODO,
     trunk/qooxdoo/source/demo/example/Transport_1.html,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
-    trunk/qooxdoo/source/script/transport/QxTransport.js: some
-    improvements were made
+    trunk/qooxdoo/source/script/transport/QxTransport.js:
+    some improvements were made
 
 2006-02-28 15:48  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js,
+  * [r2557] trunk/qooxdoo/source/script/core/QxConst.js,
     trunk/qooxdoo/source/script/core/QxSettings.js,
     trunk/qooxdoo/source/script/transport/QxRequest.js,
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: More
-    improvements to transport implementtion
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    More improvements to transport implementtion
 
 2006-02-28 13:59  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxSettings.js: Removed global
-    enableDebug, was unused, added new debug flag for transport impl
-  * trunk/qooxdoo/source/demo/example/Transport_1.html,
-    trunk/qooxdoo/source/script/transport/QxRequestQueue.js: Improved
-    queues
+  * [r2556] trunk/qooxdoo/source/script/core/QxSettings.js:
+    Removed global enableDebug, was unused, added new debug flag for
+    transport impl
+  * [r2555] trunk/qooxdoo/source/demo/example/Transport_1.html,
+    trunk/qooxdoo/source/script/transport/QxRequestQueue.js:
+    Improved queues
 
 2006-02-28 13:41  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Tree_1.html: Improved icon switching
+  * [r2554] trunk/qooxdoo/source/demo/example/Tree_1.html:
+    Improved icon switching
 
 2006-02-28 13:36  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
+  * [r2553]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-source-release.sh:
     Convert text files for zip archive to DOS line breaks first
 
 2006-02-28 13:35  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2552] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-28 10:52  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG,
+  * [r2551] trunk/qooxdoo/CHANGELOG,
     trunk/qooxdoo/source/script/transport/QxGetRequest.js,
     trunk/qooxdoo/source/script/transport/QxIframeTransport.js,
     trunk/qooxdoo/source/script/transport/QxPostRequest.js,
@@ -1841,51 +1970,62 @@
     trunk/qooxdoo/source/script/transport/QxRequestQueue.js,
     trunk/qooxdoo/source/script/transport/QxResponse.js,
     trunk/qooxdoo/source/script/transport/QxTransport.js,
-    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js: Renamed
-    package to transport
+    trunk/qooxdoo/source/script/transport/QxXmlHttpTransport.js:
+    Renamed package to transport
 
 2006-02-28 07:51  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2550] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-28 07:47  wpbasti
 
-  * trunk/qooxdoo/AUTHORS: Minor fix
+  * [r2548] trunk/qooxdoo/AUTHORS:
+    Minor fix
 
 2006-02-28 07:41  wpbasti
 
-  * trunk/qooxdoo/TODO: Some debug additions
-  * trunk/qooxdoo/RELEASENOTES: Minor formatting change
+  * [r2547] trunk/qooxdoo/TODO:
+    Some debug additions
+  * [r2546] trunk/qooxdoo/RELEASENOTES:
+    Minor formatting change
 
 2006-02-27 20:05  ecker
 
-  * trunk/qooxdoo/AUTHORS, trunk/qooxdoo/README: Minor changes
+  * [r2545] trunk/qooxdoo/AUTHORS, trunk/qooxdoo/README:
+    Minor changes
 
 2006-02-27 20:05  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh: Minor
-    fix
+  * [r2544]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh:
+    Minor fix
 
 2006-02-27 20:05  ecker
 
-  * trunk/qooxdoo/RELEASENOTES: Added release notes
+  * [r2543] trunk/qooxdoo/RELEASENOTES:
+    Added release notes
 
 2006-02-27 19:50  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2542] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-27 19:41  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh: Minor
-    build fix
+  * [r2541]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh:
+    Minor build fix
 
 2006-02-27 17:32  ecker
 
-  * trunk/qooxdoo/source/demo/demolayout.js.in: Minor fix
+  * [r2540] trunk/qooxdoo/source/demo/demolayout.js.in:
+    Minor fix
 
 2006-02-27 16:14  wpbasti
 
-  * trunk/qooxdoo/source/contributed/scroller_olsson/QxScroller.js,
+  * [r2539]
+    trunk/qooxdoo/source/contributed/scroller_olsson/QxScroller.js,
     trunk/qooxdoo/source/contributed/scroller_olsson/Scroller_1.html,
     trunk/qooxdoo/source/contributed/splitpane_olsson/QxSplitPane.js,
     trunk/qooxdoo/source/contributed/splitpane_olsson/SplitPane_1.html:
@@ -1893,77 +2033,84 @@
 
 2006-02-27 16:12  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Fixed rights
+  * [r2538] trunk/qooxdoo/CHANGELOG:
+    Fixed rights
 
 2006-02-27 16:11  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
+  * [r2537]
+    trunk/qooxdoo/tools/generate/distribution/make-build-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-release.sh,
     trunk/qooxdoo/tools/generate/distribution/make-source-release.sh:
     Added new source release script, renamed build release script
-  * trunk/qooxdoo/source/script/core/QxMain.js: Version Bump
+  * [r2536] trunk/qooxdoo/source/script/core/QxMain.js:
+    Version Bump
 
 2006-02-27 15:57  wpbasti
 
-  * trunk/qooxdoo/source/demo/demolayout.css: Make blue color darker to
-    match homepage colors better
+  * [r2535] trunk/qooxdoo/source/demo/demolayout.css:
+    Make blue color darker to match homepage colors better
 
 2006-02-27 14:34  wpbasti
 
-  * trunk/qooxdoo/tools/generate/make-source.sh: Minor fix for sed
-    problems using windows
+  * [r2534] trunk/qooxdoo/tools/generate/make-source.sh:
+    Minor fix for sed problems using windows
 
 2006-02-27 11:01  wpbasti
 
-  * trunk/qooxdoo/source/script/gui/QxCommand.js: Minor fixes and
-    improvements
+  * [r2533] trunk/qooxdoo/source/script/gui/QxCommand.js:
+    Minor fixes and improvements
 
 2006-02-26 17:32  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxRangeManager.js: Added step
-    property
+  * [r2532] trunk/qooxdoo/source/script/managers/QxRangeManager.js:
+    Added step property
 
 2006-02-26 17:03  wpbasti
 
-  * trunk/qooxdoo/source/demo/example/Tree_1.html,
+  * [r2531] trunk/qooxdoo/source/demo/example/Tree_1.html,
     trunk/qooxdoo/source/script/widgets/QxTree.js,
     trunk/qooxdoo/source/script/widgets/QxTreeElement.js,
     trunk/qooxdoo/source/script/widgets/QxTreeFile.js,
     trunk/qooxdoo/source/script/widgets/QxTreeFolder.js,
-    trunk/qooxdoo/source/themes/appearance/default/theme.js: Added support
-    for user-defined tree-icons
+    trunk/qooxdoo/source/themes/appearance/default/theme.js:
+    Added support for user-defined tree-icons
 
 2006-02-24 09:39  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2530] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-24 09:36  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxLabel.js: Added text-align
-    support
-  * trunk/qooxdoo/tools/generate/distribution/make-sync.sh: Minor sync
-    improvement
+  * [r2529] trunk/qooxdoo/source/script/widgets/QxLabel.js:
+    Added text-align support
+  * [r2528] trunk/qooxdoo/tools/generate/distribution/make-sync.sh:
+    Minor sync improvement
 
 2006-02-24 08:51  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2527] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-23 16:59  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2526] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-23 15:50  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2525] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-23 15:29  wpbasti
 
-  * trunk/qooxdoo/source/script/gui/QxCommand.js: Minor improvement for
-    empty shortcut
+  * [r2524] trunk/qooxdoo/source/script/gui/QxCommand.js:
+    Minor improvement for empty shortcut
 
 2006-02-22 21:23  wpbasti
 
-  * trunk/qooxdoo/source/contributed/scroller_olsson,
+  * [r2523] trunk/qooxdoo/source/contributed/scroller_olsson,
     trunk/qooxdoo/source/contributed/scroller_olsson/QxScroller.js,
     trunk/qooxdoo/source/contributed/scroller_olsson/Scroller_1.html,
     trunk/qooxdoo/source/contributed/scroller_olsson/theme.diff,
@@ -1982,22 +2129,25 @@
 
 2006-02-22 18:17  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2522] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-22 12:47  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2521] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-22 12:31  wpbasti
 
-  * trunk/qooxdoo/source/demo/test/DockLayout_6.html,
+  * [r2520] trunk/qooxdoo/source/demo/test/DockLayout_6.html,
     trunk/qooxdoo/source/demo/test/GridLayout_2.html,
-    trunk/qooxdoo/source/demo/test/ListView_7.html: Fixed some broken
-    images
+    trunk/qooxdoo/source/demo/test/ListView_7.html:
+    Fixed some broken images
 
 2006-02-22 12:27  wpbasti
 
-  * trunk/qooxdoo/source/themes/icons/crystalsvg/128/organizer.png,
+  * [r2519]
+    trunk/qooxdoo/source/themes/icons/crystalsvg/128/organizer.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/16/insert-cell.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/16/insert-table-cell.png,
     trunk/qooxdoo/source/themes/icons/crystalsvg/16/organizer.png,
@@ -2017,23 +2167,24 @@
     trunk/qooxdoo/source/themes/icons/nuvola/16/organizer.png,
     trunk/qooxdoo/source/themes/icons/nuvola/32/organizer.png,
     trunk/qooxdoo/source/themes/icons/nuvola/48/organizer.png,
-    trunk/qooxdoo/source/themes/icons/nuvola/64/organizer.png: Fixed some
-    images
+    trunk/qooxdoo/source/themes/icons/nuvola/64/organizer.png:
+    Fixed some images
 
 2006-02-22 12:15  wpbasti
 
-  * trunk/qooxdoo/source/script/gui/QxCommand.js: Fixed commands for empty
-    shortcut parts
+  * [r2518] trunk/qooxdoo/source/script/gui/QxCommand.js:
+    Fixed commands for empty shortcut parts
 
 2006-02-22 09:58  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxImageManager.js: Added
-    dependencies
+  * [r2517] trunk/qooxdoo/source/script/managers/QxImageManager.js:
+    Added dependencies
 
 2006-02-22 09:50  wpbasti
 
-  * trunk/qooxdoo/tools/generate-dev/compileng.py: Minor path fix
-  * trunk/qooxdoo/source/script/core/QxApplication.js,
+  * [r2516] trunk/qooxdoo/tools/generate-dev/compileng.py:
+    Minor path fix
+  * [r2515] trunk/qooxdoo/source/script/core/QxApplication.js,
     trunk/qooxdoo/source/script/gui/QxImagePreloader.js,
     trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js,
     trunk/qooxdoo/source/script/managers/QxSelectionManager.js,
@@ -2043,40 +2194,42 @@
     trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/script/widgets/QxListViewHeaderCell.js,
     trunk/qooxdoo/source/script/widgets/QxListViewPane.js,
-    trunk/qooxdoo/source/script/widgets/QxToolBar.js: Fixed some missing
-    or wrong dependecy entries, moved cursor creation for
-    DragAndDropManager to seperate init method to omit creation of widgets
-    before qooxdoo is ready
+    trunk/qooxdoo/source/script/widgets/QxToolBar.js:
+    Fixed some missing or wrong dependecy entries, moved cursor creation
+    for DragAndDropManager to seperate init method to omit creation of
+    widgets before qooxdoo is ready
 
 2006-02-22 08:41  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js: Fixed
-    dependency entry
-  * trunk/qooxdoo/source/script/gui/QxWidget.js: Minor debuggging
-    enhancement
+  * [r2514] trunk/qooxdoo/source/script/widgets/QxClientDocument.js:
+    Fixed dependency entry
+  * [r2513] trunk/qooxdoo/source/script/gui/QxWidget.js:
+    Minor debuggging enhancement
 
 2006-02-22 08:33  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js: Minor fix for current
-    compressor
+  * [r2512] trunk/qooxdoo/source/script/core/QxConst.js:
+    Minor fix for current compressor
 
 2006-02-21 13:59  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxConst.js: Added node numbers and
-    namespaces
+  * [r2511] trunk/qooxdoo/source/script/core/QxConst.js:
+    Added node numbers and namespaces
 
 2006-02-21 09:09  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2510] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-20 19:36  wpbasti
 
-  * trunk/qooxdoo/tools/generate/internal/compile.xsl: Fixed doctype to
-    create IE valid pages
+  * [r2509] trunk/qooxdoo/tools/generate/internal/compile.xsl:
+    Fixed doctype to create IE valid pages
 
 2006-02-17 20:42  wpbasti
 
-  * trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
+  * [r2508]
+    trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/QxOptionPane.js,
     trunk/qooxdoo/source/contributed/clock_olsson/QxBinaryClock.js,
     trunk/qooxdoo/source/contributed/clock_olsson/QxClock.js,
@@ -2297,12 +2450,13 @@
     trunk/qooxdoo/source/themes/icons/crystalsvg/theme.js,
     trunk/qooxdoo/source/themes/icons/kids/theme.js,
     trunk/qooxdoo/source/themes/icons/nuvola/theme.js,
-    trunk/qooxdoo/source/themes/widgets/windows/theme.js: Fixed copyright
-    line in header
+    trunk/qooxdoo/source/themes/widgets/windows/theme.js:
+    Fixed copyright line in header
 
 2006-02-17 20:31  wpbasti
 
-  * trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
+  * [r2507]
+    trunk/qooxdoo/source/contributed/buttonpane_olsson/QxButtonPane.js,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/QxOptionPane.js,
     trunk/qooxdoo/source/contributed/childreniterator_streifert/QxChildrenIterator.js,
     trunk/qooxdoo/source/contributed/clock_olsson/QxBinaryClock.js,
@@ -2528,54 +2682,63 @@
     trunk/qooxdoo/source/themes/icons/crystalsvg/theme.js,
     trunk/qooxdoo/source/themes/icons/kids/theme.js,
     trunk/qooxdoo/source/themes/icons/nuvola/theme.js,
-    trunk/qooxdoo/source/themes/widgets/windows/theme.js: Removed version
-    string from header as they are problematic in combination with cvs
-    branches
+    trunk/qooxdoo/source/themes/widgets/windows/theme.js:
+    Removed version string from header as they are problematic in
+    combination with cvs branches
 
 2006-02-17 20:21  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxApplication.js: Minor improvement
-  * trunk/qooxdoo/source/script/widgets/QxIframe.js: Minor improvements
+  * [r2506] trunk/qooxdoo/source/script/core/QxApplication.js:
+    Minor improvement
+  * [r2505] trunk/qooxdoo/source/script/widgets/QxIframe.js:
+    Minor improvements
 
 2006-02-17 14:44  wpbasti
 
-  * trunk/qooxdoo/CHANGELOG: Updated
+  * [r2503] trunk/qooxdoo/CHANGELOG:
+    Updated
 
 2006-02-17 14:43  wpbasti
 
-  * trunk/qooxdoo/source/demo/index.css: Dos2Unix
-  * trunk/qooxdoo/source/script/core/QxBuilder.js,
+  * [r2502] trunk/qooxdoo/source/demo/index.css:
+    Dos2Unix
+  * [r2501] trunk/qooxdoo/source/script/core/QxBuilder.js,
     trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js,
     trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Readded missing
-    files during merge
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Readded missing files during merge
 
 2006-02-17 14:34  wpbasti
 
-  * trunk/qooxdoo/TODO: Updated
+  * [r2500] trunk/qooxdoo/TODO:
+    Updated
 
 2006-02-17 14:32  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-sync-changelog.sh:
+  * [r2499]
+    trunk/qooxdoo/tools/generate/distribution/make-sync-changelog.sh:
     Minor path fix
 
 2006-02-17 14:28  wpbasti
 
-  * trunk/qooxdoo/source/demo/index.html: Minor fix
+  * [r2498] trunk/qooxdoo/source/demo/index.html:
+    Minor fix
 
 2006-02-17 14:12  wpbasti
 
-  * trunk/qooxdoo/AUTHORS: Updated
+  * [r2497] trunk/qooxdoo/AUTHORS:
+    Updated
 
 2006-02-17 13:05  wpbasti
 
-  * trunk/qooxdoo/tools/generate/distribution/make-release.sh: Minor bugfix
+  * [r2496] trunk/qooxdoo/tools/generate/distribution/make-release.sh:
+    Minor bugfix
 
 2006-02-17 11:45  ecker
 
-  * trunk/qooxdoo, trunk/qooxdoo/.cvsignore, trunk/qooxdoo/AUTHORS,
-    trunk/qooxdoo/CHANGELOG, trunk/qooxdoo/INSTALL, trunk/qooxdoo/README,
-    trunk/qooxdoo/REQUIREMENTS, trunk/qooxdoo/TODO,
+  * [r2495] trunk/qooxdoo, trunk/qooxdoo/.cvsignore,
+    trunk/qooxdoo/AUTHORS, trunk/qooxdoo/CHANGELOG, trunk/qooxdoo/INSTALL,
+    trunk/qooxdoo/README, trunk/qooxdoo/REQUIREMENTS, trunk/qooxdoo/TODO,
     trunk/qooxdoo/source/contributed,
     trunk/qooxdoo/source/contributed/buttonpane_olsson,
     trunk/qooxdoo/source/contributed/buttonpane_olsson/OptionPane_1.html,
@@ -5686,129 +5849,148 @@
     trunk/qooxdoo/tools/utils/print-classlist.sh,
     trunk/qooxdoo/tools/utils/print-diff.sh,
     trunk/qooxdoo/tools/utils/print-fullsize.sh,
-    trunk/qooxdoo/tools/utils/print-propertylist.sh: Release 0.5 ;-)
+    trunk/qooxdoo/tools/utils/print-propertylist.sh:
+    Release 0.5 ;-)
 
 2006-02-09 10:44  wpbasti
 
-  * branches/renderer/qooxdoo/source/script/managers/QxDomSelectionManager.js,
-    trunk/qooxdoo/source/script/managers/QxSelectionManager.js: Fixed
-    selection manager to correctly handle QxGallery and QxGalleryList
-    (multi column support)
+  * [r2348]
+    branches/renderer/qooxdoo/source/script/managers/QxDomSelectionManager.js,
+    trunk/qooxdoo/source/script/managers/QxSelectionManager.js:
+    Fixed selection manager to correctly handle QxGallery and
+    QxGalleryList (multi column support)
 
 2006-01-27 10:26  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js.in: Updated for latest changes in
-    RENDERER
+  * [r2202] trunk/qooxdoo/tools/script/layout.js.in:
+    Updated for latest changes in RENDERER
 
 2005-12-10 16:10  wpbasti
 
-  * trunk/qooxdoo/tools/patchtest.sh,
-    trunk/qooxdoo/tools/script/layout.js.in: Changed demo titles
+  * [r1886] trunk/qooxdoo/tools/patchtest.sh,
+    trunk/qooxdoo/tools/script/layout.js.in:
+    Changed demo titles
 
 2005-11-24 10:03  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js.in,
-    trunk/qooxdoo/tools/synchome.sh: Minor fix
+  * [r1723] trunk/qooxdoo/tools/script/layout.js.in,
+    trunk/qooxdoo/tools/synchome.sh:
+    Minor fix
 
 2005-11-23 21:59  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js.in: Removed developer demo link
-    from test pages if online
+  * [r1716] trunk/qooxdoo/tools/script/layout.js.in:
+    Removed developer demo link from test pages if online
 
 2005-11-19 19:41  wpbasti
 
-  * trunk/qooxdoo/tools/syncschlund.sh: Cleanup
+  * [r1657] trunk/qooxdoo/tools/syncschlund.sh:
+    Cleanup
 
 2005-11-12 18:02  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Tagged
+  * [r1599] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Tagged
 
 2005-10-14 15:11  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js.in: Minor fix
-  * branches/renderer/qooxdoo/tools/script/layout.js.in,
-    trunk/qooxdoo/source/script/widgets/QxWindow.js: Minor fix
+  * [r1502] trunk/qooxdoo/tools/script/layout.js.in:
+    Minor fix
+  * [r1501] branches/renderer/qooxdoo/tools/script/layout.js.in,
+    trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Minor fix
 
 2005-10-14 13:05  wpbasti
 
-  * trunk/qooxdoo/TODO: Cleanups
+  * [r1499] trunk/qooxdoo/TODO:
+    Cleanups
 
 2005-10-13 12:24  psycledw
 
-  * trunk/qooxdoo/TODO: new entry for QxBlocker
+  * [r1493] trunk/qooxdoo/TODO:
+    new entry for QxBlocker
 
 2005-10-05 13:26  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Event
-    'loadComplete' is dispatched when all images have been loaded and if
-    corresponding event listener exists for QxGalleryList's instance.
+  * [r1453] trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Event 'loadComplete' is dispatched when all images have been loaded
+    and if corresponding event listener exists for QxGalleryList's
+    instance.
 
 2005-10-05 13:01  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Minor change
+  * [r1452] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Minor change
 
 2005-10-05 09:55  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Event 'loadComplete'
-    is dispatched when all images have been loaded and if corresponding
-    event listener exists for QxGallery instance.
+  * [r1439] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Event 'loadComplete' is dispatched when all images have been loaded
+    and if corresponding event listener exists for QxGallery instance.
 
 2005-10-04 14:03  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js: Allow asyncronous
-    requests
+  * [r1424] trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js:
+    Allow asyncronous requests
 
 2005-10-04 06:31  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBuilder.js: Ugly bugfix
+  * [r1411] trunk/qooxdoo/source/script/core/QxBuilder.js:
+    Ugly bugfix
 
 2005-10-04 06:30  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxIframe.js: Add framename
+  * [r1410] trunk/qooxdoo/source/script/widgets/QxIframe.js:
+    Add framename
 
 2005-10-03 19:13  wpbasti
 
-  * trunk/qooxdoo/tools/synchome.sh, trunk/qooxdoo/tools/syncschlund.sh:
+  * [r1409] trunk/qooxdoo/tools/synchome.sh,
+    trunk/qooxdoo/tools/syncschlund.sh:
     Minor tweaks
 
 2005-09-30 10:16  wpbasti
 
-  * trunk/qooxdoo/tools/synchome.sh, trunk/qooxdoo/tools/syncschlund.sh:
+  * [r1385] trunk/qooxdoo/tools/synchome.sh,
+    trunk/qooxdoo/tools/syncschlund.sh:
     Minor enhancement
 
 2005-09-15 08:20  wpbasti
 
-  * trunk/qooxdoo/source/style/test.css,
-    trunk/qooxdoo/tools/script/layout.js.in: Fixed layout while resizing
-    in mshtml if luna styles are activated
+  * [r1179] trunk/qooxdoo/source/style/test.css,
+    trunk/qooxdoo/tools/script/layout.js.in:
+    Fixed layout while resizing in mshtml if luna styles are activated
 
 2005-09-15 01:37  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxList.js,
-    trunk/qooxdoo/source/script/widgets/QxListItem.js: Added string match
-    "contains"
+  * [r1178] trunk/qooxdoo/source/script/widgets/QxList.js,
+    trunk/qooxdoo/source/script/widgets/QxListItem.js:
+    Added string match "contains"
 
 2005-09-15 01:32  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js: Fixed blocker
-    problem
+  * [r1177] trunk/qooxdoo/source/script/widgets/QxClientDocument.js:
+    Fixed blocker problem
 
 2005-09-15 01:30  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Added window name
+  * [r1176] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Added window name
 
 2005-09-15 01:28  ecker
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Added stopEvent()
+  * [r1175] trunk/qooxdoo/source/script/core/QxDom.js:
+    Added stopEvent()
 
 2005-09-15 01:27  ecker
 
-  * trunk/qooxdoo/source/script/core/QxClient.js: Add browser language
+  * [r1174] trunk/qooxdoo/source/script/core/QxClient.js:
+    Add browser language
 
 2005-09-14 07:03  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Application_1.html,
+  * [r1152] trunk/qooxdoo/source/test/developer/Application_1.html,
     trunk/qooxdoo/source/test/developer/Atom_1.html,
     trunk/qooxdoo/source/test/developer/Atom_2.html,
     trunk/qooxdoo/source/test/developer/Atom_3.html,
@@ -5911,95 +6093,103 @@
     trunk/qooxdoo/source/test/user/Window_2.html,
     trunk/qooxdoo/source/test/user/Window_3.html,
     trunk/qooxdoo/tools/patchtest.sh,
-    trunk/qooxdoo/tools/script/layout.js.in: Titles handling enhanced,
-    backported from RENDERER
+    trunk/qooxdoo/tools/script/layout.js.in:
+    Titles handling enhanced, backported from RENDERER
 
 2005-09-13 11:21  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js.in: Minor fix
+  * [r1149] trunk/qooxdoo/tools/script/layout.js.in:
+    Minor fix
 
 2005-09-13 07:10  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Listview_1.html: Minor fix
+  * [r1144] trunk/qooxdoo/source/test/user/Listview_1.html:
+    Minor fix
 
 2005-09-09 12:48  wpbasti
 
-  * trunk/qooxdoo/tools/syncschlund.sh: New tool to sync to new homepage
+  * [r1113] trunk/qooxdoo/tools/syncschlund.sh:
+    New tool to sync to new homepage
 
 2005-09-06 19:23  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Listview_2.html: Added new testfile
+  * [r1103] trunk/qooxdoo/source/test/user/Listview_2.html:
+    Added new testfile
 
 2005-09-06 19:21  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js,
-    trunk/qooxdoo/source/script/widgets/QxTreeFile.js: Minor changes
+  * [r1102] trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js,
+    trunk/qooxdoo/source/script/widgets/QxTreeFile.js:
+    Minor changes
 
 2005-08-26 12:46  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl: added -c cli switch to toggle
-    'compression' of output file
+  * [r989] trunk/qooxdoo/tools/build_dist.pl:
+    added -c cli switch to toggle 'compression' of output file
 
 2005-08-26 09:50  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxTreeFolder.js: Setters in
-    constructor triggered events before the superclass was called
+  * [r985] trunk/qooxdoo/source/script/widgets/QxTreeFolder.js:
+    Setters in constructor triggered events before the superclass was
+    called
 
 2005-08-26 09:48  ecker
 
-  * trunk/qooxdoo/source/script/core/QxTarget.js: Added try-catch for
-    hasEventListeners
+  * [r984] trunk/qooxdoo/source/script/core/QxTarget.js:
+    Added try-catch for hasEventListeners
 
 2005-08-26 09:47  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Fixed call in
-    constructor (do not call superclass directly)
+  * [r983] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Fixed call in constructor (do not call superclass directly)
 
 2005-08-25 05:51  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxFocusManager.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Switched to new
-    extend, backported from RENDERER, small fix
+  * [r962] trunk/qooxdoo/source/script/managers/QxFocusManager.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Switched to new extend, backported from RENDERER, small fix
 
 2005-08-25 05:45  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: upps, minor fix
+  * [r961] trunk/qooxdoo/source/script/core/QxExtend.js:
+    upps, minor fix
 
 2005-08-25 05:44  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: Backport new extend
-    implementation from RENDERER
+  * [r960] trunk/qooxdoo/source/script/core/QxExtend.js:
+    Backport new extend implementation from RENDERER
 
 2005-08-25 05:43  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBuilder.js,
-    trunk/qooxdoo/source/script/events/QxDragEvent.js: Some minor fixes
+  * [r959] trunk/qooxdoo/source/script/core/QxBuilder.js,
+    trunk/qooxdoo/source/script/events/QxDragEvent.js:
+    Some minor fixes
 
 2005-08-24 15:56  firstbman
 
-  * trunk/qooxdoo/source/script/widgets/QxTreeFolder.js: implemented
-    isTreeNode() method, to allow displaying a QxTreeFolder as a node,
-    regardless if it has children or not
+  * [r954] trunk/qooxdoo/source/script/widgets/QxTreeFolder.js:
+    implemented isTreeNode() method, to allow displaying a QxTreeFolder as
+    a node, regardless if it has children or not
 
 2005-08-19 08:28  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js: Added some
-    missing semicolons, restructured code to qooxdoo style
+  * [r915] trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js:
+    Added some missing semicolons, restructured code to qooxdoo style
 
 2005-08-19 08:18  ecker
 
-  * trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js: Added missing
-    semicolons
+  * [r914] trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js:
+    Added missing semicolons
 
 2005-08-18 07:42  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/script/widgets/QxClientDocument.js: Minor
-    enhancements to handle problems with QxNativeWindows
+  * [r899] trunk/qooxdoo/source/script/core/QxNativeWindow.js,
+    trunk/qooxdoo/source/script/widgets/QxClientDocument.js:
+    Minor enhancements to handle problems with QxNativeWindows
 
 2005-08-17 10:04  wpbasti
 
-  * branches/renderer/qooxdoo/source/script/core/QxBorderObject.js,
+  * [r878] branches/renderer/qooxdoo/source/script/core/QxBorderObject.js,
     branches/renderer/qooxdoo/source/script/core/QxSet.js,
     trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js,
     trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
@@ -6009,243 +6199,263 @@
     trunk/qooxdoo/source/test/user/Gallery_1.html,
     trunk/qooxdoo/source/test/user/Gallery_2.html,
     trunk/qooxdoo/source/test/user/Gallery_3.html,
-    trunk/qooxdoo/source/test/user/Gallery_List_1.html: Dos2Unix
+    trunk/qooxdoo/source/test/user/Gallery_List_1.html:
+    Dos2Unix
 
 2005-08-17 09:35  wpbasti
 
-  * trunk/qooxdoo/AUTHORS: Added contributor section
+  * [r877] trunk/qooxdoo/AUTHORS:
+    Added contributor section
 
 2005-08-17 09:29  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js: Added hash feature
+  * [r876] trunk/qooxdoo/source/script/core/QxXmlHttpLoader.js:
+    Added hash feature
 
 2005-08-17 09:26  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxButton.js,
+  * [r875] trunk/qooxdoo/source/script/widgets/QxButton.js,
     trunk/qooxdoo/source/script/widgets/QxList.js,
-    trunk/qooxdoo/source/script/widgets/QxListItem.js: Minor feature
-    additions
+    trunk/qooxdoo/source/script/widgets/QxListItem.js:
+    Minor feature additions
 
 2005-08-17 09:21  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBuilder.js: Added new handling for
-    some special widgets
+  * [r874] trunk/qooxdoo/source/script/core/QxBuilder.js:
+    Added new handling for some special widgets
 
 2005-08-10 10:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js: Minor enhancement
+  * [r797] trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    Minor enhancement
 
 2005-08-10 09:10  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Tree_1.html: Minor fix for table layout
-    to omit white border
+  * [r796] trunk/qooxdoo/source/test/user/Tree_1.html:
+    Minor fix for table layout to omit white border
 
 2005-08-10 09:09  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Tree_1.html: Minor fix for table layout
-    to omit white border
+  * [r795] trunk/qooxdoo/source/style/widgets.css,
+    trunk/qooxdoo/source/test/user/Tree_1.html:
+    Minor fix for table layout to omit white border
 
 2005-08-09 12:12  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: removed unused
-    variables and resized cells
+  * [r791] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    removed unused variables and resized cells
 
 2005-08-08 15:49  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: reset selection when
-    cells are removed
+  * [r786] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    reset selection when cells are removed
 
 2005-08-07 10:00  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Canvas_5.html: New temporary test file
+  * [r783] trunk/qooxdoo/source/test/user/Canvas_5.html:
+    New temporary test file
 
 2005-08-05 17:20  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Update image list
-    when source and dimension change.
+  * [r782] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Update image list when source and dimension change.
     Replacement of function "removeAt", which caused some errors (at least
     with Firefox).
 
 2005-08-04 12:16  psycledw
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: added functions to
-    update single cells with new image dimensions
+  * [r781] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    added functions to update single cells with new image dimensions
 
 2005-08-02 15:08  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Use default window if none
-    given
+  * [r778] trunk/qooxdoo/source/script/core/QxDom.js:
+    Use default window if none given
 
 2005-08-02 15:07  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolTip.js: Better tooltip
-    positioning
+  * [r777] trunk/qooxdoo/source/script/widgets/QxToolTip.js:
+    Better tooltip positioning
 
 2005-08-02 14:32  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/test/user/Gallery_3.html: Some new util methods
+  * [r776] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/test/user/Gallery_3.html:
+    Some new util methods
 
 2005-08-02 09:18  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Minor enhancements
-    for gecko resize prohibit
+  * [r775] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Minor enhancements for gecko resize prohibit
 
 2005-08-02 08:19  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Use this.focus()
+  * [r774] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Use this.focus()
 
 2005-08-02 05:43  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/test/user/Gallery_3.html: Gallery ToolTips
-    optimized
+  * [r771] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/test/user/Gallery_3.html:
+    Gallery ToolTips optimized
 
 2005-08-01 19:07  wpbasti
 
-  * trunk/qooxdoo/source/script/events/QxMouseEvent.js,
+  * [r770] trunk/qooxdoo/source/script/events/QxMouseEvent.js,
     trunk/qooxdoo/source/script/managers/QxEventManager.js,
     trunk/qooxdoo/source/script/managers/QxToolTipManager.js,
     trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/test/user/Gallery_3.html: Added tooltip feature
-    to QxGallery
+    trunk/qooxdoo/source/test/user/Gallery_3.html:
+    Added tooltip feature to QxGallery
 
 2005-08-01 11:38  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Some dimension set
-    fixes for QxNativeWindow (IE)
+  * [r768] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Some dimension set fixes for QxNativeWindow (IE)
 
 2005-08-01 10:02  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Some new utility
-    methods
+  * [r767] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Some new utility methods
 
 2005-08-01 09:36  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Structured
+  * [r766] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Structured
 
 2005-08-01 08:12  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Added removeAll and
-    deselect items first (fixed)
-  * trunk/qooxdoo/source/script/core/QxBuilder.js,
-    trunk/qooxdoo/source/script/widgets/QxTextField.js: Minor fixes
+  * [r765] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Added removeAll and deselect items first (fixed)
+  * [r764] trunk/qooxdoo/source/script/core/QxBuilder.js,
+    trunk/qooxdoo/source/script/widgets/QxTextField.js:
+    Minor fixes
 
 2005-07-31 15:19  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: Minor fix
+  * [r758] trunk/qooxdoo/source/script/core/QxExtend.js:
+    Minor fix
 
 2005-07-31 14:35  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxListView.js: Minor bugfix: typo
+  * [r756] trunk/qooxdoo/source/script/widgets/QxListView.js:
+    Minor bugfix: typo
 
 2005-07-27 13:01  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Throw exception if
-    popup blocker prohibit the window creation
+  * [r747] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Throw exception if popup blocker prohibit the window creation
 
 2005-07-27 09:04  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css: Minor fix
+  * [r746] trunk/qooxdoo/source/style/widgets.css:
+    Minor fix
 
 2005-07-27 06:58  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js: Added update feature
+  * [r745] trunk/qooxdoo/source/script/widgets/QxGallery.js:
+    Added update feature
 
 2005-07-26 21:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxListView.js: Minor fix for no
-    valid rowselection
+  * [r744] trunk/qooxdoo/source/script/widgets/QxListView.js:
+    Minor fix for no valid rowselection
 
 2005-07-26 20:49  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBuilder.js: minor fix
+  * [r743] trunk/qooxdoo/source/script/core/QxBuilder.js:
+    minor fix
 
 2005-07-26 14:54  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Added position,
-    moved id to frame
+  * [r742] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Added position, moved id to frame
 
 2005-07-26 14:21  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Minor addition
+  * [r741] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Minor addition
 
 2005-07-26 09:25  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/script/widgets/QxGalleryList.js: Added ID's to
-    DOM nodes
+  * [r740] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/script/widgets/QxGalleryList.js:
+    Added ID's to DOM nodes
 
 2005-07-25 09:32  ecker
 
-  * trunk/qooxdoo/source/test/user/Gallery_1.html: Added update
+  * [r739] trunk/qooxdoo/source/test/user/Gallery_1.html:
+    Added update
 
 2005-07-25 09:21  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/test/user/Gallery_2.html: Added another Gallery
-    style
+  * [r738] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/test/user/Gallery_2.html:
+    Added another Gallery style
 
 2005-07-25 08:43  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGalleryList.js,
+  * [r737] trunk/qooxdoo/source/script/widgets/QxGalleryList.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Gallery_List_1.html: Minor additions
+    trunk/qooxdoo/source/test/user/Gallery_List_1.html:
+    Minor additions
 
 2005-07-25 07:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGallery.js,
-    trunk/qooxdoo/source/style/widgets.css: Minor additions
+  * [r736] trunk/qooxdoo/source/script/widgets/QxGallery.js,
+    trunk/qooxdoo/source/style/widgets.css:
+    Minor additions
 
 2005-07-22 13:50  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css,
+  * [r735] trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Gallery_1.html,
     trunk/qooxdoo/tools/build_dist.pl, trunk/qooxdoo/tools/config.sh:
     Minor fixes to Gallery, Added QxGalleryList
 
 2005-07-22 11:54  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAlbum.js,
+  * [r734] trunk/qooxdoo/source/script/widgets/QxAlbum.js,
     trunk/qooxdoo/source/script/widgets/QxGallery.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Album_1.html,
     trunk/qooxdoo/source/test/user/Gallery_1.html,
-    trunk/qooxdoo/tools/config.sh: Renamed album to gallery
+    trunk/qooxdoo/tools/config.sh:
+    Renamed album to gallery
 
 2005-07-22 10:54  ecker
 
-  * trunk/qooxdoo/source/test/user/Menu_1.html: Added comments on how to
-    pre-create menus
+  * [r733] trunk/qooxdoo/source/test/user/Menu_1.html:
+    Added comments on how to pre-create menus
 
 2005-07-22 10:43  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAlbum.js,
-    trunk/qooxdoo/source/style/widgets.css: Moved some internal to
-    controlable properties
+  * [r732] trunk/qooxdoo/source/script/widgets/QxAlbum.js,
+    trunk/qooxdoo/source/style/widgets.css:
+    Moved some internal to controlable properties
 
 2005-07-22 10:31  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js: Minor
-    fix for pageup/pagedown handling in DOM Selection Manager
+  * [r731] trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js:
+    Minor fix for pageup/pagedown handling in DOM Selection Manager
 
 2005-07-22 10:25  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js,
+  * [r730] trunk/qooxdoo/source/script/core/QxExtend.js,
     trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js,
     trunk/qooxdoo/source/script/managers/QxSelectionManager.js,
     trunk/qooxdoo/source/script/widgets/QxAlbum.js,
     trunk/qooxdoo/source/style/core.css,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Album_1.html: Better Album features.
-    Many enhancements to SelectionManager related things
+    trunk/qooxdoo/source/test/user/Album_1.html:
+    Better Album features. Many enhancements to SelectionManager related
+    things
 
 2005-07-21 17:06  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js,
+  * [r729] trunk/qooxdoo/source/script/core/QxDom.js,
     trunk/qooxdoo/source/script/managers/QxDomSelectionManager.js,
     trunk/qooxdoo/source/script/managers/QxSelectionManager.js,
     trunk/qooxdoo/source/script/widgets/QxAlbum.js,
@@ -6256,197 +6466,210 @@
 
 2005-07-21 11:33  cameronbraid
 
-  * trunk/qooxdoo/source/test/developer/Inline_2.html: added xmlns:qx
-    attribute and the qx prefix to the <widgets> node
+  * [r728] trunk/qooxdoo/source/test/developer/Inline_2.html:
+    added xmlns:qx attribute and the qx prefix to the <widgets> node
 
 2005-07-18 16:50  wpbasti
 
-  * trunk/qooxdoo/tools/compile.xsl: Fixed html output for mshtml
+  * [r699] trunk/qooxdoo/tools/compile.xsl:
+    Fixed html output for mshtml
 
 2005-07-18 09:32  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Minor bugfix
+  * [r695] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Minor bugfix
 
 2005-07-18 05:12  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Improved timer
-    interval and focus handling
+  * [r693] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Improved timer interval and focus handling
 
 2005-07-18 05:10  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js: Extend modal
-    native window support; add checks for inline constructor
+  * [r692] trunk/qooxdoo/source/script/widgets/QxClientDocument.js:
+    Extend modal native window support; add checks for inline constructor
 
 2005-07-18 05:08  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js,
-    trunk/qooxdoo/source/script/managers/QxFocusManager.js: Include checks
-    for various constructors
+  * [r691] trunk/qooxdoo/source/script/managers/QxEventManager.js,
+    trunk/qooxdoo/source/script/managers/QxFocusManager.js:
+    Include checks for various constructors
 
 2005-07-18 05:05  ecker
 
-  * trunk/qooxdoo/source/script/events/QxEvent.js: Fix autodisposing of
-    events
+  * [r690] trunk/qooxdoo/source/script/events/QxEvent.js:
+    Fix autodisposing of events
 
 2005-07-15 14:15  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js: Minor fix
+  * [r688] trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js:
+    Minor fix
 
 2005-07-15 14:13  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
+  * [r687] trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
     trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
     trunk/qooxdoo/source/script/widgets/QxSpinner.js,
-    trunk/qooxdoo/source/test/user/Menu_1.html: Minor fixes all over the
-    colorselector and minor fix for QxSpinner
+    trunk/qooxdoo/source/test/user/Menu_1.html:
+    Minor fixes all over the colorselector and minor fix for QxSpinner
 
 2005-07-14 13:17  cameronbraid
 
-  * trunk/qooxdoo/source/test/developer/Builder_1.html,
+  * [r682] trunk/qooxdoo/source/test/developer/Builder_1.html,
     trunk/qooxdoo/source/test/developer/Builder_2.html,
     trunk/qooxdoo/source/test/developer/Builder_2.xml,
-    trunk/qooxdoo/source/test/developer/Inline_2.html: initial import of
-    QxBuilder demos
+    trunk/qooxdoo/source/test/developer/Inline_2.html:
+    initial import of QxBuilder demos
     Builder_1.html : simple atoms and buttons from embedded xml string
     Builder_2.html : simple atoms and buttons loaded from a url
     Inline_2.html : conversion of Inline_1.html to an xml based version
 
 2005-07-14 13:16  cameronbraid
 
-  * trunk/qooxdoo/source/script/core/QxBuilder.js,
-    trunk/qooxdoo/tools/config.sh: initial import of QxBuilder - builds
-    qooxdoo widgets from xml
+  * [r681] trunk/qooxdoo/source/script/core/QxBuilder.js,
+    trunk/qooxdoo/tools/config.sh:
+    initial import of QxBuilder - builds qooxdoo widgets from xml
 
 2005-07-14 13:14  cameronbraid
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: made the rows and
-    cols constructor args optional to support QxBuilder
+  * [r680] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    made the rows and cols constructor args optional to support QxBuilder
 
 2005-07-11 17:37  ecker
 
-  * trunk/qooxdoo/source/script/types/QxColor.js: Relax regexp
+  * [r679] trunk/qooxdoo/source/script/types/QxColor.js:
+    Relax regexp
 
 2005-07-11 17:36  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Prevent errors
-    if certain constructors are not defined
+  * [r678] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Prevent errors if certain constructors are not defined
 
 2005-06-24 10:54  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxHorizontalBoxLayout.js,
+  * [r608] trunk/qooxdoo/source/script/widgets/QxHorizontalBoxLayout.js,
     trunk/qooxdoo/source/script/widgets/QxVerticalBoxLayout.js,
-    trunk/qooxdoo/source/test/user/ColorSelector_3.html: Minor format
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Added new
-    frameless standalone mode
+    trunk/qooxdoo/source/test/user/ColorSelector_3.html:
+    Minor format
+  * [r607] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Added new frameless standalone mode
 
 2005-06-20 08:03  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxData.js: Minor addition: Exception
-    handling
+  * [r543] trunk/qooxdoo/source/script/core/QxData.js:
+    Minor addition: Exception handling
 
 2005-06-16 12:43  firstbman
 
-  * trunk/qooxdoo/source/script/core/QxDom.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: added checks
+  * [r526] trunk/qooxdoo/source/script/core/QxDom.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    added checks
 
 2005-06-13 10:03  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Added missing
-    semicolons
+  * [r492] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Added missing semicolons
 
 2005-06-13 08:48  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
-    trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Added i18n
-    support (somewhat basic right now), some layout improvements
+  * [r489] trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
+    trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Added i18n support (somewhat basic right now), some layout improvements
 
 2005-06-10 11:27  firstbman
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuButton.js: added
-    _modifyEnabled
+  * [r485] trunk/qooxdoo/source/script/widgets/QxMenuButton.js:
+    added _modifyEnabled
 
 2005-06-10 10:45  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
+  * [r484] trunk/qooxdoo/source/script/widgets/QxColorPresetPopup.js,
     trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
     trunk/qooxdoo/source/test/user/ColorSelector_1.html,
     trunk/qooxdoo/source/test/user/ColorSelector_2.html,
-    trunk/qooxdoo/tools/config.sh: Splitted out color popup as external
-    javascript file: QxColorPresetPopup.js
+    trunk/qooxdoo/tools/config.sh:
+    Splitted out color popup as external javascript file:
+    QxColorPresetPopup.js
 
 2005-06-10 10:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
-    trunk/qooxdoo/source/test/user/ColorSelector_2.html: Added customize
-    mode to colorselector
+  * [r483] trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
+    trunk/qooxdoo/source/test/user/ColorSelector_2.html:
+    Added customize mode to colorselector
 
 2005-06-10 09:17  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxColorSelector.js: Minor change
+  * [r482] trunk/qooxdoo/source/script/widgets/QxColorSelector.js:
+    Minor change
 
 2005-06-10 09:14  wpbasti
 
-  * trunk/qooxdoo/source/images/core/brightnesshandle.gif,
+  * [r481] trunk/qooxdoo/source/images/core/brightnesshandle.gif,
     trunk/qooxdoo/source/images/core/huesaturationhandle.gif,
     trunk/qooxdoo/source/script/widgets/QxColorSelector.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/ColorSelector_1.html,
-    trunk/qooxdoo/tools/config.sh: Added QxColorSelector and test file
-  * trunk/qooxdoo/source/test/developer/Atom_4.html,
+    trunk/qooxdoo/tools/config.sh:
+    Added QxColorSelector and test file
+  * [r480] trunk/qooxdoo/source/test/developer/Atom_4.html,
     trunk/qooxdoo/source/test/developer/Atom_5.html,
     trunk/qooxdoo/source/test/developer/Atom_6.html,
     trunk/qooxdoo/source/test/developer/Atom_7.html,
     trunk/qooxdoo/source/test/developer/Atom_8.html,
-    trunk/qooxdoo/source/test/developer/Atom_9.html: Added some atom tests
+    trunk/qooxdoo/source/test/developer/Atom_9.html:
+    Added some atom tests
 
 2005-06-02 09:26  ecker
 
-  * trunk/qooxdoo/source/script/core/QxObject.js: Fixes
+  * [r428] trunk/qooxdoo/source/script/core/QxObject.js:
+    Fixes
 
 2005-06-02 07:47  ecker
 
-  * trunk/qooxdoo/source/script/core/QxObject.js: Added support for
-    storing and retrieving data attached to single widget instances
+  * [r425] trunk/qooxdoo/source/script/core/QxObject.js:
+    Added support for storing and retrieving data attached to single
+    widget instances
 
 2005-06-02 07:45  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxWindowManager.js: Account for
-    removing last window in window manager
+  * [r424] trunk/qooxdoo/source/script/managers/QxWindowManager.js:
+    Account for removing last window in window manager
 
 2005-06-02 07:43  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Add support for array
-    of QxWidgets as argument to add()
+  * [r423] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Add support for array of QxWidgets as argument to add()
 
 2005-06-01 13:42  wpbasti
 
-  * trunk/qooxdoo/tools/settings.py: Minor fix
+  * [r419] trunk/qooxdoo/tools/settings.py:
+    Minor fix
 
 2005-06-01 09:40  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxSelectionManager.js: rollback
-    bugfix to implicitly account for specific behaviour
+  * [r417] trunk/qooxdoo/source/script/managers/QxSelectionManager.js:
+    rollback bugfix to implicitly account for specific behaviour
 
 2005-06-01 09:13  ecker
 
-  * trunk/qooxdoo/source/images/core/alpha.gif: Nice as background for
-    image previews
+  * [r416] trunk/qooxdoo/source/images/core/alpha.gif:
+    Nice as background for image previews
 
 2005-06-01 09:09  ecker
 
-  * trunk/qooxdoo/source/script/core/QxApplication.js,
+  * [r415] trunk/qooxdoo/source/script/core/QxApplication.js,
     trunk/qooxdoo/source/script/core/QxUserApplication.js,
-    trunk/qooxdoo/tools/config.sh, trunk/qooxdoo/tools/settings.py: Add
-    support for user application
+    trunk/qooxdoo/tools/config.sh, trunk/qooxdoo/tools/settings.py:
+    Add support for user application
 
 2005-06-01 09:06  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxSelectionManager.js: Fixed bug
-    in setItemSelected() if deselecting currently selected item
+  * [r414] trunk/qooxdoo/source/script/managers/QxSelectionManager.js:
+    Fixed bug in setItemSelected() if deselecting currently selected item
 
 2005-05-10 09:09  ecker
 
-  * trunk/qooxdoo/source/images/core/blank.gif,
+  * [r335] trunk/qooxdoo/source/images/core/blank.gif,
     trunk/qooxdoo/source/images/core/brightness.jpg,
     trunk/qooxdoo/source/images/core/dotted.gif,
     trunk/qooxdoo/source/images/core/huesaturation.jpg,
@@ -7607,32 +7830,35 @@
     trunk/qooxdoo/source/images/widgets/windows/window/close.gif,
     trunk/qooxdoo/source/images/widgets/windows/window/maximize.gif,
     trunk/qooxdoo/source/images/widgets/windows/window/minimize.gif,
-    trunk/qooxdoo/source/images/widgets/windows/window/restore.gif: ***
-    keyword substitution change ***
+    trunk/qooxdoo/source/images/widgets/windows/window/restore.gif:
+    *** keyword substitution change ***
 
 2005-05-04 09:34  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxButton.js: Minor addition
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Major fix for auto
-    sized widgets with padding/border - like buttons
+  * [r309] trunk/qooxdoo/source/script/widgets/QxButton.js:
+    Minor addition
+  * [r308] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Major fix for auto sized widgets with padding/border - like buttons
 
 2005-05-04 09:33  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTextField.js: Major blur fix,
-    ignore moz error
+  * [r307] trunk/qooxdoo/source/script/widgets/QxTextField.js:
+    Major blur fix, ignore moz error
 
 2005-05-04 07:03  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Bar_Selector_2.html: minor fix
+  * [r306] trunk/qooxdoo/source/test/user/Bar_Selector_2.html:
+    minor fix
 
 2005-05-03 10:15  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Grid_Layout_1.html,
-    trunk/qooxdoo/source/test/user/Grid_Layout_2.html: Minor additions
+  * [r305] trunk/qooxdoo/source/test/user/Grid_Layout_1.html,
+    trunk/qooxdoo/source/test/user/Grid_Layout_2.html:
+    Minor additions
 
 2005-05-03 07:53  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r304] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_10.html,
     trunk/qooxdoo/source/test/developer/Layout_11.html,
     trunk/qooxdoo/source/test/developer/Layout_12.html,
@@ -7641,184 +7867,198 @@
     trunk/qooxdoo/source/test/developer/Layout_8.html,
     trunk/qooxdoo/source/test/developer/Layout_9.html,
     trunk/qooxdoo/source/test/user/Grid_Layout_1.html,
-    trunk/qooxdoo/source/test/user/Grid_Layout_2.html: Major fixes for
-    QxGridLayout, renaming of grid variable from dl to gl, cleanups
+    trunk/qooxdoo/source/test/user/Grid_Layout_2.html:
+    Major fixes for QxGridLayout, renaming of grid variable from dl to gl,
+    cleanups
 
 2005-05-03 07:52  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxFieldSet.js: Minor fix/advanced
-    handling for min-width, not perfect but helps to fix the current
-    problem
+  * [r303] trunk/qooxdoo/source/script/widgets/QxFieldSet.js:
+    Minor fix/advanced handling for min-width, not perfect but helps to
+    fix the current problem
 
 2005-05-02 11:13  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r302] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_13.html,
-    trunk/qooxdoo/source/test/developer/Layout_14.html: Added cellpadding
-    and alignment support to grid, also added new star weight support,
-    have fun ;)
+    trunk/qooxdoo/source/test/developer/Layout_14.html:
+    Added cellpadding and alignment support to grid, also added new star
+    weight support, have fun ;)
 
 2005-04-29 13:26  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r301] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_12.html,
-    trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Minor fix
+    trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Minor fix
 
 2005-04-29 10:56  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Layout_10.html,
+  * [r300] trunk/qooxdoo/source/test/developer/Layout_10.html,
     trunk/qooxdoo/source/test/developer/Layout_11.html,
     trunk/qooxdoo/source/test/developer/Layout_12.html,
     trunk/qooxdoo/source/test/developer/Layout_8.html,
-    trunk/qooxdoo/source/test/developer/Layout_9.html: Minor change
+    trunk/qooxdoo/source/test/developer/Layout_9.html:
+    Minor change
 
 2005-04-29 10:55  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Layout_10.html,
+  * [r299] trunk/qooxdoo/source/test/developer/Layout_10.html,
     trunk/qooxdoo/source/test/developer/Layout_11.html,
     trunk/qooxdoo/source/test/developer/Layout_12.html,
-    trunk/qooxdoo/source/test/developer/Layout_9.html: Minor fixes
+    trunk/qooxdoo/source/test/developer/Layout_9.html:
+    Minor fixes
 
 2005-04-29 10:51  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
-    trunk/qooxdoo/source/test/developer/Layout_12.html: Implemented star
-    declaration
+  * [r298] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+    trunk/qooxdoo/source/test/developer/Layout_12.html:
+    Implemented star declaration
 
 2005-04-29 08:49  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r297] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/script/widgets/QxLayout.js,
-    trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Multiple fixes and
-    enhancements
+    trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Multiple fixes and enhancements
 
 2005-04-29 08:14  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxLayout.js: Minor change
+  * [r296] trunk/qooxdoo/source/script/widgets/QxLayout.js:
+    Minor change
 
 2005-04-29 08:12  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r295] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/script/widgets/QxLayout.js,
-    trunk/qooxdoo/source/test/developer/Layout_10.html: Minor change
+    trunk/qooxdoo/source/test/developer/Layout_10.html:
+    Minor change
 
 2005-04-29 07:55  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: Minor change
+  * [r294] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    Minor change
 
 2005-04-29 06:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js: Minor bug fixes for
-    QxComboBox
+  * [r293] trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    Minor bug fixes for QxComboBox
 
 2005-04-29 06:22  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Optimized Example
+  * [r292] trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Optimized Example
 
 2005-04-28 16:04  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Fixed rowspan
-    handling in QxGridLayout, fixed user grid layout example
+  * [r291] trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Fixed rowspan handling in QxGridLayout, fixed user grid layout example
 
 2005-04-28 16:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
-    trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Fixed rowspan
-    handling in QxGridLayout, fixed user grid layout example
+  * [r290] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+    trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Fixed rowspan handling in QxGridLayout, fixed user grid layout example
 
 2005-04-28 14:37  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r289] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_10.html,
-    trunk/qooxdoo/source/test/developer/Layout_11.html: Reimplemented
-    QxGridLayout, sometimes buggy currently
+    trunk/qooxdoo/source/test/developer/Layout_11.html:
+    Reimplemented QxGridLayout, sometimes buggy currently
 
 2005-04-28 08:52  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Fixed typo
+  * [r288] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Fixed typo
 
 2005-04-28 08:51  ecker
 
-  * trunk/qooxdoo/source/test/developer/Layout_9.html: Use atoms instead
-    of widgets
-  * trunk/qooxdoo/source/test/user/Grid_Layout_1.html: Added
+  * [r287] trunk/qooxdoo/source/test/developer/Layout_9.html:
+    Use atoms instead of widgets
+  * [r286] trunk/qooxdoo/source/test/user/Grid_Layout_1.html:
+    Added
 
 2005-04-28 08:50  ecker
 
-  * trunk/qooxdoo/source/test/user/images,
-    trunk/qooxdoo/source/test/user/images/grid_dialog_box.png: *** empty
-    log message ***
+  * [r285] trunk/qooxdoo/source/test/user/images,
+    trunk/qooxdoo/source/test/user/images/grid_dialog_box.png:
+    *** empty log message ***
 
 2005-04-28 07:46  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: More cleanups and
-    variable renaming
+  * [r284] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    More cleanups and variable renaming
 
 2005-04-28 07:27  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: More structuring
-    of code, minor cleanups
+  * [r283] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    More structuring of code, minor cleanups
 
 2005-04-28 07:21  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: Variable name
-    optimization, step 1
+  * [r282] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    Variable name optimization, step 1
 
 2005-04-28 06:43  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
+  * [r281] trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_8.html,
-    trunk/qooxdoo/tools/script/layout.js.in: Minor fix
+    trunk/qooxdoo/tools/script/layout.js.in:
+    Minor fix
 
 2005-04-28 06:16  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTreeFile.js,
-    trunk/qooxdoo/source/test/user/Listview_1.html: Minor path fixes
+  * [r280] trunk/qooxdoo/source/script/widgets/QxTreeFile.js,
+    trunk/qooxdoo/source/test/user/Listview_1.html:
+    Minor path fixes
 
 2005-04-28 06:09  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTreeFolder.js: Minor fix for tree
+  * [r279] trunk/qooxdoo/source/script/widgets/QxTreeFolder.js:
+    Minor fix for tree
 
 2005-04-27 14:50  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxGridLayout.js: Fixed clipping
-    mode in QxGridLayout
+  * [r278] trunk/qooxdoo/source/script/widgets/QxGridLayout.js:
+    Fixed clipping mode in QxGridLayout
 
 2005-04-27 13:52  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
+  * [r277] trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
     trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/test/developer/Layout_10.html,
     trunk/qooxdoo/source/test/developer/Layout_8.html,
-    trunk/qooxdoo/source/test/developer/Layout_9.html: Initial
-    QxGridLayout support
+    trunk/qooxdoo/source/test/developer/Layout_9.html:
+    Initial QxGridLayout support
 
 2005-04-27 06:37  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Layout_6.html: Minor example
-    addition
+  * [r276] trunk/qooxdoo/source/test/developer/Layout_6.html:
+    Minor example addition
 
 2005-04-26 18:04  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxDockLayout.js: Minor brace error
-    fixed
+  * [r275] trunk/qooxdoo/source/script/widgets/QxDockLayout.js:
+    Minor brace error fixed
 
 2005-04-26 15:04  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Layout_7.html: Better doc entry
+  * [r274] trunk/qooxdoo/source/test/developer/Layout_7.html:
+    Better doc entry
 
 2005-04-26 15:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
+  * [r273] trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
     trunk/qooxdoo/source/script/widgets/QxFlowLayout.js,
     trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
-    trunk/qooxdoo/source/script/widgets/QxLayout.js: Minor fixes and
-    Dos2Unix
+    trunk/qooxdoo/source/script/widgets/QxLayout.js:
+    Minor fixes and Dos2Unix
 
 2005-04-26 15:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
+  * [r272] trunk/qooxdoo/source/script/widgets/QxDockLayout.js,
     trunk/qooxdoo/source/script/widgets/QxGridLayout.js,
     trunk/qooxdoo/source/script/widgets/QxLayout.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
@@ -7826,58 +8066,64 @@
     trunk/qooxdoo/source/test/developer/Layout_4.html,
     trunk/qooxdoo/source/test/developer/Layout_5.html,
     trunk/qooxdoo/source/test/developer/Layout_6.html,
-    trunk/qooxdoo/source/test/developer/Layout_7.html: Added QxDockLayout
+    trunk/qooxdoo/source/test/developer/Layout_7.html:
+    Added QxDockLayout
 
 2005-04-26 10:11  ecker
 
-  * trunk/qooxdoo/tools/config.sh: Fix
+  * [r271] trunk/qooxdoo/tools/config.sh:
+    Fix
 
 2005-04-26 10:10  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
+  * [r270] trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/script/widgets/QxDockPanel.js,
     trunk/qooxdoo/source/script/widgets/QxFlowPanel.js,
     trunk/qooxdoo/source/script/widgets/QxHBox.js,
-    trunk/qooxdoo/source/script/widgets/QxVBox.js: *** empty log message
-    ***
+    trunk/qooxdoo/source/script/widgets/QxVBox.js:
+    *** empty log message ***
 
 2005-04-26 10:09  ecker
 
-  * trunk/qooxdoo/source/test/developer/Layout_4.html: Cleanup
+  * [r269] trunk/qooxdoo/source/test/developer/Layout_4.html:
+    Cleanup
 
 2005-04-26 09:17  ecker
 
-  * trunk/qooxdoo/tools/massreplace.sh: Included config files
+  * [r268] trunk/qooxdoo/tools/massreplace.sh:
+    Included config files
 
 2005-04-26 09:12  ecker
 
-  * trunk/qooxdoo/source/style/widgets.css,
+  * [r267] trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/tools/build_dist.pl, trunk/qooxdoo/tools/config.sh:
     Added layouts
-  * trunk/qooxdoo/source/test/developer/Layout_1.html,
+  * [r266] trunk/qooxdoo/source/test/developer/Layout_1.html,
     trunk/qooxdoo/source/test/developer/Layout_2.html,
     trunk/qooxdoo/source/test/developer/Layout_3.html,
-    trunk/qooxdoo/source/test/developer/Layout_4.html: Renaming
+    trunk/qooxdoo/source/test/developer/Layout_4.html:
+    Renaming
 
 2005-04-26 09:11  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxVerticalBoxLayout.js: Renamed
-    from QxVBox
+  * [r265] trunk/qooxdoo/source/script/widgets/QxVerticalBoxLayout.js:
+    Renamed from QxVBox
 
 2005-04-26 09:10  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxHorizontalBoxLayout.js: Renamed
-    from QxHBox
-  * trunk/qooxdoo/source/script/widgets/QxFlowLayout.js: Renamed from
-    QxFlowPanel
+  * [r264] trunk/qooxdoo/source/script/widgets/QxHorizontalBoxLayout.js:
+    Renamed from QxHBox
+  * [r263] trunk/qooxdoo/source/script/widgets/QxFlowLayout.js:
+    Renamed from QxFlowPanel
 
 2005-04-26 09:09  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxBoxLayout.js: Renamed from QxBox
+  * [r262] trunk/qooxdoo/source/script/widgets/QxBoxLayout.js:
+    Renamed from QxBox
 
 2005-04-26 08:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
+  * [r261] trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/script/widgets/QxFlowPanel.js,
     trunk/qooxdoo/source/script/widgets/QxLayout.js,
     trunk/qooxdoo/source/test/developer/Layout_4.html,
@@ -7887,7 +8133,7 @@
 
 2005-04-25 15:04  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxDockPanel.js,
+  * [r260] trunk/qooxdoo/source/script/widgets/QxDockPanel.js,
     trunk/qooxdoo/source/script/widgets/QxFlowPanel.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/developer/Layout_1.html,
@@ -7898,105 +8144,110 @@
 
 2005-04-25 11:39  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Make ignorance of
-    opposite margin a property
+  * [r259] trunk/qooxdoo/source/script/widgets/QxBox.js,
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Make ignorance of opposite margin a property
 
 2005-04-25 09:27  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Minor fixes and
-    additions, better handling for margins
+  * [r258] trunk/qooxdoo/source/script/widgets/QxBox.js,
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Minor fixes and additions, better handling for margins
 
 2005-04-25 08:46  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Added spacing
-    support
+  * [r257] trunk/qooxdoo/source/script/widgets/QxBox.js,
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Added spacing support
 
 2005-04-25 07:44  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
+  * [r256] trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/script/widgets/QxHBox.js,
-    trunk/qooxdoo/source/script/widgets/QxVBox.js: Dos2Unix
+    trunk/qooxdoo/source/script/widgets/QxVBox.js:
+    Dos2Unix
 
 2005-04-22 16:30  ecker
 
-  * trunk/qooxdoo/source/test/developer/Layout_2.html: Layout manager:
-    QxHBox, QxVBox
+  * [r255] trunk/qooxdoo/source/test/developer/Layout_2.html:
+    Layout manager: QxHBox, QxVBox
 
 2005-04-22 15:59  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Fixed getAnyWidth(),
-    getAnyHeight()
+  * [r254] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Fixed getAnyWidth(), getAnyHeight()
 
 2005-04-22 15:58  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxHBox.js,
-    trunk/qooxdoo/source/script/widgets/QxVBox.js: Minor fix
-  * trunk/qooxdoo/source/script/widgets/QxBox.js: Added auto-size,
-    padding; fixed modifiers
+  * [r253] trunk/qooxdoo/source/script/widgets/QxHBox.js,
+    trunk/qooxdoo/source/script/widgets/QxVBox.js:
+    Minor fix
+  * [r252] trunk/qooxdoo/source/script/widgets/QxBox.js:
+    Added auto-size, padding; fixed modifiers
 
 2005-04-22 15:56  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorButton.js: Fixed
-    block alignment
+  * [r251] trunk/qooxdoo/source/script/widgets/QxBarSelectorButton.js:
+    Fixed block alignment
 
 2005-04-22 13:49  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxHBox.js,
-    trunk/qooxdoo/source/script/widgets/QxVBox.js: Added
+  * [r250] trunk/qooxdoo/source/script/widgets/QxHBox.js,
+    trunk/qooxdoo/source/script/widgets/QxVBox.js:
+    Added
 
 2005-04-22 13:29  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
+  * [r249] trunk/qooxdoo/source/script/widgets/QxAtom.js,
     trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Cleanups and fixes
-    for orientation in QxBox, added QxHBox and QxVBox as simple extended
-    QxBoxes, minor cleanups in QxAtom, added horizontalAlign property to
-    QxWidget, removed property group align
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Cleanups and fixes for orientation in QxBox, added QxHBox and QxVBox
+    as simple extended QxBoxes, minor cleanups in QxAtom, added
+    horizontalAlign property to QxWidget, removed property group align
 
 2005-04-22 12:18  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
-    trunk/qooxdoo/source/script/widgets/QxBox.js: Multiple minor fixes
+  * [r248] trunk/qooxdoo/source/script/widgets/QxAtom.js,
+    trunk/qooxdoo/source/script/widgets/QxBox.js:
+    Multiple minor fixes
 
 2005-04-22 10:17  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
+  * [r247] trunk/qooxdoo/source/script/widgets/QxAtom.js,
     trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/test/developer/Layout_1.html,
-    trunk/qooxdoo/source/test/user/Atom_2.html: Added children alignment
-    support, some renaming in QxAtom to support this new handling
+    trunk/qooxdoo/source/test/user/Atom_2.html:
+    Added children alignment support, some renaming in QxAtom to support
+    this new handling
 
 2005-04-22 08:29  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js: Minor fixes for
-    more flexibility and allow parents to resize/move
+  * [r246] trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    Minor fixes for more flexibility and allow parents to resize/move
 
 2005-04-22 08:06  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
+  * [r245] trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Better Box Code and
-    Example
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Better Box Code and Example
 
 2005-04-21 15:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
-    trunk/qooxdoo/source/test/developer/Layout_1.html: Some additions to
-    QxBox
+  * [r244] trunk/qooxdoo/source/script/widgets/QxBox.js,
+    trunk/qooxdoo/source/test/developer/Layout_1.html:
+    Some additions to QxBox
 
 2005-04-21 14:33  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Fixed remove all
-    method
+  * [r243] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Fixed remove all method
 
 2005-04-21 10:28  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBox.js,
+  * [r242] trunk/qooxdoo/source/script/widgets/QxBox.js,
     trunk/qooxdoo/source/script/widgets/QxTextField.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/developer/Layout_1.html,
@@ -8005,131 +8256,137 @@
 
 2005-04-20 12:29  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBorder.js,
+  * [r241] trunk/qooxdoo/source/script/core/QxBorder.js,
     trunk/qooxdoo/source/script/core/QxClientWindow.js,
     trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/style/widgets.css: Multiple fixes for opera to
-    support QxNativeWindow. New idea for fixing border styles in opera
-    committed.
+    trunk/qooxdoo/source/style/widgets.css:
+    Multiple fixes for opera to support QxNativeWindow. New idea for
+    fixing border styles in opera committed.
 
 2005-04-20 11:30  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Make
-    QxNativeWindow more opera 8 conform
+  * [r240] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Make QxNativeWindow more opera 8 conform
 
 2005-04-20 11:01  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: works for qooxdoo
-    content and urls of the same domain; does not work cross-domain for
-    security reasons
+  * [r239] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    works for qooxdoo content and urls of the same domain; does not work
+    cross-domain for security reasons
 
 2005-04-19 16:36  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: still needs
-    testing...
+  * [r238] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    still needs testing...
 
 2005-04-19 15:07  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Intermediate;
-    setSource() version may not be correct
+  * [r237] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Intermediate; setSource() version may not be correct
 
 2005-04-19 13:31  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js,
+  * [r236] trunk/qooxdoo/source/script/core/QxDom.js,
     trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: Added some new
-    QxDOM function for window and document detection, added center to
-    screen/screenarea/opener support to QxNativeWindow
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    Added some new QxDOM function for window and document detection, added
+    center to screen/screenarea/opener support to QxNativeWindow
 
 2005-04-19 12:42  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Fixed multiple
-    minor bugs with new source property
+  * [r235] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Fixed multiple minor bugs with new source property
 
 2005-04-19 07:49  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Dos2Unix
+  * [r234] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Dos2Unix
 
 2005-04-19 07:48  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: Fixed outstanding
-    bugs. Added functional event interface to native windows, ready and
-    load seems to work now correctly - hopefully ;)
-  * trunk/qooxdoo/source/script/core/QxDom.js: Added cross-browser event
-    handling api
+  * [r233] trunk/qooxdoo/source/script/core/QxNativeWindow.js,
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    Fixed outstanding bugs. Added functional event interface to native
+    windows, ready and load seems to work now correctly - hopefully ;)
+  * [r232] trunk/qooxdoo/source/script/core/QxDom.js:
+    Added cross-browser event handling api
 
 2005-04-18 16:39  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: Started support
-    for external sources; not finished, yet
+  * [r231] trunk/qooxdoo/source/script/core/QxNativeWindow.js,
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    Started support for external sources; not finished, yet
 
 2005-04-18 14:21  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Fixed strange
-    mozilla bug (innerHeight always 150)
+  * [r230] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Fixed strange mozilla bug (innerHeight always 150)
 
 2005-04-18 14:15  ecker
 
-  * trunk/qooxdoo/source/test/user/Iframe_1.html: Minor change
+  * [r229] trunk/qooxdoo/source/test/user/Iframe_1.html:
+    Minor change
 
 2005-04-18 12:30  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js: Minor fix
+  * [r228] trunk/qooxdoo/source/script/core/QxNativeWindow.js:
+    Minor fix
 
 2005-04-18 11:59  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxClientWindow.js,
+  * [r227] trunk/qooxdoo/source/script/core/QxClientWindow.js,
     trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: Some work on the
-    QxNativeWindow element
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    Some work on the QxNativeWindow element
 
 2005-04-15 14:08  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxClientWindow.js,
-    trunk/qooxdoo/source/script/managers/QxEventManager.js: Some fixed for
-    nativeWindow, disposer and so on
+  * [r226] trunk/qooxdoo/source/script/core/QxClientWindow.js,
+    trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Some fixed for nativeWindow, disposer and so on
 
 2005-04-15 12:24  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js,
+  * [r225] trunk/qooxdoo/source/script/core/QxNativeWindow.js,
     trunk/qooxdoo/source/script/managers/QxEventManager.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: First rework of
-    QxNativeWindow
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    First rework of QxNativeWindow
 
 2005-04-15 10:15  ecker
 
-  * trunk/qooxdoo/source/images/html: Now inline in QxNativeWindow
+  * [r224] trunk/qooxdoo/source/images/html:
+    Now inline in QxNativeWindow
 
 2005-04-15 10:12  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Support creation in
-    another window/document
+  * [r223] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Support creation in another window/document
 
 2005-04-15 10:09  ecker
 
-  * trunk/qooxdoo/source/script/core/QxNativeWindow.js,
-    trunk/qooxdoo/source/test/user/NativeWindow_1.html: Still work in
-    progress, but works crossbrowser now. ;-)
+  * [r222] trunk/qooxdoo/source/script/core/QxNativeWindow.js,
+    trunk/qooxdoo/source/test/user/NativeWindow_1.html:
+    Still work in progress, but works crossbrowser now. ;-)
 
 2005-04-15 10:09  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Border_2.html: Minor: white background
+  * [r221] trunk/qooxdoo/source/test/user/Border_2.html:
+    Minor: white background
 
 2005-04-15 10:08  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Added testing
-    appearance layer
+  * [r220] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added testing appearance layer
 
 2005-04-15 10:05  ecker
 
-  * trunk/qooxdoo/source/test/developer/Atom_2.html: Minor fix
+  * [r219] trunk/qooxdoo/source/test/developer/Atom_2.html:
+    Minor fix
 
 2005-04-14 15:06  wpbasti
 
-  * trunk/qooxdoo/source/images/html,
+  * [r218] trunk/qooxdoo/source/images/html,
     trunk/qooxdoo/source/images/html/basic.html,
     trunk/qooxdoo/source/script/core/QxClientWindow.js,
     trunk/qooxdoo/source/script/core/QxNativeWindow.js,
@@ -8139,151 +8396,162 @@
 
 2005-04-14 13:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js,
+  * [r217] trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/test/developer/Auto_Dimensions_8.html,
-    trunk/qooxdoo/source/test/user/Window_3.html: Major bugfixes and a new
-    example for complex auto/non auto cascading widget
+    trunk/qooxdoo/source/test/user/Window_3.html:
+    Major bugfixes and a new example for complex auto/non auto cascading
+    widget
 
 2005-04-14 13:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Cleanups
+  * [r216] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Cleanups
 
 2005-04-14 08:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
+  * [r215] trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Window_1.html,
-    trunk/qooxdoo/source/test/user/Window_3.html: Added QxWindow auto
-    dimensions, removed padding from style, some optimizations, added
-    pack() button
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Better
-    getAny[Width|Height] (supports auto better), added pack utility
+    trunk/qooxdoo/source/test/user/Window_3.html:
+    Added QxWindow auto dimensions, removed padding from style, some
+    optimizations, added pack() button
+  * [r214] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Better getAny[Width|Height] (supports auto better), added pack utility
     function
 
 2005-04-13 16:18  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Added setter for edges
+  * [r213] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added setter for edges
 
 2005-04-13 15:51  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Border_2.html: Add
+  * [r212] trunk/qooxdoo/source/test/user/Border_2.html:
+    Add
 
 2005-04-13 13:38  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
-    trunk/qooxdoo/source/script/widgets/QxWindow.js: reintroduce global
-    cursor (now better coded), make window resize cursor more stable
-    through the usage of this global cursors
+  * [r211] trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
+    trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    reintroduce global cursor (now better coded), make window resize
+    cursor more stable through the usage of this global cursors
 
 2005-04-13 13:10  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
+  * [r210] trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Window_1.html,
-    trunk/qooxdoo/source/test/user/Window_2.html: Overwrote default add
-    handler
+    trunk/qooxdoo/source/test/user/Window_2.html:
+    Overwrote default add handler
 
 2005-04-13 13:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
+  * [r209] trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Window_1.html: Better statusbar
-    implementation
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Better statusbar implementation
 
 2005-04-13 12:26  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: Allow to change modal
-    dynamically and some graphical buttons added
+  * [r208] trunk/qooxdoo/source/script/widgets/QxWindow.js,
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Allow to change modal dynamically and some graphical buttons added
 
 2005-04-13 12:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: Minor bugfix, cleanups
+  * [r207] trunk/qooxdoo/source/script/widgets/QxWindow.js,
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Minor bugfix, cleanups
 
 2005-04-13 11:41  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Simplified frame
+  * [r206] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Simplified frame
 
 2005-04-13 11:36  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: Enormous cleanup and
-    rework of resize engine in QxWindow
+  * [r205] trunk/qooxdoo/source/script/widgets/QxWindow.js,
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Enormous cleanup and rework of resize engine in QxWindow
 
 2005-04-13 09:37  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: minor cleanup
+  * [r204] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    minor cleanup
 
 2005-04-13 09:34  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Minor ie fix, don't
-    recover opacity anymore
+  * [r203] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Minor ie fix, don't recover opacity anymore
 
 2005-04-13 09:30  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: convert properties to
-    one method property, cleanups
+  * [r202] trunk/qooxdoo/source/script/widgets/QxWindow.js,
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    convert properties to one method property, cleanups
 
 2005-04-13 08:45  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js,
+  * [r201] trunk/qooxdoo/source/script/core/QxExtend.js,
     trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: Added translucent
-    properties, cleaned up movement code again, add support move frame
-    move, renamed resizeFrame to frame (we use it for movement now, too)
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Added translucent properties, cleaned up movement code again, add
+    support move frame move, renamed resizeFrame to frame (we use it for
+    movement now, too)
 
 2005-04-13 08:09  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Optimized disposer
-    and window dragging/movement code
+  * [r200] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Optimized disposer and window dragging/movement code
 
 2005-04-13 07:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Disable maximize on
-    windows which have any max value defined
+  * [r199] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Disable maximize on windows which have any max value defined
 
 2005-04-12 16:03  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Completed support of
-    window parent, etc.
+  * [r198] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Completed support of window parent, etc.
 
 2005-04-12 16:00  ecker
 
-  * trunk/qooxdoo/source/test/user/Window_2.html: Example of "framed"
-    windows
+  * [r197] trunk/qooxdoo/source/test/user/Window_2.html:
+    Example of "framed" windows
 
 2005-04-12 15:59  ecker
 
-  * trunk/qooxdoo/source/style/widgets.css: QxContainer does not wrap
-    inside QxAtoms
+  * [r196] trunk/qooxdoo/source/style/widgets.css:
+    QxContainer does not wrap inside QxAtoms
 
 2005-04-12 13:24  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
-    trunk/qooxdoo/source/test/user/Window_1.html: Finalized resizing
-    support in QxWindow, added also support for min/max values
+  * [r195] trunk/qooxdoo/source/script/widgets/QxWindow.js,
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Finalized resizing support in QxWindow, added also support for min/max
+    values
 
 2005-04-11 14:38  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js,
+  * [r194] trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Window_1.html: Added basic window
-    resizing support
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Added basic window resizing support
 
 2005-04-11 10:11  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: minor initialization
-    fix
+  * [r193] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    minor initialization fix
 
 2005-04-08 17:17  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Minor fix
+  * [r192] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Minor fix
 
 2005-04-08 16:06  wpbasti
 
-  * trunk/qooxdoo/source/images/widgets/windows/window/close-disabled.gif,
+  * [r191]
+    trunk/qooxdoo/source/images/widgets/windows/window/close-disabled.gif,
     trunk/qooxdoo/source/images/widgets/windows/window/maximize-disabled.gif,
     
     trunk/qooxdoo/source/images/widgets/windows/window/minimize-disabled.gif,
@@ -8295,45 +8563,47 @@
     trunk/qooxdoo/source/style/themes/win9x/windowcaption_active.png,
     trunk/qooxdoo/source/style/themes/win9x/windowcaption_inactive.png,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Window_1.html: Enhanced window code,
-    some nice cool features, some are buggy currently
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Enhanced window code, some nice cool features, some are buggy currently
 
 2005-04-08 16:05  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxButton.js: Some nice additions
+  * [r190] trunk/qooxdoo/source/script/widgets/QxButton.js:
+    Some nice additions
 
 2005-04-08 08:35  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxWindowManager.js,
+  * [r189] trunk/qooxdoo/source/script/managers/QxWindowManager.js,
     trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Window_1.html: Added new properties to
-    window (currently mostly unused), cleanups, moved some style to css
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    Added new properties to window (currently mostly unused), cleanups,
+    moved some style to css
 
 2005-04-08 08:34  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Added new user level
-    class utils
+  * [r188] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added new user level class utils
 
 2005-04-07 16:08  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWindow.js: Added disposer and
-    opener support
+  * [r187] trunk/qooxdoo/source/script/widgets/QxWindow.js:
+    Added disposer and opener support
 
 2005-04-07 14:39  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxWindowManager.js,
+  * [r186] trunk/qooxdoo/source/script/managers/QxWindowManager.js,
     trunk/qooxdoo/source/script/widgets/QxBlocker.js,
     trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/script/widgets/QxWindow.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Window_1.html: New window movement and
-    activation code
+    trunk/qooxdoo/source/test/user/Window_1.html:
+    New window movement and activation code
 
 2005-04-06 14:35  wpbasti
 
-  * trunk/qooxdoo/source/images/widgets/windows/arrows,
+  * [r185] trunk/qooxdoo/source/images/widgets/windows/arrows,
     trunk/qooxdoo/source/images/widgets/windows/arrows/.cvsignore,
     trunk/qooxdoo/source/images/widgets/windows/cursors,
     trunk/qooxdoo/source/images/widgets/windows/cursors/.cvsignore,
@@ -8363,59 +8633,61 @@
 
 2005-04-06 14:32  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxImageManager.js: dos2unix
+  * [r184] trunk/qooxdoo/source/script/managers/QxImageManager.js:
+    dos2unix
 
 2005-04-06 13:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js: Cleanups and
-    structuring
+  * [r183] trunk/qooxdoo/source/script/widgets/QxClientDocument.js:
+    Cleanups and structuring
 
 2005-04-06 12:29  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxBorder.js,
-    trunk/qooxdoo/source/script/core/QxClientWindow.js: Cleanups and
-    structuring
+  * [r182] trunk/qooxdoo/source/script/core/QxBorder.js,
+    trunk/qooxdoo/source/script/core/QxClientWindow.js:
+    Cleanups and structuring
 
 2005-04-06 12:06  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxClientWindow.js,
+  * [r181] trunk/qooxdoo/source/script/core/QxClientWindow.js,
     trunk/qooxdoo/source/script/widgets/QxListView.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: some cleanups for old
-    contextmenu code, need reimplementation
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    some cleanups for old contextmenu code, need reimplementation
 
 2005-04-06 12:00  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxClientWindow.js: fixed unload for
-    old operas < 7.6
+  * [r180] trunk/qooxdoo/source/script/core/QxClientWindow.js:
+    fixed unload for old operas < 7.6
 
 2005-04-06 07:49  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js,
+  * [r179] trunk/qooxdoo/source/script/core/QxDom.js,
     trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/test/user/Drag_And_Drop_1.html,
-    trunk/qooxdoo/source/test/user/Drag_And_Drop_2.html: Better
-    getElementFromPoint in QxDOM, fixed Drag and Drop on table cells free
-    space, minor enhancements to drag and drop manager
+    trunk/qooxdoo/source/test/user/Drag_And_Drop_2.html:
+    Better getElementFromPoint in QxDOM, fixed Drag and Drop on table
+    cells free space, minor enhancements to drag and drop manager
 
 2005-04-05 16:03  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js: Fixed
-    drag and drop with a drag source table element in gecko based browsers
-    (use coordinates to help)
+  * [r178] trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js:
+    Fixed drag and drop with a drag source table element in gecko based
+    browsers (use coordinates to help)
 
 2005-04-05 16:01  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Minor addition
+  * [r177] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Minor addition
 
 2005-04-05 16:00  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Optimized and fixed
-    getElementFromPointHandler
+  * [r176] trunk/qooxdoo/source/script/core/QxDom.js:
+    Optimized and fixed getElementFromPointHandler
 
 2005-04-05 12:45  wpbasti
 
-  * trunk/qooxdoo/source/images/icons/crystalsvg/128,
+  * [r175] trunk/qooxdoo/source/images/icons/crystalsvg/128,
     trunk/qooxdoo/source/images/icons/crystalsvg/128/.cvsignore,
     trunk/qooxdoo/source/images/icons/crystalsvg/16,
     trunk/qooxdoo/source/images/icons/crystalsvg/16/.cvsignore,
@@ -8438,18 +8710,19 @@
     trunk/qooxdoo/source/images/icons/nuvola/48,
     trunk/qooxdoo/source/images/icons/nuvola/48/.cvsignore,
     trunk/qooxdoo/source/images/icons/nuvola/64,
-    trunk/qooxdoo/source/images/icons/nuvola/64/.cvsignore: Added some
-    ignore entries
+    trunk/qooxdoo/source/images/icons/nuvola/64/.cvsignore:
+    Added some ignore entries
 
 2005-04-05 12:44  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Toolbar_1.html,
+  * [r174] trunk/qooxdoo/source/test/user/Toolbar_1.html,
     trunk/qooxdoo/source/test/user/Toolbar_2.html,
-    trunk/qooxdoo/source/test/user/Toolbar_3.html: Fixed toolbars
+    trunk/qooxdoo/source/test/user/Toolbar_3.html:
+    Fixed toolbars
 
 2005-04-05 09:01  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js,
+  * [r173] trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js,
     trunk/qooxdoo/source/script/managers/QxImageManager.js,
     trunk/qooxdoo/source/script/widgets/QxComboBox.js,
     trunk/qooxdoo/source/script/widgets/QxImage.js,
@@ -8467,7 +8740,7 @@
 
 2005-04-05 08:14  wpbasti
 
-  * trunk/qooxdoo/source/images/core/blank.gif,
+  * [r172] trunk/qooxdoo/source/images/core/blank.gif,
     trunk/qooxdoo/source/images/core/brightness.jpg,
     trunk/qooxdoo/source/images/core/dotted.gif,
     trunk/qooxdoo/source/images/core/huesaturation.jpg,
@@ -8511,21 +8784,23 @@
     trunk/qooxdoo/source/images/widgets/windows/window/close.gif,
     trunk/qooxdoo/source/images/widgets/windows/window/maximize.gif,
     trunk/qooxdoo/source/images/widgets/windows/window/move.gif,
-    trunk/qooxdoo/source/images/widgets/windows/window/restore.gif: Re-add
+    trunk/qooxdoo/source/images/widgets/windows/window/restore.gif:
+    Re-add
 
 2005-04-05 08:00  wpbasti
 
-  * trunk/qooxdoo/source/images/core/arrows,
+  * [r171] trunk/qooxdoo/source/images/core/arrows,
     trunk/qooxdoo/source/images/core/blank.gif,
     trunk/qooxdoo/source/images/core/checkbox.gif,
     trunk/qooxdoo/source/images/core/dotmarked.gif,
     trunk/qooxdoo/source/images/core/radiobutton.gif,
     trunk/qooxdoo/source/images/cursors,
-    trunk/qooxdoo/source/images/widgets: Cleanup
+    trunk/qooxdoo/source/images/widgets:
+    Cleanup
 
 2005-04-04 13:46  wpbasti
 
-  * trunk/qooxdoo/source/images/core/cursors,
+  * [r170] trunk/qooxdoo/source/images/core/cursors,
     trunk/qooxdoo/source/images/cursors,
     trunk/qooxdoo/source/images/cursors/windows,
     trunk/qooxdoo/source/images/cursors/windows/alias.gif,
@@ -9718,34 +9993,37 @@
 
 2005-04-04 09:30  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxImage.js: Minor fix
+  * [r169] trunk/qooxdoo/source/script/widgets/QxImage.js:
+    Minor fix
 
 2005-04-04 09:28  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js,
-    trunk/qooxdoo/source/script/widgets/QxImage.js: Minor fix
+  * [r168] trunk/qooxdoo/source/script/managers/QxEventManager.js,
+    trunk/qooxdoo/source/script/widgets/QxImage.js:
+    Minor fix
 
 2005-04-04 08:54  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Minor fixes
-    (IE flickering = wrong target comparison)
+  * [r167] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Minor fixes (IE flickering = wrong target comparison)
 
 2005-04-04 07:36  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxCheckBox.js: Finally, hopefully
-    fix mshtml checked behaviour
+  * [r166] trunk/qooxdoo/source/script/widgets/QxCheckBox.js:
+    Finally, hopefully fix mshtml checked behaviour
 
 2005-04-01 16:51  wpbasti
 
-  * trunk/qooxdoo/source/script/events/QxDragEvent.js,
+  * [r165] trunk/qooxdoo/source/script/events/QxDragEvent.js,
     trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js,
     trunk/qooxdoo/source/script/managers/QxEventManager.js,
     trunk/qooxdoo/source/script/managers/QxSelectionManager.js,
-    trunk/qooxdoo/source/style/layouts/application.css: Minor optimizations
+    trunk/qooxdoo/source/style/layouts/application.css:
+    Minor optimizations
 
 2005-04-01 15:08  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js,
+  * [r164] trunk/qooxdoo/source/script/core/QxExtend.js,
     trunk/qooxdoo/source/script/core/QxTarget.js,
     trunk/qooxdoo/source/script/events/QxDragEvent.js,
     trunk/qooxdoo/source/script/events/QxEvent.js,
@@ -9759,161 +10037,171 @@
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/test/developer/Widget_2.html,
     trunk/qooxdoo/source/test/developer/Widget_3.html,
-    trunk/qooxdoo/source/test/developer/Widget_6.html: Big thing, reworked
-    complete mouse event handling, fixed some bugs in selection manager,
-    listview widget and draganddropmanager (to make nested widgets work),
-    target, mouse and drag events and naturally eventmanager. Some test
-    files are updated too. In conclusion this new implementation should
-    speed up the runtime performance and makes qooxdoo feels faster
+    trunk/qooxdoo/source/test/developer/Widget_6.html:
+    Big thing, reworked complete mouse event handling, fixed some bugs in
+    selection manager, listview widget and draganddropmanager (to make
+    nested widgets work), target, mouse and drag events and naturally
+    eventmanager. Some test files are updated too. In conclusion this new
+    implementation should speed up the runtime performance and makes
+    qooxdoo feels faster
 
 2005-04-01 07:39  ecker
 
-  * trunk/qooxdoo/source/test/user/Menubar_1.html: Fixed typo
+  * [r163] trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Fixed typo
 
 2005-04-01 07:36  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
-    trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js: Do not use
-    creation by timer
+  * [r162] trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
+    trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js:
+    Do not use creation by timer
 
 2005-04-01 07:08  wpbasti
 
-  * trunk/qooxdoo/source/script/events/QxMouseEvent.js: Minor structuring
-    cleanups
+  * [r161] trunk/qooxdoo/source/script/events/QxMouseEvent.js:
+    Minor structuring cleanups
 
 2005-04-01 07:07  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Drag_And_Drop_1.html: Added advanced
-    example
+  * [r160] trunk/qooxdoo/source/test/user/Drag_And_Drop_1.html:
+    Added advanced example
 
 2005-04-01 06:40  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js,
-    trunk/qooxdoo/source/script/widgets/QxMenu.js: Moved escape handling
-    for menus to event manager
+  * [r159] trunk/qooxdoo/source/script/managers/QxEventManager.js,
+    trunk/qooxdoo/source/script/widgets/QxMenu.js:
+    Moved escape handling for menus to event manager
 
 2005-03-31 15:27  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTree.js: Minor fix for tree
+  * [r158] trunk/qooxdoo/source/script/widgets/QxTree.js:
+    Minor fix for tree
 
 2005-03-31 15:20  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r157] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBar.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
     trunk/qooxdoo/source/script/widgets/QxMenuRadioButton.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Menubar_1.html: Big thing: Menu engine
-    is no completly key-navigateable.
+    trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Big thing: Menu engine is no completly key-navigateable.
 
 2005-03-31 15:19  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Changed
-    activation sequence, somewhat untested, hopefully it works, it fix the
-    menubar activation (and all other not focusable widgets)
+  * [r156] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Changed activation sequence, somewhat untested, hopefully it works, it
+    fix the menubar activation (and all other not focusable widgets)
 
 2005-03-31 12:53  wpbasti
 
-  * trunk/qooxdoo/tools/clean.sh, trunk/qooxdoo/tools/makebuilds.sh: Minor
-    fixes
+  * [r155] trunk/qooxdoo/tools/clean.sh,
+    trunk/qooxdoo/tools/makebuilds.sh:
+    Minor fixes
 
 2005-03-31 09:59  wpbasti
 
-  * trunk/qooxdoo/tools/makebuilds.sh: Minor fix
+  * [r154] trunk/qooxdoo/tools/makebuilds.sh:
+    Minor fix
 
 2005-03-31 09:17  wpbasti
 
-  * trunk/qooxdoo/tools/makebuilds.sh: Minor fix
+  * [r153] trunk/qooxdoo/tools/makebuilds.sh:
+    Minor fix
 
 2005-03-31 09:15  wpbasti
 
-  * trunk/qooxdoo, trunk/qooxdoo/.cvsignore,
+  * [r152] trunk/qooxdoo, trunk/qooxdoo/.cvsignore,
     trunk/qooxdoo/tools/makebuilds.sh, trunk/qooxdoo/tools/synchome.sh:
     Added build support (some new scripts in tools) and sync-to-homepage
     support
 
 2005-03-30 16:29  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxPopup.js: Fixed typo
+  * [r151] trunk/qooxdoo/source/script/widgets/QxPopup.js:
+    Fixed typo
 
 2005-03-30 15:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r150] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBar.js,
     trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
     trunk/qooxdoo/source/script/widgets/QxMenuRadioButton.js,
-    trunk/qooxdoo/source/test/user/Menubar_1.html: Many optimizations and
-    additions to menu code (key-navigation)
+    trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Many optimizations and additions to menu code (key-navigation)
 
 2005-03-30 15:02  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxCommand.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Added target as value
+  * [r149] trunk/qooxdoo/source/script/core/QxCommand.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added target as value
 
 2005-03-30 13:39  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r148] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBar.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
-    trunk/qooxdoo/source/test/user/Menu_2.html: Added basic, alpha state
-    keyboard support to menu engine
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Added active
-    next/prev sibling getter
+    trunk/qooxdoo/source/test/user/Menu_2.html:
+    Added basic, alpha state keyboard support to menu engine
+  * [r147] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added active next/prev sibling getter
 
 2005-03-30 13:33  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxCommand.js: Added toString
-    function, fix for keycode support, cleanups
+  * [r146] trunk/qooxdoo/source/script/core/QxCommand.js:
+    Added toString function, fix for keycode support, cleanups
 
 2005-03-30 13:32  wpbasti
 
-  * trunk/qooxdoo/source/script/events/QxKeyEvent.js: Added dynamic code
-    hash
+  * [r145] trunk/qooxdoo/source/script/events/QxKeyEvent.js:
+    Added dynamic code hash
 
 2005-03-30 13:31  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxPopup.js: added easy active
-    support
+  * [r144] trunk/qooxdoo/source/script/widgets/QxPopup.js:
+    added easy active support
 
 2005-03-30 13:29  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolBarButton.js: Added execute
-    call
+  * [r143] trunk/qooxdoo/source/script/widgets/QxToolBarButton.js:
+    Added execute call
 
 2005-03-30 09:42  ecker
 
-  * trunk/qooxdoo/source/test/user/Menu_2.html: Added other examples for
-    QxCommand
+  * [r142] trunk/qooxdoo/source/test/user/Menu_2.html:
+    Added other examples for QxCommand
 
 2005-03-30 09:09  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js: Fix clicking on
-    disabled item does not close menu
+  * [r141] trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    Fix clicking on disabled item does not close menu
 
 2005-03-30 08:58  ecker
 
-  * trunk/qooxdoo/source/test/user/Combobox_1.html: Minor update
+  * [r140] trunk/qooxdoo/source/test/user/Combobox_1.html:
+    Minor update
 
 2005-03-30 08:57  ecker
 
-  * trunk/qooxdoo/source/script/core/QxObject.js: general setter set()
-    returns instance
+  * [r139] trunk/qooxdoo/source/script/core/QxObject.js:
+    general setter set() returns instance
 
 2005-03-30 08:56  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Added init values
-    for constructor
+  * [r138] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Added init values for constructor
 
 2005-03-30 08:53  ecker
 
-  * trunk/qooxdoo/source/test/user/Spinner_1.html: Added visual ranges
+  * [r137] trunk/qooxdoo/source/test/user/Spinner_1.html:
+    Added visual ranges
 
 2005-03-30 08:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
+  * [r136] trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
     trunk/qooxdoo/source/script/widgets/QxFieldSet.js,
     trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxTextField.js,
@@ -9932,14 +10220,14 @@
     trunk/qooxdoo/source/test/developer/Widget_7.html,
     trunk/qooxdoo/source/test/developer/Widget_8.html,
     trunk/qooxdoo/source/test/developer/Widget_9.html,
-    trunk/qooxdoo/source/test/user/Tooltips_1.html: Multiple major fixes
-    in test files, added selection properties to clone ignore list of
-    textfields, fix for fieldset auto dimension support (make borders work
-    like inset)
+    trunk/qooxdoo/source/test/user/Tooltips_1.html:
+    Multiple major fixes in test files, added selection properties to
+    clone ignore list of textfields, fix for fieldset auto dimension
+    support (make borders work like inset)
 
 2005-03-30 07:27  wpbasti
 
-  * trunk/qooxdoo/source/test/developer/Application_1.html,
+  * [r135] trunk/qooxdoo/source/test/developer/Application_1.html,
     trunk/qooxdoo/source/test/developer/Atom_1.html,
     trunk/qooxdoo/source/test/developer/Atom_2.html,
     trunk/qooxdoo/source/test/developer/Atom_3.html,
@@ -9996,64 +10284,66 @@
     trunk/qooxdoo/source/test/user/Toolbar_2.html,
     trunk/qooxdoo/source/test/user/Toolbar_3.html,
     trunk/qooxdoo/source/test/user/Tooltips_1.html,
-    trunk/qooxdoo/source/test/user/Widget_1.html: Make html valid, meta
-    tag was not closed
+    trunk/qooxdoo/source/test/user/Widget_1.html:
+    Make html valid, meta tag was not closed
 
 2005-03-29 17:04  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js,
+  * [r134] trunk/qooxdoo/source/script/widgets/QxComboBox.js,
     trunk/qooxdoo/source/script/widgets/QxListItem.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fixes and
-    enhancements (especially for new timer based creator
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fixes and enhancements (especially for new timer based creator
 
 2005-03-29 14:01  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Reimplemented
-    timerCreator with array and status support
+  * [r133] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Reimplemented timerCreator with array and status support
 
 2005-03-21 10:20  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl: added some informational output to
-    file
+  * [r132] trunk/qooxdoo/tools/build_dist.pl:
+    added some informational output to file
 
 2005-03-19 10:28  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
+  * [r131] trunk/qooxdoo/source/script/widgets/QxAtom.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/test/user/Enabled_Disabled_1.html,
     trunk/qooxdoo/source/test/user/Fields_1.html,
-    trunk/qooxdoo/source/test/user/Tooltips_1.html: Many optimization to
-    timer based widget creation, cleanups to old test files to support new
-    create method, fixes for atom to support new create method, removed
-    command property from QxMenuButton (will be inherit from QxWidget)
+    trunk/qooxdoo/source/test/user/Tooltips_1.html:
+    Many optimization to timer based widget creation, cleanups to old test
+    files to support new create method, fixes for atom to support new
+    create method, removed command property from QxMenuButton (will be
+    inherit from QxWidget)
 
 2005-03-19 10:26  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: Added array checks
+  * [r130] trunk/qooxdoo/source/script/core/QxExtend.js:
+    Added array checks
 
 2005-03-18 15:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Added new idea: A
-    timer based widget creator
+  * [r129] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Added new idea: A timer based widget creator
 
 2005-03-18 15:40  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Menubar_1.html,
-    trunk/qooxdoo/source/test/user/Toolbar_3.html: Fixes for
-    shortcut/command change
+  * [r128] trunk/qooxdoo/source/test/user/Menubar_1.html,
+    trunk/qooxdoo/source/test/user/Toolbar_3.html:
+    Fixes for shortcut/command change
 
 2005-03-18 15:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
+  * [r127] trunk/qooxdoo/source/script/widgets/QxClientDocument.js,
     trunk/qooxdoo/source/script/widgets/QxInline.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/developer/Inline_1.html: Fix for inline
-    widget renaming done some days ago
+    trunk/qooxdoo/source/test/developer/Inline_1.html:
+    Fix for inline widget renaming done some days ago
 
 2005-03-18 14:55  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxCommand.js,
+  * [r126] trunk/qooxdoo/source/script/core/QxCommand.js,
     trunk/qooxdoo/source/script/managers/QxEventManager.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
@@ -10065,68 +10355,76 @@
 
 2005-03-18 14:54  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js: Minor fix
+  * [r125] trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js:
+    Minor fix
 
 2005-03-18 14:53  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Menu_1.html: Cleanup, translated,
-    removed shortcuts
+  * [r124] trunk/qooxdoo/source/test/user/Menu_1.html:
+    Cleanup, translated, removed shortcuts
 
 2005-03-18 14:52  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxClientWindow.js: Minor cleanup
+  * [r123] trunk/qooxdoo/source/script/core/QxClientWindow.js:
+    Minor cleanup
 
 2005-03-18 14:50  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxApplication.js: Some structuring
-    added, added alpha state loader without onload event
+  * [r122] trunk/qooxdoo/source/script/core/QxApplication.js:
+    Some structuring added, added alpha state loader without onload event
 
 2005-03-18 09:40  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Fixes for Stack
-    Overflow messages in Internet Explorer
+  * [r121] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Fixes for Stack Overflow messages in Internet Explorer
 
 2005-03-18 09:29  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Major cleanups
+  * [r120] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Major cleanups
 
 2005-03-18 09:21  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js,
-    trunk/qooxdoo/source/test/user/Spinner_1.html: Again some major fixes
-    for the spinner logic
+  * [r119] trunk/qooxdoo/source/script/widgets/QxSpinner.js,
+    trunk/qooxdoo/source/test/user/Spinner_1.html:
+    Again some major fixes for the spinner logic
 
 2005-03-16 14:22  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js: Minor bugfix
-    (especially for mshtml)
+  * [r118] trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Minor bugfix (especially for mshtml)
 
 2005-03-16 13:44  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fix
+  * [r117] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fix
 
 2005-03-16 13:36  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxListView.js,
-    trunk/qooxdoo/source/test/user/Listview_1.html: Fixes for listview
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Minir addition
+  * [r116] trunk/qooxdoo/source/script/widgets/QxListView.js,
+    trunk/qooxdoo/source/test/user/Listview_1.html:
+    Fixes for listview
+  * [r115] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Minir addition
 
 2005-03-16 13:18  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Minor fixes
+  * [r114] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Minor fixes
 
 2005-03-16 13:14  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxSpinner.js: Added
-    pageup/pagedown events
+  * [r113] trunk/qooxdoo/source/script/widgets/QxSpinner.js:
+    Added pageup/pagedown events
 
 2005-03-16 11:13  wpbasti
 
-  * trunk/qooxdoo/tools/build_dist.pl: Minor fix
+  * [r112] trunk/qooxdoo/tools/build_dist.pl:
+    Minor fix
 
 2005-03-16 11:02  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxRangeManager.js,
+  * [r111] trunk/qooxdoo/source/script/managers/QxRangeManager.js,
     trunk/qooxdoo/source/script/widgets/QxSpinner.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Fields_1.html,
@@ -10136,374 +10434,411 @@
 
 2005-03-16 11:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Major bugfixes in
-    constructor (unselectable), Major feature addition: inline events
+  * [r110] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Major bugfixes in constructor (unselectable), Major feature addition:
+    inline events
 
 2005-03-16 10:57  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTextField.js: Major feature
-    additions: Added selection handling and inline events
+  * [r109] trunk/qooxdoo/source/script/widgets/QxTextField.js:
+    Major feature additions: Added selection handling and inline events
 
 2005-03-16 10:55  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js,
-    trunk/qooxdoo/source/script/widgets/QxPasswordField.js: cleanup
+  * [r108] trunk/qooxdoo/source/script/widgets/QxComboBox.js,
+    trunk/qooxdoo/source/script/widgets/QxPasswordField.js:
+    cleanup
 
 2005-03-16 10:53  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxFocusManager.js: Added ontab
-    handling to allow something like selectall in form fields
+  * [r107] trunk/qooxdoo/source/script/managers/QxFocusManager.js:
+    Added ontab handling to allow something like selectall in form fields
 
 2005-03-16 10:50  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxTimer.js: Minor fix
+  * [r106] trunk/qooxdoo/source/script/core/QxTimer.js:
+    Minor fix
 
 2005-03-16 10:49  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: Minor cleanups
+  * [r105] trunk/qooxdoo/source/script/core/QxExtend.js:
+    Minor cleanups
 
 2005-03-15 13:25  wpbasti
 
-  * trunk/qooxdoo/source/images/core/cursers,
+  * [r104] trunk/qooxdoo/source/images/core/cursers,
     trunk/qooxdoo/source/images/core/cursors,
     trunk/qooxdoo/source/images/core/cursors/.cvsignore,
     trunk/qooxdoo/source/images/core/cursors/alias.gif,
     trunk/qooxdoo/source/images/core/cursors/copy.gif,
     trunk/qooxdoo/source/images/core/cursors/move.gif,
     trunk/qooxdoo/source/images/core/cursors/nodrop.gif,
-    trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js: Fixed
-    typo: cursers -> cursors, thx benjamin
+    trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js:
+    Fixed typo: cursers -> cursors, thx benjamin
 
 2005-03-15 13:19  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js: Fixed
-    ugly bug
+  * [r103] trunk/qooxdoo/source/script/managers/QxDragAndDropManager.js:
+    Fixed ugly bug
 
 2005-03-15 09:08  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxExtend.js: Added check routine to
-    properties (was longer planed but not used previously)
+  * [r102] trunk/qooxdoo/source/script/core/QxExtend.js:
+    Added check routine to properties (was longer planed but not used
+    previously)
 
 2005-03-14 19:01  wpbasti
 
-  * trunk/qooxdoo/source/style/themes/osx,
+  * [r101] trunk/qooxdoo/source/style/themes/osx,
     trunk/qooxdoo/source/style/themes/osx/grad_blue.gif,
     trunk/qooxdoo/source/style/themes/osx/grad_gray.gif,
     trunk/qooxdoo/source/style/themes/osx/pin_dark.gif,
-    trunk/qooxdoo/source/style/themes/osx/toolbar_bg.gif: Added first
-    parts of osx theme
+    trunk/qooxdoo/source/style/themes/osx/toolbar_bg.gif:
+    Added first parts of osx theme
 
 2005-03-14 14:12  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl: fixed small bug, that caused an
-    annoying but harmless error message, when an empty package was defines
+  * [r100] trunk/qooxdoo/tools/build_dist.pl:
+    fixed small bug, that caused an annoying but harmless error message,
+    when an empty package was defines
 
 2005-03-14 14:00  wpbasti
 
-  * trunk/qooxdoo/tools/build_dist.pl: Minor fix
+  * [r99] trunk/qooxdoo/tools/build_dist.pl:
+    Minor fix
 
 2005-03-14 13:54  wpbasti
 
-  * trunk/qooxdoo/tools/build_dist.pl: Added all package
+  * [r98] trunk/qooxdoo/tools/build_dist.pl:
+    Added all package
 
 2005-03-14 13:38  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolBarButton.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor clean- and
-    speed-ups
-  * trunk/qooxdoo/tools/build_dist.pl: New package structure
+  * [r97] trunk/qooxdoo/source/script/widgets/QxToolBarButton.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor clean- and speed-ups
+  * [r96] trunk/qooxdoo/tools/build_dist.pl:
+    New package structure
 
 2005-03-14 11:45  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolBarButton.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor optimization
+  * [r95] trunk/qooxdoo/source/script/widgets/QxToolBarButton.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor optimization
 
 2005-03-14 10:39  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Removed newly added
-    recursion protection in renderer (this breaks the tabs and maybe other
-    things as well), optimization in hint handling (ommited double code),
-    cleanups
+  * [r94] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Removed newly added recursion protection in renderer (this breaks the
+    tabs and maybe other things as well), optimization in hint handling
+    (ommited double code), cleanups
 
 2005-03-14 10:37  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Tabs_1.html: Minor addition
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js: Multiple
-    optimizations, rerender children on inner width change, needed for
-    right align
+  * [r93] trunk/qooxdoo/source/test/user/Tabs_1.html:
+    Minor addition
+  * [r92] trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Multiple optimizations, rerender children on inner width change,
+    needed for right align
 
 2005-03-14 09:08  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fix (fix all
-    atoms with static image sizes)
+  * [r91] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fix (fix all atoms with static image sizes)
 
 2005-03-14 09:07  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxImage.js: Minor cleanups
+  * [r90] trunk/qooxdoo/source/script/widgets/QxImage.js:
+    Minor cleanups
 
 2005-03-11 15:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor ideas
-    (comments) added
+  * [r89] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor ideas (comments) added
 
 2005-03-11 14:50  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolBarPart.js: Minor cleanup
+  * [r88] trunk/qooxdoo/source/script/widgets/QxToolBarPart.js:
+    Minor cleanup
 
 2005-03-11 14:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
-    trunk/qooxdoo/tools/make.sh: Minor fix/addition
+  * [r87] trunk/qooxdoo/source/script/widgets/QxAtom.js,
+    trunk/qooxdoo/tools/make.sh:
+    Minor fix/addition
 
 2005-03-11 14:21  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
+  * [r86] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
     trunk/qooxdoo/source/script/widgets/QxBarSelectorFrame.js,
     trunk/qooxdoo/source/script/widgets/QxBarSelectorPane.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Enormous overall
-    speedup, introduce new QxWidget feature to omit rendering, multiple
-    cleanups and reorganisation and other improvements
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Enormous overall speedup, introduce new QxWidget feature to omit
+    rendering, multiple cleanups and reorganisation and other improvements
 
 2005-03-11 14:20  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css: Minor style optimization
+  * [r85] trunk/qooxdoo/source/style/widgets.css:
+    Minor style optimization
 
 2005-03-11 14:14  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxButton.js: Removed un-needed
-    action event, click will do the same
+  * [r84] trunk/qooxdoo/source/script/widgets/QxButton.js:
+    Removed un-needed action event, click will do the same
 
 2005-03-11 14:09  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Minor fix
+  * [r83] trunk/qooxdoo/source/script/core/QxDom.js:
+    Minor fix
 
 2005-03-11 12:57  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl: removed obsolete help message for
-    -d switch and setting of variables from this switch
+  * [r82] trunk/qooxdoo/tools/build_dist.pl:
+    removed obsolete help message for -d switch and setting of variables
+    from this switch
 
 2005-03-11 12:27  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl,
-    trunk/qooxdoo/tools/dependencies.xml: moved dependencies to __DATA__,
-    more useful error messages and some other minor tweaks
+  * [r81] trunk/qooxdoo/tools/build_dist.pl,
+    trunk/qooxdoo/tools/dependencies.xml:
+    moved dependencies to __DATA__, more useful error messages and some
+    other minor tweaks
 
 2005-03-11 10:49  wpbasti
 
-  * trunk/qooxdoo/REQUIREMENTS: Added
+  * [r80] trunk/qooxdoo/REQUIREMENTS:
+    Added
 
 2005-03-11 10:42  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
-    trunk/qooxdoo/source/script/widgets/QxBarSelectorPane.js: Transformed
-    auto values in top/bottom mode to 100%, minor speed improvements and
-    cleanups
+  * [r79] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
+    trunk/qooxdoo/source/script/widgets/QxBarSelectorPane.js:
+    Transformed auto values in top/bottom mode to 100%, minor speed
+    improvements and cleanups
 
 2005-03-11 10:40  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Speed up preferred
-    width/height
+  * [r78] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Speed up preferred width/height
 
 2005-03-11 10:39  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Reimplemented preferred
-    width/height to match new requirements
+  * [r77] trunk/qooxdoo/source/script/core/QxDom.js:
+    Reimplemented preferred width/height to match new requirements
 
 2005-03-11 10:32  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl: added more complex stripping and
-    compression
+  * [r76] trunk/qooxdoo/tools/build_dist.pl:
+    added more complex stripping and compression
 
 2005-03-11 08:07  firstbman
 
-  * trunk/qooxdoo/tools/build_dist.pl,
-    trunk/qooxdoo/tools/dependencies.xml: initial commit
+  * [r75] trunk/qooxdoo/tools/build_dist.pl,
+    trunk/qooxdoo/tools/dependencies.xml:
+    initial commit
 
 2005-03-11 07:57  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Bar_Selector_2.html: Removed un-needed
-    pressed-state
+  * [r74] trunk/qooxdoo/source/style/widgets.css,
+    trunk/qooxdoo/source/test/user/Bar_Selector_2.html:
+    Removed un-needed pressed-state
 
 2005-03-10 18:50  ecker
 
-  * trunk/qooxdoo/source/test/user/Bar_Selector_2.html: Yet Another Bar
-    Selector Example
+  * [r73] trunk/qooxdoo/source/test/user/Bar_Selector_2.html:
+    Yet Another Bar Selector Example
 
 2005-03-10 18:49  ecker
 
-  * trunk/qooxdoo/source/script/core/QxDom.js,
-    trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fix
+  * [r72] trunk/qooxdoo/source/script/core/QxDom.js,
+    trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fix
 
 2005-03-10 18:48  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
-    trunk/qooxdoo/source/script/widgets/QxBarSelectorButton.js: Center
-    align buttons by default
+  * [r71] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
+    trunk/qooxdoo/source/script/widgets/QxBarSelectorButton.js:
+    Center align buttons by default
 
 2005-03-10 17:02  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js: Minor
-    optimization
+  * [r70] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js:
+    Minor optimization
 
 2005-03-10 16:58  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Major bugfix,
-    especially for mshtml
+  * [r69] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Major bugfix, especially for mshtml
 
 2005-03-10 16:19  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
-    trunk/qooxdoo/source/style/widgets.css: Minor style fixes
+  * [r68] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
+    trunk/qooxdoo/source/style/widgets.css:
+    Minor style fixes
 
 2005-03-10 16:03  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
+  * [r67] trunk/qooxdoo/source/script/widgets/QxBarSelectorBar.js,
     trunk/qooxdoo/source/script/widgets/QxBarSelectorButton.js,
     trunk/qooxdoo/source/script/widgets/QxBarSelectorFrame.js,
     trunk/qooxdoo/source/script/widgets/QxBarSelectorPane.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Bar_Selector_1.html: new barselector
+    trunk/qooxdoo/source/test/user/Bar_Selector_1.html:
+    new barselector
 
 2005-03-10 16:02  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Tabs_1.html: Minor fix
+  * [r66] trunk/qooxdoo/source/test/user/Tabs_1.html:
+    Minor fix
 
 2005-03-10 15:56  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
+  * [r65] trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabBar.js,
-    trunk/qooxdoo/source/script/widgets/QxTabPane.js: Minor enhancements
+    trunk/qooxdoo/source/script/widgets/QxTabPane.js:
+    Minor enhancements
 
 2005-03-10 15:53  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fixes and two
-    new exception blocks
+  * [r64] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fixes and two new exception blocks
 
 2005-03-10 15:51  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxRadioButton.js: Minor fix
-  * trunk/qooxdoo/source/script/core/QxDom.js: removed unneeded hack for
-    QxBarSelectorButton, new exception blocks
+  * [r63] trunk/qooxdoo/source/script/widgets/QxRadioButton.js:
+    Minor fix
+  * [r62] trunk/qooxdoo/source/script/core/QxDom.js:
+    removed unneeded hack for QxBarSelectorButton, new exception blocks
 
 2005-03-10 15:50  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js: Minor enhancements
+  * [r61] trunk/qooxdoo/source/script/widgets/QxAtom.js:
+    Minor enhancements
 
 2005-03-10 14:19  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js: Cleaned up code
+  * [r60] trunk/qooxdoo/source/script/widgets/QxAtom.js:
+    Cleaned up code
 
 2005-03-10 14:00  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js: Major: Remove
-    mousedown prevent default, added drag events as a replacement and
-    prevent all of them. This seems to also help on this problem and keep
-    the activation in gecko working
+  * [r59] trunk/qooxdoo/source/script/managers/QxEventManager.js:
+    Major: Remove mousedown prevent default, added drag events as a
+    replacement and prevent all of them. This seems to also help on this
+    problem and keep the activation in gecko working
 
 2005-03-10 09:12  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxDom.js: Again a fix for geckos
-    offset handling, do not handle relative the same as absolute, my
-    mistake, this way it fix the page-up and page-down handling in QxList
+  * [r58] trunk/qooxdoo/source/script/core/QxDom.js:
+    Again a fix for geckos offset handling, do not handle relative the
+    same as absolute, my mistake, this way it fix the page-up and
+    page-down handling in QxList
 
 2005-03-10 08:33  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
-    trunk/qooxdoo/source/script/widgets/QxTabBar.js: Again major cleanups
-    and speed improvements
+  * [r57] trunk/qooxdoo/source/script/widgets/QxTab.js,
+    trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Again major cleanups and speed improvements
 
 2005-03-10 08:19  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js: Major cleanup and
-    speed improvments
+  * [r56] trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Major cleanup and speed improvments
 
 2005-03-10 08:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js,
-    trunk/qooxdoo/source/style/widgets.css: Moved margin logic to css
-    (removed yesterday added properties)
+  * [r55] trunk/qooxdoo/source/script/widgets/QxTabBar.js,
+    trunk/qooxdoo/source/style/widgets.css:
+    Moved margin logic to css (removed yesterday added properties)
 
 2005-03-09 19:14  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js: Added some new
-    properties to handle outset border look correctly
+  * [r54] trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Added some new properties to handle outset border look correctly
 
 2005-03-09 19:07  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTabBar.js: Minor renaming fix
+  * [r53] trunk/qooxdoo/source/script/widgets/QxTabBar.js:
+    Minor renaming fix
 
 2005-03-09 17:07  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/tools/makepublic.sh: Minor fixes
+  * [r52] trunk/qooxdoo/source/style/widgets.css,
+    trunk/qooxdoo/tools/makepublic.sh:
+    Minor fixes
 
 2005-03-09 16:17  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxAtom.js,
+  * [r51] trunk/qooxdoo/source/script/widgets/QxAtom.js,
     trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabBar.js,
     trunk/qooxdoo/source/script/widgets/QxTabFrame.js,
-    trunk/qooxdoo/source/test/user/Tabs_1.html: The next evolution in tab
-    widgets
+    trunk/qooxdoo/source/test/user/Tabs_1.html:
+    The next evolution in tab widgets
 
 2005-03-09 14:45  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Small fix for
-    _invalidatePreferred call, need only to be done on new created widgets
-    AND we have support now for omitting rendering, cool thing,
-    non-visible widgets will not be rendered
+  * [r50] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Small fix for _invalidatePreferred call, need only to be done on new
+    created widgets AND we have support now for omitting rendering, cool
+    thing, non-visible widgets will not be rendered
 
 2005-03-09 12:53  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
+  * [r49] trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabFrame.js,
     trunk/qooxdoo/source/script/widgets/QxTabPage.js,
-    trunk/qooxdoo/source/script/widgets/QxTabPane.js: Restructuring
+    trunk/qooxdoo/source/script/widgets/QxTabPane.js:
+    Restructuring
 
 2005-03-09 12:50  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
+  * [r48] trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabBar.js,
     trunk/qooxdoo/source/script/widgets/QxTabFrame.js,
     trunk/qooxdoo/source/script/widgets/QxTabPage.js,
-    trunk/qooxdoo/source/script/widgets/QxTabPane.js: Some enhancements
-    and cleanups
+    trunk/qooxdoo/source/script/widgets/QxTabPane.js:
+    Some enhancements and cleanups
 
 2005-03-09 12:49  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxWidget.js: Minor fix
+  * [r47] trunk/qooxdoo/source/script/widgets/QxWidget.js:
+    Minor fix
 
 2005-03-09 12:47  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxFocusManager.js: Cleaned up
+  * [r46] trunk/qooxdoo/source/script/managers/QxFocusManager.js:
+    Cleaned up
 
 2005-03-09 10:12  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
+  * [r45] trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabBar.js,
     trunk/qooxdoo/source/script/widgets/QxTabPane.js,
-    trunk/qooxdoo/source/style/widgets.css: Reimplemention of tabs
+    trunk/qooxdoo/source/style/widgets.css:
+    Reimplemention of tabs
 
 2005-03-08 16:14  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxTab.js,
+  * [r44] trunk/qooxdoo/source/script/widgets/QxTab.js,
     trunk/qooxdoo/source/script/widgets/QxTabBar.js,
     trunk/qooxdoo/source/script/widgets/QxTabPane.js,
-    trunk/qooxdoo/source/style/widgets.css: Tab bar improvements
+    trunk/qooxdoo/source/style/widgets.css:
+    Tab bar improvements
 
 2005-03-08 13:28  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxToolBarMenuButton.js:
+  * [r43] trunk/qooxdoo/source/script/widgets/QxToolBarMenuButton.js:
     line-breaks: fix dos to unix
 
 2005-03-08 13:27  wpbasti
 
-  * trunk/qooxdoo/tools/compile.xsl: Minor charset fix
+  * [r42] trunk/qooxdoo/tools/compile.xsl:
+    Minor charset fix
 
 2005-03-08 13:15  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r41] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js,
     trunk/qooxdoo/source/script/widgets/QxToolBarMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
@@ -10512,206 +10847,227 @@
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Toolbar_1.html,
     trunk/qooxdoo/source/test/user/Toolbar_3.html,
-    trunk/qooxdoo/tools/config.sh: Added toolbarmenubutton
+    trunk/qooxdoo/tools/config.sh:
+    Added toolbarmenubutton
 
 2005-03-08 12:04  wpbasti
 
-  * trunk/qooxdoo/INSTALL, trunk/qooxdoo/PREPARE,
-    trunk/qooxdoo/tools/patchtest.sh: Move
+  * [r40] trunk/qooxdoo/INSTALL, trunk/qooxdoo/PREPARE,
+    trunk/qooxdoo/tools/patchtest.sh:
+    Move
 
 2005-03-08 12:02  wpbasti
 
-  * trunk/qooxdoo/tools/patchtest.sh: Minor cleanup
+  * [r39] trunk/qooxdoo/tools/patchtest.sh:
+    Minor cleanup
 
 2005-03-08 12:00  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxComboBox.js: fix for textfield
-    selection in gecko browsers
+  * [r38] trunk/qooxdoo/source/script/widgets/QxComboBox.js:
+    fix for textfield selection in gecko browsers
 
 2005-03-08 11:47  wpbasti
 
-  * trunk/qooxdoo/source/images/core/checkbox.gif: Minor fix
+  * [r37] trunk/qooxdoo/source/images/core/checkbox.gif:
+    Minor fix
 
 2005-03-08 11:40  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js: Minor fix
+  * [r36] trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js:
+    Minor fix
 
 2005-03-08 11:10  wpbasti
 
-  * trunk/qooxdoo/source/style/themes/winxp/theme.css,
-    trunk/qooxdoo/source/style/widgets.css: Some style improvements
+  * [r35] trunk/qooxdoo/source/style/themes/winxp/theme.css,
+    trunk/qooxdoo/source/style/widgets.css:
+    Some style improvements
 
 2005-03-08 11:06  wpbasti
 
-  * trunk/qooxdoo/tools/patchtest.sh: Multiple fixes for new filesystem
-    layout, many enhancements
+  * [r34] trunk/qooxdoo/tools/patchtest.sh:
+    Multiple fixes for new filesystem layout, many enhancements
 
 2005-03-08 10:51  wpbasti
 
-  * trunk/qooxdoo/PREPARE, trunk/qooxdoo/tools/make.sh: Added some
-    info/tool
+  * [r33] trunk/qooxdoo/PREPARE, trunk/qooxdoo/tools/make.sh:
+    Added some info/tool
 
 2005-03-08 10:11  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
+  * [r32] trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
     trunk/qooxdoo/source/script/widgets/QxMenuRadioButton.js,
-    trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js: fixed dos line
-    breaks -> convert to unix
+    trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js:
+    fixed dos line breaks -> convert to unix
 
 2005-03-08 09:40  wpbasti
 
-  * trunk/qooxdoo/tools/settings.py: Optimized optimizer to optimize new
-    layout code
+  * [r31] trunk/qooxdoo/tools/settings.py:
+    Optimized optimizer to optimize new layout code
 
 2005-03-08 09:12  wpbasti
 
-  * trunk/qooxdoo/source/images/core/checkbox.gif,
+  * [r30] trunk/qooxdoo/source/images/core/checkbox.gif,
     trunk/qooxdoo/source/images/core/radiobutton.gif,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
     trunk/qooxdoo/source/script/widgets/QxMenuRadioButton.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Menubar_1.html: Implemented radio and
-    checkboxes for menus
+    trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Implemented radio and checkboxes for menus
 
 2005-03-08 08:47  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxImage.js: Major bugfix
+  * [r29] trunk/qooxdoo/source/script/widgets/QxImage.js:
+    Major bugfix
 
 2005-03-08 08:03  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxData.js,
+  * [r28] trunk/qooxdoo/source/script/core/QxData.js,
     trunk/qooxdoo/source/script/core/QxTimer.js,
     trunk/qooxdoo/source/script/widgets/QxListView.js,
     trunk/qooxdoo/source/script/widgets/QxMenu.js,
-    trunk/qooxdoo/source/script/widgets/QxToolTip.js: Renamed timer event
-    to interval
+    trunk/qooxdoo/source/script/widgets/QxToolTip.js:
+    Renamed timer event to interval
 
 2005-03-07 16:57  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
+  * [r27] trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxMenuCheckBox.js,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Menubar_1.html,
-    trunk/qooxdoo/tools/config.sh: Many bugfixes and layout improvments,
-    added checkbox support for menus (really alpha)
+    trunk/qooxdoo/tools/config.sh:
+    Many bugfixes and layout improvments, added checkbox support for menus
+    (really alpha)
 
 2005-03-07 16:42  wpbasti
 
-  * trunk/qooxdoo/source/test/user/Menubar_1.html: Multiple fixes and
-    cleanups
-  * trunk/qooxdoo/source/script/widgets/QxImage.js,
+  * [r26] trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Multiple fixes and cleanups
+  * [r25] trunk/qooxdoo/source/script/widgets/QxImage.js,
     trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Menubar_1.html: Multiple fixes and
-    cleanups
+    trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Multiple fixes and cleanups
 
 2005-03-07 15:24  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js: Minor fix
+  * [r24] trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js:
+    Minor fix
 
 2005-03-07 14:54  ecker
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js,
-    trunk/qooxdoo/source/test/user/Menu_1.html: Added general menu
-    open/close toggling
+  * [r23] trunk/qooxdoo/source/script/managers/QxEventManager.js,
+    trunk/qooxdoo/source/test/user/Menu_1.html:
+    Added general menu open/close toggling
 
 2005-03-07 14:36  ecker
 
-  * trunk/qooxdoo/source/test/user/Menubar_1.html: Minor changes
+  * [r22] trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Minor changes
 
 2005-03-07 14:27  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js: Right align shortcut
+  * [r21] trunk/qooxdoo/source/script/widgets/QxMenu.js:
+    Right align shortcut
 
 2005-03-07 14:26  ecker
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuButton.js: Rename Hint to
-    Shortcut
+  * [r20] trunk/qooxdoo/source/script/widgets/QxMenuButton.js:
+    Rename Hint to Shortcut
 
 2005-03-07 14:24  ecker
 
-  * trunk/qooxdoo/source/test/user/Menubar_1.html: Minor changes
+  * [r19] trunk/qooxdoo/source/test/user/Menubar_1.html:
+    Minor changes
 
 2005-03-07 13:22  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenuBar.js,
+  * [r18] trunk/qooxdoo/source/script/widgets/QxMenuBar.js,
     trunk/qooxdoo/source/script/widgets/QxMenuBarButton.js,
-    trunk/qooxdoo/source/test/user/Menubar_1.html: new menu bar
+    trunk/qooxdoo/source/test/user/Menubar_1.html:
+    new menu bar
 
 2005-03-07 13:06  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r17] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/script/widgets/QxWidget.js,
     trunk/qooxdoo/source/style/themes/win9x/theme.css,
     trunk/qooxdoo/source/style/themes/winxp/theme.css,
-    trunk/qooxdoo/source/style/widgets.css: Major fix
+    trunk/qooxdoo/source/style/widgets.css:
+    Major fix
 
 2005-03-07 10:58  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js: Minor fix
+  * [r16] trunk/qooxdoo/source/script/widgets/QxMenu.js:
+    Minor fix
 
 2005-03-07 10:52  wpbasti
 
-  * trunk/qooxdoo/source/style/widgets.css, trunk/qooxdoo/tools/config.sh:
+  * [r15] trunk/qooxdoo/source/style/widgets.css,
+    trunk/qooxdoo/tools/config.sh:
     Introduces menu manager, add support for closing the menu, fix for
     mshtml separator layout
 
 2005-03-07 10:51  wpbasti
 
-  * trunk/qooxdoo/source/script/managers/QxEventManager.js,
+  * [r14] trunk/qooxdoo/source/script/managers/QxEventManager.js,
     trunk/qooxdoo/source/script/managers/QxMenuManager.js,
     trunk/qooxdoo/source/script/managers/QxPopupManager.js,
-    trunk/qooxdoo/source/script/widgets/QxMenu.js: Introduces menu
-    manager, add support for closing the menu
+    trunk/qooxdoo/source/script/widgets/QxMenu.js:
+    Introduces menu manager, add support for closing the menu
 
 2005-03-07 10:20  wpbasti
 
-  * trunk/qooxdoo/tools/clean.sh: Added messages
+  * [r13] trunk/qooxdoo/tools/clean.sh:
+    Added messages
 
 2005-03-07 10:18  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxTimer.js,
+  * [r12] trunk/qooxdoo/source/script/core/QxTimer.js,
     trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuSeparator.js,
     trunk/qooxdoo/source/style/widgets.css,
-    trunk/qooxdoo/source/test/user/Menu_1.html: added disposer, multiple
-    cleanups, added separator
+    trunk/qooxdoo/source/test/user/Menu_1.html:
+    added disposer, multiple cleanups, added separator
 
 2005-03-07 09:58  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r11] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
-    trunk/qooxdoo/source/style/widgets.css: Better look
+    trunk/qooxdoo/source/style/widgets.css:
+    Better look
 
 2005-03-06 15:49  wpbasti
 
-  * trunk/qooxdoo/source/script/widgets/QxMenu.js,
+  * [r10] trunk/qooxdoo/source/script/widgets/QxMenu.js,
     trunk/qooxdoo/source/script/widgets/QxMenuButton.js,
     trunk/qooxdoo/source/style/test.css,
     trunk/qooxdoo/source/style/themes/win9x/theme.css,
     trunk/qooxdoo/source/style/widgets.css,
     trunk/qooxdoo/source/test/user/Menu_1.html,
-    trunk/qooxdoo/tools/makesource.sh: Better menu implementation (need
-    more layout work, otherwise quite done already it seems)
+    trunk/qooxdoo/tools/makesource.sh:
+    Better menu implementation (need more layout work, otherwise quite
+    done already it seems)
 
 2005-03-06 15:48  wpbasti
 
-  * trunk/qooxdoo/source/script/core/QxTimer.js,
-    trunk/qooxdoo/source/script/managers/QxTimerManager.js: Cleaned up
-    timer
+  * [r9] trunk/qooxdoo/source/script/core/QxTimer.js,
+    trunk/qooxdoo/source/script/managers/QxTimerManager.js:
+    Cleaned up timer
 
 2005-03-05 14:41  wpbasti
 
-  * trunk/qooxdoo/tools/script, trunk/qooxdoo/tools/script/.cvsignore,
+  * [r8] trunk/qooxdoo/tools/script,
+    trunk/qooxdoo/tools/script/.cvsignore,
     trunk/qooxdoo/tools/script/includer.js,
-    trunk/qooxdoo/tools/script/layout.js: Cleaned up from generated files
+    trunk/qooxdoo/tools/script/layout.js:
+    Cleaned up from generated files
 
 2005-03-04 17:10  ecker
 
-  * trunk/qooxdoo/source/style/test.css,
+  * [r7] trunk/qooxdoo/source/style/test.css,
     trunk/qooxdoo/source/test/developer/Index.html,
     trunk/qooxdoo/source/test/user/Index.html,
     trunk/qooxdoo/tools/includebase.js.in,
@@ -10719,16 +11075,17 @@
     trunk/qooxdoo/tools/script/includer.js,
     trunk/qooxdoo/tools/script/includer.js.in,
     trunk/qooxdoo/tools/script/layout.js,
-    trunk/qooxdoo/tools/script/layout.js.in: Generate the selection of
-    test files
+    trunk/qooxdoo/tools/script/layout.js.in:
+    Generate the selection of test files
 
 2005-03-04 16:04  wpbasti
 
-  * trunk/qooxdoo/tools/script/layout.js: Added
+  * [r6] trunk/qooxdoo/tools/script/layout.js:
+    Added
 
 2005-03-04 15:54  wpbasti
 
-  * trunk/qooxdoo/source, trunk/qooxdoo/source/images,
+  * [r5] trunk/qooxdoo/source, trunk/qooxdoo/source/images,
     trunk/qooxdoo/source/images/core,
     trunk/qooxdoo/source/images/core/.cvsignore,
     trunk/qooxdoo/source/images/core/arrows,
@@ -11208,7 +11565,7 @@
 
 2005-03-04 10:59  wpbasti
 
-  * trunk/qooxdoo, trunk/qooxdoo/.cvsignore, trunk/qooxdoo/AUTHORS,
+  * [r4] trunk/qooxdoo, trunk/qooxdoo/.cvsignore, trunk/qooxdoo/AUTHORS,
     trunk/qooxdoo/LICENSE, trunk/qooxdoo/README, trunk/qooxdoo/TODO,
     trunk/qooxdoo/tools, trunk/qooxdoo/tools/.cvsignore,
     trunk/qooxdoo/tools/clean.sh, trunk/qooxdoo/tools/combine.sh,
@@ -11221,6 +11578,6 @@
     trunk/qooxdoo/tools/settings.py, trunk/qooxdoo/tools/style,
     trunk/qooxdoo/tools/style/common.css,
     trunk/qooxdoo/tools/style/print.css,
-    trunk/qooxdoo/tools/style/screen.css: Initial checkin of new release
-    structure
+    trunk/qooxdoo/tools/style/screen.css:
+    Initial checkin of new release structure
 
