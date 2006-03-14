@@ -32,6 +32,7 @@
 #post(QxLabel)
 #post(QxSpinner)
 #post(QxTextField)
+#post(QxColorUtil)
 
 ************************************************************************ */
 
@@ -236,6 +237,7 @@ proto._createPresetFieldSet = function()
       colorField = new QxTerminator;
       colorField.setBorder(QxBorderObject.presets.thinInset);
       colorField.setBackgroundColor(this._presetTable[i*10+j]);
+      colorField.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onColorFieldClick, this);
 
       this._presetGrid.add(colorField, j, i);
     };
@@ -363,43 +365,88 @@ proto._createHsbSpinner = function()
 
 proto._modifyRed = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "rgbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "redModifier";
+  };
+
+  if (this._updateContext !== "rgbSpinner") {
     this._rgbSpinRed.setValue(propValue);
   };
 
-  if (this._updateContext != "hexField") {
+  if (this._updateContext !== "hexField") {
     this._setHexFromRgb();
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "rgbSpinner":
+    case "hexField":
+    case "redModifier":
+      this._setHueFromRgb();
+  };
+
+  if (this._updateContext === "redModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
 proto._modifyGreen = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "rgbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "greenModifier";
+  };
+
+  if (this._updateContext !== "rgbSpinner") {
     this._rgbSpinGreen.setValue(propValue);
   };
 
-  if (this._updateContext != "hexField") {
+  if (this._updateContext !== "hexField") {
     this._setHexFromRgb();
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "rgbSpinner":
+    case "hexField":
+    case "greenModifier":
+      this._setHueFromRgb();
+  };
+
+  if (this._updateContext === "greenModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
 proto._modifyBlue = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "rgbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "blueModifier";
+  };
+
+  if (this._updateContext !== "rgbSpinner") {
     this._rgbSpinBlue.setValue(propValue);
   };
 
-  if (this._updateContext != "hexField") {
+  if (this._updateContext !== "hexField") {
     this._setHexFromRgb();
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "rgbSpinner":
+    case "hexField":
+    case "blueModifier":
+      this._setHueFromRgb();
+  };
+
+  if (this._updateContext === "blueModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
@@ -417,43 +464,88 @@ proto._modifyBlue = function(propValue, propOldValue, propData)
 
 proto._modifyHue = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "hsbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "hueModifier";
+  };
+
+  if (this._updateContext !== "hsbSpinner") {
     this._hsbSpinHue.setValue(propValue);
   };
 
-  if (this._updateContext != "hueSaturationField") {
+  if (this._updateContext !== "hueSaturationField") {
     this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "hsbSpinner":
+    case "hueSaturationField":
+    case "hueModifier":
+      this._setRgbFromHue();
+  };
+
+  if (this._updateContext === "hueModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
 proto._modifySaturation = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "hsbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "saturationModifier";
+  };
+
+  if (this._updateContext !== "hsbSpinner") {
     this._hsbSpinSaturation.setValue(propValue);
   };
 
-  if (this._updateContext != "hueSaturationField") {
+  if (this._updateContext !== "hueSaturationField") {
     this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "hsbSpinner":
+    case "hueSaturationField":
+    case "saturationModifier":
+      this._setRgbFromHue();
+  };
+
+  if (this._updateContext === "saturationModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
 proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
-  if (this._updateContext != "hsbSpinner") {
+  if (this._updateContext === null) {
+    this._updateContext = "brightnessModifier";
+  };
+
+  if (this._updateContext !== "hsbSpinner") {
     this._hsbSpinBrightness.setValue(propValue);
   };
 
-  if (this._updateContext != "brightnessField") {
+  if (this._updateContext !== "brightnessField") {
     this._brightnessHandle.setTop(256-Math.round(propValue * 2.56));
   };
 
-  this._updateContext = null;
+  switch(this._updateContext)
+  {
+    case "hsbSpinner":
+    case "brightnessField":
+    case "brightnessModifier":
+      this._setRgbFromHue();
+  };
+
+  if (this._updateContext === "brightnessModifier") {
+    this._updateContext = null;
+  };
+
   return true;
 };
 
@@ -529,6 +621,8 @@ proto._setBrightnessOnFieldEvent = function(e)
 
 
 
+
+
 /*
 ---------------------------------------------------------------------------
   HUE/SATURATION IMPLEMENTATION
@@ -594,6 +688,8 @@ proto._setHueSaturationOnFieldEvent = function(e)
 
   this._updateContext = null;
 };
+
+
 
 
 
@@ -739,12 +835,9 @@ proto._onHexFieldChange = function(e)
   };
 
   this._updateContext = "hexField";
+
   this.setRed(vRed);
-
-  this._updateContext = "hexField";
   this.setGreen(vGreen);
-
-  this._updateContext = "hexField";
   this.setBlue(vBlue);
 
   this._updateContext = null;
@@ -752,4 +845,78 @@ proto._onHexFieldChange = function(e)
 
 proto._setHexFromRgb = function() {
   this._hexField.setValue(this.getRed().toString(16).pad(2) + this.getGreen().toString(16).pad(2) + this.getBlue().toString(16).pad(2));
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  COLOR FIELD
+---------------------------------------------------------------------------
+*/
+
+proto._onColorFieldClick = function(e)
+{
+  var vColor = e.getTarget().getBackgroundColor();
+
+  if (!vColor) {
+    return this.error("Missing backgroundColor value for field: " + e.getTarget());
+  };
+
+  this.setRed(vColor.getRed());
+  this.setGreen(vColor.getGreen());
+  this.setBlue(vColor.getBlue());
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  RGB/HSB SYNC
+---------------------------------------------------------------------------
+*/
+
+proto._setHueFromRgb = function()
+{
+  switch(this._updateContext)
+  {
+    case "hsbSpinner":
+    case "hueSaturationField":
+    case "brightnessField":
+      break;
+
+    default:
+      var vHsb = QxColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
+
+      this.setHue(vHsb.hue);
+      this.setSaturation(vHsb.saturation);
+      this.setBrightness(vHsb.brightness);
+  };
+};
+
+proto._setRgbFromHue = function()
+{
+  switch(this._updateContext)
+  {
+    case "rgbSpinner":
+    case "hexField":
+      break;
+
+    default:
+      var vRgb = QxColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
+
+      this.setRed(vRgb.red);
+      this.setGreen(vRgb.green);
+      this.setBlue(vRgb.blue);
+  };
 };
