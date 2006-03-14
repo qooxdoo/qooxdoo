@@ -114,12 +114,12 @@ function QxSpinner(vMin, vValue, vMax)
     this.setMin(vMin);
   };
 
-  if(QxUtil.isValidNumber(vValue)) {
-    this.setValue(vValue);
-  };
-
   if(QxUtil.isValidNumber(vMax)) {
     this.setMax(vMax);
+  };
+
+  if(QxUtil.isValidNumber(vValue)) {
+    this.setValue(vValue);
   };
 };
 
