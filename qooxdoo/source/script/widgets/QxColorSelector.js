@@ -305,7 +305,7 @@ proto._createInputFieldSet = function()
 
 proto._createPreviewFieldSet = function()
 {
-  this._previewFieldSet = new QxFieldSet("Preview");
+  this._previewFieldSet = new QxFieldSet("Preview (Old/New)");
   this._previewFieldSet.setHeight(QxConst.CORE_FLEX);
   this._previewFieldSet.setParent(this._controlPane);
 
