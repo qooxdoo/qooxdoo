@@ -48,7 +48,7 @@
 QxDom.getComputedOuterWidth  = function(el) { return QxDom.getComputedBoxWidth(el)  + QxDom.getComputedMarginLeft(el) + QxDom.getComputedMarginRight(el); };
 QxDom.getComputedOuterHeight = function(el) { return QxDom.getComputedBoxHeight(el) + QxDom.getComputedMarginTop(el)  + QxDom.getComputedMarginBottom(el); };
 
-QxDom.getComputedBoxWidth = function(el)
+QxDom.getComputedBoxWidthForZeroHeight = function(el)
 {
   var h = el.offsetHeight;
   if (h == 0) {
@@ -65,7 +65,7 @@ QxDom.getComputedBoxWidth = function(el)
   return v;
 };
 
-QxDom.getComputedBoxHeight = function(el)
+QxDom.getComputedBoxHeightForZeroWidth = function(el)
 {
   var w = el.offsetWidth;
   if (w == 0) {
@@ -82,6 +82,13 @@ QxDom.getComputedBoxHeight = function(el)
   return v;
 };
 
+QxDom.getComputedBoxWidth = function(el) {
+  return el.offsetWidth;
+};
+
+QxDom.getComputedBoxHeight = function(el) {
+  return el.offsetHeight;
+};
 
 if (QxClient.isGecko())
 {
