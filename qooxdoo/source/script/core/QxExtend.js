@@ -676,9 +676,9 @@ Function.prototype.addProperty = function(p)
   // add property to object property list
   switch(p.type)
   {
+    case undefined:
     case QxConst.TYPEOF_OBJECT:
     case QxConst.TYPEOF_FUNCTION:
-    case QxConst.TYPEOF_UNDEFINED:
       if (typeof this.prototype._objectproperties !== QxConst.TYPEOF_STRING) {
         this.prototype._objectproperties = p.name;
       } else {
