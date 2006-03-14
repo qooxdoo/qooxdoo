@@ -41,7 +41,7 @@
 
   Includes support for RGB and HSB color areas.
 */
-function QxColorSelector()
+function QxColorSelector(vPreviousRed, vPreviousGreen, vPreviousBlue)
 {
   QxVerticalBoxLayout.call(this);
 
@@ -70,6 +70,15 @@ function QxColorSelector()
 
   // 5. Preview FieldSet Content
   this._createPreviewContent();
+
+
+  // ********************************************
+  //   INIT COLORS
+  // ********************************************
+
+  if (vPreviousRed) {
+    this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
+  };
 };
 
 QxColorSelector.extend(QxVerticalBoxLayout, "QxColorSelector");
@@ -418,11 +427,13 @@ proto._createPreviewContent = function()
   this._oldColorPreview = new QxTerminator;
   this._oldColorPreview.setBorder(QxBorderObject.presets.thinInset);
   this._oldColorPreview.setWidth(QxConst.CORE_FLEX);
+  this._oldColorPreview.setBackgroundImage("core/dotted_white.gif");
   this._oldColorPreview.setParent(this._previewLayout);
 
   this._newColorPreview = new QxTerminator;
   this._newColorPreview.setBorder(QxBorderObject.presets.thinInset);
   this._newColorPreview.setWidth(QxConst.CORE_FLEX);
+  this._newColorPreview.setBackgroundImage("core/dotted_white.gif");
   this._newColorPreview.setParent(this._previewLayout);
 };
 
@@ -1016,6 +1027,39 @@ proto._setRgbFromHue = function()
 
 proto._setPreviewFromRgb = function()
 {
+  this._newColorPreview.setBackgroundImage(null);
   this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
+};
 
+proto.setPreviousColor = function(vRed, vGreen, vBlue)
+{
+  this._oldColorPreview.setBackgroundImage(null);
+  this._oldColorPreview.setBackgroundColor([vRed, vGreen, vBlue]);
+
+  this.setRed(vRed);
+  this.setGreen(vGreen);
+  this.setBlue(vBlue);
+};
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+*/
+
+proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  };
+
+
+
+  return QxVerticalBoxLayout.prototype.dispose.call(this);
 };
