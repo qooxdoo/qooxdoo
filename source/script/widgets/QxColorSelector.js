@@ -67,14 +67,15 @@ QxColorSelector.extend(QxVerticalBoxLayout, "QxColorSelector");
 
 QxColorSelector.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colorselector" });
 
-QxColorSelector.addProperty({ name : "red", type : QxConst.TYPEOF_NUMBER });
-QxColorSelector.addProperty({ name : "green", type : QxConst.TYPEOF_NUMBER });
-QxColorSelector.addProperty({ name : "blue", type : QxConst.TYPEOF_NUMBER });
+QxColorSelector.addProperty({ name : "red", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxColorSelector.addProperty({ name : "green", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxColorSelector.addProperty({ name : "blue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 
-QxColorSelector.addProperty({ name : "hue", type : QxConst.TYPEOF_NUMBER });
-QxColorSelector.addProperty({ name : "saturation", type : QxConst.TYPEOF_NUMBER });
-QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER });
+QxColorSelector.addProperty({ name : "hue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxColorSelector.addProperty({ name : "saturation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 
+proto._updateContext = null;
 
 
 
@@ -151,7 +152,7 @@ proto._createHueSaturationPane = function()
   this._hueSaturationField.addEventListener("mousedown", this._onHueSaturationFieldMouseDown, this);
 
   this._hueSaturationHandle = new QxImage("core/huesaturation-handle.gif");
-  this._hueSaturationHandle.setLocation(0, 0);
+  this._hueSaturationHandle.setLocation(0, 256);
   this._hueSaturationHandle.setParent(this._hueSaturationPane);
 
   this._hueSaturationHandle.addEventListener("mousedown", this._onHueSaturationHandleMouseDown, this);
@@ -176,7 +177,7 @@ proto._createBrightnessPane = function()
   this._brightnessField.addEventListener("mousedown", this._onBrightnessFieldMouseDown, this);
 
   this._brightnessHandle = new QxImage("core/brightness-handle.gif");
-  this._brightnessHandle.setLocation(0, 0);
+  this._brightnessHandle.setLocation(0, 256);
   this._brightnessHandle.setParent(this._brightnessPane);
 
   this._brightnessHandle.addEventListener("mousedown", this._onBrightnessHandleMouseDown, this);
@@ -282,10 +283,12 @@ proto._createHexField = function()
   this._hexHelper = new QxLabel("#");
   this._hexHelper.setParent(this._hexLayout);
 
-  this._hexValue = new QxTextField("334455");
-  this._hexValue.setWidth(50);
-  this._hexValue.setFont('"Bitstream Vera Sans Mono", monospace');
-  this._hexValue.setParent(this._hexLayout);
+  this._hexField = new QxTextField("000000");
+  this._hexField.setWidth(50);
+  this._hexField.setFont('11px "Bitstream Vera Sans Mono", monospace');
+  this._hexField.setParent(this._hexLayout);
+
+  this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
 };
 
 proto._createRgbSpinner = function()
@@ -311,13 +314,9 @@ proto._createRgbSpinner = function()
 
   this._rgbSpinLayout.add(this._rgbSpinRed, this._rgbSpinGreen, this._rgbSpinBlue);
 
-  function updateFromRgbSpinner() {
-    this._hexValue.setValue(this._rgbSpinRed.getValue().toString(16).pad(2) + this._rgbSpinGreen.getValue().toString(16).pad(2) + this._rgbSpinBlue.getValue().toString(16).pad(2));
-  };
-
-  this._rgbSpinRed.addEventListener("change", updateFromRgbSpinner, this);
-  this._rgbSpinGreen.addEventListener("change", updateFromRgbSpinner, this);
-  this._rgbSpinBlue.addEventListener("change", updateFromRgbSpinner, this);
+  this._rgbSpinRed.addEventListener("change", this._setRedFromSpinner, this);
+  this._rgbSpinGreen.addEventListener("change", this._setGreenFromSpinner, this);
+  this._rgbSpinBlue.addEventListener("change", this._setBlueFromSpinner, this);
 };
 
 proto._createHsbSpinner = function()
@@ -342,6 +341,10 @@ proto._createHsbSpinner = function()
   this._hsbSpinBrightness.setWidth(50);
 
   this._hsbSpinLayout.add(this._hsbSpinHue, this._hsbSpinSaturation, this._hsbSpinBrightness);
+
+  this._hsbSpinHue.addEventListener("change", this._setHueFromSpinner, this);
+  this._hsbSpinSaturation.addEventListener("change", this._setSaturationFromSpinner, this);
+  this._hsbSpinBrightness.addEventListener("change", this._setBrightnessFromSpinner, this);
 };
 
 
@@ -360,19 +363,43 @@ proto._createHsbSpinner = function()
 
 proto._modifyRed = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinRed.setValue(propValue);
+  if (this._updateContext != "rgbSpinner") {
+    this._rgbSpinRed.setValue(propValue);
+  };
+
+  if (this._updateContext != "hexField") {
+    this._setHexFromRgb();
+  };
+
+  this._updateContext = null;
   return true;
 };
 
 proto._modifyGreen = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinGreen.setValue(propValue);
+  if (this._updateContext != "rgbSpinner") {
+    this._rgbSpinGreen.setValue(propValue);
+  };
+
+  if (this._updateContext != "hexField") {
+    this._setHexFromRgb();
+  };
+
+  this._updateContext = null;
   return true;
 };
 
 proto._modifyBlue = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinBlue.setValue(propValue);
+  if (this._updateContext != "rgbSpinner") {
+    this._rgbSpinBlue.setValue(propValue);
+  };
+
+  if (this._updateContext != "hexField") {
+    this._setHexFromRgb();
+  };
+
+  this._updateContext = null;
   return true;
 };
 
@@ -390,19 +417,43 @@ proto._modifyBlue = function(propValue, propOldValue, propData)
 
 proto._modifyHue = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinHue.setValue(propValue);
+  if (this._updateContext != "hsbSpinner") {
+    this._hsbSpinHue.setValue(propValue);
+  };
+
+  if (this._updateContext != "hueSaturationField") {
+    this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
+  };
+
+  this._updateContext = null;
   return true;
 };
 
 proto._modifySaturation = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinSaturation.setValue(propValue);
+  if (this._updateContext != "hsbSpinner") {
+    this._hsbSpinSaturation.setValue(propValue);
+  };
+
+  if (this._updateContext != "hueSaturationField") {
+    this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
+  };
+
+  this._updateContext = null;
   return true;
 };
 
 proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
-  this._hsbSpinBrightness.setValue(propValue);
+  if (this._updateContext != "hsbSpinner") {
+    this._hsbSpinBrightness.setValue(propValue);
+  };
+
+  if (this._updateContext != "brightnessField") {
+    this._brightnessHandle.setTop(256-Math.round(propValue * 2.56));
+  };
+
+  this._updateContext = null;
   return true;
 };
 
@@ -458,15 +509,19 @@ proto._onBrightnessFieldMouseDown = function(e)
 };
 
 proto._onBrightnessPaneMouseWheel = function(e) {
-  this.setBrightness((this.getBrightness() + e.getWheelDelta()).limit(0, 100));
+  this.setBrightness((this.getBrightness() - e.getWheelDelta()).limit(0, 100));
 };
 
 proto._setBrightnessOnFieldEvent = function(e)
 {
   var vValue = (e.getPageY() - this._brightnessSubtract).limit(0, 256);
 
+  this._updateContext = "brightnessField";
+
   this._brightnessHandle.setTop(vValue);
-  this.setBrightness(Math.round(vValue / 2.56));
+  this.setBrightness(100-Math.round(vValue / 2.56));
+
+  this._updateContext = null;
 };
 
 
@@ -532,6 +587,169 @@ proto._setHueSaturationOnFieldEvent = function(e)
   this._hueSaturationHandle.setTop(vTop);
   this._hueSaturationHandle.setLeft(vLeft);
 
-  this.setSaturation(Math.round(vTop / 2.56));
+  this._updateContext = "hueSaturationField";
+
+  this.setSaturation(100-Math.round(vTop / 2.56));
   this.setHue(Math.round(vLeft * 1.40625));
+
+  this._updateContext = null;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  RGB SPINNER
+---------------------------------------------------------------------------
+*/
+
+proto._setRedFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "rgbSpinner";
+  this.setRed(this._rgbSpinRed.getValue());
+  this._updateContext = null;
+};
+
+proto._setGreenFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "rgbSpinner";
+  this.setGreen(this._rgbSpinGreen.getValue());
+  this._updateContext = null;
+};
+
+proto._setBlueFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "rgbSpinner";
+  this.setBlue(this._rgbSpinBlue.getValue());
+  this._updateContext = null;
+};
+
+
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HSB SPINNER
+---------------------------------------------------------------------------
+*/
+
+proto._setHueFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "hsbSpinner";
+  this.setHue(this._hsbSpinHue.getValue());
+  this._updateContext = null;
+};
+
+proto._setSaturationFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "hsbSpinner";
+  this.setSaturation(this._hsbSpinSaturation.getValue());
+  this._updateContext = null;
+};
+
+proto._setBrightnessFromSpinner = function()
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  this._updateContext = "hsbSpinner";
+  this.setBrightness(this._hsbSpinBrightness.getValue());
+  this._updateContext = null;
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  HEX FIELD
+---------------------------------------------------------------------------
+*/
+
+proto._onHexFieldChange = function(e)
+{
+  if (this._updateContext !== null) {
+    return;
+  };
+
+  var vValue = this._hexField.getValue().toLowerCase();
+
+  var vRed = 0;
+  var vGreen = 0;
+  var vBlue = 0;
+
+  switch(vValue.length)
+  {
+    case 3:
+      vRed = QxColor.m_rgb[vValue.charAt(0)];
+      vGreen = QxColor.m_rgb[vValue.charAt(1)];
+      vBlue = QxColor.m_rgb[vValue.charAt(2)];
+
+      vRed = (vRed * 16) + vRed;
+      vGreen = (vGreen * 16) + vGreen;
+      vBlue = (vBlue * 16) + vBlue;
+
+      break;
+
+    case 6:
+      vRed = (QxColor.m_rgb[vValue.charAt(0)] * 16) + QxColor.m_rgb[vValue.charAt(1)];
+      vGreen = (QxColor.m_rgb[vValue.charAt(2)] * 16) + QxColor.m_rgb[vValue.charAt(3)];
+      vBlue = (QxColor.m_rgb[vValue.charAt(4)] * 16) + QxColor.m_rgb[vValue.charAt(5)];
+
+      break;
+
+    default:
+      return false;
+  };
+
+  this._updateContext = "hexField";
+  this.setRed(vRed);
+
+  this._updateContext = "hexField";
+  this.setGreen(vGreen);
+
+  this._updateContext = "hexField";
+  this.setBlue(vBlue);
+
+  this._updateContext = null;
+};
+
+proto._setHexFromRgb = function() {
+  this._hexField.setValue(this.getRed().toString(16).pad(2) + this.getGreen().toString(16).pad(2) + this.getBlue().toString(16).pad(2));
 };
