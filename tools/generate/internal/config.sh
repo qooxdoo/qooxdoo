@@ -328,4 +328,5 @@ L="$L script/transport/QxIframeTransportCore"
 L="$L script/core/QxBuilder"
 
 # Color Selector
+L="$L script/gui/QxColorUtil"
 L="$L script/widgets/QxColorSelector"
