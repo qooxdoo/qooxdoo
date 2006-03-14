@@ -825,9 +825,7 @@ proto.dispose = function()
   };
 
   // Cleanup data and actions
-  this.clearData();
-  this.clearActions();
-
+  this._data = null;
   this._actions = null;
   this._actionNames = null;
 
