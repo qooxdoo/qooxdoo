@@ -91,7 +91,7 @@ QxColorSelector.addProperty({ name : "blue", type : QxConst.TYPEOF_NUMBER, defau
 
 QxColorSelector.addProperty({ name : "hue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 QxColorSelector.addProperty({ name : "saturation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 
 
@@ -222,7 +222,7 @@ proto._createBrightnessPane = function()
   this._brightnessField.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
 
   this._brightnessHandle = new QxImage("core/brightness-handle.gif");
-  this._brightnessHandle.setLocation(0, 256);
+  this._brightnessHandle.setLocation(0, 0);
   this._brightnessHandle.setParent(this._brightnessPane);
 
   this._brightnessHandle.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
@@ -340,7 +340,7 @@ proto._createHexField = function()
   this._hexHelper = new QxLabel("#");
   this._hexHelper.setParent(this._hexLayout);
 
-  this._hexField = new QxTextField("000000");
+  this._hexField = new QxTextField("FFFFFF");
   this._hexField.setWidth(50);
   this._hexField.setFont('11px "Bitstream Vera Sans Mono", monospace');
   this._hexField.setParent(this._hexLayout);
@@ -360,13 +360,13 @@ proto._createRgbSpinner = function()
   this._rgbSpinLabel.setWidth(25);
   this._rgbSpinLabel.setParent(this._rgbSpinLayout);
 
-  this._rgbSpinRed = new QxSpinner(0, 0, 255);
+  this._rgbSpinRed = new QxSpinner(0, 255, 255);
   this._rgbSpinRed.setWidth(50);
 
-  this._rgbSpinGreen = new QxSpinner(0, 0, 255);
+  this._rgbSpinGreen = new QxSpinner(0, 255, 255);
   this._rgbSpinGreen.setWidth(50);
 
-  this._rgbSpinBlue = new QxSpinner(0, 0, 255);
+  this._rgbSpinBlue = new QxSpinner(0, 255, 255);
   this._rgbSpinBlue.setWidth(50);
 
   this._rgbSpinLayout.add(this._rgbSpinRed, this._rgbSpinGreen, this._rgbSpinBlue);
@@ -394,7 +394,7 @@ proto._createHsbSpinner = function()
   this._hsbSpinSaturation = new QxSpinner(0, 0, 100);
   this._hsbSpinSaturation.setWidth(50);
 
-  this._hsbSpinBrightness = new QxSpinner(0, 0, 100);
+  this._hsbSpinBrightness = new QxSpinner(0, 100, 100);
   this._hsbSpinBrightness.setWidth(50);
 
   this._hsbSpinLayout.add(this._hsbSpinHue, this._hsbSpinSaturation, this._hsbSpinBrightness);
@@ -427,7 +427,7 @@ proto._createPreviewContent = function()
   this._newColorPreview = new QxTerminator;
   this._newColorPreview.setBorder(QxBorderObject.presets.thinInset);
   this._newColorPreview.setWidth(QxConst.CORE_FLEX);
-  this._newColorPreview.setBackgroundImage("core/dotted_white.gif");
+  this._newColorPreview.setBackgroundColor("white");
   this._newColorPreview.setParent(this._previewLayout);
 };
 
@@ -931,7 +931,7 @@ proto._onHexFieldChange = function(e)
 };
 
 proto._setHexFromRgb = function() {
-  this._hexField.setValue(this.getRed().toString(16).pad(2) + this.getGreen().toString(16).pad(2) + this.getBlue().toString(16).pad(2));
+  this._hexField.setValue(this.getRed().toString(16).toUpperCase().pad(2) + this.getGreen().toString(16).toUpperCase().pad(2) + this.getBlue().toString(16).toUpperCase().pad(2));
 };
 
 
@@ -1021,7 +1021,6 @@ proto._setRgbFromHue = function()
 
 proto._setPreviewFromRgb = function()
 {
-  this._newColorPreview.setBackgroundImage(null);
   this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
 };
 

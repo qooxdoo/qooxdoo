@@ -477,6 +477,7 @@ proto.getResponseContent = function()
   switch(this.getMimeType())
   {
     case "text/plain":
+    case "text/html":
       return this.getResponseText();
 
     case "text/json":
