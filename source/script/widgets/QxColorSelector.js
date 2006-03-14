@@ -45,6 +45,10 @@ function QxColorSelector()
 {
   QxVerticalBoxLayout.call(this);
 
+  // ********************************************
+  //   CREATE CHILDREN
+  // ********************************************
+
   // 1. Base Structure (Vertical Split)
   this._createControlBar();
   this._createButtonBar();
@@ -57,11 +61,15 @@ function QxColorSelector()
   // 3. Control Pane Content
   this._createPresetFieldSet();
   this._createInputFieldSet();
+  this._createPreviewFieldSet();
 
   // 4. Input FieldSet Content
   this._createHexField();
   this._createRgbSpinner();
   this._createHsbSpinner();
+
+  // 5. Preview FieldSet Content
+  this._createPreviewContent();
 };
 
 QxColorSelector.extend(QxVerticalBoxLayout, "QxColorSelector");
@@ -276,14 +284,28 @@ proto._createPresetFieldSet = function()
 
 proto._createInputFieldSet = function()
 {
-  this._inputFieldSet = new QxFieldSet();
-  this._inputFieldSet.setHeight(QxConst.CORE_FLEX);
+  this._inputFieldSet = new QxFieldSet("Details");
+  this._inputFieldSet.setHeight(QxConst.CORE_AUTO);
   this._inputFieldSet.setParent(this._controlPane);
 
   this._inputLayout = new QxVerticalBoxLayout;
   this._inputLayout.setHeight(QxConst.CORE_AUTO);
   this._inputLayout.setSpacing(10);
   this._inputLayout.setParent(this._inputFieldSet.getFrameObject());
+};
+
+proto._createPreviewFieldSet = function()
+{
+  this._previewFieldSet = new QxFieldSet("Preview");
+  this._previewFieldSet.setHeight(QxConst.CORE_FLEX);
+  this._previewFieldSet.setParent(this._controlPane);
+
+  this._previewLayout = new QxHorizontalBoxLayout;
+  this._previewLayout.setHeight(QxConst.CORE_HUNDREDPERCENT);
+  this._previewLayout.setLocation(0, 0);
+  this._previewLayout.setRight(0);
+  this._previewLayout.setSpacing(10);
+  this._previewLayout.setParent(this._previewFieldSet.getFrameObject());
 };
 
 
@@ -385,6 +407,30 @@ proto._createHsbSpinner = function()
 
 
 
+/*
+---------------------------------------------------------------------------
+  CREATE #5: PREVIEW CONTENT
+---------------------------------------------------------------------------
+*/
+
+proto._createPreviewContent = function()
+{
+  this._oldColorPreview = new QxTerminator;
+  this._oldColorPreview.setBorder(QxBorderObject.presets.thinInset);
+  this._oldColorPreview.setWidth(QxConst.CORE_FLEX);
+  this._oldColorPreview.setParent(this._previewLayout);
+
+  this._newColorPreview = new QxTerminator;
+  this._newColorPreview.setBorder(QxBorderObject.presets.thinInset);
+  this._newColorPreview.setWidth(QxConst.CORE_FLEX);
+  this._newColorPreview.setParent(this._previewLayout);
+};
+
+
+
+
+
+
 
 
 /*
@@ -415,6 +461,8 @@ proto._modifyRed = function(propValue, propOldValue, propData)
       this._setHueFromRgb();
   };
 
+  this._setPreviewFromRgb();
+
   if (this._updateContext === QxColorSelector.CONTEXT_RED_MODIFIER) {
     this._updateContext = null;
   };
@@ -444,6 +492,8 @@ proto._modifyGreen = function(propValue, propOldValue, propData)
       this._setHueFromRgb();
   };
 
+  this._setPreviewFromRgb();
+
   if (this._updateContext === QxColorSelector.CONTEXT_GREEN_MODIFIER) {
     this._updateContext = null;
   };
@@ -472,6 +522,8 @@ proto._modifyBlue = function(propValue, propOldValue, propData)
     case QxColorSelector.CONTEXT_BLUE_MODIFIER:
       this._setHueFromRgb();
   };
+
+  this._setPreviewFromRgb();
 
   if (this._updateContext === QxColorSelector.CONTEXT_BLUE_MODIFIER) {
     this._updateContext = null;
@@ -949,4 +1001,21 @@ proto._setRgbFromHue = function()
       this.setGreen(vRgb.green);
       this.setBlue(vRgb.blue);
   };
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PREVIEW SYNC
+---------------------------------------------------------------------------
+*/
+
+proto._setPreviewFromRgb = function()
+{
+  this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
+
 };
