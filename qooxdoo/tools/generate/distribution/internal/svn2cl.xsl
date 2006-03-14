@@ -79,10 +79,10 @@
  <xsl:param name="groupbyday" select="'no'" />
 
  <!-- whether a revision number should be included -->
- <xsl:param name="include-rev" select="'no'" />
+ <xsl:param name="include-rev" select="'yes'" />
 
  <!-- whether the log message should start on a new line -->
- <xsl:param name="breakbeforemsg" select="'no'" />
+ <xsl:param name="breakbeforemsg" select="'yes'" />
 
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
