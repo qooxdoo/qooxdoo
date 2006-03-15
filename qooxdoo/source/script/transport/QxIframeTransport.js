@@ -99,7 +99,7 @@ proto.send = function()
   };
 
   if (vParametersList.length > 0) {
-    vUrl += QxConst.CORE_QUESTIONMARK + vParametersList.join(QxConst.CORE_AMPERSAND);
+    vUrl += (vUrl.indexOf(QxConst.CORE_QUESTIONMARK) >= 0 ? QxConst.CORE_AMPERSAND : QxConst.CORE_QUESTIONMARK) + vParametersList.join(QxConst.CORE_AMPERSAND);
   };
 
 
@@ -276,18 +276,6 @@ proto.getIframeBody = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getIframeWindow = function() {
-  return QxDom.getIframeWindow(this._frame);
-};
-
-proto.getIframeDocument = function() {
-  return QxDom.getIframeDocument(this._frame);
-};
-
-proto.getIframeBody = function() {
-  return QxDom.getIframeBody(this._frame);
-};
-
 proto.getIframeTextContent = function()
 {
   var vBody = this.getIframeBody();
@@ -337,21 +325,21 @@ proto.getResponseContent = function()
   };
 
   if (QxSettings.enableTransportDebug) {
-    this.debug("Returning content for mimeType: " + this.getMimeType());
+    this.debug("Returning content for contentType: " + this.getContentType());
   };
 
-  switch(this.getMimeType())
+  switch(this.getContentType())
   {
-    case "text/plain":
+    case QxConst.MIMETYPE_TEXT:
       return this.getIframeTextContent();
       break;
 
-    case "text/html":
+    case QxConst.MIMETYPE_HTML:
       return this.getIframeHtmlContent();
       break;
 
-    case "text/json":
-    case "text/javascript":
+    case QxConst.MIMETYPE_JSON:
+    case QxConst.MIMETYPE_JAVASCRIPT:
       try {
         var vText = this.getIframeTextContent();
         return vText ? eval("(" + vText + ")") : null;
@@ -359,11 +347,11 @@ proto.getResponseContent = function()
         return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
       };
 
-    case "application/xml":
+    case QxConst.MIMETYPE_XML:
       return this.getIframeDocument();
 
     default:
-      this.warn("No valid mimeType specified (" + this.getMimeType() + ")!");
+      this.warn("No valid contentType specified (" + this.getContentType() + ")!");
       return null;
   };
 };
