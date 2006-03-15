@@ -89,10 +89,10 @@ proto.send = function()
   var vUsage = QxTransport.typesOrder;
   var vSupported = QxTransport.typesSupported;
 
-  // Mapping settings to mimetype and needs to check later
+  // Mapping settings to contenttype and needs to check later
   // if the selected transport implementation can handle
   // fulfill these requirements.
-  var vMimeType = vRequest.getMimeType();
+  var vContentType = vRequest.getContentType();
   var vNeeds = {};
 
   if (vRequest.getAsynchronous()) {
@@ -102,7 +102,7 @@ proto.send = function()
   };
 
   if (vRequest.getCrossDomain()) {
-    vNeeds.crossdomain = true;
+    vNeeds.crossDomain = true;
   };
 
   var vTransportImpl, vTransport;
@@ -112,7 +112,7 @@ proto.send = function()
 
     if (vTransportImpl)
     {
-      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vMimeType)) {
+      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vContentType)) {
         continue;
       };
 
@@ -244,7 +244,7 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.setRequestHeaders(vRequest.getRequestHeaders());
     propValue.setData(vRequest.getData());
 
-    propValue.setMimeType(vRequest.getMimeType());
+    propValue.setContentType(vRequest.getContentType());
 
     propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);

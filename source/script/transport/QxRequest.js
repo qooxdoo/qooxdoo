@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxRequest(vUrl)
+function QxRequest(vUrl, vMethod, vContentType)
 {
   QxTarget.call(this);
 
@@ -34,15 +34,10 @@ function QxRequest(vUrl)
   this._parameters = {};
 
   this.setUrl(vUrl);
-  this.setProhibitCaching(true);
+  this.setMethod(vMethod || QxConst.METHOD_GET);
+  this.setContentType(vContentType || QxConst.MIMETYPE_TEXT);
 
-  // TODO:
-  // Should we add implicit handling like this?
-  /*
-  if (this.getMethod() === QxConst.METHOD_POST) {
-    this.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  };
-  */
+  this.setProhibitCaching(true);
 
   // Prototype-Style Request Headers
   this.setRequestHeader("X-Requested-With", "qooxdoo");
@@ -71,8 +66,7 @@ QxRequest.addProperty(
                    QxConst.METHOD_GET, QxConst.METHOD_POST,
                    QxConst.METHOD_PUT, QxConst.METHOD_HEAD,
                    QxConst.METHOD_DELETE
-                   ],
-  defaultValue   : QxConst.METHOD_POST
+                   ]
 });
 QxRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 QxRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
@@ -90,9 +84,17 @@ QxRequest.addProperty(
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
+QxRequest.addProperty({
+  name           : "contentType",
+  type           : QxConst.TYPEOF_STRING,
+  possibleValues : [
+                   QxConst.MIMETYPE_TEXT,
+                   QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON,
+                   QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML
+                   ]
+});
 QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
 QxRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
-QxRequest.addProperty({ name : "mimeType", type : QxConst.TYPEOF_STRING, defaultValue : "text/plain", possibleValues : [ "text/plain", "text/html", "application/xml", "text/json", "text/javascript" ] });
 QxRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
@@ -289,7 +291,20 @@ proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
   return true;
 };
 
+proto._modifyMethod = function(propValue, propOldValue, propData)
+{
+  if (propValue === QxConst.METHOD_POST) {
+    this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  };
 
+  return true;
+};
+
+proto._modifyContentType = function(propValue, propOldValue, propData)
+{
+  this.setRequestHeader("X-Qooxdoo-Content-Type", propValue);
+  return true;
+};
 
 
 

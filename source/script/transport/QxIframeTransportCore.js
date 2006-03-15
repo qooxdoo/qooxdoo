@@ -35,8 +35,9 @@ QxIframeTransport.handles =
 {
   synchronous : false,
   asynchronous : true,
-  crossdomain : true,
-  mimetypes : [ "text/plain", "text/html", "application/xml", "text/json", "text/javascript" ]
+  crossDomain : true,
+  fileUpload: true,
+  contentTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
 };
 
 QxIframeTransport.isSupported = function() {
