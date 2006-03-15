@@ -1021,7 +1021,15 @@ proto._setRgbFromHue = function()
 
 proto._setPreviewFromRgb = function()
 {
-  this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
+  if (this._newColorPreview.isCreated())
+  {
+    // faster (omit QxColor instances)
+    this._newColorPreview._style.backgroundColor = QxColor.rgb2style(this.getRed(), this.getGreen(), this.getBlue());
+  }
+  else
+  {
+    this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
+  };
 };
 
 proto.setPreviousColor = function(vRed, vGreen, vBlue)
