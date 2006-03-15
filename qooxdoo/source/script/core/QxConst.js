@@ -393,5 +393,7 @@ var QxConst =
 
   MIMETYPE_JAVASCRIPT : "text/javascript",
   MIMETYPE_JSON : "text/json",
-  MIMETYPE_XML : "application/xml"
+  MIMETYPE_XML : "application/xml",
+  MIMETYPE_TEXT : "text/plain",
+  MIMETYPE_HTML : "text/html"
 };
