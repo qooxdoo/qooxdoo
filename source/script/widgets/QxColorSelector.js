@@ -559,8 +559,16 @@ proto._modifyHue = function(propValue, propOldValue, propData)
     this._hsbSpinHue.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD) {
-    this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
+  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD)
+  {
+    if (this._hueSaturationHandle.isCreated())
+    {
+      this._hueSaturationHandle._applyRuntimeLeft(Math.round(propValue / 1.40625) + this._hueSaturationPane.getPaddingLeft());
+    }
+    else
+    {
+      this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
+    };
   };
 
   switch(this._updateContext)
@@ -588,8 +596,16 @@ proto._modifySaturation = function(propValue, propOldValue, propData)
     this._hsbSpinSaturation.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD) {
-    this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
+  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD)
+  {
+    if (this._hueSaturationHandle.isCreated())
+    {
+      this._hueSaturationHandle._applyRuntimeTop(256 - Math.round(propValue * 2.56) + this._hueSaturationPane.getPaddingTop());
+    }
+    else
+    {
+      this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
+    };
   };
 
   switch(this._updateContext)
@@ -617,8 +633,16 @@ proto._modifyBrightness = function(propValue, propOldValue, propData)
     this._hsbSpinBrightness.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_BRIGHTNESS_FIELD) {
-    this._brightnessHandle.setTop(256-Math.round(propValue * 2.56));
+  if (this._updateContext !== QxColorSelector.CONTEXT_BRIGHTNESS_FIELD)
+  {
+    if (this._brightnessHandle.isCreated())
+    {
+      this._brightnessHandle._applyRuntimeTop(propValue + this._brightnessPane.getPaddingTop());
+    }
+    else
+    {
+      this._brightnessHandle.setTop(256-Math.round(propValue * 2.56));
+    };
   };
 
   switch(this._updateContext)
@@ -697,7 +721,15 @@ proto._setBrightnessOnFieldEvent = function(e)
 
   this._updateContext = QxColorSelector.CONTEXT_BRIGHTNESS_FIELD;
 
-  this._brightnessHandle.setTop(vValue);
+  if (this._brightnessHandle.isCreated())
+  {
+    this._brightnessHandle._applyRuntimeTop(vValue + this._brightnessPane.getPaddingTop());
+  }
+  else
+  {
+    this._brightnessHandle.setTop(vValue);
+  };
+
   this.setBrightness(100-Math.round(vValue / 2.56));
 
   this._updateContext = null;
@@ -765,8 +797,16 @@ proto._setHueSaturationOnFieldEvent = function(e)
   var vTop = (e.getPageY() - this._hueSaturationSubtractTop).limit(0, 256);
   var vLeft = (e.getPageX() - this._hueSaturationSubtractLeft).limit(0, 256);
 
-  this._hueSaturationHandle.setTop(vTop);
-  this._hueSaturationHandle.setLeft(vLeft);
+  if (this._hueSaturationHandle.isCreated())
+  {
+    this._hueSaturationHandle._applyRuntimeTop(vTop + this._hueSaturationPane.getPaddingTop());
+    this._hueSaturationHandle._applyRuntimeLeft(vLeft + this._hueSaturationPane.getPaddingLeft());
+  }
+  else
+  {
+    this._hueSaturationHandle.setTop(vTop);
+    this._hueSaturationHandle.setLeft(vLeft);
+  };
 
   this._updateContext = QxColorSelector.CONTEXT_HUE_SATURATION_FIELD;
 
