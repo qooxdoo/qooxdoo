@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxRequest(vUrl, vMethod, vContentType)
+function QxRequest(vUrl, vMethod, vResponseType)
 {
   QxTarget.call(this);
 
@@ -35,7 +35,7 @@ function QxRequest(vUrl, vMethod, vContentType)
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || QxConst.METHOD_GET);
-  this.setContentType(vContentType || QxConst.MIMETYPE_TEXT);
+  this.setResponseType(vResponseType || QxConst.MIMETYPE_TEXT);
 
   this.setProhibitCaching(true);
 
@@ -85,7 +85,7 @@ QxRequest.addProperty(
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
 QxRequest.addProperty({
-  name           : "contentType",
+  name           : "responseType",
   type           : QxConst.TYPEOF_STRING,
   possibleValues : [
                    QxConst.MIMETYPE_TEXT,
@@ -300,9 +300,9 @@ proto._modifyMethod = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyContentType = function(propValue, propOldValue, propData)
+proto._modifyResponseType = function(propValue, propOldValue, propData)
 {
-  this.setRequestHeader("X-Qooxdoo-Content-Type", propValue);
+  this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
   return true;
 };
 

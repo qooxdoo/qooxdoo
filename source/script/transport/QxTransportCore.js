@@ -68,9 +68,9 @@ QxTransport.initTypes = function()
   };
 };
 
-QxTransport.canHandle = function(vImpl, vNeeds, vContentType)
+QxTransport.canHandle = function(vImpl, vNeeds, vResponseType)
 {
-  if (!vImpl.handles.contentTypes.contains(vContentType)) {
+  if (!vImpl.handles.responseTypes.contains(vResponseType)) {
     return false;
   };
 
