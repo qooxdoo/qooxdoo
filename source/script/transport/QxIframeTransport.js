@@ -70,6 +70,8 @@ function QxIframeTransport()
 
 QxIframeTransport.extend(QxCommonTransport, "QxIframeTransport");
 
+proto._lastReadyState = 0;
+
 
 
 
@@ -131,6 +133,18 @@ proto.send = function()
 ---------------------------------------------------------------------------
 */
 
+// For reference:
+// http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
+QxIframeTransport._nativeMap =
+{
+  "uninitialized" : QxConst.REQUEST_STATE_CREATED,
+  "uninitialized" : QxConst.REQUEST_STATE_CONFIGURED,
+  "loading" : QxConst.REQUEST_STATE_SENDING,
+  "loaded" : QxConst.REQUEST_STATE_RECEIVING,
+  "interactive" : QxConst.REQUEST_STATE_RECEIVING,
+  "complete" : QxConst.REQUEST_STATE_COMPLETED
+};
+
 proto._onload = function(e)
 {
   if (this._form.src) {
@@ -142,22 +156,22 @@ proto._onload = function(e)
 
 proto._onreadystatechange = function(e)
 {
-  switch(this._frame.readyState)
+  // Ignoring already stopped requests
+  switch(this.getState())
   {
-    case "loading":
-      this.setState(QxConst.REQUEST_STATE_SENDING);
-      break;
+    case QxConst.REQUEST_STATE_COMPLETED:
+    case QxConst.REQUEST_STATE_ABORTED:
+    case QxConst.REQUEST_STATE_FAILED:
+    case QxConst.REQUEST_STATE_TIMEOUT:
+      this.warn("Ignore Ready State Change");
+      return;
+  };
 
-    case "interactive":
-      this.setState(QxConst.REQUEST_STATE_RECEIVING);
-      break;
-
-    case "complete":
-      this.setState(QxConst.REQUEST_STATE_COMPLETED);
-      break;
+  // Updating internal state
+  while (this._lastReadyState < vReadyState) {
+    this.setState(QxIframeTransport._nativeMap[++this._lastReadyState]);
   };
 };
-
 
 
 
