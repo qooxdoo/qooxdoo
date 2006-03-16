@@ -103,7 +103,7 @@
 
     function makeRequest(size)
     {
-      var req = new QxGetRequest("data/filesize/" + size + "kb.xml");
+      var req = new QxRequest("data/filesize/" + size + "kb.xml", "GET", "application/xml");
 
       req.addEventListener("completed", function(e) {
         area.setValue(area.getValue() + "Request " + size + "kb: completed\n");
