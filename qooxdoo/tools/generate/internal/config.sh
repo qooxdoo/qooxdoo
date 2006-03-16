@@ -331,3 +331,6 @@ L="$L script/widgets/QxColorSelector"
 L="$L script/data/QxData"
 # L="$L script/data/QxTextData"
 # L="$L script/data/QxHtmlData"
+
+# Form Handling
+L="$L script/transport/QxFormUtils"
