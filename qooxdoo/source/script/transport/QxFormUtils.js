@@ -31,6 +31,7 @@ QxFormUtils = {};
 QxFormUtils.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
 QxFormUtils.ignoreElementTypes = [ "fieldset" ];
 QxFormUtils.checkElementTypes = [ "radio", "checkbox" ];
+QxFormUtils.multiSelectType = "select-multiple";
 
 QxFormUtils.inputFilter = function(vNode)
 {
@@ -66,19 +67,13 @@ QxFormUtils.encodeField = function(vNode)
   var vName = vNode.name || QxConst.CORE_EMPTY;
   var vType = (vNode.type || QxConst.CORE_EMPTY).toLowerCase();
 
-  if(vType == "select-multiple")
+  if(vType === QxFormUtils.multiSelectType)
   {
     for(var j = 0; j < vNode.options.length; j++)
     {
       if(vNode.options[j].selected) {
         values.push(name + "=" + enc(vNode.options[j].value));
       };
-    };
-  }
-  else if(QxFormUtils.checkElementTypes.contains(vType))
-  {
-    if(vNode.checked){
-      values.push(name + "=" + enc(vNode.value));
     };
   }
   else
