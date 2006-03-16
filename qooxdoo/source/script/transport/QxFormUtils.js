@@ -97,3 +97,17 @@ QxFormUtils.encodeForm = function(vForm)
 
   return vAll.join(QxConst.CORE_AMPERSAND);
 };
+
+QxFormUtils.bind = function(vForm, vMethod)
+{
+  QxDom.addEventListener(vForm, QxConst.EVENT_TYPE_SUBMIT, function(e)
+  {
+    e.returnValue = false;
+
+    if (typeof e.preventDefault === QxConst.TYPEOF_FUNCTION) {
+      e.preventDefault();
+    };
+
+    return vMethod(e);
+  });
+};
