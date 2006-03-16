@@ -125,10 +125,6 @@ L="$L script/core/QxTimer"
 # XML Extras
 L="$L script/core/QxXmlExtras"
 
-# Old Data Transport
-L="$L script/deprecated/QxXmlHttpLoader"
-L="$L script/deprecated/QxData"
-
 # Image Support
 L="$L script/managers/QxImageManager"
 L="$L script/managers/QxImagePreloaderManager"
@@ -330,3 +326,8 @@ L="$L script/core/QxBuilder"
 # Color Selector
 L="$L script/gui/QxColorUtil"
 L="$L script/widgets/QxColorSelector"
+
+# Data Implementation
+L="$L script/data/QxData"
+# L="$L script/data/QxTextData"
+# L="$L script/data/QxHtmlData"
