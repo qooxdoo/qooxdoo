@@ -69,15 +69,27 @@ QxFormUtils.encodeField = function(vNode)
 
   if(vType === QxFormUtils.multiSelectType)
   {
-    for(var j = 0; j < vNode.options.length; j++)
+    for(var i=0; i<vNode.options.length; i++)
     {
-      if(vNode.options[j].selected) {
-        values.push(name + "=" + enc(vNode.options[j].value));
+      if(vNode.options[i].selected) {
+        values.push(name + QxConst.CORE_EQUAL + enc(vNode.options[i].value));
       };
     };
   }
   else
   {
-    values.push(name + "=" + enc(vNode.value));
+    values.push(name + QxConst.CORE_EQUAL + enc(vNode.value));
   };
+};
+
+QxFormUtils.encodeForm = function(vForm)
+{
+  var vFields = QxFormUtils.getFields(vForm);
+  var vAll = [];
+
+  for (var i=0, l=vFields.length; i<l; i++) {
+    vAll.push(vFields[i]);
+  };
+
+  return vAll.join(QxConst.CORE_AMPERSAND);
 };
