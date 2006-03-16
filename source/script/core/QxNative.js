@@ -193,7 +193,8 @@ if (!Array.prototype.some)
   {
     var l = this.length;  // must be fixed during loop... see docs
 
-    for (var i=0; i<l; i++) {
+    for (var i=0; i<l; i++)
+    {
       if (f.call(obj, this[i], i, this)) {
         return true;
       };
@@ -206,9 +207,11 @@ if (!Array.prototype.some)
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:every
 if (!Array.prototype.every)
 {
-  Array.prototype.every = function (f, obj) {
+  Array.prototype.every = function (f, obj)
+  {
     var l = this.length;  // must be fixed during loop... see docs
-    for (var i=0; i<l; i++) {
+    for (var i=0; i<l; i++)
+    {
       if (!f.call(obj, this[i], i, this)) {
         return false;
       };
