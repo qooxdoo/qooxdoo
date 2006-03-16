@@ -126,10 +126,13 @@
       };
 
       var req;
-      for( var i=0, max=parseInt(spin.getValue()); i<max; i++ ) {
-        req = new QxGetRequest(val.getLabel());
+      for( var i=0, max=parseInt(spin.getValue()); i<max; i++ )
+      {
+        req = new QxRequest(val.getLabel(), "GET", "text/plain");
+
         req.setAsynchronous(async.getChecked());
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
         req.setParameter("test1", "value1");
         req.setParameter("test2", "value2");
         req.setParameter("test3", "value3");
