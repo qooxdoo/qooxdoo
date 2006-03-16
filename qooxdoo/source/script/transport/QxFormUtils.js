@@ -59,7 +59,7 @@ QxFormUtils.inputFilter = function(vNode)
 };
 
 QxFormUtils.getFields = function(vForm) {
-  return Array.filter(QxFormUtils.inputFilter, vForm.elements);
+  return Array.filter(vForm.elements, QxFormUtils.inputFilter);
 };
 
 QxFormUtils.encodeField = function(vNode)
@@ -69,16 +69,20 @@ QxFormUtils.encodeField = function(vNode)
 
   if(vType === QxFormUtils.multiSelectType)
   {
+    var vValues = [];
+
     for(var i=0; i<vNode.options.length; i++)
     {
       if(vNode.options[i].selected) {
-        values.push(name + QxConst.CORE_EQUAL + enc(vNode.options[i].value));
+        vValues.push(vName + QxConst.CORE_EQUAL + vNode.options[i].value);
       };
     };
+
+    return vValues.join(QxConst.CORE_AMPERSAND);
   }
   else
   {
-    values.push(name + QxConst.CORE_EQUAL + enc(vNode.value));
+    return vName + QxConst.CORE_EQUAL + vNode.value;
   };
 };
 
@@ -88,7 +92,7 @@ QxFormUtils.encodeForm = function(vForm)
   var vAll = [];
 
   for (var i=0, l=vFields.length; i<l; i++) {
-    vAll.push(vFields[i]);
+    vAll.push(QxFormUtils.encodeField(vFields[i]));
   };
 
   return vAll.join(QxConst.CORE_AMPERSAND);
