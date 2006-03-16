@@ -258,6 +258,7 @@ var QxConst =
   EVENT_TYPE_LOAD : "load",
   EVENT_TYPE_UNLOAD : "unload",
   EVENT_TYPE_BEFOREUNLOAD : "beforeunload",
+  EVENT_TYPE_SUBMIT : "submit",
 
   EVENT_TYPE_PROPERTYCHANGE : "propertychange",
   EVENT_TYPE_LOSECAPTURE : "losecapture",

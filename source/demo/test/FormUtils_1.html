@@ -56,6 +56,8 @@
       <option value="rabbit">Rabbit</option>
       <option value="hamster">Hamster</option>
     </select>
+    <br/>
+    <input type="submit" value="Send Data"/>
   </form>
 
   <script type="text/javascript">
@@ -69,6 +71,10 @@
     area.setLocation(20, 100);
     area.setDimension(200, 100);
     this.add(area);
+
+    QxFormUtils.bind(document.getElementById("mainform"), function() {
+      alert("Submitting Form Replacement...");
+    });
 
     btn.addEventListener("execute", function() {
       area.setValue(QxFormUtils.encodeForm(document.getElementById("mainform")));
