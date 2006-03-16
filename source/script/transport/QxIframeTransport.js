@@ -137,7 +137,7 @@ proto._onload = function(e)
     return;
   };
 
-	this.setState(QxConst.REQUEST_STATE_COMPLETED);
+  this.setState(QxConst.REQUEST_STATE_COMPLETED);
 };
 
 proto._onreadystatechange = function(e)
