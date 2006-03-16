@@ -101,9 +101,9 @@ QxCommonTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OB
 QxCommonTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
 /*!
-  Response contentType
+  Response Type
 */
-QxCommonTransport.addProperty({ name : "contentType", type: QxConst.TYPEOF_STRING });
+QxCommonTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
 
 
 

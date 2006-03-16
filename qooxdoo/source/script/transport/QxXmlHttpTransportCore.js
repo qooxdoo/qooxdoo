@@ -37,7 +37,7 @@ QxXmlHttpTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: false,
-  contentTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
+  responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
 };
 
 QxXmlHttpTransport.requestObjects = [];

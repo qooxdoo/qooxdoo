@@ -92,7 +92,7 @@ proto.send = function()
   // Mapping settings to contenttype and needs to check later
   // if the selected transport implementation can handle
   // fulfill these requirements.
-  var vContentType = vRequest.getContentType();
+  var vResponseType = vRequest.getResponseType();
   var vNeeds = {};
 
   if (vRequest.getAsynchronous()) {
@@ -112,7 +112,7 @@ proto.send = function()
 
     if (vTransportImpl)
     {
-      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vContentType)) {
+      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vResponseType)) {
         continue;
       };
 
@@ -244,7 +244,7 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.setRequestHeaders(vRequest.getRequestHeaders());
     propValue.setData(vRequest.getData());
 
-    propValue.setContentType(vRequest.getContentType());
+    propValue.setResponseType(vRequest.getResponseType());
 
     propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
     propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);

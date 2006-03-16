@@ -325,10 +325,10 @@ proto.getResponseContent = function()
   };
 
   if (QxSettings.enableTransportDebug) {
-    this.debug("Returning content for contentType: " + this.getContentType());
+    this.debug("Returning content for responseType: " + this.getResponseType());
   };
 
-  switch(this.getContentType())
+  switch(this.getResponseType())
   {
     case QxConst.MIMETYPE_TEXT:
       return this.getIframeTextContent();
@@ -351,7 +351,7 @@ proto.getResponseContent = function()
       return this.getIframeDocument();
 
     default:
-      this.warn("No valid contentType specified (" + this.getContentType() + ")!");
+      this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
       return null;
   };
 };
