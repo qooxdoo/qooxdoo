@@ -137,7 +137,6 @@ proto.send = function()
 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
 QxIframeTransport._nativeMap =
 {
-  "uninitialized" : QxConst.REQUEST_STATE_CREATED,
   "uninitialized" : QxConst.REQUEST_STATE_CONFIGURED,
   "loading" : QxConst.REQUEST_STATE_SENDING,
   "loaded" : QxConst.REQUEST_STATE_RECEIVING,
