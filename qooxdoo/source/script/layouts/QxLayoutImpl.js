@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #package(layoutcore)
+#require(QxClient)
 
 ************************************************************************ */
 
@@ -337,7 +338,7 @@ if (QxClient.isMshtml())
   proto.layoutChild_sizeLimitY = QxUtil.returnTrue;
 }
 else
-{  
+{
   /*!
     Apply min-/max-width/height to the child. Direct usage of stylesheet properties.
     This is only possible in modern capable clients (i.e. excluding all current
