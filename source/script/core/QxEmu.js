@@ -182,7 +182,7 @@ if (QxClient.isGecko())
     window[vUniqueID] = this;
 
     // we don't want to increment next time, so redefine the getter
-    this.__defineGetter__("uniqueID", function(){return vUniqueID});
+    this.__defineGetter__("uniqueID", function(){return vUniqueID;});
 
     return vUniqueID;
   });

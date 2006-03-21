@@ -115,8 +115,8 @@ proto._createLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._layoutHorizontal= false;
-proto._layoutVertical= false;
+proto._layoutHorizontal = false;
+proto._layoutVertical = false;
 proto._layoutMode = "left";
 
 proto.isHorizontal = function() {

@@ -733,7 +733,7 @@ else
     {
       if (vChild._isHeightEssential() && !vChild._computedHeightTypeNull)
       {
-        vChild._applyRuntimeHeight(vChild.getHeightValue())
+        vChild._applyRuntimeHeight(vChild.getHeightValue());
       }
       else
       {

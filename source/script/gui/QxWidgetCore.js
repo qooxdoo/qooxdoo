@@ -412,7 +412,7 @@ QxWidget.addToGlobalDisplayQueue = function(vWidget)
 
       if (QxWidget._lazyGlobalDisplayQueues[vKey])
       {
-        QxWidget._lazyGlobalDisplayQueues[vKey].push(vWidget)
+        QxWidget._lazyGlobalDisplayQueues[vKey].push(vWidget);
       }
       else
       {

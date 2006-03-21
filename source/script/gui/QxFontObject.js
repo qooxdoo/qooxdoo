@@ -30,7 +30,7 @@ function QxFontObject(vSize, vName)
 {
   this._dependentObjects = {};
 
-  QxFont.call(this, vSize, vName)
+  QxFont.call(this, vSize, vName);
 };
 
 QxFontObject.extend(QxFont, "QxFontObject");

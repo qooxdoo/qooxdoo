@@ -341,7 +341,7 @@ proto._normalize = function(vInValue)
       };
 
     default:
-      throw invalid
+      throw invalid;
   };
 
   if (!this._isRgbColor)
