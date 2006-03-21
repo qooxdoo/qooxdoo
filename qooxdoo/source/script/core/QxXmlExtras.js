@@ -29,28 +29,28 @@
 /*
   Based on:
   IE7, version 0.9 (alpha) (2005-08-19)
-  Copyright: 2004-2005, Dean Edwards (http://dean.edwards.name/)
+  Copyright: 2004-2005, Dean Edwards (http://dean.edwards.name)
   License: http://creativecommons.org/licenses/LGPL/2.1/
-  Modelled after: http://www.mozilla.org/xmlextras/
+  Modelled after: http://www.mozilla.org/xmlextras
 */
 
 if (QxClient.isMshtml())
 {
-  function DOMParser() {
+  var DOMParser = function() {
     /* empty constructor */
   };
 
   DOMParser.prototype =
   {
     toString: function() {
-      return "[object DOMParser]"
+      return "[object DOMParser]";
     },
 
-    parseFromString: function($str, $contentType)
+    parseFromString: function(str, contentType)
     {
-      var $xmlDocument = new ActiveXObject("Microsoft.XMLDOM");
-      $xmlDocument.loadXML($str);
-      return $xmlDocument;
+      var xmlDocument = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDocument.loadXML(str);
+      return xmlDocument;
     },
 
     // not supported
@@ -58,18 +58,18 @@ if (QxClient.isMshtml())
     baseURI: ""
   };
 
-  function XMLSerializer() {
+  var XMLSerializer = function() {
     /* empty constructor */
   };
 
   XMLSerializer.prototype =
   {
     toString: function() {
-      return "[object XMLSerializer]"
+      return "[object XMLSerializer]";
     },
 
-    serializeToString: function($root) {
-      return $root.xml || $root.outerHTML;
+    serializeToString: function(root) {
+      return root.xml || root.outerHTML;
     },
 
     // not supported
@@ -157,9 +157,9 @@ if (window.XPathEvaluator)
   
   Element.prototype.__lookupGetter__('text');
 
-  Attr.prototype.__defineGetter__('text', function(){ return this.nodeValue });
+  Attr.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Attr.prototype.__lookupGetter__('text');
 
-  Text.prototype.__defineGetter__('text', function(){ return this.nodeValue });
+  Text.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Text.prototype.__lookupGetter__('text');
 };
