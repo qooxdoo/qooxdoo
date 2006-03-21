@@ -168,7 +168,7 @@ proto._updateLayout = function(vUpdate)
       this.setColumnHorizontalAlignment(vCount, vColumns[vCol].align);
       this.setColumnWidth(vCount, vColumns[vCol].width);
 
-      vCount++
+      vCount++;
     };
   };
 
@@ -263,7 +263,8 @@ proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
   var vPaneTop = QxDom.getComputedPageInnerTop(this.getElement());
-  var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + Math.floor((vEventTop - vPaneTop) / this._rowHeight);
+  var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + 
+                Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
   return this._data[vItemNo];
 };

@@ -74,10 +74,10 @@ proto.buttonSets = function()
   var btnStart3 = new QxButton("Start 15x", "icons/16/button-ok.png");
   var btnStart4 = new QxButton("Start 25x", "icons/16/button-ok.png");
 
-  btnStart1.addEventListener("execute", function() { this.start(3, parseInt(loopInput.getValue())) }, this);
-  btnStart2.addEventListener("execute", function() { this.start(7, parseInt(loopInput.getValue())) }, this);
-  btnStart3.addEventListener("execute", function() { this.start(15, parseInt(loopInput.getValue())) }, this);
-  btnStart4.addEventListener("execute", function() { this.start(25, parseInt(loopInput.getValue())) }, this);
+  btnStart1.addEventListener("execute", function() { this.start(3, parseInt(loopInput.getValue())); }, this);
+  btnStart2.addEventListener("execute", function() { this.start(7, parseInt(loopInput.getValue())); }, this);
+  btnStart3.addEventListener("execute", function() { this.start(15, parseInt(loopInput.getValue())); }, this);
+  btnStart4.addEventListener("execute", function() { this.start(25, parseInt(loopInput.getValue())); }, this);
 
   var htmlOutput = this._output = new QxHtml();
 

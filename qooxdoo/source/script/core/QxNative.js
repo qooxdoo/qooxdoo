@@ -145,7 +145,7 @@ if (!Array.prototype.forEachObject)
   Array.prototype.forEachObject = function(f)
   {
     for (var i=0, l=this.length; i<l; i++) {
-      f.call(this[i], this, i)
+      f.call(this[i], this, i);
     };
   };
 };

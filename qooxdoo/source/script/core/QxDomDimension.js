@@ -134,7 +134,7 @@ if (QxClient.isGecko())
     }
     else
     {
-      return QxDom.getComputedBoxHeight(el) - QxDom.getComputedInsetTop(el) - QxDom.getComputedInsetBottom(el)
+      return QxDom.getComputedBoxHeight(el) - QxDom.getComputedInsetTop(el) - QxDom.getComputedInsetBottom(el);
     };
   };
 }

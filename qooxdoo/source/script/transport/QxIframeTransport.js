@@ -48,7 +48,7 @@ function QxIframeTransport()
 
   this._frame.src = "about:blank";
   this._frame.id = this._frame.name = vFrameName;
-  this._frame.onload = function(e) { return o._onload(e) };
+  this._frame.onload = function(e) { return o._onload(e); };
 
   this._frame.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
   this._frame.style.visibility = "hidden";
@@ -65,7 +65,7 @@ function QxIframeTransport()
   document.body.appendChild(this._form);
 
   var o = this;
-  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e) };
+  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
 QxIframeTransport.extend(QxCommonTransport, "QxIframeTransport");
