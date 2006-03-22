@@ -307,9 +307,6 @@ L="$L script/core/QxTimeTracker"
 L="$L script/transport/QxRequest"
 L="$L script/transport/QxResponse"
 
-L="$L script/transport/QxGetRequest"
-L="$L script/transport/QxPostRequest"
-
 L="$L script/transport/QxRequestQueue"
 L="$L script/transport/QxTransport"
 L="$L script/transport/QxTransportCore"
