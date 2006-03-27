@@ -41,7 +41,7 @@ function QxImage(vSource, vWidth, vHeight)
   this.setHtmlProperty(QxImage.ATTR_TITLE, QxConst.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(QxUtil.isValid(vSource) ? vSource : QxImageManager.BLANK);
+  this.setSource(QxUtil.isValid(vSource) ? vSource : QxImageManager.buildUri(QxConst.IMAGE_BLANK));
 
   // Dimensions
   this.setWidth(QxUtil.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
@@ -218,7 +218,7 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
     QxImageManager.add(this);
 
     // Omit  here, otherwise the later setLoaded(true)
-    // will not be executed (recursion preventation)
+    // will not be executed (prevent recursion)
 
     // Changed: Use forceLoaded instead of setLoaded => should be faster
     this.forceLoaded(false);
