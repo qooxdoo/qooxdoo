@@ -38,6 +38,7 @@ h4. Layouter Rework
 * Add depth property to widgets. Sort job queue according to depth before flush.
 * Remove spacing and margins from inner width/height of each QxParent to calculate percents. (Mail: Stanislav Ievlev, 08.02.2006, 13:18 Uhr)
 * Think about additionally supporting dimensions like '100%-10' as in RelativeLayers
+* Introduce QxClientSupport, which stores if the client supports min/max or top/bottom stretching and also other non layout relevant stuff.
 
 h4. Unsorted
 
