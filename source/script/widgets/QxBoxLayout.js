@@ -178,7 +178,7 @@ proto._modifyOrientation = function(propValue, propOldValue, propData)
   };
 
   // call other core modifier
-  return this._modifyLayoutOrder();
+  return this._modifyLayoutOrder(propValue, propOldValue, propData);
 };
 
 proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
@@ -187,7 +187,7 @@ proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
   this._invalidateLayoutMode();
 
   // call other core modifier
-  return this._modifyLayout();
+  return this._modifyLayout(propValue, propOldValue, propData);
 };
 
 proto._modifyLayout = function(propValue, propOldValue, propData)
