@@ -55,7 +55,7 @@ QxToolBarMenuButton.extend(QxToolBarButton, "QxToolBarMenuButton");
 */
 
 QxToolBarMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
-
+QxToolBarMenuButton.addProperty({ name : "direction", type : QxConst.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
 
 
 
@@ -83,12 +83,39 @@ proto._showMenu = function(vFromKeyEvent)
 
   if (vMenu)
   {
+    // Caching common stuff
+    var vMenuParent = vMenu.getParent();
+    var vMenuParentElement = vMenuParent.getElement();
+    var vButtonElement = this.getElement();
+    var vButtonHeight = QxDom.getComputedBoxHeight(vButtonElement);
+
+    // Apply X-Location
+    var vMenuParentLeft = QxDom.getComputedPageBoxLeft(vMenuParentElement);
+    var vButtonLeft = QxDom.getComputedPageBoxLeft(vButtonElement);
+
+    vMenu.setLeft(vButtonLeft - vMenuParentLeft);
+
+    // Apply Y-Location
+    switch(this.getDirection())
+    {
+      case "up":
+        var vBodyHeight = QxDom.getComputedInnerHeight(document.body);
+        var vMenuParentBottom = QxDom.getComputedPageBoxBottom(vMenuParentElement);
+        var vButtonBottom = QxDom.getComputedPageBoxBottom(vButtonElement);
+
+        vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
+        vMenu.setTop(null);
+        break;
+
+      case "down":
+        var vButtonTop = QxDom.getComputedPageBoxTop(vButtonElement);
+
+        vMenu.setTop(vButtonTop + vButtonHeight);
+        vMenu.setBottom(null);
+        break;
+    };
+
     this.addState(QxConst.STATE_PRESSED);
-
-    var el = this.getElement();
-
-    vMenu.setLeft(QxDom.getComputedPageBoxLeft(el));
-    vMenu.setTop(QxDom.getComputedPageBoxTop(el) + QxDom.getComputedBoxHeight(el));
 
     // If this show is called from a key event occured, we want to highlight
     // the first menubutton inside.
