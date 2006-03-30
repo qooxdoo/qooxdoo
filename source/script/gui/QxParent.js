@@ -442,8 +442,11 @@ proto.addAt = function(vChild, vIndex)
 
       vChildren.insertAt(vChild, vIndex);
 
-      this.getLayoutImpl().updateChildrenOnMoveChild(vChild, vIndex, vOldIndex);
-      this._invalidateVisibleChildren();
+      if (this._initialLayoutDone)
+      {
+        this._invalidateVisibleChildren();
+        this.getLayoutImpl().updateChildrenOnMoveChild(vChild, vIndex, vOldIndex);
+      };
     };
   }
   else
