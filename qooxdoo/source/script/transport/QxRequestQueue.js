@@ -71,11 +71,11 @@ proto._debug = function()
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
-  if (QxSettings.enableTransportDebug) {
+  if (QxSettings.enableTransportDebug)
+  {
     this.debug("Progress: " + vText);
+    window.status = "Request-Queue Progress: " + vText;
   };
-
-  window.status = "Request-Queue Progress: " + vText;
 };
 
 proto._check = function()
