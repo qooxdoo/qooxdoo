@@ -25,6 +25,18 @@
 #package(window)
 #post(QxDomDimension)
 #post(QxDomLocation)
+#post(QxTerminator)
+#post(QxVerticalBoxLayout)
+#post(QxHorizontalBoxLayout)
+#post(QxCanvasLayout)
+#post(QxImage)
+#post(QxLabel)
+#post(QxHorizontalSpacer)
+#post(QxButton)
+#post(QxWindowManager)
+#post(QxWidget)
+#post(QxUtil)
+#post(QxCompare)
 
 ************************************************************************ */
 
