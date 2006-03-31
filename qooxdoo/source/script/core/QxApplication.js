@@ -25,11 +25,6 @@
 #package(core)
 #require(QxClient)
 #require(QxDomEventRegistration)
-#post(QxImageManager)
-#post(QxImagePreloaderSystem)
-#post(QxDebug)
-#post(QxDataEvent)
-#post(QxTimer)
 
 ************************************************************************ */
 
@@ -206,9 +201,12 @@ proto._runPreload = function()
   this.info("Preload phase");
   this.debug("Preloading images...");
 
-  var vPreloaderSystem = new QxImagePreloaderSystem(QxImageManager.getPreloadImageList());
-  vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
-  vPreloaderSystem.start();
+  if (typeof QxImageManager !== QxConst.TYPEOF_UNDEFINED && typeof QxImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  {
+    var vPreloaderSystem = new QxImagePreloaderSystem(QxImageManager.getPreloadImageList());
+    vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
+    vPreloaderSystem.start();
+  };
 };
 
 proto._runPreloadDone = function()
@@ -267,9 +265,12 @@ proto._runPostload = function()
   this.info("Postload phase");
   this.debug("Preloading images...");
 
-  var vPreloaderSystem = new QxImagePreloaderSystem(QxImageManager.getPostPreloadImageList());
-  vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
-  vPreloaderSystem.start();
+  if (typeof QxImageManager !== QxConst.TYPEOF_UNDEFINED && typeof QxImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  {
+    var vPreloaderSystem = new QxImagePreloaderSystem(QxImageManager.getPostPreloadImageList());
+    vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
+    vPreloaderSystem.start();
+  };
 };
 
 proto._runPostloadDone = function()
