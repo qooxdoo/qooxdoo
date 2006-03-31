@@ -199,7 +199,7 @@ proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (vActiveChild instanceof QxNativeWindow)
+    if (typeof QxNativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof QxNativeWindow)
     {
       this._modalNativeWindow = null;
     }
