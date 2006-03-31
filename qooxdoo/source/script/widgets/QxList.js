@@ -24,6 +24,9 @@
 
 #package(list)
 
+#post(QxSelectionManager)
+#post(QxKeyEvent)
+
 ************************************************************************ */
 
 function QxList()

@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #package(core)
+#post(QxUtil)
 #post(QxEvent)
 #post(QxDataEvent)
 
