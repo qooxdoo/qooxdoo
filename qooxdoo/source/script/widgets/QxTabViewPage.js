@@ -30,6 +30,6 @@ function QxTabViewPage(vButton) {
   QxCommonViewPage.call(this, vButton);
 };
 
-QxTabViewPage.extend(QxCommonViewPage, "QxBarViewPage");
+QxTabViewPage.extend(QxCommonViewPage, "QxTabViewPage");
 
 QxTabViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-page" });

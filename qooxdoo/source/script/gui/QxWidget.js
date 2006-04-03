@@ -233,10 +233,10 @@ QxWidget.addProperty({ name : "overflow", type : QxConst.TYPEOF_STRING, addToQue
 /*!
   Clipping of the widget
 */
-QxWidget.addProperty({ name : "clipLeft", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipTop", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipWidth", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipHeight", type : QxConst.CORE_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipLeft", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipTop", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipWidth", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
 
 
 
