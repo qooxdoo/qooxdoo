@@ -41,7 +41,7 @@ function QxSplitPane(vOrientation)
   //   PANE 1
   // ***********************************************************************
 
-  var p1 = this._leftWidget = new QxCanvasLayout();
+  var p1 = this._firstWidget = new QxCanvasLayout();
 
   this.setLeftWidget(p1);
 
@@ -52,13 +52,15 @@ function QxSplitPane(vOrientation)
   var sb = this._bar = new QxBoxLayout(vOrientation == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
   sb.setAppearance("splitpane-divider");
 
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    sb.setWidth(this.getDividerSize());
-    sb.setHorizontalChildrenAlign(QxConst.ALIGN_CENTER);
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    sb.setHeight(this.getDividerSize());
-    sb.setVerticalChildrenAlign(QxConst.ALIGN_MIDDLE);
+  switch(this.getOrientation())
+  {
+    case QxConst.ORIENTATION_HORIZONTAL :
+      sb.setWidth(this.getDividerSize());
+      break;
+
+    case QxConst.ORIENTATION_VERTICAL :
+      sb.setHeight(this.getDividerSize());
+      break;
   };
 
   sb.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
@@ -70,17 +72,25 @@ function QxSplitPane(vOrientation)
   // ***********************************************************************
   //   BUTTONS
   // ***********************************************************************
+  var buttonLayout = this._buttonLayout = new QxBoxLayout(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
+  buttonLayout.setHorizontalChildrenAlign(QxConst.ALIGN_CENTER);
 
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    this._minimizeImage = new QxImage("widgets/arrows/left-divider.gif");
-    this._maximizeImage = new QxImage("widgets/arrows/right-divider.gif");
-    this._restoreImage = new QxImage("widgets/arrows/restore-horiz-divider.gif");
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    this._minimizeImage = new QxImage("widgets/arrows/up-divider.gif");
-    this._maximizeImage = new QxImage("widgets/arrows/down-divider.gif");
-    this._restoreImage = new QxImage("widgets/arrows/restore-vert-divider.gif");
+  switch(this.getOrientation())
+  {
+    case QxConst.ORIENTATION_HORIZONTAL :
+      this._minimizeImage = new QxImage("widgets/arrows/left-divider.gif");
+      this._maximizeImage = new QxImage("widgets/arrows/right-divider.gif");
+      this._restoreImage = new QxImage("widgets/arrows/restore-horiz-divider.gif");
+      break;
+
+    case QxConst.ORIENTATION_VERTICAL :
+      this._minimizeImage = new QxImage("widgets/arrows/up-divider.gif");
+      this._maximizeImage = new QxImage("widgets/arrows/down-divider.gif");
+      this._restoreImage = new QxImage("widgets/arrows/restore-vert-divider.gif");
+      break;
   };
+
+  sb.add(buttonLayout);
 
   // ***********************************************************************
   //   BUTTONS: MINIMIZE
@@ -94,7 +104,7 @@ function QxSplitPane(vOrientation)
   minB.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
   minB.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
-  sb.add(minB);
+  buttonLayout.add(minB);
 
   // ***********************************************************************
   //   BUTTONS: RESTORE
@@ -120,19 +130,30 @@ function QxSplitPane(vOrientation)
   maxB.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
   maxB.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
-  sb.add(maxB);
+  buttonLayout.add(maxB);
 
   // ***********************************************************************
   //   PANE 2
   // ***********************************************************************
 
-  var p2 = this._rightWidget = new QxCanvasLayout();
+  var p2 = this._secondWidget = new QxCanvasLayout();
 
   this.setRightWidget(p2);
 };
 
 QxSplitPane.extend(QxBoxLayout, "QxSplitPane");
 
+
+/*
+------------------------------------------------------------------------------------
+  STRINGS
+------------------------------------------------------------------------------------
+*/
+
+QxSplitPane.MODE_OPAQUE      = "opaque";
+QxSplitPane.MODE_LAZYOPAQUE  = "lazyopaque";
+QxSplitPane.MODE_BAR         = "bar";
+QxSplitPane.MODE_TRANSLUCENT = "translucent";
 
 /*
 ------------------------------------------------------------------------------------
@@ -150,12 +171,7 @@ QxSplitPane.addProperty({ name : "allowMove", type : QxConst.TYPEOF_BOOLEAN, def
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "bar", possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
-
-/*!
-  The resize method to use
-*/
-QxSplitPane.addProperty({ name : "dividerLocation", type : QxConst.TYPEOF_NUMBER });
+QxSplitPane.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : QxSplitPane.MODE_BAR, possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
 
 /*!
   The resize method to use
@@ -165,7 +181,12 @@ QxSplitPane.addProperty({ name : "dividerSize", type : QxConst.TYPEOF_NUMBER, de
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "leftWidget", getAlias : "getTopWidget", setAlias : "setTopWidget", type : QxConst.TYPEOF_OBJECT });
+QxSplitPane.addProperty({ name : "dividerLocation", type : QxConst.TYPEOF_NUMBER });
+
+/*!
+  The resize method to use
+*/
+QxSplitPane.addProperty({ name : "firstWidget", getAlias : ["getTopWidget", "getLeftWidget"], setAlias : ["setTopWidget", "setLeftWidget"], type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The resize method to use
@@ -175,7 +196,7 @@ QxSplitPane.addProperty({ name : "maximumDividerLocation", type : QxConst.TYPEOF
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "minimumDividerLocation", type : QxConst.TYPEOF_NUMBER });
+QxSplitPane.addProperty({ name : "minimumDividerLocation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   The resize method to use
@@ -185,19 +206,7 @@ QxSplitPane.addProperty({ name : "oneTouchExpandable", type : QxConst.TYPEOF_BOO
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "rightWidget", getAlias : "getBottomWidget", setAlias : "setBottomWidget", type : QxConst.TYPEOF_OBJECT });
-
-
-/*
-------------------------------------------------------------------------------------
-  STRINGS
-------------------------------------------------------------------------------------
-*/
-
-QxSplitPane.MODE_OPAQUE      = "opaque";
-QxSplitPane.MODE_LAZYOPAQUE  = "lazyopaque";
-QxSplitPane.MODE_BAR         = "bar";
-QxSplitPane.MODE_TRANSLUCENT = "translucent";
+QxSplitPane.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", "getRightWidget"], setAlias : ["setBottomWidget", "setRightWidget"], type : QxConst.TYPEOF_OBJECT });
 
 
 /*
@@ -209,13 +218,22 @@ QxSplitPane.MODE_TRANSLUCENT = "translucent";
 proto._modifyDividerLocation = function(propValue, propOldValue, propData)
 {
   if(propValue >= this.getMinimumDividerLocation() && propValue <= this.getMaximumDividerLocation()) {
-    if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-      this.getLeftWidget().setWidth(propValue);
-      this.getRightWidget().setWidth(this.Width() - propValue - this.getDividerSize());
-    }
-    else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-      this.getTopWidget().setHeight(propValue);
-      this.getBottomWidget().setHeight(this.Height() - propValue - this.getDividerSize());
+this.error("Value=" + propValue);
+this.error("Width=" + this.getWidth() - propValue - this.getDividerSize());
+    this._lastDividerLocation = propOldValue;
+
+    switch(this.getOrientation())
+    {
+      case QxConst.ORIENTATION_HORIZONTAL :
+this.error("Hereeeeeee");
+        this.getFirstWidget().setWidth(propValue);
+        this.getSecondWidget().setWidth(this.getWidth() - propValue - this.getDividerSize());
+        break;
+
+      case QxConst.ORIENTATION_VERTICAL :
+        this.getFirstWidget().setHeight(propValue);
+        this.getSecondWidget().setHeight(this.getHeight() - propValue - this.getDividerSize());
+        break;
     };
   };
 
@@ -234,24 +252,30 @@ proto._modifyDividerSize = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLeftWidget = function(propValue, propOldValue, propData)
+proto._modifyFirstWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
     this.remove(propOldValue);
 
     if(this._leftWidget) {
-      this._leftWidget.dispose();
-      this._leftWidget = null;
+      this._firstWidget.dispose();
+      this._firstWidget = null;
     };
-
-    this._lastDividerLocation = propValue.getWidth();
   };
 
-  if (propValue)
+  if (!propValue)
   {
-    this.addAtBegin(propValue);
+    propValue = new QxCanvasLayout();
   };
+
+  this.addAtBegin(propValue);
+  this._lastDividerLocation = propValue.getWidth();
+
+//  if(!this.getMaximumDividerLocation())
+//  {
+//    this.setMaximumDividerLocation(this.getWidth() - this.getDividerSize());
+//  };
 
   return true;
 };
@@ -260,11 +284,15 @@ proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData
 {
   var maxValue;
 
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    maxValue = this.getWidth();
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    maxValue = this.getHeight();
+  switch(this.getOrientation())
+  {
+    case QxConst.ORIENTATION_HORIZONTAL :
+      maxValue = this.getWidth();
+      break;
+
+    case QxConst.ORIENTATION_VERTICAL :
+      maxValue = this.getHeight();
+      break;
   };
 
   if(propValue >= 0 && propValue <= (maxValue - this.getDividerSize()) && propValue >= this.getMinimumDividerLocation()) {
@@ -292,24 +320,25 @@ proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData
   return false;
 };
 
-proto._modifyRightWidget = function(propValue, propOldValue, propData)
+proto._modifySecondWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
     this.remove(propOldValue);
 
-    if(this._rightWidget) {
-      this._rightWidget.dispose();
-      this._rightWidget = null;
+    if(this._secondWidget) {
+      this._secondWidget.dispose();
+      this._secondWidget = null;
     };
-
-    this._lastDividerLocation = propValue.getWidth();
   };
 
-  if (propValue)
+  if (!propValue)
   {
-    this.addAtEnd(propValue);
+    propValue = new QxCanvasLayout();
   };
+
+  this.addAtEnd(propValue);
+  this._lastDividerLocation = this.getFirstWidget().getWidth();
 
   return true;
 };
@@ -325,78 +354,79 @@ proto._onbarmousedown = function(e)
 {
   this._bar.focus();
 
-  if (this._moveNorth || this._moveSouth || this._moveWest || this._moveEast)
+  // enable capturing
+  this._bar.setCapture(true);
+
+  // activate global cursor
+  this.getTopLevelWidget().setGlobalCursor(this._bar.getCursor());
+
+  // caching element
+  var el = this._bar.getElement();
+
+  // measuring and caching of values for move session
+  var pl = this.getElement();
+
+  var l = QxDom.getComputedPageAreaLeft(pl);
+  var t = QxDom.getComputedPageAreaTop(pl);
+  var r = QxDom.getComputedPageAreaRight(pl);
+  var b = QxDom.getComputedPageAreaBottom(pl);
+
+  // handle frame and translucently
+  switch(this.getMoveMethod())
   {
-    // enable capturing
-    this._bar.setCapture(true);
+    case QxSplitPane.MODE_TRANSLUCENT:
+      this._bar.setOpacity(0.5);
+      break;
 
-    // activate global cursor
-    this._bar.getTopLevelWidget().setGlobalCursor(this._bar.getCursor());
+    case QxSplitPane.MODE_BAR:
+      var f = this._frame;
 
-    // caching element
-    var el = this._bar.getElement();
+      if (f.getParent() != this._bar.getParent())
+      {
+        f.setParent(this._bar.getParent());
+        QxWidget.flushGlobalQueues();
+      };
 
-    // measuring and caching of values for move session
-    var pl = this.getElement();
+      f._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(el) - l);
+      f._applyRuntimeTop(QxDom.getComputedPageBoxTop(el) - t);
 
-    var l = QxDom.getComputedPageAreaLeft(pl);
-    var t = QxDom.getComputedPageAreaTop(pl);
-    var r = QxDom.getComputedPageAreaRight(pl);
-    var b = QxDom.getComputedPageAreaBottom(pl);
+      f._applyRuntimeWidth(QxDom.getComputedBoxWidth(el));
+      f._applyRuntimeHeight(QxDom.getComputedBoxHeight(el));
 
-    // handle frame and translucently
-    switch(this.getMoveMethod())
-    {
-      case QxSplitPane.MODE_TRANSLUCENT:
-        this._bar.setOpacity(0.5);
-        break;
+      f.setZIndex(this._bar.getZIndex() + 1);
+      break;
+  };
 
-      case QxSplitPane.MODE_BAR:
-        var f = this._frame;
+  // create move session
+  var s = this._moveSession = {};
 
-        if (f.getParent() != this._bar.getParent())
-        {
-          f.setParent(this._bar.getParent());
-        };
+  switch(this.getOrientation())
+  {
+    case QxConst.ORIENTATION_HORIZONTAL :
+      s.firstPageX = e.getPageX();
 
-        f._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(el) - l);
-        f._applyRuntimeTop(QxDom.getComputedPageBoxTop(el) - t);
-
-        f._applyRuntimeWidth(QxDom.getComputedBoxWidth(el));
-        f._applyRuntimeHeight(QxDom.getComputedBoxHeight(el));
-
-        f.setZIndex(this._bar.getZIndex() + 1);
-        break;
-    };
-
-    // create move session
-    var s = this._moveSession = {};
-
-    if (this._moveWest || this._moveEast)
-    {
       s.boxWidth = QxDom.getComputedBoxWidth(el);
+      s.boxLeft = QxDom.getComputedPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
 
-      s.minWidth = this.getMinimumDividerLocation() ? this.getMinimumDividerLocation() : 0;
-      s.maxWidth = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (r -l - this.getDividerSize());
-    }
-    else if (this._moveNorth || this._moveSouth)
-    {
+      s.minPos = this.getMinimumDividerLocation() ? this.getMinimumDividerLocation() : 0;
+      s.maxPos = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (r - l - s.boxWidth);
+      break;
+
+    case QxConst.ORIENTATION_VERTICAL :
+      s.firstPageY = e.getPageY();
+
       s.boxHeight = QxDom.getComputedBoxHeight(el);
+      s.boxTop = QxDom.getComputedPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;
 
-      s.minHeight = this.getMinimumDividerLocation() ? this.getMinimumDividerLocation() : 0;
-      s.maxHeight = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (b - t - this.getDividerSize());
-    };
-  }
-  else
-  {
-    // cleanup move session
-    delete this._moveSession;
+      s.minPos = this.getMinimumDividerLocation() ? this.getMinimumDividerLocation() : 0;
+      s.maxPos = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (b - t - s.boxHeight);
+      break;
   };
 };
 
@@ -416,46 +446,53 @@ proto._onbarmouseup = function(e)
     switch(this.getMoveMethod())
     {
       case QxSplitPane.MODE_BAR:
-        var o = this._frame;
+        var obj = this._frame;
 
-        if (!(o && o.getParent())) {
+        if (!(obj && obj.getParent())) {
           break;
         };
         // no break here
 
       case QxSplitPane.MODE_LAZYOPAQUE:
-        if (QxUtil.isValidNumber(s.lastPosition)) {
-          var leftWidget = topWidget = this.getLeftWidget();
-          var rightWidget = bottomWidget = this.getRightWidget();
+        var firstWidget = this.getFirstWidget();
+        var secondWidget = this.getSecondWidget();
 
-          if(this._moveWest || this._moveEast) {
-            this._lastDividerLocation = leftWidget.getWidth();
+        switch(this.getOrientation())
+        {
+          case QxConst.ORIENTATION_HORIZONTAL :
+            this._lastDividerLocation = s.boxLeft;
 
-            leftWidget.setWidth(s.lastPosition);
-            rightWidget.setWidth(s.parentAreaOffsetRight - s.parentAreaOffsetLeft - s.lastPosition - s.boxWidth);
-          }
-          else if(this._moveNorth || this._moveSouth) {
-            this._lastDividerLocation = topWidget.getHeight();
+            s.newPosition = s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX;
+            firstWidget.setWidth(s.newPosition.limit(s.minPos, s.maxPos));
+            secondWidget.setWidth(s.parentAreaOffsetRight - s.parentAreaOffsetLeft - s.boxWidth - s.newPosition);
+            break;
 
-            topWidget.setHeight(s.lastPosition);
-            bottomWidget.setHeight(s.parentAreaOffsetBottom - s.parentAreaOffsetTop - s.lastPosition - s.boxHeight);
-          };
+          case QxConst.ORIENTATION_VERTICAL :
+            this._lastDividerLocation = s.boxTop;
+
+            s.newPosition = s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY;
+            firstWidget.setHeight(s.newPosition.limit(s.minPos, s.maxPos));
+            secondWidget.setHeight(s.parentAreaOffsetBottom - s.parentAreaOffsetTop - s.boxHeight - s.newPosition);
+            break;
         };
 
         if (this.getMoveMethod() == QxSplitPane.MODE_BAR) {
           this._frame.setParent(null);
         };
 
-        if(this._moveWest || this._moveNorth) {
-          this._bar.remove(this._minimizeButton);
-          this._bar.addAt(this._restoreButton, 0);
-          this._bar.addAt(this._maximizeButton, 1);
+        // Divider buttons
+        this._buttonLayout.addAt(this._minimizeButton, 0);
+        this._buttonLayout.addAt(this._maximizeButton, 1);
+
+        if(this.getDividerLocation() == this._lastDividerLocation)
+        {
+          this._buttonLayout.remove(this._restoreButton);
         }
-        else if(this._moveEast || this._moveSouth) {
-          this._bar.addAt(this._minimizeButton, 0);
-          this._bar.remove(this._maximizeButton);
-          this._bar.addAt(this._restoreButton, 1);
+        else
+        {
+          this._buttonLayout.addAt(this._restoreButton, 2);
         };
+        
         break;
 
       case QxSplitPane.MODE_TRANSLUCENT:
@@ -463,20 +500,10 @@ proto._onbarmouseup = function(e)
         break;
     };
 
-    // cleanup session
-    delete this._moveNorth;
-    delete this._moveEast;
-    delete this._moveSouth;
-    delete this._moveWest;
+    this.setDividerLocation(this._lastDividerLocation);
 
     delete this._moveSession;
   };
-};
-
-proto._near = function(p, e) {
-  var dividerSize = this.getDividerSize();
-
-  return e > (p - dividerSize) && e < (p + dividerSize);
 };
 
 proto._onbarmousemove = function(e)
@@ -489,77 +516,48 @@ proto._onbarmousemove = function(e)
 
   if (s)
   {
-    if (this._moveWest || this._moveEast)
-    {
-      s.lastPosition = (e.getPageX() - s.parentAreaOffsetLeft).limit(s.boxWidth, s.maxWidth);
-    }
-    else if (this._moveNorth || this._moveSouth)
-    {
-      s.lastPosition = Math.min(e.getPageY() - s.parentAreaOffsetTop).limit(s.minHeight, s.maxHeight);
-    };
-
     switch(this.getMoveMethod())
     {
       case QxSplitPane.MODE_OPAQUE:
       case QxSplitPane.MODE_TRANSLUCENT:
-        if (this._moveWest || this._moveEast)
+        switch(this.getOrientation())
         {
-          this._bar.setLeft(s.lastPosition);
-        }
-        else if (this._moveNorth || this._moveSouth)
-        {
-          this._bar.setTop(s.lastPosition);
+          case QxConst.ORIENTATION_HORIZONTAL :
+            this._bar.setLeft((s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX).limit(s.minPos, s.maxPos));
+            break;
+
+          case QxConst.ORIENTATION_VERTICAL :
+            this._bar.setTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
+            break;
         };
         break;
 
       default:
         var o = this.getMoveMethod() == QxSplitPane.MODE_BAR ? this._frame : this._bar;
 
-        if (this._moveWest || this._moveEast)
+        switch(this.getOrientation())
         {
-          o._applyRuntimeLeft(s.lastPosition);
-        } 
-        else if (this._moveNorth || this._moveSouth)
-        {
-          o._applyRuntimeTop(s.lastPosition);
-       };
+          case QxConst.ORIENTATION_HORIZONTAL :
+            o._applyRuntimeLeft((s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX).limit(s.minPos, s.maxPos));
+            break;
+
+          case QxConst.ORIENTATION_VERTICAL :
+            o._applyRuntimeTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
+            break;
+        };
     };
   }
   else
   {
-    var moveMode = QxConst.CORE_EMPTY;
-    var el = this._bar.getElement();
+    switch(this.getOrientation())
+    {
+      case QxConst.ORIENTATION_HORIZONTAL :
+        this._bar.setCursor("w-resize");
+        break;
 
-    this._moveNorth = this._moveSouth = this._moveWest = this._moveEast = false;
-
-    if (this._near(QxDom.getComputedPageBoxTop(el), e.getPageY()))
-    {
-      moveMode = "n";
-      this._moveNorth = true;
-    }
-    else if (this._near(QxDom.getComputedPageBoxBottom(el), e.getPageY()))
-    {
-      moveMode = "s";
-      this._moveSouth = true;
-    }
-    else if (this._near(QxDom.getComputedPageBoxLeft(el), e.getPageX()))
-    {
-      moveMode = "w";
-      this._moveWest = true;
-    }
-    else if (this._near(QxDom.getComputedPageBoxRight(el), e.getPageX()))
-    {
-      moveMode = "e";
-      this._moveEast = true;
-    };
-
-    if (this._moveNorth || this._moveSouth || this._moveWest || this._moveEast)
-    {
-      this._bar.setCursor(moveMode + "-resize");
-    }
-    else
-    {
-      this._bar.setCursor(null);
+      case QxConst.ORIENTATION_VERTICAL :
+        this._bar.setCursor("n-resize");
+        break;
     };
   };
 
@@ -580,26 +578,26 @@ proto._onminimizebuttonclick = function(e)
 {
   this.minimize();
 
-  this._bar.remove(this._minimizeButton);
-  this._bar.addAt(this._restoreButton, 0);
-  this._bar.addAt(this._maximizeButton, 1);
+  this._buttonLayout.remove(this._restoreButton);
+  this._buttonLayout.addAt(this._restoreButton, 0);
+  this._buttonLayout.addAt(this._maximizeButton, 1);
 };
 
 proto._onrestorebuttonclick = function(e) {
   this.restore();
 
-  this._bar.remove(this._restoreButton);
-  this._bar.addAt(this._minimizeButton, 0);
-  this._bar.addAt(this._maximizeButton, 1);
+  this._buttonLayout.remove(this._restoreButton);
+  this._buttonLayout.addAt(this._minimizeButton, 0);
+  this._buttonLayout.addAt(this._maximizeButton, 1);
 };
 
 proto._onmaximizebuttonclick = function(e)
 {
   this.maximize();
 
-  this._bar.addAt(this._minimizeButton, 0);
-  this._bar.remove(this._maximizeButton);
-  this._bar.addAt(this._restoreButton, 1);
+  this._buttonLayout.addAt(this._minimizeButton, 0);
+  this._buttonLayout.remove(this._restoreButton);
+  this._buttonLayout.addAt(this._restoreButton, 1);
 };
 
 
@@ -610,52 +608,31 @@ proto._onmaximizebuttonclick = function(e)
 */
 
 proto.addLeft = function(vWidget) {
-  this.getLeftWidget().add(vWidget);
+  this.getFirstWidget().add(vWidget);
 };
 
 proto.addTop = function(vWidget) {
-  this.getTopWidget().add(vWidget);
+  this.getFirstWidget().add(vWidget);
 };
 
 proto.addRight = function(vWidget) {
-  this.getRightWidget().add(vWidget);
+  this.getSecondWidget().add(vWidget);
 };
 
 proto.addBottom = function(vWidget) {
-  this.getBottomWidget().add(vWidget);
+  this.getSecondWidget().add(vWidget);
 };
 
 proto.minimize = function() {
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    this.getLeftWidget().setWidth(0);
-    this.getRightWidget().setWidth(this.getWidth() - this.getDividerSize());
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    this.getTopWidget().setHeight(0);
-    this.getBottomWidget().setHeight(this.getHeight() - this.getDividerSize());
-  };
+  this.setDividerLocation(0);
 };
 
 proto.maximize = function() {
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    this.getLeftWidget().setWidth(this.getWidth() - this.getDividerSize());
-    this.getRightWidget().setWidth(0);
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    this.getTopWidget().setHeight(this.getHeight() - this.getDividerSize());
-    this.getBottomWidget().setHeight(0);
-  };
+  this.setDividerLocation(this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (this.getWidth() - this.getDividerSize()));
 };
 
 proto.restore = function() {
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
-    this.getLeftWidget().setWidth(this._lastDividerLocation);
-    this.getRightWidget().setWidth(this.getWidth() - this._lastDividerLocation - this.getDividerSize());
-  }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
-    this.getTopWidget().setHeight(this._lastDividerLocation);
-    this.getBottomWidget().setHeight(this.getHeight() - this._lastDividerLocation - this.getDividerSize());
-  };
+  this.setDividerLocation(this._lastDividerLocation);
 };
 
 
@@ -686,29 +663,63 @@ proto.dispose = function()
     this._bar = null;
   };
 
+  if (this._buttonLayout) {
+    this._buttonLayout.dispose();
+    this._buttonLayout = null;
+  };
+
   if (this._minimizeButton) {
-    this._minimizeButton.removeEventListener(QxConst.EVENT_TYPE_EXECUTE, this._onminimizebuttonclick, this);
+    this._minimizeButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._minimizeButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
     this._minimizeButton.dispose();
     this._minimizeButton = null;
   };
 
   if (this._maximizeButton) {
-    this._maximizeButton.removeEventListener(QxConst.EVENT_TYPE_EXECUTE, this._onmaximizebuttonclick, this);
+    this._maximizeButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._maximizeButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
     this._maximizeButton.dispose();
     this._maximizeButton = null;
   };
 
-  if (this._leftWidget)
-  {
-    this._leftWidget.dispose();
-    this._leftWidget = null;
+  if (this._restoreButton) {
+    this._restoreButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._restoreButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._restoreButton.dispose();
+    this._restoreButton = null;
   };
 
-  if (this._rightWidget)
+  if (this._firstWidget)
   {
-    this._rightWidget.dispose();
-    this._rightWidget = null;
+    this._firstWidget.dispose();
+    this._firstWidget = null;
   };
+
+  if (this._secondWidget)
+  {
+    this._secondWidget.dispose();
+    this._secondWidget = null;
+  };
+
+  if(this._minimizeImage)
+  {
+    this._minimizeImage.dispose();
+    this._minimizeImage = null;
+  };
+
+  if(this._maximizeImage)
+  {
+    this._maximizeImage.dispose();
+    this._maximizeImage = null;
+  };
+
+  if(this._restoreImage)
+  {
+    this._restoreImage.dispose();
+    this._restoreImage = null;
+  };
+
+  delete this._lastDividerLocation;
 
   return QxBoxLayout.prototype.dispose.call(this);
 };
