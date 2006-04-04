@@ -107,7 +107,15 @@ proto.initialFrom = function(vWidget, vId)
   if (vAppearance)
   {
     this.setupAppearance(vAppearance);
-    return vAppearance.initial ? vAppearance.initial(vWidget, this) : {};
+
+    try
+    {
+      return vAppearance.initial ? vAppearance.initial(vWidget, this) : {};
+    }
+    catch(ex)
+    {
+      this.error("Couldn't apply initial appearance: " + ex, "initialFrom");
+    };
   }
   else
   {
@@ -121,7 +129,15 @@ proto.stateFrom = function(vWidget, vId)
   if (vAppearance)
   {
     this.setupAppearance(vAppearance);
-    return vAppearance.state ? vAppearance.state(vWidget, this, vWidget._states) : {};
+
+    try
+    {
+      return vAppearance.state ? vAppearance.state(vWidget, this, vWidget._states) : {};
+    }
+    catch(ex)
+    {
+      this.error("Couldn't apply state appearance: " + ex, "stateFrom");
+    };
   }
   else
   {
