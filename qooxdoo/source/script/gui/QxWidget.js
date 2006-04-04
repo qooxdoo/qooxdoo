@@ -3168,11 +3168,20 @@ proto.recursiveAddToStateQueue = function() {
 proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
   var vAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObject();
-  var vNewAppearanceProperties = QxUtil.mergeObjectWith(vAppearanceThemeObject.initialFrom(this, propValue), vAppearanceThemeObject.stateFrom(this, propValue));
+
+  var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
+
+  if (this.isCreated()) {
+    QxUtil.mergeObjectWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
+  };
 
   if (propOldValue)
   {
-    var vOldAppearanceProperties = QxUtil.mergeObjectWith(vAppearanceThemeObject.initialFrom(this, propOldValue), vAppearanceThemeObject.stateFrom(this, propOldValue));
+    var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propOldValue);
+
+    if (this.isCreated()) {
+      QxUtil.mergeObjectWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
+    };
 
     for (vProp in vOldAppearanceProperties)
     {
