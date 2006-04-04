@@ -112,3 +112,4 @@ h4. Unsorted
 * Field validation
 * i18n support
 * Crypto features
+* URL Handling (also take a look at contributions/urlhandling_vegetti)
