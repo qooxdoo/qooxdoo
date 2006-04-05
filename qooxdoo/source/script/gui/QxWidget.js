@@ -1014,6 +1014,7 @@ else
           case QxConst.PROPERTY_POSITION:
           case QxConst.PROPERTY_ZINDEX:
           case QxConst.PROPERTY_FILTER:
+          case QxConst.PROPERTY_DISPLAY:
             break;
 
           default:
