@@ -81,7 +81,7 @@ proto._showMenu = function(vFromKeyEvent)
 {
   var vMenu = this.getMenu();
 
-  if (vMenu)
+  if (vMenu && vMenu.getLayout().getChildrenLength())
   {
     // Caching common stuff
     var vMenuParent = vMenu.getParent();
