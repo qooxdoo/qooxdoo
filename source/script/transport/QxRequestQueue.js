@@ -24,6 +24,7 @@
 
 #package(transport)
 #require(QxTimer)
+#post(QxTransport)
 
 ************************************************************************ */
 
