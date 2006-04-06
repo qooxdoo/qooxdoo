@@ -192,34 +192,6 @@ proto.failedLocally = function()
 ---------------------------------------------------------------------------
 */
 
-/*
-http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/0e6a34e4-f90c-489d-acff-cb44242fafc6.asp
-
-0: UNINITIALIZED
-The object has been created, but not initialized (the open method has not been called).
-
-1: LOADING
-The object has been created, but the send method has not been called.
-
-2: LOADED
-The send method has been called, but the status and headers are not yet available.
-
-3: INTERACTIVE
-Some data has been received. Calling the responseBody and responseText properties at this state to obtain partial results will return an error, because status and response headers are not fully available.
-
-4: COMPLETED
-All the data has been received, and the complete data is available in the
-*/
-
-QxXmlHttpTransport._nativeMap =
-{
-  0 : QxConst.REQUEST_STATE_CREATED,
-  1 : QxConst.REQUEST_STATE_CONFIGURED,
-  2 : QxConst.REQUEST_STATE_SENDING,
-  3 : QxConst.REQUEST_STATE_RECEIVING,
-  4 : QxConst.REQUEST_STATE_COMPLETED
-};
-
 proto._onreadystatechange = function(e)
 {
   // Ignoring already stopped requests
@@ -241,7 +213,7 @@ proto._onreadystatechange = function(e)
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(QxXmlHttpTransport._nativeMap[++this._lastReadyState]);
+    this.setState(QxTransport._nativeMap[++this._lastReadyState]);
   };
 };
 

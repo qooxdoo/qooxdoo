@@ -135,13 +135,13 @@ proto.send = function()
 
 // For reference:
 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
-QxIframeTransport._nativeMap =
+QxIframeTransport._numericMap =
 {
-  "uninitialized" : QxConst.REQUEST_STATE_CONFIGURED,
-  "loading" : QxConst.REQUEST_STATE_SENDING,
-  "loaded" : QxConst.REQUEST_STATE_RECEIVING,
-  "interactive" : QxConst.REQUEST_STATE_RECEIVING,
-  "complete" : QxConst.REQUEST_STATE_COMPLETED
+  "uninitialized" : 1,
+  "loading" : 2,
+  "loaded" : 2,
+  "interactive" : 3,
+  "complete" : 4
 };
 
 proto._onload = function(e)
@@ -166,9 +166,12 @@ proto._onreadystatechange = function(e)
       return;
   };
 
+  // Converting named readyState to numeric value
+  var vReadyState = QxIframeTransport._numericMap[this._frame.readyState];
+
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(QxIframeTransport._nativeMap[++this._lastReadyState]);
+    this.setState(QxTransport._nativeMap[++this._lastReadyState]);
   };
 };
 
