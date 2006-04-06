@@ -113,3 +113,5 @@ h4. Unsorted
 * i18n support
 * Crypto features
 * URL Handling (also take a look at contributions/urlhandling_vegetti)
+
+* Map scrollLeft and scrollTop getters/setter of QxIframe to the iframe node
