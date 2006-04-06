@@ -144,16 +144,26 @@ QxIframeTransport._numericMap =
   "complete" : 4
 };
 
+/*!
+  Converting complete state to numeric value and update state property
+*/
 proto._onload = function(e)
 {
   if (this._form.src) {
     return;
   };
 
-  this.setState(QxConst.REQUEST_STATE_COMPLETED);
+  this._switchReadyState(QxIframeTransport._numericMap.complete);
 };
 
-proto._onreadystatechange = function(e)
+/*!
+  Converting named readyState to numeric value and update state property
+*/
+proto._onreadystatechange = function(e) {
+  this._switchReadyState(QxIframeTransport._numericMap[this._frame.readyState]);
+};
+
+proto._switchReadyState = function(vReadyState)
 {
   // Ignoring already stopped requests
   switch(this.getState())
@@ -165,9 +175,6 @@ proto._onreadystatechange = function(e)
       this.warn("Ignore Ready State Change");
       return;
   };
-
-  // Converting named readyState to numeric value
-  var vReadyState = QxIframeTransport._numericMap[this._frame.readyState];
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
