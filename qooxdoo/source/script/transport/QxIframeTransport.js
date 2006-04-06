@@ -46,7 +46,7 @@ function QxIframeTransport()
     this._frame = document.createElement("iframe");
   };
 
-  this._frame.src = "about:blank";
+  this._frame.src = "javascript:void(0)";
   this._frame.id = this._frame.name = vFrameName;
   this._frame.onload = function(e) { return o._onload(e); };
 
