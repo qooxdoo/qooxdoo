@@ -203,7 +203,7 @@ if (QxClient.isMshtml())
   proto.getContentWindow = function()
   {
     if (this.isCreated()) {
-      try { return this.getIframe().contentWindow; }
+      try { return this.getIframeNode().contentWindow; }
       catch (ex) {};
     };
 
@@ -232,7 +232,7 @@ else
   proto.getContentDocument = function()
   {
     if (this.isCreated()) {
-      try { return this.getIframe().contentDocument; }
+      try { return this.getIframeNode().contentDocument; }
       catch (ex) {};
     };
 
