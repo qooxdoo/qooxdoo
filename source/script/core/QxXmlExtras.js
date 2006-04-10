@@ -34,7 +34,7 @@
   Modelled after: http://www.mozilla.org/xmlextras
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   var DOMParser = function() {
     /* empty constructor */

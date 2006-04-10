@@ -49,7 +49,7 @@ QxMouseEvent.getPageX   = function() { return QxMouseEvent._pageX;   };
 QxMouseEvent.getPageY   = function() { return QxMouseEvent._pageY;   };
 QxMouseEvent.getButton  = function() { return QxMouseEvent._button;  };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxMouseEvent.buttons = { left : 1, right : 2, middle : 4 };
 }

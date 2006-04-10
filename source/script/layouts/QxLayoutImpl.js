@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(layoutcore)
-#require(QxClient)
+#require(qx.sys.Client)
 
 ************************************************************************ */
 
@@ -332,7 +332,7 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 */
 proto.layoutChild = function(vChild, vJobs) {};
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto.layoutChild_sizeLimitX = QxUtil.returnTrue;
   proto.layoutChild_sizeLimitY = QxUtil.returnTrue;

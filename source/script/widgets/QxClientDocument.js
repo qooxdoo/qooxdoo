@@ -76,7 +76,7 @@ function QxClientDocument(vClientWindow)
 
   // Init Resize Helper
   /*
-  if (QxClient.isGecko())
+  if (qx.sys.Client.isGecko())
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);

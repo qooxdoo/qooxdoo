@@ -123,7 +123,7 @@ proto._syncResizeLine = function()
 ---------------------------------------------------------------------------
 */
 
-proto._mshtml = QxClient.isMshtml();
+proto._mshtml = qx.sys.Client.isMshtml();
 
 proto._onmousemove = function(e)
 {

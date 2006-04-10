@@ -198,7 +198,7 @@ proto.updateScrollBar = function() {
   Overflow updates if content gets smaller are problematic
   https://bugzilla.mozilla.org/show_bug.cgi?id=320106
 */
-if (QxClient.isGecko() && QxClient.getVersion() >= 1.8)
+if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
 {
   proto._updateScrollBar = proto.updateScrollBar;
 

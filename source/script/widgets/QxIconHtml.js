@@ -96,7 +96,7 @@ QxIconHtml.PIXEL_UNIT = "px;";
 QxIconHtml.FILTER_START = "filter:";
 QxIconHtml.STOP_IMAGE = "\"/>";
 
-proto._mshtml = QxClient.isMshtml();
+proto._mshtml = qx.sys.Client.isMshtml();
 
 proto._syncHtml = function()
 {

@@ -247,7 +247,7 @@ proto._onblur = function(e)
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   /*!
     Microsoft Documentation:

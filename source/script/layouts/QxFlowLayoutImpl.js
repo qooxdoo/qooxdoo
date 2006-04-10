@@ -328,7 +328,7 @@ proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_location(vChild, vJobs);
 };
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   /*!
     We need to respect all dimension properties on the horizontal axis in

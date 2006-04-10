@@ -678,7 +678,7 @@ proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_marginY(vChild, vJobs);
 };
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   proto.layoutChild_sizeX = function(vChild, vJobs)
   {
@@ -814,7 +814,7 @@ proto.layoutChild_locationY = function(vChild, vJobs)
   var vWidget = this.getWidget();
 
   // special stretching support
-  if (QxClient.isGecko() && vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
+  if (qx.sys.Client.isGecko() && vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
   {
     vChild._applyRuntimeTop(vWidget.getPaddingTop() || 0);
     vChild._applyRuntimeBottom(vWidget.getPaddingBottom() || 0);
