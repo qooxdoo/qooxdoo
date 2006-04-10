@@ -37,7 +37,7 @@ function QxCommonViewBar()
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 };
 
-QxCommonViewBar.extend(QxBoxLayout, "QxBarViewBar");
+QxCommonViewBar.extend(QxBoxLayout, "QxCommonViewBar");
 
 
 

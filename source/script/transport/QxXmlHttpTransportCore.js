@@ -92,6 +92,15 @@ QxXmlHttpTransport.isSupported = function()
   return false;
 };
 
+/*!
+  Return a new request object suitable for the client browser.
+
+  QxXmlHttpTransport's isSupported method scans which request object
+  to use. The createRequestObject method is then replaced with a
+  method that creates request suitable for the client browser. If the
+  client browser doesn't support XMLHTTP requests, the method isn't
+  replaced and the error "XMLHTTP is not supported!" is thrown.
+*/
 QxXmlHttpTransport.createRequestObject = function() {
   throw new Error("XMLHTTP is not supported!");
 };

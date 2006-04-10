@@ -115,7 +115,7 @@ function QxClient()
   this._browserModeHta = vBrowserModeHta;
 };
 
-QxClient.extend(QxObject, "QxClient");
+QxClient.extend(Object, "QxClient");
 
 
 
