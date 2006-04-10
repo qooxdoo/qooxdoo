@@ -521,7 +521,7 @@ proto.centerToScreenArea = function() {
 };
 
 proto.centerToOpener = function() {
-  return this._centerHelper(((QxDom.getWindowInnerWidth(window) - this.getWidth()) / 2) + QxDom.getComputedScreenBoxLeft(window.document.body), ((QxDom.getWindowInnerHeight(window) - this.getHeight()) / 2) + QxDom.getComputedScreenBoxTop(window.document.body));
+  return this._centerHelper(((qx.dom.getWindowInnerWidth(window) - this.getWidth()) / 2) + qx.dom.getComputedScreenBoxLeft(window.document.body), ((qx.dom.getWindowInnerHeight(window) - this.getHeight()) / 2) + qx.dom.getComputedScreenBoxTop(window.document.body));
 };
 
 proto._centerHelper = function(l, t)

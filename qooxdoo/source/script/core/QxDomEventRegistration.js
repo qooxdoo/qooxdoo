@@ -30,21 +30,21 @@
 
 if (qx.sys.Client.isMshtml())
 {
-  QxDom.addEventListener = function(vElement, vType, vFunction) {
-    vElement.attachEvent(QxDom.STR_ON + vType, vFunction);
+  qx.dom.addEventListener = function(vElement, vType, vFunction) {
+    vElement.attachEvent(qx.dom.STR_ON + vType, vFunction);
   };
 
-  QxDom.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.detachEvent(QxDom.STR_ON + vType, vFunction);
+  qx.dom.removeEventListener = function(vElement, vType, vFunction) {
+    vElement.detachEvent(qx.dom.STR_ON + vType, vFunction);
   };
 }
 else
 {
-  QxDom.addEventListener = function(vElement, vType, vFunction) {
+  qx.dom.addEventListener = function(vElement, vType, vFunction) {
     vElement.addEventListener(vType, vFunction, false);
   };
 
-  QxDom.removeEventListener = function(vElement, vType, vFunction) {
+  qx.dom.removeEventListener = function(vElement, vType, vFunction) {
     vElement.removeEventListener(vType, vFunction, false);
   };
 };

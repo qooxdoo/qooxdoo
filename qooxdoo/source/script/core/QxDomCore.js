@@ -26,9 +26,6 @@
 
 ************************************************************************ */
 
-var QxDom =
-{
-  STR_ON : "on",
-  STR_FIXED : QxConst.CORE_FIXED,
-  STR_ABSOLUTE : QxConst.CORE_ABSOLUTE
-};
+qx.dom.STR_ON = "on";
+qx.dom.STR_FIXED = QxConst.CORE_FIXED;
+qx.dom.STR_ABSOLUTE = QxConst.CORE_ABSOLUTE;

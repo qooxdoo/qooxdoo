@@ -45,10 +45,10 @@
 */
 
 // Dimensions
-QxDom.getComputedOuterWidth  = function(el) { return QxDom.getComputedBoxWidth(el)  + QxDom.getComputedMarginLeft(el) + QxDom.getComputedMarginRight(el); };
-QxDom.getComputedOuterHeight = function(el) { return QxDom.getComputedBoxHeight(el) + QxDom.getComputedMarginTop(el)  + QxDom.getComputedMarginBottom(el); };
+qx.dom.getComputedOuterWidth  = function(el) { return qx.dom.getComputedBoxWidth(el)  + qx.dom.getComputedMarginLeft(el) + qx.dom.getComputedMarginRight(el); };
+qx.dom.getComputedOuterHeight = function(el) { return qx.dom.getComputedBoxHeight(el) + qx.dom.getComputedMarginTop(el)  + qx.dom.getComputedMarginBottom(el); };
 
-QxDom.getComputedBoxWidthForZeroHeight = function(el)
+qx.dom.getComputedBoxWidthForZeroHeight = function(el)
 {
   var h = el.offsetHeight;
   if (h == 0) {
@@ -65,7 +65,7 @@ QxDom.getComputedBoxWidthForZeroHeight = function(el)
   return v;
 };
 
-QxDom.getComputedBoxHeightForZeroWidth = function(el)
+qx.dom.getComputedBoxHeightForZeroWidth = function(el)
 {
   var w = el.offsetWidth;
   if (w == 0) {
@@ -82,17 +82,17 @@ QxDom.getComputedBoxHeightForZeroWidth = function(el)
   return v;
 };
 
-QxDom.getComputedBoxWidth = function(el) {
+qx.dom.getComputedBoxWidth = function(el) {
   return el.offsetWidth;
 };
 
-QxDom.getComputedBoxHeight = function(el) {
+qx.dom.getComputedBoxHeight = function(el) {
   return el.offsetHeight;
 };
 
 if (qx.sys.Client.isGecko())
 {
-  QxDom.getComputedAreaWidth = function(el)
+  qx.dom.getComputedAreaWidth = function(el)
   {
     // 0 in clientWidth could mean both: That it is really 0 or
     // that the element is not rendered by the browser and
@@ -105,17 +105,17 @@ if (qx.sys.Client.isGecko())
 
     // (Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.6) Gecko/20050223 Firefox/1.0.1)
 
-    if (el.clientWidth != 0 && el.clientWidth != (QxDom.getComputedBorderLeft(el) + QxDom.getComputedBorderRight(el)))
+    if (el.clientWidth != 0 && el.clientWidth != (qx.dom.getComputedBorderLeft(el) + qx.dom.getComputedBorderRight(el)))
     {
       return el.clientWidth;
     }
     else
     {
-      return QxDom.getComputedBoxWidth(el) - QxDom.getComputedInsetLeft(el) - QxDom.getComputedInsetRight(el);
+      return qx.dom.getComputedBoxWidth(el) - qx.dom.getComputedInsetLeft(el) - qx.dom.getComputedInsetRight(el);
     };
   };
 
-  QxDom.getComputedAreaHeight = function(el)
+  qx.dom.getComputedAreaHeight = function(el)
   {
     // 0 in clientHeight could mean both: That it is really 0 or
     // that the element is not rendered by the browser and
@@ -128,39 +128,39 @@ if (qx.sys.Client.isGecko())
 
     // (Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.6) Gecko/20050223 Firefox/1.0.1)
 
-    if (el.clientHeight != 0 && el.clientHeight != (QxDom.getComputedBorderTop(el) + QxDom.getComputedBorderBottom(el)))
+    if (el.clientHeight != 0 && el.clientHeight != (qx.dom.getComputedBorderTop(el) + qx.dom.getComputedBorderBottom(el)))
     {
       return el.clientHeight;
     }
     else
     {
-      return QxDom.getComputedBoxHeight(el) - QxDom.getComputedInsetTop(el) - QxDom.getComputedInsetBottom(el);
+      return qx.dom.getComputedBoxHeight(el) - qx.dom.getComputedInsetTop(el) - qx.dom.getComputedInsetBottom(el);
     };
   };
 }
 else
 {
-  QxDom.getComputedAreaWidth = function(el)
+  qx.dom.getComputedAreaWidth = function(el)
   {
     // 0 in clientWidth could mean both: That it is really 0 or
     // that the element is not rendered by the browser and
     // therefore it is 0, too
 
-    return el.clientWidth != 0 ? el.clientWidth : (QxDom.getComputedBoxWidth(el) - QxDom.getComputedInsetLeft(el) - QxDom.getComputedInsetRight(el));
+    return el.clientWidth != 0 ? el.clientWidth : (qx.dom.getComputedBoxWidth(el) - qx.dom.getComputedInsetLeft(el) - qx.dom.getComputedInsetRight(el));
   };
 
-  QxDom.getComputedAreaHeight = function(el)
+  qx.dom.getComputedAreaHeight = function(el)
   {
     // 0 in clientHeight could mean both: That it is really 0 or
     // that the element is not rendered by the browser and
     // therefore it is 0, too
 
-    return el.clientHeight != 0 ? el.clientHeight : (QxDom.getComputedBoxHeight(el) - QxDom.getComputedInsetTop(el) - QxDom.getComputedInsetBottom(el));
+    return el.clientHeight != 0 ? el.clientHeight : (qx.dom.getComputedBoxHeight(el) - qx.dom.getComputedInsetTop(el) - qx.dom.getComputedInsetBottom(el));
   };
 };
 
-QxDom.getComputedInnerWidth  = function(el) { return QxDom.getComputedAreaWidth(el) - QxDom.getComputedPaddingLeft(el) - QxDom.getComputedPaddingRight(el); };
-QxDom.getComputedInnerHeight = function(el) { return QxDom.getComputedAreaHeight(el) - QxDom.getComputedPaddingTop(el)  - QxDom.getComputedPaddingBottom(el); };
+qx.dom.getComputedInnerWidth  = function(el) { return qx.dom.getComputedAreaWidth(el) - qx.dom.getComputedPaddingLeft(el) - qx.dom.getComputedPaddingRight(el); };
+qx.dom.getComputedInnerHeight = function(el) { return qx.dom.getComputedAreaHeight(el) - qx.dom.getComputedPaddingTop(el)  - qx.dom.getComputedPaddingBottom(el); };
 
 
 
@@ -168,19 +168,19 @@ QxDom.getComputedInnerHeight = function(el) { return QxDom.getComputedAreaHeight
 // Insets
 if (qx.sys.Client.isMshtml())
 {
-  QxDom.getComputedInsetLeft   = function(el) { return el.clientLeft; };
-  QxDom.getComputedInsetTop    = function(el) { return el.clientTop; };
-  QxDom.getComputedInsetRight  = function(el) {
-    if(QxDom.getComputedStyleProperty(el, "overflowY") == QxConst.CORE_HIDDEN || el.clientWidth == 0) {
-      return QxDom.getComputedBorderRight(el);
+  qx.dom.getComputedInsetLeft   = function(el) { return el.clientLeft; };
+  qx.dom.getComputedInsetTop    = function(el) { return el.clientTop; };
+  qx.dom.getComputedInsetRight  = function(el) {
+    if(qx.dom.getComputedStyleProperty(el, "overflowY") == QxConst.CORE_HIDDEN || el.clientWidth == 0) {
+      return qx.dom.getComputedBorderRight(el);
     };
 
     return Math.max(0, el.offsetWidth - el.clientLeft - el.clientWidth);
   };
 
-  QxDom.getComputedInsetBottom = function(el) {
-    if(QxDom.getComputedStyleProperty(el, "overflowX") == QxConst.CORE_HIDDEN || el.clientHeight == 0) {
-      return QxDom.getComputedBorderBottom(el);
+  qx.dom.getComputedInsetBottom = function(el) {
+    if(qx.dom.getComputedStyleProperty(el, "overflowX") == QxConst.CORE_HIDDEN || el.clientHeight == 0) {
+      return qx.dom.getComputedBorderBottom(el);
     };
 
     return Math.max(0, el.offsetHeight - el.clientTop - el.clientHeight);
@@ -188,40 +188,40 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  QxDom.getComputedInsetLeft   = function(el) { return QxDom.getComputedBorderLeft(el); };
-  QxDom.getComputedInsetTop    = function(el) { return QxDom.getComputedBorderTop(el); };
+  qx.dom.getComputedInsetLeft   = function(el) { return qx.dom.getComputedBorderLeft(el); };
+  qx.dom.getComputedInsetTop    = function(el) { return qx.dom.getComputedBorderTop(el); };
 
-  QxDom.getComputedInsetRight  = function(el) {
+  qx.dom.getComputedInsetRight  = function(el) {
     // Alternative method if clientWidth is unavailable
     // clientWidth == 0 could mean both: unavailable or really 0
     if (el.clientWidth == 0) {
-      var ov = QxDom.getComputedStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.getComputedStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-vertical" ? 16 : 0;
-      return Math.max(0, QxDom.getComputedBorderRight(el) + sbv);
+      return Math.max(0, qx.dom.getComputedBorderRight(el) + sbv);
     };
 
-    return Math.max(0, el.offsetWidth - el.clientWidth - QxDom.getComputedBorderLeft(el));
+    return Math.max(0, el.offsetWidth - el.clientWidth - qx.dom.getComputedBorderLeft(el));
   };
 
-  QxDom.getComputedInsetBottom = function(el) {
+  qx.dom.getComputedInsetBottom = function(el) {
     // Alternative method if clientHeight is unavailable
     // clientHeight == 0 could mean both: unavailable or really 0
     if (el.clientHeight == 0) {
-      var ov = QxDom.getComputedStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.getComputedStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-horizontal" ? 16 : 0;
-      return Math.max(0, QxDom.getComputedBorderBottom(el) + sbv);
+      return Math.max(0, qx.dom.getComputedBorderBottom(el) + sbv);
     };
 
-    return Math.max(0, el.offsetHeight - el.clientHeight - QxDom.getComputedBorderTop(el));
+    return Math.max(0, el.offsetHeight - el.clientHeight - qx.dom.getComputedBorderTop(el));
   };
 };
 
 
 // Scrollbar
-QxDom.getComputedScrollBarSizeLeft   = function(el) { return 0; };
-QxDom.getComputedScrollBarSizeTop    = function(el) { return 0; };
-QxDom.getComputedScrollBarSizeRight  = function(el) { return QxDom.getComputedInsetRight(el)  - QxDom.getComputedBorderRight(el); };
-QxDom.getComputedScrollBarSizeBottom = function(el) { return QxDom.getComputedInsetBottom(el) - QxDom.getComputedBorderBottom(el); };
+qx.dom.getComputedScrollBarSizeLeft   = function(el) { return 0; };
+qx.dom.getComputedScrollBarSizeTop    = function(el) { return 0; };
+qx.dom.getComputedScrollBarSizeRight  = function(el) { return qx.dom.getComputedInsetRight(el)  - qx.dom.getComputedBorderRight(el); };
+qx.dom.getComputedScrollBarSizeBottom = function(el) { return qx.dom.getComputedInsetBottom(el) - qx.dom.getComputedBorderBottom(el); };
 
-QxDom.getComputedScrollBarVisibleX   = function(el) { return QxDom.getComputedScrollBarSizeRight(el)  > 0; };
-QxDom.getComputedScrollBarVisibleY   = function(el) { return QxDom.getComputedScrollBarSizeBottom(el) > 0; };
+qx.dom.getComputedScrollBarVisibleX   = function(el) { return qx.dom.getComputedScrollBarSizeRight(el)  > 0; };
+qx.dom.getComputedScrollBarVisibleY   = function(el) { return qx.dom.getComputedScrollBarSizeBottom(el) > 0; };

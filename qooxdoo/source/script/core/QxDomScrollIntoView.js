@@ -33,9 +33,9 @@
 // Safari does not support scrollIntoView (but it can be found in Webkit since May 2005)
 // Opera does not support scrollIntoView
 
-QxDom.BODY_TAG_NAME = "BODY";
+qx.dom.BODY_TAG_NAME = "BODY";
 
-QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
+qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
 {
   var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
 
@@ -45,7 +45,7 @@ QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(QxDom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
     {
       case QxConst.OVERFLOW_VALUE_BOTH:
       case QxConst.OVERFLOW_VALUE_AUTO:
@@ -54,7 +54,7 @@ QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
         break;
 
       default:
-        switch(QxDom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_HORIZONTAL))
+        switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_HORIZONTAL))
         {
           case QxConst.OVERFLOW_VALUE_BOTH:
           case QxConst.OVERFLOW_VALUE_AUTO:
@@ -66,7 +66,7 @@ QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
         };
     };
 
-    // QxDebug("QxDom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
+    // QxDebug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
 
     if (vHasScroll)
     {
@@ -98,7 +98,7 @@ QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
       vOffset += vParent.offsetLeft;
     };
 
-    if (vParent.tagName == QxDom.BODY_TAG_NAME) {
+    if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
       break;
     };
 
@@ -108,7 +108,7 @@ QxDom.scrollIntoViewX = function(vElement, vAlignLeft)
   return true;
 };
 
-QxDom.scrollIntoViewY = function(vElement, vAlignTop)
+qx.dom.scrollIntoViewY = function(vElement, vAlignTop)
 {
   var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
 
@@ -118,7 +118,7 @@ QxDom.scrollIntoViewY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(QxDom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
     {
       case QxConst.OVERFLOW_VALUE_BOTH:
       case QxConst.OVERFLOW_VALUE_AUTO:
@@ -127,7 +127,7 @@ QxDom.scrollIntoViewY = function(vElement, vAlignTop)
         break;
 
       default:
-        switch(QxDom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_VERTICAL))
+        switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_VERTICAL))
         {
           case QxConst.OVERFLOW_VALUE_BOTH:
           case QxConst.OVERFLOW_VALUE_AUTO:
@@ -139,7 +139,7 @@ QxDom.scrollIntoViewY = function(vElement, vAlignTop)
         };
     };
 
-    // QxDebug("QxDom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
+    // QxDebug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
 
     if (vHasScroll)
     {
@@ -171,7 +171,7 @@ QxDom.scrollIntoViewY = function(vElement, vAlignTop)
       vOffset += vParent.offsetTop;
     };
 
-    if (vParent.tagName == QxDom.BODY_TAG_NAME) {
+    if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
       break;
     };
 

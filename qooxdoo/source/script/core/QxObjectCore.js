@@ -34,10 +34,10 @@ var QxObjectDataBase = [];
 function QxObjectUnload()
 {
   QxObject.dispose();
-  QxDom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
+  qx.dom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
 };
 
-QxDom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
+qx.dom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
 
 QxObject.toHashCode = function(o)
 {

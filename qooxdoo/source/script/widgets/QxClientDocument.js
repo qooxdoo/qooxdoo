@@ -238,19 +238,19 @@ proto.release = function(vActiveChild)
 */
 
 proto.createStyleElement = function(vCssText) {
-  return QxDom.createStyleElement(vCssText);
+  return qx.dom.createStyleElement(vCssText);
 };
 
 proto.addCssRule = function(vSheet, vSelector, vStyle) {
-  return QxDom.addCssRule(vSheet, vSelector, vStyle);
+  return qx.dom.addCssRule(vSheet, vSelector, vStyle);
 };
 
 proto.removeCssRule = function(vSheet, vSelector) {
-  return QxDom.removeCssRule(vSheet, vSelector);
+  return qx.dom.removeCssRule(vSheet, vSelector);
 };
 
 proto.removeAllCssRules = function(vSheet) {
-  return QxDom.removeAllCssRules(vSheet);
+  return qx.dom.removeAllCssRules(vSheet);
 };
 
 
@@ -264,10 +264,10 @@ proto.removeAllCssRules = function(vSheet) {
 ---------------------------------------------------------------------------
 */
 
-QxDom.createStyleElement("html,body{margin:0;border:0;padding:0;} html{border:0 none;} *{box-sizing:border-box;-moz-box-sizing: border-box;} img{box-sizing:content-box;-moz-box-sizing:content-box;}");
+qx.dom.createStyleElement("html,body{margin:0;border:0;padding:0;} html{border:0 none;} *{box-sizing:border-box;-moz-box-sizing: border-box;} img{box-sizing:content-box;-moz-box-sizing:content-box;}");
 
 if (QxSettings.applicationLayout) {
-  QxDom.createStyleElement("html,body{width:100%;height:100%;overflow:hidden;}");
+  qx.dom.createStyleElement("html,body{width:100%;height:100%;overflow:hidden;}");
 };
 
 

@@ -582,8 +582,8 @@ proto._openPopup = function()
     return;
   };
 
-  p.setLeft(QxDom.getComputedPageBoxLeft(el)+1);
-  p.setTop(QxDom.getComputedPageBoxTop(el) + QxDom.getComputedBoxHeight(el));
+  p.setLeft(qx.dom.getComputedPageBoxLeft(el)+1);
+  p.setTop(qx.dom.getComputedPageBoxTop(el) + qx.dom.getComputedBoxHeight(el));
   p.setWidth(this.getBoxWidth()-2);
 
   p.setParent(this.getTopLevelWidget());

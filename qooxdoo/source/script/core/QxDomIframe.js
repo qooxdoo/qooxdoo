@@ -30,7 +30,7 @@
 
 if (qx.sys.Client.isMshtml())
 {
-  QxDom.getIframeWindow = function(vIframe)
+  qx.dom.getIframeWindow = function(vIframe)
   {
     try
     {
@@ -42,11 +42,11 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  QxDom.getIframeDocument = function(vIframe)
+  qx.dom.getIframeDocument = function(vIframe)
   {
     try
     {
-      var vWin = QxDom.getIframeWindow(vIframe);
+      var vWin = qx.dom.getIframeWindow(vIframe);
       return vWin ? vWin.document : null;
     }
     catch(ex)
@@ -57,11 +57,11 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  QxDom.getIframeWindow = function(vIframe)
+  qx.dom.getIframeWindow = function(vIframe)
   {
     try
     {
-      var vDoc = QxDom.getIframeDocument(vIframe);
+      var vDoc = qx.dom.getIframeDocument(vIframe);
       return vDoc ? vDoc.defaultView : null;
     }
     catch(ex)
@@ -70,7 +70,7 @@ else
     };
   };
 
-  QxDom.getIframeDocument = function(vIframe)
+  qx.dom.getIframeDocument = function(vIframe)
   {
     try
     {
@@ -83,8 +83,8 @@ else
   };
 };
 
-QxDom.getIframeBody = function(vIframe)
+qx.dom.getIframeBody = function(vIframe)
 {
-  var vDoc = QxDom.getIframeDocument(vIframe);
+  var vDoc = qx.dom.getIframeDocument(vIframe);
   return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
 };
