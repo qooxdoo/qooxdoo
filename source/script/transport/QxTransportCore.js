@@ -199,6 +199,20 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
         return false;
 
 
+      // The following case labels are wininet.dll error codes that may be encountered.
+      // Server timeout
+      case 12002:
+      // 12029 to 12031 correspond to dropped connections.
+      case 12029:
+      case 12030:
+      case 12031:
+      // Connection closed by server.
+      case 12152:
+      // See above comments for variable status.
+      case 13030:
+        return false;
+
+
       default:
         QxDebug("QxTransport", "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
