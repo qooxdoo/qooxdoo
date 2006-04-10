@@ -110,7 +110,6 @@ proto.send = function()
   // --------------------------------------
   //   Opening connection
   // --------------------------------------
-
   if (this.getUsername()) {
     vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
   } else {
@@ -164,6 +163,13 @@ proto.send = function()
   };
 };
 
+/*!
+  Force the transport into the failed state
+  (QxConst.REQUEST_STATE_FAILED).
+
+  This method should be used only if the requests URI was local
+  access. I.e. it started with "file://".
+*/
 proto.failedLocally = function()
 {
   if (this.getState() === QxConst.REQUEST_STATE_FAILED) {
@@ -228,7 +234,11 @@ proto._onreadystatechange = function(e)
   READY STATE
 ---------------------------------------------------------------------------
 */
+/*!
+  Get the ready state of this transports request.
 
+  For QxXmlHttpTransports, the ready state is a number between 1 to 4.
+*/
 proto.getReadyState = function()
 {
   var vReadyState = null;
@@ -251,7 +261,9 @@ proto.getReadyState = function()
   REQUEST HEADER SUPPORT
 ---------------------------------------------------------------------------
 */
-
+/*!
+  Add a request header to this transports request.
+*/
 proto.setRequestHeader = function(vLabel, vValue) {
   this._req.setRequestHeader(vLabel, vValue);
 };
@@ -302,7 +314,7 @@ proto.getStringResponseHeaders = function()
 };
 
 /*!
-  Provides an hash of all response headers.
+  Provides a hash of all response headers.
 */
 proto.getResponseHeaders = function()
 {

@@ -28,6 +28,13 @@
 
 ************************************************************************ */
 
+/*!
+  This class is used to send HTTP requests to the server.
+  @param vUrl Target url to issue the request to.
+  @param vMethod Determines what type of request to issue (GET or
+  POST). Default is GET.
+  @param vResponseType The mime type of the response. Default is text/plain.
+*/
 function QxRequest(vUrl, vMethod, vResponseType)
 {
   QxTarget.call(this);
@@ -58,8 +65,13 @@ QxRequest.extend(QxTarget, "QxRequest");
   PROPERTIES
 ---------------------------------------------------------------------------
 */
-
+/*!
+  Target url to issue the request to.
+*/
 QxRequest.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+/*!
+  Determines what type of request to issue (GET or POST).
+*/
 QxRequest.addProperty(
 {
   name           : "method",
@@ -70,9 +82,23 @@ QxRequest.addProperty(
                    QxConst.METHOD_DELETE
                    ]
 });
+/*!
+  Set the request to asynchronous.
+*/
 QxRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+/*!
+  Set the data to be sent via this request
+*/
 QxRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+/*!
+  Username to use for HTTP authentication. Null if HTTP authentication
+  is not used.
+*/
 QxRequest.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+/*!
+  Password to use for HTTP authentication. Null if HTTP authentication
+  is not used.
+*/
 QxRequest.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
 QxRequest.addProperty(
 {
@@ -86,6 +112,13 @@ QxRequest.addProperty(
                    ],
   defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
 });
+/*
+  Response type of request.
+
+  The response type is a MIME type, default is text/plain. Other
+  supported MIME types are text/javascript, text/html, text/json,
+  application/xml.
+*/
 QxRequest.addProperty({
   name           : "responseType",
   type           : QxConst.TYPEOF_STRING,
@@ -95,8 +128,31 @@ QxRequest.addProperty({
                    QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML
                    ]
 });
+/*!
+  Number of millieseconds before the request is being timed out.
+
+  If this property is null, the timeout for the request comes is the
+  QxRequestQueue's property defaultTimeout.
+*/
 QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
+
+/*!
+  Prohibit request from being cached.
+
+  Setting the value to true adds a parameter "nocache" to the request
+  with a value of the current time. Setting the value to false removes
+  the parameter.
+*/
 QxRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
+/*!
+  Indicate that the request is cross domain.
+
+  A request is cross domain if the requests URL points to a host other
+  than the local host. This switches the concrete implementation that
+  is used for sending the request from QxXmlHttpTransport to
+  QxIframeTransport because only the latter can handle cross domain
+  requests.
+*/
 QxRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
@@ -109,11 +165,23 @@ QxRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, def
   CORE METHODS
 ---------------------------------------------------------------------------
 */
+/*!
+  Schedule this request for transport to server.
 
+  The request is added to the singleton class QxRequestQueue's list of
+  pending requests.
+*/
 proto.send = function() {
   QxRequestQueue.add(this);
 };
 
+/*!
+  Abort sending this request.
+
+  The request is removed from the singleton class QxRequestQueue's
+  list of pending events. If the request haven't been scheduled this
+  method is a noop.
+*/  
 proto.abort = function() {
   QxRequestQueue.abort(this);
 };
@@ -173,6 +241,10 @@ proto.isTimeout = function() {
   return this.getState() === QxConst.REQUEST_STATE_TIMEOUT;
 };
 
+/*!
+  Return true if the request is in the failed state
+  (QxConst.REQUEST_STATE_FAILED).
+*/
 proto.isFailed = function() {
   return this.getState() === QxConst.REQUEST_STATE_FAILED;
 };
@@ -318,7 +390,11 @@ proto._modifyResponseType = function(propValue, propOldValue, propData)
   REQUEST HEADER
 ---------------------------------------------------------------------------
 */
+/*!
+  Add a request header to the request.
 
+  Example: request.setRequestHeader("Content-Type", "text/html")
+*/
 proto.setRequestHeader = function(vId, vValue) {
   this._requestHeaders[vId] = vValue;
 };
@@ -348,19 +424,37 @@ proto.getRequestHeaders = function() {
   PARAMETERS
 ---------------------------------------------------------------------------
 */
+/*!
+  Add a parameter to the request.
 
+  @param vId String identifier of the parameter to add.
+  @param vValue Value of parameter.
+*/  
 proto.setParameter = function(vId, vValue) {
   this._parameters[vId] = vValue;
 };
 
+/*!
+  Remove a parameter from the request.
+
+  @param vId String identifier of the parameter to remove.
+*/
 proto.removeParameter = function(vId) {
   delete this._parameters[vId];
 };
 
+/*!
+  Get a parameter in the request.
+
+  @param vId String identifier of the parameter to get.
+*/
 proto.getParameter = function(vId) {
   return this._parameters[vId] || null;
 };
 
+/*!
+  Returns an object containg all parameters for the request.
+*/
 proto.getParameters = function() {
   return this._parameters;
 };

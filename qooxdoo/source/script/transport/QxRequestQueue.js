@@ -27,7 +27,12 @@
 #post(QxTransport)
 
 ************************************************************************ */
+/*!
+  Handles scheduling of requests to be sent to a server.
 
+  This class is a singleton and is used by QxRequest to schedule its
+  requests. It should not be used directly.
+ */
 function QxRequestQueue()
 {
   QxTarget.call(this);
@@ -289,7 +294,9 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   CORE METHODS
 ---------------------------------------------------------------------------
 */
-
+/*!
+  Add the request to the pending requests queue.
+*/
 proto.add = function(vRequest)
 {
   vRequest.setState(QxConst.EVENT_TYPE_QUEUED);
@@ -302,6 +309,14 @@ proto.add = function(vRequest)
   };
 };
 
+/*!
+  Remove the request from the pending requests queue.
+
+  The underlying transport of the request is forced into the aborted
+  state (QxConst.REQUEST_STATE_ABORTED) and listeners of the "aborted"
+  signal are notified about the event. If the request isn't in the
+  pending requests queue, this method is a noop.
+*/
 proto.abort = function(vRequest)
 {
   var vTransport = vRequest.getTransport();

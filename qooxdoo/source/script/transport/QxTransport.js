@@ -47,8 +47,16 @@ QxTransport.extend(QxTarget, "QxTransport");
   PROPERTIES
 ---------------------------------------------------------------------------
 */
-
+/*!
+  Set the request to send with this transport.
+*/  
 QxTransport.addProperty({ name : "request", type : QxConst.TYPEOF_OBJECT, instance : "QxRequest" });
+/*!
+  Set the implementation to use to send the request with.
+
+  The implementation should be a subclass of QxCommonTransport and
+  must implement all methods in the transport API.
+*/
 QxTransport.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
 QxTransport.addProperty(
 {
@@ -135,7 +143,10 @@ proto.send = function()
 
   this.error("There is no transport implementation available to handle this request: " + vRequest, "handle");
 };
-
+/*!
+  Force the transport into the aborted (QxConst.REQUEST_STATE_ABORTED)
+  state.
+*/
 proto.abort = function()
 {
   var vImplementation = this.getImplementation();
@@ -151,7 +162,9 @@ proto.abort = function()
     this.setState(QxConst.REQUEST_STATE_ABORTED);
   };
 };
-
+/*!
+  Force the transport into the timeout state.
+*/
 proto.timeout = function()
 {
   var vImplementation = this.getImplementation();
