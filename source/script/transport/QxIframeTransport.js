@@ -28,7 +28,11 @@
 #post(QxDomIframe)
 
 ************************************************************************ */
+/*!
+  Transports requests to a server using an IFRAME.
 
+  This class should not be used directly by client programmers.
+ */
 function QxIframeTransport()
 {
   QxCommonTransport.call(this);
