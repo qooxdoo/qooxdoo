@@ -9,10 +9,6 @@ L="$L script/core/QxExtend"
 L="$L script/core/QxNative"
 L="$L script/core/QxUtil"
 L="$L script/core/QxCompare"
-
-# Core qooxdoo objects
-L="$L script/core/QxObject"
-L="$L script/core/QxObjectCore"
 L="$L script/core/QxClient"
 
 # Dom Features
@@ -29,6 +25,10 @@ L="$L script/core/QxDomStyleSheet"
 L="$L script/core/QxDomWindow"
 L="$L script/core/QxDomIframe"
 L="$L script/core/QxDomElement"
+
+# Core qooxdoo objects
+L="$L script/core/QxObject"
+L="$L script/core/QxObjectCore"
 
 # Common qooxdoo objects
 L="$L script/core/QxDebug"
