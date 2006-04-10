@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(core)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomEventRegistration)
 
 ************************************************************************ */
@@ -46,7 +46,7 @@ function QxApplication()
 {
   QxTarget.call(this, false);
 
-  if (QxClient.isGecko()) {
+  if (qx.sys.Client.isGecko()) {
     QxDom.addEventListener(window, "DOMContentLoaded", QxApplicationInit);
   } else {
     QxDom.addEventListener(window, "load", QxApplicationInit);
@@ -291,9 +291,9 @@ proto._printPropertyInfo = function() {
 
 proto._printClientInfo = function()
 {
-  this.debug("Client: " + QxClient.getEngine() + QxConst.CORE_SPACE + QxClient.getVersion() + (QxUtil.isValidString(QxClient.getEmulation()) ? QxConst.CORE_SPACE + QxClient.getEmulation() : QxConst.CORE_EMPTY));
+  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (QxUtil.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
 
-  if (!QxClient.isInQuirksMode() && QxClient.isMshtml()) {
+  if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
     this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");
   };
 };
@@ -361,7 +361,7 @@ proto.dispose = function()
     return;
   };
 
-  if (QxClient.isGecko()) {
+  if (qx.sys.Client.isGecko()) {
     QxDom.removeEventListener(window, "DOMContentLoaded", QxApplicationInit);
   } else {
     QxDom.removeEventListener(window, "load", QxApplicationInit);

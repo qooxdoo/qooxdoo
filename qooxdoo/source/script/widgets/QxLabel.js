@@ -110,7 +110,7 @@ QxLabel.OVERFLOW_ELLIPSIS = "ellipsis";
 QxLabel.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
 QxLabel.INNER_TEXT = "innerText";
 QxLabel.INNER_HTML = "innerHTML";
-QxLabel.SUPPORT_NATIVE_ELLIPSIS = QxClient.isMshtml();
+QxLabel.SUPPORT_NATIVE_ELLIPSIS = qx.sys.Client.isMshtml();
 
 QxLabel.MNEMONIC_OUT_START = "(<span style=\"text-decoration:underline\">";
 QxLabel.MNEMONIC_OUT_STOP = "</span>)";
@@ -439,7 +439,7 @@ proto._postApply = function()
 };
 
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
   {

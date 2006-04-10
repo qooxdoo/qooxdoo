@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomCore)
 #require(QxDomStyle)
 #require(QxDomScroll)
@@ -42,7 +42,7 @@ QxDom.getComputedClientOuterRight  = function(el) { return QxDom.getComputedClie
 QxDom.getComputedClientOuterBottom = function(el) { return QxDom.getComputedClientBoxBottom(el) + QxDom.getComputedMarginBottom(el); };
 
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxDom.getComputedClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; };
   QxDom.getComputedClientBoxTop    = function(el) { return el.getBoundingClientRect().top; };
@@ -50,7 +50,7 @@ if (QxClient.isMshtml())
   QxDom.getComputedPageBoxLeft     = function(el) { return QxDom.getComputedClientBoxLeft(el)  + QxDom.getScrollLeftSum(el); };
   QxDom.getComputedPageBoxTop      = function(el) { return QxDom.getComputedClientBoxTop(el)   + QxDom.getScrollTopSum(el); };
 }
-else if (QxClient.isGecko())
+else if (qx.sys.Client.isGecko())
 {
   QxDom.getComputedClientBoxLeft   = function(el) { return QxDom.getComputedClientAreaLeft(el) - QxDom.getComputedBorderLeft(el); };
   QxDom.getComputedClientBoxTop    = function(el) { return QxDom.getComputedClientAreaTop(el)  - QxDom.getComputedBorderTop(el); };
@@ -109,7 +109,7 @@ else
   };
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxDom.getComputedClientBoxRight  = function(el) { return el.getBoundingClientRect().right; };
   QxDom.getComputedClientBoxBottom = function(el) { return el.getBoundingClientRect().bottom; };
@@ -126,7 +126,7 @@ else
   QxDom.getComputedPageBoxBottom   = function(el) { return QxDom.getComputedPageBoxTop(el)    + QxDom.getComputedBoxHeight(el); };
 };
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   QxDom.getComputedPageAreaLeft = function(el) {
     return el.ownerDocument.getBoxObjectFor(el).x;
@@ -178,7 +178,7 @@ QxDom.getComputedPageInnerBottom   = function(el) { return QxDom.getComputedPage
 
 
 // Screen
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   /*
     screenX and screenY seem to return the distance to the box
@@ -240,7 +240,7 @@ QxDom.getComputedScreenInnerRight  = function(el) { return QxDom.getComputedScre
 QxDom.getComputedScreenInnerBottom = function(el) { return QxDom.getComputedScreenAreaBottom(el) - QxDom.getComputedPaddingBottom(el); };
 
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   /*
     Notice:

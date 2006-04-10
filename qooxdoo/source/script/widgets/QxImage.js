@@ -282,7 +282,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
       this._image.style.border = QxImage.BORDER_NONE;
       this._image.style.verticalAlign = QxImage.RESET_VALIGN;
 
-      if (!QxClient.isMshtml()) {
+      if (!qx.sys.Client.isMshtml()) {
         this._applyEnabled();
       };
     };
@@ -325,7 +325,7 @@ proto._postApply = function()
   this._updateContent();
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxImage.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
   QxImage.IMGLOADER_STOP = "',sizingMethod='scale')";
@@ -477,7 +477,7 @@ proto._applyContent = function()
   QxWidget.flushGlobalQueues();
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._postApplyDimensions = function()
   {
@@ -537,7 +537,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._changeInnerWidth = function(vNew, vOld)
   {

@@ -24,11 +24,11 @@
 
 #package(dom)
 #require(QxDomCore)
-#require(QxClient)
+#require(qx.sys.Client)
 
 ************************************************************************ */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxDom.getIframeWindow = function(vIframe)
   {

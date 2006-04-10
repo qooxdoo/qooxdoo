@@ -315,7 +315,7 @@ proto.layoutChild_location_left = function(vChild, vJobs)
 
 
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   proto._applyComputedWidth = function(vChild)
   {

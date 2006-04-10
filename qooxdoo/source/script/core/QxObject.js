@@ -29,7 +29,7 @@
 #require(QxUtil)
 #require(QxSettings)
 #post(QxObjectCore)
-#post(QxClient)
+#post(qx.sys.Client)
 #post(QxDebug)
 
 ************************************************************************ */

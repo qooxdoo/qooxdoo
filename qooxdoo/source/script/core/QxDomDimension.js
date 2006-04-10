@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomCore)
 #require(QxDomStyle)
 
@@ -90,7 +90,7 @@ QxDom.getComputedBoxHeight = function(el) {
   return el.offsetHeight;
 };
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   QxDom.getComputedAreaWidth = function(el)
   {
@@ -166,7 +166,7 @@ QxDom.getComputedInnerHeight = function(el) { return QxDom.getComputedAreaHeight
 
 
 // Insets
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxDom.getComputedInsetLeft   = function(el) { return el.clientLeft; };
   QxDom.getComputedInsetTop    = function(el) { return el.clientTop; };

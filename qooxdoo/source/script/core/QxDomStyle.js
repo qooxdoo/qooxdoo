@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomCore)
 
 ************************************************************************ */
@@ -44,7 +44,7 @@ if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedSty
     };
   };
 }
-else if (QxClient.isMshtml())
+else if (qx.sys.Client.isMshtml())
 {
   QxDom.getComputedStyleProperty = function(el, prop)
   {

@@ -438,7 +438,7 @@ proto.createCell = function(d, i)
   return cframe;
 };
 
-proto._mshtml = QxClient.isMshtml();
+proto._mshtml = qx.sys.Client.isMshtml();
 
 proto.createImageCell = function(inode, d)
 {

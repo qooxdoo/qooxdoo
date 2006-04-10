@@ -108,7 +108,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
     // clone proto element and assign iframe
     iframeNode = this.setIframeNode(QxIframe._element.cloneNode(true));
 
-    if (QxClient.isMshtml()) {
+    if (qx.sys.Client.isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
       iframeNode.onload = this.__onload;
@@ -198,7 +198,7 @@ proto._onload = function()
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto.getContentWindow = function()
   {
@@ -254,7 +254,7 @@ else
 
 proto._isLoaded = false;
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto.isLoaded = function()
   {

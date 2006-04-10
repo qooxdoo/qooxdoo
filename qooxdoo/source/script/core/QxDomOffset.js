@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomCore)
 #require(QxDomStyle)
 
@@ -35,7 +35,7 @@ Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041108 Firefox
 
 It calculates some borders and/or paddings to the offsetProperties.
 */
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   QxDom.getOffsetLeft = function(el)
   {

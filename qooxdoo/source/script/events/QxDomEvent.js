@@ -80,7 +80,7 @@ proto.getAltKey = function() {
 ---------------------------------------------------------------------------
 */
 
-if(QxClient.isMshtml())
+if(qx.sys.Client.isMshtml())
 {
   proto.setDefaultPrevented = function(vValue)
   {

@@ -75,7 +75,7 @@ proto.getAttachedWidget = function() {
 // * use keydown on mshtml
 // * use keypress on vAll other (correct) browsers
 // = same behaviour
-QxFocusManager.tabEventType = QxClient.isMshtml() ? QxConst.EVENT_TYPE_KEYDOWN : QxConst.EVENT_TYPE_KEYPRESS;
+QxFocusManager.tabEventType = qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_KEYDOWN : QxConst.EVENT_TYPE_KEYPRESS;
 
 proto._onkeyevent = function(vContainer, vEvent)
 {

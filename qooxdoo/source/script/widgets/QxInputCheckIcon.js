@@ -33,13 +33,13 @@ function QxInputCheckIcon()
   this.setTagName("INPUT");
   this.setSelectable(false);
 
-  if (QxClient.isMshtml())
+  if (qx.sys.Client.isMshtml())
   {
     // Take control over size of element (mshtml)
     this.setWidth(13);
     this.setHeight(13);
   }
-  else if (QxClient.isGecko())
+  else if (qx.sys.Client.isGecko())
   {
     // Remove gecko default margin
     this.setMargin(0);
@@ -75,7 +75,7 @@ proto.getBoxHeight = proto.getPreferredBoxHeight;
 proto.getInnerWidth = proto.getPreferredBoxWidth;
 proto.getInnerHeight = proto.getPreferredBoxHeight;
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._afterAppear = function()
   {

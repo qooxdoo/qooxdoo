@@ -57,7 +57,7 @@ function QxImagePreloader(vSource)
   this._element.src = vSource;
 
   // Set PNG State
-  if (QxClient.isMshtml()) {
+  if (qx.sys.Client.isMshtml()) {
     this._isPng = /\.png$/i.test(this._element.nameProp);
   };
 
@@ -115,7 +115,7 @@ proto.isErroneous = function() { return this._isErroneous; };
 proto._isPng = false;
 proto.getIsPng = function() { return this._isPng; };
 
-if(QxClient.isGecko())
+if(qx.sys.Client.isGecko())
 {
   proto.getWidth = function() { return this._element.naturalWidth; };
   proto.getHeight = function() { return this._element.naturalHeight; };

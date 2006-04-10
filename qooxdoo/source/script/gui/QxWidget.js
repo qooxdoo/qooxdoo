@@ -987,7 +987,7 @@ proto.disconnect = function() {
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   proto._createElementForEnhancedBorder = QxUtil.returnTrue;
 }
@@ -1047,7 +1047,7 @@ else
 
 proto._isCreated = false;
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   proto._getTargetNode = function() {
     return this._element;
@@ -1411,7 +1411,7 @@ QxWidget.initApplyMethods = function()
 
   var pad = "padding", upad = "Padding";
 
-  if (QxClient.isGecko())
+  if (qx.sys.Client.isGecko())
   {
     for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
     {
@@ -1447,7 +1447,7 @@ QxWidget.initApplyMethods = function()
     Now I'am switched back to conventional method
     to reset the value. This seems to work again.
   */
-  if (QxClient.isMshtml())
+  if (qx.sys.Client.isMshtml())
   {
     for (var i=0, tpos="pos", vset="=v"; i<6; i++)
     {
@@ -1679,7 +1679,7 @@ proto._recomputePercentY = function()
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   proto._recomputeRangeX = function()
   {
@@ -1723,7 +1723,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml() || QxClient.isOpera())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
   proto._recomputeStretchingX = function()
   {
@@ -2660,7 +2660,7 @@ proto._unitDetectionPixelPercent = function(propData, propValue)
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxWidget.inlineEventMap =
   {
@@ -3104,14 +3104,14 @@ proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanc
   };
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   /*
     Mshtml does not support outlines by css
   */
   proto._applyStateStyleFocus = function(vStates) {};
 }
-else if (QxClient.isGecko())
+else if (qx.sys.Client.isGecko())
 {
   proto._applyStateStyleFocus = function(vStates)
   {
@@ -3251,7 +3251,7 @@ proto.setHtmlProperty = function(propName, propValue)
   return true;
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto.removeHtmlProperty = function(propName)
   {
@@ -3661,7 +3661,7 @@ QxWidget.TAB_VALUE_IGNORE = "ignore";
 QxWidget.TAB_VALUE_NORMAL = "normal";
 QxWidget.TAB_VALUE_ON = "on";
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -3671,7 +3671,7 @@ if (QxClient.isMshtml())
     return true;
   };
 }
-else if (QxClient.isGecko())
+else if (qx.sys.Client.isGecko())
 {
   proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -3757,13 +3757,13 @@ QxWidget.SEL_PROPERTY_MOZUSERSELECT = "MozUserSelect";
 
 QxWidget.SEL_VALUE_ON = "on";
 
-if(QxClient.isMshtml())
+if(qx.sys.Client.isMshtml())
 {
   proto._modifySelectable = function(propValue, propOldValue, propData) {
     return propValue ? this.removeHtmlProperty(QxWidget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(QxWidget.SEL_PROPERTY_UNSELECTABLE, QxWidget.SEL_VALUE_ON);
   };
 }
-else if(QxClient.isGecko())
+else if(qx.sys.Client.isGecko())
 {
   proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -3782,7 +3782,7 @@ else if(QxClient.isGecko())
     return true;
   };
 }
-else if (QxClient.isOpera())
+else if (qx.sys.Client.isOpera())
 {
   // No known method available for this client
   proto._modifySelectable = function(propValue, propOldValue, propData) {
@@ -3820,7 +3820,7 @@ Sets the opacit for the widget. Any child widget inside the widget will
 also become transparent. The value should be a number between 0 and 1 where 1
 means totally opaque and 0 invisible.
 */
-if(QxClient.isMshtml())
+if(qx.sys.Client.isMshtml())
 {
   proto._modifyOpacity = function(propValue, propOldValue, propData)
   {
@@ -3846,11 +3846,11 @@ else
   {
     if(propValue == null || propValue > 1)
     {
-      if (QxClient.isGecko())
+      if (qx.sys.Client.isGecko())
       {
         this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_MOZ);
       }
-      else if (QxClient.isKhtml())
+      else if (qx.sys.Client.isKhtml())
       {
         this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_KHTML);
       };
@@ -3864,11 +3864,11 @@ else
       // should we omit geckos flickering here
       // and limit the max value to 0.99?
 
-      if (QxClient.isGecko())
+      if (qx.sys.Client.isGecko())
       {
         this.setStyleProperty(QxWidget.OPACTIY_PROPERTY_MOZ, propValue);
       }
-      else if (QxClient.isKhtml())
+      else if (qx.sys.Client.isKhtml())
       {
         this.setStyleProperty(QxWidget.OPACITY_PROPERTY_KHTML, propValue);
       };
@@ -3899,7 +3899,7 @@ proto._modifyCursor = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.setStyleProperty(QxWidget.CURSOR_PROPERTY, propValue == QxWidget.CURSOR_VALUE_POINTER && QxClient.isMshtml() ? QxWidget.CURSOR_VALUE_HAND : propValue);
+    this.setStyleProperty(QxWidget.CURSOR_PROPERTY, propValue == QxWidget.CURSOR_VALUE_POINTER && qx.sys.Client.isMshtml() ? QxWidget.CURSOR_VALUE_HAND : propValue);
   }
   else
   {
@@ -4032,7 +4032,7 @@ QxWidget.SCROLL_VALUE_MOZNONE = "-moz-scrollbars-none";
 QxWidget.SCROLL_VALUE_MOZSCROLLX = "-moz-scrollbars-horizontal";
 QxWidget.SCROLL_VALUE_MOZSCROLLY = "-moz-scrollbars-vertical";
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -4060,7 +4060,7 @@ if (QxClient.isGecko())
 
 // Mshtml conforms here to CSS3 Spec. Sometime here are multiple browsers
 // which support these new overflowX overflowY properties.
-else if (QxClient.isMshtml())
+else if (qx.sys.Client.isMshtml())
 {
   proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -4152,7 +4152,7 @@ proto.getOverflowY = function()
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._modifyHideFocus = function(propValue, propOldValue, propData)
   {

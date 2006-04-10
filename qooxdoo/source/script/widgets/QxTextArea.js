@@ -40,7 +40,7 @@ QxTextArea.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, d
 
 QxTextArea.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN });
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");

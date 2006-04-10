@@ -64,14 +64,14 @@ function QxEventManager(vClientWindow)
 
 QxEventManager.extend(QxManager, "QxEventManager");
 
-QxEventManager.mouseEventTypes = [ QxConst.EVENT_TYPE_MOUSEOVER, QxConst.EVENT_TYPE_MOUSEMOVE, QxConst.EVENT_TYPE_MOUSEOUT, QxConst.EVENT_TYPE_MOUSEDOWN, QxConst.EVENT_TYPE_MOUSEUP, QxConst.EVENT_TYPE_CLICK, QxConst.EVENT_TYPE_DBLCLICK, QxConst.EVENT_TYPE_CONTEXTMENU, QxClient.isMshtml() ? QxConst.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
+QxEventManager.mouseEventTypes = [ QxConst.EVENT_TYPE_MOUSEOVER, QxConst.EVENT_TYPE_MOUSEMOVE, QxConst.EVENT_TYPE_MOUSEOUT, QxConst.EVENT_TYPE_MOUSEDOWN, QxConst.EVENT_TYPE_MOUSEUP, QxConst.EVENT_TYPE_CLICK, QxConst.EVENT_TYPE_DBLCLICK, QxConst.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
 QxEventManager.keyEventTypes = [ QxConst.EVENT_TYPE_KEYDOWN, QxConst.EVENT_TYPE_KEYPRESS, QxConst.EVENT_TYPE_KEYUP ];
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   QxEventManager.dragEventTypes = [ QxConst.EVENT_TYPE_DRAGDROP, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGEXIT, QxConst.EVENT_TYPE_DRAGGESTURE, QxConst.EVENT_TYPE_DRAGOVER ];
 }
-else if (QxClient.isMshtml())
+else if (qx.sys.Client.isMshtml())
 {
   QxEventManager.dragEventTypes = [ QxConst.EVENT_TYPE_DRAG, QxConst.EVENT_TYPE_DRAGEND, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGLEAVE, QxConst.EVENT_TYPE_DRAGOVER, QxConst.EVENT_TYPE_DRAGSTART ];
 }
@@ -272,7 +272,7 @@ proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     // I think they will fix this sometimes, and we should add a version check here.
     // Internet Explorer has problems to use 'window', so there we use the 'body' element
     // as previously.
-    if (QxClient.isGecko()) {
+    if (qx.sys.Client.isGecko()) {
       var d = this._attachedClientWindow.getElement();
     } else {
       var d = this._attachedClientWindow.getClientDocument().getElement();
@@ -292,7 +292,7 @@ proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
-    if (QxClient.isGecko()) {
+    if (qx.sys.Client.isGecko()) {
       var d = this._attachedClientWindow.getElement();
     } else {
       var d = this._attachedClientWindow.getClientDocument().getElement();
@@ -416,7 +416,7 @@ QxEventManager.getRelatedTargetObjectFromEvent = function(vDomEvent) {
   return QxEventManager.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == QxConst.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxEventManager.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
@@ -567,7 +567,7 @@ proto._onkeyevent = function(vDomEvent)
   7. dblclick
 */
 
-if(QxClient.isMshtml())
+if(qx.sys.Client.isMshtml())
 {
   proto._onmouseevent = function(vDomEvent)
   {
@@ -864,7 +864,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
   };
 };
 
-if (QxClient.isGecko())
+if (qx.sys.Client.isGecko())
 {
   proto._onmousewheel = function(vTarget, vEvent)
   {

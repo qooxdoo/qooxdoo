@@ -39,7 +39,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   this.setTabIndex(-1);
 
-  if (QxClient.isMshtml()) {
+  if (qx.sys.Client.isMshtml()) {
     this.setStyleProperty("fontSize", QxConst.CORE_0PIXEL);
   };
 

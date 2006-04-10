@@ -23,12 +23,12 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxClient)
+#require(qx.sys.Client)
 #require(QxDomCore)
 
 ************************************************************************ */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxDom.getWindowInnerWidth = function(w)
   {

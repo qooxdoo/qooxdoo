@@ -1,5 +1,8 @@
 L=""
 
+# Namespaces
+L="$L script/core/QxNamespaces"
+
 # Core Language Additions
 L="$L script/core/QxMain"
 L="$L script/core/QxDefaultSettings"

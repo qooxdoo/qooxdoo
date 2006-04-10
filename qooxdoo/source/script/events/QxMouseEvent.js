@@ -74,7 +74,7 @@ proto.getScreenY = function() {
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   QxMouseEvent.addFastProperty({ name : "pageX", readOnly : true });
   QxMouseEvent.addFastProperty({ name : "pageY", readOnly : true });
@@ -100,7 +100,7 @@ if (QxClient.isMshtml())
     };
   };
 }
-else if (QxClient.isGecko())
+else if (qx.sys.Client.isGecko())
 {
   proto.getPageX = function() {
     return this.getDomEvent().pageX;
@@ -133,7 +133,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (QxClient.isMshtml() || QxClient.isGecko())
+if (qx.sys.Client.isMshtml() || qx.sys.Client.isGecko())
 {
   proto.getClientX = function() {
     return this.getDomEvent().clientX;
@@ -183,7 +183,7 @@ proto.isRightButtonPressed = function() {
   return this.getButton() === QxConst.BUTTON_RIGHT;
 };
 
-if (QxClient.isMshtml())
+if (qx.sys.Client.isMshtml())
 {
   proto._computeButton = function()
   {
@@ -239,7 +239,7 @@ else
 
 QxMouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true });
 
-if(QxClient.isMshtml())
+if(qx.sys.Client.isMshtml())
 {
   proto._computeWheelDelta = function() {
     return this.getDomEvent().wheelDelta ? this.getDomEvent().wheelDelta / 40 : 0;
