@@ -24,11 +24,20 @@
 
 #package(core)
 #require(QxObject)
+#require(QxDomEventRegistration)
 
 ************************************************************************ */
 
 var QxObjectCounter = 0;
 var QxObjectDataBase = [];
+
+function QxObjectUnload()
+{
+  QxObject.dispose();
+  QxDom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
+};
+
+QxDom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
 
 QxObject.toHashCode = function(o)
 {
@@ -42,14 +51,14 @@ QxObject.toHashCode = function(o)
 QxObject.dispose = function()
 {
   // QxDebug("QxObject", "Disposing Application");
-  
+
   var vStart = (new Date).valueOf();
   var vObject;
-  
+
   for (var i=QxObjectDataBase.length-1; i>=0; i--)
   {
     vObject = QxObjectDataBase[i];
-    
+
     if (vObject != null)
     {
       // QxDebug("QxObject", "Disposing: " + vObject);
@@ -57,7 +66,7 @@ QxObject.dispose = function()
       QxObjectDataBase[i] = null;
     };
   };
-  
+
   // QxDebug("QxObject", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 

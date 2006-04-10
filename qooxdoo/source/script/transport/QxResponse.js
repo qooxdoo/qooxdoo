@@ -42,6 +42,9 @@ QxResponse.extend(QxTarget, "QxResponse");
 */
 
 QxResponse.addProperty({ name : "state", type : QxConst.TYPEOF_NUMBER });
+/*!
+  Status code of the response.
+*/
 QxResponse.addProperty({ name : "statusCode", type : QxConst.TYPEOF_NUMBER });
 QxResponse.addProperty({ name : "content" });
 QxResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT });

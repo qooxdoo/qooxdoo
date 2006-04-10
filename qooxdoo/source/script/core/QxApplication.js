@@ -35,15 +35,6 @@ function QxApplicationInit()
   };
 };
 
-function QxApplicationUnload()
-{
-  if (window.application) {
-    window.application.dispose();
-  };
-
-  window.application = null;
-};
-
 /*!
   This contains the main qooxdoo application.
 
@@ -60,8 +51,6 @@ function QxApplication()
   } else {
     QxDom.addEventListener(window, "load", QxApplicationInit);
   };
-
-  QxDom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxApplicationUnload);
 };
 
 QxApplication.extend(QxTarget, "QxApplication");
@@ -372,8 +361,6 @@ proto.dispose = function()
     return;
   };
 
-  QxDom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxApplicationUnload);
-
   if (QxClient.isGecko()) {
     QxDom.removeEventListener(window, "DOMContentLoaded", QxApplicationInit);
   } else {
@@ -385,8 +372,6 @@ proto.dispose = function()
   delete this._remappingChildTarget;
 
   QxTarget.prototype.dispose.call(this);
-
-  QxObject.dispose();
 };
 
 window.application = new QxApplication;

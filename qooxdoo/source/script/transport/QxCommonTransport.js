@@ -96,7 +96,7 @@ QxCommonTransport.addProperty(
 QxCommonTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
 
 /*!
-  Parameters
+  Request parameters to send.
 */
 QxCommonTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
@@ -131,6 +131,9 @@ proto.abort = function()
   this.setState(QxConst.REQUEST_STATE_ABORTED);
 };
 
+/*!
+  
+*/
 proto.timeout = function()
 {
   if (QxSettings.enableTransportDebug) {
@@ -140,6 +143,12 @@ proto.timeout = function()
   this.setState(QxConst.REQUEST_STATE_TIMEOUT);
 };
 
+/*!
+  
+  Force the transport into the failed state (QxConst.REQUEST_STATE_FAILED).
+
+  Listeners of the "failed" signal are notified about the event.
+*/
 proto.failed = function()
 {
   if (QxSettings.enableTransportDebug) {
@@ -160,7 +169,12 @@ proto.failed = function()
   REQUEST HEADER SUPPORT
 ---------------------------------------------------------------------------
 */
+/*!
+  Add a request header to this transports QxRequest.
 
+  This method is virtual and concrete subclasses are supposed to
+  implement it.
+*/
 proto.setRequestHeader = function(vLabel, vValue) {
   this.error("Need implementation", "setRequestHeader");
 };

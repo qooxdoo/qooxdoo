@@ -233,10 +233,10 @@ QxWidget.addProperty({ name : "overflow", type : QxConst.TYPEOF_STRING, addToQue
 /*!
   Clipping of the widget
 */
-QxWidget.addProperty({ name : "clipLeft", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipTop", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipWidth", type : QxConst.CORE_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipHeight", type : QxConst.CORE_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipLeft", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipTop", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipWidth", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+QxWidget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
 
 
 
@@ -1014,6 +1014,7 @@ else
           case QxConst.PROPERTY_POSITION:
           case QxConst.PROPERTY_ZINDEX:
           case QxConst.PROPERTY_FILTER:
+          case QxConst.PROPERTY_DISPLAY:
             break;
 
           default:
@@ -3168,11 +3169,20 @@ proto.recursiveAddToStateQueue = function() {
 proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
   var vAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObject();
-  var vNewAppearanceProperties = QxUtil.mergeObjectWith(vAppearanceThemeObject.initialFrom(this, propValue), vAppearanceThemeObject.stateFrom(this, propValue));
+
+  var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
+
+  if (this.isCreated()) {
+    QxUtil.mergeObjectWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
+  };
 
   if (propOldValue)
   {
-    var vOldAppearanceProperties = QxUtil.mergeObjectWith(vAppearanceThemeObject.initialFrom(this, propOldValue), vAppearanceThemeObject.stateFrom(this, propOldValue));
+    var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propOldValue);
+
+    if (this.isCreated()) {
+      QxUtil.mergeObjectWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
+    };
 
     for (vProp in vOldAppearanceProperties)
     {

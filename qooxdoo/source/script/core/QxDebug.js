@@ -112,7 +112,7 @@ function QxDebug(group, message, classname)
     QxDebug._head.appendChild(QxDebug._btnDispose);
 
     QxDebug._btnDispose.onclick = function(e) {
-      window.application.dispose();
+      QxObject.dispose();
     };
   };
 

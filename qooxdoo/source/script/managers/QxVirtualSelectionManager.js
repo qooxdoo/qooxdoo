@@ -33,7 +33,7 @@ function QxVirtualSelectionManager(vBoundedWidget) {
   QxSelectionManager.call(this, vBoundedWidget);
 };
 
-QxVirtualSelectionManager.extend(QxSelectionManager, "QxSelectionManager");
+QxVirtualSelectionManager.extend(QxSelectionManager, "QxVirtualSelectionManager");
 
 
 

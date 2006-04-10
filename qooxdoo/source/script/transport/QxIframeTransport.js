@@ -28,7 +28,11 @@
 #post(QxDomIframe)
 
 ************************************************************************ */
+/*!
+  Transports requests to a server using an IFRAME.
 
+  This class should not be used directly by client programmers.
+ */
 function QxIframeTransport()
 {
   QxCommonTransport.call(this);
@@ -46,7 +50,7 @@ function QxIframeTransport()
     this._frame = document.createElement("iframe");
   };
 
-  this._frame.src = "about:blank";
+  this._frame.src = "javascript:void(0)";
   this._frame.id = this._frame.name = vFrameName;
   this._frame.onload = function(e) { return o._onload(e); };
 
@@ -135,25 +139,35 @@ proto.send = function()
 
 // For reference:
 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
-QxIframeTransport._nativeMap =
+QxIframeTransport._numericMap =
 {
-  "uninitialized" : QxConst.REQUEST_STATE_CONFIGURED,
-  "loading" : QxConst.REQUEST_STATE_SENDING,
-  "loaded" : QxConst.REQUEST_STATE_RECEIVING,
-  "interactive" : QxConst.REQUEST_STATE_RECEIVING,
-  "complete" : QxConst.REQUEST_STATE_COMPLETED
+  "uninitialized" : 1,
+  "loading" : 2,
+  "loaded" : 2,
+  "interactive" : 3,
+  "complete" : 4
 };
 
+/*!
+  Converting complete state to numeric value and update state property
+*/
 proto._onload = function(e)
 {
   if (this._form.src) {
     return;
   };
 
-  this.setState(QxConst.REQUEST_STATE_COMPLETED);
+  this._switchReadyState(QxIframeTransport._numericMap.complete);
 };
 
-proto._onreadystatechange = function(e)
+/*!
+  Converting named readyState to numeric value and update state property
+*/
+proto._onreadystatechange = function(e) {
+  this._switchReadyState(QxIframeTransport._numericMap[this._frame.readyState]);
+};
+
+proto._switchReadyState = function(vReadyState)
 {
   // Ignoring already stopped requests
   switch(this.getState())
@@ -168,7 +182,7 @@ proto._onreadystatechange = function(e)
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(QxIframeTransport._nativeMap[++this._lastReadyState]);
+    this.setState(QxTransport._nativeMap[++this._lastReadyState]);
   };
 };
 
