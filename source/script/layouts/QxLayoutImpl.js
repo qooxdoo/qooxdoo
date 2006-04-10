@@ -334,8 +334,8 @@ proto.layoutChild = function(vChild, vJobs) {};
 
 if (qx.sys.Client.isMshtml())
 {
-  proto.layoutChild_sizeLimitX = QxUtil.returnTrue;
-  proto.layoutChild_sizeLimitY = QxUtil.returnTrue;
+  proto.layoutChild_sizeLimitX = qx.util.returns.returnTrue;
+  proto.layoutChild_sizeLimitY = qx.util.returns.returnTrue;
 }
 else
 {

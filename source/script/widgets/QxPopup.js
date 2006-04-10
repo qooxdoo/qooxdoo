@@ -153,8 +153,8 @@ proto.sendToBack = function()
 
 proto._sendTo = function()
 {
-  var vPopups = QxUtil.convertObjectValuesToArray(QxPopupManager.getAll());
-  var vMenus = QxUtil.convertObjectValuesToArray(QxMenuManager.getAll());
+  var vPopups = qx.lang.Object.getValues(QxPopupManager.getAll());
+  var vMenus = qx.lang.Object.getValues(QxMenuManager.getAll());
 
   var vAll = vPopups.concat(vMenus).sort(QxCompare.byZIndex);
   var vLength = vAll.length;

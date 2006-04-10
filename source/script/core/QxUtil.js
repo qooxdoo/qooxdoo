@@ -38,27 +38,27 @@ QxUtil = {};
 ---------------------------------------------------------------------------
 */
 
-QxUtil.returnTrue = function() {
+qx.util.returns.returnTrue = function() {
   return true;
 };
 
-QxUtil.returnFalse = function() {
+qx.util.returns.returnFalse = function() {
   return false;
 };
 
-QxUtil.returnNull = function() {
+qx.util.returns.returnNull = function() {
   return null;
 };
 
-QxUtil.returnThis = function() {
+qx.util.returns.returnThis = function() {
   return this;
 };
 
-QxUtil.returnZero = function() {
+qx.util.returns.returnZero = function() {
   return 0;
 };
 
-QxUtil.returnNegativeIndex = function() {
+qx.util.returns.returnNegativeIndex = function() {
   return -1;
 };
 
@@ -77,7 +77,7 @@ QxUtil.returnNegativeIndex = function() {
 /*
   Function to check if a hash has any keys
 */
-QxUtil.isObjectEmpty = function(h)
+qx.lang.Object.isEmpty = function(h)
 {
   for (var s in h) {
     return false;
@@ -86,7 +86,7 @@ QxUtil.isObjectEmpty = function(h)
   return true;
 };
 
-QxUtil.isObjectMinLength = function(h, j)
+qx.lang.Object.hasMinLength = function(h, j)
 {
   var i=0;
 
@@ -100,7 +100,7 @@ QxUtil.isObjectMinLength = function(h, j)
   return false;
 };
 
-QxUtil.getObjectLength = function(h)
+qx.lang.Object.getLength = function(h)
 {
   var i=0;
 
@@ -111,7 +111,7 @@ QxUtil.getObjectLength = function(h)
   return i;
 };
 
-QxUtil.convertObjectKeysToArray = function(h)
+qx.lang.Object.getKeys = function(h)
 {
   var r = [];
   for (var s in h) {
@@ -121,11 +121,11 @@ QxUtil.convertObjectKeysToArray = function(h)
   return r;
 };
 
-QxUtil.convertObjectKeysToString = function(h) {
-  return QxUtil.convertObjectKeysToArray(h).join(", ");
+qx.lang.Object.getKeysAsString = function(h) {
+  return qx.lang.Object.getKeys(h).join(", ");
 };
 
-QxUtil.convertObjectValuesToArray = function(h)
+qx.lang.Object.getValues = function(h)
 {
   var r = [];
   for (var s in h) {
@@ -135,7 +135,7 @@ QxUtil.convertObjectValuesToArray = function(h)
   return r;
 };
 
-QxUtil.convertArgumentsToArray = function(a)
+qx.lang.Array.fromArguments = function(a)
 {
   var b = [];
   for (var i=0, l=a.length; i<l; i++) {
@@ -148,7 +148,7 @@ QxUtil.convertArgumentsToArray = function(a)
 /*
   Utility function for padding/margin and all other shorthand handling.
 */
-QxUtil.convertShortHandToArray = function(params)
+qx.lang.Array.fromShortHand = function(params)
 {
   var l = params.length;
 
@@ -194,7 +194,7 @@ QxUtil.convertShortHandToArray = function(params)
   return list;
 };
 
-QxUtil.mergeObjectWith = function(vObjectA, vObjectB)
+qx.lang.Object.mergeWith = function(vObjectA, vObjectB)
 {
   for (var vKey in vObjectB) {
     vObjectA[vKey] = vObjectB[vKey];
@@ -203,19 +203,19 @@ QxUtil.mergeObjectWith = function(vObjectA, vObjectB)
   return vObjectA;
 };
 
-QxUtil.mergeObjects = function(vObjectA)
+qx.lang.Object.merge = function(vObjectA)
 {
   var vLength = arguments.length;
 
   for (var i=1; i<vLength; i++) {
-    QxUtil.mergeObjectWith(vObjectA, arguments[i]);
+    qx.lang.Object.mergeWith(vObjectA, arguments[i]);
   };
 
   return vObjectA;
 };
 
-QxUtil.copyObject = function(vObject) {
-  return QxUtil.mergeObjectWith({}, vObject);
+qx.lang.Object.copy = function(vObject) {
+  return qx.lang.Object.mergeWith({}, vObject);
 };
 
 

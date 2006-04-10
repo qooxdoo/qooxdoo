@@ -151,7 +151,7 @@ proto._updateLayout = function(vUpdate)
   // Update row and column count
   this.setRowCount(vRowCount);
   if (!vUpdate) {
-    this.setColumnCount(QxUtil.getObjectLength(vColumns));
+    this.setColumnCount(qx.lang.Object.getLength(vColumns));
   };
 
   // Apply height to all rows

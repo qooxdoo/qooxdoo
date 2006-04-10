@@ -100,8 +100,8 @@ QxClientDocument.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STR
 ---------------------------------------------------------------------------
 */
 
-proto._modifyParent = QxUtil.returnTrue;
-proto._modifyVisible = QxUtil.returnTrue;
+proto._modifyParent = qx.util.returns.returnTrue;
+proto._modifyVisible = qx.util.returns.returnTrue;
 
 proto._modifyElement = function(propValue, propOldValue, propData)
 {
@@ -131,12 +131,12 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 };
 
 proto.getWindow = function() { return this._window; };
-proto.getTopLevelWidget = QxUtil.returnThis;
+proto.getTopLevelWidget = qx.util.returns.returnThis;
 proto.getDocumentElement = function() { return this._document; };
 proto.getEventManager = function() { return this.getWindow().getEventManager(); };
 
-proto.getParent = proto.getToolTip = QxUtil.returnNull;
-proto.isMaterialized = proto.isSeeable = QxUtil.returnTrue;
+proto.getParent = proto.getToolTip = qx.util.returns.returnNull;
+proto.isMaterialized = proto.isSeeable = qx.util.returns.returnTrue;
 
 proto._isDisplayable = true;
 proto._hasParent = false;

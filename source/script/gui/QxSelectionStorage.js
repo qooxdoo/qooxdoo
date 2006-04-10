@@ -100,7 +100,7 @@ proto.getItemHashCode = function(oItem) {
 };
 
 proto.isEmpty = function() {
-  return QxUtil.isObjectEmpty(this._storage);
+  return qx.lang.Object.isEmpty(this._storage);
 };
 
 

@@ -133,7 +133,7 @@ proto.removeEventListener = function(vType, vFunction, vObject)
   Check if there are one or more listeners for an event type
 */
 proto.hasEventListeners = function(vType) {
-  return this._listeners && typeof this._listeners[vType] !== QxConst.TYPEOF_UNDEFINED && !QxUtil.isObjectEmpty(this._listeners[vType]);
+  return this._listeners && typeof this._listeners[vType] !== QxConst.TYPEOF_UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
 };
 
 /*!

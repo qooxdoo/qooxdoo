@@ -335,7 +335,7 @@ proto._handleIcon = function()
 */
 
 // Omit recursive cloning
-proto._cloneRecursive = QxUtil.returnTrue;
+proto._cloneRecursive = qx.util.returns.returnTrue;
 
 
 

@@ -846,7 +846,7 @@ proto._removeChildFromChildrenQueue = function(vChild)
   {
     delete this._childrenQueue[vChild.toHashCode()];
 
-    if (QxUtil.isObjectEmpty(this._childrenQueue)) {
+    if (qx.lang.Object.isEmpty(this._childrenQueue)) {
       QxWidget.removeFromGlobalLayoutQueue(this);
     };
   };
@@ -854,7 +854,7 @@ proto._removeChildFromChildrenQueue = function(vChild)
 
 proto._flushChildrenQueue = function()
 {
-  if (!QxUtil.isObjectEmpty(this._childrenQueue))
+  if (!qx.lang.Object.isEmpty(this._childrenQueue))
   {
     this.getLayoutImpl().flushChildrenQueue(this._childrenQueue);
     delete this._childrenQueue;
@@ -891,7 +891,7 @@ proto._layoutChild = function(vChild)
   // APPLY LAYOUT
   var vChanges = vChild._layoutChanges;
 
-  // this.debug("Layouting " + vChild + ": " + QxUtil.convertObjectKeysToString(vChanges));
+  // this.debug("Layouting " + vChild + ": " + qx.lang.Object.getKeysAsString(vChanges));
 
   try
   {
@@ -969,7 +969,7 @@ proto._layoutChild = function(vChild)
   delete this._childrenQueue[vChild.toHashCode()];
 };
 
-proto._layoutPost = QxUtil.returnTrue;
+proto._layoutPost = qx.util.returns.returnTrue;
 
 /*!
   Fix Operas Rendering Bugs

@@ -65,9 +65,9 @@ QxApplication.extend(QxTarget, "QxApplication");
 ---------------------------------------------------------------------------
 */
 
-proto.pre = QxUtil.returnTrue;
-proto.main = QxUtil.returnTrue;
-proto.post = QxUtil.returnTrue;
+proto.pre = qx.util.returns.returnTrue;
+proto.main = qx.util.returns.returnTrue;
+proto.post = qx.util.returns.returnTrue;
 
 
 
@@ -282,7 +282,7 @@ proto._printInstanceInfo = function() {
 };
 
 proto._printClassInfo = function() {
-  this.debug("Number of classes: " + QxUtil.getObjectLength(QxMain.classes));
+  this.debug("Number of classes: " + qx.lang.Object.getLength(QxMain.classes));
 };
 
 proto._printPropertyInfo = function() {

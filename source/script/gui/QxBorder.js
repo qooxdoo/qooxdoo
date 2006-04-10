@@ -148,10 +148,10 @@ QxBorder.fromString = function(vDefString)
 ---------------------------------------------------------------------------
 */
 
-proto.addListenerWidget = QxUtil.returnTrue;
-proto.removeListenerWidget = QxUtil.returnTrue;
+proto.addListenerWidget = qx.util.returns.returnTrue;
+proto.removeListenerWidget = qx.util.returns.returnTrue;
 
-proto._sync = QxUtil.returnTrue;
+proto._sync = qx.util.returns.returnTrue;
 
 
 
@@ -310,7 +310,7 @@ if (qx.sys.Client.isGecko() || QxBorder.enhancedCrossBrowserMode)
 {
   proto._addToThemed3DColors = function(vProp)
   {
-    var needRegistering = QxUtil.isObjectEmpty(this._themedEdges);
+    var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
 
     this._themedEdges[vProp] = true;
 
@@ -327,7 +327,7 @@ if (qx.sys.Client.isGecko() || QxBorder.enhancedCrossBrowserMode)
   {
     delete this._themedEdges[vProp];
 
-    if (QxUtil.isObjectEmpty(this._themedEdges))
+    if (qx.lang.Object.isEmpty(this._themedEdges))
     {
       (new QxColorObject("ThreeDDarkShadow")).remove(this);
       (new QxColorObject("ThreeDShadow")).remove(this);
@@ -340,7 +340,7 @@ else
 {
   proto._addToThemed3DColors = function(vProp)
   {
-    var needRegistering = QxUtil.isObjectEmpty(this._themedEdges);
+    var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
 
     this._themedEdges[vProp] = true;
 
@@ -354,7 +354,7 @@ else
   {
     delete this._themedEdges[vProp];
 
-    if (QxUtil.isObjectEmpty(this._themedEdges))
+    if (qx.lang.Object.isEmpty(this._themedEdges))
     {
       (new QxColorObject("ThreeDLightShadow")).remove(this);
     };

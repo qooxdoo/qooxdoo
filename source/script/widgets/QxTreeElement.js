@@ -332,7 +332,7 @@ proto._onmousedown = function(e)
   e.stopPropagation();
 };
 
-proto._onmouseup = QxUtil.returnTrue;
+proto._onmouseup = qx.util.returns.returnTrue;
 
 
 

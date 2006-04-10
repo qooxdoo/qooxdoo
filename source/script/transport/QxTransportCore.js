@@ -63,7 +63,7 @@ QxTransport.initTypes = function()
 
   QxTransport.typesReady = true;
 
-  if (QxUtil.isObjectEmpty(QxTransport.typesSupported)) {
+  if (qx.lang.Object.isEmpty(QxTransport.typesSupported)) {
     throw new Error("No supported transport types were found!");
   };
 };

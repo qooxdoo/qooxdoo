@@ -86,8 +86,8 @@ proto._hex = null;
 ---------------------------------------------------------------------------
 */
 
-proto.add = QxUtil.returnTrue;
-proto.remove = QxUtil.returnTrue;
+proto.add = qx.util.returns.returnTrue;
+proto.remove = qx.util.returns.returnTrue;
 
 
 

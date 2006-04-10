@@ -30,7 +30,7 @@ function QxTimeTracker()
 {
   QxObject.call(this);
 
-  this._functions = QxUtil.convertArgumentsToArray(arguments);
+  this._functions = qx.lang.Array.fromArguments(arguments);
 
   this.buttonSets();
 };

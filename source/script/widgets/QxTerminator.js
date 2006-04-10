@@ -109,7 +109,7 @@ proto._layoutPost = function(vChanges) {
   };
 };
 
-proto._postApply = QxUtil.returnTrue;
+proto._postApply = qx.util.returns.returnTrue;
 
 
 
@@ -126,8 +126,8 @@ proto._postApply = QxUtil.returnTrue;
 proto._computeBoxWidthFallback = proto.getPreferredBoxWidth;
 proto._computeBoxHeightFallback = proto.getPreferredBoxHeight;
 
-proto._computePreferredInnerWidth = QxUtil.returnZero;
-proto._computePreferredInnerHeight = QxUtil.returnZero;
+proto._computePreferredInnerWidth = qx.util.returns.returnZero;
+proto._computePreferredInnerHeight = qx.util.returns.returnZero;
 
 
 
