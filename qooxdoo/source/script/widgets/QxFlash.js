@@ -429,8 +429,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = QxUtil.returnTrue;
-proto._isHeightEssential = QxUtil.returnTrue;
+proto._isWidthEssential = qx.util.returns.returnTrue;
+proto._isHeightEssential = qx.util.returns.returnTrue;
 
 
 
@@ -441,8 +441,8 @@ proto._isHeightEssential = QxUtil.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = QxUtil.returnZero;
-proto._computePreferredInnerHeight = QxUtil.returnZero;
+proto._computePreferredInnerWidth = qx.util.returns.returnZero;
+proto._computePreferredInnerHeight = qx.util.returns.returnZero;
 
 
 

@@ -48,5 +48,5 @@ QxToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRI
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = QxUtil.returnTrue;
-proto._onkeyup = QxUtil.returnTrue;
+proto._onkeydown = qx.util.returns.returnTrue;
+proto._onkeyup = qx.util.returns.returnTrue;

@@ -160,7 +160,7 @@ theme.registerAppearance("tool-tip",
   {
     vWidget.setStyleProperty(QxConst.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "popup"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
       backgroundColor : this.bgcolor,
       color : this.color,
       border : QxBorderObject.presets.info,
@@ -575,7 +575,7 @@ theme.registerAppearance("bar-view-button",
 
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "atom"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
       iconPosition : QxConst.ALIGN_TOP
     });
   },
@@ -833,7 +833,7 @@ theme.registerAppearance("window-captionbar-close-button",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "window-captionbar-button"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "window-captionbar-button"), {
       marginLeft : 2
     });
   },
@@ -1151,7 +1151,7 @@ theme.registerAppearance("text-area",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "text-field"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
       overflow : QxConst.CORE_AUTO
     });
   },
@@ -1200,7 +1200,7 @@ theme.registerAppearance("combo-box-list",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "list"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
       top : 0,
       right : 0,
       bottom : 0,
@@ -1215,7 +1215,7 @@ theme.registerAppearance("combo-box-popup",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "list"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
       height : QxConst.CORE_AUTO,
       maxHeight : 150,
       border : QxBorderObject.presets.shadow
@@ -1232,7 +1232,7 @@ theme.registerAppearance("combo-box-text-field",
 
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "text-field"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
       border : QxBorder.presets.none,
       width : QxConst.CORE_FLEX,
       backgroundColor : this.bgcolor
@@ -1244,14 +1244,14 @@ theme.registerAppearance("combo-box-button",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "button"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "button"), {
       height : null,
       allowStretchY : true
     });
   },
 
   state : function(vWidget, vTheme) {
-    return QxUtil.mergeObjectWith(vTheme.stateFrom(vWidget, "button"), {
+    return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"), {
       paddingTop : 0,
       paddingRight : 3,
       paddingBottom : 0,
@@ -1327,7 +1327,7 @@ theme.registerAppearance("tree-element-label",
 
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "label"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "label"), {
       cursor : QxConst.CORE_DEFAULT,
       marginLeft : 3,
       height : 15,
@@ -1341,7 +1341,7 @@ theme.registerAppearance("tree-element-label",
 
   state : function(vWidget, vTheme, vStates)
   {
-    return QxUtil.mergeObjectWith(vTheme.stateFrom(vWidget, "label"), {
+    return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "label"), {
       backgroundColor : vStates.selected ? this.bgcolor_selected : null,
       color : vStates.selected ? this.color_selected : null
     });
@@ -1618,7 +1618,7 @@ theme.registerAppearance("list-view-content-cell-text",
     vWidget.setStyleProperty(QxConst.PROPERTY_WHITESPACE, "nowrap");
     vWidget.setStyleProperty(QxConst.PROPERTY_OVERFLOW_TEXT, QxConst.OVERFLOW_VALUE_ELLIPSIS);
 
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
       overflow: QxConst.OVERFLOW_VALUE_HIDDEN,
       paddingLeft : 6,
       paddingRight : 6
@@ -1626,7 +1626,7 @@ theme.registerAppearance("list-view-content-cell-text",
   },
 
   state : function(vWidget, vTheme, vStates) {
-    return QxUtil.mergeObjectWith(vTheme.stateFrom(vWidget, "htmlcontainer"), vTheme.stateFrom(vWidget, "list-view-content-cell"));
+    return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "htmlcontainer"), vTheme.stateFrom(vWidget, "list-view-content-cell"));
   }
 });
 
@@ -1884,7 +1884,7 @@ theme.registerAppearance("field-set-legend",
 
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "atom"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
       top : 1,
       left : 10,
       backgroundColor : this.bgcolor,
@@ -1921,7 +1921,7 @@ theme.registerAppearance("check-box-field-set-legend",
 
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "atom"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
       top : 1,
       left : 10,
       backgroundColor : this.bgcolor,
@@ -1971,7 +1971,7 @@ theme.registerAppearance("spinner-field",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "text-field"), {
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
       width : QxConst.CORE_FLEX,
       border : QxBorder.presets.none
     });
@@ -1986,7 +1986,7 @@ theme.registerAppearance("spinner-button-up",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "image"),
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
       height: QxConst.CORE_FLEX,
       width: 16,
@@ -1996,7 +1996,7 @@ theme.registerAppearance("spinner-button-up",
 
   state : function(vWidget, vTheme, vStates)
   {
-    return QxUtil.mergeObjectWith(vTheme.stateFrom(vWidget, "button"),
+    return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"),
     {
       paddingTop : 0,
       paddingRight : 0,
@@ -2010,7 +2010,7 @@ theme.registerAppearance("spinner-button-down",
 {
   initial : function(vWidget, vTheme)
   {
-    return QxUtil.mergeObjectWith(vTheme.initialFrom(vWidget, "image"),
+    return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
       height: QxConst.CORE_FLEX,
       width: 16,
@@ -2020,7 +2020,7 @@ theme.registerAppearance("spinner-button-down",
 
   state : function(vWidget, vTheme, vStates)
   {
-    return QxUtil.mergeObjectWith(vTheme.stateFrom(vWidget, "button"),
+    return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"),
     {
       paddingTop : 1,
       paddingRight : 0,

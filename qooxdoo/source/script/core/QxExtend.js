@@ -241,7 +241,7 @@ Function.prototype.addPropertyGroup = function(p)
 
         try
         {
-          var ret = QxUtil.convertShortHandToArray(arguments);
+          var ret = qx.lang.Array.fromShortHand(arguments);
         }
         catch(ex)
         {
@@ -264,7 +264,7 @@ Function.prototype.addPropertyGroup = function(p)
         var l = s.length;
 
         if (arguments.length != l) {
-          throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + p.name + ": " + QxUtil.convertArgumentsToArray(arguments).toString());
+          throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + p.name + ": " + qx.lang.Array.fromArguments(arguments).toString());
         };
 
         for (var i=0; i<l; i++) {
@@ -457,7 +457,7 @@ Function.prototype._createProperty = function(p)
     {
       // convert multiple arguments to array
       if (p.allowMultipleArguments && arguments.length > 1) {
-        newValue = QxUtil.convertArgumentsToArray(arguments);
+        newValue = qx.lang.Array.fromArguments(arguments);
       };
 
       // support converter methods

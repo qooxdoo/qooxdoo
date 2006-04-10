@@ -141,7 +141,7 @@ proto.flushWidgetQueue = function() {
 
 proto.flushTreeQueue = function()
 {
-  if (!QxUtil.isObjectEmpty(this._treeQueue))
+  if (!qx.lang.Object.isEmpty(this._treeQueue))
   {
     for (vHashCode in this._treeQueue)
     {

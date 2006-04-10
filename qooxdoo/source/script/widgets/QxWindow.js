@@ -485,7 +485,7 @@ proto._minZIndex = 1e5;
 
 proto._sendTo = function()
 {
-  var vAll = QxUtil.convertObjectValuesToArray(QxWindowManager.getAll()).sort(QxCompare.byZIndex);
+  var vAll = qx.lang.Object.getValues(QxWindowManager.getAll()).sort(QxCompare.byZIndex);
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 

@@ -523,32 +523,32 @@ proto.auto = function()
 /*!
   Get an array of the current children
 */
-proto.getChildren = QxUtil.returnNull;
+proto.getChildren = qx.util.returns.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getChildrenLength = QxUtil.returnZero;
+proto.getChildrenLength = qx.util.returns.returnZero;
 
 /*!
   Get if the widget has any children
 */
-proto.hasChildren = QxUtil.returnFalse;
+proto.hasChildren = qx.util.returns.returnFalse;
 
 /*!
   Get if the widget has no children
 */
-proto.isEmpty = QxUtil.returnTrue;
+proto.isEmpty = qx.util.returns.returnTrue;
 
 /*!
   Return the position of the child inside
 */
-proto.indexOf = QxUtil.returnNegativeIndex;
+proto.indexOf = qx.util.returns.returnNegativeIndex;
 
 /*!
   Test if this widget contains the given widget
 */
-proto.contains = QxUtil.returnFalse;
+proto.contains = qx.util.returns.returnFalse;
 
 
 
@@ -564,22 +564,22 @@ proto.contains = QxUtil.returnFalse;
 /*!
   Get an array of the current visible children
 */
-proto.getVisibleChildren = QxUtil.returnNull;
+proto.getVisibleChildren = qx.util.returns.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getVisibleChildrenLength = QxUtil.returnZero;
+proto.getVisibleChildrenLength = qx.util.returns.returnZero;
 
 /*!
   If this widget has visible children
 */
-proto.hasVisibleChildren = QxUtil.returnFalse;
+proto.hasVisibleChildren = qx.util.returns.returnFalse;
 
 /*!
   Check if there are any visible childrens inside
 */
-proto.isVisibleEmpty = QxUtil.returnTrue;
+proto.isVisibleEmpty = qx.util.returns.returnTrue;
 
 
 
@@ -764,11 +764,11 @@ proto._handleDisplayable = function(vHint)
     // Add to global queues
     QxWidget.addToGlobalStateQueue(this);
 
-    if (!QxUtil.isObjectEmpty(this._jobQueue)) {
+    if (!qx.lang.Object.isEmpty(this._jobQueue)) {
       QxWidget.addToGlobalJobQueue(this);
     };
 
-    if (!QxUtil.isObjectEmpty(this._childrenQueue)) {
+    if (!qx.lang.Object.isEmpty(this._childrenQueue)) {
       QxWidget.addToGlobalLayoutQueue(this);
     };
   }
@@ -825,10 +825,10 @@ proto._handleDisplayable = function(vHint)
   return true;
 };
 
-proto.addToCustomQueues = QxUtil.returnTrue;
-proto.removeFromCustomQueues = QxUtil.returnTrue;
+proto.addToCustomQueues = qx.util.returns.returnTrue;
+proto.removeFromCustomQueues = qx.util.returns.returnTrue;
 
-proto._handleDisplayableCustom = QxUtil.returnTrue;
+proto._handleDisplayableCustom = qx.util.returns.returnTrue;
 
 proto._computeDisplayable = function() {
   return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
@@ -989,7 +989,7 @@ proto.disconnect = function() {
 
 if (qx.sys.Client.isGecko())
 {
-  proto._createElementForEnhancedBorder = QxUtil.returnTrue;
+  proto._createElementForEnhancedBorder = qx.util.returns.returnTrue;
 }
 else
 {
@@ -1152,7 +1152,7 @@ proto._flushJobQueue = function(q)
     var vQueue = this._jobQueue;
     var vParent = this.getParent();
 
-    if (!vParent || QxUtil.isObjectEmpty(vQueue)) {
+    if (!vParent || qx.lang.Object.isEmpty(vQueue)) {
       return;
     };
 
@@ -1381,8 +1381,8 @@ proto._flushJobQueue = function(q)
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = QxUtil.returnTrue;
-proto._isHeightEssential = QxUtil.returnTrue;
+proto._isWidthEssential = qx.util.returns.returnTrue;
+proto._isHeightEssential = qx.util.returns.returnTrue;
 
 
 
@@ -2207,8 +2207,8 @@ proto._applyBorderY = function(vChild, vChanges, vStyle)
   vBorder ? vBorder._applyWidgetY(vChild) : QxBorder._resetBorderY(vChild);
 };
 
-proto._applyPaddingX = QxUtil.returnTrue;
-proto._applyPaddingY = QxUtil.returnTrue;
+proto._applyPaddingX = qx.util.returns.returnTrue;
+proto._applyPaddingY = qx.util.returns.returnTrue;
 
 
 
@@ -3090,8 +3090,8 @@ proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanc
     var vOldAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObjectById(vOldAppearanceTheme);
     var vNewAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObjectById(vNewAppearanceTheme);
 
-    var vOldAppearanceProperties = QxUtil.mergeObjectWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
-    var vNewAppearanceProperties = QxUtil.mergeObjectWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
+    var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
+    var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
 
     for (vProp in vOldAppearanceProperties)
     {
@@ -3173,7 +3173,7 @@ proto._modifyAppearance = function(propValue, propOldValue, propData)
   var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
 
   if (this.isCreated()) {
-    QxUtil.mergeObjectWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
+    qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
   };
 
   if (propOldValue)
@@ -3181,7 +3181,7 @@ proto._modifyAppearance = function(propValue, propOldValue, propData)
     var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propOldValue);
 
     if (this.isCreated()) {
-      QxUtil.mergeObjectWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
+      qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
     };
 
     for (vProp in vOldAppearanceProperties)
@@ -3303,7 +3303,7 @@ proto._applyHtmlProperties = function(vElement)
 
   if (vProperties)
   {
-    // this.debug("HTML-Properties: " + QxUtil.getObjectLength(vProperties));
+    // this.debug("HTML-Properties: " + qx.lang.Object.getLength(vProperties));
 
     var propName;
 
@@ -3369,7 +3369,7 @@ proto._applyHtmlAttributes = function(vElement)
 
   if (vAttributes)
   {
-    // this.debug("HTML-Attributes: " + QxUtil.getObjectLength(vAttributes));
+    // this.debug("HTML-Attributes: " + qx.lang.Object.getLength(vAttributes));
 
     var propName;
 
@@ -3525,7 +3525,7 @@ proto.getActiveChild = function()
   return null;
 };
 
-proto._ontabfocus = QxUtil.returnTrue;
+proto._ontabfocus = qx.util.returns.returnTrue;
 
 proto._modifyFocused = function(propValue, propOldValue, propData)
 {

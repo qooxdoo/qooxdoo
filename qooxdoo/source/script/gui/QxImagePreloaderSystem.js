@@ -102,9 +102,9 @@ proto._onerror = function(e)
 
 proto._check = function()
 {
-  // this.debug("Check: " + QxUtil.convertObjectKeysToString(this._list));
+  // this.debug("Check: " + qx.lang.Object.getKeysAsString(this._list));
 
-  if (QxUtil.isObjectEmpty(this._list)) {
+  if (qx.lang.Object.isEmpty(this._list)) {
     this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
   };
 };

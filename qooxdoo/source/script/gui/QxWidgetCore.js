@@ -49,7 +49,7 @@ if (QxSettings.enableWidgetDebug)
     if (!(QxWidget._globalWidgetQueue.length > 0 || QxWidget._globalElementQueue.length > 0 ||
         QxWidget._globalStateQueue.length > 0  || QxWidget._globalJobQueue.length > 0 ||
         QxWidget._globalLayoutQueue.length > 0 || QxWidget._fastGlobalDisplayQueue.length > 0 ||
-        !QxUtil.isObjectEmpty(QxWidget._lazyGlobalDisplayQueue))) {
+        !qx.lang.Object.isEmpty(QxWidget._lazyGlobalDisplayQueue))) {
       return;
     };
 
