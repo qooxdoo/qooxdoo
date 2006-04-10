@@ -29,7 +29,7 @@
 /*!
   Removes whitespace-only text node children
 */
-QxDom.cleanElementWhitespace = function(vElement)
+qx.dom.cleanElementWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
   {
@@ -44,6 +44,6 @@ QxDom.cleanElementWhitespace = function(vElement)
 /*!
   Checks if a element has no content
 */
-QxDom.isElementEmpty = function(vElement) {
+qx.dom.isElementEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 };

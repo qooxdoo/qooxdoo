@@ -47,9 +47,9 @@ function QxApplication()
   QxTarget.call(this, false);
 
   if (qx.sys.Client.isGecko()) {
-    QxDom.addEventListener(window, "DOMContentLoaded", QxApplicationInit);
+    qx.dom.addEventListener(window, "DOMContentLoaded", QxApplicationInit);
   } else {
-    QxDom.addEventListener(window, "load", QxApplicationInit);
+    qx.dom.addEventListener(window, "load", QxApplicationInit);
   };
 };
 
@@ -362,9 +362,9 @@ proto.dispose = function()
   };
 
   if (qx.sys.Client.isGecko()) {
-    QxDom.removeEventListener(window, "DOMContentLoaded", QxApplicationInit);
+    qx.dom.removeEventListener(window, "DOMContentLoaded", QxApplicationInit);
   } else {
-    QxDom.removeEventListener(window, "load", QxApplicationInit);
+    qx.dom.removeEventListener(window, "load", QxApplicationInit);
   };
 
   delete this._clientWindow;

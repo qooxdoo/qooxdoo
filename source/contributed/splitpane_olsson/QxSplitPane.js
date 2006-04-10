@@ -366,10 +366,10 @@ proto._onbarmousedown = function(e)
   // measuring and caching of values for move session
   var pl = this.getElement();
 
-  var l = QxDom.getComputedPageAreaLeft(pl);
-  var t = QxDom.getComputedPageAreaTop(pl);
-  var r = QxDom.getComputedPageAreaRight(pl);
-  var b = QxDom.getComputedPageAreaBottom(pl);
+  var l = qx.dom.getComputedPageAreaLeft(pl);
+  var t = qx.dom.getComputedPageAreaTop(pl);
+  var r = qx.dom.getComputedPageAreaRight(pl);
+  var b = qx.dom.getComputedPageAreaBottom(pl);
 
   // handle frame and translucently
   switch(this.getMoveMethod())
@@ -387,11 +387,11 @@ proto._onbarmousedown = function(e)
         QxWidget.flushGlobalQueues();
       };
 
-      f._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(el) - l);
-      f._applyRuntimeTop(QxDom.getComputedPageBoxTop(el) - t);
+      f._applyRuntimeLeft(qx.dom.getComputedPageBoxLeft(el) - l);
+      f._applyRuntimeTop(qx.dom.getComputedPageBoxTop(el) - t);
 
-      f._applyRuntimeWidth(QxDom.getComputedBoxWidth(el));
-      f._applyRuntimeHeight(QxDom.getComputedBoxHeight(el));
+      f._applyRuntimeWidth(qx.dom.getComputedBoxWidth(el));
+      f._applyRuntimeHeight(qx.dom.getComputedBoxHeight(el));
 
       f.setZIndex(this._bar.getZIndex() + 1);
       break;
@@ -405,8 +405,8 @@ proto._onbarmousedown = function(e)
     case QxConst.ORIENTATION_HORIZONTAL :
       s.firstPageX = e.getPageX();
 
-      s.boxWidth = QxDom.getComputedBoxWidth(el);
-      s.boxLeft = QxDom.getComputedPageBoxLeft(el);
+      s.boxWidth = qx.dom.getComputedBoxWidth(el);
+      s.boxLeft = qx.dom.getComputedPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
@@ -418,8 +418,8 @@ proto._onbarmousedown = function(e)
     case QxConst.ORIENTATION_VERTICAL :
       s.firstPageY = e.getPageY();
 
-      s.boxHeight = QxDom.getComputedBoxHeight(el);
-      s.boxTop = QxDom.getComputedPageBoxTop(el);
+      s.boxHeight = qx.dom.getComputedBoxHeight(el);
+      s.boxTop = qx.dom.getComputedPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;

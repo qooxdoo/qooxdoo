@@ -29,11 +29,11 @@
 
 ************************************************************************ */
 
-QxDom.getElementFromPoint = function(x, y) {
-  return QxDom.getElementFromPointHandler(document.body, x, y);
+qx.dom.getElementFromPoint = function(x, y) {
+  return qx.dom.getElementFromPointHandler(document.body, x, y);
 };
 
-QxDom.getElementFromPointHandler = function(node, x, y, recursive)
+qx.dom.getElementFromPointHandler = function(node, x, y, recursive)
 {
   var ch = node.childNodes;
   var chl = ch.length-1;
@@ -47,7 +47,7 @@ QxDom.getElementFromPointHandler = function(node, x, y, recursive)
   do
   {
     chc = ch[chl];
-    ret = QxDom.getElementFromPointChecker(chc, x, y);
+    ret = qx.dom.getElementFromPointChecker(chc, x, y);
 
     if (ret)
     {
@@ -57,7 +57,7 @@ QxDom.getElementFromPointHandler = function(node, x, y, recursive)
       }
       else
       {
-        subres = QxDom.getElementFromPointHandler(chc, x-ret[0]-QxDom.getComputedBorderLeft(chc), y-ret[2]-QxDom.getComputedBorderTop(chc));
+        subres = qx.dom.getElementFromPointHandler(chc, x-ret[0]-qx.dom.getComputedBorderLeft(chc), y-ret[2]-qx.dom.getComputedBorderTop(chc));
         return subres ? subres : chc;
       };
     };
@@ -67,7 +67,7 @@ QxDom.getElementFromPointHandler = function(node, x, y, recursive)
   return null;
 };
 
-QxDom.getElementFromPointChecker = function(chc, x, y)
+qx.dom.getElementFromPointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -75,10 +75,10 @@ QxDom.getElementFromPointChecker = function(chc, x, y)
     return false;
   };
 
-  xstart = QxDom.getOffsetLeft(chc);
+  xstart = qx.dom.getOffsetLeft(chc);
   if (x > xstart)
   {
-    ystart = QxDom.getOffsetTop(chc);
+    ystart = qx.dom.getOffsetTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;
@@ -103,7 +103,7 @@ QxDom.getElementFromPointChecker = function(chc, x, y)
   return false;
 };
 
-QxDom.getElementAbsolutePointChecker = function(chc, x, y)
+qx.dom.getElementAbsolutePointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -111,10 +111,10 @@ QxDom.getElementAbsolutePointChecker = function(chc, x, y)
     return false;
   };
 
-  xstart = QxDom.getComputedPageBoxLeft(chc);
+  xstart = qx.dom.getComputedPageBoxLeft(chc);
   if (x > xstart)
   {
-    ystart = QxDom.getComputedPageBoxTop(chc);
+    ystart = qx.dom.getComputedPageBoxTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;

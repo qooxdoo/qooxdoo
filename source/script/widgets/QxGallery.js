@@ -354,11 +354,11 @@ proto.scrollItemIntoView = function(vItem)
 };
 
 proto.scrollItemIntoViewX = function(vItem) {
-  QxDom.scrollIntoViewX(vItem);
+  qx.dom.scrollIntoViewX(vItem);
 };
 
 proto.scrollItemIntoViewY = function(vItem) {
-  QxDom.scrollIntoViewY(vItem);
+  qx.dom.scrollIntoViewY(vItem);
 };
 
 

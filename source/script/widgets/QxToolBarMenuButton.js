@@ -87,11 +87,11 @@ proto._showMenu = function(vFromKeyEvent)
     var vMenuParent = vMenu.getParent();
     var vMenuParentElement = vMenuParent.getElement();
     var vButtonElement = this.getElement();
-    var vButtonHeight = QxDom.getComputedBoxHeight(vButtonElement);
+    var vButtonHeight = qx.dom.getComputedBoxHeight(vButtonElement);
 
     // Apply X-Location
-    var vMenuParentLeft = QxDom.getComputedPageBoxLeft(vMenuParentElement);
-    var vButtonLeft = QxDom.getComputedPageBoxLeft(vButtonElement);
+    var vMenuParentLeft = qx.dom.getComputedPageBoxLeft(vMenuParentElement);
+    var vButtonLeft = qx.dom.getComputedPageBoxLeft(vButtonElement);
 
     vMenu.setLeft(vButtonLeft - vMenuParentLeft);
 
@@ -99,16 +99,16 @@ proto._showMenu = function(vFromKeyEvent)
     switch(this.getDirection())
     {
       case "up":
-        var vBodyHeight = QxDom.getComputedInnerHeight(document.body);
-        var vMenuParentBottom = QxDom.getComputedPageBoxBottom(vMenuParentElement);
-        var vButtonBottom = QxDom.getComputedPageBoxBottom(vButtonElement);
+        var vBodyHeight = qx.dom.getComputedInnerHeight(document.body);
+        var vMenuParentBottom = qx.dom.getComputedPageBoxBottom(vMenuParentElement);
+        var vButtonBottom = qx.dom.getComputedPageBoxBottom(vButtonElement);
 
         vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
         vMenu.setTop(null);
         break;
 
       case "down":
-        var vButtonTop = QxDom.getComputedPageBoxTop(vButtonElement);
+        var vButtonTop = qx.dom.getComputedPageBoxTop(vButtonElement);
 
         vMenu.setTop(vButtonTop + vButtonHeight);
         vMenu.setBottom(null);

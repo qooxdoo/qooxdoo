@@ -488,7 +488,7 @@ QxWidget.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "c
   If the widget is visible and rendered on the screen.
 */
 proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && QxDom.getComputedStyleProperty(el, QxConst.PROPERTY_DISPLAY) != QxConst.CORE_NONE && QxDom.getComputedStyleProperty(el, QxConst.PROPERTY_VISIBILITY) != QxConst.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.getComputedStyleProperty(el, QxConst.PROPERTY_DISPLAY) != QxConst.CORE_NONE && qx.dom.getComputedStyleProperty(el, QxConst.PROPERTY_VISIBILITY) != QxConst.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
@@ -4006,7 +4006,7 @@ QxWidget.initOverflow = function()
 
   document.body.appendChild(t);
 
-  var c = QxDom.getComputedScrollBarSizeRight(t);
+  var c = qx.dom.getComputedScrollBarSizeRight(t);
   if (c) {
     QxWidget.SCROLLBAR_SIZE = c;
   };
@@ -4508,13 +4508,13 @@ proto.setScrollTop = function(nScrollTop)
 proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
-  return QxDom.getOffsetLeft(this.getElement());
+  return qx.dom.getOffsetLeft(this.getElement());
 };
 
 proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
-  return QxDom.getOffsetTop(this.getElement());
+  return qx.dom.getOffsetTop(this.getElement());
 };
 
 proto.getScrollLeft = function()
@@ -4587,7 +4587,7 @@ proto.scrollIntoViewX = function(vAlignLeft)
     return false;
   };
 
-  return QxDom.scrollIntoViewX(this.getElement(), vAlignLeft);
+  return qx.dom.scrollIntoViewX(this.getElement(), vAlignLeft);
 };
 
 proto.scrollIntoViewY = function(vAlignTop)
@@ -4596,7 +4596,7 @@ proto.scrollIntoViewY = function(vAlignTop)
     return false;
   };
 
-  return QxDom.scrollIntoViewY(this.getElement(), vAlignTop);
+  return qx.dom.scrollIntoViewY(this.getElement(), vAlignTop);
 };
 
 
