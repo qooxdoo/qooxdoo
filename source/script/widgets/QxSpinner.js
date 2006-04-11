@@ -26,7 +26,7 @@
 #require(QxBorderObject)
 #require(QxTextField)
 #require(QxImage)
-#require(QxTimer)
+#require(qx.client.Timer)
 
 ************************************************************************ */
 
@@ -87,7 +87,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   //   TIMER
   // ************************************************************************
-  this._timer = new QxTimer(this.getInterval());
+  this._timer = new qx.client.Timer(this.getInterval());
 
 
   // ************************************************************************

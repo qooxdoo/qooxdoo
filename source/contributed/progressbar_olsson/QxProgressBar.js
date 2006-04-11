@@ -23,7 +23,7 @@
 #package(form)
 #require(QxRangeManager)
 #require(QxAtom)
-#require(QxTimer)
+#require(qx.client.Timer)
 
 **************************************************************************** */
 
@@ -32,7 +32,7 @@ QxConst.DIRECTION_RIGHT = "rightward";
 QxConst.DIRECTION_DOWN = "downward";
 QxConst.DIRECTION_LEFT = "leftward";
 
-QxTimer.prototype.wait = function(vMilliseconds)
+qx.client.Timer.prototype.wait = function(vMilliseconds)
 {
   var vExitTime = (new Date).valueOf() + vMilliseconds;
   var vCurrentTime;
@@ -77,7 +77,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   TIMER
   // ***********************************************************************
-  this._timer = new QxTimer();
+  this._timer = new qx.client.Timer();
 
   // ***********************************************************************
   //   EVENTS

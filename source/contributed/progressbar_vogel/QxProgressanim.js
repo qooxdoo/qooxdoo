@@ -23,7 +23,7 @@
 #package(form) //???Olli???
 #require(QxBorderObject)
 #require(QxTerminator)
-#require(QxTimer)
+#require(qx.client.Timer)
 
 **************************************************************************** */
 
@@ -51,7 +51,7 @@ function QxProgressanim()
   // ***********************************************************************
   //   TIMER FOR ANIMATION
   // ***********************************************************************
-  this._timer = new QxTimer(100);
+  this._timer = new qx.client.Timer(100);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
   
   // ***********************************************************************

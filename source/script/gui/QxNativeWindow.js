@@ -26,7 +26,7 @@
 #require(QxDomWindow)
 #post(QxClientDocument)
 #post(QxUtil)
-#post(QxTimer)
+#post(qx.client.Timer)
 
 ************************************************************************ */
 
@@ -39,7 +39,7 @@ function QxNativeWindow(vUrl, vName)
   //   TIMER
   // ************************************************************************
     
-  this._timer = new QxTimer(100);
+  this._timer = new qx.client.Timer(100);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
   
 

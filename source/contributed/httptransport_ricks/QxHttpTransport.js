@@ -219,14 +219,14 @@ proto._queue = null;
 
 proto._inProgress = false;
 
-/*! _pendingTimeouts - An array of arrays, with indexes 0 through 3, with each of those indexes containing an array of QxTimer objects.
-  * Each index corresponds to the readyState at which all QxTimer objects in the array at that index will be started */
+/*! _pendingTimeouts - An array of arrays, with indexes 0 through 3, with each of those indexes containing an array of qx.client.Timer objects.
+  * Each index corresponds to the readyState at which all qx.client.Timer objects in the array at that index will be started */
 
 proto._pendingTimeouts = null;
 
 /*! 
 * _activeTimeouts - An array of arrays, with indexs 1 through 4. Each index corresponds to the readyState at which the corresponding
-* QxTimer objects will be stopped. 
+* qx.client.Timer objects will be stopped. 
 */
 
 proto._activeTimeouts = null;
@@ -291,11 +291,11 @@ QxHttpTransport.addProperty({name : "multipleReadyStateEvents", type : QxConst.T
 // Public methods
 
 /*!
- * Adds a QxTimer event to the list of timeouts.
+ * Adds a qx.client.Timer event to the list of timeouts.
  *
  * Any added Timers will be processed (if the startState warrants it) upon the next state change.
  *
- * @param timer - QxTimer object set with desired interval
+ * @param timer - qx.client.Timer object set with desired interval
  * @param startState - Integer corresponding to the readyState to start the timer at
  * @param endState - Integer corresponding to the readyState to stop the timer at
  */
