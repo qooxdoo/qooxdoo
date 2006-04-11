@@ -186,7 +186,7 @@ proto.block = function(vActiveChild)
     this._blocker.setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
-  else if (typeof QxNativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof QxNativeWindow)
+  else if (typeof qx.client.NativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
     this._blocker.setZIndex(1e7);
@@ -199,7 +199,7 @@ proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (typeof QxNativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof QxNativeWindow)
+    if (typeof qx.client.NativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
     {
       this._modalNativeWindow = null;
     }
