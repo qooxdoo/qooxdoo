@@ -23,12 +23,12 @@
 /* ************************************************************************
 
 #package(appearancethemes)
-#require(qx.renderer.theme.QxAppearanceTheme)
+#require(qx.renderer.theme.AppearanceTheme)
 #require(QxAppearanceManager)
 
 ************************************************************************ */
 
-theme = new qx.renderer.theme.QxAppearanceTheme("default", "qooxdoo default appearance");
+theme = new qx.renderer.theme.AppearanceTheme("default", "qooxdoo default appearance");
 
 
 

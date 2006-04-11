@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.QxAppearanceTheme = function(vId, vTitle)
+qx.renderer.theme.AppearanceTheme = function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
@@ -39,7 +39,7 @@ qx.renderer.theme.QxAppearanceTheme = function(vId, vTitle)
   QxAppearanceManager.registerTheme(this);
 };
 
-qx.renderer.theme.QxAppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.QxAppearanceTheme");
+qx.renderer.theme.AppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.AppearanceTheme");
 
 
 
@@ -53,8 +53,8 @@ qx.renderer.theme.QxAppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.Qx
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.theme.QxAppearanceTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.QxAppearanceTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.AppearanceTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.AppearanceTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
 
 
 

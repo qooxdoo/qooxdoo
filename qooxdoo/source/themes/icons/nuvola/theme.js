@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(iconthemes)
-#require(qx.renderer.theme.QxIconTheme)
+#require(qx.renderer.theme.IconTheme)
 
 ************************************************************************ */
 
-new qx.renderer.theme.QxIconTheme("nuvola", "Nuvola");
+new qx.renderer.theme.IconTheme("nuvola", "Nuvola");

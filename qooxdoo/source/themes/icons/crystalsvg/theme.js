@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(iconthemes)
-#require(qx.renderer.theme.QxIconTheme)
+#require(qx.renderer.theme.IconTheme)
 
 ************************************************************************ */
 
-new qx.renderer.theme.QxIconTheme("crystalsvg", "Crystal SVG");
+new qx.renderer.theme.IconTheme("crystalsvg", "Crystal SVG");
