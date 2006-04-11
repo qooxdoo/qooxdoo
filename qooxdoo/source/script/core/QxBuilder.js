@@ -35,7 +35,7 @@
 */
 function QxBuilder(flags)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   // map<className, map<propertyName, function>>
   this._propertyEditors = {};
@@ -56,7 +56,7 @@ function QxBuilder(flags)
 
 };
 
-QxBuilder.extend(QxTarget, "QxBuilder");
+QxBuilder.extend(qx.core.Target, "QxBuilder");
 
 /*
 ------------------------------------------------------------------------------------

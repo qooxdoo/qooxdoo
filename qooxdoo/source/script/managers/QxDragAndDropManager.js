@@ -34,7 +34,7 @@
 */
 function QxDragAndDropManager()
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._data = {};
   this._actions = {};

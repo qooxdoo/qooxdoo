@@ -29,12 +29,12 @@
 
 function QxImagePreloaderSystem(vPreloadList)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._list = vPreloadList;
 };
 
-QxImagePreloaderSystem.extend(QxTarget, "QxImagePreloaderSystem");
+QxImagePreloaderSystem.extend(qx.core.Target, "QxImagePreloaderSystem");
 
 
 
@@ -129,5 +129,5 @@ proto.dispose = function()
   this._list = null;
   delete this._list;
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

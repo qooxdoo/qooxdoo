@@ -32,7 +32,7 @@
 function QxRangeManager()
 {
   // We need no internal objects cache
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 };
 
 QxRangeManager.extend(QxManager, "QxRangeManager");

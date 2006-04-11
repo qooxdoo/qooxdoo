@@ -27,10 +27,10 @@
 ************************************************************************ */
 
 function QxResponse() {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 };
 
-QxResponse.extend(QxTarget, "QxResponse");
+QxResponse.extend(qx.core.Target, "QxResponse");
 
 
 
@@ -111,5 +111,5 @@ proto.dispose = function()
     return;
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

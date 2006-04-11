@@ -41,7 +41,7 @@
  */
 
 function QxHttpTransport() {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
   
   if (QxHttpTransport._requestCtor == QxHttpTransport._dummyRequest) {
     throw new Error("Your current browser and/or configuration does not allow for XML HTTP requests to be issued.");
@@ -63,7 +63,7 @@ function QxHttpTransport() {
 
 // Extend base class
 
-QxHttpTransport.extend(QxTarget, "QxHttpTransport");
+QxHttpTransport.extend(qx.core.Target, "QxHttpTransport");
 
 /*!
  * _requestCtor - Holds a reference to the actual XMLHttpRequest constructor to use at runtime to avoid checking 
@@ -437,7 +437,7 @@ proto.dispose = function() {
     this._req = null;
   }
   
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 }
 
 // Private / internal use methods

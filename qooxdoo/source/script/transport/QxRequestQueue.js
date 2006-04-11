@@ -35,7 +35,7 @@
  */
 function QxRequestQueue()
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._queue = [];
   this._active = [];
@@ -46,7 +46,7 @@ function QxRequestQueue()
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
-QxRequestQueue.extend(QxTarget, "QxRequestQueue");
+QxRequestQueue.extend(qx.core.Target, "QxRequestQueue");
 
 
 
@@ -366,7 +366,7 @@ proto.dispose = function()
 
   this._queue = null;
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };
 
 

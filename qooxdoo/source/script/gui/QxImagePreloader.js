@@ -40,7 +40,7 @@ function QxImagePreloader(vSource)
     return QxImagePreloaderManager.get(vSource);
   };
 
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   // Create Image-Node
   this._element = new Image;
@@ -64,7 +64,7 @@ function QxImagePreloader(vSource)
   QxImagePreloaderManager.add(this);
 };
 
-QxImagePreloader.extend(QxTarget, "QxImagePreloader");
+QxImagePreloader.extend(qx.core.Target, "QxImagePreloader");
 
 
 
@@ -185,5 +185,5 @@ proto.dispose = function()
 
   this._isLoaded = this._isErroneous = this._isPng = false;
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

@@ -44,7 +44,7 @@ function QxApplicationInit()
 */
 function QxApplication()
 {
-  QxTarget.call(this, false);
+  qx.core.Target.call(this, false);
 
   if (qx.sys.Client.isGecko()) {
     qx.dom.addEventListener(window, "DOMContentLoaded", QxApplicationInit);
@@ -53,7 +53,7 @@ function QxApplication()
   };
 };
 
-QxApplication.extend(QxTarget, "QxApplication");
+QxApplication.extend(qx.core.Target, "QxApplication");
 
 
 
@@ -371,7 +371,7 @@ proto.dispose = function()
   delete this._remappingChildTable;
   delete this._remappingChildTarget;
 
-  QxTarget.prototype.dispose.call(this);
+  qx.core.Target.prototype.dispose.call(this);
 };
 
 window.application = new QxApplication;

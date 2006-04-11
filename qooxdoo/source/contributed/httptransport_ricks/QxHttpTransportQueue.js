@@ -36,7 +36,7 @@ function QxHttpTransportQueue(activeCount, queuedCount) {
   }
 }
  
-QxHttpTransportQueue.extend(QxTarget, "QxHttpTransportQueue");
+QxHttpTransportQueue.extend(qx.core.Target, "QxHttpTransportQueue");
  
 proto._activeLimit = -1;
 
@@ -111,7 +111,7 @@ proto.dispose = function() {
     delete this._active;
     delete this._queued;
     
-    return QxTarget.prototype.dispose.call(this);
+    return qx.core.Target.prototype.dispose.call(this);
   } else {
     return false;
   }

@@ -37,7 +37,7 @@
 */
 function QxRequest(vUrl, vMethod, vResponseType)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._requestHeaders = {};
   this._parameters = {};
@@ -53,7 +53,7 @@ function QxRequest(vUrl, vMethod, vResponseType)
   this.setRequestHeader("X-Qooxdoo-Version", QxMain.version);
 };
 
-QxRequest.extend(QxTarget, "QxRequest");
+QxRequest.extend(qx.core.Target, "QxRequest");
 
 
 
@@ -487,5 +487,5 @@ proto.dispose = function()
   };
   */
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

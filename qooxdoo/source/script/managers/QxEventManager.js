@@ -38,8 +38,8 @@
 */
 function QxEventManager(vClientWindow)
 {
-  // Don't use QxManager things, but include QxTarget functinality
-  QxTarget.call(this);
+  // Don't use QxManager things, but include qx.core.Target functinality
+  qx.core.Target.call(this);
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;

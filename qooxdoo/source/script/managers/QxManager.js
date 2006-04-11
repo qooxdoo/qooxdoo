@@ -31,12 +31,12 @@
 */
 function QxManager()
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._objects = {};
 };
 
-QxManager.extend(QxTarget, "QxManager");
+QxManager.extend(qx.core.Target, "QxManager");
 
 
 
@@ -105,5 +105,5 @@ proto.dispose = function()
     delete this._objects;
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

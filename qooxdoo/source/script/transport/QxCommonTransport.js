@@ -28,10 +28,10 @@
 ************************************************************************ */
 
 function QxCommonTransport() {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 };
 
-QxCommonTransport.extend(QxTarget, "QxCommonTransport");
+QxCommonTransport.extend(qx.core.Target, "QxCommonTransport");
 
 
 
