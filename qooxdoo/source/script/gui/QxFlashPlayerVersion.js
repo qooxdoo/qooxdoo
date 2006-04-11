@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  QxFlashPlayerVersion contains a version string and can extract
+  qx.types.Version contains a version string and can extract
   major, minor and revision flags from this string. It can also
   compare a incoming version object with the stored version string
   and checks if this version is smaller or identical than the stored
@@ -43,7 +43,7 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-function QxFlashPlayerVersion(arrVersion)
+qx.types.Version = function(arrVersion)
 {
   qx.core.Object.call(this);
 
@@ -56,7 +56,7 @@ function QxFlashPlayerVersion(arrVersion)
   this._rev = parseInt(arrVersion[2]) || 0;
 };
 
-QxFlashPlayerVersion.extend(qx.core.Object, "QxFlashPlayerVersion");
+qx.types.Version.extend(qx.core.Object, "qx.types.Version");
 
 
 
