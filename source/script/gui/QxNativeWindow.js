@@ -30,23 +30,23 @@
 
 ************************************************************************ */
 
-function QxNativeWindow(vUrl, vName)
+qx.client.NativeWindow = function(vUrl, vName)
 {
   qx.core.Target.call(this);
-  
+
 
   // ************************************************************************
   //   TIMER
   // ************************************************************************
-    
+
   this._timer = new qx.client.Timer(100);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
-  
+
 
   // ************************************************************************
   //   INITIAL PROPERTIES
   // ************************************************************************
-  
+
   if (qx.util.validator.isValidString(vUrl)) {
     this.setUrl(vUrl);
   };
@@ -56,7 +56,7 @@ function QxNativeWindow(vUrl, vName)
   };
 };
 
-QxNativeWindow.extend(qx.core.Target, "QxNativeWindow");
+qx.client.NativeWindow.extend(qx.core.Target, "qx.client.NativeWindow");
 
 
 
@@ -66,18 +66,18 @@ QxNativeWindow.extend(qx.core.Target, "QxNativeWindow");
 ---------------------------------------------------------------------------
 */
 
-QxNativeWindow.PROPERTY_DEPENDENT = "dependent";
-QxNativeWindow.PROPERTY_WIDTH = "width";
-QxNativeWindow.PROPERTY_HEIGHT = "height";
-QxNativeWindow.PROPERTY_LEFT = "left";
-QxNativeWindow.PROPERTY_TOP = "top";
-QxNativeWindow.PROPERTY_RESIZABLE = "resizable";
-QxNativeWindow.PROPERTY_STATUS = "status";
-QxNativeWindow.PROPERTY_LOCATION = "location";
-QxNativeWindow.PROPERTY_MENUBAR = "menubar";
-QxNativeWindow.PROPERTY_TOOLBAR = "toolbar";
-QxNativeWindow.PROPERTY_SCROLLBARS = "scrollbars";
-QxNativeWindow.PROPERTY_MODAL = "modal";
+qx.client.NativeWindow.PROPERTY_DEPENDENT = "dependent";
+qx.client.NativeWindow.PROPERTY_WIDTH = "width";
+qx.client.NativeWindow.PROPERTY_HEIGHT = "height";
+qx.client.NativeWindow.PROPERTY_LEFT = "left";
+qx.client.NativeWindow.PROPERTY_TOP = "top";
+qx.client.NativeWindow.PROPERTY_RESIZABLE = "resizable";
+qx.client.NativeWindow.PROPERTY_STATUS = "status";
+qx.client.NativeWindow.PROPERTY_LOCATION = "location";
+qx.client.NativeWindow.PROPERTY_MENUBAR = "menubar";
+qx.client.NativeWindow.PROPERTY_TOOLBAR = "toolbar";
+qx.client.NativeWindow.PROPERTY_SCROLLBARS = "scrollbars";
+qx.client.NativeWindow.PROPERTY_MODAL = "modal";
 
 
 
@@ -91,82 +91,82 @@ QxNativeWindow.PROPERTY_MODAL = "modal";
 /*!
   If the window is open or closed
 */
-QxNativeWindow.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The outer width of the window.
 */
-QxNativeWindow.addProperty({ name : "width", type : QxConst.TYPEOF_NUMBER, defaultValue : 400, impl : "dimension" });
+qx.client.NativeWindow.addProperty({ name : "width", type : QxConst.TYPEOF_NUMBER, defaultValue : 400, impl : "dimension" });
 
 /*!
   The outer height of the window.
 */
-QxNativeWindow.addProperty({ name : "height", type : QxConst.TYPEOF_NUMBER, defaultValue : 250, impl : "dimension" });
+qx.client.NativeWindow.addProperty({ name : "height", type : QxConst.TYPEOF_NUMBER, defaultValue : 250, impl : "dimension" });
 
 /*!
   The left screen coordinate of the window.
 */
-QxNativeWindow.addProperty({ name : "left", type : QxConst.TYPEOF_NUMBER, defaultValue : 100, impl : "position" });
+qx.client.NativeWindow.addProperty({ name : "left", type : QxConst.TYPEOF_NUMBER, defaultValue : 100, impl : "position" });
 
 /*!
   The top screen coordinate of the window.
 */
-QxNativeWindow.addProperty({ name : "top", type : QxConst.TYPEOF_NUMBER, defaultValue : 200, impl : "position" });
+qx.client.NativeWindow.addProperty({ name : "top", type : QxConst.TYPEOF_NUMBER, defaultValue : 200, impl : "position" });
 
 /*!
   Should be window be modal
 */
-QxNativeWindow.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be dependent on this application window
 */
-QxNativeWindow.addProperty({ name : "dependent", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.client.NativeWindow.addProperty({ name : "dependent", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The url
 */
-QxNativeWindow.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.client.NativeWindow.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 
 /*!
   The window name
 */
-QxNativeWindow.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.client.NativeWindow.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
 
 /*!
   The text of the statusbar
 */
-QxNativeWindow.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
+qx.client.NativeWindow.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
 
 /*!
   Should the statusbar be shown
 */
-QxNativeWindow.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the menubar be shown
 */
-QxNativeWindow.addProperty({ name : "showMenubar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "showMenubar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the location(bar) be shown
 */
-QxNativeWindow.addProperty({ name : "showLocation", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "showLocation", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the toolbar be shown
 */
-QxNativeWindow.addProperty({ name : "showToolbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.NativeWindow.addProperty({ name : "showToolbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   If the window is resizeable
 */
-QxNativeWindow.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.client.NativeWindow.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is able to scroll and has visible scrollbars if needed
 */
-QxNativeWindow.addProperty({ name : "allowScrollbars", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.client.NativeWindow.addProperty({ name : "allowScrollbars", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -178,8 +178,8 @@ QxNativeWindow.addProperty({ name : "allowScrollbars", type : QxConst.TYPEOF_BOO
 ---------------------------------------------------------------------------
 */
 
-QxNativeWindow.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
-QxNativeWindow.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
+qx.client.NativeWindow.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
+qx.client.NativeWindow.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
 
 
 
@@ -190,7 +190,7 @@ QxNativeWindow.addPropertyGroup({ name : "dimension", members : [ "width", "heig
 ---------------------------------------------------------------------------
 */
 
-proto._modifyPosition = function(propValue, propOldValue, propName) 
+proto._modifyPosition = function(propValue, propOldValue, propName)
 {
   /*
     http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -199,9 +199,9 @@ proto._modifyPosition = function(propValue, propOldValue, propName)
     URLACTION_FEATURE_WINDOW_RESTRICTIONS
     Allow script-initiated windows without size or position constraints
     Code: 2102
-  */  
-  
-  if (!this.isClosed()) 
+  */
+
+  if (!this.isClosed())
   {
     try
     {
@@ -216,7 +216,7 @@ proto._modifyPosition = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyDimension = function(propValue, propOldValue, propName) 
+proto._modifyDimension = function(propValue, propOldValue, propName)
 {
   /*
     http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -225,9 +225,9 @@ proto._modifyDimension = function(propValue, propOldValue, propName)
     URLACTION_FEATURE_WINDOW_RESTRICTIONS
     Allow script-initiated windows without size or position constraints
     Code: 2102
-  */  
-  
-  if (!this.isClosed()) 
+  */
+
+  if (!this.isClosed())
   {
     try
     {
@@ -251,7 +251,7 @@ proto._modifyName = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyUrl = function(propValue, propOldValue, propName) 
+proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
@@ -265,7 +265,7 @@ proto._modifyOpen = function(propValue, propOldValue, propData)
 {
   propValue ? this._open() : this._close();
   return true;
-}; 
+};
 
 
 
@@ -321,13 +321,13 @@ proto.isClosed = function()
 {
   var vClosed = true;
 
-  if (this._window) 
+  if (this._window)
   {
     try {
       vClosed = this._window.closed;
     } catch(ex) {};
-  };  
-  
+  };
+
   return vClosed;
 };
 
@@ -354,91 +354,91 @@ proto.close = function() {
 */
 
 proto._open = function()
-{ 
+{
   var vConf = [];
-  
-  
+
+
   /*
   ------------------------------------------------------------------------------
     PRE CONFIGURE WINDOW
   ------------------------------------------------------------------------------
   */
 
-  if (qx.util.validator.isValidNumber(this.getWidth())) 
+  if (qx.util.validator.isValidNumber(this.getWidth()))
   {
-    vConf.push(QxNativeWindow.PROPERTY_WIDTH);
+    vConf.push(qx.client.NativeWindow.PROPERTY_WIDTH);
     vConf.push(QxConst.CORE_EQUAL);
     vConf.push(this.getWidth());
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getHeight())) 
+  if (qx.util.validator.isValidNumber(this.getHeight()))
   {
-    vConf.push(QxNativeWindow.PROPERTY_HEIGHT);
+    vConf.push(qx.client.NativeWindow.PROPERTY_HEIGHT);
     vConf.push(QxConst.CORE_EQUAL);
     vConf.push(this.getHeight());
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getLeft())) 
+  if (qx.util.validator.isValidNumber(this.getLeft()))
   {
-    vConf.push(QxNativeWindow.PROPERTY_LEFT);
+    vConf.push(qx.client.NativeWindow.PROPERTY_LEFT);
     vConf.push(QxConst.CORE_EQUAL);
     vConf.push(this.getLeft());
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getTop())) 
+  if (qx.util.validator.isValidNumber(this.getTop()))
   {
-    vConf.push(QxNativeWindow.PROPERTY_TOP);
+    vConf.push(qx.client.NativeWindow.PROPERTY_TOP);
     vConf.push(QxConst.CORE_EQUAL);
     vConf.push(this.getTop());
     vConf.push(QxConst.CORE_COMMA);
   };
 
 
-  
-  vConf.push(QxNativeWindow.PROPERTY_DEPENDENT);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_DEPENDENT);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getDependent() ? QxConst.CORE_YES : QxConst.CORE_NO);
-  vConf.push(QxConst.CORE_COMMA);  
+  vConf.push(QxConst.CORE_COMMA);
 
-  vConf.push(QxNativeWindow.PROPERTY_RESIZABLE);
+  vConf.push(qx.client.NativeWindow.PROPERTY_RESIZABLE);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getResizeable() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_STATUS);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_STATUS);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getShowStatusbar() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_LOCATION);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_LOCATION);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getShowLocation() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_MENUBAR);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_MENUBAR);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getShowMenubar() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_TOOLBAR);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_TOOLBAR);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getShowToolbar() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_SCROLLBARS);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_SCROLLBARS);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getAllowScrollbars() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  vConf.push(QxNativeWindow.PROPERTY_MODAL);
+
+  vConf.push(qx.client.NativeWindow.PROPERTY_MODAL);
   vConf.push(QxConst.CORE_EQUAL);
   vConf.push(this.getModal() ? QxConst.CORE_YES : QxConst.CORE_NO);
   vConf.push(QxConst.CORE_COMMA);
-  
-  
+
+
 
 
 
@@ -462,17 +462,17 @@ proto._open = function()
   else
   {
     // start timer for close detection
-    this._timer.start();    
-    
+    this._timer.start();
+
     // block original document
-    if (this.getModal()) 
+    if (this.getModal())
     {
       var vClientWindow = window.application.getClientWindow();
-      
+
       if (vClientWindow) {
         vClientWindow.getClientDocument().block(this);
       };
-    };    
+    };
   };
 };
 
@@ -481,24 +481,24 @@ proto._close = function()
   if (!this._window) {
     return;
   };
-  
+
   // stop timer for close detection
   this._timer.stop();
-  
+
   // release window again
-  if (this.getModal()) 
+  if (this.getModal())
   {
     var vClientWindow = window.application.getClientWindow();
-    
+
     if (vClientWindow) {
       vClientWindow.getClientDocument().release(this);
     };
-  };   
+  };
 
   // finally close window
   if (!this.isClosed()) {
     this._window.close();
-  };  
+  };
 };
 
 
@@ -606,8 +606,8 @@ proto.dispose = function()
     this._timer.stop();
     this._timer = null;
   };
-      
+
   this._window = null;
-  
+
   return qx.core.Target.prototype.dispose.call(this);
 };
