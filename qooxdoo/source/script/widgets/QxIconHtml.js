@@ -102,27 +102,27 @@ proto._syncHtml = function()
 {
   var vHtml = [];
 
-  if (QxUtil.isValidString(this.getIcon()))
+  if (qx.util.validator.isValidString(this.getIcon()))
   {
     vHtml.push(QxIconHtml.START_IMAGE);
     vHtml.push(QxImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
     vHtml.push(QxIconHtml.START_STYLE);
 
-    if (QxUtil.isValidNumber(this.getSpacing()))
+    if (qx.util.validator.isValidNumber(this.getSpacing()))
     {
       vHtml.push(QxIconHtml.STYLE_MARGIN);
       vHtml.push(this.getSpacing());
       vHtml.push(QxIconHtml.PIXEL_UNIT);
     };
 
-    if (QxUtil.isValidNumber(this.getIconWidth()))
+    if (qx.util.validator.isValidNumber(this.getIconWidth()))
     {
       vHtml.push(QxIconHtml.STYLE_WIDTH);
       vHtml.push(this.getIconWidth());
       vHtml.push(QxIconHtml.PIXEL_UNIT);
     };
 
-    if (QxUtil.isValidNumber(this.getIconHeight()))
+    if (qx.util.validator.isValidNumber(this.getIconHeight()))
     {
       vHtml.push(QxIconHtml.STYLE_HEIGHT);
       vHtml.push(this.getIconHeight());
@@ -141,7 +141,7 @@ proto._syncHtml = function()
     vHtml.push(QxIconHtml.STOP_IMAGE);
   };
 
-  if (QxUtil.isValidString(this.getHtml())) {
+  if (qx.util.validator.isValidString(this.getHtml())) {
     vHtml.push(this.getHtml());
   };
 

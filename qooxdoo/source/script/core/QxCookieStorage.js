@@ -47,7 +47,7 @@ var QxCookieStorage =
 
 QxCookieStorage.set = function(vName, vValue)
 {
-  if (!QxUtil.isValid(vValue)) {
+  if (!qx.util.validator.isValid(vValue)) {
     return QxCookieStorage.del(vName);
   };
 
@@ -61,7 +61,7 @@ QxCookieStorage.get = function(vName)
   var vAll = QxCookieStorage._getAll();
 
   var vValue = QxCookieStorage._getAll()[vName];
-  if (QxUtil.isValidString(vValue)) {
+  if (qx.util.validator.isValidString(vValue)) {
     return vValue;
   };
 

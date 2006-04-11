@@ -38,9 +38,9 @@ function QxRadioManager(vName, vMembers)
   this._items = [];
 
   // apply name property
-  this.setName(QxUtil.isValidString(vName) ? vName : QxRadioManager.AUTO_NAME_PREFIX + this._hashCode);
+  this.setName(qx.util.validator.isValidString(vName) ? vName : QxRadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
-  if (QxUtil.isValidArray(vMembers)) {
+  if (qx.util.validator.isValidArray(vMembers)) {
     QxRadioManager.prototype.add.apply(this, vMembers);
   };
 };

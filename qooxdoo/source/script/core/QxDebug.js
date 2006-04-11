@@ -127,9 +127,9 @@ function QxDebug(group, message, classname)
     QxDebug.lastgroup = group;
   };
 
-  if (QxUtil.isValid(message))
+  if (qx.util.validator.isValid(message))
   {
-    if (QxUtil.isInvalidString(classname)) {
+    if (qx.util.validator.isInvalidString(classname)) {
       classname = QxConst.CORE_DEFAULT;
     };
 

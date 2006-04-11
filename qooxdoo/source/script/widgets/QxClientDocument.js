@@ -105,7 +105,7 @@ proto._modifyVisible = qx.util.returns.returnTrue;
 
 proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = QxUtil.isValidElement(propValue);
+  this._isCreated = qx.util.validator.isValidElement(propValue);
 
   if (propOldValue)
   {

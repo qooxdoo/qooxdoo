@@ -87,15 +87,15 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   INITIALIZATION
   // ***********************************************************************
-  if(QxUtil.isValidString(vDirection)) {
+  if(qx.util.validator.isValidString(vDirection)) {
     this.setDirection(vDirection);
   };
 
-  if(QxUtil.isValidNumber(vMin)) {
+  if(qx.util.validator.isValidNumber(vMin)) {
     this.setMin(vMin);
   };
 
-  if(QxUtil.isValidNumber(vMax)) {
+  if(qx.util.validator.isValidNumber(vMax)) {
     this.setMax(vMax);
   };
 };

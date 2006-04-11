@@ -35,7 +35,7 @@ function QxTimer(vInterval)
 
   this.setEnabled(false);
 
-  if (QxUtil.isValidNumber(vInterval)) {
+  if (qx.util.validator.isValidNumber(vInterval)) {
     this.setInterval(vInterval);
   };
 

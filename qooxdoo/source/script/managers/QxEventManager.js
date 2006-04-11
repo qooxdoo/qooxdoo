@@ -54,7 +54,7 @@ function QxEventManager(vClientWindow)
   this.__onwindowresize = function(e) { return o._onwindowresize(e); };
 
   // Attach Document
-  if (QxUtil.isValid(vClientWindow)) {
+  if (qx.util.validator.isValid(vClientWindow)) {
     this.attachEvents(vClientWindow);
   };
 
@@ -695,7 +695,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     vOriginalTarget = QxEventManager.getOriginalTargetObject(vDomTarget);
 
     // If no capturing is active search for a valid target object
-    if (!QxUtil.isValidObject(vDispatchTarget))
+    if (!qx.util.validator.isValidObject(vDispatchTarget))
     {
       // Get Target Object
       vDispatchTarget = vTarget = QxEventManager.getTargetObject(null, vOriginalTarget);

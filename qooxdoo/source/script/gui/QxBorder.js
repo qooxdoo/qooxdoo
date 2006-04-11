@@ -38,15 +38,15 @@ function QxBorder(vWidth, vStyle, vColor)
   this._themedEdges = {};
   this._initCache();
 
-  if (QxUtil.isValidNumber(vWidth))
+  if (qx.util.validator.isValidNumber(vWidth))
   {
     this.setWidth(vWidth);
 
-    if (QxUtil.isValidString(vStyle)) {
+    if (qx.util.validator.isValidString(vStyle)) {
       this.setStyle(vStyle);
     };
 
-    if (QxUtil.isValid(vColor)) {
+    if (qx.util.validator.isValid(vColor)) {
       this.setColor(vColor);
     };
   };
@@ -434,15 +434,15 @@ proto._generateDefString = function(vWidth, vStyle, vColor)
 
   var vArr = [ vWidth + QxConst.CORE_PIXEL ];
 
-  if (QxUtil.isValidString(vStyle)) {
+  if (qx.util.validator.isValidString(vStyle)) {
     vArr.push(vStyle);
   };
 
-  if (QxUtil.isValidObject(vColor) && vColor instanceof QxColor) {
+  if (qx.util.validator.isValidObject(vColor) && vColor instanceof QxColor) {
     vColor = vColor.getStyle();
   };
 
-  if (QxUtil.isValidString(vColor)) {
+  if (qx.util.validator.isValidString(vColor)) {
     vArr.push(vColor);
   };
 

@@ -35,11 +35,11 @@ function QxLabel(vHtml, vMnemonic)
   QxTerminator.call(this);
 
   // Apply constructor arguments
-  if (QxUtil.isValidString(vHtml)) {
+  if (qx.util.validator.isValidString(vHtml)) {
     this.setHtml(vHtml);
   };
 
-  if (QxUtil.isValidString(vMnemonic)) {
+  if (qx.util.validator.isValidString(vMnemonic)) {
     this.setMnemonic(vMnemonic);
   };
 
@@ -156,7 +156,7 @@ proto._mnemonicTest = null;
 
 proto._modifyHtml = function(propValue, propOldValue, propData)
 {
-  this._htmlMode = QxUtil.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
+  this._htmlMode = qx.util.validator.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
 
   if (this._isCreated) {
     this._applyContent();
@@ -182,7 +182,7 @@ proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
 
 proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
-  this._hasMnemonic = QxUtil.isValidString(propValue) && propValue.length == 1;
+  this._hasMnemonic = qx.util.validator.isValidString(propValue) && propValue.length == 1;
 
   this._mnemonicHtml = this._hasMnemonic ? QxLabel.MNEMONIC_OUT_START + propValue + QxLabel.MNEMONIC_OUT_STOP : QxConst.CORE_EMPTY;
   this._mnemonicTest = this._hasMnemonic ? new RegExp(QxLabel.MNEMONIC_TEST1 + propValue + QxLabel.MNEMONIC_TEST2 + propValue + QxLabel.MNEMONIC_TEST3 + propValue + QxLabel.MNEMONIC_TEST4 + propValue + QxLabel.MNEMONIC_TEST5, QxLabel.MNEMONIC_REGMODE) : null;
@@ -256,7 +256,7 @@ proto._copyStyles = function()
   };
 
   do {
-    vStyle[vProperty] = QxUtil.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : QxConst.CORE_EMPTY;
+    vStyle[vProperty] = qx.util.validator.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : QxConst.CORE_EMPTY;
   } while(vProperty=vUseProperties[vUsePropertiesLength--]);
 
   return vNode;
@@ -302,7 +302,7 @@ proto._postApply = function()
   var vElement = this._getTargetNode();
   var vMnemonicMode = 0;
 
-  if (QxUtil.isInvalidString(vHtml)) {
+  if (qx.util.validator.isInvalidString(vHtml)) {
     vElement.innerHTML = QxConst.CORE_EMPTY;
     return;
   };

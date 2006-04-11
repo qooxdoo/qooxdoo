@@ -111,7 +111,7 @@ proto._modifyIconAlias = function(propValue, propOldValue, propData)
   var vIconPath = this.getIconPath();
   var vIconTheme = this.getIconTheme();
 
-  if (QxUtil.isValidString(vIconPath) && QxUtil.isValidString(vIconTheme))
+  if (qx.util.validator.isValidString(vIconPath) && qx.util.validator.isValidString(vIconTheme))
   {
     this.defineAlias("icons", vIconPath + QxConst.CORE_SLASH + vIconTheme);
   }
@@ -128,7 +128,7 @@ proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
   var vWidgetPath = this.getWidgetPath();
   var vWidgetTheme = this.getWidgetTheme();
 
-  if (QxUtil.isValidString(vWidgetPath) && QxUtil.isValidString(vWidgetTheme))
+  if (qx.util.validator.isValidString(vWidgetPath) && qx.util.validator.isValidString(vWidgetTheme))
   {
     this.defineAlias("widgets", vWidgetPath + QxConst.CORE_SLASH + vWidgetTheme);
   }
@@ -291,7 +291,7 @@ proto._buildUri = function(vPath, vForce)
       var vAlias = vPath.substring(0, vPath.indexOf(QxConst.CORE_SLASH));
       var vResolved = this._aliases[vAlias];
 
-      if (QxUtil.isValidString(vResolved)) {
+      if (qx.util.validator.isValidString(vResolved)) {
         return vResolved + vPath.substring(vAlias.length);
       };
 

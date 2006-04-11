@@ -32,7 +32,7 @@ function QxInline(vId)
   
   this.setStyleProperty(QxConst.PROPERTY_POSITION, QxConst.CORE_RELATIVE);
 
-  if (QxUtil.isValidString(vId)) {
+  if (qx.util.validator.isValidString(vId)) {
     this.setInlineNodeId(vId);
   };
 };

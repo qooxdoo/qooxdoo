@@ -110,15 +110,15 @@ function QxSpinner(vMin, vValue, vMax)
   //   INITIALIZATION
   // ************************************************************************
 
-  if(QxUtil.isValidNumber(vMin)) {
+  if(qx.util.validator.isValidNumber(vMin)) {
     this.setMin(vMin);
   };
 
-  if(QxUtil.isValidNumber(vMax)) {
+  if(qx.util.validator.isValidNumber(vMax)) {
     this.setMax(vMax);
   };
 
-  if(QxUtil.isValidNumber(vValue)) {
+  if(qx.util.validator.isValidNumber(vValue)) {
     this.setValue(vValue);
   };
 };

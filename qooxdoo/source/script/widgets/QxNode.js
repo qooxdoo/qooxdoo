@@ -30,7 +30,7 @@ function QxNode(vId)
 {
   QxTerminator.call(this);
 
-  if (QxUtil.isValidString(vId)) {
+  if (qx.util.validator.isValidString(vId)) {
     this.setSourceNodeId(vId);
   };
 };

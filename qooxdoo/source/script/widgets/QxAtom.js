@@ -49,12 +49,12 @@ function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   this.getLayoutImpl().setEnableFlexSupport(false);
 
   // Apply constructor arguments
-  if (QxUtil.isValidString(vLabel)) {
+  if (qx.util.validator.isValidString(vLabel)) {
     this.setLabel(vLabel);
   };
 
   // Simple flash wrapper
-  if (QxUtil.isValidString(vFlash) && QxUtil.isValidNumber(vIconWidth) && QxUtil.isValidNumber(vIconHeight) && QxFlash && QxFlash.getPlayerVersion().getMajor() > 0)
+  if (qx.util.validator.isValidString(vFlash) && qx.util.validator.isValidNumber(vIconWidth) && qx.util.validator.isValidNumber(vIconHeight) && QxFlash && QxFlash.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -64,15 +64,15 @@ function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
     this.setIconWidth(vIconWidth);
     this.setIconHeight(vIconHeight);
   }
-  else if (QxUtil.isValidString(vIcon))
+  else if (qx.util.validator.isValidString(vIcon))
   {
     this.setIcon(vIcon);
 
-    if (QxUtil.isValidNumber(vIconWidth)) {
+    if (qx.util.validator.isValidNumber(vIconWidth)) {
       this.setIconWidth(vIconWidth);
     };
 
-    if (QxUtil.isValidNumber(vIconHeight)) {
+    if (qx.util.validator.isValidNumber(vIconHeight)) {
       this.setIconHeight(vIconHeight);
     };
   };
@@ -283,7 +283,7 @@ proto._handleLabel = function()
   {
     case QxAtom.SHOW_LABEL:
     case QxAtom.SHOW_BOTH:
-      this._labelIsVisible = QxUtil.isValidString(this.getLabel());
+      this._labelIsVisible = qx.util.validator.isValidString(this.getLabel());
       break;
 
     default:
@@ -306,7 +306,7 @@ proto._handleIcon = function()
   {
     case QxAtom.SHOW_ICON:
     case QxAtom.SHOW_BOTH:
-      this._iconIsVisible = QxUtil.isValidString(this.getIcon());
+      this._iconIsVisible = qx.util.validator.isValidString(this.getIcon());
       break;
 
     default:

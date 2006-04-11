@@ -52,7 +52,7 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
 
   QxBoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
 
-  if (QxUtil.isValid(vLabel)) {
+  if (qx.util.validator.isValid(vLabel)) {
     this.setLabel(vLabel);
   };
 
@@ -66,11 +66,11 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   this.add(this._indentObject, this._iconObject, this._labelObject);
 
   // Set Icons
-  if ((vIcon != null) && (QxUtil.isValidString(vIcon))) {
+  if ((vIcon != null) && (qx.util.validator.isValidString(vIcon))) {
     this.setIcon(vIcon);
     this.setIconSelected(vIcon);
   };
-  if ((vIconSelected != null) && (QxUtil.isValidString(vIconSelected))) {
+  if ((vIconSelected != null) && (qx.util.validator.isValidString(vIconSelected))) {
     this.setIconSelected(vIconSelected);
   };
 

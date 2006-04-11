@@ -440,7 +440,7 @@ proto.getResponseXml = function()
 proto.getFetchedLength = function()
 {
   var vText = this.getResponseText(true);
-  return QxUtil.isValidString(vText) ? vText.length : 0;
+  return qx.util.validator.isValidString(vText) ? vText.length : 0;
 };
 
 proto.getResponseContent = function()

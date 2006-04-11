@@ -30,7 +30,7 @@
 function QxStatusBarPane(vWidget) {
   QxCanvasLayout.call(this);
 
-  if(QxUtil.isValidObject(vWidget)) {
+  if(qx.util.validator.isValidObject(vWidget)) {
     this.setWidget(vWidget);
   };
 };

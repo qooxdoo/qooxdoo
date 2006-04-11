@@ -30,7 +30,7 @@ function QxListItem(vText, vIcon, vValue)
 {
   QxAtom.call(this, vText, vIcon);
 
-  if (QxUtil.isValid(vValue)) {
+  if (qx.util.validator.isValid(vValue)) {
     this.setValue(vValue);
   };
 

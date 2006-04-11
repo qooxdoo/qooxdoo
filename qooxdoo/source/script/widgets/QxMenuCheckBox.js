@@ -33,7 +33,7 @@ function QxMenuCheckBox(vLabel, vCommand, vChecked)
 {
   QxMenuButton.call(this, vLabel, QxConst.IMAGE_BLANK, vCommand);
 
-  if (QxUtil.isValidBoolean(vChecked)) {
+  if (qx.util.validator.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
   };
 

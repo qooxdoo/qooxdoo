@@ -45,11 +45,11 @@ function QxFlash(vSource, vVersion)
   this._params = {};
   this._variables = {};
 
-  if(QxUtil.isValidString(vSource)) {
+  if(qx.util.validator.isValidString(vSource)) {
     this.setSource(vSource);
   };
 
-  this.setVersion(QxUtil.isValidString(vVersion) ? vVersion : QxFlash.MINREQUIRED);
+  this.setVersion(qx.util.validator.isValidString(vVersion) ? vVersion : QxFlash.MINREQUIRED);
 };
 
 QxFlash.extend(QxTerminator, "QxFlash");
@@ -173,7 +173,7 @@ proto._applyElementData = function(el)
 
 proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = QxUtil.isValidString(propValue) ? QxImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
+  this._source = qx.util.validator.isValidString(propValue) ? QxImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
   return true;
 };
 
@@ -185,7 +185,7 @@ proto._modifyVersion = function(propValue, propOldValue, propData)
     this._version = null;
   };
 
-  if (QxUtil.isValidString(propValue)) {
+  if (qx.util.validator.isValidString(propValue)) {
     this._version = new QxFlashPlayerVersion(propValue);
   };
 

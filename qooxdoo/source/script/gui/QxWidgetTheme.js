@@ -31,12 +31,12 @@ function QxWidgetTheme(vId, vTitle)
 {
   QxObject.call(this);
 
-  if (QxUtil.isInvalidString(vId)) {
+  if (qx.util.validator.isInvalidString(vId)) {
     throw new Error("Each instance of QxWidgetTheme need an unique ID!");
   };
 
   this.setId(vId);
-  this.setTitle(QxUtil.isValidString(vTitle) ? vTitle : vId);
+  this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
 
   try {
     QxImageManager.registerWidgetTheme(this);

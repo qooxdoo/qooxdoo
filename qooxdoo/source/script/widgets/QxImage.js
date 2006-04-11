@@ -41,11 +41,11 @@ function QxImage(vSource, vWidth, vHeight)
   this.setHtmlProperty(QxImage.ATTR_TITLE, QxConst.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(QxUtil.isValid(vSource) ? vSource : QxImageManager.buildUri(QxConst.IMAGE_BLANK));
+  this.setSource(qx.util.validator.isValid(vSource) ? vSource : QxImageManager.buildUri(QxConst.IMAGE_BLANK));
 
   // Dimensions
-  this.setWidth(QxUtil.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
-  this.setHeight(QxUtil.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
+  this.setWidth(qx.util.validator.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
+  this.setHeight(qx.util.validator.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -133,7 +133,7 @@ proto._beforeAppear = function()
 {
   var vSource = this.getSource();
 
-  if (QxUtil.isValidString(vSource)) {
+  if (qx.util.validator.isValidString(vSource)) {
     QxImageManager._sources[vSource]++;
   };
 
@@ -144,7 +144,7 @@ proto._beforeDisappear = function()
 {
   var vSource = this.getSource();
 
-  if (QxUtil.isValidString(vSource))
+  if (qx.util.validator.isValidString(vSource))
   {
     if (QxImageManager._sources[vSource] == 1)
     {
@@ -297,7 +297,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   {
     // initialisize preloader
     var vSource = this.getSource();
-    if (QxUtil.isValidString(vSource)) {
+    if (qx.util.validator.isValidString(vSource)) {
       this.setPreloader(QxImagePreloaderManager.create(QxImageManager.buildUri(vSource)));
     };
   };
@@ -426,7 +426,7 @@ proto._computePreferredInnerWidth = function()
   {
     return this.getPreloader().getWidth();
   }
-  else if (QxUtil.isValidString(this.getSource()))
+  else if (qx.util.validator.isValidString(this.getSource()))
   {
     var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
 
@@ -444,7 +444,7 @@ proto._computePreferredInnerHeight = function()
   {
     return this.getPreloader().getHeight();
   }
-  else if (QxUtil.isValidString(this.getSource()))
+  else if (qx.util.validator.isValidString(this.getSource()))
   {
     var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
 
