@@ -51,7 +51,7 @@ proto._checkValue = function(propValue) {
 proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new QxEvent(QxRangeManager.CHANGE_EVENTTYPE), true);
+    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
   };
 
   return true;
@@ -66,7 +66,7 @@ proto._modifyMax = function(propValue, propOldValue, propData)
   this.setValue(Math.min(this.getValue(), propValue));
 
   if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new QxEvent(QxRangeManager.CHANGE_EVENTTYPE), true);
+    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
   };
 
   return true;
@@ -81,7 +81,7 @@ proto._modifyMin = function(propValue, propOldValue, propData)
   this.setValue(Math.max(this.getValue(), propValue));
 
   if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new QxEvent(QxRangeManager.CHANGE_EVENTTYPE), true);
+    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
   };
 
   return true;

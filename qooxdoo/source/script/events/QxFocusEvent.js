@@ -35,7 +35,7 @@
 */
 function QxFocusEvent(vType, vTarget)
 {
-  QxEvent.call(this, vType);
+  qx.event.types.Event.call(this, vType);
   
   this.setTarget(vTarget);
 
@@ -48,4 +48,4 @@ function QxFocusEvent(vType, vTarget)
   };
 };
 
-QxFocusEvent.extend(QxEvent, "QxFocusEvent");
+QxFocusEvent.extend(qx.event.types.Event, "QxFocusEvent");

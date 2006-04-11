@@ -181,7 +181,7 @@ proto._onkeydown = function(e)
       currentItem = items[i];
 
       if (currentItem.hasEventListeners("action")) {
-        currentItem._dispachEvent(new QxEvent("action"));
+        currentItem._dispachEvent(new qx.event.types.Event("action"));
       };
     };
   }

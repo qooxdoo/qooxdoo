@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(tooltip)
-#require(QxEventManager)
+#require(qx.event.handler.EventHandler)
 
 ************************************************************************ */
 
@@ -90,7 +90,7 @@ proto.handleMouseOver = function(e)
 
   // Allows us to use DOM Nodes as tooltip target :)
   if (!(vTarget instanceof QxWidget) && vTarget.nodeType == 1) {
-    vTarget = QxEventManager.getTargetObject(vTarget);
+    vTarget = qx.event.handler.EventHandler.getTargetObject(vTarget);
   };
 
   //Search first parent which has a tooltip

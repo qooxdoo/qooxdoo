@@ -28,7 +28,7 @@
 
 function QxDomEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
 {
-  QxEvent.call(this, vType);
+  qx.event.types.Event.call(this, vType);
 
   this.setDomEvent(vDomEvent);
   this.setDomTarget(vDomTarget);
@@ -37,7 +37,7 @@ function QxDomEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   this.setOriginalTarget(vOriginalTarget);
 };
 
-QxDomEvent.extend(QxEvent, "QxDomEvent");
+QxDomEvent.extend(qx.event.types.Event, "QxDomEvent");
 
 QxDomEvent.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
 QxDomEvent.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });
@@ -90,7 +90,7 @@ if(qx.sys.Client.isMshtml())
 
     this.getDomEvent().returnValue = false;
 
-    QxEvent.prototype.setDefaultPrevented.call(this, vValue);
+    qx.event.types.Event.prototype.setDefaultPrevented.call(this, vValue);
   };
 }
 else
@@ -104,7 +104,7 @@ else
     this.getDomEvent().preventDefault();
     this.getDomEvent().returnValue = false;
 
-    QxEvent.prototype.setDefaultPrevented.call(this, vValue);
+    qx.event.types.Event.prototype.setDefaultPrevented.call(this, vValue);
   };
 };
 
@@ -129,5 +129,5 @@ proto.dispose = function()
   this._valueDomEvent = null;
   this._valueDomTarget = null;
 
-  return QxEvent.prototype.dispose.call(this);
+  return qx.event.types.Event.prototype.dispose.call(this);
 };

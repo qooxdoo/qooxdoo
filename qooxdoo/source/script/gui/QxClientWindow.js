@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(core)
-#post(QxEventManager)
+#post(qx.event.handler.EventHandler)
 #post(QxClientDocument)
 
 ************************************************************************ */
@@ -45,7 +45,7 @@ function QxClientWindow()
   this._clientDocument = new QxClientDocument(this);
 
   // Create Event Manager
-  this._eventManager = new QxEventManager(this);
+  this._eventManager = new qx.event.handler.EventHandler(this);
 
   // Init Client Document as Default Root
   this._eventManager.setFocusRoot(this._clientDocument);

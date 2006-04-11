@@ -177,14 +177,14 @@ proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds
 proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
-    this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_LOAD), true);
+    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
   };
 };
 
 proto._onload = function()
 {
   this._isLoaded = true;
-  this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_LOAD), true);
+  this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
 };
 
 

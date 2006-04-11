@@ -53,7 +53,7 @@ QxCommand.extend(qx.core.Target, "QxCommand");
 QxCommand.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 QxCommand.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
 QxCommand.addProperty({ name : "keyCode", type : QxConst.TYPEOF_NUMBER });
-QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxEventManager" });
+QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
 
 
 

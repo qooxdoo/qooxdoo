@@ -145,7 +145,7 @@ proto._onload = function()
   this._isErroneous = false;
 
   if (this.hasEventListeners(QxConst.EVENT_TYPE_LOAD)) {
-    this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_LOAD), true);
+    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
   };
 };
 
@@ -157,7 +157,7 @@ proto._onerror = function()
   this._isErroneous = true;
 
   if (this.hasEventListeners(QxConst.EVENT_TYPE_ERROR)) {
-    this.dispatchEvent(new QxEvent(QxConst.EVENT_TYPE_ERROR), true);
+    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_ERROR), true);
   };
 };
 

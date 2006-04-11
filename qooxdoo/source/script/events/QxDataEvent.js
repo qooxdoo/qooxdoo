@@ -31,12 +31,12 @@
 */
 function QxDataEvent(vType, vData)
 {
-  QxEvent.call(this, vType);
+  qx.event.types.Event.call(this, vType);
 
   this.setData(vData);
 };
 
-QxDataEvent.extend(QxEvent, "QxDataEvent");
+QxDataEvent.extend(qx.event.types.Event, "QxDataEvent");
 
 QxDataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
 QxDataEvent.addFastProperty({ name : "data" });
@@ -49,5 +49,5 @@ proto.dispose = function()
 
   this._valueData = null;
 
-  return QxEvent.prototype.dispose.call(this);
+  return qx.event.types.Event.prototype.dispose.call(this);
 };

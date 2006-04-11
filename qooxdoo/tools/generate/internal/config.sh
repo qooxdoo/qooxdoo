@@ -39,13 +39,6 @@ L="$L script/core/QxObjectCore"
 # Common qooxdoo objects
 L="$L script/core/QxTarget"
 
-# Core Managers
-L="$L script/managers/QxManager"
-
-# Application
-L="$L script/core/QxApplication"
-L="$L script/gui/QxClientWindow"
-
 # Basic Events
 L="$L script/events/QxEvent"
 L="$L script/events/QxDomEvent"
@@ -55,6 +48,13 @@ L="$L script/events/QxKeyEvent"
 L="$L script/events/QxKeyEventCore"
 L="$L script/events/QxFocusEvent"
 L="$L script/events/QxDataEvent"
+
+# Core Managers
+L="$L script/managers/QxManager"
+
+# Application
+L="$L script/core/QxApplication"
+L="$L script/gui/QxClientWindow"
 
 # Color Support
 L="$L script/managers/QxColorManager"
