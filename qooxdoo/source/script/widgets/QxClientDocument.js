@@ -320,7 +320,7 @@ proto._onresize = function(e)
   this._recomputeInnerHeight();
 
   // Flush queues
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 };
 
 // This was an idea to allow mozilla more realtime document resize updates
@@ -336,7 +336,7 @@ proto._onresizehelper = function()
 
   // Flush queues
   if (t1 || t2) {
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };
 };
 */

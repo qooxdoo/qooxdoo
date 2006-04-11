@@ -474,7 +474,7 @@ proto._applyContent = function()
 
   // Images load asyncron, so we need to force flushing here
   // to get an up-to-date view when an image is loaded.
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 };
 
 if (qx.sys.Client.isMshtml())

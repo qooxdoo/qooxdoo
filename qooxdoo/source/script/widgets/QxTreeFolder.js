@@ -106,7 +106,7 @@ proto.toggle = function() {
 proto._openCallback = function()
 {
   this.setOpen(true);
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
   this.getTopLevelWidget().setGlobalCursor(null);
 };
 

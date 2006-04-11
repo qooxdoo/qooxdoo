@@ -217,8 +217,8 @@ proto._modifyLayout = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
-QxWidget.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
 
 proto._computeAccumulatedChildrenOuterWidth = function()
 {

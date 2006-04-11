@@ -38,10 +38,10 @@
 /*!
   This is the main widget, all visible objects in the application extend this.
 */
-function QxWidget()
+qx.ui.core.Widget = function()
 {
-  if (this.classname == QxWidget.OMIT_CLASS) {
-    throw new Error("Please omit the usage of QxWidget directly. Choose between qx.ui.core.Parent and QxTerminator instead!");
+  if (this.classname == qx.ui.core.Widget.OMIT_CLASS) {
+    throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and QxTerminator instead!");
   };
 
   qx.core.Target.call(this, true);
@@ -72,15 +72,15 @@ function QxWidget()
   this._applyInitialAppearance();
 };
 
-QxWidget.extend(qx.core.Target, "QxWidget");
+qx.ui.core.Widget.extend(qx.core.Target, "qx.ui.core.Widget");
 
-QxWidget.CORE_CLASS = "QxWidgetCore";
-QxWidget.OMIT_CLASS = "QxWidget";
+qx.ui.core.Widget.CORE_CLASS = "QxWidgetCore";
+qx.ui.core.Widget.OMIT_CLASS = "qx.ui.core.Widget";
 
 /*!
   Will be calculated later
 */
-QxWidget.SCROLLBAR_SIZE = 16;
+qx.ui.core.Widget.SCROLLBAR_SIZE = 16;
 
 
 
@@ -96,35 +96,35 @@ QxWidget.SCROLLBAR_SIZE = 16;
 /*!
   The parent widget (the real object, no ID or something)
 */
-QxWidget.addProperty({ name : "parent", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
+qx.ui.core.Widget.addProperty({ name : "parent", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
 
 /*!
   The element node (if the widget is created, otherwise null)
 */
-QxWidget.addProperty({ name : "element" });
+qx.ui.core.Widget.addProperty({ name : "element" });
 
 /*!
   Simple and fast switch of the visibility of a widget.
 */
-QxWidget.addProperty({ name : "visibility", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "visibility", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the widget should be displayed. Use this property instead of visibility if the change
   in visibility should have effects on the parent widget.
 */
-QxWidget.addProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If you switch this to true, the widget doesn't handle
   events directly. It will redirect them to the parent
   widget.
 */
-QxWidget.addProperty({ name : "anonymous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
+qx.ui.core.Widget.addProperty({ name : "anonymous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
 
 /*!
   The tagname of the element which should automatically be created
 */
-QxWidget.addProperty({ name : "tagName", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_DIV });
+qx.ui.core.Widget.addProperty({ name : "tagName", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -132,7 +132,7 @@ QxWidget.addProperty({ name : "tagName", type : QxConst.TYPEOF_STRING, defaultVa
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "horizontalAlign", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : QxConst.TYPEOF_STRING });
 
 /*!
   This is used by many layout managers to control the individual vertical alignment of this widget inside this parent.
@@ -140,19 +140,19 @@ QxWidget.addProperty({ name : "horizontalAlign", type : QxConst.TYPEOF_STRING })
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "verticalAlign", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "verticalAlign", type : QxConst.TYPEOF_STRING });
 
 /*!
   Should this widget be stretched on the x-axis if the layout handler will do this?
   Used by some layout handlers (QxBoxLayout, ...).
 */
-QxWidget.addProperty({ name : "allowStretchX", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "allowStretchX", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should this widget be stretched on the y-axis if the layout handler will do this?
   Used by some layout handlers (QxBoxLayout, ...).
 */
-QxWidget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -171,19 +171,19 @@ QxWidget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BOOLEAN, de
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "zIndex", type : QxConst.TYPEOF_NUMBER });
+qx.ui.core.Widget.addProperty({ name : "zIndex", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-QxWidget.addProperty({ name : "backgroundColor", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "backgroundColor", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-QxWidget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.
@@ -191,7 +191,7 @@ QxWidget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : 
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -199,7 +199,7 @@ QxWidget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance :
   The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
   Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
 */
-QxWidget.addProperty({ name : "opacity", type : QxConst.TYPEOF_NUMBER });
+qx.ui.core.Widget.addProperty({ name : "opacity", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   Mapping to native style property cursor.
@@ -207,14 +207,14 @@ QxWidget.addProperty({ name : "opacity", type : QxConst.TYPEOF_NUMBER });
   The name of the cursor to show when the mouse pointer is over the widget.
   This is any valid CSS2 cursor name defined by W3C.
 */
-QxWidget.addProperty({ name : "cursor", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "cursor", type : QxConst.TYPEOF_STRING });
 
 /*!
   Mapping to native style property background-image.
 
   The URI of the image file to use as background image.
 */
-QxWidget.addProperty({ name : "backgroundImage", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "backgroundImage", type : QxConst.TYPEOF_STRING });
 
 /*!
 Describes how to handle content that is too large to fit inside the widget.
@@ -228,15 +228,15 @@ Overflow modes:
 * scrollY: Scroll bars for the Y-Axis are always shown.
     Even if there is enough room for the content inside the widget.
 */
-QxWidget.addProperty({ name : "overflow", type : QxConst.TYPEOF_STRING, addToQueue : true });
+qx.ui.core.Widget.addProperty({ name : "overflow", type : QxConst.TYPEOF_STRING, addToQueue : true });
 
 /*!
   Clipping of the widget
 */
-QxWidget.addProperty({ name : "clipLeft", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipTop", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipWidth", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-QxWidget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipLeft", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipTop", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipWidth", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
 
 
 
@@ -257,17 +257,17 @@ QxWidget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl :
   Widgets with the same tabIndex are handled through there position
   in the document.
 */
-QxWidget.addProperty({ name : "tabIndex", type : QxConst.TYPEOF_NUMBER, defaultValue : -1 });
+qx.ui.core.Widget.addProperty({ name : "tabIndex", type : QxConst.TYPEOF_NUMBER, defaultValue : -1 });
 
 /*!
   If the focus outline should be hidden.
 */
-QxWidget.addProperty({ name : "hideFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "hideFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Use DOM focussing (focus() and blur() methods of DOM nodes)
 */
-QxWidget.addProperty({ name : "enableElementFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Handle focus state of this widget.
@@ -277,42 +277,42 @@ QxWidget.addProperty({ name : "enableElementFocus", type : QxConst.TYPEOF_BOOLEA
 
   Normally you didn't need to set this directly.
 */
-QxWidget.addProperty({ name : "focused", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "focused", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Toggle the possibility to select the element of this widget.
 */
-QxWidget.addProperty({ name : "selectable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
+qx.ui.core.Widget.addProperty({ name : "selectable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
 
 /*!
   Contains the tooltip object connected to the widget.
 */
-QxWidget.addProperty({ name : "toolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
+qx.ui.core.Widget.addProperty({ name : "toolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
 
 /*!
   Contains the context menu object connected to the widget. (Need real implementation)
 */
-QxWidget.addProperty({ name : "contextMenu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
+qx.ui.core.Widget.addProperty({ name : "contextMenu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
 
 /*!
   Capture all events and map them to this widget
 */
-QxWidget.addProperty({ name : "capture", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "capture", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Contains the support drop types for drag and drop support
 */
-QxWidget.addProperty({ name : "dropDataTypes" });
+qx.ui.core.Widget.addProperty({ name : "dropDataTypes" });
 
 /*!
   A command called if the widget should be excecuted (a placeholder for buttons, ...)
 */
-QxWidget.addProperty({ name : "command", type : QxConst.TYPEOF_OBJECT, instance : "qx.client.Command" });
+qx.ui.core.Widget.addProperty({ name : "command", type : QxConst.TYPEOF_OBJECT, instance : "qx.client.Command" });
 
 /*!
   Appearance of the widget
 */
-QxWidget.addProperty({ name : "appearance", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "appearance", type : QxConst.TYPEOF_STRING });
 
 
 
@@ -325,15 +325,15 @@ QxWidget.addProperty({ name : "appearance", type : QxConst.TYPEOF_STRING });
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addProperty({ name : "marginTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-QxWidget.addProperty({ name : "marginRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
-QxWidget.addProperty({ name : "marginBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-QxWidget.addProperty({ name : "marginLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.ui.core.Widget.addProperty({ name : "marginTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.ui.core.Widget.addProperty({ name : "marginRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.ui.core.Widget.addProperty({ name : "marginBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.ui.core.Widget.addProperty({ name : "marginLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
 
-QxWidget.addProperty({ name : "paddingTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-QxWidget.addProperty({ name : "paddingRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
-QxWidget.addProperty({ name : "paddingBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-QxWidget.addProperty({ name : "paddingLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.ui.core.Widget.addProperty({ name : "paddingTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.ui.core.Widget.addProperty({ name : "paddingRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.ui.core.Widget.addProperty({ name : "paddingBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.ui.core.Widget.addProperty({ name : "paddingLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
 
 
 
@@ -354,7 +354,7 @@ QxWidget.addProperty({ name : "paddingLeft", type : QxConst.TYPEOF_NUMBER, addTo
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "left", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.core.Widget.addProperty({ name : "left", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The distance from the outer right border to the parent right area edge.
@@ -363,7 +363,7 @@ QxWidget.addProperty({ name : "left", addToQueue : true, unitDetection : "pixelP
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "right", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.core.Widget.addProperty({ name : "right", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The width of the box (including padding and border).
@@ -372,21 +372,21 @@ QxWidget.addProperty({ name : "right", addToQueue : true, unitDetection : "pixel
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
+qx.ui.core.Widget.addProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
 
 /*!
   The minimum width of the box (including padding and border).
 
   Set this to omit the shrinking of the box width under this value.
 */
-QxWidget.addProperty({ name : "minWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.ui.core.Widget.addProperty({ name : "minWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 /*!
   The maximum width of the box (including padding and border).
 
   Set this to omit the expanding of the box width above this value.
 */
-QxWidget.addProperty({ name : "maxWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.ui.core.Widget.addProperty({ name : "maxWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 
 
@@ -407,7 +407,7 @@ QxWidget.addProperty({ name : "maxWidth", addToQueue : true, unitDetection : "pi
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "top", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.core.Widget.addProperty({ name : "top", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The distance from the outer bottom border to the parent bottom area edge.
@@ -416,7 +416,7 @@ QxWidget.addProperty({ name : "top", addToQueue : true, unitDetection : "pixelPe
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "bottom", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.core.Widget.addProperty({ name : "bottom", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The height of the box (including padding and border).
@@ -425,21 +425,21 @@ QxWidget.addProperty({ name : "bottom", addToQueue : true, unitDetection : "pixe
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-QxWidget.addProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
+qx.ui.core.Widget.addProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
 
 /*!
   The minimum height of the box (including padding and border).
 
   Set this to omit the shrinking of the box height under this value.
 */
-QxWidget.addProperty({ name : "minHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.ui.core.Widget.addProperty({ name : "minHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 /*!
   The maximum height of the box (including padding and border).
 
   Set this to omit the expanding of the box height above this value.
 */
-QxWidget.addProperty({ name : "maxHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.ui.core.Widget.addProperty({ name : "maxHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 
 
@@ -453,24 +453,24 @@ QxWidget.addProperty({ name : "maxHeight", addToQueue : true, unitDetection : "p
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
-QxWidget.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
 
-QxWidget.addPropertyGroup({ name : "space", members : [ "left", "width", "top", "height" ]});
-QxWidget.addPropertyGroup({ name : "edge", members : [ "top", "right", "bottom", "left" ], mode : "shorthand" });
+qx.ui.core.Widget.addPropertyGroup({ name : "space", members : [ "left", "width", "top", "height" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "edge", members : [ "top", "right", "bottom", "left" ], mode : "shorthand" });
 
-QxWidget.addPropertyGroup({ name : "padding", members : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ], mode: "shorthand" });
-QxWidget.addPropertyGroup({ name : "margin", members : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ], mode: "shorthand" });
+qx.ui.core.Widget.addPropertyGroup({ name : "padding", members : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ], mode: "shorthand" });
+qx.ui.core.Widget.addPropertyGroup({ name : "margin", members : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ], mode: "shorthand" });
 
-QxWidget.addPropertyGroup({ name : "heights", members : [ "minHeight", "height", "maxHeight" ]});
-QxWidget.addPropertyGroup({ name : "widths", members : [ "minWidth", "width", "maxWidth" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "heights", members : [ "minHeight", "height", "maxHeight" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "widths", members : [ "minWidth", "width", "maxWidth" ]});
 
-QxWidget.addPropertyGroup({ name : "align", members : [ "horizontalAlign", "verticalAlign" ]});
-QxWidget.addPropertyGroup({ name : "stretch", members : [ "stretchX", "stretchY" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "align", members : [ "horizontalAlign", "verticalAlign" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "stretch", members : [ "stretchX", "stretchY" ]});
 
-QxWidget.addPropertyGroup({ name : "clipLocation", members : [ "clipLeft", "clipTop" ]});
-QxWidget.addPropertyGroup({ name : "clipDimension", members : [ "clipWidth", "clipHeight" ]});
-QxWidget.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "clipLocation", members : [ "clipLeft", "clipTop" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "clipDimension", members : [ "clipWidth", "clipHeight" ]});
+qx.ui.core.Widget.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ]});
 
 
 
@@ -758,18 +758,18 @@ proto._handleDisplayable = function(vHint)
 
     // Add element (and create if not ready)
     if (!this._isCreated) {
-      QxWidget.addToGlobalElementQueue(this);
+      qx.ui.core.Widget.addToGlobalElementQueue(this);
     };
 
     // Add to global queues
-    QxWidget.addToGlobalStateQueue(this);
+    qx.ui.core.Widget.addToGlobalStateQueue(this);
 
     if (!qx.lang.Object.isEmpty(this._jobQueue)) {
-      QxWidget.addToGlobalJobQueue(this);
+      qx.ui.core.Widget.addToGlobalJobQueue(this);
     };
 
     if (!qx.lang.Object.isEmpty(this._childrenQueue)) {
-      QxWidget.addToGlobalLayoutQueue(this);
+      qx.ui.core.Widget.addToGlobalLayoutQueue(this);
     };
   }
 
@@ -777,10 +777,10 @@ proto._handleDisplayable = function(vHint)
   else
   {
     // Removing from global queues
-    QxWidget.removeFromGlobalElementQueue(this);
-    QxWidget.removeFromGlobalStateQueue(this);
-    QxWidget.removeFromGlobalJobQueue(this);
-    QxWidget.removeFromGlobalLayoutQueue(this);
+    qx.ui.core.Widget.removeFromGlobalElementQueue(this);
+    qx.ui.core.Widget.removeFromGlobalStateQueue(this);
+    qx.ui.core.Widget.removeFromGlobalJobQueue(this);
+    qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
 
     // Add to top-level tree queue
     this.removeFromCustomQueues(vHint);
@@ -1130,7 +1130,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 proto.addToJobQueue = function(p)
 {
   if (this._hasParent) {
-    QxWidget.addToGlobalJobQueue(this);
+    qx.ui.core.Widget.addToGlobalJobQueue(this);
   };
 
   if (!this._jobQueue) {
@@ -1396,7 +1396,7 @@ proto._isHeightEssential = qx.util.returns.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-QxWidget.initApplyMethods = function()
+qx.ui.core.Widget.initApplyMethods = function()
 {
   var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=QxConst.CORE_EMPTY", v="=v+QxConst.CORE_PIXEL", vpar="v";
 
@@ -1471,7 +1471,7 @@ QxWidget.initApplyMethods = function()
   };
 };
 
-QxWidget.initApplyMethods();
+qx.ui.core.Widget.initApplyMethods();
 
 
 
@@ -1488,12 +1488,12 @@ QxWidget.initApplyMethods();
   Add basic setter/getters
 */
 
-QxWidget.addCachedProperty({ name : "innerWidth", defaultValue : null });
-QxWidget.addCachedProperty({ name : "innerHeight", defaultValue : null });
-QxWidget.addCachedProperty({ name : "boxWidth", defaultValue : null });
-QxWidget.addCachedProperty({ name : "boxHeight", defaultValue : null });
-QxWidget.addCachedProperty({ name : "outerWidth", defaultValue : null });
-QxWidget.addCachedProperty({ name : "outerHeight", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "innerWidth", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "innerHeight", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "boxWidth", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "boxHeight", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "outerWidth", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "outerHeight", defaultValue : null });
 
 proto._computeBoxWidthFallback = function() {
   return 0;
@@ -1825,16 +1825,16 @@ proto.getWidthValue = function()
 
   switch(this._computedWidthType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedWidthValue = this._computeValuePixelLimit(this._computedWidthParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedWidthValue = this._computeValuePercentXLimit(this._computedWidthParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedWidthValue = this.getPreferredBoxWidth();
 
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_FLEX:
       this.getParent().getLayoutImpl().computeChildrenFlexWidth();
       return this._computedWidthValue = this._computedWidthFlexValue;
   };
@@ -1850,13 +1850,13 @@ proto.getMinWidthValue = function()
 
   switch(this._computedMinWidthType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedWidthValue = this._computeValuePixelLimit(this._computedMinWidthParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedWidthValue = this._computeValuePercentXLimit(this._computedMinWidthParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMinWidthValue = this.getPreferredBoxWidth();
   };
 
@@ -1871,13 +1871,13 @@ proto.getMaxWidthValue = function()
 
   switch(this._computedMaxWidthType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedWidthValue = this._computeValuePixelLimit(this._computedMaxWidthParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedWidthValue = this._computeValuePercentXLimit(this._computedMaxWidthParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMaxWidthValue = this.getPreferredBoxWidth();
   };
 
@@ -1892,10 +1892,10 @@ proto.getLeftValue = function()
 
   switch(this._computedLeftType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedLeftValue = this._computeValuePixel(this._computedLeftParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedLeftValue = this._computeValuePercentX(this._computedLeftParsed);
   };
 
@@ -1910,10 +1910,10 @@ proto.getRightValue = function()
 
   switch(this._computedRightType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedRightValue = this._computeValuePixel(this._computedRightParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedRightValue = this._computeValuePercentX(this._computedRightParsed);
   };
 
@@ -1940,16 +1940,16 @@ proto.getHeightValue = function()
 
   switch(this._computedHeightType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedHeightValue = this._computeValuePixelLimit(this._computedHeightParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedHeightValue = this._computeValuePercentYLimit(this._computedHeightParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedHeightValue = this.getPreferredBoxHeight();
 
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_FLEX:
       this.getParent().getLayoutImpl().computeChildrenFlexHeight();
       return this._computedHeightValue = this._computedHeightFlexValue;
   };
@@ -1965,13 +1965,13 @@ proto.getMinHeightValue = function()
 
   switch(this._computedMinHeightType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedMinHeightValue = this._computeValuePixelLimit(this._computedMinHeightParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedMinHeightValue = this._computeValuePercentYLimit(this._computedMinHeightParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMinHeightValue = this.getPreferredBoxHeight();
   };
 
@@ -1986,13 +1986,13 @@ proto.getMaxHeightValue = function()
 
   switch(this._computedMaxHeightType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedMaxHeightValue = this._computeValuePixelLimit(this._computedMaxHeightParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedMaxHeightValue = this._computeValuePercentYLimit(this._computedMaxHeightParsed);
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMaxHeightValue = this.getPreferredBoxHeight();
   };
 
@@ -2007,10 +2007,10 @@ proto.getTopValue = function()
 
   switch(this._computedTopType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedTopValue = this._computeValuePixel(this._computedTopParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedTopValue = this._computeValuePercentY(this._computedTopParsed);
   };
 
@@ -2025,10 +2025,10 @@ proto.getBottomValue = function()
 
   switch(this._computedBottomType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       return this._computedBottomValue = this._computeValuePixel(this._computedBottomParsed);
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedBottomValue = this._computeValuePercentY(this._computedBottomParsed);
   };
 
@@ -2049,8 +2049,8 @@ proto.getBottomValue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addCachedProperty({ name : QxConst.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
-QxWidget.addCachedProperty({ name : QxConst.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 proto._computeFrameWidth = function()
 {
@@ -2058,12 +2058,12 @@ proto._computeFrameWidth = function()
 
   switch(this.getOverflow())
   {
-    case QxWidget.SCROLL_VALUE_SCROLL:
-    case QxWidget.SCROLL_VALUE_SCROLLY:
-      fw += QxWidget.SCROLLBAR_SIZE;
+    case qx.ui.core.Widget.SCROLL_VALUE_SCROLL:
+    case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
+      fw += qx.ui.core.Widget.SCROLLBAR_SIZE;
       break;
 
-    case QxWidget.SCROLL_VALUE_AUTO:
+    case qx.ui.core.Widget.SCROLL_VALUE_AUTO:
       // This seems to be really hard to implement
       // this.debug("Check Auto Scroll-X: " + this.getPreferredBoxHeight() + " :: " + this.getBoxHeight());
       break;
@@ -2078,12 +2078,12 @@ proto._computeFrameHeight = function()
 
   switch(this.getOverflow())
   {
-    case QxWidget.SCROLL_VALUE_SCROLL:
-    case QxWidget.SCROLL_VALUE_SCROLLX:
-      fh += QxWidget.SCROLLBAR_SIZE;
+    case qx.ui.core.Widget.SCROLL_VALUE_SCROLL:
+    case qx.ui.core.Widget.SCROLL_VALUE_SCROLLX:
+      fh += qx.ui.core.Widget.SCROLLBAR_SIZE;
       break;
 
-    case QxWidget.SCROLL_VALUE_AUTO:
+    case qx.ui.core.Widget.SCROLL_VALUE_AUTO:
       // This seems to be really hard to implement
       // this.debug("Check Auto Scroll-Y: " + this.getPreferredBoxWidth() + " :: " + this.getBoxWidth());
       break;
@@ -2110,8 +2110,8 @@ proto._invalidateFrameDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
-QxWidget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 proto._invalidatePreferredInnerDimensions = function()
 {
@@ -2131,8 +2131,8 @@ proto._invalidatePreferredInnerDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null });
-QxWidget.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null });
+qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null });
 
 proto._computePreferredBoxWidth = function()
 {
@@ -2225,12 +2225,12 @@ proto._applyPaddingY = qx.util.returns.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-QxWidget.addCachedProperty({ name : "hasPercentX", defaultValue : false });
-QxWidget.addCachedProperty({ name : "hasPercentY", defaultValue : false });
-QxWidget.addCachedProperty({ name : "hasAutoX", defaultValue : false });
-QxWidget.addCachedProperty({ name : "hasAutoY", defaultValue : false });
-QxWidget.addCachedProperty({ name : "hasFlexX", defaultValue : false });
-QxWidget.addCachedProperty({ name : "hasFlexY", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasPercentX", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasPercentY", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasAutoX", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasAutoY", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasFlexX", defaultValue : false });
+qx.ui.core.Widget.addCachedProperty({ name : "hasFlexY", defaultValue : false });
 
 proto._computeHasPercentX = function() {
   return this._computedLeftTypePercent || this._computedWidthTypePercent || this._computedMinWidthTypePercent || this._computedMaxWidthTypePercent || this._computedRightTypePercent;
@@ -2268,34 +2268,34 @@ proto._computeHasFlexY = function() {
 ---------------------------------------------------------------------------
 */
 
-QxWidget.TYPE_NULL = 0;
-QxWidget.TYPE_PIXEL = 1;
-QxWidget.TYPE_PERCENT = 2;
-QxWidget.TYPE_AUTO = 3;
-QxWidget.TYPE_FLEX = 4;
+qx.ui.core.Widget.TYPE_NULL = 0;
+qx.ui.core.Widget.TYPE_PIXEL = 1;
+qx.ui.core.Widget.TYPE_PERCENT = 2;
+qx.ui.core.Widget.TYPE_AUTO = 3;
+qx.ui.core.Widget.TYPE_FLEX = 4;
 
 proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 {
   switch(propValue)
   {
     case QxConst.CORE_AUTO:
-      return QxWidget.TYPE_AUTO;
+      return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
     case -Infinity:
-      return QxWidget.TYPE_NULL;
+      return qx.ui.core.Widget.TYPE_NULL;
   };
 
   switch(typeof propValue)
   {
     case QxConst.TYPEOF_NUMBER:
-      return isNaN(propValue) ? QxWidget.TYPE_NULL : QxWidget.TYPE_PIXEL;
+      return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? QxWidget.TYPE_PERCENT : propValue.indexOf(QxConst.CORE_STAR) != -1 ? QxWidget.TYPE_FLEX : QxWidget.TYPE_NULL;
+      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(QxConst.CORE_STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
   };
 
-  return QxWidget.TYPE_NULL;
+  return qx.ui.core.Widget.TYPE_NULL;
 };
 
 proto._evalUnitsPixelPercentAuto = function(propValue)
@@ -2303,23 +2303,23 @@ proto._evalUnitsPixelPercentAuto = function(propValue)
   switch(propValue)
   {
     case QxConst.CORE_AUTO:
-      return QxWidget.TYPE_AUTO;
+      return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
     case -Infinity:
-      return QxWidget.TYPE_NULL;
+      return qx.ui.core.Widget.TYPE_NULL;
   };
 
   switch(typeof propValue)
   {
     case QxConst.TYPEOF_NUMBER:
-      return isNaN(propValue) ? QxWidget.TYPE_NULL : QxWidget.TYPE_PIXEL;
+      return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? QxWidget.TYPE_PERCENT : QxWidget.TYPE_NULL;
+      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
-  return QxWidget.TYPE_NULL;
+  return qx.ui.core.Widget.TYPE_NULL;
 };
 
 proto._evalUnitsPixelPercent = function(propValue)
@@ -2328,19 +2328,19 @@ proto._evalUnitsPixelPercent = function(propValue)
   {
     case Infinity:
     case -Infinity:
-      return QxWidget.TYPE_NULL;
+      return qx.ui.core.Widget.TYPE_NULL;
   };
 
   switch(typeof propValue)
   {
     case QxConst.TYPEOF_NUMBER:
-      return isNaN(propValue) ? QxWidget.TYPE_NULL : QxWidget.TYPE_PIXEL;
+      return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? QxWidget.TYPE_PERCENT : QxWidget.TYPE_NULL;
+      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
-  return QxWidget.TYPE_NULL;
+  return qx.ui.core.Widget.TYPE_NULL;
 };
 
 
@@ -2354,9 +2354,9 @@ proto._evalUnitsPixelPercent = function(propValue)
 ---------------------------------------------------------------------------
 */
 
-QxWidget.layoutPropertyTypes = {};
+qx.ui.core.Widget.layoutPropertyTypes = {};
 
-QxWidget.initLayoutProperties = function()
+qx.ui.core.Widget.initLayoutProperties = function()
 {
   var a = [ "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight", "left", "right", "top", "bottom" ];
 
@@ -2366,7 +2366,7 @@ QxWidget.initLayoutProperties = function()
     b = QxConst.INTERNAL_COMPUTED + p.toFirstUp();
     t = b + QxConst.INTERNAL_UNIT_TYPE;
 
-    QxWidget.layoutPropertyTypes[p] =
+    qx.ui.core.Widget.layoutPropertyTypes[p] =
     {
       dataType : t,
       dataParsed : b + QxConst.INTERNAL_UNIT_PARSED,
@@ -2381,7 +2381,7 @@ QxWidget.initLayoutProperties = function()
   };
 };
 
-QxWidget.initLayoutProperties();
+qx.ui.core.Widget.initLayoutProperties();
 
 
 
@@ -2395,7 +2395,7 @@ QxWidget.initLayoutProperties();
 
 proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
 {
-  var r = QxWidget.layoutPropertyTypes[propData.name];
+  var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
   var s = r.dataType;
   var p = r.dataParsed;
@@ -2413,26 +2413,26 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
 
   switch(this[s] = this._evalUnitsPixelPercentAutoFlex(propValue))
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       this[s1] = true;
       this[s2] = this[s3] = this[s4] = this[s5] = false;
       this[p] = this[v] = Math.round(propValue);
       break;
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       this[s2] = true;
       this[s1] = this[s3] = this[s4] = this[s5] = false;
       this[p] = parseFloat(propValue);
       this[v] = null;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       this[s3] = true;
       this[s1] = this[s2] = this[s4] = this[s5] = false;
       this[p] = this[v] = null;
       break;
 
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_FLEX:
       this[s4] = true;
       this[s1] = this[s2] = this[s3] = this[s5] = false;
       this[p] = parseFloat(propValue);
@@ -2505,7 +2505,7 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
 
 proto._unitDetectionPixelPercentAuto = function(propData, propValue)
 {
-  var r = QxWidget.layoutPropertyTypes[propData.name];
+  var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
   var s = r.dataType;
   var p = r.dataParsed;
@@ -2521,20 +2521,20 @@ proto._unitDetectionPixelPercentAuto = function(propData, propValue)
 
   switch(this[s] = this._evalUnitsPixelPercentAuto(propValue))
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       this[s1] = true;
       this[s2] = this[s3] = this[s4] = false;
       this[p] = this[v] = Math.round(propValue);
       break;
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       this[s2] = true;
       this[s1] = this[s3] = this[s4] = false;
       this[p] = parseFloat(propValue);
       this[v] = null;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       this[s3] = true;
       this[s1] = this[s2] = this[s4] = false;
       this[p] = this[v] = null;
@@ -2591,7 +2591,7 @@ proto._unitDetectionPixelPercentAuto = function(propData, propValue)
 
 proto._unitDetectionPixelPercent = function(propData, propValue)
 {
-  var r = QxWidget.layoutPropertyTypes[propData.name];
+  var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
   var s = r.dataType;
   var p = r.dataParsed;
@@ -2605,13 +2605,13 @@ proto._unitDetectionPixelPercent = function(propData, propValue)
 
   switch(this[s] = this._evalUnitsPixelPercent(propValue))
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       this[s1] = true;
       this[s2] = this[s3] = false;
       this[p] = this[v] = Math.round(propValue);
       break;
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       this[s2] = true;
       this[s1] = this[s3] = false;
       this[p] = parseFloat(propValue);
@@ -2662,7 +2662,7 @@ proto._unitDetectionPixelPercent = function(propData, propValue)
 
 if (qx.sys.Client.isMshtml())
 {
-  QxWidget.inlineEventMap =
+  qx.ui.core.Widget.inlineEventMap =
   {
     input : "onpropertychange",
     select : "onselect",
@@ -2673,7 +2673,7 @@ if (qx.sys.Client.isMshtml())
 
   proto.enableInlineEvent = function(vEventName)
   {
-    var vEventType = QxWidget.inlineEventMap[vEventName];
+    var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
 
     if (!this._inlineEvents)
     {
@@ -2685,13 +2685,13 @@ if (qx.sys.Client.isMshtml())
     };
 
     if (this._isCreated) {
-      this.getElement()[vEventType] = QxWidget.__oninlineevent;
+      this.getElement()[vEventType] = qx.ui.core.Widget.__oninlineevent;
     };
   };
 
   proto.disableInlineEvent = function(vEventName)
   {
-    var vEventType = QxWidget.inlineEventMap[vEventName];
+    var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
 
     if (this._inlineEvents) {
       this._inlineEvents.remove(vEventType);
@@ -2707,7 +2707,7 @@ if (qx.sys.Client.isMshtml())
     if (this._inlineEvents)
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-        vElement[a[i]] = QxWidget.__oninlineevent;
+        vElement[a[i]] = qx.ui.core.Widget.__oninlineevent;
       };
     };
   };
@@ -2736,7 +2736,7 @@ else
     };
 
     if (this._isCreated) {
-      this.getElement().addEventListener(vEventName, QxWidget.__oninlineevent, false);
+      this.getElement().addEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
     };
   };
 
@@ -2747,7 +2747,7 @@ else
     };
 
     if (this._isCreated) {
-      this.getElement().removeEventListener(vEventName, QxWidget.__oninlineevent, false);
+      this.getElement().removeEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
     };
   };
 
@@ -2756,7 +2756,7 @@ else
     if (this._inlineEvents)
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-        vElement.addEventListener(a[i], QxWidget.__oninlineevent, false);
+        vElement.addEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
       };
     };
   };
@@ -2766,13 +2766,13 @@ else
     if (this._inlineEvents)
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-        vElement.removeEventListener(a[i], QxWidget.__oninlineevent, false);
+        vElement.removeEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
       };
     };
   };
 };
 
-QxWidget.__oninlineevent = function(e)
+qx.ui.core.Widget.__oninlineevent = function(e)
 {
   if (!e) {
     e = window.event;
@@ -2785,7 +2785,7 @@ QxWidget.__oninlineevent = function(e)
 
 proto._oninlineevent = function(e)
 {
-  if (QxWidget._inFlushGlobalQueues) {
+  if (qx.ui.core.Widget._inFlushGlobalQueues) {
     return;
   };
 
@@ -2816,13 +2816,13 @@ proto._oninlineinput = function(e)
   e.returnValue = -1;
 };
 
-QxWidget.INLINE_EVENTTYPE_PROPERTY = "value";
+qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY = "value";
 
 proto._oninlineproperty = function(e)
 {
   switch(e.propertyName)
   {
-    case QxWidget.INLINE_EVENTTYPE_PROPERTY:
+    case qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY:
       if (!this._inValueProperty) {
         this._oninlineinput(e);
       };
@@ -2938,13 +2938,13 @@ proto.getNextVisibleSibling = function()
 
 proto.getPreviousActiveSibling = function(vIgnoreClasses)
 {
-  var vPrev = QxWidget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
+  var vPrev = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
   return vPrev ? vPrev : this.getParent().getLastActiveChild();
 };
 
 proto.getNextActiveSibling = function(vIgnoreClasses)
 {
-  var vNext = QxWidget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
+  var vNext = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
   return vNext ? vNext : this.getParent().getFirstActiveChild();
 };
 
@@ -3014,7 +3014,7 @@ proto.addState = function(vState)
   this._states[vState] = true;
 
   if (this._hasParent) {
-    QxWidget.addToGlobalStateQueue(this);
+    qx.ui.core.Widget.addToGlobalStateQueue(this);
   };
 };
 
@@ -3023,7 +3023,7 @@ proto.removeState = function(vState)
   delete this._states[vState];
 
   if (this._hasParent) {
-    QxWidget.addToGlobalStateQueue(this);
+    qx.ui.core.Widget.addToGlobalStateQueue(this);
   };
 };
 
@@ -3147,7 +3147,7 @@ else
 };
 
 proto.addToStateQueue = function() {
-  QxWidget.addToGlobalStateQueue(this);
+  qx.ui.core.Widget.addToGlobalStateQueue(this);
 };
 
 proto.recursiveAddToStateQueue = function() {
@@ -3652,21 +3652,21 @@ proto._modifyZIndex = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-QxWidget.TAB_PROPERTY_UNSELECTABLE = "unselectable";
-QxWidget.TAB_PROPERTY_TABINDEX = "tabIndex";
-QxWidget.TAB_PROPERTY_USERFOCUS = "userFocus";
-QxWidget.TAB_PROPERTY_MOZUSERFOCUS = "MozUserFocus";
+qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE = "unselectable";
+qx.ui.core.Widget.TAB_PROPERTY_TABINDEX = "tabIndex";
+qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS = "userFocus";
+qx.ui.core.Widget.TAB_PROPERTY_MOZUSERFOCUS = "MozUserFocus";
 
-QxWidget.TAB_VALUE_IGNORE = "ignore";
-QxWidget.TAB_VALUE_NORMAL = "normal";
-QxWidget.TAB_VALUE_ON = "on";
+qx.ui.core.Widget.TAB_VALUE_IGNORE = "ignore";
+qx.ui.core.Widget.TAB_VALUE_NORMAL = "normal";
+qx.ui.core.Widget.TAB_VALUE_ON = "on";
 
 if (qx.sys.Client.isMshtml())
 {
   proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
-    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(QxWidget.TAB_PROPERTY_UNSELECTABLE, QxWidget.TAB_VALUE_ON) : this.removeHtmlProperty(QxWidget.TAB_PROPERTY_UNSELECTABLE);
-    this.setHtmlProperty(QxWidget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
+    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.TAB_VALUE_ON) : this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
+    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
 
     return true;
   };
@@ -3675,10 +3675,10 @@ else if (qx.sys.Client.isGecko())
 {
   proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
-    this.setStyleProperty(QxWidget.TAB_PROPERTY_MOZUSERFOCUS, propValue < 0 ? QxWidget.TAB_VALUE_IGNORE : QxWidget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_MOZUSERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
 
     // be forward compatible (CSS 3 Draft)
-    this.setStyleProperty(QxWidget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? QxWidget.TAB_VALUE_IGNORE : QxWidget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
 
     return true;
   };
@@ -3688,11 +3688,11 @@ else
   proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
     // CSS 3 Draft
-    this.setStyleProperty(QxWidget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? QxWidget.TAB_VALUE_IGNORE : QxWidget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
 
     // IE Backward Compatible
-    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(QxWidget.TAB_PROPERTY_UNSELECTABLE, QxWidget.TAB_VALUE_ON) : this.removeHtmlProperty(QxWidget.TAB_PROPERTY_UNSELECTABLE);
-    this.setHtmlProperty(QxWidget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
+    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.TAB_VALUE_ON) : this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
+    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
 
     return true;
   };
@@ -3751,16 +3751,16 @@ proto.getWidgetFromPointHelper = function(x, y) {
 ---------------------------------------------------------------------------
 */
 
-QxWidget.SEL_PROPERTY_UNSELECTABLE = "unselectable";
-QxWidget.SEL_PROPERTY_USERSELECT = "userSelect";
-QxWidget.SEL_PROPERTY_MOZUSERSELECT = "MozUserSelect";
+qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE = "unselectable";
+qx.ui.core.Widget.SEL_PROPERTY_USERSELECT = "userSelect";
+qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT = "MozUserSelect";
 
-QxWidget.SEL_VALUE_ON = "on";
+qx.ui.core.Widget.SEL_VALUE_ON = "on";
 
 if(qx.sys.Client.isMshtml())
 {
   proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeHtmlProperty(QxWidget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(QxWidget.SEL_PROPERTY_UNSELECTABLE, QxWidget.SEL_VALUE_ON);
+    return propValue ? this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.SEL_VALUE_ON);
   };
 }
 else if(qx.sys.Client.isGecko())
@@ -3770,13 +3770,13 @@ else if(qx.sys.Client.isGecko())
     // Be forward compatible and use both userSelect and MozUserSelect
     if (propValue)
     {
-      this.removeStyleProperty(QxWidget.SEL_PROPERTY_MOZUSERSELECT);
-      this.removeStyleProperty(QxWidget.SEL_PROPERTY_USERSELECT);
+      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT);
+      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
     }
     else
     {
-      this.setStyleProperty(QxWidget.SEL_PROPERTY_MOZUSERSELECT, QxConst.CORE_NONE);
-      this.setStyleProperty(QxWidget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, QxConst.CORE_NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
     };
 
     return true;
@@ -3792,7 +3792,7 @@ else if (qx.sys.Client.isOpera())
 else
 {
   proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeStyleProperty(QxWidget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(QxWidget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
+    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
   };
 };
 
@@ -3807,13 +3807,13 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxWidget.OPACITY_FILTER_START = "Alpha(Opacity=";
-QxWidget.OPACITY_FILTER_STOP = ")";
-QxWidget.OPACITY_FILTER_REGEXP = /Alpha\(Opacity=([0-9]{1,3})\)/;
+qx.ui.core.Widget.OPACITY_FILTER_START = "Alpha(Opacity=";
+qx.ui.core.Widget.OPACITY_FILTER_STOP = ")";
+qx.ui.core.Widget.OPACITY_FILTER_REGEXP = /Alpha\(Opacity=([0-9]{1,3})\)/;
 
-QxWidget.OPACITY_PROPERTY_CSS3 = "opacity";
-QxWidget.OPACITY_PROPERTY_MOZ = "MozOpacity";
-QxWidget.OPACITY_PROPERTY_KHTML = "KhtmlOpacity";
+qx.ui.core.Widget.OPACITY_PROPERTY_CSS3 = "opacity";
+qx.ui.core.Widget.OPACITY_PROPERTY_MOZ = "MozOpacity";
+qx.ui.core.Widget.OPACITY_PROPERTY_KHTML = "KhtmlOpacity";
 
 /*!
 Sets the opacit for the widget. Any child widget inside the widget will
@@ -3830,7 +3830,7 @@ if(qx.sys.Client.isMshtml())
     }
     else if (qx.util.validator.isValidNumber(propValue))
     {
-      this.setStyleProperty(QxConst.PROPERTY_FILTER, QxWidget.OPACITY_FILTER_START + Math.round(propValue * 100) + QxWidget.OPACITY_FILTER_STOP);
+      this.setStyleProperty(QxConst.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
     }
     else
     {
@@ -3848,14 +3848,14 @@ else
     {
       if (qx.sys.Client.isGecko())
       {
-        this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_MOZ);
+        this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_MOZ);
       }
       else if (qx.sys.Client.isKhtml())
       {
-        this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_KHTML);
+        this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_KHTML);
       };
 
-      this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_CSS3);
+      this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_CSS3);
     }
     else if (qx.util.validator.isValidNumber(propValue))
     {
@@ -3866,14 +3866,14 @@ else
 
       if (qx.sys.Client.isGecko())
       {
-        this.setStyleProperty(QxWidget.OPACTIY_PROPERTY_MOZ, propValue);
+        this.setStyleProperty(qx.ui.core.Widget.OPACTIY_PROPERTY_MOZ, propValue);
       }
       else if (qx.sys.Client.isKhtml())
       {
-        this.setStyleProperty(QxWidget.OPACITY_PROPERTY_KHTML, propValue);
+        this.setStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_KHTML, propValue);
       };
 
-      this.setStyleProperty(QxWidget.OPACITY_PROPERTY_CSS3, propValue);
+      this.setStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_CSS3, propValue);
     };
 
     return true;
@@ -3891,19 +3891,19 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxWidget.CURSOR_PROPERTY = "cursor";
-QxWidget.CURSOR_VALUE_POINTER = "pointer";
-QxWidget.CURSOR_VALUE_HAND = "hand";
+qx.ui.core.Widget.CURSOR_PROPERTY = "cursor";
+qx.ui.core.Widget.CURSOR_VALUE_POINTER = "pointer";
+qx.ui.core.Widget.CURSOR_VALUE_HAND = "hand";
 
 proto._modifyCursor = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.setStyleProperty(QxWidget.CURSOR_PROPERTY, propValue == QxWidget.CURSOR_VALUE_POINTER && qx.sys.Client.isMshtml() ? QxWidget.CURSOR_VALUE_HAND : propValue);
+    this.setStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY, propValue == qx.ui.core.Widget.CURSOR_VALUE_POINTER && qx.sys.Client.isMshtml() ? qx.ui.core.Widget.CURSOR_VALUE_HAND : propValue);
   }
   else
   {
-    this.removeStyleProperty(QxWidget.CURSOR_PROPERTY);
+    this.removeStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY);
   };
 
   return true;
@@ -3919,14 +3919,14 @@ proto._modifyCursor = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-QxWidget.BACKGROUNDIMG_PROPERTY = "backgroundImage";
-QxWidget.BACKGROUNDIMG_VALUE_START = "url(";
-QxWidget.BACKGROUNDIMG_VALUE_STOP = ")";
-QxWidget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
-QxWidget.BACKGROUNDIMG_REGEXP2 = /\)$/;
+qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY = "backgroundImage";
+qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START = "url(";
+qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP = ")";
+qx.ui.core.Widget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
+qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
 proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
-  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY, QxWidget.BACKGROUNDIMG_VALUE_START + QxImageManager.buildUri(propValue) + QxWidget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY);
+  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + QxImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 };
 
 
@@ -3940,9 +3940,9 @@ proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-QxWidget.CLIP_PROPERTY = "clip";
-QxWidget.CLIP_VALUE_START = "rect(";
-QxWidget.CLIP_VALUE_STOP = ")";
+qx.ui.core.Widget.CLIP_PROPERTY = "clip";
+qx.ui.core.Widget.CLIP_VALUE_START = "rect(";
+qx.ui.core.Widget.CLIP_VALUE_STOP = ")";
 
 proto._modifyClip = function(propValue, propOldValue, propData) {
   return this._compileClipString();
@@ -3979,7 +3979,7 @@ proto._compileClipString = function()
     vTop = vTop + QxConst.CORE_PIXEL;
   };
 
-  return this.setStyleProperty(QxWidget.CLIP_PROPERTY, QxWidget.CLIP_VALUE_START + vTop + QxConst.CORE_COMMA + vRight + QxConst.CORE_COMMA + vBottom + QxConst.CORE_COMMA + vLeft + QxWidget.CLIP_VALUE_STOP);
+  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + QxConst.CORE_COMMA + vRight + QxConst.CORE_COMMA + vBottom + QxConst.CORE_COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
 };
 
 
@@ -3996,7 +3996,7 @@ proto._compileClipString = function()
 /*
   This will measure the typical native scrollbar size in the environment
 */
-QxWidget.initOverflow = function()
+qx.ui.core.Widget.initOverflow = function()
 {
   var t = document.createElement(QxConst.CORE_DIV);
   var s = t.style;
@@ -4008,29 +4008,29 @@ QxWidget.initOverflow = function()
 
   var c = qx.dom.getComputedScrollBarSizeRight(t);
   if (c) {
-    QxWidget.SCROLLBAR_SIZE = c;
+    qx.ui.core.Widget.SCROLLBAR_SIZE = c;
   };
 
   document.body.removeChild(t);
 };
 
 if (typeof window.application != QxConst.TYPEOF_UNDEFINED) {
-  window.application.addEventListener(QxConst.EVENT_TYPE_PRE, QxWidget.initOverflow);
+  window.application.addEventListener(QxConst.EVENT_TYPE_PRE, qx.ui.core.Widget.initOverflow);
 };
 
-QxWidget.SCROLL_PROPERTY = "overflow";
-QxWidget.SCROLL_PROPERTYX = "overflowX";
-QxWidget.SCROLL_PROPERTYY = "overflowY";
+qx.ui.core.Widget.SCROLL_PROPERTY = "overflow";
+qx.ui.core.Widget.SCROLL_PROPERTYX = "overflowX";
+qx.ui.core.Widget.SCROLL_PROPERTYY = "overflowY";
 
-QxWidget.SCROLL_VALUE_AUTO = "auto";
-QxWidget.SCROLL_VALUE_HIDDEN = "hidden";
-QxWidget.SCROLL_VALUE_SCROLL = "scroll";
-QxWidget.SCROLL_VALUE_SCROLLX = "scrollX";
-QxWidget.SCROLL_VALUE_SCROLLY = "scrollY";
+qx.ui.core.Widget.SCROLL_VALUE_AUTO = "auto";
+qx.ui.core.Widget.SCROLL_VALUE_HIDDEN = "hidden";
+qx.ui.core.Widget.SCROLL_VALUE_SCROLL = "scroll";
+qx.ui.core.Widget.SCROLL_VALUE_SCROLLX = "scrollX";
+qx.ui.core.Widget.SCROLL_VALUE_SCROLLY = "scrollY";
 
-QxWidget.SCROLL_VALUE_MOZNONE = "-moz-scrollbars-none";
-QxWidget.SCROLL_VALUE_MOZSCROLLX = "-moz-scrollbars-horizontal";
-QxWidget.SCROLL_VALUE_MOZSCROLLY = "-moz-scrollbars-vertical";
+qx.ui.core.Widget.SCROLL_VALUE_MOZNONE = "-moz-scrollbars-none";
+qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLX = "-moz-scrollbars-horizontal";
+qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLY = "-moz-scrollbars-vertical";
 
 if (qx.sys.Client.isGecko())
 {
@@ -4041,16 +4041,16 @@ if (qx.sys.Client.isGecko())
 
     switch(pv)
     {
-      case QxWidget.SCROLL_VALUE_HIDDEN:
-        pv = QxWidget.SCROLL_VALUE_MOZNONE;
+      case qx.ui.core.Widget.SCROLL_VALUE_HIDDEN:
+        pv = qx.ui.core.Widget.SCROLL_VALUE_MOZNONE;
         break;
 
-      case QxWidget.SCROLL_VALUE_SCROLLX:
-        pv = QxWidget.SCROLL_VALUE_MOZSCROLLX;
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLX:
+        pv = qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLX;
         break;
 
-      case QxWidget.SCROLL_VALUE_SCROLLY:
-        pv = QxWidget.SCROLL_VALUE_MOZSCROLLY;
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
+        pv = qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLY;
         break;
     };
 
@@ -4069,19 +4069,19 @@ else if (qx.sys.Client.isMshtml())
 
     switch(pv)
     {
-      case QxWidget.SCROLL_VALUE_SCROLLX:
-        pn = QxWidget.SCROLL_PROPERTYX;
-        pv = QxWidget.SCROLL_VALUE_SCROLL;
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLX:
+        pn = qx.ui.core.Widget.SCROLL_PROPERTYX;
+        pv = qx.ui.core.Widget.SCROLL_VALUE_SCROLL;
         break;
 
-      case QxWidget.SCROLL_VALUE_SCROLLY:
-        pn = QxWidget.SCROLL_PROPERTYY;
-        pv = QxWidget.SCROLL_VALUE_SCROLL;
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
+        pn = qx.ui.core.Widget.SCROLL_PROPERTYY;
+        pv = qx.ui.core.Widget.SCROLL_VALUE_SCROLL;
         break;
     };
 
     // Clear up concurrenting rules
-    var a = [ QxWidget.SCROLL_PROPERTY, QxWidget.SCROLL_PROPERTYX, QxWidget.SCROLL_PROPERTYY ];
+    var a = [ qx.ui.core.Widget.SCROLL_PROPERTY, qx.ui.core.Widget.SCROLL_PROPERTYX, qx.ui.core.Widget.SCROLL_PROPERTYY ];
     for (var i=0; i<a.length; i++)
     {
       if (a[i]!=pn) {
@@ -4107,9 +4107,9 @@ else
 
     switch(pv)
     {
-      case QxWidget.SCROLL_VALUE_SCROLLX:
-      case QxWidget.SCROLL_VALUE_SCROLLY:
-        pv = QxWidget.SCROLL_VALUE_SCROLL;
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLX:
+      case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
+        pv = qx.ui.core.Widget.SCROLL_VALUE_SCROLL;
         break;
     };
 
@@ -4132,13 +4132,13 @@ proto._applyOverflow = function(pn, pv, propValue, propOldValue)
 proto.getOverflowX = function()
 {
   var vOverflow = this.getOverflow();
-  return vOverflow == QxWidget.SCROLL_VALUE_SCROLLY ? QxWidget.SCROLL_VALUE_HIDDEN : vOverflow;
+  return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLY ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
 };
 
 proto.getOverflowY = function()
 {
   var vOverflow = this.getOverflow();
-  return vOverflow == QxWidget.SCROLL_VALUE_SCROLLX ? QxWidget.SCROLL_VALUE_HIDDEN : vOverflow;
+  return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLX ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
 };
 
 
@@ -4401,7 +4401,7 @@ proto._clonePropertyIgnoreList = "parent,element,visible";
 
 
 /*!
-Returns a cloned copy of the current instance of QxWidget.
+Returns a cloned copy of the current instance of qx.ui.core.Widget.
 
 #param cloneRecursive[Boolean]: Should the widget cloned recursive (including all childs)?
 #param customPropertyList[Array]: Optional (reduced) list of properties to copy through

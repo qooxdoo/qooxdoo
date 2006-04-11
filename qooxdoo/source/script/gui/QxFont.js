@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  Font implementation for QxWidget instances.
+  Font implementation for qx.ui.core.Widget instances.
 */
 
 qx.renderer.font.Font = function(vSize, vName)

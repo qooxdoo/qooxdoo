@@ -222,7 +222,7 @@ proto._modifyOpenItem = function(propValue, propOldValue, propData)
 
       vSub.show();
 
-      QxWidget.flushGlobalQueues();
+      qx.ui.core.Widget.flushGlobalQueues();
     };
   };
 

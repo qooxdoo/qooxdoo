@@ -30,10 +30,10 @@
   This widget is the last widget of the current child chain.
 */
 function QxTerminator() {
-  QxWidget.call(this);
+  qx.ui.core.Widget.call(this);
 };
 
-QxTerminator.extend(QxWidget, "QxTerminator");
+QxTerminator.extend(qx.ui.core.Widget, "QxTerminator");
 
 
 

@@ -379,7 +379,7 @@ proto.setColumnWidth = function(vIndex, vValue)
 {
   this._setupColumnProperty(vIndex, "widthValue", vValue);
 
-  var vType = QxWidget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+  var vType = qx.ui.core.Widget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
 
   this._setupColumnProperty(vIndex, "widthType", vType);
 
@@ -387,17 +387,17 @@ proto.setColumnWidth = function(vIndex, vValue)
 
   switch(vType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       vParsed = vComputed = Math.round(vValue);
       break;
 
-    case QxWidget.TYPE_PERCENT:
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_FLEX:
       vParsed = parseFloat(vValue);
       vComputed = null;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       vParsed = vComputed = null;
       break;
 
@@ -413,24 +413,24 @@ proto.setRowHeight = function(vIndex, vValue)
 {
   this._setupRowProperty(vIndex, "heightValue", vValue);
 
-  var vType = QxWidget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+  var vType = qx.ui.core.Widget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
   this._setupRowProperty(vIndex, "heightType", vType);
 
   var vParsed, vComputed;
 
   switch(vType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       vParsed = vComputed = Math.round(vValue);
       break;
 
-    case QxWidget.TYPE_PERCENT:
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_FLEX:
       vParsed = parseFloat(vValue);
       vComputed = null;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       vParsed = vComputed = null;
       break;
 
@@ -460,20 +460,20 @@ proto.getColumnBoxWidth = function(vIndex)
 
   switch(vType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       vComputed = Math.max(0, vParsed);
       break;
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       vComputed = this.getInnerWidth() * Math.max(0, vParsed) * 0.01;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       // TODO
       vComputed = null;
       break;
 
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_FLEX:
       // TODO
       vComputed = null;
       break;
@@ -497,20 +497,20 @@ proto.getRowBoxHeight = function(vIndex)
 
   switch(vType)
   {
-    case QxWidget.TYPE_PIXEL:
+    case qx.ui.core.Widget.TYPE_PIXEL:
       vComputed = Math.max(0, vParsed);
       break;
 
-    case QxWidget.TYPE_PERCENT:
+    case qx.ui.core.Widget.TYPE_PERCENT:
       vComputed = this.getInnerHeight() * Math.max(0, vParsed) * 0.01;
       break;
 
-    case QxWidget.TYPE_AUTO:
+    case qx.ui.core.Widget.TYPE_AUTO:
       // TODO
       vComputed = null;
       break;
 
-    case QxWidget.TYPE_FLEX:
+    case qx.ui.core.Widget.TYPE_FLEX:
       // TODO
       vComputed = null;
       break;
@@ -696,7 +696,7 @@ proto.getRowPaddingLeft = function(vIndex) {
 proto._changeInnerWidth = function(vNew, vOld)
 {
   for (var i=0, l=this.getColumnCount(); i<l; i++) {
-    if (this._getColumnProperty(i, "widthType") == QxWidget.TYPE_PERCENT) {
+    if (this._getColumnProperty(i, "widthType") == qx.ui.core.Widget.TYPE_PERCENT) {
       this._setupColumnProperty(i, "widthComputed", null);
     };
   };
@@ -707,7 +707,7 @@ proto._changeInnerWidth = function(vNew, vOld)
 proto._changeInnerHeight = function(vNew, vOld)
 {
   for (var i=0, l=this.getRowCount(); i<l; i++) {
-    if (this._getRowProperty(i, "heightType") == QxWidget.TYPE_PERCENT) {
+    if (this._getRowProperty(i, "heightType") == qx.ui.core.Widget.TYPE_PERCENT) {
       this._setupRowProperty(i, "heightComputed", null);
     };
   };

@@ -97,7 +97,7 @@ proto._oninterval = function(e)
 
   this.display(hours, minutes, seconds);
 
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 
   if (this.hasEventListeners(QxConst.EVENT_TYPE_INTERVAL))
   {

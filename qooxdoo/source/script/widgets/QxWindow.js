@@ -34,7 +34,7 @@
 #post(QxHorizontalSpacer)
 #post(QxButton)
 #post(QxWindowManager)
-#post(QxWidget)
+#post(qx.ui.core.Widget)
 #post(QxUtil)
 #post(QxCompare)
 
@@ -872,7 +872,7 @@ proto._onwindowmousedown = function(e)
         if (f.getParent() != this.getParent())
         {
           f.setParent(this.getParent());
-          QxWidget.flushGlobalQueues();
+          qx.ui.core.Widget.flushGlobalQueues();
         };
 
         f._applyRuntimeLeft(qx.dom.getComputedPageBoxLeft(el) - l);
@@ -1236,7 +1236,7 @@ proto._oncaptionmousedown = function(e)
       if (f.getParent() != this.getParent())
       {
         f.setParent(this.getParent());
-        QxWidget.flushGlobalQueues();
+        qx.ui.core.Widget.flushGlobalQueues();
       };
 
       f._applyRuntimeLeft(qx.dom.getComputedPageBoxLeft(el) - l);

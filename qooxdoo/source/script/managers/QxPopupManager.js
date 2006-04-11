@@ -46,7 +46,7 @@ QxPopupManager.extend(QxManager, "QxPopupManager");
 proto.update = function(vTarget)
 {
   // be sure that target is correctly set (needed for contains() later)
-  if (!(vTarget instanceof QxWidget)) {
+  if (!(vTarget instanceof qx.ui.core.Widget)) {
     vTarget = null;
   };
 

@@ -184,7 +184,7 @@ proto._onchange = function(e)
 
     this.getLabel().setText(Math.round(100 * barSizePercent) + '%');
 
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
 
     this._timer.wait(this.getWait());
 

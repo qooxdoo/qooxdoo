@@ -197,7 +197,7 @@ proto.scroll = function()
   this._scrollpane.setLeft(this._scrollpane.getLeft() + this.getShiftX());
   this._scrollpane.setTop(this._scrollpane.getTop() + this.getShiftY());
 
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 
   this.start();
 };

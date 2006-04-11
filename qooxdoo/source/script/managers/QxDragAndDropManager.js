@@ -602,7 +602,7 @@ proto._renderCursor = function()
   if (!vNewCursor._initialLayoutDone)
   {
     this._getClientDocument().add(vNewCursor);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };
 
   // Apply position with runtime style (fastest qooxdoo method)

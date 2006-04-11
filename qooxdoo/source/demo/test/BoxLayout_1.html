@@ -183,43 +183,43 @@
   function test1() 
   {
     bl.remove(w2);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };  
   
   function test2() 
   {
     bl.add(w2);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };
   
   function test3() 
   {
     bl.addAt(w2, 2);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };  
 
   function test4() 
   {
     bl.addAt(w2, 4);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };  
 
   function test5() 
   {
     bl.addBefore(w3, w7);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };  
 
   function test6() 
   {
     bl.addAfter(w3, w4);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   }; 
   
   function test7() 
   {
     bl.addAt(w8, 1);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   };
 
   window.application.main = function()
