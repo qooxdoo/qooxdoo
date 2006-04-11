@@ -24,7 +24,7 @@
 
 #package(core)
 #require(qx.core.Object)
-#require(QxDomEventRegistration)
+#require(qx.event.types.DomEventRegistration)
 
 ************************************************************************ */
 

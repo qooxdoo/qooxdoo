@@ -239,7 +239,7 @@ proto._onkeydown = function(e)
 
   switch(e.getKeyCode())
   {
-    case QxKeyEvent.keys.left:
+    case qx.event.types.KeyEvent.keys.left:
       e.preventDefault();
 
       if (QxTree.isTreeFolder(vSelectedItem))
@@ -274,7 +274,7 @@ proto._onkeydown = function(e)
 
       break;
 
-    case QxKeyEvent.keys.right:
+    case qx.event.types.KeyEvent.keys.right:
       e.preventDefault();
 
       if (QxTree.isTreeFolder(vSelectedItem))
@@ -294,7 +294,7 @@ proto._onkeydown = function(e)
 
       break;
 
-    case QxKeyEvent.keys.enter:
+    case qx.event.types.KeyEvent.keys.enter:
       e.preventDefault();
 
       if (QxTree.isTreeFolder(vSelectedItem)) {

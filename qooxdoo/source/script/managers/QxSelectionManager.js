@@ -1060,7 +1060,7 @@ proto.handleKeyDown = function(e)
         // (allows following shift range selection)
         this.setAnchorItem(itemToSelect);
       }
-      else if (e.getKeyCode() == QxKeyEvent.keys.space)
+      else if (e.getKeyCode() == qx.event.types.KeyEvent.keys.space)
       {
         if (this._selectedItems.contains(itemToSelect))
         {
@@ -1113,35 +1113,35 @@ proto.getItemToSelect = function(vKeyboardEvent)
   // Handle event by keycode
   switch (vKeyboardEvent.getKeyCode())
   {
-    case QxKeyEvent.keys.home:
+    case qx.event.types.KeyEvent.keys.home:
       return this.getHome(this.getLeadItem());
 
-    case QxKeyEvent.keys.end:
+    case qx.event.types.KeyEvent.keys.end:
       return this.getEnd(this.getLeadItem());
 
 
-    case QxKeyEvent.keys.down:
+    case qx.event.types.KeyEvent.keys.down:
       return this.getDown(this.getLeadItem());
 
-    case QxKeyEvent.keys.up:
+    case qx.event.types.KeyEvent.keys.up:
       return this.getUp(this.getLeadItem());
 
 
-    case QxKeyEvent.keys.left:
+    case qx.event.types.KeyEvent.keys.left:
       return this.getLeft(this.getLeadItem());
 
-    case QxKeyEvent.keys.right:
+    case qx.event.types.KeyEvent.keys.right:
       return this.getRight(this.getLeadItem());
 
 
-    case QxKeyEvent.keys.pageup:
+    case qx.event.types.KeyEvent.keys.pageup:
       return this.getPageUp(this.getLeadItem()) || this.getHome(this.getLeadItem());
 
-    case QxKeyEvent.keys.pagedown:
+    case qx.event.types.KeyEvent.keys.pagedown:
       return this.getPageDown(this.getLeadItem()) || this.getEnd(this.getLeadItem());
 
 
-    case QxKeyEvent.keys.space:
+    case qx.event.types.KeyEvent.keys.space:
       if (vKeyboardEvent.getCtrlKey()) {
         return this.getLeadItem();
       };
@@ -1166,7 +1166,7 @@ proto._dispatchChange = function()
   };
 
   if (this.hasEventListeners("changeSelection")) {
-    this.dispatchEvent(new QxDataEvent("changeSelection", this.getSelectedItems()), true);
+    this.dispatchEvent(new qx.event.types.DataEvent("changeSelection", this.getSelectedItems()), true);
   };
 };
 

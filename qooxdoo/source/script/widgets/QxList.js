@@ -25,7 +25,7 @@
 #package(list)
 
 #post(QxSelectionManager)
-#post(QxKeyEvent)
+#post(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 
@@ -171,7 +171,7 @@ proto._onkeydown = function(e)
   var kc = e.getKeyCode();
 
   // Execute action on press <ENTER>
-  if (kc == QxKeyEvent.keys.enter && !e.getAltKey())
+  if (kc == qx.event.types.KeyEvent.keys.enter && !e.getAltKey())
   {
     var items = this.getSelectedItems();
     var currentItem;

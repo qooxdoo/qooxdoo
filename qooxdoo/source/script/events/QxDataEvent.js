@@ -29,17 +29,17 @@
 /*!
   Event object for property changes.
 */
-function QxDataEvent(vType, vData)
+qx.event.types.DataEvent = function(vType, vData)
 {
   qx.event.types.Event.call(this, vType);
 
   this.setData(vData);
 };
 
-QxDataEvent.extend(qx.event.types.Event, "QxDataEvent");
+qx.event.types.DataEvent.extend(qx.event.types.Event, "qx.event.types.DataEvent");
 
-QxDataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
-QxDataEvent.addFastProperty({ name : "data" });
+qx.event.types.DataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
+qx.event.types.DataEvent.addFastProperty({ name : "data" });
 
 proto.dispose = function()
 {

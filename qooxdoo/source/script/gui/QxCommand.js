@@ -68,7 +68,7 @@ QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance
 proto.execute = function(vTarget)
 {
   if (this.hasEventListeners(QxConst.EVENT_TYPE_EXECUTE)) {
-    this.dispatchEvent(new QxDataEvent(QxConst.EVENT_TYPE_EXECUTE, vTarget), true);
+    this.dispatchEvent(new qx.event.types.DataEvent(QxConst.EVENT_TYPE_EXECUTE, vTarget), true);
   };
 
   return false;
@@ -222,7 +222,7 @@ proto._matchesKeyEvent = function(e)
           break;
 
         default:
-          if (vEventCode == QxKeyEvent.keys[vPart]) {
+          if (vEventCode == qx.event.types.KeyEvent.keys[vPart]) {
             return true;
           };
       };
@@ -255,13 +255,13 @@ proto.toString = function()
 
     if (qx.util.validator.isValidNumber(vKeyCode))
     {
-      var vTemp = QxKeyEvent.codes[vKeyCode];
+      var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
       vString += QxConst.CORE_PLUS + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
     };
   }
   else if (qx.util.validator.isValidNumber(vKeyCode))
   {
-    var vTemp = QxKeyEvent.codes[vKeyCode];
+    var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
     vString = vTemp ? vTemp.toFirstUp() : String(vKeyCode);
   };
 

@@ -24,7 +24,7 @@
 
 #package(core)
 #require(qx.sys.Client)
-#require(QxDomEventRegistration)
+#require(qx.event.types.DomEventRegistration)
 
 ************************************************************************ */
 

@@ -53,11 +53,11 @@ proto._onkeydown = function(e)
     case QxConst.ALIGN_BOTTOM:
       switch(e.getKeyCode())
       {
-        case QxKeyEvent.keys.left:
+        case qx.event.types.KeyEvent.keys.left:
           var vPrevious = true;
           break;
 
-        case QxKeyEvent.keys.right:
+        case qx.event.types.KeyEvent.keys.right:
           var vPrevious = false;
           break;
 
@@ -71,11 +71,11 @@ proto._onkeydown = function(e)
     case QxConst.ALIGN_RIGHT:
       switch(e.getKeyCode())
       {
-        case QxKeyEvent.keys.up:
+        case qx.event.types.KeyEvent.keys.up:
           var vPrevious = true;
           break;
 
-        case QxKeyEvent.keys.down:
+        case qx.event.types.KeyEvent.keys.down:
           var vPrevious = false;
           break;
 

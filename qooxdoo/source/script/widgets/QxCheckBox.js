@@ -169,14 +169,14 @@ proto._onclick = function(e) {
 
 proto._onkeydown = function(e)
 {
-  if(e.getKeyCode() == QxKeyEvent.keys.enter && !e.getAltKey()) {
+  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.enter && !e.getAltKey()) {
     this.toggleChecked();
   };
 };
 
 proto._onkeyup = function(e)
 {
-  if(e.getKeyCode() == QxKeyEvent.keys.space) {
+  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.space) {
     this.toggleChecked();
   };
 };
