@@ -41,7 +41,7 @@
 function QxWidget()
 {
   if (this.classname == QxWidget.OMIT_CLASS) {
-    throw new Error("Please omit the usage of QxWidget directly. Choose between QxParent and QxTerminator instead!");
+    throw new Error("Please omit the usage of QxWidget directly. Choose between qx.ui.core.Parent and QxTerminator instead!");
   };
 
   qx.core.Target.call(this, true);
@@ -96,7 +96,7 @@ QxWidget.SCROLLBAR_SIZE = 16;
 /*!
   The parent widget (the real object, no ID or something)
 */
-QxWidget.addProperty({ name : "parent", type : QxConst.TYPEOF_OBJECT, instance : "QxParent", defaultValue : null });
+QxWidget.addProperty({ name : "parent", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
 
 /*!
   The element node (if the widget is created, otherwise null)
@@ -1156,7 +1156,7 @@ proto._flushJobQueue = function(q)
       return;
     };
 
-    var vLayoutImpl = this instanceof QxParent ? this.getLayoutImpl() : null;
+    var vLayoutImpl = this instanceof qx.ui.core.Parent ? this.getLayoutImpl() : null;
 
     if (vLayoutImpl) {
       vLayoutImpl.updateSelfOnJobQueueFlush(vQueue);
@@ -1313,7 +1313,7 @@ proto._flushJobQueue = function(q)
   try
   {
     // inform children about padding change
-    if (this instanceof QxParent && (vQueue.paddingLeft || vQueue.paddingRight || vQueue.paddingTop || vQueue.paddingBottom))
+    if (this instanceof qx.ui.core.Parent && (vQueue.paddingLeft || vQueue.paddingRight || vQueue.paddingTop || vQueue.paddingBottom))
     {
       var ch=this.getChildren(), chl=ch.length;
 

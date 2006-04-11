@@ -141,10 +141,10 @@ proto._runInitialization = function()
     };
 
     // Build virtual methods for easy additions of childrens and so on
-    if (typeof QxParent === QxConst.TYPEOF_FUNCTION)
+    if (typeof qx.ui.core.Parent === QxConst.TYPEOF_FUNCTION)
     {
-      this._remappingChildTable = QxParent.prototype._remappingChildTable;
-      QxParent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
+      this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
+      qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
     };
 
     // Output the number of currently instanciated objects

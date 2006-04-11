@@ -86,7 +86,7 @@ qx.event.handler.EventHandler.addProperty({ name : "allowClientContextMenu", typ
 qx.event.handler.EventHandler.addProperty({ name : "allowClientSelectAll", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget", allowNull : true });
-qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : QxConst.TYPEOF_OBJECT, instance : "QxParent", allowNull : true });
+qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
 
 

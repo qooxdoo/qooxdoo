@@ -341,7 +341,7 @@ QxWidget.flushGlobalJobQueue = function()
 ---------------------------------------------------------------------------
   LAYOUT QUEUE
 
-  Contains the parents (QxParent) of the children which needs layout updates
+  Contains the parents (qx.ui.core.Parent) of the children which needs layout updates
 ---------------------------------------------------------------------------
 */
 
@@ -544,7 +544,7 @@ QxWidget.flushGlobalDisplayQueue = function()
   ----------------------------------------------- */
 
   // Only need to do this with the lazy queues
-  // because through the recursion from QxParent
+  // because through the recursion from qx.ui.core.Parent
   // all others get also informed.
   for (vKey in vLazyQueues)
   {
