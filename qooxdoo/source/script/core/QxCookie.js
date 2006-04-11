@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-var QxCookie =
+var qx.io.local.Cookie =
 {
   STR_EXPIRES : "expires",
   STR_PATH : "path",
@@ -45,7 +45,7 @@ var QxCookie =
 ---------------------------------------------------------------------------
 */
 
-QxCookie.get = function(vName)
+qx.io.local.Cookie.get = function(vName)
 {
   var start = document.cookie.indexOf(vName + QxConst.CORE_EQUAL);
   var len = start + vName.length + 1;
@@ -67,7 +67,7 @@ QxCookie.get = function(vName)
   return unescape(document.cookie.substring(len, end));
 };
 
-QxCookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
+qx.io.local.Cookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
 {
   var today = new Date();
   today.setTime(today.getTime());
@@ -78,7 +78,7 @@ QxCookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
   if (vExpires)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_EXPIRES);
+    vCookie.push(qx.io.local.Cookie.STR_EXPIRES);
     vCookie.push(QxConst.CORE_EQUAL);
     vCookie.push(new Date(today.getTime() + (vExpires * 1000 * 60 * 60 * 24)).toGMTString());
   };
@@ -86,7 +86,7 @@ QxCookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
   if (vPath)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_PATH);
+    vCookie.push(qx.io.local.Cookie.STR_PATH);
     vCookie.push(QxConst.CORE_EQUAL);
     vCookie.push(vPath);
   };
@@ -94,7 +94,7 @@ QxCookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
   if (vDomain)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_DOMAIN);
+    vCookie.push(qx.io.local.Cookie.STR_DOMAIN);
     vCookie.push(QxConst.CORE_EQUAL);
     vCookie.push(vDomain);
   };
@@ -102,16 +102,16 @@ QxCookie.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
   if (vSecure)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_SECURE);
+    vCookie.push(qx.io.local.Cookie.STR_SECURE);
   };
 
   // Store cookie
   document.cookie = vCookie.join(QxConst.CORE_EMPTY);
 };
 
-QxCookie.del = function(vName, vPath, vDomain)
+qx.io.local.Cookie.del = function(vName, vPath, vDomain)
 {
-  if (!QxCookie.get(vName)) {
+  if (!qx.io.local.Cookie.get(vName)) {
     return;
   };
 
@@ -121,7 +121,7 @@ QxCookie.del = function(vName, vPath, vDomain)
   if (vPath)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_PATH);
+    vCookie.push(qx.io.local.Cookie.STR_PATH);
     vCookie.push(QxConst.CORE_EQUAL);
     vCookie.push(vPath);
   };
@@ -129,15 +129,15 @@ QxCookie.del = function(vName, vPath, vDomain)
   if (vDomain)
   {
     vCookie.push(QxConst.CORE_SEMICOLON);
-    vCookie.push(QxCookie.STR_DOMAIN);
+    vCookie.push(qx.io.local.Cookie.STR_DOMAIN);
     vCookie.push(QxConst.CORE_EQUAL);
     vCookie.push(vDomain);
   };
 
   vCookie.push(QxConst.CORE_SEMICOLON);
-  vCookie.push(QxCookie.STR_EXPIRES);
+  vCookie.push(qx.io.local.Cookie.STR_EXPIRES);
   vCookie.push(QxConst.CORE_EQUAL);
-  vCookie.push(QxCookie.STR_DELDATA);
+  vCookie.push(qx.io.local.Cookie.STR_DELDATA);
 
   // Store cookie
   document.cookie = vCookie.join(QxConst.CORE_EMPTY);
