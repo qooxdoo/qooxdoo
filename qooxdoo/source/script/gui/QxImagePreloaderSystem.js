@@ -23,18 +23,18 @@
 /* ************************************************************************
 
 #package(image)
-#post(QxImagePreloader)
+#post(qx.io.image.ImagePreloader)
 
 ************************************************************************ */
 
-function QxImagePreloaderSystem(vPreloadList)
+qx.io.image.ImagePreloaderSystem = function(vPreloadList)
 {
   qx.core.Target.call(this);
 
   this._list = vPreloadList;
 };
 
-QxImagePreloaderSystem.extend(qx.core.Target, "QxImagePreloaderSystem");
+qx.io.image.ImagePreloaderSystem.extend(qx.core.Target, "qx.io.image.ImagePreloaderSystem");
 
 
 
