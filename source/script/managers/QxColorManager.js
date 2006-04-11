@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(color)
-#post(QxColorTheme)
+#post(qx.renderer.theme.QxColorTheme)
 
 ************************************************************************ */
 
@@ -31,7 +31,7 @@ function QxColorManager()
 {
   QxManager.call(this);
 
-  // Contains the QxColorTheme instances
+  // Contains the qx.renderer.theme.QxColorTheme instances
   this._themes = {};
 
   // Contains the QxColorObjects which
@@ -108,7 +108,7 @@ proto.get = function(vValue) {
 
 /*
 ---------------------------------------------------------------------------
-  PUBLIC METHODS FOR QXCOLORTHEMES
+  PUBLIC METHODS FOR qx.renderer.theme.QxColorThemeS
 ---------------------------------------------------------------------------
 */
 

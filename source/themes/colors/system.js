@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(colorthemes)
-#require(QxColorTheme)
+#require(qx.renderer.theme.QxColorTheme)
 
 ************************************************************************ */
 
-new QxColorTheme("operatingSystemDefault", "Operating System Default", {});
+new qx.renderer.theme.QxColorTheme("operatingSystemDefault", "Operating System Default", {});

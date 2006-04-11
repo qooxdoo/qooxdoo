@@ -29,14 +29,14 @@
 
 ************************************************************************ */
 
-function QxColorTheme(vId, vTitle, vColors)
+qx.renderer.theme.QxColorTheme = function(vId, vTitle, vColors)
 {
   qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
-    throw new Error("Each instance of QxColorTheme need an unique ID!");
+    throw new Error("Each instance of qx.renderer.theme.QxColorTheme need an unique ID!");
   };
-  
+
   this._definedColors = vColors;
   this._compiledColors = {};
 
@@ -50,7 +50,7 @@ function QxColorTheme(vId, vTitle, vColors)
   };
 };
 
-QxColorTheme.extend(qx.core.Object, "QxColorTheme");
+qx.renderer.theme.QxColorTheme.extend(qx.core.Object, "qx.renderer.theme.QxColorTheme");
 
 
 
@@ -62,8 +62,8 @@ QxColorTheme.extend(qx.core.Object, "QxColorTheme");
 ---------------------------------------------------------------------------
 */
 
-QxColorTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-QxColorTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.QxColorTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.QxColorTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
 
 
 
