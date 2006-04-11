@@ -29,7 +29,7 @@
 **************************************************************************** */
 
 function QxLocale(vLanguage, vCountry, vVariant) {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if(qx.util.validator.isValidString(vLanguage)) {
     this.setLanguage(vLanguage);
@@ -44,7 +44,7 @@ function QxLocale(vLanguage, vCountry, vVariant) {
   };
 };
 
-QxLocale.extend(QxObject, "QxLocale");
+QxLocale.extend(qx.core.Object, "QxLocale");
 
 
 /*
@@ -213,5 +213,5 @@ proto.dispose = function()
     return true;
   };
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

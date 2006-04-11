@@ -28,14 +28,14 @@
 
 function QxData(vKey, vValue, vMimeType)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this.setKey(vKey);
   this.setValue(vValue);
   this.setMimeType(vMimeType);
 };
 
-QxData.extend(QxObject, "QxData");
+QxData.extend(qx.core.Object, "QxData");
 
 QxData.addProperty({ name : "key", type : QxConst.TYPEOF_STRING });
 QxData.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });

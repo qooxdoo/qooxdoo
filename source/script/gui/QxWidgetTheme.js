@@ -29,7 +29,7 @@
 
 function QxWidgetTheme(vId, vTitle)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
     throw new Error("Each instance of QxWidgetTheme need an unique ID!");
@@ -45,7 +45,7 @@ function QxWidgetTheme(vId, vTitle)
   };
 };
 
-QxWidgetTheme.extend(QxObject, "QxWidgetTheme");
+QxWidgetTheme.extend(qx.core.Object, "QxWidgetTheme");
 
 QxWidgetTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
 QxWidgetTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });

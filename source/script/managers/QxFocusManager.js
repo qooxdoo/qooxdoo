@@ -340,5 +340,5 @@ proto.dispose = function()
 
   this._attachedWidget = null;
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };

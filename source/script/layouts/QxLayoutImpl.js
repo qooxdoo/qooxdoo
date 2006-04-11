@@ -29,12 +29,12 @@
 
 function QxLayoutImpl(vWidget)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._widget = vWidget;
 };
 
-QxLayoutImpl.extend(QxObject, "QxLayoutImpl");
+QxLayoutImpl.extend(qx.core.Object, "QxLayoutImpl");
 
 
 
@@ -442,5 +442,5 @@ proto.dispose = function()
 
   this._widget = null;
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };

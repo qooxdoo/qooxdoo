@@ -11,14 +11,14 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxObject)
+#require(qx.core.Object)
 #require(QxParent)
 
 ************************************************************************ */
 
 function QxChildrenIterator(vParent)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._parent    = vParent;
   this._curParent = vParent;
@@ -29,7 +29,7 @@ function QxChildrenIterator(vParent)
 };
 
 
-QxChildrenIterator.extend(QxObject, "QxChildrenIterator");
+QxChildrenIterator.extend(qx.core.Object, "QxChildrenIterator");
 
 
 /*

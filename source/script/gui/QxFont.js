@@ -32,7 +32,7 @@
 
 function QxFont(vSize, vName)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._defs = {};
 
@@ -45,7 +45,7 @@ function QxFont(vSize, vName)
   };
 };
 
-QxFont.extend(QxObject, "QxFont");
+QxFont.extend(qx.core.Object, "QxFont");
 
 
 
@@ -220,5 +220,5 @@ proto.dispose = function()
 
   delete this._defs;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

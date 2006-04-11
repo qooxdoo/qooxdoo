@@ -28,14 +28,14 @@
 
 function QxTimeTracker()
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._functions = qx.lang.Array.fromArguments(arguments);
 
   this.buttonSets();
 };
 
-QxTimeTracker.extend(QxObject, "QxTimeTracker");
+QxTimeTracker.extend(qx.core.Object, "QxTimeTracker");
 
 QxTimeTracker.compare = function(a, b) {
   return a-b;
@@ -315,5 +315,5 @@ proto.dispose = function()
 
   this._functions = null;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };
