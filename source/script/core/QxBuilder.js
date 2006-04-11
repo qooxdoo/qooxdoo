@@ -29,11 +29,11 @@
 /*!
   A class to generate a widget hierarchy from XML
 
-  QxBuilder is not thread safe by design
+  qx.client.Builder is not thread safe by design
     - state information is stored at the instance level
     - only use it from a single thread
 */
-function QxBuilder(flags)
+qx.client.Builder = function(flags)
 {
   qx.core.Target.call(this);
 
@@ -56,7 +56,7 @@ function QxBuilder(flags)
 
 };
 
-QxBuilder.extend(qx.core.Target, "QxBuilder");
+qx.client.Builder.extend(qx.core.Target, "qx.client.Builder");
 
 /*
 ------------------------------------------------------------------------------------

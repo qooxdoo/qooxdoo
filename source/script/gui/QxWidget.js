@@ -307,7 +307,7 @@ QxWidget.addProperty({ name : "dropDataTypes" });
 /*!
   A command called if the widget should be excecuted (a placeholder for buttons, ...)
 */
-QxWidget.addProperty({ name : "command", type : QxConst.TYPEOF_OBJECT, instance : "QxCommand" });
+QxWidget.addProperty({ name : "command", type : QxConst.TYPEOF_OBJECT, instance : "qx.client.Command" });
 
 /*!
   Appearance of the widget
