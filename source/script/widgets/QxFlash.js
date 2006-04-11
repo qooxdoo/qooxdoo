@@ -90,21 +90,21 @@ QxFlash.getPlayerVersion = function()
     return QxFlash.PLAYERVERSION;
   };
 
-  var vPlayerVersion = new QxFlashPlayerVersion(0,0,0);
+  var vPlayerVersion = new qx.types.Version(0,0,0);
 
   if(navigator.plugins && navigator.mimeTypes.length)
   {
     var x = navigator.plugins[QxFlash.PLUGINKEY];
 
     if(x && x.description) {
-      vPlayerVersion = new QxFlashPlayerVersion(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
+      vPlayerVersion = new qx.types.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
     };
   }
   else if (window.ActiveXObject)
   {
     try {
       var axo = new ActiveXObject(QxFlash.ACTIVEXKEY);
-       vPlayerVersion = new QxFlashPlayerVersion(axo.GetVariable("$version").split(QxConst.CORE_SPACE)[1].split(QxConst.CORE_COMMA));
+       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(QxConst.CORE_SPACE)[1].split(QxConst.CORE_COMMA));
     }
     catch (e) {};
   };
@@ -136,7 +136,7 @@ proto._applyElementData = function(el)
   if (this.getEnableExpressInstall())
   {
     // check to see if we need to do an express install
-    var expressInstallReqVer = new QxFlashPlayerVersion(QxFlash.EXPRESSINSTALL);
+    var expressInstallReqVer = new qx.types.Version(QxFlash.EXPRESSINSTALL);
     var installedVer = QxFlash.getPlayerVersion();
 
     if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
@@ -186,7 +186,7 @@ proto._modifyVersion = function(propValue, propOldValue, propData)
   };
 
   if (qx.util.validator.isValidString(propValue)) {
-    this._version = new QxFlashPlayerVersion(propValue);
+    this._version = new qx.types.Version(propValue);
   };
 
   return true;
