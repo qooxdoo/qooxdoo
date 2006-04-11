@@ -24,7 +24,7 @@
     dockLayout.setLocation(20, 48);
     dockLayout.setDimension(700, 500);
     dockLayout.setBackgroundColor("white");
-    dockLayout.setBorder(QxBorder.presets.black);
+    dockLayout.setBorder(qx.renderer.border.Border.presets.black);
 
     doc.add(dockLayout);
 
@@ -34,14 +34,14 @@
     var status = new QxAtom("Status", "icons/16/network.png");
 
     tree.setWidth(200);
-    tree.setBorder(QxBorderObject.presets.inset);
+    tree.setBorder(qx.renderer.border.BorderObject.presets.inset);
     tree.add(new QxTreeFolder("Drafts"));
     tree.add(new QxTreeFolder("Sent"));
     tree.add(new QxTreeFolder("Trash"));
     tree.add(new QxTreeFolder("Junk"));
 
     status.setWidth(null);
-    status.setBorder(QxBorderObject.presets.thinInset);
+    status.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
     status.setHorizontalChildrenAlign("left");
     status.setPadding(2, 4);
     status.setBackgroundColor("threedface");
@@ -118,7 +118,7 @@
 
     view.setLocation(220, 95);
     view.setDimension(499, 430);
-    view.setBorder(QxBorderObject.presets.inset);
+    view.setBorder(qx.renderer.border.BorderObject.presets.inset);
 
     doc.add(view);
   };

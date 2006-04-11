@@ -22,7 +22,7 @@
 
     var frame = new QxCanvasLayout;
     
-    frame.setBorder(QxBorderObject.presets.ridge);
+    frame.setBorder(qx.renderer.border.BorderObject.presets.ridge);
     frame.setWidth("auto");
     frame.setHeight("auto");
     frame.setPadding(8);
@@ -35,7 +35,7 @@
 
     var out = new QxCanvasLayout;
     
-    out.setBorder(QxBorderObject.presets.inset);
+    out.setBorder(qx.renderer.border.BorderObject.presets.inset);
     out.setWidth("auto");
     out.setHeight("auto");
     out.setPadding(8);
@@ -46,7 +46,7 @@
 
     var bar = new QxCanvasLayout;
     
-    bar.setBorder(QxBorderObject.presets.outset);
+    bar.setBorder(qx.renderer.border.BorderObject.presets.outset);
     bar.setWidth("auto");
     bar.setHeight("auto");
     bar.setPadding(4);    
@@ -68,7 +68,7 @@
     
       part.setWidth("auto");
       part.setHeight("auto");
-      part.setBorder(QxBorderObject.presets.outset);
+      part.setBorder(qx.renderer.border.BorderObject.presets.outset);
       part.setLeft(j*90);
       part.setTop(0);
       part.setBackgroundColor(new QxColorObject("Threedface"));

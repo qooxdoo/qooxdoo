@@ -23,32 +23,32 @@
 /* ************************************************************************
 
 #package(border)
-#require(QxBorderObject)
+#require(qx.renderer.border.BorderObject)
 
 ************************************************************************ */
 
-QxBorderObject.init = function()
+qx.renderer.border.BorderObject.init = function()
 {
-  QxBorderObject.presets = {
-    inset : new QxBorderObject(2, QxConst.BORDER_STYLE_INSET),
-    outset : new QxBorderObject(2, QxConst.BORDER_STYLE_OUTSET),
-    groove : new QxBorderObject(2, QxConst.BORDER_STYLE_GROOVE),
-    ridge : new QxBorderObject(2, QxConst.BORDER_STYLE_RIDGE),
-    thinInset : new QxBorderObject(1, QxConst.BORDER_STYLE_INSET),
-    thinOutset : new QxBorderObject(1, QxConst.BORDER_STYLE_OUTSET),
-    verticalDivider : new QxBorderObject(1, QxConst.BORDER_STYLE_INSET),
-    horizontalDivider : new QxBorderObject(1, QxConst.BORDER_STYLE_INSET),
+  qx.renderer.border.BorderObject.presets = {
+    inset : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_INSET),
+    outset : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_OUTSET),
+    groove : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_GROOVE),
+    ridge : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_RIDGE),
+    thinInset : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
+    thinOutset : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_OUTSET),
+    verticalDivider : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
+    horizontalDivider : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
 
-    shadow : new QxBorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedshadow"),
-    lightShadow : new QxBorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedlightshadow"),
-    info : new QxBorderObject(1, QxConst.BORDER_STYLE_SOLID, "infotext")
+    shadow : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedshadow"),
+    lightShadow : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedlightshadow"),
+    info : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "infotext")
   };
 
-  QxBorderObject.presets.verticalDivider.setLeftWidth(0);
-  QxBorderObject.presets.verticalDivider.setRightWidth(0);
+  qx.renderer.border.BorderObject.presets.verticalDivider.setLeftWidth(0);
+  qx.renderer.border.BorderObject.presets.verticalDivider.setRightWidth(0);
 
-  QxBorderObject.presets.horizontalDivider.setTopWidth(0);
-  QxBorderObject.presets.horizontalDivider.setBottomWidth(0);
+  qx.renderer.border.BorderObject.presets.horizontalDivider.setTopWidth(0);
+  qx.renderer.border.BorderObject.presets.horizontalDivider.setBottomWidth(0);
 };
 
-QxBorderObject.init();
+qx.renderer.border.BorderObject.init();

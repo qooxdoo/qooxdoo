@@ -46,7 +46,7 @@ qx.client.Timer.prototype.wait = function(vMilliseconds)
 function QxProgressBar(vDirection, vMin, vMax) {
   QxCanvasLayout.call(this);
 
-  this.setBorder(QxBorderObject.presets.inset);
+  this.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this.setBackgroundColor("white");
 
   // ***********************************************************************

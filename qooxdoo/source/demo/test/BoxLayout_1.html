@@ -227,7 +227,7 @@
     var d = this.getClientWindow().getClientDocument();
 
     bl = new QxBoxLayout("horizontal");
-    bl.setBorder(QxBorder.presets.black);
+    bl.setBorder(qx.renderer.border.Border.presets.black);
     bl.setBackgroundColor(new QxColor("white"));
     bl.setWidth(250);
     bl.setHeight(250);
@@ -238,19 +238,19 @@
     w1.setBackgroundColor(new QxColor("orange"));
     w1.setMinWidth(20);
     w1.setMinHeight(20);
-    w1.setBorder(QxBorder.presets.black);
+    w1.setBorder(qx.renderer.border.Border.presets.black);
 
     w2 = new QxCanvasLayout;
     w2.setBackgroundColor(new QxColor("blue"));
     w2.setMinWidth(20);
     w2.setMinHeight(20);
-    w2.setBorder(QxBorder.presets.black);
+    w2.setBorder(qx.renderer.border.Border.presets.black);
 
     w3 = new QxCanvasLayout;
     w3.setBackgroundColor(new QxColor("green"));
     w3.setMinWidth(20);
     w3.setMinHeight(20);
-    w3.setBorder(QxBorder.presets.black);
+    w3.setBorder(qx.renderer.border.Border.presets.black);
     
     w4 = new QxImage("icons/32/colors.png");
 
@@ -258,13 +258,13 @@
     w5.setBackgroundColor(new QxColor("yellow"));
     w5.setMinWidth(20);
     w5.setMinHeight(20);
-    w5.setBorder(QxBorder.presets.black);
+    w5.setBorder(qx.renderer.border.Border.presets.black);
 
     w6 = new QxCanvasLayout;
     w6.setBackgroundColor(new QxColor("red"));
     w6.setMinWidth(20);
     w6.setMinHeight(20);
-    w6.setBorder(QxBorder.presets.black);
+    w6.setBorder(qx.renderer.border.Border.presets.black);
     
     w7 = new QxImage("icons/64/cdrom.png");
     
@@ -272,7 +272,7 @@
     w8.setBackgroundColor(new QxColor("fuchsia"));
     w8.setMinWidth(20);
     w8.setMinHeight(20);
-    w8.setBorder(QxBorder.presets.black);
+    w8.setBorder(qx.renderer.border.Border.presets.black);
 
     bl.add(w1, w2, w3, w4, w5, w6, w7);
     d.add(bl);

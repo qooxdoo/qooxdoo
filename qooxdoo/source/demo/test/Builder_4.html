@@ -21,7 +21,7 @@
   </div>
   <textarea id='widgets' style='display:none'>
     <qx:widgets xmlns:qx='qooxdoo'>
-      <qx:atom id="linfo" label="Current Value" icon="icons/16/forward.png" border="QxBorder.presets.black" padding="2,4" backgroundColor="white" top="48" left="20"/>
+      <qx:atom id="linfo" label="Current Value" icon="icons/16/forward.png" border="qx.renderer.border.Border.presets.black" padding="2,4" backgroundColor="white" top="48" left="20"/>
       <qx:radioManager id='_rm1' name="mygroup">
         <qx:eventListener type='changeSelected' args='e'>
           linfo.setLabel("Current Value: \"" + e.getData().getLabel() + "\" (" + e.getData().getValue() + ")");

@@ -27,7 +27,7 @@
 #post(QxButton)
 #post(QxCanvasLayout)
 #post(QxImage)
-#post(QxBorderObjectPresets)
+#post(qx.renderer.border.BorderObjectPresets)
 #post(QxFieldSet)
 #post(QxLabel)
 #post(QxSpinner)
@@ -190,7 +190,7 @@ proto._createHueSaturationPane = function()
   this._hueSaturationPane.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
 
   this._hueSaturationField = new QxImage("core/huesaturation-field.jpg");
-  this._hueSaturationField.setBorder(QxBorderObject.presets.thinInset);
+  this._hueSaturationField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._hueSaturationField.setMargin(5);
   this._hueSaturationField.setParent(this._hueSaturationPane);
 
@@ -215,7 +215,7 @@ proto._createBrightnessPane = function()
   this._brightnessPane.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
 
   this._brightnessField = new QxImage("core/brightness-field.jpg");
-  this._brightnessField.setBorder(QxBorderObject.presets.thinInset);
+  this._brightnessField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._brightnessField.setMargin(5, 7);
   this._brightnessField.setParent(this._brightnessPane);
 
@@ -277,7 +277,7 @@ proto._createPresetFieldSet = function()
     for (var j=0; j<10; j++)
     {
       colorField = new QxTerminator;
-      colorField.setBorder(QxBorderObject.presets.thinInset);
+      colorField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
       colorField.setBackgroundColor(this._presetTable[i*10+j]);
       colorField.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onColorFieldClick, this);
 
@@ -419,13 +419,13 @@ proto._createHsbSpinner = function()
 proto._createPreviewContent = function()
 {
   this._oldColorPreview = new QxTerminator;
-  this._oldColorPreview.setBorder(QxBorderObject.presets.thinInset);
+  this._oldColorPreview.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._oldColorPreview.setWidth(QxConst.CORE_FLEX);
   this._oldColorPreview.setBackgroundImage("core/dotted_white.gif");
   this._oldColorPreview.setParent(this._previewLayout);
 
   this._newColorPreview = new QxTerminator;
-  this._newColorPreview.setBorder(QxBorderObject.presets.thinInset);
+  this._newColorPreview.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._newColorPreview.setWidth(QxConst.CORE_FLEX);
   this._newColorPreview.setBackgroundColor("white");
   this._newColorPreview.setParent(this._previewLayout);

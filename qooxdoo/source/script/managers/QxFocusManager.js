@@ -31,7 +31,7 @@
 ************************************************************************ */
 
 /*!
-  This object gets an instance in vAll QxClientWindows and manage the focus handling for it.
+  This object gets an instance in vAll qx.client.ClientWindows and manage the focus handling for it.
 */
 function QxFocusManager(vWidget)
 {

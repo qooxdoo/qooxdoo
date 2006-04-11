@@ -24,14 +24,14 @@
 
 #package(border)
 #require(QxColorObject)
-#post(QxBorderPresets)
+#post(qx.renderer.border.BorderPresets)
 
 ************************************************************************ */
 
 /*!
   Border implementation for QxWidget instances.
 */
-function QxBorder(vWidth, vStyle, vColor)
+qx.renderer.border.Border = function(vWidth, vStyle, vColor)
 {
   qx.core.Object.call(this);
 
@@ -52,12 +52,12 @@ function QxBorder(vWidth, vStyle, vColor)
   };
 };
 
-QxBorder.extend(qx.core.Object, "QxBorder");
+qx.renderer.border.Border.extend(qx.core.Object, "qx.renderer.border.Border");
 
-QxBorder.enhancedCrossBrowserMode = true;
-QxBorder.baseColor = "threedlightshadow";
-QxBorder.stylePart = "Style";
-QxBorder.colorPart = "Color";
+qx.renderer.border.Border.enhancedCrossBrowserMode = true;
+qx.renderer.border.Border.baseColor = "threedlightshadow";
+qx.renderer.border.Border.stylePart = "Style";
+qx.renderer.border.Border.colorPart = "Color";
 
 proto._needsCompilationTop = true;
 proto._needsCompilationRight = true;
@@ -72,20 +72,20 @@ proto._needsCompilationLeft = true;
 ---------------------------------------------------------------------------
 */
 
-QxBorder.addProperty({ name : "topWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderTopProperty" });
-QxBorder.addProperty({ name : "rightWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderRightProperty" });
-QxBorder.addProperty({ name : "bottomWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
-QxBorder.addProperty({ name : "leftWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
+qx.renderer.border.Border.addProperty({ name : "topWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderTopProperty" });
+qx.renderer.border.Border.addProperty({ name : "rightWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderRightProperty" });
+qx.renderer.border.Border.addProperty({ name : "bottomWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
+qx.renderer.border.Border.addProperty({ name : "leftWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
 
-QxBorder.addProperty({ name : "topStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderTopProperty" });
-QxBorder.addProperty({ name : "rightStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderRightProperty" });
-QxBorder.addProperty({ name : "bottomStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderBottomProperty" });
-QxBorder.addProperty({ name : "leftStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderLeftProperty" });
+qx.renderer.border.Border.addProperty({ name : "topStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderTopProperty" });
+qx.renderer.border.Border.addProperty({ name : "rightStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderRightProperty" });
+qx.renderer.border.Border.addProperty({ name : "bottomStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderBottomProperty" });
+qx.renderer.border.Border.addProperty({ name : "leftStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderLeftProperty" });
 
-QxBorder.addProperty({ name : "topColor", impl : "borderTopProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-QxBorder.addProperty({ name : "rightColor", impl : "borderRightProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-QxBorder.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-QxBorder.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
+qx.renderer.border.Border.addProperty({ name : "topColor", impl : "borderTopProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
+qx.renderer.border.Border.addProperty({ name : "rightColor", impl : "borderRightProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
+qx.renderer.border.Border.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
+qx.renderer.border.Border.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
 
 
 
@@ -96,9 +96,9 @@ QxBorder.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : Q
 ---------------------------------------------------------------------------
 */
 
-QxBorder.fromString = function(vDefString)
+qx.renderer.border.Border.fromString = function(vDefString)
 {
-  var vBorder = new QxBorder;
+  var vBorder = new qx.renderer.border.Border;
   var vAllParts = vDefString.split(/\s+/);
   var vPart, vTemp;
 
@@ -144,7 +144,7 @@ QxBorder.fromString = function(vDefString)
 
 /*
 ---------------------------------------------------------------------------
-  COMPATIBILITY TO QXBORDEROBJECT
+  COMPATIBILITY TO qx.renderer.border.BorderOBJECT
 ---------------------------------------------------------------------------
 */
 
@@ -282,7 +282,7 @@ else
       borderBottom : QxConst.CORE_EMPTY
     };
 
-    if (QxBorder.enhancedCrossBrowserMode)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       this._enhancedDefsX =
       {
@@ -306,7 +306,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isGecko() || QxBorder.enhancedCrossBrowserMode)
+if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
 {
   proto._addToThemed3DColors = function(vProp)
   {
@@ -365,7 +365,7 @@ else
 
 
 
-QxBorder.data =
+qx.renderer.border.Border.data =
 {
   1 :
   {
@@ -475,7 +475,7 @@ proto._updateColors = function(vColorObject, vNewValue)
 
 proto._handleColorRegistration = function(propValue, propOldValue, propData)
 {
-  if (propData.name.contains(QxBorder.stylePart))
+  if (propData.name.contains(qx.renderer.border.Border.stylePart))
   {
     switch(propValue)
     {
@@ -491,7 +491,7 @@ proto._handleColorRegistration = function(propValue, propOldValue, propData)
     };
   };
 
-  if (propData.name.contains(QxBorder.colorPart))
+  if (propData.name.contains(qx.renderer.border.Border.colorPart))
   {
     if (propOldValue instanceof QxColorObject)
     {
@@ -644,11 +644,11 @@ proto._resetWidget = function(o)
 };
 
 proto._resetWidgetX = function(o) {
-  return QxBorder._resetBorderX(o);
+  return qx.renderer.border.Border._resetBorderX(o);
 };
 
 proto._resetWidgetY = function(o) {
-  return QxBorder._resetBorderY(o);
+  return qx.renderer.border.Border._resetBorderY(o);
 };
 
 proto._applyWidgetXCommon = function(vObject)
@@ -665,7 +665,7 @@ proto._applyWidgetXCommon = function(vObject)
     vObject._style[i] = this._defsX[i];
   };
 
-  if (!qx.sys.Client.isGecko() && QxBorder.enhancedCrossBrowserMode)
+  if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -694,7 +694,7 @@ proto._applyWidgetYCommon = function(vObject)
     vObject._style[i] = this._defsY[i];
   };
 
-  if (!qx.sys.Client.isGecko() && QxBorder.enhancedCrossBrowserMode)
+  if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -719,7 +719,7 @@ if (qx.sys.Client.isGecko())
     try
     {
       try {
-        var a = QxBorder.data[vWidth][vStyle][vEdge];
+        var a = qx.renderer.border.Border.data[vWidth][vStyle][vEdge];
       } catch(ex) {};
 
       if (typeof a === QxConst.TYPEOF_OBJECT)
@@ -778,13 +778,13 @@ if (qx.sys.Client.isGecko())
     this._needsCompilationLeft = false;
   };
 
-  QxBorder._resetBorderX = function(o)
+  qx.renderer.border.Border._resetBorderX = function(o)
   {
     s = o._style;
     s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = QxConst.CORE_EMPTY;
   };
 
-  QxBorder._resetBorderY = function(o)
+  qx.renderer.border.Border._resetBorderY = function(o)
   {
     s = o._style;
     s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = QxConst.CORE_EMPTY;
@@ -796,7 +796,7 @@ else
   {
     this._applyWidgetXCommon(vObject);
 
-    if (QxBorder.enhancedCrossBrowserMode)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       if (this.getUseEnhancedCrossBrowserMode()) {
         vObject._createElementForEnhancedBorder();
@@ -815,7 +815,7 @@ else
   {
     this._applyWidgetYCommon(vObject);
 
-    if (QxBorder.enhancedCrossBrowserMode)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       if (this.getUseEnhancedCrossBrowserMode()) {
         vObject._createElementForEnhancedBorder();
@@ -843,7 +843,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vTopColor = (new QxColorObject(QxBorder.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP][0]));
+            vTopColor = (new QxColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP][0]));
             vTopStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -856,11 +856,11 @@ else
           case QxConst.BORDER_STYLE_INSET:
           case QxConst.BORDER_STYLE_GROOVE:
           case QxConst.BORDER_STYLE_RIDGE:
-            if (QxBorder.enhancedCrossBrowserMode)
+            if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
               {
-                var c = QxBorder.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP];
+                var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP];
 
                 if (typeof c === QxConst.TYPEOF_OBJECT)
                 {
@@ -881,7 +881,7 @@ else
             }
             else
             {
-              vTopColor = (new QxColorObject(QxBorder.baseColor));
+              vTopColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -905,7 +905,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vRightColor = (new QxColorObject(QxBorder.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT][0]));
+            vRightColor = (new QxColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT][0]));
             vRightStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -918,11 +918,11 @@ else
           case QxConst.BORDER_STYLE_INSET:
           case QxConst.BORDER_STYLE_GROOVE:
           case QxConst.BORDER_STYLE_RIDGE:
-            if (QxBorder.enhancedCrossBrowserMode)
+            if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
               {
-                var c = QxBorder.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT];
+                var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT];
 
                 if (typeof c === QxConst.TYPEOF_OBJECT)
                 {
@@ -943,7 +943,7 @@ else
             }
             else
             {
-              vRightColor = (new QxColorObject(QxBorder.baseColor));
+              vRightColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -967,7 +967,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vBottomColor = (new QxColorObject(QxBorder.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM][0]));
+            vBottomColor = (new QxColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM][0]));
             vBottomStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -980,11 +980,11 @@ else
           case QxConst.BORDER_STYLE_INSET:
           case QxConst.BORDER_STYLE_GROOVE:
           case QxConst.BORDER_STYLE_RIDGE:
-            if (QxBorder.enhancedCrossBrowserMode)
+            if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
               {
-                var c = QxBorder.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM];
+                var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM];
 
                 if (typeof c === QxConst.TYPEOF_OBJECT)
                 {
@@ -1004,7 +1004,7 @@ else
             }
             else
             {
-              vBottomColor = (new QxColorObject(QxBorder.baseColor));
+              vBottomColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -1028,7 +1028,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vLeftColor = (new QxColorObject(QxBorder.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT][0]));
+            vLeftColor = (new QxColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT][0]));
             vLeftStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -1041,11 +1041,11 @@ else
           case QxConst.BORDER_STYLE_INSET:
           case QxConst.BORDER_STYLE_GROOVE:
           case QxConst.BORDER_STYLE_RIDGE:
-            if (QxBorder.enhancedCrossBrowserMode)
+            if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
               {
-                var c = QxBorder.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT];
+                var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT];
 
                 if (typeof c === QxConst.TYPEOF_OBJECT)
                 {
@@ -1065,7 +1065,7 @@ else
             }
             else
             {
-              vLeftColor = (new QxColorObject(QxBorder.baseColor));
+              vLeftColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -1076,12 +1076,12 @@ else
     this._needsCompilationLeft = false;
   };
 
-  QxBorder._resetBorderX = function(o)
+  qx.renderer.border.Border._resetBorderX = function(o)
   {
     s = o._style;
     s.borderLeft = s.borderRight = QxConst.CORE_EMPTY;
 
-    if (QxBorder.enhancedCrossBrowserMode)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
@@ -1090,12 +1090,12 @@ else
     };
   };
 
-  QxBorder._resetBorderY = function(o)
+  qx.renderer.border.Border._resetBorderY = function(o)
   {
     s = o._style;
     s.borderTop = s.borderBottom = QxConst.CORE_EMPTY;
 
-    if (QxBorder.enhancedCrossBrowserMode)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
@@ -1143,7 +1143,7 @@ proto.dispose = function()
 
   delete this._defsY;
 
-  if (QxBorder.enhancedCrossBrowserMode)
+  if (qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (typeof this._enhancedDefsX === QxConst.TYPEOF_OBJECT) {
       for (var i in this._enhancedDefsX) {

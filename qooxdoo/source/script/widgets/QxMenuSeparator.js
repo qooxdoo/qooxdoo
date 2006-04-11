@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(menu)
-#require(QxBorderObjectPresets)
+#require(qx.renderer.border.BorderObjectPresets)
 
 ************************************************************************ */
 

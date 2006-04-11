@@ -101,12 +101,12 @@
     <p>
       Border:
       <a href="javascript://" onclick="void(at1.setBorder(null))">null</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new QxBorder(1, 'solid', 'black')))">1</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new QxBorder(5, 'solid', 'black')))">5</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new QxBorder(10, 'solid', 'black')))">10</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new QxBorder(25, 'solid', 'black')))">25</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(QxBorderObject.presets.outset))">outset</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(QxBorderObject.presets.inset))">inset</a>
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.renderer.border.Border(1, 'solid', 'black')))">1</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.renderer.border.Border(5, 'solid', 'black')))">5</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.renderer.border.Border(10, 'solid', 'black')))">10</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.renderer.border.Border(25, 'solid', 'black')))">25</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(qx.renderer.border.BorderObject.presets.outset))">outset</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(qx.renderer.border.BorderObject.presets.inset))">inset</a>
     </p>
     <hr/>
     <p>
@@ -141,7 +141,7 @@
 
       setIconPosition("right");
 
-      setBorder(QxBorder.presets.black);
+      setBorder(qx.renderer.border.Border.presets.black);
       setBackgroundColor(new QxColor("white"));
       setPadding(2, 4);
     };
@@ -160,7 +160,7 @@
       setOverflow("auto");
 
       setBackgroundColor(new QxColor("white"));
-      setBorder(QxBorderObject.presets.groove);
+      setBorder(qx.renderer.border.BorderObject.presets.groove);
       setPadding(10);
     };
 

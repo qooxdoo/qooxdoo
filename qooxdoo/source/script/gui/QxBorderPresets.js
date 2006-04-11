@@ -23,17 +23,17 @@
 /* ************************************************************************
 
 #package(border)
-#require(QxBorder)
+#require(qx.renderer.border.Border)
 
 ************************************************************************ */
 
-QxBorder.init = function()
+qx.renderer.border.Border.init = function()
 {
-  QxBorder.presets = {
-    black : new QxBorder(1, QxConst.BORDER_STYLE_SOLID, "black"),
-    white : new QxBorder(1, QxConst.BORDER_STYLE_SOLID, "white"),
-    none : new QxBorder(0, QxConst.BORDER_STYLE_NONE)
+  qx.renderer.border.Border.presets = {
+    black : new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "black"),
+    white : new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "white"),
+    none : new qx.renderer.border.Border(0, QxConst.BORDER_STYLE_NONE)
   };
 };
 
-QxBorder.init();
+qx.renderer.border.Border.init();
