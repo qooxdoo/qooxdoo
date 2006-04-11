@@ -29,12 +29,12 @@
 
 function QxSet()
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this.clear();
 };
 
-QxSet.extend(QxObject, "QxSet");
+QxSet.extend(qx.core.Object, "QxSet");
 
 
 
@@ -46,15 +46,15 @@ QxSet.extend(QxObject, "QxSet");
 */
 
 proto.add = function(o) {
-  this._storage[QxObject.toHashCode(o)] = o;
+  this._storage[qx.core.Object.toHashCode(o)] = o;
 };
 
 proto.remove = function(o) {
-  delete this._storage[QxObject.toHashCode(o)];
+  delete this._storage[qx.core.Object.toHashCode(o)];
 };
 
 proto.contains = function(o) {
-  return QxObject.toHashCode(o) in this._storage;
+  return qx.core.Object.toHashCode(o) in this._storage;
 };
 
 proto.clear = function() {
@@ -90,5 +90,5 @@ proto.dispose = function()
 
   this._storage = null;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

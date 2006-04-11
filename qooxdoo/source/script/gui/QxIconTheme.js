@@ -29,7 +29,7 @@
 
 function QxIconTheme(vId, vTitle)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
     throw new Error("Each instance of QxIconTheme need an unique ID!");
@@ -45,7 +45,7 @@ function QxIconTheme(vId, vTitle)
   };
 };
 
-QxIconTheme.extend(QxObject, "QxIconTheme");
+QxIconTheme.extend(qx.core.Object, "QxIconTheme");
 
 QxIconTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
 QxIconTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });

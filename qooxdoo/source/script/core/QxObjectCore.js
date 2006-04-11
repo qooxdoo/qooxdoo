@@ -23,56 +23,56 @@
 /* ************************************************************************
 
 #package(core)
-#require(QxObject)
+#require(qx.core.Object)
 #require(QxDomEventRegistration)
 
 ************************************************************************ */
 
-var QxObjectCounter = 0;
-var QxObjectDataBase = [];
+qx.core.ObjectCounter = 0;
+qx.core.ObjectDataBase = [];
 
-function QxObjectUnload()
+qx.core.ObjectUnload = function()
 {
-  QxObject.dispose();
-  qx.dom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
+  qx.core.Object.dispose();
+  qx.dom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 };
 
-qx.dom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, QxObjectUnload);
+qx.dom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 
-QxObject.toHashCode = function(o)
+qx.core.Object.toHashCode = function(o)
 {
   if(o._hashCode != null) {
     return o._hashCode;
   };
 
-  return o._hashCode = QxObjectCounter++;
+  return o._hashCode = qx.core.ObjectCounter++;
 };
 
-QxObject.dispose = function()
+qx.core.Object.dispose = function()
 {
-  // qx.dev.Debug("QxObject", "Disposing Application");
+  // qx.dev.Debug("qx.core.Object", "Disposing Application");
 
   var vStart = (new Date).valueOf();
   var vObject;
 
-  for (var i=QxObjectDataBase.length-1; i>=0; i--)
+  for (var i=qx.core.ObjectDataBase.length-1; i>=0; i--)
   {
-    vObject = QxObjectDataBase[i];
+    vObject = qx.core.ObjectDataBase[i];
 
     if (vObject != null)
     {
-      // qx.dev.Debug("QxObject", "Disposing: " + vObject);
+      // qx.dev.Debug("qx.core.Object", "Disposing: " + vObject);
       vObject.dispose();
-      QxObjectDataBase[i] = null;
+      qx.core.ObjectDataBase[i] = null;
     };
   };
 
-  // qx.dev.Debug("QxObject", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  // qx.dev.Debug("qx.core.Object", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
-QxObject.addProperty({ name : "enabled", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
+qx.core.Object.addProperty({ name : "enabled", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
-QxObject.DEBUG_MSG_BEFORE = "[HASHCODE:";
-QxObject.DEBUG_MSG_AFTER = "]";
-QxObject.DEBUG_FUNCERRORPRE = "Failed to execute \"";
-QxObject.DEBUG_FUNCERRORPOST = "()\": ";
+qx.core.Object.DEBUG_MSG_BEFORE = "[HASHCODE:";
+qx.core.Object.DEBUG_MSG_AFTER = "]";
+qx.core.Object.DEBUG_FUNCERRORPRE = "Failed to execute \"";
+qx.core.Object.DEBUG_FUNCERRORPOST = "()\": ";

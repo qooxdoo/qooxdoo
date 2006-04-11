@@ -31,13 +31,13 @@
 */
 function QxSelectionStorage(vManager)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._manager = vManager;
   this.removeAll();
 };
 
-QxSelectionStorage.extend(QxObject, "QxSelectionStorage");
+QxSelectionStorage.extend(qx.core.Object, "QxSelectionStorage");
 
 
 
@@ -121,5 +121,5 @@ proto.dispose = function()
   this._storage = null;
   this._manager = null;
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };

@@ -35,7 +35,7 @@ function QxColorObject(vValue)
     return QxColorManager.get(this._value);
   };
 
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   // Register this color object to manager instance
   QxColorManager.add(this);

@@ -28,7 +28,7 @@
 #require(QxConst)
 #require(QxUtil)
 #require(qx.core.Settings)
-#post(QxObjectCore)
+#post(qx.core.ObjectCore)
 #post(qx.sys.Client)
 #post(qx.dev.Debug)
 
@@ -37,16 +37,16 @@
 /*!
   The qooxdoo basic object. All qooxdoo classes extends this one
 */
-function QxObject(vAutoDispose)
+qx.core.Object = function(vAutoDispose)
 {
-  this._hashCode = QxObjectCounter++;
+  this._hashCode = qx.core.ObjectCounter++;
 
   if (vAutoDispose !== false) {
-    QxObjectDataBase.push(this);
+    qx.core.ObjectDataBase.push(this);
   };
 };
 
-QxObject.extend(Object, "QxObject");
+qx.core.Object.extend(Object, "qx.core.Object");
 
 
 
@@ -106,7 +106,7 @@ proto.isDisposed = function() {
   Print out a debug message to the qooxdoo debug console.
 */
 proto.debug = function(m, c) {
-  qx.dev.Debug(this.classname + QxObject.DEBUG_MSG_BEFORE + this._hashCode + QxObject.DEBUG_MSG_AFTER, m, c);
+  qx.dev.Debug(this.classname + qx.core.Object.DEBUG_MSG_BEFORE + this._hashCode + qx.core.Object.DEBUG_MSG_AFTER, m, c);
 };
 
 /*!
@@ -130,7 +130,7 @@ proto.error = function(m, f)
 {
   if (qx.util.validator.isValidString(f))
   {
-    this.debug(QxObject.DEBUG_FUNCERRORPRE + f + QxObject.DEBUG_FUNCERRORPOST + m, QxConst.EVENT_TYPE_ERROR);
+    this.debug(qx.core.Object.DEBUG_FUNCERRORPRE + f + qx.core.Object.DEBUG_FUNCERRORPOST + m, QxConst.EVENT_TYPE_ERROR);
   }
   else
   {
@@ -327,8 +327,8 @@ proto.dispose = function()
   */
 
   // Delete Entry from Object DB
-  QxObjectDataBase[this._hashCode] = null;
-  delete QxObjectDataBase[this._hashCode];
+  qx.core.ObjectDataBase[this._hashCode] = null;
+  delete qx.core.ObjectDataBase[this._hashCode];
 
   // Mark as disposed
   this._disposed = true;

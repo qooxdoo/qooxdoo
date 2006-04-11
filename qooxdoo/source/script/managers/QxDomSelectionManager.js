@@ -126,7 +126,7 @@ proto.getItemHashCode = function(oItem)
     return oItem._hash;
   };
 
-  return oItem._hash = QxObject.toHashCode(oItem);
+  return oItem._hash = qx.core.Object.toHashCode(oItem);
 };
 
 proto.isBefore = function(vItem1, vItem2)

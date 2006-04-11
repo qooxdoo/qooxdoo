@@ -29,7 +29,7 @@
 
 function QxAppearanceTheme(vId, vTitle)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._appearances = {};
 
@@ -39,7 +39,7 @@ function QxAppearanceTheme(vId, vTitle)
   QxAppearanceManager.registerTheme(this);
 };
 
-QxAppearanceTheme.extend(QxObject, "QxAppearanceTheme");
+QxAppearanceTheme.extend(qx.core.Object, "QxAppearanceTheme");
 
 
 
@@ -165,5 +165,5 @@ proto.dispose = function()
 
   this._appearances = null;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

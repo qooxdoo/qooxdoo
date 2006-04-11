@@ -29,7 +29,7 @@
 **************************************************************************** */
 
 function QxResource(vResource, vLocale) {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if(qx.util.validator.isValidString(vResource)) {
     this.setResource(vResource);
@@ -42,7 +42,7 @@ function QxResource(vResource, vLocale) {
   this.loadResource(vResource, vLocale);
 };
 
-QxResource.extend(QxObject, "QxResource");
+QxResource.extend(qx.core.Object, "QxResource");
 
 
 /*
@@ -236,5 +236,5 @@ proto.dispose = function()
 
   delete this._content;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

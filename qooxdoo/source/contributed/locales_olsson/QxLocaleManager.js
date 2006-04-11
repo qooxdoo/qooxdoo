@@ -63,7 +63,7 @@ proto.dispose = function()
     return;
   };
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };
 
 /*

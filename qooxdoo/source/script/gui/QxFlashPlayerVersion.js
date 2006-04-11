@@ -45,7 +45,7 @@
 
 function QxFlashPlayerVersion(arrVersion)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if (typeof arrVersion === QxConst.TYPEOF_STRING) {
     arrVersion = arrVersion.split(QxConst.CORE_DOT);
@@ -56,7 +56,7 @@ function QxFlashPlayerVersion(arrVersion)
   this._rev = parseInt(arrVersion[2]) || 0;
 };
 
-QxFlashPlayerVersion.extend(QxObject, "QxFlashPlayerVersion");
+QxFlashPlayerVersion.extend(qx.core.Object, "QxFlashPlayerVersion");
 
 
 
@@ -124,5 +124,5 @@ proto.dispose = function()
 
   this._major = this._minor = this._rev = null;
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };

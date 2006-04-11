@@ -112,7 +112,7 @@ qx.dev.Debug = function(group, message, classname)
     qx.dev.Debug._head.appendChild(qx.dev.Debug._btnDispose);
 
     qx.dev.Debug._btnDispose.onclick = function(e) {
-      QxObject.dispose();
+      qx.core.Object.dispose();
     };
   };
 

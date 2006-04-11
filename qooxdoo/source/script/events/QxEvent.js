@@ -31,12 +31,12 @@
 */
 function QxEvent(vType)
 {
-  QxObject.call(this, false);
+  qx.core.Object.call(this, false);
 
   this.setType(vType);
 };
 
-QxEvent.extend(QxObject, "QxEvent");
+QxEvent.extend(qx.core.Object, "QxEvent");
 
 QxEvent.addFastProperty({ name : "type", setOnlyOnce : true });
 
@@ -86,5 +86,5 @@ proto.dispose = function()
   this._valueRelatedTarget = null;
   this._valueCurrentTarget = null;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

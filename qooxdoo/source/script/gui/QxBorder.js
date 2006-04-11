@@ -33,7 +33,7 @@
 */
 function QxBorder(vWidth, vStyle, vColor)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   this._themedEdges = {};
   this._initCache();
@@ -52,7 +52,7 @@ function QxBorder(vWidth, vStyle, vColor)
   };
 };
 
-QxBorder.extend(QxObject, "QxBorder");
+QxBorder.extend(qx.core.Object, "QxBorder");
 
 QxBorder.enhancedCrossBrowserMode = true;
 QxBorder.baseColor = "threedlightshadow";
@@ -1164,5 +1164,5 @@ proto.dispose = function()
 
   delete this._themedEdges;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

@@ -34,10 +34,10 @@ function QxColor(vValue)
     this.setValue(vValue);
   };
 
-  QxObject.call(this);
+  qx.core.Object.call(this);
 };
 
-QxColor.extend(QxObject, "QxColor");
+QxColor.extend(qx.core.Object, "QxColor");
 
 
 
@@ -389,5 +389,5 @@ proto.dispose = function()
   delete this._isHtmlColor;
   delete this._isThemedColor;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };

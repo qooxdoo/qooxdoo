@@ -31,7 +31,7 @@
 
 function QxColorTheme(vId, vTitle, vColors)
 {
-  QxObject.call(this);
+  qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
     throw new Error("Each instance of QxColorTheme need an unique ID!");
@@ -50,7 +50,7 @@ function QxColorTheme(vId, vTitle, vColors)
   };
 };
 
-QxColorTheme.extend(QxObject, "QxColorTheme");
+QxColorTheme.extend(qx.core.Object, "QxColorTheme");
 
 
 
@@ -145,5 +145,5 @@ proto.dispose = function()
   delete this._definedColors;
   delete this._compiledColors;
 
-  QxObject.prototype.dispose.call(this);
+  qx.core.Object.prototype.dispose.call(this);
 };

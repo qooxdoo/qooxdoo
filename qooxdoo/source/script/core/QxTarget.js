@@ -39,10 +39,10 @@ form of an identification string. This type could be the name of a regular dom e
 something self-defined like "ready".
 */
 function QxTarget(vAutoDispose) {
-  QxObject.call(this, vAutoDispose);
+  qx.core.Object.call(this, vAutoDispose);
 };
 
-QxTarget.extend(QxObject, "QxTarget");
+QxTarget.extend(qx.core.Object, "QxTarget");
 
 
 
@@ -81,7 +81,7 @@ proto.addEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = QxConst.CORE_EVENTPREFIX + QxObject.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + QxObject.toHashCode(vObject) : QxConst.CORE_EMPTY);
+  var vKey = QxConst.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : QxConst.CORE_EMPTY);
 
   // Finally set up the listeners object
   this._listeners[vType][vKey] =
@@ -110,7 +110,7 @@ proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = QxConst.CORE_EVENTPREFIX + QxObject.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + QxObject.toHashCode(vObject) : QxConst.CORE_EMPTY);
+  var vKey = QxConst.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : QxConst.CORE_EMPTY);
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
@@ -289,5 +289,5 @@ proto.dispose = function()
   this._listeners = null;
   delete this._listeners;
 
-  return QxObject.prototype.dispose.call(this);
+  return qx.core.Object.prototype.dispose.call(this);
 };
