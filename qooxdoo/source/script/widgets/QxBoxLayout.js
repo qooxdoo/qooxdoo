@@ -30,7 +30,7 @@
 
 function QxBoxLayout(vOrientation)
 {
-  QxParent.call(this);
+  qx.ui.core.Parent.call(this);
 
   // apply orientation
   if (qx.util.validator.isValidString(vOrientation)) {
@@ -38,7 +38,7 @@ function QxBoxLayout(vOrientation)
   };
 };
 
-QxBoxLayout.extend(QxParent, "QxBoxLayout");
+QxBoxLayout.extend(qx.ui.core.Parent, "QxBoxLayout");
 
 QxBoxLayout.STR_REVERSED = "-reversed";
 

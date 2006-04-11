@@ -28,10 +28,10 @@
 ************************************************************************ */
 
 function QxFlowLayout() {
-  QxParent.call(this);
+  qx.ui.core.Parent.call(this);
 };
 
-QxFlowLayout.extend(QxParent, "QxFlowLayout");
+QxFlowLayout.extend(qx.ui.core.Parent, "QxFlowLayout");
 
 /*!
   The spacing between childrens. Could be any positive integer value.
@@ -88,7 +88,7 @@ proto._createLayoutImpl = function() {
 
 proto._changeInnerWidth = function(vNew, vOld)
 {
-  QxParent.prototype._changeInnerWidth.call(this, vNew, vOld);
+  qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
 
   // allow 'auto' values for height to update when the inner width changes
   this._invalidatePreferredInnerHeight();

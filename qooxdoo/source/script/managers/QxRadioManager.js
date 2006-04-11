@@ -107,7 +107,7 @@ proto.add = function()
 
   var vLast = vItems[vLength-1];
 
-  if (!(vLast instanceof QxParent) && !(vLast instanceof QxTerminator)) {
+  if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof QxTerminator)) {
     vLength--;
   };
 

@@ -51,7 +51,7 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   sp.setHeight(QxConst.CORE_AUTO);
   sp.setWidth(QxConst.CORE_AUTO);
 
-  QxParent.prototype.add.call(this, sp)
+  qx.ui.core.Parent.prototype.add.call(this, sp)
 
   // ***********************************************************************
   //   INITIALIZATION

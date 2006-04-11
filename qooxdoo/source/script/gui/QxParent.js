@@ -27,10 +27,10 @@
 
 ************************************************************************ */
 
-function QxParent()
+qx.ui.core.Parent = function()
 {
-  if (this.classname == QxParent.OMIT_CLASS) {
-    throw new Error("Please omit the usage of QxParent directly. Choose between any widget which inherits from QxParent and so comes with a layout implementation!");
+  if (this.classname == qx.ui.core.Parent.OMIT_CLASS) {
+    throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
   };
 
   QxWidget.call(this);
@@ -42,9 +42,9 @@ function QxParent()
   this._layoutImpl = this._createLayoutImpl();
 };
 
-QxParent.extend(QxWidget, "QxParent");
+qx.ui.core.Parent.extend(QxWidget, "qx.ui.core.Parent");
 
-QxParent.OMIT_CLASS = "QxParent";
+qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 
 
 
@@ -58,17 +58,17 @@ QxParent.OMIT_CLASS = "QxParent";
 /*!
   Individual focus manager for all child elements.
 */
-QxParent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJECT, instance : "QxFocusManager" });
+qx.ui.core.Parent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJECT, instance : "QxFocusManager" });
 
 /*!
   The current active child.
 */
-QxParent.addProperty({ name : "activeChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
+qx.ui.core.Parent.addProperty({ name : "activeChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
 
 /*!
   The current focused child.
 */
-QxParent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
+qx.ui.core.Parent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
 
 
 
@@ -80,7 +80,7 @@ QxParent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, inst
 ---------------------------------------------------------------------------
 */
 
-QxParent.addCachedProperty({ name : "visibleChildren", defaultValue : null });
+qx.ui.core.Parent.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 
 
 
@@ -410,7 +410,7 @@ proto.add = function()
   {
     vWidget = arguments[i];
 
-    if (!(vWidget instanceof QxParent) && !(vWidget instanceof QxTerminator))
+    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof QxTerminator))
     {
       throw new Error("Invalid Widget: " + vWidget);
     }
@@ -533,7 +533,7 @@ proto.remove = function()
   {
     vWidget = arguments[i];
 
-    if (!(vWidget instanceof QxParent) && !(vWidget instanceof QxTerminator))
+    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof QxTerminator))
     {
       throw new Error("Invalid Widget: " + vWidget);
     }
@@ -1129,7 +1129,7 @@ proto.remapChildrenHandlingTo = function(vTarget)
   this._remappingChildTarget = vTarget;
 
   for (var i=0, l=t.length, s; i<l; i++) {
-    s = t[i]; this[s] = new Function(QxParent.prototype._remapStart + s + QxParent.prototype._remapStop);
+    s = t[i]; this[s] = new Function(qx.ui.core.Parent.prototype._remapStart + s + qx.ui.core.Parent.prototype._remapStop);
   };
 };
 

@@ -28,10 +28,10 @@
 ************************************************************************ */
 
 function QxCanvasLayout() {
-  QxParent.call(this);
+  qx.ui.core.Parent.call(this);
 };
 
-QxCanvasLayout.extend(QxParent, "QxCanvasLayout");
+QxCanvasLayout.extend(qx.ui.core.Parent, "QxCanvasLayout");
 
 
 

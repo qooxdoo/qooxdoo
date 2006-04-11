@@ -29,7 +29,7 @@
 
 function QxGridLayout()
 {
-  QxParent.call(this);
+  qx.ui.core.Parent.call(this);
 
   this._columnData = [];
   this._rowData = [];
@@ -37,7 +37,7 @@ function QxGridLayout()
   this._spans = [];
 };
 
-QxGridLayout.extend(QxParent, "QxGridLayout");
+QxGridLayout.extend(qx.ui.core.Parent, "QxGridLayout");
 
 
 
@@ -127,7 +127,7 @@ proto.add = function(vChild, vCol, vRow)
     throw new Error("Could not insert child " + vChild + " into a fill cell: " + vCol + "x" + vRow);
   };
 
-  QxParent.prototype.add.call(this, vChild);
+  qx.ui.core.Parent.prototype.add.call(this, vChild);
 };
 
 
@@ -701,7 +701,7 @@ proto._changeInnerWidth = function(vNew, vOld)
     };
   };
 
-  QxParent.prototype._changeInnerWidth.call(this, vNew, vOld);
+  qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
 };
 
 proto._changeInnerHeight = function(vNew, vOld)
@@ -712,7 +712,7 @@ proto._changeInnerHeight = function(vNew, vOld)
     };
   };
 
-  QxParent.prototype._changeInnerHeight.call(this, vNew, vOld);
+  qx.ui.core.Parent.prototype._changeInnerHeight.call(this, vNew, vOld);
 };
 
 
@@ -866,5 +866,5 @@ proto.dispose = function()
 
   delete this._spans;
 
-  return QxParent.prototype.dispose.call(this);
+  return qx.ui.core.Parent.prototype.dispose.call(this);
 };

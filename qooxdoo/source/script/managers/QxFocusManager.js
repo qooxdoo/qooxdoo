@@ -224,7 +224,7 @@ proto._getAllAfter = function(vParent, vWidget, vArray)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
@@ -232,7 +232,7 @@ proto._getAllAfter = function(vParent, vWidget, vArray)
       vArray.push(vChildren[i]);
     };
 
-    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
       this._getAllAfter(vCurrentChild, vWidget, vArray);
     };
   };
@@ -248,7 +248,7 @@ proto._getAllBefore = function(vParent, vWidget, vArray)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
@@ -256,7 +256,7 @@ proto._getAllBefore = function(vParent, vWidget, vArray)
       vArray.push(vCurrentChild);
     };
 
-    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
       this._getAllBefore(vCurrentChild, vWidget, vArray);
     };
   };
@@ -272,7 +272,7 @@ proto._getFirst = function(vParent, vFirstWidget)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
@@ -283,7 +283,7 @@ proto._getFirst = function(vParent, vFirstWidget)
       };
     };
 
-    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
       vFirstWidget = this._getFirst(vCurrentChild, vFirstWidget);
     };
   };
@@ -301,7 +301,7 @@ proto._getLast = function(vParent, vLastWidget)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof QxParent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
       continue;
     };
 
@@ -312,7 +312,7 @@ proto._getLast = function(vParent, vLastWidget)
       };
     };
 
-    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof QxParent) {
+    if(!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
       vLastWidget = this._getLast(vCurrentChild, vLastWidget);
     };
   };

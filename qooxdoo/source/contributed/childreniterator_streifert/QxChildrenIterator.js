@@ -12,7 +12,7 @@
 
 #package(guicore)
 #require(qx.core.Object)
-#require(QxParent)
+#require(qx.ui.core.Parent)
 
 ************************************************************************ */
 

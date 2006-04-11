@@ -28,10 +28,10 @@
 ************************************************************************ */
 
 function QxDockLayout() {
-  QxParent.call(this);
+  qx.ui.core.Parent.call(this);
 };
 
-QxDockLayout.extend(QxParent, "QxDockLayout");
+QxDockLayout.extend(qx.ui.core.Parent, "QxDockLayout");
 
 /*!
   The layout mode (in which order the children should be layouted)
