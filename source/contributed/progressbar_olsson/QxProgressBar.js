@@ -190,7 +190,7 @@ proto._onchange = function(e)
 
     if (this.hasEventListeners(QxConst.INTERNAL_CHANGE))
     {
-      this.dispatchEvent(new QxEvent(QxConst.INTERNAL_CHANGE));
+      this.dispatchEvent(new qx.event.types.Event(QxConst.INTERNAL_CHANGE));
     };
   };
 };

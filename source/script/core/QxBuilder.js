@@ -66,7 +66,7 @@ QxBuilder.extend(qx.core.Target, "QxBuilder");
 
 /*!
   Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
-  Dispatches a QxEvent("done") after the hierarchy is built
+  Dispatches a qx.event.types.Event("done") after the hierarchy is built
 */
 proto.buildFromUrl = function(parent, url) {
   var loader = new QxXmlHttpLoader();
@@ -74,7 +74,7 @@ proto.buildFromUrl = function(parent, url) {
   loader.addEventListener("complete", function(e) {
     self.build(parent, e.getData());
     e.preventDefault();
-    self.dispatchEvent(new QxEvent("done"), true);
+    self.dispatchEvent(new qx.event.types.Event("done"), true);
   });
   loader.load(url);
 };
@@ -220,7 +220,7 @@ proto._buildWidgetFromNode = function(parent, node) {
     return;
   };
 
-  if (className == "QxEventListener") {
+  if (className == "qx.event.types.EventListener") {
     var attribs = this._mapXmlAttribToObject(node);
     var text;
     if (node.firstChild) {

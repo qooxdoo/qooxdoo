@@ -451,7 +451,7 @@ proto._handleStateChange = function() {
   var readyState = this._req.readyState;
   if (3 == readyState) {
     if (this.hasEventListeners("progress")) {
-      this.dispatchEvent(new QxEvent("progress"));
+      this.dispatchEvent(new qx.event.types.Event("progress"));
     }
     this._responseText = this._req.responseText;
     this._responseXML = this._req.responseXML;
@@ -459,7 +459,7 @@ proto._handleStateChange = function() {
   
   if (!this.getMultipleReadyStateEvents() && this._lastReadyState == readyState) {
     if (this.hasEventListeners(QxHttpTransport._readyStates[readyState])) {
-      this.dispatchEvent(new QxEvent(QxHttpTransport._readyStates[readyState]));
+      this.dispatchEvent(new qx.event.types.Event(QxHttpTransport._readyStates[readyState]));
     }
   } else if (this._lastReadyState < readyState) {
     this._lastReadyState = readyState;
@@ -521,7 +521,7 @@ proto._handleStateChange = function() {
         break;
     }
     if (this.hasEventListeners(QxHttpTransport._readyStates[readyState])) {
-      this.dispatchEvent(new QxEvent(QxHttpTransport._readyStates[readyState]));
+      this.dispatchEvent(new qx.event.types.Event(QxHttpTransport._readyStates[readyState]));
     }
     this._pumpTimeouts(readyState);
   }  
@@ -579,7 +579,7 @@ proto._newRequest = function() {
 
 proto._raiseError = function() {
   if (this.hasEventListeners("error")) {
-    this.dispatchEvent(new QxEvent("error"));
+    this.dispatchEvent(new qx.event.types.Event("error"));
   }
 }
 

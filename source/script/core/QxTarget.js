@@ -24,14 +24,14 @@
 
 #package(core)
 #post(QxUtil)
-#post(QxEvent)
+#post(qx.event.types.Event)
 #post(QxDataEvent)
 
 ************************************************************************ */
 
 
 /*!
-This is the main constructor for all objects that need to be connected to QxEvent objects.
+This is the main constructor for all objects that need to be connected to qx.event.types.Event objects.
 
 In objects created with this constructor, you find functions to addEventListener or
 removeEventListener to or from the created object. Each event to connect to has a type in
@@ -142,7 +142,7 @@ proto.hasEventListeners = function(vType) {
 proto.createDispatchEvent = function(vType)
 {
   if (this.hasEventListeners(vType)) {
-    this.dispatchEvent(new QxEvent(vType), true);
+    this.dispatchEvent(new qx.event.types.Event(vType), true);
   };
 };
 

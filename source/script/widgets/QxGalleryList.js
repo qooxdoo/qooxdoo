@@ -348,7 +348,7 @@ proto.imageOnComplete = function()
   this._processedImages++;
 
   if(this._processedImages == this._listSize) {
-    this.dispatchEvent(new QxEvent("loadComplete"), true);
+    this.dispatchEvent(new qx.event.types.Event("loadComplete"), true);
   };
 };
 

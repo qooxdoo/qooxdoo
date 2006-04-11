@@ -29,25 +29,25 @@
 /*!
   The qooxdoo core event object. Each event object for qx.core.Targets should extend this class.
 */
-function QxEvent(vType)
+qx.event.types.Event = function(vType)
 {
   qx.core.Object.call(this, false);
 
   this.setType(vType);
 };
 
-QxEvent.extend(qx.core.Object, "QxEvent");
+qx.event.types.Event.extend(qx.core.Object, "qx.event.types.Event");
 
-QxEvent.addFastProperty({ name : "type", setOnlyOnce : true });
+qx.event.types.Event.addFastProperty({ name : "type", setOnlyOnce : true });
 
-QxEvent.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
-QxEvent.addFastProperty({ name : "target", setOnlyOnce : true });
-QxEvent.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
-QxEvent.addFastProperty({ name : "currentTarget" });
+qx.event.types.Event.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
+qx.event.types.Event.addFastProperty({ name : "target", setOnlyOnce : true });
+qx.event.types.Event.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
+qx.event.types.Event.addFastProperty({ name : "currentTarget" });
 
-QxEvent.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
-QxEvent.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
-QxEvent.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
+qx.event.types.Event.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
+qx.event.types.Event.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
+qx.event.types.Event.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
 
 
 
