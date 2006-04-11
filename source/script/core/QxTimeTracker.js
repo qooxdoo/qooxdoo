@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxTimeTracker()
+qx.dev.TimeTracker = function()
 {
   qx.core.Object.call(this);
 
@@ -35,9 +35,9 @@ function QxTimeTracker()
   this.buttonSets();
 };
 
-QxTimeTracker.extend(qx.core.Object, "QxTimeTracker");
+qx.dev.TimeTracker.extend(qx.core.Object, "qx.dev.TimeTracker");
 
-QxTimeTracker.compare = function(a, b) {
+qx.dev.TimeTracker.compare = function(a, b) {
   return a-b;
 };
 
@@ -182,7 +182,7 @@ proto.start = function(vRounds, vLoops)
       vMedian.push(vAllTimes[i][j]);
     };
 
-    vMedian.sort(QxTimeTracker.compare);
+    vMedian.sort(qx.dev.TimeTracker.compare);
     vMedianValue = vMedian[Math.floor(vRounds / 2)].toString();
 
     vMedianAll.push(vMedianValue);
