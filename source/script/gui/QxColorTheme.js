@@ -24,17 +24,17 @@
 
 #package(color)
 #require(QxUtil)
-#require(QxColorManager)
-#post(QxColor)
+#require(qx.manager.object.ColorManager)
+#post(qx.renderer.color.Color)
 
 ************************************************************************ */
 
-qx.renderer.theme.QxColorTheme = function(vId, vTitle, vColors)
+qx.renderer.theme.ColorTheme = function(vId, vTitle, vColors)
 {
   qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
-    throw new Error("Each instance of qx.renderer.theme.QxColorTheme need an unique ID!");
+    throw new Error("Each instance of qx.renderer.theme.ColorTheme need an unique ID!");
   };
 
   this._definedColors = vColors;
@@ -44,13 +44,13 @@ qx.renderer.theme.QxColorTheme = function(vId, vTitle, vColors)
   this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
 
   try {
-    QxColorManager.registerTheme(this);
+    qx.manager.object.ColorManager.registerTheme(this);
   } catch(ex) {
     throw new Error("Could not register Theme: " + ex);
   };
 };
 
-qx.renderer.theme.QxColorTheme.extend(qx.core.Object, "qx.renderer.theme.QxColorTheme");
+qx.renderer.theme.ColorTheme.extend(qx.core.Object, "qx.renderer.theme.ColorTheme");
 
 
 
@@ -62,8 +62,8 @@ qx.renderer.theme.QxColorTheme.extend(qx.core.Object, "qx.renderer.theme.QxColor
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.theme.QxColorTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.QxColorTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.ColorTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.ColorTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
 
 
 
@@ -113,7 +113,7 @@ proto.compile = function()
     return;
   };
 
-  for (var vName in QxColor.themedNames) {
+  for (var vName in qx.renderer.color.Color.themedNames) {
     this._compileValue(vName);
   };
 
@@ -123,7 +123,7 @@ proto.compile = function()
 proto._compileValue = function(vName)
 {
   var v = this._definedColors[vName];
-  this._compiledColors[vName] = v ? QxColor.rgb2style.apply(this, this._definedColors[vName]) : vName;
+  this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._definedColors[vName]) : vName;
 };
 
 

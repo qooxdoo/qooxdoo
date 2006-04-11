@@ -26,26 +26,26 @@
 
 ************************************************************************ */
 
-function QxColorObject(vValue)
+qx.renderer.color.ColorObject = function(vValue)
 {
   // this.debug("Value: " + vValue);
   this.setValue(vValue);
 
-  if(QxColorManager.has(this._value)) {
-    return QxColorManager.get(this._value);
+  if(qx.manager.object.ColorManager.has(this._value)) {
+    return qx.manager.object.ColorManager.get(this._value);
   };
 
   qx.core.Object.call(this);
 
   // Register this color object to manager instance
-  QxColorManager.add(this);
+  qx.manager.object.ColorManager.add(this);
 
   // Here will all objects with a dependency to this
   // color stored.
   this._dependentObjects = {};
 };
 
-QxColorObject.extend(QxColor, "QxColorObject");
+qx.renderer.color.ColorObject.extend(qx.renderer.color.Color, "qx.renderer.color.ColorObject");
 
 
 
@@ -56,8 +56,8 @@ QxColorObject.extend(QxColor, "QxColorObject");
 ---------------------------------------------------------------------------
 */
 
-QxColorObject.fromString = function(vDefString) {
-  return new QxColorObject(vDefString);
+qx.renderer.color.ColorObject.fromString = function(vDefString) {
+  return new qx.renderer.color.ColorObject(vDefString);
 };
 
 
@@ -87,7 +87,7 @@ proto._updateTheme = function(vTheme)
 
 proto._applyThemedValue = function()
 {
-  var vTheme = QxColorManager.getThemeObject();
+  var vTheme = qx.manager.object.ColorManager.getThemeObject();
   var vRgb = vTheme.getValueByName(this._value);
 
   if (vRgb)
@@ -149,5 +149,5 @@ proto.dispose = function()
     delete this._dependentObjects;
   };
 
-  return QxColor.prototype.dispose.call(this);
+  return qx.renderer.color.Color.prototype.dispose.call(this);
 };

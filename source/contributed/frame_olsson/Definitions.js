@@ -10,8 +10,8 @@ theme.registerAppearance("frame",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
-    this.color = new QxColorObject("windowtext");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
+    this.color = new qx.renderer.color.ColorObject("windowtext");
   },
 
   initial : function(vWidget, vTheme)

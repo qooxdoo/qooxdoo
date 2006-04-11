@@ -32,7 +32,7 @@
 #post(QxLabel)
 #post(QxSpinner)
 #post(QxTextField)
-#post(QxColorUtil)
+#post(qx.renderer.color.ColorUtil)
 
 ************************************************************************ */
 
@@ -41,7 +41,7 @@
 
   Includes support for RGB and HSB color areas.
 */
-function QxColorSelector(vPreviousRed, vPreviousGreen, vPreviousBlue)
+function qx.renderer.color.ColorSelector(vPreviousRed, vPreviousGreen, vPreviousBlue)
 {
   QxVerticalBoxLayout.call(this);
 
@@ -81,17 +81,17 @@ function QxColorSelector(vPreviousRed, vPreviousGreen, vPreviousBlue)
   };
 };
 
-QxColorSelector.extend(QxVerticalBoxLayout, "QxColorSelector");
+qx.renderer.color.ColorSelector.extend(QxVerticalBoxLayout, "qx.renderer.color.ColorSelector");
 
-QxColorSelector.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colorselector" });
+qx.renderer.color.ColorSelector.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colorselector" });
 
-QxColorSelector.addProperty({ name : "red", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxColorSelector.addProperty({ name : "green", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxColorSelector.addProperty({ name : "blue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.renderer.color.ColorSelector.addProperty({ name : "red", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.renderer.color.ColorSelector.addProperty({ name : "green", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.renderer.color.ColorSelector.addProperty({ name : "blue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 
-QxColorSelector.addProperty({ name : "hue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxColorSelector.addProperty({ name : "saturation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.renderer.color.ColorSelector.addProperty({ name : "hue", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.renderer.color.ColorSelector.addProperty({ name : "saturation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.renderer.color.ColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 
 
@@ -107,21 +107,21 @@ QxColorSelector.addProperty({ name : "brightness", type : QxConst.TYPEOF_NUMBER,
 proto._updateContext = null;
 
 // Constants for internal compares (optimize performance in mshtml)
-QxColorSelector.CONTEXT_RED_MODIFIER = "redModifier";
-QxColorSelector.CONTEXT_GREEN_MODIFIER = "greenModifier";
-QxColorSelector.CONTEXT_BLUE_MODIFIER = "blueModifier";
+qx.renderer.color.ColorSelector.CONTEXT_RED_MODIFIER = "redModifier";
+qx.renderer.color.ColorSelector.CONTEXT_GREEN_MODIFIER = "greenModifier";
+qx.renderer.color.ColorSelector.CONTEXT_BLUE_MODIFIER = "blueModifier";
 
-QxColorSelector.CONTEXT_HUE_MODIFIER = "hueModifier";
-QxColorSelector.CONTEXT_SATURATION_MODIFIER = "saturationModifier";
-QxColorSelector.CONTEXT_BRIGHTNESS_MODIFIER = "brightnessModifier";
+qx.renderer.color.ColorSelector.CONTEXT_HUE_MODIFIER = "hueModifier";
+qx.renderer.color.ColorSelector.CONTEXT_SATURATION_MODIFIER = "saturationModifier";
+qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER = "brightnessModifier";
 
-QxColorSelector.CONTEXT_HSB_SPINNER = "hsbSpinner";
-QxColorSelector.CONTEXT_RGB_SPINNER = "rgbSpinner";
+qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER = "hsbSpinner";
+qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER = "rgbSpinner";
 
-QxColorSelector.CONTEXT_HEX_FIELD = "hexField";
+qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD = "hexField";
 
-QxColorSelector.CONTEXT_HUE_SATURATION_FIELD = "hueSaturationField";
-QxColorSelector.CONTEXT_BRIGHTNESS_FIELD = "brightnessField";
+qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD = "hueSaturationField";
+qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_FIELD = "brightnessField";
 
 
 
@@ -447,28 +447,28 @@ proto._createPreviewContent = function()
 proto._modifyRed = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_RED_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_RED_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_RGB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinRed.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HEX_FIELD) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
   };
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_RGB_SPINNER:
-    case QxColorSelector.CONTEXT_HEX_FIELD:
-    case QxColorSelector.CONTEXT_RED_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_RED_MODIFIER:
       this._setHueFromRgb();
   };
 
   this._setPreviewFromRgb();
 
-  if (this._updateContext === QxColorSelector.CONTEXT_RED_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_RED_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -478,28 +478,28 @@ proto._modifyRed = function(propValue, propOldValue, propData)
 proto._modifyGreen = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_GREEN_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_GREEN_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_RGB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinGreen.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HEX_FIELD) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
   };
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_RGB_SPINNER:
-    case QxColorSelector.CONTEXT_HEX_FIELD:
-    case QxColorSelector.CONTEXT_GREEN_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_GREEN_MODIFIER:
       this._setHueFromRgb();
   };
 
   this._setPreviewFromRgb();
 
-  if (this._updateContext === QxColorSelector.CONTEXT_GREEN_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_GREEN_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -509,28 +509,28 @@ proto._modifyGreen = function(propValue, propOldValue, propData)
 proto._modifyBlue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_BLUE_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_BLUE_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_RGB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinBlue.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HEX_FIELD) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
   };
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_RGB_SPINNER:
-    case QxColorSelector.CONTEXT_HEX_FIELD:
-    case QxColorSelector.CONTEXT_BLUE_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_BLUE_MODIFIER:
       this._setHueFromRgb();
   };
 
   this._setPreviewFromRgb();
 
-  if (this._updateContext === QxColorSelector.CONTEXT_BLUE_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_BLUE_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -552,14 +552,14 @@ proto._modifyBlue = function(propValue, propOldValue, propData)
 proto._modifyHue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_HUE_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HUE_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HSB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinHue.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD)
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD)
   {
     if (this._hueSaturationHandle.isCreated())
     {
@@ -573,13 +573,13 @@ proto._modifyHue = function(propValue, propOldValue, propData)
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_HSB_SPINNER:
-    case QxColorSelector.CONTEXT_HUE_SATURATION_FIELD:
-    case QxColorSelector.CONTEXT_HUE_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_HUE_MODIFIER:
       this._setRgbFromHue();
   };
 
-  if (this._updateContext === QxColorSelector.CONTEXT_HUE_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_HUE_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -589,14 +589,14 @@ proto._modifyHue = function(propValue, propOldValue, propData)
 proto._modifySaturation = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_SATURATION_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_SATURATION_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HSB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinSaturation.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HUE_SATURATION_FIELD)
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD)
   {
     if (this._hueSaturationHandle.isCreated())
     {
@@ -610,13 +610,13 @@ proto._modifySaturation = function(propValue, propOldValue, propData)
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_HSB_SPINNER:
-    case QxColorSelector.CONTEXT_HUE_SATURATION_FIELD:
-    case QxColorSelector.CONTEXT_SATURATION_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_SATURATION_MODIFIER:
       this._setRgbFromHue();
   };
 
-  if (this._updateContext === QxColorSelector.CONTEXT_SATURATION_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_SATURATION_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -626,14 +626,14 @@ proto._modifySaturation = function(propValue, propOldValue, propData)
 proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
-    this._updateContext = QxColorSelector.CONTEXT_BRIGHTNESS_MODIFIER;
+    this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER;
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_HSB_SPINNER) {
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinBrightness.setValue(propValue);
   };
 
-  if (this._updateContext !== QxColorSelector.CONTEXT_BRIGHTNESS_FIELD)
+  if (this._updateContext !== qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_FIELD)
   {
     if (this._brightnessHandle.isCreated())
     {
@@ -647,13 +647,13 @@ proto._modifyBrightness = function(propValue, propOldValue, propData)
 
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_HSB_SPINNER:
-    case QxColorSelector.CONTEXT_BRIGHTNESS_FIELD:
-    case QxColorSelector.CONTEXT_BRIGHTNESS_MODIFIER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER:
       this._setRgbFromHue();
   };
 
-  if (this._updateContext === QxColorSelector.CONTEXT_BRIGHTNESS_MODIFIER) {
+  if (this._updateContext === qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER) {
     this._updateContext = null;
   };
 
@@ -719,7 +719,7 @@ proto._setBrightnessOnFieldEvent = function(e)
 {
   var vValue = (e.getPageY() - this._brightnessSubtract).limit(0, 256);
 
-  this._updateContext = QxColorSelector.CONTEXT_BRIGHTNESS_FIELD;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_FIELD;
 
   if (this._brightnessHandle.isCreated())
   {
@@ -808,7 +808,7 @@ proto._setHueSaturationOnFieldEvent = function(e)
     this._hueSaturationHandle.setLeft(vLeft);
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_HUE_SATURATION_FIELD;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD;
 
   this.setSaturation(100-Math.round(vTop / 2.56));
   this.setHue(Math.round(vLeft * 1.40625));
@@ -837,7 +837,7 @@ proto._setRedFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_RGB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setRed(this._rgbSpinRed.getValue());
   this._updateContext = null;
 };
@@ -848,7 +848,7 @@ proto._setGreenFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_RGB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setGreen(this._rgbSpinGreen.getValue());
   this._updateContext = null;
 };
@@ -859,7 +859,7 @@ proto._setBlueFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_RGB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setBlue(this._rgbSpinBlue.getValue());
   this._updateContext = null;
 };
@@ -885,7 +885,7 @@ proto._setHueFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_HSB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setHue(this._hsbSpinHue.getValue());
   this._updateContext = null;
 };
@@ -896,7 +896,7 @@ proto._setSaturationFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_HSB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setSaturation(this._hsbSpinSaturation.getValue());
   this._updateContext = null;
 };
@@ -907,7 +907,7 @@ proto._setBrightnessFromSpinner = function()
     return;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_HSB_SPINNER;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setBrightness(this._hsbSpinBrightness.getValue());
   this._updateContext = null;
 };
@@ -940,9 +940,9 @@ proto._onHexFieldChange = function(e)
   switch(vValue.length)
   {
     case 3:
-      vRed = QxColor.m_rgb[vValue.charAt(0)];
-      vGreen = QxColor.m_rgb[vValue.charAt(1)];
-      vBlue = QxColor.m_rgb[vValue.charAt(2)];
+      vRed = qx.renderer.color.Color.m_rgb[vValue.charAt(0)];
+      vGreen = qx.renderer.color.Color.m_rgb[vValue.charAt(1)];
+      vBlue = qx.renderer.color.Color.m_rgb[vValue.charAt(2)];
 
       vRed = (vRed * 16) + vRed;
       vGreen = (vGreen * 16) + vGreen;
@@ -951,9 +951,9 @@ proto._onHexFieldChange = function(e)
       break;
 
     case 6:
-      vRed = (QxColor.m_rgb[vValue.charAt(0)] * 16) + QxColor.m_rgb[vValue.charAt(1)];
-      vGreen = (QxColor.m_rgb[vValue.charAt(2)] * 16) + QxColor.m_rgb[vValue.charAt(3)];
-      vBlue = (QxColor.m_rgb[vValue.charAt(4)] * 16) + QxColor.m_rgb[vValue.charAt(5)];
+      vRed = (qx.renderer.color.Color.m_rgb[vValue.charAt(0)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(1)];
+      vGreen = (qx.renderer.color.Color.m_rgb[vValue.charAt(2)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(3)];
+      vBlue = (qx.renderer.color.Color.m_rgb[vValue.charAt(4)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(5)];
 
       break;
 
@@ -961,7 +961,7 @@ proto._onHexFieldChange = function(e)
       return false;
   };
 
-  this._updateContext = QxColorSelector.CONTEXT_HEX_FIELD;
+  this._updateContext = qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD;
 
   this.setRed(vRed);
   this.setGreen(vGreen);
@@ -1017,13 +1017,13 @@ proto._setHueFromRgb = function()
 {
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_HSB_SPINNER:
-    case QxColorSelector.CONTEXT_HUE_SATURATION_FIELD:
-    case QxColorSelector.CONTEXT_BRIGHTNESS_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_HSB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HUE_SATURATION_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_BRIGHTNESS_FIELD:
       break;
 
     default:
-      var vHsb = QxColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
+      var vHsb = qx.renderer.color.ColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
 
       this.setHue(vHsb.hue);
       this.setSaturation(vHsb.saturation);
@@ -1035,12 +1035,12 @@ proto._setRgbFromHue = function()
 {
   switch(this._updateContext)
   {
-    case QxColorSelector.CONTEXT_RGB_SPINNER:
-    case QxColorSelector.CONTEXT_HEX_FIELD:
+    case qx.renderer.color.ColorSelector.CONTEXT_RGB_SPINNER:
+    case qx.renderer.color.ColorSelector.CONTEXT_HEX_FIELD:
       break;
 
     default:
-      var vRgb = QxColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
+      var vRgb = qx.renderer.color.ColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
 
       this.setRed(vRgb.red);
       this.setGreen(vRgb.green);
@@ -1063,8 +1063,8 @@ proto._setPreviewFromRgb = function()
 {
   if (this._newColorPreview.isCreated())
   {
-    // faster (omit QxColor instances)
-    this._newColorPreview._style.backgroundColor = QxColor.rgb2style(this.getRed(), this.getGreen(), this.getBlue());
+    // faster (omit qx.renderer.color.Color instances)
+    this._newColorPreview._style.backgroundColor = qx.renderer.color.Color.rgb2style(this.getRed(), this.getGreen(), this.getBlue());
   }
   else
   {

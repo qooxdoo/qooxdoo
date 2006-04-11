@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-var QxColorUtil =
+qx.renderer.color.ColorUtil =
 {
   rgb2hsb : function(vRed, vGreen, vBlue)
   {

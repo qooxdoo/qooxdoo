@@ -10,7 +10,7 @@ theme.registerAppearance("splitpane",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
 
   initial : function(vWidget, vTheme)
@@ -56,9 +56,9 @@ theme.registerAppearance("splitpane-button",
 {
   setup : function()
   {
-    this.bgcolor_default = new QxColorObject("buttonface");
-    this.bgcolor_over = new QxColor("#87BCE5");
-    this.bgcolor_left = new QxColor("#FFF0C9");
+    this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
+    this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
+    this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
     this.border_pressed = qx.renderer.border.BorderObject.presets.inset;
     this.border_default = qx.renderer.border.BorderObject.presets.outset;

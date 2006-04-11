@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(border)
-#require(QxColorObject)
+#require(qx.renderer.color.ColorObject)
 #post(qx.renderer.border.BorderPresets)
 
 ************************************************************************ */
@@ -82,10 +82,10 @@ qx.renderer.border.Border.addProperty({ name : "rightStyle", type : QxConst.TYPE
 qx.renderer.border.Border.addProperty({ name : "bottomStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderBottomProperty" });
 qx.renderer.border.Border.addProperty({ name : "leftStyle", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_NONE, impl : "borderLeftProperty" });
 
-qx.renderer.border.Border.addProperty({ name : "topColor", impl : "borderTopProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-qx.renderer.border.Border.addProperty({ name : "rightColor", impl : "borderRightProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-qx.renderer.border.Border.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
-qx.renderer.border.Border.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache });
+qx.renderer.border.Border.addProperty({ name : "topColor", impl : "borderTopProperty", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.renderer.border.Border.addProperty({ name : "rightColor", impl : "borderRightProperty", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.renderer.border.Border.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.renderer.border.Border.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
 
 
 
@@ -128,7 +128,7 @@ qx.renderer.border.Border.fromString = function(vDefString)
         else
         {
           vPart = vPart.toLowerCase();
-          vBorder.setColor(new QxColor(vPart));
+          vBorder.setColor(new qx.renderer.color.Color(vPart));
         };
 
         break;
@@ -316,10 +316,10 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
 
     if (needRegistering)
     {
-      (new QxColorObject("ThreeDDarkShadow")).add(this);
-      (new QxColorObject("ThreeDShadow")).add(this);
-      (new QxColorObject("ThreeDLightShadow")).add(this);
-      (new QxColorObject("ThreeDHighlight")).add(this);
+      (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).add(this);
+      (new qx.renderer.color.ColorObject("ThreeDShadow")).add(this);
+      (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
+      (new qx.renderer.color.ColorObject("ThreeDHighlight")).add(this);
     };
   };
 
@@ -329,10 +329,10 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
 
     if (qx.lang.Object.isEmpty(this._themedEdges))
     {
-      (new QxColorObject("ThreeDDarkShadow")).remove(this);
-      (new QxColorObject("ThreeDShadow")).remove(this);
-      (new QxColorObject("ThreeDLightShadow")).remove(this);
-      (new QxColorObject("ThreeDHighlight")).remove(this);
+      (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).remove(this);
+      (new qx.renderer.color.ColorObject("ThreeDShadow")).remove(this);
+      (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
+      (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
     };
   };
 }
@@ -346,7 +346,7 @@ else
 
     if (needRegistering)
     {
-      (new QxColorObject("ThreeDLightShadow")).add(this);
+      (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
     };
   };
 
@@ -356,7 +356,7 @@ else
 
     if (qx.lang.Object.isEmpty(this._themedEdges))
     {
-      (new QxColorObject("ThreeDLightShadow")).remove(this);
+      (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
     };
   };
 };
@@ -438,7 +438,7 @@ proto._generateDefString = function(vWidth, vStyle, vColor)
     vArr.push(vStyle);
   };
 
-  if (qx.util.validator.isValidObject(vColor) && vColor instanceof QxColor) {
+  if (qx.util.validator.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
     vColor = vColor.getStyle();
   };
 
@@ -493,7 +493,7 @@ proto._handleColorRegistration = function(propValue, propOldValue, propData)
 
   if (propData.name.contains(qx.renderer.border.Border.colorPart))
   {
-    if (propOldValue instanceof QxColorObject)
+    if (propOldValue instanceof qx.renderer.color.ColorObject)
     {
       // detect if there are no other deps anymore
       switch(propOldValue)
@@ -509,7 +509,7 @@ proto._handleColorRegistration = function(propValue, propOldValue, propData)
       };
     };
 
-    if (propValue instanceof QxColorObject)
+    if (propValue instanceof qx.renderer.color.ColorObject)
     {
       // simply add, internal storage is a hash key so
       // this is not a problem also if this is already
@@ -725,7 +725,7 @@ if (qx.sys.Client.isGecko())
       if (typeof a === QxConst.TYPEOF_OBJECT)
       {
         for (var i=0, s=[], l=a.length; i<l; i++) {
-          s.push((new QxColorObject(a[i]).getStyle()));
+          s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
         };
 
         return s.join(QxConst.CORE_SPACE);
@@ -843,7 +843,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vTopColor = (new QxColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP][0]));
+            vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle][QxConst.PROPERTY_TOP][0]));
             vTopStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -866,11 +866,11 @@ else
                 {
                   vTopStyle = QxConst.BORDER_STYLE_SOLID;
                   vTopWidth = 1;
-                  vTopColor = (new QxColorObject(c[1]));
+                  vTopColor = (new qx.renderer.color.ColorObject(c[1]));
 
                   this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
 
-                  vTopColor = (new QxColorObject(c[0]));
+                  vTopColor = (new qx.renderer.color.ColorObject(c[0]));
                 };
               }
               catch(ex)
@@ -881,7 +881,7 @@ else
             }
             else
             {
-              vTopColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
+              vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -905,7 +905,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vRightColor = (new QxColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT][0]));
+            vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle][QxConst.PROPERTY_RIGHT][0]));
             vRightStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -928,11 +928,11 @@ else
                 {
                   vRightStyle = QxConst.BORDER_STYLE_SOLID;
                   vRightWidth = 1;
-                  vRightColor = (new QxColorObject(c[1]));
+                  vRightColor = (new qx.renderer.color.ColorObject(c[1]));
 
                   this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
 
-                  vRightColor = (new QxColorObject(c[0]));
+                  vRightColor = (new qx.renderer.color.ColorObject(c[0]));
                 };
               }
               catch(ex)
@@ -943,7 +943,7 @@ else
             }
             else
             {
-              vRightColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
+              vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -967,7 +967,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vBottomColor = (new QxColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM][0]));
+            vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][QxConst.PROPERTY_BOTTOM][0]));
             vBottomStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -990,11 +990,11 @@ else
                 {
                   vBottomStyle = QxConst.BORDER_STYLE_SOLID;
                   vBottomWidth = 1;
-                  vBottomColor = (new QxColorObject(c[1]));
+                  vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
 
                   this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
 
-                  vBottomColor = (new QxColorObject(c[0]));
+                  vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
                 };
               }
               catch(ex) {
@@ -1004,7 +1004,7 @@ else
             }
             else
             {
-              vBottomColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
+              vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 
@@ -1028,7 +1028,7 @@ else
         {
           case QxConst.BORDER_STYLE_OUTSET:
           case QxConst.BORDER_STYLE_INSET:
-            vLeftColor = (new QxColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT][0]));
+            vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][QxConst.PROPERTY_LEFT][0]));
             vLeftStyle = QxConst.BORDER_STYLE_SOLID;
         };
 
@@ -1051,11 +1051,11 @@ else
                 {
                   vLeftStyle = QxConst.BORDER_STYLE_SOLID;
                   vLeftWidth = 1;
-                  vLeftColor = (new QxColorObject(c[1]));
+                  vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
 
                   this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
 
-                  vLeftColor = (new QxColorObject(c[0]));
+                  vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
                 };
               }
               catch(ex) {
@@ -1065,7 +1065,7 @@ else
             }
             else
             {
-              vLeftColor = (new QxColorObject(qx.renderer.border.Border.baseColor));
+              vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
             };
         };
 

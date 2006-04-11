@@ -24,8 +24,8 @@
     {
       setup : function()
       {
-        this.bgcolor_selected = new QxColorObject("highlight");
-        this.color_selected   = new QxColorObject("highlighttext");
+        this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
+        this.color_selected   = new qx.renderer.color.ColorObject("highlighttext");
       },
       
       initial : function(vWidget, vTheme)
@@ -65,19 +65,19 @@
       }  
     });
 
-    // second we create a new class QxColoredListItem which is derived
+    // second we create a new class qx.renderer.color.ColoredListItem which is derived
     // from QxListItem and has an additional property backgroundColorUnselected
     // and a changed appearance to "colored-list-item"
     //
-    function QxColoredListItem(vText, vIcon, vValue) {
+    function qx.renderer.color.ColoredListItem(vText, vIcon, vValue) {
       QxListItem.call(this, vText, vIcon, vValue);
     };
     
-    QxColoredListItem.extend(QxListItem, "QxColoredListItem");
+    qx.renderer.color.ColoredListItem.extend(QxListItem, "qx.renderer.color.ColoredListItem");
     
-    QxColoredListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colored-list-item" });
+    qx.renderer.color.ColoredListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colored-list-item" });
     
-    QxColoredListItem.addProperty({ name : "backgroundColorUnselected", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache, allowMultipleArguments : true });
+    qx.renderer.color.ColoredListItem.addProperty({ name : "backgroundColorUnselected", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 
 
@@ -95,16 +95,16 @@
       // Set horizontal scroll bar to always visible
       sourceList.setOverflow("auto");
 
-      var colors = [ new QxColor("#FFDFDF"), new QxColor("#FEFF9F"), new QxColor("#AAFFFF") ];
+      var colors = [ new qx.renderer.color.Color("#FFDFDF"), new qx.renderer.color.Color("#FEFF9F"), new qx.renderer.color.Color("#AAFFFF") ];
       
       // Add items to source list
 
       for (var i = 1; i <= 10; i++) 
       {
-        // now we use the class QxColoredListItem and set the backgroundColorUnselected
+        // now we use the class qx.renderer.color.ColoredListItem and set the backgroundColorUnselected
         // to alternating colors
         //
-        var item = new QxColoredListItem("Item " + i + " is colored.");
+        var item = new qx.renderer.color.ColoredListItem("Item " + i + " is colored.");
         item.setBackgroundColorUnselected(colors[i%3]);
         sourceList.add(item);
       };
