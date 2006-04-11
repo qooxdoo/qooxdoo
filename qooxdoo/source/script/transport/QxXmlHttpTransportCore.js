@@ -48,7 +48,7 @@ QxXmlHttpTransport.isSupported = function()
   if (window.XMLHttpRequest)
   {
     if (QxSettings.enableTransportDebug) {
-      QxDebug("QxXmlHttpTransport", "Using XMLHttpRequest");
+      qx.dev.Debug("QxXmlHttpTransport", "Using XMLHttpRequest");
     };
 
     QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
@@ -79,7 +79,7 @@ QxXmlHttpTransport.isSupported = function()
     if (vObject)
     {
       if (QxSettings.enableTransportDebug) {
-        QxDebug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
+        qx.dev.Debug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
       };
 
       QxXmlHttpTransport._activeXServer = vServer;

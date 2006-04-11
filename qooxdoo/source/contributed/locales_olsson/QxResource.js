@@ -158,42 +158,42 @@ proto.loadResource = function(vResource, vLocale)
   req.setMimeType("text/json");
   req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   req.addEventListener("sending", function(e) {
-//    QxDebug.setValue("Sending");
+//    qx.dev.Debug.setValue("Sending");
   });
   req.addEventListener("receiving", function(e) {
-//    QxDebug.setValue("Receiving");
+//    qx.dev.Debug.setValue("Receiving");
   });
   req.addEventListener("completed", function(e)
   {
-//    QxDebug.setValue("Failed");
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Type"));
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Length"));
-//    QxDebug.setValue(e.getData().getStatusCode().toString());
+//    qx.dev.Debug.setValue("Failed");
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Type"));
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Length"));
+//    qx.dev.Debug.setValue(e.getData().getStatusCode().toString());
      self._content = e.getData().getContent();
   });
   req.addEventListener("failed", function(e)
   {
-//    QxDebug.setValue("Failed");
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Type"));
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Length"));
-//    QxDebug.setValue(e.getData().getStatusCode().toString());
-//    QxDebug.setValue(e.getData().getContent());
+//    qx.dev.Debug.setValue("Failed");
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Type"));
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Length"));
+//    qx.dev.Debug.setValue(e.getData().getStatusCode().toString());
+//    qx.dev.Debug.setValue(e.getData().getContent());
   });
   req.addEventListener("timeout", function(e)
   {
-//    QxDebug.setValue("Timeout");
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Type"));
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Length"));
-//    QxDebug.setValue(e.getData().getStatusCode().toString());
-//    QxDebug.setValue(e.getData().getContent());
+//    qx.dev.Debug.setValue("Timeout");
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Type"));
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Length"));
+//    qx.dev.Debug.setValue(e.getData().getStatusCode().toString());
+//    qx.dev.Debug.setValue(e.getData().getContent());
   });
   req.addEventListener("aborted", function(e)
   {
-//    QxDebug.setValue("Aborted");
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Type"));
-//    QxDebug.setValue(e.getData().getResponseHeader("Content-Length"));
-//    QxDebug.setValue(e.getData().getStatusCode().toString());
-//    QxDebug.setValue(e.getData().getContent());
+//    qx.dev.Debug.setValue("Aborted");
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Type"));
+//    qx.dev.Debug.setValue(e.getData().getResponseHeader("Content-Length"));
+//    qx.dev.Debug.setValue(e.getData().getStatusCode().toString());
+//    qx.dev.Debug.setValue(e.getData().getContent());
   });
 
   req.send();

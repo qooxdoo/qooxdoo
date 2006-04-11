@@ -66,7 +66,7 @@ qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
         };
     };
 
-    // QxDebug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
+    // qx.dev.Debug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
 
     if (vHasScroll)
     {
@@ -139,7 +139,7 @@ qx.dom.scrollIntoViewY = function(vElement, vAlignTop)
         };
     };
 
-    // QxDebug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
+    // qx.dev.Debug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
 
     if (vHasScroll)
     {

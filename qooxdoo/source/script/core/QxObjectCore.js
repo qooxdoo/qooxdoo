@@ -50,7 +50,7 @@ QxObject.toHashCode = function(o)
 
 QxObject.dispose = function()
 {
-  // QxDebug("QxObject", "Disposing Application");
+  // qx.dev.Debug("QxObject", "Disposing Application");
 
   var vStart = (new Date).valueOf();
   var vObject;
@@ -61,13 +61,13 @@ QxObject.dispose = function()
 
     if (vObject != null)
     {
-      // QxDebug("QxObject", "Disposing: " + vObject);
+      // qx.dev.Debug("QxObject", "Disposing: " + vObject);
       vObject.dispose();
       QxObjectDataBase[i] = null;
     };
   };
 
-  // QxDebug("QxObject", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  // qx.dev.Debug("QxObject", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
 QxObject.addProperty({ name : "enabled", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
