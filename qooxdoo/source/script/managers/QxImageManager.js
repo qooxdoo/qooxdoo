@@ -56,10 +56,10 @@ function QxImageManager()
   this._aliases = {};
 
   // Apply default pathes
-  this.setCorePath(QxSettings.imageCorePath);
-  this.setLocalPath(QxSettings.imageLocalPath);
-  this.setIconPath(QxSettings.imageIconPath);
-  this.setWidgetPath(QxSettings.imageWidgetPath);
+  this.setCorePath(qx.core.Settings.imageCorePath);
+  this.setLocalPath(qx.core.Settings.imageLocalPath);
+  this.setIconPath(qx.core.Settings.imageIconPath);
+  this.setWidgetPath(qx.core.Settings.imageWidgetPath);
 };
 
 QxImageManager.extend(QxManager, "QxImageManager");

@@ -266,7 +266,7 @@ proto.removeAllCssRules = function(vSheet) {
 
 qx.dom.createStyleElement("html,body{margin:0;border:0;padding:0;} html{border:0 none;} *{box-sizing:border-box;-moz-box-sizing: border-box;} img{box-sizing:content-box;-moz-box-sizing:content-box;}");
 
-if (QxSettings.applicationLayout) {
+if (qx.core.Settings.applicationLayout) {
   qx.dom.createStyleElement("html,body{width:100%;height:100%;overflow:hidden;}");
 };
 

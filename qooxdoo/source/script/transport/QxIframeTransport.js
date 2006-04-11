@@ -344,14 +344,14 @@ proto.getResponseContent = function()
 {
   if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
   {
-    if (QxSettings.enableTransportDebug) {
+    if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
     };
 
     return null;
   };
 
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   };
 

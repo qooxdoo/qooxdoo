@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(core)
-#require(QxDefaultSettings)
+#require(qx.core.DefaultSettings)
 
 ************************************************************************ */
 
@@ -31,15 +31,15 @@
 (function() {
 
 // check and create global storage if not available already
-if (typeof QxSettings === "undefined") {
-  QxSettings = {};
+if (typeof qx.core.Settings === "undefined") {
+  qx.core.Settings = {};
 };
 
 // merge settings from default settings
-for (var vKey in QxDefaultSettings)
+for (var vKey in qx.core.DefaultSettings)
 {
-  if (typeof QxSettings[vKey] === "undefined") {
-    QxSettings[vKey] = QxDefaultSettings[vKey];
+  if (typeof qx.core.Settings[vKey] === "undefined") {
+    qx.core.Settings[vKey] = qx.core.DefaultSettings[vKey];
   };
 };
 

@@ -24,7 +24,7 @@
 
 #package(guicore)
 #require(QxWidget)
-#require(QxSettings)
+#require(qx.core.Settings)
 #post(QxInline)
 
 ************************************************************************ */
@@ -38,7 +38,7 @@
 ---------------------------------------------------------------------------
 */
 
-if (QxSettings.enableWidgetDebug)
+if (qx.core.Settings.enableWidgetDebug)
 {
   QxWidget.flushGlobalQueues = function()
   {

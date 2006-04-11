@@ -177,7 +177,7 @@ proto.failedLocally = function()
   };
 
   // should only occours on "file://" access
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.warn("Could not load from file: " + this.getUrl());
   };
 
@@ -447,14 +447,14 @@ proto.getResponseContent = function()
 {
   if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
   {
-    if (QxSettings.enableTransportDebug) {
+    if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
     };
 
     return null;
   };
 
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   };
 
@@ -494,7 +494,7 @@ proto.getResponseContent = function()
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
   };
 
@@ -558,7 +558,7 @@ proto.dispose = function()
   };
 
   /*
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("Disposing...");
   };
   */

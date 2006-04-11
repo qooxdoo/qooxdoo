@@ -27,7 +27,7 @@
 #require(QxExtend)
 #require(QxConst)
 #require(QxUtil)
-#require(QxSettings)
+#require(qx.core.Settings)
 #post(QxObjectCore)
 #post(qx.sys.Client)
 #post(qx.dev.Debug)
@@ -308,7 +308,7 @@ proto.dispose = function()
     delete this._objectproperties;
   };
 
-  if (QxSettings.enableDisposerDebug)
+  if (qx.core.Settings.enableDisposerDebug)
   {
     for (var vKey in this)
     {

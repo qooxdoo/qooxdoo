@@ -26,13 +26,14 @@
 
 ************************************************************************ */
 
-var QxDefaultSettings =
+var qx.core.DefaultSettings =
 {
   enableWidgetDebug : false,
   enableDisposerDebug : false,
   enableTransportDebug : false,
 
   applicationLayout : true,
+  applicationMode : "gui",
 
   imageCorePath : "../../images",
   imageLocalPath : "./",
