@@ -29,7 +29,7 @@
 /*!
   Helper for QxSelectionManager, contains data for selections
 */
-function QxSelectionStorage(vManager)
+qx.types.Selection = function(vManager)
 {
   qx.core.Object.call(this);
 
@@ -37,7 +37,7 @@ function QxSelectionStorage(vManager)
   this.removeAll();
 };
 
-QxSelectionStorage.extend(qx.core.Object, "QxSelectionStorage");
+qx.types.Selection.extend(qx.core.Object, "qx.types.Selection");
 
 
 

@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(selection)
-#post(QxSelectionStorage)
+#post(qx.types.Selection)
 
 ************************************************************************ */
 
@@ -34,7 +34,7 @@ function QxSelectionManager(vBoundedWidget)
 {
   qx.core.Target.call(this);
 
-  this._selectedItems = new QxSelectionStorage(this);
+  this._selectedItems = new qx.types.Selection(this);
 
   if (qx.util.validator.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
