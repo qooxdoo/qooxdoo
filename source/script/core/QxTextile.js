@@ -30,7 +30,7 @@
 // SuperTextile by
 // http://www.creatimation.net/journal/textile-live-preview
 
-function QxTextile(s)
+qx.util.string.textilize = function(s)
 {
   var r = s;
 
