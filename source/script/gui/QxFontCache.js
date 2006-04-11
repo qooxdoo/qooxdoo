@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(font)
-#require(QxFont)
+#require(qx.renderer.font.Font)
 
 ************************************************************************ */
 
-function QxFontCache(propValue, propData)
+qx.renderer.font.FontCache = function(propValue, propData)
 {
   var propKey;
   var propKeyAsStyle = false;
@@ -48,7 +48,7 @@ function QxFontCache(propValue, propData)
       break;
 
     case QxConst.TYPEOF_OBJECT:
-      if (propValue == null || propValue instanceof QxFont) {
+      if (propValue == null || propValue instanceof qx.renderer.font.Font) {
         return propValue;
       };
 
@@ -63,11 +63,11 @@ function QxFontCache(propValue, propData)
       return propValue;
   };
 
-  if (QxFontCache._data[propKey]) {
-    return QxFontCache._data[propKey];
+  if (qx.renderer.font.FontCache._data[propKey]) {
+    return qx.renderer.font.FontCache._data[propKey];
   };
 
-  return QxFontCache._data[propKey] = QxFont.fromString(propKey);
+  return qx.renderer.font.FontCache._data[propKey] = qx.renderer.font.Font.fromString(propKey);
 };
 
-QxFontCache._data = {};
+qx.renderer.font.FontCache._data = {};

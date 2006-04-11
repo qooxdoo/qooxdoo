@@ -24,8 +24,8 @@
 
 #package(guicore)
 #require(QxEmu)
-#require(QxFontObject)
-#require(QxFontCache)
+#require(qx.renderer.font.FontObject)
+#require(qx.renderer.font.FontCache)
 #post(QxLabelCore)
 
 ************************************************************************ */
@@ -90,7 +90,7 @@ QxLabel.addProperty({ name : "mnemonic", type : QxConst.TYPEOF_STRING });
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxLabel.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "QxFont", convert : QxFontCache, allowMultipleArguments : true });
+QxLabel.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?

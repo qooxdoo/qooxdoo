@@ -26,14 +26,14 @@
 
 ************************************************************************ */
 
-function QxFontObject(vSize, vName)
+qx.renderer.font.FontObject = function(vSize, vName)
 {
   this._dependentObjects = {};
 
-  QxFont.call(this, vSize, vName);
+  qx.renderer.font.Font.call(this, vSize, vName);
 };
 
-QxFontObject.extend(QxFont, "QxFontObject");
+qx.renderer.font.FontObject.extend(qx.renderer.font.Font, "qx.renderer.font.FontObject");
 
 
 
@@ -94,5 +94,5 @@ proto.dispose = function()
     delete this._dependentObjects;
   };
 
-  return QxFont.prototype.dispose.call(this);
+  return qx.renderer.font.Font.prototype.dispose.call(this);
 };

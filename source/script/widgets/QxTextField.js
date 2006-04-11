@@ -84,7 +84,7 @@ QxTextField.addProperty({ name : "validator", type : QxConst.TYPEOF_FUNCTION });
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxTextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "QxFont", convert : QxFontCache, allowMultipleArguments : true });
+QxTextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 

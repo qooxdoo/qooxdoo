@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(simpleterminators)
-#require(QxFontCache)
+#require(qx.renderer.font.FontCache)
 
 ************************************************************************ */
 
@@ -55,7 +55,7 @@ QxHtml.addProperty({ name : "html", type : QxConst.TYPEOF_STRING });
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxHtml.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "QxFont", convert : QxFontCache, allowMultipleArguments : true });
+QxHtml.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
