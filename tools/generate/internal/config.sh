@@ -3,6 +3,9 @@ L=""
 # Namespaces
 L="$L script/core/QxNamespaces"
 
+# Debugging
+L="$L script/core/QxDebug"
+
 # Core Language Additions
 L="$L script/core/QxMain"
 L="$L script/core/QxDefaultSettings"
@@ -34,7 +37,6 @@ L="$L script/core/QxObject"
 L="$L script/core/QxObjectCore"
 
 # Common qooxdoo objects
-L="$L script/core/QxDebug"
 L="$L script/core/QxTarget"
 
 # Core Managers

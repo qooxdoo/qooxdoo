@@ -30,7 +30,7 @@
 #require(QxSettings)
 #post(QxObjectCore)
 #post(qx.sys.Client)
-#post(QxDebug)
+#post(qx.dev.Debug)
 
 ************************************************************************ */
 
@@ -106,7 +106,7 @@ proto.isDisposed = function() {
   Print out a debug message to the qooxdoo debug console.
 */
 proto.debug = function(m, c) {
-  QxDebug(this.classname + QxObject.DEBUG_MSG_BEFORE + this._hashCode + QxObject.DEBUG_MSG_AFTER, m, c);
+  qx.dev.Debug(this.classname + QxObject.DEBUG_MSG_BEFORE + this._hashCode + QxObject.DEBUG_MSG_AFTER, m, c);
 };
 
 /*!

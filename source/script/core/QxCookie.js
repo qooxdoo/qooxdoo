@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-var qx.io.local.Cookie =
+qx.io.local.Cookie =
 {
   STR_EXPIRES : "expires",
   STR_PATH : "path",

@@ -86,13 +86,13 @@ if (QxSettings.enableWidgetDebug)
 
     if (vSum > 0)
     {
-      QxDebug("QxWidgetCore", "Flush Global Queues", "info");
-      QxDebug("QxWidgetCore", "Widgets: " + vWidgetDuration + "ms");
-      QxDebug("QxWidgetCore", "State: " + vStateDuration + "ms");
-      QxDebug("QxWidgetCore", "Element: " + vElementDuration + "ms");
-      QxDebug("QxWidgetCore", "Job: " + vJobDuration + "ms");
-      QxDebug("QxWidgetCore", "Layout: " + vLayoutDuration + "ms");
-      QxDebug("QxWidgetCore", "Display: " + vDisplayDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "Flush Global Queues", "info");
+      qx.dev.Debug("QxWidgetCore", "Widgets: " + vWidgetDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "State: " + vStateDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "Element: " + vElementDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "Job: " + vJobDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "Layout: " + vLayoutDuration + "ms");
+      qx.dev.Debug("QxWidgetCore", "Display: " + vDisplayDuration + "ms");
 
       window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
     };

@@ -214,7 +214,7 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
 
 
       default:
-        QxDebug("QxTransport", "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+        qx.dev.Debug("QxTransport", "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
     };
   };

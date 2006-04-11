@@ -29,21 +29,21 @@
 
 ************************************************************************ */
 
-function QxDebug(group, message, classname)
+qx.dev.Debug = function(group, message, classname)
 {
   // Building time string
   var t = String((new Date).valueOf()-QxMain.loadStart);
   while (t.length<6) t = QxConst.CORE_ZERO + t;
-  t += QxDebug.divider;
+  t += qx.dev.Debug.divider;
 
   // Check if frame is ready
-  if (!QxDebug._head)
+  if (!qx.dev.Debug._head)
   {
-    QxDebug._head = document.createElement(QxConst.CORE_DIV);
-    QxDebug._head.className = "head";
+    qx.dev.Debug._head = document.createElement(QxConst.CORE_DIV);
+    qx.dev.Debug._head.className = "head";
 
-    QxDebug._log = document.createElement(QxConst.CORE_DIV);
-    QxDebug._log.className = "log";
+    qx.dev.Debug._log = document.createElement(QxConst.CORE_DIV);
+    qx.dev.Debug._log.className = "log";
 
 
 
@@ -51,14 +51,14 @@ function QxDebug(group, message, classname)
     //   CLEAR BUTTON
     // ************************************************************************
 
-    QxDebug._btnClear = document.createElement("button");
-    QxDebug._btnClear.appendChild(document.createTextNode("clear"));
-    QxDebug._head.appendChild(QxDebug._btnClear);
+    qx.dev.Debug._btnClear = document.createElement("button");
+    qx.dev.Debug._btnClear.appendChild(document.createTextNode("clear"));
+    qx.dev.Debug._head.appendChild(qx.dev.Debug._btnClear);
 
-    QxDebug._btnClear.onclick = function(e)
+    qx.dev.Debug._btnClear.onclick = function(e)
     {
-      QxDebug._log.innerHTML = "";
-      QxDebug.lastgroup = null;
+      qx.dev.Debug._log.innerHTML = "";
+      qx.dev.Debug.lastgroup = null;
     };
 
 
@@ -66,13 +66,13 @@ function QxDebug(group, message, classname)
     //   HIDE BUTTON
     // ************************************************************************
 
-    QxDebug._btnHide = document.createElement("button");
-    QxDebug._btnHide.appendChild(document.createTextNode("hide"));
-    QxDebug._head.appendChild(QxDebug._btnHide);
+    qx.dev.Debug._btnHide = document.createElement("button");
+    qx.dev.Debug._btnHide.appendChild(document.createTextNode("hide"));
+    qx.dev.Debug._head.appendChild(qx.dev.Debug._btnHide);
 
-    QxDebug._btnHide.onclick = function(e)
+    qx.dev.Debug._btnHide.onclick = function(e)
     {
-      QxDebug._log.style.display = QxConst.CORE_NONE;
+      qx.dev.Debug._log.style.display = QxConst.CORE_NONE;
       document.getElementById("demoHead").style.display = QxConst.CORE_NONE;
       document.getElementById("demoFoot").style.display = QxConst.CORE_NONE;
       document.getElementById("demoDescription").style.display = QxConst.CORE_NONE;
@@ -87,13 +87,13 @@ function QxDebug(group, message, classname)
     //   SHOW BUTTON
     // ************************************************************************
 
-    QxDebug._btnShow = document.createElement("button");
-    QxDebug._btnShow.appendChild(document.createTextNode("show"));
-    QxDebug._head.appendChild(QxDebug._btnShow);
+    qx.dev.Debug._btnShow = document.createElement("button");
+    qx.dev.Debug._btnShow.appendChild(document.createTextNode("show"));
+    qx.dev.Debug._head.appendChild(qx.dev.Debug._btnShow);
 
-    QxDebug._btnShow.onclick = function(e)
+    qx.dev.Debug._btnShow.onclick = function(e)
     {
-      QxDebug._log.style.display = "";
+      qx.dev.Debug._log.style.display = "";
       document.getElementById("demoHead").style.display = "";
       document.getElementById("demoFoot").style.display = "";
       document.getElementById("demoDescription").style.display = "";
@@ -107,24 +107,24 @@ function QxDebug(group, message, classname)
     //   DISPOSE BUTTON
     // ************************************************************************
 
-    QxDebug._btnDispose = document.createElement("button");
-    QxDebug._btnDispose.appendChild(document.createTextNode("dispose"));
-    QxDebug._head.appendChild(QxDebug._btnDispose);
+    qx.dev.Debug._btnDispose = document.createElement("button");
+    qx.dev.Debug._btnDispose.appendChild(document.createTextNode("dispose"));
+    qx.dev.Debug._head.appendChild(qx.dev.Debug._btnDispose);
 
-    QxDebug._btnDispose.onclick = function(e) {
+    qx.dev.Debug._btnDispose.onclick = function(e) {
       QxObject.dispose();
     };
   };
 
-  if (group != QxDebug.lastgroup)
+  if (group != qx.dev.Debug.lastgroup)
   {
     var n = document.createElement(QxConst.CORE_DIV);
-    n.className = QxDebug.groupClass;
+    n.className = qx.dev.Debug.groupClass;
     n.appendChild(document.createTextNode(group));
 
-    QxDebug._log.appendChild(n);
+    qx.dev.Debug._log.appendChild(n);
 
-    QxDebug.lastgroup = group;
+    qx.dev.Debug.lastgroup = group;
   };
 
   if (qx.util.validator.isValid(message))
@@ -134,10 +134,10 @@ function QxDebug(group, message, classname)
     };
 
     var n = document.createElement(QxConst.CORE_DIV);
-    n.className = QxDebug.messageClass + classname;
+    n.className = qx.dev.Debug.messageClass + classname;
     n.appendChild(document.createTextNode(t + message));
 
-    QxDebug._log.appendChild(n);
+    qx.dev.Debug._log.appendChild(n);
   };
 
 
@@ -147,19 +147,19 @@ function QxDebug(group, message, classname)
 
 
   // Check if document is ready
-  if (!QxDebug._head.parentNode || typeof QxDebug._head.parentNode.tagName === QxConst.TYPEOF_UNDEFINED)
+  if (!qx.dev.Debug._head.parentNode || typeof qx.dev.Debug._head.parentNode.tagName === QxConst.TYPEOF_UNDEFINED)
   {
-    var d = document.getElementById(QxDebug.console);
+    var d = document.getElementById(qx.dev.Debug.console);
     if (d)
     {
-      d.appendChild(QxDebug._head);
-      d.appendChild(QxDebug._log);
+      d.appendChild(qx.dev.Debug._head);
+      d.appendChild(qx.dev.Debug._log);
     };
   };
 };
 
-QxDebug.console = "demoDebug";
-QxDebug.lastgroup = null;
-QxDebug.divider = ": ";
-QxDebug.groupClass = "group";
-QxDebug.messageClass = "message message-";
+qx.dev.Debug.console = "demoDebug";
+qx.dev.Debug.lastgroup = null;
+qx.dev.Debug.divider = ": ";
+qx.dev.Debug.groupClass = "group";
+qx.dev.Debug.messageClass = "message message-";
