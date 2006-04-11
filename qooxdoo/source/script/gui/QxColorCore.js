@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(color)
-#require(QxColor)
+#require(qx.renderer.color.Color)
 
 ************************************************************************ */
 
@@ -33,8 +33,8 @@
 ---------------------------------------------------------------------------
 */
 
-QxColor.rgb2style = function(r, g, b) {
-  return QxColor.RGBCSS_START + r + QxConst.CORE_COMMA + g + QxConst.CORE_COMMA + b + QxColor.RGBCSS_STOP;
+qx.renderer.color.Color.rgb2style = function(r, g, b) {
+  return qx.renderer.color.Color.RGBCSS_START + r + QxConst.CORE_COMMA + g + QxConst.CORE_COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
 };
 
 
@@ -47,21 +47,21 @@ QxColor.rgb2style = function(r, g, b) {
 ---------------------------------------------------------------------------
 */
 
-QxColor.RGBCSS_START = "rgb(";
-QxColor.RGBCSS_STOP = ")";
+qx.renderer.color.Color.RGBCSS_START = "rgb(";
+qx.renderer.color.Color.RGBCSS_STOP = ")";
 
-QxColor.m_hex = [ "0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f" ];
-QxColor.m_rgb = { 0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15 };
+qx.renderer.color.Color.m_hex = [ "0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f" ];
+qx.renderer.color.Color.m_rgb = { 0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15 };
 
-QxColor.r_hex3 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
-QxColor.r_hex6 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
-QxColor.r_cssrgb = /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/;
+qx.renderer.color.Color.r_hex3 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
+qx.renderer.color.Color.r_hex6 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
+qx.renderer.color.Color.r_cssrgb = /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/;
 
-QxColor.r_rgb = /^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/;
-QxColor.r_number = /^[0-9]{1,3}\.{0,1}[0-9]*$/;
-QxColor.r_percent = /^[0-9]{1,3}\.{0,1}[0-9]*%$/;
+qx.renderer.color.Color.r_rgb = /^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/;
+qx.renderer.color.Color.r_number = /^[0-9]{1,3}\.{0,1}[0-9]*$/;
+qx.renderer.color.Color.r_percent = /^[0-9]{1,3}\.{0,1}[0-9]*%$/;
 
-QxColor.htmlNames =
+qx.renderer.color.Color.htmlNames =
 {
   maroon : [ 128,0,0 ],
   red : [ 255,0,0 ],
@@ -86,7 +86,7 @@ QxColor.htmlNames =
 // TODO: Add some IE related colors (IE 4.x)
 // http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/colors/colors.asp
 /*
-QxColor.cssNames =
+qx.renderer.color.Color.cssNames =
 {
 
 };
@@ -133,7 +133,7 @@ QxColor.cssNames =
   WindowText: Text in windows.
 */
 
-QxColor.themedNames =
+qx.renderer.color.Color.themedNames =
 {
   activeborder : 1,
   activecaption : 1,

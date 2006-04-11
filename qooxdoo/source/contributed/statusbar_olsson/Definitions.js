@@ -10,7 +10,7 @@ theme.registerAppearance("statusbar",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
   initial : function(vWidget, vTheme)
   {

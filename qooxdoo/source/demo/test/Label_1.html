@@ -46,7 +46,7 @@
     c3.setTop(200);
     c3.setBorder(qx.renderer.border.BorderObject.presets.outset);
     c3.setPadding(4, 6);
-    c3.setBackgroundColor(new QxColor("white"));
+    c3.setBackgroundColor(new qx.renderer.color.Color("white"));
 
     c3.addEventListener("click", function() {
       this.getHtml() == "Delete temporary data" ? this.setHtml("Thank you") : this.setHtml("Delete temporary data");
@@ -76,7 +76,7 @@
 
     c5.setBorder(qx.renderer.border.BorderObject.presets.outset);
     c5.setPadding(4, 6);
-    c5.setBackgroundColor(new QxColor("white"));
+    c5.setBackgroundColor(new qx.renderer.color.Color("white"));
 
     c5.addEventListener("click", function() {
       this.getHtml() == "Delete temporary data" ? this.setHtml("Thank you<br/>All your personal data was just deleted.<br/>Have Fun!") : this.setHtml("Delete temporary data");

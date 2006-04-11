@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxColorCache(propValue, propData)
+qx.renderer.color.ColorCache = function(propValue, propData)
 {
   var propKey;
   var propKeyAsStyle = false;
@@ -51,14 +51,14 @@ function QxColorCache(propValue, propData)
       return propValue;
 
     case QxConst.TYPEOF_OBJECT:
-      if (propValue == null || propValue instanceof QxColor) {
+      if (propValue == null || propValue instanceof qx.renderer.color.Color) {
         return propValue;
       };
 
       // Try to detect array of RGB values
       if (typeof propValue.join === QxConst.TYPEOF_FUNCTION && propValue.length == 3)
       {
-        propKey = QxColor.RGBCSS_START + propValue.join(QxConst.CORE_COMMA) + QxColor.RGBCSS_STOP;
+        propKey = qx.renderer.color.Color.RGBCSS_START + propValue.join(QxConst.CORE_COMMA) + qx.renderer.color.Color.RGBCSS_STOP;
         propKeyAsStyle = true;
         break;
       };
@@ -67,13 +67,13 @@ function QxColorCache(propValue, propData)
       return propValue;
   };
 
-  if (QxColorCache._data[propKey]) {
-    return QxColorCache._data[propKey];
+  if (qx.renderer.color.ColorCache._data[propKey]) {
+    return qx.renderer.color.ColorCache._data[propKey];
   };
 
   // this.debug("Create new color instance: " + propKey);
 
-  var vColorObject = QxColorCache._data[propKey] = QxColor.themedNames[propValue] ? new QxColorObject(propValue) : new QxColor(propValue);
+  var vColorObject = qx.renderer.color.ColorCache._data[propKey] = qx.renderer.color.Color.themedNames[propValue] ? new qx.renderer.color.ColorObject(propValue) : new qx.renderer.color.Color(propValue);
 
   if (propKeyAsStyle) {
     vColorObject._style = propKey;
@@ -82,4 +82,4 @@ function QxColorCache(propValue, propData)
   return vColorObject;
 };
 
-QxColorCache._data = {};
+qx.renderer.color.ColorCache._data = {};

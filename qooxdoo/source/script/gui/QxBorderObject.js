@@ -78,7 +78,7 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
         else
         {
           vPart = vPart.toLowerCase();
-          vBorder.setColor(QxColor.themedNames[vPart] ? new QxColorObject(vPart) : new QxColor(vPart));
+          vBorder.setColor(qx.renderer.color.Color.themedNames[vPart] ? new qx.renderer.color.ColorObject(vPart) : new qx.renderer.color.Color(vPart));
         };
 
         break;

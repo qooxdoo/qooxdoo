@@ -96,7 +96,7 @@
     
     var w7c = new QxTerminator;
     w7c.setDimension("100%", "100%");
-    w7c.setBackgroundColor(new QxColor("red"));
+    w7c.setBackgroundColor(new qx.renderer.color.Color("red"));
     w7.add(w7c);    
 
 
@@ -109,7 +109,7 @@
     
     var w8c = new QxTerminator;
     w8c.setDimension("100%", "100%");
-    w8c.setBackgroundColor(new QxColor("red"));
+    w8c.setBackgroundColor(new qx.renderer.color.Color("red"));
     w8.add(w8c);  
     
     
@@ -153,7 +153,7 @@
 
 
     // Color Themes
-    QxColorManager.createThemeList(d, 400, 128);
+    qx.manager.object.ColorManager.createThemeList(d, 400, 128);
     
     
     
@@ -161,11 +161,11 @@
     
     
     /*
-    var c1 = new QxColor("gray");
+    var c1 = new qx.renderer.color.Color("gray");
     this.debug("RGB-Transform I: " + c1.getRed() + "," + c1.getGreen() + "," + c1.getBlue());
 
     // This could not work with the default theme "OS Default", as this does not define any rgb colors
-    var c2 = new QxColorObject("threedface");
+    var c2 = new qx.renderer.color.ColorObject("threedface");
     this.debug("RGB-Transform II: " + c2.getRed() + "," + c2.getGreen() + "," + c2.getBlue());
     */
   };

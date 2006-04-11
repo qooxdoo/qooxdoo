@@ -23,12 +23,12 @@
 /* ************************************************************************
 
 #package(color)
-#require(QxColorManager)
-#post(QxColorCore)
+#require(qx.manager.object.ColorManager)
+#post(qx.renderer.color.ColorCore)
 
 ************************************************************************ */
 
-function QxColor(vValue)
+qx.renderer.color.Color = function(vValue)
 {
   if (qx.util.validator.isValid(vValue)) {
     this.setValue(vValue);
@@ -37,7 +37,7 @@ function QxColor(vValue)
   qx.core.Object.call(this);
 };
 
-QxColor.extend(qx.core.Object, "QxColor");
+qx.renderer.color.Color.extend(qx.core.Object, "qx.renderer.color.Color");
 
 
 
@@ -47,12 +47,12 @@ QxColor.extend(qx.core.Object, "QxColor");
 ---------------------------------------------------------------------------
 */
 
-QxColor.fromString = function(vDefString) {
-  return new QxColor(vDefString);
+qx.renderer.color.Color.fromString = function(vDefString) {
+  return new qx.renderer.color.Color(vDefString);
 };
 
-QxColor.fromRandom = function() {
-  return new QxColor([Math.round(255*Math.random()), Math.round(255*Math.random()), Math.round(255*Math.random())]);
+qx.renderer.color.Color.fromRandom = function() {
+  return new qx.renderer.color.Color([Math.round(255*Math.random()), Math.round(255*Math.random()), Math.round(255*Math.random())]);
 };
 
 
@@ -120,7 +120,7 @@ proto.setValue = function(vValue)
   this._normalize(vValue);
 
   if (this._isThemedColor) {
-    throw new Error("Please use QxColorObject for themed colors!");
+    throw new Error("Please use qx.renderer.color.ColorObject for themed colors!");
   };
 };
 
@@ -144,7 +144,7 @@ proto._evalStyle = function()
 {
   if (this._isRgbColor)
   {
-    this._style = QxColor.rgb2style(this._red, this._green, this._blue);
+    this._style = qx.renderer.color.Color.rgb2style(this._red, this._green, this._blue);
   }
   else if (this._isThemedColor)
   {
@@ -179,16 +179,16 @@ proto._evalHex = function()
     var a = [QxConst.CORE_HASH];
 
     var r = this.getRed();
-    a.push(QxColor.m_hex[Math.floor(r/16)]);
-    a.push(QxColor.m_hex[Math.floor(r%16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(r%16)]);
 
     var g = this.getGreen();
-    a.push(QxColor.m_hex[Math.floor(g/16)]);
-    a.push(QxColor.m_hex[Math.floor(g%16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(g/16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(g%16)]);
 
     var b = this.getBlue();
-    a.push(QxColor.m_hex[Math.floor(b/16)]);
-    a.push(QxColor.m_hex[Math.floor(b%16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
+    a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
 
     this._hex = a.join(QxConst.CORE_EMPTY);
   }
@@ -239,7 +239,7 @@ proto._evalRgb = function()
   }
   else if (this._isHtmlColor)
   {
-    var a = QxColor.htmlNames[this._value];
+    var a = qx.renderer.color.Color.htmlNames[this._value];
 
     this._red = a[0];
     this._green = a[1];
@@ -273,15 +273,15 @@ proto._normalize = function(vInValue)
     case QxConst.TYPEOF_STRING:
       vInValue = vInValue.toLowerCase();
 
-      if (QxColor.htmlNames[vInValue])
+      if (qx.renderer.color.Color.htmlNames[vInValue])
       {
         this._isHtmlColor = true;
       }
-      else if (QxColor.themedNames[vInValue])
+      else if (qx.renderer.color.Color.themedNames[vInValue])
       {
         this._isThemedColor = true;
       }
-      else if (QxColor.r_cssrgb.test(vInValue))
+      else if (qx.renderer.color.Color.r_cssrgb.test(vInValue))
       {
         this._red   = RegExp.$1;
         this._green = RegExp.$2;
@@ -289,23 +289,23 @@ proto._normalize = function(vInValue)
 
         this._isRgbColor = true;
       }
-      else if (QxColor.r_hex3.test(vInValue))
+      else if (qx.renderer.color.Color.r_hex3.test(vInValue))
       {
         this._hex = vInValue;
 
-        this._red   = (QxColor.m_rgb[RegExp.$1] * 16) + QxColor.m_rgb[RegExp.$1];
-        this._green = (QxColor.m_rgb[RegExp.$2] * 16) + QxColor.m_rgb[RegExp.$2];
-        this._blue  = (QxColor.m_rgb[RegExp.$3] * 16) + QxColor.m_rgb[RegExp.$3];
+        this._red   = (qx.renderer.color.Color.m_rgb[RegExp.$1] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$1];
+        this._green = (qx.renderer.color.Color.m_rgb[RegExp.$2] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$2];
+        this._blue  = (qx.renderer.color.Color.m_rgb[RegExp.$3] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$3];
 
         this._isRgbColor = true;
       }
-      else if (QxColor.r_hex6.test(vInValue))
+      else if (qx.renderer.color.Color.r_hex6.test(vInValue))
       {
         this._hex = vInValue;
 
-        this._red   = (QxColor.m_rgb[RegExp.$1] * 16) + QxColor.m_rgb[RegExp.$2];
-        this._green = (QxColor.m_rgb[RegExp.$3] * 16) + QxColor.m_rgb[RegExp.$4];
-        this._blue  = (QxColor.m_rgb[RegExp.$5] * 16) + QxColor.m_rgb[RegExp.$6];
+        this._red   = (qx.renderer.color.Color.m_rgb[RegExp.$1] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$2];
+        this._green = (qx.renderer.color.Color.m_rgb[RegExp.$3] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$4];
+        this._blue  = (qx.renderer.color.Color.m_rgb[RegExp.$5] * 16) + qx.renderer.color.Color.m_rgb[RegExp.$6];
 
         this._isRgbColor = true;
       }

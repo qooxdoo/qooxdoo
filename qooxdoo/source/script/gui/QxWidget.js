@@ -24,8 +24,8 @@
 
 #package(guicore)
 #require(QxApplication)
-#require(QxColorObject)
-#require(QxColorCache)
+#require(qx.renderer.color.ColorObject)
+#require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderObject)
 #require(qx.renderer.border.BorderCache)
 #require(QxAppearanceManager)
@@ -175,15 +175,15 @@ QxWidget.addProperty({ name : "zIndex", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   The color style property of the rendered widget.
-  As input are allowed any instance of QxColor or a string which defines the color itself.
+  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-QxWidget.addProperty({ name : "backgroundColor", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache, allowMultipleArguments : true });
+QxWidget.addProperty({ name : "backgroundColor", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The backgroundColor style property of the rendered widget.
-  As input are allowed any instance of QxColor or a string which defines the color itself.
+  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-QxWidget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : "QxColor", convert : QxColorCache, allowMultipleArguments : true });
+QxWidget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.

@@ -55,8 +55,8 @@ theme.registerAppearance("client-document",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
-    this.color = new QxColorObject("windowtext");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
+    this.color = new qx.renderer.color.ColorObject("windowtext");
   },
 
   initial : function(vWidget, vTheme)
@@ -106,7 +106,7 @@ theme.registerAppearance("label",
 {
   setup : function()
   {
-    this.color_disabled = new QxColorObject("graytext");
+    this.color_disabled = new qx.renderer.color.ColorObject("graytext");
     this.font = new QxFont(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
   },
 
@@ -152,8 +152,8 @@ theme.registerAppearance("tool-tip",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("InfoBackground");
-    this.color = new QxColorObject("InfoText");
+    this.bgcolor = new qx.renderer.color.ColorObject("InfoBackground");
+    this.color = new qx.renderer.color.ColorObject("InfoText");
   },
 
   initial : function(vWidget, vTheme)
@@ -197,9 +197,9 @@ theme.registerAppearance("button",
 {
   setup : function()
   {
-    this.bgcolor_default = new QxColorObject("buttonface");
-    this.bgcolor_over = new QxColor("#87BCE5");
-    this.bgcolor_left = new QxColor("#FFF0C9");
+    this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
+    this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
+    this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
     this.border_pressed = qx.renderer.border.BorderObject.presets.inset;
     this.border_default = qx.renderer.border.BorderObject.presets.outset;
@@ -250,7 +250,7 @@ theme.registerAppearance("toolbar",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
 
   initial : function(vWidget, vTheme)
@@ -341,8 +341,8 @@ theme.registerAppearance("toolbar-button",
 {
   setup : function()
   {
-    this.bgcolor_default = new QxColorObject("buttonface");
-    this.bgcolor_left = new QxColor("#FFF0C9");
+    this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
+    this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
     this.border_pressed = qx.renderer.border.BorderObject.presets.thinInset;
     this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
@@ -415,7 +415,7 @@ theme.registerAppearance("bar-view",
 {
   setup : function()
   {
-    this.background = new QxColorObject("#FAFBFE");
+    this.background = new qx.renderer.color.ColorObject("#FAFBFE");
   },
 
   initial : function(vWidget, vTheme)
@@ -467,9 +467,9 @@ theme.registerAppearance("bar-view-bar",
 {
   setup : function()
   {
-    this.background_color = new QxColorObject("#E1EEFF");
+    this.background_color = new qx.renderer.color.ColorObject("#E1EEFF");
 
-    this.border_color = new QxColorObject("threedshadow");
+    this.border_color = new qx.renderer.color.ColorObject("threedshadow");
 
     this.border_top = new qx.renderer.border.BorderObject;
     this.border_top.setBottom(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
@@ -555,10 +555,10 @@ theme.registerAppearance("bar-view-button",
   setup : function()
   {
     this.background_color_normal = null;
-    this.background_color_checked = new QxColorObject("#FAFBFE");
+    this.background_color_checked = new qx.renderer.color.ColorObject("#FAFBFE");
 
-    this.border_color = new QxColorObject("threedshadow");
-    this.border_color_checked = new QxColorObject("#FEC83C");
+    this.border_color = new qx.renderer.color.ColorObject("threedshadow");
+    this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
 
     this.border_top_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
     this.border_top_checked.setBottom(3, QxConst.BORDER_STYLE_SOLID, this.border_color_checked);
@@ -674,8 +674,8 @@ theme.registerAppearance("window",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
-    this.color = new QxColorObject("windowtext");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
+    this.color = new qx.renderer.color.ColorObject("windowtext");
   },
 
   initial : function(vWidget, vTheme)
@@ -702,10 +702,10 @@ theme.registerAppearance("window-captionbar",
 {
   setup : function()
   {
-    this.bgcolor_active = new QxColorObject("activecaption");
-    this.color_active = new QxColorObject("captiontext");
-    this.bgcolor_inactive = new QxColorObject("inactivecaption");
-    this.color_inactive = new QxColorObject("inactivecaptiontext");
+    this.bgcolor_active = new qx.renderer.color.ColorObject("activecaption");
+    this.color_active = new qx.renderer.color.ColorObject("captiontext");
+    this.bgcolor_inactive = new qx.renderer.color.ColorObject("inactivecaption");
+    this.color_inactive = new qx.renderer.color.ColorObject("inactivecaptiontext");
   },
 
   initial : function(vWidget, vTheme)
@@ -887,7 +887,7 @@ theme.registerAppearance("menu",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("menu");
+    this.bgcolor = new qx.renderer.color.ColorObject("menu");
   },
 
   initial : function(vWidget, vTheme)
@@ -922,10 +922,10 @@ theme.registerAppearance("menu-button",
 {
   setup : function()
   {
-    this.BGCOLOR_OVER = new QxColorObject("highlight");
+    this.BGCOLOR_OVER = new qx.renderer.color.ColorObject("highlight");
     this.BGCOLOR_OUT = null;
 
-    this.COLOR_OVER = new QxColorObject("highlighttext");
+    this.COLOR_OVER = new qx.renderer.color.ColorObject("highlighttext");
     this.COLOR_OUT = null;
   },
 
@@ -1048,7 +1048,7 @@ theme.registerAppearance("list",
 {
   setup : function()
   {
-    this.bgcolor = new QxColor("white");
+    this.bgcolor = new qx.renderer.color.Color("white");
   },
 
   initial : function(vWidget, vTheme)
@@ -1065,8 +1065,8 @@ theme.registerAppearance("list-item",
 {
   setup : function()
   {
-    this.bgcolor_selected = new QxColorObject("highlight");
-    this.color_selected = new QxColorObject("highlighttext");
+    this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
+    this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
   },
 
   initial : function(vWidget, vTheme)
@@ -1180,7 +1180,7 @@ theme.registerAppearance("combo-box",
 {
   setup : function()
   {
-    this.bgcolor = new QxColor("white");
+    this.bgcolor = new qx.renderer.color.Color("white");
   },
 
   initial : function(vWidget, vTheme)
@@ -1227,7 +1227,7 @@ theme.registerAppearance("combo-box-text-field",
 {
   setup : function()
   {
-    this.bgcolor = new QxColor("transparent");
+    this.bgcolor = new qx.renderer.color.Color("transparent");
   },
 
   initial : function(vWidget, vTheme)
@@ -1321,8 +1321,8 @@ theme.registerAppearance("tree-element-label",
 {
   setup : function()
   {
-    this.bgcolor_selected = new QxColorObject("highlight");
-    this.color_selected = new QxColorObject("highlighttext");
+    this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
+    this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
   },
 
   initial : function(vWidget, vTheme)
@@ -1502,7 +1502,7 @@ theme.registerAppearance("list-view-header",
     this.border = new qx.renderer.border.Border;
     this.border.setBottom(1, "solid", "#e2e2e2");
 
-    this.bgcolor = new QxColor("#f2f2f2");
+    this.bgcolor = new qx.renderer.color.Color("#f2f2f2");
   },
 
   initial : function(vWidget, vTheme)
@@ -1523,7 +1523,7 @@ theme.registerAppearance("list-view-header-cell",
     this.border_hover = new qx.renderer.border.Border,
     this.border_hover.setBottom(2, "solid", "#F9B119");
 
-    this.bgcolor_hover = new QxColor("white");
+    this.bgcolor_hover = new qx.renderer.color.Color("white");
   },
 
   initial : function(vWidget, vTheme)
@@ -1565,7 +1565,7 @@ theme.registerAppearance("list-view-header-cell",
 theme.registerAppearance("list-view-header-separator",
 {
   setup : function() {
-    this.bgcolor = new QxColor("#D6D5D9");
+    this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
   },
 
   initial : function(vWidget, vTheme)
@@ -1583,8 +1583,8 @@ theme.registerAppearance("list-view-content-cell",
 {
   setup : function()
   {
-    this.bgcolor_selected = new QxColorObject("highlight");
-    this.color_selected = new QxColorObject("highlighttext");
+    this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
+    this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
   },
 
   state : function(vWidget, vTheme, vStates)
@@ -1700,7 +1700,7 @@ theme.registerAppearance("tab-view-pane",
   setup : function()
   {
     this.border = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
-    this.bgcolor = new QxColorObject("#FAFBFE");
+    this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
   },
 
   initial : function(vWidget, vTheme)
@@ -1734,8 +1734,8 @@ theme.registerAppearance("tab-view-button",
 {
   setup : function()
   {
-    this.bgcolor_normal = new QxColorObject("#E1EEFF");
-    this.bgcolor_checked = new QxColorObject("#FAFBFE");
+    this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
+    this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
 
     this.border_top_normal = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
     this.border_top_normal.setBottomWidth(0);
@@ -1864,7 +1864,7 @@ theme.registerAppearance("field-set",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
 
   initial : function(vWidget, vTheme)
@@ -1879,7 +1879,7 @@ theme.registerAppearance("field-set-legend",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
 
   initial : function(vWidget, vTheme)
@@ -1916,7 +1916,7 @@ theme.registerAppearance("check-box-field-set-legend",
 {
   setup : function()
   {
-    this.bgcolor = new QxColorObject("threedface");
+    this.bgcolor = new qx.renderer.color.ColorObject("threedface");
   },
 
   initial : function(vWidget, vTheme)
@@ -1953,7 +1953,7 @@ theme.registerAppearance("spinner",
 {
   setup : function()
   {
-    this.bgcolor = new QxColor("white");
+    this.bgcolor = new qx.renderer.color.Color("white");
   },
 
   initial : function(vWidget, vTheme)
@@ -1990,7 +1990,7 @@ theme.registerAppearance("spinner-button-up",
     {
       height: QxConst.CORE_FLEX,
       width: 16,
-      backgroundColor: new QxColorObject("threedface")
+      backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
   },
 
@@ -2014,7 +2014,7 @@ theme.registerAppearance("spinner-button-down",
     {
       height: QxConst.CORE_FLEX,
       width: 16,
-      backgroundColor: new QxColorObject("threedface")
+      backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
   },
 

@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(colorthemes)
-#require(qx.renderer.theme.QxColorTheme)
+#require(qx.renderer.theme.ColorTheme)
 
 ************************************************************************ */
 
-new qx.renderer.theme.QxColorTheme("windowsClassic", "Windows Classic",
+new qx.renderer.theme.ColorTheme("windowsClassic", "Windows Classic",
 {
   activeborder : [ 212,208,200 ],
   activecaption : [ 10,36,106 ],

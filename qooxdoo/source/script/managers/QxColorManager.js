@@ -23,23 +23,23 @@
 /* ************************************************************************
 
 #package(color)
-#post(qx.renderer.theme.QxColorTheme)
+#post(qx.renderer.theme.ColorTheme)
 
 ************************************************************************ */
 
-function QxColorManager()
+qx.manager.object.ColorManager = function()
 {
   QxManager.call(this);
 
-  // Contains the qx.renderer.theme.QxColorTheme instances
+  // Contains the qx.renderer.theme.ColorTheme instances
   this._themes = {};
 
-  // Contains the QxColorObjects which
+  // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
   this._dependentObjects = {};
 };
 
-QxColorManager.extend(QxManager, "QxColorManager");
+qx.manager.object.ColorManager.extend(QxManager, "qx.manager.object.ColorManager");
 
 
 /*
@@ -48,7 +48,7 @@ QxColorManager.extend(QxManager, "QxColorManager");
 ---------------------------------------------------------------------------
 */
 
-QxColorManager.addProperty({ name : "theme", type : QxConst.TYPEOF_STRING });
+qx.manager.object.ColorManager.addProperty({ name : "theme", type : QxConst.TYPEOF_STRING });
 
 
 
@@ -70,7 +70,7 @@ proto.getThemeObject = function() {
 
 /*
 ---------------------------------------------------------------------------
-  PUBLIC METHODS FOR QXCOLOROBJECTS
+  PUBLIC METHODS FOR qx.renderer.color.ColorOBJECTS
 ---------------------------------------------------------------------------
 */
 
@@ -108,7 +108,7 @@ proto.get = function(vValue) {
 
 /*
 ---------------------------------------------------------------------------
-  PUBLIC METHODS FOR qx.renderer.theme.QxColorThemeS
+  PUBLIC METHODS FOR qx.renderer.theme.ColorThemeS
 ---------------------------------------------------------------------------
 */
 
@@ -121,7 +121,7 @@ proto.registerTheme = function(vTheme)
   };
 
   this._themes[vId] = vTheme;
-  
+
   // Register first incoming theme as default
   if (this.getTheme() == null) {
     this.setTheme(vId);
@@ -143,7 +143,7 @@ proto.registerTheme = function(vTheme)
 proto._modifyTheme = function(propValue, propOldValue, propData)
 {
   var vTheme = this.getThemeObject();
-  
+
   vTheme.compile();
 
   for (var i in this._dependentObjects) {
@@ -177,7 +177,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
     var vButton = new QxButton(vPrefix + vThemes[vId].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("QxColorManager.setTheme('" + vId + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.setTheme('" + vId + "')"));
 
     vParent.add(vButton);
 
@@ -229,4 +229,4 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxColorManager = new QxColorManager;
+qx.manager.object.ColorManager = new qx.manager.object.ColorManager;
