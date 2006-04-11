@@ -16,6 +16,9 @@ qx.lang.Core = {};
 qx.lang.Emu = {};
 
 qx.core = {};
+qx.core.Settings = {};
+qx.core.DefaultSettings = {};
+
 qx.app = {};
 
 qx.util = {};
