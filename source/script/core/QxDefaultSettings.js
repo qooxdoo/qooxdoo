@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-var qx.core.DefaultSettings =
+qx.core.DefaultSettings =
 {
   enableWidgetDebug : false,
   enableDisposerDebug : false,
