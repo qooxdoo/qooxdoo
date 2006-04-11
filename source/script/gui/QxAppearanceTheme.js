@@ -34,7 +34,7 @@ function QxAppearanceTheme(vId, vTitle)
   this._appearances = {};
 
   this.setId(vId);
-  this.setTitle(QxUtil.isValidString(vTitle) ? vTitle : vId);
+  this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
 
   QxAppearanceManager.registerTheme(this);
 };

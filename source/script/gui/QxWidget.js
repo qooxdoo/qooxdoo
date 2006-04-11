@@ -646,7 +646,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   {
     this._hasParent = true;
 
-    if (QxUtil.isValidNumber(this._insertIndex))
+    if (qx.util.validator.isValidNumber(this._insertIndex))
     {
       propValue.getChildren().insertAt(this, this._insertIndex);
       delete this._insertIndex;
@@ -1076,7 +1076,7 @@ proto._createElementImpl = function() {
 
 proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = QxUtil.isValidElement(propValue);
+  this._isCreated = qx.util.validator.isValidElement(propValue);
 
   if (propOldValue)
   {
@@ -3828,7 +3828,7 @@ if(qx.sys.Client.isMshtml())
     {
       this.removeStyleProperty(QxConst.PROPERTY_FILTER);
     }
-    else if (QxUtil.isValidNumber(propValue))
+    else if (qx.util.validator.isValidNumber(propValue))
     {
       this.setStyleProperty(QxConst.PROPERTY_FILTER, QxWidget.OPACITY_FILTER_START + Math.round(propValue * 100) + QxWidget.OPACITY_FILTER_STOP);
     }
@@ -3857,7 +3857,7 @@ else
 
       this.removeStyleProperty(QxWidget.OPACITY_PROPERTY_CSS3);
     }
-    else if (QxUtil.isValidNumber(propValue))
+    else if (qx.util.validator.isValidNumber(propValue))
     {
       propValue = propValue.limit(0, 1);
 
@@ -3926,7 +3926,7 @@ QxWidget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
 QxWidget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
 proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
-  return QxUtil.isValidString(propValue) ? this.setStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY, QxWidget.BACKGROUNDIMG_VALUE_START + QxImageManager.buildUri(propValue) + QxWidget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY);
+  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY, QxWidget.BACKGROUNDIMG_VALUE_START + QxImageManager.buildUri(propValue) + QxWidget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(QxWidget.BACKGROUNDIMG_PROPERTY);
 };
 
 
@@ -4417,7 +4417,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   var propertyIngoreList = this._clonePropertyIgnoreList.split(QxConst.CORE_COMMA);
 
   // Build new filtered property list
-  var sourcePropertyList = QxUtil.isValid(customPropertyList) ? customPropertyList : this._properties.split(QxConst.CORE_COMMA);
+  var sourcePropertyList = qx.util.validator.isValid(customPropertyList) ? customPropertyList : this._properties.split(QxConst.CORE_COMMA);
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];

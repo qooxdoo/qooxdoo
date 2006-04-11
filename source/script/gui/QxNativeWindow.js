@@ -47,11 +47,11 @@ function QxNativeWindow(vUrl, vName)
   //   INITIAL PROPERTIES
   // ************************************************************************
   
-  if (QxUtil.isValidString(vUrl)) {
+  if (qx.util.validator.isValidString(vUrl)) {
     this.setUrl(vUrl);
   };
 
-  if (QxUtil.isValidString(vName)) {
+  if (qx.util.validator.isValidString(vName)) {
     this.setName(vName);
   };
 };
@@ -255,7 +255,7 @@ proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
-    this._window.location.replace(QxUtil.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
+    this._window.location.replace(qx.util.validator.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
   };
 
   return true;
@@ -364,7 +364,7 @@ proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (QxUtil.isValidNumber(this.getWidth())) 
+  if (qx.util.validator.isValidNumber(this.getWidth())) 
   {
     vConf.push(QxNativeWindow.PROPERTY_WIDTH);
     vConf.push(QxConst.CORE_EQUAL);
@@ -372,7 +372,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (QxUtil.isValidNumber(this.getHeight())) 
+  if (qx.util.validator.isValidNumber(this.getHeight())) 
   {
     vConf.push(QxNativeWindow.PROPERTY_HEIGHT);
     vConf.push(QxConst.CORE_EQUAL);
@@ -380,7 +380,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (QxUtil.isValidNumber(this.getLeft())) 
+  if (qx.util.validator.isValidNumber(this.getLeft())) 
   {
     vConf.push(QxNativeWindow.PROPERTY_LEFT);
     vConf.push(QxConst.CORE_EQUAL);
@@ -388,7 +388,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (QxUtil.isValidNumber(this.getTop())) 
+  if (qx.util.validator.isValidNumber(this.getTop())) 
   {
     vConf.push(QxNativeWindow.PROPERTY_TOP);
     vConf.push(QxConst.CORE_EQUAL);
@@ -449,7 +449,7 @@ proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (QxUtil.isInvalidString(this.getName())) {
+  if (qx.util.validator.isInvalidString(this.getName())) {
     this.setName(this.classname + this.toHashCode());
   };
 

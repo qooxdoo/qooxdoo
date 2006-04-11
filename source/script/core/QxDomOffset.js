@@ -58,7 +58,7 @@ if (qx.sys.Client.isGecko())
       {
         pa = pa.parentNode;
 
-        if (!pa || QxUtil.isInvalidString(pa.tagName)) {
+        if (!pa || qx.util.validator.isInvalidString(pa.tagName)) {
           break;
         };
 
@@ -95,7 +95,7 @@ if (qx.sys.Client.isGecko())
       {
         pa = pa.parentNode;
 
-        if (!pa || QxUtil.isInvalidString(pa.tagName)) {
+        if (!pa || qx.util.validator.isInvalidString(pa.tagName)) {
           break;
         };
 

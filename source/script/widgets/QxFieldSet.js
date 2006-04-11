@@ -45,7 +45,7 @@ function QxFieldSet(vLegend, vIcon)
   // ************************************************************************
   this.setLegend(vLegend);
 
-  if (QxUtil.isValidString(vIcon)) {
+  if (qx.util.validator.isValidString(vIcon)) {
     this.setIcon(vIcon);
   };
 

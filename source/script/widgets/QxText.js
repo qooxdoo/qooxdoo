@@ -30,7 +30,7 @@ function QxText(vText)
 {
   QxTerminator.call(this);
 
-  if (QxUtil.isValidString(vText)) {
+  if (qx.util.validator.isValidString(vText)) {
     this.setText(vText);
   };
 };

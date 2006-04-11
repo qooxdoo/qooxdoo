@@ -31,7 +31,7 @@ function QxHtml(vHtml)
 {
   QxTerminator.call(this);
 
-  if (QxUtil.isValidString(vHtml)) {
+  if (qx.util.validator.isValidString(vHtml)) {
     this.setHtml(vHtml);
   };
 };

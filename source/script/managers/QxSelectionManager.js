@@ -36,7 +36,7 @@ function QxSelectionManager(vBoundedWidget)
 
   this._selectedItems = new QxSelectionStorage(this);
 
-  if (QxUtil.isValid(vBoundedWidget)) {
+  if (qx.util.validator.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
   };
 };

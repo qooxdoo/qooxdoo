@@ -28,7 +28,7 @@
 
 function QxBorderCache(propValue, propData)
 {
-  if (QxUtil.isValidArray(propValue) && propValue.length > 1)
+  if (qx.util.validator.isValidArray(propValue) && propValue.length > 1)
   {
     propString = QxConst.CORE_EMPTY;
 
@@ -49,7 +49,7 @@ function QxBorderCache(propValue, propData)
 
     propValue = propString;
   }
-  else if (QxUtil.isInvalidString(propValue))
+  else if (qx.util.validator.isInvalidString(propValue))
   {
     return propValue;
   };

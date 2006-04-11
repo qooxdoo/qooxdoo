@@ -291,7 +291,7 @@ proto._printPropertyInfo = function() {
 
 proto._printClientInfo = function()
 {
-  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (QxUtil.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
+  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.validator.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
 
   if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
     this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");

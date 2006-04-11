@@ -30,7 +30,7 @@ function QxCommonViewPage(vButton)
 {
   QxCanvasLayout.call(this);
 
-  if (QxUtil.isValid(vButton)) {
+  if (qx.util.validator.isValid(vButton)) {
     this.setButton(vButton);
   };
 };

@@ -31,15 +31,15 @@
 function QxLocale(vLanguage, vCountry, vVariant) {
   QxObject.call(this);
 
-  if(QxUtil.isValidString(vLanguage)) {
+  if(qx.util.validator.isValidString(vLanguage)) {
     this.setLanguage(vLanguage);
   };
 
-  if(QxUtil.isValidString(vCountry)) {
+  if(qx.util.validator.isValidString(vCountry)) {
     this.setCountry(vCountry);
   };
 
-  if(QxUtil.isValidString(vVariant)) {
+  if(qx.util.validator.isValidString(vVariant)) {
     this.setVariant(vVariant);
   };
 };
@@ -196,7 +196,7 @@ proto.getISOLanguages = function() {
 
 // Sets the default locale.
 proto.setDefault = function(locale) {
-  if(QxUtil.isValidObject(locale)) {
+  if(qx.util.validator.isValidObject(locale)) {
     QxLocale.DEFAULT_LOCALE = locale;
   };
 };

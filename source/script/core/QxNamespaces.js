@@ -22,7 +22,7 @@ qx.util = {};
 qx.util.returns = {};
 qx.util.converter = {};
 qx.util.validator = {};
-qx.util.normalize = {};
+qx.util.normalizer = {};
 qx.util.string = {};
 qx.util.compare = {};
 

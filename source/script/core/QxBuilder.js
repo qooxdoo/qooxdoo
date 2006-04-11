@@ -118,14 +118,14 @@ proto._buildNodes = function(parent, nodes) {
 };
 
 proto._buildEventListener = function(widget, args, text) {
-  if (QxUtil.isInvalidString(args.type)) {
+  if (qx.util.validator.isInvalidString(args.type)) {
     throw this._newBuildError('eventListener requires a string type attribute');
   };
 
   var self = this;
 
   // are we delegating ?
-  if (QxUtil.isValidString(args.delegate)) {
+  if (qx.util.validator.isValidString(args.delegate)) {
 
     // remember the build context to be able to display it after built time
     var dc = this._formatDebugContext();

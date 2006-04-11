@@ -226,7 +226,7 @@ proto._dispatchEvent = function(vEvent, vEnableDispose)
         try
         {
           if(typeof vFunction === QxConst.TYPEOF_FUNCTION) {
-            vFunction.call(QxUtil.isValid(vObject) ? vObject : this, vEvent);
+            vFunction.call(qx.util.validator.isValid(vObject) ? vObject : this, vEvent);
           };
         }
         catch(ex)

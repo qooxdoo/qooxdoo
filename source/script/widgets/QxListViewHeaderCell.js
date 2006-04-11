@@ -47,11 +47,11 @@ function QxListViewHeaderCell(vConfig, vId)
   // ************************************************************************
   this.setWidth(typeof vConfig.width === QxConst.TYPEOF_UNDEFINED ? QxConst.CORE_AUTO : vConfig.width);
 
-  if (QxUtil.isValid(vConfig.minWidth)) {
+  if (qx.util.validator.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
   };
 
-  if (QxUtil.isValid(vConfig.maxWidth)) {
+  if (qx.util.validator.isValid(vConfig.maxWidth)) {
     this.setMaxWidth(vConfig.maxWidth);
   };
 

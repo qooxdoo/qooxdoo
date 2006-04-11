@@ -32,7 +32,7 @@ function QxToolBarMenuButton(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlas
 {
   QxToolBarButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-  if (QxUtil.isValidObject(vMenu)) {
+  if (qx.util.validator.isValidObject(vMenu)) {
     this.setMenu(vMenu);
   };
 
