@@ -41,7 +41,7 @@
 
   Includes support for RGB and HSB color areas.
 */
-function qx.renderer.color.ColorSelector(vPreviousRed, vPreviousGreen, vPreviousBlue)
+qx.ui.component.ColorSelector = function(vPreviousRed, vPreviousGreen, vPreviousBlue)
 {
   QxVerticalBoxLayout.call(this);
 
