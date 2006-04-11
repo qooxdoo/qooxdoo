@@ -128,7 +128,7 @@
                   // constructor call
                   // str += v.classname + ".call($" + i + ");\n";
 
-                  if (v instanceof QxWidget && v.isCreated())
+                  if (v instanceof qx.ui.core.Widget && v.isCreated())
                   {
                     // map elements
                     str += "$" + i + "._valueElement = cssQuery(\"[qxhashcode=" + v._hashCode + "]\")[0];\n";

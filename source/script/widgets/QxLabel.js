@@ -316,8 +316,8 @@ proto._postApply = function()
   {
     switch(this._computedWidthType)
     {
-      case QxWidget.TYPE_PIXEL:
-      case QxWidget.TYPE_PERCENT:
+      case qx.ui.core.Widget.TYPE_PIXEL:
+      case qx.ui.core.Widget.TYPE_PERCENT:
         var vNeeded = this.getPreferredInnerWidth();
         var vInner = this.getInnerWidth();
 

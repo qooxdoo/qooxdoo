@@ -85,7 +85,7 @@ else
 qx.event.handler.EventHandler.addProperty({ name : "allowClientContextMenu", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 qx.event.handler.EventHandler.addProperty({ name : "allowClientSelectAll", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
-qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget", allowNull : true });
+qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
 qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
 
@@ -332,7 +332,7 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
     vNode = document.body;
   };
 
-  // Walk up the tree and search for an QxWidget
+  // Walk up the tree and search for an qx.ui.core.Widget
   while(vNode != null && vNode._QxWidget == null)
   {
     try {
@@ -538,7 +538,7 @@ proto._onkeyevent = function(vDomEvent)
   vKeyEventObject.dispose();
 
   // Flush Queues
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 };
 
 
@@ -555,7 +555,7 @@ proto._onkeyevent = function(vDomEvent)
 /*!
   This one handle all mouse events
 
-  When a user double clicks on a QxWidget the
+  When a user double clicks on a qx.ui.core.Widget the
   order of the mouse events is the following:
 
   1. mousedown
@@ -856,7 +856,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Flush Queues
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   }
   catch(ex)
   {
@@ -874,7 +874,7 @@ if (qx.sys.Client.isGecko())
 
     // ingore if overflow is configured as hidden
     // in this case send the event to the parent instead
-    if(vTarget.getOverflowY() == QxWidget.SCROLL_VALUE_HIDDEN) {
+    if(vTarget.getOverflowY() == qx.ui.core.Widget.SCROLL_VALUE_HIDDEN) {
       return this._onmousewheel(vTarget.getParent(), vEvent);
     };
 

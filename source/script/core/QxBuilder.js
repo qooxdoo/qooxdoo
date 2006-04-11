@@ -352,28 +352,28 @@ proto._registerDefaultPropertyEditors = function() {
     self._setProperty(widget, name, window[value]);
   };
 
-  this.registerPropertyEditor('QxWidget', 'location', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'dimension', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'location', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'dimension', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'space', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'edge', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'space', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'edge', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'padding', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'margin', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'padding', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'margin', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'heights', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'widths', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'heights', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'widths', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'align', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'stretch', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'align', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'stretch', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'clipLocation', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'clipDimension', commaDelimitedPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'clip', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'clipLocation', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'clipDimension', commaDelimitedPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'clip', commaDelimitedPropertyEditor);
 
-  this.registerPropertyEditor('QxWidget', 'backgroundColor', evalPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'color', evalPropertyEditor);
-  this.registerPropertyEditor('QxWidget', 'border', evalPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'backgroundColor', evalPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'color', evalPropertyEditor);
+  this.registerPropertyEditor('qx.ui.core.Widget', 'border', evalPropertyEditor);
 
 
   this.registerPropertyEditor('QxMenuButton', 'menu', referencePropertyEditor);

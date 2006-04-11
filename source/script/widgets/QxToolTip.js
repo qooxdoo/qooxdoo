@@ -74,7 +74,7 @@ QxToolTip.addProperty({ name : "mousePointerOffsetY", type : QxConst.TYPEOF_NUMB
 QxToolTip.addProperty({ name : "showInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
 QxToolTip.addProperty({ name : "hideInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 4000 });
 
-QxToolTip.addProperty({ name : "boundToWidget", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
+QxToolTip.addProperty({ name : "boundToWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -204,7 +204,7 @@ proto._onshowtimer = function(e)
   // we need a manual flushing because it could be that
   // there is currently no event which do this for us
   // and so show the tooltip.
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 
   return true;
 };

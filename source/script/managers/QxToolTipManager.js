@@ -89,7 +89,7 @@ proto.handleMouseOver = function(e)
   var vToolTip;
 
   // Allows us to use DOM Nodes as tooltip target :)
-  if (!(vTarget instanceof QxWidget) && vTarget.nodeType == 1) {
+  if (!(vTarget instanceof qx.ui.core.Widget) && vTarget.nodeType == 1) {
     vTarget = qx.event.handler.EventHandler.getTargetObject(vTarget);
   };
 

@@ -384,7 +384,7 @@ proto._onbarmousedown = function(e)
       if (f.getParent() != this._bar.getParent())
       {
         f.setParent(this._bar.getParent());
-        QxWidget.flushGlobalQueues();
+        qx.ui.core.Widget.flushGlobalQueues();
       };
 
       f._applyRuntimeLeft(qx.dom.getComputedPageBoxLeft(el) - l);

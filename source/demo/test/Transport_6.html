@@ -185,7 +185,7 @@
           fcountry.setHtml(vContent.country.toString());
           fphone.setHtml(vContent.phone.toString());
 
-          QxWidget.flushGlobalQueues();
+          qx.ui.core.Widget.flushGlobalQueues();
         });
 
         req.addEventListener("failed", function(e)

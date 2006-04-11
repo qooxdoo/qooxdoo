@@ -39,7 +39,7 @@ QxDockLayout.extend(qx.ui.core.Parent, "QxDockLayout");
 QxDockLayout.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ORIENTATION_VERTICAL, possibleValues : [ QxConst.ORIENTATION_VERTICAL, QxConst.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
 
 /*
-  Overwrite from QxWidget, we do not support 'auto' and 'flex'
+  Overwrite from qx.ui.core.Widget, we do not support 'auto' and 'flex'
 */
 QxDockLayout.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
 QxDockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });

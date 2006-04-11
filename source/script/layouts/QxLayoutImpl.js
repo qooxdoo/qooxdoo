@@ -327,7 +327,7 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 */
 
 /*!
-  Called from QxWidget. Its task is to apply the layout
+  Called from qx.ui.core.Widget. Its task is to apply the layout
   (excluding border and padding) to the child.
 */
 proto.layoutChild = function(vChild, vJobs) {};

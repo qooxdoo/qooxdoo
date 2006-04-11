@@ -111,7 +111,7 @@ proto.addChildToTreeQueue = function(vChild)
 
   if (!vChild._isInTreeQueue && vChild._isDisplayable)
   {
-    QxWidget.addToGlobalWidgetQueue(this);
+    qx.ui.core.Widget.addToGlobalWidgetQueue(this);
 
     if (!this._treeQueue) {
       this._treeQueue = {};

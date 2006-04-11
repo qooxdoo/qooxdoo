@@ -117,7 +117,7 @@ proto._applyChanges = function(){
     // set position
     this._bar.setLeft(0);
     this._bar.setWidth((QxProgressanim.BAR_WIDTH - Math.abs(this._position)) + '%');
-  QxWidget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
+  qx.ui.core.Widget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
     // ready
     return true;
   }
@@ -126,7 +126,7 @@ proto._applyChanges = function(){
     // set position
     this._bar.setLeft(this._position + '%');
     this._bar.setWidth((100 - this._position) + '%');
-  QxWidget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
+  qx.ui.core.Widget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
     // ready
     return true;
   }
@@ -135,7 +135,7 @@ proto._applyChanges = function(){
   // set position
   this._bar.setLeft(this._position + '%');
   this._bar.setWidth(QxProgressanim.BAR_WIDTH + '%');
-  QxWidget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
+  qx.ui.core.Widget.flushGlobalQueues(); //???Olli??? is there any other possibility to show the changes imideatelly
   // ready
   return true;
 }

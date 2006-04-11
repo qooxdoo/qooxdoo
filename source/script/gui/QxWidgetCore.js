@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxWidget)
+#require(qx.ui.core.Widget)
 #require(qx.core.Settings)
 #post(QxInline)
 
@@ -40,46 +40,46 @@
 
 if (qx.core.Settings.enableWidgetDebug)
 {
-  QxWidget.flushGlobalQueues = function()
+  qx.ui.core.Widget.flushGlobalQueues = function()
   {
-    if (QxWidget._inFlushGlobalQueues || !window.application.isReady()) {
+    if (qx.ui.core.Widget._inFlushGlobalQueues || !window.application.isReady()) {
       return;
     };
 
-    if (!(QxWidget._globalWidgetQueue.length > 0 || QxWidget._globalElementQueue.length > 0 ||
-        QxWidget._globalStateQueue.length > 0  || QxWidget._globalJobQueue.length > 0 ||
-        QxWidget._globalLayoutQueue.length > 0 || QxWidget._fastGlobalDisplayQueue.length > 0 ||
-        !qx.lang.Object.isEmpty(QxWidget._lazyGlobalDisplayQueue))) {
+    if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 ||
+        qx.ui.core.Widget._globalStateQueue.length > 0  || qx.ui.core.Widget._globalJobQueue.length > 0 ||
+        qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 ||
+        !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
       return;
     };
 
     // Also used for inline event handling to seperate 'real' events
-    QxWidget._inFlushGlobalQueues = true;
+    qx.ui.core.Widget._inFlushGlobalQueues = true;
 
     var vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalWidgetQueue();
+    qx.ui.core.Widget.flushGlobalWidgetQueue();
     var vWidgetDuration = (new Date).valueOf() - vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalStateQueue();
+    qx.ui.core.Widget.flushGlobalStateQueue();
     var vStateDuration = (new Date).valueOf() - vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalElementQueue();
+    qx.ui.core.Widget.flushGlobalElementQueue();
     var vElementDuration = (new Date).valueOf() - vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalJobQueue();
+    qx.ui.core.Widget.flushGlobalJobQueue();
     var vJobDuration = (new Date).valueOf() - vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalLayoutQueue();
+    qx.ui.core.Widget.flushGlobalLayoutQueue();
     var vLayoutDuration = (new Date).valueOf() - vStart;
 
     vStart = (new Date).valueOf();
-    QxWidget.flushGlobalDisplayQueue();
+    qx.ui.core.Widget.flushGlobalDisplayQueue();
     var vDisplayDuration = (new Date).valueOf() - vStart;
 
     var vSum = vWidgetDuration + vStateDuration + vElementDuration + vJobDuration + vLayoutDuration + vDisplayDuration;
@@ -97,28 +97,28 @@ if (qx.core.Settings.enableWidgetDebug)
       window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
     };
 
-    delete QxWidget._inFlushGlobalQueues;
+    delete qx.ui.core.Widget._inFlushGlobalQueues;
   };
 }
 else
 {
-  QxWidget.flushGlobalQueues = function()
+  qx.ui.core.Widget.flushGlobalQueues = function()
   {
-    if (QxWidget._inFlushGlobalQueues || !window.application.isReady()) {
+    if (qx.ui.core.Widget._inFlushGlobalQueues || !window.application.isReady()) {
       return;
     };
 
     // Also used for inline event handling to seperate 'real' events
-    QxWidget._inFlushGlobalQueues = true;
+    qx.ui.core.Widget._inFlushGlobalQueues = true;
 
-    QxWidget.flushGlobalWidgetQueue();
-    QxWidget.flushGlobalStateQueue();
-    QxWidget.flushGlobalElementQueue();
-    QxWidget.flushGlobalJobQueue();
-    QxWidget.flushGlobalLayoutQueue();
-    QxWidget.flushGlobalDisplayQueue();
+    qx.ui.core.Widget.flushGlobalWidgetQueue();
+    qx.ui.core.Widget.flushGlobalStateQueue();
+    qx.ui.core.Widget.flushGlobalElementQueue();
+    qx.ui.core.Widget.flushGlobalJobQueue();
+    qx.ui.core.Widget.flushGlobalLayoutQueue();
+    qx.ui.core.Widget.flushGlobalDisplayQueue();
 
-    delete QxWidget._inFlushGlobalQueues;
+    delete qx.ui.core.Widget._inFlushGlobalQueues;
   };
 };
 
@@ -136,29 +136,29 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxWidget._globalWidgetQueue = [];
+qx.ui.core.Widget._globalWidgetQueue = [];
 
-QxWidget.addToGlobalWidgetQueue = function(vWidget)
+qx.ui.core.Widget.addToGlobalWidgetQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
   {
-    QxWidget._globalWidgetQueue.push(vWidget);
+    qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
     vWidget._isInGlobalWidgetQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalWidgetQueue = function(vWidget)
+qx.ui.core.Widget.removeFromGlobalWidgetQueue = function(vWidget)
 {
   if (vWidget._isInGlobalWidgetQueue)
   {
-    QxWidget._globalWidgetQueue.remove(vWidget);
+    qx.ui.core.Widget._globalWidgetQueue.remove(vWidget);
     delete vWidget._isInGlobalWidgetQueue;
   };
 };
 
-QxWidget.flushGlobalWidgetQueue = function()
+qx.ui.core.Widget.flushGlobalWidgetQueue = function()
 {
-  var vQueue=QxWidget._globalWidgetQueue, vLength, vWidget;
+  var vQueue=qx.ui.core.Widget._globalWidgetQueue, vLength, vWidget;
 
   while ((vLength=vQueue.length) > 0)
   {
@@ -190,29 +190,29 @@ QxWidget.flushGlobalWidgetQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget._globalElementQueue = [];
+qx.ui.core.Widget._globalElementQueue = [];
 
-QxWidget.addToGlobalElementQueue = function(vWidget)
+qx.ui.core.Widget.addToGlobalElementQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
   {
-    QxWidget._globalElementQueue.push(vWidget);
+    qx.ui.core.Widget._globalElementQueue.push(vWidget);
     vWidget._isInGlobalElementQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalElementQueue = function(vWidget)
+qx.ui.core.Widget.removeFromGlobalElementQueue = function(vWidget)
 {
   if (vWidget._isInGlobalElementQueue)
   {
-    QxWidget._globalElementQueue.remove(vWidget);
+    qx.ui.core.Widget._globalElementQueue.remove(vWidget);
     delete vWidget._isInGlobalElementQueue;
   };
 };
 
-QxWidget.flushGlobalElementQueue = function()
+qx.ui.core.Widget.flushGlobalElementQueue = function()
 {
-  var vQueue=QxWidget._globalElementQueue, vLength, vWidget;
+  var vQueue=qx.ui.core.Widget._globalElementQueue, vLength, vWidget;
 
   while ((vLength=vQueue.length) > 0)
   {
@@ -241,29 +241,29 @@ QxWidget.flushGlobalElementQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget._globalStateQueue = [];
+qx.ui.core.Widget._globalStateQueue = [];
 
-QxWidget.addToGlobalStateQueue = function(vWidget)
+qx.ui.core.Widget.addToGlobalStateQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalStateQueue && vWidget._isDisplayable)
   {
-    QxWidget._globalStateQueue.push(vWidget);
+    qx.ui.core.Widget._globalStateQueue.push(vWidget);
     vWidget._isInGlobalStateQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalStateQueue = function(vWidget)
+qx.ui.core.Widget.removeFromGlobalStateQueue = function(vWidget)
 {
   if (vWidget._isInGlobalStateQueue)
   {
-    QxWidget._globalStateQueue.remove(vWidget);
+    qx.ui.core.Widget._globalStateQueue.remove(vWidget);
     delete vWidget._isInGlobalStateQueue;
   };
 };
 
-QxWidget.flushGlobalStateQueue = function()
+qx.ui.core.Widget.flushGlobalStateQueue = function()
 {
-  var vQueue=QxWidget._globalStateQueue, vLength, vWidget;
+  var vQueue=qx.ui.core.Widget._globalStateQueue, vLength, vWidget;
 
   while ((vLength=vQueue.length) > 0)
   {
@@ -294,29 +294,29 @@ QxWidget.flushGlobalStateQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget._globalJobQueue = [];
+qx.ui.core.Widget._globalJobQueue = [];
 
-QxWidget.addToGlobalJobQueue = function(vWidget)
+qx.ui.core.Widget.addToGlobalJobQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalJobQueue && vWidget._isDisplayable)
   {
-    QxWidget._globalJobQueue.push(vWidget);
+    qx.ui.core.Widget._globalJobQueue.push(vWidget);
     vWidget._isInGlobalJobQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalJobQueue = function(vWidget)
+qx.ui.core.Widget.removeFromGlobalJobQueue = function(vWidget)
 {
   if (vWidget._isInGlobalJobQueue)
   {
-    QxWidget._globalJobQueue.remove(vWidget);
+    qx.ui.core.Widget._globalJobQueue.remove(vWidget);
     delete vWidget._isInGlobalJobQueue;
   };
 };
 
-QxWidget.flushGlobalJobQueue = function()
+qx.ui.core.Widget.flushGlobalJobQueue = function()
 {
-  var vQueue=QxWidget._globalJobQueue, vLength, vWidget;
+  var vQueue=qx.ui.core.Widget._globalJobQueue, vLength, vWidget;
 
   while ((vLength=vQueue.length) > 0)
   {
@@ -345,29 +345,29 @@ QxWidget.flushGlobalJobQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget._globalLayoutQueue = [];
+qx.ui.core.Widget._globalLayoutQueue = [];
 
-QxWidget.addToGlobalLayoutQueue = function(vParent)
+qx.ui.core.Widget.addToGlobalLayoutQueue = function(vParent)
 {
   if (!vParent._isInGlobalLayoutQueue && vParent._isDisplayable)
   {
-    QxWidget._globalLayoutQueue.push(vParent);
+    qx.ui.core.Widget._globalLayoutQueue.push(vParent);
     vParent._isInGlobalLayoutQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalLayoutQueue = function(vParent)
+qx.ui.core.Widget.removeFromGlobalLayoutQueue = function(vParent)
 {
   if (vParent._isInGlobalLayoutQueue)
   {
-    QxWidget._globalLayoutQueue.remove(vParent);
+    qx.ui.core.Widget._globalLayoutQueue.remove(vParent);
     delete vParent._isInGlobalLayoutQueue;
   };
 };
 
-QxWidget.flushGlobalLayoutQueue = function()
+qx.ui.core.Widget.flushGlobalLayoutQueue = function()
 {
-  var vQueue=QxWidget._globalLayoutQueue, vLength, vParent;
+  var vQueue=qx.ui.core.Widget._globalLayoutQueue, vLength, vParent;
 
   while ((vLength=vQueue.length) > 0)
   {
@@ -397,10 +397,10 @@ QxWidget.flushGlobalLayoutQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget._fastGlobalDisplayQueue = [];
-QxWidget._lazyGlobalDisplayQueues = {};
+qx.ui.core.Widget._fastGlobalDisplayQueue = [];
+qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
 
-QxWidget.addToGlobalDisplayQueue = function(vWidget)
+qx.ui.core.Widget.addToGlobalDisplayQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalDisplayQueue && vWidget._isDisplayable)
   {
@@ -410,32 +410,32 @@ QxWidget.addToGlobalDisplayQueue = function(vWidget)
     {
       var vKey = vParent.toHashCode();
 
-      if (QxWidget._lazyGlobalDisplayQueues[vKey])
+      if (qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey])
       {
-        QxWidget._lazyGlobalDisplayQueues[vKey].push(vWidget);
+        qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey].push(vWidget);
       }
       else
       {
-        QxWidget._lazyGlobalDisplayQueues[vKey] = [vWidget];
+        qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey] = [vWidget];
       };
     }
     else
     {
-      QxWidget._fastGlobalDisplayQueue.push(vWidget);
+      qx.ui.core.Widget._fastGlobalDisplayQueue.push(vWidget);
     };
 
     vWidget._isInGlobalDisplayQueue = true;
   };
 };
 
-QxWidget.removeFromGlobalDisplayQueue = function(vWidget) {};
+qx.ui.core.Widget.removeFromGlobalDisplayQueue = function(vWidget) {};
 
-QxWidget.flushGlobalDisplayQueue = function()
+qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 {
   var vKey, vLazyQueue, vWidget, vFragment;
 
-  var vFastQueue = QxWidget._fastGlobalDisplayQueue;
-  var vLazyQueues = QxWidget._lazyGlobalDisplayQueues;
+  var vFastQueue = qx.ui.core.Widget._fastGlobalDisplayQueue;
+  var vLazyQueues = qx.ui.core.Widget._lazyGlobalDisplayQueues;
 
 
 
@@ -587,7 +587,7 @@ QxWidget.flushGlobalDisplayQueue = function()
 ---------------------------------------------------------------------------
 */
 
-QxWidget.getActiveSiblingHelperIgnore = function(vIgnoreClasses, vInstance)
+qx.ui.core.Widget.getActiveSiblingHelperIgnore = function(vIgnoreClasses, vInstance)
 {
   for (var j=0; j<vIgnoreClasses.length; j++) {
     if (vInstance instanceof vIgnoreClasses[j]) {
@@ -598,7 +598,7 @@ QxWidget.getActiveSiblingHelperIgnore = function(vIgnoreClasses, vInstance)
   return false;
 };
 
-QxWidget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIgnoreClasses, vMode)
+qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIgnoreClasses, vMode)
 {
   if (!vIgnoreClasses) {
     vIgnoreClasses = [];
@@ -608,7 +608,7 @@ QxWidget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIgnoreClass
   var vPosition = qx.util.validator.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
   var vInstance = vChilds[vPosition];
 
-  while(!vInstance.isEnabled() || QxWidget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
+  while(!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
   {
     vPosition += vCalc;
     vInstance = vChilds[vPosition];

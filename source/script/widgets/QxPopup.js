@@ -46,7 +46,7 @@ QxPopup.addProperty({ name : "autoHide", type : QxConst.TYPEOF_BOOLEAN, defaultV
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
-  Instead of QxWidget, the default is false here.
+  Instead of qx.ui.core.Widget, the default is false here.
 */
 QxPopup.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 

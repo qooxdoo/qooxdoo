@@ -207,7 +207,7 @@ proto.updateChildOnInnerHeightChange = function(vChild)
 */
 
 /*!
-  This is called from QxWidget and  it's task is to apply the layout
+  This is called from qx.ui.core.Widget and  it's task is to apply the layout
   (excluding border and padding) to the child.
 */
 proto.layoutChild = function(vChild, vJobs)

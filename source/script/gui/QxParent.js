@@ -33,7 +33,7 @@ qx.ui.core.Parent = function()
     throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
   };
 
-  QxWidget.call(this);
+  qx.ui.core.Widget.call(this);
 
   // Contains all children
   this._children = [];
@@ -42,7 +42,7 @@ qx.ui.core.Parent = function()
   this._layoutImpl = this._createLayoutImpl();
 };
 
-qx.ui.core.Parent.extend(QxWidget, "qx.ui.core.Parent");
+qx.ui.core.Parent.extend(qx.ui.core.Widget, "qx.ui.core.Parent");
 
 qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 
@@ -63,12 +63,12 @@ qx.ui.core.Parent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJ
 /*!
   The current active child.
 */
-qx.ui.core.Parent.addProperty({ name : "activeChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
+qx.ui.core.Parent.addProperty({ name : "activeChild", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 /*!
   The current focused child.
 */
-qx.ui.core.Parent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, instance : "QxWidget" });
+qx.ui.core.Parent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -239,7 +239,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
   // Flush Queues
   // Do we really need this?
-  // QxWidget.flushGlobalQueues();
+  // qx.ui.core.Widget.flushGlobalQueues();
 
   return true;
 };
@@ -312,9 +312,9 @@ proto.indexOf = function(vChild) {
 };
 
 /*!
-Check if the given QxWidget is a children.
+Check if the given qx.ui.core.Widget is a children.
 
-#param des[QxWidget]: The widget which should be checked.
+#param des[qx.ui.core.Widget]: The widget which should be checked.
 */
 proto.contains = function(vWidget)
 {
@@ -591,7 +591,7 @@ proto.getFirstVisibleChild = function() {
 };
 
 proto.getFirstActiveChild = function(vIgnoreClasses) {
-  return QxWidget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
+  return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
 };
 
 
@@ -610,7 +610,7 @@ proto.getLastChild = function() {
 };
 
 proto.getLastActiveChild = function(vIgnoreClasses) {
-  return QxWidget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
+  return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
 };
 
 proto.getLastVisibleChild = function() {
@@ -657,7 +657,7 @@ proto.forEachVisibleChild = function(vFunc)
 
 proto._beforeAppear = function()
 {
-  QxWidget.prototype._beforeAppear.call(this);
+  qx.ui.core.Widget.prototype._beforeAppear.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -668,7 +668,7 @@ proto._beforeAppear = function()
 
 proto._afterAppear = function()
 {
-  QxWidget.prototype._afterAppear.call(this);
+  qx.ui.core.Widget.prototype._afterAppear.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -679,7 +679,7 @@ proto._afterAppear = function()
 
 proto._beforeDisappear = function()
 {
-  QxWidget.prototype._beforeDisappear.call(this);
+  qx.ui.core.Widget.prototype._beforeDisappear.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -690,7 +690,7 @@ proto._beforeDisappear = function()
 
 proto._afterDisappear = function()
 {
-  QxWidget.prototype._afterDisappear.call(this);
+  qx.ui.core.Widget.prototype._afterDisappear.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -713,7 +713,7 @@ proto._afterDisappear = function()
 
 proto._beforeInsertDom = function()
 {
-  QxWidget.prototype._beforeInsertDom.call(this);
+  qx.ui.core.Widget.prototype._beforeInsertDom.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -724,7 +724,7 @@ proto._beforeInsertDom = function()
 
 proto._afterInsertDom = function()
 {
-  QxWidget.prototype._afterInsertDom.call(this);
+  qx.ui.core.Widget.prototype._afterInsertDom.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -735,7 +735,7 @@ proto._afterInsertDom = function()
 
 proto._beforeRemoveDom = function()
 {
-  QxWidget.prototype._beforeRemoveDom.call(this);
+  qx.ui.core.Widget.prototype._beforeRemoveDom.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -746,7 +746,7 @@ proto._beforeRemoveDom = function()
 
 proto._afterRemoveDom = function()
 {
-  QxWidget.prototype._afterRemoveDom.call(this);
+  qx.ui.core.Widget.prototype._afterRemoveDom.call(this);
 
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
@@ -804,7 +804,7 @@ proto.recursiveAddToStateQueue = function()
 
 proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
-  QxWidget.prototype._recursiveAppearanceThemeUpdate.call(this, vNewAppearanceTheme, vOldAppearanceTheme);
+  qx.ui.core.Widget.prototype._recursiveAppearanceThemeUpdate.call(this, vNewAppearanceTheme, vOldAppearanceTheme);
 
   this.forEachVisibleChild(function() {
     this._recursiveAppearanceThemeUpdate(vNewAppearanceTheme, vOldAppearanceTheme);
@@ -830,7 +830,7 @@ proto._addChildToChildrenQueue = function(vChild)
 
   if (!vChild._isInParentChildrenQueue && vChild._isDisplayable)
   {
-    QxWidget.addToGlobalLayoutQueue(this);
+    qx.ui.core.Widget.addToGlobalLayoutQueue(this);
 
     if (!this._childrenQueue) {
       this._childrenQueue = {};
@@ -847,7 +847,7 @@ proto._removeChildFromChildrenQueue = function(vChild)
     delete this._childrenQueue[vChild.toHashCode()];
 
     if (qx.lang.Object.isEmpty(this._childrenQueue)) {
-      QxWidget.removeFromGlobalLayoutQueue(this);
+      qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
     };
   };
 };
@@ -953,7 +953,7 @@ proto._layoutChild = function(vChild)
     if (vChanges.initial)
     {
       vChild._initialLayoutDone = true;
-      QxWidget.addToGlobalDisplayQueue(vChild);
+      qx.ui.core.Widget.addToGlobalDisplayQueue(vChild);
     };
   }
   catch(ex)
@@ -1188,5 +1188,5 @@ proto.dispose = function()
     this.forceFocusManager(null);
   };
 
-  return QxWidget.prototype.dispose.call(this);
+  return qx.ui.core.Widget.prototype.dispose.call(this);
 };

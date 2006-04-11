@@ -29,7 +29,7 @@
 ************************************************************************ */
 
 /*!
-  Border implementation for QxWidget instances.
+  Border implementation for qx.ui.core.Widget instances.
 */
 qx.renderer.border.Border = function(vWidth, vStyle, vColor)
 {

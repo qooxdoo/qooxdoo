@@ -33,7 +33,7 @@ function QxListViewHeader(vColumns)
   QxHorizontalBoxLayout.call(this);
   
   // This fixes the innerWidth calculation difference between the grid(pane) and the head.
-  this.setPaddingRight(QxWidget.SCROLLBAR_SIZE);
+  this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
   
 
   // ************************************************************************
@@ -99,7 +99,7 @@ proto._syncColumnWidth = function(vWidth)
 
 proto._syncResizeLine = function()
 {
-  QxWidget.flushGlobalQueues();
+  qx.ui.core.Widget.flushGlobalQueues();
 
   var vParent = this.getParent();
   var vLine = vParent.getResizeLine();

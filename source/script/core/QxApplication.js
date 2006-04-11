@@ -206,7 +206,7 @@ proto._runPreloadDone = function()
 
 proto._runWidgets = function()
 {
-  if (typeof QxWidget === QxConst.TYPEOF_FUNCTION)
+  if (typeof qx.ui.core.Widget === QxConst.TYPEOF_FUNCTION)
   {
     var s = (new Date).valueOf();
 
@@ -214,7 +214,7 @@ proto._runWidgets = function()
     this.debug("Rendering widgets");
 
     this._ready = true;
-    QxWidget.flushGlobalQueues(true);
+    qx.ui.core.Widget.flushGlobalQueues(true);
 
     this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
   };

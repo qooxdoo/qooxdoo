@@ -41,7 +41,7 @@ function QxFlash(vSource, vVersion)
 {
   QxTerminator.call(this);
 
-  // Use background handling of QxWidget instead
+  // Use background handling of qx.ui.core.Widget instead
   this._params = {};
   this._variables = {};
 
@@ -470,5 +470,5 @@ proto.dispose = function()
     this._version = null;
   };
 
-  QxWidget.prototype.dispose.call(this);
+  qx.ui.core.Widget.prototype.dispose.call(this);
 };

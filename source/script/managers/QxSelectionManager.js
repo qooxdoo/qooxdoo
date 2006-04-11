@@ -305,7 +305,7 @@ proto.getItemSelected = function(vItem) {
 /*!
 Make a single item selected / not selected
 
-#param vItem[QxWidget]: Item which should be selected / not selected
+#param vItem[qx.ui.core.Widget]: Item which should be selected / not selected
 #param vSelected[Boolean]: Should this item be selected?
 */
 proto.setItemSelected = function(vItem, vSelected)
@@ -601,8 +601,8 @@ proto._deselectAll = function()
 /*!
 Select a range of items.
 
-#param vItem1[QxWidget]: Start item
-#param vItem2[QxWidget]: Stop item
+#param vItem1[qx.ui.core.Widget]: Start item
+#param vItem2[qx.ui.core.Widget]: Stop item
 */
 proto.selectItemRange = function(vItem1, vItem2)
 {
@@ -631,8 +631,8 @@ proto.selectItemRange = function(vItem1, vItem2)
 Sub method for selectItemRange. Handles the real work
 to select a range of items.
 
-#param vItem1[QxWidget]: Start item
-#param vItem2[QxWidget]: Stop item
+#param vItem1[qx.ui.core.Widget]: Start item
+#param vItem2[qx.ui.core.Widget]: Stop item
 #param vDelect[Boolean]: Deselect currently selected items first?
 */
 proto._selectItemRange = function(vItem1, vItem2, vDeselect)
@@ -678,8 +678,8 @@ proto._selectItemRange = function(vItem1, vItem2, vDeselect)
 /*!
 Internal method for deselection of ranges.
 
-#param vItem1[QxWidget]: Start item
-#param vItem2[QxWidget]: Stop item
+#param vItem1[qx.ui.core.Widget]: Start item
+#param vItem2[qx.ui.core.Widget]: Stop item
 */
 proto._deselectItemRange = function(vItem1, vItem2)
 {
@@ -1258,7 +1258,7 @@ proto.getUnder = function(vItem)
 /*!
 Jump a "page" up.
 
-#param vItem[QxWidget]: Relative to this widget
+#param vItem[qx.ui.core.Widget]: Relative to this widget
 */
 proto.getPageUp = function(vItem)
 {
@@ -1314,7 +1314,7 @@ proto.getPageUp = function(vItem)
 /*!
 Jump a "page" down.
 
-#param vItem[QxWidget]: Relative to this widget
+#param vItem[qx.ui.core.Widget]: Relative to this widget
 */
 proto.getPageDown = function(vItem)
 {
