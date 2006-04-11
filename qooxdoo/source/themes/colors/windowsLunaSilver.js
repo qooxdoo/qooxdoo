@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(colorthemes)
-#require(QxColorTheme)
+#require(qx.renderer.theme.QxColorTheme)
 
 ************************************************************************ */
 
-new QxColorTheme("windowsLunaSilver", "Windows Luna Silver",
+new qx.renderer.theme.QxColorTheme("windowsLunaSilver", "Windows Luna Silver",
 {
   activeborder : [ 212,208,200 ],
   activecaption : [ 192,192,192 ],

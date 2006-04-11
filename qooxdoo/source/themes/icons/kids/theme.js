@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(iconthemes)
-#require(QxIconTheme)
+#require(qx.renderer.theme.QxIconTheme)
 
 ************************************************************************ */
 
-new QxIconTheme("kids", "Kids");
+new qx.renderer.theme.QxIconTheme("kids", "Kids");

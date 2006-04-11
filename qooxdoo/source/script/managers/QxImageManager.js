@@ -26,8 +26,8 @@
 #require(QxConst)
 #post(QxImagePreloader)
 #post(QxUtil)
-#post(QxWidgetTheme)
-#post(QxIconTheme)
+#post(qx.renderer.theme.QxWidgetTheme)
+#post(qx.renderer.theme.QxIconTheme)
 
 ************************************************************************ */
 
