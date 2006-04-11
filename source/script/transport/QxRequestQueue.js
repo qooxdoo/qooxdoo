@@ -77,7 +77,7 @@ proto._debug = function()
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
-  if (QxSettings.enableTransportDebug)
+  if (qx.core.Settings.enableTransportDebug)
   {
     this.debug("Progress: " + vText);
     window.status = "Request-Queue Progress: " + vText;
@@ -194,7 +194,7 @@ proto._activeCount = 0;
 
 proto._onsending = function(e)
 {
-  if (QxSettings.enableTransportDebug)
+  if (qx.core.Settings.enableTransportDebug)
   {
     this._activeCount++;
     e.getTarget()._counted = true;
@@ -205,7 +205,7 @@ proto._onsending = function(e)
 
 proto._oncompleted = function(e)
 {
-  if (QxSettings.enableTransportDebug)
+  if (qx.core.Settings.enableTransportDebug)
   {
     if (e.getTarget()._counted)
     {

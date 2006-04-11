@@ -274,7 +274,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
 
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
   };
 
@@ -354,7 +354,7 @@ proto.dispose = function()
   };
 
   /*
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("Disposing...");
   };
   */

@@ -124,7 +124,7 @@ proto.send = function() {
 
 proto.abort = function()
 {
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.warn("Aborting...");
   };
 
@@ -136,7 +136,7 @@ proto.abort = function()
 */
 proto.timeout = function()
 {
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.warn("Timeout...");
   };
 
@@ -151,7 +151,7 @@ proto.timeout = function()
 */
 proto.failed = function()
 {
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.warn("Failed...");
   };
 
@@ -277,7 +277,7 @@ proto.getFetchedLength = function() {
 
 proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (QxSettings.enableTransportDebug) {
+  if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
   };
 
