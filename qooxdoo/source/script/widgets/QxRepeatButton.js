@@ -30,7 +30,7 @@ function QxRepeatButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   QxButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-  this._timer = new QxTimer;
+  this._timer = new qx.client.Timer;
   this._timer.setInterval(this.getInterval());
   this._timer.addEventListener("interval", this._oninterval, this);
 };

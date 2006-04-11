@@ -29,7 +29,7 @@
 /*!
   Global timer support. Simplifies javascript intervals for objects.
 */
-function QxTimer(vInterval)
+qx.client.Timer = function(vInterval)
 {
   qx.core.Target.call(this);
 
@@ -44,9 +44,9 @@ function QxTimer(vInterval)
   this.__oninterval = function() { o._oninterval(); };
 };
 
-QxTimer.extend(qx.core.Target, "QxTimer");
+qx.client.Timer.extend(qx.core.Target, "qx.client.Timer");
 
-QxTimer.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
+qx.client.Timer.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
 
 proto._intervalHandle = null;
 
@@ -117,7 +117,7 @@ proto.restartWith = function(vInterval)
 ---------------------------------------------------------------------------
 */
 
-proto._oninterval=function()
+proto._oninterval = function()
 {
   if (this.getEnabled()) {
     this.createDispatchEvent(QxConst.EVENT_TYPE_INTERVAL);
@@ -167,10 +167,10 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxTimer.once = function(vFunction, vObject, vTimeout)
+qx.client.Timer.once = function(vFunction, vObject, vTimeout)
 {
   // Create time instance
-  var vTimer = new QxTimer(vTimeout);
+  var vTimer = new qx.client.Timer(vTimeout);
 
   // Add event listener to interval
   vTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, function(e)

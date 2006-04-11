@@ -130,7 +130,7 @@ proto._modifyShowTime = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this._timer = new QxTimer(this.getShowTime()/QxSplashScreen.MAX_VALUE);
+    this._timer = new qx.client.Timer(this.getShowTime()/QxSplashScreen.MAX_VALUE);
     this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
   }
   else

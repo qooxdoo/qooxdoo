@@ -44,10 +44,10 @@ function QxMenu()
   // ************************************************************************
   //   TIMER
   // ************************************************************************
-  this._openTimer = new QxTimer(this.getOpenInterval());
+  this._openTimer = new qx.client.Timer(this.getOpenInterval());
   this._openTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onopentimer, this);
 
-  this._closeTimer = new QxTimer(this.getCloseInterval());
+  this._closeTimer = new qx.client.Timer(this.getCloseInterval());
   this._closeTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onclosetimer, this);
 
 

@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxTimer)
+#require(qx.client.Timer)
 #post(QxTransport)
 
 ************************************************************************ */
@@ -42,7 +42,7 @@ function QxRequestQueue()
 
   this._totalRequests = 0;
 
-  this._timer = new QxTimer(50);
+  this._timer = new qx.client.Timer(50);
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 

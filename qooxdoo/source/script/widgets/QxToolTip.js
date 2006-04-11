@@ -39,10 +39,10 @@ function QxToolTip(vLabel, vIcon)
   //   TIMER
   // ************************************************************************
 
-  this._showTimer = new QxTimer(this.getShowInterval());
+  this._showTimer = new qx.client.Timer(this.getShowInterval());
   this._showTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
 
-  this._hideTimer = new QxTimer(this.getHideInterval());
+  this._hideTimer = new qx.client.Timer(this.getHideInterval());
   this._hideTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
 
 
