@@ -27,12 +27,12 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.QxWidgetTheme = function(vId, vTitle)
+qx.renderer.theme.WidgetTheme = function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
-    throw new Error("Each instance of qx.renderer.theme.QxWidgetTheme need an unique ID!");
+    throw new Error("Each instance of qx.renderer.theme.WidgetTheme need an unique ID!");
   };
 
   this.setId(vId);
@@ -45,7 +45,7 @@ qx.renderer.theme.QxWidgetTheme = function(vId, vTitle)
   };
 };
 
-qx.renderer.theme.QxWidgetTheme.extend(qx.core.Object, "qx.renderer.theme.QxWidgetTheme");
+qx.renderer.theme.WidgetTheme.extend(qx.core.Object, "qx.renderer.theme.WidgetTheme");
 
-qx.renderer.theme.QxWidgetTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.QxWidgetTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.WidgetTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.WidgetTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });

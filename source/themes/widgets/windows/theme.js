@@ -23,9 +23,9 @@
 /* ************************************************************************
 
 #package(iconthemes)
-#require(qx.renderer.theme.QxWidgetTheme)
+#require(qx.renderer.theme.WidgetTheme)
 #require(QxImageManager)
 
 ************************************************************************ */
 
-new qx.renderer.theme.QxWidgetTheme("windows", "Windows");
+new qx.renderer.theme.WidgetTheme("windows", "Windows");

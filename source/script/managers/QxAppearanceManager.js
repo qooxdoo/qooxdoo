@@ -24,7 +24,7 @@
 
 #package(appearance)
 #post(QxApplication)
-#post(qx.renderer.theme.QxAppearanceTheme)
+#post(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */
 

@@ -27,12 +27,12 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.QxIconTheme = function(vId, vTitle)
+qx.renderer.theme.IconTheme = function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
   if (qx.util.validator.isInvalidString(vId)) {
-    throw new Error("Each instance of qx.renderer.theme.QxIconTheme need an unique ID!");
+    throw new Error("Each instance of qx.renderer.theme.IconTheme need an unique ID!");
   };
 
   this.setId(vId);
@@ -45,7 +45,7 @@ qx.renderer.theme.QxIconTheme = function(vId, vTitle)
   };
 };
 
-qx.renderer.theme.QxIconTheme.extend(qx.core.Object, "qx.renderer.theme.QxIconTheme");
+qx.renderer.theme.IconTheme.extend(qx.core.Object, "qx.renderer.theme.IconTheme");
 
-qx.renderer.theme.QxIconTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.QxIconTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.IconTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.IconTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
