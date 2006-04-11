@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  This singleton manage all QxImagePreloader instances.
+  This singleton manage all qx.io.image.ImagePreloader instances.
 */
 function QxImagePreloaderManager() {
   QxManager.call(this);
@@ -67,7 +67,7 @@ proto.create = function(vSource)
     return this._objects[vSource];
   };
 
-  return new QxImagePreloader(vSource);
+  return new qx.io.image.ImagePreloader(vSource);
 };
 
 

@@ -30,11 +30,11 @@
 /*!
   This is the preloader used from QxImage instances.
 */
-function QxImagePreloader(vSource)
+qx.io.image.ImagePreloader = function(vSource)
 {
   if(QxImagePreloaderManager.has(vSource))
   {
-    this.debug("Reuse QxImagePreloader in old-style!");
+    this.debug("Reuse qx.io.image.ImagePreloader in old-style!");
     this.debug("Please use QxImagePreloaderManager.create(source) instead!");
 
     return QxImagePreloaderManager.get(vSource);
@@ -49,8 +49,8 @@ function QxImagePreloader(vSource)
   this._element._QxImagePreloader = this;
 
   // Define handler if image events occurs
-  this._element.onload = QxImagePreloader.__onload;
-  this._element.onerror = QxImagePreloader.__onerror;
+  this._element.onload = qx.io.image.ImagePreloader.__onload;
+  this._element.onerror = qx.io.image.ImagePreloader.__onerror;
 
   // Set Source
   this._source = vSource;
@@ -64,7 +64,7 @@ function QxImagePreloader(vSource)
   QxImagePreloaderManager.add(this);
 };
 
-QxImagePreloader.extend(qx.core.Target, "QxImagePreloader");
+qx.io.image.ImagePreloader.extend(qx.core.Target, "qx.io.image.ImagePreloader");
 
 
 
@@ -76,7 +76,7 @@ QxImagePreloader.extend(qx.core.Target, "QxImagePreloader");
 ---------------------------------------------------------------------------
 */
 
-QxImagePreloader.get = function(vSource)
+qx.io.image.ImagePreloader.get = function(vSource)
 {
 
 };
@@ -136,8 +136,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxImagePreloader.__onload = function() { this._QxImagePreloader._onload(); };
-QxImagePreloader.__onerror = function() { this._QxImagePreloader._onerror(); };
+qx.io.image.ImagePreloader.__onload = function() { this._QxImagePreloader._onload(); };
+qx.io.image.ImagePreloader.__onerror = function() { this._QxImagePreloader._onerror(); };
 
 proto._onload = function()
 {

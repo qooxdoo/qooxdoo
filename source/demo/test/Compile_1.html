@@ -144,7 +144,7 @@
                       str += "$" + i + "._image = $" + i + "._valueElement.getElementsByTagName(\"img\")[0];\n";
                     };
                   }
-                  else if (v instanceof QxImagePreloader)
+                  else if (v instanceof qx.io.image.ImagePreloader)
                   {
                     str += "$" + i + "._element = new Image;\n";
                     str += "$" + i + "._element.src = \"" + v.getSource() + "\";\n";

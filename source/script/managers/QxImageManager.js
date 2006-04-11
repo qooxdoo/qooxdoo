@@ -24,7 +24,7 @@
 
 #package(image)
 #require(QxConst)
-#post(QxImagePreloader)
+#post(qx.io.image.ImagePreloader)
 #post(QxUtil)
 #post(qx.renderer.theme.WidgetTheme)
 #post(qx.renderer.theme.IconTheme)
