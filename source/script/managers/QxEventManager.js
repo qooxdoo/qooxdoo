@@ -23,13 +23,13 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(QxDomEventRegistration)
+#post(qx.event.types.DomEventRegistration)
 #post(QxPopupManager)
 #post(QxToolTipManager)
 #post(QxMenuManager)
 #post(QxDragAndDropManager)
-#post(QxMouseEvent)
-#post(QxKeyEvent)
+#post(qx.event.types.MouseEvent)
+#post(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 
@@ -445,7 +445,7 @@ else
 
 proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof QxKeyEvent != QxConst.TYPEOF_FUNCTION || !window.application.isReady()) {
+  if (this.getDisposed() || typeof qx.event.types.KeyEvent != QxConst.TYPEOF_FUNCTION || !window.application.isReady()) {
     return;
   };
 
@@ -466,8 +466,8 @@ proto._onkeyevent = function(vDomEvent)
   // Hide Menus
   switch(vKeyCode)
   {
-    case QxKeyEvent.keys.esc:
-    case QxKeyEvent.keys.tab:
+    case qx.event.types.KeyEvent.keys.esc:
+    case qx.event.types.KeyEvent.keys.tab:
       if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
         QxMenuManager.update();
       };
@@ -518,7 +518,7 @@ proto._onkeyevent = function(vDomEvent)
 
 
   // Create Event Object
-  var vKeyEventObject = new QxKeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
+  var vKeyEventObject = new qx.event.types.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
 
   // Check for commands
   if (vDomEvent.type == QxConst.EVENT_TYPE_KEYDOWN) {
@@ -653,7 +653,7 @@ else
       case QxConst.EVENT_TYPE_CLICK:
       case QxConst.EVENT_TYPE_DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
-        if (vDomEvent.button != QxMouseEvent.buttons.left) {
+        if (vDomEvent.button != qx.event.types.MouseEvent.buttons.left) {
           return;
         };
 
@@ -774,7 +774,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     try
     {
       // Create Mouse Event Object
-      vEventObject = new QxMouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
+      vEventObject = new qx.event.types.MouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
     }
     catch(ex)
     {
@@ -784,7 +784,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     // Store last Event in MouseEvent Constructor
     // Needed for Tooltips, ...
-    QxMouseEvent._storeEventState(vEventObject);
+    qx.event.types.MouseEvent._storeEventState(vEventObject);
 
 
 

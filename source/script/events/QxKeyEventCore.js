@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(eventcore)
-#require(QxKeyEvent)
+#require(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 
-QxKeyEvent.keys =
+qx.event.types.KeyEvent.keys =
 {
   esc : 27,
   enter : 13,
@@ -85,7 +85,7 @@ QxKeyEvent.keys =
 };
 
 // create dynamic codes copy
-QxKeyEvent.codes = {};
-for (var i in QxKeyEvent.keys) {
-  QxKeyEvent.codes[QxKeyEvent.keys[i]] = i;
+qx.event.types.KeyEvent.codes = {};
+for (var i in qx.event.types.KeyEvent.keys) {
+  qx.event.types.KeyEvent.codes[qx.event.types.KeyEvent.keys[i]] = i;
 };

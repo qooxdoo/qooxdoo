@@ -421,7 +421,7 @@ proto._onkeydown = function(e)
 {
   var vManager = this._manager;
   var vKeyCode = e.getKeyCode();
-  var vKeys = QxKeyEvent.keys;
+  var vKeys = qx.event.types.KeyEvent.keys;
   var vVisible = this._popup.isSeeable();
 
   switch(vKeyCode)

@@ -29,12 +29,12 @@
 /*!
   The event object for drag and drop sessions
 */
-function QxDragEvent(vType, vMouseEvent, vTarget, vRelatedTarget)
+qx.event.types.DragEvent = function(vType, vMouseEvent, vTarget, vRelatedTarget)
 {
   this._mouseEvent = vMouseEvent;
-  
+
   var vOriginalTarget = null;
-  
+
   switch(vType)
   {
     case QxConst.EVENT_TYPE_DRAGSTART:
@@ -42,10 +42,10 @@ function QxDragEvent(vType, vMouseEvent, vTarget, vRelatedTarget)
       vOriginalTarget = vMouseEvent.getOriginalTarget();
   };
 
-  QxMouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
+  qx.event.types.MouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
 };
 
-QxDragEvent.extend(QxMouseEvent, "QxDragEvent");
+qx.event.types.DragEvent.extend(qx.event.types.MouseEvent, "qx.event.types.DragEvent");
 
 
 
@@ -75,7 +75,7 @@ proto.getMouseEvent = function() {
 proto.startDrag = function()
 {
   if (this.getType() != QxConst.EVENT_TYPE_DRAGSTART) {
-    throw new Error("QxDragEvent startDrag can only be called during the dragstart event: " + this.getType());
+    throw new Error("qx.event.types.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
   };
 
   this.stopPropagation();
@@ -156,5 +156,5 @@ proto.dispose = function()
 
   this._mouseEvent = null;
 
-  return QxMouseEvent.prototype.dispose.call(this);
+  return qx.event.types.MouseEvent.prototype.dispose.call(this);
 };

@@ -23,20 +23,20 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(QxKeyEventCore)
+#post(qx.event.types.KeyEventCore)
 
 ************************************************************************ */
 
 /*!
   A key event instance contains all data for each occured key event
 */
-function QxKeyEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
+qx.event.types.KeyEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
 {
-  QxDomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
+  qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   this.setKeyCode(vKeyCode);
 };
 
-QxKeyEvent.extend(QxDomEvent, "QxKeyEvent");
+qx.event.types.KeyEvent.extend(qx.event.types.DomEvent, "qx.event.types.KeyEvent");
 
-QxKeyEvent.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+qx.event.types.KeyEvent.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });

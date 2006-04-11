@@ -23,23 +23,23 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(QxMouseEventCore)
+#post(qx.event.types.MouseEventCore)
 
 ************************************************************************ */
 
 /*!
   A mouse event instance contains all data for each occured mouse event
 */
-function QxMouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
+qx.event.types.MouseEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
 {
-  QxDomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
+  qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   if (vRelatedTarget) {
     this.setRelatedTarget(vRelatedTarget);
   };
 };
 
-QxMouseEvent.extend(QxDomEvent, "QxMouseEvent");
+qx.event.types.MouseEvent.extend(qx.event.types.DomEvent, "qx.event.types.MouseEvent");
 
 
 
@@ -76,8 +76,8 @@ proto.getScreenY = function() {
 
 if (qx.sys.Client.isMshtml())
 {
-  QxMouseEvent.addFastProperty({ name : "pageX", readOnly : true });
-  QxMouseEvent.addFastProperty({ name : "pageY", readOnly : true });
+  qx.event.types.MouseEvent.addFastProperty({ name : "pageX", readOnly : true });
+  qx.event.types.MouseEvent.addFastProperty({ name : "pageY", readOnly : true });
 
   if (qx.util.validator.isInvalid(document.compatMode) || document.compatMode == QxConst.INTERNAL_BACKCOMPAT)
   {
@@ -145,8 +145,8 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isGecko())
 }
 else
 {
-  QxMouseEvent.addFastProperty({ name : "clientX", readOnly : true });
-  QxMouseEvent.addFastProperty({ name : "clientY", readOnly : true });
+  qx.event.types.MouseEvent.addFastProperty({ name : "clientX", readOnly : true });
+  qx.event.types.MouseEvent.addFastProperty({ name : "clientY", readOnly : true });
 
   proto._computeClientX = function() {
     return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
@@ -169,7 +169,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxMouseEvent.addFastProperty({ name : "button", readOnly : true });
+qx.event.types.MouseEvent.addFastProperty({ name : "button", readOnly : true });
 
 proto.isLeftButtonPressed = function() {
   return this.getButton() === QxConst.BUTTON_LEFT;
@@ -237,7 +237,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-QxMouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true });
+qx.event.types.MouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true });
 
 if(qx.sys.Client.isMshtml())
 {

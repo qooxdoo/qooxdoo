@@ -196,8 +196,8 @@ proto._onmouseover = function(e)
 
 proto._onshowtimer = function(e)
 {
-  this.setLeft(QxMouseEvent.getPageX() + this.getMousePointerOffsetX());
-  this.setTop(QxMouseEvent.getPageY() + this.getMousePointerOffsetY());
+  this.setLeft(qx.event.types.MouseEvent.getPageX() + this.getMousePointerOffsetX());
+  this.setTop(qx.event.types.MouseEvent.getPageY() + this.getMousePointerOffsetY());
 
   this.show();
 

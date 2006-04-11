@@ -49,13 +49,13 @@ proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
-    case QxKeyEvent.keys.enter:
-    case QxKeyEvent.keys.space:
+    case qx.event.types.KeyEvent.keys.enter:
+    case qx.event.types.KeyEvent.keys.space:
       // there is no toggeling, just make it checked
       this.setChecked(true);
       break;
 
-    case QxKeyEvent.keys.left:
+    case qx.event.types.KeyEvent.keys.left:
       var vPrev = this.getPreviousSibling() || this.getParent().getLastChild();
       if (vPrev && vPrev != this)
       {
@@ -71,7 +71,7 @@ proto._onkeydown = function(e)
       };
       break;
 
-    case QxKeyEvent.keys.right:
+    case qx.event.types.KeyEvent.keys.right:
       var vNext = this.getNextSibling() || this.getParent().getFirstVisibleChild();
       if (vNext && vNext != this)
       {

@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxDomEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
+qx.event.types.DomEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
 {
   qx.event.types.Event.call(this, vType);
 
@@ -37,13 +37,13 @@ function QxDomEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   this.setOriginalTarget(vOriginalTarget);
 };
 
-QxDomEvent.extend(qx.event.types.Event, "QxDomEvent");
+qx.event.types.DomEvent.extend(qx.event.types.Event, "qx.event.types.DomEvent");
 
-QxDomEvent.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
-QxDomEvent.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });
+qx.event.types.DomEvent.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
+qx.event.types.DomEvent.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });
 
-QxDomEvent.addFastProperty({ name : "domEvent", setOnlyOnce : true, noCompute : true });
-QxDomEvent.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true });
+qx.event.types.DomEvent.addFastProperty({ name : "domEvent", setOnlyOnce : true, noCompute : true });
+qx.event.types.DomEvent.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true });
 
 
 

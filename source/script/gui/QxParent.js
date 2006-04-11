@@ -169,7 +169,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     // Dispatch FocusOut
     if (propOldValue.hasEventListeners(QxConst.EVENT_TYPE_FOCUSOUT))
     {
-      var vEventObject = new QxFocusEvent(QxConst.EVENT_TYPE_FOCUSOUT, propOldValue);
+      var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUSOUT, propOldValue);
 
       if (vFocusValid) {
         vEventObject.setRelatedTarget(propValue);
@@ -185,7 +185,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     if (propValue.hasEventListeners(QxConst.EVENT_TYPE_FOCUSIN))
     {
       // Dispatch FocusIn
-      var vEventObject = new QxFocusEvent(QxConst.EVENT_TYPE_FOCUSIN, propValue);
+      var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUSIN, propValue);
 
       if (vBlurValid) {
         vEventObject.setRelatedTarget(propOldValue);
@@ -205,7 +205,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     propOldValue.setFocused(false);
 
     // Dispatch Blur
-    var vEventObject = new QxFocusEvent(QxConst.EVENT_TYPE_BLUR, propOldValue);
+    var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_BLUR, propOldValue);
 
     if (vFocusValid) {
       vEventObject.setRelatedTarget(propValue);
@@ -224,7 +224,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     propValue.getTopLevelWidget().getEventManager().setFocusRoot(this);
 
     // Dispatch Focus
-    var vEventObject = new QxFocusEvent(QxConst.EVENT_TYPE_FOCUS, propValue);
+    var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUS, propValue);
 
     if (vBlurValid) {
       vEventObject.setRelatedTarget(propOldValue);

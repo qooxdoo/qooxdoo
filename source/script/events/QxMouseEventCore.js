@@ -23,37 +23,37 @@
 /* ************************************************************************
 
 #package(eventcore)
-#require(QxMouseEvent)
+#require(qx.event.types.MouseEvent)
 
 ************************************************************************ */
 
-QxMouseEvent._screenX = QxMouseEvent._screenY = QxMouseEvent._clientX = QxMouseEvent._clientY = QxMouseEvent._pageX = QxMouseEvent._pageY = 0;
-QxMouseEvent._button = null;
+qx.event.types.MouseEvent._screenX = qx.event.types.MouseEvent._screenY = qx.event.types.MouseEvent._clientX = qx.event.types.MouseEvent._clientY = qx.event.types.MouseEvent._pageX = qx.event.types.MouseEvent._pageY = 0;
+qx.event.types.MouseEvent._button = null;
 
-QxMouseEvent._storeEventState = function(e)
+qx.event.types.MouseEvent._storeEventState = function(e)
 {
-  QxMouseEvent._screenX = e.getScreenX();
-  QxMouseEvent._screenY = e.getScreenY();
-  QxMouseEvent._clientX = e.getClientX();
-  QxMouseEvent._clientY = e.getClientY();
-  QxMouseEvent._pageX   = e.getPageX();
-  QxMouseEvent._pageY   = e.getPageY();
-  QxMouseEvent._button  = e.getButton();
+  qx.event.types.MouseEvent._screenX = e.getScreenX();
+  qx.event.types.MouseEvent._screenY = e.getScreenY();
+  qx.event.types.MouseEvent._clientX = e.getClientX();
+  qx.event.types.MouseEvent._clientY = e.getClientY();
+  qx.event.types.MouseEvent._pageX   = e.getPageX();
+  qx.event.types.MouseEvent._pageY   = e.getPageY();
+  qx.event.types.MouseEvent._button  = e.getButton();
 };
 
-QxMouseEvent.getScreenX = function() { return QxMouseEvent._screenX; };
-QxMouseEvent.getScreenY = function() { return QxMouseEvent._screenY; };
-QxMouseEvent.getClientX = function() { return QxMouseEvent._clientX; };
-QxMouseEvent.getClientY = function() { return QxMouseEvent._clientY; };
-QxMouseEvent.getPageX   = function() { return QxMouseEvent._pageX;   };
-QxMouseEvent.getPageY   = function() { return QxMouseEvent._pageY;   };
-QxMouseEvent.getButton  = function() { return QxMouseEvent._button;  };
+qx.event.types.MouseEvent.getScreenX = function() { return qx.event.types.MouseEvent._screenX; };
+qx.event.types.MouseEvent.getScreenY = function() { return qx.event.types.MouseEvent._screenY; };
+qx.event.types.MouseEvent.getClientX = function() { return qx.event.types.MouseEvent._clientX; };
+qx.event.types.MouseEvent.getClientY = function() { return qx.event.types.MouseEvent._clientY; };
+qx.event.types.MouseEvent.getPageX   = function() { return qx.event.types.MouseEvent._pageX;   };
+qx.event.types.MouseEvent.getPageY   = function() { return qx.event.types.MouseEvent._pageY;   };
+qx.event.types.MouseEvent.getButton  = function() { return qx.event.types.MouseEvent._button;  };
 
 if (qx.sys.Client.isMshtml())
 {
-  QxMouseEvent.buttons = { left : 1, right : 2, middle : 4 };
+  qx.event.types.MouseEvent.buttons = { left : 1, right : 2, middle : 4 };
 }
 else
 {
-  QxMouseEvent.buttons = { left : 0, right : 2, middle : 1 };
+  qx.event.types.MouseEvent.buttons = { left : 0, right : 2, middle : 1 };
 };

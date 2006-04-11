@@ -24,7 +24,7 @@
 
 #package(dragndrop)
 #require(QxImage)
-#post(QxDragEvent)
+#post(qx.event.types.DragEvent)
 #post(QxDomElementFromPoint)
 
 ************************************************************************ */
@@ -116,7 +116,7 @@ proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    propValue.dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
+    propValue.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
     this._lastDestinationEvent = null;
   };
 
@@ -233,17 +233,17 @@ proto.startDrag = function()
 proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
   if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGOUT)) {
-    fromWidget.dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
+    fromWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
   };
 
   if (toWidget)
   {
     if (fromWidget != toWidget && toWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGOVER)) {
-      toWidget.dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGOVER, e, toWidget, fromWidget), true);
+      toWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGOVER, e, toWidget, fromWidget), true);
     };
 
     if (toWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGMOVE)) {
-      toWidget.dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGMOVE, e, toWidget, null), true);
+      toWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGMOVE, e, toWidget, null), true);
     };
   };
 };
@@ -355,7 +355,7 @@ proto._handleMouseMove = function(e)
     if (Math.abs(e.getScreenX() - this._dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this._dragCache.startScreenY) > 5)
     {
       // Fire dragstart event to finally allow the above if to handle next events
-      this._dragCache.sourceWidget.dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGSTART, e, this._dragCache.sourceWidget), true);
+      this._dragCache.sourceWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGSTART, e, this._dragCache.sourceWidget), true);
 
       // Update status flag
       this._dragCache.hasFiredDragStart = true;
@@ -433,7 +433,7 @@ proto.handleKeyEvent = function(e)
 proto._handleKeyDown = function(e)
 {
   // Stop Drag on Escape
-  if (e.getKeyCode() == QxKeyEvent.keys.esc)
+  if (e.getKeyCode() == qx.event.types.KeyEvent.keys.esc)
   {
     this.cancelDrag();
   }
@@ -443,9 +443,9 @@ proto._handleKeyDown = function(e)
   {
     switch(e.getKeyCode())
     {
-      case QxKeyEvent.keys.shift:
-      case QxKeyEvent.keys.ctrl:
-      case QxKeyEvent.keys.alt:
+      case qx.event.types.KeyEvent.keys.shift:
+      case qx.event.types.KeyEvent.keys.ctrl:
+      case qx.event.types.KeyEvent.keys.alt:
         this.setAction(this._evalNewAction(e.getShiftKey(), e.getCtrlKey(), e.getAltKey()));
         this._renderCursor();
 
@@ -456,9 +456,9 @@ proto._handleKeyDown = function(e)
 
 proto._handleKeyUp = function(e)
 {
-  var bShiftPressed = e.getKeyCode() == QxKeyEvent.keys.shift;
-  var bCtrlPressed = e.getKeyCode() == QxKeyEvent.keys.strl;
-  var bAltPressed = e.getKeyCode() == QxKeyEvent.keys.alt;
+  var bShiftPressed = e.getKeyCode() == qx.event.types.KeyEvent.keys.shift;
+  var bCtrlPressed = e.getKeyCode() == qx.event.types.KeyEvent.keys.strl;
+  var bAltPressed = e.getKeyCode() == qx.event.types.KeyEvent.keys.alt;
 
   if (bShiftPressed || bCtrlPressed || bAltPressed)
   {
@@ -513,7 +513,7 @@ proto._endDrag = function(currentDestinationWidget, e)
   };
 
   // Dispatch dragend event
-  this.getSourceWidget().dispatchEvent(new QxDragEvent(QxConst.EVENT_TYPE_DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
+  this.getSourceWidget().dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
 
   // Fire dragout event
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
@@ -650,7 +650,7 @@ proto.supportsDrop = function(vWidget)
 };
 
 /*!
-#param e[QxMouseEvent]: Current MouseEvent for dragdrop action
+#param e[qx.event.types.MouseEvent]: Current MouseEvent for dragdrop action
 */
 if (qx.sys.Client.isGecko())
 {

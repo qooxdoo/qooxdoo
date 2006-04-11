@@ -33,10 +33,10 @@
   1+2: focus and blur also propagate the target object
   3+4: focusout and focusin are bubbling to the parent objects
 */
-function QxFocusEvent(vType, vTarget)
+qx.event.types.FocusEvent = function(vType, vTarget)
 {
   qx.event.types.Event.call(this, vType);
-  
+
   this.setTarget(vTarget);
 
   switch(vType)
@@ -48,4 +48,4 @@ function QxFocusEvent(vType, vTarget)
   };
 };
 
-QxFocusEvent.extend(qx.event.types.Event, "QxFocusEvent");
+qx.event.types.FocusEvent.extend(qx.event.types.Event, "qx.event.types.FocusEvent");

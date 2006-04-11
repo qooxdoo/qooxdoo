@@ -25,7 +25,7 @@
 #package(core)
 #post(QxUtil)
 #post(qx.event.types.Event)
-#post(QxDataEvent)
+#post(qx.event.types.DataEvent)
 
 ************************************************************************ */
 
@@ -152,7 +152,7 @@ proto.createDispatchEvent = function(vType)
 proto.createDispatchDataEvent = function(vType, vData)
 {
   if (this.hasEventListeners(vType)) {
-    this.dispatchEvent(new QxDataEvent(vType, vData), true);
+    this.dispatchEvent(new qx.event.types.DataEvent(vType, vData), true);
   };
 };
 

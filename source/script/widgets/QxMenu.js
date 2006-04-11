@@ -676,23 +676,23 @@ proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
-    case QxKeyEvent.keys.up:
+    case qx.event.types.KeyEvent.keys.up:
       this._onkeydown_up(e);
       break;
 
-    case QxKeyEvent.keys.down:
+    case qx.event.types.KeyEvent.keys.down:
       this._onkeydown_down(e);
       break;
 
-    case QxKeyEvent.keys.left:
+    case qx.event.types.KeyEvent.keys.left:
       this._onkeydown_left(e);
       break;
 
-    case QxKeyEvent.keys.right:
+    case qx.event.types.KeyEvent.keys.right:
       this._onkeydown_right(e);
       break;
 
-    case QxKeyEvent.keys.enter:
+    case qx.event.types.KeyEvent.keys.enter:
       this._onkeydown_enter(e);
       break;
 
