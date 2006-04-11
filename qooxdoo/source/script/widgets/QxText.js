@@ -54,7 +54,7 @@ QxText.addProperty({ name : "text", type : QxConst.TYPEOF_STRING });
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxText.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "QxFont", convert : QxFontCache, allowMultipleArguments : true });
+QxText.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?

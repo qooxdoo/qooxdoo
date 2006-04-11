@@ -30,7 +30,7 @@
   Font implementation for QxWidget instances.
 */
 
-function QxFont(vSize, vName)
+qx.renderer.font.Font = function(vSize, vName)
 {
   qx.core.Object.call(this);
 
@@ -45,7 +45,7 @@ function QxFont(vSize, vName)
   };
 };
 
-QxFont.extend(qx.core.Object, "QxFont");
+qx.renderer.font.Font.extend(qx.core.Object, "qx.renderer.font.Font");
 
 
 
@@ -55,12 +55,12 @@ QxFont.extend(qx.core.Object, "QxFont");
 ---------------------------------------------------------------------------
 */
 
-QxFont.addProperty({ name : "size", type : QxConst.TYPEOF_NUMBER, impl : "style" });
-QxFont.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "style" });
-QxFont.addProperty({ name : "bold", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-QxFont.addProperty({ name : "italic", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-QxFont.addProperty({ name : "underline", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-QxFont.addProperty({ name : "strikeout", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "size", type : QxConst.TYPEOF_NUMBER, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "bold", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "italic", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "underline", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "strikeout", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
 
 
 
@@ -85,9 +85,9 @@ proto._modifyStyle = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-QxFont.fromString = function(s)
+qx.renderer.font.Font.fromString = function(s)
 {
-  var vFont = new QxFont;
+  var vFont = new qx.renderer.font.Font;
   var vAllParts = s.split(/\s+/);
   var vName = [];
   var vPart;
@@ -144,11 +144,11 @@ QxFont.fromString = function(s)
 ---------------------------------------------------------------------------
 */
 
-QxFont.PROPERTY_FAMILY = "fontFamily";
-QxFont.PROPERTY_SIZE = "fontSize";
-QxFont.PROPERTY_WEIGHT = "fontWeight";
-QxFont.PROPERTY_STYLE = "fontStyle";
-QxFont.PROPERTY_DECORATION = "textDecoration";
+qx.renderer.font.Font.PROPERTY_FAMILY = "fontFamily";
+qx.renderer.font.Font.PROPERTY_SIZE = "fontSize";
+qx.renderer.font.Font.PROPERTY_WEIGHT = "fontWeight";
+qx.renderer.font.Font.PROPERTY_STYLE = "fontStyle";
+qx.renderer.font.Font.PROPERTY_DECORATION = "textDecoration";
 
 proto._needsCompilation = true;
 
@@ -185,20 +185,20 @@ proto.applyWidget = function(vWidget)
     this._compile();
   };
 
-  vWidget.setStyleProperty(QxFont.PROPERTY_FAMILY, this._defs.fontFamily);
-  vWidget.setStyleProperty(QxFont.PROPERTY_SIZE, this._defs.fontSize);
-  vWidget.setStyleProperty(QxFont.PROPERTY_WEIGHT, this._defs.fontWeight);
-  vWidget.setStyleProperty(QxFont.PROPERTY_STYLE, this._defs.fontStyle);
-  vWidget.setStyleProperty(QxFont.PROPERTY_DECORATION, this._defs.textDecoration);
+  vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_FAMILY, this._defs.fontFamily);
+  vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_SIZE, this._defs.fontSize);
+  vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_WEIGHT, this._defs.fontWeight);
+  vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_STYLE, this._defs.fontStyle);
+  vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION, this._defs.textDecoration);
 };
 
 proto.resetWidget = function(vWidget)
 {
-  vWidget.removeStyleProperty(QxFont.PROPERTY_FAMILY);
-  vWidget.removeStyleProperty(QxFont.PROPERTY_SIZE);
-  vWidget.removeStyleProperty(QxFont.PROPERTY_WEIGHT);
-  vWidget.removeStyleProperty(QxFont.PROPERTY_STYLE);
-  vWidget.removeStyleProperty(QxFont.PROPERTY_DECORATION);
+  vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_FAMILY);
+  vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_SIZE);
+  vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_WEIGHT);
+  vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_STYLE);
+  vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION);
 };
 
 

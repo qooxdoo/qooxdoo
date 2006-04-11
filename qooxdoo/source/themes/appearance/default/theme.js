@@ -107,7 +107,7 @@ theme.registerAppearance("label",
   setup : function()
   {
     this.color_disabled = new qx.renderer.color.ColorObject("graytext");
-    this.font = new QxFont(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
   },
 
   initial : function(vWidget, vTheme)
@@ -754,7 +754,7 @@ theme.registerAppearance("window-captionbar-title",
 {
   setup : function()
   {
-    this.font = new QxFont(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     this.font.setBold(true);
   },
 
@@ -1122,7 +1122,7 @@ theme.registerAppearance("text-field",
 {
   setup : function()
   {
-    this.font = new QxFont(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
   },
 
   initial : function(vWidget, vTheme)
