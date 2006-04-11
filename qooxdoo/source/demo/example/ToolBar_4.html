@@ -21,7 +21,7 @@
     {
       var d = this.getClientWindow().getClientDocument();
 
-      var c1 = new QxCommand();
+      var c1 = new qx.client.Command();
       c1.addEventListener("execute", function(e) {
         this.debug("Execute: " + e.getData().getLabel());
       });

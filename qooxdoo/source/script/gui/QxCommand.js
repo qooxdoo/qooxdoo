@@ -31,7 +31,7 @@
 
   Each command could be accigned to multiple widgets.
 */
-function QxCommand(vShortcut, vKeyCode, vManager)
+qx.client.Command = function(vShortcut, vKeyCode, vManager)
 {
   qx.core.Target.call(this);
 
@@ -48,12 +48,12 @@ function QxCommand(vShortcut, vKeyCode, vManager)
   this.setManager(qx.util.validator.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
 };
 
-QxCommand.extend(qx.core.Target, "QxCommand");
+qx.client.Command.extend(qx.core.Target, "qx.client.Command");
 
-QxCommand.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-QxCommand.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
-QxCommand.addProperty({ name : "keyCode", type : QxConst.TYPEOF_NUMBER });
-QxCommand.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
+qx.client.Command.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.Command.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
+qx.client.Command.addProperty({ name : "keyCode", type : QxConst.TYPEOF_NUMBER });
+qx.client.Command.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
 
 
 
