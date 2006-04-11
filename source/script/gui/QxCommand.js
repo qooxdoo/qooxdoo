@@ -33,7 +33,7 @@
 */
 function QxCommand(vShortcut, vKeyCode, vManager)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._shortcutParts = {};
 
@@ -48,7 +48,7 @@ function QxCommand(vShortcut, vKeyCode, vManager)
   this.setManager(qx.util.validator.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
 };
 
-QxCommand.extend(QxTarget, "QxCommand");
+QxCommand.extend(qx.core.Target, "QxCommand");
 
 QxCommand.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 QxCommand.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
@@ -291,5 +291,5 @@ proto.dispose = function()
     vManager.removeCommand(this);
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

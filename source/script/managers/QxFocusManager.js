@@ -35,8 +35,8 @@
 */
 function QxFocusManager(vWidget)
 {
-  // Don't use QxManager things, but include QxTarget functinality
-  QxTarget.call(this);
+  // Don't use QxManager things, but include qx.core.Target functinality
+  qx.core.Target.call(this);
 
   if (qx.util.validator.isValidObject(vWidget)) {
     this._attachedWidget = vWidget;

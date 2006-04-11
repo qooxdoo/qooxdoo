@@ -30,12 +30,12 @@
 
 function QxTransport(vRequest)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this.setRequest(vRequest);
 };
 
-QxTransport.extend(QxTarget, "QxTransport");
+QxTransport.extend(qx.core.Target, "QxTransport");
 
 
 
@@ -368,5 +368,5 @@ proto.dispose = function()
 
   this.setRequest(null);
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

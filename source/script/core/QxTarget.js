@@ -38,11 +38,11 @@ removeEventListener to or from the created object. Each event to connect to has 
 form of an identification string. This type could be the name of a regular dom event like QxConst.EVENT_TYPE_CLICK or
 something self-defined like "ready".
 */
-function QxTarget(vAutoDispose) {
+qx.core.Target = function(vAutoDispose) {
   qx.core.Object.call(this, vAutoDispose);
 };
 
-QxTarget.extend(qx.core.Object, "QxTarget");
+qx.core.Target.extend(qx.core.Object, "qx.core.Target");
 
 
 
@@ -65,7 +65,7 @@ proto.addEventListener = function(vType, vFunction, vObject)
   };
 
   if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
-    throw new Error("QxTarget: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
+    throw new Error("qx.core.Target: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // If this is the first event of given type, we need to create a subobject
@@ -106,7 +106,7 @@ proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
-    throw new Error("QxTarget: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
+    throw new Error("qx.core.Target: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // Create a special vKey string to allow identification of each bound action

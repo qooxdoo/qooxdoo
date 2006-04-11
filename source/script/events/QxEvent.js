@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  The qooxdoo core event object. Each event object for QxTargets should extend this class.
+  The qooxdoo core event object. Each event object for qx.core.Targets should extend this class.
 */
 function QxEvent(vType)
 {

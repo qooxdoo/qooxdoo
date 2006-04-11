@@ -32,7 +32,7 @@
 
 function QxNativeWindow(vUrl, vName)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
   
 
   // ************************************************************************
@@ -56,7 +56,7 @@ function QxNativeWindow(vUrl, vName)
   };
 };
 
-QxNativeWindow.extend(QxTarget, "QxNativeWindow");
+QxNativeWindow.extend(qx.core.Target, "QxNativeWindow");
 
 
 
@@ -609,5 +609,5 @@ proto.dispose = function()
       
   this._window = null;
   
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

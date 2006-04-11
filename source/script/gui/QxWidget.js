@@ -44,7 +44,7 @@ function QxWidget()
     throw new Error("Please omit the usage of QxWidget directly. Choose between QxParent and QxTerminator instead!");
   };
 
-  QxTarget.call(this, true);
+  qx.core.Target.call(this, true);
 
 
   // ************************************************************************
@@ -72,7 +72,7 @@ function QxWidget()
   this._applyInitialAppearance();
 };
 
-QxWidget.extend(QxTarget, "QxWidget");
+QxWidget.extend(qx.core.Target, "QxWidget");
 
 QxWidget.CORE_CLASS = "QxWidgetCore";
 QxWidget.OMIT_CLASS = "QxWidget";
@@ -4875,5 +4875,5 @@ proto.dispose = function()
   };
   delete this._layoutChanges;
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

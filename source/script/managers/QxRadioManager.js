@@ -32,7 +32,7 @@
 function QxRadioManager(vName, vMembers)
 {
   // we don't need the manager data structures
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   // create item array
   this._items = [];
@@ -292,5 +292,5 @@ proto.dispose = function()
     delete this._items;
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

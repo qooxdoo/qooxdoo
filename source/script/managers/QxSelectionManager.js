@@ -32,7 +32,7 @@
 */
 function QxSelectionManager(vBoundedWidget)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this._selectedItems = new QxSelectionStorage(this);
 
@@ -1403,5 +1403,5 @@ proto.dispose = function()
     this._selectedItems = null;
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };

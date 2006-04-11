@@ -31,7 +31,7 @@
 */
 function QxTimer(vInterval)
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   this.setEnabled(false);
 
@@ -44,7 +44,7 @@ function QxTimer(vInterval)
   this.__oninterval = function() { o._oninterval(); };
 };
 
-QxTimer.extend(QxTarget, "QxTimer");
+QxTimer.extend(qx.core.Target, "QxTimer");
 
 QxTimer.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
 
@@ -153,8 +153,8 @@ proto.dispose = function()
   // Clear object wrapper function
   this.__oninterval = null;
 
-  // Call QxTarget to do the other dispose work
-  return QxTarget.prototype.dispose.call(this);
+  // Call qx.core.Target to do the other dispose work
+  return qx.core.Target.prototype.dispose.call(this);
 };
 
 

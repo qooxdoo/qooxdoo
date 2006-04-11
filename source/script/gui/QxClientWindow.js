@@ -35,7 +35,7 @@
 */
 function QxClientWindow()
 {
-  QxTarget.call(this);
+  qx.core.Target.call(this);
 
   // Establish connection between Object and Node
   this._element = window;
@@ -51,7 +51,7 @@ function QxClientWindow()
   this._eventManager.setFocusRoot(this._clientDocument);
 };
 
-QxClientWindow.extend(QxTarget, "QxClientWindow");
+QxClientWindow.extend(qx.core.Target, "QxClientWindow");
 
 
 
@@ -110,5 +110,5 @@ proto.dispose = function()
     this._element = null;
   };
 
-  return QxTarget.prototype.dispose.call(this);
+  return qx.core.Target.prototype.dispose.call(this);
 };
