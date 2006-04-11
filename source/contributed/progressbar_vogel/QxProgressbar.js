@@ -21,7 +21,7 @@
 /* ****************************************************************************
 
 #package(form) //???Olli???
-#require(QxBorderObject)
+#require(qx.renderer.border.BorderObject)
 #require(QxTerminator)
 #require(QxText)
 
@@ -33,14 +33,14 @@ function QxProgressbar(vMax, vShowPercent)
 
   this.setWidth(250);
   this.setHeight(22);
-  this.setBorder(QxBorderObject.presets.inset);
+  this.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this.setTabIndex(-1);
 
   // ***********************************************************************
   //   Progress-Bar itself
   // ***********************************************************************
   this._bar = new QxTerminator();
-  this._bar.set({ left: 0, bottom: 0, top: 0, border : QxBorder.presets.none });
+  this._bar.set({ left: 0, bottom: 0, top: 0, border : qx.renderer.border.Border.presets.none });
   this._bar.setBackgroundColor("green");
   this.add(this._bar);
 

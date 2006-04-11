@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxBorderCache(propValue, propData)
+qx.renderer.border.BorderCache = function(propValue, propData)
 {
   if (qx.util.validator.isValidArray(propValue) && propValue.length > 1)
   {
@@ -54,11 +54,11 @@ function QxBorderCache(propValue, propData)
     return propValue;
   };
 
-  if (QxBorderCache._data[propValue]) {
-    return QxBorderCache._data[propValue];
+  if (qx.renderer.border.BorderCache._data[propValue]) {
+    return qx.renderer.border.BorderCache._data[propValue];
   };
 
-  return QxBorderCache._data[propValue] = QxBorderObject.fromString(propValue);
+  return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
 };
 
-QxBorderCache._data = {};
+qx.renderer.border.BorderCache._data = {};

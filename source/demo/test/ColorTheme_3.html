@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Color Theme Test for QxBorderObject's</p>
+    <p>Color Theme Test for qx.renderer.border.BorderObject's</p>
     <ul>
       <li>First Col: qooxdoo solution for borders</li>
       <li>Second Col: html solution without color value</li>
@@ -50,43 +50,43 @@
     var w1 = new QxTerminator;
     w1.setDimension(50, 50);
     w1.setLocation(20, 48);
-    w1.setBorder(new QxBorderObject(2, "outset"));
+    w1.setBorder(new qx.renderer.border.BorderObject(2, "outset"));
     d.add(w1);
 
     var w2 = new QxTerminator;
     w2.setDimension(50, 50);
     w2.setLocation(20, 108);
-    w2.setBorder(new QxBorderObject(2, "inset"));
+    w2.setBorder(new qx.renderer.border.BorderObject(2, "inset"));
     d.add(w2);
 
     var w3 = new QxTerminator;
     w3.setDimension(50, 50);
     w3.setLocation(20, 168);
-    w3.setBorder(new QxBorderObject(2, "ridge"));
+    w3.setBorder(new qx.renderer.border.BorderObject(2, "ridge"));
     d.add(w3);
 
     var w4 = new QxTerminator;
     w4.setDimension(50, 50);
     w4.setLocation(20, 228);
-    w4.setBorder(new QxBorderObject(2, "groove"));
+    w4.setBorder(new qx.renderer.border.BorderObject(2, "groove"));
     d.add(w4);
 
     var w5 = new QxTerminator;
     w5.setDimension(50, 50);
     w5.setLocation(20, 288);
-    w5.setBorder(new QxBorderObject(1, "outset"));
+    w5.setBorder(new qx.renderer.border.BorderObject(1, "outset"));
     d.add(w5);
 
     var w6 = new QxTerminator;
     w6.setDimension(50, 50);
     w6.setLocation(20, 348);
-    w6.setBorder(new QxBorderObject(1, "inset"));
+    w6.setBorder(new qx.renderer.border.BorderObject(1, "inset"));
     d.add(w6);
     
     
     
-    var border1 = new QxBorderObject(2, "outset");
-    var border2 = new QxBorderObject(1, "outset");
+    var border1 = new qx.renderer.border.BorderObject(2, "outset");
+    var border2 = new qx.renderer.border.BorderObject(1, "outset");
     
     var w7 = new QxCanvasLayout;
     w7.setDimension(50, 50);

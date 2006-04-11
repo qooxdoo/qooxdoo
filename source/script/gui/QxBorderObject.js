@@ -23,18 +23,18 @@
 /* ************************************************************************
 
 #package(border)
-#post(QxBorderObjectPresets)
+#post(qx.renderer.border.BorderObjectPresets)
 
 ************************************************************************ */
 
-function QxBorderObject(vWidth, vStyle, vColor)
+qx.renderer.border.BorderObject = function(vWidth, vStyle, vColor)
 {
   this._dependentObjects = {};
 
-  QxBorder.call(this, vWidth, vStyle, vColor);
+  qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
 };
 
-QxBorderObject.extend(QxBorder, "QxBorderObject");
+qx.renderer.border.BorderObject.extend(qx.renderer.border.Border, "qx.renderer.border.BorderObject");
 
 
 
@@ -44,9 +44,9 @@ QxBorderObject.extend(QxBorder, "QxBorderObject");
 ---------------------------------------------------------------------------
 */
 
-QxBorderObject.fromString = function(vDefString)
+qx.renderer.border.BorderObject.fromString = function(vDefString)
 {
-  var vBorder = new QxBorderObject;
+  var vBorder = new qx.renderer.border.BorderObject;
   var vAllParts = vDefString.split(/\s+/);
   var vPart, vTemp;
 
@@ -151,5 +151,5 @@ proto.dispose = function()
     delete this._dependentObjects;
   };
 
-  return QxBorder.prototype.dispose.call(this);
+  return qx.renderer.border.Border.prototype.dispose.call(this);
 };

@@ -136,8 +136,8 @@ proto._runInitialization = function()
     this.createDispatchEvent(QxConst.EVENT_TYPE_PRE);
 
     // Create client window instance (and client-document, event- and focus-manager, ...)
-    if (typeof QxClientWindow === QxConst.TYPEOF_FUNCTION) {
-      this._clientWindow = new QxClientWindow();
+    if (typeof qx.client.ClientWindow === QxConst.TYPEOF_FUNCTION) {
+      this._clientWindow = new qx.client.ClientWindow();
     };
 
     // Build virtual methods for easy additions of childrens and so on

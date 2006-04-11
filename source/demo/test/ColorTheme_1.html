@@ -124,7 +124,7 @@
 
     w9.setTop(520);
     w9.setLeft(200);
-    w9.setBorder(new QxBorderObject(2, "solid", "activeCaption"));
+    w9.setBorder(new qx.renderer.border.BorderObject(2, "solid", "activeCaption"));
     w9.setBackgroundColor("threedlightshadow");
 
     d.add(w9);
@@ -137,7 +137,7 @@
 
     w10.setTop(520);
     w10.setLeft(400);
-    w10.setBorder(new QxBorderObject(2, "solid", new QxColorObject("activeCaption")));
+    w10.setBorder(new qx.renderer.border.BorderObject(2, "solid", new QxColorObject("activeCaption")));
     w10.setBackgroundColor("threedlightshadow");
 
     d.add(w10);
@@ -183,7 +183,7 @@
 
 
 
-    var myBoundedBorder1 = new QxBorder(1, "solid", [200,10,20]);
+    var myBoundedBorder1 = new qx.renderer.border.Border(1, "solid", [200,10,20]);
 
 
     var w14 = new QxTerminator;
@@ -196,7 +196,7 @@
 
     d.add(w14);
 
-    // should not work with QxBorder - use QxBorderObject instead
+    // should not work with qx.renderer.border.Border - use qx.renderer.border.BorderObject instead
     w14.addEventListener("click", function(e) {
       myBoundedBorder1.setTopColor([100,200,200]);
       myBoundedBorder1.setTopWidth(10);
@@ -204,7 +204,7 @@
 
 
 
-    var myBoundedBorder2 = new QxBorderObject(1, "solid", [200,10,20]);
+    var myBoundedBorder2 = new qx.renderer.border.BorderObject(1, "solid", [200,10,20]);
 
 
     var w15 = new QxTerminator;

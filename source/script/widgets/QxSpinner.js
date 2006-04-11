@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(form)
-#require(QxBorderObject)
+#require(qx.renderer.border.BorderObject)
 #require(QxTextField)
 #require(QxImage)
 #require(qx.client.Timer)

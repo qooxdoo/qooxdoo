@@ -29,7 +29,7 @@ theme.registerAppearance("dialog",
   state : function(vWidget, vTheme, vStates)
   {
     return {
-      border : vStates.maximized ? QxBorderObject.presets.none : QxBorderObject.presets.outset
+      border : vStates.maximized ? qx.renderer.border.BorderObject.presets.none : qx.renderer.border.BorderObject.presets.outset
     };
   }
 });

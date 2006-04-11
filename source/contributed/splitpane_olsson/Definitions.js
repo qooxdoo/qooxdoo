@@ -25,7 +25,7 @@ theme.registerAppearance("splitpane",
     var firstLevel = vWidget.getParent() instanceof QxSplitPane;
 
     var vReturn = {
-      border : firstLevel ? null : QxBorderObject.presets.thinInset
+      border : firstLevel ? null : qx.renderer.border.BorderObject.presets.thinInset
     };
 
     return vReturn;
@@ -37,7 +37,7 @@ theme.registerAppearance("splitpane-divider",
   initial : function(vWidget, vTheme)
   {
     return {
-      border : QxBorderObject.presets.thinOutset
+      border : qx.renderer.border.BorderObject.presets.thinOutset
     };
   }
 });
@@ -47,7 +47,7 @@ theme.registerAppearance("splitpane-move-frame",
   initial : function(vWidget, vTheme)
   {
     return {
-      border : QxBorderObject.presets.shadow
+      border : qx.renderer.border.BorderObject.presets.shadow
     };
   }
 });
@@ -60,8 +60,8 @@ theme.registerAppearance("splitpane-button",
     this.bgcolor_over = new QxColor("#87BCE5");
     this.bgcolor_left = new QxColor("#FFF0C9");
 
-    this.border_pressed = QxBorderObject.presets.inset;
-    this.border_default = QxBorderObject.presets.outset;
+    this.border_pressed = qx.renderer.border.BorderObject.presets.inset;
+    this.border_default = qx.renderer.border.BorderObject.presets.outset;
   },
 
   initial : function(vWidget, vTheme) {

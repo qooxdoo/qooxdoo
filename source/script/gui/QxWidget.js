@@ -26,8 +26,8 @@
 #require(QxApplication)
 #require(QxColorObject)
 #require(QxColorCache)
-#require(QxBorderObject)
-#require(QxBorderCache)
+#require(qx.renderer.border.BorderObject)
+#require(qx.renderer.border.BorderCache)
 #require(QxAppearanceManager)
 #post(QxWidgetCore)
 #post(QxDomScrollIntoView)
@@ -191,7 +191,7 @@ QxWidget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : 
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-QxWidget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance : "QxBorder", convert : QxBorderCache, allowMultipleArguments : true });
+QxWidget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -996,7 +996,7 @@ else
   proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (QxBorder.enhancedCrossBrowserMode && this.getTagName() == QxConst.CORE_DIV && !this._borderElement)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == QxConst.CORE_DIV && !this._borderElement)
     {
       var el = this.getElement();
       var cl = this._borderElement = document.createElement(QxConst.CORE_DIV);
@@ -2198,13 +2198,13 @@ proto.addToQueueRuntime = function(p) {
 proto._applyBorderX = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
-  vBorder ? vBorder._applyWidgetX(vChild) : QxBorder._resetBorderX(vChild);
+  vBorder ? vBorder._applyWidgetX(vChild) : qx.renderer.border.Border._resetBorderX(vChild);
 };
 
 proto._applyBorderY = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
-  vBorder ? vBorder._applyWidgetY(vChild) : QxBorder._resetBorderY(vChild);
+  vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
 };
 
 proto._applyPaddingX = qx.util.returns.returnTrue;

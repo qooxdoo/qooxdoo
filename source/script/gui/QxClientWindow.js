@@ -33,7 +33,7 @@
 
   Mainly a reference for the window object of the browser
 */
-function QxClientWindow()
+qx.client.ClientWindow = function()
 {
   qx.core.Target.call(this);
 
@@ -51,7 +51,7 @@ function QxClientWindow()
   this._eventManager.setFocusRoot(this._clientDocument);
 };
 
-QxClientWindow.extend(qx.core.Target, "QxClientWindow");
+qx.client.ClientWindow.extend(qx.core.Target, "qx.client.ClientWindow");
 
 
 

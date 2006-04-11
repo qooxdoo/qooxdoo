@@ -33,7 +33,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 
   this.setBackgroundColor("threedface");
   this.setColor("windowtext");
-  this.setBorder(QxBorderObject.presets.outset);
+  this.setBorder(qx.renderer.border.BorderObject.presets.outset);
   this.setPadding(1);
 
 //  if (this._initialLayoutDone && this.getVisibility() && this._isDisplayed)

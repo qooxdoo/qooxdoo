@@ -34,7 +34,7 @@
 
   QxClientDocument is the parent of all children inside your application. It
   also handles their resizing and focus navigation. This widget will be automatically
-  created through QxClientWindow.
+  created through qx.client.ClientWindow.
 */
 function QxClientDocument(vClientWindow)
 {

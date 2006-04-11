@@ -19,7 +19,7 @@ theme.registerAppearance("statusbar",
       height : 24,
       overflow : QxConst.OVERFLOW_VALUE_HIDDEN,
       backgroundColor : this.bgcolor,
-      border : QxBorderObject.presets.outset,
+      border : qx.renderer.border.BorderObject.presets.outset,
       paddingTop : 1,
       paddingRight : 1,
       paddingBottom : 1,
@@ -35,7 +35,7 @@ theme.registerAppearance("statusbar-pane",
     return{
       width : QxConst.CORE_AUTO,
       height : null,
-      border : QxBorderObject.presets.inset
+      border : qx.renderer.border.BorderObject.presets.inset
     };
   }
 });
