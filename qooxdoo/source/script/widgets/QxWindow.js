@@ -40,7 +40,7 @@
 
 ************************************************************************ */
 
-function QxWindow(vCaption, vIcon)
+function QxWindow(vCaption, vIcon, vWindowManager)
 {
   QxPopup.call(this);
 
@@ -60,6 +60,10 @@ function QxWindow(vCaption, vIcon)
 
   // Init Focus Manager
   this.activateFocusRoot();
+
+  // Init Window Manager
+  this.setWindowManager(vWindowManager || QxWindow.getDefaultWindowManager());
+
 
 
   // ************************************************************************
@@ -256,6 +260,11 @@ QxWindow.extend(QxPopup, "QxWindow");
 QxWindow.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
 
 /*!
+  The windowManager to use for.
+*/
+QxWindow.addProperty({ name : "windowManager", type : QxConst.TYPEOF_OBJECT });
+
+/*!
   If the window is active, only one window in a single QxWindowManager could
   have set this to true at the same time.
 */
@@ -361,6 +370,25 @@ QxWindow.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaul
 
 /*
 ---------------------------------------------------------------------------
+  MANAGER HANDLING
+---------------------------------------------------------------------------
+*/
+
+QxWindow.getDefaultWindowManager = function()
+{
+  if (!QxWindow._defaultWindowManager) {
+    QxWindow._defaultWindowManager = new QxWindowManager;
+  };
+
+  return QxWindow._defaultWindowManager;
+};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
   STRINGS
 ---------------------------------------------------------------------------
 */
@@ -372,7 +400,6 @@ QxWindow.MODE_TRANSLUCENT = "translucent";
 
 QxWindow.MODE_MINIMIZED = "minimized";
 QxWindow.MODE_MAXIMIZED = "maximized";
-
 
 
 
@@ -451,7 +478,7 @@ proto._beforeAppear = function()
 
   QxPopupManager.update();
 
-  QxWindowManager.add(this);
+  this.getWindowManager().add(this);
   this._makeActive();
 };
 
@@ -467,7 +494,7 @@ proto._beforeDisappear = function()
     vWidget.setCapture(false);
   };
 
-  QxWindowManager.remove(this);
+  this.getWindowManager().remove(this);
   this._makeInactive();
 };
 
@@ -485,7 +512,7 @@ proto._minZIndex = 1e5;
 
 proto._sendTo = function()
 {
-  var vAll = QxUtil.convertObjectValuesToArray(QxWindowManager.getAll()).sort(QxCompare.byZIndex);
+  var vAll = QxUtil.convertObjectValuesToArray(this.getWindowManager().getAll()).sort(QxCompare.byZIndex);
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 
@@ -513,8 +540,8 @@ proto._modifyActive = function(propValue, propOldValue, propData)
       this.setFocused(false);
     };
 
-    if (QxWindowManager.getActiveWindow() == this) {
-      QxWindowManager.setActiveWindow(null);
+    if (this.getWindowManager().getActiveWindow() == this) {
+      this.getWindowManager().setActiveWindow(null);
     };
 
     this.removeState(QxConst.STATE_ACTIVE);
@@ -529,7 +556,7 @@ proto._modifyActive = function(propValue, propOldValue, propData)
       this.setFocused(true);
     };
 
-    QxWindowManager.setActiveWindow(this);
+    this.getWindowManager().setActiveWindow(this);
     this.bringToFront();
 
     this.addState(QxConst.STATE_ACTIVE);
