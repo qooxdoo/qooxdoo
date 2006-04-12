@@ -112,7 +112,7 @@ proto.update = function(oTarget)
 
 proto.compareWindows = function(w1, w2)
 {
-  switch(QxWindowManager.getActiveWindow())
+  switch(w1.getWindowManager().getActiveWindow())
   {
     case w1:
       return 1;
