@@ -26,10 +26,10 @@
 
       switch(child.classname)
       {
-        case 'QxTextArea':
-        case 'QxTextField':
-        case 'QxComboBox':
-        case 'QxPasswordField':
+        case 'qx.ui.form.TextArea':
+        case 'qx.ui.form.TextField':
+        case 'qx.ui.form.ComboBox':
+        case 'qx.ui.form.PasswordField':
           child.setBackgroundColor(color);
           break;
       };
@@ -44,7 +44,7 @@
       this.debug("Text changed: " + e.getData());
     }
 
-    var t1 = new QxTextField;
+    var t1 = new qx.ui.form.TextField;
     t1.setValue("textfield");
     t1.setTop(48);
     t1.setLeft(20);
@@ -59,7 +59,7 @@
 
 
 
-    var t2 = new QxPasswordField;
+    var t2 = new qx.ui.form.PasswordField;
     t2.setValue("passwordfield");
     t2.setTop(80);
     t2.setLeft(20);
@@ -69,7 +69,7 @@
     d.add(t2);
 
 
-    var t3 = new QxTextArea;
+    var t3 = new qx.ui.form.TextArea;
     t3.setValue("textarea");
     t3.setTop(110);
     t3.setLeft(20);
@@ -81,7 +81,7 @@
     d.add(t3);
 
 
-    var t4 = new QxTextField;
+    var t4 = new qx.ui.form.TextField;
     t4.setValue("textfield");
     t4.setTop(200);
     t4.setLeft(20);
@@ -94,7 +94,7 @@
     d.add(t4);
 
 
-    var t5 = new QxTextField;
+    var t5 = new qx.ui.form.TextField;
     t5.setValue("You are foo!");
     t5.setTop(240);
     t5.setLeft(20);
@@ -103,7 +103,7 @@
 
     d.add(t5);
 
-    var c1 = new QxComboBox;
+    var c1 = new qx.ui.form.ComboBox;
     c1.setTop(280);
     c1.setLeft(20);
 
@@ -113,7 +113,7 @@
 
       for(var i=1; i<=30; i++)
       {
-        item = new QxListItem("Item No " + i);
+        item = new qx.ui.form.ListItem("Item No " + i);
         !(i % 10) && (item.setEnabled(false));
         c1.add(item);
       };
@@ -133,7 +133,7 @@
 
 
 
-    var b1 = new QxCheckBox("Editable");
+    var b1 = new qx.ui.form.CheckBox("Editable");
 
     b1.set({ top: 282, left: 150 });
 
@@ -142,9 +142,9 @@
     });
 
 
-    var b2 = new QxButton("red", "icons/16/colors.png");   b2.set({left:10,top:10});
-    var b3 = new QxButton("green", "icons/16/colors.png"); b3.set({left:10,top:40});
-    var b4 = new QxButton("white", "icons/16/colors.png"); b4.set({left:10,top:70});
+    var b2 = new qx.ui.form.Button("red", "icons/16/colors.png");   b2.set({left:10,top:10});
+    var b3 = new qx.ui.form.Button("green", "icons/16/colors.png"); b3.set({left:10,top:40});
+    var b4 = new qx.ui.form.Button("white", "icons/16/colors.png"); b4.set({left:10,top:70});
 
     b2.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
     b3.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });

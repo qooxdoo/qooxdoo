@@ -37,7 +37,7 @@ function QxToolBarMenuButton(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlas
   };
 
   /*
-  this._menuButton = new QxImage("widgets/arrows/down_small.gif");
+  this._menuButton = new qx.ui.basic.Image("widgets/arrows/down_small.gif");
   this._menuButton.setAnonymous(true);
   this.addAtEnd(this._menuButton);
   */
@@ -214,7 +214,7 @@ proto._onmouseover = function(e)
 
       default:
         // hide other menus
-        QxMenuManager.update();
+        qx.manager.object.MenuManager.update();
 
         // show this menu
         this._showMenu();

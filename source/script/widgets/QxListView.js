@@ -42,11 +42,11 @@ function QxListView(vData, vColumns)
   // ************************************************************************
 
   this._header = new QxListViewHeader(vColumns);
-  this._frame = new QxHorizontalBoxLayout;
+  this._frame = new qx.ui.layout.HorizontalBoxLayout;
   this._pane = new QxListViewPane(vData, vColumns);
-  this._scroll = new QxCanvasLayout;
-  this._scrollContent = new QxTerminator;
-  this._resizeLine = new QxTerminator;
+  this._scroll = new qx.ui.layout.CanvasLayout;
+  this._scrollContent = new qx.ui.basic.Terminator;
+  this._resizeLine = new qx.ui.basic.Terminator;
 
 
 
@@ -54,7 +54,7 @@ function QxListView(vData, vColumns)
   //   SUPERCLASS CONSTRUCTOR
   // ************************************************************************
 
-  QxVerticalBoxLayout.call(this);
+  qx.ui.layout.VerticalBoxLayout.call(this);
 
 
 
@@ -123,7 +123,7 @@ function QxListView(vData, vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxListView.extend(QxVerticalBoxLayout, "QxListView");
+QxListView.extend(qx.ui.layout.VerticalBoxLayout, "QxListView");
 
 
 
@@ -307,7 +307,7 @@ proto._onmousedown = function(e) {
 
 proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
-  QxVerticalBoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
+  qx.ui.layout.VerticalBoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
 
   if (vDisplayable)
   {
@@ -374,5 +374,5 @@ proto.dispose = function()
 
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
-  return QxVerticalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

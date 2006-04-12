@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxMenuButtonLayoutImpl(vWidget)
+qx.renderer.layout.MenuButtonLayoutImpl = function(vWidget)
 {
-  QxHorizontalBoxLayoutImpl.call(this, vWidget);
-  
-  // We don't need flex support, should make things a bit faster, 
-  // as this omits some additional loops in QxHorizontalBoxLayoutImpl.
-  this.setEnableFlexSupport(false);  
+  qx.renderer.layout.HorizontalBoxLayoutImpl.call(this, vWidget);
+
+  // We don't need flex support, should make things a bit faster,
+  // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
+  this.setEnableFlexSupport(false);
 };
 
-QxMenuButtonLayoutImpl.extend(QxHorizontalBoxLayoutImpl, "QxMenuButtonLayoutImpl");
+qx.renderer.layout.MenuButtonLayoutImpl.extend(qx.renderer.layout.HorizontalBoxLayoutImpl, "qx.renderer.layout.MenuButtonLayoutImpl");
 
 
 /*!
@@ -51,9 +51,9 @@ QxMenuButtonLayoutImpl.extend(QxHorizontalBoxLayoutImpl, "QxMenuButtonLayoutImpl
   [09] FLUSH LAYOUT QUEUES OF CHILDREN
   [10] LAYOUT CHILD
   [11] DISPOSER
-  
 
-  Inherits from QxHorizontalBoxLayoutImpl:
+
+  Inherits from qx.renderer.layout.HorizontalBoxLayoutImpl:
   [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
   [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
@@ -81,10 +81,10 @@ proto.computeChildrenNeededWidth = function()
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
-  
+
   // Ignore the verticalBoxLayout inside QxMenu
-  var vMenu = vWidget.getParent().getParent();  
-  
+  var vMenu = vWidget.getParent().getParent();
+
   // Let the menu do the real hard things
   return vMenu.getMenuButtonNeededWidth();
 };
@@ -109,38 +109,38 @@ proto.updateSelfOnChildOuterWidthChange = function(vChild)
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
-  
+
   // Ignore the verticalBoxLayout inside QxMenu
   var vMenu = vWidget.getParent().getParent();
-  
+
   // Send out invalidate signals
   switch(vChild)
   {
     case vWidget._iconObject:
-      vMenu._invalidateMaxIconWidth(); 
+      vMenu._invalidateMaxIconWidth();
       break;
-    
+
     case vWidget._labelObject:
-      vMenu._invalidateMaxLabelWidth();  
+      vMenu._invalidateMaxLabelWidth();
       break;
 
     case vWidget._shortcutObject:
-      vMenu._invalidateMaxShortcutWidth();  
+      vMenu._invalidateMaxShortcutWidth();
       break;
 
     case vWidget._arrowObject:
-      vMenu._invalidateMaxArrowWidth();  
+      vMenu._invalidateMaxArrowWidth();
       break;
   };
-  
+
   // Call superclass implementation
-  return QxHorizontalBoxLayoutImpl.prototype.updateSelfOnChildOuterWidthChange.call(this, vChild);
+  return qx.renderer.layout.HorizontalBoxLayoutImpl.prototype.updateSelfOnChildOuterWidthChange.call(this, vChild);
 };
 
 
 
-  
-  
+
+
 
 
 /*
@@ -153,10 +153,10 @@ proto.layoutChild_locationX = function(vChild, vJobs)
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
-  
+
   // Ignore the verticalBoxLayout inside QxMenu
   var vMenu = vWidget.getParent().getParent();
-  
+
   // Left position of the child
   var vPos = null;
 
@@ -166,7 +166,7 @@ proto.layoutChild_locationX = function(vChild, vJobs)
     case vWidget._iconObject:
       vPos = vMenu.getIconPosition();
       break;
-    
+
     case vWidget._labelObject:
       vPos = vMenu.getLabelPosition();
       break;
@@ -179,10 +179,10 @@ proto.layoutChild_locationX = function(vChild, vJobs)
       vPos = vMenu.getArrowPosition();
       break;
   };
-  
+
   if (vPos != null)
   {
     vPos += vWidget.getPaddingLeft();
     vChild._applyRuntimeLeft(vPos);
-  }; 
+  };
 };

@@ -24,15 +24,15 @@
 
 #package(form)
 #require(qx.renderer.border.BorderObject)
-#require(QxTextField)
-#require(QxImage)
+#require(qx.ui.form.TextField)
+#require(qx.ui.basic.Image)
 #require(qx.client.Timer)
 
 ************************************************************************ */
 
-function QxSpinner(vMin, vValue, vMax)
+qx.ui.form.Spinner = function(vMin, vValue, vMax)
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
   // ************************************************************************
   //   BEHAVIOR
@@ -53,7 +53,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   //   TEXTFIELD
   // ************************************************************************
-  this._textfield = new QxTextField;
+  this._textfield = new qx.ui.form.TextField;
   this._textfield.setAppearance("spinner-field");
   this._textfield.setValue(String(this._manager.getValue()));
 
@@ -63,7 +63,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   //   BUTTON LAYOUT
   // ************************************************************************
-  this._buttonlayout = new QxVerticalBoxLayout;
+  this._buttonlayout = new qx.ui.layout.VerticalBoxLayout;
   this._buttonlayout.setWidth(QxConst.CORE_AUTO);
   this.add(this._buttonlayout);
 
@@ -71,7 +71,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   //   UP-BUTTON
   // ************************************************************************
-  this._upbutton = new QxImage("widgets/arrows/up_small.gif");
+  this._upbutton = new qx.ui.basic.Image("widgets/arrows/up_small.gif");
   this._upbutton.setAppearance("spinner-button-up");
   this._buttonlayout.add(this._upbutton);
 
@@ -79,7 +79,7 @@ function QxSpinner(vMin, vValue, vMax)
   // ************************************************************************
   //   DOWN-BUTTON
   // ************************************************************************
-  this._downbutton = new QxImage("widgets/arrows/down_small.gif");
+  this._downbutton = new qx.ui.basic.Image("widgets/arrows/down_small.gif");
   this._downbutton.setAppearance("spinner-button-down");
   this._buttonlayout.add(this._downbutton);
 
@@ -123,7 +123,7 @@ function QxSpinner(vMin, vValue, vMax)
   };
 };
 
-QxSpinner.extend(QxHorizontalBoxLayout, "QxSpinner");
+qx.ui.form.Spinner.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.Spinner");
 
 
 
@@ -133,47 +133,47 @@ QxSpinner.extend(QxHorizontalBoxLayout, "QxSpinner");
 ---------------------------------------------------------------------------
 */
 
-QxSpinner.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "spinner" });
+qx.ui.form.Spinner.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "spinner" });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-QxSpinner.addProperty({ name : "incrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.form.Spinner.addProperty({ name : "incrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-QxSpinner.addProperty({ name : "wheelIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.form.Spinner.addProperty({ name : "wheelIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each pageup / pagedown keypress
 */
-QxSpinner.addProperty({ name : "pageIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
+qx.ui.form.Spinner.addProperty({ name : "pageIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
 
 /*!
   The current value of the interval (this should be used internally only).
 */
-QxSpinner.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.form.Spinner.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
 
 /*!
   The first interval on event based shrink/growth of the value.
 */
-QxSpinner.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
+qx.ui.form.Spinner.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
 
 /*!
   This configures the minimum value for the timer interval.
 */
-QxSpinner.addProperty({ name : "minTimer", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.form.Spinner.addProperty({ name : "minTimer", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
 
 /*!
   Decrease of the timer on each interval (for the next interval) until minTimer reached.
 */
-QxSpinner.addProperty({ name : "timerDecrease", type : QxConst.TYPEOF_NUMBER, defaultValue : 2 });
+qx.ui.form.Spinner.addProperty({ name : "timerDecrease", type : QxConst.TYPEOF_NUMBER, defaultValue : 2 });
 
 /*!
   If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval).
 */
-QxSpinner.addProperty({ name : "amountGrowth", type : QxConst.TYPEOF_NUMBER, defaultValue : 1.01 });
+qx.ui.form.Spinner.addProperty({ name : "amountGrowth", type : QxConst.TYPEOF_NUMBER, defaultValue : 1.01 });
 
 
 
@@ -685,5 +685,5 @@ proto.dispose = function()
     this._manager = null;
   };
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

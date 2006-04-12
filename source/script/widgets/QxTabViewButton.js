@@ -61,7 +61,7 @@ proto._onkeydown = function(e)
       {
         // we want to enable the outline border, because
         // the user used the keyboard for activation
-        delete QxFocusManager.mouseFocus;
+        delete qx.event.handler.FocusHandler.mouseFocus;
 
         // focus previous tab
         vPrev.setFocused(true);
@@ -77,7 +77,7 @@ proto._onkeydown = function(e)
       {
         // we want to enable the outline border, because
         // the user used the keyboard for activation
-        delete QxFocusManager.mouseFocus;
+        delete qx.event.handler.FocusHandler.mouseFocus;
 
         // focus next tab
         vNext.setFocused(true);

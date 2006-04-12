@@ -25,7 +25,7 @@
 #package(guicore)
 #require(qx.ui.core.Widget)
 #require(qx.core.Settings)
-#post(QxInline)
+#post(qx.ui.basic.Inline)
 
 ************************************************************************ */
 
@@ -461,7 +461,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
     {
       vWidget = vLazyQueue[i];
 
-      if (vWidget instanceof QxInline)
+      if (vWidget instanceof qx.ui.basic.Inline)
       {
         vWidget._beforeInsertDom();
 

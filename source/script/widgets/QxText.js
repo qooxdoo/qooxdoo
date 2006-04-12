@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxText(vText)
+qx.ui.embed.TextEmbed = function(vText)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   if (qx.util.validator.isValidString(vText)) {
     this.setText(vText);
   };
 };
 
-QxText.extend(QxTerminator, "QxText");
+qx.ui.embed.TextEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.TextEmbed");
 
 
 
@@ -49,17 +49,17 @@ QxText.extend(QxTerminator, "QxText");
 /*!
   Any text string which can contain TEXT, too
 */
-QxText.addProperty({ name : "text", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.TextEmbed.addProperty({ name : "text", type : QxConst.TYPEOF_STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxText.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.ui.embed.TextEmbed.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-QxText.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.TextEmbed.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

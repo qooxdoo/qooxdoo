@@ -29,11 +29,11 @@
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-function QxVirtualSelectionManager(vBoundedWidget) {
-  QxSelectionManager.call(this, vBoundedWidget);
+qx.manager.selection.VirtualSelectionManager = function(vBoundedWidget) {
+  qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 };
 
-QxVirtualSelectionManager.extend(QxSelectionManager, "QxVirtualSelectionManager");
+qx.manager.selection.VirtualSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.VirtualSelectionManager");
 
 
 
@@ -57,13 +57,13 @@ proto.getItems = function() {
   return this.getBoundedWidget().getData();
 };
 
-proto.getNextSibling = function(vItem) 
+proto.getNextSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)+1];
 };
 
-proto.getPreviousSibling = function(vItem) 
+proto.getPreviousSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)-1];
@@ -83,8 +83,8 @@ proto.getItemHashCode = function(oItem)
   if (oItem._hash) {
     return oItem._hash;
   };
-  
-  return oItem._hash = qx.core.Object.toHashCode(oItem);  
+
+  return oItem._hash = qx.core.Object.toHashCode(oItem);
 };
 
 

@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-function QxInline(vId)
+qx.ui.basic.Inline = function(vId)
 {
-  QxCanvasLayout.call(this);
-  
+  qx.ui.layout.CanvasLayout.call(this);
+
   this.setStyleProperty(QxConst.PROPERTY_POSITION, QxConst.CORE_RELATIVE);
 
   if (qx.util.validator.isValidString(vId)) {
@@ -37,6 +37,6 @@ function QxInline(vId)
   };
 };
 
-QxInline.extend(QxCanvasLayout, "QxInline");
+qx.ui.basic.Inline.extend(qx.ui.layout.CanvasLayout, "qx.ui.basic.Inline");
 
-QxInline.addProperty({ name : "inlineNodeId", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Inline.addProperty({ name : "inlineNodeId", type : QxConst.TYPEOF_STRING });

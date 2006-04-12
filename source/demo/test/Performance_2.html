@@ -17,9 +17,9 @@
       <li>QxTarget</li>
       <li>QxEvent</li>
       <li>QxMouseEvent</li>
-      <li>QxTerminator</li>
-      <li>QxCanvasLayout</li>
-      <li>QxBoxLayout</li>
+      <li>qx.ui.basic.Terminator</li>
+      <li>qx.ui.layout.CanvasLayout</li>
+      <li>qx.ui.layout.BoxLayout</li>
     </ol>
   </div>
 
@@ -57,21 +57,21 @@
     function TestQxTerminator(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxTerminator;
+        new qx.ui.basic.Terminator;
       };
     };
 
     function TestQxCanvasLayout(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxCanvasLayout;
+        new qx.ui.layout.CanvasLayout;
       };
     };
     
     function TestQxBoxLayout(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxBoxLayout;
+        new qx.ui.layout.BoxLayout;
       };
     };    
 

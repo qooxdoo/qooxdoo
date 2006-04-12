@@ -23,13 +23,13 @@
 /* ************************************************************************
 
 #package(listview)
-#post(QxVirtualSelectionManager)
+#post(qx.manager.selection.VirtualSelectionManager)
 
 ************************************************************************ */
 
 function QxListViewPane(vData, vColumns)
 {
-  QxGridLayout.call(this);
+  qx.ui.layout.GridLayout.call(this);
 
   // ************************************************************************
   //   DATA
@@ -42,7 +42,7 @@ function QxListViewPane(vData, vColumns)
   // ************************************************************************
   //   INITILISIZE MANAGER
   // ************************************************************************
-  this._manager = new QxVirtualSelectionManager(this);
+  this._manager = new qx.manager.selection.VirtualSelectionManager(this);
 
 
   // ************************************************************************
@@ -66,7 +66,7 @@ function QxListViewPane(vData, vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxListViewPane.extend(QxGridLayout, "QxListViewPane");
+QxListViewPane.extend(qx.ui.layout.GridLayout, "QxListViewPane");
 
 QxListViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-pane" });
 
@@ -241,7 +241,7 @@ proto._changeInnerHeight = function(vNew, vOld)
   this._updateLayout(true);
   this._updateRendering(true);
 
-  return QxGridLayout.prototype._changeInnerHeight.call(this, vNew, vOld);
+  return qx.ui.layout.GridLayout.prototype._changeInnerHeight.call(this, vNew, vOld);
 };
 
 
@@ -543,5 +543,5 @@ proto.dispose = function()
     this._manager = null;
   };
 
-  return QxGridLayout.prototype.dispose.call(this);
+  return qx.ui.layout.GridLayout.prototype.dispose.call(this);
 };

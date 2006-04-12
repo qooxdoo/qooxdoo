@@ -31,12 +31,12 @@
 */
 function QxMenuLayout() 
 {
-  QxVerticalBoxLayout.call(this);
+  qx.ui.layout.VerticalBoxLayout.call(this);
   
   this.setAnonymous(true);
 };
 
-QxMenuLayout.extend(QxVerticalBoxLayout, "QxMenuLayout");
+QxMenuLayout.extend(qx.ui.layout.VerticalBoxLayout, "QxMenuLayout");
 
 
 /*!
@@ -57,5 +57,5 @@ QxMenuLayout.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING,
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxMenuLayoutImpl(this);
+  return new qx.renderer.layout.MenuLayoutImpl(this);
 };

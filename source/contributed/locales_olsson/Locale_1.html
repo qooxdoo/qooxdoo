@@ -115,7 +115,7 @@
 
         languageM.add(englishMRB, swedishMRB);
 
-        var languageRM = new QxRadioManager("languageRM", [englishMRB, swedishMRB]);
+        var languageRM = new qx.manager.selection.RadioManager("languageRM", [englishMRB, swedishMRB]);
 
         var languageMBB = new QxMenuBarButton(resource.getValue("languageMBB"), languageM);
 
@@ -155,11 +155,11 @@
       function createStatusBar() {
         var statusSB = new QxStatusBar();
 
-        var statusL = new QxLabel(resource.getValue("statusL"));
+        var statusL = new qx.ui.basic.Label(resource.getValue("statusL"));
         var statusSBP1 = new QxStatusBarPane(statusL);
         statusSBP1.setWidth("50%");
 
-        var numL = new QxLabel();
+        var numL = new qx.ui.basic.Label();
         var statusSBP2 = new QxStatusBarPane(numL);
         statusSBP2.setWidth(30);
         statusSBP2.setLeft(95);

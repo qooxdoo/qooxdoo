@@ -11,9 +11,9 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Some tests for some of the most used properties of QxTerminator (coordinates, dimensions, backgroundColor, opacity, ...).</p>
-    <p>Also here are the first test of some widgets which extend QxTerminator: QxTextField and QxPasswordField. These extended
-    widgets also interacts like the basic QxTerminators with the QxFocusManager.</p>
+    <p>Some tests for some of the most used properties of qx.ui.basic.Terminator (coordinates, dimensions, backgroundColor, opacity, ...).</p>
+    <p>Also here are the first test of some widgets which extend qx.ui.basic.Terminator: qx.ui.form.TextField and qx.ui.form.PasswordField. These extended
+    widgets also interacts like the basic QxTerminators with the qx.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,7 +21,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var c1 = new QxTerminator;
+    var c1 = new qx.ui.basic.Terminator;
     d.add(c1);
 
     c1.setTabIndex(1);
@@ -41,7 +41,7 @@
     });
 
 
-    var c2 = new QxTerminator;
+    var c2 = new qx.ui.basic.Terminator;
     d.add(c2);
 
     c2.setTabIndex(2);
@@ -61,7 +61,7 @@
     });
 
 
-    var t1 = new QxTextField;
+    var t1 = new qx.ui.form.TextField;
     t1.setValue("textfield");
     t1.setTop(140);
     t1.setLeft(20);
@@ -71,7 +71,7 @@
 
 
 
-    var t2 = new QxPasswordField;
+    var t2 = new qx.ui.form.PasswordField;
     t2.setValue("passwordfield");
     t2.setTop(170);
     t2.setLeft(20);
@@ -80,7 +80,7 @@
     d.add(t2);
 
 
-    var t3 = new QxTextArea;
+    var t3 = new qx.ui.form.TextArea;
     t3.setValue("textarea");
     t3.setTop(200);
     t3.setLeft(20);
@@ -91,7 +91,7 @@
     d.add(t3);
 
 
-    var t4 = new QxTextField;
+    var t4 = new qx.ui.form.TextField;
     t4.setValue("textfield");
     t4.setTop(300);
     t4.setLeft(20);

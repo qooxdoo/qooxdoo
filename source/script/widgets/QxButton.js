@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.ui.form.Button = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   // ************************************************************************
   //   INIT
   // ************************************************************************
-  QxAtom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-  
+  qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+
   // Make focusable
   this.setTabIndex(1);
 
@@ -53,9 +53,9 @@ function QxButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
-QxButton.extend(QxAtom, "QxButton");
+qx.ui.form.Button.extend(qx.ui.basic.Atom, "qx.ui.form.Button");
 
-QxButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "button" });
+qx.ui.form.Button.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "button" });
 
 
 
@@ -74,7 +74,7 @@ proto._onmouseover = function(e)
     return;
   };
 
-  if (this.hasState(QxConst.STATE_ABANDONED)) 
+  if (this.hasState(QxConst.STATE_ABANDONED))
   {
     this.removeState(QxConst.STATE_ABANDONED);
     this.addState(QxConst.STATE_PRESSED);
@@ -126,7 +126,7 @@ proto._onmouseup = function(e)
   };
 
   this.removeState(QxConst.STATE_ABANDONED);
-  this.removeState(QxConst.STATE_PRESSED); 
+  this.removeState(QxConst.STATE_PRESSED);
 };
 
 proto._onkeydown = function(e)
@@ -193,5 +193,5 @@ proto.dispose = function()
   // ************************************************************************
   //   SUPER CLASS
   // ************************************************************************
-  return QxAtom.prototype.dispose.call(this);
+  return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

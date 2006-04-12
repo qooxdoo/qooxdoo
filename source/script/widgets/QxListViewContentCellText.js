@@ -28,12 +28,12 @@
 
 function QxListViewContentCellText(vText) 
 {
-  QxText.call(this, vText);
+  qx.ui.embed.TextEmbed.call(this, vText);
   
   this.setSelectable(false);
 };
 
-QxListViewContentCellText.extend(QxText, "QxListViewContentCellText");
+QxListViewContentCellText.extend(qx.ui.embed.TextEmbed, "QxListViewContentCellText");
 
 QxListViewContentCellText.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
 

@@ -27,9 +27,9 @@
 ************************************************************************ */
 
 /*!
-  Each instance manage vItems set of radio options: QxRadioButton, QxToolBarRadioButton, ...
+  Each instance manage vItems set of radio options: qx.ui.form.RadioButton, QxToolBarRadioButton, ...
 */
-function QxRadioManager(vName, vMembers)
+qx.manager.selection.RadioManager = function(vName, vMembers)
 {
   // we don't need the manager data structures
   qx.core.Target.call(this);
@@ -38,16 +38,16 @@ function QxRadioManager(vName, vMembers)
   this._items = [];
 
   // apply name property
-  this.setName(qx.util.validator.isValidString(vName) ? vName : QxRadioManager.AUTO_NAME_PREFIX + this._hashCode);
+  this.setName(qx.util.validator.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
   if (qx.util.validator.isValidArray(vMembers)) {
-    QxRadioManager.prototype.add.apply(this, vMembers);
+    qx.manager.selection.RadioManager.prototype.add.apply(this, vMembers);
   };
 };
 
-QxRadioManager.extend(QxManager, "QxRadioManager");
+qx.manager.selection.RadioManager.extend(qx.manager.object.ObjectManager, "qx.manager.selection.RadioManager");
 
-QxRadioManager.AUTO_NAME_PREFIX = "QxRadio-";
+qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "QxRadio-";
 
 
 
@@ -58,8 +58,8 @@ QxRadioManager.AUTO_NAME_PREFIX = "QxRadio-";
 ---------------------------------------------------------------------------
 */
 
-QxRadioManager.addProperty({ name : "selected" });
-QxRadioManager.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.manager.selection.RadioManager.addProperty({ name : "selected" });
+qx.manager.selection.RadioManager.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
 
 
 
@@ -107,7 +107,7 @@ proto.add = function()
 
   var vLast = vItems[vLength-1];
 
-  if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof QxTerminator)) {
+  if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof qx.ui.basic.Terminator)) {
     vLength--;
   };
 

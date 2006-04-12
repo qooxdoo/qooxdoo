@@ -28,7 +28,7 @@
 
 function QxCommonView(vBarClass, vPaneClass)
 {
-  QxBoxLayout.call(this);
+  qx.ui.layout.BoxLayout.call(this);
 
   this._bar = new vBarClass;
   this._pane = new vPaneClass;
@@ -37,7 +37,7 @@ function QxCommonView(vBarClass, vPaneClass)
   this.setOrientation(QxConst.ORIENTATION_VERTICAL);
 };
 
-QxCommonView.extend(QxBoxLayout, "QxCommonView");
+QxCommonView.extend(qx.ui.layout.BoxLayout, "QxCommonView");
 
 
 
@@ -86,5 +86,5 @@ proto.dispose = function()
     this._pane = null;
   };
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

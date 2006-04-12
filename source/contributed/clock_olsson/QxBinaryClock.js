@@ -28,14 +28,14 @@ function QxBinaryClock()
 {
   QxClock.call(this);
 
-  this._hour1I = new QxImage();
-  this._hour2I = new QxImage();
-  this._divisor1I = new QxImage();
-  this._minute1I = new QxImage();
-  this._minute2I = new QxImage();
-  this._divisor2I = new QxImage();
-  this._second1I = new QxImage();
-  this._second2I = new QxImage();
+  this._hour1I = new qx.ui.basic.Image();
+  this._hour2I = new qx.ui.basic.Image();
+  this._divisor1I = new qx.ui.basic.Image();
+  this._minute1I = new qx.ui.basic.Image();
+  this._minute2I = new qx.ui.basic.Image();
+  this._divisor2I = new qx.ui.basic.Image();
+  this._second1I = new qx.ui.basic.Image();
+  this._second2I = new qx.ui.basic.Image();
 
   this.add(this._hour1I, this._hour2I, this._divisor1I, this._minute1I, this._minute2I, this._divisor2I, this._second1I, this._second2I);
 };

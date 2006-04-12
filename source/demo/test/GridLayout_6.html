@@ -11,14 +11,14 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>A simple form using QxGridLayout</p>
+    <p>A simple form using qx.ui.layout.GridLayout</p>
     <p>Using padding instead of spacing. Spacing is between the cells, padding is inside the cells. The same layout using padding is always bigger because the first and last cells are also affected with the padding to the edge.</p>
   </div>
 
   <script type="text/javascript">
   window.application.main = function()
   {
-    var gl = new QxGridLayout;
+    var gl = new qx.ui.layout.GridLayout;
     
     gl.setLocation(20, 48);
     gl.setDimension("auto", "auto");
@@ -63,28 +63,28 @@
 
     this.add(gl);
     
-    var label1 = new QxLabel("Given Name");
-    var label2 = new QxLabel("Name");
-    var label3 = new QxLabel("City");
-    var label4 = new QxLabel("Country");
-    var label5 = new QxLabel("E-Mail");
-    var label6 = new QxLabel("Comment");
+    var label1 = new qx.ui.basic.Label("Given Name");
+    var label2 = new qx.ui.basic.Label("Name");
+    var label3 = new qx.ui.basic.Label("City");
+    var label4 = new qx.ui.basic.Label("Country");
+    var label5 = new qx.ui.basic.Label("E-Mail");
+    var label6 = new qx.ui.basic.Label("Comment");
     
     label6.setVerticalAlign("top");
     
-    var input1 = new QxTextField;
-    var input2 = new QxTextField;
-    var input3 = new QxComboBox;
-    var input4 = new QxTextField;
-    var input5 = new QxTextField;
-    var input6 = new QxTextArea;
-    var input7 = new QxButton("Submit", "icons/16/apply.png");
+    var input1 = new qx.ui.form.TextField;
+    var input2 = new qx.ui.form.TextField;
+    var input3 = new qx.ui.form.ComboBox;
+    var input4 = new qx.ui.form.TextField;
+    var input5 = new qx.ui.form.TextField;
+    var input6 = new qx.ui.form.TextArea;
+    var input7 = new qx.ui.form.Button("Submit", "icons/16/apply.png");
     
-    input3.add(new QxListItem("New York"));
-    input3.add(new QxListItem("Paris"));
-    input3.add(new QxListItem("Sydney"));
-    input3.add(new QxListItem("Berlin"));
-    input3.add(new QxListItem("Washington"));
+    input3.add(new qx.ui.form.ListItem("New York"));
+    input3.add(new qx.ui.form.ListItem("Paris"));
+    input3.add(new qx.ui.form.ListItem("Sydney"));
+    input3.add(new qx.ui.form.ListItem("Berlin"));
+    input3.add(new qx.ui.form.ListItem("Washington"));
     
     input7.setHorizontalAlign("right");
     

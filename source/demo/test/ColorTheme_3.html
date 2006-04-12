@@ -47,37 +47,37 @@
 
 
 
-    var w1 = new QxTerminator;
+    var w1 = new qx.ui.basic.Terminator;
     w1.setDimension(50, 50);
     w1.setLocation(20, 48);
     w1.setBorder(new qx.renderer.border.BorderObject(2, "outset"));
     d.add(w1);
 
-    var w2 = new QxTerminator;
+    var w2 = new qx.ui.basic.Terminator;
     w2.setDimension(50, 50);
     w2.setLocation(20, 108);
     w2.setBorder(new qx.renderer.border.BorderObject(2, "inset"));
     d.add(w2);
 
-    var w3 = new QxTerminator;
+    var w3 = new qx.ui.basic.Terminator;
     w3.setDimension(50, 50);
     w3.setLocation(20, 168);
     w3.setBorder(new qx.renderer.border.BorderObject(2, "ridge"));
     d.add(w3);
 
-    var w4 = new QxTerminator;
+    var w4 = new qx.ui.basic.Terminator;
     w4.setDimension(50, 50);
     w4.setLocation(20, 228);
     w4.setBorder(new qx.renderer.border.BorderObject(2, "groove"));
     d.add(w4);
 
-    var w5 = new QxTerminator;
+    var w5 = new qx.ui.basic.Terminator;
     w5.setDimension(50, 50);
     w5.setLocation(20, 288);
     w5.setBorder(new qx.renderer.border.BorderObject(1, "outset"));
     d.add(w5);
 
-    var w6 = new QxTerminator;
+    var w6 = new qx.ui.basic.Terminator;
     w6.setDimension(50, 50);
     w6.setLocation(20, 348);
     w6.setBorder(new qx.renderer.border.BorderObject(1, "inset"));
@@ -88,26 +88,26 @@
     var border1 = new qx.renderer.border.BorderObject(2, "outset");
     var border2 = new qx.renderer.border.BorderObject(1, "outset");
     
-    var w7 = new QxCanvasLayout;
+    var w7 = new qx.ui.layout.CanvasLayout;
     w7.setDimension(50, 50);
     w7.setLocation(20, 408);
     w7.setBorder(border1);
     d.add(w7);
     
-    var w7c = new QxTerminator;
+    var w7c = new qx.ui.basic.Terminator;
     w7c.setDimension("100%", "100%");
     w7c.setBackgroundColor(new qx.renderer.color.Color("red"));
     w7.add(w7c);    
 
 
 
-    var w8 = new QxCanvasLayout;
+    var w8 = new qx.ui.layout.CanvasLayout;
     w8.setDimension(50, 50);
     w8.setLocation(20, 468);
     w8.setBorder(border2);
     d.add(w8);
     
-    var w8c = new QxTerminator;
+    var w8c = new qx.ui.basic.Terminator;
     w8c.setDimension("100%", "100%");
     w8c.setBackgroundColor(new qx.renderer.color.Color("red"));
     w8.add(w8c);  
@@ -128,7 +128,7 @@
     
     
     
-    var w9 = new QxCanvasLayout;
+    var w9 = new qx.ui.layout.CanvasLayout;
     
     w9.setDimension(100, 100);
     w9.setLocation(400, 400);
@@ -137,7 +137,7 @@
     
     d.add(w9);
     
-    var w9c = new QxImage("icons/32/colors.png");
+    var w9c = new qx.ui.basic.Image("icons/32/colors.png");
     
     w9c.setTop(150);
     w9c.setLeft(300);

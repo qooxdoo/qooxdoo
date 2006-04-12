@@ -50,36 +50,36 @@ qx.dev.TimeTracker.compare = function(a, b) {
 
 proto.buttonSets = function()
 {
-  var btnLayout = new QxHorizontalBoxLayout;
+  var btnLayout = new qx.ui.layout.HorizontalBoxLayout;
 
   btnLayout.setLocation(20, 48);
   btnLayout.setSpacing(5);
 
-  var loopLabel = new QxAtom("Method Loops: ");
+  var loopLabel = new qx.ui.basic.Atom("Method Loops: ");
   loopLabel.setAllowStretchY(false);
   loopLabel.setVerticalAlign("middle");
 
-  var loopInput = new QxTextField("100");
+  var loopInput = new qx.ui.form.TextField("100");
   loopInput.setAllowStretchY(false);
   loopInput.setWidth(50);
   loopInput.setVerticalAlign("middle");
 
-  var repeatLabel = new QxAtom("Repeat Number: ");
+  var repeatLabel = new qx.ui.basic.Atom("Repeat Number: ");
   repeatLabel.setAllowStretchY(false);
   repeatLabel.setVerticalAlign("middle");
   repeatLabel.setMarginLeft(30);
 
-  var btnStart1 = new QxButton("Start 3x", "icons/16/button-ok.png");
-  var btnStart2 = new QxButton("Start 7x", "icons/16/button-ok.png");
-  var btnStart3 = new QxButton("Start 15x", "icons/16/button-ok.png");
-  var btnStart4 = new QxButton("Start 25x", "icons/16/button-ok.png");
+  var btnStart1 = new qx.ui.form.Button("Start 3x", "icons/16/button-ok.png");
+  var btnStart2 = new qx.ui.form.Button("Start 7x", "icons/16/button-ok.png");
+  var btnStart3 = new qx.ui.form.Button("Start 15x", "icons/16/button-ok.png");
+  var btnStart4 = new qx.ui.form.Button("Start 25x", "icons/16/button-ok.png");
 
   btnStart1.addEventListener("execute", function() { this.start(3, parseInt(loopInput.getValue())); }, this);
   btnStart2.addEventListener("execute", function() { this.start(7, parseInt(loopInput.getValue())); }, this);
   btnStart3.addEventListener("execute", function() { this.start(15, parseInt(loopInput.getValue())); }, this);
   btnStart4.addEventListener("execute", function() { this.start(25, parseInt(loopInput.getValue())); }, this);
 
-  var htmlOutput = this._output = new QxHtml();
+  var htmlOutput = this._output = new qx.ui.embed.HtmlEmbed();
 
   htmlOutput.setHtml("");
   htmlOutput.setLocation(20, 78);

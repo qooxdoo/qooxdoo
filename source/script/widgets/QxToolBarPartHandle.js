@@ -28,14 +28,14 @@
 
 function QxToolBarPartHandle()
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
   
-  var l = new QxTerminator;
+  var l = new qx.ui.basic.Terminator;
   l.setAppearance("toolbar-part-handle-line");
   this.add(l);
 };
 
-QxToolBarPartHandle.extend(QxCanvasLayout, "QxToolBarPartHandle");
+QxToolBarPartHandle.extend(qx.ui.layout.CanvasLayout, "QxToolBarPartHandle");
 
 QxToolBarPartHandle.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part-handle" });
 // QxToolBarPartHandle.changePropertyDefaultValue("appearance", "toolbar-part-handle");

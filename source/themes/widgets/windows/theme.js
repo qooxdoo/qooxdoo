@@ -24,7 +24,7 @@
 
 #package(iconthemes)
 #require(qx.renderer.theme.WidgetTheme)
-#require(QxImageManager)
+#require(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

@@ -12,7 +12,7 @@
 
   <div id="demoDescription">
     <p>Test for the QxPopup widget. QxPopups are planned as the source constructor for tooltips, menus, ...</p>
-    <p>There is also a QxPopupManager which hides all registered QxPopup instances which are configured to auto hide.
+    <p>There is also a qx.manager.object.PopupManager which hides all registered QxPopup instances which are configured to auto hide.
     This is a nice method to omit to show more than one QxPopup together (omit multiple QxTooltips, ...).</p>
   </div>
 
@@ -22,7 +22,7 @@
     var d = this.getClientWindow().getClientDocument();
 
 
-    var w1 = new QxButton("Press");
+    var w1 = new qx.ui.form.Button("Press");
     with(w1)
     {
       setTop(48);
@@ -36,7 +36,7 @@
     d.add(w1);
 
 
-    var w2 = new QxButton("Press");
+    var w2 = new qx.ui.form.Button("Press");
     with(w2)
     {
       setTop(48);
@@ -59,7 +59,7 @@
     var p1 = new QxPopup;
     d.add(p1);
 
-    var a1 = new QxAtom("Hello World #1", "icons/16/paint.png");
+    var a1 = new qx.ui.basic.Atom("Hello World #1", "icons/16/paint.png");
     p1.add(a1);
 
     with(p1)
@@ -82,7 +82,7 @@
     var p2 = new QxPopup;
     d.add(p2);
 
-    var a2 = new QxAtom("Hello World #2", "icons/32/clock.png");
+    var a2 = new qx.ui.basic.Atom("Hello World #2", "icons/32/clock.png");
     p2.add(a2);
 
     with(p2)

@@ -24,24 +24,24 @@
 
 #package(gallery)
 #require(QxDomScrollIntoView)
-#require(QxDomSelectionManager)
+#require(qx.manager.selection.DomSelectionManager)
 
 ************************************************************************ */
 
-function QxGalleryList(galleryList)
+qx.ui.embed.GalleryListEmbed = function(galleryList)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
-  this._blank = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+  this._blank = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
   this._list = galleryList;
   this._listSize = galleryList.length;
   this._processedImages = 0;
 
   this.setOverflow("auto");
 
-  this.setHtmlProperty("className", "QxGalleryList");
+  this.setHtmlProperty("className", "qx.ui.embed.GalleryListEmbed");
 
-  this._manager = new QxDomSelectionManager(this);
+  this._manager = new qx.manager.selection.DomSelectionManager(this);
 
   this.addEventListener("mousedown", this._onmousedown);
   this.addEventListener("mouseup", this._onmouseup);
@@ -50,11 +50,11 @@ function QxGalleryList(galleryList)
   this.addEventListener("keydown", this._onkeydown);
 };
 
-QxGalleryList.extend(QxTerminator, "QxGalleryList");
+qx.ui.embed.GalleryListEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryListEmbed");
 
-QxGalleryList.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
-QxGalleryList.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
-QxGalleryList.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
 
 
 
@@ -266,8 +266,8 @@ proto._mshtml = qx.sys.Client.isMshtml();
 proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete")) {
-    inode.onload = QxGalleryList.imageOnLoad;
-    inode.onerror = QxGalleryList.imageOnError;
+    inode.onload = qx.ui.embed.GalleryListEmbed.imageOnLoad;
+    inode.onerror = qx.ui.embed.GalleryListEmbed.imageOnError;
     inode.gallery = this;
   };
 
@@ -352,7 +352,7 @@ proto.imageOnComplete = function()
   };
 };
 
-QxGalleryList.imageOnLoad = function()
+qx.ui.embed.GalleryListEmbed.imageOnLoad = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;
@@ -360,7 +360,7 @@ QxGalleryList.imageOnLoad = function()
   this.onerror = null;
 };
 
-QxGalleryList.imageOnError = function()
+qx.ui.embed.GalleryListEmbed.imageOnError = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;
@@ -401,5 +401,5 @@ proto.dispose = function()
   this.removeEventListener("dblclick", this._ondblclick);
   this.removeEventListener("keydown", this._onkeydown);
 
-  return QxTerminator.prototype.dispose.call(this);
+  return qx.ui.basic.Terminator.prototype.dispose.call(this);
 };

@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(toolbar)
-#require(QxRadioManager)
+#require(qx.manager.selection.RadioManager)
 
 ************************************************************************ */
 
@@ -43,9 +43,9 @@ QxToolBarRadioButton.extend(QxToolBarCheckBox, "QxToolBarRadioButton");
 */
 
 /*!
-  The assigned QxRadioManager which handles the switching between registered buttons
+  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-QxToolBarRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxRadioManager", allowNull : true });
+QxToolBarRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)

@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    Some advanced tests for QxImage. Click on the fourth and fivth image to test the reflow possibilities.
+    Some advanced tests for qx.ui.basic.Image. Click on the fourth and fivth image to test the reflow possibilities.
     The debug log gives you information of the preferred dimensions.
   </div>
 
@@ -20,7 +20,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var frame = new QxCanvasLayout;
+    var frame = new qx.ui.layout.CanvasLayout;
     
     frame.setBorder(qx.renderer.border.BorderObject.presets.ridge);
     frame.setWidth("auto");
@@ -33,7 +33,7 @@
     d.add(frame);
 
 
-    var out = new QxCanvasLayout;
+    var out = new qx.ui.layout.CanvasLayout;
     
     out.setBorder(qx.renderer.border.BorderObject.presets.inset);
     out.setWidth("auto");
@@ -44,7 +44,7 @@
 
 
 
-    var bar = new QxCanvasLayout;
+    var bar = new qx.ui.layout.CanvasLayout;
     
     bar.setBorder(qx.renderer.border.BorderObject.presets.outset);
     bar.setWidth("auto");
@@ -64,7 +64,7 @@
     
     for (var j=0; j<5; j++)
     {    
-      part = new QxCanvasLayout;
+      part = new qx.ui.layout.CanvasLayout;
     
       part.setWidth("auto");
       part.setHeight("auto");
@@ -76,7 +76,7 @@
 
       for (var i=0; i<icons.length; i++)
       {
-        icon = new QxImage("icons/22/" + icons[i] + ".png");
+        icon = new qx.ui.basic.Image("icons/22/" + icons[i] + ".png");
         
         icon.setTop(0);
         icon.setLeft(26 * i); 

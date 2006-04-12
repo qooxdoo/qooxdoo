@@ -25,14 +25,14 @@
 #package(listview)
 #require(QxCompare)
 #require(QxUtil)
-#post(QxHorizontalSpacer)
-#post(QxImage)
+#post(qx.ui.basic.HorizontalSpacer)
+#post(qx.ui.basic.Image)
 
 ************************************************************************ */
 
 function QxListViewHeaderCell(vConfig, vId)
 {
-  QxAtom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
+  qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
 
   // ************************************************************************
@@ -63,13 +63,13 @@ function QxListViewHeaderCell(vConfig, vId)
   // Re-Enable flex support
   this.getLayoutImpl().setEnableFlexSupport(true);
 
-  this._spacer = new QxHorizontalSpacer;
+  this._spacer = new qx.ui.basic.HorizontalSpacer;
 
-  this._arrowup = new QxImage("widgets/arrows/up.gif");
+  this._arrowup = new qx.ui.basic.Image("widgets/arrows/up.gif");
   this._arrowup.setVerticalAlign("middle");
   this._arrowup.setDisplay(false);
 
-  this._arrowdown = new QxImage("widgets/arrows/down.gif");
+  this._arrowdown = new qx.ui.basic.Image("widgets/arrows/down.gif");
   this._arrowdown.setVerticalAlign("middle");
   this._arrowdown.setDisplay(false);
 
@@ -85,7 +85,7 @@ function QxListViewHeaderCell(vConfig, vId)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 };
 
-QxListViewHeaderCell.extend(QxAtom, "QxListViewHeaderCell");
+QxListViewHeaderCell.extend(qx.ui.basic.Atom, "QxListViewHeaderCell");
 
 QxListViewHeaderCell.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
 QxListViewHeaderCell.addProperty({ name : "sortOrder", type : QxConst.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
@@ -256,5 +256,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 
-  return QxAtom.prototype.dispose.call(this);
+  return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

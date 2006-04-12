@@ -23,14 +23,14 @@
 /* ************************************************************************
 
 #package(form)
-#require(QxAtom)
+#require(qx.ui.basic.Atom)
 #appearance(fieldset)
 
 ************************************************************************ */
 
 function QxFieldSet(vLegend, vIcon)
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
 
   // ************************************************************************
@@ -56,7 +56,7 @@ function QxFieldSet(vLegend, vIcon)
   this.remapChildrenHandlingTo(this._frameObject);
 };
 
-QxFieldSet.extend(QxCanvasLayout, "QxFieldSet");
+QxFieldSet.extend(qx.ui.layout.CanvasLayout, "QxFieldSet");
 
 QxFieldSet.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "field-set" });
 
@@ -71,7 +71,7 @@ QxFieldSet.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, d
 
 proto._createLegendObject = function()
 {
-  this._legendObject = new QxAtom;
+  this._legendObject = new qx.ui.basic.Atom;
   this._legendObject.setAppearance("field-set-legend");
   
   this.add(this._legendObject);
@@ -79,7 +79,7 @@ proto._createLegendObject = function()
 
 proto._createFrameObject = function()
 {
-  this._frameObject = new QxCanvasLayout;
+  this._frameObject = new qx.ui.layout.CanvasLayout;
   this._frameObject.setAppearance("field-set-frame");
 
   this.add(this._frameObject);
@@ -159,5 +159,5 @@ proto.dispose = function()
     this._frameObject = null;
   };
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

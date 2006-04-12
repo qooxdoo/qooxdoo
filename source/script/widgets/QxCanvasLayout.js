@@ -23,15 +23,15 @@
 /* ************************************************************************
 
 #package(layoutcore)
-#require(QxCanvasLayoutImpl)
+#require(qx.renderer.layout.CanvasLayoutImpl)
 
 ************************************************************************ */
 
-function QxCanvasLayout() {
+qx.ui.layout.CanvasLayout = function() {
   qx.ui.core.Parent.call(this);
 };
 
-QxCanvasLayout.extend(qx.ui.core.Parent, "QxCanvasLayout");
+qx.ui.layout.CanvasLayout.extend(qx.ui.core.Parent, "qx.ui.layout.CanvasLayout");
 
 
 
@@ -46,5 +46,5 @@ QxCanvasLayout.extend(qx.ui.core.Parent, "QxCanvasLayout");
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxCanvasLayoutImpl(this);
+  return new qx.renderer.layout.CanvasLayoutImpl(this);
 };

@@ -17,14 +17,14 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-    var f1 = new QxCanvasLayout;
+    var f1 = new qx.ui.layout.CanvasLayout;
    
-    var a1 = new QxAtom("Hello World");
+    var a1 = new qx.ui.basic.Atom("Hello World");
     
-    var b1 = new QxButton("Serif, 16px");
-    var b2 = new QxButton("Serif, 24px");
-    var b3 = new QxButton("Sans Serif, 16px");
-    var b4 = new QxButton("Sans Serif, 24px");
+    var b1 = new qx.ui.form.Button("Serif, 16px");
+    var b2 = new qx.ui.form.Button("Serif, 24px");
+    var b3 = new qx.ui.form.Button("Sans Serif, 16px");
+    var b4 = new qx.ui.form.Button("Sans Serif, 24px");
     
     b1.addEventListener("execute", function() {
       a1.getLabelObject().setFont("16px serif");

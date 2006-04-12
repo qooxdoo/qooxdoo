@@ -34,7 +34,7 @@ QxCheckBoxFieldSet.extend(QxFieldSet, "QxCheckBoxFieldSet");
 
 proto._createLegendObject = function()
 {
-  this._legendObject = new QxCheckBox;
+  this._legendObject = new qx.ui.form.CheckBox;
   this._legendObject.setAppearance("check-box-field-set-legend");
   this._legendObject.setChecked(true);
   

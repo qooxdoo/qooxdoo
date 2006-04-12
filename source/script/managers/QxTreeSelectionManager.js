@@ -26,21 +26,21 @@
 
 ************************************************************************ */
 
-function QxTreeSelectionManager(vBoundedWidget) {
-  QxSelectionManager.call(this, vBoundedWidget);
+qx.manager.selection.TreeSelectionManager = function(vBoundedWidget) {
+  qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 };
 
-QxTreeSelectionManager.extend(QxSelectionManager, "QxTreeSelectionManager");
+qx.manager.selection.TreeSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.TreeSelectionManager");
 
 /*!
 Should multiple selection be allowed?
 */
-QxTreeSelectionManager.changeProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.manager.selection.TreeSelectionManager.changeProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
 Enable drag selection?
 */
-QxTreeSelectionManager.changeProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

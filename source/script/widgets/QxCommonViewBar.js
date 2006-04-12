@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#post(QxRadioManager)
+#post(qx.manager.selection.RadioManager)
 
 #package(viewcommon)
 
@@ -30,14 +30,14 @@
 
 function QxCommonViewBar()
 {
-  QxBoxLayout.call(this);
+  qx.ui.layout.BoxLayout.call(this);
 
-  this._manager = new QxRadioManager;
+  this._manager = new qx.manager.selection.RadioManager;
 
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 };
 
-QxCommonViewBar.extend(QxBoxLayout, "QxCommonViewBar");
+QxCommonViewBar.extend(qx.ui.layout.BoxLayout, "QxCommonViewBar");
 
 
 
@@ -133,5 +133,5 @@ proto.dispose = function()
 
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

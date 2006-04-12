@@ -23,10 +23,10 @@
 /* ************************************************************************
 
 #package(tree)
-#post(QxHtml)
-#post(QxImage)
-#post(QxLabel)
-#post(QxImageManager)
+#post(qx.ui.embed.HtmlEmbed)
+#post(qx.ui.basic.Image)
+#post(qx.ui.basic.Label)
+#post(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
@@ -37,9 +37,9 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   };
 
   // Precreate subwidgets
-  this._indentObject = new QxHtml;
-  this._iconObject = new QxImage;
-  this._labelObject = new QxLabel;
+  this._indentObject = new qx.ui.embed.HtmlEmbed;
+  this._iconObject = new qx.ui.basic.Image;
+  this._labelObject = new qx.ui.basic.Label;
 
   // Make anonymous
   this._indentObject.setAnonymous(true);
@@ -50,7 +50,7 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   this._labelObject.setSelectable(false);
   this._labelObject.setStyleProperty(QxConst.PROPERTY_LINEHEIGHT, QxConst.CORE_HUNDREDPERCENT);
 
-  QxBoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
+  qx.ui.layout.BoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
 
   if (qx.util.validator.isValid(vLabel)) {
     this.setLabel(vLabel);
@@ -60,7 +60,7 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   this.setSelectable(false);
 
   // Base URL used for indent images
-  this.BASE_URI = QxImageManager.buildUri("widgets/tree/");
+  this.BASE_URI = qx.manager.object.ImageManager.buildUri("widgets/tree/");
 
   // Adding subwidgets
   this.add(this._indentObject, this._iconObject, this._labelObject);
@@ -84,7 +84,7 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
 };
 
-QxTreeElement.extend(QxBoxLayout, "QxTreeElement");
+QxTreeElement.extend(qx.ui.layout.BoxLayout, "QxTreeElement");
 
 QxTreeElement.OMIT_CLASS = "QxTreeElement";
 
@@ -106,7 +106,7 @@ QxTreeElement.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
 QxTreeElement.addProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
 
 /*!
-  The label/caption/text of the QxAtom instance
+  The label/caption/text of the qx.ui.basic.Atom instance
 */
 QxTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
 
@@ -234,14 +234,14 @@ proto.addToCustomQueues = function(vHint)
 {
   this.addToTreeQueue();
 
-  QxBoxLayout.prototype.addToCustomQueues.call(this, vHint);
+  qx.ui.layout.BoxLayout.prototype.addToCustomQueues.call(this, vHint);
 };
 
 proto.removeFromCustomQueues = function(vHint)
 {
   this.removeFromTreeQueue();
 
-  QxBoxLayout.prototype.removeFromCustomQueues.call(this, vHint);
+  qx.ui.layout.BoxLayout.prototype.removeFromCustomQueues.call(this, vHint);
 };
 
 
@@ -259,7 +259,7 @@ proto.removeFromCustomQueues = function(vHint)
 
 proto._modifyParent = function(propValue, propOldValue, propData)
 {
-  QxBoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
+  qx.ui.layout.BoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 
   // Be sure to update previous folder also if it is closed currently (plus/minus symbol)
   if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
@@ -276,7 +276,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
 
 proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
-  QxBoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
+  qx.ui.layout.BoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
 
   if (vHint)
   {
@@ -430,5 +430,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

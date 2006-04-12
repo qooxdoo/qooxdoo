@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    Simple Test for QxDockLayout.
+    Simple Test for qx.ui.layout.DockLayout.
   </div>
 
   <script type="text/javascript">
@@ -19,7 +19,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var dl1 = new QxDockLayout;
+    var dl1 = new qx.ui.layout.DockLayout;
     
     dl1.setTop(48);
     dl1.setLeft(20);
@@ -33,17 +33,17 @@
     
     
     
-    var t1 = new QxTerminator;
+    var t1 = new qx.ui.basic.Terminator;
     t1.setHeight(50);
     t1.setBackgroundColor("red");
     dl1.addTop(t1);
 
-    var t2 = new QxTerminator;
+    var t2 = new qx.ui.basic.Terminator;
     t2.setWidth(150);
     t2.setBackgroundColor("yellow");
     dl1.addLeft(t2);
     
-    var t3 = new QxTerminator;
+    var t3 = new qx.ui.basic.Terminator;
     t3.setBackgroundColor("blue");
     dl1.add(t3);
   };

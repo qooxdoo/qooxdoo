@@ -24,24 +24,24 @@
 
 #package(gallery)
 #require(QxDomScrollIntoView)
-#require(QxDomSelectionManager)
+#require(qx.manager.selection.DomSelectionManager)
 
 ************************************************************************ */
 
-function QxGallery(vGalleryList)
+qx.ui.embed.GalleryEmbed = function(vGalleryList)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
-  this._blank = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+  this._blank = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
   this._list = vGalleryList;
   this._listSize = vGalleryList.length;
   this._processedImages = 0;
 
   this.setOverflow("auto");
 
-  this.setHtmlProperty("className", "QxGallery");
+  this.setHtmlProperty("className", "qx.ui.embed.GalleryEmbed");
 
-  this._manager = new QxDomSelectionManager(this);
+  this._manager = new qx.manager.selection.DomSelectionManager(this);
 
   this._manager.setMultiColumnSupport(true);
 
@@ -55,7 +55,7 @@ function QxGallery(vGalleryList)
   this.addEventListener("keydown", this._onkeydown);
 };
 
-QxGallery.extend(QxTerminator, "QxGallery");
+qx.ui.embed.GalleryEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryEmbed");
 
 
 
@@ -67,11 +67,11 @@ QxGallery.extend(QxTerminator, "QxGallery");
 ---------------------------------------------------------------------------
 */
 
-QxGallery.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-QxGallery.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-QxGallery.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
-QxGallery.addProperty({ name : "showTitle", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-QxGallery.addProperty({ name : "showComment", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "showTitle", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "showComment", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -265,7 +265,7 @@ proto._onmouseup = function(e)
 
 proto._onmousemove = function(e)
 {
-  if (typeof QxToolTipManager !== QxConst.TYPEOF_OBJECT) {
+  if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_OBJECT) {
     return;
   };
 
@@ -278,7 +278,7 @@ proto._onmousemove = function(e)
   if (this._lastItem)
   {
     var vEventObject = new qx.event.types.MouseEvent("mouseout", e, false, this._lastItem);
-    QxToolTipManager.handleMouseOut(vEventObject);
+    qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
     vEventObject.dispose();
   };
 
@@ -293,7 +293,7 @@ proto._onmousemove = function(e)
     };
 
     var vEventObject = new qx.event.types.MouseEvent("mouseout", e, false, vItem);
-    QxToolTipManager.handleMouseOver(vEventObject);
+    qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
     vEventObject.dispose();
 
     this.setToolTip(null);
@@ -444,8 +444,8 @@ proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete"))
   {
-    inode.onload = QxGallery.imageOnLoad;
-    inode.onerror = QxGallery.imageOnError;
+    inode.onload = qx.ui.embed.GalleryEmbed.imageOnLoad;
+    inode.onerror = qx.ui.embed.GalleryEmbed.imageOnError;
     inode.gallery = this;
   };
 
@@ -470,7 +470,7 @@ proto.imageOnComplete = function()
   };
 };
 
-QxGallery.imageOnLoad = function()
+qx.ui.embed.GalleryEmbed.imageOnLoad = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;
@@ -478,7 +478,7 @@ QxGallery.imageOnLoad = function()
   this.onerror = null;
 };
 
-QxGallery.imageOnError = function()
+qx.ui.embed.GalleryEmbed.imageOnError = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;
@@ -556,5 +556,5 @@ proto.dispose = function()
 
   this.removeEventListener("keydown", this._onkeydown);
 
-  return QxTerminator.prototype.dispose.call(this);
+  return qx.ui.basic.Terminator.prototype.dispose.call(this);
 };

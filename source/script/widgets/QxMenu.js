@@ -132,10 +132,10 @@ proto.getLayout = function() {
 
 proto._beforeAppear = function()
 {
-  QxCanvasLayout.prototype._beforeAppear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
   // register to menu manager as active widget
-  QxMenuManager.add(this);
+  qx.manager.object.MenuManager.add(this);
 
   // zIndex handling
   this.bringToFront();
@@ -146,10 +146,10 @@ proto._beforeAppear = function()
 
 proto._beforeDisappear = function()
 {
-  QxCanvasLayout.prototype._beforeDisappear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-  // deregister as opened from QxMenuManager
-  QxMenuManager.remove(this);
+  // deregister as opened from qx.manager.object.MenuManager
+  qx.manager.object.MenuManager.remove(this);
 
   // reset global active widget
   this._makeInactive();
@@ -833,7 +833,7 @@ proto._onkeydown_enter = function(e)
     vHover.execute();
   };
 
-  QxMenuManager.update();
+  qx.manager.object.MenuManager.update();
 };
 
 

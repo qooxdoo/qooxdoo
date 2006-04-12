@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Dialog with QxTextField and QxTextArea</p>
+    <p>Dialog with qx.ui.form.TextField and qx.ui.form.TextArea</p>
     <p>Testing minimize handling.</p>
   </div>
 
@@ -29,7 +29,7 @@
 
         setShowClose(false);
 
-        var qx = new QxAtom('Question');
+        var qx = new qx.ui.basic.Atom('Question');
         with(qx)
         {
           setHorizontalChildrenAlign('right');
@@ -37,13 +37,13 @@
         };
         add(qx);
 
-        qx = txtfld = new QxTextArea();
+        qx = txtfld = new qx.ui.form.TextArea();
         with (qx) {
           set({top:10,right:10,width:'70%'})
         }
         add(qx);
 
-        qx = new QxAtom('Type');
+        qx = new qx.ui.basic.Atom('Type');
         with(qx)
         {
           setHorizontalChildrenAlign('right');
@@ -51,16 +51,16 @@
         };
         add(qx);
 
-        qx = new QxTextField();
+        qx = new qx.ui.form.TextField();
         with (qx) {
           set({top:70,right:10,width:'70%'})
         }
         add(qx);
 
 
-        var btnOK = new QxButton("OK", "icons/16/button-ok.png");
-        var btnCancel = new QxButton("Cancel", "icons/16/button-cancel.png");
-        var btnSetText = new QxButton("Reload", "icons/16/reload.png");
+        var btnOK = new qx.ui.form.Button("OK", "icons/16/button-ok.png");
+        var btnCancel = new qx.ui.form.Button("Cancel", "icons/16/button-cancel.png");
+        var btnSetText = new qx.ui.form.Button("Reload", "icons/16/reload.png");
 
         btnOK.set({ bottom : 10, right : 10 });
         btnCancel.set({ bottom : 10, left : 10 });
@@ -82,13 +82,13 @@
       }
 
 
-      var btnOpen = new QxButton("Open the dialog");
+      var btnOpen = new qx.ui.form.Button("Open the dialog");
       btnOpen.set({ top : 50, left : 20 });
       btnOpen.addEventListener("click", function(e) {
         dialogEditFrage.open();
       });
 
-      var btnRestore = new QxButton("Restore the dialog");
+      var btnRestore = new qx.ui.form.Button("Restore the dialog");
       btnRestore.set({ top : 80, left : 20 });
       btnRestore.addEventListener("click", function(e) {
         dialogEditFrage.restore();

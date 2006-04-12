@@ -23,13 +23,13 @@
 /* ************************************************************************
 
 #package(form)
-#require(QxInputCheckIcon)
+#require(qx.ui.form.InputCheckSymbol)
 
 ************************************************************************ */
 
-function QxCheckBox(vText, vValue, vName, vChecked)
+qx.ui.form.CheckBox = function(vText, vValue, vName, vChecked)
 {
-  QxAtom.call(this, vText);
+  qx.ui.basic.Atom.call(this, vText);
 
   this.setTabIndex(1);
   this.setPadding(2, 3);
@@ -53,7 +53,7 @@ function QxCheckBox(vText, vValue, vName, vChecked)
   this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
-QxCheckBox.extend(QxAtom, "QxCheckBox");
+qx.ui.form.CheckBox.extend(qx.ui.basic.Atom, "qx.ui.form.CheckBox");
 
 /*
 ---------------------------------------------------------------------------
@@ -61,22 +61,22 @@ QxCheckBox.extend(QxAtom, "QxCheckBox");
 ---------------------------------------------------------------------------
 */
 
-QxCheckBox.removeProperty({ name : "icon" });
+qx.ui.form.CheckBox.removeProperty({ name : "icon" });
 
 /*!
   The HTML name of the form element used by the widget
 */
-QxCheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.form.CheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
 
 /*!
   The HTML value of the form element used by the widget
 */
-QxCheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
+qx.ui.form.CheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
 
 /*!
   If the widget is checked
 */
-QxCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.ui.form.CheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 
@@ -92,7 +92,7 @@ proto.INPUT_TYPE = "checkbox";
 
 proto._createIcon = function()
 {
-  var i = this._iconObject = new QxInputCheckIcon;
+  var i = this._iconObject = new qx.ui.form.InputCheckSymbol;
 
   i.setType(this.INPUT_TYPE);
   i.setChecked(this.isChecked());
@@ -135,8 +135,8 @@ proto._handleIcon = function()
 {
   switch(this.getShow())
   {
-    case QxAtom.SHOW_ICON:
-    case QxAtom.SHOW_BOTH:
+    case qx.ui.basic.Atom.SHOW_ICON:
+    case qx.ui.basic.Atom.SHOW_BOTH:
       this._iconIsVisible = true;
       break;
 
@@ -201,5 +201,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
   this.removeEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 
-  return QxAtom.prototype.dispose.call(this);
+  return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

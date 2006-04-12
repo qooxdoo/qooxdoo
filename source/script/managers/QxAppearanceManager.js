@@ -28,19 +28,19 @@
 
 ************************************************************************ */
 
-function QxAppearanceManager()
+qx.manager.object.AppearanceManager = function()
 {
-  QxManager.call(this);
+  qx.manager.object.ObjectManager.call(this);
 
   this._themes = {};
 };
 
-QxAppearanceManager.extend(QxManager, "QxAppearanceManager");
+qx.manager.object.AppearanceManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.AppearanceManager");
 
 
 
 
-QxAppearanceManager.addProperty({ name : "appearanceTheme", type : QxConst.TYPEOF_STRING, defaultValue : "default" });
+qx.manager.object.AppearanceManager.addProperty({ name : "appearanceTheme", type : QxConst.TYPEOF_STRING, defaultValue : "default" });
 
 
 
@@ -107,7 +107,7 @@ proto.dispose = function()
     this._themes = null;
   };
 
-  return QxManager.prototype.dispose.call(this);
+  return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 };
 
 
@@ -122,4 +122,4 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxAppearanceManager = new QxAppearanceManager;
+qx.manager.object.AppearanceManager = new qx.manager.object.AppearanceManager;

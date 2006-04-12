@@ -29,11 +29,11 @@
 /*!
   This singleton is used to manager multiple instances of popups and their state.
 */
-function QxPopupManager() {
-  QxManager.call(this);
+qx.manager.object.PopupManager = function() {
+  qx.manager.object.ObjectManager.call(this);
 };
 
-QxPopupManager.extend(QxManager, "QxPopupManager");
+qx.manager.object.PopupManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.PopupManager");
 
 
 
@@ -76,4 +76,4 @@ proto.update = function(vTarget)
 ---------------------------------------------------------------------------
 */
 
-QxPopupManager = new QxPopupManager;
+qx.manager.object.PopupManager = new qx.manager.object.PopupManager;

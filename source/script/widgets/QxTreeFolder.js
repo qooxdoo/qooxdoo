@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(tree)
-#post(QxHorizontalBoxLayout)
-#post(QxVerticalBoxLayout)
+#post(qx.ui.layout.HorizontalBoxLayout)
+#post(qx.ui.layout.VerticalBoxLayout)
 
 ************************************************************************ */
 
@@ -131,7 +131,7 @@ proto._createChildrenStructure = function()
   {
     this.setOrientation(QxConst.ORIENTATION_VERTICAL);
 
-    this._horizontalLayout = new QxHorizontalBoxLayout;
+    this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
@@ -144,7 +144,7 @@ proto._createChildrenStructure = function()
 
   if (!this._containerObject)
   {
-    this._containerObject = new QxVerticalBoxLayout;
+    this._containerObject = new qx.ui.layout.VerticalBoxLayout;
     this._containerObject.setWidth(null);
     this._containerObject.setAnonymous(true);
 

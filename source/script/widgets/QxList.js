@@ -24,20 +24,20 @@
 
 #package(list)
 
-#post(QxSelectionManager)
+#post(qx.manager.selection.SelectionManager)
 #post(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 
-function QxList()
+qx.ui.form.List = function()
 {
-  QxVerticalBoxLayout.call(this);
+  qx.ui.layout.VerticalBoxLayout.call(this);
 
 
   // ************************************************************************
   //   INITILISIZE MANAGER
   // ************************************************************************
-  this._manager = new QxSelectionManager(this);
+  this._manager = new qx.manager.selection.SelectionManager(this);
 
 
   // ************************************************************************
@@ -64,12 +64,12 @@ function QxList()
   this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
 };
 
-QxList.extend(QxVerticalBoxLayout, "QxList");
+qx.ui.form.List.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.form.List");
 
-QxList.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list" });
+qx.ui.form.List.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list" });
 
-QxList.addProperty({ name : "enableInlineFind", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-QxList.addProperty({ name : "markLeadingItem", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.form.List.addProperty({ name : "enableInlineFind", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.form.List.addProperty({ name : "markLeadingItem", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 proto._pressedString = QxConst.CORE_EMPTY;
 
@@ -389,5 +389,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
   this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
 
-  return QxVerticalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

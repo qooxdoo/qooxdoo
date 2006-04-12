@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(qx.event.types.DomEventRegistration)
-#post(QxPopupManager)
-#post(QxToolTipManager)
-#post(QxMenuManager)
-#post(QxDragAndDropManager)
+#post(qx.dom.DomEventRegistration)
+#post(qx.manager.object.PopupManager)
+#post(qx.manager.object.ToolTipManager)
+#post(qx.manager.object.MenuManager)
+#post(qx.event.handler.DragAndDropHandler)
 #post(qx.event.types.MouseEvent)
 #post(qx.event.types.KeyEvent)
 
@@ -38,7 +38,7 @@
 */
 qx.event.handler.EventHandler = function(vClientWindow)
 {
-  // Don't use QxManager things, but include qx.core.Target functinality
+  // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
 
   // Object Wrapper to Events (Needed for DOM-Events)
@@ -62,7 +62,7 @@ qx.event.handler.EventHandler = function(vClientWindow)
   this._commands = {};
 };
 
-qx.event.handler.EventHandler.extend(QxManager, "qx.event.handler.EventHandler");
+qx.event.handler.EventHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.EventHandler");
 
 qx.event.handler.EventHandler.mouseEventTypes = [ QxConst.EVENT_TYPE_MOUSEOVER, QxConst.EVENT_TYPE_MOUSEMOVE, QxConst.EVENT_TYPE_MOUSEOUT, QxConst.EVENT_TYPE_MOUSEDOWN, QxConst.EVENT_TYPE_MOUSEUP, QxConst.EVENT_TYPE_CLICK, QxConst.EVENT_TYPE_DBLCLICK, QxConst.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
 qx.event.handler.EventHandler.keyEventTypes = [ QxConst.EVENT_TYPE_KEYDOWN, QxConst.EVENT_TYPE_KEYPRESS, QxConst.EVENT_TYPE_KEYUP ];
@@ -468,8 +468,8 @@ proto._onkeyevent = function(vDomEvent)
   {
     case qx.event.types.KeyEvent.keys.esc:
     case qx.event.types.KeyEvent.keys.tab:
-      if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
-        QxMenuManager.update();
+      if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+        qx.manager.object.MenuManager.update();
       };
 
       break;
@@ -529,9 +529,9 @@ proto._onkeyevent = function(vDomEvent)
   // This handles the real event action
   vTarget.dispatchEvent(vKeyEventObject);
 
-  // Send event to QxDragAndDropManager
-  if (typeof QxDragAndDropManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxDragAndDropManager.handleKeyEvent(vKeyEventObject);
+  // Send event to qx.event.handler.DragAndDropHandler
+  if (typeof qx.event.handler.DragAndDropHandler !== QxConst.TYPEOF_UNDEFINED) {
+    qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
   };
 
   // Cleanup Event Object
@@ -723,7 +723,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
         break;
 
       case QxConst.EVENT_TYPE_MOUSEDOWN:
-        QxFocusManager.mouseFocus = true;
+        qx.event.handler.FocusHandler.mouseFocus = true;
 
         var vRoot = vTarget.getFocusRoot();
 
@@ -806,26 +806,26 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     switch(vType)
     {
       case QxConst.EVENT_TYPE_MOUSEDOWN:
-        if (typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
-          QxPopupManager.update(vTarget);
+        if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+          qx.manager.object.PopupManager.update(vTarget);
         };
 
-        if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
-          QxMenuManager.update(vTarget);
+        if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+          qx.manager.object.MenuManager.update(vTarget);
         };
 
         break;
 
       case QxConst.EVENT_TYPE_MOUSEOVER:
-        if (typeof QxToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
-          QxToolTipManager.handleMouseOver(vEventObject);
+        if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+          qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
         };
 
         break;
 
       case QxConst.EVENT_TYPE_MOUSEOUT:
-        if (typeof QxToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
-          QxToolTipManager.handleMouseOut(vEventObject);
+        if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+          qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
         };
 
         break;
@@ -841,8 +841,8 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Send Event Object to Drag&Drop Manager
-    if (typeof QxDragAndDropManager  !== QxConst.TYPEOF_UNDEFINED && vTarget) {
-      QxDragAndDropManager.handleMouseEvent(vEventObject);
+    if (typeof qx.event.handler.DragAndDropHandler  !== QxConst.TYPEOF_UNDEFINED && vTarget) {
+      qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
     };
 
 
@@ -985,18 +985,18 @@ proto._onwindowblur = function(e)
   this.setCaptureWidget(null);
 
   // Hide Popups, Tooltips, ...
-  if (typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxPopupManager.update();
+  if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+    qx.manager.object.PopupManager.update();
   };
 
   // Hide Menus
-  if (typeof QxMenuManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxMenuManager.update();
+  if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+    qx.manager.object.MenuManager.update();
   };
 
   // Cancel Drag Operations
-  if (typeof QxDragAndDropManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxDragAndDropManager.globalCancelDrag();
+  if (typeof qx.event.handler.DragAndDropHandler !== QxConst.TYPEOF_UNDEFINED) {
+    qx.event.handler.DragAndDropHandler.globalCancelDrag();
   };
 
   // Send blur event to client document

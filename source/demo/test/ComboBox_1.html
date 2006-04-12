@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing QxComboBox implementation.</p>
+    <p>Testing qx.ui.form.ComboBox implementation.</p>
     <p>Testing object creation (the list content will be filled then) on first open.</p>
   </div>
 
@@ -55,7 +55,7 @@
     {
       var d = this.getClientWindow().getClientDocument();
 
-      var c1 = new QxComboBox;
+      var c1 = new qx.ui.form.ComboBox;
       c1.setLocation(20, 48);
 
       c1.addEventListener("beforeInitialOpen", function(e)
@@ -64,7 +64,7 @@
 
         for(var i=1; i<=30; i++)
         {
-          item = new QxListItem("Item No " + i);
+          item = new qx.ui.form.ListItem("Item No " + i);
           !(i % 10) && (item.setEnabled(false));
           c1.add(item);
         };
@@ -84,7 +84,7 @@
 
 
 
-      var b1 = new QxCheckBox("Editable");
+      var b1 = new qx.ui.form.CheckBox("Editable");
 
       b1.set({ top: 50, left: 150 });
 

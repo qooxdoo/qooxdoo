@@ -56,13 +56,13 @@
 
       bs.getPane().add(p1, p2, p3, p4, p5, p6, p7);
 
-      var f1 = new QxTextField("Display Input");
-      var f2 = new QxTextField("Sunshine Input");
-      var f3 = new QxTextField("Paint Input");
-      var f4 = new QxTextField("Icons Input");
-      var f5 = new QxTextField("Images Input");
-      var f6 = new QxTextField("Applications Input");
-      var f7 = new QxTextField("System Input");
+      var f1 = new qx.ui.form.TextField("Display Input");
+      var f2 = new qx.ui.form.TextField("Sunshine Input");
+      var f3 = new qx.ui.form.TextField("Paint Input");
+      var f4 = new qx.ui.form.TextField("Icons Input");
+      var f5 = new qx.ui.form.TextField("Images Input");
+      var f6 = new qx.ui.form.TextField("Applications Input");
+      var f7 = new qx.ui.form.TextField("System Input");
 
       p1.add(f1);
       p2.add(f2);
@@ -72,10 +72,10 @@
       p6.add(f6);
       p7.add(f7);
 
-      var r1 = new QxRadioButton("Top", "top");
-      var r2 = new QxRadioButton("Right", "right");
-      var r3 = new QxRadioButton("Bottom", "bottom");
-      var r4 = new QxRadioButton("Left", "left", null, true);
+      var r1 = new qx.ui.form.RadioButton("Top", "top");
+      var r2 = new qx.ui.form.RadioButton("Right", "right");
+      var r3 = new qx.ui.form.RadioButton("Bottom", "bottom");
+      var r4 = new qx.ui.form.RadioButton("Left", "left", null, true);
 
       r1.setTop(50);
       r2.setTop(70);
@@ -84,7 +84,7 @@
 
       p1.add(r1, r2, r3, r4);
 
-      var rm = new QxRadioManager(null, [r1, r2, r3, r4]);
+      var rm = new qx.manager.selection.RadioManager(null, [r1, r2, r3, r4]);
 
       rm.addEventListener("changeSelected", function(e) {
         bs.setBarPosition(e.getData().getValue());

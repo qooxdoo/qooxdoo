@@ -34,7 +34,7 @@ QxRadioButtonFieldSet.extend(QxFieldSet, "QxRadioButtonFieldSet");
 
 proto._createLegendObject = function()
 {
-  this._legendObject = new QxRadioButton;
+  this._legendObject = new qx.ui.form.RadioButton;
   this._legendObject.setAppearance("radio-button-field-set-legend");
   this._legendObject.setChecked(true);
   

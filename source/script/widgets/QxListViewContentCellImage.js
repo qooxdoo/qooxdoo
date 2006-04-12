@@ -27,10 +27,10 @@
 ************************************************************************ */
 
 function QxListViewContentCellImage(vSource, vWidth, vHeight) {
-  QxImage.call(this, vSource, vWidth, vHeight);
+  qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
 };
 
-QxListViewContentCellImage.extend(QxImage, "QxListViewContentCellImage");
+QxListViewContentCellImage.extend(qx.ui.basic.Image, "QxListViewContentCellImage");
 
 QxListViewContentCellImage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-image" });
 
@@ -50,11 +50,11 @@ proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
-    return this._updateContent(QxImageManager.buildUri(vSource == QxConst.CORE_EMPTY ? QxConst.IMAGE_BLANK : vSource));
+    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == QxConst.CORE_EMPTY ? QxConst.IMAGE_BLANK : vSource));
   }
   else
   {
-    return QxImage.prototype.setSource.call(this, vSource);
+    return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
   };
 };
 

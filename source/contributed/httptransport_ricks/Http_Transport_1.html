@@ -25,13 +25,13 @@
     
     req.setQueue(queue);
     
-    var ta = new QxTextArea();
+    var ta = new qx.ui.form.TextArea();
     var fs = new QxFieldSet("Response");
-    var statLabel = new QxLabel("Status code:");
-    var statCode = new QxTextField();
+    var statLabel = new qx.ui.basic.Label("Status code:");
+    var statCode = new qx.ui.form.TextField();
     
-    var sizeLabel = new QxLabel("Transfer:");
-    var sizeText = new QxTextField();
+    var sizeLabel = new qx.ui.basic.Label("Transfer:");
+    var sizeText = new qx.ui.form.TextField();
     
     function handleSendClick(e) {
       sizeText.setValue("0");
@@ -89,7 +89,7 @@
     req.addEventListener("done", handleReqDone);
     req.addEventListener("progress", handleReqProgress);
     
-    var grid = new QxGridLayout();
+    var grid = new qx.ui.layout.GridLayout();
     this.add(grid);
     
     with (grid) {
@@ -109,13 +109,13 @@
       setColumnWidth(1, 100);
     }
     
-    var targetLabel = new QxLabel("Target");
-    var targetBox = new QxTextField();
+    var targetLabel = new qx.ui.basic.Label("Target");
+    var targetBox = new qx.ui.form.TextField();
     
-    var payloadLabel = new QxLabel("Payload");
-    var payloadBox = new QxTextField();
+    var payloadLabel = new qx.ui.basic.Label("Payload");
+    var payloadBox = new qx.ui.form.TextField();
     
-    var button = new QxButton("Send");
+    var button = new qx.ui.form.Button("Send");
     button.setHorizontalAlign("right");
     button.addEventListener("execute", handleSendClick);
     

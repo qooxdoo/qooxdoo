@@ -28,14 +28,14 @@
 
 function QxCommonViewPage(vButton)
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   if (qx.util.validator.isValid(vButton)) {
     this.setButton(vButton);
   };
 };
 
-QxCommonViewPage.extend(QxCanvasLayout, "QxCommonViewPage");
+QxCommonViewPage.extend(qx.ui.layout.CanvasLayout, "QxCommonViewPage");
 
 
 

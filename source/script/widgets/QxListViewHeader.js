@@ -30,7 +30,7 @@
 
 function QxListViewHeader(vColumns)
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
   
   // This fixes the innerWidth calculation difference between the grid(pane) and the head.
   this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
@@ -77,7 +77,7 @@ function QxListViewHeader(vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 };
 
-QxListViewHeader.extend(QxHorizontalBoxLayout, "QxListViewHeader");
+QxListViewHeader.extend(qx.ui.layout.HorizontalBoxLayout, "QxListViewHeader");
 
 QxListViewHeader.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header" });
 
@@ -297,5 +297,5 @@ proto.dispose = function()
 
   this._columns = null;
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

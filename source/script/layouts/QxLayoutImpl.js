@@ -27,14 +27,14 @@
 
 ************************************************************************ */
 
-function QxLayoutImpl(vWidget)
+qx.renderer.layout.LayoutImpl = function(vWidget)
 {
   qx.core.Object.call(this);
 
   this._widget = vWidget;
 };
 
-QxLayoutImpl.extend(qx.core.Object, "QxLayoutImpl");
+qx.renderer.layout.LayoutImpl.extend(qx.core.Object, "qx.renderer.layout.LayoutImpl");
 
 
 

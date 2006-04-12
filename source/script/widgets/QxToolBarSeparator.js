@@ -28,13 +28,13 @@
 
 function QxToolBarSeparator()
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
-  var l = new QxTerminator;
+  var l = new qx.ui.basic.Terminator;
   l.setAppearance("toolbar-separator-line");
   this.add(l);
 };
 
-QxToolBarSeparator.extend(QxCanvasLayout, "QxToolBarSeparator");
+QxToolBarSeparator.extend(qx.ui.layout.CanvasLayout, "QxToolBarSeparator");
 
 QxToolBarSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-separator" });

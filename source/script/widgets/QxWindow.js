@@ -25,15 +25,15 @@
 #package(window)
 #post(QxDomDimension)
 #post(QxDomLocation)
-#post(QxTerminator)
-#post(QxVerticalBoxLayout)
-#post(QxHorizontalBoxLayout)
-#post(QxCanvasLayout)
-#post(QxImage)
-#post(QxLabel)
-#post(QxHorizontalSpacer)
-#post(QxButton)
-#post(QxWindowManager)
+#post(qx.ui.basic.Terminator)
+#post(qx.ui.layout.VerticalBoxLayout)
+#post(qx.ui.layout.HorizontalBoxLayout)
+#post(qx.ui.layout.CanvasLayout)
+#post(qx.ui.basic.Image)
+#post(qx.ui.basic.Label)
+#post(qx.ui.basic.HorizontalSpacer)
+#post(qx.ui.form.Button)
+#post(qx.manager.object.WindowManager)
 #post(qx.ui.core.Widget)
 #post(QxUtil)
 #post(QxCompare)
@@ -66,7 +66,7 @@ function QxWindow(vCaption, vIcon)
   //   RESIZE AND MOVE FRAME
   // ************************************************************************
 
-  var f = this._frame = new QxTerminator;
+  var f = this._frame = new qx.ui.basic.Terminator;
   f.setAppearance("window-resize-frame");
 
 
@@ -74,7 +74,7 @@ function QxWindow(vCaption, vIcon)
   //   LAYOUT
   // ************************************************************************
 
-  var l = this._layout = new QxVerticalBoxLayout;
+  var l = this._layout = new qx.ui.layout.VerticalBoxLayout;
   l.setEdge(0);
   this.add(l);
 
@@ -83,7 +83,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONBAR
   // ************************************************************************
 
-  var cb = this._captionBar = new QxHorizontalBoxLayout;
+  var cb = this._captionBar = new qx.ui.layout.HorizontalBoxLayout;
   cb.setAppearance("window-captionbar");
   l.add(cb);
 
@@ -94,7 +94,7 @@ function QxWindow(vCaption, vIcon)
 
   if (qx.util.validator.isValidString(vIcon))
   {
-    var ci = this._captionIcon = new QxImage(vIcon);
+    var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
     ci.setAppearance("window-captionbar-icon");
     cb.add(ci);
   };
@@ -104,7 +104,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONTITLE
   // ************************************************************************
 
-  var ct = this._captionTitle = new QxLabel(vCaption);
+  var ct = this._captionTitle = new qx.ui.basic.Label(vCaption);
   ct.setAppearance("window-captionbar-title");
   ct.setSelectable(false);
   cb.add(ct);
@@ -114,7 +114,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONFLEX
   // ************************************************************************
 
-  var cf = this._captionFlex = new QxHorizontalSpacer;
+  var cf = this._captionFlex = new qx.ui.basic.HorizontalSpacer;
   cb.add(cf);
 
 
@@ -122,7 +122,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONBUTTONS: MINIMIZE
   // ************************************************************************
 
-  var bm = this._minimizeButton = new QxButton(null, "widgets/window/minimize.gif");
+  var bm = this._minimizeButton = new qx.ui.form.Button(null, "widgets/window/minimize.gif");
 
   bm.setAppearance("window-captionbar-minimize-button");
   bm.setTabIndex(-1);
@@ -137,7 +137,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONBUTTONS: RESTORE
   // ************************************************************************
 
-  var br = this._restoreButton = new QxButton(null, "widgets/window/restore.gif");
+  var br = this._restoreButton = new qx.ui.form.Button(null, "widgets/window/restore.gif");
 
   br.setAppearance("window-captionbar-restore-button");
   br.setTabIndex(-1);
@@ -153,7 +153,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONBUTTONS: MAXIMIZE
   // ************************************************************************
 
-  var bx = this._maximizeButton = new QxButton(null, "widgets/window/maximize.gif");
+  var bx = this._maximizeButton = new qx.ui.form.Button(null, "widgets/window/maximize.gif");
 
   bx.setAppearance("window-captionbar-maximize-button");
   bx.setTabIndex(-1);
@@ -168,7 +168,7 @@ function QxWindow(vCaption, vIcon)
   //   CAPTIONBUTTONS: CLOSE
   // ************************************************************************
 
-  var bc = this._closeButton = new QxButton(null, "widgets/window/close.gif");
+  var bc = this._closeButton = new qx.ui.form.Button(null, "widgets/window/close.gif");
 
   bc.setAppearance("window-captionbar-close-button");
   bc.setTabIndex(-1);
@@ -183,7 +183,7 @@ function QxWindow(vCaption, vIcon)
   //   PANE
   // ************************************************************************
 
-  var p = this._pane = new QxCanvasLayout;
+  var p = this._pane = new qx.ui.layout.CanvasLayout;
   p.setHeight(QxConst.CORE_FLEX);
   p.setOverflow(QxConst.OVERFLOW_VALUE_HIDDEN);
   l.add(p);
@@ -193,7 +193,7 @@ function QxWindow(vCaption, vIcon)
   //   STATUSBAR
   // ************************************************************************
 
-  var sb = this._statusBar = new QxHorizontalBoxLayout;
+  var sb = this._statusBar = new qx.ui.layout.HorizontalBoxLayout;
   sb.setAppearance("window-statusbar");
 
 
@@ -201,7 +201,7 @@ function QxWindow(vCaption, vIcon)
   //   STATUSTEXT
   // ************************************************************************
 
-  var st = this._statusText = new QxLabel("Ready");
+  var st = this._statusText = new qx.ui.basic.Label("Ready");
   st.setAppearance("window-statusbar-text");
   st.setSelectable(false);
   sb.add(st);
@@ -256,7 +256,7 @@ QxWindow.extend(QxPopup, "QxWindow");
 QxWindow.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
 
 /*!
-  If the window is active, only one window in a single QxWindowManager could
+  If the window is active, only one window in a single qx.manager.object.WindowManager could
   have set this to true at the same time.
 */
 QxWindow.addProperty({ name : "active", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
@@ -447,17 +447,17 @@ proto.restore = function() {
 
 proto._beforeAppear = function()
 {
-  QxCanvasLayout.prototype._beforeAppear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
-  QxPopupManager.update();
+  qx.manager.object.PopupManager.update();
 
-  QxWindowManager.add(this);
+  qx.manager.object.WindowManager.add(this);
   this._makeActive();
 };
 
 proto._beforeDisappear = function()
 {
-  QxCanvasLayout.prototype._beforeDisappear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
   // Be sure to disable any capturing inside invisible parts
   // Is this to much overhead?
@@ -467,7 +467,7 @@ proto._beforeDisappear = function()
     vWidget.setCapture(false);
   };
 
-  QxWindowManager.remove(this);
+  qx.manager.object.WindowManager.remove(this);
   this._makeInactive();
 };
 
@@ -485,7 +485,7 @@ proto._minZIndex = 1e5;
 
 proto._sendTo = function()
 {
-  var vAll = qx.lang.Object.getValues(QxWindowManager.getAll()).sort(qx.util.compare.byZIndex);
+  var vAll = qx.lang.Object.getValues(qx.manager.object.WindowManager.getAll()).sort(qx.util.compare.byZIndex);
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 
@@ -513,8 +513,8 @@ proto._modifyActive = function(propValue, propOldValue, propData)
       this.setFocused(false);
     };
 
-    if (QxWindowManager.getActiveWindow() == this) {
-      QxWindowManager.setActiveWindow(null);
+    if (qx.manager.object.WindowManager.getActiveWindow() == this) {
+      qx.manager.object.WindowManager.setActiveWindow(null);
     };
 
     this.removeState(QxConst.STATE_ACTIVE);
@@ -529,7 +529,7 @@ proto._modifyActive = function(propValue, propOldValue, propData)
       this.setFocused(true);
     };
 
-    QxWindowManager.setActiveWindow(this);
+    qx.manager.object.WindowManager.setActiveWindow(this);
     this.bringToFront();
 
     this.addState(QxConst.STATE_ACTIVE);

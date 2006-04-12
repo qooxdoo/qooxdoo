@@ -12,7 +12,7 @@
 
   <div id="demoDescription">
     <p>Testing ComboBox implementation.</p>
-    <p>The elements of the popup will be created on the first open of the QxComboBox.</p>
+    <p>The elements of the popup will be created on the first open of the qx.ui.form.ComboBox.</p>
   </div>
 
   <select style="position:absolute; left:300px; top:48px; width: 120px;">
@@ -55,7 +55,7 @@
     {
       var d = this.getClientWindow().getClientDocument();
 
-      var c1 = new QxComboBox;
+      var c1 = new qx.ui.form.ComboBox;
       c1.set({ top: 48, left: 20 });
 
 
@@ -64,7 +64,7 @@
 
       for(var i=1; i<=30; i++)
       {
-        item = new QxListItem("Item No " + i);
+        item = new qx.ui.form.ListItem("Item No " + i);
         !(i % 10) && (item.setEnabled(false));
         c1.add(item);
       };
@@ -83,7 +83,7 @@
 
 
 
-      var b1 = new QxCheckBox("Editable");
+      var b1 = new qx.ui.form.CheckBox("Editable");
 
       b1.set({ top: 50, left: 150 });
 

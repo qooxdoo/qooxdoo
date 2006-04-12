@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxVerticalBoxLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.VerticalBoxLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxVerticalBoxLayoutImpl.extend(QxLayoutImpl, "QxVerticalBoxLayoutImpl");
+qx.renderer.layout.VerticalBoxLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.VerticalBoxLayoutImpl");
 
-QxVerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.renderer.layout.VerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -51,7 +51,7 @@ QxVerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst
   [11] DISPOSER
 
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
   [11] DISPOSER
 */
@@ -338,7 +338,7 @@ proto.invalidateChildrenFlexHeight = function() {
 proto.computeChildrenNeededHeight = function()
 {
   var w = this.getWidget();
-  return QxLayoutImpl.prototype.computeChildrenNeededHeight_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getSpacing());
+  return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededHeight_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getSpacing());
 };
 
 
@@ -511,16 +511,16 @@ proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     for (var i=0; i<chl; i++)
     {
       chc = ch[i];
-      if (chc.getHasFlexY()) 
+      if (chc.getHasFlexY())
       {
         vIndex = Math.min(vIndex, i);
         break;
       };
-    }; 
-    
-    i=-1;  
+    };
+
+    i=-1;
   };
-  
+
   // Handle differently depending on layout mode
   switch(w.getLayoutMode())
   {

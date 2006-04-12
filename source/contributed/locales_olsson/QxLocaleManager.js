@@ -28,12 +28,12 @@
   This singleton manages multiple instances of QxLocale.
 */
 function QxLocaleManager(){
-  QxManager.call(this);
+  qx.manager.object.ObjectManager.call(this);
 
   this.setCurrentLocale(QxLocale.DEFAULT_LOCALE);
 };
 
-QxLocaleManager.extend(QxManager, "QxLocaleManager");
+QxLocaleManager.extend(qx.manager.object.ObjectManager, "QxLocaleManager");
 
 
 QxLocaleManager.addProperty({ name : "currentLocale", type : QxConst.TYPEOF_OBJECT });

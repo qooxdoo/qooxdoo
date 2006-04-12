@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(dragndrop)
-#require(QxImage)
+#require(qx.ui.basic.Image)
 #post(qx.event.types.DragEvent)
 #post(QxDomElementFromPoint)
 
@@ -32,7 +32,7 @@
 /*!
   This manager (singleton) manage all drag and drop handling of a QxApplication instance.
 */
-function QxDragAndDropManager()
+qx.event.handler.DragAndDropHandler = function()
 {
   qx.core.Target.call(this);
 
@@ -41,12 +41,12 @@ function QxDragAndDropManager()
   this._cursors = {};
 };
 
-QxDragAndDropManager.extend(QxManager, "QxDragAndDropManager");
+qx.event.handler.DragAndDropHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.DragAndDropHandler");
 
-QxDragAndDropManager.addProperty({ name : "sourceWidget", type : QxConst.TYPEOF_OBJECT });
-QxDragAndDropManager.addProperty({ name : "destinationWidget", type : QxConst.TYPEOF_OBJECT });
-QxDragAndDropManager.addProperty({ name : "cursor", type : QxConst.TYPEOF_OBJECT });
-QxDragAndDropManager.addProperty({ name : "currentAction", type : QxConst.TYPEOF_STRING });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "sourceWidget", type : QxConst.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", type : QxConst.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "cursor", type : QxConst.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "currentAction", type : QxConst.TYPEOF_STRING });
 
 proto._actionNames =
 {
@@ -80,7 +80,7 @@ proto.initCursors = function()
   var vCursor;
   for (var vAction in this._actionNames)
   {
-    vCursor = this._cursors[vAction] = new QxImage(this._cursorPath + vAction + QxConst.CORE_DOT + this._cursorFormat);
+    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + QxConst.CORE_DOT + this._cursorFormat);
     vCursor.setZIndex(1e8);
   };
 
@@ -860,7 +860,7 @@ proto.dispose = function()
     this._cursors = null;
   };
 
-  return QxManager.prototype.dispose.call(this);
+  return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 };
 
 
@@ -876,4 +876,4 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxDragAndDropManager = new QxDragAndDropManager;
+qx.event.handler.DragAndDropHandler = new qx.event.handler.DragAndDropHandler;

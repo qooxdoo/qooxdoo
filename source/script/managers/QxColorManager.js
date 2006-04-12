@@ -29,7 +29,7 @@
 
 qx.manager.object.ColorManager = function()
 {
-  QxManager.call(this);
+  qx.manager.object.ObjectManager.call(this);
 
   // Contains the qx.renderer.theme.ColorTheme instances
   this._themes = {};
@@ -39,7 +39,7 @@ qx.manager.object.ColorManager = function()
   this._dependentObjects = {};
 };
 
-qx.manager.object.ColorManager.extend(QxManager, "qx.manager.object.ColorManager");
+qx.manager.object.ColorManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ColorManager");
 
 
 /*
@@ -174,7 +174,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
 
   for (var vId in vThemes)
   {
-    var vButton = new QxButton(vPrefix + vThemes[vId].getTitle(), vIcon);
+    var vButton = new qx.ui.form.Button(vPrefix + vThemes[vId].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
     vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.setTheme('" + vId + "')"));
@@ -214,7 +214,7 @@ proto.dispose = function()
 
   delete this._dependentObjects;
 
-  return QxManager.prototype.dispose.call(this);
+  return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 };
 
 

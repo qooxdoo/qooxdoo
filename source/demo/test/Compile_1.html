@@ -51,11 +51,11 @@
 
     window.application.main = function()
     {
-      a1 = new QxButton("Hello World", "icons/32/penguin.png");
+      a1 = new qx.ui.form.Button("Hello World", "icons/32/penguin.png");
       a1.setLocation(20, 50);
       this.add(a1);
 
-      a2 = new QxButton("Hello World", "icons/32/appearance.png");
+      a2 = new qx.ui.form.Button("Hello World", "icons/32/appearance.png");
       a2.setLocation(220, 50);
       this.add(a2);
     };
@@ -113,8 +113,8 @@
                       str += "$" + i + " = window.application.getClientWindow().getClientDocument();\n";
                       break;
 
-                    case "QxImageManager":
-                      str += "$" + i + " = new QxImageManager;\n";
+                    case "qx.manager.object.ImageManager":
+                      str += "$" + i + " = new qx.manager.object.ImageManager;\n";
                       break;
                   };
                 }
@@ -138,7 +138,7 @@
                     // map _QxWidget attribute of node to widget
                     str += "$" + i + "._valueElement._QxWidget = $" + i + ";\n";
 
-                    if (v instanceof QxImage)
+                    if (v instanceof qx.ui.basic.Image)
                     {
                       // assign _image
                       str += "$" + i + "._image = $" + i + "._valueElement.getElementsByTagName(\"img\")[0];\n";
@@ -333,8 +333,8 @@
         if (vObject instanceof QxClientDocument) {
           return "$OBJECTMAPPER-QxClientDocument";
         }
-        else if (vObject instanceof QxImageManager) {
-          return "$OBJECTMAPPER-QxImageManager";
+        else if (vObject instanceof qx.manager.object.ImageManager) {
+          return "$OBJECTMAPPER-qx.manager.object.ImageManager";
         };
 
         var vKey;

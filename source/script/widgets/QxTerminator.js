@@ -29,11 +29,11 @@
 /*!
   This widget is the last widget of the current child chain.
 */
-function QxTerminator() {
+qx.ui.basic.Terminator = function() {
   qx.ui.core.Widget.call(this);
 };
 
-QxTerminator.extend(qx.ui.core.Widget, "QxTerminator");
+qx.ui.basic.Terminator.extend(qx.ui.core.Widget, "qx.ui.basic.Terminator");
 
 
 

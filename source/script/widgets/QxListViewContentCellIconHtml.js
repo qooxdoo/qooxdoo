@@ -28,12 +28,12 @@
 
 function QxListViewContentCellIconHtml(vHtml, vIcon, vIconWidth, vIconHeight) 
 {
-  QxIconHtml.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
+  qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
   
   this.setSelectable(false);
 };
 
-QxListViewContentCellIconHtml.extend(QxIconHtml, "QxListViewContentCellIconHtml");
+QxListViewContentCellIconHtml.extend(qx.ui.embed.IconHtmlEmbed, "QxListViewContentCellIconHtml");
 
 QxListViewContentCellIconHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
 

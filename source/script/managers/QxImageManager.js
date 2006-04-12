@@ -34,9 +34,9 @@
 /*!
   This singleton manage the global image path (prefix) and allowes themed icons.
 */
-function QxImageManager()
+qx.manager.object.ImageManager = function()
 {
-  QxManager.call(this);
+  qx.manager.object.ObjectManager.call(this);
 
   // Contains available icon themes
   this._iconThemes = {};
@@ -62,7 +62,7 @@ function QxImageManager()
   this.setWidgetPath(qx.core.Settings.imageWidgetPath);
 };
 
-QxImageManager.extend(QxManager, "QxImageManager");
+qx.manager.object.ImageManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ImageManager");
 
 
 
@@ -73,14 +73,14 @@ QxImageManager.extend(QxManager, "QxImageManager");
 ---------------------------------------------------------------------------
 */
 
-QxImageManager.addProperty({ name : "corePath", type : QxConst.TYPEOF_STRING, impl : "coreAlias" });
-QxImageManager.addProperty({ name : "localPath", type : QxConst.TYPEOF_STRING, impl : "localAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "corePath", type : QxConst.TYPEOF_STRING, impl : "coreAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "localPath", type : QxConst.TYPEOF_STRING, impl : "localAlias" });
 
-QxImageManager.addProperty({ name : "iconPath", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
-QxImageManager.addProperty({ name : "iconTheme", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "iconPath", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "iconTheme", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
 
-QxImageManager.addProperty({ name : "widgetPath", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
-QxImageManager.addProperty({ name : "widgetTheme", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "widgetPath", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "widgetTheme", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
 
 
 
@@ -308,7 +308,7 @@ proto._updateImages = function()
   for (var vHashCode in vAll)
   {
     vObject = vAll[vHashCode];
-    vObject.setPreloader(QxImagePreloaderManager.create(this.buildUri(vObject.getSource(), true)));
+    vObject.setPreloader(qx.manager.object.ImagePreloaderManager.create(this.buildUri(vObject.getSource(), true)));
   };
 
   return true;
@@ -337,10 +337,10 @@ proto.createThemeList = function(vParent, xCor, yCor)
 
   for (var vTheme in vThemes)
   {
-    var vButton = new QxButton(vPrefix + vThemes[vTheme].getTitle(), vIcon);
+    var vButton = new qx.ui.form.Button(vPrefix + vThemes[vTheme].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("QxImageManager.setIconTheme('" + vTheme + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.setIconTheme('" + vTheme + "')"));
 
     vParent.add(vButton);
 
@@ -374,7 +374,7 @@ proto.dispose = function()
   this._uris = null;
   this._aliases = null;
 
-  return QxManager.prototype.dispose.call(this);
+  return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 };
 
 
@@ -391,4 +391,4 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxImageManager = new QxImageManager;
+qx.manager.object.ImageManager = new qx.manager.object.ImageManager;

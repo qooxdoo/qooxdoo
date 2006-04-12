@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  This manager is used by all objects which needs ranges like QxSpinner, QxSlider, ...
+  This manager is used by all objects which needs ranges like qx.ui.form.Spinner, QxSlider, ...
 */
 function QxRangeManager()
 {
@@ -35,7 +35,7 @@ function QxRangeManager()
   qx.core.Target.call(this);
 };
 
-QxRangeManager.extend(QxManager, "QxRangeManager");
+QxRangeManager.extend(qx.manager.object.ObjectManager, "QxRangeManager");
 
 QxRangeManager.addProperty({ name : "value", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
 QxRangeManager.addProperty({ name : "min", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });

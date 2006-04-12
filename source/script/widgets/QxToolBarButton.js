@@ -28,13 +28,13 @@
 
 function QxToolBarButton(vText, vIcon, vIconWidth, vIconHeight, vFlash) 
 {
-  QxButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
   
   // Omit focus
   this.setTabIndex(-1);
 };
 
-QxToolBarButton.extend(QxButton, "QxToolBarButton");
+QxToolBarButton.extend(qx.ui.form.Button, "QxToolBarButton");
 
 QxToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-button" });
 

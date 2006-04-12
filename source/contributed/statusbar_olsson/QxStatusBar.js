@@ -28,10 +28,10 @@
 **************************************************************************** */
 
 function QxStatusBar() {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 };
 
-QxStatusBar.extend(QxHorizontalBoxLayout, "QxStatusBar");
+QxStatusBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxStatusBar");
 
 
 /*
@@ -58,5 +58,5 @@ proto.dispose = function()
     return true;
   };
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

@@ -30,13 +30,13 @@
 /*!
   This singleton manages QxToolTips
 */
-function QxToolTipManager() {
-  QxManager.call(this);
+qx.manager.object.ToolTipManager = function() {
+  qx.manager.object.ObjectManager.call(this);
 };
 
-QxToolTipManager.extend(QxManager, "QxToolTipManager");
+qx.manager.object.ToolTipManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ToolTipManager");
 
-QxToolTipManager.addProperty({ name : "currentToolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
+qx.manager.object.ToolTipManager.addProperty({ name : "currentToolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
 
 
 
@@ -191,4 +191,4 @@ proto.handleBlur = function(e)
 ---------------------------------------------------------------------------
 */
 
-QxToolTipManager = new QxToolTipManager;
+qx.manager.object.ToolTipManager = new qx.manager.object.ToolTipManager;

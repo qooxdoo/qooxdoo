@@ -24,7 +24,7 @@
 
 #package(core)
 #require(qx.sys.Client)
-#require(qx.event.types.DomEventRegistration)
+#require(qx.dom.DomEventRegistration)
 
 ************************************************************************ */
 
@@ -190,9 +190,9 @@ proto._runPreload = function()
   this.info("Preload phase");
   this.debug("Preloading images...");
 
-  if (typeof QxImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
   {
-    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(QxImageManager.getPreloadImageList());
+    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
     vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
     vPreloaderSystem.start();
   };
@@ -254,9 +254,9 @@ proto._runPostload = function()
   this.info("Postload phase");
   this.debug("Preloading images...");
 
-  if (typeof QxImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
   {
-    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(QxImageManager.getPostPreloadImageList());
+    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList());
     vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
     vPreloaderSystem.start();
   };

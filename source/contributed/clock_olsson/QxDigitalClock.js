@@ -28,7 +28,7 @@ function QxDigitalClock()
 {
   QxClock.call(this);
 
-  var label = this._label = new QxLabel();
+  var label = this._label = new qx.ui.basic.Label();
   this.setLabel(label);
   this.add(label);
 };

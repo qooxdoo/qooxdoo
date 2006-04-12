@@ -20,13 +20,13 @@
     // Does not leak
     // *****
 
-    // var i1 = new qx.io.image.ImagePreloader(QxImageManager.buildUri("icons/48/hardwareinfo.png"));
+    // var i1 = new qx.io.image.ImagePreloader(qx.manager.object.ImageManager.buildUri("icons/48/hardwareinfo.png"));
 
 
     // Leaks: +2MB
     // *****
 
-    var w1 = new QxTerminator;
+    var w1 = new qx.ui.basic.Terminator;
     this.add(w1);
 
 
@@ -36,7 +36,7 @@
     // Does not leak
     // *****
     /*
-    var w1 = new QxTerminator;
+    var w1 = new qx.ui.basic.Terminator;
     w1.setTop(48);
     w1.setLeft(20);
     this.add(w1);
@@ -46,7 +46,7 @@
     // Leaks +2MB
     // *****
     /*
-    var i1 = new QxImage("icons/48/hardwareinfo.png");
+    var i1 = new qx.ui.basic.Image("icons/48/hardwareinfo.png");
     with(i1)
     {
       setTop(48);

@@ -26,28 +26,28 @@
 
 ************************************************************************ */
 
-function QxNode(vId)
+qx.ui.embed.DomNodeEmbed = function(vId)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   if (qx.util.validator.isValidString(vId)) {
     this.setSourceNodeId(vId);
   };
 };
 
-QxNode.extend(QxTerminator, "QxNode");
+qx.ui.embed.DomNodeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.DomNodeEmbed");
 
-QxNode.addProperty({ name : "sourceNodeId", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : QxConst.TYPEOF_STRING });
 
 proto._createElementImpl = function()
 {
   var vNode = document.getElementById(this.getSourceNodeId());
-  
+
   if (!vNode) {
     throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
   };
-  
+
   vNode.style.display = QxConst.CORE_EMPTY;
-  
+
   return this.setElement(vNode);
 };

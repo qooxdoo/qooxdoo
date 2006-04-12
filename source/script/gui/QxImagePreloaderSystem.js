@@ -49,7 +49,7 @@ proto.start = function()
 {
   for (vSource in this._list)
   {
-    vPreloader = QxImagePreloaderManager.create(QxImageManager.buildUri(vSource));
+    vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource));
 
     if (vPreloader.isErroneous() || vPreloader.isLoaded())
     {

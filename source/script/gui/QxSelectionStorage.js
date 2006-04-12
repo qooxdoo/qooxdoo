@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  Helper for QxSelectionManager, contains data for selections
+  Helper for qx.manager.selection.SelectionManager, contains data for selections
 */
 qx.types.Selection = function(vManager)
 {

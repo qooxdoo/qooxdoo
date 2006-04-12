@@ -79,7 +79,7 @@ proto.startDrag = function()
   };
 
   this.stopPropagation();
-  QxDragAndDropManager.startDrag();
+  qx.event.handler.DragAndDropHandler.startDrag();
 };
 
 
@@ -94,19 +94,19 @@ proto.startDrag = function()
 */
 
 proto.addData = function(sType, oData) {
-  QxDragAndDropManager.addData(sType, oData);
+  qx.event.handler.DragAndDropHandler.addData(sType, oData);
 };
 
 proto.getData = function(sType) {
-  return QxDragAndDropManager.getData(sType);
+  return qx.event.handler.DragAndDropHandler.getData(sType);
 };
 
 proto.clearData = function() {
-  QxDragAndDropManager.clearData();
+  qx.event.handler.DragAndDropHandler.clearData();
 };
 
 proto.getDropDataTypes = function() {
-  return QxDragAndDropManager.getDropDataTypes();
+  return qx.event.handler.DragAndDropHandler.getDropDataTypes();
 };
 
 
@@ -121,19 +121,19 @@ proto.getDropDataTypes = function() {
 */
 
 proto.addAction = function(sAction) {
-  QxDragAndDropManager.addAction(sAction);
+  qx.event.handler.DragAndDropHandler.addAction(sAction);
 };
 
 proto.removeAction = function(sAction) {
-  QxDragAndDropManager.removeAction(sAction);
+  qx.event.handler.DragAndDropHandler.removeAction(sAction);
 };
 
 proto.getAction = function() {
-  return QxDragAndDropManager.getCurrentAction();
+  return qx.event.handler.DragAndDropHandler.getCurrentAction();
 };
 
 proto.clearActions = function() {
-  QxDragAndDropManager.clearActions();
+  qx.event.handler.DragAndDropHandler.clearActions();
 };
 
 

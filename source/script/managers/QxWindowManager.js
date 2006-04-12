@@ -23,20 +23,20 @@
 /* ************************************************************************
 
 #package(window)
-#post(QxPopupManager)
+#post(qx.manager.object.PopupManager)
 
 ************************************************************************ */
 
 /*!
   This singleton manages QxWindows
 */
-function QxWindowManager() {
-  QxManager.call(this);
+qx.manager.object.WindowManager = function() {
+  qx.manager.object.ObjectManager.call(this);
 };
 
-QxWindowManager.extend(QxManager, "QxWindowManager");
+qx.manager.object.WindowManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.WindowManager");
 
-QxWindowManager.addProperty({ name : "activeWindow", type : QxConst.TYPEOF_OBJECT });
+qx.manager.object.WindowManager.addProperty({ name : "activeWindow", type : QxConst.TYPEOF_OBJECT });
 
 
 
@@ -51,7 +51,7 @@ QxWindowManager.addProperty({ name : "activeWindow", type : QxConst.TYPEOF_OBJEC
 
 proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 {
-  QxPopupManager.update();
+  qx.manager.object.PopupManager.update();
 
   if (propOldValue) {
     propOldValue.setActive(false);
@@ -112,7 +112,7 @@ proto.update = function(oTarget)
 
 proto.compareWindows = function(w1, w2)
 {
-  switch(QxWindowManager.getActiveWindow())
+  switch(qx.manager.object.WindowManager.getActiveWindow())
   {
     case w1:
       return 1;
@@ -126,7 +126,7 @@ proto.compareWindows = function(w1, w2)
 
 proto.add = function(vWindow)
 {
-  QxManager.prototype.add.call(this, vWindow);
+  qx.manager.object.ObjectManager.prototype.add.call(this, vWindow);
 
   // this.debug("Add: " + vWindow);
   this.setActiveWindow(vWindow);
@@ -134,7 +134,7 @@ proto.add = function(vWindow)
 
 proto.remove = function(vWindow)
 {
-  QxManager.prototype.remove.call(this, vWindow);
+  qx.manager.object.ObjectManager.prototype.remove.call(this, vWindow);
 
   // this.debug("Remove: " + vWindow);
 
@@ -174,4 +174,4 @@ proto.remove = function(vWindow)
 ---------------------------------------------------------------------------
 */
 
-QxWindowManager = new QxWindowManager;
+qx.manager.object.WindowManager = new qx.manager.object.WindowManager;

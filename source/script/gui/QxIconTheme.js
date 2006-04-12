@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(color)
-#require(QxImageManager)
+#require(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
@@ -39,7 +39,7 @@ qx.renderer.theme.IconTheme = function(vId, vTitle)
   this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
 
   try {
-    QxImageManager.registerIconTheme(this);
+    qx.manager.object.ImageManager.registerIconTheme(this);
   } catch(ex) {
     throw new Error("Could not register Theme: " + ex);
   };

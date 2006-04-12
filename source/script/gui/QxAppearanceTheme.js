@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(appearance)
-#post(QxAppearanceManager)
+#post(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 
@@ -36,7 +36,7 @@ qx.renderer.theme.AppearanceTheme = function(vId, vTitle)
   this.setId(vId);
   this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
 
-  QxAppearanceManager.registerTheme(this);
+  qx.manager.object.AppearanceManager.registerTheme(this);
 };
 
 qx.renderer.theme.AppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.AppearanceTheme");

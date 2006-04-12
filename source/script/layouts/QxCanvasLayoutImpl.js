@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxCanvasLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.CanvasLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxCanvasLayoutImpl.extend(QxLayoutImpl, "QxCanvasLayoutImpl");
+qx.renderer.layout.CanvasLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.CanvasLayoutImpl");
 
 
 
@@ -49,7 +49,7 @@ QxCanvasLayoutImpl.extend(QxLayoutImpl, "QxCanvasLayoutImpl");
   [11] DISPOSER
 
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
   [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
   [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
   [06] UPDATE LAYOUT ON JOB QUEUE FLUSH

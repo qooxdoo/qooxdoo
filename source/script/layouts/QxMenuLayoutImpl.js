@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxMenuLayoutImpl(vWidget)
+qx.renderer.layout.MenuLayoutImpl = function(vWidget)
 {
-  QxVerticalBoxLayoutImpl.call(this, vWidget);
+  qx.renderer.layout.VerticalBoxLayoutImpl.call(this, vWidget);
 
-  // We don't need flex support, should make things a bit faster, 
-  // as this omits some additional loops in QxHorizontalBoxLayoutImpl.
-  this.setEnableFlexSupport(false);    
+  // We don't need flex support, should make things a bit faster,
+  // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
+  this.setEnableFlexSupport(false);
 };
 
-QxMenuLayoutImpl.extend(QxVerticalBoxLayoutImpl, "QxMenuLayoutImpl");
+qx.renderer.layout.MenuLayoutImpl.extend(qx.renderer.layout.VerticalBoxLayoutImpl, "qx.renderer.layout.MenuLayoutImpl");
 
 
 /*!
@@ -51,9 +51,9 @@ QxMenuLayoutImpl.extend(QxVerticalBoxLayoutImpl, "QxMenuLayoutImpl");
   [09] FLUSH LAYOUT QUEUES OF CHILDREN
   [10] LAYOUT CHILD
   [11] DISPOSER
-  
 
-  Inherits from QxVerticalBoxLayoutImpl:
+
+  Inherits from qx.renderer.layout.VerticalBoxLayoutImpl:
   [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
   [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
@@ -82,26 +82,26 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   var vWidget = this.getWidget();
   var ch, chc;
-  
+
   if (vQueue.preferredInnerWidth)
   {
     var ch = vWidget.getChildren(), chl = ch.length, chc;
     var sch, schl;
-    
+
     for (var i=0; i<chl; i++)
     {
       chc = ch[i];
       sch = chc.getChildren();
       schl = sch.length;
-      
+
       for (var j=0; j<schl; j++)
       {
-        sch[j].addToLayoutChanges(QxConst.JOB_LOCATIONX);        
-        
-      };   
-    };   
+        sch[j].addToLayoutChanges(QxConst.JOB_LOCATIONX);
+
+      };
+    };
   };
-  
+
   // Call superclass implementation
-  return QxVerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
+  return qx.renderer.layout.VerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
 };

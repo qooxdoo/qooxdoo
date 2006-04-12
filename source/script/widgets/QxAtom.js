@@ -23,20 +23,20 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxImage)
-#require(QxLabel)
+#require(qx.ui.basic.Image)
+#require(qx.ui.basic.Label)
 
 ************************************************************************ */
 
 /*!
   A multi-prupose widget used by many more complex widgets.
 
-  The intended purpose of QxAtom is to easily align the common icon-text combination in different ways.
+  The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
   This is useful for all types of buttons, menuentires, tooltips, ...
 */
-function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.ui.basic.Atom = function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
-  QxBoxLayout.call(this);
+  qx.ui.layout.BoxLayout.call(this);
 
   if (this.getOrientation() == null) {
     this.setOrientation(QxConst.ORIENTATION_HORIZONTAL);
@@ -54,7 +54,7 @@ function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   };
 
   // Simple flash wrapper
-  if (qx.util.validator.isValidString(vFlash) && qx.util.validator.isValidNumber(vIconWidth) && qx.util.validator.isValidNumber(vIconHeight) && QxFlash && QxFlash.getPlayerVersion().getMajor() > 0)
+  if (qx.util.validator.isValidString(vFlash) && qx.util.validator.isValidNumber(vIconWidth) && qx.util.validator.isValidNumber(vIconHeight) && qx.ui.embed.FlashEmbed && qx.ui.embed.FlashEmbed.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -78,11 +78,11 @@ function QxAtom(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   };
 };
 
-QxAtom.extend(QxBoxLayout, "QxAtom");
+qx.ui.basic.Atom.extend(qx.ui.layout.BoxLayout, "qx.ui.basic.Atom");
 
-QxAtom.SHOW_LABEL = "label";
-QxAtom.SHOW_ICON = "icon";
-QxAtom.SHOW_BOTH = "both";
+qx.ui.basic.Atom.SHOW_LABEL = "label";
+qx.ui.basic.Atom.SHOW_ICON = "icon";
+qx.ui.basic.Atom.SHOW_BOTH = "both";
 
 
 /*
@@ -92,40 +92,40 @@ QxAtom.SHOW_BOTH = "both";
 */
 
 /*!
-  The label/caption/text of the QxAtom instance
+  The label/caption/text of the qx.ui.basic.Atom instance
 */
-QxAtom.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Atom.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
 
 /*!
-  Any URI String supported by QxImage to display a icon
+  Any URI String supported by qx.ui.basic.Image to display a icon
 */
-QxAtom.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Atom.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
 
 /*!
   Configure the visibility of the sub elements/widgets.
   Possible values: both, text, icon, none
 */
-QxAtom.addProperty({ name : "show", type : QxConst.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", QxConst.CORE_NONE, null ] });
+qx.ui.basic.Atom.addProperty({ name : "show", type : QxConst.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", QxConst.CORE_NONE, null ] });
 
 /*!
   The position of the icon in relation to the text.
   Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
 */
-QxAtom.addProperty({ name : "iconPosition", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
+qx.ui.basic.Atom.addProperty({ name : "iconPosition", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
 
 /*!
   The width of the icon.
-  If configured, this makes QxAtom a little bit faster as it does not need to wait until the image loading is finished.
+  If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-QxAtom.addProperty({ name : "iconWidth", type : QxConst.TYPEOF_NUMBER });
+qx.ui.basic.Atom.addProperty({ name : "iconWidth", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   The height of the icon
-  If configured, this makes QxAtom a little bit faster as it does not need to wait until the image loading is finished.
+  If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-QxAtom.addProperty({ name : "iconHeight", type : QxConst.TYPEOF_NUMBER });
+qx.ui.basic.Atom.addProperty({ name : "iconHeight", type : QxConst.TYPEOF_NUMBER });
 
-QxAtom.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "atom" });
+qx.ui.basic.Atom.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "atom" });
 
 
 
@@ -144,7 +144,7 @@ proto._iconObject = null;
 
 proto._createLabel = function()
 {
-  var l = this._labelObject = new QxLabel(this.getLabel());
+  var l = this._labelObject = new qx.ui.basic.Label(this.getLabel());
 
   l.setAnonymous(true);
   l.setEnabled(this.getEnabled());
@@ -157,11 +157,11 @@ proto._createIcon = function()
 {
   if (this._flashMode)
   {
-    var i = this._iconObject = new QxFlash(this.getIcon());
+    var i = this._iconObject = new qx.ui.embed.FlashEmbed(this.getIcon());
   }
   else
   {
-    var i = this._iconObject = new QxImage(this.getIcon());
+    var i = this._iconObject = new qx.ui.basic.Image(this.getIcon());
   };
 
   i.setAnonymous(true);
@@ -199,7 +199,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
     this._labelObject.setEnabled(propValue);
   };
 
-  return QxBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyIconPosition = function(propValue, propOldValue, propData)
@@ -281,8 +281,8 @@ proto._handleLabel = function()
 {
   switch(this.getShow())
   {
-    case QxAtom.SHOW_LABEL:
-    case QxAtom.SHOW_BOTH:
+    case qx.ui.basic.Atom.SHOW_LABEL:
+    case qx.ui.basic.Atom.SHOW_BOTH:
       this._labelIsVisible = qx.util.validator.isValidString(this.getLabel());
       break;
 
@@ -304,8 +304,8 @@ proto._handleIcon = function()
 {
   switch(this.getShow())
   {
-    case QxAtom.SHOW_ICON:
-    case QxAtom.SHOW_BOTH:
+    case qx.ui.basic.Atom.SHOW_ICON:
+    case qx.ui.basic.Atom.SHOW_BOTH:
       this._iconIsVisible = qx.util.validator.isValidString(this.getIcon());
       break;
 
@@ -367,5 +367,5 @@ proto.dispose = function()
     this._labelObject = null;
   };
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };
