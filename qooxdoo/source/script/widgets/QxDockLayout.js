@@ -23,30 +23,30 @@
 /* ************************************************************************
 
 #package(layout)
-#post(QxDockLayoutImpl)
+#post(qx.renderer.layout.DockLayoutImpl)
 
 ************************************************************************ */
 
-function QxDockLayout() {
+qx.ui.layout.DockLayout = function() {
   qx.ui.core.Parent.call(this);
 };
 
-QxDockLayout.extend(qx.ui.core.Parent, "QxDockLayout");
+qx.ui.layout.DockLayout.extend(qx.ui.core.Parent, "qx.ui.layout.DockLayout");
 
 /*!
   The layout mode (in which order the children should be layouted)
 */
-QxDockLayout.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ORIENTATION_VERTICAL, possibleValues : [ QxConst.ORIENTATION_VERTICAL, QxConst.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
+qx.ui.layout.DockLayout.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ORIENTATION_VERTICAL, possibleValues : [ QxConst.ORIENTATION_VERTICAL, QxConst.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
 
 /*
   Overwrite from qx.ui.core.Widget, we do not support 'auto' and 'flex'
 */
-QxDockLayout.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
-QxDockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-QxDockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-QxDockLayout.changeProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercent" });
-QxDockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-QxDockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.ui.layout.DockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
 
 
 
@@ -63,7 +63,7 @@ QxDockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addT
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxDockLayoutImpl(this);
+  return new qx.renderer.layout.DockLayoutImpl(this);
 };
 
 

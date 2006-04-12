@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxPasswordField(vText)
+qx.ui.form.PasswordField = function(vText)
 {
-  QxTextField.call(this, vText);
+  qx.ui.form.TextField.call(this, vText);
 
   this.setHtmlProperty("type", "password");
 };
 
-QxPasswordField.extend(QxTextField, "QxPasswordField");
+qx.ui.form.PasswordField.extend(qx.ui.form.TextField, "qx.ui.form.PasswordField");

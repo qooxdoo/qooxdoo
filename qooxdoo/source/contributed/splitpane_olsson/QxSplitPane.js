@@ -29,19 +29,19 @@
 
 function QxSplitPane(vOrientation)
 {
-  QxBoxLayout.call(this, vOrientation);
+  qx.ui.layout.BoxLayout.call(this, vOrientation);
 
   // ************************************************************************
   //   MOVE FRAME
   // ************************************************************************
-  var f = this._frame = new QxTerminator;
+  var f = this._frame = new qx.ui.basic.Terminator;
   f.setAppearance("splitpane-move-frame");
 
   // ***********************************************************************
   //   PANE 1
   // ***********************************************************************
 
-  var p1 = this._firstWidget = new QxCanvasLayout();
+  var p1 = this._firstWidget = new qx.ui.layout.CanvasLayout();
 
   this.setLeftWidget(p1);
 
@@ -49,7 +49,7 @@ function QxSplitPane(vOrientation)
   //   SPLITTER BAR
   // ***********************************************************************
 
-  var sb = this._bar = new QxBoxLayout(vOrientation == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
+  var sb = this._bar = new qx.ui.layout.BoxLayout(vOrientation == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
   sb.setAppearance("splitpane-divider");
 
   switch(this.getOrientation())
@@ -72,21 +72,21 @@ function QxSplitPane(vOrientation)
   // ***********************************************************************
   //   BUTTONS
   // ***********************************************************************
-  var buttonLayout = this._buttonLayout = new QxBoxLayout(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
+  var buttonLayout = this._buttonLayout = new qx.ui.layout.BoxLayout(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
   buttonLayout.setHorizontalChildrenAlign(QxConst.ALIGN_CENTER);
 
   switch(this.getOrientation())
   {
     case QxConst.ORIENTATION_HORIZONTAL :
-      this._minimizeImage = new QxImage("widgets/arrows/left-divider.gif");
-      this._maximizeImage = new QxImage("widgets/arrows/right-divider.gif");
-      this._restoreImage = new QxImage("widgets/arrows/restore-horiz-divider.gif");
+      this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/left-divider.gif");
+      this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/right-divider.gif");
+      this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-horiz-divider.gif");
       break;
 
     case QxConst.ORIENTATION_VERTICAL :
-      this._minimizeImage = new QxImage("widgets/arrows/up-divider.gif");
-      this._maximizeImage = new QxImage("widgets/arrows/down-divider.gif");
-      this._restoreImage = new QxImage("widgets/arrows/restore-vert-divider.gif");
+      this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/up-divider.gif");
+      this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/down-divider.gif");
+      this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-vert-divider.gif");
       break;
   };
 
@@ -96,7 +96,7 @@ function QxSplitPane(vOrientation)
   //   BUTTONS: MINIMIZE
   // ***********************************************************************
 
-  var minB = this._minimizeButton = new QxButton();
+  var minB = this._minimizeButton = new qx.ui.form.Button();
   minB.add(this._minimizeImage);
   minB.setAppearance("splitpane-button");
   minB.setTabIndex(-1);
@@ -110,7 +110,7 @@ function QxSplitPane(vOrientation)
   //   BUTTONS: RESTORE
   // ***********************************************************************
 
-  var restoreB = this._restoreButton = new QxButton();
+  var restoreB = this._restoreButton = new qx.ui.form.Button();
   restoreB.add(this._restoreImage);
   restoreB.setAppearance("splitpane-button");
   restoreB.setTabIndex(-1);
@@ -122,7 +122,7 @@ function QxSplitPane(vOrientation)
   //   BUTTONS: MAXIMIZE
   // ***********************************************************************
 
-  var maxB = this._maximizeButton = new QxButton();
+  var maxB = this._maximizeButton = new qx.ui.form.Button();
   maxB.add(this._maximizeImage);
   maxB.setAppearance("splitpane-button");
   maxB.setTabIndex(-1);
@@ -136,12 +136,12 @@ function QxSplitPane(vOrientation)
   //   PANE 2
   // ***********************************************************************
 
-  var p2 = this._secondWidget = new QxCanvasLayout();
+  var p2 = this._secondWidget = new qx.ui.layout.CanvasLayout();
 
   this.setRightWidget(p2);
 };
 
-QxSplitPane.extend(QxBoxLayout, "QxSplitPane");
+QxSplitPane.extend(qx.ui.layout.BoxLayout, "QxSplitPane");
 
 
 /*
@@ -266,7 +266,7 @@ proto._modifyFirstWidget = function(propValue, propOldValue, propData)
 
   if (!propValue)
   {
-    propValue = new QxCanvasLayout();
+    propValue = new qx.ui.layout.CanvasLayout();
   };
 
   this.addAtBegin(propValue);
@@ -334,7 +334,7 @@ proto._modifySecondWidget = function(propValue, propOldValue, propData)
 
   if (!propValue)
   {
-    propValue = new QxCanvasLayout();
+    propValue = new qx.ui.layout.CanvasLayout();
   };
 
   this.addAtEnd(propValue);
@@ -721,5 +721,5 @@ proto.dispose = function()
 
   delete this._lastDividerLocation;
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

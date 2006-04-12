@@ -377,7 +377,7 @@ proto._registerDefaultPropertyEditors = function() {
 
 
   this.registerPropertyEditor('QxMenuButton', 'menu', referencePropertyEditor);
-  this.registerPropertyEditor('QxRadioButton', 'manager', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);
   this.registerPropertyEditor('QxMenuRadioButton', 'group', referencePropertyEditor);
 
 
@@ -455,7 +455,7 @@ proto._setProperties = function(widget, name, value) {
 3 format
 1. <qx:atom/>
 2. <atom/>
-3. <div qxtype="QxAtom"/>
+3. <div qxtype="qx.ui.basic.Atom"/>
 */
 proto._extractClassName = function(node) {
   var n;

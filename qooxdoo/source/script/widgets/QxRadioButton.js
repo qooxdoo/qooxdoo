@@ -23,15 +23,15 @@
 /* ************************************************************************
 
 #package(form)
-#require(QxRadioManager)
+#require(qx.manager.selection.RadioManager)
 
 ************************************************************************ */
 
-function QxRadioButton(vText, vValue, vName, vChecked) {
-  QxCheckBox.call(this, vText, vValue, vName, vChecked);
+qx.ui.form.RadioButton = function(vText, vValue, vName, vChecked) {
+  qx.ui.form.CheckBox.call(this, vText, vValue, vName, vChecked);
 };
 
-QxRadioButton.extend(QxCheckBox, "QxRadioButton");
+qx.ui.form.RadioButton.extend(qx.ui.form.CheckBox, "qx.ui.form.RadioButton");
 
 
 
@@ -42,9 +42,9 @@ QxRadioButton.extend(QxCheckBox, "QxRadioButton");
 */
 
 /*!
-  The assigned QxRadioManager which handles the switching between registered buttons
+  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-QxRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxRadioManager", allowNull : true });
+qx.ui.form.RadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 
@@ -140,16 +140,16 @@ proto._onkeydown = function(e)
 
     case qx.event.types.KeyEvent.keys.left:
     case qx.event.types.KeyEvent.keys.up:
-      QxFocusManager.mouseFocus = false;
+      qx.event.handler.FocusHandler.mouseFocus = false;
       // we want to have a focus border when using arrows to select
-      QxFocusManager.mouseFocus = false;
+      qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectPrevious(this) : true;
 
     case qx.event.types.KeyEvent.keys.right:
     case qx.event.types.KeyEvent.keys.down:
       // we want to have a focus border when using arrows to select
-      QxFocusManager.mouseFocus = false;
+      qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectNext(this) : true;
   };
@@ -182,5 +182,5 @@ proto.dispose = function()
     return;
   };
 
-  return QxCheckBox.prototype.dispose.call(this);
+  return qx.ui.form.CheckBox.prototype.dispose.call(this);
 };

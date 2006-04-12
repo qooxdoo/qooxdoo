@@ -19,7 +19,7 @@
   {
     var doc = this.getClientWindow().getClientDocument();
 
-    var dockLayout = new QxDockLayout;
+    var dockLayout = new qx.ui.layout.DockLayout;
 
     dockLayout.setLocation(20, 48);
     dockLayout.setDimension(700, 500);
@@ -31,7 +31,7 @@
     var menubar = new QxMenuBar;
     var toolbar = new QxToolBar;
     var tree = new QxTree("Inbox");
-    var status = new QxAtom("Status", "icons/16/network.png");
+    var status = new qx.ui.basic.Atom("Status", "icons/16/network.png");
 
     tree.setWidth(200);
     tree.setBorder(qx.renderer.border.BorderObject.presets.inset);
@@ -88,7 +88,7 @@
     var optimn = new QxMenuBarButton("Options", optimnu);
     var helpmn = new QxMenuBarButton("Help", helpmnu);
 
-    menubar.add(filemn, editmn, optimn, new QxHorizontalSpacer, helpmn);
+    menubar.add(filemn, editmn, optimn, new qx.ui.basic.HorizontalSpacer, helpmn);
     doc.add(filemnu, editmnu, optimnu, helpmnu);
 
 

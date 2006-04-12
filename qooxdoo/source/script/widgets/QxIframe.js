@@ -26,14 +26,14 @@
 
 ************************************************************************ */
 
-function QxIframe(vSource)
+qx.ui.embed.IframeEmbed = function(vSource)
 {
   // **********************************************************************
   //   INIT
   // **********************************************************************
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
-  QxIframe.init();
+  qx.ui.embed.IframeEmbed.init();
 
   this.setSelectable(false);
   this.setTabIndex(0);
@@ -47,9 +47,9 @@ function QxIframe(vSource)
   };
 };
 
-QxIframe.extend(QxTerminator, "QxIframe");
+qx.ui.embed.IframeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.IframeEmbed");
 
-QxIframe.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "iframe" });
+qx.ui.embed.IframeEmbed.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "iframe" });
 
 
 
@@ -62,9 +62,9 @@ QxIframe.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, def
 ---------------------------------------------------------------------------
 */
 
-QxIframe.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.IframeEmbed.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
 
-QxIframe.addProperty({ name : "frameName", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.IframeEmbed.addProperty({ name : "frameName", type : QxConst.TYPEOF_STRING });
 
 
 
@@ -106,7 +106,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   if (!iframeNode)
   {
     // clone proto element and assign iframe
-    iframeNode = this.setIframeNode(QxIframe._element.cloneNode(true));
+    iframeNode = this.setIframeNode(qx.ui.embed.IframeEmbed._element.cloneNode(true));
 
     if (qx.sys.Client.isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
@@ -121,7 +121,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   propValue.appendChild(iframeNode);
 
   // create basic widget
-  QxTerminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+  qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   return true;
 };
@@ -140,7 +140,7 @@ proto._applySource = function()
   var currentSource = this.getSource();
 
   if (qx.util.validator.isInvalidString(currentSource)) {
-    currentSource = QxImageManager.buildUri("core/blank.gif");
+    currentSource = qx.manager.object.ImageManager.buildUri("core/blank.gif");
   };
 
   this._isLoaded = false;
@@ -295,7 +295,7 @@ proto.dispose = function()
     this._iframeNode = null;
   };
 
-  QxTerminator.prototype.dispose.call(this);
+  qx.ui.basic.Terminator.prototype.dispose.call(this);
 };
 
 
@@ -308,13 +308,13 @@ proto.dispose = function()
   INIT
 ---------------------------------------------------------------------------
 */
-QxIframe.init = function()
+qx.ui.embed.IframeEmbed.init = function()
 {
-  if (QxIframe._element) {
+  if (qx.ui.embed.IframeEmbed._element) {
     return;
   };
 
-  var f = QxIframe._element = document.createElement("iframe");
+  var f = qx.ui.embed.IframeEmbed._element = document.createElement("iframe");
 
   f.frameBorder = QxConst.CORE_ZERO;
   f.frameSpacing = QxConst.CORE_ZERO;

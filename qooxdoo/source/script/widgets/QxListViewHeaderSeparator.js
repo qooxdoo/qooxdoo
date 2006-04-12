@@ -27,9 +27,9 @@
 ************************************************************************ */
 
 function QxListViewHeaderSeparator() {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 };
 
-QxListViewHeaderSeparator.extend(QxTerminator, "QxListViewHeaderSeparator");
+QxListViewHeaderSeparator.extend(qx.ui.basic.Terminator, "QxListViewHeaderSeparator");
 
 QxListViewHeaderSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header-separator" });

@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-function QxLink(vHtml, vUri, vTarget) 
+qx.ui.embed.HtmlLinkEmbed = function(vHtml, vUri, vTarget)
 {
-  QxHtml.call(this, vHtml);
-  
+  qx.ui.embed.HtmlEmbed.call(this, vHtml);
+
   if (typeof vUri != QxConst.TYPEOF_UNDEFINED) {
     this.setUri(vUri);
   };
@@ -39,7 +39,7 @@ function QxLink(vHtml, vUri, vTarget)
   };
 };
 
-QxLink.extend(QxHtml, "QxLink");
+qx.ui.embed.HtmlLinkEmbed.extend(qx.ui.embed.HtmlEmbed, "qx.ui.embed.HtmlLinkEmbed");
 
 
 
@@ -55,12 +55,12 @@ QxLink.extend(QxHtml, "QxLink");
 /*!
   Any valid html URI
 */
-QxLink.addProperty({ name : "uri", type : QxConst.TYPEOF_STRING, defaultValue : "#", impl : "html" });
+qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "uri", type : QxConst.TYPEOF_STRING, defaultValue : "#", impl : "html" });
 
 /*!
   Any valid html target
 */
-QxLink.addProperty({ name : "target", type : QxConst.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
+qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "target", type : QxConst.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
 
 
 
@@ -73,22 +73,22 @@ QxLink.addProperty({ name : "target", type : QxConst.TYPEOF_STRING, defaultValue
 ---------------------------------------------------------------------------
 */
 
-QxLink.LINK_START = "<a target='";
-QxLink.HREF_START = "' href='";
-QxLink.HREF_STOP = "'>";
-QxLink.LINK_STOP = "</a>";
+qx.ui.embed.HtmlLinkEmbed.LINK_START = "<a target='";
+qx.ui.embed.HtmlLinkEmbed.HREF_START = "' href='";
+qx.ui.embed.HtmlLinkEmbed.HREF_STOP = "'>";
+qx.ui.embed.HtmlLinkEmbed.LINK_STOP = "</a>";
 
-proto._syncHtml = function() 
+proto._syncHtml = function()
 {
   var vHtml = [];
-  
-  vHtml.push(QxLink.LINK_START);
+
+  vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_START);
   vHtml.push(this.getTarget());
-  vHtml.push(QxLink.HREF_START);
+  vHtml.push(qx.ui.embed.HtmlLinkEmbed.HREF_START);
   vHtml.push(this.getUri());
-  vHtml.push(QxLink.HREF_STOP);
+  vHtml.push(qx.ui.embed.HtmlLinkEmbed.HREF_STOP);
   vHtml.push(this.getHtml());
-  vHtml.push(QxLink.LINK_STOP);
-   
+  vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_STOP);
+
   this.getElement().innerHTML = vHtml.join(QxConst.CORE_EMPTY);
 };

@@ -28,7 +28,7 @@
 
 function QxCommonViewButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
-  QxAtom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
   this.setTabIndex(1);
 
@@ -46,7 +46,7 @@ function QxCommonViewButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxCommonViewButton.extend(QxAtom, "QxCommonViewButton");
+QxCommonViewButton.extend(qx.ui.basic.Atom, "QxCommonViewButton");
 
 
 
@@ -69,9 +69,9 @@ QxCommonViewButton.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN
 QxCommonViewButton.addProperty({ name : "page", type : QxConst.TYPEOF_OBJECT });
 
 /*!
-  The assigned QxRadioManager which handles the switching between registered buttons
+  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-QxCommonViewButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "QxRadioManager", allowNull : true });
+QxCommonViewButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
@@ -127,7 +127,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
     propValue.getManager().add(this);
   };
 
-  return QxAtom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
+  return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyPage = function(propValue, propOldValue, propData)
@@ -231,5 +231,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
 
-  return QxAtom.prototype.dispose.call(this);
+  return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

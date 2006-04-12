@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-function QxDomSelectionManager(vBoundedWidget)
+qx.manager.selection.DomSelectionManager = function(vBoundedWidget)
 {
-  QxSelectionManager.call(this, vBoundedWidget);
+  qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 
   // the children does not fire onmouseover events so we could
   // not enable this and make it functional
@@ -37,7 +37,7 @@ function QxDomSelectionManager(vBoundedWidget)
   this._selectedItems.getItemHashCode = this.getItemHashCode;
 };
 
-QxDomSelectionManager.extend(QxSelectionManager, "QxDomSelectionManager");
+qx.manager.selection.DomSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.DomSelectionManager");
 
 
 

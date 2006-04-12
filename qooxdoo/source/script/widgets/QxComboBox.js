@@ -24,11 +24,11 @@
 
 #package(form)
 #require(QxDomLocation)
-#require(QxList)
+#require(qx.ui.form.List)
 #require(QxPopup)
-#require(QxAtom)
-#require(QxTextField)
-#require(QxImage)
+#require(qx.ui.basic.Atom)
+#require(qx.ui.form.TextField)
+#require(qx.ui.basic.Image)
 
 ************************************************************************ */
 
@@ -44,15 +44,15 @@
   * Images inside the list
   * Images and text inside the list
 */
-function QxComboBox()
+qx.ui.form.ComboBox = function()
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
 
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  var l = this._list = new QxList;
+  var l = this._list = new qx.ui.form.List;
 
   l.setAppearance("combo-box-list");
 
@@ -80,7 +80,7 @@ function QxComboBox()
   // ************************************************************************
   //   TEXTFIELD
   // ************************************************************************
-  var f = this._field = new QxTextField;
+  var f = this._field = new qx.ui.form.TextField;
 
   f.setAppearance("combo-box-text-field");
 
@@ -91,9 +91,9 @@ function QxComboBox()
   //   BUTTON
   // ************************************************************************
 
-  // Use QxAtom instead of QxButton here to omit the registration
+  // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
   // of the unneeded and complex button events.
-  var b = this._button = new QxAtom(null, "widgets/arrows/down.gif");
+  var b = this._button = new qx.ui.basic.Atom(null, "widgets/arrows/down.gif");
 
   b.setAppearance("combo-box-button");
   b.setTabIndex(-1);
@@ -137,7 +137,7 @@ function QxComboBox()
   this.remapChildrenHandlingTo(l);
 };
 
-QxComboBox.extend(QxHorizontalBoxLayout, "QxComboBox");
+qx.ui.form.ComboBox.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.ComboBox");
 
 
 
@@ -147,12 +147,12 @@ QxComboBox.extend(QxHorizontalBoxLayout, "QxComboBox");
 ---------------------------------------------------------------------------
 */
 
-QxComboBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "combo-box" });
+qx.ui.form.ComboBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "combo-box" });
 
-QxComboBox.addProperty({ name: "editable", type: QxConst.TYPEOF_BOOLEAN, getAlias: "isEditable" });
-QxComboBox.addProperty({ name: "selected", type: QxConst.TYPEOF_OBJECT, instance : "QxListItem" });
-QxComboBox.addProperty({ name: "value", type : QxConst.TYPEOF_STRING });
-QxComboBox.addProperty({ name: "pagingInterval", type: QxConst.TYPEOF_NUMBER, defaultValue: 10 });
+qx.ui.form.ComboBox.addProperty({ name: "editable", type: QxConst.TYPEOF_BOOLEAN, getAlias: "isEditable" });
+qx.ui.form.ComboBox.addProperty({ name: "selected", type: QxConst.TYPEOF_OBJECT, instance : "qx.ui.form.ListItem" });
+qx.ui.form.ComboBox.addProperty({ name: "value", type : QxConst.TYPEOF_STRING });
+qx.ui.form.ComboBox.addProperty({ name: "pagingInterval", type: QxConst.TYPEOF_NUMBER, defaultValue: 10 });
 
 
 
@@ -333,7 +333,7 @@ proto._onmousedown = function(e)
       break;
 
     default:
-      if (vTarget instanceof QxListItem)
+      if (vTarget instanceof qx.ui.form.ListItem)
       {
         this._list._onmousedown(e);
         this.setSelected(this._list.getSelectedItem());
@@ -369,7 +369,7 @@ proto._onmouseover = function(e)
 {
   var vTarget = e.getTarget();
 
-  if (vTarget instanceof QxListItem)
+  if (vTarget instanceof qx.ui.form.ListItem)
   {
     var vManager = this._manager;
 
@@ -653,5 +653,5 @@ proto.dispose = function()
     this._button = null;
   };
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

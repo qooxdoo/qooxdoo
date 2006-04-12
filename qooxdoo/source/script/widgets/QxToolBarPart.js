@@ -28,13 +28,13 @@
 
 function QxToolBarPart()
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this._handle = new QxToolBarPartHandle;
   this.add(this._handle);
 };
 
-QxToolBarPart.extend(QxHorizontalBoxLayout, "QxToolBarPart");
+QxToolBarPart.extend(qx.ui.layout.HorizontalBoxLayout, "QxToolBarPart");
 
 QxToolBarPart.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part" });
 
@@ -83,5 +83,5 @@ proto.dispose = function()
     this._handle = null;
   };
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

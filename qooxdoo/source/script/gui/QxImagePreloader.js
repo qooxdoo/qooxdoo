@@ -23,21 +23,21 @@
 /* ************************************************************************
 
 #package(image)
-#require(QxImagePreloaderManager)
+#require(qx.manager.object.ImagePreloaderManager)
 
 ************************************************************************ */
 
 /*!
-  This is the preloader used from QxImage instances.
+  This is the preloader used from qx.ui.basic.Image instances.
 */
 qx.io.image.ImagePreloader = function(vSource)
 {
-  if(QxImagePreloaderManager.has(vSource))
+  if(qx.manager.object.ImagePreloaderManager.has(vSource))
   {
     this.debug("Reuse qx.io.image.ImagePreloader in old-style!");
-    this.debug("Please use QxImagePreloaderManager.create(source) instead!");
+    this.debug("Please use qx.manager.object.ImagePreloaderManager.create(source) instead!");
 
-    return QxImagePreloaderManager.get(vSource);
+    return qx.manager.object.ImagePreloaderManager.get(vSource);
   };
 
   qx.core.Target.call(this);
@@ -61,7 +61,7 @@ qx.io.image.ImagePreloader = function(vSource)
     this._isPng = /\.png$/i.test(this._element.nameProp);
   };
 
-  QxImagePreloaderManager.add(this);
+  qx.manager.object.ImagePreloaderManager.add(this);
 };
 
 qx.io.image.ImagePreloader.extend(qx.core.Target, "qx.io.image.ImagePreloader");

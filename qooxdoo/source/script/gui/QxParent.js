@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(guicore)
-#post(QxFocusManager)
+#post(qx.event.handler.FocusHandler)
 
 ************************************************************************ */
 
@@ -58,7 +58,7 @@ qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 /*!
   Individual focus manager for all child elements.
 */
-qx.ui.core.Parent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJECT, instance : "QxFocusManager" });
+qx.ui.core.Parent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
@@ -111,7 +111,7 @@ proto.getFocusRoot = function()
 };
 
 proto.activateFocusRoot = function() {
-  this.setFocusManager(new QxFocusManager(this));
+  this.setFocusManager(new qx.event.handler.FocusHandler(this));
 };
 
 proto._onfocuskeyevent = function(e) {
@@ -160,8 +160,8 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   var vFocusValid = qx.util.validator.isValidObject(propValue);
   var vBlurValid = qx.util.validator.isValidObject(propOldValue);
 
-  if (vFocusValid && typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxPopupManager.update(propValue);
+  if (vFocusValid && typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+    qx.manager.object.PopupManager.update(propValue);
   };
 
   if (vBlurValid)
@@ -213,7 +213,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     propOldValue.dispatchEvent(vEventObject);
 
-    QxToolTipManager.handleBlur(vEventObject);
+    qx.manager.object.ToolTipManager.handleBlur(vEventObject);
     vEventObject.dispose();
   };
 
@@ -232,7 +232,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     propValue.dispatchEvent(vEventObject);
 
-    QxToolTipManager.handleFocus(vEventObject);
+    qx.manager.object.ToolTipManager.handleFocus(vEventObject);
 
     vEventObject.dispose();
   };
@@ -410,7 +410,7 @@ proto.add = function()
   {
     vWidget = arguments[i];
 
-    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof QxTerminator))
+    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator))
     {
       throw new Error("Invalid Widget: " + vWidget);
     }
@@ -533,7 +533,7 @@ proto.remove = function()
   {
     vWidget = arguments[i];
 
-    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof QxTerminator))
+    if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator))
     {
       throw new Error("Invalid Widget: " + vWidget);
     }

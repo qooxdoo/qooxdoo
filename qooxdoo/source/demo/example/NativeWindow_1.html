@@ -27,7 +27,7 @@
 
     var d = this.getClientWindow().getClientDocument();
 
-    var btn1 = new QxButton("Open Native Window", "icons/16/appearance.png");
+    var btn1 = new qx.ui.form.Button("Open Native Window", "icons/16/appearance.png");
     with(btn1)
     {
       setTop(48);
@@ -42,7 +42,7 @@
 
 
 
-    var l = new QxVerticalBoxLayout;
+    var l = new qx.ui.layout.VerticalBoxLayout;
     l.setLocation(20, 96);
     l.setWidth("auto");
     l.setHeight("auto");
@@ -53,56 +53,56 @@
     l.add(fs1);
 
 
-    var chk1 = new QxCheckBox("Resizeable");
+    var chk1 = new qx.ui.form.CheckBox("Resizeable");
     chk1.setLocation(0, 0);
     chk1.setChecked(true);
     chk1.addEventListener("changeChecked", function(e) {
       w1.setResizeable(e.getData());
     });
 
-    var chk2 = new QxCheckBox("Show Statusbar");
+    var chk2 = new qx.ui.form.CheckBox("Show Statusbar");
     chk2.setLocation(0, 20);
     chk2.setChecked(false);
     chk2.addEventListener("changeChecked", function(e) {
       w1.setShowStatusbar(e.getData());
     });
 
-    var chk3 = new QxCheckBox("Show Menubar");
+    var chk3 = new qx.ui.form.CheckBox("Show Menubar");
     chk3.setLocation(0, 40);
     chk3.setChecked(false);
     chk3.addEventListener("changeChecked", function(e) {
       w1.setShowMenubar(e.getData());
     });
 
-    var chk4 = new QxCheckBox("Show Location");
+    var chk4 = new qx.ui.form.CheckBox("Show Location");
     chk4.setLocation(0, 60);
     chk4.setChecked(false);
     chk4.addEventListener("changeChecked", function(e) {
       w1.setShowLocation(e.getData());
     });
 
-    var chk5 = new QxCheckBox("Show Toolbar");
+    var chk5 = new qx.ui.form.CheckBox("Show Toolbar");
     chk5.setLocation(0, 80);
     chk5.setChecked(false);
     chk5.addEventListener("changeChecked", function(e) {
       w1.setShowToolbar(e.getData());
     });
 
-    var chk6 = new QxCheckBox("Allow Scrollbars");
+    var chk6 = new qx.ui.form.CheckBox("Allow Scrollbars");
     chk6.setLocation(0, 100);
     chk6.setChecked(true);
     chk6.addEventListener("changeChecked", function(e) {
       w1.setAllowScrollbars(e.getData());
     });
 
-    var chk7 = new QxCheckBox("Modal");
+    var chk7 = new qx.ui.form.CheckBox("Modal");
     chk7.setLocation(0, 120);
     chk7.setChecked(false);
     chk7.addEventListener("changeChecked", function(e) {
       w1.setModal(e.getData());
     });
 
-    var chk8 = new QxCheckBox("Dependent");
+    var chk8 = new qx.ui.form.CheckBox("Dependent");
     chk8.setLocation(0, 140);
     chk8.setChecked(true);
     chk8.addEventListener("changeChecked", function(e) {
@@ -124,11 +124,11 @@
 
 
 
-    var tf1 = new QxTextField("http://www.google.com");
+    var tf1 = new qx.ui.form.TextField("http://www.google.com");
     tf1.setLocation(0, 2);
     tf1.setWidth(150);
 
-    var btn1 = new QxButton("Set Url", "icons/16/button-ok.png");
+    var btn1 = new qx.ui.form.Button("Set Url", "icons/16/button-ok.png");
     btn1.setLocation(155, 0);
     btn1.addEventListener("click", function() {
       w1.setUrl(tf1.getValue());
@@ -137,11 +137,11 @@
 
 
 
-    var tf2 = new QxTextField("600");
+    var tf2 = new qx.ui.form.TextField("600");
     tf2.setLocation(0, 42);
     tf2.setWidth(50);
 
-    var btn2 = new QxButton("Set Width", "icons/16/button-ok.png");
+    var btn2 = new qx.ui.form.Button("Set Width", "icons/16/button-ok.png");
     btn2.setLocation(55, 40);
     btn2.addEventListener("click", function() {
       w1.setWidth(parseInt(tf2.getValue()));
@@ -150,11 +150,11 @@
 
 
 
-    var tf3 = new QxTextField("400");
+    var tf3 = new qx.ui.form.TextField("400");
     tf3.setLocation(0, 72);
     tf3.setWidth(50);
 
-    var btn3 = new QxButton("Set Height", "icons/16/button-ok.png");
+    var btn3 = new qx.ui.form.Button("Set Height", "icons/16/button-ok.png");
     btn3.setLocation(55, 70);
     btn3.addEventListener("click", function() {
       w1.setHeight(parseInt(tf3.getValue()));
@@ -162,19 +162,19 @@
 
 
 
-    var btn4 = new QxButton("Center to screen", "icons/16/paint.png");
+    var btn4 = new qx.ui.form.Button("Center to screen", "icons/16/paint.png");
     btn4.setLocation(0, 110);
     btn4.addEventListener("click", function() {
       w1.centerToScreen()
     });
 
-    var btn5 = new QxButton("Center to screen area", "icons/16/paint.png");
+    var btn5 = new qx.ui.form.Button("Center to screen area", "icons/16/paint.png");
     btn5.setLocation(0, 140);
     btn5.addEventListener("click", function() {
       w1.centerToScreenArea()
     });
 
-    var btn6 = new QxButton("Center to opener", "icons/16/paint.png");
+    var btn6 = new qx.ui.form.Button("Center to opener", "icons/16/paint.png");
     btn6.setLocation(0, 170);
     btn6.addEventListener("click", function() {
       w1.centerToOpener()

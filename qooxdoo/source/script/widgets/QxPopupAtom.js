@@ -30,7 +30,7 @@ function QxPopupAtom(vLabel, vIcon)
 {
   QxPopup.call(this);
 
-  this._atom = new QxAtom(vLabel, vIcon);
+  this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
   this._atom.setParent(this);
 };
 

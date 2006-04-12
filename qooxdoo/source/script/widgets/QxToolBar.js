@@ -29,12 +29,12 @@
 
 function QxToolBar()
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxToolBar.extend(QxHorizontalBoxLayout, "QxToolBar");
+QxToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxToolBar");
 
 
 
@@ -163,7 +163,7 @@ proto._onkeydown_left = function(e)
   if (vPrevButton)
   {
     // hide other menus
-    QxMenuManager.update();
+    qx.manager.object.MenuManager.update();
 
     // show previous menu
     vPrevButton._showMenu(true);
@@ -217,7 +217,7 @@ proto._onkeydown_right = function(e)
   if (vNextButton)
   {
     // hide other menus
-    QxMenuManager.update();
+    qx.manager.object.MenuManager.update();
 
     // show next menu
     vNextButton._showMenu(true);
@@ -244,5 +244,5 @@ proto.dispose = function()
 
   this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

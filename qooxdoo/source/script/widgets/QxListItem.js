@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-function QxListItem(vText, vIcon, vValue)
+qx.ui.form.ListItem = function(vText, vIcon, vValue)
 {
-  QxAtom.call(this, vText, vIcon);
+  qx.ui.basic.Atom.call(this, vText, vIcon);
 
   if (qx.util.validator.isValid(vValue)) {
     this.setValue(vValue);
@@ -41,10 +41,10 @@ function QxListItem(vText, vIcon, vValue)
   this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
 };
 
-QxListItem.extend(QxAtom, "QxListItem");
+qx.ui.form.ListItem.extend(qx.ui.basic.Atom, "qx.ui.form.ListItem");
 
-QxListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-item" });
-QxListItem.addProperty({ name : "value" });
+qx.ui.form.ListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-item" });
+qx.ui.form.ListItem.addProperty({ name : "value" });
 
 
 

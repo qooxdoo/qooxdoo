@@ -22,14 +22,14 @@
 
 ************************************************************************ */
 function QxTaskBar() {
-    QxHorizontalBoxLayout.call(this);
+    qx.ui.layout.HorizontalBoxLayout.call(this);
     this._wins = 0;
     this._tBarPanel = new QxToolBarPart;
     this.add(this._tBarPanel);
     this._addingWindow = false;
 };
 
-QxTaskBar.extend(QxHorizontalBoxLayout, "TaskBar");
+QxTaskBar.extend(qx.ui.layout.HorizontalBoxLayout, "TaskBar");
 
 /*!
   Appearance of the widget
@@ -115,5 +115,5 @@ proto.dispose = function()
     return;
   };
 
-  return QxHorizontalBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

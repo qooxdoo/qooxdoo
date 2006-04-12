@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxDockLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.DockLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxDockLayoutImpl.extend(QxLayoutImpl, "QxDockLayoutImpl");
+qx.renderer.layout.DockLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.DockLayoutImpl");
 
 
 /*!
@@ -48,7 +48,7 @@ QxDockLayoutImpl.extend(QxLayoutImpl, "QxDockLayoutImpl");
   [11] DISPOSER
 
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
   [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
   [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
@@ -65,40 +65,40 @@ QxDockLayoutImpl.extend(QxLayoutImpl, "QxDockLayoutImpl");
 ---------------------------------------------------------------------------
 */
 
-QxDockLayoutImpl.METHOD_LOCATION = "layoutChild_location_";
+qx.renderer.layout.DockLayoutImpl.METHOD_LOCATION = "layoutChild_location_";
 
-QxDockLayoutImpl._childRanking = {
+qx.renderer.layout.DockLayoutImpl._childRanking = {
   vertical : function(c) { return c.getVerticalAlign() ? 1e6 : c.getHorizontalAlign() ? 2e6 : 3e6; },
   horizontal : function(c) { return c.getHorizontalAlign() ? 1e6 : c.getVerticalAlign() ? 2e6 : 3e6; },
   ordered : function(c) { return c.getHorizontalAlign() || c.getVerticalAlign() ? 1e6 : 2e6; }
 };
 
-QxDockLayoutImpl._childCheck =
+qx.renderer.layout.DockLayoutImpl._childCheck =
 {
   common : function(vChild) {
     if (!(vChild._computedLeftTypeNull && vChild._computedRightTypeNull && vChild._computedTopTypeNull && vChild._computedBottomTypeNull)) {
-      throw new Error("QxDockLayoutImpl: It is not allowed to define any location values for children: " + vChild + "!");
+      throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any location values for children: " + vChild + "!");
     };
   },
 
   horizontal : function(vChild)
   {
     if (!(vChild._computedMinHeightTypeNull && vChild._computedHeightTypeNull && vChild._computedMaxHeightTypeNull)) {
-      throw new Error("QxDockLayoutImpl: It is not allowed to define any vertical dimension for 'horizontal' placed children: " + vChild + "!");
+      throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any vertical dimension for 'horizontal' placed children: " + vChild + "!");
     };
   },
 
   vertical : function(vChild)
   {
     if (!(vChild._computedMinWidthTypeNull && vChild._computedWidthTypeNull && vChild._computedMaxWidthTypeNull)) {
-      throw new Error("QxDockLayoutImpl: It is not allowed to define any horizontal dimension for 'vertical' placed children: " + vChild + "!");
+      throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any horizontal dimension for 'vertical' placed children: " + vChild + "!");
     };
   },
 
   "default" : function(vChild)
   {
-    QxDockLayoutImpl._childCheck.horizontal(vChild);
-    QxDockLayoutImpl._childCheck.vertical(vChild);
+    qx.renderer.layout.DockLayoutImpl._childCheck.horizontal(vChild);
+    qx.renderer.layout.DockLayoutImpl._childCheck.vertical(vChild);
   }
 };
 
@@ -240,7 +240,7 @@ proto.flushChildrenQueue = function(vChildrenQueue)
   this._lastLeft = this._lastRight = this._lastTop = this._lastBottom = 0;
 
   // sorting children
-  var vRankImpl = QxDockLayoutImpl._childRanking[vMode];
+  var vRankImpl = qx.renderer.layout.DockLayoutImpl._childRanking[vMode];
   var vOrderedChildren = vChildren.copy().sort(function(c1, c2) {
     return (vRankImpl(c1) + vChildren.indexOf(c1)) - (vRankImpl(c2) + vChildren.indexOf(c2));
   });
@@ -277,8 +277,8 @@ proto.getChildAlignMode = function(vChild) {
 */
 proto.layoutChild = function(vChild, vJobs)
 {
-  QxDockLayoutImpl._childCheck.common(vChild);
-  QxDockLayoutImpl._childCheck[this.getChildAlignMode(vChild)](vChild);
+  qx.renderer.layout.DockLayoutImpl._childCheck.common(vChild);
+  qx.renderer.layout.DockLayoutImpl._childCheck[this.getChildAlignMode(vChild)](vChild);
 
   this.layoutChild_sizeX_essentialWrapper(vChild, vJobs);
   this.layoutChild_sizeY_essentialWrapper(vChild, vJobs);
@@ -286,7 +286,7 @@ proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_sizeLimitX(vChild, vJobs);
   this.layoutChild_sizeLimitY(vChild, vJobs);
 
-  this[QxDockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
+  this[qx.renderer.layout.DockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
 };
 
 proto.layoutChild_location_top = function(vChild, vJobs)

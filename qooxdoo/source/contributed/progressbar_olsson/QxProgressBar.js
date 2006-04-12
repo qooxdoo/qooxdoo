@@ -22,7 +22,7 @@
 
 #package(form)
 #require(QxRangeManager)
-#require(QxAtom)
+#require(qx.ui.basic.Atom)
 #require(qx.client.Timer)
 
 **************************************************************************** */
@@ -44,7 +44,7 @@ qx.client.Timer.prototype.wait = function(vMilliseconds)
 
 
 function QxProgressBar(vDirection, vMin, vMax) {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   this.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this.setBackgroundColor("white");
@@ -57,7 +57,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   BAR
   // ***********************************************************************
-  var barA = this._bar = new QxAtom();
+  var barA = this._bar = new qx.ui.basic.Atom();
   barA.setBackgroundColor("red");
 
   this.add(barA);
@@ -65,7 +65,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   TEXT - removed later, to be replaced with QxFormattedText
   // ***********************************************************************
-  var label = new QxText();
+  var label = new qx.ui.embed.TextEmbed();
   label.setVerticalAlign("middle");
   label.setHorizontalAlign("center");
   label.setColor("white");
@@ -100,7 +100,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   };
 };
 
-QxProgressBar.extend(QxCanvasLayout, "QxProgressBar");
+QxProgressBar.extend(qx.ui.layout.CanvasLayout, "QxProgressBar");
 
 /*
 ------------------------------------------------------------------------------------
@@ -288,5 +288,5 @@ proto.dispose = function()
     this._bar = null;
   };
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

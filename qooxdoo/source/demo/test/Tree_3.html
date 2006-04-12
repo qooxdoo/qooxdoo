@@ -136,7 +136,7 @@
 
 
 
-      var tCurrentLabel = new QxAtom("Current Folder: ");
+      var tCurrentLabel = new qx.ui.basic.Atom("Current Folder: ");
 
       with(tCurrentLabel)
       {
@@ -148,7 +148,7 @@
 
 
 
-      var tCurrentInput = new QxTextField;
+      var tCurrentInput = new qx.ui.form.TextField;
 
       with(tCurrentInput)
       {
@@ -168,7 +168,7 @@
 
 
 
-      var tDoubleClick = new QxCheckBox("Use double click?");
+      var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
 
       with(tDoubleClick) {
         setTop(60);
@@ -180,7 +180,7 @@
       tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
 
 
-      var tTreeLines = new QxCheckBox("Use tree lines?");
+      var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
 
       with(tTreeLines) {
         setTop(80);

@@ -24,7 +24,7 @@
 
 #package(image)
 #package(guicore)
-#post(QxImageManager)
+#post(qx.manager.object.ImageManager)
 #post(qx.io.image.ImagePreloader)
 
 ************************************************************************ */
@@ -32,16 +32,16 @@
 /*!
   This widget is for all images in qooxdoo projects.
 */
-function QxImage(vSource, vWidth, vHeight)
+qx.ui.basic.Image = function(vSource, vWidth, vHeight)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   // Reset Alt and Title
-  this.setHtmlProperty(QxImage.ATTR_ALT, QxConst.CORE_EMPTY);
-  this.setHtmlProperty(QxImage.ATTR_TITLE, QxConst.CORE_EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, QxConst.CORE_EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, QxConst.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(qx.util.validator.isValid(vSource) ? vSource : QxImageManager.buildUri(QxConst.IMAGE_BLANK));
+  this.setSource(qx.util.validator.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK));
 
   // Dimensions
   this.setWidth(qx.util.validator.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
@@ -51,13 +51,13 @@ function QxImage(vSource, vWidth, vHeight)
   this.setSelectable(false);
 };
 
-QxImage.extend(QxTerminator, "QxImage");
+qx.ui.basic.Image.extend(qx.ui.basic.Terminator, "qx.ui.basic.Image");
 
-QxImage.ATTR_ALT = QxConst.KEY_ALT;
-QxImage.ATTR_TITLE = "title";
+qx.ui.basic.Image.ATTR_ALT = QxConst.KEY_ALT;
+qx.ui.basic.Image.ATTR_TITLE = "title";
 
-QxImage.BORDER_NONE = "0 none";
-QxImage.RESET_VALIGN = "top";
+qx.ui.basic.Image.BORDER_NONE = "0 none";
+qx.ui.basic.Image.RESET_VALIGN = "top";
 
 
 /*
@@ -69,12 +69,12 @@ QxImage.RESET_VALIGN = "top";
 /*!
   The source uri of the image.
 */
-QxImage.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Image.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
 
 /*!
   The assigned preloader instance of the image.
 */
-QxImage.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT });
+qx.ui.basic.Image.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The loading status.
@@ -82,17 +82,17 @@ QxImage.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT });
   True if the image is loaded correctly. False if no image is loaded
   or the one that should be loaded is currently loading or not available.
 */
-QxImage.addProperty({ name : "loaded", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.basic.Image.addProperty({ name : "loaded", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the image be maxified in it's own container?
 */
-QxImage.addProperty({ name : "resizeToInner", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.basic.Image.addProperty({ name : "resizeToInner", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Appearance of the widget
 */
-QxImage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "image" });
+qx.ui.basic.Image.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "image" });
 
 
 
@@ -134,10 +134,10 @@ proto._beforeAppear = function()
   var vSource = this.getSource();
 
   if (qx.util.validator.isValidString(vSource)) {
-    QxImageManager._sources[vSource]++;
+    qx.manager.object.ImageManager._sources[vSource]++;
   };
 
-  return QxTerminator.prototype._beforeAppear.call(this);
+  return qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
 };
 
 proto._beforeDisappear = function()
@@ -146,17 +146,17 @@ proto._beforeDisappear = function()
 
   if (qx.util.validator.isValidString(vSource))
   {
-    if (QxImageManager._sources[vSource] == 1)
+    if (qx.manager.object.ImageManager._sources[vSource] == 1)
     {
-      delete QxImageManager._sources[vSource];
+      delete qx.manager.object.ImageManager._sources[vSource];
     }
     else
     {
-      QxImageManager._sources[vSource]--;
+      qx.manager.object.ImageManager._sources[vSource]--;
     };
   };
 
-  return QxTerminator.prototype._beforeDisappear.call(this);
+  return qx.ui.basic.Terminator.prototype._beforeDisappear.call(this);
 };
 
 
@@ -171,19 +171,19 @@ proto._beforeDisappear = function()
 
 proto._modifySource = function(propValue, propOldValue, propData)
 {
-  if (propValue && typeof QxImageManager._sources[propValue] === QxConst.TYPEOF_UNDEFINED) {
-    QxImageManager._sources[propValue] = 0;
+  if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === QxConst.TYPEOF_UNDEFINED) {
+    qx.manager.object.ImageManager._sources[propValue] = 0;
   };
 
   if (propOldValue)
   {
-    if (QxImageManager._sources[propValue] == 1)
+    if (qx.manager.object.ImageManager._sources[propValue] == 1)
     {
-      delete QxImageManager._sources[propValue];
+      delete qx.manager.object.ImageManager._sources[propValue];
     }
     else
     {
-      QxImageManager._sources[propValue]--;
+      qx.manager.object.ImageManager._sources[propValue]--;
     };
   };
 
@@ -191,7 +191,7 @@ proto._modifySource = function(propValue, propOldValue, propData)
   {
     if (propValue)
     {
-      this.setPreloader(QxImagePreloaderManager.create(QxImageManager.buildUri(propValue)));
+      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(propValue)));
     }
     else if (propOldValue)
     {
@@ -215,7 +215,7 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // Register to image manager
-    QxImageManager.add(this);
+    qx.manager.object.ImageManager.add(this);
 
     // Omit  here, otherwise the later setLoaded(true)
     // will not be executed (prevent recursion)
@@ -240,7 +240,7 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
   else
   {
     // Remove from image manager
-    QxImageManager.remove(this);
+    qx.manager.object.ImageManager.remove(this);
 
     this.setLoaded(false);
   };
@@ -277,10 +277,10 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?
-      // this._image.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+      // this._image.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
 
-      this._image.style.border = QxImage.BORDER_NONE;
-      this._image.style.verticalAlign = QxImage.RESET_VALIGN;
+      this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
+      this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
 
       if (!qx.sys.Client.isMshtml()) {
         this._applyEnabled();
@@ -291,14 +291,14 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   };
 
   // call widget implmentation
-  QxTerminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+  qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   if (propValue)
   {
     // initialisize preloader
     var vSource = this.getSource();
     if (qx.util.validator.isValidString(vSource)) {
-      this.setPreloader(QxImagePreloaderManager.create(QxImageManager.buildUri(vSource)));
+      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource)));
     };
   };
 
@@ -327,9 +327,9 @@ proto._postApply = function()
 
 if (qx.sys.Client.isMshtml())
 {
-  QxImage.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
-  QxImage.IMGLOADER_STOP = "',sizingMethod='scale')";
-  QxImage.FILTER_GRAY = "Gray() Alpha(Opacity=30)";
+  qx.ui.basic.Image.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
+  qx.ui.basic.Image.IMGLOADER_STOP = "',sizingMethod='scale')";
+  qx.ui.basic.Image.FILTER_GRAY = "Gray() Alpha(Opacity=30)";
 
   proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
@@ -337,7 +337,7 @@ if (qx.sys.Client.isMshtml())
       this._applyEnabled();
     };
 
-    return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+    return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
   };
 
   proto._updateContent = function(vSource)
@@ -347,13 +347,13 @@ if (qx.sys.Client.isMshtml())
 
     if (pl.getIsPng() && this.getEnabled())
     {
-      i.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
-      i.style.filter = QxImage.IMGLOADER_START + (vSource || pl.getSource()) + QxImage.IMGLOADER_STOP;
+      i.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+      i.style.filter = qx.ui.basic.Image.IMGLOADER_START + (vSource || pl.getSource()) + qx.ui.basic.Image.IMGLOADER_STOP;
     }
     else
     {
       i.src = vSource || pl.getSource();
-      i.style.filter = this.getEnabled() ? QxConst.CORE_EMPTY : QxImage.FILTER_GRAY;
+      i.style.filter = this.getEnabled() ? QxConst.CORE_EMPTY : qx.ui.basic.Image.FILTER_GRAY;
     };
   };
 
@@ -361,7 +361,7 @@ if (qx.sys.Client.isMshtml())
   {
     var i = this._image;
 
-    i.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+    i.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
     i.style.filter = QxConst.CORE_EMPTY;
   };
 
@@ -384,7 +384,7 @@ else
   };
 
   proto._resetContent = function() {
-    this._image.src = QxImageManager.buildUri(QxConst.IMAGE_BLANK);
+    this._image.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
   };
 
   proto._applyEnabled = function()
@@ -404,7 +404,7 @@ else
       this._applyEnabled();
     };
 
-    return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+    return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
   };
 };
 
@@ -428,7 +428,7 @@ proto._computePreferredInnerWidth = function()
   }
   else if (qx.util.validator.isValidString(this.getSource()))
   {
-    var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getWidth();
@@ -446,7 +446,7 @@ proto._computePreferredInnerHeight = function()
   }
   else if (qx.util.validator.isValidString(this.getSource()))
   {
-    var vPreloader = QxImagePreloaderManager.get(QxImageManager.buildUri(this.getSource()));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getHeight();
@@ -470,7 +470,7 @@ proto._computePreferredInnerHeight = function()
 
 proto._applyContent = function()
 {
-  QxTerminator.prototype._applyContent.call(this);
+  qx.ui.basic.Terminator.prototype._applyContent.call(this);
 
   // Images load asyncron, so we need to force flushing here
   // to get an up-to-date view when an image is loaded.
@@ -603,7 +603,7 @@ proto.dispose = function()
     this._image = null;
   };
 
-  QxImageManager.remove(this);
+  qx.manager.object.ImageManager.remove(this);
 
-  return QxTerminator.prototype.dispose.call(this);
+  return qx.ui.basic.Terminator.prototype.dispose.call(this);
 };

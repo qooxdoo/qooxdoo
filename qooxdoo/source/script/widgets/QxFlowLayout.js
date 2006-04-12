@@ -23,40 +23,40 @@
 /* ************************************************************************
 
 #package(layout)
-#post(QxFlowLayoutImpl)
+#post(qx.renderer.layout.FlowLayoutImpl)
 
 ************************************************************************ */
 
-function QxFlowLayout() {
+qx.ui.layout.FlowLayout = function() {
   qx.ui.core.Parent.call(this);
 };
 
-QxFlowLayout.extend(qx.ui.core.Parent, "QxFlowLayout");
+qx.ui.layout.FlowLayout.extend(qx.ui.core.Parent, "qx.ui.layout.FlowLayout");
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-QxFlowLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-QxFlowLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left" and "right"
 */
-QxFlowLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "right" ], addToQueueRuntime : true });
+qx.ui.layout.FlowLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "right" ], addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top" and "bottom"
 */
-QxFlowLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "bottom" ], addToQueueRuntime : true });
+qx.ui.layout.FlowLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "bottom" ], addToQueueRuntime : true });
 
 /*!
   Should the children be layouted in reverse order?
 */
-QxFlowLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true, impl : "layout" });
 
 
 
@@ -73,7 +73,7 @@ QxFlowLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxFlowLayoutImpl(this);
+  return new qx.renderer.layout.FlowLayoutImpl(this);
 };
 
 

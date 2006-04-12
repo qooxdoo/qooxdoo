@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Test the QxRepeatButton constructor. QxRepeatButton is based on QxButton but adds some interval handled event mechanism.</p>
+    <p>Test the qx.ui.form.RepeatButton constructor. qx.ui.form.RepeatButton is based on qx.ui.form.Button but adds some interval handled event mechanism.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,7 +21,7 @@
 
     function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
 
-    var btn1 = new QxRepeatButton("Repeat Button No #1");
+    var btn1 = new qx.ui.form.RepeatButton("Repeat Button No #1");
     with(btn1)
     {
       setTop(48);
@@ -33,7 +33,7 @@
 
 
 
-    var btn2 = new QxRepeatButton("Repeat Button No #2");
+    var btn2 = new qx.ui.form.RepeatButton("Repeat Button No #2");
     with(btn2)
     {
       setTop(48);
@@ -46,7 +46,7 @@
 
 
 
-    var btn3 = new QxRepeatButton("Repeat Button No #3");
+    var btn3 = new qx.ui.form.RepeatButton("Repeat Button No #3");
     with(btn3)
     {
       setTop(48);
@@ -57,7 +57,7 @@
     d.add(btn3);
 
 
-    var btn4 = new QxRepeatButton("Repeat Button No #4", "icons/16/forward.png");
+    var btn4 = new qx.ui.form.RepeatButton("Repeat Button No #4", "icons/16/forward.png");
     with(btn4)
     {
       setTop(148);

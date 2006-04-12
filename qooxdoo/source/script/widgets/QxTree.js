@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(tree)
-#post(QxTreeSelectionManager)
+#post(qx.manager.selection.TreeSelectionManager)
 
 ************************************************************************ */
 
@@ -34,7 +34,7 @@ function QxTree(vLabel, vIcon, vIconSelected)
   // ************************************************************************
   //   INITILISIZE MANAGER
   // ************************************************************************
-  this._manager = new QxTreeSelectionManager(this);
+  this._manager = new qx.manager.selection.TreeSelectionManager(this);
 
 
   this._iconObject.setAppearance("tree-icon");

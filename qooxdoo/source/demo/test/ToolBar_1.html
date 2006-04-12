@@ -132,9 +132,9 @@
       d.add(tb);
 
 
-      var rd1 = new QxRadioButton("Show Icons and Label", "both");
-      var rd2 = new QxRadioButton("Show Icons", "icon");
-      var rd3 = new QxRadioButton("Show Label", "label");
+      var rd1 = new qx.ui.form.RadioButton("Show Icons and Label", "both");
+      var rd2 = new qx.ui.form.RadioButton("Show Icons", "icon");
+      var rd3 = new qx.ui.form.RadioButton("Show Label", "label");
 
       with(rd1)
       {
@@ -156,7 +156,7 @@
       };
 
 
-      var rbm = new QxRadioManager();
+      var rbm = new qx.manager.selection.RadioManager();
 
       rbm.add(rd1);
       rbm.add(rd2);
@@ -175,9 +175,9 @@
 
 
       // Alignment
-      var ra1 = new QxRadioButton("Left Aligned", "left");
-      var ra2 = new QxRadioButton("Centered", "center");
-      var ra3 = new QxRadioButton("Right Aligned", "right");
+      var ra1 = new qx.ui.form.RadioButton("Left Aligned", "left");
+      var ra2 = new qx.ui.form.RadioButton("Centered", "center");
+      var ra3 = new qx.ui.form.RadioButton("Right Aligned", "right");
 
       with(ra1)
       {
@@ -199,7 +199,7 @@
       };
 
 
-      var ram = new QxRadioManager();
+      var ram = new qx.manager.selection.RadioManager();
 
       ram.add(ra1);
       ram.add(ra2);
@@ -218,7 +218,7 @@
       
 
       // Icon & Color Themes
-      QxImageManager.createThemeList(d, 20, 248);
+      qx.manager.object.ImageManager.createThemeList(d, 20, 248);
       qx.manager.object.ColorManager.createThemeList(d, 220, 248);      
     };
   </script>

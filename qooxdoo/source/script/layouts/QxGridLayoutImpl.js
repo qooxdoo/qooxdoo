@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxGridLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.GridLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxGridLayoutImpl.extend(QxLayoutImpl, "QxGridLayoutImpl");
+qx.renderer.layout.GridLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.GridLayoutImpl");
 
 
 
@@ -49,7 +49,7 @@ QxGridLayoutImpl.extend(QxLayoutImpl, "QxGridLayoutImpl");
   [10] LAYOUT CHILD
   [11] DISPOSER
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
 
   [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
   [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
@@ -70,57 +70,57 @@ QxGridLayoutImpl.extend(QxLayoutImpl, "QxGridLayoutImpl");
 /*!
   Compute and return the box width of the given child.
 */
-proto.computeChildBoxWidth = function(vChild) 
+proto.computeChildBoxWidth = function(vChild)
 {
   var vWidget = this.getWidget();
   var vColWidth = vWidget.getColumnInnerWidth(vChild._col, vChild._row);
-  
+
   // extend colwidth to spanned area
   if (vWidget.isSpanStart(vChild._col, vChild._row))
   {
     var vEntry = vWidget.getSpanEntry(vChild._col, vChild._row);
-    for (var i=1; i<vEntry.colLength; i++) 
+    for (var i=1; i<vEntry.colLength; i++)
     {
       // right padding from the previous cell
       vColWidth += vWidget.getComputedCellPaddingRight(vChild._col + i - 1, vChild._row);
-      
+
       // left padding from the current cell
       vColWidth += vWidget.getComputedCellPaddingLeft(vChild._col + i, vChild._row);
 
       // spacing between previous and current cell
       vColWidth += vWidget.getHorizontalSpacing();
-      
+
       // inner width of the current cell plus
       vColWidth += vWidget.getColumnInnerWidth(vChild._col + i, vChild._row);
     };
   };
-  
+
   return vChild.getAllowStretchX() ? vColWidth : Math.min(vChild.getWidthValue(), vColWidth);
 };
 
 /*!
   Compute and return the box height of the given child.
 */
-proto.computeChildBoxHeight = function(vChild) 
+proto.computeChildBoxHeight = function(vChild)
 {
   var vWidget = this.getWidget();
   var vRowHeight = vWidget.getRowInnerHeight(vChild._col, vChild._row);
-  
+
   // extend colwidth to spanned area
   if (vWidget.isSpanStart(vChild._col, vChild._row))
   {
     var vEntry = vWidget.getSpanEntry(vChild._col, vChild._row);
-    for (var i=1; i<vEntry.rowLength; i++) 
+    for (var i=1; i<vEntry.rowLength; i++)
     {
       // right padding from the previous cell
       vRowHeight += vWidget.getComputedCellPaddingBottom(vChild._col, vChild._row + i - 1);
-      
+
       // left padding from the current cell
       vRowHeight += vWidget.getComputedCellPaddingTop(vChild._col, vChild._row + i);
-            
+
       // spacing between previous and current cell
       vRowHeight += vWidget.getVerticalSpacing();
-      
+
       // inner width of the current cell plus
       vRowHeight += vWidget.getRowInnerHeight(vChild._col, vChild._row + i);
     };
@@ -150,7 +150,7 @@ proto.computeChildrenNeededWidth = function()
   var vWidget = this.getWidget();
   var vSpacingX = vWidget.getHorizontalSpacing();
   var vSum = -vSpacingX;
-  
+
   for (var i=0, l=vWidget.getColumnCount(); i<l; i++) {
     vSum += vWidget.getColumnBoxWidth(i) + vSpacingX;
   };
@@ -167,12 +167,12 @@ proto.computeChildrenNeededHeight = function()
   var vWidget = this.getWidget();
   var vSpacingY = vWidget.getVerticalSpacing();
   var vSum = -vSpacingY;
-  
+
   for (var i=0, l=vWidget.getRowCount(); i<l; i++) {
     vSum += vWidget.getRowBoxHeight(i) + vSpacingY;
   };
 
-  return vSum;  
+  return vSum;
 };
 
 
@@ -232,16 +232,16 @@ proto.updateChildOnInnerHeightChange = function(vChild)
 proto.layoutChild = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
-  
+
   this.layoutChild_sizeX(vChild, vJobs);
   this.layoutChild_sizeY(vChild, vJobs);
 
   this.layoutChild_sizeLimitX(vChild, vJobs);
-  this.layoutChild_sizeLimitY(vChild, vJobs);  
-  
+  this.layoutChild_sizeLimitY(vChild, vJobs);
+
   this.layoutChild_marginX(vChild, vJobs);
   this.layoutChild_marginY(vChild, vJobs);
-  
+
   this.layoutChild_locationX(vChild, vJobs);
   this.layoutChild_locationY(vChild, vJobs);
 };
@@ -261,41 +261,41 @@ proto.layoutChild_locationX = function(vChild, vJobs)
   var vWidget = this.getWidget();
   var vSpacingX = vWidget.getHorizontalSpacing();
   var vLocSumX = vWidget.getPaddingLeft() + vWidget.getComputedCellPaddingLeft(vChild._col, vChild._row);
-  
+
   for (var i=0; i<vChild._col; i++) {
     vLocSumX += vWidget.getColumnBoxWidth(i) + vSpacingX;
   };
-  
+
   switch(vChild.getHorizontalAlign() || vWidget.getColumnHorizontalAlignment(vChild._col) || vWidget.getRowHorizontalAlignment(vChild._row) || vWidget.getHorizontalChildrenAlign())
   {
     case QxConst.ALIGN_CENTER:
       vLocSumX += Math.round((vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth()) / 2);
       break;
-    
+
     case QxConst.ALIGN_RIGHT:
       vLocSumX += vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth();
       break;
   };
-  
-  vChild._applyRuntimeLeft(vLocSumX);  
+
+  vChild._applyRuntimeLeft(vLocSumX);
 };
-  
+
 proto.layoutChild_locationY = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
   var vSpacingY = vWidget.getVerticalSpacing();
   var vLocSumY = vWidget.getPaddingTop() + vWidget.getComputedCellPaddingTop(vChild._col, vChild._row);
-  
+
   for (var i=0; i<vChild._row; i++) {
     vLocSumY += vWidget.getRowBoxHeight(i) + vSpacingY;
   };
-  
+
   switch(vChild.getVerticalAlign() || vWidget.getRowVerticalAlignment(vChild._row) || vWidget.getColumnVerticalAlignment(vChild._col) || vWidget.getVerticalChildrenAlign())
   {
     case QxConst.ALIGN_MIDDLE:
       vLocSumY += Math.round((vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight()) / 2);
       break;
-    
+
     case QxConst.ALIGN_BOTTOM:
       vLocSumY += vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight();
       break;

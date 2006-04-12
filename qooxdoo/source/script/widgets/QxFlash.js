@@ -37,9 +37,9 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-function QxFlash(vSource, vVersion)
+qx.ui.embed.FlashEmbed = function(vSource, vVersion)
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   // Use background handling of qx.ui.core.Widget instead
   this._params = {};
@@ -49,30 +49,30 @@ function QxFlash(vSource, vVersion)
     this.setSource(vSource);
   };
 
-  this.setVersion(qx.util.validator.isValidString(vVersion) ? vVersion : QxFlash.MINREQUIRED);
+  this.setVersion(qx.util.validator.isValidString(vVersion) ? vVersion : qx.ui.embed.FlashEmbed.MINREQUIRED);
 };
 
-QxFlash.extend(QxTerminator, "QxFlash");
+qx.ui.embed.FlashEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.FlashEmbed");
 
-QxFlash.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
-QxFlash.addProperty({ name : "version" });
+qx.ui.embed.FlashEmbed.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.FlashEmbed.addProperty({ name : "version" });
 
-QxFlash.addProperty({ name : "enableExpressInstall", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-QxFlash.addProperty({ name : "enableDetection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-QxFlash.addProperty({ name : "redirectUrl", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.FlashEmbed.addProperty({ name : "enableExpressInstall", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.embed.FlashEmbed.addProperty({ name : "enableDetection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "redirectUrl", type : QxConst.TYPEOF_STRING });
 
-QxFlash.addProperty({ name : "quality", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
-QxFlash.addProperty({ name : "scale", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
-QxFlash.addProperty({ name : "wmode", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
-QxFlash.addProperty({ name : "play", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-QxFlash.addProperty({ name : "loop", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-QxFlash.addProperty({ name : "menu", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "quality", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "scale", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "wmode", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "play", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "loop", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "menu", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
 
-QxFlash.EXPRESSINSTALL = [6,0,65];
-QxFlash.MINREQUIRED = "1";
-QxFlash.PLAYERVERSION = null;
-QxFlash.PLUGINKEY = "Shockwave Flash";
-QxFlash.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
+qx.ui.embed.FlashEmbed.EXPRESSINSTALL = [6,0,65];
+qx.ui.embed.FlashEmbed.MINREQUIRED = "1";
+qx.ui.embed.FlashEmbed.PLAYERVERSION = null;
+qx.ui.embed.FlashEmbed.PLUGINKEY = "Shockwave Flash";
+qx.ui.embed.FlashEmbed.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
 
 
 
@@ -84,17 +84,17 @@ QxFlash.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
 ---------------------------------------------------------------------------
 */
 
-QxFlash.getPlayerVersion = function()
+qx.ui.embed.FlashEmbed.getPlayerVersion = function()
 {
-  if (QxFlash.PLAYERVERSION != null) {
-    return QxFlash.PLAYERVERSION;
+  if (qx.ui.embed.FlashEmbed.PLAYERVERSION != null) {
+    return qx.ui.embed.FlashEmbed.PLAYERVERSION;
   };
 
   var vPlayerVersion = new qx.types.Version(0,0,0);
 
   if(navigator.plugins && navigator.mimeTypes.length)
   {
-    var x = navigator.plugins[QxFlash.PLUGINKEY];
+    var x = navigator.plugins[qx.ui.embed.FlashEmbed.PLUGINKEY];
 
     if(x && x.description) {
       vPlayerVersion = new qx.types.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
@@ -103,13 +103,13 @@ QxFlash.getPlayerVersion = function()
   else if (window.ActiveXObject)
   {
     try {
-      var axo = new ActiveXObject(QxFlash.ACTIVEXKEY);
+      var axo = new ActiveXObject(qx.ui.embed.FlashEmbed.ACTIVEXKEY);
        vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(QxConst.CORE_SPACE)[1].split(QxConst.CORE_COMMA));
     }
     catch (e) {};
   };
 
-  return QxFlash.PLAYERVERSION = vPlayerVersion;
+  return qx.ui.embed.FlashEmbed.PLAYERVERSION = vPlayerVersion;
 };
 
 
@@ -128,7 +128,7 @@ proto._source = "";
 
 proto._applyElementData = function(el)
 {
-  QxTerminator.prototype._applyElementData.call(this, el);
+  qx.ui.basic.Terminator.prototype._applyElementData.call(this, el);
 
   // Check for ExpressInstall
   this._expressInstall = false;
@@ -136,8 +136,8 @@ proto._applyElementData = function(el)
   if (this.getEnableExpressInstall())
   {
     // check to see if we need to do an express install
-    var expressInstallReqVer = new qx.types.Version(QxFlash.EXPRESSINSTALL);
-    var installedVer = QxFlash.getPlayerVersion();
+    var expressInstallReqVer = new qx.types.Version(qx.ui.embed.FlashEmbed.EXPRESSINSTALL);
+    var installedVer = qx.ui.embed.FlashEmbed.getPlayerVersion();
 
     if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
       this._expressInstall = true;
@@ -147,7 +147,7 @@ proto._applyElementData = function(el)
   // this.debug("ExpressInstall Enabled: " + this._expressInstall);
 
   // Apply HTML
-  if(!this.getEnableDetection() || this._expressInstall || QxFlash.getPlayerVersion().versionIsValid(this._version))
+  if(!this.getEnableDetection() || this._expressInstall || qx.ui.embed.FlashEmbed.getPlayerVersion().versionIsValid(this._version))
   {
     el.innerHTML = this.generateHTML();
   }
@@ -173,7 +173,7 @@ proto._applyElementData = function(el)
 
 proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.validator.isValidString(propValue) ? QxImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
+  this._source = qx.util.validator.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
   return true;
 };
 

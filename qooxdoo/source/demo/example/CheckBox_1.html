@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>    
   
   <div id="demoDescription"> 
-    <p>Tests for QxCheckBox. QxCheckBox extends QxAtom and so it inherits all the options and properties defined there.</p>
+    <p>Tests for qx.ui.form.CheckBox. qx.ui.form.CheckBox extends qx.ui.basic.Atom and so it inherits all the options and properties defined there.</p>
   </div>
   
   <script type="text/javascript">
@@ -19,7 +19,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
     
-    var c1 = new QxCheckBox("Send Data to Server", "c1checked", "c1");
+    var c1 = new qx.ui.form.CheckBox("Send Data to Server", "c1checked", "c1");
     with(c1)
     {
       setTop(48);
@@ -27,7 +27,7 @@
     };
     d.add(c1);
 
-    var c2 = new QxCheckBox("Delete all Data on Server", "c2checked", "c2");
+    var c2 = new qx.ui.form.CheckBox("Delete all Data on Server", "c2checked", "c2");
     with(c2)
     {
       setTop(78);
@@ -37,7 +37,7 @@
     c2.setChecked(true);
     
     
-    var c3 = new QxCheckBox("Top Checkbox", "c3checked", "c3");
+    var c3 = new qx.ui.form.CheckBox("Top Checkbox", "c3checked", "c3");
     with(c3)
     {
       setTop(120);
@@ -46,7 +46,7 @@
     };
     d.add(c3);
     
-    var c4 = new QxCheckBox("Bottom Checkbox", "c4checked", "c4");
+    var c4 = new qx.ui.form.CheckBox("Bottom Checkbox", "c4checked", "c4");
     with(c4)
     {
       setTop(120);
@@ -56,7 +56,7 @@
     d.add(c4);    
 
 
-    var c5 = new QxCheckBox("Left Checkbox", "c5checked", "c5");
+    var c5 = new qx.ui.form.CheckBox("Left Checkbox", "c5checked", "c5");
     with(c5)
     {
       setTop(180);
@@ -65,7 +65,7 @@
     };
     d.add(c5);
     
-    var c6 = new QxCheckBox("Right Checkbox", "c6checked", "c6");
+    var c6 = new qx.ui.form.CheckBox("Right Checkbox", "c6checked", "c6");
     with(c6)
     {
       setTop(180);
@@ -74,7 +74,7 @@
     };
     d.add(c6);  
     
-    var c7 = new QxCheckBox(null, "c7checked", "c7");
+    var c7 = new qx.ui.form.CheckBox(null, "c7checked", "c7");
     with(c7)
     {
       setTop(250);
@@ -82,7 +82,7 @@
     };
     d.add(c7);
     
-    var c8 = new QxCheckBox(null, "c7checked", "c7");
+    var c8 = new qx.ui.form.CheckBox(null, "c7checked", "c7");
     with(c8)
     {
       setTop(300);

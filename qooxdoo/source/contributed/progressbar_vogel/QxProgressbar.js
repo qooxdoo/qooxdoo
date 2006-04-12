@@ -22,14 +22,14 @@
 
 #package(form) //???Olli???
 #require(qx.renderer.border.BorderObject)
-#require(QxTerminator)
-#require(QxText)
+#require(qx.ui.basic.Terminator)
+#require(qx.ui.embed.TextEmbed)
 
 **************************************************************************** */
 
 function QxProgressbar(vMax, vShowPercent)
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   this.setWidth(250);
   this.setHeight(22);
@@ -39,7 +39,7 @@ function QxProgressbar(vMax, vShowPercent)
   // ***********************************************************************
   //   Progress-Bar itself
   // ***********************************************************************
-  this._bar = new QxTerminator();
+  this._bar = new qx.ui.basic.Terminator();
   this._bar.set({ left: 0, bottom: 0, top: 0, border : qx.renderer.border.Border.presets.none });
   this._bar.setBackgroundColor("green");
   this.add(this._bar);
@@ -47,7 +47,7 @@ function QxProgressbar(vMax, vShowPercent)
   // ***********************************************************************
   //   % - Text
   // ***********************************************************************
-  this._percent = new QxText();
+  this._percent = new qx.ui.embed.TextEmbed();
   this._percent.set({ left: 0, bottom: 0, top: 0, right: 0 });
   this._percent.setDisplay(false); // to avoid flicking if not used
   this._percent.setColor("white");
@@ -64,7 +64,7 @@ function QxProgressbar(vMax, vShowPercent)
   };
 };
 
-QxProgressbar.extend(QxCanvasLayout, "QxProgressbar");
+QxProgressbar.extend(qx.ui.layout.CanvasLayout, "QxProgressbar");
 
 
 /*
@@ -224,5 +224,5 @@ proto.dispose = function()
     this._percent = null;
   };
   
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

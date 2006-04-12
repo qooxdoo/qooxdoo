@@ -30,7 +30,7 @@
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-function QxSelectionManager(vBoundedWidget)
+qx.manager.selection.SelectionManager = function(vBoundedWidget)
 {
   qx.core.Target.call(this);
 
@@ -41,7 +41,7 @@ function QxSelectionManager(vBoundedWidget)
   };
 };
 
-QxSelectionManager.extend(QxManager, "QxSelectionManager");
+qx.manager.selection.SelectionManager.extend(qx.manager.object.ObjectManager, "qx.manager.selection.SelectionManager");
 
 /*
 ---------------------------------------------------------------------------
@@ -50,44 +50,44 @@ QxSelectionManager.extend(QxManager, "QxSelectionManager");
 */
 
 /*!
-This contains the currently assigned widget (QxList, ...)
+This contains the currently assigned widget (qx.ui.form.List, ...)
 */
-QxSelectionManager.addProperty({ name : "boundedWidget", type : QxConst.TYPEOF_OBJECT });
+qx.manager.selection.SelectionManager.addProperty({ name : "boundedWidget", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 Should multiple selection be allowed?
 */
-QxSelectionManager.addProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.manager.selection.SelectionManager.addProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Enable drag selection?
 */
-QxSelectionManager.addProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.manager.selection.SelectionManager.addProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should the user be able to select
 */
-QxSelectionManager.addProperty({ name : "canDeselect", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.manager.selection.SelectionManager.addProperty({ name : "canDeselect", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should a change event be fired?
 */
-QxSelectionManager.addProperty({ name : "fireChange", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.manager.selection.SelectionManager.addProperty({ name : "fireChange", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 The current anchor in range selections.
 */
-QxSelectionManager.addProperty({ name : "anchorItem", type : QxConst.TYPEOF_OBJECT });
+qx.manager.selection.SelectionManager.addProperty({ name : "anchorItem", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 The last selected item
 */
-QxSelectionManager.addProperty({ name : "leadItem", type : QxConst.TYPEOF_OBJECT });
+qx.manager.selection.SelectionManager.addProperty({ name : "leadItem", type : QxConst.TYPEOF_OBJECT });
 
 /*!
 Grid selection
 */
-QxSelectionManager.addProperty({ name : "multiColumnSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.manager.selection.SelectionManager.addProperty({ name : "multiColumnSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

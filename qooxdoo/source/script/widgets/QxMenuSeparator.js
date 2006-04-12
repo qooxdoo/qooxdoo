@@ -29,7 +29,7 @@
 
 function QxMenuSeparator()
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
   
   // Fix IE Styling Issues
   this.setStyleProperty("fontSize", "0");
@@ -39,7 +39,7 @@ function QxMenuSeparator()
   //   LINE
   // ************************************************************************
 
-  this._line = new QxTerminator;
+  this._line = new qx.ui.basic.Terminator;
   this._line.setAnonymous(true);
   this._line.setAppearance("menu-separator-line");
   this.add(this._line);
@@ -53,7 +53,7 @@ function QxMenuSeparator()
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxMenuSeparator.extend(QxCanvasLayout, "QxMenuSeparator");
+QxMenuSeparator.extend(qx.ui.layout.CanvasLayout, "QxMenuSeparator");
 
 QxMenuSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-separator" });
 
@@ -78,5 +78,5 @@ proto.dispose = function()
     this._line = null;
   };
   
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

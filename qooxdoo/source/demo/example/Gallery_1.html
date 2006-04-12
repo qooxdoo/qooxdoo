@@ -8,11 +8,11 @@
   <script type="text/javascript" src="../demoinclude.js"></script>
 
   <style type="text/css">
-.QxGallery .galleryFrame{
+.qx.ui.embed.GalleryEmbed .galleryFrame{
   padding: 2px;
 }
 
-.QxGallery .galleryCell{
+.qx.ui.embed.GalleryEmbed .galleryCell{
   border: 1px solid #444;
   background: #fff;
   margin: 2px;
@@ -28,13 +28,13 @@
   user-select: none;
 }
 
-.QxGallery .galleryCell img{
+.qx.ui.embed.GalleryEmbed .galleryCell img{
   vertical-align: bottom;
   display: block;
 }
 
-.QxGallery .galleryCell .galleryTitle,
-.QxGallery .galleryCell .galleryComment{
+.qx.ui.embed.GalleryEmbed .galleryCell .galleryTitle,
+.qx.ui.embed.GalleryEmbed .galleryCell .galleryComment{
   background: #eee;
   padding: 3px 6px;
   text-align: center;
@@ -43,29 +43,29 @@
   white-space: nowrap;
 }
 
-.QxGallery .galleryCell .galleryTitle{
+.qx.ui.embed.GalleryEmbed .galleryCell .galleryTitle{
   border-bottom: 1px solid #aaa;
 }
 
-.QxGallery .galleryCell .galleryComment{
+.qx.ui.embed.GalleryEmbed .galleryCell .galleryComment{
   border-top: 1px solid #aaa;
 }
 
-.QxGallery .galleryCell-Selected{
+.qx.ui.embed.GalleryEmbed .galleryCell-Selected{
   background: #DCE8F6;
   border: 1px solid #2760A1;
 }
 
-.QxGallery .galleryCell-Selected .galleryTitle,
-.QxGallery .galleryCell-Selected .galleryComment{
+.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryTitle,
+.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryComment{
   background: #9BBFE7;
 }
 
-.QxGallery .galleryCell-Selected .galleryTitle{
+.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryTitle{
   border-bottom: 1px dotted #2760A1;
 }
 
-.QxGallery .galleryCell-Selected .galleryComment{
+.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryComment{
   border-top: 1px dotted #2760A1;
 }
   </style>
@@ -74,7 +74,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Test file for QxGallery</p>
+    <p>Test file for qx.ui.embed.GalleryEmbed</p>
   </div>
 
   <script type="text/javascript">
@@ -98,7 +98,7 @@
         });
       };
 
-      var gallery = new QxGallery(galleryList);
+      var gallery = new qx.ui.embed.GalleryEmbed(galleryList);
 
       gallery.setLeft(20);
       gallery.setRight(335);

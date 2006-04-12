@@ -28,12 +28,12 @@
 
 function QxPopup()
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   this.setZIndex(this._minZIndex);
 };
 
-QxPopup.extend(QxCanvasLayout, "QxPopup");
+QxPopup.extend(qx.ui.layout.CanvasLayout, "QxPopup");
 
 QxPopup.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "popup" });
 
@@ -71,10 +71,10 @@ proto._hideTimeStamp = (new Date(0)).valueOf();
 
 proto._beforeAppear = function()
 {
-  QxCanvasLayout.prototype._beforeAppear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
-  QxPopupManager.add(this);
-  QxPopupManager.update(this);
+  qx.manager.object.PopupManager.add(this);
+  qx.manager.object.PopupManager.update(this);
 
   this._showTimeStamp = (new Date).valueOf();
   this.bringToFront();
@@ -82,9 +82,9 @@ proto._beforeAppear = function()
 
 proto._beforeDisappear = function()
 {
-  QxCanvasLayout.prototype._beforeDisappear.call(this);
+  qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-  QxPopupManager.remove(this);
+  qx.manager.object.PopupManager.remove(this);
 
   this._hideTimeStamp = (new Date).valueOf();
 };
@@ -153,8 +153,8 @@ proto.sendToBack = function()
 
 proto._sendTo = function()
 {
-  var vPopups = qx.lang.Object.getValues(QxPopupManager.getAll());
-  var vMenus = qx.lang.Object.getValues(QxMenuManager.getAll());
+  var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getAll());
+  var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getAll());
 
   var vAll = vPopups.concat(vMenus).sort(qx.util.compare.byZIndex);
   var vLength = vAll.length;
@@ -218,5 +218,5 @@ proto.dispose = function()
   this._showTimeStamp = null;
   this._hideTimeStamp = null;
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

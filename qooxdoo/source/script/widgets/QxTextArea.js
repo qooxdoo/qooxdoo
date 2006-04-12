@@ -26,19 +26,19 @@
 
 ************************************************************************ */
 
-function QxTextArea(vValue)
+qx.ui.form.TextArea = function(vValue)
 {
-  QxTextField.call(this, vValue);
-  
+  qx.ui.form.TextField.call(this, vValue);
+
   this.setTagName("textarea");
   this.removeHtmlProperty("type");
 };
 
-QxTextArea.extend(QxTextField, "QxTextArea");
+qx.ui.form.TextArea.extend(qx.ui.form.TextField, "qx.ui.form.TextArea");
 
-QxTextArea.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-area" });
+qx.ui.form.TextArea.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-area" });
 
-QxTextArea.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN });
+qx.ui.form.TextArea.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN });
 
 if (qx.sys.Client.isMshtml())
 {

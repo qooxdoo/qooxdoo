@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Some more complex tests for QxAtom.</p>
+    <p>Some more complex tests for qx.ui.basic.Atom.</p>
     <p>You can change all the properties before "really creating" the object or any time after this was done.</p>
   </div>
 
@@ -132,7 +132,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    at1 = new QxAtom("My first QxAtom", "icons/32/colors.png");
+    at1 = new qx.ui.basic.Atom("My first qx.ui.basic.Atom", "icons/32/colors.png");
 
     with(at1)
     {
@@ -146,7 +146,7 @@
       setPadding(2, 4);
     };
 
-    var ct1 = new QxLabel(document.getElementById("control").innerHTML);
+    var ct1 = new qx.ui.basic.Label(document.getElementById("control").innerHTML);
 
     with(ct1)
     {

@@ -26,12 +26,12 @@
 
 ************************************************************************ */
 
-function QxTextField(vValue)
+qx.ui.form.TextField = function(vValue)
 {
   // ************************************************************************
   //   INIT
   // ************************************************************************
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   if (typeof vValue === QxConst.TYPEOF_STRING) {
     this.setValue(vValue);
@@ -57,7 +57,7 @@ function QxTextField(vValue)
   this.addEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
 };
 
-QxTextField.extend(QxTerminator, "QxTextField");
+qx.ui.form.TextField.extend(qx.ui.basic.Terminator, "qx.ui.form.TextField");
 
 
 
@@ -69,22 +69,22 @@ QxTextField.extend(QxTerminator, "QxTextField");
 */
 
 
-QxTextField.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-field" });
+qx.ui.form.TextField.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-field" });
 
-QxTextField.addProperty({ name : "value", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_EMPTY });
-QxTextField.addProperty({ name : "maxLength", type : QxConst.TYPEOF_NUMBER });
-QxTextField.addProperty({ name : "readOnly", type : QxConst.TYPEOF_BOOLEAN });
+qx.ui.form.TextField.addProperty({ name : "value", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_EMPTY });
+qx.ui.form.TextField.addProperty({ name : "maxLength", type : QxConst.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "readOnly", type : QxConst.TYPEOF_BOOLEAN });
 
-QxTextField.addProperty({ name : "selectionStart", type : QxConst.TYPEOF_NUMBER });
-QxTextField.addProperty({ name : "selectionLength", type : QxConst.TYPEOF_NUMBER });
-QxTextField.addProperty({ name : "selectionText", type : QxConst.TYPEOF_STRING });
+qx.ui.form.TextField.addProperty({ name : "selectionStart", type : QxConst.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "selectionLength", type : QxConst.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "selectionText", type : QxConst.TYPEOF_STRING });
 
-QxTextField.addProperty({ name : "validator", type : QxConst.TYPEOF_FUNCTION });
+qx.ui.form.TextField.addProperty({ name : "validator", type : QxConst.TYPEOF_FUNCTION });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-QxTextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.ui.form.TextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 
@@ -108,7 +108,7 @@ proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(QxConst.CORE_DISABLED) : this.setHtmlAttribute(QxConst.CORE_DISABLED, QxConst.CORE_DISABLED);
-  return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyValue = function(propValue, propOldValue, propData)
@@ -166,7 +166,7 @@ proto.getComputedValue = function(e)
 ---------------------------------------------------------------------------
 */
 
-QxTextField.createRegExpValidator = function(vRegExp)
+qx.ui.form.TextField.createRegExpValidator = function(vRegExp)
 {
   return function(s) {
     return vRegExp.test(s);
@@ -498,5 +498,5 @@ proto.dispose = function()
   this.removeEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur);
   this.removeEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
 
-  QxTerminator.prototype.dispose.call(this);
+  qx.ui.basic.Terminator.prototype.dispose.call(this);
 };

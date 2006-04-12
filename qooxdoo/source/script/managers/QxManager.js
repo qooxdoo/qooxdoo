@@ -27,16 +27,16 @@
 ************************************************************************ */
 
 /*!
-  This is the core of all Qx*Manager objects. Allowes basic managment of assigned objects.
+  This is the core of all Qx*Manager objects. Allows basic managment of assigned objects.
 */
-function QxManager()
+qx.manager.object.ObjectManager = function()
 {
   qx.core.Target.call(this);
 
   this._objects = {};
 };
 
-QxManager.extend(qx.core.Target, "QxManager");
+qx.manager.object.ObjectManager.extend(qx.core.Target, "qx.manager.object.ObjectManager");
 
 
 

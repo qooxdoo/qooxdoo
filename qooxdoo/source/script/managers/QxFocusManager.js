@@ -25,17 +25,17 @@
 #package(eventcore)
 #post(QxDomLocation)
 #post(qx.event.types.FocusEvent)
-#post(QxPopupManager)
-#post(QxToolTipManager)
+#post(qx.manager.object.PopupManager)
+#post(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 
 /*!
   This object gets an instance in vAll qx.client.ClientWindows and manage the focus handling for it.
 */
-function QxFocusManager(vWidget)
+qx.event.handler.FocusHandler = function(vWidget)
 {
-  // Don't use QxManager things, but include qx.core.Target functinality
+  // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
 
   if (qx.util.validator.isValidObject(vWidget)) {
@@ -43,9 +43,9 @@ function QxFocusManager(vWidget)
   };
 };
 
-QxFocusManager.extend(QxManager, "QxFocusManager");
+qx.event.handler.FocusHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.FocusHandler");
 
-QxFocusManager.mouseFocus = false;
+qx.event.handler.FocusHandler.mouseFocus = false;
 
 
 
@@ -75,15 +75,15 @@ proto.getAttachedWidget = function() {
 // * use keydown on mshtml
 // * use keypress on vAll other (correct) browsers
 // = same behaviour
-QxFocusManager.tabEventType = qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_KEYDOWN : QxConst.EVENT_TYPE_KEYPRESS;
+qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_KEYDOWN : QxConst.EVENT_TYPE_KEYPRESS;
 
 proto._onkeyevent = function(vContainer, vEvent)
 {
-  if (vEvent.getKeyCode() != qx.event.types.KeyEvent.keys.tab || vEvent.getType() != QxFocusManager.tabEventType) {
+  if (vEvent.getKeyCode() != qx.event.types.KeyEvent.keys.tab || vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
     return;
   };
 
-  QxFocusManager.mouseFocus = false;
+  qx.event.handler.FocusHandler.mouseFocus = false;
 
   var vCurrent = this.getAttachedWidget().getFocusedChild();
 
@@ -224,7 +224,7 @@ proto._getAllAfter = function(vParent, vWidget, vArray)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
       continue;
     };
 
@@ -248,7 +248,7 @@ proto._getAllBefore = function(vParent, vWidget, vArray)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
       continue;
     };
 
@@ -272,7 +272,7 @@ proto._getFirst = function(vParent, vFirstWidget)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
       continue;
     };
 
@@ -301,7 +301,7 @@ proto._getLast = function(vParent, vLastWidget)
   {
     vCurrentChild = vChildren[i];
 
-    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof QxTerminator)) {
+    if(!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
       continue;
     };
 

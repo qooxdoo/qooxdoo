@@ -11,8 +11,8 @@
   <script type="text/javascript" src="../demolayout.js"></script>    
   
   <div id="demoDescription"> 
-    <p>Tests for QxRadioButton. QxRadioButton extends QxAtom and so it inherits all the options and properties defined there.</p>
-    <p>To group multiple QxRadioButtons you must define a instance of QxRadioManager and add them to this new instance. All QxRadioButtons assigned to the same group make sure that only one of them is checked at the same time.</p>
+    <p>Tests for qx.ui.form.RadioButton. qx.ui.form.RadioButton extends qx.ui.basic.Atom and so it inherits all the options and properties defined there.</p>
+    <p>To group multiple QxRadioButtons you must define a instance of qx.manager.selection.RadioManager and add them to this new instance. All QxRadioButtons assigned to the same group make sure that only one of them is checked at the same time.</p>
     <p>
   </div>
   
@@ -21,7 +21,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
     
-    var rb1 = new QxRadioButton("Option #1", "rb1");
+    var rb1 = new qx.ui.form.RadioButton("Option #1", "rb1");
     with(rb1)
     {
       setTop(80);
@@ -29,7 +29,7 @@
     };
     d.add(rb1);
 
-    var rb2 = new QxRadioButton("Option #2", "rb2");
+    var rb2 = new qx.ui.form.RadioButton("Option #2", "rb2");
     with(rb2)
     {
       setTop(110);
@@ -39,7 +39,7 @@
     rb2.setChecked(true);
     
     
-    var rb3 = new QxRadioButton("Top RadioButton", "rb3");
+    var rb3 = new qx.ui.form.RadioButton("Top RadioButton", "rb3");
     with(rb3)
     {
       setTop(160);
@@ -48,7 +48,7 @@
     };
     d.add(rb3);
     
-    var rb4 = new QxRadioButton("Bottom RadioButton", "rb4");
+    var rb4 = new qx.ui.form.RadioButton("Bottom RadioButton", "rb4");
     with(rb4)
     {
       setTop(160);
@@ -58,7 +58,7 @@
     d.add(rb4);    
 
 
-    var rb5 = new QxRadioButton("Left RadioButton", "rb5");
+    var rb5 = new qx.ui.form.RadioButton("Left RadioButton", "rb5");
     with(rb5)
     {
       setTop(220);
@@ -67,7 +67,7 @@
     };
     d.add(rb5);
     
-    var rb6 = new QxRadioButton("Right RadioButton", "rb6");
+    var rb6 = new qx.ui.form.RadioButton("Right RadioButton", "rb6");
     with(rb6)
     {
       setTop(220);
@@ -76,7 +76,7 @@
     };
     d.add(rb6);  
     
-    var rb7 = new QxRadioButton(null, "rb7");
+    var rb7 = new qx.ui.form.RadioButton(null, "rb7");
     with(rb7)
     {
       setTop(280);
@@ -85,13 +85,13 @@
     d.add(rb7);     
     
 
-    var rg1 = new QxRadioManager("mygroup", [rb1, rb2, rb3, rb4, rb5, rb6, rb7]);
+    var rg1 = new qx.manager.selection.RadioManager("mygroup", [rb1, rb2, rb3, rb4, rb5, rb6, rb7]);
 
 
     
 
 
-    var linfo = new QxAtom("Current Value: \"" + rg1.getSelected().getLabel() + "\" (" + rg1.getSelected().getValue() + ")", "icons/16/forward.png");
+    var linfo = new qx.ui.basic.Atom("Current Value: \"" + rg1.getSelected().getLabel() + "\" (" + rg1.getSelected().getValue() + ")", "icons/16/forward.png");
 
     with(linfo)
     {

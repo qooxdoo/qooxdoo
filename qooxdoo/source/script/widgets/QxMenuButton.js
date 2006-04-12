@@ -28,25 +28,25 @@
 
 function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
 {
-  QxHorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
 
   // ************************************************************************
   //   LAYOUT
   // ************************************************************************
   
-  var io = this._iconObject = new QxImage;
+  var io = this._iconObject = new qx.ui.basic.Image;
   io.setAnonymous(true);
 
-  var lo = this._labelObject = new QxLabel;
+  var lo = this._labelObject = new qx.ui.basic.Label;
   lo.setAnonymous(true);
   lo.setSelectable(false);
 
-  var so = this._shortcutObject = new QxLabel;
+  var so = this._shortcutObject = new qx.ui.basic.Label;
   so.setAnonymous(true);
   so.setSelectable(false);
 
-  var ao = this._arrowObject = new QxImage("widgets/arrows/next.gif");
+  var ao = this._arrowObject = new qx.ui.basic.Image("widgets/arrows/next.gif");
   ao.setAnonymous(true);
   
 
@@ -67,7 +67,7 @@ function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxMenuButton.extend(QxHorizontalBoxLayout, "QxMenuButton");
+QxMenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "QxMenuButton");
 
 
 
@@ -160,7 +160,7 @@ proto.getParentMenu = function()
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxMenuButtonLayoutImpl(this);
+  return new qx.renderer.layout.MenuButtonLayoutImpl(this);
 };  
   
   
@@ -183,7 +183,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
     this._labelObject.setEnabled(propValue);
   };
   
-  return QxBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyIcon = function(propValue, propOldValue, propData)
@@ -339,5 +339,5 @@ proto.dispose = function()
   // Remove event listeners
   this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

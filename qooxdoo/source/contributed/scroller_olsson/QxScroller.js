@@ -29,7 +29,7 @@
 **************************************************************************** */
 
 function QxScroller(vShiftX, vShiftY, vInterval) {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   this.setAppearance("scroller");
 
@@ -47,7 +47,7 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   //   SCROLL PANE
   // ***********************************************************************
 
-  var sp = this._scrollpane = new QxCanvasLayout();
+  var sp = this._scrollpane = new qx.ui.layout.CanvasLayout();
   sp.setHeight(QxConst.CORE_AUTO);
   sp.setWidth(QxConst.CORE_AUTO);
 
@@ -72,7 +72,7 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   this._firstTime = true;
 };
 
-QxScroller.extend(QxCanvasLayout, "QxScroller");
+QxScroller.extend(qx.ui.layout.CanvasLayout, "QxScroller");
 
 
 /*
@@ -229,5 +229,5 @@ proto.dispose = function()
 
   delete this._firstTime;
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

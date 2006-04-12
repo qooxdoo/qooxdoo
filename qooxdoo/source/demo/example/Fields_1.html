@@ -12,8 +12,8 @@
 
   <div id="demoDescription">
     <p>Some tests for some of the most used properties of qx.ui.core.Widget (coordinates, dimensions, backgroundColor, opacity, ...).</p>
-    <p>Also here are the first test of some widgets which extend qx.ui.core.Widget: QxTextField and QxPasswordField. These extended
-    widgets also interacts like the basic QxWidgets with the QxFocusManager.</p>
+    <p>Also here are the first test of some widgets which extend qx.ui.core.Widget: qx.ui.form.TextField and qx.ui.form.PasswordField. These extended
+    widgets also interacts like the basic QxWidgets with the qx.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
@@ -25,7 +25,7 @@
       this.debug("Text changed: " + e.getData());
     }
 
-    var t1 = new QxTextField;
+    var t1 = new qx.ui.form.TextField;
     t1.setValue("textfield");
     t1.setTop(48);
     t1.setLeft(20);
@@ -40,7 +40,7 @@
 
 
 
-    var t2 = new QxPasswordField;
+    var t2 = new qx.ui.form.PasswordField;
     t2.setValue("passwordfield");
     t2.setTop(80);
     t2.setLeft(20);
@@ -50,7 +50,7 @@
     d.add(t2);
 
 
-    var t3 = new QxTextArea;
+    var t3 = new qx.ui.form.TextArea;
     t3.setValue("textarea");
     t3.setTop(110);
     t3.setLeft(20);
@@ -62,7 +62,7 @@
     d.add(t3);
 
 
-    var t4 = new QxTextField;
+    var t4 = new qx.ui.form.TextField;
     t4.setValue("textfield");
     t4.setTop(200);
     t4.setLeft(20);
@@ -75,7 +75,7 @@
     d.add(t4);
 
 
-    var t5 = new QxTextField;
+    var t5 = new qx.ui.form.TextField;
     t5.setValue("You are foo!");
     t5.setTop(240);
     t5.setLeft(20);

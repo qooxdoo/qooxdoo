@@ -20,7 +20,7 @@
     // appearance theme. This appearance is mainly a copy of the list-item appearance.
     // note the commented difference below in the state function
     //
-    QxAppearanceManager.getAppearanceThemeObject().registerAppearance("colored-list-item", 
+    qx.manager.object.AppearanceManager.getAppearanceThemeObject().registerAppearance("colored-list-item", 
     {
       setup : function()
       {
@@ -66,14 +66,14 @@
     });
 
     // second we create a new class qx.renderer.color.ColoredListItem which is derived
-    // from QxListItem and has an additional property backgroundColorUnselected
+    // from qx.ui.form.ListItem and has an additional property backgroundColorUnselected
     // and a changed appearance to "colored-list-item"
     //
     function qx.renderer.color.ColoredListItem(vText, vIcon, vValue) {
-      QxListItem.call(this, vText, vIcon, vValue);
+      qx.ui.form.ListItem.call(this, vText, vIcon, vValue);
     };
     
-    qx.renderer.color.ColoredListItem.extend(QxListItem, "qx.renderer.color.ColoredListItem");
+    qx.renderer.color.ColoredListItem.extend(qx.ui.form.ListItem, "qx.renderer.color.ColoredListItem");
     
     qx.renderer.color.ColoredListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colored-list-item" });
     
@@ -86,7 +86,7 @@
       var doc = this.getClientWindow().getClientDocument();
 
 
-      var sourceList = new QxList();
+      var sourceList = new qx.ui.form.List();
       sourceList.setWidth(200);
       sourceList.setHeight(400);
       sourceList.setLeft(20);

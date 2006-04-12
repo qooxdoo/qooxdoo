@@ -45,7 +45,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
   // ***********************************************************************
   //   LAYOUT
   // ***********************************************************************
-  var l = this._layout = new QxVerticalBoxLayout();
+  var l = this._layout = new qx.ui.layout.VerticalBoxLayout();
 
 //  l.setWidth(null);
 //  l.setHeight(null);

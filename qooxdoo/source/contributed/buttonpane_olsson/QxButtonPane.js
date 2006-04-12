@@ -24,29 +24,29 @@
 /* ****************************************************************************
 
 #package(form)
-#require(QxButton)
+#require(qx.ui.form.Button)
 
 **************************************************************************** */
 
 function QxButtonPane(vOrientation) {
-  QxBoxLayout.call(this, vOrientation);
+  qx.ui.layout.BoxLayout.call(this, vOrientation);
 
-  var okB = this._ok = new QxButton("Ok");
+  var okB = this._ok = new qx.ui.form.Button("Ok");
   okB.setPadding(2);
   okB.addEventListener("execute", this.executeOk);
 
-  var cancelB = this._cancel = new QxButton("Cancel");
+  var cancelB = this._cancel = new qx.ui.form.Button("Cancel");
   cancelB.setPadding(2);
   cancelB.addEventListener("execute", this.executeCancel);
 
-  var helpB = this._help = new QxButton("Help");
+  var helpB = this._help = new qx.ui.form.Button("Help");
   helpB.setPadding(2);
   helpB.addEventListener("execute", this.executeHelp);
 
   this.add(okB, cancelB, helpB);
 };
 
-QxButtonPane.extend(QxBoxLayout, "QxButtonPane");
+QxButtonPane.extend(qx.ui.layout.BoxLayout, "QxButtonPane");
 
 
 /*
@@ -124,5 +124,5 @@ proto.dispose = function()
     this._helpB = null;
   };
 
-  return QxBoxLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

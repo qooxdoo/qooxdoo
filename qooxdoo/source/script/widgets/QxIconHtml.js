@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-function QxIconHtml(vHtml, vIcon, vIconWidth, vIconHeight)
+qx.ui.embed.IconHtmlEmbed = function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
-  QxHtml.call(this, vHtml);
+  qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
   if (typeof vIcon != QxConst.TYPEOF_UNDEFINED)
   {
@@ -44,7 +44,7 @@ function QxIconHtml(vHtml, vIcon, vIconWidth, vIconHeight)
   };
 };
 
-QxIconHtml.extend(QxHtml, "QxIconHtml");
+qx.ui.embed.IconHtmlEmbed.extend(qx.ui.embed.HtmlEmbed, "qx.ui.embed.IconHtmlEmbed");
 
 
 
@@ -56,26 +56,26 @@ QxIconHtml.extend(QxHtml, "QxIconHtml");
 */
 
 /*!
-  Any URI String supported by QxImage to display a icon
+  Any URI String supported by qx.ui.basic.Image to display a icon
 */
-QxIconHtml.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING, impl : "html" });
+qx.ui.embed.IconHtmlEmbed.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING, impl : "html" });
 
 /*!
   The width of the icon.
-  If configured, this makes QxIconHtml a little bit faster as it does not need to wait until the image loading is finished.
+  If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-QxIconHtml.addProperty({ name : "iconWidth", type : QxConst.TYPEOF_NUMBER, impl : "html" });
+qx.ui.embed.IconHtmlEmbed.addProperty({ name : "iconWidth", type : QxConst.TYPEOF_NUMBER, impl : "html" });
 
 /*!
   The height of the icon
-  If configured, this makes QxIconHtml a little bit faster as it does not need to wait until the image loading is finished.
+  If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-QxIconHtml.addProperty({ name : "iconHeight", type : QxConst.TYPEOF_NUMBER, impl : "html" });
+qx.ui.embed.IconHtmlEmbed.addProperty({ name : "iconHeight", type : QxConst.TYPEOF_NUMBER, impl : "html" });
 
 /*!
   Space in pixels between the icon and the HTML.
 */
-QxIconHtml.addProperty({ name : "spacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 4, impl : "html" });
+qx.ui.embed.IconHtmlEmbed.addProperty({ name : "spacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 4, impl : "html" });
 
 
 
@@ -87,14 +87,14 @@ QxIconHtml.addProperty({ name : "spacing", type : QxConst.TYPEOF_NUMBER, default
 ---------------------------------------------------------------------------
 */
 
-QxIconHtml.START_IMAGE = "<img src=\"";
-QxIconHtml.START_STYLE = "\" style=\"vertical-align:middle;";
-QxIconHtml.STYLE_MARGIN = "margin-right:";
-QxIconHtml.STYLE_WIDTH = "width:";
-QxIconHtml.STYLE_HEIGHT = "height:";
-QxIconHtml.PIXEL_UNIT = "px;";
-QxIconHtml.FILTER_START = "filter:";
-QxIconHtml.STOP_IMAGE = "\"/>";
+qx.ui.embed.IconHtmlEmbed.START_IMAGE = "<img src=\"";
+qx.ui.embed.IconHtmlEmbed.START_STYLE = "\" style=\"vertical-align:middle;";
+qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN = "margin-right:";
+qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH = "width:";
+qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT = "height:";
+qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT = "px;";
+qx.ui.embed.IconHtmlEmbed.FILTER_START = "filter:";
+qx.ui.embed.IconHtmlEmbed.STOP_IMAGE = "\"/>";
 
 proto._mshtml = qx.sys.Client.isMshtml();
 
@@ -104,41 +104,41 @@ proto._syncHtml = function()
 
   if (qx.util.validator.isValidString(this.getIcon()))
   {
-    vHtml.push(QxIconHtml.START_IMAGE);
-    vHtml.push(QxImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
-    vHtml.push(QxIconHtml.START_STYLE);
+    vHtml.push(qx.ui.embed.IconHtmlEmbed.START_IMAGE);
+    vHtml.push(qx.manager.object.ImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
+    vHtml.push(qx.ui.embed.IconHtmlEmbed.START_STYLE);
 
     if (qx.util.validator.isValidNumber(this.getSpacing()))
     {
-      vHtml.push(QxIconHtml.STYLE_MARGIN);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN);
       vHtml.push(this.getSpacing());
-      vHtml.push(QxIconHtml.PIXEL_UNIT);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
     };
 
     if (qx.util.validator.isValidNumber(this.getIconWidth()))
     {
-      vHtml.push(QxIconHtml.STYLE_WIDTH);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH);
       vHtml.push(this.getIconWidth());
-      vHtml.push(QxIconHtml.PIXEL_UNIT);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
     };
 
     if (qx.util.validator.isValidNumber(this.getIconHeight()))
     {
-      vHtml.push(QxIconHtml.STYLE_HEIGHT);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT);
       vHtml.push(this.getIconHeight());
-      vHtml.push(QxIconHtml.PIXEL_UNIT);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
     };
 
     if (this._mshtml)
     {
-      vHtml.push(QxIconHtml.FILTER_START);
-      vHtml.push(QxImage.IMGLOADER_START);
-      vHtml.push(QxImageManager.buildUri(this.getIcon()));
-      vHtml.push(QxImage.IMGLOADER_STOP);
+      vHtml.push(qx.ui.embed.IconHtmlEmbed.FILTER_START);
+      vHtml.push(qx.ui.basic.Image.IMGLOADER_START);
+      vHtml.push(qx.manager.object.ImageManager.buildUri(this.getIcon()));
+      vHtml.push(qx.ui.basic.Image.IMGLOADER_STOP);
       vHtml.push(QxConst.CORE_SEMICOLON);
     };
 
-    vHtml.push(QxIconHtml.STOP_IMAGE);
+    vHtml.push(qx.ui.embed.IconHtmlEmbed.STOP_IMAGE);
   };
 
   if (qx.util.validator.isValidString(this.getHtml())) {

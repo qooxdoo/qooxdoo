@@ -24,7 +24,7 @@
 
 #package(appearancethemes)
 #require(qx.renderer.theme.AppearanceTheme)
-#require(QxAppearanceManager)
+#require(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 

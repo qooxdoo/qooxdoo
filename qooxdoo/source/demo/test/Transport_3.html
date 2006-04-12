@@ -17,18 +17,18 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-    var lab1 = new QxLabel("40KB");
-    var lab2 = new QxLabel("400KB");
-    var lab3 = new QxLabel("4000KB");
+    var lab1 = new qx.ui.basic.Label("40KB");
+    var lab2 = new qx.ui.basic.Label("400KB");
+    var lab3 = new qx.ui.basic.Label("4000KB");
 
-    var spin1 = new QxSpinner(0, 3, 50);
-    var spin2 = new QxSpinner(0, 3, 20);
-    var spin3 = new QxSpinner(0, 3, 10);
-
-
+    var spin1 = new qx.ui.form.Spinner(0, 3, 50);
+    var spin2 = new qx.ui.form.Spinner(0, 3, 20);
+    var spin3 = new qx.ui.form.Spinner(0, 3, 10);
 
 
-    var grid = new QxGridLayout;
+
+
+    var grid = new qx.ui.layout.GridLayout;
 
     grid.setLocation(20, 48);
     grid.setDimension(QxConst.CORE_AUTO, QxConst.CORE_AUTO);
@@ -60,13 +60,13 @@
 
 
 
-    var btn = new QxButton("Send", "icons/16/button-ok.png");
+    var btn = new qx.ui.form.Button("Send", "icons/16/button-ok.png");
     btn.setLocation(20, 120);
     this.add(btn);
 
 
 
-    var area = new QxTextArea("");
+    var area = new qx.ui.form.TextArea("");
     area.setLocation(20, 154);
     area.setDimension(192, 400);
     this.add(area);

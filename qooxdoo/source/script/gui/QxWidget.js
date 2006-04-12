@@ -28,7 +28,7 @@
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderObject)
 #require(qx.renderer.border.BorderCache)
-#require(QxAppearanceManager)
+#require(qx.manager.object.AppearanceManager)
 #post(QxWidgetCore)
 #post(QxDomScrollIntoView)
 #post(QxDomOffset)
@@ -41,7 +41,7 @@
 qx.ui.core.Widget = function()
 {
   if (this.classname == qx.ui.core.Widget.OMIT_CLASS) {
-    throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and QxTerminator instead!");
+    throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
   };
 
   qx.core.Target.call(this, true);
@@ -144,13 +144,13 @@ qx.ui.core.Widget.addProperty({ name : "verticalAlign", type : QxConst.TYPEOF_ST
 
 /*!
   Should this widget be stretched on the x-axis if the layout handler will do this?
-  Used by some layout handlers (QxBoxLayout, ...).
+  Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
 qx.ui.core.Widget.addProperty({ name : "allowStretchX", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should this widget be stretched on the y-axis if the layout handler will do this?
-  Used by some layout handlers (QxBoxLayout, ...).
+  Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
 qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
@@ -3047,7 +3047,7 @@ proto._applyInitialAppearance = function()
   {
     try
     {
-      var r = QxAppearanceManager.getAppearanceThemeObject().initialFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getAppearanceThemeObject().initialFrom(this, vAppearance);
       if (r) {
         this.set(r);
       };
@@ -3069,7 +3069,7 @@ proto._applyStateAppearance = function()
   {
     try
     {
-      var r = QxAppearanceManager.getAppearanceThemeObject().stateFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getAppearanceThemeObject().stateFrom(this, vAppearance);
       if (r) {
         this.set(r);
       };
@@ -3087,8 +3087,8 @@ proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanc
 
   if (vAppearance)
   {
-    var vOldAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObjectById(vOldAppearanceTheme);
-    var vNewAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObjectById(vNewAppearanceTheme);
+    var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getAppearanceThemeObjectById(vOldAppearanceTheme);
+    var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getAppearanceThemeObjectById(vNewAppearanceTheme);
 
     var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
     var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
@@ -3117,7 +3117,7 @@ else if (qx.sys.Client.isGecko())
   {
     if (vStates.focused)
     {
-      if (!QxFocusManager.mouseFocus && !this.getHideFocus())
+      if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
         this.setStyleProperty("MozOutline", QxConst.FOCUS_OUTLINE);
       };
@@ -3134,7 +3134,7 @@ else
   {
     if (vStates.focused)
     {
-      if (!QxFocusManager.mouseFocus && !this.getHideFocus())
+      if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
         this.setStyleProperty("outline", QxConst.FOCUS_OUTLINE);
       };
@@ -3168,7 +3168,7 @@ proto.recursiveAddToStateQueue = function() {
 
 proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
-  var vAppearanceThemeObject = QxAppearanceManager.getAppearanceThemeObject();
+  var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getAppearanceThemeObject();
 
   var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
 
@@ -3571,7 +3571,7 @@ proto._visualizeBlur = function()
 
 proto._visualizeFocus = function()
 {
-  if (!QxFocusManager.mouseFocus && this.getEnableElementFocus())
+  if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
   {
     try {
       this.getElement().focus();
@@ -3584,13 +3584,13 @@ proto._visualizeFocus = function()
 
 proto.focus = function()
 {
-  delete QxFocusManager.mouseFocus;
+  delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(true);
 };
 
 proto.blur = function()
 {
-  delete QxFocusManager.mouseFocus;
+  delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(false);
 };
 
@@ -3926,7 +3926,7 @@ qx.ui.core.Widget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
 proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
-  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + QxImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
+  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + qx.manager.object.ImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 };
 
 

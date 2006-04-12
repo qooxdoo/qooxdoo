@@ -32,12 +32,12 @@
 */
 function QxBlocker()
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   this.setEdge(0);
   this.setDisplay(false);
 };
 
-QxBlocker.extend(QxTerminator, "QxBlocker");
+QxBlocker.extend(qx.ui.basic.Terminator, "QxBlocker");
 
 QxBlocker.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "blocker" });

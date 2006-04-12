@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(layout)
-#post(QxGridLayoutImpl)
+#post(qx.renderer.layout.GridLayoutImpl)
 
 ************************************************************************ */
 
-function QxGridLayout()
+qx.ui.layout.GridLayout = function()
 {
   qx.ui.core.Parent.call(this);
 
@@ -37,7 +37,7 @@ function QxGridLayout()
   this._spans = [];
 };
 
-QxGridLayout.extend(qx.ui.core.Parent, "QxGridLayout");
+qx.ui.layout.GridLayout.extend(qx.ui.core.Parent, "qx.ui.layout.GridLayout");
 
 
 
@@ -51,42 +51,42 @@ QxGridLayout.extend(qx.ui.core.Parent, "QxGridLayout");
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-QxGridLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.GridLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-QxGridLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.GridLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left", "center" and "right"
 */
-QxGridLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
+qx.ui.layout.GridLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
 */
-QxGridLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
+qx.ui.layout.GridLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
 
 /*!
   Cell padding top of all cells, if not locally defined
 */
-QxGridLayout.addProperty({ name : "cellPaddingTop", type : QxConst.TYPEOF_NUMBER });
+qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingTop", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   Cell padding right of all cells, if not locally defined
 */
-QxGridLayout.addProperty({ name : "cellPaddingRight", type : QxConst.TYPEOF_NUMBER });
+qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingRight", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   Cell padding bottom of all cells, if not locally defined
 */
-QxGridLayout.addProperty({ name : "cellPaddingBottom", type : QxConst.TYPEOF_NUMBER });
+qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingBottom", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   Cell padding left of all cells, if not locally defined
 */
-QxGridLayout.addProperty({ name : "cellPaddingLeft", type : QxConst.TYPEOF_NUMBER });
+qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingLeft", type : QxConst.TYPEOF_NUMBER });
 
 
 
@@ -103,7 +103,7 @@ QxGridLayout.addProperty({ name : "cellPaddingLeft", type : QxConst.TYPEOF_NUMBE
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return new QxGridLayoutImpl(this);
+  return new qx.renderer.layout.GridLayoutImpl(this);
 };
 
 

@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxHorizontalBoxLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.HorizontalBoxLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxHorizontalBoxLayoutImpl.extend(QxLayoutImpl, "QxHorizontalBoxLayoutImpl");
+qx.renderer.layout.HorizontalBoxLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.HorizontalBoxLayoutImpl");
 
-QxHorizontalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.renderer.layout.HorizontalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Global Structure:
@@ -49,7 +49,7 @@ QxHorizontalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxCon
   [11] DISPOSER
 
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
   [11] DISPOSER
 */
@@ -339,7 +339,7 @@ proto.invalidateChildrenFlexWidth = function() {
 proto.computeChildrenNeededWidth = function()
 {
   var w = this.getWidget();
-  return QxLayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getSpacing());
+  return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getSpacing());
 };
 
 

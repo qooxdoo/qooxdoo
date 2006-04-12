@@ -23,20 +23,20 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxLabel)
+#require(qx.ui.basic.Label)
 
 ************************************************************************ */
 
-QxLabel.BR = "<br/>";
-QxLabel.CODE1 = "&#x";
-QxLabel.CODE2 = "&#";
-QxLabel.TOSTRHELPER = "0x";
+qx.ui.basic.Label.BR = "<br/>";
+qx.ui.basic.Label.CODE1 = "&#x";
+qx.ui.basic.Label.CODE2 = "&#";
+qx.ui.basic.Label.TOSTRHELPER = "0x";
 
-QxLabel.htmlToText = function(s) {
-  return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, QxLabel._htmlToText);
+qx.ui.basic.Label.htmlToText = function(s) {
+  return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, qx.ui.basic.Label._htmlToText);
 };
 
-QxLabel._htmlToText = function(s)
+qx.ui.basic.Label._htmlToText = function(s)
 {
   switch(s)
   {
@@ -56,10 +56,10 @@ QxLabel._htmlToText = function(s)
       return String.fromCharCode(160);
 
     default:
-      if (s.substring(0, 3) == QxLabel.CODE1) {
-        return String.fromCharCode(parseInt(QxLabel.TOSTRHELPER + s.substring(3, s.length - 1)));
+      if (s.substring(0, 3) == qx.ui.basic.Label.CODE1) {
+        return String.fromCharCode(parseInt(qx.ui.basic.Label.TOSTRHELPER + s.substring(3, s.length - 1)));
       }
-      else if (s.substring(0, 2) == QxLabel.CODE2) {
+      else if (s.substring(0, 2) == qx.ui.basic.Label.CODE2) {
         return String.fromCharCode(s.substring(2, s.length - 1));
       }
       else if (/\s+/.test(s)) {
@@ -73,11 +73,11 @@ QxLabel._htmlToText = function(s)
   };
 };
 
-QxLabel.textToHtml = function(s) {
-  return String(s).replace(/&|<|>|\n|\u00A0/g, QxLabel._textToHtml);
+qx.ui.basic.Label.textToHtml = function(s) {
+  return String(s).replace(/&|<|>|\n|\u00A0/g, qx.ui.basic.Label._textToHtml);
 };
 
-QxLabel._textToHtml = function(s)
+qx.ui.basic.Label._textToHtml = function(s)
 {
   switch(s)
   {
@@ -91,22 +91,22 @@ QxLabel._textToHtml = function(s)
       return QxConst.HTML_BIGGER;
 
     case QxConst.CORE_NEWLINE:
-      return QxLabel.BR;
+      return qx.ui.basic.Label.BR;
 
     default:
       return QxConst.CORE_SPACE;
   };
 };
 
-QxLabel.init = function()
+qx.ui.basic.Label.init = function()
 {
-  QxLabel._measureNodes = {};
-  QxLabel.createMeasureNode(QxConst.CORE_DEFAULT);
+  qx.ui.basic.Label._measureNodes = {};
+  qx.ui.basic.Label.createMeasureNode(QxConst.CORE_DEFAULT);
 };
 
-QxLabel.createMeasureNode = function(vId)
+qx.ui.basic.Label.createMeasureNode = function(vId)
 {
-  var vNode = QxLabel._measureNodes[vId] = document.createElement(QxConst.CORE_DIV);
+  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(QxConst.CORE_DIV);
   var vStyle = vNode.style;
 
   vStyle.width = vStyle.height = QxConst.CORE_AUTO;
@@ -118,5 +118,5 @@ QxLabel.createMeasureNode = function(vId)
 };
 
 if (typeof window.application != QxConst.TYPEOF_UNDEFINED) {
-  window.application.addEventListener(QxConst.EVENT_TYPE_PRE, QxLabel.init);
+  window.application.addEventListener(QxConst.EVENT_TYPE_PRE, qx.ui.basic.Label.init);
 };

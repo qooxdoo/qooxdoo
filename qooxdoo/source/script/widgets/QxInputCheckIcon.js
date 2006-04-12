@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-function QxInputCheckIcon()
+qx.ui.form.InputCheckSymbol = function()
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   this.setTagName("INPUT");
   this.setSelectable(false);
@@ -50,12 +50,12 @@ function QxInputCheckIcon()
   this.setTabIndex(-1);
 };
 
-QxInputCheckIcon.extend(QxTerminator, "QxInputCheckIcon");
+qx.ui.form.InputCheckSymbol.extend(qx.ui.basic.Terminator, "qx.ui.form.InputCheckSymbol");
 
-QxInputCheckIcon.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "apply" });
-QxInputCheckIcon.addProperty({ name : "value", impl : "apply" });
-QxInputCheckIcon.addProperty({ name : "type", impl : "apply" });
-QxInputCheckIcon.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "apply" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "value", impl : "apply" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "type", impl : "apply" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
 
 proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);
@@ -79,7 +79,7 @@ if (qx.sys.Client.isMshtml())
 {
   proto._afterAppear = function()
   {
-    QxTerminator.prototype._afterAppear.call(this);
+    qx.ui.basic.Terminator.prototype._afterAppear.call(this);
 
     var vElement = this.getElement();
     vElement.checked = this.getChecked();
@@ -93,5 +93,5 @@ if (qx.sys.Client.isMshtml())
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(QxConst.CORE_DISABLED) : this.setHtmlAttribute(QxConst.CORE_DISABLED, QxConst.CORE_DISABLED);
-  return QxTerminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };

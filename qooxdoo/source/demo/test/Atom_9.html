@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    This uses QxLabel instead of QxAtom for text only display. Stored as Atom test file
+    This uses qx.ui.basic.Label instead of qx.ui.basic.Atom for text only display. Stored as Atom test file
     because this way we could compare it to the previous test file.
   </div>
 
@@ -27,7 +27,7 @@
     {
       for (var j=0; j<10; j++)
       {
-        atom = new QxLabel("Date");
+        atom = new qx.ui.basic.Label("Date");
 
         atom.setTop(toppos);
         atom.setLeft(20 + (j*50));

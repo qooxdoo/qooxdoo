@@ -26,7 +26,7 @@
 
 function QxClock() 
 {
-  QxAtom.call(this);
+  qx.ui.basic.Atom.call(this);
 
   this.setWidth(QxConst.CORE_AUTO);
 
@@ -43,7 +43,7 @@ function QxClock()
   this._timer.start();
 };
 
-QxClock.extend(QxAtom, "QxClock");
+QxClock.extend(qx.ui.basic.Atom, "QxClock");
 
 
 
@@ -147,5 +147,5 @@ proto.dispose = function()
     this._timer = null;
   };
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

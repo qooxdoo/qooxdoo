@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxFlowLayoutImpl(vWidget) {
-  QxLayoutImpl.call(this, vWidget);
+qx.renderer.layout.FlowLayoutImpl = function(vWidget) {
+  qx.renderer.layout.LayoutImpl.call(this, vWidget);
 };
 
-QxFlowLayoutImpl.extend(QxLayoutImpl, "QxFlowLayoutImpl");
+qx.renderer.layout.FlowLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.FlowLayoutImpl");
 
-QxFlowLayoutImpl.STR_FIRST = "getFirstVisibleChild";
-QxFlowLayoutImpl.STR_LAST = "getLastVisibleChild";
-QxFlowLayoutImpl.STR_NEXT = "getNextSibling";
-QxFlowLayoutImpl.STR_PREVIOUS = "getPreviousSibling";
+qx.renderer.layout.FlowLayoutImpl.STR_FIRST = "getFirstVisibleChild";
+qx.renderer.layout.FlowLayoutImpl.STR_LAST = "getLastVisibleChild";
+qx.renderer.layout.FlowLayoutImpl.STR_NEXT = "getNextSibling";
+qx.renderer.layout.FlowLayoutImpl.STR_PREVIOUS = "getPreviousSibling";
 
 
 /*!
@@ -52,7 +52,7 @@ QxFlowLayoutImpl.STR_PREVIOUS = "getPreviousSibling";
   [10] LAYOUT CHILD
   [11] DISPOSER
 
-  Inherits from QxLayoutImpl:
+  Inherits from qx.renderer.layout.LayoutImpl:
 
   [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -77,7 +77,7 @@ QxFlowLayoutImpl.STR_PREVIOUS = "getPreviousSibling";
 proto.computeChildrenNeededWidth = function()
 {
   var w = this.getWidget();
-  return QxLayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getHorizontalSpacing());
+  return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getHorizontalSpacing());
 };
 
 /*!
@@ -374,8 +374,8 @@ proto.layoutChild_location = function(vChild, vJobs)
   var vWidget = this.getWidget();
   var vReverse = vWidget.getReverseChildrenOrder();
 
-  var vMethodBegin = vReverse ? QxFlowLayoutImpl.STR_LAST : QxFlowLayoutImpl.STR_FIRST;
-  var vMethodContinue = vReverse ? QxFlowLayoutImpl.STR_NEXT : QxFlowLayoutImpl.STR_PREVIOUS;
+  var vMethodBegin = vReverse ? qx.renderer.layout.FlowLayoutImpl.STR_LAST : qx.renderer.layout.FlowLayoutImpl.STR_FIRST;
+  var vMethodContinue = vReverse ? qx.renderer.layout.FlowLayoutImpl.STR_NEXT : qx.renderer.layout.FlowLayoutImpl.STR_PREVIOUS;
 
   if (vChild == vWidget[vMethodBegin]())
   {

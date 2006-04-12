@@ -25,7 +25,7 @@
 #package(guicore)
 #require(QxDomStyleSheet)
 #post(QxBlocker)
-#post(QxFocusManager)
+#post(qx.event.handler.FocusHandler)
 
 ************************************************************************ */
 
@@ -48,7 +48,7 @@ function QxClientDocument(vClientWindow)
   // would not be added initially to the state queue
   this.addToStateQueue();
 
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   // Don't use widget styles
   this._styleProperties = {};
@@ -84,7 +84,7 @@ function QxClientDocument(vClientWindow)
   */
 };
 
-QxClientDocument.extend(QxCanvasLayout, "QxClientDocument");
+QxClientDocument.extend(qx.ui.layout.CanvasLayout, "QxClientDocument");
 
 QxClientDocument.addProperty({ name : "globalCursor", type : QxConst.TYPEOF_STRING });
 
@@ -311,8 +311,8 @@ proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
-  if (typeof QxPopupManager !== QxConst.TYPEOF_UNDEFINED) {
-    QxPopupManager.update();
+  if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+    qx.manager.object.PopupManager.update();
   };
 
   // Update children
@@ -391,5 +391,5 @@ proto.dispose = function()
   };
   */
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

@@ -28,13 +28,13 @@
 
 function QxListViewContentCellLink(vHtml) 
 {
-  QxLink.call(this, vHtml);
+  qx.ui.embed.HtmlLinkEmbed.call(this, vHtml);
 
   // selectable = false will break links in gecko based browsers  
   this.setSelectable(true);
 };
 
-QxListViewContentCellLink.extend(QxLink, "QxListViewContentCellLink");
+QxListViewContentCellLink.extend(qx.ui.embed.HtmlLinkEmbed, "QxListViewContentCellLink");
 
 QxListViewContentCellLink.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-link" });
 

@@ -28,14 +28,14 @@
 **************************************************************************** */
 
 function QxStatusBarPane(vWidget) {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   if(qx.util.validator.isValidObject(vWidget)) {
     this.setWidget(vWidget);
   };
 };
 
-QxStatusBarPane.extend(QxCanvasLayout, "QxStatusBarPane");
+QxStatusBarPane.extend(qx.ui.layout.CanvasLayout, "QxStatusBarPane");
 
 
 /*
@@ -100,5 +100,5 @@ proto.dispose = function()
     widget = null;
   };
 
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

@@ -29,11 +29,11 @@
 /*!
   This singleton manages multiple instances of QxMenu and their state.
 */
-function QxMenuManager(){
-  QxManager.call(this);
+qx.manager.object.MenuManager = function(){
+  qx.manager.object.ObjectManager.call(this);
 };
 
-QxMenuManager.extend(QxManager, "QxMenuManager");
+qx.manager.object.MenuManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.MenuManager");
 
 
 
@@ -76,4 +76,4 @@ proto.update = function(vTarget)
 ---------------------------------------------------------------------------
 */
 
-QxMenuManager = new QxMenuManager;
+qx.manager.object.MenuManager = new qx.manager.object.MenuManager;

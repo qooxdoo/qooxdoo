@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxVerticalSpacer()
+qx.ui.basic.VerticalSpacer = function()
 {
-  QxTerminator.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   this.setHeight(QxConst.CORE_FLEX);
 };
 
-QxVerticalSpacer.extend(QxTerminator, "QxVerticalSpacer");
+qx.ui.basic.VerticalSpacer.extend(qx.ui.basic.Terminator, "qx.ui.basic.VerticalSpacer");

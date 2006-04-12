@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxRepeatButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.ui.form.RepeatButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
-  QxButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
   this._timer = new qx.client.Timer;
   this._timer.setInterval(this.getInterval());
   this._timer.addEventListener("interval", this._oninterval, this);
 };
 
-QxRepeatButton.extend(QxButton, "QxRepeatButton");
+qx.ui.form.RepeatButton.extend(qx.ui.form.Button, "qx.ui.form.RepeatButton");
 
 
 /*
@@ -44,8 +44,8 @@ QxRepeatButton.extend(QxButton, "QxRepeatButton");
 ---------------------------------------------------------------------------
 */
 
-QxRepeatButton.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-QxRepeatButton.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
+qx.ui.form.RepeatButton.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.form.RepeatButton.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
 
 
 
@@ -88,7 +88,7 @@ proto._onmouseup = function(e)
   this._timer.stop();
 
   this.removeState(QxConst.STATE_ABANDONED);
-  this.removeState(QxConst.STATE_PRESSED);  
+  this.removeState(QxConst.STATE_PRESSED);
 };
 
 proto._oninterval = function(e)
@@ -125,5 +125,5 @@ proto.dispose = function()
     this._timer = null;
   };
 
-  return QxButton.prototype.dispose.call(this);
+  return qx.ui.form.Button.prototype.dispose.call(this);
 };

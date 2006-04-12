@@ -12,9 +12,9 @@
 
   <div id="demoDescription">
     <p>Test for the QxPopup widget. QxPopups are planned as the source constructor for tooltips, menus, ...</p>
-    <p>There is also a QxPopupManager which hides all registered QxPopup instances which are configured to auto hide.
+    <p>There is also a qx.manager.object.PopupManager which hides all registered QxPopup instances which are configured to auto hide.
     This is a nice method to omit to show more than one QxPopup together (omit multiple QxTooltips, ...).</p>
-    <p>In this example we use a QxPopupAtom. This is a popup with an automatically included QxAtom, which
+    <p>In this example we use a QxPopupAtom. This is a popup with an automatically included qx.ui.basic.Atom, which
     allowes you to easily use it for messages to the user or something like this.</p>
   </div>
 
@@ -24,7 +24,7 @@
     var d = this.getClientWindow().getClientDocument();
 
 
-    var w1 = new QxButton("Press");
+    var w1 = new qx.ui.form.Button("Press");
     with(w1)
     {
       setTop(48);
@@ -38,7 +38,7 @@
     d.add(w1);
 
 
-    var w2 = new QxButton("Press");
+    var w2 = new qx.ui.form.Button("Press");
     with(w2)
     {
       setTop(48);

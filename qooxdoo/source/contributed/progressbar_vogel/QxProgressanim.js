@@ -22,7 +22,7 @@
 
 #package(form) //???Olli???
 #require(qx.renderer.border.BorderObject)
-#require(QxTerminator)
+#require(qx.ui.basic.Terminator)
 #require(qx.client.Timer)
 
 **************************************************************************** */
@@ -33,7 +33,7 @@ QxProgressanim.BAR_WIDTH = 50;
 
 function QxProgressanim()
 {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   this.setWidth(250);
   this.setHeight(22);
@@ -43,7 +43,7 @@ function QxProgressanim()
   // ***********************************************************************
   //   Progress-Bar itself
   // ***********************************************************************
-  this._bar = new QxTerminator();
+  this._bar = new qx.ui.basic.Terminator();
   this._bar.set({ left: 0, bottom: 0, top: 0, border : qx.renderer.border.Border.presets.none });
   this._bar.setBackgroundColor("green");
   this.add(this._bar);
@@ -65,7 +65,7 @@ function QxProgressanim()
   
 };
 
-QxProgressanim.extend(QxCanvasLayout, "QxProgressanim");
+QxProgressanim.extend(qx.ui.layout.CanvasLayout, "QxProgressanim");
 
 
 /*
@@ -182,5 +182,5 @@ proto.dispose = function()
     this._bar = null;
   };
   
-  return QxCanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

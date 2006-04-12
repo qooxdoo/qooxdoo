@@ -28,12 +28,12 @@
 
 function QxListViewContentCellHtml(vHtml) 
 {
-  QxHtml.call(this, vHtml);
+  qx.ui.embed.HtmlEmbed.call(this, vHtml);
   
   this.setSelectable(false);
 };
 
-QxListViewContentCellHtml.extend(QxHtml, "QxListViewContentCellHtml");
+QxListViewContentCellHtml.extend(qx.ui.embed.HtmlEmbed, "QxListViewContentCellHtml");
 
 QxListViewContentCellHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
 

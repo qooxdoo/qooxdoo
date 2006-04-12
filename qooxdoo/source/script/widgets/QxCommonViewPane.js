@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 function QxCommonViewPane() {
-  QxCanvasLayout.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 };
 
-QxCommonViewPane.extend(QxCanvasLayout, "QxCommonViewPane");
+QxCommonViewPane.extend(qx.ui.layout.CanvasLayout, "QxCommonViewPane");
