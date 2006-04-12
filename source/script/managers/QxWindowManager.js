@@ -162,16 +162,3 @@ proto.remove = function(vWindow)
     };
   };
 };
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-qx.manager.object.WindowManager = new qx.manager.object.WindowManager;
