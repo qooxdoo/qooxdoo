@@ -53,7 +53,7 @@
 
       for (var k=0; k<10; k++)
       {
-        var tb = new QxToolBar;
+        var tb = new qx.ui.toolbar.ToolBar;
         with(tb)
         {
           setTop(48+(k*50));
@@ -66,7 +66,7 @@
           var btns = bars[j];
   
           if (useParts) {
-            var tbp = new QxToolBarPart;
+            var tbp = new qx.ui.toolbar.ToolBarPart;
           };
   
           for (var i=0; i<btns.length; i++)
@@ -76,11 +76,11 @@
             switch(btn.type)
             {
               case "separator":
-                var o = new QxToolBarSeparator;
+                var o = new qx.ui.toolbar.ToolBarSeparator;
                 break;
   
               case "button":
-                var o = new QxToolBarButton(btn.text, "icons/22/" + btn.icon + ".png");
+                var o = new qx.ui.toolbar.ToolBarButton(btn.text, "icons/22/" + btn.icon + ".png");
   
                 // beautiful decoupling: toolbar buttons don't know about radio boxes
   

@@ -24,18 +24,18 @@
 
 #package(transport)
 #post(QxTransportCore)
-#post(QxResponse)
+#post(qx.io.remote.RemoteResponse)
 
 ************************************************************************ */
 
-function QxTransport(vRequest)
+qx.io.remote.RemoteExchange = function(vRequest)
 {
   qx.core.Target.call(this);
 
   this.setRequest(vRequest);
 };
 
-QxTransport.extend(qx.core.Target, "QxTransport");
+qx.io.remote.RemoteExchange.extend(qx.core.Target, "qx.io.remote.RemoteExchange");
 
 
 
@@ -49,16 +49,16 @@ QxTransport.extend(qx.core.Target, "QxTransport");
 */
 /*!
   Set the request to send with this transport.
-*/  
-QxTransport.addProperty({ name : "request", type : QxConst.TYPEOF_OBJECT, instance : "QxRequest" });
+*/
+qx.io.remote.RemoteExchange.addProperty({ name : "request", type : QxConst.TYPEOF_OBJECT, instance : "qx.io.remote.RemoteRequest" });
 /*!
   Set the implementation to use to send the request with.
 
-  The implementation should be a subclass of QxCommonTransport and
+  The implementation should be a subclass of qx.io.remote.AbstractTransport and
   must implement all methods in the transport API.
 */
-QxTransport.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
-QxTransport.addProperty(
+qx.io.remote.RemoteExchange.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
+qx.io.remote.RemoteExchange.addProperty(
 {
   name           : "state",
   type           : QxConst.TYPEOF_STRING,
@@ -92,10 +92,10 @@ proto.send = function()
     return this.error("Please attach a request object first", "send");
   };
 
-  QxTransport.initTypes();
+  qx.io.remote.RemoteExchange.initTypes();
 
-  var vUsage = QxTransport.typesOrder;
-  var vSupported = QxTransport.typesSupported;
+  var vUsage = qx.io.remote.RemoteExchange.typesOrder;
+  var vSupported = qx.io.remote.RemoteExchange.typesSupported;
 
   // Mapping settings to contenttype and needs to check later
   // if the selected transport implementation can handle
@@ -120,7 +120,7 @@ proto.send = function()
 
     if (vTransportImpl)
     {
-      if (!QxTransport.canHandle(vTransportImpl, vNeeds, vResponseType)) {
+      if (!qx.io.remote.RemoteExchange.canHandle(vTransportImpl, vNeeds, vResponseType)) {
         continue;
       };
 
@@ -293,7 +293,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
     case QxConst.REQUEST_STATE_TIMEOUT:
     case QxConst.REQUEST_STATE_FAILED:
       var vImpl = this.getImplementation();
-      var vResponse = new QxResponse;
+      var vResponse = new qx.io.remote.RemoteResponse;
 
       vResponse.setStatusCode(vImpl.getStatusCode());
       vResponse.setContent(vImpl.getResponseContent());

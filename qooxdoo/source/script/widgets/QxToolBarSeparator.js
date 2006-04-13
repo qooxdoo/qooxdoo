@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxToolBarSeparator()
+qx.ui.toolbar.ToolBarSeparator = function()
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -35,6 +35,6 @@ function QxToolBarSeparator()
   this.add(l);
 };
 
-QxToolBarSeparator.extend(qx.ui.layout.CanvasLayout, "QxToolBarSeparator");
+qx.ui.toolbar.ToolBarSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.toolbar.ToolBarSeparator");
 
-QxToolBarSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-separator" });
+qx.ui.toolbar.ToolBarSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-separator" });

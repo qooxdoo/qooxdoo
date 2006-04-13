@@ -26,7 +26,7 @@
 
 function QxSplashScreen(vComponent, vShowProgressBar)
 {
-  QxPopup.call(this);
+  qx.ui.popup.Popup.call(this);
 
 //  this.setWidth(QxConst.CORE_AUTO);
 //  this.setHeight(QxConst.CORE_AUTO);
@@ -72,7 +72,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
 };
 
-QxSplashScreen.extend(QxPopup, "QxSplashScreen");
+QxSplashScreen.extend(qx.ui.popup.Popup, "QxSplashScreen");
 
 QxSplashScreen.MIN_VALUE = 1;
 QxSplashScreen.MAX_VALUE = 100;
@@ -251,5 +251,5 @@ proto.dispose = function()
     this._timer = null;
   };
 
-  return QxPopup.prototype.dispose.call(this);
+  return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

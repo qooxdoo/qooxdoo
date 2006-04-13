@@ -26,15 +26,15 @@
 
 ************************************************************************ */
 
-function QxListViewContentCellImage(vSource, vWidth, vHeight) {
+qx.ui.listview.ListViewContentCellImage = function(vSource, vWidth, vHeight) {
   qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
 };
 
-QxListViewContentCellImage.extend(qx.ui.basic.Image, "QxListViewContentCellImage");
+qx.ui.listview.ListViewContentCellImage.extend(qx.ui.basic.Image, "qx.ui.listview.ListViewContentCellImage");
 
-QxListViewContentCellImage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-image" });
+qx.ui.listview.ListViewContentCellImage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-image" });
 
-QxListViewContentCellImage.empty = {
+qx.ui.listview.ListViewContentCellImage.empty = {
   source : QxConst.IMAGE_BLANK
 };
 

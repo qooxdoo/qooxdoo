@@ -109,7 +109,7 @@
 
                   switch(cv)
                   {
-                    case "QxClientDocument":
+                    case "qx.ui.core.ClientDocument":
                       str += "$" + i + " = window.application.getClientWindow().getClientDocument();\n";
                       break;
 
@@ -330,8 +330,8 @@
 
       function serializeObject(vObject)
       {
-        if (vObject instanceof QxClientDocument) {
-          return "$OBJECTMAPPER-QxClientDocument";
+        if (vObject instanceof qx.ui.core.ClientDocument) {
+          return "$OBJECTMAPPER-qx.ui.core.ClientDocument";
         }
         else if (vObject instanceof qx.manager.object.ImageManager) {
           return "$OBJECTMAPPER-qx.manager.object.ImageManager";

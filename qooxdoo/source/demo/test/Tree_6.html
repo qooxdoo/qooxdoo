@@ -22,7 +22,7 @@
       
       function handleDragStart(e) 
       {
-        e.addData("QxTreeElement", e.getCurrentTarget());
+        e.addData("qx.ui.tree.AbstractTreeElement", e.getCurrentTarget());
         e.addAction("move");
         e.startDrag();
       };
@@ -72,7 +72,7 @@
         
         var vTarget = e.getTarget();
         
-        if (!vTarget || !(vTarget instanceof QxTreeFolder)) 
+        if (!vTarget || !(vTarget instanceof qx.ui.tree.TreeFolder)) 
         {
           treeMarkerLine.setStyleProperty("display", "none");
           return;
@@ -132,7 +132,7 @@
       
 
 
-      var treeSource = new QxTree("Source");
+      var treeSource = new qx.ui.tree.Tree("Source");
 
       with(treeSource)
       {
@@ -151,14 +151,14 @@
         addEventListener("dragout", handleDragOut);
         addEventListener("dragmove", handleDragMove);
 
-        setDropDataTypes(["QxTreeElement"]);
+        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
       this.add(treeSource);
       
       for (var i=1, f; i<3; i++)
       {
-        f = new QxTreeFolder("Folder " + i);
+        f = new qx.ui.tree.TreeFolder("Folder " + i);
         
         f.addEventListener("dragstart", handleDragStart);
         f.addEventListener("dragdrop", handleDragDrop); 
@@ -166,14 +166,14 @@
         f.addEventListener("dragout", handleDragOut);
         f.addEventListener("dragend", handleDragEnd);
         
-        f.setDropDataTypes(["QxTreeElement"]);
+        f.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
         f.supportsDrop = supportsDrop;
         
         treeSource.add(f);
         
         for (var j=1, g; j<6; j++)
         {
-          g = new QxTreeFolder("Subfolder " + j);
+          g = new qx.ui.tree.TreeFolder("Subfolder " + j);
           
           g.addEventListener("dragstart", handleDragStart);
           g.addEventListener("dragdrop", handleDragDrop); 
@@ -181,14 +181,14 @@
           g.addEventListener("dragout", handleDragOut);
           g.addEventListener("dragend", handleDragEnd);
           
-          g.setDropDataTypes(["QxTreeElement"]);
+          g.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
           g.supportsDrop = supportsDrop;
           
           f.add(g);
           
           for (var k=1, h; k<9; k++)
           {
-            h = new QxTreeFile("File " + k);
+            h = new qx.ui.tree.TreeFile("File " + k);
             
             h.addEventListener("dragstart", handleDragStart);
             
@@ -202,7 +202,7 @@
 
 
 
-      var treeDest = new QxTree("Dest");
+      var treeDest = new qx.ui.tree.Tree("Dest");
 
       with(treeDest)
       {
@@ -221,7 +221,7 @@
         addEventListener("dragout", handleDragOut);
         addEventListener("dragmove", handleDragMove);
 
-        setDropDataTypes(["QxTreeElement"]);
+        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
       this.add(treeDest);

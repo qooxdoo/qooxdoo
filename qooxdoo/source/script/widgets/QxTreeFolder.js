@@ -28,9 +28,9 @@
 
 ************************************************************************ */
 
-function QxTreeFolder(vLabel, vIcon, vIconSelected)
+qx.ui.tree.TreeFolder = function(vLabel, vIcon, vIconSelected)
 {
-  QxTreeElement.call(this, vLabel, vIcon, vIconSelected);
+  qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
 
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
@@ -47,7 +47,7 @@ function QxTreeFolder(vLabel, vIcon, vIconSelected)
   this.remove = this.removeFromFolder;
 };
 
-QxTreeFolder.extend(QxTreeElement, "QxTreeFolder");
+qx.ui.tree.TreeFolder.extend(qx.ui.tree.AbstractTreeElement, "qx.ui.tree.TreeFolder");
 
 
 
@@ -58,12 +58,12 @@ QxTreeFolder.extend(QxTreeElement, "QxTreeFolder");
 */
 
 
-QxTreeFolder.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-folder" });
-QxTreeFolder.changeProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-QxTreeFolder.changeProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.TreeFolder.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-folder" });
+qx.ui.tree.TreeFolder.changeProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.TreeFolder.changeProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
 
-QxTreeFolder.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-QxTreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.TreeFolder.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.TreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -125,7 +125,7 @@ proto._openCallback = function()
 
 proto._createChildrenStructure = function()
 {
-  this.setAppearance(this instanceof QxTree ? "tree-container" : "tree-folder-container");
+  this.setAppearance(this instanceof qx.ui.tree.Tree ? "tree-container" : "tree-folder-container");
 
   if (!this._horizontalLayout)
   {
@@ -135,7 +135,7 @@ proto._createChildrenStructure = function()
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
-    this._horizontalLayout.setAppearance(this instanceof QxTree ? "tree" : "tree-folder");
+    this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
 
     this._indentObject.setParent(this._horizontalLayout);
     this._iconObject.setParent(this._horizontalLayout);
@@ -470,7 +470,7 @@ proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 
 proto._updateIndent = function()
 {
-  QxTreeFile.prototype._updateIndent.call(this);
+  qx.ui.tree.TreeFile.prototype._updateIndent.call(this);
 
   if (!this._containerObject) {
     return;
@@ -514,5 +514,5 @@ proto.dispose = function()
     this._containerObject = null;
   };
 
-  return QxTreeElement.prototype.dispose.call(this);
+  return qx.ui.tree.AbstractTreeElement.prototype.dispose.call(this);
 };

@@ -27,14 +27,14 @@
 
 ************************************************************************ */
 
-function QxMenuRadioButton(vLabel, vCommand, vChecked) 
+qx.ui.menu.MenuRadioButton = function(vLabel, vCommand, vChecked)
 {
-  QxMenuCheckBox.call(this, vLabel, vCommand, vChecked);
-  
+  qx.ui.menu.MenuCheckBox.call(this, vLabel, vCommand, vChecked);
+
   this._iconObject.setAppearance("menu-radio-button-icon");
 };
 
-QxMenuRadioButton.extend(QxMenuCheckBox, "QxMenuRadioButton");
+qx.ui.menu.MenuRadioButton.extend(qx.ui.menu.MenuCheckBox, "qx.ui.menu.MenuRadioButton");
 
 
 /*
@@ -43,12 +43,12 @@ QxMenuRadioButton.extend(QxMenuCheckBox, "QxMenuRadioButton");
 ---------------------------------------------------------------------------
 */
 
-QxMenuRadioButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-radio-button" });
+qx.ui.menu.MenuRadioButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-radio-button" });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-QxMenuRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.menu.MenuRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 
@@ -64,8 +64,8 @@ QxMenuRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, 
 proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   var vManager = this.getManager();
-  
-  if (vManager) 
+
+  if (vManager)
   {
     if (propValue)
     {
@@ -77,7 +77,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
     };
   };
 
-  return QxMenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
+  return qx.ui.menu.MenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyManager = function(propValue, propOldValue, propData)
@@ -115,5 +115,5 @@ proto._modifyName = function(propValue, propOldValue, propData)
 proto.execute = function()
 {
   this.setChecked(true);
-  QxMenuButton.prototype.execute.call(this);
+  qx.ui.menu.MenuButton.prototype.execute.call(this);
 };

@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxTabViewPane() 
+qx.ui.pageview.tabview.TabViewPane = function()
 {
-  QxCommonViewPane.call(this);
-  
+  qx.ui.pageview.AbstractPageViewPane.call(this);
+
   this.setZIndex(1);
 };
 
-QxTabViewPane.extend(QxCommonViewPane, "QxTabViewPane");
+qx.ui.pageview.tabview.TabViewPane.extend(qx.ui.pageview.AbstractPageViewPane, "qx.ui.pageview.tabview.TabViewPane");
 
-QxTabViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-pane" });
+qx.ui.pageview.tabview.TabViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-pane" });

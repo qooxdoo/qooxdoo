@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxTreeFile(vLabel, vIcon, vIconSelected) {
-  QxTreeElement.call(this, vLabel, vIcon, vIconSelected);
+qx.ui.tree.TreeFile = function(vLabel, vIcon, vIconSelected) {
+  qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
 };
 
-QxTreeFile.extend(QxTreeElement, "QxTreeFile");
+qx.ui.tree.TreeFile.extend(qx.ui.tree.AbstractTreeElement, "qx.ui.tree.TreeFile");
 
 
 
@@ -41,7 +41,7 @@ QxTreeFile.extend(QxTreeElement, "QxTreeFile");
 ---------------------------------------------------------------------------
 */
 
-proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn) 
+proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 {
   if (vUseTreeLines)
   {
@@ -54,7 +54,7 @@ proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
       return "line";
     };
   };
-  
+
   return null;
 };
 

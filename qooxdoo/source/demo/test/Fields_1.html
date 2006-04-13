@@ -150,7 +150,7 @@
     b3.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
     b4.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
 
-    var fs = new QxFieldSet("BackgroundColor");
+    var fs = new qx.ui.groupbox.GroupBox("BackgroundColor");
     fs.set({left:400,top:50,width:150,height:"auto"});
     fs.add(b2,b3,b4);
 

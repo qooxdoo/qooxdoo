@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
+qx.ui.menu.MenuButton = function(vLabel, vIcon, vCommand, vMenu)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -34,7 +34,7 @@ function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
   // ************************************************************************
   //   LAYOUT
   // ************************************************************************
-  
+
   var io = this._iconObject = new qx.ui.basic.Image;
   io.setAnonymous(true);
 
@@ -48,7 +48,7 @@ function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
 
   var ao = this._arrowObject = new qx.ui.basic.Image("widgets/arrows/next.gif");
   ao.setAnonymous(true);
-  
+
 
   // ************************************************************************
   //   INIT
@@ -67,7 +67,7 @@ function QxMenuButton(vLabel, vIcon, vCommand, vMenu)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxMenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "QxMenuButton");
+qx.ui.menu.MenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.menu.MenuButton");
 
 
 
@@ -77,11 +77,11 @@ QxMenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "QxMenuButton");
 ---------------------------------------------------------------------------
 */
 
-QxMenuButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-button" });
+qx.ui.menu.MenuButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-button" });
 
-QxMenuButton.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-QxMenuButton.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
-QxMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.MenuButton.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.menu.MenuButton.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
+qx.ui.menu.MenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT });
 
 
 
@@ -137,12 +137,12 @@ proto.getParentMenu = function()
   if (vParent)
   {
     vParent = vParent.getParent();
-    
-    if (vParent && vParent instanceof QxMenu) {
+
+    if (vParent && vParent instanceof qx.ui.menu.Menu) {
       return vParent;
     };
   };
-  
+
   return null;
 };
 
@@ -161,11 +161,11 @@ proto.getParentMenu = function()
 */
 proto._createLayoutImpl = function() {
   return new qx.renderer.layout.MenuButtonLayoutImpl(this);
-};  
-  
-  
-  
-  
+};
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -182,18 +182,18 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
   };
-  
+
   return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyIcon = function(propValue, propOldValue, propData)
 {
   this._iconObject.setSource(propValue);
-  
+
   if (qx.util.validator.isValidString(propValue))
   {
     this._hasIcon = true;
-    
+
     if (qx.util.validator.isInvalidString(propOldValue)) {
       this.addAtBegin(this._iconObject);
     };
@@ -203,18 +203,18 @@ proto._modifyIcon = function(propValue, propOldValue, propData)
     this._hasIcon = false;
     this.remove(this._iconObject);
   };
-  
+
   return true;
 };
 
 proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
-  
+
   if (qx.util.validator.isValidString(propValue))
   {
     this._hasLabel = true;
-    
+
     if (qx.util.validator.isInvalidString(propOldValue)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     };
@@ -224,23 +224,23 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
     this._hasLabel = false;
     this.remove(this._labelObject);
   };
-  
+
   return true;
 };
 
 proto._modifyCommand = function(propValue, propOldValue, propData)
 {
   var vHtml = propValue ? propValue.getShortcut() : QxConst.CORE_EMPTY;
-  
+
   this._shortcutObject.setHtml(vHtml);
-  
+
   if (qx.util.validator.isValidString(vHtml))
   {
     this._hasShortcut = true;
-    
+
     var vOldHtml = propOldValue ? propOldValue.getShortcut() : QxConst.CORE_EMPTY;
-    
-    if (qx.util.validator.isInvalidString(vOldHtml)) 
+
+    if (qx.util.validator.isInvalidString(vOldHtml))
     {
       if (this.getLastChild() == this._arrowObject)
       {
@@ -257,7 +257,7 @@ proto._modifyCommand = function(propValue, propOldValue, propData)
     this._hasShortcut = false;
     this.remove(this._shortcutObject);
   };
-  
+
   return true;
 };
 
@@ -266,7 +266,7 @@ proto._modifyMenu = function(propValue, propOldValue, propData)
   if (qx.util.validator.isValidObject(propValue))
   {
     this._hasMenu = true;
-    
+
     if (qx.util.validator.isInvalidObject(propOldValue)) {
       this.addAtEnd(this._arrowObject);
     };
@@ -276,7 +276,7 @@ proto._modifyMenu = function(propValue, propOldValue, propData)
     this._hasMenu = false;
     this.remove(this._arrowObject);
   };
-  
+
   return true;
 };
 
@@ -310,27 +310,27 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return;
   };
-  
+
   // Dispose children
-  if (this._iconObject) 
+  if (this._iconObject)
   {
     this._iconObject.dispose();
     this._iconObject = null;
   };
 
-  if (this._labelObject) 
+  if (this._labelObject)
   {
     this._labelObject.dispose();
     this._labelObject = null;
   };
 
-  if (this._shortcutObject) 
+  if (this._shortcutObject)
   {
     this._shortcutObject.dispose();
     this._shortcutObject = null;
   };
 
-  if (this._arrowObject) 
+  if (this._arrowObject)
   {
     this._arrowObject.dispose();
     this._arrowObject = null;

@@ -26,8 +26,8 @@
 
 ************************************************************************ */
 
-function QxMenuBar() {
-  QxToolBar.call(this);
+qx.ui.menu.MenuBar = function() {
+  qx.ui.toolbar.ToolBar.call(this);
 };
 
-QxMenuBar.extend(QxToolBar, "QxMenuBar");
+qx.ui.menu.MenuBar.extend(qx.ui.toolbar.ToolBar, "qx.ui.menu.MenuBar");

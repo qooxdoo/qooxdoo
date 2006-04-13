@@ -26,8 +26,8 @@
 
 ************************************************************************ */
 
-function QxCommonViewPane() {
+qx.ui.pageview.AbstractPageViewPane = function() {
   qx.ui.layout.CanvasLayout.call(this);
 };
 
-QxCommonViewPane.extend(qx.ui.layout.CanvasLayout, "QxCommonViewPane");
+qx.ui.pageview.AbstractPageViewPane.extend(qx.ui.layout.CanvasLayout, "qx.ui.pageview.AbstractPageViewPane");

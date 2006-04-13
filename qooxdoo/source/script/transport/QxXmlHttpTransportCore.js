@@ -23,15 +23,15 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxXmlHttpTransport)
+#require(qx.io.remote.XmlHttpTransport)
 
 ************************************************************************ */
 
-// basic registration to QxTransport
+// basic registration to qx.io.remote.RemoteExchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-QxTransport.registerType(QxXmlHttpTransport, "QxXmlHttpTransport");
+qx.io.remote.RemoteExchange.registerType(qx.io.remote.XmlHttpTransport, "qx.io.remote.XmlHttpTransport");
 
-QxXmlHttpTransport.handles =
+qx.io.remote.XmlHttpTransport.handles =
 {
   synchronous : true,
   asynchronous : true,
@@ -40,18 +40,18 @@ QxXmlHttpTransport.handles =
   responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
 };
 
-QxXmlHttpTransport.requestObjects = [];
-QxXmlHttpTransport.requestObjectCount = 0;
+qx.io.remote.XmlHttpTransport.requestObjects = [];
+qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
 
-QxXmlHttpTransport.isSupported = function()
+qx.io.remote.XmlHttpTransport.isSupported = function()
 {
   if (window.XMLHttpRequest)
   {
     if (qx.core.Settings.enableTransportDebug) {
-      qx.dev.Debug("QxXmlHttpTransport", "Using XMLHttpRequest");
+      qx.dev.Debug("qx.io.remote.XmlHttpTransport", "Using XMLHttpRequest");
     };
 
-    QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createNativeRequestObject;
+    qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createNativeRequestObject;
     return true;
   };
 
@@ -79,11 +79,11 @@ QxXmlHttpTransport.isSupported = function()
     if (vObject)
     {
       if (qx.core.Settings.enableTransportDebug) {
-        qx.dev.Debug("QxXmlHttpTransport", "Using ActiveXObject: " + vServer);
+        qx.dev.Debug("qx.io.remote.XmlHttpTransport", "Using ActiveXObject: " + vServer);
       };
 
-      QxXmlHttpTransport._activeXServer = vServer;
-      QxXmlHttpTransport.createRequestObject = QxXmlHttpTransport._createActiveXRequestObject;
+      qx.io.remote.XmlHttpTransport._activeXServer = vServer;
+      qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
 
       return true;
     };
@@ -95,20 +95,20 @@ QxXmlHttpTransport.isSupported = function()
 /*!
   Return a new request object suitable for the client browser.
 
-  QxXmlHttpTransport's isSupported method scans which request object
+  qx.io.remote.XmlHttpTransport's isSupported method scans which request object
   to use. The createRequestObject method is then replaced with a
   method that creates request suitable for the client browser. If the
   client browser doesn't support XMLHTTP requests, the method isn't
   replaced and the error "XMLHTTP is not supported!" is thrown.
 */
-QxXmlHttpTransport.createRequestObject = function() {
+qx.io.remote.XmlHttpTransport.createRequestObject = function() {
   throw new Error("XMLHTTP is not supported!");
 };
 
-QxXmlHttpTransport._createNativeRequestObject = function() {
+qx.io.remote.XmlHttpTransport._createNativeRequestObject = function() {
    return new XMLHttpRequest;
 };
 
-QxXmlHttpTransport._createActiveXRequestObject = function() {
-  return new ActiveXObject(QxXmlHttpTransport._activeXServer);
+qx.io.remote.XmlHttpTransport._createActiveXRequestObject = function() {
+  return new ActiveXObject(qx.io.remote.XmlHttpTransport._activeXServer);
 };

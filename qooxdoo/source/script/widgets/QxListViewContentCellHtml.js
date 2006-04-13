@@ -26,17 +26,17 @@
 
 ************************************************************************ */
 
-function QxListViewContentCellHtml(vHtml) 
+qx.ui.listview.ListViewContentCellHtml = function(vHtml)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
-  
+
   this.setSelectable(false);
 };
 
-QxListViewContentCellHtml.extend(qx.ui.embed.HtmlEmbed, "QxListViewContentCellHtml");
+qx.ui.listview.ListViewContentCellHtml.extend(qx.ui.embed.HtmlEmbed, "qx.ui.listview.ListViewContentCellHtml");
 
-QxListViewContentCellHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
+qx.ui.listview.ListViewContentCellHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
 
-QxListViewContentCellHtml.empty = {
+qx.ui.listview.ListViewContentCellHtml.empty = {
   html : QxConst.CORE_EMPTY
 };

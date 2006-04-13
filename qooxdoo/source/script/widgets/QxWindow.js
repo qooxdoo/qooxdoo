@@ -40,9 +40,9 @@
 
 ************************************************************************ */
 
-function QxWindow(vCaption, vIcon, vWindowManager)
+qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
 {
-  QxPopup.call(this);
+  qx.ui.popup.Popup.call(this);
 
   // ************************************************************************
   //   FUNCTIONAL STYLE
@@ -62,7 +62,7 @@ function QxWindow(vCaption, vIcon, vWindowManager)
   this.activateFocusRoot();
 
   // Init Window Manager
-  this.setWindowManager(vWindowManager || QxWindow.getDefaultWindowManager());
+  this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
 
 
 
@@ -244,7 +244,7 @@ function QxWindow(vCaption, vIcon, vWindowManager)
   this.remapChildrenHandlingTo(this._pane);
 };
 
-QxWindow.extend(QxPopup, "QxWindow");
+qx.ui.window.Window.extend(qx.ui.popup.Popup, "qx.ui.window.Window");
 
 
 
@@ -257,113 +257,113 @@ QxWindow.extend(QxPopup, "QxWindow");
 /*!
   Appearance of the widget
 */
-QxWindow.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
+qx.ui.window.Window.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
 
 /*!
   The windowManager to use for.
 */
-QxWindow.addProperty({ name : "windowManager", type : QxConst.TYPEOF_OBJECT });
+qx.ui.window.Window.addProperty({ name : "windowManager", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   If the window is active, only one window in a single qx.manager.object.WindowManager could
   have set this to true at the same time.
 */
-QxWindow.addProperty({ name : "active", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "active", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-QxWindow.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-QxWindow.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
+qx.ui.window.Window.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
 
 /*!
   The opener (button) of the window
 */
-QxWindow.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
+qx.ui.window.Window.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The text of the caption
 */
-QxWindow.addProperty({ name : "caption", type : QxConst.TYPEOF_STRING });
+qx.ui.window.Window.addProperty({ name : "caption", type : QxConst.TYPEOF_STRING });
 
 /*!
   The icon of the caption
 */
-QxWindow.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.window.Window.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
 
 /*!
   The text of the statusbar
 */
-QxWindow.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
+qx.ui.window.Window.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
 
 /*!
   Should the close button be shown
 */
-QxWindow.addProperty({ name : "showClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-QxWindow.addProperty({ name : "showMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-QxWindow.addProperty({ name : "showMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the statusbar be shown
 */
-QxWindow.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
 */
-QxWindow.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to maximize the window
 */
-QxWindow.addProperty({ name : "allowMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to minimize the window
 */
-QxWindow.addProperty({ name : "allowMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the text (in the captionbar) should be visible
 */
-QxWindow.addProperty({ name : "showCaption", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showCaption", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the icon (in the captionbar) should be visible
 */
-QxWindow.addProperty({ name : "showIcon", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showIcon", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is resizeable
 */
-QxWindow.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is moveable
 */
-QxWindow.addProperty({ name : "moveable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "moveable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
 */
-QxWindow.addProperty({ name : "resizeMethod", type : QxConst.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.ui.window.Window.addProperty({ name : "resizeMethod", type : QxConst.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The move method to use
 */
-QxWindow.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
+qx.ui.window.Window.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
 
 
@@ -374,13 +374,13 @@ QxWindow.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaul
 ---------------------------------------------------------------------------
 */
 
-QxWindow.getDefaultWindowManager = function()
+qx.ui.window.Window.getDefaultWindowManager = function()
 {
-  if (!QxWindow._defaultWindowManager) {
-    QxWindow._defaultWindowManager = new qx.manager.object.WindowManager;
+  if (!qx.ui.window.Window._defaultWindowManager) {
+    qx.ui.window.Window._defaultWindowManager = new qx.manager.object.WindowManager;
   };
 
-  return QxWindow._defaultWindowManager;
+  return qx.ui.window.Window._defaultWindowManager;
 };
 
 
@@ -393,13 +393,13 @@ QxWindow.getDefaultWindowManager = function()
 ---------------------------------------------------------------------------
 */
 
-QxWindow.MODE_OPAQUE = "opaque";
-QxWindow.MODE_LAZYOPAQUE = "lazyopaque";
-QxWindow.MODE_FRAME = "frame";
-QxWindow.MODE_TRANSLUCENT = "translucent";
+qx.ui.window.Window.MODE_OPAQUE = "opaque";
+qx.ui.window.Window.MODE_LAZYOPAQUE = "lazyopaque";
+qx.ui.window.Window.MODE_FRAME = "frame";
+qx.ui.window.Window.MODE_TRANSLUCENT = "translucent";
 
-QxWindow.MODE_MINIMIZED = "minimized";
-QxWindow.MODE_MAXIMIZED = "maximized";
+qx.ui.window.Window.MODE_MINIMIZED = "minimized";
+qx.ui.window.Window.MODE_MAXIMIZED = "maximized";
 
 
 
@@ -449,11 +449,11 @@ proto.blur = function() {
 };
 
 proto.maximize = function() {
-  this.setMode(QxWindow.MODE_MAXIMIZED);
+  this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
 };
 
 proto.minimize = function() {
-  this.setMode(QxWindow.MODE_MINIMIZED);
+  this.setMode(qx.ui.window.Window.MODE_MINIMIZED);
 };
 
 proto.restore = function() {
@@ -599,22 +599,22 @@ proto._modifyMode = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
-    case QxWindow.MODE_MINIMIZED:
+    case qx.ui.window.Window.MODE_MINIMIZED:
       this._minimize();
       break;
 
-    case QxWindow.MODE_MAXIMIZED:
+    case qx.ui.window.Window.MODE_MAXIMIZED:
       this._maximize();
       break;
 
     default:
       switch(propOldValue)
       {
-        case QxWindow.MODE_MAXIMIZED:
+        case qx.ui.window.Window.MODE_MAXIMIZED:
           this._restoreFromMaximized();
           break;
 
-        case QxWindow.MODE_MINIMIZED:
+        case qx.ui.window.Window.MODE_MINIMIZED:
           this._restoreFromMinimized();
           break;
       };
@@ -890,11 +890,11 @@ proto._onwindowmousedown = function(e)
     // handle frame and translucently
     switch(this.getResizeMethod())
     {
-      case QxWindow.MODE_TRANSLUCENT:
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
         this.setOpacity(0.5);
         break;
 
-      case QxWindow.MODE_FRAME:
+      case qx.ui.window.Window.MODE_FRAME:
         var f = this._frame;
 
         if (f.getParent() != this.getParent())
@@ -973,14 +973,14 @@ proto._onwindowmouseup = function(e)
     // sync sizes to frame
     switch(this.getResizeMethod())
     {
-      case QxWindow.MODE_FRAME:
+      case qx.ui.window.Window.MODE_FRAME:
         var o = this._frame;
         if (!(o && o.getParent())) {
           break;
         };
         // no break here
 
-      case QxWindow.MODE_LAZYOPAQUE:
+      case qx.ui.window.Window.MODE_LAZYOPAQUE:
         if (qx.util.validator.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
         };
@@ -997,12 +997,12 @@ proto._onwindowmouseup = function(e)
           this.setHeight(s.lastHeight);
         };
 
-        if (this.getResizeMethod() == QxWindow.MODE_FRAME) {
+        if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
           this._frame.setParent(null);
         };
         break;
 
-      case QxWindow.MODE_TRANSLUCENT:
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
         this.setOpacity(null);
         break;
     };
@@ -1053,8 +1053,8 @@ proto._onwindowmousemove = function(e)
 
     switch(this.getResizeMethod())
     {
-      case QxWindow.MODE_OPAQUE:
-      case QxWindow.MODE_TRANSLUCENT:
+      case qx.ui.window.Window.MODE_OPAQUE:
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
         if (this._resizeWest || this._resizeEast)
         {
           this.setWidth(s.lastWidth);
@@ -1076,7 +1076,7 @@ proto._onwindowmousemove = function(e)
         break;
 
       default:
-        var o = this.getResizeMethod() == QxWindow.MODE_FRAME ? this._frame : this;
+        var o = this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
 
         if (this._resizeWest || this._resizeEast)
         {
@@ -1254,11 +1254,11 @@ proto._oncaptionmousedown = function(e)
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case QxWindow.MODE_TRANSLUCENT:
+    case qx.ui.window.Window.MODE_TRANSLUCENT:
       this.setOpacity(0.5);
       break;
 
-    case QxWindow.MODE_FRAME:
+    case qx.ui.window.Window.MODE_FRAME:
       var f = this._frame;
 
       if (f.getParent() != this.getParent())
@@ -1302,11 +1302,11 @@ proto._oncaptionmouseup = function(e)
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case QxWindow.MODE_TRANSLUCENT:
+    case qx.ui.window.Window.MODE_TRANSLUCENT:
       this.setOpacity(null);
       break;
 
-    case QxWindow.MODE_FRAME:
+    case qx.ui.window.Window.MODE_FRAME:
       this._frame.setParent(null);
       break;
   };
@@ -1330,7 +1330,7 @@ proto._oncaptionmousemove = function(e)
   };
 
   // use the fast and direct dom methods
-  var o = this.getMoveMethod() == QxWindow.MODE_FRAME ? this._frame : this;
+  var o = this.getMoveMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
 
   o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
   o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
@@ -1344,7 +1344,7 @@ proto._oncaptiondblblick = function()
     return;
   };
 
-  return this.getMode() == QxWindow.MODE_MAXIMIZED ? this.restore() : this.maximize();
+  return this.getMode() == qx.ui.window.Window.MODE_MAXIMIZED ? this.restore() : this.maximize();
 };
 
 
@@ -1444,5 +1444,5 @@ proto.dispose = function()
     this._statusText = null;
   };
 
-  return QxPopup.prototype.dispose.call(this);
+  return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

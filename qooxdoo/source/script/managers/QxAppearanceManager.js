@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(appearance)
-#post(QxApplication)
+#post(qx.core.Init)
 #post(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */

@@ -50,42 +50,42 @@
       mainF.open();
 
       function createMenuBar() {
-        var menuMB = new QxMenuBar();
+        var menuMB = new qx.ui.menu.MenuBar();
 
-        var fileM = new QxMenu();
+        var fileM = new qx.ui.menu.Menu();
 
-        var newMB    = new QxMenuButton("New");
-        var openMB   = new QxMenuButton("Open");
-        var saveAsMB = new QxMenuButton("Save as..");
-        var mailS    = new QxMenuSeparator();
-        var closeMB  = new QxMenuButton("Close");
-        var exitMB   = new QxMenuButton("Exit");
+        var newMB    = new qx.ui.menu.MenuButton("New");
+        var openMB   = new qx.ui.menu.MenuButton("Open");
+        var saveAsMB = new qx.ui.menu.MenuButton("Save as..");
+        var mailS    = new qx.ui.menu.MenuSeparator();
+        var closeMB  = new qx.ui.menu.MenuButton("Close");
+        var exitMB   = new qx.ui.menu.MenuButton("Exit");
         exitMB.addEventListener("execute", function() {
           mainF.close();
         });
 
         fileM.add(newMB, openMB, saveAsMB, mailS, closeMB, exitMB);
 
-        var fileMBB = new QxMenuBarButton("File", fileM);
+        var fileMBB = new qx.ui.menu.MenuBarButton("File", fileM);
 
         // Edit Menu
-        var editM    = new QxMenu();
+        var editM    = new qx.ui.menu.Menu();
 
-        var undoMB        = new QxMenuButton("Undo");
-        var redoMB        = new QxMenuButton("Redo");
-        var editS1        = new QxMenuSeparator();
-        var cutMB         = new QxMenuButton("Cut");
-        var copyMB        = new QxMenuButton("Copy");
-        var pasteMB       = new QxMenuButton("Paste");
-        var deleteMB      = new QxMenuButton("Delete");
-        var editS2        = new QxMenuSeparator();
-        var selectAllMB   = new QxMenuButton("Select all");
-        var editS3        = new QxMenuSeparator();
-        var preferencesMB = new QxMenuButton("Preferences");
+        var undoMB        = new qx.ui.menu.MenuButton("Undo");
+        var redoMB        = new qx.ui.menu.MenuButton("Redo");
+        var editS1        = new qx.ui.menu.MenuSeparator();
+        var cutMB         = new qx.ui.menu.MenuButton("Cut");
+        var copyMB        = new qx.ui.menu.MenuButton("Copy");
+        var pasteMB       = new qx.ui.menu.MenuButton("Paste");
+        var deleteMB      = new qx.ui.menu.MenuButton("Delete");
+        var editS2        = new qx.ui.menu.MenuSeparator();
+        var selectAllMB   = new qx.ui.menu.MenuButton("Select all");
+        var editS3        = new qx.ui.menu.MenuSeparator();
+        var preferencesMB = new qx.ui.menu.MenuButton("Preferences");
 
         editM.add(undoMB, redoMB, editS1, cutMB, copyMB, pasteMB, deleteMB, editS2, selectAllMB, editS3, preferencesMB);
 
-        var editMBB = new QxMenuBarButton("Edit",editM);
+        var editMBB = new qx.ui.menu.MenuBarButton("Edit",editM);
 
         doc.add(fileM, editM);
 
@@ -95,23 +95,23 @@
       };
 
       function createToolBar() {
-        var toolTB = new QxToolBar();
+        var toolTB = new qx.ui.toolbar.ToolBar();
 
-        var mailTBP = new QxToolBarPart();
+        var mailTBP = new qx.ui.toolbar.ToolBarPart();
 
-        var newTBB = new QxToolBarButton("New","icons/16/file-new.png");
+        var newTBB = new qx.ui.toolbar.ToolBarButton("New","icons/16/file-new.png");
 
         mailTBP.add(newTBB);
 
-        var firstTBS = new QxToolBarSeparator();
+        var firstTBS = new qx.ui.toolbar.ToolBarSeparator();
 
-        var editTBP = new QxToolBarPart();
+        var editTBP = new qx.ui.toolbar.ToolBarPart();
 
-        var copyTBB = new QxToolBarButton("Copy","icons/16/edit-copy.png");
+        var copyTBB = new qx.ui.toolbar.ToolBarButton("Copy","icons/16/edit-copy.png");
 
-        var cutTBB = new QxToolBarButton("Cut","icons/16/edit-cut.png");
+        var cutTBB = new qx.ui.toolbar.ToolBarButton("Cut","icons/16/edit-cut.png");
 
-        var pasteTBB = new QxToolBarButton("Paste","icons/16/edit-paste.png");
+        var pasteTBB = new qx.ui.toolbar.ToolBarButton("Paste","icons/16/edit-paste.png");
 
         editTBP.add(copyTBB, cutTBB, pasteTBB);
 

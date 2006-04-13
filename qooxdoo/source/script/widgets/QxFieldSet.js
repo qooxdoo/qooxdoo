@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-function QxFieldSet(vLegend, vIcon)
+qx.ui.groupbox.GroupBox = function(vLegend, vIcon)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -56,9 +56,9 @@ function QxFieldSet(vLegend, vIcon)
   this.remapChildrenHandlingTo(this._frameObject);
 };
 
-QxFieldSet.extend(qx.ui.layout.CanvasLayout, "QxFieldSet");
+qx.ui.groupbox.GroupBox.extend(qx.ui.layout.CanvasLayout, "qx.ui.groupbox.GroupBox");
 
-QxFieldSet.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "field-set" });
+qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "field-set" });
 
 
 
@@ -73,7 +73,7 @@ proto._createLegendObject = function()
 {
   this._legendObject = new qx.ui.basic.Atom;
   this._legendObject.setAppearance("field-set-legend");
-  
+
   this.add(this._legendObject);
 };
 

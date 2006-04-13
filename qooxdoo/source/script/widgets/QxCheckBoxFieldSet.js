@@ -26,18 +26,18 @@
 
 ************************************************************************ */
 
-function QxCheckBoxFieldSet(vLegend) {
-  QxFieldSet.call(this, vLegend);
+qx.ui.groupbox.GroupCheckBox = function(vLegend) {
+  qx.ui.groupbox.GroupBox.call(this, vLegend);
 };
 
-QxCheckBoxFieldSet.extend(QxFieldSet, "QxCheckBoxFieldSet");
+qx.ui.groupbox.GroupCheckBox.extend(qx.ui.groupbox.GroupBox, "qx.ui.groupbox.GroupCheckBox");
 
 proto._createLegendObject = function()
 {
   this._legendObject = new qx.ui.form.CheckBox;
   this._legendObject.setAppearance("check-box-field-set-legend");
   this._legendObject.setChecked(true);
-  
+
   this.add(this._legendObject);
 };
 

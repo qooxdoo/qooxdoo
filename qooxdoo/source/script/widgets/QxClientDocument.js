@@ -24,7 +24,7 @@
 
 #package(guicore)
 #require(QxDomStyleSheet)
-#post(QxBlocker)
+#post(qx.ui.core.ClientDocumentBlocker)
 #post(qx.event.handler.FocusHandler)
 
 ************************************************************************ */
@@ -32,11 +32,11 @@
 /*!
   This is the basic widget of all qooxdoo applications.
 
-  QxClientDocument is the parent of all children inside your application. It
+  qx.ui.core.ClientDocument is the parent of all children inside your application. It
   also handles their resizing and focus navigation. This widget will be automatically
   created through qx.client.ClientWindow.
 */
-function QxClientDocument(vClientWindow)
+qx.ui.core.ClientDocument = function(vClientWindow)
 {
   this._window = vClientWindow;
   this._document = this._window.getElement().document;
@@ -64,7 +64,7 @@ function QxClientDocument(vClientWindow)
   this.addEventListener(QxConst.EVENT_TYPE_RESIZE, this._onresize);
 
   // Blocker and Dialog Support
-  this._blocker = new QxBlocker;
+  this._blocker = new qx.ui.core.ClientDocumentBlocker;
   this._modalWidgets = [];
   this._modalNativeWindow = null;
 
@@ -84,11 +84,11 @@ function QxClientDocument(vClientWindow)
   */
 };
 
-QxClientDocument.extend(qx.ui.layout.CanvasLayout, "QxClientDocument");
+qx.ui.core.ClientDocument.extend(qx.ui.layout.CanvasLayout, "qx.ui.core.ClientDocument");
 
-QxClientDocument.addProperty({ name : "globalCursor", type : QxConst.TYPEOF_STRING });
+qx.ui.core.ClientDocument.addProperty({ name : "globalCursor", type : QxConst.TYPEOF_STRING });
 
-QxClientDocument.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "client-document" });
+qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "client-document" });
 
 
 
@@ -178,7 +178,7 @@ proto.block = function(vActiveChild)
 
   this._blocker.show();
 
-  if (typeof QxWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof QxWindow)
+  if (typeof qx.ui.window.Window === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.ui.window.Window)
   {
     this._modalWidgets.push(vActiveChild);
 
@@ -266,7 +266,7 @@ proto.removeAllCssRules = function(vSheet) {
 
 qx.dom.createStyleElement("html,body{margin:0;border:0;padding:0;} html{border:0 none;} *{box-sizing:border-box;-moz-box-sizing: border-box;} img{box-sizing:content-box;-moz-box-sizing:content-box;}");
 
-if (qx.core.Settings.applicationLayout) {
+if (qx.core.Settings.enableApplicationLayout) {
   qx.dom.createStyleElement("html,body{width:100%;height:100%;overflow:hidden;}");
 };
 

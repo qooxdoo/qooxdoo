@@ -1296,9 +1296,9 @@ theme.registerAppearance("tree-element-icon",
   state : function(vWidget, vTheme, vStates)
   {
     // The widget is the icon.
-    // We need the property of the QxTreeFile, the QxTreeFolder or of the QxTree
+    // We need the property of the qx.ui.tree.TreeFile, the qx.ui.tree.TreeFolder or of the qx.ui.tree.Tree
     var vParent = vWidget.getParent();
-    while (vParent && !(vParent instanceof QxTreeElement)) {
+    while (vParent && !(vParent instanceof qx.ui.tree.AbstractTreeElement)) {
       vParent = vParent.getParent();
     };
 
@@ -1372,9 +1372,9 @@ theme.registerAppearance("tree-folder-icon",
   state : function(vWidget, vTheme, vStates)
   {
     // The widget is the icon.
-    // We need the property of the QxTreeFile, the QxTreeFolder or of the QxTree
+    // We need the property of the qx.ui.tree.TreeFile, the qx.ui.tree.TreeFolder or of the qx.ui.tree.Tree
     var vParent = vWidget.getParent();
-    while (vParent && !(vParent instanceof QxTreeElement)) {
+    while (vParent && !(vParent instanceof qx.ui.tree.AbstractTreeElement)) {
       vParent = vParent.getParent();
     };
 

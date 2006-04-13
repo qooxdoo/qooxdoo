@@ -19,7 +19,7 @@
     {
       function handleDragStart(e) 
       {
-        e.addData("QxTreeElement", e.getCurrentTarget());
+        e.addData("qx.ui.tree.AbstractTreeElement", e.getCurrentTarget());
         e.addAction("move");
         e.startDrag();
       };
@@ -54,7 +54,7 @@
 
 
 
-      var treeSource = new QxTree("Source");
+      var treeSource = new qx.ui.tree.Tree("Source");
 
       with(treeSource)
       {
@@ -72,42 +72,42 @@
         addEventListener("dragover", handleDragOver);
         addEventListener("dragout", handleDragOut);
 
-        setDropDataTypes(["QxTreeElement"]);
+        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
       this.add(treeSource);
       
       for (var i=1, f; i<4; i++)
       {
-        f = new QxTreeFolder("Folder " + i);
+        f = new qx.ui.tree.TreeFolder("Folder " + i);
         
         f.addEventListener("dragstart", handleDragStart);
         f.addEventListener("dragdrop", handleDragDrop); 
         f.addEventListener("dragover", handleDragOver);
         f.addEventListener("dragout", handleDragOut);
         
-        f.setDropDataTypes(["QxTreeElement"]);
+        f.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
         f.supportsDrop = supportsDrop;
         
         treeSource.add(f);
         
         for (var j=1, g; j<4; j++)
         {
-          g = new QxTreeFolder("Subfolder " + j);
+          g = new qx.ui.tree.TreeFolder("Subfolder " + j);
           
           g.addEventListener("dragstart", handleDragStart);
           g.addEventListener("dragdrop", handleDragDrop); 
           g.addEventListener("dragover", handleDragOver);
           g.addEventListener("dragout", handleDragOut);
           
-          g.setDropDataTypes(["QxTreeElement"]);
+          g.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
           g.supportsDrop = supportsDrop;
           
           f.add(g);
           
           for (var k=1, h; k<4; k++)
           {
-            h = new QxTreeFile("File " + k);
+            h = new qx.ui.tree.TreeFile("File " + k);
             
             h.addEventListener("dragstart", handleDragStart);
             
@@ -119,7 +119,7 @@
 
 
 
-      var treeDest = new QxTree("Dest");
+      var treeDest = new qx.ui.tree.Tree("Dest");
 
       with(treeDest)
       {
@@ -137,7 +137,7 @@
         addEventListener("dragover", handleDragOver);
         addEventListener("dragout", handleDragOut);
 
-        setDropDataTypes(["QxTreeElement"]);
+        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
       this.add(treeDest);

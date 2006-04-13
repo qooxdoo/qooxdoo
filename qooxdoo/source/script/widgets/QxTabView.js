@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxTabView() {
-  QxCommonView.call(this, QxTabViewBar, QxTabViewPane);
+qx.ui.pageview.tabview.TabView = function() {
+  qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.tabview.TabViewBar, qx.ui.pageview.tabview.TabViewPane);
 };
 
-QxTabView.extend(QxCommonView, "QxTabView");
+qx.ui.pageview.tabview.TabView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pageview.tabview.TabView");
 
 
 
@@ -42,10 +42,10 @@ QxTabView.extend(QxCommonView, "QxTabView");
 ---------------------------------------------------------------------------
 */
 
-QxTabView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view" });
+qx.ui.pageview.tabview.TabView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view" });
 
-QxTabView.addProperty({ name : "alignTabsToLeft", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-QxTabView.addProperty({ name : "placeBarOnTop", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.pageview.tabview.TabView.addProperty({ name : "alignTabsToLeft", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.pageview.tabview.TabView.addProperty({ name : "placeBarOnTop", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

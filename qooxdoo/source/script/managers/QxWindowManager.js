@@ -28,7 +28,7 @@
 ************************************************************************ */
 
 /*!
-  This singleton manages QxWindows
+  This singleton manages qx.ui.window.Windows
 */
 qx.manager.object.WindowManager = function() {
   qx.manager.object.ObjectManager.call(this);

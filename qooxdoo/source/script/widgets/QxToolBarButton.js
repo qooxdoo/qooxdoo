@@ -26,17 +26,17 @@
 
 ************************************************************************ */
 
-function QxToolBarButton(vText, vIcon, vIconWidth, vIconHeight, vFlash) 
+qx.ui.toolbar.ToolBarButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-  
+
   // Omit focus
   this.setTabIndex(-1);
 };
 
-QxToolBarButton.extend(qx.ui.form.Button, "QxToolBarButton");
+qx.ui.toolbar.ToolBarButton.extend(qx.ui.form.Button, "qx.ui.toolbar.ToolBarButton");
 
-QxToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-button" });
+qx.ui.toolbar.ToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-button" });
 
 
 

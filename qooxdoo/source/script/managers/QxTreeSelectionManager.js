@@ -68,7 +68,7 @@ proto.getNext = function(vItem)
 {
   if (vItem)
   {
-    if (QxTree.isOpenTreeFolder(vItem))
+    if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
     {
       return vItem.getFirstVisibleChildOfFolder();
     }
@@ -80,7 +80,7 @@ proto.getNext = function(vItem)
         vCurrent = vCurrent.getParentFolder();
       };
 
-      if (vCurrent && vCurrent instanceof QxTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof QxTreeElement) {
+      if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
         return vCurrent.getNextVisibleSibling();
       };
     }
@@ -105,7 +105,7 @@ proto.getPrevious = function(vItem)
     }
     else if (vItem.isFirstVisibleChild())
     {
-      if (vItem.getParentFolder() instanceof QxTreeFolder) {
+      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
         return vItem.getParentFolder();
       };
     }
@@ -113,9 +113,9 @@ proto.getPrevious = function(vItem)
     {
       var vPrev = vItem.getPreviousVisibleSibling();
 
-      while (vPrev instanceof QxTreeElement)
+      while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
       {
-        if (QxTree.isOpenTreeFolder(vPrev))
+        if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev))
         {
           vPrev = vPrev.getLastVisibleChildOfFolder();
         }
@@ -166,7 +166,7 @@ proto.getItemTop = function(vItem)
 
 proto.getItemHeight = function(vItem)
 {
-  if (vItem instanceof QxTreeFolder && vItem._horizontalLayout)
+  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.getOffsetHeight();
   }
@@ -178,7 +178,7 @@ proto.getItemHeight = function(vItem)
 
 proto.scrollItemIntoView = function(vItem)
 {
-  if (vItem instanceof QxTreeFolder && vItem._horizontalLayout)
+  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.scrollIntoView();
   }

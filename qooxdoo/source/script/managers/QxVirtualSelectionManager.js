@@ -118,7 +118,7 @@ proto.getItemHeight = function(vItem) {
 };
 
 /*!
-  In a QxListView there are no disabled entries support currently.
+  In a qx.ui.listview.ListView there are no disabled entries support currently.
 */
 proto.getItemEnabled = function(vItem) {
   return true;

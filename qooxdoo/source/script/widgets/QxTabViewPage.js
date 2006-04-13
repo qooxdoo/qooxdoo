@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-function QxTabViewPage(vButton) {
-  QxCommonViewPage.call(this, vButton);
+qx.ui.pageview.tabview.TabViewPage = function(vButton) {
+  qx.ui.pageview.AbstractPageViewPage.call(this, vButton);
 };
 
-QxTabViewPage.extend(QxCommonViewPage, "QxTabViewPage");
+qx.ui.pageview.tabview.TabViewPage.extend(qx.ui.pageview.AbstractPageViewPage, "qx.ui.pageview.tabview.TabViewPage");
 
-QxTabViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-page" });
+qx.ui.pageview.tabview.TabViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-page" });

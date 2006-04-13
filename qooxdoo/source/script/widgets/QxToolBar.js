@@ -23,18 +23,18 @@
 /* ************************************************************************
 
 #package(toolbar)
-#post(QxToolBarPart)
+#post(qx.ui.toolbar.ToolBarPart)
 
 ************************************************************************ */
 
-function QxToolBar()
+qx.ui.toolbar.ToolBar = function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxToolBar");
+qx.ui.toolbar.ToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBar");
 
 
 
@@ -44,12 +44,12 @@ QxToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxToolBar");
 ---------------------------------------------------------------------------
 */
 
-QxToolBar.addProperty({ name : "openMenu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
+qx.ui.toolbar.ToolBar.addProperty({ name : "openMenu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Appearance of the widget
 */
-QxToolBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar" });
+qx.ui.toolbar.ToolBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar" });
 
 
 
@@ -76,11 +76,11 @@ proto.getAllButtons = function()
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof QxToolBarMenuButton)
+    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton)
     {
       vDeepChildren.push(vCurrent);
     }
-    else if (vCurrent instanceof QxToolBarPart)
+    else if (vCurrent instanceof qx.ui.toolbar.ToolBarPart)
     {
       vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
     };
@@ -138,7 +138,7 @@ proto._onkeydown_left = function(e)
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof QxToolBarMenuButton && vCurrent.getEnabled())
+    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
     {
       vPrevButton = vCurrent;
       break;
@@ -152,7 +152,7 @@ proto._onkeydown_left = function(e)
     {
       vCurrent = vChildren[i];
 
-      if (vCurrent instanceof QxToolBarMenuButton && vCurrent.getEnabled())
+      if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
       {
         vPrevButton = vCurrent;
         break;
@@ -192,7 +192,7 @@ proto._onkeydown_right = function(e)
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof QxToolBarMenuButton && vCurrent.getEnabled())
+    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
     {
       vNextButton = vCurrent;
       break;
@@ -206,7 +206,7 @@ proto._onkeydown_right = function(e)
     {
       vCurrent = vChildren[i];
 
-      if (vCurrent instanceof QxToolBarMenuButton && vCurrent.getEnabled())
+      if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
       {
         vNextButton = vCurrent;
         break;

@@ -28,7 +28,7 @@
 #post(qx.ui.layout.CanvasLayout)
 #post(qx.ui.basic.Image)
 #post(qx.renderer.border.BorderObjectPresets)
-#post(QxFieldSet)
+#post(qx.ui.groupbox.GroupBox)
 #post(qx.ui.basic.Label)
 #post(qx.ui.form.Spinner)
 #post(qx.ui.form.TextField)
@@ -244,7 +244,7 @@ proto._createBrightnessPane = function()
 
 proto._createPresetFieldSet = function()
 {
-  this._presetFieldSet = new QxFieldSet("Presets");
+  this._presetFieldSet = new qx.ui.groupbox.GroupBox("Presets");
   this._presetFieldSet.setHeight(QxConst.CORE_AUTO);
   this._presetFieldSet.setParent(this._controlPane);
 
@@ -288,7 +288,7 @@ proto._createPresetFieldSet = function()
 
 proto._createInputFieldSet = function()
 {
-  this._inputFieldSet = new QxFieldSet("Details");
+  this._inputFieldSet = new qx.ui.groupbox.GroupBox("Details");
   this._inputFieldSet.setHeight(QxConst.CORE_AUTO);
   this._inputFieldSet.setParent(this._controlPane);
 
@@ -300,7 +300,7 @@ proto._createInputFieldSet = function()
 
 proto._createPreviewFieldSet = function()
 {
-  this._previewFieldSet = new QxFieldSet("Preview (Old/New)");
+  this._previewFieldSet = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
   this._previewFieldSet.setHeight(QxConst.CORE_FLEX);
   this._previewFieldSet.setParent(this._controlPane);
 

@@ -36,7 +36,7 @@ qx.manager.object.ToolTipManager = function() {
 
 qx.manager.object.ToolTipManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ToolTipManager");
 
-qx.manager.object.ToolTipManager.addProperty({ name : "currentToolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
+qx.manager.object.ToolTipManager.addProperty({ name : "currentToolTip", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
 
 
 

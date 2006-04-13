@@ -28,16 +28,16 @@
 
 ************************************************************************ */
 
-function QxMenu()
+qx.ui.menu.Menu = function()
 {
-  QxPopup.call(this);
+  qx.ui.popup.Popup.call(this);
 
 
   // ************************************************************************
   //   LAYOUT
   // ************************************************************************
 
-  var l = this._layout = new QxMenuLayout;
+  var l = this._layout = new qx.ui.menu.MenuLayout;
   this.add(l);
 
 
@@ -69,7 +69,7 @@ function QxMenu()
   this.remapChildrenHandlingTo(this._layout);
 };
 
-QxMenu.extend(QxPopup, "QxMenu");
+qx.ui.menu.Menu.extend(qx.ui.popup.Popup, "qx.ui.menu.Menu");
 
 proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
 
@@ -81,27 +81,27 @@ proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd
 ---------------------------------------------------------------------------
 */
 
-QxMenu.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu" });
+qx.ui.menu.Menu.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu" });
 
-QxMenu.addProperty({ name : "iconContentGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 4 });
-QxMenu.addProperty({ name : "labelShortcutGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
-QxMenu.addProperty({ name : "contentArrowGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
-QxMenu.addProperty({ name : "contentNonIconPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
-QxMenu.addProperty({ name : "contentNonArrowPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
+qx.ui.menu.Menu.addProperty({ name : "iconContentGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 4 });
+qx.ui.menu.Menu.addProperty({ name : "labelShortcutGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
+qx.ui.menu.Menu.addProperty({ name : "contentArrowGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
+qx.ui.menu.Menu.addProperty({ name : "contentNonIconPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.menu.Menu.addProperty({ name : "contentNonArrowPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
 
-QxMenu.addProperty({ name : "hoverItem", type : QxConst.TYPEOF_OBJECT });
-QxMenu.addProperty({ name : "openItem", type : QxConst.TYPEOF_OBJECT });
-QxMenu.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
-QxMenu.addProperty({ name : "parentMenu", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "hoverItem", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "openItem", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "parentMenu", type : QxConst.TYPEOF_OBJECT });
 
-QxMenu.addProperty({ name : "fastReopen", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-QxMenu.addProperty({ name : "openInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
-QxMenu.addProperty({ name : "closeInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
+qx.ui.menu.Menu.addProperty({ name : "fastReopen", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.menu.Menu.addProperty({ name : "openInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
+qx.ui.menu.Menu.addProperty({ name : "closeInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
 
-QxMenu.addProperty({ name : "subMenuHorizontalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -3 });
-QxMenu.addProperty({ name : "subMenuVerticalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -2 });
+qx.ui.menu.Menu.addProperty({ name : "subMenuHorizontalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -3 });
+qx.ui.menu.Menu.addProperty({ name : "subMenuVerticalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -2 });
 
-QxMenu.addProperty({ name : "indentShortcuts", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.menu.Menu.addProperty({ name : "indentShortcuts", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -243,19 +243,19 @@ proto._modifyOpenItem = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-QxMenu.addCachedProperty({ name : "maxIconWidth" });
-QxMenu.addCachedProperty({ name : "maxLabelWidth" });
-QxMenu.addCachedProperty({ name : "maxLabelWidthIncShortcut" });
-QxMenu.addCachedProperty({ name : "maxShortcutWidth" });
-QxMenu.addCachedProperty({ name : "maxArrowWidth" });
-QxMenu.addCachedProperty({ name : "maxContentWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxIconWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxLabelWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxLabelWidthIncShortcut" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxShortcutWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxArrowWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "maxContentWidth" });
 
-QxMenu.addCachedProperty({ name : "iconPosition", defaultValue : 0 });
-QxMenu.addCachedProperty({ name : "labelPosition" });
-QxMenu.addCachedProperty({ name : "shortcutPosition" });
-QxMenu.addCachedProperty({ name : "arrowPosition" });
+qx.ui.menu.Menu.addCachedProperty({ name : "iconPosition", defaultValue : 0 });
+qx.ui.menu.Menu.addCachedProperty({ name : "labelPosition" });
+qx.ui.menu.Menu.addCachedProperty({ name : "shortcutPosition" });
+qx.ui.menu.Menu.addCachedProperty({ name : "arrowPosition" });
 
-QxMenu.addCachedProperty({ name : "menuButtonNeededWidth" });
+qx.ui.menu.Menu.addCachedProperty({ name : "menuButtonNeededWidth" });
 
 
 
@@ -707,7 +707,7 @@ proto._onkeydown = function(e)
 proto._onkeydown_up = function(e)
 {
   var vHover = this.getHoverItem();
-  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([QxMenuSeparator]) : this.getLastActiveChild();
+  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
 
   this.setHoverItem(vPrev);
 };
@@ -715,7 +715,7 @@ proto._onkeydown_up = function(e)
 proto._onkeydown_down = function(e)
 {
   var vHover = this.getHoverItem();
-  var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([QxMenuSeparator]) : this.getFirstActiveChild();
+  var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
 
   this.setHoverItem(vNext);
 };
@@ -724,8 +724,8 @@ proto._onkeydown_left = function(e)
 {
   var vOpener = this.getOpener();
 
-  // Jump to the "parent" QxMenu
-  if (vOpener instanceof QxMenuButton)
+  // Jump to the "parent" qx.ui.menu.Menu
+  if (vOpener instanceof qx.ui.menu.MenuButton)
   {
     var vOpenerParent = this.getOpener().getParentMenu();
 
@@ -736,7 +736,7 @@ proto._onkeydown_left = function(e)
   }
 
   // Jump to the previous ToolBarMenuButton
-  else if (vOpener instanceof QxToolBarMenuButton)
+  else if (vOpener instanceof qx.ui.toolbar.ToolBarMenuButton)
   {
     var vToolBar = vOpener.getParentToolBar();
 
@@ -778,7 +778,7 @@ proto._onkeydown_right = function(e)
   // Jump to the next ToolBarMenuButton
   var vOpener = this.getOpener();
 
-  if (vOpener instanceof QxToolBarMenuButton)
+  if (vOpener instanceof qx.ui.toolbar.ToolBarMenuButton)
   {
     var vToolBar = vOpener.getParentToolBar();
 
@@ -788,18 +788,18 @@ proto._onkeydown_right = function(e)
     // execute toolbars keydown implementation
     vToolBar._onkeydown(e);
   }
-  else if (vOpener instanceof QxMenuButton && vHover)
+  else if (vOpener instanceof qx.ui.menu.MenuButton && vHover)
   {
     // search for menubar if existing
     // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
 
     var vOpenerParent = vOpener.getParentMenu();
 
-    while (vOpenerParent && vOpenerParent instanceof QxMenu)
+    while (vOpenerParent && vOpenerParent instanceof qx.ui.menu.Menu)
     {
       vOpener = vOpenerParent.getOpener();
 
-      if (vOpener instanceof QxMenuButton)
+      if (vOpener instanceof qx.ui.menu.MenuButton)
       {
         vOpenerParent = vOpener.getParentMenu();
       }
@@ -813,11 +813,11 @@ proto._onkeydown_right = function(e)
       };
     };
 
-    if (vOpenerParent instanceof QxToolBarPart) {
+    if (vOpenerParent instanceof qx.ui.toolbar.ToolBarPart) {
       vOpenerParent = vOpenerParent.getParent();
     };
 
-    if (vOpenerParent instanceof QxToolBar)
+    if (vOpenerParent instanceof qx.ui.toolbar.ToolBar)
     {
       // jump to next menubarbutton
       this.getFocusRoot().setActiveChild(vOpenerParent);
@@ -878,5 +878,5 @@ proto.dispose = function()
 
   this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
-  return QxPopup.prototype.dispose.call(this);
+  return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

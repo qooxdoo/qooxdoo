@@ -26,34 +26,34 @@
 
 ************************************************************************ */
 
-function QxPopup()
+qx.ui.popup.Popup = function()
 {
   qx.ui.layout.CanvasLayout.call(this);
 
   this.setZIndex(this._minZIndex);
 };
 
-QxPopup.extend(qx.ui.layout.CanvasLayout, "QxPopup");
+qx.ui.popup.Popup.extend(qx.ui.layout.CanvasLayout, "qx.ui.popup.Popup");
 
-QxPopup.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "popup" });
+qx.ui.popup.Popup.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "popup" });
 
 /*!
   Whether to let the system decide when to hide the popup. Setting
   this to false gives you better control but it also requires you
   to handle the closing of the popup.
 */
-QxPopup.addProperty({ name : "autoHide", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.popup.Popup.addProperty({ name : "autoHide", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
   Instead of qx.ui.core.Widget, the default is false here.
 */
-QxPopup.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.popup.Popup.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Center the popup on open
 */
-QxPopup.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.popup.Popup.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 proto._showTimeStamp = (new Date(0)).valueOf();

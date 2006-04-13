@@ -28,7 +28,7 @@
 
 
 
-    var fsq = new QxFieldSet("Request");
+    var fsq = new qx.ui.groupbox.GroupBox("Request");
     fsq.setHeight("auto");
     lay.add(fsq);
 
@@ -97,14 +97,14 @@
     hlay.add(checken);
 
     checken.addEventListener("changeChecked", function(e) {
-      QxRequestQueue.setEnabled(e.getData());
+      qx.io.remote.RemoteRequestQueue.setEnabled(e.getData());
     });
 
 
 
 
 
-    var fsr = new QxFieldSet("Result");
+    var fsr = new qx.ui.groupbox.GroupBox("Result");
     fsr.setHeight("1*");
     lay.add(fsr);
 
@@ -143,7 +143,7 @@
       var req;
       for( var i=0, max=parseInt(spin.getValue()); i<max; i++ )
       {
-        req = new QxRequest(val.getLabel(), "GET", "text/json");
+        req = new qx.io.remote.RemoteRequest(val.getLabel(), "GET", "text/json");
 
         req.setAsynchronous(async.getChecked());
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

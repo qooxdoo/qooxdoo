@@ -56,45 +56,45 @@
       mainF.open();
 
       function createMenuBar() {
-        var menuMB = new QxMenuBar();
+        var menuMB = new qx.ui.menu.MenuBar();
 
-        var fileM = new QxMenu();
+        var fileM = new qx.ui.menu.Menu();
 
-        var newMB    = new QxMenuButton(resource.getValue("newMB"));
-        var openMB   = new QxMenuButton(resource.getValue("openMB"));
-        var saveAsMB = new QxMenuButton(resource.getValue("saveAsMB"));
-        var mailS    = new QxMenuSeparator();
-        var closeMB  = new QxMenuButton(resource.getValue("closeMB"));
-        var exitMB   = new QxMenuButton(resource.getValue("exitMB"));
+        var newMB    = new qx.ui.menu.MenuButton(resource.getValue("newMB"));
+        var openMB   = new qx.ui.menu.MenuButton(resource.getValue("openMB"));
+        var saveAsMB = new qx.ui.menu.MenuButton(resource.getValue("saveAsMB"));
+        var mailS    = new qx.ui.menu.MenuSeparator();
+        var closeMB  = new qx.ui.menu.MenuButton(resource.getValue("closeMB"));
+        var exitMB   = new qx.ui.menu.MenuButton(resource.getValue("exitMB"));
         exitMB.addEventListener("execute", function() {
           mainF.close();
         });
 
         fileM.add(newMB, openMB, saveAsMB, mailS, closeMB, exitMB);
 
-        var fileMBB = new QxMenuBarButton(resource.getValue("fileMBB"), fileM);
+        var fileMBB = new qx.ui.menu.MenuBarButton(resource.getValue("fileMBB"), fileM);
 
         // Edit Menu
-        var editM    = new QxMenu();
+        var editM    = new qx.ui.menu.Menu();
 
-        var undoMB        = new QxMenuButton(resource.getValue("undoMB"));
-        var redoMB        = new QxMenuButton(resource.getValue("redoMB"));
-        var editS1        = new QxMenuSeparator();
-        var cutMB         = new QxMenuButton(resource.getValue("cutMB"));
-        var copyMB        = new QxMenuButton(resource.getValue("copyMB"));
-        var pasteMB       = new QxMenuButton(resource.getValue("pasteMB"));
-        var deleteMB      = new QxMenuButton(resource.getValue("deleteMB"));
-        var editS2        = new QxMenuSeparator();
-        var selectAllMB   = new QxMenuButton(resource.getValue("selectAllMB"));
-        var editS3        = new QxMenuSeparator();
-        var preferencesMB = new QxMenuButton(resource.getValue("preferencesMB"));
+        var undoMB        = new qx.ui.menu.MenuButton(resource.getValue("undoMB"));
+        var redoMB        = new qx.ui.menu.MenuButton(resource.getValue("redoMB"));
+        var editS1        = new qx.ui.menu.MenuSeparator();
+        var cutMB         = new qx.ui.menu.MenuButton(resource.getValue("cutMB"));
+        var copyMB        = new qx.ui.menu.MenuButton(resource.getValue("copyMB"));
+        var pasteMB       = new qx.ui.menu.MenuButton(resource.getValue("pasteMB"));
+        var deleteMB      = new qx.ui.menu.MenuButton(resource.getValue("deleteMB"));
+        var editS2        = new qx.ui.menu.MenuSeparator();
+        var selectAllMB   = new qx.ui.menu.MenuButton(resource.getValue("selectAllMB"));
+        var editS3        = new qx.ui.menu.MenuSeparator();
+        var preferencesMB = new qx.ui.menu.MenuButton(resource.getValue("preferencesMB"));
 
         editM.add(undoMB, redoMB, editS1, cutMB, copyMB, pasteMB, deleteMB, editS2, selectAllMB, editS3, preferencesMB);
 
-        var editMBB = new QxMenuBarButton(resource.getValue("editMBB"), editM);
+        var editMBB = new qx.ui.menu.MenuBarButton(resource.getValue("editMBB"), editM);
 
         // Language Menu
-        var languageM = new QxMenu();
+        var languageM = new qx.ui.menu.Menu();
 
         var languageC = new qx.client.Command();
         languageC.addEventListener("execute", function(e) {
@@ -110,14 +110,14 @@
           };
         });
 
-        var englishMRB = new QxMenuRadioButton(resource.getValue("englishMRB"), languageC, true);
-        var swedishMRB = new QxMenuRadioButton(resource.getValue("swedishMRB"), languageC);
+        var englishMRB = new qx.ui.menu.MenuRadioButton(resource.getValue("englishMRB"), languageC, true);
+        var swedishMRB = new qx.ui.menu.MenuRadioButton(resource.getValue("swedishMRB"), languageC);
 
         languageM.add(englishMRB, swedishMRB);
 
         var languageRM = new qx.manager.selection.RadioManager("languageRM", [englishMRB, swedishMRB]);
 
-        var languageMBB = new QxMenuBarButton(resource.getValue("languageMBB"), languageM);
+        var languageMBB = new qx.ui.menu.MenuBarButton(resource.getValue("languageMBB"), languageM);
 
         doc.add(fileM, editM, languageM);
 
@@ -127,23 +127,23 @@
       };
 
       function createToolBar() {
-        var toolTB = new QxToolBar();
+        var toolTB = new qx.ui.toolbar.ToolBar();
 
-        var mailTBP = new QxToolBarPart();
+        var mailTBP = new qx.ui.toolbar.ToolBarPart();
 
-        var newTBB = new QxToolBarButton(resource.getValue("newTBB"),"icons/16/file-new.png");
+        var newTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("newTBB"),"icons/16/file-new.png");
 
         mailTBP.add(newTBB);
 
-        var firstTBS = new QxToolBarSeparator();
+        var firstTBS = new qx.ui.toolbar.ToolBarSeparator();
 
-        var editTBP = new QxToolBarPart();
+        var editTBP = new qx.ui.toolbar.ToolBarPart();
 
-        var copyTBB = new QxToolBarButton(resource.getValue("copyTBB"),"icons/16/edit-copy.png");
+        var copyTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("copyTBB"),"icons/16/edit-copy.png");
 
-        var cutTBB = new QxToolBarButton(resource.getValue("cutTBB"),"icons/16/edit-cut.png");
+        var cutTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("cutTBB"),"icons/16/edit-cut.png");
 
-        var pasteTBB = new QxToolBarButton(resource.getValue("pasteTBB"),"icons/16/edit-paste.png");
+        var pasteTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("pasteTBB"),"icons/16/edit-paste.png");
 
         editTBP.add(copyTBB, cutTBB, pasteTBB);
 

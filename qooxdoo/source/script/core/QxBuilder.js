@@ -86,7 +86,7 @@ proto.buildFromUrl = function(parent, url) {
 */
 proto.build = function(parent, node) {
 
-    if (parent instanceof QxApplication) {
+    if (parent instanceof qx.core.Init) {
       parent = parent.getClientWindow().getClientDocument();
     };
 
@@ -376,9 +376,9 @@ proto._registerDefaultPropertyEditors = function() {
   this.registerPropertyEditor('qx.ui.core.Widget', 'border', evalPropertyEditor);
 
 
-  this.registerPropertyEditor('QxMenuButton', 'menu', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.menu.MenuButton', 'menu', referencePropertyEditor);
   this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);
-  this.registerPropertyEditor('QxMenuRadioButton', 'group', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.menu.MenuRadioButton', 'group', referencePropertyEditor);
 
 
   // a property editor that just tries to coerce the string value into a suitable type

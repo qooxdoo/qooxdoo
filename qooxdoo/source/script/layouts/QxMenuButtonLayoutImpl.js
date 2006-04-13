@@ -82,7 +82,7 @@ proto.computeChildrenNeededWidth = function()
   // Caching the widget reference
   var vWidget = this.getWidget();
 
-  // Ignore the verticalBoxLayout inside QxMenu
+  // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
   var vMenu = vWidget.getParent().getParent();
 
   // Let the menu do the real hard things
@@ -110,7 +110,7 @@ proto.updateSelfOnChildOuterWidthChange = function(vChild)
   // Caching the widget reference
   var vWidget = this.getWidget();
 
-  // Ignore the verticalBoxLayout inside QxMenu
+  // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
   var vMenu = vWidget.getParent().getParent();
 
   // Send out invalidate signals
@@ -154,7 +154,7 @@ proto.layoutChild_locationX = function(vChild, vJobs)
   // Caching the widget reference
   var vWidget = this.getWidget();
 
-  // Ignore the verticalBoxLayout inside QxMenu
+  // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
   var vMenu = vWidget.getParent().getParent();
 
   // Left position of the child
