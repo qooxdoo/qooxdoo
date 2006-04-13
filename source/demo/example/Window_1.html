@@ -15,26 +15,26 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var w1 = new QxWindow("First Window", "icons/16/bell.png");
+    var w1 = new qx.ui.window.Window("First Window", "icons/16/bell.png");
     w1.setSpace(20, 400, 48, 250);
     d.add(w1);
 
-    var w2 = new QxWindow("Second Window", "icons/16/colors.png");
+    var w2 = new qx.ui.window.Window("Second Window", "icons/16/colors.png");
     w2.setSpace(250, "auto", 120, "auto");
     d.add(w2);
 
-    var w3 = new QxWindow("Third Window", "icons/16/network.png");
+    var w3 = new qx.ui.window.Window("Third Window", "icons/16/network.png");
     w3.setSpace(100, 300, 200, 300);
     w3.setMaxWidth(450);
     w3.setMaxHeight(400);
     d.add(w3);
 
-    var wm1 = new QxWindow("First Modal Dialog");
+    var wm1 = new qx.ui.window.Window("First Modal Dialog");
     wm1.setSpace(150, 200, 150, 200);
     wm1.setModal(true);
     d.add(wm1);
 
-    var wm2 = new QxWindow("Second Modal Dialog");
+    var wm2 = new qx.ui.window.Window("Second Modal Dialog");
     wm2.setSpace(100, 200, 100, 150);
     wm2.setModal(true);
     wm2.setShowClose(false);
@@ -50,20 +50,20 @@
 
 
 
-    var tf1 = new QxTabView;
+    var tf1 = new qx.ui.pageview.tabview.TabView;
     tf1.set({ left: 10, top: 52, right: 10, bottom: 10 });
 
-    var t1_1 = new QxTabViewButton("Explore");
-    var t1_2 = new QxTabViewButton("Internet");
-    var t1_3 = new QxTabViewButton("Future");
+    var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Explore");
+    var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Internet");
+    var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Future");
 
     t1_1.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
-    var p1_1 = new QxTabViewPage(t1_1);
-    var p1_2 = new QxTabViewPage(t1_2);
-    var p1_3 = new QxTabViewPage(t1_3);
+    var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
+    var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
+    var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
 
     tf1.getPane().add(p1_1, p1_2, p1_3);
 
@@ -106,7 +106,7 @@
 
 
 
-    var fs1 = new QxFieldSet("Settings");
+    var fs1 = new qx.ui.groupbox.GroupBox("Settings");
     fs1.setLocation(4, 40);
     fs1.setRight(4);
     fs1.setBottom(4);
@@ -303,7 +303,7 @@
   </script>
 
   <div id="demoDescription">
-    <p>This is the QxWindow widget. These should emulate the default look and behaviour of the application windows running under Microsoft Windows(TM).</p>
+    <p>This is the qx.ui.window.Window widget. These should emulate the default look and behaviour of the application windows running under Microsoft Windows(TM).</p>
   </div>
 </body>
 </html>

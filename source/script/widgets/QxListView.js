@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxListView(vData, vColumns)
+qx.ui.listview.ListView = function(vData, vColumns)
 {
   // ************************************************************************
   //   REFERENCES
@@ -41,9 +41,9 @@ function QxListView(vData, vColumns)
   //   OBJECTS
   // ************************************************************************
 
-  this._header = new QxListViewHeader(vColumns);
+  this._header = new qx.ui.listview.ListViewHeader(vColumns);
   this._frame = new qx.ui.layout.HorizontalBoxLayout;
-  this._pane = new QxListViewPane(vData, vColumns);
+  this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
   this._scroll = new qx.ui.layout.CanvasLayout;
   this._scrollContent = new qx.ui.basic.Terminator;
   this._resizeLine = new qx.ui.basic.Terminator;
@@ -123,7 +123,7 @@ function QxListView(vData, vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxListView.extend(qx.ui.layout.VerticalBoxLayout, "QxListView");
+qx.ui.listview.ListView.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.listview.ListView");
 
 
 
@@ -134,11 +134,11 @@ QxListView.extend(qx.ui.layout.VerticalBoxLayout, "QxListView");
 ---------------------------------------------------------------------------
 */
 
-QxListView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view" });
+qx.ui.listview.ListView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view" });
 
-QxListView.addProperty({ name : "resizable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-QxListView.addProperty({ name : "liveResize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-QxListView.addProperty({ name : "sortBy", type : QxConst.TYPEOF_STRING });
+qx.ui.listview.ListView.addProperty({ name : "resizable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.listview.ListView.addProperty({ name : "liveResize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.listview.ListView.addProperty({ name : "sortBy", type : QxConst.TYPEOF_STRING });
 
 
 
@@ -223,13 +223,13 @@ proto.updateLayout = function() {
 proto.updateSort = function()
 {
   var vSortBy = this.getSortBy();
-  
+
   if (!vSortBy) {
     return;
   };
-  
+
   var vCell = this._getHeaderCell(vSortBy);
-  
+
   if (vCell) {
     vCell.updateSort();
   };
@@ -266,7 +266,7 @@ proto._modifySortBy = function(propValue, propOldValue, propData)
   if (propValue)
   {
     var vNewCell = this._getHeaderCell(propValue);
-    
+
     if (vNewCell && vNewCell.getSortOrder() == null) {
       vNewCell.setSortOrder(QxConst.SORT_ASCENDING);
     };

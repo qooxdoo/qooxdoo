@@ -26,15 +26,15 @@
 
 ************************************************************************ */
 
-function QxPopupAtom(vLabel, vIcon)
+qx.ui.popup.PopupAtom = function(vLabel, vIcon)
 {
-  QxPopup.call(this);
+  qx.ui.popup.Popup.call(this);
 
   this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
   this._atom.setParent(this);
 };
 
-QxPopupAtom.extend(QxPopup, "QxPopupAtom");
+qx.ui.popup.PopupAtom.extend(qx.ui.popup.Popup, "qx.ui.popup.PopupAtom");
 
 proto.getAtom = function() {
   return this._atom;
@@ -52,5 +52,5 @@ proto.dispose = function()
     this._atom = null;
   };
 
-  return QxPopup.prototype.dispose.call(this);
+  return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

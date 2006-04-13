@@ -11,8 +11,8 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing QxListView with text cells.</p>
-    <p>And with drag and drop between the two QxListViews.</p>
+    <p>Testing qx.ui.listview.ListView with text cells.</p>
+    <p>And with drag and drop between the two qx.ui.listview.ListViews.</p>
     <p>Reduced columns for second listview.</p>
   </div>
 
@@ -46,7 +46,7 @@
 
       function handleDrag(e)
       {
-        e.addData("QxListViewEntries", e.getCurrentTarget().getManager().getSelectedItems().copy());
+        e.addData("qx.ui.listview.ListViewEntries", e.getCurrentTarget().getManager().getSelectedItems().copy());
         e.addAction("move");
         e.startDrag();
       };
@@ -83,7 +83,7 @@
 
 
 
-      var sourceView = new QxListView(ld, lc1);
+      var sourceView = new qx.ui.listview.ListView(ld, lc1);
 
       sourceView.setBorder(qx.renderer.border.BorderObject.presets.shadow);
       sourceView.setBackgroundColor("white");
@@ -99,7 +99,7 @@
 
 
 
-      var destView = new QxListView([], lc2);
+      var destView = new qx.ui.listview.ListView([], lc2);
 
       destView.setBorder(qx.renderer.border.BorderObject.presets.shadow);
       destView.setBackgroundColor("white");
@@ -108,7 +108,7 @@
       destView.setLocation(20, 318);
 
       destView.getPane().getManager().setDragSelection(false);
-      destView.getPane().setDropDataTypes(["QxListViewEntries"]);
+      destView.getPane().setDropDataTypes(["qx.ui.listview.ListViewEntries"]);
       destView.getPane().addEventListener("dragdrop", handleDrop);
 
       this.add(destView);

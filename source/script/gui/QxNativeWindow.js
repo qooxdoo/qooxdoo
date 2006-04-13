@@ -24,7 +24,7 @@
 
 #package(nativewindow)
 #require(QxDomWindow)
-#post(QxClientDocument)
+#post(qx.ui.core.ClientDocument)
 #post(QxUtil)
 #post(qx.client.Timer)
 

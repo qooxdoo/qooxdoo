@@ -29,10 +29,10 @@
 
 function QxFrame(vCaption, vIcon)
 {
-  QxWindow.call(this, vCaption, vIcon);
+  qx.ui.window.Window.call(this, vCaption, vIcon);
 };
 
-QxFrame.extend(QxWindow, "QxFrame");
+QxFrame.extend(qx.ui.window.Window, "QxFrame");
 
 
 /*
@@ -49,12 +49,12 @@ QxFrame.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defa
 /*!
   The main menu bar if any.
 */
-QxFrame.addProperty({ name : "menuBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxMenuBar" });
+QxFrame.addProperty({ name : "menuBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.menu.MenuBar" });
 
 /*!
   The main tool bar if any.
 */
-QxFrame.addProperty({ name : "toolBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxToolBar" });
+QxFrame.addProperty({ name : "toolBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.toolbar.ToolBar" });
 
 /*!
   The status bar if any.
@@ -125,5 +125,5 @@ proto.dispose = function()
     return true;
   };
 
-  return QxWindow.prototype.dispose.call(this);
+  return qx.ui.window.Window.prototype.dispose.call(this);
 };

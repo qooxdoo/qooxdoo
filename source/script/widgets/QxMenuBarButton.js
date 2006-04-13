@@ -26,8 +26,8 @@
 
 ************************************************************************ */
 
-function QxMenuBarButton(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
-  QxToolBarMenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
+qx.ui.menu.MenuBarButton = function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
+  qx.ui.toolbar.ToolBarMenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
 };
 
-QxMenuBarButton.extend(QxToolBarMenuButton, "QxMenuBarButton");
+qx.ui.menu.MenuBarButton.extend(qx.ui.toolbar.ToolBarMenuButton, "qx.ui.menu.MenuBarButton");

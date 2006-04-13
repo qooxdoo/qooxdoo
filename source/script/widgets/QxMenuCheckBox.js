@@ -29,9 +29,9 @@
 /*!
   A checkbox for the menu system.
 */
-function QxMenuCheckBox(vLabel, vCommand, vChecked)
+qx.ui.menu.MenuCheckBox = function(vLabel, vCommand, vChecked)
 {
-  QxMenuButton.call(this, vLabel, QxConst.IMAGE_BLANK, vCommand);
+  qx.ui.menu.MenuButton.call(this, vLabel, QxConst.IMAGE_BLANK, vCommand);
 
   if (qx.util.validator.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
@@ -40,7 +40,7 @@ function QxMenuCheckBox(vLabel, vCommand, vChecked)
   this._iconObject.setAppearance("menu-check-box-icon");
 };
 
-QxMenuCheckBox.extend(QxMenuButton, "QxMenuCheckBox");
+qx.ui.menu.MenuCheckBox.extend(qx.ui.menu.MenuButton, "qx.ui.menu.MenuCheckBox");
 
 
 
@@ -50,10 +50,10 @@ QxMenuCheckBox.extend(QxMenuButton, "QxMenuCheckBox");
 ---------------------------------------------------------------------------
 */
 
-QxMenuCheckBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-check-box" });
-QxMenuCheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
-QxMenuCheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
-QxMenuCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.ui.menu.MenuCheckBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-check-box" });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 
@@ -94,5 +94,5 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 proto.execute = function()
 {
   this.setChecked(!this.getChecked());
-  QxMenuButton.prototype.execute.call(this);
+  qx.ui.menu.MenuButton.prototype.execute.call(this);
 };

@@ -27,9 +27,9 @@
 
 ************************************************************************ */
 
-function QxTree(vLabel, vIcon, vIconSelected)
+qx.ui.tree.Tree = function(vLabel, vIcon, vIconSelected)
 {
-  QxTreeFolder.call(this, vLabel, vIcon, vIconSelected);
+  qx.ui.tree.TreeFolder.call(this, vLabel, vIcon, vIconSelected);
 
   // ************************************************************************
   //   INITILISIZE MANAGER
@@ -58,7 +58,7 @@ function QxTree(vLabel, vIcon, vIconSelected)
   this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
-QxTree.extend(QxTreeFolder, "QxTree");
+qx.ui.tree.Tree.extend(qx.ui.tree.TreeFolder, "qx.ui.tree.Tree");
 
 
 
@@ -70,8 +70,8 @@ QxTree.extend(QxTreeFolder, "QxTree");
 ---------------------------------------------------------------------------
 */
 
-QxTree.addProperty({ name : "useDoubleClick", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
-QxTree.addProperty({ name : "useTreeLines", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+qx.ui.tree.Tree.addProperty({ name : "useDoubleClick", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
+qx.ui.tree.Tree.addProperty({ name : "useTreeLines", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
 
 
 
@@ -212,12 +212,12 @@ proto.getLevel = function() {
 ---------------------------------------------------------------------------
 */
 
-QxTree.isTreeFolder = function(vObject) {
-  return vObject && vObject instanceof QxTreeFolder && !(vObject instanceof QxTree);
+qx.ui.tree.Tree.isTreeFolder = function(vObject) {
+  return vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree);
 };
 
-QxTree.isOpenTreeFolder = function(vObject) {
-  return vObject instanceof QxTreeFolder && vObject.getOpen() && vObject.hasContent();
+qx.ui.tree.Tree.isOpenTreeFolder = function(vObject) {
+  return vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent();
 };
 
 
@@ -242,13 +242,13 @@ proto._onkeydown = function(e)
     case qx.event.types.KeyEvent.keys.left:
       e.preventDefault();
 
-      if (QxTree.isTreeFolder(vSelectedItem))
+      if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
       {
         if (!vSelectedItem.getOpen())
         {
           var vParent = vSelectedItem.getParentFolder();
-          if (vParent instanceof QxTreeFolder) {
-            if (!(vParent instanceof QxTree)) {
+          if (vParent instanceof qx.ui.tree.TreeFolder) {
+            if (!(vParent instanceof qx.ui.tree.Tree)) {
               vParent.close();
             };
 
@@ -260,11 +260,11 @@ proto._onkeydown = function(e)
           return vSelectedItem.close();
         };
       }
-      else if (vSelectedItem instanceof QxTreeFile)
+      else if (vSelectedItem instanceof qx.ui.tree.TreeFile)
       {
         var vParent = vSelectedItem.getParentFolder();
-        if (vParent instanceof QxTreeFolder) {
-          if (!(vParent instanceof QxTree)) {
+        if (vParent instanceof qx.ui.tree.TreeFolder) {
+          if (!(vParent instanceof qx.ui.tree.Tree)) {
             vParent.close();
           };
 
@@ -277,7 +277,7 @@ proto._onkeydown = function(e)
     case qx.event.types.KeyEvent.keys.right:
       e.preventDefault();
 
-      if (QxTree.isTreeFolder(vSelectedItem))
+      if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
       {
         if (!vSelectedItem.getOpen())
         {
@@ -297,7 +297,7 @@ proto._onkeydown = function(e)
     case qx.event.types.KeyEvent.keys.enter:
       e.preventDefault();
 
-      if (QxTree.isTreeFolder(vSelectedItem)) {
+      if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
         return vSelectedItem.toggle();
       };
 
@@ -332,9 +332,9 @@ proto.getLastTreeChild = function()
 {
   var vLast = this;
 
-  while (vLast instanceof QxTreeElement)
+  while (vLast instanceof qx.ui.tree.AbstractTreeElement)
   {
-    if (!(vLast instanceof QxTreeFolder) || !vLast.getOpen()) {
+    if (!(vLast instanceof qx.ui.tree.TreeFolder) || !vLast.getOpen()) {
       return vLast;
     };
 
@@ -382,5 +382,5 @@ proto.dispose = function()
 
   delete this._oldItem;
 
-  return QxTreeFolder.prototype.dispose.call(this);
+  return qx.ui.tree.TreeFolder.prototype.dispose.call(this);
 };

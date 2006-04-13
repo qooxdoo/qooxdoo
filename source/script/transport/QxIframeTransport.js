@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxTransport)
-#post(QxIframeTransportCore)
+#require(qx.io.remote.RemoteExchange)
+#post(qx.io.remote.IframeTransportCore)
 #post(QxDomIframe)
 
 ************************************************************************ */
@@ -33,9 +33,9 @@
 
   This class should not be used directly by client programmers.
  */
-function QxIframeTransport()
+qx.io.remote.IframeTransport = function()
 {
-  QxCommonTransport.call(this);
+  qx.io.remote.AbstractTransport.call(this);
 
   var vUniqueId = (new Date).valueOf();
   var vFrameName = "frame_" + vUniqueId;
@@ -72,7 +72,7 @@ function QxIframeTransport()
   this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
-QxIframeTransport.extend(QxCommonTransport, "QxIframeTransport");
+qx.io.remote.IframeTransport.extend(qx.io.remote.AbstractTransport, "qx.io.remote.IframeTransport");
 
 proto._lastReadyState = 0;
 
@@ -139,7 +139,7 @@ proto.send = function()
 
 // For reference:
 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
-QxIframeTransport._numericMap =
+qx.io.remote.IframeTransport._numericMap =
 {
   "uninitialized" : 1,
   "loading" : 2,
@@ -157,14 +157,14 @@ proto._onload = function(e)
     return;
   };
 
-  this._switchReadyState(QxIframeTransport._numericMap.complete);
+  this._switchReadyState(qx.io.remote.IframeTransport._numericMap.complete);
 };
 
 /*!
   Converting named readyState to numeric value and update state property
 */
 proto._onreadystatechange = function(e) {
-  this._switchReadyState(QxIframeTransport._numericMap[this._frame.readyState]);
+  this._switchReadyState(qx.io.remote.IframeTransport._numericMap[this._frame.readyState]);
 };
 
 proto._switchReadyState = function(vReadyState)
@@ -182,7 +182,7 @@ proto._switchReadyState = function(vReadyState)
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(QxTransport._nativeMap[++this._lastReadyState]);
+    this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
   };
 };
 
@@ -423,5 +423,5 @@ proto.dispose = function()
     this._form = null;
   };
 
-  return QxCommonTransport.prototype.dispose.call(this);
+  return qx.io.remote.AbstractTransport.prototype.dispose.call(this);
 };

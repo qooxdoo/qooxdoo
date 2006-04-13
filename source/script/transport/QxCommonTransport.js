@@ -23,15 +23,15 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxTransport)
+#require(qx.io.remote.RemoteExchange)
 
 ************************************************************************ */
 
-function QxCommonTransport() {
+qx.io.remote.AbstractTransport = function() {
   qx.core.Target.call(this);
 };
 
-QxCommonTransport.extend(qx.core.Target, "QxCommonTransport");
+qx.io.remote.AbstractTransport.extend(qx.core.Target, "qx.io.remote.AbstractTransport");
 
 
 
@@ -47,37 +47,37 @@ QxCommonTransport.extend(qx.core.Target, "QxCommonTransport");
 /*!
   Target url to issue the request to
 */
-QxCommonTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 
 /*!
   Determines what type of request to issue
 */
-QxCommonTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
 
 /*!
   Set the request to asynchronous
 */
-QxCommonTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
+qx.io.remote.AbstractTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
 
 /*!
   Set the data to be sent via this request
 */
-QxCommonTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
 
 /*!
   Username to use for HTTP authentication
 */
-QxCommonTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-QxCommonTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
 
 /*!
   The state of the current request
 */
-QxCommonTransport.addProperty(
+qx.io.remote.AbstractTransport.addProperty(
 {
   name           : "state",
   type           : QxConst.TYPEOF_STRING,
@@ -93,17 +93,17 @@ QxCommonTransport.addProperty(
 /*!
   Request headers
 */
-QxCommonTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
 
 /*!
   Request parameters to send.
 */
-QxCommonTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
 /*!
   Response Type
 */
-QxCommonTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
 
 
 
@@ -132,7 +132,7 @@ proto.abort = function()
 };
 
 /*!
-  
+
 */
 proto.timeout = function()
 {
@@ -144,7 +144,7 @@ proto.timeout = function()
 };
 
 /*!
-  
+
   Force the transport into the failed state (QxConst.REQUEST_STATE_FAILED).
 
   Listeners of the "failed" signal are notified about the event.
@@ -170,7 +170,7 @@ proto.failed = function()
 ---------------------------------------------------------------------------
 */
 /*!
-  Add a request header to this transports QxRequest.
+  Add a request header to this transports qx.io.remote.RemoteRequest.
 
   This method is virtual and concrete subclasses are supposed to
   implement it.

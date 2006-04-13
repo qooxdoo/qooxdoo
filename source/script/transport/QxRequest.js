@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(transport)
-#post(QxRequestQueue)
+#post(qx.io.remote.RemoteRequestQueue)
 #post(QxConst)
 
 ************************************************************************ */
@@ -35,7 +35,7 @@
   POST). Default is GET.
   @param vResponseType The mime type of the response. Default is text/plain.
 */
-function QxRequest(vUrl, vMethod, vResponseType)
+qx.io.remote.RemoteRequest = function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
 
@@ -53,7 +53,7 @@ function QxRequest(vUrl, vMethod, vResponseType)
   this.setRequestHeader("X-Qooxdoo-Version", QxMain.version);
 };
 
-QxRequest.extend(qx.core.Target, "QxRequest");
+qx.io.remote.RemoteRequest.extend(qx.core.Target, "qx.io.remote.RemoteRequest");
 
 
 
@@ -68,11 +68,11 @@ QxRequest.extend(qx.core.Target, "QxRequest");
 /*!
   Target url to issue the request to.
 */
-QxRequest.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 /*!
   Determines what type of request to issue (GET or POST).
 */
-QxRequest.addProperty(
+qx.io.remote.RemoteRequest.addProperty(
 {
   name           : "method",
   type           : QxConst.TYPEOF_STRING,
@@ -85,22 +85,22 @@ QxRequest.addProperty(
 /*!
   Set the request to asynchronous.
 */
-QxRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.io.remote.RemoteRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 /*!
   Set the data to be sent via this request
 */
-QxRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
 /*!
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-QxRequest.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
 /*!
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-QxRequest.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
-QxRequest.addProperty(
+qx.io.remote.RemoteRequest.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty(
 {
   name           : "state",
   type           : QxConst.TYPEOF_STRING,
@@ -119,7 +119,7 @@ QxRequest.addProperty(
   supported MIME types are text/javascript, text/html, text/json,
   application/xml.
 */
-QxRequest.addProperty({
+qx.io.remote.RemoteRequest.addProperty({
   name           : "responseType",
   type           : QxConst.TYPEOF_STRING,
   possibleValues : [
@@ -132,9 +132,9 @@ QxRequest.addProperty({
   Number of millieseconds before the request is being timed out.
 
   If this property is null, the timeout for the request comes is the
-  QxRequestQueue's property defaultTimeout.
+  qx.io.remote.RemoteRequestQueue's property defaultTimeout.
 */
-QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
 
 /*!
   Prohibit request from being cached.
@@ -143,17 +143,17 @@ QxRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
   with a value of the current time. Setting the value to false removes
   the parameter.
 */
-QxRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
+qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
 /*!
   Indicate that the request is cross domain.
 
   A request is cross domain if the requests URL points to a host other
   than the local host. This switches the concrete implementation that
-  is used for sending the request from QxXmlHttpTransport to
-  QxIframeTransport because only the latter can handle cross domain
+  is used for sending the request from qx.io.remote.XmlHttpTransport to
+  qx.io.remote.IframeTransport because only the latter can handle cross domain
   requests.
 */
-QxRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.io.remote.RemoteRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -168,22 +168,22 @@ QxRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, def
 /*!
   Schedule this request for transport to server.
 
-  The request is added to the singleton class QxRequestQueue's list of
+  The request is added to the singleton class qx.io.remote.RemoteRequestQueue's list of
   pending requests.
 */
 proto.send = function() {
-  QxRequestQueue.add(this);
+  qx.io.remote.RemoteRequestQueue.add(this);
 };
 
 /*!
   Abort sending this request.
 
-  The request is removed from the singleton class QxRequestQueue's
+  The request is removed from the singleton class qx.io.remote.RemoteRequestQueue's
   list of pending events. If the request haven't been scheduled this
   method is a noop.
-*/  
+*/
 proto.abort = function() {
-  QxRequestQueue.abort(this);
+  qx.io.remote.RemoteRequestQueue.abort(this);
 };
 
 proto.reset = function()
@@ -429,7 +429,7 @@ proto.getRequestHeaders = function() {
 
   @param vId String identifier of the parameter to add.
   @param vValue Value of parameter.
-*/  
+*/
 proto.setParameter = function(vId, vValue) {
   this._parameters[vId] = vValue;
 };

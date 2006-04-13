@@ -21,7 +21,7 @@
 /* ****************************************************************************
 
 #package(form)
-#require(QxRangeManager)
+#require(qx.types.Range)
 #require(qx.ui.basic.Atom)
 #require(qx.client.Timer)
 
@@ -52,7 +52,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   RANGE MANAGER
   // ***********************************************************************
-  this._manager = new QxRangeManager();
+  this._manager = new qx.types.Range();
 
   // ***********************************************************************
   //   BAR

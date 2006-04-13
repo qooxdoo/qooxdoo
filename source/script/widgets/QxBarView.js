@@ -22,8 +22,8 @@
 
 /* ************************************************************************
 
-#post(QxBarViewBar)
-#post(QxBarViewPane)
+#post(qx.ui.pageview.buttonview.ButtonViewBar)
+#post(qx.ui.pageview.buttonview.ButtonViewPane)
 
 #package(barview)
 
@@ -32,17 +32,17 @@
 /*!
   One of the widgets which could be used to structurize the interface.
 
-  QxBarView creates the typical apple-like tabview-replacements which could also
+  qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
   be found in more modern versions of the settings dialog in Mozilla Firefox.
 */
-function QxBarView()
+qx.ui.pageview.buttonview.ButtonView = function()
 {
-  QxCommonView.call(this, QxBarViewBar, QxBarViewPane);
+  qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);
 
   this.setOrientation(QxConst.ORIENTATION_VERTICAL);
 };
 
-QxBarView.extend(QxCommonView, "QxBarView");
+qx.ui.pageview.buttonview.ButtonView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pageview.buttonview.ButtonView");
 
 
 
@@ -54,9 +54,9 @@ QxBarView.extend(QxCommonView, "QxBarView");
 ---------------------------------------------------------------------------
 */
 
-QxBarView.addProperty({ name : "barPosition", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ALIGN_TOP, possibleValues : [ QxConst.ALIGN_TOP, QxConst.ALIGN_RIGHT, QxConst.ALIGN_BOTTOM, QxConst.ALIGN_LEFT ] });
+qx.ui.pageview.buttonview.ButtonView.addProperty({ name : "barPosition", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ALIGN_TOP, possibleValues : [ QxConst.ALIGN_TOP, QxConst.ALIGN_RIGHT, QxConst.ALIGN_BOTTOM, QxConst.ALIGN_LEFT ] });
 
-QxBarView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view" });
+qx.ui.pageview.buttonview.ButtonView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view" });
 
 
 

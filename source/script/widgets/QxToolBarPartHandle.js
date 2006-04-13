@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-function QxToolBarPartHandle()
+qx.ui.toolbar.ToolBarPartHandle = function()
 {
   qx.ui.layout.CanvasLayout.call(this);
-  
+
   var l = new qx.ui.basic.Terminator;
   l.setAppearance("toolbar-part-handle-line");
   this.add(l);
 };
 
-QxToolBarPartHandle.extend(qx.ui.layout.CanvasLayout, "QxToolBarPartHandle");
+qx.ui.toolbar.ToolBarPartHandle.extend(qx.ui.layout.CanvasLayout, "qx.ui.toolbar.ToolBarPartHandle");
 
-QxToolBarPartHandle.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part-handle" });
-// QxToolBarPartHandle.changePropertyDefaultValue("appearance", "toolbar-part-handle");
+qx.ui.toolbar.ToolBarPartHandle.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part-handle" });

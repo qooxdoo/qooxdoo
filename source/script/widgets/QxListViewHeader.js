@@ -28,13 +28,13 @@
 
 ************************************************************************ */
 
-function QxListViewHeader(vColumns)
+qx.ui.listview.ListViewHeader = function(vColumns)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
-  
+
   // This fixes the innerWidth calculation difference between the grid(pane) and the head.
   this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
-  
+
 
   // ************************************************************************
   //   STORE REFERENCE TO CONFIG ENTRY
@@ -49,8 +49,8 @@ function QxListViewHeader(vColumns)
 
   for (var vCol in vColumns)
   {
-    vHeadCell = new QxListViewHeaderCell(vColumns[vCol], vCol);
-    vHeadSeparator = new QxListViewHeaderSeparator;
+    vHeadCell = new qx.ui.listview.ListViewHeaderCell(vColumns[vCol], vCol);
+    vHeadSeparator = new qx.ui.listview.ListViewHeaderSeparator;
 
     this.add(vHeadCell, vHeadSeparator);
 
@@ -63,7 +63,7 @@ function QxListViewHeader(vColumns)
     };
 
     // store some additional data
-    vColumns[vCol].contentClass = QxMain.classes["QxListViewContentCell" + (vColumns[vCol].type || "text").toFirstUp()];
+    vColumns[vCol].contentClass = QxMain.classes["qx.ui.listview.ListViewContentCell" + (vColumns[vCol].type || "text").toFirstUp()];
     vColumns[vCol].headerCell = vHeadCell;
   };
 
@@ -77,9 +77,9 @@ function QxListViewHeader(vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 };
 
-QxListViewHeader.extend(qx.ui.layout.HorizontalBoxLayout, "QxListViewHeader");
+qx.ui.listview.ListViewHeader.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.listview.ListViewHeader");
 
-QxListViewHeader.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header" });
+qx.ui.listview.ListViewHeader.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header" });
 
 
 
@@ -169,7 +169,7 @@ proto._onmousemove = function(e)
     var vResizeCursor = false;
     var vResizeSeparator = null;
 
-    if (vTarget instanceof QxListViewHeaderSeparator)
+    if (vTarget instanceof qx.ui.listview.ListViewHeaderSeparator)
     {
       vResizeCursor = true;
       vResizeSeparator = vTarget;
@@ -189,7 +189,7 @@ proto._onmousemove = function(e)
       vResizeSeparator = vTarget.getNextSibling();
     };
 
-    if (!(vResizeSeparator instanceof QxListViewHeaderSeparator))
+    if (!(vResizeSeparator instanceof qx.ui.listview.ListViewHeaderSeparator))
     {
       vResizeSeparator = vTarget = vResizeCursor = null;
     }

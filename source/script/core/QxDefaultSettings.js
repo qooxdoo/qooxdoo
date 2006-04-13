@@ -32,8 +32,8 @@ qx.core.DefaultSettings =
   enableDisposerDebug : false,
   enableTransportDebug : false,
 
-  applicationLayout : true,
-  applicationMode : "gui",
+  enableApplicationLayout : true,
+  enableUserInterface : true,
 
   imageCorePath : "../../images",
   imageLocalPath : "./",

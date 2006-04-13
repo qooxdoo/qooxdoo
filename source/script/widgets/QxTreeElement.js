@@ -30,10 +30,10 @@
 
 ************************************************************************ */
 
-function QxTreeElement(vLabel, vIcon, vIconSelected)
+qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
 {
-  if (this.classname == QxTreeElement.OMIT_CLASS) {
-    throw new Error("Please omit the usage of QxTreeElement directly. Choose between QxTreeFolder and QxTreeFile instead!");
+  if (this.classname == qx.ui.tree.AbstractTreeElement.OMIT_CLASS) {
+    throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
   };
 
   // Precreate subwidgets
@@ -84,9 +84,9 @@ function QxTreeElement(vLabel, vIcon, vIconSelected)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
 };
 
-QxTreeElement.extend(qx.ui.layout.BoxLayout, "QxTreeElement");
+qx.ui.tree.AbstractTreeElement.extend(qx.ui.layout.BoxLayout, "qx.ui.tree.AbstractTreeElement");
 
-QxTreeElement.OMIT_CLASS = "QxTreeElement";
+qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
 
 
 
@@ -97,23 +97,23 @@ QxTreeElement.OMIT_CLASS = "QxTreeElement";
 ---------------------------------------------------------------------------
 */
 
-QxTreeElement.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-element" });
+qx.ui.tree.AbstractTreeElement.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-element" });
 
 /*!
   The icons
 */
-QxTreeElement.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-QxTreeElement.addProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
 
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-QxTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
 
 /*!
   Selected property
 */
-QxTreeElement.addProperty({ name : "selected", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "selected", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -303,7 +303,7 @@ proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
     {
       var vPrev = this.getPreviousVisibleSibling();
 
-      if (vPrev && vPrev instanceof QxTreeElement) {
+      if (vPrev && vPrev instanceof qx.ui.tree.AbstractTreeElement) {
         vPrev._updateIndent();
       };
     };
@@ -344,11 +344,11 @@ proto._onmouseup = qx.util.returns.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-QxTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
-QxTreeElement.INDENT_CODE_2 = "px\" src=\"";
-QxTreeElement.INDENT_CODE_3 = "\" />";
+qx.ui.tree.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
+qx.ui.tree.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
+qx.ui.tree.AbstractTreeElement.INDENT_CODE_3 = "\" />";
 
-QxTreeElement.IMG_EXTENSION = "gif";
+qx.ui.tree.AbstractTreeElement.IMG_EXTENSION = "gif";
 
 proto.flushTree = function()
 {
@@ -369,14 +369,14 @@ proto.flushTree = function()
 
     if (vImage)
     {
-      vHtml.push(QxTreeElement.INDENT_CODE_1);
+      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_1);
       vHtml.push((vLevel-i-1) * 19);
-      vHtml.push(QxTreeElement.INDENT_CODE_2);
+      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
       vHtml.push(QxConst.CORE_DOT);
-      vHtml.push(QxTreeElement.IMG_EXTENSION);
-      vHtml.push(QxTreeElement.INDENT_CODE_3);
+      vHtml.push(qx.ui.tree.AbstractTreeElement.IMG_EXTENSION);
+      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_3);
     };
 
     vCurrentObject = vCurrentObject.getParentFolder();

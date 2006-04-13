@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-function QxCommonViewButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.ui.pageview.AbstractPageViewButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
@@ -46,7 +46,7 @@ function QxCommonViewButton(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxCommonViewButton.extend(qx.ui.basic.Atom, "QxCommonViewButton");
+qx.ui.pageview.AbstractPageViewButton.extend(qx.ui.basic.Atom, "qx.ui.pageview.AbstractPageViewButton");
 
 
 
@@ -61,23 +61,23 @@ QxCommonViewButton.extend(qx.ui.basic.Atom, "QxCommonViewButton");
 /*!
   If this tab is the currently selected/active one
 */
-QxCommonViewButton.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The attached QxPage to this tab
 */
-QxCommonViewButton.addProperty({ name : "page", type : QxConst.TYPEOF_OBJECT });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "page", type : QxConst.TYPEOF_OBJECT });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-QxCommonViewButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-QxCommonViewButton.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
 
 
 

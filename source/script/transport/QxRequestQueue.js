@@ -24,16 +24,16 @@
 
 #package(transport)
 #require(qx.client.Timer)
-#post(QxTransport)
+#post(qx.io.remote.RemoteExchange)
 
 ************************************************************************ */
 /*!
   Handles scheduling of requests to be sent to a server.
 
-  This class is a singleton and is used by QxRequest to schedule its
+  This class is a singleton and is used by qx.io.remote.RemoteRequest to schedule its
   requests. It should not be used directly.
  */
-function QxRequestQueue()
+qx.io.remote.RemoteRequestQueue = function()
 {
   qx.core.Target.call(this);
 
@@ -46,7 +46,7 @@ function QxRequestQueue()
   this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
 };
 
-QxRequestQueue.extend(qx.core.Target, "QxRequestQueue");
+qx.io.remote.RemoteRequestQueue.extend(qx.core.Target, "qx.io.remote.RemoteRequestQueue");
 
 
 
@@ -57,9 +57,9 @@ QxRequestQueue.extend(qx.core.Target, "QxRequestQueue");
 ---------------------------------------------------------------------------
 */
 
-QxRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
-QxRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 3 });
-QxRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 3000 });
+qx.io.remote.RemoteRequestQueue.addProperty({ name : "maxTotalRequests", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteRequestQueue.addProperty({ name : "maxConcurrentRequests", type : QxConst.TYPEOF_NUMBER, defaultValue : 3 });
+qx.io.remote.RemoteRequestQueue.addProperty({ name : "defaultTimeout", type : QxConst.TYPEOF_NUMBER, defaultValue : 3000 });
 
 
 
@@ -111,7 +111,7 @@ proto._check = function()
 
   // TODO: How to support concurrent requests?
   var vRequest = this._queue.shift();
-  var vTransport = new QxTransport(vRequest);
+  var vTransport = new qx.io.remote.RemoteExchange(vRequest);
 
   // Increment counter
   this._totalRequests++;
@@ -122,7 +122,7 @@ proto._check = function()
   // Debug output
   this._debug();
 
-  // Establish event connection between QxTransport instance and QxRequest
+  // Establish event connection between qx.io.remote.RemoteExchange instance and qx.io.remote.RemoteRequest
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
@@ -130,7 +130,7 @@ proto._check = function()
   vTransport.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
   vTransport.addEventListener(QxConst.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
 
-  // Establish event connection between QxTransport and me.
+  // Establish event connection between qx.io.remote.RemoteExchange and me.
   vTransport.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
   vTransport.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._oncompleted, this);
@@ -153,7 +153,7 @@ proto._remove = function(vTransport)
 {
   var vRequest = vTransport.getRequest();
 
-  // Destruct event connection between QxTransport instance and QxRequest
+  // Destruct event connection between qx.io.remote.RemoteExchange instance and qx.io.remote.RemoteRequest
   vTransport.removeEventListener(QxConst.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
   vTransport.removeEventListener(QxConst.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
   vTransport.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
@@ -161,7 +161,7 @@ proto._remove = function(vTransport)
   vTransport.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
   vTransport.removeEventListener(QxConst.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
 
-  // Destruct event connection between QxTransport and me.
+  // Destruct event connection between qx.io.remote.RemoteExchange and me.
   vTransport.removeEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
   vTransport.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
   vTransport.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._oncompleted, this);
@@ -381,4 +381,4 @@ proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-QxRequestQueue = new QxRequestQueue;
+qx.io.remote.RemoteRequestQueue = new qx.io.remote.RemoteRequestQueue;

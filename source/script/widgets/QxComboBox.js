@@ -25,7 +25,7 @@
 #package(form)
 #require(QxDomLocation)
 #require(qx.ui.form.List)
-#require(QxPopup)
+#require(qx.ui.popup.Popup)
 #require(qx.ui.basic.Atom)
 #require(qx.ui.form.TextField)
 #require(qx.ui.basic.Image)
@@ -69,7 +69,7 @@ qx.ui.form.ComboBox = function()
   // ************************************************************************
   //   POPUP
   // ************************************************************************
-  var p = this._popup = new QxPopup;
+  var p = this._popup = new qx.ui.popup.Popup;
 
   p.setAppearance("combo-box-popup");
   p.setAutoHide(false);

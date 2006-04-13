@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  Each instance manage vItems set of radio options: qx.ui.form.RadioButton, QxToolBarRadioButton, ...
+  Each instance manage vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.ToolBarRadioButton, ...
 */
 qx.manager.selection.RadioManager = function(vName, vMembers)
 {

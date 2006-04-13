@@ -23,15 +23,15 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxIframeTransport)
+#require(qx.io.remote.IframeTransport)
 
 ************************************************************************ */
 
-// basic registration to QxTransport
+// basic registration to qx.io.remote.RemoteExchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-QxTransport.registerType(QxIframeTransport, "QxIframeTransport");
+qx.io.remote.RemoteExchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
 
-QxIframeTransport.handles =
+qx.io.remote.IframeTransport.handles =
 {
   synchronous : false,
   asynchronous : true,
@@ -40,6 +40,6 @@ QxIframeTransport.handles =
   responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
 };
 
-QxIframeTransport.isSupported = function() {
+qx.io.remote.IframeTransport.isSupported = function() {
   return true;
 };

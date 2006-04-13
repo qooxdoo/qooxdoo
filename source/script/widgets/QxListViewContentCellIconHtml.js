@@ -26,18 +26,18 @@
 
 ************************************************************************ */
 
-function QxListViewContentCellIconHtml(vHtml, vIcon, vIconWidth, vIconHeight) 
+qx.ui.listview.ListViewContentCellIconHtml = function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
-  
+
   this.setSelectable(false);
 };
 
-QxListViewContentCellIconHtml.extend(qx.ui.embed.IconHtmlEmbed, "QxListViewContentCellIconHtml");
+qx.ui.listview.ListViewContentCellIconHtml.extend(qx.ui.embed.IconHtmlEmbed, "qx.ui.listview.ListViewContentCellIconHtml");
 
-QxListViewContentCellIconHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
+qx.ui.listview.ListViewContentCellIconHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
 
-QxListViewContentCellIconHtml.empty = 
+qx.ui.listview.ListViewContentCellIconHtml.empty =
 {
   icon : QxConst.CORE_EMPTY,
   html : QxConst.CORE_EMPTY

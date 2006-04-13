@@ -23,22 +23,22 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxTransport)
-#post(QxXmlHttpTransportCore)
+#require(qx.io.remote.RemoteExchange)
+#post(qx.io.remote.XmlHttpTransportCore)
 
 ************************************************************************ */
 
-function QxXmlHttpTransport()
+qx.io.remote.XmlHttpTransport = function()
 {
-  QxCommonTransport.call(this);
+  qx.io.remote.AbstractTransport.call(this);
 
-  this._req = QxXmlHttpTransport.createRequestObject();
+  this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
 
   var o = this;
   this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
-QxXmlHttpTransport.extend(QxCommonTransport, "QxXmlHttpTransport");
+qx.io.remote.XmlHttpTransport.extend(qx.io.remote.AbstractTransport, "qx.io.remote.XmlHttpTransport");
 
 
 
@@ -213,13 +213,13 @@ proto._onreadystatechange = function(e)
 
   // Checking status code
   var vReadyState = this.getReadyState();
-  if (!QxTransport.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
     return this.failed();
   };
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(QxTransport._nativeMap[++this._lastReadyState]);
+    this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
   };
 };
 
@@ -237,7 +237,7 @@ proto._onreadystatechange = function(e)
 /*!
   Get the ready state of this transports request.
 
-  For QxXmlHttpTransports, the ready state is a number between 1 to 4.
+  For qx.io.remote.XmlHttpTransports, the ready state is a number between 1 to 4.
 */
 proto.getReadyState = function()
 {
@@ -586,5 +586,5 @@ proto.dispose = function()
     this._req = null;
   };
 
-  return QxCommonTransport.prototype.dispose.call(this);
+  return qx.io.remote.AbstractTransport.prototype.dispose.call(this);
 };

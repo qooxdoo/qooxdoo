@@ -27,22 +27,22 @@
 ************************************************************************ */
 
 /*!
-  A small helper class to create a special layout handler for QxMenus
+  A small helper class to create a special layout handler for qx.ui.menu.Menus
 */
-function QxMenuLayout() 
+qx.ui.menu.MenuLayout = function()
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
-  
+
   this.setAnonymous(true);
 };
 
-QxMenuLayout.extend(qx.ui.layout.VerticalBoxLayout, "QxMenuLayout");
+qx.ui.menu.MenuLayout.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.menu.MenuLayout");
 
 
 /*!
   Appearance of the widget
 */
-QxMenuLayout.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-layout" });
+qx.ui.menu.MenuLayout.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-layout" });
 
 
 

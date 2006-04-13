@@ -11,9 +11,9 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Test for the QxPopup widget. QxPopups are planned as the source constructor for tooltips, menus, ...</p>
-    <p>There is also a qx.manager.object.PopupManager which hides all registered QxPopup instances which are configured to auto hide.
-    This is a nice method to omit to show more than one QxPopup together (omit multiple QxTooltips, ...).</p>
+    <p>Test for the qx.ui.popup.Popup widget. qx.ui.popup.Popups are planned as the source constructor for tooltips, menus, ...</p>
+    <p>There is also a qx.manager.object.PopupManager which hides all registered qx.ui.popup.Popup instances which are configured to auto hide.
+    This is a nice method to omit to show more than one qx.ui.popup.Popup together (omit multiple QxTooltips, ...).</p>
   </div>
 
   <script type="text/javascript">
@@ -56,7 +56,7 @@
 
 
 
-    var p1 = new QxPopup;
+    var p1 = new qx.ui.popup.Popup;
     d.add(p1);
 
     var a1 = new qx.ui.basic.Atom("Hello World #1", "icons/16/paint.png");
@@ -79,7 +79,7 @@
 
 
 
-    var p2 = new QxPopup;
+    var p2 = new qx.ui.popup.Popup;
     d.add(p2);
 
     var a2 = new qx.ui.basic.Atom("Hello World #2", "icons/32/clock.png");

@@ -26,18 +26,18 @@
 
 ************************************************************************ */
 
-function QxRadioButtonFieldSet(vLegend) {
-  QxFieldSet.call(this, vLegend);
+qx.ui.groupbox.GroupRadioBox = function(vLegend) {
+  qx.ui.groupbox.GroupBox.call(this, vLegend);
 };
 
-QxRadioButtonFieldSet.extend(QxFieldSet, "QxRadioButtonFieldSet");
+qx.ui.groupbox.GroupRadioBox.extend(qx.ui.groupbox.GroupBox, "qx.ui.groupbox.GroupRadioBox");
 
 proto._createLegendObject = function()
 {
   this._legendObject = new qx.ui.form.RadioButton;
   this._legendObject.setAppearance("radio-button-field-set-legend");
   this._legendObject.setChecked(true);
-  
+
   this.add(this._legendObject);
 };
 

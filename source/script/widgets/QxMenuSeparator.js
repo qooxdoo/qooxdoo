@@ -27,10 +27,10 @@
 
 ************************************************************************ */
 
-function QxMenuSeparator()
+qx.ui.menu.MenuSeparator = function()
 {
   qx.ui.layout.CanvasLayout.call(this);
-  
+
   // Fix IE Styling Issues
   this.setStyleProperty("fontSize", "0");
   this.setStyleProperty("lineHeight", "0");
@@ -43,19 +43,19 @@ function QxMenuSeparator()
   this._line.setAnonymous(true);
   this._line.setAppearance("menu-separator-line");
   this.add(this._line);
-  
+
 
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  
+
   // needed to stop the event, and keep the menu showing
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
-QxMenuSeparator.extend(qx.ui.layout.CanvasLayout, "QxMenuSeparator");
+qx.ui.menu.MenuSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.menu.MenuSeparator");
 
-QxMenuSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-separator" });
+qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-separator" });
 
 proto.hasIcon = qx.util.returns.returnFalse;
 proto.hasLabel = qx.util.returns.returnFalse;
@@ -71,12 +71,12 @@ proto.dispose = function()
   if (this.getDisposed()) {
     return true;
   };
-  
+
   if (this._line)
   {
     this._line.dispose();
     this._line = null;
   };
-  
+
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing auto dimension possibility of QxWindow.</p>
+    <p>Testing auto dimension possibility of qx.ui.window.Window.</p>
   </div>
 
   <script type="text/javascript">
@@ -19,7 +19,7 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var w1 = new QxWindow("First Window");
+    var w1 = new qx.ui.window.Window("First Window");
     w1.getPane().setPadding(10);
     w1.setLocation(100, 100);
     w1.setWidth("auto");

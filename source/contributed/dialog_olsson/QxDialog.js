@@ -29,10 +29,10 @@
 
 function QxDialog(vCaption, vIcon)
 {
-  QxWindow.call(this, vCaption, vIcon);
+  qx.ui.window.Window.call(this, vCaption, vIcon);
 };
 
-QxDialog.extend(QxWindow, "QxDialog");
+QxDialog.extend(qx.ui.window.Window, "QxDialog");
 
 
 /*
@@ -101,5 +101,5 @@ proto.dispose = function()
     return true;
   };
 
-  return QxWindow.prototype.dispose.call(this);
+  return qx.ui.window.Window.prototype.dispose.call(this);
 };

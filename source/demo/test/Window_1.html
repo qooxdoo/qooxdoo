@@ -24,15 +24,15 @@
     w0.setOverflow("hidden");
     d.add(w0);
 
-    var w1 = new QxWindow("First Window");
+    var w1 = new qx.ui.window.Window("First Window");
     w1.setSpace(20, 400, 20, 250);
     w0.add(w1);
 
-    var w2 = new QxWindow("Second Window", "icons/16/colors.png");
+    var w2 = new qx.ui.window.Window("Second Window", "icons/16/colors.png");
     w2.setSpace(200, 300, 80, 350);
     w0.add(w2);
 
-    var w3 = new QxWindow("Third Window", "icons/16/network.png");
+    var w3 = new qx.ui.window.Window("Third Window", "icons/16/network.png");
     w3.setSpace(100, 300, 200, 200);
     w3.setMaxWidth(450);
     w3.setMaxHeight(300);
@@ -47,20 +47,20 @@
 
 
 
-    var tf1 = new QxTabView;
+    var tf1 = new qx.ui.pageview.tabview.TabView;
     tf1.set({ left: 10, top: 52, right: 10, bottom: 10 });
 
-    var t1_1 = new QxTabViewButton("Explore");
-    var t1_2 = new QxTabViewButton("Internet");
-    var t1_3 = new QxTabViewButton("Future");
+    var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Explore");
+    var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Internet");
+    var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Future");
 
     t1_1.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
-    var p1_1 = new QxTabViewPage(t1_1);
-    var p1_2 = new QxTabViewPage(t1_2);
-    var p1_3 = new QxTabViewPage(t1_3);
+    var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
+    var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
+    var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
 
     tf1.getPane().add(p1_1, p1_2, p1_3);
 
@@ -82,7 +82,7 @@
 
 
 
-    var fs1 = new QxFieldSet("Settings");
+    var fs1 = new qx.ui.groupbox.GroupBox("Settings");
     fs1.setLocation(4, 30);
     fs1.setRight(4);
     fs1.setBottom(4);

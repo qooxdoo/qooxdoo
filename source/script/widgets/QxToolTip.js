@@ -26,14 +26,14 @@
 
 ************************************************************************ */
 
-function QxToolTip(vLabel, vIcon)
+qx.ui.popup.ToolTip = function(vLabel, vIcon)
 {
   // ************************************************************************
   //   INIT
   // ************************************************************************
 
-  QxPopupAtom.call(this, vLabel, vIcon);
-  
+  qx.ui.popup.PopupAtom.call(this, vLabel, vIcon);
+
 
   // ************************************************************************
   //   TIMER
@@ -53,7 +53,7 @@ function QxToolTip(vLabel, vIcon)
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseover);
 };
 
-QxToolTip.extend(QxPopupAtom, "QxToolTip");
+qx.ui.popup.ToolTip.extend(qx.ui.popup.PopupAtom, "qx.ui.popup.ToolTip");
 
 proto._minZIndex = 1e7;
 
@@ -64,17 +64,17 @@ proto._minZIndex = 1e7;
 ---------------------------------------------------------------------------
 */
 
-QxToolTip.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tool-tip" });
+qx.ui.popup.ToolTip.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tool-tip" });
 
-QxToolTip.addProperty({ name : "hideOnHover", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.popup.ToolTip.addProperty({ name : "hideOnHover", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
 
-QxToolTip.addProperty({ name : "mousePointerOffsetX", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
-QxToolTip.addProperty({ name : "mousePointerOffsetY", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetX", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetY", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
 
-QxToolTip.addProperty({ name : "showInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
-QxToolTip.addProperty({ name : "hideInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 4000 });
+qx.ui.popup.ToolTip.addProperty({ name : "showInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
+qx.ui.popup.ToolTip.addProperty({ name : "hideInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 4000 });
 
-QxToolTip.addProperty({ name : "boundToWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.ui.popup.ToolTip.addProperty({ name : "boundToWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -248,5 +248,5 @@ proto.dispose = function()
     this._hideTimer = null;
   };
 
-  return QxPopupAtom.prototype.dispose.call(this);
+  return qx.ui.popup.PopupAtom.prototype.dispose.call(this);
 };

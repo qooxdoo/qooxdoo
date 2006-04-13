@@ -27,10 +27,10 @@
 ************************************************************************ */
 
 /*!
-  QxBlocker blocks the inputs from the user.
+  qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
   This will be used internally to allow better modal dialogs for example.
 */
-function QxBlocker()
+qx.ui.core.ClientDocumentBlocker = function()
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -38,6 +38,6 @@ function QxBlocker()
   this.setDisplay(false);
 };
 
-QxBlocker.extend(qx.ui.basic.Terminator, "QxBlocker");
+qx.ui.core.ClientDocumentBlocker.extend(qx.ui.basic.Terminator, "qx.ui.core.ClientDocumentBlocker");
 
-QxBlocker.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "blocker" });
+qx.ui.core.ClientDocumentBlocker.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "blocker" });

@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-function QxBarViewPage(vButton) {
-  QxCommonViewPage.call(this, vButton);
+qx.ui.pageview.buttonview.ButtonViewPage = function(vButton) {
+  qx.ui.pageview.AbstractPageViewPage.call(this, vButton);
 };
 
-QxBarViewPage.extend(QxCommonViewPage, "QxBarViewPage");
+qx.ui.pageview.buttonview.ButtonViewPage.extend(qx.ui.pageview.AbstractPageViewPage, "qx.ui.pageview.buttonview.ButtonViewPage");
 
-QxBarViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-page" });
+qx.ui.pageview.buttonview.ButtonViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-page" });

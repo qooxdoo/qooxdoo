@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Introduce QxMenu which opens on QxToolBarMenuButtons.</p>
+    <p>Introduce qx.ui.menu.Menu which opens on qx.ui.toolbar.ToolBarMenuButtons.</p>
   </div>
 
   <script type="text/javascript">
@@ -19,7 +19,7 @@
     {
       var d = this.getClientWindow().getClientDocument();
 
-      var tb = new QxToolBar;
+      var tb = new qx.ui.toolbar.ToolBar;
       with(tb)
       {
         setTop(48);
@@ -27,23 +27,23 @@
         setRight(335);
       };
 
-      var m1 = new QxMenu;
+      var m1 = new qx.ui.menu.Menu;
 
-      var mb1 = new QxMenuButton("Folder");
-      var ms1 = new QxMenuSeparator;
-      var mb2 = new QxMenuButton("Word Document");
-      var mb3 = new QxMenuButton("Text File");
-      var mb4 = new QxMenuButton("Image");
+      var mb1 = new qx.ui.menu.MenuButton("Folder");
+      var ms1 = new qx.ui.menu.MenuSeparator;
+      var mb2 = new qx.ui.menu.MenuButton("Word Document");
+      var mb3 = new qx.ui.menu.MenuButton("Text File");
+      var mb4 = new qx.ui.menu.MenuButton("Image");
 
       m1.add(mb1, ms1, mb2, mb3, mb4);
       d.add(m1);
 
 
-      var m2 = new QxMenu;
+      var m2 = new qx.ui.menu.Menu;
 
-      var mb5 = new QxMenuButton("Copy", "icons/16/edit-copy.png");
-      var mb6 = new QxMenuButton("Move", "icons/16/edit-cut.png");
-      var mb7 = new QxMenuButton("Delete", "icons/16/edit-delete.png");
+      var mb5 = new qx.ui.menu.MenuButton("Copy", "icons/16/edit-copy.png");
+      var mb6 = new qx.ui.menu.MenuButton("Move", "icons/16/edit-cut.png");
+      var mb7 = new qx.ui.menu.MenuButton("Delete", "icons/16/edit-delete.png");
 
       m2.add(mb5, mb6, mb7);
       d.add(m2);
@@ -80,7 +80,7 @@
         var btns = bars[j];
 
         if (useParts) {
-          var tbp = new QxToolBarPart;
+          var tbp = new qx.ui.toolbar.ToolBarPart;
         };
 
         for (var i=0; i<btns.length; i++)
@@ -90,11 +90,11 @@
           switch(btn.type)
           {
             case "separator":
-              var o = new QxToolBarSeparator;
+              var o = new qx.ui.toolbar.ToolBarSeparator;
               break;
 
             case "menu":
-              var o = new QxToolBarMenuButton(btn.label, btn.menu, "icons/22/" + btn.icon + ".png", 22, 22);
+              var o = new qx.ui.toolbar.ToolBarMenuButton(btn.label, btn.menu, "icons/22/" + btn.icon + ".png", 22, 22);
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
@@ -104,7 +104,7 @@
               break;
 
             case "button":
-              var o = new QxToolBarButton(btn.label, "icons/22/" + btn.icon + ".png");
+              var o = new qx.ui.toolbar.ToolBarButton(btn.label, "icons/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 

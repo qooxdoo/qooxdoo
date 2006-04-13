@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing the new flash support for QxToolBarButtons (inherited from qx.ui.basic.Atom).</p>
+    <p>Testing the new flash support for qx.ui.toolbar.ToolBarButtons (inherited from qx.ui.basic.Atom).</p>
   </div>
 
   <script type="text/javascript">
@@ -19,7 +19,7 @@
     {
       var d = this.getClientWindow().getClientDocument();
       
-      var tb = new QxToolBar;
+      var tb = new qx.ui.toolbar.ToolBar;
       
       tb.setTop(48);
       tb.setLeft(20);
@@ -29,7 +29,7 @@
       
       for (var i=1; i<8; i++)
       {
-        var tbb = new QxToolBarButton("Flash #" + i, "icons/22/reload.png", 22, 22, "./images/flashs/colors/file" + i + ".swf");        
+        var tbb = new qx.ui.toolbar.ToolBarButton("Flash #" + i, "icons/22/reload.png", 22, 22, "./images/flashs/colors/file" + i + ".swf");        
         tb.add(tbb);
       };    
     };

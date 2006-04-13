@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-function QxCommonViewBar()
+qx.ui.pageview.AbstractPageViewBar = function()
 {
   qx.ui.layout.BoxLayout.call(this);
 
@@ -37,7 +37,7 @@ function QxCommonViewBar()
   this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 };
 
-QxCommonViewBar.extend(qx.ui.layout.BoxLayout, "QxCommonViewBar");
+qx.ui.pageview.AbstractPageViewBar.extend(qx.ui.layout.BoxLayout, "qx.ui.pageview.AbstractPageViewBar");
 
 
 

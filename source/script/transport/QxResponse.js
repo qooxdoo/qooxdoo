@@ -26,11 +26,11 @@
 
 ************************************************************************ */
 
-function QxResponse() {
+qx.io.remote.RemoteResponse = function() {
   qx.core.Target.call(this);
 };
 
-QxResponse.extend(qx.core.Target, "QxResponse");
+qx.io.remote.RemoteResponse.extend(qx.core.Target, "qx.io.remote.RemoteResponse");
 
 
 
@@ -41,13 +41,13 @@ QxResponse.extend(qx.core.Target, "QxResponse");
 ---------------------------------------------------------------------------
 */
 
-QxResponse.addProperty({ name : "state", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteResponse.addProperty({ name : "state", type : QxConst.TYPEOF_NUMBER });
 /*!
   Status code of the response.
 */
-QxResponse.addProperty({ name : "statusCode", type : QxConst.TYPEOF_NUMBER });
-QxResponse.addProperty({ name : "content" });
-QxResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT });
+qx.io.remote.RemoteResponse.addProperty({ name : "statusCode", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteResponse.addProperty({ name : "content" });
+qx.io.remote.RemoteResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT });
 
 
 

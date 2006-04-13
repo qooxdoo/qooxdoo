@@ -26,16 +26,16 @@
 
 ************************************************************************ */
 
-function QxToolBarCheckBox(vText, vIcon, vChecked)
+qx.ui.toolbar.ToolBarCheckBox = function(vText, vIcon, vChecked)
 {
-  QxToolBarButton.call(this, vText, vIcon);
+  qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon);
 
   if (qx.util.validator.isValid(vChecked)) {
     this.setChecked(vChecked);
   };
 };
 
-QxToolBarCheckBox.extend(QxToolBarButton, "QxToolBarCheckBox");
+qx.ui.toolbar.ToolBarCheckBox.extend(qx.ui.toolbar.ToolBarButton, "qx.ui.toolbar.ToolBarCheckBox");
 
 
 
@@ -45,7 +45,7 @@ QxToolBarCheckBox.extend(QxToolBarButton, "QxToolBarCheckBox");
 ---------------------------------------------------------------------------
 */
 
-QxToolBarCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.toolbar.ToolBarCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -76,16 +76,16 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 proto._onmouseup = function(e)
 {
   this.setCapture(false);
-  
+
   if (!this.hasState(QxConst.STATE_ABANDONED))
   {
     this.addState(QxConst.STATE_OVER);
     this.setChecked(!this.getChecked());
-    this.execute();      
+    this.execute();
   };
-  
+
   this.removeState(QxConst.STATE_ABANDONED);
   this.removeState(QxConst.STATE_PRESSED);
-  
+
   e.stopPropagation();
 };

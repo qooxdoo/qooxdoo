@@ -28,13 +28,6 @@
 
 ************************************************************************ */
 
-function QxApplicationInit()
-{
-  if (window.application) {
-    window.application.init();
-  };
-};
-
 /*!
   This contains the main qooxdoo application.
 
@@ -42,19 +35,27 @@ function QxApplicationInit()
   instance is accessible through a reference named "application" in
   the window object of the main document.
 */
-function QxApplication()
+
+qx.core.Init = function()
 {
   qx.core.Target.call(this, false);
 
   if (qx.sys.Client.isGecko()) {
-    qx.dom.addEventListener(window, "DOMContentLoaded", QxApplicationInit);
+    qx.dom.addEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
   } else {
-    qx.dom.addEventListener(window, "load", QxApplicationInit);
+    qx.dom.addEventListener(window, "load", qx.core.Init.onload);
   };
 };
 
-QxApplication.extend(qx.core.Target, "QxApplication");
+qx.core.Init.extend(qx.core.Target, "qx.core.Init");
 
+
+qx.core.Init.onload = function()
+{
+  if (window.application) {
+    window.application.init();
+  };
+};
 
 
 
@@ -91,11 +92,15 @@ proto.init = function()
 
   this._initDone = true;
 
-  this._runInitialization();
-  this._runApplication();
-  this._runPreload();
+  this._printVersion();
+  this._printClassInfo();
+  this._printPropertyInfo();
+  this._printClientInfo();
 
-  // initPostload will be executed from the first queue flush
+  this._runPre();
+  this._runMain();
+
+  qx.core.Settings.enableUserInterface ? this._runPreload() : this._runPost();
 };
 
 
@@ -109,42 +114,37 @@ proto.init = function()
 ---------------------------------------------------------------------------
 */
 
-proto._runInitialization = function()
+proto._runPre = function()
 {
   var s = (new Date).valueOf();
 
-  this.info("Initialization phase");
-
-  this._printVersion();
+  this.info("Pre phase");
 
   try
   {
-    // Output the number of available classes
-    this._printClassInfo();
-
-    // Output the number existing properties
-    this._printPropertyInfo();
-
-    // Print short client detection info
-    this._printClientInfo();
-
     // Execute user define 'pre' method
-    this.debug("Executing application pre");
-    this.pre();
-
-    // Fire global 'pre' event
+    this.debug("Dispatching application pre event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_PRE);
 
-    // Create client window instance (and client-document, event- and focus-manager, ...)
-    if (typeof qx.client.ClientWindow === QxConst.TYPEOF_FUNCTION) {
-      this._clientWindow = new qx.client.ClientWindow();
+    if (this.pre !== qx.util.returns.returnTrue)
+    {
+      this.warn("Using old style pre-application!");
+      this.pre();
     };
 
-    // Build virtual methods for easy additions of childrens and so on
-    if (typeof qx.ui.core.Parent === QxConst.TYPEOF_FUNCTION)
+    if (qx.core.Settings.enableUserInterface)
     {
-      this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
-      qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
+      // Create client window instance (and client-document, event- and focus-manager, ...)
+      if (typeof qx.client.ClientWindow === QxConst.TYPEOF_FUNCTION) {
+        this._clientWindow = new qx.client.ClientWindow();
+      };
+
+      // Build virtual methods for easy additions of childrens and so on
+      if (typeof qx.ui.core.Parent === QxConst.TYPEOF_FUNCTION)
+      {
+        this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
+        qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
+      };
     };
 
     // Output the number of currently instanciated objects
@@ -158,7 +158,7 @@ proto._runInitialization = function()
   this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
 };
 
-proto._runApplication = function()
+proto._runMain = function()
 {
   var s = (new Date).valueOf();
   this.info("Main phase");
@@ -166,11 +166,14 @@ proto._runApplication = function()
   try
   {
     // Execute user define 'main' method
-    this.debug("Executing application main");
-    this.main();
-
-    // Fire global 'main' event
+    this.debug("Dispatching application main event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_MAIN);
+
+    if (this.main !== qx.util.returns.returnTrue)
+    {
+      this.warn("Using old style main-application!");
+      this.main();
+    };
 
     // Output the number of currently instanciated objects
     this._printInstanceInfo();
@@ -185,16 +188,19 @@ proto._runApplication = function()
 
 proto._runPreload = function()
 {
-  this._preloadStart = (new Date).valueOf();
-
-  this.info("Preload phase");
-  this.debug("Preloading images...");
-
-  if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  if (qx.core.Settings.enableUserInterface)
   {
-    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
-    vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
-    vPreloaderSystem.start();
+    this._preloadStart = (new Date).valueOf();
+
+    this.info("Preload phase");
+    this.debug("Preloading images...");
+
+    if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+    {
+      var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
+      vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
+      vPreloaderSystem.start();
+    };
   };
 };
 
@@ -232,12 +238,15 @@ proto._runPost = function()
     // Output the number of currently instanciated objects
     this._printInstanceInfo();
 
-    // Execute user define 'post' method
-    this.debug("Executing application post");
-    this.post();
-
-    // Fire global 'post' event
+    // Execute "post" stuff
+    this.debug("Dispatching application post event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_POST);
+
+    if (this.post !== qx.util.returns.returnTrue)
+    {
+      this.warn("Using old style post-application!");
+      this.post();
+    };
   }
   catch(ex)
   {
@@ -362,9 +371,9 @@ proto.dispose = function()
   };
 
   if (qx.sys.Client.isGecko()) {
-    qx.dom.removeEventListener(window, "DOMContentLoaded", QxApplicationInit);
+    qx.dom.removeEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
   } else {
-    qx.dom.removeEventListener(window, "load", QxApplicationInit);
+    qx.dom.removeEventListener(window, "load", qx.core.Init.onload);
   };
 
   delete this._clientWindow;
@@ -374,4 +383,4 @@ proto.dispose = function()
   qx.core.Target.prototype.dispose.call(this);
 };
 
-window.application = new QxApplication;
+window.application = new qx.core.Init;

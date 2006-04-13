@@ -28,9 +28,9 @@
 
 ************************************************************************ */
 
-function QxToolBarMenuButton(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.ui.toolbar.ToolBarMenuButton = function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 {
-  QxToolBarButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
   if (qx.util.validator.isValidObject(vMenu)) {
     this.setMenu(vMenu);
@@ -43,7 +43,7 @@ function QxToolBarMenuButton(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlas
   */
 };
 
-QxToolBarMenuButton.extend(QxToolBarButton, "QxToolBarMenuButton");
+qx.ui.toolbar.ToolBarMenuButton.extend(qx.ui.toolbar.ToolBarButton, "qx.ui.toolbar.ToolBarMenuButton");
 
 
 
@@ -54,8 +54,8 @@ QxToolBarMenuButton.extend(QxToolBarButton, "QxToolBarMenuButton");
 ---------------------------------------------------------------------------
 */
 
-QxToolBarMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
-QxToolBarMenuButton.addProperty({ name : "direction", type : QxConst.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
+qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "direction", type : QxConst.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
 
 
 
@@ -70,11 +70,11 @@ proto.getParentToolBar = function()
 {
   var vParent = this.getParent();
 
-  if (vParent instanceof QxToolBarPart) {
+  if (vParent instanceof qx.ui.toolbar.ToolBarPart) {
     vParent = vParent.getParent();
   };
 
-  return vParent instanceof QxToolBar ? vParent : null;
+  return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
 };
 
 proto._showMenu = function(vFromKeyEvent)
@@ -221,7 +221,7 @@ proto._onmouseover = function(e)
     };
   };
 
-  return QxToolBarButton.prototype._onmouseover.call(this, e);
+  return qx.ui.toolbar.ToolBarButton.prototype._onmouseover.call(this, e);
 };
 
 

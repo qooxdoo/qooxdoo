@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-function QxListViewPane(vData, vColumns)
+qx.ui.listview.ListViewPane = function(vData, vColumns)
 {
   qx.ui.layout.GridLayout.call(this);
 
@@ -66,9 +66,9 @@ function QxListViewPane(vData, vColumns)
   this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
-QxListViewPane.extend(qx.ui.layout.GridLayout, "QxListViewPane");
+qx.ui.listview.ListViewPane.extend(qx.ui.layout.GridLayout, "qx.ui.listview.ListViewPane");
 
-QxListViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-pane" });
+qx.ui.listview.ListViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-pane" });
 
 proto._rowHeight = 16;
 
@@ -263,7 +263,7 @@ proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
   var vPaneTop = qx.dom.getComputedPageInnerTop(this.getElement());
-  var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + 
+  var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) +
                 Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
   return this._data[vItemNo];
@@ -407,7 +407,7 @@ proto.scrollItemIntoView = function(vItem, vAlignLeftTop)
 };
 
 proto.scrollItemIntoViewX = function(vItem, vAlignLeft) {
-  // this.error("Not implemented in QxListViewPane!", "scrollItemIntoViewX");
+  // this.error("Not implemented in qx.ui.listview.ListViewPane!", "scrollItemIntoViewX");
 };
 
 proto.scrollItemIntoViewY = function(vItem, vAlignTop)
@@ -455,7 +455,7 @@ proto.getScrollTop = function() {
 };
 
 proto.setScrollLeft = function() {
-  this.error("Not implemented in QxListViewPane!", "setScrollLeft");
+  this.error("Not implemented in qx.ui.listview.ListViewPane!", "setScrollLeft");
 };
 
 proto.getScrollLeft = function() {

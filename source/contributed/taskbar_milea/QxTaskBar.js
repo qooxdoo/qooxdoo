@@ -24,7 +24,7 @@
 function QxTaskBar() {
     qx.ui.layout.HorizontalBoxLayout.call(this);
     this._wins = 0;
-    this._tBarPanel = new QxToolBarPart;
+    this._tBarPanel = new qx.ui.toolbar.ToolBarPart;
     this.add(this._tBarPanel);
     this._addingWindow = false;
 };
@@ -36,13 +36,13 @@ QxTaskBar.extend(qx.ui.layout.HorizontalBoxLayout, "TaskBar");
 */
 QxTaskBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar" });
 
-/* Removes a QxWindow from the taskbar.
+/* Removes a qx.ui.window.Window from the taskbar.
 */
 proto.removeWindow = function(win) {
     try{
         var botones = this._tBarPanel.getChildren();
         for(var btn = 0; btn < botones.length; btn++) {
-            if(botones[btn] instanceof QxToolBarCheckBox) {
+            if(botones[btn] instanceof qx.ui.toolbar.ToolBarCheckBox) {
                 if(botones[btn].getUserData("winId") == win.getUserData("winId")) {
                     this._tBarPanel.remove(botones[btn]);
                     win.createDispatchEvent("removedFromTaskbar");
@@ -52,13 +52,13 @@ proto.removeWindow = function(win) {
     }
     catch(ex){this.debug("Could not remove window from taskbar. Exeption: " + ex);};
 };
-/* Updates button status in the taskbar it gets called whe u add a new QxWindow
+/* Updates button status in the taskbar it gets called whe u add a new qx.ui.window.Window
 */
 proto._updateButtons = function(selected) {
     try{
         var botones = this._tBarPanel.getChildren();
         for(var btn = 0; btn < botones.length; btn++) {
-            if(botones[btn] instanceof QxToolBarCheckBox) {
+            if(botones[btn] instanceof qx.ui.toolbar.ToolBarCheckBox) {
                 if(botones[btn].getUserData("winId") != selected.getUserData("winId")) {
                     botones[btn].setChecked(false);
                 }
@@ -68,12 +68,12 @@ proto._updateButtons = function(selected) {
     catch(ex){this.debug("Could not update buttons in taskbar. Exeption: " + ex);};
 };
 
-/* Adds a QxWindow to the taskbar 
+/* Adds a qx.ui.window.Window to the taskbar 
     the current implementation doesnt check if there is a win with the same name.
     (I think we have to check this).
 */
 proto.addWindow = function(win) {
-    var tmpButton = new QxToolBarCheckBox(win.getCaption(), win.getIcon(), true);
+    var tmpButton = new qx.ui.toolbar.ToolBarCheckBox(win.getCaption(), win.getIcon(), true);
     tmpButton.setUserData("winId", this._wins);
     win.setUserData("winId", this._wins++);
     tmpButton.addEventListener("changeChecked", function(e) {

@@ -24,7 +24,7 @@
 
 #package(core)
 #post(qx.event.handler.EventHandler)
-#post(QxClientDocument)
+#post(qx.ui.core.ClientDocument)
 
 ************************************************************************ */
 
@@ -42,7 +42,7 @@ qx.client.ClientWindow = function()
   this._element._QxClientWindow = this;
 
   // Create Client Document
-  this._clientDocument = new QxClientDocument(this);
+  this._clientDocument = new qx.ui.core.ClientDocument(this);
 
   // Create Event Manager
   this._eventManager = new qx.event.handler.EventHandler(this);

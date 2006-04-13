@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  This singleton manages multiple instances of QxMenu and their state.
+  This singleton manages multiple instances of qx.ui.menu.Menu and their state.
 */
 qx.manager.object.MenuManager = function(){
   qx.manager.object.ObjectManager.call(this);

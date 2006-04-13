@@ -29,20 +29,20 @@
 /*!
   This manager is used by all objects which needs ranges like qx.ui.form.Spinner, QxSlider, ...
 */
-function QxRangeManager()
+qx.types.Range = function()
 {
   // We need no internal objects cache
   qx.core.Target.call(this);
 };
 
-QxRangeManager.extend(qx.manager.object.ObjectManager, "QxRangeManager");
+qx.types.Range.extend(qx.manager.object.ObjectManager, "qx.types.Range");
 
-QxRangeManager.addProperty({ name : "value", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxRangeManager.addProperty({ name : "min", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
-QxRangeManager.addProperty({ name : "max", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-QxRangeManager.addProperty({ name : "step", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.types.Range.addProperty({ name : "value", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.types.Range.addProperty({ name : "min", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+qx.types.Range.addProperty({ name : "max", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.types.Range.addProperty({ name : "step", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
 
-QxRangeManager.CHANGE_EVENTTYPE = QxConst.INTERNAL_CHANGE;
+qx.types.Range.CHANGE_EVENTTYPE = QxConst.INTERNAL_CHANGE;
 
 proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
@@ -50,8 +50,8 @@ proto._checkValue = function(propValue) {
 
 proto._modifyValue = function(propValue, propOldValue, propData)
 {
-  if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
   };
 
   return true;
@@ -65,8 +65,8 @@ proto._modifyMax = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.min(this.getValue(), propValue));
 
-  if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
   };
 
   return true;
@@ -80,8 +80,8 @@ proto._modifyMin = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.max(this.getValue(), propValue));
 
-  if (this.hasEventListeners(QxRangeManager.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(QxRangeManager.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
   };
 
   return true;

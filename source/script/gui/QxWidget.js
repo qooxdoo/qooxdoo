@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxApplication)
+#require(qx.core.Init)
 #require(qx.renderer.color.ColorObject)
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderObject)
@@ -287,12 +287,12 @@ qx.ui.core.Widget.addProperty({ name : "selectable", type : QxConst.TYPEOF_BOOLE
 /*!
   Contains the tooltip object connected to the widget.
 */
-qx.ui.core.Widget.addProperty({ name : "toolTip", type : QxConst.TYPEOF_OBJECT, instance : "QxToolTip" });
+qx.ui.core.Widget.addProperty({ name : "toolTip", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
 
 /*!
   Contains the context menu object connected to the widget. (Need real implementation)
 */
-qx.ui.core.Widget.addProperty({ name : "contextMenu", type : QxConst.TYPEOF_OBJECT, instance : "QxMenu" });
+qx.ui.core.Widget.addProperty({ name : "contextMenu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Capture all events and map them to this widget
@@ -2846,7 +2846,7 @@ proto._oninlineproperty = function(e)
 /*!
   The the widget which is at the top level,
   which contains all others (normally a
-  instance of QxClientDocument).
+  instance of qx.ui.core.ClientDocument).
 */
 proto.getTopLevelWidget = function() {
   return this._hasParent ? this.getParent().getTopLevelWidget() : null;

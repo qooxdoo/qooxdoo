@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxBarViewBar() {
-  QxCommonViewBar.call(this);
+qx.ui.pageview.buttonview.ButtonViewBar = function() {
+  qx.ui.pageview.AbstractPageViewBar.call(this);
 };
 
-QxBarViewBar.extend(QxCommonViewBar, "QxBarViewBar");
+qx.ui.pageview.buttonview.ButtonViewBar.extend(qx.ui.pageview.AbstractPageViewBar, "qx.ui.pageview.buttonview.ButtonViewBar");
 
-QxBarViewBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-bar" });
+qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-bar" });
 
 
 

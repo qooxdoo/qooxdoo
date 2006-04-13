@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(transport)
-#require(QxTransport)
+#require(qx.io.remote.RemoteExchange)
 
 ************************************************************************ */
 
@@ -35,40 +35,40 @@
 ---------------------------------------------------------------------------
 */
 
-QxTransport.typesOrder = [ "QxXmlHttpTransport", "QxIframeTransport" ];
+qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport" ];
 
-QxTransport.typesReady = false;
+qx.io.remote.RemoteExchange.typesReady = false;
 
-QxTransport.typesAvailable = {};
-QxTransport.typesSupported = {};
+qx.io.remote.RemoteExchange.typesAvailable = {};
+qx.io.remote.RemoteExchange.typesSupported = {};
 
-QxTransport.registerType = function(vClass, vId) {
-  QxTransport.typesAvailable[vId] = vClass;
+qx.io.remote.RemoteExchange.registerType = function(vClass, vId) {
+  qx.io.remote.RemoteExchange.typesAvailable[vId] = vClass;
 };
 
-QxTransport.initTypes = function()
+qx.io.remote.RemoteExchange.initTypes = function()
 {
-  if (QxTransport.typesReady) {
+  if (qx.io.remote.RemoteExchange.typesReady) {
     return;
   };
 
-  for (var vId in QxTransport.typesAvailable)
+  for (var vId in qx.io.remote.RemoteExchange.typesAvailable)
   {
-    vTransporterImpl = QxTransport.typesAvailable[vId];
+    vTransporterImpl = qx.io.remote.RemoteExchange.typesAvailable[vId];
 
     if (vTransporterImpl.isSupported()) {
-      QxTransport.typesSupported[vId] = vTransporterImpl;
+      qx.io.remote.RemoteExchange.typesSupported[vId] = vTransporterImpl;
     };
   };
 
-  QxTransport.typesReady = true;
+  qx.io.remote.RemoteExchange.typesReady = true;
 
-  if (qx.lang.Object.isEmpty(QxTransport.typesSupported)) {
+  if (qx.lang.Object.isEmpty(qx.io.remote.RemoteExchange.typesSupported)) {
     throw new Error("No supported transport types were found!");
   };
 };
 
-QxTransport.canHandle = function(vImpl, vNeeds, vResponseType)
+qx.io.remote.RemoteExchange.canHandle = function(vImpl, vNeeds, vResponseType)
 {
   if (!vImpl.handles.responseTypes.contains(vResponseType)) {
     return false;
@@ -113,7 +113,7 @@ Some data has been received. Calling the responseBody and responseText propertie
 All the data has been received, and the complete data is available in the
 */
 
-QxTransport._nativeMap =
+qx.io.remote.RemoteExchange._nativeMap =
 {
   0 : QxConst.REQUEST_STATE_CREATED,
   1 : QxConst.REQUEST_STATE_CONFIGURED,
@@ -133,7 +133,7 @@ QxTransport._nativeMap =
 ---------------------------------------------------------------------------
 */
 
-QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
+qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
 {
   if (vIsLocal)
   {
@@ -214,7 +214,7 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
 
 
       default:
-        qx.dev.Debug("QxTransport", "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+        qx.dev.Debug("qx.io.remote.RemoteExchange", "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
     };
   };

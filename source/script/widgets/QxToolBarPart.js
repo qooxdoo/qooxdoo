@@ -26,17 +26,17 @@
 
 ************************************************************************ */
 
-function QxToolBarPart()
+qx.ui.toolbar.ToolBarPart = function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this._handle = new QxToolBarPartHandle;
+  this._handle = new qx.ui.toolbar.ToolBarPartHandle;
   this.add(this._handle);
 };
 
-QxToolBarPart.extend(qx.ui.layout.HorizontalBoxLayout, "QxToolBarPart");
+qx.ui.toolbar.ToolBarPart.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBarPart");
 
-QxToolBarPart.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part" });
+qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part" });
 
 
 
@@ -48,14 +48,14 @@ QxToolBarPart.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING
 ---------------------------------------------------------------------------
 */
 
-// Omit recursive cloning of QxToolBarPartHandle
+// Omit recursive cloning of qx.ui.toolbar.ToolBarPartHandle
 proto._cloneRecursive = function(cloneInstance)
 {
   var vChildren = this.getChildren();
   var vLength = vChildren.length;
 
   for (var i=0; i<vLength; i++) {
-    if (!(vChildren[i] instanceof QxToolBarPartHandle)) {
+    if (!(vChildren[i] instanceof qx.ui.toolbar.ToolBarPartHandle)) {
       cloneInstance.add(vChildren[i].clone(true));
     };
   };

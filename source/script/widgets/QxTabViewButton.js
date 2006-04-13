@@ -26,13 +26,13 @@
 
 ************************************************************************ */
 
-function QxTabViewButton(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-  QxCommonViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+qx.ui.pageview.tabview.TabViewButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
+  qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 };
 
-QxTabViewButton.extend(QxCommonViewButton, "QxTabViewButton");
+qx.ui.pageview.tabview.TabViewButton.extend(qx.ui.pageview.AbstractPageViewButton, "qx.ui.pageview.tabview.TabViewButton");
 
-QxTabViewButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-button" });
+qx.ui.pageview.tabview.TabViewButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-button" });
 
 
 
