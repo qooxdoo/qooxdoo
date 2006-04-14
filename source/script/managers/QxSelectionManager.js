@@ -162,7 +162,7 @@ proto.getLast = function()
 };
 
 proto.getItems = function() {
-  return this.getBoundedWidget().getVisibleChildren();
+  return this.getBoundedWidget().getChildren();
 };
 
 proto.getNextSibling = function(vItem) {
