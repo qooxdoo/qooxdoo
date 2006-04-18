@@ -551,8 +551,11 @@ if (!Function.prototype.apply)
 ---------------------------------------------------------------------------
 */
 
-Error.prototype.toString = function() {
-  return this.message;
+if (!Error.prototype.toString)
+{
+  Error.prototype.toString = function() {
+    return this.message;
+  };
 };
 
 
