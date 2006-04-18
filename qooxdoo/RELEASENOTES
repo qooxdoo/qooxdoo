@@ -1,3 +1,56 @@
+h4. Release 0.5.2 (2006-04-18)
+
+h5. Implementation
+
+* Transport:
+  Major continued development of QxTransport, QxRequest and related classes. Greatly improved QxIframeTransport. Also there are many new examples and tests.
+* Colorselector:
+  Added new color selector implementation. Needs further improvements like dispatching events for buttons, ...
+* Cookie Storage:
+  Added some examples
+* XmlHttpLoader:
+  Removed old xmlhttp API from qooxdoo. Also removed DataHandling examples.
+* Application:
+  Moved unload handling from QxApplication to QxObjectCore.
+  Removed some dependencies and made them optional for QxApplication like QxImageManager.
+* Native:
+  Fixed regexps of trim methods.
+  Added general JavaScript generics support for older JavaScript engines like MSHTML.
+* Window:
+  Converted QxWindowManager from a singleton back to a normal class. Added property windowManager to QxWindows to allows the specific usage of a windowManager instance. This change makes it possible to more easily implement things like virtual desktops.
+* Widget:
+  Minor bugfix regarding the caching of visible children.
+  Minor bugfixes to remove old states from just disabled buttons, ...
+  Minor bugfixes and improvements to appearance implementation to allow the dynamic switch of appearances on not-already created widgets.
+* XmlExtras:
+  Minor bugfixes.
+* DragAndDropManager:
+  Minor bugfixes
+* SelectionManager:
+  Minor bugfixes
+* Client:
+  Added runsLocally getter.
+* Icons:
+  Added mimeType icons.
+
+h5. Contributions
+
+* Buttonpane, Clock, Frame, Splitpane, Statusbar:
+  Improved by Kent Olsson
+
+h5. Documentation
+
+* Nothing
+
+h5. Tools
+
+* Generate-Dev:
+  Added/Fixed many build require/post flags for new compiler in generate-dev.
+* Generate:
+  Build zip archive with DOS carriage returns.
+  Use of "/usr/bin/env bash" instead of hard-coded path.
+  Other minor improvements
+
 h4. Release 0.5.1 (2006-02-28)
 
 h5. Implementation
