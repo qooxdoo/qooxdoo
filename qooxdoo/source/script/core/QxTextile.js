@@ -35,7 +35,7 @@ function QxTextile(s)
   var r = s;
 
   // quick tags first
-  qtags = [
+  var qtags = [
     ["\\*", "strong"],
     ["\\?\\?", "cite"],
     ["\\+", "ins"],
@@ -43,6 +43,8 @@ function QxTextile(s)
     ["\\^", "sup"],
     ["@", "code"]
   ];
+
+  var ttag, htag, re, line, lines, nr, changed, inlist, listtype;
 
   for (var i=0;i<qtags.length;i++) {
     ttag = qtags[i][0]; htag = qtags[i][1];
