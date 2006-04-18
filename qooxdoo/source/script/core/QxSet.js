@@ -31,7 +31,7 @@ function QxSet()
 {
   QxObject.call(this);
 
-  this.clear();
+  this._storage = {};
 };
 
 QxSet.extend(QxObject, "QxSet");
