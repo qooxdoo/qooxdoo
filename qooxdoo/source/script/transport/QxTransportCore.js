@@ -156,6 +156,10 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
     switch(vStatusCode)
     {
       case -1:  // Not Started (OK for readystates: MSHTML=1-2, Gecko=1)
+        if (QxSettings.enableTransportDebug && vReadyState < 3) {
+          QxDebug("QxTransport", "Failed with statuscode: -1");
+        };
+
         return vReadyState < 3;
 
 
@@ -165,6 +169,10 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
 
 
       case 206: // Partial Content
+        if (QxSettings.enableTransportDebug && vReadyState === 4) {
+          QxDebug("QxTransport", "Failed with statuscode: 206 (Partial content while being complete!)");
+        };
+
         return vReadyState !== 4;
 
 
@@ -196,6 +204,10 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
       case 503: // Out of Resources
       case 504: // Gateway Time-Out
       case 505: // HTTP Version not supported
+        if (QxSettings.enableTransportDebug3) {
+          QxDebug("QxTransport", "Failed with typical HTTP statuscode: " + vStatusCode);
+        };
+
         return false;
 
 
@@ -210,6 +222,10 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
       case 12152:
       // See above comments for variable status.
       case 13030:
+        if (QxSettings.enableTransportDebug3) {
+          QxDebug("QxTransport", "Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
+        };
+
         return false;
 
 
