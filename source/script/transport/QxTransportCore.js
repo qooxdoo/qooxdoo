@@ -204,7 +204,7 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
       case 503: // Out of Resources
       case 504: // Gateway Time-Out
       case 505: // HTTP Version not supported
-        if (QxSettings.enableTransportDebug3) {
+        if (QxSettings.enableTransportDebug) {
           QxDebug("QxTransport", "Failed with typical HTTP statuscode: " + vStatusCode);
         };
 
