@@ -156,7 +156,7 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
     switch(vStatusCode)
     {
       case -1:  // Not Started (OK for readystates: MSHTML=1-2, Gecko=1)
-        if (QxSettings.enableTransportDebug && vReadyState < 3) {
+        if (QxSettings.enableTransportDebug && vReadyState >= 3) {
           QxDebug("QxTransport", "Failed with statuscode: -1");
         };
 
