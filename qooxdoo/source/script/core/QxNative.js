@@ -333,15 +333,15 @@ String.prototype.toCamelCase = function()
 };
 
 String.prototype.trimLeft = function() {
-  return this.replace(/^\\s+/, QxConst.CORE_EMPTY);
+  return this.replace(/^\s+/, QxConst.CORE_EMPTY);
 };
 
 String.prototype.trimRight = function() {
-  return this.replace(/\\s+$/, QxConst.CORE_EMPTY);
+  return this.replace(/\s+$/, QxConst.CORE_EMPTY);
 };
 
 String.prototype.trim = function() {
-  return this.replace(/^\\s+|\\s+$/g, QxConst.CORE_EMPTY);
+  return this.replace(/^\s+|\s+$/g, QxConst.CORE_EMPTY);
 };
 
 String.prototype.add = function(v, sep)
@@ -551,8 +551,11 @@ if (!Function.prototype.apply)
 ---------------------------------------------------------------------------
 */
 
-Error.prototype.toString = function() {
-  return this.message;
+if (!Error.prototype.toString)
+{
+  Error.prototype.toString = function() {
+    return this.message;
+  };
 };
 
 

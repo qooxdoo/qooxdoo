@@ -1,3 +1,56 @@
+h4. Release 0.5.2 (2006-04-19)
+
+h5. Implementation
+
+* Transport:
+  Continued development of QxTransport, QxRequest and related classes. Greatly improved QxIframeTransport. Also there are many new examples and tests.
+* XmlHttpLoader:
+  Removed deprecated xmlhttp API from qooxdoo. Also removed DataHandling examples.
+* Window:
+  Converted QxWindowManager from a singleton back to a normal class. Added property windowManager to QxWindows to allow the specific use of a windowManager instance. This change makes it possible to more easily implement things like virtual desktops.
+* Colorselector:
+  Added new color selector implementation. Needs further improvements like dispatching events for buttons, ...
+* Widget:
+  Minor bugfix regarding the caching of visible children.
+  Minor bugfixes to remove old states from buttons that have just been disabled, ...
+  Minor bugfixes and improvements of appearance implementation to allow the dynamic switch of appearances on not-already created widgets.
+* Client:
+  Added runsLocally getter.
+* Cookie Storage:
+  Added some examples
+* Icons:
+  Added mimeType icons.
+* Application:
+  Moved unload handling from QxApplication to QxObjectCore.
+  Removed some dependencies and made them optional, e.g. QxImageManager.
+* Native:
+  Fixed regexps in methods to trim a string.
+  Added JavaScript generics support for older JavaScript engines, e.g. MSHTML.
+* XmlExtras:
+  Minor bugfixes.
+* DragAndDropManager:
+  Minor bugfixes
+* SelectionManager:
+  Minor bugfixes
+
+h5. Contributions
+
+* Buttonpane, Clock, Frame, Splitpane, Statusbar:
+  Improved by Kent Olsson
+
+h5. Documentation
+
+* Nothing
+
+h5. Tools
+
+* Generate:
+  Zip archives are now built with DOS carriage returns.
+  Use of "/usr/bin/env bash" instead of hard-coded path.
+  Other minor improvements
+* Generate-Dev:
+  Added and fixed many build flags (require, post) for new compiler in generate-dev.
+
 h4. Release 0.5.1 (2006-02-28)
 
 h5. Implementation
