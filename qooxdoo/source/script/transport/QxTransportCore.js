@@ -144,8 +144,8 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
         return true;
 
       case -1:
-        // Not Started (OK for readystates: MSHTML=1-2, Gecko=1)
-        return vReadyState < 3;
+        // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
+        return vReadyState < 4;
 
       default:
         return typeof vStatusCode === QxConst.TYPEOF_UNDEFINED;
@@ -155,12 +155,12 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
   {
     switch(vStatusCode)
     {
-      case -1:  // Not Started (OK for readystates: MSHTML=1-2, Gecko=1)
-        if (QxSettings.enableTransportDebug && vReadyState >= 3) {
-          QxDebug("QxTransport", "Failed with statuscode: -1");
+      case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
+        if (QxSettings.enableTransportDebug && vReadyState > 3) {
+          QxDebug("QxTransport", "Failed with statuscode: -1 at readyState " + vReadyState);
         };
 
-        return vReadyState < 3;
+        return vReadyState < 4;
 
 
       case 200: // OK
