@@ -330,7 +330,7 @@ L="$L script/gui/QxColorUtil"
 L="$L script/widgets/QxColorSelector"
 
 # Data Implementation
-L="$L script/data/QxData"
+# L="$L script/data/QxData"
 # L="$L script/data/QxTextData"
 # L="$L script/data/QxHtmlData"
 
