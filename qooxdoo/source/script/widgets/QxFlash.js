@@ -45,11 +45,11 @@ qx.ui.embed.FlashEmbed = function(vSource, vVersion)
   this._params = {};
   this._variables = {};
 
-  if(qx.util.validator.isValidString(vSource)) {
+  if(qx.util.Validation.isValidString(vSource)) {
     this.setSource(vSource);
   };
 
-  this.setVersion(qx.util.validator.isValidString(vVersion) ? vVersion : qx.ui.embed.FlashEmbed.MINREQUIRED);
+  this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.FlashEmbed.MINREQUIRED);
 };
 
 qx.ui.embed.FlashEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.FlashEmbed");
@@ -173,7 +173,7 @@ proto._applyElementData = function(el)
 
 proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.validator.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
+  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
   return true;
 };
 
@@ -185,7 +185,7 @@ proto._modifyVersion = function(propValue, propOldValue, propData)
     this._version = null;
   };
 
-  if (qx.util.validator.isValidString(propValue)) {
+  if (qx.util.Validation.isValidString(propValue)) {
     this._version = new qx.types.Version(propValue);
   };
 
@@ -429,8 +429,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = qx.util.returns.returnTrue;
-proto._isHeightEssential = qx.util.returns.returnTrue;
+proto._isWidthEssential = qx.util.Return.returnTrue;
+proto._isHeightEssential = qx.util.Return.returnTrue;
 
 
 
@@ -441,8 +441,8 @@ proto._isHeightEssential = qx.util.returns.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = qx.util.returns.returnZero;
-proto._computePreferredInnerHeight = qx.util.returns.returnZero;
+proto._computePreferredInnerWidth = qx.util.Return.returnZero;
+proto._computePreferredInnerHeight = qx.util.Return.returnZero;
 
 
 

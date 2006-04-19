@@ -100,12 +100,12 @@ qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : QxConst.T
 ---------------------------------------------------------------------------
 */
 
-proto._modifyParent = qx.util.returns.returnTrue;
-proto._modifyVisible = qx.util.returns.returnTrue;
+proto._modifyParent = qx.util.Return.returnTrue;
+proto._modifyVisible = qx.util.Return.returnTrue;
 
 proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = qx.util.validator.isValidElement(propValue);
+  this._isCreated = qx.util.Validation.isValidElement(propValue);
 
   if (propOldValue)
   {
@@ -131,12 +131,12 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 };
 
 proto.getWindow = function() { return this._window; };
-proto.getTopLevelWidget = qx.util.returns.returnThis;
+proto.getTopLevelWidget = qx.util.Return.returnThis;
 proto.getDocumentElement = function() { return this._document; };
 proto.getEventManager = function() { return this.getWindow().getEventManager(); };
 
-proto.getParent = proto.getToolTip = qx.util.returns.returnNull;
-proto.isMaterialized = proto.isSeeable = qx.util.returns.returnTrue;
+proto.getParent = proto.getToolTip = qx.util.Return.returnNull;
+proto.isMaterialized = proto.isSeeable = qx.util.Return.returnTrue;
 
 proto._isDisplayable = true;
 proto._hasParent = false;

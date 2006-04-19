@@ -102,27 +102,27 @@ proto._syncHtml = function()
 {
   var vHtml = [];
 
-  if (qx.util.validator.isValidString(this.getIcon()))
+  if (qx.util.Validation.isValidString(this.getIcon()))
   {
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_IMAGE);
     vHtml.push(qx.manager.object.ImageManager.buildUri(this._mshtml ? QxConst.IMAGE_BLANK : this.getIcon()));
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_STYLE);
 
-    if (qx.util.validator.isValidNumber(this.getSpacing()))
+    if (qx.util.Validation.isValidNumber(this.getSpacing()))
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN);
       vHtml.push(this.getSpacing());
       vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
     };
 
-    if (qx.util.validator.isValidNumber(this.getIconWidth()))
+    if (qx.util.Validation.isValidNumber(this.getIconWidth()))
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH);
       vHtml.push(this.getIconWidth());
       vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
     };
 
-    if (qx.util.validator.isValidNumber(this.getIconHeight()))
+    if (qx.util.Validation.isValidNumber(this.getIconHeight()))
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT);
       vHtml.push(this.getIconHeight());
@@ -141,7 +141,7 @@ proto._syncHtml = function()
     vHtml.push(qx.ui.embed.IconHtmlEmbed.STOP_IMAGE);
   };
 
-  if (qx.util.validator.isValidString(this.getHtml())) {
+  if (qx.util.Validation.isValidString(this.getHtml())) {
     vHtml.push(this.getHtml());
   };
 

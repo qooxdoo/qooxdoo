@@ -28,7 +28,7 @@
 
 qx.renderer.border.BorderCache = function(propValue, propData)
 {
-  if (qx.util.validator.isValidArray(propValue) && propValue.length > 1)
+  if (qx.util.Validation.isValidArray(propValue) && propValue.length > 1)
   {
     propString = QxConst.CORE_EMPTY;
 
@@ -49,7 +49,7 @@ qx.renderer.border.BorderCache = function(propValue, propData)
 
     propValue = propString;
   }
-  else if (qx.util.validator.isInvalidString(propValue))
+  else if (qx.util.Validation.isInvalidString(propValue))
   {
     return propValue;
   };

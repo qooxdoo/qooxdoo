@@ -30,7 +30,7 @@ qx.ui.pageview.AbstractPageViewPage = function(vButton)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
-  if (qx.util.validator.isValid(vButton)) {
+  if (qx.util.Validation.isValid(vButton)) {
     this.setButton(vButton);
   };
 };

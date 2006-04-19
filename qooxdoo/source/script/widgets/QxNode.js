@@ -30,7 +30,7 @@ qx.ui.embed.DomNodeEmbed = function(vId)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.validator.isValidString(vId)) {
+  if (qx.util.Validation.isValidString(vId)) {
     this.setSourceNodeId(vId);
   };
 };

@@ -57,15 +57,15 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   //   INITIALIZATION
   // ***********************************************************************
 
-  if(qx.util.validator.isValidNumber(vShiftX)) {
+  if(qx.util.Validation.isValidNumber(vShiftX)) {
     this.setShiftX(vShiftX);
   };
 
-  if(qx.util.validator.isValidNumber(vShiftY)) {
+  if(qx.util.Validation.isValidNumber(vShiftY)) {
     this.setShiftY(vShiftY);
   };
 
-  if(qx.util.validator.isValidNumber(vInterval)) {
+  if(qx.util.Validation.isValidNumber(vInterval)) {
     this._timer.setInterval(vInterval);
   };
 

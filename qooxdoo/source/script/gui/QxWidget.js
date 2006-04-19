@@ -523,32 +523,32 @@ proto.auto = function()
 /*!
   Get an array of the current children
 */
-proto.getChildren = qx.util.returns.returnNull;
+proto.getChildren = qx.util.Return.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getChildrenLength = qx.util.returns.returnZero;
+proto.getChildrenLength = qx.util.Return.returnZero;
 
 /*!
   Get if the widget has any children
 */
-proto.hasChildren = qx.util.returns.returnFalse;
+proto.hasChildren = qx.util.Return.returnFalse;
 
 /*!
   Get if the widget has no children
 */
-proto.isEmpty = qx.util.returns.returnTrue;
+proto.isEmpty = qx.util.Return.returnTrue;
 
 /*!
   Return the position of the child inside
 */
-proto.indexOf = qx.util.returns.returnNegativeIndex;
+proto.indexOf = qx.util.Return.returnNegativeIndex;
 
 /*!
   Test if this widget contains the given widget
 */
-proto.contains = qx.util.returns.returnFalse;
+proto.contains = qx.util.Return.returnFalse;
 
 
 
@@ -564,22 +564,22 @@ proto.contains = qx.util.returns.returnFalse;
 /*!
   Get an array of the current visible children
 */
-proto.getVisibleChildren = qx.util.returns.returnNull;
+proto.getVisibleChildren = qx.util.Return.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getVisibleChildrenLength = qx.util.returns.returnZero;
+proto.getVisibleChildrenLength = qx.util.Return.returnZero;
 
 /*!
   If this widget has visible children
 */
-proto.hasVisibleChildren = qx.util.returns.returnFalse;
+proto.hasVisibleChildren = qx.util.Return.returnFalse;
 
 /*!
   Check if there are any visible childrens inside
 */
-proto.isVisibleEmpty = qx.util.returns.returnTrue;
+proto.isVisibleEmpty = qx.util.Return.returnTrue;
 
 
 
@@ -646,7 +646,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   {
     this._hasParent = true;
 
-    if (qx.util.validator.isValidNumber(this._insertIndex))
+    if (qx.util.Validation.isValidNumber(this._insertIndex))
     {
       propValue.getChildren().insertAt(this, this._insertIndex);
       delete this._insertIndex;
@@ -825,10 +825,10 @@ proto._handleDisplayable = function(vHint)
   return true;
 };
 
-proto.addToCustomQueues = qx.util.returns.returnTrue;
-proto.removeFromCustomQueues = qx.util.returns.returnTrue;
+proto.addToCustomQueues = qx.util.Return.returnTrue;
+proto.removeFromCustomQueues = qx.util.Return.returnTrue;
 
-proto._handleDisplayableCustom = qx.util.returns.returnTrue;
+proto._handleDisplayableCustom = qx.util.Return.returnTrue;
 
 proto._computeDisplayable = function() {
   return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
@@ -989,7 +989,7 @@ proto.disconnect = function() {
 
 if (qx.sys.Client.isGecko())
 {
-  proto._createElementForEnhancedBorder = qx.util.returns.returnTrue;
+  proto._createElementForEnhancedBorder = qx.util.Return.returnTrue;
 }
 else
 {
@@ -1076,7 +1076,7 @@ proto._createElementImpl = function() {
 
 proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = qx.util.validator.isValidElement(propValue);
+  this._isCreated = qx.util.Validation.isValidElement(propValue);
 
   if (propOldValue)
   {
@@ -1381,8 +1381,8 @@ proto._flushJobQueue = function(q)
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = qx.util.returns.returnTrue;
-proto._isHeightEssential = qx.util.returns.returnTrue;
+proto._isWidthEssential = qx.util.Return.returnTrue;
+proto._isHeightEssential = qx.util.Return.returnTrue;
 
 
 
@@ -2207,8 +2207,8 @@ proto._applyBorderY = function(vChild, vChanges, vStyle)
   vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
 };
 
-proto._applyPaddingX = qx.util.returns.returnTrue;
-proto._applyPaddingY = qx.util.returns.returnTrue;
+proto._applyPaddingX = qx.util.Return.returnTrue;
+proto._applyPaddingY = qx.util.Return.returnTrue;
 
 
 
@@ -3525,7 +3525,7 @@ proto.getActiveChild = function()
   return null;
 };
 
-proto._ontabfocus = qx.util.returns.returnTrue;
+proto._ontabfocus = qx.util.Return.returnTrue;
 
 proto._modifyFocused = function(propValue, propOldValue, propData)
 {
@@ -3828,7 +3828,7 @@ if(qx.sys.Client.isMshtml())
     {
       this.removeStyleProperty(QxConst.PROPERTY_FILTER);
     }
-    else if (qx.util.validator.isValidNumber(propValue))
+    else if (qx.util.Validation.isValidNumber(propValue))
     {
       this.setStyleProperty(QxConst.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
     }
@@ -3857,7 +3857,7 @@ else
 
       this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_CSS3);
     }
-    else if (qx.util.validator.isValidNumber(propValue))
+    else if (qx.util.Validation.isValidNumber(propValue))
     {
       propValue = propValue.limit(0, 1);
 
@@ -3926,7 +3926,7 @@ qx.ui.core.Widget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
 proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
-  return qx.util.validator.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + qx.manager.object.ImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
+  return qx.util.Validation.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + qx.manager.object.ImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 };
 
 
@@ -4417,7 +4417,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   var propertyIngoreList = this._clonePropertyIgnoreList.split(QxConst.CORE_COMMA);
 
   // Build new filtered property list
-  var sourcePropertyList = qx.util.validator.isValid(customPropertyList) ? customPropertyList : this._properties.split(QxConst.CORE_COMMA);
+  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(QxConst.CORE_COMMA);
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];

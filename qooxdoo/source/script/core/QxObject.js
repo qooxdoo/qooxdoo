@@ -128,7 +128,7 @@ proto.warn = function(m, c) {
 */
 proto.error = function(m, f)
 {
-  if (qx.util.validator.isValidString(f))
+  if (qx.util.Validation.isValidString(f))
   {
     this.debug(qx.core.Object.DEBUG_FUNCERRORPRE + f + qx.core.Object.DEBUG_FUNCERRORPOST + m, QxConst.EVENT_TYPE_ERROR);
   }

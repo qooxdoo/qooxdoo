@@ -157,8 +157,8 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 {
   // this.debug("FocusedChild: " + propValue);
 
-  var vFocusValid = qx.util.validator.isValidObject(propValue);
-  var vBlurValid = qx.util.validator.isValidObject(propOldValue);
+  var vFocusValid = qx.util.Validation.isValidObject(propValue);
+  var vBlurValid = qx.util.Validation.isValidObject(propOldValue);
 
   if (vFocusValid && typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
     qx.manager.object.PopupManager.update(propValue);
@@ -425,7 +425,7 @@ proto.add = function()
 
 proto.addAt = function(vChild, vIndex)
 {
-  if (qx.util.validator.isInvalidNumber(vIndex) || vIndex == -1) {
+  if (qx.util.Validation.isInvalidNumber(vIndex) || vIndex == -1) {
     throw new Error("Not a valid index for addAt(): " + vIndex);
   };
 
@@ -969,7 +969,7 @@ proto._layoutChild = function(vChild)
   delete this._childrenQueue[vChild.toHashCode()];
 };
 
-proto._layoutPost = qx.util.returns.returnTrue;
+proto._layoutPost = qx.util.Return.returnTrue;
 
 /*!
   Fix Operas Rendering Bugs

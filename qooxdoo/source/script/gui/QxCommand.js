@@ -37,15 +37,15 @@ qx.client.Command = function(vShortcut, vKeyCode, vManager)
 
   this._shortcutParts = {};
 
-  if (qx.util.validator.isValid(vShortcut)) {
+  if (qx.util.Validation.isValid(vShortcut)) {
     this.setShortcut(vShortcut);
   };
 
-  if (qx.util.validator.isValid(vKeyCode)) {
+  if (qx.util.Validation.isValid(vKeyCode)) {
     this.setKeyCode(vKeyCode);
   };
 
-  this.setManager(qx.util.validator.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
+  this.setManager(qx.util.Validation.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
 };
 
 qx.client.Command.extend(qx.core.Target, "qx.client.Command");
@@ -142,7 +142,7 @@ proto._matchesKeyEvent = function(e)
   };
 
   // pre check for configured shortcut or keycode
-  if (!(qx.util.validator.isValid(this.getShortcut()) || qx.util.validator.isValid(this.getKeyCode()))) {
+  if (!(qx.util.Validation.isValid(this.getShortcut()) || qx.util.Validation.isValid(this.getKeyCode()))) {
     return false;
   };
 
@@ -249,17 +249,17 @@ proto.toString = function()
   var vKeyCode = this.getKeyCode();
   var vString = QxConst.CORE_EMPTY;
 
-  if (qx.util.validator.isValidString(vShortcut))
+  if (qx.util.Validation.isValidString(vShortcut))
   {
     vString = vShortcut;
 
-    if (qx.util.validator.isValidNumber(vKeyCode))
+    if (qx.util.Validation.isValidNumber(vKeyCode))
     {
       var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
       vString += QxConst.CORE_PLUS + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
     };
   }
-  else if (qx.util.validator.isValidNumber(vKeyCode))
+  else if (qx.util.Validation.isValidNumber(vKeyCode))
   {
     var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
     vString = vTemp ? vTemp.toFirstUp() : String(vKeyCode);

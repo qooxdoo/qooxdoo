@@ -52,7 +52,7 @@ qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
 
   qx.ui.layout.BoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
 
-  if (qx.util.validator.isValid(vLabel)) {
+  if (qx.util.Validation.isValid(vLabel)) {
     this.setLabel(vLabel);
   };
 
@@ -66,11 +66,11 @@ qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
   this.add(this._indentObject, this._iconObject, this._labelObject);
 
   // Set Icons
-  if ((vIcon != null) && (qx.util.validator.isValidString(vIcon))) {
+  if ((vIcon != null) && (qx.util.Validation.isValidString(vIcon))) {
     this.setIcon(vIcon);
     this.setIconSelected(vIcon);
   };
-  if ((vIconSelected != null) && (qx.util.validator.isValidString(vIconSelected))) {
+  if ((vIconSelected != null) && (qx.util.Validation.isValidString(vIconSelected))) {
     this.setIconSelected(vIconSelected);
   };
 
@@ -332,7 +332,7 @@ proto._onmousedown = function(e)
   e.stopPropagation();
 };
 
-proto._onmouseup = qx.util.returns.returnTrue;
+proto._onmouseup = qx.util.Return.returnTrue;
 
 
 

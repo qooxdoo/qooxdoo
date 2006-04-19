@@ -41,11 +41,11 @@ qx.ui.basic.Image = function(vSource, vWidth, vHeight)
   this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, QxConst.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(qx.util.validator.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK));
+  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK));
 
   // Dimensions
-  this.setWidth(qx.util.validator.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
-  this.setHeight(qx.util.validator.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
+  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
+  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -133,7 +133,7 @@ proto._beforeAppear = function()
 {
   var vSource = this.getSource();
 
-  if (qx.util.validator.isValidString(vSource)) {
+  if (qx.util.Validation.isValidString(vSource)) {
     qx.manager.object.ImageManager._sources[vSource]++;
   };
 
@@ -144,7 +144,7 @@ proto._beforeDisappear = function()
 {
   var vSource = this.getSource();
 
-  if (qx.util.validator.isValidString(vSource))
+  if (qx.util.Validation.isValidString(vSource))
   {
     if (qx.manager.object.ImageManager._sources[vSource] == 1)
     {
@@ -297,7 +297,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   {
     // initialisize preloader
     var vSource = this.getSource();
-    if (qx.util.validator.isValidString(vSource)) {
+    if (qx.util.Validation.isValidString(vSource)) {
       this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource)));
     };
   };
@@ -426,7 +426,7 @@ proto._computePreferredInnerWidth = function()
   {
     return this.getPreloader().getWidth();
   }
-  else if (qx.util.validator.isValidString(this.getSource()))
+  else if (qx.util.Validation.isValidString(this.getSource()))
   {
     var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
 
@@ -444,7 +444,7 @@ proto._computePreferredInnerHeight = function()
   {
     return this.getPreloader().getHeight();
   }
-  else if (qx.util.validator.isValidString(this.getSource()))
+  else if (qx.util.Validation.isValidString(this.getSource()))
   {
     var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
 

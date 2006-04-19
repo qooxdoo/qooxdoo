@@ -31,11 +31,11 @@
 function QxResource(vResource, vLocale) {
   qx.core.Object.call(this);
 
-  if(qx.util.validator.isValidString(vResource)) {
+  if(qx.util.Validation.isValidString(vResource)) {
     this.setResource(vResource);
   };
 
-  if(qx.util.validator.isValidObject(vLocale)) {
+  if(qx.util.Validation.isValidObject(vLocale)) {
     this.setLocale(vLocale);
   };
 

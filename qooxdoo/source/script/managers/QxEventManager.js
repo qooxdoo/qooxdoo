@@ -54,7 +54,7 @@ qx.event.handler.EventHandler = function(vClientWindow)
   this.__onwindowresize = function(e) { return o._onwindowresize(e); };
 
   // Attach Document
-  if (qx.util.validator.isValid(vClientWindow)) {
+  if (qx.util.Validation.isValid(vClientWindow)) {
     this.attachEvents(vClientWindow);
   };
 
@@ -695,7 +695,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     vOriginalTarget = qx.event.handler.EventHandler.getOriginalTargetObject(vDomTarget);
 
     // If no capturing is active search for a valid target object
-    if (!qx.util.validator.isValidObject(vDispatchTarget))
+    if (!qx.util.Validation.isValidObject(vDispatchTarget))
     {
       // Get Target Object
       vDispatchTarget = vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
@@ -905,7 +905,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._onmousewheel = qx.util.returns.returnTrue;
+  proto._onmousewheel = qx.util.Return.returnTrue;
 };
 
 

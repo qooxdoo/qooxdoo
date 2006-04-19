@@ -127,9 +127,9 @@ qx.dev.Debug = function(group, message, classname)
     qx.dev.Debug.lastgroup = group;
   };
 
-  if (qx.util.validator.isValid(message))
+  if (qx.util.Validation.isValid(message))
   {
-    if (qx.util.validator.isInvalidString(classname)) {
+    if (qx.util.Validation.isInvalidString(classname)) {
       classname = QxConst.CORE_DEFAULT;
     };
 

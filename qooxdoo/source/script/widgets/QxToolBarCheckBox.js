@@ -30,7 +30,7 @@ qx.ui.toolbar.ToolBarCheckBox = function(vText, vIcon, vChecked)
 {
   qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon);
 
-  if (qx.util.validator.isValid(vChecked)) {
+  if (qx.util.Validation.isValid(vChecked)) {
     this.setChecked(vChecked);
   };
 };

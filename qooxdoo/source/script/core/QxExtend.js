@@ -185,11 +185,11 @@ Function.prototype.addPropertyGroup = function(p)
     throw new Error("Param should be an object!");
   };
 
-  if (qx.util.validator.isInvalid(p.name)) {
+  if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("Malformed input parameters: name needed!");
   };
 
-  if (qx.util.validator.isInvalid(p.members)) {
+  if (qx.util.Validation.isInvalid(p.members)) {
     throw new Error("Malformed input parameters: members needed!");
   };
 
@@ -284,7 +284,7 @@ Function.prototype.removeProperty = function(p)
     throw new Error("Param should be an object!");
   };
 
-  if (qx.util.validator.isInvalid(p.name)) {
+  if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("Malformed input parameters: name needed!");
   };
 
@@ -318,7 +318,7 @@ Function.prototype._createProperty = function(p)
     throw new Error("AddProperty: Param should be an object!");
   };
 
-  if (qx.util.validator.isInvalid(p.name)) {
+  if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("AddProperty: Malformed input parameters: name needed!");
   };
 
@@ -328,15 +328,15 @@ Function.prototype._createProperty = function(p)
   p.method = p.name.toFirstUp();
   p.implMethod = p.impl ? p.impl.toFirstUp() : p.method;
 
-  if (qx.util.validator.isInvalid(p.defaultValue)) {
+  if (qx.util.Validation.isInvalid(p.defaultValue)) {
     p.defaultValue = null;
   };
 
-  if (qx.util.validator.isInvalidBoolean(p.allowNull)) {
+  if (qx.util.Validation.isInvalidBoolean(p.allowNull)) {
     p.allowNull = true;
   };
 
-  if (qx.util.validator.isInvalidBoolean(p.allowMultipleArguments)) {
+  if (qx.util.Validation.isInvalidBoolean(p.allowMultipleArguments)) {
     p.allowMultipleArguments = false;
   };
 
@@ -380,9 +380,9 @@ Function.prototype._createProperty = function(p)
 
 
 
-  p.hasConvert = qx.util.validator.isValidFunction(p.convert);
-  p.hasPossibleValues = qx.util.validator.isValidArray(p.possibleValues);
-  p.hasUnitDetection = qx.util.validator.isValidString(p.unitDetection);
+  p.hasConvert = qx.util.Validation.isValidFunction(p.convert);
+  p.hasPossibleValues = qx.util.Validation.isValidArray(p.possibleValues);
+  p.hasUnitDetection = qx.util.Validation.isValidString(p.unitDetection);
 
   p.addToQueue = p.addToQueue || false;
   p.addToQueueRuntime = p.addToQueueRuntime || false;

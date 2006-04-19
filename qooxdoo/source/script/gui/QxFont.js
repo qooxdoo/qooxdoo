@@ -36,11 +36,11 @@ qx.renderer.font.Font = function(vSize, vName)
 
   this._defs = {};
 
-  if (qx.util.validator.isValidNumber(vSize)) {
+  if (qx.util.Validation.isValidNumber(vSize)) {
     this.setSize(vSize);
   };
 
-  if (qx.util.validator.isValidString(vName)) {
+  if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
   };
 };
@@ -170,11 +170,11 @@ proto._compile = function()
     vDecoration += QxConst.CORE_SPACE + QxConst.FONT_STYLE_STRIKEOUT;
   };
 
-  this._defs.fontFamily = qx.util.validator.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
-  this._defs.fontSize = qx.util.validator.isValidNumber(vSize) ? vSize + QxConst.CORE_PIXEL : QxConst.CORE_EMPTY;
+  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
+  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + QxConst.CORE_PIXEL : QxConst.CORE_EMPTY;
   this._defs.fontWeight = this.getBold() ? QxConst.FONT_STYLE_BOLD : QxConst.FONT_STYLE_NORMAL;
   this._defs.fontStyle = this.getItalic() ? QxConst.FONT_STYLE_ITALIC : QxConst.FONT_STYLE_NORMAL;
-  this._defs.textDecoration = qx.util.validator.isValidString(vDecoration) ? vDecoration : QxConst.CORE_EMPTY;
+  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : QxConst.CORE_EMPTY;
 
   this._needsCompilation = false;
 };

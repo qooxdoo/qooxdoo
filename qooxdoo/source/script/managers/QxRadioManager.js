@@ -38,14 +38,14 @@ qx.manager.selection.RadioManager = function(vName, vMembers)
   this._items = [];
 
   // apply name property
-  this.setName(qx.util.validator.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
+  this.setName(qx.util.Validation.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
-  if (qx.util.validator.isValidArray(vMembers)) {
+  if (qx.util.Validation.isValidArray(vMembers)) {
     qx.manager.selection.RadioManager.prototype.add.apply(this, vMembers);
   };
 };
 
-qx.manager.selection.RadioManager.extend(qx.manager.object.ObjectManager, "qx.manager.selection.RadioManager");
+qx.manager.selection.RadioManager.extend(qx.core.Target, "qx.manager.selection.RadioManager");
 
 qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "QxRadio-";
 

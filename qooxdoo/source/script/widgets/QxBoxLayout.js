@@ -33,7 +33,7 @@ qx.ui.layout.BoxLayout = function(vOrientation)
   qx.ui.core.Parent.call(this);
 
   // apply orientation
-  if (qx.util.validator.isValidString(vOrientation)) {
+  if (qx.util.Validation.isValidString(vOrientation)) {
     this.setOrientation(vOrientation);
   };
 };
@@ -173,7 +173,7 @@ proto._modifyOrientation = function(propValue, propOldValue, propData)
     this._layoutImpl = null;
   };
 
-  if (qx.util.validator.isValidString(propValue)) {
+  if (qx.util.Validation.isValidString(propValue)) {
     this._layoutImpl = this._createLayoutImpl();
   };
 

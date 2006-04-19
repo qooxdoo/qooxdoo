@@ -42,7 +42,7 @@ qx.ui.embed.IframeEmbed = function(vSource)
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
   this.__onload = function(e) { return o._onload(e); };
 
-  if (qx.util.validator.isValid(vSource)) {
+  if (qx.util.Validation.isValid(vSource)) {
     this.setSource(vSource);
   };
 };
@@ -139,7 +139,7 @@ proto._applySource = function()
 {
   var currentSource = this.getSource();
 
-  if (qx.util.validator.isInvalidString(currentSource)) {
+  if (qx.util.Validation.isInvalidString(currentSource)) {
     currentSource = qx.manager.object.ImageManager.buildUri("core/blank.gif");
   };
 
@@ -150,7 +150,7 @@ proto._applySource = function()
 proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
-  this.getIframeNode().name = qx.util.validator.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
+  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
 };
 
 proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)

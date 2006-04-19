@@ -30,7 +30,7 @@ qx.ui.embed.TextEmbed = function(vText)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.validator.isValidString(vText)) {
+  if (qx.util.Validation.isValidString(vText)) {
     this.setText(vText);
   };
 };

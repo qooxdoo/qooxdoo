@@ -31,7 +31,7 @@ qx.ui.embed.HtmlEmbed = function(vHtml)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.validator.isValidString(vHtml)) {
+  if (qx.util.Validation.isValidString(vHtml)) {
     this.setHtml(vHtml);
   };
 };

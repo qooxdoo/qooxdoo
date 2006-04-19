@@ -22,10 +22,9 @@ qx.core.DefaultSettings = {};
 qx.app = {};
 
 qx.util = {};
-qx.util.returns = {};
-qx.util.converter = {};
-qx.util.validator = {};
-qx.util.normalizer = {};
+qx.util.Return = {};
+qx.util.Validation = {};
+qx.util.Normalization = {};
 qx.util.string = {};
 qx.util.compare = {};
 

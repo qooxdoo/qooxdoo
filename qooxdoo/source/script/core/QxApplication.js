@@ -66,9 +66,9 @@ qx.core.Init.onload = function()
 ---------------------------------------------------------------------------
 */
 
-proto.pre = qx.util.returns.returnTrue;
-proto.main = qx.util.returns.returnTrue;
-proto.post = qx.util.returns.returnTrue;
+proto.pre = qx.util.Return.returnTrue;
+proto.main = qx.util.Return.returnTrue;
+proto.post = qx.util.Return.returnTrue;
 
 
 
@@ -126,7 +126,7 @@ proto._runPre = function()
     this.debug("Dispatching application pre event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_PRE);
 
-    if (this.pre !== qx.util.returns.returnTrue)
+    if (this.pre !== qx.util.Return.returnTrue)
     {
       this.warn("Using old style pre-application!");
       this.pre();
@@ -169,7 +169,7 @@ proto._runMain = function()
     this.debug("Dispatching application main event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_MAIN);
 
-    if (this.main !== qx.util.returns.returnTrue)
+    if (this.main !== qx.util.Return.returnTrue)
     {
       this.warn("Using old style main-application!");
       this.main();
@@ -242,7 +242,7 @@ proto._runPost = function()
     this.debug("Dispatching application post event");
     this.createDispatchEvent(QxConst.EVENT_TYPE_POST);
 
-    if (this.post !== qx.util.returns.returnTrue)
+    if (this.post !== qx.util.Return.returnTrue)
     {
       this.warn("Using old style post-application!");
       this.post();
@@ -300,7 +300,7 @@ proto._printPropertyInfo = function() {
 
 proto._printClientInfo = function()
 {
-  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.validator.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
+  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
 
   if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
     this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");

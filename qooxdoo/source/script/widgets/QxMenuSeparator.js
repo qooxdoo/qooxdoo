@@ -57,10 +57,10 @@ qx.ui.menu.MenuSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.menu.MenuSepar
 
 qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-separator" });
 
-proto.hasIcon = qx.util.returns.returnFalse;
-proto.hasLabel = qx.util.returns.returnFalse;
-proto.hasShortcut = qx.util.returns.returnFalse;
-proto.hasMenu = qx.util.returns.returnFalse;
+proto.hasIcon = qx.util.Return.returnFalse;
+proto.hasLabel = qx.util.Return.returnFalse;
+proto.hasShortcut = qx.util.Return.returnFalse;
+proto.hasMenu = qx.util.Return.returnFalse;
 
 proto._onmousedown = function(e) {
   e.stopPropagation();
