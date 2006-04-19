@@ -416,7 +416,7 @@ else
     this._visualPropertyCheck();
 
     var el = this.getElement();
-    if (qx.util.validator.isValidString(el.value)) {
+    if (qx.util.Validation.isValidString(el.value)) {
       el.selectionEnd = el.selectionStart + vLength;
     };
   };

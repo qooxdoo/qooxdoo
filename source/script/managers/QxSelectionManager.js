@@ -36,12 +36,12 @@ qx.manager.selection.SelectionManager = function(vBoundedWidget)
 
   this._selectedItems = new qx.types.Selection(this);
 
-  if (qx.util.validator.isValid(vBoundedWidget)) {
+  if (qx.util.Validation.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
   };
 };
 
-qx.manager.selection.SelectionManager.extend(qx.manager.object.ObjectManager, "qx.manager.selection.SelectionManager");
+qx.manager.selection.SelectionManager.extend(qx.core.Target, "qx.manager.selection.SelectionManager");
 
 /*
 ---------------------------------------------------------------------------

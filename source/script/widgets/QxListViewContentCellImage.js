@@ -59,4 +59,4 @@ proto.setSource = function(vSource)
 };
 
 // Omit dimension setup in list-view
-proto._postApplyDimensions = qx.util.returns.returnTrue;
+proto._postApplyDimensions = qx.util.Return.returnTrue;

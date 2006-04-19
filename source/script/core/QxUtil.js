@@ -32,27 +32,27 @@
 ---------------------------------------------------------------------------
 */
 
-qx.util.returns.returnTrue = function() {
+qx.util.Return.returnTrue = function() {
   return true;
 };
 
-qx.util.returns.returnFalse = function() {
+qx.util.Return.returnFalse = function() {
   return false;
 };
 
-qx.util.returns.returnNull = function() {
+qx.util.Return.returnNull = function() {
   return null;
 };
 
-qx.util.returns.returnThis = function() {
+qx.util.Return.returnThis = function() {
   return this;
 };
 
-qx.util.returns.returnZero = function() {
+qx.util.Return.returnZero = function() {
   return 0;
 };
 
-qx.util.returns.returnNegativeIndex = function() {
+qx.util.Return.returnNegativeIndex = function() {
   return -1;
 };
 
@@ -157,11 +157,11 @@ qx.lang.Array.fromShortHand = function(params)
   {
     v = params[i];
 
-    if (qx.util.validator.isValidNumber(v))
+    if (qx.util.Validation.isValidNumber(v))
     {
       list.push(v);
     }
-    else if (qx.util.validator.isInvalidString(v))
+    else if (qx.util.Validation.isInvalidString(v))
     {
       list.push(null);
     }
@@ -230,7 +230,7 @@ qx.lang.Object.copy = function(vObject) {
   http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Operators:Comparison_Operators
 */
 
-qx.util.validator.isValid = function(v)
+qx.util.Validation.isValid = function(v)
 {
   switch(typeof v)
   {
@@ -254,7 +254,7 @@ qx.util.validator.isValid = function(v)
   return false;
 };
 
-qx.util.validator.isInvalid = function(v)
+qx.util.Validation.isInvalid = function(v)
 {
   switch(typeof v)
   {
@@ -278,71 +278,71 @@ qx.util.validator.isInvalid = function(v)
   return true;
 };
 
-qx.util.validator.isValidNumber = function(v) {
+qx.util.Validation.isValidNumber = function(v) {
   return typeof v === QxConst.TYPEOF_NUMBER && !isNaN(v);
 };
 
-qx.util.validator.isInvalidNumber = function(v) {
+qx.util.Validation.isInvalidNumber = function(v) {
   return typeof v !== QxConst.TYPEOF_NUMBER || isNaN(v);
 };
 
-qx.util.validator.isValidString = function(v) {
+qx.util.Validation.isValidString = function(v) {
   return typeof v === QxConst.TYPEOF_STRING && v !== QxConst.CORE_EMPTY;
 };
 
-qx.util.validator.isInvalidString = function(v) {
+qx.util.Validation.isInvalidString = function(v) {
   return typeof v !== QxConst.TYPEOF_STRING || v === QxConst.CORE_EMPTY;
 };
 
-qx.util.validator.isValidArray = function(v) {
+qx.util.Validation.isValidArray = function(v) {
   return typeof v === QxConst.TYPEOF_OBJECT && v !== null && v instanceof Array;
 };
 
-qx.util.validator.isInvalidArray = function(v) {
+qx.util.Validation.isInvalidArray = function(v) {
   return typeof v !== QxConst.TYPEOF_OBJECT || v === null || !(v instanceof Array);
 };
 
-qx.util.validator.isValidObject = function(v) {
+qx.util.Validation.isValidObject = function(v) {
   return typeof v === QxConst.TYPEOF_OBJECT && v !== null && !(v instanceof Array);
 };
 
-qx.util.validator.isInvalidObject = function(v) {
+qx.util.Validation.isInvalidObject = function(v) {
   return typeof v !== QxConst.TYPEOF_OBJECT || v === null || v instanceof Array;
 };
 
-qx.util.validator.isValidNode = function(v) {
+qx.util.Validation.isValidNode = function(v) {
   return typeof v === QxConst.TYPEOF_OBJECT && v !== null;
 };
 
-qx.util.validator.isInvalidNode = function(v) {
+qx.util.Validation.isInvalidNode = function(v) {
   return typeof v !== QxConst.TYPEOF_OBJECT || v === null;
 };
 
-qx.util.validator.isValidElement = function(v) {
+qx.util.Validation.isValidElement = function(v) {
   return typeof v === QxConst.TYPEOF_OBJECT && v !== null || v.nodeType !== 1;
 };
 
-qx.util.validator.isInvalidElement = function(v) {
+qx.util.Validation.isInvalidElement = function(v) {
   return typeof v !== QxConst.TYPEOF_OBJECT || v === null || v.nodeType !== 1;
 };
 
-qx.util.validator.isValidFunction = function(v) {
+qx.util.Validation.isValidFunction = function(v) {
   return typeof v === QxConst.TYPEOF_FUNCTION;
 };
 
-qx.util.validator.isInvalidFunction = function(v) {
+qx.util.Validation.isInvalidFunction = function(v) {
   return typeof v !== QxConst.TYPEOF_FUNCTION;
 };
 
-qx.util.validator.isValidBoolean = function(v) {
+qx.util.Validation.isValidBoolean = function(v) {
   return typeof v === QxConst.TYPEOF_BOOLEAN;
 };
 
-qx.util.validator.isInvalidBoolean = function(v) {
+qx.util.Validation.isInvalidBoolean = function(v) {
   return typeof v !== QxConst.TYPEOF_BOOLEAN;
 };
 
-qx.util.validator.isValidStringOrNumber = function(v)
+qx.util.Validation.isValidStringOrNumber = function(v)
 {
   switch(typeof v)
   {
@@ -356,7 +356,7 @@ qx.util.validator.isValidStringOrNumber = function(v)
   return false;
 };
 
-qx.util.validator.isInvalidStringOrNumber = function(v)
+qx.util.Validation.isInvalidStringOrNumber = function(v)
 {
   switch(typeof v)
   {
@@ -382,24 +382,24 @@ qx.util.validator.isInvalidStringOrNumber = function(v)
 ---------------------------------------------------------------------------
 */
 
-qx.util.normalizer._umlautsRegExp = /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g;
+qx.util.Normalization._umlautsRegExp = /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g;
 
-qx.util.normalizer._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U", "\xE4": "a", "\xF6": "o", "\xFC": "u", "\xDF": "s" };
+qx.util.Normalization._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U", "\xE4": "a", "\xF6": "o", "\xFC": "u", "\xDF": "s" };
 
-qx.util.normalizer._umlautsShort = function(vChar) {
-  return qx.util.normalizer._umlautsShortData[vChar];
+qx.util.Normalization._umlautsShort = function(vChar) {
+  return qx.util.Normalization._umlautsShortData[vChar];
 };
 
-qx.util.normalizer.umlautsShort = function(vString) {
-  return vString.replace(qx.util.normalizer._umlautsRegExp, qx.util.normalizer._umlautsShort);
+qx.util.Normalization.umlautsShort = function(vString) {
+  return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsShort);
 };
 
-qx.util.normalizer._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "Ue", "\xE4": "ae", "\xF6": "oe", "\xFC": "ue", "\xDF": "ss" };
+qx.util.Normalization._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "Ue", "\xE4": "ae", "\xF6": "oe", "\xFC": "ue", "\xDF": "ss" };
 
-qx.util.normalizer._umlautsLong = function(vChar) {
-  return qx.util.normalizer._umlautsLongData[vChar];
+qx.util.Normalization._umlautsLong = function(vChar) {
+  return qx.util.Normalization._umlautsLongData[vChar];
 };
 
-qx.util.normalizer.umlautsLong = function(vString) {
-  return vString.replace(qx.util.normalizer._umlautsRegExp, qx.util.normalizer._umlautsLong);
+qx.util.Normalization.umlautsLong = function(vString) {
+  return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsLong);
 };

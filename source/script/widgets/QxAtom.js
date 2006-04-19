@@ -49,12 +49,12 @@ qx.ui.basic.Atom = function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   this.getLayoutImpl().setEnableFlexSupport(false);
 
   // Apply constructor arguments
-  if (qx.util.validator.isValidString(vLabel)) {
+  if (qx.util.Validation.isValidString(vLabel)) {
     this.setLabel(vLabel);
   };
 
   // Simple flash wrapper
-  if (qx.util.validator.isValidString(vFlash) && qx.util.validator.isValidNumber(vIconWidth) && qx.util.validator.isValidNumber(vIconHeight) && qx.ui.embed.FlashEmbed && qx.ui.embed.FlashEmbed.getPlayerVersion().getMajor() > 0)
+  if (qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.FlashEmbed && qx.ui.embed.FlashEmbed.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -64,15 +64,15 @@ qx.ui.basic.Atom = function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
     this.setIconWidth(vIconWidth);
     this.setIconHeight(vIconHeight);
   }
-  else if (qx.util.validator.isValidString(vIcon))
+  else if (qx.util.Validation.isValidString(vIcon))
   {
     this.setIcon(vIcon);
 
-    if (qx.util.validator.isValidNumber(vIconWidth)) {
+    if (qx.util.Validation.isValidNumber(vIconWidth)) {
       this.setIconWidth(vIconWidth);
     };
 
-    if (qx.util.validator.isValidNumber(vIconHeight)) {
+    if (qx.util.Validation.isValidNumber(vIconHeight)) {
       this.setIconHeight(vIconHeight);
     };
   };
@@ -283,7 +283,7 @@ proto._handleLabel = function()
   {
     case qx.ui.basic.Atom.SHOW_LABEL:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._labelIsVisible = qx.util.validator.isValidString(this.getLabel());
+      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel());
       break;
 
     default:
@@ -306,7 +306,7 @@ proto._handleIcon = function()
   {
     case qx.ui.basic.Atom.SHOW_ICON:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._iconIsVisible = qx.util.validator.isValidString(this.getIcon());
+      this._iconIsVisible = qx.util.Validation.isValidString(this.getIcon());
       break;
 
     default:
@@ -335,7 +335,7 @@ proto._handleIcon = function()
 */
 
 // Omit recursive cloning
-proto._cloneRecursive = qx.util.returns.returnTrue;
+proto._cloneRecursive = qx.util.Return.returnTrue;
 
 
 

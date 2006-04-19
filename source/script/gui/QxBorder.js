@@ -38,15 +38,15 @@ qx.renderer.border.Border = function(vWidth, vStyle, vColor)
   this._themedEdges = {};
   this._initCache();
 
-  if (qx.util.validator.isValidNumber(vWidth))
+  if (qx.util.Validation.isValidNumber(vWidth))
   {
     this.setWidth(vWidth);
 
-    if (qx.util.validator.isValidString(vStyle)) {
+    if (qx.util.Validation.isValidString(vStyle)) {
       this.setStyle(vStyle);
     };
 
-    if (qx.util.validator.isValid(vColor)) {
+    if (qx.util.Validation.isValid(vColor)) {
       this.setColor(vColor);
     };
   };
@@ -148,10 +148,10 @@ qx.renderer.border.Border.fromString = function(vDefString)
 ---------------------------------------------------------------------------
 */
 
-proto.addListenerWidget = qx.util.returns.returnTrue;
-proto.removeListenerWidget = qx.util.returns.returnTrue;
+proto.addListenerWidget = qx.util.Return.returnTrue;
+proto.removeListenerWidget = qx.util.Return.returnTrue;
 
-proto._sync = qx.util.returns.returnTrue;
+proto._sync = qx.util.Return.returnTrue;
 
 
 
@@ -434,15 +434,15 @@ proto._generateDefString = function(vWidth, vStyle, vColor)
 
   var vArr = [ vWidth + QxConst.CORE_PIXEL ];
 
-  if (qx.util.validator.isValidString(vStyle)) {
+  if (qx.util.Validation.isValidString(vStyle)) {
     vArr.push(vStyle);
   };
 
-  if (qx.util.validator.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
+  if (qx.util.Validation.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
     vColor = vColor.getStyle();
   };
 
-  if (qx.util.validator.isValidString(vColor)) {
+  if (qx.util.Validation.isValidString(vColor)) {
     vArr.push(vColor);
   };
 

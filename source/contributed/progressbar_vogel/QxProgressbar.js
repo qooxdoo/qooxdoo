@@ -56,10 +56,10 @@ function QxProgressbar(vMax, vShowPercent)
   // ***********************************************************************
   //   INITIALIZATION
   // ***********************************************************************
-  if(qx.util.validator.isValidNumber(vMax)) {
+  if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
   };
-  if(qx.util.validator.isValidBoolean(vShowPercent)) {
+  if(qx.util.Validation.isValidBoolean(vShowPercent)) {
     this.setShowPercent(vShowPercent);
   };
 };

@@ -45,7 +45,7 @@ qx.ui.groupbox.GroupBox = function(vLegend, vIcon)
   // ************************************************************************
   this.setLegend(vLegend);
 
-  if (qx.util.validator.isValidString(vIcon)) {
+  if (qx.util.Validation.isValidString(vIcon)) {
     this.setIcon(vIcon);
   };
 

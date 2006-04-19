@@ -356,7 +356,7 @@ String.prototype.add = function(v, sep)
   }
   else
   {
-    if (qx.util.validator.isInvalid(sep)) {
+    if (qx.util.Validation.isInvalid(sep)) {
       sep = QxConst.CORE_COMMA;
     };
 
@@ -382,7 +382,7 @@ String.prototype.remove = function(v, sep)
   }
   else
   {
-    if (qx.util.validator.isInvalid(sep)) {
+    if (qx.util.Validation.isInvalid(sep)) {
       sep = QxConst.CORE_COMMA;
     };
 
@@ -405,11 +405,11 @@ String.prototype.stripTags = function() {
 };
 
 String.prototype.normalizeUmlautsLong = function() {
-  return qx.util.normalizer.umlautsLong(this);
+  return qx.util.Normalization.umlautsLong(this);
 };
 
 String.prototype.normalizeUmlautsShort = function() {
-  return qx.util.normalizer.umlautsShort(this);
+  return qx.util.Normalization.umlautsShort(this);
 };
 
 String.prototype.startsWith = function(str) {

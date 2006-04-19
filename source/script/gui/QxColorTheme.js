@@ -33,7 +33,7 @@ qx.renderer.theme.ColorTheme = function(vId, vTitle, vColors)
 {
   qx.core.Object.call(this);
 
-  if (qx.util.validator.isInvalidString(vId)) {
+  if (qx.util.Validation.isInvalidString(vId)) {
     throw new Error("Each instance of qx.renderer.theme.ColorTheme need an unique ID!");
   };
 
@@ -41,7 +41,7 @@ qx.renderer.theme.ColorTheme = function(vId, vTitle, vColors)
   this._compiledColors = {};
 
   this.setId(vId);
-  this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
+  this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
 
   try {
     qx.manager.object.ColorManager.registerTheme(this);

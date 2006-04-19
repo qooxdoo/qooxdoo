@@ -47,11 +47,11 @@ qx.ui.listview.ListViewHeaderCell = function(vConfig, vId)
   // ************************************************************************
   this.setWidth(typeof vConfig.width === QxConst.TYPEOF_UNDEFINED ? QxConst.CORE_AUTO : vConfig.width);
 
-  if (qx.util.validator.isValid(vConfig.minWidth)) {
+  if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
   };
 
-  if (qx.util.validator.isValid(vConfig.maxWidth)) {
+  if (qx.util.Validation.isValid(vConfig.maxWidth)) {
     this.setMaxWidth(vConfig.maxWidth);
   };
 

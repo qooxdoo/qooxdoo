@@ -61,7 +61,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 
   l.add(vComponent);
 
-  if(qx.util.validator.isValidBoolean(vShowProgressBar)) {
+  if(qx.util.Validation.isValidBoolean(vShowProgressBar)) {
     this.setShowProgressBar(vShowProgressBar);
   };
 

@@ -96,7 +96,7 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   //   CAPTIONICON
   // ************************************************************************
 
-  if (qx.util.validator.isValidString(vIcon))
+  if (qx.util.Validation.isValidString(vIcon))
   {
     var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
     ci.setAppearance("window-captionbar-icon");
@@ -429,7 +429,7 @@ proto.close = function() {
 
 proto.open = function(vOpener)
 {
-  if (qx.util.validator.isValid(vOpener)) {
+  if (qx.util.Validation.isValid(vOpener)) {
     this.setOpener(vOpener);
   };
 
@@ -981,19 +981,19 @@ proto._onwindowmouseup = function(e)
         // no break here
 
       case qx.ui.window.Window.MODE_LAZYOPAQUE:
-        if (qx.util.validator.isValidNumber(s.lastLeft)) {
+        if (qx.util.Validation.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
         };
 
-        if (qx.util.validator.isValidNumber(s.lastTop)) {
+        if (qx.util.Validation.isValidNumber(s.lastTop)) {
           this.setTop(s.lastTop);
         };
 
-        if (qx.util.validator.isValidNumber(s.lastWidth)) {
+        if (qx.util.Validation.isValidNumber(s.lastWidth)) {
           this.setWidth(s.lastWidth);
         };
 
-        if (qx.util.validator.isValidNumber(s.lastHeight)) {
+        if (qx.util.Validation.isValidNumber(s.lastHeight)) {
           this.setHeight(s.lastHeight);
         };
 
@@ -1291,11 +1291,11 @@ proto._oncaptionmouseup = function(e)
   this._captionBar.setCapture(false);
 
   // move window to last position
-  if (qx.util.validator.isValidNumber(s.lastX)) {
+  if (qx.util.Validation.isValidNumber(s.lastX)) {
     this.setLeft(s.lastX);
   };
 
-  if (qx.util.validator.isValidNumber(s.lastY)) {
+  if (qx.util.Validation.isValidNumber(s.lastY)) {
     this.setTop(s.lastY);
   };
 

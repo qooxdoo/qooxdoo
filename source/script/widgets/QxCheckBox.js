@@ -36,15 +36,15 @@ qx.ui.form.CheckBox = function(vText, vValue, vName, vChecked)
 
   this._createIcon();
 
-  if (qx.util.validator.isValidString(vValue)) {
+  if (qx.util.Validation.isValidString(vValue)) {
     this.setValue(vValue);
   };
 
-  if (qx.util.validator.isValidString(vName)) {
+  if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
   };
 
-  if (qx.util.validator.isValidBoolean(vChecked)) {
+  if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
   };
 

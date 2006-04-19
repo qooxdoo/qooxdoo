@@ -31,12 +31,12 @@ qx.renderer.theme.IconTheme = function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
-  if (qx.util.validator.isInvalidString(vId)) {
+  if (qx.util.Validation.isInvalidString(vId)) {
     throw new Error("Each instance of qx.renderer.theme.IconTheme need an unique ID!");
   };
 
   this.setId(vId);
-  this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
+  this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
 
   try {
     qx.manager.object.ImageManager.registerIconTheme(this);

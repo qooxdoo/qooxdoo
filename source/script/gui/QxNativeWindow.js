@@ -47,11 +47,11 @@ qx.client.NativeWindow = function(vUrl, vName)
   //   INITIAL PROPERTIES
   // ************************************************************************
 
-  if (qx.util.validator.isValidString(vUrl)) {
+  if (qx.util.Validation.isValidString(vUrl)) {
     this.setUrl(vUrl);
   };
 
-  if (qx.util.validator.isValidString(vName)) {
+  if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
   };
 };
@@ -255,7 +255,7 @@ proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
-    this._window.location.replace(qx.util.validator.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
+    this._window.location.replace(qx.util.Validation.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
   };
 
   return true;
@@ -364,7 +364,7 @@ proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (qx.util.validator.isValidNumber(this.getWidth()))
+  if (qx.util.Validation.isValidNumber(this.getWidth()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_WIDTH);
     vConf.push(QxConst.CORE_EQUAL);
@@ -372,7 +372,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getHeight()))
+  if (qx.util.Validation.isValidNumber(this.getHeight()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_HEIGHT);
     vConf.push(QxConst.CORE_EQUAL);
@@ -380,7 +380,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getLeft()))
+  if (qx.util.Validation.isValidNumber(this.getLeft()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_LEFT);
     vConf.push(QxConst.CORE_EQUAL);
@@ -388,7 +388,7 @@ proto._open = function()
     vConf.push(QxConst.CORE_COMMA);
   };
 
-  if (qx.util.validator.isValidNumber(this.getTop()))
+  if (qx.util.Validation.isValidNumber(this.getTop()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_TOP);
     vConf.push(QxConst.CORE_EQUAL);
@@ -449,7 +449,7 @@ proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (qx.util.validator.isInvalidString(this.getName())) {
+  if (qx.util.Validation.isInvalidString(this.getName())) {
     this.setName(this.classname + this.toHashCode());
   };
 

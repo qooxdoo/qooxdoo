@@ -34,7 +34,7 @@ qx.renderer.theme.AppearanceTheme = function(vId, vTitle)
   this._appearances = {};
 
   this.setId(vId);
-  this.setTitle(qx.util.validator.isValidString(vTitle) ? vTitle : vId);
+  this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
 
   qx.manager.object.AppearanceManager.registerTheme(this);
 };

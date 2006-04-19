@@ -35,11 +35,11 @@ qx.ui.basic.Label = function(vHtml, vMnemonic)
   qx.ui.basic.Terminator.call(this);
 
   // Apply constructor arguments
-  if (qx.util.validator.isValidString(vHtml)) {
+  if (qx.util.Validation.isValidString(vHtml)) {
     this.setHtml(vHtml);
   };
 
-  if (qx.util.validator.isValidString(vMnemonic)) {
+  if (qx.util.Validation.isValidString(vMnemonic)) {
     this.setMnemonic(vMnemonic);
   };
 
@@ -156,7 +156,7 @@ proto._mnemonicTest = null;
 
 proto._modifyHtml = function(propValue, propOldValue, propData)
 {
-  this._htmlMode = qx.util.validator.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
+  this._htmlMode = qx.util.Validation.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
 
   if (this._isCreated) {
     this._applyContent();
@@ -182,7 +182,7 @@ proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
 
 proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
-  this._hasMnemonic = qx.util.validator.isValidString(propValue) && propValue.length == 1;
+  this._hasMnemonic = qx.util.Validation.isValidString(propValue) && propValue.length == 1;
 
   this._mnemonicHtml = this._hasMnemonic ? qx.ui.basic.Label.MNEMONIC_OUT_START + propValue + qx.ui.basic.Label.MNEMONIC_OUT_STOP : QxConst.CORE_EMPTY;
   this._mnemonicTest = this._hasMnemonic ? new RegExp(qx.ui.basic.Label.MNEMONIC_TEST1 + propValue + qx.ui.basic.Label.MNEMONIC_TEST2 + propValue + qx.ui.basic.Label.MNEMONIC_TEST3 + propValue + qx.ui.basic.Label.MNEMONIC_TEST4 + propValue + qx.ui.basic.Label.MNEMONIC_TEST5, qx.ui.basic.Label.MNEMONIC_REGMODE) : null;
@@ -256,7 +256,7 @@ proto._copyStyles = function()
   };
 
   do {
-    vStyle[vProperty] = qx.util.validator.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : QxConst.CORE_EMPTY;
+    vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : QxConst.CORE_EMPTY;
   } while(vProperty=vUseProperties[vUsePropertiesLength--]);
 
   return vNode;
@@ -302,7 +302,7 @@ proto._postApply = function()
   var vElement = this._getTargetNode();
   var vMnemonicMode = 0;
 
-  if (qx.util.validator.isInvalidString(vHtml)) {
+  if (qx.util.Validation.isInvalidString(vHtml)) {
     vElement.innerHTML = QxConst.CORE_EMPTY;
     return;
   };

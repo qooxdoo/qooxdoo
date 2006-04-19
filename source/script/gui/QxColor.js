@@ -30,7 +30,7 @@
 
 qx.renderer.color.Color = function(vValue)
 {
-  if (qx.util.validator.isValid(vValue)) {
+  if (qx.util.Validation.isValid(vValue)) {
     this.setValue(vValue);
   };
 
@@ -86,8 +86,8 @@ proto._hex = null;
 ---------------------------------------------------------------------------
 */
 
-proto.add = qx.util.returns.returnTrue;
-proto.remove = qx.util.returns.returnTrue;
+proto.add = qx.util.Return.returnTrue;
+proto.remove = qx.util.Return.returnTrue;
 
 
 
@@ -154,7 +154,7 @@ proto._evalStyle = function()
   {
     this._style = this._value;
   }
-  else if (qx.util.validator.isValid(this._value))
+  else if (qx.util.Validation.isValid(this._value))
   {
     throw new Error("_evalStyle could not handle non-rgb colors :" + this.getValue() + "!");
   };
@@ -330,7 +330,7 @@ proto._normalize = function(vInValue)
       break;
 
     case QxConst.TYPEOF_OBJECT:
-      if (qx.util.validator.isValidArray(vInValue) && vInValue.length == 3)
+      if (qx.util.Validation.isValidArray(vInValue) && vInValue.length == 3)
       {
         this._red = vInValue[0];
         this._green = vInValue[1];

@@ -605,7 +605,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   };
 
   var vChilds = vParent.getChildren();
-  var vPosition = qx.util.validator.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
+  var vPosition = qx.util.Validation.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
   var vInstance = vChilds[vPosition];
 
   while(!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))

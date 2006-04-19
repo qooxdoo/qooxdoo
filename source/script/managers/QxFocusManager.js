@@ -38,7 +38,7 @@ qx.event.handler.FocusHandler = function(vWidget)
   // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
 
-  if (qx.util.validator.isValidObject(vWidget)) {
+  if (qx.util.Validation.isValidObject(vWidget)) {
     this._attachedWidget = vWidget;
   };
 };

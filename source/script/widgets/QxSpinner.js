@@ -110,15 +110,15 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   //   INITIALIZATION
   // ************************************************************************
 
-  if(qx.util.validator.isValidNumber(vMin)) {
+  if(qx.util.Validation.isValidNumber(vMin)) {
     this.setMin(vMin);
   };
 
-  if(qx.util.validator.isValidNumber(vMax)) {
+  if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
   };
 
-  if(qx.util.validator.isValidNumber(vValue)) {
+  if(qx.util.Validation.isValidNumber(vValue)) {
     this.setValue(vValue);
   };
 };

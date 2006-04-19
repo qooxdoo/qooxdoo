@@ -234,7 +234,7 @@ proto.computeChildrenFlexWidth = function()
         }
         else
         {
-          vAdjust = qx.util.validator.isValidNumber(vCurrentChild.getMinWidthValue()) ? vCurrentChild._computedWidthFlexValue - vCurrentChild.getMinWidthValue() : vCurrentChild._computedWidthFlexValue;
+          vAdjust = qx.util.Validation.isValidNumber(vCurrentChild.getMinWidthValue()) ? vCurrentChild._computedWidthFlexValue - vCurrentChild.getMinWidthValue() : vCurrentChild._computedWidthFlexValue;
 
           if (vAdjust > 0)
           {

@@ -235,7 +235,7 @@ proto.computeChildrenFlexHeight = function()
         }
         else
         {
-          vAdjust = qx.util.validator.isValidNumber(vCurrentChild.getMinHeightValue()) ? vCurrentChild._computedHeightFlexValue - vCurrentChild.getMinHeightValue() : vCurrentChild._computedHeightFlexValue;
+          vAdjust = qx.util.Validation.isValidNumber(vCurrentChild.getMinHeightValue()) ? vCurrentChild._computedHeightFlexValue - vCurrentChild.getMinHeightValue() : vCurrentChild._computedHeightFlexValue;
 
           if (vAdjust > 0)
           {

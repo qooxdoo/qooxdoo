@@ -30,7 +30,7 @@ qx.ui.form.ListItem = function(vText, vIcon, vValue)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon);
 
-  if (qx.util.validator.isValid(vValue)) {
+  if (qx.util.Validation.isValid(vValue)) {
     this.setValue(vValue);
   };
 

@@ -35,7 +35,7 @@ qx.client.Timer = function(vInterval)
 
   this.setEnabled(false);
 
-  if (qx.util.validator.isValidNumber(vInterval)) {
+  if (qx.util.Validation.isValidNumber(vInterval)) {
     this.setInterval(vInterval);
   };
 

@@ -190,11 +190,11 @@ proto._modifyIcon = function(propValue, propOldValue, propData)
 {
   this._iconObject.setSource(propValue);
 
-  if (qx.util.validator.isValidString(propValue))
+  if (qx.util.Validation.isValidString(propValue))
   {
     this._hasIcon = true;
 
-    if (qx.util.validator.isInvalidString(propOldValue)) {
+    if (qx.util.Validation.isInvalidString(propOldValue)) {
       this.addAtBegin(this._iconObject);
     };
   }
@@ -211,11 +211,11 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
 
-  if (qx.util.validator.isValidString(propValue))
+  if (qx.util.Validation.isValidString(propValue))
   {
     this._hasLabel = true;
 
-    if (qx.util.validator.isInvalidString(propOldValue)) {
+    if (qx.util.Validation.isInvalidString(propOldValue)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     };
   }
@@ -234,13 +234,13 @@ proto._modifyCommand = function(propValue, propOldValue, propData)
 
   this._shortcutObject.setHtml(vHtml);
 
-  if (qx.util.validator.isValidString(vHtml))
+  if (qx.util.Validation.isValidString(vHtml))
   {
     this._hasShortcut = true;
 
     var vOldHtml = propOldValue ? propOldValue.getShortcut() : QxConst.CORE_EMPTY;
 
-    if (qx.util.validator.isInvalidString(vOldHtml))
+    if (qx.util.Validation.isInvalidString(vOldHtml))
     {
       if (this.getLastChild() == this._arrowObject)
       {
@@ -263,11 +263,11 @@ proto._modifyCommand = function(propValue, propOldValue, propData)
 
 proto._modifyMenu = function(propValue, propOldValue, propData)
 {
-  if (qx.util.validator.isValidObject(propValue))
+  if (qx.util.Validation.isValidObject(propValue))
   {
     this._hasMenu = true;
 
-    if (qx.util.validator.isInvalidObject(propOldValue)) {
+    if (qx.util.Validation.isInvalidObject(propOldValue)) {
       this.addAtEnd(this._arrowObject);
     };
   }
