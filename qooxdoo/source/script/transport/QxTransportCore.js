@@ -222,7 +222,7 @@ QxTransport.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
       case 12152:
       // See above comments for variable status.
       case 13030:
-        if (QxSettings.enableTransportDebug3) {
+        if (QxSettings.enableTransportDebug) {
           QxDebug("QxTransport", "Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
         };
 
