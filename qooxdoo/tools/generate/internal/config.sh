@@ -88,7 +88,7 @@ L="$L script/gui/QxWidgetCore"
 
 # Appearance
 L="$L script/managers/QxAppearanceManager"
-L="$L script/gui/QxAppearanceTheme"
+L="$L script/renderer/theme/QxAppearanceTheme"
 L="$L themes/appearance/default/theme"
 
 # Core Layouts
@@ -136,11 +136,11 @@ L="$L script/managers/QxImagePreloaderManager"
 L="$L script/io/image/QxImagePreloader"
 L="$L script/io/image/QxImagePreloaderSystem"
 L="$L script/ui/QxImage"
-L="$L script/gui/QxIconTheme"
+L="$L script/renderer/theme/QxIconTheme"
 L="$L themes/icons/crystalsvg/theme"
 L="$L themes/icons/nuvola/theme"
 L="$L themes/icons/kids/theme"
-L="$L script/gui/QxWidgetTheme"
+L="$L script/renderer/theme/QxWidgetTheme"
 L="$L themes/ui/windows/theme"
 
 # Drag&Drop Support
