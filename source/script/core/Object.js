@@ -28,7 +28,6 @@
 #require(QxConst)
 #require(QxUtil)
 #require(qx.core.Settings)
-#post(qx.core.ObjectCore)
 #post(qx.sys.Client)
 #post(qx.dev.Debug)
 
@@ -51,11 +50,9 @@ qx.core.Object.extend(Object, "qx.core.Object");
 
 
 
-/*
----------------------------------------------------------------------------
-  CLASS PROPERTIES AND METHODS
----------------------------------------------------------------------------
-*/
+/* ************************************************************************
+   Class data, properties and methods
+************************************************************************ */
 
 qx.core.ObjectCounter = 0;
 qx.core.ObjectDataBase = [];
@@ -111,6 +108,9 @@ qx.core.Object.DEBUG_FUNCERRORPOST = "()\": ";
 
 
 
+/* ************************************************************************
+   Instance data, properties and methods
+************************************************************************ */
 
 /*
 ---------------------------------------------------------------------------

@@ -24,10 +24,10 @@
 
 #package(transport)
 #require(qx.io.remote.RemoteExchange)
-#post(qx.io.remote.IframeTransportCore)
 #post(QxDomIframe)
 
 ************************************************************************ */
+
 /*!
   Transports requests to a server using an IFRAME.
 
@@ -75,6 +75,34 @@ qx.io.remote.IframeTransport = function()
 qx.io.remote.IframeTransport.extend(qx.io.remote.AbstractTransport, "qx.io.remote.IframeTransport");
 
 proto._lastReadyState = 0;
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  CLASS PROPERTIES AND METHODS
+---------------------------------------------------------------------------
+*/
+
+// basic registration to qx.io.remote.RemoteExchange
+// the real availability check (activeX stuff and so on) follows at the first real request
+qx.io.remote.RemoteExchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
+
+qx.io.remote.IframeTransport.handles =
+{
+  synchronous : false,
+  asynchronous : true,
+  crossDomain : true,
+  fileUpload: true,
+  responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
+};
+
+qx.io.remote.IframeTransport.isSupported = function() {
+  return true;
+};
+
 
 
 
