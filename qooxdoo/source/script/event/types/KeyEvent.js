@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(qx.event.types.KeyEventCore)
 
 ************************************************************************ */
 
@@ -40,3 +39,81 @@ qx.event.types.KeyEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOrigi
 qx.event.types.KeyEvent.extend(qx.event.types.DomEvent, "qx.event.types.KeyEvent");
 
 qx.event.types.KeyEvent.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+
+
+
+
+
+
+/* ************************************************************************
+   Class data, properties and methods
+************************************************************************ */
+
+/*
+---------------------------------------------------------------------------
+  CLASS PROPERTIES AND METHODS
+---------------------------------------------------------------------------
+*/
+
+qx.event.types.KeyEvent.keys =
+{
+  esc : 27,
+  enter : 13,
+  tab : 9,
+  space : 32,
+
+  up : 38,
+  down : 40,
+  left : 37,
+  right : 39,
+
+  shift : 16,
+  ctrl : 17,
+  alt : 18,
+
+  f1 : 112,
+  f2 : 113,
+  f3 : 114,
+  f4 : 115,
+  f5 : 116,
+  f6 : 117,
+  f7 : 118,
+  f8 : 119,
+  f9 : 120,
+  f10 : 121,
+  f11 : 122,
+  f12 : 123,
+
+  del : 46,
+  backspace : 8,
+  insert : 45,
+  home : 36,
+  end : 35,
+
+  pageup : 33,
+  pagedown : 34,
+
+  numlock : 144,
+
+  numpad_0 : 96,
+  numpad_1 : 97,
+  numpad_2 : 98,
+  numpad_3 : 99,
+  numpad_4 : 100,
+  numpad_5 : 101,
+  numpad_6 : 102,
+  numpad_7 : 103,
+  numpad_8 : 104,
+  numpad_9 : 105,
+
+  numpad_divide : 111,
+  numpad_multiply : 106,
+  numpad_minus : 109,
+  numpad_plus : 107
+};
+
+// create dynamic codes copy
+qx.event.types.KeyEvent.codes = {};
+for (var i in qx.event.types.KeyEvent.keys) {
+  qx.event.types.KeyEvent.codes[qx.event.types.KeyEvent.keys[i]] = i;
+};

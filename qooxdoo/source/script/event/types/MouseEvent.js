@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(qx.event.types.MouseEventCore)
 
 ************************************************************************ */
 
@@ -44,8 +43,55 @@ qx.event.types.MouseEvent.extend(qx.event.types.DomEvent, "qx.event.types.MouseE
 
 
 
+/* ************************************************************************
+   Class data, properties and methods
+************************************************************************ */
+
+/*
+---------------------------------------------------------------------------
+  CLASS PROPERTIES AND METHODS
+---------------------------------------------------------------------------
+*/
+
+qx.event.types.MouseEvent._screenX = qx.event.types.MouseEvent._screenY = qx.event.types.MouseEvent._clientX = qx.event.types.MouseEvent._clientY = qx.event.types.MouseEvent._pageX = qx.event.types.MouseEvent._pageY = 0;
+qx.event.types.MouseEvent._button = null;
+
+qx.event.types.MouseEvent._storeEventState = function(e)
+{
+  qx.event.types.MouseEvent._screenX = e.getScreenX();
+  qx.event.types.MouseEvent._screenY = e.getScreenY();
+  qx.event.types.MouseEvent._clientX = e.getClientX();
+  qx.event.types.MouseEvent._clientY = e.getClientY();
+  qx.event.types.MouseEvent._pageX   = e.getPageX();
+  qx.event.types.MouseEvent._pageY   = e.getPageY();
+  qx.event.types.MouseEvent._button  = e.getButton();
+};
+
+qx.event.types.MouseEvent.getScreenX = function() { return qx.event.types.MouseEvent._screenX; };
+qx.event.types.MouseEvent.getScreenY = function() { return qx.event.types.MouseEvent._screenY; };
+qx.event.types.MouseEvent.getClientX = function() { return qx.event.types.MouseEvent._clientX; };
+qx.event.types.MouseEvent.getClientY = function() { return qx.event.types.MouseEvent._clientY; };
+qx.event.types.MouseEvent.getPageX   = function() { return qx.event.types.MouseEvent._pageX;   };
+qx.event.types.MouseEvent.getPageY   = function() { return qx.event.types.MouseEvent._pageY;   };
+qx.event.types.MouseEvent.getButton  = function() { return qx.event.types.MouseEvent._button;  };
+
+if (qx.sys.Client.isMshtml())
+{
+  qx.event.types.MouseEvent.buttons = { left : 1, right : 2, middle : 4 };
+}
+else
+{
+  qx.event.types.MouseEvent.buttons = { left : 0, right : 2, middle : 1 };
+};
 
 
+
+
+
+
+/* ************************************************************************
+   Instance data, properties and methods
+************************************************************************ */
 
 /*
 ---------------------------------------------------------------------------
