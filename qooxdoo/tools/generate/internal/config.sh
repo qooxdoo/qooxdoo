@@ -331,10 +331,5 @@ L="$L script/client/QxBuilder"
 L="$L script/renderer/color/QxColorUtil"
 L="$L script/ui/component/QxColorSelector"
 
-# Data Implementation
-# L="$L script/data/QxData"
-# L="$L script/data/QxTextData"
-# L="$L script/data/QxHtmlData"
-
 # Form Handling
 L="$L script/io/remote/QxFormUtils"
