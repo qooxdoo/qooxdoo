@@ -31,8 +31,6 @@ echo
 for file in `find $1 -name "*.html" -o -name "*.htm" -o -name "*.js" -o -name "*.php"`; do
   echo ">>> Updating $file..."
 
-  cp -f $file ${file}.bak
-
   for item in `cat $base/classupdate.dat.tmp`; do
     orig=`echo $item | cut -d= -f1`
     repl=`echo $item | cut -d= -f2-`
