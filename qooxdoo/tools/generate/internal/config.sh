@@ -10,8 +10,8 @@ L="$L script/dev/QxDebug"
 L="$L script/core/QxMain"
 L="$L script/core/QxDefaultSettings"
 L="$L script/core/QxSettings"
-L="$L script/QxConst"
-L="$L script/lang/QxExtend"
+L="$L script/Const"
+L="$L script/OO"
 L="$L script/lang/QxNative"
 L="$L script/util/QxUtil"
 L="$L script/util/compare/QxCompare"
@@ -200,6 +200,16 @@ L="$L script/ui/groupbox/QxRadioGroupBox"
 # Iframe Support
 L="$L script/ui/embed/QxIframe"
 
+# ToolBar Support
+L="$L script/ui/toolbar/QxToolBar"
+L="$L script/ui/toolbar/QxToolBarPart"
+L="$L script/ui/toolbar/QxToolBarPartHandle"
+L="$L script/ui/toolbar/QxToolBarButton"
+L="$L script/ui/toolbar/QxToolBarSeparator"
+L="$L script/ui/toolbar/QxToolBarCheckBox"
+L="$L script/ui/toolbar/QxToolBarRadioButton"
+L="$L script/ui/toolbar/QxToolBarMenuButton"
+
 # Menu Support
 L="$L script/managers/object/QxMenuManager"
 L="$L script/renderer/layout/QxMenuLayoutImpl"
@@ -212,16 +222,6 @@ L="$L script/ui/menu/QxMenuRadioButton"
 L="$L script/ui/menu/QxMenuSeparator"
 L="$L script/ui/menu/QxMenuBar"
 L="$L script/ui/menu/QxMenuBarButton"
-
-# ToolBar Support
-L="$L script/ui/toolbar/QxToolBar"
-L="$L script/ui/toolbar/QxToolBarPart"
-L="$L script/ui/toolbar/QxToolBarPartHandle"
-L="$L script/ui/toolbar/QxToolBarButton"
-L="$L script/ui/toolbar/QxToolBarSeparator"
-L="$L script/ui/toolbar/QxToolBarCheckBox"
-L="$L script/ui/toolbar/QxToolBarRadioButton"
-L="$L script/ui/toolbar/QxToolBarMenuButton"
 
 # Selection support
 L="$L script/types/QxSelection"
