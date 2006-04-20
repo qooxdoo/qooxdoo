@@ -33,7 +33,6 @@ L="$L script/dom/DomElement"
 
 # Core qooxdoo objects
 L="$L script/core/Object"
-L="$L script/core/ObjectCore"
 
 # Common qooxdoo objects
 L="$L script/core/Target"
@@ -42,9 +41,7 @@ L="$L script/core/Target"
 L="$L script/event/types/Event"
 L="$L script/event/types/DomEvent"
 L="$L script/event/types/MouseEvent"
-L="$L script/event/types/MouseEventCore"
 L="$L script/event/types/KeyEvent"
-L="$L script/event/types/KeyEventCore"
 L="$L script/event/types/FocusEvent"
 L="$L script/event/types/DataEvent"
 
@@ -62,7 +59,6 @@ L="$L script/managers/object/ColorManager"
 L="$L script/renderer/theme/ColorTheme"
 L="$L script/renderer/color/Color"
 L="$L script/renderer/color/ColorObject"
-L="$L script/renderer/color/ColorCore"
 L="$L script/renderer/color/ColorCache"
 L="$L themes/colors/windowsRoyale"
 L="$L themes/colors/system"
@@ -85,7 +81,6 @@ L="$L script/renderer/font/FontCache"
 
 # Basic Widget
 L="$L script/ui/core/Widget"
-L="$L script/ui/core/WidgetCore"
 
 # Appearance
 L="$L script/managers/object/AppearanceManager"
@@ -171,7 +166,6 @@ L="$L script/ui/embed/NodeEmbed"
 
 # Most used Widgets
 L="$L script/ui/basic/Label"
-L="$L script/ui/basic/LabelCore"
 L="$L script/ui/basic/Atom"
 L="$L script/ui/form/Button"
 L="$L script/ui/form/RepeatButton"
@@ -315,13 +309,10 @@ L="$L script/io/remote/Response"
 
 L="$L script/io/remote/RequestQueue"
 L="$L script/io/remote/Transport"
-L="$L script/io/remote/TransportCore"
 
 L="$L script/io/remote/CommonTransport"
 L="$L script/io/remote/XmlHttpTransport"
-L="$L script/io/remote/XmlHttpTransportCore"
 L="$L script/io/remote/IframeTransport"
-L="$L script/io/remote/IframeTransportCore"
 
 # Builder
 L="$L script/client/Builder"
