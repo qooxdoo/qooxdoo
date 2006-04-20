@@ -104,15 +104,15 @@ L="$L script/renderer/layout/QxGridLayoutImpl"
 
 # Core Widgets
 L="$L script/ui/core/QxParent"
-L="$L script/ui/QxTerminator"
+L="$L script/ui/basic/QxTerminator"
 
 # Main Widgets
-L="$L script/ui/QxCanvasLayout"
-L="$L script/ui/QxBlocker"
-L="$L script/ui/QxClientDocument"
-L="$L script/ui/QxInline"
-L="$L script/ui/QxHorizontalSpacer"
-L="$L script/ui/QxVerticalSpacer"
+L="$L script/ui/layout/QxCanvasLayout"
+L="$L script/ui/core/QxBlocker"
+L="$L script/ui/core/QxClientDocument"
+L="$L script/ui/basic/QxInline"
+L="$L script/ui/basic/QxHorizontalSpacer"
+L="$L script/ui/basic/QxVerticalSpacer"
 
 # Event Handling
 L="$L script/event/handler/QxEventHandler"
@@ -122,9 +122,9 @@ L="$L script/event/handler/QxFocusHandler"
 L="$L script/util/string/QxTextile"
 
 # Text Fields
-L="$L script/ui/QxTextField"
-L="$L script/ui/QxPasswordField"
-L="$L script/ui/QxTextArea"
+L="$L script/ui/form/QxTextField"
+L="$L script/ui/form/QxPasswordField"
+L="$L script/ui/form/QxTextArea"
 
 # Timer Support
 L="$L script/client/QxTimer"
@@ -137,171 +137,171 @@ L="$L script/managers/object/QxImageManager"
 L="$L script/managers/object/QxImagePreloaderManager"
 L="$L script/io/image/QxImagePreloader"
 L="$L script/io/image/QxImagePreloaderSystem"
-L="$L script/ui/QxImage"
+L="$L script/ui/basic/QxImage"
 L="$L script/renderer/theme/QxIconTheme"
 L="$L themes/icons/crystalsvg/theme"
 L="$L themes/icons/nuvola/theme"
 L="$L themes/icons/kids/theme"
 L="$L script/renderer/theme/QxWidgetTheme"
-L="$L themes/ui/windows/theme"
+L="$L themes/widgets/windows/theme"
 
 # Drag&Drop Support
 L="$L script/events/QxDragEvent"
 L="$L script/event/handler/QxDragAndDropHandler"
 
 # Box Layout
-L="$L script/ui/QxBoxLayout"
-L="$L script/ui/QxVerticalBoxLayout"
-L="$L script/ui/QxHorizontalBoxLayout"
+L="$L script/ui/layout/QxBoxLayout"
+L="$L script/ui/layout/QxVerticalBoxLayout"
+L="$L script/ui/layout/QxHorizontalBoxLayout"
 
 # Flow Layout
-L="$L script/ui/QxFlowLayout"
+L="$L script/ui/layout/QxFlowLayout"
 
 # Dock Layout
-L="$L script/ui/QxDockLayout"
+L="$L script/ui/layout/QxDockLayout"
 
 # Grid Layout
-L="$L script/ui/QxGridLayout"
+L="$L script/ui/layout/QxGridLayout"
 
 # Simple widgets
-L="$L script/ui/QxText"
-L="$L script/ui/QxHtml"
-L="$L script/ui/QxLink"
-L="$L script/ui/QxIconHtml"
-L="$L script/ui/QxNode"
+L="$L script/ui/embed/QxTextEmbed"
+L="$L script/ui/embed/QxHtmlEmbed"
+L="$L script/ui/embed/QxLinkEmbed"
+L="$L script/ui/embed/QxIconHtmlEmbed"
+L="$L script/ui/embed/QxNodeEmbed"
 
 # Most used Widgets
-L="$L script/ui/QxLabel"
-L="$L script/ui/QxLabelCore"
-L="$L script/ui/QxAtom"
-L="$L script/ui/QxButton"
-L="$L script/ui/QxRepeatButton"
+L="$L script/ui/basic/QxLabel"
+L="$L script/ui/basic/QxLabelCore"
+L="$L script/ui/basic/QxAtom"
+L="$L script/ui/form/QxButton"
+L="$L script/ui/form/QxRepeatButton"
 
 # Radio/Checkbox Support
 L="$L script/managers/selection/QxRadioManager"
-L="$L script/ui/QxInputCheckIcon"
-L="$L script/ui/QxCheckBox"
-L="$L script/ui/QxRadioButton"
+L="$L script/ui/form/QxInputCheckIcon"
+L="$L script/ui/form/QxCheckBox"
+L="$L script/ui/form/QxRadioButton"
 
 # Popup Support
 L="$L script/managers/object/QxPopupManager"
-L="$L script/ui/QxPopup"
-L="$L script/ui/QxPopupAtom"
+L="$L script/ui/popup/QxPopup"
+L="$L script/ui/popup/QxPopupAtom"
 
 # ToolTip Support
 L="$L script/managers/object/QxToolTipManager"
-L="$L script/ui/QxToolTip"
+L="$L script/ui/popup/QxToolTip"
 
-# FieldSet Support
-L="$L script/ui/QxFieldSet"
-L="$L script/ui/QxCheckBoxFieldSet"
-L="$L script/ui/QxRadioButtonFieldSet"
+# GroupBox Support
+L="$L script/ui/groupbox/QxGroupBox"
+L="$L script/ui/groupbox/QxCheckGroupBox"
+L="$L script/ui/groupbox/QxRadioGroupBox"
 
 # Iframe Support
-L="$L script/ui/QxIframe"
+L="$L script/ui/embed/QxIframe"
 
 # Menu Support
 L="$L script/managers/object/QxMenuManager"
 L="$L script/layouts/QxMenuLayoutImpl"
-L="$L script/ui/QxMenuLayout"
-L="$L script/ui/QxMenu"
+L="$L script/ui/menu/QxMenuLayout"
+L="$L script/ui/menu/QxMenu"
 L="$L script/layouts/QxMenuButtonLayoutImpl"
-L="$L script/ui/QxMenuButton"
-L="$L script/ui/QxMenuCheckBox"
-L="$L script/ui/QxMenuRadioButton"
-L="$L script/ui/QxMenuSeparator"
+L="$L script/ui/menu/QxMenuButton"
+L="$L script/ui/menu/QxMenuCheckBox"
+L="$L script/ui/menu/QxMenuRadioButton"
+L="$L script/ui/menu/QxMenuSeparator"
+L="$L script/ui/menu/QxMenuBar"
+L="$L script/ui/menu/QxMenuBarButton"
 
 # ToolBar Support
-L="$L script/ui/QxToolBar"
-L="$L script/ui/QxToolBarPart"
-L="$L script/ui/QxToolBarPartHandle"
-L="$L script/ui/QxToolBarButton"
-L="$L script/ui/QxToolBarSeparator"
-L="$L script/ui/QxToolBarCheckBox"
-L="$L script/ui/QxToolBarRadioButton"
-L="$L script/ui/QxToolBarMenuButton"
+L="$L script/ui/toolbar/QxToolBar"
+L="$L script/ui/toolbar/QxToolBarPart"
+L="$L script/ui/toolbar/QxToolBarPartHandle"
+L="$L script/ui/toolbar/QxToolBarButton"
+L="$L script/ui/toolbar/QxToolBarSeparator"
+L="$L script/ui/toolbar/QxToolBarCheckBox"
+L="$L script/ui/toolbar/QxToolBarRadioButton"
+L="$L script/ui/toolbar/QxToolBarMenuButton"
 
-# Menu Bar Support
-L="$L script/ui/QxMenuBar"
-L="$L script/ui/QxMenuBarButton"
-
-# List Support
+# Selection support
 L="$L script/types/QxSelection"
 L="$L script/managers/selection/QxSelectionManager"
-L="$L script/ui/QxList"
-L="$L script/ui/QxListItem"
+
+# List Support
+L="$L script/ui/form/QxList"
+L="$L script/ui/form/QxListItem"
 
 # Combo Box
-L="$L script/ui/QxComboBox"
+L="$L script/ui/form/QxComboBox"
 
 # Spinner
 L="$L script/types/QxRange"
-L="$L script/ui/QxSpinner"
+L="$L script/ui/form/QxSpinner"
 
 # Command
 L="$L script/client/QxCommand"
 
 # Window
 L="$L script/managers/object/QxWindowManager"
-L="$L script/ui/QxWindow"
+L="$L script/ui/window/QxWindow"
 
 # Native Window
 L="$L script/client/QxNativeWindow"
 
 # Flash Object
 L="$L script/types/QxVersion"
-L="$L script/ui/QxFlash"
+L="$L script/ui/embed/QxFlash"
 
 # Emulation Layers
 L="$L script/lang/QxEmu"
 
-# Common View
-L="$L script/ui/QxCommonView"
-L="$L script/ui/QxCommonViewBar"
-L="$L script/ui/QxCommonViewPane"
-L="$L script/ui/QxCommonViewPage"
-L="$L script/ui/QxCommonViewButton"
+# Abstract PageView
+L="$L script/ui/pageview/QxAbstractView"
+L="$L script/ui/pageview/QxAbstractViewBar"
+L="$L script/ui/pageview/QxAbstractViewPane"
+L="$L script/ui/pageview/QxAbstractViewPage"
+L="$L script/ui/pageview/QxAbstractViewButton"
 
 # Tab View
-L="$L script/ui/QxTabView"
-L="$L script/ui/QxTabViewBar"
-L="$L script/ui/QxTabViewPane"
-L="$L script/ui/QxTabViewPage"
-L="$L script/ui/QxTabViewButton"
+L="$L script/ui/pageview/tabview/QxTabView"
+L="$L script/ui/pageview/tabview/QxTabViewBar"
+L="$L script/ui/pageview/tabview/QxTabViewPane"
+L="$L script/ui/pageview/tabview/QxTabViewPage"
+L="$L script/ui/pageview/tabview/QxTabViewButton"
 
 # Bar View
-L="$L script/ui/QxBarView"
-L="$L script/ui/QxBarViewBar"
-L="$L script/ui/QxBarViewPane"
-L="$L script/ui/QxBarViewPage"
-L="$L script/ui/QxBarViewButton"
+L="$L script/ui/pageview/buttonview/QxButtonView"
+L="$L script/ui/pageview/buttonview/QxButtonViewBar"
+L="$L script/ui/pageview/buttonview/QxButtonViewPane"
+L="$L script/ui/pageview/buttonview/QxButtonViewPage"
+L="$L script/ui/pageview/buttonview/QxButtonViewButton"
 
 # Tree Support
 L="$L script/managers/selection/QxTreeSelectionManager"
-L="$L script/ui/QxTreeElement"
-L="$L script/ui/QxTreeFile"
-L="$L script/ui/QxTreeFolder"
-L="$L script/ui/QxTree"
+L="$L script/ui/tree/QxTreeElement"
+L="$L script/ui/tree/QxTreeFile"
+L="$L script/ui/tree/QxTreeFolder"
+L="$L script/ui/tree/QxTree"
 
 # List View
 L="$L script/managers/selection/QxVirtualSelectionManager"
-L="$L script/ui/QxListView"
-L="$L script/ui/QxListViewHeader"
-L="$L script/ui/QxListViewPane"
-L="$L script/ui/QxListViewHeaderCell"
-L="$L script/ui/QxListViewHeaderSeparator"
-L="$L script/ui/QxListViewContentCellText"
-L="$L script/ui/QxListViewContentCellImage"
-L="$L script/ui/QxListViewContentCellHtml"
-L="$L script/ui/QxListViewContentCellLink"
-L="$L script/ui/QxListViewContentCellIconHtml"
+L="$L script/ui/listview/QxListView"
+L="$L script/ui/listview/QxListViewHeader"
+L="$L script/ui/listview/QxListViewPane"
+L="$L script/ui/listview/QxListViewHeaderCell"
+L="$L script/ui/listview/QxListViewHeaderSeparator"
+L="$L script/ui/listview/QxListViewContentCellText"
+L="$L script/ui/listview/QxListViewContentCellImage"
+L="$L script/ui/listview/QxListViewContentCellHtml"
+L="$L script/ui/listview/QxListViewContentCellLink"
+L="$L script/ui/listview/QxListViewContentCellIconHtml"
 
 # Dom Selection Manager
 L="$L script/managers/selection/QxDomSelectionManager"
 
 # Gallery
-L="$L script/ui/QxGallery"
-L="$L script/ui/QxGalleryList"
+L="$L script/ui/embed/QxGallery"
+L="$L script/ui/embed/QxGalleryList"
 
 # Storage
 L="$L script/io/local/QxCookie"
@@ -329,7 +329,7 @@ L="$L script/core/QxBuilder"
 
 # Color Selector
 L="$L script/renderer/color/QxColorUtil"
-L="$L script/ui/QxColorSelector"
+L="$L script/ui/component/QxColorSelector"
 
 # Data Implementation
 # L="$L script/data/QxData"
