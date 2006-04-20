@@ -38,7 +38,7 @@
 Function.prototype.extend = function(vSuper, vClassName)
 {
   if (typeof vSuper !== QxConst.TYPEOF_FUNCTION) {
-    throw new Error("Extend: Function/Constructor to extend from is not a function: " + vSuper);
+    throw new Error("Extend: Function/Constructor to extend from is not a function: " + vSuper + " (" + vClassName + ")");
   };
 
   if (typeof vClassName !== QxConst.TYPEOF_STRING) {
