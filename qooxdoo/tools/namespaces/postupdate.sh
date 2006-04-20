@@ -21,8 +21,8 @@ read
 
 
 
-echo ">>> Sorting class update information..."
-grep "=" $base/classupdate.dat | sort -r > $base/classupdate.dat.tmp
+echo ">>> Sorting post update information..."
+grep "=" $base/postupdate.dat | sort -r > $base/postupdate.dat.tmp
 echo ">>> Done"
 echo
 
@@ -33,7 +33,7 @@ for file in `find $1 -name "*.html" -o -name "*.htm" -o -name "*.js" -o -name "*
 
   cp -f $file ${file}.bak
 
-  for item in `cat $base/classupdate.dat.tmp`; do
+  for item in `cat $base/postupdate.dat.tmp`; do
     orig=`echo $item | cut -d= -f1`
     repl=`echo $item | cut -d= -f2-`
 
@@ -41,6 +41,6 @@ for file in `find $1 -name "*.html" -o -name "*.htm" -o -name "*.js" -o -name "*
   done
 done
 
-rm -f $base/classupdate.dat.tmp
+rm -f $base/postupdate.dat.tmp
 
 echo ">>> Done"
