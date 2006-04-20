@@ -307,15 +307,15 @@ proto.getStatusText = function()
 */
 
 proto.getIframeWindow = function() {
-  return qx.dom.getIframeWindow(this._frame);
+  return qx.dom.DomIframe.getWindow(this._frame);
 };
 
 proto.getIframeDocument = function() {
-  return qx.dom.getIframeDocument(this._frame);
+  return qx.dom.DomIframe.getDocument(this._frame);
 };
 
 proto.getIframeBody = function() {
-  return qx.dom.getIframeBody(this._frame);
+  return qx.dom.DomIframe.getBody(this._frame);
 };
 
 

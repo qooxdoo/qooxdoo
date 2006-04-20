@@ -27,23 +27,25 @@
 
 ************************************************************************ */
 
+qx.dom.DomEventRegistration = {};
+
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.addEventListener = function(vElement, vType, vFunction) {
+  qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent(qx.Const.CORE_ON + vType, vFunction);
   };
 
-  qx.dom.removeEventListener = function(vElement, vType, vFunction) {
+  qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.detachEvent(qx.Const.CORE_ON + vType, vFunction);
   };
 }
 else
 {
-  qx.dom.addEventListener = function(vElement, vType, vFunction) {
+  qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.addEventListener(vType, vFunction, false);
   };
 
-  qx.dom.removeEventListener = function(vElement, vType, vFunction) {
+  qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.removeEventListener(vType, vFunction, false);
   };
 };

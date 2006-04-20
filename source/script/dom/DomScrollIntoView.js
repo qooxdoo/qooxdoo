@@ -27,6 +27,8 @@
 
 ************************************************************************ */
 
+qx.dom.DomScrollIntoView = {};
+
 // Internet Explorer has invented scrollIntoView, but does not behave the same like in Mozilla (which would be better)
 // Mozilla has a native well working method scrollIntoView
 // Safari does not support scrollIntoView (but it can be found in Webkit since May 2005)
@@ -34,7 +36,7 @@
 
 qx.dom.BODY_TAG_NAME = "BODY";
 
-qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
+qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 {
   var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
 
@@ -44,7 +46,7 @@ qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
     {
       case QxConst.OVERFLOW_VALUE_BOTH:
       case QxConst.OVERFLOW_VALUE_AUTO:
@@ -53,7 +55,7 @@ qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
         break;
 
       default:
-        switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_HORIZONTAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_HORIZONTAL))
         {
           case QxConst.OVERFLOW_VALUE_BOTH:
           case QxConst.OVERFLOW_VALUE_AUTO:
@@ -107,7 +109,7 @@ qx.dom.scrollIntoViewX = function(vElement, vAlignLeft)
   return true;
 };
 
-qx.dom.scrollIntoViewY = function(vElement, vAlignTop)
+qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 {
   var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
 
@@ -117,7 +119,7 @@ qx.dom.scrollIntoViewY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
     {
       case QxConst.OVERFLOW_VALUE_BOTH:
       case QxConst.OVERFLOW_VALUE_AUTO:
@@ -126,7 +128,7 @@ qx.dom.scrollIntoViewY = function(vElement, vAlignTop)
         break;
 
       default:
-        switch(qx.dom.getComputedStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_VERTICAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_VERTICAL))
         {
           case QxConst.OVERFLOW_VALUE_BOTH:
           case QxConst.OVERFLOW_VALUE_AUTO:

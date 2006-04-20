@@ -26,7 +26,9 @@
 
 ************************************************************************ */
 
-qx.dom.getScrollLeftSum = function(el)
+qx.dom.DomScroll = {};
+
+qx.dom.DomScroll.getLeftSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;
@@ -40,7 +42,7 @@ qx.dom.getScrollLeftSum = function(el)
   return sum;
 };
 
-qx.dom.getScrollTopSum = function(el)
+qx.dom.DomScroll.getTopSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;

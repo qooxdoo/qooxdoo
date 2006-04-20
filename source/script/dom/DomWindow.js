@@ -27,9 +27,11 @@
 
 ************************************************************************ */
 
+qx.dom.DomWindow = {};
+
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.getWindowInnerWidth = function(w)
+  qx.dom.DomWindow.getInnerWidth = function(w)
   {
     if (w.document.documentElement && w.document.documentElement.clientWidth)
     {
@@ -43,7 +45,7 @@ if (qx.sys.Client.isMshtml())
     return 0;
   };
 
-  qx.dom.getWindowInnerHeight = function(w)
+  qx.dom.DomWindow.getInnerHeight = function(w)
   {
     if (w.document.documentElement && w.document.documentElement.clientHeight)
     {
@@ -57,7 +59,7 @@ if (qx.sys.Client.isMshtml())
     return 0;
   };
 
-  qx.dom.getClientScrollLeft = function(w)
+  qx.dom.DomWindow.getScrollLeft = function(w)
   {
     if (w.document.documentElement && w.document.documentElement.scrollLeft)
     {
@@ -71,7 +73,7 @@ if (qx.sys.Client.isMshtml())
     return 0;
   };
 
-  qx.dom.getClientScrollTop = function(w)
+  qx.dom.DomWindow.getScrollTop = function(w)
   {
     if (w.document.documentElement && w.document.documentElement.scrollTop)
     {
@@ -87,19 +89,19 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  qx.dom.getWindowInnerWidth = function(w) {
+  qx.dom.DomWindow.getInnerWidth = function(w) {
     return w.innerWidth;
   };
 
-  qx.dom.getWindowInnerHeight = function(w) {
+  qx.dom.DomWindow.getInnerHeight = function(w) {
     return w.innerHeight;
   };
 
-  qx.dom.getClientScrollLeft = function(w) {
+  qx.dom.DomWindow.getScrollLeft = function(w) {
     return w.document.body.scrollLeft;
   };
 
-  qx.dom.getClientScrollTop = function(w) {
+  qx.dom.DomWindow.getScrollTop = function(w) {
     return w.document.body.scrollTop;
   };
 };

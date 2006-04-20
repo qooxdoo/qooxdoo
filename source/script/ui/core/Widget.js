@@ -1091,7 +1091,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   If the widget is visible and rendered on the screen.
 */
 proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.getComputedStyleProperty(el, QxConst.PROPERTY_DISPLAY) != QxConst.CORE_NONE && qx.dom.getComputedStyleProperty(el, QxConst.PROPERTY_VISIBILITY) != QxConst.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, QxConst.PROPERTY_DISPLAY) != QxConst.CORE_NONE && qx.dom.DomStyle.getStyleProperty(el, QxConst.PROPERTY_VISIBILITY) != QxConst.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
@@ -4609,7 +4609,7 @@ qx.ui.core.Widget.initOverflow = function()
 
   document.body.appendChild(t);
 
-  var c = qx.dom.getComputedScrollBarSizeRight(t);
+  var c = qx.dom.DomDimension.getScrollBarSizeRight(t);
   if (c) {
     qx.ui.core.Widget.SCROLLBAR_SIZE = c;
   };
@@ -5111,13 +5111,13 @@ proto.setScrollTop = function(nScrollTop)
 proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.getOffsetLeft(this.getElement());
+  return qx.dom.DomOffset.getLeft(this.getElement());
 };
 
 proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.getOffsetTop(this.getElement());
+  return qx.dom.DomOffset.getTop(this.getElement());
 };
 
 proto.getScrollLeft = function()
@@ -5190,7 +5190,7 @@ proto.scrollIntoViewX = function(vAlignLeft)
     return false;
   };
 
-  return qx.dom.scrollIntoViewX(this.getElement(), vAlignLeft);
+  return qx.dom.DomScrollIntoView.scrollX(this.getElement(), vAlignLeft);
 };
 
 proto.scrollIntoViewY = function(vAlignTop)
@@ -5199,7 +5199,7 @@ proto.scrollIntoViewY = function(vAlignTop)
     return false;
   };
 
-  return qx.dom.scrollIntoViewY(this.getElement(), vAlignTop);
+  return qx.dom.DomScrollIntoView.scrollY(this.getElement(), vAlignTop);
 };
 
 

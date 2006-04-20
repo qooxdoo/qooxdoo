@@ -30,36 +30,38 @@
 
 ************************************************************************ */
 
-qx.dom.getComputedPageOuterLeft     = function(el) { return qx.dom.getComputedPageBoxLeft(el)     - qx.dom.getComputedMarginLeft(el); };
-qx.dom.getComputedPageOuterTop      = function(el) { return qx.dom.getComputedPageBoxTop(el)      - qx.dom.getComputedMarginTop(el); };
-qx.dom.getComputedPageOuterRight    = function(el) { return qx.dom.getComputedPageBoxRight(el)    + qx.dom.getComputedMarginRight(el); };
-qx.dom.getComputedPageOuterBottom   = function(el) { return qx.dom.getComputedPageBoxBottom(el)   + qx.dom.getComputedMarginBottom(el); };
+qx.dom.DomLocation = {};
 
-qx.dom.getComputedClientOuterLeft   = function(el) { return qx.dom.getComputedClientBoxLeft(el)   - qx.dom.getComputedMarginLeft(el); };
-qx.dom.getComputedClientOuterTop    = function(el) { return qx.dom.getComputedClientBoxTop(el)    - qx.dom.getComputedMarginTop(el); };
-qx.dom.getComputedClientOuterRight  = function(el) { return qx.dom.getComputedClientBoxRight(el)  + qx.dom.getComputedMarginRight(el); };
-qx.dom.getComputedClientOuterBottom = function(el) { return qx.dom.getComputedClientBoxBottom(el) + qx.dom.getComputedMarginBottom(el); };
+qx.dom.DomLocation.getPageOuterLeft     = function(el) { return qx.dom.DomLocation.getPageBoxLeft(el)     - qx.dom.DomStyle.getMarginLeft(el); };
+qx.dom.DomLocation.getPageOuterTop      = function(el) { return qx.dom.DomLocation.getPageBoxTop(el)      - qx.dom.DomStyle.getMarginTop(el); };
+qx.dom.DomLocation.getPageOuterRight    = function(el) { return qx.dom.DomLocation.getPageBoxRight(el)    + qx.dom.DomStyle.getMarginRight(el); };
+qx.dom.DomLocation.getPageOuterBottom   = function(el) { return qx.dom.DomLocation.getPageBoxBottom(el)   + qx.dom.DomStyle.getMarginBottom(el); };
+
+qx.dom.DomLocation.getClientOuterLeft   = function(el) { return qx.dom.DomLocation.getClientBoxLeft(el)   - qx.dom.DomStyle.getMarginLeft(el); };
+qx.dom.DomLocation.getClientOuterTop    = function(el) { return qx.dom.DomLocation.getClientBoxTop(el)    - qx.dom.DomStyle.getMarginTop(el); };
+qx.dom.DomLocation.getClientOuterRight  = function(el) { return qx.dom.DomLocation.getClientBoxRight(el)  + qx.dom.DomStyle.getMarginRight(el); };
+qx.dom.DomLocation.getClientOuterBottom = function(el) { return qx.dom.DomLocation.getClientBoxBottom(el) + qx.dom.DomStyle.getMarginBottom(el); };
 
 
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.getComputedClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; };
-  qx.dom.getComputedClientBoxTop    = function(el) { return el.getBoundingClientRect().top; };
+  qx.dom.DomLocation.getClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; };
+  qx.dom.DomLocation.getClientBoxTop    = function(el) { return el.getBoundingClientRect().top; };
 
-  qx.dom.getComputedPageBoxLeft     = function(el) { return qx.dom.getComputedClientBoxLeft(el)  + qx.dom.getScrollLeftSum(el); };
-  qx.dom.getComputedPageBoxTop      = function(el) { return qx.dom.getComputedClientBoxTop(el)   + qx.dom.getScrollTopSum(el); };
+  qx.dom.DomLocation.getPageBoxLeft     = function(el) { return qx.dom.DomLocation.getClientBoxLeft(el)  + qx.dom.DomScroll.getLeftSum(el); };
+  qx.dom.DomLocation.getPageBoxTop      = function(el) { return qx.dom.DomLocation.getClientBoxTop(el)   + qx.dom.DomScroll.getTopSum(el); };
 }
 else if (qx.sys.Client.isGecko())
 {
-  qx.dom.getComputedClientBoxLeft   = function(el) { return qx.dom.getComputedClientAreaLeft(el) - qx.dom.getComputedBorderLeft(el); };
-  qx.dom.getComputedClientBoxTop    = function(el) { return qx.dom.getComputedClientAreaTop(el)  - qx.dom.getComputedBorderTop(el); };
+  qx.dom.DomLocation.getClientBoxLeft   = function(el) { return qx.dom.DomLocation.getClientAreaLeft(el) - qx.dom.DomStyle.getBorderLeft(el); };
+  qx.dom.DomLocation.getClientBoxTop    = function(el) { return qx.dom.DomLocation.getClientAreaTop(el)  - qx.dom.DomStyle.getBorderTop(el); };
 
-  qx.dom.getComputedPageBoxLeft     = function(el) { return qx.dom.getComputedPageAreaLeft(el)   - qx.dom.getComputedBorderLeft(el); };
-  qx.dom.getComputedPageBoxTop      = function(el) { return qx.dom.getComputedPageAreaTop(el)    - qx.dom.getComputedBorderTop(el); };
+  qx.dom.DomLocation.getPageBoxLeft     = function(el) { return qx.dom.DomLocation.getPageAreaLeft(el)   - qx.dom.DomStyle.getBorderLeft(el); };
+  qx.dom.DomLocation.getPageBoxTop      = function(el) { return qx.dom.DomLocation.getPageAreaTop(el)    - qx.dom.DomStyle.getBorderTop(el); };
 }
 else
 {
-  qx.dom.getComputedPageBoxLeft = function(el)
+  qx.dom.DomLocation.getPageBoxLeft = function(el)
   {
     var sum = el.offsetLeft;
     while (el.tagName != "BODY")
@@ -71,7 +73,7 @@ else
     return sum;
   };
 
-  qx.dom.getComputedPageBoxTop = function(el)
+  qx.dom.DomLocation.getPageBoxTop = function(el)
   {
     var sum = el.offsetTop;
     while (el.tagName != "BODY")
@@ -83,7 +85,7 @@ else
     return sum;
   };
 
-  qx.dom.getComputedClientBoxLeft = function(el)
+  qx.dom.DomLocation.getClientBoxLeft = function(el)
   {
     var sum = el.offsetLeft;
     while (el.tagName != "BODY")
@@ -95,7 +97,7 @@ else
     return sum;
   };
 
-  qx.dom.getComputedClientBoxTop = function(el)
+  qx.dom.DomLocation.getClientBoxTop = function(el)
   {
     var sum = el.offsetTop;
     while (el.tagName != "BODY")
@@ -110,70 +112,70 @@ else
 
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.getComputedClientBoxRight  = function(el) { return el.getBoundingClientRect().right; };
-  qx.dom.getComputedClientBoxBottom = function(el) { return el.getBoundingClientRect().bottom; };
+  qx.dom.DomLocation.getClientBoxRight  = function(el) { return el.getBoundingClientRect().right; };
+  qx.dom.DomLocation.getClientBoxBottom = function(el) { return el.getBoundingClientRect().bottom; };
 
-  qx.dom.getComputedPageBoxRight    = function(el) { return qx.dom.getComputedClientBoxRight(el)  + qx.dom.getScrollLeftSum(el); };
-  qx.dom.getComputedPageBoxBottom   = function(el) { return qx.dom.getComputedClientBoxBottom(el) + qx.dom.getScrollTopSum(el);  };
+  qx.dom.DomLocation.getPageBoxRight    = function(el) { return qx.dom.DomLocation.getClientBoxRight(el)  + qx.dom.DomScroll.getLeftSum(el); };
+  qx.dom.DomLocation.getPageBoxBottom   = function(el) { return qx.dom.DomLocation.getClientBoxBottom(el) + qx.dom.DomScroll.getTopSum(el);  };
 }
 else
 {
-  qx.dom.getComputedClientBoxRight  = function(el) { return qx.dom.getComputedClientBoxLeft(el) + qx.dom.getComputedBoxWidth(el); };
-  qx.dom.getComputedClientBoxBottom = function(el) { return qx.dom.getComputedClientBoxTop(el)  + qx.dom.getComputedBoxHeight(el); };
+  qx.dom.DomLocation.getClientBoxRight  = function(el) { return qx.dom.DomLocation.getClientBoxLeft(el) + qx.dom.DomDimension.getBoxWidth(el); };
+  qx.dom.DomLocation.getClientBoxBottom = function(el) { return qx.dom.DomLocation.getClientBoxTop(el)  + qx.dom.DomDimension.getBoxHeight(el); };
 
-  qx.dom.getComputedPageBoxRight    = function(el) { return qx.dom.getComputedPageBoxLeft(el)   + qx.dom.getComputedBoxWidth(el); };
-  qx.dom.getComputedPageBoxBottom   = function(el) { return qx.dom.getComputedPageBoxTop(el)    + qx.dom.getComputedBoxHeight(el); };
+  qx.dom.DomLocation.getPageBoxRight    = function(el) { return qx.dom.DomLocation.getPageBoxLeft(el)   + qx.dom.DomDimension.getBoxWidth(el); };
+  qx.dom.DomLocation.getPageBoxBottom   = function(el) { return qx.dom.DomLocation.getPageBoxTop(el)    + qx.dom.DomDimension.getBoxHeight(el); };
 };
 
 if (qx.sys.Client.isGecko())
 {
-  qx.dom.getComputedPageAreaLeft = function(el) {
+  qx.dom.DomLocation.getPageAreaLeft = function(el) {
     return el.ownerDocument.getBoxObjectFor(el).x;
   };
 
-  qx.dom.getComputedPageAreaTop = function(el) {
+  qx.dom.DomLocation.getPageAreaTop = function(el) {
     return el.ownerDocument.getBoxObjectFor(el).y;
   };
 
   // We need to subtract the scroll position of all parent containers (bug #186229).
-  qx.dom.getComputedClientAreaLeft = function(el) {
-    return qx.dom.getComputedPageAreaLeft(el) - qx.dom.getScrollLeftSum(el);
+  qx.dom.DomLocation.getClientAreaLeft = function(el) {
+    return qx.dom.DomLocation.getPageAreaLeft(el) - qx.dom.DomScroll.getLeftSum(el);
   };
 
   // We need to subtract the scroll position of all parent containers (bug #186229).
-  qx.dom.getComputedClientAreaTop = function(el) {
-    return qx.dom.getComputedPageAreaTop(el) - qx.dom.getScrollTopSum(el);
+  qx.dom.DomLocation.getClientAreaTop = function(el) {
+    return qx.dom.DomLocation.getPageAreaTop(el) - qx.dom.DomScroll.getTopSum(el);
   };
 }
 else
 {
-  qx.dom.getComputedClientAreaLeft = function(el) { return qx.dom.getComputedClientBoxLeft(el) + qx.dom.getComputedBorderLeft(el); };
-  qx.dom.getComputedClientAreaTop  = function(el) { return qx.dom.getComputedClientBoxTop(el)  + qx.dom.getComputedBorderTop(el); };
+  qx.dom.DomLocation.getClientAreaLeft = function(el) { return qx.dom.DomLocation.getClientBoxLeft(el) + qx.dom.DomStyle.getBorderLeft(el); };
+  qx.dom.DomLocation.getClientAreaTop  = function(el) { return qx.dom.DomLocation.getClientBoxTop(el)  + qx.dom.DomStyle.getBorderTop(el); };
 
-  qx.dom.getComputedPageAreaLeft = function(el) { return qx.dom.getComputedPageBoxLeft(el) + qx.dom.getComputedBorderLeft(el); };
-  qx.dom.getComputedPageAreaTop  = function(el) { return qx.dom.getComputedPageBoxTop(el)  + qx.dom.getComputedBorderTop(el); };
+  qx.dom.DomLocation.getPageAreaLeft = function(el) { return qx.dom.DomLocation.getPageBoxLeft(el) + qx.dom.DomStyle.getBorderLeft(el); };
+  qx.dom.DomLocation.getPageAreaTop  = function(el) { return qx.dom.DomLocation.getPageBoxTop(el)  + qx.dom.DomStyle.getBorderTop(el); };
 };
 
 
 
-qx.dom.getComputedClientAreaRight   = function(el) { return qx.dom.getComputedClientAreaLeft(el)  + qx.dom.getComputedAreaWidth(el);  };
-qx.dom.getComputedClientAreaBottom  = function(el) { return qx.dom.getComputedClientAreaTop(el)   + qx.dom.getComputedAreaHeight(el); };
+qx.dom.DomLocation.getClientAreaRight   = function(el) { return qx.dom.DomLocation.getClientAreaLeft(el)  + qx.dom.DomDimension.getAreaWidth(el);  };
+qx.dom.DomLocation.getClientAreaBottom  = function(el) { return qx.dom.DomLocation.getClientAreaTop(el)   + qx.dom.DomDimension.getAreaHeight(el); };
 
-qx.dom.getComputedPageAreaRight     = function(el) { return qx.dom.getComputedPageAreaLeft(el)    + qx.dom.getComputedAreaWidth(el);  };
-qx.dom.getComputedPageAreaBottom    = function(el) { return qx.dom.getComputedPageAreaTop(el)     + qx.dom.getComputedAreaHeight(el); };
-
-
+qx.dom.DomLocation.getPageAreaRight     = function(el) { return qx.dom.DomLocation.getPageAreaLeft(el)    + qx.dom.DomDimension.getAreaWidth(el);  };
+qx.dom.DomLocation.getPageAreaBottom    = function(el) { return qx.dom.DomLocation.getPageAreaTop(el)     + qx.dom.DomDimension.getAreaHeight(el); };
 
 
-qx.dom.getComputedClientInnerLeft   = function(el) { return qx.dom.getComputedClientAreaLeft(el)  + qx.dom.getComputedPaddingLeft(el); };
-qx.dom.getComputedClientInnerTop    = function(el) { return qx.dom.getComputedClientAreaTop(el)   + qx.dom.getComputedPaddingTop(el);  };
-qx.dom.getComputedClientInnerRight  = function(el) { return qx.dom.getComputedClientInnerLeft(el) + qx.dom.getComputedInnerWidth(el);  };
-qx.dom.getComputedClientInnerBottom = function(el) { return qx.dom.getComputedClientInnerTop(el)  + qx.dom.getComputedInnerHeight(el); };
 
-qx.dom.getComputedPageInnerLeft     = function(el) { return qx.dom.getComputedPageAreaLeft(el)    + qx.dom.getComputedPaddingLeft(el); };
-qx.dom.getComputedPageInnerTop      = function(el) { return qx.dom.getComputedPageAreaTop(el)     + qx.dom.getComputedPaddingTop(el);  };
-qx.dom.getComputedPageInnerRight    = function(el) { return qx.dom.getComputedPageInnerLeft(el)   + qx.dom.getComputedInnerWidth(el);  };
-qx.dom.getComputedPageInnerBottom   = function(el) { return qx.dom.getComputedPageInnerTop(el)    + qx.dom.getComputedInnerHeight(el); };
+
+qx.dom.DomLocation.getClientInnerLeft   = function(el) { return qx.dom.DomLocation.getClientAreaLeft(el)  + qx.dom.DomStyle.getPaddingLeft(el); };
+qx.dom.DomLocation.getClientInnerTop    = function(el) { return qx.dom.DomLocation.getClientAreaTop(el)   + qx.dom.DomStyle.getPaddingTop(el);  };
+qx.dom.DomLocation.getClientInnerRight  = function(el) { return qx.dom.DomLocation.getClientInnerLeft(el) + qx.dom.DomDimension.getInnerWidth(el);  };
+qx.dom.DomLocation.getClientInnerBottom = function(el) { return qx.dom.DomLocation.getClientInnerTop(el)  + qx.dom.DomDimension.getInnerHeight(el); };
+
+qx.dom.DomLocation.getPageInnerLeft     = function(el) { return qx.dom.DomLocation.getPageAreaLeft(el)    + qx.dom.DomStyle.getPaddingLeft(el); };
+qx.dom.DomLocation.getPageInnerTop      = function(el) { return qx.dom.DomLocation.getPageAreaTop(el)     + qx.dom.DomStyle.getPaddingTop(el);  };
+qx.dom.DomLocation.getPageInnerRight    = function(el) { return qx.dom.DomLocation.getPageInnerLeft(el)   + qx.dom.DomDimension.getInnerWidth(el);  };
+qx.dom.DomLocation.getPageInnerBottom   = function(el) { return qx.dom.DomLocation.getPageInnerTop(el)    + qx.dom.DomDimension.getInnerHeight(el); };
 
 
 // Screen
@@ -185,7 +187,7 @@ if (qx.sys.Client.isGecko())
     of the BoxObject return the distance to the area.
   */
 
-  qx.dom.getComputedScreenBoxLeft = function(el)
+  qx.dom.DomLocation.getScreenBoxLeft = function(el)
   {
     // We need to subtract the scroll position of all
     // parent containers (bug #186229).
@@ -199,7 +201,7 @@ if (qx.sys.Client.isGecko())
     return el.ownerDocument.getBoxObjectFor(el).screenX - sum;
   };
 
-  qx.dom.getComputedScreenBoxTop = function(el)
+  qx.dom.DomLocation.getScreenBoxTop = function(el)
   {
     // We need to subtract the scroll position of all
     // parent containers (bug #186229).
@@ -216,27 +218,27 @@ if (qx.sys.Client.isGecko())
 else
 {
   // Hope this works in khtml, too (opera 7.6p3 seems to be ok)
-  qx.dom.getComputedScreenBoxLeft = function(el) { return qx.dom.getComputedScreenDocumentLeft(el) + qx.dom.getComputedPageBoxLeft(el); };
-  qx.dom.getComputedScreenBoxTop  = function(el) { return qx.dom.getComputedScreenDocumentTop(el) + qx.dom.getComputedPageBoxTop(el); };
+  qx.dom.DomLocation.getScreenBoxLeft = function(el) { return qx.dom.DomLocation.getScreenDocumentLeft(el) + qx.dom.DomLocation.getPageBoxLeft(el); };
+  qx.dom.DomLocation.getScreenBoxTop  = function(el) { return qx.dom.DomLocation.getScreenDocumentTop(el) + qx.dom.DomLocation.getPageBoxTop(el); };
 };
 
-qx.dom.getComputedScreenBoxRight    = function(el) { return qx.dom.getComputedScreenBoxLeft(el)    + qx.dom.getComputedBoxWidth(el); };
-qx.dom.getComputedScreenBoxBottom   = function(el) { return qx.dom.getComputedScreenBoxTop(el)     + qx.dom.getComputedBoxHeight(el); };
+qx.dom.DomLocation.getScreenBoxRight    = function(el) { return qx.dom.DomLocation.getScreenBoxLeft(el)    + qx.dom.DomDimension.getBoxWidth(el); };
+qx.dom.DomLocation.getScreenBoxBottom   = function(el) { return qx.dom.DomLocation.getScreenBoxTop(el)     + qx.dom.DomDimension.getBoxHeight(el); };
 
-qx.dom.getComputedScreenOuterLeft   = function(el) { return qx.dom.getComputedScreenBoxLeft(el)    - qx.dom.getComputedMarginLeft(el); };
-qx.dom.getComputedScreenOuterTop    = function(el) { return qx.dom.getComputedScreenBoxTop(el)     - qx.dom.getComputedMarginTop(el); };
-qx.dom.getComputedScreenOuterRight  = function(el) { return qx.dom.getComputedScreenBoxRight(el)   + qx.dom.getComputedMarginRight(el); };
-qx.dom.getComputedScreenOuterBottom = function(el) { return qx.dom.getComputedScreenBoxBottom(el)  + qx.dom.getComputedMarginBottom(el); };
+qx.dom.DomLocation.getScreenOuterLeft   = function(el) { return qx.dom.DomLocation.getScreenBoxLeft(el)    - qx.dom.DomStyle.getMarginLeft(el); };
+qx.dom.DomLocation.getScreenOuterTop    = function(el) { return qx.dom.DomLocation.getScreenBoxTop(el)     - qx.dom.DomStyle.getMarginTop(el); };
+qx.dom.DomLocation.getScreenOuterRight  = function(el) { return qx.dom.DomLocation.getScreenBoxRight(el)   + qx.dom.DomStyle.getMarginRight(el); };
+qx.dom.DomLocation.getScreenOuterBottom = function(el) { return qx.dom.DomLocation.getScreenBoxBottom(el)  + qx.dom.DomStyle.getMarginBottom(el); };
 
-qx.dom.getComputedScreenAreaLeft    = function(el) { return qx.dom.getComputedScreenBoxLeft(el)    + qx.dom.getComputedInsetLeft(el); };
-qx.dom.getComputedScreenAreaTop     = function(el) { return qx.dom.getComputedScreenBoxTop(el)     + qx.dom.getComputedInsetTop(el); };
-qx.dom.getComputedScreenAreaRight   = function(el) { return qx.dom.getComputedScreenBoxRight(el)   - qx.dom.getComputedInsetRight(el); };
-qx.dom.getComputedScreenAreaBottom  = function(el) { return qx.dom.getComputedScreenBoxBottom(el)  - qx.dom.getComputedInsetBottom(el); };
+qx.dom.DomLocation.getScreenAreaLeft    = function(el) { return qx.dom.DomLocation.getScreenBoxLeft(el)    + qx.dom.DomDimension.getInsetLeft(el); };
+qx.dom.DomLocation.getScreenAreaTop     = function(el) { return qx.dom.DomLocation.getScreenBoxTop(el)     + qx.dom.DomDimension.getInsetTop(el); };
+qx.dom.DomLocation.getScreenAreaRight   = function(el) { return qx.dom.DomLocation.getScreenBoxRight(el)   - qx.dom.DomDimension.getInsetRight(el); };
+qx.dom.DomLocation.getScreenAreaBottom  = function(el) { return qx.dom.DomLocation.getScreenBoxBottom(el)  - qx.dom.DomDimension.getInsetBottom(el); };
 
-qx.dom.getComputedScreenInnerLeft   = function(el) { return qx.dom.getComputedScreenAreaLeft(el)   + qx.dom.getComputedPaddingLeft(el); };
-qx.dom.getComputedScreenInnerTop    = function(el) { return qx.dom.getComputedScreenAreaTop(el)    + qx.dom.getComputedPaddingTop(el); };
-qx.dom.getComputedScreenInnerRight  = function(el) { return qx.dom.getComputedScreenAreaRight(el)  - qx.dom.getComputedPaddingRight(el); };
-qx.dom.getComputedScreenInnerBottom = function(el) { return qx.dom.getComputedScreenAreaBottom(el) - qx.dom.getComputedPaddingBottom(el); };
+qx.dom.DomLocation.getScreenInnerLeft   = function(el) { return qx.dom.DomLocation.getScreenAreaLeft(el)   + qx.dom.DomStyle.getPaddingLeft(el); };
+qx.dom.DomLocation.getScreenInnerTop    = function(el) { return qx.dom.DomLocation.getScreenAreaTop(el)    + qx.dom.DomStyle.getPaddingTop(el); };
+qx.dom.DomLocation.getScreenInnerRight  = function(el) { return qx.dom.DomLocation.getScreenAreaRight(el)  - qx.dom.DomStyle.getPaddingRight(el); };
+qx.dom.DomLocation.getScreenInnerBottom = function(el) { return qx.dom.DomLocation.getScreenAreaBottom(el) - qx.dom.DomStyle.getPaddingBottom(el); };
 
 
 if (qx.sys.Client.isGecko())
@@ -248,17 +250,17 @@ if (qx.sys.Client.isGecko())
   */
 
   // Tested in Gecko 1.7.5
-  qx.dom.getComputedScreenDocumentLeft = function(el) { return qx.dom.getComputedScreenOuterLeft(el.ownerDocument.body); };
-  qx.dom.getComputedScreenDocumentTop = function(el) { return qx.dom.getComputedScreenOuterTop(el.ownerDocument.body); };
-  qx.dom.getComputedScreenDocumentRight = function(el) { return qx.dom.getComputedScreenOuterRight(el.ownerDocument.body); };
-  qx.dom.getComputedScreenDocumentBottom = function(el) { return qx.dom.getComputedScreenOuterBottom(el.ownerDocument.body); };
+  qx.dom.DomLocation.getScreenDocumentLeft = function(el) { return qx.dom.DomLocation.getScreenOuterLeft(el.ownerDocument.body); };
+  qx.dom.DomLocation.getScreenDocumentTop = function(el) { return qx.dom.DomLocation.getScreenOuterTop(el.ownerDocument.body); };
+  qx.dom.DomLocation.getScreenDocumentRight = function(el) { return qx.dom.DomLocation.getScreenOuterRight(el.ownerDocument.body); };
+  qx.dom.DomLocation.getScreenDocumentBottom = function(el) { return qx.dom.DomLocation.getScreenOuterBottom(el.ownerDocument.body); };
 }
 else
 {
   // Tested in Opera 7.6b3 and Mshtml 6.0 (XP-SP2)
   // What's up with khtml (Safari/Konq)?
-  qx.dom.getComputedScreenDocumentLeft = function(el) { return el.document.parentWindow.screenLeft; };
-  qx.dom.getComputedScreenDocumentTop = function(el) { return el.document.parentWindow.screenTop; };
-  qx.dom.getComputedScreenDocumentRight = function(el) {};
-  qx.dom.getComputedScreenDocumentBottom = function(el) {};
+  qx.dom.DomLocation.getScreenDocumentLeft = function(el) { return el.document.parentWindow.screenLeft; };
+  qx.dom.DomLocation.getScreenDocumentTop = function(el) { return el.document.parentWindow.screenTop; };
+  qx.dom.DomLocation.getScreenDocumentRight = function(el) {};
+  qx.dom.DomLocation.getScreenDocumentBottom = function(el) {};
 };

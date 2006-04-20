@@ -28,6 +28,8 @@
 
 ************************************************************************ */
 
+qx.dom.DomOffset = {};
+
 /*
 Mozilla seems to be a little buggy here.
 Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041108 Firefox/1.0
@@ -36,17 +38,17 @@ It calculates some borders and/or paddings to the offsetProperties.
 */
 if (qx.sys.Client.isGecko())
 {
-  qx.dom.getOffsetLeft = function(el)
+  qx.dom.DomOffset.getLeft = function(el)
   {
     var val = el.offsetLeft;
     var pa = el.parentNode;
 
-    var pose = qx.dom.getComputedStyleProperty(el, "position");
-    var posp = qx.dom.getComputedStyleProperty(pa, "position");
+    var pose = qx.dom.DomStyle.getStyleProperty(el, "position");
+    var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
     if (pose != qx.Const.CORE_ABSOLUTE && pose != qx.Const.CORE_FIXED) {
-      val -= qx.dom.getComputedBorderLeft(pa);
+      val -= qx.dom.DomStyle.getBorderLeft(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
@@ -61,10 +63,10 @@ if (qx.sys.Client.isGecko())
           break;
         };
 
-        var posi = qx.dom.getComputedStyleProperty(pa, "position");
+        var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
         if (posi == qx.Const.CORE_ABSOLUTE || posi == qx.Const.CORE_FIXED) {
-          val -= qx.dom.getComputedBorderLeft(pa) + qx.dom.getComputedPaddingLeft(pa);
+          val -= qx.dom.DomStyle.getBorderLeft(pa) + qx.dom.DomStyle.getPaddingLeft(pa);
           break;
         };
       };
@@ -73,17 +75,17 @@ if (qx.sys.Client.isGecko())
     return val;
   };
 
-  qx.dom.getOffsetTop = function(el)
+  qx.dom.DomOffset.getTop = function(el)
   {
     var val = el.offsetTop;
     var pa = el.parentNode;
 
-    var pose = qx.dom.getComputedStyleProperty(el, "position");
-    var posp = qx.dom.getComputedStyleProperty(pa, "position");
+    var pose = qx.dom.DomStyle.getStyleProperty(el, "position");
+    var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
     if (pose != qx.Const.CORE_ABSOLUTE && pose != qx.Const.CORE_FIXED) {
-      val -= qx.dom.getComputedBorderTop(pa);
+      val -= qx.dom.DomStyle.getBorderTop(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
@@ -98,10 +100,10 @@ if (qx.sys.Client.isGecko())
           break;
         };
 
-        var posi = qx.dom.getComputedStyleProperty(pa, "position");
+        var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
         if (posi == qx.Const.CORE_ABSOLUTE || posi == qx.Const.CORE_FIXED) {
-          val -= qx.dom.getComputedBorderTop(pa) + qx.dom.getComputedPaddingTop(pa);
+          val -= qx.dom.DomStyle.getBorderTop(pa) + qx.dom.DomStyle.getPaddingTop(pa);
           break;
         };
       };
@@ -112,11 +114,11 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  qx.dom.getOffsetLeft = function(el) {
+  qx.dom.DomOffset.getLeft = function(el) {
     return el.offsetLeft;
   };
 
-  qx.dom.getOffsetTop = function(el) {
+  qx.dom.DomOffset.getTop = function(el) {
     return el.offsetTop;
   };
 };
