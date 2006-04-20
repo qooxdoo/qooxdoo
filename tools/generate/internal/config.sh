@@ -54,7 +54,7 @@ L="$L script/managers/QxManager"
 
 # Application
 L="$L script/core/QxApplication"
-L="$L script/gui/QxClientWindow"
+L="$L script/client/QxClientWindow"
 
 # Color Support
 L="$L script/managers/QxColorManager"
@@ -125,7 +125,7 @@ L="$L script/ui/QxPasswordField"
 L="$L script/ui/QxTextArea"
 
 # Timer Support
-L="$L script/core/QxTimer"
+L="$L script/client/QxTimer"
 
 # XML Extras
 L="$L script/core/QxXmlExtras"
@@ -237,14 +237,14 @@ L="$L script/managers/QxRangeManager"
 L="$L script/ui/QxSpinner"
 
 # Command
-L="$L script/gui/QxCommand"
+L="$L script/client/QxCommand"
 
 # Window
 L="$L script/managers/QxWindowManager"
 L="$L script/ui/QxWindow"
 
 # Native Window
-L="$L script/gui/QxNativeWindow"
+L="$L script/client/QxNativeWindow"
 
 # Flash Object
 L="$L script/types/QxVersion"
