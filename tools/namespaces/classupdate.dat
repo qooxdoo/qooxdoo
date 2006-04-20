@@ -20,6 +20,8 @@ QxBuilder=qx.client.Builder
 
 QxDebug=qx.dev.Debug
 QxTimeTracker=qx.dev.TimeTracker
+QxDom=qx.dom
+QxDomStyle=qx.dom.DomStyle
 
 QxDataEvent=qx.event.types.DataEvent
 QxDomEvent=qx.event.types.DomEvent
