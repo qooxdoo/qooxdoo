@@ -26,10 +26,12 @@
 
 ************************************************************************ */
 
+qx.dom.DomElement = {};
+
 /*!
   Removes whitespace-only text node children
 */
-qx.dom.cleanElementWhitespace = function(vElement)
+qx.dom.DomElement.cleanWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
   {
@@ -44,6 +46,6 @@ qx.dom.cleanElementWhitespace = function(vElement)
 /*!
   Checks if a element has no content
 */
-qx.dom.isElementEmpty = function(vElement) {
+qx.dom.DomElement.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 };

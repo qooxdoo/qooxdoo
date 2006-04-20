@@ -27,11 +27,13 @@
 
 ************************************************************************ */
 
+qx.dom.DomStyle = {};
+
 if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedStyle))
 {
-  qx.dom.getComputedStylePropertySure = function(el, prop) { return !el ? null : el.ownerDocument ? el.ownerDocument.defaultView.getComputedStyle(el, QxConst.CORE_EMPTY)[prop] : el.style[prop]; };
+  qx.dom.DomStyle.getStylePropertySure = function(el, prop) { return !el ? null : el.ownerDocument ? el.ownerDocument.defaultView.getComputedStyle(el, QxConst.CORE_EMPTY)[prop] : el.style[prop]; };
 
-  qx.dom.getComputedStyleProperty = function(el, prop)
+  qx.dom.DomStyle.getStyleProperty = function(el, prop)
   {
     try
     {
@@ -45,7 +47,7 @@ if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedSty
 }
 else if (qx.sys.Client.isMshtml())
 {
-  qx.dom.getComputedStyleProperty = function(el, prop)
+  qx.dom.DomStyle.getStyleProperty = function(el, prop)
   {
     try
     {
@@ -57,7 +59,7 @@ else if (qx.sys.Client.isMshtml())
     };
   };
 
-  qx.dom.getComputedStylePropertySure = function(el, prop)
+  qx.dom.DomStyle.getStylePropertySure = function(el, prop)
   {
     try
     {
@@ -88,9 +90,9 @@ else if (qx.sys.Client.isMshtml())
 }
 else
 {
-  qx.dom.getComputedStylePropertySure = function(el, prop) { return !el ? null : el.style[prop]; };
+  qx.dom.DomStyle.getStylePropertySure = function(el, prop) { return !el ? null : el.style[prop]; };
 
-  qx.dom.getComputedStyleProperty = function(el, prop)
+  qx.dom.DomStyle.getStyleProperty = function(el, prop)
   {
     try
     {
@@ -104,21 +106,21 @@ else
 };
 
 
-qx.dom.getComputedStyleSize = function(el, prop) { return parseInt(qx.dom.getComputedStyleProperty(el, prop)) || 0; };
+qx.dom.DomStyle.getStyleSize = function(el, prop) { return parseInt(qx.dom.DomStyle.getStyleProperty(el, prop)) || 0; };
 
 
 // Properties
-qx.dom.getComputedMarginLeft    = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_MARGINLEFT); };
-qx.dom.getComputedMarginTop     = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_MARGINTOP); };
-qx.dom.getComputedMarginRight   = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_MARGINRIGHT); };
-qx.dom.getComputedMarginBottom  = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_MARGINBOTTOM); };
+qx.dom.DomStyle.getMarginLeft    = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_MARGINLEFT); };
+qx.dom.DomStyle.getMarginTop     = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_MARGINTOP); };
+qx.dom.DomStyle.getMarginRight   = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_MARGINRIGHT); };
+qx.dom.DomStyle.getMarginBottom  = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_MARGINBOTTOM); };
 
-qx.dom.getComputedPaddingLeft   = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_PADDINGLEFT); };
-qx.dom.getComputedPaddingTop    = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_PADDINGTOP); };
-qx.dom.getComputedPaddingRight  = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_PADDINGRIGHT); };
-qx.dom.getComputedPaddingBottom = function(el) { return qx.dom.getComputedStyleSize(el, QxConst.PROPERTY_PADDINGBOTTOM); };
+qx.dom.DomStyle.getPaddingLeft   = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_PADDINGLEFT); };
+qx.dom.DomStyle.getPaddingTop    = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_PADDINGTOP); };
+qx.dom.DomStyle.getPaddingRight  = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_PADDINGRIGHT); };
+qx.dom.DomStyle.getPaddingBottom = function(el) { return qx.dom.DomStyle.getStyleSize(el, QxConst.PROPERTY_PADDINGBOTTOM); };
 
-qx.dom.getComputedBorderLeft    = function(el) { return qx.dom.getComputedStyleProperty(el, "borderLeftStyle")   == QxConst.CORE_NONE ? 0 : qx.dom.getComputedStyleSize(el, "borderLeftWidth"); };
-qx.dom.getComputedBorderTop     = function(el) { return qx.dom.getComputedStyleProperty(el, "borderTopStyle")    == QxConst.CORE_NONE ? 0 : qx.dom.getComputedStyleSize(el, "borderTopWidth"); };
-qx.dom.getComputedBorderRight   = function(el) { return qx.dom.getComputedStyleProperty(el, "borderRightStyle")  == QxConst.CORE_NONE ? 0 : qx.dom.getComputedStyleSize(el, "borderRightWidth"); };
-qx.dom.getComputedBorderBottom  = function(el) { return qx.dom.getComputedStyleProperty(el, "borderBottomStyle") == QxConst.CORE_NONE ? 0 : qx.dom.getComputedStyleSize(el, "borderBottomWidth"); };
+qx.dom.DomStyle.getBorderLeft    = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderLeftStyle")   == QxConst.CORE_NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderLeftWidth"); };
+qx.dom.DomStyle.getBorderTop     = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderTopStyle")    == QxConst.CORE_NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderTopWidth"); };
+qx.dom.DomStyle.getBorderRight   = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderRightStyle")  == QxConst.CORE_NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderRightWidth"); };
+qx.dom.DomStyle.getBorderBottom  = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderBottomStyle") == QxConst.CORE_NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderBottomWidth"); };

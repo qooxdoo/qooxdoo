@@ -100,7 +100,7 @@ QxFormUtils.encodeForm = function(vForm)
 
 QxFormUtils.bind = function(vForm, vMethod)
 {
-  qx.dom.addEventListener(vForm, QxConst.EVENT_TYPE_SUBMIT, function(e)
+  qx.dom.DomEventRegistration.addEventListener(vForm, QxConst.EVENT_TYPE_SUBMIT, function(e)
   {
     e.returnValue = false;
 

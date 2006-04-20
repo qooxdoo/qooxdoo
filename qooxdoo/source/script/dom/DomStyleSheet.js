@@ -27,9 +27,11 @@
 
 ************************************************************************ */
 
+qx.dom.DomStyleSheet = {};
+
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.createStyleElement = function(vCssText)
+  qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
     var vSheet = document.createStyleSheet();
 
@@ -40,11 +42,11 @@ if (qx.sys.Client.isMshtml())
     return vSheet;
   };
 
-  qx.dom.addCssRule = function(vSheet, vSelector, vStyle) {
+  qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.addRule(vSelector, vStyle);
   };
 
-  qx.dom.removeCssRule = function(vSheet, vSelector)
+  qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
     vRules = vSheet.rules;
     vLength = vRules.length;
@@ -57,7 +59,7 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  qx.dom.removeAllCssRules = function(vSheet)
+  qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
     vRules = vSheet.rules;
     vLength = vRules.length;
@@ -69,7 +71,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  qx.dom.createStyleElement = function(vCssText)
+  qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
     vElement = document.createElement("STYLE");
     vElement.type = "text/css";
@@ -83,11 +85,11 @@ else
     return vElement.sheet;
   };
 
-  qx.dom.addCssRule = function(vSheet, vSelector, vStyle) {
+  qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
   };
 
-  qx.dom.removeCssRule = function(vSheet, vSelector)
+  qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
     vRules = vSheet.cssRules;
     vLength = vRules.length;
@@ -100,7 +102,7 @@ else
     };
   };
 
-  qx.dom.removeAllCssRules = function(vSheet)
+  qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
     vRules = vSheet.cssRules;
     vLength = vRules.length;

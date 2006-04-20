@@ -217,8 +217,8 @@ proto._modifyOpenItem = function(propValue, propOldValue, propData)
       var pl = propValue.getElement();
       var el = this.getElement();
 
-      vSub.setTop(qx.dom.getComputedPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-      vSub.setLeft(qx.dom.getComputedPageBoxLeft(el) + qx.dom.getComputedBoxWidth(el) + this.getSubMenuHorizontalOffset());
+      vSub.setTop(qx.dom.DomLocation.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
+      vSub.setLeft(qx.dom.DomLocation.getPageBoxLeft(el) + qx.dom.DomDimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
       vSub.show();
 

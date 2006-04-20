@@ -179,11 +179,11 @@ proto.scrollItemIntoView = function(vItem)
 };
 
 proto.scrollItemIntoViewX = function(vItem) {
-  qx.dom.scrollIntoViewX(vItem);
+  qx.dom.DomScrollIntoView.scrollX(vItem);
 };
 
 proto.scrollItemIntoViewY = function(vItem) {
-  qx.dom.scrollIntoViewY(vItem);
+  qx.dom.DomScrollIntoView.scrollY(vItem);
 };
 
 

@@ -366,10 +366,10 @@ proto._onbarmousedown = function(e)
   // measuring and caching of values for move session
   var pl = this.getElement();
 
-  var l = qx.dom.getComputedPageAreaLeft(pl);
-  var t = qx.dom.getComputedPageAreaTop(pl);
-  var r = qx.dom.getComputedPageAreaRight(pl);
-  var b = qx.dom.getComputedPageAreaBottom(pl);
+  var l = qx.dom.DomLocation.getPageAreaLeft(pl);
+  var t = qx.dom.DomLocation.getPageAreaTop(pl);
+  var r = qx.dom.DomLocation.getPageAreaRight(pl);
+  var b = qx.dom.DomLocation.getPageAreaBottom(pl);
 
   // handle frame and translucently
   switch(this.getMoveMethod())
@@ -387,11 +387,11 @@ proto._onbarmousedown = function(e)
         qx.ui.core.Widget.flushGlobalQueues();
       };
 
-      f._applyRuntimeLeft(qx.dom.getComputedPageBoxLeft(el) - l);
-      f._applyRuntimeTop(qx.dom.getComputedPageBoxTop(el) - t);
+      f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
+      f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
 
-      f._applyRuntimeWidth(qx.dom.getComputedBoxWidth(el));
-      f._applyRuntimeHeight(qx.dom.getComputedBoxHeight(el));
+      f._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
+      f._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
 
       f.setZIndex(this._bar.getZIndex() + 1);
       break;
@@ -405,8 +405,8 @@ proto._onbarmousedown = function(e)
     case QxConst.ORIENTATION_HORIZONTAL :
       s.firstPageX = e.getPageX();
 
-      s.boxWidth = qx.dom.getComputedBoxWidth(el);
-      s.boxLeft = qx.dom.getComputedPageBoxLeft(el);
+      s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
+      s.boxLeft = qx.dom.DomLocation.getPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
@@ -418,8 +418,8 @@ proto._onbarmousedown = function(e)
     case QxConst.ORIENTATION_VERTICAL :
       s.firstPageY = e.getPageY();
 
-      s.boxHeight = qx.dom.getComputedBoxHeight(el);
-      s.boxTop = qx.dom.getComputedPageBoxTop(el);
+      s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
+      s.boxTop = qx.dom.DomLocation.getPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;

@@ -149,7 +149,7 @@ proto.getPrevious = function(vItem)
 proto.getItemTop = function(vItem)
 {
   // Alternate method:
-  // return qx.dom.getComputedPageBoxTop(vItem.getElement()) - qx.dom.getComputedPageInnerTop(this.getBoundedWidget().getElement());
+  // return qx.dom.DomLocation.getPageBoxTop(vItem.getElement()) - qx.dom.DomLocation.getPageInnerTop(this.getBoundedWidget().getElement());
 
   var vBoundedWidget = this.getBoundedWidget();
   var vElement = vItem.getElement();

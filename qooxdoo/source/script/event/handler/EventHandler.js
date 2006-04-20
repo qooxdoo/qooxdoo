@@ -215,9 +215,9 @@ proto.attachEvents = function(wobj)
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Register window events
-  qx.dom.addEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.addEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
-  qx.dom.addEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Register selection events
   bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
@@ -240,9 +240,9 @@ proto.detachEvents = function()
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Unregister window events
-  qx.dom.removeEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.removeEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
-  qx.dom.removeEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Unregister selection events
   bel.onselect = del.onselectstart = del.onselectionchange = null;
@@ -279,7 +279,7 @@ proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     };
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.addEventListener(d, vEventTypes[i], vFunctionPointer);
+      qx.dom.DomEventRegistration.addEventListener(d, vEventTypes[i], vFunctionPointer);
     };
   }
   catch(ex)
@@ -299,7 +299,7 @@ proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
     };
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.removeEventListener(d, vEventTypes[i], vFunctionPointer);
+      qx.dom.DomEventRegistration.removeEventListener(d, vEventTypes[i], vFunctionPointer);
     };
   }
   catch(ex)

@@ -27,9 +27,11 @@
 
 ************************************************************************ */
 
+qx.dom.DomIframe = {};
+
 if (qx.sys.Client.isMshtml())
 {
-  qx.dom.getIframeWindow = function(vIframe)
+  qx.dom.DomIframe.getWindow = function(vIframe)
   {
     try
     {
@@ -41,11 +43,11 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  qx.dom.getIframeDocument = function(vIframe)
+  qx.dom.DomIframe.getDocument = function(vIframe)
   {
     try
     {
-      var vWin = qx.dom.getIframeWindow(vIframe);
+      var vWin = qx.dom.DomIframe.getWindow(vIframe);
       return vWin ? vWin.document : null;
     }
     catch(ex)
@@ -56,11 +58,11 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  qx.dom.getIframeWindow = function(vIframe)
+  qx.dom.DomIframe.getWindow = function(vIframe)
   {
     try
     {
-      var vDoc = qx.dom.getIframeDocument(vIframe);
+      var vDoc = qx.dom.DomIframe.getDocument(vIframe);
       return vDoc ? vDoc.defaultView : null;
     }
     catch(ex)
@@ -69,7 +71,7 @@ else
     };
   };
 
-  qx.dom.getIframeDocument = function(vIframe)
+  qx.dom.DomIframe.getDocument = function(vIframe)
   {
     try
     {
@@ -82,8 +84,8 @@ else
   };
 };
 
-qx.dom.getIframeBody = function(vIframe)
+qx.dom.DomIframe.getBody = function(vIframe)
 {
-  var vDoc = qx.dom.getIframeDocument(vIframe);
+  var vDoc = qx.dom.DomIframe.getDocument(vIframe);
   return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
 };

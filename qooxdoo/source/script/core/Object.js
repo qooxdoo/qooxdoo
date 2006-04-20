@@ -60,10 +60,10 @@ qx.core.ObjectDataBase = [];
 qx.core.ObjectUnload = function()
 {
   qx.core.Object.dispose();
-  qx.dom.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
+  qx.dom.DomEventRegistration.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 };
 
-qx.dom.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
+qx.dom.DomEventRegistration.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 
 qx.core.Object.toHashCode = function(o)
 {

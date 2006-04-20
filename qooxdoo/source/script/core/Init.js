@@ -41,9 +41,9 @@ qx.core.Init = function()
   qx.core.Target.call(this, false);
 
   if (qx.sys.Client.isGecko()) {
-    qx.dom.addEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
+    qx.dom.DomEventRegistration.addEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
   } else {
-    qx.dom.addEventListener(window, "load", qx.core.Init.onload);
+    qx.dom.DomEventRegistration.addEventListener(window, "load", qx.core.Init.onload);
   };
 };
 
@@ -371,9 +371,9 @@ proto.dispose = function()
   };
 
   if (qx.sys.Client.isGecko()) {
-    qx.dom.removeEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
+    qx.dom.DomEventRegistration.removeEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
   } else {
-    qx.dom.removeEventListener(window, "load", qx.core.Init.onload);
+    qx.dom.DomEventRegistration.removeEventListener(window, "load", qx.core.Init.onload);
   };
 
   delete this._clientWindow;

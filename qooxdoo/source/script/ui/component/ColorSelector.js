@@ -679,7 +679,7 @@ proto._onBrightnessHandleMouseDown = function(e)
   this._brightnessHandle.setCapture(true);
 
   // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-  this._brightnessSubtract = qx.dom.getComputedPageOuterTop(this._brightnessField.getElement()) + (e.getPageY() - qx.dom.getComputedPageBoxTop(this._brightnessHandle.getElement()));
+  this._brightnessSubtract = qx.dom.DomLocation.getPageOuterTop(this._brightnessField.getElement()) + (e.getPageY() - qx.dom.DomLocation.getPageBoxTop(this._brightnessHandle.getElement()));
 
   // Block field event handling
   e.setPropagationStopped(true);
@@ -702,7 +702,7 @@ proto._onBrightnessHandleMouseMove = function(e)
 proto._onBrightnessFieldMouseDown = function(e)
 {
   // Calculate substract: Half height of handler
-  this._brightnessSubtract = qx.dom.getComputedPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.dom.getComputedBoxHeight(this._brightnessHandle.getElement()) / 2);
+  this._brightnessSubtract = qx.dom.DomLocation.getPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.dom.DomDimension.getBoxHeight(this._brightnessHandle.getElement()) / 2);
 
   // Update
   this._setBrightnessOnFieldEvent(e);
@@ -754,8 +754,8 @@ proto._onHueSaturationHandleMouseDown = function(e)
   this._hueSaturationHandle.setCapture(true);
 
   // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
-  this._hueSaturationSubtractTop = qx.dom.getComputedPageOuterTop(this._hueSaturationField.getElement()) + (e.getPageY() - qx.dom.getComputedPageBoxTop(this._hueSaturationHandle.getElement()));
-  this._hueSaturationSubtractLeft = qx.dom.getComputedPageOuterLeft(this._hueSaturationField.getElement()) + (e.getPageX() - qx.dom.getComputedPageBoxLeft(this._hueSaturationHandle.getElement()));
+  this._hueSaturationSubtractTop = qx.dom.DomLocation.getPageOuterTop(this._hueSaturationField.getElement()) + (e.getPageY() - qx.dom.DomLocation.getPageBoxTop(this._hueSaturationHandle.getElement()));
+  this._hueSaturationSubtractLeft = qx.dom.DomLocation.getPageOuterLeft(this._hueSaturationField.getElement()) + (e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(this._hueSaturationHandle.getElement()));
 
   // Block field event handling
   e.setPropagationStopped(true);
@@ -778,8 +778,8 @@ proto._onHueSaturationHandleMouseMove = function(e)
 proto._onHueSaturationFieldMouseDown = function(e)
 {
   // Calculate substract: Half width/height of handler
-  this._hueSaturationSubtractTop = qx.dom.getComputedPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.dom.getComputedBoxHeight(this._hueSaturationHandle.getElement()) / 2);
-  this._hueSaturationSubtractLeft = qx.dom.getComputedPageOuterLeft(this._hueSaturationField.getElement()) + Math.round(qx.dom.getComputedBoxWidth(this._hueSaturationHandle.getElement()) / 2);
+  this._hueSaturationSubtractTop = qx.dom.DomLocation.getPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.dom.DomDimension.getBoxHeight(this._hueSaturationHandle.getElement()) / 2);
+  this._hueSaturationSubtractLeft = qx.dom.DomLocation.getPageOuterLeft(this._hueSaturationField.getElement()) + Math.round(qx.dom.DomDimension.getBoxWidth(this._hueSaturationHandle.getElement()) / 2);
 
   // Update
   this._setHueSaturationOnFieldEvent(e);
