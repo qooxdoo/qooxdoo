@@ -29,7 +29,7 @@
 
 qx.io.remote.XmlHttpTransport = function()
 {
-  qx.io.remote.AbstractTransport.call(this);
+  qx.io.remote.AbstractRemoteTransport.call(this);
 
   this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
 
@@ -37,7 +37,7 @@ qx.io.remote.XmlHttpTransport = function()
   this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
-qx.io.remote.XmlHttpTransport.extend(qx.io.remote.AbstractTransport, "qx.io.remote.XmlHttpTransport");
+qx.io.remote.XmlHttpTransport.extend(qx.io.remote.AbstractRemoteTransport, "qx.io.remote.XmlHttpTransport");
 
 
 
@@ -683,5 +683,5 @@ proto.dispose = function()
     this._req = null;
   };
 
-  return qx.io.remote.AbstractTransport.prototype.dispose.call(this);
+  return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
 };

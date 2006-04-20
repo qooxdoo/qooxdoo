@@ -27,11 +27,11 @@
 
 ************************************************************************ */
 
-qx.io.remote.AbstractTransport = function() {
+qx.io.remote.AbstractRemoteTransport = function() {
   qx.core.Target.call(this);
 };
 
-qx.io.remote.AbstractTransport.extend(qx.core.Target, "qx.io.remote.AbstractTransport");
+qx.io.remote.AbstractRemoteTransport.extend(qx.core.Target, "qx.io.remote.AbstractRemoteTransport");
 
 
 
@@ -47,37 +47,37 @@ qx.io.remote.AbstractTransport.extend(qx.core.Target, "qx.io.remote.AbstractTran
 /*!
   Target url to issue the request to
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
 
 /*!
   Determines what type of request to issue
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
 
 /*!
   Set the request to asynchronous
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
 
 /*!
   Set the data to be sent via this request
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
 
 /*!
   Username to use for HTTP authentication
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
 
 /*!
   The state of the current request
 */
-qx.io.remote.AbstractTransport.addProperty(
+qx.io.remote.AbstractRemoteTransport.addProperty(
 {
   name           : "state",
   type           : QxConst.TYPEOF_STRING,
@@ -93,17 +93,17 @@ qx.io.remote.AbstractTransport.addProperty(
 /*!
   Request headers
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
 
 /*!
   Request parameters to send.
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
 
 /*!
   Response Type
 */
-qx.io.remote.AbstractTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
 
 
 

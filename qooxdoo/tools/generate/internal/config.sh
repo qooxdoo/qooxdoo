@@ -296,23 +296,21 @@ L="$L script/managers/selection/DomSelectionManager"
 L="$L script/ui/embed/Gallery"
 L="$L script/ui/embed/GalleryList"
 
-# Storage
-L="$L script/io/local/Cookie"
-L="$L script/io/local/CookieStorage"
+# IO Local
+L="$L script/io/local/CookieApi"
+L="$L script/io/local/CookieTransport"
+
+# IO Remote
+L="$L script/io/remote/RemoteRequestQueue"
+L="$L script/io/remote/RemoteRequest"
+L="$L script/io/remote/RemoteResponse"
+L="$L script/io/remote/RemoteExchange"
+L="$L script/io/remote/AbstractRemoteTransport"
+L="$L script/io/remote/XmlHttpTransport"
+L="$L script/io/remote/IframeTransport"
 
 # Debugging
 L="$L script/dev/TimeTracker"
-
-# Transport
-L="$L script/io/remote/Request"
-L="$L script/io/remote/Response"
-
-L="$L script/io/remote/RequestQueue"
-L="$L script/io/remote/Transport"
-
-L="$L script/io/remote/CommonTransport"
-L="$L script/io/remote/XmlHttpTransport"
-L="$L script/io/remote/IframeTransport"
 
 # Builder
 L="$L script/client/Builder"

@@ -277,7 +277,7 @@ qx.io.remote.RemoteExchange.addProperty({ name : "request", type : QxConst.TYPEO
 /*!
   Set the implementation to use to send the request with.
 
-  The implementation should be a subclass of qx.io.remote.AbstractTransport and
+  The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
   must implement all methods in the transport API.
 */
 qx.io.remote.RemoteExchange.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
