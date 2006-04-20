@@ -58,7 +58,7 @@ L="$L script/gui/QxClientWindow"
 
 # Color Support
 L="$L script/managers/QxColorManager"
-L="$L script/renderer/color/QxColorTheme"
+L="$L script/renderer/theme/QxColorTheme"
 L="$L script/renderer/color/QxColor"
 L="$L script/renderer/color/QxColorObject"
 L="$L script/renderer/color/QxColorCore"
