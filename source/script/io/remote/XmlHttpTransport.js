@@ -24,7 +24,6 @@
 
 #package(transport)
 #require(qx.io.remote.RemoteExchange)
-#post(qx.io.remote.XmlHttpTransportCore)
 
 ************************************************************************ */
 
