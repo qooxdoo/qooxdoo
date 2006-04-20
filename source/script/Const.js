@@ -73,6 +73,8 @@ var QxConst =
   CORE_EVENTPREFIX : "evt",
   CORE_YES : "yes",
   CORE_NO : "no",
+  CORE_ON : "on",
+  CORE_OFF : "off",
 
   HTML_AMPERSAND : "&amp;",
   HTML_SMALLER : "&lt;",

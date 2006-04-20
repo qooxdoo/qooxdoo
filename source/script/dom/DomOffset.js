@@ -24,7 +24,6 @@
 
 #package(dom)
 #require(qx.sys.Client)
-#require(QxDomCore)
 #require(QxDomStyle)
 
 ************************************************************************ */
@@ -46,13 +45,13 @@ if (qx.sys.Client.isGecko())
     var posp = qx.dom.getComputedStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.dom.STR_ABSOLUTE && pose != qx.dom.STR_FIXED) {
+    if (pose != qx.Const.CORE_ABSOLUTE && pose != qx.Const.CORE_FIXED) {
       val -= qx.dom.getComputedBorderLeft(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.dom.STR_ABSOLUTE && posp != qx.dom.STR_FIXED)
+    if (posp != qx.Const.CORE_ABSOLUTE && posp != qx.Const.CORE_FIXED)
     {
       while(pa)
       {
@@ -64,7 +63,7 @@ if (qx.sys.Client.isGecko())
 
         var posi = qx.dom.getComputedStyleProperty(pa, "position");
 
-        if (posi == qx.dom.STR_ABSOLUTE || posi == qx.dom.STR_FIXED) {
+        if (posi == qx.Const.CORE_ABSOLUTE || posi == qx.Const.CORE_FIXED) {
           val -= qx.dom.getComputedBorderLeft(pa) + qx.dom.getComputedPaddingLeft(pa);
           break;
         };
@@ -83,13 +82,13 @@ if (qx.sys.Client.isGecko())
     var posp = qx.dom.getComputedStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.dom.STR_ABSOLUTE && pose != qx.dom.STR_FIXED) {
+    if (pose != qx.Const.CORE_ABSOLUTE && pose != qx.Const.CORE_FIXED) {
       val -= qx.dom.getComputedBorderTop(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.dom.STR_ABSOLUTE && posp != qx.dom.STR_FIXED)
+    if (posp != qx.Const.CORE_ABSOLUTE && posp != qx.Const.CORE_FIXED)
     {
       while(pa)
       {
@@ -101,7 +100,7 @@ if (qx.sys.Client.isGecko())
 
         var posi = qx.dom.getComputedStyleProperty(pa, "position");
 
-        if (posi == qx.dom.STR_ABSOLUTE || posi == qx.dom.STR_FIXED) {
+        if (posi == qx.Const.CORE_ABSOLUTE || posi == qx.Const.CORE_FIXED) {
           val -= qx.dom.getComputedBorderTop(pa) + qx.dom.getComputedPaddingTop(pa);
           break;
         };

@@ -24,7 +24,6 @@
 
 #package(dom)
 #require(qx.sys.Client)
-#require(QxDomCore)
 
 ************************************************************************ */
 
