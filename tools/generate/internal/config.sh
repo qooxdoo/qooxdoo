@@ -146,7 +146,7 @@ L="$L script/renderer/theme/QxWidgetTheme"
 L="$L themes/widgets/windows/theme"
 
 # Drag&Drop Support
-L="$L script/events/QxDragEvent"
+L="$L script/event/types/QxDragEvent"
 L="$L script/event/handler/QxDragAndDropHandler"
 
 # Box Layout
@@ -202,10 +202,10 @@ L="$L script/ui/embed/QxIframe"
 
 # Menu Support
 L="$L script/managers/object/QxMenuManager"
-L="$L script/layouts/QxMenuLayoutImpl"
+L="$L script/renderer/layout/QxMenuLayoutImpl"
 L="$L script/ui/menu/QxMenuLayout"
 L="$L script/ui/menu/QxMenu"
-L="$L script/layouts/QxMenuButtonLayoutImpl"
+L="$L script/renderer/layout/QxMenuButtonLayoutImpl"
 L="$L script/ui/menu/QxMenuButton"
 L="$L script/ui/menu/QxMenuCheckBox"
 L="$L script/ui/menu/QxMenuRadioButton"
@@ -325,7 +325,7 @@ L="$L script/io/remote/QxIframeTransport"
 L="$L script/io/remote/QxIframeTransportCore"
 
 # Builder
-L="$L script/core/QxBuilder"
+L="$L script/client/QxBuilder"
 
 # Color Selector
 L="$L script/renderer/color/QxColorUtil"
