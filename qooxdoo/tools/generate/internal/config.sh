@@ -4,17 +4,17 @@ L=""
 L="$L script/core/QxNamespaces"
 
 # Debugging
-L="$L script/core/QxDebug"
+L="$L script/dev/QxDebug"
 
 # Core Language Additions
 L="$L script/core/QxMain"
 L="$L script/core/QxDefaultSettings"
 L="$L script/core/QxSettings"
 L="$L script/QxConst"
-L="$L script/core/QxExtend"
-L="$L script/core/QxNative"
-L="$L script/core/QxUtil"
-L="$L script/core/QxCompare"
+L="$L script/lang/QxExtend"
+L="$L script/lang/QxNative"
+L="$L script/util/QxUtil"
+L="$L script/util/compare/QxCompare"
 L="$L script/sys/QxClient"
 
 # Dom Features
@@ -128,7 +128,7 @@ L="$L script/ui/QxTextArea"
 L="$L script/client/QxTimer"
 
 # XML Extras
-L="$L script/core/QxXmlExtras"
+L="$L script/lang/QxXmlExtras"
 
 # Image Support
 L="$L script/managers/object/QxImageManager"
@@ -251,7 +251,7 @@ L="$L script/types/QxVersion"
 L="$L script/ui/QxFlash"
 
 # Emulation Layers
-L="$L script/core/QxEmu"
+L="$L script/lang/QxEmu"
 
 # Common View
 L="$L script/ui/QxCommonView"
@@ -306,7 +306,7 @@ L="$L script/core/QxCookie"
 L="$L script/core/QxCookieStorage"
 
 # Debugging
-L="$L script/core/QxTimeTracker"
+L="$L script/dev/QxTimeTracker"
 
 # Transport
 L="$L script/io/remote/QxRequest"
