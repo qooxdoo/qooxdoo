@@ -40,14 +40,14 @@ L="$L script/core/QxObjectCore"
 L="$L script/core/QxTarget"
 
 # Basic Events
-L="$L script/events/QxEvent"
-L="$L script/events/QxDomEvent"
-L="$L script/events/QxMouseEvent"
-L="$L script/events/QxMouseEventCore"
-L="$L script/events/QxKeyEvent"
-L="$L script/events/QxKeyEventCore"
-L="$L script/events/QxFocusEvent"
-L="$L script/events/QxDataEvent"
+L="$L script/event/types/QxEvent"
+L="$L script/event/types/QxDomEvent"
+L="$L script/event/types/QxMouseEvent"
+L="$L script/event/types/QxMouseEventCore"
+L="$L script/event/types/QxKeyEvent"
+L="$L script/event/types/QxKeyEventCore"
+L="$L script/event/types/QxFocusEvent"
+L="$L script/event/types/QxDataEvent"
 
 # Core Managers
 L="$L script/managers/object/QxObjectManager"
