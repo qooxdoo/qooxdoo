@@ -224,7 +224,7 @@ L="$L script/ui/QxMenuBar"
 L="$L script/ui/QxMenuBarButton"
 
 # List Support
-L="$L script/gui/QxSelectionStorage"
+L="$L script/types/QxSelection"
 L="$L script/managers/QxSelectionManager"
 L="$L script/ui/QxList"
 L="$L script/ui/QxListItem"
@@ -247,7 +247,7 @@ L="$L script/ui/QxWindow"
 L="$L script/gui/QxNativeWindow"
 
 # Flash Object
-L="$L script/gui/QxFlashPlayerVersion"
+L="$L script/types/QxVersion"
 L="$L script/ui/QxFlash"
 
 # Emulation Layers
