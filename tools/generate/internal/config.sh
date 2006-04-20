@@ -52,8 +52,10 @@ L="$L script/event/types/QxDataEvent"
 # Core Managers
 L="$L script/managers/object/QxObjectManager"
 
-# Application
-L="$L script/core/QxApplication"
+# Init
+L="$L script/core/QxInit"
+
+# Client Window
 L="$L script/client/QxClientWindow"
 
 # Color Support
