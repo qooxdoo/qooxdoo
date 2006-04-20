@@ -302,8 +302,8 @@ L="$L script/ui/QxGallery"
 L="$L script/ui/QxGalleryList"
 
 # Storage
-L="$L script/core/QxCookie"
-L="$L script/core/QxCookieStorage"
+L="$L script/io/local/QxCookie"
+L="$L script/io/local/QxCookieStorage"
 
 # Debugging
 L="$L script/dev/QxTimeTracker"
