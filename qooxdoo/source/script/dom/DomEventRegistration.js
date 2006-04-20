@@ -24,18 +24,17 @@
 
 #package(dom)
 #require(qx.sys.Client)
-#require(QxDomCore)
 
 ************************************************************************ */
 
 if (qx.sys.Client.isMshtml())
 {
   qx.dom.addEventListener = function(vElement, vType, vFunction) {
-    vElement.attachEvent(qx.dom.STR_ON + vType, vFunction);
+    vElement.attachEvent(qx.Const.CORE_ON + vType, vFunction);
   };
 
   qx.dom.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.detachEvent(qx.dom.STR_ON + vType, vFunction);
+    vElement.detachEvent(qx.Const.CORE_ON + vType, vFunction);
   };
 }
 else

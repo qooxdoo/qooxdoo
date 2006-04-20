@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxDomCore)
 #require(QxDomStyle)
 #require(QxDomLocation)
 
