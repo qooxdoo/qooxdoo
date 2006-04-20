@@ -35,7 +35,7 @@
  */
 qx.io.remote.IframeTransport = function()
 {
-  qx.io.remote.AbstractTransport.call(this);
+  qx.io.remote.AbstractRemoteTransport.call(this);
 
   var vUniqueId = (new Date).valueOf();
   var vFrameName = "frame_" + vUniqueId;
@@ -72,7 +72,7 @@ qx.io.remote.IframeTransport = function()
   this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 };
 
-qx.io.remote.IframeTransport.extend(qx.io.remote.AbstractTransport, "qx.io.remote.IframeTransport");
+qx.io.remote.IframeTransport.extend(qx.io.remote.AbstractRemoteTransport, "qx.io.remote.IframeTransport");
 
 proto._lastReadyState = 0;
 
@@ -451,5 +451,5 @@ proto.dispose = function()
     this._form = null;
   };
 
-  return qx.io.remote.AbstractTransport.prototype.dispose.call(this);
+  return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
 };
