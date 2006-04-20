@@ -117,7 +117,7 @@ L="$L script/event/handler/QxEventHandler"
 L="$L script/event/handler/QxFocusHandler"
 
 # Textile
-L="$L script/core/QxTextile"
+L="$L script/util/string/QxTextile"
 
 # Text Fields
 L="$L script/ui/QxTextField"
