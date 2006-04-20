@@ -233,7 +233,7 @@ L="$L script/ui/QxListItem"
 L="$L script/ui/QxComboBox"
 
 # Spinner
-L="$L script/managers/QxRangeManager"
+L="$L script/types/QxRange"
 L="$L script/ui/QxSpinner"
 
 # Command
