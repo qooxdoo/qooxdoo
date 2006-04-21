@@ -10,11 +10,11 @@ fi
 datfile="$1"
 
 if [ "$2" = "" -o ! -r $2 ]; then
-  echo "Second parameter: The directory to update ($2)"
+  echo "Second parameter: The directory to check ($2)"
   exit 1
 fi
 
-sourcedir="$2"
+checkdir="$2"
 
 if [ ! -r tools/namespaces ]; then
   echo "You need to be inside the main qooxdoo checkout folder!"
@@ -35,14 +35,18 @@ echo
 
 
 
-for file in `find $sourcedir -name "*.html" -o -name "*.htm" -o -name "*.js" -o -name "*.php"`; do
+for file in `find $checkdir -name "*.html" -o -name "*.htm" -o -name "*.js" -o -name "*.php"`; do
   echo ">>> Updating $file..."
 
   for item in `cat /tmp/repltmp.dat`; do
     orig=`echo $item | cut -d= -f1`
-    repl=`echo $item | cut -d= -f2-`
+    msg=`echo $item | cut -d= -f2-`
 
-    sed --in-place s/"$orig"/"$repl"/g $file
+    grep -q $orig $file > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      echo "Found: $orig"
+      echo "$msg"
+    fi
   done
 done
 
