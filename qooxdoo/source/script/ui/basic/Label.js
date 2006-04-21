@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(QxEmu)
 #require(qx.renderer.font.FontObject)
 #require(qx.renderer.font.FontCache)
 
