@@ -712,12 +712,12 @@ proto._onBrightnessFieldMouseDown = function(e)
 };
 
 proto._onBrightnessPaneMouseWheel = function(e) {
-  this.setBrightness((this.getBrightness() + e.getWheelDelta()).limit(0, 100));
+  this.setBrightness(this.getBrightness() + qx.lang.Number.limit(e.getWheelDelta(), 0, 100));
 };
 
 proto._setBrightnessOnFieldEvent = function(e)
 {
-  var vValue = (e.getPageY() - this._brightnessSubtract).limit(0, 256);
+  var vValue = qx.lang.Number.limit(e.getPageY() - this._brightnessSubtract, 0, 256);
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_FIELD;
 
@@ -789,13 +789,13 @@ proto._onHueSaturationFieldMouseDown = function(e)
 };
 
 proto._onHueSaturationPaneMouseWheel = function(e) {
-  this.setSaturation((this.getSaturation() + e.getWheelDelta()).limit(0, 100));
+  this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
 };
 
 proto._setHueSaturationOnFieldEvent = function(e)
 {
-  var vTop = (e.getPageY() - this._hueSaturationSubtractTop).limit(0, 256);
-  var vLeft = (e.getPageX() - this._hueSaturationSubtractLeft).limit(0, 256);
+  var vTop = qx.lang.Number.limit(e.getPageY() - this._hueSaturationSubtractTop, 0, 256);
+  var vLeft = qx.lang.Number.limit(e.getPageX() - this._hueSaturationSubtractLeft, 0, 256);
 
   if (this._hueSaturationHandle.isCreated())
   {

@@ -134,7 +134,7 @@ proto.computeChildNeededWidth = function(vChild)
     var vBox = (vChild._computedWidthTypePercent ? null : vChild.getWidthValue()) || vChild.getPreferredBoxWidth() || 0;
   };
 
-  return vBox.limit(vMinBox, vMaxBox) + vLeft + vRight + vChild.getMarginLeft() + vChild.getMarginRight();
+  return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vLeft + vRight + vChild.getMarginLeft() + vChild.getMarginRight();
 };
 
 /*!
@@ -156,7 +156,7 @@ proto.computeChildNeededHeight = function(vChild)
     var vBox = (vChild._computedHeightTypePercent ? null : vChild.getHeightValue()) || vChild.getPreferredBoxHeight() || 0;
   };
 
-  return vBox.limit(vMinBox, vMaxBox) + vTop + vBottom + vChild.getMarginTop() + vChild.getMarginBottom();
+  return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vTop + vBottom + vChild.getMarginTop() + vChild.getMarginBottom();
 };
 
 
