@@ -26,6 +26,19 @@
 
 ************************************************************************ */
 
+qx.lang.Number = {};
+
+qx.lang.Number.isInRange = function(nr, vmin, vmax) {
+  return nr >= vmin && nr <= vmax;
+};
+
+qx.lang.Number.isBetweenRange = function(nr, vmin, vmax) {
+  return nr > vmin && nr < vmax;
+};
+
+
+
+
 Number.prototype.limit = function(vmin, vmax)
 {
   if (vmax != null && typeof vmax === QxConst.TYPEOF_NUMBER && this > vmax)
@@ -41,12 +54,4 @@ Number.prototype.limit = function(vmin, vmax)
     // Number is needed, otherwise a object will be returned
     return Number(this);
   };
-};
-
-Number.prototype.inRange = function(vmin, vmax) {
-  return this >= vmin && this <= vmax;
-};
-
-Number.prototype.betweenRange = function(vmin, vmax) {
-  return this > vmin && this < vmax;
 };
