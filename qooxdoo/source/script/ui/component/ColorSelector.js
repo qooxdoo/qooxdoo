@@ -971,7 +971,7 @@ proto._onHexFieldChange = function(e)
 };
 
 proto._setHexFromRgb = function() {
-  this._hexField.setValue(this.getRed().toString(16).toUpperCase().pad(2) + this.getGreen().toString(16).toUpperCase().pad(2) + this.getBlue().toString(16).toUpperCase().pad(2));
+  this._hexField.setValue(qx.lang.String.pad(this.getRed().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getGreen().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getBlue().toString(16).toUpperCase(), 2));
 };
 
 
