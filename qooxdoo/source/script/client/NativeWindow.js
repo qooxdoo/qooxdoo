@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(nativewindow)
-#require(QxDomWindow)
+#require(qx.dom.DomWindow)
 #post(qx.ui.core.ClientDocument)
 #post(QxUtil)
 #post(qx.client.Timer)

@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(dom)
-#require(QxDomStyle)
-#require(QxDomLocation)
+#require(qx.dom.DomStyle)
+#require(qx.dom.DomLocation)
 
 ************************************************************************ */
 

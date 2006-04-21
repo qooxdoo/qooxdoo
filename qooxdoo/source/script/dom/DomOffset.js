@@ -24,7 +24,7 @@
 
 #package(dom)
 #require(qx.sys.Client)
-#require(QxDomStyle)
+#require(qx.dom.DomStyle)
 
 ************************************************************************ */
 

@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(gallery)
-#require(QxDomScrollIntoView)
+#require(qx.dom.DomScrollIntoView)
 #require(qx.manager.selection.DomSelectionManager)
 
 ************************************************************************ */
