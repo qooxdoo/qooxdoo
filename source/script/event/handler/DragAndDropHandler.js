@@ -25,7 +25,7 @@
 #package(dragndrop)
 #require(qx.ui.basic.Image)
 #post(qx.event.types.DragEvent)
-#post(QxDomElementFromPoint)
+#post(qx.dom.DomElementFromPoint)
 
 ************************************************************************ */
 

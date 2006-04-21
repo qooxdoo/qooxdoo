@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(toolbar)
-#post(QxDomDimension)
-#post(QxDomLocation)
+#post(qx.dom.DomDimension)
+#post(qx.dom.DomLocation)
 
 ************************************************************************ */
 

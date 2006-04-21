@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(window)
-#post(QxDomDimension)
-#post(QxDomLocation)
+#post(qx.dom.DomDimension)
+#post(qx.dom.DomLocation)
 #post(qx.ui.basic.Terminator)
 #post(qx.ui.layout.VerticalBoxLayout)
 #post(qx.ui.layout.HorizontalBoxLayout)
