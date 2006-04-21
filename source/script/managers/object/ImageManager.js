@@ -284,7 +284,7 @@ proto._buildUri = function(vPath, vForce)
       return vPath;
 
     default:
-      if (vPath.startsWith(QxConst.URI_HTTP) || vPath.startsWith(QxConst.URI_HTTPS) || vPath.startsWith(QxConst.URI_FILE)) {
+      if (qx.lang.String.startsWith(vPath, QxConst.URI_HTTP) || qx.lang.String.startsWith(vPath, QxConst.URI_HTTPS) || qx.lang.String.startsWith(vPath, QxConst.URI_FILE)) {
         return vPath;
       };
 

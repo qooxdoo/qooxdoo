@@ -64,21 +64,18 @@ qx.lang.String.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, QxConst.CORE_EMPTY);
 };
 
-
-
-
-
-
-
-
-
-String.prototype.startsWith = function(str) {
-  return !this.indexOf(str);
+qx.lang.String.startsWith = function(fullstr, substr) {
+  return !fullstr.indexOf(substr);
 };
 
-String.prototype.endsWith = function(str) {
-  return this.lastIndexOf(str) === this.length-str.length;
+qx.lang.String.endsWith = function(fullstr, substr) {
+  return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 };
+
+
+
+
+
 
 String.prototype.pad = function(length, ch)
 {
