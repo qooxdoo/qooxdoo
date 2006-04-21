@@ -23,9 +23,9 @@
 /* ************************************************************************
 
 #package(color)
-#require(QxUtil)
-#require(qx.manager.object.ColorManager)
+#post(qx.util.Validation)
 #post(qx.renderer.color.Color)
+#post(qx.manager.object.ColorManager)
 
 ************************************************************************ */
 

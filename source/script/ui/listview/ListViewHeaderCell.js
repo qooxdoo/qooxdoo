@@ -23,10 +23,10 @@
 /* ************************************************************************
 
 #package(listview)
-#require(QxCompare)
-#require(QxUtil)
-#post(qx.ui.basic.HorizontalSpacer)
+#require(qx.util.Validation)
+#require(qx.util.Compare)
 #post(qx.ui.basic.Image)
+#post(qx.ui.basic.HorizontalSpacer)
 
 ************************************************************************ */
 

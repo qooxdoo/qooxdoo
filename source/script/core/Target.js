@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(core)
-#post(QxUtil)
+#post(qx.util.Validation)
 #post(qx.event.types.Event)
 #post(qx.event.types.DataEvent)
 
