@@ -49,41 +49,41 @@ function QxSplitPane(vOrientation)
   //   SPLITTER BAR
   // ***********************************************************************
 
-  var sb = this._bar = new qx.ui.layout.BoxLayout(vOrientation == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
+  var sb = this._bar = new qx.ui.layout.BoxLayout(vOrientation == qx.Const.ORIENTATION_HORIZONTAL ? qx.Const.ORIENTATION_VERTICAL : qx.Const.ORIENTATION_HORIZONTAL);
   sb.setAppearance("splitpane-divider");
 
   switch(this.getOrientation())
   {
-    case QxConst.ORIENTATION_HORIZONTAL :
+    case qx.Const.ORIENTATION_HORIZONTAL :
       sb.setWidth(this.getDividerSize());
       break;
 
-    case QxConst.ORIENTATION_VERTICAL :
+    case qx.Const.ORIENTATION_VERTICAL :
       sb.setHeight(this.getDividerSize());
       break;
   };
 
-  sb.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
-  sb.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
-  sb.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
+  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
+  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
+  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
 
   this.add(sb);
 
   // ***********************************************************************
   //   BUTTONS
   // ***********************************************************************
-  var buttonLayout = this._buttonLayout = new qx.ui.layout.BoxLayout(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL ? QxConst.ORIENTATION_VERTICAL : QxConst.ORIENTATION_HORIZONTAL);
-  buttonLayout.setHorizontalChildrenAlign(QxConst.ALIGN_CENTER);
+  var buttonLayout = this._buttonLayout = new qx.ui.layout.BoxLayout(this.getOrientation() == qx.Const.ORIENTATION_HORIZONTAL ? qx.Const.ORIENTATION_VERTICAL : qx.Const.ORIENTATION_HORIZONTAL);
+  buttonLayout.setHorizontalChildrenAlign(qx.Const.ALIGN_CENTER);
 
   switch(this.getOrientation())
   {
-    case QxConst.ORIENTATION_HORIZONTAL :
+    case qx.Const.ORIENTATION_HORIZONTAL :
       this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/left-divider.gif");
       this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/right-divider.gif");
       this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-horiz-divider.gif");
       break;
 
-    case QxConst.ORIENTATION_VERTICAL :
+    case qx.Const.ORIENTATION_VERTICAL :
       this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/up-divider.gif");
       this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/down-divider.gif");
       this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-vert-divider.gif");
@@ -101,8 +101,8 @@ function QxSplitPane(vOrientation)
   minB.setAppearance("splitpane-button");
   minB.setTabIndex(-1);
 
-  minB.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-  minB.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  minB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+  minB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   buttonLayout.add(minB);
 
@@ -115,8 +115,8 @@ function QxSplitPane(vOrientation)
   restoreB.setAppearance("splitpane-button");
   restoreB.setTabIndex(-1);
 
-  restoreB.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
-  restoreB.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  restoreB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
+  restoreB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   // ***********************************************************************
   //   BUTTONS: MAXIMIZE
@@ -127,8 +127,8 @@ function QxSplitPane(vOrientation)
   maxB.setAppearance("splitpane-button");
   maxB.setTabIndex(-1);
 
-  maxB.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
-  maxB.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  maxB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
+  maxB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   buttonLayout.add(maxB);
 
@@ -161,52 +161,52 @@ QxSplitPane.MODE_TRANSLUCENT = "translucent";
 ------------------------------------------------------------------------------------
 */
 
-QxSplitPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "splitpane" });
+QxSplitPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "splitpane" });
 
 /*!
   If the window is resizeable
 */
-QxSplitPane.addProperty({ name : "allowMove", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+QxSplitPane.addProperty({ name : "allowMove", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : QxSplitPane.MODE_BAR, possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
+QxSplitPane.addProperty({ name : "moveMethod", type : qx.Const.TYPEOF_STRING, defaultValue : QxSplitPane.MODE_BAR, possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "dividerSize", type : QxConst.TYPEOF_NUMBER, defaultValue : 7 });
+QxSplitPane.addProperty({ name : "dividerSize", type : qx.Const.TYPEOF_NUMBER, defaultValue : 7 });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "dividerLocation", type : QxConst.TYPEOF_NUMBER });
+QxSplitPane.addProperty({ name : "dividerLocation", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "firstWidget", getAlias : ["getTopWidget", "getLeftWidget"], setAlias : ["setTopWidget", "setLeftWidget"], type : QxConst.TYPEOF_OBJECT });
+QxSplitPane.addProperty({ name : "firstWidget", getAlias : ["getTopWidget", "getLeftWidget"], setAlias : ["setTopWidget", "setLeftWidget"], type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "maximumDividerLocation", type : QxConst.TYPEOF_NUMBER });
+QxSplitPane.addProperty({ name : "maximumDividerLocation", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "minimumDividerLocation", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxSplitPane.addProperty({ name : "minimumDividerLocation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "oneTouchExpandable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxSplitPane.addProperty({ name : "oneTouchExpandable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", "getRightWidget"], setAlias : ["setBottomWidget", "setRightWidget"], type : QxConst.TYPEOF_OBJECT });
+QxSplitPane.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", "getRightWidget"], setAlias : ["setBottomWidget", "setRightWidget"], type : qx.Const.TYPEOF_OBJECT });
 
 
 /*
@@ -224,13 +224,13 @@ this.error("Width=" + this.getWidth() - propValue - this.getDividerSize());
 
     switch(this.getOrientation())
     {
-      case QxConst.ORIENTATION_HORIZONTAL :
+      case qx.Const.ORIENTATION_HORIZONTAL :
 this.error("Hereeeeeee");
         this.getFirstWidget().setWidth(propValue);
         this.getSecondWidget().setWidth(this.getWidth() - propValue - this.getDividerSize());
         break;
 
-      case QxConst.ORIENTATION_VERTICAL :
+      case qx.Const.ORIENTATION_VERTICAL :
         this.getFirstWidget().setHeight(propValue);
         this.getSecondWidget().setHeight(this.getHeight() - propValue - this.getDividerSize());
         break;
@@ -242,10 +242,10 @@ this.error("Hereeeeeee");
 
 proto._modifyDividerSize = function(propValue, propOldValue, propData)
 {
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
+  if(this.getOrientation() == qx.Const.ORIENTATION_HORIZONTAL) {
     this._bar.setWidth(propValue);
   }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
+  else if(this.getOrientation() == qx.Const.ORIENTATION_VERTICAL) {
     this._bar.setHeight(propValue);
   };
 
@@ -286,11 +286,11 @@ proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData
 
   switch(this.getOrientation())
   {
-    case QxConst.ORIENTATION_HORIZONTAL :
+    case qx.Const.ORIENTATION_HORIZONTAL :
       maxValue = this.getWidth();
       break;
 
-    case QxConst.ORIENTATION_VERTICAL :
+    case qx.Const.ORIENTATION_VERTICAL :
       maxValue = this.getHeight();
       break;
   };
@@ -306,10 +306,10 @@ proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData
 {
   var minValue;
 
-  if(this.getOrientation() == QxConst.ORIENTATION_HORIZONTAL) {
+  if(this.getOrientation() == qx.Const.ORIENTATION_HORIZONTAL) {
     minValue = this.getWidth();
   }
-  else if(this.getOrientation() == QxConst.ORIENTATION_VERTICAL) {
+  else if(this.getOrientation() == qx.Const.ORIENTATION_VERTICAL) {
     minValue = this.getHeight();
   };
 
@@ -402,7 +402,7 @@ proto._onbarmousedown = function(e)
 
   switch(this.getOrientation())
   {
-    case QxConst.ORIENTATION_HORIZONTAL :
+    case qx.Const.ORIENTATION_HORIZONTAL :
       s.firstPageX = e.getPageX();
 
       s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
@@ -415,7 +415,7 @@ proto._onbarmousedown = function(e)
       s.maxPos = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (r - l - s.boxWidth);
       break;
 
-    case QxConst.ORIENTATION_VERTICAL :
+    case qx.Const.ORIENTATION_VERTICAL :
       s.firstPageY = e.getPageY();
 
       s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
@@ -459,7 +459,7 @@ proto._onbarmouseup = function(e)
 
         switch(this.getOrientation())
         {
-          case QxConst.ORIENTATION_HORIZONTAL :
+          case qx.Const.ORIENTATION_HORIZONTAL :
             this._lastDividerLocation = s.boxLeft;
 
             s.newPosition = s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX;
@@ -467,7 +467,7 @@ proto._onbarmouseup = function(e)
             secondWidget.setWidth(s.parentAreaOffsetRight - s.parentAreaOffsetLeft - s.boxWidth - s.newPosition);
             break;
 
-          case QxConst.ORIENTATION_VERTICAL :
+          case qx.Const.ORIENTATION_VERTICAL :
             this._lastDividerLocation = s.boxTop;
 
             s.newPosition = s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY;
@@ -522,11 +522,11 @@ proto._onbarmousemove = function(e)
       case QxSplitPane.MODE_TRANSLUCENT:
         switch(this.getOrientation())
         {
-          case QxConst.ORIENTATION_HORIZONTAL :
+          case qx.Const.ORIENTATION_HORIZONTAL :
             this._bar.setLeft((s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX).limit(s.minPos, s.maxPos));
             break;
 
-          case QxConst.ORIENTATION_VERTICAL :
+          case qx.Const.ORIENTATION_VERTICAL :
             this._bar.setTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
             break;
         };
@@ -537,11 +537,11 @@ proto._onbarmousemove = function(e)
 
         switch(this.getOrientation())
         {
-          case QxConst.ORIENTATION_HORIZONTAL :
+          case qx.Const.ORIENTATION_HORIZONTAL :
             o._applyRuntimeLeft((s.boxLeft - s.parentAreaOffsetLeft + e.getPageX() - s.firstPageX).limit(s.minPos, s.maxPos));
             break;
 
-          case QxConst.ORIENTATION_VERTICAL :
+          case qx.Const.ORIENTATION_VERTICAL :
             o._applyRuntimeTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
             break;
         };
@@ -551,11 +551,11 @@ proto._onbarmousemove = function(e)
   {
     switch(this.getOrientation())
     {
-      case QxConst.ORIENTATION_HORIZONTAL :
+      case qx.Const.ORIENTATION_HORIZONTAL :
         this._bar.setCursor("w-resize");
         break;
 
-      case QxConst.ORIENTATION_VERTICAL :
+      case qx.Const.ORIENTATION_VERTICAL :
         this._bar.setCursor("n-resize");
         break;
     };
@@ -656,9 +656,9 @@ proto.dispose = function()
 
   if (this._bar)
   {
-    this._bar.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
-    this._bar.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
-    this._bar.removeEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
+    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
+    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
+    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
     this._bar.dispose();
     this._bar = null;
   };
@@ -669,22 +669,22 @@ proto.dispose = function()
   };
 
   if (this._minimizeButton) {
-    this._minimizeButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._minimizeButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._minimizeButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._minimizeButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
     this._minimizeButton.dispose();
     this._minimizeButton = null;
   };
 
   if (this._maximizeButton) {
-    this._maximizeButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._maximizeButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._maximizeButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._maximizeButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
     this._maximizeButton.dispose();
     this._maximizeButton = null;
   };
 
   if (this._restoreButton) {
-    this._restoreButton.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._restoreButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._restoreButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+    this._restoreButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
     this._restoreButton.dispose();
     this._restoreButton = null;
   };

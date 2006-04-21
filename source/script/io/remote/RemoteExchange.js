@@ -131,11 +131,11 @@ All the data has been received, and the complete data is available in the
 
 qx.io.remote.RemoteExchange._nativeMap =
 {
-  0 : QxConst.REQUEST_STATE_CREATED,
-  1 : QxConst.REQUEST_STATE_CONFIGURED,
-  2 : QxConst.REQUEST_STATE_SENDING,
-  3 : QxConst.REQUEST_STATE_RECEIVING,
-  4 : QxConst.REQUEST_STATE_COMPLETED
+  0 : qx.Const.REQUEST_STATE_CREATED,
+  1 : qx.Const.REQUEST_STATE_CONFIGURED,
+  2 : qx.Const.REQUEST_STATE_SENDING,
+  3 : qx.Const.REQUEST_STATE_RECEIVING,
+  4 : qx.Const.REQUEST_STATE_COMPLETED
 };
 
 
@@ -164,7 +164,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
         return vReadyState < 4;
 
       default:
-        return typeof vStatusCode === QxConst.TYPEOF_UNDEFINED;
+        return typeof vStatusCode === qx.Const.TYPEOF_UNDEFINED;
     };
   }
   else
@@ -273,25 +273,25 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 /*!
   Set the request to send with this transport.
 */
-qx.io.remote.RemoteExchange.addProperty({ name : "request", type : QxConst.TYPEOF_OBJECT, instance : "qx.io.remote.RemoteRequest" });
+qx.io.remote.RemoteExchange.addProperty({ name : "request", type : qx.Const.TYPEOF_OBJECT, instance : "qx.io.remote.RemoteRequest" });
 /*!
   Set the implementation to use to send the request with.
 
   The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
   must implement all methods in the transport API.
 */
-qx.io.remote.RemoteExchange.addProperty({ name : "implementation", type : QxConst.TYPEOF_OBJECT });
+qx.io.remote.RemoteExchange.addProperty({ name : "implementation", type : qx.Const.TYPEOF_OBJECT });
 qx.io.remote.RemoteExchange.addProperty(
 {
   name           : "state",
-  type           : QxConst.TYPEOF_STRING,
+  type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_SENDING,
-                   QxConst.REQUEST_STATE_RECEIVING, QxConst.REQUEST_STATE_COMPLETED,
-                   QxConst.REQUEST_STATE_ABORTED, QxConst.REQUEST_STATE_TIMEOUT,
-                   QxConst.REQUEST_STATE_FAILED
+                   qx.Const.REQUEST_STATE_CONFIGURED, qx.Const.REQUEST_STATE_SENDING,
+                   qx.Const.REQUEST_STATE_RECEIVING, qx.Const.REQUEST_STATE_COMPLETED,
+                   qx.Const.REQUEST_STATE_ABORTED, qx.Const.REQUEST_STATE_TIMEOUT,
+                   qx.Const.REQUEST_STATE_FAILED
                    ],
-  defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
+  defaultValue   : qx.Const.REQUEST_STATE_CONFIGURED
 });
 
 
@@ -367,7 +367,7 @@ proto.send = function()
   this.error("There is no transport implementation available to handle this request: " + vRequest, "handle");
 };
 /*!
-  Force the transport into the aborted (QxConst.REQUEST_STATE_ABORTED)
+  Force the transport into the aborted (qx.Const.REQUEST_STATE_ABORTED)
   state.
 */
 proto.abort = function()
@@ -382,7 +382,7 @@ proto.abort = function()
   else
   {
     this.debug("Abort: forcing state to be aborted");
-    this.setState(QxConst.REQUEST_STATE_ABORTED);
+    this.setState(qx.Const.REQUEST_STATE_ABORTED);
   };
 };
 /*!
@@ -400,7 +400,7 @@ proto.timeout = function()
   else
   {
     this.warn("Timeout: forcing state to timeout");
-    this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+    this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
   };
 };
 
@@ -419,27 +419,27 @@ proto.timeout = function()
 */
 
 proto._onsending = function(e) {
-  this.setState(QxConst.REQUEST_STATE_SENDING);
+  this.setState(qx.Const.REQUEST_STATE_SENDING);
 };
 
 proto._onreceiving = function(e) {
-  this.setState(QxConst.REQUEST_STATE_RECEIVING);
+  this.setState(qx.Const.REQUEST_STATE_RECEIVING);
 };
 
 proto._oncompleted = function(e) {
-  this.setState(QxConst.REQUEST_STATE_COMPLETED);
+  this.setState(qx.Const.REQUEST_STATE_COMPLETED);
 };
 
 proto._onabort = function(e) {
-  this.setState(QxConst.REQUEST_STATE_ABORTED);
+  this.setState(qx.Const.REQUEST_STATE_ABORTED);
 };
 
 proto._onfailed = function(e) {
-  this.setState(QxConst.REQUEST_STATE_FAILED);
+  this.setState(qx.Const.REQUEST_STATE_FAILED);
 };
 
 proto._ontimeout = function(e) {
-  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
 };
 
 
@@ -457,12 +457,12 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_RECEIVING, this._onreceiving, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_ABORTED, this._onabort, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_FAILED, this._onfailed, this);
   };
 
   if (propValue)
@@ -482,12 +482,12 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
 
     propValue.setResponseType(vRequest.getResponseType());
 
-    propValue.addEventListener(QxConst.EVENT_TYPE_SENDING, this._onsending, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_RECEIVING, this._onreceiving, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_ABORTED, this._onabort, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_FAILED, this._onfailed, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_RECEIVING, this._onreceiving, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_ABORTED, this._onabort, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_FAILED, this._onfailed, this);
   };
 
   return true;
@@ -503,18 +503,18 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case QxConst.REQUEST_STATE_SENDING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
+    case qx.Const.REQUEST_STATE_SENDING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case QxConst.REQUEST_STATE_RECEIVING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
+    case qx.Const.REQUEST_STATE_RECEIVING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case QxConst.REQUEST_STATE_COMPLETED:
-    case QxConst.REQUEST_STATE_ABORTED:
-    case QxConst.REQUEST_STATE_TIMEOUT:
-    case QxConst.REQUEST_STATE_FAILED:
+    case qx.Const.REQUEST_STATE_COMPLETED:
+    case qx.Const.REQUEST_STATE_ABORTED:
+    case qx.Const.REQUEST_STATE_TIMEOUT:
+    case qx.Const.REQUEST_STATE_FAILED:
       var vImpl = this.getImplementation();
       var vResponse = new qx.io.remote.RemoteResponse;
 
@@ -528,20 +528,20 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
       switch(propValue)
       {
-        case QxConst.REQUEST_STATE_COMPLETED:
-          vEventType = QxConst.EVENT_TYPE_COMPLETED;
+        case qx.Const.REQUEST_STATE_COMPLETED:
+          vEventType = qx.Const.EVENT_TYPE_COMPLETED;
           break;
 
-        case QxConst.REQUEST_STATE_ABORTED:
-          vEventType = QxConst.EVENT_TYPE_ABORTED;
+        case qx.Const.REQUEST_STATE_ABORTED:
+          vEventType = qx.Const.EVENT_TYPE_ABORTED;
           break;
 
-        case QxConst.REQUEST_STATE_TIMEOUT:
-          vEventType = QxConst.EVENT_TYPE_TIMEOUT;
+        case qx.Const.REQUEST_STATE_TIMEOUT:
+          vEventType = qx.Const.EVENT_TYPE_TIMEOUT;
           break;
 
-        case QxConst.REQUEST_STATE_FAILED:
-          vEventType = QxConst.EVENT_TYPE_FAILED;
+        case qx.Const.REQUEST_STATE_FAILED:
+          vEventType = qx.Const.EVENT_TYPE_FAILED;
           break;
       };
 

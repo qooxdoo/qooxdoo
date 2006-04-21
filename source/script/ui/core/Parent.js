@@ -58,17 +58,17 @@ qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 /*!
   Individual focus manager for all child elements.
 */
-qx.ui.core.Parent.addProperty({ name : "focusManager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
+qx.ui.core.Parent.addProperty({ name : "focusManager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
 */
-qx.ui.core.Parent.addProperty({ name : "activeChild", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.ui.core.Parent.addProperty({ name : "activeChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 /*!
   The current focused child.
 */
-qx.ui.core.Parent.addProperty({ name : "focusedChild", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.ui.core.Parent.addProperty({ name : "focusedChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -123,8 +123,8 @@ proto._modifyFocusManager = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // Add Key Handler
-    this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
+    this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
 
     // Activate focus handling (but keep already configured tabIndex)
     if (this.getTabIndex() < 1) {
@@ -140,8 +140,8 @@ proto._modifyFocusManager = function(propValue, propOldValue, propData)
   else
   {
     // Remove Key Handler
-    this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
+    this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
 
     // Deactivate focus handling
     this.setTabIndex(-1);
@@ -160,16 +160,16 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   var vFocusValid = qx.util.Validation.isValidObject(propValue);
   var vBlurValid = qx.util.Validation.isValidObject(propOldValue);
 
-  if (vFocusValid && typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+  if (vFocusValid && typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.PopupManager.update(propValue);
   };
 
   if (vBlurValid)
   {
     // Dispatch FocusOut
-    if (propOldValue.hasEventListeners(QxConst.EVENT_TYPE_FOCUSOUT))
+    if (propOldValue.hasEventListeners(qx.Const.EVENT_TYPE_FOCUSOUT))
     {
-      var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUSOUT, propOldValue);
+      var vEventObject = new qx.event.types.FocusEvent(qx.Const.EVENT_TYPE_FOCUSOUT, propOldValue);
 
       if (vFocusValid) {
         vEventObject.setRelatedTarget(propValue);
@@ -182,10 +182,10 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
   if (vFocusValid)
   {
-    if (propValue.hasEventListeners(QxConst.EVENT_TYPE_FOCUSIN))
+    if (propValue.hasEventListeners(qx.Const.EVENT_TYPE_FOCUSIN))
     {
       // Dispatch FocusIn
-      var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUSIN, propValue);
+      var vEventObject = new qx.event.types.FocusEvent(qx.Const.EVENT_TYPE_FOCUSIN, propValue);
 
       if (vBlurValid) {
         vEventObject.setRelatedTarget(propOldValue);
@@ -205,7 +205,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     propOldValue.setFocused(false);
 
     // Dispatch Blur
-    var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_BLUR, propOldValue);
+    var vEventObject = new qx.event.types.FocusEvent(qx.Const.EVENT_TYPE_BLUR, propOldValue);
 
     if (vFocusValid) {
       vEventObject.setRelatedTarget(propValue);
@@ -224,7 +224,7 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     propValue.getTopLevelWidget().getEventManager().setFocusRoot(this);
 
     // Dispatch Focus
-    var vEventObject = new qx.event.types.FocusEvent(QxConst.EVENT_TYPE_FOCUS, propValue);
+    var vEventObject = new qx.event.types.FocusEvent(qx.Const.EVENT_TYPE_FOCUS, propValue);
 
     if (vBlurValid) {
       vEventObject.setRelatedTarget(propOldValue);
@@ -987,7 +987,7 @@ if (qx.sys.Client.isOpera())
     var vStyle = vChild.getElement().style;
 
     var vOldDisplay = vStyle.display;
-    vStyle.display = QxConst.CORE_NONE;
+    vStyle.display = qx.Const.CORE_NONE;
     var vRet = this._layoutChildOrig(vChild);
     vStyle.display = vOldDisplay;
 
@@ -1182,8 +1182,8 @@ proto.dispose = function()
   // Remove Key Handler
   if (this.getFocusManager())
   {
-    this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
+    this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
 
     this.forceFocusManager(null);
   };

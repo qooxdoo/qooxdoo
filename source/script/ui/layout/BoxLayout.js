@@ -51,41 +51,41 @@ qx.ui.layout.BoxLayout.STR_REVERSED = "-reversed";
 */
 
 /*!
-  The orientation of the layout control. Allowed values are QxConst.ORIENTATION_HORIZONTAL (default) and QxConst.ORIENTATION_VERTICAL.
+  The orientation of the layout control. Allowed values are qx.Const.ORIENTATION_HORIZONTAL (default) and qx.Const.ORIENTATION_VERTICAL.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "orientation", type : QxConst.TYPEOF_STRING, possibleValues : [ QxConst.ORIENTATION_HORIZONTAL, QxConst.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "orientation", type : qx.Const.TYPEOF_STRING, possibleValues : [ qx.Const.ORIENTATION_HORIZONTAL, qx.Const.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "spacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.BoxLayout.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left", "center" and "right"
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], impl : "layoutOrder", addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], impl : "layoutOrder", addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   Should the children be layouted in reverse order?
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "layoutOrder", addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "reverseChildrenOrder", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   Should the widgets be stretched to the available width (orientation==vertical) or height (orientation==horizontal)?
   This only applies if the child has not configured a own value for this axis.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "stretchChildrenOrthogonalAxis", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "stretchChildrenOrthogonalAxis", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, addToQueueRuntime : true });
 
 /*!
   If there are min/max values in combination with flex try to optimize placement.
   This is more complex and produces more time for the layouter but sometimes this feature is needed.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true });
+qx.ui.layout.BoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true });
 
 
 
@@ -101,7 +101,7 @@ qx.ui.layout.BoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : 
   This creates an new instance of the layout impl this widget uses
 */
 proto._createLayoutImpl = function() {
-  return this.getOrientation() == QxConst.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
+  return this.getOrientation() == qx.Const.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
 };
 
 
@@ -163,8 +163,8 @@ proto._invalidateLayoutMode = function() {
 proto._modifyOrientation = function(propValue, propOldValue, propData)
 {
   // update fast access variables
-  this._layoutHorizontal = propValue == QxConst.ORIENTATION_HORIZONTAL;
-  this._layoutVertical = propValue == QxConst.ORIENTATION_VERTICAL;
+  this._layoutHorizontal = propValue == qx.Const.ORIENTATION_HORIZONTAL;
+  this._layoutVertical = propValue == qx.Const.ORIENTATION_VERTICAL;
 
   // Layout Implementation
   if (this._layoutImpl)

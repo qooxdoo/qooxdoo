@@ -35,7 +35,7 @@ qx.ui.tree.TreeFolder = function(vLabel, vIcon, vIconSelected)
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
 
-  this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
   // Remapping of add/remove methods
   this.add = this.addToFolder;
@@ -58,12 +58,12 @@ qx.ui.tree.TreeFolder.extend(qx.ui.tree.AbstractTreeElement, "qx.ui.tree.TreeFol
 */
 
 
-qx.ui.tree.TreeFolder.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-folder" });
-qx.ui.tree.TreeFolder.changeProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-qx.ui.tree.TreeFolder.changeProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.TreeFolder.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tree-folder" });
+qx.ui.tree.TreeFolder.changeProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.ui.tree.TreeFolder.changeProperty({ name : "iconSelected", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.tree.TreeFolder.addProperty({ name : "open", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.tree.TreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.TreeFolder.addProperty({ name : "open", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.TreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -86,7 +86,7 @@ proto.open = function()
 
   if (this.hasContent())
   {
-    this.getTopLevelWidget().setGlobalCursor(QxConst.CURSOR_PROGRESS);
+    this.getTopLevelWidget().setGlobalCursor(qx.Const.CURSOR_PROGRESS);
     qx.client.Timer.once(this._openCallback, this, 0);
   }
   else
@@ -129,7 +129,7 @@ proto._createChildrenStructure = function()
 
   if (!this._horizontalLayout)
   {
-    this.setOrientation(QxConst.ORIENTATION_VERTICAL);
+    this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
 
     this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);
@@ -500,7 +500,7 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
   if (this._horizontalLayout)
   {

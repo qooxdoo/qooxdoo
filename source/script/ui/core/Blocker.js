@@ -40,4 +40,4 @@ qx.ui.core.ClientDocumentBlocker = function()
 
 qx.ui.core.ClientDocumentBlocker.extend(qx.ui.basic.Terminator, "qx.ui.core.ClientDocumentBlocker");
 
-qx.ui.core.ClientDocumentBlocker.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "blocker" });
+qx.ui.core.ClientDocumentBlocker.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "blocker" });

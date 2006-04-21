@@ -111,24 +111,24 @@ qx.ui.form.ComboBox = function()
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
 
 
   // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
-  p.addEventListener(QxConst.EVENT_TYPE_APPEAR, this._onpopupappear, this);
-  f.addEventListener(QxConst.EVENT_TYPE_INPUT, this._oninput, this);
+  p.addEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onpopupappear, this);
+  f.addEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
 
 
   // ************************************************************************
@@ -147,12 +147,12 @@ qx.ui.form.ComboBox.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.ComboBo
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.ComboBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "combo-box" });
+qx.ui.form.ComboBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "combo-box" });
 
-qx.ui.form.ComboBox.addProperty({ name: "editable", type: QxConst.TYPEOF_BOOLEAN, getAlias: "isEditable" });
-qx.ui.form.ComboBox.addProperty({ name: "selected", type: QxConst.TYPEOF_OBJECT, instance : "qx.ui.form.ListItem" });
-qx.ui.form.ComboBox.addProperty({ name: "value", type : QxConst.TYPEOF_STRING });
-qx.ui.form.ComboBox.addProperty({ name: "pagingInterval", type: QxConst.TYPEOF_NUMBER, defaultValue: 10 });
+qx.ui.form.ComboBox.addProperty({ name: "editable", type: qx.Const.TYPEOF_BOOLEAN, getAlias: "isEditable" });
+qx.ui.form.ComboBox.addProperty({ name: "selected", type: qx.Const.TYPEOF_OBJECT, instance : "qx.ui.form.ListItem" });
+qx.ui.form.ComboBox.addProperty({ name: "value", type : qx.Const.TYPEOF_STRING });
+qx.ui.form.ComboBox.addProperty({ name: "pagingInterval", type: qx.Const.TYPEOF_NUMBER, defaultValue: 10 });
 
 
 
@@ -202,7 +202,7 @@ proto._modifySelected = function(propValue, propOldValue, propData)
   // only do this if we called setSelected seperatly
   // and not from the property "value".
   if (!this._fromValue) {
-    this.setValue(propValue ? propValue.getLabel() : QxConst.CORE_EMPTY);
+    this.setValue(propValue ? propValue.getLabel() : qx.Const.CORE_EMPTY);
   };
 
   // reset manager cache
@@ -223,7 +223,7 @@ proto._modifyValue = function(propValue, propOldValue, propData)
   this._fromValue = true;
 
   // only do this if we called setValue seperatly
-  // and not from the event QxConst.EVENT_TYPE_INPUT.
+  // and not from the event qx.Const.EVENT_TYPE_INPUT.
   if (!this._fromInput) {
     this._field.setValue(propValue);
   };
@@ -260,7 +260,7 @@ proto._modifyEditable = function(propValue, propOldValue, propData)
   var f = this._field;
 
   f.setReadOnly(!propValue);
-  f.setCursor(propValue ? null : QxConst.CORE_DEFAULT);
+  f.setCursor(propValue ? null : qx.Const.CORE_DEFAULT);
   f.setSelectable(propValue);
 
   return true;
@@ -324,7 +324,7 @@ proto._onmousedown = function(e)
       // no break here
 
     case this._button:
-      this._button.addState(QxConst.STATE_PRESSED);
+      this._button.addState(qx.Const.STATE_PRESSED);
       this._togglePopup();
       break;
 
@@ -360,7 +360,7 @@ proto._onmouseup = function(e)
       // no break here
 
     case this._button:
-      this._button.removeState(QxConst.STATE_PRESSED);
+      this._button.removeState(qx.Const.STATE_PRESSED);
       break;
   };
 };
@@ -449,7 +449,7 @@ proto._onkeydown = function(e)
 
         vManager.setSelectedItem(this._oldSelected);
 
-        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : QxConst.CORE_EMPTY);
+        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.Const.CORE_EMPTY);
 
         this._closePopup();
       };

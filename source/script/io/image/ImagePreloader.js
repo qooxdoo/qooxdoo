@@ -144,8 +144,8 @@ proto._onload = function()
   this._isLoaded = true;
   this._isErroneous = false;
 
-  if (this.hasEventListeners(QxConst.EVENT_TYPE_LOAD)) {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_LOAD)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_LOAD), true);
   };
 };
 
@@ -156,8 +156,8 @@ proto._onerror = function()
   this._isLoaded = false;
   this._isErroneous = true;
 
-  if (this.hasEventListeners(QxConst.EVENT_TYPE_ERROR)) {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_ERROR), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_ERROR)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_ERROR), true);
   };
 };
 

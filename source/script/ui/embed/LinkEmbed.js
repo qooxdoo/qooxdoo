@@ -30,11 +30,11 @@ qx.ui.embed.HtmlLinkEmbed = function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vUri != QxConst.TYPEOF_UNDEFINED) {
+  if (typeof vUri != qx.Const.TYPEOF_UNDEFINED) {
     this.setUri(vUri);
   };
 
-  if (typeof vTarget != QxConst.TYPEOF_UNDEFINED) {
+  if (typeof vTarget != qx.Const.TYPEOF_UNDEFINED) {
     this.setTarget(vTarget);
   };
 };
@@ -55,12 +55,12 @@ qx.ui.embed.HtmlLinkEmbed.extend(qx.ui.embed.HtmlEmbed, "qx.ui.embed.HtmlLinkEmb
 /*!
   Any valid html URI
 */
-qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "uri", type : QxConst.TYPEOF_STRING, defaultValue : "#", impl : "html" });
+qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "uri", type : qx.Const.TYPEOF_STRING, defaultValue : "#", impl : "html" });
 
 /*!
   Any valid html target
 */
-qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "target", type : QxConst.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
+qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "target", type : qx.Const.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
 
 
 
@@ -90,5 +90,5 @@ proto._syncHtml = function()
   vHtml.push(this.getHtml());
   vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_STOP);
 
-  this.getElement().innerHTML = vHtml.join(QxConst.CORE_EMPTY);
+  this.getElement().innerHTML = vHtml.join(qx.Const.CORE_EMPTY);
 };

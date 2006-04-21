@@ -30,7 +30,7 @@ qx.ui.basic.VerticalSpacer = function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setHeight(QxConst.CORE_FLEX);
+  this.setHeight(qx.Const.CORE_FLEX);
 };
 
 qx.ui.basic.VerticalSpacer.extend(qx.ui.basic.Terminator, "qx.ui.basic.VerticalSpacer");

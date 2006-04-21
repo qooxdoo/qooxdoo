@@ -48,8 +48,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   //   FUNCTIONAL STYLE
   // ************************************************************************
 
-  this.setMinWidth(QxConst.CORE_AUTO);
-  this.setMinHeight(QxConst.CORE_AUTO);
+  this.setMinWidth(qx.Const.CORE_AUTO);
+  this.setMinHeight(qx.Const.CORE_AUTO);
   this.setAutoHide(false);
 
 
@@ -131,8 +131,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   bm.setAppearance("window-captionbar-minimize-button");
   bm.setTabIndex(-1);
 
-  bm.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-  bm.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bm.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
+  bm.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bm);
 
@@ -146,8 +146,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   br.setAppearance("window-captionbar-restore-button");
   br.setTabIndex(-1);
 
-  br.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
-  br.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  br.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
+  br.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   // don't add initially
   // cb.add(br);
@@ -162,8 +162,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   bx.setAppearance("window-captionbar-maximize-button");
   bx.setTabIndex(-1);
 
-  bx.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
-  bx.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bx.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
+  bx.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bx);
 
@@ -177,8 +177,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   bc.setAppearance("window-captionbar-close-button");
   bc.setTabIndex(-1);
 
-  bc.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclosebuttonclick, this);
-  bc.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bc.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclosebuttonclick, this);
+  bc.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bc);
 
@@ -188,8 +188,8 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   // ************************************************************************
 
   var p = this._pane = new qx.ui.layout.CanvasLayout;
-  p.setHeight(QxConst.CORE_FLEX);
-  p.setOverflow(QxConst.OVERFLOW_VALUE_HIDDEN);
+  p.setHeight(qx.Const.CORE_FLEX);
+  p.setOverflow(qx.Const.OVERFLOW_VALUE_HIDDEN);
   l.add(p);
 
 
@@ -223,19 +223,19 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   //   EVENTS: WINDOW
   // ************************************************************************
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onwindowmouseup, this);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onwindowmousemove, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onwindowmouseup, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onwindowmousemove, this);
 
 
   // ************************************************************************
   //   EVENTS: CAPTIONBAR
   // ************************************************************************
 
-  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._oncaptionmousedown, this);
-  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._oncaptionmouseup, this);
-  cb.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._oncaptionmousemove, this);
-  cb.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._oncaptiondblblick, this);
+  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._oncaptionmousedown, this);
+  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._oncaptionmouseup, this);
+  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._oncaptionmousemove, this);
+  cb.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._oncaptiondblblick, this);
 
 
   // ************************************************************************
@@ -257,113 +257,113 @@ qx.ui.window.Window.extend(qx.ui.popup.Popup, "qx.ui.window.Window");
 /*!
   Appearance of the widget
 */
-qx.ui.window.Window.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "window" });
+qx.ui.window.Window.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "window" });
 
 /*!
   The windowManager to use for.
 */
-qx.ui.window.Window.addProperty({ name : "windowManager", type : QxConst.TYPEOF_OBJECT });
+qx.ui.window.Window.addProperty({ name : "windowManager", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   If the window is active, only one window in a single qx.manager.object.WindowManager could
   have set this to true at the same time.
 */
-qx.ui.window.Window.addProperty({ name : "active", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "active", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.ui.window.Window.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.ui.window.Window.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
+qx.ui.window.Window.addProperty({ name : "mode", type : qx.Const.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
 
 /*!
   The opener (button) of the window
 */
-qx.ui.window.Window.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
+qx.ui.window.Window.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   The text of the caption
 */
-qx.ui.window.Window.addProperty({ name : "caption", type : QxConst.TYPEOF_STRING });
+qx.ui.window.Window.addProperty({ name : "caption", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The icon of the caption
 */
-qx.ui.window.Window.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
+qx.ui.window.Window.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The text of the statusbar
 */
-qx.ui.window.Window.addProperty({ name : "status", type : QxConst.TYPEOF_STRING, defaultValue : "Ready" });
+qx.ui.window.Window.addProperty({ name : "status", type : qx.Const.TYPEOF_STRING, defaultValue : "Ready" });
 
 /*!
   Should the close button be shown
 */
-qx.ui.window.Window.addProperty({ name : "showClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-qx.ui.window.Window.addProperty({ name : "showMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showMaximize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-qx.ui.window.Window.addProperty({ name : "showMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showMinimize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the statusbar be shown
 */
-qx.ui.window.Window.addProperty({ name : "showStatusbar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.window.Window.addProperty({ name : "showStatusbar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
 */
-qx.ui.window.Window.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to maximize the window
 */
-qx.ui.window.Window.addProperty({ name : "allowMaximize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowMaximize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to minimize the window
 */
-qx.ui.window.Window.addProperty({ name : "allowMinimize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "allowMinimize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the text (in the captionbar) should be visible
 */
-qx.ui.window.Window.addProperty({ name : "showCaption", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showCaption", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the icon (in the captionbar) should be visible
 */
-qx.ui.window.Window.addProperty({ name : "showIcon", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "showIcon", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is resizeable
 */
-qx.ui.window.Window.addProperty({ name : "resizeable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "resizeable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the window is moveable
 */
-qx.ui.window.Window.addProperty({ name : "moveable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.window.Window.addProperty({ name : "moveable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
 */
-qx.ui.window.Window.addProperty({ name : "resizeMethod", type : QxConst.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.ui.window.Window.addProperty({ name : "resizeMethod", type : qx.Const.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The move method to use
 */
-qx.ui.window.Window.addProperty({ name : "moveMethod", type : QxConst.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
+qx.ui.window.Window.addProperty({ name : "moveMethod", type : qx.Const.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
 
 
@@ -545,8 +545,8 @@ proto._modifyActive = function(propValue, propOldValue, propData)
       this.getWindowManager().setActiveWindow(null);
     };
 
-    this.removeState(QxConst.STATE_ACTIVE);
-    this._captionBar.removeState(QxConst.STATE_ACTIVE);
+    this.removeState(qx.Const.STATE_ACTIVE);
+    this._captionBar.removeState(qx.Const.STATE_ACTIVE);
   }
   else
   {
@@ -560,8 +560,8 @@ proto._modifyActive = function(propValue, propOldValue, propData)
     this.getWindowManager().setActiveWindow(this);
     this.bringToFront();
 
-    this.addState(QxConst.STATE_ACTIVE);
-    this._captionBar.addState(QxConst.STATE_ACTIVE);
+    this.addState(qx.Const.STATE_ACTIVE);
+    this._captionBar.addState(qx.Const.STATE_ACTIVE);
   };
 
   return true;
@@ -683,7 +683,7 @@ proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    var t = this.getMode() == QxConst.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
+    var t = this.getMode() == qx.Const.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
 
     if (this.getShowMinimize())
     {
@@ -794,7 +794,7 @@ proto._restoreFromMaximized = function()
   this.setBottom(this._previousBottom ? this._previousBottom : null);
 
   // update state
-  this.removeState(QxConst.STATE_MAXIMIZED);
+  this.removeState(qx.Const.STATE_MAXIMIZED);
 
   // toggle button
   if (this.getShowMaximize())
@@ -835,7 +835,7 @@ proto._maximize = function()
   this.setBottom(0);
 
   // update state
-  this.addState(QxConst.STATE_MAXIMIZED);
+  this.addState(qx.Const.STATE_MAXIMIZED);
 
   // toggle button
   if (this.getShowMaximize())
@@ -1099,7 +1099,7 @@ proto._onwindowmousemove = function(e)
   }
   else
   {
-    var resizeMode = QxConst.CORE_EMPTY;
+    var resizeMode = qx.Const.CORE_EMPTY;
     var el = this.getElement();
 
     this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
@@ -1161,9 +1161,9 @@ proto._onminimizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._minimizeButton.removeState(QxConst.STATE_PRESSED);
-  this._minimizeButton.removeState(QxConst.STATE_ABANDONED);
-  this._minimizeButton.removeState(QxConst.STATE_OVER);
+  this._minimizeButton.removeState(qx.Const.STATE_PRESSED);
+  this._minimizeButton.removeState(qx.Const.STATE_ABANDONED);
+  this._minimizeButton.removeState(qx.Const.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1174,9 +1174,9 @@ proto._onrestorebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._restoreButton.removeState(QxConst.STATE_PRESSED);
-  this._restoreButton.removeState(QxConst.STATE_ABANDONED);
-  this._restoreButton.removeState(QxConst.STATE_OVER);
+  this._restoreButton.removeState(qx.Const.STATE_PRESSED);
+  this._restoreButton.removeState(qx.Const.STATE_ABANDONED);
+  this._restoreButton.removeState(qx.Const.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1187,9 +1187,9 @@ proto._onmaximizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._maximizeButton.removeState(QxConst.STATE_PRESSED);
-  this._maximizeButton.removeState(QxConst.STATE_ABANDONED);
-  this._maximizeButton.removeState(QxConst.STATE_OVER);
+  this._maximizeButton.removeState(qx.Const.STATE_PRESSED);
+  this._maximizeButton.removeState(qx.Const.STATE_ABANDONED);
+  this._maximizeButton.removeState(qx.Const.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1200,9 +1200,9 @@ proto._onclosebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._closeButton.removeState(QxConst.STATE_PRESSED);
-  this._closeButton.removeState(QxConst.STATE_ABANDONED);
-  this._closeButton.removeState(QxConst.STATE_OVER);
+  this._closeButton.removeState(qx.Const.STATE_PRESSED);
+  this._closeButton.removeState(qx.Const.STATE_ABANDONED);
+  this._closeButton.removeState(qx.Const.STATE_OVER);
 
   e.stopPropagation();
 };

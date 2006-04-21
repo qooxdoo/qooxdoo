@@ -47,8 +47,8 @@ qx.types.Version = function(arrVersion)
 {
   qx.core.Object.call(this);
 
-  if (typeof arrVersion === QxConst.TYPEOF_STRING) {
-    arrVersion = arrVersion.split(QxConst.CORE_DOT);
+  if (typeof arrVersion === qx.Const.TYPEOF_STRING) {
+    arrVersion = arrVersion.split(qx.Const.CORE_DOT);
   };
 
   this._major = parseInt(arrVersion[0]) || 0;

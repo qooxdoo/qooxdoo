@@ -64,7 +64,7 @@ qx.ui.menu.MenuButton = function(vLabel, vIcon, vCommand, vMenu)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
 qx.ui.menu.MenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.menu.MenuButton");
@@ -77,11 +77,11 @@ qx.ui.menu.MenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.menu.MenuB
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.MenuButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-button" });
+qx.ui.menu.MenuButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-button" });
 
-qx.ui.menu.MenuButton.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-qx.ui.menu.MenuButton.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
-qx.ui.menu.MenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.MenuButton.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.ui.menu.MenuButton.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
+qx.ui.menu.MenuButton.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT });
 
 
 
@@ -230,7 +230,7 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
 
 proto._modifyCommand = function(propValue, propOldValue, propData)
 {
-  var vHtml = propValue ? propValue.getShortcut() : QxConst.CORE_EMPTY;
+  var vHtml = propValue ? propValue.getShortcut() : qx.Const.CORE_EMPTY;
 
   this._shortcutObject.setHtml(vHtml);
 
@@ -238,7 +238,7 @@ proto._modifyCommand = function(propValue, propOldValue, propData)
   {
     this._hasShortcut = true;
 
-    var vOldHtml = propOldValue ? propOldValue.getShortcut() : QxConst.CORE_EMPTY;
+    var vOldHtml = propOldValue ? propOldValue.getShortcut() : qx.Const.CORE_EMPTY;
 
     if (qx.util.Validation.isInvalidString(vOldHtml))
     {
@@ -337,7 +337,7 @@ proto.dispose = function()
   };
 
   // Remove event listeners
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

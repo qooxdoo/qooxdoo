@@ -58,7 +58,7 @@ QxButtonPane.extend(qx.ui.layout.BoxLayout, "QxButtonPane");
 /*!
   Appearance setting for the class.
 */
-QxButtonPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "buttonpane" });
+QxButtonPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "buttonpane" });
 
 
 /*

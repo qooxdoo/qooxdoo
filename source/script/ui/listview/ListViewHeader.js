@@ -57,7 +57,7 @@ qx.ui.listview.ListViewHeader = function(vColumns)
     if (vColumns[vCol].align) {
       vHeadCell.setHorizontalChildrenAlign(vColumns[vCol].align);
 
-      if (vColumns[vCol].align == QxConst.ALIGN_RIGHT) {
+      if (vColumns[vCol].align == qx.Const.ALIGN_RIGHT) {
         vHeadCell.setReverseChildrenOrder(true);
       };
     };
@@ -71,15 +71,15 @@ qx.ui.listview.ListViewHeader = function(vColumns)
   // ************************************************************************
   //   ADD EVENT LISTENERS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 };
 
 qx.ui.listview.ListViewHeader.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.listview.ListViewHeader");
 
-qx.ui.listview.ListViewHeader.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header" });
+qx.ui.listview.ListViewHeader.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header" });
 
 
 
@@ -111,7 +111,7 @@ proto._syncResizeLine = function()
   vLine._applyRuntimeHeight(vHeight);
   vLine._applyRuntimeLeft(vLeft);
 
-  vLine.removeStyleProperty(QxConst.PROPERTY_VISIBILITY);
+  vLine.removeStyleProperty(qx.Const.PROPERTY_VISIBILITY);
 };
 
 
@@ -242,10 +242,10 @@ proto._onmouseup = function(e)
   this.getTopLevelWidget().setGlobalCursor(null);
 
   // Remove hover effect
-  this._resizeTarget.removeState(QxConst.STATE_OVER);
+  this._resizeTarget.removeState(qx.Const.STATE_OVER);
 
   // Hide resize line
-  this.getParent().getResizeLine().setStyleProperty(QxConst.PROPERTY_VISIBILITY, QxConst.CORE_HIDDEN);
+  this.getParent().getResizeLine().setStyleProperty(qx.Const.PROPERTY_VISIBILITY, qx.Const.CORE_HIDDEN);
 
   this._cleanupResizing();
 };
@@ -290,10 +290,10 @@ proto.dispose = function()
 
   this._cleanupResizing();
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 
   this._columns = null;
 

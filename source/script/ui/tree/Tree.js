@@ -54,8 +54,8 @@ qx.ui.tree.Tree = function(vLabel, vIcon, vIconSelected)
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
 qx.ui.tree.Tree.extend(qx.ui.tree.TreeFolder, "qx.ui.tree.Tree");
@@ -70,8 +70,8 @@ qx.ui.tree.Tree.extend(qx.ui.tree.TreeFolder, "qx.ui.tree.Tree");
 ---------------------------------------------------------------------------
 */
 
-qx.ui.tree.Tree.addProperty({ name : "useDoubleClick", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
-qx.ui.tree.Tree.addProperty({ name : "useTreeLines", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+qx.ui.tree.Tree.addProperty({ name : "useDoubleClick", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
+qx.ui.tree.Tree.addProperty({ name : "useTreeLines", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
 
 
 
@@ -321,7 +321,7 @@ proto._onkeyup = function(e)
     var vOldItem = this._oldItem;
     var vNewItem = this.getManager().getSelectedItem();
 
-    vNewItem.getIconObject().addState(QxConst.STATE_SELECTED);
+    vNewItem.getIconObject().addState(qx.Const.STATE_SELECTED);
 
     delete this._fastUpdate;
     delete this._oldItem;

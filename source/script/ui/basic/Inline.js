@@ -30,7 +30,7 @@ qx.ui.basic.Inline = function(vId)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
-  this.setStyleProperty(QxConst.PROPERTY_POSITION, QxConst.CORE_RELATIVE);
+  this.setStyleProperty(qx.Const.PROPERTY_POSITION, qx.Const.CORE_RELATIVE);
 
   if (qx.util.Validation.isValidString(vId)) {
     this.setInlineNodeId(vId);
@@ -39,4 +39,4 @@ qx.ui.basic.Inline = function(vId)
 
 qx.ui.basic.Inline.extend(qx.ui.layout.CanvasLayout, "qx.ui.basic.Inline");
 
-qx.ui.basic.Inline.addProperty({ name : "inlineNodeId", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Inline.addProperty({ name : "inlineNodeId", type : qx.Const.TYPEOF_STRING });

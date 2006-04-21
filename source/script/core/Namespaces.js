@@ -1,8 +1,6 @@
 qx = {};
 
-qx.constants = {};
 qx.sys = {};
-
 qx.lang = {};
 qx.core = {};
 qx.app = {};

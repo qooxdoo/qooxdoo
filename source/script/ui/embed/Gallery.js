@@ -32,7 +32,7 @@ qx.ui.embed.GalleryEmbed = function(vGalleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
-  this._blank = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+  this._blank = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
   this._list = vGalleryList;
   this._listSize = vGalleryList.length;
   this._processedImages = 0;
@@ -67,11 +67,11 @@ qx.ui.embed.GalleryEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryEmbe
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "showTitle", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "showComment", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "showTitle", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.GalleryEmbed.addProperty({ name : "showComment", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -120,7 +120,7 @@ proto.update = function(vGalleryList)
 proto.removeAll = function()
 {
   this._manager.deselectAll();
-  this.getElement().innerHTML = QxConst.CORE_EMPTY;
+  this.getElement().innerHTML = qx.Const.CORE_EMPTY;
 };
 
 proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
@@ -265,7 +265,7 @@ proto._onmouseup = function(e)
 
 proto._onmousemove = function(e)
 {
-  if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_OBJECT) {
+  if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_OBJECT) {
     return;
   };
 

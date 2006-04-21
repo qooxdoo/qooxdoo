@@ -43,7 +43,7 @@ QxStatusBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxStatusBar");
 /*!
   Appearance setting for the class.
 */
-QxStatusBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "statusbar" });
+QxStatusBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "statusbar" });
 
 
 /*

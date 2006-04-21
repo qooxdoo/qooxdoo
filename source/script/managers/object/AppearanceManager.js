@@ -40,7 +40,7 @@ qx.manager.object.AppearanceManager.extend(qx.manager.object.ObjectManager, "qx.
 
 
 
-qx.manager.object.AppearanceManager.addProperty({ name : "appearanceTheme", type : QxConst.TYPEOF_STRING, defaultValue : "default" });
+qx.manager.object.AppearanceManager.addProperty({ name : "appearanceTheme", type : qx.Const.TYPEOF_STRING, defaultValue : "default" });
 
 
 

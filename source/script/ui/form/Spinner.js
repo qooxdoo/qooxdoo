@@ -40,7 +40,7 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   this.setTabIndex(-1);
 
   if (qx.sys.Client.isMshtml()) {
-    this.setStyleProperty("fontSize", QxConst.CORE_0PIXEL);
+    this.setStyleProperty("fontSize", qx.Const.CORE_0PIXEL);
   };
 
 
@@ -64,7 +64,7 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   //   BUTTON LAYOUT
   // ************************************************************************
   this._buttonlayout = new qx.ui.layout.VerticalBoxLayout;
-  this._buttonlayout.setWidth(QxConst.CORE_AUTO);
+  this._buttonlayout.setWidth(qx.Const.CORE_AUTO);
   this.add(this._buttonlayout);
 
 
@@ -93,17 +93,17 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup, this);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
 
-  this._textfield.addEventListener(QxConst.EVENT_TYPE_INPUT, this._oninput, this);
-  this._textfield.addEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur, this);
-  this._upbutton.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this._downbutton.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this._manager.addEventListener(QxConst.INTERNAL_CHANGE, this._onchange, this);
-  this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._textfield.addEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
+  this._textfield.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
+  this._upbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+  this._downbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+  this._manager.addEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
+  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
 
   // ************************************************************************
@@ -133,47 +133,47 @@ qx.ui.form.Spinner.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.Spinner"
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.Spinner.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "spinner" });
+qx.ui.form.Spinner.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "spinner" });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.ui.form.Spinner.addProperty({ name : "incrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.form.Spinner.addProperty({ name : "incrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.ui.form.Spinner.addProperty({ name : "wheelIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.form.Spinner.addProperty({ name : "wheelIncrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each pageup / pagedown keypress
 */
-qx.ui.form.Spinner.addProperty({ name : "pageIncrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
+qx.ui.form.Spinner.addProperty({ name : "pageIncrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
 
 /*!
   The current value of the interval (this should be used internally only).
 */
-qx.ui.form.Spinner.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.form.Spinner.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
 
 /*!
   The first interval on event based shrink/growth of the value.
 */
-qx.ui.form.Spinner.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
+qx.ui.form.Spinner.addProperty({ name : "firstInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 500 });
 
 /*!
   This configures the minimum value for the timer interval.
 */
-qx.ui.form.Spinner.addProperty({ name : "minTimer", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.form.Spinner.addProperty({ name : "minTimer", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
 
 /*!
   Decrease of the timer on each interval (for the next interval) until minTimer reached.
 */
-qx.ui.form.Spinner.addProperty({ name : "timerDecrease", type : QxConst.TYPEOF_NUMBER, defaultValue : 2 });
+qx.ui.form.Spinner.addProperty({ name : "timerDecrease", type : qx.Const.TYPEOF_NUMBER, defaultValue : 2 });
 
 /*!
   If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval).
 */
-qx.ui.form.Spinner.addProperty({ name : "amountGrowth", type : QxConst.TYPEOF_NUMBER, defaultValue : 1.01 });
+qx.ui.form.Spinner.addProperty({ name : "amountGrowth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1.01 });
 
 
 
@@ -327,10 +327,10 @@ proto._onmousedown = function(e)
 
   var vButton = e.getCurrentTarget();
 
-  vButton.addState(QxConst.STATE_PRESSED);
+  vButton.addState(qx.Const.STATE_PRESSED);
 
-  vButton.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
-  vButton.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
+  vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
+  vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
 
   this._intervalIncrease = vButton == this._upbutton;
   this._resetIncrements();
@@ -346,10 +346,10 @@ proto._onmouseup = function(e)
 {
   var vButton = e.getCurrentTarget();
 
-  vButton.removeState(QxConst.STATE_PRESSED);
+  vButton.removeState(qx.Const.STATE_PRESSED);
 
-  vButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
-  vButton.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
+  vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
+  vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
 
   this._textfield.selectAll();
   this._textfield.setFocused(true);
@@ -385,7 +385,7 @@ proto._onchange = function(e)
 
   if (vValue == this.getMin())
   {
-    this._downbutton.removeState(QxConst.STATE_PRESSED);
+    this._downbutton.removeState(qx.Const.STATE_PRESSED);
     this._downbutton.setEnabled(false);
     this._timer.stop();
   }
@@ -396,7 +396,7 @@ proto._onchange = function(e)
 
   if (vValue == this.getMax())
   {
-    this._upbutton.removeState(QxConst.STATE_PRESSED);
+    this._upbutton.removeState(qx.Const.STATE_PRESSED);
     this._upbutton.setEnabled(false);
     this._timer.stop();
   }
@@ -405,8 +405,8 @@ proto._onchange = function(e)
     this._upbutton.setEnabled(true);
   };
 
-  if (this.hasEventListeners(QxConst.INTERNAL_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.INTERNAL_CHANGE), true);
+  if (this.hasEventListeners(qx.Const.INTERNAL_CHANGE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.INTERNAL_CHANGE), true);
   };
 };
 
@@ -522,7 +522,7 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     return;
   };
 
-  if (el.value == QxConst.CORE_EMPTY)
+  if (el.value == qx.Const.CORE_EMPTY)
   {
     if (!acceptEmpty)
     {
@@ -540,7 +540,7 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     // fix leading '0'
     if (val.length > 1)
     {
-      while(val.charAt(0) == QxConst.CORE_ZERO) {
+      while(val.charAt(0) == qx.Const.CORE_ZERO) {
         val = val.substr(1, val.length);
       };
 
@@ -553,7 +553,7 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     };
 
     // fix for negative integer handling
-    if (val == QxConst.CORE_MINUS && acceptEmpty && this.getMin() < 0)
+    if (val == qx.Const.CORE_MINUS && acceptEmpty && this.getMin() < 0)
     {
       if (el.value != val) {
         el.value = val;
@@ -574,7 +574,7 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
     };
 
     // handle empty string
-    if (acceptEmpty && val == QxConst.CORE_EMPTY)
+    if (acceptEmpty && val == qx.Const.CORE_EMPTY)
     {
       doFix = false;
     }
@@ -637,15 +637,15 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
 
   if (this._textfield)
   {
-    this._textfield.removeEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur, this);
-    this._textfield.removeEventListener(QxConst.EVENT_TYPE_INPUT, this._oninput, this);
+    this._textfield.removeEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
+    this._textfield.removeEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
     this._textfield.dispose();
     this._textfield = null;
   };
@@ -658,21 +658,21 @@ proto.dispose = function()
 
   if (this._upbutton)
   {
-    this._upbutton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+    this._upbutton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
     this._upbutton.dispose();
     this._upbutton = null;
   };
 
   if (this._downbutton)
   {
-    this._downbutton.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+    this._downbutton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
     this._downbutton.dispose();
     this._downbutton = null;
   };
 
   if (this._timer)
   {
-    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;
@@ -680,7 +680,7 @@ proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(QxConst.INTERNAL_CHANGE, this._onchange, this);
+    this._manager.removeEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   };

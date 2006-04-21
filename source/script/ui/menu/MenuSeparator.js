@@ -50,12 +50,12 @@ qx.ui.menu.MenuSeparator = function()
   // ************************************************************************
 
   // needed to stop the event, and keep the menu showing
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
 qx.ui.menu.MenuSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.menu.MenuSeparator");
 
-qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-separator" });
+qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-separator" });
 
 proto.hasIcon = qx.util.Return.returnFalse;
 proto.hasLabel = qx.util.Return.returnFalse;

@@ -54,19 +54,19 @@ qx.ui.embed.FlashEmbed = function(vSource, vVersion)
 
 qx.ui.embed.FlashEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.FlashEmbed");
 
-qx.ui.embed.FlashEmbed.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.FlashEmbed.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
 qx.ui.embed.FlashEmbed.addProperty({ name : "version" });
 
-qx.ui.embed.FlashEmbed.addProperty({ name : "enableExpressInstall", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.embed.FlashEmbed.addProperty({ name : "enableDetection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.embed.FlashEmbed.addProperty({ name : "redirectUrl", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.FlashEmbed.addProperty({ name : "enableExpressInstall", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.embed.FlashEmbed.addProperty({ name : "enableDetection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "redirectUrl", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.embed.FlashEmbed.addProperty({ name : "quality", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
-qx.ui.embed.FlashEmbed.addProperty({ name : "scale", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
-qx.ui.embed.FlashEmbed.addProperty({ name : "wmode", type : QxConst.TYPEOF_STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
-qx.ui.embed.FlashEmbed.addProperty({ name : "play", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-qx.ui.embed.FlashEmbed.addProperty({ name : "loop", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-qx.ui.embed.FlashEmbed.addProperty({ name : "menu", type : QxConst.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "quality", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "scale", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "wmode", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
+qx.ui.embed.FlashEmbed.addProperty({ name : "play", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.ui.embed.FlashEmbed.addProperty({ name : "menu", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
 
 qx.ui.embed.FlashEmbed.EXPRESSINSTALL = [6,0,65];
 qx.ui.embed.FlashEmbed.MINREQUIRED = "1";
@@ -104,7 +104,7 @@ qx.ui.embed.FlashEmbed.getPlayerVersion = function()
   {
     try {
       var axo = new ActiveXObject(qx.ui.embed.FlashEmbed.ACTIVEXKEY);
-       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(QxConst.CORE_SPACE)[1].split(QxConst.CORE_COMMA));
+       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(qx.Const.CORE_SPACE)[1].split(qx.Const.CORE_COMMA));
     }
     catch (e) {};
   };
@@ -155,7 +155,7 @@ proto._applyElementData = function(el)
   {
     var redir = this.getRedirectUrl();
 
-    if(redir != QxConst.CORE_EMPTY) {
+    if(redir != qx.Const.CORE_EMPTY) {
       document.location.replace(redir);
     };
   };
@@ -173,7 +173,7 @@ proto._applyElementData = function(el)
 
 proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : QxConst.CORE_EMPTY;
+  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.Const.CORE_EMPTY;
   return true;
 };
 
@@ -298,7 +298,7 @@ proto.generateParamTags = function()
     vParamTags.push("'/>");
   };
 
-  return vParamTags.join(QxConst.CORE_EMPTY);
+  return vParamTags.join(qx.Const.CORE_EMPTY);
 };
 
 proto.getVariablePairs = function()
@@ -307,10 +307,10 @@ proto.getVariablePairs = function()
   var variablePairs = [];
 
   for (var key in variables) {
-    variablePairs.push(key + QxConst.CORE_EQUAL + variables[key]);
+    variablePairs.push(key + qx.Const.CORE_EQUAL + variables[key]);
   };
 
-  return variablePairs.join(QxConst.CORE_AMPERSAND);
+  return variablePairs.join(qx.Const.CORE_AMPERSAND);
 };
 
 
@@ -343,35 +343,35 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
 
     html.push("<embed type='application/x-shockwave-flash' width='100%' height='100%' src='");
     html.push(this._source);
-    html.push(QxConst.CORE_SINGLEQUOTE);
+    html.push(qx.Const.CORE_SINGLEQUOTE);
 
     var params = this.getParams();
 
     for (var key in params)
     {
-      html.push(QxConst.CORE_SPACE);
+      html.push(qx.Const.CORE_SPACE);
       html.push(key);
-      html.push(QxConst.CORE_EQUAL);
-      html.push(QxConst.CORE_SINGLEQUOTE);
+      html.push(qx.Const.CORE_EQUAL);
+      html.push(qx.Const.CORE_SINGLEQUOTE);
       html.push(params[key]);
-      html.push(QxConst.CORE_SINGLEQUOTE);
+      html.push(qx.Const.CORE_SINGLEQUOTE);
     };
 
     var pairs = this.getVariablePairs();
 
     if (pairs.length > 0)
     {
-      html.push(QxConst.CORE_SPACE);
+      html.push(qx.Const.CORE_SPACE);
       html.push("flashvars");
-      html.push(QxConst.CORE_EQUAL);
-      html.push(QxConst.CORE_SINGLEQUOTE);
+      html.push(qx.Const.CORE_EQUAL);
+      html.push(qx.Const.CORE_SINGLEQUOTE);
       html.push(pairs);
-      html.push(QxConst.CORE_SINGLEQUOTE);
+      html.push(qx.Const.CORE_SINGLEQUOTE);
     };
 
     html.push("></embed>");
 
-    return html.join(QxConst.CORE_EMPTY);
+    return html.join(qx.Const.CORE_EMPTY);
   };
 }
 
@@ -414,7 +414,7 @@ else
 
     html.push("</object>");
 
-    return html.join(QxConst.CORE_EMPTY);
+    return html.join(qx.Const.CORE_EMPTY);
   };
 };
 

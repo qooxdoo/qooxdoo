@@ -55,7 +55,7 @@ qx.ui.core.Widget = function()
   this._htmlProperties = { className : this.classname };
   this._htmlAttributes = { qxhashcode : this._hashCode };
   */
-  this._styleProperties = { position : QxConst.CORE_ABSOLUTE };
+  this._styleProperties = { position : qx.Const.CORE_ABSOLUTE };
 
 
   // ************************************************************************
@@ -95,7 +95,7 @@ qx.ui.core.Widget.SCROLLBAR_SIZE = 16;
 /*!
   The parent widget (the real object, no ID or something)
 */
-qx.ui.core.Widget.addProperty({ name : "parent", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
+qx.ui.core.Widget.addProperty({ name : "parent", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
 
 /*!
   The element node (if the widget is created, otherwise null)
@@ -105,25 +105,25 @@ qx.ui.core.Widget.addProperty({ name : "element" });
 /*!
   Simple and fast switch of the visibility of a widget.
 */
-qx.ui.core.Widget.addProperty({ name : "visibility", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "visibility", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the widget should be displayed. Use this property instead of visibility if the change
   in visibility should have effects on the parent widget.
 */
-qx.ui.core.Widget.addProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If you switch this to true, the widget doesn't handle
   events directly. It will redirect them to the parent
   widget.
 */
-qx.ui.core.Widget.addProperty({ name : "anonymous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
+qx.ui.core.Widget.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
 
 /*!
   The tagname of the element which should automatically be created
 */
-qx.ui.core.Widget.addProperty({ name : "tagName", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_DIV });
+qx.ui.core.Widget.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -131,7 +131,7 @@ qx.ui.core.Widget.addProperty({ name : "tagName", type : QxConst.TYPEOF_STRING, 
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF_STRING });
 
 /*!
   This is used by many layout managers to control the individual vertical alignment of this widget inside this parent.
@@ -139,19 +139,19 @@ qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : QxConst.TYPEOF_
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "verticalAlign", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "verticalAlign", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Should this widget be stretched on the x-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.ui.core.Widget.addProperty({ name : "allowStretchX", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "allowStretchX", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should this widget be stretched on the y-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -170,19 +170,19 @@ qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : QxConst.TYPEOF_BO
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "zIndex", type : QxConst.TYPEOF_NUMBER });
+qx.ui.core.Widget.addProperty({ name : "zIndex", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.ui.core.Widget.addProperty({ name : "backgroundColor", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "backgroundColor", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.ui.core.Widget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.
@@ -190,7 +190,7 @@ qx.ui.core.Widget.addProperty({ name : "color", type : QxConst.TYPEOF_OBJECT, in
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
+qx.ui.core.Widget.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -198,7 +198,7 @@ qx.ui.core.Widget.addProperty({ name : "border", type : QxConst.TYPEOF_OBJECT, i
   The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
   Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
 */
-qx.ui.core.Widget.addProperty({ name : "opacity", type : QxConst.TYPEOF_NUMBER });
+qx.ui.core.Widget.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Mapping to native style property cursor.
@@ -206,14 +206,14 @@ qx.ui.core.Widget.addProperty({ name : "opacity", type : QxConst.TYPEOF_NUMBER }
   The name of the cursor to show when the mouse pointer is over the widget.
   This is any valid CSS2 cursor name defined by W3C.
 */
-qx.ui.core.Widget.addProperty({ name : "cursor", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "cursor", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Mapping to native style property background-image.
 
   The URI of the image file to use as background image.
 */
-qx.ui.core.Widget.addProperty({ name : "backgroundImage", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "backgroundImage", type : qx.Const.TYPEOF_STRING });
 
 /*!
 Describes how to handle content that is too large to fit inside the widget.
@@ -227,15 +227,15 @@ Overflow modes:
 * scrollY: Scroll bars for the Y-Axis are always shown.
     Even if there is enough room for the content inside the widget.
 */
-qx.ui.core.Widget.addProperty({ name : "overflow", type : QxConst.TYPEOF_STRING, addToQueue : true });
+qx.ui.core.Widget.addProperty({ name : "overflow", type : qx.Const.TYPEOF_STRING, addToQueue : true });
 
 /*!
   Clipping of the widget
 */
-qx.ui.core.Widget.addProperty({ name : "clipLeft", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipTop", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipWidth", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipLeft", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipTop", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipWidth", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.ui.core.Widget.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
 
 
 
@@ -256,17 +256,17 @@ qx.ui.core.Widget.addProperty({ name : "clipHeight", type : QxConst.TYPEOF_NUMBE
   Widgets with the same tabIndex are handled through there position
   in the document.
 */
-qx.ui.core.Widget.addProperty({ name : "tabIndex", type : QxConst.TYPEOF_NUMBER, defaultValue : -1 });
+qx.ui.core.Widget.addProperty({ name : "tabIndex", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
 
 /*!
   If the focus outline should be hidden.
 */
-qx.ui.core.Widget.addProperty({ name : "hideFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "hideFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Use DOM focussing (focus() and blur() methods of DOM nodes)
 */
-qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Handle focus state of this widget.
@@ -276,27 +276,27 @@ qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : QxConst.TYPE
 
   Normally you didn't need to set this directly.
 */
-qx.ui.core.Widget.addProperty({ name : "focused", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "focused", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Toggle the possibility to select the element of this widget.
 */
-qx.ui.core.Widget.addProperty({ name : "selectable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
+qx.ui.core.Widget.addProperty({ name : "selectable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
 
 /*!
   Contains the tooltip object connected to the widget.
 */
-qx.ui.core.Widget.addProperty({ name : "toolTip", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
+qx.ui.core.Widget.addProperty({ name : "toolTip", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
 
 /*!
   Contains the context menu object connected to the widget. (Need real implementation)
 */
-qx.ui.core.Widget.addProperty({ name : "contextMenu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.ui.core.Widget.addProperty({ name : "contextMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Capture all events and map them to this widget
 */
-qx.ui.core.Widget.addProperty({ name : "capture", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.core.Widget.addProperty({ name : "capture", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Contains the support drop types for drag and drop support
@@ -306,12 +306,12 @@ qx.ui.core.Widget.addProperty({ name : "dropDataTypes" });
 /*!
   A command called if the widget should be excecuted (a placeholder for buttons, ...)
 */
-qx.ui.core.Widget.addProperty({ name : "command", type : QxConst.TYPEOF_OBJECT, instance : "qx.client.Command" });
+qx.ui.core.Widget.addProperty({ name : "command", type : qx.Const.TYPEOF_OBJECT, instance : "qx.client.Command" });
 
 /*!
   Appearance of the widget
 */
-qx.ui.core.Widget.addProperty({ name : "appearance", type : QxConst.TYPEOF_STRING });
+qx.ui.core.Widget.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -324,15 +324,15 @@ qx.ui.core.Widget.addProperty({ name : "appearance", type : QxConst.TYPEOF_STRIN
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addProperty({ name : "marginTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.ui.core.Widget.addProperty({ name : "marginRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
-qx.ui.core.Widget.addProperty({ name : "marginBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.ui.core.Widget.addProperty({ name : "marginLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.ui.core.Widget.addProperty({ name : "marginTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.ui.core.Widget.addProperty({ name : "marginRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.ui.core.Widget.addProperty({ name : "marginBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.ui.core.Widget.addProperty({ name : "marginLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
 
-qx.ui.core.Widget.addProperty({ name : "paddingTop", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.ui.core.Widget.addProperty({ name : "paddingRight", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
-qx.ui.core.Widget.addProperty({ name : "paddingBottom", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.ui.core.Widget.addProperty({ name : "paddingLeft", type : QxConst.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.ui.core.Widget.addProperty({ name : "paddingTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.ui.core.Widget.addProperty({ name : "paddingRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.ui.core.Widget.addProperty({ name : "paddingBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.ui.core.Widget.addProperty({ name : "paddingLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
 
 
 
@@ -1091,7 +1091,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   If the widget is visible and rendered on the screen.
 */
 proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, QxConst.PROPERTY_DISPLAY) != QxConst.CORE_NONE && qx.dom.DomStyle.getStyleProperty(el, QxConst.PROPERTY_VISIBILITY) != QxConst.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_DISPLAY) != qx.Const.CORE_NONE && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_VISIBILITY) != qx.Const.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
@@ -1109,8 +1109,8 @@ proto.pack = function()
 */
 proto.auto = function()
 {
-  this.setWidth(QxConst.CORE_AUTO);
-  this.setHeight(QxConst.CORE_AUTO);
+  this.setWidth(qx.Const.CORE_AUTO);
+  this.setHeight(qx.Const.CORE_AUTO);
 };
 
 
@@ -1236,7 +1236,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
     propOldValue.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
 
     // Inform job queue
-    propOldValue.addToJobQueue(QxConst.JOB_REMOVECHILD);
+    propOldValue.addToJobQueue(qx.Const.JOB_REMOVECHILD);
 
     // Invalidate inner preferred dimensions
     propOldValue._invalidatePreferredInnerDimensions();
@@ -1264,11 +1264,11 @@ proto._modifyParent = function(propValue, propOldValue, propData)
     this._hasParent = false;
   };
 
-  return this._handleDisplayable(QxConst.PROPERTY_PARENT);
+  return this._handleDisplayable(qx.Const.PROPERTY_PARENT);
 };
 
 proto._modifyDisplay = function(propValue, propOldValue, propData) {
-  return this._handleDisplayable(QxConst.PROPERTY_DISPLAY);
+  return this._handleDisplayable(qx.Const.PROPERTY_DISPLAY);
 };
 
 
@@ -1289,7 +1289,7 @@ proto._handleDisplayable = function(vHint)
   // Also handle the case if the displayable keeps true and the parent
   // was changed then we must not return here.
   var vDisplayable = this._computeDisplayable();
-  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == QxConst.PROPERTY_PARENT)) {
+  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.Const.PROPERTY_PARENT)) {
     return true;
   };
 
@@ -1336,12 +1336,12 @@ proto._handleDisplayable = function(vHint)
       vParent.getLayoutImpl().updateChildrenOnAddChild(this, vParent.getChildren().indexOf(this));
 
       // Inform parents job queue
-      vParent.addToJobQueue(QxConst.JOB_ADDCHILD);
+      vParent.addToJobQueue(qx.Const.JOB_ADDCHILD);
     };
 
     // Add to parents children queue
     // (indirectly with a new layout request)
-    this.addToLayoutChanges(QxConst.JOB_INITIAL);
+    this.addToLayoutChanges(qx.Const.JOB_INITIAL);
 
     // Add to custom queues
     this.addToCustomQueues(vHint);
@@ -1402,7 +1402,7 @@ proto._handleDisplayable = function(vHint)
         vParent.getLayoutImpl().updateChildrenOnRemoveChild(this, vParent.getChildren().indexOf(this));
 
         // Inform parents job queue
-        vParent.addToJobQueue(QxConst.JOB_REMOVECHILD);
+        vParent.addToJobQueue(qx.Const.JOB_REMOVECHILD);
 
         // Before Remove DOM Event
         this._beforeRemoveDom();
@@ -1440,14 +1440,14 @@ proto._computeDisplayable = function() {
 proto._beforeAppear = function()
 {
   // this.debug("_beforeAppear");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFORERAPPEAR);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERAPPEAR);
 };
 
 proto._afterAppear = function()
 {
   // this.debug("_afterAppear");
   this._isSeeable = true;
-  this.createDispatchEvent(QxConst.EVENT_TYPE_APPEAR);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_APPEAR);
 };
 
 proto._beforeDisappear = function()
@@ -1455,19 +1455,19 @@ proto._beforeDisappear = function()
   // this.debug("_beforeDisappear");
 
   // Remove any hover/pressed styles
-  this.removeState(QxConst.STATE_OVER);
-  this.removeState(QxConst.STATE_PRESSED);
-  this.removeState(QxConst.STATE_ABANDONED);
+  this.removeState(qx.Const.STATE_OVER);
+  this.removeState(qx.Const.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
 
   // this.debug("_beforeDisappear");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFORERDISAPPEAR);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERDISAPPEAR);
 };
 
 proto._afterDisappear = function()
 {
   // this.debug("_afterDisappear");
   this._isSeeable = false;
-  this.createDispatchEvent(QxConst.EVENT_TYPE_DISAPPEAR);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_DISAPPEAR);
 };
 
 proto._isSeeable = false;
@@ -1500,25 +1500,25 @@ proto.isAppearRelevant = function() {
 proto._beforeInsertDom = function()
 {
   // this.debug("_beforeInsertDom");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFOREINSERTDOM);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREINSERTDOM);
 };
 
 proto._afterInsertDom = function()
 {
   // this.debug("_afterInsertDom");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_INSERTDOM);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_INSERTDOM);
 };
 
 proto._beforeRemoveDom = function()
 {
   // this.debug("_beforeRemoveDom");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFOREREMOVEDOM);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREREMOVEDOM);
 };
 
 proto._afterRemoveDom = function()
 {
   // this.debug("_afterRemoveDom");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_REMOVEDOM);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_REMOVEDOM);
 };
 
 
@@ -1540,7 +1540,7 @@ proto._modifyVisibility = function(propValue, propOldValue, propData)
       this._beforeAppear();
     };
 
-    this.removeStyleProperty(QxConst.PROPERTY_DISPLAY);
+    this.removeStyleProperty(qx.Const.PROPERTY_DISPLAY);
 
     if (this._isDisplayable) {
       this._afterAppear();
@@ -1552,7 +1552,7 @@ proto._modifyVisibility = function(propValue, propOldValue, propData)
       this._beforeDisappear();
     };
 
-    this.setStyleProperty(QxConst.PROPERTY_DISPLAY, QxConst.CORE_NONE);
+    this.setStyleProperty(qx.Const.PROPERTY_DISPLAY, qx.Const.CORE_NONE);
 
     if (this._isDisplayable) {
       this._afterDisappear();
@@ -1599,30 +1599,30 @@ else
   proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == QxConst.CORE_DIV && !this._borderElement)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.Const.CORE_DIV && !this._borderElement)
     {
       var el = this.getElement();
-      var cl = this._borderElement = document.createElement(QxConst.CORE_DIV);
+      var cl = this._borderElement = document.createElement(qx.Const.CORE_DIV);
 
       var es = el.style;
       var cs = this._borderStyle = cl.style;
 
-      cs.width = cs.height = QxConst.CORE_HUNDREDPERCENT;
-      cs.position = QxConst.CORE_ABSOLUTE;
+      cs.width = cs.height = qx.Const.CORE_HUNDREDPERCENT;
+      cs.position = qx.Const.CORE_ABSOLUTE;
 
       for (var i in this._styleProperties)
       {
         switch(i)
         {
-          case QxConst.PROPERTY_POSITION:
-          case QxConst.PROPERTY_ZINDEX:
-          case QxConst.PROPERTY_FILTER:
-          case QxConst.PROPERTY_DISPLAY:
+          case qx.Const.PROPERTY_POSITION:
+          case qx.Const.PROPERTY_ZINDEX:
+          case qx.Const.PROPERTY_FILTER:
+          case qx.Const.PROPERTY_DISPLAY:
             break;
 
           default:
             cs[i] = this._styleProperties[i];
-            es[i] = QxConst.CORE_EMPTY;
+            es[i] = qx.Const.CORE_EMPTY;
         };
       };
 
@@ -1708,7 +1708,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
     this._addInlineEvents(propValue);
 
     // send out create event
-    this.createDispatchEvent(QxConst.EVENT_TYPE_CREATE);
+    this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATE);
   }
   else
   {
@@ -1922,25 +1922,25 @@ proto._flushJobQueue = function(q)
 
       if (vQueue.paddingLeft) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(QxConst.PROPERTY_PARENT_PADDINGLEFT);
+          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGLEFT);
         };
       };
 
       if (vQueue.paddingRight) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(QxConst.PROPERTY_PARENT_PADDINGRIGHT);
+          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGRIGHT);
         };
       };
 
       if (vQueue.paddingTop) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(QxConst.PROPERTY_PARENT_PADDINGTOP);
+          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGTOP);
         };
       };
 
       if (vQueue.paddingBottom) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(QxConst.PROPERTY_PARENT_PADDINGBOTTOM);
+          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGBOTTOM);
         };
       };
     };
@@ -2001,7 +2001,7 @@ proto._isHeightEssential = qx.util.Return.returnTrue;
 
 qx.ui.core.Widget.initApplyMethods = function()
 {
-  var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=QxConst.CORE_EMPTY", v="=v+QxConst.CORE_PIXEL", vpar="v";
+  var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=qx.Const.CORE_EMPTY", v="=v+qx.Const.CORE_PIXEL", vpar="v";
 
   var props = ["left", "right", "top", "bottom", "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight"];
   var propsup = ["Left", "Right", "Top", "Bottom", "Width", "Height", "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"];
@@ -2044,7 +2044,7 @@ qx.ui.core.Widget.initApplyMethods = function()
 
     We could not use this to reset the value however.
     It seems that is just not work this way. And the
-    left/top get always priority. Tried: "", null, QxConst.CORE_AUTO
+    left/top get always priority. Tried: "", null, qx.Const.CORE_AUTO
     Nothing helps.
 
     Now I'am switched back to conventional method
@@ -2159,7 +2159,7 @@ proto._recomputeFlexX = function()
   if (this._computedWidthTypeFlex)
   {
     this._computedWidthValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
   };
 
   return true;
@@ -2174,7 +2174,7 @@ proto._recomputeFlexY = function()
   if (this._computedHeightTypeFlex)
   {
     this._computedHeightValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
   };
 
   return true;
@@ -2201,31 +2201,31 @@ proto._recomputePercentX = function()
   if (this._computedWidthTypePercent)
   {
     this._computedWidthValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
   };
 
   if (this._computedMinWidthTypePercent)
   {
     this._computedMinWidthValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_MINWIDTH);
+    this.addToLayoutChanges(qx.Const.PROPERTY_MINWIDTH);
   };
 
   if (this._computedMaxWidthTypePercent)
   {
     this._computedMaxWidthValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_MAXWIDTH);
+    this.addToLayoutChanges(qx.Const.PROPERTY_MAXWIDTH);
   };
 
   if (this._computedLeftTypePercent)
   {
     this._computedLeftValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_LEFT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_LEFT);
   };
 
   if (this._computedRightTypePercent)
   {
     this._computedRightValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_RIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_RIGHT);
   };
 
   return true;
@@ -2240,31 +2240,31 @@ proto._recomputePercentY = function()
   if (this._computedHeightTypePercent)
   {
     this._computedHeightValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
   };
 
   if (this._computedMinHeightTypePercent)
   {
     this._computedMinHeightValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_MINHEIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_MINHEIGHT);
   };
 
   if (this._computedMaxHeightTypePercent)
   {
     this._computedMaxHeightValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_MAXHEIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_MAXHEIGHT);
   };
 
   if (this._computedTopTypePercent)
   {
     this._computedTopValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_TOP);
+    this.addToLayoutChanges(qx.Const.PROPERTY_TOP);
   };
 
   if (this._computedBottomTypePercent)
   {
     this._computedBottomValue = null;
-    this.addToLayoutChanges(QxConst.PROPERTY_BOTTOM);
+    this.addToLayoutChanges(qx.Const.PROPERTY_BOTTOM);
   };
 
   return true;
@@ -2290,7 +2290,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       return false;
     };
 
-    this.addToLayoutChanges(QxConst.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
     return true;
   };
 
@@ -2300,7 +2300,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       return false;
     };
 
-    this.addToLayoutChanges(QxConst.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
     return true;
   };
 }
@@ -2333,7 +2333,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     if (this.getAllowStretchX() && this._computedWidthTypeNull)
     {
       this._computedWidthValue = null;
-      this.addToLayoutChanges(QxConst.PROPERTY_WIDTH);
+      this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
 
       return true;
     };
@@ -2346,7 +2346,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     if (this.getAllowStretchY() && this._computedHeightTypeNull)
     {
       this._computedHeightValue = null;
-      this.addToLayoutChanges(QxConst.PROPERTY_HEIGHT);
+      this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
 
       return true;
     };
@@ -2652,8 +2652,8 @@ proto.getBottomValue = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 proto._computeFrameWidth = function()
 {
@@ -2713,8 +2713,8 @@ proto._invalidateFrameDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.ui.core.Widget.addCachedProperty({ name : QxConst.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 proto._invalidatePreferredInnerDimensions = function()
 {
@@ -2881,7 +2881,7 @@ proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 {
   switch(propValue)
   {
-    case QxConst.CORE_AUTO:
+    case qx.Const.CORE_AUTO:
       return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
@@ -2891,11 +2891,11 @@ proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 
   switch(typeof propValue)
   {
-    case QxConst.TYPEOF_NUMBER:
+    case qx.Const.TYPEOF_NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(QxConst.CORE_STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
+    case qx.Const.TYPEOF_STRING:
+      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(qx.Const.CORE_STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -2905,7 +2905,7 @@ proto._evalUnitsPixelPercentAuto = function(propValue)
 {
   switch(propValue)
   {
-    case QxConst.CORE_AUTO:
+    case qx.Const.CORE_AUTO:
       return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
@@ -2915,11 +2915,11 @@ proto._evalUnitsPixelPercentAuto = function(propValue)
 
   switch(typeof propValue)
   {
-    case QxConst.TYPEOF_NUMBER:
+    case qx.Const.TYPEOF_NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+    case qx.Const.TYPEOF_STRING:
+      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -2936,11 +2936,11 @@ proto._evalUnitsPixelPercent = function(propValue)
 
   switch(typeof propValue)
   {
-    case QxConst.TYPEOF_NUMBER:
+    case qx.Const.TYPEOF_NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case QxConst.TYPEOF_STRING:
-      return propValue.indexOf(QxConst.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+    case qx.Const.TYPEOF_STRING:
+      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -2966,14 +2966,14 @@ qx.ui.core.Widget.initLayoutProperties = function()
   for (var i=0, l=a.length, p, b, t; i<l; i++)
   {
     p = a[i];
-    b = QxConst.INTERNAL_COMPUTED + p.toFirstUp();
-    t = b + QxConst.INTERNAL_UNIT_TYPE;
+    b = qx.Const.INTERNAL_COMPUTED + p.toFirstUp();
+    t = b + qx.Const.INTERNAL_UNIT_TYPE;
 
     qx.ui.core.Widget.layoutPropertyTypes[p] =
     {
       dataType : t,
-      dataParsed : b + QxConst.INTERNAL_UNIT_PARSED,
-      dataValue : b + QxConst.INTERNAL_UNIT_VALUE,
+      dataParsed : b + qx.Const.INTERNAL_UNIT_PARSED,
+      dataValue : b + qx.Const.INTERNAL_UNIT_VALUE,
 
       typePixel : t + "Pixel",
       typePercent : t + "Percent",
@@ -3053,19 +3053,19 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_MINWIDTH:
-      case QxConst.PROPERTY_MAXWIDTH:
-      case QxConst.PROPERTY_WIDTH:
-      case QxConst.PROPERTY_LEFT:
-      case QxConst.PROPERTY_RIGHT:
+      case qx.Const.PROPERTY_MINWIDTH:
+      case qx.Const.PROPERTY_MAXWIDTH:
+      case qx.Const.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_LEFT:
+      case qx.Const.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case QxConst.PROPERTY_MAXHEIGHT:
-      case QxConst.PROPERTY_MINHEIGHT:
-      case QxConst.PROPERTY_HEIGHT:
-      case QxConst.PROPERTY_TOP:
-      case QxConst.PROPERTY_BOTTOM:
+      case qx.Const.PROPERTY_MAXHEIGHT:
+      case qx.Const.PROPERTY_MINHEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_TOP:
+      case qx.Const.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -3076,15 +3076,15 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_MINWIDTH:
-      case QxConst.PROPERTY_MAXWIDTH:
-      case QxConst.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_MINWIDTH:
+      case qx.Const.PROPERTY_MAXWIDTH:
+      case qx.Const.PROPERTY_WIDTH:
         this._invalidateHasAutoX();
         break;
 
-      case QxConst.PROPERTY_MINHEIGHT:
-      case QxConst.PROPERTY_MAXHEIGHT:
-      case QxConst.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_MINHEIGHT:
+      case qx.Const.PROPERTY_MAXHEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
     };
@@ -3095,11 +3095,11 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_WIDTH:
         this._invalidateHasFlexX();
         break;
 
-      case QxConst.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
         this._invalidateHasFlexY();
         break;
     };
@@ -3154,19 +3154,19 @@ proto._unitDetectionPixelPercentAuto = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_MINWIDTH:
-      case QxConst.PROPERTY_MAXWIDTH:
-      case QxConst.PROPERTY_WIDTH:
-      case QxConst.PROPERTY_LEFT:
-      case QxConst.PROPERTY_RIGHT:
+      case qx.Const.PROPERTY_MINWIDTH:
+      case qx.Const.PROPERTY_MAXWIDTH:
+      case qx.Const.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_LEFT:
+      case qx.Const.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case QxConst.PROPERTY_MINHEIGHT:
-      case QxConst.PROPERTY_MAXHEIGHT:
-      case QxConst.PROPERTY_HEIGHT:
-      case QxConst.PROPERTY_TOP:
-      case QxConst.PROPERTY_BOTTOM:
+      case qx.Const.PROPERTY_MINHEIGHT:
+      case qx.Const.PROPERTY_MAXHEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_TOP:
+      case qx.Const.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -3177,15 +3177,15 @@ proto._unitDetectionPixelPercentAuto = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_MINWIDTH:
-      case QxConst.PROPERTY_MAXWIDTH:
-      case QxConst.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_MINWIDTH:
+      case qx.Const.PROPERTY_MAXWIDTH:
+      case qx.Const.PROPERTY_WIDTH:
         this._invalidateHasAutoX();
         break;
 
-      case QxConst.PROPERTY_MINHEIGHT:
-      case QxConst.PROPERTY_MAXHEIGHT:
-      case QxConst.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_MINHEIGHT:
+      case qx.Const.PROPERTY_MAXHEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
     };
@@ -3232,19 +3232,19 @@ proto._unitDetectionPixelPercent = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case QxConst.PROPERTY_MINWIDTH:
-      case QxConst.PROPERTY_MAXWIDTH:
-      case QxConst.PROPERTY_WIDTH:
-      case QxConst.PROPERTY_LEFT:
-      case QxConst.PROPERTY_RIGHT:
+      case qx.Const.PROPERTY_MINWIDTH:
+      case qx.Const.PROPERTY_MAXWIDTH:
+      case qx.Const.PROPERTY_WIDTH:
+      case qx.Const.PROPERTY_LEFT:
+      case qx.Const.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case QxConst.PROPERTY_MINHEIGHT:
-      case QxConst.PROPERTY_MAXHEIGHT:
-      case QxConst.PROPERTY_HEIGHT:
-      case QxConst.PROPERTY_TOP:
-      case QxConst.PROPERTY_BOTTOM:
+      case qx.Const.PROPERTY_MINHEIGHT:
+      case qx.Const.PROPERTY_MAXHEIGHT:
+      case qx.Const.PROPERTY_HEIGHT:
+      case qx.Const.PROPERTY_TOP:
+      case qx.Const.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -3394,11 +3394,11 @@ proto._oninlineevent = function(e)
 
   switch(e.type)
   {
-    case QxConst.EVENT_TYPE_PROPERTYCHANGE:
+    case qx.Const.EVENT_TYPE_PROPERTYCHANGE:
       this._oninlineproperty(e);
       break;
 
-    case QxConst.EVENT_TYPE_INPUT:
+    case qx.Const.EVENT_TYPE_INPUT:
       this._oninlineinput(e);
       break;
 
@@ -3409,7 +3409,7 @@ proto._oninlineevent = function(e)
 
 proto._oninlineinput = function(e)
 {
-  this.createDispatchDataEvent(QxConst.EVENT_TYPE_INPUT, this.getComputedValue());
+  this.createDispatchDataEvent(qx.Const.EVENT_TYPE_INPUT, this.getComputedValue());
 
   // Block parents from this event
   if (e.stopPropagation) {
@@ -3583,16 +3583,16 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.removeState(QxConst.STATE_DISABLED);
+    this.removeState(qx.Const.STATE_DISABLED);
   }
   else
   {
-    this.addState(QxConst.STATE_DISABLED);
+    this.addState(qx.Const.STATE_DISABLED);
 
     // Also reset some states to be sure a pressed/hovered button gets resetted
-    this.removeState(QxConst.STATE_OVER);
-    this.removeState(QxConst.STATE_ABANDONED);
-    this.removeState(QxConst.STATE_PRESSED);
+    this.removeState(qx.Const.STATE_OVER);
+    this.removeState(qx.Const.STATE_ABANDONED);
+    this.removeState(qx.Const.STATE_PRESSED);
   };
 
   return true;
@@ -3722,7 +3722,7 @@ else if (qx.sys.Client.isGecko())
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("MozOutline", QxConst.FOCUS_OUTLINE);
+        this.setStyleProperty("MozOutline", qx.Const.FOCUS_OUTLINE);
       };
     }
     else
@@ -3739,7 +3739,7 @@ else
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("outline", QxConst.FOCUS_OUTLINE);
+        this.setStyleProperty("outline", qx.Const.FOCUS_OUTLINE);
       };
     }
     else
@@ -3894,10 +3894,10 @@ else
 proto.getHtmlProperty = function(propName)
 {
   if (!this._htmlProperties) {
-    return QxConst.CORE_EMPTY;
+    return qx.Const.CORE_EMPTY;
   };
 
-  return this._htmlProperties[propName] || QxConst.CORE_EMPTY;
+  return this._htmlProperties[propName] || qx.Const.CORE_EMPTY;
 };
 
 proto._applyHtmlProperties = function(vElement)
@@ -3960,10 +3960,10 @@ proto.removeHtmlAttribute = function(propName)
 proto.getHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
-    return QxConst.CORE_EMPTY;
+    return qx.Const.CORE_EMPTY;
   };
 
-  return this._htmlAttributes[propName] || QxConst.CORE_EMPTY;
+  return this._htmlAttributes[propName] || qx.Const.CORE_EMPTY;
 };
 
 proto._applyHtmlAttributes = function(vElement)
@@ -3994,7 +3994,7 @@ proto._applyHtmlAttributes = function(vElement)
 */
 
 proto.getStyleProperty = function(propName) {
-  return this._styleProperties[propName] || QxConst.CORE_EMPTY;
+  return this._styleProperties[propName] || qx.Const.CORE_EMPTY;
 };
 
 proto.setStyleProperty = function(propName, propValue)
@@ -4009,10 +4009,10 @@ proto.setStyleProperty = function(propName, propValue)
     */
     switch(propName)
     {
-      case QxConst.PROPERTY_ZINDEX:
-      case QxConst.PROPERTY_FILTER:
-      case QxConst.PROPERTY_DISPLAY:
-      case QxConst.PROPERTY_VISIBILITY:
+      case qx.Const.PROPERTY_ZINDEX:
+      case qx.Const.PROPERTY_FILTER:
+      case qx.Const.PROPERTY_DISPLAY:
+      case qx.Const.PROPERTY_VISIBILITY:
         var vElement = this.getElement();
         break;
 
@@ -4040,10 +4040,10 @@ proto.removeStyleProperty = function(propName)
     */
     switch(propName)
     {
-      case QxConst.PROPERTY_ZINDEX:
-      case QxConst.PROPERTY_FILTER:
-      case QxConst.PROPERTY_DISPLAY:
-      case QxConst.PROPERTY_VISIBILITY:
+      case qx.Const.PROPERTY_ZINDEX:
+      case qx.Const.PROPERTY_FILTER:
+      case qx.Const.PROPERTY_DISPLAY:
+      case qx.Const.PROPERTY_VISIBILITY:
         var vElement = this.getElement();
         break;
 
@@ -4052,7 +4052,7 @@ proto.removeStyleProperty = function(propName)
     };
 
     if (vElement) {
-      vElement.style[propName] = QxConst.CORE_EMPTY;
+      vElement.style[propName] = qx.Const.CORE_EMPTY;
     };
   };
 
@@ -4075,8 +4075,8 @@ proto._applyStyleProperties = function(vElement)
     */
     switch(propName)
     {
-      case QxConst.PROPERTY_ZINDEX:
-      case QxConst.PROPERTY_FILTER:
+      case qx.Const.PROPERTY_ZINDEX:
+      case qx.Const.PROPERTY_FILTER:
         vElement = vBaseElement;
         break;
 
@@ -4168,7 +4168,7 @@ proto._visualizeBlur = function()
     } catch(ex) {};
   };
 
-  this.removeState(QxConst.STATE_FOCUSED);
+  this.removeState(qx.Const.STATE_FOCUSED);
   return true;
 };
 
@@ -4181,7 +4181,7 @@ proto._visualizeFocus = function()
     } catch(ex) {};
   };
 
-  this.addState(QxConst.STATE_FOCUSED);
+  this.addState(qx.Const.STATE_FOCUSED);
   return true;
 };
 
@@ -4313,11 +4313,11 @@ else
 */
 
 proto.setCssClassName = function(propValue) {
-  this.setHtmlProperty(QxConst.PROPERTY_CLASSNAME, propValue);
+  this.setHtmlProperty(qx.Const.PROPERTY_CLASSNAME, propValue);
 };
 
 proto.getCssClassName = function() {
-  return this.getHtmlProperty(QxConst.PROPERTY_CLASSNAME);
+  return this.getHtmlProperty(qx.Const.PROPERTY_CLASSNAME);
 };
 
 
@@ -4378,8 +4378,8 @@ else if(qx.sys.Client.isGecko())
     }
     else
     {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, QxConst.CORE_NONE);
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.Const.CORE_NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.Const.CORE_NONE);
     };
 
     return true;
@@ -4395,7 +4395,7 @@ else if (qx.sys.Client.isOpera())
 else
 {
   proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, QxConst.CORE_NONE);
+    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.Const.CORE_NONE);
   };
 };
 
@@ -4429,11 +4429,11 @@ if(qx.sys.Client.isMshtml())
   {
     if(propValue == null || propValue >= 1 || propValue < 0)
     {
-      this.removeStyleProperty(QxConst.PROPERTY_FILTER);
+      this.removeStyleProperty(qx.Const.PROPERTY_FILTER);
     }
     else if (qx.util.Validation.isValidNumber(propValue))
     {
-      this.setStyleProperty(QxConst.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
+      this.setStyleProperty(qx.Const.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
     }
     else
     {
@@ -4562,27 +4562,27 @@ proto._compileClipString = function()
 
   if(vLeft == null)
   {
-    vRight = vWidth == null ? QxConst.CORE_AUTO : vWidth + QxConst.CORE_PIXEL;
-    vLeft = QxConst.CORE_AUTO;
+    vRight = vWidth == null ? qx.Const.CORE_AUTO : vWidth + qx.Const.CORE_PIXEL;
+    vLeft = qx.Const.CORE_AUTO;
   }
   else
   {
-    vRight = vWidth == null ? QxConst.CORE_AUTO : vLeft + vWidth + QxConst.CORE_PIXEL;
-    vLeft = vLeft + QxConst.CORE_PIXEL;
+    vRight = vWidth == null ? qx.Const.CORE_AUTO : vLeft + vWidth + qx.Const.CORE_PIXEL;
+    vLeft = vLeft + qx.Const.CORE_PIXEL;
   };
 
   if(vTop == null)
   {
-    vBottom = vHeight == null ? QxConst.CORE_AUTO : vHeight + QxConst.CORE_PIXEL;
-    vTop = QxConst.CORE_AUTO;
+    vBottom = vHeight == null ? qx.Const.CORE_AUTO : vHeight + qx.Const.CORE_PIXEL;
+    vTop = qx.Const.CORE_AUTO;
   }
   else
   {
-    vBottom = vHeight == null ? QxConst.CORE_AUTO : vTop + vHeight + QxConst.CORE_PIXEL;
-    vTop = vTop + QxConst.CORE_PIXEL;
+    vBottom = vHeight == null ? qx.Const.CORE_AUTO : vTop + vHeight + qx.Const.CORE_PIXEL;
+    vTop = vTop + qx.Const.CORE_PIXEL;
   };
 
-  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + QxConst.CORE_COMMA + vRight + QxConst.CORE_COMMA + vBottom + QxConst.CORE_COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
+  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + qx.Const.CORE_COMMA + vRight + qx.Const.CORE_COMMA + vBottom + qx.Const.CORE_COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
 };
 
 
@@ -4601,7 +4601,7 @@ proto._compileClipString = function()
 */
 qx.ui.core.Widget.initOverflow = function()
 {
-  var t = document.createElement(QxConst.CORE_DIV);
+  var t = document.createElement(qx.Const.CORE_DIV);
   var s = t.style;
 
   s.height = s.width = "100px";
@@ -4617,8 +4617,8 @@ qx.ui.core.Widget.initOverflow = function()
   document.body.removeChild(t);
 };
 
-if (typeof window.application != QxConst.TYPEOF_UNDEFINED) {
-  window.application.addEventListener(QxConst.EVENT_TYPE_PRE, qx.ui.core.Widget.initOverflow);
+if (typeof window.application != qx.Const.TYPEOF_UNDEFINED) {
+  window.application.addEventListener(qx.Const.EVENT_TYPE_PRE, qx.ui.core.Widget.initOverflow);
 };
 
 qx.ui.core.Widget.SCROLL_PROPERTY = "overflow";
@@ -4829,19 +4829,19 @@ proto._updateColors = function(vColor, vNewValue)
 };
 
 proto._applyColor = function(vNewValue) {
-  this.setStyleProperty(QxConst.PROPERTY_COLOR, vNewValue);
+  this.setStyleProperty(qx.Const.PROPERTY_COLOR, vNewValue);
 };
 
 proto._applyBackgroundColor = function(vNewValue) {
-  this.setStyleProperty(QxConst.PROPERTY_BACKGROUNDCOLOR, vNewValue);
+  this.setStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR, vNewValue);
 };
 
 proto._resetColor = function(vNewValue) {
-  this.removeStyleProperty(QxConst.PROPERTY_COLOR);
+  this.removeStyleProperty(qx.Const.PROPERTY_COLOR);
 };
 
 proto._resetBackgroundColor = function() {
-  this.removeStyleProperty(QxConst.PROPERTY_BACKGROUNDCOLOR);
+  this.removeStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR);
 };
 
 
@@ -4894,7 +4894,7 @@ proto._modifyBorder = function(propValue, propOldValue, propData)
     this._invalidateFrameWidth();
   };
 
-  this.addToQueue(QxConst.PROPERTY_BORDERX);
+  this.addToQueue(qx.Const.PROPERTY_BORDERX);
 
 
 
@@ -4905,7 +4905,7 @@ proto._modifyBorder = function(propValue, propOldValue, propData)
     this._invalidateFrameHeight();
   };
 
-  this.addToQueue(QxConst.PROPERTY_BORDERY);
+  this.addToQueue(qx.Const.PROPERTY_BORDERY);
 
 
 
@@ -4937,7 +4937,7 @@ proto._updateBorder = function(vEdge)
   var vBorder = this.getBorder();
   var vEdgeUp = vEdge.toFirstUp();
 
-  var vNewValue = vBorder[QxConst.INTERNAL_GET + vEdgeUp + "Width"]();
+  var vNewValue = vBorder[qx.Const.INTERNAL_GET + vEdgeUp + "Width"]();
   var vCacheName = "_cachedBorder" + vEdgeUp;
   var vWidthChanged = this[vCacheName] != vNewValue;
 
@@ -4945,22 +4945,22 @@ proto._updateBorder = function(vEdge)
 
   switch(vEdge)
   {
-    case QxConst.PROPERTY_LEFT:
-    case QxConst.PROPERTY_RIGHT:
+    case qx.Const.PROPERTY_LEFT:
+    case qx.Const.PROPERTY_RIGHT:
       if (vWidthChanged) {
-        this.addToJobQueue(QxConst.PROPERTY_BORDERWIDTHX);
+        this.addToJobQueue(qx.Const.PROPERTY_BORDERWIDTHX);
       };
 
-      this.addToJobQueue(QxConst.PROPERTY_BORDERX);
+      this.addToJobQueue(qx.Const.PROPERTY_BORDERX);
       break;
 
-    case QxConst.PROPERTY_TOP:
-    case QxConst.PROPERTY_BOTTOM:
+    case qx.Const.PROPERTY_TOP:
+    case qx.Const.PROPERTY_BOTTOM:
       if (vWidthChanged) {
-        this.addToJobQueue(QxConst.PROPERTY_BORDERWIDTHY);
+        this.addToJobQueue(qx.Const.PROPERTY_BORDERWIDTHY);
       };
 
-      this.addToJobQueue(QxConst.PROPERTY_BORDERY);
+      this.addToJobQueue(qx.Const.PROPERTY_BORDERY);
       break;
   };
 };
@@ -5017,10 +5017,10 @@ proto.clone = function(cloneRecursive, customPropertyList)
 
   var propertyName;
   var propertyList = [];
-  var propertyIngoreList = this._clonePropertyIgnoreList.split(QxConst.CORE_COMMA);
+  var propertyIngoreList = this._clonePropertyIgnoreList.split(qx.Const.CORE_COMMA);
 
   // Build new filtered property list
-  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(QxConst.CORE_COMMA);
+  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(qx.Const.CORE_COMMA);
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];
@@ -5034,7 +5034,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   propertyListLength = propertyList.length-1;
   do {
     propertyName = propertyList[propertyListLength].toFirstUp();
-    cloneInstance[QxConst.INTERNAL_SET + propertyName](this[QxConst.INTERNAL_GET + propertyName]());
+    cloneInstance[qx.Const.INTERNAL_SET + propertyName](this[qx.Const.INTERNAL_GET + propertyName]());
   }
   while(propertyListLength--);
 
@@ -5075,7 +5075,7 @@ proto.execute = function()
     vCommand.execute(this);
   };
 
-  this.createDispatchEvent(QxConst.EVENT_TYPE_EXECUTE);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_EXECUTE);
 };
 
 
@@ -5216,7 +5216,7 @@ proto.scrollIntoViewY = function(vAlignTop)
 /*
 proto.applyRoundedBorder = function()
 {
-  this.addEventListener(QxConst.EVENT_TYPE_BEFOREAPPEAR, this._applyRoundedBorder);
+  this.addEventListener(qx.Const.EVENT_TYPE_BEFOREAPPEAR, this._applyRoundedBorder);
 };
 
 proto._applyRoundedBorder = function()
@@ -5234,39 +5234,39 @@ proto._applyRoundedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(QxConst.CORE_DIV);
+  var corner = document.createElement(qx.Const.CORE_DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.left = "0px";
 
   el.appendChild(corner);
 
 
-  var cornerLeft = document.createElement(QxConst.CORE_DIV);
+  var cornerLeft = document.createElement(qx.Const.CORE_DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "1px";
-  cornerLeftStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerLeftStyle.top = "2px";
   cornerLeftStyle.left = "0px";
 
   el.appendChild(cornerLeft);
 
 
-  var cornerTop = document.createElement(QxConst.CORE_DIV);
+  var cornerTop = document.createElement(qx.Const.CORE_DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
   cornerTopStyle.width = "1px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerTopStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "2px";
 
@@ -5279,14 +5279,14 @@ proto._applyRoundedFadedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var cornerTop = document.createElement(QxConst.CORE_DIV);
+  var cornerTop = document.createElement(qx.Const.CORE_DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
   cornerTopStyle.MozOpacity = "0.5";
   cornerTopStyle.width = "2px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerTopStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "3px";
 
@@ -5294,14 +5294,14 @@ proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerLeft = document.createElement(QxConst.CORE_DIV);
+  var cornerLeft = document.createElement(qx.Const.CORE_DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
   cornerLeftStyle.MozOpacity = "0.5";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "2px";
-  cornerLeftStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerLeftStyle.top = "3px";
   cornerLeftStyle.left = "0px";
 
@@ -5310,14 +5310,14 @@ proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerTop = document.createElement(QxConst.CORE_DIV);
+  var cornerInnerTop = document.createElement(qx.Const.CORE_DIV);
   var cornerInnerTopStyle = cornerInnerTop.style;
 
   cornerInnerTopStyle.backgroundColor = "threedface";
   cornerInnerTopStyle.MozOpacity = "0.5";
   cornerInnerTopStyle.width = "1px";
   cornerInnerTopStyle.height = "1px";
-  cornerInnerTopStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerInnerTopStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerInnerTopStyle.top = "1px";
   cornerInnerTopStyle.left = "2px";
 
@@ -5325,14 +5325,14 @@ proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerLeft = document.createElement(QxConst.CORE_DIV);
+  var cornerInnerLeft = document.createElement(qx.Const.CORE_DIV);
   var cornerInnerLeftStyle = cornerInnerLeft.style;
 
   cornerInnerLeftStyle.backgroundColor = "threedface";
   cornerInnerLeftStyle.MozOpacity = "0.5";
   cornerInnerLeftStyle.width = "1px";
   cornerInnerLeftStyle.height = "1px";
-  cornerInnerLeftStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerInnerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerInnerLeftStyle.top = "2px";
   cornerInnerLeftStyle.left = "1px";
 
@@ -5345,13 +5345,13 @@ proto._applyRoundedTopRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(QxConst.CORE_DIV);
+  var corner = document.createElement(qx.Const.CORE_DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.right = "0px";
 
@@ -5366,13 +5366,13 @@ proto._applyRoundedBottomLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(QxConst.CORE_DIV);
+  var corner = document.createElement(qx.Const.CORE_DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.left = "0px";
 
@@ -5388,13 +5388,13 @@ proto._applyRoundedBottomRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(QxConst.CORE_DIV);
+  var corner = document.createElement(qx.Const.CORE_DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = QxConst.CORE_ABSOLUTE;
+  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.right = "0px";
 

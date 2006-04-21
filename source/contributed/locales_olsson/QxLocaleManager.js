@@ -36,7 +36,7 @@ function QxLocaleManager(){
 QxLocaleManager.extend(qx.manager.object.ObjectManager, "QxLocaleManager");
 
 
-QxLocaleManager.addProperty({ name : "currentLocale", type : QxConst.TYPEOF_OBJECT });
+QxLocaleManager.addProperty({ name : "currentLocale", type : qx.Const.TYPEOF_OBJECT });
 
 /*
 ---------------------------------------------------------------------------

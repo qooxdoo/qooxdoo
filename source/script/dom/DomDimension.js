@@ -172,7 +172,7 @@ if (qx.sys.Client.isMshtml())
   qx.dom.DomDimension.getInsetLeft   = function(el) { return el.clientLeft; };
   qx.dom.DomDimension.getInsetTop    = function(el) { return el.clientTop; };
   qx.dom.DomDimension.getInsetRight  = function(el) {
-    if(qx.dom.DomStyle.getStyleProperty(el, "overflowY") == QxConst.CORE_HIDDEN || el.clientWidth == 0) {
+    if(qx.dom.DomStyle.getStyleProperty(el, "overflowY") == qx.Const.CORE_HIDDEN || el.clientWidth == 0) {
       return qx.dom.DomStyle.getBorderRight(el);
     };
 
@@ -180,7 +180,7 @@ if (qx.sys.Client.isMshtml())
   };
 
   qx.dom.DomDimension.getInsetBottom = function(el) {
-    if(qx.dom.DomStyle.getStyleProperty(el, "overflowX") == QxConst.CORE_HIDDEN || el.clientHeight == 0) {
+    if(qx.dom.DomStyle.getStyleProperty(el, "overflowX") == qx.Const.CORE_HIDDEN || el.clientHeight == 0) {
       return qx.dom.DomStyle.getBorderBottom(el);
     };
 
@@ -196,7 +196,7 @@ else
     // Alternative method if clientWidth is unavailable
     // clientWidth == 0 could mean both: unavailable or really 0
     if (el.clientWidth == 0) {
-      var ov = qx.dom.DomStyle.getStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.Const.EVENT_TYPE_OVERFLOW);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-vertical" ? 16 : 0;
       return Math.max(0, qx.dom.DomStyle.getBorderRight(el) + sbv);
     };
@@ -208,7 +208,7 @@ else
     // Alternative method if clientHeight is unavailable
     // clientHeight == 0 could mean both: unavailable or really 0
     if (el.clientHeight == 0) {
-      var ov = qx.dom.DomStyle.getStyleProperty(el, QxConst.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.Const.EVENT_TYPE_OVERFLOW);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-horizontal" ? 16 : 0;
       return Math.max(0, qx.dom.DomStyle.getBorderBottom(el) + sbv);
     };

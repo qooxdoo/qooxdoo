@@ -71,7 +71,7 @@ qx.ui.listview.ListView = function(vData, vColumns)
   // ************************************************************************
 
   this._frame.setParent(this);
-  this._frame.setHeight(QxConst.CORE_FLEX);
+  this._frame.setHeight(qx.Const.CORE_FLEX);
   this._frame.setWidth(null);
 
 
@@ -88,11 +88,11 @@ qx.ui.listview.ListView = function(vData, vColumns)
   //   SCROLL AREA
   // ************************************************************************
 
-  this._scroll.setWidth(QxConst.CORE_AUTO);
-  this._scroll.setOverflow(QxConst.OVERFLOW_VALUE_VERTICAL);
+  this._scroll.setWidth(qx.Const.CORE_AUTO);
+  this._scroll.setOverflow(qx.Const.OVERFLOW_VALUE_VERTICAL);
   this._scroll.setParent(this._frame);
-  this._scroll.enableInlineEvent(QxConst.EVENT_TYPE_SCROLL);
-  this._scroll.addEventListener(QxConst.EVENT_TYPE_SCROLL, this._onscroll, this);
+  this._scroll.enableInlineEvent(qx.Const.EVENT_TYPE_SCROLL);
+  this._scroll.addEventListener(qx.Const.EVENT_TYPE_SCROLL, this._onscroll, this);
 
 
 
@@ -120,7 +120,7 @@ qx.ui.listview.ListView = function(vData, vColumns)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 };
 
 qx.ui.listview.ListView.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.listview.ListView");
@@ -134,11 +134,11 @@ qx.ui.listview.ListView.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.listview.L
 ---------------------------------------------------------------------------
 */
 
-qx.ui.listview.ListView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view" });
+qx.ui.listview.ListView.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view" });
 
-qx.ui.listview.ListView.addProperty({ name : "resizable", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.listview.ListView.addProperty({ name : "liveResize", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.listview.ListView.addProperty({ name : "sortBy", type : QxConst.TYPEOF_STRING });
+qx.ui.listview.ListView.addProperty({ name : "resizable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.listview.ListView.addProperty({ name : "liveResize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.listview.ListView.addProperty({ name : "sortBy", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -206,7 +206,7 @@ if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
   {
     this._updateScrollBar();
 
-    this._scroll.setStyleProperty(QxConst.PROPERTY_HEIGHT, QxConst.CORE_0PIXEL);
+    this._scroll.setStyleProperty(qx.Const.PROPERTY_HEIGHT, qx.Const.CORE_0PIXEL);
     this._scroll.forceHeight(0);
     this._scroll.setHeight(null);
   };
@@ -268,7 +268,7 @@ proto._modifySortBy = function(propValue, propOldValue, propData)
     var vNewCell = this._getHeaderCell(propValue);
 
     if (vNewCell && vNewCell.getSortOrder() == null) {
-      vNewCell.setSortOrder(QxConst.SORT_ASCENDING);
+      vNewCell.setSortOrder(qx.Const.SORT_ASCENDING);
     };
   };
 
@@ -372,7 +372,7 @@ proto.dispose = function()
   delete this._columns;
   delete this._data;
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

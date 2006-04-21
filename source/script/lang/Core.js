@@ -70,7 +70,7 @@ if (!Function.prototype.apply)
       sarg[i] = "args["+i+"]";
     };
 
-    call = "oScope._applyTemp_(" + sarg.join(QxConst.CORE_COMMA) + ");";
+    call = "oScope._applyTemp_(" + sarg.join(qx.Const.CORE_COMMA) + ");";
 
     oScope._applyTemp_ = this;
     rtrn = eval(call);

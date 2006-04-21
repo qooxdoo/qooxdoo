@@ -54,8 +54,8 @@ qx.ui.toolbar.ToolBarMenuButton.extend(qx.ui.toolbar.ToolBarButton, "qx.ui.toolb
 ---------------------------------------------------------------------------
 */
 
-qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "menu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
-qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "direction", type : QxConst.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
+qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
 
 
 
@@ -115,7 +115,7 @@ proto._showMenu = function(vFromKeyEvent)
         break;
     };
 
-    this.addState(QxConst.STATE_PRESSED);
+    this.addState(qx.Const.STATE_PRESSED);
 
     // If this show is called from a key event occured, we want to highlight
     // the first menubutton inside.
@@ -152,16 +152,16 @@ proto._modifyMenu = function(propValue, propOldValue, propData)
   {
     propOldValue.setOpener(null);
 
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_APPEAR, this._onmenuappear, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onmenuappear, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
   };
 
   if (propValue)
   {
     propValue.setOpener(this);
 
-    propValue.addEventListener(QxConst.EVENT_TYPE_APPEAR, this._onmenuappear, this);
-    propValue.addEventListener(QxConst.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onmenuappear, this);
+    propValue.addEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
   };
 
   return true;
@@ -184,7 +184,7 @@ proto._onmousedown = function(e)
     return;
   };
 
-  this.hasState(QxConst.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
+  this.hasState(qx.Const.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
 };
 
 proto._onmouseup = function(e) {};
@@ -195,7 +195,7 @@ proto._onmouseout = function(e)
     return;
   };
 
-  this.removeState(QxConst.STATE_OVER);
+  this.removeState(qx.Const.STATE_OVER);
 };
 
 proto._onmouseover = function(e)

@@ -36,4 +36,4 @@ qx.ui.pageview.tabview.TabViewBar = function()
 
 qx.ui.pageview.tabview.TabViewBar.extend(qx.ui.pageview.AbstractPageViewBar, "qx.ui.pageview.tabview.TabViewBar");
 
-qx.ui.pageview.tabview.TabViewBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-bar" });
+qx.ui.pageview.tabview.TabViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-bar" });

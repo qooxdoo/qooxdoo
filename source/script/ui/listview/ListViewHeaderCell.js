@@ -45,7 +45,7 @@ qx.ui.listview.ListViewHeaderCell = function(vConfig, vId)
   // ************************************************************************
   //   ARGUMENTS
   // ************************************************************************
-  this.setWidth(typeof vConfig.width === QxConst.TYPEOF_UNDEFINED ? QxConst.CORE_AUTO : vConfig.width);
+  this.setWidth(typeof vConfig.width === qx.Const.TYPEOF_UNDEFINED ? qx.Const.CORE_AUTO : vConfig.width);
 
   if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
@@ -80,15 +80,15 @@ qx.ui.listview.ListViewHeaderCell = function(vConfig, vId)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 };
 
 qx.ui.listview.ListViewHeaderCell.extend(qx.ui.basic.Atom, "qx.ui.listview.ListViewHeaderCell");
 
-qx.ui.listview.ListViewHeaderCell.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
-qx.ui.listview.ListViewHeaderCell.addProperty({ name : "sortOrder", type : QxConst.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
+qx.ui.listview.ListViewHeaderCell.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
+qx.ui.listview.ListViewHeaderCell.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
 
 
@@ -110,11 +110,11 @@ proto.getNextSortOrder = function()
 
   switch(vCurrentSortOrder)
   {
-    case QxConst.SORT_ASCENDING:
-      return QxConst.SORT_DESCENDING;
+    case qx.Const.SORT_ASCENDING:
+      return qx.Const.SORT_DESCENDING;
 
     default:
-      return QxConst.SORT_ASCENDING;
+      return qx.Const.SORT_ASCENDING;
   };
 };
 
@@ -131,7 +131,7 @@ proto.updateSort = function()
     return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);
   });
 
-  if (this.getSortOrder() == QxConst.SORT_DESCENDING) {
+  if (this.getSortOrder() == qx.Const.SORT_DESCENDING) {
     vData.reverse();
   };
 };
@@ -152,14 +152,14 @@ proto._modifySortOrder = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case QxConst.SORT_ASCENDING:
+    case qx.Const.SORT_ASCENDING:
       this._arrowup.setDisplay(true);
       this._arrowdown.setDisplay(false);
 
       vListView.setSortBy(this._id);
       break;
 
-    case QxConst.SORT_DESCENDING:
+    case qx.Const.SORT_DESCENDING:
       this._arrowup.setDisplay(false);
       this._arrowdown.setDisplay(true);
 
@@ -197,11 +197,11 @@ proto._modifySortOrder = function(propValue, propOldValue, propData)
 */
 
 proto._onmouseover = function(e) {
-  this.addState(QxConst.STATE_OVER);
+  this.addState(qx.Const.STATE_OVER);
 };
 
 proto._onmouseout = function(e) {
-  this.removeState(QxConst.STATE_OVER);
+  this.removeState(qx.Const.STATE_OVER);
 };
 
 proto._onmouseup = function(e)
@@ -252,9 +252,9 @@ proto.dispose = function()
     this._arrowdown = null;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

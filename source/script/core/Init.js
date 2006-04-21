@@ -124,7 +124,7 @@ proto._runPre = function()
   {
     // Execute user define 'pre' method
     this.debug("Dispatching application pre event");
-    this.createDispatchEvent(QxConst.EVENT_TYPE_PRE);
+    this.createDispatchEvent(qx.Const.EVENT_TYPE_PRE);
 
     if (this.pre !== qx.util.Return.returnTrue)
     {
@@ -135,12 +135,12 @@ proto._runPre = function()
     if (qx.core.Settings.enableUserInterface)
     {
       // Create client window instance (and client-document, event- and focus-manager, ...)
-      if (typeof qx.client.ClientWindow === QxConst.TYPEOF_FUNCTION) {
+      if (typeof qx.client.ClientWindow === qx.Const.TYPEOF_FUNCTION) {
         this._clientWindow = new qx.client.ClientWindow();
       };
 
       // Build virtual methods for easy additions of childrens and so on
-      if (typeof qx.ui.core.Parent === QxConst.TYPEOF_FUNCTION)
+      if (typeof qx.ui.core.Parent === qx.Const.TYPEOF_FUNCTION)
       {
         this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
         qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
@@ -155,7 +155,7 @@ proto._runPre = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
 proto._runMain = function()
@@ -167,7 +167,7 @@ proto._runMain = function()
   {
     // Execute user define 'main' method
     this.debug("Dispatching application main event");
-    this.createDispatchEvent(QxConst.EVENT_TYPE_MAIN);
+    this.createDispatchEvent(qx.Const.EVENT_TYPE_MAIN);
 
     if (this.main !== qx.util.Return.returnTrue)
     {
@@ -183,7 +183,7 @@ proto._runMain = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
 proto._runPreload = function()
@@ -195,10 +195,10 @@ proto._runPreload = function()
     this.info("Preload phase");
     this.debug("Preloading images...");
 
-    if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+    if (typeof qx.manager.object.ImageManager !== qx.Const.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.Const.TYPEOF_UNDEFINED)
     {
       var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
-      vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
+      vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
       vPreloaderSystem.start();
     };
   };
@@ -206,13 +206,13 @@ proto._runPreload = function()
 
 proto._runPreloadDone = function()
 {
-  this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + QxConst.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + qx.Const.CORE_MILLISECONDS);
   this._runWidgets();
 };
 
 proto._runWidgets = function()
 {
-  if (typeof qx.ui.core.Widget === QxConst.TYPEOF_FUNCTION)
+  if (typeof qx.ui.core.Widget === qx.Const.TYPEOF_FUNCTION)
   {
     var s = (new Date).valueOf();
 
@@ -222,7 +222,7 @@ proto._runWidgets = function()
     this._ready = true;
     qx.ui.core.Widget.flushGlobalQueues(true);
 
-    this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+    this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
   };
 
   this._runPost();
@@ -240,7 +240,7 @@ proto._runPost = function()
 
     // Execute "post" stuff
     this.debug("Dispatching application post event");
-    this.createDispatchEvent(QxConst.EVENT_TYPE_POST);
+    this.createDispatchEvent(qx.Const.EVENT_TYPE_POST);
 
     if (this.post !== qx.util.Return.returnTrue)
     {
@@ -253,7 +253,7 @@ proto._runPost = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + QxConst.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
 proto._runPostload = function()
@@ -263,17 +263,17 @@ proto._runPostload = function()
   this.info("Postload phase");
   this.debug("Preloading images...");
 
-  if (typeof qx.manager.object.ImageManager !== QxConst.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== QxConst.TYPEOF_UNDEFINED)
+  if (typeof qx.manager.object.ImageManager !== qx.Const.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.Const.TYPEOF_UNDEFINED)
   {
     var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList());
-    vPreloaderSystem.addEventListener(QxConst.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
+    vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
     vPreloaderSystem.start();
   };
 };
 
 proto._runPostloadDone = function()
 {
-  this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + QxConst.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + qx.Const.CORE_MILLISECONDS);
 };
 
 
@@ -300,7 +300,7 @@ proto._printPropertyInfo = function() {
 
 proto._printClientInfo = function()
 {
-  this.debug("Client: " + qx.sys.Client.getEngine() + QxConst.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? QxConst.CORE_SPACE + qx.sys.Client.getEmulation() : QxConst.CORE_EMPTY));
+  this.debug("Client: " + qx.sys.Client.getEngine() + qx.Const.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? qx.Const.CORE_SPACE + qx.sys.Client.getEmulation() : qx.Const.CORE_EMPTY));
 
   if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
     this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");

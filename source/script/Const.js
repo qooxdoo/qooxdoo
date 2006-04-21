@@ -30,7 +30,7 @@
    Precreate most used strings
 ******************************************************************** */
 
-var QxConst =
+qx.Const =
 {
   CORE_EMPTY : "",
   CORE_SPACE : " ",

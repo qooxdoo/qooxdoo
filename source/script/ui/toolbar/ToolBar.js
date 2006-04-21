@@ -31,7 +31,7 @@ qx.ui.toolbar.ToolBar = function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
 qx.ui.toolbar.ToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBar");
@@ -44,12 +44,12 @@ qx.ui.toolbar.ToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.To
 ---------------------------------------------------------------------------
 */
 
-qx.ui.toolbar.ToolBar.addProperty({ name : "openMenu", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.ui.toolbar.ToolBar.addProperty({ name : "openMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Appearance of the widget
 */
-qx.ui.toolbar.ToolBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar" });
+qx.ui.toolbar.ToolBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar" });
 
 
 
@@ -242,7 +242,7 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };

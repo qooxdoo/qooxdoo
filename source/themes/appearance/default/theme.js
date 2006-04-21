@@ -78,8 +78,8 @@ theme.registerAppearance("blocker",
     // (Visible) background tiles could be dramatically slow down mshtml!
     // A background image or color is always needed for mshtml to block the events successfully.
     return {
-      cursor : QxConst.CORE_DEFAULT,
-      backgroundImage : QxConst.IMAGE_BLANK
+      cursor : qx.Const.CORE_DEFAULT,
+      backgroundImage : qx.Const.IMAGE_BLANK
     };
   }
 });
@@ -89,12 +89,12 @@ theme.registerAppearance("atom",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : QxConst.CORE_DEFAULT,
+      cursor : qx.Const.CORE_DEFAULT,
       spacing : 4,
-      width : QxConst.CORE_AUTO,
-      height : QxConst.CORE_AUTO,
-      horizontalChildrenAlign : QxConst.ALIGN_CENTER,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
+      width : qx.Const.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
+      horizontalChildrenAlign : qx.Const.ALIGN_CENTER,
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       stretchChildrenOrthogonalAxis : false,
       allowStretchY : false,
       allowStretchX : false
@@ -142,8 +142,8 @@ theme.registerAppearance("popup",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : QxConst.CORE_AUTO,
-      height : QxConst.CORE_AUTO
+      width : qx.Const.CORE_AUTO,
+      height : qx.Const.CORE_AUTO
     };
   }
 });
@@ -158,7 +158,7 @@ theme.registerAppearance("tool-tip",
 
   initial : function(vWidget, vTheme)
   {
-    vWidget.setStyleProperty(QxConst.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
+    vWidget.setStyleProperty(qx.Const.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
       backgroundColor : this.bgcolor,
@@ -258,7 +258,7 @@ theme.registerAppearance("toolbar",
     return {
       border : qx.renderer.border.BorderObject.presets.thinOutset,
       backgroundColor : this.bgcolor,
-      height : QxConst.CORE_AUTO
+      height : qx.Const.CORE_AUTO
     };
   }
 });
@@ -268,7 +268,7 @@ theme.registerAppearance("toolbar-part",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : QxConst.CORE_AUTO
+      width : qx.Const.CORE_AUTO
     };
   }
 });
@@ -316,8 +316,8 @@ theme.registerAppearance("toolbar-separator-line",
     b.setLeftColor("threedshadow");
     b.setRightColor("threedhighlight");
 
-    b.setLeftStyle(QxConst.BORDER_STYLE_SOLID);
-    b.setRightStyle(QxConst.BORDER_STYLE_SOLID);
+    b.setLeftStyle(qx.Const.BORDER_STYLE_SOLID);
+    b.setRightStyle(qx.Const.BORDER_STYLE_SOLID);
 
     b.setLeftWidth(1);
     b.setRightWidth(1);
@@ -354,10 +354,10 @@ theme.registerAppearance("toolbar-button",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : QxConst.CORE_DEFAULT,
+      cursor : qx.Const.CORE_DEFAULT,
       spacing : 4,
-      width : QxConst.CORE_AUTO,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE
+      width : qx.Const.CORE_AUTO,
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE
     };
   },
 
@@ -433,17 +433,17 @@ theme.registerAppearance("bar-view-pane",
   {
     switch(vWidget.getParent().getBarPosition())
     {
-      case QxConst.ALIGN_TOP:
-      case QxConst.ALIGN_BOTTOM:
+      case qx.Const.ALIGN_TOP:
+      case qx.Const.ALIGN_BOTTOM:
         return {
           width : null,
-          height : QxConst.CORE_FLEX
+          height : qx.Const.CORE_FLEX
         };
 
-      case QxConst.ALIGN_LEFT:
-      case QxConst.ALIGN_RIGHT:
+      case qx.Const.ALIGN_LEFT:
+      case qx.Const.ALIGN_RIGHT:
         return {
-          width : QxConst.CORE_FLEX,
+          width : qx.Const.CORE_FLEX,
           height : null
         };
     };
@@ -472,16 +472,16 @@ theme.registerAppearance("bar-view-bar",
     this.border_color = new qx.renderer.color.ColorObject("threedshadow");
 
     this.border_top = new qx.renderer.border.BorderObject;
-    this.border_top.setBottom(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
+    this.border_top.setBottom(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
 
     this.border_bottom = new qx.renderer.border.BorderObject;
-    this.border_bottom.setTop(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
+    this.border_bottom.setTop(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
 
     this.border_left = new qx.renderer.border.BorderObject;
-    this.border_left.setRight(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
+    this.border_left.setRight(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
 
     this.border_right = new qx.renderer.border.BorderObject;
-    this.border_right.setLeft(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
+    this.border_right.setLeft(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
   },
 
   initial : function(vWidget, vTheme)
@@ -495,7 +495,7 @@ theme.registerAppearance("bar-view-bar",
   {
     switch(vWidget.getParent().getBarPosition())
     {
-      case QxConst.ALIGN_TOP:
+      case qx.Const.ALIGN_TOP:
         return {
           paddingTop : 1,
           paddingRight : 0,
@@ -503,12 +503,12 @@ theme.registerAppearance("bar-view-bar",
           paddingLeft : 0,
 
           border : this.border_top,
-          height : QxConst.CORE_AUTO,
+          height : qx.Const.CORE_AUTO,
           width : null,
-          orientation : QxConst.ORIENTATION_HORIZONTAL
+          orientation : qx.Const.ORIENTATION_HORIZONTAL
         };
 
-      case QxConst.ALIGN_BOTTOM:
+      case qx.Const.ALIGN_BOTTOM:
         return {
           paddingTop : 1,
           paddingRight : 0,
@@ -516,12 +516,12 @@ theme.registerAppearance("bar-view-bar",
           paddingLeft : 0,
 
           border : this.border_bottom,
-          height : QxConst.CORE_AUTO,
+          height : qx.Const.CORE_AUTO,
           width : null,
-          orientation : QxConst.ORIENTATION_HORIZONTAL
+          orientation : qx.Const.ORIENTATION_HORIZONTAL
         };
 
-      case QxConst.ALIGN_LEFT:
+      case qx.Const.ALIGN_LEFT:
         return {
           paddingTop : 0,
           paddingRight : 1,
@@ -530,11 +530,11 @@ theme.registerAppearance("bar-view-bar",
 
           border : this.border_left,
           height : null,
-          width : QxConst.CORE_AUTO,
-          orientation : QxConst.ORIENTATION_VERTICAL
+          width : qx.Const.CORE_AUTO,
+          orientation : qx.Const.ORIENTATION_VERTICAL
         };
 
-      case QxConst.ALIGN_RIGHT:
+      case qx.Const.ALIGN_RIGHT:
         return {
           paddingTop : 0,
           paddingRight : 1,
@@ -543,8 +543,8 @@ theme.registerAppearance("bar-view-bar",
 
           border : this.border_right,
           height : null,
-          width : QxConst.CORE_AUTO,
-          orientation : QxConst.ORIENTATION_VERTICAL
+          width : qx.Const.CORE_AUTO,
+          orientation : qx.Const.ORIENTATION_VERTICAL
         };
     };
   }
@@ -560,23 +560,23 @@ theme.registerAppearance("bar-view-button",
     this.border_color = new qx.renderer.color.ColorObject("threedshadow");
     this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
 
-    this.border_top_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
-    this.border_top_checked.setBottom(3, QxConst.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_top_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_top_checked.setBottom(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
 
-    this.border_bottom_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
-    this.border_bottom_checked.setTop(3, QxConst.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_bottom_checked.setTop(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
 
-    this.border_left_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
-    this.border_left_checked.setRight(3, QxConst.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_left_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_left_checked.setRight(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
 
-    this.border_right_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, this.border_color);
-    this.border_right_checked.setLeft(3, QxConst.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_right_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_right_checked.setLeft(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
   },
 
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
-      iconPosition : QxConst.ALIGN_TOP
+      iconPosition : qx.Const.ALIGN_TOP
     });
   },
 
@@ -595,7 +595,7 @@ theme.registerAppearance("bar-view-button",
     {
       switch(vBarPosition)
       {
-        case QxConst.ALIGN_TOP:
+        case qx.Const.ALIGN_TOP:
           vReturn.border = this.border_top_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 6;
@@ -603,7 +603,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case QxConst.ALIGN_BOTTOM:
+        case qx.Const.ALIGN_BOTTOM:
           vReturn.border = this.border_bottom_checked;
           vReturn.paddingTop = 1;
           vReturn.paddingRight = 6;
@@ -611,7 +611,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case QxConst.ALIGN_LEFT:
+        case qx.Const.ALIGN_LEFT:
           vReturn.border = this.border_left_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 4;
@@ -619,7 +619,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case QxConst.ALIGN_RIGHT:
+        case qx.Const.ALIGN_RIGHT:
           vReturn.border = this.border_right_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 6;
@@ -636,19 +636,19 @@ theme.registerAppearance("bar-view-button",
 
     switch(vBarPosition)
     {
-      case QxConst.ALIGN_TOP:
-      case QxConst.ALIGN_BOTTOM:
+      case qx.Const.ALIGN_TOP:
+      case qx.Const.ALIGN_BOTTOM:
         vReturn.marginTop = vReturn.marginBottom = 0;
         vReturn.marginRight = vReturn.marginLeft = 1;
-        vReturn.width = QxConst.CORE_AUTO;
+        vReturn.width = qx.Const.CORE_AUTO;
         vReturn.height = null;
         break;
 
-      case QxConst.ALIGN_LEFT:
-      case QxConst.ALIGN_RIGHT:
+      case qx.Const.ALIGN_LEFT:
+      case qx.Const.ALIGN_RIGHT:
         vReturn.marginTop = vReturn.marginBottom = 1;
         vReturn.marginRight = vReturn.marginLeft = 0;
-        vReturn.height = QxConst.CORE_AUTO;
+        vReturn.height = qx.Const.CORE_AUTO;
         vReturn.width = null;
     };
 
@@ -715,9 +715,9 @@ theme.registerAppearance("window-captionbar",
       paddingRight : 2,
       paddingBottom : 2,
       paddingLeft : 2,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
-      height : QxConst.CORE_AUTO,
-      overflow : QxConst.OVERFLOW_VALUE_HIDDEN
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
+      height : qx.Const.CORE_AUTO,
+      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
     };
   },
 
@@ -761,7 +761,7 @@ theme.registerAppearance("window-captionbar-title",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : QxConst.CORE_DEFAULT,
+      cursor : qx.Const.CORE_DEFAULT,
       font : this.font,
       marginRight : 2,
       wrap : false
@@ -849,7 +849,7 @@ theme.registerAppearance("window-statusbar",
   {
     return {
       border : qx.renderer.border.BorderObject.presets.thinInset,
-      height : QxConst.CORE_AUTO
+      height : qx.Const.CORE_AUTO
     };
   }
 });
@@ -863,7 +863,7 @@ theme.registerAppearance("window-statusbar-text",
       paddingRight : 4,
       paddingBottom : 1,
       paddingLeft : 4,
-      cursor : QxConst.CORE_DEFAULT
+      cursor : qx.Const.CORE_DEFAULT
     };
   }
 });
@@ -893,8 +893,8 @@ theme.registerAppearance("menu",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : QxConst.CORE_AUTO,
-      height : QxConst.CORE_AUTO,
+      width : qx.Const.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       backgroundColor : this.bgcolor,
       border : qx.renderer.border.BorderObject.presets.outset,
       paddingTop : 1,
@@ -932,15 +932,15 @@ theme.registerAppearance("menu-button",
   initial : function(vWidget, vTheme)
   {
     return {
-      minWidth : QxConst.CORE_AUTO,
-      height : QxConst.CORE_AUTO,
+      minWidth : qx.Const.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       spacing : 2,
       paddingTop : 2,
       paddingRight : 4,
       paddingBottom : 2,
       paddingLeft : 4,
-      cursor : QxConst.CORE_DEFAULT,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
+      cursor : qx.Const.CORE_DEFAULT,
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       allowStretchX : true
     };
   },
@@ -974,7 +974,7 @@ theme.registerAppearance("menu-check-box-icon",
   state : function(vWidget, vTheme, vStates)
   {
     return {
-      source : vStates.checked ? "widgets/menu/checkbox.gif" : QxConst.IMAGE_BLANK
+      source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.Const.IMAGE_BLANK
     };
   }
 });
@@ -999,7 +999,7 @@ theme.registerAppearance("menu-radio-button-icon",
   state : function(vWidget, vTheme, vStates)
   {
     return {
-      source : vStates.checked ? "widgets/menu/radiobutton.gif" : QxConst.IMAGE_BLANK
+      source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.Const.IMAGE_BLANK
     };
   }
 });
@@ -1009,7 +1009,7 @@ theme.registerAppearance("menu-separator",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : QxConst.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       marginTop : 3,
       marginBottom : 2,
       paddingLeft : 3,
@@ -1025,7 +1025,7 @@ theme.registerAppearance("menu-separator-line",
     return {
       right : 0,
       left : 0,
-      height : QxConst.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       border : qx.renderer.border.BorderObject.presets.verticalDivider
     };
   }
@@ -1054,7 +1054,7 @@ theme.registerAppearance("list",
   initial : function(vWidget, vTheme)
   {
     return {
-      overflow : QxConst.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
       border : qx.renderer.border.BorderObject.presets.thinInset,
       backgroundColor : this.bgcolor
     };
@@ -1072,16 +1072,16 @@ theme.registerAppearance("list-item",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : QxConst.CORE_DEFAULT,
-      height : QxConst.CORE_AUTO,
-      horizontalChildrenAlign : QxConst.ALIGN_LEFT,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
+      cursor : qx.Const.CORE_DEFAULT,
+      height : qx.Const.CORE_AUTO,
+      horizontalChildrenAlign : qx.Const.ALIGN_LEFT,
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       spacing : 4,
       paddingTop : 3,
       paddingRight : 5,
       paddingBottom : 3,
       paddingLeft : 5,
-      minWidth : QxConst.CORE_AUTO
+      minWidth : qx.Const.CORE_AUTO
     };
   },
 
@@ -1089,8 +1089,8 @@ theme.registerAppearance("list-item",
   {
     if (vStates.lead)
     {
-      vWidget.setStyleProperty("MozOutline", QxConst.FOCUS_OUTLINE);
-      vWidget.setStyleProperty("outline", QxConst.FOCUS_OUTLINE);
+      vWidget.setStyleProperty("MozOutline", qx.Const.FOCUS_OUTLINE);
+      vWidget.setStyleProperty("outline", qx.Const.FOCUS_OUTLINE);
     }
     else
     {
@@ -1137,8 +1137,8 @@ theme.registerAppearance("text-field",
       allowStretchY : false,
       allowStretchX : true,
       font : this.font,
-      width : QxConst.CORE_AUTO,
-      height : QxConst.CORE_AUTO
+      width : qx.Const.CORE_AUTO,
+      height : qx.Const.CORE_AUTO
     };
   },
 
@@ -1152,7 +1152,7 @@ theme.registerAppearance("text-area",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
-      overflow : QxConst.CORE_AUTO
+      overflow : qx.Const.CORE_AUTO
     });
   },
 
@@ -1188,7 +1188,7 @@ theme.registerAppearance("combo-box",
     return {
       minWidth : 40,
       width : 120,
-      height : QxConst.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       border : qx.renderer.border.BorderObject.presets.inset,
       backgroundColor : this.bgcolor,
       allowStretchY : false
@@ -1206,7 +1206,7 @@ theme.registerAppearance("combo-box-list",
       bottom : 0,
       left : 0,
       border : null,
-      overflow : QxConst.OVERFLOW_VALUE_VERTICAL
+      overflow : qx.Const.OVERFLOW_VALUE_VERTICAL
     });
   }
 });
@@ -1216,7 +1216,7 @@ theme.registerAppearance("combo-box-popup",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
-      height : QxConst.CORE_AUTO,
+      height : qx.Const.CORE_AUTO,
       maxHeight : 150,
       border : qx.renderer.border.BorderObject.presets.shadow
     });
@@ -1234,7 +1234,7 @@ theme.registerAppearance("combo-box-text-field",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
       border : qx.renderer.border.Border.presets.none,
-      width : QxConst.CORE_FLEX,
+      width : qx.Const.CORE_FLEX,
       backgroundColor : this.bgcolor
     });
   }
@@ -1278,7 +1278,7 @@ theme.registerAppearance("tree-element",
   {
     return {
       height : 16,
-      verticalChildrenAlign : QxConst.ALIGN_MIDDLE
+      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE
     };
   }
 });
@@ -1328,7 +1328,7 @@ theme.registerAppearance("tree-element-label",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "label"), {
-      cursor : QxConst.CORE_DEFAULT,
+      cursor : qx.Const.CORE_DEFAULT,
       marginLeft : 3,
       height : 15,
       paddingTop : 2,
@@ -1442,7 +1442,7 @@ theme.registerAppearance("tree-container",
   initial : function(vWidget, vTheme)
   {
     return {
-      verticalChildrenAlign : QxConst.ALIGN_TOP
+      verticalChildrenAlign : qx.Const.ALIGN_TOP
     };
   }
 });
@@ -1452,8 +1452,8 @@ theme.registerAppearance("tree-folder-container",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : QxConst.CORE_AUTO,
-      verticalChildrenAlign : QxConst.ALIGN_TOP
+      height : qx.Const.CORE_AUTO,
+      verticalChildrenAlign : qx.Const.ALIGN_TOP
     };
   }
 });
@@ -1477,8 +1477,8 @@ theme.registerAppearance("list-view",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : QxConst.CORE_DEFAULT,
-      overflow: QxConst.OVERFLOW_VALUE_HIDDEN
+      cursor : qx.Const.CORE_DEFAULT,
+      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN
     };
   }
 });
@@ -1488,9 +1488,9 @@ theme.registerAppearance("list-view-pane",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : QxConst.CORE_FLEX,
+      width : qx.Const.CORE_FLEX,
       horizontalSpacing : 1,
-      overflow : QxConst.OVERFLOW_VALUE_HIDDEN
+      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
     };
   }
 });
@@ -1508,8 +1508,8 @@ theme.registerAppearance("list-view-header",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : QxConst.CORE_AUTO,
-      overflow: QxConst.OVERFLOW_VALUE_HIDDEN,
+      height : qx.Const.CORE_AUTO,
+      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN,
       border : this.border,
       backgroundColor : this.bgcolor
     };
@@ -1529,10 +1529,10 @@ theme.registerAppearance("list-view-header-cell",
   initial : function(vWidget, vTheme)
   {
     // Text Overflow
-    vWidget.setStyleProperty(QxConst.PROPERTY_OVERFLOW_TEXT, QxConst.OVERFLOW_VALUE_ELLIPSIS);
+    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.Const.OVERFLOW_VALUE_ELLIPSIS);
 
     return {
-      overflow : QxConst.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
       paddingTop : 2,
       paddingRight : 6,
       paddingBottom : 2,
@@ -1615,11 +1615,11 @@ theme.registerAppearance("list-view-content-cell-text",
 {
   initial : function(vWidget, vTheme)
   {
-    vWidget.setStyleProperty(QxConst.PROPERTY_WHITESPACE, "nowrap");
-    vWidget.setStyleProperty(QxConst.PROPERTY_OVERFLOW_TEXT, QxConst.OVERFLOW_VALUE_ELLIPSIS);
+    vWidget.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, "nowrap");
+    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.Const.OVERFLOW_VALUE_ELLIPSIS);
 
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
-      overflow: QxConst.OVERFLOW_VALUE_HIDDEN,
+      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN,
       paddingLeft : 6,
       paddingRight : 6
     });
@@ -1690,7 +1690,7 @@ theme.registerAppearance("tab-view-bar",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : QxConst.CORE_AUTO
+      height : qx.Const.CORE_AUTO
     };
   }
 });
@@ -1699,14 +1699,14 @@ theme.registerAppearance("tab-view-pane",
 {
   setup : function()
   {
-    this.border = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
     this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
   },
 
   initial : function(vWidget, vTheme)
   {
     return {
-      height : QxConst.CORE_FLEX,
+      height : qx.Const.CORE_FLEX,
       backgroundColor : this.bgcolor,
       border : this.border,
       paddingTop : 10,
@@ -1737,19 +1737,19 @@ theme.registerAppearance("tab-view-button",
     this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
     this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
 
-    this.border_top_normal = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_top_normal = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
     this.border_top_normal.setBottomWidth(0);
 
-    this.border_top_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_top_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
     this.border_top_checked.setBottomWidth(0);
-    this.border_top_checked.setTop(3, QxConst.BORDER_STYLE_SOLID, "#FEC83C");
+    this.border_top_checked.setTop(3, qx.Const.BORDER_STYLE_SOLID, "#FEC83C");
 
-    this.border_bottom_normal = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_bottom_normal = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
     this.border_bottom_normal.setTopWidth(0);
 
-    this.border_bottom_checked = new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
     this.border_bottom_checked.setTopWidth(0);
-    this.border_bottom_checked.setBottom(3, QxConst.BORDER_STYLE_SOLID, "#FEC83C");
+    this.border_bottom_checked.setBottom(3, qx.Const.BORDER_STYLE_SOLID, "#FEC83C");
   },
 
   initial : function(vWidget, vTheme) {
@@ -1972,7 +1972,7 @@ theme.registerAppearance("spinner-field",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
-      width : QxConst.CORE_FLEX,
+      width : qx.Const.CORE_FLEX,
       border : qx.renderer.border.Border.presets.none
     });
   },
@@ -1988,7 +1988,7 @@ theme.registerAppearance("spinner-button-up",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
-      height: QxConst.CORE_FLEX,
+      height: qx.Const.CORE_FLEX,
       width: 16,
       backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
@@ -2012,7 +2012,7 @@ theme.registerAppearance("spinner-button-down",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
-      height: QxConst.CORE_FLEX,
+      height: qx.Const.CORE_FLEX,
       width: 16,
       backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
@@ -2051,8 +2051,8 @@ theme.registerAppearance("colorselector",
   {
     return {
       border : this.border,
-      width: QxConst.CORE_AUTO,
-      height: QxConst.CORE_AUTO
+      width: qx.Const.CORE_AUTO,
+      height: qx.Const.CORE_AUTO
     };
   },
 

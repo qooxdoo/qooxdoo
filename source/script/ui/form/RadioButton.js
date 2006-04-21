@@ -44,7 +44,7 @@ qx.ui.form.RadioButton.extend(qx.ui.form.CheckBox, "qx.ui.form.RadioButton");
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.ui.form.RadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.form.RadioButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 

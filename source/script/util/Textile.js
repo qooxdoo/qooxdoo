@@ -86,11 +86,11 @@ qx.util.Textile.textilize = function(s)
   r = r.replace(re,"\n");
 
   lines = r.split("\n");
-  nr = QxConst.CORE_EMPTY;
+  nr = qx.Const.CORE_EMPTY;
 
   for (var i=0;i<lines.length;i++)
   {
-    line = lines[i].replace(/\s*$/,QxConst.CORE_EMPTY);
+    line = lines[i].replace(/\s*$/,qx.Const.CORE_EMPTY);
     changed = 0;
 
     if (line.search(/^\s*bq\.\s+/) != -1)
@@ -121,7 +121,7 @@ qx.util.Textile.textilize = function(s)
       changed = 1;
     };
 
-    if (!changed && (line.replace(/\s/g,QxConst.CORE_EMPTY).length > 0))
+    if (!changed && (line.replace(/\s/g,qx.Const.CORE_EMPTY).length > 0))
     {
       line = "<p>"+line+"</p>";
     };
@@ -131,7 +131,7 @@ qx.util.Textile.textilize = function(s)
 
   // Second pass to do lists
   inlist = 0;
-  listtype = QxConst.CORE_EMPTY;
+  listtype = qx.Const.CORE_EMPTY;
 
   for (var i=0;i<lines.length;i++)
   {

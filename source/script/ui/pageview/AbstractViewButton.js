@@ -35,15 +35,15 @@ qx.ui.pageview.AbstractPageViewButton = function(vText, vIcon, vIconWidth, vIcon
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
 qx.ui.pageview.AbstractPageViewButton.extend(qx.ui.basic.Atom, "qx.ui.pageview.AbstractPageViewButton");
@@ -61,23 +61,23 @@ qx.ui.pageview.AbstractPageViewButton.extend(qx.ui.basic.Atom, "qx.ui.pageview.A
 /*!
   If this tab is the currently selected/active one
 */
-qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The attached QxPage to this tab
 */
-qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "page", type : QxConst.TYPEOF_OBJECT });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "page", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -155,7 +155,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
     };
   };
 
-  propValue ? this.addState(QxConst.STATE_CHECKED) : this.removeState(QxConst.STATE_CHECKED);
+  propValue ? this.addState(qx.Const.STATE_CHECKED) : this.removeState(qx.Const.STATE_CHECKED);
 
   var vPage = this.getPage();
   if (vPage) {
@@ -191,11 +191,11 @@ proto._onmousedown = function(e) {
 };
 
 proto._onmouseover = function(e) {
-  this.addState(QxConst.STATE_OVER);
+  this.addState(qx.Const.STATE_OVER);
 };
 
 proto._onmouseout = function(e) {
-  this.removeState(QxConst.STATE_OVER);
+  this.removeState(qx.Const.STATE_OVER);
 };
 
 proto._onkeydown = function(e) {};
@@ -220,15 +220,15 @@ proto.dispose = function()
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);

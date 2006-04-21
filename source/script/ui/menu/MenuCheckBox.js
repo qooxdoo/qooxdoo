@@ -31,7 +31,7 @@
 */
 qx.ui.menu.MenuCheckBox = function(vLabel, vCommand, vChecked)
 {
-  qx.ui.menu.MenuButton.call(this, vLabel, QxConst.IMAGE_BLANK, vCommand);
+  qx.ui.menu.MenuButton.call(this, vLabel, qx.Const.IMAGE_BLANK, vCommand);
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
@@ -50,10 +50,10 @@ qx.ui.menu.MenuCheckBox.extend(qx.ui.menu.MenuButton, "qx.ui.menu.MenuCheckBox")
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.MenuCheckBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-check-box" });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.ui.menu.MenuCheckBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-check-box" });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
+qx.ui.menu.MenuCheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 
@@ -69,13 +69,13 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.addState(QxConst.STATE_CHECKED);
-    this.getIconObject().addState(QxConst.STATE_CHECKED);
+    this.addState(qx.Const.STATE_CHECKED);
+    this.getIconObject().addState(qx.Const.STATE_CHECKED);
   }
   else
   {
-    this.removeState(QxConst.STATE_CHECKED);
-    this.getIconObject().removeState(QxConst.STATE_CHECKED);
+    this.removeState(qx.Const.STATE_CHECKED);
+    this.getIconObject().removeState(qx.Const.STATE_CHECKED);
   };
 
   return true;

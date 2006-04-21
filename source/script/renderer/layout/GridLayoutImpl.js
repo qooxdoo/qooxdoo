@@ -194,7 +194,7 @@ proto.computeChildrenNeededHeight = function()
 proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(QxConst.JOB_LOCATIONX);
+  vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONX);
 
   return true;
 };
@@ -206,7 +206,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
 proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(QxConst.JOB_LOCATIONY);
+  vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
 
   return true;
 };
@@ -268,11 +268,11 @@ proto.layoutChild_locationX = function(vChild, vJobs)
 
   switch(vChild.getHorizontalAlign() || vWidget.getColumnHorizontalAlignment(vChild._col) || vWidget.getRowHorizontalAlignment(vChild._row) || vWidget.getHorizontalChildrenAlign())
   {
-    case QxConst.ALIGN_CENTER:
+    case qx.Const.ALIGN_CENTER:
       vLocSumX += Math.round((vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth()) / 2);
       break;
 
-    case QxConst.ALIGN_RIGHT:
+    case qx.Const.ALIGN_RIGHT:
       vLocSumX += vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth();
       break;
   };
@@ -292,11 +292,11 @@ proto.layoutChild_locationY = function(vChild, vJobs)
 
   switch(vChild.getVerticalAlign() || vWidget.getRowVerticalAlignment(vChild._row) || vWidget.getColumnVerticalAlignment(vChild._col) || vWidget.getVerticalChildrenAlign())
   {
-    case QxConst.ALIGN_MIDDLE:
+    case qx.Const.ALIGN_MIDDLE:
       vLocSumY += Math.round((vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight()) / 2);
       break;
 
-    case QxConst.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_BOTTOM:
       vLocSumY += vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight();
       break;
   };

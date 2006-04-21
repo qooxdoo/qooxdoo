@@ -37,4 +37,4 @@ qx.ui.toolbar.ToolBarSeparator = function()
 
 qx.ui.toolbar.ToolBarSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.toolbar.ToolBarSeparator");
 
-qx.ui.toolbar.ToolBarSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-separator" });
+qx.ui.toolbar.ToolBarSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-separator" });

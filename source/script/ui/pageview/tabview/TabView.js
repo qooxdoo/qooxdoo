@@ -42,10 +42,10 @@ qx.ui.pageview.tabview.TabView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pa
 ---------------------------------------------------------------------------
 */
 
-qx.ui.pageview.tabview.TabView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view" });
+qx.ui.pageview.tabview.TabView.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view" });
 
-qx.ui.pageview.tabview.TabView.addProperty({ name : "alignTabsToLeft", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.pageview.tabview.TabView.addProperty({ name : "placeBarOnTop", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.pageview.tabview.TabView.addProperty({ name : "alignTabsToLeft", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.pageview.tabview.TabView.addProperty({ name : "placeBarOnTop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -62,7 +62,7 @@ proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
 {
   var vBar = this._bar;
 
-  vBar.setHorizontalChildrenAlign(propValue ? QxConst.ALIGN_LEFT : QxConst.ALIGN_RIGHT);
+  vBar.setHorizontalChildrenAlign(propValue ? qx.Const.ALIGN_LEFT : qx.Const.ALIGN_RIGHT);
 
   // force re-apply of states for all tabs
   vBar._addChildrenToStateQueue();

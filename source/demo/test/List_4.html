@@ -31,10 +31,10 @@
       initial : function(vWidget, vTheme)
       {
         return {
-          cursor : QxConst.CORE_DEFAULT,
-          height : QxConst.CORE_AUTO,
-          horizontalChildrenAlign : QxConst.ALIGN_LEFT,
-          verticalChildrenAlign : QxConst.ALIGN_MIDDLE,
+          cursor : qx.Const.CORE_DEFAULT,
+          height : qx.Const.CORE_AUTO,
+          horizontalChildrenAlign : qx.Const.ALIGN_LEFT,
+          verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
           spacing : 4,
           paddingTop : 3,
           paddingRight : 5,
@@ -47,8 +47,8 @@
       {
         if (vStates.lead)
         {
-          vWidget.setStyleProperty("MozOutline", QxConst.FOCUS_OUTLINE);
-          vWidget.setStyleProperty("outline", QxConst.FOCUS_OUTLINE);
+          vWidget.setStyleProperty("MozOutline", qx.Const.FOCUS_OUTLINE);
+          vWidget.setStyleProperty("outline", qx.Const.FOCUS_OUTLINE);
         }
         else
         {
@@ -75,9 +75,9 @@
     
     qx.renderer.color.ColoredListItem.extend(qx.ui.form.ListItem, "qx.renderer.color.ColoredListItem");
     
-    qx.renderer.color.ColoredListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "colored-list-item" });
+    qx.renderer.color.ColoredListItem.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colored-list-item" });
     
-    qx.renderer.color.ColoredListItem.addProperty({ name : "backgroundColorUnselected", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+    qx.renderer.color.ColoredListItem.addProperty({ name : "backgroundColorUnselected", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 
 

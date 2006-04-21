@@ -32,7 +32,7 @@ qx.ui.pageview.tabview.TabViewButton = function(vText, vIcon, vIconWidth, vIconH
 
 qx.ui.pageview.tabview.TabViewButton.extend(qx.ui.pageview.AbstractPageViewButton, "qx.ui.pageview.tabview.TabViewButton");
 
-qx.ui.pageview.tabview.TabViewButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-button" });
+qx.ui.pageview.tabview.TabViewButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-button" });
 
 
 

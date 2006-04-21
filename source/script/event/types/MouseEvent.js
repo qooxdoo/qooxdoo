@@ -125,7 +125,7 @@ if (qx.sys.Client.isMshtml())
   qx.event.types.MouseEvent.addFastProperty({ name : "pageX", readOnly : true });
   qx.event.types.MouseEvent.addFastProperty({ name : "pageY", readOnly : true });
 
-  if (qx.util.Validation.isInvalid(document.compatMode) || document.compatMode == QxConst.INTERNAL_BACKCOMPAT)
+  if (qx.util.Validation.isInvalid(document.compatMode) || document.compatMode == qx.Const.INTERNAL_BACKCOMPAT)
   {
     proto._computePageX = function() {
       return this.getDomEvent().clientX + document.documentElement.scrollLeft;
@@ -218,15 +218,15 @@ else
 qx.event.types.MouseEvent.addFastProperty({ name : "button", readOnly : true });
 
 proto.isLeftButtonPressed = function() {
-  return this.getButton() === QxConst.BUTTON_LEFT;
+  return this.getButton() === qx.Const.BUTTON_LEFT;
 };
 
 proto.isMiddleButtonPressed = function() {
-  return this.getButton() === QxConst.BUTTON_MIDDLE;
+  return this.getButton() === qx.Const.BUTTON_MIDDLE;
 };
 
 proto.isRightButtonPressed = function() {
-  return this.getButton() === QxConst.BUTTON_RIGHT;
+  return this.getButton() === qx.Const.BUTTON_RIGHT;
 };
 
 if (qx.sys.Client.isMshtml())
@@ -236,16 +236,16 @@ if (qx.sys.Client.isMshtml())
     switch(this.getDomEvent().button)
     {
       case 1:
-        return QxConst.BUTTON_LEFT;
+        return qx.Const.BUTTON_LEFT;
 
       case 2:
-        return QxConst.BUTTON_RIGHT;
+        return qx.Const.BUTTON_RIGHT;
 
       case 4:
-        return QxConst.BUTTON_MIDDLE;
+        return qx.Const.BUTTON_MIDDLE;
 
       default:
-        return QxConst.BUTTON_NONE;
+        return qx.Const.BUTTON_NONE;
     };
   };
 }
@@ -256,16 +256,16 @@ else
     switch(this.getDomEvent().button)
     {
       case 0:
-        return QxConst.BUTTON_LEFT;
+        return qx.Const.BUTTON_LEFT;
 
       case 1:
-        return QxConst.BUTTON_MIDDLE;
+        return qx.Const.BUTTON_MIDDLE;
 
       case 2:
-        return QxConst.BUTTON_RIGHT;
+        return qx.Const.BUTTON_RIGHT;
 
       default:
-        return QxConst.BUTTON_NONE;
+        return qx.Const.BUTTON_NONE;
     };
   };
 };

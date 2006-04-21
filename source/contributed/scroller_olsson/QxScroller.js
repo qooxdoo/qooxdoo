@@ -41,15 +41,15 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
   // ***********************************************************************
   //   SCROLL PANE
   // ***********************************************************************
 
   var sp = this._scrollpane = new qx.ui.layout.CanvasLayout();
-  sp.setHeight(QxConst.CORE_AUTO);
-  sp.setWidth(QxConst.CORE_AUTO);
+  sp.setHeight(qx.Const.CORE_AUTO);
+  sp.setWidth(qx.Const.CORE_AUTO);
 
   qx.ui.core.Parent.prototype.add.call(this, sp)
 
@@ -84,17 +84,17 @@ QxScroller.extend(qx.ui.layout.CanvasLayout, "QxScroller");
 /*!
   The number of pixels shift in x direction.
 */
-QxScroller.addProperty({ name : "shiftX", type : QxConst.TYPEOF_NUMBER, defaultValue : -1 });
+QxScroller.addProperty({ name : "shiftX", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
 
 /*!
   The number of pixels shift in y direction.
 */
-QxScroller.addProperty({ name : "shiftY", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxScroller.addProperty({ name : "shiftY", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   Loop the widgets when finished.
 */
-QxScroller.addProperty({ name : "loop", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+QxScroller.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 /*
@@ -222,7 +222,7 @@ proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

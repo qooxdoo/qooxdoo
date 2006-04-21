@@ -34,7 +34,7 @@ QxTaskBar.extend(qx.ui.layout.HorizontalBoxLayout, "TaskBar");
 /*!
   Appearance of the widget
 */
-QxTaskBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar" });
+QxTaskBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar" });
 
 /* Removes a qx.ui.window.Window from the taskbar.
 */
@@ -91,13 +91,13 @@ proto.addWindow = function(win) {
     });
     this._tBarPanel.add(tmpButton);
     this._updateButtons(tmpButton);
-    win.addEventListener(QxConst.EVENT_TYPE_DISAPPEAR, function(e) {
+    win.addEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, function(e) {
         tmpButton.setChecked(false);
     });
-    win.addEventListener(QxConst.EVENT_TYPE_BLUR, function(e) {
+    win.addEventListener(qx.Const.EVENT_TYPE_BLUR, function(e) {
         tmpButton.setChecked(false);
     });
-    win.addEventListener(QxConst.EVENT_TYPE_FOCUS, function(e) {
+    win.addEventListener(qx.Const.EVENT_TYPE_FOCUS, function(e) {
         tmpButton.setChecked(true);
     });
 };

@@ -35,10 +35,10 @@ qx.ui.listview.ListViewContentCellIconHtml = function(vHtml, vIcon, vIconWidth, 
 
 qx.ui.listview.ListViewContentCellIconHtml.extend(qx.ui.embed.IconHtmlEmbed, "qx.ui.listview.ListViewContentCellIconHtml");
 
-qx.ui.listview.ListViewContentCellIconHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
+qx.ui.listview.ListViewContentCellIconHtml.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
 
 qx.ui.listview.ListViewContentCellIconHtml.empty =
 {
-  icon : QxConst.CORE_EMPTY,
-  html : QxConst.CORE_EMPTY
+  icon : qx.Const.CORE_EMPTY,
+  html : qx.Const.CORE_EMPTY
 };

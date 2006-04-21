@@ -119,7 +119,7 @@ qx.renderer.layout.DockLayoutImpl._childCheck =
 */
 proto.computeChildBoxWidth = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == QxConst.ORIENTATION_HORIZONTAL) {
+  if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_HORIZONTAL) {
     return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
   };
 
@@ -131,7 +131,7 @@ proto.computeChildBoxWidth = function(vChild)
 */
 proto.computeChildBoxHeight = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == QxConst.ORIENTATION_VERTICAL) {
+  if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_VERTICAL) {
     return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
   };
 
@@ -157,7 +157,7 @@ proto.computeChildBoxHeight = function(vChild)
 proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(QxConst.JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -170,7 +170,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
 proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(QxConst.JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -209,7 +209,7 @@ proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
 proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.mode || vQueue.addChild || vQueue.removeChild) {
-    this.getWidget()._addChildrenToLayoutQueue(QxConst.JOB_LOCATION);
+    this.getWidget()._addChildrenToLayoutQueue(qx.Const.JOB_LOCATION);
   };
 };
 
@@ -252,11 +252,11 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 };
 
 proto.getChildAlign = function(vChild) {
-  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || QxConst.CORE_DEFAULT;
+  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.Const.CORE_DEFAULT;
 };
 
 proto.getChildAlignMode = function(vChild) {
-  return vChild.getVerticalAlign() ? QxConst.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? QxConst.ORIENTATION_HORIZONTAL : QxConst.CORE_DEFAULT;
+  return vChild.getVerticalAlign() ? qx.Const.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.Const.ORIENTATION_HORIZONTAL : qx.Const.CORE_DEFAULT;
 };
 
 

@@ -17,7 +17,7 @@ theme.registerAppearance("statusbar",
     return {
       width : null,
       height : 24,
-      overflow : QxConst.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
       backgroundColor : this.bgcolor,
       border : qx.renderer.border.BorderObject.presets.outset,
       paddingTop : 1,
@@ -33,7 +33,7 @@ theme.registerAppearance("statusbar-pane",
   initial : function(vWidget,vTheme)
   {
     return{
-      width : QxConst.CORE_AUTO,
+      width : qx.Const.CORE_AUTO,
       height : null,
       border : qx.renderer.border.BorderObject.presets.inset
     };

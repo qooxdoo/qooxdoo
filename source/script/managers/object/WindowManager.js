@@ -36,7 +36,7 @@ qx.manager.object.WindowManager = function() {
 
 qx.manager.object.WindowManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.WindowManager");
 
-qx.manager.object.WindowManager.addProperty({ name : "activeWindow", type : QxConst.TYPEOF_OBJECT });
+qx.manager.object.WindowManager.addProperty({ name : "activeWindow", type : qx.Const.TYPEOF_OBJECT });
 
 
 

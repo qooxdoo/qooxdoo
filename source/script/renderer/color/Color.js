@@ -53,7 +53,7 @@ qx.renderer.color.Color.extend(qx.core.Object, "qx.renderer.color.Color");
 */
 
 qx.renderer.color.Color.rgb2style = function(r, g, b) {
-  return qx.renderer.color.Color.RGBCSS_START + r + QxConst.CORE_COMMA + g + QxConst.CORE_COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
+  return qx.renderer.color.Color.RGBCSS_START + r + qx.Const.CORE_COMMA + g + qx.Const.CORE_COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
 };
 
 
@@ -281,7 +281,7 @@ proto.setValue = function(vValue)
 };
 
 proto.getValue = function() {
-  return this._value || QxConst.CORE_EMPTY;
+  return this._value || qx.Const.CORE_EMPTY;
 };
 
 
@@ -332,7 +332,7 @@ proto._evalHex = function()
 {
   if (this._isRgbColor)
   {
-    var a = [QxConst.CORE_HASH];
+    var a = [qx.Const.CORE_HASH];
 
     var r = this.getRed();
     a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
@@ -346,7 +346,7 @@ proto._evalHex = function()
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
 
-    this._hex = a.join(QxConst.CORE_EMPTY);
+    this._hex = a.join(qx.Const.CORE_EMPTY);
   }
   else
   {
@@ -426,7 +426,7 @@ proto._normalize = function(vInValue)
 
   switch(typeof vInValue)
   {
-    case QxConst.TYPEOF_STRING:
+    case qx.Const.TYPEOF_STRING:
       vInValue = vInValue.toLowerCase();
 
       if (qx.renderer.color.Color.htmlNames[vInValue])
@@ -472,7 +472,7 @@ proto._normalize = function(vInValue)
 
       break;
 
-    case QxConst.TYPEOF_NUMBER:
+    case qx.Const.TYPEOF_NUMBER:
       if (vInValue >= 0 && vInValue <= 255)
       {
         this._red = this._green = this._blue = vInValue;
@@ -485,7 +485,7 @@ proto._normalize = function(vInValue)
 
       break;
 
-    case QxConst.TYPEOF_OBJECT:
+    case qx.Const.TYPEOF_OBJECT:
       if (qx.util.Validation.isValidArray(vInValue) && vInValue.length == 3)
       {
         this._red = vInValue[0];

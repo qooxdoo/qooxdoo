@@ -32,7 +32,7 @@ qx.ui.embed.GalleryListEmbed = function(galleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
-  this._blank = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+  this._blank = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
   this._list = galleryList;
   this._listSize = galleryList.length;
   this._processedImages = 0;
@@ -52,9 +52,9 @@ qx.ui.embed.GalleryListEmbed = function(galleryList)
 
 qx.ui.embed.GalleryListEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryListEmbed");
 
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxWidth", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 60 });
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "decorHeight", type : QxConst.TYPEOF_NUMBER, defaultValue : 40 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
+qx.ui.embed.GalleryListEmbed.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
 
 
 
@@ -97,7 +97,7 @@ proto.update = function(vGalleryList)
 proto.removeAll = function()
 {
   this._manager.deselectAll();
-  this.getElement().innerHTML = QxConst.CORE_EMPTY;
+  this.getElement().innerHTML = qx.Const.CORE_EMPTY;
 };
 
 

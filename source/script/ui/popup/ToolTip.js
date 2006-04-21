@@ -40,17 +40,17 @@ qx.ui.popup.ToolTip = function(vLabel, vIcon)
   // ************************************************************************
 
   this._showTimer = new qx.client.Timer(this.getShowInterval());
-  this._showTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
+  this._showTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
 
   this._hideTimer = new qx.client.Timer(this.getHideInterval());
-  this._hideTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
+  this._hideTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
 
 
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
 };
 
 qx.ui.popup.ToolTip.extend(qx.ui.popup.PopupAtom, "qx.ui.popup.ToolTip");
@@ -64,17 +64,17 @@ proto._minZIndex = 1e7;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.popup.ToolTip.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tool-tip" });
+qx.ui.popup.ToolTip.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tool-tip" });
 
-qx.ui.popup.ToolTip.addProperty({ name : "hideOnHover", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.popup.ToolTip.addProperty({ name : "hideOnHover", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
-qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetX", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
-qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetY", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetX", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.ui.popup.ToolTip.addProperty({ name : "mousePointerOffsetY", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
 
-qx.ui.popup.ToolTip.addProperty({ name : "showInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
-qx.ui.popup.ToolTip.addProperty({ name : "hideInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 4000 });
+qx.ui.popup.ToolTip.addProperty({ name : "showInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
+qx.ui.popup.ToolTip.addProperty({ name : "hideInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4000 });
 
-qx.ui.popup.ToolTip.addProperty({ name : "boundToWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.ui.popup.ToolTip.addProperty({ name : "boundToWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -231,19 +231,19 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
 
   if (this._showTimer)
   {
-    this._showTimer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
+    this._showTimer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
     this._showTimer.dispose();
     this._showTimer = null;
   };
 
   if (this._hideTimer)
   {
-    this._hideTimer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
+    this._hideTimer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
     this._hideTimer.dispose();
     this._hideTimer = null;
   };

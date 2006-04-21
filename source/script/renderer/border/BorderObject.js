@@ -56,22 +56,22 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
 
     switch(vPart)
     {
-      case QxConst.BORDER_STYLE_GROOVE:
-      case QxConst.BORDER_STYLE_RIDGE:
-      case QxConst.BORDER_STYLE_INSET:
-      case QxConst.BORDER_STYLE_OUTSET:
-      case QxConst.BORDER_STYLE_SOLID:
-      case QxConst.BORDER_STYLE_DOTTED:
-      case QxConst.BORDER_STYLE_DASHED:
-      case QxConst.BORDER_STYLE_DOUBLE:
-      case QxConst.BORDER_STYLE_NONE:
+      case qx.Const.BORDER_STYLE_GROOVE:
+      case qx.Const.BORDER_STYLE_RIDGE:
+      case qx.Const.BORDER_STYLE_INSET:
+      case qx.Const.BORDER_STYLE_OUTSET:
+      case qx.Const.BORDER_STYLE_SOLID:
+      case qx.Const.BORDER_STYLE_DOTTED:
+      case qx.Const.BORDER_STYLE_DASHED:
+      case qx.Const.BORDER_STYLE_DOUBLE:
+      case qx.Const.BORDER_STYLE_NONE:
         vBorder.setStyle(vPart);
         break;
 
       default:
         vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || vPart.contains(QxConst.CORE_PIXEL))
+        if(vTemp == vPart || vPart.contains(qx.Const.CORE_PIXEL))
         {
           vBorder.setWidth(vTemp);
         }
@@ -140,7 +140,7 @@ proto.dispose = function()
     return;
   };
 
-  if (typeof this._dependentObjects === QxConst.TYPEOF_OBJECT)
+  if (typeof this._dependentObjects === qx.Const.TYPEOF_OBJECT)
   {
     var vAll = this._dependentObjects;
     for (vKey in vAll) {

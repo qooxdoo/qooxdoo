@@ -64,29 +64,29 @@ qx.event.handler.EventHandler = function(vClientWindow)
 
 qx.event.handler.EventHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.EventHandler");
 
-qx.event.handler.EventHandler.mouseEventTypes = [ QxConst.EVENT_TYPE_MOUSEOVER, QxConst.EVENT_TYPE_MOUSEMOVE, QxConst.EVENT_TYPE_MOUSEOUT, QxConst.EVENT_TYPE_MOUSEDOWN, QxConst.EVENT_TYPE_MOUSEUP, QxConst.EVENT_TYPE_CLICK, QxConst.EVENT_TYPE_DBLCLICK, QxConst.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? QxConst.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
-qx.event.handler.EventHandler.keyEventTypes = [ QxConst.EVENT_TYPE_KEYDOWN, QxConst.EVENT_TYPE_KEYPRESS, QxConst.EVENT_TYPE_KEYUP ];
+qx.event.handler.EventHandler.mouseEventTypes = [ qx.Const.EVENT_TYPE_MOUSEOVER, qx.Const.EVENT_TYPE_MOUSEMOVE, qx.Const.EVENT_TYPE_MOUSEOUT, qx.Const.EVENT_TYPE_MOUSEDOWN, qx.Const.EVENT_TYPE_MOUSEUP, qx.Const.EVENT_TYPE_CLICK, qx.Const.EVENT_TYPE_DBLCLICK, qx.Const.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
+qx.event.handler.EventHandler.keyEventTypes = [ qx.Const.EVENT_TYPE_KEYDOWN, qx.Const.EVENT_TYPE_KEYPRESS, qx.Const.EVENT_TYPE_KEYUP ];
 
 if (qx.sys.Client.isGecko())
 {
-  qx.event.handler.EventHandler.dragEventTypes = [ QxConst.EVENT_TYPE_DRAGDROP, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGEXIT, QxConst.EVENT_TYPE_DRAGGESTURE, QxConst.EVENT_TYPE_DRAGOVER ];
+  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
 }
 else if (qx.sys.Client.isMshtml())
 {
-  qx.event.handler.EventHandler.dragEventTypes = [ QxConst.EVENT_TYPE_DRAG, QxConst.EVENT_TYPE_DRAGEND, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGLEAVE, QxConst.EVENT_TYPE_DRAGOVER, QxConst.EVENT_TYPE_DRAGSTART ];
+  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGEND, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGOVER, qx.Const.EVENT_TYPE_DRAGSTART ];
 }
 else
 {
-  qx.event.handler.EventHandler.dragEventTypes = [ QxConst.EVENT_TYPE_DRAG, QxConst.EVENT_TYPE_DRAGLEAVE, QxConst.EVENT_TYPE_DRAGSTART, QxConst.EVENT_TYPE_DRAGDROP, QxConst.EVENT_TYPE_DRAGENTER, QxConst.EVENT_TYPE_DRAGEXIT, QxConst.EVENT_TYPE_DRAGGESTURE, QxConst.EVENT_TYPE_DRAGOVER ];
+  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGSTART, qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
 };
 
 
 
-qx.event.handler.EventHandler.addProperty({ name : "allowClientContextMenu", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.event.handler.EventHandler.addProperty({ name : "allowClientSelectAll", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.event.handler.EventHandler.addProperty({ name : "allowClientContextMenu", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.event.handler.EventHandler.addProperty({ name : "allowClientSelectAll", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
-qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
-qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : QxConst.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
+qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
+qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
 
 
@@ -215,9 +215,9 @@ proto.attachEvents = function(wobj)
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Register window events
-  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.addEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Register selection events
   bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
@@ -240,9 +240,9 @@ proto.detachEvents = function()
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Unregister window events
-  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.removeEventListener(wel, QxConst.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Unregister selection events
   bel.onselect = del.onselectstart = del.onselectionchange = null;
@@ -366,7 +366,7 @@ qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEv
 };
 
 qx.event.handler.EventHandler.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == QxConst.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.Const.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
 
 
@@ -413,7 +413,7 @@ qx.event.handler.EventHandler.getTargetObjectFromEvent = function(vDomEvent) {
 };
 
 qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == QxConst.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.Const.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
 
 if (qx.sys.Client.isMshtml())
@@ -445,7 +445,7 @@ else
 
 proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof qx.event.types.KeyEvent != QxConst.TYPEOF_FUNCTION || !window.application.isReady()) {
+  if (this.getDisposed() || typeof qx.event.types.KeyEvent != qx.Const.TYPEOF_FUNCTION || !window.application.isReady()) {
     return;
   };
 
@@ -468,7 +468,7 @@ proto._onkeyevent = function(vDomEvent)
   {
     case qx.event.types.KeyEvent.keys.esc:
     case qx.event.types.KeyEvent.keys.tab:
-      if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+      if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
         qx.manager.object.MenuManager.update();
       };
 
@@ -521,7 +521,7 @@ proto._onkeyevent = function(vDomEvent)
   var vKeyEventObject = new qx.event.types.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
 
   // Check for commands
-  if (vDomEvent.type == QxConst.EVENT_TYPE_KEYDOWN) {
+  if (vDomEvent.type == qx.Const.EVENT_TYPE_KEYDOWN) {
     this._checkKeyEventMatch(vKeyEventObject);
   };
 
@@ -530,7 +530,7 @@ proto._onkeyevent = function(vDomEvent)
   vTarget.dispatchEvent(vKeyEventObject);
 
   // Send event to qx.event.handler.DragAndDropHandler
-  if (typeof qx.event.handler.DragAndDropHandler !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof qx.event.handler.DragAndDropHandler !== qx.Const.TYPEOF_UNDEFINED) {
     qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
   };
 
@@ -584,46 +584,46 @@ if(qx.sys.Client.isMshtml())
     var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
     var vType = vDomEvent.type;
 
-    if(vType == QxConst.EVENT_TYPE_MOUSEMOVE)
+    if(vType == qx.Const.EVENT_TYPE_MOUSEMOVE)
     {
       if (this._mouseIsDown && vDomEvent.button == 0)
       {
-        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_MOUSEUP);
+        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_MOUSEUP);
         this._mouseIsDown = false;
       };
     }
     else
     {
-      if(vType == QxConst.EVENT_TYPE_MOUSEDOWN)
+      if(vType == qx.Const.EVENT_TYPE_MOUSEDOWN)
       {
         this._mouseIsDown = true;
       }
-      else if(vType == QxConst.EVENT_TYPE_MOUSEUP)
+      else if(vType == qx.Const.EVENT_TYPE_MOUSEUP)
       {
         this._mouseIsDown = false;
       };
 
       // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
-      if(vType == QxConst.EVENT_TYPE_MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      if(vType == qx.Const.EVENT_TYPE_MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_MOUSEDOWN);
+        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_MOUSEDOWN);
       }
       // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
-      else if(vType == QxConst.EVENT_TYPE_DBLCLICK && this._lastMouseEventType == QxConst.EVENT_TYPE_MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      else if(vType == qx.Const.EVENT_TYPE_DBLCLICK && this._lastMouseEventType == qx.Const.EVENT_TYPE_MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, QxConst.EVENT_TYPE_CLICK);
+        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_CLICK);
       };
 
       switch(vType)
       {
-        case QxConst.EVENT_TYPE_MOUSEDOWN:
-        case QxConst.EVENT_TYPE_MOUSEUP:
-        case QxConst.EVENT_TYPE_CLICK:
-        case QxConst.EVENT_TYPE_DBLCLICK:
-        case QxConst.EVENT_TYPE_CONTEXTMENU:
+        case qx.Const.EVENT_TYPE_MOUSEDOWN:
+        case qx.Const.EVENT_TYPE_MOUSEUP:
+        case qx.Const.EVENT_TYPE_CLICK:
+        case qx.Const.EVENT_TYPE_DBLCLICK:
+        case qx.Const.EVENT_TYPE_CONTEXTMENU:
           this._lastMouseEventType = vType;
           this._lastMouseEventDate = (new Date).valueOf();
-          this._lastMouseDown = vType == QxConst.EVENT_TYPE_MOUSEDOWN;
+          this._lastMouseDown = vType == qx.Const.EVENT_TYPE_MOUSEDOWN;
       };
     };
 
@@ -645,13 +645,13 @@ else
 
     switch(vType)
     {
-      case QxConst.EVENT_TYPE_DOMMOUSESCROLL:
+      case qx.Const.EVENT_TYPE_DOMMOUSESCROLL:
         // normalize mousewheel event
-        vType = QxConst.EVENT_TYPE_MOUSEWHEEL;
+        vType = qx.Const.EVENT_TYPE_MOUSEWHEEL;
         break;
 
-      case QxConst.EVENT_TYPE_CLICK:
-      case QxConst.EVENT_TYPE_DBLCLICK:
+      case qx.Const.EVENT_TYPE_CLICK:
+      case qx.Const.EVENT_TYPE_DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
         if (vDomEvent.button != qx.event.types.MouseEvent.buttons.left) {
           return;
@@ -659,7 +659,7 @@ else
 
       // Seems not to be needed anymore. Otherwise we should reinclude it.
       /*
-      case QxConst.EVENT_TYPE_MOUSEDOWN:
+      case qx.Const.EVENT_TYPE_MOUSEDOWN:
         if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget._QxWidget) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         };
@@ -715,14 +715,14 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     switch(vType)
     {
-      case QxConst.EVENT_TYPE_CONTEXTMENU:
+      case qx.Const.EVENT_TYPE_CONTEXTMENU:
         if (!this.getAllowClientContextMenu()) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         };
 
         break;
 
-      case QxConst.EVENT_TYPE_MOUSEDOWN:
+      case qx.Const.EVENT_TYPE_MOUSEDOWN:
         qx.event.handler.FocusHandler.mouseFocus = true;
 
         var vRoot = vTarget.getFocusRoot();
@@ -758,8 +758,8 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Find related target object
     switch(vType)
     {
-      case QxConst.EVENT_TYPE_MOUSEOVER:
-      case QxConst.EVENT_TYPE_MOUSEOUT:
+      case qx.Const.EVENT_TYPE_MOUSEOVER:
+      case qx.Const.EVENT_TYPE_MOUSEOUT:
         vRelatedTarget = qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent(vDomEvent);
 
         // Ignore events where the related target and
@@ -805,32 +805,32 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Handle Special Post Events
     switch(vType)
     {
-      case QxConst.EVENT_TYPE_MOUSEDOWN:
-        if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+      case qx.Const.EVENT_TYPE_MOUSEDOWN:
+        if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
           qx.manager.object.PopupManager.update(vTarget);
         };
 
-        if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+        if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
           qx.manager.object.MenuManager.update(vTarget);
         };
 
         break;
 
-      case QxConst.EVENT_TYPE_MOUSEOVER:
-        if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+      case qx.Const.EVENT_TYPE_MOUSEOVER:
+        if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
         };
 
         break;
 
-      case QxConst.EVENT_TYPE_MOUSEOUT:
-        if (typeof qx.manager.object.ToolTipManager !== QxConst.TYPEOF_UNDEFINED) {
+      case qx.Const.EVENT_TYPE_MOUSEOUT:
+        if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
         };
 
         break;
 
-      case QxConst.EVENT_TYPE_MOUSEWHEEL:
+      case qx.Const.EVENT_TYPE_MOUSEWHEEL:
         // priority for the real target not the (eventually captured) dispatch target
         vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
 
@@ -841,7 +841,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Send Event Object to Drag&Drop Manager
-    if (typeof qx.event.handler.DragAndDropHandler  !== QxConst.TYPEOF_UNDEFINED && vTarget) {
+    if (typeof qx.event.handler.DragAndDropHandler  !== qx.Const.TYPEOF_UNDEFINED && vTarget) {
       qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
     };
 
@@ -985,23 +985,23 @@ proto._onwindowblur = function(e)
   this.setCaptureWidget(null);
 
   // Hide Popups, Tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.PopupManager.update();
   };
 
   // Hide Menus
-  if (typeof qx.manager.object.MenuManager !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.MenuManager.update();
   };
 
   // Cancel Drag Operations
-  if (typeof qx.event.handler.DragAndDropHandler !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof qx.event.handler.DragAndDropHandler !== qx.Const.TYPEOF_UNDEFINED) {
     qx.event.handler.DragAndDropHandler.globalCancelDrag();
   };
 
   // Send blur event to client document
   if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_BLUR);
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_BLUR);
   };
 };
 
@@ -1024,14 +1024,14 @@ proto._onwindowfocus = function(e)
 
   // Send focus event to client document
   if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_FOCUS);
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_FOCUS);
   };
 };
 
 proto._onwindowresize = function(e)
 {
   // Send resize event to client document
-  this._attachedClientWindow.getClientDocument().createDispatchEvent(QxConst.EVENT_TYPE_RESIZE);
+  this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_RESIZE);
 };
 
 

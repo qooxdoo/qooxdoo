@@ -60,10 +60,10 @@ qx.core.ObjectDataBase = [];
 qx.core.ObjectUnload = function()
 {
   qx.core.Object.dispose();
-  qx.dom.DomEventRegistration.removeEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
+  qx.dom.DomEventRegistration.removeEventListener(window, qx.Const.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 };
 
-qx.dom.DomEventRegistration.addEventListener(window, QxConst.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
+qx.dom.DomEventRegistration.addEventListener(window, qx.Const.EVENT_TYPE_UNLOAD, qx.core.ObjectUnload);
 
 qx.core.Object.toHashCode = function(o)
 {
@@ -96,7 +96,7 @@ qx.core.Object.dispose = function()
   // qx.dev.Debug("qx.core.Object", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
-qx.core.Object.addProperty({ name : "enabled", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
+qx.core.Object.addProperty({ name : "enabled", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
 qx.core.Object.DEBUG_MSG_BEFORE = "[HASHCODE:";
 qx.core.Object.DEBUG_MSG_AFTER = "]";
@@ -190,11 +190,11 @@ proto.error = function(m, f)
 {
   if (qx.util.Validation.isValidString(f))
   {
-    this.debug(qx.core.Object.DEBUG_FUNCERRORPRE + f + qx.core.Object.DEBUG_FUNCERRORPOST + m, QxConst.EVENT_TYPE_ERROR);
+    this.debug(qx.core.Object.DEBUG_FUNCERRORPRE + f + qx.core.Object.DEBUG_FUNCERRORPOST + m, qx.Const.EVENT_TYPE_ERROR);
   }
   else
   {
-    this.debug(m, QxConst.EVENT_TYPE_ERROR);
+    this.debug(m, qx.Const.EVENT_TYPE_ERROR);
   };
 };
 
@@ -216,7 +216,7 @@ Sets multiple properties at once by using a property list
 */
 proto.set = function(propertyValues)
 {
-  if (typeof propertyValues !== QxConst.TYPEOF_OBJECT) {
+  if (typeof propertyValues !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("Please use a valid hash of property key-values pairs.");
   };
 
@@ -242,11 +242,11 @@ proto.get = function(propertyNames, outputHint)
 {
   switch(typeof propertyNames)
   {
-    case QxConst.TYPEOF_STRING:
-      return this[QxConst.INTERNAL_GET + propertyNames.toFirstUp()]();
+    case qx.Const.TYPEOF_STRING:
+      return this[qx.Const.INTERNAL_GET + propertyNames.toFirstUp()]();
 
-    case QxConst.TYPEOF_OBJECT:
-      if (typeof propertyNames.length === QxConst.TYPEOF_NUMBER)
+    case qx.Const.TYPEOF_OBJECT:
+      if (typeof propertyNames.length === qx.Const.TYPEOF_NUMBER)
       {
         if (outputHint == "hash")
         {
@@ -256,7 +256,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              h[propertyNames[i]] = this[QxConst.INTERNAL_GET + propertyNames[i].toFirstUp()]();
+              h[propertyNames[i]] = this[qx.Const.INTERNAL_GET + propertyNames[i].toFirstUp()]();
             }
             catch(ex)
             {
@@ -272,7 +272,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              propertyNames[i] = this[QxConst.INTERNAL_GET + propertyNames[i].toFirstUp()]();
+              propertyNames[i] = this[qx.Const.INTERNAL_GET + propertyNames[i].toFirstUp()]();
             }
             catch(ex)
             {
@@ -286,7 +286,7 @@ proto.get = function(propertyNames, outputHint)
       else
       {
         for (var i in propertyNames) {
-          propertyNames[i] = this[QxConst.INTERNAL_GET + i.toFirstUp()]();
+          propertyNames[i] = this[qx.Const.INTERNAL_GET + i.toFirstUp()]();
         };
 
         return propertyNames;
@@ -360,7 +360,7 @@ proto.dispose = function()
   // Finally cleanup properties
   if (this._objectproperties)
   {
-    var a = this._objectproperties.split(QxConst.CORE_COMMA);
+    var a = this._objectproperties.split(qx.Const.CORE_COMMA);
     for (var i=0, l=a.length; i<l; i++) {
       delete this[QxMain.values[a[i]]];
     };
@@ -372,7 +372,7 @@ proto.dispose = function()
   {
     for (var vKey in this)
     {
-      if (this[vKey] !== null && typeof this[vKey] === QxConst.TYPEOF_OBJECT)
+      if (this[vKey] !== null && typeof this[vKey] === qx.Const.TYPEOF_OBJECT)
       {
         this.debug("Missing class implementation to dispose: " + vKey);
         delete this[vKey];
@@ -381,7 +381,7 @@ proto.dispose = function()
   };
 
   /*
-  if (typeof CollectGarbage === QxConst.TYPEOF_FUNCTION) {
+  if (typeof CollectGarbage === qx.Const.TYPEOF_FUNCTION) {
     CollectGarbage();
   };
   */

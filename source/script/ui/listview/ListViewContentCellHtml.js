@@ -35,8 +35,8 @@ qx.ui.listview.ListViewContentCellHtml = function(vHtml)
 
 qx.ui.listview.ListViewContentCellHtml.extend(qx.ui.embed.HtmlEmbed, "qx.ui.listview.ListViewContentCellHtml");
 
-qx.ui.listview.ListViewContentCellHtml.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
+qx.ui.listview.ListViewContentCellHtml.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
 
 qx.ui.listview.ListViewContentCellHtml.empty = {
-  html : QxConst.CORE_EMPTY
+  html : qx.Const.CORE_EMPTY
 };

@@ -32,4 +32,4 @@ qx.ui.pageview.buttonview.ButtonViewPane = function() {
 
 qx.ui.pageview.buttonview.ButtonViewPane.extend(qx.ui.pageview.AbstractPageViewPane, "qx.ui.pageview.buttonview.ButtonViewPane");
 
-qx.ui.pageview.buttonview.ButtonViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-pane" });
+qx.ui.pageview.buttonview.ButtonViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-pane" });

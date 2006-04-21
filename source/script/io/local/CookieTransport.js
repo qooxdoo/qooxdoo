@@ -65,7 +65,7 @@ qx.io.local.CookieTransport.get = function(vName)
     return vValue;
   };
 
-  return QxConst.CORE_EMPTY;
+  return qx.Const.CORE_EMPTY;
 };
 
 qx.io.local.CookieTransport.del = function(vName)
@@ -128,7 +128,7 @@ qx.io.local.CookieTransport._getAll = function()
 
 qx.io.local.CookieTransport._setAll = function(vHash)
 {
-  var vString = QxConst.CORE_EMPTY;
+  var vString = qx.Const.CORE_EMPTY;
   var vTemp;
   var vIndex = 0;
 
@@ -156,7 +156,7 @@ qx.io.local.CookieTransport._setAll = function(vHash)
     }
     else
     {
-      if (vString != QxConst.CORE_EMPTY) {
+      if (vString != qx.Const.CORE_EMPTY) {
         vString += qx.io.local.CookieTransport.ITEMSEPARATOR;
       };
 
@@ -164,7 +164,7 @@ qx.io.local.CookieTransport._setAll = function(vHash)
     };
   };
 
-  if (vString != QxConst.CORE_EMPTY) {
+  if (vString != qx.Const.CORE_EMPTY) {
     qx.io.local.CookieTransport._setCookie(vIndex++, vString);
   };
 

@@ -51,24 +51,24 @@ qx.ui.listview.ListViewPane = function(vData, vColumns)
   // Add handling for mouse wheel events
   // Needed because the virtual scroll area does not fire browser understandable
   // events above this pane.
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 };
 
 qx.ui.listview.ListViewPane.extend(qx.ui.layout.GridLayout, "qx.ui.listview.ListViewPane");
 
-qx.ui.listview.ListViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-pane" });
+qx.ui.listview.ListViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-pane" });
 
 proto._rowHeight = 16;
 
@@ -125,7 +125,7 @@ proto._updateLayout = function(vUpdate)
         this.add(vCell, j++, i);
 
         if (vColumns[vCol].align) {
-          vCell.setStyleProperty(QxConst.PROPERTY_TEXTALIGN, vColumns[vCol].align);
+          vCell.setStyleProperty(qx.Const.PROPERTY_TEXTALIGN, vColumns[vCol].align);
         };
       };
     };
@@ -216,7 +216,7 @@ proto._updateRow = function(vRelativeRow)
 
     if (vChild)
     {
-      vEntry && vEntry._selected ? vChild.addState(QxConst.STATE_SELECTED) : vChild.removeState(QxConst.STATE_SELECTED);
+      vEntry && vEntry._selected ? vChild.addState(qx.Const.STATE_SELECTED) : vChild.removeState(qx.Const.STATE_SELECTED);
       vChild.set(vEntry ? vEntry[vCol] : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
     };
   };
@@ -513,18 +513,18 @@ proto.dispose = function()
   // ************************************************************************
   //   MOUSE EVENT LISTENER
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.removeEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
 
   // ************************************************************************

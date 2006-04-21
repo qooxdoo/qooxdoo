@@ -32,4 +32,4 @@ qx.ui.listview.ListViewHeaderSeparator = function() {
 
 qx.ui.listview.ListViewHeaderSeparator.extend(qx.ui.basic.Terminator, "qx.ui.listview.ListViewHeaderSeparator");
 
-qx.ui.listview.ListViewHeaderSeparator.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-header-separator" });
+qx.ui.listview.ListViewHeaderSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-separator" });

@@ -45,18 +45,18 @@ qx.ui.toolbar.ToolBarRadioButton.extend(qx.ui.toolbar.ToolBarCheckBox, "qx.ui.to
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Prohibit the deselction of the checked radio button when clicked on it.
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "disableUncheck", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "disableUncheck", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -108,15 +108,15 @@ proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(QxConst.STATE_ABANDONED))
+  if (!this.hasState(qx.Const.STATE_ABANDONED))
   {
-    this.addState(QxConst.STATE_OVER);
+    this.addState(qx.Const.STATE_OVER);
     this.setChecked(this.getDisableUncheck() || !this.getChecked());
     this.execute();
   };
 
-  this.removeState(QxConst.STATE_ABANDONED);
-  this.removeState(QxConst.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
+  this.removeState(qx.Const.STATE_PRESSED);
 
   e.stopPropagation();
 };

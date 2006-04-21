@@ -76,27 +76,27 @@ QxProgressbar.extend(qx.ui.layout.CanvasLayout, "QxProgressbar");
 /*!
   The value of the left position
 */
-QxProgressbar.addProperty({ name : "min", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxProgressbar.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   The value of the right position
 */
-QxProgressbar.addProperty({ name : "max", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
+QxProgressbar.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
 
 /*!
   The amount to increment on each step.
 */
-QxProgressbar.addProperty({ name : "stepBy", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+QxProgressbar.addProperty({ name : "stepBy", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   The current position of the progress.
 */
-QxProgressbar.addProperty({ name : "position", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxProgressbar.addProperty({ name : "position", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   Should the % be visible
 */
-QxProgressbar.addProperty({ name : "showPercent", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxProgressbar.addProperty({ name : "showPercent", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 /*

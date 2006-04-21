@@ -36,27 +36,27 @@ qx.ui.layout.FlowLayout.extend(qx.ui.core.Parent, "qx.ui.layout.FlowLayout");
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.FlowLayout.addProperty({ name : "horizontalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "horizontalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.FlowLayout.addProperty({ name : "verticalSpacing", type : QxConst.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "verticalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left" and "right"
 */
-qx.ui.layout.FlowLayout.addProperty({ name : "horizontalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "right" ], addToQueueRuntime : true });
+qx.ui.layout.FlowLayout.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "right" ], addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top" and "bottom"
 */
-qx.ui.layout.FlowLayout.addProperty({ name : "verticalChildrenAlign", type : QxConst.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "bottom" ], addToQueueRuntime : true });
+qx.ui.layout.FlowLayout.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "bottom" ], addToQueueRuntime : true });
 
 /*!
   Should the children be layouted in reverse order?
 */
-qx.ui.layout.FlowLayout.addProperty({ name : "reverseChildrenOrder", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true, impl : "layout" });
+qx.ui.layout.FlowLayout.addProperty({ name : "reverseChildrenOrder", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true, impl : "layout" });
 
 
 

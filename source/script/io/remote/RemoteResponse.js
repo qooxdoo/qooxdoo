@@ -41,13 +41,13 @@ qx.io.remote.RemoteResponse.extend(qx.core.Target, "qx.io.remote.RemoteResponse"
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteResponse.addProperty({ name : "state", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteResponse.addProperty({ name : "state", type : qx.Const.TYPEOF_NUMBER });
 /*!
   Status code of the response.
 */
-qx.io.remote.RemoteResponse.addProperty({ name : "statusCode", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteResponse.addProperty({ name : "statusCode", type : qx.Const.TYPEOF_NUMBER });
 qx.io.remote.RemoteResponse.addProperty({ name : "content" });
-qx.io.remote.RemoteResponse.addProperty({ name : "responseHeaders", type : QxConst.TYPEOF_OBJECT });
+qx.io.remote.RemoteResponse.addProperty({ name : "responseHeaders", type : qx.Const.TYPEOF_OBJECT });
 
 
 
