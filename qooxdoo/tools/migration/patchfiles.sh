@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd `dirname $0`/../..
-
 if [ "$1" = "" -o ! -r $1 ]; then
   echo "First Parameter: The *.dat file to use! ($1)"
   exit 1
@@ -15,11 +13,6 @@ if [ "$2" = "" -o ! -r $2 ]; then
 fi
 
 sourcedir="$2"
-
-if [ ! -r tools/namespaces ]; then
-  echo "You need to be inside the main qooxdoo checkout folder!"
-  exit 1
-fi
 
 echo ">>> This script will update your files in the given folder."
 echo ">>> Please be sure to have a valid backup first!"
