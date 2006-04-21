@@ -87,7 +87,9 @@ qx.lang.Array.fromShortHand = function(params)
   return list;
 };
 
-
+qx.lang.Array.copy = function(arr) {
+  return arr.concat();
+};
 
 
 
@@ -100,11 +102,7 @@ Array.prototype.contains = function(obj) {
   return this.indexOf(obj) != -1;
 };
 
-Array.prototype.copy = function(obj) {
-  return this.concat();
-};
-
-Array.prototype.clone = function(obj) {
+Array.prototype.clone = function() {
   return this.concat();
 };
 

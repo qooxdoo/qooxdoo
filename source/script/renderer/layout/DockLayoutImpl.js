@@ -241,7 +241,7 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 
   // sorting children
   var vRankImpl = qx.renderer.layout.DockLayoutImpl._childRanking[vMode];
-  var vOrderedChildren = vChildren.copy().sort(function(c1, c2) {
+  var vOrderedChildren = qx.lang.Array.copy(vChildren).sort(function(c1, c2) {
     return (vRankImpl(c1) + vChildren.indexOf(c1)) - (vRankImpl(c2) + vChildren.indexOf(c2));
   });
 
