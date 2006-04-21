@@ -13,7 +13,11 @@ L="$L script/core/Settings"
 L="$L script/Const"
 L="$L script/OO"
 L="$L script/lang/Native"
+L="$L script/util/Return"
 L="$L script/util/Util"
+L="$L script/util/Validation"
+L="$L script/util/string/Normalization"
+L="$L script/util/string/Textile"
 L="$L script/util/compare/Compare"
 L="$L script/sys/Client"
 
@@ -111,9 +115,6 @@ L="$L script/ui/basic/VerticalSpacer"
 # Event Handling
 L="$L script/event/handler/EventHandler"
 L="$L script/event/handler/FocusHandler"
-
-# Textile
-L="$L script/util/string/Textile"
 
 # Text Fields
 L="$L script/ui/form/TextField"

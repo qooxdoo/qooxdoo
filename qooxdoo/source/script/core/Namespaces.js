@@ -24,7 +24,6 @@ qx.app = {};
 qx.util = {};
 qx.util.Return = {};
 qx.util.Validation = {};
-qx.util.Normalization = {};
 qx.util.string = {};
 qx.util.compare = {};
 
