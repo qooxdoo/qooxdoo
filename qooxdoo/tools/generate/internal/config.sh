@@ -14,18 +14,20 @@ L="$L script/Const"
 L="$L script/OO"
 L="$L script/sys/Client"
 
+# Language Additions
 L="$L script/lang/Object"
 L="$L script/lang/Array"
 L="$L script/lang/Native"
 L="$L script/lang/Emu"
 L="$L script/lang/XmlExtras"
 
+# Utilities
 L="$L script/util/Return"
 L="$L script/util/Util"
 L="$L script/util/Validation"
-L="$L script/util/string/Normalization"
-L="$L script/util/string/Textile"
-L="$L script/util/compare/Compare"
+L="$L script/util/Normalization"
+L="$L script/util/Textile"
+L="$L script/util/Compare"
 
 # Dom Features
 L="$L script/dom/DomDimension"
