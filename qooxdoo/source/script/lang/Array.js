@@ -103,45 +103,52 @@ qx.lang.Array.getFirst = function(arr) {
   return arr[0];
 };
 
-qx.lang.Array.insertAt = function(arr, obj, i) {
+qx.lang.Array.insertAt = function(arr, obj, i)
+{
   arr.splice(i, 0, obj);
+
+  return arr;
 };
 
-
-
-
-
-
-
-
-
-Array.prototype.insertBefore = function(obj, obj2)
+qx.lang.Array.insertBefore = function(arr, obj, obj2)
 {
-  var i = this.indexOf(obj2);
+  var i = arr.indexOf(obj2);
 
   if (i == -1)
   {
-    this.push(obj);
+    arr.push(obj);
   }
   else
   {
-    this.splice(i, 0, obj);
+    arr.splice(i, 0, obj);
   };
+
+  return arr;
 };
 
-Array.prototype.insertAfter = function(o, o2)
+qx.lang.Array.insertAfter = function(arr, o, o2)
 {
-  var i = this.indexOf(o2);
+  var i = arr.indexOf(o2);
 
-  if (i == -1 || i == (this.length-1))
+  if (i == -1 || i == (arr.length-1))
   {
-    this.push(o);
+    arr.push(o);
   }
   else
   {
-    this.splice(i+1, 0, o);
+    arr.splice(i+1, 0, o);
   };
+
+  return arr;
 };
+
+
+
+
+
+
+
+
 
 Array.prototype.removeAt = function(i) {
   return this.splice(i, 1);
