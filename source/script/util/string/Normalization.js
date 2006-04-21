@@ -1,0 +1,57 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Copyright:
+     (C) 2004-2006 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#package(core)
+
+************************************************************************ */
+
+qx.util.string.Normalization = {};
+
+/*
+---------------------------------------------------------------------------
+  HANDLING OF UMLAUTS
+---------------------------------------------------------------------------
+*/
+
+qx.util.string.Normalization._umlautsRegExp = /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g;
+
+qx.util.string.Normalization._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U", "\xE4": "a", "\xF6": "o", "\xFC": "u", "\xDF": "s" };
+
+qx.util.string.Normalization._umlautsShort = function(vChar) {
+  return qx.util.string.Normalization._umlautsShortData[vChar];
+};
+
+qx.util.string.Normalization.umlautsShort = function(vString) {
+  return vString.replace(qx.util.string.Normalization._umlautsRegExp, qx.util.string.Normalization._umlautsShort);
+};
+
+qx.util.string.Normalization._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "Ue", "\xE4": "ae", "\xF6": "oe", "\xFC": "ue", "\xDF": "ss" };
+
+qx.util.string.Normalization._umlautsLong = function(vChar) {
+  return qx.util.string.Normalization._umlautsLongData[vChar];
+};
+
+qx.util.string.Normalization.umlautsLong = function(vString) {
+  return vString.replace(qx.util.string.Normalization._umlautsRegExp, qx.util.string.Normalization._umlautsLong);
+};
