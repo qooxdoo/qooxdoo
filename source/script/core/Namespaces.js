@@ -4,21 +4,7 @@ qx.constants = {};
 qx.sys = {};
 
 qx.lang = {};
-qx.lang.String = {};
-qx.lang.Array = {};
-qx.lang.Number = {};
-qx.lang.Object = {};
-qx.lang.Prototypes = {};
-qx.lang.Generics = {};
-qx.lang.Xml = {};
-qx.lang.Xslt = {};
-qx.lang.Core = {};
-qx.lang.Emu = {};
-
 qx.core = {};
-qx.core.Settings = {};
-qx.core.DefaultSettings = {};
-
 qx.app = {};
 qx.util = {};
 qx.types = {};

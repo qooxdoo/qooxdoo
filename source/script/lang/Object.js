@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.lang.Object = {};
+
 /*!
   Function to check if a hash has any keys
 */

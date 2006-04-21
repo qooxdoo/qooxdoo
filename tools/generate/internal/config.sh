@@ -15,9 +15,14 @@ L="$L script/OO"
 L="$L script/sys/Client"
 
 # Language Additions
+L="$L script/lang/Core"
 L="$L script/lang/Object"
 L="$L script/lang/Array"
-L="$L script/lang/Native"
+L="$L script/lang/String"
+L="$L script/lang/Number"
+L="$L script/lang/Prototypes"
+L="$L script/lang/Generics"
+
 L="$L script/lang/Emu"
 L="$L script/lang/XmlExtras"
 
