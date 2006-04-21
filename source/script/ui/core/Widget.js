@@ -1224,7 +1224,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
     this._cachedBoxHeight = this._cachedInnerHeight = this._cachedOuterHeight = null;
 
     // Finally remove from children array
-    propOldValue.getChildren().removeAt(vOldIndex);
+    qx.lang.Array.removeAt(propOldValue.getChildren(), vOldIndex);
 
     // Invalidate visible children cache
     propOldValue._invalidateVisibleChildren();

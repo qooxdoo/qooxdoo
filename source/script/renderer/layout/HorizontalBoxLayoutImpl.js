@@ -226,7 +226,7 @@ proto.computeChildrenFlexWidth = function()
           }
           else
           {
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
 
             vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthFlexValue);
             vUsedWidth += Math.round(vCurrentChild._computedWidthFlexValue + vAdjust);
@@ -242,7 +242,7 @@ proto.computeChildrenFlexWidth = function()
           }
           else
           {
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
 
             vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthFlexValue);
             vUsedWidth += Math.round(vCurrentChild._computedWidthFlexValue - vAdjust);
@@ -291,7 +291,7 @@ proto.computeChildrenFlexWidth = function()
 
             vUsedWidth += vCurrentChild._computedWidthFlexValue;
             delete vCurrentChild._allocationLoops;
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
           }
           else
           {

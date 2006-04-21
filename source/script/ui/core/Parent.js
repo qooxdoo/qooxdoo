@@ -437,7 +437,7 @@ proto.addAt = function(vChild, vIndex)
     if (vOldIndex != vIndex)
     {
       if (vOldIndex != -1) {
-        vChildren.removeAt(vOldIndex);
+        qx.lang.Array.removeAt(vChildren, vOldIndex);
       };
 
       qx.lang.Array.insertAt(vChildren, vChild, vIndex);
