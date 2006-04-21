@@ -142,6 +142,9 @@ qx.lang.Array.insertAfter = function(arr, o, o2)
   return arr;
 };
 
+qx.lang.Array.removeAt = function(arr, i) {
+  return arr.splice(i, 1);
+};
 
 
 
@@ -150,8 +153,8 @@ qx.lang.Array.insertAfter = function(arr, o, o2)
 
 
 
-Array.prototype.removeAt = function(i) {
-  return this.splice(i, 1);
+Array.prototype.removeAll = function() {
+  return this.splice(0, this.length);
 };
 
 Array.prototype.remove = function(obj)
@@ -161,10 +164,6 @@ Array.prototype.remove = function(obj)
   if (i != -1) {
     return this.splice(i, 1);
   };
-};
-
-Array.prototype.removeAll = function() {
-  return this.splice(0, this.length);
 };
 
 Array.prototype.contains = function(obj) {

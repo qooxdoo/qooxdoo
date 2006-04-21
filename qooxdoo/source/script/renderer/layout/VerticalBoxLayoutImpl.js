@@ -227,7 +227,7 @@ proto.computeChildrenFlexHeight = function()
           }
           else
           {
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
 
             vCurrentChild._computedHeightFlexValue = Math.round(vCurrentChild._computedHeightFlexValue);
             vUsedHeight += Math.round(vCurrentChild._computedHeightFlexValue + vAdjust);
@@ -243,7 +243,7 @@ proto.computeChildrenFlexHeight = function()
           }
           else
           {
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
 
             vCurrentChild._computedHeightFlexValue = Math.round(vCurrentChild._computedHeightFlexValue);
             vUsedHeight += Math.round(vCurrentChild._computedHeightFlexValue - vAdjust);
@@ -292,7 +292,7 @@ proto.computeChildrenFlexHeight = function()
 
             vUsedHeight += vCurrentChild._computedHeightFlexValue;
             delete vCurrentChild._allocationLoops;
-            vFlexibleChildren.removeAt(vIterator);
+            qx.lang.Array.removeAt(vFlexibleChildren, vIterator);
           }
           else
           {
