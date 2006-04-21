@@ -23,11 +23,10 @@
 /* ************************************************************************
 
 #package(core)
-#require(QxMain)
-#require(QxExtend)
+#require(qx.OO)
 #require(qx.Const)
-#require(QxUtil)
 #require(qx.core.Settings)
+#require(qx.util.Validation)
 #post(qx.sys.Client)
 #post(qx.dev.Debug)
 

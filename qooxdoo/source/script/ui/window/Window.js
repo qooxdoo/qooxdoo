@@ -35,8 +35,8 @@
 #post(qx.ui.form.Button)
 #post(qx.manager.object.WindowManager)
 #post(qx.ui.core.Widget)
-#post(QxUtil)
-#post(QxCompare)
+#post(qx.util.Validation)
+#post(qx.util.Compare)
 
 ************************************************************************ */
 
