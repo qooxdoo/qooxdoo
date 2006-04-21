@@ -12,7 +12,13 @@ L="$L script/core/DefaultSettings"
 L="$L script/core/Settings"
 L="$L script/Const"
 L="$L script/OO"
+
+L="$L script/lang/Object"
+L="$L script/lang/Array"
 L="$L script/lang/Native"
+L="$L script/lang/Emu"
+L="$L script/lang/XmlExtras"
+
 L="$L script/util/Return"
 L="$L script/util/Util"
 L="$L script/util/Validation"
@@ -123,9 +129,6 @@ L="$L script/ui/form/TextArea"
 
 # Timer Support
 L="$L script/client/Timer"
-
-# XML Extras
-L="$L script/lang/XmlExtras"
 
 # Image Support
 L="$L script/managers/object/ImageManager"
@@ -245,9 +248,6 @@ L="$L script/client/NativeWindow"
 # Flash Object
 L="$L script/types/Version"
 L="$L script/ui/embed/Flash"
-
-# Emulation Layers
-L="$L script/lang/Emu"
 
 # Abstract PageView
 L="$L script/ui/pageview/AbstractView"
