@@ -150,12 +150,19 @@ qx.lang.Array.removeAll = function(arr) {
   return arr.splice(0, arr.length);
 };
 
+qx.lang.Array.append = function(arr, a) {
+  Array.prototype.push.apply(arr, a);
+};
 
 
 
 
 
+// TODO: Most complex ones
 
+Array.prototype.contains = function(obj) {
+  return this.indexOf(obj) != -1;
+};
 
 Array.prototype.remove = function(obj)
 {
@@ -164,12 +171,4 @@ Array.prototype.remove = function(obj)
   if (i != -1) {
     return this.splice(i, 1);
   };
-};
-
-Array.prototype.contains = function(obj) {
-  return this.indexOf(obj) != -1;
-};
-
-Array.prototype.append = function(a) {
-  Array.prototype.push.apply(this, a);
 };
