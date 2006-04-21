@@ -405,11 +405,11 @@ String.prototype.stripTags = function() {
 };
 
 String.prototype.normalizeUmlautsLong = function() {
-  return qx.util.string.Normalization.umlautsLong(this);
+  return qx.util.Normalization.umlautsLong(this);
 };
 
 String.prototype.normalizeUmlautsShort = function() {
-  return qx.util.string.Normalization.umlautsShort(this);
+  return qx.util.Normalization.umlautsShort(this);
 };
 
 String.prototype.startsWith = function(str) {

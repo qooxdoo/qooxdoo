@@ -29,6 +29,9 @@
 qx.util.Return = {};
 
 
+
+
+
 /*
 ---------------------------------------------------------------------------
   SIMPLE RETURN METHODS
@@ -58,4 +61,3 @@ qx.util.Return.returnZero = function() {
 qx.util.Return.returnNegativeIndex = function() {
   return -1;
 };
-

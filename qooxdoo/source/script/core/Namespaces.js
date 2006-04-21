@@ -20,13 +20,7 @@ qx.core.Settings = {};
 qx.core.DefaultSettings = {};
 
 qx.app = {};
-
 qx.util = {};
-qx.util.Return = {};
-qx.util.Validation = {};
-qx.util.string = {};
-qx.util.compare = {};
-
 qx.types = {};
 qx.client = {};
 qx.dom = {};

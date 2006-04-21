@@ -26,7 +26,11 @@
 
 ************************************************************************ */
 
-qx.util.string.Normalization = {};
+qx.util.Normalization = {};
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -34,24 +38,24 @@ qx.util.string.Normalization = {};
 ---------------------------------------------------------------------------
 */
 
-qx.util.string.Normalization._umlautsRegExp = /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g;
+qx.util.Normalization._umlautsRegExp = /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g;
 
-qx.util.string.Normalization._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U", "\xE4": "a", "\xF6": "o", "\xFC": "u", "\xDF": "s" };
+qx.util.Normalization._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U", "\xE4": "a", "\xF6": "o", "\xFC": "u", "\xDF": "s" };
 
-qx.util.string.Normalization._umlautsShort = function(vChar) {
-  return qx.util.string.Normalization._umlautsShortData[vChar];
+qx.util.Normalization._umlautsShort = function(vChar) {
+  return qx.util.Normalization._umlautsShortData[vChar];
 };
 
-qx.util.string.Normalization.umlautsShort = function(vString) {
-  return vString.replace(qx.util.string.Normalization._umlautsRegExp, qx.util.string.Normalization._umlautsShort);
+qx.util.Normalization.umlautsShort = function(vString) {
+  return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsShort);
 };
 
-qx.util.string.Normalization._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "Ue", "\xE4": "ae", "\xF6": "oe", "\xFC": "ue", "\xDF": "ss" };
+qx.util.Normalization._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "Ue", "\xE4": "ae", "\xF6": "oe", "\xFC": "ue", "\xDF": "ss" };
 
-qx.util.string.Normalization._umlautsLong = function(vChar) {
-  return qx.util.string.Normalization._umlautsLongData[vChar];
+qx.util.Normalization._umlautsLong = function(vChar) {
+  return qx.util.Normalization._umlautsLongData[vChar];
 };
 
-qx.util.string.Normalization.umlautsLong = function(vString) {
-  return vString.replace(qx.util.string.Normalization._umlautsRegExp, qx.util.string.Normalization._umlautsLong);
+qx.util.Normalization.umlautsLong = function(vString) {
+  return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsLong);
 };

@@ -156,7 +156,7 @@ proto._sendTo = function()
   var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getAll());
   var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getAll());
 
-  var vAll = vPopups.concat(vMenus).sort(qx.util.compare.byZIndex);
+  var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 
