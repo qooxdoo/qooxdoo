@@ -23,9 +23,6 @@ L="$L script/lang/Number"
 L="$L script/lang/Prototypes"
 L="$L script/lang/Generics"
 
-L="$L script/lang/Emu"
-L="$L script/lang/XmlExtras"
-
 # Utilities
 L="$L script/util/Return"
 L="$L script/util/Util"
