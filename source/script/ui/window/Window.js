@@ -1325,7 +1325,7 @@ proto._oncaptionmousemove = function(e)
   };
 
   // pre check if we go out of the available area
-  if (!e.getPageX().betweenRange(s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !e.getPageY().betweenRange(s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
+  if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
     return;
   };
 
