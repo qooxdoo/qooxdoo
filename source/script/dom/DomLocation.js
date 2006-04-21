@@ -24,9 +24,9 @@
 
 #package(dom)
 #require(qx.sys.Client)
-#require(QxDomStyle)
-#require(QxDomScroll)
-#require(QxDomDimension)
+#require(qx.dom.DomStyle)
+#require(qx.dom.DomScroll)
+#require(qx.dom.DomDimension)
 
 ************************************************************************ */
 
