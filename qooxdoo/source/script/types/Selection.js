@@ -92,7 +92,7 @@ proto.getChangeValue = function()
   };
 
   sb.sort();
-  return sb.join(QxConst.CORE_SEMICOLON);
+  return sb.join(qx.Const.CORE_SEMICOLON);
 };
 
 proto.getItemHashCode = function(oItem) {

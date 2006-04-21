@@ -52,10 +52,10 @@ qx.ui.form.InputCheckSymbol = function()
 
 qx.ui.form.InputCheckSymbol.extend(qx.ui.basic.Terminator, "qx.ui.form.InputCheckSymbol");
 
-qx.ui.form.InputCheckSymbol.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "apply" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "apply" });
 qx.ui.form.InputCheckSymbol.addProperty({ name : "value", impl : "apply" });
 qx.ui.form.InputCheckSymbol.addProperty({ name : "type", impl : "apply" });
-qx.ui.form.InputCheckSymbol.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
+qx.ui.form.InputCheckSymbol.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
 
 proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);
@@ -92,6 +92,6 @@ if (qx.sys.Client.isMshtml())
 
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(QxConst.CORE_DISABLED) : this.setHtmlAttribute(QxConst.CORE_DISABLED, QxConst.CORE_DISABLED);
+  propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };

@@ -51,12 +51,12 @@ QxDigitalClock.SHOW_TWENTYFOUR = "24";
 /*!
   Show a 12 or 24 hour clock.
 */
-QxDigitalClock.addProperty({ name : "showHours", type : QxConst.TYPEOF_NUMBER, possibleValues : [QxDigitalClock.SHOW_TWELVE, QxDigitalClock.SHOW_TWENTYFOUR], defaultValue : QxDigitalClock.SHOW_TWELVE });
+QxDigitalClock.addProperty({ name : "showHours", type : qx.Const.TYPEOF_NUMBER, possibleValues : [QxDigitalClock.SHOW_TWELVE, QxDigitalClock.SHOW_TWENTYFOUR], defaultValue : QxDigitalClock.SHOW_TWELVE });
 
 /*!
   The current value of the interval (this should be used internally only).
 */
-QxDigitalClock.addProperty({ name : "label", type : QxConst.TYPEOF_OBJECT });
+QxDigitalClock.addProperty({ name : "label", type : qx.Const.TYPEOF_OBJECT });
 
 
 

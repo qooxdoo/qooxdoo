@@ -36,10 +36,10 @@ qx.ui.listview.ListViewContentCellLink = function(vHtml)
 
 qx.ui.listview.ListViewContentCellLink.extend(qx.ui.embed.HtmlLinkEmbed, "qx.ui.listview.ListViewContentCellLink");
 
-qx.ui.listview.ListViewContentCellLink.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-link" });
+qx.ui.listview.ListViewContentCellLink.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-link" });
 
 qx.ui.listview.ListViewContentCellLink.empty =
 {
-  html : QxConst.CORE_EMPTY,
-  uri : QxConst.CORE_HASH
+  html : qx.Const.CORE_EMPTY,
+  uri : qx.Const.CORE_HASH
 };

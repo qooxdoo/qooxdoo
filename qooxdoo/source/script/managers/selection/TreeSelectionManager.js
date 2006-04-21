@@ -35,12 +35,12 @@ qx.manager.selection.TreeSelectionManager.extend(qx.manager.selection.SelectionM
 /*!
 Should multiple selection be allowed?
 */
-qx.manager.selection.TreeSelectionManager.changeProperty({ name : "multiSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.manager.selection.TreeSelectionManager.changeProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
 Enable drag selection?
 */
-qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

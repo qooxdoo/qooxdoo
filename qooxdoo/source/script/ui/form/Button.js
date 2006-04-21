@@ -40,22 +40,22 @@ qx.ui.form.Button = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
 qx.ui.form.Button.extend(qx.ui.basic.Atom, "qx.ui.form.Button");
 
-qx.ui.form.Button.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "button" });
+qx.ui.form.Button.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "button" });
 
 
 
@@ -74,13 +74,13 @@ proto._onmouseover = function(e)
     return;
   };
 
-  if (this.hasState(QxConst.STATE_ABANDONED))
+  if (this.hasState(qx.Const.STATE_ABANDONED))
   {
-    this.removeState(QxConst.STATE_ABANDONED);
-    this.addState(QxConst.STATE_PRESSED);
+    this.removeState(qx.Const.STATE_ABANDONED);
+    this.addState(qx.Const.STATE_PRESSED);
   };
 
-  this.addState(QxConst.STATE_OVER);
+  this.addState(qx.Const.STATE_OVER);
 };
 
 proto._onmouseout = function(e)
@@ -89,16 +89,16 @@ proto._onmouseout = function(e)
     return;
   };
 
-  this.removeState(QxConst.STATE_OVER);
+  this.removeState(qx.Const.STATE_OVER);
 
-  if (this.hasState(QxConst.STATE_PRESSED))
+  if (this.hasState(qx.Const.STATE_PRESSED))
   {
     // Activate capturing if the button get a mouseout while
     // the button is pressed.
     this.setCapture(true);
 
-    this.removeState(QxConst.STATE_PRESSED);
-    this.addState(QxConst.STATE_ABANDONED);
+    this.removeState(qx.Const.STATE_PRESSED);
+    this.addState(qx.Const.STATE_ABANDONED);
   };
 };
 
@@ -108,25 +108,25 @@ proto._onmousedown = function(e)
     return;
   };
 
-  this.removeState(QxConst.STATE_ABANDONED);
-  this.addState(QxConst.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
+  this.addState(qx.Const.STATE_PRESSED);
 };
 
 proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(QxConst.STATE_ABANDONED))
+  if (!this.hasState(qx.Const.STATE_ABANDONED))
   {
-    this.addState(QxConst.STATE_OVER);
+    this.addState(qx.Const.STATE_OVER);
 
-    if (this.hasState(QxConst.STATE_PRESSED)) {
+    if (this.hasState(qx.Const.STATE_PRESSED)) {
       this.execute();
     };
   };
 
-  this.removeState(QxConst.STATE_ABANDONED);
-  this.removeState(QxConst.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
+  this.removeState(qx.Const.STATE_PRESSED);
 };
 
 proto._onkeydown = function(e)
@@ -135,8 +135,8 @@ proto._onkeydown = function(e)
   {
     case qx.event.types.KeyEvent.keys.enter:
     case qx.event.types.KeyEvent.keys.space:
-      this.removeState(QxConst.STATE_ABANDONED);
-      this.addState(QxConst.STATE_PRESSED);
+      this.removeState(qx.Const.STATE_ABANDONED);
+      this.addState(qx.Const.STATE_PRESSED);
   };
 };
 
@@ -146,10 +146,10 @@ proto._onkeyup = function(e)
   {
     case qx.event.types.KeyEvent.keys.enter:
     case qx.event.types.KeyEvent.keys.space:
-      if (this.hasState(QxConst.STATE_PRESSED))
+      if (this.hasState(qx.Const.STATE_PRESSED))
       {
-        this.removeState(QxConst.STATE_ABANDONED);
-        this.removeState(QxConst.STATE_PRESSED);
+        this.removeState(qx.Const.STATE_ABANDONED);
+        this.removeState(qx.Const.STATE_PRESSED);
         this.execute();
       };
   };
@@ -177,17 +177,17 @@ proto.dispose = function()
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
 
 
   // ************************************************************************

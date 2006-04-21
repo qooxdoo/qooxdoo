@@ -57,7 +57,7 @@ qx.io.remote.XmlHttpTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: false,
-  responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
+  responseTypes : [ qx.Const.MIMETYPE_TEXT, qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON, qx.Const.MIMETYPE_XML, qx.Const.MIMETYPE_HTML ]
 };
 
 qx.io.remote.XmlHttpTransport.requestObjects = [];
@@ -195,11 +195,11 @@ proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(vId + QxConst.CORE_EQUAL + vParameters[vId]);
+    vParametersList.push(vId + qx.Const.CORE_EQUAL + vParameters[vId]);
   };
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(QxConst.CORE_QUESTIONMARK) >= 0 ? QxConst.CORE_AMPERSAND : QxConst.CORE_QUESTIONMARK) + vParametersList.join(QxConst.CORE_AMPERSAND);
+    vUrl += (vUrl.indexOf(qx.Const.CORE_QUESTIONMARK) >= 0 ? qx.Const.CORE_AMPERSAND : qx.Const.CORE_QUESTIONMARK) + vParametersList.join(qx.Const.CORE_AMPERSAND);
   };
 
 
@@ -262,14 +262,14 @@ proto.send = function()
 
 /*!
   Force the transport into the failed state
-  (QxConst.REQUEST_STATE_FAILED).
+  (qx.Const.REQUEST_STATE_FAILED).
 
   This method should be used only if the requests URI was local
   access. I.e. it started with "file://".
 */
 proto.failedLocally = function()
 {
-  if (this.getState() === QxConst.REQUEST_STATE_FAILED) {
+  if (this.getState() === qx.Const.REQUEST_STATE_FAILED) {
     return;
   };
 
@@ -300,10 +300,10 @@ proto._onreadystatechange = function(e)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case QxConst.REQUEST_STATE_COMPLETED:
-    case QxConst.REQUEST_STATE_ABORTED:
-    case QxConst.REQUEST_STATE_FAILED:
-    case QxConst.REQUEST_STATE_TIMEOUT:
+    case qx.Const.REQUEST_STATE_COMPLETED:
+    case qx.Const.REQUEST_STATE_ABORTED:
+    case qx.Const.REQUEST_STATE_FAILED:
+    case qx.Const.REQUEST_STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
   };
@@ -466,7 +466,7 @@ proto.getStatusCode = function()
 */
 proto.getStatusText = function()
 {
-  var vStatusText = QxConst.CORE_EMPTY;
+  var vStatusText = qx.Const.CORE_EMPTY;
 
   try {
     vStatusText = this.getRequest().statusText;
@@ -542,7 +542,7 @@ proto.getFetchedLength = function()
 
 proto.getResponseContent = function()
 {
-  if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
+  if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
@@ -557,19 +557,19 @@ proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case QxConst.MIMETYPE_TEXT:
-    case QxConst.MIMETYPE_HTML:
+    case qx.Const.MIMETYPE_TEXT:
+    case qx.Const.MIMETYPE_HTML:
       return this.getResponseText();
 
-    case QxConst.MIMETYPE_JSON:
-    case QxConst.MIMETYPE_JAVASCRIPT:
+    case qx.Const.MIMETYPE_JSON:
+    case qx.Const.MIMETYPE_JAVASCRIPT:
       try {
         return eval("(" + this.getResponseText() + ")");
       } catch(ex) {
         return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
       };
 
-    case QxConst.MIMETYPE_XML:
+    case qx.Const.MIMETYPE_XML:
       return this.getResponseXml();
 
     default:
@@ -597,39 +597,39 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case QxConst.REQUEST_STATE_CREATED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CREATED);
+    case qx.Const.REQUEST_STATE_CREATED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATED);
       break;
 
-    case QxConst.REQUEST_STATE_CONFIGURED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CONFIGURED);
+    case qx.Const.REQUEST_STATE_CONFIGURED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_CONFIGURED);
       break;
 
-    case QxConst.REQUEST_STATE_SENDING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
+    case qx.Const.REQUEST_STATE_SENDING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case QxConst.REQUEST_STATE_RECEIVING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
+    case qx.Const.REQUEST_STATE_RECEIVING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case QxConst.REQUEST_STATE_COMPLETED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
+    case qx.Const.REQUEST_STATE_COMPLETED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
       break;
 
-    case QxConst.REQUEST_STATE_ABORTED:
+    case qx.Const.REQUEST_STATE_ABORTED:
       this.getRequest().abort();
-      this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_ABORTED);
       break;
 
-    case QxConst.REQUEST_STATE_FAILED:
+    case qx.Const.REQUEST_STATE_FAILED:
       this.getRequest().abort();
-      this.createDispatchEvent(QxConst.EVENT_TYPE_FAILED);
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_FAILED);
       break;
 
-    case QxConst.REQUEST_STATE_TIMEOUT:
+    case qx.Const.REQUEST_STATE_TIMEOUT:
       this.getRequest().abort();
-      this.createDispatchEvent(QxConst.EVENT_TYPE_TIMEOUT);
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_TIMEOUT);
       break;
   };
 

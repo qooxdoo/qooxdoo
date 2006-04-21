@@ -50,10 +50,10 @@ qx.client.Command = function(vShortcut, vKeyCode, vManager)
 
 qx.client.Command.extend(qx.core.Target, "qx.client.Command");
 
-qx.client.Command.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.client.Command.addProperty({ name : "shortcut", type : QxConst.TYPEOF_STRING });
-qx.client.Command.addProperty({ name : "keyCode", type : QxConst.TYPEOF_NUMBER });
-qx.client.Command.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
+qx.client.Command.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.client.Command.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });
+qx.client.Command.addProperty({ name : "keyCode", type : qx.Const.TYPEOF_NUMBER });
+qx.client.Command.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
 
 
 
@@ -67,8 +67,8 @@ qx.client.Command.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, 
 
 proto.execute = function(vTarget)
 {
-  if (this.hasEventListeners(QxConst.EVENT_TYPE_EXECUTE)) {
-    this.dispatchEvent(new qx.event.types.DataEvent(QxConst.EVENT_TYPE_EXECUTE, vTarget), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_EXECUTE)) {
+    this.dispatchEvent(new qx.event.types.DataEvent(qx.Const.EVENT_TYPE_EXECUTE, vTarget), true);
   };
 
   return false;
@@ -137,7 +137,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
 proto._matchesKeyEvent = function(e)
 {
   // pre check if parts are configured
-  if (typeof this._shortcutParts !== QxConst.TYPEOF_OBJECT && this._shortcutParts !== null) {
+  if (typeof this._shortcutParts !== qx.Const.TYPEOF_OBJECT && this._shortcutParts !== null) {
     return false;
   };
 
@@ -215,10 +215,10 @@ proto._matchesKeyEvent = function(e)
     {
       switch(vPart)
       {
-        case QxConst.KEY_CTRL:
-        case QxConst.KEY_SHIFT:
-        case QxConst.KEY_ALT:
-        case QxConst.KEY_CONTROL:
+        case qx.Const.KEY_CTRL:
+        case qx.Const.KEY_SHIFT:
+        case qx.Const.KEY_ALT:
+        case qx.Const.KEY_CONTROL:
           break;
 
         default:
@@ -247,7 +247,7 @@ proto.toString = function()
 {
   var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
-  var vString = QxConst.CORE_EMPTY;
+  var vString = qx.Const.CORE_EMPTY;
 
   if (qx.util.Validation.isValidString(vShortcut))
   {
@@ -256,7 +256,7 @@ proto.toString = function()
     if (qx.util.Validation.isValidNumber(vKeyCode))
     {
       var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
-      vString += QxConst.CORE_PLUS + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
+      vString += qx.Const.CORE_PLUS + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
     };
   }
   else if (qx.util.Validation.isValidNumber(vKeyCode))

@@ -31,13 +31,13 @@ qx.lang.String = {};
 
 qx.lang.String.toCamelCase = function(str)
 {
-  var vArr = str.split(QxConst.CORE_DASH), vLength = vArr.length;
+  var vArr = str.split(qx.Const.CORE_DASH), vLength = vArr.length;
 
   if(vLength == 1) {
     return vArr[0];
   };
 
-  var vNew = str.indexOf(QxConst.CORE_DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
+  var vNew = str.indexOf(qx.Const.CORE_DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
 
   for (var vPart, i=1; i<vLength; i++)
   {
@@ -49,19 +49,19 @@ qx.lang.String.toCamelCase = function(str)
 };
 
 qx.lang.String.trimLeft = function(str) {
-  return str.replace(/^\s+/, QxConst.CORE_EMPTY);
+  return str.replace(/^\s+/, qx.Const.CORE_EMPTY);
 };
 
 qx.lang.String.trimRight = function(str) {
-  return str.replace(/\s+$/, QxConst.CORE_EMPTY);
+  return str.replace(/\s+$/, qx.Const.CORE_EMPTY);
 };
 
 qx.lang.String.trim = function(str) {
-  return str.replace(/^\s+|\s+$/g, QxConst.CORE_EMPTY);
+  return str.replace(/^\s+|\s+$/g, qx.Const.CORE_EMPTY);
 };
 
 qx.lang.String.stripTags = function(str) {
-  return str.replace(/<\/?[^>]+>/gi, QxConst.CORE_EMPTY);
+  return str.replace(/<\/?[^>]+>/gi, qx.Const.CORE_EMPTY);
 };
 
 qx.lang.String.startsWith = function(fullstr, substr) {
@@ -74,11 +74,11 @@ qx.lang.String.endsWith = function(fullstr, substr) {
 
 qx.lang.String.pad = function(length, ch)
 {
-  if (typeof ch === QxConst.TYPEOF_UNDEFINED) {
-    ch = QxConst.CORE_ZERO;
+  if (typeof ch === qx.Const.TYPEOF_UNDEFINED) {
+    ch = qx.Const.CORE_ZERO;
   };
 
-  var temp = QxConst.CORE_EMPTY;
+  var temp = qx.Const.CORE_EMPTY;
 
   for (var i=length, l=this.length; l<i; l++) {
     temp += ch;
@@ -113,14 +113,14 @@ String.prototype.add = function(v, sep)
   {
     return this;
   }
-  else if (this == QxConst.CORE_EMPTY)
+  else if (this == qx.Const.CORE_EMPTY)
   {
     return v;
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = QxConst.CORE_COMMA;
+      sep = qx.Const.CORE_COMMA;
     };
 
     var a = this.split(sep);
@@ -139,14 +139,14 @@ String.prototype.add = function(v, sep)
 
 String.prototype.remove = function(v, sep)
 {
-  if (this == v || this == QxConst.CORE_EMPTY)
+  if (this == v || this == qx.Const.CORE_EMPTY)
   {
-    return QxConst.CORE_EMPTY;
+    return qx.Const.CORE_EMPTY;
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = QxConst.CORE_COMMA;
+      sep = qx.Const.CORE_COMMA;
     };
 
     var a = this.split(sep);

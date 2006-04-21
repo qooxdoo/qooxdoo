@@ -37,8 +37,8 @@ qx.event.types.DragEvent = function(vType, vMouseEvent, vTarget, vRelatedTarget)
 
   switch(vType)
   {
-    case QxConst.EVENT_TYPE_DRAGSTART:
-    case QxConst.EVENT_TYPE_DRAGOVER:
+    case qx.Const.EVENT_TYPE_DRAGSTART:
+    case qx.Const.EVENT_TYPE_DRAGOVER:
       vOriginalTarget = vMouseEvent.getOriginalTarget();
   };
 
@@ -74,7 +74,7 @@ proto.getMouseEvent = function() {
 
 proto.startDrag = function()
 {
-  if (this.getType() != QxConst.EVENT_TYPE_DRAGSTART) {
+  if (this.getType() != qx.Const.EVENT_TYPE_DRAGSTART) {
     throw new Error("qx.event.types.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
   };
 

@@ -44,8 +44,8 @@ qx.ui.form.RepeatButton.extend(qx.ui.form.Button, "qx.ui.form.RepeatButton");
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.RepeatButton.addProperty({ name : "interval", type : QxConst.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.form.RepeatButton.addProperty({ name : "firstInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 500 });
+qx.ui.form.RepeatButton.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.ui.form.RepeatButton.addProperty({ name : "firstInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 500 });
 
 
 
@@ -68,27 +68,27 @@ proto._onmousedown = function(e)
   this._timer.setInterval(this.getFirstInterval());
   this._timer.start();
 
-  this.removeState(QxConst.STATE_ABANDONED);
-  this.addState(QxConst.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
+  this.addState(qx.Const.STATE_PRESSED);
 };
 
 proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(QxConst.STATE_ABANDONED))
+  if (!this.hasState(qx.Const.STATE_ABANDONED))
   {
-    this.addState(QxConst.STATE_OVER);
+    this.addState(qx.Const.STATE_OVER);
 
-    if (this.hasState(QxConst.STATE_PRESSED) && !this._executed) {
+    if (this.hasState(qx.Const.STATE_PRESSED) && !this._executed) {
       this.execute();
     };
   };
 
   this._timer.stop();
 
-  this.removeState(QxConst.STATE_ABANDONED);
-  this.removeState(QxConst.STATE_PRESSED);
+  this.removeState(qx.Const.STATE_ABANDONED);
+  this.removeState(qx.Const.STATE_PRESSED);
 };
 
 proto._oninterval = function(e)
@@ -98,7 +98,7 @@ proto._oninterval = function(e)
   this._timer.start();
 
   this._executed = true;
-  this.createDispatchEvent(QxConst.EVENT_TYPE_EXECUTE);
+  this.createDispatchEvent(qx.Const.EVENT_TYPE_EXECUTE);
 };
 
 

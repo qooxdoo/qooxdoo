@@ -48,9 +48,9 @@ qx.ui.form.CheckBox = function(vText, vValue, vName, vChecked)
     this.setChecked(vChecked);
   };
 
-  this.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
 };
 
 qx.ui.form.CheckBox.extend(qx.ui.basic.Atom, "qx.ui.form.CheckBox");
@@ -66,17 +66,17 @@ qx.ui.form.CheckBox.removeProperty({ name : "icon" });
 /*!
   The HTML name of the form element used by the widget
 */
-qx.ui.form.CheckBox.addProperty({ name : "name", type : QxConst.TYPEOF_STRING });
+qx.ui.form.CheckBox.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The HTML value of the form element used by the widget
 */
-qx.ui.form.CheckBox.addProperty({ name : "value", type : QxConst.TYPEOF_STRING });
+qx.ui.form.CheckBox.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
 
 /*!
   If the widget is checked
 */
-qx.ui.form.CheckBox.addProperty({ name : "checked", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.ui.form.CheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 
@@ -197,9 +197,9 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

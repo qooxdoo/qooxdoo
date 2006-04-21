@@ -55,12 +55,12 @@ qx.renderer.font.Font.extend(qx.core.Object, "qx.renderer.font.Font");
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.font.Font.addProperty({ name : "size", type : QxConst.TYPEOF_NUMBER, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "name", type : QxConst.TYPEOF_STRING, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "bold", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "italic", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "underline", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "strikeout", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "size", type : qx.Const.TYPEOF_NUMBER, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "bold", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "italic", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "underline", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.renderer.font.Font.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
 
 
 
@@ -96,26 +96,26 @@ qx.renderer.font.Font.fromString = function(s)
   {
     switch(vPart = vAllParts[i])
     {
-      case QxConst.FONT_STYLE_BOLD:
+      case qx.Const.FONT_STYLE_BOLD:
         vFont.setBold(true);
         break;
 
-      case QxConst.FONT_STYLE_ITALIC:
+      case qx.Const.FONT_STYLE_ITALIC:
         vFont.setItalic(true);
         break;
 
-      case QxConst.FONT_STYLE_UNDERLINE:
+      case qx.Const.FONT_STYLE_UNDERLINE:
         vFont.setUnderline(true);
         break;
 
-      case QxConst.FONT_STYLE_STRIKEOUT:
+      case qx.Const.FONT_STYLE_STRIKEOUT:
         vFont.setStrikeout(true);
         break;
 
       default:
         var vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || vPart.contains(QxConst.CORE_PIXEL))
+        if(vTemp == vPart || vPart.contains(qx.Const.CORE_PIXEL))
         {
           vFont.setSize(vTemp);
         }
@@ -129,7 +129,7 @@ qx.renderer.font.Font.fromString = function(s)
   };
 
   if(vName.length > 0) {
-    vFont.setName(vName.join(QxConst.CORE_SPACE));
+    vFont.setName(vName.join(qx.Const.CORE_SPACE));
   };
 
   return vFont;
@@ -160,21 +160,21 @@ proto._compile = function()
   var vItalic = this.getItalic();
   var vUnderline = this.getUnderline();
   var vStrikeout = this.getStrikeout();
-  var vDecoration = QxConst.CORE_EMPTY;
+  var vDecoration = qx.Const.CORE_EMPTY;
 
   if (this.getUnderline()) {
-    vDecoration = QxConst.FONT_STYLE_UNDERLINE;
+    vDecoration = qx.Const.FONT_STYLE_UNDERLINE;
   };
 
   if (this.getStrikeout()) {
-    vDecoration += QxConst.CORE_SPACE + QxConst.FONT_STYLE_STRIKEOUT;
+    vDecoration += qx.Const.CORE_SPACE + qx.Const.FONT_STYLE_STRIKEOUT;
   };
 
-  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
-  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + QxConst.CORE_PIXEL : QxConst.CORE_EMPTY;
-  this._defs.fontWeight = this.getBold() ? QxConst.FONT_STYLE_BOLD : QxConst.FONT_STYLE_NORMAL;
-  this._defs.fontStyle = this.getItalic() ? QxConst.FONT_STYLE_ITALIC : QxConst.FONT_STYLE_NORMAL;
-  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : QxConst.CORE_EMPTY;
+  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : qx.Const.CORE_EMPTY;
+  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + qx.Const.CORE_PIXEL : qx.Const.CORE_EMPTY;
+  this._defs.fontWeight = this.getBold() ? qx.Const.FONT_STYLE_BOLD : qx.Const.FONT_STYLE_NORMAL;
+  this._defs.fontStyle = this.getItalic() ? qx.Const.FONT_STYLE_ITALIC : qx.Const.FONT_STYLE_NORMAL;
+  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : qx.Const.CORE_EMPTY;
 
   this._needsCompilation = false;
 };

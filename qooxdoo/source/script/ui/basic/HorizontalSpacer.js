@@ -30,7 +30,7 @@ qx.ui.basic.HorizontalSpacer = function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setWidth(QxConst.CORE_FLEX);
+  this.setWidth(qx.Const.CORE_FLEX);
 };
 
 qx.ui.basic.HorizontalSpacer.extend(qx.ui.basic.Terminator, "qx.ui.basic.HorizontalSpacer");

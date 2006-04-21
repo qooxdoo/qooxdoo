@@ -53,8 +53,8 @@ qx.renderer.theme.AppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.Appe
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.theme.AppearanceTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.AppearanceTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.AppearanceTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.AppearanceTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });
 
 
 

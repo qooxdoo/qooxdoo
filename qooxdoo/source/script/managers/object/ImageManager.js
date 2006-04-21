@@ -73,14 +73,14 @@ qx.manager.object.ImageManager.extend(qx.manager.object.ObjectManager, "qx.manag
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ImageManager.addProperty({ name : "corePath", type : QxConst.TYPEOF_STRING, impl : "coreAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "localPath", type : QxConst.TYPEOF_STRING, impl : "localAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "corePath", type : qx.Const.TYPEOF_STRING, impl : "coreAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "localPath", type : qx.Const.TYPEOF_STRING, impl : "localAlias" });
 
-qx.manager.object.ImageManager.addProperty({ name : "iconPath", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "iconTheme", type : QxConst.TYPEOF_STRING, impl : "iconAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "iconPath", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "iconTheme", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
 
-qx.manager.object.ImageManager.addProperty({ name : "widgetPath", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "widgetTheme", type : QxConst.TYPEOF_STRING, impl : "widgetAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "widgetPath", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
+qx.manager.object.ImageManager.addProperty({ name : "widgetTheme", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
 
 
 
@@ -113,7 +113,7 @@ proto._modifyIconAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vIconPath) && qx.util.Validation.isValidString(vIconTheme))
   {
-    this.defineAlias("icons", vIconPath + QxConst.CORE_SLASH + vIconTheme);
+    this.defineAlias("icons", vIconPath + qx.Const.CORE_SLASH + vIconTheme);
   }
   else
   {
@@ -130,7 +130,7 @@ proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vWidgetPath) && qx.util.Validation.isValidString(vWidgetTheme))
   {
-    this.defineAlias("widgets", vWidgetPath + QxConst.CORE_SLASH + vWidgetTheme);
+    this.defineAlias("widgets", vWidgetPath + qx.Const.CORE_SLASH + vWidgetTheme);
   }
   else
   {
@@ -242,7 +242,7 @@ proto.buildUri = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
-  if (vForceUpdate || typeof vUri === QxConst.TYPEOF_UNDEFINED) {
+  if (vForceUpdate || typeof vUri === qx.Const.TYPEOF_UNDEFINED) {
     vUri = this._uris[vPath] = this._buildUri(vPath);
   };
 
@@ -279,16 +279,16 @@ proto._buildUri = function(vPath, vForce)
 {
   switch(vPath.charAt(0))
   {
-    case QxConst.CORE_SLASH:
-    case QxConst.CORE_DOT:
+    case qx.Const.CORE_SLASH:
+    case qx.Const.CORE_DOT:
       return vPath;
 
     default:
-      if (qx.lang.String.startsWith(vPath, QxConst.URI_HTTP) || qx.lang.String.startsWith(vPath, QxConst.URI_HTTPS) || qx.lang.String.startsWith(vPath, QxConst.URI_FILE)) {
+      if (qx.lang.String.startsWith(vPath, qx.Const.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.Const.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.Const.URI_FILE)) {
         return vPath;
       };
 
-      var vAlias = vPath.substring(0, vPath.indexOf(QxConst.CORE_SLASH));
+      var vAlias = vPath.substring(0, vPath.indexOf(qx.Const.CORE_SLASH));
       var vResolved = this._aliases[vAlias];
 
       if (qx.util.Validation.isValidString(vResolved)) {
@@ -333,7 +333,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
   var vThemes = this._iconThemes;
   var vIcon = "icons/16/icons.png";
   var vPrefix = "Icon Theme: ";
-  var vEvent = QxConst.EVENT_TYPE_EXECUTE;
+  var vEvent = qx.Const.EVENT_TYPE_EXECUTE;
 
   for (var vTheme in vThemes)
   {

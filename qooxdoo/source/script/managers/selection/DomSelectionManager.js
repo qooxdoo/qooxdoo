@@ -52,7 +52,7 @@ proto.getItemEnabled = function(oItem) {
 };
 
 proto.getItemClassName = function(vItem) {
-  return vItem.className || QxConst.CORE_EMPTY;
+  return vItem.className || qx.Const.CORE_EMPTY;
 };
 
 proto.setItemClassName = function(vItem, vClassName) {
@@ -61,7 +61,7 @@ proto.setItemClassName = function(vItem, vClassName) {
 
 proto.getItemBaseClassName = function(vItem)
 {
-  var p = vItem.className.split(QxConst.CORE_SPACE)[0];
+  var p = vItem.className.split(qx.Const.CORE_SPACE)[0];
   return p ? p : "Status";
 };
 

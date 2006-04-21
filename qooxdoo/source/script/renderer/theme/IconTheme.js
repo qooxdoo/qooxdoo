@@ -47,5 +47,5 @@ qx.renderer.theme.IconTheme = function(vId, vTitle)
 
 qx.renderer.theme.IconTheme.extend(qx.core.Object, "qx.renderer.theme.IconTheme");
 
-qx.renderer.theme.IconTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.IconTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.IconTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.IconTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });

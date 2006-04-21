@@ -46,19 +46,19 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_BOTH))
     {
-      case QxConst.OVERFLOW_VALUE_BOTH:
-      case QxConst.OVERFLOW_VALUE_AUTO:
-      case QxConst.OVERFLOW_VALUE_MOZ_HORIZONTAL:
+      case qx.Const.OVERFLOW_VALUE_BOTH:
+      case qx.Const.OVERFLOW_VALUE_AUTO:
+      case qx.Const.OVERFLOW_VALUE_MOZ_HORIZONTAL:
         vHasScroll = true;
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_HORIZONTAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_HORIZONTAL))
         {
-          case QxConst.OVERFLOW_VALUE_BOTH:
-          case QxConst.OVERFLOW_VALUE_AUTO:
+          case qx.Const.OVERFLOW_VALUE_BOTH:
+          case qx.Const.OVERFLOW_VALUE_AUTO:
             vHasScroll = true;
             break;
 
@@ -119,19 +119,19 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_BOTH))
     {
-      case QxConst.OVERFLOW_VALUE_BOTH:
-      case QxConst.OVERFLOW_VALUE_AUTO:
-      case QxConst.OVERFLOW_VALUE_MOZ_VERTICAL:
+      case qx.Const.OVERFLOW_VALUE_BOTH:
+      case qx.Const.OVERFLOW_VALUE_AUTO:
+      case qx.Const.OVERFLOW_VALUE_MOZ_VERTICAL:
         vHasScroll = true;
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, QxConst.PROPERTY_OVERFLOW_VERTICAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_VERTICAL))
         {
-          case QxConst.OVERFLOW_VALUE_BOTH:
-          case QxConst.OVERFLOW_VALUE_AUTO:
+          case qx.Const.OVERFLOW_VALUE_BOTH:
+          case qx.Const.OVERFLOW_VALUE_AUTO:
             vHasScroll = true;
             break;
 

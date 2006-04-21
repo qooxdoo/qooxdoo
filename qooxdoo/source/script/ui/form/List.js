@@ -50,28 +50,28 @@ qx.ui.form.List = function()
   // ************************************************************************
   //   MOUSE EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
 };
 
 qx.ui.form.List.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.form.List");
 
-qx.ui.form.List.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list" });
+qx.ui.form.List.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list" });
 
-qx.ui.form.List.addProperty({ name : "enableInlineFind", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.form.List.addProperty({ name : "markLeadingItem", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.form.List.addProperty({ name : "enableInlineFind", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.form.List.addProperty({ name : "markLeadingItem", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
-proto._pressedString = QxConst.CORE_EMPTY;
+proto._pressedString = qx.Const.CORE_EMPTY;
 
 
 
@@ -202,7 +202,7 @@ proto._onkeypress = function(e)
 
   // Reset string after a second of non pressed key
   if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
-    this._pressedString = QxConst.CORE_EMPTY;
+    this._pressedString = qx.Const.CORE_EMPTY;
   };
 
   // Combine keys the user pressed to a string
@@ -381,13 +381,13 @@ proto.dispose = function()
     this._manager = null;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(QxConst.EVENT_TYPE_CLICK, this._onclick);
-  this.removeEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

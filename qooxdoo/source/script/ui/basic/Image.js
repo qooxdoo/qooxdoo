@@ -37,15 +37,15 @@ qx.ui.basic.Image = function(vSource, vWidth, vHeight)
   qx.ui.basic.Terminator.call(this);
 
   // Reset Alt and Title
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, QxConst.CORE_EMPTY);
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, QxConst.CORE_EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, qx.Const.CORE_EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.Const.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK));
+  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK));
 
   // Dimensions
-  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
-  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : QxConst.CORE_AUTO);
+  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.Const.CORE_AUTO);
+  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : qx.Const.CORE_AUTO);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -53,7 +53,7 @@ qx.ui.basic.Image = function(vSource, vWidth, vHeight)
 
 qx.ui.basic.Image.extend(qx.ui.basic.Terminator, "qx.ui.basic.Image");
 
-qx.ui.basic.Image.ATTR_ALT = QxConst.KEY_ALT;
+qx.ui.basic.Image.ATTR_ALT = qx.Const.KEY_ALT;
 qx.ui.basic.Image.ATTR_TITLE = "title";
 
 qx.ui.basic.Image.BORDER_NONE = "0 none";
@@ -69,12 +69,12 @@ qx.ui.basic.Image.RESET_VALIGN = "top";
 /*!
   The source uri of the image.
 */
-qx.ui.basic.Image.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.basic.Image.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The assigned preloader instance of the image.
 */
-qx.ui.basic.Image.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT });
+qx.ui.basic.Image.addProperty({ name : "preloader", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   The loading status.
@@ -82,17 +82,17 @@ qx.ui.basic.Image.addProperty({ name : "preloader", type : QxConst.TYPEOF_OBJECT
   True if the image is loaded correctly. False if no image is loaded
   or the one that should be loaded is currently loading or not available.
 */
-qx.ui.basic.Image.addProperty({ name : "loaded", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.basic.Image.addProperty({ name : "loaded", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Should the image be maxified in it's own container?
 */
-qx.ui.basic.Image.addProperty({ name : "resizeToInner", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.basic.Image.addProperty({ name : "resizeToInner", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Appearance of the widget
 */
-qx.ui.basic.Image.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "image" });
+qx.ui.basic.Image.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "image" });
 
 
 
@@ -114,8 +114,8 @@ proto._onerror = function()
 
   this.setLoaded(false);
 
-  if (this.hasEventListeners(QxConst.EVENT_TYPE_ERROR)) {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_ERROR), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_ERROR)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_ERROR), true);
   };
 };
 
@@ -171,7 +171,7 @@ proto._beforeDisappear = function()
 
 proto._modifySource = function(propValue, propOldValue, propData)
 {
-  if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === QxConst.TYPEOF_UNDEFINED) {
+  if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.ImageManager._sources[propValue] = 0;
   };
 
@@ -208,8 +208,8 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
   if (propOldValue)
   {
     // remove event connection
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
-    propOldValue.removeEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
   };
 
   if (propValue)
@@ -233,8 +233,8 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
     }
     else
     {
-      propValue.addEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
-      propValue.addEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
+      propValue.addEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+      propValue.addEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
     };
   }
   else
@@ -273,11 +273,11 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 
       // Possible alternative for MSHTML for PNG images
       // But it seems not to be faster
-      // this._image = document.createElement(QxConst.CORE_DIV);
+      // this._image = document.createElement(qx.Const.CORE_DIV);
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?
-      // this._image.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+      // this._image.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
 
       this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
       this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
@@ -347,13 +347,13 @@ if (qx.sys.Client.isMshtml())
 
     if (pl.getIsPng() && this.getEnabled())
     {
-      i.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+      i.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
       i.style.filter = qx.ui.basic.Image.IMGLOADER_START + (vSource || pl.getSource()) + qx.ui.basic.Image.IMGLOADER_STOP;
     }
     else
     {
       i.src = vSource || pl.getSource();
-      i.style.filter = this.getEnabled() ? QxConst.CORE_EMPTY : qx.ui.basic.Image.FILTER_GRAY;
+      i.style.filter = this.getEnabled() ? qx.Const.CORE_EMPTY : qx.ui.basic.Image.FILTER_GRAY;
     };
   };
 
@@ -361,8 +361,8 @@ if (qx.sys.Client.isMshtml())
   {
     var i = this._image;
 
-    i.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
-    i.style.filter = QxConst.CORE_EMPTY;
+    i.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
+    i.style.filter = qx.Const.CORE_EMPTY;
   };
 
   proto._applyEnabled = proto._postApply;
@@ -384,14 +384,14 @@ else
   };
 
   proto._resetContent = function() {
-    this._image.src = qx.manager.object.ImageManager.buildUri(QxConst.IMAGE_BLANK);
+    this._image.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
   };
 
   proto._applyEnabled = function()
   {
     if (this._image)
     {
-      var o = this.getEnabled() ? QxConst.CORE_EMPTY : 0.3;
+      var o = this.getEnabled() ? qx.Const.CORE_EMPTY : 0.3;
       var s = this._image.style;
 
       s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
@@ -590,8 +590,8 @@ proto.dispose = function()
   if (vPreloader)
   {
     // remove event connection
-    vPreloader.removeEventListener(QxConst.EVENT_TYPE_LOAD, this._onload, this);
-    vPreloader.removeEventListener(QxConst.EVENT_TYPE_ERROR, this._onerror, this);
+    vPreloader.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+    vPreloader.removeEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
 
     this.forcePreloader(null);
   };
@@ -599,7 +599,7 @@ proto.dispose = function()
   if (this._image)
   {
     // Remove leaking filter attribute before leaving page
-    this._image.style.filter = QxConst.CORE_EMPTY;
+    this._image.style.filter = qx.Const.CORE_EMPTY;
     this._image = null;
   };
 

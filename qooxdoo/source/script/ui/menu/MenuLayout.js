@@ -42,7 +42,7 @@ qx.ui.menu.MenuLayout.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.menu.MenuLay
 /*!
   Appearance of the widget
 */
-qx.ui.menu.MenuLayout.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-layout" });
+qx.ui.menu.MenuLayout.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-layout" });
 
 
 

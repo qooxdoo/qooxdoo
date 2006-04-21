@@ -33,7 +33,7 @@ qx.ui.form.TextField = function(vValue)
   // ************************************************************************
   qx.ui.basic.Terminator.call(this);
 
-  if (typeof vValue === QxConst.TYPEOF_STRING) {
+  if (typeof vValue === qx.Const.TYPEOF_STRING) {
     this.setValue(vValue);
   };
 
@@ -51,10 +51,10 @@ qx.ui.form.TextField = function(vValue)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.enableInlineEvent(QxConst.EVENT_TYPE_INPUT);
+  this.enableInlineEvent(qx.Const.EVENT_TYPE_INPUT);
 
-  this.addEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur);
-  this.addEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
+  this.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur);
+  this.addEventListener(qx.Const.EVENT_TYPE_FOCUS, this._onfocus);
 };
 
 qx.ui.form.TextField.extend(qx.ui.basic.Terminator, "qx.ui.form.TextField");
@@ -69,22 +69,22 @@ qx.ui.form.TextField.extend(qx.ui.basic.Terminator, "qx.ui.form.TextField");
 */
 
 
-qx.ui.form.TextField.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-field" });
+qx.ui.form.TextField.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-field" });
 
-qx.ui.form.TextField.addProperty({ name : "value", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.CORE_EMPTY });
-qx.ui.form.TextField.addProperty({ name : "maxLength", type : QxConst.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "readOnly", type : QxConst.TYPEOF_BOOLEAN });
+qx.ui.form.TextField.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_EMPTY });
+qx.ui.form.TextField.addProperty({ name : "maxLength", type : qx.Const.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "readOnly", type : qx.Const.TYPEOF_BOOLEAN });
 
-qx.ui.form.TextField.addProperty({ name : "selectionStart", type : QxConst.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "selectionLength", type : QxConst.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "selectionText", type : QxConst.TYPEOF_STRING });
+qx.ui.form.TextField.addProperty({ name : "selectionStart", type : qx.Const.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "selectionLength", type : qx.Const.TYPEOF_NUMBER });
+qx.ui.form.TextField.addProperty({ name : "selectionText", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.form.TextField.addProperty({ name : "validator", type : QxConst.TYPEOF_FUNCTION });
+qx.ui.form.TextField.addProperty({ name : "validator", type : qx.Const.TYPEOF_FUNCTION });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.ui.form.TextField.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.ui.form.TextField.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 
@@ -107,14 +107,14 @@ proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText
 
 proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(QxConst.CORE_DISABLED) : this.setHtmlAttribute(QxConst.CORE_DISABLED, QxConst.CORE_DISABLED);
+  propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 proto._modifyValue = function(propValue, propOldValue, propData)
 {
   this._inValueProperty = true;
-  this.setHtmlProperty(propData.name, propValue == null ? QxConst.CORE_EMPTY : propValue);
+  this.setHtmlProperty(propData.name, propValue == null ? qx.Const.CORE_EMPTY : propValue);
   delete this._inValueProperty;
 
   return true;
@@ -369,7 +369,7 @@ if (qx.sys.Client.isMshtml())
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
-      return QxConst.CORE_EMPTY;
+      return qx.Const.CORE_EMPTY;
     };
 
     return vSelectionRange.text;
@@ -495,8 +495,8 @@ proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(QxConst.EVENT_TYPE_BLUR, this._onblur);
-  this.removeEventListener(QxConst.EVENT_TYPE_FOCUS, this._onfocus);
+  this.removeEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur);
+  this.removeEventListener(qx.Const.EVENT_TYPE_FOCUS, this._onfocus);
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
 };

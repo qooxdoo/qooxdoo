@@ -96,7 +96,7 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
 
       for (var j=0; j<schl; j++)
       {
-        sch[j].addToLayoutChanges(QxConst.JOB_LOCATIONX);
+        sch[j].addToLayoutChanges(qx.Const.JOB_LOCATIONX);
 
       };
     };

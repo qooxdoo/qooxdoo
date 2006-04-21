@@ -28,8 +28,8 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 {
   qx.ui.popup.Popup.call(this);
 
-//  this.setWidth(QxConst.CORE_AUTO);
-//  this.setHeight(QxConst.CORE_AUTO);
+//  this.setWidth(qx.Const.CORE_AUTO);
+//  this.setHeight(qx.Const.CORE_AUTO);
 
   this.setBackgroundColor("threedface");
   this.setColor("windowtext");
@@ -68,8 +68,8 @@ function QxSplashScreen(vComponent, vShowProgressBar)
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  vComponent.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
+  vComponent.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
 };
 
 QxSplashScreen.extend(qx.ui.popup.Popup, "QxSplashScreen");
@@ -86,22 +86,22 @@ QxSplashScreen.MAX_VALUE = 100;
 /*!
   Should the user have the ability to close the splashscreen by clicking on it or Escape.
 */
-QxSplashScreen.addProperty({ name : "allowClose", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+QxSplashScreen.addProperty({ name : "allowClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have a status bar shown.
 */
-QxSplashScreen.addProperty({ name : "showProgressBar", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxSplashScreen.addProperty({ name : "showProgressBar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Time to show splash screen.
 */
-QxSplashScreen.addProperty({ name : "showTime", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxSplashScreen.addProperty({ name : "showTime", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   Center the splash screen on open.
 */
-QxSplashScreen.addProperty({ name : "centered", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+QxSplashScreen.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 /*
@@ -114,7 +114,7 @@ proto._modifyShowProgressBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    var progressPB = this._progressBar = new QxProgressBar(QxConst.DIRECTION_RIGHT, QxSplashScreen.MIN_VALUE, QxSplashScreen.MAX_VALUE);
+    var progressPB = this._progressBar = new QxProgressBar(qx.Const.DIRECTION_RIGHT, QxSplashScreen.MIN_VALUE, QxSplashScreen.MAX_VALUE);
     progressPB.setHeight(20);
     this._layout.addAtEnd(progressPB);
   }
@@ -131,12 +131,12 @@ proto._modifyShowTime = function(propValue, propOldValue, propData)
   if (propValue)
   {
     this._timer = new qx.client.Timer(this.getShowTime()/QxSplashScreen.MAX_VALUE);
-    this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
   }
   else
   {
     this._timer.stop();
-    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };
@@ -246,7 +246,7 @@ proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

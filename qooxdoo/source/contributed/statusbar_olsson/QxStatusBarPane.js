@@ -47,12 +47,12 @@ QxStatusBarPane.extend(qx.ui.layout.CanvasLayout, "QxStatusBarPane");
 /*!
   Appearance setting for the class.
 */
-QxStatusBarPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "statusbar-pane" });
+QxStatusBarPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "statusbar-pane" });
 
 /*!
   The main menu bar if any.
 */
-QxStatusBarPane.addProperty({ name : "widget", type : QxConst.TYPEOF_OBJECT, allowNull : true });
+QxStatusBarPane.addProperty({ name : "widget", type : qx.Const.TYPEOF_OBJECT, allowNull : true });
 
 
 /*

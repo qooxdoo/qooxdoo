@@ -48,9 +48,9 @@ qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
 
   // Behaviour and Hard Styling
   this._labelObject.setSelectable(false);
-  this._labelObject.setStyleProperty(QxConst.PROPERTY_LINEHEIGHT, QxConst.CORE_HUNDREDPERCENT);
+  this._labelObject.setStyleProperty(qx.Const.PROPERTY_LINEHEIGHT, qx.Const.CORE_HUNDREDPERCENT);
 
-  qx.ui.layout.BoxLayout.call(this, QxConst.ORIENTATION_HORIZONTAL);
+  qx.ui.layout.BoxLayout.call(this, qx.Const.ORIENTATION_HORIZONTAL);
 
   if (qx.util.Validation.isValid(vLabel)) {
     this.setLabel(vLabel);
@@ -80,8 +80,8 @@ qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
   this._labelObject.setAppearance("tree-element-label");
 
   // Register event listeners
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
 };
 
 qx.ui.tree.AbstractTreeElement.extend(qx.ui.layout.BoxLayout, "qx.ui.tree.AbstractTreeElement");
@@ -97,23 +97,23 @@ qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
 ---------------------------------------------------------------------------
 */
 
-qx.ui.tree.AbstractTreeElement.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tree-element" });
+qx.ui.tree.AbstractTreeElement.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tree-element" });
 
 /*!
   The icons
 */
-qx.ui.tree.AbstractTreeElement.addProperty({ name : "icon", type : QxConst.TYPEOF_STRING });
-qx.ui.tree.AbstractTreeElement.addProperty({ name : "iconSelected", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "iconSelected", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.ui.tree.AbstractTreeElement.addProperty({ name : "label", type : QxConst.TYPEOF_STRING });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Selected property
 */
-qx.ui.tree.AbstractTreeElement.addProperty({ name : "selected", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.tree.AbstractTreeElement.addProperty({ name : "selected", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -137,12 +137,12 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
 
 proto._modifySelected = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(QxConst.STATE_SELECTED) : this.removeState(QxConst.STATE_SELECTED);
-  propValue ? this._labelObject.addState(QxConst.STATE_SELECTED) : this._labelObject.removeState(QxConst.STATE_SELECTED);
+  propValue ? this.addState(qx.Const.STATE_SELECTED) : this.removeState(qx.Const.STATE_SELECTED);
+  propValue ? this._labelObject.addState(qx.Const.STATE_SELECTED) : this._labelObject.removeState(qx.Const.STATE_SELECTED);
 
   var vTree = this.getTree();
   if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this)) {
-    propValue ? this._iconObject.addState(QxConst.STATE_SELECTED) : this._iconObject.removeState(QxConst.STATE_SELECTED);
+    propValue ? this._iconObject.addState(qx.Const.STATE_SELECTED) : this._iconObject.removeState(qx.Const.STATE_SELECTED);
   };
 
   var vManager = this.getTree().getManager();
@@ -374,7 +374,7 @@ proto.flushTree = function()
       vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
-      vHtml.push(QxConst.CORE_DOT);
+      vHtml.push(qx.Const.CORE_DOT);
       vHtml.push(qx.ui.tree.AbstractTreeElement.IMG_EXTENSION);
       vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_3);
     };
@@ -382,7 +382,7 @@ proto.flushTree = function()
     vCurrentObject = vCurrentObject.getParentFolder();
   };
 
-  this._indentObject.setHtml(vHtml.join(QxConst.CORE_EMPTY));
+  this._indentObject.setHtml(vHtml.join(qx.Const.CORE_EMPTY));
   this._indentObject.setWidth(vLevel * 19);
 };
 
@@ -427,8 +427,8 @@ proto.dispose = function()
 
   this._previousParentFolder = null;
 
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

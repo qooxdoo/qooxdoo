@@ -58,7 +58,7 @@ qx.ui.groupbox.GroupBox = function(vLegend, vIcon)
 
 qx.ui.groupbox.GroupBox.extend(qx.ui.layout.CanvasLayout, "qx.ui.groupbox.GroupBox");
 
-qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "field-set" });
+qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "field-set" });
 
 
 

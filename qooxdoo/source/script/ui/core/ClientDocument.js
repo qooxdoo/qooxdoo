@@ -61,7 +61,7 @@ qx.ui.core.ClientDocument = function(vClientWindow)
   this._cachedInnerHeight = this._document.body.offsetHeight;
 
   // Add Resize Handler
-  this.addEventListener(QxConst.EVENT_TYPE_RESIZE, this._onresize);
+  this.addEventListener(qx.Const.EVENT_TYPE_RESIZE, this._onresize);
 
   // Blocker and Dialog Support
   this._blocker = new qx.ui.core.ClientDocumentBlocker;
@@ -69,8 +69,8 @@ qx.ui.core.ClientDocument = function(vClientWindow)
   this._modalNativeWindow = null;
 
   // Blocker Events
-  this._blocker.addEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
-  this._blocker.addEventListener(QxConst.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
+  this._blocker.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
+  this._blocker.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
 
   this.add(this._blocker);
 
@@ -86,9 +86,9 @@ qx.ui.core.ClientDocument = function(vClientWindow)
 
 qx.ui.core.ClientDocument.extend(qx.ui.layout.CanvasLayout, "qx.ui.core.ClientDocument");
 
-qx.ui.core.ClientDocument.addProperty({ name : "globalCursor", type : QxConst.TYPEOF_STRING });
+qx.ui.core.ClientDocument.addProperty({ name : "globalCursor", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "client-document" });
+qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "client-document" });
 
 
 
@@ -178,7 +178,7 @@ proto.block = function(vActiveChild)
 
   this._blocker.show();
 
-  if (typeof qx.ui.window.Window === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.ui.window.Window)
+  if (typeof qx.ui.window.Window === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.ui.window.Window)
   {
     this._modalWidgets.push(vActiveChild);
 
@@ -186,7 +186,7 @@ proto.block = function(vActiveChild)
     this._blocker.setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
-  else if (typeof qx.client.NativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+  else if (typeof qx.client.NativeWindow === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
     this._blocker.setZIndex(1e7);
@@ -199,7 +199,7 @@ proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (typeof qx.client.NativeWindow === QxConst.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+    if (typeof qx.client.NativeWindow === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
     {
       this._modalNativeWindow = null;
     }
@@ -287,12 +287,12 @@ proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
   };
 
   // Selector based remove does not work with the "*" selector in mshtml
-  // this.removeCssRule(this._globalCursorStyleSheet, QxConst.CORE_STAR);
+  // this.removeCssRule(this._globalCursorStyleSheet, qx.Const.CORE_STAR);
 
   this.removeAllCssRules(this._globalCursorStyleSheet);
 
   if (propValue) {
-    this.addCssRule(this._globalCursorStyleSheet, QxConst.CORE_STAR, "cursor:" + propValue + " !important");
+    this.addCssRule(this._globalCursorStyleSheet, qx.Const.CORE_STAR, "cursor:" + propValue + " !important");
   };
 
   return true;
@@ -311,7 +311,7 @@ proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.PopupManager.update();
   };
 
@@ -376,8 +376,8 @@ proto.dispose = function()
 
   if (this._blocker)
   {
-    this._blocker.removeEventListener(QxConst.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
-    this._blocker.removeEventListener(QxConst.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
+    this._blocker.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
+    this._blocker.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
 
     this._blocker.dispose();
     this._blocker = null;

@@ -38,12 +38,12 @@ qx.ui.form.ListItem = function(vText, vIcon, vValue)
   // ************************************************************************
   //   EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(QxConst.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 };
 
 qx.ui.form.ListItem.extend(qx.ui.basic.Atom, "qx.ui.form.ListItem");
 
-qx.ui.form.ListItem.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-item" });
+qx.ui.form.ListItem.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-item" });
 qx.ui.form.ListItem.addProperty({ name : "value" });
 
 
@@ -57,19 +57,19 @@ qx.ui.form.ListItem.addProperty({ name : "value" });
 */
 
 proto.matchesString = function(vText) {
-  return vText != QxConst.CORE_EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
 proto.matchesStringExact = function(vText) {
-  return vText != QxConst.CORE_EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
+  return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
 };
 
 proto.matchesValue = function(vText) {
-  return vText != QxConst.CORE_EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
 proto.matchesValueExact = function(vText) {
-  return vText != QxConst.CORE_EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
+  return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
 };
 
 

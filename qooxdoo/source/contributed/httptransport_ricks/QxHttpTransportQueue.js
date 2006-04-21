@@ -40,7 +40,7 @@ QxHttpTransportQueue.extend(qx.core.Target, "QxHttpTransportQueue");
  
 proto._activeLimit = -1;
 
-QxHttpTransportQueue.addProperty({name : "queueLimit", type : QxConst.TYPEOF_NUMBER, defaultValue : -1});
+QxHttpTransportQueue.addProperty({name : "queueLimit", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1});
 
 proto.getActiveLimit = function() {
   return this._activeLimit;

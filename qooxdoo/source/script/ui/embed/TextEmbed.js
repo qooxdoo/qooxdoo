@@ -49,17 +49,17 @@ qx.ui.embed.TextEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.TextEmbed");
 /*!
   Any text string which can contain TEXT, too
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "text", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.TextEmbed.addProperty({ name : "text", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "font", type : QxConst.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.ui.embed.TextEmbed.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.embed.TextEmbed.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -92,7 +92,7 @@ proto._modifyFont = function(propValue, propOldValue, propData)
 
 proto._modifyWrap = function(propValue, propOldValue, propData)
 {
-  this.setStyleProperty(QxConst.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
+  this.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
 };
 

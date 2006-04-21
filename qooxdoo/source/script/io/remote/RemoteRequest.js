@@ -43,8 +43,8 @@ qx.io.remote.RemoteRequest = function(vUrl, vMethod, vResponseType)
   this._parameters = {};
 
   this.setUrl(vUrl);
-  this.setMethod(vMethod || QxConst.METHOD_GET);
-  this.setResponseType(vResponseType || QxConst.MIMETYPE_TEXT);
+  this.setMethod(vMethod || qx.Const.METHOD_GET);
+  this.setResponseType(vResponseType || qx.Const.MIMETYPE_TEXT);
 
   this.setProhibitCaching(true);
 
@@ -68,49 +68,49 @@ qx.io.remote.RemoteRequest.extend(qx.core.Target, "qx.io.remote.RemoteRequest");
 /*!
   Target url to issue the request to.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
 /*!
   Determines what type of request to issue (GET or POST).
 */
 qx.io.remote.RemoteRequest.addProperty(
 {
   name           : "method",
-  type           : QxConst.TYPEOF_STRING,
+  type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   QxConst.METHOD_GET, QxConst.METHOD_POST,
-                   QxConst.METHOD_PUT, QxConst.METHOD_HEAD,
-                   QxConst.METHOD_DELETE
+                   qx.Const.METHOD_GET, qx.Const.METHOD_POST,
+                   qx.Const.METHOD_PUT, qx.Const.METHOD_HEAD,
+                   qx.Const.METHOD_DELETE
                    ]
 });
 /*!
   Set the request to asynchronous.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.io.remote.RemoteRequest.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 /*!
   Set the data to be sent via this request
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
 /*!
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
 /*!
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
+qx.io.remote.RemoteRequest.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
 qx.io.remote.RemoteRequest.addProperty(
 {
   name           : "state",
-  type           : QxConst.TYPEOF_STRING,
+  type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   QxConst.REQUEST_STATE_CONFIGURED, QxConst.REQUEST_STATE_QUEUED,
-                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED,
-                   QxConst.REQUEST_STATE_TIMEOUT, QxConst.REQUEST_STATE_FAILED
+                   qx.Const.REQUEST_STATE_CONFIGURED, qx.Const.REQUEST_STATE_QUEUED,
+                   qx.Const.REQUEST_STATE_SENDING, qx.Const.REQUEST_STATE_RECEIVING,
+                   qx.Const.REQUEST_STATE_COMPLETED, qx.Const.REQUEST_STATE_ABORTED,
+                   qx.Const.REQUEST_STATE_TIMEOUT, qx.Const.REQUEST_STATE_FAILED
                    ],
-  defaultValue   : QxConst.REQUEST_STATE_CONFIGURED
+  defaultValue   : qx.Const.REQUEST_STATE_CONFIGURED
 });
 /*
   Response type of request.
@@ -121,11 +121,11 @@ qx.io.remote.RemoteRequest.addProperty(
 */
 qx.io.remote.RemoteRequest.addProperty({
   name           : "responseType",
-  type           : QxConst.TYPEOF_STRING,
+  type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   QxConst.MIMETYPE_TEXT,
-                   QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON,
-                   QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML
+                   qx.Const.MIMETYPE_TEXT,
+                   qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON,
+                   qx.Const.MIMETYPE_XML, qx.Const.MIMETYPE_HTML
                    ]
 });
 /*!
@@ -134,7 +134,7 @@ qx.io.remote.RemoteRequest.addProperty({
   If this property is null, the timeout for the request comes is the
   qx.io.remote.RemoteRequestQueue's property defaultTimeout.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF_NUMBER });
+qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Prohibit request from being cached.
@@ -143,7 +143,7 @@ qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : QxConst.TYPEOF
   with a value of the current time. Setting the value to false removes
   the parameter.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : QxConst.TYPEOF_BOOLEAN });
+qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : qx.Const.TYPEOF_BOOLEAN });
 /*!
   Indicate that the request is cross domain.
 
@@ -153,7 +153,7 @@ qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : QxCons
   qx.io.remote.IframeTransport because only the latter can handle cross domain
   requests.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "crossDomain", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.io.remote.RemoteRequest.addProperty({ name : "crossDomain", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 
@@ -190,12 +190,12 @@ proto.reset = function()
 {
   switch(this.getState())
   {
-    case QxConst.REQUEST_STATE_SENDING:
-    case QxConst.REQUEST_STATE_RECEIVING:
+    case qx.Const.REQUEST_STATE_SENDING:
+    case qx.Const.REQUEST_STATE_RECEIVING:
       this.error("Aborting already sent request!");
       // no break
 
-    case QxConst.REQUEST_STATE_QUEUED:
+    case qx.Const.REQUEST_STATE_QUEUED:
       this.abort();
       break;
   };
@@ -214,39 +214,39 @@ proto.reset = function()
 */
 
 proto.isConfigured = function() {
-  return this.getState() === QxConst.REQUEST_STATE_CONFIGURED;
+  return this.getState() === qx.Const.REQUEST_STATE_CONFIGURED;
 };
 
 proto.isQueued = function() {
-  return this.getState() === QxConst.REQUEST_STATE_QUEUED;
+  return this.getState() === qx.Const.REQUEST_STATE_QUEUED;
 };
 
 proto.isSending = function() {
-  return this.getState() === QxConst.REQUEST_STATE_SENDING;
+  return this.getState() === qx.Const.REQUEST_STATE_SENDING;
 };
 
 proto.isReceiving = function() {
-  return this.getState() === QxConst.REQUEST_STATE_RECEIVING;
+  return this.getState() === qx.Const.REQUEST_STATE_RECEIVING;
 };
 
 proto.isCompleted = function() {
-  return this.getState() === QxConst.REQUEST_STATE_COMPLETED;
+  return this.getState() === qx.Const.REQUEST_STATE_COMPLETED;
 };
 
 proto.isAborted = function() {
-  return this.getState() === QxConst.REQUEST_STATE_ABORTED;
+  return this.getState() === qx.Const.REQUEST_STATE_ABORTED;
 };
 
 proto.isTimeout = function() {
-  return this.getState() === QxConst.REQUEST_STATE_TIMEOUT;
+  return this.getState() === qx.Const.REQUEST_STATE_TIMEOUT;
 };
 
 /*!
   Return true if the request is in the failed state
-  (QxConst.REQUEST_STATE_FAILED).
+  (qx.Const.REQUEST_STATE_FAILED).
 */
 proto.isFailed = function() {
-  return this.getState() === QxConst.REQUEST_STATE_FAILED;
+  return this.getState() === qx.Const.REQUEST_STATE_FAILED;
 };
 
 
@@ -264,7 +264,7 @@ proto.isFailed = function() {
 proto._onqueued = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_QUEUED);
+  this.setState(qx.Const.REQUEST_STATE_QUEUED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -273,7 +273,7 @@ proto._onqueued = function(e)
 proto._onsending = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_SENDING);
+  this.setState(qx.Const.REQUEST_STATE_SENDING);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -282,7 +282,7 @@ proto._onsending = function(e)
 proto._onreceiving = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_RECEIVING);
+  this.setState(qx.Const.REQUEST_STATE_RECEIVING);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -291,7 +291,7 @@ proto._onreceiving = function(e)
 proto._oncompleted = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_COMPLETED);
+  this.setState(qx.Const.REQUEST_STATE_COMPLETED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -303,7 +303,7 @@ proto._oncompleted = function(e)
 proto._onaborted = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_ABORTED);
+  this.setState(qx.Const.REQUEST_STATE_ABORTED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -315,7 +315,7 @@ proto._onaborted = function(e)
 proto._ontimeout = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -327,7 +327,7 @@ proto._ontimeout = function(e)
 proto._onfailed = function(e)
 {
   // Modify internal state
-  this.setState(QxConst.REQUEST_STATE_FAILED);
+  this.setState(qx.Const.REQUEST_STATE_FAILED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -367,7 +367,7 @@ proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 
 proto._modifyMethod = function(propValue, propOldValue, propData)
 {
-  if (propValue === QxConst.METHOD_POST) {
+  if (propValue === qx.Const.METHOD_POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   };
 

@@ -47,32 +47,32 @@ qx.io.remote.AbstractRemoteTransport.extend(qx.core.Target, "qx.io.remote.Abstra
 /*!
   Target url to issue the request to
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "url", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Determines what type of request to issue
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "method", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "method", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Set the request to asynchronous
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "asynchronous", type : QxConst.TYPEOF_BOOLEAN });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN });
 
 /*!
   Set the data to be sent via this request
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "data", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Username to use for HTTP authentication
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "username", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "password", type : QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The state of the current request
@@ -80,30 +80,30 @@ qx.io.remote.AbstractRemoteTransport.addProperty({ name : "password", type : QxC
 qx.io.remote.AbstractRemoteTransport.addProperty(
 {
   name           : "state",
-  type           : QxConst.TYPEOF_STRING,
+  type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   QxConst.REQUEST_STATE_CREATED, QxConst.REQUEST_STATE_CONFIGURED,
-                   QxConst.REQUEST_STATE_SENDING, QxConst.REQUEST_STATE_RECEIVING,
-                   QxConst.REQUEST_STATE_COMPLETED, QxConst.REQUEST_STATE_ABORTED,
-                   QxConst.REQUEST_STATE_TIMEOUT, QxConst.REQUEST_STATE_FAILED
+                   qx.Const.REQUEST_STATE_CREATED, qx.Const.REQUEST_STATE_CONFIGURED,
+                   qx.Const.REQUEST_STATE_SENDING, qx.Const.REQUEST_STATE_RECEIVING,
+                   qx.Const.REQUEST_STATE_COMPLETED, qx.Const.REQUEST_STATE_ABORTED,
+                   qx.Const.REQUEST_STATE_TIMEOUT, qx.Const.REQUEST_STATE_FAILED
                    ],
-  defaultValue   : QxConst.REQUEST_STATE_CREATED
+  defaultValue   : qx.Const.REQUEST_STATE_CREATED
 });
 
 /*!
   Request headers
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "requestHeaders", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "requestHeaders", type: qx.Const.TYPEOF_OBJECT });
 
 /*!
   Request parameters to send.
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "parameters", type: QxConst.TYPEOF_OBJECT });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "parameters", type: qx.Const.TYPEOF_OBJECT });
 
 /*!
   Response Type
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "responseType", type: QxConst.TYPEOF_STRING });
+qx.io.remote.AbstractRemoteTransport.addProperty({ name : "responseType", type: qx.Const.TYPEOF_STRING });
 
 
 
@@ -128,7 +128,7 @@ proto.abort = function()
     this.warn("Aborting...");
   };
 
-  this.setState(QxConst.REQUEST_STATE_ABORTED);
+  this.setState(qx.Const.REQUEST_STATE_ABORTED);
 };
 
 /*!
@@ -140,12 +140,12 @@ proto.timeout = function()
     this.warn("Timeout...");
   };
 
-  this.setState(QxConst.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
 };
 
 /*!
 
-  Force the transport into the failed state (QxConst.REQUEST_STATE_FAILED).
+  Force the transport into the failed state (qx.Const.REQUEST_STATE_FAILED).
 
   Listeners of the "failed" signal are notified about the event.
 */
@@ -155,7 +155,7 @@ proto.failed = function()
     this.warn("Failed...");
   };
 
-  this.setState(QxConst.REQUEST_STATE_FAILED);
+  this.setState(qx.Const.REQUEST_STATE_FAILED);
 };
 
 
@@ -283,36 +283,36 @@ proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case QxConst.REQUEST_STATE_CREATED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CREATED);
+    case qx.Const.REQUEST_STATE_CREATED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATED);
       break;
 
-    case QxConst.REQUEST_STATE_CONFIGURED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_CONFIGURED);
+    case qx.Const.REQUEST_STATE_CONFIGURED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_CONFIGURED);
       break;
 
-    case QxConst.REQUEST_STATE_SENDING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_SENDING);
+    case qx.Const.REQUEST_STATE_SENDING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case QxConst.REQUEST_STATE_RECEIVING:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_RECEIVING);
+    case qx.Const.REQUEST_STATE_RECEIVING:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case QxConst.REQUEST_STATE_COMPLETED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_COMPLETED);
+    case qx.Const.REQUEST_STATE_COMPLETED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
       break;
 
-    case QxConst.REQUEST_STATE_ABORTED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_ABORTED);
+    case qx.Const.REQUEST_STATE_ABORTED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_ABORTED);
       break;
 
-    case QxConst.REQUEST_STATE_FAILED:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_FAILED);
+    case qx.Const.REQUEST_STATE_FAILED:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_FAILED);
       break;
 
-    case QxConst.REQUEST_STATE_TIMEOUT:
-      this.createDispatchEvent(QxConst.EVENT_TYPE_TIMEOUT);
+    case qx.Const.REQUEST_STATE_TIMEOUT:
+      this.createDispatchEvent(qx.Const.EVENT_TYPE_TIMEOUT);
       break;
   };
 

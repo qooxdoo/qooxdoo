@@ -30,18 +30,18 @@
 qx.renderer.border.BorderObject.init = function()
 {
   qx.renderer.border.BorderObject.presets = {
-    inset : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_INSET),
-    outset : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_OUTSET),
-    groove : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_GROOVE),
-    ridge : new qx.renderer.border.BorderObject(2, QxConst.BORDER_STYLE_RIDGE),
-    thinInset : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
-    thinOutset : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_OUTSET),
-    verticalDivider : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
-    horizontalDivider : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_INSET),
+    inset : new qx.renderer.border.BorderObject(2, qx.Const.BORDER_STYLE_INSET),
+    outset : new qx.renderer.border.BorderObject(2, qx.Const.BORDER_STYLE_OUTSET),
+    groove : new qx.renderer.border.BorderObject(2, qx.Const.BORDER_STYLE_GROOVE),
+    ridge : new qx.renderer.border.BorderObject(2, qx.Const.BORDER_STYLE_RIDGE),
+    thinInset : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_INSET),
+    thinOutset : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_OUTSET),
+    verticalDivider : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_INSET),
+    horizontalDivider : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_INSET),
 
-    shadow : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedshadow"),
-    lightShadow : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "threedlightshadow"),
-    info : new qx.renderer.border.BorderObject(1, QxConst.BORDER_STYLE_SOLID, "infotext")
+    shadow : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_SOLID, "threedshadow"),
+    lightShadow : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_SOLID, "threedlightshadow"),
+    info : new qx.renderer.border.BorderObject(1, qx.Const.BORDER_STYLE_SOLID, "infotext")
   };
 
   qx.renderer.border.BorderObject.presets.verticalDivider.setLeftWidth(0);

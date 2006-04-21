@@ -36,7 +36,7 @@ qx.ui.layout.DockLayout.extend(qx.ui.core.Parent, "qx.ui.layout.DockLayout");
 /*!
   The layout mode (in which order the children should be layouted)
 */
-qx.ui.layout.DockLayout.addProperty({ name : "mode", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ORIENTATION_VERTICAL, possibleValues : [ QxConst.ORIENTATION_VERTICAL, QxConst.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
+qx.ui.layout.DockLayout.addProperty({ name : "mode", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ORIENTATION_VERTICAL, possibleValues : [ qx.Const.ORIENTATION_VERTICAL, qx.Const.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
 
 /*
   Overwrite from qx.ui.core.Widget, we do not support 'auto' and 'flex'
@@ -79,28 +79,28 @@ proto._createLayoutImpl = function() {
   Add multiple childrens and make them left aligned
 */
 proto.addLeft = function() {
-  this._addAlignedHorizontal(QxConst.ALIGN_LEFT, arguments);
+  this._addAlignedHorizontal(qx.Const.ALIGN_LEFT, arguments);
 };
 
 /*!
   Add multiple childrens and make them right aligned
 */
 proto.addRight = function() {
-  this._addAlignedHorizontal(QxConst.ALIGN_RIGHT, arguments);
+  this._addAlignedHorizontal(qx.Const.ALIGN_RIGHT, arguments);
 };
 
 /*!
   Add multiple childrens and make them top aligned
 */
 proto.addTop = function() {
-  this._addAlignedVertical(QxConst.ALIGN_TOP, arguments);
+  this._addAlignedVertical(qx.Const.ALIGN_TOP, arguments);
 };
 
 /*!
   Add multiple childrens and make them bottom aligned
 */
 proto.addBottom = function() {
-  this._addAlignedVertical(QxConst.ALIGN_BOTTOM, arguments);
+  this._addAlignedVertical(qx.Const.ALIGN_BOTTOM, arguments);
 };
 
 proto._addAlignedVertical = function(vAlign, vArgs)

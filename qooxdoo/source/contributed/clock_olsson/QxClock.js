@@ -28,7 +28,7 @@ function QxClock()
 {
   qx.ui.basic.Atom.call(this);
 
-  this.setWidth(QxConst.CORE_AUTO);
+  this.setWidth(qx.Const.CORE_AUTO);
 
   // ***********************************************************************
   //   TIMER
@@ -38,7 +38,7 @@ function QxClock()
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._timer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
   this._timer.start();
 };
@@ -58,12 +58,12 @@ QxClock.extend(qx.ui.basic.Atom, "QxClock");
 /*!
   The current value of the interval (this should be used internally only).
 */
-QxClock.addProperty({ name : QxConst.EVENT_TYPE_INTERVAL, type : QxConst.TYPEOF_NUMBER, defaultValue : 1000 });
+QxClock.addProperty({ name : qx.Const.EVENT_TYPE_INTERVAL, type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
 
 /*!
   The current zone. Offset value is 5 for CDT and 6 for CST
 */
-QxClock.addProperty({ name : "zoneOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -1 });
+QxClock.addProperty({ name : "zoneOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
 
 
 
@@ -99,9 +99,9 @@ proto._oninterval = function(e)
 
   qx.ui.core.Widget.flushGlobalQueues();
 
-  if (this.hasEventListeners(QxConst.EVENT_TYPE_INTERVAL))
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_INTERVAL))
   {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_INTERVAL));
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_INTERVAL));
   };
 
   this._timer.restartWith(this.getInterval());
@@ -142,7 +142,7 @@ proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(QxConst.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

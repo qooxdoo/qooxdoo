@@ -48,7 +48,7 @@ qx.manager.object.ColorManager.extend(qx.manager.object.ObjectManager, "qx.manag
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ColorManager.addProperty({ name : "theme", type : QxConst.TYPEOF_STRING });
+qx.manager.object.ColorManager.addProperty({ name : "theme", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -170,7 +170,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
   var vThemes = this._themes;
   var vIcon = "icons/16/colors.png";
   var vPrefix = "Color Theme: ";
-  var vEvent = QxConst.EVENT_TYPE_EXECUTE;
+  var vEvent = qx.Const.EVENT_TYPE_EXECUTE;
 
   for (var vId in vThemes)
   {

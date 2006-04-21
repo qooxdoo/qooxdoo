@@ -36,7 +36,7 @@ qx.ui.toolbar.ToolBarButton = function(vText, vIcon, vIconWidth, vIconHeight, vF
 
 qx.ui.toolbar.ToolBarButton.extend(qx.ui.form.Button, "qx.ui.toolbar.ToolBarButton");
 
-qx.ui.toolbar.ToolBarButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-button" });
+qx.ui.toolbar.ToolBarButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-button" });
 
 
 

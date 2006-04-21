@@ -45,12 +45,12 @@ QxDialog.extend(qx.ui.window.Window, "QxDialog");
 /*!
   Appearance setting for the class.
 */
-QxDialog.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "dialog" });
+QxDialog.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "dialog" });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-QxDialog.addProperty({ name : "modal", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxDialog.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*
 ---------------------------------------------------------------------------

@@ -30,9 +30,9 @@
 qx.renderer.border.Border.init = function()
 {
   qx.renderer.border.Border.presets = {
-    black : new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "black"),
-    white : new qx.renderer.border.Border(1, QxConst.BORDER_STYLE_SOLID, "white"),
-    none : new qx.renderer.border.Border(0, QxConst.BORDER_STYLE_NONE)
+    black : new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "black"),
+    white : new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "white"),
+    none : new qx.renderer.border.Border(0, qx.Const.BORDER_STYLE_NONE)
   };
 };
 

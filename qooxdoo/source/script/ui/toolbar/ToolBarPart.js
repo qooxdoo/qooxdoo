@@ -36,7 +36,7 @@ qx.ui.toolbar.ToolBarPart = function()
 
 qx.ui.toolbar.ToolBarPart.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBarPart");
 
-qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "toolbar-part" });
+qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-part" });
 
 
 

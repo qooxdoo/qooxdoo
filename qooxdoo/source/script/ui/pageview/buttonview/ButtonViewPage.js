@@ -32,4 +32,4 @@ qx.ui.pageview.buttonview.ButtonViewPage = function(vButton) {
 
 qx.ui.pageview.buttonview.ButtonViewPage.extend(qx.ui.pageview.AbstractPageViewPage, "qx.ui.pageview.buttonview.ButtonViewPage");
 
-qx.ui.pageview.buttonview.ButtonViewPage.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-page" });
+qx.ui.pageview.buttonview.ButtonViewPage.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-page" });

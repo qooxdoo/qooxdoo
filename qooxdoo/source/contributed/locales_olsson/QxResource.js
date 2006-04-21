@@ -54,12 +54,12 @@ QxResource.extend(qx.core.Object, "QxResource");
 /*!
   The ressource file with language text.
 */
-QxResource.addProperty({ name : "resource", type : QxConst.TYPEOF_STRING });
+QxResource.addProperty({ name : "resource", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The locale if not use the defined application or system locale.
 */
-QxResource.addProperty({ name : "locale", type : QxConst.TYPEOF_OBJECT });
+QxResource.addProperty({ name : "locale", type : qx.Const.TYPEOF_OBJECT });
 
 
 /*

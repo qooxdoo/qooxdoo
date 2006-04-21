@@ -35,7 +35,7 @@ This is the main constructor for all objects that need to be connected to qx.eve
 
 In objects created with this constructor, you find functions to addEventListener or
 removeEventListener to or from the created object. Each event to connect to has a type in
-form of an identification string. This type could be the name of a regular dom event like QxConst.EVENT_TYPE_CLICK or
+form of an identification string. This type could be the name of a regular dom event like qx.Const.EVENT_TYPE_CLICK or
 something self-defined like "ready".
 */
 qx.core.Target = function(vAutoDispose) {
@@ -64,24 +64,24 @@ proto.addEventListener = function(vType, vFunction, vObject)
     return;
   };
 
-  if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
+  if(typeof vFunction !== qx.Const.TYPEOF_FUNCTION) {
     throw new Error("qx.core.Target: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
-  if (typeof this._listeners === QxConst.TYPEOF_UNDEFINED)
+  if (typeof this._listeners === qx.Const.TYPEOF_UNDEFINED)
   {
     this._listeners = {};
     this._listeners[vType] = {};
   }
-  else if(typeof this._listeners[vType] === QxConst.TYPEOF_UNDEFINED)
+  else if(typeof this._listeners[vType] === qx.Const.TYPEOF_UNDEFINED)
   {
     this._listeners[vType] = {};
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = QxConst.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : QxConst.CORE_EMPTY);
+  var vKey = qx.Const.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.Const.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.Const.CORE_EMPTY);
 
   // Finally set up the listeners object
   this._listeners[vType][vKey] =
@@ -101,16 +101,16 @@ proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   var vListeners = this._listeners;
-  if (!vListeners || typeof vListeners[vType] === QxConst.TYPEOF_UNDEFINED) {
+  if (!vListeners || typeof vListeners[vType] === qx.Const.TYPEOF_UNDEFINED) {
     return;
   };
 
-  if(typeof vFunction !== QxConst.TYPEOF_FUNCTION) {
+  if(typeof vFunction !== qx.Const.TYPEOF_FUNCTION) {
     throw new Error("qx.core.Target: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = QxConst.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? QxConst.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : QxConst.CORE_EMPTY);
+  var vKey = qx.Const.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.Const.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.Const.CORE_EMPTY);
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
@@ -133,7 +133,7 @@ proto.removeEventListener = function(vType, vFunction, vObject)
   Check if there are one or more listeners for an event type
 */
 proto.hasEventListeners = function(vType) {
-  return this._listeners && typeof this._listeners[vType] !== QxConst.TYPEOF_UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
+  return this._listeners && typeof this._listeners[vType] !== qx.Const.TYPEOF_UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
 };
 
 /*!
@@ -225,7 +225,7 @@ proto._dispatchEvent = function(vEvent, vEnableDispose)
         // Call object function
         try
         {
-          if(typeof vFunction === QxConst.TYPEOF_FUNCTION) {
+          if(typeof vFunction === qx.Const.TYPEOF_FUNCTION) {
             vFunction.call(qx.util.Validation.isValid(vObject) ? vObject : this, vEvent);
           };
         }
@@ -271,7 +271,7 @@ proto.dispose = function()
     return;
   };
 
-  if (typeof this._listeners === QxConst.TYPEOF_OBJECT)
+  if (typeof this._listeners === qx.Const.TYPEOF_OBJECT)
   {
     for (var vType in this._listeners)
     {

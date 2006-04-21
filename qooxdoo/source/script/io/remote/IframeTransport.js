@@ -96,7 +96,7 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : true,
   fileUpload: true,
-  responseTypes : [ QxConst.MIMETYPE_TEXT, QxConst.MIMETYPE_JAVASCRIPT, QxConst.MIMETYPE_JSON, QxConst.MIMETYPE_XML, QxConst.MIMETYPE_HTML ]
+  responseTypes : [ qx.Const.MIMETYPE_TEXT, qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON, qx.Const.MIMETYPE_XML, qx.Const.MIMETYPE_HTML ]
 };
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -129,11 +129,11 @@ proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(vId + QxConst.CORE_EQUAL + vParameters[vId]);
+    vParametersList.push(vId + qx.Const.CORE_EQUAL + vParameters[vId]);
   };
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(QxConst.CORE_QUESTIONMARK) >= 0 ? QxConst.CORE_AMPERSAND : QxConst.CORE_QUESTIONMARK) + vParametersList.join(QxConst.CORE_AMPERSAND);
+    vUrl += (vUrl.indexOf(qx.Const.CORE_QUESTIONMARK) >= 0 ? qx.Const.CORE_AMPERSAND : qx.Const.CORE_QUESTIONMARK) + vParametersList.join(qx.Const.CORE_AMPERSAND);
   };
 
 
@@ -200,10 +200,10 @@ proto._switchReadyState = function(vReadyState)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case QxConst.REQUEST_STATE_COMPLETED:
-    case QxConst.REQUEST_STATE_ABORTED:
-    case QxConst.REQUEST_STATE_FAILED:
-    case QxConst.REQUEST_STATE_TIMEOUT:
+    case qx.Const.REQUEST_STATE_COMPLETED:
+    case qx.Const.REQUEST_STATE_ABORTED:
+    case qx.Const.REQUEST_STATE_FAILED:
+    case qx.Const.REQUEST_STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
   };
@@ -288,7 +288,7 @@ proto.getStatusCode = function()
 */
 proto.getStatusText = function()
 {
-  return QxConst.CORE_EMPTY;
+  return qx.Const.CORE_EMPTY;
 
   // TODO
   // this.error("Need implementation", "getStatusText");
@@ -370,7 +370,7 @@ proto.getFetchedLength = function()
 
 proto.getResponseContent = function()
 {
-  if (this.getState() !== QxConst.REQUEST_STATE_COMPLETED)
+  if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
@@ -385,16 +385,16 @@ proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case QxConst.MIMETYPE_TEXT:
+    case qx.Const.MIMETYPE_TEXT:
       return this.getIframeTextContent();
       break;
 
-    case QxConst.MIMETYPE_HTML:
+    case qx.Const.MIMETYPE_HTML:
       return this.getIframeHtmlContent();
       break;
 
-    case QxConst.MIMETYPE_JSON:
-    case QxConst.MIMETYPE_JAVASCRIPT:
+    case qx.Const.MIMETYPE_JSON:
+    case qx.Const.MIMETYPE_JAVASCRIPT:
       try {
         var vText = this.getIframeTextContent();
         return vText ? eval("(" + vText + ")") : null;
@@ -402,7 +402,7 @@ proto.getResponseContent = function()
         return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
       };
 
-    case QxConst.MIMETYPE_XML:
+    case qx.Const.MIMETYPE_XML:
       return this.getIframeDocument();
 
     default:

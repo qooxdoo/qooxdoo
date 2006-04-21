@@ -27,10 +27,10 @@
 
 **************************************************************************** */
 
-QxConst.DIRECTION_UP = "upward";
-QxConst.DIRECTION_RIGHT = "rightward";
-QxConst.DIRECTION_DOWN = "downward";
-QxConst.DIRECTION_LEFT = "leftward";
+qx.Const.DIRECTION_UP = "upward";
+qx.Const.DIRECTION_RIGHT = "rightward";
+qx.Const.DIRECTION_DOWN = "downward";
+qx.Const.DIRECTION_LEFT = "leftward";
 
 qx.client.Timer.prototype.wait = function(vMilliseconds)
 {
@@ -82,7 +82,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._manager.addEventListener(QxConst.INTERNAL_CHANGE, this._onchange, this);
+  this._manager.addEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
 
   // ***********************************************************************
   //   INITIALIZATION
@@ -111,27 +111,27 @@ QxProgressBar.extend(qx.ui.layout.CanvasLayout, "QxProgressBar");
 /*!
   The direction of growth of the bar.
 */
-QxProgressBar.addProperty({ name : "direction", type : QxConst.TYPEOF_STRING, possibleValues : [ QxConst.DIRECTION_LEFT, QxConst.DIRECTION_UP, QxConst.DIRECTION_RIGHT, QxConst.DIRECTION_DOWN], defaultValue : QxConst.DIRECTION_RIGHT });
+QxProgressBar.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, possibleValues : [ qx.Const.DIRECTION_LEFT, qx.Const.DIRECTION_UP, qx.Const.DIRECTION_RIGHT, qx.Const.DIRECTION_DOWN], defaultValue : qx.Const.DIRECTION_RIGHT });
 
 /*!
   The label object.
 */
-QxProgressBar.addProperty({ name : "label", type : QxConst.TYPEOF_OBJECT, allowNull : true }); //instance : QxFormatField
+QxProgressBar.addProperty({ name : "label", type : qx.Const.TYPEOF_OBJECT, allowNull : true }); //instance : QxFormatField
 
 /*!
   The amount to increment on each call to the function increment.
 */
-QxProgressBar.addProperty({ name : "incrementAmount", type : QxConst.TYPEOF_NUMBER, defaultValue : 1 });
+QxProgressBar.addProperty({ name : "incrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
 /*!
   An indeterminate progress bar indicating that an operation of unknown duration is occurring.
 */
-QxProgressBar.addProperty({ name : "indeterminate", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+QxProgressBar.addProperty({ name : "indeterminate", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The current value of the wait (this should be used internally only).
 */
-QxProgressBar.addProperty({ name : "wait", type : QxConst.TYPEOF_NUMBER, defaultValue : 0 });
+QxProgressBar.addProperty({ name : "wait", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 
 /*
@@ -154,27 +154,27 @@ proto._onchange = function(e)
 
       switch(this.getDirection())
       {
-        case QxConst.DIRECTION_LEFT :
+        case qx.Const.DIRECTION_LEFT :
           barSize = Math.floor(barSizePercent * this.getInnerWidth());
           this._bar.setHeight(this.getInnerHeight());
           this._bar.setLeft(this.getInnerWidth() - barSize);
           this._bar.setWidth(barSize);
           break;
 
-        case QxConst.DIRECTION_RIGHT :
+        case qx.Const.DIRECTION_RIGHT :
           barSize = Math.floor(barSizePercent * this.getInnerWidth());
           this._bar.setHeight(this.getInnerHeight());
           this._bar.setWidth(barSize);
           break;
 
-        case QxConst.DIRECTION_UP :
+        case qx.Const.DIRECTION_UP :
           barSize = Math.floor(barSizePercent * this.getInnerHeight());
           this._bar.setHeight(barSize);
           this._bar.setTop(this.getInnerHeight() - barSize);
           this._bar.setWidth(this.getInnerWidth());
           break;
 
-        case QxConst.DIRECTION_DOWN :
+        case qx.Const.DIRECTION_DOWN :
           barSize = Math.floor(barSizePercent * this.getInnerHeight());
           this._bar.setHeight(barSize);
           this._bar.setWidth(this.getInnerWidth());
@@ -188,9 +188,9 @@ proto._onchange = function(e)
 
     this._timer.wait(this.getWait());
 
-    if (this.hasEventListeners(QxConst.INTERNAL_CHANGE))
+    if (this.hasEventListeners(qx.Const.INTERNAL_CHANGE))
     {
-      this.dispatchEvent(new qx.event.types.Event(QxConst.INTERNAL_CHANGE));
+      this.dispatchEvent(new qx.event.types.Event(qx.Const.INTERNAL_CHANGE));
     };
   };
 };
@@ -277,7 +277,7 @@ proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(QxConst.INTERNAL_CHANGE, this._onchange, this);
+    this._manager.removeEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   };

@@ -62,8 +62,8 @@ qx.renderer.theme.ColorTheme.extend(qx.core.Object, "qx.renderer.theme.ColorThem
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.theme.ColorTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.ColorTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.ColorTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.ColorTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });
 
 
 
@@ -89,11 +89,11 @@ proto._needsCompilation = true;
 */
 
 proto.getValueByName = function(vName) {
-  return this._definedColors[vName] || QxConst.CORE_EMPTY;
+  return this._definedColors[vName] || qx.Const.CORE_EMPTY;
 };
 
 proto.getStyleByName = function(vName) {
-  return this._compiledColors[vName] || QxConst.CORE_EMPTY;
+  return this._compiledColors[vName] || qx.Const.CORE_EMPTY;
 };
 
 

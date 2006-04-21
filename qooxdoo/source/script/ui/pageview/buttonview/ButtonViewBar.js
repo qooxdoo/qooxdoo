@@ -32,7 +32,7 @@ qx.ui.pageview.buttonview.ButtonViewBar = function() {
 
 qx.ui.pageview.buttonview.ButtonViewBar.extend(qx.ui.pageview.AbstractPageViewBar, "qx.ui.pageview.buttonview.ButtonViewBar");
 
-qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-bar" });
+qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-bar" });
 
 
 
@@ -49,8 +49,8 @@ proto.getWheelDelta = function(e)
 
   switch(this.getParent().getBarPosition())
   {
-    case QxConst.ALIGN_LEFT:
-    case QxConst.ALIGN_RIGHT:
+    case qx.Const.ALIGN_LEFT:
+    case qx.Const.ALIGN_RIGHT:
       vWheelDelta *= -1;
   };
 

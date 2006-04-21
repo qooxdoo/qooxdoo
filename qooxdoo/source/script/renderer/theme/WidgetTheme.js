@@ -47,5 +47,5 @@ qx.renderer.theme.WidgetTheme = function(vId, vTitle)
 
 qx.renderer.theme.WidgetTheme.extend(qx.core.Object, "qx.renderer.theme.WidgetTheme");
 
-qx.renderer.theme.WidgetTheme.addProperty({ name : "id", type : QxConst.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.WidgetTheme.addProperty({ name : "title", type : QxConst.TYPEOF_STRING, allowNull : false, defaultValue : QxConst.CORE_EMPTY });
+qx.renderer.theme.WidgetTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
+qx.renderer.theme.WidgetTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });

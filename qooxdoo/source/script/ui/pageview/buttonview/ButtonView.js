@@ -39,7 +39,7 @@ qx.ui.pageview.buttonview.ButtonView = function()
 {
   qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);
 
-  this.setOrientation(QxConst.ORIENTATION_VERTICAL);
+  this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
 };
 
 qx.ui.pageview.buttonview.ButtonView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pageview.buttonview.ButtonView");
@@ -54,9 +54,9 @@ qx.ui.pageview.buttonview.ButtonView.extend(qx.ui.pageview.AbstractPageView, "qx
 ---------------------------------------------------------------------------
 */
 
-qx.ui.pageview.buttonview.ButtonView.addProperty({ name : "barPosition", type : QxConst.TYPEOF_STRING, defaultValue : QxConst.ALIGN_TOP, possibleValues : [ QxConst.ALIGN_TOP, QxConst.ALIGN_RIGHT, QxConst.ALIGN_BOTTOM, QxConst.ALIGN_LEFT ] });
+qx.ui.pageview.buttonview.ButtonView.addProperty({ name : "barPosition", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ALIGN_TOP, possibleValues : [ qx.Const.ALIGN_TOP, qx.Const.ALIGN_RIGHT, qx.Const.ALIGN_BOTTOM, qx.Const.ALIGN_LEFT ] });
 
-qx.ui.pageview.buttonview.ButtonView.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view" });
+qx.ui.pageview.buttonview.ButtonView.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view" });
 
 
 
@@ -75,24 +75,24 @@ proto._modifyBarPosition = function(propValue, propOldValue, propData)
   // move bar around and change orientation
   switch(propValue)
   {
-    case QxConst.ALIGN_TOP:
+    case qx.Const.ALIGN_TOP:
       vBar.moveSelfToBegin();
-      this.setOrientation(QxConst.ORIENTATION_VERTICAL);
+      this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
       break;
 
-    case QxConst.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_BOTTOM:
       vBar.moveSelfToEnd();
-      this.setOrientation(QxConst.ORIENTATION_VERTICAL);
+      this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
       break;
 
-    case QxConst.ALIGN_LEFT:
+    case qx.Const.ALIGN_LEFT:
       vBar.moveSelfToBegin();
-      this.setOrientation(QxConst.ORIENTATION_HORIZONTAL);
+      this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
       break;
 
-    case QxConst.ALIGN_RIGHT:
+    case qx.Const.ALIGN_RIGHT:
       vBar.moveSelfToEnd();
-      this.setOrientation(QxConst.ORIENTATION_HORIZONTAL);
+      this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
       break;
   };
 

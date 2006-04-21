@@ -37,7 +37,7 @@ qx.ui.embed.DomNodeEmbed = function(vId)
 
 qx.ui.embed.DomNodeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.DomNodeEmbed");
 
-qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
 
 proto._createElementImpl = function()
 {
@@ -47,7 +47,7 @@ proto._createElementImpl = function()
     throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
   };
 
-  vNode.style.display = QxConst.CORE_EMPTY;
+  vNode.style.display = qx.Const.CORE_EMPTY;
 
   return this.setElement(vNode);
 };

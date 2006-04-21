@@ -34,14 +34,14 @@
       var bottomL = new qx.ui.basic.Label("Bottom Widget");
       bottomL.setPadding(5);
 
-      var mainSP = new QxSplitPane(QxConst.ORIENTATION_HORIZONTAL);
-      mainSP.setHeight(QxConst.CORE_HUNDREDPERCENT);
-      mainSP.setWidth(QxConst.CORE_HUNDREDPERCENT);
+      var mainSP = new QxSplitPane(qx.Const.ORIENTATION_HORIZONTAL);
+      mainSP.setHeight(qx.Const.CORE_HUNDREDPERCENT);
+      mainSP.setWidth(qx.Const.CORE_HUNDREDPERCENT);
       mainSP.setLeftWidget(createTree());
 
-      var rightSP = new QxSplitPane(QxConst.ORIENTATION_VERTICAL);
-      rightSP.setHeight(QxConst.CORE_HUNDREDPERCENT);
-      rightSP.setWidth(QxConst.CORE_HUNDREDPERCENT);
+      var rightSP = new QxSplitPane(qx.Const.ORIENTATION_VERTICAL);
+      rightSP.setHeight(qx.Const.CORE_HUNDREDPERCENT);
+      rightSP.setWidth(qx.Const.CORE_HUNDREDPERCENT);
       rightSP.setTopWidget(topL);//createListView());
       rightSP.setBottomWidget(bottomL);
 
@@ -58,8 +58,8 @@
           {
             setBackgroundColor("white");
             setBorder(qx.renderer.border.BorderObject.presets.inset);
-            setHeight(QxConst.CORE_AUTO);
-            setWidth(QxConst.CORE_AUTO);
+            setHeight(qx.Const.CORE_AUTO);
+            setWidth(qx.Const.CORE_AUTO);
           };
 
           var te1 = new qx.ui.tree.TreeFolder("Desktop");

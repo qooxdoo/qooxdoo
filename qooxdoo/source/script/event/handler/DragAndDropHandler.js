@@ -43,10 +43,10 @@ qx.event.handler.DragAndDropHandler = function()
 
 qx.event.handler.DragAndDropHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.DragAndDropHandler");
 
-qx.event.handler.DragAndDropHandler.addProperty({ name : "sourceWidget", type : QxConst.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", type : QxConst.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "cursor", type : QxConst.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "currentAction", type : QxConst.TYPEOF_STRING });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "sourceWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "cursor", type : qx.Const.TYPEOF_OBJECT });
+qx.event.handler.DragAndDropHandler.addProperty({ name : "currentAction", type : qx.Const.TYPEOF_STRING });
 
 proto._actionNames =
 {
@@ -80,7 +80,7 @@ proto.initCursors = function()
   var vCursor;
   for (var vAction in this._actionNames)
   {
-    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + QxConst.CORE_DOT + this._cursorFormat);
+    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.Const.CORE_DOT + this._cursorFormat);
     vCursor.setZIndex(1e8);
   };
 
@@ -116,7 +116,7 @@ proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    propValue.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
+    propValue.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
     this._lastDestinationEvent = null;
   };
 
@@ -203,7 +203,7 @@ proto.getDropDataTypes = function()
 */
 
 /*!
-This needed be called from any QxConst.EVENT_TYPE_DRAGSTART event to really start drag session.
+This needed be called from any qx.Const.EVENT_TYPE_DRAGSTART event to really start drag session.
 */
 proto.startDrag = function()
 {
@@ -232,18 +232,18 @@ proto.startDrag = function()
 
 proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
-  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGOUT)) {
-    fromWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
+  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGOUT)) {
+    fromWidget.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
   };
 
   if (toWidget)
   {
-    if (fromWidget != toWidget && toWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGOVER)) {
-      toWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGOVER, e, toWidget, fromWidget), true);
+    if (fromWidget != toWidget && toWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGOVER)) {
+      toWidget.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGOVER, e, toWidget, fromWidget), true);
     };
 
-    if (toWidget.hasEventListeners(QxConst.EVENT_TYPE_DRAGMOVE)) {
-      toWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGMOVE, e, toWidget, null), true);
+    if (toWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGMOVE)) {
+      toWidget.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGMOVE, e, toWidget, null), true);
     };
   };
 };
@@ -268,13 +268,13 @@ proto.handleMouseEvent = function(e)
 {
   switch (e.getType())
   {
-    case QxConst.EVENT_TYPE_MOUSEDOWN:
+    case qx.Const.EVENT_TYPE_MOUSEDOWN:
       return this._handleMouseDown(e);
 
-    case QxConst.EVENT_TYPE_MOUSEUP:
+    case qx.Const.EVENT_TYPE_MOUSEUP:
       return this._handleMouseUp(e);
 
-    case QxConst.EVENT_TYPE_MOUSEMOVE:
+    case qx.Const.EVENT_TYPE_MOUSEMOVE:
       return this._handleMouseMove(e);
   };
 };
@@ -283,7 +283,7 @@ proto.handleMouseEvent = function(e)
 This starts the core drag and drop session.
 
 To really get drag and drop working you need to define
-a function which you attach to QxConst.EVENT_TYPE_DRAGSTART-event, which
+a function which you attach to qx.Const.EVENT_TYPE_DRAGSTART-event, which
 invokes at least this.startDrag()
 */
 proto._handleMouseDown = function(e)
@@ -355,7 +355,7 @@ proto._handleMouseMove = function(e)
     if (Math.abs(e.getScreenX() - this._dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this._dragCache.startScreenY) > 5)
     {
       // Fire dragstart event to finally allow the above if to handle next events
-      this._dragCache.sourceWidget.dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGSTART, e, this._dragCache.sourceWidget), true);
+      this._dragCache.sourceWidget.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGSTART, e, this._dragCache.sourceWidget), true);
 
       // Update status flag
       this._dragCache.hasFiredDragStart = true;
@@ -420,11 +420,11 @@ proto.handleKeyEvent = function(e)
 
   switch (e.getType())
   {
-    case QxConst.EVENT_TYPE_KEYDOWN:
+    case qx.Const.EVENT_TYPE_KEYDOWN:
       this._handleKeyDown(e);
       return;
 
-    case QxConst.EVENT_TYPE_KEYUP:
+    case qx.Const.EVENT_TYPE_KEYUP:
       this._handleKeyUp(e);
       return;
   };
@@ -513,7 +513,7 @@ proto._endDrag = function(currentDestinationWidget, e)
   };
 
   // Dispatch dragend event
-  this.getSourceWidget().dispatchEvent(new qx.event.types.DragEvent(QxConst.EVENT_TYPE_DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
+  this.getSourceWidget().dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
 
   // Fire dragout event
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
@@ -528,7 +528,7 @@ proto._endDragCore = function()
   var oldCursor = this.getCursor();
   if (oldCursor)
   {
-    oldCursor._style.display = QxConst.DISPLAY_NONE;
+    oldCursor._style.display = qx.Const.DISPLAY_NONE;
     this.forceCursor(null);
   };
 
@@ -595,7 +595,7 @@ proto._renderCursor = function()
 
   // Hide old cursor
   if (vNewCursor != vOldCursor && vOldCursor != null) {
-    vOldCursor._style.display = QxConst.DISPLAY_NONE;
+    vOldCursor._style.display = qx.Const.DISPLAY_NONE;
   };
 
   // Ensure that the cursor is created
@@ -611,7 +611,7 @@ proto._renderCursor = function()
 
   // Finally show new cursor
   if (vNewCursor != vOldCursor) {
-    vNewCursor._style.display = QxConst.CORE_EMPTY;
+    vNewCursor._style.display = qx.Const.CORE_EMPTY;
   };
 
   // Store new cursor

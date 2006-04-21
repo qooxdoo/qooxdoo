@@ -3,15 +3,21 @@ L=""
 # Namespaces
 L="$L script/core/Namespaces"
 
+# Constants
+L="$L script/Const"
+
 # Debugging
 L="$L script/dev/Debug"
 
-# Core Language Additions
+# Core
 L="$L script/core/Main"
 L="$L script/core/DefaultSettings"
 L="$L script/core/Settings"
-L="$L script/Const"
+
+# Object Orientation
 L="$L script/OO"
+
+# Client Detection
 L="$L script/sys/Client"
 
 # Language Additions

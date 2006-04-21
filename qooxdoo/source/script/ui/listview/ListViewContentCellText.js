@@ -35,8 +35,8 @@ qx.ui.listview.ListViewContentCellText = function(vText)
 
 qx.ui.listview.ListViewContentCellText.extend(qx.ui.embed.TextEmbed, "qx.ui.listview.ListViewContentCellText");
 
-qx.ui.listview.ListViewContentCellText.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
+qx.ui.listview.ListViewContentCellText.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
 
 qx.ui.listview.ListViewContentCellText.empty = {
-  text : QxConst.CORE_EMPTY
+  text : qx.Const.CORE_EMPTY
 };

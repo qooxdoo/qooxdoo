@@ -32,7 +32,7 @@ qx.ui.pageview.buttonview.ButtonViewButton = function(vText, vIcon, vIconWidth, 
 
 qx.ui.pageview.buttonview.ButtonViewButton.extend(qx.ui.pageview.AbstractPageViewButton, "qx.ui.pageview.buttonview.ButtonViewButton");
 
-qx.ui.pageview.buttonview.ButtonViewButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "bar-view-button" });
+qx.ui.pageview.buttonview.ButtonViewButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-button" });
 
 
 
@@ -49,8 +49,8 @@ proto._onkeydown = function(e)
 {
   switch(this.getView().getBarPosition())
   {
-    case QxConst.ALIGN_TOP:
-    case QxConst.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_TOP:
+    case qx.Const.ALIGN_BOTTOM:
       switch(e.getKeyCode())
       {
         case qx.event.types.KeyEvent.keys.left:
@@ -67,8 +67,8 @@ proto._onkeydown = function(e)
 
       break;
 
-    case QxConst.ALIGN_LEFT:
-    case QxConst.ALIGN_RIGHT:
+    case qx.Const.ALIGN_LEFT:
+    case qx.Const.ALIGN_RIGHT:
       switch(e.getKeyCode())
       {
         case qx.event.types.KeyEvent.keys.up:

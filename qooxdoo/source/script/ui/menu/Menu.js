@@ -45,21 +45,21 @@ qx.ui.menu.Menu = function()
   //   TIMER
   // ************************************************************************
   this._openTimer = new qx.client.Timer(this.getOpenInterval());
-  this._openTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onopentimer, this);
+  this._openTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onopentimer, this);
 
   this._closeTimer = new qx.client.Timer(this.getCloseInterval());
-  this._closeTimer.addEventListener(QxConst.EVENT_TYPE_INTERVAL, this._onclosetimer, this);
+  this._closeTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onclosetimer, this);
 
 
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
-  this.addEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
+  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 
-  this.addEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
 
   // ************************************************************************
@@ -81,27 +81,27 @@ proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.Menu.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu" });
+qx.ui.menu.Menu.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu" });
 
-qx.ui.menu.Menu.addProperty({ name : "iconContentGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 4 });
-qx.ui.menu.Menu.addProperty({ name : "labelShortcutGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 10 });
-qx.ui.menu.Menu.addProperty({ name : "contentArrowGap", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
-qx.ui.menu.Menu.addProperty({ name : "contentNonIconPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 20 });
-qx.ui.menu.Menu.addProperty({ name : "contentNonArrowPadding", type : QxConst.TYPEOF_NUMBER, defaultValue : 8 });
+qx.ui.menu.Menu.addProperty({ name : "iconContentGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4 });
+qx.ui.menu.Menu.addProperty({ name : "labelShortcutGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
+qx.ui.menu.Menu.addProperty({ name : "contentArrowGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
+qx.ui.menu.Menu.addProperty({ name : "contentNonIconPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
+qx.ui.menu.Menu.addProperty({ name : "contentNonArrowPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
 
-qx.ui.menu.Menu.addProperty({ name : "hoverItem", type : QxConst.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "openItem", type : QxConst.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "opener", type : QxConst.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "parentMenu", type : QxConst.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "hoverItem", type : qx.Const.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "openItem", type : qx.Const.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
+qx.ui.menu.Menu.addProperty({ name : "parentMenu", type : qx.Const.TYPEOF_OBJECT });
 
-qx.ui.menu.Menu.addProperty({ name : "fastReopen", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.menu.Menu.addProperty({ name : "openInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
-qx.ui.menu.Menu.addProperty({ name : "closeInterval", type : QxConst.TYPEOF_NUMBER, defaultValue : 250 });
+qx.ui.menu.Menu.addProperty({ name : "fastReopen", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.menu.Menu.addProperty({ name : "openInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
+qx.ui.menu.Menu.addProperty({ name : "closeInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
 
-qx.ui.menu.Menu.addProperty({ name : "subMenuHorizontalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -3 });
-qx.ui.menu.Menu.addProperty({ name : "subMenuVerticalOffset", type : QxConst.TYPEOF_NUMBER, defaultValue : -2 });
+qx.ui.menu.Menu.addProperty({ name : "subMenuHorizontalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -3 });
+qx.ui.menu.Menu.addProperty({ name : "subMenuVerticalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -2 });
 
-qx.ui.menu.Menu.addProperty({ name : "indentShortcuts", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.ui.menu.Menu.addProperty({ name : "indentShortcuts", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -161,7 +161,7 @@ proto._beforeDisappear = function()
   // be sure that the opener button gets the correct state
   var vOpener = this.getOpener();
   if (vOpener) {
-    vOpener.removeState(QxConst.STATE_PRESSED);
+    vOpener.removeState(qx.Const.STATE_PRESSED);
   };
 };
 
@@ -179,11 +179,11 @@ proto._beforeDisappear = function()
 proto._modifyHoverItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.removeState(QxConst.STATE_OVER);
+    propOldValue.removeState(qx.Const.STATE_OVER);
   };
 
   if (propValue) {
-    propValue.addState(QxConst.STATE_OVER);
+    propValue.addState(qx.Const.STATE_OVER);
   };
 
   return true;
@@ -872,11 +872,11 @@ proto.dispose = function()
   };
 
   // Remove event listeners
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
-  this.removeEventListener(QxConst.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
+  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 
-  this.removeEventListener(QxConst.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

@@ -39,7 +39,7 @@ QxFormUtils.inputFilter = function(vNode)
     return false;
   };
 
-  var vTag = (vNode.tagName || QxConst.CORE_EMPTY).toLowerCase();
+  var vTag = (vNode.tagName || qx.Const.CORE_EMPTY).toLowerCase();
 
   if (QxFormUtils.ignoreElementTypes.contains(vTag)) {
     return false;
@@ -64,8 +64,8 @@ QxFormUtils.getFields = function(vForm) {
 
 QxFormUtils.encodeField = function(vNode)
 {
-  var vName = vNode.name || QxConst.CORE_EMPTY;
-  var vType = (vNode.type || QxConst.CORE_EMPTY).toLowerCase();
+  var vName = vNode.name || qx.Const.CORE_EMPTY;
+  var vType = (vNode.type || qx.Const.CORE_EMPTY).toLowerCase();
 
   if(vType === QxFormUtils.multiSelectType)
   {
@@ -74,15 +74,15 @@ QxFormUtils.encodeField = function(vNode)
     for(var i=0; i<vNode.options.length; i++)
     {
       if(vNode.options[i].selected) {
-        vValues.push(vName + QxConst.CORE_EQUAL + vNode.options[i].value);
+        vValues.push(vName + qx.Const.CORE_EQUAL + vNode.options[i].value);
       };
     };
 
-    return vValues.join(QxConst.CORE_AMPERSAND);
+    return vValues.join(qx.Const.CORE_AMPERSAND);
   }
   else
   {
-    return vName + QxConst.CORE_EQUAL + vNode.value;
+    return vName + qx.Const.CORE_EQUAL + vNode.value;
   };
 };
 
@@ -95,16 +95,16 @@ QxFormUtils.encodeForm = function(vForm)
     vAll.push(QxFormUtils.encodeField(vFields[i]));
   };
 
-  return vAll.join(QxConst.CORE_AMPERSAND);
+  return vAll.join(qx.Const.CORE_AMPERSAND);
 };
 
 QxFormUtils.bind = function(vForm, vMethod)
 {
-  qx.dom.DomEventRegistration.addEventListener(vForm, QxConst.EVENT_TYPE_SUBMIT, function(e)
+  qx.dom.DomEventRegistration.addEventListener(vForm, qx.Const.EVENT_TYPE_SUBMIT, function(e)
   {
     e.returnValue = false;
 
-    if (typeof e.preventDefault === QxConst.TYPEOF_FUNCTION) {
+    if (typeof e.preventDefault === qx.Const.TYPEOF_FUNCTION) {
       e.preventDefault();
     };
 

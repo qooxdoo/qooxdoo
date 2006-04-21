@@ -35,4 +35,4 @@ qx.ui.pageview.tabview.TabViewPane = function()
 
 qx.ui.pageview.tabview.TabViewPane.extend(qx.ui.pageview.AbstractPageViewPane, "qx.ui.pageview.tabview.TabViewPane");
 
-qx.ui.pageview.tabview.TabViewPane.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "tab-view-pane" });
+qx.ui.pageview.tabview.TabViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-pane" });

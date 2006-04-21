@@ -43,12 +43,12 @@ qx.ui.menu.MenuRadioButton.extend(qx.ui.menu.MenuCheckBox, "qx.ui.menu.MenuRadio
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.MenuRadioButton.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "menu-radio-button" });
+qx.ui.menu.MenuRadioButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-radio-button" });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.ui.menu.MenuRadioButton.addProperty({ name : "manager", type : QxConst.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.ui.menu.MenuRadioButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 

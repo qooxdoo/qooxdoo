@@ -44,22 +44,22 @@ QxFrame.extend(qx.ui.window.Window, "QxFrame");
 /*!
   Appearance setting for the class.
 */
-QxFrame.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "frame" });
+QxFrame.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "frame" });
 
 /*!
   The main menu bar if any.
 */
-QxFrame.addProperty({ name : "menuBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.menu.MenuBar" });
+QxFrame.addProperty({ name : "menuBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.menu.MenuBar" });
 
 /*!
   The main tool bar if any.
 */
-QxFrame.addProperty({ name : "toolBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.toolbar.ToolBar" });
+QxFrame.addProperty({ name : "toolBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.toolbar.ToolBar" });
 
 /*!
   The status bar if any.
 */
-QxFrame.addProperty({ name : "statusBar", type : QxConst.TYPEOF_OBJECT, allowNull : true, instance : "QxStatusBar" });
+QxFrame.addProperty({ name : "statusBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "QxStatusBar" });
 
 
 /*

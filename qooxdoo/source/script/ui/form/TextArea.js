@@ -36,9 +36,9 @@ qx.ui.form.TextArea = function(vValue)
 
 qx.ui.form.TextArea.extend(qx.ui.form.TextField, "qx.ui.form.TextArea");
 
-qx.ui.form.TextArea.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "text-area" });
+qx.ui.form.TextArea.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-area" });
 
-qx.ui.form.TextArea.addProperty({ name : "wrap", type : QxConst.TYPEOF_BOOLEAN });
+qx.ui.form.TextArea.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN });
 
 if (qx.sys.Client.isMshtml())
 {

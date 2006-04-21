@@ -240,7 +240,7 @@ proto._buildWidgetFromNode = function(parent, node) {
   var attribs = this._mapXmlAttribToObject(node, widget);
   delete attribs['qxtype'];
 
-  var dummyWidget = attribs.id && attribs.id.indexOf(QxConst.CORE_UNDERLINE) == 0;
+  var dummyWidget = attribs.id && attribs.id.indexOf(qx.Const.CORE_UNDERLINE) == 0;
 
   if (attribs.id) {
     // register a global refrence for this widget

@@ -32,7 +32,7 @@ qx.renderer.layout.VerticalBoxLayoutImpl = function(vWidget) {
 
 qx.renderer.layout.VerticalBoxLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.VerticalBoxLayoutImpl");
 
-qx.renderer.layout.VerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : QxConst.TYPEOF_BOOLEAN, defaultValue : true });
+qx.renderer.layout.VerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -384,8 +384,8 @@ proto.updateChildOnInnerWidthChange = function(vChild)
   var vUpdateStretch = vChild._recomputeStretchingX();
 
   // priority to childs internal alignment
-  if ((vChild.getHorizontalAlign() || this.getWidget().getHorizontalChildrenAlign()) == QxConst.ALIGN_CENTER) {
-    vChild.addToLayoutChanges(QxConst.JOB_LOCATIONX);
+  if ((vChild.getHorizontalAlign() || this.getWidget().getHorizontalChildrenAlign()) == qx.Const.ALIGN_CENTER) {
+    vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONX);
   };
 
   // inform the caller if there were any notable changes occured
@@ -398,8 +398,8 @@ proto.updateChildOnInnerWidthChange = function(vChild)
 */
 proto.updateChildOnInnerHeightChange = function(vChild)
 {
-  if (this.getWidget().getVerticalChildrenAlign() == QxConst.ALIGN_MIDDLE) {
-    vChild.addToLayoutChanges(QxConst.JOB_LOCATIONY);
+  if (this.getWidget().getVerticalChildrenAlign() == qx.Const.ALIGN_MIDDLE) {
+    vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
   };
 
   // use variables here to be sure to call both methods.
@@ -458,11 +458,11 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
 
   // different updates depending from the current orientation (or the new one)
   if (vQueue.spacing || vQueue.orientation || vQueue.reverseChildrenOrder || vQueue.verticalChildrenAlign) {
-    vWidget._addChildrenToLayoutQueue(QxConst.JOB_LOCATIONY);
+    vWidget._addChildrenToLayoutQueue(qx.Const.JOB_LOCATIONY);
   };
 
   if (vQueue.horizontalChildrenAlign) {
-    vWidget._addChildrenToLayoutQueue(QxConst.JOB_LOCATIONX);
+    vWidget._addChildrenToLayoutQueue(qx.Const.JOB_LOCATIONX);
   };
 
   if (vQueue.stretchChildrenOrthogonalAxis) {
@@ -474,13 +474,13 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
   if (vStretchX)
   {
     vWidget._recomputeChildrenStretchingX();
-    vWidget._addChildrenToLayoutQueue(QxConst.PROPERTY_WIDTH);
+    vWidget._addChildrenToLayoutQueue(qx.Const.PROPERTY_WIDTH);
   };
 
   if (vStretchY)
   {
     vWidget._recomputeChildrenStretchingY();
-    vWidget._addChildrenToLayoutQueue(QxConst.PROPERTY_HEIGHT);
+    vWidget._addChildrenToLayoutQueue(qx.Const.PROPERTY_HEIGHT);
   };
 
   return true;
@@ -524,18 +524,18 @@ proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
   // Handle differently depending on layout mode
   switch(w.getLayoutMode())
   {
-    case QxConst.ALIGN_BOTTOM:
-    case QxConst.ALIGN_TOP_REVERSED:
+    case qx.Const.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_TOP_REVERSED:
       while((chc=ch[++i]) && i<vIndex) {
-        chc.addToLayoutChanges(QxConst.JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
       };
 
       break;
 
-    case QxConst.ALIGN_MIDDLE:
-    case QxConst.ALIGN_MIDDLE_REVERSED:
+    case qx.Const.ALIGN_MIDDLE:
+    case qx.Const.ALIGN_MIDDLE_REVERSED:
       while(chc=ch[++i]) {
-        chc.addToLayoutChanges(QxConst.JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
       };
 
       break;
@@ -543,7 +543,7 @@ proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     default:
       i+=vIndex;
       while(chc=ch[++i]) {
-        chc.addToLayoutChanges(QxConst.JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
       };
   };
 };
@@ -561,7 +561,7 @@ proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
   var vStop = Math.max(vIndex, vOldIndex)+1;
 
   for (var i=vStart; i<vStop; i++) {
-    vChildren[i].addToLayoutChanges(QxConst.JOB_LOCATIONY);
+    vChildren[i].addToLayoutChanges(qx.Const.JOB_LOCATIONY);
   };
 };
 
@@ -612,8 +612,8 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 
   switch(w.getLayoutMode())
   {
-    case QxConst.ALIGN_BOTTOM:
-    case QxConst.ALIGN_TOP_REVERSED:
+    case qx.Const.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_TOP_REVERSED:
       // find the last child which has a layout request
       for (var i=chl-1; i>=0 && !vChildrenQueue[ch[i].toHashCode()]; i--) {};
 
@@ -624,8 +624,8 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 
       break;
 
-    case QxConst.ALIGN_MIDDLE:
-    case QxConst.ALIGN_MIDDLE_REVERSED:
+    case qx.Const.ALIGN_MIDDLE:
+    case qx.Const.ALIGN_MIDDLE_REVERSED:
       // re-layout all children
       i = -1;
       while(chc=ch[++i]) {
@@ -755,13 +755,13 @@ proto.layoutChild_locationY = function(vChild, vJobs)
   {
     switch(vWidget.getLayoutMode())
     {
-      case QxConst.ALIGN_BOTTOM:
-      case QxConst.ALIGN_TOP_REVERSED:
+      case qx.Const.ALIGN_BOTTOM:
+      case qx.Const.ALIGN_TOP_REVERSED:
         var vPos = vWidget.getPaddingBottom() + vWidget.getAccumulatedChildrenOuterHeight() - vChild.getOuterHeight();
         break;
 
-      case QxConst.ALIGN_MIDDLE:
-      case QxConst.ALIGN_MIDDLE_REVERSED:
+      case qx.Const.ALIGN_MIDDLE:
+      case qx.Const.ALIGN_MIDDLE_REVERSED:
         var vPos = vWidget.getPaddingTop() + Math.round((vWidget.getInnerHeight() - vWidget.getAccumulatedChildrenOuterHeight()) / 2);
         break;
 
@@ -777,8 +777,8 @@ proto.layoutChild_locationY = function(vChild, vJobs)
 
     switch(vWidget.getLayoutMode())
     {
-      case QxConst.ALIGN_BOTTOM:
-      case QxConst.ALIGN_TOP_REVERSED:
+      case qx.Const.ALIGN_BOTTOM:
+      case qx.Const.ALIGN_TOP_REVERSED:
         var vPos = vPrev._cachedLocationVertical - vChild.getOuterHeight() - vWidget.getSpacing();
         break;
 
@@ -793,9 +793,9 @@ proto.layoutChild_locationY = function(vChild, vJobs)
   // apply styles
   switch(this.getWidget().getLayoutMode())
   {
-    case QxConst.ALIGN_BOTTOM:
-    case QxConst.ALIGN_BOTTOM_REVERSED:
-    case QxConst.ALIGN_MIDDLE_REVERSED:
+    case qx.Const.ALIGN_BOTTOM:
+    case qx.Const.ALIGN_BOTTOM_REVERSED:
+    case qx.Const.ALIGN_MIDDLE_REVERSED:
       // add relative positions (like 'position:relative' in css)
       vPos += !vChild._computedBottomTypeNull ? vChild.getBottomValue() : !vChild._computedTopTypeNull ? -(vChild.getTopValue()) : 0;
 
@@ -829,11 +829,11 @@ proto.layoutChild_locationX = function(vChild, vJobs)
   var vAlign = vChild.getHorizontalAlign() || vWidget.getHorizontalChildrenAlign();
 
   // handle center alignment
-  var vPos = vAlign == QxConst.ALIGN_CENTER ? Math.round((vWidget.getInnerWidth() - vChild.getOuterWidth()) / 2) : 0;
+  var vPos = vAlign == qx.Const.ALIGN_CENTER ? Math.round((vWidget.getInnerWidth() - vChild.getOuterWidth()) / 2) : 0;
 
   // the right alignment use the real 'right' styleproperty to
   // use the best available method in modern browsers
-  if (vAlign == QxConst.ALIGN_RIGHT)
+  if (vAlign == qx.Const.ALIGN_RIGHT)
   {
     // add parent padding
     vPos += vWidget.getPaddingRight();

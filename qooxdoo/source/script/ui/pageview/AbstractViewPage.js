@@ -50,13 +50,13 @@ qx.ui.pageview.AbstractPageViewPage.extend(qx.ui.layout.CanvasLayout, "qx.ui.pag
 /*!
   The attached QxTab to this page.
 */
-qx.ui.pageview.AbstractPageViewPage.addProperty({ name : "button", type : QxConst.TYPEOF_OBJECT });
+qx.ui.pageview.AbstractPageViewPage.addProperty({ name : "button", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
   Instead of qx.ui.core.Widget, the default is false here.
 */
-qx.ui.pageview.AbstractPageViewPage.changeProperty({ name : "display", type : QxConst.TYPEOF_BOOLEAN, defaultValue : false });
+qx.ui.pageview.AbstractPageViewPage.changeProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

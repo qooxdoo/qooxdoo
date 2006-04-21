@@ -49,7 +49,7 @@ qx.ui.embed.IframeEmbed = function(vSource)
 
 qx.ui.embed.IframeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.IframeEmbed");
 
-qx.ui.embed.IframeEmbed.changeProperty({ name : "appearance", type : QxConst.TYPEOF_STRING, defaultValue : "iframe" });
+qx.ui.embed.IframeEmbed.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "iframe" });
 
 
 
@@ -62,9 +62,9 @@ qx.ui.embed.IframeEmbed.changeProperty({ name : "appearance", type : QxConst.TYP
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.IframeEmbed.addProperty({ name : "source", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.IframeEmbed.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.embed.IframeEmbed.addProperty({ name : "frameName", type : QxConst.TYPEOF_STRING });
+qx.ui.embed.IframeEmbed.addProperty({ name : "frameName", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -150,7 +150,7 @@ proto._applySource = function()
 proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
-  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : QxConst.CORE_EMPTY;
+  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.Const.CORE_EMPTY;
 };
 
 proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
@@ -177,14 +177,14 @@ proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds
 proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
-    this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_LOAD), true);
   };
 };
 
 proto._onload = function()
 {
   this._isLoaded = true;
-  this.dispatchEvent(new qx.event.types.Event(QxConst.EVENT_TYPE_LOAD), true);
+  this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_LOAD), true);
 };
 
 
@@ -316,20 +316,20 @@ qx.ui.embed.IframeEmbed.init = function()
 
   var f = qx.ui.embed.IframeEmbed._element = document.createElement("iframe");
 
-  f.frameBorder = QxConst.CORE_ZERO;
-  f.frameSpacing = QxConst.CORE_ZERO;
+  f.frameBorder = qx.Const.CORE_ZERO;
+  f.frameSpacing = qx.Const.CORE_ZERO;
 
-  f.marginWidth = QxConst.CORE_ZERO;
-  f.marginHeight = QxConst.CORE_ZERO;
+  f.marginWidth = qx.Const.CORE_ZERO;
+  f.marginHeight = qx.Const.CORE_ZERO;
 
-  f.width = QxConst.CORE_HUNDREDPERCENT;
-  f.height = QxConst.CORE_HUNDREDPERCENT;
+  f.width = qx.Const.CORE_HUNDREDPERCENT;
+  f.height = qx.Const.CORE_HUNDREDPERCENT;
 
-  f.hspace = QxConst.CORE_ZERO;
-  f.vspace = QxConst.CORE_ZERO;
+  f.hspace = qx.Const.CORE_ZERO;
+  f.vspace = qx.Const.CORE_ZERO;
 
-  f.border = QxConst.CORE_ZERO;
-  f.scrolling = QxConst.CORE_AUTO;
+  f.border = qx.Const.CORE_ZERO;
+  f.scrolling = qx.Const.CORE_AUTO;
   f.unselectable = "on";
   f.allowTransparency = "true";
 };

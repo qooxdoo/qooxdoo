@@ -37,11 +37,11 @@
 
 Function.prototype.extend = function(vSuper, vClassName)
 {
-  if (typeof vSuper !== QxConst.TYPEOF_FUNCTION) {
+  if (typeof vSuper !== qx.Const.TYPEOF_FUNCTION) {
     throw new Error("Extend: Function/Constructor to extend from is not a function: " + vSuper + " (" + vClassName + ")");
   };
 
-  if (typeof vClassName !== QxConst.TYPEOF_STRING) {
+  if (typeof vClassName !== qx.Const.TYPEOF_STRING) {
     throw new Error("Extend: Missing or malformed className: " + vClassName);
   };
 
@@ -77,12 +77,12 @@ Function.prototype.addFastProperty = function(vConfig)
   var vName = vConfig.name;
   var vUpName = vName.toFirstUp();
 
-  var vStorageField = QxConst.INTERNAL_VALUE + vUpName;
-  var vGetterName = QxConst.INTERNAL_GET + vUpName;
-  var vSetterName = QxConst.INTERNAL_SET + vUpName;
-  var vComputerName = QxConst.INTERNAL_COMPUTE + vUpName;
+  var vStorageField = qx.Const.INTERNAL_VALUE + vUpName;
+  var vGetterName = qx.Const.INTERNAL_GET + vUpName;
+  var vSetterName = qx.Const.INTERNAL_SET + vUpName;
+  var vComputerName = qx.Const.INTERNAL_COMPUTE + vUpName;
 
-  proto[vStorageField] = typeof vConfig.defaultValue !== QxConst.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
+  proto[vStorageField] = typeof vConfig.defaultValue !== qx.Const.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
 
   if (vConfig.noCompute)
   {
@@ -127,15 +127,15 @@ Function.prototype.addCachedProperty = function(p)
   var vName = p.name;
   var vUpName = vName.toFirstUp();
 
-  var vStorageField = QxConst.INTERNAL_CACHED + vUpName;
-  var vComputerName = QxConst.INTERNAL_COMPUTE + vUpName;
-  var vChangeName = QxConst.INTERNAL_PRIVATECHANGE + vUpName;
+  var vStorageField = qx.Const.INTERNAL_CACHED + vUpName;
+  var vComputerName = qx.Const.INTERNAL_COMPUTE + vUpName;
+  var vChangeName = qx.Const.INTERNAL_PRIVATECHANGE + vUpName;
 
-  if (typeof p.defaultValue !== QxConst.TYPEOF_UNDEFINED) {
+  if (typeof p.defaultValue !== qx.Const.TYPEOF_UNDEFINED) {
     proto[vStorageField] = p.defaultValue;
   };
 
-  proto[QxConst.INTERNAL_GET + vUpName] = function()
+  proto[qx.Const.INTERNAL_GET + vUpName] = function()
   {
     if (this[vStorageField] == null) {
       this[vStorageField] = this[vComputerName]();
@@ -144,7 +144,7 @@ Function.prototype.addCachedProperty = function(p)
     return this[vStorageField];
   };
 
-  proto[QxConst.INTERNAL_INVALIDATE + vUpName] = function()
+  proto[qx.Const.INTERNAL_INVALIDATE + vUpName] = function()
   {
     if (this[vStorageField] != null)
     {
@@ -156,7 +156,7 @@ Function.prototype.addCachedProperty = function(p)
     };
   };
 
-  proto[QxConst.INTERNAL_RECOMPUTE + vUpName] = function()
+  proto[qx.Const.INTERNAL_RECOMPUTE + vUpName] = function()
   {
     var vOld = this[vStorageField];
     var vNew = this[vComputerName]();
@@ -181,7 +181,7 @@ Function.prototype.addPropertyGroup = function(p)
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
   -------------------------------------------------------------------------------- */
-  if(typeof p !== QxConst.TYPEOF_OBJECT) {
+  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("Param should be an object!");
   };
 
@@ -203,18 +203,18 @@ Function.prototype.addPropertyGroup = function(p)
   p.setter = [];
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.setter.push(QxConst.INTERNAL_SET + p.members[i].toFirstUp());
+    p.setter.push(qx.Const.INTERNAL_SET + p.members[i].toFirstUp());
   };
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.getter.push(QxConst.INTERNAL_GET + p.members[i].toFirstUp());
+    p.getter.push(qx.Const.INTERNAL_GET + p.members[i].toFirstUp());
   };
 
 
   /* --------------------------------------------------------------------------------
       GETTER
   -------------------------------------------------------------------------------- */
-  this.prototype[QxConst.INTERNAL_GET + p.method] = function()
+  this.prototype[qx.Const.INTERNAL_GET + p.method] = function()
   {
     var a = [];
     var g = p.getter;
@@ -233,7 +233,7 @@ Function.prototype.addPropertyGroup = function(p)
   switch(p.mode)
   {
     case "shorthand":
-      this.prototype[QxConst.INTERNAL_SET + p.method] = function()
+      this.prototype[qx.Const.INTERNAL_SET + p.method] = function()
       {
         if (arguments.length > 4 || arguments.length == 0) {
           throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
@@ -258,7 +258,7 @@ Function.prototype.addPropertyGroup = function(p)
       break;
 
     default:
-      this.prototype[QxConst.INTERNAL_SET + p.method] = function()
+      this.prototype[qx.Const.INTERNAL_SET + p.method] = function()
       {
         var s = p.setter;
         var l = s.length;
@@ -276,11 +276,11 @@ Function.prototype.addPropertyGroup = function(p)
 
 Function.prototype.removeProperty = function(p)
 {
-  if (typeof this.prototype._properties !== QxConst.TYPEOF_STRING) {
+  if (typeof this.prototype._properties !== qx.Const.TYPEOF_STRING) {
     throw new Error("Has no properties!");
   };
 
-  if(typeof p !== QxConst.TYPEOF_OBJECT) {
+  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("Param should be an object!");
   };
 
@@ -294,7 +294,7 @@ Function.prototype.removeProperty = function(p)
   p.method = p.name.toFirstUp();
   p.implMethod = p.impl ? p.impl.toFirstUp() : p.method;
 
-  var valueKey = QxConst.INTERNAL_VALUE + p.method;
+  var valueKey = qx.Const.INTERNAL_VALUE + p.method;
 
   // Remove property from list
   pp._properties = pp._properties.remove(p.name);
@@ -303,18 +303,18 @@ Function.prototype.removeProperty = function(p)
   pp[valueKey] = null;
 
   // Reset methods
-  pp[QxConst.INTERNAL_GET + p.method] = null;
-  pp[QxConst.INTERNAL_SET + p.method] = null;
-  pp[QxConst.INTERNAL_RESET + p.method] = null;
-  pp[QxConst.INTERNAL_APPLY + p.method] = null;
-  pp[QxConst.INTERNAL_FORCE + p.method] = null;
-  pp[QxConst.INTERNAL_GETDEFAULT + p.method] = null;
-  pp[QxConst.INTERNAL_SETDEFAULT + p.method] = null;
+  pp[qx.Const.INTERNAL_GET + p.method] = null;
+  pp[qx.Const.INTERNAL_SET + p.method] = null;
+  pp[qx.Const.INTERNAL_RESET + p.method] = null;
+  pp[qx.Const.INTERNAL_APPLY + p.method] = null;
+  pp[qx.Const.INTERNAL_FORCE + p.method] = null;
+  pp[qx.Const.INTERNAL_GETDEFAULT + p.method] = null;
+  pp[qx.Const.INTERNAL_SETDEFAULT + p.method] = null;
 };
 
 Function.prototype._createProperty = function(p)
 {
-  if(typeof p !== QxConst.TYPEOF_OBJECT) {
+  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("AddProperty: Param should be an object!");
   };
 
@@ -345,30 +345,30 @@ Function.prototype._createProperty = function(p)
 
 
 
-  if (typeof p.type === QxConst.TYPEOF_STRING) {
+  if (typeof p.type === qx.Const.TYPEOF_STRING) {
     p.hasType = true;
   }
-  else if (typeof p.type !== QxConst.TYPEOF_UNDEFINED) {
+  else if (typeof p.type !== qx.Const.TYPEOF_UNDEFINED) {
     throw new Error("AddProperty: Invalid type definition for property " + p.name + ": " + p.type);
   }
   else {
     p.hasType = false;
   };
 
-  if (typeof p.instance === QxConst.TYPEOF_STRING) {
+  if (typeof p.instance === qx.Const.TYPEOF_STRING) {
     p.hasInstance = true;
   }
-  else if (typeof p.instance !== QxConst.TYPEOF_UNDEFINED) {
+  else if (typeof p.instance !== qx.Const.TYPEOF_UNDEFINED) {
     throw new Error("AddProperty: Invalid instance definition for property " + p.name + ": " + p.instance);
   }
   else {
     p.hasInstance = false;
   };
 
-  if (typeof p.classname === QxConst.TYPEOF_STRING) {
+  if (typeof p.classname === qx.Const.TYPEOF_STRING) {
     p.hasClassName = true;
   }
-  else if (typeof p.classname !== QxConst.TYPEOF_UNDEFINED) {
+  else if (typeof p.classname !== qx.Const.TYPEOF_UNDEFINED) {
     throw new Error("AddProperty: Invalid classname definition for property " + p.name + ": " + p.classname);
   }
   else {
@@ -391,19 +391,19 @@ Function.prototype._createProperty = function(p)
   p.up = p.name.toUpperCase();
 
   // register global uppercase name
-  QxConst[QxConst.INTERNAL_GLOBALPROPERTYREF + p.up] = p.name;
+  qx.Const[qx.Const.INTERNAL_GLOBALPROPERTYREF + p.up] = p.name;
 
-  var valueKey = QxConst.INTERNAL_VALUE + p.method;
-  var evalKey = QxConst.INTERNAL_EVAL + p.method;
-  var changeKey = QxConst.INTERNAL_CHANGE + p.method;
-  var modifyKey = QxConst.INTERNAL_MODIFY + p.implMethod;
-  var checkKey = QxConst.INTERNAL_CHECK + p.implMethod;
+  var valueKey = qx.Const.INTERNAL_VALUE + p.method;
+  var evalKey = qx.Const.INTERNAL_EVAL + p.method;
+  var changeKey = qx.Const.INTERNAL_CHANGE + p.method;
+  var modifyKey = qx.Const.INTERNAL_MODIFY + p.implMethod;
+  var checkKey = qx.Const.INTERNAL_CHECK + p.implMethod;
 
   if (!QxMain.setter[p.name])
   {
-    QxMain.setter[p.name] = QxConst.INTERNAL_SET + p.method;
-    QxMain.getter[p.name] = QxConst.INTERNAL_GET + p.method;
-    QxMain.resetter[p.name] = QxConst.INTERNAL_RESET + p.method;
+    QxMain.setter[p.name] = qx.Const.INTERNAL_SET + p.method;
+    QxMain.getter[p.name] = qx.Const.INTERNAL_GET + p.method;
+    QxMain.resetter[p.name] = qx.Const.INTERNAL_RESET + p.method;
     QxMain.values[p.name] = valueKey;
   };
 
@@ -411,49 +411,49 @@ Function.prototype._createProperty = function(p)
   if (p.hasUnitDetection)
   {
     // computed unit
-    var cu = QxConst.INTERNAL_COMPUTED + p.method;
-    pp[cu + QxConst.INTERNAL_UNIT_VALUE] = null;
-    pp[cu + QxConst.INTERNAL_UNIT_PARSED] = null;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE] = null;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE_NULL] = true;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE_PIXEL] = false;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE_PERCENT] = false;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE_AUTO] = false;
-    pp[cu + QxConst.INTERNAL_UNIT_TYPE_FLEX] = false;
+    var cu = qx.Const.INTERNAL_COMPUTED + p.method;
+    pp[cu + qx.Const.INTERNAL_UNIT_VALUE] = null;
+    pp[cu + qx.Const.INTERNAL_UNIT_PARSED] = null;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE] = null;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_NULL] = true;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_PIXEL] = false;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_PERCENT] = false;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_AUTO] = false;
+    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_FLEX] = false;
 
-    var unitDetectionKey = QxConst.INTERNAL_UNITDETECTION + p.unitDetection.toFirstUp();
+    var unitDetectionKey = qx.Const.INTERNAL_UNITDETECTION + p.unitDetection.toFirstUp();
   };
 
   // apply default value
   pp[valueKey] = p.defaultValue;
 
   // building getFoo(): Returns current stored value
-  pp[QxConst.INTERNAL_GET + p.method] = function() {
+  pp[qx.Const.INTERNAL_GET + p.method] = function() {
     return this[valueKey];
   };
 
   // building forceFoo(): Set (override) without do anything else
-  pp[QxConst.INTERNAL_FORCE + p.method] = function(newValue) {
+  pp[qx.Const.INTERNAL_FORCE + p.method] = function(newValue) {
     return this[valueKey] = newValue;
   };
 
   // building resetFoo(): Reset value to default value
-  pp[QxConst.INTERNAL_RESET + p.method] = function() {
-    return this[QxConst.INTERNAL_SET + p.method](p.defaultValue);
+  pp[qx.Const.INTERNAL_RESET + p.method] = function() {
+    return this[qx.Const.INTERNAL_SET + p.method](p.defaultValue);
   };
 
   // building toggleFoo(): Switching between two boolean values
-  if (p.type === QxConst.TYPEOF_BOOLEAN)
+  if (p.type === qx.Const.TYPEOF_BOOLEAN)
   {
-    pp[QxConst.INTERNAL_TOGGLE + p.method] = function(newValue) {
-      return this[QxConst.INTERNAL_SET + p.method](!this[valueKey]);
+    pp[qx.Const.INTERNAL_TOGGLE + p.method] = function(newValue) {
+      return this[qx.Const.INTERNAL_SET + p.method](!this[valueKey]);
     };
   };
 
   if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[QxConst.INTERNAL_SET + p.method] = function(newValue)
+    pp[qx.Const.INTERNAL_SET + p.method] = function(newValue)
     {
       // convert multiple arguments to array
       if (p.allowMultipleArguments && arguments.length > 1) {
@@ -482,19 +482,19 @@ Function.prototype._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", QxConst.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
         if (p.hasInstance && !(newValue instanceof QxMain.classes[p.instance])) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", QxConst.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
         if (p.hasClassName && newValue.classname != p.classname) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", QxConst.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
         if (p.hasPossibleValues && newValue != null && !p.possibleValues.contains(newValue)) {
-          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", QxConst.INTERNAL_SET + p.method);
+          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", qx.Const.INTERNAL_SET + p.method);
         };
       };
 
@@ -572,7 +572,7 @@ Function.prototype._createProperty = function(p)
   else
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[QxConst.INTERNAL_SET + p.method] = function(newValue)
+    pp[qx.Const.INTERNAL_SET + p.method] = function(newValue)
     {
       // this.debug("Fast Setter: " + p.name);
 
@@ -585,7 +585,7 @@ Function.prototype._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", QxConst.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
       };
 
@@ -648,13 +648,13 @@ Function.prototype._createProperty = function(p)
   };
 
   // building user configured get alias for property
-  if (typeof p.getAlias === QxConst.TYPEOF_STRING) {
-    pp[p.getAlias] = pp[QxConst.INTERNAL_GET + p.method];
+  if (typeof p.getAlias === qx.Const.TYPEOF_STRING) {
+    pp[p.getAlias] = pp[qx.Const.INTERNAL_GET + p.method];
   };
 
   // building user configured set alias for property
-  if (typeof p.setAlias === QxConst.TYPEOF_STRING) {
-    pp[p.setAlias] = pp[QxConst.INTERNAL_SET + p.method];
+  if (typeof p.setAlias === qx.Const.TYPEOF_STRING) {
+    pp[p.setAlias] = pp[qx.Const.INTERNAL_SET + p.method];
   };
 };
 
@@ -667,22 +667,22 @@ Function.prototype.addProperty = function(p)
   this._createProperty(p);
 
   // add property to (all) property list
-  if (typeof this.prototype._properties !== QxConst.TYPEOF_STRING) {
+  if (typeof this.prototype._properties !== qx.Const.TYPEOF_STRING) {
     this.prototype._properties = p.name;
   } else {
-    this.prototype._properties += QxConst.CORE_COMMA + p.name;
+    this.prototype._properties += qx.Const.CORE_COMMA + p.name;
   };
 
   // add property to object property list
   switch(p.type)
   {
     case undefined:
-    case QxConst.TYPEOF_OBJECT:
-    case QxConst.TYPEOF_FUNCTION:
-      if (typeof this.prototype._objectproperties !== QxConst.TYPEOF_STRING) {
+    case qx.Const.TYPEOF_OBJECT:
+    case qx.Const.TYPEOF_FUNCTION:
+      if (typeof this.prototype._objectproperties !== qx.Const.TYPEOF_STRING) {
         this.prototype._objectproperties = p.name;
       } else {
-        this.prototype._objectproperties += QxConst.CORE_COMMA + p.name;
+        this.prototype._objectproperties += qx.Const.CORE_COMMA + p.name;
       };
   };
 };
