@@ -1251,7 +1251,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
 
     if (qx.util.Validation.isValidNumber(this._insertIndex))
     {
-      propValue.getChildren().insertAt(this, this._insertIndex);
+      qx.lang.Array.insertAt(propValue.getChildren(), this, this._insertIndex);
       delete this._insertIndex;
     }
     else

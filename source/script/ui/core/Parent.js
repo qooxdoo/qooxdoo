@@ -440,7 +440,7 @@ proto.addAt = function(vChild, vIndex)
         vChildren.removeAt(vOldIndex);
       };
 
-      vChildren.insertAt(vChild, vIndex);
+      qx.lang.Array.insertAt(vChildren, vChild, vIndex);
 
       if (this._initialLayoutDone)
       {
