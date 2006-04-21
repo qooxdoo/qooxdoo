@@ -583,11 +583,11 @@ proto.removeAll = function()
 */
 
 proto.getFirstChild = function() {
-  return this.getChildren().getFirst();
+  return qx.lang.Array.getFirst(this.getChildren());
 };
 
 proto.getFirstVisibleChild = function() {
-  return this.getVisibleChildren().getFirst();
+  return qx.lang.Array.getFirst(this.getVisibleChildren());
 };
 
 proto.getFirstActiveChild = function(vIgnoreClasses) {
@@ -606,15 +606,15 @@ proto.getFirstActiveChild = function(vIgnoreClasses) {
 */
 
 proto.getLastChild = function() {
-  return this.getChildren().getLast();
+  return qx.lang.Array.getLast(this.getChildren());
+};
+
+proto.getLastVisibleChild = function() {
+  return qx.lang.Array.getLast(this.getVisibleChildren());
 };
 
 proto.getLastActiveChild = function(vIgnoreClasses) {
   return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
-};
-
-proto.getLastVisibleChild = function() {
-  return this.getVisibleChildren().getLast();
 };
 
 

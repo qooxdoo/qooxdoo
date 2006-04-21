@@ -46,11 +46,11 @@ qx.manager.selection.VirtualSelectionManager.extend(qx.manager.selection.Selecti
 */
 
 proto.getFirst = function() {
-  return this.getItems().getFirst();
+  return qx.lang.Array.getFirst(this.getItems());
 };
 
 proto.getLast = function() {
-  return this.getItems().getLast();
+  return qx.lang.Array.getLast(this.getItems());
 };
 
 proto.getItems = function() {
