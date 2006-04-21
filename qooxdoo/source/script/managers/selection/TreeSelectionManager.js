@@ -53,11 +53,11 @@ qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection
 */
 
 proto._getFirst = function() {
-  return this.getItems().getFirst();
+  return qx.lang.Array.getFirst(this.getItems());
 };
 
 proto._getLast = function() {
-  return this.getItems().getLast();
+  return qx.lang.Array.getLast(this.getItems());
 };
 
 proto.getItems = function() {

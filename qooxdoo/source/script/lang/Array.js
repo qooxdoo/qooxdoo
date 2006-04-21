@@ -95,26 +95,21 @@ qx.lang.Array.clone = function(arr) {
   return arr.concat();
 };
 
-
-
-
-
-
-Array.prototype.getLast = function() {
-  return this[this.length-1];
+qx.lang.Array.getLast = function(arr) {
+  return arr[arr.length-1];
 };
 
-Array.prototype.getFirst = function() {
-  return this[0];
+qx.lang.Array.getFirst = function(arr) {
+  return arr[0];
 };
 
-Array.prototype.contains = function(obj) {
-  return this.indexOf(obj) != -1;
-};
 
-Array.prototype.append = function(a) {
-  Array.prototype.push.apply(this, a);
-};
+
+
+
+
+
+
 
 Array.prototype.insertAt = function(obj, i) {
   this.splice(i, 0, obj);
@@ -165,4 +160,10 @@ Array.prototype.removeAll = function() {
   return this.splice(0, this.length);
 };
 
+Array.prototype.contains = function(obj) {
+  return this.indexOf(obj) != -1;
+};
 
+Array.prototype.append = function(a) {
+  Array.prototype.push.apply(this, a);
+};
