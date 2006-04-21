@@ -29,8 +29,8 @@
 #require(qx.renderer.border.BorderObject)
 #require(qx.renderer.border.BorderCache)
 #require(qx.manager.object.AppearanceManager)
-#post(QxDomScrollIntoView)
-#post(QxDomOffset)
+#post(qx.dom.DomScrollIntoView)
+#post(qx.dom.DomOffset)
 
 ************************************************************************ */
 
