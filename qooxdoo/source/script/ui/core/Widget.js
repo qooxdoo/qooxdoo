@@ -1021,7 +1021,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
   };
 
   // Remove fast queue entries
-  vFastQueue.removeAll();
+  qx.lang.Array.removeAll(vFastQueue);
 };
 
 

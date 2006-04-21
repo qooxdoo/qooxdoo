@@ -146,16 +146,16 @@ qx.lang.Array.removeAt = function(arr, i) {
   return arr.splice(i, 1);
 };
 
-
-
-
-
-
-
-
-Array.prototype.removeAll = function() {
-  return this.splice(0, this.length);
+qx.lang.Array.removeAll = function(arr) {
+  return arr.splice(0, arr.length);
 };
+
+
+
+
+
+
+
 
 Array.prototype.remove = function(obj)
 {
