@@ -125,7 +125,7 @@ proto.updateSort = function()
   var vData = vListView.getData();
   var vFieldId = this._id;
   var vSortProp = this._config.sortProp || "text";
-  var vSortMethod = this._config.sortMethod || qx.util.compare.byString;
+  var vSortMethod = this._config.sortMethod || qx.util.Compare.byString;
 
   vData.sort(function(a, b) {
     return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);

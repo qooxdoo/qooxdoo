@@ -513,7 +513,7 @@ proto._minZIndex = 1e5;
 
 proto._sendTo = function()
 {
-  var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(qx.util.compare.byZIndex);
+  var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(qx.util.Compare.byZIndex);
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 

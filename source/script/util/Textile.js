@@ -26,11 +26,13 @@
 
 ************************************************************************ */
 
+qx.util.Textile = {};
+
 // Optimized version of:
 // SuperTextile by
 // http://www.creatimation.net/journal/textile-live-preview
 
-qx.util.string.textilize = function(s)
+qx.util.Textile.textilize = function(s)
 {
   var r = s;
 

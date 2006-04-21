@@ -26,47 +26,49 @@
 
 ************************************************************************ */
 
-qx.util.compare.byString = function(a, b) {
+qx.util.Compare = {};
+
+qx.util.Compare.byString = function(a, b) {
   return a==b ? 0 : a > b ? 1 : -1;
 };
 
-qx.util.compare.byStringCaseInsensitive = function(a, b) {
-  return qx.util.compare.byString(a.toLowerCase(), b.toLowerCase());
+qx.util.Compare.byStringCaseInsensitive = function(a, b) {
+  return qx.util.Compare.byString(a.toLowerCase(), b.toLowerCase());
 };
 
-qx.util.compare.byStringUmlautsShort = function(a, b) {
-  return qx.util.compare.byString(a.normalizeUmlauts(), b.normalizeUmlautsShort());
+qx.util.Compare.byStringUmlautsShort = function(a, b) {
+  return qx.util.Compare.byString(a.normalizeUmlauts(), b.normalizeUmlautsShort());
 };
 
-qx.util.compare.byStringUmlautsShortCaseInsensitive = function(a, b) {
-  return qx.util.compare.byString(a.normalizeUmlauts().toLowerCase(), b.normalizeUmlautsShort().toLowerCase());
+qx.util.Compare.byStringUmlautsShortCaseInsensitive = function(a, b) {
+  return qx.util.Compare.byString(a.normalizeUmlauts().toLowerCase(), b.normalizeUmlautsShort().toLowerCase());
 };
 
-qx.util.compare.byStringUmlautsLong = function(a, b) {
-  return qx.util.compare.byString(a.normalizeUmlautsLong(), b.normalizeUmlautsLong());
+qx.util.Compare.byStringUmlautsLong = function(a, b) {
+  return qx.util.Compare.byString(a.normalizeUmlautsLong(), b.normalizeUmlautsLong());
 };
 
-qx.util.compare.byStringUmlautsLongCaseInsensitive = function(a, b) {
-  return qx.util.compare.byString(a.normalizeUmlautsLong().toLowerCase(), b.normalizeUmlautsLong().toLowerCase());
+qx.util.Compare.byStringUmlautsLongCaseInsensitive = function(a, b) {
+  return qx.util.Compare.byString(a.normalizeUmlautsLong().toLowerCase(), b.normalizeUmlautsLong().toLowerCase());
 };
 
-qx.util.compare.byFloat = function(a, b) {
+qx.util.Compare.byFloat = function(a, b) {
   return a - b;
 };
 
-qx.util.compare.byInteger = qx.util.compare.byNumber = qx.util.compare.byFloat;
+qx.util.Compare.byInteger = qx.util.Compare.byNumber = qx.util.Compare.byFloat;
 
-qx.util.compare.byIntegerString = function(a, b) {
+qx.util.Compare.byIntegerString = function(a, b) {
   return parseInt(a) - parseInt(b);
 };
 
-qx.util.compare.byFloatString = function(a, b) {
+qx.util.Compare.byFloatString = function(a, b) {
   return parseFloat(a) - parseFloat(b);
 };
 
-qx.util.compare.byNumberString = qx.util.compare.byFloatString;
+qx.util.Compare.byNumberString = qx.util.Compare.byFloatString;
 
-qx.util.compare.byIPv4 = function(a, b)
+qx.util.Compare.byIPv4 = function(a, b)
 {
   var ipa = a.split(QxConst.CORE_DOT, 4);
   var ipb = b.split(QxConst.CORE_DOT, 4);
@@ -84,6 +86,6 @@ qx.util.compare.byIPv4 = function(a, b)
   return parseInt(ipa[3]) - parseInt(ipb[3]);
 };
 
-qx.util.compare.byZIndex = function(a, b) {
+qx.util.Compare.byZIndex = function(a, b) {
   return a.getZIndex() - b.getZIndex();
 };
