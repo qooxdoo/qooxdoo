@@ -21,7 +21,7 @@ read
 
 
 
-echo ">>> Sorting class update information..."
+echo ">>> Sorting data..."
 grep "=" $datfile | grep -v "^#" | sort -r > /tmp/repltmp.dat
 echo ">>> Done"
 echo

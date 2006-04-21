@@ -21,7 +21,7 @@ read
 
 
 
-echo ">>> Sorting class update information..."
+echo ">>> Sorting data..."
 grep "=" $datfile | grep -v "^#" | sort -r > /tmp/infotmp.dat
 cat /tmp/infotmp.dat | cut -d= -f1 > /tmp/infokeystmp.dat
 echo ">>> Done"
