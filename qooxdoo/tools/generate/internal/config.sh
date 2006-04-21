@@ -12,6 +12,7 @@ L="$L script/core/DefaultSettings"
 L="$L script/core/Settings"
 L="$L script/Const"
 L="$L script/OO"
+L="$L script/sys/Client"
 
 L="$L script/lang/Object"
 L="$L script/lang/Array"
@@ -25,7 +26,6 @@ L="$L script/util/Validation"
 L="$L script/util/string/Normalization"
 L="$L script/util/string/Textile"
 L="$L script/util/compare/Compare"
-L="$L script/sys/Client"
 
 # Dom Features
 L="$L script/dom/DomDimension"
