@@ -37,19 +37,19 @@ qx.util.Compare.byStringCaseInsensitive = function(a, b) {
 };
 
 qx.util.Compare.byStringUmlautsShort = function(a, b) {
-  return qx.util.Compare.byString(a.normalizeUmlauts(), b.normalizeUmlautsShort());
+  return qx.util.Compare.byString(qx.util.Normalization.umlautsShort(a), qx.util.Normalization.umlautsShort(b));
 };
 
 qx.util.Compare.byStringUmlautsShortCaseInsensitive = function(a, b) {
-  return qx.util.Compare.byString(a.normalizeUmlauts().toLowerCase(), b.normalizeUmlautsShort().toLowerCase());
+  return qx.util.Compare.byString(qx.util.Normalization.umlautsShort(a).toLowerCase(), qx.util.Normalization.umlautsShort(b).toLowerCase());
 };
 
 qx.util.Compare.byStringUmlautsLong = function(a, b) {
-  return qx.util.Compare.byString(a.normalizeUmlautsLong(), b.normalizeUmlautsLong());
+  return qx.util.Compare.byString(qx.util.Normalization.umlautsLong(a), qx.util.Normalization.umlautsLong(b));
 };
 
 qx.util.Compare.byStringUmlautsLongCaseInsensitive = function(a, b) {
-  return qx.util.Compare.byString(a.normalizeUmlautsLong().toLowerCase(), b.normalizeUmlautsLong().toLowerCase());
+  return qx.util.Compare.byString(qx.util.Normalization.umlautsLong(a).toLowerCase(), qx.util.Normalization.umlautsLong(b).toLowerCase());
 };
 
 qx.util.Compare.byFloat = function(a, b) {

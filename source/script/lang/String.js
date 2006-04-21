@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #package(core)
+#require(qx.const)
 
 ************************************************************************ */
 
@@ -70,13 +71,6 @@ qx.lang.String.stripTags = function(str) {
 
 
 
-String.prototype.normalizeUmlautsLong = function() {
-  return qx.util.Normalization.umlautsLong(this);
-};
-
-String.prototype.normalizeUmlautsShort = function() {
-  return qx.util.Normalization.umlautsShort(this);
-};
 
 String.prototype.startsWith = function(str) {
   return !this.indexOf(str);
