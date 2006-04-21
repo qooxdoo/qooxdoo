@@ -72,12 +72,7 @@ qx.lang.String.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 };
 
-
-
-
-
-
-String.prototype.pad = function(length, ch)
+qx.lang.String.pad = function(length, ch)
 {
   if (typeof ch === QxConst.TYPEOF_UNDEFINED) {
     ch = QxConst.CORE_ZERO;
@@ -91,6 +86,10 @@ String.prototype.pad = function(length, ch)
 
   return temp + this;
 };
+
+
+
+
 
 
 
