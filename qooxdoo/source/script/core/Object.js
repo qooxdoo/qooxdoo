@@ -25,7 +25,7 @@
 #package(core)
 #require(QxMain)
 #require(QxExtend)
-#require(QxConst)
+#require(qx.Const)
 #require(QxUtil)
 #require(qx.core.Settings)
 #post(qx.sys.Client)

@@ -24,7 +24,7 @@
 
 #package(transport)
 #post(qx.io.remote.RemoteRequestQueue)
-#post(QxConst)
+#post(qx.Const)
 
 ************************************************************************ */
 

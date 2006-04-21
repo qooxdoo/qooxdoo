@@ -24,7 +24,7 @@
 
 #package(core)
 #post(QxMain)
-#post(QxConst)
+#post(qx.Const)
 #post(QxUtil)
 
 ************************************************************************ */

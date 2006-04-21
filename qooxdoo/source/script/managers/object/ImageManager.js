@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(image)
-#require(QxConst)
+#require(qx.Const)
 #post(qx.io.image.ImagePreloader)
 #post(QxUtil)
 #post(qx.renderer.theme.WidgetTheme)
