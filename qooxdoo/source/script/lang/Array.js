@@ -103,17 +103,17 @@ qx.lang.Array.getFirst = function(arr) {
   return arr[0];
 };
 
-
-
-
-
-
-
-
-
-Array.prototype.insertAt = function(obj, i) {
-  this.splice(i, 0, obj);
+qx.lang.Array.insertAt = function(arr, obj, i) {
+  arr.splice(i, 0, obj);
 };
+
+
+
+
+
+
+
+
 
 Array.prototype.insertBefore = function(obj, obj2)
 {
