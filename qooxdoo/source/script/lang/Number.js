@@ -36,22 +36,18 @@ qx.lang.Number.isBetweenRange = function(nr, vmin, vmax) {
   return nr > vmin && nr < vmax;
 };
 
-
-
-
-Number.prototype.limit = function(vmin, vmax)
+qx.lang.Number.limit = function(nr, vmin, vmax)
 {
-  if (vmax != null && typeof vmax === QxConst.TYPEOF_NUMBER && this > vmax)
+  if (typeof vmax === QxConst.TYPEOF_NUMBER && nr > vmax)
   {
     return vmax;
   }
-  else if (vmin != null && typeof vmin === QxConst.TYPEOF_NUMBER && this < vmin)
+  else if (typeof vmin === QxConst.TYPEOF_NUMBER && nr < vmin)
   {
     return vmin;
   }
   else
   {
-    // Number is needed, otherwise a object will be returned
-    return Number(this);
+    return nr;
   };
 };

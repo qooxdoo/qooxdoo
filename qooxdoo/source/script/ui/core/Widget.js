@@ -2107,11 +2107,11 @@ proto._computeBoxHeightFallback = function() {
 };
 
 proto._computeBoxWidth = function() {
-  return Math.max(0, this.getParent().getLayoutImpl().computeChildBoxWidth(this).limit(this.getMinWidthValue(), this.getMaxWidthValue()));
+  return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxWidth(this), this.getMinWidthValue(), this.getMaxWidthValue()));
 };
 
 proto._computeBoxHeight = function() {
-  return Math.max(0, this.getParent().getLayoutImpl().computeChildBoxHeight(this).limit(this.getMinHeightValue(), this.getMaxHeightValue()));
+  return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxHeight(this), this.getMinHeightValue(), this.getMaxHeightValue()));
 };
 
 proto._computeOuterWidth = function() {

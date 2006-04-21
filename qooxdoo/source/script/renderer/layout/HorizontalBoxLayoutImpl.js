@@ -180,7 +180,7 @@ proto.computeChildrenFlexWidth = function()
       vCurrentChild = vFlexibleChildren[vIterator];
 
       vComputedFlexibleWidth = vCurrentChild._computedWidthFlexValue = vCurrentChild._computedWidthParsed * vPartWidth;
-      vAllocationDiff += vComputedFlexibleWidth - vComputedFlexibleWidth.limit(vCurrentChild.getMinWidthValue(), vCurrentChild.getMaxWidthValue());
+      vAllocationDiff += vComputedFlexibleWidth - qx.lang.Number.limit(vComputedFlexibleWidth, vCurrentChild.getMinWidthValue(), vCurrentChild.getMaxWidthValue());
     };
 
     // Rounding diff

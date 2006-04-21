@@ -181,7 +181,7 @@ proto.computeChildrenFlexHeight = function()
       vCurrentChild = vFlexibleChildren[vIterator];
 
       vComputedFlexibleHeight = vCurrentChild._computedHeightFlexValue = vCurrentChild._computedHeightParsed * vPartHeight;
-      vAllocationDiff += vComputedFlexibleHeight - vComputedFlexibleHeight.limit(vCurrentChild.getMinHeightValue(), vCurrentChild.getMaxHeightValue());
+      vAllocationDiff += vComputedFlexibleHeight - qx.lang.Number.limit(vComputedFlexibleHeight, vCurrentChild.getMinHeightValue(), vCurrentChild.getMaxHeightValue());
     };
 
     // Rounding diff

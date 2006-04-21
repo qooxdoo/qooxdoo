@@ -105,7 +105,7 @@ proto.computeChildNeededWidth = function(vChild)
 
   var vBox = (vChild._computedWidthTypePercent || vChild._computedWidthTypeFlex ? null : vChild.getWidthValue()) || vChild.getPreferredBoxWidth() || 0;
 
-  return vBox.limit(vMinBox, vMaxBox) + vChild.getMarginLeft() + vChild.getMarginRight();
+  return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vChild.getMarginLeft() + vChild.getMarginRight();
 };
 
 /*!
@@ -120,7 +120,7 @@ proto.computeChildNeededHeight = function(vChild)
 
   var vBox = (vChild._computedHeightTypePercent || vChild._computedHeightTypeFlex ? null : vChild.getHeightValue()) || vChild.getPreferredBoxHeight() || 0;
 
-  return vBox.limit(vMinBox, vMaxBox) + vChild.getMarginTop() + vChild.getMarginBottom();
+  return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vChild.getMarginTop() + vChild.getMarginBottom();
 };
 
 
