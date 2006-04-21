@@ -26,23 +26,17 @@
 
 ************************************************************************ */
 
-String.prototype.contains = function(s) {
-  return this.indexOf(s) != -1;
-};
+qx.lang.String = {};
 
-String.prototype.toFirstUp = function() {
-  return this.charAt(0).toUpperCase() + this.substr(1);
-};
-
-String.prototype.toCamelCase = function()
+qx.lang.String.toCamelCase = function(str)
 {
-  var vArr = this.split(QxConst.CORE_DASH), vLength = vArr.length;
+  var vArr = str.split(QxConst.CORE_DASH), vLength = vArr.length;
 
   if(vLength == 1) {
     return vArr[0];
   };
 
-  var vNew = this.indexOf(QxConst.CORE_DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
+  var vNew = str.indexOf(QxConst.CORE_DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
 
   for (var vPart, i=1; i<vLength; i++)
   {
@@ -53,16 +47,74 @@ String.prototype.toCamelCase = function()
   return vNew;
 };
 
-String.prototype.trimLeft = function() {
-  return this.replace(/^\s+/, QxConst.CORE_EMPTY);
+qx.lang.String.trimLeft = function(str) {
+  return str.replace(/^\s+/, QxConst.CORE_EMPTY);
 };
 
-String.prototype.trimRight = function() {
-  return this.replace(/\s+$/, QxConst.CORE_EMPTY);
+qx.lang.String.trimRight = function(str) {
+  return str.replace(/\s+$/, QxConst.CORE_EMPTY);
 };
 
-String.prototype.trim = function() {
-  return this.replace(/^\s+|\s+$/g, QxConst.CORE_EMPTY);
+qx.lang.String.trim = function(str) {
+  return str.replace(/^\s+|\s+$/g, QxConst.CORE_EMPTY);
+};
+
+qx.lang.String.stripTags = function(str) {
+  return str.replace(/<\/?[^>]+>/gi, QxConst.CORE_EMPTY);
+};
+
+
+
+
+
+
+
+
+String.prototype.normalizeUmlautsLong = function() {
+  return qx.util.Normalization.umlautsLong(this);
+};
+
+String.prototype.normalizeUmlautsShort = function() {
+  return qx.util.Normalization.umlautsShort(this);
+};
+
+String.prototype.startsWith = function(str) {
+  return !this.indexOf(str);
+};
+
+String.prototype.endsWith = function(str) {
+  return this.lastIndexOf(str) === this.length-str.length;
+};
+
+String.prototype.pad = function(length, ch)
+{
+  if (typeof ch === QxConst.TYPEOF_UNDEFINED) {
+    ch = QxConst.CORE_ZERO;
+  };
+
+  var temp = QxConst.CORE_EMPTY;
+
+  for (var i=length, l=this.length; l<i; l++) {
+    temp += ch;
+  };
+
+  return temp + this;
+};
+
+
+
+
+
+
+
+// TODO: Most complex ones
+
+String.prototype.toFirstUp = function() {
+  return this.charAt(0).toUpperCase() + this.substr(1);
+};
+
+String.prototype.contains = function(s) {
+  return this.indexOf(s) != -1;
 };
 
 String.prototype.add = function(v, sep)
@@ -119,39 +171,4 @@ String.prototype.remove = function(v, sep)
 
     return a.join(sep);
   };
-};
-
-String.prototype.stripTags = function() {
-  return this.replace(/<\/?[^>]+>/gi, QxConst.CORE_EMPTY);
-};
-
-String.prototype.normalizeUmlautsLong = function() {
-  return qx.util.Normalization.umlautsLong(this);
-};
-
-String.prototype.normalizeUmlautsShort = function() {
-  return qx.util.Normalization.umlautsShort(this);
-};
-
-String.prototype.startsWith = function(str) {
-  return !this.indexOf(str);
-};
-
-String.prototype.endsWith = function(str) {
-  return this.lastIndexOf(str) === this.length-str.length;
-};
-
-String.prototype.pad = function(length, ch)
-{
-  if (typeof ch === QxConst.TYPEOF_UNDEFINED) {
-    ch = QxConst.CORE_ZERO;
-  };
-
-  var temp = QxConst.CORE_EMPTY;
-
-  for (var i=length, l=this.length; l<i; l++) {
-    temp += ch;
-  };
-
-  return temp + this;
 };
