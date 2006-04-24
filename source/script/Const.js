@@ -75,6 +75,8 @@ qx.Const =
   CORE_NO : "no",
   CORE_ON : "on",
   CORE_OFF : "off",
+  CORE_SET : "set",
+  CORE_GET : "get",
 
   HTML_AMPERSAND : "&amp;",
   HTML_SMALLER : "&lt;",
@@ -144,8 +146,6 @@ qx.Const =
   INTERNAL_EVAL : "_eval",
   INTERNAL_CHECK : "_check",
   INTERNAL_MODIFY : "_modify",
-
-  INTERNAL_BACKCOMPAT : "BackCompat",
 
   PROPERTY_CLASSNAME : "className",
   PROPERTY_FILTER : "filter",
@@ -257,6 +257,7 @@ qx.Const =
   EVENT_TYPE_SELECT : "select",
   EVENT_TYPE_SCROLL : "scroll",
   EVENT_TYPE_INPUT : "input",
+  EVENT_TYPE_CHANGE : "change",
   EVENT_TYPE_LOAD : "load",
   EVENT_TYPE_UNLOAD : "unload",
   EVENT_TYPE_BEFOREUNLOAD : "beforeunload",
