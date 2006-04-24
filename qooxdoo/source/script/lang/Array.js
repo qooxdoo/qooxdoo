@@ -163,17 +163,6 @@ qx.lang.Array.remove = function(arr, obj)
   };
 };
 
-
-
-
-
-
-
-
-
-
-// TODO: Most complex ones
-
-Array.prototype.contains = function(obj) {
-  return this.indexOf(obj) != -1;
+qx.lang.Array.contains = function(arr, obj) {
+  return arr.indexOf(obj) != -1;
 };

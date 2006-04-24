@@ -116,7 +116,7 @@ proto.add = function()
   {
     vItem = vItems[i];
 
-    if(this._items.contains(vItem)) {
+    if(qx.lang.Array.contains(this._items, vItem)) {
       return;
     };
 

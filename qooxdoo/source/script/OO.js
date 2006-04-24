@@ -493,7 +493,7 @@ Function.prototype._createProperty = function(p)
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
-        if (p.hasPossibleValues && newValue != null && !p.possibleValues.contains(newValue)) {
+        if (p.hasPossibleValues && newValue != null && !qx.lang.Array.contains(p.possibleValues, newValue)) {
           return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", qx.Const.INTERNAL_SET + p.method);
         };
       };

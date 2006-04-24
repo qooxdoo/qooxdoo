@@ -147,16 +147,6 @@ qx.lang.String.remove = function(str, v, sep)
   };
 };
 
-
-
-
-
-
-
-
-
-// TODO: Most complex ones
-
-String.prototype.contains = function(s) {
-  return this.indexOf(s) != -1;
+qx.lang.String.contains = function(str, s) {
+  return str.indexOf(s) != -1;
 };

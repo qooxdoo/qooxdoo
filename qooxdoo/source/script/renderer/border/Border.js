@@ -121,7 +121,7 @@ qx.renderer.border.Border.fromString = function(vDefString)
       default:
         vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || vPart.contains(qx.Const.CORE_PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.Const.CORE_PIXEL))
         {
           vBorder.setWidth(vTemp);
         }
@@ -475,7 +475,7 @@ proto._updateColors = function(vColorObject, vNewValue)
 
 proto._handleColorRegistration = function(propValue, propOldValue, propData)
 {
-  if (propData.name.contains(qx.renderer.border.Border.stylePart))
+  if (qx.lang.String.contains(propData.name, qx.renderer.border.Border.stylePart))
   {
     switch(propValue)
     {
@@ -491,7 +491,7 @@ proto._handleColorRegistration = function(propValue, propOldValue, propData)
     };
   };
 
-  if (propData.name.contains(qx.renderer.border.Border.colorPart))
+  if (qx.lang.String.contains(propData.name, qx.renderer.border.Border.colorPart))
   {
     if (propOldValue instanceof qx.renderer.color.ColorObject)
     {
