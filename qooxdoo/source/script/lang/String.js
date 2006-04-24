@@ -91,21 +91,7 @@ qx.lang.String.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
 };
 
-
-
-
-
-
-
-
-
-// TODO: Most complex ones
-
-String.prototype.contains = function(s) {
-  return this.indexOf(s) != -1;
-};
-
-String.prototype.add = function(v, sep)
+qx.lang.String.add = function(v, sep)
 {
   if (this == v)
   {
@@ -133,6 +119,20 @@ String.prototype.add = function(v, sep)
       return this;
     };
   };
+};
+
+
+
+
+
+
+
+
+
+// TODO: Most complex ones
+
+String.prototype.contains = function(s) {
+  return this.indexOf(s) != -1;
 };
 
 String.prototype.remove = function(v, sep)
