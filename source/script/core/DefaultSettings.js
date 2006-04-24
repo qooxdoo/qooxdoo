@@ -28,6 +28,9 @@
 
 qx.core.DefaultSettings =
 {
+  version : "0.6-alpha2",
+  loadStart : (new Date).valueOf(),
+
   enableWidgetDebug : false,
   enableDisposerDebug : false,
   enableTransportDebug : false,

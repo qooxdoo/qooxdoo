@@ -31,7 +31,7 @@
 qx.dev.Debug = function(group, message, classname)
 {
   // Building time string
-  var t = String((new Date).valueOf()-QxMain.loadStart);
+  var t = String((new Date).valueOf()-qx.core.DefaultSettings.loadStart);
   while (t.length<6) t = qx.Const.CORE_ZERO + t;
   t += qx.dev.Debug.divider;
 

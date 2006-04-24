@@ -295,7 +295,7 @@ proto._printClassInfo = function() {
 };
 
 proto._printPropertyInfo = function() {
-  this.debug("Number of properties: " + QxMain.propertyNumber);
+  this.debug("Number of properties: " + qx.OO.propertyNumber);
 };
 
 proto._printClientInfo = function()
@@ -308,7 +308,7 @@ proto._printClientInfo = function()
 };
 
 proto._printVersion = function() {
-  this.debug("Version: " + QxMain.version);
+  this.debug("Version: " + qx.core.DefaultSettings.version);
 };
 
 
