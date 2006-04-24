@@ -291,7 +291,7 @@ proto._printInstanceInfo = function() {
 };
 
 proto._printClassInfo = function() {
-  this.debug("Number of classes: " + qx.lang.Object.getLength(QxMain.classes));
+  this.debug("Number of classes: " + qx.lang.Object.getLength(qx.OO.classes));
 };
 
 proto._printPropertyInfo = function() {

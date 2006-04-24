@@ -27,6 +27,13 @@
 
 ************************************************************************ */
 
+qx.OO = {};
+
+qx.OO.classes = {};
+qx.OO.setter = {};
+qx.OO.getter = {};
+qx.OO.resetter = {};
+qx.OO.values = {};
 
 
 /*
@@ -57,7 +64,7 @@ Function.prototype.extend = function(vSuper, vClassName)
   proto.constructor = this;
 
   // Global storage
-  QxMain.classes[vClassName] = this;
+  qx.OO.classes[vClassName] = this;
 
   return proto;
 };
@@ -399,12 +406,12 @@ Function.prototype._createProperty = function(p)
   var modifyKey = qx.Const.INTERNAL_MODIFY + p.implMethod;
   var checkKey = qx.Const.INTERNAL_CHECK + p.implMethod;
 
-  if (!QxMain.setter[p.name])
+  if (!qx.OO.setter[p.name])
   {
-    QxMain.setter[p.name] = qx.Const.INTERNAL_SET + p.method;
-    QxMain.getter[p.name] = qx.Const.INTERNAL_GET + p.method;
-    QxMain.resetter[p.name] = qx.Const.INTERNAL_RESET + p.method;
-    QxMain.values[p.name] = valueKey;
+    qx.OO.setter[p.name] = qx.Const.INTERNAL_SET + p.method;
+    qx.OO.getter[p.name] = qx.Const.INTERNAL_GET + p.method;
+    qx.OO.resetter[p.name] = qx.Const.INTERNAL_RESET + p.method;
+    qx.OO.values[p.name] = valueKey;
   };
 
   // unit detection support
@@ -485,7 +492,7 @@ Function.prototype._createProperty = function(p)
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
-        if (p.hasInstance && !(newValue instanceof QxMain.classes[p.instance])) {
+        if (p.hasInstance && !(newValue instanceof qx.OO.classes[p.instance])) {
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", qx.Const.INTERNAL_SET + p.method);
         };
 
