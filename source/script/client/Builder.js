@@ -467,9 +467,9 @@ proto._extractClassName = function(node) {
     n = node.nodeName;
     var nameParts = n.split(":");
     if (nameParts.length == 2)
-     return nameParts[0].toFirstUp() + nameParts[1].toFirstUp();
+     return qx.lang.String.toFirstUp(nameParts[0]) + qx.lang.String.toFirstUp(nameParts[1]);
   }
-  return "Qx" + n.toFirstUp();
+  return "Qx" + qx.lang.String.toFirstUp(n);
 };
 
 proto._mapXmlAttribToObject = function(node) {

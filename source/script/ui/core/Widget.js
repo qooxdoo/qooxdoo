@@ -2966,7 +2966,7 @@ qx.ui.core.Widget.initLayoutProperties = function()
   for (var i=0, l=a.length, p, b, t; i<l; i++)
   {
     p = a[i];
-    b = qx.Const.INTERNAL_COMPUTED + p.toFirstUp();
+    b = qx.Const.INTERNAL_COMPUTED + qx.lang.String.toFirstUp(p);
     t = b + qx.Const.INTERNAL_UNIT_TYPE;
 
     qx.ui.core.Widget.layoutPropertyTypes[p] =
@@ -4935,7 +4935,7 @@ proto._updateBorder = function(vEdge)
   // Small hack, remove later: TODO
   // ?? Anybody have an idea about this TODO?
   var vBorder = this.getBorder();
-  var vEdgeUp = vEdge.toFirstUp();
+  var vEdgeUp = qx.lang.String.toFirstUp(vEdge);
 
   var vNewValue = vBorder[qx.Const.INTERNAL_GET + vEdgeUp + "Width"]();
   var vCacheName = "_cachedBorder" + vEdgeUp;
@@ -5033,7 +5033,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   // Apply properties to new clone instance
   propertyListLength = propertyList.length-1;
   do {
-    propertyName = propertyList[propertyListLength].toFirstUp();
+    propertyName = qx.lang.String.toFirstUp(propertyList[propertyListLength]);
     cloneInstance[qx.Const.INTERNAL_SET + propertyName](this[qx.Const.INTERNAL_GET + propertyName]());
   }
   while(propertyListLength--);

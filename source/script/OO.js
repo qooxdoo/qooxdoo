@@ -75,7 +75,7 @@ Function.prototype.extend = function(vSuper, vClassName)
 Function.prototype.addFastProperty = function(vConfig)
 {
   var vName = vConfig.name;
-  var vUpName = vName.toFirstUp();
+  var vUpName = qx.lang.String.toFirstUp(vName);
 
   var vStorageField = qx.Const.INTERNAL_VALUE + vUpName;
   var vGetterName = qx.Const.INTERNAL_GET + vUpName;
@@ -125,7 +125,7 @@ Function.prototype.addFastProperty = function(vConfig)
 Function.prototype.addCachedProperty = function(p)
 {
   var vName = p.name;
-  var vUpName = vName.toFirstUp();
+  var vUpName = qx.lang.String.toFirstUp(vName);
 
   var vStorageField = qx.Const.INTERNAL_CACHED + vUpName;
   var vComputerName = qx.Const.INTERNAL_COMPUTE + vUpName;
@@ -193,7 +193,7 @@ Function.prototype.addPropertyGroup = function(p)
     throw new Error("Malformed input parameters: members needed!");
   };
 
-  p.method = p.name.toFirstUp();
+  p.method = qx.lang.String.toFirstUp(p.name);
 
 
   /* --------------------------------------------------------------------------------
@@ -203,11 +203,11 @@ Function.prototype.addPropertyGroup = function(p)
   p.setter = [];
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.setter.push(qx.Const.INTERNAL_SET + p.members[i].toFirstUp());
+    p.setter.push(qx.Const.INTERNAL_SET + qx.lang.String.toFirstUp(p.members[i]));
   };
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.getter.push(qx.Const.INTERNAL_GET + p.members[i].toFirstUp());
+    p.getter.push(qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(p.members[i]));
   };
 
 
@@ -291,8 +291,8 @@ Function.prototype.removeProperty = function(p)
   // building shorter prototype access
   var pp = this.prototype;
 
-  p.method = p.name.toFirstUp();
-  p.implMethod = p.impl ? p.impl.toFirstUp() : p.method;
+  p.method = qx.lang.String.toFirstUp(p.name);
+  p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
 
   var valueKey = qx.Const.INTERNAL_VALUE + p.method;
 
@@ -325,8 +325,8 @@ Function.prototype._createProperty = function(p)
   // building shorter prototype access
   var pp = this.prototype;
 
-  p.method = p.name.toFirstUp();
-  p.implMethod = p.impl ? p.impl.toFirstUp() : p.method;
+  p.method = qx.lang.String.toFirstUp(p.name);
+  p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
 
   if (qx.util.Validation.isInvalid(p.defaultValue)) {
     p.defaultValue = null;
@@ -421,7 +421,7 @@ Function.prototype._createProperty = function(p)
     pp[cu + qx.Const.INTERNAL_UNIT_TYPE_AUTO] = false;
     pp[cu + qx.Const.INTERNAL_UNIT_TYPE_FLEX] = false;
 
-    var unitDetectionKey = qx.Const.INTERNAL_UNITDETECTION + p.unitDetection.toFirstUp();
+    var unitDetectionKey = qx.Const.INTERNAL_UNITDETECTION + qx.lang.String.toFirstUp(p.unitDetection);
   };
 
   // apply default value

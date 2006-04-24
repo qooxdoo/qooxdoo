@@ -63,7 +63,7 @@ qx.ui.listview.ListViewHeader = function(vColumns)
     };
 
     // store some additional data
-    vColumns[vCol].contentClass = QxMain.classes["qx.ui.listview.ListViewContentCell" + (vColumns[vCol].type || "text").toFirstUp()];
+    vColumns[vCol].contentClass = QxMain.classes["qx.ui.listview.ListViewContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text")];
     vColumns[vCol].headerCell = vHeadCell;
   };
 
