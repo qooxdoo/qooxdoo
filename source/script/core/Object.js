@@ -223,7 +223,7 @@ proto.set = function(propertyValues)
   {
     try
     {
-      this[QxMain.setter[prop]](propertyValues[prop]);
+      this[qx.OO.setter[prop]](propertyValues[prop]);
     }
     catch(ex)
     {
@@ -361,7 +361,7 @@ proto.dispose = function()
   {
     var a = this._objectproperties.split(qx.Const.CORE_COMMA);
     for (var i=0, l=a.length; i<l; i++) {
-      delete this[QxMain.values[a[i]]];
+      delete this[qx.OO.values[a[i]]];
     };
 
     delete this._objectproperties;

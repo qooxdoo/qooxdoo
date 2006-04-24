@@ -30,12 +30,5 @@ var QxMain =
 {
   version : "0.6-alpha1",
   loadStart : (new Date).valueOf(),
-
-  classes : {},
   propertyNumber : 0,
-
-  setter : {},
-  getter : {},
-  resetter : {},
-  values : {}
 };

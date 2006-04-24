@@ -3699,7 +3699,7 @@ proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanc
     for (vProp in vOldAppearanceProperties)
     {
       if (!(vProp in vNewAppearanceProperties)) {
-        this[QxMain.resetter[vProp]]();
+        this[qx.OO.resetter[vProp]]();
       };
     };
 
@@ -3790,7 +3790,7 @@ proto._modifyAppearance = function(propValue, propOldValue, propData)
     for (vProp in vOldAppearanceProperties)
     {
       if (!(vProp in vNewAppearanceProperties)) {
-        this[QxMain.resetter[vProp]]();
+        this[qx.OO.resetter[vProp]]();
       };
     };
   };
