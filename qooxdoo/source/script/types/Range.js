@@ -42,16 +42,14 @@ qx.types.Range.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaul
 qx.types.Range.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
 qx.types.Range.addProperty({ name : "step", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
-qx.types.Range.CHANGE_EVENTTYPE = qx.Const.INTERNAL_CHANGE;
-
 proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
 };
 
 proto._modifyValue = function(propValue, propOldValue, propData)
 {
-  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;
@@ -65,8 +63,8 @@ proto._modifyMax = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.min(this.getValue(), propValue));
 
-  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;
@@ -80,8 +78,8 @@ proto._modifyMin = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.max(this.getValue(), propValue));
 
-  if (this.hasEventListeners(qx.types.Range.CHANGE_EVENTTYPE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.types.Range.CHANGE_EVENTTYPE), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;

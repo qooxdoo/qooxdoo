@@ -125,7 +125,7 @@ if (qx.sys.Client.isMshtml())
   qx.event.types.MouseEvent.addFastProperty({ name : "pageX", readOnly : true });
   qx.event.types.MouseEvent.addFastProperty({ name : "pageY", readOnly : true });
 
-  if (qx.util.Validation.isInvalid(document.compatMode) || document.compatMode == qx.Const.INTERNAL_BACKCOMPAT)
+  if (qx.sys.Client.isInQuirksMode())
   {
     proto._computePageX = function() {
       return this.getDomEvent().clientX + document.documentElement.scrollLeft;

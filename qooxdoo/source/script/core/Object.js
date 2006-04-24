@@ -242,7 +242,7 @@ proto.get = function(propertyNames, outputHint)
   switch(typeof propertyNames)
   {
     case qx.Const.TYPEOF_STRING:
-      return this[qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(propertyNames)]();
+      return this[qx.Const.CORE_GET + qx.lang.String.toFirstUp(propertyNames)]();
 
     case qx.Const.TYPEOF_OBJECT:
       if (typeof propertyNames.length === qx.Const.TYPEOF_NUMBER)
@@ -255,7 +255,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              h[propertyNames[i]] = this[qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(propertyNames[i])]();
+              h[propertyNames[i]] = this[qx.Const.CORE_GET + qx.lang.String.toFirstUp(propertyNames[i])]();
             }
             catch(ex)
             {
@@ -271,7 +271,7 @@ proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              propertyNames[i] = this[qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(propertyNames[i])]();
+              propertyNames[i] = this[qx.Const.CORE_GET + qx.lang.String.toFirstUp(propertyNames[i])]();
             }
             catch(ex)
             {
@@ -285,7 +285,7 @@ proto.get = function(propertyNames, outputHint)
       else
       {
         for (var i in propertyNames) {
-          propertyNames[i] = this[qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(i)]();
+          propertyNames[i] = this[qx.Const.CORE_GET + qx.lang.String.toFirstUp(i)]();
         };
 
         return propertyNames;
