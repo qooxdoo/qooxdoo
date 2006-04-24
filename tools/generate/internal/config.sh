@@ -26,8 +26,8 @@ L="$L script/lang/Object"
 L="$L script/lang/Array"
 L="$L script/lang/String"
 L="$L script/lang/Number"
-L="$L script/lang/Prototypes"
 L="$L script/lang/Generics"
+L="$L script/lang/Prototypes"
 
 # Utilities
 L="$L script/util/Return"
