@@ -50,81 +50,82 @@
 
 // Relicensed under LGPL for qooxdoo.
 
-// hide from global scope
-(function() {
+qx.lang.Generics = {};
 
-// Make generic versions of instance methods
-var makeGeneric = [
+qx.lang.Generics.init = function()
 {
-  object: Array,
-  methods:
-  [
-    "join",
-    "reverse",
-    "sort",
-    "push",
-    "pop",
-    "shift",
-    "unshift",
-    "splice",
-    "concat",
-    "slice",
-    "indexOf",
-    "lastIndexOf",
-    "forEach",
-    "map",
-    "filter",
-    "some",
-    "every"
-  ]
-},
-{
-  object: String,
-  methods:
-  [
-    "quote",
-    "substring",
-    "toLowerCase",
-    "toUpperCase",
-    "charAt",
-    "charCodeAt",
-    "indexOf",
-    "lastIndexOf",
-    "toLocaleLowerCase",
-    "toLocaleUpperCase",
-    "localeCompare",
-    "match",
-    "search",
-    "replace",
-    "split",
-    "substr",
-    "concat",
-    "slice"
-  ]
-}];
-
-for (var i=0, l=makeGeneric.length; i<l; i++)
-{
-  var constr = makeGeneric[i].object;
-  var methods = makeGeneric[i].methods;
-
-  for (var j=0; j<methods.length; j++)
+  // Make generic versions of instance methods
+  var makeGeneric = [
   {
-    var name = methods[j];
+    object: Array,
+    methods:
+    [
+      "join",
+      "reverse",
+      "sort",
+      "push",
+      "pop",
+      "shift",
+      "unshift",
+      "splice",
+      "concat",
+      "slice",
+      "indexOf",
+      "lastIndexOf",
+      "forEach",
+      "map",
+      "filter",
+      "some",
+      "every"
+    ]
+  },
+  {
+    object: String,
+    methods:
+    [
+      "quote",
+      "substring",
+      "toLowerCase",
+      "toUpperCase",
+      "charAt",
+      "charCodeAt",
+      "indexOf",
+      "lastIndexOf",
+      "toLocaleLowerCase",
+      "toLocaleUpperCase",
+      "localeCompare",
+      "match",
+      "search",
+      "replace",
+      "split",
+      "substr",
+      "concat",
+      "slice"
+    ]
+  }];
 
-    if (!constr[name])
+  for (var i=0, l=makeGeneric.length; i<l; i++)
+  {
+    var constr = makeGeneric[i].object;
+    var methods = makeGeneric[i].methods;
+
+    for (var j=0; j<methods.length; j++)
     {
-      constr[methods[j]] = function(constr, name)
+      var name = methods[j];
+
+      if (!constr[name])
       {
-        return function(s)
+        constr[methods[j]] = function(constr, name)
         {
-          var args = Array.prototype.slice.call(arguments, 1);
-          return constr.prototype[name].apply(s, args);
-        };
-      }(constr, name);
+          return function(s)
+          {
+            var args = Array.prototype.slice.call(arguments, 1);
+            return constr.prototype[name].apply(s, args);
+          };
+        }(constr, name);
+      };
     };
   };
 };
 
-// hide from global scope
-})();
+qx.lang.Generics.init();
