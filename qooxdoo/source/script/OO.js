@@ -34,6 +34,7 @@ qx.OO.setter = {};
 qx.OO.getter = {};
 qx.OO.resetter = {};
 qx.OO.values = {};
+qx.OO.propertyNumber = 0;
 
 
 /*
@@ -669,7 +670,7 @@ Function.prototype.changeProperty = Function.prototype._createProperty;
 
 Function.prototype.addProperty = function(p)
 {
-  QxMain.propertyNumber++;
+  qx.OO.propertyNumber++;
 
   this._createProperty(p);
 

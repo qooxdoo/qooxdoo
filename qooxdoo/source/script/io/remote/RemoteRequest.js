@@ -50,7 +50,7 @@ qx.io.remote.RemoteRequest = function(vUrl, vMethod, vResponseType)
 
   // Prototype-Style Request Headers
   this.setRequestHeader("X-Requested-With", "qooxdoo");
-  this.setRequestHeader("X-Qooxdoo-Version", QxMain.version);
+  this.setRequestHeader("X-Qooxdoo-Version", qx.core.DefaultSettings.version);
 };
 
 qx.io.remote.RemoteRequest.extend(qx.core.Target, "qx.io.remote.RemoteRequest");
