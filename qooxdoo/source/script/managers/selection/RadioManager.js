@@ -142,7 +142,7 @@ proto.add = function()
 proto.remove = function(vItem)
 {
   // Remove RadioButton from array
-  this._items.remove(vItem);
+  qx.lang.Array.remove(this._items, vItem);
 
   // Inform radio button about new manager
   vItem.setManager(null);

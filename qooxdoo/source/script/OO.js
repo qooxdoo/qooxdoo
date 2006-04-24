@@ -297,7 +297,7 @@ Function.prototype.removeProperty = function(p)
   var valueKey = qx.Const.INTERNAL_VALUE + p.method;
 
   // Remove property from list
-  pp._properties = pp._properties.remove(p.name);
+  pp._properties = qx.lang.String.remove(pp._properties, p.name);
 
   // Reset default value to null
   pp[valueKey] = null;

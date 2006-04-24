@@ -232,7 +232,7 @@ proto._updateState = function(vItem, vState, vIsState)
   var c = this.getItemClassName(vItem);
   var n = this.getItemBaseClassName(vItem) + "-" + vState;
 
-  this.setItemClassName(vItem, vIsState ? c.add(n, " ") : c.remove(n, " "));
+  this.setItemClassName(vItem, vIsState ? qx.lang.String.add(c, n, " ") : qx.lang.String.remove(c, n, " "));
 };
 
 proto.renderItemSelectionState = function(vItem, vIsSelected) {

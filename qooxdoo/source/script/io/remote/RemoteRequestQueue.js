@@ -169,7 +169,7 @@ proto._remove = function(vTransport)
   vTransport.removeEventListener(qx.Const.EVENT_TYPE_FAILED, this._oncompleted, this);
 
   // Remove from active transports
-  this._active.remove(vTransport);
+  qx.lang.Array.remove(this._active, vTransport);
 
   // Dispose transport object
   vTransport.dispose();
@@ -327,7 +327,7 @@ proto.abort = function(vRequest)
   }
   else if (this._queue.contains(vRequest))
   {
-    this._queue.remove(vRequest);
+    qx.lang.Array.remove(this._queue, vRequest);
   };
 };
 

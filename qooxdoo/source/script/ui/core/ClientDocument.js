@@ -205,7 +205,7 @@ proto.release = function(vActiveChild)
     }
     else
     {
-      this._modalWidgets.remove(vActiveChild);
+      qx.lang.Array.remove(this._modalWidgets, vActiveChild);
     };
   };
 

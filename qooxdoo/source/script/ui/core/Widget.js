@@ -601,7 +601,7 @@ qx.ui.core.Widget.removeFromGlobalWidgetQueue = function(vWidget)
 {
   if (vWidget._isInGlobalWidgetQueue)
   {
-    qx.ui.core.Widget._globalWidgetQueue.remove(vWidget);
+    qx.lang.Array.remove(qx.ui.core.Widget._globalWidgetQueue, vWidget);
     delete vWidget._isInGlobalWidgetQueue;
   };
 };
@@ -655,7 +655,7 @@ qx.ui.core.Widget.removeFromGlobalElementQueue = function(vWidget)
 {
   if (vWidget._isInGlobalElementQueue)
   {
-    qx.ui.core.Widget._globalElementQueue.remove(vWidget);
+    qx.lang.Array.remove(qx.ui.core.Widget._globalElementQueue, vWidget);
     delete vWidget._isInGlobalElementQueue;
   };
 };
@@ -706,7 +706,7 @@ qx.ui.core.Widget.removeFromGlobalStateQueue = function(vWidget)
 {
   if (vWidget._isInGlobalStateQueue)
   {
-    qx.ui.core.Widget._globalStateQueue.remove(vWidget);
+    qx.lang.Array.remove(qx.ui.core.Widget._globalStateQueue, vWidget);
     delete vWidget._isInGlobalStateQueue;
   };
 };
@@ -759,7 +759,7 @@ qx.ui.core.Widget.removeFromGlobalJobQueue = function(vWidget)
 {
   if (vWidget._isInGlobalJobQueue)
   {
-    qx.ui.core.Widget._globalJobQueue.remove(vWidget);
+    qx.lang.Array.remove(qx.ui.core.Widget._globalJobQueue, vWidget);
     delete vWidget._isInGlobalJobQueue;
   };
 };
@@ -810,7 +810,7 @@ qx.ui.core.Widget.removeFromGlobalLayoutQueue = function(vParent)
 {
   if (vParent._isInGlobalLayoutQueue)
   {
-    qx.ui.core.Widget._globalLayoutQueue.remove(vParent);
+    qx.lang.Array.remove(qx.ui.core.Widget._globalLayoutQueue, vParent);
     delete vParent._isInGlobalLayoutQueue;
   };
 };
@@ -928,7 +928,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
         vWidget._afterAppear();
 
         // Remove inline widget from queue and fix iterator position
-        vLazyQueue.remove(vWidget);
+        qx.lang.Array.remove(vLazyQueue, vWidget);
         i--;
 
         // Reset display queue flag
@@ -3297,7 +3297,7 @@ if (qx.sys.Client.isMshtml())
     var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
 
     if (this._inlineEvents) {
-      this._inlineEvents.remove(vEventType);
+      qx.lang.Array.remove(this._inlineEvents, vEventType);
     };
 
     if (this._isCreated) {
@@ -3346,7 +3346,7 @@ else
   proto.disableInlineEvent = function(vEventName)
   {
     if (this._inlineEvents) {
-      this._inlineEvents.remove(vEventName);
+      qx.lang.Array.remove(this._inlineEvents, vEventName);
     };
 
     if (this._isCreated) {
