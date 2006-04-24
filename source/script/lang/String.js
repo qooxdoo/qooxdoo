@@ -80,24 +80,24 @@ qx.lang.String.pad = function(length, ch)
 
   var temp = qx.Const.CORE_EMPTY;
 
-  for (var i=length, l=this.length; l<i; l++) {
+  for (var i=length, l=str.length; l<i; l++) {
     temp += ch;
   };
 
-  return temp + this;
+  return temp + str;
 };
 
 qx.lang.String.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
 };
 
-qx.lang.String.add = function(v, sep)
+qx.lang.String.add = function(str, v, sep)
 {
-  if (this == v)
+  if (str == v)
   {
-    return this;
+    return str;
   }
-  else if (this == qx.Const.CORE_EMPTY)
+  else if (str == qx.Const.CORE_EMPTY)
   {
     return v;
   }
@@ -107,7 +107,7 @@ qx.lang.String.add = function(v, sep)
       sep = qx.Const.CORE_COMMA;
     };
 
-    var a = this.split(sep);
+    var a = str.split(sep);
 
     if (a.indexOf(v) == -1)
     {
@@ -116,8 +116,34 @@ qx.lang.String.add = function(v, sep)
     }
     else
     {
-      return this;
+      return str;
     };
+  };
+};
+
+qx.lang.String.remove = function(str, v, sep)
+{
+  if (str == v || str == qx.Const.CORE_EMPTY)
+  {
+    return qx.Const.CORE_EMPTY;
+  }
+  else
+  {
+    if (qx.util.Validation.isInvalid(sep)) {
+      sep = qx.Const.CORE_COMMA;
+    };
+
+    var a = str.split(sep);
+    var p = a.indexOf(v);
+
+    if (p === -1) {
+      return str;
+    };
+
+    do { a.splice(p, 1); }
+    while((p = a.indexOf(v)) != -1);
+
+    return a.join(sep);
   };
 };
 
@@ -133,30 +159,4 @@ qx.lang.String.add = function(v, sep)
 
 String.prototype.contains = function(s) {
   return this.indexOf(s) != -1;
-};
-
-String.prototype.remove = function(v, sep)
-{
-  if (this == v || this == qx.Const.CORE_EMPTY)
-  {
-    return qx.Const.CORE_EMPTY;
-  }
-  else
-  {
-    if (qx.util.Validation.isInvalid(sep)) {
-      sep = qx.Const.CORE_COMMA;
-    };
-
-    var a = this.split(sep);
-    var p = a.indexOf(v);
-
-    if (p==-1) {
-      return this;
-    };
-
-    do { a.splice(p, 1); }
-    while((p = a.indexOf(v)) != -1);
-
-    return a.join(sep);
-  };
 };

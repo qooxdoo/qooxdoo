@@ -154,6 +154,16 @@ qx.lang.Array.append = function(arr, a) {
   Array.prototype.push.apply(arr, a);
 };
 
+qx.lang.Array.remove = function(arr, obj)
+{
+  var i = arr.indexOf(obj);
+
+  if (i != -1) {
+    return arr.splice(i, 1);
+  };
+};
+
+
 
 
 
@@ -166,13 +176,4 @@ qx.lang.Array.append = function(arr, a) {
 
 Array.prototype.contains = function(obj) {
   return this.indexOf(obj) != -1;
-};
-
-Array.prototype.remove = function(obj)
-{
-  var i = this.indexOf(obj);
-
-  if (i != -1) {
-    return this.splice(i, 1);
-  };
 };
