@@ -72,7 +72,7 @@ qx.lang.String.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 };
 
-qx.lang.String.pad = function(length, ch)
+qx.lang.String.pad = function(str, length, ch)
 {
   if (typeof ch === qx.Const.TYPEOF_UNDEFINED) {
     ch = qx.Const.CORE_ZERO;

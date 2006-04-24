@@ -38,6 +38,9 @@ qx.core.DefaultSettings =
   enableApplicationLayout : true,
   enableUserInterface : true,
 
+  enablePrototypes : false,
+  enableGenerics : true,
+
   imageCorePath : "../../images",
   imageLocalPath : "./",
   imageIconPath : "../../themes/icons",

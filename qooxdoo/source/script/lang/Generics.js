@@ -128,4 +128,6 @@ qx.lang.Generics.init = function()
   };
 };
 
-qx.lang.Generics.init();
+if (qx.core.Settings.enableGenerics) {
+  qx.lang.Generics.init();
+};

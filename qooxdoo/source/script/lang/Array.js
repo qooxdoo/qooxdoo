@@ -28,14 +28,8 @@
 
 qx.lang.Array = {};
 
-qx.lang.Array.fromArguments = function(a)
-{
-  var b = [];
-  for (var i=0, l=a.length; i<l; i++) {
-    b.push(a[i]);
-  };
-
-  return b;
+qx.lang.Array.fromArguments = function(args) {
+  return Array.prototype.slice.call(args, 0);
 };
 
 /*!
