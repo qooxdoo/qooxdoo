@@ -30,5 +30,25 @@ qx.lang.Prototypes = {};
 
 qx.lang.Prototypes.init = function()
 {
+  var key, obj;
+  var objs = [ "String", "Number", "Array" ];
 
+  for (var i=0, len=objs.length; i<len; i++)
+  {
+    obj = objs[i];
+
+    for (key in qx.lang[obj])
+    {
+      window[obj].prototype[key] = function(key, obj)
+      {
+        return function() {
+          return qx.lang[obj][key].apply(null, Array.prototype.concat.call([this], Array.prototype.slice.call(arguments, 0)));
+        };
+      }(key, obj);
+    };
+  };
+};
+
+if (qx.core.Settings.enablePrototypes) {
+  qx.lang.Prototypes.init();
 };
