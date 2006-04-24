@@ -71,7 +71,7 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
       default:
         vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || vPart.contains(qx.Const.CORE_PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.Const.CORE_PIXEL))
         {
           vBorder.setWidth(vTemp);
         }

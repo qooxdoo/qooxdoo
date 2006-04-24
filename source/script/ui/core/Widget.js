@@ -5024,7 +5024,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];
-    if (!propertyIngoreList.contains(propertyName)) {
+    if (!qx.lang.Array.contains(propertyIngoreList, propertyName)) {
       propertyList.push(propertyName);
     };
   }
@@ -5039,7 +5039,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   while(propertyListLength--);
 
   // post apply parent info
-  if (sourcePropertyList.contains("parent"))
+  if (qx.lang.Array.contains(sourcePropertyList, "parent"))
   {
     var myParent = this.getParent();
     if (myParent) {

@@ -115,7 +115,7 @@ qx.renderer.font.Font.fromString = function(s)
       default:
         var vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || vPart.contains(qx.Const.CORE_PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.Const.CORE_PIXEL))
         {
           vFont.setSize(vTemp);
         }

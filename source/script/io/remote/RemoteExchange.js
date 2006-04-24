@@ -86,7 +86,7 @@ qx.io.remote.RemoteExchange.initTypes = function()
 
 qx.io.remote.RemoteExchange.canHandle = function(vImpl, vNeeds, vResponseType)
 {
-  if (!vImpl.handles.responseTypes.contains(vResponseType)) {
+  if (!qx.lang.Array.contains(vImpl.handles.responseTypes, vResponseType)) {
     return false;
   };
 

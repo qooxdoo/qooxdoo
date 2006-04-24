@@ -325,7 +325,7 @@ proto.abort = function(vRequest)
   {
     vTransport.abort();
   }
-  else if (this._queue.contains(vRequest))
+  else if (qx.lang.Array.contains(this._queue, vRequest))
   {
     qx.lang.Array.remove(this._queue, vRequest);
   };

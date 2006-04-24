@@ -41,17 +41,17 @@ QxFormUtils.inputFilter = function(vNode)
 
   var vTag = (vNode.tagName || qx.Const.CORE_EMPTY).toLowerCase();
 
-  if (QxFormUtils.ignoreElementTypes.contains(vTag)) {
+  if (qx.lang.Array.contains(QxFormUtils.ignoreElementTypes, vTag)) {
     return false;
   };
 
   var vType = vNode.type.toLowerCase();
 
-  if (QxFormUtils.ignoreInputTypes.contains(vType)) {
+  if (qx.lang.Array.contains(QxFormUtils.ignoreInputTypes, vType)) {
     return false;
   };
 
-  if (!vNode.checked && QxFormUtils.checkElementTypes.contains(vType)) {
+  if (!vNode.checked && qx.lang.Array.contains(QxFormUtils.checkElementTypes, vType)) {
     return false;
   };
 
