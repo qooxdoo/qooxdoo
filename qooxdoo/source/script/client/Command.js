@@ -256,13 +256,13 @@ proto.toString = function()
     if (qx.util.Validation.isValidNumber(vKeyCode))
     {
       var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
-      vString += qx.Const.CORE_PLUS + (vTemp ? vTemp.toFirstUp() : String(vKeyCode));
+      vString += qx.Const.CORE_PLUS + (vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
     };
   }
   else if (qx.util.Validation.isValidNumber(vKeyCode))
   {
     var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
-    vString = vTemp ? vTemp.toFirstUp() : String(vKeyCode);
+    vString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
   };
 
   return vString;

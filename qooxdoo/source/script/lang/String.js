@@ -87,7 +87,9 @@ qx.lang.String.pad = function(length, ch)
   return temp + this;
 };
 
-
+qx.lang.String.toFirstUp = function(str) {
+  return str.charAt(0).toUpperCase() + str.substr(1);
+};
 
 
 
@@ -98,10 +100,6 @@ qx.lang.String.pad = function(length, ch)
 
 
 // TODO: Most complex ones
-
-String.prototype.toFirstUp = function() {
-  return this.charAt(0).toUpperCase() + this.substr(1);
-};
 
 String.prototype.contains = function(s) {
   return this.indexOf(s) != -1;
