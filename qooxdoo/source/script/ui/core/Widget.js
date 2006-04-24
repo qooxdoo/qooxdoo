@@ -2966,14 +2966,14 @@ qx.ui.core.Widget.initLayoutProperties = function()
   for (var i=0, l=a.length, p, b, t; i<l; i++)
   {
     p = a[i];
-    b = qx.Const.INTERNAL_COMPUTED + qx.lang.String.toFirstUp(p);
-    t = b + qx.Const.INTERNAL_UNIT_TYPE;
+    b = qx.OO.C_COMPUTED + qx.lang.String.toFirstUp(p);
+    t = b + qx.OO.C_UNIT_TYPE;
 
     qx.ui.core.Widget.layoutPropertyTypes[p] =
     {
       dataType : t,
-      dataParsed : b + qx.Const.INTERNAL_UNIT_PARSED,
-      dataValue : b + qx.Const.INTERNAL_UNIT_VALUE,
+      dataParsed : b + qx.OO.C_UNIT_PARSED,
+      dataValue : b + qx.OO.C_UNIT_VALUE,
 
       typePixel : t + "Pixel",
       typePercent : t + "Percent",
@@ -4937,7 +4937,7 @@ proto._updateBorder = function(vEdge)
   var vBorder = this.getBorder();
   var vEdgeUp = qx.lang.String.toFirstUp(vEdge);
 
-  var vNewValue = vBorder[qx.Const.INTERNAL_GET + vEdgeUp + "Width"]();
+  var vNewValue = vBorder[qx.Const.CORE_GET + vEdgeUp + "Width"]();
   var vCacheName = "_cachedBorder" + vEdgeUp;
   var vWidthChanged = this[vCacheName] != vNewValue;
 
@@ -5034,7 +5034,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   propertyListLength = propertyList.length-1;
   do {
     propertyName = qx.lang.String.toFirstUp(propertyList[propertyListLength]);
-    cloneInstance[qx.Const.INTERNAL_SET + propertyName](this[qx.Const.INTERNAL_GET + propertyName]());
+    cloneInstance[qx.Const.CORE_SET + propertyName](this[qx.Const.CORE_GET + propertyName]());
   }
   while(propertyListLength--);
 
