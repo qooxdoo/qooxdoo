@@ -36,6 +36,46 @@ qx.OO.resetter = {};
 qx.OO.values = {};
 qx.OO.propertyNumber = 0;
 
+qx.OO.C_SET = "set";
+qx.OO.C_GET = "get";
+qx.OO.C_APPLY = "apply";
+qx.OO.C_RESET = "reset";
+qx.OO.C_FORCE = "force";
+qx.OO.C_TOGGLE = "toggle";
+qx.OO.C_CHANGE = "change";
+qx.OO.C_STORE = "store";
+qx.OO.C_RETRIEVE = "retrieve";
+qx.OO.C_PRIVATECHANGE = "_change";
+qx.OO.C_INVALIDATE = "_invalidate";
+qx.OO.C_INVALIDATED = "_invalidated";
+qx.OO.C_RECOMPUTE = "_recompute";
+qx.OO.C_CACHED = "_cached";
+qx.OO.C_COMPUTE = "_compute";
+qx.OO.C_COMPUTED = "_computed";
+qx.OO.C_UNITDETECTION = "_unitDetection";
+
+qx.OO.C_GLOBALPROPERTYREF = "PROPERTY_";
+
+qx.OO.C_UNIT_VALUE = "Value";
+qx.OO.C_UNIT_PARSED = "Parsed";
+qx.OO.C_UNIT_TYPE = "Type";
+qx.OO.C_UNIT_TYPE_NULL = "TypeNull";
+qx.OO.C_UNIT_TYPE_PIXEL = "TypePixel";
+qx.OO.C_UNIT_TYPE_PERCENT = "TypePercent";
+qx.OO.C_UNIT_TYPE_AUTO = "TypeAuto";
+qx.OO.C_UNIT_TYPE_FLEX = "TypeFlex";
+
+qx.OO.C_GETDEFAULT = "getDefault";
+qx.OO.C_SETDEFAULT = "setDefault";
+qx.OO.C_RETRIEVEDEFAULT = "retrieveDefault";
+qx.OO.C_STOREDEFAULT = "storeDefault";
+
+qx.OO.C_VALUE = "_value";
+qx.OO.C_NULL = "_null";
+qx.OO.C_EVAL = "_eval";
+qx.OO.C_CHECK = "_check";
+qx.OO.C_MODIFY = "_modify";
+
 
 /*
 ---------------------------------------------------------------------------
@@ -85,10 +125,10 @@ Function.prototype.addFastProperty = function(vConfig)
   var vName = vConfig.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
 
-  var vStorageField = qx.Const.INTERNAL_VALUE + vUpName;
-  var vGetterName = qx.Const.INTERNAL_GET + vUpName;
-  var vSetterName = qx.Const.INTERNAL_SET + vUpName;
-  var vComputerName = qx.Const.INTERNAL_COMPUTE + vUpName;
+  var vStorageField = qx.OO.C_VALUE + vUpName;
+  var vGetterName = qx.OO.C_GET + vUpName;
+  var vSetterName = qx.OO.C_SET + vUpName;
+  var vComputerName = qx.OO.C_COMPUTE + vUpName;
 
   proto[vStorageField] = typeof vConfig.defaultValue !== qx.Const.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
 
@@ -135,15 +175,15 @@ Function.prototype.addCachedProperty = function(p)
   var vName = p.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
 
-  var vStorageField = qx.Const.INTERNAL_CACHED + vUpName;
-  var vComputerName = qx.Const.INTERNAL_COMPUTE + vUpName;
-  var vChangeName = qx.Const.INTERNAL_PRIVATECHANGE + vUpName;
+  var vStorageField = qx.OO.C_CACHED + vUpName;
+  var vComputerName = qx.OO.C_COMPUTE + vUpName;
+  var vChangeName = qx.OO.C_PRIVATECHANGE + vUpName;
 
   if (typeof p.defaultValue !== qx.Const.TYPEOF_UNDEFINED) {
     proto[vStorageField] = p.defaultValue;
   };
 
-  proto[qx.Const.INTERNAL_GET + vUpName] = function()
+  proto[qx.OO.C_GET + vUpName] = function()
   {
     if (this[vStorageField] == null) {
       this[vStorageField] = this[vComputerName]();
@@ -152,7 +192,7 @@ Function.prototype.addCachedProperty = function(p)
     return this[vStorageField];
   };
 
-  proto[qx.Const.INTERNAL_INVALIDATE + vUpName] = function()
+  proto[qx.OO.C_INVALIDATE + vUpName] = function()
   {
     if (this[vStorageField] != null)
     {
@@ -164,7 +204,7 @@ Function.prototype.addCachedProperty = function(p)
     };
   };
 
-  proto[qx.Const.INTERNAL_RECOMPUTE + vUpName] = function()
+  proto[qx.OO.C_RECOMPUTE + vUpName] = function()
   {
     var vOld = this[vStorageField];
     var vNew = this[vComputerName]();
@@ -211,18 +251,18 @@ Function.prototype.addPropertyGroup = function(p)
   p.setter = [];
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.setter.push(qx.Const.INTERNAL_SET + qx.lang.String.toFirstUp(p.members[i]));
+    p.setter.push(qx.OO.C_SET + qx.lang.String.toFirstUp(p.members[i]));
   };
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.getter.push(qx.Const.INTERNAL_GET + qx.lang.String.toFirstUp(p.members[i]));
+    p.getter.push(qx.OO.C_GET + qx.lang.String.toFirstUp(p.members[i]));
   };
 
 
   /* --------------------------------------------------------------------------------
       GETTER
   -------------------------------------------------------------------------------- */
-  this.prototype[qx.Const.INTERNAL_GET + p.method] = function()
+  this.prototype[qx.OO.C_GET + p.method] = function()
   {
     var a = [];
     var g = p.getter;
@@ -241,7 +281,7 @@ Function.prototype.addPropertyGroup = function(p)
   switch(p.mode)
   {
     case "shorthand":
-      this.prototype[qx.Const.INTERNAL_SET + p.method] = function()
+      this.prototype[qx.OO.C_SET + p.method] = function()
       {
         if (arguments.length > 4 || arguments.length == 0) {
           throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
@@ -266,7 +306,7 @@ Function.prototype.addPropertyGroup = function(p)
       break;
 
     default:
-      this.prototype[qx.Const.INTERNAL_SET + p.method] = function()
+      this.prototype[qx.OO.C_SET + p.method] = function()
       {
         var s = p.setter;
         var l = s.length;
@@ -302,7 +342,7 @@ Function.prototype.removeProperty = function(p)
   p.method = qx.lang.String.toFirstUp(p.name);
   p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
 
-  var valueKey = qx.Const.INTERNAL_VALUE + p.method;
+  var valueKey = qx.OO.C_VALUE + p.method;
 
   // Remove property from list
   pp._properties = qx.lang.String.remove(pp._properties, p.name);
@@ -311,13 +351,13 @@ Function.prototype.removeProperty = function(p)
   pp[valueKey] = null;
 
   // Reset methods
-  pp[qx.Const.INTERNAL_GET + p.method] = null;
-  pp[qx.Const.INTERNAL_SET + p.method] = null;
-  pp[qx.Const.INTERNAL_RESET + p.method] = null;
-  pp[qx.Const.INTERNAL_APPLY + p.method] = null;
-  pp[qx.Const.INTERNAL_FORCE + p.method] = null;
-  pp[qx.Const.INTERNAL_GETDEFAULT + p.method] = null;
-  pp[qx.Const.INTERNAL_SETDEFAULT + p.method] = null;
+  pp[qx.OO.C_GET + p.method] = null;
+  pp[qx.OO.C_SET + p.method] = null;
+  pp[qx.OO.C_RESET + p.method] = null;
+  pp[qx.OO.C_APPLY + p.method] = null;
+  pp[qx.OO.C_FORCE + p.method] = null;
+  pp[qx.OO.C_GETDEFAULT + p.method] = null;
+  pp[qx.OO.C_SETDEFAULT + p.method] = null;
 };
 
 Function.prototype._createProperty = function(p)
@@ -399,19 +439,19 @@ Function.prototype._createProperty = function(p)
   p.up = p.name.toUpperCase();
 
   // register global uppercase name
-  qx.Const[qx.Const.INTERNAL_GLOBALPROPERTYREF + p.up] = p.name;
+  qx.Const[qx.OO.C_GLOBALPROPERTYREF + p.up] = p.name;
 
-  var valueKey = qx.Const.INTERNAL_VALUE + p.method;
-  var evalKey = qx.Const.INTERNAL_EVAL + p.method;
-  var changeKey = qx.Const.INTERNAL_CHANGE + p.method;
-  var modifyKey = qx.Const.INTERNAL_MODIFY + p.implMethod;
-  var checkKey = qx.Const.INTERNAL_CHECK + p.implMethod;
+  var valueKey = qx.OO.C_VALUE + p.method;
+  var evalKey = qx.OO.C_EVAL + p.method;
+  var changeKey = qx.OO.C_CHANGE + p.method;
+  var modifyKey = qx.OO.C_MODIFY + p.implMethod;
+  var checkKey = qx.OO.C_CHECK + p.implMethod;
 
   if (!qx.OO.setter[p.name])
   {
-    qx.OO.setter[p.name] = qx.Const.INTERNAL_SET + p.method;
-    qx.OO.getter[p.name] = qx.Const.INTERNAL_GET + p.method;
-    qx.OO.resetter[p.name] = qx.Const.INTERNAL_RESET + p.method;
+    qx.OO.setter[p.name] = qx.OO.C_SET + p.method;
+    qx.OO.getter[p.name] = qx.OO.C_GET + p.method;
+    qx.OO.resetter[p.name] = qx.OO.C_RESET + p.method;
     qx.OO.values[p.name] = valueKey;
   };
 
@@ -419,49 +459,49 @@ Function.prototype._createProperty = function(p)
   if (p.hasUnitDetection)
   {
     // computed unit
-    var cu = qx.Const.INTERNAL_COMPUTED + p.method;
-    pp[cu + qx.Const.INTERNAL_UNIT_VALUE] = null;
-    pp[cu + qx.Const.INTERNAL_UNIT_PARSED] = null;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE] = null;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_NULL] = true;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_PIXEL] = false;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_PERCENT] = false;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_AUTO] = false;
-    pp[cu + qx.Const.INTERNAL_UNIT_TYPE_FLEX] = false;
+    var cu = qx.OO.C_COMPUTED + p.method;
+    pp[cu + qx.OO.C_UNIT_VALUE] = null;
+    pp[cu + qx.OO.C_UNIT_PARSED] = null;
+    pp[cu + qx.OO.C_UNIT_TYPE] = null;
+    pp[cu + qx.OO.C_UNIT_TYPE_NULL] = true;
+    pp[cu + qx.OO.C_UNIT_TYPE_PIXEL] = false;
+    pp[cu + qx.OO.C_UNIT_TYPE_PERCENT] = false;
+    pp[cu + qx.OO.C_UNIT_TYPE_AUTO] = false;
+    pp[cu + qx.OO.C_UNIT_TYPE_FLEX] = false;
 
-    var unitDetectionKey = qx.Const.INTERNAL_UNITDETECTION + qx.lang.String.toFirstUp(p.unitDetection);
+    var unitDetectionKey = qx.OO.C_UNITDETECTION + qx.lang.String.toFirstUp(p.unitDetection);
   };
 
   // apply default value
   pp[valueKey] = p.defaultValue;
 
   // building getFoo(): Returns current stored value
-  pp[qx.Const.INTERNAL_GET + p.method] = function() {
+  pp[qx.OO.C_GET + p.method] = function() {
     return this[valueKey];
   };
 
   // building forceFoo(): Set (override) without do anything else
-  pp[qx.Const.INTERNAL_FORCE + p.method] = function(newValue) {
+  pp[qx.OO.C_FORCE + p.method] = function(newValue) {
     return this[valueKey] = newValue;
   };
 
   // building resetFoo(): Reset value to default value
-  pp[qx.Const.INTERNAL_RESET + p.method] = function() {
-    return this[qx.Const.INTERNAL_SET + p.method](p.defaultValue);
+  pp[qx.OO.C_RESET + p.method] = function() {
+    return this[qx.OO.C_SET + p.method](p.defaultValue);
   };
 
   // building toggleFoo(): Switching between two boolean values
   if (p.type === qx.Const.TYPEOF_BOOLEAN)
   {
-    pp[qx.Const.INTERNAL_TOGGLE + p.method] = function(newValue) {
-      return this[qx.Const.INTERNAL_SET + p.method](!this[valueKey]);
+    pp[qx.OO.C_TOGGLE + p.method] = function(newValue) {
+      return this[qx.OO.C_SET + p.method](!this[valueKey]);
     };
   };
 
   if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[qx.Const.INTERNAL_SET + p.method] = function(newValue)
+    pp[qx.OO.C_SET + p.method] = function(newValue)
     {
       // convert multiple arguments to array
       if (p.allowMultipleArguments && arguments.length > 1) {
@@ -490,19 +530,19 @@ Function.prototype._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.Const.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.OO.C_SET + p.method);
         };
 
         if (p.hasInstance && !(newValue instanceof qx.OO.classes[p.instance])) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", qx.Const.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", qx.OO.C_SET + p.method);
         };
 
         if (p.hasClassName && newValue.classname != p.classname) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", qx.Const.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", qx.OO.C_SET + p.method);
         };
 
         if (p.hasPossibleValues && newValue != null && !qx.lang.Array.contains(p.possibleValues, newValue)) {
-          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", qx.Const.INTERNAL_SET + p.method);
+          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", qx.OO.C_SET + p.method);
         };
       };
 
@@ -580,7 +620,7 @@ Function.prototype._createProperty = function(p)
   else
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[qx.Const.INTERNAL_SET + p.method] = function(newValue)
+    pp[qx.OO.C_SET + p.method] = function(newValue)
     {
       // this.debug("Fast Setter: " + p.name);
 
@@ -593,7 +633,7 @@ Function.prototype._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.Const.INTERNAL_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.OO.C_SET + p.method);
         };
       };
 
@@ -657,12 +697,12 @@ Function.prototype._createProperty = function(p)
 
   // building user configured get alias for property
   if (typeof p.getAlias === qx.Const.TYPEOF_STRING) {
-    pp[p.getAlias] = pp[qx.Const.INTERNAL_GET + p.method];
+    pp[p.getAlias] = pp[qx.OO.C_GET + p.method];
   };
 
   // building user configured set alias for property
   if (typeof p.setAlias === qx.Const.TYPEOF_STRING) {
-    pp[p.setAlias] = pp[qx.Const.INTERNAL_SET + p.method];
+    pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
   };
 };
 

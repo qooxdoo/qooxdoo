@@ -82,7 +82,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._manager.addEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
+  this._manager.addEventListener(qx.OO.C_CHANGE, this._onchange, this);
 
   // ***********************************************************************
   //   INITIALIZATION
@@ -188,9 +188,9 @@ proto._onchange = function(e)
 
     this._timer.wait(this.getWait());
 
-    if (this.hasEventListeners(qx.Const.INTERNAL_CHANGE))
+    if (this.hasEventListeners(qx.OO.C_CHANGE))
     {
-      this.dispatchEvent(new qx.event.types.Event(qx.Const.INTERNAL_CHANGE));
+      this.dispatchEvent(new qx.event.types.Event(qx.OO.C_CHANGE));
     };
   };
 };
@@ -277,7 +277,7 @@ proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
+    this._manager.removeEventListener(qx.OO.C_CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   };
