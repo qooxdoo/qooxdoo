@@ -102,7 +102,7 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   this._textfield.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
   this._upbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
   this._downbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this._manager.addEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
+  this._manager.addEventListener(qx.Const.EVENT_TYPE_CHANGE, this._onchange, this);
   this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
 
@@ -405,8 +405,8 @@ proto._onchange = function(e)
     this._upbutton.setEnabled(true);
   };
 
-  if (this.hasEventListeners(qx.Const.INTERNAL_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.INTERNAL_CHANGE), true);
+  if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
+    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 };
 
@@ -680,7 +680,7 @@ proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(qx.Const.INTERNAL_CHANGE, this._onchange, this);
+    this._manager.removeEventListener(qx.Const.EVENT_TYPE_CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   };
