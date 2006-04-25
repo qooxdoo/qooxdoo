@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-if [ "$1" = "" -o ! -r $1 ]; then
+if [ "$1" = "" -o ! -r "$1" ]; then
   echo "First Parameter: The *.dat file to use! ($1)"
   exit 1
 fi
 
 datfile="$1"
 
-if [ "$2" = "" -o ! -r $2 ]; then
+if [ "$2" = "" -o ! -r "$2" ]; then
   echo "Second parameter: The directory to update ($2)"
   exit 1
 fi
