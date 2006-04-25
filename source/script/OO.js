@@ -28,6 +28,10 @@
 
 ************************************************************************ */
 
+if (typeof qx == "undefined") {
+  qx = {};
+};
+
 qx.OO = {};
 
 qx.OO.classes = {};
@@ -88,12 +92,15 @@ qx.OO.C_MODIFY = "_modify";
 ---------------------------------------------------------------------------
 */
 
+qx.OO.C_CLASSSEP = ".";
+qx.OO.C_UNDEFINED = "undefined";
+
 qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 {
-  var vSplitName = vClassName.split(qx.Const.CORE_DOT);
+  var vSplitName = vClassName.split(qx.OO.C_CLASSSEP);
   var vNameLength = vSplitName.length;
 
-  var vLightClass = typeof vSuper === qx.Const.TYPEOF_UNDEFINED;
+  var vLightClass = typeof vSuper === qx.OO.C_UNDEFINED;
   var vTempObject = window;
 
   if (!vLightClass) {
@@ -102,7 +109,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
   for (var i=0; i<vNameLength; i++)
   {
-    if (typeof vTempObject[vSplitName[i]] === qx.Const.TYPEOF_UNDEFINED) {
+    if (typeof vTempObject[vSplitName[i]] === qx.OO.C_UNDEFINED) {
       vTempObject[vSplitName[i]] = {};
     };
 
