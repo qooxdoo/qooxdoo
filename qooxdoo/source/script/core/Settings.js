@@ -27,13 +27,10 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.core.Settings");
+
 // hide from global scope
 (function() {
-
-// check and create global storage if not available already
-if (typeof qx.core.Settings === "undefined") {
-  qx.core.Settings = {};
-};
 
 // merge settings from default settings
 for (var vKey in qx.core.DefaultSettings)

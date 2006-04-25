@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.lang.Array = {};
+qx.OO.defineClass("qx.lang.Array");
 
 qx.lang.Array.fromArguments = function(args) {
   return Array.prototype.slice.call(args, 0);

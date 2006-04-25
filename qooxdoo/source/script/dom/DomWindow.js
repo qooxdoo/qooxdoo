@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomWindow = {};
+qx.OO.defineClass("qx.dom.DomWindow");
 
 if (qx.sys.Client.isMshtml())
 {

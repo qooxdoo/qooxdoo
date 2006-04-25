@@ -27,6 +27,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.lang.MshtmlEmu");
+
 /*
   Parts are based on:
   moz-behaviors.xml - version 1.1.1 (2005-08-19)

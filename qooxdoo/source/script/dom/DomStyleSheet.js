@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomStyleSheet = {};
+qx.OO.defineClass("qx.dom.DomStyleSheet");
 
 if (qx.sys.Client.isMshtml())
 {

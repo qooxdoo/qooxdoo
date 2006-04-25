@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.lang.Prototypes = {};
+qx.OO.defineClass("qx.lang.Prototypes");
 
 qx.lang.Prototypes.init = function()
 {

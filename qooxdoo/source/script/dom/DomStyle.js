@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomStyle = {};
+qx.OO.defineClass("qx.dom.DomStyle");
 
 if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedStyle))
 {

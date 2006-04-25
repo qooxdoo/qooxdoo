@@ -26,14 +26,14 @@
 
 ************************************************************************ */
 
-QxFormUtils = {};
+qx.OO.defineClass("qx.io.remote.FormUtils");
 
-QxFormUtils.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
-QxFormUtils.ignoreElementTypes = [ "fieldset" ];
-QxFormUtils.checkElementTypes = [ "radio", "checkbox" ];
-QxFormUtils.multiSelectType = "select-multiple";
+qx.io.remote.FormUtils.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
+qx.io.remote.FormUtils.ignoreElementTypes = [ "fieldset" ];
+qx.io.remote.FormUtils.checkElementTypes = [ "radio", "checkbox" ];
+qx.io.remote.FormUtils.multiSelectType = "select-multiple";
 
-QxFormUtils.inputFilter = function(vNode)
+qx.io.remote.FormUtils.inputFilter = function(vNode)
 {
   if (vNode.disabled) {
     return false;
@@ -41,33 +41,33 @@ QxFormUtils.inputFilter = function(vNode)
 
   var vTag = (vNode.tagName || qx.Const.CORE_EMPTY).toLowerCase();
 
-  if (qx.lang.Array.contains(QxFormUtils.ignoreElementTypes, vTag)) {
+  if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreElementTypes, vTag)) {
     return false;
   };
 
   var vType = vNode.type.toLowerCase();
 
-  if (qx.lang.Array.contains(QxFormUtils.ignoreInputTypes, vType)) {
+  if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreInputTypes, vType)) {
     return false;
   };
 
-  if (!vNode.checked && qx.lang.Array.contains(QxFormUtils.checkElementTypes, vType)) {
+  if (!vNode.checked && qx.lang.Array.contains(qx.io.remote.FormUtils.checkElementTypes, vType)) {
     return false;
   };
 
   return true;
 };
 
-QxFormUtils.getFields = function(vForm) {
-  return Array.filter(vForm.elements, QxFormUtils.inputFilter);
+qx.io.remote.FormUtils.getFields = function(vForm) {
+  return Array.filter(vForm.elements, qx.io.remote.FormUtils.inputFilter);
 };
 
-QxFormUtils.encodeField = function(vNode)
+qx.io.remote.FormUtils.encodeField = function(vNode)
 {
   var vName = vNode.name || qx.Const.CORE_EMPTY;
   var vType = (vNode.type || qx.Const.CORE_EMPTY).toLowerCase();
 
-  if(vType === QxFormUtils.multiSelectType)
+  if(vType === qx.io.remote.FormUtils.multiSelectType)
   {
     var vValues = [];
 
@@ -86,19 +86,19 @@ QxFormUtils.encodeField = function(vNode)
   };
 };
 
-QxFormUtils.encodeForm = function(vForm)
+qx.io.remote.FormUtils.encodeForm = function(vForm)
 {
-  var vFields = QxFormUtils.getFields(vForm);
+  var vFields = qx.io.remote.FormUtils.getFields(vForm);
   var vAll = [];
 
   for (var i=0, l=vFields.length; i<l; i++) {
-    vAll.push(QxFormUtils.encodeField(vFields[i]));
+    vAll.push(qx.io.remote.FormUtils.encodeField(vFields[i]));
   };
 
   return vAll.join(qx.Const.CORE_AMPERSAND);
 };
 
-QxFormUtils.bind = function(vForm, vMethod)
+qx.io.remote.FormUtils.bind = function(vForm, vMethod)
 {
   qx.dom.DomEventRegistration.addEventListener(vForm, qx.Const.EVENT_TYPE_SUBMIT, function(e)
   {

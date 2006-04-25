@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.core.DefaultSettings");
+
 qx.core.DefaultSettings =
 {
   version : "0.6-alpha2",

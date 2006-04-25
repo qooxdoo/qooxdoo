@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.lang.String = {};
+qx.OO.defineClass("qx.lang.String");
 
 qx.lang.String.toCamelCase = function(str)
 {

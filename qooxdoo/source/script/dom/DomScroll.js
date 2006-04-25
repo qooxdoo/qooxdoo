@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomScroll = {};
+qx.OO.defineClass("qx.dom.DomScroll");
 
 qx.dom.DomScroll.getLeftSum = function(el)
 {

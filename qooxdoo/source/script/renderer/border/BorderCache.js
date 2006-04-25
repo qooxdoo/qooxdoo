@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.renderer.border.BorderCache");
+
 qx.renderer.border.BorderCache = function(propValue, propData)
 {
   if (qx.util.Validation.isValidArray(propValue) && propValue.length > 1)

@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomEventRegistration = {};
+qx.OO.defineClass("qx.dom.DomEventRegistration");
 
 if (qx.sys.Client.isMshtml())
 {

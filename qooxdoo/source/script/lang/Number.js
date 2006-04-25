@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.lang.Number = {};
+qx.OO.defineClass("qx.lang.Number");
 
 qx.lang.Number.isInRange = function(nr, vmin, vmax) {
   return nr >= vmin && nr <= vmax;

@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.lang.Generics");
+
 /*
 ---------------------------------------------------------------------------
   JAVASCRIPT 1.6 GENERICS
@@ -49,8 +51,6 @@
 // http://erik.eae.net/archives/2006/02/28/00.39.52/
 
 // Relicensed under LGPL for qooxdoo.
-
-qx.lang.Generics = {};
 
 qx.lang.Generics.init = function()
 {

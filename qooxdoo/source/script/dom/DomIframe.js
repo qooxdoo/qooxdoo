@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomIframe = {};
+qx.OO.defineClass("qx.dom.DomIframe");
 
 if (qx.sys.Client.isMshtml())
 {
