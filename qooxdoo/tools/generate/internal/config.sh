@@ -1,7 +1,7 @@
 L=""
 
-# Namespaces
-L="$L script/core/Namespaces"
+# Object Orientation
+L="$L script/OO"
 
 # Constants
 L="$L script/Const"
@@ -13,9 +13,6 @@ L="$L script/dev/Debug"
 L="$L script/core/Main"
 L="$L script/core/DefaultSettings"
 L="$L script/core/Settings"
-
-# Object Orientation
-L="$L script/OO"
 
 # Client Detection
 L="$L script/sys/Client"
