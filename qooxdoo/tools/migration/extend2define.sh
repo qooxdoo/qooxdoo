@@ -19,14 +19,16 @@ for file in `find $sourcedir -name "*.js"`; do
   superclass=`echo $ext | cut -d"(" -f2 | cut -d"," -f1`
   thisclass=`echo $ext | cut -d"(" -f2 | cut -d"," -f2 | cut -d")" -f1 | sed s:" ":"":g | sed s:"\"":"":g`
 
-  repltar="function $thisclass"
-  replcon="qx.OO.defineClass(\"$thisclass\", $superclass, function"
+  orig="$thisclass = function"
+  repl="qx.OO.defineClass(\"$thisclass\", $superclass, \nfunction"
 
-  echo $repltar
-  echo $replcon
+  #echo $orig
+  #echo $repl
 
-  sed --in-place
+  sed --in-place s/"$orig"/"$repl"/g $file
+
+  perl -pi -e 's/\n/§/sg' $file
+  perl -pi -e "s/;§*?\Q$ext\E/\);/sg" $file
+  perl -pi -e 's/§/\n/sg' $file
 
 done
-
-
