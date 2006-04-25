@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomScrollIntoView = {};
+qx.OO.defineClass("qx.dom.DomScrollIntoView");
 
 // Internet Explorer has invented scrollIntoView, but does not behave the same like in Mozilla (which would be better)
 // Mozilla has a native well working method scrollIntoView

@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.io.local.CookieTransport");
+
 qx.io.local.CookieTransport =
 {
   BASENAME : "Qx",

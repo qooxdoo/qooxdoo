@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.renderer.color.ColorCache");
+
 qx.renderer.color.ColorCache = function(propValue, propData)
 {
   var propKey;

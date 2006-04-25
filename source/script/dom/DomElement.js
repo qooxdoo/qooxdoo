@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.dom.DomElement = {};
+qx.OO.defineClass("qx.dom.DomElement");
 
 /*!
   Removes whitespace-only text node children

@@ -28,6 +28,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.dev.Debug");
+
 qx.dev.Debug = function(group, message, classname)
 {
   // Building time string

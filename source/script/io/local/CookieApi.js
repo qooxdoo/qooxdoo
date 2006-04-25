@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.io.local.CookieApi");
+
 qx.io.local.CookieApi =
 {
   STR_EXPIRES : "expires",

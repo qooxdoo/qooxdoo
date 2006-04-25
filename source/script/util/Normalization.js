@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.util.Normalization = {};
+qx.OO.defineClass("qx.util.Normalization");
 
 
 

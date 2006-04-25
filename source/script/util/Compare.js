@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.util.Compare = {};
+qx.OO.defineClass("qx.util.Compare");
 
 qx.util.Compare.byString = function(a, b) {
   return a==b ? 0 : a > b ? 1 : -1;

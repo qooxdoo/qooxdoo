@@ -26,6 +26,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.lang.XmlEmu");
+
 /*
   Based on:
   IE7, version 0.9 (alpha) (2005-08-19)
@@ -99,39 +101,39 @@ QxXmlExtras.createXmlDom = function()
 // Implementation of selectNodes() and selectSingleNode()
 // for Gecko/Mozilla browsers
 
-if (window.XPathEvaluator) 
+if (window.XPathEvaluator)
 {
   var xpe = new XPathEvaluator();
 
-  if (!Element.prototype.selectSingleNode) 
+  if (!Element.prototype.selectSingleNode)
   {
     Element.prototype.selectSingleNode = function (xpath) {
       return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     };
   };
-  
-  if (!Element.prototype.selectNodes) 
+
+  if (!Element.prototype.selectNodes)
   {
     Element.prototype.selectNodes = function (xpath) {
       var result = xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
       var nodes = [];
-  
+
       for (var i=0; i<result.snapshotLength; i++) {
         nodes[i] = result.snapshotItem(i);
       };
-  
+
       return nodes;
     };
   };
-  
-  if (!Document.prototype.selectSingleNode) 
+
+  if (!Document.prototype.selectSingleNode)
   {
     Document.prototype.selectSingleNode = function (xpath) {
       return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     };
   };
-  
-  if (!Document.prototype.selectNodes) 
+
+  if (!Document.prototype.selectNodes)
   {
     Document.prototype.selectNodes = function (xpath) {
       var result = xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -140,7 +142,7 @@ if (window.XPathEvaluator)
       for (var i=0; i<result.snapshotLength; i++) {
         nodes[i] = result.snapshotItem(i);
       };
-      
+
       return nodes;
     };
   };
@@ -154,7 +156,7 @@ if (window.XPathEvaluator)
       return text;
     }
   );
-  
+
   Element.prototype.__lookupGetter__('text');
 
   Attr.prototype.__defineGetter__('text', function(){ return this.nodeValue; });

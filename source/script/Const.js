@@ -30,6 +30,8 @@
    Precreate most used strings
 ******************************************************************** */
 
+qx.OO.defineClass("qx.Const");
+
 qx.Const =
 {
   CORE_EMPTY : "",

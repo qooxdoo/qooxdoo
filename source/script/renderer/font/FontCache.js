@@ -27,6 +27,8 @@
 
 ************************************************************************ */
 
+qx.OO.defineClass("qx.renderer.font.FontCache");
+
 qx.renderer.font.FontCache = function(propValue, propData)
 {
   var propKey;

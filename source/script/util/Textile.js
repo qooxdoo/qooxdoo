@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.util.Textile = {};
+qx.OO.defineClass("qx.util.Textile");
 
 // Optimized version of:
 // SuperTextile by

@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.lang.Object = {};
+qx.OO.defineClass("qx.lang.Object");
 
 /*!
   Function to check if a hash has any keys
