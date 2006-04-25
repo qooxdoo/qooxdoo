@@ -127,10 +127,14 @@ SPACES = re.compile("(\s+)")
 
 BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
 
-R_QXEXTEND = re.compile("([a-zA-Z]+)\.extend\(([a-zA-Z0-9_-]+).*\)")
-R_QXREQUIRE = re.compile("#require\(([a-zA-Z0-9_-]+)\)")
-R_QXPOST = re.compile("#post\(([a-zA-Z0-9_-]+)\)")
-R_QXPACKAGE = re.compile("#package\(([a-zA-Z0-9_-]+)\)")
+R_QXEXTEND = re.compile("([a-zA-Z]+)\.extend\(([\.a-zA-Z0-9_-]+).*\)")
+R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"\s*\,\s*([\.a-zA-Z0-9_-]+)', re.M)
+
+R_QXNAMESPACE = re.compile("#namespace\(([\.a-zA-Z0-9_-]+)\)")
+R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)")
+R_QXPOST = re.compile("#post\(([\.a-zA-Z0-9_-]+)\)")
+R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)")
+
 
 R_WHITESPACE = re.compile("\s+")
 R_NONWHITESPACE = re.compile("\S+")
@@ -676,6 +680,29 @@ def xmlstart():
 
 
 def getdeps(data, filename, deptree, posttree, packages):
+  thisclass = False
+  superclass = False
+
+  dc = R_QXDEFINECLASS.search(data)
+
+  if dc:
+    thisclass = dc.group(1)
+    superclass = dc.group(2)
+
+  else:
+    # print "Sorry. Don't find any class informations. Trying namespace flag"
+
+    ns = R_QXNAMESPACE.search(data)
+
+    if ns:
+      thisclass = ns.group(1)
+
+
+  print "DEPS: %s (%s)" % (thisclass, superclass)
+
+
+
+
   if not deptree.has_key(filename):
     deptree[filename] = []
 
@@ -715,6 +742,8 @@ def getdeps(data, filename, deptree, posttree, packages):
         packages[pkgname].append(filename)
       else:
         packages[pkgname] = [ filename ]
+
+
 
 
 
