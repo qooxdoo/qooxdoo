@@ -31,7 +31,7 @@
 /*!
   Border implementation for qx.ui.core.Widget instances.
 */
-qx.OO.defineClass("qx.renderer.border.Border", qx.core.Object, 
+qx.OO.defineClass("qx.renderer.border.Border", qx.core.Object,
 function(vWidth, vStyle, vColor)
 {
   qx.core.Object.call(this);
@@ -1164,4 +1164,24 @@ proto.dispose = function()
   delete this._themedEdges;
 
   return qx.core.Object.prototype.dispose.call(this);
+};
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PRESETS
+---------------------------------------------------------------------------
+*/
+
+qx.Class.presets =
+{
+  black : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "black"),
+  white : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "white"),
+  none : new qx.Class(0, qx.Const.BORDER_STYLE_NONE)
 };

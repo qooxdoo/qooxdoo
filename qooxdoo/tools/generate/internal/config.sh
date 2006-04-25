@@ -90,8 +90,6 @@ L="$L themes/colors/windowsLunaSilver"
 L="$L script/renderer/border/Border"
 L="$L script/renderer/border/BorderObject"
 L="$L script/renderer/border/BorderCache"
-L="$L script/renderer/border/BorderPresets"
-L="$L script/renderer/border/BorderObjectPresets"
 
 # Font Handling
 L="$L script/renderer/font/Font"
