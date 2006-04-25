@@ -34,7 +34,8 @@
   The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
   This is useful for all types of buttons, menuentires, tooltips, ...
 */
-qx.ui.basic.Atom = function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.OO.defineClass("qx.ui.basic.Atom", qx.ui.layout.BoxLayout,
+function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.layout.BoxLayout.call(this);
 
@@ -76,9 +77,7 @@ qx.ui.basic.Atom = function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
       this.setIconHeight(vIconHeight);
     };
   };
-};
-
-qx.ui.basic.Atom.extend(qx.ui.layout.BoxLayout, "qx.ui.basic.Atom");
+});
 
 qx.ui.basic.Atom.SHOW_LABEL = "label";
 qx.ui.basic.Atom.SHOW_ICON = "icon";
