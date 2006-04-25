@@ -1,0 +1,112 @@
+.api-detail {
+  font-family: "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif;
+  font-weight: normal;
+  font-size: 10pt;
+
+  background-color: white;
+  padding: 10;
+}
+
+img.api-img {
+  vertical-align: middle;
+  border: 0px;
+}
+
+img.api-openclose {
+  padding: 2px;
+}
+
+div.api-title {
+  font-weight: bold;
+  font-size: 16pt;
+  padding-bottom: 10px;
+}
+
+div.api-info {
+  border: 2px solid gray;
+  margin-top: 15px;
+}
+
+div.api-info-title {
+  background-color: #8d9ec1;
+  font-weight: bold;
+  font-size: 14pt;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+span.api-checkbox {
+  font-size: 10pt;
+  font-weight: normal;
+  padding-left: 15px;
+}
+
+div.api-empty-info-body {
+  border-top: 1px solid gray;
+  background-color: #EEEEEE;
+  font-style: italic;
+  padding-left:  2px;
+  padding-right: 2px;
+}
+
+table.api-info {
+}
+
+tr.api-item-row {
+  background-color: #EEEEEE;
+}
+
+tr.api-item-row-marked {
+  background-color: #c6d4ee;
+}
+
+td.api-icon-cell {
+  border-top: 1px solid gray;
+
+  vertical-align: top;
+  text-align: center;
+}
+
+td.api-info-cell {
+  border-top: 1px solid gray;
+  padding-right: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+
+  vertical-align: top;
+}
+
+div.api-item-title {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+div.api-item-desc {
+  font-size: 10pt;
+}
+
+div.api-item-detail-headline {
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+div.api-item-detail-text {
+  font-size: 10pt;
+  padding-left: 20px;
+}
+
+div.api-item-detail-error {
+  font-weight: bold;
+  font-size: 10pt;
+  color: red;
+}
+
+span.api-item-detail-optional {
+  font-style: italic;
+}
+
+span.api-item-detail-param-name {
+  font-family: monospace;
+  font-weight: bold;
+}
