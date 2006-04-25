@@ -40,9 +40,7 @@ function QxResource(vResource, vLocale) {
   };
 
   this.loadResource(vResource, vLocale);
-};
-
-QxResource.extend(qx.core.Object, "QxResource");
+});
 
 
 /*

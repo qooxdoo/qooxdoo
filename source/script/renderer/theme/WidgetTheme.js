@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.WidgetTheme = function(vId, vTitle)
+qx.OO.defineClass("qx.renderer.theme.WidgetTheme", qx.core.Object, 
+function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
@@ -43,9 +44,7 @@ qx.renderer.theme.WidgetTheme = function(vId, vTitle)
   } catch(ex) {
     throw new Error("Could not register Theme: " + ex);
   };
-};
-
-qx.renderer.theme.WidgetTheme.extend(qx.core.Object, "qx.renderer.theme.WidgetTheme");
+});
 
 qx.renderer.theme.WidgetTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
 qx.renderer.theme.WidgetTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });

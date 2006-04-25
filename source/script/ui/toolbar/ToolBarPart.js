@@ -26,15 +26,14 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBarPart = function()
+qx.OO.defineClass("qx.ui.toolbar.ToolBarPart", qx.ui.layout.HorizontalBoxLayout, 
+function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this._handle = new qx.ui.toolbar.ToolBarPartHandle;
   this.add(this._handle);
-};
-
-qx.ui.toolbar.ToolBarPart.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBarPart");
+});
 
 qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-part" });
 

@@ -30,7 +30,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.Spinner = function(vMin, vValue, vMax)
+qx.OO.defineClass("qx.ui.form.Spinner", qx.ui.layout.HorizontalBoxLayout, 
+function(vMin, vValue, vMax)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -121,9 +122,7 @@ qx.ui.form.Spinner = function(vMin, vValue, vMax)
   if(qx.util.Validation.isValidNumber(vValue)) {
     this.setValue(vValue);
   };
-};
-
-qx.ui.form.Spinner.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.Spinner");
+});
 
 
 

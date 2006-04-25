@@ -38,9 +38,7 @@ function QxBinaryClock()
   this._second2I = new qx.ui.basic.Image();
 
   this.add(this._hour1I, this._hour2I, this._divisor1I, this._minute1I, this._minute2I, this._divisor2I, this._second1I, this._second2I);
-};
-
-QxBinaryClock.extend(QxClock, "QxBinaryClock");
+});
 
 
 

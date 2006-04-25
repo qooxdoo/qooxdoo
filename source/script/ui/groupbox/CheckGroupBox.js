@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.groupbox.GroupCheckBox = function(vLegend) {
+qx.OO.defineClass("qx.ui.groupbox.GroupCheckBox", qx.ui.groupbox.GroupBox, 
+function(vLegend) {
   qx.ui.groupbox.GroupBox.call(this, vLegend);
-};
-
-qx.ui.groupbox.GroupCheckBox.extend(qx.ui.groupbox.GroupBox, "qx.ui.groupbox.GroupCheckBox");
+});
 
 proto._createLegendObject = function()
 {

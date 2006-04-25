@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBar = function()
+qx.OO.defineClass("qx.ui.toolbar.ToolBar", qx.ui.layout.HorizontalBoxLayout, 
+function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-};
-
-qx.ui.toolbar.ToolBar.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.toolbar.ToolBar");
+});
 
 
 

@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewPane = function(vData, vColumns)
+qx.OO.defineClass("qx.ui.listview.ListViewPane", qx.ui.layout.GridLayout, 
+function(vData, vColumns)
 {
   qx.ui.layout.GridLayout.call(this);
 
@@ -64,9 +65,7 @@ qx.ui.listview.ListViewPane = function(vData, vColumns)
   //   KEY EVENT LISTENER
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-};
-
-qx.ui.listview.ListViewPane.extend(qx.ui.layout.GridLayout, "qx.ui.listview.ListViewPane");
+});
 
 qx.ui.listview.ListViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-pane" });
 

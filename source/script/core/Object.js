@@ -35,16 +35,15 @@
 /*!
   The qooxdoo basic object. All qooxdoo classes extends this one
 */
-qx.core.Object = function(vAutoDispose)
+qx.OO.defineClass("qx.core.Object", Object, 
+function(vAutoDispose)
 {
   this._hashCode = qx.core.ObjectCounter++;
 
   if (vAutoDispose !== false) {
     qx.core.ObjectDataBase.push(this);
   };
-};
-
-qx.core.Object.extend(Object, "qx.core.Object");
+});
 
 
 

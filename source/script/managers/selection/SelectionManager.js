@@ -30,7 +30,8 @@
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-qx.manager.selection.SelectionManager = function(vBoundedWidget)
+qx.OO.defineClass("qx.manager.selection.SelectionManager", qx.core.Target, 
+function(vBoundedWidget)
 {
   qx.core.Target.call(this);
 
@@ -39,9 +40,7 @@ qx.manager.selection.SelectionManager = function(vBoundedWidget)
   if (qx.util.Validation.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
   };
-};
-
-qx.manager.selection.SelectionManager.extend(qx.core.Target, "qx.manager.selection.SelectionManager");
+});
 
 /*
 ---------------------------------------------------------------------------

@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.ui.form.RepeatButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.OO.defineClass("qx.ui.form.RepeatButton", qx.ui.form.Button, 
+function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
   this._timer = new qx.client.Timer;
   this._timer.setInterval(this.getInterval());
   this._timer.addEventListener("interval", this._oninterval, this);
-};
-
-qx.ui.form.RepeatButton.extend(qx.ui.form.Button, "qx.ui.form.RepeatButton");
+});
 
 
 /*

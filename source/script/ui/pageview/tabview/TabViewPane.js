@@ -26,13 +26,12 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.tabview.TabViewPane = function()
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewPane", qx.ui.pageview.AbstractPageViewPane, 
+function()
 {
   qx.ui.pageview.AbstractPageViewPane.call(this);
 
   this.setZIndex(1);
-};
-
-qx.ui.pageview.tabview.TabViewPane.extend(qx.ui.pageview.AbstractPageViewPane, "qx.ui.pageview.tabview.TabViewPane");
+});
 
 qx.ui.pageview.tabview.TabViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-pane" });

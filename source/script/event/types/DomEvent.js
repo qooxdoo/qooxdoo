@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.event.types.DomEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
+qx.OO.defineClass("qx.event.types.DomEvent", qx.event.types.Event, 
+function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
 {
   qx.event.types.Event.call(this, vType);
 
@@ -35,9 +36,7 @@ qx.event.types.DomEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOrigi
 
   this.setTarget(vTarget);
   this.setOriginalTarget(vOriginalTarget);
-};
-
-qx.event.types.DomEvent.extend(qx.event.types.Event, "qx.event.types.DomEvent");
+});
 
 qx.event.types.DomEvent.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
 qx.event.types.DomEvent.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });

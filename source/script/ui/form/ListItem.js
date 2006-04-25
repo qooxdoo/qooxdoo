@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.ListItem = function(vText, vIcon, vValue)
+qx.OO.defineClass("qx.ui.form.ListItem", qx.ui.basic.Atom, 
+function(vText, vIcon, vValue)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon);
 
@@ -39,9 +40,7 @@ qx.ui.form.ListItem = function(vText, vIcon, vValue)
   //   EVENT LISTENER
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
-};
-
-qx.ui.form.ListItem.extend(qx.ui.basic.Atom, "qx.ui.form.ListItem");
+});
 
 qx.ui.form.ListItem.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-item" });
 qx.ui.form.ListItem.addProperty({ name : "value" });

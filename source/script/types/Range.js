@@ -29,13 +29,12 @@
 /*!
   This manager is used by all objects which needs ranges like qx.ui.form.Spinner, QxSlider, ...
 */
-qx.types.Range = function()
+qx.OO.defineClass("qx.types.Range", qx.manager.object.ObjectManager, 
+function()
 {
   // We need no internal objects cache
   qx.core.Target.call(this);
-};
-
-qx.types.Range.extend(qx.manager.object.ObjectManager, "qx.types.Range");
+});
 
 qx.types.Range.addProperty({ name : "value", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 qx.types.Range.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });

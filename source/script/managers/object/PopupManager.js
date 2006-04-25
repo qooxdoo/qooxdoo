@@ -29,11 +29,10 @@
 /*!
   This singleton is used to manager multiple instances of popups and their state.
 */
-qx.manager.object.PopupManager = function() {
+qx.OO.defineClass("qx.manager.object.PopupManager", qx.manager.object.ObjectManager, 
+function() {
   qx.manager.object.ObjectManager.call(this);
-};
-
-qx.manager.object.PopupManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.PopupManager");
+});
 
 
 

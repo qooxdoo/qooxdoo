@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.MenuLayoutImpl = function(vWidget)
+qx.OO.defineClass("qx.renderer.layout.MenuLayoutImpl", qx.renderer.layout.VerticalBoxLayoutImpl, 
+function(vWidget)
 {
   qx.renderer.layout.VerticalBoxLayoutImpl.call(this, vWidget);
 
   // We don't need flex support, should make things a bit faster,
   // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
   this.setEnableFlexSupport(false);
-};
-
-qx.renderer.layout.MenuLayoutImpl.extend(qx.renderer.layout.VerticalBoxLayoutImpl, "qx.renderer.layout.MenuLayoutImpl");
+});
 
 
 /*!

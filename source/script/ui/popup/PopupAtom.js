@@ -26,15 +26,14 @@
 
 ************************************************************************ */
 
-qx.ui.popup.PopupAtom = function(vLabel, vIcon)
+qx.OO.defineClass("qx.ui.popup.PopupAtom", qx.ui.popup.Popup, 
+function(vLabel, vIcon)
 {
   qx.ui.popup.Popup.call(this);
 
   this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
   this._atom.setParent(this);
-};
-
-qx.ui.popup.PopupAtom.extend(qx.ui.popup.Popup, "qx.ui.popup.PopupAtom");
+});
 
 proto.getAtom = function() {
   return this._atom;

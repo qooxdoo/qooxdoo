@@ -29,7 +29,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.List = function()
+qx.OO.defineClass("qx.ui.form.List", qx.ui.layout.VerticalBoxLayout, 
+function()
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
 
@@ -62,9 +63,7 @@ qx.ui.form.List = function()
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
   this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
-};
-
-qx.ui.form.List.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.form.List");
+});
 
 qx.ui.form.List.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list" });
 

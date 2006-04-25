@@ -26,10 +26,7 @@ function QxChildrenIterator(vParent)
   this._curLvl = 0;
   this._curPos = [];
   this._curPos[this._curLvl] = 0;
-};
-
-
-QxChildrenIterator.extend(qx.core.Object, "QxChildrenIterator");
+});
 
 
 /*

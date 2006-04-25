@@ -29,7 +29,8 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.ColorTheme = function(vId, vTitle, vColors)
+qx.OO.defineClass("qx.renderer.theme.ColorTheme", qx.core.Object, 
+function(vId, vTitle, vColors)
 {
   qx.core.Object.call(this);
 
@@ -48,9 +49,7 @@ qx.renderer.theme.ColorTheme = function(vId, vTitle, vColors)
   } catch(ex) {
     throw new Error("Could not register Theme: " + ex);
   };
-};
-
-qx.renderer.theme.ColorTheme.extend(qx.core.Object, "qx.renderer.theme.ColorTheme");
+});
 
 
 

@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.groupbox.GroupRadioBox = function(vLegend) {
+qx.OO.defineClass("qx.ui.groupbox.GroupRadioBox", qx.ui.groupbox.GroupBox, 
+function(vLegend) {
   qx.ui.groupbox.GroupBox.call(this, vLegend);
-};
-
-qx.ui.groupbox.GroupRadioBox.extend(qx.ui.groupbox.GroupBox, "qx.ui.groupbox.GroupRadioBox");
+});
 
 proto._createLegendObject = function()
 {

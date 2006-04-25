@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.tree.TreeFolder = function(vLabel, vIcon, vIconSelected)
+qx.OO.defineClass("qx.ui.tree.TreeFolder", qx.ui.tree.AbstractTreeElement, 
+function(vLabel, vIcon, vIconSelected)
 {
   qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
 
@@ -45,9 +46,7 @@ qx.ui.tree.TreeFolder = function(vLabel, vIcon, vIconSelected)
   this.addAtBegin = this.addAtBeginToFolder;
   this.addAtEnd = this.addAtEndToFolder;
   this.remove = this.removeFromFolder;
-};
-
-qx.ui.tree.TreeFolder.extend(qx.ui.tree.AbstractTreeElement, "qx.ui.tree.TreeFolder");
+});
 
 
 

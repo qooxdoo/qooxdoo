@@ -70,9 +70,7 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   };
 
   this._firstTime = true;
-};
-
-QxScroller.extend(qx.ui.layout.CanvasLayout, "QxScroller");
+});
 
 
 /*

@@ -29,14 +29,13 @@
 /*!
   The qooxdoo core event object. Each event object for qx.core.Targets should extend this class.
 */
-qx.event.types.Event = function(vType)
+qx.OO.defineClass("qx.event.types.Event", qx.core.Object, 
+function(vType)
 {
   qx.core.Object.call(this, false);
 
   this.setType(vType);
-};
-
-qx.event.types.Event.extend(qx.core.Object, "qx.event.types.Event");
+});
 
 qx.event.types.Event.addFastProperty({ name : "type", setOnlyOnce : true });
 

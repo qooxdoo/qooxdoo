@@ -33,7 +33,8 @@
 /*!
   This object gets an instance in vAll qx.client.ClientWindows and manage the focus handling for it.
 */
-qx.event.handler.FocusHandler = function(vWidget)
+qx.OO.defineClass("qx.event.handler.FocusHandler", qx.manager.object.ObjectManager, 
+function(vWidget)
 {
   // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
@@ -41,9 +42,7 @@ qx.event.handler.FocusHandler = function(vWidget)
   if (qx.util.Validation.isValidObject(vWidget)) {
     this._attachedWidget = vWidget;
   };
-};
-
-qx.event.handler.FocusHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.FocusHandler");
+});
 
 qx.event.handler.FocusHandler.mouseFocus = false;
 

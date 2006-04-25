@@ -41,9 +41,7 @@ function QxClock()
   this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
   this._timer.start();
-};
-
-QxClock.extend(qx.ui.basic.Atom, "QxClock");
+});
 
 
 

@@ -26,10 +26,9 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.tabview.TabViewPage = function(vButton) {
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewPage", qx.ui.pageview.AbstractPageViewPage, 
+function(vButton) {
   qx.ui.pageview.AbstractPageViewPage.call(this, vButton);
-};
-
-qx.ui.pageview.tabview.TabViewPage.extend(qx.ui.pageview.AbstractPageViewPage, "qx.ui.pageview.tabview.TabViewPage");
+});
 
 qx.ui.pageview.tabview.TabViewPage.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-page" });

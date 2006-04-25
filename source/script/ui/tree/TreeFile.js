@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.tree.TreeFile = function(vLabel, vIcon, vIconSelected) {
+qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement, 
+function(vLabel, vIcon, vIconSelected) {
   qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
-};
-
-qx.ui.tree.TreeFile.extend(qx.ui.tree.AbstractTreeElement, "qx.ui.tree.TreeFile");
+});
 
 
 

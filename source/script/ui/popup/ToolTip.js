@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.popup.ToolTip = function(vLabel, vIcon)
+qx.OO.defineClass("qx.ui.popup.ToolTip", qx.ui.popup.PopupAtom, 
+function(vLabel, vIcon)
 {
   // ************************************************************************
   //   INIT
@@ -51,9 +52,7 @@ qx.ui.popup.ToolTip = function(vLabel, vIcon)
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
-};
-
-qx.ui.popup.ToolTip.extend(qx.ui.popup.PopupAtom, "qx.ui.popup.ToolTip");
+});
 
 proto._minZIndex = 1e7;
 

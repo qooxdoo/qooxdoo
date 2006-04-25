@@ -26,8 +26,7 @@
 
 ************************************************************************ */
 
-qx.ui.layout.HorizontalBoxLayout = function() {
+qx.OO.defineClass("qx.ui.layout.HorizontalBoxLayout", qx.ui.layout.BoxLayout, 
+function() {
   qx.ui.layout.BoxLayout.call(this, qx.Const.ORIENTATION_HORIZONTAL);
-};
-
-qx.ui.layout.HorizontalBoxLayout.extend(qx.ui.layout.BoxLayout, "qx.ui.layout.HorizontalBoxLayout");
+});

@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.tabview.TabView = function() {
+qx.OO.defineClass("qx.ui.pageview.tabview.TabView", qx.ui.pageview.AbstractPageView, 
+function() {
   qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.tabview.TabViewBar, qx.ui.pageview.tabview.TabViewPane);
-};
-
-qx.ui.pageview.tabview.TabView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pageview.tabview.TabView");
+});
 
 
 

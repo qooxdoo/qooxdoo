@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.renderer.color.ColorObject = function(vValue)
+qx.OO.defineClass("qx.renderer.color.ColorObject", qx.renderer.color.Color, 
+function(vValue)
 {
   // this.debug("Value: " + vValue);
   this.setValue(vValue);
@@ -43,9 +44,7 @@ qx.renderer.color.ColorObject = function(vValue)
   // Here will all objects with a dependency to this
   // color stored.
   this._dependentObjects = {};
-};
-
-qx.renderer.color.ColorObject.extend(qx.renderer.color.Color, "qx.renderer.color.ColorObject");
+});
 
 
 

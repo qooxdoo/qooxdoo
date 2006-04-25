@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.DockLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.DockLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.DockLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.DockLayoutImpl");
+});
 
 
 /*!

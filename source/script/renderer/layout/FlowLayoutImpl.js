@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.FlowLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.FlowLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.FlowLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.FlowLayoutImpl");
+});
 
 qx.renderer.layout.FlowLayoutImpl.STR_FIRST = "getFirstVisibleChild";
 qx.renderer.layout.FlowLayoutImpl.STR_LAST = "getLastVisibleChild";

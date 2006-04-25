@@ -139,9 +139,7 @@ function QxSplitPane(vOrientation)
   var p2 = this._secondWidget = new qx.ui.layout.CanvasLayout();
 
   this.setRightWidget(p2);
-};
-
-QxSplitPane.extend(qx.ui.layout.BoxLayout, "QxSplitPane");
+});
 
 
 /*

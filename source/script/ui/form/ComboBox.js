@@ -44,7 +44,8 @@
   * Images inside the list
   * Images and text inside the list
 */
-qx.ui.form.ComboBox = function()
+qx.OO.defineClass("qx.ui.form.ComboBox", qx.ui.layout.HorizontalBoxLayout, 
+function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -135,9 +136,7 @@ qx.ui.form.ComboBox = function()
   //   REMAPPING
   // ************************************************************************
   this.remapChildrenHandlingTo(l);
-};
-
-qx.ui.form.ComboBox.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.form.ComboBox");
+});
 
 
 

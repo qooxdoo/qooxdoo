@@ -70,9 +70,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
   // ***********************************************************************
   vComponent.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-};
-
-QxSplashScreen.extend(qx.ui.popup.Popup, "QxSplashScreen");
+});
 
 QxSplashScreen.MIN_VALUE = 1;
 QxSplashScreen.MAX_VALUE = 100;

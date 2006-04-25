@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.io.remote.RemoteResponse = function() {
+qx.OO.defineClass("qx.io.remote.RemoteResponse", qx.core.Target, 
+function() {
   qx.core.Target.call(this);
-};
-
-qx.io.remote.RemoteResponse.extend(qx.core.Target, "qx.io.remote.RemoteResponse");
+});
 
 
 

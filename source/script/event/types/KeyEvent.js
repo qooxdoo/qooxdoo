@@ -29,14 +29,13 @@
 /*!
   A key event instance contains all data for each occured key event
 */
-qx.event.types.KeyEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
+qx.OO.defineClass("qx.event.types.KeyEvent", qx.event.types.DomEvent, 
+function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
 {
   qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   this.setKeyCode(vKeyCode);
-};
-
-qx.event.types.KeyEvent.extend(qx.event.types.DomEvent, "qx.event.types.KeyEvent");
+});
 
 qx.event.types.KeyEvent.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
 

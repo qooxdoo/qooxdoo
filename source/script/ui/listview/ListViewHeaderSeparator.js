@@ -26,10 +26,9 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewHeaderSeparator = function() {
+qx.OO.defineClass("qx.ui.listview.ListViewHeaderSeparator", qx.ui.basic.Terminator, 
+function() {
   qx.ui.basic.Terminator.call(this);
-};
-
-qx.ui.listview.ListViewHeaderSeparator.extend(qx.ui.basic.Terminator, "qx.ui.listview.ListViewHeaderSeparator");
+});
 
 qx.ui.listview.ListViewHeaderSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-separator" });

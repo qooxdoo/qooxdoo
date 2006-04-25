@@ -36,7 +36,8 @@
 /*!
   This manager registers and manage all incoming key and mouse events.
 */
-qx.event.handler.EventHandler = function(vClientWindow)
+qx.OO.defineClass("qx.event.handler.EventHandler", qx.manager.object.ObjectManager, 
+function(vClientWindow)
 {
   // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
@@ -60,9 +61,7 @@ qx.event.handler.EventHandler = function(vClientWindow)
 
   // Init Command Interface
   this._commands = {};
-};
-
-qx.event.handler.EventHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.EventHandler");
+});
 
 qx.event.handler.EventHandler.mouseEventTypes = [ qx.Const.EVENT_TYPE_MOUSEOVER, qx.Const.EVENT_TYPE_MOUSEMOVE, qx.Const.EVENT_TYPE_MOUSEOUT, qx.Const.EVENT_TYPE_MOUSEDOWN, qx.Const.EVENT_TYPE_MOUSEUP, qx.Const.EVENT_TYPE_CLICK, qx.Const.EVENT_TYPE_DBLCLICK, qx.Const.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
 qx.event.handler.EventHandler.keyEventTypes = [ qx.Const.EVENT_TYPE_KEYDOWN, qx.Const.EVENT_TYPE_KEYPRESS, qx.Const.EVENT_TYPE_KEYUP ];

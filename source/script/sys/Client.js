@@ -33,7 +33,8 @@
   Version shemes following wikipedia: major.minor[.revision[.build]]
   http://en.wikipedia.org/wiki/Software_version
 */
-qx.sys.Client = function()
+qx.OO.defineClass("qx.sys.Client", Object, 
+function()
 {
   var vRunsLocally = window.location.protocol === "file:";
 
@@ -113,9 +114,7 @@ qx.sys.Client = function()
 
   this._browserPlatform = vBrowserPlatform;
   this._browserModeHta = vBrowserModeHta;
-};
-
-qx.sys.Client.extend(Object, "qx.sys.Client");
+});
 
 
 

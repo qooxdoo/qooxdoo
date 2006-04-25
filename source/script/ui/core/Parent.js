@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.core.Parent = function()
+qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget, 
+function()
 {
   if (this.classname == qx.ui.core.Parent.OMIT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
@@ -40,9 +41,7 @@ qx.ui.core.Parent = function()
 
   // Create instanceof layout implementation
   this._layoutImpl = this._createLayoutImpl();
-};
-
-qx.ui.core.Parent.extend(qx.ui.core.Widget, "qx.ui.core.Parent");
+});
 
 qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 

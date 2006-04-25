@@ -37,7 +37,8 @@
 /*!
   This is the main widget, all visible objects in the application extend this.
 */
-qx.ui.core.Widget = function()
+qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target, 
+function()
 {
   if (this.classname == qx.ui.core.Widget.OMIT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
@@ -69,9 +70,7 @@ qx.ui.core.Widget = function()
   // ************************************************************************
   this._states = {};
   this._applyInitialAppearance();
-};
-
-qx.ui.core.Widget.extend(qx.core.Target, "qx.ui.core.Widget");
+});
 
 qx.ui.core.Widget.CORE_CLASS = "QxWidgetCore";
 qx.ui.core.Widget.OMIT_CLASS = "qx.ui.core.Widget";

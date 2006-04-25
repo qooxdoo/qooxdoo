@@ -29,7 +29,8 @@
 /*!
   The event object for drag and drop sessions
 */
-qx.event.types.DragEvent = function(vType, vMouseEvent, vTarget, vRelatedTarget)
+qx.OO.defineClass("qx.event.types.DragEvent", qx.event.types.MouseEvent, 
+function(vType, vMouseEvent, vTarget, vRelatedTarget)
 {
   this._mouseEvent = vMouseEvent;
 
@@ -43,9 +44,7 @@ qx.event.types.DragEvent = function(vType, vMouseEvent, vTarget, vRelatedTarget)
   };
 
   qx.event.types.MouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
-};
-
-qx.event.types.DragEvent.extend(qx.event.types.MouseEvent, "qx.event.types.DragEvent");
+});
 
 
 

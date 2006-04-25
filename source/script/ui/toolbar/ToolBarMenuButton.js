@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBarMenuButton = function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.OO.defineClass("qx.ui.toolbar.ToolBarMenuButton", qx.ui.toolbar.ToolBarButton, 
+function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
@@ -41,9 +42,7 @@ qx.ui.toolbar.ToolBarMenuButton = function(vText, vMenu, vIcon, vIconWidth, vIco
   this._menuButton.setAnonymous(true);
   this.addAtEnd(this._menuButton);
   */
-};
-
-qx.ui.toolbar.ToolBarMenuButton.extend(qx.ui.toolbar.ToolBarButton, "qx.ui.toolbar.ToolBarMenuButton");
+});
 
 
 

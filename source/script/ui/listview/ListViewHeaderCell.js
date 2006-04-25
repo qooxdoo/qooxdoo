@@ -30,7 +30,8 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewHeaderCell = function(vConfig, vId)
+qx.OO.defineClass("qx.ui.listview.ListViewHeaderCell", qx.ui.basic.Atom, 
+function(vConfig, vId)
 {
   qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
@@ -83,9 +84,7 @@ qx.ui.listview.ListViewHeaderCell = function(vConfig, vId)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-};
-
-qx.ui.listview.ListViewHeaderCell.extend(qx.ui.basic.Atom, "qx.ui.listview.ListViewHeaderCell");
+});
 
 qx.ui.listview.ListViewHeaderCell.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
 qx.ui.listview.ListViewHeaderCell.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });

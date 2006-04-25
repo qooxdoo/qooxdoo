@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.LayoutImpl = function(vWidget)
+qx.OO.defineClass("qx.renderer.layout.LayoutImpl", qx.core.Object, 
+function(vWidget)
 {
   qx.core.Object.call(this);
 
   this._widget = vWidget;
-};
-
-qx.renderer.layout.LayoutImpl.extend(qx.core.Object, "qx.renderer.layout.LayoutImpl");
+});
 
 
 

@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.CanvasLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.CanvasLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.CanvasLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.CanvasLayoutImpl");
+});
 
 
 

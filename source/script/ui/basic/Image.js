@@ -32,7 +32,8 @@
 /*!
   This widget is for all images in qooxdoo projects.
 */
-qx.ui.basic.Image = function(vSource, vWidth, vHeight)
+qx.OO.defineClass("qx.ui.basic.Image", qx.ui.basic.Terminator, 
+function(vSource, vWidth, vHeight)
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -49,9 +50,7 @@ qx.ui.basic.Image = function(vSource, vWidth, vHeight)
 
   // Prohibit selection
   this.setSelectable(false);
-};
-
-qx.ui.basic.Image.extend(qx.ui.basic.Terminator, "qx.ui.basic.Image");
+});
 
 qx.ui.basic.Image.ATTR_ALT = qx.Const.KEY_ALT;
 qx.ui.basic.Image.ATTR_TITLE = "title";

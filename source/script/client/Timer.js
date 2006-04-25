@@ -29,7 +29,8 @@
 /*!
   Global timer support. Simplifies javascript intervals for objects.
 */
-qx.client.Timer = function(vInterval)
+qx.OO.defineClass("qx.client.Timer", qx.core.Target, 
+function(vInterval)
 {
   qx.core.Target.call(this);
 
@@ -42,9 +43,7 @@ qx.client.Timer = function(vInterval)
   // Object wrapper to timer event
   var o = this;
   this.__oninterval = function() { o._oninterval(); };
-};
-
-qx.client.Timer.extend(qx.core.Target, "qx.client.Timer");
+});
 
 qx.client.Timer.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
 

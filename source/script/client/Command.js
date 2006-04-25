@@ -31,7 +31,8 @@
 
   Each command could be accigned to multiple widgets.
 */
-qx.client.Command = function(vShortcut, vKeyCode, vManager)
+qx.OO.defineClass("qx.client.Command", qx.core.Target, 
+function(vShortcut, vKeyCode, vManager)
 {
   qx.core.Target.call(this);
 
@@ -46,9 +47,7 @@ qx.client.Command = function(vShortcut, vKeyCode, vManager)
   };
 
   this.setManager(qx.util.Validation.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
-};
-
-qx.client.Command.extend(qx.core.Target, "qx.client.Command");
+});
 
 qx.client.Command.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 qx.client.Command.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });

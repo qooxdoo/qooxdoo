@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListView = function(vData, vColumns)
+qx.OO.defineClass("qx.ui.listview.ListView", qx.ui.layout.VerticalBoxLayout, 
+function(vData, vColumns)
 {
   // ************************************************************************
   //   REFERENCES
@@ -121,9 +122,7 @@ qx.ui.listview.ListView = function(vData, vColumns)
   // ************************************************************************
 
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-};
-
-qx.ui.listview.ListView.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.listview.ListView");
+});
 
 
 

@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.basic.Inline = function(vId)
+qx.OO.defineClass("qx.ui.basic.Inline", qx.ui.layout.CanvasLayout, 
+function(vId)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -35,8 +36,6 @@ qx.ui.basic.Inline = function(vId)
   if (qx.util.Validation.isValidString(vId)) {
     this.setInlineNodeId(vId);
   };
-};
-
-qx.ui.basic.Inline.extend(qx.ui.layout.CanvasLayout, "qx.ui.basic.Inline");
+});
 
 qx.ui.basic.Inline.addProperty({ name : "inlineNodeId", type : qx.Const.TYPEOF_STRING });

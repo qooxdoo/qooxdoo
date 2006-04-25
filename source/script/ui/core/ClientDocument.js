@@ -36,7 +36,8 @@
   also handles their resizing and focus navigation. This widget will be automatically
   created through qx.client.ClientWindow.
 */
-qx.ui.core.ClientDocument = function(vClientWindow)
+qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout, 
+function(vClientWindow)
 {
   this._window = vClientWindow;
   this._document = this._window.getElement().document;
@@ -82,9 +83,7 @@ qx.ui.core.ClientDocument = function(vClientWindow)
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
   };
   */
-};
-
-qx.ui.core.ClientDocument.extend(qx.ui.layout.CanvasLayout, "qx.ui.core.ClientDocument");
+});
 
 qx.ui.core.ClientDocument.addProperty({ name : "globalCursor", type : qx.Const.TYPEOF_STRING });
 

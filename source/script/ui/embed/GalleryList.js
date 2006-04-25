@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.embed.GalleryListEmbed = function(galleryList)
+qx.OO.defineClass("qx.ui.embed.GalleryListEmbed", qx.ui.basic.Terminator, 
+function(galleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -48,9 +49,7 @@ qx.ui.embed.GalleryListEmbed = function(galleryList)
   this.addEventListener("click", this._onclick);
   this.addEventListener("dblclick", this._ondblclick);
   this.addEventListener("keydown", this._onkeydown);
-};
-
-qx.ui.embed.GalleryListEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryListEmbed");
+});
 
 qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
 qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });

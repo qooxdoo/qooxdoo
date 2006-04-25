@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBarCheckBox = function(vText, vIcon, vChecked)
+qx.OO.defineClass("qx.ui.toolbar.ToolBarCheckBox", qx.ui.toolbar.ToolBarButton, 
+function(vText, vIcon, vChecked)
 {
   qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon);
 
   if (qx.util.Validation.isValid(vChecked)) {
     this.setChecked(vChecked);
   };
-};
-
-qx.ui.toolbar.ToolBarCheckBox.extend(qx.ui.toolbar.ToolBarButton, "qx.ui.toolbar.ToolBarCheckBox");
+});
 
 
 

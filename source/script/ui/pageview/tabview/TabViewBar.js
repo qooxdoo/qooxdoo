@@ -27,13 +27,12 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.tabview.TabViewBar = function()
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewBar", qx.ui.pageview.AbstractPageViewBar, 
+function()
 {
   qx.ui.pageview.AbstractPageViewBar.call(this);
 
   this.setZIndex(2);
-};
-
-qx.ui.pageview.tabview.TabViewBar.extend(qx.ui.pageview.AbstractPageViewBar, "qx.ui.pageview.tabview.TabViewBar");
+});
 
 qx.ui.pageview.tabview.TabViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-bar" });

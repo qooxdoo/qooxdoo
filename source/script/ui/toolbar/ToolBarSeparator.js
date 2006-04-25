@@ -26,15 +26,14 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBarSeparator = function()
+qx.OO.defineClass("qx.ui.toolbar.ToolBarSeparator", qx.ui.layout.CanvasLayout, 
+function()
 {
   qx.ui.layout.CanvasLayout.call(this);
 
   var l = new qx.ui.basic.Terminator;
   l.setAppearance("toolbar-separator-line");
   this.add(l);
-};
-
-qx.ui.toolbar.ToolBarSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.toolbar.ToolBarSeparator");
+});
 
 qx.ui.toolbar.ToolBarSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-separator" });

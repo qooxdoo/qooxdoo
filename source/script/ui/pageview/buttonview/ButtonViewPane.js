@@ -26,10 +26,9 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.buttonview.ButtonViewPane = function() {
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewPane", qx.ui.pageview.AbstractPageViewPane, 
+function() {
   qx.ui.pageview.AbstractPageViewPane.call(this);
-};
-
-qx.ui.pageview.buttonview.ButtonViewPane.extend(qx.ui.pageview.AbstractPageViewPane, "qx.ui.pageview.buttonview.ButtonViewPane");
+});
 
 qx.ui.pageview.buttonview.ButtonViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-pane" });

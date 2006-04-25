@@ -30,9 +30,7 @@
 function QxFrame(vCaption, vIcon)
 {
   qx.ui.window.Window.call(this, vCaption, vIcon);
-};
-
-QxFrame.extend(qx.ui.window.Window, "QxFrame");
+});
 
 
 /*

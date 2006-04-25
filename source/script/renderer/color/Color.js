@@ -27,16 +27,15 @@
 
 ************************************************************************ */
 
-qx.renderer.color.Color = function(vValue)
+qx.OO.defineClass("qx.renderer.color.Color", qx.core.Object, 
+function(vValue)
 {
   if (qx.util.Validation.isValid(vValue)) {
     this.setValue(vValue);
   };
 
   qx.core.Object.call(this);
-};
-
-qx.renderer.color.Color.extend(qx.core.Object, "qx.renderer.color.Color");
+});
 
 
 

@@ -26,14 +26,13 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewContentCellText = function(vText)
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellText", qx.ui.embed.TextEmbed, 
+function(vText)
 {
   qx.ui.embed.TextEmbed.call(this, vText);
 
   this.setSelectable(false);
-};
-
-qx.ui.listview.ListViewContentCellText.extend(qx.ui.embed.TextEmbed, "qx.ui.listview.ListViewContentCellText");
+});
 
 qx.ui.listview.ListViewContentCellText.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
 

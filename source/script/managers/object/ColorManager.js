@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.manager.object.ColorManager = function()
+qx.OO.defineClass("qx.manager.object.ColorManager", qx.manager.object.ObjectManager, 
+function()
 {
   qx.manager.object.ObjectManager.call(this);
 
@@ -37,9 +38,7 @@ qx.manager.object.ColorManager = function()
   // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
   this._dependentObjects = {};
-};
-
-qx.manager.object.ColorManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ColorManager");
+});
 
 
 /*

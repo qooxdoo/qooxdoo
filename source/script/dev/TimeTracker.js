@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.dev.TimeTracker = function()
+qx.OO.defineClass("qx.dev.TimeTracker", qx.core.Object, 
+function()
 {
   qx.core.Object.call(this);
 
   this._functions = qx.lang.Array.fromArguments(arguments);
 
   this.buttonSets();
-};
-
-qx.dev.TimeTracker.extend(qx.core.Object, "qx.dev.TimeTracker");
+});
 
 qx.dev.TimeTracker.compare = function(a, b) {
   return a-b;

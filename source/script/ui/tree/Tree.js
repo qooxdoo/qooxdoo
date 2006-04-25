@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.tree.Tree = function(vLabel, vIcon, vIconSelected)
+qx.OO.defineClass("qx.ui.tree.Tree", qx.ui.tree.TreeFolder, 
+function(vLabel, vIcon, vIconSelected)
 {
   qx.ui.tree.TreeFolder.call(this, vLabel, vIcon, vIconSelected);
 
@@ -56,9 +57,7 @@ qx.ui.tree.Tree = function(vLabel, vIcon, vIconSelected)
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
   this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
-};
-
-qx.ui.tree.Tree.extend(qx.ui.tree.TreeFolder, "qx.ui.tree.Tree");
+});
 
 
 

@@ -29,14 +29,13 @@
 /*!
   A small helper class to create a special layout handler for qx.ui.menu.Menus
 */
-qx.ui.menu.MenuLayout = function()
+qx.OO.defineClass("qx.ui.menu.MenuLayout", qx.ui.layout.VerticalBoxLayout, 
+function()
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
 
   this.setAnonymous(true);
-};
-
-qx.ui.menu.MenuLayout.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.menu.MenuLayout");
+});
 
 
 /*!

@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.renderer.theme.AppearanceTheme = function(vId, vTitle)
+qx.OO.defineClass("qx.renderer.theme.AppearanceTheme", qx.core.Object, 
+function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
@@ -37,9 +38,7 @@ qx.renderer.theme.AppearanceTheme = function(vId, vTitle)
   this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
 
   qx.manager.object.AppearanceManager.registerTheme(this);
-};
-
-qx.renderer.theme.AppearanceTheme.extend(qx.core.Object, "qx.renderer.theme.AppearanceTheme");
+});
 
 
 

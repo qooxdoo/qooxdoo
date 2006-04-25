@@ -29,11 +29,10 @@
 /*!
   This singleton manages multiple instances of qx.ui.menu.Menu and their state.
 */
-qx.manager.object.MenuManager = function(){
+qx.OO.defineClass("qx.manager.object.MenuManager", qx.manager.object.ObjectManager, 
+function(){
   qx.manager.object.ObjectManager.call(this);
-};
-
-qx.manager.object.MenuManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.MenuManager");
+});
 
 
 

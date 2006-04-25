@@ -26,14 +26,13 @@
 
 ************************************************************************ */
 
-qx.renderer.font.FontObject = function(vSize, vName)
+qx.OO.defineClass("qx.renderer.font.FontObject", qx.renderer.font.Font, 
+function(vSize, vName)
 {
   this._dependentObjects = {};
 
   qx.renderer.font.Font.call(this, vSize, vName);
-};
-
-qx.renderer.font.FontObject.extend(qx.renderer.font.Font, "qx.renderer.font.FontObject");
+});
 
 
 

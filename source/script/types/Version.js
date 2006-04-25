@@ -43,7 +43,8 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-qx.types.Version = function(arrVersion)
+qx.OO.defineClass("qx.types.Version", qx.core.Object, 
+function(arrVersion)
 {
   qx.core.Object.call(this);
 
@@ -54,9 +55,7 @@ qx.types.Version = function(arrVersion)
   this._major = parseInt(arrVersion[0]) || 0;
   this._minor = parseInt(arrVersion[1]) || 0;
   this._rev = parseInt(arrVersion[2]) || 0;
-};
-
-qx.types.Version.extend(qx.core.Object, "qx.types.Version");
+});
 
 
 

@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.InputCheckSymbol = function()
+qx.OO.defineClass("qx.ui.form.InputCheckSymbol", qx.ui.basic.Terminator, 
+function()
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -48,9 +49,7 @@ qx.ui.form.InputCheckSymbol = function()
   // we need to be sure that the dom protection of this is added
   this.forceTabIndex(1);
   this.setTabIndex(-1);
-};
-
-qx.ui.form.InputCheckSymbol.extend(qx.ui.basic.Terminator, "qx.ui.form.InputCheckSymbol");
+});
 
 qx.ui.form.InputCheckSymbol.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "apply" });
 qx.ui.form.InputCheckSymbol.addProperty({ name : "value", impl : "apply" });

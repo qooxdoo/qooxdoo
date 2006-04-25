@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.basic.HorizontalSpacer = function()
+qx.OO.defineClass("qx.ui.basic.HorizontalSpacer", qx.ui.basic.Terminator, 
+function()
 {
   qx.ui.basic.Terminator.call(this);
 
   this.setWidth(qx.Const.CORE_FLEX);
-};
-
-qx.ui.basic.HorizontalSpacer.extend(qx.ui.basic.Terminator, "qx.ui.basic.HorizontalSpacer");
+});

@@ -27,11 +27,10 @@
 
 ************************************************************************ */
 
-qx.io.remote.AbstractRemoteTransport = function() {
+qx.OO.defineClass("qx.io.remote.AbstractRemoteTransport", qx.core.Target, 
+function() {
   qx.core.Target.call(this);
-};
-
-qx.io.remote.AbstractRemoteTransport.extend(qx.core.Target, "qx.io.remote.AbstractRemoteTransport");
+});
 
 
 
