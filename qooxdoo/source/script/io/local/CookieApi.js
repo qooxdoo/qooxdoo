@@ -26,16 +26,14 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.local.CookieApi");
-
-qx.io.local.CookieApi =
+qx.OO.defineClass("qx.io.local.CookieApi",
 {
   STR_EXPIRES : "expires",
   STR_PATH : "path",
   STR_DOMAIN : "domain",
   STR_SECURE : "secure",
   STR_DELDATA : "Thu, 01-Jan-1970 00:00:01 GMT"
-};
+});
 
 
 
@@ -47,7 +45,7 @@ qx.io.local.CookieApi =
 ---------------------------------------------------------------------------
 */
 
-qx.io.local.CookieApi.get = function(vName)
+qx.Class.get = function(vName)
 {
   var start = document.cookie.indexOf(vName + qx.Const.CORE_EQUAL);
   var len = start + vName.length + 1;
@@ -69,7 +67,7 @@ qx.io.local.CookieApi.get = function(vName)
   return unescape(document.cookie.substring(len, end));
 };
 
-qx.io.local.CookieApi.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
+qx.Class.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
 {
   var today = new Date();
   today.setTime(today.getTime());
@@ -111,7 +109,7 @@ qx.io.local.CookieApi.set = function(vName, vValue, vExpires, vPath, vDomain, vS
   document.cookie = vCookie.join(qx.Const.CORE_EMPTY);
 };
 
-qx.io.local.CookieApi.del = function(vName, vPath, vDomain)
+qx.Class.del = function(vName, vPath, vDomain)
 {
   if (!qx.io.local.CookieApi.get(vName)) {
     return;
