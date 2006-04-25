@@ -174,8 +174,6 @@ R_ALL = re.compile(S_ALL)
 tokenizerLine = 0
 tokenizerFile = ""
 
-operatorMode = False
-
 xmlindent = 0
 xmloutput = ""
 treecontext = []
@@ -257,12 +255,10 @@ def tokenizer(data, filename):
   # make global variables available
   global tokenizerLine
   global tokenizerFile
-  global operatorMode
 
   # reset global stuff
   tokenizerLine = 1
   tokenizerFile = filename
-  operatorMode = False
 
   # Protect/Replace Escape sequences first
   data = data.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
