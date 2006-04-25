@@ -30,7 +30,8 @@
   Font implementation for qx.ui.core.Widget instances.
 */
 
-qx.renderer.font.Font = function(vSize, vName)
+qx.OO.defineClass("qx.renderer.font.Font", qx.core.Object, 
+function(vSize, vName)
 {
   qx.core.Object.call(this);
 
@@ -43,9 +44,7 @@ qx.renderer.font.Font = function(vSize, vName)
   if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
   };
-};
-
-qx.renderer.font.Font.extend(qx.core.Object, "qx.renderer.font.Font");
+});
 
 
 

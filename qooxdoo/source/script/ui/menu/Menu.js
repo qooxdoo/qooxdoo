@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.menu.Menu = function()
+qx.OO.defineClass("qx.ui.menu.Menu", qx.ui.popup.Popup, 
+function()
 {
   qx.ui.popup.Popup.call(this);
 
@@ -67,9 +68,7 @@ qx.ui.menu.Menu = function()
   // ************************************************************************
 
   this.remapChildrenHandlingTo(this._layout);
-};
-
-qx.ui.menu.Menu.extend(qx.ui.popup.Popup, "qx.ui.menu.Menu");
+});
 
 proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
 

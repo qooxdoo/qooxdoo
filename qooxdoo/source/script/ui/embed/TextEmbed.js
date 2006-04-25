@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.ui.embed.TextEmbed = function(vText)
+qx.OO.defineClass("qx.ui.embed.TextEmbed", qx.ui.basic.Terminator, 
+function(vText)
 {
   qx.ui.basic.Terminator.call(this);
 
   if (qx.util.Validation.isValidString(vText)) {
     this.setText(vText);
   };
-};
-
-qx.ui.embed.TextEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.TextEmbed");
+});
 
 
 

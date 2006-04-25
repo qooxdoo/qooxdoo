@@ -26,14 +26,13 @@
 
 ************************************************************************ */
 
-qx.ui.popup.Popup = function()
+qx.OO.defineClass("qx.ui.popup.Popup", qx.ui.layout.CanvasLayout, 
+function()
 {
   qx.ui.layout.CanvasLayout.call(this);
 
   this.setZIndex(this._minZIndex);
-};
-
-qx.ui.popup.Popup.extend(qx.ui.layout.CanvasLayout, "qx.ui.popup.Popup");
+});
 
 qx.ui.popup.Popup.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "popup" });
 

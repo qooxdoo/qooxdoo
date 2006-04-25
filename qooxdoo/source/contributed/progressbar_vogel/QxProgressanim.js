@@ -63,9 +63,7 @@ function QxProgressanim()
   // Hide the Bar
   this.clearBar()
   
-};
-
-QxProgressanim.extend(qx.ui.layout.CanvasLayout, "QxProgressanim");
+});
 
 
 /*

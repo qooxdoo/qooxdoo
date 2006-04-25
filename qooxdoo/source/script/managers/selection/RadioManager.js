@@ -29,7 +29,8 @@
 /*!
   Each instance manage vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.ToolBarRadioButton, ...
 */
-qx.manager.selection.RadioManager = function(vName, vMembers)
+qx.OO.defineClass("qx.manager.selection.RadioManager", qx.core.Target, 
+function(vName, vMembers)
 {
   // we don't need the manager data structures
   qx.core.Target.call(this);
@@ -43,9 +44,7 @@ qx.manager.selection.RadioManager = function(vName, vMembers)
   if (qx.util.Validation.isValidArray(vMembers)) {
     qx.manager.selection.RadioManager.prototype.add.apply(this, vMembers);
   };
-};
-
-qx.manager.selection.RadioManager.extend(qx.core.Target, "qx.manager.selection.RadioManager");
+});
 
 qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "QxRadio-";
 

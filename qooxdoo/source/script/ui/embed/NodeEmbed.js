@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.ui.embed.DomNodeEmbed = function(vId)
+qx.OO.defineClass("qx.ui.embed.DomNodeEmbed", qx.ui.basic.Terminator, 
+function(vId)
 {
   qx.ui.basic.Terminator.call(this);
 
   if (qx.util.Validation.isValidString(vId)) {
     this.setSourceNodeId(vId);
   };
-};
-
-qx.ui.embed.DomNodeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.DomNodeEmbed");
+});
 
 qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
 

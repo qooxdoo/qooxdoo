@@ -35,14 +35,13 @@
   qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
   be found in more modern versions of the settings dialog in Mozilla Firefox.
 */
-qx.ui.pageview.buttonview.ButtonView = function()
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonView", qx.ui.pageview.AbstractPageView, 
+function()
 {
   qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);
 
   this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
-};
-
-qx.ui.pageview.buttonview.ButtonView.extend(qx.ui.pageview.AbstractPageView, "qx.ui.pageview.buttonview.ButtonView");
+});
 
 
 

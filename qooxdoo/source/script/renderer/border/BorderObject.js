@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.renderer.border.BorderObject = function(vWidth, vStyle, vColor)
+qx.OO.defineClass("qx.renderer.border.BorderObject", qx.renderer.border.Border, 
+function(vWidth, vStyle, vColor)
 {
   this._dependentObjects = {};
 
   qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
-};
-
-qx.renderer.border.BorderObject.extend(qx.renderer.border.Border, "qx.renderer.border.BorderObject");
+});
 
 
 

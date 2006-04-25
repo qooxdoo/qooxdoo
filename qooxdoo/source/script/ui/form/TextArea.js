@@ -26,15 +26,14 @@
 
 ************************************************************************ */
 
-qx.ui.form.TextArea = function(vValue)
+qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField, 
+function(vValue)
 {
   qx.ui.form.TextField.call(this, vValue);
 
   this.setTagName("textarea");
   this.removeHtmlProperty("type");
-};
-
-qx.ui.form.TextArea.extend(qx.ui.form.TextField, "qx.ui.form.TextArea");
+});
 
 qx.ui.form.TextArea.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-area" });
 

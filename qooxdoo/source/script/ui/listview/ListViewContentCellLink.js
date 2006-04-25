@@ -26,15 +26,14 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewContentCellLink = function(vHtml)
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellLink", qx.ui.embed.HtmlLinkEmbed, 
+function(vHtml)
 {
   qx.ui.embed.HtmlLinkEmbed.call(this, vHtml);
 
   // selectable = false will break links in gecko based browsers
   this.setSelectable(true);
-};
-
-qx.ui.listview.ListViewContentCellLink.extend(qx.ui.embed.HtmlLinkEmbed, "qx.ui.listview.ListViewContentCellLink");
+});
 
 qx.ui.listview.ListViewContentCellLink.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-link" });
 

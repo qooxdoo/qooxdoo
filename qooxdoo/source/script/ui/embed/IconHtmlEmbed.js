@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.embed.IconHtmlEmbed = function(vHtml, vIcon, vIconWidth, vIconHeight)
+qx.OO.defineClass("qx.ui.embed.IconHtmlEmbed", qx.ui.embed.HtmlEmbed, 
+function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
@@ -42,9 +43,7 @@ qx.ui.embed.IconHtmlEmbed = function(vHtml, vIcon, vIconWidth, vIconHeight)
       this.setIconHeight(vIconWidth);
     };
   };
-};
-
-qx.ui.embed.IconHtmlEmbed.extend(qx.ui.embed.HtmlEmbed, "qx.ui.embed.IconHtmlEmbed");
+});
 
 
 

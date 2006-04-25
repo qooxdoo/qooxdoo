@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.basic.Label = function(vHtml, vMnemonic)
+qx.OO.defineClass("qx.ui.basic.Label", qx.ui.basic.Terminator, 
+function(vHtml, vMnemonic)
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -47,9 +48,7 @@ qx.ui.basic.Label = function(vHtml, vMnemonic)
 
   // Auto Sized
   this.auto();
-};
-
-qx.ui.basic.Label.extend(qx.ui.basic.Terminator, "qx.ui.basic.Label");
+});
 
 qx.ui.basic.Label.COPY_STYLEPROPERTY = "styleproperty";
 qx.ui.basic.Label.COPY_COMPUTEDELEMENT = "computedelement";

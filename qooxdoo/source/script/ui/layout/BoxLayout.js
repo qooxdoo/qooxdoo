@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.layout.BoxLayout = function(vOrientation)
+qx.OO.defineClass("qx.ui.layout.BoxLayout", qx.ui.core.Parent, 
+function(vOrientation)
 {
   qx.ui.core.Parent.call(this);
 
@@ -36,9 +37,7 @@ qx.ui.layout.BoxLayout = function(vOrientation)
   if (qx.util.Validation.isValidString(vOrientation)) {
     this.setOrientation(vOrientation);
   };
-};
-
-qx.ui.layout.BoxLayout.extend(qx.ui.core.Parent, "qx.ui.layout.BoxLayout");
+});
 
 qx.ui.layout.BoxLayout.STR_REVERSED = "-reversed";
 

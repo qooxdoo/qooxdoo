@@ -38,11 +38,10 @@ removeEventListener to or from the created object. Each event to connect to has 
 form of an identification string. This type could be the name of a regular dom event like qx.Const.EVENT_TYPE_CLICK or
 something self-defined like "ready".
 */
-qx.core.Target = function(vAutoDispose) {
+qx.OO.defineClass("qx.core.Target", qx.core.Object, 
+function(vAutoDispose) {
   qx.core.Object.call(this, vAutoDispose);
-};
-
-qx.core.Target.extend(qx.core.Object, "qx.core.Target");
+});
 
 
 

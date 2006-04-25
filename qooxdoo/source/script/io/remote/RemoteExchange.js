@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.io.remote.RemoteExchange = function(vRequest)
+qx.OO.defineClass("qx.io.remote.RemoteExchange", qx.core.Target, 
+function(vRequest)
 {
   qx.core.Target.call(this);
 
   this.setRequest(vRequest);
-};
-
-qx.io.remote.RemoteExchange.extend(qx.core.Target, "qx.io.remote.RemoteExchange");
+});
 
 
 

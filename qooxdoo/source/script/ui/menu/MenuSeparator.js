@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.menu.MenuSeparator = function()
+qx.OO.defineClass("qx.ui.menu.MenuSeparator", qx.ui.layout.CanvasLayout, 
+function()
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -51,9 +52,7 @@ qx.ui.menu.MenuSeparator = function()
 
   // needed to stop the event, and keep the menu showing
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-};
-
-qx.ui.menu.MenuSeparator.extend(qx.ui.layout.CanvasLayout, "qx.ui.menu.MenuSeparator");
+});
 
 qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-separator" });
 

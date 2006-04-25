@@ -30,7 +30,8 @@
 
 ************************************************************************ */
 
-qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
+qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout, 
+function(vLabel, vIcon, vIconSelected)
 {
   if (this.classname == qx.ui.tree.AbstractTreeElement.OMIT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
@@ -82,9 +83,7 @@ qx.ui.tree.AbstractTreeElement = function(vLabel, vIcon, vIconSelected)
   // Register event listeners
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-};
-
-qx.ui.tree.AbstractTreeElement.extend(qx.ui.layout.BoxLayout, "qx.ui.tree.AbstractTreeElement");
+});
 
 qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
 

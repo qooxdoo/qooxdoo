@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.io.remote.XmlHttpTransport = function()
+qx.OO.defineClass("qx.io.remote.XmlHttpTransport", qx.io.remote.AbstractRemoteTransport, 
+function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
 
@@ -35,9 +36,7 @@ qx.io.remote.XmlHttpTransport = function()
 
   var o = this;
   this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
-};
-
-qx.io.remote.XmlHttpTransport.extend(qx.io.remote.AbstractRemoteTransport, "qx.io.remote.XmlHttpTransport");
+});
 
 
 

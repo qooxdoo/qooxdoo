@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.CheckBox = function(vText, vValue, vName, vChecked)
+qx.OO.defineClass("qx.ui.form.CheckBox", qx.ui.basic.Atom, 
+function(vText, vValue, vName, vChecked)
 {
   qx.ui.basic.Atom.call(this, vText);
 
@@ -51,9 +52,7 @@ qx.ui.form.CheckBox = function(vText, vValue, vName, vChecked)
   this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
   this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
-};
-
-qx.ui.form.CheckBox.extend(qx.ui.basic.Atom, "qx.ui.form.CheckBox");
+});
 
 /*
 ---------------------------------------------------------------------------

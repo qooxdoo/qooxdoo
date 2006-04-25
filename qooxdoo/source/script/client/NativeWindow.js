@@ -30,7 +30,8 @@
 
 ************************************************************************ */
 
-qx.client.NativeWindow = function(vUrl, vName)
+qx.OO.defineClass("qx.client.NativeWindow", qx.core.Target, 
+function(vUrl, vName)
 {
   qx.core.Target.call(this);
 
@@ -54,9 +55,7 @@ qx.client.NativeWindow = function(vUrl, vName)
   if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
   };
-};
-
-qx.client.NativeWindow.extend(qx.core.Target, "qx.client.NativeWindow");
+});
 
 
 

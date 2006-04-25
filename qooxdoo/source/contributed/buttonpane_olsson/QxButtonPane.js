@@ -44,9 +44,7 @@ function QxButtonPane(vOrientation) {
   helpB.addEventListener("execute", this.executeHelp);
 
   this.add(okB, cancelB, helpB);
-};
-
-QxButtonPane.extend(qx.ui.layout.BoxLayout, "QxButtonPane");
+});
 
 
 /*

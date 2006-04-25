@@ -27,11 +27,10 @@
 
 ************************************************************************ */
 
-qx.ui.toolbar.ToolBarRadioButton = function(vText, vIcon, vChecked) {
+qx.OO.defineClass("qx.ui.toolbar.ToolBarRadioButton", qx.ui.toolbar.ToolBarCheckBox, 
+function(vText, vIcon, vChecked) {
   qx.ui.toolbar.ToolBarCheckBox.call(this, vText, vIcon, vChecked);
-};
-
-qx.ui.toolbar.ToolBarRadioButton.extend(qx.ui.toolbar.ToolBarCheckBox, "qx.ui.toolbar.ToolBarRadioButton");
+});
 
 
 

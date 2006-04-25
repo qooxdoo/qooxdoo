@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.embed.IframeEmbed = function(vSource)
+qx.OO.defineClass("qx.ui.embed.IframeEmbed", qx.ui.basic.Terminator, 
+function(vSource)
 {
   // **********************************************************************
   //   INIT
@@ -45,9 +46,7 @@ qx.ui.embed.IframeEmbed = function(vSource)
   if (qx.util.Validation.isValid(vSource)) {
     this.setSource(vSource);
   };
-};
-
-qx.ui.embed.IframeEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.IframeEmbed");
+});
 
 qx.ui.embed.IframeEmbed.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "iframe" });
 

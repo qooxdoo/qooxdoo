@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.manager.selection.TreeSelectionManager = function(vBoundedWidget) {
+qx.OO.defineClass("qx.manager.selection.TreeSelectionManager", qx.manager.selection.SelectionManager, 
+function(vBoundedWidget) {
   qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
-};
-
-qx.manager.selection.TreeSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.TreeSelectionManager");
+});
 
 /*!
 Should multiple selection be allowed?

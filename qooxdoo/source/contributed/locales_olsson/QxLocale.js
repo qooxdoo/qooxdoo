@@ -42,9 +42,7 @@ function QxLocale(vLanguage, vCountry, vVariant) {
   if(qx.util.Validation.isValidString(vVariant)) {
     this.setVariant(vVariant);
   };
-};
-
-QxLocale.extend(qx.core.Object, "QxLocale");
+});
 
 
 /*

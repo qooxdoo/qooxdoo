@@ -30,7 +30,8 @@
 /*!
   This is the preloader used from qx.ui.basic.Image instances.
 */
-qx.io.image.ImagePreloader = function(vSource)
+qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target, 
+function(vSource)
 {
   if(qx.manager.object.ImagePreloaderManager.has(vSource))
   {
@@ -62,9 +63,7 @@ qx.io.image.ImagePreloader = function(vSource)
   };
 
   qx.manager.object.ImagePreloaderManager.add(this);
-};
-
-qx.io.image.ImagePreloader.extend(qx.core.Target, "qx.io.image.ImagePreloader");
+});
 
 
 

@@ -27,11 +27,10 @@
 
 ************************************************************************ */
 
-qx.ui.layout.FlowLayout = function() {
+qx.OO.defineClass("qx.ui.layout.FlowLayout", qx.ui.core.Parent, 
+function() {
   qx.ui.core.Parent.call(this);
-};
-
-qx.ui.layout.FlowLayout.extend(qx.ui.core.Parent, "qx.ui.layout.FlowLayout");
+});
 
 /*!
   The spacing between childrens. Could be any positive integer value.

@@ -98,9 +98,7 @@ function QxProgressBar(vDirection, vMin, vMax) {
   if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
   };
-};
-
-QxProgressBar.extend(qx.ui.layout.CanvasLayout, "QxProgressBar");
+});
 
 /*
 ------------------------------------------------------------------------------------

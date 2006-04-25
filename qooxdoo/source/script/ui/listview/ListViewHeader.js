@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewHeader = function(vColumns)
+qx.OO.defineClass("qx.ui.listview.ListViewHeader", qx.ui.layout.HorizontalBoxLayout, 
+function(vColumns)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -75,9 +76,7 @@ qx.ui.listview.ListViewHeader = function(vColumns)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-};
-
-qx.ui.listview.ListViewHeader.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.listview.ListViewHeader");
+});
 
 qx.ui.listview.ListViewHeader.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header" });
 

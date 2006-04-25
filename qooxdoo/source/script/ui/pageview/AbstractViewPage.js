@@ -26,16 +26,15 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.AbstractPageViewPage = function(vButton)
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewPage", qx.ui.layout.CanvasLayout, 
+function(vButton)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
   if (qx.util.Validation.isValid(vButton)) {
     this.setButton(vButton);
   };
-};
-
-qx.ui.pageview.AbstractPageViewPage.extend(qx.ui.layout.CanvasLayout, "qx.ui.pageview.AbstractPageViewPage");
+});
 
 
 

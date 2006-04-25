@@ -29,9 +29,7 @@
 
 function QxStatusBar() {
   qx.ui.layout.HorizontalBoxLayout.call(this);
-};
-
-QxStatusBar.extend(qx.ui.layout.HorizontalBoxLayout, "QxStatusBar");
+});
 
 
 /*

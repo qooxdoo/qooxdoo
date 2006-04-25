@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.io.image.ImagePreloaderSystem = function(vPreloadList)
+qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target, 
+function(vPreloadList)
 {
   qx.core.Target.call(this);
 
   this._list = vPreloadList;
-};
-
-qx.io.image.ImagePreloaderSystem.extend(qx.core.Target, "qx.io.image.ImagePreloaderSystem");
+});
 
 
 

@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.GridLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.GridLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.GridLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.GridLayoutImpl");
+});
 
 
 

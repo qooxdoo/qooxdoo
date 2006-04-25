@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.form.TextField = function(vValue)
+qx.OO.defineClass("qx.ui.form.TextField", qx.ui.basic.Terminator, 
+function(vValue)
 {
   // ************************************************************************
   //   INIT
@@ -55,9 +56,7 @@ qx.ui.form.TextField = function(vValue)
 
   this.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur);
   this.addEventListener(qx.Const.EVENT_TYPE_FOCUS, this._onfocus);
-};
-
-qx.ui.form.TextField.extend(qx.ui.basic.Terminator, "qx.ui.form.TextField");
+});
 
 
 

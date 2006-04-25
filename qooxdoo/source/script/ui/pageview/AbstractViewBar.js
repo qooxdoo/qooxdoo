@@ -28,16 +28,15 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.AbstractPageViewBar = function()
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewBar", qx.ui.layout.BoxLayout, 
+function()
 {
   qx.ui.layout.BoxLayout.call(this);
 
   this._manager = new qx.manager.selection.RadioManager;
 
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
-};
-
-qx.ui.pageview.AbstractPageViewBar.extend(qx.ui.layout.BoxLayout, "qx.ui.pageview.AbstractPageViewBar");
+});
 
 
 

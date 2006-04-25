@@ -29,16 +29,15 @@
 /*!
   A mouse event instance contains all data for each occured mouse event
 */
-qx.event.types.MouseEvent = function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
+qx.OO.defineClass("qx.event.types.MouseEvent", qx.event.types.DomEvent, 
+function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
 {
   qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   if (vRelatedTarget) {
     this.setRelatedTarget(vRelatedTarget);
   };
-};
-
-qx.event.types.MouseEvent.extend(qx.event.types.DomEvent, "qx.event.types.MouseEvent");
+});
 
 
 

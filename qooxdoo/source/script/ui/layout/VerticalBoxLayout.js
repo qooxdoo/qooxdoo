@@ -26,8 +26,7 @@
 
 ************************************************************************ */
 
-qx.ui.layout.VerticalBoxLayout = function() {
+qx.OO.defineClass("qx.ui.layout.VerticalBoxLayout", qx.ui.layout.BoxLayout, 
+function() {
   qx.ui.layout.BoxLayout.call(this, qx.Const.ORIENTATION_VERTICAL);
-};
-
-qx.ui.layout.VerticalBoxLayout.extend(qx.ui.layout.BoxLayout, "qx.ui.layout.VerticalBoxLayout");
+});

@@ -29,14 +29,13 @@
 /*!
   Event object for property changes.
 */
-qx.event.types.DataEvent = function(vType, vData)
+qx.OO.defineClass("qx.event.types.DataEvent", qx.event.types.Event, 
+function(vType, vData)
 {
   qx.event.types.Event.call(this, vType);
 
   this.setData(vData);
-};
-
-qx.event.types.DataEvent.extend(qx.event.types.Event, "qx.event.types.DataEvent");
+});
 
 qx.event.types.DataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
 qx.event.types.DataEvent.addFastProperty({ name : "data" });

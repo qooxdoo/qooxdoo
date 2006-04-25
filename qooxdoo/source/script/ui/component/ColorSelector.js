@@ -41,7 +41,8 @@
 
   Includes support for RGB and HSB color areas.
 */
-qx.ui.component.ColorSelector = function(vPreviousRed, vPreviousGreen, vPreviousBlue)
+qx.OO.defineClass("qx.ui.component.ColorSelector", qx.ui.layout.VerticalBoxLayout, 
+function(vPreviousRed, vPreviousGreen, vPreviousBlue)
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
 
@@ -79,9 +80,7 @@ qx.ui.component.ColorSelector = function(vPreviousRed, vPreviousGreen, vPrevious
   if (vPreviousRed) {
     this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
   };
-};
-
-qx.ui.component.ColorSelector.extend(qx.ui.layout.VerticalBoxLayout, "qx.ui.component.ColorSelector");
+});
 
 qx.ui.component.ColorSelector.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colorselector" });
 

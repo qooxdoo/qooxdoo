@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.buttonview.ButtonViewBar = function() {
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewBar", qx.ui.pageview.AbstractPageViewBar, 
+function() {
   qx.ui.pageview.AbstractPageViewBar.call(this);
-};
-
-qx.ui.pageview.buttonview.ButtonViewBar.extend(qx.ui.pageview.AbstractPageViewBar, "qx.ui.pageview.buttonview.ButtonViewBar");
+});
 
 qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-bar" });
 

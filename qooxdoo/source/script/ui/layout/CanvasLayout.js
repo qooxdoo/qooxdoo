@@ -27,11 +27,10 @@
 
 ************************************************************************ */
 
-qx.ui.layout.CanvasLayout = function() {
+qx.OO.defineClass("qx.ui.layout.CanvasLayout", qx.ui.core.Parent, 
+function() {
   qx.ui.core.Parent.call(this);
-};
-
-qx.ui.layout.CanvasLayout.extend(qx.ui.core.Parent, "qx.ui.layout.CanvasLayout");
+});
 
 
 

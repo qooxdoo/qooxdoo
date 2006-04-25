@@ -27,7 +27,8 @@
 
 ************************************************************************ */
 
-qx.ui.layout.GridLayout = function()
+qx.OO.defineClass("qx.ui.layout.GridLayout", qx.ui.core.Parent, 
+function()
 {
   qx.ui.core.Parent.call(this);
 
@@ -35,9 +36,7 @@ qx.ui.layout.GridLayout = function()
   this._rowData = [];
 
   this._spans = [];
-};
-
-qx.ui.layout.GridLayout.extend(qx.ui.core.Parent, "qx.ui.layout.GridLayout");
+});
 
 
 

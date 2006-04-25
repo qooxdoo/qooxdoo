@@ -26,8 +26,7 @@
 
 ************************************************************************ */
 
-qx.ui.menu.MenuBar = function() {
+qx.OO.defineClass("qx.ui.menu.MenuBar", qx.ui.toolbar.ToolBar, 
+function() {
   qx.ui.toolbar.ToolBar.call(this);
-};
-
-qx.ui.menu.MenuBar.extend(qx.ui.toolbar.ToolBar, "qx.ui.menu.MenuBar");
+});

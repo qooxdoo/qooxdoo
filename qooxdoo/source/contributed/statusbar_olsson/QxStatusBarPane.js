@@ -33,9 +33,7 @@ function QxStatusBarPane(vWidget) {
   if(qx.util.Validation.isValidObject(vWidget)) {
     this.setWidget(vWidget);
   };
-};
-
-QxStatusBarPane.extend(qx.ui.layout.CanvasLayout, "QxStatusBarPane");
+});
 
 
 /*

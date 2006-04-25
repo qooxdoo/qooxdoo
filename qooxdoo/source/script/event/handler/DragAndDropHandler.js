@@ -32,16 +32,15 @@
 /*!
   This manager (singleton) manage all drag and drop handling of a qx.core.Init instance.
 */
-qx.event.handler.DragAndDropHandler = function()
+qx.OO.defineClass("qx.event.handler.DragAndDropHandler", qx.manager.object.ObjectManager, 
+function()
 {
   qx.core.Target.call(this);
 
   this._data = {};
   this._actions = {};
   this._cursors = {};
-};
-
-qx.event.handler.DragAndDropHandler.extend(qx.manager.object.ObjectManager, "qx.event.handler.DragAndDropHandler");
+});
 
 qx.event.handler.DragAndDropHandler.addProperty({ name : "sourceWidget", type : qx.Const.TYPEOF_OBJECT });
 qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", type : qx.Const.TYPEOF_OBJECT });

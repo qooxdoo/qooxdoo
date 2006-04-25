@@ -35,7 +35,8 @@
   POST). Default is GET.
   @param vResponseType The mime type of the response. Default is text/plain.
 */
-qx.io.remote.RemoteRequest = function(vUrl, vMethod, vResponseType)
+qx.OO.defineClass("qx.io.remote.RemoteRequest", qx.core.Target, 
+function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
 
@@ -51,9 +52,7 @@ qx.io.remote.RemoteRequest = function(vUrl, vMethod, vResponseType)
   // Prototype-Style Request Headers
   this.setRequestHeader("X-Requested-With", "qooxdoo");
   this.setRequestHeader("X-Qooxdoo-Version", qx.core.DefaultSettings.version);
-};
-
-qx.io.remote.RemoteRequest.extend(qx.core.Target, "qx.io.remote.RemoteRequest");
+});
 
 
 

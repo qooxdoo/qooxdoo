@@ -62,9 +62,7 @@ function QxProgressbar(vMax, vShowPercent)
   if(qx.util.Validation.isValidBoolean(vShowPercent)) {
     this.setShowPercent(vShowPercent);
   };
-};
-
-QxProgressbar.extend(qx.ui.layout.CanvasLayout, "QxProgressbar");
+});
 
 
 /*

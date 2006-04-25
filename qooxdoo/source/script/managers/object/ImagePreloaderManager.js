@@ -29,11 +29,10 @@
 /*!
   This singleton manage all qx.io.image.ImagePreloader instances.
 */
-qx.manager.object.ImagePreloaderManager = function() {
+qx.OO.defineClass("qx.manager.object.ImagePreloaderManager", qx.manager.object.ObjectManager, 
+function() {
   qx.manager.object.ObjectManager.call(this);
-};
-
-qx.manager.object.ImagePreloaderManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ImagePreloaderManager");
+});
 
 
 

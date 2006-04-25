@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.groupbox.GroupBox = function(vLegend, vIcon)
+qx.OO.defineClass("qx.ui.groupbox.GroupBox", qx.ui.layout.CanvasLayout, 
+function(vLegend, vIcon)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -54,9 +55,7 @@ qx.ui.groupbox.GroupBox = function(vLegend, vIcon)
   //   REMAPPING
   // ************************************************************************
   this.remapChildrenHandlingTo(this._frameObject);
-};
-
-qx.ui.groupbox.GroupBox.extend(qx.ui.layout.CanvasLayout, "qx.ui.groupbox.GroupBox");
+});
 
 qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "field-set" });
 

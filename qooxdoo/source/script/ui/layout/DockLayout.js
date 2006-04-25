@@ -27,11 +27,10 @@
 
 ************************************************************************ */
 
-qx.ui.layout.DockLayout = function() {
+qx.OO.defineClass("qx.ui.layout.DockLayout", qx.ui.core.Parent, 
+function() {
   qx.ui.core.Parent.call(this);
-};
-
-qx.ui.layout.DockLayout.extend(qx.ui.core.Parent, "qx.ui.layout.DockLayout");
+});
 
 /*!
   The layout mode (in which order the children should be layouted)

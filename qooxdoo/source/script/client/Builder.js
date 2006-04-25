@@ -33,7 +33,8 @@
     - state information is stored at the instance level
     - only use it from a single thread
 */
-qx.client.Builder = function(flags)
+qx.OO.defineClass("qx.client.Builder", qx.core.Target, 
+function(flags)
 {
   qx.core.Target.call(this);
 
@@ -54,9 +55,7 @@ qx.client.Builder = function(flags)
     this._flags.strict = true;
   };
 
-};
-
-qx.client.Builder.extend(qx.core.Target, "qx.client.Builder");
+});
 
 /*
 ------------------------------------------------------------------------------------

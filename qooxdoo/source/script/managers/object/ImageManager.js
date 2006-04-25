@@ -34,7 +34,8 @@
 /*!
   This singleton manage the global image path (prefix) and allowes themed icons.
 */
-qx.manager.object.ImageManager = function()
+qx.OO.defineClass("qx.manager.object.ImageManager", qx.manager.object.ObjectManager, 
+function()
 {
   qx.manager.object.ObjectManager.call(this);
 
@@ -60,9 +61,7 @@ qx.manager.object.ImageManager = function()
   this.setLocalPath(qx.core.Settings.imageLocalPath);
   this.setIconPath(qx.core.Settings.imageIconPath);
   this.setWidgetPath(qx.core.Settings.imageWidgetPath);
-};
-
-qx.manager.object.ImageManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.ImageManager");
+});
 
 
 

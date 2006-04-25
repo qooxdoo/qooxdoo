@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.AbstractPageView = function(vBarClass, vPaneClass)
+qx.OO.defineClass("qx.ui.pageview.AbstractPageView", qx.ui.layout.BoxLayout, 
+function(vBarClass, vPaneClass)
 {
   qx.ui.layout.BoxLayout.call(this);
 
@@ -35,9 +36,7 @@ qx.ui.pageview.AbstractPageView = function(vBarClass, vPaneClass)
 
   this.add(this._bar, this._pane);
   this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
-};
-
-qx.ui.pageview.AbstractPageView.extend(qx.ui.layout.BoxLayout, "qx.ui.pageview.AbstractPageView");
+});
 
 
 

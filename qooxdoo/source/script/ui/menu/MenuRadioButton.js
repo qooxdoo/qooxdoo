@@ -27,14 +27,13 @@
 
 ************************************************************************ */
 
-qx.ui.menu.MenuRadioButton = function(vLabel, vCommand, vChecked)
+qx.OO.defineClass("qx.ui.menu.MenuRadioButton", qx.ui.menu.MenuCheckBox, 
+function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.MenuCheckBox.call(this, vLabel, vCommand, vChecked);
 
   this._iconObject.setAppearance("menu-radio-button-icon");
-};
-
-qx.ui.menu.MenuRadioButton.extend(qx.ui.menu.MenuCheckBox, "qx.ui.menu.MenuRadioButton");
+});
 
 
 /*

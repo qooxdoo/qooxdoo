@@ -28,14 +28,13 @@
 
 ************************************************************************ */
 
-qx.manager.object.AppearanceManager = function()
+qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager, 
+function()
 {
   qx.manager.object.ObjectManager.call(this);
 
   this._themes = {};
-};
-
-qx.manager.object.AppearanceManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.AppearanceManager");
+});
 
 
 

@@ -40,7 +40,8 @@
 
 ************************************************************************ */
 
-qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
+qx.OO.defineClass("qx.ui.window.Window", qx.ui.popup.Popup, 
+function(vCaption, vIcon, vWindowManager)
 {
   qx.ui.popup.Popup.call(this);
 
@@ -242,9 +243,7 @@ qx.ui.window.Window = function(vCaption, vIcon, vWindowManager)
   //   REMAPPING
   // ************************************************************************
   this.remapChildrenHandlingTo(this._pane);
-};
-
-qx.ui.window.Window.extend(qx.ui.popup.Popup, "qx.ui.window.Window");
+});
 
 
 

@@ -33,7 +33,8 @@
 
   This class should not be used directly by client programmers.
  */
-qx.io.remote.IframeTransport = function()
+qx.OO.defineClass("qx.io.remote.IframeTransport", qx.io.remote.AbstractRemoteTransport, 
+function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
 
@@ -70,9 +71,7 @@ qx.io.remote.IframeTransport = function()
 
   var o = this;
   this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
-};
-
-qx.io.remote.IframeTransport.extend(qx.io.remote.AbstractRemoteTransport, "qx.io.remote.IframeTransport");
+});
 
 proto._lastReadyState = 0;
 

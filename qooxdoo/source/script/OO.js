@@ -141,43 +141,6 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
 /*
 ---------------------------------------------------------------------------
-  OBJECT EXTEND IMPLEMENTATION
----------------------------------------------------------------------------
-*/
-
-Function.prototype.extend = function(vSuper, vClassName)
-{
-  if (typeof vSuper !== qx.Const.TYPEOF_FUNCTION) {
-    throw new Error("Extend: Function/Constructor to extend from is not a function: " + vSuper + " (" + vClassName + ")");
-  };
-
-  if (typeof vClassName !== qx.Const.TYPEOF_STRING) {
-    throw new Error("Extend: Missing or malformed className: " + vClassName);
-  };
-
-  // build helper function
-  // this omits the initial constructor call while inherit properties
-  var f = new Function;
-  f.prototype = vSuper.prototype;
-  proto = this.prototype = new f;
-
-  this.superclass = vSuper;
-
-  proto.classname = this.classname = vClassName;
-  proto.constructor = this;
-
-  // Global storage
-  qx.OO.classes[vClassName] = this;
-
-  return proto;
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
   OBJECT PROPERTY EXTENSION
 ---------------------------------------------------------------------------
 */

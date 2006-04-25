@@ -28,7 +28,8 @@
 
 ************************************************************************ */
 
-qx.ui.embed.GalleryEmbed = function(vGalleryList)
+qx.OO.defineClass("qx.ui.embed.GalleryEmbed", qx.ui.basic.Terminator, 
+function(vGalleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -53,9 +54,7 @@ qx.ui.embed.GalleryEmbed = function(vGalleryList)
   this.addEventListener("dblclick", this._ondblclick);
 
   this.addEventListener("keydown", this._onkeydown);
-};
-
-qx.ui.embed.GalleryEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.GalleryEmbed");
+});
 
 
 

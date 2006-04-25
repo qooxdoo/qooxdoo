@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.tabview.TabViewButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewButton", qx.ui.pageview.AbstractPageViewButton, 
+function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-};
-
-qx.ui.pageview.tabview.TabViewButton.extend(qx.ui.pageview.AbstractPageViewButton, "qx.ui.pageview.tabview.TabViewButton");
+});
 
 qx.ui.pageview.tabview.TabViewButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-button" });
 

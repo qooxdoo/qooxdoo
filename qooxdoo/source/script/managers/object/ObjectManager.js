@@ -29,14 +29,13 @@
 /*!
   This is the core of all Qx*Manager objects. Allows basic managment of assigned objects.
 */
-qx.manager.object.ObjectManager = function()
+qx.OO.defineClass("qx.manager.object.ObjectManager", qx.core.Target, 
+function()
 {
   qx.core.Target.call(this);
 
   this._objects = {};
-};
-
-qx.manager.object.ObjectManager.extend(qx.core.Target, "qx.manager.object.ObjectManager");
+});
 
 
 

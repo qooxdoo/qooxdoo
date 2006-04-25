@@ -26,8 +26,7 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.AbstractPageViewPane = function() {
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewPane", qx.ui.layout.CanvasLayout, 
+function() {
   qx.ui.layout.CanvasLayout.call(this);
-};
-
-qx.ui.pageview.AbstractPageViewPane.extend(qx.ui.layout.CanvasLayout, "qx.ui.pageview.AbstractPageViewPane");
+});

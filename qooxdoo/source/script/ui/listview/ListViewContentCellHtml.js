@@ -26,14 +26,13 @@
 
 ************************************************************************ */
 
-qx.ui.listview.ListViewContentCellHtml = function(vHtml)
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellHtml", qx.ui.embed.HtmlEmbed, 
+function(vHtml)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
   this.setSelectable(false);
-};
-
-qx.ui.listview.ListViewContentCellHtml.extend(qx.ui.embed.HtmlEmbed, "qx.ui.listview.ListViewContentCellHtml");
+});
 
 qx.ui.listview.ListViewContentCellHtml.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
 

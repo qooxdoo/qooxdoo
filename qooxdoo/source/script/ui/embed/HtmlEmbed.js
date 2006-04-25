@@ -27,16 +27,15 @@
 
 ************************************************************************ */
 
-qx.ui.embed.HtmlEmbed = function(vHtml)
+qx.OO.defineClass("qx.ui.embed.HtmlEmbed", qx.ui.basic.Terminator, 
+function(vHtml)
 {
   qx.ui.basic.Terminator.call(this);
 
   if (qx.util.Validation.isValidString(vHtml)) {
     this.setHtml(vHtml);
   };
-};
-
-qx.ui.embed.HtmlEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.HtmlEmbed");
+});
 
 
 

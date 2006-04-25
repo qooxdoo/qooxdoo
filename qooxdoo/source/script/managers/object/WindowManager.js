@@ -30,11 +30,10 @@
 /*!
   This singleton manages qx.ui.window.Windows
 */
-qx.manager.object.WindowManager = function() {
+qx.OO.defineClass("qx.manager.object.WindowManager", qx.manager.object.ObjectManager, 
+function() {
   qx.manager.object.ObjectManager.call(this);
-};
-
-qx.manager.object.WindowManager.extend(qx.manager.object.ObjectManager, "qx.manager.object.WindowManager");
+});
 
 qx.manager.object.WindowManager.addProperty({ name : "activeWindow", type : qx.Const.TYPEOF_OBJECT });
 

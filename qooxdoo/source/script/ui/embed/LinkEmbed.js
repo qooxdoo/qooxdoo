@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.embed.HtmlLinkEmbed = function(vHtml, vUri, vTarget)
+qx.OO.defineClass("qx.ui.embed.HtmlLinkEmbed", qx.ui.embed.HtmlEmbed, 
+function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
@@ -37,9 +38,7 @@ qx.ui.embed.HtmlLinkEmbed = function(vHtml, vUri, vTarget)
   if (typeof vTarget != qx.Const.TYPEOF_UNDEFINED) {
     this.setTarget(vTarget);
   };
-};
-
-qx.ui.embed.HtmlLinkEmbed.extend(qx.ui.embed.HtmlEmbed, "qx.ui.embed.HtmlLinkEmbed");
+});
 
 
 

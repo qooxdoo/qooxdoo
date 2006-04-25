@@ -29,11 +29,10 @@
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-qx.manager.selection.VirtualSelectionManager = function(vBoundedWidget) {
+qx.OO.defineClass("qx.manager.selection.VirtualSelectionManager", qx.manager.selection.SelectionManager, 
+function(vBoundedWidget) {
   qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
-};
-
-qx.manager.selection.VirtualSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.VirtualSelectionManager");
+});
 
 
 

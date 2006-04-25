@@ -31,9 +31,7 @@ function QxDigitalClock()
   var label = this._label = new qx.ui.basic.Label();
   this.setLabel(label);
   this.add(label);
-};
-
-QxDigitalClock.extend(QxClock, "QxDigitalClock");
+});
 
 
 

@@ -30,14 +30,13 @@
   qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
   This will be used internally to allow better modal dialogs for example.
 */
-qx.ui.core.ClientDocumentBlocker = function()
+qx.OO.defineClass("qx.ui.core.ClientDocumentBlocker", qx.ui.basic.Terminator, 
+function()
 {
   qx.ui.basic.Terminator.call(this);
 
   this.setEdge(0);
   this.setDisplay(false);
-};
-
-qx.ui.core.ClientDocumentBlocker.extend(qx.ui.basic.Terminator, "qx.ui.core.ClientDocumentBlocker");
+});
 
 qx.ui.core.ClientDocumentBlocker.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "blocker" });

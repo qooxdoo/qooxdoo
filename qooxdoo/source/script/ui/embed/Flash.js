@@ -37,7 +37,8 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-qx.ui.embed.FlashEmbed = function(vSource, vVersion)
+qx.OO.defineClass("qx.ui.embed.FlashEmbed", qx.ui.basic.Terminator, 
+function(vSource, vVersion)
 {
   qx.ui.basic.Terminator.call(this);
 
@@ -50,9 +51,7 @@ qx.ui.embed.FlashEmbed = function(vSource, vVersion)
   };
 
   this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.FlashEmbed.MINREQUIRED);
-};
-
-qx.ui.embed.FlashEmbed.extend(qx.ui.basic.Terminator, "qx.ui.embed.FlashEmbed");
+});
 
 qx.ui.embed.FlashEmbed.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
 qx.ui.embed.FlashEmbed.addProperty({ name : "version" });

@@ -30,9 +30,7 @@
 function QxDialog(vCaption, vIcon)
 {
   qx.ui.window.Window.call(this, vCaption, vIcon);
-};
-
-QxDialog.extend(qx.ui.window.Window, "QxDialog");
+});
 
 
 /*

@@ -31,7 +31,8 @@
 /*!
   Border implementation for qx.ui.core.Widget instances.
 */
-qx.renderer.border.Border = function(vWidth, vStyle, vColor)
+qx.OO.defineClass("qx.renderer.border.Border", qx.core.Object, 
+function(vWidth, vStyle, vColor)
 {
   qx.core.Object.call(this);
 
@@ -50,9 +51,7 @@ qx.renderer.border.Border = function(vWidth, vStyle, vColor)
       this.setColor(vColor);
     };
   };
-};
-
-qx.renderer.border.Border.extend(qx.core.Object, "qx.renderer.border.Border");
+});
 
 qx.renderer.border.Border.enhancedCrossBrowserMode = true;
 qx.renderer.border.Border.baseColor = "threedlightshadow";

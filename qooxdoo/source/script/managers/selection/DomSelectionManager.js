@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.manager.selection.DomSelectionManager = function(vBoundedWidget)
+qx.OO.defineClass("qx.manager.selection.DomSelectionManager", qx.manager.selection.SelectionManager, 
+function(vBoundedWidget)
 {
   qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 
@@ -35,9 +36,7 @@ qx.manager.selection.DomSelectionManager = function(vBoundedWidget)
   this.setDragSelection(false);
 
   this._selectedItems.getItemHashCode = this.getItemHashCode;
-};
-
-qx.manager.selection.DomSelectionManager.extend(qx.manager.selection.SelectionManager, "qx.manager.selection.DomSelectionManager");
+});
 
 
 

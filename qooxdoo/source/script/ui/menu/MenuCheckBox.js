@@ -29,7 +29,8 @@
 /*!
   A checkbox for the menu system.
 */
-qx.ui.menu.MenuCheckBox = function(vLabel, vCommand, vChecked)
+qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton, 
+function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.MenuButton.call(this, vLabel, qx.Const.IMAGE_BLANK, vCommand);
 
@@ -38,9 +39,7 @@ qx.ui.menu.MenuCheckBox = function(vLabel, vCommand, vChecked)
   };
 
   this._iconObject.setAppearance("menu-check-box-icon");
-};
-
-qx.ui.menu.MenuCheckBox.extend(qx.ui.menu.MenuButton, "qx.ui.menu.MenuCheckBox");
+});
 
 
 

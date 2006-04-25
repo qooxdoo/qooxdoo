@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.VerticalBoxLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.VerticalBoxLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.VerticalBoxLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.VerticalBoxLayoutImpl");
+});
 
 qx.renderer.layout.VerticalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 

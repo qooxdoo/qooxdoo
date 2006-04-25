@@ -36,7 +36,8 @@
   the window object of the main document.
 */
 
-qx.core.Init = function()
+qx.OO.defineClass("qx.core.Init", qx.core.Target, 
+function()
 {
   qx.core.Target.call(this, false);
 
@@ -45,9 +46,7 @@ qx.core.Init = function()
   } else {
     qx.dom.DomEventRegistration.addEventListener(window, "load", qx.core.Init.onload);
   };
-};
-
-qx.core.Init.extend(qx.core.Target, "qx.core.Init");
+});
 
 
 qx.core.Init.onload = function()

@@ -29,11 +29,10 @@
 /*!
   This widget is the last widget of the current child chain.
 */
-qx.ui.basic.Terminator = function() {
+qx.OO.defineClass("qx.ui.basic.Terminator", qx.ui.core.Widget, 
+function() {
   qx.ui.core.Widget.call(this);
-};
-
-qx.ui.basic.Terminator.extend(qx.ui.core.Widget, "qx.ui.basic.Terminator");
+});
 
 
 

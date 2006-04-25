@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.AbstractPageViewButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom, 
+function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
@@ -44,9 +45,7 @@ qx.ui.pageview.AbstractPageViewButton = function(vText, vIcon, vIconWidth, vIcon
   //   KEY EVENTS
   // ************************************************************************
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-};
-
-qx.ui.pageview.AbstractPageViewButton.extend(qx.ui.basic.Atom, "qx.ui.pageview.AbstractPageViewButton");
+});
 
 
 

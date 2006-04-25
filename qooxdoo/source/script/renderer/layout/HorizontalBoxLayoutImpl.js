@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.renderer.layout.HorizontalBoxLayoutImpl = function(vWidget) {
+qx.OO.defineClass("qx.renderer.layout.HorizontalBoxLayoutImpl", qx.renderer.layout.LayoutImpl, 
+function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
-};
-
-qx.renderer.layout.HorizontalBoxLayoutImpl.extend(qx.renderer.layout.LayoutImpl, "qx.renderer.layout.HorizontalBoxLayoutImpl");
+});
 
 qx.renderer.layout.HorizontalBoxLayoutImpl.addProperty({ name : "enableFlexSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 

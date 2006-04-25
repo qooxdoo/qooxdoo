@@ -26,11 +26,10 @@
 
 ************************************************************************ */
 
-qx.ui.pageview.buttonview.ButtonViewButton = function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewButton", qx.ui.pageview.AbstractPageViewButton, 
+function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-};
-
-qx.ui.pageview.buttonview.ButtonViewButton.extend(qx.ui.pageview.AbstractPageViewButton, "qx.ui.pageview.buttonview.ButtonViewButton");
+});
 
 qx.ui.pageview.buttonview.ButtonViewButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-button" });
 

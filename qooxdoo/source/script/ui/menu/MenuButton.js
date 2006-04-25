@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.ui.menu.MenuButton = function(vLabel, vIcon, vCommand, vMenu)
+qx.OO.defineClass("qx.ui.menu.MenuButton", qx.ui.layout.HorizontalBoxLayout, 
+function(vLabel, vIcon, vCommand, vMenu)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -65,9 +66,7 @@ qx.ui.menu.MenuButton = function(vLabel, vIcon, vCommand, vMenu)
   // ************************************************************************
 
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-};
-
-qx.ui.menu.MenuButton.extend(qx.ui.layout.HorizontalBoxLayout, "qx.ui.menu.MenuButton");
+});
 
 
 

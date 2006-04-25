@@ -33,7 +33,8 @@
   This class is a singleton and is used by qx.io.remote.RemoteRequest to schedule its
   requests. It should not be used directly.
  */
-qx.io.remote.RemoteRequestQueue = function()
+qx.OO.defineClass("qx.io.remote.RemoteRequestQueue", qx.core.Target, 
+function()
 {
   qx.core.Target.call(this);
 
@@ -44,9 +45,7 @@ qx.io.remote.RemoteRequestQueue = function()
 
   this._timer = new qx.client.Timer(50);
   this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
-};
-
-qx.io.remote.RemoteRequestQueue.extend(qx.core.Target, "qx.io.remote.RemoteRequestQueue");
+});
 
 
 
