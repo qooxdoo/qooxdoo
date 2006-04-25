@@ -148,39 +148,39 @@ qx.ui.listview.ListView.addProperty({ name : "sortBy", type : qx.Const.TYPEOF_ST
 ---------------------------------------------------------------------------
 */
 
-proto.getData = function() {
+qx.Proto.getData = function() {
   return this._data;
 };
 
-proto.getColumns = function() {
+qx.Proto.getColumns = function() {
   return this._columns;
 };
 
-proto.getHeader = function() {
+qx.Proto.getHeader = function() {
   return this._header;
 };
 
-proto.getFrame = function() {
+qx.Proto.getFrame = function() {
   return this._frame;
 };
 
-proto.getPane = function() {
+qx.Proto.getPane = function() {
   return this._pane;
 };
 
-proto.getScroll = function() {
+qx.Proto.getScroll = function() {
   return this._scroll;
 };
 
-proto.getScrollContent = function() {
+qx.Proto.getScrollContent = function() {
   return this._scrollContent;
 };
 
-proto.getResizeLine = function() {
+qx.Proto.getResizeLine = function() {
   return this._resizeLine;
 };
 
-proto.update = function()
+qx.Proto.update = function()
 {
   this.updateScrollBar();
   this.updateContent();
@@ -188,7 +188,7 @@ proto.update = function()
   // ignore updateLayout here, as it is mostly initially used
 };
 
-proto.updateScrollBar = function() {
+qx.Proto.updateScrollBar = function() {
   this._scrollContent.setHeight((this._data.length * this._pane._rowHeight) + this._pane._rowHeight);
 };
 
@@ -199,9 +199,9 @@ proto.updateScrollBar = function() {
 */
 if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
 {
-  proto._updateScrollBar = proto.updateScrollBar;
+  qx.Proto._updateScrollBar = qx.Proto.updateScrollBar;
 
-  proto.updateScrollBar = function()
+  qx.Proto.updateScrollBar = function()
   {
     this._updateScrollBar();
 
@@ -211,15 +211,15 @@ if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
   };
 };
 
-proto.updateContent = function() {
+qx.Proto.updateContent = function() {
   this.getPane()._updateRendering(true);
 };
 
-proto.updateLayout = function() {
+qx.Proto.updateLayout = function() {
   this.getPane()._updateLayout();
 };
 
-proto.updateSort = function()
+qx.Proto.updateSort = function()
 {
   var vSortBy = this.getSortBy();
 
@@ -234,7 +234,7 @@ proto.updateSort = function()
   };
 };
 
-proto._getHeaderCell = function(vCellId)
+qx.Proto._getHeaderCell = function(vCellId)
 {
   var vNewEntry = this._columns[vCellId];
   return vNewEntry ? vNewEntry.headerCell : null;
@@ -251,7 +251,7 @@ proto._getHeaderCell = function(vCellId)
 ---------------------------------------------------------------------------
 */
 
-proto._modifySortBy = function(propValue, propOldValue, propData)
+qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -285,11 +285,11 @@ proto._modifySortBy = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onscroll = function(e) {
+qx.Proto._onscroll = function(e) {
   this._pane._onscroll(e);
 };
 
-proto._onmousedown = function(e) {
+qx.Proto._onmousedown = function(e) {
   this.getFocusRoot().setActiveChild(this.getPane());
 };
 
@@ -304,7 +304,7 @@ proto._onmousedown = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
+qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
   qx.ui.layout.VerticalBoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
 
@@ -326,7 +326,7 @@ proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

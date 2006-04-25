@@ -70,7 +70,7 @@ qx.ui.form.List.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STR
 qx.ui.form.List.addProperty({ name : "enableInlineFind", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 qx.ui.form.List.addProperty({ name : "markLeadingItem", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
-proto._pressedString = qx.Const.CORE_EMPTY;
+qx.Proto._pressedString = qx.Const.CORE_EMPTY;
 
 
 
@@ -82,11 +82,11 @@ proto._pressedString = qx.Const.CORE_EMPTY;
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
-proto.getListItemTarget = function(vItem)
+qx.Proto.getListItemTarget = function(vItem)
 {
   while (vItem != null && vItem.getParent() != this) {
     vItem = vItem.getParent();
@@ -95,11 +95,11 @@ proto.getListItemTarget = function(vItem)
   return vItem;
 };
 
-proto.getSelectedItem = function() {
+qx.Proto.getSelectedItem = function() {
   return this.getSelectedItems()[0];
 };
 
-proto.getSelectedItems = function() {
+qx.Proto.getSelectedItems = function() {
   return this._manager.getSelectedItems();
 };
 
@@ -111,7 +111,7 @@ proto.getSelectedItems = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   var vItem = this.getListItemTarget(e.getTarget());
 
@@ -120,7 +120,7 @@ proto._onmouseover = function(e)
   };
 };
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vItem = this.getListItemTarget(e.getTarget());
 
@@ -129,7 +129,7 @@ proto._onmousedown = function(e)
   };
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vItem = this.getListItemTarget(e.getTarget());
 
@@ -138,7 +138,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._onclick = function(e)
+qx.Proto._onclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getTarget());
 
@@ -147,7 +147,7 @@ proto._onclick = function(e)
   };
 };
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getTarget());
 
@@ -165,7 +165,7 @@ proto._ondblclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   var kc = e.getKeyCode();
 
@@ -193,7 +193,7 @@ proto._onkeydown = function(e)
 
 this._lastKeyPress = 0;
 
-proto._onkeypress = function(e)
+qx.Proto._onkeypress = function(e)
 {
   if (!this.getEnableInlineFind()) {
     return;
@@ -252,7 +252,7 @@ proto._onkeypress = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._findItem = function(vUserValue, vStartIndex, vType)
+qx.Proto._findItem = function(vUserValue, vStartIndex, vType)
 {
   var vAllItems = this.getChildren();
 
@@ -285,19 +285,19 @@ proto._findItem = function(vUserValue, vStartIndex, vType)
   return null;
 };
 
-proto.findString = function(vText, vStartIndex) {
+qx.Proto.findString = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "String");
 };
 
-proto.findStringExact = function(vText, vStartIndex) {
+qx.Proto.findStringExact = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "StringExact");
 };
 
-proto.findValue = function(vText, vStartIndex) {
+qx.Proto.findValue = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "Value");
 };
 
-proto.findValueExact = function(vText, vStartIndex) {
+qx.Proto.findValueExact = function(vText, vStartIndex) {
   return this._findItem(vText, vStartIndex || 0, "ValueExact");
 };
 
@@ -312,11 +312,11 @@ proto.findValueExact = function(vText, vStartIndex) {
 ---------------------------------------------------------------------------
 */
 
-proto._sortItemsCompare = function(a, b) {
+qx.Proto._sortItemsCompare = function(a, b) {
   return a.key < b.key ? -1 : a.key == b.key ? 0 : 1;
 };
 
-proto.sortItemsByString = function(vReverse)
+qx.Proto.sortItemsByString = function(vReverse)
 {
   var sortitems = [];
   var items = this.getChildren();
@@ -335,7 +335,7 @@ proto.sortItemsByString = function(vReverse)
   };
 };
 
-proto.sortItemsByValue = function(vReverse)
+qx.Proto.sortItemsByValue = function(vReverse)
 {
   var sortitems = [];
   var items = this.getChildren();
@@ -368,7 +368,7 @@ proto.sortItemsByValue = function(vReverse)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -150,10 +150,10 @@ qx.io.remote.XmlHttpTransport._createActiveXRequestObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._localRequest = false;
-proto._lastReadyState = 0;
+qx.Proto._localRequest = false;
+qx.Proto._lastReadyState = 0;
 
-proto.getRequest = function() {
+qx.Proto.getRequest = function() {
   return this._req;
 };
 
@@ -168,7 +168,7 @@ proto.getRequest = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.send = function()
+qx.Proto.send = function()
 {
   this._lastReadyState = 0;
 
@@ -266,7 +266,7 @@ proto.send = function()
   This method should be used only if the requests URI was local
   access. I.e. it started with "file://".
 */
-proto.failedLocally = function()
+qx.Proto.failedLocally = function()
 {
   if (this.getState() === qx.Const.REQUEST_STATE_FAILED) {
     return;
@@ -294,7 +294,7 @@ proto.failedLocally = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onreadystatechange = function(e)
+qx.Proto._onreadystatechange = function(e)
 {
   // Ignoring already stopped requests
   switch(this.getState())
@@ -335,7 +335,7 @@ proto._onreadystatechange = function(e)
 
   For qx.io.remote.XmlHttpTransports, the ready state is a number between 1 to 4.
 */
-proto.getReadyState = function()
+qx.Proto.getReadyState = function()
 {
   var vReadyState = null;
 
@@ -360,7 +360,7 @@ proto.getReadyState = function()
 /*!
   Add a request header to this transports request.
 */
-proto.setRequestHeader = function(vLabel, vValue) {
+qx.Proto.setRequestHeader = function(vLabel, vValue) {
   this._req.setRequestHeader(vLabel, vValue);
 };
 
@@ -383,7 +383,7 @@ proto.setRequestHeader = function(vLabel, vValue) {
   Only available at readyState 3 and 4 universally and in readyState 2
   in Gecko.
 */
-proto.getResponseHeader = function(vLabel)
+qx.Proto.getResponseHeader = function(vLabel)
 {
   var vResponseHeader = null;
 
@@ -394,7 +394,7 @@ proto.getResponseHeader = function(vLabel)
   return vResponseHeader;
 };
 
-proto.getStringResponseHeaders = function()
+qx.Proto.getStringResponseHeaders = function()
 {
   var vSourceHeader = null;
 
@@ -412,7 +412,7 @@ proto.getStringResponseHeaders = function()
 /*!
   Provides a hash of all response headers.
 */
-proto.getResponseHeaders = function()
+qx.Proto.getResponseHeaders = function()
 {
   var vSourceHeader = this.getStringResponseHeaders();
   var vHeader = {};
@@ -449,7 +449,7 @@ proto.getResponseHeaders = function()
 /*!
   Returns the current status code of the request if available or -1 if not.
 */
-proto.getStatusCode = function()
+qx.Proto.getStatusCode = function()
 {
   var vStatusCode = -1;
 
@@ -463,7 +463,7 @@ proto.getStatusCode = function()
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
-proto.getStatusText = function()
+qx.Proto.getStatusText = function()
 {
   var vStatusText = qx.Const.CORE_EMPTY;
 
@@ -493,7 +493,7 @@ proto.getStatusText = function()
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseText = function()
+qx.Proto.getResponseText = function()
 {
   var vResponseText = null;
 
@@ -514,7 +514,7 @@ proto.getResponseText = function()
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseXml = function()
+qx.Proto.getResponseXml = function()
 {
   var vResponseXML = null;
 
@@ -533,13 +533,13 @@ proto.getResponseXml = function()
 /*!
   Returns the length of the content as fetched thus far
 */
-proto.getFetchedLength = function()
+qx.Proto.getFetchedLength = function()
 {
   var vText = this.getResponseText(true);
   return qx.util.Validation.isValidString(vText) ? vText.length : 0;
 };
 
-proto.getResponseContent = function()
+qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
   {
@@ -588,7 +588,7 @@ proto.getResponseContent = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyState = function(propValue, propOldValue, propData)
+qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
@@ -647,7 +647,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

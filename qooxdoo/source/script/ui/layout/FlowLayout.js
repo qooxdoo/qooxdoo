@@ -71,7 +71,7 @@ qx.ui.layout.FlowLayout.addProperty({ name : "reverseChildrenOrder", type : qx.C
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.FlowLayoutImpl(this);
 };
 
@@ -85,7 +85,7 @@ proto._createLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._changeInnerWidth = function(vNew, vOld)
+qx.Proto._changeInnerWidth = function(vNew, vOld)
 {
   qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
 
@@ -102,7 +102,7 @@ proto._changeInnerWidth = function(vNew, vOld)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyLayout = function(propValue, propOldValue, propData)
+qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 {
   // invalidate inner preferred dimensions
   this._invalidatePreferredInnerDimensions();

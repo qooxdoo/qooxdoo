@@ -116,7 +116,7 @@ qx.renderer.layout.DockLayoutImpl._childCheck =
 /*!
   Compute and return the box width of the given child
 */
-proto.computeChildBoxWidth = function(vChild)
+qx.Proto.computeChildBoxWidth = function(vChild)
 {
   if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_HORIZONTAL) {
     return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
@@ -128,7 +128,7 @@ proto.computeChildBoxWidth = function(vChild)
 /*!
   Compute and return the box height of the given child
 */
-proto.computeChildBoxHeight = function(vChild)
+qx.Proto.computeChildBoxHeight = function(vChild)
 {
   if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_VERTICAL) {
     return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
@@ -153,7 +153,7 @@ proto.computeChildBoxHeight = function(vChild)
   Actions that should be done if the inner width of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerWidthChange = function(vChild)
+qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
@@ -166,7 +166,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
   Actions that should be done if the inner height of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerHeightChange = function(vChild)
+qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
@@ -188,7 +188,7 @@ proto.updateChildOnInnerHeightChange = function(vChild)
 /*!
   Invalidate and recompute things because of job in queue (before the rest of job handling will be executed).
 */
-proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
+qx.Proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
 
 
 
@@ -205,7 +205,7 @@ proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
 /*!
   Updates children on special jobs
 */
-proto.updateChildrenOnJobQueueFlush = function(vQueue)
+qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.mode || vQueue.addChild || vQueue.removeChild) {
     this.getWidget()._addChildrenToLayoutQueue(qx.Const.JOB_LOCATION);
@@ -231,7 +231,7 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
   registered (or also non-registered) children should be
   layouted on the horizontal axis.
 */
-proto.flushChildrenQueue = function(vChildrenQueue)
+qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 {
   var vWidget=this.getWidget(), vChildren=vWidget.getVisibleChildren(), vChildrenLength=vChildren.length, vMode=vWidget.getMode();
 
@@ -250,11 +250,11 @@ proto.flushChildrenQueue = function(vChildrenQueue)
   };
 };
 
-proto.getChildAlign = function(vChild) {
+qx.Proto.getChildAlign = function(vChild) {
   return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.Const.CORE_DEFAULT;
 };
 
-proto.getChildAlignMode = function(vChild) {
+qx.Proto.getChildAlignMode = function(vChild) {
   return vChild.getVerticalAlign() ? qx.Const.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.Const.ORIENTATION_HORIZONTAL : qx.Const.CORE_DEFAULT;
 };
 
@@ -274,7 +274,7 @@ proto.getChildAlignMode = function(vChild) {
   This is called from qx.ui.core.Widget and  it's task is to apply the layout
   (excluding border and padding) to the child.
 */
-proto.layoutChild = function(vChild, vJobs)
+qx.Proto.layoutChild = function(vChild, vJobs)
 {
   qx.renderer.layout.DockLayoutImpl._childCheck.common(vChild);
   qx.renderer.layout.DockLayoutImpl._childCheck[this.getChildAlignMode(vChild)](vChild);
@@ -288,7 +288,7 @@ proto.layoutChild = function(vChild, vJobs)
   this[qx.renderer.layout.DockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
 };
 
-proto.layoutChild_location_top = function(vChild, vJobs)
+qx.Proto.layoutChild_location_top = function(vChild, vJobs)
 {
   vChild._applyRuntimeTop(this._lastTop);
   vChild._applyRuntimeLeft(this._lastLeft);
@@ -298,7 +298,7 @@ proto.layoutChild_location_top = function(vChild, vJobs)
   this._lastTop += vChild.getBoxHeight();
 };
 
-proto.layoutChild_location_left = function(vChild, vJobs)
+qx.Proto.layoutChild_location_left = function(vChild, vJobs)
 {
   vChild._applyRuntimeLeft(this._lastLeft);
   vChild._applyRuntimeTop(this._lastTop);
@@ -316,7 +316,7 @@ proto.layoutChild_location_left = function(vChild, vJobs)
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
-  proto._applyComputedWidth = function(vChild)
+  qx.Proto._applyComputedWidth = function(vChild)
   {
     // direct recompute (need to be done, while layouting as the
     // _last* variable changes during layout process)
@@ -331,7 +331,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     vChild._applyRuntimeWidth(vChild.getBoxWidth());
   };
 
-  proto._applyComputedHeight = function(vChild)
+  qx.Proto._applyComputedHeight = function(vChild)
   {
     // direct recompute (need to be done, while layouting as the
     // _last* variable changes during layout process)
@@ -346,7 +346,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     vChild._applyRuntimeHeight(vChild.getBoxHeight());
   };
 
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     // We need to respect all dimension properties on the horizontal axis in internet explorer to set the 'width' style
     if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth) {
@@ -354,7 +354,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     };
   };
 
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     // We need to respect all dimension properties on the vertical axis in internet explorer to set the 'height' style
     if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight) {
@@ -362,15 +362,15 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     };
   };
 
-  proto.layoutChild_location_horizontal = function(vChild) {
+  qx.Proto.layoutChild_location_horizontal = function(vChild) {
     this._applyComputedWidth(vChild);
   };
 
-  proto.layoutChild_location_vertical = function(vChild) {
+  qx.Proto.layoutChild_location_vertical = function(vChild) {
     this._applyComputedHeight(vChild);
   };
 
-  proto.layoutChild_location_right = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_right = function(vChild, vJobs)
   {
     vChild._applyRuntimeLeft(this.getWidget().getInnerWidth() - this._lastRight - vChild.getBoxWidth());
     vChild._applyRuntimeTop(this._lastTop);
@@ -380,7 +380,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     this._lastRight += vChild.getBoxWidth();
   };
 
-  proto.layoutChild_location_bottom = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_bottom = function(vChild, vJobs)
   {
     vChild._applyRuntimeTop(this.getWidget().getInnerHeight() - this._lastBottom - vChild.getBoxHeight());
     vChild._applyRuntimeLeft(this._lastLeft);
@@ -390,7 +390,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     this._lastBottom += vChild.getBoxHeight();
   };
 
-  proto.layoutChild_location_default = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_default = function(vChild, vJobs)
   {
     var vWidget = this.getWidget();
 
@@ -406,7 +406,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto._applyComputedWidth = function(vChild)
+  qx.Proto._applyComputedWidth = function(vChild)
   {
     // direct recompute (need to be done, while layouting as the
     // _last* variable changes during layout process)
@@ -418,7 +418,7 @@ else
     vChild._recomputeInnerWidth();
   };
 
-  proto._applyComputedHeight = function(vChild)
+  qx.Proto._applyComputedHeight = function(vChild)
   {
     // direct recompute (need to be done, while layouting as the
     // _last* variable changes during layout process)
@@ -430,33 +430,33 @@ else
     vChild._recomputeInnerHeight();
   };
 
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width) {
       vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
     };
   };
 
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height) {
       vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
     };
   };
 
-  proto.layoutChild_location_horizontal = function(vChild)
+  qx.Proto.layoutChild_location_horizontal = function(vChild)
   {
     this._applyComputedWidth(vChild);
     vChild._applyRuntimeRight(this._lastRight);
   };
 
-  proto.layoutChild_location_vertical = function(vChild)
+  qx.Proto.layoutChild_location_vertical = function(vChild)
   {
     this._applyComputedHeight(vChild);
     vChild._applyRuntimeBottom(this._lastBottom);
   };
 
-  proto.layoutChild_location_right = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_right = function(vChild, vJobs)
   {
     vChild._applyRuntimeRight(this._lastRight);
     vChild._applyRuntimeTop(this._lastTop);
@@ -466,7 +466,7 @@ else
     this._lastRight += vChild.getBoxWidth();
   };
 
-  proto.layoutChild_location_bottom = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_bottom = function(vChild, vJobs)
   {
     vChild._applyRuntimeBottom(this._lastBottom);
     vChild._applyRuntimeLeft(this._lastLeft);
@@ -476,7 +476,7 @@ else
     this._lastBottom += vChild.getBoxHeight();
   };
 
-  proto.layoutChild_location_default = function(vChild, vJobs)
+  qx.Proto.layoutChild_location_default = function(vChild, vJobs)
   {
     vChild._resetRuntimeWidth();
     vChild._resetRuntimeHeight();

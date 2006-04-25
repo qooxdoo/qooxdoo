@@ -69,7 +69,7 @@ QxDigitalClock.addProperty({ name : "label", type : qx.Const.TYPEOF_OBJECT });
 ------------------------------------------------------------------------------------
 */
 
-proto.display = function(hours, minutes, seconds)
+qx.Proto.display = function(hours, minutes, seconds)
 {
   var am_pm = "";
 
@@ -122,7 +122,7 @@ proto.display = function(hours, minutes, seconds)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

@@ -66,9 +66,9 @@ function(arrVersion)
 ---------------------------------------------------------------------------
 */
 
-proto._major = 0;
-proto._minor = 0;
-proto._rev = 0;
+qx.Proto._major = 0;
+qx.Proto._minor = 0;
+qx.Proto._rev = 0;
 
 
 
@@ -80,7 +80,7 @@ proto._rev = 0;
 ---------------------------------------------------------------------------
 */
 
-proto.versionIsValid = function(fv)
+qx.Proto.versionIsValid = function(fv)
 {
   if (this.getMajor() < fv.getMajor()) return false;
   if (this.getMajor() > fv.getMajor()) return true;
@@ -93,15 +93,15 @@ proto.versionIsValid = function(fv)
   return true;
 };
 
-proto.getMajor = function() {
+qx.Proto.getMajor = function() {
   return this._major;
 };
 
-proto.getMinor = function() {
+qx.Proto.getMinor = function() {
   return this._minor;
 };
 
-proto.getRev = function() {
+qx.Proto.getRev = function() {
   return this._rev;
 };
 
@@ -115,7 +115,7 @@ proto.getRev = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

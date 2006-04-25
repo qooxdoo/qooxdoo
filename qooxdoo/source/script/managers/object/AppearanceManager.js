@@ -50,7 +50,7 @@ qx.manager.object.AppearanceManager.addProperty({ name : "appearanceTheme", type
 ---------------------------------------------------------------------------
 */
 
-proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
+qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 {
   window.application.getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   return true;
@@ -67,15 +67,15 @@ proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.registerTheme = function(vThemeObject) {
+qx.Proto.registerTheme = function(vThemeObject) {
   this._themes[vThemeObject.getId()] = vThemeObject;
 };
 
-proto.getAppearanceThemeObjectById = function(vThemeId) {
+qx.Proto.getAppearanceThemeObjectById = function(vThemeId) {
   return this._themes[vThemeId];
 };
 
-proto.getAppearanceThemeObject = function() {
+qx.Proto.getAppearanceThemeObject = function() {
   return this.getAppearanceThemeObjectById(this.getAppearanceTheme());
 };
 
@@ -89,7 +89,7 @@ proto.getAppearanceThemeObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

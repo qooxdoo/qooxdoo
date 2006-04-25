@@ -47,7 +47,7 @@ qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", ty
 qx.event.handler.DragAndDropHandler.addProperty({ name : "cursor", type : qx.Const.TYPEOF_OBJECT });
 qx.event.handler.DragAndDropHandler.addProperty({ name : "currentAction", type : qx.Const.TYPEOF_STRING });
 
-proto._actionNames =
+qx.Proto._actionNames =
 {
   move : "move",
   copy : "copy",
@@ -55,9 +55,9 @@ proto._actionNames =
   nodrop : "nodrop"
 };
 
-proto._cursorPath = "widgets/cursors/";
-proto._cursorFormat = "gif";
-proto._lastDestinationEvent = null;
+qx.Proto._cursorPath = "widgets/cursors/";
+qx.Proto._cursorFormat = "gif";
+qx.Proto._lastDestinationEvent = null;
 
 
 
@@ -70,7 +70,7 @@ proto._lastDestinationEvent = null;
 ---------------------------------------------------------------------------
 */
 
-proto.initCursors = function()
+qx.Proto.initCursors = function()
 {
   if (this._initCursorsDone) {
     return;
@@ -97,7 +97,7 @@ proto.initCursors = function()
 ---------------------------------------------------------------------------
 */
 
-proto._getClientDocument = function() {
+qx.Proto._getClientDocument = function() {
   return window.application.getClientWindow().getClientDocument();
 };
 
@@ -111,7 +111,7 @@ proto._getClientDocument = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -141,15 +141,15 @@ Add data of mimetype.
 #param vMimeType[String]: A valid mimetype
 #param vData[Any]: Any value for the mimetype
 */
-proto.addData = function(vMimeType, vData) {
+qx.Proto.addData = function(vMimeType, vData) {
   this._data[vMimeType] = vData;
 };
 
-proto.getData = function(vMimeType) {
+qx.Proto.getData = function(vMimeType) {
   return this._data[vMimeType];
 };
 
-proto.clearData = function() {
+qx.Proto.clearData = function() {
   this._data = {};
 };
 
@@ -167,7 +167,7 @@ proto.clearData = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getDropDataTypes = function()
+qx.Proto.getDropDataTypes = function()
 {
   var vDestination = this.getDestinationWidget();
   var vDropTypes = [];
@@ -204,7 +204,7 @@ proto.getDropDataTypes = function()
 /*!
 This needed be called from any qx.Const.EVENT_TYPE_DRAGSTART event to really start drag session.
 */
-proto.startDrag = function()
+qx.Proto.startDrag = function()
 {
   if (!this._dragCache) {
     throw new Error("Invalid usage of startDrag. Missing dragInfo!");
@@ -229,7 +229,7 @@ proto.startDrag = function()
 ---------------------------------------------------------------------------
 */
 
-proto._fireUserEvents = function(fromWidget, toWidget, e)
+qx.Proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
   if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGOUT)) {
     fromWidget.dispatchEvent(new qx.event.types.DragEvent(qx.Const.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
@@ -263,7 +263,7 @@ proto._fireUserEvents = function(fromWidget, toWidget, e)
 /*!
 This wraps the mouse events to custom handlers.
 */
-proto.handleMouseEvent = function(e)
+qx.Proto.handleMouseEvent = function(e)
 {
   switch (e.getType())
   {
@@ -285,7 +285,7 @@ To really get drag and drop working you need to define
 a function which you attach to qx.Const.EVENT_TYPE_DRAGSTART-event, which
 invokes at least this.startDrag()
 */
-proto._handleMouseDown = function(e)
+qx.Proto._handleMouseDown = function(e)
 {
   if (e.getDefaultPrevented()) {
     return;
@@ -313,7 +313,7 @@ proto._handleMouseDown = function(e)
 Handler for mouse move events
 */
 
-proto._handleMouseMove = function(e)
+qx.Proto._handleMouseMove = function(e)
 {
   // Return if dragCache was not filled before
   if (!this._dragCache) {
@@ -378,7 +378,7 @@ proto._handleMouseMove = function(e)
 /*!
 Handle mouse up event. Normally this finalize the drag and drop event.
 */
-proto._handleMouseUp = function(e)
+qx.Proto._handleMouseUp = function(e)
 {
   // Return if dragCache was not filled before
   if (!this._dragCache) {
@@ -411,7 +411,7 @@ proto._handleMouseUp = function(e)
 /*!
 This wraps the key events to custom handlers.
 */
-proto.handleKeyEvent = function(e)
+qx.Proto.handleKeyEvent = function(e)
 {
   if (!this._dragCache) {
     return;
@@ -429,7 +429,7 @@ proto.handleKeyEvent = function(e)
   };
 };
 
-proto._handleKeyDown = function(e)
+qx.Proto._handleKeyDown = function(e)
 {
   // Stop Drag on Escape
   if (e.getKeyCode() == qx.event.types.KeyEvent.keys.esc)
@@ -453,7 +453,7 @@ proto._handleKeyDown = function(e)
   };
 };
 
-proto._handleKeyUp = function(e)
+qx.Proto._handleKeyUp = function(e)
 {
   var bShiftPressed = e.getKeyCode() == qx.event.types.KeyEvent.keys.shift;
   var bCtrlPressed = e.getKeyCode() == qx.event.types.KeyEvent.keys.strl;
@@ -488,11 +488,11 @@ proto._handleKeyUp = function(e)
 /*!
   Cancel current drag and drop session
 */
-proto.cancelDrag = function(e) {
+qx.Proto.cancelDrag = function(e) {
   this._endDrag(null, e);
 };
 
-proto.globalCancelDrag = function()
+qx.Proto.globalCancelDrag = function()
 {
   if (this._dragCache && this._dragCache.dragHandlerActive) {
     this._endDragCore();
@@ -502,7 +502,7 @@ proto.globalCancelDrag = function()
 /*!
   This will be called to the end of each drag and drop session
 */
-proto._endDrag = function(currentDestinationWidget, e)
+qx.Proto._endDrag = function(currentDestinationWidget, e)
 {
   // Use given destination widget
   if (currentDestinationWidget)
@@ -521,7 +521,7 @@ proto._endDrag = function(currentDestinationWidget, e)
   this._endDragCore();
 };
 
-proto._endDragCore = function()
+qx.Proto._endDragCore = function()
 {
   // Remove cursor
   var oldCursor = this.getCursor();
@@ -567,7 +567,7 @@ proto._endDragCore = function()
 /*!
   Select and setup the current used cursor
 */
-proto._renderCursor = function()
+qx.Proto._renderCursor = function()
 {
   this.initCursors();
 
@@ -630,7 +630,7 @@ proto._renderCursor = function()
 ---------------------------------------------------------------------------
 */
 
-proto.supportsDrop = function(vWidget)
+qx.Proto.supportsDrop = function(vWidget)
 {
   var vTypes = vWidget.getDropDataTypes();
 
@@ -653,7 +653,7 @@ proto.supportsDrop = function(vWidget)
 */
 if (qx.sys.Client.isGecko())
 {
-  proto.getDropTarget = function(e)
+  qx.Proto.getDropTarget = function(e)
   {
     var vCurrent = e.getTarget();
 
@@ -691,7 +691,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto.getDropTarget = function(e)
+  qx.Proto.getDropTarget = function(e)
   {
     var vCurrent = e.getTarget();
 
@@ -726,7 +726,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.addAction = function(vAction, vForce)
+qx.Proto.addAction = function(vAction, vForce)
 {
   this._actions[vAction] = true;
 
@@ -736,13 +736,13 @@ proto.addAction = function(vAction, vForce)
   };
 };
 
-proto.clearActions = function()
+qx.Proto.clearActions = function()
 {
   this._actions = {};
   this.setCurrentAction(null);
 };
 
-proto.removeAction = function(vAction)
+qx.Proto.removeAction = function(vAction)
 {
   delete this._actions[vAction];
 
@@ -752,7 +752,7 @@ proto.removeAction = function(vAction)
   };
 };
 
-proto.setAction = function(vAction)
+qx.Proto.setAction = function(vAction)
 {
   if (vAction != null && !(vAction in this._actions)) {
     this.addAction(vAction, true);
@@ -763,7 +763,7 @@ proto.setAction = function(vAction)
   };
 };
 
-proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
+qx.Proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
 {
   if (vKeyShift && vKeyCtrl && this._actionNames.alias in this._actions)
   {
@@ -810,7 +810,7 @@ proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

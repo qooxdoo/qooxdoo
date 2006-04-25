@@ -48,7 +48,7 @@ qx.manager.object.ToolTipManager.addProperty({ name : "currentToolTip", type : q
 ---------------------------------------------------------------------------
 */
 
-proto._modifyCurrentToolTip = function(propValue, propOldValue, propData)
+qx.Proto._modifyCurrentToolTip = function(propValue, propOldValue, propData)
 {
   // Return if the new tooltip is a child of the old one
   if(propOldValue && propOldValue.contains(propValue)) {
@@ -82,7 +82,7 @@ proto._modifyCurrentToolTip = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.handleMouseOver = function(e)
+qx.Proto.handleMouseOver = function(e)
 {
   var vTarget = e.getTarget();
   var vToolTip;
@@ -106,7 +106,7 @@ proto.handleMouseOver = function(e)
   this.setCurrentToolTip(vToolTip);
 };
 
-proto.handleMouseOut = function(e)
+qx.Proto.handleMouseOut = function(e)
 {
   var vTarget = e.getTarget();
   var vRelatedTarget = e.getRelatedTarget();
@@ -144,7 +144,7 @@ proto.handleMouseOut = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.handleFocus = function(e)
+qx.Proto.handleFocus = function(e)
 {
   var vTarget = e.getTarget();
   var vToolTip = vTarget.getToolTip();
@@ -161,7 +161,7 @@ proto.handleFocus = function(e)
   };
 };
 
-proto.handleBlur = function(e)
+qx.Proto.handleBlur = function(e)
 {
   var vTarget = e.getTarget();
 

@@ -56,7 +56,7 @@ qx.ui.form.RepeatButton.addProperty({ name : "firstInterval", type : qx.Const.TY
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   if (e.getTarget() != this || !e.isLeftButtonPressed()) {
     return;
@@ -71,7 +71,7 @@ proto._onmousedown = function(e)
   this.addState(qx.Const.STATE_PRESSED);
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
@@ -90,7 +90,7 @@ proto._onmouseup = function(e)
   this.removeState(qx.Const.STATE_PRESSED);
 };
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   this._timer.stop();
   this._timer.setInterval(this.getInterval());
@@ -111,7 +111,7 @@ proto._oninterval = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

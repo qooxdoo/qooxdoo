@@ -46,37 +46,37 @@ function(vBoundedWidget)
 ---------------------------------------------------------------------------
 */
 
-proto.getItemEnabled = function(oItem) {
+qx.Proto.getItemEnabled = function(oItem) {
   return true;
 };
 
-proto.getItemClassName = function(vItem) {
+qx.Proto.getItemClassName = function(vItem) {
   return vItem.className || qx.Const.CORE_EMPTY;
 };
 
-proto.setItemClassName = function(vItem, vClassName) {
+qx.Proto.setItemClassName = function(vItem, vClassName) {
   return vItem.className = vClassName;
 };
 
-proto.getItemBaseClassName = function(vItem)
+qx.Proto.getItemBaseClassName = function(vItem)
 {
   var p = vItem.className.split(qx.Const.CORE_SPACE)[0];
   return p ? p : "Status";
 };
 
-proto.getNextSibling = function(vItem) {
+qx.Proto.getNextSibling = function(vItem) {
   return vItem.nextSibling;
 };
 
-proto.getPreviousSibling = function(vItem) {
+qx.Proto.getPreviousSibling = function(vItem) {
   return vItem.previousSibling;
 };
 
-proto.getFirst = function() {
+qx.Proto.getFirst = function() {
   return this.getItems()[0];
 };
 
-proto.getLast = function()
+qx.Proto.getLast = function()
 {
   var vItems = this.getItems();
   return vItems[vItems.length-1];
@@ -92,19 +92,19 @@ proto.getLast = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getItemLeft = function(vItem) {
+qx.Proto.getItemLeft = function(vItem) {
   return vItem.offsetLeft;
 };
 
-proto.getItemTop = function(vItem) {
+qx.Proto.getItemTop = function(vItem) {
   return vItem.offsetTop;
 };
 
-proto.getItemWidth = function(vItem) {
+qx.Proto.getItemWidth = function(vItem) {
   return vItem.offsetWidth;
 };
 
-proto.getItemHeight = function(vItem) {
+qx.Proto.getItemHeight = function(vItem) {
   return vItem.offsetHeight;
 };
 
@@ -119,7 +119,7 @@ proto.getItemHeight = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.getItemHashCode = function(oItem)
+qx.Proto.getItemHashCode = function(oItem)
 {
   if (oItem._hash) {
     return oItem._hash;
@@ -128,7 +128,7 @@ proto.getItemHashCode = function(oItem)
   return oItem._hash = qx.core.Object.toHashCode(oItem);
 };
 
-proto.isBefore = function(vItem1, vItem2)
+qx.Proto.isBefore = function(vItem1, vItem2)
 {
   var pa = vItem1.parentNode;
 
@@ -145,15 +145,15 @@ proto.isBefore = function(vItem1, vItem2)
   };
 };
 
-proto.scrollItemIntoView = function(vItem) {
+qx.Proto.scrollItemIntoView = function(vItem) {
   this.getBoundedWidget().scrollItemIntoView(vItem);
 };
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this.getBoundedWidget().getItems();
 };
 
-proto.getAbove = function(vItem)
+qx.Proto.getAbove = function(vItem)
 {
   var vParent = vItem.parentNode;
   var vFound = false;
@@ -180,7 +180,7 @@ proto.getAbove = function(vItem)
   };
 };
 
-proto.getUnder = function(vItem)
+qx.Proto.getUnder = function(vItem)
 {
   var vParent = vItem.parentNode;
   var vFound = false;
@@ -226,7 +226,7 @@ proto.getUnder = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto._updateState = function(vItem, vState, vIsState)
+qx.Proto._updateState = function(vItem, vState, vIsState)
 {
   var c = this.getItemClassName(vItem);
   var n = this.getItemBaseClassName(vItem) + "-" + vState;
@@ -234,14 +234,14 @@ proto._updateState = function(vItem, vState, vIsState)
   this.setItemClassName(vItem, vIsState ? qx.lang.String.add(c, n, " ") : qx.lang.String.remove(c, n, " "));
 };
 
-proto.renderItemSelectionState = function(vItem, vIsSelected) {
+qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   this._updateState(vItem, "Selected", vIsSelected);
 };
 
-proto.renderItemAnchorState = function(vItem, vIsAnchor) {
+qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   this._updateState(vItem, "Anchor", vIsAnchor);
 };
 
-proto.renderItemLeadState = function(vItem, vIsLead) {
+qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   this._updateState(vItem, "Lead", vIsLead);
 };

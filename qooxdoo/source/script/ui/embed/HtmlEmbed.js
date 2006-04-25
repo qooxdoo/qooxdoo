@@ -70,7 +70,7 @@ qx.ui.embed.HtmlEmbed.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEA
 ---------------------------------------------------------------------------
 */
 
-proto._modifyHtml = function()
+qx.Proto._modifyHtml = function()
 {
   if (this._isCreated) {
     this._syncHtml();
@@ -79,7 +79,7 @@ proto._modifyHtml = function()
   return true;
 };
 
-proto._modifyFont = function(propValue, propOldValue, propData)
+qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
   if (propValue) {
     propValue.applyWidget(this);
@@ -90,7 +90,7 @@ proto._modifyFont = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyWrap = function(propValue, propOldValue, propData)
+qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
@@ -106,10 +106,10 @@ proto._modifyWrap = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._applyElementData = function() {
+qx.Proto._applyElementData = function() {
   this._syncHtml();
 };
 
-proto._syncHtml = function() {
+qx.Proto._syncHtml = function() {
   this.getElement().innerHTML = this.getHtml();
 };

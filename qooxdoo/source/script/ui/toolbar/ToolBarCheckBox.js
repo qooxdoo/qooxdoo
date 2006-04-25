@@ -56,7 +56,7 @@ qx.ui.toolbar.ToolBarCheckBox.addProperty({ name : "checked", type : qx.Const.TY
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   propValue ? this.addState(qx.Const.STATE_CHECKED) : this.removeState(qx.Const.STATE_CHECKED);
   return true;
@@ -72,7 +72,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 

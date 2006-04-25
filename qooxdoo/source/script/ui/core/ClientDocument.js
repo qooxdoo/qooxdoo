@@ -99,10 +99,10 @@ qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : qx.Const.
 ---------------------------------------------------------------------------
 */
 
-proto._modifyParent = qx.util.Return.returnTrue;
-proto._modifyVisible = qx.util.Return.returnTrue;
+qx.Proto._modifyParent = qx.util.Return.returnTrue;
+qx.Proto._modifyVisible = qx.util.Return.returnTrue;
 
-proto._modifyElement = function(propValue, propOldValue, propData)
+qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
   this._isCreated = qx.util.Validation.isValidElement(propValue);
 
@@ -129,17 +129,17 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto.getWindow = function() { return this._window; };
-proto.getTopLevelWidget = qx.util.Return.returnThis;
-proto.getDocumentElement = function() { return this._document; };
-proto.getEventManager = function() { return this.getWindow().getEventManager(); };
+qx.Proto.getWindow = function() { return this._window; };
+qx.Proto.getTopLevelWidget = qx.util.Return.returnThis;
+qx.Proto.getDocumentElement = function() { return this._document; };
+qx.Proto.getEventManager = function() { return this.getWindow().getEventManager(); };
 
-proto.getParent = proto.getToolTip = qx.util.Return.returnNull;
-proto.isMaterialized = proto.isSeeable = qx.util.Return.returnTrue;
+qx.Proto.getParent = qx.Proto.getToolTip = qx.util.Return.returnNull;
+qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.util.Return.returnTrue;
 
-proto._isDisplayable = true;
-proto._hasParent = false;
-proto._initialLayoutDone = true;
+qx.Proto._isDisplayable = true;
+qx.Proto._hasParent = false;
+qx.Proto._initialLayoutDone = true;
 
 
 
@@ -155,7 +155,7 @@ proto._initialLayoutDone = true;
 ---------------------------------------------------------------------------
 */
 
-proto.blockHelper = function(e)
+qx.Proto.blockHelper = function(e)
 {
   if (this._modalNativeWindow)
   {
@@ -171,7 +171,7 @@ proto.blockHelper = function(e)
   };
 };
 
-proto.block = function(vActiveChild)
+qx.Proto.block = function(vActiveChild)
 {
   // this.debug("BLOCK: " + vActiveChild.toHashCode());
 
@@ -192,7 +192,7 @@ proto.block = function(vActiveChild)
   };
 };
 
-proto.release = function(vActiveChild)
+qx.Proto.release = function(vActiveChild)
 {
   // this.debug("RELEASE: " + vActiveChild.toHashCode());
 
@@ -236,19 +236,19 @@ proto.release = function(vActiveChild)
 ---------------------------------------------------------------------------
 */
 
-proto.createStyleElement = function(vCssText) {
+qx.Proto.createStyleElement = function(vCssText) {
   return qx.dom.DomStyleSheet.createElement(vCssText);
 };
 
-proto.addCssRule = function(vSheet, vSelector, vStyle) {
+qx.Proto.addCssRule = function(vSheet, vSelector, vStyle) {
   return qx.dom.DomStyleSheet.addRule(vSheet, vSelector, vStyle);
 };
 
-proto.removeCssRule = function(vSheet, vSelector) {
+qx.Proto.removeCssRule = function(vSheet, vSelector) {
   return qx.dom.DomStyleSheet.removeRule(vSheet, vSelector);
 };
 
-proto.removeAllCssRules = function(vSheet) {
+qx.Proto.removeAllCssRules = function(vSheet) {
   return qx.dom.DomStyleSheet.removeAllRules(vSheet);
 };
 
@@ -279,7 +279,7 @@ if (qx.core.Settings.enableApplicationLayout) {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
+qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 {
   if (!this._globalCursorStyleSheet) {
     this._globalCursorStyleSheet = this.createStyleElement();
@@ -307,7 +307,7 @@ proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onresize = function(e)
+qx.Proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
   if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
@@ -327,7 +327,7 @@ proto._onresize = function(e)
 // resize windows. Bad.
 
 /*
-proto._onresizehelper = function()
+qx.Proto._onresizehelper = function()
 {
   // Test for changes
   var t1 = this._recomputeInnerWidth();
@@ -340,11 +340,11 @@ proto._onresizehelper = function()
 };
 */
 
-proto._computeInnerWidth = function() {
+qx.Proto._computeInnerWidth = function() {
   return this._document.body.offsetWidth;
 };
 
-proto._computeInnerHeight = function() {
+qx.Proto._computeInnerHeight = function() {
   return this._document.body.offsetHeight;
 };
 
@@ -360,7 +360,7 @@ proto._computeInnerHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

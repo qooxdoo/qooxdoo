@@ -95,9 +95,9 @@ qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT = "px;";
 qx.ui.embed.IconHtmlEmbed.FILTER_START = "filter:";
 qx.ui.embed.IconHtmlEmbed.STOP_IMAGE = "\"/>";
 
-proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
-proto._syncHtml = function()
+qx.Proto._syncHtml = function()
 {
   var vHtml = [];
 

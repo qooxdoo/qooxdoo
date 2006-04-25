@@ -97,9 +97,9 @@ qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : qx.Const.
 ---------------------------------------------------------------------------
 */
 
-proto._lastMouseEventType = null;
-proto._lastMouseDown = false;
-proto._lastMouseEventDate = 0;
+qx.Proto._lastMouseEventType = null;
+qx.Proto._lastMouseDown = false;
+qx.Proto._lastMouseEventDate = 0;
 
 
 
@@ -111,7 +111,7 @@ proto._lastMouseEventDate = 0;
 ---------------------------------------------------------------------------
 */
 
-proto._modifyCaptureWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifyCaptureWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setCapture(false);
@@ -124,7 +124,7 @@ proto._modifyCaptureWidget = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyFocusRoot = function(propValue, propOldValue, propData)
+qx.Proto._modifyFocusRoot = function(propValue, propOldValue, propData)
 {
   // this.debug("FocusRoot: " + propValue + "(from:" + propOldValue + ")");
 
@@ -153,15 +153,15 @@ proto._modifyFocusRoot = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.addCommand = function(vCommand) {
+qx.Proto.addCommand = function(vCommand) {
   this._commands[vCommand.toHashCode()] = vCommand;
 };
 
-proto.removeCommand = function(vCommand) {
+qx.Proto.removeCommand = function(vCommand) {
   delete this._commands[vCommand.toHashCode()];
 };
 
-proto._checkKeyEventMatch = function(e)
+qx.Proto._checkKeyEventMatch = function(e)
 {
   var vCommand;
 
@@ -193,7 +193,7 @@ proto._checkKeyEventMatch = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.attachEvents = function(wobj)
+qx.Proto.attachEvents = function(wobj)
 {
   if (this._attachedClientWindow) {
     return false;
@@ -222,7 +222,7 @@ proto.attachEvents = function(wobj)
   bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
 };
 
-proto.detachEvents = function()
+qx.Proto.detachEvents = function()
 {
   if (!this._attachedClientWindow) {
     return false;
@@ -263,7 +263,7 @@ proto.detachEvents = function()
 ---------------------------------------------------------------------------
 */
 
-proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
+qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
@@ -287,7 +287,7 @@ proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
   };
 };
 
-proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
+qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
@@ -442,7 +442,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._onkeyevent = function(vDomEvent)
+qx.Proto._onkeyevent = function(vDomEvent)
 {
   if (this.getDisposed() || typeof qx.event.types.KeyEvent != qx.Const.TYPEOF_FUNCTION || !window.application.isReady()) {
     return;
@@ -568,7 +568,7 @@ proto._onkeyevent = function(vDomEvent)
 
 if(qx.sys.Client.isMshtml())
 {
-  proto._onmouseevent = function(vDomEvent)
+  qx.Proto._onmouseevent = function(vDomEvent)
   {
     if (!window.application.isReady()) {
       return;
@@ -631,7 +631,7 @@ if(qx.sys.Client.isMshtml())
 }
 else
 {
-  proto._onmouseevent = function(vDomEvent)
+  qx.Proto._onmouseevent = function(vDomEvent)
   {
     if (!window.application.isReady()) {
       return;
@@ -675,7 +675,7 @@ else
 /*!
   This is the crossbrowser post handler for all mouse events.
 */
-proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
+qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 {
   try
   {
@@ -865,7 +865,7 @@ proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 if (qx.sys.Client.isGecko())
 {
-  proto._onmousewheel = function(vTarget, vEvent)
+  qx.Proto._onmousewheel = function(vTarget, vEvent)
   {
     if(vTarget == null) {
       return;
@@ -904,7 +904,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._onmousewheel = qx.util.Return.returnTrue;
+  qx.Proto._onmousewheel = qx.util.Return.returnTrue;
 };
 
 
@@ -921,7 +921,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._ondragevent = function(vEvent)
+qx.Proto._ondragevent = function(vEvent)
 {
   if (!vEvent) {
     vEvent = window.event;
@@ -942,7 +942,7 @@ proto._ondragevent = function(vEvent)
 ---------------------------------------------------------------------------
 */
 
-proto._onselectevent = function(e)
+qx.Proto._onselectevent = function(e)
 {
   if(!e) {
     e = window.event;
@@ -966,7 +966,7 @@ proto._onselectevent = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onwindowblur = function(e)
+qx.Proto._onwindowblur = function(e)
 {
   if (!window.application.isReady()) {
     return;
@@ -1004,7 +1004,7 @@ proto._onwindowblur = function(e)
   };
 };
 
-proto._onwindowfocus = function(e)
+qx.Proto._onwindowfocus = function(e)
 {
   if (!window.application.isReady()) {
     return;
@@ -1027,7 +1027,7 @@ proto._onwindowfocus = function(e)
   };
 };
 
-proto._onwindowresize = function(e)
+qx.Proto._onwindowresize = function(e)
 {
   // Send resize event to client document
   this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_RESIZE);
@@ -1043,7 +1043,7 @@ proto._onwindowresize = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

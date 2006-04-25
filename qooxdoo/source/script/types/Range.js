@@ -41,11 +41,11 @@ qx.types.Range.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaul
 qx.types.Range.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
 qx.types.Range.addProperty({ name : "step", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
-proto._checkValue = function(propValue) {
+qx.Proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
 };
 
-proto._modifyValue = function(propValue, propOldValue, propData)
+qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
     this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
@@ -54,11 +54,11 @@ proto._modifyValue = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._checkMax = function(propValue) {
+qx.Proto._checkMax = function(propValue) {
   return Math.floor(propValue);
 };
 
-proto._modifyMax = function(propValue, propOldValue, propData)
+qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.min(this.getValue(), propValue));
 
@@ -69,11 +69,11 @@ proto._modifyMax = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._checkMin = function(propValue) {
+qx.Proto._checkMin = function(propValue) {
   return Math.floor(propValue);
 };
 
-proto._modifyMin = function(propValue, propOldValue, propData)
+qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.max(this.getValue(), propValue));
 

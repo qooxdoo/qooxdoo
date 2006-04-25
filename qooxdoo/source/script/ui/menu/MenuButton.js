@@ -93,44 +93,44 @@ qx.ui.menu.MenuButton.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT
 ---------------------------------------------------------------------------
 */
 
-proto._hasIcon = false;
-proto._hasLabel = false;
-proto._hasShortcut = false;
-proto._hasMenu = false;
+qx.Proto._hasIcon = false;
+qx.Proto._hasLabel = false;
+qx.Proto._hasShortcut = false;
+qx.Proto._hasMenu = false;
 
-proto.hasIcon = function() {
+qx.Proto.hasIcon = function() {
   return this._hasIcon;
 };
 
-proto.hasLabel = function() {
+qx.Proto.hasLabel = function() {
   return this._hasLabel;
 };
 
-proto.hasShortcut = function() {
+qx.Proto.hasShortcut = function() {
   return this._hasShortcut;
 };
 
-proto.hasMenu = function() {
+qx.Proto.hasMenu = function() {
   return this._hasMenu;
 };
 
-proto.getIconObject = function() {
+qx.Proto.getIconObject = function() {
   return this._iconObject;
 };
 
-proto.getLabelObject = function() {
+qx.Proto.getLabelObject = function() {
   return this._labelObject;
 };
 
-proto.getShortcutObject = function() {
+qx.Proto.getShortcutObject = function() {
   return this._shortcutObject;
 };
 
-proto.getArrowObject = function() {
+qx.Proto.getArrowObject = function() {
   return this._arrowObject;
 };
 
-proto.getParentMenu = function()
+qx.Proto.getParentMenu = function()
 {
   var vParent = this.getParent();
   if (vParent)
@@ -158,7 +158,7 @@ proto.getParentMenu = function()
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.MenuButtonLayoutImpl(this);
 };
 
@@ -172,7 +172,7 @@ proto._createLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setEnabled(propValue);
@@ -185,7 +185,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyIcon = function(propValue, propOldValue, propData)
+qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 {
   this._iconObject.setSource(propValue);
 
@@ -206,7 +206,7 @@ proto._modifyIcon = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLabel = function(propValue, propOldValue, propData)
+qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
 
@@ -227,7 +227,7 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyCommand = function(propValue, propOldValue, propData)
+qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 {
   var vHtml = propValue ? propValue.getShortcut() : qx.Const.CORE_EMPTY;
 
@@ -260,7 +260,7 @@ proto._modifyCommand = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyMenu = function(propValue, propOldValue, propData)
+qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 {
   if (qx.util.Validation.isValidObject(propValue))
   {
@@ -290,7 +290,7 @@ proto._modifyMenu = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e) {
+qx.Proto._onmousedown = function(e) {
   this.execute();
 };
 
@@ -304,7 +304,7 @@ proto._onmousedown = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

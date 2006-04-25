@@ -138,7 +138,7 @@ QxProgressBar.addProperty({ name : "wait", type : qx.Const.TYPEOF_NUMBER, defaul
 ------------------------------------------------------------------------------------
 */
 
-proto._onchange = function(e)
+qx.Proto._onchange = function(e)
 {
   if(this.getParent())
   {
@@ -199,37 +199,37 @@ proto._onchange = function(e)
 ------------------------------------------------------------------------------------
 */
 
-proto.setValue = function(nValue)
+qx.Proto.setValue = function(nValue)
 {
   this._manager.setValue(nValue);
 };
 
-proto.getValue = function()
+qx.Proto.getValue = function()
 {
   return this._manager.getValue();
 };
 
-proto.resetValue = function()
+qx.Proto.resetValue = function()
 {
   return this._manager.resetValue();
 };
 
-proto.setMax = function(vMax)
+qx.Proto.setMax = function(vMax)
 {
   return this._manager.setMax(vMax);
 };
 
-proto.getMax = function()
+qx.Proto.getMax = function()
 {
   return this._manager.getMax();
 };
 
-proto.setMin = function(vMin)
+qx.Proto.setMin = function(vMin)
 {
   return this._manager.setMin(vMin);
 };
 
-proto.getMin = function()
+qx.Proto.getMin = function()
 {
   return this._manager.getMin();
 };
@@ -240,7 +240,7 @@ proto.getMin = function()
 ------------------------------------------------------------------------------------
 */
 
-proto.increment = function()
+qx.Proto.increment = function()
 {
   var value = this.getValue() + this.getIncrementAmount();
 
@@ -260,7 +260,7 @@ proto.increment = function()
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

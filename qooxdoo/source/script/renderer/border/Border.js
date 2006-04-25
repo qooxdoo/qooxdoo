@@ -58,10 +58,10 @@ qx.renderer.border.Border.baseColor = "threedlightshadow";
 qx.renderer.border.Border.stylePart = "Style";
 qx.renderer.border.Border.colorPart = "Color";
 
-proto._needsCompilationTop = true;
-proto._needsCompilationRight = true;
-proto._needsCompilationBottom = true;
-proto._needsCompilationLeft = true;
+qx.Proto._needsCompilationTop = true;
+qx.Proto._needsCompilationRight = true;
+qx.Proto._needsCompilationBottom = true;
+qx.Proto._needsCompilationLeft = true;
 
 
 
@@ -147,10 +147,10 @@ qx.renderer.border.Border.fromString = function(vDefString)
 ---------------------------------------------------------------------------
 */
 
-proto.addListenerWidget = qx.util.Return.returnTrue;
-proto.removeListenerWidget = qx.util.Return.returnTrue;
+qx.Proto.addListenerWidget = qx.util.Return.returnTrue;
+qx.Proto.removeListenerWidget = qx.util.Return.returnTrue;
 
-proto._sync = qx.util.Return.returnTrue;
+qx.Proto._sync = qx.util.Return.returnTrue;
 
 
 
@@ -162,7 +162,7 @@ proto._sync = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto.setWidth = function(vWidth)
+qx.Proto.setWidth = function(vWidth)
 {
   this.setTopWidth(vWidth);
   this.setRightWidth(vWidth);
@@ -172,7 +172,7 @@ proto.setWidth = function(vWidth)
   return true;
 };
 
-proto.setStyle = function(vStyle)
+qx.Proto.setStyle = function(vStyle)
 {
   this.setTopStyle(vStyle);
   this.setRightStyle(vStyle);
@@ -182,7 +182,7 @@ proto.setStyle = function(vStyle)
   return true;
 };
 
-proto.setColor = function(vColor)
+qx.Proto.setColor = function(vColor)
 {
   this.setTopColor(vColor);
   this.setRightColor(vColor);
@@ -195,7 +195,7 @@ proto.setColor = function(vColor)
 
 
 
-proto.setTop = function(vWidth, vStyle, vColor)
+qx.Proto.setTop = function(vWidth, vStyle, vColor)
 {
   this.setTopWidth(vWidth);
   this.setTopStyle(vStyle);
@@ -204,7 +204,7 @@ proto.setTop = function(vWidth, vStyle, vColor)
   return true;
 };
 
-proto.setRight = function(vWidth, vStyle, vColor)
+qx.Proto.setRight = function(vWidth, vStyle, vColor)
 {
   this.setRightWidth(vWidth);
   this.setRightStyle(vStyle);
@@ -213,7 +213,7 @@ proto.setRight = function(vWidth, vStyle, vColor)
   return true;
 };
 
-proto.setBottom = function(vWidth, vStyle, vColor)
+qx.Proto.setBottom = function(vWidth, vStyle, vColor)
 {
   this.setBottomWidth(vWidth);
   this.setBottomStyle(vStyle);
@@ -222,7 +222,7 @@ proto.setBottom = function(vWidth, vStyle, vColor)
   return true;
 };
 
-proto.setLeft = function(vWidth, vStyle, vColor)
+qx.Proto.setLeft = function(vWidth, vStyle, vColor)
 {
   this.setLeftWidth(vWidth);
   this.setLeftStyle(vStyle);
@@ -244,7 +244,7 @@ proto.setLeft = function(vWidth, vStyle, vColor)
 
 if (qx.sys.Client.isGecko())
 {
-  proto._initCache = function()
+  qx.Proto._initCache = function()
   {
     this._defsX =
     {
@@ -267,7 +267,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._initCache = function()
+  qx.Proto._initCache = function()
   {
     this._defsX =
     {
@@ -307,7 +307,7 @@ else
 
 if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
 {
-  proto._addToThemed3DColors = function(vProp)
+  qx.Proto._addToThemed3DColors = function(vProp)
   {
     var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
 
@@ -322,7 +322,7 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
     };
   };
 
-  proto._removeFromThemed3DColors = function(vProp)
+  qx.Proto._removeFromThemed3DColors = function(vProp)
   {
     delete this._themedEdges[vProp];
 
@@ -337,7 +337,7 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
 }
 else
 {
-  proto._addToThemed3DColors = function(vProp)
+  qx.Proto._addToThemed3DColors = function(vProp)
   {
     var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
 
@@ -349,7 +349,7 @@ else
     };
   };
 
-  proto._removeFromThemed3DColors = function(vProp)
+  qx.Proto._removeFromThemed3DColors = function(vProp)
   {
     delete this._themedEdges[vProp];
 
@@ -425,7 +425,7 @@ qx.renderer.border.Border.data =
 
 
 
-proto._generateDefString = function(vWidth, vStyle, vColor)
+qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 {
   if (typeof vWidth !== qx.Const.TYPEOF_NUMBER || vWidth < 0) {
     return qx.Const.CORE_EMPTY;
@@ -453,7 +453,7 @@ proto._generateDefString = function(vWidth, vStyle, vColor)
 
 // TODO: Add more smartness ;)
 // Only update the border edges which depends on this color object
-proto._updateColors = function(vColorObject, vNewValue)
+qx.Proto._updateColors = function(vColorObject, vNewValue)
 {
   this._needsCompilationTop = true;
   this._needsCompilationRight = true;
@@ -472,7 +472,7 @@ proto._updateColors = function(vColorObject, vNewValue)
 
 
 
-proto._handleColorRegistration = function(propValue, propOldValue, propData)
+qx.Proto._handleColorRegistration = function(propValue, propOldValue, propData)
 {
   if (qx.lang.String.contains(propData.name, qx.renderer.border.Border.stylePart))
   {
@@ -525,7 +525,7 @@ proto._handleColorRegistration = function(propValue, propOldValue, propData)
 
 
 
-proto._modifyBorderTopProperty = function(propValue, propOldValue, propData)
+qx.Proto._modifyBorderTopProperty = function(propValue, propOldValue, propData)
 {
   this._handleColorRegistration(propValue, propOldValue, propData);
 
@@ -537,7 +537,7 @@ proto._modifyBorderTopProperty = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyBorderRightProperty = function(propValue, propOldValue, propData)
+qx.Proto._modifyBorderRightProperty = function(propValue, propOldValue, propData)
 {
   this._handleColorRegistration(propValue, propOldValue, propData);
 
@@ -549,7 +549,7 @@ proto._modifyBorderRightProperty = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyBorderBottomProperty = function(propValue, propOldValue, propData)
+qx.Proto._modifyBorderBottomProperty = function(propValue, propOldValue, propData)
 {
   this._handleColorRegistration(propValue, propOldValue, propData);
 
@@ -561,7 +561,7 @@ proto._modifyBorderBottomProperty = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyBorderLeftProperty = function(propValue, propOldValue, propData)
+qx.Proto._modifyBorderLeftProperty = function(propValue, propOldValue, propData)
 {
   this._handleColorRegistration(propValue, propOldValue, propData);
 
@@ -581,7 +581,7 @@ proto._modifyBorderLeftProperty = function(propValue, propOldValue, propData)
 
 
 
-proto.getUseEnhancedCrossBrowserMode = function()
+qx.Proto.getUseEnhancedCrossBrowserMode = function()
 {
   if (this._useEnhancedCrossBrowserMode == null) {
     this._useEnhancedCrossBrowserMode = this._evalUseEnhancedCrossBrowserMode();
@@ -590,7 +590,7 @@ proto.getUseEnhancedCrossBrowserMode = function()
   return this._useEnhancedCrossBrowserMode;
 };
 
-proto._evalUseEnhancedCrossBrowserMode = function()
+qx.Proto._evalUseEnhancedCrossBrowserMode = function()
 {
   if (this.getTopWidth() == 2) {
     switch(this.getTopStyle()) {
@@ -630,27 +630,27 @@ proto._evalUseEnhancedCrossBrowserMode = function()
 ---------------------------------------------------------------------------
 */
 
-proto._applyWidget = function(o)
+qx.Proto._applyWidget = function(o)
 {
   this._applyWidgetX(o);
   this._applyWidgetY(o);
 };
 
-proto._resetWidget = function(o)
+qx.Proto._resetWidget = function(o)
 {
   this._resetWidgetX(o);
   this._resetWidgetY(o);
 };
 
-proto._resetWidgetX = function(o) {
+qx.Proto._resetWidgetX = function(o) {
   return qx.renderer.border.Border._resetBorderX(o);
 };
 
-proto._resetWidgetY = function(o) {
+qx.Proto._resetWidgetY = function(o) {
   return qx.renderer.border.Border._resetBorderY(o);
 };
 
-proto._applyWidgetXCommon = function(vObject)
+qx.Proto._applyWidgetXCommon = function(vObject)
 {
   if (this._needsCompilationLeft) {
     this._compileLeft();
@@ -679,7 +679,7 @@ proto._applyWidgetXCommon = function(vObject)
   };
 };
 
-proto._applyWidgetYCommon = function(vObject)
+qx.Proto._applyWidgetYCommon = function(vObject)
 {
   if (this._needsCompilationTop) {
     this._compileTop();
@@ -710,10 +710,10 @@ proto._applyWidgetYCommon = function(vObject)
 
 if (qx.sys.Client.isGecko())
 {
-  proto._applyWidgetX = proto._applyWidgetXCommon;
-  proto._applyWidgetY = proto._applyWidgetYCommon;
+  qx.Proto._applyWidgetX = qx.Proto._applyWidgetXCommon;
+  qx.Proto._applyWidgetY = qx.Proto._applyWidgetYCommon;
 
-  proto._generateMozColorDefString = function(vWidth, vStyle, vEdge)
+  qx.Proto._generateMozColorDefString = function(vWidth, vStyle, vEdge)
   {
     try
     {
@@ -737,7 +737,7 @@ if (qx.sys.Client.isGecko())
     return qx.Const.CORE_EMPTY;
   };
 
-  proto._compileTop = function()
+  qx.Proto._compileTop = function()
   {
     var w=this.getTopWidth(), s=this.getTopStyle(), d=this._defsY;
 
@@ -747,7 +747,7 @@ if (qx.sys.Client.isGecko())
     this._needsCompilationTop = false;
   };
 
-  proto._compileRight = function()
+  qx.Proto._compileRight = function()
   {
     var w=this.getRightWidth(), s=this.getRightStyle(), d=this._defsX;
 
@@ -757,7 +757,7 @@ if (qx.sys.Client.isGecko())
     this._needsCompilationRight = false;
   };
 
-  proto._compileBottom = function()
+  qx.Proto._compileBottom = function()
   {
     var w=this.getBottomWidth(), s=this.getBottomStyle(), d=this._defsY;
 
@@ -767,7 +767,7 @@ if (qx.sys.Client.isGecko())
     this._needsCompilationBottom = false;
   };
 
-  proto._compileLeft = function()
+  qx.Proto._compileLeft = function()
   {
     var w=this.getLeftWidth(), s=this.getLeftStyle(), d=this._defsX;
 
@@ -791,7 +791,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._applyWidgetX = function(vObject)
+  qx.Proto._applyWidgetX = function(vObject)
   {
     this._applyWidgetXCommon(vObject);
 
@@ -810,7 +810,7 @@ else
     };
   };
 
-  proto._applyWidgetY = function(vObject)
+  qx.Proto._applyWidgetY = function(vObject)
   {
     this._applyWidgetYCommon(vObject);
 
@@ -829,7 +829,7 @@ else
     };
   };
 
-  proto._compileTop = function()
+  qx.Proto._compileTop = function()
   {
     var vTopWidth = this.getTopWidth();
     var vTopStyle = this.getTopStyle();
@@ -891,7 +891,7 @@ else
     this._needsCompilationTop = false;
   };
 
-  proto._compileRight = function()
+  qx.Proto._compileRight = function()
   {
     var vRightWidth = this.getRightWidth();
     var vRightStyle = this.getRightStyle();
@@ -953,7 +953,7 @@ else
     this._needsCompilationRight = false;
   };
 
-  proto._compileBottom = function()
+  qx.Proto._compileBottom = function()
   {
     var vBottomWidth = this.getBottomWidth();
     var vBottomStyle = this.getBottomStyle();
@@ -1014,7 +1014,7 @@ else
     this._needsCompilationBottom = false;
   };
 
-  proto._compileLeft = function()
+  qx.Proto._compileLeft = function()
   {
     var vLeftWidth = this.getLeftWidth();
     var vLeftStyle = this.getLeftStyle();
@@ -1120,7 +1120,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

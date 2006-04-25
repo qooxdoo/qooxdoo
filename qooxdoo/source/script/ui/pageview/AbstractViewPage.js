@@ -66,7 +66,7 @@ qx.ui.pageview.AbstractPageViewPage.changeProperty({ name : "display", type : qx
 ---------------------------------------------------------------------------
 */
 
-proto._modifyButton = function(propValue, propOldValue, propData)
+qx.Proto._modifyButton = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setPage(null);

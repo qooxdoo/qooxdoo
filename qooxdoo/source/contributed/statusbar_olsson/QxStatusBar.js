@@ -50,7 +50,7 @@ QxStatusBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING,
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

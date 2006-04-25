@@ -56,7 +56,7 @@ function(vType, vMouseEvent, vTarget, vRelatedTarget)
 ---------------------------------------------------------------------------
 */
 
-proto.getMouseEvent = function() {
+qx.Proto.getMouseEvent = function() {
   return this._mouseEvent;
 };
 
@@ -71,7 +71,7 @@ proto.getMouseEvent = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.startDrag = function()
+qx.Proto.startDrag = function()
 {
   if (this.getType() != qx.Const.EVENT_TYPE_DRAGSTART) {
     throw new Error("qx.event.types.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
@@ -92,19 +92,19 @@ proto.startDrag = function()
 ---------------------------------------------------------------------------
 */
 
-proto.addData = function(sType, oData) {
+qx.Proto.addData = function(sType, oData) {
   qx.event.handler.DragAndDropHandler.addData(sType, oData);
 };
 
-proto.getData = function(sType) {
+qx.Proto.getData = function(sType) {
   return qx.event.handler.DragAndDropHandler.getData(sType);
 };
 
-proto.clearData = function() {
+qx.Proto.clearData = function() {
   qx.event.handler.DragAndDropHandler.clearData();
 };
 
-proto.getDropDataTypes = function() {
+qx.Proto.getDropDataTypes = function() {
   return qx.event.handler.DragAndDropHandler.getDropDataTypes();
 };
 
@@ -119,19 +119,19 @@ proto.getDropDataTypes = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.addAction = function(sAction) {
+qx.Proto.addAction = function(sAction) {
   qx.event.handler.DragAndDropHandler.addAction(sAction);
 };
 
-proto.removeAction = function(sAction) {
+qx.Proto.removeAction = function(sAction) {
   qx.event.handler.DragAndDropHandler.removeAction(sAction);
 };
 
-proto.getAction = function() {
+qx.Proto.getAction = function() {
   return qx.event.handler.DragAndDropHandler.getCurrentAction();
 };
 
-proto.clearActions = function() {
+qx.Proto.clearActions = function() {
   qx.event.handler.DragAndDropHandler.clearActions();
 };
 
@@ -147,7 +147,7 @@ proto.clearActions = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

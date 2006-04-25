@@ -59,7 +59,7 @@ QxStatusBarPane.addProperty({ name : "widget", type : qx.Const.TYPEOF_OBJECT, al
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifyWidget = function(propValue, propOldValue, propData)
 {
   if(propOldValue != null)
   {
@@ -84,7 +84,7 @@ proto._modifyWidget = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

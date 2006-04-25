@@ -42,7 +42,7 @@ QxLocaleManager.addProperty({ name : "currentLocale", type : qx.Const.TYPEOF_OBJ
 ---------------------------------------------------------------------------
 */
 
-proto._modifyCurrentLocale = function(propValue, propOldValue, propData)
+qx.Proto._modifyCurrentLocale = function(propValue, propOldValue, propData)
 {
   qx.ui.core.Widget.flushGlobalQueues();
 
@@ -55,7 +55,7 @@ proto._modifyCurrentLocale = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

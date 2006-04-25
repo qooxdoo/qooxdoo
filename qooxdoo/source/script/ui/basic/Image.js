@@ -103,11 +103,11 @@ qx.ui.basic.Image.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_S
 ---------------------------------------------------------------------------
 */
 
-proto._onload = function() {
+qx.Proto._onload = function() {
   this.setLoaded(true);
 };
 
-proto._onerror = function()
+qx.Proto._onerror = function()
 {
   this.debug("Could not load: " + this.getSource());
 
@@ -128,7 +128,7 @@ proto._onerror = function()
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   var vSource = this.getSource();
 
@@ -139,7 +139,7 @@ proto._beforeAppear = function()
   return qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   var vSource = this.getSource();
 
@@ -168,7 +168,7 @@ proto._beforeDisappear = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifySource = function(propValue, propOldValue, propData)
+qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
   if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === qx.Const.TYPEOF_UNDEFINED) {
     qx.manager.object.ImageManager._sources[propValue] = 0;
@@ -202,7 +202,7 @@ proto._modifySource = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyPreloader = function(propValue, propOldValue, propData)
+qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -247,7 +247,7 @@ proto._modifyPreloader = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLoaded = function(propValue, propOldValue, propData)
+qx.Proto._modifyLoaded = function(propValue, propOldValue, propData)
 {
   if (propValue && this.isCreated())
   {
@@ -262,7 +262,7 @@ proto._modifyLoaded = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyElement = function(propValue, propOldValue, propData)
+qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -314,7 +314,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._postApply = function()
+qx.Proto._postApply = function()
 {
   if (!this.getLoaded()) {
     return;
@@ -330,7 +330,7 @@ if (qx.sys.Client.isMshtml())
   qx.ui.basic.Image.IMGLOADER_STOP = "',sizingMethod='scale')";
   qx.ui.basic.Image.FILTER_GRAY = "Gray() Alpha(Opacity=30)";
 
-  proto._modifyEnabled = function(propValue, propOldValue, propData)
+  qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
     if (this._image) {
       this._applyEnabled();
@@ -339,7 +339,7 @@ if (qx.sys.Client.isMshtml())
     return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
   };
 
-  proto._updateContent = function(vSource)
+  qx.Proto._updateContent = function(vSource)
   {
     var i = this._image;
     var pl = this.getPreloader();
@@ -356,7 +356,7 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  proto._resetContent = function()
+  qx.Proto._resetContent = function()
   {
     var i = this._image;
 
@@ -364,11 +364,11 @@ if (qx.sys.Client.isMshtml())
     i.style.filter = qx.Const.CORE_EMPTY;
   };
 
-  proto._applyEnabled = proto._postApply;
+  qx.Proto._applyEnabled = qx.Proto._postApply;
 }
 else
 {
-  proto._postApply = function()
+  qx.Proto._postApply = function()
   {
     if (!this.getLoaded()) {
       return;
@@ -378,15 +378,15 @@ else
     this._updateContent();
   };
 
-  proto._updateContent = function(vSource) {
+  qx.Proto._updateContent = function(vSource) {
     this._image.src = vSource || this.getPreloader().getSource();
   };
 
-  proto._resetContent = function() {
+  qx.Proto._resetContent = function() {
     this._image.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
   };
 
-  proto._applyEnabled = function()
+  qx.Proto._applyEnabled = function()
   {
     if (this._image)
     {
@@ -397,7 +397,7 @@ else
     };
   };
 
-  proto._modifyEnabled = function(propValue, propOldValue, propData)
+  qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
     if (this._image) {
       this._applyEnabled();
@@ -419,7 +419,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function()
+qx.Proto._computePreferredInnerWidth = function()
 {
   if (this.getLoaded())
   {
@@ -437,7 +437,7 @@ proto._computePreferredInnerWidth = function()
   return 0;
 };
 
-proto._computePreferredInnerHeight = function()
+qx.Proto._computePreferredInnerHeight = function()
 {
   if (this.getLoaded())
   {
@@ -467,7 +467,7 @@ proto._computePreferredInnerHeight = function()
 ---------------------------------------------------------------------------
 */
 
-proto._applyContent = function()
+qx.Proto._applyContent = function()
 {
   qx.ui.basic.Terminator.prototype._applyContent.call(this);
 
@@ -478,7 +478,7 @@ proto._applyContent = function()
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._postApplyDimensions = function()
+  qx.Proto._postApplyDimensions = function()
   {
     try
     {
@@ -503,7 +503,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto._postApplyDimensions = function()
+  qx.Proto._postApplyDimensions = function()
   {
     try
     {
@@ -538,14 +538,14 @@ else
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._changeInnerWidth = function(vNew, vOld)
+  qx.Proto._changeInnerWidth = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.style.pixelWidth = vNew;
     };
   };
 
-  proto._changeInnerHeight = function(vNew, vOld)
+  qx.Proto._changeInnerHeight = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.style.pixelHeight = vNew;
@@ -554,14 +554,14 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto._changeInnerWidth = function(vNew, vOld)
+  qx.Proto._changeInnerWidth = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.width = vNew;
     };
   };
 
-  proto._changeInnerHeight = function(vNew, vOld)
+  qx.Proto._changeInnerHeight = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.height = vNew;
@@ -579,7 +579,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

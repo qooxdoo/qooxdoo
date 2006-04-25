@@ -87,9 +87,9 @@ qx.ui.form.CheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLE
 ---------------------------------------------------------------------------
 */
 
-proto.INPUT_TYPE = "checkbox";
+qx.Proto.INPUT_TYPE = "checkbox";
 
-proto._createIcon = function()
+qx.Proto._createIcon = function()
 {
   var i = this._iconObject = new qx.ui.form.InputCheckSymbol;
 
@@ -111,7 +111,7 @@ proto._createIcon = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setChecked(propValue);
@@ -130,7 +130,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._handleIcon = function()
+qx.Proto._handleIcon = function()
 {
   switch(this.getShow())
   {
@@ -162,18 +162,18 @@ proto._handleIcon = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onclick = function(e) {
+qx.Proto._onclick = function(e) {
   this.toggleChecked();
 };
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   if(e.getKeyCode() == qx.event.types.KeyEvent.keys.enter && !e.getAltKey()) {
     this.toggleChecked();
   };
 };
 
-proto._onkeyup = function(e)
+qx.Proto._onkeyup = function(e)
 {
   if(e.getKeyCode() == qx.event.types.KeyEvent.keys.space) {
     this.toggleChecked();
@@ -190,7 +190,7 @@ proto._onkeyup = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

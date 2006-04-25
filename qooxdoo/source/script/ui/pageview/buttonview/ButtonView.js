@@ -67,7 +67,7 @@ qx.ui.pageview.buttonview.ButtonView.changeProperty({ name : "appearance", type 
 ---------------------------------------------------------------------------
 */
 
-proto._modifyBarPosition = function(propValue, propOldValue, propData)
+qx.Proto._modifyBarPosition = function(propValue, propOldValue, propData)
 {
   var vBar = this._bar;
 

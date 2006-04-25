@@ -60,7 +60,7 @@ qx.ui.menu.MenuRadioButton.addProperty({ name : "manager", type : qx.Const.TYPEO
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   var vManager = this.getManager();
 
@@ -79,7 +79,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
   return qx.ui.menu.MenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -92,7 +92,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propData)
+qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this.getManager()) {
     this.getManager().setName(propValue);
@@ -111,7 +111,7 @@ proto._modifyName = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.execute = function()
+qx.Proto.execute = function()
 {
   this.setChecked(true);
   qx.ui.menu.MenuButton.prototype.execute.call(this);

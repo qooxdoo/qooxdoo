@@ -58,7 +58,7 @@ qx.manager.object.ColorManager.addProperty({ name : "theme", type : qx.Const.TYP
 ---------------------------------------------------------------------------
 */
 
-proto.getThemeObject = function() {
+qx.Proto.getThemeObject = function() {
   return this._themes[this.getTheme()];
 };
 
@@ -73,7 +73,7 @@ proto.getThemeObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(oObject)
+qx.Proto.add = function(oObject)
 {
   var vValue = oObject.getValue();
 
@@ -84,7 +84,7 @@ proto.add = function(oObject)
   };
 };
 
-proto.remove = function(oObject)
+qx.Proto.remove = function(oObject)
 {
   var vValue = oObject.getValue();
 
@@ -92,11 +92,11 @@ proto.remove = function(oObject)
   delete this._dependentObjects[vValue];
 };
 
-proto.has = function(vValue) {
+qx.Proto.has = function(vValue) {
   return this._objects[vValue] != null;
 };
 
-proto.get = function(vValue) {
+qx.Proto.get = function(vValue) {
   return this._objects[vValue];
 };
 
@@ -111,7 +111,7 @@ proto.get = function(vValue) {
 ---------------------------------------------------------------------------
 */
 
-proto.registerTheme = function(vTheme)
+qx.Proto.registerTheme = function(vTheme)
 {
   var vId = vTheme.getId();
 
@@ -139,7 +139,7 @@ proto.registerTheme = function(vTheme)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyTheme = function(propValue, propOldValue, propData)
+qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 {
   var vTheme = this.getThemeObject();
 
@@ -163,7 +163,7 @@ proto._modifyTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.createThemeList = function(vParent, xCor, yCor)
+qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._themes;
@@ -195,7 +195,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

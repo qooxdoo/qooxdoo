@@ -66,7 +66,7 @@ QxResource.addProperty({ name : "locale", type : qx.Const.TYPEOF_OBJECT });
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyResource = function(propValue, propOldValue, propData)
+qx.Proto._modifyResource = function(propValue, propOldValue, propData)
 {
   if(propOldValue)
   {
@@ -85,7 +85,7 @@ proto._modifyResource = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLocale = function(propValue, propOldValue, propData)
+qx.Proto._modifyLocale = function(propValue, propOldValue, propData)
 {
   if(propOldValue)
   {
@@ -113,7 +113,7 @@ proto._modifyLocale = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto.loadResource = function(vResource, vLocale)
+qx.Proto.loadResource = function(vResource, vLocale)
 {
   if(!vResource)
   {
@@ -197,7 +197,7 @@ proto.loadResource = function(vResource, vLocale)
   req.send();
 };
 
-proto.getKey = function(value)
+qx.Proto.getKey = function(value)
 {
   for(i=0; i < this._content.length; i++)
   {
@@ -208,7 +208,7 @@ proto.getKey = function(value)
   };
 };
 
-proto.getValue = function(key)
+qx.Proto.getValue = function(key)
 {
   return this._content[key];
 };
@@ -220,7 +220,7 @@ proto.getValue = function(key)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

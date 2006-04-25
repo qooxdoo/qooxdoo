@@ -136,12 +136,12 @@ qx.ui.basic.Atom.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_ST
 ---------------------------------------------------------------------------
 */
 
-proto._flashMode = false;
+qx.Proto._flashMode = false;
 
-proto._labelObject = null;
-proto._iconObject = null;
+qx.Proto._labelObject = null;
+qx.Proto._iconObject = null;
 
-proto._createLabel = function()
+qx.Proto._createLabel = function()
 {
   var l = this._labelObject = new qx.ui.basic.Label(this.getLabel());
 
@@ -152,7 +152,7 @@ proto._createLabel = function()
   this.addAt(l, this._iconObject ? 1 : 0);
 };
 
-proto._createIcon = function()
+qx.Proto._createIcon = function()
 {
   if (this._flashMode)
   {
@@ -169,11 +169,11 @@ proto._createIcon = function()
   this.addAt(i, 0);
 };
 
-proto.getLabelObject = function() {
+qx.Proto.getLabelObject = function() {
   return this._labelObject;
 };
 
-proto.getIconObject = function() {
+qx.Proto.getIconObject = function() {
   return this._iconObject;
 };
 
@@ -188,7 +188,7 @@ proto.getIconObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setEnabled(propValue);
@@ -201,7 +201,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyIconPosition = function(propValue, propOldValue, propData)
+qx.Proto._modifyIconPosition = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
@@ -220,7 +220,7 @@ proto._modifyIconPosition = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShow = function(propValue, propOldValue, propData)
+qx.Proto._modifyShow = function(propValue, propOldValue, propData)
 {
   this._handleIcon();
   this._handleLabel();
@@ -228,7 +228,7 @@ proto._modifyShow = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLabel = function(propValue, propOldValue, propData)
+qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   if (this._labelObject) {
     this._labelObject.setHtml(propValue);
@@ -239,7 +239,7 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyIcon = function(propValue, propOldValue, propData)
+qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setSource(propValue);
@@ -250,13 +250,13 @@ proto._modifyIcon = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyIconWidth = function(propValue, propOldValue, propData)
+qx.Proto._modifyIconWidth = function(propValue, propOldValue, propData)
 {
   this._iconObject.setWidth(propValue);
   return true;
 };
 
-proto._modifyIconHeight = function(propValue, propOldValue, propData)
+qx.Proto._modifyIconHeight = function(propValue, propOldValue, propData)
 {
   this._iconObject.setHeight(propValue);
   return true;
@@ -273,10 +273,10 @@ proto._modifyIconHeight = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._iconIsVisible = false;
-proto._labelIsVisible = false;
+qx.Proto._iconIsVisible = false;
+qx.Proto._labelIsVisible = false;
 
-proto._handleLabel = function()
+qx.Proto._handleLabel = function()
 {
   switch(this.getShow())
   {
@@ -299,7 +299,7 @@ proto._handleLabel = function()
   };
 };
 
-proto._handleIcon = function()
+qx.Proto._handleIcon = function()
 {
   switch(this.getShow())
   {
@@ -334,7 +334,7 @@ proto._handleIcon = function()
 */
 
 // Omit recursive cloning
-proto._cloneRecursive = qx.util.Return.returnTrue;
+qx.Proto._cloneRecursive = qx.util.Return.returnTrue;
 
 
 
@@ -348,7 +348,7 @@ proto._cloneRecursive = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

@@ -199,73 +199,73 @@ QxHttpTransport._releaseXMLHttpRequest = function(req) {
  *_lastReadyState - Holds the last ready state seen for this instance, allowing us to quickly check to see if any events need to be fired 
  */
  
-proto._lastReadyState = 0;
+qx.Proto._lastReadyState = 0;
 
 /*! 
  * _requestHeaders - Hash containing headers to be added to the request 
  */
 
-proto._requestHeaders = {};
+qx.Proto._requestHeaders = {};
 
 /*! _req - Holds the XMLHttpRequest object used to actually make requests */
 
-proto._req = null;
+qx.Proto._req = null;
 
 /*! _queue - The QxHttpTransportQueue that this request object belongs to */
 
-proto._queue = null;
+qx.Proto._queue = null;
 
 /*! _inProgress - Boolean used to record whether or not a request is in progress */
 
-proto._inProgress = false;
+qx.Proto._inProgress = false;
 
 /*! _pendingTimeouts - An array of arrays, with indexes 0 through 3, with each of those indexes containing an array of qx.client.Timer objects.
   * Each index corresponds to the readyState at which all qx.client.Timer objects in the array at that index will be started */
 
-proto._pendingTimeouts = null;
+qx.Proto._pendingTimeouts = null;
 
 /*! 
 * _activeTimeouts - An array of arrays, with indexs 1 through 4. Each index corresponds to the readyState at which the corresponding
 * qx.client.Timer objects will be stopped. 
 */
 
-proto._activeTimeouts = null;
+qx.Proto._activeTimeouts = null;
 
 /*!
  * _aborted - Indicates if this request was aborted due to error or user intervention
  */
  
-proto._aborted = false;
+qx.Proto._aborted = false;
 
 /*!
  * _responseText - Holds the response text provided by the last request
  */
  
-proto._responseText = null;
+qx.Proto._responseText = null;
 
 /*!
  * _responseXML - Holds the response XML provided by the last request
  */
  
-proto._responseXML = null;
+qx.Proto._responseXML = null;
 
 /*!
  * _status - Holds the status code provided by the last request
  */
  
-proto._status = -1;
+qx.Proto._status = -1;
 
 /*!
  * _responseHeaders - Holds response headers provided by the last invocation
  */
  
-proto._responseHeaders = null;
+qx.Proto._responseHeaders = null;
 
 /*!
  * _statusText - Holds the last status text result
  */
  
-proto._statusText = null;
+qx.Proto._statusText = null;
 
 // Object properties
  
@@ -300,7 +300,7 @@ QxHttpTransport.addProperty({name : "multipleReadyStateEvents", type : qx.Const.
  * @param endState - Integer corresponding to the readyState to stop the timer at
  */
 
-proto.addTimeout = function(timer, startState, endState) {
+qx.Proto.addTimeout = function(timer, startState, endState) {
   if (startState >= endState) {
     throw new Error("Start state must be less than end state.");
   }
@@ -329,7 +329,7 @@ proto.addTimeout = function(timer, startState, endState) {
  * Sets the queue that this request belongs to
  */
 
-proto.setQueue = function(queue) {
+qx.Proto.setQueue = function(queue) {
   if (!this.requestInProgress()) {
     this._queue = queue;  
   }
@@ -339,7 +339,7 @@ proto.setQueue = function(queue) {
  * Returns the current queue that this request object belongs to
  */
 
-proto.getQueue = function() {
+qx.Proto.getQueue = function() {
   return this.queue;
 }
 
@@ -347,7 +347,7 @@ proto.getQueue = function() {
  * Returns true on this request being in progress, false otherwise.
  */
 
-proto.requestInProgress = function() {
+qx.Proto.requestInProgress = function() {
   return this._inProgress;
 }
 
@@ -367,7 +367,7 @@ proto.requestInProgress = function() {
  * Alias for getStatusCode
  */
 
-proto.getStatus = proto.getStatusCode;
+qx.Proto.getStatus = qx.Proto.getStatusCode;
 
 
 
@@ -379,7 +379,7 @@ proto.getStatus = proto.getStatusCode;
  * Initialises the request, adding it to the queue.
  */
 
-proto.send = function() {
+qx.Proto.send = function() {
   if (true == this._inProgress) {
     return;
   }
@@ -412,7 +412,7 @@ proto.send = function() {
  * Abort the request. Also removes the request from it's current queue.
  */
 
-proto.abort = function() {
+qx.Proto.abort = function() {
   if (typeof(this._req.abort) != qx.Const.TYPEOF_UNDEFINED) {
     this._req.abort();
   }
@@ -430,7 +430,7 @@ proto.abort = function() {
  * Disposal method
  */
  
-proto.dispose = function() {
+qx.Proto.dispose = function() {
   if (this._disposed) {
     return;
   } else if (this._req) {
@@ -447,7 +447,7 @@ proto.dispose = function() {
  * appropriate.
  */
  
-proto._handleStateChange = function() {
+qx.Proto._handleStateChange = function() {
   var readyState = this._req.readyState;
   if (3 == readyState) {
     if (this.hasEventListeners("progress")) {
@@ -531,7 +531,7 @@ proto._handleStateChange = function() {
  * Called by the queue holding this object when the request is to be issued.
  */
 
-proto._begin = function() {
+qx.Proto._begin = function() {
   this._inProgress = true;
   
   if (null == this._queue) {
@@ -566,7 +566,7 @@ proto._begin = function() {
  * Obtain new XMLHttpRequest objects according to policy
  */
  
-proto._newRequest = function() {
+qx.Proto._newRequest = function() {
   if (null == this._queue) {
     // Return new object as required
     return this._requestCtor();
@@ -577,7 +577,7 @@ proto._newRequest = function() {
  * Dispatches an "error" event
  */
 
-proto._raiseError = function() {
+qx.Proto._raiseError = function() {
   if (this.hasEventListeners("error")) {
     this.dispatchEvent(new qx.event.types.Event("error"));
   }
@@ -587,7 +587,7 @@ proto._raiseError = function() {
  * Pumps the timeout queue
  */
  
-proto._pumpTimeouts = function(rs) {
+qx.Proto._pumpTimeouts = function(rs) {
   var i;
   
   if (-1 == rs || 4 == rs || this._aborted) {
@@ -616,7 +616,7 @@ proto._pumpTimeouts = function(rs) {
   }
 }
 
-proto._depopulateActiveTimeoutQueue = function(queue) {
+qx.Proto._depopulateActiveTimeoutQueue = function(queue) {
   for (var i = 0; i < queue.length; i++) {
     var timeout = queue[i];
     var startState = timeout.getData("startstate");

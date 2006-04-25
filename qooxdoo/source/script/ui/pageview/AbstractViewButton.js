@@ -89,7 +89,7 @@ qx.ui.pageview.AbstractPageViewButton.addProperty({ name : "name", type : qx.Con
 ---------------------------------------------------------------------------
 */
 
-proto.getView = function() {
+qx.Proto.getView = function() {
   return this.getParent().getParent();
 };
 
@@ -103,7 +103,7 @@ proto.getView = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -116,7 +116,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyParent = function(propValue, propOldValue, propData)
+qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.getManager().remove(this);
@@ -129,7 +129,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyPage = function(propValue, propOldValue, propData)
+qx.Proto._modifyPage = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setButton(null);
@@ -144,7 +144,7 @@ proto._modifyPage = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._hasParent)
   {
@@ -164,7 +164,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propData)
+qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this.getManager()) {
     this.getManager().setName(propValue);
@@ -185,19 +185,19 @@ proto._modifyName = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e) {
+qx.Proto._onmousedown = function(e) {
   this.setChecked(true);
 };
 
-proto._onmouseover = function(e) {
+qx.Proto._onmouseover = function(e) {
   this.addState(qx.Const.STATE_OVER);
 };
 
-proto._onmouseout = function(e) {
+qx.Proto._onmouseout = function(e) {
   this.removeState(qx.Const.STATE_OVER);
 };
 
-proto._onkeydown = function(e) {};
+qx.Proto._onkeydown = function(e) {};
 
 
 
@@ -210,7 +210,7 @@ proto._onkeydown = function(e) {};
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

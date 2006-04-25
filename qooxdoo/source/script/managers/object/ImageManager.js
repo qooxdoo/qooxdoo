@@ -93,19 +93,19 @@ qx.manager.object.ImageManager.addProperty({ name : "widgetTheme", type : qx.Con
 ---------------------------------------------------------------------------
 */
 
-proto._modifyCoreAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyCoreAlias = function(propValue, propOldValue, propData)
 {
   this.defineAlias("core", propValue);
   return true;
 };
 
-proto._modifyLocalAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyLocalAlias = function(propValue, propOldValue, propData)
 {
   this.defineAlias("local", propValue);
   return true;
 };
 
-proto._modifyIconAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
 {
   var vIconPath = this.getIconPath();
   var vIconTheme = this.getIconTheme();
@@ -122,7 +122,7 @@ proto._modifyIconAlias = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 {
   var vWidgetPath = this.getWidgetPath();
   var vWidgetTheme = this.getWidgetTheme();
@@ -150,7 +150,7 @@ proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.registerIconTheme = function(vTheme)
+qx.Proto.registerIconTheme = function(vTheme)
 {
   var vId = vTheme.getId();
 
@@ -167,7 +167,7 @@ proto.registerIconTheme = function(vTheme)
 };
 
 
-proto.registerWidgetTheme = function(vTheme)
+qx.Proto.registerWidgetTheme = function(vTheme)
 {
   var vId = vTheme.getId();
 
@@ -195,7 +195,7 @@ proto.registerWidgetTheme = function(vTheme)
 ---------------------------------------------------------------------------
 */
 
-proto.getPreloadImageList = function()
+qx.Proto.getPreloadImageList = function()
 {
   var vPreload = {};
 
@@ -209,7 +209,7 @@ proto.getPreloadImageList = function()
   return vPreload;
 };
 
-proto.getPostPreloadImageList = function()
+qx.Proto.getPostPreloadImageList = function()
 {
   var vPreload = {};
 
@@ -237,7 +237,7 @@ proto.getPostPreloadImageList = function()
 ---------------------------------------------------------------------------
 */
 
-proto.buildUri = function(vPath, vForceUpdate)
+qx.Proto.buildUri = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
@@ -249,13 +249,13 @@ proto.buildUri = function(vPath, vForceUpdate)
   return vUri;
 };
 
-proto.defineAlias = function(vPrefix, vPath)
+qx.Proto.defineAlias = function(vPrefix, vPath)
 {
   this._aliases[vPrefix] = vPath;
   this._updateImages();
 };
 
-proto.removeAlias = function(vPrefix) {
+qx.Proto.removeAlias = function(vPrefix) {
   delete this._aliases[vPrefix];
 };
 
@@ -274,7 +274,7 @@ proto.removeAlias = function(vPrefix) {
 ---------------------------------------------------------------------------
 */
 
-proto._buildUri = function(vPath, vForce)
+qx.Proto._buildUri = function(vPath, vForce)
 {
   switch(vPath.charAt(0))
   {
@@ -298,7 +298,7 @@ proto._buildUri = function(vPath, vForce)
   };
 };
 
-proto._updateImages = function()
+qx.Proto._updateImages = function()
 {
   var vAll = this.getAll();
   var vObject;
@@ -326,7 +326,7 @@ proto._updateImages = function()
 */
 
 // TODO: rename to createIconThemeList
-proto.createThemeList = function(vParent, xCor, yCor)
+qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._iconThemes;
@@ -360,7 +360,7 @@ proto.createThemeList = function(vParent, xCor, yCor)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -65,7 +65,7 @@ qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "direction", type : qx.Cons
 ---------------------------------------------------------------------------
 */
 
-proto.getParentToolBar = function()
+qx.Proto.getParentToolBar = function()
 {
   var vParent = this.getParent();
 
@@ -76,7 +76,7 @@ proto.getParentToolBar = function()
   return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
 };
 
-proto._showMenu = function(vFromKeyEvent)
+qx.Proto._showMenu = function(vFromKeyEvent)
 {
   var vMenu = this.getMenu();
 
@@ -126,7 +126,7 @@ proto._showMenu = function(vFromKeyEvent)
   };
 };
 
-proto._hideMenu = function()
+qx.Proto._hideMenu = function()
 {
   var vMenu = this.getMenu();
 
@@ -145,7 +145,7 @@ proto._hideMenu = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyMenu = function(propValue, propOldValue, propData)
+qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -177,7 +177,7 @@ proto._modifyMenu = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   if (e.getTarget() != this || !e.isLeftButtonPressed()) {
     return;
@@ -186,9 +186,9 @@ proto._onmousedown = function(e)
   this.hasState(qx.Const.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
 };
 
-proto._onmouseup = function(e) {};
+qx.Proto._onmouseup = function(e) {};
 
-proto._onmouseout = function(e)
+qx.Proto._onmouseout = function(e)
 {
   if (e.getTarget() != this) {
     return;
@@ -197,7 +197,7 @@ proto._onmouseout = function(e)
   this.removeState(qx.Const.STATE_OVER);
 };
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   var vToolBar = this.getParentToolBar();
 
@@ -234,7 +234,7 @@ proto._onmouseover = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onmenuappear = function(e)
+qx.Proto._onmenuappear = function(e)
 {
   var vToolBar = this.getParentToolBar();
 
@@ -247,7 +247,7 @@ proto._onmenuappear = function(e)
   vToolBar.setOpenMenu(vMenu);
 };
 
-proto._onmenudisappear = function(e)
+qx.Proto._onmenudisappear = function(e)
 {
   var vToolBar = this.getParentToolBar();
 

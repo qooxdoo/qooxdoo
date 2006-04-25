@@ -69,7 +69,7 @@ function(vWidget) {
 /*!
   Compute and return the box width of the given child
 */
-proto.computeChildBoxWidth = function(vChild)
+qx.Proto.computeChildBoxWidth = function(vChild)
 {
   var vValue = null;
 
@@ -88,7 +88,7 @@ proto.computeChildBoxWidth = function(vChild)
 /*!
   Compute and return the box height of the given child
 */
-proto.computeChildBoxHeight = function(vChild)
+qx.Proto.computeChildBoxHeight = function(vChild)
 {
   var vValue = null;
 
@@ -117,7 +117,7 @@ proto.computeChildBoxHeight = function(vChild)
 /*!
   Compute and return the needed width of the given child
 */
-proto.computeChildNeededWidth = function(vChild)
+qx.Proto.computeChildNeededWidth = function(vChild)
 {
   var vLeft = vChild._computedLeftTypePercent ? null : vChild.getLeftValue();
   var vRight = vChild._computedRightTypePercent ? null : vChild.getRightValue();
@@ -139,7 +139,7 @@ proto.computeChildNeededWidth = function(vChild)
 /*!
   Compute and return the needed height of the given child
 */
-proto.computeChildNeededHeight = function(vChild)
+qx.Proto.computeChildNeededHeight = function(vChild)
 {
   var vTop = vChild._computedTopTypePercent ? null : vChild.getTopValue();
   var vBottom = vChild._computedBottomTypePercent ? null : vChild.getBottomValue();
@@ -173,7 +173,7 @@ proto.computeChildNeededHeight = function(vChild)
   Actions that should be done if the inner width of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerWidthChange = function(vChild)
+qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   // this makes sure that both functions get executed before return
   var vUpdatePercent = vChild._recomputePercentX();
@@ -186,7 +186,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
   Actions that should be done if the inner height of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerHeightChange = function(vChild)
+qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   // this makes sure that both functions get executed before return
   var vUpdatePercent = vChild._recomputePercentY();
@@ -209,7 +209,7 @@ proto.updateChildOnInnerHeightChange = function(vChild)
   This is called from qx.ui.core.Widget and  it's task is to apply the layout
   (excluding border and padding) to the child.
 */
-proto.layoutChild = function(vChild, vJobs)
+qx.Proto.layoutChild = function(vChild, vJobs)
 {
   this.layoutChild_sizeX_essentialWrapper(vChild, vJobs);
   this.layoutChild_sizeY_essentialWrapper(vChild, vJobs);
@@ -226,7 +226,7 @@ proto.layoutChild = function(vChild, vJobs)
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth || vJobs.left || vJobs.right)
     {
@@ -241,7 +241,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     };
   };
 
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight || vJobs.top || vJobs.bottom)
     {
@@ -258,14 +258,14 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width) {
       vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
     };
   };
 
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height) {
       vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
@@ -273,7 +273,7 @@ else
   };
 };
 
-proto.layoutChild_locationX = function(vChild, vJobs)
+qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
 
@@ -286,7 +286,7 @@ proto.layoutChild_locationX = function(vChild, vJobs)
   };
 };
 
-proto.layoutChild_locationY = function(vChild, vJobs)
+qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
 

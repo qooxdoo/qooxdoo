@@ -218,18 +218,18 @@ qx.renderer.color.Color.fromRandom = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._value = null;
-proto._style = null;
+qx.Proto._value = null;
+qx.Proto._style = null;
 
-proto._isRgbColor = false;
-proto._isHtmlColor = false;
-proto._isThemedColor = false;
+qx.Proto._isRgbColor = false;
+qx.Proto._isHtmlColor = false;
+qx.Proto._isThemedColor = false;
 
-proto._red = null;
-proto._green = null;
-proto._blue = null;
+qx.Proto._red = null;
+qx.Proto._green = null;
+qx.Proto._blue = null;
 
-proto._hex = null;
+qx.Proto._hex = null;
 
 
 
@@ -241,8 +241,8 @@ proto._hex = null;
 ---------------------------------------------------------------------------
 */
 
-proto.add = qx.util.Return.returnTrue;
-proto.remove = qx.util.Return.returnTrue;
+qx.Proto.add = qx.util.Return.returnTrue;
+qx.Proto.remove = qx.util.Return.returnTrue;
 
 
 
@@ -255,22 +255,22 @@ proto.remove = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto.isRgbColor = function() {
+qx.Proto.isRgbColor = function() {
   return this._isRgbColor;
 };
 
-proto.isHtmlColor = function() {
+qx.Proto.isHtmlColor = function() {
   return this._isHtmlColor;
 };
 
-proto.isThemedColor = function() {
+qx.Proto.isThemedColor = function() {
   return this._isThemedColor;
 };
 
 
 
 
-proto.setValue = function(vValue)
+qx.Proto.setValue = function(vValue)
 {
   this._normalize(vValue);
 
@@ -279,14 +279,14 @@ proto.setValue = function(vValue)
   };
 };
 
-proto.getValue = function() {
+qx.Proto.getValue = function() {
   return this._value || qx.Const.CORE_EMPTY;
 };
 
 
 
 
-proto.getStyle = function()
+qx.Proto.getStyle = function()
 {
   if (this._style == null) {
     this._evalStyle();
@@ -295,7 +295,7 @@ proto.getStyle = function()
   return this._style;
 };
 
-proto._evalStyle = function()
+qx.Proto._evalStyle = function()
 {
   if (this._isRgbColor)
   {
@@ -318,7 +318,7 @@ proto._evalStyle = function()
 
 
 
-proto.getHex = function()
+qx.Proto.getHex = function()
 {
   if (this._hex == null) {
     this._evalHex();
@@ -327,7 +327,7 @@ proto.getHex = function()
   return this._hex;
 };
 
-proto._evalHex = function()
+qx.Proto._evalHex = function()
 {
   if (this._isRgbColor)
   {
@@ -356,7 +356,7 @@ proto._evalHex = function()
 
 
 
-proto.getRed = function()
+qx.Proto.getRed = function()
 {
   if (this._red == null) {
     this._evalRgb();
@@ -365,7 +365,7 @@ proto.getRed = function()
   return this._red;
 };
 
-proto.getGreen = function()
+qx.Proto.getGreen = function()
 {
   if (this._green == null) {
     this._evalRgb();
@@ -374,7 +374,7 @@ proto.getGreen = function()
   return this._green;
 };
 
-proto.getBlue = function()
+qx.Proto.getBlue = function()
 {
   if (this._blue == null) {
     this._evalRgb();
@@ -386,7 +386,7 @@ proto.getBlue = function()
 
 
 
-proto._evalRgb = function()
+qx.Proto._evalRgb = function()
 {
   if (this._isThemedColor)
   {
@@ -416,7 +416,7 @@ proto._evalRgb = function()
 ---------------------------------------------------------------------------
 */
 
-proto._normalize = function(vInValue)
+qx.Proto._normalize = function(vInValue)
 {
   this._isThemedColor = this._isRgbColor = this._isHtmlColor = false;
   this._hex = null;
@@ -527,7 +527,7 @@ proto._normalize = function(vInValue)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

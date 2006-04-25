@@ -44,23 +44,23 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(vObject) {
+qx.Proto.add = function(vObject) {
   this._objects[vObject.getUri()] = vObject;
 };
 
-proto.remove = function(vObject) {
+qx.Proto.remove = function(vObject) {
   delete this._objects[vObject.getUri()];
 };
 
-proto.has = function(vSource) {
+qx.Proto.has = function(vSource) {
   return this._objects[vSource] != null;
 };
 
-proto.get = function(vSource) {
+qx.Proto.get = function(vSource) {
   return this._objects[vSource];
 };
 
-proto.create = function(vSource)
+qx.Proto.create = function(vSource)
 {
   if (this._objects[vSource]) {
     return this._objects[vSource];

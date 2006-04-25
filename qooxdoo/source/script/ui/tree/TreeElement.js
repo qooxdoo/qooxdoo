@@ -125,7 +125,7 @@ qx.ui.tree.AbstractTreeElement.addProperty({ name : "selected", type : qx.Const.
 ---------------------------------------------------------------------------
 */
 
-proto._modifyLabel = function(propValue, propOldValue, propData)
+qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   if (this._labelObject) {
     this._labelObject.setHtml(propValue);
@@ -134,7 +134,7 @@ proto._modifyLabel = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifySelected = function(propValue, propOldValue, propData)
+qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
   propValue ? this.addState(qx.Const.STATE_SELECTED) : this.removeState(qx.Const.STATE_SELECTED);
   propValue ? this._labelObject.addState(qx.Const.STATE_SELECTED) : this._labelObject.removeState(qx.Const.STATE_SELECTED);
@@ -169,7 +169,7 @@ proto._modifySelected = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.getParentFolder = function()
+qx.Proto.getParentFolder = function()
 {
   try {
     return this.getParent().getParent();
@@ -178,27 +178,27 @@ proto.getParentFolder = function()
   return null;
 };
 
-proto.getLevel = function()
+qx.Proto.getLevel = function()
 {
   var vParentFolder = this.getParentFolder();
   return vParentFolder ? vParentFolder.getLevel() + 1 : null;
 };
 
-proto.getTree = function()
+qx.Proto.getTree = function()
 {
   var vParentFolder = this.getParentFolder();
   return vParentFolder ? vParentFolder.getTree() : null;
 };
 
-proto.getIndentObject = function() {
+qx.Proto.getIndentObject = function() {
   return this._indentObject;
 };
 
-proto.getIconObject = function() {
+qx.Proto.getIconObject = function() {
   return this._iconObject;
 };
 
-proto.getLabelObject = function() {
+qx.Proto.getLabelObject = function() {
   return this._labelObject;
 };
 
@@ -213,7 +213,7 @@ proto.getLabelObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.addToTreeQueue = function()
+qx.Proto.addToTreeQueue = function()
 {
   var vTree = this.getTree();
   if (vTree) {
@@ -221,7 +221,7 @@ proto.addToTreeQueue = function()
   };
 };
 
-proto.removeFromTreeQueue = function()
+qx.Proto.removeFromTreeQueue = function()
 {
   var vTree = this.getTree();
   if (vTree) {
@@ -229,14 +229,14 @@ proto.removeFromTreeQueue = function()
   };
 };
 
-proto.addToCustomQueues = function(vHint)
+qx.Proto.addToCustomQueues = function(vHint)
 {
   this.addToTreeQueue();
 
   qx.ui.layout.BoxLayout.prototype.addToCustomQueues.call(this, vHint);
 };
 
-proto.removeFromCustomQueues = function(vHint)
+qx.Proto.removeFromCustomQueues = function(vHint)
 {
   this.removeFromTreeQueue();
 
@@ -256,7 +256,7 @@ proto.removeFromCustomQueues = function(vHint)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyParent = function(propValue, propOldValue, propData)
+qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
   qx.ui.layout.BoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 
@@ -273,7 +273,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
+qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
   qx.ui.layout.BoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
 
@@ -325,13 +325,13 @@ proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   this.getTree().getManager().handleMouseDown(this, e);
   e.stopPropagation();
 };
 
-proto._onmouseup = qx.util.Return.returnTrue;
+qx.Proto._onmouseup = qx.util.Return.returnTrue;
 
 
 
@@ -349,7 +349,7 @@ qx.ui.tree.AbstractTreeElement.INDENT_CODE_3 = "\" />";
 
 qx.ui.tree.AbstractTreeElement.IMG_EXTENSION = "gif";
 
-proto.flushTree = function()
+qx.Proto.flushTree = function()
 {
   // store informations for update process
   this._previousParentFolder = this.getParentFolder();
@@ -400,7 +400,7 @@ proto.flushTree = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

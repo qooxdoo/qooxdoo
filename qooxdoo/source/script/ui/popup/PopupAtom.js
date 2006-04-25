@@ -35,11 +35,11 @@ function(vLabel, vIcon)
   this._atom.setParent(this);
 });
 
-proto.getAtom = function() {
+qx.Proto.getAtom = function() {
   return this._atom;
 };
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

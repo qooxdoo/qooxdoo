@@ -103,11 +103,11 @@ QxProgressbar.addProperty({ name : "showPercent", type : qx.Const.TYPEOF_BOOLEAN
 ------------------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function() { //???Olli???
+qx.Proto._computePreferredInnerWidth = function() { //???Olli???
   return 200;
 };
 
-proto._computePreferredInnerHeight = function() { //???Olli???
+qx.Proto._computePreferredInnerHeight = function() { //???Olli???
   return 20;
 };
 
@@ -118,12 +118,12 @@ proto._computePreferredInnerHeight = function() { //???Olli???
   GETTER AND SETTER
 ------------------------------------------------------------------------------------
 */
-proto._checkMin = function(newValue, propData){
+qx.Proto._checkMin = function(newValue, propData){
   // min must be < max    
   if (newValue < this.getMax()) return newValue;
   return this.getMin();
 };
-proto._modifyMin = function(propValue, propOldValue, propData)
+qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 {
   // position must be >= min
   if (this.getPosition() < propValue) this.setPosition(propValue);
@@ -132,12 +132,12 @@ proto._modifyMin = function(propValue, propOldValue, propData)
 }
 
 
-proto._checkMax = function(newValue, propData){
+qx.Proto._checkMax = function(newValue, propData){
   // max must be > min
   if (newValue > this.getMin()) return newValue;
   return this.getMax();
 };
-proto._modifyMax = function(propValue, propOldValue, propData)
+qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 {
   // position must be <= max
   if (this.getPosition() > propValue) this.setPosition(propValue);
@@ -146,19 +146,19 @@ proto._modifyMax = function(propValue, propOldValue, propData)
 }
 
 
-proto._checkPosition = function(newValue, propData){
+qx.Proto._checkPosition = function(newValue, propData){
   // position must be inside min and max
   if (newValue < this.getMin()) return this.getMin();
   if (newValue > this.getMax()) return this.getMax();
   return newValue;
 };
-proto._modifyPosition = function(propValue, propOldValue, propData)
+qx.Proto._modifyPosition = function(propValue, propOldValue, propData)
 {
   // make changes visible
   return this._applyChanges();
 };
 
-proto._modifyShowPercent = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowPercent = function(propValue, propOldValue, propData)
 {
   // show or hide the Text
   this._percent.setDisplay(propValue);
@@ -173,7 +173,7 @@ proto._modifyShowPercent = function(propValue, propOldValue, propData)
   THE ACTION
 ------------------------------------------------------------------------------------
 */
-proto.stepIt = function(){
+qx.Proto.stepIt = function(){
   this.setPosition(this.getPosition() + this.getStepBy());
 }
 
@@ -183,7 +183,7 @@ proto.stepIt = function(){
   INTERNAL STUFF
 ------------------------------------------------------------------------------------
 */
-proto._applyChanges = function(){
+qx.Proto._applyChanges = function(){
   // calc position in %
   var p = this.getPosition() - this.getMin();
   var g = this.getMax() - this.getMin();
@@ -204,7 +204,7 @@ proto._applyChanges = function(){
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

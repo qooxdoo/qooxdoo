@@ -101,7 +101,7 @@ QxScroller.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, defaultV
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyInterval = function(propValue, propOldValue, propData)
+qx.Proto._modifyInterval = function(propValue, propOldValue, propData)
 {
   this.stop();
   this._timer.startWith(propValue);
@@ -115,7 +115,7 @@ proto._modifyInterval = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   this.scroll();
 };
@@ -127,21 +127,21 @@ proto._oninterval = function(e)
 ------------------------------------------------------------------------------------
 */
 
-proto.add = function(widget) {
+qx.Proto.add = function(widget) {
   this._scrollpane.add(widget);
 };
 
-proto.getInterval = function()
+qx.Proto.getInterval = function()
 {
   return this._timer.getInterval();
 };
 
-proto.setInterval = function(vInterval)
+qx.Proto.setInterval = function(vInterval)
 {
   this._timer.setInterval(vInterval);
 };
 
-proto.init = function() {
+qx.Proto.init = function() {
   var shiftX = this.getShiftX();
   var shiftY = this.getShiftY();
 
@@ -167,7 +167,7 @@ this.error(this._scrollpane._computeBoxHeight());
 //  };
 };
 
-proto.start = function()
+qx.Proto.start = function()
 {
   if(this._firstTime == true) {
     this.init();
@@ -177,18 +177,18 @@ proto.start = function()
   this._timer.start();
 };
 
-proto.stop = function()
+qx.Proto.stop = function()
 {
   this._timer.stop();
 };
 
-proto.reset = function() {
+qx.Proto.reset = function() {
   this._firstTime = true;
 
   this.init();
 };
 
-proto.scroll = function() 
+qx.Proto.scroll = function() 
 {
   this.stop();
 
@@ -206,7 +206,7 @@ proto.scroll = function()
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

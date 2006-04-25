@@ -71,7 +71,7 @@ qx.io.remote.RemoteRequestQueue.addProperty({ name : "defaultTimeout", type : qx
 ---------------------------------------------------------------------------
 */
 
-proto._debug = function()
+qx.Proto._debug = function()
 {
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
@@ -83,7 +83,7 @@ proto._debug = function()
   };
 };
 
-proto._check = function()
+qx.Proto._check = function()
 {
   // Debug output
   this._debug();
@@ -148,7 +148,7 @@ proto._check = function()
   };
 };
 
-proto._remove = function(vTransport)
+qx.Proto._remove = function(vTransport)
 {
   var vRequest = vTransport.getRequest();
 
@@ -189,9 +189,9 @@ proto._remove = function(vTransport)
 ---------------------------------------------------------------------------
 */
 
-proto._activeCount = 0;
+qx.Proto._activeCount = 0;
 
-proto._onsending = function(e)
+qx.Proto._onsending = function(e)
 {
   if (qx.core.Settings.enableTransportDebug)
   {
@@ -202,7 +202,7 @@ proto._onsending = function(e)
   };
 };
 
-proto._oncompleted = function(e)
+qx.Proto._oncompleted = function(e)
 {
   if (qx.core.Settings.enableTransportDebug)
   {
@@ -228,7 +228,7 @@ proto._oncompleted = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   var vActive = this._active;
 
@@ -271,7 +271,7 @@ proto._oninterval = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propValue) {
     this._check();
@@ -296,7 +296,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
 /*!
   Add the request to the pending requests queue.
 */
-proto.add = function(vRequest)
+qx.Proto.add = function(vRequest)
 {
   vRequest.setState(qx.Const.EVENT_TYPE_QUEUED);
 
@@ -316,7 +316,7 @@ proto.add = function(vRequest)
   signal are notified about the event. If the request isn't in the
   pending requests queue, this method is a noop.
 */
-proto.abort = function(vRequest)
+qx.Proto.abort = function(vRequest)
 {
   var vTransport = vRequest.getTransport();
 
@@ -342,7 +342,7 @@ proto.abort = function(vRequest)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

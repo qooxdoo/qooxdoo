@@ -101,7 +101,7 @@ qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingLeft", type : qx.Const.
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.GridLayoutImpl(this);
 };
 
@@ -117,7 +117,7 @@ proto._createLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(vChild, vCol, vRow)
+qx.Proto.add = function(vChild, vCol, vRow)
 {
   vChild._col = vCol;
   vChild._row = vRow;
@@ -141,7 +141,7 @@ proto.add = function(vChild, vCol, vRow)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyLayout = function(propValue, propOldValue, propData)
+qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 {
   // invalidate inner preferred dimensions
   this._invalidatePreferredInnerDimensions();
@@ -159,7 +159,7 @@ proto._modifyLayout = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._syncDataFields = function(vData, vOldLength, vNewLength)
+qx.Proto._syncDataFields = function(vData, vOldLength, vNewLength)
 {
   if (vNewLength > vOldLength)
   {
@@ -184,25 +184,25 @@ proto._syncDataFields = function(vData, vOldLength, vNewLength)
 ---------------------------------------------------------------------------
 */
 
-proto._columnCount = 0;
+qx.Proto._columnCount = 0;
 
-proto.setColumnCount = function(vCount)
+qx.Proto.setColumnCount = function(vCount)
 {
   this._columnCount = vCount;
   this._syncColumnDataFields();
 };
 
-proto.getColumnCount = function() {
+qx.Proto.getColumnCount = function() {
   return this._columnCount;
 };
 
-proto.addColumn = function()
+qx.Proto.addColumn = function()
 {
   this._columnCount++;
   this._syncColumnDataFields();
 };
 
-proto.removeColumn = function()
+qx.Proto.removeColumn = function()
 {
   if (this._columnCount > 0)
   {
@@ -211,7 +211,7 @@ proto.removeColumn = function()
   };
 };
 
-proto._syncColumnDataFields = function()
+qx.Proto._syncColumnDataFields = function()
 {
   var vData = this._columnData;
   var vOldLength = vData.length;
@@ -230,25 +230,25 @@ proto._syncColumnDataFields = function()
 ---------------------------------------------------------------------------
 */
 
-proto._rowCount = 0;
+qx.Proto._rowCount = 0;
 
-proto.setRowCount = function(vCount)
+qx.Proto.setRowCount = function(vCount)
 {
   this._rowCount = vCount;
   this._syncRowDataFields();
 };
 
-proto.getRowCount = function() {
+qx.Proto.getRowCount = function() {
   return this._rowCount;
 };
 
-proto.addRow = function()
+qx.Proto.addRow = function()
 {
   this._rowCount++;
   this._syncRowDataFields();
 };
 
-proto.removeRow = function()
+qx.Proto.removeRow = function()
 {
   if (this._rowCount > 0)
   {
@@ -257,7 +257,7 @@ proto.removeRow = function()
   };
 };
 
-proto._syncRowDataFields = function()
+qx.Proto._syncRowDataFields = function()
 {
   var vData = this._rowData;
   var vOldLength = vData.length;
@@ -278,7 +278,7 @@ proto._syncRowDataFields = function()
 ---------------------------------------------------------------------------
 */
 
-proto._getColumnProperty = function(vColumnIndex, vProperty)
+qx.Proto._getColumnProperty = function(vColumnIndex, vProperty)
 {
   try
   {
@@ -291,19 +291,19 @@ proto._getColumnProperty = function(vColumnIndex, vProperty)
   };
 };
 
-proto._setupColumnProperty = function(vColumnIndex, vProperty, vValue)
+qx.Proto._setupColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
   this._columnData[vColumnIndex][vProperty] = vValue;
   this._invalidateColumnLayout();
 };
 
-proto._removeColumnProperty = function(vColumnIndex, vProperty, vValue)
+qx.Proto._removeColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
   delete this._columnData[vColumnIndex][vProperty];
   this._invalidateColumnLayout();
 };
 
-proto._invalidateColumnLayout = function()
+qx.Proto._invalidateColumnLayout = function()
 {
   if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
@@ -325,7 +325,7 @@ proto._invalidateColumnLayout = function()
 ---------------------------------------------------------------------------
 */
 
-proto._getRowProperty = function(vRowIndex, vProperty)
+qx.Proto._getRowProperty = function(vRowIndex, vProperty)
 {
   try
   {
@@ -338,19 +338,19 @@ proto._getRowProperty = function(vRowIndex, vProperty)
   };
 };
 
-proto._setupRowProperty = function(vRowIndex, vProperty, vValue)
+qx.Proto._setupRowProperty = function(vRowIndex, vProperty, vValue)
 {
   this._rowData[vRowIndex][vProperty] = vValue;
   this._invalidateRowLayout();
 };
 
-proto._removeRowProperty = function(vRowIndex, vProperty, vValue)
+qx.Proto._removeRowProperty = function(vRowIndex, vProperty, vValue)
 {
   delete this._rowData[vRowIndex][vProperty];
   this._invalidateRowLayout();
 };
 
-proto._invalidateRowLayout = function()
+qx.Proto._invalidateRowLayout = function()
 {
   if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
@@ -374,7 +374,7 @@ proto._invalidateRowLayout = function()
 
 // SETTER
 
-proto.setColumnWidth = function(vIndex, vValue)
+qx.Proto.setColumnWidth = function(vIndex, vValue)
 {
   this._setupColumnProperty(vIndex, "widthValue", vValue);
 
@@ -408,7 +408,7 @@ proto.setColumnWidth = function(vIndex, vValue)
   this._setupColumnProperty(vIndex, "widthComputed", vComputed);
 };
 
-proto.setRowHeight = function(vIndex, vValue)
+qx.Proto.setRowHeight = function(vIndex, vValue)
 {
   this._setupRowProperty(vIndex, "heightValue", vValue);
 
@@ -445,7 +445,7 @@ proto.setRowHeight = function(vIndex, vValue)
 
 // GETTER: BOX
 
-proto.getColumnBoxWidth = function(vIndex)
+qx.Proto.getColumnBoxWidth = function(vIndex)
 {
   var vComputed = this._getColumnProperty(vIndex, "widthComputed");
 
@@ -482,7 +482,7 @@ proto.getColumnBoxWidth = function(vIndex)
   return vComputed;
 };
 
-proto.getRowBoxHeight = function(vIndex)
+qx.Proto.getRowBoxHeight = function(vIndex)
 {
   var vComputed = this._getRowProperty(vIndex, "heightComputed");
 
@@ -522,30 +522,30 @@ proto.getRowBoxHeight = function(vIndex)
 
 // GETTER: PADDING
 
-proto.getComputedCellPaddingLeft = function(vCol, vRow) {
+qx.Proto.getComputedCellPaddingLeft = function(vCol, vRow) {
   return this.getColumnPaddingLeft(vCol) || this.getRowPaddingLeft(vRow) || this.getCellPaddingLeft() || 0;
 };
 
-proto.getComputedCellPaddingRight = function(vCol, vRow) {
+qx.Proto.getComputedCellPaddingRight = function(vCol, vRow) {
   return this.getColumnPaddingRight(vCol) || this.getRowPaddingRight(vRow) || this.getCellPaddingRight() || 0;
 };
 
-proto.getComputedCellPaddingTop = function(vCol, vRow) {
+qx.Proto.getComputedCellPaddingTop = function(vCol, vRow) {
   return this.getRowPaddingTop(vRow) || this.getColumnPaddingTop(vCol) || this.getCellPaddingTop() || 0;
 };
 
-proto.getComputedCellPaddingBottom = function(vCol, vRow) {
+qx.Proto.getComputedCellPaddingBottom = function(vCol, vRow) {
   return this.getRowPaddingBottom(vRow) || this.getColumnPaddingBottom(vCol) || this.getCellPaddingBottom() || 0;
 };
 
 
 // GETTER: INNER
 
-proto.getColumnInnerWidth = function(vCol, vRow) {
+qx.Proto.getColumnInnerWidth = function(vCol, vRow) {
   return this.getColumnBoxWidth(vCol) - this.getComputedCellPaddingLeft(vCol, vRow) - this.getComputedCellPaddingRight(vCol, vRow);
 };
 
-proto.getRowInnerHeight = function(vCol, vRow) {
+qx.Proto.getRowInnerHeight = function(vCol, vRow) {
   return this.getRowBoxHeight(vRow) - this.getComputedCellPaddingTop(vCol, vRow) - this.getComputedCellPaddingBottom(vCol, vRow);
 };
 
@@ -564,19 +564,19 @@ proto.getRowInnerHeight = function(vCol, vRow) {
 
 // SETTER
 
-proto.setColumnHorizontalAlignment = function(vIndex, vValue) {
+qx.Proto.setColumnHorizontalAlignment = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "horizontalAlignment", vValue);
 };
 
-proto.setColumnVerticalAlignment = function(vIndex, vValue) {
+qx.Proto.setColumnVerticalAlignment = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "verticalAlignment", vValue);
 };
 
-proto.setRowHorizontalAlignment = function(vIndex, vValue) {
+qx.Proto.setRowHorizontalAlignment = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "horizontalAlignment", vValue);
 };
 
-proto.setRowVerticalAlignment = function(vIndex, vValue) {
+qx.Proto.setRowVerticalAlignment = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "verticalAlignment", vValue);
 };
 
@@ -584,19 +584,19 @@ proto.setRowVerticalAlignment = function(vIndex, vValue) {
 
 // GETTER
 
-proto.getColumnHorizontalAlignment = function(vIndex) {
+qx.Proto.getColumnHorizontalAlignment = function(vIndex) {
   return this._getColumnProperty(vIndex, "horizontalAlignment");
 };
 
-proto.getColumnVerticalAlignment = function(vIndex) {
+qx.Proto.getColumnVerticalAlignment = function(vIndex) {
   return this._getColumnProperty(vIndex, "verticalAlignment");
 };
 
-proto.getRowHorizontalAlignment = function(vIndex) {
+qx.Proto.getRowHorizontalAlignment = function(vIndex) {
   return this._getRowProperty(vIndex, "horizontalAlignment");
 };
 
-proto.getRowVerticalAlignment = function(vIndex) {
+qx.Proto.getRowVerticalAlignment = function(vIndex) {
   return this._getRowProperty(vIndex, "verticalAlignment");
 };
 
@@ -613,35 +613,35 @@ proto.getRowVerticalAlignment = function(vIndex) {
 
 // SETTER
 
-proto.setColumnPaddingTop = function(vIndex, vValue) {
+qx.Proto.setColumnPaddingTop = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingTop", vValue);
 };
 
-proto.setColumnPaddingRight = function(vIndex, vValue) {
+qx.Proto.setColumnPaddingRight = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingRight", vValue);
 };
 
-proto.setColumnPaddingBottom = function(vIndex, vValue) {
+qx.Proto.setColumnPaddingBottom = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingBottom", vValue);
 };
 
-proto.setColumnPaddingLeft = function(vIndex, vValue) {
+qx.Proto.setColumnPaddingLeft = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingLeft", vValue);
 };
 
-proto.setRowPaddingTop = function(vIndex, vValue) {
+qx.Proto.setRowPaddingTop = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingTop", vValue);
 };
 
-proto.setRowPaddingRight = function(vIndex, vValue) {
+qx.Proto.setRowPaddingRight = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingRight", vValue);
 };
 
-proto.setRowPaddingBottom = function(vIndex, vValue) {
+qx.Proto.setRowPaddingBottom = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingBottom", vValue);
 };
 
-proto.setRowPaddingLeft = function(vIndex, vValue) {
+qx.Proto.setRowPaddingLeft = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingLeft", vValue);
 };
 
@@ -649,35 +649,35 @@ proto.setRowPaddingLeft = function(vIndex, vValue) {
 
 // GETTER
 
-proto.getColumnPaddingTop = function(vIndex) {
+qx.Proto.getColumnPaddingTop = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingTop");
 };
 
-proto.getColumnPaddingRight = function(vIndex) {
+qx.Proto.getColumnPaddingRight = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingRight");
 };
 
-proto.getColumnPaddingBottom = function(vIndex) {
+qx.Proto.getColumnPaddingBottom = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingBottom");
 };
 
-proto.getColumnPaddingLeft = function(vIndex) {
+qx.Proto.getColumnPaddingLeft = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingLeft");
 };
 
-proto.getRowPaddingTop = function(vIndex) {
+qx.Proto.getRowPaddingTop = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingTop");
 };
 
-proto.getRowPaddingRight = function(vIndex) {
+qx.Proto.getRowPaddingRight = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingRight");
 };
 
-proto.getRowPaddingBottom = function(vIndex) {
+qx.Proto.getRowPaddingBottom = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingBottom");
 };
 
-proto.getRowPaddingLeft = function(vIndex) {
+qx.Proto.getRowPaddingLeft = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingLeft");
 };
 
@@ -692,7 +692,7 @@ proto.getRowPaddingLeft = function(vIndex) {
 ---------------------------------------------------------------------------
 */
 
-proto._changeInnerWidth = function(vNew, vOld)
+qx.Proto._changeInnerWidth = function(vNew, vOld)
 {
   for (var i=0, l=this.getColumnCount(); i<l; i++) {
     if (this._getColumnProperty(i, "widthType") == qx.ui.core.Widget.TYPE_PERCENT) {
@@ -703,7 +703,7 @@ proto._changeInnerWidth = function(vNew, vOld)
   qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
 };
 
-proto._changeInnerHeight = function(vNew, vOld)
+qx.Proto._changeInnerHeight = function(vNew, vOld)
 {
   for (var i=0, l=this.getRowCount(); i<l; i++) {
     if (this._getRowProperty(i, "heightType") == qx.ui.core.Widget.TYPE_PERCENT) {
@@ -725,11 +725,11 @@ proto._changeInnerHeight = function(vNew, vOld)
 ---------------------------------------------------------------------------
 */
 
-proto.getInnerWidthForChild = function(vChild) {
+qx.Proto.getInnerWidthForChild = function(vChild) {
   return this._getColumnProperty(vChild._col, "widthComputed");
 };
 
-proto.getInnerHeightForChild = function(vChild) {
+qx.Proto.getInnerHeightForChild = function(vChild) {
   return this._getRowProperty(vChild._row, "heightComputed");
 };
 
@@ -743,7 +743,7 @@ proto.getInnerHeightForChild = function(vChild) {
 ---------------------------------------------------------------------------
 */
 
-proto.mergeCells = function(vStartCol, vStartRow, vColLength, vRowLength)
+qx.Proto.mergeCells = function(vStartCol, vStartRow, vColLength, vRowLength)
 {
   var vSpans = this._spans;
   var vLength = vSpans.length;
@@ -767,11 +767,11 @@ proto.mergeCells = function(vStartCol, vStartRow, vColLength, vRowLength)
   return true;
 };
 
-proto.hasSpans = function() {
+qx.Proto.hasSpans = function() {
   return this._spans.length > 0;
 };
 
-proto.getSpanEntry = function(vCol, vRow)
+qx.Proto.getSpanEntry = function(vCol, vRow)
 {
   for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
   {
@@ -785,7 +785,7 @@ proto.getSpanEntry = function(vCol, vRow)
   return null;
 };
 
-proto.isSpanStart = function(vCol, vRow)
+qx.Proto.isSpanStart = function(vCol, vRow)
 {
   for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
   {
@@ -799,7 +799,7 @@ proto.isSpanStart = function(vCol, vRow)
   return false;
 };
 
-proto.isSpanCell = function(vCol, vRow)
+qx.Proto.isSpanCell = function(vCol, vRow)
 {
   for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
   {
@@ -813,7 +813,7 @@ proto.isSpanCell = function(vCol, vRow)
   return false;
 };
 
-proto.isFillCell = function(vCol, vRow)
+qx.Proto.isFillCell = function(vCol, vRow)
 {
   for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
   {
@@ -827,7 +827,7 @@ proto.isFillCell = function(vCol, vRow)
   return false;
 };
 
-proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
+qx.Proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
 {
   for (var i=0, s=this._spans, l=s.length, c; i<l; i++)
   {
@@ -853,7 +853,7 @@ proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

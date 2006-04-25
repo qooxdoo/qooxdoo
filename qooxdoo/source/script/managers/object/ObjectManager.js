@@ -47,7 +47,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(vObject)
+qx.Proto.add = function(vObject)
 {
   if (this.getDisposed()) {
     return;
@@ -57,7 +57,7 @@ proto.add = function(vObject)
   return true;
 };
 
-proto.remove = function(vObject)
+qx.Proto.remove = function(vObject)
 {
   if (this.getDisposed()) {
     return;
@@ -67,15 +67,15 @@ proto.remove = function(vObject)
   return true;
 };
 
-proto.has = function(vObject) {
+qx.Proto.has = function(vObject) {
   return this._objects[vObject.toHashCode()] != null;
 };
 
-proto.get = function(vObject) {
+qx.Proto.get = function(vObject) {
   return this._objects[vObject.toHashCode()];
 };
 
-proto.getAll = function() {
+qx.Proto.getAll = function() {
   return this._objects;
 };
 
@@ -89,7 +89,7 @@ proto.getAll = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

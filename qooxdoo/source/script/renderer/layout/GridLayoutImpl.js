@@ -69,7 +69,7 @@ function(vWidget) {
 /*!
   Compute and return the box width of the given child.
 */
-proto.computeChildBoxWidth = function(vChild)
+qx.Proto.computeChildBoxWidth = function(vChild)
 {
   var vWidget = this.getWidget();
   var vColWidth = vWidget.getColumnInnerWidth(vChild._col, vChild._row);
@@ -100,7 +100,7 @@ proto.computeChildBoxWidth = function(vChild)
 /*!
   Compute and return the box height of the given child.
 */
-proto.computeChildBoxHeight = function(vChild)
+qx.Proto.computeChildBoxHeight = function(vChild)
 {
   var vWidget = this.getWidget();
   var vRowHeight = vWidget.getRowInnerHeight(vChild._col, vChild._row);
@@ -144,7 +144,7 @@ proto.computeChildBoxHeight = function(vChild)
   Compute and return the width needed by all children of this widget
   which is in a grid layout the width used by all columns.
 */
-proto.computeChildrenNeededWidth = function()
+qx.Proto.computeChildrenNeededWidth = function()
 {
   var vWidget = this.getWidget();
   var vSpacingX = vWidget.getHorizontalSpacing();
@@ -161,7 +161,7 @@ proto.computeChildrenNeededWidth = function()
   Compute and return the height needed by all children of this widget
   which is in a grid layout the height used by all rows.
 */
-proto.computeChildrenNeededHeight = function()
+qx.Proto.computeChildrenNeededHeight = function()
 {
   var vWidget = this.getWidget();
   var vSpacingY = vWidget.getVerticalSpacing();
@@ -190,7 +190,7 @@ proto.computeChildrenNeededHeight = function()
   Actions that should be done if the inner width of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerWidthChange = function(vChild)
+qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONX);
@@ -202,7 +202,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
   Actions that should be done if the inner height of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerHeightChange = function(vChild)
+qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATIONY);
@@ -228,7 +228,7 @@ proto.updateChildOnInnerHeightChange = function(vChild)
   (excluding border and padding) to the child.
 */
 
-proto.layoutChild = function(vChild, vJobs)
+qx.Proto.layoutChild = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
 
@@ -245,17 +245,17 @@ proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_locationY(vChild, vJobs);
 };
 
-proto.layoutChild_sizeX = function(vChild, vJobs)
+qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
 {
   vChild._applyRuntimeWidth(vChild.getBoxWidth());
 };
 
-proto.layoutChild_sizeY = function(vChild, vJobs)
+qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
 {
   vChild._applyRuntimeHeight(vChild.getBoxHeight());
 };
 
-proto.layoutChild_locationX = function(vChild, vJobs)
+qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
   var vSpacingX = vWidget.getHorizontalSpacing();
@@ -279,7 +279,7 @@ proto.layoutChild_locationX = function(vChild, vJobs)
   vChild._applyRuntimeLeft(vLocSumX);
 };
 
-proto.layoutChild_locationY = function(vChild, vJobs)
+qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
   var vSpacingY = vWidget.getVerticalSpacing();

@@ -56,16 +56,16 @@ function()
 
 qx.ui.menu.MenuSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-separator" });
 
-proto.hasIcon = qx.util.Return.returnFalse;
-proto.hasLabel = qx.util.Return.returnFalse;
-proto.hasShortcut = qx.util.Return.returnFalse;
-proto.hasMenu = qx.util.Return.returnFalse;
+qx.Proto.hasIcon = qx.util.Return.returnFalse;
+qx.Proto.hasLabel = qx.util.Return.returnFalse;
+qx.Proto.hasShortcut = qx.util.Return.returnFalse;
+qx.Proto.hasMenu = qx.util.Return.returnFalse;
 
-proto._onmousedown = function(e) {
+qx.Proto._onmousedown = function(e) {
   e.stopPropagation();
 };
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

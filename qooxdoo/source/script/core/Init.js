@@ -65,9 +65,9 @@ qx.core.Init.onload = function()
 ---------------------------------------------------------------------------
 */
 
-proto.pre = qx.util.Return.returnTrue;
-proto.main = qx.util.Return.returnTrue;
-proto.post = qx.util.Return.returnTrue;
+qx.Proto.pre = qx.util.Return.returnTrue;
+qx.Proto.main = qx.util.Return.returnTrue;
+qx.Proto.post = qx.util.Return.returnTrue;
 
 
 
@@ -83,7 +83,7 @@ proto.post = qx.util.Return.returnTrue;
 /*!
   Global application init routine
 */
-proto.init = function()
+qx.Proto.init = function()
 {
   if (this._initDone) {
     return;
@@ -113,7 +113,7 @@ proto.init = function()
 ---------------------------------------------------------------------------
 */
 
-proto._runPre = function()
+qx.Proto._runPre = function()
 {
   var s = (new Date).valueOf();
 
@@ -157,7 +157,7 @@ proto._runPre = function()
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
-proto._runMain = function()
+qx.Proto._runMain = function()
 {
   var s = (new Date).valueOf();
   this.info("Main phase");
@@ -185,7 +185,7 @@ proto._runMain = function()
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
-proto._runPreload = function()
+qx.Proto._runPreload = function()
 {
   if (qx.core.Settings.enableUserInterface)
   {
@@ -203,13 +203,13 @@ proto._runPreload = function()
   };
 };
 
-proto._runPreloadDone = function()
+qx.Proto._runPreloadDone = function()
 {
   this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + qx.Const.CORE_MILLISECONDS);
   this._runWidgets();
 };
 
-proto._runWidgets = function()
+qx.Proto._runWidgets = function()
 {
   if (typeof qx.ui.core.Widget === qx.Const.TYPEOF_FUNCTION)
   {
@@ -227,7 +227,7 @@ proto._runWidgets = function()
   this._runPost();
 };
 
-proto._runPost = function()
+qx.Proto._runPost = function()
 {
   var s = (new Date).valueOf();
   this.info("Post phase");
@@ -255,7 +255,7 @@ proto._runPost = function()
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
 };
 
-proto._runPostload = function()
+qx.Proto._runPostload = function()
 {
   this._postloadStart = (new Date).valueOf();
 
@@ -270,7 +270,7 @@ proto._runPostload = function()
   };
 };
 
-proto._runPostloadDone = function()
+qx.Proto._runPostloadDone = function()
 {
   this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + qx.Const.CORE_MILLISECONDS);
 };
@@ -285,19 +285,19 @@ proto._runPostloadDone = function()
 ---------------------------------------------------------------------------
 */
 
-proto._printInstanceInfo = function() {
+qx.Proto._printInstanceInfo = function() {
   this.debug("Number of instances: " + qx.core.ObjectDataBase.length);
 };
 
-proto._printClassInfo = function() {
+qx.Proto._printClassInfo = function() {
   this.debug("Number of classes: " + qx.lang.Object.getLength(qx.OO.classes));
 };
 
-proto._printPropertyInfo = function() {
+qx.Proto._printPropertyInfo = function() {
   this.debug("Number of properties: " + qx.OO.propertyNumber);
 };
 
-proto._printClientInfo = function()
+qx.Proto._printClientInfo = function()
 {
   this.debug("Client: " + qx.sys.Client.getEngine() + qx.Const.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? qx.Const.CORE_SPACE + qx.sys.Client.getEmulation() : qx.Const.CORE_EMPTY));
 
@@ -306,7 +306,7 @@ proto._printClientInfo = function()
   };
 };
 
-proto._printVersion = function() {
+qx.Proto._printVersion = function() {
   this.debug("Version: " + qx.core.DefaultSettings.version);
 };
 
@@ -324,25 +324,25 @@ proto._printVersion = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._ready = false;
+qx.Proto._ready = false;
 
-proto.isReady = function() {
+qx.Proto.isReady = function() {
   return this._ready;
 };
 
-proto.getClientWindow = function() {
+qx.Proto.getClientWindow = function() {
   return this._clientWindow;
 };
 
-proto.getEventManager = function() {
+qx.Proto.getEventManager = function() {
   return this.getClientWindow().getEventManager();
 };
 
-proto.getClientDocument = function() {
+qx.Proto.getClientDocument = function() {
   return this.getClientWindow().getClientDocument();
 };
 
-proto.postLoad = function()
+qx.Proto.postLoad = function()
 {
   if (this._postLoadDone) {
     return;
@@ -363,7 +363,7 @@ proto.postLoad = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

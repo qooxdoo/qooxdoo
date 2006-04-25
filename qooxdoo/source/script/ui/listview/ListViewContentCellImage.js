@@ -45,7 +45,7 @@ qx.ui.listview.ListViewContentCellImage.empty = {
 ---------------------------------------------------------------------------
 */
 
-proto.setSource = function(vSource)
+qx.Proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
@@ -58,4 +58,4 @@ proto.setSource = function(vSource)
 };
 
 // Omit dimension setup in list-view
-proto._postApplyDimensions = qx.util.Return.returnTrue;
+qx.Proto._postApplyDimensions = qx.util.Return.returnTrue;

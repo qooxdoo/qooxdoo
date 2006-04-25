@@ -57,7 +57,7 @@ qx.ui.pageview.tabview.TabView.addProperty({ name : "placeBarOnTop", type : qx.C
 ---------------------------------------------------------------------------
 */
 
-proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
+qx.Proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
 {
   var vBar = this._bar;
 
@@ -69,7 +69,7 @@ proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propData)
+qx.Proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propData)
 {
   // This does not work if we use flexible zones
   // this.setReverseChildrenOrder(!propValue);

@@ -83,7 +83,7 @@ qx.ui.embed.GalleryEmbed.addProperty({ name : "showComment", type : qx.Const.TYP
 ---------------------------------------------------------------------------
 */
 
-proto._applyElementData = function() {
+qx.Proto._applyElementData = function() {
   this.getElement().appendChild(this.createView());
 };
 
@@ -98,15 +98,15 @@ proto._applyElementData = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
-proto.getList = function() {
+qx.Proto.getList = function() {
   return this._list;
 };
 
-proto.update = function(vGalleryList)
+qx.Proto.update = function(vGalleryList)
 {
   this._manager.deselectAll();
 
@@ -116,22 +116,22 @@ proto.update = function(vGalleryList)
   el.replaceChild(this.createView(), el.firstChild);
 };
 
-proto.removeAll = function()
+qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
   this.getElement().innerHTML = qx.Const.CORE_EMPTY;
 };
 
-proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
+qx.Proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
   this.updateImageSrcById(vId, vSrc);
   this.updateImageDimensionsById(vId, vWidth, vHeight);
 };
 
-proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
+qx.Proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
   this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
 };
 
-proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
+qx.Proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
   // TBD: compare dimensions with max. thumb size and scale proportionally if necessary
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
@@ -149,11 +149,11 @@ proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
   this._list[vPos].thumbHeight = vHeight;
 };
 
-proto.updateImageSrcById = function(vId, vSrc) {
+qx.Proto.updateImageSrcById = function(vId, vSrc) {
   this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
 };
 
-proto.updateImageSrcByPosition = function(vPos, vSrc)
+qx.Proto.updateImageSrcByPosition = function(vPos, vSrc)
 {
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
@@ -165,11 +165,11 @@ proto.updateImageSrcByPosition = function(vPos, vSrc)
   this._list[vPos].src = vSrc;
 };
 
-proto.deleteById = function(vId) {
+qx.Proto.deleteById = function(vId) {
   this.deleteByPosition(this.getPositionById(vId));
 };
 
-proto.deleteByPosition = function(vPos)
+qx.Proto.deleteByPosition = function(vPos)
 {
   this._manager.deselectAll();
 
@@ -186,7 +186,7 @@ proto.deleteByPosition = function(vPos)
   this._list.splice(vPos, 1);
 };
 
-proto.getPositionById = function(vId)
+qx.Proto.getPositionById = function(vId)
 {
   for (var i=0, a=this._list, l=a.length; i<l; i++) {
     if (a[i].id == vId) {
@@ -197,27 +197,27 @@ proto.getPositionById = function(vId)
   return -1;
 };
 
-proto.getEntryById = function(vId) {
+qx.Proto.getEntryById = function(vId) {
   return this.getEntryByPosition(this.getPositionById(vId));
 };
 
-proto.getNodeById = function(vId) {
+qx.Proto.getNodeById = function(vId) {
   return this.getNodeByPosition(this.getPositionById(vId));
 };
 
-proto.getEntryByPosition = function(vPosition) {
+qx.Proto.getEntryByPosition = function(vPosition) {
   return vPosition == -1 ? null : this._list[vPosition];
 };
 
-proto.getNodeByPosition = function(vPosition) {
+qx.Proto.getNodeByPosition = function(vPosition) {
   return vPosition == -1 ? null : this._frame.childNodes[vPosition];
 };
 
-proto.getEntryByNode = function(vNode) {
+qx.Proto.getEntryByNode = function(vNode) {
   return this.getEntryById(vNode.id);
 };
 
-proto.addFromPartialList = function(vPartialList)
+qx.Proto.addFromPartialList = function(vPartialList)
 {
   this.concat(vPartialList);
 
@@ -226,7 +226,7 @@ proto.addFromPartialList = function(vPartialList)
   };
 };
 
-proto.addFromUpdatedList = function(vNewList)
+qx.Proto.addFromUpdatedList = function(vNewList)
 {
   for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
@@ -244,7 +244,7 @@ proto.addFromUpdatedList = function(vNewList)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -253,7 +253,7 @@ proto._onmousedown = function(e)
   };
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -262,7 +262,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._onmousemove = function(e)
+qx.Proto._onmousemove = function(e)
 {
   if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_OBJECT) {
     return;
@@ -301,7 +301,7 @@ proto._onmousemove = function(e)
   this._lastItem = vItem;
 };
 
-proto._onclick = function(e)
+qx.Proto._onclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -310,7 +310,7 @@ proto._onclick = function(e)
   };
 };
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -319,11 +319,11 @@ proto._ondblclick = function(e)
   };
 };
 
-proto._onkeydown = function(e) {
+qx.Proto._onkeydown = function(e) {
   this._manager.handleKeyDown(e);
 };
 
-proto.getListItemTarget = function(dt)
+qx.Proto.getListItemTarget = function(dt)
 {
   while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
@@ -346,17 +346,17 @@ proto.getListItemTarget = function(dt)
 ---------------------------------------------------------------------------
 */
 
-proto.scrollItemIntoView = function(vItem)
+qx.Proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
   this.scrollItemIntoViewY(vItem);
 };
 
-proto.scrollItemIntoViewX = function(vItem) {
+qx.Proto.scrollItemIntoViewX = function(vItem) {
   qx.dom.DomScrollIntoView.scrollX(vItem);
 };
 
-proto.scrollItemIntoViewY = function(vItem) {
+qx.Proto.scrollItemIntoViewY = function(vItem) {
   qx.dom.DomScrollIntoView.scrollY(vItem);
 };
 
@@ -370,15 +370,15 @@ proto.scrollItemIntoViewY = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this._frame.childNodes;
 };
 
-proto.getFirstChild = function() {
+qx.Proto.getFirstChild = function() {
   return this._frame.childNodes[0];
 };
 
-proto.getLastChild = function() {
+qx.Proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
 };
 
@@ -394,7 +394,7 @@ proto.getLastChild = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.createView = function()
+qx.Proto.createView = function()
 {
   var s = (new Date).valueOf();
 
@@ -412,7 +412,7 @@ proto.createView = function()
   return this._frame;
 };
 
-proto.createCell = function(d, i)
+qx.Proto.createCell = function(d, i)
 {
   var cframe = this._protoCell.cloneNode(true);
 
@@ -437,9 +437,9 @@ proto.createCell = function(d, i)
   return cframe;
 };
 
-proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
-proto.createImageCell = function(inode, d)
+qx.Proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete"))
   {
@@ -460,7 +460,7 @@ proto.createImageCell = function(inode, d)
   inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
 };
 
-proto.imageOnComplete = function()
+qx.Proto.imageOnComplete = function()
 {
   this._processedImages++;
 
@@ -485,7 +485,7 @@ qx.ui.embed.GalleryEmbed.imageOnError = function()
   this.onerror = null;
 };
 
-proto.createProtoCell = function()
+qx.Proto.createProtoCell = function()
 {
   var frame = this._protoCell = document.createElement("div");
   frame.className = "galleryCell";
@@ -530,7 +530,7 @@ proto.createProtoCell = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

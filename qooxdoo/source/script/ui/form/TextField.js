@@ -94,7 +94,7 @@ qx.ui.form.TextField.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT,
 */
 
 // Extend ignore list with selection properties
-proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText";
+qx.Proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText";
 
 
 
@@ -104,13 +104,13 @@ proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionText
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
-proto._modifyValue = function(propValue, propOldValue, propData)
+qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   this._inValueProperty = true;
   this.setHtmlProperty(propData.name, propValue == null ? qx.Const.CORE_EMPTY : propValue);
@@ -119,15 +119,15 @@ proto._modifyValue = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyMaxLength = function(propValue, propOldValue, propData) {
+qx.Proto._modifyMaxLength = function(propValue, propOldValue, propData) {
   return propValue ? this.setHtmlProperty(propData.name, propValue) : this.removeHtmlProperty(propData.name);
 };
 
-proto._modifyReadOnly = function(propValue, propOldValue, propData) {
+qx.Proto._modifyReadOnly = function(propValue, propOldValue, propData) {
   return propValue ? this.setHtmlProperty(propData.name, propData.name) : this.removeHtmlProperty(propData.name);
 };
 
-proto._modifyFont = function(propValue, propOldValue, propData)
+qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
   this._invalidatePreferredInnerDimensions();
 
@@ -149,7 +149,7 @@ proto._modifyFont = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.getComputedValue = function(e)
+qx.Proto.getComputedValue = function(e)
 {
   this._visualPropertyCheck();
   return this.getElement().value;
@@ -172,13 +172,13 @@ qx.ui.form.TextField.createRegExpValidator = function(vRegExp)
   };
 };
 
-proto.isValid = function()
+qx.Proto.isValid = function()
 {
   var vValidator = this.getValidator();
   return !vValidator || vValidator(this.getValue());
 };
 
-proto.isComputedValid = function()
+qx.Proto.isComputedValid = function()
 {
   var vValidator = this.getValidator();
   return !vValidator || vValidator(this.getComputedValue());
@@ -195,11 +195,11 @@ proto.isComputedValid = function()
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function() {
+qx.Proto._computePreferredInnerWidth = function() {
   return 120;
 };
 
-proto._computePreferredInnerHeight = function() {
+qx.Proto._computePreferredInnerHeight = function() {
   return 15;
 };
 
@@ -213,17 +213,17 @@ proto._computePreferredInnerHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._textOnFocus = null;
+qx.Proto._textOnFocus = null;
 
-proto._ontabfocus = function(e) {
+qx.Proto._ontabfocus = function(e) {
   this.selectAll();
 };
 
-proto._onfocus = function(e) {
+qx.Proto._onfocus = function(e) {
   this._textOnFocus = this.getComputedValue();
 };
 
-proto._onblur = function(e)
+qx.Proto._onblur = function(e)
 {
   var vValue = this.getComputedValue().toString();
 
@@ -254,19 +254,19 @@ if (qx.sys.Client.isMshtml())
     http://msdn.microsoft.com/workshop/author/dhtml/reference/objects/obj_textrange.asp
   */
 
-  proto._getRange = function()
+  qx.Proto._getRange = function()
   {
     this._visualPropertyCheck();
     return this.getElement().createTextRange();
   };
 
-  proto._getSelectionRange = function()
+  qx.Proto._getSelectionRange = function()
   {
     this._visualPropertyCheck();
     return this.getTopLevelWidget().getDocumentElement().selection.createRange();
   };
 
-  proto.setSelectionStart = function(vStart)
+  qx.Proto.setSelectionStart = function(vStart)
   {
     this._visualPropertyCheck();
 
@@ -294,7 +294,7 @@ if (qx.sys.Client.isMshtml())
     vRange.select();
   };
 
-  proto.getSelectionStart = function()
+  qx.Proto.getSelectionStart = function()
   {
     this._visualPropertyCheck();
 
@@ -310,7 +310,7 @@ if (qx.sys.Client.isMshtml())
     return vRange.text.length;
   };
 
-  proto.setSelectionLength = function(vLength)
+  qx.Proto.setSelectionLength = function(vLength)
   {
     this._visualPropertyCheck();
 
@@ -325,7 +325,7 @@ if (qx.sys.Client.isMshtml())
     vSelectionRange.select();
   };
 
-  proto.getSelectionLength = function()
+  qx.Proto.getSelectionLength = function()
   {
     this._visualPropertyCheck();
 
@@ -338,7 +338,7 @@ if (qx.sys.Client.isMshtml())
     return vSelectionRange.text.length;
   };
 
-  proto.setSelectionText = function(vText)
+  qx.Proto.setSelectionText = function(vText)
   {
     this._visualPropertyCheck();
 
@@ -361,7 +361,7 @@ if (qx.sys.Client.isMshtml())
     return true;
   };
 
-  proto.getSelectionText = function()
+  qx.Proto.getSelectionText = function()
   {
     this._visualPropertyCheck();
 
@@ -374,7 +374,7 @@ if (qx.sys.Client.isMshtml())
     return vSelectionRange.text;
   };
 
-  proto.selectAll = function()
+  qx.Proto.selectAll = function()
   {
     this._visualPropertyCheck();
 
@@ -388,7 +388,7 @@ if (qx.sys.Client.isMshtml())
     this.getElement().select();
   };
 
-  proto.selectFromTo = function(vStart, vEnd)
+  qx.Proto.selectFromTo = function(vStart, vEnd)
   {
     this._visualPropertyCheck();
 
@@ -398,19 +398,19 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.setSelectionStart = function(vStart)
+  qx.Proto.setSelectionStart = function(vStart)
   {
     this._visualPropertyCheck();
     this.getElement().selectionStart = vStart;
   };
 
-  proto.getSelectionStart = function()
+  qx.Proto.getSelectionStart = function()
   {
     this._visualPropertyCheck();
     return this.getElement().selectionStart;
   };
 
-  proto.setSelectionLength = function(vLength)
+  qx.Proto.setSelectionLength = function(vLength)
   {
     this._visualPropertyCheck();
 
@@ -420,7 +420,7 @@ else
     };
   };
 
-  proto.getSelectionLength = function()
+  qx.Proto.getSelectionLength = function()
   {
     this._visualPropertyCheck();
 
@@ -428,7 +428,7 @@ else
     return el.selectionEnd - el.selectionStart;
   };
 
-  proto.setSelectionText = function(vText)
+  qx.Proto.setSelectionText = function(vText)
   {
     this._visualPropertyCheck();
 
@@ -452,21 +452,21 @@ else
     return true;
   };
 
-  proto.getSelectionText = function()
+  qx.Proto.getSelectionText = function()
   {
     this._visualPropertyCheck();
 
     return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
   };
 
-  proto.selectAll = function()
+  qx.Proto.selectAll = function()
   {
     this._visualPropertyCheck();
 
     this.getElement().select();
   };
 
-  proto.selectFromTo = function(vStart, vEnd)
+  qx.Proto.selectFromTo = function(vStart, vEnd)
   {
     this._visualPropertyCheck();
 
@@ -488,7 +488,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

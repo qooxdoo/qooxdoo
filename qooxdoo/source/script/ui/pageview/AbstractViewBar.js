@@ -47,7 +47,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
@@ -61,9 +61,9 @@ proto.getManager = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._lastDate = (new Date(0)).valueOf();
+qx.Proto._lastDate = (new Date(0)).valueOf();
 
-proto._onmousewheel = function(e)
+qx.Proto._onmousewheel = function(e)
 {
   // Make it a bit lazier than it could be
   // Hopefully this is a better behaviour for fast scrolling users
@@ -103,7 +103,7 @@ proto._onmousewheel = function(e)
   vManager.setSelected(vNext);
 };
 
-proto.getWheelDelta = function(e) {
+qx.Proto.getWheelDelta = function(e) {
   return e.getWheelDelta();
 };
 
@@ -118,7 +118,7 @@ proto.getWheelDelta = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

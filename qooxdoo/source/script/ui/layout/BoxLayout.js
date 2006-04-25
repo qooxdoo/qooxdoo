@@ -99,7 +99,7 @@ qx.ui.layout.BoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : 
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return this.getOrientation() == qx.Const.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
 };
 
@@ -114,19 +114,19 @@ proto._createLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._layoutHorizontal = false;
-proto._layoutVertical = false;
-proto._layoutMode = "left";
+qx.Proto._layoutHorizontal = false;
+qx.Proto._layoutVertical = false;
+qx.Proto._layoutMode = "left";
 
-proto.isHorizontal = function() {
+qx.Proto.isHorizontal = function() {
   return this._layoutHorizontal;
 };
 
-proto.isVertical = function() {
+qx.Proto.isVertical = function() {
   return this._layoutVertical;
 };
 
-proto.getLayoutMode = function()
+qx.Proto.getLayoutMode = function()
 {
   if (this._layoutMode == null) {
     this._updateLayoutMode();
@@ -135,7 +135,7 @@ proto.getLayoutMode = function()
   return this._layoutMode;
 };
 
-proto._updateLayoutMode = function()
+qx.Proto._updateLayoutMode = function()
 {
   this._layoutMode = this._layoutVertical ? this.getVerticalChildrenAlign() : this.getHorizontalChildrenAlign();
 
@@ -144,7 +144,7 @@ proto._updateLayoutMode = function()
   };
 };
 
-proto._invalidateLayoutMode = function() {
+qx.Proto._invalidateLayoutMode = function() {
   this._layoutMode = null;
 };
 
@@ -159,7 +159,7 @@ proto._invalidateLayoutMode = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyOrientation = function(propValue, propOldValue, propData)
+qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 {
   // update fast access variables
   this._layoutHorizontal = propValue == qx.Const.ORIENTATION_HORIZONTAL;
@@ -180,7 +180,7 @@ proto._modifyOrientation = function(propValue, propOldValue, propData)
   return this._modifyLayoutOrder(propValue, propOldValue, propData);
 };
 
-proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
+qx.Proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
 {
   // update layout mode
   this._invalidateLayoutMode();
@@ -189,7 +189,7 @@ proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
   return this._modifyLayout(propValue, propOldValue, propData);
 };
 
-proto._modifyLayout = function(propValue, propOldValue, propData)
+qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 {
   // invalidate inner preferred dimensions
   this._invalidatePreferredInnerDimensions();
@@ -219,7 +219,7 @@ proto._modifyLayout = function(propValue, propOldValue, propData)
 qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
 qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
 
-proto._computeAccumulatedChildrenOuterWidth = function()
+qx.Proto._computeAccumulatedChildrenOuterWidth = function()
 {
   var ch=this.getVisibleChildren(), chc, i=-1, sp=this.getSpacing(), s=-sp;
 
@@ -230,7 +230,7 @@ proto._computeAccumulatedChildrenOuterWidth = function()
   return s;
 };
 
-proto._computeAccumulatedChildrenOuterHeight = function()
+qx.Proto._computeAccumulatedChildrenOuterHeight = function()
 {
   var ch=this.getVisibleChildren(), chc, i=-1, sp=this.getSpacing(), s=-sp;
 
@@ -253,7 +253,7 @@ proto._computeAccumulatedChildrenOuterHeight = function()
 ---------------------------------------------------------------------------
 */
 
-proto._recomputeChildrenStretchingX = function()
+qx.Proto._recomputeChildrenStretchingX = function()
 {
   var ch=this.getVisibleChildren(), chc, i=-1;
 
@@ -265,7 +265,7 @@ proto._recomputeChildrenStretchingX = function()
   };
 };
 
-proto._recomputeChildrenStretchingY = function()
+qx.Proto._recomputeChildrenStretchingY = function()
 {
   var ch=this.getVisibleChildren(), chc, i=-1;
 

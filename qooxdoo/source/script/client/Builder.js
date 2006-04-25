@@ -67,7 +67,7 @@ function(flags)
   Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
   Dispatches a qx.event.types.Event("done") after the hierarchy is built
 */
-proto.buildFromUrl = function(parent, url) {
+qx.Proto.buildFromUrl = function(parent, url) {
   var loader = new QxXmlHttpLoader();
   var self = this;
   loader.addEventListener("complete", function(e) {
@@ -83,7 +83,7 @@ proto.buildFromUrl = function(parent, url) {
   @param parent can either be the application instance, or a widget to append the xml toplevel widgets to
   @param node can be either a xml string, or a xml dom document or fragment
 */
-proto.build = function(parent, node) {
+qx.Proto.build = function(parent, node) {
 
     if (parent instanceof qx.core.Init) {
       parent = parent.getClientWindow().getClientDocument();
@@ -103,7 +103,7 @@ proto.build = function(parent, node) {
     this._buildNodes(parent, node.childNodes);
 };
 
-proto._buildNodes = function(parent, nodes) {
+qx.Proto._buildNodes = function(parent, nodes) {
     var x = 0;
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
@@ -116,7 +116,7 @@ proto._buildNodes = function(parent, nodes) {
     };
 };
 
-proto._buildEventListener = function(widget, args, text) {
+qx.Proto._buildEventListener = function(widget, args, text) {
   if (qx.util.Validation.isInvalidString(args.type)) {
     throw this._newBuildError('eventListener requires a string type attribute');
   };
@@ -179,7 +179,7 @@ proto._buildEventListener = function(widget, args, text) {
 /*
   a node builder that will be used if no node builder is declared for a nodeName
 */
-proto._buildWidgetFromNode = function(parent, node) {
+qx.Proto._buildWidgetFromNode = function(parent, node) {
 
   var className = this._extractClassName(node);
 
@@ -286,7 +286,7 @@ proto._buildWidgetFromNode = function(parent, node) {
 /*!
   Set a widget's property using a propertyEditor
 */
-proto._setWidgetProperty = function(widget, name, value) {
+qx.Proto._setWidgetProperty = function(widget, name, value) {
   var editor = this._findPropertyEditor(widget.classname, name);
   if (!editor) {
     editor = this._coercePropertyEditor;
@@ -294,7 +294,7 @@ proto._setWidgetProperty = function(widget, name, value) {
   editor.set(widget, name, value);
 };
 
-proto._findPropertyEditor = function(className, propertyName) {
+qx.Proto._findPropertyEditor = function(className, propertyName) {
   // get all defined propertyEditors for this widget's prototype
   var m = this._propertyEditors[className];
   // lookup the converter for this property name
@@ -311,12 +311,12 @@ proto._findPropertyEditor = function(className, propertyName) {
   return null;
 };
 
-proto.registerPropertyEditor = function(className, propertyName, editor) {
+qx.Proto.registerPropertyEditor = function(className, propertyName, editor) {
   if (!this._propertyEditors[className]) this._propertyEditors[className] = {};
   this._propertyEditors[className][propertyName] = editor;
 };
 
-proto._registerDefaultPropertyEditors = function() {
+qx.Proto._registerDefaultPropertyEditors = function() {
   var self = this;
 
   // a property editor that splits the values on a comma and coerces each one into a suitable type
@@ -389,7 +389,7 @@ proto._registerDefaultPropertyEditors = function() {
 };
 
 
-proto._coerce = function(value) {
+qx.Proto._coerce = function(value) {
 
   // don't really care if its null
   if (value == null) return value;
@@ -423,11 +423,11 @@ proto._coerce = function(value) {
   return value;
 };
 
-proto._setProperty = function(widget, name, value) {
+qx.Proto._setProperty = function(widget, name, value) {
   this._setProperties(widget, name, [value]);
 };
 
-proto._setProperties = function(widget, name, value) {
+qx.Proto._setProperties = function(widget, name, value) {
 
   // TODO : find a cheaper way to find the setter
   // NOTE : the name is LOWERCASE - hence we iterate all properties of the widget
@@ -456,7 +456,7 @@ proto._setProperties = function(widget, name, value) {
 2. <atom/>
 3. <div qxtype="qx.ui.basic.Atom"/>
 */
-proto._extractClassName = function(node) {
+qx.Proto._extractClassName = function(node) {
   var n;
   if (node.nodeName.toUpperCase() == "DIV") {
     if (!node.attributes['qxtype'])
@@ -471,7 +471,7 @@ proto._extractClassName = function(node) {
   return "Qx" + qx.lang.String.toFirstUp(n);
 };
 
-proto._mapXmlAttribToObject = function(node) {
+qx.Proto._mapXmlAttribToObject = function(node) {
   var r = {};
   var c = node.attributes;
   for (var i=0; i<c.length; i++) {
@@ -489,11 +489,11 @@ proto._mapXmlAttribToObject = function(node) {
 /*!
   the debugContext is only correct at build time
 */
-proto._newBuildError = function(message, data, exception) {
+qx.Proto._newBuildError = function(message, data, exception) {
   return this._newError(this._formatDebugContext(), message, data, exception);
 };
 
-proto._newError = function(debugContext, message, data, exception) {
+qx.Proto._newError = function(debugContext, message, data, exception) {
   var m = message;
   var joiner = "";
   var d = "";
@@ -511,7 +511,7 @@ proto._newError = function(debugContext, message, data, exception) {
   return new Error(m);
 };
 
-proto._formatDebugContext = function() {
+qx.Proto._formatDebugContext = function() {
   var s = "";
   for (var i = 0; i < this._debugContext.length; i++) {
     var v = this._debugContext[i];

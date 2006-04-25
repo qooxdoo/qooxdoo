@@ -35,29 +35,29 @@ function QxChildrenIterator(vParent)
 ------------------------------------------------------------------------------------
 */
 
-proto._parent = null;
-proto._curParent = null;
-proto._curChild = null;
-proto._curLvl = 0;
-proto._curPos = null ;
+qx.Proto._parent = null;
+qx.Proto._curParent = null;
+qx.Proto._curChild = null;
+qx.Proto._curLvl = 0;
+qx.Proto._curPos = null ;
 
 
-proto.getParent = function() {
+qx.Proto.getParent = function() {
   return this._parent;
 };
 
 
-proto.getCurParent = function() {
+qx.Proto.getCurParent = function() {
   return this._curParent;
 };
 
 
-proto.getCurPos = function() {
+qx.Proto.getCurPos = function() {
   return this._curLvl[this._curPos];
 };
 
 
-proto.getCurLvl = function() {
+qx.Proto.getCurLvl = function() {
   return this._curLvl;
 };
 
@@ -69,7 +69,7 @@ proto.getCurLvl = function() {
 ------------------------------------------------------------------------------------
 */
 
-proto.getNext = function() {
+qx.Proto.getNext = function() {
  
   /* if curChild is equal to the starting parent we have finished
    */
@@ -122,7 +122,7 @@ proto.getNext = function() {
   DISPOSER
 ------------------------------------------------------------------------------------
 */
-proto.dispose = function() {
+qx.Proto.dispose = function() {
   this._parent = null;
   this._curParent = null;
   this._curChild = null;

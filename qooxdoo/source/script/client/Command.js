@@ -64,7 +64,7 @@ qx.client.Command.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT,
 ---------------------------------------------------------------------------
 */
 
-proto.execute = function(vTarget)
+qx.Proto.execute = function(vTarget)
 {
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_EXECUTE)) {
     this.dispatchEvent(new qx.event.types.DataEvent(qx.Const.EVENT_TYPE_EXECUTE, vTarget), true);
@@ -85,7 +85,7 @@ proto.execute = function(vTarget)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyShortcut = function(propValue, propOldValue, propData)
+qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -108,7 +108,7 @@ proto._modifyShortcut = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.removeCommand(this);
@@ -133,7 +133,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._matchesKeyEvent = function(e)
+qx.Proto._matchesKeyEvent = function(e)
 {
   // pre check if parts are configured
   if (typeof this._shortcutParts !== qx.Const.TYPEOF_OBJECT && this._shortcutParts !== null) {
@@ -242,7 +242,7 @@ proto._matchesKeyEvent = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.toString = function()
+qx.Proto.toString = function()
 {
   var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
@@ -277,7 +277,7 @@ proto.toString = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

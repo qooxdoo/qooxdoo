@@ -73,7 +73,7 @@ function()
   this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
 });
 
-proto._lastReadyState = 0;
+qx.Proto._lastReadyState = 0;
 
 
 
@@ -113,7 +113,7 @@ qx.io.remote.IframeTransport.isSupported = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.send = function()
+qx.Proto.send = function()
 {
   var vMethod = this.getMethod();
   var vAsynchronous = this.getAsynchronous();
@@ -178,7 +178,7 @@ qx.io.remote.IframeTransport._numericMap =
 /*!
   Converting complete state to numeric value and update state property
 */
-proto._onload = function(e)
+qx.Proto._onload = function(e)
 {
   if (this._form.src) {
     return;
@@ -190,11 +190,11 @@ proto._onload = function(e)
 /*!
   Converting named readyState to numeric value and update state property
 */
-proto._onreadystatechange = function(e) {
+qx.Proto._onreadystatechange = function(e) {
   this._switchReadyState(qx.io.remote.IframeTransport._numericMap[this._frame.readyState]);
 };
 
-proto._switchReadyState = function(vReadyState)
+qx.Proto._switchReadyState = function(vReadyState)
 {
   // Ignoring already stopped requests
   switch(this.getState())
@@ -223,7 +223,7 @@ proto._switchReadyState = function(vReadyState)
 ---------------------------------------------------------------------------
 */
 
-proto.setRequestHeader = function(vLabel, vValue)
+qx.Proto.setRequestHeader = function(vLabel, vValue)
 {
   // TODO
   // this.error("Need implementation", "setRequestHeader");
@@ -240,7 +240,7 @@ proto.setRequestHeader = function(vLabel, vValue)
 ---------------------------------------------------------------------------
 */
 
-proto.getResponseHeader = function(vLabel)
+qx.Proto.getResponseHeader = function(vLabel)
 {
   return null;
 
@@ -251,7 +251,7 @@ proto.getResponseHeader = function(vLabel)
 /*!
   Provides an hash of all response headers.
 */
-proto.getResponseHeaders = function()
+qx.Proto.getResponseHeaders = function()
 {
   return {};
 
@@ -274,7 +274,7 @@ proto.getResponseHeaders = function()
 /*!
   Returns the current status code of the request if available or -1 if not.
 */
-proto.getStatusCode = function()
+qx.Proto.getStatusCode = function()
 {
   return 200;
 
@@ -285,7 +285,7 @@ proto.getStatusCode = function()
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
-proto.getStatusText = function()
+qx.Proto.getStatusText = function()
 {
   return qx.Const.CORE_EMPTY;
 
@@ -305,15 +305,15 @@ proto.getStatusText = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getIframeWindow = function() {
+qx.Proto.getIframeWindow = function() {
   return qx.dom.DomIframe.getWindow(this._frame);
 };
 
-proto.getIframeDocument = function() {
+qx.Proto.getIframeDocument = function() {
   return qx.dom.DomIframe.getDocument(this._frame);
 };
 
-proto.getIframeBody = function() {
+qx.Proto.getIframeBody = function() {
   return qx.dom.DomIframe.getBody(this._frame);
 };
 
@@ -330,7 +330,7 @@ proto.getIframeBody = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getIframeTextContent = function()
+qx.Proto.getIframeTextContent = function()
 {
   var vBody = this.getIframeBody();
 
@@ -350,7 +350,7 @@ proto.getIframeTextContent = function()
   };
 };
 
-proto.getIframeHtmlContent = function()
+qx.Proto.getIframeHtmlContent = function()
 {
   var vBody = this.getIframeBody();
   return vBody ? vBody.innerHTML : null;
@@ -359,7 +359,7 @@ proto.getIframeHtmlContent = function()
 /*!
   Returns the length of the content as fetched thus far
 */
-proto.getFetchedLength = function()
+qx.Proto.getFetchedLength = function()
 {
   return 0;
 
@@ -367,7 +367,7 @@ proto.getFetchedLength = function()
   // this.error("Need implementation", "getFetchedLength");
 };
 
-proto.getResponseContent = function()
+qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
   {
@@ -421,7 +421,7 @@ proto.getResponseContent = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

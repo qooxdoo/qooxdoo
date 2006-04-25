@@ -48,11 +48,11 @@ function(vBarClass, vPaneClass)
 ---------------------------------------------------------------------------
 */
 
-proto.getPane = function() {
+qx.Proto.getPane = function() {
   return this._pane;
 };
 
-proto.getBar = function() {
+qx.Proto.getBar = function() {
   return this._bar;
 };
 
@@ -67,7 +67,7 @@ proto.getBar = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

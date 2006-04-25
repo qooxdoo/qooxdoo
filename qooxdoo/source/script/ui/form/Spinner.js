@@ -184,11 +184,11 @@ qx.ui.form.Spinner.addProperty({ name : "amountGrowth", type : qx.Const.TYPEOF_N
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function() {
+qx.Proto._computePreferredInnerWidth = function() {
   return 50;
 };
 
-proto._computePreferredInnerHeight = function() {
+qx.Proto._computePreferredInnerHeight = function() {
   return 14;
 };
 
@@ -202,7 +202,7 @@ proto._computePreferredInnerHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._onkeypress = function(e)
+qx.Proto._onkeypress = function(e)
 {
   var vCode = e.getKeyCode();
 
@@ -251,7 +251,7 @@ proto._onkeypress = function(e)
   };
 };
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   var vCode = e.getKeyCode();
 
@@ -288,7 +288,7 @@ proto._onkeydown = function(e)
   };
 };
 
-proto._onkeyup = function(e)
+qx.Proto._onkeyup = function(e)
 {
   if (this._intervalIncrease != null)
   {
@@ -316,7 +316,7 @@ proto._onkeyup = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   if (!e.isLeftButtonPressed()) {
     return;
@@ -341,7 +341,7 @@ proto._onmousedown = function(e)
   this._timer.start();
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vButton = e.getCurrentTarget();
 
@@ -357,7 +357,7 @@ proto._onmouseup = function(e)
   this._intervalIncrease = null;
 };
 
-proto._onmousewheel = function(e)
+qx.Proto._onmousewheel = function(e)
 {
   this._manager.setValue(this._manager.getValue() + this.getWheelIncrementAmount() * e.getWheelDelta());
   this._textfield.selectAll();
@@ -372,11 +372,11 @@ proto._onmousewheel = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._oninput = function(e) {
+qx.Proto._oninput = function(e) {
   this._checkValue(true, true);
 };
 
-proto._onchange = function(e)
+qx.Proto._onchange = function(e)
 {
   var vValue = this._manager.getValue();
 
@@ -409,7 +409,7 @@ proto._onchange = function(e)
   };
 };
 
-proto._onblur = function(e) {
+qx.Proto._onblur = function(e) {
   this._checkValue(false);
 };
 
@@ -424,32 +424,32 @@ proto._onblur = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto.setValue = function(nValue) {
+qx.Proto.setValue = function(nValue) {
   this._manager.setValue(nValue);
 };
 
-proto.getValue = function() {
+qx.Proto.getValue = function() {
   this._checkValue(true);
   return this._manager.getValue();
 };
 
-proto.resetValue = function() {
+qx.Proto.resetValue = function() {
   return this._manager.resetValue();
 };
 
-proto.setMax = function(vMax) {
+qx.Proto.setMax = function(vMax) {
   return this._manager.setMax(vMax);
 };
 
-proto.getMax = function() {
+qx.Proto.getMax = function() {
   return this._manager.getMax();
 };
 
-proto.setMin = function(vMin) {
+qx.Proto.setMin = function(vMin) {
   return this._manager.setMin(vMin);
 };
 
-proto.getMin = function() {
+qx.Proto.getMin = function() {
   return this._manager.getMin();
 };
 
@@ -467,9 +467,9 @@ proto.getMin = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._intervalIncrease = null;
+qx.Proto._intervalIncrease = null;
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   this._timer.stop();
   this.setInterval(Math.max(this.getMinTimer(), this.getInterval()-this.getTimerDecrease()));
@@ -513,7 +513,7 @@ proto._oninterval = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._checkValue = function(acceptEmpty, acceptEdit)
+qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
 {
   var el = this._textfield.getElement();
 
@@ -606,15 +606,15 @@ proto._checkValue = function(acceptEmpty, acceptEdit)
   };
 };
 
-proto._increment = function() {
+qx.Proto._increment = function() {
   this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getIncrementAmount()));
 };
 
-proto._pageIncrement = function() {
+qx.Proto._pageIncrement = function() {
   this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageIncrementAmount()));
 };
 
-proto._resetIncrements = function()
+qx.Proto._resetIncrements = function()
 {
   this.resetIncrementAmount();
   this.resetInterval();
@@ -630,7 +630,7 @@ proto._resetIncrements = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

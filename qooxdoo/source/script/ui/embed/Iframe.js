@@ -76,13 +76,13 @@ qx.ui.embed.IframeEmbed.addProperty({ name : "frameName", type : qx.Const.TYPEOF
 ---------------------------------------------------------------------------
 */
 
-proto._iframeNode = null;
+qx.Proto._iframeNode = null;
 
-proto.getIframeNode = function() {
+qx.Proto.getIframeNode = function() {
   return this._iframeNode;
 };
 
-proto.setIframeNode = function(vIframeNode) {
+qx.Proto.setIframeNode = function(vIframeNode) {
   return this._iframeNode = vIframeNode;
 };
 
@@ -98,7 +98,7 @@ proto.setIframeNode = function(vIframeNode) {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyElement = function(propValue, propOldValue, propData)
+qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
   var iframeNode = this.getIframeNode();
 
@@ -125,7 +125,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifySource = function(propValue, propOldValue, propData)
+qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
   if(this.isCreated()) {
     this._applySource();
@@ -134,7 +134,7 @@ proto._modifySource = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._applySource = function()
+qx.Proto._applySource = function()
 {
   var currentSource = this.getSource();
 
@@ -146,13 +146,13 @@ proto._applySource = function()
   this.getIframeNode().src = currentSource;
 };
 
-proto._applyFrameName = function()
+qx.Proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
   this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.Const.CORE_EMPTY;
 };
 
-proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
+qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
 {
   if( this.isCreated()) {
     this._applyFrameName();
@@ -173,14 +173,14 @@ proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds
 ---------------------------------------------------------------------------
 */
 
-proto._onreadystatechange = function()
+qx.Proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
     this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_LOAD), true);
   };
 };
 
-proto._onload = function()
+qx.Proto._onload = function()
 {
   this._isLoaded = true;
   this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_LOAD), true);
@@ -199,7 +199,7 @@ proto._onload = function()
 
 if (qx.sys.Client.isMshtml())
 {
-  proto.getContentWindow = function()
+  qx.Proto.getContentWindow = function()
   {
     if (this.isCreated()) {
       try { return this.getIframeNode().contentWindow; }
@@ -209,7 +209,7 @@ if (qx.sys.Client.isMshtml())
     return null;
   };
 
-  proto.getContentDocument = function()
+  qx.Proto.getContentDocument = function()
   {
     var win = this.getContentWindow();
     if (win) {
@@ -222,13 +222,13 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.getContentWindow = function()
+  qx.Proto.getContentWindow = function()
   {
     var doc = this.getContentDocument();
     return doc ? doc.defaultView : null;
   };
 
-  proto.getContentDocument = function()
+  qx.Proto.getContentDocument = function()
   {
     if (this.isCreated()) {
       try { return this.getIframeNode().contentDocument; }
@@ -251,11 +251,11 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._isLoaded = false;
+qx.Proto._isLoaded = false;
 
 if (qx.sys.Client.isMshtml())
 {
-  proto.isLoaded = function()
+  qx.Proto.isLoaded = function()
   {
     var doc = this.getContentDocument();
     return doc ? doc.readyState == "complete" : false;
@@ -263,7 +263,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.isLoaded = function()
+  qx.Proto.isLoaded = function()
   {
     return this._isLoaded;
   };
@@ -280,7 +280,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

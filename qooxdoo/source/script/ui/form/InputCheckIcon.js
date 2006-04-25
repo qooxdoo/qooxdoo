@@ -56,27 +56,27 @@ qx.ui.form.InputCheckSymbol.addProperty({ name : "value", impl : "apply" });
 qx.ui.form.InputCheckSymbol.addProperty({ name : "type", impl : "apply" });
 qx.ui.form.InputCheckSymbol.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
 
-proto._modifyApply = function(propValue, propOldValue, propData) {
+qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);
 };
 
-proto.getPreferredBoxWidth = function() {
+qx.Proto.getPreferredBoxWidth = function() {
   return 13;
 };
 
-proto.getPreferredBoxHeight = function() {
+qx.Proto.getPreferredBoxHeight = function() {
   return 13;
 };
 
-proto.getBoxWidth = proto.getPreferredBoxWidth;
-proto.getBoxHeight = proto.getPreferredBoxHeight;
+qx.Proto.getBoxWidth = qx.Proto.getPreferredBoxWidth;
+qx.Proto.getBoxHeight = qx.Proto.getPreferredBoxHeight;
 
-proto.getInnerWidth = proto.getPreferredBoxWidth;
-proto.getInnerHeight = proto.getPreferredBoxHeight;
+qx.Proto.getInnerWidth = qx.Proto.getPreferredBoxWidth;
+qx.Proto.getInnerHeight = qx.Proto.getPreferredBoxHeight;
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._afterAppear = function()
+  qx.Proto._afterAppear = function()
   {
     qx.ui.basic.Terminator.prototype._afterAppear.call(this);
 
@@ -89,7 +89,7 @@ if (qx.sys.Client.isMshtml())
   };
 };
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);

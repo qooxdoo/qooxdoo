@@ -108,7 +108,7 @@ QxSplashScreen.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, 
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyShowProgressBar = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowProgressBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -124,7 +124,7 @@ proto._modifyShowProgressBar = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowTime = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowTime = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -148,7 +148,7 @@ proto._modifyShowTime = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   if(this.getShowProgressBar() && this._progressBar.getValue() < QxSplashScreen.MAX_VALUE)
   {
@@ -161,14 +161,14 @@ proto._oninterval = function(e)
   };
 };
 
-proto._onwindowmousedown = function(e)
+qx.Proto._onwindowmousedown = function(e)
 {
   if(this.getAllowClose()) {
     this.close();
   };
 };
 
-proto._onkeydown = function(e) {
+qx.Proto._onkeydown = function(e) {
   if(e.getKeyCode() == qx.event.types.KeyEvent.keys.esc)
   {
     this.close();
@@ -181,7 +181,7 @@ proto._onkeydown = function(e) {
 ------------------------------------------------------------------------------------
 */
 
-proto.open = function()
+qx.Proto.open = function()
 {
   if (this.getCentered()) {
     QxUtil.centerToBrowser(this);
@@ -195,11 +195,11 @@ proto.open = function()
   };
 };
 
-proto.close = function() {
+qx.Proto.close = function() {
   this.hide();
 };
 
-proto.setProgressBarValue = function(vValue)
+qx.Proto.setProgressBarValue = function(vValue)
 {
   if(this.getShowProgressBar() && !this.getShowTime())
   {
@@ -217,7 +217,7 @@ proto.setProgressBarValue = function(vValue)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

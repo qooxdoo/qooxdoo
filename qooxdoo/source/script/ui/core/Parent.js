@@ -92,11 +92,11 @@ qx.ui.core.Parent.addCachedProperty({ name : "visibleChildren", defaultValue : n
 ---------------------------------------------------------------------------
 */
 
-proto.isFocusRoot = function() {
+qx.Proto.isFocusRoot = function() {
   return this.getFocusManager() != null;
 };
 
-proto.getFocusRoot = function()
+qx.Proto.getFocusRoot = function()
 {
   if (this.isFocusRoot()) {
     return this;
@@ -109,15 +109,15 @@ proto.getFocusRoot = function()
   return null;
 };
 
-proto.activateFocusRoot = function() {
+qx.Proto.activateFocusRoot = function() {
   this.setFocusManager(new qx.event.handler.FocusHandler(this));
 };
 
-proto._onfocuskeyevent = function(e) {
+qx.Proto._onfocuskeyevent = function(e) {
   this.getFocusManager()._onkeyevent(this, e);
 };
 
-proto._modifyFocusManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -152,7 +152,7 @@ proto._modifyFocusManager = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyFocusedChild = function(propValue, propOldValue, propData)
+qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 {
   // this.debug("FocusedChild: " + propValue);
 
@@ -253,13 +253,13 @@ proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._layoutImpl = null;
+qx.Proto._layoutImpl = null;
 
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return null;
 };
 
-proto.getLayoutImpl = function() {
+qx.Proto.getLayoutImpl = function() {
   return this._layoutImpl;
 };
 
@@ -278,35 +278,35 @@ proto.getLayoutImpl = function() {
 /*!
   Return the array of all children
 */
-proto.getChildren = function() {
+qx.Proto.getChildren = function() {
   return this._children;
 };
 
 /*!
   Get children count
 */
-proto.getChildrenLength = function() {
+qx.Proto.getChildrenLength = function() {
   return this.getChildren().length;
 };
 
 /*!
   Check if the widget has a children
 */
-proto.hasChildren = function() {
+qx.Proto.hasChildren = function() {
   return this.getChildrenLength() > 0;
 };
 
 /*!
   Check if there are any childrens inside
 */
-proto.isEmpty = function() {
+qx.Proto.isEmpty = function() {
   return this.getChildrenLength() == 0;
 };
 
 /*!
   Get the position of a children.
 */
-proto.indexOf = function(vChild) {
+qx.Proto.indexOf = function(vChild) {
   return this.getChildren().indexOf(vChild);
 };
 
@@ -315,7 +315,7 @@ Check if the given qx.ui.core.Widget is a children.
 
 #param des[qx.ui.core.Widget]: The widget which should be checked.
 */
-proto.contains = function(vWidget)
+qx.Proto.contains = function(vWidget)
 {
   switch(vWidget)
   {
@@ -348,7 +348,7 @@ proto.contains = function(vWidget)
   Return the array of all visible children
   (which are configured as visible=true)
 */
-proto._computeVisibleChildren = function()
+qx.Proto._computeVisibleChildren = function()
 {
   var vVisible = [];
   var vChildren = this.getChildren();
@@ -368,21 +368,21 @@ proto._computeVisibleChildren = function()
 /*!
   Get length of visible children
 */
-proto.getVisibleChildrenLength = function() {
+qx.Proto.getVisibleChildrenLength = function() {
   return this.getVisibleChildren().length;
 };
 
 /*!
   Check if the widget has any visible children
 */
-proto.hasVisibleChildren = function() {
+qx.Proto.hasVisibleChildren = function() {
   return this.getVisibleChildrenLength() > 0;
 };
 
 /*!
   Check if there are any visible childrens inside
 */
-proto.isVisibleEmpty = function() {
+qx.Proto.isVisibleEmpty = function() {
   return this.getVisibleChildrenLength() == 0;
 };
 
@@ -401,7 +401,7 @@ proto.isVisibleEmpty = function() {
   Add/Append another widget. Allows to add multiple at
   one, a parameter could be a widget.
 */
-proto.add = function()
+qx.Proto.add = function()
 {
   var vWidget;
 
@@ -422,7 +422,7 @@ proto.add = function()
   return this;
 };
 
-proto.addAt = function(vChild, vIndex)
+qx.Proto.addAt = function(vChild, vIndex)
 {
   if (qx.util.Validation.isInvalidNumber(vIndex) || vIndex == -1) {
     throw new Error("Not a valid index for addAt(): " + vIndex);
@@ -455,11 +455,11 @@ proto.addAt = function(vChild, vIndex)
   };
 };
 
-proto.addAtBegin = function(vChild) {
+qx.Proto.addAtBegin = function(vChild) {
   return this.addAt(vChild, 0);
 };
 
-proto.addAtEnd = function(vChild)
+qx.Proto.addAtEnd = function(vChild)
 {
   // we need to fix here, when the child is already inside myself, but
   // want to change its position
@@ -470,7 +470,7 @@ proto.addAtEnd = function(vChild)
 /*!
   Add a widget before another already inserted child
 */
-proto.addBefore = function(vChild, vBefore)
+qx.Proto.addBefore = function(vChild, vBefore)
 {
   var vChildren = this.getChildren();
   var vTargetIndex = vChildren.indexOf(vBefore);
@@ -491,7 +491,7 @@ proto.addBefore = function(vChild, vBefore)
 /*!
   Add a widget after another already inserted child
 */
-proto.addAfter = function(vChild, vAfter)
+qx.Proto.addAfter = function(vChild, vAfter)
 {
   var vChildren = this.getChildren();
   var vTargetIndex = vChildren.indexOf(vAfter);
@@ -524,7 +524,7 @@ proto.addAfter = function(vChild, vAfter)
 /*!
   Remove one or multiple childrens.
 */
-proto.remove = function()
+qx.Proto.remove = function()
 {
   var vWidget;
 
@@ -543,7 +543,7 @@ proto.remove = function()
   };
 };
 
-proto.removeAt = function(vIndex)
+qx.Proto.removeAt = function(vIndex)
 {
   var vChild = this.getChildren()[vIndex];
 
@@ -558,7 +558,7 @@ proto.removeAt = function(vIndex)
 /*!
   Remove all childrens.
 */
-proto.removeAll = function()
+qx.Proto.removeAll = function()
 {
   var cs = this.getChildren();
   var co = cs[0];
@@ -581,15 +581,15 @@ proto.removeAll = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getFirstChild = function() {
+qx.Proto.getFirstChild = function() {
   return qx.lang.Array.getFirst(this.getChildren());
 };
 
-proto.getFirstVisibleChild = function() {
+qx.Proto.getFirstVisibleChild = function() {
   return qx.lang.Array.getFirst(this.getVisibleChildren());
 };
 
-proto.getFirstActiveChild = function(vIgnoreClasses) {
+qx.Proto.getFirstActiveChild = function(vIgnoreClasses) {
   return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
 };
 
@@ -604,15 +604,15 @@ proto.getFirstActiveChild = function(vIgnoreClasses) {
 ---------------------------------------------------------------------------
 */
 
-proto.getLastChild = function() {
+qx.Proto.getLastChild = function() {
   return qx.lang.Array.getLast(this.getChildren());
 };
 
-proto.getLastVisibleChild = function() {
+qx.Proto.getLastVisibleChild = function() {
   return qx.lang.Array.getLast(this.getVisibleChildren());
 };
 
-proto.getLastActiveChild = function(vIgnoreClasses) {
+qx.Proto.getLastActiveChild = function(vIgnoreClasses) {
   return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
 };
 
@@ -627,7 +627,7 @@ proto.getLastActiveChild = function(vIgnoreClasses) {
 ---------------------------------------------------------------------------
 */
 
-proto.forEachChild = function(vFunc)
+qx.Proto.forEachChild = function(vFunc)
 {
   var ch=this.getChildren(), chc, i=-1;
   while(chc=ch[++i]) {
@@ -635,7 +635,7 @@ proto.forEachChild = function(vFunc)
   };
 };
 
-proto.forEachVisibleChild = function(vFunc)
+qx.Proto.forEachVisibleChild = function(vFunc)
 {
   var ch=this.getVisibleChildren(), chc, i=-1;
   while(chc=ch[++i]) {
@@ -654,7 +654,7 @@ proto.forEachVisibleChild = function(vFunc)
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   qx.ui.core.Widget.prototype._beforeAppear.call(this);
 
@@ -665,7 +665,7 @@ proto._beforeAppear = function()
   });
 };
 
-proto._afterAppear = function()
+qx.Proto._afterAppear = function()
 {
   qx.ui.core.Widget.prototype._afterAppear.call(this);
 
@@ -676,7 +676,7 @@ proto._afterAppear = function()
   });
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   qx.ui.core.Widget.prototype._beforeDisappear.call(this);
 
@@ -687,7 +687,7 @@ proto._beforeDisappear = function()
   });
 };
 
-proto._afterDisappear = function()
+qx.Proto._afterDisappear = function()
 {
   qx.ui.core.Widget.prototype._afterDisappear.call(this);
 
@@ -710,7 +710,7 @@ proto._afterDisappear = function()
 ---------------------------------------------------------------------------
 */
 
-proto._beforeInsertDom = function()
+qx.Proto._beforeInsertDom = function()
 {
   qx.ui.core.Widget.prototype._beforeInsertDom.call(this);
 
@@ -721,7 +721,7 @@ proto._beforeInsertDom = function()
   });
 };
 
-proto._afterInsertDom = function()
+qx.Proto._afterInsertDom = function()
 {
   qx.ui.core.Widget.prototype._afterInsertDom.call(this);
 
@@ -732,7 +732,7 @@ proto._afterInsertDom = function()
   });
 };
 
-proto._beforeRemoveDom = function()
+qx.Proto._beforeRemoveDom = function()
 {
   qx.ui.core.Widget.prototype._beforeRemoveDom.call(this);
 
@@ -743,7 +743,7 @@ proto._beforeRemoveDom = function()
   });
 };
 
-proto._afterRemoveDom = function()
+qx.Proto._afterRemoveDom = function()
 {
   qx.ui.core.Widget.prototype._afterRemoveDom.call(this);
 
@@ -766,7 +766,7 @@ proto._afterRemoveDom = function()
 ---------------------------------------------------------------------------
 */
 
-proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
+qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
   this.forEachChild(function() {
     this._handleDisplayable();
@@ -785,14 +785,14 @@ proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 ---------------------------------------------------------------------------
 */
 
-proto._addChildrenToStateQueue = function()
+qx.Proto._addChildrenToStateQueue = function()
 {
   this.forEachVisibleChild(function() {
     this.addToStateQueue();
   });
 };
 
-proto.recursiveAddToStateQueue = function()
+qx.Proto.recursiveAddToStateQueue = function()
 {
   this.addToStateQueue();
 
@@ -801,7 +801,7 @@ proto.recursiveAddToStateQueue = function()
   });
 };
 
-proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
+qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
   qx.ui.core.Widget.prototype._recursiveAppearanceThemeUpdate.call(this, vNewAppearanceTheme, vOldAppearanceTheme);
 
@@ -821,7 +821,7 @@ proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppear
 ---------------------------------------------------------------------------
 */
 
-proto._addChildToChildrenQueue = function(vChild)
+qx.Proto._addChildToChildrenQueue = function(vChild)
 {
   if (!vChild._isInParentChildrenQueue && !vChild._isDisplayable) {
     this.warn("Ignoring invisible child: " + vChild);
@@ -839,7 +839,7 @@ proto._addChildToChildrenQueue = function(vChild)
   };
 };
 
-proto._removeChildFromChildrenQueue = function(vChild)
+qx.Proto._removeChildFromChildrenQueue = function(vChild)
 {
   if (this._childrenQueue && vChild._isInParentChildrenQueue)
   {
@@ -851,7 +851,7 @@ proto._removeChildFromChildrenQueue = function(vChild)
   };
 };
 
-proto._flushChildrenQueue = function()
+qx.Proto._flushChildrenQueue = function()
 {
   if (!qx.lang.Object.isEmpty(this._childrenQueue))
   {
@@ -872,14 +872,14 @@ proto._flushChildrenQueue = function()
 ---------------------------------------------------------------------------
 */
 
-proto._addChildrenToLayoutQueue = function(p)
+qx.Proto._addChildrenToLayoutQueue = function(p)
 {
   this.forEachChild(function() {
     this.addToLayoutChanges(p);
   });
 };
 
-proto._layoutChild = function(vChild)
+qx.Proto._layoutChild = function(vChild)
 {
   if (!vChild._isDisplayable)
   {
@@ -968,16 +968,16 @@ proto._layoutChild = function(vChild)
   delete this._childrenQueue[vChild.toHashCode()];
 };
 
-proto._layoutPost = qx.util.Return.returnTrue;
+qx.Proto._layoutPost = qx.util.Return.returnTrue;
 
 /*!
   Fix Operas Rendering Bugs
 */
 if (qx.sys.Client.isOpera())
 {
-  proto._layoutChildOrig = proto._layoutChild;
+  qx.Proto._layoutChildOrig = qx.Proto._layoutChild;
 
-  proto._layoutChild = function(vChild)
+  qx.Proto._layoutChild = function(vChild)
   {
     if (!vChild._initialLayoutDone || !vChild._layoutChanges.borderX || !vChild._layoutChanges.borderY) {
       return this._layoutChildOrig(vChild);
@@ -1005,15 +1005,15 @@ if (qx.sys.Client.isOpera())
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function() {
+qx.Proto._computePreferredInnerWidth = function() {
   return this.getLayoutImpl().computeChildrenNeededWidth();
 };
 
-proto._computePreferredInnerHeight = function() {
+qx.Proto._computePreferredInnerHeight = function() {
   return this.getLayoutImpl().computeChildrenNeededHeight();
 };
 
-proto._changeInnerWidth = function(vNew, vOld)
+qx.Proto._changeInnerWidth = function(vNew, vOld)
 {
   var vLayout = this.getLayoutImpl();
 
@@ -1031,7 +1031,7 @@ proto._changeInnerWidth = function(vNew, vOld)
   });
 };
 
-proto._changeInnerHeight = function(vNew, vOld)
+qx.Proto._changeInnerHeight = function(vNew, vOld)
 {
   var vLayout = this.getLayoutImpl();
 
@@ -1049,11 +1049,11 @@ proto._changeInnerHeight = function(vNew, vOld)
   });
 };
 
-proto.getInnerWidthForChild = function(vChild) {
+qx.Proto.getInnerWidthForChild = function(vChild) {
   return this.getInnerWidth();
 };
 
-proto.getInnerHeightForChild = function(vChild) {
+qx.Proto.getInnerHeightForChild = function(vChild) {
   return this.getInnerHeight();
 };
 
@@ -1069,7 +1069,7 @@ proto.getInnerHeightForChild = function(vChild) {
 ---------------------------------------------------------------------------
 */
 
-proto.getWidgetFromPointHelper = function(x, y)
+qx.Proto.getWidgetFromPointHelper = function(x, y)
 {
   var ch = this.getChildren();
 
@@ -1094,7 +1094,7 @@ proto.getWidgetFromPointHelper = function(x, y)
 ---------------------------------------------------------------------------
 */
 
-proto._cloneRecursive = function(cloneInstance)
+qx.Proto._cloneRecursive = function(cloneInstance)
 {
   var ch = this.getChildren();
   var chl = ch.length;
@@ -1117,11 +1117,11 @@ proto._cloneRecursive = function(cloneInstance)
 ---------------------------------------------------------------------------
 */
 
-proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll" ];
-proto._remapStart = "return this._remappingChildTarget.";
-proto._remapStop = ".apply(this._remappingChildTarget, arguments)";
+qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll" ];
+qx.Proto._remapStart = "return this._remappingChildTarget.";
+qx.Proto._remapStop = ".apply(this._remappingChildTarget, arguments)";
 
-proto.remapChildrenHandlingTo = function(vTarget)
+qx.Proto.remapChildrenHandlingTo = function(vTarget)
 {
   var t = this._remappingChildTable;
 
@@ -1143,7 +1143,7 @@ proto.remapChildrenHandlingTo = function(vTarget)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

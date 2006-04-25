@@ -56,7 +56,7 @@ QxDialog.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultVa
 ---------------------------------------------------------------------------
 */
 
-proto._modifyModal = function(propValue, propOldValue, propData)
+qx.Proto._modifyModal = function(propValue, propOldValue, propData)
 {
   // Inform blocker
   if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
@@ -72,14 +72,14 @@ proto._modifyModal = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._minimizeButtonManager = function()
+qx.Proto._minimizeButtonManager = function()
 {
   this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
 
   return true;
 };
 
-proto._closeButtonManager = function()
+qx.Proto._closeButtonManager = function()
 {
   this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
 
@@ -93,7 +93,7 @@ proto._closeButtonManager = function()
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

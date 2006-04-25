@@ -55,15 +55,15 @@ qx.event.types.DomEvent.addFastProperty({ name : "domTarget", setOnlyOnce : true
 ---------------------------------------------------------------------------
 */
 
-proto.getCtrlKey = function() {
+qx.Proto.getCtrlKey = function() {
   return this.getDomEvent().ctrlKey;
 };
 
-proto.getShiftKey = function() {
+qx.Proto.getShiftKey = function() {
   return this.getDomEvent().shiftKey;
 };
 
-proto.getAltKey = function() {
+qx.Proto.getAltKey = function() {
   return this.getDomEvent().altKey;
 };
 
@@ -81,7 +81,7 @@ proto.getAltKey = function() {
 
 if(qx.sys.Client.isMshtml())
 {
-  proto.setDefaultPrevented = function(vValue)
+  qx.Proto.setDefaultPrevented = function(vValue)
   {
     if (!vValue) {
       return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");
@@ -94,7 +94,7 @@ if(qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.setDefaultPrevented = function(vValue)
+  qx.Proto.setDefaultPrevented = function(vValue)
   {
     if (!vValue) {
       return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");
@@ -119,7 +119,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

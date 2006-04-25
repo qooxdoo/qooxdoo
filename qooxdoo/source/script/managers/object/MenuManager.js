@@ -44,7 +44,7 @@ function(){
 ---------------------------------------------------------------------------
 */
 
-proto.update = function(vTarget)
+qx.Proto.update = function(vTarget)
 {
   var vMenu, vHashCode;
   var vAll = this.getAll();

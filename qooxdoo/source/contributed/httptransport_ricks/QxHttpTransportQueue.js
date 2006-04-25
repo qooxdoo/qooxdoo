@@ -38,15 +38,15 @@ function QxHttpTransportQueue(activeCount, queuedCount) {
  
 QxHttpTransportQueue.extend(qx.core.Target, "QxHttpTransportQueue");
  
-proto._activeLimit = -1;
+qx.Proto._activeLimit = -1;
 
 QxHttpTransportQueue.addProperty({name : "queueLimit", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1});
 
-proto.getActiveLimit = function() {
+qx.Proto.getActiveLimit = function() {
   return this._activeLimit;
 }
 
-proto.setActiveLimit = function(limit) {
+qx.Proto.setActiveLimit = function(limit) {
   if (0 <= limit && limit != this._activeLimit) {
     if (-1 == this._activeLimit) {
       QxHttpTransport.alterPoolSize(limit);
@@ -57,22 +57,22 @@ proto.setActiveLimit = function(limit) {
   }
 }
 
-proto._active = null;
-proto._queued = null;
+qx.Proto._active = null;
+qx.Proto._queued = null;
 
-proto.add = function() {
+qx.Proto.add = function() {
   for (var i = 0; i < arguments.length; i++) {
     this._add(arguments[i]);
   }
 }
 
-proto.remove = function() {
+qx.Proto.remove = function() {
   for (var i = 0; i < arguments.length; i++) {
     this._remove(arguments[i]);
   }
 }
 
-proto.contains = function(req) {
+qx.Proto.contains = function(req) {
   if (this._active.contains(req) || this._queued.contains(req)) {
     return true;
   } else {
@@ -80,7 +80,7 @@ proto.contains = function(req) {
   }
 }
 
-proto._add = function(req) {
+qx.Proto._add = function(req) {
   if (this.contains(req)) {
     return;
   }
@@ -96,7 +96,7 @@ proto._add = function(req) {
   }
 }
 
-proto._pump = function() {
+qx.Proto._pump = function() {
   if (this._active.length < this.getActiveLimit() && this._queued.length > 0) {
     var req = this._queued.getFirst();
     this._active.push(req);
@@ -105,7 +105,7 @@ proto._pump = function() {
   }
 }
 
-proto.dispose = function() {
+qx.Proto.dispose = function() {
   // Cowardly refuse to dispose a non-empty queue instance
   if (0  == this._active.length && 0 == this._queued.length) {
     delete this._active;
@@ -117,7 +117,7 @@ proto.dispose = function() {
   }
 }
 
-proto._remove = function(req) {
+qx.Proto._remove = function(req) {
   this._active.remove(req);
   this._queued.remove(req);
   this._pump();

@@ -41,17 +41,17 @@ qx.ui.form.TextArea.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN 
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._modifyWrap = function(propValue, propOldValue, propData) {
+  qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
   };
 }
 else
 {
-  proto._modifyWrap = function(propValue, propOldValue, propData) {
+  qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
   };
 };
 
-proto._computePreferredInnerHeight = function() {
+qx.Proto._computePreferredInnerHeight = function() {
   return 60;
 };

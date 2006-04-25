@@ -44,7 +44,7 @@ qx.ui.pageview.tabview.TabViewButton.changeProperty({ name : "appearance", type 
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {

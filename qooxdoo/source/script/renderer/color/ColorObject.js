@@ -71,7 +71,7 @@ qx.renderer.color.ColorObject.fromString = function(vDefString) {
 /*!
   Set a new value from selected theme (only for Operating System Colors)
 */
-proto._updateTheme = function(vTheme)
+qx.Proto._updateTheme = function(vTheme)
 {
   if (!this._isThemedColor) {
     throw new Error("Could not redefine themed value of non os colors!");
@@ -84,7 +84,7 @@ proto._updateTheme = function(vTheme)
   };
 };
 
-proto._applyThemedValue = function()
+qx.Proto._applyThemedValue = function()
 {
   var vTheme = qx.manager.object.ColorManager.getThemeObject();
   var vRgb = vTheme.getValueByName(this._value);
@@ -100,7 +100,7 @@ proto._applyThemedValue = function()
   this._hex = null;
 };
 
-proto.setValue = function(vValue) {
+qx.Proto.setValue = function(vValue) {
   this._normalize(vValue);
 };
 
@@ -114,11 +114,11 @@ proto.setValue = function(vValue) {
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(vObject) {
+qx.Proto.add = function(vObject) {
   this._dependentObjects[vObject.toHashCode()] = vObject;
 };
 
-proto.remove = function(vObject) {
+qx.Proto.remove = function(vObject) {
   delete this._dependentObjects[vObject.toHashCode()];
 };
 
@@ -133,7 +133,7 @@ proto.remove = function(vObject) {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

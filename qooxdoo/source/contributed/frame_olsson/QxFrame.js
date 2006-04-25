@@ -66,7 +66,7 @@ QxFrame.addProperty({ name : "statusBar", type : qx.Const.TYPEOF_OBJECT, allowNu
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyMenuBar = function(propValue, propOldValue, propData)
+qx.Proto._modifyMenuBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -80,7 +80,7 @@ proto._modifyMenuBar = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyToolBar = function(propValue, propOldValue, propData)
+qx.Proto._modifyToolBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -96,7 +96,7 @@ proto._modifyToolBar = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyStatusBar = function(propValue, propOldValue, propData)
+qx.Proto._modifyStatusBar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -117,7 +117,7 @@ proto._modifyStatusBar = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

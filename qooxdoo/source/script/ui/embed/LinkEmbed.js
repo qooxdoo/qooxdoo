@@ -77,7 +77,7 @@ qx.ui.embed.HtmlLinkEmbed.HREF_START = "' href='";
 qx.ui.embed.HtmlLinkEmbed.HREF_STOP = "'>";
 qx.ui.embed.HtmlLinkEmbed.LINK_STOP = "</a>";
 
-proto._syncHtml = function()
+qx.Proto._syncHtml = function()
 {
   var vHtml = [];
 

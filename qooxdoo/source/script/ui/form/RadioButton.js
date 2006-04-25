@@ -55,7 +55,7 @@ qx.ui.form.RadioButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OB
 ---------------------------------------------------------------------------
 */
 
-proto.INPUT_TYPE = "radio";
+qx.Proto.INPUT_TYPE = "radio";
 
 
 
@@ -66,7 +66,7 @@ proto.INPUT_TYPE = "radio";
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setChecked(propValue);
@@ -80,7 +80,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -93,7 +93,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propData)
+qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setName(propValue);
@@ -106,7 +106,7 @@ proto._modifyName = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyValue = function(propValue, propOldValue, propData)
+qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.isCreated() && this._iconObject) {
     this._iconObject.setValue(propValue);
@@ -126,7 +126,7 @@ proto._modifyValue = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
@@ -154,11 +154,11 @@ proto._onkeydown = function(e)
   };
 };
 
-proto._onclick = function(e) {
+qx.Proto._onclick = function(e) {
   this.setChecked(true);
 };
 
-proto._onkeyup = function(e)
+qx.Proto._onkeyup = function(e)
 {
   if(e.getKeyCode() == qx.event.types.KeyEvent.keys.space) {
     this.setChecked(true);
@@ -175,7 +175,7 @@ proto._onkeyup = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

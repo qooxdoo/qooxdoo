@@ -73,7 +73,7 @@ qx.renderer.layout.FlowLayoutImpl.STR_PREVIOUS = "getPreviousSibling";
 /*!
   Compute and return the width needed by all children of this widget
 */
-proto.computeChildrenNeededWidth = function()
+qx.Proto.computeChildrenNeededWidth = function()
 {
   var w = this.getWidget();
   return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getHorizontalSpacing());
@@ -82,7 +82,7 @@ proto.computeChildrenNeededWidth = function()
 /*!
   Calculate the layout to get the needed height of the children
 */
-proto.computeChildrenNeededHeight = function()
+qx.Proto.computeChildrenNeededHeight = function()
 {
   var vWidget = this.getWidget();
 
@@ -136,7 +136,7 @@ proto.computeChildrenNeededHeight = function()
   Things to do and layout when any of the childs changes it's outer width.
   Needed by layouts where the children depends on each-other, like flow- or box-layouts.
 */
-proto.updateSelfOnChildOuterWidthChange = function(vChild)
+qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
 {
   // If a child only change it's width also recompute the height
   // as the layout flows around here
@@ -159,7 +159,7 @@ proto.updateSelfOnChildOuterWidthChange = function(vChild)
   Actions that should be done if the inner width of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerWidthChange = function(vChild)
+qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
@@ -171,7 +171,7 @@ proto.updateChildOnInnerWidthChange = function(vChild)
   Actions that should be done if the inner height of the widget was changed.
   Normally this includes update to percent values and ranges.
 */
-proto.updateChildOnInnerHeightChange = function(vChild)
+qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
   vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
@@ -194,7 +194,7 @@ proto.updateChildOnInnerHeightChange = function(vChild)
 /*!
   Updates children on special jobs
 */
-proto.updateChildrenOnJobQueueFlush = function(vQueue)
+qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.horizontalSpacing || vQueue.verticalSpacing || vQueue.reverseChildrenOrder || vQueue.horizontalChildrenAlign || vQueue.verticalChildrenAlign) {
     this.getWidget()._addChildrenToLayoutQueue(qx.Const.JOB_LOCATION);
@@ -216,7 +216,7 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue)
   This method combines calls of methods which should be done if a widget should be removed from the current layout.
   Needed by layouts where the children depends on each-other, like flow- or box-layouts.
 */
-proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
+qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
 {
   var w=this.getWidget(), ch=w.getVisibleChildren(), chl=ch.length, chc, i=-1;
 
@@ -240,7 +240,7 @@ proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
   inside the same parent to a new positions.
   Needed by layouts where the children depends on each-other, like flow- or box-layouts.
 */
-proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
+qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
 {
   for (var i=Math.min(vIndex, vOldIndex), ch=this.getWidget().getVisibleChildren(), l=ch.length; i<l; i++) {
     ch[i].addToLayoutChanges(qx.Const.JOB_LOCATION);
@@ -264,7 +264,7 @@ proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
   layouted on the horizontal axis.
 */
 
-proto.flushChildrenQueue = function(vChildrenQueue)
+qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 {
   var w=this.getWidget(), ch=w.getVisibleChildren(), chl=ch.length, chc, chh;
 
@@ -313,7 +313,7 @@ proto.flushChildrenQueue = function(vChildrenQueue)
 ---------------------------------------------------------------------------
 */
 
-proto.layoutChild = function(vChild, vJobs)
+qx.Proto.layoutChild = function(vChild, vJobs)
 {
   this.layoutChild_sizeX_essentialWrapper(vChild, vJobs);
   this.layoutChild_sizeY_essentialWrapper(vChild, vJobs);
@@ -333,7 +333,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     We need to respect all dimension properties on the horizontal axis in
     internet explorer to set the 'width' style
   */
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth) {
       vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
@@ -344,7 +344,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     We need to respect all dimension properties on the vertical axis in
     internet explorer to set the 'height' style
   */
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight) {
       vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
@@ -353,14 +353,14 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto.layoutChild_sizeX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width) {
       vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
     };
   };
 
-  proto.layoutChild_sizeY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height) {
       vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
@@ -368,7 +368,7 @@ else
   };
 };
 
-proto.layoutChild_location = function(vChild, vJobs)
+qx.Proto.layoutChild_location = function(vChild, vJobs)
 {
   var vWidget = this.getWidget();
   var vReverse = vWidget.getReverseChildrenOrder();

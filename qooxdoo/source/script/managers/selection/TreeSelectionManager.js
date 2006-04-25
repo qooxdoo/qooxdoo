@@ -51,19 +51,19 @@ qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection
 ---------------------------------------------------------------------------
 */
 
-proto._getFirst = function() {
+qx.Proto._getFirst = function() {
   return qx.lang.Array.getFirst(this.getItems());
 };
 
-proto._getLast = function() {
+qx.Proto._getLast = function() {
   return qx.lang.Array.getLast(this.getItems());
 };
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this.getBoundedWidget().getItems();
 };
 
-proto.getNext = function(vItem)
+qx.Proto.getNext = function(vItem)
 {
   if (vItem)
   {
@@ -94,7 +94,7 @@ proto.getNext = function(vItem)
   };
 };
 
-proto.getPrevious = function(vItem)
+qx.Proto.getPrevious = function(vItem)
 {
   if (vItem)
   {
@@ -145,7 +145,7 @@ proto.getPrevious = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto.getItemTop = function(vItem)
+qx.Proto.getItemTop = function(vItem)
 {
   // Alternate method:
   // return qx.dom.DomLocation.getPageBoxTop(vItem.getElement()) - qx.dom.DomLocation.getPageInnerTop(this.getBoundedWidget().getElement());
@@ -163,7 +163,7 @@ proto.getItemTop = function(vItem)
   return vOffset;
 };
 
-proto.getItemHeight = function(vItem)
+qx.Proto.getItemHeight = function(vItem)
 {
   if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
   {
@@ -175,7 +175,7 @@ proto.getItemHeight = function(vItem)
   };
 };
 
-proto.scrollItemIntoView = function(vItem)
+qx.Proto.scrollItemIntoView = function(vItem)
 {
   if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
   {
@@ -197,6 +197,6 @@ proto.scrollItemIntoView = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto.renderItemSelectionState = function(vItem, vIsSelected) {
+qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   vItem.setSelected(vIsSelected);
 };

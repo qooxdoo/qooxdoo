@@ -41,7 +41,7 @@ function(vWidget)
 /*!
   Returns the associated widget
 */
-proto.getWidget = function() {
+qx.Proto.getWidget = function() {
   return this._widget;
 };
 
@@ -71,14 +71,14 @@ proto.getWidget = function() {
 /*!
   Compute and return the box width of the given child
 */
-proto.computeChildBoxWidth = function(vChild) {
+qx.Proto.computeChildBoxWidth = function(vChild) {
   return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
 };
 
 /*!
   Compute and return the box height of the given child
 */
-proto.computeChildBoxHeight = function(vChild) {
+qx.Proto.computeChildBoxHeight = function(vChild) {
   return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
 };
 
@@ -95,7 +95,7 @@ proto.computeChildBoxHeight = function(vChild) {
 /*!
   Compute and return the needed width of the given child
 */
-proto.computeChildNeededWidth = function(vChild)
+qx.Proto.computeChildNeededWidth = function(vChild)
 {
   // omit ultra long lines, these two variables only needed once
   // here, but this enhance the readability of the code :)
@@ -110,7 +110,7 @@ proto.computeChildNeededWidth = function(vChild)
 /*!
   Compute and return the needed height of the given child
 */
-proto.computeChildNeededHeight = function(vChild)
+qx.Proto.computeChildNeededHeight = function(vChild)
 {
   // omit ultra long lines, these two variables only needed once
   // here, but this enhance the readability of the code :)
@@ -134,7 +134,7 @@ proto.computeChildNeededHeight = function(vChild)
 /*!
   Calculate the maximum needed width of all children
 */
-proto.computeChildrenNeededWidth_max = function()
+qx.Proto.computeChildrenNeededWidth_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
     maxv = Math.max(maxv, ch[i].getNeededWidth());
@@ -146,7 +146,7 @@ proto.computeChildrenNeededWidth_max = function()
 /*!
   Calculate the maximum needed height of all children
 */
-proto.computeChildrenNeededHeight_max = function()
+qx.Proto.computeChildrenNeededHeight_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
     maxv = Math.max(maxv, ch[i].getNeededHeight());
@@ -155,7 +155,7 @@ proto.computeChildrenNeededHeight_max = function()
   return maxv;
 };
 
-proto.computeChildrenNeededWidth_sum = function()
+qx.Proto.computeChildrenNeededWidth_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
     sumv += ch[i].getNeededWidth();
@@ -164,7 +164,7 @@ proto.computeChildrenNeededWidth_sum = function()
   return sumv;
 };
 
-proto.computeChildrenNeededHeight_sum = function()
+qx.Proto.computeChildrenNeededHeight_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
     sumv += ch[i].getNeededHeight();
@@ -176,12 +176,12 @@ proto.computeChildrenNeededHeight_sum = function()
 /*!
   Compute and return the width needed by all children of this widget
 */
-proto.computeChildrenNeededWidth = proto.computeChildrenNeededWidth_max;
+qx.Proto.computeChildrenNeededWidth = qx.Proto.computeChildrenNeededWidth_max;
 
 /*!
   Compute and return the height needed by all children of this widget
 */
-proto.computeChildrenNeededHeight = proto.computeChildrenNeededHeight_max;
+qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
 
 
 
@@ -196,13 +196,13 @@ proto.computeChildrenNeededHeight = proto.computeChildrenNeededHeight_max;
   Things to do and layout when any of the childs changes its outer width.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-proto.updateSelfOnChildOuterWidthChange = function(vChild) {};
+qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {};
 
 /*!
   Things to do and layout when any of the childs changes its outer height.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-proto.updateSelfOnChildOuterHeightChange = function(vChild) {};
+qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {};
 
 
 
@@ -218,13 +218,13 @@ proto.updateSelfOnChildOuterHeightChange = function(vChild) {};
   Actions that should be done if the inner width of the layout widget has changed.
   Normally this includes updates to percent values and ranges.
 */
-proto.updateChildOnInnerWidthChange = function(vChild) {};
+qx.Proto.updateChildOnInnerWidthChange = function(vChild) {};
 
 /*!
   Actions that should be done if the inner height of the layout widget has changed.
   Normally this includes updates to percent values and ranges.
 */
-proto.updateChildOnInnerHeightChange = function(vChild) {};
+qx.Proto.updateChildOnInnerHeightChange = function(vChild) {};
 
 
 
@@ -240,7 +240,7 @@ proto.updateChildOnInnerHeightChange = function(vChild) {};
   Invalidate and recompute cached data according to job queue.
   This is executed at the beginning of the job queue handling.
 */
-proto.updateSelfOnJobQueueFlush = function(vJobQueue) {};
+qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {};
 
 
 
@@ -257,7 +257,7 @@ proto.updateSelfOnJobQueueFlush = function(vJobQueue) {};
   Updates children on job queue flush.
   This is executed at the end of the job queue handling.
 */
-proto.updateChildrenOnJobQueueFlush = function(vQueue) {};
+qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {};
 
 
 
@@ -273,19 +273,19 @@ proto.updateChildrenOnJobQueueFlush = function(vQueue) {};
 /*!
   Add child to current layout. Rarely needed by some layout implementations.
 */
-proto.updateChildrenOnAddChild = function(vChild, vIndex) {};
+qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {};
 
 /*!
   Remove child from current layout.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {};
+qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {};
 
 /*!
   Move child within its parent to a new position.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {};
+qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {};
 
 
 
@@ -303,7 +303,7 @@ proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {};
   Has full control of the order in which the registered
   (or non-registered) children should be layouted.
 */
-proto.flushChildrenQueue = function(vChildrenQueue)
+qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 {
   var vWidget = this.getWidget();
 
@@ -329,12 +329,12 @@ proto.flushChildrenQueue = function(vChildrenQueue)
   Called from qx.ui.core.Widget. Its task is to apply the layout
   (excluding border and padding) to the child.
 */
-proto.layoutChild = function(vChild, vJobs) {};
+qx.Proto.layoutChild = function(vChild, vJobs) {};
 
 if (qx.sys.Client.isMshtml())
 {
-  proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
-  proto.layoutChild_sizeLimitY = qx.util.Return.returnTrue;
+  qx.Proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
+  qx.Proto.layoutChild_sizeLimitY = qx.util.Return.returnTrue;
 }
 else
 {
@@ -343,7 +343,7 @@ else
     This is only possible in modern capable clients (i.e. excluding all current
     versions of Internet Explorer)
   */
-  proto.layoutChild_sizeLimitX = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs)
   {
     if (vJobs.minWidth) {
       vChild._computedMinWidthTypeNull ? vChild._resetRuntimeMinWidth() : vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
@@ -360,7 +360,7 @@ else
     };
   };
 
-  proto.layoutChild_sizeLimitY = function(vChild, vJobs)
+  qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs)
   {
     if (vJobs.minHeight) {
       vChild._computedMinHeightTypeNull ? vChild._resetRuntimeMinHeight() : vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());
@@ -381,7 +381,7 @@ else
 /*!
   Apply the margin values as pure stylesheet equivalent.
 */
-proto.layoutChild_marginX = function(vChild, vJobs)
+qx.Proto.layoutChild_marginX = function(vChild, vJobs)
 {
   if (vJobs.marginLeft || vJobs.initial)
   {
@@ -396,7 +396,7 @@ proto.layoutChild_marginX = function(vChild, vJobs)
   };
 };
 
-proto.layoutChild_marginY = function(vChild, vJobs)
+qx.Proto.layoutChild_marginY = function(vChild, vJobs)
 {
   if (vJobs.marginTop || vJobs.initial)
   {
@@ -411,11 +411,11 @@ proto.layoutChild_marginY = function(vChild, vJobs)
   };
 };
 
-proto.layoutChild_sizeX_essentialWrapper = function(vChild, vJobs) {
+qx.Proto.layoutChild_sizeX_essentialWrapper = function(vChild, vJobs) {
   return vChild._isWidthEssential() ? this.layoutChild_sizeX(vChild, vJobs) : vChild._resetRuntimeWidth();
 };
 
-proto.layoutChild_sizeY_essentialWrapper = function(vChild, vJobs) {
+qx.Proto.layoutChild_sizeY_essentialWrapper = function(vChild, vJobs) {
   return vChild._isHeightEssential() ? this.layoutChild_sizeY(vChild, vJobs) : vChild._resetRuntimeHeight();
 };
 
@@ -433,7 +433,7 @@ proto.layoutChild_sizeY_essentialWrapper = function(vChild, vJobs) {
 /*!
   Dispose the layout implmentation and release the associated widget.
 */
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

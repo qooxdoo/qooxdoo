@@ -69,7 +69,7 @@ qx.renderer.font.Font.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_B
 ---------------------------------------------------------------------------
 */
 
-proto._modifyStyle = function(propValue, propOldValue, propData)
+qx.Proto._modifyStyle = function(propValue, propOldValue, propData)
 {
   this._needsCompilation = true;
   return true;
@@ -149,9 +149,9 @@ qx.renderer.font.Font.PROPERTY_WEIGHT = "fontWeight";
 qx.renderer.font.Font.PROPERTY_STYLE = "fontStyle";
 qx.renderer.font.Font.PROPERTY_DECORATION = "textDecoration";
 
-proto._needsCompilation = true;
+qx.Proto._needsCompilation = true;
 
-proto._compile = function()
+qx.Proto._compile = function()
 {
   var vName = this.getName();
   var vSize = this.getSize();
@@ -178,7 +178,7 @@ proto._compile = function()
   this._needsCompilation = false;
 };
 
-proto.applyWidget = function(vWidget)
+qx.Proto.applyWidget = function(vWidget)
 {
   if (this._needsCompilation) {
     this._compile();
@@ -191,7 +191,7 @@ proto.applyWidget = function(vWidget)
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION, this._defs.textDecoration);
 };
 
-proto.resetWidget = function(vWidget)
+qx.Proto.resetWidget = function(vWidget)
 {
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_FAMILY);
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_SIZE);
@@ -211,7 +211,7 @@ proto.resetWidget = function(vWidget)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

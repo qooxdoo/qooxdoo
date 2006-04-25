@@ -117,11 +117,11 @@ qx.io.remote.AbstractRemoteTransport.addProperty({ name : "responseType", type: 
 ---------------------------------------------------------------------------
 */
 
-proto.send = function() {
+qx.Proto.send = function() {
   this.error("Need implementation", "send");
 };
 
-proto.abort = function()
+qx.Proto.abort = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Aborting...");
@@ -133,7 +133,7 @@ proto.abort = function()
 /*!
 
 */
-proto.timeout = function()
+qx.Proto.timeout = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Timeout...");
@@ -148,7 +148,7 @@ proto.timeout = function()
 
   Listeners of the "failed" signal are notified about the event.
 */
-proto.failed = function()
+qx.Proto.failed = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Failed...");
@@ -174,7 +174,7 @@ proto.failed = function()
   This method is virtual and concrete subclasses are supposed to
   implement it.
 */
-proto.setRequestHeader = function(vLabel, vValue) {
+qx.Proto.setRequestHeader = function(vLabel, vValue) {
   this.error("Need implementation", "setRequestHeader");
 };
 
@@ -189,14 +189,14 @@ proto.setRequestHeader = function(vLabel, vValue) {
 ---------------------------------------------------------------------------
 */
 
-proto.getResponseHeader = function(vLabel) {
+qx.Proto.getResponseHeader = function(vLabel) {
   this.error("Need implementation", "getResponseHeader");
 };
 
 /*!
   Provides an hash of all response headers.
 */
-proto.getResponseHeaders = function() {
+qx.Proto.getResponseHeaders = function() {
   this.error("Need implementation", "getResponseHeaders");
 };
 
@@ -215,14 +215,14 @@ proto.getResponseHeaders = function() {
 /*!
   Returns the current status code of the request if available or -1 if not.
 */
-proto.getStatusCode = function() {
+qx.Proto.getStatusCode = function() {
   this.error("Need implementation", "getStatusCode");
 };
 
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
-proto.getStatusText = function() {
+qx.Proto.getStatusText = function() {
   this.error("Need implementation", "getStatusText");
 };
 
@@ -242,7 +242,7 @@ proto.getStatusText = function() {
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseText = function() {
+qx.Proto.getResponseText = function() {
   this.error("Need implementation", "getResponseText");
 };
 
@@ -251,14 +251,14 @@ proto.getResponseText = function() {
   By passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
-proto.getResponseXml = function() {
+qx.Proto.getResponseXml = function() {
   this.error("Need implementation", "getResponseXml");
 };
 
 /*!
   Returns the length of the content as fetched thus far
 */
-proto.getFetchedLength = function() {
+qx.Proto.getFetchedLength = function() {
   this.error("Need implementation", "getFetchedLength");
 };
 
@@ -274,7 +274,7 @@ proto.getFetchedLength = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyState = function(propValue, propOldValue, propData)
+qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);

@@ -55,19 +55,19 @@ qx.ui.form.ListItem.addProperty({ name : "value" });
 ---------------------------------------------------------------------------
 */
 
-proto.matchesString = function(vText) {
+qx.Proto.matchesString = function(vText) {
   return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
-proto.matchesStringExact = function(vText) {
+qx.Proto.matchesStringExact = function(vText) {
   return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
 };
 
-proto.matchesValue = function(vText) {
+qx.Proto.matchesValue = function(vText) {
   return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
-proto.matchesValueExact = function(vText) {
+qx.Proto.matchesValueExact = function(vText) {
   return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
 };
 
@@ -81,7 +81,7 @@ proto.matchesValueExact = function(vText) {
 ---------------------------------------------------------------------------
 */
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   var vCommand = this.getCommand();
   if (vCommand) {

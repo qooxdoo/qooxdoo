@@ -45,7 +45,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-proto._applyPaddingX = function(vParent, vChanges, vStyle)
+qx.Proto._applyPaddingX = function(vParent, vChanges, vStyle)
 {
   if (vChanges.paddingLeft) {
     this._applyRuntimePaddingLeft(this.getPaddingLeft());
@@ -56,7 +56,7 @@ proto._applyPaddingX = function(vParent, vChanges, vStyle)
   };
 };
 
-proto._applyPaddingY = function(vParent, vChanges, vStyle)
+qx.Proto._applyPaddingY = function(vParent, vChanges, vStyle)
 {
   if (vChanges.paddingTop) {
     this._applyRuntimePaddingTop(this.getPaddingTop());
@@ -78,7 +78,7 @@ proto._applyPaddingY = function(vParent, vChanges, vStyle)
 ---------------------------------------------------------------------------
 */
 
-proto._applyContent = function()
+qx.Proto._applyContent = function()
 {
   // Small optimization: Only add innerPreferred jobs
   // if we don't have a static width
@@ -102,13 +102,13 @@ proto._applyContent = function()
   };
 };
 
-proto._layoutPost = function(vChanges) {
+qx.Proto._layoutPost = function(vChanges) {
   if (vChanges.initial || vChanges.load || vChanges.width || vChanges.height) {
     this._postApply();
   };
 };
 
-proto._postApply = qx.util.Return.returnTrue;
+qx.Proto._postApply = qx.util.Return.returnTrue;
 
 
 
@@ -122,11 +122,11 @@ proto._postApply = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto._computeBoxWidthFallback = proto.getPreferredBoxWidth;
-proto._computeBoxHeightFallback = proto.getPreferredBoxHeight;
+qx.Proto._computeBoxWidthFallback = qx.Proto.getPreferredBoxWidth;
+qx.Proto._computeBoxHeightFallback = qx.Proto.getPreferredBoxHeight;
 
-proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
 
 
 
@@ -140,7 +140,7 @@ proto._computePreferredInnerHeight = qx.util.Return.returnZero;
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = function()
+qx.Proto._isWidthEssential = function()
 {
   if (!this._computedLeftTypeNull && !this._computedRightTypeNull) {
     return true;
@@ -165,7 +165,7 @@ proto._isWidthEssential = function()
   return false;
 };
 
-proto._isHeightEssential = function()
+qx.Proto._isHeightEssential = function()
 {
   if (!this._computedTopTypeNull && !this._computedBottomTypeNull) {
     return true;

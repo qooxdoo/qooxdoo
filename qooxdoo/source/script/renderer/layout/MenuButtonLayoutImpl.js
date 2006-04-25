@@ -76,7 +76,7 @@ function(vWidget)
 /*!
   Compute and return the width needed by all children of this widget
 */
-proto.computeChildrenNeededWidth = function()
+qx.Proto.computeChildrenNeededWidth = function()
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
@@ -104,7 +104,7 @@ proto.computeChildrenNeededWidth = function()
   Things to do and layout when any of the childs changes its outer width.
   Needed by layouts where the children depends on each-other, like flow- or box-layouts.
 */
-proto.updateSelfOnChildOuterWidthChange = function(vChild)
+qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
@@ -148,7 +148,7 @@ proto.updateSelfOnChildOuterWidthChange = function(vChild)
 ---------------------------------------------------------------------------
 */
 
-proto.layoutChild_locationX = function(vChild, vJobs)
+qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
   // Caching the widget reference
   var vWidget = this.getWidget();
