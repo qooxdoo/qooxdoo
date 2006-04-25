@@ -98,15 +98,10 @@ qx.OO.C_UNDEFINED = "undefined";
 qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 {
   var vSplitName = vClassName.split(qx.OO.C_CLASSSEP);
-  var vNameLength = vSplitName.length;
-
-  var vLightClass = typeof vSuper === qx.OO.C_UNDEFINED;
+  var vNameLength = vSplitName.length-1;
   var vTempObject = window;
 
-  if (!vLightClass) {
-    vNameLength--;
-  };
-
+  // Setting up namespace
   for (var i=0; i<vNameLength; i++)
   {
     if (typeof vTempObject[vSplitName[i]] === qx.OO.C_UNDEFINED) {
@@ -116,29 +111,36 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
     vTempObject = vTempObject[vSplitName[i]];
   };
 
-  if (vLightClass) {
-    return;
+  // Instantiate objects/inheritance
+  if (typeof vSuper === qx.OO.C_UNDEFINED)
+  {
+    qx.Class = vTempObject[vSplitName[i]] = {};
+  }
+  else if (typeof vConstructor === qx.OO.C_UNDEFINED)
+  {
+    qx.Class = vTempObject[vSplitName[i]] = vSuper;
+  }
+  else
+  {
+    qx.Class = vTempObject[vSplitName[i]] = vConstructor;
+
+    // build helper function
+    // this omits the initial constructor call while inherit properties
+    var vHelperConstructor = new Function;
+    vHelperConstructor.prototype = vSuper.prototype;
+    qx.Proto = vConstructor.prototype = new vHelperConstructor;
+
+    vConstructor.superclass = vSuper;
+
+    qx.Proto.classname = vConstructor.classname = vClassName;
+    qx.Proto.constructor = vConstructor;
+
+    // Compatibility to old extend()
+    proto = qx.Proto;
+
+    // Store reference to global classname registry
+    qx.OO.classes[vClassName] = vConstructor;
   };
-
-  // Store constructor function under classname
-  qx.Class = vTempObject[vSplitName[i]] = vConstructor;
-
-  // build helper function
-  // this omits the initial constructor call while inherit properties
-  var vHelperConstructor = new Function;
-  vHelperConstructor.prototype = vSuper.prototype;
-  qx.Proto = vConstructor.prototype = new vHelperConstructor;
-
-  vConstructor.superclass = vSuper;
-
-  qx.Proto.classname = vConstructor.classname = vClassName;
-  qx.Proto.constructor = vConstructor;
-
-  // Compatibility to old extend()
-  proto = qx.Proto;
-
-  // Store reference to global classname registry
-  qx.OO.classes[vClassName] = vConstructor;
 };
 
 

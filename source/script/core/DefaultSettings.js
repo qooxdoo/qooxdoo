@@ -23,12 +23,11 @@
 /* ************************************************************************
 
 #package(core)
+#require(qx.OO)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.core.DefaultSettings");
-
-qx.core.DefaultSettings =
+qx.OO.defineClass("qx.core.DefaultSettings",
 {
   version : "0.6-alpha2",
   loadStart : (new Date).valueOf(),
@@ -47,4 +46,4 @@ qx.core.DefaultSettings =
   imageLocalPath : "./",
   imageIconPath : "../../themes/icons",
   imageWidgetPath : "../../themes/widgets"
-};
+});

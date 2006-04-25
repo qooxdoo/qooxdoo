@@ -30,9 +30,7 @@
    Precreate most used strings
 ******************************************************************** */
 
-qx.OO.defineClass("qx.Const");
-
-qx.Const =
+qx.OO.defineClass("qx.Const",
 {
   CORE_EMPTY : "",
   CORE_SPACE : " ",
@@ -362,4 +360,4 @@ qx.Const =
   MIMETYPE_XML : "application/xml",
   MIMETYPE_TEXT : "text/plain",
   MIMETYPE_HTML : "text/html"
-};
+});
