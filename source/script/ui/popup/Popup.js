@@ -55,8 +55,8 @@ qx.ui.popup.Popup.changeProperty({ name : "display", type : qx.Const.TYPEOF_BOOL
 qx.ui.popup.Popup.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
-proto._showTimeStamp = (new Date(0)).valueOf();
-proto._hideTimeStamp = (new Date(0)).valueOf();
+qx.Proto._showTimeStamp = (new Date(0)).valueOf();
+qx.Proto._hideTimeStamp = (new Date(0)).valueOf();
 
 
 
@@ -68,7 +68,7 @@ proto._hideTimeStamp = (new Date(0)).valueOf();
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
@@ -79,7 +79,7 @@ proto._beforeAppear = function()
   this.bringToFront();
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
@@ -98,11 +98,11 @@ proto._beforeDisappear = function()
 ---------------------------------------------------------------------------
 */
 
-proto._makeActive = function() {
+qx.Proto._makeActive = function() {
   this.getFocusRoot().setActiveChild(this);
 };
 
-proto._makeInactive = function()
+qx.Proto._makeInactive = function()
 {
   var vRoot = this.getFocusRoot();
   var vCurrent = vRoot.getActiveChild();
@@ -122,7 +122,7 @@ proto._makeInactive = function()
 ---------------------------------------------------------------------------
 */
 
-proto.isFocusable = function() {
+qx.Proto.isFocusable = function() {
   return false;
 };
 
@@ -136,21 +136,21 @@ proto.isFocusable = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._minZIndex = 1e6;
+qx.Proto._minZIndex = 1e6;
 
-proto.bringToFront = function()
+qx.Proto.bringToFront = function()
 {
   this.forceZIndex(Infinity);
   this._sendTo();
 };
 
-proto.sendToBack = function()
+qx.Proto.sendToBack = function()
 {
   this.forceZIndex(-Infinity);
   this._sendTo();
 };
 
-proto._sendTo = function()
+qx.Proto._sendTo = function()
 {
   var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getAll());
   var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getAll());
@@ -175,11 +175,11 @@ proto._sendTo = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getShowTimeStamp = function() {
+qx.Proto.getShowTimeStamp = function() {
   return this._showTimeStamp;
 };
 
-proto.getHideTimeStamp = function() {
+qx.Proto.getHideTimeStamp = function() {
   return this._hideTimeStamp;
 };
 
@@ -189,7 +189,7 @@ proto.getHideTimeStamp = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.centerToBrowser = function()
+qx.Proto.centerToBrowser = function()
 {
   var d = window.application.getClientWindow().getClientDocument();
 
@@ -208,7 +208,7 @@ proto.centerToBrowser = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -162,23 +162,23 @@ qx.ui.form.ComboBox.addProperty({ name: "pagingInterval", type: qx.Const.TYPEOF_
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
-proto.getPopup = function() {
+qx.Proto.getPopup = function() {
   return this._popup;
 };
 
-proto.getList = function() {
+qx.Proto.getList = function() {
   return this._list;
 };
 
-proto.getField = function() {
+qx.Proto.getField = function() {
   return this._field;
 };
 
-proto.getButton = function() {
+qx.Proto.getButton = function() {
   return this._button;
 };
 
@@ -194,7 +194,7 @@ proto.getButton = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifySelected = function(propValue, propOldValue, propData)
+qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
   this._fromSelected = true;
 
@@ -217,7 +217,7 @@ proto._modifySelected = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyValue = function(propValue, propOldValue, propData)
+qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   this._fromValue = true;
 
@@ -254,7 +254,7 @@ proto._modifyValue = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyEditable = function(propValue, propOldValue, propData)
+qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
 {
   var f = this._field;
 
@@ -276,7 +276,7 @@ proto._modifyEditable = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onpopupappear = function(e)
+qx.Proto._onpopupappear = function(e)
 {
   var vSelItem = this.getSelected();
   if (vSelItem) {
@@ -284,7 +284,7 @@ proto._onpopupappear = function(e)
   };
 };
 
-proto._oninput = function(e)
+qx.Proto._oninput = function(e)
 {
   // Hint for modifier
   this._fromInput = true;
@@ -309,7 +309,7 @@ proto._oninput = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vTarget = e.getTarget();
 
@@ -347,7 +347,7 @@ proto._onmousedown = function(e)
   };
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   switch(e.getTarget())
   {
@@ -364,7 +364,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   var vTarget = e.getTarget();
 
@@ -381,7 +381,7 @@ proto._onmouseover = function(e)
   };
 };
 
-proto._onmousewheel = function(e)
+qx.Proto._onmousewheel = function(e)
 {
   if (!this._popup.isSeeable())
   {
@@ -416,7 +416,7 @@ proto._onmousewheel = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   var vManager = this._manager;
   var vKeyCode = e.getKeyCode();
@@ -547,7 +547,7 @@ proto._onkeydown = function(e)
   };
 };
 
-proto._onkeypress = function(e)
+qx.Proto._onkeypress = function(e)
 {
   if (!this.isEditable()) {
     this._list._onkeypress(e);
@@ -566,9 +566,9 @@ proto._onkeypress = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._oldSelected = null;
+qx.Proto._oldSelected = null;
 
-proto._openPopup = function()
+qx.Proto._openPopup = function()
 {
   var p = this._popup;
   var el = this.getElement();
@@ -593,7 +593,7 @@ proto._openPopup = function()
   this.setCapture(true);
 };
 
-proto._closePopup = function()
+qx.Proto._closePopup = function()
 {
   this._popup.hide();
 
@@ -601,7 +601,7 @@ proto._closePopup = function()
   this.setFocused(true);
 };
 
-proto._togglePopup = function() {
+qx.Proto._togglePopup = function() {
   this._popup.isSeeable() ? this._closePopup() : this._openPopup();
 };
 
@@ -616,7 +616,7 @@ proto._togglePopup = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -410,23 +410,23 @@ qx.ui.window.Window.MODE_MAXIMIZED = "maximized";
 ---------------------------------------------------------------------------
 */
 
-proto.getPane = function() {
+qx.Proto.getPane = function() {
   return this._pane;
 };
 
-proto.getCaptionBar = function() {
+qx.Proto.getCaptionBar = function() {
   return this._captionBar;
 };
 
-proto.getStatusBar = function() {
+qx.Proto.getStatusBar = function() {
   return this._statusBar;
 };
 
-proto.close = function() {
+qx.Proto.close = function() {
   this.hide();
 };
 
-proto.open = function(vOpener)
+qx.Proto.open = function(vOpener)
 {
   if (qx.util.Validation.isValid(vOpener)) {
     this.setOpener(vOpener);
@@ -439,23 +439,23 @@ proto.open = function(vOpener)
   this.show();
 };
 
-proto.focus = function() {
+qx.Proto.focus = function() {
   this.setActive(true);
 };
 
-proto.blur = function() {
+qx.Proto.blur = function() {
   this.setActive(false);
 };
 
-proto.maximize = function() {
+qx.Proto.maximize = function() {
   this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
 };
 
-proto.minimize = function() {
+qx.Proto.minimize = function() {
   this.setMode(qx.ui.window.Window.MODE_MINIMIZED);
 };
 
-proto.restore = function() {
+qx.Proto.restore = function() {
   this.setMode(null);
 };
 
@@ -472,7 +472,7 @@ proto.restore = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
@@ -482,7 +482,7 @@ proto._beforeAppear = function()
   this._makeActive();
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
@@ -508,9 +508,9 @@ proto._beforeDisappear = function()
 ---------------------------------------------------------------------------
 */
 
-proto._minZIndex = 1e5;
+qx.Proto._minZIndex = 1e5;
 
-proto._sendTo = function()
+qx.Proto._sendTo = function()
 {
   var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(qx.util.Compare.byZIndex);
   var vLength = vAll.length;
@@ -532,7 +532,7 @@ proto._sendTo = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyActive = function(propValue, propOldValue, propData)
+qx.Proto._modifyActive = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -566,7 +566,7 @@ proto._modifyActive = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyModal = function(propValue, propOldValue, propData)
+qx.Proto._modifyModal = function(propValue, propOldValue, propData)
 {
   // Inform blocker
   if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
@@ -582,19 +582,19 @@ proto._modifyModal = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyAllowClose = function(propValue, propOldValue, propData) {
+qx.Proto._modifyAllowClose = function(propValue, propOldValue, propData) {
   return this._closeButtonManager();
 };
 
-proto._modifyAllowMaximize = function(propValue, propOldValue, propData) {
+qx.Proto._modifyAllowMaximize = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
 };
 
-proto._modifyAllowMinimize = function(propValue, propOldValue, propData) {
+qx.Proto._modifyAllowMinimize = function(propValue, propOldValue, propData) {
   return this._minimizeButtonManager();
 };
 
-proto._modifyMode = function(propValue, propOldValue, propData)
+qx.Proto._modifyMode = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
@@ -622,7 +622,7 @@ proto._modifyMode = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowCaption = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowCaption = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -636,7 +636,7 @@ proto._modifyShowCaption = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowIcon = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowIcon = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -650,7 +650,7 @@ proto._modifyShowIcon = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -664,7 +664,7 @@ proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowClose = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowClose = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -678,7 +678,7 @@ proto._modifyShowClose = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowMaximize = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -702,7 +702,7 @@ proto._modifyShowMaximize = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyShowMinimize = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowMinimize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -716,21 +716,21 @@ proto._modifyShowMinimize = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._minimizeButtonManager = function()
+qx.Proto._minimizeButtonManager = function()
 {
   this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
 
   return true;
 };
 
-proto._closeButtonManager = function()
+qx.Proto._closeButtonManager = function()
 {
   this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
 
   return true;
 };
 
-proto._maximizeButtonManager = function()
+qx.Proto._maximizeButtonManager = function()
 {
   var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
@@ -740,26 +740,26 @@ proto._maximizeButtonManager = function()
   return true;
 };
 
-proto._modifyStatus = function(propValue, propOldValue, propData)
+qx.Proto._modifyStatus = function(propValue, propOldValue, propData)
 {
   this._statusText.setHtml(propValue);
 
   return true;
 };
 
-proto._modifyMaxWidth = function(propValue, propOldValue, propData) {
+qx.Proto._modifyMaxWidth = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
 };
 
-proto._modifyMaxHeight = function(propValue, propOldValue, propData) {
+qx.Proto._modifyMaxHeight = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
 };
 
-proto._modifyResizeable = function(propValue, propOldValue, propData) {
+qx.Proto._modifyResizeable = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
 };
 
-proto._modifyCaption = function(propValue, propOldValue, propData)
+qx.Proto._modifyCaption = function(propValue, propOldValue, propData)
 {
   this._captionTitle.setHtml(propValue);
   return true;
@@ -775,13 +775,13 @@ proto._modifyCaption = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._minimize = function()
+qx.Proto._minimize = function()
 {
   this.blur();
   this.hide();
 };
 
-proto._restoreFromMaximized = function()
+qx.Proto._restoreFromMaximized = function()
 {
   // restore previous dimension and location
   this.setLeft(this._previousLeft ? this._previousLeft : null);
@@ -809,13 +809,13 @@ proto._restoreFromMaximized = function()
   this.focus();
 };
 
-proto._restoreFromMinimized = function()
+qx.Proto._restoreFromMinimized = function()
 {
   this.show();
   this.focus();
 };
 
-proto._maximize = function()
+qx.Proto._maximize = function()
 {
   // store current dimension and location
   this._previousLeft = this.getLeft();
@@ -862,7 +862,7 @@ proto._maximize = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onwindowmousedown = function(e)
+qx.Proto._onwindowmousedown = function(e)
 {
   this.focus();
 
@@ -957,7 +957,7 @@ proto._onwindowmousedown = function(e)
   };
 };
 
-proto._onwindowmouseup = function(e)
+qx.Proto._onwindowmouseup = function(e)
 {
   var s = this._resizeSession;
 
@@ -1016,11 +1016,11 @@ proto._onwindowmouseup = function(e)
   };
 };
 
-proto._near = function(p, e) {
+qx.Proto._near = function(p, e) {
   return e > (p - 5) && e < (p + 5);
 };
 
-proto._onwindowmousemove = function(e)
+qx.Proto._onwindowmousemove = function(e)
 {
   if (!this.getResizeable() || this.getMode() != null) {
     return;
@@ -1150,11 +1150,11 @@ proto._onwindowmousemove = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onbuttonmousedown = function(e) {
+qx.Proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
 };
 
-proto._onminimizebuttonclick = function(e)
+qx.Proto._onminimizebuttonclick = function(e)
 {
   this.minimize();
 
@@ -1167,7 +1167,7 @@ proto._onminimizebuttonclick = function(e)
   e.stopPropagation();
 };
 
-proto._onrestorebuttonclick = function(e)
+qx.Proto._onrestorebuttonclick = function(e)
 {
   this.restore();
 
@@ -1180,7 +1180,7 @@ proto._onrestorebuttonclick = function(e)
   e.stopPropagation();
 };
 
-proto._onmaximizebuttonclick = function(e)
+qx.Proto._onmaximizebuttonclick = function(e)
 {
   this.maximize();
 
@@ -1193,7 +1193,7 @@ proto._onmaximizebuttonclick = function(e)
   e.stopPropagation();
 };
 
-proto._onclosebuttonclick = function(e)
+qx.Proto._onclosebuttonclick = function(e)
 {
   this.close();
 
@@ -1218,7 +1218,7 @@ proto._onclosebuttonclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._oncaptionmousedown = function(e)
+qx.Proto._oncaptionmousedown = function(e)
 {
   if (!e.isLeftButtonPressed() || !this.getMoveable() || this.getMode() != null) {
     return;
@@ -1278,7 +1278,7 @@ proto._oncaptionmousedown = function(e)
   };
 };
 
-proto._oncaptionmouseup = function(e)
+qx.Proto._oncaptionmouseup = function(e)
 {
   var s = this._dragSession;
 
@@ -1314,7 +1314,7 @@ proto._oncaptionmouseup = function(e)
   delete this._dragSession;
 };
 
-proto._oncaptionmousemove = function(e)
+qx.Proto._oncaptionmousemove = function(e)
 {
   var s = this._dragSession;
 
@@ -1337,7 +1337,7 @@ proto._oncaptionmousemove = function(e)
   e.preventDefault();
 };
 
-proto._oncaptiondblblick = function()
+qx.Proto._oncaptiondblblick = function()
 {
   if (!this._maximizeButton.getEnabled()) {
     return;
@@ -1359,7 +1359,7 @@ proto._oncaptiondblblick = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

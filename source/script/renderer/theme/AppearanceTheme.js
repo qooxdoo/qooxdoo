@@ -67,15 +67,15 @@ qx.renderer.theme.AppearanceTheme.addProperty({ name : "title", type : qx.Const.
 ---------------------------------------------------------------------------
 */
 
-proto.registerAppearance = function(vId, vData) {
+qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
 };
 
-proto.getAppearance = function(vId) {
+qx.Proto.getAppearance = function(vId) {
   return this._appearances[vId];
 };
 
-proto.setupAppearance = function(vAppearance)
+qx.Proto.setupAppearance = function(vAppearance)
 {
   if (!vAppearance._setupDone)
   {
@@ -100,7 +100,7 @@ proto.setupAppearance = function(vAppearance)
 ---------------------------------------------------------------------------
 */
 
-proto.initialFrom = function(vWidget, vId)
+qx.Proto.initialFrom = function(vWidget, vId)
 {
   var vAppearance = this.getAppearance(vId);
   if (vAppearance)
@@ -122,7 +122,7 @@ proto.initialFrom = function(vWidget, vId)
   };
 };
 
-proto.stateFrom = function(vWidget, vId)
+qx.Proto.stateFrom = function(vWidget, vId)
 {
   var vAppearance = this.getAppearance(vId);
   if (vAppearance)
@@ -156,7 +156,7 @@ proto.stateFrom = function(vWidget, vId)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

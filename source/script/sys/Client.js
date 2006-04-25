@@ -126,55 +126,55 @@ function()
 ---------------------------------------------------------------------------
 */
 
-proto.getRunsLocally = function() {
+qx.Proto.getRunsLocally = function() {
   return this._runsLocally;
 };
 
-proto.getEngine = function() {
+qx.Proto.getEngine = function() {
   return this._engineName;
 };
 
-proto.getVersion = function() {
+qx.Proto.getVersion = function() {
   return this._engineVersion;
 };
 
-proto.getMajor = function() {
+qx.Proto.getMajor = function() {
   return this._engineVersionMajor;
 };
 
-proto.getMinor = function() {
+qx.Proto.getMinor = function() {
   return this._engineVersionMinor;
 };
 
-proto.getRevision = function() {
+qx.Proto.getRevision = function() {
   return this._engineVersionRevision;
 };
 
-proto.getBuild = function() {
+qx.Proto.getBuild = function() {
   return this._engineVersionBuild;
 };
 
-proto.getEmulation = function() {
+qx.Proto.getEmulation = function() {
   return this._engineEmulation;
 };
 
-proto.isMshtml = function() {
+qx.Proto.isMshtml = function() {
   return this._engineNameMshtml;
 };
 
-proto.isGecko = function() {
+qx.Proto.isGecko = function() {
   return this._engineNameGecko;
 };
 
-proto.isOpera = function() {
+qx.Proto.isOpera = function() {
   return this._engineNameOpera;
 };
 
-proto.isKhtml = function() {
+qx.Proto.isKhtml = function() {
   return this._engineNameKhtml;
 };
 
-proto.isInQuirksMode = function() {
+qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
 };
 

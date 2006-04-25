@@ -74,7 +74,7 @@ QxClock.addProperty({ name : "zoneOffset", type : qx.Const.TYPEOF_NUMBER, defaul
 ------------------------------------------------------------------------------------
 */
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   this._timer.stop();
 
@@ -118,7 +118,7 @@ proto._oninterval = function(e)
 */
 
 // placeholder method
-proto.display = function(hours, minutes, seconds) {};
+qx.Proto.display = function(hours, minutes, seconds) {};
 
 
 
@@ -131,7 +131,7 @@ proto.display = function(hours, minutes, seconds) {};
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

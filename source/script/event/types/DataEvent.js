@@ -40,7 +40,7 @@ function(vType, vData)
 qx.event.types.DataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
 qx.event.types.DataEvent.addFastProperty({ name : "data" });
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

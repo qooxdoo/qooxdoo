@@ -65,30 +65,30 @@ QxButtonPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING
 ------------------------------------------------------------------------------------
 */
 
-proto.getOkButton = function()
+qx.Proto.getOkButton = function()
 {
   return this._okB;
 };
 
-proto.getCancelButton = function()
+qx.Proto.getCancelButton = function()
 {
   return this._cancelB;
 };
 
-proto.getHelpButton = function()
+qx.Proto.getHelpButton = function()
 {
   return this._helpB;
 };
 
-proto.executeOk = function(e)
+qx.Proto.executeOk = function(e)
 {
 };
 
-proto.executeCancel = function(e)
+qx.Proto.executeCancel = function(e)
 {
 };
 
-proto.executeHelp = function(e)
+qx.Proto.executeHelp = function(e)
 {
 };
 
@@ -98,7 +98,7 @@ proto.executeHelp = function(e)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

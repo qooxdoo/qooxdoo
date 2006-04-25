@@ -74,7 +74,7 @@ qx.renderer.theme.ColorTheme.addProperty({ name : "title", type : qx.Const.TYPEO
 ---------------------------------------------------------------------------
 */
 
-proto._needsCompilation = true;
+qx.Proto._needsCompilation = true;
 
 
 
@@ -87,11 +87,11 @@ proto._needsCompilation = true;
 ---------------------------------------------------------------------------
 */
 
-proto.getValueByName = function(vName) {
+qx.Proto.getValueByName = function(vName) {
   return this._definedColors[vName] || qx.Const.CORE_EMPTY;
 };
 
-proto.getStyleByName = function(vName) {
+qx.Proto.getStyleByName = function(vName) {
   return this._compiledColors[vName] || qx.Const.CORE_EMPTY;
 };
 
@@ -106,7 +106,7 @@ proto.getStyleByName = function(vName) {
 ---------------------------------------------------------------------------
 */
 
-proto.compile = function()
+qx.Proto.compile = function()
 {
   if (!this._needsCompilation) {
     return;
@@ -119,7 +119,7 @@ proto.compile = function()
   this._needsCompilation = false;
 };
 
-proto._compileValue = function(vName)
+qx.Proto._compileValue = function(vName)
 {
   var v = this._definedColors[vName];
   this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._definedColors[vName]) : vName;
@@ -135,7 +135,7 @@ proto._compileValue = function(vName)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

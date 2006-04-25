@@ -306,7 +306,7 @@ qx.io.remote.RemoteExchange.addProperty(
 ---------------------------------------------------------------------------
 */
 
-proto.send = function()
+qx.Proto.send = function()
 {
   var vRequest = this.getRequest();
 
@@ -369,7 +369,7 @@ proto.send = function()
   Force the transport into the aborted (qx.Const.REQUEST_STATE_ABORTED)
   state.
 */
-proto.abort = function()
+qx.Proto.abort = function()
 {
   var vImplementation = this.getImplementation();
 
@@ -387,7 +387,7 @@ proto.abort = function()
 /*!
   Force the transport into the timeout state.
 */
-proto.timeout = function()
+qx.Proto.timeout = function()
 {
   var vImplementation = this.getImplementation();
 
@@ -417,27 +417,27 @@ proto.timeout = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onsending = function(e) {
+qx.Proto._onsending = function(e) {
   this.setState(qx.Const.REQUEST_STATE_SENDING);
 };
 
-proto._onreceiving = function(e) {
+qx.Proto._onreceiving = function(e) {
   this.setState(qx.Const.REQUEST_STATE_RECEIVING);
 };
 
-proto._oncompleted = function(e) {
+qx.Proto._oncompleted = function(e) {
   this.setState(qx.Const.REQUEST_STATE_COMPLETED);
 };
 
-proto._onabort = function(e) {
+qx.Proto._onabort = function(e) {
   this.setState(qx.Const.REQUEST_STATE_ABORTED);
 };
 
-proto._onfailed = function(e) {
+qx.Proto._onfailed = function(e) {
   this.setState(qx.Const.REQUEST_STATE_FAILED);
 };
 
-proto._ontimeout = function(e) {
+qx.Proto._ontimeout = function(e) {
   this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
 };
 
@@ -452,7 +452,7 @@ proto._ontimeout = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyImplementation = function(propValue, propOldValue, propData)
+qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -492,7 +492,7 @@ proto._modifyImplementation = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyState = function(propValue, propOldValue, propData)
+qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
 
@@ -569,7 +569,7 @@ proto._modifyState = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

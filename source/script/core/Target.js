@@ -57,7 +57,7 @@ function(vAutoDispose) {
 /*!
   Add event listener to object
 */
-proto.addEventListener = function(vType, vFunction, vObject)
+qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
     return;
@@ -93,7 +93,7 @@ proto.addEventListener = function(vType, vFunction, vObject)
 /*!
   Remove event listener from object
 */
-proto.removeEventListener = function(vType, vFunction, vObject)
+qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
     return;
@@ -131,14 +131,14 @@ proto.removeEventListener = function(vType, vFunction, vObject)
 /*!
   Check if there are one or more listeners for an event type
 */
-proto.hasEventListeners = function(vType) {
+qx.Proto.hasEventListeners = function(vType) {
   return this._listeners && typeof this._listeners[vType] !== qx.Const.TYPEOF_UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
 };
 
 /*!
   Checks if the event is registered. If so it creates a event object and dispatch it.
 */
-proto.createDispatchEvent = function(vType)
+qx.Proto.createDispatchEvent = function(vType)
 {
   if (this.hasEventListeners(vType)) {
     this.dispatchEvent(new qx.event.types.Event(vType), true);
@@ -148,7 +148,7 @@ proto.createDispatchEvent = function(vType)
 /*!
   Checks if the event is registered. If so it creates a data event object and dispatch it.
 */
-proto.createDispatchDataEvent = function(vType, vData)
+qx.Proto.createDispatchDataEvent = function(vType, vData)
 {
   if (this.hasEventListeners(vType)) {
     this.dispatchEvent(new qx.event.types.DataEvent(vType, vData), true);
@@ -171,7 +171,7 @@ proto.createDispatchDataEvent = function(vType, vData)
 /*!
   Public dispatch implementation
 */
-proto.dispatchEvent = function(vEvent, vEnableDispose)
+qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 {
   // Ignore event if eventTarget is disposed
   if(this.getDisposed()) {
@@ -195,7 +195,7 @@ proto.dispatchEvent = function(vEvent, vEnableDispose)
 /*!
   Internal dispatch implementation
 */
-proto._dispatchEvent = function(vEvent, vEnableDispose)
+qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
 {
   if(this.getDisposed()) {
     return;
@@ -249,7 +249,7 @@ proto._dispatchEvent = function(vEvent, vEnableDispose)
 /*!
   Internal placeholder for bubbling phase of an event.
 */
-proto.getParent = function() {
+qx.Proto.getParent = function() {
   return null;
 };
 
@@ -264,7 +264,7 @@ proto.getParent = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

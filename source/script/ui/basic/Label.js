@@ -259,12 +259,12 @@ if (typeof window.application != qx.Const.TYPEOF_UNDEFINED) {
 ---------------------------------------------------------------------------
 */
 
-proto._htmlMode = false;
-proto._hasMnemonic = false;
-proto._mnemonicHtml = qx.Const.CORE_EMPTY;
-proto._mnemonicTest = null;
+qx.Proto._htmlMode = false;
+qx.Proto._hasMnemonic = false;
+qx.Proto._mnemonicHtml = qx.Const.CORE_EMPTY;
+qx.Proto._mnemonicTest = null;
 
-proto._modifyHtml = function(propValue, propOldValue, propData)
+qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 {
   this._htmlMode = qx.util.Validation.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
 
@@ -275,13 +275,13 @@ proto._modifyHtml = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyTextAlign = function(propValue, propOldValue, propData)
+qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty("textAlign", propValue);
   return true;
 };
 
-proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
+qx.Proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
 {
   if (!qx.ui.basic.Label._measureNodes[propValue]) {
     qx.ui.basic.Label.createMeasureNode(propValue);
@@ -290,7 +290,7 @@ proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyMnemonic = function(propValue, propOldValue, propData)
+qx.Proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
   this._hasMnemonic = qx.util.Validation.isValidString(propValue) && propValue.length == 1;
 
@@ -300,7 +300,7 @@ proto._modifyMnemonic = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyFont = function(propValue, propOldValue, propData)
+qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
   this._invalidatePreferredInnerDimensions();
 
@@ -313,7 +313,7 @@ proto._modifyFont = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyWrap = function(propValue, propOldValue, propData)
+qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
@@ -329,7 +329,7 @@ proto._modifyWrap = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._computeObjectNeededDimensions = function()
+qx.Proto._computeObjectNeededDimensions = function()
 {
   // copy styles
   var vNode = this._copyStyles();
@@ -350,7 +350,7 @@ proto._computeObjectNeededDimensions = function()
   this._cachedPreferredInnerHeight = vNode.scrollHeight;
 };
 
-proto._copyStyles = function()
+qx.Proto._copyStyles = function()
 {
   var vProps = this.getFontPropertiesProfile();
   var vNode = qx.ui.basic.Label._measureNodes[vProps];
@@ -383,13 +383,13 @@ proto._copyStyles = function()
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function()
+qx.Proto._computePreferredInnerWidth = function()
 {
   this._computeObjectNeededDimensions();
   return this._cachedPreferredInnerWidth;
 };
 
-proto._computePreferredInnerHeight = function()
+qx.Proto._computePreferredInnerHeight = function()
 {
   this._computeObjectNeededDimensions();
   return this._cachedPreferredInnerHeight;
@@ -406,7 +406,7 @@ proto._computePreferredInnerHeight = function()
 ---------------------------------------------------------------------------
 */
 
-proto._postApply = function()
+qx.Proto._postApply = function()
 {
   var vHtml = this.getHtml();
   var vElement = this._getTargetNode();
@@ -551,7 +551,7 @@ proto._postApply = function()
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
-  proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
+  qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
   {
     if (this._htmlMode || vMnemonicMode > 0)
     {
@@ -570,7 +570,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
+  qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
   {
     if (this._htmlMode || vMnemonicMode > 0)
     {

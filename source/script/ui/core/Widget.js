@@ -37,7 +37,7 @@
 /*!
   This is the main widget, all visible objects in the application extend this.
 */
-qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target, 
+qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
 {
   if (this.classname == qx.ui.core.Widget.OMIT_CLASS) {
@@ -1089,14 +1089,14 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
 /*!
   If the widget is visible and rendered on the screen.
 */
-proto.isMaterialized = function() {
+qx.Proto.isMaterialized = function() {
   var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_DISPLAY) != qx.Const.CORE_NONE && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_VISIBILITY) != qx.Const.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
   A single setup to the current preferrd pixel values of the widget
 */
-proto.pack = function()
+qx.Proto.pack = function()
 {
   this.setWidth(this.getPreferredBoxWidth());
   this.setHeight(this.getPreferredBoxHeight());
@@ -1106,7 +1106,7 @@ proto.pack = function()
   A bounded setup to the preferred width/height of the widget. Keeps in
   sync if the content or requirements of the widget changes
 */
-proto.auto = function()
+qx.Proto.auto = function()
 {
   this.setWidth(qx.Const.CORE_AUTO);
   this.setHeight(qx.Const.CORE_AUTO);
@@ -1125,32 +1125,32 @@ proto.auto = function()
 /*!
   Get an array of the current children
 */
-proto.getChildren = qx.util.Return.returnNull;
+qx.Proto.getChildren = qx.util.Return.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getChildrenLength = qx.util.Return.returnZero;
+qx.Proto.getChildrenLength = qx.util.Return.returnZero;
 
 /*!
   Get if the widget has any children
 */
-proto.hasChildren = qx.util.Return.returnFalse;
+qx.Proto.hasChildren = qx.util.Return.returnFalse;
 
 /*!
   Get if the widget has no children
 */
-proto.isEmpty = qx.util.Return.returnTrue;
+qx.Proto.isEmpty = qx.util.Return.returnTrue;
 
 /*!
   Return the position of the child inside
 */
-proto.indexOf = qx.util.Return.returnNegativeIndex;
+qx.Proto.indexOf = qx.util.Return.returnNegativeIndex;
 
 /*!
   Test if this widget contains the given widget
 */
-proto.contains = qx.util.Return.returnFalse;
+qx.Proto.contains = qx.util.Return.returnFalse;
 
 
 
@@ -1166,22 +1166,22 @@ proto.contains = qx.util.Return.returnFalse;
 /*!
   Get an array of the current visible children
 */
-proto.getVisibleChildren = qx.util.Return.returnNull;
+qx.Proto.getVisibleChildren = qx.util.Return.returnNull;
 
 /*!
   Get the number of childrens
 */
-proto.getVisibleChildrenLength = qx.util.Return.returnZero;
+qx.Proto.getVisibleChildrenLength = qx.util.Return.returnZero;
 
 /*!
   If this widget has visible children
 */
-proto.hasVisibleChildren = qx.util.Return.returnFalse;
+qx.Proto.hasVisibleChildren = qx.util.Return.returnFalse;
 
 /*!
   Check if there are any visible childrens inside
 */
-proto.isVisibleEmpty = qx.util.Return.returnTrue;
+qx.Proto.isVisibleEmpty = qx.util.Return.returnTrue;
 
 
 
@@ -1193,14 +1193,14 @@ proto.isVisibleEmpty = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto._hasParent = false;
-proto._isDisplayable = false;
+qx.Proto._hasParent = false;
+qx.Proto._isDisplayable = false;
 
-proto.isDisplayable = function() {
+qx.Proto.isDisplayable = function() {
   return this._isDisplayable;
 };
 
-proto._checkParent = function(propValue, propOldValue, propData)
+qx.Proto._checkParent = function(propValue, propOldValue, propData)
 {
   if (this.contains(propValue)) {
     throw new Error("Could not insert myself into a child " + propValue + "!");
@@ -1209,7 +1209,7 @@ proto._checkParent = function(propValue, propOldValue, propData)
   return propValue;
 };
 
-proto._modifyParent = function(propValue, propOldValue, propData)
+qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -1266,7 +1266,7 @@ proto._modifyParent = function(propValue, propOldValue, propData)
   return this._handleDisplayable(qx.Const.PROPERTY_PARENT);
 };
 
-proto._modifyDisplay = function(propValue, propOldValue, propData) {
+qx.Proto._modifyDisplay = function(propValue, propOldValue, propData) {
   return this._handleDisplayable(qx.Const.PROPERTY_DISPLAY);
 };
 
@@ -1282,7 +1282,7 @@ proto._modifyDisplay = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-proto._handleDisplayable = function(vHint)
+qx.Proto._handleDisplayable = function(vHint)
 {
   // Detect for changes. Return if there is not change.
   // Also handle the case if the displayable keeps true and the parent
@@ -1427,29 +1427,29 @@ proto._handleDisplayable = function(vHint)
   return true;
 };
 
-proto.addToCustomQueues = qx.util.Return.returnTrue;
-proto.removeFromCustomQueues = qx.util.Return.returnTrue;
+qx.Proto.addToCustomQueues = qx.util.Return.returnTrue;
+qx.Proto.removeFromCustomQueues = qx.util.Return.returnTrue;
 
-proto._handleDisplayableCustom = qx.util.Return.returnTrue;
+qx.Proto._handleDisplayableCustom = qx.util.Return.returnTrue;
 
-proto._computeDisplayable = function() {
+qx.Proto._computeDisplayable = function() {
   return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
 };
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   // this.debug("_beforeAppear");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERAPPEAR);
 };
 
-proto._afterAppear = function()
+qx.Proto._afterAppear = function()
 {
   // this.debug("_afterAppear");
   this._isSeeable = true;
   this.createDispatchEvent(qx.Const.EVENT_TYPE_APPEAR);
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   // this.debug("_beforeDisappear");
 
@@ -1462,14 +1462,14 @@ proto._beforeDisappear = function()
   this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERDISAPPEAR);
 };
 
-proto._afterDisappear = function()
+qx.Proto._afterDisappear = function()
 {
   // this.debug("_afterDisappear");
   this._isSeeable = false;
   this.createDispatchEvent(qx.Const.EVENT_TYPE_DISAPPEAR);
 };
 
-proto._isSeeable = false;
+qx.Proto._isSeeable = false;
 
 /*!
   If the widget is currently seeable
@@ -1478,11 +1478,11 @@ proto._isSeeable = false;
    - visibility is true
    - display is true
 */
-proto.isSeeable = function() {
+qx.Proto.isSeeable = function() {
   return this._isSeeable;
 };
 
-proto.isAppearRelevant = function() {
+qx.Proto.isAppearRelevant = function() {
   return this.getVisibility() && this._isDisplayable;
 };
 
@@ -1496,25 +1496,25 @@ proto.isAppearRelevant = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._beforeInsertDom = function()
+qx.Proto._beforeInsertDom = function()
 {
   // this.debug("_beforeInsertDom");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREINSERTDOM);
 };
 
-proto._afterInsertDom = function()
+qx.Proto._afterInsertDom = function()
 {
   // this.debug("_afterInsertDom");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_INSERTDOM);
 };
 
-proto._beforeRemoveDom = function()
+qx.Proto._beforeRemoveDom = function()
 {
   // this.debug("_beforeRemoveDom");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREREMOVEDOM);
 };
 
-proto._afterRemoveDom = function()
+qx.Proto._afterRemoveDom = function()
 {
   // this.debug("_afterRemoveDom");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_REMOVEDOM);
@@ -1531,7 +1531,7 @@ proto._afterRemoveDom = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyVisibility = function(propValue, propOldValue, propData)
+qx.Proto._modifyVisibility = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -1561,21 +1561,21 @@ proto._modifyVisibility = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto.show = function()
+qx.Proto.show = function()
 {
   this.setVisibility(true);
   this.setDisplay(true);
 };
 
-proto.hide = function() {
+qx.Proto.hide = function() {
   this.setVisibility(false);
 };
 
-proto.connect = function() {
+qx.Proto.connect = function() {
   this.setDisplay(true);
 };
 
-proto.disconnect = function() {
+qx.Proto.disconnect = function() {
   this.setDisplay(false);
 };
 
@@ -1591,11 +1591,11 @@ proto.disconnect = function() {
 
 if (qx.sys.Client.isGecko())
 {
-  proto._createElementForEnhancedBorder = qx.util.Return.returnTrue;
+  qx.Proto._createElementForEnhancedBorder = qx.util.Return.returnTrue;
 }
 else
 {
-  proto._createElementForEnhancedBorder = function()
+  qx.Proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
     if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.Const.CORE_DIV && !this._borderElement)
@@ -1647,17 +1647,17 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._isCreated = false;
+qx.Proto._isCreated = false;
 
 if (qx.sys.Client.isGecko())
 {
-  proto._getTargetNode = function() {
+  qx.Proto._getTargetNode = function() {
     return this._element;
   };
 }
 else
 {
-  proto._getTargetNode = function() {
+  qx.Proto._getTargetNode = function() {
     return this._borderElement || this._element;
   };
 };
@@ -1665,18 +1665,18 @@ else
 /*!
   Check if the widget is created (or the element is already available).
 */
-proto.isCreated = function() {
+qx.Proto.isCreated = function() {
   return this._isCreated;
 };
 
 /*!
   Create widget with empty element (of specified tagname).
 */
-proto._createElementImpl = function() {
+qx.Proto._createElementImpl = function() {
   this.setElement(this.getTopLevelWidget().getDocumentElement().createElement(this.getTagName()));
 };
 
-proto._modifyElement = function(propValue, propOldValue, propData)
+qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
   this._isCreated = qx.util.Validation.isValidElement(propValue);
 
@@ -1729,7 +1729,7 @@ proto._modifyElement = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.addToJobQueue = function(p)
+qx.Proto.addToJobQueue = function(p)
 {
   if (this._hasParent) {
     qx.ui.core.Widget.addToGlobalJobQueue(this);
@@ -1743,7 +1743,7 @@ proto.addToJobQueue = function(p)
   return true;
 };
 
-proto._flushJobQueue = function(q)
+qx.Proto._flushJobQueue = function(q)
 {
   /* --------------------------------------------------------------------------------
        1. Pre checks
@@ -1983,8 +1983,8 @@ proto._flushJobQueue = function(q)
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = qx.util.Return.returnTrue;
-proto._isHeightEssential = qx.util.Return.returnTrue;
+qx.Proto._isWidthEssential = qx.util.Return.returnTrue;
+qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 
 
 
@@ -2007,8 +2007,8 @@ qx.ui.core.Widget.initApplyMethods = function()
 
   for (var i=0, fn=f+"Margin", rn=r+"Margin", sp=s+"margin"; i<4; i++)
   {
-    proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
-    proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
+    qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
+    qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
   };
 
   var pad = "padding", upad = "Padding";
@@ -2017,8 +2017,8 @@ qx.ui.core.Widget.initApplyMethods = function()
   {
     for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
     {
-      proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
-      proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
+      qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
+      qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
     };
   }
   else
@@ -2031,8 +2031,8 @@ qx.ui.core.Widget.initApplyMethods = function()
 
     for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
     {
-      proto[fn+propsup[i]] = new Function(vpar, s1 + propsup[i] + s2);
-      proto[rn+propsup[i]] = new Function(s3 + propsup[i] + s4);
+      qx.Proto[fn+propsup[i]] = new Function(vpar, s1 + propsup[i] + s2);
+      qx.Proto[rn+propsup[i]] = new Function(s3 + propsup[i] + s4);
     };
   };
 
@@ -2054,10 +2054,10 @@ qx.ui.core.Widget.initApplyMethods = function()
     for (var i=0, tpos="pos", vset="=v"; i<6; i++)
     {
       // to debug the values which will be applied use this instead the first line
-      // proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + tpos + propsup[i] + vset);
+      // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + tpos + propsup[i] + vset);
 
-      proto[f+propsup[i]] = new Function(vpar, s + tpos + propsup[i] + vset);
-      proto[r+propsup[i]] = new Function(s + props[i] + e);
+      qx.Proto[f+propsup[i]] = new Function(vpar, s + tpos + propsup[i] + vset);
+      qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
     };
   }
   else
@@ -2065,10 +2065,10 @@ qx.ui.core.Widget.initApplyMethods = function()
     for (var i=0; i<10; i++)
     {
       // to debug the values which will be applied use this instead the first line
-      // proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + props[i] + v);
+      // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + props[i] + v);
 
-      proto[f+propsup[i]] = new Function(vpar, s + props[i] + v);
-      proto[r+propsup[i]] = new Function(s + props[i] + e);
+      qx.Proto[f+propsup[i]] = new Function(vpar, s + props[i] + v);
+      qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
     };
   };
 };
@@ -2097,43 +2097,43 @@ qx.ui.core.Widget.addCachedProperty({ name : "boxHeight", defaultValue : null })
 qx.ui.core.Widget.addCachedProperty({ name : "outerWidth", defaultValue : null });
 qx.ui.core.Widget.addCachedProperty({ name : "outerHeight", defaultValue : null });
 
-proto._computeBoxWidthFallback = function() {
+qx.Proto._computeBoxWidthFallback = function() {
   return 0;
 };
 
-proto._computeBoxHeightFallback = function() {
+qx.Proto._computeBoxHeightFallback = function() {
   return 0;
 };
 
-proto._computeBoxWidth = function() {
+qx.Proto._computeBoxWidth = function() {
   return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxWidth(this), this.getMinWidthValue(), this.getMaxWidthValue()));
 };
 
-proto._computeBoxHeight = function() {
+qx.Proto._computeBoxHeight = function() {
   return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxHeight(this), this.getMinHeightValue(), this.getMaxHeightValue()));
 };
 
-proto._computeOuterWidth = function() {
+qx.Proto._computeOuterWidth = function() {
   return Math.max(0, this.getMarginLeft() + this.getBoxWidth() + this.getMarginRight());
 };
 
-proto._computeOuterHeight = function() {
+qx.Proto._computeOuterHeight = function() {
   return Math.max(0, this.getMarginTop() + this.getBoxHeight() + this.getMarginBottom());
 };
 
-proto._computeInnerWidth = function() {
+qx.Proto._computeInnerWidth = function() {
   return Math.max(0, this.getBoxWidth() - this.getFrameWidth());
 };
 
-proto._computeInnerHeight = function() {
+qx.Proto._computeInnerHeight = function() {
   return Math.max(0, this.getBoxHeight() - this.getFrameHeight());
 };
 
-proto.getNeededWidth = function() {
+qx.Proto.getNeededWidth = function() {
   return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededWidth(this));
 };
 
-proto.getNeededHeight = function() {
+qx.Proto.getNeededHeight = function() {
   return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededHeight(this));
 };
 
@@ -2149,7 +2149,7 @@ proto.getNeededHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._recomputeFlexX = function()
+qx.Proto._recomputeFlexX = function()
 {
   if (!this.getHasFlexX()) {
     return false;
@@ -2164,7 +2164,7 @@ proto._recomputeFlexX = function()
   return true;
 };
 
-proto._recomputeFlexY = function()
+qx.Proto._recomputeFlexY = function()
 {
   if (!this.getHasFlexY()) {
     return false;
@@ -2191,7 +2191,7 @@ proto._recomputeFlexY = function()
 ---------------------------------------------------------------------------
 */
 
-proto._recomputePercentX = function()
+qx.Proto._recomputePercentX = function()
 {
   if (!this.getHasPercentX()) {
     return false;
@@ -2230,7 +2230,7 @@ proto._recomputePercentX = function()
   return true;
 };
 
-proto._recomputePercentY = function()
+qx.Proto._recomputePercentY = function()
 {
   if (!this.getHasPercentY()) {
     return false;
@@ -2283,7 +2283,7 @@ proto._recomputePercentY = function()
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
-  proto._recomputeRangeX = function()
+  qx.Proto._recomputeRangeX = function()
   {
     if (this._computedLeftTypeNull || this._computedRightTypeNull) {
       return false;
@@ -2293,7 +2293,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     return true;
   };
 
-  proto._recomputeRangeY = function()
+  qx.Proto._recomputeRangeY = function()
   {
     if (this._computedTopTypeNull || this._computedBottomTypeNull) {
       return false;
@@ -2305,11 +2305,11 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto._recomputeRangeX = function() {
+  qx.Proto._recomputeRangeX = function() {
     return !(this._computedLeftTypeNull || this._computedRightTypeNull);
   };
 
-  proto._recomputeRangeY = function() {
+  qx.Proto._recomputeRangeY = function() {
     return !(this._computedTopTypeNull || this._computedBottomTypeNull);
   };
 };
@@ -2327,7 +2327,7 @@ else
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
-  proto._recomputeStretchingX = function()
+  qx.Proto._recomputeStretchingX = function()
   {
     if (this.getAllowStretchX() && this._computedWidthTypeNull)
     {
@@ -2340,7 +2340,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     return false;
   };
 
-  proto._recomputeStretchingY = function()
+  qx.Proto._recomputeStretchingY = function()
   {
     if (this.getAllowStretchY() && this._computedHeightTypeNull)
     {
@@ -2355,7 +2355,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 }
 else
 {
-  proto._recomputeStretchingX = function()
+  qx.Proto._recomputeStretchingX = function()
   {
     if (this.getAllowStretchX() && this._computedWidthTypeNull) {
       return true;
@@ -2364,7 +2364,7 @@ else
     return false;
   };
 
-  proto._recomputeStretchingY = function()
+  qx.Proto._recomputeStretchingY = function()
   {
     if (this.getAllowStretchY() && this._computedHeightTypeNull) {
       return true;
@@ -2385,27 +2385,27 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._computeValuePixel = function(v) {
+qx.Proto._computeValuePixel = function(v) {
   return Math.round(v);
 };
 
-proto._computeValuePixelLimit = function(v) {
+qx.Proto._computeValuePixelLimit = function(v) {
   return Math.max(0, this._computeValuePixel(v));
 };
 
-proto._computeValuePercentX = function(v) {
+qx.Proto._computeValuePercentX = function(v) {
   return Math.round(this.getParent().getInnerWidthForChild(this) * v * 0.01);
 };
 
-proto._computeValuePercentXLimit = function(v) {
+qx.Proto._computeValuePercentXLimit = function(v) {
   return Math.max(0, this._computeValuePercentX(v));
 };
 
-proto._computeValuePercentY = function(v) {
+qx.Proto._computeValuePercentY = function(v) {
   return Math.round(this.getParent().getInnerHeightForChild(this) * v * 0.01);
 };
 
-proto._computeValuePercentYLimit = function(v) {
+qx.Proto._computeValuePercentYLimit = function(v) {
   return Math.max(0, this._computeValuePercentY(v));
 };
 
@@ -2419,7 +2419,7 @@ proto._computeValuePercentYLimit = function(v) {
 ---------------------------------------------------------------------------
 */
 
-proto.getWidthValue = function()
+qx.Proto.getWidthValue = function()
 {
   if (this._computedWidthValue != null) {
     return this._computedWidthValue;
@@ -2444,7 +2444,7 @@ proto.getWidthValue = function()
   return null;
 };
 
-proto.getMinWidthValue = function()
+qx.Proto.getMinWidthValue = function()
 {
   if (this._computedMinWidthValue != null) {
     return this._computedMinWidthValue;
@@ -2465,7 +2465,7 @@ proto.getMinWidthValue = function()
   return null;
 };
 
-proto.getMaxWidthValue = function()
+qx.Proto.getMaxWidthValue = function()
 {
   if (this._computedMaxWidthValue != null) {
     return this._computedMaxWidthValue;
@@ -2486,7 +2486,7 @@ proto.getMaxWidthValue = function()
   return null;
 };
 
-proto.getLeftValue = function()
+qx.Proto.getLeftValue = function()
 {
   if (this._computedLeftValue != null) {
     return this._computedLeftValue;
@@ -2504,7 +2504,7 @@ proto.getLeftValue = function()
   return null;
 };
 
-proto.getRightValue = function()
+qx.Proto.getRightValue = function()
 {
   if (this._computedRightValue != null) {
     return this._computedRightValue;
@@ -2534,7 +2534,7 @@ proto.getRightValue = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getHeightValue = function()
+qx.Proto.getHeightValue = function()
 {
   if (this._computedHeightValue != null) {
     return this._computedHeightValue;
@@ -2559,7 +2559,7 @@ proto.getHeightValue = function()
   return null;
 };
 
-proto.getMinHeightValue = function()
+qx.Proto.getMinHeightValue = function()
 {
   if (this._computedMinHeightValue != null) {
     return this._computedMinHeightValue;
@@ -2580,7 +2580,7 @@ proto.getMinHeightValue = function()
   return null;
 };
 
-proto.getMaxHeightValue = function()
+qx.Proto.getMaxHeightValue = function()
 {
   if (this._computedMaxHeightValue != null) {
     return this._computedMaxHeightValue;
@@ -2601,7 +2601,7 @@ proto.getMaxHeightValue = function()
   return null;
 };
 
-proto.getTopValue = function()
+qx.Proto.getTopValue = function()
 {
   if (this._computedTopValue != null) {
     return this._computedTopValue;
@@ -2619,7 +2619,7 @@ proto.getTopValue = function()
   return null;
 };
 
-proto.getBottomValue = function()
+qx.Proto.getBottomValue = function()
 {
   if (this._computedBottomValue != null) {
     return this._computedBottomValue;
@@ -2654,7 +2654,7 @@ proto.getBottomValue = function()
 qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
 qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
-proto._computeFrameWidth = function()
+qx.Proto._computeFrameWidth = function()
 {
   var fw = this._cachedBorderLeft + this.getPaddingLeft() + this.getPaddingRight() + this._cachedBorderRight;
 
@@ -2674,7 +2674,7 @@ proto._computeFrameWidth = function()
   return fw;
 };
 
-proto._computeFrameHeight = function()
+qx.Proto._computeFrameHeight = function()
 {
   var fh = this._cachedBorderTop + this.getPaddingTop() + this.getPaddingBottom() + this._cachedBorderBottom;
 
@@ -2694,7 +2694,7 @@ proto._computeFrameHeight = function()
   return fh;
 };
 
-proto._invalidateFrameDimensions = function()
+qx.Proto._invalidateFrameDimensions = function()
 {
   this._invalidateFrameWidth();
   this._invalidateFrameHeight();
@@ -2715,7 +2715,7 @@ proto._invalidateFrameDimensions = function()
 qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
 qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
-proto._invalidatePreferredInnerDimensions = function()
+qx.Proto._invalidatePreferredInnerDimensions = function()
 {
   this._invalidatePreferredInnerWidth();
   this._invalidatePreferredInnerHeight();
@@ -2736,7 +2736,7 @@ proto._invalidatePreferredInnerDimensions = function()
 qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null });
 qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null });
 
-proto._computePreferredBoxWidth = function()
+qx.Proto._computePreferredBoxWidth = function()
 {
   try {
     return Math.max(0, this.getPreferredInnerWidth() + this.getFrameWidth());
@@ -2745,7 +2745,7 @@ proto._computePreferredBoxWidth = function()
   };
 };
 
-proto._computePreferredBoxHeight = function()
+qx.Proto._computePreferredBoxHeight = function()
 {
   try {
     return Math.max(0, this.getPreferredInnerHeight() + this.getFrameHeight());
@@ -2766,9 +2766,9 @@ proto._computePreferredBoxHeight = function()
 ---------------------------------------------------------------------------
 */
 
-proto._initialLayoutDone = false;
+qx.Proto._initialLayoutDone = false;
 
-proto.addToLayoutChanges = function(p)
+qx.Proto.addToLayoutChanges = function(p)
 {
   if (this._isDisplayable) {
     this.getParent()._addChildToChildrenQueue(this);
@@ -2777,11 +2777,11 @@ proto.addToLayoutChanges = function(p)
   return this._layoutChanges[p] = true;
 };
 
-proto.addToQueue = function(p) {
+qx.Proto.addToQueue = function(p) {
   this._initialLayoutDone ? this.addToJobQueue(p) : this.addToLayoutChanges(p);
 };
 
-proto.addToQueueRuntime = function(p) {
+qx.Proto.addToQueueRuntime = function(p) {
   return !this._initialLayoutDone || this.addToJobQueue(p);
 };
 
@@ -2797,20 +2797,20 @@ proto.addToQueueRuntime = function(p) {
 ---------------------------------------------------------------------------
 */
 
-proto._applyBorderX = function(vChild, vChanges, vStyle)
+qx.Proto._applyBorderX = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
   vBorder ? vBorder._applyWidgetX(vChild) : qx.renderer.border.Border._resetBorderX(vChild);
 };
 
-proto._applyBorderY = function(vChild, vChanges, vStyle)
+qx.Proto._applyBorderY = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
   vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
 };
 
-proto._applyPaddingX = qx.util.Return.returnTrue;
-proto._applyPaddingY = qx.util.Return.returnTrue;
+qx.Proto._applyPaddingX = qx.util.Return.returnTrue;
+qx.Proto._applyPaddingY = qx.util.Return.returnTrue;
 
 
 
@@ -2834,27 +2834,27 @@ qx.ui.core.Widget.addCachedProperty({ name : "hasAutoY", defaultValue : false })
 qx.ui.core.Widget.addCachedProperty({ name : "hasFlexX", defaultValue : false });
 qx.ui.core.Widget.addCachedProperty({ name : "hasFlexY", defaultValue : false });
 
-proto._computeHasPercentX = function() {
+qx.Proto._computeHasPercentX = function() {
   return this._computedLeftTypePercent || this._computedWidthTypePercent || this._computedMinWidthTypePercent || this._computedMaxWidthTypePercent || this._computedRightTypePercent;
 };
 
-proto._computeHasPercentY = function() {
+qx.Proto._computeHasPercentY = function() {
   return this._computedTopTypePercent || this._computedHeightTypePercent || this._computedMinHeightTypePercent || this._computedMaxHeightTypePercent || this._computedBottomTypePercent;
 };
 
-proto._computeHasAutoX = function() {
+qx.Proto._computeHasAutoX = function() {
   return this._computedWidthTypeAuto || this._computedMinWidthTypeAuto || this._computedMaxWidthTypeAuto;
 };
 
-proto._computeHasAutoY = function() {
+qx.Proto._computeHasAutoY = function() {
   return this._computedHeightTypeAuto || this._computedMinHeightTypeAuto || this._computedMaxHeightTypeAuto;
 };
 
-proto._computeHasFlexX = function() {
+qx.Proto._computeHasFlexX = function() {
   return this._computedWidthTypeFlex;
 };
 
-proto._computeHasFlexY = function() {
+qx.Proto._computeHasFlexY = function() {
   return this._computedHeightTypeFlex;
 };
 
@@ -2876,7 +2876,7 @@ qx.ui.core.Widget.TYPE_PERCENT = 2;
 qx.ui.core.Widget.TYPE_AUTO = 3;
 qx.ui.core.Widget.TYPE_FLEX = 4;
 
-proto._evalUnitsPixelPercentAutoFlex = function(propValue)
+qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 {
   switch(propValue)
   {
@@ -2900,7 +2900,7 @@ proto._evalUnitsPixelPercentAutoFlex = function(propValue)
   return qx.ui.core.Widget.TYPE_NULL;
 };
 
-proto._evalUnitsPixelPercentAuto = function(propValue)
+qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
 {
   switch(propValue)
   {
@@ -2924,7 +2924,7 @@ proto._evalUnitsPixelPercentAuto = function(propValue)
   return qx.ui.core.Widget.TYPE_NULL;
 };
 
-proto._evalUnitsPixelPercent = function(propValue)
+qx.Proto._evalUnitsPixelPercent = function(propValue)
 {
   switch(propValue)
   {
@@ -2995,7 +2995,7 @@ qx.ui.core.Widget.initLayoutProperties();
 ---------------------------------------------------------------------------
 */
 
-proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
+qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
 {
   var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
@@ -3105,7 +3105,7 @@ proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   };
 };
 
-proto._unitDetectionPixelPercentAuto = function(propData, propValue)
+qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
 {
   var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
@@ -3191,7 +3191,7 @@ proto._unitDetectionPixelPercentAuto = function(propData, propValue)
   };
 };
 
-proto._unitDetectionPixelPercent = function(propData, propValue)
+qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
 {
   var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
 
@@ -3273,7 +3273,7 @@ if (qx.sys.Client.isMshtml())
     blur : "onblur"
   };
 
-  proto.enableInlineEvent = function(vEventName)
+  qx.Proto.enableInlineEvent = function(vEventName)
   {
     var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
 
@@ -3291,7 +3291,7 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  proto.disableInlineEvent = function(vEventName)
+  qx.Proto.disableInlineEvent = function(vEventName)
   {
     var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
 
@@ -3304,7 +3304,7 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  proto._addInlineEvents = function(vElement)
+  qx.Proto._addInlineEvents = function(vElement)
   {
     if (this._inlineEvents)
     {
@@ -3314,7 +3314,7 @@ if (qx.sys.Client.isMshtml())
     };
   };
 
-  proto._removeInlineEvents = function(vElement)
+  qx.Proto._removeInlineEvents = function(vElement)
   {
     if (this._inlineEvents)
     {
@@ -3326,7 +3326,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.enableInlineEvent = function(vEventName)
+  qx.Proto.enableInlineEvent = function(vEventName)
   {
     if (!this._inlineEvents)
     {
@@ -3342,7 +3342,7 @@ else
     };
   };
 
-  proto.disableInlineEvent = function(vEventName)
+  qx.Proto.disableInlineEvent = function(vEventName)
   {
     if (this._inlineEvents) {
       qx.lang.Array.remove(this._inlineEvents, vEventName);
@@ -3353,7 +3353,7 @@ else
     };
   };
 
-  proto._addInlineEvents = function(vElement)
+  qx.Proto._addInlineEvents = function(vElement)
   {
     if (this._inlineEvents)
     {
@@ -3363,7 +3363,7 @@ else
     };
   };
 
-  proto._removeInlineEvents = function(vElement)
+  qx.Proto._removeInlineEvents = function(vElement)
   {
     if (this._inlineEvents)
     {
@@ -3385,7 +3385,7 @@ qx.ui.core.Widget.__oninlineevent = function(e)
   };
 };
 
-proto._oninlineevent = function(e)
+qx.Proto._oninlineevent = function(e)
 {
   if (qx.ui.core.Widget._inFlushGlobalQueues) {
     return;
@@ -3406,7 +3406,7 @@ proto._oninlineevent = function(e)
   };
 };
 
-proto._oninlineinput = function(e)
+qx.Proto._oninlineinput = function(e)
 {
   this.createDispatchDataEvent(qx.Const.EVENT_TYPE_INPUT, this.getComputedValue());
 
@@ -3420,7 +3420,7 @@ proto._oninlineinput = function(e)
 
 qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY = "value";
 
-proto._oninlineproperty = function(e)
+qx.Proto._oninlineproperty = function(e)
 {
   switch(e.propertyName)
   {
@@ -3450,42 +3450,42 @@ proto._oninlineproperty = function(e)
   which contains all others (normally a
   instance of qx.ui.core.ClientDocument).
 */
-proto.getTopLevelWidget = function() {
+qx.Proto.getTopLevelWidget = function() {
   return this._hasParent ? this.getParent().getTopLevelWidget() : null;
 };
 
 /*!
   Move myself before another child of the same parent.
 */
-proto.moveSelfBefore = function(vBefore) {
+qx.Proto.moveSelfBefore = function(vBefore) {
   this.getParent().addBefore(this, vBefore);
 };
 
 /*!
   Move myself after another child of the same parent.
 */
-proto.moveSelfAfter = function(vAfter) {
+qx.Proto.moveSelfAfter = function(vAfter) {
   this.getParent().addAfter(this, vAfter);
 };
 
 /*!
   Move myself to the begin and this way make me the first child.
 */
-proto.moveSelfToBegin = function() {
+qx.Proto.moveSelfToBegin = function() {
   this.getParent().addAtBegin(this);
 };
 
 /*!
   Move myself to the end and this way make me the last child.
 */
-proto.moveSelfToEnd = function() {
+qx.Proto.moveSelfToEnd = function() {
   this.getParent().addAtEnd(this);
 };
 
 /*!
   Returns the previous sibling.
 */
-proto.getPreviousSibling = function()
+qx.Proto.getPreviousSibling = function()
 {
   var p = this.getParent();
 
@@ -3500,7 +3500,7 @@ proto.getPreviousSibling = function()
 /*!
   Returns the next sibling.
 */
-proto.getNextSibling = function()
+qx.Proto.getNextSibling = function()
 {
   var p = this.getParent();
 
@@ -3515,7 +3515,7 @@ proto.getNextSibling = function()
 /*!
   Returns the previous sibling.
 */
-proto.getPreviousVisibleSibling = function()
+qx.Proto.getPreviousVisibleSibling = function()
 {
   if(!this._hasParent) {
     return null;
@@ -3528,7 +3528,7 @@ proto.getPreviousVisibleSibling = function()
 /*!
   Returns the next sibling.
 */
-proto.getNextVisibleSibling = function()
+qx.Proto.getNextVisibleSibling = function()
 {
   if(!this._hasParent) {
     return null;
@@ -3538,31 +3538,31 @@ proto.getNextVisibleSibling = function()
   return vChildren[vChildren.indexOf(this) + 1];
 };
 
-proto.getPreviousActiveSibling = function(vIgnoreClasses)
+qx.Proto.getPreviousActiveSibling = function(vIgnoreClasses)
 {
   var vPrev = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
   return vPrev ? vPrev : this.getParent().getLastActiveChild();
 };
 
-proto.getNextActiveSibling = function(vIgnoreClasses)
+qx.Proto.getNextActiveSibling = function(vIgnoreClasses)
 {
   var vNext = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
   return vNext ? vNext : this.getParent().getFirstActiveChild();
 };
 
-proto.isFirstChild = function() {
+qx.Proto.isFirstChild = function() {
   return this._hasParent && this.getParent().getFirstChild() == this;
 };
 
-proto.isLastChild = function() {
+qx.Proto.isLastChild = function() {
   return this._hasParent && this.getParent().getLastChild() == this;
 };
 
-proto.isFirstVisibleChild = function() {
+qx.Proto.isFirstVisibleChild = function() {
   return this._hasParent && this.getParent().getFirstVisibleChild() == this;
 };
 
-proto.isLastVisibleChild = function() {
+qx.Proto.isLastVisibleChild = function() {
   return this._hasParent && this.getParent().getLastVisibleChild() == this;
 };
 
@@ -3578,7 +3578,7 @@ proto.isLastVisibleChild = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -3607,11 +3607,11 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.hasState = function(vState) {
+qx.Proto.hasState = function(vState) {
   return this._states[vState] ? true : false;
 };
 
-proto.addState = function(vState)
+qx.Proto.addState = function(vState)
 {
   this._states[vState] = true;
 
@@ -3620,7 +3620,7 @@ proto.addState = function(vState)
   };
 };
 
-proto.removeState = function(vState)
+qx.Proto.removeState = function(vState)
 {
   delete this._states[vState];
 
@@ -3641,7 +3641,7 @@ proto.removeState = function(vState)
 ---------------------------------------------------------------------------
 */
 
-proto._applyInitialAppearance = function()
+qx.Proto._applyInitialAppearance = function()
 {
   var vAppearance = this.getAppearance();
 
@@ -3661,7 +3661,7 @@ proto._applyInitialAppearance = function()
   };
 };
 
-proto._applyStateAppearance = function()
+qx.Proto._applyStateAppearance = function()
 {
   this._applyStateStyleFocus(this._states);
 
@@ -3683,7 +3683,7 @@ proto._applyStateAppearance = function()
   };
 };
 
-proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanceTheme)
+qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
   var vAppearance = this.getAppearance();
 
@@ -3711,11 +3711,11 @@ if (qx.sys.Client.isMshtml())
   /*
     Mshtml does not support outlines by css
   */
-  proto._applyStateStyleFocus = function(vStates) {};
+  qx.Proto._applyStateStyleFocus = function(vStates) {};
 }
 else if (qx.sys.Client.isGecko())
 {
-  proto._applyStateStyleFocus = function(vStates)
+  qx.Proto._applyStateStyleFocus = function(vStates)
   {
     if (vStates.focused)
     {
@@ -3732,7 +3732,7 @@ else if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._applyStateStyleFocus = function(vStates)
+  qx.Proto._applyStateStyleFocus = function(vStates)
   {
     if (vStates.focused)
     {
@@ -3748,11 +3748,11 @@ else
   };
 };
 
-proto.addToStateQueue = function() {
+qx.Proto.addToStateQueue = function() {
   qx.ui.core.Widget.addToGlobalStateQueue(this);
 };
 
-proto.recursiveAddToStateQueue = function() {
+qx.Proto.recursiveAddToStateQueue = function() {
   this.addToStateQueue();
 };
 
@@ -3768,7 +3768,7 @@ proto.recursiveAddToStateQueue = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._modifyAppearance = function(propValue, propOldValue, propData)
+qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
   var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getAppearanceThemeObject();
 
@@ -3799,7 +3799,7 @@ proto._modifyAppearance = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
+qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
   try
   {
@@ -3825,7 +3825,7 @@ proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppear
 /*!
   Placeholder method to add attributes and other content to element node
 */
-proto._applyElementData = function(el) {};
+qx.Proto._applyElementData = function(el) {};
 
 
 
@@ -3838,7 +3838,7 @@ proto._applyElementData = function(el) {};
 ---------------------------------------------------------------------------
 */
 
-proto.setHtmlProperty = function(propName, propValue)
+qx.Proto.setHtmlProperty = function(propName, propValue)
 {
   if (!this._htmlProperties) {
     this._htmlProperties = {};
@@ -3855,7 +3855,7 @@ proto.setHtmlProperty = function(propName, propValue)
 
 if (qx.sys.Client.isMshtml())
 {
-  proto.removeHtmlProperty = function(propName)
+  qx.Proto.removeHtmlProperty = function(propName)
   {
     if (!this._htmlProperties) {
       return;
@@ -3872,7 +3872,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto.removeHtmlProperty = function(propName)
+  qx.Proto.removeHtmlProperty = function(propName)
   {
     if (!this._htmlProperties) {
       return;
@@ -3890,7 +3890,7 @@ else
   };
 };
 
-proto.getHtmlProperty = function(propName)
+qx.Proto.getHtmlProperty = function(propName)
 {
   if (!this._htmlProperties) {
     return qx.Const.CORE_EMPTY;
@@ -3899,7 +3899,7 @@ proto.getHtmlProperty = function(propName)
   return this._htmlProperties[propName] || qx.Const.CORE_EMPTY;
 };
 
-proto._applyHtmlProperties = function(vElement)
+qx.Proto._applyHtmlProperties = function(vElement)
 {
   var vProperties = this._htmlProperties;
 
@@ -3926,7 +3926,7 @@ proto._applyHtmlProperties = function(vElement)
 ---------------------------------------------------------------------------
 */
 
-proto.setHtmlAttribute = function(propName, propValue)
+qx.Proto.setHtmlAttribute = function(propName, propValue)
 {
   if (!this._htmlAttributes) {
     this._htmlAttributes = {};
@@ -3941,7 +3941,7 @@ proto.setHtmlAttribute = function(propName, propValue)
   return true;
 };
 
-proto.removeHtmlAttribute = function(propName)
+qx.Proto.removeHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
     return;
@@ -3956,7 +3956,7 @@ proto.removeHtmlAttribute = function(propName)
   return true;
 };
 
-proto.getHtmlAttribute = function(propName)
+qx.Proto.getHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
     return qx.Const.CORE_EMPTY;
@@ -3965,7 +3965,7 @@ proto.getHtmlAttribute = function(propName)
   return this._htmlAttributes[propName] || qx.Const.CORE_EMPTY;
 };
 
-proto._applyHtmlAttributes = function(vElement)
+qx.Proto._applyHtmlAttributes = function(vElement)
 {
   var vAttributes = this._htmlAttributes;
 
@@ -3992,11 +3992,11 @@ proto._applyHtmlAttributes = function(vElement)
 ---------------------------------------------------------------------------
 */
 
-proto.getStyleProperty = function(propName) {
+qx.Proto.getStyleProperty = function(propName) {
   return this._styleProperties[propName] || qx.Const.CORE_EMPTY;
 };
 
-proto.setStyleProperty = function(propName, propValue)
+qx.Proto.setStyleProperty = function(propName, propValue)
 {
   this._styleProperties[propName] = propValue;
 
@@ -4027,7 +4027,7 @@ proto.setStyleProperty = function(propName, propValue)
   return true;
 };
 
-proto.removeStyleProperty = function(propName)
+qx.Proto.removeStyleProperty = function(propName)
 {
   delete this._styleProperties[propName];
 
@@ -4058,7 +4058,7 @@ proto.removeStyleProperty = function(propName)
   return true;
 };
 
-proto._applyStyleProperties = function(vElement)
+qx.Proto._applyStyleProperties = function(vElement)
 {
   var vProperties = this._styleProperties;
   var propName;
@@ -4100,15 +4100,15 @@ proto._applyStyleProperties = function(vElement)
 ---------------------------------------------------------------------------
 */
 
-proto.isFocusable = function() {
+qx.Proto.isFocusable = function() {
   return this.isEnabled() && this.isSeeable() && this.getTabIndex() >= 0;
 };
 
-proto.isFocusRoot = function() {
+qx.Proto.isFocusRoot = function() {
   return false;
 };
 
-proto.getFocusRoot = function()
+qx.Proto.getFocusRoot = function()
 {
   if(this._hasParent) {
     return this.getParent().getFocusRoot();
@@ -4117,7 +4117,7 @@ proto.getFocusRoot = function()
   return null;
 };
 
-proto.getActiveChild = function()
+qx.Proto.getActiveChild = function()
 {
   var vRoot = this.getFocusRoot();
   if (vRoot) {
@@ -4127,9 +4127,9 @@ proto.getActiveChild = function()
   return null;
 };
 
-proto._ontabfocus = qx.util.Return.returnTrue;
+qx.Proto._ontabfocus = qx.util.Return.returnTrue;
 
-proto._modifyFocused = function(propValue, propOldValue, propData)
+qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 {
   if (!this.isCreated()) {
     return true;
@@ -4156,7 +4156,7 @@ proto._modifyFocused = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._visualizeBlur = function()
+qx.Proto._visualizeBlur = function()
 {
   // force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
@@ -4171,7 +4171,7 @@ proto._visualizeBlur = function()
   return true;
 };
 
-proto._visualizeFocus = function()
+qx.Proto._visualizeFocus = function()
 {
   if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
   {
@@ -4184,13 +4184,13 @@ proto._visualizeFocus = function()
   return true;
 };
 
-proto.focus = function()
+qx.Proto.focus = function()
 {
   delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(true);
 };
 
-proto.blur = function()
+qx.Proto.blur = function()
 {
   delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(false);
@@ -4205,7 +4205,7 @@ proto.blur = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyCapture = function(propValue, propOldValue, propData)
+qx.Proto._modifyCapture = function(propValue, propOldValue, propData)
 {
   try
   {
@@ -4238,7 +4238,7 @@ proto._modifyCapture = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyZIndex = function(propValue, propOldValue, propData) {
+qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
   return this.setStyleProperty(propData.name, propValue);
 };
 
@@ -4265,7 +4265,7 @@ qx.ui.core.Widget.TAB_VALUE_ON = "on";
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._modifyTabIndex = function(propValue, propOldValue, propData)
+  qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
     propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.TAB_VALUE_ON) : this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
     this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
@@ -4275,7 +4275,7 @@ if (qx.sys.Client.isMshtml())
 }
 else if (qx.sys.Client.isGecko())
 {
-  proto._modifyTabIndex = function(propValue, propOldValue, propData)
+  qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
     this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_MOZUSERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
 
@@ -4287,7 +4287,7 @@ else if (qx.sys.Client.isGecko())
 }
 else
 {
-  proto._modifyTabIndex = function(propValue, propOldValue, propData)
+  qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
     // CSS 3 Draft
     this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
@@ -4311,11 +4311,11 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.setCssClassName = function(propValue) {
+qx.Proto.setCssClassName = function(propValue) {
   this.setHtmlProperty(qx.Const.PROPERTY_CLASSNAME, propValue);
 };
 
-proto.getCssClassName = function() {
+qx.Proto.getCssClassName = function() {
   return this.getHtmlProperty(qx.Const.PROPERTY_CLASSNAME);
 };
 
@@ -4332,13 +4332,13 @@ proto.getCssClassName = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getWidgetFromPoint = function(x, y)
+qx.Proto.getWidgetFromPoint = function(x, y)
 {
   var ret = this.getWidgetFromPointHelper(x, y);
   return ret && ret != this ? ret : null;
 };
 
-proto.getWidgetFromPointHelper = function(x, y) {
+qx.Proto.getWidgetFromPointHelper = function(x, y) {
   return this;
 };
 
@@ -4361,13 +4361,13 @@ qx.ui.core.Widget.SEL_VALUE_ON = "on";
 
 if(qx.sys.Client.isMshtml())
 {
-  proto._modifySelectable = function(propValue, propOldValue, propData) {
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return propValue ? this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.SEL_VALUE_ON);
   };
 }
 else if(qx.sys.Client.isGecko())
 {
-  proto._modifySelectable = function(propValue, propOldValue, propData)
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
     // Be forward compatible and use both userSelect and MozUserSelect
     if (propValue)
@@ -4387,13 +4387,13 @@ else if(qx.sys.Client.isGecko())
 else if (qx.sys.Client.isOpera())
 {
   // No known method available for this client
-  proto._modifySelectable = function(propValue, propOldValue, propData) {
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return true;
   };
 }
 else
 {
-  proto._modifySelectable = function(propValue, propOldValue, propData) {
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.Const.CORE_NONE);
   };
 };
@@ -4424,7 +4424,7 @@ means totally opaque and 0 invisible.
 */
 if(qx.sys.Client.isMshtml())
 {
-  proto._modifyOpacity = function(propValue, propOldValue, propData)
+  qx.Proto._modifyOpacity = function(propValue, propOldValue, propData)
   {
     if(propValue == null || propValue >= 1 || propValue < 0)
     {
@@ -4444,7 +4444,7 @@ if(qx.sys.Client.isMshtml())
 }
 else
 {
-  proto._modifyOpacity = function(propValue, propOldValue, propData)
+  qx.Proto._modifyOpacity = function(propValue, propOldValue, propData)
   {
     if(propValue == null || propValue > 1)
     {
@@ -4497,7 +4497,7 @@ qx.ui.core.Widget.CURSOR_PROPERTY = "cursor";
 qx.ui.core.Widget.CURSOR_VALUE_POINTER = "pointer";
 qx.ui.core.Widget.CURSOR_VALUE_HAND = "hand";
 
-proto._modifyCursor = function(propValue, propOldValue, propData)
+qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -4527,7 +4527,7 @@ qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP = ")";
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
-proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
+qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
   return qx.util.Validation.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + qx.manager.object.ImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 };
 
@@ -4546,11 +4546,11 @@ qx.ui.core.Widget.CLIP_PROPERTY = "clip";
 qx.ui.core.Widget.CLIP_VALUE_START = "rect(";
 qx.ui.core.Widget.CLIP_VALUE_STOP = ")";
 
-proto._modifyClip = function(propValue, propOldValue, propData) {
+qx.Proto._modifyClip = function(propValue, propOldValue, propData) {
   return this._compileClipString();
 };
 
-proto._compileClipString = function()
+qx.Proto._compileClipString = function()
 {
   var vLeft = this.getClipLeft();
   var vTop = this.getClipTop();
@@ -4636,7 +4636,7 @@ qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLY = "-moz-scrollbars-vertical";
 
 if (qx.sys.Client.isGecko())
 {
-  proto._modifyOverflow = function(propValue, propOldValue, propData)
+  qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
     var pv = propValue;
     var pn = propData.name;
@@ -4664,7 +4664,7 @@ if (qx.sys.Client.isGecko())
 // which support these new overflowX overflowY properties.
 else if (qx.sys.Client.isMshtml())
 {
-  proto._modifyOverflow = function(propValue, propOldValue, propData)
+  qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
     var pv = propValue;
     var pn = propData.name;
@@ -4702,7 +4702,7 @@ else if (qx.sys.Client.isMshtml())
 // and also not if we switch to IE emulation mode
 else
 {
-  proto._modifyOverflow = function(propValue, propOldValue, propData)
+  qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
     var pv = propValue;
     var pn = propData.name;
@@ -4719,7 +4719,7 @@ else
   };
 };
 
-proto._applyOverflow = function(pn, pv, propValue, propOldValue)
+qx.Proto._applyOverflow = function(pn, pv, propValue, propOldValue)
 {
   // Apply Style
   this.setStyleProperty(pn, pv);
@@ -4731,13 +4731,13 @@ proto._applyOverflow = function(pn, pv, propValue, propOldValue)
   return true;
 };
 
-proto.getOverflowX = function()
+qx.Proto.getOverflowX = function()
 {
   var vOverflow = this.getOverflow();
   return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLY ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
 };
 
-proto.getOverflowY = function()
+qx.Proto.getOverflowY = function()
 {
   var vOverflow = this.getOverflow();
   return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLX ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
@@ -4756,7 +4756,7 @@ proto.getOverflowY = function()
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._modifyHideFocus = function(propValue, propOldValue, propData)
+  qx.Proto._modifyHideFocus = function(propValue, propOldValue, propData)
   {
     this.setHtmlProperty(propData.name, propValue);
     return true;
@@ -4778,7 +4778,7 @@ if (qx.sys.Client.isMshtml())
 ---------------------------------------------------------------------------
 */
 
-proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
+qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -4797,7 +4797,7 @@ proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyColor = function(propValue, propOldValue, propData)
+qx.Proto._modifyColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -4816,7 +4816,7 @@ proto._modifyColor = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._updateColors = function(vColor, vNewValue)
+qx.Proto._updateColors = function(vColor, vNewValue)
 {
   if (this.getColor() == vColor) {
     this._applyColor(vNewValue);
@@ -4827,19 +4827,19 @@ proto._updateColors = function(vColor, vNewValue)
   };
 };
 
-proto._applyColor = function(vNewValue) {
+qx.Proto._applyColor = function(vNewValue) {
   this.setStyleProperty(qx.Const.PROPERTY_COLOR, vNewValue);
 };
 
-proto._applyBackgroundColor = function(vNewValue) {
+qx.Proto._applyBackgroundColor = function(vNewValue) {
   this.setStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR, vNewValue);
 };
 
-proto._resetColor = function(vNewValue) {
+qx.Proto._resetColor = function(vNewValue) {
   this.removeStyleProperty(qx.Const.PROPERTY_COLOR);
 };
 
-proto._resetBackgroundColor = function() {
+qx.Proto._resetBackgroundColor = function() {
   this.removeStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR);
 };
 
@@ -4854,12 +4854,12 @@ proto._resetBackgroundColor = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._cachedBorderTop = 0;
-proto._cachedBorderRight = 0;
-proto._cachedBorderBottom = 0;
-proto._cachedBorderLeft = 0;
+qx.Proto._cachedBorderTop = 0;
+qx.Proto._cachedBorderRight = 0;
+qx.Proto._cachedBorderBottom = 0;
+qx.Proto._cachedBorderLeft = 0;
 
-proto._modifyBorder = function(propValue, propOldValue, propData)
+qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
 {
   var vOldTop = this._cachedBorderTop;
   var vOldRight = this._cachedBorderRight;
@@ -4913,23 +4913,23 @@ proto._modifyBorder = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto.getCachedBorderTop = function() {
+qx.Proto.getCachedBorderTop = function() {
   return this._cachedBorderTop;
 };
 
-proto.getCachedBorderRight = function() {
+qx.Proto.getCachedBorderRight = function() {
   return this._cachedBorderRight;
 };
 
-proto.getCachedBorderBottom = function() {
+qx.Proto.getCachedBorderBottom = function() {
   return this._cachedBorderBottom;
 };
 
-proto.getCachedBorderLeft = function() {
+qx.Proto.getCachedBorderLeft = function() {
   return this._cachedBorderLeft;
 };
 
-proto._updateBorder = function(vEdge)
+qx.Proto._updateBorder = function(vEdge)
 {
   // Small hack, remove later: TODO
   // ?? Anybody have an idea about this TODO?
@@ -4976,13 +4976,13 @@ proto._updateBorder = function(vEdge)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyPaddingX = function(propValue, propOldValue, propData)
+qx.Proto._modifyPaddingX = function(propValue, propOldValue, propData)
 {
   this._invalidateFrameWidth();
   return true;
 };
 
-proto._modifyPaddingY = function(propValue, propOldValue, propData)
+qx.Proto._modifyPaddingY = function(propValue, propOldValue, propData)
 {
   this._invalidateFrameHeight();
   return true;
@@ -4999,7 +4999,7 @@ proto._modifyPaddingY = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._clonePropertyIgnoreList = "parent,element,visible";
+qx.Proto._clonePropertyIgnoreList = "parent,element,visible";
 
 
 /*!
@@ -5010,7 +5010,7 @@ Returns a cloned copy of the current instance of qx.ui.core.Widget.
 */
 
 // TODO: Needs modification to work with new codebase
-proto.clone = function(cloneRecursive, customPropertyList)
+qx.Proto.clone = function(cloneRecursive, customPropertyList)
 {
   var cloneInstance = new this.constructor;
 
@@ -5054,7 +5054,7 @@ proto.clone = function(cloneRecursive, customPropertyList)
   return cloneInstance;
 };
 
-proto._cloneRecursive = function(cloneInstance) {};
+qx.Proto._cloneRecursive = function(cloneInstance) {};
 
 
 
@@ -5067,7 +5067,7 @@ proto._cloneRecursive = function(cloneInstance) {};
 ---------------------------------------------------------------------------
 */
 
-proto.execute = function()
+qx.Proto.execute = function()
 {
   var vCommand = this.getCommand();
   if (vCommand) {
@@ -5088,80 +5088,80 @@ proto.execute = function()
 ---------------------------------------------------------------------------
 */
 
-proto._visualPropertyCheck = function()
+qx.Proto._visualPropertyCheck = function()
 {
   if (!this.isCreated()) {
     throw new Error("Element must be created previously!");
   };
 };
 
-proto.setScrollLeft = function(nScrollLeft)
+qx.Proto.setScrollLeft = function(nScrollLeft)
 {
   this._visualPropertyCheck();
   this._getTargetNode().scrollLeft = nScrollLeft;
 };
 
-proto.setScrollTop = function(nScrollTop)
+qx.Proto.setScrollTop = function(nScrollTop)
 {
   this._visualPropertyCheck();
   this._getTargetNode().scrollTop = nScrollTop;
 };
 
-proto.getOffsetLeft = function()
+qx.Proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
   return qx.dom.DomOffset.getLeft(this.getElement());
 };
 
-proto.getOffsetTop = function()
+qx.Proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
   return qx.dom.DomOffset.getTop(this.getElement());
 };
 
-proto.getScrollLeft = function()
+qx.Proto.getScrollLeft = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().scrollLeft;
 };
 
-proto.getScrollTop = function()
+qx.Proto.getScrollTop = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().scrollTop;
 };
 
-proto.getClientWidth = function()
+qx.Proto.getClientWidth = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().clientWidth;
 };
 
-proto.getClientHeight = function()
+qx.Proto.getClientHeight = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().clientHeight;
 };
 
-proto.getOffsetWidth = function()
+qx.Proto.getOffsetWidth = function()
 {
   this._visualPropertyCheck();
   return this.getElement().offsetWidth;
 };
 
-proto.getOffsetHeight = function()
+qx.Proto.getOffsetHeight = function()
 {
   this._visualPropertyCheck();
   return this.getElement().offsetHeight;
 };
 
-proto.getScrollWidth = function()
+qx.Proto.getScrollWidth = function()
 {
   this._visualPropertyCheck();
   return this.getElement().scrollWidth;
 };
 
-proto.getScrollHeight = function()
+qx.Proto.getScrollHeight = function()
 {
   this._visualPropertyCheck();
   return this.getElement().scrollHeight;
@@ -5177,13 +5177,13 @@ proto.getScrollHeight = function()
 ---------------------------------------------------------------------------
 */
 
-proto.scrollIntoView = function(vAlignTopLeft)
+qx.Proto.scrollIntoView = function(vAlignTopLeft)
 {
   this.scrollIntoViewX(vAlignTopLeft);
   this.scrollIntoViewY(vAlignTopLeft);
 };
 
-proto.scrollIntoViewX = function(vAlignLeft)
+qx.Proto.scrollIntoViewX = function(vAlignLeft)
 {
   if (!this._isCreated || !this._isDisplayable) {
     return false;
@@ -5192,7 +5192,7 @@ proto.scrollIntoViewX = function(vAlignLeft)
   return qx.dom.DomScrollIntoView.scrollX(this.getElement(), vAlignLeft);
 };
 
-proto.scrollIntoViewY = function(vAlignTop)
+qx.Proto.scrollIntoViewY = function(vAlignTop)
 {
   if (!this._isCreated || !this._isDisplayable) {
     return false;
@@ -5213,12 +5213,12 @@ proto.scrollIntoViewY = function(vAlignTop)
 */
 
 /*
-proto.applyRoundedBorder = function()
+qx.Proto.applyRoundedBorder = function()
 {
   this.addEventListener(qx.Const.EVENT_TYPE_BEFOREAPPEAR, this._applyRoundedBorder);
 };
 
-proto._applyRoundedBorder = function()
+qx.Proto._applyRoundedBorder = function()
 {
   this._applyRoundedTopLeftBorder();
   this._applyRoundedTopRightBorder();
@@ -5229,7 +5229,7 @@ proto._applyRoundedBorder = function()
   this._applyRoundedFadedTopLeftBorder();
 };
 
-proto._applyRoundedTopLeftBorder = function()
+qx.Proto._applyRoundedTopLeftBorder = function()
 {
   var el = this.getElement();
 
@@ -5274,7 +5274,7 @@ proto._applyRoundedTopLeftBorder = function()
 
 };
 
-proto._applyRoundedFadedTopLeftBorder = function()
+qx.Proto._applyRoundedFadedTopLeftBorder = function()
 {
   var el = this.getElement();
 
@@ -5340,7 +5340,7 @@ proto._applyRoundedFadedTopLeftBorder = function()
 
 };
 
-proto._applyRoundedTopRightBorder = function()
+qx.Proto._applyRoundedTopRightBorder = function()
 {
   var el = this.getElement();
 
@@ -5361,7 +5361,7 @@ proto._applyRoundedTopRightBorder = function()
 
 };
 
-proto._applyRoundedBottomLeftBorder = function()
+qx.Proto._applyRoundedBottomLeftBorder = function()
 {
   var el = this.getElement();
 
@@ -5383,7 +5383,7 @@ proto._applyRoundedBottomLeftBorder = function()
 
 };
 
-proto._applyRoundedBottomRightBorder = function()
+qx.Proto._applyRoundedBottomRightBorder = function()
 {
   var el = this.getElement();
 
@@ -5417,7 +5417,7 @@ proto._applyRoundedBottomRightBorder = function()
 ---------------------------------------------------------------------------
 */
 
-proto.supportsDrop = function(vDragCache) {
+qx.Proto.supportsDrop = function(vDragCache) {
   return true;
 };
 
@@ -5433,7 +5433,7 @@ proto.supportsDrop = function(vDragCache) {
   DISPOSER
 ---------------------------------------------------------------------------
 */
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

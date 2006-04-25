@@ -77,7 +77,7 @@ function(vWidget)
 /*!
   Updates children on special jobs
 */
-proto.updateChildrenOnJobQueueFlush = function(vQueue)
+qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   var vWidget = this.getWidget();
   var ch, chc;

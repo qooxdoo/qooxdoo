@@ -48,23 +48,23 @@ function(vManager)
 ---------------------------------------------------------------------------
 */
 
-proto.add = function(oItem) {
+qx.Proto.add = function(oItem) {
   this._storage[this.getItemHashCode(oItem)] = oItem;
 };
 
-proto.remove = function(oItem) {
+qx.Proto.remove = function(oItem) {
   delete this._storage[this.getItemHashCode(oItem)];
 };
 
-proto.removeAll = function() {
+qx.Proto.removeAll = function() {
   this._storage = {};
 };
 
-proto.contains = function(oItem) {
+qx.Proto.contains = function(oItem) {
   return this.getItemHashCode(oItem) in this._storage;
 };
 
-proto.toArray = function()
+qx.Proto.toArray = function()
 {
   var res = [];
 
@@ -75,14 +75,14 @@ proto.toArray = function()
   return res;
 };
 
-proto.getFirst = function()
+qx.Proto.getFirst = function()
 {
   for (var key in this._storage) {
     return this._storage[key];
   };
 };
 
-proto.getChangeValue = function()
+qx.Proto.getChangeValue = function()
 {
   var sb = [];
 
@@ -94,11 +94,11 @@ proto.getChangeValue = function()
   return sb.join(qx.Const.CORE_SEMICOLON);
 };
 
-proto.getItemHashCode = function(oItem) {
+qx.Proto.getItemHashCode = function(oItem) {
   return this._manager.getItemHashCode(oItem);
 };
 
-proto.isEmpty = function() {
+qx.Proto.isEmpty = function() {
   return qx.lang.Object.isEmpty(this._storage);
 };
 
@@ -111,7 +111,7 @@ proto.isEmpty = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

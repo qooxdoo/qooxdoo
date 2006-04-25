@@ -48,7 +48,7 @@ qx.manager.object.WindowManager.addProperty({ name : "activeWindow", type : qx.C
 ---------------------------------------------------------------------------
 */
 
-proto._modifyActiveWindow = function(propValue, propOldValue, propData)
+qx.Proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 {
   qx.manager.object.PopupManager.update();
 
@@ -82,7 +82,7 @@ proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.update = function(oTarget)
+qx.Proto.update = function(oTarget)
 {
   var vWindow, vHashCode;
   var vAll = this.getAll();
@@ -109,7 +109,7 @@ proto.update = function(oTarget)
 ---------------------------------------------------------------------------
 */
 
-proto.compareWindows = function(w1, w2)
+qx.Proto.compareWindows = function(w1, w2)
 {
   switch(w1.getWindowManager().getActiveWindow())
   {
@@ -123,7 +123,7 @@ proto.compareWindows = function(w1, w2)
   return w1.getZIndex() - w2.getZIndex();
 };
 
-proto.add = function(vWindow)
+qx.Proto.add = function(vWindow)
 {
   qx.manager.object.ObjectManager.prototype.add.call(this, vWindow);
 
@@ -131,7 +131,7 @@ proto.add = function(vWindow)
   this.setActiveWindow(vWindow);
 };
 
-proto.remove = function(vWindow)
+qx.Proto.remove = function(vWindow)
 {
   qx.manager.object.ObjectManager.prototype.remove.call(this, vWindow);
 

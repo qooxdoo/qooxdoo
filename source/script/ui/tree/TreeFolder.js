@@ -73,11 +73,11 @@ qx.ui.tree.TreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : q
 ---------------------------------------------------------------------------
 */
 
-proto.hasContent = function() {
+qx.Proto.hasContent = function() {
   return this._containerObject && this._containerObject.getChildrenLength() > 0;
 };
 
-proto.open = function()
+qx.Proto.open = function()
 {
   if (this.getOpen()) {
     return;
@@ -94,15 +94,15 @@ proto.open = function()
   };
 };
 
-proto.close = function() {
+qx.Proto.close = function() {
   this.setOpen(false);
 };
 
-proto.toggle = function() {
+qx.Proto.toggle = function() {
   this.getOpen() ? this.close() : this.open();
 };
 
-proto._openCallback = function()
+qx.Proto._openCallback = function()
 {
   this.setOpen(true);
   qx.ui.core.Widget.flushGlobalQueues();
@@ -122,7 +122,7 @@ proto._openCallback = function()
 ---------------------------------------------------------------------------
 */
 
-proto._createChildrenStructure = function()
+qx.Proto._createChildrenStructure = function()
 {
   this.setAppearance(this instanceof qx.ui.tree.Tree ? "tree-container" : "tree-folder-container");
 
@@ -160,7 +160,7 @@ proto._createChildrenStructure = function()
   };
 };
 
-proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
+qx.Proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
 {
   if (vChild.isDisplayable())
   {
@@ -194,7 +194,7 @@ proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
   };
 };
 
-proto.addToFolder = function()
+qx.Proto.addToFolder = function()
 {
   this._createChildrenStructure();
 
@@ -203,7 +203,7 @@ proto.addToFolder = function()
   };
 };
 
-proto.addBeforeToFolder = function(vChild, vBefore)
+qx.Proto.addBeforeToFolder = function(vChild, vBefore)
 {
   this._createChildrenStructure();
 
@@ -214,7 +214,7 @@ proto.addBeforeToFolder = function(vChild, vBefore)
   };
 };
 
-proto.addAfterToFolder = function(vChild, vAfter)
+qx.Proto.addAfterToFolder = function(vChild, vAfter)
 {
   this._createChildrenStructure();
 
@@ -225,7 +225,7 @@ proto.addAfterToFolder = function(vChild, vAfter)
   };
 };
 
-proto.addAtToFolder = function(vChild, vIndex)
+qx.Proto.addAtToFolder = function(vChild, vIndex)
 {
   this._createChildrenStructure();
 
@@ -236,11 +236,11 @@ proto.addAtToFolder = function(vChild, vIndex)
   };
 };
 
-proto.addAtBeginToFolder = function(vChild) {
+qx.Proto.addAtBeginToFolder = function(vChild) {
   return this.addAtToFolder(vChild, 0);
 };
 
-proto.addAtEndToFolder = function(vChild)
+qx.Proto.addAtEndToFolder = function(vChild)
 {
   this._createChildrenStructure();
 
@@ -260,7 +260,7 @@ proto.addAtEndToFolder = function(vChild)
   };
 };
 
-proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
+qx.Proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
 
 
 
@@ -273,29 +273,29 @@ proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
 ---------------------------------------------------------------------------
 */
 
-proto.getContainerObject = function() {
+qx.Proto.getContainerObject = function() {
   return this._containerObject;
 };
 
-proto.getHorizontalLayout = function() {
+qx.Proto.getHorizontalLayout = function() {
   return this._horizontalLayout;
 };
 
-proto.getFirstVisibleChildOfFolder = function()
+qx.Proto.getFirstVisibleChildOfFolder = function()
 {
   if (this._containerObject) {
     return this._containerObject.getFirstChild();
   };
 };
 
-proto.getLastVisibleChildOfFolder = function()
+qx.Proto.getLastVisibleChildOfFolder = function()
 {
   if (this._containerObject) {
     return this._containerObject.getLastChild();
   };
 };
 
-proto.getItems = function()
+qx.Proto.getItems = function()
 {
   var a = [this];
 
@@ -323,7 +323,7 @@ proto.getItems = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyOpen = function(propValue, propOldValue, propData)
+qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {
   this._updateLastColumn();
 
@@ -334,14 +334,14 @@ proto._modifyOpen = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
+qx.Proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
 {
   this._updateLastColumn();
 
   return true;
 };
 
-proto._updateLastColumn = function()
+qx.Proto._updateLastColumn = function()
 {
   if (this._indentObject)
   {
@@ -365,7 +365,7 @@ proto._updateLastColumn = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vOriginalTarget = e.getOriginalTarget();
 
@@ -397,7 +397,7 @@ proto._onmousedown = function(e)
   e.stopPropagation();
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vOriginalTarget = e.getOriginalTarget();
 
@@ -415,7 +415,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   if (!this.getTree().getUseDoubleClick()) {
     return;
@@ -437,7 +437,7 @@ proto._ondblclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 {
   if (vIsLastColumn)
   {
@@ -467,7 +467,7 @@ proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
   };
 };
 
-proto._updateIndent = function()
+qx.Proto._updateIndent = function()
 {
   qx.ui.tree.TreeFile.prototype._updateIndent.call(this);
 
@@ -493,7 +493,7 @@ proto._updateIndent = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

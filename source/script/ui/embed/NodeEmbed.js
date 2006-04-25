@@ -38,7 +38,7 @@ function(vId)
 
 qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
 
-proto._createElementImpl = function()
+qx.Proto._createElementImpl = function()
 {
   var vNode = document.getElementById(this.getSourceNodeId());
 

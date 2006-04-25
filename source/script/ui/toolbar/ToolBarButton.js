@@ -47,5 +47,5 @@ qx.ui.toolbar.ToolBarButton.changeProperty({ name : "appearance", type : qx.Cons
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = qx.util.Return.returnTrue;
-proto._onkeyup = qx.util.Return.returnTrue;
+qx.Proto._onkeydown = qx.util.Return.returnTrue;
+qx.Proto._onkeyup = qx.util.Return.returnTrue;

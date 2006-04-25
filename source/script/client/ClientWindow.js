@@ -62,15 +62,15 @@ function()
 ---------------------------------------------------------------------------
 */
 
-proto.getEventManager = function() {
+qx.Proto.getEventManager = function() {
   return this._eventManager;
 };
 
-proto.getClientDocument = function() {
+qx.Proto.getClientDocument = function() {
   return this._clientDocument;
 };
 
-proto.getElement = function() {
+qx.Proto.getElement = function() {
   return this._element;
 };
 
@@ -85,7 +85,7 @@ proto.getElement = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

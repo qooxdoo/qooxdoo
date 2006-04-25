@@ -47,7 +47,7 @@ qx.dev.TimeTracker.compare = function(a, b) {
 ---------------------------------------------------------------------------
 */
 
-proto.buttonSets = function()
+qx.Proto.buttonSets = function()
 {
   var btnLayout = new qx.ui.layout.HorizontalBoxLayout;
 
@@ -93,7 +93,7 @@ proto.buttonSets = function()
   window.application.add(btnLayout, htmlOutput);
 };
 
-proto.start = function(vRounds, vLoops)
+qx.Proto.start = function(vRounds, vLoops)
 {
   var vFuncs = this._functions;
   var vLength = vFuncs.length;
@@ -306,7 +306,7 @@ proto.start = function(vRounds, vLoops)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

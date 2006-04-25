@@ -69,7 +69,7 @@ function(vData, vColumns)
 
 qx.ui.listview.ListViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-pane" });
 
-proto._rowHeight = 16;
+qx.Proto._rowHeight = 16;
 
 
 
@@ -82,7 +82,7 @@ proto._rowHeight = 16;
 ---------------------------------------------------------------------------
 */
 
-proto.getView = function() {
+qx.Proto.getView = function() {
   return this.getParent().getParent();
 };
 
@@ -97,9 +97,9 @@ proto.getView = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._lastRowCount = 0;
+qx.Proto._lastRowCount = 0;
 
-proto._updateLayout = function(vUpdate)
+qx.Proto._updateLayout = function(vUpdate)
 {
   // this.debug("InnerHeight: " + this._computeInnerHeight());
   // this.debug("BoxHeight: " + this._computeBoxHeight());
@@ -175,9 +175,9 @@ proto._updateLayout = function(vUpdate)
   this._lastRowCount = vRowCount;
 };
 
-proto._currentScrollTop = -1;
+qx.Proto._currentScrollTop = -1;
 
-proto._updateRendering = function(vForce)
+qx.Proto._updateRendering = function(vForce)
 {
   if (this._updatingRendering) {
     return;
@@ -195,7 +195,7 @@ proto._updateRendering = function(vForce)
   delete this._updatingRendering;
 };
 
-proto._updateRow = function(vRelativeRow)
+qx.Proto._updateRow = function(vRelativeRow)
 {
   var vData = this._data;
   var vRowOffset = Math.floor(this._currentScrollTop / this._rowHeight);
@@ -221,7 +221,7 @@ proto._updateRow = function(vRelativeRow)
   };
 };
 
-proto._onscroll = function(e) {
+qx.Proto._onscroll = function(e) {
   this._updateRendering();
 };
 
@@ -235,7 +235,7 @@ proto._onscroll = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto._changeInnerHeight = function(vNew, vOld)
+qx.Proto._changeInnerHeight = function(vNew, vOld)
 {
   this._updateLayout(true);
   this._updateRendering(true);
@@ -254,11 +254,11 @@ proto._changeInnerHeight = function(vNew, vOld)
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
-proto.getListViewTarget = function(e)
+qx.Proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
   var vPaneTop = qx.dom.DomLocation.getPageInnerTop(this.getElement());
@@ -268,33 +268,33 @@ proto.getListViewTarget = function(e)
   return this._data[vItemNo];
 };
 
-proto.getSelectedItem = function() {
+qx.Proto.getSelectedItem = function() {
   return this.getSelectedItems()[0];
 };
 
-proto.getSelectedItems = function() {
+qx.Proto.getSelectedItems = function() {
   return this._manager.getSelectedItems();
 };
 
-proto.getData = function() {
+qx.Proto.getData = function() {
   return this._data;
 };
 
 // use static row height
-proto.getItemHeight = function(vItem) {
+qx.Proto.getItemHeight = function(vItem) {
   return this._rowHeight;
 };
 
 // use the full inner width of the pane
-proto.getItemWidth = function(vItem) {
+qx.Proto.getItemWidth = function(vItem) {
   return qx.dom.DomDimension.getInnerWidth(this.getElement());
 };
 
-proto.getItemLeft = function(vItem) {
+qx.Proto.getItemLeft = function(vItem) {
   return 0;
 };
 
-proto.getItemTop = function(vItem) {
+qx.Proto.getItemTop = function(vItem) {
   return this._data.indexOf(vItem) * this._rowHeight;
 };
 
@@ -307,13 +307,13 @@ proto.getItemTop = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto._onmousewheel = function(e)
+qx.Proto._onmousewheel = function(e)
 {
   var vScroll = this.getView().getScroll();
   vScroll.setScrollTop(vScroll.getScrollTop() - (e.getWheelDelta() * 20));
 };
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
@@ -321,7 +321,7 @@ proto._onmouseover = function(e)
   };
 };
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
@@ -329,7 +329,7 @@ proto._onmousedown = function(e)
   };
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
@@ -337,7 +337,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._onclick = function(e)
+qx.Proto._onclick = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
@@ -345,7 +345,7 @@ proto._onclick = function(e)
   };
 };
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
@@ -364,7 +364,7 @@ proto._ondblclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   this._manager.handleKeyDown(e);
   e.preventDefault();
@@ -381,35 +381,35 @@ proto._onkeydown = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._updateSelectionState = function(vItem, vIsSelected)
+qx.Proto._updateSelectionState = function(vItem, vIsSelected)
 {
   vItem._selected = vIsSelected;
   this._updateItem(vItem);
 };
 
-proto._updateAnchorState = function(vItem, vIsAnchor)
+qx.Proto._updateAnchorState = function(vItem, vIsAnchor)
 {
   vItem._anchor = vIsAnchor;
   this._updateItem(vItem);
 };
 
-proto._updateLeadState = function(vItem, vIsLead)
+qx.Proto._updateLeadState = function(vItem, vIsLead)
 {
   vItem._lead = vIsLead;
   this._updateItem(vItem);
 };
 
-proto.scrollItemIntoView = function(vItem, vAlignLeftTop)
+qx.Proto.scrollItemIntoView = function(vItem, vAlignLeftTop)
 {
   this.scrollItemIntoViewX(vItem, vAlignLeftTop);
   this.scrollItemIntoViewY(vItem, vAlignLeftTop);
 };
 
-proto.scrollItemIntoViewX = function(vItem, vAlignLeft) {
+qx.Proto.scrollItemIntoViewX = function(vItem, vAlignLeft) {
   // this.error("Not implemented in qx.ui.listview.ListViewPane!", "scrollItemIntoViewX");
 };
 
-proto.scrollItemIntoViewY = function(vItem, vAlignTop)
+qx.Proto.scrollItemIntoViewY = function(vItem, vAlignTop)
 {
   var vItems = this._data;
   var vOffset = vItems.indexOf(vItem) * this._rowHeight;
@@ -443,25 +443,25 @@ proto.scrollItemIntoViewY = function(vItem, vAlignTop)
   };
 };
 
-proto.setScrollTop = function(vScrollTop)
+qx.Proto.setScrollTop = function(vScrollTop)
 {
   this.getView().getScroll().setScrollTop(vScrollTop);
   this._updateRendering();
 };
 
-proto.getScrollTop = function() {
+qx.Proto.getScrollTop = function() {
   return this._currentScrollTop;
 };
 
-proto.setScrollLeft = function() {
+qx.Proto.setScrollLeft = function() {
   this.error("Not implemented in qx.ui.listview.ListViewPane!", "setScrollLeft");
 };
 
-proto.getScrollLeft = function() {
+qx.Proto.getScrollLeft = function() {
   return 0;
 };
 
-proto.isItemVisible = function(vItem)
+qx.Proto.isItemVisible = function(vItem)
 {
   var vIndex = this._data.indexOf(vItem);
   var vRowStart = Math.floor(this._currentScrollTop / this._rowHeight);
@@ -470,7 +470,7 @@ proto.isItemVisible = function(vItem)
   return vIndex >= vRowStart && vIndex <= (vRowStart + vRowLength);
 };
 
-proto.getRelativeItemPosition = function(vItem)
+qx.Proto.getRelativeItemPosition = function(vItem)
 {
   var vIndex = this._data.indexOf(vItem);
   var vRowStart = Math.floor(this._currentScrollTop / this._rowHeight);
@@ -478,7 +478,7 @@ proto.getRelativeItemPosition = function(vItem)
   return vIndex - vRowStart;
 };
 
-proto._updateItem = function(vItem)
+qx.Proto._updateItem = function(vItem)
 {
   var vIndex = this._data.indexOf(vItem);
   var vRowStart = Math.floor(this._currentScrollTop / this._rowHeight);
@@ -502,7 +502,7 @@ proto._updateItem = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

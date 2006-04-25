@@ -61,7 +61,7 @@ qx.ui.layout.DockLayout.changeProperty({ name : "minHeight", defaultValue : -Inf
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.DockLayoutImpl(this);
 };
 
@@ -77,32 +77,32 @@ proto._createLayoutImpl = function() {
 /*!
   Add multiple childrens and make them left aligned
 */
-proto.addLeft = function() {
+qx.Proto.addLeft = function() {
   this._addAlignedHorizontal(qx.Const.ALIGN_LEFT, arguments);
 };
 
 /*!
   Add multiple childrens and make them right aligned
 */
-proto.addRight = function() {
+qx.Proto.addRight = function() {
   this._addAlignedHorizontal(qx.Const.ALIGN_RIGHT, arguments);
 };
 
 /*!
   Add multiple childrens and make them top aligned
 */
-proto.addTop = function() {
+qx.Proto.addTop = function() {
   this._addAlignedVertical(qx.Const.ALIGN_TOP, arguments);
 };
 
 /*!
   Add multiple childrens and make them bottom aligned
 */
-proto.addBottom = function() {
+qx.Proto.addBottom = function() {
   this._addAlignedVertical(qx.Const.ALIGN_BOTTOM, arguments);
 };
 
-proto._addAlignedVertical = function(vAlign, vArgs)
+qx.Proto._addAlignedVertical = function(vAlign, vArgs)
 {
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setVerticalAlign(vAlign);
@@ -111,7 +111,7 @@ proto._addAlignedVertical = function(vAlign, vArgs)
   this.add.apply(this, vArgs);
 };
 
-proto._addAlignedHorizontal = function(vAlign, vArgs)
+qx.Proto._addAlignedHorizontal = function(vAlign, vArgs)
 {
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setHorizontalAlign(vAlign);

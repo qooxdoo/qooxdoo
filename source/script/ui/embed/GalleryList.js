@@ -65,7 +65,7 @@ qx.ui.embed.GalleryListEmbed.addProperty({ name : "decorHeight", type : qx.Const
 ---------------------------------------------------------------------------
 */
 
-proto._applyElementData = function() {
+qx.Proto._applyElementData = function() {
   this.getElement().appendChild(this.createView());
 };
 
@@ -77,12 +77,12 @@ proto._applyElementData = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
 
-proto.update = function(vGalleryList)
+qx.Proto.update = function(vGalleryList)
 {
   this._manager.deselectAll();
 
@@ -93,7 +93,7 @@ proto.update = function(vGalleryList)
 };
 
 
-proto.removeAll = function()
+qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
   this.getElement().innerHTML = qx.Const.CORE_EMPTY;
@@ -106,7 +106,7 @@ proto.removeAll = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -115,7 +115,7 @@ proto._onmousedown = function(e)
   };
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -124,7 +124,7 @@ proto._onmouseup = function(e)
   };
 };
 
-proto._onclick = function(e)
+qx.Proto._onclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -133,7 +133,7 @@ proto._onclick = function(e)
   };
 };
 
-proto._ondblclick = function(e)
+qx.Proto._ondblclick = function(e)
 {
   var vItem = this.getListItemTarget(e.getDomTarget());
 
@@ -142,11 +142,11 @@ proto._ondblclick = function(e)
   };
 };
 
-proto._onkeydown = function(e) {
+qx.Proto._onkeydown = function(e) {
   this._manager.handleKeyDown(e);
 };
 
-proto.getListItemTarget = function(dt)
+qx.Proto.getListItemTarget = function(dt)
 {
   while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
@@ -171,17 +171,17 @@ proto.getListItemTarget = function(dt)
 ---------------------------------------------------------------------------
 */
 
-proto.scrollItemIntoView = function(vItem)
+qx.Proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
   this.scrollItemIntoViewY(vItem);
 };
 
-proto.scrollItemIntoViewX = function(vItem) {
+qx.Proto.scrollItemIntoViewX = function(vItem) {
   qx.dom.DomScrollIntoView.scrollX(vItem);
 };
 
-proto.scrollItemIntoViewY = function(vItem) {
+qx.Proto.scrollItemIntoViewY = function(vItem) {
   qx.dom.DomScrollIntoView.scrollY(vItem);
 };
 
@@ -199,15 +199,15 @@ proto.scrollItemIntoViewY = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this._frame.childNodes;
 };
 
-proto.getFirstChild = function() {
+qx.Proto.getFirstChild = function() {
   return this._frame.childNodes[0];
 };
 
-proto.getLastChild = function() {
+qx.Proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
 };
 
@@ -222,7 +222,7 @@ proto.getLastChild = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.createView = function()
+qx.Proto.createView = function()
 {
   var s = (new Date).valueOf();
 
@@ -260,9 +260,9 @@ proto.createView = function()
   return frame;
 };
 
-proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
-proto.createImageCell = function(inode, d)
+qx.Proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete")) {
     inode.onload = qx.ui.embed.GalleryListEmbed.imageOnLoad;
@@ -283,7 +283,7 @@ proto.createImageCell = function(inode, d)
   inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
 };
 
-proto.createProtoCell = function(tHeight)
+qx.Proto.createProtoCell = function(tHeight)
 {
   var frame = document.createElement("div");
   frame.className = "galleryCell";
@@ -342,7 +342,7 @@ proto.createProtoCell = function(tHeight)
 ---------------------------------------------------------------------------
 */
 
-proto.imageOnComplete = function()
+qx.Proto.imageOnComplete = function()
 {
   this._processedImages++;
 
@@ -379,7 +379,7 @@ qx.ui.embed.GalleryListEmbed.imageOnError = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

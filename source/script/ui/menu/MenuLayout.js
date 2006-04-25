@@ -55,6 +55,6 @@ qx.ui.menu.MenuLayout.changeProperty({ name : "appearance", type : qx.Const.TYPE
 /*!
   This creates an new instance of the layout impl this widget uses
 */
-proto._createLayoutImpl = function() {
+qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.MenuLayoutImpl(this);
 };

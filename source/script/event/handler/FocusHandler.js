@@ -55,7 +55,7 @@ qx.event.handler.FocusHandler.mouseFocus = false;
 ---------------------------------------------------------------------------
 */
 
-proto.getAttachedWidget = function() {
+qx.Proto.getAttachedWidget = function() {
   return this._attachedWidget;
 };
 
@@ -76,7 +76,7 @@ proto.getAttachedWidget = function() {
 // = same behaviour
 qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_KEYDOWN : qx.Const.EVENT_TYPE_KEYPRESS;
 
-proto._onkeyevent = function(vContainer, vEvent)
+qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
   if (vEvent.getKeyCode() != qx.event.types.KeyEvent.keys.tab || vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
     return;
@@ -104,7 +104,7 @@ proto._onkeyevent = function(vContainer, vEvent)
   vEvent.preventDefault();
 };
 
-proto.compareTabOrder = function(c1, c2)
+qx.Proto.compareTabOrder = function(c1, c2)
 {
   // Sort-Check #1: Tab-Index
   if(c1 == c2) {
@@ -158,15 +158,15 @@ proto.compareTabOrder = function(c1, c2)
 ---------------------------------------------------------------------------
 */
 
-proto.getFirstWidget = function(vParentContainer) {
+qx.Proto.getFirstWidget = function(vParentContainer) {
   return this._getFirst(vParentContainer, null);
 };
 
-proto.getLastWidget = function(vParentContainer) {
+qx.Proto.getLastWidget = function(vParentContainer) {
   return this._getLast(vParentContainer, null);
 };
 
-proto.getWidgetAfter = function(vParentContainer, vWidget)
+qx.Proto.getWidgetAfter = function(vParentContainer, vWidget)
 {
   if(vParentContainer == vWidget) {
     return this.getFirstWidget(vParentContainer);
@@ -189,7 +189,7 @@ proto.getWidgetAfter = function(vParentContainer, vWidget)
   return vAll.length > 0 ? vAll[0] : this.getFirstWidget(vParentContainer);
 };
 
-proto.getWidgetBefore = function(vParentContainer, vWidget)
+qx.Proto.getWidgetBefore = function(vParentContainer, vWidget)
 {
   if(vParentContainer == vWidget) {
     return this.getLastWidget(vParentContainer);
@@ -213,7 +213,7 @@ proto.getWidgetBefore = function(vParentContainer, vWidget)
   return vChildrenLength > 0 ? vAll[vChildrenLength-1] : this.getLastWidget(vParentContainer);
 };
 
-proto._getAllAfter = function(vParent, vWidget, vArray)
+qx.Proto._getAllAfter = function(vParent, vWidget, vArray)
 {
   var vChildren = vParent.getChildren();
   var vCurrentChild;
@@ -237,7 +237,7 @@ proto._getAllAfter = function(vParent, vWidget, vArray)
   };
 };
 
-proto._getAllBefore = function(vParent, vWidget, vArray)
+qx.Proto._getAllBefore = function(vParent, vWidget, vArray)
 {
   var vChildren = vParent.getChildren();
   var vCurrentChild;
@@ -261,7 +261,7 @@ proto._getAllBefore = function(vParent, vWidget, vArray)
   };
 };
 
-proto._getFirst = function(vParent, vFirstWidget)
+qx.Proto._getFirst = function(vParent, vFirstWidget)
 {
   var vChildren = vParent.getChildren();
   var vCurrentChild;
@@ -290,7 +290,7 @@ proto._getFirst = function(vParent, vFirstWidget)
   return vFirstWidget;
 };
 
-proto._getLast = function(vParent, vLastWidget)
+qx.Proto._getLast = function(vParent, vLastWidget)
 {
   var vChildren = vParent.getChildren();
   var vCurrentChild;
@@ -331,7 +331,7 @@ proto._getLast = function(vParent, vLastWidget)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

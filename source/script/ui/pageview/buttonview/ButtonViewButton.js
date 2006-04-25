@@ -44,7 +44,7 @@ qx.ui.pageview.buttonview.ButtonViewButton.changeProperty({ name : "appearance",
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   switch(this.getView().getBarPosition())
   {

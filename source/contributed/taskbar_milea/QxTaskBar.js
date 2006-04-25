@@ -38,7 +38,7 @@ QxTaskBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, d
 
 /* Removes a qx.ui.window.Window from the taskbar.
 */
-proto.removeWindow = function(win) {
+qx.Proto.removeWindow = function(win) {
     try{
         var botones = this._tBarPanel.getChildren();
         for(var btn = 0; btn < botones.length; btn++) {
@@ -54,7 +54,7 @@ proto.removeWindow = function(win) {
 };
 /* Updates button status in the taskbar it gets called whe u add a new qx.ui.window.Window
 */
-proto._updateButtons = function(selected) {
+qx.Proto._updateButtons = function(selected) {
     try{
         var botones = this._tBarPanel.getChildren();
         for(var btn = 0; btn < botones.length; btn++) {
@@ -72,7 +72,7 @@ proto._updateButtons = function(selected) {
     the current implementation doesnt check if there is a win with the same name.
     (I think we have to check this).
 */
-proto.addWindow = function(win) {
+qx.Proto.addWindow = function(win) {
     var tmpButton = new qx.ui.toolbar.ToolBarCheckBox(win.getCaption(), win.getIcon(), true);
     tmpButton.setUserData("winId", this._wins);
     win.setUserData("winId", this._wins++);
@@ -109,7 +109,7 @@ proto.addWindow = function(win) {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

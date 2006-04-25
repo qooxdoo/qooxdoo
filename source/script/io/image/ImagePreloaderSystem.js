@@ -44,7 +44,7 @@ function(vPreloadList)
 ---------------------------------------------------------------------------
 */
 
-proto.start = function()
+qx.Proto.start = function()
 {
   for (vSource in this._list)
   {
@@ -76,13 +76,13 @@ proto.start = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onload = function(e)
+qx.Proto._onload = function(e)
 {
   delete this._list[e.getTarget()._origSource];
   this._check();
 };
 
-proto._onerror = function(e)
+qx.Proto._onerror = function(e)
 {
   delete this._list[e.getTarget()._origSource];
   this._check();
@@ -99,7 +99,7 @@ proto._onerror = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._check = function()
+qx.Proto._check = function()
 {
   // this.debug("Check: " + qx.lang.Object.getKeysAsString(this._list));
 
@@ -119,7 +119,7 @@ proto._check = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

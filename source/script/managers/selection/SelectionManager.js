@@ -99,7 +99,7 @@ qx.manager.selection.SelectionManager.addProperty({ name : "multiColumnSupport",
 ---------------------------------------------------------------------------
 */
 
-proto._modifyAnchorItem = function(propValue, propOldValue, propData)
+qx.Proto._modifyAnchorItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemAnchorState(propOldValue, false);
@@ -112,7 +112,7 @@ proto._modifyAnchorItem = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyLeadItem = function(propValue, propOldValue, propData)
+qx.Proto._modifyLeadItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemLeadState(propOldValue, false);
@@ -136,15 +136,15 @@ proto._modifyLeadItem = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._getFirst = function() {
+qx.Proto._getFirst = function() {
   return this.getBoundedWidget().getFirstVisibleChild();
 };
 
-proto._getLast = function() {
+qx.Proto._getLast = function() {
   return this.getBoundedWidget().getLastVisibleChild();
 };
 
-proto.getFirst = function()
+qx.Proto.getFirst = function()
 {
   var vItem = this._getFirst();
   if (vItem) {
@@ -152,7 +152,7 @@ proto.getFirst = function()
   };
 };
 
-proto.getLast = function()
+qx.Proto.getLast = function()
 {
   var vItem = this._getLast();
   if (vItem) {
@@ -160,19 +160,19 @@ proto.getLast = function()
   };
 };
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this.getBoundedWidget().getChildren();
 };
 
-proto.getNextSibling = function(vItem) {
+qx.Proto.getNextSibling = function(vItem) {
   return vItem.getNextSibling();
 };
 
-proto.getPreviousSibling = function(vItem) {
+qx.Proto.getPreviousSibling = function(vItem) {
   return vItem.getPreviousSibling();
 };
 
-proto.getNext = function(vItem)
+qx.Proto.getNext = function(vItem)
 {
   while(vItem)
   {
@@ -190,7 +190,7 @@ proto.getNext = function(vItem)
   return null;
 };
 
-proto.getPrevious = function(vItem)
+qx.Proto.getPrevious = function(vItem)
 {
   while(vItem)
   {
@@ -208,13 +208,13 @@ proto.getPrevious = function(vItem)
   return null;
 };
 
-proto.isBefore = function(vItem1, vItem2)
+qx.Proto.isBefore = function(vItem1, vItem2)
 {
   var cs = this.getItems();
   return cs.indexOf(vItem1) < cs.indexOf(vItem2);
 };
 
-proto.isEqual = function(vItem1, vItem2) {
+qx.Proto.isEqual = function(vItem1, vItem2) {
   return vItem1 == vItem2;
 };
 
@@ -226,7 +226,7 @@ proto.isEqual = function(vItem1, vItem2) {
 ---------------------------------------------------------------------------
 */
 
-proto.getItemHashCode = function(vItem) {
+qx.Proto.getItemHashCode = function(vItem) {
   return vItem.toHashCode();
 };
 
@@ -240,27 +240,27 @@ proto.getItemHashCode = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.scrollItemIntoView = function(vItem, vTopLeft) {
+qx.Proto.scrollItemIntoView = function(vItem, vTopLeft) {
   vItem.scrollIntoView(vTopLeft);
 };
 
-proto.getItemLeft = function(vItem) {
+qx.Proto.getItemLeft = function(vItem) {
   return vItem.getOffsetLeft();
 };
 
-proto.getItemTop = function(vItem) {
+qx.Proto.getItemTop = function(vItem) {
   return vItem.getOffsetTop();
 };
 
-proto.getItemWidth = function(vItem) {
+qx.Proto.getItemWidth = function(vItem) {
   return vItem.getOffsetWidth();
 };
 
-proto.getItemHeight = function(vItem) {
+qx.Proto.getItemHeight = function(vItem) {
   return vItem.getOffsetHeight();
 };
 
-proto.getItemEnabled = function(vItem) {
+qx.Proto.getItemEnabled = function(vItem) {
   return vItem.getEnabled();
 };
 
@@ -275,15 +275,15 @@ proto.getItemEnabled = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.renderItemSelectionState = function(vItem, vIsSelected) {
+qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   vIsSelected ? vItem.addState(qx.Const.STATE_SELECTED) : vItem.removeState(qx.Const.STATE_SELECTED);
 };
 
-proto.renderItemAnchorState = function(vItem, vIsAnchor) {
+qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   vIsAnchor ? vItem.addState(qx.Const.STATE_ANCHOR) : vItem.removeState(qx.Const.STATE_ANCHOR);
 };
 
-proto.renderItemLeadState = function(vItem, vIsLead) {
+qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   vIsLead ? vItem.addState(qx.Const.STATE_LEAD) : vItem.removeState(qx.Const.STATE_LEAD);
 };
 
@@ -297,7 +297,7 @@ proto.renderItemLeadState = function(vItem, vIsLead) {
 ---------------------------------------------------------------------------
 */
 
-proto.getItemSelected = function(vItem) {
+qx.Proto.getItemSelected = function(vItem) {
   return this._selectedItems.contains(vItem);
 };
 
@@ -307,7 +307,7 @@ Make a single item selected / not selected
 #param vItem[qx.ui.core.Widget]: Item which should be selected / not selected
 #param vSelected[Boolean]: Should this item be selected?
 */
-proto.setItemSelected = function(vItem, vSelected)
+qx.Proto.setItemSelected = function(vItem, vSelected)
 {
   var hc = this.getItemHashCode(vItem);
 
@@ -401,11 +401,11 @@ proto.setItemSelected = function(vItem, vSelected)
 /*!
   Get the selected items (objects)
 */
-proto.getSelectedItems = function() {
+qx.Proto.getSelectedItems = function() {
   return this._selectedItems.toArray();
 };
 
-proto.getSelectedItem = function() {
+qx.Proto.getSelectedItem = function() {
   return this._selectedItems.getFirst();
 };
 
@@ -414,7 +414,7 @@ Select given items
 
 #param vItems[Array of QxWidgets]: Items to select
 */
-proto.setSelectedItems = function(vItems)
+qx.Proto.setSelectedItems = function(vItems)
 {
   var oldVal = this._getChangeValue();
 
@@ -454,7 +454,7 @@ proto.setSelectedItems = function(vItems)
 };
 
 
-proto.setSelectedItem = function(vItem)
+qx.Proto.setSelectedItem = function(vItem)
 {
   if (!vItem) {
     return;
@@ -495,7 +495,7 @@ proto.setSelectedItem = function(vItem)
 /*!
   Select all items.
 */
-proto.selectAll = function()
+qx.Proto.selectAll = function()
 {
   var oldVal = this._getChangeValue();
 
@@ -519,7 +519,7 @@ proto.selectAll = function()
   Sub method for selectAll. Handles the real work
   to select all items.
 */
-proto._selectAll = function()
+qx.Proto._selectAll = function()
 {
   if (!this.getMultiSelection()) {
     return;
@@ -557,7 +557,7 @@ proto._selectAll = function()
 /*!
   Deselect all items.
 */
-proto.deselectAll = function()
+qx.Proto.deselectAll = function()
 {
   var oldVal = this._getChangeValue();
 
@@ -580,7 +580,7 @@ proto.deselectAll = function()
   Sub method for deselectAll. Handles the real work
   to deselect all items.
 */
-proto._deselectAll = function()
+qx.Proto._deselectAll = function()
 {
   // Render new state for items
   var items = this._selectedItems.toArray();
@@ -603,7 +603,7 @@ Select a range of items.
 #param vItem1[qx.ui.core.Widget]: Start item
 #param vItem2[qx.ui.core.Widget]: Stop item
 */
-proto.selectItemRange = function(vItem1, vItem2)
+qx.Proto.selectItemRange = function(vItem1, vItem2)
 {
   var oldVal = this._getChangeValue();
 
@@ -634,7 +634,7 @@ to select a range of items.
 #param vItem2[qx.ui.core.Widget]: Stop item
 #param vDelect[Boolean]: Deselect currently selected items first?
 */
-proto._selectItemRange = function(vItem1, vItem2, vDeselect)
+qx.Proto._selectItemRange = function(vItem1, vItem2, vDeselect)
 {
   // this.debug("SELECT_RANGE: " + vItem1.toText() + "<->" + vItem2.toText());
   // this.debug("SELECT_RANGE: " + vItem1.pos + "<->" + vItem2.pos);
@@ -680,7 +680,7 @@ Internal method for deselection of ranges.
 #param vItem1[qx.ui.core.Widget]: Start item
 #param vItem2[qx.ui.core.Widget]: Stop item
 */
-proto._deselectItemRange = function(vItem1, vItem2)
+qx.Proto._deselectItemRange = function(vItem1, vItem2)
 {
   // Pre-Check a revert call if vItem2 is before vItem1
   if (this.isBefore(vItem2, vItem1)) {
@@ -714,9 +714,9 @@ proto._deselectItemRange = function(vItem1, vItem2)
 ---------------------------------------------------------------------------
 */
 
-proto._activeDragSession = false;
+qx.Proto._activeDragSession = false;
 
-proto.handleMouseDown = function(vItem, e)
+qx.Proto.handleMouseDown = function(vItem, e)
 {
   // Only allow left and right button
   if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
@@ -754,14 +754,14 @@ proto.handleMouseDown = function(vItem, e)
   };
 };
 
-proto._ondragup = function(e)
+qx.Proto._ondragup = function(e)
 {
   this.getBoundedWidget().removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._ondragup, this);
   this.getBoundedWidget().setCapture(false);
   this._activeDragSession = false;
 };
 
-proto.handleMouseUp = function(vItem, e)
+qx.Proto.handleMouseUp = function(vItem, e)
 {
   if (!e.isLeftButtonPressed()) {
     return;
@@ -778,7 +778,7 @@ proto.handleMouseUp = function(vItem, e)
   };
 };
 
-proto.handleMouseOver = function(oItem, e)
+qx.Proto.handleMouseOver = function(oItem, e)
 {
   if (! this.getDragSelection() || !this._activeDragSession) {
     return;
@@ -788,16 +788,16 @@ proto.handleMouseOver = function(oItem, e)
 };
 
 // currently unused placeholder
-proto.handleClick = function(vItem, e) {};
+qx.Proto.handleClick = function(vItem, e) {};
 
 // currently unused placeholder
-proto.handleDblClick = function(vItem, e) {};
+qx.Proto.handleDblClick = function(vItem, e) {};
 
 
 /*!
 Internal handler for all mouse events bound to this manager.
 */
-proto._onmouseevent = function(oItem, e, bOver)
+qx.Proto._onmouseevent = function(oItem, e, bOver)
 {
   if (!this.getItemEnabled(oItem)) {
     return;
@@ -988,7 +988,7 @@ proto._onmouseevent = function(oItem, e, bOver)
 ---------------------------------------------------------------------------
 */
 
-proto.handleKeyDown = function(e)
+qx.Proto.handleKeyDown = function(e)
 {
   var oldVal = this._getChangeValue();
 
@@ -1102,7 +1102,7 @@ proto.handleKeyDown = function(e)
   };
 };
 
-proto.getItemToSelect = function(vKeyboardEvent)
+qx.Proto.getItemToSelect = function(vKeyboardEvent)
 {
   // Don't handle ALT here
   if (vKeyboardEvent.getAltKey()) {
@@ -1158,7 +1158,7 @@ proto.getItemToSelect = function(vKeyboardEvent)
 ---------------------------------------------------------------------------
 */
 
-proto._dispatchChange = function()
+qx.Proto._dispatchChange = function()
 {
   if (!this.getFireChange()) {
     return;
@@ -1169,11 +1169,11 @@ proto._dispatchChange = function()
   };
 };
 
-proto._hasChanged = function(sOldValue) {
+qx.Proto._hasChanged = function(sOldValue) {
   return sOldValue != this._getChangeValue();
 };
 
-proto._getChangeValue = function() {
+qx.Proto._getChangeValue = function() {
   return this._selectedItems.getChangeValue();
 };
 
@@ -1188,15 +1188,15 @@ proto._getChangeValue = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.getHome = function() {
+qx.Proto.getHome = function() {
   return this.getFirst();
 };
 
-proto.getEnd = function() {
+qx.Proto.getEnd = function() {
   return this.getLast();
 };
 
-proto.getDown = function(vItem)
+qx.Proto.getDown = function(vItem)
 {
   if (!vItem) {
     return this.getFirst();
@@ -1205,7 +1205,7 @@ proto.getDown = function(vItem)
   return this.getMultiColumnSupport() ? (this.getUnder(vItem) || this.getLast()) : this.getNext(vItem);
 };
 
-proto.getUp = function(vItem)
+qx.Proto.getUp = function(vItem)
 {
   if (!vItem) {
     return this.getLast();
@@ -1214,7 +1214,7 @@ proto.getUp = function(vItem)
   return this.getMultiColumnSupport() ? (this.getAbove(vItem) || this.getFirst()) : this.getPrevious(vItem);
 };
 
-proto.getLeft = function(vItem)
+qx.Proto.getLeft = function(vItem)
 {
   if (!this.getMultiColumnSupport()) {
     return null;
@@ -1223,7 +1223,7 @@ proto.getLeft = function(vItem)
   return !vItem ? this.getLast() : this.getPrevious(vItem);
 };
 
-proto.getRight = function(vItem)
+qx.Proto.getRight = function(vItem)
 {
   if (!this.getMultiColumnSupport()) {
     return null;
@@ -1232,12 +1232,12 @@ proto.getRight = function(vItem)
   return !vItem ? this.getFirst() : this.getNext(vItem);
 };
 
-proto.getAbove = function(vItem)
+qx.Proto.getAbove = function(vItem)
 {
   throw new Error("getAbove(): Not implemented yet");
 };
 
-proto.getUnder = function(vItem)
+qx.Proto.getUnder = function(vItem)
 {
   throw new Error("getUnder(): Not implemented yet");
 };
@@ -1259,7 +1259,7 @@ Jump a "page" up.
 
 #param vItem[qx.ui.core.Widget]: Relative to this widget
 */
-proto.getPageUp = function(vItem)
+qx.Proto.getPageUp = function(vItem)
 {
   var vBoundedWidget = this.getBoundedWidget();
   var vParentScrollTop = vBoundedWidget.getScrollTop();
@@ -1315,7 +1315,7 @@ Jump a "page" down.
 
 #param vItem[qx.ui.core.Widget]: Relative to this widget
 */
-proto.getPageDown = function(vItem)
+qx.Proto.getPageDown = function(vItem)
 {
   var vBoundedWidget = this.getBoundedWidget();
   var vParentScrollTop = vBoundedWidget.getScrollTop();
@@ -1390,7 +1390,7 @@ proto.getPageDown = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

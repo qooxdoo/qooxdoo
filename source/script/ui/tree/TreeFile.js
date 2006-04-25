@@ -40,7 +40,7 @@ function(vLabel, vIcon, vIconSelected) {
 ---------------------------------------------------------------------------
 */
 
-proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 {
   if (vUseTreeLines)
   {
@@ -57,10 +57,10 @@ proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
   return null;
 };
 
-proto._updateIndent = function() {
+qx.Proto._updateIndent = function() {
   this.addToTreeQueue();
 };
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return [this];
 };

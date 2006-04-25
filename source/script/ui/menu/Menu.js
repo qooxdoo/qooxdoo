@@ -70,7 +70,7 @@ function()
   this.remapChildrenHandlingTo(this._layout);
 });
 
-proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
+qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
 
 
 
@@ -113,7 +113,7 @@ qx.ui.menu.Menu.addProperty({ name : "indentShortcuts", type : qx.Const.TYPEOF_B
 ---------------------------------------------------------------------------
 */
 
-proto.getLayout = function() {
+qx.Proto.getLayout = function() {
   return this._layout;
 };
 
@@ -129,7 +129,7 @@ proto.getLayout = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
@@ -143,7 +143,7 @@ proto._beforeAppear = function()
   this._makeActive();
 };
 
-proto._beforeDisappear = function()
+qx.Proto._beforeDisappear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
@@ -175,7 +175,7 @@ proto._beforeDisappear = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyHoverItem = function(propValue, propOldValue, propData)
+qx.Proto._modifyHoverItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.removeState(qx.Const.STATE_OVER);
@@ -188,7 +188,7 @@ proto._modifyHoverItem = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyOpenItem = function(propValue, propOldValue, propData)
+qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
 {
   var vMakeActive = false;
 
@@ -268,7 +268,7 @@ qx.ui.menu.Menu.addCachedProperty({ name : "menuButtonNeededWidth" });
 ---------------------------------------------------------------------------
 */
 
-proto._computeMaxIconWidth = function()
+qx.Proto._computeMaxIconWidth = function()
 {
   var ch=this.getLayout().getChildren(), chl=ch.length, chc, m=0;
 
@@ -284,7 +284,7 @@ proto._computeMaxIconWidth = function()
   return m;
 };
 
-proto._computeMaxLabelWidth = function()
+qx.Proto._computeMaxLabelWidth = function()
 {
   var ch=this.getLayout().getChildren(), chl=ch.length, chc, m=0;
 
@@ -300,7 +300,7 @@ proto._computeMaxLabelWidth = function()
   return m;
 };
 
-proto._computeMaxLabelWidthIncShortcut = function()
+qx.Proto._computeMaxLabelWidthIncShortcut = function()
 {
   var ch=this.getLayout().getChildren(), chl=ch.length, chc, m=0;
 
@@ -316,7 +316,7 @@ proto._computeMaxLabelWidthIncShortcut = function()
   return m;
 };
 
-proto._computeMaxShortcutWidth = function()
+qx.Proto._computeMaxShortcutWidth = function()
 {
   var ch=this.getLayout().getChildren(), chl=ch.length, chc, m=0;
 
@@ -332,7 +332,7 @@ proto._computeMaxShortcutWidth = function()
   return m;
 };
 
-proto._computeMaxArrowWidth = function()
+qx.Proto._computeMaxArrowWidth = function()
 {
   var ch=this.getLayout().getChildren(), chl=ch.length, chc, m=0;
 
@@ -348,7 +348,7 @@ proto._computeMaxArrowWidth = function()
   return m;
 };
 
-proto._computeMaxContentWidth = function()
+qx.Proto._computeMaxContentWidth = function()
 {
   var vSum;
 
@@ -390,21 +390,21 @@ proto._computeMaxContentWidth = function()
 ---------------------------------------------------------------------------
 */
 
-proto._computeIconPosition = function() {
+qx.Proto._computeIconPosition = function() {
   return 0;
 };
 
-proto._computeLabelPosition = function()
+qx.Proto._computeLabelPosition = function()
 {
   var v = this.getMaxIconWidth();
   return v > 0 ? v + this.getIconContentGap() : this.getContentNonIconPadding();
 };
 
-proto._computeShortcutPosition = function() {
+qx.Proto._computeShortcutPosition = function() {
   return this.getLabelPosition() + this.getMaxContentWidth() - this.getMaxShortcutWidth();
 };
 
-proto._computeArrowPosition = function()
+qx.Proto._computeArrowPosition = function()
 {
   var v = this.getMaxContentWidth();
   return this.getLabelPosition() + (v > 0 ? v + this.getContentArrowGap() : v);
@@ -423,7 +423,7 @@ proto._computeArrowPosition = function()
 ---------------------------------------------------------------------------
 */
 
-proto._invalidateMaxIconWidth = function()
+qx.Proto._invalidateMaxIconWidth = function()
 {
   this._cachedMaxIconWidth = null;
 
@@ -431,7 +431,7 @@ proto._invalidateMaxIconWidth = function()
   this._invalidateMenuButtonNeededWidth();
 };
 
-proto._invalidateMaxLabelWidth = function()
+qx.Proto._invalidateMaxLabelWidth = function()
 {
   this._cachedMaxLabelWidth = null;
 
@@ -441,7 +441,7 @@ proto._invalidateMaxLabelWidth = function()
   this._invalidateMenuButtonNeededWidth();
 };
 
-proto._invalidateMaxShortcutWidth = function()
+qx.Proto._invalidateMaxShortcutWidth = function()
 {
   this._cachedMaxShortcutWidth = null;
 
@@ -450,19 +450,19 @@ proto._invalidateMaxShortcutWidth = function()
   this._invalidateMenuButtonNeededWidth();
 };
 
-proto._invalidateMaxLabelWidth = function()
+qx.Proto._invalidateMaxLabelWidth = function()
 {
   this._cachedMaxArrowWidth = null;
   this._invalidateMenuButtonNeededWidth();
 };
 
-proto._invalidateLabelPosition = function()
+qx.Proto._invalidateLabelPosition = function()
 {
   this._cachedLabelPosition = null;
   this._invalidateShortcutPosition();
 };
 
-proto._invalidateShortcutPosition = function()
+qx.Proto._invalidateShortcutPosition = function()
 {
   this._cachedShortcutPosition = null;
   this._invalidateArrowPosition();
@@ -480,7 +480,7 @@ proto._invalidateShortcutPosition = function()
 ---------------------------------------------------------------------------
 */
 
-proto._computeMenuButtonNeededWidth = function()
+qx.Proto._computeMenuButtonNeededWidth = function()
 {
   var vSum = 0;
 
@@ -535,7 +535,7 @@ proto._computeMenuButtonNeededWidth = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   /* ------------------------------
     HANDLE PARENT MENU
@@ -632,7 +632,7 @@ proto._onmouseover = function(e)
   };
 };
 
-proto._onmouseout = function(e)
+qx.Proto._onmouseout = function(e)
 {
   // stop the open timer (for any previous open requests)
   this._openTimer.stop();
@@ -647,7 +647,7 @@ proto._onmouseout = function(e)
   this.setHoverItem(null);
 };
 
-proto._onopentimer = function(e)
+qx.Proto._onopentimer = function(e)
 {
   // stop the open timer (we need only the first interval)
   this._openTimer.stop();
@@ -659,7 +659,7 @@ proto._onopentimer = function(e)
   };
 };
 
-proto._onclosetimer = function(e)
+qx.Proto._onclosetimer = function(e)
 {
   // stop the close timer (we need only the first interval)
   this._closeTimer.stop();
@@ -671,7 +671,7 @@ proto._onclosetimer = function(e)
 /*!
   Wraps key events to target functions
 */
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
@@ -703,7 +703,7 @@ proto._onkeydown = function(e)
   e.preventDefault();
 };
 
-proto._onkeydown_up = function(e)
+qx.Proto._onkeydown_up = function(e)
 {
   var vHover = this.getHoverItem();
   var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
@@ -711,7 +711,7 @@ proto._onkeydown_up = function(e)
   this.setHoverItem(vPrev);
 };
 
-proto._onkeydown_down = function(e)
+qx.Proto._onkeydown_down = function(e)
 {
   var vHover = this.getHoverItem();
   var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
@@ -719,7 +719,7 @@ proto._onkeydown_down = function(e)
   this.setHoverItem(vNext);
 };
 
-proto._onkeydown_left = function(e)
+qx.Proto._onkeydown_left = function(e)
 {
   var vOpener = this.getOpener();
 
@@ -747,7 +747,7 @@ proto._onkeydown_left = function(e)
   };
 };
 
-proto._onkeydown_right = function(e)
+qx.Proto._onkeydown_right = function(e)
 {
   var vHover = this.getHoverItem();
 
@@ -825,7 +825,7 @@ proto._onkeydown_right = function(e)
   };
 };
 
-proto._onkeydown_enter = function(e)
+qx.Proto._onkeydown_enter = function(e)
 {
   var vHover = this.getHoverItem();
   if (vHover) {
@@ -846,7 +846,7 @@ proto._onkeydown_enter = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

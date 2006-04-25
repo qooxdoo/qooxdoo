@@ -47,7 +47,7 @@ function(vInterval)
 
 qx.client.Timer.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
 
-proto._intervalHandle = null;
+qx.Proto._intervalHandle = null;
 
 
 
@@ -57,7 +57,7 @@ proto._intervalHandle = null;
 ---------------------------------------------------------------------------
 */
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -81,27 +81,27 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.start = function() {
+qx.Proto.start = function() {
   this.setEnabled(true);
 };
 
-proto.startWith = function(vInterval)
+qx.Proto.startWith = function(vInterval)
 {
   this.setInterval(vInterval);
   this.start();
 };
 
-proto.stop = function() {
+qx.Proto.stop = function() {
   this.setEnabled(false);
 };
 
-proto.restart = function()
+qx.Proto.restart = function()
 {
   this.stop();
   this.start();
 };
 
-proto.restartWith = function(vInterval)
+qx.Proto.restartWith = function(vInterval)
 {
   this.stop();
   this.startWith(vInterval);
@@ -116,7 +116,7 @@ proto.restartWith = function(vInterval)
 ---------------------------------------------------------------------------
 */
 
-proto._oninterval = function()
+qx.Proto._oninterval = function()
 {
   if (this.getEnabled()) {
     this.createDispatchEvent(qx.Const.EVENT_TYPE_INTERVAL);
@@ -133,7 +133,7 @@ proto._oninterval = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

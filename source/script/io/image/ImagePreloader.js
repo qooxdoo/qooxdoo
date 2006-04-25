@@ -91,9 +91,9 @@ qx.io.image.ImagePreloader.get = function(vSource)
 ---------------------------------------------------------------------------
 */
 
-proto._source = null;
-proto._isLoaded = false;
-proto._isErroneous = false;
+qx.Proto._source = null;
+qx.Proto._isLoaded = false;
+qx.Proto._isErroneous = false;
 
 
 
@@ -105,24 +105,24 @@ proto._isErroneous = false;
 ---------------------------------------------------------------------------
 */
 
-proto.getUri = function() { return this._source; };
-proto.getSource = function() { return this._source; };
-proto.isLoaded = function() { return this._isLoaded; };
-proto.isErroneous = function() { return this._isErroneous; };
+qx.Proto.getUri = function() { return this._source; };
+qx.Proto.getSource = function() { return this._source; };
+qx.Proto.isLoaded = function() { return this._isLoaded; };
+qx.Proto.isErroneous = function() { return this._isErroneous; };
 
 // only used in mshtml: true when the image format is in png
-proto._isPng = false;
-proto.getIsPng = function() { return this._isPng; };
+qx.Proto._isPng = false;
+qx.Proto.getIsPng = function() { return this._isPng; };
 
 if(qx.sys.Client.isGecko())
 {
-  proto.getWidth = function() { return this._element.naturalWidth; };
-  proto.getHeight = function() { return this._element.naturalHeight; };
+  qx.Proto.getWidth = function() { return this._element.naturalWidth; };
+  qx.Proto.getHeight = function() { return this._element.naturalHeight; };
 }
 else
 {
-  proto.getWidth = function() { return this._element.width; };
-  proto.getHeight = function() { return this._element.height; };
+  qx.Proto.getWidth = function() { return this._element.width; };
+  qx.Proto.getHeight = function() { return this._element.height; };
 };
 
 
@@ -138,7 +138,7 @@ else
 qx.io.image.ImagePreloader.__onload = function() { this._QxImagePreloader._onload(); };
 qx.io.image.ImagePreloader.__onerror = function() { this._QxImagePreloader._onerror(); };
 
-proto._onload = function()
+qx.Proto._onload = function()
 {
   this._isLoaded = true;
   this._isErroneous = false;
@@ -148,7 +148,7 @@ proto._onload = function()
   };
 };
 
-proto._onerror = function()
+qx.Proto._onerror = function()
 {
   this.debug("Could not load: " + this._source);
 
@@ -169,7 +169,7 @@ proto._onerror = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

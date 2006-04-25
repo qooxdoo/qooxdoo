@@ -103,7 +103,7 @@ qx.ui.component.ColorSelector.addProperty({ name : "brightness", type : qx.Const
 ---------------------------------------------------------------------------
 */
 
-proto._updateContext = null;
+qx.Proto._updateContext = null;
 
 // Constants for internal compares (optimize performance in mshtml)
 qx.ui.component.ColorSelector.CONTEXT_RED_MODIFIER = "redModifier";
@@ -137,14 +137,14 @@ qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_FIELD = "brightnessField";
 ---------------------------------------------------------------------------
 */
 
-proto._createControlBar = function()
+qx.Proto._createControlBar = function()
 {
   this._controlBar = new qx.ui.layout.HorizontalBoxLayout;
   this._controlBar.setHeight(qx.Const.CORE_AUTO);
   this._controlBar.setParent(this);
 };
 
-proto._createButtonBar = function()
+qx.Proto._createButtonBar = function()
 {
   this._btnbar = new qx.ui.layout.HorizontalBoxLayout;
   this._btnbar.setHeight(qx.Const.CORE_AUTO);
@@ -170,7 +170,7 @@ proto._createButtonBar = function()
 ---------------------------------------------------------------------------
 */
 
-proto._createControlPane = function()
+qx.Proto._createControlPane = function()
 {
   this._controlPane = new qx.ui.layout.VerticalBoxLayout;
   this._controlPane.setWidth("auto");
@@ -179,7 +179,7 @@ proto._createControlPane = function()
   this._controlPane.setParent(this._controlBar);
 };
 
-proto._createHueSaturationPane = function()
+qx.Proto._createHueSaturationPane = function()
 {
   this._hueSaturationPane = new qx.ui.layout.CanvasLayout;
   this._hueSaturationPane.setWidth(qx.Const.CORE_AUTO);
@@ -204,7 +204,7 @@ proto._createHueSaturationPane = function()
   this._hueSaturationHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
 };
 
-proto._createBrightnessPane = function()
+qx.Proto._createBrightnessPane = function()
 {
   this._brightnessPane = new qx.ui.layout.CanvasLayout;
   this._brightnessPane.setWidth(qx.Const.CORE_AUTO);
@@ -241,7 +241,7 @@ proto._createBrightnessPane = function()
 ---------------------------------------------------------------------------
 */
 
-proto._createPresetFieldSet = function()
+qx.Proto._createPresetFieldSet = function()
 {
   this._presetFieldSet = new qx.ui.groupbox.GroupBox("Presets");
   this._presetFieldSet.setHeight(qx.Const.CORE_AUTO);
@@ -285,7 +285,7 @@ proto._createPresetFieldSet = function()
   };
 };
 
-proto._createInputFieldSet = function()
+qx.Proto._createInputFieldSet = function()
 {
   this._inputFieldSet = new qx.ui.groupbox.GroupBox("Details");
   this._inputFieldSet.setHeight(qx.Const.CORE_AUTO);
@@ -297,7 +297,7 @@ proto._createInputFieldSet = function()
   this._inputLayout.setParent(this._inputFieldSet.getFrameObject());
 };
 
-proto._createPreviewFieldSet = function()
+qx.Proto._createPreviewFieldSet = function()
 {
   this._previewFieldSet = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
   this._previewFieldSet.setHeight(qx.Const.CORE_FLEX);
@@ -324,7 +324,7 @@ proto._createPreviewFieldSet = function()
 ---------------------------------------------------------------------------
 */
 
-proto._createHexField = function()
+qx.Proto._createHexField = function()
 {
   this._hexLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._hexLayout.setHeight(qx.Const.CORE_AUTO);
@@ -347,7 +347,7 @@ proto._createHexField = function()
   this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
 };
 
-proto._createRgbSpinner = function()
+qx.Proto._createRgbSpinner = function()
 {
   this._rgbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._rgbSpinLayout.setHeight(qx.Const.CORE_AUTO);
@@ -375,7 +375,7 @@ proto._createRgbSpinner = function()
   this._rgbSpinBlue.addEventListener("change", this._setBlueFromSpinner, this);
 };
 
-proto._createHsbSpinner = function()
+qx.Proto._createHsbSpinner = function()
 {
   this._hsbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._hsbSpinLayout.setHeight(qx.Const.CORE_AUTO);
@@ -415,7 +415,7 @@ proto._createHsbSpinner = function()
 ---------------------------------------------------------------------------
 */
 
-proto._createPreviewContent = function()
+qx.Proto._createPreviewContent = function()
 {
   this._oldColorPreview = new qx.ui.basic.Terminator;
   this._oldColorPreview.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
@@ -443,7 +443,7 @@ proto._createPreviewContent = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyRed = function(propValue, propOldValue, propData)
+qx.Proto._modifyRed = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_RED_MODIFIER;
@@ -474,7 +474,7 @@ proto._modifyRed = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyGreen = function(propValue, propOldValue, propData)
+qx.Proto._modifyGreen = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_GREEN_MODIFIER;
@@ -505,7 +505,7 @@ proto._modifyGreen = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyBlue = function(propValue, propOldValue, propData)
+qx.Proto._modifyBlue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_BLUE_MODIFIER;
@@ -548,7 +548,7 @@ proto._modifyBlue = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyHue = function(propValue, propOldValue, propData)
+qx.Proto._modifyHue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HUE_MODIFIER;
@@ -585,7 +585,7 @@ proto._modifyHue = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifySaturation = function(propValue, propOldValue, propData)
+qx.Proto._modifySaturation = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_SATURATION_MODIFIER;
@@ -622,7 +622,7 @@ proto._modifySaturation = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyBrightness = function(propValue, propOldValue, propData)
+qx.Proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER;
@@ -672,7 +672,7 @@ proto._modifyBrightness = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onBrightnessHandleMouseDown = function(e)
+qx.Proto._onBrightnessHandleMouseDown = function(e)
 {
   // Activate Capturing
   this._brightnessHandle.setCapture(true);
@@ -684,13 +684,13 @@ proto._onBrightnessHandleMouseDown = function(e)
   e.setPropagationStopped(true);
 };
 
-proto._onBrightnessHandleMouseUp = function(e)
+qx.Proto._onBrightnessHandleMouseUp = function(e)
 {
   // Disabling capturing
   this._brightnessHandle.setCapture(false);
 };
 
-proto._onBrightnessHandleMouseMove = function(e)
+qx.Proto._onBrightnessHandleMouseMove = function(e)
 {
   // Update if captured currently (through previous mousedown)
   if (this._brightnessHandle.getCapture()) {
@@ -698,7 +698,7 @@ proto._onBrightnessHandleMouseMove = function(e)
   };
 };
 
-proto._onBrightnessFieldMouseDown = function(e)
+qx.Proto._onBrightnessFieldMouseDown = function(e)
 {
   // Calculate substract: Half height of handler
   this._brightnessSubtract = qx.dom.DomLocation.getPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.dom.DomDimension.getBoxHeight(this._brightnessHandle.getElement()) / 2);
@@ -710,11 +710,11 @@ proto._onBrightnessFieldMouseDown = function(e)
   this._brightnessHandle.setCapture(true);
 };
 
-proto._onBrightnessPaneMouseWheel = function(e) {
+qx.Proto._onBrightnessPaneMouseWheel = function(e) {
   this.setBrightness(this.getBrightness() + qx.lang.Number.limit(e.getWheelDelta(), 0, 100));
 };
 
-proto._setBrightnessOnFieldEvent = function(e)
+qx.Proto._setBrightnessOnFieldEvent = function(e)
 {
   var vValue = qx.lang.Number.limit(e.getPageY() - this._brightnessSubtract, 0, 256);
 
@@ -747,7 +747,7 @@ proto._setBrightnessOnFieldEvent = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onHueSaturationHandleMouseDown = function(e)
+qx.Proto._onHueSaturationHandleMouseDown = function(e)
 {
   // Activate Capturing
   this._hueSaturationHandle.setCapture(true);
@@ -760,13 +760,13 @@ proto._onHueSaturationHandleMouseDown = function(e)
   e.setPropagationStopped(true);
 };
 
-proto._onHueSaturationHandleMouseUp = function(e)
+qx.Proto._onHueSaturationHandleMouseUp = function(e)
 {
   // Disabling capturing
   this._hueSaturationHandle.setCapture(false);
 };
 
-proto._onHueSaturationHandleMouseMove = function(e)
+qx.Proto._onHueSaturationHandleMouseMove = function(e)
 {
   // Update if captured currently (through previous mousedown)
   if (this._hueSaturationHandle.getCapture()) {
@@ -774,7 +774,7 @@ proto._onHueSaturationHandleMouseMove = function(e)
   };
 };
 
-proto._onHueSaturationFieldMouseDown = function(e)
+qx.Proto._onHueSaturationFieldMouseDown = function(e)
 {
   // Calculate substract: Half width/height of handler
   this._hueSaturationSubtractTop = qx.dom.DomLocation.getPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.dom.DomDimension.getBoxHeight(this._hueSaturationHandle.getElement()) / 2);
@@ -787,11 +787,11 @@ proto._onHueSaturationFieldMouseDown = function(e)
   this._hueSaturationHandle.setCapture(true);
 };
 
-proto._onHueSaturationPaneMouseWheel = function(e) {
+qx.Proto._onHueSaturationPaneMouseWheel = function(e) {
   this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
 };
 
-proto._setHueSaturationOnFieldEvent = function(e)
+qx.Proto._setHueSaturationOnFieldEvent = function(e)
 {
   var vTop = qx.lang.Number.limit(e.getPageY() - this._hueSaturationSubtractTop, 0, 256);
   var vLeft = qx.lang.Number.limit(e.getPageX() - this._hueSaturationSubtractLeft, 0, 256);
@@ -830,7 +830,7 @@ proto._setHueSaturationOnFieldEvent = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._setRedFromSpinner = function()
+qx.Proto._setRedFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -841,7 +841,7 @@ proto._setRedFromSpinner = function()
   this._updateContext = null;
 };
 
-proto._setGreenFromSpinner = function()
+qx.Proto._setGreenFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -852,7 +852,7 @@ proto._setGreenFromSpinner = function()
   this._updateContext = null;
 };
 
-proto._setBlueFromSpinner = function()
+qx.Proto._setBlueFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -878,7 +878,7 @@ proto._setBlueFromSpinner = function()
 ---------------------------------------------------------------------------
 */
 
-proto._setHueFromSpinner = function()
+qx.Proto._setHueFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -889,7 +889,7 @@ proto._setHueFromSpinner = function()
   this._updateContext = null;
 };
 
-proto._setSaturationFromSpinner = function()
+qx.Proto._setSaturationFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -900,7 +900,7 @@ proto._setSaturationFromSpinner = function()
   this._updateContext = null;
 };
 
-proto._setBrightnessFromSpinner = function()
+qx.Proto._setBrightnessFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
@@ -924,7 +924,7 @@ proto._setBrightnessFromSpinner = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onHexFieldChange = function(e)
+qx.Proto._onHexFieldChange = function(e)
 {
   if (this._updateContext !== null) {
     return;
@@ -969,7 +969,7 @@ proto._onHexFieldChange = function(e)
   this._updateContext = null;
 };
 
-proto._setHexFromRgb = function() {
+qx.Proto._setHexFromRgb = function() {
   this._hexField.setValue(qx.lang.String.pad(this.getRed().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getGreen().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getBlue().toString(16).toUpperCase(), 2));
 };
 
@@ -986,7 +986,7 @@ proto._setHexFromRgb = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._onColorFieldClick = function(e)
+qx.Proto._onColorFieldClick = function(e)
 {
   var vColor = e.getTarget().getBackgroundColor();
 
@@ -1012,7 +1012,7 @@ proto._onColorFieldClick = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._setHueFromRgb = function()
+qx.Proto._setHueFromRgb = function()
 {
   switch(this._updateContext)
   {
@@ -1030,7 +1030,7 @@ proto._setHueFromRgb = function()
   };
 };
 
-proto._setRgbFromHue = function()
+qx.Proto._setRgbFromHue = function()
 {
   switch(this._updateContext)
   {
@@ -1058,7 +1058,7 @@ proto._setRgbFromHue = function()
 ---------------------------------------------------------------------------
 */
 
-proto._setPreviewFromRgb = function()
+qx.Proto._setPreviewFromRgb = function()
 {
   if (this._newColorPreview.isCreated())
   {
@@ -1071,7 +1071,7 @@ proto._setPreviewFromRgb = function()
   };
 };
 
-proto.setPreviousColor = function(vRed, vGreen, vBlue)
+qx.Proto.setPreviousColor = function(vRed, vGreen, vBlue)
 {
   this._oldColorPreview.setBackgroundImage(null);
   this._oldColorPreview.setBackgroundColor([vRed, vGreen, vBlue]);
@@ -1093,7 +1093,7 @@ proto.setPreviousColor = function(vRed, vGreen, vBlue)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

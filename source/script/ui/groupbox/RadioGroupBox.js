@@ -31,7 +31,7 @@ function(vLegend) {
   qx.ui.groupbox.GroupBox.call(this, vLegend);
 });
 
-proto._createLegendObject = function()
+qx.Proto._createLegendObject = function()
 {
   this._legendObject = new qx.ui.form.RadioButton;
   this._legendObject.setAppearance("radio-button-field-set-legend");
@@ -40,4 +40,4 @@ proto._createLegendObject = function()
   this.add(this._legendObject);
 };
 
-proto.setIcon = proto.getIcon = null;
+qx.Proto.setIcon = qx.Proto.getIcon = null;

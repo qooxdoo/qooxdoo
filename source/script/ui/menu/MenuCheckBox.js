@@ -64,7 +64,7 @@ qx.ui.menu.MenuCheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_B
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -90,7 +90,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.execute = function()
+qx.Proto.execute = function()
 {
   this.setChecked(!this.getChecked());
   qx.ui.menu.MenuButton.prototype.execute.call(this);

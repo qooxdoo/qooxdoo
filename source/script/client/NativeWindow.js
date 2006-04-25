@@ -189,7 +189,7 @@ qx.client.NativeWindow.addPropertyGroup({ name : "dimension", members : [ "width
 ---------------------------------------------------------------------------
 */
 
-proto._modifyPosition = function(propValue, propOldValue, propName)
+qx.Proto._modifyPosition = function(propValue, propOldValue, propName)
 {
   /*
     http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -215,7 +215,7 @@ proto._modifyPosition = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyDimension = function(propValue, propOldValue, propName)
+qx.Proto._modifyDimension = function(propValue, propOldValue, propName)
 {
   /*
     http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -241,7 +241,7 @@ proto._modifyDimension = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propName)
+qx.Proto._modifyName = function(propValue, propOldValue, propName)
 {
   if (!this.isClosed()) {
     this._window.name = propValue;
@@ -250,7 +250,7 @@ proto._modifyName = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyUrl = function(propValue, propOldValue, propName)
+qx.Proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
@@ -260,7 +260,7 @@ proto._modifyUrl = function(propValue, propOldValue, propName)
   return true;
 };
 
-proto._modifyOpen = function(propValue, propOldValue, propData)
+qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {
   propValue ? this._open() : this._close();
   return true;
@@ -277,7 +277,7 @@ proto._modifyOpen = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.getName = function()
+qx.Proto.getName = function()
 {
   if (!this.isClosed())
   {
@@ -316,7 +316,7 @@ proto.getName = function()
 ---------------------------------------------------------------------------
 */
 
-proto.isClosed = function()
+qx.Proto.isClosed = function()
 {
   var vClosed = true;
 
@@ -330,11 +330,11 @@ proto.isClosed = function()
   return vClosed;
 };
 
-proto.open = function() {
+qx.Proto.open = function() {
   this.setOpen(true);
 };
 
-proto.close = function() {
+qx.Proto.close = function() {
   this.setOpen(false);
 };
 
@@ -352,7 +352,7 @@ proto.close = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._open = function()
+qx.Proto._open = function()
 {
   var vConf = [];
 
@@ -475,7 +475,7 @@ proto._open = function()
   };
 };
 
-proto._close = function()
+qx.Proto._close = function()
 {
   if (!this._window) {
     return;
@@ -511,19 +511,19 @@ proto._close = function()
 ---------------------------------------------------------------------------
 */
 
-proto.centerToScreen = function() {
+qx.Proto.centerToScreen = function() {
   return this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
 };
 
-proto.centerToScreenArea = function() {
+qx.Proto.centerToScreenArea = function() {
   return this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
 };
 
-proto.centerToOpener = function() {
+qx.Proto.centerToOpener = function() {
   return this._centerHelper(((qx.dom.DomWindow.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.DomLocation.getScreenBoxLeft(window.document.body), ((qx.dom.DomWindow.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.DomLocation.getScreenBoxTop(window.document.body));
 };
 
-proto._centerHelper = function(l, t)
+qx.Proto._centerHelper = function(l, t)
 {
   // set new values
   this.setLeft(l);
@@ -546,14 +546,14 @@ proto._centerHelper = function(l, t)
 ---------------------------------------------------------------------------
 */
 
-proto.focus = function()
+qx.Proto.focus = function()
 {
   if (!this.isClosed()) {
     this._window.focus();
   };
 };
 
-proto.blur = function()
+qx.Proto.blur = function()
 {
   if (!this.isClosed()) {
     this._window.blur();
@@ -572,7 +572,7 @@ proto.blur = function()
 ---------------------------------------------------------------------------
 */
 
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   if (this.isClosed()) {
     this.setOpen(false);
@@ -590,7 +590,7 @@ proto._oninterval = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

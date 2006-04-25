@@ -64,7 +64,7 @@ qx.ui.toolbar.ToolBar.changeProperty({ name : "appearance", type : qx.Const.TYPE
 ---------------------------------------------------------------------------
 */
 
-proto.getAllButtons = function()
+qx.Proto.getAllButtons = function()
 {
   var vChildren = this.getChildren();
   var vLength = vChildren.length;
@@ -103,7 +103,7 @@ proto.getAllButtons = function()
 /*!
   Wraps key events to target functions
 */
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
@@ -115,7 +115,7 @@ proto._onkeydown = function(e)
   };
 };
 
-proto._onkeydown_left = function(e)
+qx.Proto._onkeydown_left = function(e)
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
@@ -169,7 +169,7 @@ proto._onkeydown_left = function(e)
   };
 };
 
-proto._onkeydown_right = function(e)
+qx.Proto._onkeydown_right = function(e)
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
@@ -235,7 +235,7 @@ proto._onkeydown_right = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -79,7 +79,7 @@ QxBinaryClock.addProperty({ name : "color", type : qx.Const.TYPEOF_STRING, defau
 ------------------------------------------------------------------------------------
 */
 
-proto.display = function(hours, minutes, seconds)
+qx.Proto.display = function(hours, minutes, seconds)
 {
   if(this.getShowHours() == 12)
   {
@@ -127,7 +127,7 @@ proto.display = function(hours, minutes, seconds)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

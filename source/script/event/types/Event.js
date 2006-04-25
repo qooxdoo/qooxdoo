@@ -57,11 +57,11 @@ qx.event.types.Event.addFastProperty({ name : "defaultPrevented", defaultValue :
 ---------------------------------------------------------------------------
 */
 
-proto.preventDefault = function() {
+qx.Proto.preventDefault = function() {
   this.setDefaultPrevented(true);
 };
 
-proto.stopPropagation = function() {
+qx.Proto.stopPropagation = function() {
   this.setPropagationStopped(true);
 };
 
@@ -74,7 +74,7 @@ proto.stopPropagation = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

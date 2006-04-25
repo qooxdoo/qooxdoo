@@ -98,15 +98,15 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
 ---------------------------------------------------------------------------
 */
 
-proto.addListenerWidget = function(o) {
+qx.Proto.addListenerWidget = function(o) {
   this._dependentObjects[o.toHashCode()] = o;
 };
 
-proto.removeListenerWidget = function(o) {
+qx.Proto.removeListenerWidget = function(o) {
   delete this._dependentObjects[o.toHashCode()];
 };
 
-proto._sync = function(vEdge)
+qx.Proto._sync = function(vEdge)
 {
   var vAll = this._dependentObjects;
   var vCurrent;
@@ -133,7 +133,7 @@ proto._sync = function(vEdge)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

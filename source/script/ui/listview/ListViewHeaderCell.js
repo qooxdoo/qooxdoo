@@ -99,11 +99,11 @@ qx.ui.listview.ListViewHeaderCell.addProperty({ name : "sortOrder", type : qx.Co
 ---------------------------------------------------------------------------
 */
 
-proto.getView = function() {
+qx.Proto.getView = function() {
   return this.getParent().getParent();
 };
 
-proto.getNextSortOrder = function()
+qx.Proto.getNextSortOrder = function()
 {
   var vCurrentSortOrder = this.getSortOrder();
 
@@ -117,7 +117,7 @@ proto.getNextSortOrder = function()
   };
 };
 
-proto.updateSort = function()
+qx.Proto.updateSort = function()
 {
 
   var vListView = this.getView();
@@ -145,7 +145,7 @@ proto.updateSort = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifySortOrder = function(propValue, propOldValue, propData)
+qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 {
   var vListView = this.getView();
 
@@ -195,15 +195,15 @@ proto._modifySortOrder = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseover = function(e) {
+qx.Proto._onmouseover = function(e) {
   this.addState(qx.Const.STATE_OVER);
 };
 
-proto._onmouseout = function(e) {
+qx.Proto._onmouseout = function(e) {
   this.removeState(qx.Const.STATE_OVER);
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   if (!this._config.sortable || this.getParent()._resizeSeparator) {
     return;
@@ -225,7 +225,7 @@ proto._onmouseup = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

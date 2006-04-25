@@ -44,25 +44,25 @@ function(vBoundedWidget) {
 ---------------------------------------------------------------------------
 */
 
-proto.getFirst = function() {
+qx.Proto.getFirst = function() {
   return qx.lang.Array.getFirst(this.getItems());
 };
 
-proto.getLast = function() {
+qx.Proto.getLast = function() {
   return qx.lang.Array.getLast(this.getItems());
 };
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this.getBoundedWidget().getData();
 };
 
-proto.getNextSibling = function(vItem)
+qx.Proto.getNextSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)+1];
 };
 
-proto.getPreviousSibling = function(vItem)
+qx.Proto.getPreviousSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)-1];
@@ -77,7 +77,7 @@ proto.getPreviousSibling = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto.getItemHashCode = function(oItem)
+qx.Proto.getItemHashCode = function(oItem)
 {
   if (oItem._hash) {
     return oItem._hash;
@@ -96,30 +96,30 @@ proto.getItemHashCode = function(oItem)
 ---------------------------------------------------------------------------
 */
 
-proto.scrollItemIntoView = function(vItem, vTopLeft) {
+qx.Proto.scrollItemIntoView = function(vItem, vTopLeft) {
   this.getBoundedWidget().scrollItemIntoView(vItem, vTopLeft);
 };
 
-proto.getItemLeft = function(vItem) {
+qx.Proto.getItemLeft = function(vItem) {
   return this.getBoundedWidget().getItemLeft(vItem);
 };
 
-proto.getItemTop = function(vItem) {
+qx.Proto.getItemTop = function(vItem) {
   return this.getBoundedWidget().getItemTop(vItem);
 };
 
-proto.getItemWidth = function(vItem) {
+qx.Proto.getItemWidth = function(vItem) {
   return this.getBoundedWidget().getItemWidth(vItem);
 };
 
-proto.getItemHeight = function(vItem) {
+qx.Proto.getItemHeight = function(vItem) {
   return this.getBoundedWidget().getItemHeight(vItem);
 };
 
 /*!
   In a qx.ui.listview.ListView there are no disabled entries support currently.
 */
-proto.getItemEnabled = function(vItem) {
+qx.Proto.getItemEnabled = function(vItem) {
   return true;
 };
 
@@ -134,14 +134,14 @@ proto.getItemEnabled = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-proto.renderItemSelectionState = function(vItem, vIsSelected) {
+qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   this.getBoundedWidget()._updateSelectionState(vItem, vIsSelected);
 };
 
-proto.renderItemAnchorState = function(vItem, vIsAnchor) {
+qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   this.getBoundedWidget()._updateAnchorState(vItem, vIsAnchor);
 };
 
-proto.renderItemLeadState = function(vItem, vIsLead) {
+qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   this.getBoundedWidget()._updateLeadState(vItem, vIsLead);
 };

@@ -71,11 +71,11 @@ qx.manager.selection.RadioManager.addProperty({ name : "name", type : qx.Const.T
 ---------------------------------------------------------------------------
 */
 
-proto.getItems = function() {
+qx.Proto.getItems = function() {
   return this._items;
 };
 
-proto.handleItemChecked = function(vItem, vChecked)
+qx.Proto.handleItemChecked = function(vItem, vChecked)
 {
   if (vChecked)
   {
@@ -99,7 +99,7 @@ proto.handleItemChecked = function(vItem, vChecked)
 ---------------------------------------------------------------------------
 */
 
-proto.add = function()
+qx.Proto.add = function()
 {
   var vItems = arguments;
   var vLength = vItems.length;
@@ -138,7 +138,7 @@ proto.add = function()
   };
 };
 
-proto.remove = function(vItem)
+qx.Proto.remove = function(vItem)
 {
   // Remove RadioButton from array
   qx.lang.Array.remove(this._items, vItem);
@@ -163,7 +163,7 @@ proto.remove = function(vItem)
 ---------------------------------------------------------------------------
 */
 
-proto._modifySelected = function(propValue, propOldValue, propData)
+qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
   if (propOldValue && propOldValue.getChecked()) {
     propOldValue.setChecked(false);
@@ -176,7 +176,7 @@ proto._modifySelected = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyEnabled = function(propValue, propOldValue, propData)
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
     vItems[i].setEnabled(propValue);
@@ -185,7 +185,7 @@ proto._modifyEnabled = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyName = function(propValue, propOldValue, propData)
+qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
     vItems[i].setName(propValue);
@@ -206,7 +206,7 @@ proto._modifyName = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.selectNext = function(vItem)
+qx.Proto.selectNext = function(vItem)
 {
   var vIndex = this._items.indexOf(vItem);
 
@@ -228,7 +228,7 @@ proto.selectNext = function(vItem)
   this._selectByIndex(vIndex);
 };
 
-proto.selectPrevious = function(vItem)
+qx.Proto.selectPrevious = function(vItem)
 {
   var vIndex = this._items.indexOf(vItem);
 
@@ -250,7 +250,7 @@ proto.selectPrevious = function(vItem)
   this._selectByIndex(vIndex);
 };
 
-proto._selectByIndex = function(vIndex)
+qx.Proto._selectByIndex = function(vIndex)
 {
   if(this._items[vIndex].getEnabled())
   {
@@ -271,7 +271,7 @@ proto._selectByIndex = function(vIndex)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

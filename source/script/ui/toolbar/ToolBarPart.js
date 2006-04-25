@@ -48,7 +48,7 @@ qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : qx.Const.
 */
 
 // Omit recursive cloning of qx.ui.toolbar.ToolBarPartHandle
-proto._cloneRecursive = function(cloneInstance)
+qx.Proto._cloneRecursive = function(cloneInstance)
 {
   var vChildren = this.getChildren();
   var vLength = vChildren.length;
@@ -70,7 +70,7 @@ proto._cloneRecursive = function(cloneInstance)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

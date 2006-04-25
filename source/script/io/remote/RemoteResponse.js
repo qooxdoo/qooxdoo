@@ -61,7 +61,7 @@ qx.io.remote.RemoteResponse.addProperty({ name : "responseHeaders", type : qx.Co
 */
 
 /*
-proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
+qx.Proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
 {
   for (vKey in propValue) {
     this.debug("R-Header: " + vKey + "=" + propValue[vKey]);
@@ -83,7 +83,7 @@ proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.getResponseHeader = function(vHeader)
+qx.Proto.getResponseHeader = function(vHeader)
 {
   var vAll = this.getResponseHeaders();
   if (vAll) {
@@ -104,7 +104,7 @@ proto.getResponseHeader = function(vHeader)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

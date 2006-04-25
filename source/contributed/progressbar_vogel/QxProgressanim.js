@@ -72,11 +72,11 @@ function QxProgressanim()
 ------------------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = function() { //???Olli???
+qx.Proto._computePreferredInnerWidth = function() { //???Olli???
   return 200;
 };
 
-proto._computePreferredInnerHeight = function() { //???Olli???
+qx.Proto._computePreferredInnerHeight = function() { //???Olli???
   return 20;
 };
 
@@ -86,14 +86,14 @@ proto._computePreferredInnerHeight = function() { //???Olli???
   THE ACTION
 ------------------------------------------------------------------------------------
 */
-proto.startAnimation = function(){
+qx.Proto.startAnimation = function(){
   this._timer.start();
 }
-proto.stopAnimation = function(){
+qx.Proto.stopAnimation = function(){
   this._timer.stop();
 }
 
-proto.clearBar = function(){
+qx.Proto.clearBar = function(){
   // set to a invisible position
   this._position = -QxProgressanim.BAR_WIDTH; // -x% startPosition + x% width of bar = 0!!!
   this._applyChanges();
@@ -107,7 +107,7 @@ proto.clearBar = function(){
   INTERNAL STUFF
 ------------------------------------------------------------------------------------
 */
-proto._applyChanges = function(){
+qx.Proto._applyChanges = function(){
   // set position and size of the bar to show the progress
   // if the position is outside, set the position to 0 and the width to the "difference"
   if (this._position < 0) // left outside?
@@ -143,7 +143,7 @@ proto._applyChanges = function(){
   INTERVAL HANDLING
 ------------------------------------------------------------------------------------
 */
-proto._oninterval = function(e)
+qx.Proto._oninterval = function(e)
 {
   // handle the direction
   if (this._leftToRight)
@@ -168,7 +168,7 @@ proto._oninterval = function(e)
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

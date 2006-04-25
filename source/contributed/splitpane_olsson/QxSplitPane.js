@@ -213,7 +213,7 @@ QxSplitPane.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", 
 ------------------------------------------------------------------------------------
 */
 
-proto._modifyDividerLocation = function(propValue, propOldValue, propData)
+qx.Proto._modifyDividerLocation = function(propValue, propOldValue, propData)
 {
   if(propValue >= this.getMinimumDividerLocation() && propValue <= this.getMaximumDividerLocation()) {
 this.error("Value=" + propValue);
@@ -238,7 +238,7 @@ this.error("Hereeeeeee");
   return true;
 };
 
-proto._modifyDividerSize = function(propValue, propOldValue, propData)
+qx.Proto._modifyDividerSize = function(propValue, propOldValue, propData)
 {
   if(this.getOrientation() == qx.Const.ORIENTATION_HORIZONTAL) {
     this._bar.setWidth(propValue);
@@ -250,7 +250,7 @@ proto._modifyDividerSize = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyFirstWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifyFirstWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -278,7 +278,7 @@ proto._modifyFirstWidget = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData)
+qx.Proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData)
 {
   var maxValue;
 
@@ -300,7 +300,7 @@ proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData
   return false;   
 };
 
-proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData)
+qx.Proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData)
 {
   var minValue;
 
@@ -318,7 +318,7 @@ proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData
   return false;
 };
 
-proto._modifySecondWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifySecondWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
@@ -348,7 +348,7 @@ proto._modifySecondWidget = function(propValue, propOldValue, propData)
 ------------------------------------------------------------------------------------
 */
 
-proto._onbarmousedown = function(e)
+qx.Proto._onbarmousedown = function(e)
 {
   this._bar.focus();
 
@@ -428,7 +428,7 @@ proto._onbarmousedown = function(e)
   };
 };
 
-proto._onbarmouseup = function(e)
+qx.Proto._onbarmouseup = function(e)
 {
   var s = this._moveSession;
 
@@ -504,7 +504,7 @@ proto._onbarmouseup = function(e)
   };
 };
 
-proto._onbarmousemove = function(e)
+qx.Proto._onbarmousemove = function(e)
 {
   if (!this.getAllowMove()) {
     return;
@@ -568,11 +568,11 @@ proto._onbarmousemove = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._onbuttonmousedown = function(e) {
+qx.Proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
 };
 
-proto._onminimizebuttonclick = function(e)
+qx.Proto._onminimizebuttonclick = function(e)
 {
   this.minimize();
 
@@ -581,7 +581,7 @@ proto._onminimizebuttonclick = function(e)
   this._buttonLayout.addAt(this._maximizeButton, 1);
 };
 
-proto._onrestorebuttonclick = function(e) {
+qx.Proto._onrestorebuttonclick = function(e) {
   this.restore();
 
   this._buttonLayout.remove(this._restoreButton);
@@ -589,7 +589,7 @@ proto._onrestorebuttonclick = function(e) {
   this._buttonLayout.addAt(this._maximizeButton, 1);
 };
 
-proto._onmaximizebuttonclick = function(e)
+qx.Proto._onmaximizebuttonclick = function(e)
 {
   this.maximize();
 
@@ -605,31 +605,31 @@ proto._onmaximizebuttonclick = function(e)
 ------------------------------------------------------------------------------------
 */
 
-proto.addLeft = function(vWidget) {
+qx.Proto.addLeft = function(vWidget) {
   this.getFirstWidget().add(vWidget);
 };
 
-proto.addTop = function(vWidget) {
+qx.Proto.addTop = function(vWidget) {
   this.getFirstWidget().add(vWidget);
 };
 
-proto.addRight = function(vWidget) {
+qx.Proto.addRight = function(vWidget) {
   this.getSecondWidget().add(vWidget);
 };
 
-proto.addBottom = function(vWidget) {
+qx.Proto.addBottom = function(vWidget) {
   this.getSecondWidget().add(vWidget);
 };
 
-proto.minimize = function() {
+qx.Proto.minimize = function() {
   this.setDividerLocation(0);
 };
 
-proto.maximize = function() {
+qx.Proto.maximize = function() {
   this.setDividerLocation(this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (this.getWidth() - this.getDividerSize()));
 };
 
-proto.restore = function() {
+qx.Proto.restore = function() {
   this.setDividerLocation(this._lastDividerLocation);
 };
 
@@ -640,7 +640,7 @@ proto.restore = function() {
 ------------------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;

@@ -68,7 +68,7 @@ qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "disableUncheck", type : q
 ---------------------------------------------------------------------------
 */
 
-proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   qx.ui.toolbar.ToolBarCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 
@@ -80,7 +80,7 @@ proto._modifyChecked = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -103,7 +103,7 @@ proto._modifyManager = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 

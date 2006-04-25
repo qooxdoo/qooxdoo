@@ -119,7 +119,7 @@ qx.core.Object.DEBUG_FUNCERRORPOST = "()\": ";
 /*!
   Returns a string represantation of the qooxdoo object.
 */
-proto.toString = function()
+qx.Proto.toString = function()
 {
   if(this.classname) {
     return "[object " + this.classname + "]";
@@ -131,21 +131,21 @@ proto.toString = function()
 /*!
   Return unique hash code of object
 */
-proto.toHashCode = function() {
+qx.Proto.toHashCode = function() {
   return this._hashCode;
 };
 
 /*!
   Returns true if the object is disposed.
 */
-proto.getDisposed = function() {
+qx.Proto.getDisposed = function() {
   return this._disposed;
 };
 
 /*!
   Returns true if the object is disposed.
 */
-proto.isDisposed = function() {
+qx.Proto.isDisposed = function() {
   return this._disposed;
 };
 
@@ -163,28 +163,28 @@ proto.isDisposed = function() {
 /*!
   Print out a debug message to the qooxdoo debug console.
 */
-proto.debug = function(m, c) {
+qx.Proto.debug = function(m, c) {
   qx.dev.Debug(this.classname + qx.core.Object.DEBUG_MSG_BEFORE + this._hashCode + qx.core.Object.DEBUG_MSG_AFTER, m, c);
 };
 
 /*!
   Print out an info message info to the qooxdoo debug console.
 */
-proto.info = function(m, c) {
+qx.Proto.info = function(m, c) {
   this.debug(m, "info");
 };
 
 /*!
   Print out an warning to the qooxdoo debug console.
 */
-proto.warn = function(m, c) {
+qx.Proto.warn = function(m, c) {
   this.debug(m, "warning");
 };
 
 /*!
   Print out an error to the qooxdoo debug console.
 */
-proto.error = function(m, f)
+qx.Proto.error = function(m, f)
 {
   if (qx.util.Validation.isValidString(f))
   {
@@ -212,7 +212,7 @@ Sets multiple properties at once by using a property list
 
 #param propertyValues[Property List]: A hash of key-value pairs.
 */
-proto.set = function(propertyValues)
+qx.Proto.set = function(propertyValues)
 {
   if (typeof propertyValues !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("Please use a valid hash of property key-values pairs.");
@@ -236,7 +236,7 @@ proto.set = function(propertyValues)
 /*!
 
 */
-proto.get = function(propertyNames, outputHint)
+qx.Proto.get = function(propertyNames, outputHint)
 {
   switch(typeof propertyNames)
   {
@@ -305,7 +305,7 @@ proto.get = function(propertyNames, outputHint)
 ---------------------------------------------------------------------------
 */
 
-proto.setUserData = function(vKey, vValue)
+qx.Proto.setUserData = function(vKey, vValue)
 {
   if (!this._userData) {
     this._userData = {};
@@ -314,7 +314,7 @@ proto.setUserData = function(vKey, vValue)
   this._userData[vKey] = vValue;
 };
 
-proto.getUserData = function(vKey)
+qx.Proto.getUserData = function(vKey)
 {
   if (!this._userData) {
     return null;
@@ -334,12 +334,12 @@ proto.getUserData = function(vKey)
 ---------------------------------------------------------------------------
 */
 
-proto._disposed = false;
+qx.Proto._disposed = false;
 
 /*!
   Dispose this object
 */
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

@@ -88,7 +88,7 @@ qx.ui.listview.ListViewHeader.changeProperty({ name : "appearance", type : qx.Co
 ---------------------------------------------------------------------------
 */
 
-proto._syncColumnWidth = function(vWidth)
+qx.Proto._syncColumnWidth = function(vWidth)
 {
   var vChildren = this.getChildren();
   var vColumn = Math.ceil(vChildren.indexOf(this._resizeCell) / 2);
@@ -96,7 +96,7 @@ proto._syncColumnWidth = function(vWidth)
   this.getParent().getPane().setColumnWidth(vColumn, vWidth);
 };
 
-proto._syncResizeLine = function()
+qx.Proto._syncResizeLine = function()
 {
   qx.ui.core.Widget.flushGlobalQueues();
 
@@ -122,9 +122,9 @@ proto._syncResizeLine = function()
 ---------------------------------------------------------------------------
 */
 
-proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
-proto._onmousemove = function(e)
+qx.Proto._onmousemove = function(e)
 {
   if (!this.getParent().getResizable()) {
     return;
@@ -212,7 +212,7 @@ proto._onmousemove = function(e)
   };
 };
 
-proto._onmousedown = function(e)
+qx.Proto._onmousedown = function(e)
 {
   if (!this._resizeSeparator) {
     return;
@@ -229,7 +229,7 @@ proto._onmousedown = function(e)
   this.setCapture(true);
 };
 
-proto._onmouseup = function(e)
+qx.Proto._onmouseup = function(e)
 {
   if (!this._resizingActive) {
     return;
@@ -249,14 +249,14 @@ proto._onmouseup = function(e)
   this._cleanupResizing();
 };
 
-proto._onmouseout = function(e)
+qx.Proto._onmouseout = function(e)
 {
   if (!this.getCapture()) {
     this.getTopLevelWidget().setGlobalCursor(null);
   };
 };
 
-proto._cleanupResizing = function()
+qx.Proto._cleanupResizing = function()
 {
   delete this._resizingActive;
 
@@ -281,7 +281,7 @@ proto._cleanupResizing = function()
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

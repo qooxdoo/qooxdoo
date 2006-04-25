@@ -83,11 +83,11 @@ qx.ui.tree.Tree.addProperty({ name : "useTreeLines", type : qx.Const.TYPEOF_BOOL
 ---------------------------------------------------------------------------
 */
 
-proto.getManager = function() {
+qx.Proto.getManager = function() {
   return this._manager;
 };
 
-proto.getSelectedElement = function() {
+qx.Proto.getSelectedElement = function() {
   return this.getSelectedItems()[0];
 };
 
@@ -102,7 +102,7 @@ proto.getSelectedElement = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.addChildToTreeQueue = function(vChild)
+qx.Proto.addChildToTreeQueue = function(vChild)
 {
   if (!vChild._isInTreeQueue && !vChild._isDisplayable) {
     this.debug("Ignoring invisible child: " + vChild);
@@ -122,7 +122,7 @@ proto.addChildToTreeQueue = function(vChild)
   };
 };
 
-proto.removeChildFromTreeQueue = function(vChild)
+qx.Proto.removeChildFromTreeQueue = function(vChild)
 {
   if (vChild._isInTreeQueue)
   {
@@ -134,11 +134,11 @@ proto.removeChildFromTreeQueue = function(vChild)
   };
 };
 
-proto.flushWidgetQueue = function() {
+qx.Proto.flushWidgetQueue = function() {
   this.flushTreeQueue();
 };
 
-proto.flushTreeQueue = function()
+qx.Proto.flushTreeQueue = function()
 {
   if (!qx.lang.Object.isEmpty(this._treeQueue))
   {
@@ -165,7 +165,7 @@ proto.flushTreeQueue = function()
 ---------------------------------------------------------------------------
 */
 
-proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
+qx.Proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
 {
   if (this._initialLayoutDone) {
     this._updateIndent();
@@ -186,15 +186,15 @@ proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto.getTree = function() {
+qx.Proto.getTree = function() {
   return this;
 };
 
-proto.getParentFolder = function() {
+qx.Proto.getParentFolder = function() {
   return null;
 };
 
-proto.getLevel = function() {
+qx.Proto.getLevel = function() {
   return 0;
 };
 
@@ -231,7 +231,7 @@ qx.ui.tree.Tree.isOpenTreeFolder = function(vObject) {
 ---------------------------------------------------------------------------
 */
 
-proto._onkeydown = function(e)
+qx.Proto._onkeydown = function(e)
 {
   var vManager = this.getManager();
   var vSelectedItem = vManager.getSelectedItem();
@@ -313,7 +313,7 @@ proto._onkeydown = function(e)
   };
 };
 
-proto._onkeyup = function(e)
+qx.Proto._onkeyup = function(e)
 {
   if (this._fastUpdate)
   {
@@ -327,7 +327,7 @@ proto._onkeyup = function(e)
   };
 };
 
-proto.getLastTreeChild = function()
+qx.Proto.getLastTreeChild = function()
 {
   var vLast = this;
 
@@ -343,11 +343,11 @@ proto.getLastTreeChild = function()
   return null;
 };
 
-proto.getFirstTreeChild = function() {
+qx.Proto.getFirstTreeChild = function() {
   return this;
 };
 
-proto.setSelectedElement = function(vElement)
+qx.Proto.setSelectedElement = function(vElement)
 {
   var vManager = this.getManager();
 
@@ -367,7 +367,7 @@ proto.setSelectedElement = function(vElement)
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

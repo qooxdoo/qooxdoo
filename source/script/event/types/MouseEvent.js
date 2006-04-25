@@ -98,11 +98,11 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto.getScreenX = function() {
+qx.Proto.getScreenX = function() {
   return this.getDomEvent().screenX;
 };
 
-proto.getScreenY = function() {
+qx.Proto.getScreenY = function() {
   return this.getDomEvent().screenY;
 };
 
@@ -126,42 +126,42 @@ if (qx.sys.Client.isMshtml())
 
   if (qx.sys.Client.isInQuirksMode())
   {
-    proto._computePageX = function() {
+    qx.Proto._computePageX = function() {
       return this.getDomEvent().clientX + document.documentElement.scrollLeft;
     };
 
-    proto._computePageY = function() {
+    qx.Proto._computePageY = function() {
       return this.getDomEvent().clientY + document.documentElement.scrollTop;
     };
   }
   else
   {
-    proto._computePageX = function() {
+    qx.Proto._computePageX = function() {
       return this.getDomEvent().clientX + document.body.scrollLeft;
     };
 
-    proto._computePageY = function() {
+    qx.Proto._computePageY = function() {
       return this.getDomEvent().clientY + document.body.scrollTop;
     };
   };
 }
 else if (qx.sys.Client.isGecko())
 {
-  proto.getPageX = function() {
+  qx.Proto.getPageX = function() {
     return this.getDomEvent().pageX;
   };
 
-  proto.getPageY = function() {
+  qx.Proto.getPageY = function() {
     return this.getDomEvent().pageY;
   };
 }
 else
 {
-  proto.getPageX = function() {
+  qx.Proto.getPageX = function() {
     return this.getDomEvent().clientX;
   };
 
-  proto.getPageY = function() {
+  qx.Proto.getPageY = function() {
     return this.getDomEvent().clientY;
   };
 };
@@ -180,11 +180,11 @@ else
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isGecko())
 {
-  proto.getClientX = function() {
+  qx.Proto.getClientX = function() {
     return this.getDomEvent().clientX;
   };
 
-  proto.getClientY = function() {
+  qx.Proto.getClientY = function() {
     return this.getDomEvent().clientY;
   };
 }
@@ -193,11 +193,11 @@ else
   qx.event.types.MouseEvent.addFastProperty({ name : "clientX", readOnly : true });
   qx.event.types.MouseEvent.addFastProperty({ name : "clientY", readOnly : true });
 
-  proto._computeClientX = function() {
+  qx.Proto._computeClientX = function() {
     return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
   };
 
-  proto._computeClientY = function() {
+  qx.Proto._computeClientY = function() {
     return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
   };
 };
@@ -216,21 +216,21 @@ else
 
 qx.event.types.MouseEvent.addFastProperty({ name : "button", readOnly : true });
 
-proto.isLeftButtonPressed = function() {
+qx.Proto.isLeftButtonPressed = function() {
   return this.getButton() === qx.Const.BUTTON_LEFT;
 };
 
-proto.isMiddleButtonPressed = function() {
+qx.Proto.isMiddleButtonPressed = function() {
   return this.getButton() === qx.Const.BUTTON_MIDDLE;
 };
 
-proto.isRightButtonPressed = function() {
+qx.Proto.isRightButtonPressed = function() {
   return this.getButton() === qx.Const.BUTTON_RIGHT;
 };
 
 if (qx.sys.Client.isMshtml())
 {
-  proto._computeButton = function()
+  qx.Proto._computeButton = function()
   {
     switch(this.getDomEvent().button)
     {
@@ -250,7 +250,7 @@ if (qx.sys.Client.isMshtml())
 }
 else
 {
-  proto._computeButton = function()
+  qx.Proto._computeButton = function()
   {
     switch(this.getDomEvent().button)
     {
@@ -286,13 +286,13 @@ qx.event.types.MouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true
 
 if(qx.sys.Client.isMshtml())
 {
-  proto._computeWheelDelta = function() {
+  qx.Proto._computeWheelDelta = function() {
     return this.getDomEvent().wheelDelta ? this.getDomEvent().wheelDelta / 40 : 0;
   };
 }
 else
 {
-  proto._computeWheelDelta = function() {
+  qx.Proto._computeWheelDelta = function() {
     return -(this.getDomEvent().detail || 0);
   };
 };

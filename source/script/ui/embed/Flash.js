@@ -122,10 +122,10 @@ qx.ui.embed.FlashEmbed.getPlayerVersion = function()
 ---------------------------------------------------------------------------
 */
 
-proto._version = null;
-proto._source = "";
+qx.Proto._version = null;
+qx.Proto._source = "";
 
-proto._applyElementData = function(el)
+qx.Proto._applyElementData = function(el)
 {
   qx.ui.basic.Terminator.prototype._applyElementData.call(this, el);
 
@@ -170,13 +170,13 @@ proto._applyElementData = function(el)
 ---------------------------------------------------------------------------
 */
 
-proto._modifySource = function(propValue, propOldValue, propName)
+qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
   this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.Const.CORE_EMPTY;
   return true;
 };
 
-proto._modifyVersion = function(propValue, propOldValue, propData)
+qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
 {
   if (this._version)
   {
@@ -191,7 +191,7 @@ proto._modifyVersion = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyParam = function(propValue, propOldValue, propData)
+qx.Proto._modifyParam = function(propValue, propOldValue, propData)
 {
   this.setParam(propData.name, propValue.toString());
   return true;
@@ -207,7 +207,7 @@ proto._modifyParam = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
+qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
@@ -226,7 +226,7 @@ proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._applyBackgroundColor = function(vNewValue) {
+qx.Proto._applyBackgroundColor = function(vNewValue) {
   this.setParam("bgcolor", vNewValue);
 };
 
@@ -239,15 +239,15 @@ proto._applyBackgroundColor = function(vNewValue) {
 ---------------------------------------------------------------------------
 */
 
-proto.setParam = function(name, value){
+qx.Proto.setParam = function(name, value){
   this._params[name] = value;
 };
 
-proto.getParam = function(name){
+qx.Proto.getParam = function(name){
   return this._params[name];
 };
 
-proto.getParams = function() {
+qx.Proto.getParams = function() {
   return this._params;
 };
 
@@ -261,15 +261,15 @@ proto.getParams = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.setVariable = function(name, value){
+qx.Proto.setVariable = function(name, value){
   this._variables[name] = value;
 };
 
-proto.getVariable = function(name){
+qx.Proto.getVariable = function(name){
   return this._variables[name];
 };
 
-proto.getVariables = function(){
+qx.Proto.getVariables = function(){
   return this._variables;
 };
 
@@ -283,7 +283,7 @@ proto.getVariables = function(){
 ---------------------------------------------------------------------------
 */
 
-proto.generateParamTags = function()
+qx.Proto.generateParamTags = function()
 {
   var vParams = this.getParams();
   var vParamTags = [];
@@ -300,7 +300,7 @@ proto.generateParamTags = function()
   return vParamTags.join(qx.Const.CORE_EMPTY);
 };
 
-proto.getVariablePairs = function()
+qx.Proto.getVariablePairs = function()
 {
   var variables = this.getVariables();
   var variablePairs = [];
@@ -326,7 +326,7 @@ proto.getVariablePairs = function()
 // Netscape Plugin Architecture
 if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
 {
-  proto.generateHTML = function()
+  qx.Proto.generateHTML = function()
   {
     var html = [];
 
@@ -377,7 +377,7 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
 // Internet Explorer ActiveX Architecture
 else
 {
-  proto.generateHTML = function()
+  qx.Proto.generateHTML = function()
   {
     var html = [];
 
@@ -428,8 +428,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-proto._isWidthEssential = qx.util.Return.returnTrue;
-proto._isHeightEssential = qx.util.Return.returnTrue;
+qx.Proto._isWidthEssential = qx.util.Return.returnTrue;
+qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 
 
 
@@ -440,8 +440,8 @@ proto._isHeightEssential = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
 
 
 
@@ -453,7 +453,7 @@ proto._computePreferredInnerHeight = qx.util.Return.returnZero;
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

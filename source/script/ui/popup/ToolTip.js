@@ -54,7 +54,7 @@ function(vLabel, vIcon)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
 });
 
-proto._minZIndex = 1e7;
+qx.Proto._minZIndex = 1e7;
 
 
 /*
@@ -88,19 +88,19 @@ qx.ui.popup.ToolTip.addProperty({ name : "boundToWidget", type : qx.Const.TYPEOF
 ---------------------------------------------------------------------------
 */
 
-proto._modifyHideInterval = function(propValue, propOldValue, propData)
+qx.Proto._modifyHideInterval = function(propValue, propOldValue, propData)
 {
   this._hideTimer.setInterval(propValue);
   return true;
 };
 
-proto._modifyShowInterval = function(propValue, propOldValue, propData)
+qx.Proto._modifyShowInterval = function(propValue, propOldValue, propData)
 {
   this._showTimer.setInterval(propValue);
   return true;
 };
 
-proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
+qx.Proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -125,13 +125,13 @@ proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-proto._beforeAppear = function()
+qx.Proto._beforeAppear = function()
 {
   this._stopShowTimer();
   this._startHideTimer();
 };
 
-proto._beforeDisappear = function() {
+qx.Proto._beforeDisappear = function() {
   this._stopHideTimer();
 };
 
@@ -146,28 +146,28 @@ proto._beforeDisappear = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._startShowTimer = function()
+qx.Proto._startShowTimer = function()
 {
   if(!this._showTimer.getEnabled()) {
     this._showTimer.start();
   };
 };
 
-proto._startHideTimer = function()
+qx.Proto._startHideTimer = function()
 {
   if(!this._hideTimer.getEnabled()) {
     this._hideTimer.start();
   };
 };
 
-proto._stopShowTimer = function()
+qx.Proto._stopShowTimer = function()
 {
   if(this._showTimer.getEnabled()) {
     this._showTimer.stop();
   };
 };
 
-proto._stopHideTimer = function()
+qx.Proto._stopHideTimer = function()
 {
   if(this._hideTimer.getEnabled()) {
     this._hideTimer.stop();
@@ -186,14 +186,14 @@ proto._stopHideTimer = function()
 ---------------------------------------------------------------------------
 */
 
-proto._onmouseover = function(e)
+qx.Proto._onmouseover = function(e)
 {
   if(this.getHideOnHover()) {
     this.hide();
   };
 };
 
-proto._onshowtimer = function(e)
+qx.Proto._onshowtimer = function(e)
 {
   this.setLeft(qx.event.types.MouseEvent.getPageX() + this.getMousePointerOffsetX());
   this.setTop(qx.event.types.MouseEvent.getPageY() + this.getMousePointerOffsetY());
@@ -208,7 +208,7 @@ proto._onshowtimer = function(e)
   return true;
 };
 
-proto._onhidetimer = function(e) {
+qx.Proto._onhidetimer = function(e) {
   return this.hide();
 };
 
@@ -224,7 +224,7 @@ proto._onhidetimer = function(e) {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;

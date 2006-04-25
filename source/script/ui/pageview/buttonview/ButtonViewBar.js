@@ -42,7 +42,7 @@ qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", ty
 ---------------------------------------------------------------------------
 */
 
-proto.getWheelDelta = function(e)
+qx.Proto.getWheelDelta = function(e)
 {
   var vWheelDelta = e.getWheelDelta();
 

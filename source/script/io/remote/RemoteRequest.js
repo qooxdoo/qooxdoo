@@ -170,7 +170,7 @@ qx.io.remote.RemoteRequest.addProperty({ name : "crossDomain", type : qx.Const.T
   The request is added to the singleton class qx.io.remote.RemoteRequestQueue's list of
   pending requests.
 */
-proto.send = function() {
+qx.Proto.send = function() {
   qx.io.remote.RemoteRequestQueue.add(this);
 };
 
@@ -181,11 +181,11 @@ proto.send = function() {
   list of pending events. If the request haven't been scheduled this
   method is a noop.
 */
-proto.abort = function() {
+qx.Proto.abort = function() {
   qx.io.remote.RemoteRequestQueue.abort(this);
 };
 
-proto.reset = function()
+qx.Proto.reset = function()
 {
   switch(this.getState())
   {
@@ -212,31 +212,31 @@ proto.reset = function()
 ---------------------------------------------------------------------------
 */
 
-proto.isConfigured = function() {
+qx.Proto.isConfigured = function() {
   return this.getState() === qx.Const.REQUEST_STATE_CONFIGURED;
 };
 
-proto.isQueued = function() {
+qx.Proto.isQueued = function() {
   return this.getState() === qx.Const.REQUEST_STATE_QUEUED;
 };
 
-proto.isSending = function() {
+qx.Proto.isSending = function() {
   return this.getState() === qx.Const.REQUEST_STATE_SENDING;
 };
 
-proto.isReceiving = function() {
+qx.Proto.isReceiving = function() {
   return this.getState() === qx.Const.REQUEST_STATE_RECEIVING;
 };
 
-proto.isCompleted = function() {
+qx.Proto.isCompleted = function() {
   return this.getState() === qx.Const.REQUEST_STATE_COMPLETED;
 };
 
-proto.isAborted = function() {
+qx.Proto.isAborted = function() {
   return this.getState() === qx.Const.REQUEST_STATE_ABORTED;
 };
 
-proto.isTimeout = function() {
+qx.Proto.isTimeout = function() {
   return this.getState() === qx.Const.REQUEST_STATE_TIMEOUT;
 };
 
@@ -244,7 +244,7 @@ proto.isTimeout = function() {
   Return true if the request is in the failed state
   (qx.Const.REQUEST_STATE_FAILED).
 */
-proto.isFailed = function() {
+qx.Proto.isFailed = function() {
   return this.getState() === qx.Const.REQUEST_STATE_FAILED;
 };
 
@@ -260,7 +260,7 @@ proto.isFailed = function() {
 ---------------------------------------------------------------------------
 */
 
-proto._onqueued = function(e)
+qx.Proto._onqueued = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_QUEUED);
@@ -269,7 +269,7 @@ proto._onqueued = function(e)
   this.dispatchEvent(e);
 };
 
-proto._onsending = function(e)
+qx.Proto._onsending = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_SENDING);
@@ -278,7 +278,7 @@ proto._onsending = function(e)
   this.dispatchEvent(e);
 };
 
-proto._onreceiving = function(e)
+qx.Proto._onreceiving = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_RECEIVING);
@@ -287,7 +287,7 @@ proto._onreceiving = function(e)
   this.dispatchEvent(e);
 };
 
-proto._oncompleted = function(e)
+qx.Proto._oncompleted = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_COMPLETED);
@@ -299,7 +299,7 @@ proto._oncompleted = function(e)
   this.dispose();
 };
 
-proto._onaborted = function(e)
+qx.Proto._onaborted = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_ABORTED);
@@ -311,7 +311,7 @@ proto._onaborted = function(e)
   this.dispose();
 };
 
-proto._ontimeout = function(e)
+qx.Proto._ontimeout = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
@@ -323,7 +323,7 @@ proto._ontimeout = function(e)
   this.dispose();
 };
 
-proto._onfailed = function(e)
+qx.Proto._onfailed = function(e)
 {
   // Modify internal state
   this.setState(qx.Const.REQUEST_STATE_FAILED);
@@ -348,7 +348,7 @@ proto._onfailed = function(e)
 ---------------------------------------------------------------------------
 */
 
-proto._modifyState = function(propValue, propOldValue, propData)
+qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
@@ -357,14 +357,14 @@ proto._modifyState = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
+qx.Proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 {
   propValue ? this.setParameter("nocache", new Date().valueOf()) : this.removeParameter("nocache");
 
   return true;
 };
 
-proto._modifyMethod = function(propValue, propOldValue, propData)
+qx.Proto._modifyMethod = function(propValue, propOldValue, propData)
 {
   if (propValue === qx.Const.METHOD_POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -373,7 +373,7 @@ proto._modifyMethod = function(propValue, propOldValue, propData)
   return true;
 };
 
-proto._modifyResponseType = function(propValue, propOldValue, propData)
+qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
 {
   this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
   return true;
@@ -394,19 +394,19 @@ proto._modifyResponseType = function(propValue, propOldValue, propData)
 
   Example: request.setRequestHeader("Content-Type", "text/html")
 */
-proto.setRequestHeader = function(vId, vValue) {
+qx.Proto.setRequestHeader = function(vId, vValue) {
   this._requestHeaders[vId] = vValue;
 };
 
-proto.removeRequestHeader = function(vId) {
+qx.Proto.removeRequestHeader = function(vId) {
   delete this._requestHeaders[vId];
 };
 
-proto.getRequestHeader = function(vId) {
+qx.Proto.getRequestHeader = function(vId) {
   return this._requestHeaders[vId] || null;
 };
 
-proto.getRequestHeaders = function() {
+qx.Proto.getRequestHeaders = function() {
   return this._requestHeaders;
 };
 
@@ -429,7 +429,7 @@ proto.getRequestHeaders = function() {
   @param vId String identifier of the parameter to add.
   @param vValue Value of parameter.
 */
-proto.setParameter = function(vId, vValue) {
+qx.Proto.setParameter = function(vId, vValue) {
   this._parameters[vId] = vValue;
 };
 
@@ -438,7 +438,7 @@ proto.setParameter = function(vId, vValue) {
 
   @param vId String identifier of the parameter to remove.
 */
-proto.removeParameter = function(vId) {
+qx.Proto.removeParameter = function(vId) {
   delete this._parameters[vId];
 };
 
@@ -447,14 +447,14 @@ proto.removeParameter = function(vId) {
 
   @param vId String identifier of the parameter to get.
 */
-proto.getParameter = function(vId) {
+qx.Proto.getParameter = function(vId) {
   return this._parameters[vId] || null;
 };
 
 /*!
   Returns an object containg all parameters for the request.
 */
-proto.getParameters = function() {
+qx.Proto.getParameters = function() {
   return this._parameters;
 };
 
@@ -471,7 +471,7 @@ proto.getParameters = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;

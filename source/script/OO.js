@@ -115,10 +115,12 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
   if (typeof vSuper === qx.OO.C_UNDEFINED)
   {
     qx.Class = vTempObject[vSplitName[i]] = {};
+    qx.Proto = null;
   }
   else if (typeof vConstructor === qx.OO.C_UNDEFINED)
   {
     qx.Class = vTempObject[vSplitName[i]] = vSuper;
+    qx.Proto = null;
   }
   else
   {
@@ -134,9 +136,6 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
     qx.Proto.classname = vConstructor.classname = vClassName;
     qx.Proto.constructor = vConstructor;
-
-    // Compatibility to old extend()
-    proto = qx.Proto;
 
     // Store reference to global classname registry
     qx.OO.classes[vClassName] = vConstructor;
@@ -164,24 +163,24 @@ Function.prototype.addFastProperty = function(vConfig)
   var vSetterName = qx.OO.C_SET + vUpName;
   var vComputerName = qx.OO.C_COMPUTE + vUpName;
 
-  proto[vStorageField] = typeof vConfig.defaultValue !== qx.Const.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
+  qx.Proto[vStorageField] = typeof vConfig.defaultValue !== qx.Const.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
 
   if (vConfig.noCompute)
   {
-    proto[vGetterName] = function() {
+    qx.Proto[vGetterName] = function() {
       return this[vStorageField];
     };
   }
   else
   {
-    proto[vGetterName] = function() {
+    qx.Proto[vGetterName] = function() {
       return this[vStorageField] == null ? this[vStorageField] = this[vComputerName]() : this[vStorageField];
     };
   };
 
   if (vConfig.setOnlyOnce)
   {
-    proto[vSetterName] = function(vValue)
+    qx.Proto[vSetterName] = function(vValue)
     {
       this[vStorageField] = vValue;
       this[vSetterName] = null;
@@ -191,14 +190,14 @@ Function.prototype.addFastProperty = function(vConfig)
   }
   else
   {
-    proto[vSetterName] = function(vValue) {
+    qx.Proto[vSetterName] = function(vValue) {
       return this[vStorageField] = vValue;
     };
   };
 
   if (!vConfig.noCompute)
   {
-    proto[vComputerName] = function() {
+    qx.Proto[vComputerName] = function() {
       return null;
     };
   };
@@ -214,10 +213,10 @@ Function.prototype.addCachedProperty = function(p)
   var vChangeName = qx.OO.C_PRIVATECHANGE + vUpName;
 
   if (typeof p.defaultValue !== qx.Const.TYPEOF_UNDEFINED) {
-    proto[vStorageField] = p.defaultValue;
+    qx.Proto[vStorageField] = p.defaultValue;
   };
 
-  proto[qx.OO.C_GET + vUpName] = function()
+  qx.Proto[qx.OO.C_GET + vUpName] = function()
   {
     if (this[vStorageField] == null) {
       this[vStorageField] = this[vComputerName]();
@@ -226,7 +225,7 @@ Function.prototype.addCachedProperty = function(p)
     return this[vStorageField];
   };
 
-  proto[qx.OO.C_INVALIDATE + vUpName] = function()
+  qx.Proto[qx.OO.C_INVALIDATE + vUpName] = function()
   {
     if (this[vStorageField] != null)
     {
@@ -238,7 +237,7 @@ Function.prototype.addCachedProperty = function(p)
     };
   };
 
-  proto[qx.OO.C_RECOMPUTE + vUpName] = function()
+  qx.Proto[qx.OO.C_RECOMPUTE + vUpName] = function()
   {
     var vOld = this[vStorageField];
     var vNew = this[vComputerName]();
@@ -254,8 +253,8 @@ Function.prototype.addCachedProperty = function(p)
     return false;
   };
 
-  proto[vChangeName] = function(vNew, vOld) {};
-  proto[vComputerName] = function() { return null; };
+  qx.Proto[vChangeName] = function(vNew, vOld) {};
+  qx.Proto[vComputerName] = function() { return null; };
 };
 
 Function.prototype.addPropertyGroup = function(p)

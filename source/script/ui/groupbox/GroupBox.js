@@ -68,7 +68,7 @@ qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : qx.Const.TY
 ---------------------------------------------------------------------------
 */
 
-proto._createLegendObject = function()
+qx.Proto._createLegendObject = function()
 {
   this._legendObject = new qx.ui.basic.Atom;
   this._legendObject.setAppearance("field-set-legend");
@@ -76,7 +76,7 @@ proto._createLegendObject = function()
   this.add(this._legendObject);
 };
 
-proto._createFrameObject = function()
+qx.Proto._createFrameObject = function()
 {
   this._frameObject = new qx.ui.layout.CanvasLayout;
   this._frameObject.setAppearance("field-set-frame");
@@ -94,11 +94,11 @@ proto._createFrameObject = function()
 ---------------------------------------------------------------------------
 */
 
-proto.getFrameObject = function() {
+qx.Proto.getFrameObject = function() {
   return this._frameObject;
 };
 
-proto.getLegendObject = function() {
+qx.Proto.getLegendObject = function() {
   return this._legendObject;
 };
 
@@ -113,19 +113,19 @@ proto.getLegendObject = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.setLegend = function(vLegend) {
+qx.Proto.setLegend = function(vLegend) {
   this._legendObject.setLabel(vLegend);
 };
 
-proto.getLegend = function() {
+qx.Proto.getLegend = function() {
   return this._legendObject.getLabel();
 };
 
-proto.setIcon = function(vIcon) {
+qx.Proto.setIcon = function(vIcon) {
   this._legendObject.setIcon(vIcon);
 };
 
-proto.getIcon = function() {
+qx.Proto.getIcon = function() {
   this._legendObject.getIcon();
 };
 
@@ -140,7 +140,7 @@ proto.getIcon = function() {
 ---------------------------------------------------------------------------
 */
 
-proto.dispose = function()
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
