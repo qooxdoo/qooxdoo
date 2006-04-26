@@ -7,13 +7,23 @@
   padding: 10;
 }
 
-img.api-img {
-  vertical-align: middle;
+a:link {
+  color: blue;
+}
+
+a:visited {
+  color: blue;
+}
+
+img {
   border: 0px;
 }
 
+img.api-img {
+  vertical-align: middle;
+}
+
 img.api-openclose {
-  padding: 2px;
 }
 
 div.api-title {
@@ -63,23 +73,35 @@ tr.api-item-row-marked {
 td.api-icon-cell {
   border-top: 1px solid gray;
 
-  vertical-align: top;
   text-align: center;
+  width: 20px;
 }
 
-td.api-info-cell {
+td.api-type-cell {
   border-top: 1px solid gray;
-  padding-right: 2px;
-  padding-top: 1px;
-  padding-bottom: 1px;
 
-  vertical-align: top;
-}
-
-div.api-item-title {
   font-family: monospace;
   font-weight: bold;
   font-size: 10pt;
+
+  white-space: nowrap;
+}
+
+td.api-title-cell {
+  border-top: 1px solid gray;
+
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+td.api-openclose-cell {
+  text-align: center;
+
+  vertical-align: top;
+}
+
+td.api-text-cell {
 }
 
 div.api-item-desc {
