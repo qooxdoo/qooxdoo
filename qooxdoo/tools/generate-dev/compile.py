@@ -172,15 +172,12 @@ R_REGEXP = re.compile(S_REGEXP)
 R_ALL = re.compile(S_ALL)
 
 
-
 tokenizerLine = 0
 tokenizerId = ""
 
 xmlindent = 0
 xmlString = ""
 treecontext = []
-
-
 
 
 
@@ -834,8 +831,6 @@ def start():
 
 
 
-
-
   # Source
   cmdSourceDirectories = ["source/script", "source/themes"]
 
@@ -859,14 +854,9 @@ def start():
 
 
 
-
-
-
   if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
     printHelp()
     return
-
-
 
 
 
@@ -942,12 +932,8 @@ def start():
       return
 
 
-
     # Countin' up
     i += 1
-
-
-
 
 
   if cmdGenerateBuild == False and cmdPrintKnownFiles == False and cmdPrintKnownPackages == False and cmdPrintSortedIdList == False:
@@ -1156,12 +1142,6 @@ def start():
     combinedFile.write(combinedBuildContent)
     combinedFile.flush()
     combinedFile.close()
-
-
-
-
-
-
 
 
 
