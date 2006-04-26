@@ -677,7 +677,7 @@ def xmlstart():
 
 
 
-def getdeps(data, filename, deptree, posttree, packages):
+def extractDeps(data, filename, deptree, posttree, packages):
   thisclass = None
   superclass = None
 
@@ -742,23 +742,32 @@ def getdeps(data, filename, deptree, posttree, packages):
 
 
 
-def handleDeps(key, deptree, posttree, deplist, ignoreDeps):
+def handleDeps(uniqueId, deptree, posttree, sortedIncludeList, ignoreDeps):
+
+  if not deptree.has_key(uniqueId):
+    print "Could not find dependencies for: %s" % uniqueId
+    return False
+
+  # Test if already in
   try:
-    deplist.index(key)
+    sortedIncludeList.index(uniqueId)
 
   except ValueError:
-    if not ignoreDeps and deptree.has_key(key):
-      for subkey in deptree[key]:
-        handleDeps(subkey, deptree, posttree, deplist, ignoreDeps)
+    # Including pre-deps
+    if not ignoreDeps:
+      for subkey in deptree[uniqueId]:
+        handleDeps(subkey, deptree, posttree, sortedIncludeList, False)
 
+    # Add myself
     try:
-      deplist.index(key)
+      sortedIncludeList.index(uniqueId)
     except ValueError:
-      deplist.append(key)
+      sortedIncludeList.append(uniqueId)
 
-    if not ignoreDeps and posttree.has_key(key):
-      for subkey in posttree[key]:
-        handleDeps(subkey, deptree, posttree, deplist, ignoreDeps)
+    # Include post-deps
+    if not ignoreDeps:
+      for subkey in posttree[uniqueId]:
+        handleDeps(subkey, deptree, posttree, sortedIncludeList, False)
 
 
 
@@ -805,7 +814,7 @@ def main(conf):
           basefilename = filename.replace(JSEXT, "")
 
           allfiles[basefilename] = infilename
-          getdeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
+          extractDeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
 
 
 
@@ -815,7 +824,7 @@ def main(conf):
       basefilename = filename.split(os.sep)[-1].replace(JSEXT, "")
 
       allfiles[basefilename] = infilename
-      getdeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
+      extractDeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
 
 
 
