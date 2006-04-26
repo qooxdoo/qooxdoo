@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.color.windowsLunaBlue)
 #package(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 

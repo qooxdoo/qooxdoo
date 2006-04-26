@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.color.operatingSystemDefault)
 #package(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 

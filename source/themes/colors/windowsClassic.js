@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.color.windowsClassic)
 #package(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 

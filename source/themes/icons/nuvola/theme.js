@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.icons.nuvola)
 #package(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 

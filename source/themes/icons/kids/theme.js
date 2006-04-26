@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.icons.kids)
 #package(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 
