@@ -742,7 +742,7 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
 
 
 
-def handleDeps(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, ignoreDeps):
+def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, ignoreDeps):
 
   if not loadDependencyData.has_key(uniqueId):
     print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
@@ -756,7 +756,7 @@ def handleDeps(uniqueId, loadDependencyData, runtimeDependencyData, sortedInclud
     # Including pre-deps
     if not ignoreDeps:
       for subkey in loadDependencyData[uniqueId]:
-        handleDeps(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+        addUniqueIdToSortedList(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
     # Add myself
     try:
@@ -767,7 +767,7 @@ def handleDeps(uniqueId, loadDependencyData, runtimeDependencyData, sortedInclud
     # Include post-deps
     if not ignoreDeps:
       for subkey in runtimeDependencyData[uniqueId]:
-        handleDeps(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+        addUniqueIdToSortedList(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
 
 
@@ -863,16 +863,17 @@ def main(conf):
   # Add Exclude Files
   excludeIds.extend(conf["excludeIds"])
 
-  # Sorting files...
+  # Sorting included files...
   sortedIncludeList = []
-  for key in includeIds:
-    handleDeps(key, loadDependencyData, runtimeDependencyData, sortedIncludeList, conf["ignoreDeps"])
+  for uniqueId in includeIds:
+    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, conf["ignoreIncludeDeps"])
 
+  # Sorting excluded files...
   sortedExcludeList = []
-  for key in excludeIds:
-    handleDeps(key, loadDependencyData, runtimeDependencyData, sortedExcludeList, conf["ignoreDeps"])
+  for uniqueId in excludeIds:
+    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedExcludeList, conf["ignoreExcludeDeps"])
 
-  # Remove exclude files form include files
+  # Remove excluded files from included files list
   for key in sortedExcludeList:
     if key in sortedIncludeList:
       sortedIncludeList.remove(key)
@@ -1021,7 +1022,8 @@ def helptext():
   print "  -gd, --generate-docs              enabled the generation of a API documentation"
   print
   print "  -a,  --use-all                    include all known files"
-  print "  -i,  --ignore-deps                ignore dependencies, use only given packages and files"
+  print "  -ii, --ignore-include-deps        ignore include dependencies, use only given packages and files"
+  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only given packages and files"
   print "  -cf, --combined-file <FILE>       create a combined file with the given filename"
   print "  -oc, --only-combined              do not create single compressed files (useful in"
   print "                                    combination with the previous option)"
@@ -1033,9 +1035,9 @@ def helptext():
   print "  -li, --list-include               list include order"
   print
   print "  -ip, --include-packages <PKGIDS>  comma seperated list of package IDs to include"
-  print "  -if, --include-files <FILEIDS>    comma seperated list of file IDs to include"
+  print "  -id, --include-ids <IDS>          comma seperated list of file IDs to include"
   print "  -ep, --exclude-packages <PKGIDS>  comma seperated list of package IDs to exclude"
-  print "  -ef, --exclude-files <FILEIDS>    comma seperated list of file IDs to exclude"
+  print "  -ed, --exclude-ids <IDS>          comma seperated list of file IDs to exclude"
   print
 
 
@@ -1068,7 +1070,8 @@ def start():
   outputTokenized = "tokenized"
 
   useAll = False
-  ignoreDeps = False
+  ignoreIncludeDeps = False
+  ignoreExcludeDeps = False
 
   if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
     helptext()
@@ -1144,7 +1147,7 @@ def start():
       includePackages = sys.argv[i+1].split(",")
       i += 1
 
-    elif c == "-if" or c == "--include-files":
+    elif c == "-id" or c == "--include-ids":
       includeIds = sys.argv[i+1].split(",")
       i += 1
 
@@ -1152,15 +1155,18 @@ def start():
       excludePackages = sys.argv[i+1].split(",")
       i += 1
 
-    elif c == "-ef" or c == "--exclude-files":
+    elif c == "-ed" or c == "--exclude-ids":
       excludeIds = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "-a" or c == "--use-all":
       useAll = True
 
-    elif c == "-i" or c == "--ignore-deps":
-      ignoreDeps = True
+    elif c == "-ii" or c == "--ignore-include-deps":
+      ignoreIncludeDeps = True
+
+    elif c == "-ie" or c == "--ignore-exclude-deps":
+      ignoreExcludeDeps = True
 
     else:
       print "  Unknown option: %s" % c
@@ -1192,15 +1198,16 @@ def start():
   print "  * Include (-li): %s" % listInclude
   print "  Include (By ID):"
   print "  * Packages (-ip): %s" % includePackages
-  print "  * Files (-if): %s" % includeIds
+  print "  * UniqueIds (-id): %s" % includeIds
   print "  Exclude (By ID):"
   print "  * Packages (-ep): %s" % excludePackages
-  print "  * Files (-ef): %s" % excludeIds
+  print "  * UniqueIds (-ed): %s" % excludeIds
   print "  Options:"
   print "  * Combined File (-cf): %s" % outputCombined
   print "  * Output Single Generated Files (-oc): %s" % outputSingle
   print "  * Use All Known Files (-a): %s" % useAll
-  print "  * Ignore Deps (-i): %s" % ignoreDeps
+  print "  * Ignore Include Deps (-ii): %s" % ignoreIncludeDeps
+  print "  * Ignore Exclude Deps (-ie): %s" % ignoreExcludeDeps
 
   if makeOptimized == False and makeDocs == False and listPackages == False and listFiles == False and listPre == False and listPost == False and listInclude == False:
     print
@@ -1213,7 +1220,7 @@ def start():
     "sourceDirectories" : sourceDirectories, "sourceFiles" : sourceFiles,
     "outputBuild" : outputBuild, "outputXml" : outputXml, "outputTokenized" : outputTokenized, "outputCompressed" : outputCompressed,
     "makeOptimized" : makeOptimized, "makeDocs" : makeDocs,
-    "useAll" : useAll, "ignoreDeps" : ignoreDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
+    "useAll" : useAll, "ignoreIncludeDeps" : ignoreIncludeDeps, "ignoreExcludeDeps" : ignoreExcludeDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
     "listPre" : listPre, "listFiles" : listFiles, "listPackages" : listPackages, "listInclude" : listInclude, "listPost" : listPost,
     "includePackages" : includePackages, "includeIds" : includeIds,
     "excludePackages" : excludePackages, "excludeIds" : excludeIds
