@@ -24,7 +24,8 @@
 
 #id(qx.OO)
 #package(core)
-#require(qx.lang.Core)
+#use(qx.lang.Core)
+#use(qx.util.Validation)
 
 ************************************************************************ */
 
