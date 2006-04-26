@@ -27,7 +27,6 @@
 #use(qx.ui.form.Button)
 #use(qx.ui.layout.CanvasLayout)
 #use(qx.ui.basic.Image)
-#use(qx.renderer.border.BorderObjectPresets)
 #use(qx.ui.groupbox.GroupBox)
 #use(qx.ui.basic.Label)
 #use(qx.ui.form.Spinner)
