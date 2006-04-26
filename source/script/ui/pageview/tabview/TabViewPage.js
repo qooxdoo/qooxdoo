@@ -31,4 +31,4 @@ function(vButton) {
   qx.ui.pageview.AbstractPageViewPage.call(this, vButton);
 });
 
-qx.ui.pageview.tabview.TabViewPage.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-page" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-page" });

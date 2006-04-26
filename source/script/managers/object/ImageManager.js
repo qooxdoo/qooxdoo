@@ -72,14 +72,14 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ImageManager.addProperty({ name : "corePath", type : qx.Const.TYPEOF_STRING, impl : "coreAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "localPath", type : qx.Const.TYPEOF_STRING, impl : "localAlias" });
+qx.OO.addProperty({ name : "corePath", type : qx.Const.TYPEOF_STRING, impl : "coreAlias" });
+qx.OO.addProperty({ name : "localPath", type : qx.Const.TYPEOF_STRING, impl : "localAlias" });
 
-qx.manager.object.ImageManager.addProperty({ name : "iconPath", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "iconTheme", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
+qx.OO.addProperty({ name : "iconPath", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
+qx.OO.addProperty({ name : "iconTheme", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
 
-qx.manager.object.ImageManager.addProperty({ name : "widgetPath", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
-qx.manager.object.ImageManager.addProperty({ name : "widgetTheme", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
+qx.OO.addProperty({ name : "widgetPath", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
+qx.OO.addProperty({ name : "widgetTheme", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
 
 
 

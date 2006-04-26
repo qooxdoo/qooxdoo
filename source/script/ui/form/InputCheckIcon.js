@@ -51,10 +51,10 @@ function()
   this.setTabIndex(-1);
 });
 
-qx.ui.form.InputCheckSymbol.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "apply" });
-qx.ui.form.InputCheckSymbol.addProperty({ name : "value", impl : "apply" });
-qx.ui.form.InputCheckSymbol.addProperty({ name : "type", impl : "apply" });
-qx.ui.form.InputCheckSymbol.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
+qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "apply" });
+qx.OO.addProperty({ name : "value", impl : "apply" });
+qx.OO.addProperty({ name : "type", impl : "apply" });
+qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
 
 qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);

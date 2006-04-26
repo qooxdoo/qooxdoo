@@ -53,9 +53,9 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.pageview.buttonview.ButtonView.addProperty({ name : "barPosition", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ALIGN_TOP, possibleValues : [ qx.Const.ALIGN_TOP, qx.Const.ALIGN_RIGHT, qx.Const.ALIGN_BOTTOM, qx.Const.ALIGN_LEFT ] });
+qx.OO.addProperty({ name : "barPosition", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ALIGN_TOP, possibleValues : [ qx.Const.ALIGN_TOP, qx.Const.ALIGN_RIGHT, qx.Const.ALIGN_BOTTOM, qx.Const.ALIGN_LEFT ] });
 
-qx.ui.pageview.buttonview.ButtonView.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view" });
 
 
 

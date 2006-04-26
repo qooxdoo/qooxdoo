@@ -60,22 +60,22 @@ function(vText, vValue, vName, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.CheckBox.removeProperty({ name : "icon" });
+qx.OO.removeProperty({ name : "icon" });
 
 /*!
   The HTML name of the form element used by the widget
 */
-qx.ui.form.CheckBox.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The HTML value of the form element used by the widget
 */
-qx.ui.form.CheckBox.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
 
 /*!
   If the widget is checked
 */
-qx.ui.form.CheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 

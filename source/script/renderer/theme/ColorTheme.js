@@ -61,8 +61,8 @@ function(vId, vTitle, vColors)
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.theme.ColorTheme.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
-qx.renderer.theme.ColorTheme.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });
+qx.OO.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
+qx.OO.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });
 
 
 

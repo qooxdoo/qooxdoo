@@ -93,38 +93,38 @@ qx.ui.basic.Atom.SHOW_BOTH = "both";
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.ui.basic.Atom.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
 */
-qx.ui.basic.Atom.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Configure the visibility of the sub elements/widgets.
   Possible values: both, text, icon, none
 */
-qx.ui.basic.Atom.addProperty({ name : "show", type : qx.Const.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", qx.Const.CORE_NONE, null ] });
+qx.OO.addProperty({ name : "show", type : qx.Const.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", qx.Const.CORE_NONE, null ] });
 
 /*!
   The position of the icon in relation to the text.
   Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
 */
-qx.ui.basic.Atom.addProperty({ name : "iconPosition", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
+qx.OO.addProperty({ name : "iconPosition", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
 
 /*!
   The width of the icon.
   If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.ui.basic.Atom.addProperty({ name : "iconWidth", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "iconWidth", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The height of the icon
   If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.ui.basic.Atom.addProperty({ name : "iconHeight", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "iconHeight", type : qx.Const.TYPEOF_NUMBER });
 
-qx.ui.basic.Atom.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "atom" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "atom" });
 
 
 

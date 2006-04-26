@@ -31,4 +31,4 @@ function() {
   qx.ui.basic.Terminator.call(this);
 });
 
-qx.ui.listview.ListViewHeaderSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-separator" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-separator" });

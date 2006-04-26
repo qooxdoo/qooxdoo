@@ -36,4 +36,4 @@ function()
   this.add(l);
 });
 
-qx.ui.toolbar.ToolBarSeparator.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-separator" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-separator" });

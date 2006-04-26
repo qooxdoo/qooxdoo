@@ -57,7 +57,7 @@ function(vLegend, vIcon)
   this.remapChildrenHandlingTo(this._frameObject);
 });
 
-qx.ui.groupbox.GroupBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "field-set" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "field-set" });
 
 
 

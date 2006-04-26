@@ -41,7 +41,7 @@ function()
 /*!
   Appearance of the widget
 */
-qx.ui.menu.MenuLayout.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-layout" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-layout" });
 
 
 

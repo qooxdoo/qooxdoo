@@ -57,17 +57,17 @@ QxBinaryClock.SHOW_TWENTYFOUR = "24";
 /*!
   Show a 12 or 24 hour clock.
 */
-QxBinaryClock.addProperty({ name : "showHours", type : qx.Const.TYPEOF_NUMBER, possibleValues : [QxBinaryClock.SHOW_TWELVE, QxBinaryClock.SHOW_TWENTYFOUR], defaultValue : QxBinaryClock.SHOW_TWELVE });
+qx.OO.addProperty({ name : "showHours", type : qx.Const.TYPEOF_NUMBER, possibleValues : [QxBinaryClock.SHOW_TWELVE, QxBinaryClock.SHOW_TWENTYFOUR], defaultValue : QxBinaryClock.SHOW_TWELVE });
 
 /*!
   The image path.
 */
-QxBinaryClock.addProperty({ name : "imagePath", type : qx.Const.TYPEOF_STRING, defaultValue : "./" });
+qx.OO.addProperty({ name : "imagePath", type : qx.Const.TYPEOF_STRING, defaultValue : "./" });
 
 /*!
   The colour of the clock. It must be a subdirectory to imagePath.
 */
-QxBinaryClock.addProperty({ name : "color", type : qx.Const.TYPEOF_STRING, defaultValue : "green" });
+qx.OO.addProperty({ name : "color", type : qx.Const.TYPEOF_STRING, defaultValue : "green" });
 
 
 

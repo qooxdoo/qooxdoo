@@ -94,35 +94,35 @@ qx.ui.core.Widget.SCROLLBAR_SIZE = 16;
 /*!
   The parent widget (the real object, no ID or something)
 */
-qx.ui.core.Widget.addProperty({ name : "parent", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
+qx.OO.addProperty({ name : "parent", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
 
 /*!
   The element node (if the widget is created, otherwise null)
 */
-qx.ui.core.Widget.addProperty({ name : "element" });
+qx.OO.addProperty({ name : "element" });
 
 /*!
   Simple and fast switch of the visibility of a widget.
 */
-qx.ui.core.Widget.addProperty({ name : "visibility", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "visibility", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If the widget should be displayed. Use this property instead of visibility if the change
   in visibility should have effects on the parent widget.
 */
-qx.ui.core.Widget.addProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   If you switch this to true, the widget doesn't handle
   events directly. It will redirect them to the parent
   widget.
 */
-qx.ui.core.Widget.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
+qx.OO.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
 
 /*!
   The tagname of the element which should automatically be created
 */
-qx.ui.core.Widget.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DIV });
+qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -130,7 +130,7 @@ qx.ui.core.Widget.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING,
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF_STRING });
 
 /*!
   This is used by many layout managers to control the individual vertical alignment of this widget inside this parent.
@@ -138,19 +138,19 @@ qx.ui.core.Widget.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "verticalAlign", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "verticalAlign", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Should this widget be stretched on the x-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.ui.core.Widget.addProperty({ name : "allowStretchX", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowStretchX", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should this widget be stretched on the y-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -169,19 +169,19 @@ qx.ui.core.Widget.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_B
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "zIndex", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "zIndex", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.ui.core.Widget.addProperty({ name : "backgroundColor", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "backgroundColor", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.ui.core.Widget.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.
@@ -189,7 +189,7 @@ qx.ui.core.Widget.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, i
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-qx.ui.core.Widget.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -197,7 +197,7 @@ qx.ui.core.Widget.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, 
   The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
   Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
 */
-qx.ui.core.Widget.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Mapping to native style property cursor.
@@ -205,14 +205,14 @@ qx.ui.core.Widget.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER 
   The name of the cursor to show when the mouse pointer is over the widget.
   This is any valid CSS2 cursor name defined by W3C.
 */
-qx.ui.core.Widget.addProperty({ name : "cursor", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "cursor", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Mapping to native style property background-image.
 
   The URI of the image file to use as background image.
 */
-qx.ui.core.Widget.addProperty({ name : "backgroundImage", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "backgroundImage", type : qx.Const.TYPEOF_STRING });
 
 /*!
 Describes how to handle content that is too large to fit inside the widget.
@@ -226,15 +226,15 @@ Overflow modes:
 * scrollY: Scroll bars for the Y-Axis are always shown.
     Even if there is enough room for the content inside the widget.
 */
-qx.ui.core.Widget.addProperty({ name : "overflow", type : qx.Const.TYPEOF_STRING, addToQueue : true });
+qx.OO.addProperty({ name : "overflow", type : qx.Const.TYPEOF_STRING, addToQueue : true });
 
 /*!
   Clipping of the widget
 */
-qx.ui.core.Widget.addProperty({ name : "clipLeft", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipTop", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipWidth", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.ui.core.Widget.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipLeft", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipTop", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipWidth", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
 
 
 
@@ -255,17 +255,17 @@ qx.ui.core.Widget.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMB
   Widgets with the same tabIndex are handled through there position
   in the document.
 */
-qx.ui.core.Widget.addProperty({ name : "tabIndex", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
+qx.OO.addProperty({ name : "tabIndex", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
 
 /*!
   If the focus outline should be hidden.
 */
-qx.ui.core.Widget.addProperty({ name : "hideFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "hideFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Use DOM focussing (focus() and blur() methods of DOM nodes)
 */
-qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "enableElementFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Handle focus state of this widget.
@@ -275,42 +275,42 @@ qx.ui.core.Widget.addProperty({ name : "enableElementFocus", type : qx.Const.TYP
 
   Normally you didn't need to set this directly.
 */
-qx.ui.core.Widget.addProperty({ name : "focused", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "focused", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Toggle the possibility to select the element of this widget.
 */
-qx.ui.core.Widget.addProperty({ name : "selectable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
+qx.OO.addProperty({ name : "selectable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
 
 /*!
   Contains the tooltip object connected to the widget.
 */
-qx.ui.core.Widget.addProperty({ name : "toolTip", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
+qx.OO.addProperty({ name : "toolTip", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
 
 /*!
   Contains the context menu object connected to the widget. (Need real implementation)
 */
-qx.ui.core.Widget.addProperty({ name : "contextMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "contextMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Capture all events and map them to this widget
 */
-qx.ui.core.Widget.addProperty({ name : "capture", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "capture", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Contains the support drop types for drag and drop support
 */
-qx.ui.core.Widget.addProperty({ name : "dropDataTypes" });
+qx.OO.addProperty({ name : "dropDataTypes" });
 
 /*!
   A command called if the widget should be excecuted (a placeholder for buttons, ...)
 */
-qx.ui.core.Widget.addProperty({ name : "command", type : qx.Const.TYPEOF_OBJECT, instance : "qx.client.Command" });
+qx.OO.addProperty({ name : "command", type : qx.Const.TYPEOF_OBJECT, instance : "qx.client.Command" });
 
 /*!
   Appearance of the widget
 */
-qx.ui.core.Widget.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING });
 
 
 
@@ -323,15 +323,15 @@ qx.ui.core.Widget.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRI
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addProperty({ name : "marginTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.ui.core.Widget.addProperty({ name : "marginRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
-qx.ui.core.Widget.addProperty({ name : "marginBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.ui.core.Widget.addProperty({ name : "marginLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.OO.addProperty({ name : "marginTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.OO.addProperty({ name : "marginRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.OO.addProperty({ name : "marginBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
+qx.OO.addProperty({ name : "marginLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
 
-qx.ui.core.Widget.addProperty({ name : "paddingTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.ui.core.Widget.addProperty({ name : "paddingRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
-qx.ui.core.Widget.addProperty({ name : "paddingBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.ui.core.Widget.addProperty({ name : "paddingLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.OO.addProperty({ name : "paddingTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.OO.addProperty({ name : "paddingRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.OO.addProperty({ name : "paddingBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
+qx.OO.addProperty({ name : "paddingLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
 
 
 
@@ -352,7 +352,7 @@ qx.ui.core.Widget.addProperty({ name : "paddingLeft", type : qx.Const.TYPEOF_NUM
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "left", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.addProperty({ name : "left", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The distance from the outer right border to the parent right area edge.
@@ -361,7 +361,7 @@ qx.ui.core.Widget.addProperty({ name : "left", addToQueue : true, unitDetection 
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "right", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.addProperty({ name : "right", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The width of the box (including padding and border).
@@ -370,21 +370,21 @@ qx.ui.core.Widget.addProperty({ name : "right", addToQueue : true, unitDetection
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
+qx.OO.addProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
 
 /*!
   The minimum width of the box (including padding and border).
 
   Set this to omit the shrinking of the box width under this value.
 */
-qx.ui.core.Widget.addProperty({ name : "minWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.OO.addProperty({ name : "minWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 /*!
   The maximum width of the box (including padding and border).
 
   Set this to omit the expanding of the box width above this value.
 */
-qx.ui.core.Widget.addProperty({ name : "maxWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.OO.addProperty({ name : "maxWidth", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 
 
@@ -405,7 +405,7 @@ qx.ui.core.Widget.addProperty({ name : "maxWidth", addToQueue : true, unitDetect
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "top", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.addProperty({ name : "top", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The distance from the outer bottom border to the parent bottom area edge.
@@ -414,7 +414,7 @@ qx.ui.core.Widget.addProperty({ name : "top", addToQueue : true, unitDetection :
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "bottom", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.addProperty({ name : "bottom", addToQueue : true, unitDetection : "pixelPercent" });
 
 /*!
   The height of the box (including padding and border).
@@ -423,21 +423,21 @@ qx.ui.core.Widget.addProperty({ name : "bottom", addToQueue : true, unitDetectio
   at the same time. This will be omitted during the setup of the new third value. To reset a value
   you didn't want anymore, set it to null.
 */
-qx.ui.core.Widget.addProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
+qx.OO.addProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercentAutoFlex" });
 
 /*!
   The minimum height of the box (including padding and border).
 
   Set this to omit the shrinking of the box height under this value.
 */
-qx.ui.core.Widget.addProperty({ name : "minHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.OO.addProperty({ name : "minHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 /*!
   The maximum height of the box (including padding and border).
 
   Set this to omit the expanding of the box height above this value.
 */
-qx.ui.core.Widget.addProperty({ name : "maxHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
+qx.OO.addProperty({ name : "maxHeight", addToQueue : true, unitDetection : "pixelPercentAuto" });
 
 
 
@@ -451,24 +451,24 @@ qx.ui.core.Widget.addProperty({ name : "maxHeight", addToQueue : true, unitDetec
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
+qx.OO.addPropertyGroup({ name : "location", members : [ "left", "top" ]});
+qx.OO.addPropertyGroup({ name : "dimension", members : [ "width", "height" ]});
 
-qx.ui.core.Widget.addPropertyGroup({ name : "space", members : [ "left", "width", "top", "height" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "edge", members : [ "top", "right", "bottom", "left" ], mode : "shorthand" });
+qx.OO.addPropertyGroup({ name : "space", members : [ "left", "width", "top", "height" ]});
+qx.OO.addPropertyGroup({ name : "edge", members : [ "top", "right", "bottom", "left" ], mode : "shorthand" });
 
-qx.ui.core.Widget.addPropertyGroup({ name : "padding", members : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ], mode: "shorthand" });
-qx.ui.core.Widget.addPropertyGroup({ name : "margin", members : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ], mode: "shorthand" });
+qx.OO.addPropertyGroup({ name : "padding", members : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ], mode: "shorthand" });
+qx.OO.addPropertyGroup({ name : "margin", members : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ], mode: "shorthand" });
 
-qx.ui.core.Widget.addPropertyGroup({ name : "heights", members : [ "minHeight", "height", "maxHeight" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "widths", members : [ "minWidth", "width", "maxWidth" ]});
+qx.OO.addPropertyGroup({ name : "heights", members : [ "minHeight", "height", "maxHeight" ]});
+qx.OO.addPropertyGroup({ name : "widths", members : [ "minWidth", "width", "maxWidth" ]});
 
-qx.ui.core.Widget.addPropertyGroup({ name : "align", members : [ "horizontalAlign", "verticalAlign" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "stretch", members : [ "stretchX", "stretchY" ]});
+qx.OO.addPropertyGroup({ name : "align", members : [ "horizontalAlign", "verticalAlign" ]});
+qx.OO.addPropertyGroup({ name : "stretch", members : [ "stretchX", "stretchY" ]});
 
-qx.ui.core.Widget.addPropertyGroup({ name : "clipLocation", members : [ "clipLeft", "clipTop" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "clipDimension", members : [ "clipWidth", "clipHeight" ]});
-qx.ui.core.Widget.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ]});
+qx.OO.addPropertyGroup({ name : "clipLocation", members : [ "clipLeft", "clipTop" ]});
+qx.OO.addPropertyGroup({ name : "clipDimension", members : [ "clipWidth", "clipHeight" ]});
+qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ]});
 
 
 
@@ -2090,12 +2090,12 @@ qx.ui.core.Widget.initApplyMethods();
   Add basic setter/getters
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : "innerWidth", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "innerHeight", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "boxWidth", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "boxHeight", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "outerWidth", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "outerHeight", defaultValue : null });
+qx.OO.addCachedProperty({ name : "innerWidth", defaultValue : null });
+qx.OO.addCachedProperty({ name : "innerHeight", defaultValue : null });
+qx.OO.addCachedProperty({ name : "boxWidth", defaultValue : null });
+qx.OO.addCachedProperty({ name : "boxHeight", defaultValue : null });
+qx.OO.addCachedProperty({ name : "outerWidth", defaultValue : null });
+qx.OO.addCachedProperty({ name : "outerHeight", defaultValue : null });
 
 qx.Proto._computeBoxWidthFallback = function() {
   return 0;
@@ -2651,8 +2651,8 @@ qx.Proto.getBottomValue = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.Const.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.Const.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._computeFrameWidth = function()
 {
@@ -2712,8 +2712,8 @@ qx.Proto._invalidateFrameDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.ui.core.Widget.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._invalidatePreferredInnerDimensions = function()
 {
@@ -2733,8 +2733,8 @@ qx.Proto._invalidatePreferredInnerDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null });
+qx.OO.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null });
+qx.OO.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null });
 
 qx.Proto._computePreferredBoxWidth = function()
 {
@@ -2827,12 +2827,12 @@ qx.Proto._applyPaddingY = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : "hasPercentX", defaultValue : false });
-qx.ui.core.Widget.addCachedProperty({ name : "hasPercentY", defaultValue : false });
-qx.ui.core.Widget.addCachedProperty({ name : "hasAutoX", defaultValue : false });
-qx.ui.core.Widget.addCachedProperty({ name : "hasAutoY", defaultValue : false });
-qx.ui.core.Widget.addCachedProperty({ name : "hasFlexX", defaultValue : false });
-qx.ui.core.Widget.addCachedProperty({ name : "hasFlexY", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasPercentX", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasPercentY", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasAutoX", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasAutoY", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasFlexX", defaultValue : false });
+qx.OO.addCachedProperty({ name : "hasFlexY", defaultValue : false });
 
 qx.Proto._computeHasPercentX = function() {
   return this._computedLeftTypePercent || this._computedWidthTypePercent || this._computedMinWidthTypePercent || this._computedMaxWidthTypePercent || this._computedRightTypePercent;

@@ -49,10 +49,10 @@ function(vShortcut, vKeyCode, vManager)
   this.setManager(qx.util.Validation.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
 });
 
-qx.client.Command.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.client.Command.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });
-qx.client.Command.addProperty({ name : "keyCode", type : qx.Const.TYPEOF_NUMBER });
-qx.client.Command.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
+qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "keyCode", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
 
 
 

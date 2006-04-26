@@ -54,7 +54,7 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
 });
 
-qx.ui.form.Button.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "button" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "button" });
 
 
 

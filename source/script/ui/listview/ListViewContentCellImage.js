@@ -31,7 +31,7 @@ function(vSource, vWidth, vHeight) {
   qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
 });
 
-qx.ui.listview.ListViewContentCellImage.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-image" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-image" });
 
 qx.ui.listview.ListViewContentCellImage.empty = {
   source : qx.Const.IMAGE_BLANK

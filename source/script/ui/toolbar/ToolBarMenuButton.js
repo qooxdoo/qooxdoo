@@ -53,8 +53,8 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
-qx.ui.toolbar.ToolBarMenuButton.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
+qx.OO.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
 
 
 

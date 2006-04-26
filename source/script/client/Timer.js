@@ -45,7 +45,7 @@ function(vInterval)
   this.__oninterval = function() { o._oninterval(); };
 });
 
-qx.client.Timer.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
+qx.OO.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
 
 qx.Proto._intervalHandle = null;
 

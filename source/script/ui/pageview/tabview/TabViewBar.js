@@ -35,4 +35,4 @@ function()
   this.setZIndex(2);
 });
 
-qx.ui.pageview.tabview.TabViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-bar" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-bar" });

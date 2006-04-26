@@ -65,10 +65,10 @@ function()
   this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
 });
 
-qx.ui.form.List.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list" });
 
-qx.ui.form.List.addProperty({ name : "enableInlineFind", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.form.List.addProperty({ name : "markLeadingItem", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "enableInlineFind", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "markLeadingItem", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 qx.Proto._pressedString = qx.Const.CORE_EMPTY;
 

@@ -35,7 +35,7 @@ proto._afterAppear = function() {
 
   // Add properties info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_PROPERTY,
-    "properties", "properties", this._createPropertyInfo,
+qx.OO._createPropertyInfo,
     QxUtil.returnTrue, true, true);
 
   // Add public methods info
@@ -527,7 +527,7 @@ proto._createItemInfo = function(node, nodeType, fromClassNode, showDetails) {
  * @param showDetails {boolean} whether to show the details.
  * @return {string} the HTML showing the information about the property.
  */
-proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
+qx.OO._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   var typeInfo = this._infoPanelHash[nodeType];

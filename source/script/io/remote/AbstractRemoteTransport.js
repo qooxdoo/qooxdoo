@@ -46,37 +46,37 @@ function() {
 /*!
   Target url to issue the request to
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Determines what type of request to issue
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "method", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "method", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Set the request to asynchronous
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN });
 
 /*!
   Set the data to be sent via this request
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Username to use for HTTP authentication
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The state of the current request
 */
-qx.io.remote.AbstractRemoteTransport.addProperty(
+qx.OO.addProperty(
 {
   name           : "state",
   type           : qx.Const.TYPEOF_STRING,
@@ -92,17 +92,17 @@ qx.io.remote.AbstractRemoteTransport.addProperty(
 /*!
   Request headers
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "requestHeaders", type: qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "requestHeaders", type: qx.Const.TYPEOF_OBJECT });
 
 /*!
   Request parameters to send.
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "parameters", type: qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "parameters", type: qx.Const.TYPEOF_OBJECT });
 
 /*!
   Response Type
 */
-qx.io.remote.AbstractRemoteTransport.addProperty({ name : "responseType", type: qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "responseType", type: qx.Const.TYPEOF_STRING });
 
 
 

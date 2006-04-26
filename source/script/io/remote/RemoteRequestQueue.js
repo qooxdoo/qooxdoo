@@ -56,9 +56,9 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteRequestQueue.addProperty({ name : "maxTotalRequests", type : qx.Const.TYPEOF_NUMBER });
-qx.io.remote.RemoteRequestQueue.addProperty({ name : "maxConcurrentRequests", type : qx.Const.TYPEOF_NUMBER, defaultValue : 3 });
-qx.io.remote.RemoteRequestQueue.addProperty({ name : "defaultTimeout", type : qx.Const.TYPEOF_NUMBER, defaultValue : 3000 });
+qx.OO.addProperty({ name : "maxTotalRequests", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "maxConcurrentRequests", type : qx.Const.TYPEOF_NUMBER, defaultValue : 3 });
+qx.OO.addProperty({ name : "defaultTimeout", type : qx.Const.TYPEOF_NUMBER, defaultValue : 3000 });
 
 
 

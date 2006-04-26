@@ -35,7 +35,7 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.setTabIndex(-1);
 });
 
-qx.ui.toolbar.ToolBarButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-button" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-button" });
 
 
 

@@ -56,7 +56,7 @@ function QxButtonPane(vOrientation) {
 /*!
   Appearance setting for the class.
 */
-QxButtonPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "buttonpane" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "buttonpane" });
 
 
 /*

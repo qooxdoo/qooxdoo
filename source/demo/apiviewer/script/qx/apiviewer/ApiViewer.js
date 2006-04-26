@@ -39,7 +39,7 @@ clazz.extend(QxObject, "qx.apiviewer.ApiViewer");
 
 
 /** The documentation tree to show. */
-clazz.addProperty({ name:"docTree", type:QxConst.TYPEOF_OBJECT });
+qx.OO.addProperty({ name:"docTree", type:QxConst.TYPEOF_OBJECT });
 
 
 // property checker

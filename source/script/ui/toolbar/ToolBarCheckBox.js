@@ -44,7 +44,7 @@ function(vText, vIcon, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.toolbar.ToolBarCheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

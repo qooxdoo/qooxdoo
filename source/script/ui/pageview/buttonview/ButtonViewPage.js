@@ -31,4 +31,4 @@ function(vButton) {
   qx.ui.pageview.AbstractPageViewPage.call(this, vButton);
 });
 
-qx.ui.pageview.buttonview.ButtonViewPage.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-page" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-page" });

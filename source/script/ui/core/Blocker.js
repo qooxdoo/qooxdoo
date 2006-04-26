@@ -39,4 +39,4 @@ function()
   this.setDisplay(false);
 });
 
-qx.ui.core.ClientDocumentBlocker.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "blocker" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "blocker" });

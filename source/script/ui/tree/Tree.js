@@ -69,8 +69,8 @@ function(vLabel, vIcon, vIconSelected)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.tree.Tree.addProperty({ name : "useDoubleClick", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
-qx.ui.tree.Tree.addProperty({ name : "useTreeLines", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+qx.OO.addProperty({ name : "useDoubleClick", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
+qx.OO.addProperty({ name : "useTreeLines", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
 
 
 

@@ -35,17 +35,17 @@ function() {
 /*!
   The layout mode (in which order the children should be layouted)
 */
-qx.ui.layout.DockLayout.addProperty({ name : "mode", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ORIENTATION_VERTICAL, possibleValues : [ qx.Const.ORIENTATION_VERTICAL, qx.Const.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "mode", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.ORIENTATION_VERTICAL, possibleValues : [ qx.Const.ORIENTATION_VERTICAL, qx.Const.ORIENTATION_HORIZONTAL, "ordered" ], addToQueueRuntime : true });
 
 /*
   Overwrite from qx.ui.core.Widget, we do not support 'auto' and 'flex'
 */
-qx.ui.layout.DockLayout.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
-qx.ui.layout.DockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-qx.ui.layout.DockLayout.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-qx.ui.layout.DockLayout.changeProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercent" });
-qx.ui.layout.DockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
-qx.ui.layout.DockLayout.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "width", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "minWidth", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "height", addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
+qx.OO.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue : true, unitDetection : "pixelPercent" });
 
 
 

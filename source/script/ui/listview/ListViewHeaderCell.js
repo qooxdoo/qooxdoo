@@ -86,8 +86,8 @@ function(vConfig, vId)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 });
 
-qx.ui.listview.ListViewHeaderCell.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
-qx.ui.listview.ListViewHeaderCell.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
+qx.OO.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
 
 

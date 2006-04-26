@@ -31,7 +31,7 @@ function() {
   qx.ui.pageview.AbstractPageViewBar.call(this);
 });
 
-qx.ui.pageview.buttonview.ButtonViewBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-bar" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "bar-view-bar" });
 
 
 

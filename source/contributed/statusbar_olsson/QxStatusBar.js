@@ -41,7 +41,7 @@ function QxStatusBar() {
 /*!
   Appearance setting for the class.
 */
-QxStatusBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "statusbar" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "statusbar" });
 
 
 /*

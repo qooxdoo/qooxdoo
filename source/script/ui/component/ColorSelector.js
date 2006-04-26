@@ -82,15 +82,15 @@ function(vPreviousRed, vPreviousGreen, vPreviousBlue)
   };
 });
 
-qx.ui.component.ColorSelector.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colorselector" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colorselector" });
 
-qx.ui.component.ColorSelector.addProperty({ name : "red", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.ui.component.ColorSelector.addProperty({ name : "green", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.ui.component.ColorSelector.addProperty({ name : "blue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "red", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "green", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "blue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
-qx.ui.component.ColorSelector.addProperty({ name : "hue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.ui.component.ColorSelector.addProperty({ name : "saturation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.ui.component.ColorSelector.addProperty({ name : "brightness", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "hue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "saturation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "brightness", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
 
 
 

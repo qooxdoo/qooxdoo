@@ -52,39 +52,39 @@ qx.ui.layout.BoxLayout.STR_REVERSED = "-reversed";
 /*!
   The orientation of the layout control. Allowed values are qx.Const.ORIENTATION_HORIZONTAL (default) and qx.Const.ORIENTATION_VERTICAL.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "orientation", type : qx.Const.TYPEOF_STRING, possibleValues : [ qx.Const.ORIENTATION_HORIZONTAL, qx.Const.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "orientation", type : qx.Const.TYPEOF_STRING, possibleValues : [ qx.Const.ORIENTATION_HORIZONTAL, qx.Const.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.OO.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left", "center" and "right"
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], impl : "layoutOrder", addToQueueRuntime : true });
+qx.OO.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], impl : "layoutOrder", addToQueueRuntime : true });
+qx.OO.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   Should the children be layouted in reverse order?
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "reverseChildrenOrder", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "layoutOrder", addToQueueRuntime : true });
+qx.OO.addProperty({ name : "reverseChildrenOrder", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "layoutOrder", addToQueueRuntime : true });
 
 /*!
   Should the widgets be stretched to the available width (orientation==vertical) or height (orientation==horizontal)?
   This only applies if the child has not configured a own value for this axis.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "stretchChildrenOrthogonalAxis", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, addToQueueRuntime : true });
+qx.OO.addProperty({ name : "stretchChildrenOrthogonalAxis", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, addToQueueRuntime : true });
 
 /*!
   If there are min/max values in combination with flex try to optimize placement.
   This is more complex and produces more time for the layouter but sometimes this feature is needed.
 */
-qx.ui.layout.BoxLayout.addProperty({ name : "useAdvancedFlexAllocation", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true });
+qx.OO.addProperty({ name : "useAdvancedFlexAllocation", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, addToQueueRuntime : true });
 
 
 
@@ -216,8 +216,8 @@ qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
-qx.ui.core.Widget.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
+qx.OO.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null });
+qx.OO.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null });
 
 qx.Proto._computeAccumulatedChildrenOuterWidth = function()
 {

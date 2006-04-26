@@ -57,12 +57,12 @@ function(vLabel, vIcon, vIconSelected)
 */
 
 
-qx.ui.tree.TreeFolder.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tree-folder" });
-qx.ui.tree.TreeFolder.changeProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
-qx.ui.tree.TreeFolder.changeProperty({ name : "iconSelected", type : qx.Const.TYPEOF_STRING });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tree-folder" });
+qx.OO.changeProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.OO.changeProperty({ name : "iconSelected", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.tree.TreeFolder.addProperty({ name : "open", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.tree.TreeFolder.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "open", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

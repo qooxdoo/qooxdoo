@@ -52,12 +52,12 @@ function QxResource(vResource, vLocale) {
 /*!
   The ressource file with language text.
 */
-QxResource.addProperty({ name : "resource", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "resource", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The locale if not use the defined application or system locale.
 */
-QxResource.addProperty({ name : "locale", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "locale", type : qx.Const.TYPEOF_OBJECT });
 
 
 /*

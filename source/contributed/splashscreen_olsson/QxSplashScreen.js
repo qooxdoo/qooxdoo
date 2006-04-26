@@ -84,22 +84,22 @@ QxSplashScreen.MAX_VALUE = 100;
 /*!
   Should the user have the ability to close the splashscreen by clicking on it or Escape.
 */
-QxSplashScreen.addProperty({ name : "allowClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have a status bar shown.
 */
-QxSplashScreen.addProperty({ name : "showProgressBar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showProgressBar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   Time to show splash screen.
 */
-QxSplashScreen.addProperty({ name : "showTime", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "showTime", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   Center the splash screen on open.
 */
-QxSplashScreen.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 /*

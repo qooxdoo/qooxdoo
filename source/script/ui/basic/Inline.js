@@ -38,4 +38,4 @@ function(vId)
   };
 });
 
-qx.ui.basic.Inline.addProperty({ name : "inlineNodeId", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "inlineNodeId", type : qx.Const.TYPEOF_STRING });

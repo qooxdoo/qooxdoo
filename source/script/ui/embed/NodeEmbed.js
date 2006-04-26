@@ -36,7 +36,7 @@ function(vId)
   };
 });
 
-qx.ui.embed.DomNodeEmbed.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
 
 qx.Proto._createElementImpl = function()
 {
