@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#namespace(qx.OO)
+#id(qx.OO)
 #package(core)
 #require(qx.lang.Core)
 
