@@ -32,7 +32,7 @@
 /*!
   This widget is for all images in qooxdoo projects.
 */
-qx.OO.defineClass("qx.ui.basic.Image", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.basic.Image", qx.ui.basic.Terminator,
 function(vSource, vWidth, vHeight)
 {
   qx.ui.basic.Terminator.call(this);
@@ -52,7 +52,7 @@ function(vSource, vWidth, vHeight)
   this.setSelectable(false);
 });
 
-qx.ui.basic.Image.ATTR_ALT = qx.Const.KEY_ALT;
+qx.ui.basic.Image.ATTR_ALT = "alt";
 qx.ui.basic.Image.ATTR_TITLE = "title";
 
 qx.ui.basic.Image.BORDER_NONE = "0 none";
