@@ -114,6 +114,10 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
   // Instantiate objects/inheritance
   if (typeof vSuper === qx.OO.C_UNDEFINED)
   {
+    if (typeof vConstructor !== qx.OO.C_UNDEFINED) {
+      throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
+    };
+
     qx.Class = vTempObject[vSplitName[i]] = {};
     qx.Proto = null;
   }
