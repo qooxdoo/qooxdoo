@@ -795,7 +795,7 @@ def printHelp():
   print
 
   # Jobs
-  print "  -go, --generate-optimized         enables the generation of optimized files"
+  print "  -gb, --generate-build             generate build version"
   print "  -lf, --list-files                 list known files"
   print "  -lp, --list-packages              list known knownPackages"
   print "  -li, --list-include               list include order"
@@ -821,6 +821,24 @@ def printHelp():
 
 
 def start():
+  global xmloutput
+
+  loadDependencyData = {}
+  runtimeDependencyData = {}
+
+  knownPackages = {}
+  knownFiles = {}
+
+  includeIds = []
+  excludeIds = []
+
+  combinedOptimized = ""
+
+
+
+
+
+
   # Source
   cmdSourceDirectories = ["source/script", "source/themes"]
   cmdSourceFiles = ""
@@ -851,6 +869,8 @@ def start():
   cmdIncludeAll = False
   cmdIgnoreIncludeDeps = False
   cmdIgnoreExcludeDeps = False
+
+
 
 
 
@@ -989,7 +1009,7 @@ def start():
   print "  * Tokenized (-ot): %s" % cmdOutputTokenized
   print "  * Compressed (-oc): %s" % cmdOutputCompressed
   print "  Jobs:"
-  print "  * Generate Build (-go): %s" % cmdGenerateBuild
+  print "  * Generate Build (-gb): %s" % cmdGenerateBuild
   print "  * List Files (-lf): %s" % cmdListFiles
   print "  * List Packages (-lp): %s" % cmdListPackages
   print "  * List Includes (-li): %s" % cmdListIncludes
@@ -1019,18 +1039,6 @@ def start():
 
 
 
-  global xmloutput
-
-  loadDependencyData = {}
-  runtimeDependencyData = {}
-
-  knownPackages = {}
-  knownFiles = {}
-
-  includeIds = []
-  excludeIds = []
-
-  combinedOptimized = ""
 
 
 
