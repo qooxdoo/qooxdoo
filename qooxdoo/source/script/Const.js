@@ -261,11 +261,6 @@ qx.OO.defineClass("qx.Const",
   REQUEST_STATE_FAILED : "failed",
   REQUEST_STATE_TIMEOUT : "timeout",
 
-  KEY_CTRL : "ctrl",
-  KEY_SHIFT : "shift",
-  KEY_ALT : "alt",
-  KEY_CONTROL : "control",
-
   STATE_OVER : "over",
   STATE_FOCUSED : "focused",
   STATE_DISABLED : "disabled",

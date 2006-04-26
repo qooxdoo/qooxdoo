@@ -31,7 +31,7 @@
 
   Each command could be accigned to multiple widgets.
 */
-qx.OO.defineClass("qx.client.Command", qx.core.Target, 
+qx.OO.defineClass("qx.client.Command", qx.core.Target,
 function(vShortcut, vKeyCode, vManager)
 {
   qx.core.Target.call(this);
@@ -54,7 +54,10 @@ qx.OO.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });
 qx.OO.addProperty({ name : "keyCode", type : qx.Const.TYPEOF_NUMBER });
 qx.OO.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
 
-
+qx.Class.C_KEY_CTRL = "ctrl";
+qx.Class.C_KEY_SHIFT = "shift";
+qx.Class.C_KEY_ALT = "alt";
+qx.Class.C_KEY_CONTROL = "control";
 
 
 
@@ -214,10 +217,10 @@ qx.Proto._matchesKeyEvent = function(e)
     {
       switch(vPart)
       {
-        case qx.Const.KEY_CTRL:
-        case qx.Const.KEY_SHIFT:
-        case qx.Const.KEY_ALT:
-        case qx.Const.KEY_CONTROL:
+        case qx.Class.C_KEY_CTRL:
+        case qx.Class.C_KEY_SHIFT:
+        case qx.Class.C_KEY_ALT:
+        case qx.Class.C_KEY_CONTROL:
           break;
 
         default:
