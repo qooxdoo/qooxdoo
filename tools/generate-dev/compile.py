@@ -677,7 +677,7 @@ def xmlstart():
 
 
 
-def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
+def extractDeps(data, loadDependencyData, runtimeDependencyData, knownPackages):
   thisClass = None
   superClass = None
 
@@ -733,10 +733,10 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
     if pkg:
       pkgname = pkg.group(1)
 
-      if packages.has_key(pkgname):
-        packages[pkgname].append(thisClass)
+      if knownPackages.has_key(pkgname):
+        knownPackages[pkgname].append(thisClass)
       else:
-        packages[pkgname] = [ thisClass ]
+        knownPackages[pkgname] = [ thisClass ]
 
 
 
@@ -755,8 +755,8 @@ def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData,
   except ValueError:
     # Including pre-deps
     if not ignoreDeps:
-      for subkey in loadDependencyData[uniqueId]:
-        addUniqueIdToSortedList(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+      for preUniqueId in loadDependencyData[uniqueId]:
+        addUniqueIdToSortedList(preUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
     # Add myself
     try:
@@ -766,8 +766,8 @@ def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData,
 
     # Include post-deps
     if not ignoreDeps:
-      for subkey in runtimeDependencyData[uniqueId]:
-        addUniqueIdToSortedList(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+      for postUniqueId in runtimeDependencyData[uniqueId]:
+        addUniqueIdToSortedList(postUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
 
 
@@ -778,8 +778,13 @@ def main(conf):
   loadDependencyData = {}
   runtimeDependencyData = {}
 
-  packages = {}
-  allfiles = {}
+  knownPackages = {}
+  knownFiles = {}
+
+  includeIds = []
+  excludeIds = []
+
+
 
 
   print
@@ -813,8 +818,8 @@ def main(conf):
           infilename = os.path.join(root, filename)
           basefilename = filename.replace(JSEXT, "")
 
-          allfiles[basefilename] = infilename
-          if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, packages) == False:
+          knownFiles[basefilename] = infilename
+          if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages) == False:
             print "    * Could not extract dependencies of file: %s" % filename
 
 
@@ -824,8 +829,8 @@ def main(conf):
       infilename = filename
       basefilename = filename.split(os.sep)[-1].replace(JSEXT, "")
 
-      allfiles[basefilename] = infilename
-      if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, packages) == False:
+      knownFiles[basefilename] = infilename
+      if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages) == False:
         print "Could not extract dependencies of file: %s" % filename
 
 
@@ -833,9 +838,6 @@ def main(conf):
   print "  * Sorting files..."
 
   # Building Filelists
-  includeIds = []
-  excludeIds = []
-
   if conf["useAll"]:
     for key in loadDependencyData:
       includeIds.append(key)
@@ -844,21 +846,21 @@ def main(conf):
     # Fix Package List
     if "all" in conf["includePackages"]:
       conf["includePackages"] = []
-      for pkg in packages:
+      for pkg in knownPackages:
         conf["includePackages"].append(pkg)
 
-    # Add Packages
+    # Add knownPackages
     for pkg in conf["includePackages"]:
-      includeIds.extend(packages[pkg])
+      includeIds.extend(knownPackages[pkg])
 
     # Add Files
     includeIds.extend(conf["includeIds"])
 
 
 
-  # Add Exclude Packages
+  # Add Exclude knownPackages
   for pkg in conf["excludePackages"]:
-    excludeIds.extend(packages[pkg])
+    excludeIds.extend(knownPackages[pkg])
 
   # Add Exclude Files
   excludeIds.extend(conf["excludeIds"])
@@ -888,16 +890,16 @@ def main(conf):
     print
     print "  KNOWN FILES:"
     print "***********************************************************************************************"
-    for key in allfiles:
-      print "  %s (%s)" % (key, allfiles[key])
+    for key in knownFiles:
+      print "  %s (%s)" % (key, knownFiles[key])
 
   if conf["listPackages"]:
     print
     print "  KNOWN PACKAGES:"
     print "***********************************************************************************************"
-    for pkg in packages:
+    for pkg in knownPackages:
       print "  * %s" % pkg
-      for key in packages[pkg]:
+      for key in knownPackages[pkg]:
         print "    - %s" % key
 
   if conf["listPre"]:
@@ -940,15 +942,15 @@ def main(conf):
     for item in sortedIncludeList:
       print "  * %s" % item
 
-      if not allfiles.has_key(item):
+      if not knownFiles.has_key(item):
         print "    -> Missing ID: %s" % item
         continue
 
-      infilename = allfiles[item]
+      infilename = knownFiles[item]
 
       if conf["makeOptimized"] or conf["makeDocs"]:
         # print "Tokenizing..."
-        tokenized = tokenizer(file(allfiles[item], "r").read(), infilename)
+        tokenized = tokenizer(file(knownFiles[item], "r").read(), infilename)
 
         tokenizedString = ""
         for token in tokenized:
@@ -1022,14 +1024,14 @@ def helptext():
   print "  -gd, --generate-docs              enabled the generation of a API documentation"
   print
   print "  -a,  --use-all                    include all known files"
-  print "  -ii, --ignore-include-deps        ignore include dependencies, use only given packages and files"
-  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only given packages and files"
+  print "  -ii, --ignore-include-deps        ignore include dependencies, use only explicitly defined things"
+  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only explicitly defined things"
   print "  -cf, --combined-file <FILE>       create a combined file with the given filename"
   print "  -oc, --only-combined              do not create single compressed files (useful in"
   print "                                    combination with the previous option)"
   print
   print "  -lf, --list-files                 list known files"
-  print "  -lp, --list-packages              list known packages"
+  print "  -lp, --list-knownPackages              list known knownPackages"
   print "  -lr, --list-pre                   list computed pre dependencies"
   print "  -lo, --list-post                  list computed post dependencies"
   print "  -li, --list-include               list include order"
@@ -1061,7 +1063,7 @@ def start():
   outputCombined = ""
   outputSingle = True
 
-  sourceDirectories = ["source/script"]
+  sourceDirectories = ["source/script", "source/themes"]
   sourceFiles = ""
 
   outputBuild = "build/script"
