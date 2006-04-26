@@ -1,8 +1,8 @@
-var theme = QxAppearanceManager.getAppearanceThemeObject();
+var theme = qx.manager.object.AppearanceManager.getAppearanceThemeObject();
 
 theme.registerAppearance("api-viewer", {
   setup : function() {
-    this.bgcolor = new QxColorObject("window");
+    this.bgcolor = new qx.renderer.color.ColorObject("window");
   },
 
   initial : function(vWidget, vTheme) {
@@ -20,7 +20,7 @@ theme.registerAppearance("api-viewer", {
 
 theme.registerAppearance("api-viewer-title", {
   setup : function() {
-    this.font = new QxFont(18, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font = new qx.renderer.font.Font(18, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     this.font.setBold(true);
   },
 
@@ -46,7 +46,7 @@ theme.registerAppearance("api-viewer-open-button", {
 
 theme.registerAppearance("api-viewer-main-info", {
   setup : function() {
-    this.border = new QxBorder(2, QxConst.BORDER_STYLE_SOLID, "gray");
+    this.border = new qx.renderer.border.Border(2, qx.Const.BORDER_STYLE_SOLID, "gray");
   },
 
   initial : function(vWidget, vTheme) {
@@ -59,7 +59,7 @@ theme.registerAppearance("api-viewer-main-info", {
 
 theme.registerAppearance("api-viewer-main-info-title", {
   setup : function() {
-    this.bgcolor = new QxColorObject("#E1EEFF");
+    this.bgcolor = new qx.renderer.color.ColorObject("#E1EEFF");
   },
 
   initial : function(vWidget, vTheme) {
@@ -72,7 +72,7 @@ theme.registerAppearance("api-viewer-main-info-title", {
 
 theme.registerAppearance("api-viewer-main-info-title-label", {
   setup : function() {
-    this.font = new QxFont(16, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font = new qx.renderer.font.Font(16, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     this.font.setBold(true);
   },
 
@@ -88,9 +88,9 @@ theme.registerAppearance("api-viewer-main-info-title-label", {
 /*
 theme.registerAppearance("api-viewer-info", {
   setup : function() {
-    this.border = new QxBorder;
-    this.border.set({ topWidth:1, topStyle :QxConst.BORDER_STYLE_SOLID, topColor:"gray" });
-    this.bgcolor = new QxColorObject("#EEEEEE");
+    this.border = new qx.renderer.border.Border;
+    this.border.set({ topWidth:1, topStyle :qx.Const.BORDER_STYLE_SOLID, topColor:"gray" });
+    this.bgcolor = new qx.renderer.color.ColorObject("#EEEEEE");
   },
 
   initial : function(vWidget, vTheme) {
@@ -104,7 +104,7 @@ theme.registerAppearance("api-viewer-info", {
 
 theme.registerAppearance("api-viewer-info-title-label", {
   setup : function() {
-    this.font = new QxFont(11, 'Courier, monospace');
+    this.font = new qx.renderer.font.Font(11, 'Courier, monospace');
     //this.font.setBold(true);
   },
 
