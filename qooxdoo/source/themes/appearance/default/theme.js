@@ -22,9 +22,9 @@
 
 /* ************************************************************************
 
+#id(qx.themes.appearance.default)
 #package(appearancethemes)
 #require(qx.renderer.theme.AppearanceTheme)
-#require(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 

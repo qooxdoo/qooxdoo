@@ -22,9 +22,9 @@
 
 /* ************************************************************************
 
+#id(qx.themes.widgets.windows)
 #package(iconthemes)
 #require(qx.renderer.theme.WidgetTheme)
-#require(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

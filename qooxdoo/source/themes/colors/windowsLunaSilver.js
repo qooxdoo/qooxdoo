@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.color.windowsLunaSilver)
 #package(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 

@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#id(qx.themes.icons.crystalsvg)
 #package(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 
