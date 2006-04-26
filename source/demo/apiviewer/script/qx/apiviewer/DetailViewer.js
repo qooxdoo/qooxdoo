@@ -6,13 +6,10 @@ function() {
   qx.ui.embed.Iframe.call(this, "api-detail.html");
 
   qx.apiviewer.DetailViewer.instance = this;
-};
-
-clazz = qx.apiviewer.DetailViewer);
-
+});
 
 // overridden
-proto._afterAppear = function() {
+qx.Proto._afterAppear = function() {
   qx.ui.embed.Iframe.prototype._afterAppear.call(this);
 
   var DetailViewer = qx.apiviewer.DetailViewer;
@@ -34,7 +31,7 @@ proto._afterAppear = function() {
 
   // Add properties info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_PROPERTY,
-qx.OO._createPropertyInfo,
+    "properties", "properties", this._createPropertyInfo,
     QxUtil.returnTrue, true, true);
 
   // Add public methods info
@@ -116,7 +113,7 @@ qx.OO._createPropertyInfo,
  * @param isOpen {boolean} whether the info panel is open by default.
  * @return {string} the HTML for the info panel.
  */
-proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
+qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   hasDetailDecider, addInheritedCheckBox, isOpen)
 {
   var uppercaseLabelText = labelText[0].toUpperCase() + labelText.substring(1);
@@ -146,7 +143,7 @@ proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
  *
  * @param classNode {Map} the doc node of the class to show.
  */
-proto.showClass = function(classNode) {
+qx.Proto.showClass = function(classNode) {
   if (this._currentClassDocNode == classNode) {
     // Nothing to do
     return;
@@ -241,7 +238,7 @@ proto.showClass = function(classNode) {
  *
  * @param itemName {string} the name of the item to highlight.
  */
-proto.showItem = function(itemName) {
+qx.Proto.showItem = function(itemName) {
   var itemNode = qx.apiviewer.TreeUtil.getItemDocNode(this._currentClassDocNode, itemName);
   if (! itemNode) {
     alert("Item '" + itemName + "' not found");
@@ -277,7 +274,7 @@ proto.showItem = function(itemName) {
  *
  * @param nodeType {int} the node type of which to update the info panel.
  */
-proto._updateInfoPanel = function(nodeType) {
+qx.Proto._updateInfoPanel = function(nodeType) {
   var typeInfo = this._infoPanelHash[nodeType];
 
   // Get the nodes to show
@@ -349,7 +346,7 @@ proto._updateInfoPanel = function(nodeType) {
  * @param nodeType {int} the node type of which the inherited-checkbox was
  *        clicked.
  */
-proto._onInheritedCheckBoxClick = function(nodeType) {
+qx.Proto._onInheritedCheckBoxClick = function(nodeType) {
   try {
     var typeInfo = this._infoPanelHash[nodeType];
     var checkboxElem = typeInfo.infoTitleElem.getElementsByTagName("input")[0];
@@ -370,7 +367,7 @@ proto._onInheritedCheckBoxClick = function(nodeType) {
  * @param nodeType {int} the node type of which the show/hide-body-button was
  *        clicked.
  */
-proto._onShowInfoPanelBodyClicked = function(nodeType) {
+qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
   try {
     var typeInfo = this._infoPanelHash[nodeType];
     typeInfo.isOpen = !typeInfo.isOpen;
@@ -394,7 +391,7 @@ proto._onShowInfoPanelBodyClicked = function(nodeType) {
  * @param fromClassName {string} the name of the class the item the item was
  *        defined in.
  */
-proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
+qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
   try {
     var typeInfo = this._infoPanelHash[nodeType];
     var elem = this._getItemElement(nodeType, name);  
@@ -431,7 +428,7 @@ proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
  * @param name {string} the item's name.
  * @return {Element} the HTML element showing the details of the item.
  */
-proto._getItemElement = function(nodeType, name) {
+qx.Proto._getItemElement = function(nodeType, name) {
   var typeInfo = this._infoPanelHash[nodeType];
 
   var elemArr = typeInfo.infoBodyElem.getElementsByTagName("TBODY")[0].childNodes;
@@ -453,7 +450,7 @@ proto._getItemElement = function(nodeType, name) {
  * @param itemName {string} the name of the item.
  * @see ApiViewer#selectItem
  */
-proto._selectItem = function(itemName) {
+qx.Proto._selectItem = function(itemName) {
   try {
     qx.apiviewer.ApiViewer.instance.selectItem(itemName);
     qx.ui.core.Widget.flushGlobalQueues();
@@ -469,7 +466,7 @@ proto._selectItem = function(itemName) {
  * @param className {string} the name of the class.
  * @return {Map} the doc node of the class.
  */
-proto._getClassDocNode = function(className) {
+qx.Proto._getClassDocNode = function(className) {
   if (className) {
     return qx.apiviewer.TreeUtil.getClassDocNode(qx.apiviewer.ApiViewer.instance.getDocTree(), className);
   } else {
@@ -487,7 +484,7 @@ proto._getClassDocNode = function(className) {
  * @param showDetails {boolean} whether to show the details.
  * @return {string} the HTML showing the information about the item.
  */
-proto._createItemInfo = function(node, nodeType, fromClassNode, showDetails) {
+qx.Proto._createItemInfo = function(node, nodeType, fromClassNode, showDetails) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   var typeInfo = this._infoPanelHash[nodeType];
@@ -621,7 +618,7 @@ qx.OO._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails)
  * @param showDetails {boolean} whether to show the details.
  * @return {string} the HTML showing the information about the method.
  */
-proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
+qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
   var DetailViewer = qx.apiviewer.DetailViewer;
   var TreeUtil = qx.apiviewer.TreeUtil;
 
@@ -745,7 +742,7 @@ proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
  * @param fromClassNode {Map} the doc node of the class the constant was defined.
  * @return {boolean} whether the constant has details.
  */
-proto._constantHasDetails = function(node, nodeType, fromClassNode) {
+qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
   return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node);
 };
 
@@ -759,7 +756,7 @@ proto._constantHasDetails = function(node, nodeType, fromClassNode) {
  * @param showDetails {boolean} whether to show the details.
  * @return {string} the HTML showing the information about the constant.
  */
-proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails) {
+qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails) {
   var html = "";
 
   // Add the title
@@ -791,7 +788,7 @@ proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails)
  *        only the first sentence of the description will be shown.
  * @return {string} the HTML showing the description.
  */
-proto._createDescHtml = function(node, fromClassNode, showDetails) {
+qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
   var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
   if (descNode) {
     var desc = descNode.attributes.text;
@@ -813,7 +810,7 @@ proto._createDescHtml = function(node, fromClassNode, showDetails) {
  * @param node {Map} the doc node of the item.
  * @return {boolean} whether the item has &#64;see attributes.
  */
-proto._hasSeeAlsoHtml = function(node) {
+qx.Proto._hasSeeAlsoHtml = function(node) {
   var TreeUtil = qx.apiviewer.TreeUtil;
 
   var descNode = TreeUtil.getChild(node, "desc");
@@ -839,7 +836,7 @@ proto._hasSeeAlsoHtml = function(node) {
  * @param fromClassNode {Map} the doc node of the class the item was defined.
  * @return {string} the HTML showing the &#64;see attributes.
  */
-proto._createSeeAlsoHtml = function(node, fromClassNode) {
+qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
@@ -877,7 +874,7 @@ proto._createSeeAlsoHtml = function(node, fromClassNode) {
  * @param node {Map} the doc node of the item.
  * @return {boolean} whether the item has documentation errors.
  */
-proto._hasErrorHtml = function(node) {
+qx.Proto._hasErrorHtml = function(node) {
   var errorNode = qx.apiviewer.TreeUtil.getChild(node, "errors");
   return (errorNode != null);
 };
@@ -890,7 +887,7 @@ proto._hasErrorHtml = function(node) {
  * @param fromClassNode {Map} the doc node of the class the item was defined.
  * @return {string} the HTML showing the documentation errors.
  */
-proto._createErrorHtml = function(node, fromClassNode) {
+qx.Proto._createErrorHtml = function(node, fromClassNode) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   var errorNode = qx.apiviewer.TreeUtil.getChild(node, "errors");
@@ -917,7 +914,7 @@ proto._createErrorHtml = function(node, fromClassNode) {
  * @param text {string} the text.
  * @return {string} the first sentence from the text.
  */
-proto._extractFirstSentence = function(text) {
+qx.Proto._extractFirstSentence = function(text) {
   // Look for a point followed by white space, but don't match if there is
   // a point two chars before, like in "e.g. "
   var sentenceEndRE = /[^\.].\.\s/;
@@ -942,7 +939,7 @@ proto._extractFirstSentence = function(text) {
  *        length of {@link #MIN_TYPE_LENGTH}.
  * @return {string} the HTML showing the type.
  */
-proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, fillSpaces) {
+qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, fillSpaces) {
   var typeHtml;
   var typeLength;
 
@@ -991,7 +988,7 @@ proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, fillSp
  * @param packageBaseClass {Map,null} the doc node of the class to use for
  *        auto-adding packages.
  */
-proto._createDescriptionHtml = function(description, packageBaseClass) {
+qx.Proto._createDescriptionHtml = function(description, packageBaseClass) {
   var linkRegex = /\{@link([^\}]*)\}/mg;
 
   var html = "";
@@ -1023,7 +1020,7 @@ proto._createDescriptionHtml = function(description, packageBaseClass) {
  * @param useIcon {boolean,true} whether to add an icon to the link.
  * @param useShortName {boolean,false} whether to use the short name.
  */
-proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
+qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
   useShortName)
 {
   if (useIcon == null) {
@@ -1109,7 +1106,7 @@ proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
  * @param itemNode {Map} the doc node of the item.
  * @return {int} the item's node type.
  */
-proto._getTypeForItemNode = function(itemNode) {
+qx.Proto._getTypeForItemNode = function(itemNode) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   if (itemNode.type == "constant") {
@@ -1138,7 +1135,7 @@ proto._getTypeForItemNode = function(itemNode) {
 
 
 // overridden
-proto.dispose = function() {
+qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return;
   };
@@ -1163,7 +1160,7 @@ proto.dispose = function() {
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
-clazz.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true,
+qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true,
   "int":true, "float":true, "var":true, "regexp":true, "Map":true, "Date":true,
   "Element":true };
 
@@ -1171,52 +1168,52 @@ clazz.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true
  * {regexp} The regexp for parsing a item name
  * (e.g. "mypackage.MyClass#MY_CONSTANT alternative text").
  */
-clazz.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
+qx.Class.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
 
 /** {int} the minimum length of types. */
-clazz.MIN_TYPE_LENGTH = 9;
+qx.Class.MIN_TYPE_LENGTH = 9;
 
 /** {int} The node type of a constructor. */
-clazz.NODE_TYPE_CONSTRUCTOR = 1;
+qx.Class.NODE_TYPE_CONSTRUCTOR = 1;
 /** {int} The node type of a property. */
-clazz.NODE_TYPE_PROPERTY = 2;
+qx.Class.NODE_TYPE_PROPERTY = 2;
 /** {int} The node type of a public method. */
-clazz.NODE_TYPE_METHOD_PUBLIC = 3;
+qx.Class.NODE_TYPE_METHOD_PUBLIC = 3;
 /** {int} The node type of a protected method. */
-clazz.NODE_TYPE_METHOD_PROTECTED = 4;
+qx.Class.NODE_TYPE_METHOD_PROTECTED = 4;
 /** {int} The node type of a static public method. */
-clazz.NODE_TYPE_METHOD_STATIC_PUBLIC = 5;
+qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 5;
 /** {int} The node type of a static protected method. */
-clazz.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
+qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
 /** {int} The node type of a constant. */
-clazz.NODE_TYPE_CONSTANT = 7;
+qx.Class.NODE_TYPE_CONSTANT = 7;
 
 /** {string} The HTML starting the left cell of a item info. */
-clazz.INFO_CELL_LEFT_START = '<td class="api-icon-cell">';
+qx.Class.INFO_CELL_LEFT_START = '<td class="api-icon-cell">';
 /** {string} The HTML between the left and the right cell of a item info. */
-clazz.INFO_CELL_DELEMITER = '</td><td class="api-info-cell">';
+qx.Class.INFO_CELL_DELEMITER = '</td><td class="api-info-cell">';
 /** {string} The HTML ending the right cell of a item info. */
-clazz.INFO_CELL_RIGHT_END = '</td>';
+qx.Class.INFO_CELL_RIGHT_END = '</td>';
 
 /** {string} The start tag of a div containing an item title. */
-clazz.DIV_START_TITLE = '<div class="api-item-title">';
+qx.Class.DIV_START_TITLE = '<div class="api-item-title">';
 /** {string} The start tag of a div containing an item description. */
-clazz.DIV_START_DESC = '<div class="api-item-desc">';
+qx.Class.DIV_START_DESC = '<div class="api-item-desc">';
 /** {string} The start tag of a div containing the headline of an item detail. */
-clazz.DIV_START_DETAIL_HEADLINE = '<div class="api-item-detail-headline">';
+qx.Class.DIV_START_DETAIL_HEADLINE = '<div class="api-item-detail-headline">';
 /** {string} The start tag of a div containing the text of an item detail. */
-clazz.DIV_START_DETAIL_TEXT = '<div class="api-item-detail-text">';
+qx.Class.DIV_START_DETAIL_TEXT = '<div class="api-item-detail-text">';
 /** {string} The start tag of a div containing the headline of an item error. */
-clazz.DIV_START_ERROR_HEADLINE = '<div class="api-item-detail-error">';
+qx.Class.DIV_START_ERROR_HEADLINE = '<div class="api-item-detail-error">';
 /** {string} The end tag of a div. */
-clazz.DIV_END = '</div>';
+qx.Class.DIV_END = '</div>';
 
 /** {string} The start tag of a span containing an optional detail. */
-clazz.SPAN_START_OPTIONAL = '<span class="api-item-detail-optional">';
+qx.Class.SPAN_START_OPTIONAL = '<span class="api-item-detail-optional">';
 /** {string} The start tag of a span containing a parameter name. */
-clazz.SPAN_START_PARAM_NAME = '<span class="api-item-detail-param-name">';
+qx.Class.SPAN_START_PARAM_NAME = '<span class="api-item-detail-param-name">';
 /** {string} The end tag of a span. */
-clazz.SPAN_END = '</span>';
+qx.Class.SPAN_END = '</span>';
 
 
 /**
@@ -1227,7 +1224,7 @@ clazz.SPAN_END = '</span>';
  * @param tooltip {string} the tooltip to show.
  * @param styleAttributes {string} the style attributes to add to the image.
  */
-clazz.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
+qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
     return '<img src="' + imgUrl + '" class="api-img"'
       + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
@@ -1254,7 +1251,7 @@ clazz.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
  * @param styleAttributes {string,null} custom CSS style attributes.
  * @return {string} the HTML with the overlay image.
  */
-clazz.createOverlayImageHtml
+qx.Class.createOverlayImageHtml
   = function(width, height, imgUrlArr, toolTip, styleAttributes)
 {
   // NOTE: See testOverlay.html

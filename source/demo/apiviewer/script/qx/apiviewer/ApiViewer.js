@@ -32,19 +32,15 @@ function (clientWindow) {
   clientWindow.getClientDocument().add(boxLayout);
 
   qx.apiviewer.ApiViewer.instance = this;
-};
-
-clazz = qx.apiviewer.ApiViewer;
-
-clazz.extend(QxObject, "qx.apiviewer.ApiViewer");
+});
 
 
 /** The documentation tree to show. */
-qx.OO.addProperty({ name:"docTree", type:QxConst.TYPEOF_OBJECT });
+qx.OO.addProperty({ name:"docTree", type:qx.Const.TYPEOF_OBJECT });
 
 
 // property checker
-proto._modifyDocTree = function(propValue, propOldValue, propData) {
+qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
   this._updateTree(propValue);
   return true;
 };
@@ -56,7 +52,7 @@ proto._modifyDocTree = function(propValue, propOldValue, propData) {
  *
  * @param url {string} the URL.
  */
-proto.loadDocTreeFromUrl = function(url) {
+qx.Proto.loadDocTreeFromUrl = function(url) {
   var req = new qx.io.remote.RemoteRequest(url);
   handler = function(evt) {
     this.debug("request handler");
@@ -84,7 +80,7 @@ proto.loadDocTreeFromUrl = function(url) {
  *
  * @param docTree {Map} the documentation tree to use for updating.
  */
-proto._updateTree = function(docTree) {
+qx.Proto._updateTree = function(docTree) {
   this.debug("_updateTree");
   var packagesNode = new qx.ui.tree.TreeFolder("Packages");
 
@@ -103,7 +99,7 @@ proto._updateTree = function(docTree) {
  * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
  * @param docNode {Map} the documentation node of the package.
  */
-proto._fillPackageNode = function(treeNode, docNode) {
+qx.Proto._fillPackageNode = function(treeNode, docNode) {
   var TreeUtil = qx.apiviewer.TreeUtil;
 
   var packagesDocNode = TreeUtil.getChild(docNode, "packages");
@@ -144,7 +140,7 @@ proto._fillPackageNode = function(treeNode, docNode) {
  *
  * @param evt {Map} the event.
  */
-proto._onTreeSelectionChange = function(evt) {
+qx.Proto._onTreeSelectionChange = function(evt) {
   var docNode = evt.getData().getFirst().docNode;
   if (docNode && docNode.type == "class") {
     this._detailViewer.showClass(docNode);
@@ -161,7 +157,7 @@ proto._onTreeSelectionChange = function(evt) {
  * @param fullItemName {string} the full name of the item to select.
  *        (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
  */
-proto.selectItem = function(fullItemName) {
+qx.Proto.selectItem = function(fullItemName) {
   var className = fullItemName;
   var itemName = null;
   var hashPos = fullItemName.indexOf("#");
@@ -187,7 +183,7 @@ proto.selectItem = function(fullItemName) {
  *
  * @param className {string} the name of the class to show.
  */
-proto.showClass = function(className) {
+qx.Proto.showClass = function(className) {
   /*
   this.debug("Showing class: " + className);
   this.debug("traverse bug:"+(this._tree.getItems()[0] == this._tree));
