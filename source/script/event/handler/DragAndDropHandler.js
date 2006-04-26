@@ -32,7 +32,7 @@
 /*!
   This manager (singleton) manage all drag and drop handling of a qx.core.Init instance.
 */
-qx.OO.defineClass("qx.event.handler.DragAndDropHandler", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.event.handler.DragAndDropHandler", qx.manager.object.ObjectManager,
 function()
 {
   qx.core.Target.call(this);
@@ -527,7 +527,7 @@ qx.Proto._endDragCore = function()
   var oldCursor = this.getCursor();
   if (oldCursor)
   {
-    oldCursor._style.display = qx.Const.DISPLAY_NONE;
+    oldCursor._style.display = "none";
     this.forceCursor(null);
   };
 
@@ -594,7 +594,7 @@ qx.Proto._renderCursor = function()
 
   // Hide old cursor
   if (vNewCursor != vOldCursor && vOldCursor != null) {
-    vOldCursor._style.display = qx.Const.DISPLAY_NONE;
+    vOldCursor._style.display = "none";
   };
 
   // Ensure that the cursor is created
