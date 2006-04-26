@@ -772,7 +772,251 @@ def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData,
 
 
 
-def main(conf):
+
+
+
+def printHelp():
+  print
+  print "  HELP"
+  print "***********************************************************************************************"
+  print "  -h,  --help                       show this help screen"
+  print
+
+  # Source
+  print "  -sd, --source-directories <DIRS>  comma separated list with source directories (to search in)"
+  print "  -sf, --source-files <FILES>       comma separated list with source files"
+  print
+
+  # Output
+  print "  -ob, --output-build <DIR>         the output directory where the standalone compressed files should be stored"
+  print "  -ox, --output-xml <DIR>           the output directory where the standalone generated xml files should be stored"
+  print
+
+  # Jobs
+  print "  -go, --generate-optimized         enables the generation of optimized files"
+  print "  -lf, --list-files                 list known files"
+  print "  -lp, --list-packages              list known knownPackages"
+  print "  -li, --list-include               list include order"
+  print
+
+  # Include/Exclude
+  print "  -ip, --include-packages <PKGIDS>  comma seperated list of package IDs to include"
+  print "  -id, --include-ids <IDS>          comma seperated list of file IDs to include"
+  print "  -ep, --exclude-packages <PKGIDS>  comma seperated list of package IDs to exclude"
+  print "  -ed, --exclude-ids <IDS>          comma seperated list of file IDs to exclude"
+  print
+
+  # Options
+  print "  -a,  --use-all                    include all known files"
+  print "  -ii, --ignore-include-deps        ignore include dependencies, use only explicitly defined things"
+  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only explicitly defined things"
+  print "  -cf, --combined-file <FILE>       create a combined file with the given filename"
+  print "  -oc, --only-combined              do not create single compressed files (useful in combination with the previous option)"
+  print
+
+
+
+
+
+def start():
+  # Source
+  cmdSourceDirectories = ["source/script", "source/themes"]
+  cmdSourceFiles = ""
+
+  # Jobs
+  cmdGenerateBuild = False
+  cmdListPackages = False
+  cmdListFiles = False
+  cmdListPre = False
+  cmdListPost = False
+  cmdListIncludes = False
+
+  # Include/Exclude
+  cmdIncludePackages = []
+  cmdIncludeIds = []
+  cmdExcludePackages = []
+  cmdExcludeIds = []
+
+  # Output
+  cmdOutputBuild = "build/script"
+  cmdOutputXml = "xml"
+  cmdOutputCompressed = "compressed"
+  cmdOutputTokenized = "tokenized"
+
+  # Options
+  cmdOutputCombined = ""
+  cmdOutputSingle = True
+  cmdIncludeAll = False
+  cmdIgnoreIncludeDeps = False
+  cmdIgnoreExcludeDeps = False
+
+
+
+
+  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
+    printHelp()
+    return
+
+
+
+
+  print
+  print "  INITIALISATION"
+  print "***********************************************************************************************"
+
+  i = 1
+  while i < len(sys.argv):
+    c = sys.argv[i]
+
+
+    # Source
+    if c == "-sd" or c == "--source-directories":
+      cmdSourceDirectories = sys.argv[i+1].split(",")
+
+      if "" in cmdSourceDirectories:
+        cmdSourceDirectories.remove("")
+      i += 1
+
+    elif c == "-sf" or c == "--source-files":
+      cmdSourceFiles = sys.argv[i+1].split(",")
+
+      if "" in cmdSourceFiles:
+        cmdSourceFiles.remove("")
+      i += 1
+
+
+
+
+    # Output
+    elif c == "-ob" or c == "--output-build":
+      cmdOutputBuild = sys.argv[i+1]
+      i += 1
+
+    elif c == "-ox" or c == "--output-xml":
+      cmdOutputXml = sys.argv[i+1]
+      i += 1
+
+    elif c == "-ot" or c == "--output-tokenized":
+      cmdOutputTokenized = sys.argv[i+1]
+      i += 1
+
+    elif c == "-oc" or c == "--output-compressed":
+      cmdOutputCompressed = sys.argv[i+1]
+      i += 1
+
+
+
+
+     # Jobs
+    elif c == "-gb" or c == "--generate-build":
+      cmdGenerateBuild = True
+
+    elif c == "-lp" or c == "--list-packages":
+      cmdListPackages = True
+
+    elif c == "-lf" or c == "--list-files":
+      cmdListFiles = True
+
+    elif c == "-li" or c == "--list-includes":
+      cmdListIncludes = True
+
+
+
+
+    # Include/Exclude
+    elif c == "-ip" or c == "--include-packages":
+      cmdIncludePackages = sys.argv[i+1].split(",")
+      i += 1
+
+    elif c == "-id" or c == "--include-ids":
+      cmdIncludeIds = sys.argv[i+1].split(",")
+      i += 1
+
+    elif c == "-ep" or c == "--exclude-packages":
+      cmdExcludePackages = sys.argv[i+1].split(",")
+      i += 1
+
+    elif c == "-ed" or c == "--exclude-ids":
+      cmdExcludeIds = sys.argv[i+1].split(",")
+      i += 1
+
+
+
+
+    # Options
+    elif c == "-cf" or c == "--combined-file":
+      cmdOutputCombined = sys.argv[i+1]
+      i += 1
+
+    elif c == "-oc" or c == "--only-combined":
+      cmdOutputSingle = False
+
+    elif c == "-a" or c == "--use-all":
+      cmdIncludeAll = True
+
+    elif c == "-ii" or c == "--ignore-include-deps":
+      cmdIgnoreIncludeDeps = True
+
+    elif c == "-ie" or c == "--ignore-exclude-deps":
+      cmdIgnoreExcludeDeps = True
+
+
+
+
+    # Fallback
+    else:
+      print "  Unknown option: %s" % c
+      printHelp()
+      return
+
+
+
+    # Countin' up
+    i += 1
+
+
+
+
+  # Inform user
+  print "  Source Configuration"
+  print "  * Directories (-sd): %s" % cmdSourceDirectories
+  print "  * Files (-sf): %s" % cmdSourceFiles
+  print "  Output Configuration"
+  print "  * Build (-ob): %s" % cmdOutputBuild
+  print "  * XML (-ox): %s" % cmdOutputXml
+  print "  * Tokenized (-ot): %s" % cmdOutputTokenized
+  print "  * Compressed (-oc): %s" % cmdOutputCompressed
+  print "  Jobs:"
+  print "  * Generate Build (-go): %s" % cmdGenerateBuild
+  print "  * List Files (-lf): %s" % cmdListFiles
+  print "  * List Packages (-lp): %s" % cmdListPackages
+  print "  * List Includes (-li): %s" % cmdListIncludes
+  print "  Include:"
+  print "  * Packages (-ip): %s" % cmdIncludePackages
+  print "  * UniqueIds (-id): %s" % cmdIncludeIds
+  print "  Exclude:"
+  print "  * Packages (-ep): %s" % cmdExcludePackages
+  print "  * UniqueIds (-ed): %s" % cmdExcludeIds
+  print "  Options:"
+  print "  * Combined File (-cf): %s" % cmdOutputCombined
+  print "  * Output Single Generated Files (-oc): %s" % cmdOutputSingle
+  print "  * Use All Known Files (-a): %s" % cmdIncludeAll
+  print "  * Ignore Include Deps (-ii): %s" % cmdIgnoreIncludeDeps
+  print "  * Ignore Exclude Deps (-ie): %s" % cmdIgnoreExcludeDeps
+
+  if cmdGenerateBuild == False and cmdListFiles == False and cmdListPackages == False and cmdListIncludes == False:
+    print
+    print "  NO JOB GIVEN"
+    print "***********************************************************************************************"
+    print
+    return
+
+
+
+
+
+
+
   global xmloutput
 
   loadDependencyData = {}
@@ -784,6 +1028,8 @@ def main(conf):
   includeIds = []
   excludeIds = []
 
+  combinedOptimized = ""
+
 
 
 
@@ -793,19 +1039,21 @@ def main(conf):
 
   print "  * Creating directory layout..."
 
-  if conf["outputSingle"] and not os.path.exists(conf["outputBuild"]):
-    os.makedirs(conf["outputBuild"])
+  if not os.path.exists(cmdOutputBuild):
+    os.makedirs(cmdOutputBuild)
 
-  if not os.path.exists(conf["outputXml"]):
-    os.makedirs(conf["outputXml"])
+  if not os.path.exists(cmdOutputXml):
+    os.makedirs(cmdOutputXml)
 
-  if not os.path.exists(conf["outputTokenized"]):
-    os.makedirs(conf["outputTokenized"])
+  if not os.path.exists(cmdOutputTokenized):
+    os.makedirs(cmdOutputTokenized)
+
+
 
 
   print "  * Searching for files..."
 
-  for basedir in conf["sourceDirectories"]:
+  for basedir in cmdSourceDirectories:
     for root, dirs, files in os.walk(basedir):
       if "CVS" in dirs:
         dirs.remove('CVS')
@@ -822,9 +1070,7 @@ def main(conf):
           if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages) == False:
             print "    * Could not extract dependencies of file: %s" % filename
 
-
-
-  for filename in conf["sourceFiles"]:
+  for filename in cmdSourceFiles:
     if os.path.splitext(filename)[1] == JSEXT:
       infilename = filename
       basefilename = filename.split(os.sep)[-1].replace(JSEXT, "")
@@ -835,45 +1081,40 @@ def main(conf):
 
 
 
+
   print "  * Sorting files..."
 
   # Building Filelists
-  if conf["includeAll"]:
+  if cmdIncludeAll:
     for key in loadDependencyData:
       includeIds.append(key)
 
   else:
-    # Fix Package List
-    if "all" in conf["includePackages"]:
-      conf["includePackages"] = []
-      for pkg in knownPackages:
-        conf["includePackages"].append(pkg)
-
-    # Add knownPackages
-    for pkg in conf["includePackages"]:
+    # Add Packages
+    for pkg in cmdIncludePackages:
       includeIds.extend(knownPackages[pkg])
 
     # Add Files
-    includeIds.extend(conf["includeIds"])
+    includeIds.extend(cmdIncludeIds)
 
 
 
   # Add Exclude knownPackages
-  for pkg in conf["excludePackages"]:
+  for pkg in cmdExcludePackages:
     excludeIds.extend(knownPackages[pkg])
 
   # Add Exclude Files
-  excludeIds.extend(conf["excludeIds"])
+  excludeIds.extend(cmdExcludeIds)
 
   # Sorting included files...
   sortedIncludeList = []
   for uniqueId in includeIds:
-    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, conf["ignoreIncludeDeps"])
+    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, cmdIgnoreIncludeDeps)
 
   # Sorting excluded files...
   sortedExcludeList = []
   for uniqueId in excludeIds:
-    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedExcludeList, conf["ignoreExcludeDeps"])
+    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedExcludeList, cmdIgnoreExcludeDeps)
 
   # Remove excluded files from included files list
   for key in sortedExcludeList:
@@ -881,19 +1122,19 @@ def main(conf):
       sortedIncludeList.remove(key)
 
 
-  #print ">>> File Include Order: "
-  #print sortedIncludeList
 
 
 
-  if conf["listFiles"]:
+
+
+  if cmdListFiles:
     print
     print "  KNOWN FILES:"
     print "***********************************************************************************************"
     for key in knownFiles:
       print "  %s (%s)" % (key, knownFiles[key])
 
-  if conf["listPackages"]:
+  if cmdListPackages:
     print
     print "  KNOWN PACKAGES:"
     print "***********************************************************************************************"
@@ -902,27 +1143,7 @@ def main(conf):
       for key in knownPackages[pkg]:
         print "    - %s" % key
 
-  if conf["listPre"]:
-    print
-    print "  PRE DEPENDENCIES:"
-    print "***********************************************************************************************"
-    for key in loadDependencyData:
-      if len(loadDependencyData[key]) > 0:
-        print "  * %s" % key
-        for subkey in loadDependencyData[key]:
-          print "    - %s" % subkey
-
-  if conf["listPost"]:
-    print
-    print "  POST DEPENDENCIES:"
-    print "***********************************************************************************************"
-    for key in runtimeDependencyData:
-      if len(runtimeDependencyData[key]) > 0:
-        print "  * %s" % key
-        for subkey in runtimeDependencyData[key]:
-          print "    - %s" % subkey
-
-  if conf["listInclude"]:
+  if cmdListIncludes:
     print
     print "  INCLUDE ORDER:"
     print "***********************************************************************************************"
@@ -931,32 +1152,29 @@ def main(conf):
 
 
 
-  if len(sortedIncludeList) > 0 and conf["makeOptimized"]:
+
+
+
+
+
+  if cmdGenerateBuild:
     print
     print "  PROCESSING FILES:"
     print "***********************************************************************************************"
 
-    if conf["makeOptimized"] and conf["outputCombined"] != "":
-      combined = ""
+    for uniqueId in sortedIncludeList:
+      print "  * %s" % uniqueId
 
-    for item in sortedIncludeList:
-      print "  * %s" % item
+      infilename = knownFiles[uniqueId]
 
-      if not knownFiles.has_key(item):
-        print "    -> Missing ID: %s" % item
-        continue
-
-      infilename = knownFiles[item]
-
-      if conf["makeOptimized"] or conf["makeDocs"]:
-        # print "Tokenizing..."
-        tokenized = tokenizer(file(knownFiles[item], "r").read(), infilename)
+      if cmdGenerateBuild:
+        tokenized = tokenizer(file(knownFiles[uniqueId], "r").read(), infilename)
 
         tokenizedString = ""
         for token in tokenized:
           tokenizedString += "%s%s" % (token, "\n")
 
-        outfilename = os.path.join(conf["outputTokenized"], item + TKEXT)
+        outfilename = os.path.join(cmdOutputTokenized, uniqueId + TKEXT)
 
         outfile = file(outfilename, "w")
         outfile.write(tokenizedString)
@@ -964,11 +1182,10 @@ def main(conf):
         outfile.close()
 
 
-      if conf["makeOptimized"]:
-        # print "Optimizing..."
-        treebuilder(tokenized, item)
+      if cmdGenerateBuild:
+        treebuilder(tokenized, uniqueId)
 
-        outfilename = os.path.join(conf["outputXml"], item + XMLEXT)
+        outfilename = os.path.join(cmdOutputXml, uniqueId + XMLEXT)
 
         outfile = file(outfilename, "w")
         outfile.write(xmloutput)
@@ -977,257 +1194,34 @@ def main(conf):
 
         xmloutput = ""
 
-        optfilename = os.path.join(conf["outputCompressed"], item + JSEXT)
+        optfilename = os.path.join(cmdOutputCompressed, uniqueId + JSEXT)
         os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compile_compress.xsl " + outfilename)
 
-        if conf["outputCombined"]:
-          combined += "/* " + infilename + " */ " + file(optfilename, "r").read()
+        if cmdOutputCombined:
+          combinedOptimized += "/* " + infilename + " */ " + file(optfilename, "r").read()
 
-        if not conf["outputSingle"]:
+        if not cmdOutputSingle:
           os.system("rm -f " + optfilename)
 
 
 
-    if (conf["makeOptimized"]) and conf["outputCombined"] != "":
+    if cmdGenerateBuild and cmdOutputCombined != "":
       print
       print "  COMBINING OUTPUT FILES"
       print "***********************************************************************************************"
-      print "  Writing to: %s" % conf["outputCombined"]
+      print "  Writing to: %s" % cmdOutputCombined
 
-      outfile = file(conf["outputCombined"], "w")
-      outfile.write(combined)
+      outfile = file(cmdOutputCombined, "w")
+      outfile.write(combinedOptimized)
       outfile.flush()
       outfile.close()
 
 
-  print
-  print "  DONE"
-  print "***********************************************************************************************"
-
-
-
-def printHelp():
-  print
-  print "  HELP"
-  print "***********************************************************************************************"
-  print "  -h,  --help                       show this help screen"
-  print
-  print "  -sd, --source-directories <DIRS>  comma separated list with source directories (to search in)"
-  print "  -sf, --source-files <FILES>       comma separated list with source files"
-  print
-  print "  -ob, --output-build <DIR>         the output directory where the standalone compressed"
-  print "                                    files should be stored"
-  print "  -ox, --output-xml <DIR>           the output directory where the standalone generated"
-  print "                                    xml files should be stored"
-  print
-  print "  -go, --generate-optimized         enables the generation of optimized files"
-  print "  -gd, --generate-docs              enabled the generation of a API documentation"
-  print
-  print "  -a,  --use-all                    include all known files"
-  print "  -ii, --ignore-include-deps        ignore include dependencies, use only explicitly defined things"
-  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only explicitly defined things"
-  print "  -cf, --combined-file <FILE>       create a combined file with the given filename"
-  print "  -oc, --only-combined              do not create single compressed files (useful in"
-  print "                                    combination with the previous option)"
-  print
-  print "  -lf, --list-files                 list known files"
-  print "  -lp, --list-knownPackages              list known knownPackages"
-  print "  -lr, --list-pre                   list computed pre dependencies"
-  print "  -lo, --list-post                  list computed post dependencies"
-  print "  -li, --list-include               list include order"
-  print
-  print "  -ip, --include-packages <PKGIDS>  comma seperated list of package IDs to include"
-  print "  -id, --include-ids <IDS>          comma seperated list of file IDs to include"
-  print "  -ep, --exclude-packages <PKGIDS>  comma seperated list of package IDs to exclude"
-  print "  -ed, --exclude-ids <IDS>          comma seperated list of file IDs to exclude"
-  print
-
-
-
-def start():
-  makeOptimized = False
-  makeDocs = False
-
-  listPackages = False
-  listFiles = False
-  listPre = False
-  listPost = False
-  listInclude = False
-
-  includePackages = []
-  includeIds = []
-
-  excludePackages = []
-  excludeIds = []
-
-  outputCombined = ""
-  outputSingle = True
-
-  sourceDirectories = ["source/script", "source/themes"]
-  sourceFiles = ""
-
-  outputBuild = "build/script"
-  outputXml = "xml"
-  outputCompressed = "compressed"
-  outputTokenized = "tokenized"
-
-  includeAll = False
-
-  ignoreIncludeDeps = False
-  ignoreExcludeDeps = False
-
-  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
-    printHelp()
-    return
-
-  print
-  print "  INITIALISATION"
-  print "***********************************************************************************************"
-
-  i = 1
-  while i < len(sys.argv):
-    c = sys.argv[i]
-
-    if c == "-sd" or c == "--source-directories":
-      sourceDirectories = sys.argv[i+1].split(",")
-
-      if "" in sourceDirectories:
-        sourceDirectories.remove("")
-      i += 1
-
-    elif c == "-sf" or c == "--source-files":
-      sourceFiles = sys.argv[i+1].split(",")
-
-      if "" in sourceFiles:
-        sourceFiles.remove("")
-      i += 1
-
-    elif c == "-ob" or c == "--output-build":
-      outputBuild = sys.argv[i+1]
-      i += 1
-
-    elif c == "-ox" or c == "--output-xml":
-      outputXml = sys.argv[i+1]
-      i += 1
-
-    elif c == "-ot" or c == "--output-tokenized":
-      outputTokenized = sys.argv[i+1]
-      i += 1
-
-    elif c == "-oc" or c == "--output-compressed":
-      outputCompressed = sys.argv[i+1]
-      i += 1
-
-    elif c == "-go" or c == "--generate-optimized":
-      makeOptimized = True
-
-    elif c == "-gd" or c == "--generate-docs":
-      makeDocs = True
-
-    elif c == "-cf" or c == "--combined-file":
-      outputCombined = sys.argv[i+1]
-      i += 1
-
-    elif c == "-oc" or c == "--only-combined":
-      outputSingle = False
-
-    elif c == "-lp" or c == "--list-packages":
-      listPackages = True
-
-    elif c == "-lf" or c == "--list-files":
-      listFiles = True
-
-    elif c == "-lr" or c == "--list-pre":
-      listPre = True
-
-    elif c == "-lo" or c == "--list-post":
-      listPost = True
-
-    elif c == "-li" or c == "--list-include":
-      listInclude = True
-
-    elif c == "-ip" or c == "--include-packages":
-      includePackages = sys.argv[i+1].split(",")
-      i += 1
-
-    elif c == "-id" or c == "--include-ids":
-      includeIds = sys.argv[i+1].split(",")
-      i += 1
-
-    elif c == "-ep" or c == "--exclude-packages":
-      excludePackages = sys.argv[i+1].split(",")
-      i += 1
-
-    elif c == "-ed" or c == "--exclude-ids":
-      excludeIds = sys.argv[i+1].split(",")
-      i += 1
-
-    elif c == "-a" or c == "--use-all":
-      includeAll = True
-
-    elif c == "-ii" or c == "--ignore-include-deps":
-      ignoreIncludeDeps = True
-
-    elif c == "-ie" or c == "--ignore-exclude-deps":
-      ignoreExcludeDeps = True
-
-    else:
-      print "  Unknown option: %s" % c
-      printHelp()
-      return
 
 
 
 
-    i += 1
 
-
-  print "  Source Configuration"
-  print "  * Directories (-sd): %s" % sourceDirectories
-  print "  * Files (-sf): %s" % sourceFiles
-  print "  Output Configuration"
-  print "  * Build (-ob): %s" % outputBuild
-  print "  * XML (-ox): %s" % outputXml
-  print "  * Tokenized (-ot): %s" % outputTokenized
-  print "  * Compressed (-oc): %s" % outputCompressed
-  print "  Generate:"
-  print "  * Optimize (-go): %s" % makeOptimized
-  print "  * Docs (-gd): %s" % makeDocs
-  print "  List:"
-  print "  * Packages (-lp): %s" % listPackages
-  print "  * Files (-lf): %s" % listFiles
-  print "  * Deps (-ld): %s" % listPre
-  print "  * Post (-lp): %s" % listPost
-  print "  * Include (-li): %s" % listInclude
-  print "  Include (By ID):"
-  print "  * Packages (-ip): %s" % includePackages
-  print "  * UniqueIds (-id): %s" % includeIds
-  print "  Exclude (By ID):"
-  print "  * Packages (-ep): %s" % excludePackages
-  print "  * UniqueIds (-ed): %s" % excludeIds
-  print "  Options:"
-  print "  * Combined File (-cf): %s" % outputCombined
-  print "  * Output Single Generated Files (-oc): %s" % outputSingle
-  print "  * Use All Known Files (-a): %s" % includeAll
-  print "  * Ignore Include Deps (-ii): %s" % ignoreIncludeDeps
-  print "  * Ignore Exclude Deps (-ie): %s" % ignoreExcludeDeps
-
-  if makeOptimized == False and makeDocs == False and listPackages == False and listFiles == False and listPre == False and listPost == False and listInclude == False:
-    print
-    print "  NO JOB GIVEN"
-    print "***********************************************************************************************"
-    print
-    return
-
-  main({
-    "sourceDirectories" : sourceDirectories, "sourceFiles" : sourceFiles,
-    "outputBuild" : outputBuild, "outputXml" : outputXml, "outputTokenized" : outputTokenized, "outputCompressed" : outputCompressed,
-    "makeOptimized" : makeOptimized, "makeDocs" : makeDocs,
-    "includeAll" : includeAll, "ignoreIncludeDeps" : ignoreIncludeDeps, "ignoreExcludeDeps" : ignoreExcludeDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
-    "listPre" : listPre, "listFiles" : listFiles, "listPackages" : listPackages, "listInclude" : listInclude, "listPost" : listPost,
-    "includePackages" : includePackages, "includeIds" : includeIds,
-    "excludePackages" : excludePackages, "excludeIds" : excludeIds
-  })
 
 
 
