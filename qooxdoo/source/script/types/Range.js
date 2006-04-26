@@ -36,10 +36,10 @@ function()
   qx.core.Target.call(this);
 });
 
-qx.types.Range.addProperty({ name : "value", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.types.Range.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.types.Range.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.types.Range.addProperty({ name : "step", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "step", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
 
 qx.Proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));

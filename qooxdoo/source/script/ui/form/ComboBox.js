@@ -146,12 +146,12 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.ComboBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "combo-box" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "combo-box" });
 
-qx.ui.form.ComboBox.addProperty({ name: "editable", type: qx.Const.TYPEOF_BOOLEAN, getAlias: "isEditable" });
-qx.ui.form.ComboBox.addProperty({ name: "selected", type: qx.Const.TYPEOF_OBJECT, instance : "qx.ui.form.ListItem" });
-qx.ui.form.ComboBox.addProperty({ name: "value", type : qx.Const.TYPEOF_STRING });
-qx.ui.form.ComboBox.addProperty({ name: "pagingInterval", type: qx.Const.TYPEOF_NUMBER, defaultValue: 10 });
+qx.OO.addProperty({ name: "editable", type: qx.Const.TYPEOF_BOOLEAN, getAlias: "isEditable" });
+qx.OO.addProperty({ name: "selected", type: qx.Const.TYPEOF_OBJECT, instance : "qx.ui.form.ListItem" });
+qx.OO.addProperty({ name: "value", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name: "pagingInterval", type: qx.Const.TYPEOF_NUMBER, defaultValue: 10 });
 
 
 

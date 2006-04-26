@@ -34,12 +34,12 @@ function(vBoundedWidget) {
 /*!
 Should multiple selection be allowed?
 */
-qx.manager.selection.TreeSelectionManager.changeProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
 Enable drag selection?
 */
-qx.manager.selection.TreeSelectionManager.changeProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

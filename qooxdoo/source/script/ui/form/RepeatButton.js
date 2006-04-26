@@ -43,8 +43,8 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.form.RepeatButton.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.form.RepeatButton.addProperty({ name : "firstInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 500 });
+qx.OO.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "firstInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 500 });
 
 
 

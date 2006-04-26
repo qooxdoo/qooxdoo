@@ -42,8 +42,8 @@ function(vText, vIcon, vValue)
   this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 });
 
-qx.ui.form.ListItem.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-item" });
-qx.ui.form.ListItem.addProperty({ name : "value" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-item" });
+qx.OO.addProperty({ name : "value" });
 
 
 

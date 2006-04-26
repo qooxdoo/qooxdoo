@@ -34,4 +34,4 @@ function()
   this.setZIndex(1);
 });
 
-qx.ui.pageview.tabview.TabViewPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-pane" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view-pane" });

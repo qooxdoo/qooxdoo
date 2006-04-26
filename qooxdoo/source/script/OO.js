@@ -153,7 +153,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 ---------------------------------------------------------------------------
 */
 
-Function.prototype.addFastProperty = function(vConfig)
+qx.OO.addFastProperty = function(vConfig)
 {
   var vName = vConfig.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
@@ -203,7 +203,7 @@ Function.prototype.addFastProperty = function(vConfig)
   };
 };
 
-Function.prototype.addCachedProperty = function(p)
+qx.OO.addCachedProperty = function(p)
 {
   var vName = p.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
@@ -257,7 +257,7 @@ Function.prototype.addCachedProperty = function(p)
   qx.Proto[vComputerName] = function() { return null; };
 };
 
-Function.prototype.addPropertyGroup = function(p)
+qx.OO.addPropertyGroup = function(p)
 {
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
@@ -295,7 +295,7 @@ Function.prototype.addPropertyGroup = function(p)
   /* --------------------------------------------------------------------------------
       GETTER
   -------------------------------------------------------------------------------- */
-  this.prototype[qx.OO.C_GET + p.method] = function()
+  qx.Proto[qx.OO.C_GET + p.method] = function()
   {
     var a = [];
     var g = p.getter;
@@ -314,7 +314,7 @@ Function.prototype.addPropertyGroup = function(p)
   switch(p.mode)
   {
     case "shorthand":
-      this.prototype[qx.OO.C_SET + p.method] = function()
+      qx.Proto[qx.OO.C_SET + p.method] = function()
       {
         if (arguments.length > 4 || arguments.length == 0) {
           throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
@@ -339,7 +339,7 @@ Function.prototype.addPropertyGroup = function(p)
       break;
 
     default:
-      this.prototype[qx.OO.C_SET + p.method] = function()
+      qx.Proto[qx.OO.C_SET + p.method] = function()
       {
         var s = p.setter;
         var l = s.length;
@@ -355,9 +355,9 @@ Function.prototype.addPropertyGroup = function(p)
   };
 };
 
-Function.prototype.removeProperty = function(p)
+qx.OO.removeProperty = function(p)
 {
-  if (typeof this.prototype._properties !== qx.Const.TYPEOF_STRING) {
+  if (typeof qx.Proto._properties !== qx.Const.TYPEOF_STRING) {
     throw new Error("Has no properties!");
   };
 
@@ -370,7 +370,7 @@ Function.prototype.removeProperty = function(p)
   };
 
   // building shorter prototype access
-  var pp = this.prototype;
+  var pp = qx.Proto;
 
   p.method = qx.lang.String.toFirstUp(p.name);
   p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
@@ -393,7 +393,7 @@ Function.prototype.removeProperty = function(p)
   pp[qx.OO.C_SETDEFAULT + p.method] = null;
 };
 
-Function.prototype._createProperty = function(p)
+qx.OO._createProperty = function(p)
 {
   if(typeof p !== qx.Const.TYPEOF_OBJECT) {
     throw new Error("AddProperty: Param should be an object!");
@@ -404,7 +404,7 @@ Function.prototype._createProperty = function(p)
   };
 
   // building shorter prototype access
-  var pp = this.prototype;
+  var pp = qx.Proto;
 
   p.method = qx.lang.String.toFirstUp(p.name);
   p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
@@ -739,19 +739,19 @@ Function.prototype._createProperty = function(p)
   };
 };
 
-Function.prototype.changeProperty = Function.prototype._createProperty;
+qx.OO.changeProperty = qx.OO._createProperty;
 
-Function.prototype.addProperty = function(p)
+qx.OO.addProperty = function(p)
 {
   qx.OO.propertyNumber++;
 
-  this._createProperty(p);
+  qx.OO._createProperty(p);
 
   // add property to (all) property list
-  if (typeof this.prototype._properties !== qx.Const.TYPEOF_STRING) {
-    this.prototype._properties = p.name;
+  if (typeof qx.Proto._properties !== qx.Const.TYPEOF_STRING) {
+    qx.Proto._properties = p.name;
   } else {
-    this.prototype._properties += qx.Const.CORE_COMMA + p.name;
+    qx.Proto._properties += qx.Const.CORE_COMMA + p.name;
   };
 
   // add property to object property list
@@ -760,10 +760,10 @@ Function.prototype.addProperty = function(p)
     case undefined:
     case qx.Const.TYPEOF_OBJECT:
     case qx.Const.TYPEOF_FUNCTION:
-      if (typeof this.prototype._objectproperties !== qx.Const.TYPEOF_STRING) {
-        this.prototype._objectproperties = p.name;
+      if (typeof qx.Proto._objectproperties !== qx.Const.TYPEOF_STRING) {
+        qx.Proto._objectproperties = p.name;
       } else {
-        this.prototype._objectproperties += qx.Const.CORE_COMMA + p.name;
+        qx.Proto._objectproperties += qx.Const.CORE_COMMA + p.name;
       };
   };
 };

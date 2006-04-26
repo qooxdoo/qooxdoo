@@ -42,10 +42,10 @@ function()
   this._cursors = {};
 });
 
-qx.event.handler.DragAndDropHandler.addProperty({ name : "sourceWidget", type : qx.Const.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "destinationWidget", type : qx.Const.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "cursor", type : qx.Const.TYPEOF_OBJECT });
-qx.event.handler.DragAndDropHandler.addProperty({ name : "currentAction", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "sourceWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "destinationWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "cursor", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "currentAction", type : qx.Const.TYPEOF_STRING });
 
 qx.Proto._actionNames =
 {

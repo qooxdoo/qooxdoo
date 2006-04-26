@@ -57,24 +57,24 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
 */
-qx.ui.embed.IconHtmlEmbed.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING, impl : "html" });
+qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING, impl : "html" });
 
 /*!
   The width of the icon.
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.ui.embed.IconHtmlEmbed.addProperty({ name : "iconWidth", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconWidth", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
 
 /*!
   The height of the icon
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.ui.embed.IconHtmlEmbed.addProperty({ name : "iconHeight", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconHeight", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
 
 /*!
   Space in pixels between the icon and the HTML.
 */
-qx.ui.embed.IconHtmlEmbed.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4, impl : "html" });
+qx.OO.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4, impl : "html" });
 
 
 

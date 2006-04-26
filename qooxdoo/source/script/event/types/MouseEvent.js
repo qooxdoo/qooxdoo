@@ -121,8 +121,8 @@ qx.Proto.getScreenY = function() {
 
 if (qx.sys.Client.isMshtml())
 {
-  qx.event.types.MouseEvent.addFastProperty({ name : "pageX", readOnly : true });
-  qx.event.types.MouseEvent.addFastProperty({ name : "pageY", readOnly : true });
+qx.OO.addFastProperty({ name : "pageX", readOnly : true });
+qx.OO.addFastProperty({ name : "pageY", readOnly : true });
 
   if (qx.sys.Client.isInQuirksMode())
   {
@@ -190,8 +190,8 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isGecko())
 }
 else
 {
-  qx.event.types.MouseEvent.addFastProperty({ name : "clientX", readOnly : true });
-  qx.event.types.MouseEvent.addFastProperty({ name : "clientY", readOnly : true });
+qx.OO.addFastProperty({ name : "clientX", readOnly : true });
+qx.OO.addFastProperty({ name : "clientY", readOnly : true });
 
   qx.Proto._computeClientX = function() {
     return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
@@ -214,7 +214,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.event.types.MouseEvent.addFastProperty({ name : "button", readOnly : true });
+qx.OO.addFastProperty({ name : "button", readOnly : true });
 
 qx.Proto.isLeftButtonPressed = function() {
   return this.getButton() === qx.Const.BUTTON_LEFT;
@@ -282,7 +282,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.event.types.MouseEvent.addFastProperty({ name : "wheelDelta", readOnly : true });
+qx.OO.addFastProperty({ name : "wheelDelta", readOnly : true });
 
 if(qx.sys.Client.isMshtml())
 {

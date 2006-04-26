@@ -80,27 +80,27 @@ qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAt
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.Menu.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu" });
 
-qx.ui.menu.Menu.addProperty({ name : "iconContentGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4 });
-qx.ui.menu.Menu.addProperty({ name : "labelShortcutGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
-qx.ui.menu.Menu.addProperty({ name : "contentArrowGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
-qx.ui.menu.Menu.addProperty({ name : "contentNonIconPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
-qx.ui.menu.Menu.addProperty({ name : "contentNonArrowPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
+qx.OO.addProperty({ name : "iconContentGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4 });
+qx.OO.addProperty({ name : "labelShortcutGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
+qx.OO.addProperty({ name : "contentArrowGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
+qx.OO.addProperty({ name : "contentNonIconPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "contentNonArrowPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
 
-qx.ui.menu.Menu.addProperty({ name : "hoverItem", type : qx.Const.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "openItem", type : qx.Const.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
-qx.ui.menu.Menu.addProperty({ name : "parentMenu", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "hoverItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "openItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "parentMenu", type : qx.Const.TYPEOF_OBJECT });
 
-qx.ui.menu.Menu.addProperty({ name : "fastReopen", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.ui.menu.Menu.addProperty({ name : "openInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
-qx.ui.menu.Menu.addProperty({ name : "closeInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
+qx.OO.addProperty({ name : "fastReopen", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "openInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
+qx.OO.addProperty({ name : "closeInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
 
-qx.ui.menu.Menu.addProperty({ name : "subMenuHorizontalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -3 });
-qx.ui.menu.Menu.addProperty({ name : "subMenuVerticalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -2 });
+qx.OO.addProperty({ name : "subMenuHorizontalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -3 });
+qx.OO.addProperty({ name : "subMenuVerticalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -2 });
 
-qx.ui.menu.Menu.addProperty({ name : "indentShortcuts", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "indentShortcuts", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 
@@ -242,19 +242,19 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.Menu.addCachedProperty({ name : "maxIconWidth" });
-qx.ui.menu.Menu.addCachedProperty({ name : "maxLabelWidth" });
-qx.ui.menu.Menu.addCachedProperty({ name : "maxLabelWidthIncShortcut" });
-qx.ui.menu.Menu.addCachedProperty({ name : "maxShortcutWidth" });
-qx.ui.menu.Menu.addCachedProperty({ name : "maxArrowWidth" });
-qx.ui.menu.Menu.addCachedProperty({ name : "maxContentWidth" });
+qx.OO.addCachedProperty({ name : "maxIconWidth" });
+qx.OO.addCachedProperty({ name : "maxLabelWidth" });
+qx.OO.addCachedProperty({ name : "maxLabelWidthIncShortcut" });
+qx.OO.addCachedProperty({ name : "maxShortcutWidth" });
+qx.OO.addCachedProperty({ name : "maxArrowWidth" });
+qx.OO.addCachedProperty({ name : "maxContentWidth" });
 
-qx.ui.menu.Menu.addCachedProperty({ name : "iconPosition", defaultValue : 0 });
-qx.ui.menu.Menu.addCachedProperty({ name : "labelPosition" });
-qx.ui.menu.Menu.addCachedProperty({ name : "shortcutPosition" });
-qx.ui.menu.Menu.addCachedProperty({ name : "arrowPosition" });
+qx.OO.addCachedProperty({ name : "iconPosition", defaultValue : 0 });
+qx.OO.addCachedProperty({ name : "labelPosition" });
+qx.OO.addCachedProperty({ name : "shortcutPosition" });
+qx.OO.addCachedProperty({ name : "arrowPosition" });
 
-qx.ui.menu.Menu.addCachedProperty({ name : "menuButtonNeededWidth" });
+qx.OO.addCachedProperty({ name : "menuButtonNeededWidth" });
 
 
 

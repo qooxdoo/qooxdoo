@@ -54,12 +54,12 @@ function(vHtml, vUri, vTarget)
 /*!
   Any valid html URI
 */
-qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "uri", type : qx.Const.TYPEOF_STRING, defaultValue : "#", impl : "html" });
+qx.OO.addProperty({ name : "uri", type : qx.Const.TYPEOF_STRING, defaultValue : "#", impl : "html" });
 
 /*!
   Any valid html target
 */
-qx.ui.embed.HtmlLinkEmbed.addProperty({ name : "target", type : qx.Const.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
+qx.OO.addProperty({ name : "target", type : qx.Const.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
 
 
 

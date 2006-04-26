@@ -67,11 +67,11 @@ function(vUrl, vMethod, vResponseType)
 /*!
   Target url to issue the request to.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
 /*!
   Determines what type of request to issue (GET or POST).
 */
-qx.io.remote.RemoteRequest.addProperty(
+qx.OO.addProperty(
 {
   name           : "method",
   type           : qx.Const.TYPEOF_STRING,
@@ -84,22 +84,22 @@ qx.io.remote.RemoteRequest.addProperty(
 /*!
   Set the request to asynchronous.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 /*!
   Set the data to be sent via this request
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
 /*!
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
 /*!
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
-qx.io.remote.RemoteRequest.addProperty(
+qx.OO.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty(
 {
   name           : "state",
   type           : qx.Const.TYPEOF_STRING,
@@ -118,7 +118,7 @@ qx.io.remote.RemoteRequest.addProperty(
   supported MIME types are text/javascript, text/html, text/json,
   application/xml.
 */
-qx.io.remote.RemoteRequest.addProperty({
+qx.OO.addProperty({
   name           : "responseType",
   type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
@@ -133,7 +133,7 @@ qx.io.remote.RemoteRequest.addProperty({
   If this property is null, the timeout for the request comes is the
   qx.io.remote.RemoteRequestQueue's property defaultTimeout.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "timeout", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Prohibit request from being cached.
@@ -142,7 +142,7 @@ qx.io.remote.RemoteRequest.addProperty({ name : "timeout", type : qx.Const.TYPEO
   with a value of the current time. Setting the value to false removes
   the parameter.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "prohibitCaching", type : qx.Const.TYPEOF_BOOLEAN });
 /*!
   Indicate that the request is cross domain.
 
@@ -152,7 +152,7 @@ qx.io.remote.RemoteRequest.addProperty({ name : "prohibitCaching", type : qx.Con
   qx.io.remote.IframeTransport because only the latter can handle cross domain
   requests.
 */
-qx.io.remote.RemoteRequest.addProperty({ name : "crossDomain", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "crossDomain", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

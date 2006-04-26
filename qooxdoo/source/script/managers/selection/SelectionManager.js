@@ -51,42 +51,42 @@ function(vBoundedWidget)
 /*!
 This contains the currently assigned widget (qx.ui.form.List, ...)
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "boundedWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "boundedWidget", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
 Should multiple selection be allowed?
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Enable drag selection?
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should the user be able to select
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "canDeselect", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "canDeselect", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 Should a change event be fired?
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "fireChange", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "fireChange", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
 The current anchor in range selections.
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "anchorItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "anchorItem", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
 The last selected item
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "leadItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "leadItem", type : qx.Const.TYPEOF_OBJECT });
 
 /*!
 Grid selection
 */
-qx.manager.selection.SelectionManager.addProperty({ name : "multiColumnSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "multiColumnSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

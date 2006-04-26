@@ -35,7 +35,7 @@ function()
   this.add(this._handle);
 });
 
-qx.ui.toolbar.ToolBarPart.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-part" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar-part" });
 
 
 

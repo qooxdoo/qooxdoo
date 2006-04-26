@@ -41,10 +41,10 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.ui.pageview.tabview.TabView.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view" });
 
-qx.ui.pageview.tabview.TabView.addProperty({ name : "alignTabsToLeft", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.pageview.tabview.TabView.addProperty({ name : "placeBarOnTop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "alignTabsToLeft", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "placeBarOnTop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

@@ -51,9 +51,9 @@ function(galleryList)
   this.addEventListener("keydown", this._onkeydown);
 });
 
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
-qx.ui.embed.GalleryListEmbed.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
+qx.OO.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
 
 
 

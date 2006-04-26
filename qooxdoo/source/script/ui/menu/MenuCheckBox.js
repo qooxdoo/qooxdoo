@@ -49,10 +49,10 @@ function(vLabel, vCommand, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.MenuCheckBox.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-check-box" });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
-qx.ui.menu.MenuCheckBox.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-check-box" });
+qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 

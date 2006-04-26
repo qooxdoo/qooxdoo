@@ -37,7 +37,7 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
   this.setKeyCode(vKeyCode);
 });
 
-qx.event.types.KeyEvent.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
 
 
 

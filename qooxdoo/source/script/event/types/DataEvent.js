@@ -37,8 +37,8 @@ function(vType, vData)
   this.setData(vData);
 });
 
-qx.event.types.DataEvent.addFastProperty({ name : "propagationStopped", defaultValue : false });
-qx.event.types.DataEvent.addFastProperty({ name : "data" });
+qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : false });
+qx.OO.addFastProperty({ name : "data" });
 
 qx.Proto.dispose = function()
 {

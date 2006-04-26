@@ -76,11 +76,11 @@ function(vLabel, vIcon, vCommand, vMenu)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.menu.MenuButton.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-button" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-button" });
 
-qx.ui.menu.MenuButton.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
-qx.ui.menu.MenuButton.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
-qx.ui.menu.MenuButton.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT });
 
 
 

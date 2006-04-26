@@ -34,7 +34,7 @@ QxTaskBar.extend(qx.ui.layout.HorizontalBoxLayout, "TaskBar");
 /*!
   Appearance of the widget
 */
-QxTaskBar.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar" });
 
 /* Removes a qx.ui.window.Window from the taskbar.
 */

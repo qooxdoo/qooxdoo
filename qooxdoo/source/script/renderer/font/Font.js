@@ -54,12 +54,12 @@ function(vSize, vName)
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.font.Font.addProperty({ name : "size", type : qx.Const.TYPEOF_NUMBER, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "bold", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "italic", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "underline", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.renderer.font.Font.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "size", type : qx.Const.TYPEOF_NUMBER, impl : "style" });
+qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "style" });
+qx.OO.addProperty({ name : "bold", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "italic", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "underline", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
 
 
 

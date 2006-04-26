@@ -81,11 +81,11 @@ else
 
 
 
-qx.event.handler.EventHandler.addProperty({ name : "allowClientContextMenu", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.event.handler.EventHandler.addProperty({ name : "allowClientSelectAll", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
-qx.event.handler.EventHandler.addProperty({ name : "captureWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
-qx.event.handler.EventHandler.addProperty({ name : "focusRoot", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
+qx.OO.addProperty({ name : "captureWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
+qx.OO.addProperty({ name : "focusRoot", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
 
 

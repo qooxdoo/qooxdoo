@@ -94,7 +94,7 @@ qx.core.Object.dispose = function()
   // qx.dev.Debug("qx.core.Object", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
-qx.core.Object.addProperty({ name : "enabled", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
+qx.OO.addProperty({ name : "enabled", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
 qx.core.Object.DEBUG_MSG_BEFORE = "[HASHCODE:";
 qx.core.Object.DEBUG_MSG_AFTER = "]";

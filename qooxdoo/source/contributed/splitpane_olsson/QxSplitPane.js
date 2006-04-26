@@ -159,52 +159,52 @@ QxSplitPane.MODE_TRANSLUCENT = "translucent";
 ------------------------------------------------------------------------------------
 */
 
-QxSplitPane.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "splitpane" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "splitpane" });
 
 /*!
   If the window is resizeable
 */
-QxSplitPane.addProperty({ name : "allowMove", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowMove", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "moveMethod", type : qx.Const.TYPEOF_STRING, defaultValue : QxSplitPane.MODE_BAR, possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
+qx.OO.addProperty({ name : "moveMethod", type : qx.Const.TYPEOF_STRING, defaultValue : QxSplitPane.MODE_BAR, possibleValues : [ QxSplitPane.MODE_OPAQUE, QxSplitPane.MODE_LAZYOPAQUE, QxSplitPane.MODE_BAR, QxSplitPane.MODE_TRANSLUCENT ] });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "dividerSize", type : qx.Const.TYPEOF_NUMBER, defaultValue : 7 });
+qx.OO.addProperty({ name : "dividerSize", type : qx.Const.TYPEOF_NUMBER, defaultValue : 7 });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "dividerLocation", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "dividerLocation", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "firstWidget", getAlias : ["getTopWidget", "getLeftWidget"], setAlias : ["setTopWidget", "setLeftWidget"], type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "firstWidget", getAlias : ["getTopWidget", "getLeftWidget"], setAlias : ["setTopWidget", "setLeftWidget"], type : qx.Const.TYPEOF_OBJECT });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "maximumDividerLocation", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "maximumDividerLocation", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "minimumDividerLocation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "minimumDividerLocation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "oneTouchExpandable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "oneTouchExpandable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 /*!
   The resize method to use
 */
-QxSplitPane.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", "getRightWidget"], setAlias : ["setBottomWidget", "setRightWidget"], type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "secondWidget", getAlias : ["getBottomWidget", "getRightWidget"], setAlias : ["setBottomWidget", "setRightWidget"], type : qx.Const.TYPEOF_OBJECT });
 
 
 /*

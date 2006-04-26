@@ -37,16 +37,16 @@ function(vType)
   this.setType(vType);
 });
 
-qx.event.types.Event.addFastProperty({ name : "type", setOnlyOnce : true });
+qx.OO.addFastProperty({ name : "type", setOnlyOnce : true });
 
-qx.event.types.Event.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
-qx.event.types.Event.addFastProperty({ name : "target", setOnlyOnce : true });
-qx.event.types.Event.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
-qx.event.types.Event.addFastProperty({ name : "currentTarget" });
+qx.OO.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
+qx.OO.addFastProperty({ name : "target", setOnlyOnce : true });
+qx.OO.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
+qx.OO.addFastProperty({ name : "currentTarget" });
 
-qx.event.types.Event.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
-qx.event.types.Event.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
-qx.event.types.Event.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
+qx.OO.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
+qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
+qx.OO.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
 
 
 

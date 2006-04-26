@@ -66,11 +66,11 @@ function(vGalleryList)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "showTitle", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.ui.embed.GalleryEmbed.addProperty({ name : "showComment", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
+qx.OO.addProperty({ name : "showTitle", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showComment", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

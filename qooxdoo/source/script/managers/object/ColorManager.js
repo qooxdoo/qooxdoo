@@ -47,7 +47,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ColorManager.addProperty({ name : "theme", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "theme", type : qx.Const.TYPEOF_STRING });
 
 
 

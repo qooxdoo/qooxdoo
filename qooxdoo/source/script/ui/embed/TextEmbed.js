@@ -48,17 +48,17 @@ function(vText)
 /*!
   Any text string which can contain TEXT, too
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "text", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "text", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.ui.embed.TextEmbed.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

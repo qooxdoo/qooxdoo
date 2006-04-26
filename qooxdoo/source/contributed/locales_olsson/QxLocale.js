@@ -54,17 +54,17 @@ function QxLocale(vLanguage, vCountry, vVariant) {
 /*!
   The language code for this locale, which will either be the empty string or a lowercase ISO 639 code.
 */
-QxLocale.addProperty({ name : "language", type : qx.Const.TYPEOF_STRING, defaultValue : "en" });
+qx.OO.addProperty({ name : "language", type : qx.Const.TYPEOF_STRING, defaultValue : "en" });
 
 /*!
   The country/region code for this locale, which will either be the empty string or an uppercase ISO 3166 2-letter code.
 */
-QxLocale.addProperty({ name : "country", type : qx.Const.TYPEOF_STRING, defaultValue : "GB" });
+qx.OO.addProperty({ name : "country", type : qx.Const.TYPEOF_STRING, defaultValue : "GB" });
 
 /*!
   The variant code for this locale.
 */
-QxLocale.addProperty({ name : "variant", type : qx.Const.TYPEOF_STRING, defaultValue : "" });
+qx.OO.addProperty({ name : "variant", type : qx.Const.TYPEOF_STRING, defaultValue : "" });
 
 
 QxLocale.DEFAULT_LOCALE = new QxLocale("en", "GB", null);

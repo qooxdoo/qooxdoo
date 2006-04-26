@@ -62,37 +62,37 @@ qx.ui.basic.Label.COPY_LOCALELEMENT = "localelement";
 ---------------------------------------------------------------------------
 */
 
-qx.ui.basic.Label.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "label" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "label" });
 
 /*!
   Any text string which can contain HTML, too
 */
-qx.ui.basic.Label.addProperty({ name : "html", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "html", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The alignment of the text.
 */
-qx.ui.basic.Label.addProperty({ name : "textAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
+qx.OO.addProperty({ name : "textAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
 
 /*!
   The styles which should be copied
 */
-qx.ui.basic.Label.addProperty({ name : "fontPropertiesProfile", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DEFAULT, possibleValues : [ qx.Const.CORE_NONE, qx.Const.CORE_DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
+qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DEFAULT, possibleValues : [ qx.Const.CORE_NONE, qx.Const.CORE_DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
 
 /*!
   A single character which will be underlined inside the text.
 */
-qx.ui.basic.Label.addProperty({ name : "mnemonic", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "mnemonic", type : qx.Const.TYPEOF_STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.ui.basic.Label.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.ui.basic.Label.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 
 
 

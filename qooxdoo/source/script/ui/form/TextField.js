@@ -68,22 +68,22 @@ function(vValue)
 */
 
 
-qx.ui.form.TextField.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-field" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-field" });
 
-qx.ui.form.TextField.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_EMPTY });
-qx.ui.form.TextField.addProperty({ name : "maxLength", type : qx.Const.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "readOnly", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_EMPTY });
+qx.OO.addProperty({ name : "maxLength", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "readOnly", type : qx.Const.TYPEOF_BOOLEAN });
 
-qx.ui.form.TextField.addProperty({ name : "selectionStart", type : qx.Const.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "selectionLength", type : qx.Const.TYPEOF_NUMBER });
-qx.ui.form.TextField.addProperty({ name : "selectionText", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "selectionStart", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "selectionLength", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "selectionText", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.form.TextField.addProperty({ name : "validator", type : qx.Const.TYPEOF_FUNCTION });
+qx.OO.addProperty({ name : "validator", type : qx.Const.TYPEOF_FUNCTION });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.ui.form.TextField.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 

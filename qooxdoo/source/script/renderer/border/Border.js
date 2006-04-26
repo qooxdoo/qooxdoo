@@ -71,20 +71,20 @@ qx.Proto._needsCompilationLeft = true;
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.border.Border.addProperty({ name : "topWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderTopProperty" });
-qx.renderer.border.Border.addProperty({ name : "rightWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderRightProperty" });
-qx.renderer.border.Border.addProperty({ name : "bottomWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
-qx.renderer.border.Border.addProperty({ name : "leftWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
+qx.OO.addProperty({ name : "topWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderTopProperty" });
+qx.OO.addProperty({ name : "rightWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderRightProperty" });
+qx.OO.addProperty({ name : "bottomWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
+qx.OO.addProperty({ name : "leftWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
 
-qx.renderer.border.Border.addProperty({ name : "topStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderTopProperty" });
-qx.renderer.border.Border.addProperty({ name : "rightStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderRightProperty" });
-qx.renderer.border.Border.addProperty({ name : "bottomStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderBottomProperty" });
-qx.renderer.border.Border.addProperty({ name : "leftStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderLeftProperty" });
+qx.OO.addProperty({ name : "topStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderTopProperty" });
+qx.OO.addProperty({ name : "rightStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderRightProperty" });
+qx.OO.addProperty({ name : "bottomStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderBottomProperty" });
+qx.OO.addProperty({ name : "leftStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderLeftProperty" });
 
-qx.renderer.border.Border.addProperty({ name : "topColor", impl : "borderTopProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.renderer.border.Border.addProperty({ name : "rightColor", impl : "borderRightProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.renderer.border.Border.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.renderer.border.Border.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "topColor", impl : "borderTopProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "rightColor", impl : "borderRightProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
 
 
 

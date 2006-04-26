@@ -286,7 +286,7 @@ qx.Proto._statusText = null;
  * a given event once per request.
  */
  
-QxHttpTransport.addProperty({name : "multipleReadyStateEvents", type : qx.Const.TYPEOF_NUMBER, defaultValue : false});
+qx.OO.addProperty({name : "multipleReadyStateEvents", type : qx.Const.TYPEOF_NUMBER, defaultValue : false});
 
 // Public methods
 

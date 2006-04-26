@@ -44,18 +44,18 @@ function(vText, vIcon, vChecked) {
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
 
 /*!
   Prohibit the deselction of the checked radio button when clicked on it.
 */
-qx.ui.toolbar.ToolBarRadioButton.addProperty({ name : "disableUncheck", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "disableUncheck", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 
 

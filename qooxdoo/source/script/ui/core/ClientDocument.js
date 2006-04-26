@@ -85,9 +85,9 @@ function(vClientWindow)
   */
 });
 
-qx.ui.core.ClientDocument.addProperty({ name : "globalCursor", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "globalCursor", type : qx.Const.TYPEOF_STRING });
 
-qx.ui.core.ClientDocument.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "client-document" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "client-document" });
 
 
 

@@ -57,17 +57,17 @@ qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 /*!
   Individual focus manager for all child elements.
 */
-qx.ui.core.Parent.addProperty({ name : "focusManager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
+qx.OO.addProperty({ name : "focusManager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
 */
-qx.ui.core.Parent.addProperty({ name : "activeChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "activeChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 /*!
   The current focused child.
 */
-qx.ui.core.Parent.addProperty({ name : "focusedChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "focusedChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -79,7 +79,7 @@ qx.ui.core.Parent.addProperty({ name : "focusedChild", type : qx.Const.TYPEOF_OB
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Parent.addCachedProperty({ name : "visibleChildren", defaultValue : null });
+qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 
 
 

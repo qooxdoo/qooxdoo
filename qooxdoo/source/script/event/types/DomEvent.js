@@ -38,11 +38,11 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   this.setOriginalTarget(vOriginalTarget);
 });
 
-qx.event.types.DomEvent.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
-qx.event.types.DomEvent.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });
+qx.OO.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true });
+qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : false, noCompute : true });
 
-qx.event.types.DomEvent.addFastProperty({ name : "domEvent", setOnlyOnce : true, noCompute : true });
-qx.event.types.DomEvent.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true });
+qx.OO.addFastProperty({ name : "domEvent", setOnlyOnce : true, noCompute : true });
+qx.OO.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true });
 
 
 

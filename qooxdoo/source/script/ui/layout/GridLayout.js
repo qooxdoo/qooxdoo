@@ -50,42 +50,42 @@ function()
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.GridLayout.addProperty({ name : "horizontalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.OO.addProperty({ name : "horizontalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.ui.layout.GridLayout.addProperty({ name : "verticalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.OO.addProperty({ name : "verticalSpacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left", "center" and "right"
 */
-qx.ui.layout.GridLayout.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "horizontalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
 */
-qx.ui.layout.GridLayout.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "verticalChildrenAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
 
 /*!
   Cell padding top of all cells, if not locally defined
 */
-qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingTop", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "cellPaddingTop", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Cell padding right of all cells, if not locally defined
 */
-qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingRight", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "cellPaddingRight", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Cell padding bottom of all cells, if not locally defined
 */
-qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingBottom", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "cellPaddingBottom", type : qx.Const.TYPEOF_NUMBER });
 
 /*!
   Cell padding left of all cells, if not locally defined
 */
-qx.ui.layout.GridLayout.addProperty({ name : "cellPaddingLeft", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "cellPaddingLeft", type : qx.Const.TYPEOF_NUMBER });
 
 
 

@@ -42,22 +42,22 @@ function QxFrame(vCaption, vIcon)
 /*!
   Appearance setting for the class.
 */
-QxFrame.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "frame" });
+qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "frame" });
 
 /*!
   The main menu bar if any.
 */
-QxFrame.addProperty({ name : "menuBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.menu.MenuBar" });
+qx.OO.addProperty({ name : "menuBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.menu.MenuBar" });
 
 /*!
   The main tool bar if any.
 */
-QxFrame.addProperty({ name : "toolBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.toolbar.ToolBar" });
+qx.OO.addProperty({ name : "toolBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "qx.ui.toolbar.ToolBar" });
 
 /*!
   The status bar if any.
 */
-QxFrame.addProperty({ name : "statusBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "QxStatusBar" });
+qx.OO.addProperty({ name : "statusBar", type : qx.Const.TYPEOF_OBJECT, allowNull : true, instance : "QxStatusBar" });
 
 
 /*
