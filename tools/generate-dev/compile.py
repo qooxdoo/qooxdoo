@@ -677,7 +677,7 @@ def xmlheader():
 
 
 
-def extractDeps(data, loadDependencyData, runtimeDependencyData, knownPackages):
+def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackages):
   thisClass = None
   superClass = None
 
@@ -698,7 +698,7 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, knownPackages):
 
   if thisClass == None:
     print "    * Error while extracting uniqueId!"
-    return False
+    return None
 
 
   # Pre-Creating data storage
@@ -739,6 +739,8 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, knownPackages):
         knownPackages[pkgname] = [ thisClass ]
 
 
+
+  return thisClass
 
 
 
@@ -784,12 +786,8 @@ def printHelp():
   print "  -h,  --help                       show this help screen"
   print
 
-  # Source
-  print "  -sd, --source-directories <DIRS>  comma separated list with source directories (to search in)"
-  print "  -sf, --source-files <FILES>       comma separated list with source files"
-  print
-
-  # Output
+  # Directories
+  print "  -sd, --source-directories <DIRS>  comma separated list with source directories (to search in for files)"
   print "  -ob, --output-build <DIR>         the output directory where the standalone compressed files should be stored"
   print "  -ox, --output-xml <DIR>           the output directory where the standalone generated xml files should be stored"
   print
@@ -882,9 +880,6 @@ def start():
 
 
 
-  print
-  print "  INITIALISATION"
-  print "***********************************************************************************************"
 
   i = 1
   while i < len(sys.argv):
@@ -999,32 +994,6 @@ def start():
 
 
 
-  # Inform user
-  print "  Source Configuration"
-  print "  * Directories (-sd): %s" % cmdSourceDirectories
-  print "  * Files (-sf): %s" % cmdSourceFiles
-  print "  Output Configuration"
-  print "  * Build (-ob): %s" % cmdOutputBuild
-  print "  * XML (-ox): %s" % cmdOutputXml
-  print "  * Tokenized (-ot): %s" % cmdOutputTokenized
-  print "  * Compressed (-oc): %s" % cmdOutputCompressed
-  print "  Jobs:"
-  print "  * Generate Build (-gb): %s" % cmdGenerateBuild
-  print "  * List Files (-lf): %s" % cmdListFiles
-  print "  * List Packages (-lp): %s" % cmdListPackages
-  print "  * List Includes (-li): %s" % cmdListIncludes
-  print "  Include:"
-  print "  * Packages (-ip): %s" % cmdIncludePackages
-  print "  * UniqueIds (-id): %s" % cmdIncludeIds
-  print "  Exclude:"
-  print "  * Packages (-ep): %s" % cmdExcludePackages
-  print "  * UniqueIds (-ed): %s" % cmdExcludeIds
-  print "  Options:"
-  print "  * Combined File (-cf): %s" % cmdOutputCombined
-  print "  * Output Single Generated Files (-oc): %s" % cmdOutputSingle
-  print "  * Use All Known Files (-a): %s" % cmdIncludeAll
-  print "  * Ignore Include Deps (-ii): %s" % cmdIgnoreIncludeDeps
-  print "  * Ignore Exclude Deps (-ie): %s" % cmdIgnoreExcludeDeps
 
   if cmdGenerateBuild == False and cmdListFiles == False and cmdListPackages == False and cmdListIncludes == False:
     print
@@ -1073,21 +1042,13 @@ def start():
 
       for filename in files:
         if os.path.splitext(filename)[1] == JSEXT:
-          infilename = os.path.join(root, filename)
-          basefilename = filename.replace(JSEXT, "")
+          completeFileName = os.path.join(root, filename)
+          uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages)
 
-          knownFiles[basefilename] = infilename
-          if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages) == False:
-            print "    * Could not extract dependencies of file: %s" % filename
-
-  for filename in cmdSourceFiles:
-    if os.path.splitext(filename)[1] == JSEXT:
-      infilename = filename
-      basefilename = filename.split(os.sep)[-1].replace(JSEXT, "")
-
-      knownFiles[basefilename] = infilename
-      if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages) == False:
-        print "Could not extract dependencies of file: %s" % filename
+          if uniqueId == None:
+            print "    * Could not extract meta data from file: %s" % filename
+          else:
+            knownFiles[uniqueId] = completeFileName
 
 
 
@@ -1169,7 +1130,7 @@ def start():
 
   if cmdGenerateBuild:
     print
-    print "  PROCESSING FILES:"
+    print "  BUIDLING FILES:"
     print "***********************************************************************************************"
 
     for uniqueId in sortedIncludeList:
