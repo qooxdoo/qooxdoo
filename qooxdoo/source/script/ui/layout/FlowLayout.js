@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(layout)
-#post(qx.renderer.layout.FlowLayoutImpl)
+#use(qx.renderer.layout.FlowLayoutImpl)
 
 ************************************************************************ */
 

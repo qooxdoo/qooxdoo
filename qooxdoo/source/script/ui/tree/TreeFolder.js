@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(tree)
-#post(qx.ui.layout.HorizontalBoxLayout)
-#post(qx.ui.layout.VerticalBoxLayout)
+#use(qx.ui.layout.HorizontalBoxLayout)
+#use(qx.ui.layout.VerticalBoxLayout)
 
 ************************************************************************ */
 

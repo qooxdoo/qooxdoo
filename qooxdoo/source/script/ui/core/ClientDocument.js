@@ -24,8 +24,8 @@
 
 #package(guicore)
 #require(qx.dom.DomStyleSheet)
-#post(qx.ui.core.ClientDocumentBlocker)
-#post(qx.event.handler.FocusHandler)
+#use(qx.ui.core.ClientDocumentBlocker)
+#use(qx.event.handler.FocusHandler)
 
 ************************************************************************ */
 

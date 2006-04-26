@@ -23,16 +23,16 @@
 /* ************************************************************************
 
 #package(colorselector)
-#post(qx.ui.layout.HorizontalBoxLayout)
-#post(qx.ui.form.Button)
-#post(qx.ui.layout.CanvasLayout)
-#post(qx.ui.basic.Image)
-#post(qx.renderer.border.BorderObjectPresets)
-#post(qx.ui.groupbox.GroupBox)
-#post(qx.ui.basic.Label)
-#post(qx.ui.form.Spinner)
-#post(qx.ui.form.TextField)
-#post(qx.renderer.color.ColorUtil)
+#use(qx.ui.layout.HorizontalBoxLayout)
+#use(qx.ui.form.Button)
+#use(qx.ui.layout.CanvasLayout)
+#use(qx.ui.basic.Image)
+#use(qx.renderer.border.BorderObjectPresets)
+#use(qx.ui.groupbox.GroupBox)
+#use(qx.ui.basic.Label)
+#use(qx.ui.form.Spinner)
+#use(qx.ui.form.TextField)
+#use(qx.renderer.color.ColorUtil)
 
 ************************************************************************ */
 

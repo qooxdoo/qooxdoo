@@ -24,7 +24,7 @@
 
 #package(border)
 #require(qx.renderer.color.ColorObject)
-#post(qx.renderer.border.BorderPresets)
+#use(qx.renderer.border.BorderPresets)
 
 ************************************************************************ */
 

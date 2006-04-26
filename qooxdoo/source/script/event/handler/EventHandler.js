@@ -23,13 +23,13 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(qx.dom.DomEventRegistration)
-#post(qx.manager.object.PopupManager)
-#post(qx.manager.object.ToolTipManager)
-#post(qx.manager.object.MenuManager)
-#post(qx.event.handler.DragAndDropHandler)
-#post(qx.event.types.MouseEvent)
-#post(qx.event.types.KeyEvent)
+#use(qx.dom.DomEventRegistration)
+#use(qx.manager.object.PopupManager)
+#use(qx.manager.object.ToolTipManager)
+#use(qx.manager.object.MenuManager)
+#use(qx.event.handler.DragAndDropHandler)
+#use(qx.event.types.MouseEvent)
+#use(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 

@@ -22,8 +22,8 @@
 
 /* ************************************************************************
 
-#post(qx.ui.pageview.buttonview.ButtonViewBar)
-#post(qx.ui.pageview.buttonview.ButtonViewPane)
+#use(qx.ui.pageview.buttonview.ButtonViewBar)
+#use(qx.ui.pageview.buttonview.ButtonViewPane)
 
 #package(barview)
 

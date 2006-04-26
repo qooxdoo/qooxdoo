@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(transport)
-#post(qx.io.remote.RemoteRequestQueue)
-#post(qx.Const)
+#use(qx.io.remote.RemoteRequestQueue)
+#use(qx.Const)
 
 ************************************************************************ */
 

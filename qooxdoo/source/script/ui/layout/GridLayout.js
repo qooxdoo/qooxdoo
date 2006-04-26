@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(layout)
-#post(qx.renderer.layout.GridLayoutImpl)
+#use(qx.renderer.layout.GridLayoutImpl)
 
 ************************************************************************ */
 

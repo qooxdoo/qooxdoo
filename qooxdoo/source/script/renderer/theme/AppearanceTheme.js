@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(appearance)
-#post(qx.manager.object.AppearanceManager)
+#use(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 

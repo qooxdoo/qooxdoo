@@ -23,10 +23,10 @@
 /* ************************************************************************
 
 #package(eventcore)
-#post(qx.dom.DomLocation)
-#post(qx.event.types.FocusEvent)
-#post(qx.manager.object.PopupManager)
-#post(qx.manager.object.ToolTipManager)
+#use(qx.dom.DomLocation)
+#use(qx.event.types.FocusEvent)
+#use(qx.manager.object.PopupManager)
+#use(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 

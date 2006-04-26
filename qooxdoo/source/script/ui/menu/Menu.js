@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(menu)
-#post(qx.dom.DomDimension)
-#post(qx.dom.DomLocation)
+#use(qx.dom.DomDimension)
+#use(qx.dom.DomLocation)
 
 ************************************************************************ */
 

@@ -130,7 +130,7 @@ BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
 R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
 R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXPOST = re.compile("#post\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
 
 
@@ -721,14 +721,14 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
   # Storing defined deps and package informations
   for line in data.split("\n"):
     req = R_QXREQUIRE.search(line)
-    pos = R_QXPOST.search(line)
+    use = R_QXUSE.search(line)
     pkg = R_QXPACKAGE.search(line)
 
     if req:
       loadDependencyData[thisclass].append(req.group(1))
 
-    if pos:
-      runtimeDependencyData[thisclass].append(pos.group(1))
+    if use:
+      runtimeDependencyData[thisclass].append(use.group(1))
 
     if pkg:
       pkgname = pkg.group(1)

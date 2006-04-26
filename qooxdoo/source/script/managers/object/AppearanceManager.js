@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(appearance)
-#post(qx.core.Init)
-#post(qx.renderer.theme.AppearanceTheme)
+#use(qx.core.Init)
+#use(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */
 

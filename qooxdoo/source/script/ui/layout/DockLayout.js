@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(layout)
-#post(qx.renderer.layout.DockLayoutImpl)
+#use(qx.renderer.layout.DockLayoutImpl)
 
 ************************************************************************ */
 
