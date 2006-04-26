@@ -130,18 +130,6 @@ qx.OO.defineClass("qx.Const",
   PROPERTY_OVERFLOW_HORIZONTAL : "overflowX",
   PROPERTY_OVERFLOW_VERTICAL : "overflowY",
 
-  JOB_INITIAL : "initial",
-  JOB_VISIBLE : "visible",
-  JOB_LOCATION : "location",
-  JOB_LOCATIONX : "locationX",
-  JOB_LOCATIONY : "locationY",
-  JOB_ADDCHILD : "addChild",
-  JOB_REMOVECHILD : "removeChild",
-  JOB_FRAMEWIDTH : "frameWidth",
-  JOB_FRAMEHEIGHT : "frameHeight",
-  JOB_PREFERREDINNERWIDTH : "preferredInnerWidth",
-  JOB_PREFERREDINNERHEIGHT : "preferredInnerHeight",
-
   ORIENTATION_HORIZONTAL : "horizontal",
   ORIENTATION_VERTICAL : "vertical",
 

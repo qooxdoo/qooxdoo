@@ -162,7 +162,7 @@ qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
 
   return true;
 };
@@ -174,7 +174,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.Const.JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
 
   return true;
 };
@@ -197,7 +197,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.horizontalSpacing || vQueue.verticalSpacing || vQueue.reverseChildrenOrder || vQueue.horizontalChildrenAlign || vQueue.verticalChildrenAlign) {
-    this.getWidget()._addChildrenToLayoutQueue(qx.Const.JOB_LOCATION);
+    this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.C_JOB_LOCATION);
   };
 };
 
@@ -223,14 +223,14 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
   if (w.getReverseChildrenOrder())
   {
     while((chc=ch[++i]) && i<vIndex) {
-      chc.addToLayoutChanges(qx.Const.JOB_LOCATION);
+      chc.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
     };
   }
   else
   {
     i+=vIndex;
     while(chc=ch[++i]) {
-      chc.addToLayoutChanges(qx.Const.JOB_LOCATION);
+      chc.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
     };
   };
 };
@@ -243,7 +243,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
 qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
 {
   for (var i=Math.min(vIndex, vOldIndex), ch=this.getWidget().getVisibleChildren(), l=ch.length; i<l; i++) {
-    ch[i].addToLayoutChanges(qx.Const.JOB_LOCATION);
+    ch[i].addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
   };
 };
 

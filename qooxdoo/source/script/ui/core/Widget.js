@@ -72,15 +72,24 @@ function()
   this._applyInitialAppearance();
 });
 
-qx.ui.core.Widget.CORE_CLASS = "QxWidgetCore";
-qx.ui.core.Widget.OMIT_CLASS = "qx.ui.core.Widget";
+qx.Class.CORE_CLASS = "QxWidgetCore";
+qx.Class.OMIT_CLASS = "qx.ui.core.Widget";
 
-/*!
-  Will be calculated later
-*/
-qx.ui.core.Widget.SCROLLBAR_SIZE = 16;
+// Will be calculated later (TODO: Move to qx.Dom?)
+qx.Class.SCROLLBAR_SIZE = 16;
 
-
+// Job constants
+qx.Class.C_JOB_INITIAL = "initial";
+qx.Class.C_JOB_VISIBLE = "visible";
+qx.Class.C_JOB_LOCATION = "location";
+qx.Class.C_JOB_LOCATIONX = "locationX";
+qx.Class.C_JOB_LOCATIONY = "locationY";
+qx.Class.C_JOB_ADDCHILD = "addChild";
+qx.Class.C_JOB_REMOVECHILD = "removeChild";
+qx.Class.C_JOB_FRAMEWIDTH = "frameWidth";
+qx.Class.C_JOB_FRAMEHEIGHT = "frameHeight";
+qx.Class.C_JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
+qx.Class.C_JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
 
 
 
@@ -1235,7 +1244,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
     propOldValue.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
 
     // Inform job queue
-    propOldValue.addToJobQueue(qx.Const.JOB_REMOVECHILD);
+    propOldValue.addToJobQueue(qx.ui.core.Widget.C_JOB_REMOVECHILD);
 
     // Invalidate inner preferred dimensions
     propOldValue._invalidatePreferredInnerDimensions();
@@ -1335,12 +1344,12 @@ qx.Proto._handleDisplayable = function(vHint)
       vParent.getLayoutImpl().updateChildrenOnAddChild(this, vParent.getChildren().indexOf(this));
 
       // Inform parents job queue
-      vParent.addToJobQueue(qx.Const.JOB_ADDCHILD);
+      vParent.addToJobQueue(qx.ui.core.Widget.C_JOB_ADDCHILD);
     };
 
     // Add to parents children queue
     // (indirectly with a new layout request)
-    this.addToLayoutChanges(qx.Const.JOB_INITIAL);
+    this.addToLayoutChanges(qx.ui.core.Widget.C_JOB_INITIAL);
 
     // Add to custom queues
     this.addToCustomQueues(vHint);
@@ -1401,7 +1410,7 @@ qx.Proto._handleDisplayable = function(vHint)
         vParent.getLayoutImpl().updateChildrenOnRemoveChild(this, vParent.getChildren().indexOf(this));
 
         // Inform parents job queue
-        vParent.addToJobQueue(qx.Const.JOB_REMOVECHILD);
+        vParent.addToJobQueue(qx.ui.core.Widget.C_JOB_REMOVECHILD);
 
         // Before Remove DOM Event
         this._beforeRemoveDom();
@@ -2651,8 +2660,8 @@ qx.Proto.getBottomValue = function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addCachedProperty({ name : qx.Const.JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.OO.addCachedProperty({ name : qx.Const.JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._computeFrameWidth = function()
 {
@@ -2712,8 +2721,8 @@ qx.Proto._invalidateFrameDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.OO.addCachedProperty({ name : qx.Const.JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._invalidatePreferredInnerDimensions = function()
 {
