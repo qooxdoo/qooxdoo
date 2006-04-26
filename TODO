@@ -75,6 +75,8 @@ h4. Unsorted
 * Add QxDataPicker
 * Add QxFontPicker
 
+* qx.io.local.flash und entsprechende Wrapper nach Vorbild von Dojo Storage.
+
 * Reimplement QxColorSelector
 
 * QxFontTheme
