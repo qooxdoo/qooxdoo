@@ -128,7 +128,7 @@ SPACES = re.compile("(\s+)")
 BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
 
 R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
-R_QXNAMESPACE = re.compile("#namespace\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXPOST = re.compile("#post\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
@@ -677,7 +677,7 @@ def xmlstart():
 
 
 
-def extractDeps(data, filename, deptree, posttree, packages):
+def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
   thisclass = None
   superclass = None
 
@@ -688,25 +688,25 @@ def extractDeps(data, filename, deptree, posttree, packages):
     superclass = dc.group(3)
 
   else:
-    # print "Sorry. Don't find any class informations. Trying namespace flag"
+    # print "Sorry. Don't find any class informations. Trying id information."
 
-    ns = R_QXNAMESPACE.search(data)
+    ns = R_QXUNIQUEID.search(data)
 
     if ns:
       thisclass = ns.group(1)
 
 
   if thisclass == None:
-    print "Error while extracting classname: %s" % filename
-    return
+    print "    * Error while extracting uniqueId!"
+    return False
 
 
   # Pre-Creating data storage
-  if not deptree.has_key(thisclass):
-    deptree[thisclass] = []
+  if not loadDependencyData.has_key(thisclass):
+    loadDependencyData[thisclass] = []
 
-  if not posttree.has_key(thisclass):
-    posttree[thisclass] = []
+  if not runtimeDependencyData.has_key(thisclass):
+    runtimeDependencyData[thisclass] = []
 
 
   # Storing inheritance deps
@@ -715,7 +715,7 @@ def extractDeps(data, filename, deptree, posttree, packages):
       pass
 
     else:
-      deptree[thisclass].append(superclass)
+      loadDependencyData[thisclass].append(superclass)
 
 
   # Storing defined deps and package informations
@@ -725,10 +725,10 @@ def extractDeps(data, filename, deptree, posttree, packages):
     pkg = R_QXPACKAGE.search(line)
 
     if req:
-      deptree[thisclass].append(req.group(1))
+      loadDependencyData[thisclass].append(req.group(1))
 
     if pos:
-      posttree[thisclass].append(pos.group(1))
+      runtimeDependencyData[thisclass].append(pos.group(1))
 
     if pkg:
       pkgname = pkg.group(1)
@@ -742,10 +742,10 @@ def extractDeps(data, filename, deptree, posttree, packages):
 
 
 
-def handleDeps(uniqueId, deptree, posttree, sortedIncludeList, ignoreDeps):
+def handleDeps(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, ignoreDeps):
 
-  if not deptree.has_key(uniqueId):
-    print "Could not find dependencies for: %s" % uniqueId
+  if not loadDependencyData.has_key(uniqueId):
+    print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
     return False
 
   # Test if already in
@@ -755,8 +755,8 @@ def handleDeps(uniqueId, deptree, posttree, sortedIncludeList, ignoreDeps):
   except ValueError:
     # Including pre-deps
     if not ignoreDeps:
-      for subkey in deptree[uniqueId]:
-        handleDeps(subkey, deptree, posttree, sortedIncludeList, False)
+      for subkey in loadDependencyData[uniqueId]:
+        handleDeps(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
     # Add myself
     try:
@@ -766,8 +766,8 @@ def handleDeps(uniqueId, deptree, posttree, sortedIncludeList, ignoreDeps):
 
     # Include post-deps
     if not ignoreDeps:
-      for subkey in posttree[uniqueId]:
-        handleDeps(subkey, deptree, posttree, sortedIncludeList, False)
+      for subkey in runtimeDependencyData[uniqueId]:
+        handleDeps(subkey, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
 
 
 
@@ -775,8 +775,8 @@ def handleDeps(uniqueId, deptree, posttree, sortedIncludeList, ignoreDeps):
 def main(conf):
   global xmloutput
 
-  deptree = {}
-  posttree = {}
+  loadDependencyData = {}
+  runtimeDependencyData = {}
 
   packages = {}
   allfiles = {}
@@ -814,7 +814,8 @@ def main(conf):
           basefilename = filename.replace(JSEXT, "")
 
           allfiles[basefilename] = infilename
-          extractDeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
+          if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, packages) == False:
+            print "    * Could not extract dependencies of file: %s" % filename
 
 
 
@@ -824,19 +825,20 @@ def main(conf):
       basefilename = filename.split(os.sep)[-1].replace(JSEXT, "")
 
       allfiles[basefilename] = infilename
-      extractDeps(file(infilename, "r").read(), basefilename, deptree, posttree, packages)
+      if extractDeps(file(infilename, "r").read(), loadDependencyData, runtimeDependencyData, packages) == False:
+        print "Could not extract dependencies of file: %s" % filename
 
 
 
   print "  * Sorting files..."
 
   # Building Filelists
-  includeFiles = []
-  excludeFiles = []
+  includeIds = []
+  excludeIds = []
 
   if conf["useAll"]:
-    for key in deptree:
-      includeFiles.append(key)
+    for key in loadDependencyData:
+      includeIds.append(key)
 
   else:
     # Fix Package List
@@ -847,37 +849,37 @@ def main(conf):
 
     # Add Packages
     for pkg in conf["includePackages"]:
-      includeFiles.extend(packages[pkg])
+      includeIds.extend(packages[pkg])
 
     # Add Files
-    includeFiles.extend(conf["includeFiles"])
+    includeIds.extend(conf["includeIds"])
 
 
 
   # Add Exclude Packages
   for pkg in conf["excludePackages"]:
-    excludeFiles.extend(packages[pkg])
+    excludeIds.extend(packages[pkg])
 
   # Add Exclude Files
-  excludeFiles.extend(conf["excludeFiles"])
+  excludeIds.extend(conf["excludeIds"])
 
-  # Looking up for Dependencies
-  depIncludeFiles = []
-  for key in includeFiles:
-    handleDeps(key, deptree, posttree, depIncludeFiles, conf["ignoreDeps"])
+  # Sorting files...
+  sortedIncludeList = []
+  for key in includeIds:
+    handleDeps(key, loadDependencyData, runtimeDependencyData, sortedIncludeList, conf["ignoreDeps"])
 
-  depExcludeFiles = []
-  for key in excludeFiles:
-    handleDeps(key, deptree, posttree, depExcludeFiles, conf["ignoreDeps"])
+  sortedExcludeList = []
+  for key in excludeIds:
+    handleDeps(key, loadDependencyData, runtimeDependencyData, sortedExcludeList, conf["ignoreDeps"])
 
   # Remove exclude files form include files
-  for key in depExcludeFiles:
-    if key in depIncludeFiles:
-      depIncludeFiles.remove(key)
+  for key in sortedExcludeList:
+    if key in sortedIncludeList:
+      sortedIncludeList.remove(key)
 
 
   #print ">>> File Include Order: "
-  #print depIncludeFiles
+  #print sortedIncludeList
 
 
 
@@ -901,32 +903,32 @@ def main(conf):
     print
     print "  PRE DEPENDENCIES:"
     print "***********************************************************************************************"
-    for key in deptree:
-      if len(deptree[key]) > 0:
+    for key in loadDependencyData:
+      if len(loadDependencyData[key]) > 0:
         print "  * %s" % key
-        for subkey in deptree[key]:
+        for subkey in loadDependencyData[key]:
           print "    - %s" % subkey
 
   if conf["listPost"]:
     print
     print "  POST DEPENDENCIES:"
     print "***********************************************************************************************"
-    for key in posttree:
-      if len(posttree[key]) > 0:
+    for key in runtimeDependencyData:
+      if len(runtimeDependencyData[key]) > 0:
         print "  * %s" % key
-        for subkey in posttree[key]:
+        for subkey in runtimeDependencyData[key]:
           print "    - %s" % subkey
 
   if conf["listInclude"]:
     print
     print "  INCLUDE ORDER:"
     print "***********************************************************************************************"
-    for key in depIncludeFiles:
+    for key in sortedIncludeList:
       print "  * %s" % key
 
 
 
-  if len(depIncludeFiles) > 0 and conf["makeOptimized"]:
+  if len(sortedIncludeList) > 0 and conf["makeOptimized"]:
     print
     print "  PROCESSING FILES:"
     print "***********************************************************************************************"
@@ -934,7 +936,7 @@ def main(conf):
     if conf["makeOptimized"] and conf["outputCombined"] != "":
       combined = ""
 
-    for item in depIncludeFiles:
+    for item in sortedIncludeList:
       print "  * %s" % item
 
       if not allfiles.has_key(item):
@@ -1049,10 +1051,10 @@ def start():
   listInclude = False
 
   includePackages = []
-  includeFiles = []
+  includeIds = []
 
   excludePackages = []
-  excludeFiles = []
+  excludeIds = []
 
   outputCombined = ""
   outputSingle = True
@@ -1143,7 +1145,7 @@ def start():
       i += 1
 
     elif c == "-if" or c == "--include-files":
-      includeFiles = sys.argv[i+1].split(",")
+      includeIds = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "-ep" or c == "--exclude-packages":
@@ -1151,7 +1153,7 @@ def start():
       i += 1
 
     elif c == "-ef" or c == "--exclude-files":
-      excludeFiles = sys.argv[i+1].split(",")
+      excludeIds = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "-a" or c == "--use-all":
@@ -1190,10 +1192,10 @@ def start():
   print "  * Include (-li): %s" % listInclude
   print "  Include (By ID):"
   print "  * Packages (-ip): %s" % includePackages
-  print "  * Files (-if): %s" % includeFiles
+  print "  * Files (-if): %s" % includeIds
   print "  Exclude (By ID):"
   print "  * Packages (-ep): %s" % excludePackages
-  print "  * Files (-ef): %s" % excludeFiles
+  print "  * Files (-ef): %s" % excludeIds
   print "  Options:"
   print "  * Combined File (-cf): %s" % outputCombined
   print "  * Output Single Generated Files (-oc): %s" % outputSingle
@@ -1213,8 +1215,8 @@ def start():
     "makeOptimized" : makeOptimized, "makeDocs" : makeDocs,
     "useAll" : useAll, "ignoreDeps" : ignoreDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
     "listPre" : listPre, "listFiles" : listFiles, "listPackages" : listPackages, "listInclude" : listInclude, "listPost" : listPost,
-    "includePackages" : includePackages, "includeFiles" : includeFiles,
-    "excludePackages" : excludePackages, "excludeFiles" : excludeFiles
+    "includePackages" : includePackages, "includeIds" : includeIds,
+    "excludePackages" : excludePackages, "excludeIds" : excludeIds
   })
 
 
