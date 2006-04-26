@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.IframeEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator, 
 function(vSource)
 {
   // **********************************************************************
@@ -34,7 +34,7 @@ function(vSource)
   // **********************************************************************
   qx.ui.basic.Terminator.call(this);
 
-  qx.ui.embed.IframeEmbed.init();
+  qx.ui.embed.Iframe.init();
 
   this.setSelectable(false);
   this.setTabIndex(0);
@@ -105,7 +105,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   if (!iframeNode)
   {
     // clone proto element and assign iframe
-    iframeNode = this.setIframeNode(qx.ui.embed.IframeEmbed._element.cloneNode(true));
+    iframeNode = this.setIframeNode(qx.ui.embed.Iframe._element.cloneNode(true));
 
     if (qx.sys.Client.isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
@@ -307,13 +307,13 @@ qx.Proto.dispose = function()
   INIT
 ---------------------------------------------------------------------------
 */
-qx.ui.embed.IframeEmbed.init = function()
+qx.ui.embed.Iframe.init = function()
 {
-  if (qx.ui.embed.IframeEmbed._element) {
+  if (qx.ui.embed.Iframe._element) {
     return;
   };
 
-  var f = qx.ui.embed.IframeEmbed._element = document.createElement("iframe");
+  var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
 
   f.frameBorder = qx.Const.CORE_ZERO;
   f.frameSpacing = qx.Const.CORE_ZERO;
