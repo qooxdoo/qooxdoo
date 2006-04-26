@@ -22,7 +22,7 @@
     <script type="text/javascript" src="script/qx/apiviewer/ApiViewer.js"></script>
     <script type="text/javascript">
       window.application.main = function() {
-        QxImageManager.defineAlias("images", "images");
+        qx.manager.object.ImageManager.defineAlias("images", "images");
         var viewer = new qx.apiviewer.ApiViewer(this.getClientWindow());
         viewer.loadDocTreeFromUrl("../../../test/doc-json/docTree.js");
         //viewer.showClass("qx.ui.Table");

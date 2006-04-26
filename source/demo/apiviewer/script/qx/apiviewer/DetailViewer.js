@@ -1,20 +1,19 @@
 /**
  * Shows the class details.
  */
-qx.apiviewer.DetailViewer = function() {
-  QxIframe.call(this, "api-detail.html");
+qx.OO.defineClass("qx.apiviewer.DetailViewer", qx.ui.embed.Iframe, 
+function() {
+  qx.ui.embed.Iframe.call(this, "api-detail.html");
 
   qx.apiviewer.DetailViewer.instance = this;
 };
 
-clazz = qx.apiviewer.DetailViewer;
-
-clazz.extend(QxIframe, "qx.apiviewer.DetailViewer");
+clazz = qx.apiviewer.DetailViewer);
 
 
 // overridden
 proto._afterAppear = function() {
-  QxIframe.prototype._afterAppear.call(this);
+  qx.ui.embed.Iframe.prototype._afterAppear.call(this);
 
   var DetailViewer = qx.apiviewer.DetailViewer;
 
@@ -258,7 +257,7 @@ proto.showItem = function(itemName) {
   this._markedElement = elem;
 
   // Scroll the element visible
-  var top = QxDom.getComputedPageBoxTop(elem);
+  var top = qx.dom.DomLocation.getPageBoxTop(elem);
   var height = elem.offsetHeight;
 
   var doc = this.getContentDocument();
@@ -457,7 +456,7 @@ proto._getItemElement = function(nodeType, name) {
 proto._selectItem = function(itemName) {
   try {
     qx.apiviewer.ApiViewer.instance.selectItem(itemName);
-    QxWidget.flushGlobalQueues();
+    qx.ui.core.Widget.flushGlobalQueues();
   } catch (exc) {
     this.error("Selecting item '" + itemName + "' failed", null, exc);
   }
@@ -1159,7 +1158,7 @@ proto.dispose = function() {
     doc._detailViewer = null;
   }
 
-  return QxIframe.prototype.dispose.call(this);
+  return qx.ui.embed.Iframe.prototype.dispose.call(this);
 };
 
 

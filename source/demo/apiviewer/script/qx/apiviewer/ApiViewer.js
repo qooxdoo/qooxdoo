@@ -1,30 +1,31 @@
 /**
  * The API viewer. Shows the API documentation.
  *
- * @param clientWindow {QxClientWindow} the window were to show the API
+ * @param clientWindow {qx.client.ClientWindow} the window were to show the API
  *        documentation.
  */
-qx.apiviewer.ApiViewer = function (clientWindow) {
-  QxObject.call(this);
+qx.OO.defineClass("qx.apiviewer.ApiViewer", qx.core.Object, 
+function (clientWindow) {
+  qx.core.Object.call(this);
 
-  var boxLayout = new QxHorizontalBoxLayout;
+  var boxLayout = new qx.ui.layout.HorizontalBoxLayout;
 
   boxLayout.setLocation(0, 0);
   boxLayout.set({ right:0, bottom:0, spacing:5 });
 
-  this._tree = new QxTree("qooxdoo API Documentation")
-  this._tree.set({ backgroundColor:255, border:QxBorderObject.presets.black,
-    overflow:"scrollY", width:300, height:QxConst.CORE_HUNDREDPERCENT });
+  this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation")
+  this._tree.set({ backgroundColor:255, border:qx.renderer.border.BorderObject.presets.black,
+    overflow:"scrollY", width:300, height:qx.Const.CORE_HUNDREDPERCENT });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   boxLayout.add(this._tree);
 
   this._detailViewer = new qx.apiviewer.DetailViewer;
-  this._detailViewer.set({ border:QxBorderObject.presets.black,
-    width:QxConst.CORE_FLEX, height:QxConst.CORE_HUNDREDPERCENT,
+  this._detailViewer.set({ border:qx.renderer.border.BorderObject.presets.black,
+    width:qx.Const.CORE_FLEX, height:qx.Const.CORE_HUNDREDPERCENT,
     visibility:false });
   boxLayout.add(this._detailViewer);
 
-  // Workaround: Since navigating in QxTree doesn't work, we've to maintain a
+  // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to maintain a
   //             hash that keeps the tree nodes for class names
   this._classTreeNodeHash = {};
 
@@ -56,7 +57,7 @@ proto._modifyDocTree = function(propValue, propOldValue, propData) {
  * @param url {string} the URL.
  */
 proto.loadDocTreeFromUrl = function(url) {
-  var req = new QxRequest(url);
+  var req = new qx.io.remote.RemoteRequest(url);
   handler = function(evt) {
     this.debug("request handler");
     req.removeEventListener("completed", handler, this);
@@ -85,7 +86,7 @@ proto.loadDocTreeFromUrl = function(url) {
  */
 proto._updateTree = function(docTree) {
   this.debug("_updateTree");
-  var packagesNode = new QxTreeFolder("Packages");
+  var packagesNode = new qx.ui.tree.TreeFolder("Packages");
 
   this._tree.removeAll();
   this._tree.add(packagesNode);
@@ -99,7 +100,7 @@ proto._updateTree = function(docTree) {
 /**
  * Fills a package tree node with tree nodes for the sub packages and classes.
  *
- * @param treeNode {QxTreeFolder} the package tree node.
+ * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
  * @param docNode {Map} the documentation node of the package.
  */
 proto._fillPackageNode = function(treeNode, docNode) {
@@ -110,7 +111,7 @@ proto._fillPackageNode = function(treeNode, docNode) {
     for (var i = 0; i < packagesDocNode.children.length; i++) {
       var packageDocNode = packagesDocNode.children[i];
       var iconUrl = TreeUtil.getIconUrl(packageDocNode);
-      var packageTreeNode = new QxTreeFolder(packageDocNode.attributes.name, iconUrl);
+      var packageTreeNode = new qx.ui.tree.TreeFolder(packageDocNode.attributes.name, iconUrl);
       packageTreeNode.docNode = packageDocNode;
       treeNode.add(packageTreeNode);
 
@@ -128,7 +129,7 @@ proto._fillPackageNode = function(treeNode, docNode) {
     for (var i = 0; i < classesDocNode.children.length; i++) {
       var classDocNode = classesDocNode.children[i];
       var iconUrl = TreeUtil.getIconUrl(classDocNode);
-      var classTreeNode = new QxTreeFolder(classDocNode.attributes.name, iconUrl);
+      var classTreeNode = new qx.ui.tree.TreeFolder(classDocNode.attributes.name, iconUrl);
       classTreeNode.docNode = classDocNode;
       treeNode.add(classTreeNode);
 

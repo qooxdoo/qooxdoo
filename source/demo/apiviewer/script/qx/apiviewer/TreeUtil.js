@@ -1,13 +1,12 @@
 /**
  * A util class for handling the documentation tree.
  */
-qx.apiviewer.TreeUtil = function () {
-  QxObject.call(this);
+qx.OO.defineClass("qx.apiviewer.TreeUtil", qx.core.Object, 
+function () {
+  qx.core.Object.call(this);
 };
 
-clazz = qx.apiviewer.TreeUtil;
-
-clazz.extend(QxObject, "qx.apiviewer.TreeUtil");
+clazz = qx.apiviewer.TreeUtil);
 
 
 /**
