@@ -777,6 +777,8 @@ def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData,
 
 def printHelp():
   print
+
+  # Help
   print "  HELP"
   print "***********************************************************************************************"
   print "  -h,  --help                       show this help screen"
