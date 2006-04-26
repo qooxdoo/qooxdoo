@@ -838,7 +838,7 @@ def main(conf):
   print "  * Sorting files..."
 
   # Building Filelists
-  if conf["useAll"]:
+  if conf["includeAll"]:
     for key in loadDependencyData:
       includeIds.append(key)
 
@@ -1006,7 +1006,7 @@ def main(conf):
 
 
 
-def helptext():
+def printHelp():
   print
   print "  HELP"
   print "***********************************************************************************************"
@@ -1071,12 +1071,13 @@ def start():
   outputCompressed = "compressed"
   outputTokenized = "tokenized"
 
-  useAll = False
+  includeAll = False
+
   ignoreIncludeDeps = False
   ignoreExcludeDeps = False
 
   if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
-    helptext()
+    printHelp()
     return
 
   print
@@ -1162,7 +1163,7 @@ def start():
       i += 1
 
     elif c == "-a" or c == "--use-all":
-      useAll = True
+      includeAll = True
 
     elif c == "-ii" or c == "--ignore-include-deps":
       ignoreIncludeDeps = True
@@ -1172,7 +1173,7 @@ def start():
 
     else:
       print "  Unknown option: %s" % c
-      helptext()
+      printHelp()
       return
 
 
@@ -1207,7 +1208,7 @@ def start():
   print "  Options:"
   print "  * Combined File (-cf): %s" % outputCombined
   print "  * Output Single Generated Files (-oc): %s" % outputSingle
-  print "  * Use All Known Files (-a): %s" % useAll
+  print "  * Use All Known Files (-a): %s" % includeAll
   print "  * Ignore Include Deps (-ii): %s" % ignoreIncludeDeps
   print "  * Ignore Exclude Deps (-ie): %s" % ignoreExcludeDeps
 
@@ -1222,7 +1223,7 @@ def start():
     "sourceDirectories" : sourceDirectories, "sourceFiles" : sourceFiles,
     "outputBuild" : outputBuild, "outputXml" : outputXml, "outputTokenized" : outputTokenized, "outputCompressed" : outputCompressed,
     "makeOptimized" : makeOptimized, "makeDocs" : makeDocs,
-    "useAll" : useAll, "ignoreIncludeDeps" : ignoreIncludeDeps, "ignoreExcludeDeps" : ignoreExcludeDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
+    "includeAll" : includeAll, "ignoreIncludeDeps" : ignoreIncludeDeps, "ignoreExcludeDeps" : ignoreExcludeDeps, "outputCombined" : outputCombined, "outputSingle" : outputSingle,
     "listPre" : listPre, "listFiles" : listFiles, "listPackages" : listPackages, "listInclude" : listInclude, "listPost" : listPost,
     "includePackages" : includePackages, "includeIds" : includeIds,
     "excludePackages" : excludePackages, "excludeIds" : excludeIds
