@@ -34,17 +34,22 @@ def createDoc(syntaxTree, docTree = None):
         leftItem = item.getFirstListChild("left")
         rightItem = item.getFirstListChild("right")
         if leftItem.type == "variable":
-          if len(leftItem.children) == 2:
-            firstName = leftItem.children[0].get("name")
-            secondName = leftItem.children[1].get("name")
-            if firstName == "proto" and rightItem.type == "function":
+          if currClassNode and len(leftItem.children) == 3 and leftItem.children[0].get("name") == "qx":
+            if leftItem.children[1].get("name") == "Proto" and rightItem.type == "function":
               # It's a method definition
               handleMethodDefinition(item, False, currClassNode)
-            elif currClassNode and (firstName == "clazz" or firstName == currClassNode.get("fullName")):
+            elif leftItem.children[1].get("name") == "Class":
               if rightItem.type == "function":
                 handleMethodDefinition(item, True, currClassNode)
-              elif secondName.isupper():
+              elif leftItem.children[2].get("name").isupper():
                 handleConstantDefinition(item, currClassNode)
+          elif currClassNode and assembleVariable(leftItem).startswith(currClassNode.get("fullName")):
+            # This is definition of the type "mypackage.MyClass.bla = ..."
+            if rightItem.type == "function":
+              handleMethodDefinition(item, True, currClassNode)
+            elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
+              handleConstantDefinition(item, currClassNode)
+
       elif item.type == "call":
         operand = item.getChild("operand", False)
         if operand:
@@ -267,7 +272,7 @@ def handleMethodDefinition(item, isStatic, classNode):
   commentNode = parseDocComment(item)
 
   node = handleFunction(rightItem, commentNode, classNode)
-  name = leftItem.children[1].get("name")
+  name = leftItem.children[len(leftItem.children) - 1].get("name")
   node.set("name", name)
 
   isPublic = name[0] != "_"
@@ -288,7 +293,7 @@ def handleConstantDefinition(item, classNode):
   leftItem = item.getFirstListChild("left")
 
   node = tree.Node("constant")
-  node.set("name", leftItem.children[1].get("name"))
+  node.set("name", leftItem.children[len(leftItem.children) - 1].get("name"))
 
   commentNode = parseDocComment(item)
   if not commentNode:
