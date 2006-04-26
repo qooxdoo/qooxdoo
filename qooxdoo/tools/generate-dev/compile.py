@@ -174,10 +174,10 @@ R_ALL = re.compile(S_ALL)
 
 
 tokenizerLine = 0
-tokenizerFile = ""
+tokenizerId = ""
 
 xmlindent = 0
-xmloutput = ""
+xmlString = ""
 treecontext = []
 
 
@@ -191,41 +191,41 @@ def recoverEscape(s):
 
 
 
-def tokenize_name(data):
-  global tokenizerFile
+def tokenize_name(nameContent):
+  global tokenizerId
   global tokenizerLine
 
-  if PROTECTED.has_key(data):
-    # print "PROTECTED: %s" % PROTECTED[data]
-    return { "type" : "protected", "detail" : PROTECTED[data], "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+  if PROTECTED.has_key(nameContent):
+    # print "PROTECTED: %s" % PROTECTED[nameContent]
+    return { "type" : "protected", "detail" : PROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif data in BUILTIN:
-    return { "type" : "builtin", "detail" : "", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+  elif nameContent in BUILTIN:
+    return { "type" : "builtin", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif R_NUMBER.search(data):
-    # print "NUMBER: %s" % data
-    return { "type" : "number", "detail" : "", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+  elif R_NUMBER.search(nameContent):
+    # print "NUMBER: %s" % nameContent
+    return { "type" : "number", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif data.startswith("_"):
-    # print "PRIVATE NAME: %s" % data
-    return { "type" : "name", "detail" : "private", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+  elif nameContent.startswith("_"):
+    # print "PRIVATE NAME: %s" % nameContent
+    return { "type" : "name", "detail" : "private", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif len(data) > 0:
-    # print "PUBLIC NAME: %s" % data
-    return { "type" : "name", "detail" : "public", "source" : data, "line" : tokenizerLine, "file" : tokenizerFile }
+  elif len(nameContent) > 0:
+    # print "PUBLIC NAME: %s" % nameContent
+    return { "type" : "name", "detail" : "public", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
 
 
-def tokenize_part(data):
-  global tokenizerFile
+def tokenize_part(partContent):
+  global tokenizerId
   global tokenizerLine
 
   result = []
   temp = ""
 
-  for line in R_NEWLINE.split(data):
+  for line in R_NEWLINE.split(partContent):
     if line == "\n":
-      result.append({ "type" : "eol", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
+      result.append({ "type" : "eol", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerId })
       tokenizerLine += 1
 
     else:
@@ -238,7 +238,7 @@ def tokenize_part(data):
 
               temp = ""
 
-            result.append({ "type" : "token", "detail" : TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerFile })
+            result.append({ "type" : "token", "detail" : TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerId })
 
           else:
             temp += char
@@ -253,20 +253,21 @@ def tokenize_part(data):
 
 
 
-def tokenizer(data, filename):
+def tokenizer(fileContent, uniqueId):
+
   # make global variables available
   global tokenizerLine
-  global tokenizerFile
+  global tokenizerId
 
   # reset global stuff
   tokenizerLine = 1
-  tokenizerFile = filename
+  tokenizerId = uniqueId
 
   # Protect/Replace Escape sequences first
-  data = data.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
+  fileContent = fileContent.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
 
   # Searching for special characters and sequences
-  alllist = R_ALL.findall(data)
+  alllist = R_ALL.findall(fileContent)
   tokenized = []
 
   for item in alllist:
@@ -275,74 +276,75 @@ def tokenizer(data, filename):
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
 
-      pos = data.find(fragment)
+      pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-      data = data[pos+len(fragment):]
-      tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : tokenizerFile, "line" : tokenizerLine })
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
 
       tokenizerLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
 
-      pos = data.find(fragment)
+      pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-      data = data[pos+len(fragment):]
-      tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : tokenizerFile, "line" : tokenizerLine })
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
 
-      pos = data.find(fragment)
+      pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-      data = data[pos+len(fragment):]
-      tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
 
-      pos = data.find(fragment)
+      pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-      data = data[pos+len(fragment):]
-      tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerFile, "line" : tokenizerLine })
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
 
-      pos = data.find(fragment)
+      pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-      data = data[pos+len(fragment):]
-      tokenized.append({ "type" : "token", "detail" : TOKENS[fragment], "source" : fragment, "file" : tokenizerFile, "line" : tokenizerLine })
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "token", "detail" : TOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     else:
       fragresult = R_REGEXP.search(fragment)
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
 
-        pos = data.find(fragresult.group(0))
+        pos = fileContent.find(fragresult.group(0))
         if pos > 0:
-          tokenized.extend(tokenize_part(recoverEscape(data[0:pos])))
+          tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
-        data = data[pos+len(fragresult.group(0)):]
-        tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : tokenizerFile, "line" : tokenizerLine })
+        fileContent = fileContent[pos+len(fragresult.group(0)):]
+        tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : tokenizerId, "line" : tokenizerLine })
 
       else:
         print "Type:None!"
 
 
-  tokenized.extend(tokenize_part(recoverEscape(data)))
+  tokenized.extend(tokenize_part(recoverEscape(fileContent)))
 
-  tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerFile })
+  tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerId })
+
   return tokenized
 
 
@@ -356,7 +358,7 @@ def tokenizer(data, filename):
 
 
 
-def treebuilder(data, item):
+def treebuilder(fileContent, item):
   global xmlindent
   global treecontext
   global sourceline
@@ -372,13 +374,13 @@ def treebuilder(data, item):
   tagstart("info")
 
   tagsingle("id", item)
-  tagsingle("datasize", len(data))
+  tagsingle("datasize", len(fileContent))
 
   tagstop("info")
 
   tagstart("content")
 
-  treebuilder_content(data, item)
+  treebuilder_content(fileContent, item)
 
   tagstop("content")
 
@@ -398,7 +400,7 @@ def treecloser(need=False):
     tagstop("block")
 
   elif need:
-    print "    Warning: Used semicolon outside a block! (Line: %s)" % sourceline
+    print "      - Warning: Used semicolon outside a block! (Line: %s)" % sourceline
 
 
   while treecontext[-1] == "else":
@@ -419,10 +421,10 @@ def treeblockstart(typ, det, src):
   global sourceline
 
   if treecontext[-1] == "if":
-    print "    Info: No brackets for if command! (Line: %s)" % sourceline
+    print "      - Info: No brackets for if command! (Line: %s)" % sourceline
 
   if treecontext[-1] == "else" and not(typ == "protected" and det == "IF"):
-    print "    Info: No brackets for else command! (Line: %s)" % sourceline
+    print "      - Info: No brackets for else command! (Line: %s)" % sourceline
 
 
   tagstart("block")
@@ -605,20 +607,20 @@ def treebuilder_content(data, item):
 
 def tagsingle(tag, content):
   global xmlindent
-  global xmloutput
+  global xmlString
 
-  xmloutput += "%s<%s>%s</%s>\n" % (("  " * xmlindent), tag, content, tag)
+  xmlString += "%s<%s>%s</%s>\n" % (("  " * xmlindent), tag, content, tag)
 
 def tagspace():
   global xmlindent
-  global xmloutput
+  global xmlString
   global sourceline
 
-  xmloutput += "%s<space line=\"%s\"/>\n" % (("  " * xmlindent), sourceline)
+  xmlString += "%s<space line=\"%s\"/>\n" % (("  " * xmlindent), sourceline)
 
 def tagsource(tag, detail, source):
   global xmlindent
-  global xmloutput
+  global xmlString
   global sourceline
 
   if detail == "\"":
@@ -626,28 +628,28 @@ def tagsource(tag, detail, source):
 
   source = source.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-  xmloutput += "%s<%s detail=\"%s\" line=\"%s\">%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source, tag)
+  xmlString += "%s<%s detail=\"%s\" line=\"%s\">%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source, tag)
 
 def tagcomment(tag, detail, source):
   global xmlindent
-  global xmloutput
+  global xmlString
   global sourceline
 
-  xmloutput += "%s<%s detail=\"%s\" line=\"%s\">\n%s\n%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source.replace("<", "&lt;").replace(">", "&gt;"), ("  " * xmlindent), tag)
+  xmlString += "%s<%s detail=\"%s\" line=\"%s\">\n%s\n%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source.replace("<", "&lt;").replace(">", "&gt;"), ("  " * xmlindent), tag)
 
 def tagstart(tag):
   global xmlindent
-  global xmloutput
+  global xmlString
   global treecontext
   global sourceline
 
-  xmloutput += "%s<%s line=\"%s\">\n" % (("  " * xmlindent), tag, sourceline)
+  xmlString += "%s<%s line=\"%s\">\n" % (("  " * xmlindent), tag, sourceline)
   xmlindent += 1
   treecontext.append(tag)
 
 def tagstop(tag):
   global xmlindent
-  global xmloutput
+  global xmlString
   global treecontext
   global sourceline
 
@@ -657,19 +659,19 @@ def tagstop(tag):
     print "    Warning: Want to close: %s, but in wrong tree context: %s (Line: %s)" % (tag, treecontext[-1], sourceline)
 
     xmlindent -= 1;
-    xmloutput += "%s</%s>\n" % (("  " * xmlindent), treecontext.pop())
+    xmlString += "%s</%s>\n" % (("  " * xmlindent), treecontext.pop())
 
 
 
   xmlindent -= 1;
-  xmloutput += "%s</%s>\n" % (("  " * xmlindent), tag)
+  xmlString += "%s</%s>\n" % (("  " * xmlindent), tag)
   treecontext.pop()
 
 def xmlheader():
-  global xmloutput
+  global xmlString
   global sourceline
 
-  xmloutput = "<?xml version=\"1.0\" encoding=\"iso-8859-15\"?>\n\n"
+  xmlString = "<?xml version=\"1.0\" encoding=\"iso-8859-15\"?>\n\n"
 
 
 
@@ -739,8 +741,11 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
         knownPackages[pkgname] = [ thisClass ]
 
 
-
   return thisClass
+
+
+
+
 
 
 
@@ -786,32 +791,26 @@ def printHelp():
   print "  -h,  --help                       show this help screen"
   print
 
-  # Directories
-  print "  -sd, --source-directories <DIRS>  comma separated list with source directories (to search in for files)"
-  print "  -ob, --output-build <DIR>         the output directory where the standalone compressed files should be stored"
-  print "  -ox, --output-xml <DIR>           the output directory where the standalone generated xml files should be stored"
-  print
-
   # Jobs
-  print "  -gb, --generate-build             generate build version"
-  print "  -lf, --list-files                 list known files"
-  print "  -lp, --list-packages              list known knownPackages"
-  print "  -li, --list-include               list include order"
+  print "  -b,  --generate-build             generate build version"
+  print "  -f,  --print-files                print known files"
+  print "  -p,  --print-packages             print known packages"
+  print "  -s,  --print-sorted               print sorted include list"
   print
 
   # Include/Exclude
-  print "  -ip, --include-packages <PKGIDS>  comma seperated list of package IDs to include"
-  print "  -id, --include-ids <IDS>          comma seperated list of file IDs to include"
-  print "  -ep, --exclude-packages <PKGIDS>  comma seperated list of package IDs to exclude"
-  print "  -ed, --exclude-ids <IDS>          comma seperated list of file IDs to exclude"
+  print "  -i,  --include <LIST>             comma seperated include list"
+  print "  -e,  --exclude <LIST>             comma seperated exclude list"
+  print "       --disable-include-deps       disable include dependencies"
+  print "       --disable-exclude-deps       disable exclude dependencies"
   print
 
-  # Options
-  print "  -a,  --use-all                    include all known files"
-  print "  -ii, --ignore-include-deps        ignore include dependencies, use only explicitly defined things"
-  print "  -ie, --ignore-exclude-deps        ignore exclude dependencies, use only explicitly defined things"
-  print "  -cf, --combined-file <FILE>       create a combined file with the given filename"
-  print "  -oc, --only-combined              do not create single compressed files (useful in combination with the previous option)"
+  # Directories
+  print "       --source-directories <LIST>  comma separated list with source directories"
+  print "       --output-tokenized <DIR>     destination directory of tokenized files"
+  print "       --output-xml <DIR>           destination directory of xml files"
+  print "       --output-build <DIR>         destination directory of build files"
+  print "       --output-combined <FILE>     destination file of all builded files"
   print
 
 
@@ -819,7 +818,7 @@ def printHelp():
 
 
 def start():
-  global xmloutput
+  global xmlString
 
   loadDependencyData = {}
   runtimeDependencyData = {}
@@ -830,7 +829,7 @@ def start():
   includeIds = []
   excludeIds = []
 
-  combinedOptimized = ""
+  combinedBuildContent = ""
 
 
 
@@ -839,34 +838,24 @@ def start():
 
   # Source
   cmdSourceDirectories = ["source/script", "source/themes"]
-  cmdSourceFiles = ""
 
   # Jobs
   cmdGenerateBuild = False
-  cmdListPackages = False
-  cmdListFiles = False
-  cmdListPre = False
-  cmdListPost = False
-  cmdListIncludes = False
+  cmdPrintKnownFiles = False
+  cmdPrintKnownPackages = False
+  cmdPrintSortedIdList = False
 
   # Include/Exclude
-  cmdIncludePackages = []
-  cmdIncludeIds = []
-  cmdExcludePackages = []
-  cmdExcludeIds = []
-
-  # Output
-  cmdOutputBuild = "build/script"
-  cmdOutputXml = "xml"
-  cmdOutputCompressed = "compressed"
-  cmdOutputTokenized = "tokenized"
-
-  # Options
-  cmdOutputCombined = ""
-  cmdOutputSingle = True
-  cmdIncludeAll = False
+  cmdInclude = []
+  cmdExclude = []
   cmdIgnoreIncludeDeps = False
   cmdIgnoreExcludeDeps = False
+
+  # Output
+  cmdOutputTokenized = ""
+  cmdOutputXml = "build/xml"
+  cmdOutputBuild = "build/script/cache/"
+  cmdOutputCombined = "build/script/qooxdoo.js"
 
 
 
@@ -885,98 +874,64 @@ def start():
   while i < len(sys.argv):
     c = sys.argv[i]
 
-
     # Source
-    if c == "-sd" or c == "--source-directories":
+    if c == "--source-directories":
       cmdSourceDirectories = sys.argv[i+1].split(",")
 
       if "" in cmdSourceDirectories:
         cmdSourceDirectories.remove("")
       i += 1
 
-    elif c == "-sf" or c == "--source-files":
-      cmdSourceFiles = sys.argv[i+1].split(",")
-
-      if "" in cmdSourceFiles:
-        cmdSourceFiles.remove("")
-      i += 1
-
-
 
 
     # Output
-    elif c == "-ob" or c == "--output-build":
-      cmdOutputBuild = sys.argv[i+1]
-      i += 1
-
-    elif c == "-ox" or c == "--output-xml":
-      cmdOutputXml = sys.argv[i+1]
-      i += 1
-
-    elif c == "-ot" or c == "--output-tokenized":
+    elif c == "--output-tokenized":
       cmdOutputTokenized = sys.argv[i+1]
       i += 1
 
-    elif c == "-oc" or c == "--output-compressed":
-      cmdOutputCompressed = sys.argv[i+1]
+    elif c == "--output-xml":
+      cmdOutputXml = sys.argv[i+1]
+      i += 1
+
+    elif c == "--output-build":
+      cmdOutputBuild = sys.argv[i+1]
+      i += 1
+
+    elif c == "--output-combined":
+      cmdOutputCombined = sys.argv[i+1]
       i += 1
 
 
 
-
-     # Jobs
-    elif c == "-gb" or c == "--generate-build":
+    # Jobs
+    elif c == "-b" or c == "--generate-build":
       cmdGenerateBuild = True
 
-    elif c == "-lp" or c == "--list-packages":
-      cmdListPackages = True
+    elif c == "-p" or c == "--print-packages":
+      cmdPrintKnownPackages = True
 
-    elif c == "-lf" or c == "--list-files":
-      cmdListFiles = True
+    elif c == "-f" or c == "--print-files":
+      cmdPrintKnownFiles = True
 
-    elif c == "-li" or c == "--list-includes":
-      cmdListIncludes = True
-
+    elif c == "-s" or c == "--print-sorted":
+      cmdPrintSortedIdList = True
 
 
 
     # Include/Exclude
-    elif c == "-ip" or c == "--include-packages":
-      cmdIncludePackages = sys.argv[i+1].split(",")
+    elif c == "-i" or c == "--include":
+      cmdInclude = sys.argv[i+1].split(",")
       i += 1
 
-    elif c == "-id" or c == "--include-ids":
-      cmdIncludeIds = sys.argv[i+1].split(",")
+    elif c == "-e" or c == "--exclude":
+      cmdExclude = sys.argv[i+1].split(",")
       i += 1
 
-    elif c == "-ep" or c == "--exclude-packages":
-      cmdExcludePackages = sys.argv[i+1].split(",")
-      i += 1
-
-    elif c == "-ed" or c == "--exclude-ids":
-      cmdExcludeIds = sys.argv[i+1].split(",")
-      i += 1
-
-
-
-
-    # Options
-    elif c == "-cf" or c == "--combined-file":
-      cmdOutputCombined = sys.argv[i+1]
-      i += 1
-
-    elif c == "-oc" or c == "--only-combined":
-      cmdOutputSingle = False
-
-    elif c == "-a" or c == "--use-all":
-      cmdIncludeAll = True
-
-    elif c == "-ii" or c == "--ignore-include-deps":
+    elif c == "--disable-include-deps":
       cmdIgnoreIncludeDeps = True
 
-    elif c == "-ie" or c == "--ignore-exclude-deps":
+    elif c == "--disable-exclude-deps":
       cmdIgnoreExcludeDeps = True
-
 
 
 
@@ -995,7 +950,7 @@ def start():
 
 
 
-  if cmdGenerateBuild == False and cmdListFiles == False and cmdListPackages == False and cmdListIncludes == False:
+  if cmdGenerateBuild == False and cmdPrintKnownFiles == False and cmdPrintKnownPackages == False and cmdPrintSortedIdList == False:
     print
     print "  NO JOB GIVEN"
     print "***********************************************************************************************"
@@ -1018,14 +973,15 @@ def start():
 
   print "  * Creating directory layout..."
 
-  if not os.path.exists(cmdOutputBuild):
-    os.makedirs(cmdOutputBuild)
+  if cmdOutputTokenized != "" and not os.path.exists(cmdOutputTokenized):
+    os.makedirs(cmdOutputTokenized)
 
-  if not os.path.exists(cmdOutputXml):
+  if cmdOutputXml != "" and not os.path.exists(cmdOutputXml):
     os.makedirs(cmdOutputXml)
 
-  if not os.path.exists(cmdOutputTokenized):
-    os.makedirs(cmdOutputTokenized)
+  if cmdOutputBuild != "" and not os.path.exists(cmdOutputBuild):
+    os.makedirs(cmdOutputBuild)
+
 
 
 
@@ -1053,44 +1009,55 @@ def start():
 
 
 
+
   print "  * Sorting files..."
 
-  # Building Filelists
-  if cmdIncludeAll:
-    for key in loadDependencyData:
-      includeIds.append(key)
+  # INCLUDE
 
-  else:
-    # Add Packages
-    for pkg in cmdIncludePackages:
-      includeIds.extend(knownPackages[pkg])
+  # Add Packages and Files
+  for include in cmdInclude:
+    if include in knownPackages:
+      includeIds.extend(knownPackages[include])
 
-    # Add Files
-    includeIds.extend(cmdIncludeIds)
+    else:
+      includeIds.append(include)
 
+  # Add all if empty
+  if len(includeIds) == 0:
+    for uniqueId in knownFiles:
+      includeIds.append(uniqueId)
 
-
-  # Add Exclude knownPackages
-  for pkg in cmdExcludePackages:
-    excludeIds.extend(knownPackages[pkg])
-
-  # Add Exclude Files
-  excludeIds.extend(cmdExcludeIds)
-
-  # Sorting included files...
+  # Sorting
   sortedIncludeList = []
   for uniqueId in includeIds:
     addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, cmdIgnoreIncludeDeps)
 
-  # Sorting excluded files...
+
+
+  # EXCLUDE
+
+  # Add Packages and Files
+  for exclude in cmdExclude:
+    if exclude in knownPackages:
+      excludeIds.extend(knownPackages[exclude])
+
+    else:
+      excludeIds.append(exclude)
+
+  # Sorting
   sortedExcludeList = []
   for uniqueId in excludeIds:
     addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedExcludeList, cmdIgnoreExcludeDeps)
 
+
+
+
+  # MERGE
+
   # Remove excluded files from included files list
-  for key in sortedExcludeList:
-    if key in sortedIncludeList:
-      sortedIncludeList.remove(key)
+  for uniqueId in sortedExcludeList:
+    if uniqueId in sortedIncludeList:
+      sortedIncludeList.remove(uniqueId)
 
 
 
@@ -1098,14 +1065,14 @@ def start():
 
 
 
-  if cmdListFiles:
+  if cmdPrintKnownFiles:
     print
     print "  KNOWN FILES:"
     print "***********************************************************************************************"
     for key in knownFiles:
       print "  %s (%s)" % (key, knownFiles[key])
 
-  if cmdListPackages:
+  if cmdPrintKnownPackages:
     print
     print "  KNOWN PACKAGES:"
     print "***********************************************************************************************"
@@ -1114,19 +1081,12 @@ def start():
       for key in knownPackages[pkg]:
         print "    - %s" % key
 
-  if cmdListIncludes:
+  if cmdPrintSortedIdList:
     print
     print "  INCLUDE ORDER:"
     print "***********************************************************************************************"
     for key in sortedIncludeList:
       print "  * %s" % key
-
-
-
-
-
-
-
 
   if cmdGenerateBuild:
     print
@@ -1136,56 +1096,66 @@ def start():
     for uniqueId in sortedIncludeList:
       print "  * %s" % uniqueId
 
-      infilename = knownFiles[uniqueId]
+      fileContent = file(knownFiles[uniqueId], "r").read()
+      tokenizedString = ""
+      xmlString = ""
 
-      if cmdGenerateBuild:
-        tokenized = tokenizer(file(knownFiles[uniqueId], "r").read(), infilename)
 
-        tokenizedString = ""
-        for token in tokenized:
+
+
+      print "    * tokenizing..."
+
+      tokenizedFileContent = tokenizer(fileContent, uniqueId)
+
+      if cmdOutputTokenized != "":
+        for token in tokenizedFileContent:
           tokenizedString += "%s%s" % (token, "\n")
 
-        outfilename = os.path.join(cmdOutputTokenized, uniqueId + TKEXT)
+        tokenizedFileName = os.path.join(cmdOutputTokenized, uniqueId + TKEXT)
 
-        outfile = file(outfilename, "w")
-        outfile.write(tokenizedString)
-        outfile.flush()
-        outfile.close()
-
-
-      if cmdGenerateBuild:
-        treebuilder(tokenized, uniqueId)
-
-        outfilename = os.path.join(cmdOutputXml, uniqueId + XMLEXT)
-
-        outfile = file(outfilename, "w")
-        outfile.write(xmloutput)
-        outfile.flush()
-        outfile.close()
-
-        xmloutput = ""
-
-        optfilename = os.path.join(cmdOutputCompressed, uniqueId + JSEXT)
-        os.system("/usr/bin/xsltproc -o " + optfilename + " tools/generate-dev/compile_compress.xsl " + outfilename)
-
-        if cmdOutputCombined:
-          combinedOptimized += "/* " + infilename + " */ " + file(optfilename, "r").read()
-
-        if not cmdOutputSingle:
-          os.system("rm -f " + optfilename)
+        tokenizedFile = file(tokenizedFileName, "w")
+        tokenizedFile.write(tokenizedString)
+        tokenizedFile.flush()
+        tokenizedFile.close()
 
 
 
-    if cmdGenerateBuild and cmdOutputCombined != "":
-      print
-      print "  COMBINING OUTPUT FILES"
-      print "***********************************************************************************************"
-      print "  Writing to: %s" % cmdOutputCombined
 
-      outfile = file(cmdOutputCombined, "w")
-      outfile.write(combinedOptimized)
-      outfile.flush()
-      outfile.close()
+      print "    * structuring..."
+
+      treebuilder(tokenizedFileContent, uniqueId)
+
+      if cmdOutputXml != "":
+        xmlFileName = os.path.join(cmdOutputXml, uniqueId + XMLEXT)
+
+        xmlFile = file(xmlFileName, "w")
+        xmlFile.write(xmlString)
+        xmlFile.flush()
+        xmlFile.close()
+
+
+
+
+
+      print "    * building..."
+
+      buildFileName = os.path.join(cmdOutputBuild, uniqueId + JSEXT)
+      os.system("/usr/bin/xsltproc -o " + buildFileName + " tools/generate-dev/compile_compress.xsl " + xmlFileName)
+
+      combinedBuildContent += "/* " + uniqueId + " */ " + file(buildFileName, "r").read()
+
+
+
+
+    print
+    print "  COMBINING BUILD FILES:"
+    print "***********************************************************************************************"
+    print "  Writing to: %s" % cmdOutputCombined
+
+    combinedFile = file(cmdOutputCombined, "w")
+    combinedFile.write(combinedBuildContent)
+    combinedFile.flush()
+    combinedFile.close()
 
 
 
