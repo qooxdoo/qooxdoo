@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListView", qx.ui.layout.VerticalBoxLayout, 
+qx.OO.defineClass("qx.ui.listview.ListView", qx.ui.layout.VerticalBoxLayout,
 function(vData, vColumns)
 {
   // ************************************************************************
@@ -267,7 +267,7 @@ qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
     var vNewCell = this._getHeaderCell(propValue);
 
     if (vNewCell && vNewCell.getSortOrder() == null) {
-      vNewCell.setSortOrder(qx.Const.SORT_ASCENDING);
+      vNewCell.setSortOrder(qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING);
     };
   };
 

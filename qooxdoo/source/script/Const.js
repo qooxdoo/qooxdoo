@@ -279,13 +279,9 @@ qx.OO.defineClass("qx.Const",
   OVERFLOW_VALUE_HORIZONTAL : "scrollX",
   OVERFLOW_VALUE_VERTICAL : "scrollY",
   OVERFLOW_VALUE_ELLIPSIS : "ellipsis",
-
   OVERFLOW_VALUE_MOZ_NONE : "-moz-scrollbars-none",
   OVERFLOW_VALUE_MOZ_HORIZONTAL : "-moz-scrollbars-horizontal",
   OVERFLOW_VALUE_MOZ_VERTICAL : "-moz-scrollbars-vertical",
-
-  SORT_ASCENDING : "ascending",
-  SORT_DESCENDING : "descending",
 
   IMAGE_BLANK : "core/blank.gif",
 
