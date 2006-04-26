@@ -678,14 +678,14 @@ def xmlstart():
 
 
 def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
-  thisclass = None
-  superclass = None
+  thisClass = None
+  superClass = None
 
   dc = R_QXDEFINECLASS.search(data)
 
   if dc:
-    thisclass = dc.group(1)
-    superclass = dc.group(3)
+    thisClass = dc.group(1)
+    superClass = dc.group(3)
 
   else:
     # print "Sorry. Don't find any class informations. Trying id information."
@@ -693,29 +693,29 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
     ns = R_QXUNIQUEID.search(data)
 
     if ns:
-      thisclass = ns.group(1)
+      thisClass = ns.group(1)
 
 
-  if thisclass == None:
+  if thisClass == None:
     print "    * Error while extracting uniqueId!"
     return False
 
 
   # Pre-Creating data storage
-  if not loadDependencyData.has_key(thisclass):
-    loadDependencyData[thisclass] = []
+  if not loadDependencyData.has_key(thisClass):
+    loadDependencyData[thisClass] = []
 
-  if not runtimeDependencyData.has_key(thisclass):
-    runtimeDependencyData[thisclass] = []
+  if not runtimeDependencyData.has_key(thisClass):
+    runtimeDependencyData[thisClass] = []
 
 
   # Storing inheritance deps
-  if superclass != None:
-    if superclass in BUILTIN:
+  if superClass != None:
+    if superClass in BUILTIN:
       pass
 
     else:
-      loadDependencyData[thisclass].append(superclass)
+      loadDependencyData[thisClass].append(superClass)
 
 
   # Storing defined deps and package informations
@@ -725,18 +725,18 @@ def extractDeps(data, loadDependencyData, runtimeDependencyData, packages):
     pkg = R_QXPACKAGE.search(line)
 
     if req:
-      loadDependencyData[thisclass].append(req.group(1))
+      loadDependencyData[thisClass].append(req.group(1))
 
     if use:
-      runtimeDependencyData[thisclass].append(use.group(1))
+      runtimeDependencyData[thisClass].append(use.group(1))
 
     if pkg:
       pkgname = pkg.group(1)
 
       if packages.has_key(pkgname):
-        packages[pkgname].append(thisclass)
+        packages[pkgname].append(thisClass)
       else:
-        packages[pkgname] = [ thisclass ]
+        packages[pkgname] = [ thisClass ]
 
 
 
