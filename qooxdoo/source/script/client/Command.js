@@ -217,10 +217,10 @@ qx.Proto._matchesKeyEvent = function(e)
     {
       switch(vPart)
       {
-        case qx.Class.C_KEY_CTRL:
-        case qx.Class.C_KEY_SHIFT:
-        case qx.Class.C_KEY_ALT:
-        case qx.Class.C_KEY_CONTROL:
+        case qx.client.Command.C_KEY_CTRL:
+        case qx.client.Command.C_KEY_SHIFT:
+        case qx.client.Command.C_KEY_ALT:
+        case qx.client.Command.C_KEY_CONTROL:
           break;
 
         default:
