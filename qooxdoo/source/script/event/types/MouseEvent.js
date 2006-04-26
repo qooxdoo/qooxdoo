@@ -29,7 +29,7 @@
 /*!
   A mouse event instance contains all data for each occured mouse event
 */
-qx.OO.defineClass("qx.event.types.MouseEvent", qx.event.types.DomEvent, 
+qx.OO.defineClass("qx.event.types.MouseEvent", qx.event.types.DomEvent,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
 {
   qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
@@ -39,6 +39,10 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
   };
 });
 
+qx.Class.C_BUTTON_LEFT = "left";
+qx.Class.C_BUTTON_MIDDLE = "middle";
+qx.Class.C_BUTTON_RIGHT = "right";
+qx.Class.C_BUTTON_NONE = "none";
 
 
 
@@ -217,15 +221,15 @@ qx.OO.addFastProperty({ name : "clientY", readOnly : true });
 qx.OO.addFastProperty({ name : "button", readOnly : true });
 
 qx.Proto.isLeftButtonPressed = function() {
-  return this.getButton() === qx.Const.BUTTON_LEFT;
+  return this.getButton() === qx.event.types.MouseEvent.C_BUTTON_LEFT;
 };
 
 qx.Proto.isMiddleButtonPressed = function() {
-  return this.getButton() === qx.Const.BUTTON_MIDDLE;
+  return this.getButton() === qx.event.types.MouseEvent.C_BUTTON_MIDDLE;
 };
 
 qx.Proto.isRightButtonPressed = function() {
-  return this.getButton() === qx.Const.BUTTON_RIGHT;
+  return this.getButton() === qx.event.types.MouseEvent.C_BUTTON_RIGHT;
 };
 
 if (qx.sys.Client.isMshtml())
@@ -235,16 +239,16 @@ if (qx.sys.Client.isMshtml())
     switch(this.getDomEvent().button)
     {
       case 1:
-        return qx.Const.BUTTON_LEFT;
+        return qx.event.types.MouseEvent.C_BUTTON_LEFT;
 
       case 2:
-        return qx.Const.BUTTON_RIGHT;
+        return qx.event.types.MouseEvent.C_BUTTON_RIGHT;
 
       case 4:
-        return qx.Const.BUTTON_MIDDLE;
+        return qx.event.types.MouseEvent.C_BUTTON_MIDDLE;
 
       default:
-        return qx.Const.BUTTON_NONE;
+        return qx.event.types.MouseEvent.C_BUTTON_NONE;
     };
   };
 }
@@ -255,16 +259,16 @@ else
     switch(this.getDomEvent().button)
     {
       case 0:
-        return qx.Const.BUTTON_LEFT;
+        return qx.event.types.MouseEvent.C_BUTTON_LEFT;
 
       case 1:
-        return qx.Const.BUTTON_MIDDLE;
+        return qx.event.types.MouseEvent.C_BUTTON_MIDDLE;
 
       case 2:
-        return qx.Const.BUTTON_RIGHT;
+        return qx.event.types.MouseEvent.C_BUTTON_RIGHT;
 
       default:
-        return qx.Const.BUTTON_NONE;
+        return qx.event.types.MouseEvent.C_BUTTON_NONE;
     };
   };
 };

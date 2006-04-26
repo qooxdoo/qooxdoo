@@ -163,11 +163,6 @@ qx.OO.defineClass("qx.Const",
   FONT_STYLE_UNDERLINE : "underline",
   FONT_STYLE_STRIKEOUT : "strikeout",
 
-  FOCUS_OUTLINE : "1px dotted invert",
-
-  DISPLAY_BLOCK : "block",
-  DISPLAY_NONE : "none",
-
   CURSOR_WAIT : "wait",
   CURSOR_PROGRESS : "progress",
   CURSOR_DEFAULT : "default",
@@ -265,11 +260,6 @@ qx.OO.defineClass("qx.Const",
   REQUEST_STATE_ABORTED : "aborted",
   REQUEST_STATE_FAILED : "failed",
   REQUEST_STATE_TIMEOUT : "timeout",
-
-  BUTTON_LEFT : "left",
-  BUTTON_MIDDLE : "middle",
-  BUTTON_RIGHT : "right",
-  BUTTON_NONE : "none",
 
   KEY_CTRL : "ctrl",
   KEY_SHIFT : "shift",

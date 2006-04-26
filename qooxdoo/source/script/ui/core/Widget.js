@@ -91,7 +91,7 @@ qx.Class.C_JOB_FRAMEHEIGHT = "frameHeight";
 qx.Class.C_JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
 qx.Class.C_JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
 
-
+qx.Class.C_FOCUS_OUTLINE = "1px dotted invert";
 
 
 /*
@@ -3730,7 +3730,7 @@ else if (qx.sys.Client.isGecko())
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("MozOutline", qx.Const.FOCUS_OUTLINE);
+        this.setStyleProperty("MozOutline", qx.ui.core.Widget.C_FOCUS_OUTLINE);
       };
     }
     else
@@ -3747,7 +3747,7 @@ else
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("outline", qx.Const.FOCUS_OUTLINE);
+        this.setStyleProperty("outline", qx.ui.core.Widget.C_FOCUS_OUTLINE);
       };
     }
     else
