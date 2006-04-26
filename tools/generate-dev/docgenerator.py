@@ -45,21 +45,16 @@ def createDoc(syntaxTree, docTree = None):
                 handleMethodDefinition(item, True, currClassNode)
               elif secondName.isupper():
                 handleConstantDefinition(item, currClassNode)
-          elif rightItem.type == "function" and variableIsClassName(leftItem):
-            # It's a class definition
-            currClassNode = handleClassDefinition(docTree, item)
       elif item.type == "call":
         operand = item.getChild("operand", False)
         if operand:
           var = operand.getChild("variable", False)
-          if var and len(var.children) == 2:
-            firstName = var.children[0].get("name")
-            secondName = var.children[1].get("name")
-            if currClassNode and (firstName == "clazz" or firstName == currClassNode.get("fullName")):
-              if secondName == "extend":
-                handleExtendCall(docTree, item, currClassNode)
-              elif secondName == "addProperty" or secondName == "changeProperty":
-                handlePropertyDefinition(item, currClassNode)
+          if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
+            methodName = var.children[2].get("name")
+            if methodName == "defineClass":
+              currClassNode = handleClassDefinition(docTree, item)
+            elif methodName == "addProperty" or methodName == "changeProperty":
+              handlePropertyDefinition(item, currClassNode)
       elif item.type == "function":
         name = item.get("name", False)
         if name and name[0].isupper():
@@ -137,38 +132,23 @@ def assembleVariable(variableItem):
 
 
 def handleClassDefinition(docTree, item):
-  # NOTE: There are two styles "mypackage.MyClass = function()" and "function MyClass()"
-  #       We support both
-  if item.type == "assignment":
-    leftItem = item.getFirstListChild("left")
-    className = assembleVariable(leftItem)
-    functionItem = item.getFirstListChild("right")
-  else:
-    className = item.get("name")
-    functionItem = item
-
-  classNode = getClassNode(docTree, className)
-
-  commentNode = parseDocComment(item)
-
-  ctor = handleFunction(functionItem, commentNode, classNode)
-  ctor.set("isCtor", "true")
-  classNode.addListChild("constructor", ctor)
-
-  return classNode
-
-
-
-def handleExtendCall(docTree, item, classNode):
   params = item.getChild("params")
-  if len(params.children) != 2:
-    raise DocException("extend call has not two parameters: " + len(params.children), item)
-  
-  superClassName = assembleVariable(params.children[0])
-  className = params.children[1].get("value")
 
-  if className != classNode.get("fullName"):
-    raise DocException("class name in extend call doesn't match to current class: " + className + " != " + classNode.get("fullName"), item)
+  paramsLen = len(params.children);
+  if paramsLen == 1:
+    superClassName = "Object"
+    ctorItem = None
+  elif paramsLen == 2:
+    superClassName = "Object"
+    ctorItem = params.children[1]
+  elif paramsLen == 3:
+    superClassName = assembleVariable(params.children[1])
+    ctorItem = params.children[2]
+  else:
+    raise DocException("defineClass call has more than three parameters: " + str(len(params.children)), item)
+
+  className = params.children[0].get("value")
+  classNode = getClassNode(docTree, className)
 
   if superClassName != "Object":
     superClassNode = getClassNode(docTree, superClassName)
@@ -178,8 +158,20 @@ def handleExtendCall(docTree, item, classNode):
     else:
       childClasses = className
     superClassNode.set("childClasses", childClasses)
-  
+
     classNode.set("superClass", superClassName)
+
+  commentNode = parseDocComment(item)
+
+  if ctorItem and ctorItem.type == "function":
+    ctor = handleFunction(ctorItem, commentNode, classNode)
+    ctor.set("isCtor", "true")
+    classNode.addListChild("constructor", ctor)
+  elif ctorItem and ctorItem.type == "map":
+    # TODO: Support qx.Const style
+    pass
+
+  return classNode;
 
 
 
@@ -450,15 +442,15 @@ def getType(item):
     return item.get("value")
   elif item.type == "variable":
     assembled = assembleVariable(item)
-    if assembled == "QxConst.TYPEOF_NUMBER":
+    if assembled == "qx.Const.TYPEOF_NUMBER":
       return "number"
-    elif assembled == "QxConst.TYPEOF_BOOLEAN":
+    elif assembled == "qx.Const.TYPEOF_BOOLEAN":
       return "boolean"
-    elif assembled == "QxConst.TYPEOF_STRING":
+    elif assembled == "qx.Const.TYPEOF_STRING":
       return "string"
-    elif assembled == "QxConst.TYPEOF_OBJECT":
+    elif assembled == "qx.Const.TYPEOF_OBJECT":
       return "object"
-    elif assembled == "QxConst.TYPEOF_FUNCTION":
+    elif assembled == "qx.Const.TYPEOF_FUNCTION":
       return "function"
     else:
       raise DocException("Unknown data type: " + assembled, item)
