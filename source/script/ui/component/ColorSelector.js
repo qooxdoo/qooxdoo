@@ -41,7 +41,7 @@
 
   Includes support for RGB and HSB color areas.
 */
-qx.OO.defineClass("qx.ui.component.ColorSelector", qx.ui.layout.VerticalBoxLayout, 
+qx.OO.defineClass("qx.ui.component.ColorSelector", qx.ui.layout.VerticalBoxLayout,
 function(vPreviousRed, vPreviousGreen, vPreviousBlue)
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
@@ -634,13 +634,15 @@ qx.Proto._modifyBrightness = function(propValue, propOldValue, propData)
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_FIELD)
   {
+    var topValue = 256 - Math.round(propValue * 2.56);
+
     if (this._brightnessHandle.isCreated())
     {
-      this._brightnessHandle._applyRuntimeTop(propValue + this._brightnessPane.getPaddingTop());
+      this._brightnessHandle._applyRuntimeTop(topValue + this._brightnessPane.getPaddingTop());
     }
     else
     {
-      this._brightnessHandle.setTop(256-Math.round(propValue * 2.56));
+      this._brightnessHandle.setTop(topValue);
     };
   };
 
@@ -711,7 +713,7 @@ qx.Proto._onBrightnessFieldMouseDown = function(e)
 };
 
 qx.Proto._onBrightnessPaneMouseWheel = function(e) {
-  this.setBrightness(this.getBrightness() + qx.lang.Number.limit(e.getWheelDelta(), 0, 100));
+  this.setBrightness(qx.lang.Number.limit(this.getBrightness() + e.getWheelDelta(), 0, 100));
 };
 
 qx.Proto._setBrightnessOnFieldEvent = function(e)
