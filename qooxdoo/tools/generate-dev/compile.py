@@ -365,7 +365,7 @@ def treebuilder(data, item):
   sourceline = 0
   xmlindent = 0
 
-  xmlstart()
+  xmlheader()
 
   tagstart("file")
 
@@ -665,7 +665,7 @@ def tagstop(tag):
   xmloutput += "%s</%s>\n" % (("  " * xmlindent), tag)
   treecontext.pop()
 
-def xmlstart():
+def xmlheader():
   global xmloutput
   global sourceline
 
