@@ -30,7 +30,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewHeaderCell", qx.ui.basic.Atom, 
+qx.OO.defineClass("qx.ui.listview.ListViewHeaderCell", qx.ui.basic.Atom,
 function(vConfig, vId)
 {
   qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
@@ -89,7 +89,8 @@ function(vConfig, vId)
 qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
 qx.OO.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
-
+qx.Class.C_SORT_ASCENDING = "ascending";
+qx.Class.C_SORT_DESCENDING = "descending";
 
 
 
@@ -109,11 +110,11 @@ qx.Proto.getNextSortOrder = function()
 
   switch(vCurrentSortOrder)
   {
-    case qx.Const.SORT_ASCENDING:
-      return qx.Const.SORT_DESCENDING;
+    case qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING:
+      return qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING;
 
     default:
-      return qx.Const.SORT_ASCENDING;
+      return qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING;
   };
 };
 
@@ -130,7 +131,7 @@ qx.Proto.updateSort = function()
     return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);
   });
 
-  if (this.getSortOrder() == qx.Const.SORT_DESCENDING) {
+  if (this.getSortOrder() == qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING) {
     vData.reverse();
   };
 };
@@ -151,14 +152,14 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.Const.SORT_ASCENDING:
+    case qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING:
       this._arrowup.setDisplay(true);
       this._arrowdown.setDisplay(false);
 
       vListView.setSortBy(this._id);
       break;
 
-    case qx.Const.SORT_DESCENDING:
+    case qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING:
       this._arrowup.setDisplay(false);
       this._arrowdown.setDisplay(true);
 
