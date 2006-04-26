@@ -8,11 +8,16 @@ function() {
   qx.apiviewer.DetailViewer.instance = this;
 });
 
-// overridden
-qx.Proto._afterAppear = function() {
-  qx.ui.embed.Iframe.prototype._afterAppear.call(this);
 
+/**
+ * Initializes the content document of the iframe. Will be called by the
+ * onload-handler of the iframe.
+ */
+qx.Proto._initContentDocument = function() {
   var DetailViewer = qx.apiviewer.DetailViewer;
+
+  var doc = this.getContentDocument();
+  doc._detailViewer = this;
 
   this._infoPanelHash = {};
 
@@ -27,32 +32,32 @@ qx.Proto._afterAppear = function() {
   // Add constructor info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_CONSTRUCTOR,
     "constructor", "constructor", this._createMethodInfo,
-    QxUtil.returnTrue, false, true);
+    this._methodHasDetails, false, true);
 
   // Add properties info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_PROPERTY,
     "properties", "properties", this._createPropertyInfo,
-    QxUtil.returnTrue, true, true);
+    qx.util.Return.returnTrue, true, true);
 
   // Add public methods info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_PUBLIC,
     "methods-pub", "public methods", this._createMethodInfo,
-    QxUtil.returnTrue, true, true);
+    this._methodHasDetails, true, true);
 
   // Add protected methods info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_PROTECTED,
     "methods-prot", "protected methods", this._createMethodInfo,
-    QxUtil.returnTrue, true, false);
+    this._methodHasDetails, true, false);
 
   // Add static public methods info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_STATIC_PUBLIC,
     "methods-static-pub", "static public methods", this._createMethodInfo,
-    QxUtil.returnTrue, false, true);
+    this._methodHasDetails, false, true);
 
   // Add static protected methods info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_STATIC_PROTECTED,
     "methods-static-prot", "static protected methods", this._createMethodInfo,
-    QxUtil.returnTrue, false, false);
+    this._methodHasDetails, false, false);
 
   // Add constants info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_CONSTANT,
@@ -61,10 +66,7 @@ qx.Proto._afterAppear = function() {
 
 
   // Set the html
-  var doc = this.getContentDocument();
   doc.body.innerHTML = html;
-
-  doc._detailViewer = this;
 
   // Extract the main elements
   var divArr = doc.body.childNodes;
@@ -116,14 +118,14 @@ qx.Proto._afterAppear = function() {
 qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   hasDetailDecider, addInheritedCheckBox, isOpen)
 {
-  var uppercaseLabelText = labelText[0].toUpperCase() + labelText.substring(1);
+  var uppercaseLabelText = labelText.charAt(0).toUpperCase() + labelText.substring(1);
 
   typeInfo = { listName:listName, labelText:labelText, infoFactory:infoFactory,
     hasDetailDecider:hasDetailDecider, isOpen:isOpen,
     hasInheritedCheckBox:addInheritedCheckBox };
   this._infoPanelHash[nodeType] = typeInfo;
 
-  var html = '<div class="api-info"><div class="api-info-title">'
+  var html = '<div class="api-info" style="width:100%"><div class="api-info-title">'
     + '<img class="api-openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
     + uppercaseLabelText;
@@ -132,7 +134,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
       + 'onclick="document._detailViewer._onInheritedCheckBoxClick(' + nodeType + ')"></input>'
       + 'Show inherited ' + labelText + '</span>';
   }
-  html += '</div><div></div></div>';
+  html += '</div><div style="width:100%"></div></div>';
 
   return html;
 }
@@ -149,15 +151,15 @@ qx.Proto.showClass = function(classNode) {
     return;
   }
 
-  var DetailViewer = qx.apiviewer.DetailViewer;
-
   this._currentClassDocNode = classNode;
 
   if (!this._titleElem) {
-    // _afterAppear was not called yet -> Do nothing, the class will be shown in
-    // _afterAppear.
+    // _initContentDocument was not called yet
+    // -> Do nothing, the class will be shown in _initContentDocument.
     return;
   }
+
+  var DetailViewer = qx.apiviewer.DetailViewer;
 
   var titleHtml = "";
   if (classNode.attributes.isAbstract) {
@@ -182,7 +184,7 @@ qx.Proto.showClass = function(classNode) {
   var classHtml = DetailViewer.createImageHtml("images/class18.gif") + "Object<br/>";
   var indent = 0;
   for (var i = classHierarchie.length - 1; i >= 0; i--) {
-    classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "padding-left:" + indent + "px")
+    classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "margin-left:" + indent + "px")
       + DetailViewer.createImageHtml(qx.apiviewer.TreeUtil.getIconUrl(classHierarchie[i]));
     if (i != 0) {
       classHtml += this._createItemLinkHtml(classHierarchie[i].attributes.fullName, null, false)
@@ -197,6 +199,8 @@ qx.Proto.showClass = function(classNode) {
   var ctorList = qx.apiviewer.TreeUtil.getChild(classNode, "constructor");
   if (ctorList) {
     classHtml += '<p>' + this._createDescHtml(ctorList.children[0], classNode, true) + '</p>';
+  } else {
+    classHtml += '<p></p>';
   }
 
   // Add child classes
@@ -247,9 +251,13 @@ qx.Proto.showItem = function(itemName) {
   var nodeType = this._getTypeForItemNode(itemNode);
   var elem = this._getItemElement(nodeType, itemNode.attributes.name);
 
+  // NOTE: The previousSibling of the tr elements contain the title of the item,
+  //       which has to be marked, too
   if (this._markedElement) {
+    this._markedElement.previousSibling.className = "api-item-row";
     this._markedElement.className = "api-item-row";
   }
+  elem.previousSibling.className = "api-item-row-marked";
   elem.className = "api-item-row-marked";
   this._markedElement = elem;
 
@@ -275,6 +283,8 @@ qx.Proto.showItem = function(itemName) {
  * @param nodeType {int} the node type of which to update the info panel.
  */
 qx.Proto._updateInfoPanel = function(nodeType) {
+  var DetailViewer = qx.apiviewer.DetailViewer;
+
   var typeInfo = this._infoPanelHash[nodeType];
 
   // Get the nodes to show
@@ -317,11 +327,39 @@ qx.Proto._updateInfoPanel = function(nodeType) {
   // Show the nodes
   if (nodeArr && nodeArr.length != 0) {
     var html = '<table cellspacing="0" cellpadding="0" class="api-info" width="100%">'
-      + '<colgroup><col width="20px"></col><col></col></colgroup>';
+      + '<colgroup><col width="20"></col><col></col><col width="100%"></col></colgroup>';
     for (var i = 0; i < nodeArr.length; i++) {
-      var fromClassNode = fromClassHash ? fromClassHash[nodeArr[i].attributes.name] : null;
+      var node = nodeArr[i];
+      var fromClassNode = fromClassHash ? fromClassHash[node.attributes.name] : null;
+      if (fromClassNode == null) {
+        fromClassNode = this._currentClassDocNode;
+      }
+
+      var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
+
+      // Create the title row
+      var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
+      var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
+      html += '<tr class="api-item-row">'
+        + '<td class="api-icon-cell">' + DetailViewer.createImageHtml(iconUrl) + '</td>'
+        + '<td class="api-type-cell">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>'
+        + '<td class="api-title-cell">' + info.titleHtml + '</td>'
+        + '</tr>';
+
+      // Create the text row
       html += '<tr _itemName="' + nodeArr[i].attributes.name + '" class="api-item-row">'
-        + this._createItemInfo(nodeArr[i], nodeType, fromClassNode, false) + '</tr>';
+        + '<td class="api-openclose-cell">';
+      if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
+        // This node has details -> Show the detail button
+        html += '<img class="api-openclose" src="images/open.gif"'
+          + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
+          + node.attributes.name + "'"
+          + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
+          + ")\"/>";
+      }
+      html += '</td>'
+        + '<td colspan="2" class="api-text-cell">' + info.textHtml + '</td>'
+        + '</tr>';
     }
     html += '</table>';
 
@@ -337,6 +375,52 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     }
   }
 };
+
+
+/**
+ * Event handler. Called when the user clicked a button for showing/hiding the
+ * details of an item.
+ *
+ * @param nodeType {int} the node type of the item to show/hide the details.
+ * @param name {string} the name of the item.
+ * @param fromClassName {string} the name of the class the item the item was
+ *        defined in.
+ */
+qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
+  try {
+    var typeInfo = this._infoPanelHash[nodeType];
+    var textTrElem = this._getItemElement(nodeType, name);  
+    if (! textTrElem) {
+      throw Error("Element for name '" + name + "' not found!");
+    }
+
+    var showDetails = textTrElem._showDetails ? !textTrElem._showDetails : true;
+    textTrElem._showDetails = showDetails;
+  
+    var fromClassNode = this._currentClassDocNode;
+    if (fromClassName) {
+      fromClassNode = this._getClassDocNode(fromClassName);
+    }
+
+    var listNode = qx.apiviewer.TreeUtil.getChild(fromClassNode, typeInfo.listName);
+    var node;
+    if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
+      node = listNode.children[0];
+    } else {
+      node = qx.apiviewer.TreeUtil.getChildByAttribute(listNode, "name", name);
+    }
+
+    // Update the text row
+    var opencloseImgElem = textTrElem.firstChild.firstChild;
+    opencloseImgElem.src = showDetails ? 'images/close.gif' : 'images/open.gif';
+
+    var textTdElem = textTrElem.lastChild;
+    var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
+    textTdElem.innerHTML = info.textHtml;
+  } catch (exc) {
+    this.error("Toggling item details failed", null, exc);
+  }
+}
 
 
 /**
@@ -383,45 +467,6 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
 
 
 /**
- * Event handler. Called when the user clicked a button for showing/hiding the
- * details of an item.
- *
- * @param nodeType {int} the node type of the item to show/hide the details.
- * @param name {string} the name of the item.
- * @param fromClassName {string} the name of the class the item the item was
- *        defined in.
- */
-qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
-  try {
-    var typeInfo = this._infoPanelHash[nodeType];
-    var elem = this._getItemElement(nodeType, name);  
-    if (! elem) {
-      throw Error("Element for name '" + name + "' not found!");
-    }
-
-    var showDetails = elem._showDetails ? !elem._showDetails : true;
-    elem._showDetails = showDetails;
-  
-    var fromClassNode = this._currentClassDocNode;
-    if (fromClassName) {
-      fromClassNode = this._getClassDocNode(fromClassName);
-    }
-
-    var listNode = qx.apiviewer.TreeUtil.getChild(fromClassNode, typeInfo.listName);
-    var node;
-    if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
-      node = listNode.children[0];
-    } else {
-      node = qx.apiviewer.TreeUtil.getChildByAttribute(listNode, "name", name);
-    }
-    elem.innerHTML = this._createItemInfo(node, nodeType, fromClassNode, showDetails);
-  } catch (exc) {
-    this.error("Toggling item details failed", null, exc);
-  }
-}
-
-
-/**
  * Gets the HTML element showing the details of an item.
  *
  * @param nodeType {int} the node type of the item.
@@ -433,7 +478,7 @@ qx.Proto._getItemElement = function(nodeType, name) {
 
   var elemArr = typeInfo.infoBodyElem.getElementsByTagName("TBODY")[0].childNodes;
   if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
-    return elemArr[0];
+    return elemArr[1];
   } else {
     for (var i = 0; i < elemArr.length; i++) {
       if (elemArr[i].getAttribute("_itemName") == name) {
@@ -476,45 +521,6 @@ qx.Proto._getClassDocNode = function(className) {
 
 
 /**
- * Creates the HTML showing the information about an item.
- *
- * @param node {Map} the doc node of the item.
- * @param nodeType {int} the node type of the item.
- * @param fromClassNode {Map} the doc node of the class the item was defined.
- * @param showDetails {boolean} whether to show the details.
- * @return {string} the HTML showing the information about the item.
- */
-qx.Proto._createItemInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
-
-  var typeInfo = this._infoPanelHash[nodeType];
-
-  if (!fromClassNode) {
-    fromClassNode = this._currentClassDocNode;
-  }
-
-  var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
-  var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
-
-  var html = DetailViewer.INFO_CELL_LEFT_START + DetailViewer.createImageHtml(iconUrl);
-  if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
-    // This node has details -> Show the detail button
-    html += '<br><img class="api-openclose" src="images/'
-      + (showDetails ? 'close.gif' : 'open.gif') + '"'
-      + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
-      + node.attributes.name + "'"
-      + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
-      + ")\"/>"
-  }
-  html += DetailViewer.INFO_CELL_DELEMITER
-    + typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails)
-    + DetailViewer.INFO_CELL_RIGHT_END;
-
-  return html;
-};
-
-
-/**
  * Creates the HTML showing the information about a property.
  *
  * @param node {Map} the doc node of the property.
@@ -523,8 +529,10 @@ qx.Proto._createItemInfo = function(node, nodeType, fromClassNode, showDetails) 
  * @param showDetails {boolean} whether to show the details.
  * @return {string} the HTML showing the information about the property.
  */
-qx.OO._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
+qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
   var DetailViewer = qx.apiviewer.DetailViewer;
+
+  var info = {};
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -538,74 +546,110 @@ qx.OO._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails)
   }
 
   // Add the title
-  var html = DetailViewer.DIV_START_TITLE
-    + this._createTypeHtml(node, fromClassNode, "var", true) + " "
-    + node.attributes.name + DetailViewer.DIV_END;
+  info.typeHtml = this._createTypeHtml(node, fromClassNode, "var");
+  info.titleHtml = node.attributes.name;
 
   // Add the description
-  html += this._createDescHtml(docNode, fromClassNode, showDetails);
+  info.textHtml = this._createDescHtml(docNode, fromClassNode, showDetails);
 
   if (showDetails) {
     // Add allowed values
-    html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
+    info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
       + DetailViewer.DIV_START_DETAIL_TEXT;
 
     if (node.attributes.allowNull != "false") {
-      html += "null, ";
+      info.textHtml += "null, ";
     }
     if (node.attributes.possibleValues) {
-      html += node.attributes.possibleValues;
+      info.textHtml += node.attributes.possibleValues;
     } else if (node.attributes.classname) {
-      html += "instances of " + node.attributes.classname;
+      info.textHtml += "instances of " + node.attributes.classname;
     } else if (node.attributes.instance) {
-      html += "instances of " + node.attributes.instance + " or sub classes";
+      info.textHtml += "instances of " + node.attributes.instance + " or sub classes";
     } else if (node.attributes.unitDetection) {
-      html += "units: " + node.attributes.unitDetection;
+      info.textHtml += "units: " + node.attributes.unitDetection;
     } else {
-      html += "any " + node.attributes.type;
+      info.textHtml += "any " + node.attributes.type;
     }
 
-    html += DetailViewer.DIV_END;
+    info.textHtml += DetailViewer.DIV_END;
 
     // Add default value
-    html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + DetailViewer.DIV_END
+    info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + DetailViewer.DIV_END
       + DetailViewer.DIV_START_DETAIL_TEXT
       + (node.attributes.defaultValue ? node.attributes.defaultValue : "null")
       + DetailViewer.DIV_END;
 
     // Add get alias
     if (node.attributes.getAlias) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Get alias:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Get alias:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT + node.attributes.getAlias + DetailViewer.DIV_END;
     }
 
     // Add set alias
     if (node.attributes.setAlias) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Set alias:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Set alias:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT + node.attributes.setAlias + DetailViewer.DIV_END;
     }
 
     // Add inherited from or overridden from
     if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(fromClassNode.attributes.fullName)
         + DetailViewer.DIV_END;
     } else if (node.attributes.overriddenFrom) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(node.attributes.overriddenFrom)
         + DetailViewer.DIV_END;
     }
 
     // Add @see attributes
-    html += this._createSeeAlsoHtml(docNode, docClassNode);
+    info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
 
     // Add documentation errors
-    html += this._createErrorHtml(docNode, docClassNode);
+    info.textHtml += this._createErrorHtml(docNode, docClassNode);
   }
 
-  return html;
+  return info;
+};
+
+
+/**
+ * Checks whether a method has details.
+ *
+ * @param node {Map} the doc node of the method.
+ * @param nodeType {int} the node type of the method.
+ * @param fromClassNode {Map} the doc node of the class the method was defined.
+ * @return {boolean} whether the method has details.
+ */
+qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
+  var TreeUtil = qx.apiviewer.TreeUtil;
+
+  var typeInfo = this._infoPanelHash[nodeType];
+
+  // Get the method node that holds the documentation
+  var docClassNode = fromClassNode;
+  var docNode = node;
+  if (node.attributes.docFrom) {
+    docClassNode = this._getClassDocNode(node.attributes.docFrom);
+    var listNode = TreeUtil.getChild(docClassNode, typeInfo.listName);
+    docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
+  }
+
+  // Check whether there are details
+  var hasParams = TreeUtil.getChild(docNode, "params") != null;
+  var hasReturn = TreeUtil.getChild(docNode, "return") != null;
+  var isOverridden = fromClassNode != this._currentClassDocNode;
+
+  return (fromClassNode != this._currentClassDocNode) // method is inherited
+    || (node.attributes.overriddenFrom != null)       // method is overridden
+    || (TreeUtil.getChild(docNode, "params") != null) // method has params
+    || (TreeUtil.getChild(docNode, "return") != null) // method has return value
+    || this._hasSeeAlsoHtml(docNode)
+    || this._hasErrorHtml(docNode)
+    || this._descHasDetails(docNode);
 };
 
 
@@ -622,6 +666,8 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   var DetailViewer = qx.apiviewer.DetailViewer;
   var TreeUtil = qx.apiviewer.TreeUtil;
 
+  var info = {};
+
   var typeInfo = this._infoPanelHash[nodeType];
 
   // Get the method node that holds the documentation
@@ -633,44 +679,47 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
     docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
   }
 
+  if (node.attributes.isAbstract) {
+    info.typeHtml = "abstract ";
+  } else {
+    info.typeHtml = "";
+  }
+
   // Get name, icon and return type
   var returnNode = TreeUtil.getChild(docNode, "return");
-  var name;
-  var returnType;
   if (node.attributes.isCtor) {
-    name = this._currentClassDocNode.attributes.name;
-    returnType = "";
+    info.titleHtml = fromClassNode.attributes.name;
   } else {
-    name = node.attributes.name;
-    returnType = this._createTypeHtml(returnNode, fromClassNode, "void", true) + " ";
+    info.titleHtml = node.attributes.name;
+    info.typeHtml += this._createTypeHtml(returnNode, fromClassNode, "void");
   }
 
   // Add the title (the method signature)
-  var html = DetailViewer.DIV_START_TITLE + returnType + name + " (";
+  info.titleHtml += " (";
   var paramsNode = TreeUtil.getChild(docNode, "params");
   if (paramsNode) {
     for (var i = 0; i < paramsNode.children.length; i++) {
       var param = paramsNode.children[i];
       if (i != 0) {
-        html += ", ";
+        info.titleHtml += ", ";
       }
-      html += this._createTypeHtml(param, fromClassNode, "var") + " "
+      info.titleHtml += this._createTypeHtml(param, fromClassNode, "var") + " "
         + param.attributes.name;
       if (param.attributes.defaultValue) {
-        html += "?";
+        info.titleHtml += "?";
       }
     }
   }
-  html += ")" + DetailViewer.DIV_END;
+  info.titleHtml += ")";
 
   // Add the description
-  html += this._createDescHtml(docNode, fromClassNode, showDetails);
+  info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
 
   if (showDetails) {
     // Add Parameters
     var paramsNode = TreeUtil.getChild(docNode, "params");
     if (paramsNode) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Parameters:" + DetailViewer.DIV_END;
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Parameters:" + DetailViewer.DIV_END;
       for (var i = 0; i < paramsNode.children.length; i++) {
         var param = paramsNode.children[i];
         var paramType = param.attributes.type ? param.attributes.type : "var";
@@ -682,20 +731,20 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
         }
         var defaultValue = param.attributes.defaultValue;
 
-        html += DetailViewer.DIV_START_DETAIL_TEXT;
+        info.textHtml += DetailViewer.DIV_START_DETAIL_TEXT;
         if (defaultValue) {
-          html += DetailViewer.SPAN_START_OPTIONAL;
+          info.textHtml += DetailViewer.SPAN_START_OPTIONAL;
         }
-        html += DetailViewer.SPAN_START_PARAM_NAME + param.attributes.name + DetailViewer.SPAN_END;
+        info.textHtml += DetailViewer.SPAN_START_PARAM_NAME + param.attributes.name + DetailViewer.SPAN_END;
         if (defaultValue) {
-          html += " (default: " + defaultValue + ") " + DetailViewer.SPAN_END;
+          info.textHtml += " (default: " + defaultValue + ") " + DetailViewer.SPAN_END;
         }
 
         var paramDescNode = TreeUtil.getChild(param, "desc");
         if (paramDescNode) {
-          html += " " + paramDescNode.attributes.text;
+          info.textHtml += " " + this._createDescriptionHtml(paramDescNode.attributes.text, docClassNode);
         }
-        html += DetailViewer.DIV_END;
+        info.textHtml += DetailViewer.DIV_END;
       }
     }
 
@@ -703,7 +752,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
     if (returnNode) {
       var returnDescNode = TreeUtil.getChild(returnNode, "desc");
       if (returnDescNode) {
-        html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Returns:" + DetailViewer.DIV_END
+        info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Returns:" + DetailViewer.DIV_END
           + DetailViewer.DIV_START_DETAIL_TEXT
           + this._createDescriptionHtml(returnDescNode.attributes.text, docClassNode)
           + DetailViewer.DIV_END;
@@ -712,25 +761,25 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
 
     // Add inherited from or overridden from
     if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(fromClassNode.attributes.fullName)
         + DetailViewer.DIV_END;
     } else if (node.attributes.overriddenFrom) {
-      html += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(node.attributes.overriddenFrom)
         + DetailViewer.DIV_END;
     }
 
     // Add @see attributes
-    html += this._createSeeAlsoHtml(docNode, docClassNode);
+    info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
 
     // Add documentation errors
-    html += this._createErrorHtml(docNode, docClassNode);
+    info.textHtml += this._createErrorHtml(docNode, docClassNode);
   }
 
-  return html;
+  return info;
 };
 
 
@@ -743,7 +792,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
  * @return {boolean} whether the constant has details.
  */
 qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
-  return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node);
+  return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node) || this._descHasDetails(node);
 };
 
 
@@ -757,25 +806,47 @@ qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
  * @return {string} the HTML showing the information about the constant.
  */
 qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var html = "";
+  var info = {};
 
   // Add the title
-  html += qx.apiviewer.DetailViewer.DIV_START_TITLE
-    + this._createTypeHtml(node, fromClassNode, "var", true) + " "
-    + node.attributes.name + qx.apiviewer.DetailViewer.DIV_END;
+  info.typeHtml = this._createTypeHtml(node, fromClassNode, "var");
+  info.titleHtml = node.attributes.name;
 
   // Add the description
-  html += this._createDescHtml(node, fromClassNode, showDetails);
+  info.textHtml = this._createDescHtml(node, fromClassNode, showDetails);
 
   if (showDetails) {
     // Add @see attributes
-    html += this._createSeeAlsoHtml(node, fromClassNode);
+    info.textHtml += this._createSeeAlsoHtml(node, fromClassNode);
 
     // Add documentation errors
-    html += this._createErrorHtml(node, fromClassNode);
+    info.textHtml += this._createErrorHtml(node, fromClassNode);
   }
 
-  return html;
+  return info;
+};
+
+
+/**
+ * Returns whether the description of an item has details (has more than one
+ * sentence).
+ *
+ * @param node {Map} the doc node of the item.
+ * @return {boolean} whether the description of an item has details.
+ */
+qx.Proto._descHasDetails = function(node) {
+  var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
+  if (descNode) {
+    var desc = descNode.attributes.text;
+    var hit = qx.apiviewer.DetailViewer.SENTENCE_END_REGEX.exec(desc);
+    if (hit != null) {
+      return desc.length != hit.index + hit[0].length;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
 };
 
 
@@ -802,6 +873,24 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
     return "";
   }
 }
+
+
+/**
+ * Extracts the first sentence from a text.
+ *
+ * @param text {string} the text.
+ * @return {string} the first sentence from the text.
+ */
+qx.Proto._extractFirstSentence = function(text) {
+  // Look for a point followed by white space, but don't match if there is
+  // a point two chars before, like in "e.g. "
+  var hit = qx.apiviewer.DetailViewer.SENTENCE_END_REGEX.exec(text);
+  if (hit != null) {
+    return text.substring(0, hit.index + hit[0].length);
+  } else {
+    return text;
+  }
+};
 
 
 /**
@@ -909,25 +998,6 @@ qx.Proto._createErrorHtml = function(node, fromClassNode) {
 
 
 /**
- * Extracts the first sentence from a text.
- *
- * @param text {string} the text.
- * @return {string} the first sentence from the text.
- */
-qx.Proto._extractFirstSentence = function(text) {
-  // Look for a point followed by white space, but don't match if there is
-  // a point two chars before, like in "e.g. "
-  var sentenceEndRE = /[^\.].\.\s/;
-  var hit = sentenceEndRE.exec(text);
-  if (hit != null) {
-    return text.substring(0, hit.index + hit[0].length);
-  } else {
-    return text;
-  }
-};
-
-
-/**
  * Creates the HTML showing the type of a doc node.
  *
  * @param typeNode {Map} the doc node to show the type for.
@@ -935,13 +1005,16 @@ qx.Proto._extractFirstSentence = function(text) {
  *        belongs to.
  * @param defaultType {string} the type name to use if <code>typeNode</code> is
  *        <code>null</code> or defines no type.
- * @param fillSpaces {boolean} whether to append spaces until the type has the
- *        length of {@link #MIN_TYPE_LENGTH}.
+ * @param useShortName {boolean,true} whether to use short class names
+ *        (without package).
  * @return {string} the HTML showing the type.
  */
-qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, fillSpaces) {
+qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, useShortName) {
+  if (useShortName == null) {
+    useShortName = true;
+  }
+
   var typeHtml;
-  var typeLength;
 
   var typeName = null;
   var arrayDims = null;
@@ -952,28 +1025,24 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, fil
 
   if (typeName == null) {
     typeHtml = defaultType;
-    typeLength = defaultType.length
   } else {
-    typeLength = typeName.length;
-
     if (qx.apiviewer.DetailViewer.PRIMITIVES[typeName]) {
       typeHtml = typeName;
     } else {
-      typeHtml = this._createItemLinkHtml(typeName, packageBaseClass, false, true);
+      var linkText = typeName;
+      if (useShortName) {
+        var lastDot = typeName.lastIndexOf(".");
+        if (lastDot != -1) {
+          linkText += " " + typeName.substring(lastDot + 1);
+        }
+      }
+      typeHtml = this._createItemLinkHtml(linkText, packageBaseClass, false, true);
     }
 
     if (arrayDims) {
       for (var i = 0; i < parseInt(arrayDims); i++) {
         typeHtml += "[]";
-        typeLength += 2;
       }
-    }
-  }
-
-  if (fillSpaces) {
-    var spacesCount = qx.apiviewer.DetailViewer.MIN_TYPE_LENGTH - typeLength;
-    for (var i = 0; i < spacesCount; i++) {
-      typeHtml += "&nbsp;";
     }
   }
 
@@ -1029,7 +1098,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
 
   linkText = linkText.trim();
 
-  if (linkText[0] == '"' || linkText[0] == '<') {
+  if (linkText.charAt(0) == '"' || linkText.charAt(0) == '<') {
     // This is a String or a link to a URL -> Just use it as it is
     return linkText;
   } else {
@@ -1117,7 +1186,7 @@ qx.Proto._getTypeForItemNode = function(itemNode) {
     var name = itemNode.attributes.name;
     if (name == null) {
       return DetailViewer.NODE_TYPE_CONSTRUCTOR;
-    } else if (name[0] == "_") {
+    } else if (name.charAt(0) == "_") {
       if (itemNode.attributes.isStatic) {
         return DetailViewer.NODE_TYPE_METHOD_STATIC_PROTECTED;
       } else {
@@ -1161,7 +1230,7 @@ qx.Proto.dispose = function() {
 
 /** {Map} The primitive types. These types will not be shown with links. */
 qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true,
-  "int":true, "float":true, "var":true, "regexp":true, "Map":true, "Date":true,
+  "int":true, "double":true, "var":true, "regexp":true, "Map":true, "Date":true,
   "Element":true };
 
 /**
@@ -1170,8 +1239,9 @@ qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":t
  */
 qx.Class.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
 
-/** {int} the minimum length of types. */
-qx.Class.MIN_TYPE_LENGTH = 9;
+/** {regexp} The regexp that finds the end of a sentence. */
+qx.Class.SENTENCE_END_REGEX = /[^\.].\.\s/;
+
 
 /** {int} The node type of a constructor. */
 qx.Class.NODE_TYPE_CONSTRUCTOR = 1;
@@ -1188,15 +1258,6 @@ qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
 /** {int} The node type of a constant. */
 qx.Class.NODE_TYPE_CONSTANT = 7;
 
-/** {string} The HTML starting the left cell of a item info. */
-qx.Class.INFO_CELL_LEFT_START = '<td class="api-icon-cell">';
-/** {string} The HTML between the left and the right cell of a item info. */
-qx.Class.INFO_CELL_DELEMITER = '</td><td class="api-info-cell">';
-/** {string} The HTML ending the right cell of a item info. */
-qx.Class.INFO_CELL_RIGHT_END = '</td>';
-
-/** {string} The start tag of a div containing an item title. */
-qx.Class.DIV_START_TITLE = '<div class="api-item-title">';
 /** {string} The start tag of a div containing an item description. */
 qx.Class.DIV_START_DESC = '<div class="api-item-desc">';
 /** {string} The start tag of a div containing the headline of an item detail. */

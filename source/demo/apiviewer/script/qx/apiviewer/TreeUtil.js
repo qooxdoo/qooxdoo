@@ -133,7 +133,7 @@ qx.Class.getIconUrl = function(node, inherited) {
       break;
     case "method":
       var isCtor = node.attributes.name == null;
-      var isPublic = isCtor || (node.attributes.name[0] != "_");
+      var isPublic = isCtor || (node.attributes.name.charAt(0) != "_");
 
       constName = "ICON_METHOD" + (isPublic ? "_PUB" : "_PROT");
 
@@ -179,8 +179,6 @@ qx.Class.ITEM_LIST_ARR = [ "constants", "properties", "methods-pub", "methods-pu
 
 /** {string} The URL of the overlay "abstract". */
 qx.Class.OVERLAY_ABSTRACT   = "images/overlay_abstract18.gif";
-/** {string} The URL of the overlay "constructor". */
-qx.Class.OVERLAY_CTOR       = "images/overlay_constructor18.gif";
 /** {string} The URL of the overlay "error". */
 qx.Class.OVERLAY_ERROR      = "images/overlay_error18.gif";
 /** {string} The URL of the overlay "inherited". */
@@ -258,11 +256,6 @@ qx.Class.ICON_METHOD_PUB_OVERRIDDEN_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class
 /** {string[]} The icon URL of an overridden public method with error. */
 qx.Class.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
 
-/** {string[]} The icon URL of a constructor. */
-qx.Class.ICON_METHOD_PUB_CTOR       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_CTOR ];
-/** {string[]} The icon URL of a constructor with error. */
-qx.Class.ICON_METHOD_PUB_CTOR_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_CTOR, qx.Class.OVERLAY_ERROR ];
-
 /** {string[]} The icon URL of a public static method. */
 qx.Class.ICON_METHOD_PUB_STATIC       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_STATIC ];
 /** {string[]} The icon URL of a public static method with error. */
@@ -281,6 +274,12 @@ qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED       = [ qx.Class.ICON_METHOD_PUB, 
 qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited public abstract method with error. */
 qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+
+
+/** {string} The icon URL of a constructor. */
+qx.Class.ICON_METHOD_PUB_CTOR       = "images/constructor18.gif";
+/** {string[]} The icon URL of a constructor with error. */
+qx.Class.ICON_METHOD_PUB_CTOR_ERROR = [ qx.Class.ICON_METHOD_PUB_CTOR, qx.Class.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of a protected method. */
