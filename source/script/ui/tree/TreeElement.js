@@ -23,10 +23,10 @@
 /* ************************************************************************
 
 #package(tree)
-#post(qx.ui.embed.HtmlEmbed)
-#post(qx.ui.basic.Image)
-#post(qx.ui.basic.Label)
-#post(qx.manager.object.ImageManager)
+#use(qx.ui.embed.HtmlEmbed)
+#use(qx.ui.basic.Image)
+#use(qx.ui.basic.Label)
+#use(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(tree)
-#post(qx.manager.selection.TreeSelectionManager)
+#use(qx.manager.selection.TreeSelectionManager)
 
 ************************************************************************ */
 

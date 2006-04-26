@@ -25,8 +25,8 @@
 #package(listview)
 #require(qx.util.Validation)
 #require(qx.util.Compare)
-#post(qx.ui.basic.Image)
-#post(qx.ui.basic.HorizontalSpacer)
+#use(qx.ui.basic.Image)
+#use(qx.ui.basic.HorizontalSpacer)
 
 ************************************************************************ */
 

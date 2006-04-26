@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(listview)
-#post(qx.manager.selection.VirtualSelectionManager)
+#use(qx.manager.selection.VirtualSelectionManager)
 
 ************************************************************************ */
 

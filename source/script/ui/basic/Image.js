@@ -24,8 +24,8 @@
 
 #package(image)
 #package(guicore)
-#post(qx.manager.object.ImageManager)
-#post(qx.io.image.ImagePreloader)
+#use(qx.manager.object.ImageManager)
+#use(qx.io.image.ImagePreloader)
 
 ************************************************************************ */
 

@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(layout)
-#post(qx.renderer.layout.HorizontalBoxLayoutImpl)
-#post(qx.renderer.layout.VerticalBoxLayoutImpl)
+#use(qx.renderer.layout.HorizontalBoxLayoutImpl)
+#use(qx.renderer.layout.VerticalBoxLayoutImpl)
 
 ************************************************************************ */
 

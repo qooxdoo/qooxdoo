@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(border)
-#post(qx.renderer.border.BorderObjectPresets)
+#use(qx.renderer.border.BorderObjectPresets)
 
 ************************************************************************ */
 

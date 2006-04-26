@@ -24,7 +24,7 @@
 
 #package(transport)
 #require(qx.io.remote.RemoteExchange)
-#post(qx.dom.DomIframe)
+#use(qx.dom.DomIframe)
 
 ************************************************************************ */
 

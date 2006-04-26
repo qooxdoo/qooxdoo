@@ -23,9 +23,9 @@
 /* ************************************************************************
 
 #package(core)
-#post(qx.util.Validation)
-#post(qx.event.types.Event)
-#post(qx.event.types.DataEvent)
+#use(qx.util.Validation)
+#use(qx.event.types.Event)
+#use(qx.event.types.DataEvent)
 
 ************************************************************************ */
 

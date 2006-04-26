@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #package(core)
-#post(qx.event.handler.EventHandler)
-#post(qx.ui.core.ClientDocument)
+#use(qx.event.handler.EventHandler)
+#use(qx.ui.core.ClientDocument)
 
 ************************************************************************ */
 

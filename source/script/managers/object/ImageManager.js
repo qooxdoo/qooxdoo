@@ -24,10 +24,10 @@
 
 #package(image)
 #require(qx.Const)
-#post(qx.io.image.ImagePreloader)
-#post(qx.util.Validation)
-#post(qx.renderer.theme.WidgetTheme)
-#post(qx.renderer.theme.IconTheme)
+#use(qx.io.image.ImagePreloader)
+#use(qx.util.Validation)
+#use(qx.renderer.theme.WidgetTheme)
+#use(qx.renderer.theme.IconTheme)
 
 ************************************************************************ */
 

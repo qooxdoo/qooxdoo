@@ -24,8 +24,8 @@
 
 #package(list)
 
-#post(qx.manager.selection.SelectionManager)
-#post(qx.event.types.KeyEvent)
+#use(qx.manager.selection.SelectionManager)
+#use(qx.event.types.KeyEvent)
 
 ************************************************************************ */
 

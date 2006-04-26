@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#post(qx.manager.selection.RadioManager)
+#use(qx.manager.selection.RadioManager)
 
 #package(viewcommon)
 

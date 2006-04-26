@@ -27,8 +27,8 @@
 #require(qx.Const)
 #require(qx.core.Settings)
 #require(qx.util.Validation)
-#post(qx.sys.Client)
-#post(qx.dev.Debug)
+#use(qx.sys.Client)
+#use(qx.dev.Debug)
 
 ************************************************************************ */
 
