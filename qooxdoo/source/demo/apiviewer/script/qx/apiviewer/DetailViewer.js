@@ -1096,7 +1096,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
     useIcon = true;
   }
 
-  linkText = linkText.trim();
+  linkText = qx.lang.String.trim(linkText);
 
   if (linkText.charAt(0) == '"' || linkText.charAt(0) == '<') {
     // This is a String or a link to a URL -> Just use it as it is
@@ -1142,7 +1142,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
             var cleanItemName = itemName.substring(1);
             var parenPos = cleanItemName.indexOf("(");
             if (parenPos != -1) {
-              cleanItemName = cleanItemName.substring(0, parenPos).trim();
+              cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
             }
             itemNode = qx.apiviewer.TreeUtil.getItemDocNode(classNode, cleanItemName);
           } else {
