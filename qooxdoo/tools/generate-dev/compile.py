@@ -127,13 +127,11 @@ SPACES = re.compile("(\s+)")
 
 BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
 
-R_QXEXTEND = re.compile("([a-zA-Z]+)\.extend\(([\.a-zA-Z0-9_-]+).*\)")
-R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"\s*\,\s*([\.a-zA-Z0-9_-]+)', re.M)
-
-R_QXNAMESPACE = re.compile("#namespace\(([\.a-zA-Z0-9_-]+)\)")
-R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)")
-R_QXPOST = re.compile("#post\(([\.a-zA-Z0-9_-]+)\)")
-R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)")
+R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
+R_QXNAMESPACE = re.compile("#namespace\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXPOST = re.compile("#post\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
 
 
 R_WHITESPACE = re.compile("\s+")
@@ -680,14 +678,14 @@ def xmlstart():
 
 
 def getdeps(data, filename, deptree, posttree, packages):
-  thisclass = False
-  superclass = False
+  thisclass = None
+  superclass = None
 
   dc = R_QXDEFINECLASS.search(data)
 
   if dc:
     thisclass = dc.group(1)
-    superclass = dc.group(2)
+    superclass = dc.group(3)
 
   else:
     # print "Sorry. Don't find any class informations. Trying namespace flag"
@@ -698,50 +696,47 @@ def getdeps(data, filename, deptree, posttree, packages):
       thisclass = ns.group(1)
 
 
-  print "DEPS: %s (%s)" % (thisclass, superclass)
+  if thisclass == None:
+    print "Error while extracting classname: %s" % filename
+    return
 
 
+  # Pre-Creating data storage
+  if not deptree.has_key(thisclass):
+    deptree[thisclass] = []
+
+  if not posttree.has_key(thisclass):
+    posttree[thisclass] = []
 
 
-  if not deptree.has_key(filename):
-    deptree[filename] = []
+  # Storing inheritance deps
+  if superclass != None:
+    if superclass in BUILTIN:
+      pass
 
-  if not posttree.has_key(filename):
-    posttree[filename] = []
+    else:
+      deptree[thisclass].append(superclass)
 
+
+  # Storing defined deps and package informations
   for line in data.split("\n"):
-    ext = R_QXEXTEND.search(line)
     req = R_QXREQUIRE.search(line)
     pos = R_QXPOST.search(line)
     pkg = R_QXPACKAGE.search(line)
 
-    if ext:
-      inherited = ext.group(1)
-      base = ext.group(2)
-
-      if base in BUILTIN:
-        if not deptree.has_key(inherited):
-          deptree[inherited] = []
-
-      else:
-        if deptree.has_key(inherited):
-          deptree[inherited].append(base)
-        else:
-          deptree[inherited] = [base]
-
     if req:
-      deptree[filename].append(req.group(1))
+      deptree[thisclass].append(req.group(1))
 
     if pos:
-      posttree[filename].append(pos.group(1))
+      posttree[thisclass].append(pos.group(1))
 
     if pkg:
       pkgname = pkg.group(1)
 
       if packages.has_key(pkgname):
-        packages[pkgname].append(filename)
+        packages[pkgname].append(thisclass)
       else:
-        packages[pkgname] = [ filename ]
+        packages[pkgname] = [ thisclass ]
 
 
 
