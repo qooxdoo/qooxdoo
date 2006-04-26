@@ -23,11 +23,11 @@
 /* ************************************************************************
 
 #package(menu)
-#require(qx.renderer.border.BorderObjectPresets)
+#use(qx.ui.basic.Terminator)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuSeparator", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.menu.MenuSeparator", qx.ui.layout.CanvasLayout,
 function()
 {
   qx.ui.layout.CanvasLayout.call(this);
