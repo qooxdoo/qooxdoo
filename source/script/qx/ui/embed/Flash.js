@@ -89,21 +89,21 @@ qx.ui.embed.FlashEmbed.getPlayerVersion = function()
     return qx.ui.embed.FlashEmbed.PLAYERVERSION;
   };
 
-  var vPlayerVersion = new qx.types.Version(0,0,0);
+  var vPlayerVersion = new qx.type.Version(0,0,0);
 
   if(navigator.plugins && navigator.mimeTypes.length)
   {
     var x = navigator.plugins[qx.ui.embed.FlashEmbed.PLUGINKEY];
 
     if(x && x.description) {
-      vPlayerVersion = new qx.types.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
+      vPlayerVersion = new qx.type.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
     };
   }
   else if (window.ActiveXObject)
   {
     try {
       var axo = new ActiveXObject(qx.ui.embed.FlashEmbed.ACTIVEXKEY);
-       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
+       vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
     }
     catch (e) {};
   };
@@ -135,7 +135,7 @@ qx.Proto._applyElementData = function(el)
   if (this.getEnableExpressInstall())
   {
     // check to see if we need to do an express install
-    var expressInstallReqVer = new qx.types.Version(qx.ui.embed.FlashEmbed.EXPRESSINSTALL);
+    var expressInstallReqVer = new qx.type.Version(qx.ui.embed.FlashEmbed.EXPRESSINSTALL);
     var installedVer = qx.ui.embed.FlashEmbed.getPlayerVersion();
 
     if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
@@ -185,7 +185,7 @@ qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
   };
 
   if (qx.util.Validation.isValidString(propValue)) {
-    this._version = new qx.types.Version(propValue);
+    this._version = new qx.type.Version(propValue);
   };
 
   return true;

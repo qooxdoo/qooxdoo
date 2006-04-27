@@ -29,7 +29,7 @@
 /*!
   Helper for qx.manager.selection.SelectionManager, contains data for selections
 */
-qx.OO.defineClass("qx.types.Selection", qx.core.Object, 
+qx.OO.defineClass("qx.type.Selection", qx.core.Object, 
 function(vManager)
 {
   qx.core.Object.call(this);

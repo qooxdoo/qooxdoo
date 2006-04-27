@@ -29,7 +29,7 @@
 /*!
   This manager is used by all objects which needs ranges like qx.ui.form.Spinner, QxSlider, ...
 */
-qx.OO.defineClass("qx.types.Range", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.type.Range", qx.manager.object.ObjectManager, 
 function()
 {
   // We need no internal objects cache
