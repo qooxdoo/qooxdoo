@@ -51,7 +51,7 @@ QxImagePreloaderSystem=qx.io.image.ImagePreloaderSystem
 QxParent=qx.ui.core.Parent
 QxWidget=qx.ui.core.Widget
 QxClientDocument=qx.ui.core.ClientDocument
-QxBlocker=qx.ui.core.Blocker
+QxBlocker=qx.ui.core.ClientDocumentBlocker
 
 QxAtom=qx.ui.basic.Atom
 QxImage=qx.ui.basic.Image
@@ -140,7 +140,7 @@ QxToolBarRadioButton=qx.ui.toolbar.ToolBarRadioButton
 QxToolBarSeparator=qx.ui.toolbar.ToolBarSeparator
 
 QxTree=qx.ui.tree.Tree
-QxTreeElement=qx.ui.tree.TreeElement
+QxTreeElement=qx.ui.tree.AbstractTreeElement
 QxTreeFile=qx.ui.tree.TreeFile
 QxTreeFolder=qx.ui.tree.TreeFolder
 
