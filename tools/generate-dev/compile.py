@@ -854,7 +854,7 @@ def start():
 
 
 
-  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
+  if "-h" in sys.argv or "--help" in sys.argv:
     printHelp()
     return
 
@@ -936,12 +936,7 @@ def start():
     i += 1
 
 
-  if cmdGenerateBuild == False and cmdPrintKnownFiles == False and cmdPrintKnownPackages == False and cmdPrintSortedIdList == False:
-    print
-    print "  NO JOB GIVEN"
-    print "***********************************************************************************************"
-    print
-    return
+
 
 
 
