@@ -36,7 +36,7 @@
 /*!
   This manager registers and manage all incoming key and mouse events.
 */
-qx.OO.defineClass("qx.event.handler.EventHandler", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.event.handler.EventHandler", qx.manager.object.ObjectManager,
 function(vClientWindow)
 {
   // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
@@ -63,29 +63,34 @@ function(vClientWindow)
   this._commands = {};
 });
 
-qx.event.handler.EventHandler.mouseEventTypes = [ qx.Const.EVENT_TYPE_MOUSEOVER, qx.Const.EVENT_TYPE_MOUSEMOVE, qx.Const.EVENT_TYPE_MOUSEOUT, qx.Const.EVENT_TYPE_MOUSEDOWN, qx.Const.EVENT_TYPE_MOUSEUP, qx.Const.EVENT_TYPE_CLICK, qx.Const.EVENT_TYPE_DBLCLICK, qx.Const.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_MOUSEWHEEL : "DOMMouseScroll" ];
-qx.event.handler.EventHandler.keyEventTypes = [ qx.Const.EVENT_TYPE_KEYDOWN, qx.Const.EVENT_TYPE_KEYPRESS, qx.Const.EVENT_TYPE_KEYUP ];
-
-if (qx.sys.Client.isGecko())
-{
-  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
-}
-else if (qx.sys.Client.isMshtml())
-{
-  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGEND, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGOVER, qx.Const.EVENT_TYPE_DRAGSTART ];
-}
-else
-{
-  qx.event.handler.EventHandler.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGSTART, qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
-};
-
-
-
 qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
 qx.OO.addProperty({ name : "captureWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
 qx.OO.addProperty({ name : "focusRoot", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
+
+qx.Class.C_DOMMOUSESCROLL = "DOMMouseScroll";
+
+qx.Class.mouseEventTypes = [ qx.Const.EVENT_TYPE_MOUSEOVER, qx.Const.EVENT_TYPE_MOUSEMOVE, qx.Const.EVENT_TYPE_MOUSEOUT, qx.Const.EVENT_TYPE_MOUSEDOWN, qx.Const.EVENT_TYPE_MOUSEUP, qx.Const.EVENT_TYPE_CLICK, qx.Const.EVENT_TYPE_DBLCLICK, qx.Const.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_MOUSEWHEEL : qx.Class.C_DOMMOUSESCROLL ];
+qx.Class.keyEventTypes = [ qx.Const.EVENT_TYPE_KEYDOWN, qx.Const.EVENT_TYPE_KEYPRESS, qx.Const.EVENT_TYPE_KEYUP ];
+
+if (qx.sys.Client.isGecko())
+{
+  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
+}
+else if (qx.sys.Client.isMshtml())
+{
+  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGEND, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGOVER, qx.Const.EVENT_TYPE_DRAGSTART ];
+}
+else
+{
+  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGSTART, qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
+};
+
+
+
+
+
 
 
 
@@ -644,7 +649,7 @@ else
 
     switch(vType)
     {
-      case qx.Const.EVENT_TYPE_DOMMOUSESCROLL:
+      case qx.Class.C_DOMMOUSESCROLL:
         // normalize mousewheel event
         vType = qx.Const.EVENT_TYPE_MOUSEWHEEL;
         break;
