@@ -8,16 +8,16 @@
   <script type="text/javascript" src="../demoinclude.js"></script>
 
   <style type="text/css">
-.qx.ui.embed.GalleryListEmbed{
+.qx.ui.embed.GalleryList{
   position: absolute;
   visibility: visible;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryFrame{
+.qx.ui.embed.GalleryList .galleryFrame{
   padding: 2px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryCell{
+.qx.ui.embed.GalleryList .galleryCell{
   margin: 2px;
   padding-bottom: 2px;
   border: 1px solid #EEE;
@@ -37,12 +37,12 @@
   position: relative;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryCell img{
+.qx.ui.embed.GalleryList .galleryCell img{
   vertical-align: bottom;
   display: block;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryNumber{
+.qx.ui.embed.GalleryList .galleryNumber{
   width: 45px;
   padding: 4px;
 
@@ -51,30 +51,30 @@
   left: 0px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryImageContainer{
+.qx.ui.embed.GalleryList .galleryImageContainer{
   position: absolute;
   top: 0px;
   left: 50px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryText{
+.qx.ui.embed.GalleryList .galleryText{
   padding: 4px;
   position: absolute;
   top: 0px;
   left: 130px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryNumber,
-.qx.ui.embed.GalleryListEmbed .galleryText h3{
+.qx.ui.embed.GalleryList .galleryNumber,
+.qx.ui.embed.GalleryList .galleryText h3{
   font-weight: bold;
   font-size: 11px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryText p{
+.qx.ui.embed.GalleryList .galleryText p{
   font-size: 10px;
 }
 
-.qx.ui.embed.GalleryListEmbed .galleryCell-Selected{
+.qx.ui.embed.GalleryList .galleryCell-Selected{
   background: #9BBCFF;
   border-color: #3B7CFF;
 }
@@ -109,7 +109,7 @@
         });
       };
 
-      var galleryList = new qx.ui.embed.GalleryListEmbed(galleryData);
+      var galleryList = new qx.ui.embed.GalleryList(galleryData);
 
       galleryList.setWidth(400);
       galleryList.setTop(48);

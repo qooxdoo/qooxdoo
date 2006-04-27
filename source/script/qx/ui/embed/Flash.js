@@ -37,7 +37,7 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-qx.OO.defineClass("qx.ui.embed.FlashEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.Flash", qx.ui.basic.Terminator, 
 function(vSource, vVersion)
 {
   qx.ui.basic.Terminator.call(this);
@@ -50,7 +50,7 @@ function(vSource, vVersion)
     this.setSource(vSource);
   };
 
-  this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.FlashEmbed.MINREQUIRED);
+  this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
 
 qx.OO.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
@@ -67,11 +67,11 @@ qx.OO.addProperty({ name : "play", type : qx.Const.TYPEOF_BOOLEAN, impl : "param
 qx.OO.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
 qx.OO.addProperty({ name : "menu", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
 
-qx.ui.embed.FlashEmbed.EXPRESSINSTALL = [6,0,65];
-qx.ui.embed.FlashEmbed.MINREQUIRED = "1";
-qx.ui.embed.FlashEmbed.PLAYERVERSION = null;
-qx.ui.embed.FlashEmbed.PLUGINKEY = "Shockwave Flash";
-qx.ui.embed.FlashEmbed.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
+qx.ui.embed.Flash.EXPRESSINSTALL = [6,0,65];
+qx.ui.embed.Flash.MINREQUIRED = "1";
+qx.ui.embed.Flash.PLAYERVERSION = null;
+qx.ui.embed.Flash.PLUGINKEY = "Shockwave Flash";
+qx.ui.embed.Flash.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
 
 
 
@@ -83,17 +83,17 @@ qx.ui.embed.FlashEmbed.ACTIVEXKEY = "ShockwaveFlash.ShockwaveFlash";
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.FlashEmbed.getPlayerVersion = function()
+qx.ui.embed.Flash.getPlayerVersion = function()
 {
-  if (qx.ui.embed.FlashEmbed.PLAYERVERSION != null) {
-    return qx.ui.embed.FlashEmbed.PLAYERVERSION;
+  if (qx.ui.embed.Flash.PLAYERVERSION != null) {
+    return qx.ui.embed.Flash.PLAYERVERSION;
   };
 
   var vPlayerVersion = new qx.type.Version(0,0,0);
 
   if(navigator.plugins && navigator.mimeTypes.length)
   {
-    var x = navigator.plugins[qx.ui.embed.FlashEmbed.PLUGINKEY];
+    var x = navigator.plugins[qx.ui.embed.Flash.PLUGINKEY];
 
     if(x && x.description) {
       vPlayerVersion = new qx.type.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
@@ -102,13 +102,13 @@ qx.ui.embed.FlashEmbed.getPlayerVersion = function()
   else if (window.ActiveXObject)
   {
     try {
-      var axo = new ActiveXObject(qx.ui.embed.FlashEmbed.ACTIVEXKEY);
+      var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
        vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
     }
     catch (e) {};
   };
 
-  return qx.ui.embed.FlashEmbed.PLAYERVERSION = vPlayerVersion;
+  return qx.ui.embed.Flash.PLAYERVERSION = vPlayerVersion;
 };
 
 
@@ -135,8 +135,8 @@ qx.Proto._applyElementData = function(el)
   if (this.getEnableExpressInstall())
   {
     // check to see if we need to do an express install
-    var expressInstallReqVer = new qx.type.Version(qx.ui.embed.FlashEmbed.EXPRESSINSTALL);
-    var installedVer = qx.ui.embed.FlashEmbed.getPlayerVersion();
+    var expressInstallReqVer = new qx.type.Version(qx.ui.embed.Flash.EXPRESSINSTALL);
+    var installedVer = qx.ui.embed.Flash.getPlayerVersion();
 
     if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
       this._expressInstall = true;
@@ -146,7 +146,7 @@ qx.Proto._applyElementData = function(el)
   // this.debug("ExpressInstall Enabled: " + this._expressInstall);
 
   // Apply HTML
-  if(!this.getEnableDetection() || this._expressInstall || qx.ui.embed.FlashEmbed.getPlayerVersion().versionIsValid(this._version))
+  if(!this.getEnableDetection() || this._expressInstall || qx.ui.embed.Flash.getPlayerVersion().versionIsValid(this._version))
   {
     el.innerHTML = this.generateHTML();
   }
