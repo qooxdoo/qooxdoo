@@ -8,9 +8,9 @@ QxObject=qx.core.Object
 QxTarget=qx.core.Target
 QxApplication=qx.core.Init
 
-QxRangeManager=qx.types.Range
-QxSelectionStorage=qx.types.Selection
-QxFlashPlayerVersion=qx.types.Version
+QxRangeManager=qx.type.Range
+QxSelectionStorage=qx.type.Selection
+QxFlashPlayerVersion=qx.type.Version
 
 QxTimer=qx.client.Timer
 QxNativeWindow=qx.client.NativeWindow
@@ -23,13 +23,13 @@ QxTimeTracker=qx.dev.TimeTracker
 QxDom=qx.dom
 QxDomStyle=qx.dom.DomStyle
 
-QxDataEvent=qx.event.types.DataEvent
-QxDomEvent=qx.event.types.DomEvent
-QxDragEvent=qx.event.types.DragEvent
-QxEvent=qx.event.types.Event
-QxFocusEvent=qx.event.types.FocusEvent
-QxKeyEvent=qx.event.types.KeyEvent
-QxMouseEvent=qx.event.types.MouseEvent
+QxDataEvent=qx.event.type.DataEvent
+QxDomEvent=qx.event.type.DomEvent
+QxDragEvent=qx.event.type.DragEvent
+QxEvent=qx.event.type.Event
+QxFocusEvent=qx.event.type.FocusEvent
+QxKeyEvent=qx.event.type.KeyEvent
+QxMouseEvent=qx.event.type.MouseEvent
 
 QxDragAndDropManager=qx.event.handler.DragAndDropHandler
 QxEventManager=qx.event.handler.EventHandler
