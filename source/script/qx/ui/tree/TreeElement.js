@@ -49,7 +49,7 @@ function(vLabel, vIcon, vIconSelected)
 
   // Behaviour and Hard Styling
   this._labelObject.setSelectable(false);
-  this._labelObject.setStyleProperty(qx.Const.PROPERTY_LINEHEIGHT, qx.Const.CORE_HUNDREDPERCENT);
+  this._labelObject.setStyleProperty(qx.Const.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
 
   qx.ui.layout.BoxLayout.call(this, qx.Const.ORIENTATION_HORIZONTAL);
 
@@ -373,7 +373,7 @@ qx.Proto.flushTree = function()
       vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
-      vHtml.push(qx.Const.CORE_DOT);
+      vHtml.push(qx.constant.Core.DOT);
       vHtml.push(qx.ui.tree.AbstractTreeElement.IMG_EXTENSION);
       vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_3);
     };
@@ -381,7 +381,7 @@ qx.Proto.flushTree = function()
     vCurrentObject = vCurrentObject.getParentFolder();
   };
 
-  this._indentObject.setHtml(vHtml.join(qx.Const.CORE_EMPTY));
+  this._indentObject.setHtml(vHtml.join(qx.constant.Core.EMPTY));
   this._indentObject.setWidth(vLevel * 19);
 };
 

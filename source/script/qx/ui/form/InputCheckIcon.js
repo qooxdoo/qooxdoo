@@ -91,6 +91,6 @@ if (qx.sys.Client.isMshtml())
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
+  propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };

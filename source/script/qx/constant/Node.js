@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.const.Node",
+qx.OO.defineClass("qx.constant.Node",
 {
   ELEMENT : 1,
   ATTRIBUTE : 2,

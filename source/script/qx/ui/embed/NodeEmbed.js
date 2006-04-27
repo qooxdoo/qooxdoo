@@ -46,7 +46,7 @@ qx.Proto._createElementImpl = function()
     throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
   };
 
-  vNode.style.display = qx.Const.CORE_EMPTY;
+  vNode.style.display = qx.constant.Core.EMPTY;
 
   return this.setElement(vNode);
 };

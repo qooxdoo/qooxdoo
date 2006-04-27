@@ -251,11 +251,11 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 };
 
 qx.Proto.getChildAlign = function(vChild) {
-  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.Const.CORE_DEFAULT;
+  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.constant.Core.DEFAULT;
 };
 
 qx.Proto.getChildAlignMode = function(vChild) {
-  return vChild.getVerticalAlign() ? qx.Const.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.Const.ORIENTATION_HORIZONTAL : qx.Const.CORE_DEFAULT;
+  return vChild.getVerticalAlign() ? qx.Const.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.Const.ORIENTATION_HORIZONTAL : qx.constant.Core.DEFAULT;
 };
 
 

@@ -48,8 +48,8 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   // ***********************************************************************
 
   var sp = this._scrollpane = new qx.ui.layout.CanvasLayout();
-  sp.setHeight(qx.Const.CORE_AUTO);
-  sp.setWidth(qx.Const.CORE_AUTO);
+  sp.setHeight(qx.constant.Core.AUTO);
+  sp.setWidth(qx.constant.Core.AUTO);
 
   qx.ui.core.Parent.prototype.add.call(this, sp)
 

@@ -286,12 +286,12 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
   };
 
   // Selector based remove does not work with the "*" selector in mshtml
-  // this.removeCssRule(this._globalCursorStyleSheet, qx.Const.CORE_STAR);
+  // this.removeCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR);
 
   this.removeAllCssRules(this._globalCursorStyleSheet);
 
   if (propValue) {
-    this.addCssRule(this._globalCursorStyleSheet, qx.Const.CORE_STAR, "cursor:" + propValue + " !important");
+    this.addCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR, "cursor:" + propValue + " !important");
   };
 
   return true;

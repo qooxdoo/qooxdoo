@@ -49,8 +49,8 @@ function(vCaption, vIcon, vWindowManager)
   //   FUNCTIONAL STYLE
   // ************************************************************************
 
-  this.setMinWidth(qx.Const.CORE_AUTO);
-  this.setMinHeight(qx.Const.CORE_AUTO);
+  this.setMinWidth(qx.constant.Core.AUTO);
+  this.setMinHeight(qx.constant.Core.AUTO);
   this.setAutoHide(false);
 
 
@@ -189,7 +189,7 @@ function(vCaption, vIcon, vWindowManager)
   // ************************************************************************
 
   var p = this._pane = new qx.ui.layout.CanvasLayout;
-  p.setHeight(qx.Const.CORE_FLEX);
+  p.setHeight(qx.constant.Core.FLEX);
   p.setOverflow(qx.Const.OVERFLOW_VALUE_HIDDEN);
   l.add(p);
 
@@ -1098,7 +1098,7 @@ qx.Proto._onwindowmousemove = function(e)
   }
   else
   {
-    var resizeMode = qx.Const.CORE_EMPTY;
+    var resizeMode = qx.constant.Core.EMPTY;
     var el = this.getElement();
 
     this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;

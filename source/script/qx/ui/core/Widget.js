@@ -56,7 +56,7 @@ function()
   this._htmlProperties = { className : this.classname };
   this._htmlAttributes = { qxhashcode : this._hashCode };
   */
-  this._styleProperties = { position : qx.Const.CORE_ABSOLUTE };
+  this._styleProperties = { position : qx.constant.Core.ABSOLUTE };
 
 
   // ************************************************************************
@@ -131,7 +131,7 @@ qx.OO.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultV
 /*!
   The tagname of the element which should automatically be created
 */
-qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DIV });
+qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -1099,7 +1099,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   If the widget is visible and rendered on the screen.
 */
 qx.Proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_DISPLAY) != qx.Const.CORE_NONE && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_VISIBILITY) != qx.Const.CORE_HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_DISPLAY) != qx.constant.Core.NONE && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
@@ -1117,8 +1117,8 @@ qx.Proto.pack = function()
 */
 qx.Proto.auto = function()
 {
-  this.setWidth(qx.Const.CORE_AUTO);
-  this.setHeight(qx.Const.CORE_AUTO);
+  this.setWidth(qx.constant.Core.AUTO);
+  this.setHeight(qx.constant.Core.AUTO);
 };
 
 
@@ -1560,7 +1560,7 @@ qx.Proto._modifyVisibility = function(propValue, propOldValue, propData)
       this._beforeDisappear();
     };
 
-    this.setStyleProperty(qx.Const.PROPERTY_DISPLAY, qx.Const.CORE_NONE);
+    this.setStyleProperty(qx.Const.PROPERTY_DISPLAY, qx.constant.Core.NONE);
 
     if (this._isDisplayable) {
       this._afterDisappear();
@@ -1607,16 +1607,16 @@ else
   qx.Proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.Const.CORE_DIV && !this._borderElement)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.constant.Core.DIV && !this._borderElement)
     {
       var el = this.getElement();
-      var cl = this._borderElement = document.createElement(qx.Const.CORE_DIV);
+      var cl = this._borderElement = document.createElement(qx.constant.Core.DIV);
 
       var es = el.style;
       var cs = this._borderStyle = cl.style;
 
-      cs.width = cs.height = qx.Const.CORE_HUNDREDPERCENT;
-      cs.position = qx.Const.CORE_ABSOLUTE;
+      cs.width = cs.height = qx.constant.Core.HUNDREDPERCENT;
+      cs.position = qx.constant.Core.ABSOLUTE;
 
       for (var i in this._styleProperties)
       {
@@ -1630,7 +1630,7 @@ else
 
           default:
             cs[i] = this._styleProperties[i];
-            es[i] = qx.Const.CORE_EMPTY;
+            es[i] = qx.constant.Core.EMPTY;
         };
       };
 
@@ -2009,7 +2009,7 @@ qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 
 qx.ui.core.Widget.initApplyMethods = function()
 {
-  var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=qx.Const.CORE_EMPTY", v="=v+qx.Const.CORE_PIXEL", vpar="v";
+  var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=qx.constant.Core.EMPTY", v="=v+qx.constant.Core.PIXEL", vpar="v";
 
   var props = ["left", "right", "top", "bottom", "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight"];
   var propsup = ["Left", "Right", "Top", "Bottom", "Width", "Height", "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"];
@@ -2052,7 +2052,7 @@ qx.ui.core.Widget.initApplyMethods = function()
 
     We could not use this to reset the value however.
     It seems that is just not work this way. And the
-    left/top get always priority. Tried: "", null, qx.Const.CORE_AUTO
+    left/top get always priority. Tried: "", null, qx.constant.Core.AUTO
     Nothing helps.
 
     Now I'am switched back to conventional method
@@ -2889,7 +2889,7 @@ qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 {
   switch(propValue)
   {
-    case qx.Const.CORE_AUTO:
+    case qx.constant.Core.AUTO:
       return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
@@ -2903,7 +2903,7 @@ qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case qx.Const.TYPEOF_STRING:
-      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(qx.Const.CORE_STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
+      return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(qx.constant.Core.STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -2913,7 +2913,7 @@ qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
 {
   switch(propValue)
   {
-    case qx.Const.CORE_AUTO:
+    case qx.constant.Core.AUTO:
       return qx.ui.core.Widget.TYPE_AUTO;
 
     case Infinity:
@@ -2927,7 +2927,7 @@ qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case qx.Const.TYPEOF_STRING:
-      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+      return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -2948,7 +2948,7 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
     case qx.Const.TYPEOF_STRING:
-      return propValue.indexOf(qx.Const.CORE_PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+      return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
   return qx.ui.core.Widget.TYPE_NULL;
@@ -3902,10 +3902,10 @@ else
 qx.Proto.getHtmlProperty = function(propName)
 {
   if (!this._htmlProperties) {
-    return qx.Const.CORE_EMPTY;
+    return qx.constant.Core.EMPTY;
   };
 
-  return this._htmlProperties[propName] || qx.Const.CORE_EMPTY;
+  return this._htmlProperties[propName] || qx.constant.Core.EMPTY;
 };
 
 qx.Proto._applyHtmlProperties = function(vElement)
@@ -3968,10 +3968,10 @@ qx.Proto.removeHtmlAttribute = function(propName)
 qx.Proto.getHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
-    return qx.Const.CORE_EMPTY;
+    return qx.constant.Core.EMPTY;
   };
 
-  return this._htmlAttributes[propName] || qx.Const.CORE_EMPTY;
+  return this._htmlAttributes[propName] || qx.constant.Core.EMPTY;
 };
 
 qx.Proto._applyHtmlAttributes = function(vElement)
@@ -4002,7 +4002,7 @@ qx.Proto._applyHtmlAttributes = function(vElement)
 */
 
 qx.Proto.getStyleProperty = function(propName) {
-  return this._styleProperties[propName] || qx.Const.CORE_EMPTY;
+  return this._styleProperties[propName] || qx.constant.Core.EMPTY;
 };
 
 qx.Proto.setStyleProperty = function(propName, propValue)
@@ -4060,7 +4060,7 @@ qx.Proto.removeStyleProperty = function(propName)
     };
 
     if (vElement) {
-      vElement.style[propName] = qx.Const.CORE_EMPTY;
+      vElement.style[propName] = qx.constant.Core.EMPTY;
     };
   };
 
@@ -4386,8 +4386,8 @@ else if(qx.sys.Client.isGecko())
     }
     else
     {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.Const.CORE_NONE);
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.Const.CORE_NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
     };
 
     return true;
@@ -4403,7 +4403,7 @@ else if (qx.sys.Client.isOpera())
 else
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.Const.CORE_NONE);
+    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
   };
 };
 
@@ -4570,27 +4570,27 @@ qx.Proto._compileClipString = function()
 
   if(vLeft == null)
   {
-    vRight = vWidth == null ? qx.Const.CORE_AUTO : vWidth + qx.Const.CORE_PIXEL;
-    vLeft = qx.Const.CORE_AUTO;
+    vRight = vWidth == null ? qx.constant.Core.AUTO : vWidth + qx.constant.Core.PIXEL;
+    vLeft = qx.constant.Core.AUTO;
   }
   else
   {
-    vRight = vWidth == null ? qx.Const.CORE_AUTO : vLeft + vWidth + qx.Const.CORE_PIXEL;
-    vLeft = vLeft + qx.Const.CORE_PIXEL;
+    vRight = vWidth == null ? qx.constant.Core.AUTO : vLeft + vWidth + qx.constant.Core.PIXEL;
+    vLeft = vLeft + qx.constant.Core.PIXEL;
   };
 
   if(vTop == null)
   {
-    vBottom = vHeight == null ? qx.Const.CORE_AUTO : vHeight + qx.Const.CORE_PIXEL;
-    vTop = qx.Const.CORE_AUTO;
+    vBottom = vHeight == null ? qx.constant.Core.AUTO : vHeight + qx.constant.Core.PIXEL;
+    vTop = qx.constant.Core.AUTO;
   }
   else
   {
-    vBottom = vHeight == null ? qx.Const.CORE_AUTO : vTop + vHeight + qx.Const.CORE_PIXEL;
-    vTop = vTop + qx.Const.CORE_PIXEL;
+    vBottom = vHeight == null ? qx.constant.Core.AUTO : vTop + vHeight + qx.constant.Core.PIXEL;
+    vTop = vTop + qx.constant.Core.PIXEL;
   };
 
-  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + qx.Const.CORE_COMMA + vRight + qx.Const.CORE_COMMA + vBottom + qx.Const.CORE_COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
+  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + qx.constant.Core.COMMA + vRight + qx.constant.Core.COMMA + vBottom + qx.constant.Core.COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
 };
 
 
@@ -4609,7 +4609,7 @@ qx.Proto._compileClipString = function()
 */
 qx.ui.core.Widget.initOverflow = function()
 {
-  var t = document.createElement(qx.Const.CORE_DIV);
+  var t = document.createElement(qx.constant.Core.DIV);
   var s = t.style;
 
   s.height = s.width = "100px";
@@ -4945,7 +4945,7 @@ qx.Proto._updateBorder = function(vEdge)
   var vBorder = this.getBorder();
   var vEdgeUp = qx.lang.String.toFirstUp(vEdge);
 
-  var vNewValue = vBorder[qx.Const.CORE_GET + vEdgeUp + "Width"]();
+  var vNewValue = vBorder[qx.constant.Core.GET + vEdgeUp + "Width"]();
   var vCacheName = "_cachedBorder" + vEdgeUp;
   var vWidthChanged = this[vCacheName] != vNewValue;
 
@@ -5025,10 +5025,10 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
 
   var propertyName;
   var propertyList = [];
-  var propertyIngoreList = this._clonePropertyIgnoreList.split(qx.Const.CORE_COMMA);
+  var propertyIngoreList = this._clonePropertyIgnoreList.split(qx.constant.Core.COMMA);
 
   // Build new filtered property list
-  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(qx.Const.CORE_COMMA);
+  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(qx.constant.Core.COMMA);
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];
@@ -5042,7 +5042,7 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
   propertyListLength = propertyList.length-1;
   do {
     propertyName = qx.lang.String.toFirstUp(propertyList[propertyListLength]);
-    cloneInstance[qx.Const.CORE_SET + propertyName](this[qx.Const.CORE_GET + propertyName]());
+    cloneInstance[qx.constant.Core.SET + propertyName](this[qx.constant.Core.GET + propertyName]());
   }
   while(propertyListLength--);
 
@@ -5242,39 +5242,39 @@ qx.Proto._applyRoundedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.Const.CORE_DIV);
+  var corner = document.createElement(qx.constant.Core.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerStyle.position = qx.constant.Core.ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.left = "0px";
 
   el.appendChild(corner);
 
 
-  var cornerLeft = document.createElement(qx.Const.CORE_DIV);
+  var cornerLeft = document.createElement(qx.constant.Core.DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "1px";
-  cornerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerLeftStyle.position = qx.constant.Core.ABSOLUTE;
   cornerLeftStyle.top = "2px";
   cornerLeftStyle.left = "0px";
 
   el.appendChild(cornerLeft);
 
 
-  var cornerTop = document.createElement(qx.Const.CORE_DIV);
+  var cornerTop = document.createElement(qx.constant.Core.DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
   cornerTopStyle.width = "1px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerTopStyle.position = qx.constant.Core.ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "2px";
 
@@ -5287,14 +5287,14 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var cornerTop = document.createElement(qx.Const.CORE_DIV);
+  var cornerTop = document.createElement(qx.constant.Core.DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
   cornerTopStyle.MozOpacity = "0.5";
   cornerTopStyle.width = "2px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerTopStyle.position = qx.constant.Core.ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "3px";
 
@@ -5302,14 +5302,14 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerLeft = document.createElement(qx.Const.CORE_DIV);
+  var cornerLeft = document.createElement(qx.constant.Core.DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
   cornerLeftStyle.MozOpacity = "0.5";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "2px";
-  cornerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerLeftStyle.position = qx.constant.Core.ABSOLUTE;
   cornerLeftStyle.top = "3px";
   cornerLeftStyle.left = "0px";
 
@@ -5318,14 +5318,14 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerTop = document.createElement(qx.Const.CORE_DIV);
+  var cornerInnerTop = document.createElement(qx.constant.Core.DIV);
   var cornerInnerTopStyle = cornerInnerTop.style;
 
   cornerInnerTopStyle.backgroundColor = "threedface";
   cornerInnerTopStyle.MozOpacity = "0.5";
   cornerInnerTopStyle.width = "1px";
   cornerInnerTopStyle.height = "1px";
-  cornerInnerTopStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerInnerTopStyle.position = qx.constant.Core.ABSOLUTE;
   cornerInnerTopStyle.top = "1px";
   cornerInnerTopStyle.left = "2px";
 
@@ -5333,14 +5333,14 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerLeft = document.createElement(qx.Const.CORE_DIV);
+  var cornerInnerLeft = document.createElement(qx.constant.Core.DIV);
   var cornerInnerLeftStyle = cornerInnerLeft.style;
 
   cornerInnerLeftStyle.backgroundColor = "threedface";
   cornerInnerLeftStyle.MozOpacity = "0.5";
   cornerInnerLeftStyle.width = "1px";
   cornerInnerLeftStyle.height = "1px";
-  cornerInnerLeftStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerInnerLeftStyle.position = qx.constant.Core.ABSOLUTE;
   cornerInnerLeftStyle.top = "2px";
   cornerInnerLeftStyle.left = "1px";
 
@@ -5353,13 +5353,13 @@ qx.Proto._applyRoundedTopRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.Const.CORE_DIV);
+  var corner = document.createElement(qx.constant.Core.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerStyle.position = qx.constant.Core.ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.right = "0px";
 
@@ -5374,13 +5374,13 @@ qx.Proto._applyRoundedBottomLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.Const.CORE_DIV);
+  var corner = document.createElement(qx.constant.Core.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerStyle.position = qx.constant.Core.ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.left = "0px";
 
@@ -5396,13 +5396,13 @@ qx.Proto._applyRoundedBottomRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.Const.CORE_DIV);
+  var corner = document.createElement(qx.constant.Core.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.Const.CORE_ABSOLUTE;
+  cornerStyle.position = qx.constant.Core.ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.right = "0px";
 

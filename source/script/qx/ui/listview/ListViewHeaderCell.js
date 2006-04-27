@@ -46,7 +46,7 @@ function(vConfig, vId)
   // ************************************************************************
   //   ARGUMENTS
   // ************************************************************************
-  this.setWidth(typeof vConfig.width === qx.Const.TYPEOF_UNDEFINED ? qx.Const.CORE_AUTO : vConfig.width);
+  this.setWidth(typeof vConfig.width === qx.Const.TYPEOF_UNDEFINED ? qx.constant.Core.AUTO : vConfig.width);
 
   if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);

@@ -114,7 +114,7 @@ qx.renderer.font.Font.fromString = function(s)
       default:
         var vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.Const.CORE_PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.constant.Core.PIXEL))
         {
           vFont.setSize(vTemp);
         }
@@ -128,7 +128,7 @@ qx.renderer.font.Font.fromString = function(s)
   };
 
   if(vName.length > 0) {
-    vFont.setName(vName.join(qx.Const.CORE_SPACE));
+    vFont.setName(vName.join(qx.constant.Core.SPACE));
   };
 
   return vFont;
@@ -159,21 +159,21 @@ qx.Proto._compile = function()
   var vItalic = this.getItalic();
   var vUnderline = this.getUnderline();
   var vStrikeout = this.getStrikeout();
-  var vDecoration = qx.Const.CORE_EMPTY;
+  var vDecoration = qx.constant.Core.EMPTY;
 
   if (this.getUnderline()) {
     vDecoration = qx.Const.FONT_STYLE_UNDERLINE;
   };
 
   if (this.getStrikeout()) {
-    vDecoration += qx.Const.CORE_SPACE + qx.Const.FONT_STYLE_STRIKEOUT;
+    vDecoration += qx.constant.Core.SPACE + qx.Const.FONT_STYLE_STRIKEOUT;
   };
 
-  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : qx.Const.CORE_EMPTY;
-  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + qx.Const.CORE_PIXEL : qx.Const.CORE_EMPTY;
+  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
+  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + qx.constant.Core.PIXEL : qx.constant.Core.EMPTY;
   this._defs.fontWeight = this.getBold() ? qx.Const.FONT_STYLE_BOLD : qx.Const.FONT_STYLE_NORMAL;
   this._defs.fontStyle = this.getItalic() ? qx.Const.FONT_STYLE_ITALIC : qx.Const.FONT_STYLE_NORMAL;
-  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : qx.Const.CORE_EMPTY;
+  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : qx.constant.Core.EMPTY;
 
   this._needsCompilation = false;
 };

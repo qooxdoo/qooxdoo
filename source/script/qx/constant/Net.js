@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.const.Net",
+qx.OO.defineClass("qx.constant.Net",
 {
   NAMESPACE_SVG : "http:/" + "/www.w3.org/2000/svg",
   NAMESPACE_SMIL : "http:/" + "/www.w3.org/2001/SMIL20/",

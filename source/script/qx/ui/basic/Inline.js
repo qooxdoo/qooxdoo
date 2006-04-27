@@ -31,7 +31,7 @@ function(vId)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
-  this.setStyleProperty(qx.Const.PROPERTY_POSITION, qx.Const.CORE_RELATIVE);
+  this.setStyleProperty(qx.Const.PROPERTY_POSITION, qx.constant.Core.RELATIVE);
 
   if (qx.util.Validation.isValidString(vId)) {
     this.setInlineNodeId(vId);

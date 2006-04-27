@@ -96,7 +96,7 @@ qx.Proto.update = function(vGalleryList)
 qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
-  this.getElement().innerHTML = qx.Const.CORE_EMPTY;
+  this.getElement().innerHTML = qx.constant.Core.EMPTY;
 };
 
 

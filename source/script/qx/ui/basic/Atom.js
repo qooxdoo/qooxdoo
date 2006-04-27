@@ -104,7 +104,7 @@ qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
   Configure the visibility of the sub elements/widgets.
   Possible values: both, text, icon, none
 */
-qx.OO.addProperty({ name : "show", type : qx.Const.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", qx.Const.CORE_NONE, null ] });
+qx.OO.addProperty({ name : "show", type : qx.Const.TYPEOF_STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", qx.constant.Core.NONE, null ] });
 
 /*!
   The position of the icon in relation to the text.

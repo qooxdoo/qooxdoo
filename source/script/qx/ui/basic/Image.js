@@ -38,15 +38,15 @@ function(vSource, vWidth, vHeight)
   qx.ui.basic.Terminator.call(this);
 
   // Reset Alt and Title
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, qx.Const.CORE_EMPTY);
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.Const.CORE_EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, qx.constant.Core.EMPTY);
+  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.constant.Core.EMPTY);
 
   // Apply constructor arguments
   this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK));
 
   // Dimensions
-  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.Const.CORE_AUTO);
-  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : qx.Const.CORE_AUTO);
+  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.constant.Core.AUTO);
+  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : qx.constant.Core.AUTO);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -272,7 +272,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
       // Possible alternative for MSHTML for PNG images
       // But it seems not to be faster
-      // this._image = document.createElement(qx.Const.CORE_DIV);
+      // this._image = document.createElement(qx.constant.Core.DIV);
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?
@@ -352,7 +352,7 @@ if (qx.sys.Client.isMshtml())
     else
     {
       i.src = vSource || pl.getSource();
-      i.style.filter = this.getEnabled() ? qx.Const.CORE_EMPTY : qx.ui.basic.Image.FILTER_GRAY;
+      i.style.filter = this.getEnabled() ? qx.constant.Core.EMPTY : qx.ui.basic.Image.FILTER_GRAY;
     };
   };
 
@@ -361,7 +361,7 @@ if (qx.sys.Client.isMshtml())
     var i = this._image;
 
     i.src = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
-    i.style.filter = qx.Const.CORE_EMPTY;
+    i.style.filter = qx.constant.Core.EMPTY;
   };
 
   qx.Proto._applyEnabled = qx.Proto._postApply;
@@ -390,7 +390,7 @@ else
   {
     if (this._image)
     {
-      var o = this.getEnabled() ? qx.Const.CORE_EMPTY : 0.3;
+      var o = this.getEnabled() ? qx.constant.Core.EMPTY : 0.3;
       var s = this._image.style;
 
       s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
@@ -598,7 +598,7 @@ qx.Proto.dispose = function()
   if (this._image)
   {
     // Remove leaking filter attribute before leaving page
-    this._image.style.filter = qx.Const.CORE_EMPTY;
+    this._image.style.filter = qx.constant.Core.EMPTY;
     this._image = null;
   };
 

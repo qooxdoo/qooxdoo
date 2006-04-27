@@ -49,7 +49,7 @@ qx.Proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
-    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == qx.Const.CORE_EMPTY ? qx.Const.IMAGE_BLANK : vSource));
+    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == qx.constant.Core.EMPTY ? qx.Const.IMAGE_BLANK : vSource));
   }
   else
   {

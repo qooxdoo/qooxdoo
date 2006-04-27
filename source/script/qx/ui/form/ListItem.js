@@ -56,19 +56,19 @@ qx.OO.addProperty({ name : "value" });
 */
 
 qx.Proto.matchesString = function(vText) {
-  return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
 qx.Proto.matchesStringExact = function(vText) {
-  return vText != qx.Const.CORE_EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
+  return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
 };
 
 qx.Proto.matchesValue = function(vText) {
-  return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 };
 
 qx.Proto.matchesValueExact = function(vText) {
-  return vText != qx.Const.CORE_EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
+  return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
 };
 
 

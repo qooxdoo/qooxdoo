@@ -128,11 +128,11 @@ qx.Proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(vId + qx.Const.CORE_EQUAL + vParameters[vId]);
+    vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
   };
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(qx.Const.CORE_QUESTIONMARK) >= 0 ? qx.Const.CORE_AMPERSAND : qx.Const.CORE_QUESTIONMARK) + vParametersList.join(qx.Const.CORE_AMPERSAND);
+    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
   };
 
 
@@ -199,10 +199,10 @@ qx.Proto._switchReadyState = function(vReadyState)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case qx.Const.REQUEST_STATE_COMPLETED:
-    case qx.Const.REQUEST_STATE_ABORTED:
-    case qx.Const.REQUEST_STATE_FAILED:
-    case qx.Const.REQUEST_STATE_TIMEOUT:
+    case qx.constant.Net.STATE_COMPLETED:
+    case qx.constant.Net.STATE_ABORTED:
+    case qx.constant.Net.STATE_FAILED:
+    case qx.constant.Net.STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
   };
@@ -287,7 +287,7 @@ qx.Proto.getStatusCode = function()
 */
 qx.Proto.getStatusText = function()
 {
-  return qx.Const.CORE_EMPTY;
+  return qx.constant.Core.EMPTY;
 
   // TODO
   // this.error("Need implementation", "getStatusText");
@@ -369,7 +369,7 @@ qx.Proto.getFetchedLength = function()
 
 qx.Proto.getResponseContent = function()
 {
-  if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
+  if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");

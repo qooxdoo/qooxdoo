@@ -134,7 +134,7 @@ qx.Proto._syncHtml = function()
       vHtml.push(qx.ui.basic.Image.IMGLOADER_START);
       vHtml.push(qx.manager.object.ImageManager.buildUri(this.getIcon()));
       vHtml.push(qx.ui.basic.Image.IMGLOADER_STOP);
-      vHtml.push(qx.Const.CORE_SEMICOLON);
+      vHtml.push(qx.constant.Core.SEMICOLON);
     };
 
     vHtml.push(qx.ui.embed.IconHtmlEmbed.STOP_IMAGE);
@@ -144,5 +144,5 @@ qx.Proto._syncHtml = function()
     vHtml.push(this.getHtml());
   };
 
-  this.getElement().innerHTML = vHtml.join(qx.Const.CORE_EMPTY);
+  this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
 };

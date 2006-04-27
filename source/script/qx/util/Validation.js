@@ -47,7 +47,7 @@ qx.util.Validation.isValid = function(v)
       return v !== null;
 
     case qx.Const.TYPEOF_STRING:
-      return v !== qx.Const.CORE_EMPTY;
+      return v !== qx.constant.Core.EMPTY;
 
     case qx.Const.TYPEOF_NUMBER:
       return !isNaN(v);
@@ -71,7 +71,7 @@ qx.util.Validation.isInvalid = function(v)
       return v === null;
 
     case qx.Const.TYPEOF_STRING:
-      return v === qx.Const.CORE_EMPTY;
+      return v === qx.constant.Core.EMPTY;
 
     case qx.Const.TYPEOF_NUMBER:
       return isNaN(v);
@@ -93,11 +93,11 @@ qx.util.Validation.isInvalidNumber = function(v) {
 };
 
 qx.util.Validation.isValidString = function(v) {
-  return typeof v === qx.Const.TYPEOF_STRING && v !== qx.Const.CORE_EMPTY;
+  return typeof v === qx.Const.TYPEOF_STRING && v !== qx.constant.Core.EMPTY;
 };
 
 qx.util.Validation.isInvalidString = function(v) {
-  return typeof v !== qx.Const.TYPEOF_STRING || v === qx.Const.CORE_EMPTY;
+  return typeof v !== qx.Const.TYPEOF_STRING || v === qx.constant.Core.EMPTY;
 };
 
 qx.util.Validation.isValidArray = function(v) {
@@ -153,7 +153,7 @@ qx.util.Validation.isValidStringOrNumber = function(v)
   switch(typeof v)
   {
     case qx.Const.TYPEOF_STRING:
-      return v !== qx.Const.CORE_EMPTY;
+      return v !== qx.constant.Core.EMPTY;
 
     case qx.Const.TYPEOF_NUMBER:
       return !isNaN(v);
@@ -167,7 +167,7 @@ qx.util.Validation.isInvalidStringOrNumber = function(v)
   switch(typeof v)
   {
     case qx.Const.TYPEOF_STRING:
-      return v === qx.Const.CORE_EMPTY;
+      return v === qx.constant.Core.EMPTY;
 
     case qx.Const.TYPEOF_NUMBER:
       return isNaN(v);

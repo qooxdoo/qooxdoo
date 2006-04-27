@@ -19,13 +19,13 @@ function (clientWindow) {
 
   this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation")
   this._tree.set({ backgroundColor:255, border:qx.renderer.border.BorderObject.presets.black,
-    overflow:"scrollY", width:300, height:qx.Const.CORE_HUNDREDPERCENT });
+    overflow:"scrollY", width:300, height:qx.constant.Core.HUNDREDPERCENT });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   boxLayout.add(this._tree);
 
   this._detailViewer = new qx.apiviewer.DetailViewer;
   this._detailViewer.set({ border:qx.renderer.border.BorderObject.presets.black,
-    width:qx.Const.CORE_FLEX, height:qx.Const.CORE_HUNDREDPERCENT,
+    width:qx.constant.Core.FLEX, height:qx.constant.Core.HUNDREDPERCENT,
     visibility:false });
   boxLayout.add(this._detailViewer);
 

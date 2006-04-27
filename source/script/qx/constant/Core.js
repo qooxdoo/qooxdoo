@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.const.Core",
+qx.OO.defineClass("qx.constant.Core",
 {
   EMPTY : "",
   SPACE : " ",

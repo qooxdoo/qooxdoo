@@ -201,7 +201,7 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   // only do this if we called setSelected seperatly
   // and not from the property "value".
   if (!this._fromValue) {
-    this.setValue(propValue ? propValue.getLabel() : qx.Const.CORE_EMPTY);
+    this.setValue(propValue ? propValue.getLabel() : qx.constant.Core.EMPTY);
   };
 
   // reset manager cache
@@ -259,7 +259,7 @@ qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
   var f = this._field;
 
   f.setReadOnly(!propValue);
-  f.setCursor(propValue ? null : qx.Const.CORE_DEFAULT);
+  f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
   f.setSelectable(propValue);
 
   return true;
@@ -448,7 +448,7 @@ qx.Proto._onkeydown = function(e)
 
         vManager.setSelectedItem(this._oldSelected);
 
-        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.Const.CORE_EMPTY);
+        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.constant.Core.EMPTY);
 
         this._closePopup();
       };

@@ -41,7 +41,7 @@ function(vMin, vValue, vMax)
   this.setTabIndex(-1);
 
   if (qx.sys.Client.isMshtml()) {
-    this.setStyleProperty("fontSize", qx.Const.CORE_ZEROPIXEL);
+    this.setStyleProperty("fontSize", qx.constant.Core.ZEROPIXEL);
   };
 
 
@@ -65,7 +65,7 @@ function(vMin, vValue, vMax)
   //   BUTTON LAYOUT
   // ************************************************************************
   this._buttonlayout = new qx.ui.layout.VerticalBoxLayout;
-  this._buttonlayout.setWidth(qx.Const.CORE_AUTO);
+  this._buttonlayout.setWidth(qx.constant.Core.AUTO);
   this.add(this._buttonlayout);
 
 
@@ -521,7 +521,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     return;
   };
 
-  if (el.value == qx.Const.CORE_EMPTY)
+  if (el.value == qx.constant.Core.EMPTY)
   {
     if (!acceptEmpty)
     {
@@ -539,7 +539,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     // fix leading '0'
     if (val.length > 1)
     {
-      while(val.charAt(0) == qx.Const.CORE_ZERO) {
+      while(val.charAt(0) == qx.constant.Core.ZERO) {
         val = val.substr(1, val.length);
       };
 
@@ -552,7 +552,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     };
 
     // fix for negative integer handling
-    if (val == qx.Const.CORE_MINUS && acceptEmpty && this.getMin() < 0)
+    if (val == qx.constant.Core.MINUS && acceptEmpty && this.getMin() < 0)
     {
       if (el.value != val) {
         el.value = val;
@@ -573,7 +573,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     };
 
     // handle empty string
-    if (acceptEmpty && val == qx.Const.CORE_EMPTY)
+    if (acceptEmpty && val == qx.constant.Core.EMPTY)
     {
       doFix = false;
     }

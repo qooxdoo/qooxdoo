@@ -249,7 +249,7 @@ qx.Proto.toString = function()
 {
   var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
-  var vString = qx.Const.CORE_EMPTY;
+  var vString = qx.constant.Core.EMPTY;
 
   if (qx.util.Validation.isValidString(vShortcut))
   {
@@ -258,7 +258,7 @@ qx.Proto.toString = function()
     if (qx.util.Validation.isValidNumber(vKeyCode))
     {
       var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
-      vString += qx.Const.CORE_PLUS + (vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
+      vString += qx.constant.Core.PLUS + (vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
     };
   }
   else if (qx.util.Validation.isValidNumber(vKeyCode))

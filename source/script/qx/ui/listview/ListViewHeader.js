@@ -244,7 +244,7 @@ qx.Proto._onmouseup = function(e)
   this._resizeTarget.removeState(qx.Const.STATE_OVER);
 
   // Hide resize line
-  this.getParent().getResizeLine().setStyleProperty(qx.Const.PROPERTY_VISIBILITY, qx.Const.CORE_HIDDEN);
+  this.getParent().getResizeLine().setStyleProperty(qx.Const.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
 
   this._cleanupResizing();
 };

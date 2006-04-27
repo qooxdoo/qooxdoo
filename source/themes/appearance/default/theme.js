@@ -78,7 +78,7 @@ theme.registerAppearance("blocker",
     // (Visible) background tiles could be dramatically slow down mshtml!
     // A background image or color is always needed for mshtml to block the events successfully.
     return {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       backgroundImage : qx.Const.IMAGE_BLANK
     };
   }
@@ -89,10 +89,10 @@ theme.registerAppearance("atom",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       spacing : 4,
-      width : qx.Const.CORE_AUTO,
-      height : qx.Const.CORE_AUTO,
+      width : qx.constant.Core.AUTO,
+      height : qx.constant.Core.AUTO,
       horizontalChildrenAlign : qx.Const.ALIGN_CENTER,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       stretchChildrenOrthogonalAxis : false,
@@ -142,8 +142,8 @@ theme.registerAppearance("popup",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : qx.Const.CORE_AUTO,
-      height : qx.Const.CORE_AUTO
+      width : qx.constant.Core.AUTO,
+      height : qx.constant.Core.AUTO
     };
   }
 });
@@ -258,7 +258,7 @@ theme.registerAppearance("toolbar",
     return {
       border : qx.renderer.border.BorderObject.presets.thinOutset,
       backgroundColor : this.bgcolor,
-      height : qx.Const.CORE_AUTO
+      height : qx.constant.Core.AUTO
     };
   }
 });
@@ -268,7 +268,7 @@ theme.registerAppearance("toolbar-part",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : qx.Const.CORE_AUTO
+      width : qx.constant.Core.AUTO
     };
   }
 });
@@ -354,9 +354,9 @@ theme.registerAppearance("toolbar-button",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       spacing : 4,
-      width : qx.Const.CORE_AUTO,
+      width : qx.constant.Core.AUTO,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE
     };
   },
@@ -437,13 +437,13 @@ theme.registerAppearance("bar-view-pane",
       case qx.Const.ALIGN_BOTTOM:
         return {
           width : null,
-          height : qx.Const.CORE_FLEX
+          height : qx.constant.Core.FLEX
         };
 
       case qx.Const.ALIGN_LEFT:
       case qx.Const.ALIGN_RIGHT:
         return {
-          width : qx.Const.CORE_FLEX,
+          width : qx.constant.Core.FLEX,
           height : null
         };
     };
@@ -503,7 +503,7 @@ theme.registerAppearance("bar-view-bar",
           paddingLeft : 0,
 
           border : this.border_top,
-          height : qx.Const.CORE_AUTO,
+          height : qx.constant.Core.AUTO,
           width : null,
           orientation : qx.Const.ORIENTATION_HORIZONTAL
         };
@@ -516,7 +516,7 @@ theme.registerAppearance("bar-view-bar",
           paddingLeft : 0,
 
           border : this.border_bottom,
-          height : qx.Const.CORE_AUTO,
+          height : qx.constant.Core.AUTO,
           width : null,
           orientation : qx.Const.ORIENTATION_HORIZONTAL
         };
@@ -530,7 +530,7 @@ theme.registerAppearance("bar-view-bar",
 
           border : this.border_left,
           height : null,
-          width : qx.Const.CORE_AUTO,
+          width : qx.constant.Core.AUTO,
           orientation : qx.Const.ORIENTATION_VERTICAL
         };
 
@@ -543,7 +543,7 @@ theme.registerAppearance("bar-view-bar",
 
           border : this.border_right,
           height : null,
-          width : qx.Const.CORE_AUTO,
+          width : qx.constant.Core.AUTO,
           orientation : qx.Const.ORIENTATION_VERTICAL
         };
     };
@@ -640,7 +640,7 @@ theme.registerAppearance("bar-view-button",
       case qx.Const.ALIGN_BOTTOM:
         vReturn.marginTop = vReturn.marginBottom = 0;
         vReturn.marginRight = vReturn.marginLeft = 1;
-        vReturn.width = qx.Const.CORE_AUTO;
+        vReturn.width = qx.constant.Core.AUTO;
         vReturn.height = null;
         break;
 
@@ -648,7 +648,7 @@ theme.registerAppearance("bar-view-button",
       case qx.Const.ALIGN_RIGHT:
         vReturn.marginTop = vReturn.marginBottom = 1;
         vReturn.marginRight = vReturn.marginLeft = 0;
-        vReturn.height = qx.Const.CORE_AUTO;
+        vReturn.height = qx.constant.Core.AUTO;
         vReturn.width = null;
     };
 
@@ -716,7 +716,7 @@ theme.registerAppearance("window-captionbar",
       paddingBottom : 2,
       paddingLeft : 2,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
     };
   },
@@ -761,7 +761,7 @@ theme.registerAppearance("window-captionbar-title",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       font : this.font,
       marginRight : 2,
       wrap : false
@@ -849,7 +849,7 @@ theme.registerAppearance("window-statusbar",
   {
     return {
       border : qx.renderer.border.BorderObject.presets.thinInset,
-      height : qx.Const.CORE_AUTO
+      height : qx.constant.Core.AUTO
     };
   }
 });
@@ -863,7 +863,7 @@ theme.registerAppearance("window-statusbar-text",
       paddingRight : 4,
       paddingBottom : 1,
       paddingLeft : 4,
-      cursor : qx.Const.CORE_DEFAULT
+      cursor : qx.constant.Core.DEFAULT
     };
   }
 });
@@ -893,8 +893,8 @@ theme.registerAppearance("menu",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : qx.Const.CORE_AUTO,
-      height : qx.Const.CORE_AUTO,
+      width : qx.constant.Core.AUTO,
+      height : qx.constant.Core.AUTO,
       backgroundColor : this.bgcolor,
       border : qx.renderer.border.BorderObject.presets.outset,
       paddingTop : 1,
@@ -932,14 +932,14 @@ theme.registerAppearance("menu-button",
   initial : function(vWidget, vTheme)
   {
     return {
-      minWidth : qx.Const.CORE_AUTO,
-      height : qx.Const.CORE_AUTO,
+      minWidth : qx.constant.Core.AUTO,
+      height : qx.constant.Core.AUTO,
       spacing : 2,
       paddingTop : 2,
       paddingRight : 4,
       paddingBottom : 2,
       paddingLeft : 4,
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       allowStretchX : true
     };
@@ -1009,7 +1009,7 @@ theme.registerAppearance("menu-separator",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       marginTop : 3,
       marginBottom : 2,
       paddingLeft : 3,
@@ -1025,7 +1025,7 @@ theme.registerAppearance("menu-separator-line",
     return {
       right : 0,
       left : 0,
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       border : qx.renderer.border.BorderObject.presets.verticalDivider
     };
   }
@@ -1072,8 +1072,8 @@ theme.registerAppearance("list-item",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : qx.Const.CORE_DEFAULT,
-      height : qx.Const.CORE_AUTO,
+      cursor : qx.constant.Core.DEFAULT,
+      height : qx.constant.Core.AUTO,
       horizontalChildrenAlign : qx.Const.ALIGN_LEFT,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       spacing : 4,
@@ -1081,7 +1081,7 @@ theme.registerAppearance("list-item",
       paddingRight : 5,
       paddingBottom : 3,
       paddingLeft : 5,
-      minWidth : qx.Const.CORE_AUTO
+      minWidth : qx.constant.Core.AUTO
     };
   },
 
@@ -1137,8 +1137,8 @@ theme.registerAppearance("text-field",
       allowStretchY : false,
       allowStretchX : true,
       font : this.font,
-      width : qx.Const.CORE_AUTO,
-      height : qx.Const.CORE_AUTO
+      width : qx.constant.Core.AUTO,
+      height : qx.constant.Core.AUTO
     };
   },
 
@@ -1152,7 +1152,7 @@ theme.registerAppearance("text-area",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
-      overflow : qx.Const.CORE_AUTO
+      overflow : qx.constant.Core.AUTO
     });
   },
 
@@ -1188,7 +1188,7 @@ theme.registerAppearance("combo-box",
     return {
       minWidth : 40,
       width : 120,
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       border : qx.renderer.border.BorderObject.presets.inset,
       backgroundColor : this.bgcolor,
       allowStretchY : false
@@ -1216,7 +1216,7 @@ theme.registerAppearance("combo-box-popup",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       maxHeight : 150,
       border : qx.renderer.border.BorderObject.presets.shadow
     });
@@ -1234,7 +1234,7 @@ theme.registerAppearance("combo-box-text-field",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
       border : qx.renderer.border.Border.presets.none,
-      width : qx.Const.CORE_FLEX,
+      width : qx.constant.Core.FLEX,
       backgroundColor : this.bgcolor
     });
   }
@@ -1328,7 +1328,7 @@ theme.registerAppearance("tree-element-label",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "label"), {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       marginLeft : 3,
       height : 15,
       paddingTop : 2,
@@ -1452,7 +1452,7 @@ theme.registerAppearance("tree-folder-container",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       verticalChildrenAlign : qx.Const.ALIGN_TOP
     };
   }
@@ -1477,7 +1477,7 @@ theme.registerAppearance("list-view",
   initial : function(vWidget, vTheme)
   {
     return {
-      cursor : qx.Const.CORE_DEFAULT,
+      cursor : qx.constant.Core.DEFAULT,
       overflow: qx.Const.OVERFLOW_VALUE_HIDDEN
     };
   }
@@ -1488,7 +1488,7 @@ theme.registerAppearance("list-view-pane",
   initial : function(vWidget, vTheme)
   {
     return {
-      width : qx.Const.CORE_FLEX,
+      width : qx.constant.Core.FLEX,
       horizontalSpacing : 1,
       overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
     };
@@ -1508,7 +1508,7 @@ theme.registerAppearance("list-view-header",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : qx.Const.CORE_AUTO,
+      height : qx.constant.Core.AUTO,
       overflow: qx.Const.OVERFLOW_VALUE_HIDDEN,
       border : this.border,
       backgroundColor : this.bgcolor
@@ -1690,7 +1690,7 @@ theme.registerAppearance("tab-view-bar",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : qx.Const.CORE_AUTO
+      height : qx.constant.Core.AUTO
     };
   }
 });
@@ -1706,7 +1706,7 @@ theme.registerAppearance("tab-view-pane",
   initial : function(vWidget, vTheme)
   {
     return {
-      height : qx.Const.CORE_FLEX,
+      height : qx.constant.Core.FLEX,
       backgroundColor : this.bgcolor,
       border : this.border,
       paddingTop : 10,
@@ -1972,7 +1972,7 @@ theme.registerAppearance("spinner-field",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
-      width : qx.Const.CORE_FLEX,
+      width : qx.constant.Core.FLEX,
       border : qx.renderer.border.Border.presets.none
     });
   },
@@ -1988,7 +1988,7 @@ theme.registerAppearance("spinner-button-up",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
-      height: qx.Const.CORE_FLEX,
+      height: qx.constant.Core.FLEX,
       width: 16,
       backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
@@ -2012,7 +2012,7 @@ theme.registerAppearance("spinner-button-down",
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
     {
-      height: qx.Const.CORE_FLEX,
+      height: qx.constant.Core.FLEX,
       width: 16,
       backgroundColor: new qx.renderer.color.ColorObject("threedface")
     });
@@ -2051,8 +2051,8 @@ theme.registerAppearance("colorselector",
   {
     return {
       border : this.border,
-      width: qx.Const.CORE_AUTO,
-      height: qx.Const.CORE_AUTO
+      width: qx.constant.Core.AUTO,
+      height: qx.constant.Core.AUTO
     };
   },
 

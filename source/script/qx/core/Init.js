@@ -154,7 +154,7 @@ qx.Proto._runPre = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
 };
 
 qx.Proto._runMain = function()
@@ -182,7 +182,7 @@ qx.Proto._runMain = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
 };
 
 qx.Proto._runPreload = function()
@@ -205,7 +205,7 @@ qx.Proto._runPreload = function()
 
 qx.Proto._runPreloadDone = function()
 {
-  this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + qx.Const.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + qx.constant.Core.MILLISECONDS);
   this._runWidgets();
 };
 
@@ -221,7 +221,7 @@ qx.Proto._runWidgets = function()
     this._ready = true;
     qx.ui.core.Widget.flushGlobalQueues(true);
 
-    this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
+    this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
   };
 
   this._runPost();
@@ -252,7 +252,7 @@ qx.Proto._runPost = function()
     return this.error("...failed: " + ex);
   };
 
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.Const.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
 };
 
 qx.Proto._runPostload = function()
@@ -272,7 +272,7 @@ qx.Proto._runPostload = function()
 
 qx.Proto._runPostloadDone = function()
 {
-  this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + qx.Const.CORE_MILLISECONDS);
+  this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + qx.constant.Core.MILLISECONDS);
 };
 
 
@@ -299,7 +299,7 @@ qx.Proto._printPropertyInfo = function() {
 
 qx.Proto._printClientInfo = function()
 {
-  this.debug("Client: " + qx.sys.Client.getEngine() + qx.Const.CORE_SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? qx.Const.CORE_SPACE + qx.sys.Client.getEmulation() : qx.Const.CORE_EMPTY));
+  this.debug("Client: " + qx.sys.Client.getEngine() + qx.constant.Core.SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? qx.constant.Core.SPACE + qx.sys.Client.getEmulation() : qx.constant.Core.EMPTY));
 
   if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
     this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");

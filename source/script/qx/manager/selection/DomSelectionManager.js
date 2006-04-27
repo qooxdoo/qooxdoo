@@ -51,7 +51,7 @@ qx.Proto.getItemEnabled = function(oItem) {
 };
 
 qx.Proto.getItemClassName = function(vItem) {
-  return vItem.className || qx.Const.CORE_EMPTY;
+  return vItem.className || qx.constant.Core.EMPTY;
 };
 
 qx.Proto.setItemClassName = function(vItem, vClassName) {
@@ -60,7 +60,7 @@ qx.Proto.setItemClassName = function(vItem, vClassName) {
 
 qx.Proto.getItemBaseClassName = function(vItem)
 {
-  var p = vItem.className.split(qx.Const.CORE_SPACE)[0];
+  var p = vItem.className.split(qx.constant.Core.SPACE)[0];
   return p ? p : "Status";
 };
 

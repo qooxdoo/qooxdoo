@@ -229,7 +229,7 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 {
-  var vHtml = propValue ? propValue.getShortcut() : qx.Const.CORE_EMPTY;
+  var vHtml = propValue ? propValue.getShortcut() : qx.constant.Core.EMPTY;
 
   this._shortcutObject.setHtml(vHtml);
 
@@ -237,7 +237,7 @@ qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
   {
     this._hasShortcut = true;
 
-    var vOldHtml = propOldValue ? propOldValue.getShortcut() : qx.Const.CORE_EMPTY;
+    var vOldHtml = propOldValue ? propOldValue.getShortcut() : qx.constant.Core.EMPTY;
 
     if (qx.util.Validation.isInvalidString(vOldHtml))
     {

@@ -31,5 +31,5 @@ function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setHeight(qx.Const.CORE_FLEX);
+  this.setHeight(qx.constant.Core.FLEX);
 });

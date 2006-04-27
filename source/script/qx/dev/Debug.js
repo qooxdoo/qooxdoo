@@ -34,16 +34,16 @@ qx.dev.Debug = function(group, message, classname)
 {
   // Building time string
   var t = String((new Date).valueOf()-qx.core.DefaultSettings.loadStart);
-  while (t.length<6) t = qx.Const.CORE_ZERO + t;
+  while (t.length<6) t = qx.constant.Core.ZERO + t;
   t += qx.dev.Debug.divider;
 
   // Check if frame is ready
   if (!qx.dev.Debug._head)
   {
-    qx.dev.Debug._head = document.createElement(qx.Const.CORE_DIV);
+    qx.dev.Debug._head = document.createElement(qx.constant.Core.DIV);
     qx.dev.Debug._head.className = "head";
 
-    qx.dev.Debug._log = document.createElement(qx.Const.CORE_DIV);
+    qx.dev.Debug._log = document.createElement(qx.constant.Core.DIV);
     qx.dev.Debug._log.className = "log";
 
 
@@ -73,13 +73,13 @@ qx.dev.Debug = function(group, message, classname)
 
     qx.dev.Debug._btnHide.onclick = function(e)
     {
-      qx.dev.Debug._log.style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoHead").style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoFoot").style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoDescription").style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoFiles").style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoFrame").style.display = qx.Const.CORE_NONE;
-      document.getElementById("demoDebug").style.visibility = qx.Const.CORE_HIDDEN;
+      qx.dev.Debug._log.style.display = qx.constant.Core.NONE;
+      document.getElementById("demoHead").style.display = qx.constant.Core.NONE;
+      document.getElementById("demoFoot").style.display = qx.constant.Core.NONE;
+      document.getElementById("demoDescription").style.display = qx.constant.Core.NONE;
+      document.getElementById("demoFiles").style.display = qx.constant.Core.NONE;
+      document.getElementById("demoFrame").style.display = qx.constant.Core.NONE;
+      document.getElementById("demoDebug").style.visibility = qx.constant.Core.HIDDEN;
 
     };
 
@@ -119,7 +119,7 @@ qx.dev.Debug = function(group, message, classname)
 
   if (group != qx.dev.Debug.lastgroup)
   {
-    var n = document.createElement(qx.Const.CORE_DIV);
+    var n = document.createElement(qx.constant.Core.DIV);
     n.className = qx.dev.Debug.groupClass;
     n.appendChild(document.createTextNode(group));
 
@@ -131,10 +131,10 @@ qx.dev.Debug = function(group, message, classname)
   if (qx.util.Validation.isValid(message))
   {
     if (qx.util.Validation.isInvalidString(classname)) {
-      classname = qx.Const.CORE_DEFAULT;
+      classname = qx.constant.Core.DEFAULT;
     };
 
-    var n = document.createElement(qx.Const.CORE_DIV);
+    var n = document.createElement(qx.constant.Core.DIV);
     n.className = qx.dev.Debug.messageClass + classname;
     n.appendChild(document.createTextNode(t + message));
 

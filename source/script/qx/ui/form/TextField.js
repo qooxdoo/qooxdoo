@@ -70,7 +70,7 @@ function(vValue)
 
 qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-field" });
 
-qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_EMPTY });
+qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.EMPTY });
 qx.OO.addProperty({ name : "maxLength", type : qx.Const.TYPEOF_NUMBER });
 qx.OO.addProperty({ name : "readOnly", type : qx.Const.TYPEOF_BOOLEAN });
 
@@ -106,14 +106,14 @@ qx.Proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionT
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(qx.Const.CORE_DISABLED) : this.setHtmlAttribute(qx.Const.CORE_DISABLED, qx.Const.CORE_DISABLED);
+  propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 };
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   this._inValueProperty = true;
-  this.setHtmlProperty(propData.name, propValue == null ? qx.Const.CORE_EMPTY : propValue);
+  this.setHtmlProperty(propData.name, propValue == null ? qx.constant.Core.EMPTY : propValue);
   delete this._inValueProperty;
 
   return true;
@@ -368,7 +368,7 @@ if (qx.sys.Client.isMshtml())
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
-      return qx.Const.CORE_EMPTY;
+      return qx.constant.Core.EMPTY;
     };
 
     return vSelectionRange.text;

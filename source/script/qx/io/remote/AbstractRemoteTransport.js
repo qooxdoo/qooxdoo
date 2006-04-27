@@ -81,12 +81,12 @@ qx.OO.addProperty(
   name           : "state",
   type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   qx.Const.REQUEST_STATE_CREATED, qx.Const.REQUEST_STATE_CONFIGURED,
-                   qx.Const.REQUEST_STATE_SENDING, qx.Const.REQUEST_STATE_RECEIVING,
-                   qx.Const.REQUEST_STATE_COMPLETED, qx.Const.REQUEST_STATE_ABORTED,
-                   qx.Const.REQUEST_STATE_TIMEOUT, qx.Const.REQUEST_STATE_FAILED
+                   qx.constant.Net.STATE_CREATED, qx.constant.Net.STATE_CONFIGURED,
+                   qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
+                   qx.constant.Net.STATE_COMPLETED, qx.constant.Net.STATE_ABORTED,
+                   qx.constant.Net.STATE_TIMEOUT, qx.constant.Net.STATE_FAILED
                    ],
-  defaultValue   : qx.Const.REQUEST_STATE_CREATED
+  defaultValue   : qx.constant.Net.STATE_CREATED
 });
 
 /*!
@@ -127,7 +127,7 @@ qx.Proto.abort = function()
     this.warn("Aborting...");
   };
 
-  this.setState(qx.Const.REQUEST_STATE_ABORTED);
+  this.setState(qx.constant.Net.STATE_ABORTED);
 };
 
 /*!
@@ -139,12 +139,12 @@ qx.Proto.timeout = function()
     this.warn("Timeout...");
   };
 
-  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.constant.Net.STATE_TIMEOUT);
 };
 
 /*!
 
-  Force the transport into the failed state (qx.Const.REQUEST_STATE_FAILED).
+  Force the transport into the failed state (qx.constant.Net.STATE_FAILED).
 
   Listeners of the "failed" signal are notified about the event.
 */
@@ -154,7 +154,7 @@ qx.Proto.failed = function()
     this.warn("Failed...");
   };
 
-  this.setState(qx.Const.REQUEST_STATE_FAILED);
+  this.setState(qx.constant.Net.STATE_FAILED);
 };
 
 
@@ -282,35 +282,35 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.Const.REQUEST_STATE_CREATED:
+    case qx.constant.Net.STATE_CREATED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATED);
       break;
 
-    case qx.Const.REQUEST_STATE_CONFIGURED:
+    case qx.constant.Net.STATE_CONFIGURED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_CONFIGURED);
       break;
 
-    case qx.Const.REQUEST_STATE_SENDING:
+    case qx.constant.Net.STATE_SENDING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case qx.Const.REQUEST_STATE_RECEIVING:
+    case qx.constant.Net.STATE_RECEIVING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case qx.Const.REQUEST_STATE_COMPLETED:
+    case qx.constant.Net.STATE_COMPLETED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
       break;
 
-    case qx.Const.REQUEST_STATE_ABORTED:
+    case qx.constant.Net.STATE_ABORTED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_ABORTED);
       break;
 
-    case qx.Const.REQUEST_STATE_FAILED:
+    case qx.constant.Net.STATE_FAILED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_FAILED);
       break;
 
-    case qx.Const.REQUEST_STATE_TIMEOUT:
+    case qx.constant.Net.STATE_TIMEOUT:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_TIMEOUT);
       break;
   };

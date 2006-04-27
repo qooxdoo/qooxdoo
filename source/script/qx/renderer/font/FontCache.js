@@ -37,7 +37,7 @@ qx.renderer.font.FontCache = function(propValue, propData)
   switch(typeof propValue)
   {
     case qx.Const.TYPEOF_STRING:
-      if (propValue != qx.Const.CORE_EMPTY)
+      if (propValue != qx.constant.Core.EMPTY)
       {
         propValue = propKey = propValue.toLowerCase();
         break;
@@ -57,7 +57,7 @@ qx.renderer.font.FontCache = function(propValue, propData)
       // Try to detect array of RGB values
       if (typeof propValue.join === qx.Const.TYPEOF_FUNCTION)
       {
-        propKey = propValue.join(qx.Const.CORE_SPACE).toLowerCase();
+        propKey = propValue.join(qx.constant.Core.SPACE).toLowerCase();
         break;
       };
 

@@ -312,7 +312,7 @@ qx.Proto.add = function(vRequest)
   Remove the request from the pending requests queue.
 
   The underlying transport of the request is forced into the aborted
-  state (qx.Const.REQUEST_STATE_ABORTED) and listeners of the "aborted"
+  state (qx.constant.Net.STATE_ABORTED) and listeners of the "aborted"
   signal are notified about the event. If the request isn't in the
   pending requests queue, this method is a noop.
 */

@@ -28,8 +28,8 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 {
   qx.ui.popup.Popup.call(this);
 
-//  this.setWidth(qx.Const.CORE_AUTO);
-//  this.setHeight(qx.Const.CORE_AUTO);
+//  this.setWidth(qx.constant.Core.AUTO);
+//  this.setHeight(qx.constant.Core.AUTO);
 
   this.setBackgroundColor("threedface");
   this.setColor("windowtext");

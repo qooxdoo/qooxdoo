@@ -32,7 +32,7 @@ qx.renderer.border.BorderCache = function(propValue, propData)
 {
   if (qx.util.Validation.isValidArray(propValue) && propValue.length > 1)
   {
-    propString = qx.Const.CORE_EMPTY;
+    propString = qx.constant.Core.EMPTY;
 
     for (var i=0, l=propValue.length, p; i<l; i++)
     {
@@ -41,11 +41,11 @@ qx.renderer.border.BorderCache = function(propValue, propData)
       propString += p;
 
       if (typeof p === qx.Const.TYPEOF_NUMBER) {
-        propString += qx.Const.CORE_PIXEL;
+        propString += qx.constant.Core.PIXEL;
       };
 
       if (i<(l-1)) {
-        propString += qx.Const.CORE_SPACE;
+        propString += qx.constant.Core.SPACE;
       };
     };
 

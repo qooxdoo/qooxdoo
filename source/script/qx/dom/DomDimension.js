@@ -172,7 +172,7 @@ if (qx.sys.Client.isMshtml())
   qx.dom.DomDimension.getInsetLeft   = function(el) { return el.clientLeft; };
   qx.dom.DomDimension.getInsetTop    = function(el) { return el.clientTop; };
   qx.dom.DomDimension.getInsetRight  = function(el) {
-    if(qx.dom.DomStyle.getStyleProperty(el, "overflowY") == qx.Const.CORE_HIDDEN || el.clientWidth == 0) {
+    if(qx.dom.DomStyle.getStyleProperty(el, "overflowY") == qx.constant.Core.HIDDEN || el.clientWidth == 0) {
       return qx.dom.DomStyle.getBorderRight(el);
     };
 
@@ -180,7 +180,7 @@ if (qx.sys.Client.isMshtml())
   };
 
   qx.dom.DomDimension.getInsetBottom = function(el) {
-    if(qx.dom.DomStyle.getStyleProperty(el, "overflowX") == qx.Const.CORE_HIDDEN || el.clientHeight == 0) {
+    if(qx.dom.DomStyle.getStyleProperty(el, "overflowX") == qx.constant.Core.HIDDEN || el.clientHeight == 0) {
       return qx.dom.DomStyle.getBorderBottom(el);
     };
 

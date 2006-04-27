@@ -44,7 +44,7 @@ function(vUrl, vMethod, vResponseType)
   this._parameters = {};
 
   this.setUrl(vUrl);
-  this.setMethod(vMethod || qx.Const.METHOD_GET);
+  this.setMethod(vMethod || qx.constant.Net.METHOD_GET);
   this.setResponseType(vResponseType || qx.Const.MIMETYPE_TEXT);
 
   this.setProhibitCaching(true);
@@ -76,9 +76,9 @@ qx.OO.addProperty(
   name           : "method",
   type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   qx.Const.METHOD_GET, qx.Const.METHOD_POST,
-                   qx.Const.METHOD_PUT, qx.Const.METHOD_HEAD,
-                   qx.Const.METHOD_DELETE
+                   qx.constant.Net.METHOD_GET, qx.constant.Net.METHOD_POST,
+                   qx.constant.Net.METHOD_PUT, qx.constant.Net.METHOD_HEAD,
+                   qx.constant.Net.METHOD_DELETE
                    ]
 });
 /*!
@@ -104,12 +104,12 @@ qx.OO.addProperty(
   name           : "state",
   type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   qx.Const.REQUEST_STATE_CONFIGURED, qx.Const.REQUEST_STATE_QUEUED,
-                   qx.Const.REQUEST_STATE_SENDING, qx.Const.REQUEST_STATE_RECEIVING,
-                   qx.Const.REQUEST_STATE_COMPLETED, qx.Const.REQUEST_STATE_ABORTED,
-                   qx.Const.REQUEST_STATE_TIMEOUT, qx.Const.REQUEST_STATE_FAILED
+                   qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_QUEUED,
+                   qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
+                   qx.constant.Net.STATE_COMPLETED, qx.constant.Net.STATE_ABORTED,
+                   qx.constant.Net.STATE_TIMEOUT, qx.constant.Net.STATE_FAILED
                    ],
-  defaultValue   : qx.Const.REQUEST_STATE_CONFIGURED
+  defaultValue   : qx.constant.Net.STATE_CONFIGURED
 });
 /*
   Response type of request.
@@ -189,12 +189,12 @@ qx.Proto.reset = function()
 {
   switch(this.getState())
   {
-    case qx.Const.REQUEST_STATE_SENDING:
-    case qx.Const.REQUEST_STATE_RECEIVING:
+    case qx.constant.Net.STATE_SENDING:
+    case qx.constant.Net.STATE_RECEIVING:
       this.error("Aborting already sent request!");
       // no break
 
-    case qx.Const.REQUEST_STATE_QUEUED:
+    case qx.constant.Net.STATE_QUEUED:
       this.abort();
       break;
   };
@@ -213,39 +213,39 @@ qx.Proto.reset = function()
 */
 
 qx.Proto.isConfigured = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_CONFIGURED;
+  return this.getState() === qx.constant.Net.STATE_CONFIGURED;
 };
 
 qx.Proto.isQueued = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_QUEUED;
+  return this.getState() === qx.constant.Net.STATE_QUEUED;
 };
 
 qx.Proto.isSending = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_SENDING;
+  return this.getState() === qx.constant.Net.STATE_SENDING;
 };
 
 qx.Proto.isReceiving = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_RECEIVING;
+  return this.getState() === qx.constant.Net.STATE_RECEIVING;
 };
 
 qx.Proto.isCompleted = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_COMPLETED;
+  return this.getState() === qx.constant.Net.STATE_COMPLETED;
 };
 
 qx.Proto.isAborted = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_ABORTED;
+  return this.getState() === qx.constant.Net.STATE_ABORTED;
 };
 
 qx.Proto.isTimeout = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_TIMEOUT;
+  return this.getState() === qx.constant.Net.STATE_TIMEOUT;
 };
 
 /*!
   Return true if the request is in the failed state
-  (qx.Const.REQUEST_STATE_FAILED).
+  (qx.constant.Net.STATE_FAILED).
 */
 qx.Proto.isFailed = function() {
-  return this.getState() === qx.Const.REQUEST_STATE_FAILED;
+  return this.getState() === qx.constant.Net.STATE_FAILED;
 };
 
 
@@ -263,7 +263,7 @@ qx.Proto.isFailed = function() {
 qx.Proto._onqueued = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_QUEUED);
+  this.setState(qx.constant.Net.STATE_QUEUED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -272,7 +272,7 @@ qx.Proto._onqueued = function(e)
 qx.Proto._onsending = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_SENDING);
+  this.setState(qx.constant.Net.STATE_SENDING);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -281,7 +281,7 @@ qx.Proto._onsending = function(e)
 qx.Proto._onreceiving = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_RECEIVING);
+  this.setState(qx.constant.Net.STATE_RECEIVING);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -290,7 +290,7 @@ qx.Proto._onreceiving = function(e)
 qx.Proto._oncompleted = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_COMPLETED);
+  this.setState(qx.constant.Net.STATE_COMPLETED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -302,7 +302,7 @@ qx.Proto._oncompleted = function(e)
 qx.Proto._onaborted = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_ABORTED);
+  this.setState(qx.constant.Net.STATE_ABORTED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -314,7 +314,7 @@ qx.Proto._onaborted = function(e)
 qx.Proto._ontimeout = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.constant.Net.STATE_TIMEOUT);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -326,7 +326,7 @@ qx.Proto._ontimeout = function(e)
 qx.Proto._onfailed = function(e)
 {
   // Modify internal state
-  this.setState(qx.Const.REQUEST_STATE_FAILED);
+  this.setState(qx.constant.Net.STATE_FAILED);
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -366,7 +366,7 @@ qx.Proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyMethod = function(propValue, propOldValue, propData)
 {
-  if (propValue === qx.Const.METHOD_POST) {
+  if (propValue === qx.constant.Net.METHOD_POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   };
 
