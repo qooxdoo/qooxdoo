@@ -366,76 +366,76 @@ qx.Proto._open = function()
   if (qx.util.Validation.isValidNumber(this.getWidth()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_WIDTH);
-    vConf.push(qx.Const.CORE_EQUAL);
+    vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getWidth());
-    vConf.push(qx.Const.CORE_COMMA);
+    vConf.push(qx.constant.Core.COMMA);
   };
 
   if (qx.util.Validation.isValidNumber(this.getHeight()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_HEIGHT);
-    vConf.push(qx.Const.CORE_EQUAL);
+    vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getHeight());
-    vConf.push(qx.Const.CORE_COMMA);
+    vConf.push(qx.constant.Core.COMMA);
   };
 
   if (qx.util.Validation.isValidNumber(this.getLeft()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_LEFT);
-    vConf.push(qx.Const.CORE_EQUAL);
+    vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getLeft());
-    vConf.push(qx.Const.CORE_COMMA);
+    vConf.push(qx.constant.Core.COMMA);
   };
 
   if (qx.util.Validation.isValidNumber(this.getTop()))
   {
     vConf.push(qx.client.NativeWindow.PROPERTY_TOP);
-    vConf.push(qx.Const.CORE_EQUAL);
+    vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getTop());
-    vConf.push(qx.Const.CORE_COMMA);
+    vConf.push(qx.constant.Core.COMMA);
   };
 
 
 
   vConf.push(qx.client.NativeWindow.PROPERTY_DEPENDENT);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getDependent() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getDependent() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_RESIZABLE);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getResizeable() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getResizeable() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_STATUS);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getShowStatusbar() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getShowStatusbar() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_LOCATION);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getShowLocation() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getShowLocation() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_MENUBAR);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getShowMenubar() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getShowMenubar() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_TOOLBAR);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getShowToolbar() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getShowToolbar() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_SCROLLBARS);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getAllowScrollbars() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getAllowScrollbars() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
   vConf.push(qx.client.NativeWindow.PROPERTY_MODAL);
-  vConf.push(qx.Const.CORE_EQUAL);
-  vConf.push(this.getModal() ? qx.Const.CORE_YES : qx.Const.CORE_NO);
-  vConf.push(qx.Const.CORE_COMMA);
+  vConf.push(qx.constant.Core.EQUAL);
+  vConf.push(this.getModal() ? qx.constant.Core.YES : qx.constant.Core.NO);
+  vConf.push(qx.constant.Core.COMMA);
 
 
 
@@ -452,7 +452,7 @@ qx.Proto._open = function()
     this.setName(this.classname + this.toHashCode());
   };
 
-  this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.Const.CORE_EMPTY));
+  this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
 
   if (this.isClosed())
   {

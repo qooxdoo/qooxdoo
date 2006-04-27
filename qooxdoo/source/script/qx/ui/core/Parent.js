@@ -986,7 +986,7 @@ if (qx.sys.Client.isOpera())
     var vStyle = vChild.getElement().style;
 
     var vOldDisplay = vStyle.display;
-    vStyle.display = qx.Const.CORE_NONE;
+    vStyle.display = qx.constant.Core.NONE;
     var vRet = this._layoutChildOrig(vChild);
     vStyle.display = vOldDisplay;
 

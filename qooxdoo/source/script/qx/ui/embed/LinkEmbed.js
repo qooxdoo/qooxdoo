@@ -89,5 +89,5 @@ qx.Proto._syncHtml = function()
   vHtml.push(this.getHtml());
   vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_STOP);
 
-  this.getElement().innerHTML = vHtml.join(qx.Const.CORE_EMPTY);
+  this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
 };

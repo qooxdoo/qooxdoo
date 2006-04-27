@@ -31,13 +31,13 @@ qx.OO.defineClass("qx.lang.String");
 
 qx.lang.String.toCamelCase = function(str)
 {
-  var vArr = str.split(qx.Const.CORE_DASH), vLength = vArr.length;
+  var vArr = str.split(qx.constant.Core.DASH), vLength = vArr.length;
 
   if(vLength == 1) {
     return vArr[0];
   };
 
-  var vNew = str.indexOf(qx.Const.CORE_DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
+  var vNew = str.indexOf(qx.constant.Core.DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
 
   for (var vPart, i=1; i<vLength; i++)
   {
@@ -49,19 +49,19 @@ qx.lang.String.toCamelCase = function(str)
 };
 
 qx.lang.String.trimLeft = function(str) {
-  return str.replace(/^\s+/, qx.Const.CORE_EMPTY);
+  return str.replace(/^\s+/, qx.constant.Core.EMPTY);
 };
 
 qx.lang.String.trimRight = function(str) {
-  return str.replace(/\s+$/, qx.Const.CORE_EMPTY);
+  return str.replace(/\s+$/, qx.constant.Core.EMPTY);
 };
 
 qx.lang.String.trim = function(str) {
-  return str.replace(/^\s+|\s+$/g, qx.Const.CORE_EMPTY);
+  return str.replace(/^\s+|\s+$/g, qx.constant.Core.EMPTY);
 };
 
 qx.lang.String.stripTags = function(str) {
-  return str.replace(/<\/?[^>]+>/gi, qx.Const.CORE_EMPTY);
+  return str.replace(/<\/?[^>]+>/gi, qx.constant.Core.EMPTY);
 };
 
 qx.lang.String.startsWith = function(fullstr, substr) {
@@ -75,10 +75,10 @@ qx.lang.String.endsWith = function(fullstr, substr) {
 qx.lang.String.pad = function(str, length, ch)
 {
   if (typeof ch === qx.Const.TYPEOF_UNDEFINED) {
-    ch = qx.Const.CORE_ZERO;
+    ch = qx.constant.Core.ZERO;
   };
 
-  var temp = qx.Const.CORE_EMPTY;
+  var temp = qx.constant.Core.EMPTY;
 
   for (var i=length, l=str.length; l<i; l++) {
     temp += ch;
@@ -97,14 +97,14 @@ qx.lang.String.add = function(str, v, sep)
   {
     return str;
   }
-  else if (str == qx.Const.CORE_EMPTY)
+  else if (str == qx.constant.Core.EMPTY)
   {
     return v;
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = qx.Const.CORE_COMMA;
+      sep = qx.constant.Core.COMMA;
     };
 
     var a = str.split(sep);
@@ -123,14 +123,14 @@ qx.lang.String.add = function(str, v, sep)
 
 qx.lang.String.remove = function(str, v, sep)
 {
-  if (str == v || str == qx.Const.CORE_EMPTY)
+  if (str == v || str == qx.constant.Core.EMPTY)
   {
-    return qx.Const.CORE_EMPTY;
+    return qx.constant.Core.EMPTY;
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = qx.Const.CORE_COMMA;
+      sep = qx.constant.Core.COMMA;
     };
 
     var a = str.split(sep);

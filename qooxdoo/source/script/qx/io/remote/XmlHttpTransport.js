@@ -194,11 +194,11 @@ qx.Proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(vId + qx.Const.CORE_EQUAL + vParameters[vId]);
+    vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
   };
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(qx.Const.CORE_QUESTIONMARK) >= 0 ? qx.Const.CORE_AMPERSAND : qx.Const.CORE_QUESTIONMARK) + vParametersList.join(qx.Const.CORE_AMPERSAND);
+    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
   };
 
 
@@ -261,14 +261,14 @@ qx.Proto.send = function()
 
 /*!
   Force the transport into the failed state
-  (qx.Const.REQUEST_STATE_FAILED).
+  (qx.constant.Net.STATE_FAILED).
 
   This method should be used only if the requests URI was local
   access. I.e. it started with "file://".
 */
 qx.Proto.failedLocally = function()
 {
-  if (this.getState() === qx.Const.REQUEST_STATE_FAILED) {
+  if (this.getState() === qx.constant.Net.STATE_FAILED) {
     return;
   };
 
@@ -299,10 +299,10 @@ qx.Proto._onreadystatechange = function(e)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case qx.Const.REQUEST_STATE_COMPLETED:
-    case qx.Const.REQUEST_STATE_ABORTED:
-    case qx.Const.REQUEST_STATE_FAILED:
-    case qx.Const.REQUEST_STATE_TIMEOUT:
+    case qx.constant.Net.STATE_COMPLETED:
+    case qx.constant.Net.STATE_ABORTED:
+    case qx.constant.Net.STATE_FAILED:
+    case qx.constant.Net.STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
   };
@@ -465,7 +465,7 @@ qx.Proto.getStatusCode = function()
 */
 qx.Proto.getStatusText = function()
 {
-  var vStatusText = qx.Const.CORE_EMPTY;
+  var vStatusText = qx.constant.Core.EMPTY;
 
   try {
     vStatusText = this.getRequest().statusText;
@@ -541,7 +541,7 @@ qx.Proto.getFetchedLength = function()
 
 qx.Proto.getResponseContent = function()
 {
-  if (this.getState() !== qx.Const.REQUEST_STATE_COMPLETED)
+  if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
@@ -596,37 +596,37 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.Const.REQUEST_STATE_CREATED:
+    case qx.constant.Net.STATE_CREATED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATED);
       break;
 
-    case qx.Const.REQUEST_STATE_CONFIGURED:
+    case qx.constant.Net.STATE_CONFIGURED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_CONFIGURED);
       break;
 
-    case qx.Const.REQUEST_STATE_SENDING:
+    case qx.constant.Net.STATE_SENDING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case qx.Const.REQUEST_STATE_RECEIVING:
+    case qx.constant.Net.STATE_RECEIVING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case qx.Const.REQUEST_STATE_COMPLETED:
+    case qx.constant.Net.STATE_COMPLETED:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
       break;
 
-    case qx.Const.REQUEST_STATE_ABORTED:
+    case qx.constant.Net.STATE_ABORTED:
       this.getRequest().abort();
       this.createDispatchEvent(qx.Const.EVENT_TYPE_ABORTED);
       break;
 
-    case qx.Const.REQUEST_STATE_FAILED:
+    case qx.constant.Net.STATE_FAILED:
       this.getRequest().abort();
       this.createDispatchEvent(qx.Const.EVENT_TYPE_FAILED);
       break;
 
-    case qx.Const.REQUEST_STATE_TIMEOUT:
+    case qx.constant.Net.STATE_TIMEOUT:
       this.getRequest().abort();
       this.createDispatchEvent(qx.Const.EVENT_TYPE_TIMEOUT);
       break;

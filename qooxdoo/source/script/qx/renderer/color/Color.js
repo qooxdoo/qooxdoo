@@ -52,7 +52,7 @@ function(vValue)
 */
 
 qx.renderer.color.Color.rgb2style = function(r, g, b) {
-  return qx.renderer.color.Color.RGBCSS_START + r + qx.Const.CORE_COMMA + g + qx.Const.CORE_COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
+  return qx.renderer.color.Color.RGBCSS_START + r + qx.constant.Core.COMMA + g + qx.constant.Core.COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
 };
 
 
@@ -280,7 +280,7 @@ qx.Proto.setValue = function(vValue)
 };
 
 qx.Proto.getValue = function() {
-  return this._value || qx.Const.CORE_EMPTY;
+  return this._value || qx.constant.Core.EMPTY;
 };
 
 
@@ -331,7 +331,7 @@ qx.Proto._evalHex = function()
 {
   if (this._isRgbColor)
   {
-    var a = [qx.Const.CORE_HASH];
+    var a = [qx.constant.Core.HASH];
 
     var r = this.getRed();
     a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
@@ -345,7 +345,7 @@ qx.Proto._evalHex = function()
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
 
-    this._hex = a.join(qx.Const.CORE_EMPTY);
+    this._hex = a.join(qx.constant.Core.EMPTY);
   }
   else
   {

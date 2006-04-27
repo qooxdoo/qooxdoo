@@ -112,7 +112,7 @@ qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vIconPath) && qx.util.Validation.isValidString(vIconTheme))
   {
-    this.defineAlias("icons", vIconPath + qx.Const.CORE_SLASH + vIconTheme);
+    this.defineAlias("icons", vIconPath + qx.constant.Core.SLASH + vIconTheme);
   }
   else
   {
@@ -129,7 +129,7 @@ qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vWidgetPath) && qx.util.Validation.isValidString(vWidgetTheme))
   {
-    this.defineAlias("widgets", vWidgetPath + qx.Const.CORE_SLASH + vWidgetTheme);
+    this.defineAlias("widgets", vWidgetPath + qx.constant.Core.SLASH + vWidgetTheme);
   }
   else
   {
@@ -278,16 +278,16 @@ qx.Proto._buildUri = function(vPath, vForce)
 {
   switch(vPath.charAt(0))
   {
-    case qx.Const.CORE_SLASH:
-    case qx.Const.CORE_DOT:
+    case qx.constant.Core.SLASH:
+    case qx.constant.Core.DOT:
       return vPath;
 
     default:
-      if (qx.lang.String.startsWith(vPath, qx.Const.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.Const.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.Const.URI_FILE)) {
+      if (qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_FILE)) {
         return vPath;
       };
 
-      var vAlias = vPath.substring(0, vPath.indexOf(qx.Const.CORE_SLASH));
+      var vAlias = vPath.substring(0, vPath.indexOf(qx.constant.Core.SLASH));
       var vResolved = this._aliases[vAlias];
 
       if (qx.util.Validation.isValidString(vResolved)) {

@@ -149,7 +149,7 @@ qx.Proto._applySource = function()
 qx.Proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
-  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.Const.CORE_EMPTY;
+  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
 };
 
 qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
@@ -315,20 +315,20 @@ qx.ui.embed.Iframe.init = function()
 
   var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
 
-  f.frameBorder = qx.Const.CORE_ZERO;
-  f.frameSpacing = qx.Const.CORE_ZERO;
+  f.frameBorder = qx.constant.Core.ZERO;
+  f.frameSpacing = qx.constant.Core.ZERO;
 
-  f.marginWidth = qx.Const.CORE_ZERO;
-  f.marginHeight = qx.Const.CORE_ZERO;
+  f.marginWidth = qx.constant.Core.ZERO;
+  f.marginHeight = qx.constant.Core.ZERO;
 
-  f.width = qx.Const.CORE_HUNDREDPERCENT;
-  f.height = qx.Const.CORE_HUNDREDPERCENT;
+  f.width = qx.constant.Core.HUNDREDPERCENT;
+  f.height = qx.constant.Core.HUNDREDPERCENT;
 
-  f.hspace = qx.Const.CORE_ZERO;
-  f.vspace = qx.Const.CORE_ZERO;
+  f.hspace = qx.constant.Core.ZERO;
+  f.vspace = qx.constant.Core.ZERO;
 
-  f.border = qx.Const.CORE_ZERO;
-  f.scrolling = qx.Const.CORE_AUTO;
+  f.border = qx.constant.Core.ZERO;
+  f.scrolling = qx.constant.Core.AUTO;
   f.unselectable = "on";
   f.allowTransparency = "true";
 };

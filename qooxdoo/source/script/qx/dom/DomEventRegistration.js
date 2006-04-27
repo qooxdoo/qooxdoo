@@ -32,11 +32,11 @@ qx.OO.defineClass("qx.dom.DomEventRegistration");
 if (qx.sys.Client.isMshtml())
 {
   qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
-    vElement.attachEvent(qx.Const.CORE_ON + vType, vFunction);
+    vElement.attachEvent(qx.constant.Core.ON + vType, vFunction);
   };
 
   qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.detachEvent(qx.Const.CORE_ON + vType, vFunction);
+    vElement.detachEvent(qx.constant.Core.ON + vType, vFunction);
   };
 }
 else

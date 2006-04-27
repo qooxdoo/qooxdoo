@@ -70,7 +70,7 @@ qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defau
 qx.OO.addProperty({ name : "enableInlineFind", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
 qx.OO.addProperty({ name : "markLeadingItem", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
 
-qx.Proto._pressedString = qx.Const.CORE_EMPTY;
+qx.Proto._pressedString = qx.constant.Core.EMPTY;
 
 
 
@@ -201,7 +201,7 @@ qx.Proto._onkeypress = function(e)
 
   // Reset string after a second of non pressed key
   if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
-    this._pressedString = qx.Const.CORE_EMPTY;
+    this._pressedString = qx.constant.Core.EMPTY;
   };
 
   // Combine keys the user pressed to a string

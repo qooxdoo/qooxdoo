@@ -756,7 +756,7 @@ qx.OO.addProperty = function(p)
   if (typeof qx.Proto._properties !== qx.Const.TYPEOF_STRING) {
     qx.Proto._properties = p.name;
   } else {
-    qx.Proto._properties += qx.Const.CORE_COMMA + p.name;
+    qx.Proto._properties += qx.constant.Core.COMMA + p.name;
   };
 
   // add property to object property list
@@ -768,7 +768,7 @@ qx.OO.addProperty = function(p)
       if (typeof qx.Proto._objectproperties !== qx.Const.TYPEOF_STRING) {
         qx.Proto._objectproperties = p.name;
       } else {
-        qx.Proto._objectproperties += qx.Const.CORE_COMMA + p.name;
+        qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;
       };
   };
 };

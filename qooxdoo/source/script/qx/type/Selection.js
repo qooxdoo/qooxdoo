@@ -91,7 +91,7 @@ qx.Proto.getChangeValue = function()
   };
 
   sb.sort();
-  return sb.join(qx.Const.CORE_SEMICOLON);
+  return sb.join(qx.constant.Core.SEMICOLON);
 };
 
 qx.Proto.getItemHashCode = function(oItem) {

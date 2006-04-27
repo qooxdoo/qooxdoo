@@ -103,7 +103,7 @@ qx.ui.embed.FlashEmbed.getPlayerVersion = function()
   {
     try {
       var axo = new ActiveXObject(qx.ui.embed.FlashEmbed.ACTIVEXKEY);
-       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(qx.Const.CORE_SPACE)[1].split(qx.Const.CORE_COMMA));
+       vPlayerVersion = new qx.types.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
     }
     catch (e) {};
   };
@@ -154,7 +154,7 @@ qx.Proto._applyElementData = function(el)
   {
     var redir = this.getRedirectUrl();
 
-    if(redir != qx.Const.CORE_EMPTY) {
+    if(redir != qx.constant.Core.EMPTY) {
       document.location.replace(redir);
     };
   };
@@ -172,7 +172,7 @@ qx.Proto._applyElementData = function(el)
 
 qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.Const.CORE_EMPTY;
+  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.constant.Core.EMPTY;
   return true;
 };
 
@@ -297,7 +297,7 @@ qx.Proto.generateParamTags = function()
     vParamTags.push("'/>");
   };
 
-  return vParamTags.join(qx.Const.CORE_EMPTY);
+  return vParamTags.join(qx.constant.Core.EMPTY);
 };
 
 qx.Proto.getVariablePairs = function()
@@ -306,10 +306,10 @@ qx.Proto.getVariablePairs = function()
   var variablePairs = [];
 
   for (var key in variables) {
-    variablePairs.push(key + qx.Const.CORE_EQUAL + variables[key]);
+    variablePairs.push(key + qx.constant.Core.EQUAL + variables[key]);
   };
 
-  return variablePairs.join(qx.Const.CORE_AMPERSAND);
+  return variablePairs.join(qx.constant.Core.AMPERSAND);
 };
 
 
@@ -342,35 +342,35 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
 
     html.push("<embed type='application/x-shockwave-flash' width='100%' height='100%' src='");
     html.push(this._source);
-    html.push(qx.Const.CORE_SINGLEQUOTE);
+    html.push(qx.constant.Core.SINGLEQUOTE);
 
     var params = this.getParams();
 
     for (var key in params)
     {
-      html.push(qx.Const.CORE_SPACE);
+      html.push(qx.constant.Core.SPACE);
       html.push(key);
-      html.push(qx.Const.CORE_EQUAL);
-      html.push(qx.Const.CORE_SINGLEQUOTE);
+      html.push(qx.constant.Core.EQUAL);
+      html.push(qx.constant.Core.SINGLEQUOTE);
       html.push(params[key]);
-      html.push(qx.Const.CORE_SINGLEQUOTE);
+      html.push(qx.constant.Core.SINGLEQUOTE);
     };
 
     var pairs = this.getVariablePairs();
 
     if (pairs.length > 0)
     {
-      html.push(qx.Const.CORE_SPACE);
+      html.push(qx.constant.Core.SPACE);
       html.push("flashvars");
-      html.push(qx.Const.CORE_EQUAL);
-      html.push(qx.Const.CORE_SINGLEQUOTE);
+      html.push(qx.constant.Core.EQUAL);
+      html.push(qx.constant.Core.SINGLEQUOTE);
       html.push(pairs);
-      html.push(qx.Const.CORE_SINGLEQUOTE);
+      html.push(qx.constant.Core.SINGLEQUOTE);
     };
 
     html.push("></embed>");
 
-    return html.join(qx.Const.CORE_EMPTY);
+    return html.join(qx.constant.Core.EMPTY);
   };
 }
 
@@ -413,7 +413,7 @@ else
 
     html.push("</object>");
 
-    return html.join(qx.Const.CORE_EMPTY);
+    return html.join(qx.constant.Core.EMPTY);
   };
 };
 

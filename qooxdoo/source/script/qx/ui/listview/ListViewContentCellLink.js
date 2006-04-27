@@ -39,6 +39,6 @@ qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defau
 
 qx.ui.listview.ListViewContentCellLink.empty =
 {
-  html : qx.Const.CORE_EMPTY,
-  uri : qx.Const.CORE_HASH
+  html : qx.constant.Core.EMPTY,
+  uri : qx.constant.Core.HASH
 };

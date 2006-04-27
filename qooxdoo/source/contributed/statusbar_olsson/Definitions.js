@@ -33,7 +33,7 @@ theme.registerAppearance("statusbar-pane",
   initial : function(vWidget,vTheme)
   {
     return{
-      width : qx.Const.CORE_AUTO,
+      width : qx.constant.Core.AUTO,
       height : null,
       border : qx.renderer.border.BorderObject.presets.inset
     };

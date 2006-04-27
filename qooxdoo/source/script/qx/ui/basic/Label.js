@@ -77,7 +77,7 @@ qx.OO.addProperty({ name : "textAlign", type : qx.Const.TYPEOF_STRING, defaultVa
 /*!
   The styles which should be copied
 */
-qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_DEFAULT, possibleValues : [ qx.Const.CORE_NONE, qx.Const.CORE_DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
+qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.DEFAULT, possibleValues : [ qx.constant.Core.NONE, qx.constant.Core.DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
 
 /*!
   A single character which will be underlined inside the text.
@@ -161,16 +161,16 @@ qx.ui.basic.Label._htmlToText = function(s)
   switch(s)
   {
     case qx.Const.HTML_AMPERSAND:
-      return qx.Const.CORE_AMPERSAND;
+      return qx.constant.Core.AMPERSAND;
 
     case qx.Const.HTML_SMALLER:
-      return qx.Const.CORE_SMALLER;
+      return qx.constant.Core.SMALLER;
 
     case qx.Const.HTML_BIGGER:
-      return qx.Const.CORE_BIGGER;
+      return qx.constant.Core.BIGGER;
 
     case qx.Const.HTML_QUOTE:
-      return qx.Const.CORE_QUOTE;
+      return qx.constant.Core.QUOTE;
 
     case qx.Const.HTML_SPACE:
       return String.fromCharCode(160);
@@ -183,13 +183,13 @@ qx.ui.basic.Label._htmlToText = function(s)
         return String.fromCharCode(s.substring(2, s.length - 1));
       }
       else if (/\s+/.test(s)) {
-        return qx.Const.CORE_SPACE;
+        return qx.constant.Core.SPACE;
       }
       else if (/^<BR/gi.test(s)) {
-        return qx.Const.CORE_NEWLINE;
+        return qx.constant.Core.NEWLINE;
       };
 
-      return qx.Const.CORE_EMPTY;
+      return qx.constant.Core.EMPTY;
   };
 };
 
@@ -201,37 +201,37 @@ qx.ui.basic.Label._textToHtml = function(s)
 {
   switch(s)
   {
-    case qx.Const.CORE_AMPERSAND:
+    case qx.constant.Core.AMPERSAND:
       return qx.Const.HTML_AMPERSAND;
 
-    case qx.Const.CORE_SMALLER:
+    case qx.constant.Core.SMALLER:
       return qx.Const.HTML_SMALLER;
 
-    case qx.Const.CORE_BIGGER:
+    case qx.constant.Core.BIGGER:
       return qx.Const.HTML_BIGGER;
 
-    case qx.Const.CORE_NEWLINE:
+    case qx.constant.Core.NEWLINE:
       return qx.ui.basic.Label.BR;
 
     default:
-      return qx.Const.CORE_SPACE;
+      return qx.constant.Core.SPACE;
   };
 };
 
 qx.ui.basic.Label.init = function()
 {
   qx.ui.basic.Label._measureNodes = {};
-  qx.ui.basic.Label.createMeasureNode(qx.Const.CORE_DEFAULT);
+  qx.ui.basic.Label.createMeasureNode(qx.constant.Core.DEFAULT);
 };
 
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
-  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(qx.Const.CORE_DIV);
+  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(qx.constant.Core.DIV);
   var vStyle = vNode.style;
 
-  vStyle.width = vStyle.height = qx.Const.CORE_AUTO;
-  vStyle.visibility = qx.Const.CORE_HIDDEN;
-  vStyle.position = qx.Const.CORE_ABSOLUTE;
+  vStyle.width = vStyle.height = qx.constant.Core.AUTO;
+  vStyle.visibility = qx.constant.Core.HIDDEN;
+  vStyle.position = qx.constant.Core.ABSOLUTE;
   vStyle.zIndex = "-1";
 
   document.body.appendChild(vNode);
@@ -261,7 +261,7 @@ if (typeof window.application != qx.Const.TYPEOF_UNDEFINED) {
 
 qx.Proto._htmlMode = false;
 qx.Proto._hasMnemonic = false;
-qx.Proto._mnemonicHtml = qx.Const.CORE_EMPTY;
+qx.Proto._mnemonicHtml = qx.constant.Core.EMPTY;
 qx.Proto._mnemonicTest = null;
 
 qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
@@ -294,7 +294,7 @@ qx.Proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
   this._hasMnemonic = qx.util.Validation.isValidString(propValue) && propValue.length == 1;
 
-  this._mnemonicHtml = this._hasMnemonic ? qx.ui.basic.Label.MNEMONIC_OUT_START + propValue + qx.ui.basic.Label.MNEMONIC_OUT_STOP : qx.Const.CORE_EMPTY;
+  this._mnemonicHtml = this._hasMnemonic ? qx.ui.basic.Label.MNEMONIC_OUT_START + propValue + qx.ui.basic.Label.MNEMONIC_OUT_STOP : qx.constant.Core.EMPTY;
   this._mnemonicTest = this._hasMnemonic ? new RegExp(qx.ui.basic.Label.MNEMONIC_TEST1 + propValue + qx.ui.basic.Label.MNEMONIC_TEST2 + propValue + qx.ui.basic.Label.MNEMONIC_TEST3 + propValue + qx.ui.basic.Label.MNEMONIC_TEST4 + propValue + qx.ui.basic.Label.MNEMONIC_TEST5, qx.ui.basic.Label.MNEMONIC_REGMODE) : null;
 
   return true;
@@ -366,7 +366,7 @@ qx.Proto._copyStyles = function()
   };
 
   do {
-    vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : qx.Const.CORE_EMPTY;
+    vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : qx.constant.Core.EMPTY;
   } while(vProperty=vUseProperties[vUsePropertiesLength--]);
 
   return vNode;
@@ -413,7 +413,7 @@ qx.Proto._postApply = function()
   var vMnemonicMode = 0;
 
   if (qx.util.Validation.isInvalidString(vHtml)) {
-    vElement.innerHTML = qx.Const.CORE_EMPTY;
+    vElement.innerHTML = qx.constant.Core.EMPTY;
     return;
   };
 
@@ -437,7 +437,7 @@ qx.Proto._postApply = function()
           var vUseInnerText = true;
 
           try {
-            vElement.innerText = qx.Const.CORE_DEFAULT;
+            vElement.innerText = qx.constant.Core.DEFAULT;
           } catch(ex) {
             vUseInnerText = false;
           };
@@ -453,7 +453,7 @@ qx.Proto._postApply = function()
           {
             var vMeasureNode = this._copyStyles();
 
-            var vSplitString = vHtml.split(qx.Const.CORE_SPACE);
+            var vSplitString = vHtml.split(qx.constant.Core.SPACE);
             var vSplitLength = vSplitString.length;
 
             var vWordIterator = 0;
@@ -476,7 +476,7 @@ qx.Proto._postApply = function()
               {
                 vSplitTemp.push(vSplitString[vWordIterator]);
 
-                vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.Const.CORE_SPACE) + vPost;
+                vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
                 if (vMeasureNode.scrollWidth > vInner) {
                   break;
                 };
@@ -486,10 +486,10 @@ qx.Proto._postApply = function()
               vSplitTemp.pop();
 
               // Building new temportary array
-              vSplitTemp = [ vSplitTemp.join(qx.Const.CORE_SPACE) ];
+              vSplitTemp = [ vSplitTemp.join(qx.constant.Core.SPACE) ];
 
               // Extracting remaining string
-              vCharaterString = vHtml.replace(vSplitTemp[0], qx.Const.CORE_EMPTY);
+              vCharaterString = vHtml.replace(vSplitTemp[0], qx.constant.Core.EMPTY);
             }
             else
             {
@@ -504,7 +504,7 @@ qx.Proto._postApply = function()
             {
               vSplitTemp.push(vCharaterString.charAt(vCharaterIterator));
 
-              vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.Const.CORE_EMPTY) + vPost;
+              vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
               if (vMeasureNode.scrollWidth > vInner) {
                 break;
               };
@@ -517,7 +517,7 @@ qx.Proto._postApply = function()
             vSplitTemp.push(vPost);
 
             // Building Final HTML String
-            vHtml = vSplitTemp.join(qx.Const.CORE_EMPTY);
+            vHtml = vSplitTemp.join(qx.constant.Core.EMPTY);
           };
 
           break;
@@ -530,10 +530,10 @@ qx.Proto._postApply = function()
         // no break here
 
       default:
-        vElement.style.overflow = qx.Const.CORE_EMPTY;
+        vElement.style.overflow = qx.constant.Core.EMPTY;
 
         if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS) {
-          vElement.style.textOverflow = qx.Const.CORE_EMPTY;
+          vElement.style.textOverflow = qx.constant.Core.EMPTY;
         };
     };
   };

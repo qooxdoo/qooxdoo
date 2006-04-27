@@ -38,6 +38,6 @@ qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defau
 
 qx.ui.listview.ListViewContentCellIconHtml.empty =
 {
-  icon : qx.Const.CORE_EMPTY,
-  html : qx.Const.CORE_EMPTY
+  icon : qx.constant.Core.EMPTY,
+  html : qx.constant.Core.EMPTY
 };

@@ -75,10 +75,10 @@ qx.OO.addProperty({ name : "rightWidth", type : qx.Const.TYPEOF_NUMBER, defaultV
 qx.OO.addProperty({ name : "bottomWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
 qx.OO.addProperty({ name : "leftWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
 
-qx.OO.addProperty({ name : "topStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderTopProperty" });
-qx.OO.addProperty({ name : "rightStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderRightProperty" });
-qx.OO.addProperty({ name : "bottomStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderBottomProperty" });
-qx.OO.addProperty({ name : "leftStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.Const.CORE_NONE, impl : "borderLeftProperty" });
+qx.OO.addProperty({ name : "topStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderTopProperty" });
+qx.OO.addProperty({ name : "rightStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderRightProperty" });
+qx.OO.addProperty({ name : "bottomStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderBottomProperty" });
+qx.OO.addProperty({ name : "leftStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderLeftProperty" });
 
 qx.OO.addProperty({ name : "topColor", impl : "borderTopProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
 qx.OO.addProperty({ name : "rightColor", impl : "borderRightProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
@@ -119,7 +119,7 @@ qx.renderer.border.Border.fromString = function(vDefString)
       default:
         vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.Const.CORE_PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.constant.Core.PIXEL))
         {
           vBorder.setWidth(vTemp);
         }
@@ -247,20 +247,20 @@ if (qx.sys.Client.isGecko())
   {
     this._defsX =
     {
-      borderLeft : qx.Const.CORE_EMPTY,
-      borderRight : qx.Const.CORE_EMPTY,
+      borderLeft : qx.constant.Core.EMPTY,
+      borderRight : qx.constant.Core.EMPTY,
 
-      MozBorderLeftColors : qx.Const.CORE_EMPTY,
-      MozBorderRightColors : qx.Const.CORE_EMPTY
+      MozBorderLeftColors : qx.constant.Core.EMPTY,
+      MozBorderRightColors : qx.constant.Core.EMPTY
     };
 
     this._defsY =
     {
-      borderTop : qx.Const.CORE_EMPTY,
-      borderBottom : qx.Const.CORE_EMPTY,
+      borderTop : qx.constant.Core.EMPTY,
+      borderBottom : qx.constant.Core.EMPTY,
 
-      MozBorderTopColors : qx.Const.CORE_EMPTY,
-      MozBorderBottomColors : qx.Const.CORE_EMPTY
+      MozBorderTopColors : qx.constant.Core.EMPTY,
+      MozBorderBottomColors : qx.constant.Core.EMPTY
     };
   };
 }
@@ -270,28 +270,28 @@ else
   {
     this._defsX =
     {
-      borderLeft : qx.Const.CORE_EMPTY,
-      borderRight : qx.Const.CORE_EMPTY
+      borderLeft : qx.constant.Core.EMPTY,
+      borderRight : qx.constant.Core.EMPTY
     };
 
     this._defsY =
     {
-      borderTop : qx.Const.CORE_EMPTY,
-      borderBottom : qx.Const.CORE_EMPTY
+      borderTop : qx.constant.Core.EMPTY,
+      borderBottom : qx.constant.Core.EMPTY
     };
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       this._enhancedDefsX =
       {
-        borderLeft : qx.Const.CORE_EMPTY,
-        borderRight : qx.Const.CORE_EMPTY
+        borderLeft : qx.constant.Core.EMPTY,
+        borderRight : qx.constant.Core.EMPTY
       };
 
       this._enhancedDefsY =
       {
-        borderTop : qx.Const.CORE_EMPTY,
-        borderBottom : qx.Const.CORE_EMPTY
+        borderTop : qx.constant.Core.EMPTY,
+        borderBottom : qx.constant.Core.EMPTY
       };
     };
   };
@@ -427,10 +427,10 @@ qx.renderer.border.Border.data =
 qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 {
   if (typeof vWidth !== qx.Const.TYPEOF_NUMBER || vWidth < 0) {
-    return qx.Const.CORE_EMPTY;
+    return qx.constant.Core.EMPTY;
   };
 
-  var vArr = [ vWidth + qx.Const.CORE_PIXEL ];
+  var vArr = [ vWidth + qx.constant.Core.PIXEL ];
 
   if (qx.util.Validation.isValidString(vStyle)) {
     vArr.push(vStyle);
@@ -444,7 +444,7 @@ qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
     vArr.push(vColor);
   };
 
-  return vArr.join(qx.Const.CORE_SPACE);
+  return vArr.join(qx.constant.Core.SPACE);
 };
 
 
@@ -726,14 +726,14 @@ if (qx.sys.Client.isGecko())
           s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
         };
 
-        return s.join(qx.Const.CORE_SPACE);
+        return s.join(qx.constant.Core.SPACE);
       };
     }
     catch(ex) {
       this.error("Failed to generate Mozilla Color Definition Strings: " + ex, "_generateMozColorDefString");
     };
 
-    return qx.Const.CORE_EMPTY;
+    return qx.constant.Core.EMPTY;
   };
 
   qx.Proto._compileTop = function()
@@ -779,13 +779,13 @@ if (qx.sys.Client.isGecko())
   qx.renderer.border.Border._resetBorderX = function(o)
   {
     s = o._style;
-    s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = qx.Const.CORE_EMPTY;
+    s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = qx.constant.Core.EMPTY;
   };
 
   qx.renderer.border.Border._resetBorderY = function(o)
   {
     s = o._style;
-    s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = qx.Const.CORE_EMPTY;
+    s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = qx.constant.Core.EMPTY;
   };
 }
 else
@@ -1077,13 +1077,13 @@ else
   qx.renderer.border.Border._resetBorderX = function(o)
   {
     s = o._style;
-    s.borderLeft = s.borderRight = qx.Const.CORE_EMPTY;
+    s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
-        s.borderLeft = s.borderRight = qx.Const.CORE_EMPTY;
+        s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
       };
     };
   };
@@ -1091,13 +1091,13 @@ else
   qx.renderer.border.Border._resetBorderY = function(o)
   {
     s = o._style;
-    s.borderTop = s.borderBottom = qx.Const.CORE_EMPTY;
+    s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
-        s.borderTop = s.borderBottom = qx.Const.CORE_EMPTY;
+        s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
       };
     };
   };

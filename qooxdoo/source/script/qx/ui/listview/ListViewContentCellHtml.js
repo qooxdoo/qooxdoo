@@ -37,5 +37,5 @@ function(vHtml)
 qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
 
 qx.ui.listview.ListViewContentCellHtml.empty = {
-  html : qx.Const.CORE_EMPTY
+  html : qx.constant.Core.EMPTY
 };

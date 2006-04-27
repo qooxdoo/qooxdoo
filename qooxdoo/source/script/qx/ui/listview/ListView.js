@@ -72,7 +72,7 @@ function(vData, vColumns)
   // ************************************************************************
 
   this._frame.setParent(this);
-  this._frame.setHeight(qx.Const.CORE_FLEX);
+  this._frame.setHeight(qx.constant.Core.FLEX);
   this._frame.setWidth(null);
 
 
@@ -89,7 +89,7 @@ function(vData, vColumns)
   //   SCROLL AREA
   // ************************************************************************
 
-  this._scroll.setWidth(qx.Const.CORE_AUTO);
+  this._scroll.setWidth(qx.constant.Core.AUTO);
   this._scroll.setOverflow(qx.Const.OVERFLOW_VALUE_VERTICAL);
   this._scroll.setParent(this._frame);
   this._scroll.enableInlineEvent(qx.Const.EVENT_TYPE_SCROLL);
@@ -205,7 +205,7 @@ if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
   {
     this._updateScrollBar();
 
-    this._scroll.setStyleProperty(qx.Const.PROPERTY_HEIGHT, qx.Const.CORE_ZEROPIXEL);
+    this._scroll.setStyleProperty(qx.Const.PROPERTY_HEIGHT, qx.constant.Core.ZEROPIXEL);
     this._scroll.forceHeight(0);
     this._scroll.setHeight(null);
   };

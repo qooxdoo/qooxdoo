@@ -130,11 +130,11 @@ All the data has been received, and the complete data is available in the
 
 qx.io.remote.RemoteExchange._nativeMap =
 {
-  0 : qx.Const.REQUEST_STATE_CREATED,
-  1 : qx.Const.REQUEST_STATE_CONFIGURED,
-  2 : qx.Const.REQUEST_STATE_SENDING,
-  3 : qx.Const.REQUEST_STATE_RECEIVING,
-  4 : qx.Const.REQUEST_STATE_COMPLETED
+  0 : qx.constant.Net.STATE_CREATED,
+  1 : qx.constant.Net.STATE_CONFIGURED,
+  2 : qx.constant.Net.STATE_SENDING,
+  3 : qx.constant.Net.STATE_RECEIVING,
+  4 : qx.constant.Net.STATE_COMPLETED
 };
 
 
@@ -285,12 +285,12 @@ qx.OO.addProperty(
   name           : "state",
   type           : qx.Const.TYPEOF_STRING,
   possibleValues : [
-                   qx.Const.REQUEST_STATE_CONFIGURED, qx.Const.REQUEST_STATE_SENDING,
-                   qx.Const.REQUEST_STATE_RECEIVING, qx.Const.REQUEST_STATE_COMPLETED,
-                   qx.Const.REQUEST_STATE_ABORTED, qx.Const.REQUEST_STATE_TIMEOUT,
-                   qx.Const.REQUEST_STATE_FAILED
+                   qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_SENDING,
+                   qx.constant.Net.STATE_RECEIVING, qx.constant.Net.STATE_COMPLETED,
+                   qx.constant.Net.STATE_ABORTED, qx.constant.Net.STATE_TIMEOUT,
+                   qx.constant.Net.STATE_FAILED
                    ],
-  defaultValue   : qx.Const.REQUEST_STATE_CONFIGURED
+  defaultValue   : qx.constant.Net.STATE_CONFIGURED
 });
 
 
@@ -366,7 +366,7 @@ qx.Proto.send = function()
   this.error("There is no transport implementation available to handle this request: " + vRequest, "handle");
 };
 /*!
-  Force the transport into the aborted (qx.Const.REQUEST_STATE_ABORTED)
+  Force the transport into the aborted (qx.constant.Net.STATE_ABORTED)
   state.
 */
 qx.Proto.abort = function()
@@ -381,7 +381,7 @@ qx.Proto.abort = function()
   else
   {
     this.debug("Abort: forcing state to be aborted");
-    this.setState(qx.Const.REQUEST_STATE_ABORTED);
+    this.setState(qx.constant.Net.STATE_ABORTED);
   };
 };
 /*!
@@ -399,7 +399,7 @@ qx.Proto.timeout = function()
   else
   {
     this.warn("Timeout: forcing state to timeout");
-    this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
+    this.setState(qx.constant.Net.STATE_TIMEOUT);
   };
 };
 
@@ -418,27 +418,27 @@ qx.Proto.timeout = function()
 */
 
 qx.Proto._onsending = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_SENDING);
+  this.setState(qx.constant.Net.STATE_SENDING);
 };
 
 qx.Proto._onreceiving = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_RECEIVING);
+  this.setState(qx.constant.Net.STATE_RECEIVING);
 };
 
 qx.Proto._oncompleted = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_COMPLETED);
+  this.setState(qx.constant.Net.STATE_COMPLETED);
 };
 
 qx.Proto._onabort = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_ABORTED);
+  this.setState(qx.constant.Net.STATE_ABORTED);
 };
 
 qx.Proto._onfailed = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_FAILED);
+  this.setState(qx.constant.Net.STATE_FAILED);
 };
 
 qx.Proto._ontimeout = function(e) {
-  this.setState(qx.Const.REQUEST_STATE_TIMEOUT);
+  this.setState(qx.constant.Net.STATE_TIMEOUT);
 };
 
 
@@ -502,18 +502,18 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.Const.REQUEST_STATE_SENDING:
+    case qx.constant.Net.STATE_SENDING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
       break;
 
-    case qx.Const.REQUEST_STATE_RECEIVING:
+    case qx.constant.Net.STATE_RECEIVING:
       this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
       break;
 
-    case qx.Const.REQUEST_STATE_COMPLETED:
-    case qx.Const.REQUEST_STATE_ABORTED:
-    case qx.Const.REQUEST_STATE_TIMEOUT:
-    case qx.Const.REQUEST_STATE_FAILED:
+    case qx.constant.Net.STATE_COMPLETED:
+    case qx.constant.Net.STATE_ABORTED:
+    case qx.constant.Net.STATE_TIMEOUT:
+    case qx.constant.Net.STATE_FAILED:
       var vImpl = this.getImplementation();
       var vResponse = new qx.io.remote.RemoteResponse;
 
@@ -527,19 +527,19 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
       switch(propValue)
       {
-        case qx.Const.REQUEST_STATE_COMPLETED:
+        case qx.constant.Net.STATE_COMPLETED:
           vEventType = qx.Const.EVENT_TYPE_COMPLETED;
           break;
 
-        case qx.Const.REQUEST_STATE_ABORTED:
+        case qx.constant.Net.STATE_ABORTED:
           vEventType = qx.Const.EVENT_TYPE_ABORTED;
           break;
 
-        case qx.Const.REQUEST_STATE_TIMEOUT:
+        case qx.constant.Net.STATE_TIMEOUT:
           vEventType = qx.Const.EVENT_TYPE_TIMEOUT;
           break;
 
-        case qx.Const.REQUEST_STATE_FAILED:
+        case qx.constant.Net.STATE_FAILED:
           vEventType = qx.Const.EVENT_TYPE_FAILED;
           break;
       };

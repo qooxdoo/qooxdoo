@@ -80,7 +80,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.Const.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.Const.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.Const.CORE_EMPTY);
+  var vKey = qx.constant.Core.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
 
   // Finally set up the listeners object
   this._listeners[vType][vKey] =
@@ -109,7 +109,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.Const.CORE_EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.Const.CORE_UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.Const.CORE_EMPTY);
+  var vKey = qx.constant.Core.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];

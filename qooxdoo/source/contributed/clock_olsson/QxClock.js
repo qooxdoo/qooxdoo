@@ -28,7 +28,7 @@ function QxClock()
 {
   qx.ui.basic.Atom.call(this);
 
-  this.setWidth(qx.Const.CORE_AUTO);
+  this.setWidth(qx.constant.Core.AUTO);
 
   // ***********************************************************************
   //   TIMER

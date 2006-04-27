@@ -79,7 +79,7 @@ qx.Proto.initCursors = function()
   var vCursor;
   for (var vAction in this._actionNames)
   {
-    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.Const.CORE_DOT + this._cursorFormat);
+    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.constant.Core.DOT + this._cursorFormat);
     vCursor.setZIndex(1e8);
   };
 
@@ -610,7 +610,7 @@ qx.Proto._renderCursor = function()
 
   // Finally show new cursor
   if (vNewCursor != vOldCursor) {
-    vNewCursor._style.display = qx.Const.CORE_EMPTY;
+    vNewCursor._style.display = qx.constant.Core.EMPTY;
   };
 
   // Store new cursor

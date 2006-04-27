@@ -37,5 +37,5 @@ function(vText)
 qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
 
 qx.ui.listview.ListViewContentCellText.empty = {
-  text : qx.Const.CORE_EMPTY
+  text : qx.constant.Core.EMPTY
 };

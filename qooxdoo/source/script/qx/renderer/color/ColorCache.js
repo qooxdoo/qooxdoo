@@ -36,7 +36,7 @@ qx.renderer.color.ColorCache = function(propValue, propData)
   switch(typeof propValue)
   {
     case qx.Const.TYPEOF_STRING:
-      if (propValue != qx.Const.CORE_EMPTY) {
+      if (propValue != qx.constant.Core.EMPTY) {
         propValue = propKey = propValue.toLowerCase();
         break;
       };
@@ -60,7 +60,7 @@ qx.renderer.color.ColorCache = function(propValue, propData)
       // Try to detect array of RGB values
       if (typeof propValue.join === qx.Const.TYPEOF_FUNCTION && propValue.length == 3)
       {
-        propKey = qx.renderer.color.Color.RGBCSS_START + propValue.join(qx.Const.CORE_COMMA) + qx.renderer.color.Color.RGBCSS_STOP;
+        propKey = qx.renderer.color.Color.RGBCSS_START + propValue.join(qx.constant.Core.COMMA) + qx.renderer.color.Color.RGBCSS_STOP;
         propKeyAsStyle = true;
         break;
       };

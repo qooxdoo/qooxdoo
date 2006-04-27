@@ -62,7 +62,7 @@ function(vId, vTitle, vColors)
 */
 
 qx.OO.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
-qx.OO.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.Const.CORE_EMPTY });
+qx.OO.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
 
 
 
@@ -88,11 +88,11 @@ qx.Proto._needsCompilation = true;
 */
 
 qx.Proto.getValueByName = function(vName) {
-  return this._definedColors[vName] || qx.Const.CORE_EMPTY;
+  return this._definedColors[vName] || qx.constant.Core.EMPTY;
 };
 
 qx.Proto.getStyleByName = function(vName) {
-  return this._compiledColors[vName] || qx.Const.CORE_EMPTY;
+  return this._compiledColors[vName] || qx.constant.Core.EMPTY;
 };
 
 
