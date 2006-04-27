@@ -8,11 +8,11 @@
   <script type="text/javascript" src="../demoinclude.js"></script>
 
   <style type="text/css">
-.qx.ui.embed.GalleryEmbed .galleryFrame{
+.qx.ui.embed.Gallery .galleryFrame{
   padding: 2px;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell{
+.qx.ui.embed.Gallery .galleryCell{
   border: 1px solid #444;
   background: #fff;
   margin: 2px;
@@ -28,13 +28,13 @@
   user-select: none;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell img{
+.qx.ui.embed.Gallery .galleryCell img{
   vertical-align: bottom;
   display: block;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell .galleryTitle,
-.qx.ui.embed.GalleryEmbed .galleryCell .galleryComment{
+.qx.ui.embed.Gallery .galleryCell .galleryTitle,
+.qx.ui.embed.Gallery .galleryCell .galleryComment{
   background: #eee;
   padding: 3px 6px;
   text-align: center;
@@ -43,29 +43,29 @@
   white-space: nowrap;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell .galleryTitle{
+.qx.ui.embed.Gallery .galleryCell .galleryTitle{
   border-bottom: 1px solid #aaa;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell .galleryComment{
+.qx.ui.embed.Gallery .galleryCell .galleryComment{
   border-top: 1px solid #aaa;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell-Selected{
+.qx.ui.embed.Gallery .galleryCell-Selected{
   background: #DCE8F6;
   border: 1px solid #2760A1;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryTitle,
-.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryComment{
+.qx.ui.embed.Gallery .galleryCell-Selected .galleryTitle,
+.qx.ui.embed.Gallery .galleryCell-Selected .galleryComment{
   background: #9BBFE7;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryTitle{
+.qx.ui.embed.Gallery .galleryCell-Selected .galleryTitle{
   border-bottom: 1px dotted #2760A1;
 }
 
-.qx.ui.embed.GalleryEmbed .galleryCell-Selected .galleryComment{
+.qx.ui.embed.Gallery .galleryCell-Selected .galleryComment{
   border-top: 1px dotted #2760A1;
 }
   </style>
@@ -74,7 +74,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Test file for qx.ui.embed.GalleryEmbed</p>
+    <p>Test file for qx.ui.embed.Gallery</p>
   </div>
 
   <script type="text/javascript">
@@ -98,7 +98,7 @@
         });
       };
 
-      var gallery = new qx.ui.embed.GalleryEmbed(galleryList);
+      var gallery = new qx.ui.embed.Gallery(galleryList);
 
       gallery.setLeft(20);
       gallery.setRight(335);

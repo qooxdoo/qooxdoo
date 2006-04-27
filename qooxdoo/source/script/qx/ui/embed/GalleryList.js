@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.GalleryListEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.GalleryList", qx.ui.basic.Terminator, 
 function(galleryList)
 {
   qx.ui.basic.Terminator.call(this);
@@ -40,7 +40,7 @@ function(galleryList)
 
   this.setOverflow("auto");
 
-  this.setHtmlProperty("className", "qx.ui.embed.GalleryListEmbed");
+  this.setHtmlProperty("className", "qx.ui.embed.GalleryList");
 
   this._manager = new qx.manager.selection.DomSelectionManager(this);
 
@@ -265,8 +265,8 @@ qx.Proto._mshtml = qx.sys.Client.isMshtml();
 qx.Proto.createImageCell = function(inode, d)
 {
   if (this.hasEventListeners("loadComplete")) {
-    inode.onload = qx.ui.embed.GalleryListEmbed.imageOnLoad;
-    inode.onerror = qx.ui.embed.GalleryListEmbed.imageOnError;
+    inode.onload = qx.ui.embed.GalleryList.imageOnLoad;
+    inode.onerror = qx.ui.embed.GalleryList.imageOnError;
     inode.gallery = this;
   };
 
@@ -351,7 +351,7 @@ qx.Proto.imageOnComplete = function()
   };
 };
 
-qx.ui.embed.GalleryListEmbed.imageOnLoad = function()
+qx.ui.embed.GalleryList.imageOnLoad = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;
@@ -359,7 +359,7 @@ qx.ui.embed.GalleryListEmbed.imageOnLoad = function()
   this.onerror = null;
 };
 
-qx.ui.embed.GalleryListEmbed.imageOnError = function()
+qx.ui.embed.GalleryList.imageOnError = function()
 {
   this.gallery.imageOnComplete();
   this.gallery = null;

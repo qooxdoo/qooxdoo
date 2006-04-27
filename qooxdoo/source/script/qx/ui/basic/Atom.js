@@ -55,7 +55,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   };
 
   // Simple flash wrapper
-  if (qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.FlashEmbed && qx.ui.embed.FlashEmbed.getPlayerVersion().getMajor() > 0)
+  if (qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -156,7 +156,7 @@ qx.Proto._createIcon = function()
 {
   if (this._flashMode)
   {
-    var i = this._iconObject = new qx.ui.embed.FlashEmbed(this.getIcon());
+    var i = this._iconObject = new qx.ui.embed.Flash(this.getIcon());
   }
   else
   {
