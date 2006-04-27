@@ -113,12 +113,12 @@ qx.Proto.initialFrom = function(vWidget, vId)
     }
     catch(ex)
     {
-      this.error("Couldn't apply initial appearance: " + ex, "initialFrom");
+      this.error("Couldn't apply initial appearance", ex);
     };
   }
   else
   {
-    return this.error("Missing appearance: " + vId, "initialStyleFrom");
+    return this.error("Missing appearance: " + vId);
   };
 };
 
@@ -135,12 +135,12 @@ qx.Proto.stateFrom = function(vWidget, vId)
     }
     catch(ex)
     {
-      this.error("Couldn't apply state appearance: " + ex, "stateFrom");
+      this.error("Couldn't apply state appearance", ex);
     };
   }
   else
   {
-    return this.error("Missing appearance: " + vId, "stateStyleFrom");
+    return this.error("Missing appearance: " + vId);
   };
 };
 

@@ -497,7 +497,7 @@ if (qx.sys.Client.isMshtml())
     }
     catch(ex)
     {
-      this.error(ex, "_postApplyDimensions");
+      this.error("postApplyDimensions failed", ex);
     };
   };
 }
@@ -522,7 +522,7 @@ else
     }
     catch(ex)
     {
-      this.error(ex, "_postApplyDimensions");
+      this.error("postApplyDimensions failed", ex);
     };
   };
 };

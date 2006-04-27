@@ -80,7 +80,7 @@ qx.Proto._onHistoryLoad = function(location) {
       this.createDispatchDataEvent("request", command);
     }
   } catch (exc) {
-    this.error("Handling history load failed", null, exc);
+    this.error("Handling history load failed", exc);
   }
   qx.ui.core.Widget.flushGlobalQueues();
 }

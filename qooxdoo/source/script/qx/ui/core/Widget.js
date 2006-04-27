@@ -929,7 +929,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
         }
         catch(ex)
         {
-          vWidget.debug("Could not append to inline id: " + vWidget.getInlineNodeId() + ": " + ex);
+          vWidget.debug("Could not append to inline id: " + vWidget.getInlineNodeId(), ex);
         };
 
         vWidget._afterInsertDom();
@@ -1775,7 +1775,7 @@ qx.Proto._flushJobQueue = function(q)
   }
   catch(ex)
   {
-    this.error("Flushing job queue (prechecks#1) failed: "  + ex, "_flushJobQueue");
+    this.error("Flushing job queue (prechecks#1) failed", ex);
   };
 
 
@@ -1852,7 +1852,7 @@ qx.Proto._flushJobQueue = function(q)
   }
   catch(ex)
   {
-    this.error("Flushing job queue (recompute#2) failed: "  + ex, "_flushJobQueue");
+    this.error("Flushing job queue (recompute#2) failed", ex);
   };
 
 
@@ -1887,7 +1887,7 @@ qx.Proto._flushJobQueue = function(q)
   }
   catch(ex)
   {
-    this.error("Flushing job queue (parentsignals#3) failed: "  + ex, "_flushJobQueue");
+    this.error("Flushing job queue (parentsignals#3) failed", ex);
   };
 
 
@@ -1910,7 +1910,7 @@ qx.Proto._flushJobQueue = function(q)
   }
   catch(ex)
   {
-    this.error("Flushing job queue (addjobs#4) failed: "  + ex, "_flushJobQueue");
+    this.error("Flushing job queue (addjobs#4) failed", ex);
   };
 
 
@@ -1970,7 +1970,7 @@ qx.Proto._flushJobQueue = function(q)
   }
   catch(ex)
   {
-    this.error("Flushing job queue (childrensignals#5) failed: "  + ex, "_flushJobQueue");
+    this.error("Flushing job queue (childrensignals#5) failed", ex);
   };
 
 
@@ -2750,7 +2750,7 @@ qx.Proto._computePreferredBoxWidth = function()
   try {
     return Math.max(0, this.getPreferredInnerWidth() + this.getFrameWidth());
   } catch(ex) {
-    this.error(ex, "_computePreferredBoxWidth");
+    this.error("_computePreferredBoxWidth failed", ex);
   };
 };
 
@@ -2759,7 +2759,7 @@ qx.Proto._computePreferredBoxHeight = function()
   try {
     return Math.max(0, this.getPreferredInnerHeight() + this.getFrameHeight());
   } catch(ex) {
-    this.error(ex, "_computePreferredBoxHeight");
+    this.error("_computePreferredBoxHeight failed", ex);
   };
 };
 
@@ -3665,7 +3665,7 @@ qx.Proto._applyInitialAppearance = function()
     }
     catch(ex)
     {
-      this.error("Could not apply initial appearance: " + ex, "_applyInitialAppearance");
+      this.error("Could not apply initial appearance", ex);
     };
   };
 };
@@ -3687,7 +3687,7 @@ qx.Proto._applyStateAppearance = function()
     }
     catch(ex)
     {
-      this.error("Could not apply state appearance: " + ex, "_applyStateAppearance");
+      this.error("Could not apply state appearance", ex);
     };
   };
 };
@@ -3816,7 +3816,7 @@ qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldApp
   }
   catch(ex)
   {
-    this.error("Failed to update appearance theme: " + ex, "_recursiveAppearanceThemeUpdate");
+    this.error("Failed to update appearance theme", ex);
   };
 };
 

@@ -311,7 +311,7 @@ qx.Proto.send = function()
   var vRequest = this.getRequest();
 
   if (!vRequest) {
-    return this.error("Please attach a request object first", "send");
+    return this.error("Please attach a request object first");
   };
 
   qx.io.remote.RemoteExchange.initTypes();
@@ -358,12 +358,12 @@ qx.Proto.send = function()
       }
       catch(ex)
       {
-        return this.error("Request handler throws error: " + ex, "send");
+        return this.error("Request handler throws error", ex);
       };
     };
   };
 
-  this.error("There is no transport implementation available to handle this request: " + vRequest, "handle");
+  this.error("There is no transport implementation available to handle this request: " + vRequest);
 };
 /*!
   Force the transport into the aborted (qx.constant.Net.STATE_ABORTED)

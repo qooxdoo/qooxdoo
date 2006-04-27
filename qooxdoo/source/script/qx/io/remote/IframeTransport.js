@@ -226,7 +226,7 @@ qx.Proto._switchReadyState = function(vReadyState)
 qx.Proto.setRequestHeader = function(vLabel, vValue)
 {
   // TODO
-  // this.error("Need implementation", "setRequestHeader");
+  // throw new Error("setRequestHeader is abstract");
 };
 
 
@@ -256,7 +256,7 @@ qx.Proto.getResponseHeaders = function()
   return {};
 
   // TODO
-  // this.error("Need implementation", "getResponseHeaders");
+  // throw new Error("getResponseHeaders is abstract");
 };
 
 
@@ -364,7 +364,7 @@ qx.Proto.getFetchedLength = function()
   return 0;
 
   // TODO
-  // this.error("Need implementation", "getFetchedLength");
+  // throw new Error("getFetchedLength is abstract");
 };
 
 qx.Proto.getResponseContent = function()
@@ -398,7 +398,7 @@ qx.Proto.getResponseContent = function()
         var vText = this.getIframeTextContent();
         return vText ? eval("(" + vText + ")") : null;
       } catch(ex) {
-        return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
+        return this.error("Could not execute javascript/json", ex);
       };
 
     case qx.Const.MIMETYPE_XML:

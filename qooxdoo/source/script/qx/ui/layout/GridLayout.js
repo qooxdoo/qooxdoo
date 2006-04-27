@@ -286,7 +286,7 @@ qx.Proto._getColumnProperty = function(vColumnIndex, vProperty)
   }
   catch(ex)
   {
-    this.error("Error while getting column property (" + vColumnIndex + "|" + vProperty + "): " + ex, "_getColumnProperty");
+    this.error("Error while getting column property (" + vColumnIndex + "|" + vProperty + ")", ex);
     return null;
   };
 };
@@ -333,7 +333,7 @@ qx.Proto._getRowProperty = function(vRowIndex, vProperty)
   }
   catch(ex)
   {
-    this.error("Error while getting row property (" + vRowIndex + "|" + vProperty + "): " + ex, "_getRowProperty");
+    this.error("Error while getting row property (" + vRowIndex + "|" + vProperty + ")", ex);
     return null;
   };
 };

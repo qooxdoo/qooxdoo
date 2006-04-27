@@ -565,7 +565,7 @@ qx.Proto.getResponseContent = function()
       try {
         return eval("(" + this.getResponseText() + ")");
       } catch(ex) {
-        return this.error("Could not execute javascript/json: " + ex, "getResponseContent");
+        return this.error("Could not execute javascript/json", ex);
       };
 
     case qx.Const.MIMETYPE_XML:

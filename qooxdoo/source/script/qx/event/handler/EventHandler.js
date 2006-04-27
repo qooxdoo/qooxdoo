@@ -782,7 +782,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     }
     catch(ex)
     {
-      return this.error("Failed to create mouse event: " + ex);
+      return this.error("Failed to create mouse event", ex);
     };
 
 
@@ -799,7 +799,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     }
     catch(ex)
     {
-      return this.error("Failed to dispatch mouse event: " + ex);
+      return this.error("Failed to dispatch mouse event", ex);
     };
 
 
@@ -864,7 +864,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
   }
   catch(ex)
   {
-    return this.error("Failed to handle mouse event: " + ex);
+    return this.error("Failed to handle mouse event", ex);
   };
 };
 
