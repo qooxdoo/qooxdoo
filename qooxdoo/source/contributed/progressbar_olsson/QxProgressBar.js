@@ -188,7 +188,7 @@ qx.Proto._onchange = function(e)
 
     if (this.hasEventListeners(qx.OO.C_CHANGE))
     {
-      this.dispatchEvent(new qx.event.types.Event(qx.OO.C_CHANGE));
+      this.dispatchEvent(new qx.event.type.Event(qx.OO.C_CHANGE));
     };
   };
 };

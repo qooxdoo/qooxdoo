@@ -130,23 +130,23 @@ qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
-    case qx.event.types.KeyEvent.keys.enter:
+    case qx.event.type.KeyEvent.keys.enter:
       if (!e.getAltKey()) {
         this.setChecked(true);
       };
 
       break;
 
-    case qx.event.types.KeyEvent.keys.left:
-    case qx.event.types.KeyEvent.keys.up:
+    case qx.event.type.KeyEvent.keys.left:
+    case qx.event.type.KeyEvent.keys.up:
       qx.event.handler.FocusHandler.mouseFocus = false;
       // we want to have a focus border when using arrows to select
       qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectPrevious(this) : true;
 
-    case qx.event.types.KeyEvent.keys.right:
-    case qx.event.types.KeyEvent.keys.down:
+    case qx.event.type.KeyEvent.keys.right:
+    case qx.event.type.KeyEvent.keys.down:
       // we want to have a focus border when using arrows to select
       qx.event.handler.FocusHandler.mouseFocus = false;
 
@@ -160,7 +160,7 @@ qx.Proto._onclick = function(e) {
 
 qx.Proto._onkeyup = function(e)
 {
-  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.space) {
+  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
     this.setChecked(true);
   };
 };

@@ -70,7 +70,7 @@ qx.Class.C_KEY_CONTROL = "control";
 qx.Proto.execute = function(vTarget)
 {
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_EXECUTE)) {
-    this.dispatchEvent(new qx.event.types.DataEvent(qx.Const.EVENT_TYPE_EXECUTE, vTarget), true);
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.Const.EVENT_TYPE_EXECUTE, vTarget), true);
   };
 
   return false;
@@ -224,7 +224,7 @@ qx.Proto._matchesKeyEvent = function(e)
           break;
 
         default:
-          if (vEventCode == qx.event.types.KeyEvent.keys[vPart]) {
+          if (vEventCode == qx.event.type.KeyEvent.keys[vPart]) {
             return true;
           };
       };
@@ -257,13 +257,13 @@ qx.Proto.toString = function()
 
     if (qx.util.Validation.isValidNumber(vKeyCode))
     {
-      var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
+      var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
       vString += qx.constant.Core.PLUS + (vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
     };
   }
   else if (qx.util.Validation.isValidNumber(vKeyCode))
   {
-    var vTemp = qx.event.types.KeyEvent.codes[vKeyCode];
+    var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
     vString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
   };
 

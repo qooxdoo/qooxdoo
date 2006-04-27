@@ -132,8 +132,8 @@ qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
-    case qx.event.types.KeyEvent.keys.enter:
-    case qx.event.types.KeyEvent.keys.space:
+    case qx.event.type.KeyEvent.keys.enter:
+    case qx.event.type.KeyEvent.keys.space:
       this.removeState(qx.Const.STATE_ABANDONED);
       this.addState(qx.Const.STATE_PRESSED);
   };
@@ -143,8 +143,8 @@ qx.Proto._onkeyup = function(e)
 {
   switch(e.getKeyCode())
   {
-    case qx.event.types.KeyEvent.keys.enter:
-    case qx.event.types.KeyEvent.keys.space:
+    case qx.event.type.KeyEvent.keys.enter:
+    case qx.event.type.KeyEvent.keys.space:
       if (this.hasState(qx.Const.STATE_PRESSED))
       {
         this.removeState(qx.Const.STATE_ABANDONED);

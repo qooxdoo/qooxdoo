@@ -24,14 +24,14 @@
 
 #package(core)
 #use(qx.util.Validation)
-#use(qx.event.types.Event)
-#use(qx.event.types.DataEvent)
+#use(qx.event.type.Event)
+#use(qx.event.type.DataEvent)
 
 ************************************************************************ */
 
 
 /*!
-This is the main constructor for all objects that need to be connected to qx.event.types.Event objects.
+This is the main constructor for all objects that need to be connected to qx.event.type.Event objects.
 
 In objects created with this constructor, you find functions to addEventListener or
 removeEventListener to or from the created object. Each event to connect to has a type in
@@ -141,7 +141,7 @@ qx.Proto.hasEventListeners = function(vType) {
 qx.Proto.createDispatchEvent = function(vType)
 {
   if (this.hasEventListeners(vType)) {
-    this.dispatchEvent(new qx.event.types.Event(vType), true);
+    this.dispatchEvent(new qx.event.type.Event(vType), true);
   };
 };
 
@@ -151,7 +151,7 @@ qx.Proto.createDispatchEvent = function(vType)
 qx.Proto.createDispatchDataEvent = function(vType, vData)
 {
   if (this.hasEventListeners(vType)) {
-    this.dispatchEvent(new qx.event.types.DataEvent(vType, vData), true);
+    this.dispatchEvent(new qx.event.type.DataEvent(vType, vData), true);
   };
 };
 

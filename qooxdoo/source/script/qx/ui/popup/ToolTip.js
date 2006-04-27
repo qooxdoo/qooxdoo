@@ -195,8 +195,8 @@ qx.Proto._onmouseover = function(e)
 
 qx.Proto._onshowtimer = function(e)
 {
-  this.setLeft(qx.event.types.MouseEvent.getPageX() + this.getMousePointerOffsetX());
-  this.setTop(qx.event.types.MouseEvent.getPageY() + this.getMousePointerOffsetY());
+  this.setLeft(qx.event.type.MouseEvent.getPageX() + this.getMousePointerOffsetX());
+  this.setTop(qx.event.type.MouseEvent.getPageY() + this.getMousePointerOffsetY());
 
   this.show();
 

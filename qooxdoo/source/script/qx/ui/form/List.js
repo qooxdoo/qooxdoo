@@ -25,7 +25,7 @@
 #package(list)
 
 #use(qx.manager.selection.SelectionManager)
-#use(qx.event.types.KeyEvent)
+#use(qx.event.type.KeyEvent)
 
 ************************************************************************ */
 
@@ -170,7 +170,7 @@ qx.Proto._onkeydown = function(e)
   var kc = e.getKeyCode();
 
   // Execute action on press <ENTER>
-  if (kc == qx.event.types.KeyEvent.keys.enter && !e.getAltKey())
+  if (kc == qx.event.type.KeyEvent.keys.enter && !e.getAltKey())
   {
     var items = this.getSelectedItems();
     var currentItem;
@@ -180,7 +180,7 @@ qx.Proto._onkeydown = function(e)
       currentItem = items[i];
 
       if (currentItem.hasEventListeners("action")) {
-        currentItem._dispachEvent(new qx.event.types.Event("action"));
+        currentItem._dispachEvent(new qx.event.type.Event("action"));
       };
     };
   }

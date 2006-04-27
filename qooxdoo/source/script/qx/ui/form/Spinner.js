@@ -206,7 +206,7 @@ qx.Proto._onkeypress = function(e)
 {
   var vCode = e.getKeyCode();
 
-  if (vCode == qx.event.types.KeyEvent.keys.enter && !e.getAltKey())
+  if (vCode == qx.event.type.KeyEvent.keys.enter && !e.getAltKey())
   {
     this._checkValue(true, false, false);
     this._textfield.selectAll();
@@ -215,30 +215,30 @@ qx.Proto._onkeypress = function(e)
   {
     switch (vCode)
     {
-      case qx.event.types.KeyEvent.keys.up:
-      case qx.event.types.KeyEvent.keys.down:
+      case qx.event.type.KeyEvent.keys.up:
+      case qx.event.type.KeyEvent.keys.down:
 
-      case qx.event.types.KeyEvent.keys.left:
-      case qx.event.types.KeyEvent.keys.right:
+      case qx.event.type.KeyEvent.keys.left:
+      case qx.event.type.KeyEvent.keys.right:
 
-      case qx.event.types.KeyEvent.keys.shift:
-      case qx.event.types.KeyEvent.keys.ctrl:
-      case qx.event.types.KeyEvent.keys.alt:
+      case qx.event.type.KeyEvent.keys.shift:
+      case qx.event.type.KeyEvent.keys.ctrl:
+      case qx.event.type.KeyEvent.keys.alt:
 
-      case qx.event.types.KeyEvent.keys.esc:
-      case qx.event.types.KeyEvent.keys.del:
-      case qx.event.types.KeyEvent.keys.backspace:
+      case qx.event.type.KeyEvent.keys.esc:
+      case qx.event.type.KeyEvent.keys.del:
+      case qx.event.type.KeyEvent.keys.backspace:
 
-      case qx.event.types.KeyEvent.keys.insert:
+      case qx.event.type.KeyEvent.keys.insert:
 
-      case qx.event.types.KeyEvent.keys.home:
-      case qx.event.types.KeyEvent.keys.end:
+      case qx.event.type.KeyEvent.keys.home:
+      case qx.event.type.KeyEvent.keys.end:
 
-      case qx.event.types.KeyEvent.keys.pageup:
-      case qx.event.types.KeyEvent.keys.pagedown:
+      case qx.event.type.KeyEvent.keys.pageup:
+      case qx.event.type.KeyEvent.keys.pagedown:
 
-      case qx.event.types.KeyEvent.keys.numlock:
-      case qx.event.types.KeyEvent.keys.tab:
+      case qx.event.type.KeyEvent.keys.numlock:
+      case qx.event.type.KeyEvent.keys.tab:
         break;
 
       default:
@@ -259,9 +259,9 @@ qx.Proto._onkeydown = function(e)
   {
     switch(vCode)
     {
-      case qx.event.types.KeyEvent.keys.up:
-      case qx.event.types.KeyEvent.keys.down:
-        this._intervalIncrease = vCode == qx.event.types.KeyEvent.keys.up;
+      case qx.event.type.KeyEvent.keys.up:
+      case qx.event.type.KeyEvent.keys.down:
+        this._intervalIncrease = vCode == qx.event.type.KeyEvent.keys.up;
         this._intervalMode = "single";
 
         this._resetIncrements();
@@ -272,9 +272,9 @@ qx.Proto._onkeydown = function(e)
 
         break;
 
-      case qx.event.types.KeyEvent.keys.pageup:
-      case qx.event.types.KeyEvent.keys.pagedown:
-        this._intervalIncrease = vCode == qx.event.types.KeyEvent.keys.pageup;
+      case qx.event.type.KeyEvent.keys.pageup:
+      case qx.event.type.KeyEvent.keys.pagedown:
+        this._intervalIncrease = vCode == qx.event.type.KeyEvent.keys.pageup;
         this._intervalMode = "page";
 
         this._resetIncrements();
@@ -294,10 +294,10 @@ qx.Proto._onkeyup = function(e)
   {
     switch(e.getKeyCode())
     {
-      case qx.event.types.KeyEvent.keys.up:
-      case qx.event.types.KeyEvent.keys.down:
-      case qx.event.types.KeyEvent.keys.pageup:
-      case qx.event.types.KeyEvent.keys.pagedown:
+      case qx.event.type.KeyEvent.keys.up:
+      case qx.event.type.KeyEvent.keys.down:
+      case qx.event.type.KeyEvent.keys.pageup:
+      case qx.event.type.KeyEvent.keys.pagedown:
         this._timer.stop();
 
         this._intervalIncrease = null;
@@ -405,7 +405,7 @@ qx.Proto._onchange = function(e)
   };
 
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 };
 

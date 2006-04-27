@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.event.types.DomEvent", qx.event.types.Event, 
+qx.OO.defineClass("qx.event.type.DomEvent", qx.event.type.Event, 
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
 {
-  qx.event.types.Event.call(this, vType);
+  qx.event.type.Event.call(this, vType);
 
   this.setDomEvent(vDomEvent);
   this.setDomTarget(vDomTarget);
@@ -89,7 +89,7 @@ if(qx.sys.Client.isMshtml())
 
     this.getDomEvent().returnValue = false;
 
-    qx.event.types.Event.prototype.setDefaultPrevented.call(this, vValue);
+    qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
   };
 }
 else
@@ -103,7 +103,7 @@ else
     this.getDomEvent().preventDefault();
     this.getDomEvent().returnValue = false;
 
-    qx.event.types.Event.prototype.setDefaultPrevented.call(this, vValue);
+    qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
   };
 };
 
@@ -128,5 +128,5 @@ qx.Proto.dispose = function()
   this._valueDomEvent = null;
   this._valueDomTarget = null;
 
-  return qx.event.types.Event.prototype.dispose.call(this);
+  return qx.event.type.Event.prototype.dispose.call(this);
 };

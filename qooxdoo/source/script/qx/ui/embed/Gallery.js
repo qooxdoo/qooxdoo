@@ -276,7 +276,7 @@ qx.Proto._onmousemove = function(e)
 
   if (this._lastItem)
   {
-    var vEventObject = new qx.event.types.MouseEvent("mouseout", e, false, this._lastItem);
+    var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
     qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
     vEventObject.dispose();
   };
@@ -284,14 +284,14 @@ qx.Proto._onmousemove = function(e)
   if (vItem)
   {
     if (this.hasEventListeners("beforeToolTipAppear")) {
-      this.dispatchEvent(new qx.event.types.DataEvent("beforeToolTipAppear", vItem), true);
+      this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
     };
 
     if (!this.getToolTip()) {
       return;
     };
 
-    var vEventObject = new qx.event.types.MouseEvent("mouseout", e, false, vItem);
+    var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
     qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
     vEventObject.dispose();
 
@@ -465,7 +465,7 @@ qx.Proto.imageOnComplete = function()
   this._processedImages++;
 
   if(this._processedImages == this._listSize) {
-    this.dispatchEvent(new qx.event.types.Event("loadComplete"), true);
+    this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
   };
 };
 

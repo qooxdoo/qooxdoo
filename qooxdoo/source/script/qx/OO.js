@@ -715,7 +715,7 @@ qx.OO._createProperty = function(p)
       // Create Event
       if (this.hasEventListeners && this.hasEventListeners(changeKey))
       {
-        var vEvent = new qx.event.types.DataEvent(changeKey, newValue, oldValue, false);
+        var vEvent = new qx.event.type.DataEvent(changeKey, newValue, oldValue, false);
 
         vEvent.setTarget(this);
 
