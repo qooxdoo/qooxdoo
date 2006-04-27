@@ -1,0 +1,7 @@
+qx.Const.NAMESPACE_=qx.constant.Net.NAMESPACE_
+qx.Const.REQUEST_STATE_=qx.constant.Net.STATE_
+qx.Const.PROTOCOL_=qx.constant.Net.PROTOCOL_
+qx.Const.URI_=qx.constant.Net.URI_
+qx.Const.METHOD_=qx.constant.Net.METHOD_
+qx.Const.CORE_=qx.constant.Core.
+qx.Const.NODE_=qx.constant.Node.

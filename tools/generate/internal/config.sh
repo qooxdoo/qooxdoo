@@ -3,8 +3,13 @@ L=""
 # Object Orientation
 L="$L script/qx/OO"
 
-# Constants
+# Constants v1
 L="$L script/qx/Const"
+
+# Constants v2
+L="$L script/qx/constant/Core"
+L="$L script/qx/constant/Node"
+L="$L script/qx/constant/Net"
 
 # Debugging
 L="$L script/qx/dev/Debug"
