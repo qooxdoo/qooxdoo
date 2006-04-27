@@ -854,7 +854,7 @@ def start():
 
 
 
-  if "-h" in sys.argv or "--help" in sys.argv:
+  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
     printHelp()
     return
 
@@ -986,11 +986,12 @@ def start():
             print "    * Could not extract meta data from file: %s" % filename
           else:
 
-            basicFileName = filename.replace(JSEXT, "")
-            basicUniqueId = uniqueId.split(".")[-1]
+            splitUniqueId = uniqueId.split(".")
+            splitFileName = completeFileName.replace(JSEXT, "").split(os.sep)
+            uniqueFileId = ".".join(splitFileName[len(splitFileName)-len(splitUniqueId):])
 
-            if basicUniqueId != basicFileName:
-              print "    * UniqueId/Filename mismatch: %s != %s" % (basicUniqueId, basicFileName)
+            if uniqueId != uniqueFileId:
+              print "    * UniqueId/Filename mismatch: %s != %s" % (uniqueId, uniqueFileId)
 
             knownFiles[uniqueId] = completeFileName
 
