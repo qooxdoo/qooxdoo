@@ -28,7 +28,7 @@ L="$L script/qx/lang/Object"
 L="$L script/qx/lang/Array"
 L="$L script/qx/lang/String"
 L="$L script/qx/lang/Number"
-L="$L script/qx/lang/Prototypes"
+L="$L script/qx/lang/Prototype"
 L="$L script/qx/lang/Generics"
 # L="$L script/qx/lang/MshtmlEmu"
 # L="$L script/qx/lang/XmlEmu"
@@ -62,15 +62,15 @@ L="$L script/qx/core/Object"
 L="$L script/qx/core/Target"
 
 # Basic Events
-L="$L script/qx/event/types/Event"
-L="$L script/qx/event/types/DomEvent"
-L="$L script/qx/event/types/MouseEvent"
-L="$L script/qx/event/types/KeyEvent"
-L="$L script/qx/event/types/FocusEvent"
-L="$L script/qx/event/types/DataEvent"
+L="$L script/qx/event/type/Event"
+L="$L script/qx/event/type/DomEvent"
+L="$L script/qx/event/type/MouseEvent"
+L="$L script/qx/event/type/KeyEvent"
+L="$L script/qx/event/type/FocusEvent"
+L="$L script/qx/event/type/DataEvent"
 
 # Core Managers
-L="$L script/qx/managers/object/ObjectManager"
+L="$L script/qx/manager/object/ObjectManager"
 
 # Init
 L="$L script/qx/core/Init"
@@ -79,7 +79,7 @@ L="$L script/qx/core/Init"
 L="$L script/qx/client/ClientWindow"
 
 # Color Support
-L="$L script/qx/managers/object/ColorManager"
+L="$L script/qx/manager/object/ColorManager"
 L="$L script/qx/renderer/theme/ColorTheme"
 L="$L script/qx/renderer/color/Color"
 L="$L script/qx/renderer/color/ColorObject"
@@ -105,7 +105,7 @@ L="$L script/qx/renderer/font/FontCache"
 L="$L script/qx/ui/core/Widget"
 
 # Appearance
-L="$L script/qx/managers/object/AppearanceManager"
+L="$L script/qx/manager/object/AppearanceManager"
 L="$L script/qx/renderer/theme/AppearanceTheme"
 L="$L themes/appearance/default/theme"
 
@@ -143,8 +143,8 @@ L="$L script/qx/ui/form/TextArea"
 L="$L script/qx/client/Timer"
 
 # Image Support
-L="$L script/qx/managers/object/ImageManager"
-L="$L script/qx/managers/object/ImagePreloaderManager"
+L="$L script/qx/manager/object/ImageManager"
+L="$L script/qx/manager/object/ImagePreloaderManager"
 L="$L script/qx/io/image/ImagePreloader"
 L="$L script/qx/io/image/ImagePreloaderSystem"
 L="$L script/qx/ui/basic/Image"
@@ -156,7 +156,7 @@ L="$L script/qx/renderer/theme/WidgetTheme"
 L="$L themes/widgets/windows/theme"
 
 # Drag&Drop Support
-L="$L script/qx/event/types/DragEvent"
+L="$L script/qx/event/type/DragEvent"
 L="$L script/qx/event/handler/DragAndDropHandler"
 
 # Box Layout
@@ -187,18 +187,18 @@ L="$L script/qx/ui/form/Button"
 L="$L script/qx/ui/form/RepeatButton"
 
 # Radio/Checkbox Support
-L="$L script/qx/managers/selection/RadioManager"
+L="$L script/qx/manager/selection/RadioManager"
 L="$L script/qx/ui/form/InputCheckIcon"
 L="$L script/qx/ui/form/CheckBox"
 L="$L script/qx/ui/form/RadioButton"
 
 # Popup Support
-L="$L script/qx/managers/object/PopupManager"
+L="$L script/qx/manager/object/PopupManager"
 L="$L script/qx/ui/popup/Popup"
 L="$L script/qx/ui/popup/PopupAtom"
 
 # ToolTip Support
-L="$L script/qx/managers/object/ToolTipManager"
+L="$L script/qx/manager/object/ToolTipManager"
 L="$L script/qx/ui/popup/ToolTip"
 
 # GroupBox Support
@@ -220,7 +220,7 @@ L="$L script/qx/ui/toolbar/ToolBarRadioButton"
 L="$L script/qx/ui/toolbar/ToolBarMenuButton"
 
 # Menu Support
-L="$L script/qx/managers/object/MenuManager"
+L="$L script/qx/manager/object/MenuManager"
 L="$L script/qx/renderer/layout/MenuLayoutImpl"
 L="$L script/qx/ui/menu/MenuLayout"
 L="$L script/qx/ui/menu/Menu"
@@ -233,8 +233,8 @@ L="$L script/qx/ui/menu/MenuBar"
 L="$L script/qx/ui/menu/MenuBarButton"
 
 # Selection support
-L="$L script/qx/types/Selection"
-L="$L script/qx/managers/selection/SelectionManager"
+L="$L script/qx/type/Selection"
+L="$L script/qx/manager/selection/SelectionManager"
 
 # List Support
 L="$L script/qx/ui/form/List"
@@ -244,21 +244,21 @@ L="$L script/qx/ui/form/ListItem"
 L="$L script/qx/ui/form/ComboBox"
 
 # Spinner
-L="$L script/qx/types/Range"
+L="$L script/qx/type/Range"
 L="$L script/qx/ui/form/Spinner"
 
 # Command
 L="$L script/qx/client/Command"
 
 # Window
-L="$L script/qx/managers/object/WindowManager"
+L="$L script/qx/manager/object/WindowManager"
 L="$L script/qx/ui/window/Window"
 
 # Native Window
 L="$L script/qx/client/NativeWindow"
 
 # Flash Object
-L="$L script/qx/types/Version"
+L="$L script/qx/type/Version"
 L="$L script/qx/ui/embed/Flash"
 
 # Abstract PageView
@@ -283,14 +283,14 @@ L="$L script/qx/ui/pageview/buttonview/ButtonViewPage"
 L="$L script/qx/ui/pageview/buttonview/ButtonViewButton"
 
 # Tree Support
-L="$L script/qx/managers/selection/TreeSelectionManager"
+L="$L script/qx/manager/selection/TreeSelectionManager"
 L="$L script/qx/ui/tree/TreeElement"
 L="$L script/qx/ui/tree/TreeFile"
 L="$L script/qx/ui/tree/TreeFolder"
 L="$L script/qx/ui/tree/Tree"
 
 # List View
-L="$L script/qx/managers/selection/VirtualSelectionManager"
+L="$L script/qx/manager/selection/VirtualSelectionManager"
 L="$L script/qx/ui/listview/ListView"
 L="$L script/qx/ui/listview/ListViewHeader"
 L="$L script/qx/ui/listview/ListViewPane"
@@ -303,7 +303,7 @@ L="$L script/qx/ui/listview/ListViewContentCellLink"
 L="$L script/qx/ui/listview/ListViewContentCellIconHtml"
 
 # Dom Selection Manager
-L="$L script/qx/managers/selection/DomSelectionManager"
+L="$L script/qx/manager/selection/DomSelectionManager"
 
 # Gallery
 L="$L script/qx/ui/embed/Gallery"
