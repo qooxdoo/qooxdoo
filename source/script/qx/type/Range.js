@@ -48,7 +48,7 @@ qx.Proto._checkValue = function(propValue) {
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;
@@ -63,7 +63,7 @@ qx.Proto._modifyMax = function(propValue, propOldValue, propData)
   this.setValue(Math.min(this.getValue(), propValue));
 
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;
@@ -78,7 +78,7 @@ qx.Proto._modifyMin = function(propValue, propOldValue, propData)
   this.setValue(Math.max(this.getValue(), propValue));
 
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_CHANGE), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_CHANGE), true);
   };
 
   return true;

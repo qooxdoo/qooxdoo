@@ -114,7 +114,7 @@ qx.Proto._onerror = function()
   this.setLoaded(false);
 
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_ERROR)) {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_ERROR), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_ERROR), true);
   };
 };
 

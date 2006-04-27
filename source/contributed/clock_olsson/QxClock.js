@@ -99,7 +99,7 @@ qx.Proto._oninterval = function(e)
 
   if (this.hasEventListeners(qx.Const.EVENT_TYPE_INTERVAL))
   {
-    this.dispatchEvent(new qx.event.types.Event(qx.Const.EVENT_TYPE_INTERVAL));
+    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_INTERVAL));
   };
 
   this._timer.restartWith(this.getInterval());

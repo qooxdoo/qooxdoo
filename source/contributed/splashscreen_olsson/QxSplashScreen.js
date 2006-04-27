@@ -169,7 +169,7 @@ qx.Proto._onwindowmousedown = function(e)
 };
 
 qx.Proto._onkeydown = function(e) {
-  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.esc)
+  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.esc)
   {
     this.close();
   };

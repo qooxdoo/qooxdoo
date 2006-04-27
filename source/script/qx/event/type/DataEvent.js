@@ -29,10 +29,10 @@
 /*!
   Event object for property changes.
 */
-qx.OO.defineClass("qx.event.types.DataEvent", qx.event.types.Event, 
+qx.OO.defineClass("qx.event.type.DataEvent", qx.event.type.Event, 
 function(vType, vData)
 {
-  qx.event.types.Event.call(this, vType);
+  qx.event.type.Event.call(this, vType);
 
   this.setData(vData);
 });
@@ -48,5 +48,5 @@ qx.Proto.dispose = function()
 
   this._valueData = null;
 
-  return qx.event.types.Event.prototype.dispose.call(this);
+  return qx.event.type.Event.prototype.dispose.call(this);
 };

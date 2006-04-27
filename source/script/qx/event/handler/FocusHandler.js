@@ -24,7 +24,7 @@
 
 #package(eventcore)
 #use(qx.dom.DomLocation)
-#use(qx.event.types.FocusEvent)
+#use(qx.event.type.FocusEvent)
 #use(qx.manager.object.PopupManager)
 #use(qx.manager.object.ToolTipManager)
 
@@ -78,7 +78,7 @@ qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.isMshtml() ? qx.Const
 
 qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
-  if (vEvent.getKeyCode() != qx.event.types.KeyEvent.keys.tab || vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
+  if (vEvent.getKeyCode() != qx.event.type.KeyEvent.keys.tab || vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
     return;
   };
 

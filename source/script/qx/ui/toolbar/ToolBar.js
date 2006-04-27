@@ -107,10 +107,10 @@ qx.Proto._onkeydown = function(e)
 {
   switch(e.getKeyCode())
   {
-    case qx.event.types.KeyEvent.keys.left:
+    case qx.event.type.KeyEvent.keys.left:
       return this._onkeydown_left(e);
 
-    case qx.event.types.KeyEvent.keys.right:
+    case qx.event.type.KeyEvent.keys.right:
       return this._onkeydown_right(e);
   };
 };

@@ -29,10 +29,10 @@
 /*!
   A key event instance contains all data for each occured key event
 */
-qx.OO.defineClass("qx.event.types.KeyEvent", qx.event.types.DomEvent, 
+qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent, 
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
 {
-  qx.event.types.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
+  qx.event.type.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   this.setKeyCode(vKeyCode);
 });
@@ -54,7 +54,7 @@ qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true }
 ---------------------------------------------------------------------------
 */
 
-qx.event.types.KeyEvent.keys =
+qx.event.type.KeyEvent.keys =
 {
   esc : 27,
   enter : 13,
@@ -112,7 +112,7 @@ qx.event.types.KeyEvent.keys =
 };
 
 // create dynamic codes copy
-qx.event.types.KeyEvent.codes = {};
-for (var i in qx.event.types.KeyEvent.keys) {
-  qx.event.types.KeyEvent.codes[qx.event.types.KeyEvent.keys[i]] = i;
+qx.event.type.KeyEvent.codes = {};
+for (var i in qx.event.type.KeyEvent.keys) {
+  qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
 };

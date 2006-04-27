@@ -1059,7 +1059,7 @@ qx.Proto.handleKeyDown = function(e)
         // (allows following shift range selection)
         this.setAnchorItem(itemToSelect);
       }
-      else if (e.getKeyCode() == qx.event.types.KeyEvent.keys.space)
+      else if (e.getKeyCode() == qx.event.type.KeyEvent.keys.space)
       {
         if (this._selectedItems.contains(itemToSelect))
         {
@@ -1112,35 +1112,35 @@ qx.Proto.getItemToSelect = function(vKeyboardEvent)
   // Handle event by keycode
   switch (vKeyboardEvent.getKeyCode())
   {
-    case qx.event.types.KeyEvent.keys.home:
+    case qx.event.type.KeyEvent.keys.home:
       return this.getHome(this.getLeadItem());
 
-    case qx.event.types.KeyEvent.keys.end:
+    case qx.event.type.KeyEvent.keys.end:
       return this.getEnd(this.getLeadItem());
 
 
-    case qx.event.types.KeyEvent.keys.down:
+    case qx.event.type.KeyEvent.keys.down:
       return this.getDown(this.getLeadItem());
 
-    case qx.event.types.KeyEvent.keys.up:
+    case qx.event.type.KeyEvent.keys.up:
       return this.getUp(this.getLeadItem());
 
 
-    case qx.event.types.KeyEvent.keys.left:
+    case qx.event.type.KeyEvent.keys.left:
       return this.getLeft(this.getLeadItem());
 
-    case qx.event.types.KeyEvent.keys.right:
+    case qx.event.type.KeyEvent.keys.right:
       return this.getRight(this.getLeadItem());
 
 
-    case qx.event.types.KeyEvent.keys.pageup:
+    case qx.event.type.KeyEvent.keys.pageup:
       return this.getPageUp(this.getLeadItem()) || this.getHome(this.getLeadItem());
 
-    case qx.event.types.KeyEvent.keys.pagedown:
+    case qx.event.type.KeyEvent.keys.pagedown:
       return this.getPageDown(this.getLeadItem()) || this.getEnd(this.getLeadItem());
 
 
-    case qx.event.types.KeyEvent.keys.space:
+    case qx.event.type.KeyEvent.keys.space:
       if (vKeyboardEvent.getCtrlKey()) {
         return this.getLeadItem();
       };
@@ -1165,7 +1165,7 @@ qx.Proto._dispatchChange = function()
   };
 
   if (this.hasEventListeners("changeSelection")) {
-    this.dispatchEvent(new qx.event.types.DataEvent("changeSelection", this.getSelectedItems()), true);
+    this.dispatchEvent(new qx.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
   };
 };
 

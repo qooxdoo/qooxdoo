@@ -168,14 +168,14 @@ qx.Proto._onclick = function(e) {
 
 qx.Proto._onkeydown = function(e)
 {
-  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.enter && !e.getAltKey()) {
+  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.enter && !e.getAltKey()) {
     this.toggleChecked();
   };
 };
 
 qx.Proto._onkeyup = function(e)
 {
-  if(e.getKeyCode() == qx.event.types.KeyEvent.keys.space) {
+  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
     this.toggleChecked();
   };
 };
