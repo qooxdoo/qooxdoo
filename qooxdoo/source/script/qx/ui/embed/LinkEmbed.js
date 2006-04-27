@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.HtmlLinkEmbed", qx.ui.embed.HtmlEmbed, 
+qx.OO.defineClass("qx.ui.embed.LinkEmbed", qx.ui.embed.HtmlEmbed, 
 function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
@@ -72,22 +72,22 @@ qx.OO.addProperty({ name : "target", type : qx.Const.TYPEOF_STRING, defaultValue
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.HtmlLinkEmbed.LINK_START = "<a target='";
-qx.ui.embed.HtmlLinkEmbed.HREF_START = "' href='";
-qx.ui.embed.HtmlLinkEmbed.HREF_STOP = "'>";
-qx.ui.embed.HtmlLinkEmbed.LINK_STOP = "</a>";
+qx.ui.embed.LinkEmbed.LINK_START = "<a target='";
+qx.ui.embed.LinkEmbed.HREF_START = "' href='";
+qx.ui.embed.LinkEmbed.HREF_STOP = "'>";
+qx.ui.embed.LinkEmbed.LINK_STOP = "</a>";
 
 qx.Proto._syncHtml = function()
 {
   var vHtml = [];
 
-  vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_START);
+  vHtml.push(qx.ui.embed.LinkEmbed.LINK_START);
   vHtml.push(this.getTarget());
-  vHtml.push(qx.ui.embed.HtmlLinkEmbed.HREF_START);
+  vHtml.push(qx.ui.embed.LinkEmbed.HREF_START);
   vHtml.push(this.getUri());
-  vHtml.push(qx.ui.embed.HtmlLinkEmbed.HREF_STOP);
+  vHtml.push(qx.ui.embed.LinkEmbed.HREF_STOP);
   vHtml.push(this.getHtml());
-  vHtml.push(qx.ui.embed.HtmlLinkEmbed.LINK_STOP);
+  vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
 
   this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
 };

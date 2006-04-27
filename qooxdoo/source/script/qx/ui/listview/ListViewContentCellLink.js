@@ -26,10 +26,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellLink", qx.ui.embed.HtmlLinkEmbed, 
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellLink", qx.ui.embed.LinkEmbed, 
 function(vHtml)
 {
-  qx.ui.embed.HtmlLinkEmbed.call(this, vHtml);
+  qx.ui.embed.LinkEmbed.call(this, vHtml);
 
   // selectable = false will break links in gecko based browsers
   this.setSelectable(true);
