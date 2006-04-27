@@ -28,7 +28,7 @@
 #require(qx.core.Settings)
 #require(qx.util.Validation)
 #use(qx.sys.Client)
-#use(qx.dev.Debug)
+#use(qx.dev.log.Logger)
 
 ************************************************************************ */
 
