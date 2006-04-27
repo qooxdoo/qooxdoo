@@ -173,8 +173,12 @@ def handleClassDefinition(docTree, item):
     ctor.set("isCtor", "true")
     classNode.addListChild("constructor", ctor)
   elif ctorItem and ctorItem.type == "map":
-    # TODO: Support qx.Const style
-    pass
+    for keyvalueItem in ctorItem.children:
+      valueItem = keyvalueItem.getChild("value").getFirstChild()
+      if (valueItem.type == "function"):
+        handleMethodDefinition(keyvalueItem, True, classNode)
+      else:
+        handleConstantDefinition(keyvalueItem, classNode)
 
   return classNode;
 
@@ -290,10 +294,16 @@ def handleMethodDefinition(item, isStatic, classNode):
 
 
 def handleConstantDefinition(item, classNode):
-  leftItem = item.getFirstListChild("left")
+  if (item.type == "assignment"):
+    # This is a "normal" constant definition
+    leftItem = item.getFirstListChild("left")
+    name = leftItem.children[len(leftItem.children) - 1].get("name")
+  elif (item.type == "keyvalue"):
+    # This is a constant definition of a map-style class (like qx.Const)
+    name = item.get("key")
 
   node = tree.Node("constant")
-  node.set("name", leftItem.children[len(leftItem.children) - 1].get("name"))
+  node.set("name", name)
 
   commentNode = parseDocComment(item)
   if not commentNode:
@@ -614,7 +624,8 @@ def postWorkClass(docTree, classNode):
   # Check for errors
   childHasError = listHasError(classNode, "constructor") or listHasError(classNode, "properties") \
     or listHasError(classNode, "methods-pub") or listHasError(classNode, "methods-prot") \
-    or listHasError(classNode, "methods-static-pub") or listHasError(classNode, "methods-static-prot")
+    or listHasError(classNode, "methods-static-pub") or listHasError(classNode, "methods-static-prot") \
+    or listHasError(classNode, "constants")
 
   if childHasError:
     classNode.set("hasWarning", "true")

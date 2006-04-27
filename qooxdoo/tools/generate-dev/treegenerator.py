@@ -505,9 +505,10 @@ def readBlock_simple(stream):
 
 def readMap(stream):
   stream.expectCurrType("token", "LC")
+  item = createItemNode("map", stream)
+
   stream.next()
 
-  item = createItemNode("map", stream)
   while not stream.currIsType("token", "RC"):
     if item.hasChildren():
       stream.expectCurrType("token", "COMMA")
