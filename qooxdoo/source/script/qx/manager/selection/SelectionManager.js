@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #package(selection)
-#use(qx.types.Selection)
+#use(qx.type.Selection)
 
 ************************************************************************ */
 
@@ -35,7 +35,7 @@ function(vBoundedWidget)
 {
   qx.core.Target.call(this);
 
-  this._selectedItems = new qx.types.Selection(this);
+  this._selectedItems = new qx.type.Selection(this);
 
   if (qx.util.Validation.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);

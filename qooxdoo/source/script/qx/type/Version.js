@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /*!
-  qx.types.Version contains a version string and can extract
+  qx.type.Version contains a version string and can extract
   major, minor and revision flags from this string. It can also
   compare a incoming version object with the stored version string
   and checks if this version is smaller or identical than the stored
@@ -43,7 +43,7 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-qx.OO.defineClass("qx.types.Version", qx.core.Object, 
+qx.OO.defineClass("qx.type.Version", qx.core.Object, 
 function(arrVersion)
 {
   qx.core.Object.call(this);
