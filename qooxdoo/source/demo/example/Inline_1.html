@@ -6,6 +6,8 @@
   <title>qooxdoo demo</title>
   <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
   <script type="text/javascript">
+    var qx = {};
+    var qx.core = {};
     var qx.core.Settings = { "enableApplicationLayout" : false };
   </script>
   <script type="text/javascript" src="../demoinclude.js"></script>
@@ -31,10 +33,10 @@
     var d = this.getClientWindow().getClientDocument();
 
     var inlineWidget = new qx.ui.basic.Inline("iframe1");
-    
+
     inlineWidget.setHeight("auto");
     inlineWidget.setWidth("auto");
-    
+
     var fieldSet = new qx.ui.groupbox.GroupBox("My first inline fieldset");
 
     with(fieldSet)
@@ -232,11 +234,11 @@
 
 
     var inline2 = new qx.ui.basic.Inline("iframe2");
-    
+
     inline2.setHeight("auto");
     inline2.setWidth("auto");
-    
-    
+
+
     var mb1 = new qx.ui.toolbar.ToolBar;
 
     var mbb1 = new qx.ui.toolbar.ToolBarMenuButton("File", m1);
