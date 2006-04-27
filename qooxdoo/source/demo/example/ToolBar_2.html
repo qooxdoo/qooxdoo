@@ -154,7 +154,7 @@
       // beautiful decoupling: radio boxes don't know about toolbar buttons
       rbm.addEventListener("changeSelected", function(e)
       {
-        d.dispatchEvent( new QxDataEvent("changeLayout", e.getData().getValue() ) );
+        d.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
       });
 
       d.add(rd1, rd2, rd3);
@@ -218,7 +218,7 @@
       };
 
       b3.addEventListener("execute", function(e) {
-        d.dispatchEvent(new QxDataEvent("changeSize", 22));
+        d.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
       });
 
       var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icons/16/colors.png");
@@ -231,7 +231,7 @@
       };
 
       b4.addEventListener("execute", function(e) {
-        d.dispatchEvent(new QxDataEvent("changeSize", 32));
+        d.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
       });
 
       d.add(b3, b4);

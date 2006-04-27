@@ -165,7 +165,7 @@
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
       rbm.addEventListener("changeSelected", function(e) {
-        d.dispatchEvent( new QxDataEvent("changeLayout", e.getData().getValue() ) );
+        d.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
       });
 
       d.add(rd1, rd2, rd3);
