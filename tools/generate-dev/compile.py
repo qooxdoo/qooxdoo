@@ -990,6 +990,13 @@ def start():
           if uniqueId == None:
             print "    * Could not extract meta data from file: %s" % filename
           else:
+
+            basicFileName = filename.replace(JSEXT, "")
+            basicUniqueId = uniqueId.split(".")[-1]
+
+            if basicUniqueId != basicFileName:
+              print "    * UniqueId/Filename mismatch: %s != %s" % (basicUniqueId, basicFileName)
+
             knownFiles[uniqueId] = completeFileName
 
 
