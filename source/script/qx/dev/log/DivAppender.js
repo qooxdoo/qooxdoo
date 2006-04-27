@@ -86,7 +86,7 @@ qx.Proto.appendLogEvent = function(evt) {
   }
 
   if (group != this._lastGroup) {
-    var elem = document.createElement(qx.Const.CORE_DIV);
+    var elem = document.createElement(qx.constant.Core.DIV);
     elem.className = this.getGroupClassName();
     elem.innerHTML = group;
 
