@@ -201,7 +201,7 @@ L="$L script/qx/ui/form/RepeatButton"
 
 # Radio/Checkbox Support
 L="$L script/qx/manager/selection/RadioManager"
-L="$L script/qx/ui/form/InputCheckIcon"
+L="$L script/qx/ui/form/InputCheckSymbol"
 L="$L script/qx/ui/form/CheckBox"
 L="$L script/qx/ui/form/RadioButton"
 
