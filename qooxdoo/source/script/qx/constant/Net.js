@@ -80,4 +80,4 @@ qx.OO.defineClass("qx.const.Net",
   METHOD_PUT : "PUT",
   METHOD_HEAD : "HEAD",
   METHOD_DELETE : "DELETE"
-};
+});

@@ -74,4 +74,4 @@ qx.OO.defineClass("qx.const.Core",
   OFF : "off",
   SET : "set",
   GET : "get"
-};
+});
