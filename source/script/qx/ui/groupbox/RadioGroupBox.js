@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.groupbox.GroupRadioBox", qx.ui.groupbox.GroupBox, 
+qx.OO.defineClass("qx.ui.groupbox.RadioGroupBox", qx.ui.groupbox.GroupBox, 
 function(vLegend) {
   qx.ui.groupbox.GroupBox.call(this, vLegend);
 });

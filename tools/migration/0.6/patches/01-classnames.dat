@@ -82,9 +82,9 @@ QxRadioButton=qx.ui.form.RadioButton
 QxListItem=qx.ui.form.ListItem
 QxInputCheckIcon=qx.ui.form.InputCheckSymbol
 
-QxFieldSet=qx.ui.fieldset.FieldSet
-QxCheckBoxFieldSet=qx.ui.fieldset.CheckBoxFieldSet
-QxRadioButtonFieldSet=qx.ui.fieldset.RadioButtonFieldSet
+QxFieldSet=qx.ui.fieldset.GroupBox
+QxCheckBoxFieldSet=qx.ui.fieldset.CheckGroupBox
+QxRadioButtonFieldSet=qx.ui.fieldset.RadioGroupBox
 
 QxListView=qx.ui.listview.ListView
 QxListViewContentCellHtml=qx.ui.listview.ListViewContentCellHtml
@@ -159,8 +159,6 @@ QxVerticalBoxLayoutImpl=qx.renderer.layout.VerticalBoxLayoutImpl
 QxBorder=qx.renderer.border.Border
 QxBorderCache=qx.renderer.border.BorderCache
 QxBorderObject=qx.renderer.border.BorderObject
-QxBorderObjectPresets=qx.renderer.border.BorderObjectPresets
-QxBorderPresets=qx.renderer.border.BorderPresets
 
 QxColor=qx.renderer.color.Color
 QxColorCache=qx.renderer.color.ColorCache
@@ -203,4 +201,4 @@ QxNode=qx.ui.embed.NodeEmbed
 
 QxTextile=qx.util.string.Textile
 
-QxCompare=qx.util.compare
+QxCompare=qx.util.Compare
