@@ -165,7 +165,7 @@ qx.Proto.blockHelper = function(e)
     }
     catch(ex)
     {
-      this.debug("Window seems to be closed already! => Releasing Blocker: (" + e.getType() + ")");
+      this.debug("Window seems to be closed already! => Releasing Blocker: (" + e.getType() + ")", ex);
       this.release(this._modalNativeWindow);
     };
   };

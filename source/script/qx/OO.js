@@ -568,19 +568,19 @@ qx.OO._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.OO.C_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!");
         };
 
         if (p.hasInstance && !(newValue instanceof qx.OO.classes[p.instance])) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", qx.OO.C_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!");
         };
 
         if (p.hasClassName && newValue.classname != p.classname) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", qx.OO.C_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!");
         };
 
         if (p.hasPossibleValues && newValue != null && !qx.lang.Array.contains(p.possibleValues, newValue)) {
-          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", qx.OO.C_SET + p.method);
+          return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!");
         };
       };
 
@@ -598,7 +598,7 @@ qx.OO._createProperty = function(p)
         }
         catch(ex)
         {
-          return this.error("Failed to check property " + p.name + ": " + ex, checkKey);
+          return this.error("Failed to check property " + p.name, ex);
         };
       };
 
@@ -612,12 +612,12 @@ qx.OO._createProperty = function(p)
         {
           var r = this[modifyKey](newValue, oldValue, p);
           if (!r) {
-            return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")", modifyKey);
+            return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")");
           };
         }
         catch(ex)
         {
-          return this.error("Modification of property \"" + p.name + "\" failed with exception (" + ex + ")", modifyKey);
+          return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
         };
       };
 
@@ -671,7 +671,7 @@ qx.OO._createProperty = function(p)
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
-          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", qx.OO.C_SET + p.method);
+          return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!");
         };
       };
 
@@ -689,7 +689,7 @@ qx.OO._createProperty = function(p)
         }
         catch(ex)
         {
-          return this.error("Failed to check property " + p.name + ": " + ex, checkKey);
+          return this.error("Failed to check property " + p.name, ex);
         };
       };
 
@@ -703,12 +703,12 @@ qx.OO._createProperty = function(p)
         {
           var r = this[modifyKey](newValue, oldValue, p);
           if (!r) {
-            return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")", modifyKey);
+            return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")");
           };
         }
         catch(ex)
         {
-          return this.error("Modification of property \"" + p.name + "\" failed with exception (" + ex + ")", modifyKey);
+          return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
         };
       };
 

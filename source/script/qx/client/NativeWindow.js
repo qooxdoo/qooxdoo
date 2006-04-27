@@ -208,7 +208,7 @@ qx.Proto._modifyPosition = function(propValue, propOldValue, propName)
     }
     catch(ex)
     {
-      this.error("Cross-Domain Scripting problem: Could not move window!");
+      this.error("Cross-Domain Scripting problem: Could not move window!", ex);
     };
   };
 
@@ -234,7 +234,7 @@ qx.Proto._modifyDimension = function(propValue, propOldValue, propName)
     }
     catch(ex)
     {
-      this.error("Cross-Domain Scripting problem: Could not resize window!");
+      this.error("Cross-Domain Scripting problem: Could not resize window!", ex);
     };
   };
 
@@ -456,7 +456,7 @@ qx.Proto._open = function()
 
   if (this.isClosed())
   {
-    this.error("Window could not be opened. It seems, there is a popup blocker active!", "_open");
+    this.error("Window could not be opened. It seems, there is a popup blocker active!");
   }
   else
   {

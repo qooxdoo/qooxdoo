@@ -730,7 +730,7 @@ if (qx.sys.Client.isGecko())
       };
     }
     catch(ex) {
-      this.error("Failed to generate Mozilla Color Definition Strings: " + ex, "_generateMozColorDefString");
+      this.error("Failed to generate Mozilla Color Definition Strings", ex);
     };
 
     return qx.constant.Core.EMPTY;
@@ -873,7 +873,7 @@ else
               }
               catch(ex)
               {
-                this.error("Failed to compile top border: " + ex, "_compileTop");
+                this.error("Failed to compile top border", ex);
                 this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
               };
             }
@@ -935,7 +935,7 @@ else
               }
               catch(ex)
               {
-                this.error("Failed to compile right border: " + ex, "_compileRight");
+                this.error("Failed to compile right border", ex);
                 this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
               };
             }
@@ -996,7 +996,7 @@ else
                 };
               }
               catch(ex) {
-                this.error("Failed to compile bottom border: " + ex, "_compileBottom");
+                this.error("Failed to compile bottom border", ex);
                 this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
               };
             }
@@ -1057,7 +1057,7 @@ else
                 };
               }
               catch(ex) {
-                this.error("Failed to compile left border: " + ex, "_compileLeft");
+                this.error("Failed to compile left border", ex);
                 this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
               };
             }

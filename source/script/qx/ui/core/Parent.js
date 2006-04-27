@@ -904,7 +904,7 @@ qx.Proto._layoutChild = function(vChild)
   }
   catch(ex)
   {
-    this.error("Could not apply border to child " + vChild + ": " + ex, "_layoutChild");
+    this.error("Could not apply border to child " + vChild, ex);
   };
 
   try
@@ -919,7 +919,7 @@ qx.Proto._layoutChild = function(vChild)
   }
   catch(ex)
   {
-    this.error("Could not apply padding to child " + vChild + ": " + ex, "_layoutChild");
+    this.error("Could not apply padding to child " + vChild, ex);
   };
 
 
@@ -930,7 +930,7 @@ qx.Proto._layoutChild = function(vChild)
   }
   catch(ex)
   {
-    this.error("Could not layout child " + vChild + " through layout handler: " + ex, "_layoutChild");
+    this.error("Could not layout child " + vChild + " through layout handler", ex);
   };
 
 
@@ -941,7 +941,7 @@ qx.Proto._layoutChild = function(vChild)
   }
   catch(ex)
   {
-    this.error("Could not post layout child " + vChild + ": " + ex, "_layoutChild");
+    this.error("Could not post layout child " + vChild, ex);
   };
 
 
@@ -957,7 +957,7 @@ qx.Proto._layoutChild = function(vChild)
   }
   catch(ex)
   {
-    this.error("Could not handle display updates from layout flush for child " + vChild + ": " + ex, "_layoutChild");
+    this.error("Could not handle display updates from layout flush for child " + vChild, ex);
   };
 
 

@@ -58,6 +58,16 @@ L="$L script/qx/dom/DomElement"
 # Core qooxdoo objects
 L="$L script/qx/core/Object"
 
+# Logging
+L="$L script/qx/dev/log/Filter"
+L="$L script/qx/dev/log/DefaultFilter"
+L="$L script/qx/dev/log/LogEventProcessor"
+L="$L script/qx/dev/log/Appender"
+L="$L script/qx/dev/log/ForwardAppender"
+L="$L script/qx/dev/log/WindowAppender"
+L="$L script/qx/dev/log/DivAppender"
+L="$L script/qx/dev/log/Logger"
+
 # Common qooxdoo objects
 L="$L script/qx/core/Target"
 
@@ -77,6 +87,9 @@ L="$L script/qx/core/Init"
 
 # Client Window
 L="$L script/qx/client/ClientWindow"
+
+# History
+L="$L script/qx/client/History"
 
 # Color Support
 L="$L script/qx/manager/object/ColorManager"

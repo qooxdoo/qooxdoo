@@ -406,7 +406,7 @@ qx.Proto.scrollItemIntoView = function(vItem, vAlignLeftTop)
 };
 
 qx.Proto.scrollItemIntoViewX = function(vItem, vAlignLeft) {
-  // this.error("Not implemented in qx.ui.listview.ListViewPane!", "scrollItemIntoViewX");
+  // this.error("Not implemented in qx.ui.listview.ListViewPane!");
 };
 
 qx.Proto.scrollItemIntoViewY = function(vItem, vAlignTop)
@@ -454,7 +454,7 @@ qx.Proto.getScrollTop = function() {
 };
 
 qx.Proto.setScrollLeft = function() {
-  this.error("Not implemented in qx.ui.listview.ListViewPane!", "setScrollLeft");
+  this.error("Not implemented in qx.ui.listview.ListViewPane!");
 };
 
 qx.Proto.getScrollLeft = function() {

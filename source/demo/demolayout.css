@@ -106,7 +106,7 @@ p{
   height: expression(document.body.offsetHeight - 184);
 }
 
-#demoDebug .log{
+#demoDebug .log-body{
   overflow: auto;
   position: absolute;
   top: 30px;
@@ -115,43 +115,43 @@ p{
   padding: 4px;
 }
 
-* html #demoDebug .log{
+* html #demoDebug .log-body{
   height: expression(document.body.offsetHeight - 214);
 }
 
-#demoDebug .message{
+#demoDebug .log-debug{
+  color: gray;
   padding-left: 6px;
 }
 
-#demoDebug .message-default{
-
-}
-
-#demoDebug .message-info{
+#demoDebug .log-info{
   background: #DFEBFD;
+  padding-left: 6px;
 }
 
-#demoDebug .message-warning{
+#demoDebug .log-warn{
   background: #F5FAAD;
+  padding-left: 6px;
 }
 
-#demoDebug .message-error{
+#demoDebug .log-error{
   background: #D2421E;
   color: #fff;
+  padding-left: 6px;
 }
 
-#demoDebug .group{
+#demoDebug .log-group{
   margin-top: 4px;
   margin-bottom: 1px;
   text-decoration: underline;
 }
 
-#demoDebug .head{
+#demoDebug .log-head{
   padding: 8px 2px 4px;
 }
 
 #demoJump button,
-#demoDebug .head button{
+#demoDebug .log-head button{
   border: 1px solid #335EA8;
   margin: 0 2px;
   font-size: 11px;
@@ -159,7 +159,7 @@ p{
   font-family: Tahoma, Verdana, sans-serif;
 }
 
-#demoDebug .head button{
+#demoDebug .log-head button{
   visibility: visible;
 }
 

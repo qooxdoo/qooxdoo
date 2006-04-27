@@ -151,7 +151,7 @@ qx.Proto._runPre = function()
   }
   catch(ex)
   {
-    return this.error("...failed: " + ex);
+    return this.error("...failed", ex);
   };
 
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
@@ -179,7 +179,7 @@ qx.Proto._runMain = function()
   }
   catch(ex)
   {
-    return this.error("...failed: " + ex);
+    return this.error("...failed", ex);
   };
 
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
@@ -249,7 +249,7 @@ qx.Proto._runPost = function()
   }
   catch(ex)
   {
-    return this.error("...failed: " + ex);
+    return this.error("...failed", ex);
   };
 
   this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);

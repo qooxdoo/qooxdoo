@@ -96,11 +96,6 @@ qx.core.Object.dispose = function()
 
 qx.OO.addProperty({ name : "enabled", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
-qx.core.Object.DEBUG_MSG_BEFORE = "[HASHCODE:";
-qx.core.Object.DEBUG_MSG_AFTER = "]";
-qx.core.Object.DEBUG_FUNCERRORPRE = "Failed to execute \"";
-qx.core.Object.DEBUG_FUNCERRORPOST = "()\": ";
-
 
 
 
@@ -156,47 +151,74 @@ qx.Proto.isDisposed = function() {
 
 /*
 ---------------------------------------------------------------------------
-  DEBUGGING INTERFACE
+  LOGGING INTERFACE
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Print out a debug message to the qooxdoo debug console.
-*/
-qx.Proto.debug = function(m, c) {
-  qx.dev.Debug(this.classname + qx.core.Object.DEBUG_MSG_BEFORE + this._hashCode + qx.core.Object.DEBUG_MSG_AFTER, m, c);
-};
 
-/*!
-  Print out an info message info to the qooxdoo debug console.
-*/
-qx.Proto.info = function(m, c) {
-  this.debug(m, "info");
-};
+/**
+ * Returns the logger of this class.
+ *
+ * @return {qx.dev.log.Logger} the logger of this class.
+ */
+qx.Proto.getLogger = function() {
+  var logger = this.constructor._logger;
+  if (logger == null) {
+    var parentLogger = qx.dev.log.Logger.ROOT_LOGGER;
 
-/*!
-  Print out an warning to the qooxdoo debug console.
-*/
-qx.Proto.warn = function(m, c) {
-  this.debug(m, "warning");
-};
-
-/*!
-  Print out an error to the qooxdoo debug console.
-*/
-qx.Proto.error = function(m, f)
-{
-  if (qx.util.Validation.isValidString(f))
-  {
-    this.debug(qx.core.Object.DEBUG_FUNCERRORPRE + f + qx.core.Object.DEBUG_FUNCERRORPOST + m, qx.Const.EVENT_TYPE_ERROR);
+    logger = new qx.dev.log.Logger(this.classname, parentLogger);
+    this.constructor._logger = logger;
   }
-  else
-  {
-    this.debug(m, qx.Const.EVENT_TYPE_ERROR);
-  };
+  return logger;
 };
 
 
+/**
+ * Logs a debug message.
+ *
+ * @param msg {var} the message to log. If this is not a string, the
+ *        object dump will be logged.
+ * @param exc {var,null} the exception to log.
+ */
+qx.Proto.debug = function(msg, exc) {
+  this.getLogger().debug(msg, this._hashCode, exc);
+};
+
+
+/**
+ * Logs an info message.
+ *
+ * @param msg {var} the message to log. If this is not a string, the
+ *    object dump will be logged.
+ * @param exc {var,null} the exception to log.
+ */
+qx.Proto.info = function(msg, exc) {
+  this.getLogger().info(msg, this._hashCode, exc);
+};
+
+
+/**
+ * Logs a warning message.
+ *
+ * @param msg {var} the message to log. If this is not a string, the
+ *    object dump will be logged.
+ * @param exc {var,null} the exception to log.
+ */
+qx.Proto.warn = function(msg, exc) {
+  this.getLogger().warn(msg, this._hashCode, exc);
+};
+
+
+/**
+ * Logs an error message.
+ *
+ * @param msg {var} the message to log. If this is not a string, the
+ *    object dump will be logged.
+ * @param exc {var,null} the exception to log.
+ */
+qx.Proto.error = function(msg, exc) {
+  this.getLogger().error(msg, this._hashCode, exc);
+};
 
 
 
@@ -226,7 +248,7 @@ qx.Proto.set = function(propertyValues)
     }
     catch(ex)
     {
-      this.error("Setter of property " + prop + " returned with an error: " + ex, "set");
+      this.error("Setter of property " + prop + " returned with an error", ex);
     };
   };
 

@@ -418,7 +418,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
     textTdElem.innerHTML = info.textHtml;
   } catch (exc) {
-    this.error("Toggling item details failed", null, exc);
+    this.error("Toggling item details failed", exc);
   }
 }
 
@@ -439,7 +439,7 @@ qx.Proto._onInheritedCheckBoxClick = function(nodeType) {
 
     this._updateInfoPanel(nodeType);
   } catch (exc) {
-    this.error("Handling inherited checkbox click failed", null, exc);
+    this.error("Handling inherited checkbox click failed", exc);
   }
 };
 
@@ -461,7 +461,7 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
 
     this._updateInfoPanel(nodeType);
   } catch (exc) {
-    this.error("Toggling info body failed", null, exc);
+    this.error("Toggling info body failed", exc);
   }
 };
 
@@ -500,7 +500,7 @@ qx.Proto._selectItem = function(itemName) {
     qx.apiviewer.ApiViewer.instance.selectItem(itemName);
     qx.ui.core.Widget.flushGlobalQueues();
   } catch (exc) {
-    this.error("Selecting item '" + itemName + "' failed", null, exc);
+    this.error("Selecting item '" + itemName + "' failed", exc);
   }
 };
 

@@ -230,7 +230,7 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
         }
         catch(ex)
         {
-          this.error("Could not dispatch event of type \"" + vEvent.getType() + "\": " + ex, "_dispatchEvent");
+          this.error("Could not dispatch event of type \"" + vEvent.getType() + "\"", ex);
         };
       };
     };

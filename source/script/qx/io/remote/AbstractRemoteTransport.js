@@ -118,7 +118,7 @@ qx.OO.addProperty({ name : "responseType", type: qx.Const.TYPEOF_STRING });
 */
 
 qx.Proto.send = function() {
-  this.error("Need implementation", "send");
+  throw new Error("send is abstract");
 };
 
 qx.Proto.abort = function()
@@ -175,7 +175,7 @@ qx.Proto.failed = function()
   implement it.
 */
 qx.Proto.setRequestHeader = function(vLabel, vValue) {
-  this.error("Need implementation", "setRequestHeader");
+  throw new Error("setRequestHeader is abstract");
 };
 
 
@@ -190,14 +190,14 @@ qx.Proto.setRequestHeader = function(vLabel, vValue) {
 */
 
 qx.Proto.getResponseHeader = function(vLabel) {
-  this.error("Need implementation", "getResponseHeader");
+  throw new Error("getResponseHeader is abstract");
 };
 
 /*!
   Provides an hash of all response headers.
 */
 qx.Proto.getResponseHeaders = function() {
-  this.error("Need implementation", "getResponseHeaders");
+  throw new Error("getResponseHeaders is abstract");
 };
 
 
@@ -216,14 +216,14 @@ qx.Proto.getResponseHeaders = function() {
   Returns the current status code of the request if available or -1 if not.
 */
 qx.Proto.getStatusCode = function() {
-  this.error("Need implementation", "getStatusCode");
+  throw new Error("getStatusCode is abstract");
 };
 
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
 qx.Proto.getStatusText = function() {
-  this.error("Need implementation", "getStatusText");
+  throw new Error("getStatusText is abstract");
 };
 
 
@@ -243,7 +243,7 @@ qx.Proto.getStatusText = function() {
   be made available to the caller.
 */
 qx.Proto.getResponseText = function() {
-  this.error("Need implementation", "getResponseText");
+  throw new Error("getResponseText is abstract");
 };
 
 /*!
@@ -252,14 +252,14 @@ qx.Proto.getResponseText = function() {
   be made available to the caller.
 */
 qx.Proto.getResponseXml = function() {
-  this.error("Need implementation", "getResponseXml");
+  throw new Error("getResponseXml is abstract");
 };
 
 /*!
   Returns the length of the content as fetched thus far
 */
 qx.Proto.getFetchedLength = function() {
-  this.error("Need implementation", "getFetchedLength");
+  throw new Error("getFetchedLength is abstract");
 };
 
 
