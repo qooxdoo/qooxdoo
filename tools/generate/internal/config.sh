@@ -137,8 +137,8 @@ L="$L script/qx/ui/basic/Terminator"
 
 # Main Widgets
 L="$L script/qx/ui/layout/CanvasLayout"
-L="$L script/qx/ui/core/Blocker"
 L="$L script/qx/ui/core/ClientDocument"
+L="$L script/qx/ui/core/ClientDocumentBlocker"
 L="$L script/qx/ui/basic/Inline"
 L="$L script/qx/ui/basic/HorizontalSpacer"
 L="$L script/qx/ui/basic/VerticalSpacer"
