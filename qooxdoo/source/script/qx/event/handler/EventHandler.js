@@ -649,7 +649,7 @@ else
 
     switch(vType)
     {
-      case qx.Class.C_DOMMOUSESCROLL:
+      case qx.event.handler.EventHandler.C_DOMMOUSESCROLL:
         // normalize mousewheel event
         vType = qx.Const.EVENT_TYPE_MOUSEWHEEL;
         break;

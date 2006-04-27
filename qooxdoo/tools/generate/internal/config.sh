@@ -11,9 +11,6 @@ L="$L script/qx/constant/Core"
 L="$L script/qx/constant/Node"
 L="$L script/qx/constant/Net"
 
-# Debugging
-L="$L script/qx/dev/Debug"
-
 # Core
 L="$L script/qx/core/Main"
 L="$L script/qx/core/DefaultSettings"
