@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.DomNodeEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.NodeEmbed", qx.ui.basic.Terminator, 
 function(vId)
 {
   qx.ui.basic.Terminator.call(this);
