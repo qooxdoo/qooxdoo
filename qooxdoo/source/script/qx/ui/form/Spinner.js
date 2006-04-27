@@ -41,7 +41,7 @@ function(vMin, vValue, vMax)
   this.setTabIndex(-1);
 
   if (qx.sys.Client.isMshtml()) {
-    this.setStyleProperty("fontSize", qx.Const.CORE_0PIXEL);
+    this.setStyleProperty("fontSize", qx.Const.CORE_ZEROPIXEL);
   };
 
 

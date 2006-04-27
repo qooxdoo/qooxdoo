@@ -205,7 +205,7 @@ if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
   {
     this._updateScrollBar();
 
-    this._scroll.setStyleProperty(qx.Const.PROPERTY_HEIGHT, qx.Const.CORE_0PIXEL);
+    this._scroll.setStyleProperty(qx.Const.PROPERTY_HEIGHT, qx.Const.CORE_ZEROPIXEL);
     this._scroll.forceHeight(0);
     this._scroll.setHeight(null);
   };
