@@ -41,4 +41,4 @@ qx.OO.defineClass("qx.const.Node",
   DOCUMENT_TYPE : 10,
   DOCUMENT_FRAGMENT : 11,
   NOTATION : 12,
-};
+});
