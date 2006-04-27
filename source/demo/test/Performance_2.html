@@ -16,7 +16,7 @@
       <li>QxObject</li>
       <li>QxTarget</li>
       <li>QxEvent</li>
-      <li>QxMouseEvent</li>
+      <li>qx.event.type.MouseEvent</li>
       <li>qx.ui.basic.Terminator</li>
       <li>qx.ui.layout.CanvasLayout</li>
       <li>qx.ui.layout.BoxLayout</li>
@@ -47,10 +47,10 @@
       };
     };
 
-    function TestQxMouseEvent(vLoops)
+    function Testqx.event.type.MouseEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxMouseEvent;
+        new qx.event.type.MouseEvent;
       };
     };
 
@@ -75,7 +75,7 @@
       };
     };    
 
-    new QxTimeTracker(TestQxObject, TestQxTarget, TestQxEvent, TestQxMouseEvent, TestQxTerminator, TestQxCanvasLayout, TestQxBoxLayout);
+    new QxTimeTracker(TestQxObject, TestQxTarget, TestQxEvent, Testqx.event.type.MouseEvent, TestQxTerminator, TestQxCanvasLayout, TestQxBoxLayout);
   };
   </script>
 </body>

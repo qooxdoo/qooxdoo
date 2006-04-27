@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Tests for QxCookieStorage API.</p>
+    <p>Tests for qx.io.local.CookieTransport API.</p>
   </div>
 
   <script type="text/javascript">
@@ -45,7 +45,7 @@
     b1.addEventListener("execute", function(e)
     {
       for (var i=0; i<vAll.length; i++) {
-        var vIn = QxCookieStorage.get("fieldContent" + i);
+        var vIn = qx.io.local.CookieTransport.get("fieldContent" + i);
         vAll[i].setValue(vIn);
       };
     });
@@ -53,12 +53,12 @@
     b2.addEventListener("execute", function(e)
     {
       for (var i=0; i<vAll.length; i++) {
-        QxCookieStorage.set("fieldContent" + i, vAll[i].getValue());
+        qx.io.local.CookieTransport.set("fieldContent" + i, vAll[i].getValue());
       };
     });
 
     b3.addEventListener("execute", function(e) {
-      QxCookieStorage.delAll();
+      qx.io.local.CookieTransport.delAll();
     });
   };
   </script>

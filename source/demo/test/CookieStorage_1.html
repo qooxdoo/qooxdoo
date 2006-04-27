@@ -32,11 +32,11 @@
 
 
     b1.addEventListener("execute", function(e) {
-      f1.setValue(QxCookieStorage.get("fieldContent"));
+      f1.setValue(qx.io.local.CookieTransport.get("fieldContent"));
     });
 
     b2.addEventListener("execute", function(e) {
-      QxCookieStorage.set("fieldContent", f1.getValue());
+      qx.io.local.CookieTransport.set("fieldContent", f1.getValue());
     });
   };
   </script>
