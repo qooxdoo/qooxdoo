@@ -275,11 +275,11 @@ L="$L script/qx/type/Version"
 L="$L script/qx/ui/embed/Flash"
 
 # Abstract PageView
-L="$L script/qx/ui/pageview/AbstractView"
-L="$L script/qx/ui/pageview/AbstractViewBar"
-L="$L script/qx/ui/pageview/AbstractViewPane"
-L="$L script/qx/ui/pageview/AbstractViewPage"
-L="$L script/qx/ui/pageview/AbstractViewButton"
+L="$L script/qx/ui/pageview/AbstractPageView"
+L="$L script/qx/ui/pageview/AbstractPageViewBar"
+L="$L script/qx/ui/pageview/AbstractPageViewPane"
+L="$L script/qx/ui/pageview/AbstractPageViewPage"
+L="$L script/qx/ui/pageview/AbstractPageViewButton"
 
 # Tab View
 L="$L script/qx/ui/pageview/tabview/TabView"
@@ -297,7 +297,7 @@ L="$L script/qx/ui/pageview/buttonview/ButtonViewButton"
 
 # Tree Support
 L="$L script/qx/manager/selection/TreeSelectionManager"
-L="$L script/qx/ui/tree/TreeElement"
+L="$L script/qx/ui/tree/AbstractTreeElement"
 L="$L script/qx/ui/tree/TreeFile"
 L="$L script/qx/ui/tree/TreeFolder"
 L="$L script/qx/ui/tree/Tree"
