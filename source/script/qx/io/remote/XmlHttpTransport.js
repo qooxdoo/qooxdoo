@@ -23,11 +23,12 @@
 /* ************************************************************************
 
 #package(transport)
+#require(qx.constant.Mime)
 #require(qx.io.remote.RemoteExchange)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.XmlHttpTransport", qx.io.remote.AbstractRemoteTransport, 
+qx.OO.defineClass("qx.io.remote.XmlHttpTransport", qx.io.remote.AbstractRemoteTransport,
 function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);

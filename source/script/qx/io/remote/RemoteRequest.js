@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #package(transport)
+#require(qx.constant.Mime)
 #use(qx.io.remote.RemoteRequestQueue)
 #use(qx.Const)
 
@@ -35,7 +36,7 @@
   POST). Default is GET.
   @param vResponseType The mime type of the response. Default is text/plain.
 */
-qx.OO.defineClass("qx.io.remote.RemoteRequest", qx.core.Target, 
+qx.OO.defineClass("qx.io.remote.RemoteRequest", qx.core.Target,
 function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
