@@ -477,7 +477,7 @@ qx.OO._createProperty = function(p)
   p.up = p.name.toUpperCase();
 
   // register global uppercase name
-  qx.Const[qx.OO.C_GLOBALPROPERTYREF + p.up] = p.name;
+  qx.OO[qx.OO.C_GLOBALPROPERTYREF + p.up] = p.name;
 
   var valueKey = qx.OO.C_VALUE + p.method;
   var evalKey = qx.OO.C_EVAL + p.method;

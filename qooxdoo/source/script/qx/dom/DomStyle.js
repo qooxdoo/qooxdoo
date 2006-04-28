@@ -24,6 +24,9 @@
 
 #package(dom)
 #require(qx.sys.Client)
+#use(qx.constant.Style)
+#use(qx.constant.Core)
+#use(qx.constant.Type)
 
 ************************************************************************ */
 
@@ -110,10 +113,10 @@ qx.dom.DomStyle.getStyleSize = function(el, prop) { return parseInt(qx.dom.DomSt
 
 
 // Properties
-qx.dom.DomStyle.getMarginLeft    = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINLEFT); };
-qx.dom.DomStyle.getMarginTop     = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINTOP); };
-qx.dom.DomStyle.getMarginRight   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINRIGHT); };
-qx.dom.DomStyle.getMarginBottom  = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINBOTTOM); };
+qx.dom.DomStyle.getMarginLeft    = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_MARGINLEFT); };
+qx.dom.DomStyle.getMarginTop     = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_MARGINTOP); };
+qx.dom.DomStyle.getMarginRight   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_MARGINRIGHT); };
+qx.dom.DomStyle.getMarginBottom  = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_MARGINBOTTOM); };
 
 qx.dom.DomStyle.getPaddingLeft   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGLEFT); };
 qx.dom.DomStyle.getPaddingTop    = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGTOP); };

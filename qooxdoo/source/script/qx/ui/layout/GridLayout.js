@@ -310,7 +310,7 @@ qx.Proto._invalidateColumnLayout = function()
   };
 
   this.forEachVisibleChild(function() {
-    this.addToQueue(qx.Const.PROPERTY_WIDTH);
+    this.addToQueue(qx.OO.PROPERTY_WIDTH);
   });
 };
 
@@ -357,7 +357,7 @@ qx.Proto._invalidateRowLayout = function()
   };
 
   this.forEachVisibleChild(function() {
-    this.addToQueue(qx.Const.PROPERTY_HEIGHT);
+    this.addToQueue(qx.OO.PROPERTY_HEIGHT);
   });
 };
 

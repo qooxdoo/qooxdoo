@@ -473,13 +473,13 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
   if (vStretchX)
   {
     vWidget._recomputeChildrenStretchingX();
-    vWidget._addChildrenToLayoutQueue(qx.Const.PROPERTY_WIDTH);
+    vWidget._addChildrenToLayoutQueue(qx.OO.PROPERTY_WIDTH);
   };
 
   if (vStretchY)
   {
     vWidget._recomputeChildrenStretchingY();
-    vWidget._addChildrenToLayoutQueue(qx.Const.PROPERTY_HEIGHT);
+    vWidget._addChildrenToLayoutQueue(qx.OO.PROPERTY_HEIGHT);
   };
 
   return true;
