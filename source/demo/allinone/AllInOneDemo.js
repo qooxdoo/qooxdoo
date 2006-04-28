@@ -32,7 +32,6 @@ function (clientWindow) {
   barView.setRight(10);
   barView.setBottom(10);
 
-  /*
   this._createPage(barView, "Form",             "icons/32/wordprocessor.png",    this._createFormDemo(), "threedface");
   this._createPage(barView, "Tooltip",          "icons/32/tip.png",              this._createTooltipDemo());
   this._createPage(barView, "Menu and Toolbar", "icons/32/display.png",          this._createToolbarDemo(clientWindow));
@@ -40,14 +39,11 @@ function (clientWindow) {
   this._createPage(barView, "Tree",             "icons/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
   this._createPage(barView, "List",             "icons/32/view-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icons/32/view-multicolumn.png", this._createListViewDemo(), "threedface");
-  */
   // this._createPage(barView, "Table",            "icons/32/view-multicolumn.png", this._createTableDemo(), "threedface");
   this._createPage(barView, "DateChooser",      "icons/32/date.png",             this._createDateChooserDemo(), "threedface");
-  /*
   this._createPage(barView, "Native Window",    "icons/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icons/32/look-and-feel.png",    this._createInternalWindowDemo(clientWindow), null, true);
   this._createPage(barView, "Themes",           "icons/32/style.png",            this._createThemesDemo(clientWindow));
-  */
 
   clientWindow.getClientDocument().add(barView);
 });
