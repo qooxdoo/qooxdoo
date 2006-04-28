@@ -1288,7 +1288,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
     this._hasParent = false;
   };
 
-  return this._handleDisplayable(qx.Const.PROPERTY_PARENT);
+  return this._handleDisplayable(qx.OO.PROPERTY_PARENT);
 };
 
 qx.Proto._modifyDisplay = function(propValue, propOldValue, propData) {
@@ -1313,7 +1313,7 @@ qx.Proto._handleDisplayable = function(vHint)
   // Also handle the case if the displayable keeps true and the parent
   // was changed then we must not return here.
   var vDisplayable = this._computeDisplayable();
-  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.Const.PROPERTY_PARENT)) {
+  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.OO.PROPERTY_PARENT)) {
     return true;
   };
 
@@ -1639,7 +1639,7 @@ else
         switch(i)
         {
           case qx.constant.Style.PROPERTY_POSITION:
-          case qx.Const.PROPERTY_ZINDEX:
+          case qx.constant.Style.PROPERTY_ZINDEX:
           case qx.constant.Style.PROPERTY_FILTER:
           case qx.constant.Style.PROPERTY_DISPLAY:
             break;
@@ -2183,7 +2183,7 @@ qx.Proto._recomputeFlexX = function()
   if (this._computedWidthTypeFlex)
   {
     this._computedWidthValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
   };
 
   return true;
@@ -2198,7 +2198,7 @@ qx.Proto._recomputeFlexY = function()
   if (this._computedHeightTypeFlex)
   {
     this._computedHeightValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
   };
 
   return true;
@@ -2225,31 +2225,31 @@ qx.Proto._recomputePercentX = function()
   if (this._computedWidthTypePercent)
   {
     this._computedWidthValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
   };
 
   if (this._computedMinWidthTypePercent)
   {
     this._computedMinWidthValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_MINWIDTH);
+    this.addToLayoutChanges(qx.OO.PROPERTY_MINWIDTH);
   };
 
   if (this._computedMaxWidthTypePercent)
   {
     this._computedMaxWidthValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_MAXWIDTH);
+    this.addToLayoutChanges(qx.OO.PROPERTY_MAXWIDTH);
   };
 
   if (this._computedLeftTypePercent)
   {
     this._computedLeftValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_LEFT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_LEFT);
   };
 
   if (this._computedRightTypePercent)
   {
     this._computedRightValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_RIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_RIGHT);
   };
 
   return true;
@@ -2264,31 +2264,31 @@ qx.Proto._recomputePercentY = function()
   if (this._computedHeightTypePercent)
   {
     this._computedHeightValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
   };
 
   if (this._computedMinHeightTypePercent)
   {
     this._computedMinHeightValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_MINHEIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_MINHEIGHT);
   };
 
   if (this._computedMaxHeightTypePercent)
   {
     this._computedMaxHeightValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_MAXHEIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_MAXHEIGHT);
   };
 
   if (this._computedTopTypePercent)
   {
     this._computedTopValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_TOP);
+    this.addToLayoutChanges(qx.OO.PROPERTY_TOP);
   };
 
   if (this._computedBottomTypePercent)
   {
     this._computedBottomValue = null;
-    this.addToLayoutChanges(qx.Const.PROPERTY_BOTTOM);
+    this.addToLayoutChanges(qx.OO.PROPERTY_BOTTOM);
   };
 
   return true;
@@ -2314,7 +2314,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       return false;
     };
 
-    this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
+    this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
     return true;
   };
 
@@ -2324,7 +2324,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       return false;
     };
 
-    this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
+    this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
     return true;
   };
 }
@@ -2357,7 +2357,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     if (this.getAllowStretchX() && this._computedWidthTypeNull)
     {
       this._computedWidthValue = null;
-      this.addToLayoutChanges(qx.Const.PROPERTY_WIDTH);
+      this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
 
       return true;
     };
@@ -2370,7 +2370,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     if (this.getAllowStretchY() && this._computedHeightTypeNull)
     {
       this._computedHeightValue = null;
-      this.addToLayoutChanges(qx.Const.PROPERTY_HEIGHT);
+      this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
 
       return true;
     };
@@ -3077,19 +3077,19 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_MINWIDTH:
-      case qx.Const.PROPERTY_MAXWIDTH:
-      case qx.Const.PROPERTY_WIDTH:
-      case qx.Const.PROPERTY_LEFT:
-      case qx.Const.PROPERTY_RIGHT:
+      case qx.OO.PROPERTY_MINWIDTH:
+      case qx.OO.PROPERTY_MAXWIDTH:
+      case qx.OO.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_LEFT:
+      case qx.OO.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case qx.Const.PROPERTY_MAXHEIGHT:
-      case qx.Const.PROPERTY_MINHEIGHT:
-      case qx.Const.PROPERTY_HEIGHT:
-      case qx.Const.PROPERTY_TOP:
-      case qx.Const.PROPERTY_BOTTOM:
+      case qx.OO.PROPERTY_MAXHEIGHT:
+      case qx.OO.PROPERTY_MINHEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_TOP:
+      case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -3100,15 +3100,15 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_MINWIDTH:
-      case qx.Const.PROPERTY_MAXWIDTH:
-      case qx.Const.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_MINWIDTH:
+      case qx.OO.PROPERTY_MAXWIDTH:
+      case qx.OO.PROPERTY_WIDTH:
         this._invalidateHasAutoX();
         break;
 
-      case qx.Const.PROPERTY_MINHEIGHT:
-      case qx.Const.PROPERTY_MAXHEIGHT:
-      case qx.Const.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_MINHEIGHT:
+      case qx.OO.PROPERTY_MAXHEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
     };
@@ -3119,11 +3119,11 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_WIDTH:
         this._invalidateHasFlexX();
         break;
 
-      case qx.Const.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasFlexY();
         break;
     };
@@ -3178,19 +3178,19 @@ qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_MINWIDTH:
-      case qx.Const.PROPERTY_MAXWIDTH:
-      case qx.Const.PROPERTY_WIDTH:
-      case qx.Const.PROPERTY_LEFT:
-      case qx.Const.PROPERTY_RIGHT:
+      case qx.OO.PROPERTY_MINWIDTH:
+      case qx.OO.PROPERTY_MAXWIDTH:
+      case qx.OO.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_LEFT:
+      case qx.OO.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case qx.Const.PROPERTY_MINHEIGHT:
-      case qx.Const.PROPERTY_MAXHEIGHT:
-      case qx.Const.PROPERTY_HEIGHT:
-      case qx.Const.PROPERTY_TOP:
-      case qx.Const.PROPERTY_BOTTOM:
+      case qx.OO.PROPERTY_MINHEIGHT:
+      case qx.OO.PROPERTY_MAXHEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_TOP:
+      case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -3201,15 +3201,15 @@ qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_MINWIDTH:
-      case qx.Const.PROPERTY_MAXWIDTH:
-      case qx.Const.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_MINWIDTH:
+      case qx.OO.PROPERTY_MAXWIDTH:
+      case qx.OO.PROPERTY_WIDTH:
         this._invalidateHasAutoX();
         break;
 
-      case qx.Const.PROPERTY_MINHEIGHT:
-      case qx.Const.PROPERTY_MAXHEIGHT:
-      case qx.Const.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_MINHEIGHT:
+      case qx.OO.PROPERTY_MAXHEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
     };
@@ -3256,19 +3256,19 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
   {
     switch(propData.name)
     {
-      case qx.Const.PROPERTY_MINWIDTH:
-      case qx.Const.PROPERTY_MAXWIDTH:
-      case qx.Const.PROPERTY_WIDTH:
-      case qx.Const.PROPERTY_LEFT:
-      case qx.Const.PROPERTY_RIGHT:
+      case qx.OO.PROPERTY_MINWIDTH:
+      case qx.OO.PROPERTY_MAXWIDTH:
+      case qx.OO.PROPERTY_WIDTH:
+      case qx.OO.PROPERTY_LEFT:
+      case qx.OO.PROPERTY_RIGHT:
         this._invalidateHasPercentX();
         break;
 
-      case qx.Const.PROPERTY_MINHEIGHT:
-      case qx.Const.PROPERTY_MAXHEIGHT:
-      case qx.Const.PROPERTY_HEIGHT:
-      case qx.Const.PROPERTY_TOP:
-      case qx.Const.PROPERTY_BOTTOM:
+      case qx.OO.PROPERTY_MINHEIGHT:
+      case qx.OO.PROPERTY_MAXHEIGHT:
+      case qx.OO.PROPERTY_HEIGHT:
+      case qx.OO.PROPERTY_TOP:
+      case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
     };
@@ -4033,7 +4033,7 @@ qx.Proto.setStyleProperty = function(propName, propValue)
     */
     switch(propName)
     {
-      case qx.Const.PROPERTY_ZINDEX:
+      case qx.constant.Style.PROPERTY_ZINDEX:
       case qx.constant.Style.PROPERTY_FILTER:
       case qx.constant.Style.PROPERTY_DISPLAY:
       case qx.constant.Style.PROPERTY_VISIBILITY:
@@ -4064,7 +4064,7 @@ qx.Proto.removeStyleProperty = function(propName)
     */
     switch(propName)
     {
-      case qx.Const.PROPERTY_ZINDEX:
+      case qx.constant.Style.PROPERTY_ZINDEX:
       case qx.constant.Style.PROPERTY_FILTER:
       case qx.constant.Style.PROPERTY_DISPLAY:
       case qx.constant.Style.PROPERTY_VISIBILITY:
@@ -4099,7 +4099,7 @@ qx.Proto._applyStyleProperties = function(vElement)
     */
     switch(propName)
     {
-      case qx.Const.PROPERTY_ZINDEX:
+      case qx.OO.PROPERTY_ZINDEX:
       case qx.constant.Style.PROPERTY_FILTER:
         vElement = vBaseElement;
         break;
@@ -4853,19 +4853,19 @@ qx.Proto._updateColors = function(vColor, vNewValue)
 };
 
 qx.Proto._applyColor = function(vNewValue) {
-  this.setStyleProperty(qx.Const.PROPERTY_COLOR, vNewValue);
+  this.setStyleProperty(qx.constant.Style.PROPERTY_COLOR, vNewValue);
 };
 
 qx.Proto._applyBackgroundColor = function(vNewValue) {
-  this.setStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR, vNewValue);
+  this.setStyleProperty(qx.constant.Style.PROPERTY_BACKGROUNDCOLOR, vNewValue);
 };
 
 qx.Proto._resetColor = function(vNewValue) {
-  this.removeStyleProperty(qx.Const.PROPERTY_COLOR);
+  this.removeStyleProperty(qx.constant.Style.PROPERTY_COLOR);
 };
 
 qx.Proto._resetBackgroundColor = function() {
-  this.removeStyleProperty(qx.Const.PROPERTY_BACKGROUNDCOLOR);
+  this.removeStyleProperty(qx.constant.Style.PROPERTY_BACKGROUNDCOLOR);
 };
 
 
@@ -4969,8 +4969,8 @@ qx.Proto._updateBorder = function(vEdge)
 
   switch(vEdge)
   {
-    case qx.Const.PROPERTY_LEFT:
-    case qx.Const.PROPERTY_RIGHT:
+    case qx.renderer.border.Border.POSITION_LEFT:
+    case qx.renderer.border.Border.POSITION_RIGHT:
       if (vWidthChanged) {
         this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHX);
       };
@@ -4978,8 +4978,8 @@ qx.Proto._updateBorder = function(vEdge)
       this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERX);
       break;
 
-    case qx.Const.PROPERTY_TOP:
-    case qx.Const.PROPERTY_BOTTOM:
+    case qx.renderer.border.Border.POSITION_TOP:
+    case qx.renderer.border.Border.POSITION_BOTTOM:
       if (vWidthChanged) {
         this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHY);
       };
