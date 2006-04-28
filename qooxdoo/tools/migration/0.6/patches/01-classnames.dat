@@ -199,6 +199,6 @@
 \bQxText\b=qx.ui.embed.TextEmbed
 \bQxNode\b=qx.ui.embed.NodeEmbed
 
-\bQxTextile\b=qx.util.string.Textile
+\bQxTextile\b=qx.util.Textile
 
 \bQxCompare\b=qx.util.Compare
