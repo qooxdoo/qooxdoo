@@ -88,6 +88,11 @@ L="$L script/qx/manager/object/ObjectManager"
 # Init
 L="$L script/qx/core/Init"
 
+# Text-Formatting
+L="$L script/qx/util/format/Format"
+L="$L script/qx/util/format/DateFormat"
+L="$L script/qx/util/format/NumberFormat"
+
 # Client Window
 L="$L script/qx/client/ClientWindow"
 
@@ -347,6 +352,9 @@ L="$L script/qx/client/Builder"
 # Color Selector
 L="$L script/qx/renderer/color/ColorUtil"
 L="$L script/qx/ui/component/ColorSelector"
+
+# Date Chooser
+L="$L script/qx/ui/component/DateChooser"
 
 # Form Handling
 L="$L script/qx/io/remote/FormUtils"

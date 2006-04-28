@@ -17,6 +17,8 @@
        <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (aecker)
        <andreas dot ecker at 1und1 dot de>
+     * Til Schneider (til132)
+       <tilman dot schneider at stz-ida dot de>
 
 ************************************************************************ */
 
@@ -30,6 +32,7 @@ function (clientWindow) {
   barView.setRight(10);
   barView.setBottom(10);
 
+  /*
   this._createPage(barView, "Form",             "icons/32/wordprocessor.png",    this._createFormDemo(), "threedface");
   this._createPage(barView, "Tooltip",          "icons/32/tip.png",              this._createTooltipDemo());
   this._createPage(barView, "Menu and Toolbar", "icons/32/display.png",          this._createToolbarDemo(clientWindow));
@@ -37,11 +40,14 @@ function (clientWindow) {
   this._createPage(barView, "Tree",             "icons/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
   this._createPage(barView, "List",             "icons/32/view-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icons/32/view-multicolumn.png", this._createListViewDemo(), "threedface");
+  */
   // this._createPage(barView, "Table",            "icons/32/view-multicolumn.png", this._createTableDemo(), "threedface");
-  // this._createPage(barView, "DateChooser",      "icons/32/date.png",             this._createDateChooserDemo(), "threedface");
+  this._createPage(barView, "DateChooser",      "icons/32/date.png",             this._createDateChooserDemo(), "threedface");
+  /*
   this._createPage(barView, "Native Window",    "icons/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icons/32/look-and-feel.png",    this._createInternalWindowDemo(clientWindow), null, true);
   this._createPage(barView, "Themes",           "icons/32/style.png",            this._createThemesDemo(clientWindow));
+  */
 
   clientWindow.getClientDocument().add(barView);
 });
@@ -835,7 +841,7 @@ qx.Proto._createTableDemo = function() {
 qx.Proto._createDateChooserDemo = function() {
   var main = new qx.ui.layout.VerticalBoxLayout;
 
-  var chooser = new qx.ui.DateChooser;
+  var chooser = new qx.ui.component.DateChooser;
   chooser.setLocation(10, 10);
   chooser.setWidth("auto");
   chooser.setHeight("auto");

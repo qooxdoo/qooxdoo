@@ -17,6 +17,8 @@
        <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (aecker)
        <andreas dot ecker at 1und1 dot de>
+     * Til Schneider (til132)
+       <tilman dot schneider at stz-ida dot de>
 
 ************************************************************************ */
 
@@ -2059,5 +2061,189 @@ theme.registerAppearance("colorselector",
   state : function(vWidget, vTheme, vStates)
   {
 
+  }
+});
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DATECHOOSER
+---------------------------------------------------------------------------
+*/
+
+theme.registerAppearance("datechooser-toolbar-button", {
+  setup : function() {
+    this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
+    this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
+
+    this.border_pressed = qx.renderer.border.BorderObject.presets.thinInset;
+    this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
+    this.border_default = null;
+
+    this.checked_background = "core/dotted_white.gif";
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      cursor : qx.constant.Core.DEFAULT,
+      spacing : 4,
+      width : qx.constant.Core.AUTO,
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates) {
+    var vReturn = {
+      backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
+      backgroundImage : (vStates.checked && !vStates.over) ? this.checked_background : null
+    };
+
+    if (vStates.pressed || vStates.checked || vStates.abandoned) {
+      vReturn.border = this.border_pressed;
+    } else if (vStates.over) {
+      vReturn.border = this.border_over;
+    } else {
+      vReturn.border = this.border_default;
+    };
+
+    if (vStates.pressed || vStates.checked || vStates.abandoned) {
+      vReturn.paddingTop = 2;
+      vReturn.paddingRight = 0;
+      vReturn.paddingBottom = 0;
+      vReturn.paddingLeft = 2;
+    } else if (vStates.over) {
+      vReturn.paddingTop = vReturn.paddingBottom = 1;
+      vReturn.paddingLeft = vReturn.paddingRight = 1;
+    } else {
+      vReturn.paddingTop = vReturn.paddingBottom = 2;
+      vReturn.paddingLeft = vReturn.paddingRight = 2;
+    };
+
+    return vReturn;
+  }
+});
+
+
+theme.registerAppearance("datechooser-monthyear", {
+  setup : function() {
+    this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      font : this.font,
+      textAlign: "center",
+      verticalAlign: "middle"
+    };
+  }
+});
+
+
+theme.registerAppearance("datechooser-datepane", {
+  setup : function() {
+    this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "gray");
+    this.bgcolor = new qx.renderer.color.ColorObject("window");
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      border : this.border,
+      backgroundColor : this.bgcolor
+    };
+  }
+});
+
+
+theme.registerAppearance("datechooser-weekday", {
+  setup : function() {
+    this.border = new qx.renderer.border.Border;
+    this.border.set({ bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
+    this.color = new qx.renderer.color.ColorObject("window");
+    this.bgcolor = new qx.renderer.color.ColorObject("#6285BA");
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+    this.font.setBold(true);
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      border : this.border,
+      font : this.font,
+      textAlign : "center"
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates) {
+    return {
+      color : vStates.weekend ? this.bgcolor : this.color,
+      backgroundColor : vStates.weekend ? this.color : this.bgcolor
+    };
+  }
+
+});
+
+
+theme.registerAppearance("datechooser-day", {
+  setup : function() {
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+
+    this.selectedColor = new qx.renderer.color.ColorObject("highlightText");
+    this.selectedBgColor = new qx.renderer.color.ColorObject("highlight");
+    this.color = new qx.renderer.color.ColorObject("windowText");
+    this.otherMonthColor = new qx.renderer.color.ColorObject("grayText");
+
+    this.transparentBorder = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_NONE);
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      cursor : qx.constant.Core.DEFAULT,
+      border : this.border,
+      color : this.color,
+      font : this.font,
+      textAlign : "center",
+      verticalAlign: "middle",
+      selectable: false
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates) {
+    return {
+      border : vStates.today ? qx.renderer.border.Border.presets.black : this.transparentBorder,
+      color : vStates.selected ? this.selectedColor :
+        (vStates.otherMonth ? this.otherMonthColor : this.color),
+      backgroundColor : vStates.selected ? this.selectedBgColor : null
+    };
+  }
+
+});
+
+
+theme.registerAppearance("datechooser-week", {
+  setup : function() {
+    this.border = new qx.renderer.border.Border;
+    this.border.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1 });
+    this.headerBorder = new qx.renderer.border.Border;
+    this.headerBorder.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
+                 bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
+    this.color = new qx.renderer.color.ColorObject("#6285BA");
+    this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+  },
+
+  initial : function(vWidget, vTheme) {
+    return {
+      border : this.border,
+      font : this.font,
+      color: this.color,
+      paddingLeft : 2
+    };
+  },
+
+  state : function(vWidget, vTheme, vStates) {
+    return {
+      border : vStates.header ? this.headerBorder : this.border
+    };
   }
 });
