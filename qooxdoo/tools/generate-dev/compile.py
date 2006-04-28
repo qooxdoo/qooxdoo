@@ -153,11 +153,11 @@ S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
 S_OPERATORS_4 = r"(\>\>\>=)"
 S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
-S_REGEXP = "(\/[^\t\n\r\f\v]+\/g?i?)"
+S_REGEXP = "(\/[^\t\n\r\f\v]+?\/g?i?)"
 S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
-S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ",.*\)"
+S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ","
 S_REGEXP_C = "\s*=\s*" + S_REGEXP
-S_REGEXP_D = S_REGEXP + "\.(test|exec)\(.+\)"
+S_REGEXP_D = S_REGEXP + "\.(test|exec)\("
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
 S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_OPERATORS + ")"
@@ -184,7 +184,13 @@ treecontext = []
 
 
 def recoverEscape(s):
-  return s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'")
+  instr=s
+  outstr=s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'").replace("__$ESCAPE3__", "\/")
+
+  #if instr != outstr:
+  #  print instr + " || " + outstr
+
+  return outstr
 
 
 
@@ -261,7 +267,7 @@ def tokenizer(fileContent, uniqueId):
   tokenizerId = uniqueId
 
   # Protect/Replace Escape sequences first
-  fileContent = fileContent.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__")
+  fileContent = fileContent.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__").replace("\/", "__$ESCAPE3__")
 
   # Searching for special characters and sequences
   alllist = R_ALL.findall(fileContent)
