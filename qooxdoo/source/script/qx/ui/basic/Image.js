@@ -272,7 +272,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
       // Possible alternative for MSHTML for PNG images
       // But it seems not to be faster
-      // this._image = document.createElement(qx.constant.Core.DIV);
+      // this._image = document.createElement(qx.constant.Tags.DIV);
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?

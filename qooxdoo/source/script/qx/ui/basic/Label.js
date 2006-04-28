@@ -226,7 +226,7 @@ qx.ui.basic.Label.init = function()
 
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
-  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(qx.constant.Core.DIV);
+  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(qx.constant.Tags.DIV);
   var vStyle = vNode.style;
 
   vStyle.width = vStyle.height = qx.constant.Core.AUTO;

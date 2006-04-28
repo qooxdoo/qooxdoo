@@ -80,8 +80,5 @@ qx.OO.defineClass("qx.constant.Core",
   ABSOLUTE : "absolute",
   RELATIVE : "relative",
   STATIC : "static",
-  FIXED : "fixed",
-
-  // Misc
-  DIV : "div"
+  FIXED : "fixed"
 });
