@@ -147,6 +147,7 @@ S_MULTICOMMENT = "/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/"
 S_SINGLECOMMENT = "//.*"
 S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
 S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
+S_FLOAT = "([0-9]+\.[0-9]+)"
 
 S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(\^\|)|(\|=)|(\^=)|(&=)"
 S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
@@ -160,13 +161,14 @@ S_REGEXP_C = "\s*=\s*" + S_REGEXP
 S_REGEXP_D = S_REGEXP + "\.(test|exec)\("
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
-S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_OPERATORS + ")"
+S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
 
 # compile regexp strings
 R_MULTICOMMENT = re.compile("^" + S_MULTICOMMENT + "$")
 R_SINGLECOMMENT = re.compile("^" + S_SINGLECOMMENT + "$")
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
 R_STRING_B = re.compile("^" + S_STRING_B + "$")
+R_FLOAT = re.compile("^" + S_FLOAT + "$")
 R_OPERATORS = re.compile(S_OPERATORS)
 R_REGEXP = re.compile(S_REGEXP)
 R_ALL = re.compile(S_ALL)
@@ -207,7 +209,7 @@ def tokenize_name(nameContent):
 
   elif R_NUMBER.search(nameContent):
     # print "NUMBER: %s" % nameContent
-    return { "type" : "number", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+    return { "type" : "number", "detail" : "int", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
   elif nameContent.startswith("_"):
     # print "PRIVATE NAME: %s" % nameContent
@@ -317,6 +319,16 @@ def tokenizer(fileContent, uniqueId):
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
+
+    elif R_FLOAT.match(fragment):
+      # print "Type:Float: %s" % fragment
+
+      pos = fileContent.find(fragment)
+      if pos > 0:
+        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+
+      fileContent = fileContent[pos+len(fragment):]
+      tokenized.append({ "type" : "number", "detail" : "float", "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
