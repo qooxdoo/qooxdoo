@@ -46,7 +46,7 @@ theme.registerAppearance("api-viewer-open-button", {
 
 theme.registerAppearance("api-viewer-main-info", {
   setup : function() {
-    this.border = new qx.renderer.border.Border(2, qx.Const.BORDER_STYLE_SOLID, "gray");
+    this.border = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "gray");
   },
 
   initial : function(vWidget, vTheme) {
@@ -89,7 +89,7 @@ theme.registerAppearance("api-viewer-main-info-title-label", {
 theme.registerAppearance("api-viewer-info", {
   setup : function() {
     this.border = new qx.renderer.border.Border;
-    this.border.set({ topWidth:1, topStyle :qx.Const.BORDER_STYLE_SOLID, topColor:"gray" });
+    this.border.set({ topWidth:1, topStyle :qx.renderer.border.Border.STYLE_SOLID, topColor:"gray" });
     this.bgcolor = new qx.renderer.color.ColorObject("#EEEEEE");
   },
 
