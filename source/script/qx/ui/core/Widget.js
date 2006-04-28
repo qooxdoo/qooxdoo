@@ -3422,7 +3422,7 @@ qx.Proto._oninlineevent = function(e)
       this._oninlineproperty(e);
       break;
 
-    case qx.Const.EVENT_TYPE_INPUT:
+    case qx.constant.Event.INPUT:
       this._oninlineinput(e);
       break;
 
@@ -3433,7 +3433,7 @@ qx.Proto._oninlineevent = function(e)
 
 qx.Proto._oninlineinput = function(e)
 {
-  this.createDispatchDataEvent(qx.Const.EVENT_TYPE_INPUT, this.getComputedValue());
+  this.createDispatchDataEvent(qx.constant.Event.INPUT, this.getComputedValue());
 
   // Block parents from this event
   if (e.stopPropagation) {

@@ -219,8 +219,8 @@ qx.Proto.attachEvents = function(wobj)
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Register window events
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
   qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Register selection events
@@ -244,8 +244,8 @@ qx.Proto.detachEvents = function()
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Unregister window events
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
   qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
 
   // Unregister selection events
@@ -1005,7 +1005,7 @@ qx.Proto._onwindowblur = function(e)
 
   // Send blur event to client document
   if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_BLUR);
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.BLUR);
   };
 };
 
@@ -1028,7 +1028,7 @@ qx.Proto._onwindowfocus = function(e)
 
   // Send focus event to client document
   if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_FOCUS);
+    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.FOCUS);
   };
 };
 

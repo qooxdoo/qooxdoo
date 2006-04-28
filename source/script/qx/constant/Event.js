@@ -40,5 +40,14 @@ qx.OO.defineClass("qx.constant.Event",
   CONTEXTMENU : "contextmenu",
   KEYDOWN : "keydown",
   KEYPRESS : "keypress",
-  KEYUP : "keyup"
+  KEYUP : "keyup",
+
+  BLUR : "blur",
+  FOCUS : "focus",
+  FOCUSIN : "focusin",
+  FOCUSOUT : "focusout",
+  SELECT : "select",
+  SCROLL : "scroll",
+  INPUT : "input",
+  CHANGE : "change"
 });
