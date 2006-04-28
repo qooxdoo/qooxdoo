@@ -29,12 +29,6 @@
 
 qx.OO.defineClass("qx.Const",
 {
-  HTML_AMPERSAND : "&amp;",
-  HTML_SMALLER : "&lt;",
-  HTML_BIGGER : "&gt;",
-  HTML_QUOTE : "&quot;",
-  HTML_SPACE : "&nbsp;",
-
   TYPEOF_UNDEFINED : "undefined",
   TYPEOF_NUMBER : "number",
   TYPEOF_STRING : "string",
