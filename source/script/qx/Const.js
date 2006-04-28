@@ -29,18 +29,6 @@
 
 qx.OO.defineClass("qx.Const",
 {
-  STATE_OVER : "over",
-  STATE_FOCUSED : "focused",
-  STATE_DISABLED : "disabled",
-  STATE_ACTIVE : "active",
-  STATE_CHECKED : "checked",
-  STATE_PRESSED : "pressed",
-  STATE_ABANDONED : "abandoned",
-  STATE_SELECTED : "selected",
-  STATE_ANCHOR : "anchor",
-  STATE_LEAD : "lead",
-  STATE_MAXIMIZED : "maximized",
-
   PROPERTY_CLASSNAME : "className",
   PROPERTY_FILTER : "filter",
   PROPERTY_BORDERX : "borderX",

@@ -30,7 +30,7 @@
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-qx.OO.defineClass("qx.manager.selection.SelectionManager", qx.core.Target, 
+qx.OO.defineClass("qx.manager.selection.SelectionManager", qx.core.Target,
 function(vBoundedWidget)
 {
   qx.core.Target.call(this);
@@ -41,6 +41,15 @@ function(vBoundedWidget)
     this.setBoundedWidget(vBoundedWidget);
   };
 });
+
+qx.Class.STATE_SELECTED = "selected";
+qx.Class.STATE_ANCHOR = "anchor";
+qx.Class.STATE_LEAD = "lead";
+
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -276,15 +285,15 @@ qx.Proto.getItemEnabled = function(vItem) {
 */
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
-  vIsSelected ? vItem.addState(qx.Const.STATE_SELECTED) : vItem.removeState(qx.Const.STATE_SELECTED);
+  vIsSelected ? vItem.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
 };
 
 qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
-  vIsAnchor ? vItem.addState(qx.Const.STATE_ANCHOR) : vItem.removeState(qx.Const.STATE_ANCHOR);
+  vIsAnchor ? vItem.addState(qx.manager.selection.SelectionManager.STATE_ANCHOR) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_ANCHOR);
 };
 
 qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
-  vIsLead ? vItem.addState(qx.Const.STATE_LEAD) : vItem.removeState(qx.Const.STATE_LEAD);
+  vIsLead ? vItem.addState(qx.manager.selection.SelectionManager.STATE_LEAD) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_LEAD);
 };
 
 

@@ -40,7 +40,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.window.Window", qx.ui.popup.Popup, 
+qx.OO.defineClass("qx.ui.window.Window", qx.ui.popup.Popup,
 function(vCaption, vIcon, vWindowManager)
 {
   qx.ui.popup.Popup.call(this);
@@ -244,6 +244,12 @@ function(vCaption, vIcon, vWindowManager)
   // ************************************************************************
   this.remapChildrenHandlingTo(this._pane);
 });
+
+qx.Class.STATE_ACTIVE = "active";
+qx.Class.STATE_MAXIMIZED = "maximized";
+
+
+
 
 
 
@@ -544,8 +550,8 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
       this.getWindowManager().setActiveWindow(null);
     };
 
-    this.removeState(qx.Const.STATE_ACTIVE);
-    this._captionBar.removeState(qx.Const.STATE_ACTIVE);
+    this.removeState(qx.ui.window.Window.STATE_ACTIVE);
+    this._captionBar.removeState(qx.ui.window.Window.STATE_ACTIVE);
   }
   else
   {
@@ -559,8 +565,8 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
     this.getWindowManager().setActiveWindow(this);
     this.bringToFront();
 
-    this.addState(qx.Const.STATE_ACTIVE);
-    this._captionBar.addState(qx.Const.STATE_ACTIVE);
+    this.addState(qx.ui.window.Window.STATE_ACTIVE);
+    this._captionBar.addState(qx.ui.window.Window.STATE_ACTIVE);
   };
 
   return true;
@@ -682,7 +688,7 @@ qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    var t = this.getMode() == qx.Const.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
+    var t = this.getMode() == qx.ui.window.Window.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
 
     if (this.getShowMinimize())
     {
@@ -793,7 +799,7 @@ qx.Proto._restoreFromMaximized = function()
   this.setBottom(this._previousBottom ? this._previousBottom : null);
 
   // update state
-  this.removeState(qx.Const.STATE_MAXIMIZED);
+  this.removeState(qx.ui.window.Window.STATE_MAXIMIZED);
 
   // toggle button
   if (this.getShowMaximize())
@@ -834,7 +840,7 @@ qx.Proto._maximize = function()
   this.setBottom(0);
 
   // update state
-  this.addState(qx.Const.STATE_MAXIMIZED);
+  this.addState(qx.ui.window.Window.STATE_MAXIMIZED);
 
   // toggle button
   if (this.getShowMaximize())
@@ -1160,9 +1166,9 @@ qx.Proto._onminimizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._minimizeButton.removeState(qx.Const.STATE_PRESSED);
-  this._minimizeButton.removeState(qx.Const.STATE_ABANDONED);
-  this._minimizeButton.removeState(qx.Const.STATE_OVER);
+  this._minimizeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this._minimizeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this._minimizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1173,9 +1179,9 @@ qx.Proto._onrestorebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._restoreButton.removeState(qx.Const.STATE_PRESSED);
-  this._restoreButton.removeState(qx.Const.STATE_ABANDONED);
-  this._restoreButton.removeState(qx.Const.STATE_OVER);
+  this._restoreButton.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this._restoreButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this._restoreButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1186,9 +1192,9 @@ qx.Proto._onmaximizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._maximizeButton.removeState(qx.Const.STATE_PRESSED);
-  this._maximizeButton.removeState(qx.Const.STATE_ABANDONED);
-  this._maximizeButton.removeState(qx.Const.STATE_OVER);
+  this._maximizeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this._maximizeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this._maximizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
 };
@@ -1199,9 +1205,9 @@ qx.Proto._onclosebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._closeButton.removeState(qx.Const.STATE_PRESSED);
-  this._closeButton.removeState(qx.Const.STATE_ABANDONED);
-  this._closeButton.removeState(qx.Const.STATE_OVER);
+  this._closeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this._closeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this._closeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
 };

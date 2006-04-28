@@ -114,7 +114,7 @@ qx.Proto._showMenu = function(vFromKeyEvent)
         break;
     };
 
-    this.addState(qx.Const.STATE_PRESSED);
+    this.addState(qx.ui.form.Button.STATE_PRESSED);
 
     // If this show is called from a key event occured, we want to highlight
     // the first menubutton inside.
@@ -183,7 +183,7 @@ qx.Proto._onmousedown = function(e)
     return;
   };
 
-  this.hasState(qx.Const.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
+  this.hasState(qx.ui.form.Button.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
 };
 
 qx.Proto._onmouseup = function(e) {};
@@ -194,7 +194,7 @@ qx.Proto._onmouseout = function(e)
     return;
   };
 
-  this.removeState(qx.Const.STATE_OVER);
+  this.removeState(qx.ui.core.Widget.STATE_OVER);
 };
 
 qx.Proto._onmouseover = function(e)

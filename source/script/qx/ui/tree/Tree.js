@@ -320,7 +320,7 @@ qx.Proto._onkeyup = function(e)
     var vOldItem = this._oldItem;
     var vNewItem = this.getManager().getSelectedItem();
 
-    vNewItem.getIconObject().addState(qx.Const.STATE_SELECTED);
+    vNewItem.getIconObject().addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
 
     delete this._fastUpdate;
     delete this._oldItem;

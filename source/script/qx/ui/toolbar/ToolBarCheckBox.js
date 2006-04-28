@@ -58,7 +58,7 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.Const.STATE_CHECKED) : this.removeState(qx.Const.STATE_CHECKED);
+  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
   return true;
 };
 
@@ -76,15 +76,15 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.Const.STATE_ABANDONED))
+  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
   {
-    this.addState(qx.Const.STATE_OVER);
+    this.addState(qx.ui.core.Widget.STATE_OVER);
     this.setChecked(!this.getChecked());
     this.execute();
   };
 
-  this.removeState(qx.Const.STATE_ABANDONED);
-  this.removeState(qx.Const.STATE_PRESSED);
+  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this.removeState(qx.ui.form.Button.STATE_PRESSED);
 
   e.stopPropagation();
 };

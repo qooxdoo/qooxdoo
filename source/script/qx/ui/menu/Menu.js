@@ -160,7 +160,7 @@ qx.Proto._beforeDisappear = function()
   // be sure that the opener button gets the correct state
   var vOpener = this.getOpener();
   if (vOpener) {
-    vOpener.removeState(qx.Const.STATE_PRESSED);
+    vOpener.removeState(qx.ui.form.Button.STATE_PRESSED);
   };
 };
 
@@ -178,11 +178,11 @@ qx.Proto._beforeDisappear = function()
 qx.Proto._modifyHoverItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.removeState(qx.Const.STATE_OVER);
+    propOldValue.removeState(qx.ui.core.Widget.STATE_OVER);
   };
 
   if (propValue) {
-    propValue.addState(qx.Const.STATE_OVER);
+    propValue.addState(qx.ui.core.Widget.STATE_OVER);
   };
 
   return true;

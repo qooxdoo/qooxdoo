@@ -107,15 +107,15 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.Const.STATE_ABANDONED))
+  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
   {
-    this.addState(qx.Const.STATE_OVER);
+    this.addState(qx.ui.core.Widget.STATE_OVER);
     this.setChecked(this.getDisableUncheck() || !this.getChecked());
     this.execute();
   };
 
-  this.removeState(qx.Const.STATE_ABANDONED);
-  this.removeState(qx.Const.STATE_PRESSED);
+  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  this.removeState(qx.ui.form.Button.STATE_PRESSED);
 
   e.stopPropagation();
 };
