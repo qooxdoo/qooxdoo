@@ -316,8 +316,8 @@ theme.registerAppearance("toolbar-separator-line",
     b.setLeftColor("threedshadow");
     b.setRightColor("threedhighlight");
 
-    b.setLeftStyle(qx.Const.BORDER_STYLE_SOLID);
-    b.setRightStyle(qx.Const.BORDER_STYLE_SOLID);
+    b.setLeftStyle(qx.renderer.border.Border.STYLE_SOLID);
+    b.setRightStyle(qx.renderer.border.Border.STYLE_SOLID);
 
     b.setLeftWidth(1);
     b.setRightWidth(1);
@@ -472,16 +472,16 @@ theme.registerAppearance("bar-view-bar",
     this.border_color = new qx.renderer.color.ColorObject("threedshadow");
 
     this.border_top = new qx.renderer.border.BorderObject;
-    this.border_top.setBottom(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_top.setBottom(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
 
     this.border_bottom = new qx.renderer.border.BorderObject;
-    this.border_bottom.setTop(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_bottom.setTop(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
 
     this.border_left = new qx.renderer.border.BorderObject;
-    this.border_left.setRight(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_left.setRight(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
 
     this.border_right = new qx.renderer.border.BorderObject;
-    this.border_right.setLeft(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
+    this.border_right.setLeft(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
   },
 
   initial : function(vWidget, vTheme)
@@ -560,17 +560,17 @@ theme.registerAppearance("bar-view-button",
     this.border_color = new qx.renderer.color.ColorObject("threedshadow");
     this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
 
-    this.border_top_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
-    this.border_top_checked.setBottom(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_top_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+    this.border_top_checked.setBottom(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
 
-    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
-    this.border_bottom_checked.setTop(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+    this.border_bottom_checked.setTop(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
 
-    this.border_left_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
-    this.border_left_checked.setRight(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_left_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+    this.border_left_checked.setRight(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
 
-    this.border_right_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, this.border_color);
-    this.border_right_checked.setLeft(3, qx.Const.BORDER_STYLE_SOLID, this.border_color_checked);
+    this.border_right_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+    this.border_right_checked.setLeft(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
   },
 
   initial : function(vWidget, vTheme)
@@ -1699,7 +1699,7 @@ theme.registerAppearance("tab-view-pane",
 {
   setup : function()
   {
-    this.border = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
     this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
   },
 
@@ -1737,19 +1737,19 @@ theme.registerAppearance("tab-view-button",
     this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
     this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
 
-    this.border_top_normal = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_top_normal = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
     this.border_top_normal.setBottomWidth(0);
 
-    this.border_top_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_top_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
     this.border_top_checked.setBottomWidth(0);
-    this.border_top_checked.setTop(3, qx.Const.BORDER_STYLE_SOLID, "#FEC83C");
+    this.border_top_checked.setTop(3, qx.renderer.border.Border.STYLE_SOLID, "#FEC83C");
 
-    this.border_bottom_normal = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_bottom_normal = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
     this.border_bottom_normal.setTopWidth(0);
 
-    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.Const.BORDER_STYLE_SOLID, "#91A5BD");
+    this.border_bottom_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
     this.border_bottom_checked.setTopWidth(0);
-    this.border_bottom_checked.setBottom(3, qx.Const.BORDER_STYLE_SOLID, "#FEC83C");
+    this.border_bottom_checked.setBottom(3, qx.renderer.border.Border.STYLE_SOLID, "#FEC83C");
   },
 
   initial : function(vWidget, vTheme) {

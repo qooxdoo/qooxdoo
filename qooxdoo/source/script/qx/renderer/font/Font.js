@@ -105,19 +105,19 @@ qx.renderer.font.Font.fromString = function(s)
   {
     switch(vPart = vAllParts[i])
     {
-      case qx.Const.FONT_STYLE_BOLD:
+      case qx.renderer.font.Font.STYLE_BOLD:
         vFont.setBold(true);
         break;
 
-      case qx.Const.FONT_STYLE_ITALIC:
+      case qx.renderer.font.Font.STYLE_ITALIC:
         vFont.setItalic(true);
         break;
 
-      case qx.Const.FONT_STYLE_UNDERLINE:
+      case qx.renderer.font.Font.STYLE_UNDERLINE:
         vFont.setUnderline(true);
         break;
 
-      case qx.Const.FONT_STYLE_STRIKEOUT:
+      case qx.renderer.font.Font.STYLE_STRIKEOUT:
         vFont.setStrikeout(true);
         break;
 
@@ -172,17 +172,17 @@ qx.Proto._compile = function()
   var vDecoration = qx.constant.Core.EMPTY;
 
   if (this.getUnderline()) {
-    vDecoration = qx.Const.FONT_STYLE_UNDERLINE;
+    vDecoration = qx.renderer.font.Font.STYLE_UNDERLINE;
   };
 
   if (this.getStrikeout()) {
-    vDecoration += qx.constant.Core.SPACE + qx.Const.FONT_STYLE_STRIKEOUT;
+    vDecoration += qx.constant.Core.SPACE + qx.renderer.font.Font.STYLE_STRIKEOUT;
   };
 
   this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
   this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + qx.constant.Core.PIXEL : qx.constant.Core.EMPTY;
-  this._defs.fontWeight = this.getBold() ? qx.Const.FONT_STYLE_BOLD : qx.Const.FONT_STYLE_NORMAL;
-  this._defs.fontStyle = this.getItalic() ? qx.Const.FONT_STYLE_ITALIC : qx.Const.FONT_STYLE_NORMAL;
+  this._defs.fontWeight = this.getBold() ? qx.renderer.font.Font.STYLE_BOLD : qx.renderer.font.Font.STYLE_NORMAL;
+  this._defs.fontStyle = this.getItalic() ? qx.renderer.font.Font.STYLE_ITALIC : qx.renderer.font.Font.STYLE_NORMAL;
   this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : qx.constant.Core.EMPTY;
 
   this._needsCompilation = false;
