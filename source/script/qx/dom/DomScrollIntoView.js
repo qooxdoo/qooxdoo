@@ -46,7 +46,7 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_BOTH))
     {
       case qx.constant.Style.OVERFLOW_BOTH:
       case qx.constant.Style.OVERFLOW_AUTO:
@@ -55,7 +55,7 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_HORIZONTAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_HORIZONTAL))
         {
           case qx.constant.Style.OVERFLOW_BOTH:
           case qx.constant.Style.OVERFLOW_AUTO:
@@ -119,7 +119,7 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_BOTH))
     {
       case qx.constant.Style.OVERFLOW_BOTH:
       case qx.constant.Style.OVERFLOW_AUTO:
@@ -128,7 +128,7 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.Const.PROPERTY_OVERFLOW_VERTICAL))
+        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_VERTICAL))
         {
           case qx.constant.Style.OVERFLOW_BOTH:
           case qx.constant.Style.OVERFLOW_AUTO:

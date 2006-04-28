@@ -115,10 +115,10 @@ qx.dom.DomStyle.getMarginTop     = function(el) { return qx.dom.DomStyle.getStyl
 qx.dom.DomStyle.getMarginRight   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINRIGHT); };
 qx.dom.DomStyle.getMarginBottom  = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_MARGINBOTTOM); };
 
-qx.dom.DomStyle.getPaddingLeft   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_PADDINGLEFT); };
-qx.dom.DomStyle.getPaddingTop    = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_PADDINGTOP); };
-qx.dom.DomStyle.getPaddingRight  = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_PADDINGRIGHT); };
-qx.dom.DomStyle.getPaddingBottom = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.Const.PROPERTY_PADDINGBOTTOM); };
+qx.dom.DomStyle.getPaddingLeft   = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGLEFT); };
+qx.dom.DomStyle.getPaddingTop    = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGTOP); };
+qx.dom.DomStyle.getPaddingRight  = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGRIGHT); };
+qx.dom.DomStyle.getPaddingBottom = function(el) { return qx.dom.DomStyle.getStyleSize(el, qx.constant.Style.PROPERTY_PADDINGBOTTOM); };
 
 qx.dom.DomStyle.getBorderLeft    = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderLeftStyle")   == qx.constant.Core.NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderLeftWidth"); };
 qx.dom.DomStyle.getBorderTop     = function(el) { return qx.dom.DomStyle.getStyleProperty(el, "borderTopStyle")    == qx.constant.Core.NONE ? 0 : qx.dom.DomStyle.getStyleSize(el, "borderTopWidth"); };

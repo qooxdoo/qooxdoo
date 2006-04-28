@@ -158,7 +158,7 @@ theme.registerAppearance("tool-tip",
 
   initial : function(vWidget, vTheme)
   {
-    vWidget.setStyleProperty(qx.Const.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
+    vWidget.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
       backgroundColor : this.bgcolor,
@@ -1529,7 +1529,7 @@ theme.registerAppearance("list-view-header-cell",
   initial : function(vWidget, vTheme)
   {
     // Text Overflow
-    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
+    vWidget.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
 
     return {
       overflow : qx.constant.Style.OVERFLOW_HIDDEN,
@@ -1615,8 +1615,8 @@ theme.registerAppearance("list-view-content-cell-text",
 {
   initial : function(vWidget, vTheme)
   {
-    vWidget.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, "nowrap");
-    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
+    vWidget.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, "nowrap");
+    vWidget.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
 
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
       overflow: qx.constant.Style.OVERFLOW_HIDDEN,

@@ -29,6 +29,20 @@
 
 qx.OO.defineClass("qx.constant.Style",
 {
+  PROPERTY_FILTER : "filter",
+  PROPERTY_DISPLAY : "display",
+  PROPERTY_POSITION : "position",
+  PROPERTY_VISIBILITY : "visibility",
+  PROPERTY_DISABLED : "disabled",
+  PROPERTY_LINEHEIGHT : "lineHeight",
+  PROPERTY_TEXTALIGN : "textAlign",
+  PROPERTY_WHITESPACE : "whiteSpace",
+  PROPERTY_PADDING : "padding",
+  PROPERTY_OVERFLOW_BOTH : "overflow",
+  PROPERTY_OVERFLOW_TEXT : "textOverflow",
+  PROPERTY_OVERFLOW_HORIZONTAL : "overflowX",
+  PROPERTY_OVERFLOW_VERTICAL : "overflowY",
+
   POSITION_ABSOLUTE : "absolute",
   POSITION_RELATIVE : "relative",
   POSITION_STATIC : "static",
