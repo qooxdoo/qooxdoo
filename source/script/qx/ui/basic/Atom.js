@@ -40,7 +40,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   qx.ui.layout.BoxLayout.call(this);
 
   if (this.getOrientation() == null) {
-    this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
+    this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
   };
 
   // Prohibit selection
@@ -205,15 +205,15 @@ qx.Proto._modifyIconPosition = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
-    case qx.Const.ALIGN_TOP:
-    case qx.Const.ALIGN_BOTTOM:
-      this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
-      this.setReverseChildrenOrder(propValue == qx.Const.ALIGN_BOTTOM);
+    case qx.constant.Layout.ALIGN_TOP:
+    case qx.constant.Layout.ALIGN_BOTTOM:
+      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+      this.setReverseChildrenOrder(propValue == qx.constant.Layout.ALIGN_BOTTOM);
       break;
 
     default:
-      this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
-      this.setReverseChildrenOrder(propValue == qx.Const.ALIGN_RIGHT);
+      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+      this.setReverseChildrenOrder(propValue == qx.constant.Layout.ALIGN_RIGHT);
       break;
   };
 

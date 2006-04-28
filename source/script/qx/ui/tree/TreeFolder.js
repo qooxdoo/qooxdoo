@@ -128,7 +128,7 @@ qx.Proto._createChildrenStructure = function()
 
   if (!this._horizontalLayout)
   {
-    this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
+    this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
 
     this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);

@@ -148,7 +148,7 @@ qx.Proto._createButtonBar = function()
   this._btnbar = new qx.ui.layout.HorizontalBoxLayout;
   this._btnbar.setHeight(qx.constant.Core.AUTO);
   this._btnbar.setSpacing(4);
-  this._btnbar.setHorizontalChildrenAlign(qx.Const.ALIGN_RIGHT);
+  this._btnbar.setHorizontalChildrenAlign(qx.constant.Layout.ALIGN_RIGHT);
   this._btnbar.setPadding(2, 4);
   this.add(this._btnbar);
 
@@ -328,7 +328,7 @@ qx.Proto._createHexField = function()
   this._hexLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._hexLayout.setHeight(qx.constant.Core.AUTO);
   this._hexLayout.setSpacing(4);
-  this._hexLayout.setVerticalChildrenAlign(qx.Const.ALIGN_MIDDLE);
+  this._hexLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._hexLayout.setParent(this._inputLayout);
 
   this._hexLabel = new qx.ui.basic.Label("Hex");
@@ -351,7 +351,7 @@ qx.Proto._createRgbSpinner = function()
   this._rgbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._rgbSpinLayout.setHeight(qx.constant.Core.AUTO);
   this._rgbSpinLayout.setSpacing(4);
-  this._rgbSpinLayout.setVerticalChildrenAlign(qx.Const.ALIGN_MIDDLE);
+  this._rgbSpinLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._rgbSpinLayout.setParent(this._inputLayout);
 
   this._rgbSpinLabel = new qx.ui.basic.Label("RGB");
@@ -379,7 +379,7 @@ qx.Proto._createHsbSpinner = function()
   this._hsbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._hsbSpinLayout.setHeight(qx.constant.Core.AUTO);
   this._hsbSpinLayout.setSpacing(4);
-  this._hsbSpinLayout.setVerticalChildrenAlign(qx.Const.ALIGN_MIDDLE);
+  this._hsbSpinLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._hsbSpinLayout.setParent(this._inputLayout);
 
   this._hsbSpinLabel = new qx.ui.basic.Label("HSB");

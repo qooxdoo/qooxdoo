@@ -22,11 +22,27 @@
 
 /* ************************************************************************
 
-#package(layout)
+#package(core)
+#require(qx.OO)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.VerticalBoxLayout", qx.ui.layout.BoxLayout, 
-function() {
-  qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_VERTICAL);
+qx.OO.defineClass("qx.constant.Layout",
+{
+  ORIENTATION_HORIZONTAL : "horizontal",
+  ORIENTATION_VERTICAL : "vertical",
+
+  ALIGN_LEFT : "left",
+  ALIGN_LEFT_REVERSED : "left-reversed",
+  ALIGN_CENTER : "center",
+  ALIGN_CENTER_REVERSED : "center-reversed",
+  ALIGN_RIGHT : "right",
+  ALIGN_RIGHT_REVERSED : "right-reversed",
+
+  ALIGN_TOP : "top",
+  ALIGN_TOP_REVERSED : "top-reversed",
+  ALIGN_MIDDLE : "middle",
+  ALIGN_MIDDLE_REVERSED : "middle-reversed",
+  ALIGN_BOTTOM : "bottom",
+  ALIGN_BOTTOM_REVERSED : "bottom-reversed"
 });

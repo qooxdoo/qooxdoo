@@ -48,8 +48,8 @@ qx.Proto.getWheelDelta = function(e)
 
   switch(this.getParent().getBarPosition())
   {
-    case qx.Const.ALIGN_LEFT:
-    case qx.Const.ALIGN_RIGHT:
+    case qx.constant.Layout.ALIGN_LEFT:
+    case qx.constant.Layout.ALIGN_RIGHT:
       vWheelDelta *= -1;
   };
 

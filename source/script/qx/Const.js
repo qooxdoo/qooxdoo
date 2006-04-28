@@ -41,23 +41,6 @@ qx.OO.defineClass("qx.Const",
   STATE_LEAD : "lead",
   STATE_MAXIMIZED : "maximized",
 
-  ORIENTATION_HORIZONTAL : "horizontal",
-  ORIENTATION_VERTICAL : "vertical",
-
-  ALIGN_LEFT : "left",
-  ALIGN_LEFT_REVERSED : "left-reversed",
-  ALIGN_CENTER : "center",
-  ALIGN_CENTER_REVERSED : "center-reversed",
-  ALIGN_RIGHT : "right",
-  ALIGN_RIGHT_REVERSED : "right-reversed",
-
-  ALIGN_TOP : "top",
-  ALIGN_TOP_REVERSED : "top-reversed",
-  ALIGN_MIDDLE : "middle",
-  ALIGN_MIDDLE_REVERSED : "middle-reversed",
-  ALIGN_BOTTOM : "bottom",
-  ALIGN_BOTTOM_REVERSED : "bottom-reversed",
-
   PROPERTY_CLASSNAME : "className",
   PROPERTY_FILTER : "filter",
   PROPERTY_BORDERX : "borderX",

@@ -51,7 +51,7 @@ function(vLabel, vIcon, vIconSelected)
   this._labelObject.setSelectable(false);
   this._labelObject.setStyleProperty(qx.Const.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
 
-  qx.ui.layout.BoxLayout.call(this, qx.Const.ORIENTATION_HORIZONTAL);
+  qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
 
   if (qx.util.Validation.isValid(vLabel)) {
     this.setLabel(vLabel);

@@ -406,7 +406,7 @@ qx.Proto.layoutChild_location = function(vChild, vJobs)
   };
 
   // add margins and parent padding
-  if (vWidget.getHorizontalChildrenAlign() == qx.Const.ALIGN_RIGHT)
+  if (vWidget.getHorizontalChildrenAlign() == qx.constant.Layout.ALIGN_RIGHT)
   {
     vChild._resetRuntimeLeft();
     vChild._applyRuntimeRight(vWidget.getPaddingRight() + vChild._cachedLocationHorizontal);
@@ -417,7 +417,7 @@ qx.Proto.layoutChild_location = function(vChild, vJobs)
     vChild._applyRuntimeLeft(vWidget.getPaddingLeft() + vChild._cachedLocationHorizontal);
   };
 
-  if (vWidget.getVerticalChildrenAlign() == qx.Const.ALIGN_BOTTOM)
+  if (vWidget.getVerticalChildrenAlign() == qx.constant.Layout.ALIGN_BOTTOM)
   {
     vChild._resetRuntimeTop();
     vChild._applyRuntimeBottom(vWidget.getPaddingBottom() + vChild._cachedLocationVertical);
