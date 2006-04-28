@@ -63,7 +63,7 @@ function()
   this.setWidgetPath(qx.core.Settings.imageWidgetPath);
 });
 
-qx.Class.BLANK = "core/blank.gif";
+qx.Proto.BLANK = "core/blank.gif";
 
 
 
