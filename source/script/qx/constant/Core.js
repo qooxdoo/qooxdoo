@@ -29,21 +29,15 @@
 
 qx.OO.defineClass("qx.constant.Core",
 {
+  // Characters
   EMPTY : "",
   SPACE : " ",
   SLASH : "/",
   DOT : ".",
   ZERO : "0",
-  AUTO : "auto",
-  FLEX : "1*",
-  PIXEL : "px",
-  MILLISECONDS : "ms",
-  PERCENT : "%",
   QUOTE : "\"",
   NEWLINE : "\n",
   SINGLEQUOTE : "'",
-  ZEROPIXEL : "0px",
-  HUNDREDPERCENT : "100%",
   STAR : "*",
   PLUS : "+",
   MINUS : "-",
@@ -58,23 +52,36 @@ qx.OO.defineClass("qx.constant.Core",
   HASH : "#",
   SMALLER : "<",
   BIGGER : ">",
+
+  // Units
+  PERCENT : "%",
+  PIXEL : "px",
+  MILLISECONDS : "ms",
+
+  // Values
+  FLEX : "1*",
+  ZEROPIXEL : "0px",
+  HUNDREDPERCENT : "100%",
+
+  // Strings
   YES : "yes",
   NO : "no",
   ON : "on",
   OFF : "off",
   SET : "set",
   GET : "get",
-
   DEFAULT : "default",
+  AUTO : "auto",
   NONE : "none",
   DISABLED : "disabled",
   HIDDEN : "hidden",
 
+  // CSS
   ABSOLUTE : "absolute",
   RELATIVE : "relative",
   STATIC : "static",
   FIXED : "fixed",
 
-  DIV : "div",
-  EVENTPREFIX : "evt"
+  // Misc
+  DIV : "div"
 });

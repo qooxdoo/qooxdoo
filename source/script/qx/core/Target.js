@@ -38,12 +38,12 @@ removeEventListener to or from the created object. Each event to connect to has 
 form of an identification string. This type could be the name of a regular dom event like qx.Const.EVENT_TYPE_CLICK or
 something self-defined like "ready".
 */
-qx.OO.defineClass("qx.core.Target", qx.core.Object, 
+qx.OO.defineClass("qx.core.Target", qx.core.Object,
 function(vAutoDispose) {
   qx.core.Object.call(this, vAutoDispose);
 });
 
-
+qx.Class.EVENTPREFIX = "evt";
 
 
 
@@ -80,7 +80,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.constant.Core.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
+  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
 
   // Finally set up the listeners object
   this._listeners[vType][vKey] =
@@ -109,7 +109,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.constant.Core.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
+  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
