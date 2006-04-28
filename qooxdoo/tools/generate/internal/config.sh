@@ -14,6 +14,7 @@ L="$L script/qx/constant/Net"
 L="$L script/qx/constant/Tags"
 L="$L script/qx/constant/Style"
 L="$L script/qx/constant/Html"
+L="$L script/qx/constant/Mime"
 
 # Core
 L="$L script/qx/core/Main"
