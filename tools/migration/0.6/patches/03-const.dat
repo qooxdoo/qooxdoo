@@ -12,4 +12,4 @@ qx.Const.TYPEOF_=qx.constant.Type.
 qx.Const.IMAGE_BLANK=qx.manager.object.ImageManager.BLANK
 qx.Const.CURSOR_=qx.constant.Style.CURSOR_
 qx.Const.OVERFLOW_VALUE_=qx.constant.Style.OVERFLOW_
-
+qx.Const.MIMETYPE_=qx.constant.Mime.
