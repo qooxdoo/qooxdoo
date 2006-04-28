@@ -54,15 +54,15 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
 
     switch(vPart)
     {
-      case qx.Const.BORDER_STYLE_GROOVE:
-      case qx.Const.BORDER_STYLE_RIDGE:
-      case qx.Const.BORDER_STYLE_INSET:
-      case qx.Const.BORDER_STYLE_OUTSET:
-      case qx.Const.BORDER_STYLE_SOLID:
-      case qx.Const.BORDER_STYLE_DOTTED:
-      case qx.Const.BORDER_STYLE_DASHED:
-      case qx.Const.BORDER_STYLE_DOUBLE:
-      case qx.Const.BORDER_STYLE_NONE:
+      case qx.renderer.border.Border.STYLE_GROOVE:
+      case qx.renderer.border.Border.STYLE_RIDGE:
+      case qx.renderer.border.Border.STYLE_INSET:
+      case qx.renderer.border.Border.STYLE_OUTSET:
+      case qx.renderer.border.Border.STYLE_SOLID:
+      case qx.renderer.border.Border.STYLE_DOTTED:
+      case qx.renderer.border.Border.STYLE_DASHED:
+      case qx.renderer.border.Border.STYLE_DOUBLE:
+      case qx.renderer.border.Border.STYLE_NONE:
         vBorder.setStyle(vPart);
         break;
 
@@ -166,18 +166,18 @@ qx.Proto.dispose = function()
 
 qx.Class.presets =
 {
-  inset : new qx.Class(2, qx.Const.BORDER_STYLE_INSET),
-  outset : new qx.Class(2, qx.Const.BORDER_STYLE_OUTSET),
-  groove : new qx.Class(2, qx.Const.BORDER_STYLE_GROOVE),
-  ridge : new qx.Class(2, qx.Const.BORDER_STYLE_RIDGE),
-  thinInset : new qx.Class(1, qx.Const.BORDER_STYLE_INSET),
-  thinOutset : new qx.Class(1, qx.Const.BORDER_STYLE_OUTSET),
-  verticalDivider : new qx.Class(1, qx.Const.BORDER_STYLE_INSET),
-  horizontalDivider : new qx.Class(1, qx.Const.BORDER_STYLE_INSET),
+  inset : new qx.Class(2, qx.renderer.border.Border.STYLE_INSET),
+  outset : new qx.Class(2, qx.renderer.border.Border.STYLE_OUTSET),
+  groove : new qx.Class(2, qx.renderer.border.Border.STYLE_GROOVE),
+  ridge : new qx.Class(2, qx.renderer.border.Border.STYLE_RIDGE),
+  thinInset : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
+  thinOutset : new qx.Class(1, qx.renderer.border.Border.STYLE_OUTSET),
+  verticalDivider : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
+  horizontalDivider : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
 
-  shadow : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "threedshadow"),
-  lightShadow : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "threedlightshadow"),
-  info : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "infotext")
+  shadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedshadow"),
+  lightShadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedlightshadow"),
+  info : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "infotext")
 };
 
 qx.Class.presets.verticalDivider.setLeftWidth(0);

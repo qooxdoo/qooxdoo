@@ -52,6 +52,16 @@ function(vWidth, vStyle, vColor)
   };
 });
 
+qx.Class.STYLE_GROOVE = "groove";
+qx.Class.STYLE_RIDGE = "ridge";
+qx.Class.STYLE_INSET = "inset";
+qx.Class.STYLE_OUTSET = "outset";
+qx.Class.STYLE_SOLID = "solid";
+qx.Class.STYLE_DOTTED = "dotted";
+qx.Class.STYLE_DASHED = "dashed";
+qx.Class.STYLE_DOUBLE = "double";
+qx.Class.STYLE_NONE = "none";
+
 qx.renderer.border.Border.enhancedCrossBrowserMode = true;
 qx.renderer.border.Border.baseColor = "threedlightshadow";
 qx.renderer.border.Border.stylePart = "Style";
@@ -61,6 +71,7 @@ qx.Proto._needsCompilationTop = true;
 qx.Proto._needsCompilationRight = true;
 qx.Proto._needsCompilationBottom = true;
 qx.Proto._needsCompilationLeft = true;
+
 
 
 
@@ -104,15 +115,15 @@ qx.renderer.border.Border.fromString = function(vDefString)
   {
     switch(vPart = vAllParts[i])
     {
-      case qx.Const.BORDER_STYLE_GROOVE:
-      case qx.Const.BORDER_STYLE_RIDGE:
-      case qx.Const.BORDER_STYLE_INSET:
-      case qx.Const.BORDER_STYLE_OUTSET:
-      case qx.Const.BORDER_STYLE_SOLID:
-      case qx.Const.BORDER_STYLE_DOTTED:
-      case qx.Const.BORDER_STYLE_DASHED:
-      case qx.Const.BORDER_STYLE_DOUBLE:
-      case qx.Const.BORDER_STYLE_NONE:
+      case qx.renderer.border.Border.STYLE_GROOVE:
+      case qx.renderer.border.Border.STYLE_RIDGE:
+      case qx.renderer.border.Border.STYLE_INSET:
+      case qx.renderer.border.Border.STYLE_OUTSET:
+      case qx.renderer.border.Border.STYLE_SOLID:
+      case qx.renderer.border.Border.STYLE_DOTTED:
+      case qx.renderer.border.Border.STYLE_DASHED:
+      case qx.renderer.border.Border.STYLE_DOUBLE:
+      case qx.renderer.border.Border.STYLE_NONE:
         vBorder.setStyle(vPart);
         break;
 
@@ -477,10 +488,10 @@ qx.Proto._handleColorRegistration = function(propValue, propOldValue, propData)
   {
     switch(propValue)
     {
-      case qx.Const.BORDER_STYLE_OUTSET:
-      case qx.Const.BORDER_STYLE_INSET:
-      case qx.Const.BORDER_STYLE_GROOVE:
-      case qx.Const.BORDER_STYLE_RIDGE:
+      case qx.renderer.border.Border.STYLE_OUTSET:
+      case qx.renderer.border.Border.STYLE_INSET:
+      case qx.renderer.border.Border.STYLE_GROOVE:
+      case qx.renderer.border.Border.STYLE_RIDGE:
         this._addToThemed3DColors(propData.name);
         break;
 
@@ -593,25 +604,25 @@ qx.Proto._evalUseEnhancedCrossBrowserMode = function()
 {
   if (this.getTopWidth() == 2) {
     switch(this.getTopStyle()) {
-      case qx.Const.BORDER_STYLE_OUTSET: case qx.Const.BORDER_STYLE_INSET: case qx.Const.BORDER_STYLE_GROOVE: case qx.Const.BORDER_STYLE_RIDGE: return true;
+      case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
     };
   };
 
   if (this.getRightWidth() == 2) {
     switch(this.getRightStyle()) {
-      case qx.Const.BORDER_STYLE_OUTSET: case qx.Const.BORDER_STYLE_INSET: case qx.Const.BORDER_STYLE_GROOVE: case qx.Const.BORDER_STYLE_RIDGE: return true;
+      case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
     };
   };
 
   if (this.getBottomWidth() == 2) {
     switch(this.getBottomStyle()) {
-      case qx.Const.BORDER_STYLE_OUTSET: case qx.Const.BORDER_STYLE_INSET: case qx.Const.BORDER_STYLE_GROOVE: case qx.Const.BORDER_STYLE_RIDGE: return true;
+      case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
     };
   };
 
   if (this.getLeftWidth() == 2) {
     switch(this.getLeftStyle()) {
-      case qx.Const.BORDER_STYLE_OUTSET: case qx.Const.BORDER_STYLE_INSET: case qx.Const.BORDER_STYLE_GROOVE: case qx.Const.BORDER_STYLE_RIDGE: return true;
+      case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
     };
   };
 
@@ -839,10 +850,10 @@ else
       case 1:
         switch(vTopStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
             vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle][qx.Const.PROPERTY_TOP][0]));
-            vTopStyle = qx.Const.BORDER_STYLE_SOLID;
+            vTopStyle = qx.renderer.border.Border.STYLE_SOLID;
         };
 
         break;
@@ -850,10 +861,10 @@ else
       case 2:
         switch(vTopStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
-          case qx.Const.BORDER_STYLE_GROOVE:
-          case qx.Const.BORDER_STYLE_RIDGE:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_GROOVE:
+          case qx.renderer.border.Border.STYLE_RIDGE:
             if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
@@ -862,7 +873,7 @@ else
 
                 if (typeof c === qx.Const.TYPEOF_OBJECT)
                 {
-                  vTopStyle = qx.Const.BORDER_STYLE_SOLID;
+                  vTopStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vTopWidth = 1;
                   vTopColor = (new qx.renderer.color.ColorObject(c[1]));
 
@@ -901,10 +912,10 @@ else
       case 1:
         switch(vRightStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
             vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle][qx.Const.PROPERTY_RIGHT][0]));
-            vRightStyle = qx.Const.BORDER_STYLE_SOLID;
+            vRightStyle = qx.renderer.border.Border.STYLE_SOLID;
         };
 
         break;
@@ -912,10 +923,10 @@ else
       case 2:
         switch(vRightStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
-          case qx.Const.BORDER_STYLE_GROOVE:
-          case qx.Const.BORDER_STYLE_RIDGE:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_GROOVE:
+          case qx.renderer.border.Border.STYLE_RIDGE:
             if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
@@ -924,7 +935,7 @@ else
 
                 if (typeof c === qx.Const.TYPEOF_OBJECT)
                 {
-                  vRightStyle = qx.Const.BORDER_STYLE_SOLID;
+                  vRightStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vRightWidth = 1;
                   vRightColor = (new qx.renderer.color.ColorObject(c[1]));
 
@@ -963,10 +974,10 @@ else
       case 1:
         switch(vBottomStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
             vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][qx.Const.PROPERTY_BOTTOM][0]));
-            vBottomStyle = qx.Const.BORDER_STYLE_SOLID;
+            vBottomStyle = qx.renderer.border.Border.STYLE_SOLID;
         };
 
         break;
@@ -974,10 +985,10 @@ else
       case 2:
         switch(vBottomStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
-          case qx.Const.BORDER_STYLE_GROOVE:
-          case qx.Const.BORDER_STYLE_RIDGE:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_GROOVE:
+          case qx.renderer.border.Border.STYLE_RIDGE:
             if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
@@ -986,7 +997,7 @@ else
 
                 if (typeof c === qx.Const.TYPEOF_OBJECT)
                 {
-                  vBottomStyle = qx.Const.BORDER_STYLE_SOLID;
+                  vBottomStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vBottomWidth = 1;
                   vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
 
@@ -1024,10 +1035,10 @@ else
       case 1:
         switch(vLeftStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
             vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][qx.Const.PROPERTY_LEFT][0]));
-            vLeftStyle = qx.Const.BORDER_STYLE_SOLID;
+            vLeftStyle = qx.renderer.border.Border.STYLE_SOLID;
         };
 
         break;
@@ -1035,10 +1046,10 @@ else
       case 2:
         switch(vLeftStyle)
         {
-          case qx.Const.BORDER_STYLE_OUTSET:
-          case qx.Const.BORDER_STYLE_INSET:
-          case qx.Const.BORDER_STYLE_GROOVE:
-          case qx.Const.BORDER_STYLE_RIDGE:
+          case qx.renderer.border.Border.STYLE_OUTSET:
+          case qx.renderer.border.Border.STYLE_INSET:
+          case qx.renderer.border.Border.STYLE_GROOVE:
+          case qx.renderer.border.Border.STYLE_RIDGE:
             if (qx.renderer.border.Border.enhancedCrossBrowserMode)
             {
               try
@@ -1047,7 +1058,7 @@ else
 
                 if (typeof c === qx.Const.TYPEOF_OBJECT)
                 {
-                  vLeftStyle = qx.Const.BORDER_STYLE_SOLID;
+                  vLeftStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vLeftWidth = 1;
                   vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
 
@@ -1180,7 +1191,7 @@ qx.Proto.dispose = function()
 
 qx.Class.presets =
 {
-  black : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "black"),
-  white : new qx.Class(1, qx.Const.BORDER_STYLE_SOLID, "white"),
-  none : new qx.Class(0, qx.Const.BORDER_STYLE_NONE)
+  black : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "black"),
+  white : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "white"),
+  none : new qx.Class(0, qx.renderer.border.Border.STYLE_NONE)
 };
