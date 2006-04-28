@@ -457,15 +457,15 @@ def getType(item):
     return item.get("value")
   elif item.type == "variable":
     assembled = assembleVariable(item)
-    if assembled == "qx.Const.TYPEOF_NUMBER":
+    if assembled == "qx.constant.Type.NUMBER":
       return "number"
-    elif assembled == "qx.Const.TYPEOF_BOOLEAN":
+    elif assembled == "qx.constant.Type.BOOLEAN":
       return "boolean"
-    elif assembled == "qx.Const.TYPEOF_STRING":
+    elif assembled == "qx.constant.Type.STRING":
       return "string"
-    elif assembled == "qx.Const.TYPEOF_OBJECT":
+    elif assembled == "qx.constant.Type.OBJECT":
       return "object"
-    elif assembled == "qx.Const.TYPEOF_FUNCTION":
+    elif assembled == "qx.constant.Type.FUNCTION":
       return "function"
     else:
       raise DocException("Unknown data type: " + assembled, item)
