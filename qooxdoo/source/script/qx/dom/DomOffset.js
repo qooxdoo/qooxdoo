@@ -47,13 +47,13 @@ if (qx.sys.Client.isGecko())
     var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.constant.Core.ABSOLUTE && pose != qx.constant.Core.FIXED) {
+    if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
       val -= qx.dom.DomStyle.getBorderLeft(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.constant.Core.ABSOLUTE && posp != qx.constant.Core.FIXED)
+    if (posp != qx.constant.Style.POSITION_ABSOLUTE && posp != qx.constant.Style.POSITION_FIXED)
     {
       while(pa)
       {
@@ -65,7 +65,7 @@ if (qx.sys.Client.isGecko())
 
         var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
-        if (posi == qx.constant.Core.ABSOLUTE || posi == qx.constant.Core.FIXED) {
+        if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
           val -= qx.dom.DomStyle.getBorderLeft(pa) + qx.dom.DomStyle.getPaddingLeft(pa);
           break;
         };
@@ -84,13 +84,13 @@ if (qx.sys.Client.isGecko())
     var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.constant.Core.ABSOLUTE && pose != qx.constant.Core.FIXED) {
+    if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
       val -= qx.dom.DomStyle.getBorderTop(pa);
     };
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.constant.Core.ABSOLUTE && posp != qx.constant.Core.FIXED)
+    if (posp != qx.constant.Style.POSITION_ABSOLUTE && posp != qx.constant.Style.POSITION_FIXED)
     {
       while(pa)
       {
@@ -102,7 +102,7 @@ if (qx.sys.Client.isGecko())
 
         var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
-        if (posi == qx.constant.Core.ABSOLUTE || posi == qx.constant.Core.FIXED) {
+        if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
           val -= qx.dom.DomStyle.getBorderTop(pa) + qx.dom.DomStyle.getPaddingTop(pa);
           break;
         };

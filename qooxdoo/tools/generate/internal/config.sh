@@ -11,6 +11,7 @@ L="$L script/qx/constant/Core"
 L="$L script/qx/constant/Node"
 L="$L script/qx/constant/Net"
 L="$L script/qx/constant/Tags"
+L="$L script/qx/constant/Style"
 
 # Core
 L="$L script/qx/core/Main"
