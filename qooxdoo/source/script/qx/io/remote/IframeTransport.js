@@ -24,6 +24,7 @@
 
 #package(transport)
 #require(qx.io.remote.RemoteExchange)
+#require(qx.constant.Mime)
 #use(qx.dom.DomIframe)
 
 ************************************************************************ */
@@ -33,7 +34,7 @@
 
   This class should not be used directly by client programmers.
  */
-qx.OO.defineClass("qx.io.remote.IframeTransport", qx.io.remote.AbstractRemoteTransport, 
+qx.OO.defineClass("qx.io.remote.IframeTransport", qx.io.remote.AbstractRemoteTransport,
 function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
