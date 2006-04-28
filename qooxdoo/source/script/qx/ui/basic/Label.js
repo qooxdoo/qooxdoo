@@ -160,19 +160,19 @@ qx.ui.basic.Label._htmlToText = function(s)
 {
   switch(s)
   {
-    case qx.Const.HTML_AMPERSAND:
+    case qx.constant.Html.AMPERSAND:
       return qx.constant.Core.AMPERSAND;
 
-    case qx.Const.HTML_SMALLER:
+    case qx.constant.Html.SMALLER:
       return qx.constant.Core.SMALLER;
 
-    case qx.Const.HTML_BIGGER:
+    case qx.constant.Html.BIGGER:
       return qx.constant.Core.BIGGER;
 
-    case qx.Const.HTML_QUOTE:
+    case qx.constant.Html.QUOTE:
       return qx.constant.Core.QUOTE;
 
-    case qx.Const.HTML_SPACE:
+    case qx.constant.Html.SPACE:
       return String.fromCharCode(160);
 
     default:
@@ -202,13 +202,13 @@ qx.ui.basic.Label._textToHtml = function(s)
   switch(s)
   {
     case qx.constant.Core.AMPERSAND:
-      return qx.Const.HTML_AMPERSAND;
+      return qx.constant.Html.AMPERSAND;
 
     case qx.constant.Core.SMALLER:
-      return qx.Const.HTML_SMALLER;
+      return qx.constant.Html.SMALLER;
 
     case qx.constant.Core.BIGGER:
-      return qx.Const.HTML_BIGGER;
+      return qx.constant.Html.BIGGER;
 
     case qx.constant.Core.NEWLINE:
       return qx.ui.basic.Label.BR;
