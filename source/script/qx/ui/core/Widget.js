@@ -131,7 +131,7 @@ qx.OO.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultV
 /*!
   The tagname of the element which should automatically be created
 */
-qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.DIV });
+qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Tags.DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -1607,10 +1607,10 @@ else
   qx.Proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.constant.Core.DIV && !this._borderElement)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.constant.Tags.DIV && !this._borderElement)
     {
       var el = this.getElement();
-      var cl = this._borderElement = document.createElement(qx.constant.Core.DIV);
+      var cl = this._borderElement = document.createElement(qx.constant.Tags.DIV);
 
       var es = el.style;
       var cs = this._borderStyle = cl.style;
@@ -4609,7 +4609,7 @@ qx.Proto._compileClipString = function()
 */
 qx.ui.core.Widget.initOverflow = function()
 {
-  var t = document.createElement(qx.constant.Core.DIV);
+  var t = document.createElement(qx.constant.Tags.DIV);
   var s = t.style;
 
   s.height = s.width = "100px";
@@ -5242,7 +5242,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.constant.Core.DIV);
+  var corner = document.createElement(qx.constant.Tags.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
@@ -5255,7 +5255,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   el.appendChild(corner);
 
 
-  var cornerLeft = document.createElement(qx.constant.Core.DIV);
+  var cornerLeft = document.createElement(qx.constant.Tags.DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
@@ -5268,7 +5268,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   el.appendChild(cornerLeft);
 
 
-  var cornerTop = document.createElement(qx.constant.Core.DIV);
+  var cornerTop = document.createElement(qx.constant.Tags.DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
@@ -5287,7 +5287,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 {
   var el = this.getElement();
 
-  var cornerTop = document.createElement(qx.constant.Core.DIV);
+  var cornerTop = document.createElement(qx.constant.Tags.DIV);
   var cornerTopStyle = cornerTop.style;
 
   cornerTopStyle.backgroundColor = "threedface";
@@ -5302,7 +5302,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerLeft = document.createElement(qx.constant.Core.DIV);
+  var cornerLeft = document.createElement(qx.constant.Tags.DIV);
   var cornerLeftStyle = cornerLeft.style;
 
   cornerLeftStyle.backgroundColor = "threedface";
@@ -5318,7 +5318,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerTop = document.createElement(qx.constant.Core.DIV);
+  var cornerInnerTop = document.createElement(qx.constant.Tags.DIV);
   var cornerInnerTopStyle = cornerInnerTop.style;
 
   cornerInnerTopStyle.backgroundColor = "threedface";
@@ -5333,7 +5333,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
 
 
 
-  var cornerInnerLeft = document.createElement(qx.constant.Core.DIV);
+  var cornerInnerLeft = document.createElement(qx.constant.Tags.DIV);
   var cornerInnerLeftStyle = cornerInnerLeft.style;
 
   cornerInnerLeftStyle.backgroundColor = "threedface";
@@ -5353,7 +5353,7 @@ qx.Proto._applyRoundedTopRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.constant.Core.DIV);
+  var corner = document.createElement(qx.constant.Tags.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
@@ -5374,7 +5374,7 @@ qx.Proto._applyRoundedBottomLeftBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.constant.Core.DIV);
+  var corner = document.createElement(qx.constant.Tags.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
@@ -5396,7 +5396,7 @@ qx.Proto._applyRoundedBottomRightBorder = function()
 {
   var el = this.getElement();
 
-  var corner = document.createElement(qx.constant.Core.DIV);
+  var corner = document.createElement(qx.constant.Tags.DIV);
   var cornerStyle = corner.style;
 
   cornerStyle.backgroundColor = "threedface";
