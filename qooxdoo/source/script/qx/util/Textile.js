@@ -26,12 +26,18 @@
 
 ************************************************************************ */
 
+/**
+ * Optimized version of SuperTextile
+ */
 qx.OO.defineClass("qx.util.Textile");
 
-// Optimized version of:
-// SuperTextile by
-// http://www.creatimation.net/journal/textile-live-preview
-
+/**
+ * Textilizes a string
+ * http://www.creatimation.net/journal/textile-live-preview
+ * 
+ * @param s {string} Text to be textilized.
+ * @return {string} The textilized text.
+ */
 qx.util.Textile.textilize = function(s)
 {
   var r = s;
