@@ -82,33 +82,6 @@ class TokenStream:
           self.commentsBefore = []
   
         self.commentsBefore.append(token);
-      elif token["type"] == "number":
-        nextToken = self.tokens[self.parsepos + 1]
-        afterNextToken = self.tokens[self.parsepos + 2]
-        if nextToken["type"] == "token" and nextToken["detail"] == "DOT" and afterNextToken["type"] == "number":
-          # Workaround: The tokenizer has a bug: floating numbers are tokenized
-          #             to three tokens a number token a dot token and a number token
-          #             -> Reasseble the number
-          token["source"] += "." + afterNextToken["source"]
-          #print "Found false floating number: " + token["source"] + " line " + str(token["line"])
-          self.tokens.pop(self.parsepos + 2)
-          self.tokens.pop(self.parsepos + 1)
-        break
-      elif token["type"] == "name" and token["detail"] == "public" and token["source"].startswith('"'):
-        # Workaround: The tokenizer has a bug: Strings in calls of "replace" are tokenized
-        #             (e.g. "\t<blockquote>" in QxTextile line 94)
-        source = token["source"][1:]
-        self.parsepos += 1
-        nextToken = self.tokens[self.parsepos]
-        #print "found start of tokenized string: " + str(token)
-        while nextToken["type"] != "name" or nextToken["detail"] != "public" or not nextToken["source"].endswith('"'):
-          source += nextToken["source"]
-          #print "  reassembled token to string: " + str(nextToken)
-          self.parsepos += 1
-          nextToken = self.tokens[self.parsepos]
-        #print "  end of tokenized string: " + str(nextToken)
-        token = { "type" : "string", "detail" : "doublequotes", "source" : source, "file" : token["file"], "line" : token["line"] }
-        break
       else:
         break
 
