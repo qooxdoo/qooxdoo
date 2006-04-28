@@ -45,7 +45,7 @@ function(vUrl, vMethod, vResponseType)
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || qx.constant.Net.METHOD_GET);
-  this.setResponseType(vResponseType || qx.Const.MIMETYPE_TEXT);
+  this.setResponseType(vResponseType || qx.constant.Mime.TEXT);
 
   this.setProhibitCaching(true);
 
@@ -122,9 +122,9 @@ qx.OO.addProperty({
   name           : "responseType",
   type           : qx.constant.Type.STRING,
   possibleValues : [
-                   qx.Const.MIMETYPE_TEXT,
-                   qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON,
-                   qx.Const.MIMETYPE_XML, qx.Const.MIMETYPE_HTML
+                   qx.constant.Mime.TEXT,
+                   qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON,
+                   qx.constant.Mime.XML, qx.constant.Mime.HTML
                    ]
 });
 /*!
