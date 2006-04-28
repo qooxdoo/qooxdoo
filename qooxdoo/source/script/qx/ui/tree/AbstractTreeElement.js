@@ -33,7 +33,7 @@
 qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout, 
 function(vLabel, vIcon, vIconSelected)
 {
-  if (this.classname == qx.ui.tree.AbstractTreeElement.OMIT_CLASS) {
+  if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
   };
 
@@ -85,7 +85,7 @@ function(vLabel, vIcon, vIconSelected)
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 });
 
-qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
+qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.tree.AbstractTreeElement";
 
 
 
