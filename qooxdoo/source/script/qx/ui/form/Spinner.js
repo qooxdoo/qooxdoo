@@ -326,7 +326,7 @@ qx.Proto._onmousedown = function(e)
 
   var vButton = e.getCurrentTarget();
 
-  vButton.addState(qx.Const.STATE_PRESSED);
+  vButton.addState(qx.ui.form.Button.STATE_PRESSED);
 
   vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
   vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
@@ -345,7 +345,7 @@ qx.Proto._onmouseup = function(e)
 {
   var vButton = e.getCurrentTarget();
 
-  vButton.removeState(qx.Const.STATE_PRESSED);
+  vButton.removeState(qx.ui.form.Button.STATE_PRESSED);
 
   vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
   vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
@@ -384,7 +384,7 @@ qx.Proto._onchange = function(e)
 
   if (vValue == this.getMin())
   {
-    this._downbutton.removeState(qx.Const.STATE_PRESSED);
+    this._downbutton.removeState(qx.ui.form.Button.STATE_PRESSED);
     this._downbutton.setEnabled(false);
     this._timer.stop();
   }
@@ -395,7 +395,7 @@ qx.Proto._onchange = function(e)
 
   if (vValue == this.getMax())
   {
-    this._upbutton.removeState(qx.Const.STATE_PRESSED);
+    this._upbutton.removeState(qx.ui.form.Button.STATE_PRESSED);
     this._upbutton.setEnabled(false);
     this._timer.stop();
   }

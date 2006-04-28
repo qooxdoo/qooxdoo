@@ -197,11 +197,11 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 */
 
 qx.Proto._onmouseover = function(e) {
-  this.addState(qx.Const.STATE_OVER);
+  this.addState(qx.ui.core.Widget.STATE_OVER);
 };
 
 qx.Proto._onmouseout = function(e) {
-  this.removeState(qx.Const.STATE_OVER);
+  this.removeState(qx.ui.core.Widget.STATE_OVER);
 };
 
 qx.Proto._onmouseup = function(e)

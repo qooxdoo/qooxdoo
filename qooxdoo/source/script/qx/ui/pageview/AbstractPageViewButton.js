@@ -154,7 +154,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
     };
   };
 
-  propValue ? this.addState(qx.Const.STATE_CHECKED) : this.removeState(qx.Const.STATE_CHECKED);
+  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
 
   var vPage = this.getPage();
   if (vPage) {
@@ -190,11 +190,11 @@ qx.Proto._onmousedown = function(e) {
 };
 
 qx.Proto._onmouseover = function(e) {
-  this.addState(qx.Const.STATE_OVER);
+  this.addState(qx.ui.core.Widget.STATE_OVER);
 };
 
 qx.Proto._onmouseout = function(e) {
-  this.removeState(qx.Const.STATE_OVER);
+  this.removeState(qx.ui.core.Widget.STATE_OVER);
 };
 
 qx.Proto._onkeydown = function(e) {};

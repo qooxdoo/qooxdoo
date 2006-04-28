@@ -215,7 +215,7 @@ qx.Proto._updateRow = function(vRelativeRow)
 
     if (vChild)
     {
-      vEntry && vEntry._selected ? vChild.addState(qx.Const.STATE_SELECTED) : vChild.removeState(qx.Const.STATE_SELECTED);
+      vEntry && vEntry._selected ? vChild.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vChild.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
       vChild.set(vEntry ? vEntry[vCol] : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
     };
   };

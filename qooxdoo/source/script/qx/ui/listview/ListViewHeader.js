@@ -241,7 +241,7 @@ qx.Proto._onmouseup = function(e)
   this.getTopLevelWidget().setGlobalCursor(null);
 
   // Remove hover effect
-  this._resizeTarget.removeState(qx.Const.STATE_OVER);
+  this._resizeTarget.removeState(qx.ui.core.Widget.STATE_OVER);
 
   // Hide resize line
   this.getParent().getResizeLine().setStyleProperty(qx.Const.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);

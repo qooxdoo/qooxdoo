@@ -323,7 +323,7 @@ qx.Proto._onmousedown = function(e)
       // no break here
 
     case this._button:
-      this._button.addState(qx.Const.STATE_PRESSED);
+      this._button.addState(qx.ui.form.Button.STATE_PRESSED);
       this._togglePopup();
       break;
 
@@ -359,7 +359,7 @@ qx.Proto._onmouseup = function(e)
       // no break here
 
     case this._button:
-      this._button.removeState(qx.Const.STATE_PRESSED);
+      this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
       break;
   };
 };

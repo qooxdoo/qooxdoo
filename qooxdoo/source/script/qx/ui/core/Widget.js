@@ -78,6 +78,11 @@ qx.Class.OMIT_CLASS = "qx.ui.core.Widget";
 // Will be calculated later (TODO: Move to qx.Dom?)
 qx.Class.SCROLLBAR_SIZE = 16;
 
+// States
+qx.Class.STATE_OVER = "over";
+qx.Class.STATE_FOCUSED = "focused";
+qx.Class.STATE_DISABLED = "disabled";
+
 // Job constants
 qx.Class.C_JOB_INITIAL = "initial";
 qx.Class.C_JOB_VISIBLE = "visible";
@@ -1463,9 +1468,9 @@ qx.Proto._beforeDisappear = function()
   // this.debug("_beforeDisappear");
 
   // Remove any hover/pressed styles
-  this.removeState(qx.Const.STATE_OVER);
-  this.removeState(qx.Const.STATE_PRESSED);
-  this.removeState(qx.Const.STATE_ABANDONED);
+  this.removeState(qx.ui.core.Widget.STATE_OVER);
+  this.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
 
   // this.debug("_beforeDisappear");
   this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERDISAPPEAR);
@@ -3591,16 +3596,16 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.removeState(qx.Const.STATE_DISABLED);
+    this.removeState(qx.ui.core.Widget.STATE_DISABLED);
   }
   else
   {
-    this.addState(qx.Const.STATE_DISABLED);
+    this.addState(qx.ui.core.Widget.STATE_DISABLED);
 
     // Also reset some states to be sure a pressed/hovered button gets resetted
-    this.removeState(qx.Const.STATE_OVER);
-    this.removeState(qx.Const.STATE_ABANDONED);
-    this.removeState(qx.Const.STATE_PRESSED);
+    this.removeState(qx.ui.core.Widget.STATE_OVER);
+    this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+    this.removeState(qx.ui.form.Button.STATE_PRESSED);
   };
 
   return true;
@@ -4176,7 +4181,7 @@ qx.Proto._visualizeBlur = function()
     } catch(ex) {};
   };
 
-  this.removeState(qx.Const.STATE_FOCUSED);
+  this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
   return true;
 };
 
@@ -4189,7 +4194,7 @@ qx.Proto._visualizeFocus = function()
     } catch(ex) {};
   };
 
-  this.addState(qx.Const.STATE_FOCUSED);
+  this.addState(qx.ui.core.Widget.STATE_FOCUSED);
   return true;
 };
 

@@ -68,13 +68,13 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.addState(qx.Const.STATE_CHECKED);
-    this.getIconObject().addState(qx.Const.STATE_CHECKED);
+    this.addState(qx.ui.form.Button.STATE_CHECKED);
+    this.getIconObject().addState(qx.ui.form.Button.STATE_CHECKED);
   }
   else
   {
-    this.removeState(qx.Const.STATE_CHECKED);
-    this.getIconObject().removeState(qx.Const.STATE_CHECKED);
+    this.removeState(qx.ui.form.Button.STATE_CHECKED);
+    this.getIconObject().removeState(qx.ui.form.Button.STATE_CHECKED);
   };
 
   return true;

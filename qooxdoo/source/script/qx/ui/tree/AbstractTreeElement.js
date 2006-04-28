@@ -136,12 +136,12 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.Const.STATE_SELECTED) : this.removeState(qx.Const.STATE_SELECTED);
-  propValue ? this._labelObject.addState(qx.Const.STATE_SELECTED) : this._labelObject.removeState(qx.Const.STATE_SELECTED);
+  propValue ? this.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  propValue ? this._labelObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._labelObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
 
   var vTree = this.getTree();
   if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this)) {
-    propValue ? this._iconObject.addState(qx.Const.STATE_SELECTED) : this._iconObject.removeState(qx.Const.STATE_SELECTED);
+    propValue ? this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
   };
 
   var vManager = this.getTree().getManager();
