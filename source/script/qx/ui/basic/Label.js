@@ -231,7 +231,7 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
 
   vStyle.width = vStyle.height = qx.constant.Core.AUTO;
   vStyle.visibility = qx.constant.Core.HIDDEN;
-  vStyle.position = qx.constant.Core.ABSOLUTE;
+  vStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   vStyle.zIndex = "-1";
 
   document.body.appendChild(vNode);

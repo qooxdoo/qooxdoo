@@ -56,7 +56,7 @@ function()
   this._htmlProperties = { className : this.classname };
   this._htmlAttributes = { qxhashcode : this._hashCode };
   */
-  this._styleProperties = { position : qx.constant.Core.ABSOLUTE };
+  this._styleProperties = { position : qx.constant.Style.POSITION_ABSOLUTE };
 
 
   // ************************************************************************
@@ -1616,7 +1616,7 @@ else
       var cs = this._borderStyle = cl.style;
 
       cs.width = cs.height = qx.constant.Core.HUNDREDPERCENT;
-      cs.position = qx.constant.Core.ABSOLUTE;
+      cs.position = qx.constant.Style.POSITION_ABSOLUTE;
 
       for (var i in this._styleProperties)
       {
@@ -5248,7 +5248,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.left = "0px";
 
@@ -5261,7 +5261,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   cornerLeftStyle.backgroundColor = "threedface";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "1px";
-  cornerLeftStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerLeftStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerLeftStyle.top = "2px";
   cornerLeftStyle.left = "0px";
 
@@ -5274,7 +5274,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   cornerTopStyle.backgroundColor = "threedface";
   cornerTopStyle.width = "1px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerTopStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "2px";
 
@@ -5294,7 +5294,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
   cornerTopStyle.MozOpacity = "0.5";
   cornerTopStyle.width = "2px";
   cornerTopStyle.height = "1px";
-  cornerTopStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerTopStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerTopStyle.top = "0px";
   cornerTopStyle.left = "3px";
 
@@ -5309,7 +5309,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
   cornerLeftStyle.MozOpacity = "0.5";
   cornerLeftStyle.width = "1px";
   cornerLeftStyle.height = "2px";
-  cornerLeftStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerLeftStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerLeftStyle.top = "3px";
   cornerLeftStyle.left = "0px";
 
@@ -5325,7 +5325,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
   cornerInnerTopStyle.MozOpacity = "0.5";
   cornerInnerTopStyle.width = "1px";
   cornerInnerTopStyle.height = "1px";
-  cornerInnerTopStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerInnerTopStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerInnerTopStyle.top = "1px";
   cornerInnerTopStyle.left = "2px";
 
@@ -5340,7 +5340,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
   cornerInnerLeftStyle.MozOpacity = "0.5";
   cornerInnerLeftStyle.width = "1px";
   cornerInnerLeftStyle.height = "1px";
-  cornerInnerLeftStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerInnerLeftStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerInnerLeftStyle.top = "2px";
   cornerInnerLeftStyle.left = "1px";
 
@@ -5359,7 +5359,7 @@ qx.Proto._applyRoundedTopRightBorder = function()
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerStyle.top = "0px";
   cornerStyle.right = "0px";
 
@@ -5380,7 +5380,7 @@ qx.Proto._applyRoundedBottomLeftBorder = function()
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.left = "0px";
 
@@ -5402,7 +5402,7 @@ qx.Proto._applyRoundedBottomRightBorder = function()
   cornerStyle.backgroundColor = "threedface";
   cornerStyle.width = "2px";
   cornerStyle.height = "2px";
-  cornerStyle.position = qx.constant.Core.ABSOLUTE;
+  cornerStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
   cornerStyle.bottom = "0px";
   cornerStyle.right = "0px";
 

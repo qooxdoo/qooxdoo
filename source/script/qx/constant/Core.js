@@ -74,11 +74,5 @@ qx.OO.defineClass("qx.constant.Core",
   AUTO : "auto",
   NONE : "none",
   DISABLED : "disabled",
-  HIDDEN : "hidden",
-
-  // CSS
-  ABSOLUTE : "absolute",
-  RELATIVE : "relative",
-  STATIC : "static",
-  FIXED : "fixed"
+  HIDDEN : "hidden"
 });
