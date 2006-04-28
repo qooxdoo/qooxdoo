@@ -1,3 +1,4 @@
+QxConst.CORE_FLEX=qx.constant.Core.FLEX
 QxConst=qx.Const
 QxClient=qx.sys.Client
 
@@ -82,9 +83,9 @@ QxRadioButton=qx.ui.form.RadioButton
 QxListItem=qx.ui.form.ListItem
 QxInputCheckIcon=qx.ui.form.InputCheckSymbol
 
-QxFieldSet=qx.ui.fieldset.GroupBox
-QxCheckBoxFieldSet=qx.ui.fieldset.CheckGroupBox
-QxRadioButtonFieldSet=qx.ui.fieldset.RadioGroupBox
+QxFieldSet=qx.ui.groupbox.GroupBox
+QxCheckBoxFieldSet=qx.ui.groupbox.CheckGroupBox
+QxRadioButtonFieldSet=qx.ui.groupbox.RadioGroupBox
 
 QxListView=qx.ui.listview.ListView
 QxListViewContentCellHtml=qx.ui.listview.ListViewContentCellHtml
