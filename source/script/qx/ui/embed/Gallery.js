@@ -33,7 +33,7 @@ function(vGalleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
-  this._blank = qx.manager.object.ImageManager.buildUri(qx.Const.IMAGE_BLANK);
+  this._blank = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
   this._list = vGalleryList;
   this._listSize = vGalleryList.length;
   this._processedImages = 0;

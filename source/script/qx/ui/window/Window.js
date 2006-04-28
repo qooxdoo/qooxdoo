@@ -190,7 +190,7 @@ function(vCaption, vIcon, vWindowManager)
 
   var p = this._pane = new qx.ui.layout.CanvasLayout;
   p.setHeight(qx.constant.Core.FLEX);
-  p.setOverflow(qx.Const.OVERFLOW_VALUE_HIDDEN);
+  p.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
   l.add(p);
 
 

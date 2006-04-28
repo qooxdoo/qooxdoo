@@ -79,7 +79,7 @@ theme.registerAppearance("blocker",
     // A background image or color is always needed for mshtml to block the events successfully.
     return {
       cursor : qx.constant.Core.DEFAULT,
-      backgroundImage : qx.Const.IMAGE_BLANK
+      backgroundImage : qx.manager.object.ImageManager.BLANK
     };
   }
 });
@@ -717,7 +717,7 @@ theme.registerAppearance("window-captionbar",
       paddingLeft : 2,
       verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
       height : qx.constant.Core.AUTO,
-      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
+      overflow : qx.constant.Style.OVERFLOW_HIDDEN
     };
   },
 
@@ -974,7 +974,7 @@ theme.registerAppearance("menu-check-box-icon",
   state : function(vWidget, vTheme, vStates)
   {
     return {
-      source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.Const.IMAGE_BLANK
+      source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
     };
   }
 });
@@ -999,7 +999,7 @@ theme.registerAppearance("menu-radio-button-icon",
   state : function(vWidget, vTheme, vStates)
   {
     return {
-      source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.Const.IMAGE_BLANK
+      source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
     };
   }
 });
@@ -1054,7 +1054,7 @@ theme.registerAppearance("list",
   initial : function(vWidget, vTheme)
   {
     return {
-      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.constant.Style.OVERFLOW_HIDDEN,
       border : qx.renderer.border.BorderObject.presets.thinInset,
       backgroundColor : this.bgcolor
     };
@@ -1206,7 +1206,7 @@ theme.registerAppearance("combo-box-list",
       bottom : 0,
       left : 0,
       border : null,
-      overflow : qx.Const.OVERFLOW_VALUE_VERTICAL
+      overflow : qx.constant.Style.OVERFLOW_VERTICAL
     });
   }
 });
@@ -1478,7 +1478,7 @@ theme.registerAppearance("list-view",
   {
     return {
       cursor : qx.constant.Core.DEFAULT,
-      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN
+      overflow: qx.constant.Style.OVERFLOW_HIDDEN
     };
   }
 });
@@ -1490,7 +1490,7 @@ theme.registerAppearance("list-view-pane",
     return {
       width : qx.constant.Core.FLEX,
       horizontalSpacing : 1,
-      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN
+      overflow : qx.constant.Style.OVERFLOW_HIDDEN
     };
   }
 });
@@ -1509,7 +1509,7 @@ theme.registerAppearance("list-view-header",
   {
     return {
       height : qx.constant.Core.AUTO,
-      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN,
+      overflow: qx.constant.Style.OVERFLOW_HIDDEN,
       border : this.border,
       backgroundColor : this.bgcolor
     };
@@ -1529,10 +1529,10 @@ theme.registerAppearance("list-view-header-cell",
   initial : function(vWidget, vTheme)
   {
     // Text Overflow
-    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.Const.OVERFLOW_VALUE_ELLIPSIS);
+    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
 
     return {
-      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.constant.Style.OVERFLOW_HIDDEN,
       paddingTop : 2,
       paddingRight : 6,
       paddingBottom : 2,
@@ -1616,10 +1616,10 @@ theme.registerAppearance("list-view-content-cell-text",
   initial : function(vWidget, vTheme)
   {
     vWidget.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, "nowrap");
-    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.Const.OVERFLOW_VALUE_ELLIPSIS);
+    vWidget.setStyleProperty(qx.Const.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
 
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
-      overflow: qx.Const.OVERFLOW_VALUE_HIDDEN,
+      overflow: qx.constant.Style.OVERFLOW_HIDDEN,
       paddingLeft : 6,
       paddingRight : 6
     });

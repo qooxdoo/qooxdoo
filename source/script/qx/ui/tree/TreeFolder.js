@@ -85,7 +85,7 @@ qx.Proto.open = function()
 
   if (this.hasContent())
   {
-    this.getTopLevelWidget().setGlobalCursor(qx.Const.CURSOR_PROGRESS);
+    this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
     qx.client.Timer.once(this._openCallback, this, 0);
   }
   else

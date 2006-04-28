@@ -34,7 +34,7 @@ function(vSource, vWidth, vHeight) {
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-image" });
 
 qx.ui.listview.ListViewContentCellImage.empty = {
-  source : qx.Const.IMAGE_BLANK
+  source : qx.manager.object.ImageManager.BLANK
 };
 
 
@@ -49,7 +49,7 @@ qx.Proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
-    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == qx.constant.Core.EMPTY ? qx.Const.IMAGE_BLANK : vSource));
+    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == qx.constant.Core.EMPTY ? qx.manager.object.ImageManager.BLANK : vSource));
   }
   else
   {
