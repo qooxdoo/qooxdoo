@@ -110,7 +110,7 @@ qx.Proto._syncResizeLine = function()
   vLine._applyRuntimeHeight(vHeight);
   vLine._applyRuntimeLeft(vLeft);
 
-  vLine.removeStyleProperty(qx.Const.PROPERTY_VISIBILITY);
+  vLine.removeStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY);
 };
 
 
@@ -244,7 +244,7 @@ qx.Proto._onmouseup = function(e)
   this._resizeTarget.removeState(qx.ui.core.Widget.STATE_OVER);
 
   // Hide resize line
-  this.getParent().getResizeLine().setStyleProperty(qx.Const.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
+  this.getParent().getResizeLine().setStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
 
   this._cleanupResizing();
 };

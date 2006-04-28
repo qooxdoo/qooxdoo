@@ -124,7 +124,7 @@ qx.Proto._updateLayout = function(vUpdate)
         this.add(vCell, j++, i);
 
         if (vColumns[vCol].align) {
-          vCell.setStyleProperty(qx.Const.PROPERTY_TEXTALIGN, vColumns[vCol].align);
+          vCell.setStyleProperty(qx.constant.Style.PROPERTY_TEXTALIGN, vColumns[vCol].align);
         };
       };
     };

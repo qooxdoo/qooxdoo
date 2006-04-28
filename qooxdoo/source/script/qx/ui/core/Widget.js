@@ -78,6 +78,17 @@ qx.Class.OMIT_CLASS = "qx.ui.core.Widget";
 // Will be calculated later (TODO: Move to qx.Dom?)
 qx.Class.SCROLLBAR_SIZE = 16;
 
+// Properties
+qx.Class.PROPERTY_CLASSNAME = "className";
+qx.Class.PROPERTY_BORDERX = "borderX";
+qx.Class.PROPERTY_BORDERWIDTHX = "borderWidthX";
+qx.Class.PROPERTY_BORDERY = "borderY";
+qx.Class.PROPERTY_BORDERWIDTHY = "borderWidthY";
+qx.ui.core.Widget.PROPERTY_PARENT_PADDINGLEFT = "parentPaddingLeft";
+qx.ui.core.Widget.PROPERTY_PARENT_PADDINGRIGHT = "parentPaddingRight";
+qx.ui.core.Widget.PROPERTY_PARENT_PADDINGTOP = "parentPaddingTop";
+qx.ui.core.Widget.PROPERTY_PARENT_PADDINGBOTTOM = "parentPaddingBottom";
+
 // States
 qx.Class.STATE_OVER = "over";
 qx.Class.STATE_FOCUSED = "focused";
@@ -1104,7 +1115,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   If the widget is visible and rendered on the screen.
 */
 qx.Proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_DISPLAY) != qx.constant.Core.NONE && qx.dom.DomStyle.getStyleProperty(el, qx.Const.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_DISPLAY) != qx.constant.Core.NONE && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
 };
 
 /*!
@@ -1281,7 +1292,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 };
 
 qx.Proto._modifyDisplay = function(propValue, propOldValue, propData) {
-  return this._handleDisplayable(qx.Const.PROPERTY_DISPLAY);
+  return this._handleDisplayable(qx.constant.Style.PROPERTY_DISPLAY);
 };
 
 
@@ -1553,7 +1564,7 @@ qx.Proto._modifyVisibility = function(propValue, propOldValue, propData)
       this._beforeAppear();
     };
 
-    this.removeStyleProperty(qx.Const.PROPERTY_DISPLAY);
+    this.removeStyleProperty(qx.constant.Style.PROPERTY_DISPLAY);
 
     if (this._isDisplayable) {
       this._afterAppear();
@@ -1565,7 +1576,7 @@ qx.Proto._modifyVisibility = function(propValue, propOldValue, propData)
       this._beforeDisappear();
     };
 
-    this.setStyleProperty(qx.Const.PROPERTY_DISPLAY, qx.constant.Core.NONE);
+    this.setStyleProperty(qx.constant.Style.PROPERTY_DISPLAY, qx.constant.Core.NONE);
 
     if (this._isDisplayable) {
       this._afterDisappear();
@@ -1627,10 +1638,10 @@ else
       {
         switch(i)
         {
-          case qx.Const.PROPERTY_POSITION:
+          case qx.constant.Style.PROPERTY_POSITION:
           case qx.Const.PROPERTY_ZINDEX:
-          case qx.Const.PROPERTY_FILTER:
-          case qx.Const.PROPERTY_DISPLAY:
+          case qx.constant.Style.PROPERTY_FILTER:
+          case qx.constant.Style.PROPERTY_DISPLAY:
             break;
 
           default:
@@ -1935,25 +1946,25 @@ qx.Proto._flushJobQueue = function(q)
 
       if (vQueue.paddingLeft) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGLEFT);
+          ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGLEFT);
         };
       };
 
       if (vQueue.paddingRight) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGRIGHT);
+          ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGRIGHT);
         };
       };
 
       if (vQueue.paddingTop) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGTOP);
+          ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGTOP);
         };
       };
 
       if (vQueue.paddingBottom) {
         for (var i=0; i<chl; i++) {
-          ch[i].addToLayoutChanges(qx.Const.PROPERTY_PARENT_PADDINGBOTTOM);
+          ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGBOTTOM);
         };
       };
     };
@@ -4023,9 +4034,9 @@ qx.Proto.setStyleProperty = function(propName, propValue)
     switch(propName)
     {
       case qx.Const.PROPERTY_ZINDEX:
-      case qx.Const.PROPERTY_FILTER:
-      case qx.Const.PROPERTY_DISPLAY:
-      case qx.Const.PROPERTY_VISIBILITY:
+      case qx.constant.Style.PROPERTY_FILTER:
+      case qx.constant.Style.PROPERTY_DISPLAY:
+      case qx.constant.Style.PROPERTY_VISIBILITY:
         var vElement = this.getElement();
         break;
 
@@ -4054,9 +4065,9 @@ qx.Proto.removeStyleProperty = function(propName)
     switch(propName)
     {
       case qx.Const.PROPERTY_ZINDEX:
-      case qx.Const.PROPERTY_FILTER:
-      case qx.Const.PROPERTY_DISPLAY:
-      case qx.Const.PROPERTY_VISIBILITY:
+      case qx.constant.Style.PROPERTY_FILTER:
+      case qx.constant.Style.PROPERTY_DISPLAY:
+      case qx.constant.Style.PROPERTY_VISIBILITY:
         var vElement = this.getElement();
         break;
 
@@ -4089,7 +4100,7 @@ qx.Proto._applyStyleProperties = function(vElement)
     switch(propName)
     {
       case qx.Const.PROPERTY_ZINDEX:
-      case qx.Const.PROPERTY_FILTER:
+      case qx.constant.Style.PROPERTY_FILTER:
         vElement = vBaseElement;
         break;
 
@@ -4326,11 +4337,11 @@ else
 */
 
 qx.Proto.setCssClassName = function(propValue) {
-  this.setHtmlProperty(qx.Const.PROPERTY_CLASSNAME, propValue);
+  this.setHtmlProperty(qx.ui.core.Widget.PROPERTY_CLASSNAME, propValue);
 };
 
 qx.Proto.getCssClassName = function() {
-  return this.getHtmlProperty(qx.Const.PROPERTY_CLASSNAME);
+  return this.getHtmlProperty(qx.ui.core.Widget.PROPERTY_CLASSNAME);
 };
 
 
@@ -4442,11 +4453,11 @@ if(qx.sys.Client.isMshtml())
   {
     if(propValue == null || propValue >= 1 || propValue < 0)
     {
-      this.removeStyleProperty(qx.Const.PROPERTY_FILTER);
+      this.removeStyleProperty(qx.constant.Style.PROPERTY_FILTER);
     }
     else if (qx.util.Validation.isValidNumber(propValue))
     {
-      this.setStyleProperty(qx.Const.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
+      this.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
     }
     else
     {
@@ -4907,7 +4918,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
     this._invalidateFrameWidth();
   };
 
-  this.addToQueue(qx.Const.PROPERTY_BORDERX);
+  this.addToQueue(qx.ui.core.Widget.PROPERTY_BORDERX);
 
 
 
@@ -4918,7 +4929,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
     this._invalidateFrameHeight();
   };
 
-  this.addToQueue(qx.Const.PROPERTY_BORDERY);
+  this.addToQueue(qx.ui.core.Widget.PROPERTY_BORDERY);
 
 
 
@@ -4961,19 +4972,19 @@ qx.Proto._updateBorder = function(vEdge)
     case qx.Const.PROPERTY_LEFT:
     case qx.Const.PROPERTY_RIGHT:
       if (vWidthChanged) {
-        this.addToJobQueue(qx.Const.PROPERTY_BORDERWIDTHX);
+        this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHX);
       };
 
-      this.addToJobQueue(qx.Const.PROPERTY_BORDERX);
+      this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERX);
       break;
 
     case qx.Const.PROPERTY_TOP:
     case qx.Const.PROPERTY_BOTTOM:
       if (vWidthChanged) {
-        this.addToJobQueue(qx.Const.PROPERTY_BORDERWIDTHY);
+        this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHY);
       };
 
-      this.addToJobQueue(qx.Const.PROPERTY_BORDERY);
+      this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERY);
       break;
   };
 };

@@ -49,7 +49,7 @@ function(vLabel, vIcon, vIconSelected)
 
   // Behaviour and Hard Styling
   this._labelObject.setSelectable(false);
-  this._labelObject.setStyleProperty(qx.Const.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
+  this._labelObject.setStyleProperty(qx.constant.Style.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
 
   qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
 

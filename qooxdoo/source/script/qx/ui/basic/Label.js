@@ -315,7 +315,7 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
-  this.setStyleProperty(qx.Const.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
+  this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
 };
 
