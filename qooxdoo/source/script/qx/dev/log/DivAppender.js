@@ -17,6 +17,8 @@
        <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (aecker)
        <andreas dot ecker at 1und1 dot de>
+     * Til Schneider (til132)
+       <tilman dot schneider at stz-ida dot de>
 
 ************************************************************************ */
 
