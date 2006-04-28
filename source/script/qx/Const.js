@@ -41,12 +41,6 @@ qx.OO.defineClass("qx.Const",
   STATE_LEAD : "lead",
   STATE_MAXIMIZED : "maximized",
 
-  MIMETYPE_JAVASCRIPT : "text/javascript",
-  MIMETYPE_JSON : "text/json",
-  MIMETYPE_XML : "application/xml",
-  MIMETYPE_TEXT : "text/plain",
-  MIMETYPE_HTML : "text/html",
-
   ORIENTATION_HORIZONTAL : "horizontal",
   ORIENTATION_VERTICAL : "vertical",
 

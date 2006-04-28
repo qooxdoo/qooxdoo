@@ -95,7 +95,7 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : true,
   fileUpload: true,
-  responseTypes : [ qx.Const.MIMETYPE_TEXT, qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON, qx.Const.MIMETYPE_XML, qx.Const.MIMETYPE_HTML ]
+  responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
 };
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -384,16 +384,16 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case qx.Const.MIMETYPE_TEXT:
+    case qx.constant.Mime.TEXT:
       return this.getIframeTextContent();
       break;
 
-    case qx.Const.MIMETYPE_HTML:
+    case qx.constant.Mime.HTML:
       return this.getIframeHtmlContent();
       break;
 
-    case qx.Const.MIMETYPE_JSON:
-    case qx.Const.MIMETYPE_JAVASCRIPT:
+    case qx.constant.Mime.JSON:
+    case qx.constant.Mime.JAVASCRIPT:
       try {
         var vText = this.getIframeTextContent();
         return vText ? eval("(" + vText + ")") : null;
@@ -401,7 +401,7 @@ qx.Proto.getResponseContent = function()
         return this.error("Could not execute javascript/json", ex);
       };
 
-    case qx.Const.MIMETYPE_XML:
+    case qx.constant.Mime.XML:
       return this.getIframeDocument();
 
     default:
