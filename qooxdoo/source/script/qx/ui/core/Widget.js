@@ -40,7 +40,7 @@
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
 {
-  if (this.classname == qx.ui.core.Widget.OMIT_CLASS) {
+  if (this.classname == qx.ui.core.Widget.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
   };
 
@@ -72,8 +72,7 @@ function()
   this._applyInitialAppearance();
 });
 
-qx.Class.CORE_CLASS = "QxWidgetCore";
-qx.Class.OMIT_CLASS = "qx.ui.core.Widget";
+qx.Class.ABSTRACT_CLASS = "qx.ui.core.Widget";
 
 // Will be calculated later (TODO: Move to qx.Dom?)
 qx.Class.SCROLLBAR_SIZE = 16;
@@ -560,13 +559,13 @@ if (qx.core.Settings.enableWidgetDebug)
 
     if (vSum > 0)
     {
-      qx.dev.Debug("QxWidgetCore", "Flush Global Queues", "info");
-      qx.dev.Debug("QxWidgetCore", "Widgets: " + vWidgetDuration + "ms");
-      qx.dev.Debug("QxWidgetCore", "State: " + vStateDuration + "ms");
-      qx.dev.Debug("QxWidgetCore", "Element: " + vElementDuration + "ms");
-      qx.dev.Debug("QxWidgetCore", "Job: " + vJobDuration + "ms");
-      qx.dev.Debug("QxWidgetCore", "Layout: " + vLayoutDuration + "ms");
-      qx.dev.Debug("QxWidgetCore", "Display: " + vDisplayDuration + "ms");
+      this.debug("Flush Global Queues", "info");
+      this.debug("Widgets: " + vWidgetDuration + "ms");
+      this.debug("State: " + vStateDuration + "ms");
+      this.debug("Element: " + vElementDuration + "ms");
+      this.debug("Job: " + vJobDuration + "ms");
+      this.debug("Layout: " + vLayoutDuration + "ms");
+      this.debug("Display: " + vDisplayDuration + "ms");
 
       window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
     };
@@ -4486,7 +4485,7 @@ else
     }
     else if (qx.util.Validation.isValidNumber(propValue))
     {
-      propValue = propValue.limit(0, 1);
+      propValue = qx.lang.Number.limit(propValue, 0, 1);
 
       // should we omit geckos flickering here
       // and limit the max value to 0.99?
