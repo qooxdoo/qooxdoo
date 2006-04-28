@@ -30,7 +30,7 @@
   Font implementation for qx.ui.core.Widget instances.
 */
 
-qx.OO.defineClass("qx.renderer.font.Font", qx.core.Object, 
+qx.OO.defineClass("qx.renderer.font.Font", qx.core.Object,
 function(vSize, vName)
 {
   qx.core.Object.call(this);
@@ -46,6 +46,14 @@ function(vSize, vName)
   };
 });
 
+qx.Class.STYLE_BOLD = "bold";
+qx.Class.STYLE_NORMAL = "normal";
+qx.Class.STYLE_ITALIC = "italic";
+qx.Class.STYLE_UNDERLINE = "underline";
+qx.Class.STYLE_STRIKEOUT = "strikeout";
+
+
+
 
 
 /*
@@ -60,6 +68,8 @@ qx.OO.addProperty({ name : "bold", type : qx.Const.TYPEOF_BOOLEAN, defaultValue 
 qx.OO.addProperty({ name : "italic", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
 qx.OO.addProperty({ name : "underline", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
 qx.OO.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+
+
 
 
 
