@@ -92,8 +92,8 @@ function(vData, vColumns)
   this._scroll.setWidth(qx.constant.Core.AUTO);
   this._scroll.setOverflow(qx.constant.Style.OVERFLOW_VERTICAL);
   this._scroll.setParent(this._frame);
-  this._scroll.enableInlineEvent(qx.Const.EVENT_TYPE_SCROLL);
-  this._scroll.addEventListener(qx.Const.EVENT_TYPE_SCROLL, this._onscroll, this);
+  this._scroll.enableInlineEvent(qx.constant.Event.SCROLL);
+  this._scroll.addEventListener(qx.constant.Event.SCROLL, this._onscroll, this);
 
 
 

@@ -129,7 +129,7 @@ function()
   //   CHILDREN EVENTS
   // ************************************************************************
   p.addEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onpopupappear, this);
-  f.addEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
+  f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
 
 
   // ************************************************************************
@@ -222,7 +222,7 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
   this._fromValue = true;
 
   // only do this if we called setValue seperatly
-  // and not from the event qx.Const.EVENT_TYPE_INPUT.
+  // and not from the event qx.constant.Event.INPUT.
   if (!this._fromInput) {
     this._field.setValue(propValue);
   };

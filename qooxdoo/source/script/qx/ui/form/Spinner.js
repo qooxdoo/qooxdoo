@@ -99,11 +99,11 @@ function(vMin, vValue, vMax)
   this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
   this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
 
-  this._textfield.addEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
-  this._textfield.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
+  this._textfield.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+  this._textfield.addEventListener(qx.constant.Event.BLUR, this._onblur, this);
   this._upbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
   this._downbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
-  this._manager.addEventListener(qx.Const.EVENT_TYPE_CHANGE, this._onchange, this);
+  this._manager.addEventListener(qx.constant.Event.CHANGE, this._onchange, this);
   this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
 
@@ -404,8 +404,8 @@ qx.Proto._onchange = function(e)
     this._upbutton.setEnabled(true);
   };
 
-  if (this.hasEventListeners(qx.Const.EVENT_TYPE_CHANGE)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_CHANGE), true);
+  if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
+    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
   };
 };
 
@@ -643,8 +643,8 @@ qx.Proto.dispose = function()
 
   if (this._textfield)
   {
-    this._textfield.removeEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
-    this._textfield.removeEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
+    this._textfield.removeEventListener(qx.constant.Event.BLUR, this._onblur, this);
+    this._textfield.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
     this._textfield.dispose();
     this._textfield = null;
   };
@@ -679,7 +679,7 @@ qx.Proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(qx.Const.EVENT_TYPE_CHANGE, this._onchange, this);
+    this._manager.removeEventListener(qx.constant.Event.CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   };

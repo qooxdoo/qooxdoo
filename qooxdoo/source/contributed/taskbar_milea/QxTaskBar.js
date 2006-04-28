@@ -94,10 +94,10 @@ qx.Proto.addWindow = function(win) {
     win.addEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, function(e) {
         tmpButton.setChecked(false);
     });
-    win.addEventListener(qx.Const.EVENT_TYPE_BLUR, function(e) {
+    win.addEventListener(qx.constant.Event.BLUR, function(e) {
         tmpButton.setChecked(false);
     });
-    win.addEventListener(qx.Const.EVENT_TYPE_FOCUS, function(e) {
+    win.addEventListener(qx.constant.Event.FOCUS, function(e) {
         tmpButton.setChecked(true);
     });
 };

@@ -10,3 +10,10 @@ qx.Const.EVENT_TYPE_CONTEXTMENU=qx.constant.Event.CONTEXTMENU
 qx.Const.EVENT_TYPE_KEYDOWN=qx.constant.Event.KEYDOWN
 qx.Const.EVENT_TYPE_KEYPRESS=qx.constant.Event.KEYPRESS
 qx.Const.EVENT_TYPE_KEYUP=qx.constant.Event.KEYUP
+
+qx.Const.EVENT_TYPE_BLUR=qx.constant.Event.BLUR
+qx.Const.EVENT_TYPE_FOCUS=qx.constant.Event.FOCUS
+qx.Const.EVENT_TYPE_SELECT=qx.constant.Event.SELECT
+qx.Const.EVENT_TYPE_SCROLL=qx.constant.Event.SCROLL
+qx.Const.EVENT_TYPE_INPUT=qx.constant.Event.INPUT
+qx.Const.EVENT_TYPE_CHANGE=qx.constant.Event.CHANGE

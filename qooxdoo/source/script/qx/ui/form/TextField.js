@@ -52,10 +52,10 @@ function(vValue)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.enableInlineEvent(qx.Const.EVENT_TYPE_INPUT);
+  this.enableInlineEvent(qx.constant.Event.INPUT);
 
-  this.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur);
-  this.addEventListener(qx.Const.EVENT_TYPE_FOCUS, this._onfocus);
+  this.addEventListener(qx.constant.Event.BLUR, this._onblur);
+  this.addEventListener(qx.constant.Event.FOCUS, this._onfocus);
 });
 
 
@@ -494,8 +494,8 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur);
-  this.removeEventListener(qx.Const.EVENT_TYPE_FOCUS, this._onfocus);
+  this.removeEventListener(qx.constant.Event.BLUR, this._onblur);
+  this.removeEventListener(qx.constant.Event.FOCUS, this._onfocus);
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
 };
