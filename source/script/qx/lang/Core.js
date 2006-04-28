@@ -53,7 +53,13 @@ if (!Error.prototype.toString)
 ---------------------------------------------------------------------------
 */
 
-// impliment function apply for browsers which don't support it natively
+/**
+ * function apply for browsers that do not support it natively, e.g. IE 5.0
+ * <p>
+ * Based on code from youngpup.net licensed under 
+ * Creative Commons Attribution 2.0
+ * </p>
+ */ 
 if (!Function.prototype.apply)
 {
   Function.prototype.apply = function(oScope, args)
