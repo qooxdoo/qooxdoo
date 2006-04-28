@@ -60,23 +60,23 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 /*!
   If this tab is the currently selected/active one
 */
-qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   The attached QxPage to this tab
 */
-qx.OO.addProperty({ name : "page", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "page", type : qx.constant.Type.OBJECT });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.OO.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 
 

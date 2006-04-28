@@ -65,17 +65,17 @@ qx.OO.removeProperty({ name : "icon" });
 /*!
   The HTML name of the form element used by the widget
 */
-qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 /*!
   The HTML value of the form element used by the widget
 */
-qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING });
 
 /*!
   If the widget is checked
 */
-qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "isChecked" });
 
 
 

@@ -8,3 +8,4 @@ qx.Const.NODE_=qx.constant.Node.
 qx.Const.BORDER_STYLE_=qx.renderer.border.Border.STYLE_
 qx.Const.FONT_STYLE_=qx.renderer.font.Font.STYLE_
 qx.Const.HTML_=qx.constant.Html.
+qx.Const.TYPEOF_=qx.constant.Type.

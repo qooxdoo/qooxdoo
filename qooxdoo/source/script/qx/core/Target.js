@@ -63,18 +63,18 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
     return;
   };
 
-  if(typeof vFunction !== qx.Const.TYPEOF_FUNCTION) {
+  if(typeof vFunction !== qx.constant.Type.FUNCTION) {
     throw new Error("qx.core.Target: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
-  if (typeof this._listeners === qx.Const.TYPEOF_UNDEFINED)
+  if (typeof this._listeners === qx.constant.Type.UNDEFINED)
   {
     this._listeners = {};
     this._listeners[vType] = {};
   }
-  else if(typeof this._listeners[vType] === qx.Const.TYPEOF_UNDEFINED)
+  else if(typeof this._listeners[vType] === qx.constant.Type.UNDEFINED)
   {
     this._listeners[vType] = {};
   };
@@ -100,11 +100,11 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   };
 
   var vListeners = this._listeners;
-  if (!vListeners || typeof vListeners[vType] === qx.Const.TYPEOF_UNDEFINED) {
+  if (!vListeners || typeof vListeners[vType] === qx.constant.Type.UNDEFINED) {
     return;
   };
 
-  if(typeof vFunction !== qx.Const.TYPEOF_FUNCTION) {
+  if(typeof vFunction !== qx.constant.Type.FUNCTION) {
     throw new Error("qx.core.Target: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   };
 
@@ -132,7 +132,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   Check if there are one or more listeners for an event type
 */
 qx.Proto.hasEventListeners = function(vType) {
-  return this._listeners && typeof this._listeners[vType] !== qx.Const.TYPEOF_UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
+  return this._listeners && typeof this._listeners[vType] !== qx.constant.Type.UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
 };
 
 /*!
@@ -224,7 +224,7 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
         // Call object function
         try
         {
-          if(typeof vFunction === qx.Const.TYPEOF_FUNCTION) {
+          if(typeof vFunction === qx.constant.Type.FUNCTION) {
             vFunction.call(qx.util.Validation.isValid(vObject) ? vObject : this, vEvent);
           };
         }
@@ -270,7 +270,7 @@ qx.Proto.dispose = function()
     return;
   };
 
-  if (typeof this._listeners === qx.Const.TYPEOF_OBJECT)
+  if (typeof this._listeners === qx.constant.Type.OBJECT)
   {
     for (var vType in this._listeners)
     {

@@ -62,12 +62,12 @@ qx.Class.STYLE_STRIKEOUT = "strikeout";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "size", type : qx.Const.TYPEOF_NUMBER, impl : "style" });
-qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING, impl : "style" });
-qx.OO.addProperty({ name : "bold", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.OO.addProperty({ name : "italic", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.OO.addProperty({ name : "underline", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
-qx.OO.addProperty({ name : "strikeout", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "size", type : qx.constant.Type.NUMBER, impl : "style" });
+qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING, impl : "style" });
+qx.OO.addProperty({ name : "bold", type : qx.constant.Type.BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "italic", type : qx.constant.Type.BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "underline", type : qx.constant.Type.BOOLEAN, defaultValue : false, impl : "style" });
+qx.OO.addProperty({ name : "strikeout", type : qx.constant.Type.BOOLEAN, defaultValue : false, impl : "style" });
 
 
 

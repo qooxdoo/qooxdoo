@@ -34,7 +34,7 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-icon-html" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-icon-html" });
 
 qx.ui.listview.ListViewContentCellIconHtml.empty =
 {

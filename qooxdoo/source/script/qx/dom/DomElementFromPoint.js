@@ -52,7 +52,7 @@ qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, rec
 
     if (ret)
     {
-      if (typeof recursive === qx.Const.TYPEOF_BOOLEAN && recursive == false)
+      if (typeof recursive === qx.constant.Type.BOOLEAN && recursive == false)
       {
         return chc;
       }

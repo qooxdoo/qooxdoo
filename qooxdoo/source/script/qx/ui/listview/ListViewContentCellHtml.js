@@ -34,7 +34,7 @@ function(vHtml)
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-html" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-html" });
 
 qx.ui.listview.ListViewContentCellHtml.empty = {
   html : qx.constant.Core.EMPTY

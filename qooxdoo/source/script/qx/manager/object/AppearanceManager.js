@@ -39,7 +39,7 @@ function()
 
 
 
-qx.OO.addProperty({ name : "appearanceTheme", type : qx.Const.TYPEOF_STRING, defaultValue : "default" });
+qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.STRING, defaultValue : "default" });
 
 
 

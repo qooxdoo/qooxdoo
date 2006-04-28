@@ -42,7 +42,7 @@ function(vText, vIcon, vValue)
   this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-item" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-item" });
 qx.OO.addProperty({ name : "value" });
 
 

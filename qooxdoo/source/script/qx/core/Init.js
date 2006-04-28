@@ -134,12 +134,12 @@ qx.Proto._runPre = function()
     if (qx.core.Settings.enableUserInterface)
     {
       // Create client window instance (and client-document, event- and focus-manager, ...)
-      if (typeof qx.client.ClientWindow === qx.Const.TYPEOF_FUNCTION) {
+      if (typeof qx.client.ClientWindow === qx.constant.Type.FUNCTION) {
         this._clientWindow = new qx.client.ClientWindow();
       };
 
       // Build virtual methods for easy additions of childrens and so on
-      if (typeof qx.ui.core.Parent === qx.Const.TYPEOF_FUNCTION)
+      if (typeof qx.ui.core.Parent === qx.constant.Type.FUNCTION)
       {
         this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
         qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
@@ -194,7 +194,7 @@ qx.Proto._runPreload = function()
     this.info("Preload phase");
     this.debug("Preloading images...");
 
-    if (typeof qx.manager.object.ImageManager !== qx.Const.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.Const.TYPEOF_UNDEFINED)
+    if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
     {
       var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
       vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
@@ -211,7 +211,7 @@ qx.Proto._runPreloadDone = function()
 
 qx.Proto._runWidgets = function()
 {
-  if (typeof qx.ui.core.Widget === qx.Const.TYPEOF_FUNCTION)
+  if (typeof qx.ui.core.Widget === qx.constant.Type.FUNCTION)
   {
     var s = (new Date).valueOf();
 
@@ -262,7 +262,7 @@ qx.Proto._runPostload = function()
   this.info("Postload phase");
   this.debug("Preloading images...");
 
-  if (typeof qx.manager.object.ImageManager !== qx.Const.TYPEOF_UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.Const.TYPEOF_UNDEFINED)
+  if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
   {
     var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList());
     vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);

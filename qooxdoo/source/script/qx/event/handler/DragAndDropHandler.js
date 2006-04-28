@@ -42,10 +42,10 @@ function()
   this._cursors = {};
 });
 
-qx.OO.addProperty({ name : "sourceWidget", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "destinationWidget", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "cursor", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "currentAction", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "sourceWidget", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "destinationWidget", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "cursor", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "currentAction", type : qx.constant.Type.STRING });
 
 qx.Proto._actionNames =
 {

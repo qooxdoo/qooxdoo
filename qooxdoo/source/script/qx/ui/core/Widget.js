@@ -103,7 +103,7 @@ qx.Class.C_FOCUS_OUTLINE = "1px dotted invert";
 /*!
   The parent widget (the real object, no ID or something)
 */
-qx.OO.addProperty({ name : "parent", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
+qx.OO.addProperty({ name : "parent", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Parent", defaultValue : null });
 
 /*!
   The element node (if the widget is created, otherwise null)
@@ -113,25 +113,25 @@ qx.OO.addProperty({ name : "element" });
 /*!
   Simple and fast switch of the visibility of a widget.
 */
-qx.OO.addProperty({ name : "visibility", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "visibility", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the widget should be displayed. Use this property instead of visibility if the change
   in visibility should have effects on the parent widget.
 */
-qx.OO.addProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "display", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If you switch this to true, the widget doesn't handle
   events directly. It will redirect them to the parent
   widget.
 */
-qx.OO.addProperty({ name : "anonymous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
+qx.OO.addProperty({ name : "anonymous", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "isAnonymous" });
 
 /*!
   The tagname of the element which should automatically be created
 */
-qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Tags.DIV });
+qx.OO.addProperty({ name : "tagName", type : qx.constant.Type.STRING, defaultValue : qx.constant.Tags.DIV });
 
 /*!
   This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
@@ -139,7 +139,7 @@ qx.OO.addProperty({ name : "tagName", type : qx.Const.TYPEOF_STRING, defaultValu
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.OO.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "horizontalAlign", type : qx.constant.Type.STRING });
 
 /*!
   This is used by many layout managers to control the individual vertical alignment of this widget inside this parent.
@@ -147,19 +147,19 @@ qx.OO.addProperty({ name : "horizontalAlign", type : qx.Const.TYPEOF_STRING });
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.OO.addProperty({ name : "verticalAlign", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "verticalAlign", type : qx.constant.Type.STRING });
 
 /*!
   Should this widget be stretched on the x-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.OO.addProperty({ name : "allowStretchX", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowStretchX", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should this widget be stretched on the y-axis if the layout handler will do this?
   Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
 */
-qx.OO.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowStretchY", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 
@@ -178,19 +178,19 @@ qx.OO.addProperty({ name : "allowStretchY", type : qx.Const.TYPEOF_BOOLEAN, defa
   This should be used with caution since in some cases
   this might give unrespected results.
 */
-qx.OO.addProperty({ name : "zIndex", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "zIndex", type : qx.constant.Type.NUMBER });
 
 /*!
   The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.OO.addProperty({ name : "backgroundColor", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "backgroundColor", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.OO.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "color", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.
@@ -198,7 +198,7 @@ qx.OO.addProperty({ name : "color", type : qx.Const.TYPEOF_OBJECT, instance : "q
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-qx.OO.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "border", type : qx.constant.Type.OBJECT, instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -206,7 +206,7 @@ qx.OO.addProperty({ name : "border", type : qx.Const.TYPEOF_OBJECT, instance : "
   The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
   Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
 */
-qx.OO.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "opacity", type : qx.constant.Type.NUMBER });
 
 /*!
   Mapping to native style property cursor.
@@ -214,14 +214,14 @@ qx.OO.addProperty({ name : "opacity", type : qx.Const.TYPEOF_NUMBER });
   The name of the cursor to show when the mouse pointer is over the widget.
   This is any valid CSS2 cursor name defined by W3C.
 */
-qx.OO.addProperty({ name : "cursor", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "cursor", type : qx.constant.Type.STRING });
 
 /*!
   Mapping to native style property background-image.
 
   The URI of the image file to use as background image.
 */
-qx.OO.addProperty({ name : "backgroundImage", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "backgroundImage", type : qx.constant.Type.STRING });
 
 /*!
 Describes how to handle content that is too large to fit inside the widget.
@@ -235,15 +235,15 @@ Overflow modes:
 * scrollY: Scroll bars for the Y-Axis are always shown.
     Even if there is enough room for the content inside the widget.
 */
-qx.OO.addProperty({ name : "overflow", type : qx.Const.TYPEOF_STRING, addToQueue : true });
+qx.OO.addProperty({ name : "overflow", type : qx.constant.Type.STRING, addToQueue : true });
 
 /*!
   Clipping of the widget
 */
-qx.OO.addProperty({ name : "clipLeft", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.OO.addProperty({ name : "clipTop", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.OO.addProperty({ name : "clipWidth", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
-qx.OO.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipLeft", type : qx.constant.Type.NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipTop", type : qx.constant.Type.NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipWidth", type : qx.constant.Type.NUMBER, impl : "clip" });
+qx.OO.addProperty({ name : "clipHeight", type : qx.constant.Type.NUMBER, impl : "clip" });
 
 
 
@@ -264,17 +264,17 @@ qx.OO.addProperty({ name : "clipHeight", type : qx.Const.TYPEOF_NUMBER, impl : "
   Widgets with the same tabIndex are handled through there position
   in the document.
 */
-qx.OO.addProperty({ name : "tabIndex", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
+qx.OO.addProperty({ name : "tabIndex", type : qx.constant.Type.NUMBER, defaultValue : -1 });
 
 /*!
   If the focus outline should be hidden.
 */
-qx.OO.addProperty({ name : "hideFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "hideFocus", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Use DOM focussing (focus() and blur() methods of DOM nodes)
 */
-qx.OO.addProperty({ name : "enableElementFocus", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "enableElementFocus", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Handle focus state of this widget.
@@ -284,27 +284,27 @@ qx.OO.addProperty({ name : "enableElementFocus", type : qx.Const.TYPEOF_BOOLEAN,
 
   Normally you didn't need to set this directly.
 */
-qx.OO.addProperty({ name : "focused", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "focused", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Toggle the possibility to select the element of this widget.
 */
-qx.OO.addProperty({ name : "selectable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
+qx.OO.addProperty({ name : "selectable", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isSelectable" });
 
 /*!
   Contains the tooltip object connected to the widget.
 */
-qx.OO.addProperty({ name : "toolTip", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.popup.ToolTip" });
+qx.OO.addProperty({ name : "toolTip", type : qx.constant.Type.OBJECT, instance : "qx.ui.popup.ToolTip" });
 
 /*!
   Contains the context menu object connected to the widget. (Need real implementation)
 */
-qx.OO.addProperty({ name : "contextMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "contextMenu", type : qx.constant.Type.OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Capture all events and map them to this widget
 */
-qx.OO.addProperty({ name : "capture", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "capture", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Contains the support drop types for drag and drop support
@@ -314,12 +314,12 @@ qx.OO.addProperty({ name : "dropDataTypes" });
 /*!
   A command called if the widget should be excecuted (a placeholder for buttons, ...)
 */
-qx.OO.addProperty({ name : "command", type : qx.Const.TYPEOF_OBJECT, instance : "qx.client.Command" });
+qx.OO.addProperty({ name : "command", type : qx.constant.Type.OBJECT, instance : "qx.client.Command" });
 
 /*!
   Appearance of the widget
 */
-qx.OO.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "appearance", type : qx.constant.Type.STRING });
 
 
 
@@ -332,15 +332,15 @@ qx.OO.addProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING });
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "marginTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.OO.addProperty({ name : "marginRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
-qx.OO.addProperty({ name : "marginBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginY" });
-qx.OO.addProperty({ name : "marginLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "marginX" });
+qx.OO.addProperty({ name : "marginTop", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginY" });
+qx.OO.addProperty({ name : "marginRight", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginX" });
+qx.OO.addProperty({ name : "marginBottom", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginY" });
+qx.OO.addProperty({ name : "marginLeft", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginX" });
 
-qx.OO.addProperty({ name : "paddingTop", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.OO.addProperty({ name : "paddingRight", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
-qx.OO.addProperty({ name : "paddingBottom", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingY" });
-qx.OO.addProperty({ name : "paddingLeft", type : qx.Const.TYPEOF_NUMBER, addToQueue : true, impl : "paddingX" });
+qx.OO.addProperty({ name : "paddingTop", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingY" });
+qx.OO.addProperty({ name : "paddingRight", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingX" });
+qx.OO.addProperty({ name : "paddingBottom", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingY" });
+qx.OO.addProperty({ name : "paddingLeft", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingX" });
 
 
 
@@ -2899,10 +2899,10 @@ qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 
   switch(typeof propValue)
   {
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(qx.constant.Core.STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
   };
 
@@ -2923,10 +2923,10 @@ qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
 
   switch(typeof propValue)
   {
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
@@ -2944,10 +2944,10 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
 
   switch(typeof propValue)
   {
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
   };
 
@@ -4625,7 +4625,7 @@ qx.ui.core.Widget.initOverflow = function()
   document.body.removeChild(t);
 };
 
-if (typeof window.application != qx.Const.TYPEOF_UNDEFINED) {
+if (typeof window.application != qx.constant.Type.UNDEFINED) {
   window.application.addEventListener(qx.Const.EVENT_TYPE_PRE, qx.ui.core.Widget.initOverflow);
 };
 

@@ -105,7 +105,7 @@ qx.io.remote.FormUtils.bind = function(vForm, vMethod)
   {
     e.returnValue = false;
 
-    if (typeof e.preventDefault === qx.Const.TYPEOF_FUNCTION) {
+    if (typeof e.preventDefault === qx.constant.Type.FUNCTION) {
       e.preventDefault();
     };
 

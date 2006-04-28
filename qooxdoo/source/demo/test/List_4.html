@@ -75,9 +75,9 @@
     
     qx.renderer.color.ColoredListItem.extend(qx.ui.form.ListItem, "qx.renderer.color.ColoredListItem");
     
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colored-list-item" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "colored-list-item" });
     
-qx.OO.addProperty({ name : "backgroundColorUnselected", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "backgroundColorUnselected", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 
 

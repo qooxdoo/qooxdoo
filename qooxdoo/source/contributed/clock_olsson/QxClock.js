@@ -56,12 +56,12 @@ function QxClock()
 /*!
   The current value of the interval (this should be used internally only).
 */
-qx.OO.addProperty({ name : qx.Const.EVENT_TYPE_INTERVAL, type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
+qx.OO.addProperty({ name : qx.Const.EVENT_TYPE_INTERVAL, type : qx.constant.Type.NUMBER, defaultValue : 1000 });
 
 /*!
   The current zone. Offset value is 5 for CDT and 6 for CST
 */
-qx.OO.addProperty({ name : "zoneOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
+qx.OO.addProperty({ name : "zoneOffset", type : qx.constant.Type.NUMBER, defaultValue : -1 });
 
 
 

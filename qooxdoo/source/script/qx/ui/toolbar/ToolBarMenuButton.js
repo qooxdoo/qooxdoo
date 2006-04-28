@@ -53,8 +53,8 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "menu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
-qx.OO.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
+qx.OO.addProperty({ name : "menu", type : qx.constant.Type.OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "direction", type : qx.constant.Type.STRING, allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
 
 
 

@@ -63,17 +63,17 @@ qx.Proto._minZIndex = 1e7;
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tool-tip" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tool-tip" });
 
-qx.OO.addProperty({ name : "hideOnHover", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "hideOnHover", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
-qx.OO.addProperty({ name : "mousePointerOffsetX", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
-qx.OO.addProperty({ name : "mousePointerOffsetY", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "mousePointerOffsetX", type : qx.constant.Type.NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "mousePointerOffsetY", type : qx.constant.Type.NUMBER, defaultValue : 20 });
 
-qx.OO.addProperty({ name : "showInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1000 });
-qx.OO.addProperty({ name : "hideInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4000 });
+qx.OO.addProperty({ name : "showInterval", type : qx.constant.Type.NUMBER, defaultValue : 1000 });
+qx.OO.addProperty({ name : "hideInterval", type : qx.constant.Type.NUMBER, defaultValue : 4000 });
 
-qx.OO.addProperty({ name : "boundToWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "boundToWidget", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
 
 
 

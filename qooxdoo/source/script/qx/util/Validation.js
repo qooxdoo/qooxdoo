@@ -40,20 +40,20 @@ qx.util.Validation.isValid = function(v)
 {
   switch(typeof v)
   {
-    case qx.Const.TYPEOF_UNDEFINED:
+    case qx.constant.Type.UNDEFINED:
       return false;
 
-    case qx.Const.TYPEOF_OBJECT:
+    case qx.constant.Type.OBJECT:
       return v !== null;
 
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return v !== qx.constant.Core.EMPTY;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return !isNaN(v);
 
-    case qx.Const.TYPEOF_FUNCTION:
-    case qx.Const.TYPEOF_BOOLEAN:
+    case qx.constant.Type.FUNCTION:
+    case qx.constant.Type.BOOLEAN:
       return true;
   };
 
@@ -64,20 +64,20 @@ qx.util.Validation.isInvalid = function(v)
 {
   switch(typeof v)
   {
-    case qx.Const.TYPEOF_UNDEFINED:
+    case qx.constant.Type.UNDEFINED:
       return true;
 
-    case qx.Const.TYPEOF_OBJECT:
+    case qx.constant.Type.OBJECT:
       return v === null;
 
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return v === qx.constant.Core.EMPTY;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return isNaN(v);
 
-    case qx.Const.TYPEOF_FUNCTION:
-    case qx.Const.TYPEOF_BOOLEAN:
+    case qx.constant.Type.FUNCTION:
+    case qx.constant.Type.BOOLEAN:
       return false;
   };
 
@@ -85,77 +85,77 @@ qx.util.Validation.isInvalid = function(v)
 };
 
 qx.util.Validation.isValidNumber = function(v) {
-  return typeof v === qx.Const.TYPEOF_NUMBER && !isNaN(v);
+  return typeof v === qx.constant.Type.NUMBER && !isNaN(v);
 };
 
 qx.util.Validation.isInvalidNumber = function(v) {
-  return typeof v !== qx.Const.TYPEOF_NUMBER || isNaN(v);
+  return typeof v !== qx.constant.Type.NUMBER || isNaN(v);
 };
 
 qx.util.Validation.isValidString = function(v) {
-  return typeof v === qx.Const.TYPEOF_STRING && v !== qx.constant.Core.EMPTY;
+  return typeof v === qx.constant.Type.STRING && v !== qx.constant.Core.EMPTY;
 };
 
 qx.util.Validation.isInvalidString = function(v) {
-  return typeof v !== qx.Const.TYPEOF_STRING || v === qx.constant.Core.EMPTY;
+  return typeof v !== qx.constant.Type.STRING || v === qx.constant.Core.EMPTY;
 };
 
 qx.util.Validation.isValidArray = function(v) {
-  return typeof v === qx.Const.TYPEOF_OBJECT && v !== null && v instanceof Array;
+  return typeof v === qx.constant.Type.OBJECT && v !== null && v instanceof Array;
 };
 
 qx.util.Validation.isInvalidArray = function(v) {
-  return typeof v !== qx.Const.TYPEOF_OBJECT || v === null || !(v instanceof Array);
+  return typeof v !== qx.constant.Type.OBJECT || v === null || !(v instanceof Array);
 };
 
 qx.util.Validation.isValidObject = function(v) {
-  return typeof v === qx.Const.TYPEOF_OBJECT && v !== null && !(v instanceof Array);
+  return typeof v === qx.constant.Type.OBJECT && v !== null && !(v instanceof Array);
 };
 
 qx.util.Validation.isInvalidObject = function(v) {
-  return typeof v !== qx.Const.TYPEOF_OBJECT || v === null || v instanceof Array;
+  return typeof v !== qx.constant.Type.OBJECT || v === null || v instanceof Array;
 };
 
 qx.util.Validation.isValidNode = function(v) {
-  return typeof v === qx.Const.TYPEOF_OBJECT && v !== null;
+  return typeof v === qx.constant.Type.OBJECT && v !== null;
 };
 
 qx.util.Validation.isInvalidNode = function(v) {
-  return typeof v !== qx.Const.TYPEOF_OBJECT || v === null;
+  return typeof v !== qx.constant.Type.OBJECT || v === null;
 };
 
 qx.util.Validation.isValidElement = function(v) {
-  return typeof v === qx.Const.TYPEOF_OBJECT && v !== null || v.nodeType !== 1;
+  return typeof v === qx.constant.Type.OBJECT && v !== null || v.nodeType !== 1;
 };
 
 qx.util.Validation.isInvalidElement = function(v) {
-  return typeof v !== qx.Const.TYPEOF_OBJECT || v === null || v.nodeType !== 1;
+  return typeof v !== qx.constant.Type.OBJECT || v === null || v.nodeType !== 1;
 };
 
 qx.util.Validation.isValidFunction = function(v) {
-  return typeof v === qx.Const.TYPEOF_FUNCTION;
+  return typeof v === qx.constant.Type.FUNCTION;
 };
 
 qx.util.Validation.isInvalidFunction = function(v) {
-  return typeof v !== qx.Const.TYPEOF_FUNCTION;
+  return typeof v !== qx.constant.Type.FUNCTION;
 };
 
 qx.util.Validation.isValidBoolean = function(v) {
-  return typeof v === qx.Const.TYPEOF_BOOLEAN;
+  return typeof v === qx.constant.Type.BOOLEAN;
 };
 
 qx.util.Validation.isInvalidBoolean = function(v) {
-  return typeof v !== qx.Const.TYPEOF_BOOLEAN;
+  return typeof v !== qx.constant.Type.BOOLEAN;
 };
 
 qx.util.Validation.isValidStringOrNumber = function(v)
 {
   switch(typeof v)
   {
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return v !== qx.constant.Core.EMPTY;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return !isNaN(v);
   };
 
@@ -166,10 +166,10 @@ qx.util.Validation.isInvalidStringOrNumber = function(v)
 {
   switch(typeof v)
   {
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return v === qx.constant.Core.EMPTY;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       return isNaN(v);
   };
 

@@ -85,9 +85,9 @@ function(vClientWindow)
   */
 });
 
-qx.OO.addProperty({ name : "globalCursor", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "globalCursor", type : qx.constant.Type.STRING });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "client-document" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "client-document" });
 
 
 
@@ -177,7 +177,7 @@ qx.Proto.block = function(vActiveChild)
 
   this._blocker.show();
 
-  if (typeof qx.ui.window.Window === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.ui.window.Window)
+  if (typeof qx.ui.window.Window === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.ui.window.Window)
   {
     this._modalWidgets.push(vActiveChild);
 
@@ -185,7 +185,7 @@ qx.Proto.block = function(vActiveChild)
     this._blocker.setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
-  else if (typeof qx.client.NativeWindow === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+  else if (typeof qx.client.NativeWindow === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
     this._blocker.setZIndex(1e7);
@@ -198,7 +198,7 @@ qx.Proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (typeof qx.client.NativeWindow === qx.Const.TYPEOF_FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+    if (typeof qx.client.NativeWindow === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
     {
       this._modalNativeWindow = null;
     }
@@ -310,7 +310,7 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 qx.Proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update();
   };
 

@@ -54,7 +54,7 @@ function()
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu-separator" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu-separator" });
 
 qx.Proto.hasIcon = qx.util.Return.returnFalse;
 qx.Proto.hasLabel = qx.util.Return.returnFalse;

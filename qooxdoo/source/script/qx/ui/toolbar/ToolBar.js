@@ -43,12 +43,12 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "openMenu", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "openMenu", type : qx.constant.Type.OBJECT, instance : "qx.ui.menu.Menu" });
 
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "toolbar" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "toolbar" });
 
 
 

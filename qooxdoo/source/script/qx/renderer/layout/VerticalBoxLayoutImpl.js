@@ -31,7 +31,7 @@ function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
 });
 
-qx.OO.addProperty({ name : "enableFlexSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "enableFlexSupport", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 

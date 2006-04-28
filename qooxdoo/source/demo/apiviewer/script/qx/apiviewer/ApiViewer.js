@@ -47,7 +47,7 @@ function (clientWindow) {
 
 
 /** The documentation tree to show. */
-qx.OO.addProperty({ name:"docTree", type:qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name:"docTree", type:qx.constant.Type.OBJECT });
 
 
 // property checker

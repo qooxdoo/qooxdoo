@@ -31,11 +31,11 @@ function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vUri != qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof vUri != qx.constant.Type.UNDEFINED) {
     this.setUri(vUri);
   };
 
-  if (typeof vTarget != qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof vTarget != qx.constant.Type.UNDEFINED) {
     this.setTarget(vTarget);
   };
 });
@@ -54,12 +54,12 @@ function(vHtml, vUri, vTarget)
 /*!
   Any valid html URI
 */
-qx.OO.addProperty({ name : "uri", type : qx.Const.TYPEOF_STRING, defaultValue : "#", impl : "html" });
+qx.OO.addProperty({ name : "uri", type : qx.constant.Type.STRING, defaultValue : "#", impl : "html" });
 
 /*!
   Any valid html target
 */
-qx.OO.addProperty({ name : "target", type : qx.Const.TYPEOF_STRING, defaultValue : "_blank", impl : "html" });
+qx.OO.addProperty({ name : "target", type : qx.constant.Type.STRING, defaultValue : "_blank", impl : "html" });
 
 
 

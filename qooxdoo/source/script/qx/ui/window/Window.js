@@ -256,113 +256,113 @@ function(vCaption, vIcon, vWindowManager)
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "window" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "window" });
 
 /*!
   The windowManager to use for.
 */
-qx.OO.addProperty({ name : "windowManager", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "windowManager", type : qx.constant.Type.OBJECT });
 
 /*!
   If the window is active, only one window in a single qx.manager.object.WindowManager could
   have set this to true at the same time.
 */
-qx.OO.addProperty({ name : "active", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "active", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.OO.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "modal", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.OO.addProperty({ name : "mode", type : qx.Const.TYPEOF_STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
+qx.OO.addProperty({ name : "mode", type : qx.constant.Type.STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
 
 /*!
   The opener (button) of the window
 */
-qx.OO.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "opener", type : qx.constant.Type.OBJECT });
 
 /*!
   The text of the caption
 */
-qx.OO.addProperty({ name : "caption", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "caption", type : qx.constant.Type.STRING });
 
 /*!
   The icon of the caption
 */
-qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
 
 /*!
   The text of the statusbar
 */
-qx.OO.addProperty({ name : "status", type : qx.Const.TYPEOF_STRING, defaultValue : "Ready" });
+qx.OO.addProperty({ name : "status", type : qx.constant.Type.STRING, defaultValue : "Ready" });
 
 /*!
   Should the close button be shown
 */
-qx.OO.addProperty({ name : "showClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showClose", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-qx.OO.addProperty({ name : "showMaximize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showMaximize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-qx.OO.addProperty({ name : "showMinimize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showMinimize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should the statusbar be shown
 */
-qx.OO.addProperty({ name : "showStatusbar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showStatusbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
 */
-qx.OO.addProperty({ name : "allowClose", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowClose", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to maximize the window
 */
-qx.OO.addProperty({ name : "allowMaximize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowMaximize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Should the user have the ability to minimize the window
 */
-qx.OO.addProperty({ name : "allowMinimize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowMinimize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the text (in the captionbar) should be visible
 */
-qx.OO.addProperty({ name : "showCaption", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showCaption", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the icon (in the captionbar) should be visible
 */
-qx.OO.addProperty({ name : "showIcon", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showIcon", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the window is resizeable
 */
-qx.OO.addProperty({ name : "resizeable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the window is moveable
 */
-qx.OO.addProperty({ name : "moveable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "moveable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   The resize method to use
 */
-qx.OO.addProperty({ name : "resizeMethod", type : qx.Const.TYPEOF_STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "resizeMethod", type : qx.constant.Type.STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The move method to use
 */
-qx.OO.addProperty({ name : "moveMethod", type : qx.Const.TYPEOF_STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "moveMethod", type : qx.constant.Type.STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
 
 

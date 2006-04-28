@@ -46,7 +46,7 @@ function(vConfig, vId)
   // ************************************************************************
   //   ARGUMENTS
   // ************************************************************************
-  this.setWidth(typeof vConfig.width === qx.Const.TYPEOF_UNDEFINED ? qx.constant.Core.AUTO : vConfig.width);
+  this.setWidth(typeof vConfig.width === qx.constant.Type.UNDEFINED ? qx.constant.Core.AUTO : vConfig.width);
 
   if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
@@ -86,8 +86,8 @@ function(vConfig, vId)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header-cell" });
-qx.OO.addProperty({ name : "sortOrder", type : qx.Const.TYPEOF_STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header-cell" });
+qx.OO.addProperty({ name : "sortOrder", type : qx.constant.Type.STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
 qx.Class.C_SORT_ASCENDING = "ascending";
 qx.Class.C_SORT_DESCENDING = "descending";

@@ -51,42 +51,42 @@ function(vBoundedWidget)
 /*!
 This contains the currently assigned widget (qx.ui.form.List, ...)
 */
-qx.OO.addProperty({ name : "boundedWidget", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "boundedWidget", type : qx.constant.Type.OBJECT });
 
 /*!
 Should multiple selection be allowed?
 */
-qx.OO.addProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "multiSelection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
 Enable drag selection?
 */
-qx.OO.addProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "dragSelection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
 Should the user be able to select
 */
-qx.OO.addProperty({ name : "canDeselect", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "canDeselect", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
 Should a change event be fired?
 */
-qx.OO.addProperty({ name : "fireChange", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "fireChange", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
 The current anchor in range selections.
 */
-qx.OO.addProperty({ name : "anchorItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "anchorItem", type : qx.constant.Type.OBJECT });
 
 /*!
 The last selected item
 */
-qx.OO.addProperty({ name : "leadItem", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "leadItem", type : qx.constant.Type.OBJECT });
 
 /*!
 Grid selection
 */
-qx.OO.addProperty({ name : "multiColumnSupport", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "multiColumnSupport", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 

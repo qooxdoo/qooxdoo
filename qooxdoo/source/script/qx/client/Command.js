@@ -49,10 +49,10 @@ function(vShortcut, vKeyCode, vManager)
   this.setManager(qx.util.Validation.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
 });
 
-qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "shortcut", type : qx.Const.TYPEOF_STRING });
-qx.OO.addProperty({ name : "keyCode", type : qx.Const.TYPEOF_NUMBER });
-qx.OO.addProperty({ name : "manager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.EventHandler" });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "shortcut", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "keyCode", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.EventHandler" });
 
 qx.Class.C_KEY_CTRL = "ctrl";
 qx.Class.C_KEY_SHIFT = "shift";
@@ -139,7 +139,7 @@ qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 qx.Proto._matchesKeyEvent = function(e)
 {
   // pre check if parts are configured
-  if (typeof this._shortcutParts !== qx.Const.TYPEOF_OBJECT && this._shortcutParts !== null) {
+  if (typeof this._shortcutParts !== qx.constant.Type.OBJECT && this._shortcutParts !== null) {
     return false;
   };
 

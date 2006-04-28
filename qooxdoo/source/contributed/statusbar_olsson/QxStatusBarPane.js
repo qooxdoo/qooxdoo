@@ -45,12 +45,12 @@ function QxStatusBarPane(vWidget) {
 /*!
   Appearance setting for the class.
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "statusbar-pane" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "statusbar-pane" });
 
 /*!
   The main menu bar if any.
 */
-qx.OO.addProperty({ name : "widget", type : qx.Const.TYPEOF_OBJECT, allowNull : true });
+qx.OO.addProperty({ name : "widget", type : qx.constant.Type.OBJECT, allowNull : true });
 
 
 /*

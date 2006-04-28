@@ -74,27 +74,27 @@ function QxProgressbar(vMax, vShowPercent)
 /*!
   The value of the left position
 */
-qx.OO.addProperty({ name : "min", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "min", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 
 /*!
   The value of the right position
 */
-qx.OO.addProperty({ name : "max", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "max", type : qx.constant.Type.NUMBER, defaultValue : 100 });
 
 /*!
   The amount to increment on each step.
 */
-qx.OO.addProperty({ name : "stepBy", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "stepBy", type : qx.constant.Type.NUMBER, defaultValue : 1 });
 
 /*!
   The current position of the progress.
 */
-qx.OO.addProperty({ name : "position", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "position", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 
 /*!
   Should the % be visible
 */
-qx.OO.addProperty({ name : "showPercent", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showPercent", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 /*

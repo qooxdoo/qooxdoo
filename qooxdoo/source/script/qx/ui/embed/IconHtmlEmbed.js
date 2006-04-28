@@ -31,15 +31,15 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vIcon != qx.Const.TYPEOF_UNDEFINED)
+  if (typeof vIcon != qx.constant.Type.UNDEFINED)
   {
     this.setIcon(vIcon);
 
-    if (typeof vIconWidth != qx.Const.TYPEOF_UNDEFINED) {
+    if (typeof vIconWidth != qx.constant.Type.UNDEFINED) {
       this.setIconWidth(vIconWidth);
     };
 
-    if (typeof vIconHeight != qx.Const.TYPEOF_UNDEFINED) {
+    if (typeof vIconHeight != qx.constant.Type.UNDEFINED) {
       this.setIconHeight(vIconWidth);
     };
   };
@@ -57,24 +57,24 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
 */
-qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING, impl : "html" });
+qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING, impl : "html" });
 
 /*!
   The width of the icon.
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconWidth", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconWidth", type : qx.constant.Type.NUMBER, impl : "html" });
 
 /*!
   The height of the icon
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconHeight", type : qx.Const.TYPEOF_NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconHeight", type : qx.constant.Type.NUMBER, impl : "html" });
 
 /*!
   Space in pixels between the icon and the HTML.
 */
-qx.OO.addProperty({ name : "spacing", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4, impl : "html" });
+qx.OO.addProperty({ name : "spacing", type : qx.constant.Type.NUMBER, defaultValue : 4, impl : "html" });
 
 
 

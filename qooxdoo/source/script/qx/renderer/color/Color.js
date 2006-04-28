@@ -425,7 +425,7 @@ qx.Proto._normalize = function(vInValue)
 
   switch(typeof vInValue)
   {
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       vInValue = vInValue.toLowerCase();
 
       if (qx.renderer.color.Color.htmlNames[vInValue])
@@ -471,7 +471,7 @@ qx.Proto._normalize = function(vInValue)
 
       break;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       if (vInValue >= 0 && vInValue <= 255)
       {
         this._red = this._green = this._blue = vInValue;
@@ -484,7 +484,7 @@ qx.Proto._normalize = function(vInValue)
 
       break;
 
-    case qx.Const.TYPEOF_OBJECT:
+    case qx.constant.Type.OBJECT:
       if (qx.util.Validation.isValidArray(vInValue) && vInValue.length == 3)
       {
         this._red = vInValue[0];

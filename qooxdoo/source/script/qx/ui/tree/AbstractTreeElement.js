@@ -96,23 +96,23 @@ qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tree-element" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tree-element" });
 
 /*!
   The icons
 */
-qx.OO.addProperty({ name : "icon", type : qx.Const.TYPEOF_STRING });
-qx.OO.addProperty({ name : "iconSelected", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "iconSelected", type : qx.constant.Type.STRING });
 
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "label", type : qx.constant.Type.STRING });
 
 /*!
   Selected property
 */
-qx.OO.addProperty({ name : "selected", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "selected", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 

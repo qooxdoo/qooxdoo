@@ -109,27 +109,27 @@ function QxProgressBar(vDirection, vMin, vMax) {
 /*!
   The direction of growth of the bar.
 */
-qx.OO.addProperty({ name : "direction", type : qx.Const.TYPEOF_STRING, possibleValues : [ qx.Const.DIRECTION_LEFT, qx.Const.DIRECTION_UP, qx.Const.DIRECTION_RIGHT, qx.Const.DIRECTION_DOWN], defaultValue : qx.Const.DIRECTION_RIGHT });
+qx.OO.addProperty({ name : "direction", type : qx.constant.Type.STRING, possibleValues : [ qx.Const.DIRECTION_LEFT, qx.Const.DIRECTION_UP, qx.Const.DIRECTION_RIGHT, qx.Const.DIRECTION_DOWN], defaultValue : qx.Const.DIRECTION_RIGHT });
 
 /*!
   The label object.
 */
-qx.OO.addProperty({ name : "label", type : qx.Const.TYPEOF_OBJECT, allowNull : true }); //instance : QxFormatField
+qx.OO.addProperty({ name : "label", type : qx.constant.Type.OBJECT, allowNull : true }); //instance : QxFormatField
 
 /*!
   The amount to increment on each call to the function increment.
 */
-qx.OO.addProperty({ name : "incrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "incrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 1 });
 
 /*!
   An indeterminate progress bar indicating that an operation of unknown duration is occurring.
 */
-qx.OO.addProperty({ name : "indeterminate", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "indeterminate", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   The current value of the wait (this should be used internally only).
 */
-qx.OO.addProperty({ name : "wait", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "wait", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 
 
 /*

@@ -81,20 +81,20 @@ qx.Proto._needsCompilationLeft = true;
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "topWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderTopProperty" });
-qx.OO.addProperty({ name : "rightWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderRightProperty" });
-qx.OO.addProperty({ name : "bottomWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
-qx.OO.addProperty({ name : "leftWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
+qx.OO.addProperty({ name : "topWidth", type : qx.constant.Type.NUMBER, defaultValue : 0, impl : "borderTopProperty" });
+qx.OO.addProperty({ name : "rightWidth", type : qx.constant.Type.NUMBER, defaultValue : 0, impl : "borderRightProperty" });
+qx.OO.addProperty({ name : "bottomWidth", type : qx.constant.Type.NUMBER, defaultValue : 0, impl : "borderBottomProperty" });
+qx.OO.addProperty({ name : "leftWidth", type : qx.constant.Type.NUMBER, defaultValue : 0, impl : "borderLeftProperty" });
 
-qx.OO.addProperty({ name : "topStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderTopProperty" });
-qx.OO.addProperty({ name : "rightStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderRightProperty" });
-qx.OO.addProperty({ name : "bottomStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderBottomProperty" });
-qx.OO.addProperty({ name : "leftStyle", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.NONE, impl : "borderLeftProperty" });
+qx.OO.addProperty({ name : "topStyle", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.NONE, impl : "borderTopProperty" });
+qx.OO.addProperty({ name : "rightStyle", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.NONE, impl : "borderRightProperty" });
+qx.OO.addProperty({ name : "bottomStyle", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.NONE, impl : "borderBottomProperty" });
+qx.OO.addProperty({ name : "leftStyle", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.NONE, impl : "borderLeftProperty" });
 
-qx.OO.addProperty({ name : "topColor", impl : "borderTopProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.OO.addProperty({ name : "rightColor", impl : "borderRightProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.OO.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
-qx.OO.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "topColor", impl : "borderTopProperty", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "rightColor", impl : "borderRightProperty", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "bottomColor", impl : "borderBottomProperty", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
+qx.OO.addProperty({ name : "leftColor", impl : "borderLeftProperty", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache });
 
 
 
@@ -437,7 +437,7 @@ qx.renderer.border.Border.data =
 
 qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 {
-  if (typeof vWidth !== qx.Const.TYPEOF_NUMBER || vWidth < 0) {
+  if (typeof vWidth !== qx.constant.Type.NUMBER || vWidth < 0) {
     return qx.constant.Core.EMPTY;
   };
 
@@ -731,7 +731,7 @@ if (qx.sys.Client.isGecko())
         var a = qx.renderer.border.Border.data[vWidth][vStyle][vEdge];
       } catch(ex) {};
 
-      if (typeof a === qx.Const.TYPEOF_OBJECT)
+      if (typeof a === qx.constant.Type.OBJECT)
       {
         for (var i=0, s=[], l=a.length; i<l; i++) {
           s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
@@ -871,7 +871,7 @@ else
               {
                 var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle][qx.Const.PROPERTY_TOP];
 
-                if (typeof c === qx.Const.TYPEOF_OBJECT)
+                if (typeof c === qx.constant.Type.OBJECT)
                 {
                   vTopStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vTopWidth = 1;
@@ -933,7 +933,7 @@ else
               {
                 var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle][qx.Const.PROPERTY_RIGHT];
 
-                if (typeof c === qx.Const.TYPEOF_OBJECT)
+                if (typeof c === qx.constant.Type.OBJECT)
                 {
                   vRightStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vRightWidth = 1;
@@ -995,7 +995,7 @@ else
               {
                 var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][qx.Const.PROPERTY_BOTTOM];
 
-                if (typeof c === qx.Const.TYPEOF_OBJECT)
+                if (typeof c === qx.constant.Type.OBJECT)
                 {
                   vBottomStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vBottomWidth = 1;
@@ -1056,7 +1056,7 @@ else
               {
                 var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][qx.Const.PROPERTY_LEFT];
 
-                if (typeof c === qx.Const.TYPEOF_OBJECT)
+                if (typeof c === qx.constant.Type.OBJECT)
                 {
                   vLeftStyle = qx.renderer.border.Border.STYLE_SOLID;
                   vLeftWidth = 1;
@@ -1136,7 +1136,7 @@ qx.Proto.dispose = function()
     return;
   };
 
-  if (typeof this._defsX === qx.Const.TYPEOF_OBJECT) {
+  if (typeof this._defsX === qx.constant.Type.OBJECT) {
     for (var i in this._defsX) {
       delete this._defsX[i];
     };
@@ -1144,7 +1144,7 @@ qx.Proto.dispose = function()
 
   delete this._defsX;
 
-  if (typeof this._defsY === qx.Const.TYPEOF_OBJECT) {
+  if (typeof this._defsY === qx.constant.Type.OBJECT) {
     for (var i in this._defsY) {
       delete this._defsY[i];
     };
@@ -1154,7 +1154,7 @@ qx.Proto.dispose = function()
 
   if (qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
-    if (typeof this._enhancedDefsX === qx.Const.TYPEOF_OBJECT) {
+    if (typeof this._enhancedDefsX === qx.constant.Type.OBJECT) {
       for (var i in this._enhancedDefsX) {
         delete this._enhancedDefsX[i];
       };
@@ -1162,7 +1162,7 @@ qx.Proto.dispose = function()
 
     delete this._enhancedDefsX;
 
-    if (typeof this._enhancedDefsY === qx.Const.TYPEOF_OBJECT) {
+    if (typeof this._enhancedDefsY === qx.constant.Type.OBJECT) {
       for (var i in this._enhancedDefsY) {
         delete this._enhancedDefsY[i];
       };

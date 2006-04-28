@@ -58,7 +58,7 @@ qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "QxRadio-";
 */
 
 qx.OO.addProperty({ name : "selected" });
-qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 
 
