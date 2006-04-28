@@ -71,8 +71,8 @@ qx.OO.addProperty({ name : "focusRoot", type : qx.constant.Type.OBJECT, instance
 
 qx.Class.C_DOMMOUSESCROLL = "DOMMouseScroll";
 
-qx.Class.mouseEventTypes = [ qx.Const.EVENT_TYPE_MOUSEOVER, qx.Const.EVENT_TYPE_MOUSEMOVE, qx.Const.EVENT_TYPE_MOUSEOUT, qx.Const.EVENT_TYPE_MOUSEDOWN, qx.Const.EVENT_TYPE_MOUSEUP, qx.Const.EVENT_TYPE_CLICK, qx.Const.EVENT_TYPE_DBLCLICK, qx.Const.EVENT_TYPE_CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.Const.EVENT_TYPE_MOUSEWHEEL : qx.Class.C_DOMMOUSESCROLL ];
-qx.Class.keyEventTypes = [ qx.Const.EVENT_TYPE_KEYDOWN, qx.Const.EVENT_TYPE_KEYPRESS, qx.Const.EVENT_TYPE_KEYUP ];
+qx.Class.mouseEventTypes = [ qx.constant.Event.MOUSEOVER, qx.constant.Event.MOUSEMOVE, qx.constant.Event.MOUSEOUT, qx.constant.Event.MOUSEDOWN, qx.constant.Event.MOUSEUP, qx.constant.Event.CLICK, qx.constant.Event.DBLCLICK, qx.constant.Event.CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.constant.Event.MOUSEWHEEL : qx.Class.C_DOMMOUSESCROLL ];
+qx.Class.keyEventTypes = [ qx.constant.Event.KEYDOWN, qx.constant.Event.KEYPRESS, qx.constant.Event.KEYUP ];
 
 if (qx.sys.Client.isGecko())
 {
@@ -370,7 +370,7 @@ qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEv
 };
 
 qx.event.handler.EventHandler.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.Const.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
 
 
@@ -417,7 +417,7 @@ qx.event.handler.EventHandler.getTargetObjectFromEvent = function(vDomEvent) {
 };
 
 qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.Const.EVENT_TYPE_MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 };
 
 if (qx.sys.Client.isMshtml())
@@ -525,7 +525,7 @@ qx.Proto._onkeyevent = function(vDomEvent)
   var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
 
   // Check for commands
-  if (vDomEvent.type == qx.Const.EVENT_TYPE_KEYDOWN) {
+  if (vDomEvent.type == qx.constant.Event.KEYDOWN) {
     this._checkKeyEventMatch(vKeyEventObject);
   };
 
@@ -588,46 +588,46 @@ if(qx.sys.Client.isMshtml())
     var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
     var vType = vDomEvent.type;
 
-    if(vType == qx.Const.EVENT_TYPE_MOUSEMOVE)
+    if(vType == qx.constant.Event.MOUSEMOVE)
     {
       if (this._mouseIsDown && vDomEvent.button == 0)
       {
-        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_MOUSEUP);
+        this._onmouseevent_post(vDomEvent, qx.constant.Event.MOUSEUP);
         this._mouseIsDown = false;
       };
     }
     else
     {
-      if(vType == qx.Const.EVENT_TYPE_MOUSEDOWN)
+      if(vType == qx.constant.Event.MOUSEDOWN)
       {
         this._mouseIsDown = true;
       }
-      else if(vType == qx.Const.EVENT_TYPE_MOUSEUP)
+      else if(vType == qx.constant.Event.MOUSEUP)
       {
         this._mouseIsDown = false;
       };
 
       // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
-      if(vType == qx.Const.EVENT_TYPE_MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      if(vType == qx.constant.Event.MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_MOUSEDOWN);
+        this._onmouseevent_post(vDomEvent, qx.constant.Event.MOUSEDOWN);
       }
       // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
-      else if(vType == qx.Const.EVENT_TYPE_DBLCLICK && this._lastMouseEventType == qx.Const.EVENT_TYPE_MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      else if(vType == qx.constant.Event.DBLCLICK && this._lastMouseEventType == qx.constant.Event.MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, qx.Const.EVENT_TYPE_CLICK);
+        this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK);
       };
 
       switch(vType)
       {
-        case qx.Const.EVENT_TYPE_MOUSEDOWN:
-        case qx.Const.EVENT_TYPE_MOUSEUP:
-        case qx.Const.EVENT_TYPE_CLICK:
-        case qx.Const.EVENT_TYPE_DBLCLICK:
-        case qx.Const.EVENT_TYPE_CONTEXTMENU:
+        case qx.constant.Event.MOUSEDOWN:
+        case qx.constant.Event.MOUSEUP:
+        case qx.constant.Event.CLICK:
+        case qx.constant.Event.DBLCLICK:
+        case qx.constant.Event.CONTEXTMENU:
           this._lastMouseEventType = vType;
           this._lastMouseEventDate = (new Date).valueOf();
-          this._lastMouseDown = vType == qx.Const.EVENT_TYPE_MOUSEDOWN;
+          this._lastMouseDown = vType == qx.constant.Event.MOUSEDOWN;
       };
     };
 
@@ -651,11 +651,11 @@ else
     {
       case qx.event.handler.EventHandler.C_DOMMOUSESCROLL:
         // normalize mousewheel event
-        vType = qx.Const.EVENT_TYPE_MOUSEWHEEL;
+        vType = qx.constant.Event.MOUSEWHEEL;
         break;
 
-      case qx.Const.EVENT_TYPE_CLICK:
-      case qx.Const.EVENT_TYPE_DBLCLICK:
+      case qx.constant.Event.CLICK:
+      case qx.constant.Event.DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
         if (vDomEvent.button != qx.event.type.MouseEvent.buttons.left) {
           return;
@@ -663,7 +663,7 @@ else
 
       // Seems not to be needed anymore. Otherwise we should reinclude it.
       /*
-      case qx.Const.EVENT_TYPE_MOUSEDOWN:
+      case qx.constant.Event.MOUSEDOWN:
         if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget._QxWidget) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         };
@@ -719,14 +719,14 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     switch(vType)
     {
-      case qx.Const.EVENT_TYPE_CONTEXTMENU:
+      case qx.constant.Event.CONTEXTMENU:
         if (!this.getAllowClientContextMenu()) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         };
 
         break;
 
-      case qx.Const.EVENT_TYPE_MOUSEDOWN:
+      case qx.constant.Event.MOUSEDOWN:
         qx.event.handler.FocusHandler.mouseFocus = true;
 
         var vRoot = vTarget.getFocusRoot();
@@ -762,8 +762,8 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Find related target object
     switch(vType)
     {
-      case qx.Const.EVENT_TYPE_MOUSEOVER:
-      case qx.Const.EVENT_TYPE_MOUSEOUT:
+      case qx.constant.Event.MOUSEOVER:
+      case qx.constant.Event.MOUSEOUT:
         vRelatedTarget = qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent(vDomEvent);
 
         // Ignore events where the related target and
@@ -809,7 +809,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Handle Special Post Events
     switch(vType)
     {
-      case qx.Const.EVENT_TYPE_MOUSEDOWN:
+      case qx.constant.Event.MOUSEDOWN:
         if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.PopupManager.update(vTarget);
         };
@@ -820,21 +820,21 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         break;
 
-      case qx.Const.EVENT_TYPE_MOUSEOVER:
+      case qx.constant.Event.MOUSEOVER:
         if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
         };
 
         break;
 
-      case qx.Const.EVENT_TYPE_MOUSEOUT:
+      case qx.constant.Event.MOUSEOUT:
         if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
         };
 
         break;
 
-      case qx.Const.EVENT_TYPE_MOUSEWHEEL:
+      case qx.constant.Event.MOUSEWHEEL:
         // priority for the real target not the (eventually captured) dispatch target
         vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
 

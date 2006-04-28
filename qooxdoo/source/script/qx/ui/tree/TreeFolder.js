@@ -36,7 +36,7 @@ function(vLabel, vIcon, vIconSelected)
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
 
-  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
 
   // Remapping of add/remove methods
   this.add = this.addToFolder;
@@ -499,7 +499,7 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
 
   if (this._horizontalLayout)
   {

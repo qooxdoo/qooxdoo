@@ -51,18 +51,18 @@ function()
   // ************************************************************************
   //   MOUSE EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
-  this.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.CLICK, this._onclick);
+  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list" });
@@ -380,13 +380,13 @@ qx.Proto.dispose = function()
     this._manager = null;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
-  this.removeEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._ondblclick);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
+  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

@@ -51,7 +51,7 @@ function()
   // ************************************************************************
 
   // needed to stop the event, and keep the menu showing
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu-separator" });

@@ -138,7 +138,7 @@ function(date) {
       var label = new qx.ui.basic.Label;
       label.setAppearance("datechooser-day");
       label.set({ width:"100%", height:"100%" });
-      label.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onDayClicked, this);
+      label.addEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
       datePane.add(label, x + 1, y + 1);
       this._dayLabelArr.push(label);
     }
@@ -146,7 +146,7 @@ function(date) {
 
   // Make focusable
   this.setTabIndex(1);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   // Show the right date
   var shownDate = (date != null) ? date : new Date();
@@ -509,7 +509,7 @@ qx.Proto.dispose = function() {
   this._dayLabelArr = [];
   for (var i = 0; i < this._dayLabelArr.length; i++) {
     this._dayLabelArr.dispose();
-    this._dayLabelArr.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onDayClicked, this);
+    this._dayLabelArr.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
   }
   this._dayLabelArr = null;
 
@@ -519,7 +519,7 @@ qx.Proto.dispose = function() {
     this._weekLabelArr = null;
   }
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

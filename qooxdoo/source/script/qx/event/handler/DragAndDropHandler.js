@@ -267,13 +267,13 @@ qx.Proto.handleMouseEvent = function(e)
 {
   switch (e.getType())
   {
-    case qx.Const.EVENT_TYPE_MOUSEDOWN:
+    case qx.constant.Event.MOUSEDOWN:
       return this._handleMouseDown(e);
 
-    case qx.Const.EVENT_TYPE_MOUSEUP:
+    case qx.constant.Event.MOUSEUP:
       return this._handleMouseUp(e);
 
-    case qx.Const.EVENT_TYPE_MOUSEMOVE:
+    case qx.constant.Event.MOUSEMOVE:
       return this._handleMouseMove(e);
   };
 };
@@ -419,11 +419,11 @@ qx.Proto.handleKeyEvent = function(e)
 
   switch (e.getType())
   {
-    case qx.Const.EVENT_TYPE_KEYDOWN:
+    case qx.constant.Event.KEYDOWN:
       this._handleKeyDown(e);
       return;
 
-    case qx.Const.EVENT_TYPE_KEYUP:
+    case qx.constant.Event.KEYUP:
       this._handleKeyUp(e);
       return;
   };

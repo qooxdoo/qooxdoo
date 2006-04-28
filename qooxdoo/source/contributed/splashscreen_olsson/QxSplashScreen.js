@@ -68,8 +68,8 @@ function QxSplashScreen(vComponent, vShowProgressBar)
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  vComponent.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
+  vComponent.addEventListener(qx.constant.Event.MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
 });
 
 QxSplashScreen.MIN_VALUE = 1;

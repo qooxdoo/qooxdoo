@@ -50,8 +50,8 @@ function(vLabel, vIcon)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseover);
 });
 
 qx.Proto._minZIndex = 1e7;
@@ -230,8 +230,8 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseover);
 
   if (this._showTimer)
   {

@@ -72,10 +72,10 @@ function(vColumns)
   // ************************************************************************
   //   ADD EVENT LISTENERS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header" });
@@ -289,10 +289,10 @@ qx.Proto.dispose = function()
 
   this._cleanupResizing();
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmousemove);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
   this._columns = null;
 

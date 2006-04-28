@@ -185,22 +185,22 @@ qx.Proto._createHueSaturationPane = function()
   this._hueSaturationPane.setPadding(6, 4);
   this._hueSaturationPane.setParent(this._controlBar);
 
-  this._hueSaturationPane.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
+  this._hueSaturationPane.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
 
   this._hueSaturationField = new qx.ui.basic.Image("core/huesaturation-field.jpg");
   this._hueSaturationField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._hueSaturationField.setMargin(5);
   this._hueSaturationField.setParent(this._hueSaturationPane);
 
-  this._hueSaturationField.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
+  this._hueSaturationField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
 
   this._hueSaturationHandle = new qx.ui.basic.Image("core/huesaturation-handle.gif");
   this._hueSaturationHandle.setLocation(0, 256);
   this._hueSaturationHandle.setParent(this._hueSaturationPane);
 
-  this._hueSaturationHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onHueSaturationHandleMouseDown, this);
-  this._hueSaturationHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onHueSaturationHandleMouseUp, this);
-  this._hueSaturationHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
+  this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationHandleMouseDown, this);
+  this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEUP, this._onHueSaturationHandleMouseUp, this);
+  this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
 };
 
 qx.Proto._createBrightnessPane = function()
@@ -210,22 +210,22 @@ qx.Proto._createBrightnessPane = function()
   this._brightnessPane.setPadding(6, 4);
   this._brightnessPane.setParent(this._controlBar);
 
-  this._brightnessPane.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
+  this._brightnessPane.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
 
   this._brightnessField = new qx.ui.basic.Image("core/brightness-field.jpg");
   this._brightnessField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._brightnessField.setMargin(5, 7);
   this._brightnessField.setParent(this._brightnessPane);
 
-  this._brightnessField.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
+  this._brightnessField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
 
   this._brightnessHandle = new qx.ui.basic.Image("core/brightness-handle.gif");
   this._brightnessHandle.setLocation(0, 0);
   this._brightnessHandle.setParent(this._brightnessPane);
 
-  this._brightnessHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
-  this._brightnessHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onBrightnessHandleMouseUp, this);
-  this._brightnessHandle.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
+  this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
+  this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEUP, this._onBrightnessHandleMouseUp, this);
+  this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
 };
 
 
@@ -277,7 +277,7 @@ qx.Proto._createPresetFieldSet = function()
       colorField = new qx.ui.basic.Terminator;
       colorField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
       colorField.setBackgroundColor(this._presetTable[i*10+j]);
-      colorField.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onColorFieldClick, this);
+      colorField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onColorFieldClick, this);
 
       this._presetGrid.add(colorField, j, i);
     };
@@ -1132,46 +1132,46 @@ qx.Proto.dispose = function()
 
   if (this._hueSaturationPane)
   {
-    this._hueSaturationPane.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
+    this._hueSaturationPane.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
     this._hueSaturationPane.dispose();
     this._hueSaturationPane = null;
   };
 
   if (this._hueSaturationField)
   {
-    this._hueSaturationField.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
+    this._hueSaturationField.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
     this._hueSaturationField.dispose();
     this._hueSaturationField = null;
   };
 
   if (this._hueSaturationHandle)
   {
-    this._hueSaturationHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onHueSaturationHandleMouseDown, this);
-    this._hueSaturationHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onHueSaturationHandleMouseUp, this);
-    this._hueSaturationHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
+    this._hueSaturationHandle.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationHandleMouseDown, this);
+    this._hueSaturationHandle.removeEventListener(qx.constant.Event.MOUSEUP, this._onHueSaturationHandleMouseUp, this);
+    this._hueSaturationHandle.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
     this._hueSaturationHandle.dispose();
     this._hueSaturationHandle = null;
   };
 
   if (this._brightnessPane)
   {
-    this._brightnessPane.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
+    this._brightnessPane.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
     this._brightnessPane.dispose();
     this._brightnessPane = null;
   };
 
   if (this._brightnessField)
   {
-    this._brightnessField.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
+    this._brightnessField.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
     this._brightnessField.dispose();
     this._brightnessField = null;
   };
 
   if (this._brightnessHandle)
   {
-    this._brightnessHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
-    this._brightnessHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onBrightnessHandleMouseUp, this);
-    this._brightnessHandle.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
+    this._brightnessHandle.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
+    this._brightnessHandle.removeEventListener(qx.constant.Event.MOUSEUP, this._onBrightnessHandleMouseUp, this);
+    this._brightnessHandle.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
     this._brightnessHandle.dispose();
     this._brightnessHandle = null;
   };

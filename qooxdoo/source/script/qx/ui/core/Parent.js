@@ -122,8 +122,8 @@ qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // Add Key Handler
-    this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.addEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
+    this.addEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
 
     // Activate focus handling (but keep already configured tabIndex)
     if (this.getTabIndex() < 1) {
@@ -139,8 +139,8 @@ qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
   else
   {
     // Remove Key Handler
-    this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
+    this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
 
     // Deactivate focus handling
     this.setTabIndex(-1);
@@ -1181,8 +1181,8 @@ qx.Proto.dispose = function()
   // Remove Key Handler
   if (this.getFocusManager())
   {
-    this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
+    this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
 
     this.forceFocusManager(null);
   };

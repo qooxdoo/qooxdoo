@@ -121,7 +121,7 @@ function(vData, vColumns)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 });
 
 
@@ -371,7 +371,7 @@ qx.Proto.dispose = function()
   delete this._columns;
   delete this._data;
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };

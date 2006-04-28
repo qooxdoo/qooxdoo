@@ -56,11 +56,11 @@ function()
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
 
   // ************************************************************************
@@ -871,11 +871,11 @@ qx.Proto.dispose = function()
   };
 
   // Remove event listeners
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onmouseover);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
 };

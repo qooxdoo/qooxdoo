@@ -81,8 +81,8 @@ function(vLabel, vIcon, vIconSelected)
   this._labelObject.setAppearance("tree-element-label");
 
   // Register event listeners
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 });
 
 qx.ui.tree.AbstractTreeElement.OMIT_CLASS = "qx.ui.tree.AbstractTreeElement";
@@ -426,8 +426,8 @@ qx.Proto.dispose = function()
 
   this._previousParentFolder = null;
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

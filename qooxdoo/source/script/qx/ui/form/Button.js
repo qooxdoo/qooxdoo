@@ -41,17 +41,17 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "button" });
@@ -178,17 +178,17 @@ qx.Proto.dispose = function()
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover, this);
+  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout, this);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
+  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
 
 
   // ************************************************************************

@@ -32,7 +32,7 @@ function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 });
 
 
@@ -241,7 +241,7 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 };
