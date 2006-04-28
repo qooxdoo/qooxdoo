@@ -58,7 +58,7 @@ function(vColumns)
     if (vColumns[vCol].align) {
       vHeadCell.setHorizontalChildrenAlign(vColumns[vCol].align);
 
-      if (vColumns[vCol].align == qx.Const.ALIGN_RIGHT) {
+      if (vColumns[vCol].align == qx.constant.Layout.ALIGN_RIGHT) {
         vHeadCell.setReverseChildrenOrder(true);
       };
     };

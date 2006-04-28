@@ -34,12 +34,12 @@
       var bottomL = new qx.ui.basic.Label("Bottom Widget");
       bottomL.setPadding(5);
 
-      var mainSP = new QxSplitPane(qx.Const.ORIENTATION_HORIZONTAL);
+      var mainSP = new QxSplitPane(qx.constant.Layout.ORIENTATION_HORIZONTAL);
       mainSP.setHeight(qx.constant.Core.HUNDREDPERCENT);
       mainSP.setWidth(qx.constant.Core.HUNDREDPERCENT);
       mainSP.setLeftWidget(createTree());
 
-      var rightSP = new QxSplitPane(qx.Const.ORIENTATION_VERTICAL);
+      var rightSP = new QxSplitPane(qx.constant.Layout.ORIENTATION_VERTICAL);
       rightSP.setHeight(qx.constant.Core.HUNDREDPERCENT);
       rightSP.setWidth(qx.constant.Core.HUNDREDPERCENT);
       rightSP.setTopWidget(topL);//createListView());

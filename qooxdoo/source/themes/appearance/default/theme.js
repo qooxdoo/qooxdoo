@@ -93,8 +93,8 @@ theme.registerAppearance("atom",
       spacing : 4,
       width : qx.constant.Core.AUTO,
       height : qx.constant.Core.AUTO,
-      horizontalChildrenAlign : qx.Const.ALIGN_CENTER,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
+      horizontalChildrenAlign : qx.constant.Layout.ALIGN_CENTER,
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
       stretchChildrenOrthogonalAxis : false,
       allowStretchY : false,
       allowStretchX : false
@@ -357,7 +357,7 @@ theme.registerAppearance("toolbar-button",
       cursor : qx.constant.Core.DEFAULT,
       spacing : 4,
       width : qx.constant.Core.AUTO,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
     };
   },
 
@@ -433,15 +433,15 @@ theme.registerAppearance("bar-view-pane",
   {
     switch(vWidget.getParent().getBarPosition())
     {
-      case qx.Const.ALIGN_TOP:
-      case qx.Const.ALIGN_BOTTOM:
+      case qx.constant.Layout.ALIGN_TOP:
+      case qx.constant.Layout.ALIGN_BOTTOM:
         return {
           width : null,
           height : qx.constant.Core.FLEX
         };
 
-      case qx.Const.ALIGN_LEFT:
-      case qx.Const.ALIGN_RIGHT:
+      case qx.constant.Layout.ALIGN_LEFT:
+      case qx.constant.Layout.ALIGN_RIGHT:
         return {
           width : qx.constant.Core.FLEX,
           height : null
@@ -495,7 +495,7 @@ theme.registerAppearance("bar-view-bar",
   {
     switch(vWidget.getParent().getBarPosition())
     {
-      case qx.Const.ALIGN_TOP:
+      case qx.constant.Layout.ALIGN_TOP:
         return {
           paddingTop : 1,
           paddingRight : 0,
@@ -505,10 +505,10 @@ theme.registerAppearance("bar-view-bar",
           border : this.border_top,
           height : qx.constant.Core.AUTO,
           width : null,
-          orientation : qx.Const.ORIENTATION_HORIZONTAL
+          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
         };
 
-      case qx.Const.ALIGN_BOTTOM:
+      case qx.constant.Layout.ALIGN_BOTTOM:
         return {
           paddingTop : 1,
           paddingRight : 0,
@@ -518,10 +518,10 @@ theme.registerAppearance("bar-view-bar",
           border : this.border_bottom,
           height : qx.constant.Core.AUTO,
           width : null,
-          orientation : qx.Const.ORIENTATION_HORIZONTAL
+          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
         };
 
-      case qx.Const.ALIGN_LEFT:
+      case qx.constant.Layout.ALIGN_LEFT:
         return {
           paddingTop : 0,
           paddingRight : 1,
@@ -531,10 +531,10 @@ theme.registerAppearance("bar-view-bar",
           border : this.border_left,
           height : null,
           width : qx.constant.Core.AUTO,
-          orientation : qx.Const.ORIENTATION_VERTICAL
+          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
         };
 
-      case qx.Const.ALIGN_RIGHT:
+      case qx.constant.Layout.ALIGN_RIGHT:
         return {
           paddingTop : 0,
           paddingRight : 1,
@@ -544,7 +544,7 @@ theme.registerAppearance("bar-view-bar",
           border : this.border_right,
           height : null,
           width : qx.constant.Core.AUTO,
-          orientation : qx.Const.ORIENTATION_VERTICAL
+          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
         };
     };
   }
@@ -576,7 +576,7 @@ theme.registerAppearance("bar-view-button",
   initial : function(vWidget, vTheme)
   {
     return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
-      iconPosition : qx.Const.ALIGN_TOP
+      iconPosition : qx.constant.Layout.ALIGN_TOP
     });
   },
 
@@ -595,7 +595,7 @@ theme.registerAppearance("bar-view-button",
     {
       switch(vBarPosition)
       {
-        case qx.Const.ALIGN_TOP:
+        case qx.constant.Layout.ALIGN_TOP:
           vReturn.border = this.border_top_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 6;
@@ -603,7 +603,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case qx.Const.ALIGN_BOTTOM:
+        case qx.constant.Layout.ALIGN_BOTTOM:
           vReturn.border = this.border_bottom_checked;
           vReturn.paddingTop = 1;
           vReturn.paddingRight = 6;
@@ -611,7 +611,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case qx.Const.ALIGN_LEFT:
+        case qx.constant.Layout.ALIGN_LEFT:
           vReturn.border = this.border_left_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 4;
@@ -619,7 +619,7 @@ theme.registerAppearance("bar-view-button",
           vReturn.paddingLeft = 6;
           break;
 
-        case qx.Const.ALIGN_RIGHT:
+        case qx.constant.Layout.ALIGN_RIGHT:
           vReturn.border = this.border_right_checked;
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 6;
@@ -636,16 +636,16 @@ theme.registerAppearance("bar-view-button",
 
     switch(vBarPosition)
     {
-      case qx.Const.ALIGN_TOP:
-      case qx.Const.ALIGN_BOTTOM:
+      case qx.constant.Layout.ALIGN_TOP:
+      case qx.constant.Layout.ALIGN_BOTTOM:
         vReturn.marginTop = vReturn.marginBottom = 0;
         vReturn.marginRight = vReturn.marginLeft = 1;
         vReturn.width = qx.constant.Core.AUTO;
         vReturn.height = null;
         break;
 
-      case qx.Const.ALIGN_LEFT:
-      case qx.Const.ALIGN_RIGHT:
+      case qx.constant.Layout.ALIGN_LEFT:
+      case qx.constant.Layout.ALIGN_RIGHT:
         vReturn.marginTop = vReturn.marginBottom = 1;
         vReturn.marginRight = vReturn.marginLeft = 0;
         vReturn.height = qx.constant.Core.AUTO;
@@ -715,7 +715,7 @@ theme.registerAppearance("window-captionbar",
       paddingRight : 2,
       paddingBottom : 2,
       paddingLeft : 2,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
       height : qx.constant.Core.AUTO,
       overflow : qx.constant.Style.OVERFLOW_HIDDEN
     };
@@ -940,7 +940,7 @@ theme.registerAppearance("menu-button",
       paddingBottom : 2,
       paddingLeft : 4,
       cursor : qx.constant.Core.DEFAULT,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
       allowStretchX : true
     };
   },
@@ -1074,8 +1074,8 @@ theme.registerAppearance("list-item",
     return {
       cursor : qx.constant.Core.DEFAULT,
       height : qx.constant.Core.AUTO,
-      horizontalChildrenAlign : qx.Const.ALIGN_LEFT,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE,
+      horizontalChildrenAlign : qx.constant.Layout.ALIGN_LEFT,
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
       spacing : 4,
       paddingTop : 3,
       paddingRight : 5,
@@ -1278,7 +1278,7 @@ theme.registerAppearance("tree-element",
   {
     return {
       height : 16,
-      verticalChildrenAlign : qx.Const.ALIGN_MIDDLE
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
     };
   }
 });
@@ -1442,7 +1442,7 @@ theme.registerAppearance("tree-container",
   initial : function(vWidget, vTheme)
   {
     return {
-      verticalChildrenAlign : qx.Const.ALIGN_TOP
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
     };
   }
 });
@@ -1453,7 +1453,7 @@ theme.registerAppearance("tree-folder-container",
   {
     return {
       height : qx.constant.Core.AUTO,
-      verticalChildrenAlign : qx.Const.ALIGN_TOP
+      verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
     };
   }
 });

@@ -61,7 +61,7 @@ qx.Proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
 {
   var vBar = this._bar;
 
-  vBar.setHorizontalChildrenAlign(propValue ? qx.Const.ALIGN_LEFT : qx.Const.ALIGN_RIGHT);
+  vBar.setHorizontalChildrenAlign(propValue ? qx.constant.Layout.ALIGN_LEFT : qx.constant.Layout.ALIGN_RIGHT);
 
   // force re-apply of states for all tabs
   vBar._addChildrenToStateQueue();

@@ -50,9 +50,9 @@ qx.ui.layout.BoxLayout.STR_REVERSED = "-reversed";
 */
 
 /*!
-  The orientation of the layout control. Allowed values are qx.Const.ORIENTATION_HORIZONTAL (default) and qx.Const.ORIENTATION_VERTICAL.
+  The orientation of the layout control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
 */
-qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.Const.ORIENTATION_HORIZONTAL, qx.Const.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
@@ -100,7 +100,7 @@ qx.OO.addProperty({ name : "useAdvancedFlexAllocation", type : qx.constant.Type.
   This creates an new instance of the layout impl this widget uses
 */
 qx.Proto._createLayoutImpl = function() {
-  return this.getOrientation() == qx.Const.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
+  return this.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
 };
 
 
@@ -162,8 +162,8 @@ qx.Proto._invalidateLayoutMode = function() {
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 {
   // update fast access variables
-  this._layoutHorizontal = propValue == qx.Const.ORIENTATION_HORIZONTAL;
-  this._layoutVertical = propValue == qx.Const.ORIENTATION_VERTICAL;
+  this._layoutHorizontal = propValue == qx.constant.Layout.ORIENTATION_HORIZONTAL;
+  this._layoutVertical = propValue == qx.constant.Layout.ORIENTATION_VERTICAL;
 
   // Layout Implementation
   if (this._layoutImpl)

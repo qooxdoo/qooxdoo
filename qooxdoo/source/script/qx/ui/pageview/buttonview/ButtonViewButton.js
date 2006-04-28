@@ -48,8 +48,8 @@ qx.Proto._onkeydown = function(e)
 {
   switch(this.getView().getBarPosition())
   {
-    case qx.Const.ALIGN_TOP:
-    case qx.Const.ALIGN_BOTTOM:
+    case qx.constant.Layout.ALIGN_TOP:
+    case qx.constant.Layout.ALIGN_BOTTOM:
       switch(e.getKeyCode())
       {
         case qx.event.type.KeyEvent.keys.left:
@@ -66,8 +66,8 @@ qx.Proto._onkeydown = function(e)
 
       break;
 
-    case qx.Const.ALIGN_LEFT:
-    case qx.Const.ALIGN_RIGHT:
+    case qx.constant.Layout.ALIGN_LEFT:
+    case qx.constant.Layout.ALIGN_RIGHT:
       switch(e.getKeyCode())
       {
         case qx.event.type.KeyEvent.keys.up:

@@ -40,7 +40,7 @@ function()
 {
   qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);
 
-  this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
+  this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
 });
 
 
@@ -53,7 +53,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "barPosition", type : qx.constant.Type.STRING, defaultValue : qx.Const.ALIGN_TOP, possibleValues : [ qx.Const.ALIGN_TOP, qx.Const.ALIGN_RIGHT, qx.Const.ALIGN_BOTTOM, qx.Const.ALIGN_LEFT ] });
+qx.OO.addProperty({ name : "barPosition", type : qx.constant.Type.STRING, defaultValue : qx.constant.Layout.ALIGN_TOP, possibleValues : [ qx.constant.Layout.ALIGN_TOP, qx.constant.Layout.ALIGN_RIGHT, qx.constant.Layout.ALIGN_BOTTOM, qx.constant.Layout.ALIGN_LEFT ] });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view" });
 
@@ -74,24 +74,24 @@ qx.Proto._modifyBarPosition = function(propValue, propOldValue, propData)
   // move bar around and change orientation
   switch(propValue)
   {
-    case qx.Const.ALIGN_TOP:
+    case qx.constant.Layout.ALIGN_TOP:
       vBar.moveSelfToBegin();
-      this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
+      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
       break;
 
-    case qx.Const.ALIGN_BOTTOM:
+    case qx.constant.Layout.ALIGN_BOTTOM:
       vBar.moveSelfToEnd();
-      this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
+      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
       break;
 
-    case qx.Const.ALIGN_LEFT:
+    case qx.constant.Layout.ALIGN_LEFT:
       vBar.moveSelfToBegin();
-      this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
+      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
       break;
 
-    case qx.Const.ALIGN_RIGHT:
+    case qx.constant.Layout.ALIGN_RIGHT:
       vBar.moveSelfToEnd();
-      this.setOrientation(qx.Const.ORIENTATION_HORIZONTAL);
+      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
       break;
   };
 

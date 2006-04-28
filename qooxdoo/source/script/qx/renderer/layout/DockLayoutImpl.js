@@ -118,7 +118,7 @@ qx.renderer.layout.DockLayoutImpl._childCheck =
 */
 qx.Proto.computeChildBoxWidth = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_HORIZONTAL) {
+  if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_HORIZONTAL) {
     return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
   };
 
@@ -130,7 +130,7 @@ qx.Proto.computeChildBoxWidth = function(vChild)
 */
 qx.Proto.computeChildBoxHeight = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == qx.Const.ORIENTATION_VERTICAL) {
+  if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_VERTICAL) {
     return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
   };
 
@@ -255,7 +255,7 @@ qx.Proto.getChildAlign = function(vChild) {
 };
 
 qx.Proto.getChildAlignMode = function(vChild) {
-  return vChild.getVerticalAlign() ? qx.Const.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.Const.ORIENTATION_HORIZONTAL : qx.constant.Core.DEFAULT;
+  return vChild.getVerticalAlign() ? qx.constant.Layout.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.constant.Layout.ORIENTATION_HORIZONTAL : qx.constant.Core.DEFAULT;
 };
 
 

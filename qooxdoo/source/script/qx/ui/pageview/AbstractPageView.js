@@ -35,7 +35,7 @@ function(vBarClass, vPaneClass)
   this._pane = new vPaneClass;
 
   this.add(this._bar, this._pane);
-  this.setOrientation(qx.Const.ORIENTATION_VERTICAL);
+  this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
 });
 
 
