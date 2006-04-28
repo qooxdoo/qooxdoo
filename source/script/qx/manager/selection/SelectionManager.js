@@ -758,14 +758,14 @@ qx.Proto.handleMouseDown = function(vItem, e)
   if (this._activeDragSession)
   {
     // Add mouseup listener and register as capture widget
-    this.getBoundedWidget().addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._ondragup, this);
+    this.getBoundedWidget().addEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
     this.getBoundedWidget().setCapture(true);
   };
 };
 
 qx.Proto._ondragup = function(e)
 {
-  this.getBoundedWidget().removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._ondragup, this);
+  this.getBoundedWidget().removeEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
   this.getBoundedWidget().setCapture(false);
   this._activeDragSession = false;
 };

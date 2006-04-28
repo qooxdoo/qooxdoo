@@ -40,7 +40,7 @@
       mainF.setMenuBar(createMenuBar());
       mainF.setToolBar(createToolBar());
       mainF.setStatusBar(createStatusBar());
-      mainF.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, function _onkeydown(e) {
+      mainF.addEventListener(qx.constant.Event.KEYDOWN, function _onkeydown(e) {
         if(e.getKeyCode() == 90) // The NUM key
         {
           numL.setHtml("NUM");

@@ -16,6 +16,7 @@ L="$L script/qx/constant/Style"
 L="$L script/qx/constant/Html"
 L="$L script/qx/constant/Mime"
 L="$L script/qx/constant/Layout"
+L="$L script/qx/constant/Event"
 
 # Core
 L="$L script/qx/core/Main"

@@ -65,7 +65,7 @@ function(vLabel, vIcon, vCommand, vMenu)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 });
 
 
@@ -336,7 +336,7 @@ qx.Proto.dispose = function()
   };
 
   // Remove event listeners
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 };

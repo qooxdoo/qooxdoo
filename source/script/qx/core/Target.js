@@ -35,7 +35,7 @@ This is the main constructor for all objects that need to be connected to qx.eve
 
 In objects created with this constructor, you find functions to addEventListener or
 removeEventListener to or from the created object. Each event to connect to has a type in
-form of an identification string. This type could be the name of a regular dom event like qx.Const.EVENT_TYPE_CLICK or
+form of an identification string. This type could be the name of a regular dom event like qx.constant.Event.CLICK or
 something self-defined like "ready".
 */
 qx.OO.defineClass("qx.core.Target", qx.core.Object,

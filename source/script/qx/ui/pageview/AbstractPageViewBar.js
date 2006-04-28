@@ -35,7 +35,7 @@ function()
 
   this._manager = new qx.manager.selection.RadioManager;
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 });
 
 
@@ -130,7 +130,7 @@ qx.Proto.dispose = function()
     this._manager = null;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 };

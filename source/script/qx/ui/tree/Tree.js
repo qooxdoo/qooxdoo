@@ -55,8 +55,8 @@ function(vLabel, vIcon, vIconSelected)
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 });
 
 

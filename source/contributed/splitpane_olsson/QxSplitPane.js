@@ -63,9 +63,9 @@ function QxSplitPane(vOrientation)
       break;
   };
 
-  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
-  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
-  sb.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
+  sb.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbarmousedown, this);
+  sb.addEventListener(qx.constant.Event.MOUSEUP, this._onbarmouseup, this);
+  sb.addEventListener(qx.constant.Event.MOUSEMOVE, this._onbarmousemove, this);
 
   this.add(sb);
 
@@ -101,8 +101,8 @@ function QxSplitPane(vOrientation)
   minB.setAppearance("splitpane-button");
   minB.setTabIndex(-1);
 
-  minB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-  minB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  minB.addEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+  minB.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   buttonLayout.add(minB);
 
@@ -115,8 +115,8 @@ function QxSplitPane(vOrientation)
   restoreB.setAppearance("splitpane-button");
   restoreB.setTabIndex(-1);
 
-  restoreB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
-  restoreB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  restoreB.addEventListener(qx.constant.Event.CLICK, this._onrestorebuttonclick, this);
+  restoreB.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   // ***********************************************************************
   //   BUTTONS: MAXIMIZE
@@ -127,8 +127,8 @@ function QxSplitPane(vOrientation)
   maxB.setAppearance("splitpane-button");
   maxB.setTabIndex(-1);
 
-  maxB.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
-  maxB.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  maxB.addEventListener(qx.constant.Event.CLICK, this._onmaximizebuttonclick, this);
+  maxB.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   buttonLayout.add(maxB);
 
@@ -654,9 +654,9 @@ qx.Proto.dispose = function()
 
   if (this._bar)
   {
-    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbarmousedown, this);
-    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onbarmouseup, this);
-    this._bar.removeEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onbarmousemove, this);
+    this._bar.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbarmousedown, this);
+    this._bar.removeEventListener(qx.constant.Event.MOUSEUP, this._onbarmouseup, this);
+    this._bar.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onbarmousemove, this);
     this._bar.dispose();
     this._bar = null;
   };
@@ -667,22 +667,22 @@ qx.Proto.dispose = function()
   };
 
   if (this._minimizeButton) {
-    this._minimizeButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._minimizeButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._minimizeButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+    this._minimizeButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._minimizeButton.dispose();
     this._minimizeButton = null;
   };
 
   if (this._maximizeButton) {
-    this._maximizeButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._maximizeButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._maximizeButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+    this._maximizeButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._maximizeButton.dispose();
     this._maximizeButton = null;
   };
 
   if (this._restoreButton) {
-    this._restoreButton.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-    this._restoreButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+    this._restoreButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+    this._restoreButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._restoreButton.dispose();
     this._restoreButton = null;
   };

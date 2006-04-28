@@ -49,9 +49,9 @@ function(vText, vValue, vName, vChecked)
     this.setChecked(vChecked);
   };
 
-  this.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.addEventListener(qx.constant.Event.CLICK, this._onclick);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 });
 
 /*
@@ -196,9 +196,9 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclick);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup);
+  this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

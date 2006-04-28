@@ -132,8 +132,8 @@ function(vCaption, vIcon, vWindowManager)
   bm.setAppearance("window-captionbar-minimize-button");
   bm.setTabIndex(-1);
 
-  bm.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onminimizebuttonclick, this);
-  bm.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bm.addEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+  bm.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bm);
 
@@ -147,8 +147,8 @@ function(vCaption, vIcon, vWindowManager)
   br.setAppearance("window-captionbar-restore-button");
   br.setTabIndex(-1);
 
-  br.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onrestorebuttonclick, this);
-  br.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  br.addEventListener(qx.constant.Event.CLICK, this._onrestorebuttonclick, this);
+  br.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   // don't add initially
   // cb.add(br);
@@ -163,8 +163,8 @@ function(vCaption, vIcon, vWindowManager)
   bx.setAppearance("window-captionbar-maximize-button");
   bx.setTabIndex(-1);
 
-  bx.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onmaximizebuttonclick, this);
-  bx.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bx.addEventListener(qx.constant.Event.CLICK, this._onmaximizebuttonclick, this);
+  bx.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bx);
 
@@ -178,8 +178,8 @@ function(vCaption, vIcon, vWindowManager)
   bc.setAppearance("window-captionbar-close-button");
   bc.setTabIndex(-1);
 
-  bc.addEventListener(qx.Const.EVENT_TYPE_CLICK, this._onclosebuttonclick, this);
-  bc.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onbuttonmousedown, this);
+  bc.addEventListener(qx.constant.Event.CLICK, this._onclosebuttonclick, this);
+  bc.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bc);
 
@@ -224,19 +224,19 @@ function(vCaption, vIcon, vWindowManager)
   //   EVENTS: WINDOW
   // ************************************************************************
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onwindowmousedown, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onwindowmouseup, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._onwindowmousemove, this);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onwindowmouseup, this);
+  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onwindowmousemove, this);
 
 
   // ************************************************************************
   //   EVENTS: CAPTIONBAR
   // ************************************************************************
 
-  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._oncaptionmousedown, this);
-  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._oncaptionmouseup, this);
-  cb.addEventListener(qx.Const.EVENT_TYPE_MOUSEMOVE, this._oncaptionmousemove, this);
-  cb.addEventListener(qx.Const.EVENT_TYPE_DBLCLICK, this._oncaptiondblblick, this);
+  cb.addEventListener(qx.constant.Event.MOUSEDOWN, this._oncaptionmousedown, this);
+  cb.addEventListener(qx.constant.Event.MOUSEUP, this._oncaptionmouseup, this);
+  cb.addEventListener(qx.constant.Event.MOUSEMOVE, this._oncaptionmousemove, this);
+  cb.addEventListener(qx.constant.Event.DBLCLICK, this._oncaptiondblblick, this);
 
 
   // ************************************************************************

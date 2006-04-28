@@ -29,19 +29,6 @@
 
 qx.OO.defineClass("qx.Const",
 {
-  EVENT_TYPE_MOUSEOVER : "mouseover",
-  EVENT_TYPE_MOUSEMOVE : "mousemove",
-  EVENT_TYPE_MOUSEOUT : "mouseout",
-  EVENT_TYPE_MOUSEDOWN : "mousedown",
-  EVENT_TYPE_MOUSEUP : "mouseup",
-  EVENT_TYPE_MOUSEWHEEL : "mousewheel",
-  EVENT_TYPE_CLICK : "click",
-  EVENT_TYPE_DBLCLICK : "dblclick",
-  EVENT_TYPE_CONTEXTMENU : "contextmenu",
-  EVENT_TYPE_KEYDOWN : "keydown",
-  EVENT_TYPE_KEYPRESS : "keypress",
-  EVENT_TYPE_KEYUP : "keyup",
-
   EVENT_TYPE_DRAGDROP : "dragdrop",
   EVENT_TYPE_DRAGENTER : "dragenter",
   EVENT_TYPE_DRAGEXIT : "dragexit",

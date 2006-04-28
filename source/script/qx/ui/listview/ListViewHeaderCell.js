@@ -81,9 +81,9 @@ function(vConfig, vId)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header-cell" });
@@ -252,9 +252,9 @@ qx.Proto.dispose = function()
     this._arrowdown = null;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 };

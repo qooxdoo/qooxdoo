@@ -94,15 +94,15 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress, this);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
+  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
+  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
 
   this._textfield.addEventListener(qx.Const.EVENT_TYPE_INPUT, this._oninput, this);
   this._textfield.addEventListener(qx.Const.EVENT_TYPE_BLUR, this._onblur, this);
-  this._upbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
-  this._downbutton.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+  this._upbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
+  this._downbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
   this._manager.addEventListener(qx.Const.EVENT_TYPE_CHANGE, this._onchange, this);
   this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
 
@@ -328,8 +328,8 @@ qx.Proto._onmousedown = function(e)
 
   vButton.addState(qx.ui.form.Button.STATE_PRESSED);
 
-  vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
-  vButton.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
+  vButton.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
+  vButton.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseup, this);
 
   this._intervalIncrease = vButton == this._upbutton;
   this._resetIncrements();
@@ -347,8 +347,8 @@ qx.Proto._onmouseup = function(e)
 
   vButton.removeState(qx.ui.form.Button.STATE_PRESSED);
 
-  vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup, this);
-  vButton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseup, this);
+  vButton.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
+  vButton.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseup, this);
 
   this._textfield.selectAll();
   this._textfield.setFocused(true);
@@ -636,10 +636,10 @@ qx.Proto.dispose = function()
     return;
   };
 
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_KEYUP, this._onkeyup, this);
-  this.removeEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel, this);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress, this);
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
+  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
+  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
 
   if (this._textfield)
   {
@@ -657,14 +657,14 @@ qx.Proto.dispose = function()
 
   if (this._upbutton)
   {
-    this._upbutton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+    this._upbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
     this._upbutton.dispose();
     this._upbutton = null;
   };
 
   if (this._downbutton)
   {
-    this._downbutton.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown, this);
+    this._downbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
     this._downbutton.dispose();
     this._downbutton = null;
   };

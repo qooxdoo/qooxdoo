@@ -70,8 +70,8 @@ function(vClientWindow)
   this._modalNativeWindow = null;
 
   // Blocker Events
-  this._blocker.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
-  this._blocker.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
+  this._blocker.addEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
+  this._blocker.addEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
 
   this.add(this._blocker);
 
@@ -375,8 +375,8 @@ qx.Proto.dispose = function()
 
   if (this._blocker)
   {
-    this._blocker.removeEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this.blockHelper, this);
-    this._blocker.removeEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this.blockHelper, this);
+    this._blocker.removeEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
+    this._blocker.removeEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
 
     this._blocker.dispose();
     this._blocker = null;

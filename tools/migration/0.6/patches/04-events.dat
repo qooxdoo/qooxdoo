@@ -1,0 +1,12 @@
+qx.Const.EVENT_TYPE_MOUSEOVER=qx.constant.Event.MOUSEOVER
+qx.Const.EVENT_TYPE_MOUSEMOVE=qx.constant.Event.MOUSEMOVE
+qx.Const.EVENT_TYPE_MOUSEOUT=qx.constant.Event.MOUSEOUT
+qx.Const.EVENT_TYPE_MOUSEDOWN=qx.constant.Event.MOUSEDOWN
+qx.Const.EVENT_TYPE_MOUSEUP=qx.constant.Event.MOUSEUP
+qx.Const.EVENT_TYPE_MOUSEWHEEL=qx.constant.Event.MOUSEWHEEL
+qx.Const.EVENT_TYPE_CLICK=qx.constant.Event.CLICK
+qx.Const.EVENT_TYPE_DBLCLICK=qx.constant.Event.DBLCLICK
+qx.Const.EVENT_TYPE_CONTEXTMENU=qx.constant.Event.CONTEXTMENU
+qx.Const.EVENT_TYPE_KEYDOWN=qx.constant.Event.KEYDOWN
+qx.Const.EVENT_TYPE_KEYPRESS=qx.constant.Event.KEYPRESS
+qx.Const.EVENT_TYPE_KEYUP=qx.constant.Event.KEYUP

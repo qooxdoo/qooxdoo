@@ -112,17 +112,17 @@ function()
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.Const.EVENT_TYPE_MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.Const.EVENT_TYPE_KEYPRESS, this._onkeypress);
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
 
   // ************************************************************************
