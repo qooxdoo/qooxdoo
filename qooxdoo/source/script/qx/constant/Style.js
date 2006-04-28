@@ -32,5 +32,19 @@ qx.OO.defineClass("qx.constant.Style",
   POSITION_ABSOLUTE : "absolute",
   POSITION_RELATIVE : "relative",
   POSITION_STATIC : "static",
-  POSITION_FIXED : "fixed"
+  POSITION_FIXED : "fixed",
+
+  CURSOR_WAIT : "wait",
+  CURSOR_PROGRESS : "progress",
+  CURSOR_DEFAULT : "default",
+
+  OVERFLOW_AUTO : "auto",
+  OVERFLOW_HIDDEN : "hidden",
+  OVERFLOW_BOTH : "scroll",
+  OVERFLOW_HORIZONTAL : "scrollX",
+  OVERFLOW_VERTICAL : "scrollY",
+  OVERFLOW_ELLIPSIS : "ellipsis",
+  OVERFLOW_MOZ_NONE : "-moz-scrollbars-none",
+  OVERFLOW_MOZ_HORIZONTAL : "-moz-scrollbars-horizontal",
+  OVERFLOW_MOZ_VERTICAL : "-moz-scrollbars-vertical"
 });

@@ -34,7 +34,7 @@
 /*!
   This singleton manage the global image path (prefix) and allowes themed icons.
 */
-qx.OO.defineClass("qx.manager.object.ImageManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.ImageManager", qx.manager.object.ObjectManager,
 function()
 {
   qx.manager.object.ObjectManager.call(this);
@@ -62,6 +62,8 @@ function()
   this.setIconPath(qx.core.Settings.imageIconPath);
   this.setWidgetPath(qx.core.Settings.imageWidgetPath);
 });
+
+qx.Class.BLANK = "core/blank.gif";
 
 
 

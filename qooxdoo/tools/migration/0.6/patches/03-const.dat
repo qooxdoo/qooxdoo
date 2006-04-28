@@ -9,3 +9,7 @@ qx.Const.BORDER_STYLE_=qx.renderer.border.Border.STYLE_
 qx.Const.FONT_STYLE_=qx.renderer.font.Font.STYLE_
 qx.Const.HTML_=qx.constant.Html.
 qx.Const.TYPEOF_=qx.constant.Type.
+qx.Const.IMAGE_BLANK=qx.manager.object.ImageManager.BLANK
+qx.Const.CURSOR_=qx.constant.Style.CURSOR_
+qx.Const.OVERFLOW_VALUE_=qx.constant.Style.OVERFLOW_
+

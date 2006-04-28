@@ -32,7 +32,7 @@
 qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton, 
 function(vLabel, vCommand, vChecked)
 {
-  qx.ui.menu.MenuButton.call(this, vLabel, qx.Const.IMAGE_BLANK, vCommand);
+  qx.ui.menu.MenuButton.call(this, vLabel, qx.manager.object.ImageManager.BLANK, vCommand);
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);

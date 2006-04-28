@@ -17,7 +17,7 @@ theme.registerAppearance("statusbar",
     return {
       width : null,
       height : 24,
-      overflow : qx.Const.OVERFLOW_VALUE_HIDDEN,
+      overflow : qx.constant.Style.OVERFLOW_HIDDEN,
       backgroundColor : this.bgcolor,
       border : qx.renderer.border.BorderObject.presets.outset,
       paddingTop : 1,
