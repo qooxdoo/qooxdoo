@@ -82,17 +82,17 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
 /*!
   The number of pixels shift in x direction.
 */
-qx.OO.addProperty({ name : "shiftX", type : qx.Const.TYPEOF_NUMBER, defaultValue : -1 });
+qx.OO.addProperty({ name : "shiftX", type : qx.constant.Type.NUMBER, defaultValue : -1 });
 
 /*!
   The number of pixels shift in y direction.
 */
-qx.OO.addProperty({ name : "shiftY", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "shiftY", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 
 /*!
   Loop the widgets when finished.
 */
-qx.OO.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "loop", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 /*

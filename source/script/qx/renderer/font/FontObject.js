@@ -84,7 +84,7 @@ qx.Proto.dispose = function()
     return;
   };
 
-  if (typeof this._dependentObjects === qx.Const.TYPEOF_OBJECT)
+  if (typeof this._dependentObjects === qx.constant.Type.OBJECT)
   {
     for (vKey in this._dependentObjects) {
       delete this._dependentObjects[vKey];

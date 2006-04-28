@@ -48,7 +48,7 @@ function(arrVersion)
 {
   qx.core.Object.call(this);
 
-  if (typeof arrVersion === qx.Const.TYPEOF_STRING) {
+  if (typeof arrVersion === qx.constant.Type.STRING) {
     arrVersion = arrVersion.split(qx.constant.Core.DOT);
   };
 

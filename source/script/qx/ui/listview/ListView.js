@@ -133,11 +133,11 @@ function(vData, vColumns)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view" });
 
-qx.OO.addProperty({ name : "resizable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "liveResize", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "sortBy", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "resizable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "liveResize", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "sortBy", type : qx.constant.Type.STRING });
 
 
 

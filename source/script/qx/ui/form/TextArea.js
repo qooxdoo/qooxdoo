@@ -35,9 +35,9 @@ function(vValue)
   this.removeHtmlProperty("type");
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-area" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "text-area" });
 
-qx.OO.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN });
 
 if (qx.sys.Client.isMshtml())
 {

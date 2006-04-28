@@ -22,36 +22,17 @@
 
 /* ************************************************************************
 
-#package(barview)
+#package(core)
+#require(qx.OO)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewBar", qx.ui.pageview.AbstractPageViewBar, 
-function() {
-  qx.ui.pageview.AbstractPageViewBar.call(this);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view-bar" });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getWheelDelta = function(e)
+qx.OO.defineClass("qx.constant.Type",
 {
-  var vWheelDelta = e.getWheelDelta();
-
-  switch(this.getParent().getBarPosition())
-  {
-    case qx.Const.ALIGN_LEFT:
-    case qx.Const.ALIGN_RIGHT:
-      vWheelDelta *= -1;
-  };
-
-  return vWheelDelta;
-};
+  UNDEFINED : "undefined",
+  NUMBER : "number",
+  STRING : "string",
+  BOOLEAN : "boolean",
+  FUNCTION : "function",
+  OBJECT : "object"
+});

@@ -46,32 +46,32 @@ function() {
 /*!
   Target url to issue the request to
 */
-qx.OO.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
 
 /*!
   Determines what type of request to issue
 */
-qx.OO.addProperty({ name : "method", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "method", type : qx.constant.Type.STRING });
 
 /*!
   Set the request to asynchronous
 */
-qx.OO.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN });
 
 /*!
   Set the data to be sent via this request
 */
-qx.OO.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "data", type : qx.constant.Type.STRING });
 
 /*!
   Username to use for HTTP authentication
 */
-qx.OO.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
 
 /*!
   Password to use for HTTP authentication
 */
-qx.OO.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
 
 /*!
   The state of the current request
@@ -79,7 +79,7 @@ qx.OO.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.Const.TYPEOF_STRING,
+  type           : qx.constant.Type.STRING,
   possibleValues : [
                    qx.constant.Net.STATE_CREATED, qx.constant.Net.STATE_CONFIGURED,
                    qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
@@ -92,17 +92,17 @@ qx.OO.addProperty(
 /*!
   Request headers
 */
-qx.OO.addProperty({ name : "requestHeaders", type: qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "requestHeaders", type: qx.constant.Type.OBJECT });
 
 /*!
   Request parameters to send.
 */
-qx.OO.addProperty({ name : "parameters", type: qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "parameters", type: qx.constant.Type.OBJECT });
 
 /*!
   Response Type
 */
-qx.OO.addProperty({ name : "responseType", type: qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "responseType", type: qx.constant.Type.STRING });
 
 
 

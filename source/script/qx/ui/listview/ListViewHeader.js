@@ -78,7 +78,7 @@ function(vColumns)
   this.addEventListener(qx.Const.EVENT_TYPE_MOUSEOUT, this._onmouseout);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-header" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header" });
 
 
 

@@ -62,37 +62,37 @@ qx.ui.basic.Label.COPY_LOCALELEMENT = "localelement";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "label" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "label" });
 
 /*!
   Any text string which can contain HTML, too
 */
-qx.OO.addProperty({ name : "html", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "html", type : qx.constant.Type.STRING });
 
 /*!
   The alignment of the text.
 */
-qx.OO.addProperty({ name : "textAlign", type : qx.Const.TYPEOF_STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
+qx.OO.addProperty({ name : "textAlign", type : qx.constant.Type.STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
 
 /*!
   The styles which should be copied
 */
-qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.DEFAULT, possibleValues : [ qx.constant.Core.NONE, qx.constant.Core.DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
+qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.DEFAULT, possibleValues : [ qx.constant.Core.NONE, qx.constant.Core.DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
 
 /*!
   A single character which will be underlined inside the text.
 */
-qx.OO.addProperty({ name : "mnemonic", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "mnemonic", type : qx.constant.Type.STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.OO.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 
@@ -237,7 +237,7 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
   document.body.appendChild(vNode);
 };
 
-if (typeof window.application != qx.Const.TYPEOF_UNDEFINED) {
+if (typeof window.application != qx.constant.Type.UNDEFINED) {
   window.application.addEventListener(qx.Const.EVENT_TYPE_PRE, qx.ui.basic.Label.init);
 };
 

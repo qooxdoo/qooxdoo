@@ -51,9 +51,9 @@ function(galleryList)
   this.addEventListener("keydown", this._onkeydown);
 });
 
-qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
-qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 60 });
-qx.OO.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.constant.Type.NUMBER, defaultValue : 60 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.constant.Type.NUMBER, defaultValue : 60 });
+qx.OO.addProperty({ name : "decorHeight", type : qx.constant.Type.NUMBER, defaultValue : 40 });
 
 
 

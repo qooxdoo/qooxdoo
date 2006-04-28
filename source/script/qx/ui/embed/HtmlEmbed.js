@@ -49,17 +49,17 @@ function(vHtml)
 /*!
   Any text string which can contain HTML, too
 */
-qx.OO.addProperty({ name : "html", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "html", type : qx.constant.Type.STRING });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.OO.addProperty({ name : "wrap", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 

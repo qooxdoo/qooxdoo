@@ -67,7 +67,7 @@ function(vData, vColumns)
   this.addEventListener(qx.Const.EVENT_TYPE_KEYDOWN, this._onkeydown);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-pane" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-pane" });
 
 qx.Proto._rowHeight = 16;
 

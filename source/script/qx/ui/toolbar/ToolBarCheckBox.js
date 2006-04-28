@@ -44,7 +44,7 @@ function(vText, vIcon, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "checked", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 

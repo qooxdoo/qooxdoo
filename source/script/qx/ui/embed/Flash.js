@@ -53,19 +53,19 @@ function(vSource, vVersion)
   this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
 
-qx.OO.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
 qx.OO.addProperty({ name : "version" });
 
-qx.OO.addProperty({ name : "enableExpressInstall", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "enableDetection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "redirectUrl", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "enableExpressInstall", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "enableDetection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "redirectUrl", type : qx.constant.Type.STRING });
 
-qx.OO.addProperty({ name : "quality", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
-qx.OO.addProperty({ name : "scale", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
-qx.OO.addProperty({ name : "wmode", type : qx.Const.TYPEOF_STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
-qx.OO.addProperty({ name : "play", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-qx.OO.addProperty({ name : "loop", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
-qx.OO.addProperty({ name : "menu", type : qx.Const.TYPEOF_BOOLEAN, impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "quality", type : qx.constant.Type.STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
+qx.OO.addProperty({ name : "scale", type : qx.constant.Type.STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
+qx.OO.addProperty({ name : "wmode", type : qx.constant.Type.STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
+qx.OO.addProperty({ name : "play", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "loop", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "menu", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
 
 qx.ui.embed.Flash.EXPRESSINSTALL = [6,0,65];
 qx.ui.embed.Flash.MINREQUIRED = "1";

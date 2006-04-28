@@ -34,12 +34,12 @@ function(vBoundedWidget) {
 /*!
 Should multiple selection be allowed?
 */
-qx.OO.changeProperty({ name : "multiSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "multiSelection", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
 Enable drag selection?
 */
-qx.OO.changeProperty({ name : "dragSelection", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "dragSelection", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 

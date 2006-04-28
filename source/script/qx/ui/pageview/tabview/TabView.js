@@ -41,10 +41,10 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "tab-view" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tab-view" });
 
-qx.OO.addProperty({ name : "alignTabsToLeft", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "placeBarOnTop", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "alignTabsToLeft", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "placeBarOnTop", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 

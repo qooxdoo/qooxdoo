@@ -43,12 +43,12 @@ function QxDialog(vCaption, vIcon)
 /*!
   Appearance setting for the class.
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "dialog" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "dialog" });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.OO.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "modal", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*
 ---------------------------------------------------------------------------

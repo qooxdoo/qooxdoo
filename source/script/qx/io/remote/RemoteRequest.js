@@ -67,14 +67,14 @@ function(vUrl, vMethod, vResponseType)
 /*!
   Target url to issue the request to.
 */
-qx.OO.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
 /*!
   Determines what type of request to issue (GET or POST).
 */
 qx.OO.addProperty(
 {
   name           : "method",
-  type           : qx.Const.TYPEOF_STRING,
+  type           : qx.constant.Type.STRING,
   possibleValues : [
                    qx.constant.Net.METHOD_GET, qx.constant.Net.METHOD_POST,
                    qx.constant.Net.METHOD_PUT, qx.constant.Net.METHOD_HEAD,
@@ -84,25 +84,25 @@ qx.OO.addProperty(
 /*!
   Set the request to asynchronous.
 */
-qx.OO.addProperty({ name : "asynchronous", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 /*!
   Set the data to be sent via this request
 */
-qx.OO.addProperty({ name : "data", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "data", type : qx.constant.Type.STRING });
 /*!
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "username", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
 /*!
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "password", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.Const.TYPEOF_STRING,
+  type           : qx.constant.Type.STRING,
   possibleValues : [
                    qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_QUEUED,
                    qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
@@ -120,7 +120,7 @@ qx.OO.addProperty(
 */
 qx.OO.addProperty({
   name           : "responseType",
-  type           : qx.Const.TYPEOF_STRING,
+  type           : qx.constant.Type.STRING,
   possibleValues : [
                    qx.Const.MIMETYPE_TEXT,
                    qx.Const.MIMETYPE_JAVASCRIPT, qx.Const.MIMETYPE_JSON,
@@ -133,7 +133,7 @@ qx.OO.addProperty({
   If this property is null, the timeout for the request comes is the
   qx.io.remote.RemoteRequestQueue's property defaultTimeout.
 */
-qx.OO.addProperty({ name : "timeout", type : qx.Const.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
 
 /*!
   Prohibit request from being cached.
@@ -142,7 +142,7 @@ qx.OO.addProperty({ name : "timeout", type : qx.Const.TYPEOF_NUMBER });
   with a value of the current time. Setting the value to false removes
   the parameter.
 */
-qx.OO.addProperty({ name : "prohibitCaching", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN });
 /*!
   Indicate that the request is cross domain.
 
@@ -152,7 +152,7 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.Const.TYPEOF_BOOLEAN });
   qx.io.remote.IframeTransport because only the latter can handle cross domain
   requests.
 */
-qx.OO.addProperty({ name : "crossDomain", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 

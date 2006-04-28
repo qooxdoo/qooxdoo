@@ -29,13 +29,6 @@
 
 qx.OO.defineClass("qx.Const",
 {
-  TYPEOF_UNDEFINED : "undefined",
-  TYPEOF_NUMBER : "number",
-  TYPEOF_STRING : "string",
-  TYPEOF_BOOLEAN : "boolean",
-  TYPEOF_FUNCTION : "function",
-  TYPEOF_OBJECT : "object",
-
   STATE_OVER : "over",
   STATE_FOCUSED : "focused",
   STATE_DISABLED : "disabled",

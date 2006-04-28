@@ -38,11 +38,11 @@ qx.lang.Number.isBetweenRange = function(nr, vmin, vmax) {
 
 qx.lang.Number.limit = function(nr, vmin, vmax)
 {
-  if (typeof vmax === qx.Const.TYPEOF_NUMBER && nr > vmax)
+  if (typeof vmax === qx.constant.Type.NUMBER && nr > vmax)
   {
     return vmax;
   }
-  else if (typeof vmin === qx.Const.TYPEOF_NUMBER && nr < vmin)
+  else if (typeof vmin === qx.constant.Type.NUMBER && nr < vmin)
   {
     return vmin;
   }

@@ -163,7 +163,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
         return vReadyState < 4;
 
       default:
-        return typeof vStatusCode === qx.Const.TYPEOF_UNDEFINED;
+        return typeof vStatusCode === qx.constant.Type.UNDEFINED;
     };
   }
   else
@@ -272,18 +272,18 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 /*!
   Set the request to send with this transport.
 */
-qx.OO.addProperty({ name : "request", type : qx.Const.TYPEOF_OBJECT, instance : "qx.io.remote.RemoteRequest" });
+qx.OO.addProperty({ name : "request", type : qx.constant.Type.OBJECT, instance : "qx.io.remote.RemoteRequest" });
 /*!
   Set the implementation to use to send the request with.
 
   The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
   must implement all methods in the transport API.
 */
-qx.OO.addProperty({ name : "implementation", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "implementation", type : qx.constant.Type.OBJECT });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.Const.TYPEOF_STRING,
+  type           : qx.constant.Type.STRING,
   possibleValues : [
                    qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_SENDING,
                    qx.constant.Net.STATE_RECEIVING, qx.constant.Net.STATE_COMPLETED,

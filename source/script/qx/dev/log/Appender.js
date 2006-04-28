@@ -39,7 +39,7 @@ function() {
 
 
 /** Whether the logger name and log level should be included in the formatted log message. */
-qx.OO.addProperty({ name:"useLongFormat", type:qx.Const.TYPEOF_BOOLEAN, defaultValue:true, allowNull:false });
+qx.OO.addProperty({ name:"useLongFormat", type:qx.constant.Type.BOOLEAN, defaultValue:true, allowNull:false });
 
 
 // overridden

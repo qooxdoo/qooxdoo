@@ -36,7 +36,7 @@ function(vId)
   };
 });
 
-qx.OO.addProperty({ name : "sourceNodeId", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "sourceNodeId", type : qx.constant.Type.STRING });
 
 qx.Proto._createElementImpl = function()
 {

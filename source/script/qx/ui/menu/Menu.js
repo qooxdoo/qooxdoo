@@ -80,27 +80,27 @@ qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAt
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "menu" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu" });
 
-qx.OO.addProperty({ name : "iconContentGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 4 });
-qx.OO.addProperty({ name : "labelShortcutGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
-qx.OO.addProperty({ name : "contentArrowGap", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
-qx.OO.addProperty({ name : "contentNonIconPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
-qx.OO.addProperty({ name : "contentNonArrowPadding", type : qx.Const.TYPEOF_NUMBER, defaultValue : 8 });
+qx.OO.addProperty({ name : "iconContentGap", type : qx.constant.Type.NUMBER, defaultValue : 4 });
+qx.OO.addProperty({ name : "labelShortcutGap", type : qx.constant.Type.NUMBER, defaultValue : 10 });
+qx.OO.addProperty({ name : "contentArrowGap", type : qx.constant.Type.NUMBER, defaultValue : 8 });
+qx.OO.addProperty({ name : "contentNonIconPadding", type : qx.constant.Type.NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "contentNonArrowPadding", type : qx.constant.Type.NUMBER, defaultValue : 8 });
 
-qx.OO.addProperty({ name : "hoverItem", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "openItem", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "opener", type : qx.Const.TYPEOF_OBJECT });
-qx.OO.addProperty({ name : "parentMenu", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "hoverItem", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "openItem", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "opener", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "parentMenu", type : qx.constant.Type.OBJECT });
 
-qx.OO.addProperty({ name : "fastReopen", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "openInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
-qx.OO.addProperty({ name : "closeInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250 });
+qx.OO.addProperty({ name : "fastReopen", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "openInterval", type : qx.constant.Type.NUMBER, defaultValue : 250 });
+qx.OO.addProperty({ name : "closeInterval", type : qx.constant.Type.NUMBER, defaultValue : 250 });
 
-qx.OO.addProperty({ name : "subMenuHorizontalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -3 });
-qx.OO.addProperty({ name : "subMenuVerticalOffset", type : qx.Const.TYPEOF_NUMBER, defaultValue : -2 });
+qx.OO.addProperty({ name : "subMenuHorizontalOffset", type : qx.constant.Type.NUMBER, defaultValue : -3 });
+qx.OO.addProperty({ name : "subMenuVerticalOffset", type : qx.constant.Type.NUMBER, defaultValue : -2 });
 
-qx.OO.addProperty({ name : "indentShortcuts", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "indentShortcuts", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 

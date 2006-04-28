@@ -168,7 +168,7 @@ qx.OO.addFastProperty = function(vConfig)
   var vSetterName = qx.OO.C_SET + vUpName;
   var vComputerName = qx.OO.C_COMPUTE + vUpName;
 
-  qx.Proto[vStorageField] = typeof vConfig.defaultValue !== qx.Const.TYPEOF_UNDEFINED ? vConfig.defaultValue : null;
+  qx.Proto[vStorageField] = typeof vConfig.defaultValue !== qx.constant.Type.UNDEFINED ? vConfig.defaultValue : null;
 
   if (vConfig.noCompute)
   {
@@ -217,7 +217,7 @@ qx.OO.addCachedProperty = function(p)
   var vComputerName = qx.OO.C_COMPUTE + vUpName;
   var vChangeName = qx.OO.C_PRIVATECHANGE + vUpName;
 
-  if (typeof p.defaultValue !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof p.defaultValue !== qx.constant.Type.UNDEFINED) {
     qx.Proto[vStorageField] = p.defaultValue;
   };
 
@@ -267,7 +267,7 @@ qx.OO.addPropertyGroup = function(p)
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
   -------------------------------------------------------------------------------- */
-  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
+  if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("Param should be an object!");
   };
 
@@ -362,11 +362,11 @@ qx.OO.addPropertyGroup = function(p)
 
 qx.OO.removeProperty = function(p)
 {
-  if (typeof qx.Proto._properties !== qx.Const.TYPEOF_STRING) {
+  if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
     throw new Error("Has no properties!");
   };
 
-  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
+  if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("Param should be an object!");
   };
 
@@ -400,7 +400,7 @@ qx.OO.removeProperty = function(p)
 
 qx.OO._createProperty = function(p)
 {
-  if(typeof p !== qx.Const.TYPEOF_OBJECT) {
+  if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("AddProperty: Param should be an object!");
   };
 
@@ -431,30 +431,30 @@ qx.OO._createProperty = function(p)
 
 
 
-  if (typeof p.type === qx.Const.TYPEOF_STRING) {
+  if (typeof p.type === qx.constant.Type.STRING) {
     p.hasType = true;
   }
-  else if (typeof p.type !== qx.Const.TYPEOF_UNDEFINED) {
+  else if (typeof p.type !== qx.constant.Type.UNDEFINED) {
     throw new Error("AddProperty: Invalid type definition for property " + p.name + ": " + p.type);
   }
   else {
     p.hasType = false;
   };
 
-  if (typeof p.instance === qx.Const.TYPEOF_STRING) {
+  if (typeof p.instance === qx.constant.Type.STRING) {
     p.hasInstance = true;
   }
-  else if (typeof p.instance !== qx.Const.TYPEOF_UNDEFINED) {
+  else if (typeof p.instance !== qx.constant.Type.UNDEFINED) {
     throw new Error("AddProperty: Invalid instance definition for property " + p.name + ": " + p.instance);
   }
   else {
     p.hasInstance = false;
   };
 
-  if (typeof p.classname === qx.Const.TYPEOF_STRING) {
+  if (typeof p.classname === qx.constant.Type.STRING) {
     p.hasClassName = true;
   }
-  else if (typeof p.classname !== qx.Const.TYPEOF_UNDEFINED) {
+  else if (typeof p.classname !== qx.constant.Type.UNDEFINED) {
     throw new Error("AddProperty: Invalid classname definition for property " + p.name + ": " + p.classname);
   }
   else {
@@ -529,7 +529,7 @@ qx.OO._createProperty = function(p)
   };
 
   // building toggleFoo(): Switching between two boolean values
-  if (p.type === qx.Const.TYPEOF_BOOLEAN)
+  if (p.type === qx.constant.Type.BOOLEAN)
   {
     pp[qx.OO.C_TOGGLE + p.method] = function(newValue) {
       return this[qx.OO.C_SET + p.method](!this[valueKey]);
@@ -734,12 +734,12 @@ qx.OO._createProperty = function(p)
   };
 
   // building user configured get alias for property
-  if (typeof p.getAlias === qx.Const.TYPEOF_STRING) {
+  if (typeof p.getAlias === qx.constant.Type.STRING) {
     pp[p.getAlias] = pp[qx.OO.C_GET + p.method];
   };
 
   // building user configured set alias for property
-  if (typeof p.setAlias === qx.Const.TYPEOF_STRING) {
+  if (typeof p.setAlias === qx.constant.Type.STRING) {
     pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
   };
 };
@@ -753,7 +753,7 @@ qx.OO.addProperty = function(p)
   qx.OO._createProperty(p);
 
   // add property to (all) property list
-  if (typeof qx.Proto._properties !== qx.Const.TYPEOF_STRING) {
+  if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
     qx.Proto._properties = p.name;
   } else {
     qx.Proto._properties += qx.constant.Core.COMMA + p.name;
@@ -763,9 +763,9 @@ qx.OO.addProperty = function(p)
   switch(p.type)
   {
     case undefined:
-    case qx.Const.TYPEOF_OBJECT:
-    case qx.Const.TYPEOF_FUNCTION:
-      if (typeof qx.Proto._objectproperties !== qx.Const.TYPEOF_STRING) {
+    case qx.constant.Type.OBJECT:
+    case qx.constant.Type.FUNCTION:
+      if (typeof qx.Proto._objectproperties !== qx.constant.Type.STRING) {
         qx.Proto._objectproperties = p.name;
       } else {
         qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;

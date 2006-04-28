@@ -48,7 +48,7 @@ function(vSource)
   };
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "iframe" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "iframe" });
 
 
 
@@ -61,9 +61,9 @@ qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defau
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
 
-qx.OO.addProperty({ name : "frameName", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "frameName", type : qx.constant.Type.STRING });
 
 
 

@@ -81,15 +81,15 @@ function(vPreviousRed, vPreviousGreen, vPreviousBlue)
   };
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "colorselector" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "colorselector" });
 
-qx.OO.addProperty({ name : "red", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "green", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "blue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "red", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "green", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "blue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 
-qx.OO.addProperty({ name : "hue", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "saturation", type : qx.Const.TYPEOF_NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "brightness", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "hue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "saturation", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "brightness", type : qx.constant.Type.NUMBER, defaultValue : 100 });
 
 
 

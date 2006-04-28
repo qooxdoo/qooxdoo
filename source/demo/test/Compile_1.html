@@ -94,7 +94,7 @@
 
           switch(typeof v)
           {
-            case qx.Const.TYPEOF_OBJECT:
+            case qx.constant.Type.OBJECT:
               if (v == null)
               {
                 str += "$" + i + " = null;\n";
@@ -103,7 +103,7 @@
               {
                 // this.debug("QXOBJECT: " + i + "=" + vObjectCache[i].value);
 
-                if (typeof c == qx.Const.TYPEOF_STRING && c.indexOf("$OBJECTMAPPER-") == 0)
+                if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
                 {
                   cv = c.replace("$OBJECTMAPPER-", "");
 
@@ -166,22 +166,22 @@
 
               break;
 
-            case qx.Const.TYPEOF_STRING:
+            case qx.constant.Type.STRING:
               str += "$" + i + " = \"" + vObjectCache[i].value + "\";\n";
               break;
 
-            case qx.Const.TYPEOF_NUMBER:
-            case qx.Const.TYPEOF_BOOLEAN:
+            case qx.constant.Type.NUMBER:
+            case qx.constant.Type.BOOLEAN:
               str += "$" + i + " = " + v + ";\n";
               break;
 
-            case qx.Const.TYPEOF_UNDEFINED:
+            case qx.constant.Type.UNDEFINED:
               // this.debug("Undefined value found: " + v);
               str += "$" + i + " = null;\n";
               break;
 
-            case qx.Const.TYPEOF_FUNCTION:
-              if (typeof c == qx.Const.TYPEOF_STRING && c.indexOf("$FUNCTIONMAPPER-") == 0)
+            case qx.constant.Type.FUNCTION:
+              if (typeof c == qx.constant.Type.STRING && c.indexOf("$FUNCTIONMAPPER-") == 0)
               {
                 cv = c.replace("$FUNCTIONMAPPER-", "").split("|");
                 str += "$" + i + "= QxObjectDataBase[" + cv[1] + "]." + cv[0] + ";\n";
@@ -206,11 +206,11 @@
           v = vObjectCache[i].value;
           c = vObjectCache[i].compiled;
 
-          if (typeof v == qx.Const.TYPEOF_OBJECT && v != null)
+          if (typeof v == qx.constant.Type.OBJECT && v != null)
           {
             if (v instanceof QxObject)
             {
-              if (typeof c == qx.Const.TYPEOF_STRING && c.indexOf("$OBJECTMAPPER-") == 0)
+              if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
               {
                 continue;
               };
@@ -270,7 +270,7 @@
         };
 
         // Completly ignore DOM nodes
-        if (QxUtil.isValid(vValue) && typeof vValue.nodeType != qx.Const.TYPEOF_UNDEFINED) {
+        if (QxUtil.isValid(vValue) && typeof vValue.nodeType != qx.constant.Type.UNDEFINED) {
           return null;
         };
 
@@ -297,12 +297,12 @@
       {
         switch(typeof vInput)
         {
-          case qx.Const.TYPEOF_STRING:
-          case qx.Const.TYPEOF_NUMBER:
-          case qx.Const.TYPEOF_BOOLEAN:
+          case qx.constant.Type.STRING:
+          case qx.constant.Type.NUMBER:
+          case qx.constant.Type.BOOLEAN:
             return serializeSimple(vInput);
 
-          case qx.Const.TYPEOF_OBJECT:
+          case qx.constant.Type.OBJECT:
             if (vInput == null)
             {
               return serializeSimple(vInput);
@@ -316,7 +316,7 @@
               return serializeObject(vInput);
             };
 
-          case qx.Const.TYPEOF_FUNCTION:
+          case qx.constant.Type.FUNCTION:
             //QxDebug("Serializer", "FUNCTION: " + vInput);
             return null;
         };
@@ -354,7 +354,7 @@
               break;
           };
 
-          if (typeof vObject[vKey] == qx.Const.TYPEOF_FUNCTION)
+          if (typeof vObject[vKey] == qx.constant.Type.FUNCTION)
           {
             if (!(vObject instanceof QxObject) && vLastListenerContext)
             {

@@ -34,7 +34,7 @@ function(vText)
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "list-view-content-cell-text" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-text" });
 
 qx.ui.listview.ListViewContentCellText.empty = {
   text : qx.constant.Core.EMPTY

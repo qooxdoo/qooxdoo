@@ -66,11 +66,11 @@ function(vGalleryList)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
-qx.OO.addProperty({ name : "decorHeight", type : qx.Const.TYPEOF_NUMBER, defaultValue : 40 });
-qx.OO.addProperty({ name : "showTitle", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "showComment", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.constant.Type.NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.constant.Type.NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "decorHeight", type : qx.constant.Type.NUMBER, defaultValue : 40 });
+qx.OO.addProperty({ name : "showTitle", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showComment", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 
@@ -264,7 +264,7 @@ qx.Proto._onmouseup = function(e)
 
 qx.Proto._onmousemove = function(e)
 {
-  if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_OBJECT) {
+  if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.OBJECT) {
     return;
   };
 

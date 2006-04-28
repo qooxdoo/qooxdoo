@@ -74,7 +74,7 @@ qx.lang.String.endsWith = function(fullstr, substr) {
 
 qx.lang.String.pad = function(str, length, ch)
 {
-  if (typeof ch === qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof ch === qx.constant.Type.UNDEFINED) {
     ch = qx.constant.Core.ZERO;
   };
 

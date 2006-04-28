@@ -34,25 +34,25 @@ function()
   this.setZIndex(this._minZIndex);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "popup" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "popup" });
 
 /*!
   Whether to let the system decide when to hide the popup. Setting
   this to false gives you better control but it also requires you
   to handle the closing of the popup.
 */
-qx.OO.addProperty({ name : "autoHide", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "autoHide", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
   Instead of qx.ui.core.Widget, the default is false here.
 */
-qx.OO.changeProperty({ name : "display", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "display", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Center the popup on open
 */
-qx.OO.addProperty({ name : "centered", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "centered", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 
 qx.Proto._showTimeStamp = (new Date(0)).valueOf();

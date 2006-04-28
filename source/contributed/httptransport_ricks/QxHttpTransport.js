@@ -286,7 +286,7 @@ qx.Proto._statusText = null;
  * a given event once per request.
  */
  
-qx.OO.addProperty({name : "multipleReadyStateEvents", type : qx.Const.TYPEOF_NUMBER, defaultValue : false});
+qx.OO.addProperty({name : "multipleReadyStateEvents", type : qx.constant.Type.NUMBER, defaultValue : false});
 
 // Public methods
 
@@ -413,7 +413,7 @@ qx.Proto.send = function() {
  */
 
 qx.Proto.abort = function() {
-  if (typeof(this._req.abort) != qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof(this._req.abort) != qx.constant.Type.UNDEFINED) {
     this._req.abort();
   }
   if (this.queue) {
@@ -485,7 +485,7 @@ qx.Proto._handleStateChange = function() {
         // Attempt to get length
         try {
           var length = this.getResponseHeader("Content-Length");
-          if (typeof(length) != qx.Const.TYPEOF_NUMBER) {
+          if (typeof(length) != qx.constant.Type.NUMBER) {
             length = -1;
           }
         } catch (ex) {

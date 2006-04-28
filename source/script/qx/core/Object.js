@@ -94,7 +94,7 @@ qx.core.Object.dispose = function()
   // qx.dev.Debug("qx.core.Object", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
-qx.OO.addProperty({ name : "enabled", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
+qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
 
 
@@ -236,7 +236,7 @@ Sets multiple properties at once by using a property list
 */
 qx.Proto.set = function(propertyValues)
 {
-  if (typeof propertyValues !== qx.Const.TYPEOF_OBJECT) {
+  if (typeof propertyValues !== qx.constant.Type.OBJECT) {
     throw new Error("Please use a valid hash of property key-values pairs.");
   };
 
@@ -262,11 +262,11 @@ qx.Proto.get = function(propertyNames, outputHint)
 {
   switch(typeof propertyNames)
   {
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       return this[qx.constant.Core.GET + qx.lang.String.toFirstUp(propertyNames)]();
 
-    case qx.Const.TYPEOF_OBJECT:
-      if (typeof propertyNames.length === qx.Const.TYPEOF_NUMBER)
+    case qx.constant.Type.OBJECT:
+      if (typeof propertyNames.length === qx.constant.Type.NUMBER)
       {
         if (outputHint == "hash")
         {
@@ -392,7 +392,7 @@ qx.Proto.dispose = function()
   {
     for (var vKey in this)
     {
-      if (this[vKey] !== null && typeof this[vKey] === qx.Const.TYPEOF_OBJECT)
+      if (this[vKey] !== null && typeof this[vKey] === qx.constant.Type.OBJECT)
       {
         this.debug("Missing class implementation to dispose: " + vKey);
         delete this[vKey];
@@ -401,7 +401,7 @@ qx.Proto.dispose = function()
   };
 
   /*
-  if (typeof CollectGarbage === qx.Const.TYPEOF_FUNCTION) {
+  if (typeof CollectGarbage === qx.constant.Type.FUNCTION) {
     CollectGarbage();
   };
   */

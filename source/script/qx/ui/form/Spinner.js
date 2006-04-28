@@ -132,47 +132,47 @@ function(vMin, vValue, vMax)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "spinner" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "spinner" });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.OO.addProperty({ name : "incrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "incrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.OO.addProperty({ name : "wheelIncrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "wheelIncrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 1 });
 
 /*!
   The amount to increment on each pageup / pagedown keypress
 */
-qx.OO.addProperty({ name : "pageIncrementAmount", type : qx.Const.TYPEOF_NUMBER, defaultValue : 10 });
+qx.OO.addProperty({ name : "pageIncrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 10 });
 
 /*!
   The current value of the interval (this should be used internally only).
 */
-qx.OO.addProperty({ name : "interval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "interval", type : qx.constant.Type.NUMBER, defaultValue : 100 });
 
 /*!
   The first interval on event based shrink/growth of the value.
 */
-qx.OO.addProperty({ name : "firstInterval", type : qx.Const.TYPEOF_NUMBER, defaultValue : 500 });
+qx.OO.addProperty({ name : "firstInterval", type : qx.constant.Type.NUMBER, defaultValue : 500 });
 
 /*!
   This configures the minimum value for the timer interval.
 */
-qx.OO.addProperty({ name : "minTimer", type : qx.Const.TYPEOF_NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "minTimer", type : qx.constant.Type.NUMBER, defaultValue : 20 });
 
 /*!
   Decrease of the timer on each interval (for the next interval) until minTimer reached.
 */
-qx.OO.addProperty({ name : "timerDecrease", type : qx.Const.TYPEOF_NUMBER, defaultValue : 2 });
+qx.OO.addProperty({ name : "timerDecrease", type : qx.constant.Type.NUMBER, defaultValue : 2 });
 
 /*!
   If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval).
 */
-qx.OO.addProperty({ name : "amountGrowth", type : qx.Const.TYPEOF_NUMBER, defaultValue : 1.01 });
+qx.OO.addProperty({ name : "amountGrowth", type : qx.constant.Type.NUMBER, defaultValue : 1.01 });
 
 
 

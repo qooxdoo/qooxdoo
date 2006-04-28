@@ -46,5 +46,5 @@ function(vId, vTitle)
   };
 });
 
-qx.OO.addProperty({ name : "id", type : qx.Const.TYPEOF_STRING, allowNull : false });
-qx.OO.addProperty({ name : "title", type : qx.Const.TYPEOF_STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
+qx.OO.addProperty({ name : "id", type : qx.constant.Type.STRING, allowNull : false });
+qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });

@@ -68,12 +68,12 @@ qx.ui.basic.Image.RESET_VALIGN = "top";
 /*!
   The source uri of the image.
 */
-qx.OO.addProperty({ name : "source", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
 
 /*!
   The assigned preloader instance of the image.
 */
-qx.OO.addProperty({ name : "preloader", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "preloader", type : qx.constant.Type.OBJECT });
 
 /*!
   The loading status.
@@ -81,17 +81,17 @@ qx.OO.addProperty({ name : "preloader", type : qx.Const.TYPEOF_OBJECT });
   True if the image is loaded correctly. False if no image is loaded
   or the one that should be loaded is currently loading or not available.
 */
-qx.OO.addProperty({ name : "loaded", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "loaded", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should the image be maxified in it's own container?
 */
-qx.OO.addProperty({ name : "resizeToInner", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "resizeToInner", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "image" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "image" });
 
 
 
@@ -170,7 +170,7 @@ qx.Proto._beforeDisappear = function()
 
 qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
-  if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === qx.Const.TYPEOF_UNDEFINED) {
+  if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === qx.constant.Type.UNDEFINED) {
     qx.manager.object.ImageManager._sources[propValue] = 0;
   };
 

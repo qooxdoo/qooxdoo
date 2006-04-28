@@ -75,7 +75,7 @@ else if (qx.sys.Client.isMshtml())
       {
         var v1 = el.runtimeStyle[prop];
 
-        if (v1 != null && typeof v1 != qx.Const.TYPEOF_UNDEFINED && v1 != qx.constant.Core.EMPTY) {
+        if (v1 != null && typeof v1 != qx.constant.Type.UNDEFINED && v1 != qx.constant.Core.EMPTY) {
           return v1;
         };
 

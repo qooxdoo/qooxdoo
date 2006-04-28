@@ -57,17 +57,17 @@ qx.ui.core.Parent.OMIT_CLASS = "qx.ui.core.Parent";
 /*!
   Individual focus manager for all child elements.
 */
-qx.OO.addProperty({ name : "focusManager", type : qx.Const.TYPEOF_OBJECT, instance : "qx.event.handler.FocusHandler" });
+qx.OO.addProperty({ name : "focusManager", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
 */
-qx.OO.addProperty({ name : "activeChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "activeChild", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
 
 /*!
   The current focused child.
 */
-qx.OO.addProperty({ name : "focusedChild", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "focusedChild", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
 
 
 
@@ -159,7 +159,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   var vFocusValid = qx.util.Validation.isValidObject(propValue);
   var vBlurValid = qx.util.Validation.isValidObject(propOldValue);
 
-  if (vFocusValid && typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
+  if (vFocusValid && typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update(propValue);
   };
 

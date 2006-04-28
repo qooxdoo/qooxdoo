@@ -34,7 +34,7 @@ function(vValue)
   // ************************************************************************
   qx.ui.basic.Terminator.call(this);
 
-  if (typeof vValue === qx.Const.TYPEOF_STRING) {
+  if (typeof vValue === qx.constant.Type.STRING) {
     this.setValue(vValue);
   };
 
@@ -68,22 +68,22 @@ function(vValue)
 */
 
 
-qx.OO.changeProperty({ name : "appearance", type : qx.Const.TYPEOF_STRING, defaultValue : "text-field" });
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "text-field" });
 
-qx.OO.addProperty({ name : "value", type : qx.Const.TYPEOF_STRING, defaultValue : qx.constant.Core.EMPTY });
-qx.OO.addProperty({ name : "maxLength", type : qx.Const.TYPEOF_NUMBER });
-qx.OO.addProperty({ name : "readOnly", type : qx.Const.TYPEOF_BOOLEAN });
+qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.EMPTY });
+qx.OO.addProperty({ name : "maxLength", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "readOnly", type : qx.constant.Type.BOOLEAN });
 
-qx.OO.addProperty({ name : "selectionStart", type : qx.Const.TYPEOF_NUMBER });
-qx.OO.addProperty({ name : "selectionLength", type : qx.Const.TYPEOF_NUMBER });
-qx.OO.addProperty({ name : "selectionText", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "selectionStart", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "selectionLength", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "selectionText", type : qx.constant.Type.STRING });
 
-qx.OO.addProperty({ name : "validator", type : qx.Const.TYPEOF_FUNCTION });
+qx.OO.addProperty({ name : "validator", type : qx.constant.Type.FUNCTION });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : qx.Const.TYPEOF_OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 

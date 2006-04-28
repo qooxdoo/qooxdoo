@@ -34,7 +34,7 @@ function QxLocaleManager(){
 });
 
 
-qx.OO.addProperty({ name : "currentLocale", type : qx.Const.TYPEOF_OBJECT });
+qx.OO.addProperty({ name : "currentLocale", type : qx.constant.Type.OBJECT });
 
 /*
 ---------------------------------------------------------------------------

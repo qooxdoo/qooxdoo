@@ -63,11 +63,11 @@ function(vClientWindow)
   this._commands = {};
 });
 
-qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
-qx.OO.addProperty({ name : "captureWidget", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
-qx.OO.addProperty({ name : "focusRoot", type : qx.Const.TYPEOF_OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
+qx.OO.addProperty({ name : "captureWidget", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
+qx.OO.addProperty({ name : "focusRoot", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
 qx.Class.C_DOMMOUSESCROLL = "DOMMouseScroll";
 
@@ -449,7 +449,7 @@ else
 
 qx.Proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.Const.TYPEOF_FUNCTION || !window.application.isReady()) {
+  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION || !window.application.isReady()) {
     return;
   };
 
@@ -472,7 +472,7 @@ qx.Proto._onkeyevent = function(vDomEvent)
   {
     case qx.event.type.KeyEvent.keys.esc:
     case qx.event.type.KeyEvent.keys.tab:
-      if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
+      if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
         qx.manager.object.MenuManager.update();
       };
 
@@ -534,7 +534,7 @@ qx.Proto._onkeyevent = function(vDomEvent)
   vTarget.dispatchEvent(vKeyEventObject);
 
   // Send event to qx.event.handler.DragAndDropHandler
-  if (typeof qx.event.handler.DragAndDropHandler !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
     qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
   };
 
@@ -810,25 +810,25 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     switch(vType)
     {
       case qx.Const.EVENT_TYPE_MOUSEDOWN:
-        if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
+        if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.PopupManager.update(vTarget);
         };
 
-        if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
+        if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.MenuManager.update(vTarget);
         };
 
         break;
 
       case qx.Const.EVENT_TYPE_MOUSEOVER:
-        if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_UNDEFINED) {
+        if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
         };
 
         break;
 
       case qx.Const.EVENT_TYPE_MOUSEOUT:
-        if (typeof qx.manager.object.ToolTipManager !== qx.Const.TYPEOF_UNDEFINED) {
+        if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
         };
 
@@ -845,7 +845,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Send Event Object to Drag&Drop Manager
-    if (typeof qx.event.handler.DragAndDropHandler  !== qx.Const.TYPEOF_UNDEFINED && vTarget) {
+    if (typeof qx.event.handler.DragAndDropHandler  !== qx.constant.Type.UNDEFINED && vTarget) {
       qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
     };
 
@@ -989,17 +989,17 @@ qx.Proto._onwindowblur = function(e)
   this.setCaptureWidget(null);
 
   // Hide Popups, Tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update();
   };
 
   // Hide Menus
-  if (typeof qx.manager.object.MenuManager !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.MenuManager.update();
   };
 
   // Cancel Drag Operations
-  if (typeof qx.event.handler.DragAndDropHandler !== qx.Const.TYPEOF_UNDEFINED) {
+  if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
     qx.event.handler.DragAndDropHandler.globalCancelDrag();
   };
 

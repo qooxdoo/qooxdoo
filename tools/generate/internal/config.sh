@@ -7,6 +7,7 @@ L="$L script/qx/OO"
 L="$L script/qx/Const"
 
 # Constants v2
+L="$L script/qx/constant/Type"
 L="$L script/qx/constant/Core"
 L="$L script/qx/constant/Node"
 L="$L script/qx/constant/Net"

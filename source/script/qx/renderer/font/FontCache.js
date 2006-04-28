@@ -36,7 +36,7 @@ qx.renderer.font.FontCache = function(propValue, propData)
 
   switch(typeof propValue)
   {
-    case qx.Const.TYPEOF_STRING:
+    case qx.constant.Type.STRING:
       if (propValue != qx.constant.Core.EMPTY)
       {
         propValue = propKey = propValue.toLowerCase();
@@ -45,17 +45,17 @@ qx.renderer.font.FontCache = function(propValue, propData)
 
       return propValue;
 
-    case qx.Const.TYPEOF_NUMBER:
+    case qx.constant.Type.NUMBER:
       propKey = propValue.toString();
       break;
 
-    case qx.Const.TYPEOF_OBJECT:
+    case qx.constant.Type.OBJECT:
       if (propValue == null || propValue instanceof qx.renderer.font.Font) {
         return propValue;
       };
 
       // Try to detect array of RGB values
-      if (typeof propValue.join === qx.Const.TYPEOF_FUNCTION)
+      if (typeof propValue.join === qx.constant.Type.FUNCTION)
       {
         propKey = propValue.join(qx.constant.Core.SPACE).toLowerCase();
         break;

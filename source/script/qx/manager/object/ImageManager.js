@@ -72,14 +72,14 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "corePath", type : qx.Const.TYPEOF_STRING, impl : "coreAlias" });
-qx.OO.addProperty({ name : "localPath", type : qx.Const.TYPEOF_STRING, impl : "localAlias" });
+qx.OO.addProperty({ name : "corePath", type : qx.constant.Type.STRING, impl : "coreAlias" });
+qx.OO.addProperty({ name : "localPath", type : qx.constant.Type.STRING, impl : "localAlias" });
 
-qx.OO.addProperty({ name : "iconPath", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
-qx.OO.addProperty({ name : "iconTheme", type : qx.Const.TYPEOF_STRING, impl : "iconAlias" });
+qx.OO.addProperty({ name : "iconPath", type : qx.constant.Type.STRING, impl : "iconAlias" });
+qx.OO.addProperty({ name : "iconTheme", type : qx.constant.Type.STRING, impl : "iconAlias" });
 
-qx.OO.addProperty({ name : "widgetPath", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
-qx.OO.addProperty({ name : "widgetTheme", type : qx.Const.TYPEOF_STRING, impl : "widgetAlias" });
+qx.OO.addProperty({ name : "widgetPath", type : qx.constant.Type.STRING, impl : "widgetAlias" });
+qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.STRING, impl : "widgetAlias" });
 
 
 
@@ -241,7 +241,7 @@ qx.Proto.buildUri = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
-  if (vForceUpdate || typeof vUri === qx.Const.TYPEOF_UNDEFINED) {
+  if (vForceUpdate || typeof vUri === qx.constant.Type.UNDEFINED) {
     vUri = this._uris[vPath] = this._buildUri(vPath);
   };
 

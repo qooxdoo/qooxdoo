@@ -90,82 +90,82 @@ qx.client.NativeWindow.PROPERTY_MODAL = "modal";
 /*!
   If the window is open or closed
 */
-qx.OO.addProperty({ name : "open", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "open", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   The outer width of the window.
 */
-qx.OO.addProperty({ name : "width", type : qx.Const.TYPEOF_NUMBER, defaultValue : 400, impl : "dimension" });
+qx.OO.addProperty({ name : "width", type : qx.constant.Type.NUMBER, defaultValue : 400, impl : "dimension" });
 
 /*!
   The outer height of the window.
 */
-qx.OO.addProperty({ name : "height", type : qx.Const.TYPEOF_NUMBER, defaultValue : 250, impl : "dimension" });
+qx.OO.addProperty({ name : "height", type : qx.constant.Type.NUMBER, defaultValue : 250, impl : "dimension" });
 
 /*!
   The left screen coordinate of the window.
 */
-qx.OO.addProperty({ name : "left", type : qx.Const.TYPEOF_NUMBER, defaultValue : 100, impl : "position" });
+qx.OO.addProperty({ name : "left", type : qx.constant.Type.NUMBER, defaultValue : 100, impl : "position" });
 
 /*!
   The top screen coordinate of the window.
 */
-qx.OO.addProperty({ name : "top", type : qx.Const.TYPEOF_NUMBER, defaultValue : 200, impl : "position" });
+qx.OO.addProperty({ name : "top", type : qx.constant.Type.NUMBER, defaultValue : 200, impl : "position" });
 
 /*!
   Should be window be modal
 */
-qx.OO.addProperty({ name : "modal", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "modal", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should be window be dependent on this application window
 */
-qx.OO.addProperty({ name : "dependent", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "dependent", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   The url
 */
-qx.OO.addProperty({ name : "url", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
 
 /*!
   The window name
 */
-qx.OO.addProperty({ name : "name", type : qx.Const.TYPEOF_STRING });
+qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 /*!
   The text of the statusbar
 */
-qx.OO.addProperty({ name : "status", type : qx.Const.TYPEOF_STRING, defaultValue : "Ready" });
+qx.OO.addProperty({ name : "status", type : qx.constant.Type.STRING, defaultValue : "Ready" });
 
 /*!
   Should the statusbar be shown
 */
-qx.OO.addProperty({ name : "showStatusbar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showStatusbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should the menubar be shown
 */
-qx.OO.addProperty({ name : "showMenubar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showMenubar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should the location(bar) be shown
 */
-qx.OO.addProperty({ name : "showLocation", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showLocation", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Should the toolbar be shown
 */
-qx.OO.addProperty({ name : "showToolbar", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showToolbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   If the window is resizeable
 */
-qx.OO.addProperty({ name : "resizeable", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
   If the window is able to scroll and has visible scrollbars if needed
 */
-qx.OO.addProperty({ name : "allowScrollbars", type : qx.Const.TYPEOF_BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowScrollbars", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
 

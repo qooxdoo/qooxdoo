@@ -40,7 +40,7 @@ qx.renderer.border.BorderCache = function(propValue, propData)
 
       propString += p;
 
-      if (typeof p === qx.Const.TYPEOF_NUMBER) {
+      if (typeof p === qx.constant.Type.NUMBER) {
         propString += qx.constant.Core.PIXEL;
       };
 
