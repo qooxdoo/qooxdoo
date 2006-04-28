@@ -35,7 +35,7 @@ for file in `find $sourcedir -name "*.html" -o -name "*.htm" -o -name "*.js" -o 
     orig=`echo $item | cut -d= -f1`
     repl=`echo $item | cut -d= -f2-`
 
-    sed -r --in-place s/"\b$orig\b"/"$repl"/g $file
+    sed --in-place s/"\b$orig\b"/"$repl"/g $file
   done
 done
 
