@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, os, re, compile, tree, treegenerator
+import sys, os, re, compile, tree, treegenerator, tokenizer
 
 
 # contains 4 groups (1:type, 2:array dimensions, 5:default value)
@@ -349,7 +349,7 @@ def handleFunction(funcItem, commentNode, classNode):
     attributesNode = commentNode.getChild("attributes")
     attributesCount = len(attributesNode.children)
 
-    # Read all @param and @return attributes    
+    # Read all @param and @return attributes
     # NOTE: We have to go backwards, because we'll remove children
     for i in range(attributesCount):
       attrNode = attributesNode.children[attributesCount - i - 1]
@@ -363,14 +363,14 @@ def handleFunction(funcItem, commentNode, classNode):
         if not match:
           addError(node, "doc comment has malformed attribute 'param': " + attrText, funcItem)
           continue
-  
+
         # Find the matching param node
         paramName = match.group(1)
         paramNode = node.getListChildByAttribute("params", "name", paramName, False)
         if not paramNode:
           addError(node, "doc comment has attribute 'param' for non-existing parameter: '" + paramName + "'", funcItem)
           continue
-  
+
         # Add the type infos
         if match.group(3):
           addTypeInfo(paramNode, match.group(3), match.group(4), match.group(7))
@@ -434,7 +434,7 @@ def addError(node, msg, syntaxItem):
   line = getLineFromSyntaxItem(syntaxItem)
   if line:
     errorNode.set("line", line)
-  
+
   node.addListChild("errors", errorNode)
   node.set("hasError", "true")
 
@@ -852,7 +852,7 @@ def main():
 
           if onlyClasses == None or className in onlyClasses:
             print "Processing class " + className + "..."
-            tokenArr = compile.tokenizer(file(path, "r").read(), path)
+            tokenArr = tokenizer.parse(file(path, "r").read(), path)
             if outputTokenJson:
               tokenizedString = ""
               for token in tokenArr:
@@ -868,7 +868,7 @@ def main():
             syntaxTree = treegenerator.createSyntaxTree(tokenArr)
             if outputSyntaxXml:
               tree.writeXmlFile(syntaxTree, os.path.join(outputSyntaxXml, className + ".xml"))
-  
+
             docTree = createDoc(syntaxTree, docTree)
 
   if docTree:
@@ -877,7 +877,7 @@ def main():
 
     if outputDocXml:
       tree.writeXmlFile(docTree, outputDocXml)
-  
+
     if outputDocJson:
       tree.writeJsonFile(docTree, outputDocJson)
 
