@@ -883,5 +883,24 @@ def main():
 
 
 
+
+
+
+
 if __name__ == '__main__':
-  main()
+  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
+    raise RuntimeError, "Please upgrade to >= Python 2.3"
+
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  STOPPED"
+    print "***********************************************************************************************"
+
+  except:
+    print "Unexpected error:", sys.exc_info()[0]
+    raise
+
+
