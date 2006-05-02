@@ -2686,6 +2686,7 @@ qx.Proto._computeFrameWidth = function()
   {
     case qx.ui.core.Widget.SCROLL_VALUE_SCROLL:
     case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
+      qx.ui.core.Widget.initOverflow();
       fw += qx.ui.core.Widget.SCROLLBAR_SIZE;
       break;
 
@@ -2706,6 +2707,7 @@ qx.Proto._computeFrameHeight = function()
   {
     case qx.ui.core.Widget.SCROLL_VALUE_SCROLL:
     case qx.ui.core.Widget.SCROLL_VALUE_SCROLLX:
+      qx.ui.core.Widget.initOverflow();
       fh += qx.ui.core.Widget.SCROLLBAR_SIZE;
       break;
 
@@ -4624,6 +4626,10 @@ qx.Proto._compileClipString = function()
 */
 qx.ui.core.Widget.initOverflow = function()
 {
+  if (qx.ui.core.Widget.initOverflowDone) {
+    return;
+  };
+
   var t = document.createElement(qx.constant.Tags.DIV);
   var s = t.style;
 
@@ -4638,10 +4644,8 @@ qx.ui.core.Widget.initOverflow = function()
   };
 
   document.body.removeChild(t);
-};
 
-if (typeof window.application != qx.constant.Type.UNDEFINED) {
-  window.application.addEventListener(qx.Const.EVENT_TYPE_PRE, qx.ui.core.Widget.initOverflow);
+  qx.ui.core.Widget.initOverflowDone = true;
 };
 
 qx.ui.core.Widget.SCROLL_PROPERTY = "overflow";

@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.basic.Label", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.basic.Label", qx.ui.basic.Terminator,
 function(vHtml, vMnemonic)
 {
   qx.ui.basic.Terminator.call(this);
@@ -50,9 +50,13 @@ function(vHtml, vMnemonic)
   this.auto();
 });
 
-qx.ui.basic.Label.COPY_STYLEPROPERTY = "styleproperty";
-qx.ui.basic.Label.COPY_COMPUTEDELEMENT = "computedelement";
-qx.ui.basic.Label.COPY_LOCALELEMENT = "localelement";
+qx.Class.COPY_STYLEPROPERTY = "styleproperty";
+qx.Class.COPY_COMPUTEDELEMENT = "computedelement";
+qx.Class.COPY_LOCALELEMENT = "localelement";
+
+qx.Class._measureNodes = {};
+
+
 
 
 
@@ -218,29 +222,25 @@ qx.ui.basic.Label._textToHtml = function(s)
   };
 };
 
-qx.ui.basic.Label.init = function()
-{
-  qx.ui.basic.Label._measureNodes = {};
-  qx.ui.basic.Label.createMeasureNode(qx.constant.Core.DEFAULT);
-};
-
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
-  var vNode = qx.ui.basic.Label._measureNodes[vId] = document.createElement(qx.constant.Tags.DIV);
-  var vStyle = vNode.style;
+  var vNode = qx.ui.basic.Label._measureNodes[vId]
 
-  vStyle.width = vStyle.height = qx.constant.Core.AUTO;
-  vStyle.visibility = qx.constant.Core.HIDDEN;
-  vStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
-  vStyle.zIndex = "-1";
+  if (!vNode)
+  {
+    vNode = document.createElement(qx.constant.Tags.DIV);
+    var vStyle = vNode.style;
 
-  document.body.appendChild(vNode);
+    vStyle.width = vStyle.height = qx.constant.Core.AUTO;
+    vStyle.visibility = qx.constant.Core.HIDDEN;
+    vStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
+    vStyle.zIndex = "-1";
+
+    document.body.appendChild(vNode);
+  };
+
+  return vNode;
 };
-
-if (typeof window.application != qx.constant.Type.UNDEFINED) {
-  window.application.addEventListener(qx.Const.EVENT_TYPE_PRE, qx.ui.basic.Label.init);
-};
-
 
 
 
@@ -278,15 +278,6 @@ qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty("textAlign", propValue);
-  return true;
-};
-
-qx.Proto._modifyFontPropertiesProfile = function(propValue, propOldValue, propData)
-{
-  if (!qx.ui.basic.Label._measureNodes[propValue]) {
-    qx.ui.basic.Label.createMeasureNode(propValue);
-  };
-
   return true;
 };
 
@@ -353,7 +344,7 @@ qx.Proto._computeObjectNeededDimensions = function()
 qx.Proto._copyStyles = function()
 {
   var vProps = this.getFontPropertiesProfile();
-  var vNode = qx.ui.basic.Label._measureNodes[vProps];
+  var vNode = qx.ui.basic.Label.createMeasureNode(vProps);
   var vUseProperties=qx.ui.basic.Label._fontProperties[vProps];
   var vUsePropertiesLength=vUseProperties.length-1;
   var vProperty=vUseProperties[vUsePropertiesLength--];
