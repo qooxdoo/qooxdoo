@@ -101,7 +101,7 @@ qx.io.remote.FormUtils.encodeForm = function(vForm)
 
 qx.io.remote.FormUtils.bind = function(vForm, vMethod)
 {
-  qx.dom.DomEventRegistration.addEventListener(vForm, qx.Const.EVENT_TYPE_SUBMIT, function(e)
+  qx.dom.DomEventRegistration.addEventListener(vForm, qx.constant.Event.SUBMIT, function(e)
   {
     e.returnValue = false;
 

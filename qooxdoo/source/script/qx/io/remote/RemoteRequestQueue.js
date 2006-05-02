@@ -122,19 +122,19 @@ qx.Proto._check = function()
   this._debug();
 
   // Establish event connection between qx.io.remote.RemoteExchange instance and qx.io.remote.RemoteRequest
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_ABORTED, vRequest._onaborted, vRequest);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
+  vTransport.addEventListener(qx.constant.Event.SENDING, vRequest._onsending, vRequest);
+  vTransport.addEventListener(qx.constant.Event.RECEIVING, vRequest._onreceiving, vRequest);
+  vTransport.addEventListener(qx.constant.Event.COMPLETED, vRequest._oncompleted, vRequest);
+  vTransport.addEventListener(qx.constant.Event.ABORTED, vRequest._onaborted, vRequest);
+  vTransport.addEventListener(qx.constant.Event.TIMEOUT, vRequest._ontimeout, vRequest);
+  vTransport.addEventListener(qx.constant.Event.FAILED, vRequest._onfailed, vRequest);
 
   // Establish event connection between qx.io.remote.RemoteExchange and me.
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_ABORTED, this._oncompleted, this);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._oncompleted, this);
-  vTransport.addEventListener(qx.Const.EVENT_TYPE_FAILED, this._oncompleted, this);
+  vTransport.addEventListener(qx.constant.Event.SENDING, this._onsending, this);
+  vTransport.addEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
+  vTransport.addEventListener(qx.constant.Event.ABORTED, this._oncompleted, this);
+  vTransport.addEventListener(qx.constant.Event.TIMEOUT, this._oncompleted, this);
+  vTransport.addEventListener(qx.constant.Event.FAILED, this._oncompleted, this);
 
   // Store send timestamp
   vTransport._start = (new Date).valueOf();
@@ -153,19 +153,19 @@ qx.Proto._remove = function(vTransport)
   var vRequest = vTransport.getRequest();
 
   // Destruct event connection between qx.io.remote.RemoteExchange instance and qx.io.remote.RemoteRequest
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_SENDING, vRequest._onsending, vRequest);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_RECEIVING, vRequest._onreceiving, vRequest);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_COMPLETED, vRequest._oncompleted, vRequest);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_ABORTED, vRequest._onaborted, vRequest);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_TIMEOUT, vRequest._ontimeout, vRequest);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_FAILED, vRequest._onfailed, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.SENDING, vRequest._onsending, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.RECEIVING, vRequest._onreceiving, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.COMPLETED, vRequest._oncompleted, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.ABORTED, vRequest._onaborted, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.TIMEOUT, vRequest._ontimeout, vRequest);
+  vTransport.removeEventListener(qx.constant.Event.FAILED, vRequest._onfailed, vRequest);
 
   // Destruct event connection between qx.io.remote.RemoteExchange and me.
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_ABORTED, this._oncompleted, this);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._oncompleted, this);
-  vTransport.removeEventListener(qx.Const.EVENT_TYPE_FAILED, this._oncompleted, this);
+  vTransport.removeEventListener(qx.constant.Event.SENDING, this._onsending, this);
+  vTransport.removeEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
+  vTransport.removeEventListener(qx.constant.Event.ABORTED, this._oncompleted, this);
+  vTransport.removeEventListener(qx.constant.Event.TIMEOUT, this._oncompleted, this);
+  vTransport.removeEventListener(qx.constant.Event.FAILED, this._oncompleted, this);
 
   // Remove from active transports
   qx.lang.Array.remove(this._active, vTransport);
@@ -298,7 +298,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 */
 qx.Proto.add = function(vRequest)
 {
-  vRequest.setState(qx.Const.EVENT_TYPE_QUEUED);
+  vRequest.setState(qx.constant.Event.QUEUED);
 
   this._queue.push(vRequest);
   this._check();

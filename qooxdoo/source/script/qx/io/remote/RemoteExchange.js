@@ -456,12 +456,12 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_RECEIVING, this._onreceiving, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_ABORTED, this._onabort, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_FAILED, this._onfailed, this);
+    propOldValue.removeEventListener(qx.constant.Event.SENDING, this._onsending, this);
+    propOldValue.removeEventListener(qx.constant.Event.RECEIVING, this._onreceiving, this);
+    propOldValue.removeEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
+    propOldValue.removeEventListener(qx.constant.Event.ABORTED, this._onabort, this);
+    propOldValue.removeEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
+    propOldValue.removeEventListener(qx.constant.Event.FAILED, this._onfailed, this);
   };
 
   if (propValue)
@@ -481,12 +481,12 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
 
     propValue.setResponseType(vRequest.getResponseType());
 
-    propValue.addEventListener(qx.Const.EVENT_TYPE_SENDING, this._onsending, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_RECEIVING, this._onreceiving, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._oncompleted, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_ABORTED, this._onabort, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_TIMEOUT, this._ontimeout, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_FAILED, this._onfailed, this);
+    propValue.addEventListener(qx.constant.Event.SENDING, this._onsending, this);
+    propValue.addEventListener(qx.constant.Event.RECEIVING, this._onreceiving, this);
+    propValue.addEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
+    propValue.addEventListener(qx.constant.Event.ABORTED, this._onabort, this);
+    propValue.addEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
+    propValue.addEventListener(qx.constant.Event.FAILED, this._onfailed, this);
   };
 
   return true;
@@ -503,11 +503,11 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
   switch(propValue)
   {
     case qx.constant.Net.STATE_SENDING:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
+      this.createDispatchEvent(qx.constant.Event.SENDING);
       break;
 
     case qx.constant.Net.STATE_RECEIVING:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
+      this.createDispatchEvent(qx.constant.Event.RECEIVING);
       break;
 
     case qx.constant.Net.STATE_COMPLETED:
@@ -528,19 +528,19 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       switch(propValue)
       {
         case qx.constant.Net.STATE_COMPLETED:
-          vEventType = qx.Const.EVENT_TYPE_COMPLETED;
+          vEventType = qx.constant.Event.COMPLETED;
           break;
 
         case qx.constant.Net.STATE_ABORTED:
-          vEventType = qx.Const.EVENT_TYPE_ABORTED;
+          vEventType = qx.constant.Event.ABORTED;
           break;
 
         case qx.constant.Net.STATE_TIMEOUT:
-          vEventType = qx.Const.EVENT_TYPE_TIMEOUT;
+          vEventType = qx.constant.Event.TIMEOUT;
           break;
 
         case qx.constant.Net.STATE_FAILED:
-          vEventType = qx.Const.EVENT_TYPE_FAILED;
+          vEventType = qx.constant.Event.FAILED;
           break;
       };
 

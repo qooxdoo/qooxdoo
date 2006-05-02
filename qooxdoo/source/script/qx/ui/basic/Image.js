@@ -207,7 +207,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
   if (propOldValue)
   {
     // remove event connection
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+    propOldValue.removeEventListener(qx.constant.Event.LOAD, this._onload, this);
     propOldValue.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
   };
 
@@ -232,7 +232,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     }
     else
     {
-      propValue.addEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+      propValue.addEventListener(qx.constant.Event.LOAD, this._onload, this);
       propValue.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
     };
   }
@@ -589,7 +589,7 @@ qx.Proto.dispose = function()
   if (vPreloader)
   {
     // remove event connection
-    vPreloader.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+    vPreloader.removeEventListener(qx.constant.Event.LOAD, this._onload, this);
     vPreloader.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
 
     this.forcePreloader(null);

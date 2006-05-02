@@ -41,11 +41,6 @@ qx.OO.defineClass("qx.Const",
   EVENT_TYPE_DRAGLEAVE : "dragleave",
   EVENT_TYPE_DRAG : "drag",
 
-  EVENT_TYPE_LOAD : "load",
-  EVENT_TYPE_UNLOAD : "unload",
-  EVENT_TYPE_BEFOREUNLOAD : "beforeunload",
-  EVENT_TYPE_SUBMIT : "submit",
-
   EVENT_TYPE_PROPERTYCHANGE : "propertychange",
   EVENT_TYPE_LOSECAPTURE : "losecapture",
 
@@ -56,15 +51,5 @@ qx.OO.defineClass("qx.Const",
   EVENT_TYPE_PRE : "pre",
   EVENT_TYPE_MAIN : "main",
   EVENT_TYPE_CACHE : "cache",
-  EVENT_TYPE_POST : "post",
-
-  EVENT_TYPE_CREATED : "created",
-  EVENT_TYPE_CONFIGURED : "configured",
-  EVENT_TYPE_QUEUED : "queued",
-  EVENT_TYPE_SENDING : "sending",
-  EVENT_TYPE_RECEIVING : "receiving",
-  EVENT_TYPE_COMPLETED : "completed",
-  EVENT_TYPE_ABORTED : "aborted",
-  EVENT_TYPE_FAILED : "failed",
-  EVENT_TYPE_TIMEOUT : "timeout"
+  EVENT_TYPE_POST : "post"
 });
