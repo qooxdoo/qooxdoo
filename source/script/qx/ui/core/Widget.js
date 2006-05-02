@@ -1463,7 +1463,7 @@ qx.Proto._computeDisplayable = function() {
 qx.Proto._beforeAppear = function()
 {
   // this.debug("_beforeAppear");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERAPPEAR);
+  this.createDispatchEvent(qx.constant.Event.BEFORERAPPEAR);
 };
 
 qx.Proto._afterAppear = function()
@@ -1483,7 +1483,7 @@ qx.Proto._beforeDisappear = function()
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
 
   // this.debug("_beforeDisappear");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFORERDISAPPEAR);
+  this.createDispatchEvent(qx.constant.Event.BEFORERDISAPPEAR);
 };
 
 qx.Proto._afterDisappear = function()
