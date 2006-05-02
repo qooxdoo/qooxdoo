@@ -39,12 +39,5 @@ qx.OO.defineClass("qx.Const",
   EVENT_TYPE_DRAGEND : "dragend",
   EVENT_TYPE_DRAGMOVE : "dragmove",
   EVENT_TYPE_DRAGLEAVE : "dragleave",
-  EVENT_TYPE_DRAG : "drag",
-
-  EVENT_TYPE_PROPERTYCHANGE : "propertychange",
-  EVENT_TYPE_LOSECAPTURE : "losecapture",
-
-  EVENT_TYPE_OVERFLOW : "overflow",
-  EVENT_TYPE_OVERFLOWCHANGED : "overflowchanged",
-  EVENT_TYPE_UNDERFLOW : "underflow"
+  EVENT_TYPE_DRAG : "drag"
 });
