@@ -24,10 +24,11 @@
 
 #package(core)
 #require(qx.OO)
-#require(qx.Const)
-#require(qx.core.Settings)
-#require(qx.util.Validation)
-#use(qx.sys.Client)
+#require(qx.constant.Event)
+#require(qx.dom.DomEventRegistration)
+#use(qx.core.Settings)
+#use(qx.constant.Type)
+#use(qx.constant.Core)
 #use(qx.dev.log.Logger)
 
 ************************************************************************ */
@@ -35,7 +36,7 @@
 /*!
   The qooxdoo basic object. All qooxdoo classes extends this one
 */
-qx.OO.defineClass("qx.core.Object", Object, 
+qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
   this._hashCode = qx.core.ObjectCounter++;

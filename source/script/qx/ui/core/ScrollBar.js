@@ -25,12 +25,11 @@
 /* ************************************************************************
 
 #require(qx.ui.layout.BoxLayout)
+#require(qx.constant.Type)
 #use(qx.constant.Layout)
 #use(qx.ui.layout.CanvasLayout)
 #use(qx.sys.Client)
 #use(qx.constant.Style)
-#use(qx.Const)
-#use(qx.constant.Type)
 
 ************************************************************************ */
 
@@ -40,7 +39,7 @@
  * @param horizontal {boolean,false} whether the scroll bar should be
  *    horizontal. If false it will be vertical.
  */
-qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout,
 function(horizontal) {
   qx.ui.layout.BoxLayout.call(this, horizontal ? qx.constant.Layout.ORIENTATION_HORIZONTAL : qx.constant.Layout.ORIENTATION_VERTICAL);
 

@@ -34,7 +34,6 @@
 #use(qx.constant.Style)
 #use(qx.ui.layout.HorizontalBoxLayout)
 #use(qx.ui.basic.Terminator)
-#use(qx.Const)
 
 ************************************************************************ */
 
@@ -87,7 +86,7 @@ function(scrollerPool) {
   with (this._top) {
     setHeight(qx.constant.Core.AUTO);
     add(this._headerClipper, this._spacer);
-  }  
+  }
   this.addTop(this._top);
 
   // init pane
@@ -661,7 +660,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
   var columnModel = this.getTableColumnModel();
   var paneLeftX = qx.dom.DomLocation.getClientBoxLeft(this._tablePane.getElement());
   var colCount = paneModel.getColumnCount();
-  
+
   var targetXPos = 0;
   var targetX = 0;
   var currX = paneLeftX;
@@ -733,10 +732,10 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
 qx.Proto.setFocusedCell = function(col, row) {
   if (!this.isEditing()) {
     this._tablePane.setFocusedCell(col, row);
-  
+
     this._focusedCol = col;
     this._focusedRow = row;
-  
+
     // Move the focus indicator
     this._updateFocusIndicator();
   }

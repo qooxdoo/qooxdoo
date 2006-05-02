@@ -28,7 +28,8 @@
 #require(qx.ui.table.SelectionManager)
 #require(qx.ui.table.TableModel)
 #require(qx.ui.table.TableColumnModel)
-#use(qx.Const)
+#require(qx.constant.Type)
+#require(qx.constant.Event)
 #use(qx.constant.Core)
 #use(qx.ui.layout.HorizontalBoxLayout)
 #use(qx.ui.toolbar.ToolBarButton)
@@ -45,7 +46,7 @@
  *
  * @implements TablePaneScroller
  */
-qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout, 
+qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
 function(tableModel) {
   qx.ui.layout.VerticalBoxLayout.call(this);
 
@@ -321,7 +322,7 @@ qx.Proto._onScrollY = function(evt) {
     for (var i = 0; i < scrollerArr.length; i++) {
       scrollerArr[i].setScrollY(evt.getData());
     };
-    
+
     this._internalChange = false;
     qx.ui.core.Widget.flushGlobalQueues();
   }
@@ -638,7 +639,7 @@ qx.Proto._updateStatusBar = function() {
   if (this.getStatusBarVisible()) {
     var selectedRowCount = this.getSelectionModel().getSelectedCount();
     var rowCount = this.getTableModel().getRowCount();
-  
+
     var text;
     if (selectedRowCount == 0) {
       text = rowCount + ((rowCount == 1) ? " row" : " rows");
@@ -659,13 +660,13 @@ qx.Proto._updateScrollBarVisibility = function() {
     var horBar = qx.ui.table.TablePaneScroller.HORIZONTAL_SCROLLBAR;
     var verBar = qx.ui.table.TablePaneScroller.VERTICAL_SCROLLBAR;
     var scrollerArr = this._getPaneScrollerArr();
-  
+
     // Check which scroll bars are needed
     var horNeeded = false;
     var verNeeded = false;
     for (var i = 0; i < scrollerArr.length; i++) {
       var isLast = (i == (scrollerArr.length - 1));
-  
+
       // Only show the last vertical scrollbar
       var bars = scrollerArr[i].getNeededScrollBars(horNeeded, !isLast);
 
@@ -676,11 +677,11 @@ qx.Proto._updateScrollBarVisibility = function() {
         verNeeded = true;
       }
     }
-  
+
     // Set the needed scrollbars
     for (var i = 0; i < scrollerArr.length; i++) {
       var isLast = (i == (scrollerArr.length - 1));
-  
+
       // Only show the last vertical scrollbar
       scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
       scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
