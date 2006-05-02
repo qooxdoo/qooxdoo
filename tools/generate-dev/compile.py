@@ -1,121 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-
-JSEXT = ".js"
-XMLEXT = ".xml"
-TKEXT = ".txt"
-
-TOKENS = {
-  "." : "DOT",
-  "," : "COMMA",
-  ":" : "COLON",
-  "?" : "HOOK",
-  ";" : "SEMICOLON",
-  "!" : "NOT",
-  "~" : "BITNOT",
-  "\\" : "BACKSLASH",
-
-  "+" : "ADD",
-  "-" : "SUB",
-  "*" : "MUL",
-  "/" : "DIV",
-  "%" : "MOD",
-
-  "{" : "LC",
-  "}" : "RC",
-  "(" : "LP",
-  ")" : "RP",
-  "[" : "LB",
-  "]" : "RB",
-
-  "<" : "LT",
-  "<=" : "LE",
-  ">" : "GT",
-  ">=" : "GE",
-  "==" : "EQ",
-  "!=" : "NE",
-  "===" : "SHEQ",
-  "!==" : "SHNE",
-
-  "=" : "ASSIGN",
-
-  "+=" : "ASSIGN_ADD",
-  "-=" : "ASSIGN_SUB",
-  "*=" : "ASSIGN_MUL",
-  "/=" : "ASSIGN_DIV",
-  "%=" : "ASSIGN_MOD",
-
-  "|=" : "ASSIGN_BITOR",
-  "^=" : "ASSIGN_BITXOR",
-  "&=" : "ASSIGN_BITAND",
-  "<<=" : "ASSIGN_LSH",
-  ">>=" : "ASSIGN_RSH",
-  ">>>=" : "ASSIGN_URSH",
-
-  "&&" : "AND",
-  "||" : "OR",
-
-  "|" : "BITOR",
-  "^|" : "BITXOR",
-  "&" : "BITAND",
-
-  "^" : "POWEROF",
-
-  "<<" : "LSH",
-  ">>" : "RSH",
-  ">>>" : "URSH",
-
-  "++" : "INC",
-  "--" : "DEC",
-
-  "::" : "COLONCOLON",
-  ".." : "DOTDOT",
-
-  "@" : "XMLATTR",
-
-  "//" : "SINGLE_COMMENT",
-  "/*" : "COMMENT_START",
-  "*/" : "COMMENT_STOP",
-  "/*!" : "DOC_START"
-}
-
-PROTECTED = {
-  "null" : "NULL",
-  "Infinity" : "INFINITY",
-  "true" : "TRUE",
-  "false" : "FALSE",
-
-  "this" : "THIS",
-  "var" : "VAR",
-  "new" : "NEW",
-  "prototype" : "PROTOTYPE",
-  "return" : "RETURN",
-  "function" : "FUNCTION",
-
-  "while" : "WHILE",
-  "if" : "IF",
-  "else" : "ELSE",
-  "switch" : "SWITCH",
-  "case" : "CASE",
-  "default" : "DEFAULT",
-  "break" : "BREAK",
-  "continue" : "CONTINUE",
-  "do" : "DO",
-  "delete" : "DELETE",
-  "for" : "FOR",
-  "in" : "IN",
-  "with" : "WITH",
-  "try" : "TRY",
-  "catch" : "CATCH",
-  "finally" : "FINALLY",
-  "throw" : "THROW",
-  "instanceof" : "INSTANCEOF",
-  "typeof" : "TYPEOF",
-  "void" : "VOID",
-  "call" : "CALL",
-  "apply" : "APPLY"
-}
+import config
 
 SEPARATORS = [ ",", ";", ":", "(", ")", "{", "}", "[", "]", ".", "?" ]
 BLOCKSEPARATORS = [ ",", ";", ":", "(", ")", "{", "}", "[", "]", "?" ]
@@ -125,14 +11,11 @@ SPACEAFTER = [ "throw", "new", "delete", "var", "typeof", "return" ]
 
 SPACES = re.compile("(\s+)")
 
-BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
-
 R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
 R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
-
 
 R_WHITESPACE = re.compile("\s+")
 R_NONWHITESPACE = re.compile("\S+")
@@ -200,11 +83,11 @@ def tokenize_name(nameContent):
   global tokenizerId
   global tokenizerLine
 
-  if PROTECTED.has_key(nameContent):
+  if config.PROTECTED.has_key(nameContent):
     # print "PROTECTED: %s" % PROTECTED[nameContent]
-    return { "type" : "protected", "detail" : PROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+    return { "type" : "protected", "detail" : config.PROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif nameContent in BUILTIN:
+  elif nameContent in config.BUILTIN:
     return { "type" : "builtin", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
   elif R_NUMBER.search(nameContent):
@@ -236,14 +119,14 @@ def tokenize_part(partContent):
     else:
       for item in R_WHITESPACE.split(line):
         for char in item:
-          if TOKENS.has_key(char):
+          if config.TOKENS.has_key(char):
             if temp != "":
               if R_NONWHITESPACE.search(temp):
                 result.append(tokenize_name(temp))
 
               temp = ""
 
-            result.append({ "type" : "token", "detail" : TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerId })
+            result.append({ "type" : "token", "detail" : config.TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerId })
 
           else:
             temp += char
@@ -338,7 +221,7 @@ def tokenizer(fileContent, uniqueId):
         tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
-      tokenized.append({ "type" : "token", "detail" : TOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
+      tokenized.append({ "type" : "token", "detail" : config.TOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     else:
       fragresult = R_REGEXP.search(fragment)
@@ -728,7 +611,7 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
 
   # Storing inheritance deps
   if superClass != None:
-    if superClass in BUILTIN:
+    if superClass in config.BUILTIN:
       pass
 
     else:
@@ -996,7 +879,7 @@ def start():
         dirs.remove('.svn')
 
       for filename in files:
-        if os.path.splitext(filename)[1] == JSEXT:
+        if os.path.splitext(filename)[1] == config.JSEXT:
           completeFileName = os.path.join(root, filename)
           uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages)
 
@@ -1005,7 +888,7 @@ def start():
           else:
 
             splitUniqueId = uniqueId.split(".")
-            splitFileName = completeFileName.replace(JSEXT, "").split(os.sep)
+            splitFileName = completeFileName.replace(config.JSEXT, "").split(os.sep)
             uniqueFileId = ".".join(splitFileName[len(splitFileName)-len(splitUniqueId):])
 
             if uniqueId != uniqueFileId:
@@ -1118,7 +1001,7 @@ def start():
         for token in tokenizedFileContent:
           tokenizedString += "%s%s" % (token, "\n")
 
-        tokenizedFileName = os.path.join(cmdOutputTokenized, uniqueId + TKEXT)
+        tokenizedFileName = os.path.join(cmdOutputTokenized, uniqueId + config.TOKENEXT)
 
         tokenizedFile = file(tokenizedFileName, "w")
         tokenizedFile.write(tokenizedString)
@@ -1133,7 +1016,7 @@ def start():
       treebuilder(tokenizedFileContent, uniqueId)
 
       if cmdOutputXml != "":
-        xmlFileName = os.path.join(cmdOutputXml, uniqueId + XMLEXT)
+        xmlFileName = os.path.join(cmdOutputXml, uniqueId + config.XMLEXT)
 
         xmlFile = file(xmlFileName, "w")
         xmlFile.write(xmlString)
@@ -1146,7 +1029,7 @@ def start():
 
       print "    * building..."
 
-      buildFileName = os.path.join(cmdOutputBuild, uniqueId + JSEXT)
+      buildFileName = os.path.join(cmdOutputBuild, uniqueId + config.JSEXT)
       os.system("/usr/bin/xsltproc -o " + buildFileName + " tools/generate-dev/compile_compress.xsl " + xmlFileName)
 
       combinedBuildContent += "/* " + uniqueId + " */ " + file(buildFileName, "r").read()
