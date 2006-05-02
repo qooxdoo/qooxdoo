@@ -3,19 +3,11 @@
 import sys, string, re, os, random
 import config
 
-SEPARATORS = [ ",", ";", ":", "(", ")", "{", "}", "[", "]", ".", "?" ]
-BLOCKSEPARATORS = [ ",", ";", ":", "(", ")", "{", "}", "[", "]", "?" ]
-
-SPACEAROUND = [ "in", "instanceof" ]
-SPACEAFTER = [ "throw", "new", "delete", "var", "typeof", "return" ]
-
-SPACES = re.compile("(\s+)")
-
 R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
 R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
+R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
 R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
 
 R_WHITESPACE = re.compile("\s+")
 R_NONWHITESPACE = re.compile("\S+")
@@ -57,16 +49,14 @@ R_REGEXP = re.compile(S_REGEXP)
 R_ALL = re.compile(S_ALL)
 
 
+
+
+
+
+
+
 tokenizerLine = 0
 tokenizerId = ""
-
-xmlindent = 0
-xmlString = ""
-treecontext = []
-
-
-
-
 
 def recoverEscape(s):
   instr=s
@@ -254,329 +244,6 @@ def tokenizer(fileContent, uniqueId):
 
 
 
-
-
-def treebuilder(fileContent, item):
-  global xmlindent
-  global treecontext
-  global sourceline
-
-  treecontext = [ "root" ]
-  sourceline = 0
-  xmlindent = 0
-
-  xmlheader()
-
-  tagstart("file")
-
-  tagstart("info")
-
-  tagsingle("id", item)
-  tagsingle("datasize", len(fileContent))
-
-  tagstop("info")
-
-  tagstart("content")
-
-  treebuilder_content(fileContent, item)
-
-  tagstop("content")
-
-  tagstop("file")
-
-
-
-def treecloser(need=False):
-  global xmlindent
-  global treecontext
-  global sourceline
-
-  if treecontext[-1] == "namegroup":
-    tagstop("namegroup")
-
-  if treecontext[-1] == "block":
-    tagstop("block")
-
-  elif need:
-    print "      - Warning: Used semicolon outside a block! (Line: %s)" % sourceline
-
-
-  while treecontext[-1] == "else":
-    tagstop("else")
-
-    if treecontext[-1] == "block":
-      tagstop("block")
-
-
-  if treecontext[-1] == "if":
-    tagstop("if")
-
-
-
-def treeblockstart(typ, det, src):
-  global xmlindent
-  global treecontext
-  global sourceline
-
-  if treecontext[-1] == "if":
-    print "      - Info: No brackets for if command! (Line: %s)" % sourceline
-
-  if treecontext[-1] == "else" and not(typ == "protected" and det == "IF"):
-    print "      - Info: No brackets for else command! (Line: %s)" % sourceline
-
-
-  tagstart("block")
-
-
-
-def treebuilder_content(data, item):
-  global xmlindent
-  global treecontext
-  global sourceline
-
-  pos = -1
-  det = ""
-
-  for item in data:
-    pos += 1
-
-    lin = item["line"]
-    typ = item["type"]
-    det = item["detail"]
-    src = item["source"]
-
-
-    if pos > 0:
-      lastitem = data[pos-1]
-
-      if lastitem["type"] != "eol" and lastitem["type"] != "comment":
-        lastitem_typ = lastitem["type"]
-        lastitem_det = lastitem["detail"]
-        lastitem_src = lastitem["source"]
-
-    else:
-      lastitem_typ = ""
-      lastitem_det = ""
-      lastitem_src = ""
-
-
-    # store in global variable
-    sourceline = lin
-
-    if typ == "comment":
-      pass
-
-    elif typ == "eof":
-      treecloser()
-
-    elif typ == "eol":
-      pass
-
-    elif typ == "token" and det == "SEMICOLON":
-      treecloser(True)
-
-
-
-    else:
-      if typ == "token":
-        if det != "DOT" and treecontext[-1] == "namegroup":
-          tagstop("namegroup")
-
-
-
-
-        if det == "LC":
-          tagstart("commandgroup")
-
-        elif det == "RC":
-          if treecontext[-1] == "else":
-            tagstop("else")
-
-          if treecontext[-1] == "block":
-            tagstop("block")
-
-          tagstop("commandgroup")
-
-          if treecontext[-1] == "if":
-            tagstop("if")
-
-          elif treecontext[-1] == "else":
-            tagstop("else")
-
-          elif treecontext[-1] == "function":
-            tagstop("function")
-
-
-
-        elif det == "LB":
-          tagstart("accessgroup")
-
-        elif det == "RB":
-          treecloser()
-          tagstop("accessgroup")
-
-
-
-        elif det == "LP":
-
-
-          if treecontext[-1] != "function" and treecontext[-1] != "block" and treecontext[-1] != "if":
-            tagstart("block")
-
-
-
-          tagstart("argumentgroup")
-
-        elif det == "RP":
-          treecloser()
-          tagstop("argumentgroup")
-
-
-
-
-        elif det == "DOT" and treecontext[-1] == "namegroup":
-          pass
-
-        elif det == "COMMA":
-          tagsource(typ, det, src)
-
-        else:
-          if treecontext[-1] != "namegroup" and treecontext[-1] != "block":
-            treeblockstart(typ, det, src)
-
-          tagsource(typ, det, src)
-          # print "Other token: %s" % src
-
-
-
-      else:
-        if treecontext[-1] != "namegroup" and treecontext[-1] != "block" and treecontext[-1] != "function":
-          treeblockstart(typ, det, src)
-
-
-
-        if (typ == "protected" and (det == "THIS" or det == "PROTOTYPE" or det == "CALL" or det == "APPLY")) or typ == "name" or typ == "builtin":
-          if treecontext[-1] != "namegroup":
-            tagstart("namegroup")
-
-          tagsource(typ, det, src)
-
-        elif typ == "protected":
-          if treecontext[-1] == "namegroup":
-            tagstop("namegroup")
-
-
-
-          if det == "FUNCTION":
-            tagstart("function")
-
-          elif det == "IF":
-            tagstart("if")
-
-          elif det == "ELSE":
-            tagstart("else")
-
-          else:
-            if src in SPACEAROUND:
-              tagspace()
-
-            tagsource(typ, det, src)
-
-            if src in SPACEAFTER or src in SPACEAROUND:
-              tagspace()
-
-
-
-        elif typ == "number" or typ == "string" or typ == "regexp":
-          tagsource(typ, det, src)
-
-        else:
-          print "Other type: %s" % typ
-
-
-
-
-
-
-
-
-
-
-
-def tagsingle(tag, content):
-  global xmlindent
-  global xmlString
-
-  xmlString += "%s<%s>%s</%s>\n" % (("  " * xmlindent), tag, content, tag)
-
-def tagspace():
-  global xmlindent
-  global xmlString
-  global sourceline
-
-  xmlString += "%s<space line=\"%s\"/>\n" % (("  " * xmlindent), sourceline)
-
-def tagsource(tag, detail, source):
-  global xmlindent
-  global xmlString
-  global sourceline
-
-  if detail == "\"":
-    detail = ""
-
-  source = source.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-  xmlString += "%s<%s detail=\"%s\" line=\"%s\">%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source, tag)
-
-def tagcomment(tag, detail, source):
-  global xmlindent
-  global xmlString
-  global sourceline
-
-  xmlString += "%s<%s detail=\"%s\" line=\"%s\">\n%s\n%s</%s>\n" % (("  " * xmlindent), tag, detail, sourceline, source.replace("<", "&lt;").replace(">", "&gt;"), ("  " * xmlindent), tag)
-
-def tagstart(tag):
-  global xmlindent
-  global xmlString
-  global treecontext
-  global sourceline
-
-  xmlString += "%s<%s line=\"%s\">\n" % (("  " * xmlindent), tag, sourceline)
-  xmlindent += 1
-  treecontext.append(tag)
-
-def tagstop(tag):
-  global xmlindent
-  global xmlString
-  global treecontext
-  global sourceline
-
-
-
-  while treecontext[-1] != tag:
-    print "    Warning: Want to close: %s, but in wrong tree context: %s (Line: %s)" % (tag, treecontext[-1], sourceline)
-
-    xmlindent -= 1;
-    xmlString += "%s</%s>\n" % (("  " * xmlindent), treecontext.pop())
-
-
-
-  xmlindent -= 1;
-  xmlString += "%s</%s>\n" % (("  " * xmlindent), tag)
-  treecontext.pop()
-
-def xmlheader():
-  global xmlString
-  global sourceline
-
-  xmlString = "<?xml version=\"1.0\" encoding=\"iso-8859-15\"?>\n\n"
-
-
-
-
-
-
-
 def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackages):
   thisClass = None
   superClass = None
@@ -706,7 +373,6 @@ def printHelp():
   # Directories
   print "       --source-directories <LIST>  comma separated list with source directories"
   print "       --output-tokenized <DIR>     destination directory of tokenized files"
-  print "       --output-xml <DIR>           destination directory of xml files"
   print "       --output-build <DIR>         destination directory of build files"
   print "       --output-combined <FILE>     destination file of all builded files"
   print
@@ -716,8 +382,6 @@ def printHelp():
 
 
 def start():
-  global xmlString
-
   loadDependencyData = {}
   runtimeDependencyData = {}
 
@@ -749,7 +413,6 @@ def start():
 
   # Output
   cmdOutputTokenized = ""
-  cmdOutputXml = "build/xml"
   cmdOutputBuild = "build/script/cache/"
   cmdOutputCombined = "build/script/qooxdoo.js"
 
@@ -778,10 +441,6 @@ def start():
     # Output
     elif c == "--output-tokenized":
       cmdOutputTokenized = sys.argv[i+1]
-      i += 1
-
-    elif c == "--output-xml":
-      cmdOutputXml = sys.argv[i+1]
       i += 1
 
     elif c == "--output-build":
@@ -857,9 +516,6 @@ def start():
 
   if cmdOutputTokenized != "" and not os.path.exists(cmdOutputTokenized):
     os.makedirs(cmdOutputTokenized)
-
-  if cmdOutputXml != "" and not os.path.exists(cmdOutputXml):
-    os.makedirs(cmdOutputXml)
 
   if cmdOutputBuild != "" and not os.path.exists(cmdOutputBuild):
     os.makedirs(cmdOutputBuild)
@@ -988,7 +644,6 @@ def start():
 
       fileContent = file(knownFiles[uniqueId], "r").read()
       tokenizedString = ""
-      xmlString = ""
 
 
 
@@ -1008,20 +663,6 @@ def start():
         tokenizedFile.flush()
         tokenizedFile.close()
 
-
-
-
-      print "    * structuring..."
-
-      treebuilder(tokenizedFileContent, uniqueId)
-
-      if cmdOutputXml != "":
-        xmlFileName = os.path.join(cmdOutputXml, uniqueId + config.XMLEXT)
-
-        xmlFile = file(xmlFileName, "w")
-        xmlFile.write(xmlString)
-        xmlFile.flush()
-        xmlFile.close()
 
 
 
