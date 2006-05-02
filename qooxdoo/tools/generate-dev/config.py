@@ -11,12 +11,29 @@ TOKENEXT = ".txt"
 
 
 
+#
+# QOOXDOO HEADER SUPPORT
+#
+
+QXHEAD = {
+  "defineClass" : re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
+  "uniqueId" : re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M),
+  "package" : re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M),
+  "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M),
+  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
+}
+
+
+
+
 
 #
 # JAVASCRIPT SUPPORT
 #
 
-TOKENS = {
+JSBUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]
+
+JSTOKENS = {
   "." : "DOT",
   "," : "COMMA",
   ":" : "COLON",
@@ -90,7 +107,7 @@ TOKENS = {
   "/*!" : "DOC_START"
 }
 
-PROTECTED = {
+JSPROTECTED = {
   "null" : "NULL",
   "Infinity" : "INFINITY",
   "true" : "TRUE",
@@ -126,5 +143,3 @@ PROTECTED = {
   "call" : "CALL",
   "apply" : "APPLY"
 }
-
-BUILTIN = [ "Object", "Array", "RegExp", "Math", "String", "Number", "Error" ]

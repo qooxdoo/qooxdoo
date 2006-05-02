@@ -16,7 +16,7 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
   thisClass = None
   superClass = None
 
-  dc = R_QXDEFINECLASS.search(data)
+  dc = config.QXHEAD["defineClass"].search(data)
 
   if dc:
     thisClass = dc.group(1)
@@ -25,7 +25,7 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
   else:
     # print "Sorry. Don't find any class informations. Trying id information."
 
-    ns = R_QXUNIQUEID.search(data)
+    ns = config.QXHEAD["uniqueId"].search(data)
 
     if ns:
       thisClass = ns.group(1)
@@ -55,9 +55,9 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
 
   # Storing defined deps and package informations
   for line in data.split("\n"):
-    req = R_QXREQUIRE.search(line)
-    use = R_QXUSE.search(line)
-    pkg = R_QXPACKAGE.search(line)
+    req = config.QXHEAD["require"].search(line)
+    use = config.QXHEAD["use"].search(line)
+    pkg = config.QXHEAD["package"].search(line)
 
     if req:
       loadDependencyData[thisClass].append(req.group(1))

@@ -60,11 +60,11 @@ def tokenize_name(nameContent):
   global tokenizerId
   global tokenizerLine
 
-  if config.PROTECTED.has_key(nameContent):
+  if config.JSPROTECTED.has_key(nameContent):
     # print "PROTECTED: %s" % PROTECTED[nameContent]
-    return { "type" : "protected", "detail" : config.PROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+    return { "type" : "protected", "detail" : config.JSPROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif nameContent in config.BUILTIN:
+  elif nameContent in config.JSBUILTIN:
     return { "type" : "builtin", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
 
   elif R_NUMBER.search(nameContent):
@@ -97,14 +97,14 @@ def tokenize_part(partContent):
     else:
       for item in R_WHITESPACE.split(line):
         for char in item:
-          if config.TOKENS.has_key(char):
+          if config.JSTOKENS.has_key(char):
             if temp != "":
               if R_NONWHITESPACE.search(temp):
                 result.append(tokenize_name(temp))
 
               temp = ""
 
-            result.append({ "type" : "token", "detail" : config.TOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerId })
+            result.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : tokenizerLine, "file" : tokenizerId })
 
           else:
             temp += char
@@ -199,7 +199,7 @@ def parse(fileContent, uniqueId):
         tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
-      tokenized.append({ "type" : "token", "detail" : config.TOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
+      tokenized.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     else:
       fragresult = R_REGEXP.search(fragment)
