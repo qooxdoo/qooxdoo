@@ -149,7 +149,7 @@ def printHelp():
 
 
 
-def start():
+def main():
   loadDependencyData = {}
   runtimeDependencyData = {}
 
@@ -449,7 +449,7 @@ if __name__ == '__main__':
     raise RuntimeError, "Please upgrade to >= Python 2.3"
 
   try:
-    start()
+    main()
 
   except KeyboardInterrupt:
     print
