@@ -119,7 +119,7 @@ qx.Proto.restartWith = function(vInterval)
 qx.Proto._oninterval = function()
 {
   if (this.getEnabled()) {
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_INTERVAL);
+    this.createDispatchEvent(qx.constant.Event.INTERVAL);
   };
 };
 
@@ -172,7 +172,7 @@ qx.client.Timer.once = function(vFunction, vObject, vTimeout)
   var vTimer = new qx.client.Timer(vTimeout);
 
   // Add event listener to interval
-  vTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, function(e)
+  vTimer.addEventListener(qx.constant.Event.INTERVAL, function(e)
   {
     vFunction.call(vObject, e);
     vTimer.dispose();

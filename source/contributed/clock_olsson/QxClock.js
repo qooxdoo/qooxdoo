@@ -38,7 +38,7 @@ function QxClock()
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
 
   this._timer.start();
 });
@@ -56,7 +56,7 @@ function QxClock()
 /*!
   The current value of the interval (this should be used internally only).
 */
-qx.OO.addProperty({ name : qx.Const.EVENT_TYPE_INTERVAL, type : qx.constant.Type.NUMBER, defaultValue : 1000 });
+qx.OO.addProperty({ name : qx.constant.Event.INTERVAL, type : qx.constant.Type.NUMBER, defaultValue : 1000 });
 
 /*!
   The current zone. Offset value is 5 for CDT and 6 for CST
@@ -97,9 +97,9 @@ qx.Proto._oninterval = function(e)
 
   qx.ui.core.Widget.flushGlobalQueues();
 
-  if (this.hasEventListeners(qx.Const.EVENT_TYPE_INTERVAL))
+  if (this.hasEventListeners(qx.constant.Event.INTERVAL))
   {
-    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_INTERVAL));
+    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.INTERVAL));
   };
 
   this._timer.restartWith(this.getInterval());
@@ -140,7 +140,7 @@ qx.Proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

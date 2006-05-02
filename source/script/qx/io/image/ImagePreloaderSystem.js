@@ -59,7 +59,7 @@ qx.Proto.start = function()
       vPreloader._origSource = vSource;
 
       vPreloader.addEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
-      vPreloader.addEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
+      vPreloader.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
     };
   };
 

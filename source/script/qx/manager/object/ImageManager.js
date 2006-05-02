@@ -334,7 +334,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
   var vThemes = this._iconThemes;
   var vIcon = "icons/16/icons.png";
   var vPrefix = "Icon Theme: ";
-  var vEvent = qx.Const.EVENT_TYPE_EXECUTE;
+  var vEvent = qx.constant.Event.EXECUTE;
 
   for (var vTheme in vThemes)
   {

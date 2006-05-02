@@ -49,5 +49,20 @@ qx.OO.defineClass("qx.constant.Event",
   SELECT : "select",
   SCROLL : "scroll",
   INPUT : "input",
-  CHANGE : "change"
+  CHANGE : "change",
+
+  ERROR : "error",
+  RESIZE : "resize",
+  INTERVAL : "interval",
+  EXECUTE : "execute",
+  CREATE : "create",
+
+  BEFOREAPPEAR : "beforeAppear",
+  APPEAR : "appear",
+  BEFOREDISAPPEAR : "beforeDisappear",
+  DISAPPEAR : "disappear",
+  BEFOREINSERTDOM : "beforeInsertDom",
+  INSERTDOM : "insertDom",
+  BEFOREREMOVEDOM : "beforeRemoveDom",
+  REMOVEDOM : "removeDom"
 });

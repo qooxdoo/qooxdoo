@@ -128,7 +128,7 @@ function()
   // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
-  p.addEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onpopupappear, this);
+  p.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
   f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
 
 

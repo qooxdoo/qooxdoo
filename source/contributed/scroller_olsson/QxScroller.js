@@ -41,7 +41,7 @@ function QxScroller(vShiftX, vShiftY, vInterval) {
   // ***********************************************************************
   //   EVENTS
   // ***********************************************************************
-  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
 
   // ***********************************************************************
   //   SCROLL PANE
@@ -220,7 +220,7 @@ qx.Proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

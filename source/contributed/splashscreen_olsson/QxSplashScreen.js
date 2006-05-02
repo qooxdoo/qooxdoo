@@ -129,12 +129,12 @@ qx.Proto._modifyShowTime = function(propValue, propOldValue, propData)
   if (propValue)
   {
     this._timer = new qx.client.Timer(this.getShowTime()/QxSplashScreen.MAX_VALUE);
-    this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
   }
   else
   {
     this._timer.stop();
-    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };
@@ -244,7 +244,7 @@ qx.Proto.dispose = function()
   if (this._timer)
   {
     this._timer.stop();
-    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
   };

@@ -53,26 +53,10 @@ qx.OO.defineClass("qx.Const",
   EVENT_TYPE_OVERFLOWCHANGED : "overflowchanged",
   EVENT_TYPE_UNDERFLOW : "underflow",
 
-  EVENT_TYPE_ERROR : "error",
-  EVENT_TYPE_RESIZE : "resize",
-  EVENT_TYPE_INTERVAL : "interval",
-  EVENT_TYPE_EXECUTE : "execute",
-  EVENT_TYPE_CREATE : "create",
-
   EVENT_TYPE_PRE : "pre",
   EVENT_TYPE_MAIN : "main",
   EVENT_TYPE_CACHE : "cache",
   EVENT_TYPE_POST : "post",
-
-  EVENT_TYPE_BEFOREAPPEAR : "beforeAppear",
-  EVENT_TYPE_APPEAR : "appear",
-  EVENT_TYPE_BEFOREDISAPPEAR : "beforeDisappear",
-  EVENT_TYPE_DISAPPEAR : "disappear",
-
-  EVENT_TYPE_BEFOREINSERTDOM : "beforeInsertDom",
-  EVENT_TYPE_INSERTDOM : "insertDom",
-  EVENT_TYPE_BEFOREREMOVEDOM : "beforeRemoveDom",
-  EVENT_TYPE_REMOVEDOM : "removeDom",
 
   EVENT_TYPE_CREATED : "created",
   EVENT_TYPE_CONFIGURED : "configured",

@@ -221,7 +221,7 @@ qx.Proto.attachEvents = function(wobj)
   // Register window events
   qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
   qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.RESIZE, this.__onwindowresize);
 
   // Register selection events
   bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
@@ -246,7 +246,7 @@ qx.Proto.detachEvents = function()
   // Unregister window events
   qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
   qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.Const.EVENT_TYPE_RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.RESIZE, this.__onwindowresize);
 
   // Unregister selection events
   bel.onselect = del.onselectstart = del.onselectionchange = null;
@@ -1035,7 +1035,7 @@ qx.Proto._onwindowfocus = function(e)
 qx.Proto._onwindowresize = function(e)
 {
   // Send resize event to client document
-  this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.Const.EVENT_TYPE_RESIZE);
+  this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.RESIZE);
 };
 
 
