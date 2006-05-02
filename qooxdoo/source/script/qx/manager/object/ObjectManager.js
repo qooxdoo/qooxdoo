@@ -27,9 +27,9 @@
 ************************************************************************ */
 
 /*!
-  This is the core of all Qx*Manager objects. Allows basic managment of assigned objects.
+  This class allows basic managment of assigned objects.
 */
-qx.OO.defineClass("qx.manager.object.ObjectManager", qx.core.Target, 
+qx.OO.defineClass("qx.manager.object.ObjectManager", qx.core.Target,
 function()
 {
   qx.core.Target.call(this);
