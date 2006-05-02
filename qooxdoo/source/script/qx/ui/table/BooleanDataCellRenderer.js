@@ -63,8 +63,11 @@ qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
 };
 
 
+/** {string} The URL of the icon showing a true value. */
 qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = "widgets/table/boolean-true.png";
 
+/** {string} The URL of the icon showing a false value. */
 qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = "widgets/table/boolean-false.png";
 
+/** {string} The URL of the icon showing a null value. */
 qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = null;
