@@ -3634,26 +3634,61 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Returns whether a state is set.
+ *
+ * @param vState {string} the state to check.
+ * @return {boolean} whether the state is set.
+ */
 qx.Proto.hasState = function(vState) {
   return this._states[vState] ? true : false;
 };
 
+/**
+ * Sets a state.
+ *
+ * @param state {string} the state to set.
+ */
 qx.Proto.addState = function(vState)
 {
-  this._states[vState] = true;
-
-  if (this._hasParent) {
-    qx.ui.core.Widget.addToGlobalStateQueue(this);
-  };
+  if (! this._states[vState]) {
+    this._states[vState] = true;
+  
+    if (this._hasParent) {
+      qx.ui.core.Widget.addToGlobalStateQueue(this);
+    };
+  }
 };
 
+/**
+ * Clears a state.
+ *
+ * @param vState {string} the state to clear.
+ */
 qx.Proto.removeState = function(vState)
 {
-  delete this._states[vState];
+  if (this._states[vState]) {
+    delete this._states[vState];
+  
+    if (this._hasParent) {
+      qx.ui.core.Widget.addToGlobalStateQueue(this);
+    };
+  }
+};
 
-  if (this._hasParent) {
-    qx.ui.core.Widget.addToGlobalStateQueue(this);
-  };
+/**
+ * Sets or clears a state.
+ *
+ * @param state {string} the state to set or clear.
+ * @param enabled {boolean} whether the state should be set. If false it will be
+ *        cleared.
+ */
+qx.Proto.setState = function(state, enabled) {
+  if (enabled) {
+    this.addState(state);
+  } else {
+    this.removeState(state);
+  }
 };
 
 

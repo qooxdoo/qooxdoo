@@ -39,7 +39,7 @@ function (clientWindow) {
   this._createPage(barView, "Tree",             "icons/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
   this._createPage(barView, "List",             "icons/32/view-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icons/32/view-multicolumn.png", this._createListViewDemo(), "threedface");
-  // this._createPage(barView, "Table",            "icons/32/view-multicolumn.png", this._createTableDemo(), "threedface");
+  this._createPage(barView, "Table",            "icons/32/view-multicolumn.png", this._createTableDemo(), "threedface");
   this._createPage(barView, "DateChooser",      "icons/32/date.png",             this._createDateChooserDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icons/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icons/32/look-and-feel.png",    this._createInternalWindowDemo(clientWindow), null, true);
@@ -683,7 +683,7 @@ qx.Proto._createTreeDemo = function() {
   command.add(tCurrentInput);
 
   t.getManager().addEventListener("changeSelection", function(e) {
-    tCurrentInput.setValue(e.getData().getFirst()._labelObject.getHtml());
+    tCurrentInput.setValue(e.getData()[0]._labelObject.getHtml());
   });
 
   var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
@@ -823,7 +823,7 @@ qx.Proto._createTableDemo = function() {
   tableModel.setColumnEditable(2, true);
 
   // table
-  var table = new qx.ui.Table(tableModel);
+  var table = new qx.ui.table.Table(tableModel);
   with (table) {
     set({ width:"100%", height:"100%" });
     getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);

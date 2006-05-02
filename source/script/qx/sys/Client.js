@@ -114,6 +114,8 @@ function()
 
   this._browserPlatform = vBrowserPlatform;
   this._browserModeHta = vBrowserModeHta;
+
+  this._browserPlatformNameMac = vBrowserUserAgent.indexOf("Macintosh") != -1;
 });
 
 
@@ -176,6 +178,15 @@ qx.Proto.isKhtml = function() {
 
 qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
+};
+
+/**
+ * Returns whether the client platform is a Mac.
+ *
+ * @return {boolean} whether the client platform is a Mac.
+ */
+qx.Proto.isMac = function() {
+  return this._browserPlatformNameMac;
 };
 
 

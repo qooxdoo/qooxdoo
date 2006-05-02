@@ -60,6 +60,9 @@ qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "q
 */
 qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
+/** The horizontal alignment of the text. */
+qx.OO.addProperty({ name : "textAlign", type : qx.constant.Type.STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ], allowNull : false });
+
 
 
 
@@ -92,6 +95,12 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
+  return true;
+};
+
+// property modifier
+qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData) {
+  this.setStyleProperty("textAlign", propValue);
   return true;
 };
 
