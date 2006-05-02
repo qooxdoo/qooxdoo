@@ -5,7 +5,7 @@ cd `dirname $0`/../../..
 echo ">>> Creating documentation..."
 
 mkdir -p build/docs
-rsync -av --exclude=CVS tools/generate/documentation/* build/docs/
+rsync -av --exclude=.svn tools/generate/documentation/* build/docs/
 
 mkdir -p build/script
 mkdir -p tools/generate/internal/cache/script
