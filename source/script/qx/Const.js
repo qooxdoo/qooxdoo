@@ -46,10 +46,5 @@ qx.OO.defineClass("qx.Const",
 
   EVENT_TYPE_OVERFLOW : "overflow",
   EVENT_TYPE_OVERFLOWCHANGED : "overflowchanged",
-  EVENT_TYPE_UNDERFLOW : "underflow",
-
-  EVENT_TYPE_PRE : "pre",
-  EVENT_TYPE_MAIN : "main",
-  EVENT_TYPE_CACHE : "cache",
-  EVENT_TYPE_POST : "post"
+  EVENT_TYPE_UNDERFLOW : "underflow"
 });

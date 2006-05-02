@@ -36,7 +36,7 @@
   the window object of the main document.
 */
 
-qx.OO.defineClass("qx.core.Init", qx.core.Target, 
+qx.OO.defineClass("qx.core.Init", qx.core.Target,
 function()
 {
   qx.core.Target.call(this, false);
@@ -123,7 +123,7 @@ qx.Proto._runPre = function()
   {
     // Execute user define 'pre' method
     this.debug("Dispatching application pre event");
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_PRE);
+    this.createDispatchEvent("pre");
 
     if (this.pre !== qx.util.Return.returnTrue)
     {
@@ -166,7 +166,7 @@ qx.Proto._runMain = function()
   {
     // Execute user define 'main' method
     this.debug("Dispatching application main event");
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_MAIN);
+    this.createDispatchEvent("main");
 
     if (this.main !== qx.util.Return.returnTrue)
     {
@@ -239,7 +239,7 @@ qx.Proto._runPost = function()
 
     // Execute "post" stuff
     this.debug("Dispatching application post event");
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_POST);
+    this.createDispatchEvent("post");
 
     if (this.post !== qx.util.Return.returnTrue)
     {
