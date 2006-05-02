@@ -67,8 +67,6 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
         };
     };
 
-    // qx.dev.Debug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
-
     if (vHasScroll)
     {
       vParentWidth = vParent.clientWidth;
@@ -139,8 +137,6 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
             vHasScroll = false;
         };
     };
-
-    // qx.dev.Debug("qx.dom", "Scroll: " + vParent + " :: " + vHasScroll + " :: " + vOffset);
 
     if (vHasScroll)
     {

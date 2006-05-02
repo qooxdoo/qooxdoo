@@ -291,6 +291,39 @@ qx.Proto.printStackTrace = function() {
 };
 
 
+/**
+ * Returns the logger of a class.
+ *
+ * @param clazz {function} The class of which to return the logger.
+ */
+qx.Class.getClassLogger = function(clazz) {
+  var logger = clazz._logger;
+  if (logger == null) {
+    // Get the parent logger
+    var classname = clazz.classname;
+    var splits = classname.split(".");
+    var currPackage = window;
+    var currPackageName = "";
+    var parentLogger = qx.dev.log.Logger.ROOT_LOGGER;
+    for (var i = 0; i < splits.length - 1; i++) {
+      currPackage = currPackage[splits[i]];
+      currPackageName += ((i != 0) ? "." : "") + splits[i];
+
+      if (currPackage._logger == null) {
+        // This package has no logger -> Create one
+        currPackage._logger = new qx.dev.log.Logger(currPackageName, parentLogger);
+      }
+      parentLogger = currPackage._logger;
+    }
+
+    // Create the class logger
+    logger = new qx.dev.log.Logger(classname, parentLogger);
+    clazz._logger = logger;
+  }
+  return logger;
+};
+
+
 /** {int} The current indent. */
 qx.Class._indent = 0;
 
