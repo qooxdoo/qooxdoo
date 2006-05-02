@@ -3411,6 +3411,9 @@ qx.ui.core.Widget.__oninlineevent = function(e)
   };
 };
 
+qx.Class.INLINE_EVENTTYPE = "propertychange";
+qx.Class.INLINE_EVENTTYPE_PROPERTY = "value";
+
 qx.Proto._oninlineevent = function(e)
 {
   if (qx.ui.core.Widget._inFlushGlobalQueues) {
@@ -3419,7 +3422,7 @@ qx.Proto._oninlineevent = function(e)
 
   switch(e.type)
   {
-    case qx.Const.EVENT_TYPE_PROPERTYCHANGE:
+    case qx.ui.core.Widget.INLINE_EVENTTYPE:
       this._oninlineproperty(e);
       break;
 
@@ -3443,8 +3446,6 @@ qx.Proto._oninlineinput = function(e)
 
   e.returnValue = -1;
 };
-
-qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY = "value";
 
 qx.Proto._oninlineproperty = function(e)
 {
