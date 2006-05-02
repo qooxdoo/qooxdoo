@@ -84,12 +84,6 @@ qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
     {
       xstop = xstart + chc.offsetWidth;
 
-      // qx.ui.basic.Label is something bad, mozilla seems not to be fast enough to
-      // get the correct "shown" width, ugly -> use preferredwidth to fix this
-      if (xstop == xstart && chc.className == "qx.ui.basic.Label") {
-        xstop = xstart + chc._QxWidget.getAnyWidth();
-      };
-
       if (x < xstop)
       {
         ystop = ystart + chc.offsetHeight;
@@ -119,12 +113,6 @@ qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;
-
-      // qx.ui.basic.Label is something bad, mozilla seems not to be fast enough to
-      // get the correct "shown" width, ugly -> use preferredwidth to fix this
-      if (xstop == xstart && chc.className == "qx.ui.basic.Label") {
-        xstop = xstart + chc._QxWidget.getAnyWidth();
-      };
 
       if (x < xstop)
       {
