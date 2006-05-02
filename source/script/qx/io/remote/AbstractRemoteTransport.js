@@ -287,31 +287,31 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       break;
 
     case qx.constant.Net.STATE_CONFIGURED:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_CONFIGURED);
+      this.createDispatchEvent(qx.constant.Event.CONFIGURED);
       break;
 
     case qx.constant.Net.STATE_SENDING:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_SENDING);
+      this.createDispatchEvent(qx.constant.Event.SENDING);
       break;
 
     case qx.constant.Net.STATE_RECEIVING:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_RECEIVING);
+      this.createDispatchEvent(qx.constant.Event.RECEIVING);
       break;
 
     case qx.constant.Net.STATE_COMPLETED:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
+      this.createDispatchEvent(qx.constant.Event.COMPLETED);
       break;
 
     case qx.constant.Net.STATE_ABORTED:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_ABORTED);
+      this.createDispatchEvent(qx.constant.Event.ABORTED);
       break;
 
     case qx.constant.Net.STATE_FAILED:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_FAILED);
+      this.createDispatchEvent(qx.constant.Event.FAILED);
       break;
 
     case qx.constant.Net.STATE_TIMEOUT:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_TIMEOUT);
+      this.createDispatchEvent(qx.constant.Event.TIMEOUT);
       break;
   };
 

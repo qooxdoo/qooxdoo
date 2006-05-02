@@ -176,14 +176,14 @@ qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqMod
 qx.Proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
-    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_LOAD), true);
+    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
   };
 };
 
 qx.Proto._onload = function()
 {
   this._isLoaded = true;
-  this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_LOAD), true);
+  this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
 };
 
 

@@ -197,7 +197,7 @@ qx.Proto._runPreload = function()
     if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
     {
       var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
-      vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPreloadDone, this);
+      vPreloaderSystem.addEventListener(qx.constant.Event.COMPLETED, this._runPreloadDone, this);
       vPreloaderSystem.start();
     };
   };
@@ -265,7 +265,7 @@ qx.Proto._runPostload = function()
   if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
   {
     var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList());
-    vPreloaderSystem.addEventListener(qx.Const.EVENT_TYPE_COMPLETED, this._runPostloadDone, this);
+    vPreloaderSystem.addEventListener(qx.constant.Event.COMPLETED, this._runPostloadDone, this);
     vPreloaderSystem.start();
   };
 };

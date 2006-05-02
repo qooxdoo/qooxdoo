@@ -29,6 +29,7 @@
 
 qx.OO.defineClass("qx.constant.Event",
 {
+  // general ui interaction
   MOUSEOVER : "mouseover",
   MOUSEMOVE : "mousemove",
   MOUSEOUT : "mouseout",
@@ -42,6 +43,7 @@ qx.OO.defineClass("qx.constant.Event",
   KEYPRESS : "keypress",
   KEYUP : "keyup",
 
+  // advanced ui interaction
   BLUR : "blur",
   FOCUS : "focus",
   FOCUSIN : "focusin",
@@ -50,13 +52,17 @@ qx.OO.defineClass("qx.constant.Event",
   SCROLL : "scroll",
   INPUT : "input",
   CHANGE : "change",
-
-  ERROR : "error",
   RESIZE : "resize",
   INTERVAL : "interval",
   EXECUTE : "execute",
   CREATE : "create",
+  LOAD : "load",
+  ERROR : "error",
+  SUBMIT : "submit",
+  UNLOAD : "unload",
+  BEFOREUNLOAD : "beforeunload",
 
+  // ui related
   BEFOREAPPEAR : "beforeAppear",
   APPEAR : "appear",
   BEFOREDISAPPEAR : "beforeDisappear",
@@ -64,5 +70,16 @@ qx.OO.defineClass("qx.constant.Event",
   BEFOREINSERTDOM : "beforeInsertDom",
   INSERTDOM : "insertDom",
   BEFOREREMOVEDOM : "beforeRemoveDom",
-  REMOVEDOM : "removeDom"
+  REMOVEDOM : "removeDom",
+
+  // io related
+  CREATED : "created",
+  CONFIGURED : "configured",
+  QUEUED : "queued",
+  SENDING : "sending",
+  RECEIVING : "receiving",
+  COMPLETED : "completed",
+  ABORTED : "aborted",
+  FAILED : "failed",
+  TIMEOUT : "timeout"
 });

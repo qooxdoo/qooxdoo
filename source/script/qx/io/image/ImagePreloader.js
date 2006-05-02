@@ -143,8 +143,8 @@ qx.Proto._onload = function()
   this._isLoaded = true;
   this._isErroneous = false;
 
-  if (this.hasEventListeners(qx.Const.EVENT_TYPE_LOAD)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_LOAD), true);
+  if (this.hasEventListeners(qx.constant.Event.LOAD)) {
+    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
   };
 };
 

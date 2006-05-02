@@ -58,7 +58,7 @@ qx.Proto.start = function()
     {
       vPreloader._origSource = vSource;
 
-      vPreloader.addEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
+      vPreloader.addEventListener(qx.constant.Event.LOAD, this._onload, this);
       vPreloader.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
     };
   };
@@ -104,7 +104,7 @@ qx.Proto._check = function()
   // this.debug("Check: " + qx.lang.Object.getKeysAsString(this._list));
 
   if (qx.lang.Object.isEmpty(this._list)) {
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_COMPLETED);
+    this.createDispatchEvent(qx.constant.Event.COMPLETED);
   };
 };
 
