@@ -25,6 +25,7 @@
 /* ************************************************************************
 
 #require(qx.util.format.Format)
+#use(qx.lang.String)
 
 ************************************************************************ */
 
@@ -361,7 +362,7 @@ qx.Proto._initParseFeed = function() {
     var currAtom = formatTree[atomIdx];
 
     if (currAtom.type == "literal") {
-      pattern += UxUtil.escapeRegexpChars(currAtom.text);
+      pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
     } else {
       // This is a wildcard
       var wildcardChar = currAtom.character;
