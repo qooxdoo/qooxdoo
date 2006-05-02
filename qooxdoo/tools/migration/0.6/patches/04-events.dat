@@ -47,3 +47,10 @@ qx.Const.EVENT_TYPE_COMPLETED=qx.constant.Event.COMPLETED
 qx.Const.EVENT_TYPE_ABORTED=qx.constant.Event.ABORTED
 qx.Const.EVENT_TYPE_FAILED=qx.constant.Event.FAILED
 qx.Const.EVENT_TYPE_TIMEOUT=qx.constant.Event.TIMEOUT
+
+qx.Const.EVENT_TYPE_DRAGDROP=qx.constant.Event.DRAGDROP
+qx.Const.EVENT_TYPE_DRAGOVER=qx.constant.Event.DRAGOVER
+qx.Const.EVENT_TYPE_DRAGOUT=qx.constant.Event.DRAGOUT
+qx.Const.EVENT_TYPE_DRAGMOVE=qx.constant.Event.DRAGMOVE
+qx.Const.EVENT_TYPE_DRAGSTART=qx.constant.Event.DRAGSTART
+qx.Const.EVENT_TYPE_DRAGEND=qx.constant.Event.DRAGEND

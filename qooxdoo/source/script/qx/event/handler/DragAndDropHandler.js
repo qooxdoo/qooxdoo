@@ -115,7 +115,7 @@ qx.Proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    propValue.dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
+    propValue.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
     this._lastDestinationEvent = null;
   };
 
@@ -202,7 +202,7 @@ qx.Proto.getDropDataTypes = function()
 */
 
 /*!
-This needed be called from any qx.Const.EVENT_TYPE_DRAGSTART event to really start drag session.
+This needed be called from any qx.constant.Event.DRAGSTART event to really start drag session.
 */
 qx.Proto.startDrag = function()
 {
@@ -231,18 +231,18 @@ qx.Proto.startDrag = function()
 
 qx.Proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
-  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGOUT)) {
-    fromWidget.dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGOUT, e, fromWidget, toWidget), true);
+  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.constant.Event.DRAGOUT)) {
+    fromWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOUT, e, fromWidget, toWidget), true);
   };
 
   if (toWidget)
   {
-    if (fromWidget != toWidget && toWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGOVER)) {
-      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGOVER, e, toWidget, fromWidget), true);
+    if (fromWidget != toWidget && toWidget.hasEventListeners(qx.constant.Event.DRAGOVER)) {
+      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOVER, e, toWidget, fromWidget), true);
     };
 
-    if (toWidget.hasEventListeners(qx.Const.EVENT_TYPE_DRAGMOVE)) {
-      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGMOVE, e, toWidget, null), true);
+    if (toWidget.hasEventListeners(qx.constant.Event.DRAGMOVE)) {
+      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGMOVE, e, toWidget, null), true);
     };
   };
 };
@@ -282,7 +282,7 @@ qx.Proto.handleMouseEvent = function(e)
 This starts the core drag and drop session.
 
 To really get drag and drop working you need to define
-a function which you attach to qx.Const.EVENT_TYPE_DRAGSTART-event, which
+a function which you attach to qx.constant.Event.DRAGSTART-event, which
 invokes at least this.startDrag()
 */
 qx.Proto._handleMouseDown = function(e)
@@ -354,7 +354,7 @@ qx.Proto._handleMouseMove = function(e)
     if (Math.abs(e.getScreenX() - this._dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this._dragCache.startScreenY) > 5)
     {
       // Fire dragstart event to finally allow the above if to handle next events
-      this._dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGSTART, e, this._dragCache.sourceWidget), true);
+      this._dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGSTART, e, this._dragCache.sourceWidget), true);
 
       // Update status flag
       this._dragCache.hasFiredDragStart = true;
@@ -512,7 +512,7 @@ qx.Proto._endDrag = function(currentDestinationWidget, e)
   };
 
   // Dispatch dragend event
-  this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent(qx.Const.EVENT_TYPE_DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
+  this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
 
   // Fire dragout event
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);

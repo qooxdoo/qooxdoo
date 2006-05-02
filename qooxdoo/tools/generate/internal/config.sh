@@ -3,10 +3,7 @@ L=""
 # Object Orientation
 L="$L script/qx/OO"
 
-# Constants v1
-L="$L script/qx/Const"
-
-# Constants v2
+# Constants
 L="$L script/qx/constant/Type"
 L="$L script/qx/constant/Core"
 L="$L script/qx/constant/Node"
