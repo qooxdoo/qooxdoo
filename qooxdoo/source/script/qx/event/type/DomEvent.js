@@ -44,6 +44,24 @@ qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : false, noCom
 qx.OO.addFastProperty({ name : "domEvent", setOnlyOnce : true, noCompute : true });
 qx.OO.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true });
 
+/**
+ * The modifiers. A mask of the pressed modifier keys. This is an OR-combination of
+ * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and {@link #META_MASK}.
+ */
+qx.OO.addCachedProperty({ name : "modifiers", defaultValue : null });
+
+
+// property computer
+qx.Proto._computeModifiers = function() {
+    var mask = 0;
+    var evt = this.getDomEvent();
+    if (evt.shiftKey) mask |= qx.event.type.DomEvent.SHIFT_MASK;
+    if (evt.ctrlKey)  mask |= qx.event.type.DomEvent.CTRL_MASK;
+    if (evt.altKey)   mask |= qx.event.type.DomEvent.ALT_MASK;
+    if (evt.metaKey)  mask |= qx.event.type.DomEvent.META_MASK;
+    return mask;
+};
+
 
 
 
@@ -55,16 +73,82 @@ qx.OO.addFastProperty({ name : "domTarget", setOnlyOnce : true, noCompute : true
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getCtrlKey = function() {
+/**
+ * Returns whether the the ctrl key is pressed.
+ *
+ * @return {boolean} whether the the ctrl key is pressed.
+ */
+qx.Proto.isCtrlPressed = function() {
   return this.getDomEvent().ctrlKey;
 };
 
-qx.Proto.getShiftKey = function() {
+/**
+ * Returns whether the the ctrl key is pressed.
+ *
+ * @return {boolean} whether the the ctrl key is pressed.
+ * @deprecated Use {@link #isCtrlPressed} instead.
+ */
+qx.Proto.getCtrlKey = qx.Proto.isCtrlPressed;
+
+
+/**
+ * Returns whether the the shift key is pressed.
+ *
+ * @return {boolean} whether the the shift key is pressed.
+ */
+qx.Proto.isShiftPressed = function() {
   return this.getDomEvent().shiftKey;
 };
 
-qx.Proto.getAltKey = function() {
+/**
+ * Returns whether the the shift key is pressed.
+ *
+ * @return {boolean} whether the the shift key is pressed.
+ * @deprecated Use {@link #isShiftPressed} instead.
+ */
+qx.Proto.getShiftKey = qx.Proto.isShiftPressed;
+
+
+/**
+ * Returns whether the the alt key is pressed.
+ *
+ * @return {boolean} whether the the alt key is pressed.
+ */
+qx.Proto.isAltPressed = function() {
   return this.getDomEvent().altKey;
+};
+
+/**
+ * Returns whether the the alt key is pressed.
+ *
+ * @return {boolean} whether the the alt key is pressed.
+ * @deprecated Use {@link #isAltPressed} instead.
+ */
+qx.Proto.getAltKey = qx.Proto.isAltPressed;
+
+
+/**
+ * Returns whether the the meta key is pressed.
+ *
+ * @return {boolean} whether the the meta key is pressed.
+ */
+qx.Proto.isMetaPressed = function() {
+  return this.getDomEvent().metaKey;
+};
+
+
+/**
+ * Returns whether the ctrl key or (on the Mac) the command key is pressed.
+ *
+ * @return {boolean} <code>true</code> if the command key is pressed on the Mac
+ *         or the ctrl key is pressed on another system.
+ */
+qx.Proto.isCtrlOrCommandPressed = function() {
+  if (qx.sys.Client.isMac()) {
+    return this.getDomEvent().metaKey;
+  } else {
+    return this.getDomEvent().ctrlKey;
+  }
 };
 
 
@@ -130,3 +214,18 @@ qx.Proto.dispose = function()
 
   return qx.event.type.Event.prototype.dispose.call(this);
 };
+
+
+
+
+/** {int} The modifier mask for the shift key. */
+qx.Class.SHIFT_MASK = 1;
+
+/** {int} The modifier mask for the control key. */
+qx.Class.CTRL_MASK = 2;
+
+/** {int} The modifier mask for the alt key. */
+qx.Class.ALT_MASK = 4;
+
+/** {int} The modifier mask for the meta key (e.g. apple key on Macs). */
+qx.Class.META_MASK = 8;

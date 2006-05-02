@@ -1,0 +1,430 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web interface development
+
+   Copyright:
+     (C) 2004-2006 by Schlund + Partner AG, Germany
+         All rights reserved
+
+   License:
+     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+
+   Internet:
+     * http://qooxdoo.oss.schlund.de
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
+     * Til Schneider (til132)
+       <tilman dot schneider at stz-ida dot de>
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#require(qx.ui.layout.GridLayout)
+#require(qx.constant.Type)
+#use(qx.ui.table.SelectionManager)
+#use(qx.ui.table.TableModel)
+#use(qx.ui.table.TableColumnModel)
+#use(qx.ui.table.TablePaneModel)
+
+************************************************************************ */
+
+/**
+ * The table pane that shows a certain section from a table. This class handles
+ * the display of the data part of a table and is therefore the base for virtual
+ * scrolling.
+ */
+qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.layout.GridLayout,
+function() {
+  qx.ui.layout.GridLayout.call(this);
+
+  this._lastColCount = 0;
+  this._lastRowCount = 0;
+});
+
+/** The height of the table rows. */
+qx.OO.addProperty({ name:"tableRowHeight", type:qx.constant.Type.NUMBER, defaultValue:1 });
+
+/** The index of the first row to show. */
+qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaultValue:0 });
+
+/** The number of rows to show. */
+qx.OO.addProperty({ name:"visibleRowCount", type:qx.constant.Type.NUMBER, defaultValue:0 });
+
+/** The selection model. */
+qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.SelectionManager" });
+
+/** The table model. */
+qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableModel" });
+
+/** The table column model. */
+qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableColumnModel" });
+
+/** The table pane model. */
+qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TablePaneModel" });
+
+
+// property modifier
+qx.Proto._modifyFirstVisibleRow = function(propValue, propOldValue, propData) {
+  if (this.isSeeable()) {
+    this._updateContent();
+  }
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyVisibleRowCount = function(propValue, propOldValue, propData) {
+  if (this.isSeeable()) {
+    this._updateContent();
+  }
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
+  if (propOldValue != null) {
+    propOldValue.removeEventListener("selectionChanged", this._onSelectionChanged, this);
+  }
+  propValue.addEventListener("selectionChanged", this._onSelectionChanged, this);
+
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
+  if (propOldValue != null) {
+    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+  }
+  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
+  if (propOldValue != null) {
+    propOldValue.removeEventListener("widthChanged", this._onWidthChanged, this);
+    propOldValue.removeEventListener("orderChanged", this._onOrderChanged, this);
+  }
+  propValue.addEventListener("widthChanged", this._onWidthChanged, this);
+  propValue.addEventListener("orderChanged", this._onOrderChanged, this);
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
+  if (propOldValue != null) {
+    propOldValue.removeEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
+  }
+  propValue.addEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
+  return true;
+};
+
+
+/**
+ * Calculates the preferred height of a row shown in this pane.
+ *
+ * @return {int} the preferred row height in pixels.
+ */
+qx.Proto.calculateTableRowHeight = function() {
+  // TODO: Create one row and measure its height
+  return 15;
+};
+
+
+/**
+ * Sets the currently focused cell.
+ *
+ * @param col {int} the model index of the focused cell's column.
+ * @param row {int} the model index of the focused cell's row.
+ */
+qx.Proto.setFocusedCell = function(col, row) {
+  if (col != this._focuesCol || row != this._focusedRow) {
+    var oldCol = this._focusedCol;
+    var oldRow = this._focusedRow;
+    this._focusedCol = col;
+    this._focusedRow = row;
+
+    // Update the focused row background
+    if (row != oldRow) {
+      // NOTE: Only the old and the new row need update
+      this._updateContent(null, oldRow);
+      this._updateContent(null, row);
+    }
+  }
+};
+
+
+/**
+ * Event handler. Called when the selection has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onSelectionChanged = function(evt) {
+  this._updateContent();
+};
+
+
+/**
+ * Event handler. Called when the width of a column has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onWidthChanged = function(evt) {
+  var data = evt.getData();
+  var x = this.getTablePaneModel().getX(data.col);
+  if (x != -1 && x < this.getColumnCount()) {
+    this.setColumnWidth(x, data.newWidth);
+  }
+};
+
+
+/**
+ * Event handler. Called the column order has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onOrderChanged = function(evt) {
+  this._updateContent(true);
+};
+
+
+/**
+ * Event handler. Called when the pane model has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onPaneModelChanged = function(evt) {
+  this._updateContent(true);
+};
+
+
+/**
+ * Event handler. Called when the table model data has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onTableModelDataChanged = function(evt) {
+  var firstRow = this.getFirstVisibleRow();
+  var rowCount = this.getVisibleRowCount();
+  if (evt.lastRow >= firstRow && evt.firstRow < firstRow + rowCount) {
+    // The change intersects this pane
+    this._updateContent();
+  }
+};
+
+
+/**
+ * Event handler. Called when the table model meta data has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onTableModelMetaDataChanged = function(evt) {
+  this._updateContent();
+};
+
+
+/*
+qx.Proto._updateCell = function(x, y, completeUpdate) {
+  var paneModel = this.getTablePaneModel();
+
+  var firstRow = this.getFirstVisibleRow();
+  var row = firstRow + y;
+  var childIndex = y * paneModel.getColumnCount() + x;
+
+  // Remove the old widget if nessesary
+  if (completeUpdate) {
+    var widget = this.getChildren()[childIndex];
+    this.remove(widget);
+    widget.dispose();
+  }
+
+  // Update the cell
+  var cellInfo = { row:row,
+           selected:this.getSelectionModel().isSelectedIndex(row),
+           focusedRow:(this._focusedRow == row) };
+  this._updateCellWidget(x, y, childIndex, cellInfo);
+};
+*/
+
+
+/**
+ * Updates the content of the pane.
+ *
+ * @param completeUpdate {boolean,false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {int,null} if set only the specified row will be updated.
+ */
+qx.Proto._updateContent = function(completeUpdate, onlyRow) {
+  var selectionModel = this.getSelectionModel();
+  var tableModel = this.getTableModel();
+  var columnModel = this.getTableColumnModel();
+  var paneModel = this.getTablePaneModel();
+
+  var colCount = paneModel.getColumnCount();
+  var rowHeight = this.getTableRowHeight();
+
+  var children = this.getChildren();
+
+  var firstRow = this.getFirstVisibleRow();
+  var rowCount = this.getVisibleRowCount();
+  var modelRowCount = tableModel.getRowCount();
+  if (firstRow + rowCount > modelRowCount) {
+    rowCount = Math.max(0, modelRowCount - firstRow);
+  }
+
+  // Remove the rows that are not needed any more
+  if (completeUpdate || this._lastRowCount > rowCount) {
+    var firstRowToRemove = completeUpdate ? 0 : rowCount;
+    this._cleanUpRows(firstRowToRemove);
+  }
+
+  // Set up the columns
+  if (colCount != this._lastRowCount) {
+    this.setColumnCount(colCount);
+    for (var x = 0; x < colCount; x++) {
+      var col = paneModel.getColumnAtX(x);
+      this.setColumnWidth(x, columnModel.getColumnWidth(col));
+    }
+  }
+
+  // Set up the new rows
+  if (this._lastRowCount < rowCount) {
+    this.setRowCount(rowCount);
+    for (var y = this._lastRowCount; y < rowCount; y++) {
+      this.setRowHeight(y, rowHeight);
+    }
+  }
+
+  // Update or add the visible rows
+  var childIndex = 0;
+  var cellInfo = {};
+  for (var y = 0; y < rowCount; y++) {
+    var row = firstRow + y;
+    if ((onlyRow != null) && (row != onlyRow)) {
+      childIndex += colCount;
+      continue;
+    }
+
+    cellInfo.row = row;
+    cellInfo.selected = selectionModel.isSelectedIndex(row);
+    cellInfo.focusedRow = (this._focusedRow == row);
+
+    // Update this row
+    var rowTop = y * rowHeight;
+    for (var x = 0; x < colCount; x++) {
+      this._updateCellWidget(x, y, childIndex, cellInfo);
+      childIndex++;
+    }
+  }
+
+  this.setHeight(rowCount * rowHeight);
+
+  this._lastColCount = colCount;
+  this._lastRowCount = rowCount;
+};
+
+
+/**
+ * Updates or creates one cell widget.
+ *
+ * @param x {int} the x position of the cell in the pane.
+ * @param y {int} the y position of the cell in the pane.
+ * @param childIndex {int} the index of the cell widget in the child array.
+ * @param cellInfo {Map} the cell info object to use. This has to be prefilled
+ *    with the information that stays fixed in one row.
+ */
+qx.Proto._updateCellWidget = function(x, y, childIndex, cellInfo) {
+  var tableModel = this.getTableModel();
+  var columnModel = this.getTableColumnModel();
+  var paneModel = this.getTablePaneModel();
+
+  var colCount = paneModel.getColumnCount();
+  var col = paneModel.getColumnAtX(x);
+  var row = cellInfo.row;
+
+  cellInfo.xPos = x;
+  cellInfo.col = col;
+  cellInfo.editable = tableModel.isColumnEditable(col);
+  cellInfo.focusedCol = (this._focusedCol == col);
+  cellInfo.value = tableModel.getValue(col, row);
+
+  // Get the cached widget
+  var cellWidget = this.getChildren()[y * colCount + x];
+
+  // Create or update the widget
+  var cellRenderer = columnModel.getDataCellRenderer(col);
+  if (cellWidget == null) {
+    // We have no cached widget -> create it
+    cellWidget = cellRenderer.createDataCell(cellInfo);
+    cellWidget.set({ width:qx.constant.Core.HUNDREDPERCENT, height:qx.constant.Core.HUNDREDPERCENT });
+    this.add(cellWidget, x, y);
+  } else {
+    // This widget already created before -> recycle it
+    cellRenderer.updateDataCell(cellInfo, cellWidget);
+  }
+};
+
+
+/**
+ * Cleans up the row widgets.
+ *
+ * @param firstRowToRemove {int} the visible index of the first row to clean up.
+ *    All following rows will be cleaned up, too.
+ */
+qx.Proto._cleanUpRows = function(firstRowToRemove) {
+  var children = this.getChildren();
+  if (children.length != 0) {
+    var childIndex = children.length - 1;
+    var colCount = this.getColumnCount();
+    for (var y = this._lastRowCount - 1; y >= firstRowToRemove; y--) {
+      for (var x = 0; x < colCount; x++) {
+        var cellWidget = children[childIndex];
+        this.remove(cellWidget);
+        cellWidget.dispose();
+        childIndex--;
+      }
+    }
+  }
+};
+
+
+// overridden
+qx.Proto.dispose = function() {
+  if (this.getDisposed()) {
+    return true;
+  };
+
+  if (this._selectionModel != null) {
+    this._selectionModel.removeEventListener("selectionChanged", this._onSelectionChanged, this);
+  }
+
+  if (this._tableModel != null) {
+    this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+    this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+  }
+
+  if (this._tableColumnModel != null) {
+    this._tableColumnModel.removeEventListener("widthChanged", this._onWidthChanged, this);
+    this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
+  }
+
+  if (this._tablePaneModel != null) {
+    this._tablePaneModel.removeEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
+  }
+
+  this._cleanUpRows(0);
+
+  return qx.ui.layout.GridLayout.prototype.dispose.call(this);
+};
