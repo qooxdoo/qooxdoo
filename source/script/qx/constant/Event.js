@@ -39,6 +39,7 @@ qx.OO.defineClass("qx.constant.Event",
   CLICK : "click",
   DBLCLICK : "dblclick",
   CONTEXTMENU : "contextmenu",
+
   KEYDOWN : "keydown",
   KEYPRESS : "keypress",
   KEYUP : "keyup",
@@ -48,11 +49,13 @@ qx.OO.defineClass("qx.constant.Event",
   FOCUS : "focus",
   FOCUSIN : "focusin",
   FOCUSOUT : "focusout",
+
   SELECT : "select",
   SCROLL : "scroll",
   INPUT : "input",
   CHANGE : "change",
   RESIZE : "resize",
+
   INTERVAL : "interval",
   EXECUTE : "execute",
   CREATE : "create",
@@ -62,7 +65,7 @@ qx.OO.defineClass("qx.constant.Event",
   UNLOAD : "unload",
   BEFOREUNLOAD : "beforeunload",
 
-  // ui related
+  // ui visualisation related
   BEFOREAPPEAR : "beforeAppear",
   APPEAR : "appear",
   BEFOREDISAPPEAR : "beforeDisappear",
@@ -71,6 +74,14 @@ qx.OO.defineClass("qx.constant.Event",
   INSERTDOM : "insertDom",
   BEFOREREMOVEDOM : "beforeRemoveDom",
   REMOVEDOM : "removeDom",
+
+  // dnd related
+  DRAGDROP : "dragdrop",
+  DRAGOVER : "dragover",
+  DRAGOUT : "dragout",
+  DRAGMOVE : "dragmove",
+  DRAGSTART : "dragstart",
+  DRAGEND : "dragend",
 
   // io related
   CREATED : "created",

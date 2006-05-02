@@ -69,22 +69,22 @@ qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.constant.Type.BOOLE
 qx.OO.addProperty({ name : "captureWidget", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
 qx.OO.addProperty({ name : "focusRoot", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
 
-qx.Class.C_DOMMOUSESCROLL = "DOMMouseScroll";
+qx.Class.DOMMOUSESCROLL = "DOMMouseScroll";
 
-qx.Class.mouseEventTypes = [ qx.constant.Event.MOUSEOVER, qx.constant.Event.MOUSEMOVE, qx.constant.Event.MOUSEOUT, qx.constant.Event.MOUSEDOWN, qx.constant.Event.MOUSEUP, qx.constant.Event.CLICK, qx.constant.Event.DBLCLICK, qx.constant.Event.CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.constant.Event.MOUSEWHEEL : qx.Class.C_DOMMOUSESCROLL ];
+qx.Class.mouseEventTypes = [ qx.constant.Event.MOUSEOVER, qx.constant.Event.MOUSEMOVE, qx.constant.Event.MOUSEOUT, qx.constant.Event.MOUSEDOWN, qx.constant.Event.MOUSEUP, qx.constant.Event.CLICK, qx.constant.Event.DBLCLICK, qx.constant.Event.CONTEXTMENU, qx.sys.Client.isMshtml() ? qx.constant.Event.MOUSEWHEEL : qx.Class.DOMMOUSESCROLL ];
 qx.Class.keyEventTypes = [ qx.constant.Event.KEYDOWN, qx.constant.Event.KEYPRESS, qx.constant.Event.KEYUP ];
 
 if (qx.sys.Client.isGecko())
 {
-  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
+  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGDROP, qx.constant.Event.DRAGOVER, "dragenter", "dragexit", "draggesture" ];
 }
 else if (qx.sys.Client.isMshtml())
 {
-  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGEND, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGOVER, qx.Const.EVENT_TYPE_DRAGSTART ];
+  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGEND, qx.constant.Event.DRAGOVER, qx.constant.Event.DRAGSTART, "drag", "dragenter", "dragleave" ];
 }
 else
 {
-  qx.Class.dragEventTypes = [ qx.Const.EVENT_TYPE_DRAG, qx.Const.EVENT_TYPE_DRAGLEAVE, qx.Const.EVENT_TYPE_DRAGSTART, qx.Const.EVENT_TYPE_DRAGDROP, qx.Const.EVENT_TYPE_DRAGENTER, qx.Const.EVENT_TYPE_DRAGEXIT, qx.Const.EVENT_TYPE_DRAGGESTURE, qx.Const.EVENT_TYPE_DRAGOVER ];
+  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGSTART, qx.constant.Event.DRAGDROP, qx.constant.Event.DRAGOVER, "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
 };
 
 
@@ -649,7 +649,7 @@ else
 
     switch(vType)
     {
-      case qx.event.handler.EventHandler.C_DOMMOUSESCROLL:
+      case qx.event.handler.EventHandler.DOMMOUSESCROLL:
         // normalize mousewheel event
         vType = qx.constant.Event.MOUSEWHEEL;
         break;
