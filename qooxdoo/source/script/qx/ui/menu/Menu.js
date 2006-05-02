@@ -46,10 +46,10 @@ function()
   //   TIMER
   // ************************************************************************
   this._openTimer = new qx.client.Timer(this.getOpenInterval());
-  this._openTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onopentimer, this);
+  this._openTimer.addEventListener(qx.constant.Event.INTERVAL, this._onopentimer, this);
 
   this._closeTimer = new qx.client.Timer(this.getCloseInterval());
-  this._closeTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onclosetimer, this);
+  this._closeTimer.addEventListener(qx.constant.Event.INTERVAL, this._onclosetimer, this);
 
 
   // ************************************************************************

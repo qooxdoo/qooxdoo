@@ -41,10 +41,10 @@ function(vLabel, vIcon)
   // ************************************************************************
 
   this._showTimer = new qx.client.Timer(this.getShowInterval());
-  this._showTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
+  this._showTimer.addEventListener(qx.constant.Event.INTERVAL, this._onshowtimer, this);
 
   this._hideTimer = new qx.client.Timer(this.getHideInterval());
-  this._hideTimer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
+  this._hideTimer.addEventListener(qx.constant.Event.INTERVAL, this._onhidetimer, this);
 
 
   // ************************************************************************
@@ -235,14 +235,14 @@ qx.Proto.dispose = function()
 
   if (this._showTimer)
   {
-    this._showTimer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onshowtimer, this);
+    this._showTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onshowtimer, this);
     this._showTimer.dispose();
     this._showTimer = null;
   };
 
   if (this._hideTimer)
   {
-    this._hideTimer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._onhidetimer, this);
+    this._hideTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onhidetimer, this);
     this._hideTimer.dispose();
     this._hideTimer = null;
   };

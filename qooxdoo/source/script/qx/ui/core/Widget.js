@@ -1470,7 +1470,7 @@ qx.Proto._afterAppear = function()
 {
   // this.debug("_afterAppear");
   this._isSeeable = true;
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_APPEAR);
+  this.createDispatchEvent(qx.constant.Event.APPEAR);
 };
 
 qx.Proto._beforeDisappear = function()
@@ -1490,7 +1490,7 @@ qx.Proto._afterDisappear = function()
 {
   // this.debug("_afterDisappear");
   this._isSeeable = false;
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_DISAPPEAR);
+  this.createDispatchEvent(qx.constant.Event.DISAPPEAR);
 };
 
 qx.Proto._isSeeable = false;
@@ -1523,25 +1523,25 @@ qx.Proto.isAppearRelevant = function() {
 qx.Proto._beforeInsertDom = function()
 {
   // this.debug("_beforeInsertDom");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREINSERTDOM);
+  this.createDispatchEvent(qx.constant.Event.BEFOREINSERTDOM);
 };
 
 qx.Proto._afterInsertDom = function()
 {
   // this.debug("_afterInsertDom");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_INSERTDOM);
+  this.createDispatchEvent(qx.constant.Event.INSERTDOM);
 };
 
 qx.Proto._beforeRemoveDom = function()
 {
   // this.debug("_beforeRemoveDom");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_BEFOREREMOVEDOM);
+  this.createDispatchEvent(qx.constant.Event.BEFOREREMOVEDOM);
 };
 
 qx.Proto._afterRemoveDom = function()
 {
   // this.debug("_afterRemoveDom");
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_REMOVEDOM);
+  this.createDispatchEvent(qx.constant.Event.REMOVEDOM);
 };
 
 
@@ -1731,7 +1731,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     this._addInlineEvents(propValue);
 
     // send out create event
-    this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATE);
+    this.createDispatchEvent(qx.constant.Event.CREATE);
   }
   else
   {
@@ -5098,7 +5098,7 @@ qx.Proto.execute = function()
     vCommand.execute(this);
   };
 
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_EXECUTE);
+  this.createDispatchEvent(qx.constant.Event.EXECUTE);
 };
 
 
@@ -5239,7 +5239,7 @@ qx.Proto.scrollIntoViewY = function(vAlignTop)
 /*
 qx.Proto.applyRoundedBorder = function()
 {
-  this.addEventListener(qx.Const.EVENT_TYPE_BEFOREAPPEAR, this._applyRoundedBorder);
+  this.addEventListener(qx.constant.Event.BEFOREAPPEAR, this._applyRoundedBorder);
 };
 
 qx.Proto._applyRoundedBorder = function()

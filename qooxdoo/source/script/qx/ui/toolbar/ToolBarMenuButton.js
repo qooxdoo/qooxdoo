@@ -151,16 +151,16 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
   {
     propOldValue.setOpener(null);
 
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onmenuappear, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
+    propOldValue.removeEventListener(qx.constant.Event.APPEAR, this._onmenuappear, this);
+    propOldValue.removeEventListener(qx.constant.Event.DISAPPEAR, this._onmenudisappear, this);
   };
 
   if (propValue)
   {
     propValue.setOpener(this);
 
-    propValue.addEventListener(qx.Const.EVENT_TYPE_APPEAR, this._onmenuappear, this);
-    propValue.addEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, this._onmenudisappear, this);
+    propValue.addEventListener(qx.constant.Event.APPEAR, this._onmenuappear, this);
+    propValue.addEventListener(qx.constant.Event.DISAPPEAR, this._onmenudisappear, this);
   };
 
   return true;

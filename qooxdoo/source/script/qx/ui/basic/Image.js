@@ -113,8 +113,8 @@ qx.Proto._onerror = function()
 
   this.setLoaded(false);
 
-  if (this.hasEventListeners(qx.Const.EVENT_TYPE_ERROR)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.Const.EVENT_TYPE_ERROR), true);
+  if (this.hasEventListeners(qx.constant.Event.ERROR)) {
+    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
   };
 };
 
@@ -208,7 +208,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
   {
     // remove event connection
     propOldValue.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
-    propOldValue.removeEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
+    propOldValue.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
   };
 
   if (propValue)
@@ -233,7 +233,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     else
     {
       propValue.addEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
-      propValue.addEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
+      propValue.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
     };
   }
   else
@@ -590,7 +590,7 @@ qx.Proto.dispose = function()
   {
     // remove event connection
     vPreloader.removeEventListener(qx.Const.EVENT_TYPE_LOAD, this._onload, this);
-    vPreloader.removeEventListener(qx.Const.EVENT_TYPE_ERROR, this._onerror, this);
+    vPreloader.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
 
     this.forcePreloader(null);
   };

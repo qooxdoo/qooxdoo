@@ -598,7 +598,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
   switch(propValue)
   {
     case qx.constant.Net.STATE_CREATED:
-      this.createDispatchEvent(qx.Const.EVENT_TYPE_CREATED);
+      this.createDispatchEvent(qx.constant.Event.CREATED);
       break;
 
     case qx.constant.Net.STATE_CONFIGURED:

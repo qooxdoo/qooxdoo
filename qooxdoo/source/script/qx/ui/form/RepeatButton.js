@@ -97,7 +97,7 @@ qx.Proto._oninterval = function(e)
   this._timer.start();
 
   this._executed = true;
-  this.createDispatchEvent(qx.Const.EVENT_TYPE_EXECUTE);
+  this.createDispatchEvent(qx.constant.Event.EXECUTE);
 };
 
 

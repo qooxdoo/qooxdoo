@@ -62,7 +62,7 @@ function(vClientWindow)
   this._cachedInnerHeight = this._document.body.offsetHeight;
 
   // Add Resize Handler
-  this.addEventListener(qx.Const.EVENT_TYPE_RESIZE, this._onresize);
+  this.addEventListener(qx.constant.Event.RESIZE, this._onresize);
 
   // Blocker and Dialog Support
   this._blocker = new qx.ui.core.ClientDocumentBlocker;

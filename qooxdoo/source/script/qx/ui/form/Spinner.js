@@ -104,7 +104,7 @@ function(vMin, vValue, vMax)
   this._upbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
   this._downbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
   this._manager.addEventListener(qx.constant.Event.CHANGE, this._onchange, this);
-  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
 
 
   // ************************************************************************
@@ -671,7 +671,7 @@ qx.Proto.dispose = function()
 
   if (this._timer)
   {
-    this._timer.removeEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;

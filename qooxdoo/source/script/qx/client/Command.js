@@ -69,8 +69,8 @@ qx.Class.C_KEY_CONTROL = "control";
 
 qx.Proto.execute = function(vTarget)
 {
-  if (this.hasEventListeners(qx.Const.EVENT_TYPE_EXECUTE)) {
-    this.dispatchEvent(new qx.event.type.DataEvent(qx.Const.EVENT_TYPE_EXECUTE, vTarget), true);
+  if (this.hasEventListeners(qx.constant.Event.EXECUTE)) {
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.EXECUTE, vTarget), true);
   };
 
   return false;

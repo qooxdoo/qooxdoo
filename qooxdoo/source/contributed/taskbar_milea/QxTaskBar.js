@@ -91,7 +91,7 @@ qx.Proto.addWindow = function(win) {
     });
     this._tBarPanel.add(tmpButton);
     this._updateButtons(tmpButton);
-    win.addEventListener(qx.Const.EVENT_TYPE_DISAPPEAR, function(e) {
+    win.addEventListener(qx.constant.Event.DISAPPEAR, function(e) {
         tmpButton.setChecked(false);
     });
     win.addEventListener(qx.constant.Event.BLUR, function(e) {

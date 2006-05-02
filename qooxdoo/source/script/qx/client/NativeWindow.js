@@ -41,7 +41,7 @@ function(vUrl, vName)
   // ************************************************************************
 
   this._timer = new qx.client.Timer(100);
-  this._timer.addEventListener(qx.Const.EVENT_TYPE_INTERVAL, this._oninterval, this);
+  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
 
 
   // ************************************************************************
