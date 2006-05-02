@@ -1,117 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-import config, tokenizer
-
-R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
-R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
-
-
-
-
-def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackages):
-  thisClass = None
-  superClass = None
-
-  dc = config.QXHEAD["defineClass"].search(data)
-
-  if dc:
-    thisClass = dc.group(1)
-    superClass = dc.group(3)
-
-  else:
-    # print "Sorry. Don't find any class informations. Trying id information."
-
-    ns = config.QXHEAD["uniqueId"].search(data)
-
-    if ns:
-      thisClass = ns.group(1)
-
-
-  if thisClass == None:
-    print "    * Error while extracting uniqueId!"
-    return None
-
-
-  # Pre-Creating data storage
-  if not loadDependencyData.has_key(thisClass):
-    loadDependencyData[thisClass] = []
-
-  if not runtimeDependencyData.has_key(thisClass):
-    runtimeDependencyData[thisClass] = []
-
-
-  # Storing inheritance deps
-  if superClass != None:
-    if superClass in config.BUILTIN:
-      pass
-
-    else:
-      loadDependencyData[thisClass].append(superClass)
-
-
-  # Storing defined deps and package informations
-  for line in data.split("\n"):
-    req = config.QXHEAD["require"].search(line)
-    use = config.QXHEAD["use"].search(line)
-    pkg = config.QXHEAD["package"].search(line)
-
-    if req:
-      loadDependencyData[thisClass].append(req.group(1))
-
-    if use:
-      runtimeDependencyData[thisClass].append(use.group(1))
-
-    if pkg:
-      pkgname = pkg.group(1)
-
-      if knownPackages.has_key(pkgname):
-        knownPackages[pkgname].append(thisClass)
-      else:
-        knownPackages[pkgname] = [ thisClass ]
-
-
-  return thisClass
-
-
-
-
-
-
-
-def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, ignoreDeps):
-
-  if not loadDependencyData.has_key(uniqueId):
-    print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
-    return False
-
-  # Test if already in
-  try:
-    sortedIncludeList.index(uniqueId)
-
-  except ValueError:
-    # Including pre-deps
-    if not ignoreDeps:
-      for preUniqueId in loadDependencyData[uniqueId]:
-        addUniqueIdToSortedList(preUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
-
-    # Add myself
-    try:
-      sortedIncludeList.index(uniqueId)
-    except ValueError:
-      sortedIncludeList.append(uniqueId)
-
-    # Include post-deps
-    if not ignoreDeps:
-      for postUniqueId in runtimeDependencyData[uniqueId]:
-        addUniqueIdToSortedList(postUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
-
-
-
-
+import config, tokenizer, loader
 
 
 
@@ -142,7 +32,6 @@ def printHelp():
   print "       --source-directories <LIST>  comma separated list with source directories"
   print "       --output-tokenized <DIR>     destination directory of tokenized files"
   print "       --output-build <DIR>         destination directory of build files"
-  print "       --output-combined <FILE>     destination file of all builded files"
   print
 
 
@@ -150,40 +39,28 @@ def printHelp():
 
 
 def main():
-  loadDependencyData = {}
-  runtimeDependencyData = {}
-
-  knownPackages = {}
-  knownFiles = {}
-
-  includeIds = []
-  excludeIds = []
-
-  combinedBuildContent = ""
-
-
-
+  cmds = {}
 
   # Source
-  cmdSourceDirectories = ["source/script", "source/themes"]
-
-  # Jobs
-  cmdGenerateBuild = False
-  cmdGenerateTokens = False
-  cmdPrintKnownFiles = False
-  cmdPrintKnownPackages = False
-  cmdPrintSortedIdList = False
-
-  # Include/Exclude
-  cmdInclude = []
-  cmdExclude = []
-  cmdIgnoreIncludeDeps = False
-  cmdIgnoreExcludeDeps = False
+  cmds["source"] = ["source/script", "source/themes"]
 
   # Output
-  cmdOutputTokenized = ""
-  cmdOutputBuild = "build/script/cache/"
-  cmdOutputCombined = "build/script/qooxdoo.js"
+  cmds["outputTokenized"] = "build/tokens"
+  cmds["outputBuild"] = "build/script"
+
+  # Jobs
+  cmds["generateBuild"] = False
+  cmds["generateTokens"] = False
+  cmds["printKnownFiles"] = False
+  cmds["printKnownPackages"] = False
+  cmds["printSortedIdList"] = False
+
+  # Include/Exclude
+  cmds["include"] = []
+  cmds["exclude"] = []
+  cmds["ignoreIncludeDeps"] = False
+  cmds["ignoreExcludeDeps"] = False
+
 
 
 
@@ -199,61 +76,58 @@ def main():
 
     # Source
     if c == "--source-directories":
-      cmdSourceDirectories = sys.argv[i+1].split(",")
+      cmds["source"] = sys.argv[i+1].split(",")
 
-      if "" in cmdSourceDirectories:
-        cmdSourceDirectories.remove("")
+      if "" in cmds["source"]:
+        cmds["source"].remove("")
       i += 1
 
 
 
     # Output
     elif c == "--output-tokenized":
-      cmdOutputTokenized = sys.argv[i+1]
+      cmds["outputTokenized"] = sys.argv[i+1]
       i += 1
 
     elif c == "--output-build":
-      cmdOutputBuild = sys.argv[i+1]
+      cmds["outputBuild"] = sys.argv[i+1]
       i += 1
 
-    elif c == "--output-combined":
-      cmdOutputCombined = sys.argv[i+1]
-      i += 1
 
 
 
     # Jobs
     elif c == "-b" or c == "--generate-build":
-      cmdGenerateBuild = True
+      cmds["generateBuild"] = True
 
-    elif c == "-t" or c == "--generate-tokens":
-      cmdGenerateTokens = True
-
-    elif c == "-p" or c == "--print-packages":
-      cmdPrintKnownPackages = True
+    elif c == "-t" or c == "--generate-tokenized":
+      cmds["generateTokenized"] = True
 
     elif c == "-f" or c == "--print-files":
-      cmdPrintKnownFiles = True
+      cmds["printKnownFiles"] = True
+
+    elif c == "-p" or c == "--print-packages":
+      cmds["printKnownPackages"] = True
 
     elif c == "-s" or c == "--print-sorted":
-      cmdPrintSortedIdList = True
+      cmds["printSortedIdList"] = True
 
 
 
     # Include/Exclude
     elif c == "-i" or c == "--include":
-      cmdInclude = sys.argv[i+1].split(",")
+      cmds["include"] = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "-e" or c == "--exclude":
-      cmdExclude = sys.argv[i+1].split(",")
+      cmds["exclude"] = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "--disable-include-deps":
-      cmdIgnoreIncludeDeps = True
+      cmds["ignoreIncludeDeps"] = True
 
     elif c == "--disable-exclude-deps":
-      cmdIgnoreExcludeDeps = True
+      cmds["ignoreExcludeDeps"] = True
 
 
 
@@ -271,142 +145,51 @@ def main():
 
 
 
-
-
-
-
-
-
-
-
-
   print
   print "  PREPARING:"
   print "***********************************************************************************************"
 
   print "  * Creating directory layout..."
 
-  if cmdOutputTokenized != "" and not os.path.exists(cmdOutputTokenized):
-    os.makedirs(cmdOutputTokenized)
+  if cmds["generateTokenized"] and cmds["outputTokenized"] != "" and not os.path.exists(cmds["outputTokenized"]):
+    os.makedirs(cmds["outputTokenized"])
 
-  if cmdOutputBuild != "" and not os.path.exists(cmdOutputBuild):
-    os.makedirs(cmdOutputBuild)
-
-
+  if cmds["generateBuild"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
+    os.makedirs(cmds["outputBuild"])
 
 
 
-  print "  * Searching for files..."
-
-  for basedir in cmdSourceDirectories:
-    for root, dirs, files in os.walk(basedir):
-      if "CVS" in dirs:
-        dirs.remove('CVS')
-
-      if ".svn" in dirs:
-        dirs.remove('.svn')
-
-      for filename in files:
-        if os.path.splitext(filename)[1] == config.JSEXT:
-          completeFileName = os.path.join(root, filename)
-          uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages)
-
-          if uniqueId == None:
-            print "    * Could not extract meta data from file: %s" % filename
-          else:
-
-            splitUniqueId = uniqueId.split(".")
-            splitFileName = completeFileName.replace(config.JSEXT, "").split(os.sep)
-            uniqueFileId = ".".join(splitFileName[len(splitFileName)-len(splitUniqueId):])
-
-            if uniqueId != uniqueFileId:
-              print "    * UniqueId/Filename mismatch: %s != %s" % (uniqueId, uniqueFileId)
-
-            knownFiles[uniqueId] = completeFileName
+  scanResult = loader.scanAll(cmds["source"])
+  sortedIncludeList = loader.getSortedList(cmds, scanResult)
 
 
 
 
 
-  print "  * Sorting files..."
-
-  # INCLUDE
-
-  # Add Packages and Files
-  for include in cmdInclude:
-    if include in knownPackages:
-      includeIds.extend(knownPackages[include])
-
-    else:
-      includeIds.append(include)
-
-  # Add all if empty
-  if len(includeIds) == 0:
-    for uniqueId in knownFiles:
-      includeIds.append(uniqueId)
-
-  # Sorting
-  sortedIncludeList = []
-  for uniqueId in includeIds:
-    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, cmdIgnoreIncludeDeps)
-
-
-
-  # EXCLUDE
-
-  # Add Packages and Files
-  for exclude in cmdExclude:
-    if exclude in knownPackages:
-      excludeIds.extend(knownPackages[exclude])
-
-    else:
-      excludeIds.append(exclude)
-
-  # Sorting
-  sortedExcludeList = []
-  for uniqueId in excludeIds:
-    addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedExcludeList, cmdIgnoreExcludeDeps)
-
-
-
-
-  # MERGE
-
-  # Remove excluded files from included files list
-  for uniqueId in sortedExcludeList:
-    if uniqueId in sortedIncludeList:
-      sortedIncludeList.remove(uniqueId)
-
-
-
-
-
-
-
-  if cmdPrintKnownFiles:
+  if cmds["printKnownFiles"]:
     print
     print "  KNOWN FILES:"
     print "***********************************************************************************************"
-    for key in knownFiles:
-      print "  %s (%s)" % (key, knownFiles[key])
+    for key in scanResult["files"]:
+      print "  %s (%s)" % (key, scanResult["files"][key])
 
-  if cmdPrintKnownPackages:
+  if cmds["printKnownPackages"]:
     print
     print "  KNOWN PACKAGES:"
     print "***********************************************************************************************"
-    for pkg in knownPackages:
+    for pkg in scanResult["packages"]:
       print "  * %s" % pkg
-      for key in knownPackages[pkg]:
+      for key in scanResult["packages"][pkg]:
         print "    - %s" % key
 
-  if cmdPrintSortedIdList:
+  if cmds["printSortedIdList"]:
     print
     print "  INCLUDE ORDER:"
     print "***********************************************************************************************"
     for key in sortedIncludeList:
       print "  * %s" % key
 
-  if cmdGenerateBuild or cmdGenerateTokens:
+  if cmds["generateBuild"] or cmds["generateTokenized"]:
     print
     print "  BUIDLING FILES:"
     print "***********************************************************************************************"
@@ -414,23 +197,21 @@ def main():
     for uniqueId in sortedIncludeList:
       print "  * %s" % uniqueId
 
-      fileContent = file(knownFiles[uniqueId], "r").read()
+      print "    * reading..."
+      fileContent = file(scanResult["files"][uniqueId], "r").read()
 
-
-
-
-
-      print "    * tokenizing..."
-
+      print "    * tokenizing source: %s KB" % (len(fileContent) / 1000)
       tokenizedFileContent = tokenizer.parse(fileContent, uniqueId)
 
-      if cmdGenerateTokens and cmdOutputTokenized != "":
+      if cmds["generateTokenized"]:
         tokenizedString = ""
 
         for token in tokenizedFileContent:
           tokenizedString += "%s%s" % (token, "\n")
 
-        tokenizedFileName = os.path.join(cmdOutputTokenized, uniqueId + config.TOKENEXT)
+        tokenizedFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
+
+        print "    * writing tokens to file (%s KB)..." % (len(tokenizedString) / 1000)
 
         tokenizedFile = file(tokenizedFileName, "w")
         tokenizedFile.write(tokenizedString)
