@@ -196,7 +196,7 @@ else
     // Alternative method if clientWidth is unavailable
     // clientWidth == 0 could mean both: unavailable or really 0
     if (el.clientWidth == 0) {
-      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.Const.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_OVERFLOW_BOTH);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-vertical" ? 16 : 0;
       return Math.max(0, qx.dom.DomStyle.getBorderRight(el) + sbv);
     };
@@ -208,7 +208,7 @@ else
     // Alternative method if clientHeight is unavailable
     // clientHeight == 0 could mean both: unavailable or really 0
     if (el.clientHeight == 0) {
-      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.Const.EVENT_TYPE_OVERFLOW);
+      var ov = qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_OVERFLOW_BOTH);
       var sbv = ov == "scroll" || ov == "-moz-scrollbars-horizontal" ? 16 : 0;
       return Math.max(0, qx.dom.DomStyle.getBorderBottom(el) + sbv);
     };
