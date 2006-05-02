@@ -68,7 +68,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
   if (window.XMLHttpRequest)
   {
     if (qx.core.Settings.enableTransportDebug) {
-      qx.dev.Debug("qx.io.remote.XmlHttpTransport", "Using XMLHttpRequest");
+      qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using XMLHttpRequest");
     };
 
     qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createNativeRequestObject;
@@ -99,7 +99,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
     if (vObject)
     {
       if (qx.core.Settings.enableTransportDebug) {
-        qx.dev.Debug("qx.io.remote.XmlHttpTransport", "Using ActiveXObject: " + vServer);
+        qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using ActiveXObject: " + vServer);
       };
 
       qx.io.remote.XmlHttpTransport._activeXServer = vServer;

@@ -75,7 +75,8 @@ qx.core.Object.toHashCode = function(o)
 
 qx.core.Object.dispose = function()
 {
-  // qx.dev.Debug("qx.core.Object", "Disposing Application");
+  // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  // logger.debug("Disposing Application");
 
   var vStart = (new Date).valueOf();
   var vObject;
@@ -86,13 +87,13 @@ qx.core.Object.dispose = function()
 
     if (vObject != null)
     {
-      // qx.dev.Debug("qx.core.Object", "Disposing: " + vObject);
+      // logger.debug("Disposing: " + vObject);
       vObject.dispose();
       qx.core.ObjectDataBase[i] = null;
     };
   };
 
-  // qx.dev.Debug("qx.core.Object", "Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
 };
 
 qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
@@ -163,14 +164,7 @@ qx.Proto.isDisposed = function() {
  * @return {qx.dev.log.Logger} the logger of this class.
  */
 qx.Proto.getLogger = function() {
-  var logger = this.constructor._logger;
-  if (logger == null) {
-    var parentLogger = qx.dev.log.Logger.ROOT_LOGGER;
-
-    logger = new qx.dev.log.Logger(this.classname, parentLogger);
-    this.constructor._logger = logger;
-  }
-  return logger;
+  return qx.dev.log.Logger.getClassLogger(this.constructor);
 };
 
 
