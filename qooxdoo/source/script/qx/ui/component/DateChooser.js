@@ -503,24 +503,21 @@ qx.Proto.dispose = function() {
   this._monthYearLabel.dispose();
   this._monthYearLabel = null;
 
-  this._weekdayLabelArr = [];
   for (var i = 0; i < this._weekdayLabelArr.length; i++) {
-    this._weekdayLabelArr.dispose();
+    this._weekdayLabelArr[i].dispose();
   }
   this._weekdayLabelArr = null
 
-  this._dayLabelArr = [];
   for (var i = 0; i < this._dayLabelArr.length; i++) {
-    this._dayLabelArr.dispose();
-    this._dayLabelArr.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
+    this._dayLabelArr[i].dispose();
+    this._dayLabelArr[i].removeEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
   }
   this._dayLabelArr = null;
 
-  this._weekLabelArr = [];
   for (var i = 0; i < this._weekLabelArr.length; i++) {
-    this._weekLabelArr.dispose();
-    this._weekLabelArr = null;
+    this._weekLabelArr[i].dispose();
   }
+  this._weekLabelArr = null;
 
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
