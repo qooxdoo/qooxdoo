@@ -421,7 +421,7 @@ qx.Proto.getSelectedItem = function() {
 /*!
 Select given items
 
-#param vItems[Array of QxWidgets]: Items to select
+#param vItems[Array of Widgets]: Items to select
 */
 qx.Proto.setSelectedItems = function(vItems)
 {

@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom, 
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
@@ -63,7 +63,7 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
-  The attached QxPage to this tab
+  The attached page of this tab
 */
 qx.OO.addProperty({ name : "page", type : qx.constant.Type.OBJECT });
 

@@ -23,10 +23,11 @@
 /* ************************************************************************
 
 #package(viewcommon)
+#require(qx.constant.Type)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageViewPage", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewPage", qx.ui.layout.CanvasLayout,
 function(vButton)
 {
   qx.ui.layout.CanvasLayout.call(this);
@@ -47,7 +48,7 @@ function(vButton)
 */
 
 /*!
-  The attached QxTab to this page.
+  The attached tab of this page.
 */
 qx.OO.addProperty({ name : "button", type : qx.constant.Type.OBJECT });
 

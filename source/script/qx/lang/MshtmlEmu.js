@@ -22,8 +22,11 @@
 
 /* ************************************************************************
 
-#package(guicore)
+#package(emu)
 #require(qx.sys.Client)
+#use(qx.constant.Core)
+#use(qx.constant.Type)
+#use(qx.constant.Event)
 
 ************************************************************************ */
 
@@ -90,7 +93,7 @@ if (qx.sys.Client.isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelLeft", function(vValue) {
-    this.left = vValue + QxConst.CORE_PIXEL;
+    this.left = vValue + qx.constant.Core.PIXEL;
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelTop", function() {
@@ -98,7 +101,7 @@ if (qx.sys.Client.isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelTop", function(vValue) {
-    this.top = vValue + QxConst.CORE_PIXEL;
+    this.top = vValue + qx.constant.Core.PIXEL;
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelWidth", function() {
@@ -106,7 +109,7 @@ if (qx.sys.Client.isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelWidth", function(vValue) {
-    this.width = vValue + QxConst.CORE_PIXEL;
+    this.width = vValue + qx.constant.Core.PIXEL;
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelHeight", function() {
@@ -114,7 +117,7 @@ if (qx.sys.Client.isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelHeight", function(vValue) {
-    this.height = vValue + QxConst.CORE_PIXEL;
+    this.height = vValue + qx.constant.Core.PIXEL;
   });
 
 
@@ -131,7 +134,7 @@ if (qx.sys.Client.isGecko())
     Support Microsoft's "all" property
   */
   HTMLDocument.prototype.__defineGetter__("all", function() {
-    return this.getElementsByTagName(QxConst.CORE_STAR);
+    return this.getElementsByTagName(qx.constant.Core.STAR);
   });
 
   /*
@@ -156,7 +159,7 @@ if (qx.sys.Client.isGecko())
     Mimic Microsoft's "all" property
   */
   HTMLElement.prototype.__defineGetter__("all", function() {
-    return this.getElementsByTagName(QxConst.CORE_STAR);
+    return this.getElementsByTagName(qx.constant.Core.STAR);
   });
 
   /*
@@ -255,7 +258,7 @@ if (qx.sys.Client.isGecko())
     this.dispatchEvent(vEvent);
 
     // not sure that this should be here??
-    if (typeof this[vName] === QxConst.TYPEOF_FUNCTION)
+    if (typeof this[vName] === qx.constant.Type.FUNCTION)
     {
       this[vName]();
     }
@@ -290,11 +293,11 @@ if (qx.sys.Client.isGecko())
   });
 
   Event.prototype.__defineGetter__("fromElement",function() {
-    return (this.type == QxConst.EVENT_TYPE_MOUSEOVER) ? this.relatedTarget : (this.type == QxConst.EVENT_TYPE_MOUSEOUT) ? this.srcElement : null;
+    return (this.type == qx.constant.Event.MOUSEOVER) ? this.relatedTarget : (this.type == qx.constant.Event.MOUSEOUT) ? this.srcElement : null;
   });
 
   Event.prototype.__defineGetter__("toElement", function() {
-    return (this.type == QxConst.EVENT_TYPE_MOUSEOUT) ? this.relatedTarget : (this.type == QxConst.EVENT_TYPE_MOUSEOVER) ? this.srcElement : null;
+    return (this.type == qx.constant.Event.MOUSEOUT) ? this.relatedTarget : (this.type == qx.constant.Event.MOUSEOVER) ? this.srcElement : null;
   });
 
   /*

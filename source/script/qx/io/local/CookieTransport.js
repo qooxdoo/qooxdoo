@@ -30,7 +30,7 @@
 
 qx.OO.defineClass("qx.io.local.CookieTransport",
 {
-  BASENAME : "Qx",
+  BASENAME : "qx",
   ITEMSEPARATOR : "&",
   KEYVALUESEPARATOR : "=",
   MAXCOOKIES : 20,
@@ -80,7 +80,7 @@ qx.Class.del = function(vName)
 qx.Class.setAll = function(vHash)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
-  vAll = QxUtil.mergeWithObject(vAll, vHash);
+  vAll = qx.lang.Object.mergeWith(vAll, vHash);
   qx.io.local.CookieTransport._setAll(vAll);
 };
 

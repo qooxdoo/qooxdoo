@@ -28,9 +28,9 @@
 ************************************************************************ */
 
 /*!
-  This singleton manages QxToolTips
+  This manages ToolTip instances
 */
-qx.OO.defineClass("qx.manager.object.ToolTipManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.ToolTipManager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 });

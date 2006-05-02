@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(ajax)
+#package(emu)
 
 ************************************************************************ */
 
@@ -79,11 +79,8 @@ if (qx.sys.Client.isMshtml())
   };
 };
 
-// Create a new Namespace
-QxXmlExtras = {};
-
 // Create a XML dom node
-QxXmlExtras.createXmlDom = function()
+qx.lang.XmlEmu.createXmlDom = function()
 {
   // The Mozilla style
   if (document.implementation && document.implementation.createDocument) {
