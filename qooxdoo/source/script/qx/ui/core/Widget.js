@@ -2675,8 +2675,8 @@ qx.Proto.getBottomValue = function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_FRAMEWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_FRAMEHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : "frameWidth", defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : "frameHeight", defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._computeFrameWidth = function()
 {
@@ -2738,8 +2738,8 @@ qx.Proto._invalidateFrameDimensions = function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_PREFERREDINNERWIDTH, defaultValue : null, addToQueueRuntime : true });
-qx.OO.addCachedProperty({ name : qx.ui.core.Widget.C_JOB_PREFERREDINNERHEIGHT, defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : "preferredInnerWidth", defaultValue : null, addToQueueRuntime : true });
+qx.OO.addCachedProperty({ name : "preferredInnerHeight", defaultValue : null, addToQueueRuntime : true });
 
 qx.Proto._invalidatePreferredInnerDimensions = function()
 {

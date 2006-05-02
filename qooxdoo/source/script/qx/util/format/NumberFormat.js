@@ -156,7 +156,7 @@ qx.Proto.parse = function(str) {
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + NumberFormat.GROUPING_SEPARATOR + ']+)'
     + '(' + NumberFormat.DECIMAL_SEPARATOR + '\\d+)?'
-    + QxUtil.escapeRegexpChars(this.getPostfix()));
+    + QxUtil.escapeRegexpChars(this.getPostfix())));
 
   var hit = regex.exec(str);
   if (hit == null) {
