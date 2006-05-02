@@ -554,25 +554,28 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
 
   if (showDetails) {
     // Add allowed values
-    info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
-      + DetailViewer.DIV_START_DETAIL_TEXT;
-
-    if (node.attributes.allowNull != "false") {
-      info.textHtml += "null, ";
-    }
+    var allowedValue = null;
     if (node.attributes.possibleValues) {
-      info.textHtml += node.attributes.possibleValues;
+      allowedValue = node.attributes.possibleValues;
     } else if (node.attributes.classname) {
-      info.textHtml += "instances of " + node.attributes.classname;
+      allowedValue = "instances of " + node.attributes.classname;
     } else if (node.attributes.instance) {
-      info.textHtml += "instances of " + node.attributes.instance + " or sub classes";
+      allowedValue = "instances of " + node.attributes.instance + " or sub classes";
     } else if (node.attributes.unitDetection) {
-      info.textHtml += "units: " + node.attributes.unitDetection;
-    } else {
-      info.textHtml += "any " + node.attributes.type;
+      allowedValue = "units: " + node.attributes.unitDetection;
+    } else if (node.attributes.type) {
+      allowedValue = "any " + node.attributes.type;
     }
 
-    info.textHtml += DetailViewer.DIV_END;
+    if (allowedValue) {
+      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
+        + DetailViewer.DIV_START_DETAIL_TEXT;
+  
+      if (node.attributes.allowNull != "false") {
+        info.textHtml += "null, ";
+      }
+      info.textHtml += allowedValue + DetailViewer.DIV_END;
+    }
 
     // Add default value
     info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + DetailViewer.DIV_END
