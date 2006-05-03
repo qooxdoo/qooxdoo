@@ -52,40 +52,40 @@ def recoverEscape(s):
 
 
 
-def parseElement(nameContent):
+def parseElement(content):
   global tokenizerId
   global tokenizerLine
 
-  if config.JSPROTECTED.has_key(nameContent):
-    # print "PROTECTED: %s" % PROTECTED[nameContent]
-    return { "type" : "protected", "detail" : config.JSPROTECTED[nameContent], "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+  if config.JSPROTECTED.has_key(content):
+    # print "PROTECTED: %s" % PROTECTED[content]
+    return { "type" : "protected", "detail" : config.JSPROTECTED[content], "source" : content, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif nameContent in config.JSBUILTIN:
-    return { "type" : "builtin", "detail" : "", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+  elif content in config.JSBUILTIN:
+    return { "type" : "builtin", "detail" : "", "source" : content, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif R_NUMBER.search(nameContent):
-    # print "NUMBER: %s" % nameContent
-    return { "type" : "number", "detail" : "int", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+  elif R_NUMBER.search(content):
+    # print "NUMBER: %s" % content
+    return { "type" : "number", "detail" : "int", "source" : content, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif nameContent.startswith("_"):
-    # print "PRIVATE NAME: %s" % nameContent
-    return { "type" : "name", "detail" : "private", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
+  elif content.startswith("_"):
+    # print "PRIVATE NAME: %s" % content
+    return { "type" : "name", "detail" : "private", "source" : content, "line" : tokenizerLine, "file" : tokenizerId }
 
-  elif len(nameContent) > 0:
-    # print "PUBLIC NAME: %s" % nameContent
-    return { "type" : "name", "detail" : "public", "source" : nameContent, "line" : tokenizerLine, "file" : tokenizerId }
-
-
+  elif len(content) > 0:
+    # print "PUBLIC NAME: %s" % content
+    return { "type" : "name", "detail" : "public", "source" : content, "line" : tokenizerLine, "file" : tokenizerId }
 
 
-def parsePart(partContent):
+
+
+def parsePart(content):
   global tokenizerId
   global tokenizerLine
 
   result = []
   temp = ""
 
-  for line in R_NEWLINE.split(partContent):
+  for line in R_NEWLINE.split(content):
     if line == "\n":
       result.append({ "type" : "eol", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerId })
       tokenizerLine += 1
@@ -116,7 +116,7 @@ def parsePart(partContent):
 
 
 
-def parseStream(fileContent, uniqueId):
+def parseStream(content, uniqueId):
   # make global variables available
   global tokenizerLine
   global tokenizerId
@@ -126,10 +126,10 @@ def parseStream(fileContent, uniqueId):
   tokenizerId = uniqueId
 
   # Protect/Replace Escape sequences first
-  fileContent = fileContent.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__").replace("\/", "__$ESCAPE3__")
+  content = content.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__").replace("\/", "__$ESCAPE3__")
 
   # Searching for special characters and sequences
-  alllist = R_ALL.findall(fileContent)
+  alllist = R_ALL.findall(content)
   tokenized = []
 
   for item in alllist:
@@ -138,11 +138,11 @@ def parseStream(fileContent, uniqueId):
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
 
       tokenizerLine += len(fragment.split("\n")) - 1
@@ -150,51 +150,51 @@ def parseStream(fileContent, uniqueId):
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "number", "detail" : "float", "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
 
-      pos = fileContent.find(fragment)
+      pos = content.find(fragment)
       if pos > 0:
-        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-      fileContent = fileContent[pos+len(fragment):]
+      content = content[pos+len(fragment):]
       tokenized.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
 
     else:
@@ -202,18 +202,18 @@ def parseStream(fileContent, uniqueId):
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
 
-        pos = fileContent.find(fragresult.group(0))
+        pos = content.find(fragresult.group(0))
         if pos > 0:
-          tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
+          tokenized.extend(parsePart(recoverEscape(content[0:pos])))
 
-        fileContent = fileContent[pos+len(fragresult.group(0)):]
+        content = content[pos+len(fragresult.group(0)):]
         tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : tokenizerId, "line" : tokenizerLine })
 
       else:
         print "Type:None!"
 
 
-  tokenized.extend(parsePart(recoverEscape(fileContent)))
+  tokenized.extend(parsePart(recoverEscape(content)))
 
   tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerId })
 
