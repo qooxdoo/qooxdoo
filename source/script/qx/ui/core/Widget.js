@@ -526,6 +526,14 @@ if (qx.core.Settings.enableWidgetDebug)
       return;
     };
 
+    var globalWidgetQueueLength      = qx.ui.core.Widget._globalWidgetQueue.length;
+    var globalElementQueueLength     = qx.ui.core.Widget._globalElementQueue.length;
+    var globalStateQueueLength       = qx.ui.core.Widget._globalStateQueue.length;
+    var globalJobQueueLength         = qx.ui.core.Widget._globalJobQueue.length;
+    var globalLayoutQueueLength      = qx.ui.core.Widget._globalLayoutQueue.length;
+    var fastGlobalDisplayQueueLength = qx.ui.core.Widget._fastGlobalDisplayQueue.length;
+    var lazyGlobalDisplayQueueLength = qx.ui.core.Widget._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
+
     // Also used for inline event handling to seperate 'real' events
     qx.ui.core.Widget._inFlushGlobalQueues = true;
 
@@ -559,13 +567,14 @@ if (qx.core.Settings.enableWidgetDebug)
 
     if (vSum > 0)
     {
-      this.debug("Flush Global Queues", "info");
-      this.debug("Widgets: " + vWidgetDuration + "ms");
-      this.debug("State: " + vStateDuration + "ms");
-      this.debug("Element: " + vElementDuration + "ms");
-      this.debug("Job: " + vJobDuration + "ms");
-      this.debug("Layout: " + vLayoutDuration + "ms");
-      this.debug("Display: " + vDisplayDuration + "ms");
+      var logger = qx.dev.log.Logger.getClassLogger(qx.ui.core.Widget);
+      logger.debug("Flush Global Queues");
+      logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
+      logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");
+      logger.debug("Element: " + vElementDuration + "ms (" + globalElementQueueLength + ")");
+      logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
+      logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
+      logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
 
       window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
     };
@@ -3653,7 +3662,7 @@ qx.Proto.addState = function(vState)
 {
   if (! this._states[vState]) {
     this._states[vState] = true;
-  
+
     if (this._hasParent) {
       qx.ui.core.Widget.addToGlobalStateQueue(this);
     };
@@ -3669,7 +3678,7 @@ qx.Proto.removeState = function(vState)
 {
   if (this._states[vState]) {
     delete this._states[vState];
-  
+
     if (this._hasParent) {
       qx.ui.core.Widget.addToGlobalStateQueue(this);
     };
