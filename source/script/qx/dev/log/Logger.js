@@ -257,9 +257,10 @@ qx.Proto.measureReset = function() {
  * Logs a debug message and measures the time since the last call of measure.
  *
  * @param msg {string} the message to log.
+ * @param instanceId {var,null} the ID of the instance the log message comes from.
  * @param exc {var,null} the exception to log.
  */
-qx.Proto.measure = function(msg, exc) {
+qx.Proto.measure = function(msg, instanceId, exc) {
   if (this._lastMeasureTime == null) {
     msg = "(measure start) " + msg;
   } else {
@@ -273,7 +274,7 @@ qx.Proto.measure = function(msg, exc) {
     msg = "(passed time: " + delta + " ms) " + msg;
   }
 
-  this.log(Logger.LEVEL_DEBUG, msg, exc);
+  this.debug(msg, instanceId, exc);
 
   this._lastMeasureTime = new Date().getTime();
 };
