@@ -211,7 +211,7 @@ def main():
       fileContent = file(scanResult["files"][uniqueId], "r").read()
 
       print "    * tokenizing source: %s KB" % (len(fileContent) / 1000)
-      tokenizedFileContent = tokenizer.parse(fileContent, uniqueId)
+      tokenizedFileContent = tokenizer.parseStream(fileContent, uniqueId)
 
       if cmds["generateTokenized"]:
         tokenizedString = ""
