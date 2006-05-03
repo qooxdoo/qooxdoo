@@ -73,3 +73,13 @@ qx.Proto.createDataCell = function(cellInfo) {
 qx.Proto.updateDataCell = function(cellInfo, cellWidget) {
   throw new Error("updateDataCell is abstract");
 };
+
+
+qx.Proto.createDataCellHtml = function(cellInfo) {
+  throw new Error("createDataCellHtml is abstract");
+};
+
+
+qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+  throw new Error("updateDataCellElement is abstract");
+};

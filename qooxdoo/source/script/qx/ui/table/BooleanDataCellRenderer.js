@@ -58,16 +58,42 @@ qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
   switch (cellInfo.value) {
     case true:  cellWidget.setIcon(BooleanDataCellRenderer.TRUE_ICON_URL); break;
     case false: cellWidget.setIcon(BooleanDataCellRenderer.FALSE_ICON_URL); break;
-    default:  cellWidget.setIcon(BooleanDataCellRenderer.NULL_ICON_URL); break;
+    default:    cellWidget.setIcon(BooleanDataCellRenderer.NULL_ICON_URL); break;
   }
 };
 
 
+qx.Proto._getCellStyle = function(cellInfo) {
+  var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
+
+  style += '; text-align:center; padding-top:1px';
+
+  return style;
+};
+
+
+qx.Proto._getContentHtml = function(cellInfo) {
+  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
+  var imgUrl;
+  switch (cellInfo.value) {
+    case true:  imgUrl = BooleanDataCellRenderer.TRUE_ICON_URL; break;
+    case false: imgUrl = BooleanDataCellRenderer.FALSE_ICON_URL; break;
+    default:    imgUrl = BooleanDataCellRenderer.NULL_ICON_URL; break;
+  }
+
+  if (imgUrl) {
+    return  '<img src="' + imgUrl + '"/>';
+  } else {
+    return "";
+  }
+}
+
+
 /** {string} The URL of the icon showing a true value. */
-qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = "widgets/table/boolean-true.png";
+qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = "../../themes/widgets/windows/table/boolean-true.png" // "widgets/table/boolean-true.png";
 
 /** {string} The URL of the icon showing a false value. */
-qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = "widgets/table/boolean-false.png";
+qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = "../../themes/widgets/windows/table/boolean-false.png" // "widgets/table/boolean-false.png";
 
 /** {string} The URL of the icon showing a null value. */
 qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = null;

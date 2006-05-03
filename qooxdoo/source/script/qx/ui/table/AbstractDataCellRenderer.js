@@ -89,6 +89,29 @@ qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
 }
 
 
+qx.Proto.createDataCellHtml = function(cellInfo) {
+  return '<div style="' + this._getCellStyle(cellInfo) + '">'
+    + this._getContentHtml(cellInfo) + '</div>';
+};
+
+
+qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+  cellElement.innerHTML = this._getContentHtml(cellInfo);
+};
+
+
+qx.Proto._getCellStyle = function(cellInfo) {
+  return cellInfo.style + '; overflow:hidden'
+    + '; border-right:1px solid #eeeeee; border-bottom:1px solid #eeeeee'
+    + '; padding-left:2px; padding-right:2px';
+};
+
+
+qx.Proto._getContentHtml = function(cellInfo) {
+  return cellInfo.value;
+};
+
+
 /** {string} The state which will be set for even rows. */
 qx.Class.STATE_EVEN = "even";
 
