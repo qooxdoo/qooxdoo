@@ -66,6 +66,24 @@ qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
 };
 
 
+qx.Proto._getCellStyle = function(cellInfo) {
+  var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
+
+  if (this.getUseAutoAlign()) {
+    if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
+      style += '; text-align:right';
+    }
+  }
+
+  return style;
+};
+
+
+qx.Proto._getContentHtml = function(cellInfo) {
+  return this._formatValue(cellInfo.value);
+};
+
+
 /**
  * Formats a value.
  *

@@ -38,9 +38,10 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.layout.GridLayout,
+qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
 function() {
-  qx.ui.layout.GridLayout.call(this);
+  qx.ui.basic.Terminator.call(this);
+  //qx.ui.layout.GridLayout.call(this);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
@@ -182,6 +183,10 @@ qx.Proto._onSelectionChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onWidthChanged = function(evt) {
+  this._updateContent(true);
+};
+
+qx.Proto._onWidthChanged_old = function(evt) {
   var data = evt.getData();
   var x = this.getTablePaneModel().getX(data.col);
   if (x != -1 && x < this.getColumnCount()) {
@@ -267,6 +272,114 @@ qx.Proto._updateCell = function(x, y, completeUpdate) {
  * @param onlyRow {int,null} if set only the specified row will be updated.
  */
 qx.Proto._updateContent = function(completeUpdate, onlyRow) {
+  //var logger = this.getLogger();
+  //logger.measure("Start updateContent");
+
+  var selectionModel = this.getSelectionModel();
+  var tableModel = this.getTableModel();
+  var columnModel = this.getTableColumnModel();
+  var paneModel = this.getTablePaneModel();
+
+  var colCount = paneModel.getColumnCount();
+  var rowHeight = this.getTableRowHeight();
+
+  var firstRow = this.getFirstVisibleRow();
+  var rowCount = this.getVisibleRowCount();
+  var modelRowCount = tableModel.getRowCount();
+  if (firstRow + rowCount > modelRowCount) {
+    rowCount = Math.max(0, modelRowCount - firstRow);
+  }
+
+  // Remove the rows that are not needed any more
+  if (completeUpdate || this._lastRowCount > rowCount) {
+    var firstRowToRemove = completeUpdate ? 0 : rowCount;
+    this._cleanUpRows(firstRowToRemove);
+  }
+
+  var elem = this.getElement();
+  var childNodes = this.getElement().childNodes;
+  var cellInfo = {};
+  for (var y = 0; y < rowCount; y++) {
+    var row = firstRow + y;
+    if ((onlyRow != null) && (row != onlyRow)) {
+      continue;
+    }
+
+    cellInfo.row = row;
+    cellInfo.selected = selectionModel.isSelectedIndex(row);
+    cellInfo.focusedRow = (this._focusedRow == row);
+
+    // Update this row
+    var rowElem;
+    var recyleRowElem;
+    if (y < childNodes.length) {
+      rowElem = childNodes[y];
+      recyleRowElem = true
+    } else {
+      var rowElem = document.createElement("div");
+
+      //rowElem.style.position = "relative";
+      rowElem.style.position = "absolute";
+      rowElem.style.left = "0px";
+      rowElem.style.top = (y * rowHeight) + "px";
+
+      rowElem.style.height = rowHeight + "px";
+      rowElem.style.fontFamily = '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif';
+      rowElem.style.fontSize = "11px";
+      elem.appendChild(rowElem);
+      recyleRowElem = false;
+    }
+
+    if (cellInfo.focusedRow) {
+      rowElem.style.backgroundColor = cellInfo.selected ? "#5a8ad3" : "#ddeeff";
+    } else {
+      rowElem.style.backgroundColor = (cellInfo.selected ? "#335ea8" : ((cellInfo.row % 2 == 0) ? "#faf8f3" : "white"));
+    }
+    rowElem.style.color = cellInfo.selected ? "white" : "black";
+
+    var html = "";
+    var left = 0;
+    for (var x = 0; x < colCount; x++) {
+      var col = paneModel.getColumnAtX(x);
+      cellInfo.xPos = x;
+      cellInfo.col = col;
+      cellInfo.editable = tableModel.isColumnEditable(col);
+      cellInfo.focusedCol = (this._focusedCol == col);
+      cellInfo.value = tableModel.getValue(col, row);
+      var width = columnModel.getColumnWidth(col);
+      cellInfo.style = 'position:absolute; left:' + left + 'px; top:0px; '
+        + 'width:' + width +'px; height:' + rowHeight + 'px';
+
+      var cellRenderer = columnModel.getDataCellRenderer(col);
+      if (recyleRowElem) {
+        var cellElem = rowElem.childNodes[x];
+        cellRenderer.updateDataCellElement(cellInfo, cellElem);
+      } else {
+        html += cellRenderer.createDataCellHtml(cellInfo);
+      }
+
+      left += width;
+    }
+    if (! recyleRowElem) {
+      rowElem.style.width = left + "px";
+      rowElem.innerHTML = html;
+    }
+  }
+
+  this.setHeight(rowCount * rowHeight);
+
+  this._lastColCount = colCount;
+  this._lastRowCount = rowCount;
+
+  //logger.measure("End updateContent");
+  //logger.measureReset();
+};
+
+
+qx.Proto._updateContent_old = function(completeUpdate, onlyRow) {
+  var logger = this.getLogger();
+  logger.measure("Start updateContent");
+  // logger.indent();
   var selectionModel = this.getSelectionModel();
   var tableModel = this.getTableModel();
   var columnModel = this.getTableColumnModel();
@@ -307,10 +420,13 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow) {
     }
   }
 
+  // logger.measure("updateContent 1");
   // Update or add the visible rows
   var childIndex = 0;
   var cellInfo = {};
+  // logger.indent();
   for (var y = 0; y < rowCount; y++) {
+  // logger.measure("row " + y);
     var row = firstRow + y;
     if ((onlyRow != null) && (row != onlyRow)) {
       childIndex += colCount;
@@ -322,7 +438,6 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow) {
     cellInfo.focusedRow = (this._focusedRow == row);
 
     // Update this row
-    var rowTop = y * rowHeight;
     for (var x = 0; x < colCount; x++) {
       this._updateCellWidget(x, y, childIndex, cellInfo);
       childIndex++;
@@ -333,6 +448,9 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow) {
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
+  // logger.unindent();
+  logger.measure("End updateContent");
+  logger.measureReset();
 };
 
 
@@ -384,6 +502,19 @@ qx.Proto._updateCellWidget = function(x, y, childIndex, cellInfo) {
  *    All following rows will be cleaned up, too.
  */
 qx.Proto._cleanUpRows = function(firstRowToRemove) {
+  var elem = this.getElement();
+  if (elem) {
+    var childNodes = this.getElement().childNodes;
+    var paneModel = this.getTablePaneModel();
+    var colCount = paneModel.getColumnCount();
+    for (var y = childNodes.length - 1; y >= firstRowToRemove; y--) {
+      elem.removeChild(childNodes[y]);
+    }
+  }
+};
+
+
+qx.Proto._cleanUpRows_old = function(firstRowToRemove) {
   var children = this.getChildren();
   if (children.length != 0) {
     var childIndex = children.length - 1;
