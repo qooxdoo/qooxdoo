@@ -50,7 +50,7 @@ def main():
 
   # Jobs
   cmds["generateBuild"] = False
-  cmds["generateTokens"] = False
+  cmds["generateTokenized"] = False
   cmds["printKnownFiles"] = False
   cmds["printKnownPackages"] = False
   cmds["printSortedIdList"] = False
@@ -116,10 +116,20 @@ def main():
 
     # Include/Exclude
     elif c == "-i" or c == "--include":
+      if len(sys.argv) <= i+1:
+        print ">>> Missing parameter(s) to include"
+        printHelp()
+        return
+
       cmds["include"] = sys.argv[i+1].split(",")
       i += 1
 
     elif c == "-e" or c == "--exclude":
+      if len(sys.argv) <= i+1:
+        print ">>> Missing parameter(s) to exclude"
+        printHelp()
+        return
+
       cmds["exclude"] = sys.argv[i+1].split(",")
       i += 1
 
@@ -133,7 +143,7 @@ def main():
 
     # Fallback
     else:
-      print "  Unknown option: %s" % c
+      print ">>> Unknown option: %s" % c
       printHelp()
       return
 

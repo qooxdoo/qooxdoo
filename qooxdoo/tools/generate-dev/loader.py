@@ -15,7 +15,7 @@ R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
 
 
 
-def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackages):
+def extractMetaData(data, loadDeps, runtimeDeps, knownPackages):
   thisClass = None
   superClass = None
 
@@ -40,11 +40,11 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
 
 
   # Pre-Creating data storage
-  if not loadDependencyData.has_key(thisClass):
-    loadDependencyData[thisClass] = []
+  if not loadDeps.has_key(thisClass):
+    loadDeps[thisClass] = []
 
-  if not runtimeDependencyData.has_key(thisClass):
-    runtimeDependencyData[thisClass] = []
+  if not runtimeDeps.has_key(thisClass):
+    runtimeDeps[thisClass] = []
 
 
   # Storing inheritance deps
@@ -53,7 +53,7 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
       pass
 
     else:
-      loadDependencyData[thisClass].append(superClass)
+      loadDeps[thisClass].append(superClass)
 
 
   # Storing defined deps and package informations
@@ -63,10 +63,10 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
     pkg = config.QXHEAD["package"].search(line)
 
     if req:
-      loadDependencyData[thisClass].append(req.group(1))
+      loadDeps[thisClass].append(req.group(1))
 
     if use:
-      runtimeDependencyData[thisClass].append(use.group(1))
+      runtimeDeps[thisClass].append(use.group(1))
 
     if pkg:
       pkgname = pkg.group(1)
@@ -85,37 +85,37 @@ def extractMetaData(data, loadDependencyData, runtimeDependencyData, knownPackag
 
 
 
-def addUniqueIdToSortedList(uniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, ignoreDeps):
-  if not loadDependencyData.has_key(uniqueId):
+def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreDeps):
+  if not loadDeps.has_key(uniqueId):
     print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
     return False
 
   # Test if already in
   try:
-    sortedIncludeList.index(uniqueId)
+    sortedList.index(uniqueId)
 
   except ValueError:
     # Including pre-deps
     if not ignoreDeps:
-      for preUniqueId in loadDependencyData[uniqueId]:
-        addUniqueIdToSortedList(preUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+      for preUniqueId in loadDeps[uniqueId]:
+        addUniqueIdToSortedList(preUniqueId, loadDeps, runtimeDeps, sortedList, False)
 
     # Add myself
     try:
-      sortedIncludeList.index(uniqueId)
+      sortedList.index(uniqueId)
     except ValueError:
-      sortedIncludeList.append(uniqueId)
+      sortedList.append(uniqueId)
 
     # Include post-deps
     if not ignoreDeps:
-      for postUniqueId in runtimeDependencyData[uniqueId]:
-        addUniqueIdToSortedList(postUniqueId, loadDependencyData, runtimeDependencyData, sortedIncludeList, False)
+      for postUniqueId in runtimeDeps[uniqueId]:
+        addUniqueIdToSortedList(postUniqueId, loadDeps, runtimeDeps, sortedList, False)
 
 
 
 
 
-def scan(sourceDir, knownFiles, knownPackages, loadDependencyData, runtimeDependencyData):
+def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
   for root, dirs, files in os.walk(sourceDir):
     if "CVS" in dirs:
       dirs.remove('CVS')
@@ -126,7 +126,7 @@ def scan(sourceDir, knownFiles, knownPackages, loadDependencyData, runtimeDepend
     for filename in files:
       if os.path.splitext(filename)[1] == config.JSEXT:
         completeFileName = os.path.join(root, filename)
-        uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDependencyData, runtimeDependencyData, knownPackages)
+        uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDeps, runtimeDeps, knownPackages)
 
         if uniqueId == None:
           print "    * Could not extract meta data from file: %s" % filename
@@ -149,21 +149,21 @@ def scanAll(sourceDirectories):
   knownFiles = {}
   knownPackages = {}
 
-  loadDependencyData = {}
-  runtimeDependencyData = {}
+  loadDeps = {}
+  runtimeDeps = {}
 
   print "  * Searching for files..."
 
   for sourceDir in sourceDirectories:
-    scan(sourceDir, knownFiles, knownPackages, loadDependencyData, runtimeDependencyData)
+    scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps)
 
   print "  * Found %s files" % len(knownFiles)
 
   return {
     "files" : knownFiles,
     "packages" : knownPackages,
-    "loadDeps" : loadDependencyData,
-    "runtimeDeps" : runtimeDependencyData
+    "loadDeps" : loadDeps,
+    "runtimeDeps" : runtimeDeps
   }
 
 
@@ -174,7 +174,7 @@ def getSortedList(cmds, scanResult):
   includeIds = []
   excludeIds = []
 
-  sortedIncludeList = []
+  sortedList = []
   sortedExcludeList = []
 
 
@@ -197,7 +197,7 @@ def getSortedList(cmds, scanResult):
 
   # Sorting
   for uniqueId in includeIds:
-    addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedIncludeList, cmds["ignoreIncludeDeps"])
+    addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedList, cmds["ignoreIncludeDeps"])
 
 
 
@@ -223,11 +223,11 @@ def getSortedList(cmds, scanResult):
 
   # Remove excluded files from included files list
   for uniqueId in sortedExcludeList:
-    if uniqueId in sortedIncludeList:
-      sortedIncludeList.remove(uniqueId)
+    if uniqueId in sortedList:
+      sortedList.remove(uniqueId)
 
 
 
   # RETURN
 
-  return sortedIncludeList
+  return sortedList
