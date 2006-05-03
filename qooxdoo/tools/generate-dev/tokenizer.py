@@ -45,18 +45,14 @@ R_ALL = re.compile(S_ALL)
 tokenizerLine = 0
 tokenizerId = ""
 
+
+
 def recoverEscape(s):
-  instr=s
-  outstr=s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'").replace("__$ESCAPE3__", "\/")
-
-  #if instr != outstr:
-  #  print instr + " || " + outstr
-
-  return outstr
+  return s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'").replace("__$ESCAPE3__", "\/")
 
 
 
-def tokenize_name(nameContent):
+def parseElement(nameContent):
   global tokenizerId
   global tokenizerLine
 
@@ -82,7 +78,7 @@ def tokenize_name(nameContent):
 
 
 
-def tokenize_part(partContent):
+def parsePart(partContent):
   global tokenizerId
   global tokenizerLine
 
@@ -100,7 +96,7 @@ def tokenize_part(partContent):
           if config.JSTOKENS.has_key(char):
             if temp != "":
               if R_NONWHITESPACE.search(temp):
-                result.append(tokenize_name(temp))
+                result.append(parseElement(temp))
 
               temp = ""
 
@@ -111,7 +107,7 @@ def tokenize_part(partContent):
 
         if temp != "":
           if R_NONWHITESPACE.search(temp):
-            result.append(tokenize_name(temp))
+            result.append(parseElement(temp))
 
           temp = ""
 
@@ -119,8 +115,8 @@ def tokenize_part(partContent):
 
 
 
-def parse(fileContent, uniqueId):
 
+def parseStream(fileContent, uniqueId):
   # make global variables available
   global tokenizerLine
   global tokenizerId
@@ -144,7 +140,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
@@ -156,7 +152,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : tokenizerId, "line" : tokenizerLine })
@@ -166,7 +162,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
@@ -176,7 +172,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : tokenizerId, "line" : tokenizerLine })
@@ -186,7 +182,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "number", "detail" : "float", "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
@@ -196,7 +192,7 @@ def parse(fileContent, uniqueId):
 
       pos = fileContent.find(fragment)
       if pos > 0:
-        tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+        tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
       fileContent = fileContent[pos+len(fragment):]
       tokenized.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "file" : tokenizerId, "line" : tokenizerLine })
@@ -208,7 +204,7 @@ def parse(fileContent, uniqueId):
 
         pos = fileContent.find(fragresult.group(0))
         if pos > 0:
-          tokenized.extend(tokenize_part(recoverEscape(fileContent[0:pos])))
+          tokenized.extend(parsePart(recoverEscape(fileContent[0:pos])))
 
         fileContent = fileContent[pos+len(fragresult.group(0)):]
         tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : tokenizerId, "line" : tokenizerLine })
@@ -217,9 +213,14 @@ def parse(fileContent, uniqueId):
         print "Type:None!"
 
 
-  tokenized.extend(tokenize_part(recoverEscape(fileContent)))
+  tokenized.extend(parsePart(recoverEscape(fileContent)))
 
   tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : tokenizerLine, "file" : tokenizerId })
 
   return tokenized
+
+
+
+def parseFile(fileName, uniqueId):
+  return parseStream(file(fileName, "r").read(), uniqueId)
 

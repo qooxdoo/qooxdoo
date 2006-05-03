@@ -852,7 +852,7 @@ def main():
 
           if onlyClasses == None or className in onlyClasses:
             print "Processing class " + className + "..."
-            tokenArr = tokenizer.parse(file(path, "r").read(), path)
+            tokenArr = tokenizer.parseFile(path, className)
             if outputTokenJson:
               tokenizedString = ""
               for token in tokenArr:
