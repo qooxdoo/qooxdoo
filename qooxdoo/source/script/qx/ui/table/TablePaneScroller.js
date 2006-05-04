@@ -169,9 +169,7 @@ qx.Proto._modifyHorizontalScrollBarVisible = function(propValue, propOldValue, p
   // NOTE: We have to flush the queues before updating the content so the new
   //     layout has been applied and _updateContent is able to work with
   //     correct values.
-  this.debug("Flushing queue (TablePaneScroller 1)...");
   qx.ui.core.Widget.flushGlobalQueues();
-  this.debug("...Flushing queue (TablePaneScroller 1)");
   this._updateContent();
 
   return true;
@@ -636,9 +634,7 @@ qx.Proto._showResizeLine = function(x) {
     resizeLine.setBackgroundColor("#D6D5D9");
     resizeLine.setWidth(3);
     this._paneClipper.add(resizeLine);
-    this.debug("Flushing queue (TablePaneScroller 2)...");
     qx.ui.core.Widget.flushGlobalQueues();
-    this.debug("...Flushing queue (TablePaneScroller 2)");
 
     this._resizeLine = resizeLine;
   }
@@ -1094,13 +1090,7 @@ qx.Proto._postponedUpdateContent = function() {
   if (! this._updateContentPlanned) {
     var self = this;
     window.setTimeout(function() {
-      // self.debug("Flushing queue (TablePaneScroller 3)...");
-      // qx.ui.core.Widget.flushGlobalQueues();
-      // self.debug("...Flushing queue (TablePaneScroller 3)");
       self._updateContent();
-      // self.debug("Flushing queue (TablePaneScroller 4)...");
-      // qx.ui.core.Widget.flushGlobalQueues();
-      // self.debug("...Flushing queue (TablePaneScroller 4)");
       self._updateContentPlanned = false;
     }, 0);
     this._updateContentPlanned = true;
