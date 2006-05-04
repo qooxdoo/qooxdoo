@@ -23,11 +23,12 @@
 /* ************************************************************************
 
 #package(layout)
+#require(qx.constant.Layout)
 #use(qx.renderer.layout.DockLayoutImpl)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.DockLayout", qx.ui.core.Parent, 
+qx.OO.defineClass("qx.ui.layout.DockLayout", qx.ui.core.Parent,
 function() {
   qx.ui.core.Parent.call(this);
 });

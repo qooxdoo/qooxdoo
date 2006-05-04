@@ -24,7 +24,9 @@
 
 /* ************************************************************************
 
-#require(qx.core.Target)
+#require(qx.ui.table.DefaultHeaderCellRenderer)
+#require(qx.ui.table.DefaultDataCellRenderer)
+#require(qx.ui.table.TextFieldCellEditorFactory)
 
 ************************************************************************ */
 
@@ -34,7 +36,7 @@
  *
  * @see com.ptvag.webcomponent.ui.table.TableModel
  */
-qx.OO.defineClass("qx.ui.table.TableColumnModel", qx.core.Target, 
+qx.OO.defineClass("qx.ui.table.TableColumnModel", qx.core.Target,
 function() {
   qx.core.Target.call(this);
 });

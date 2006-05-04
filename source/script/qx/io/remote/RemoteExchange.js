@@ -23,11 +23,12 @@
 /* ************************************************************************
 
 #package(transport)
+#require(qx.constant.Net)
 #use(qx.io.remote.RemoteResponse)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.RemoteExchange", qx.core.Target, 
+qx.OO.defineClass("qx.io.remote.RemoteExchange", qx.core.Target,
 function(vRequest)
 {
   qx.core.Target.call(this);

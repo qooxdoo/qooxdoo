@@ -370,8 +370,8 @@ qx.Proto._updateDatePane = function() {
 
   var selDate = this.getDate();
   var selYear     = (selDate == null) ? -1 : selDate.getFullYear();
-  var selMonth    = (selDate == null) ? -1 : selDate.getMonth()
-  var selDayOfMonth = (selDate == null) ? -1 : selDate.getDate()
+  var selMonth    = (selDate == null) ? -1 : selDate.getMonth();
+  var selDayOfMonth = (selDate == null) ? -1 : selDate.getDate();
 
   var shownMonth = this.getShownMonth();
   var shownYear  = this.getShownYear();
@@ -506,7 +506,7 @@ qx.Proto.dispose = function() {
   for (var i = 0; i < this._weekdayLabelArr.length; i++) {
     this._weekdayLabelArr[i].dispose();
   }
-  this._weekdayLabelArr = null
+  this._weekdayLabelArr = null;
 
   for (var i = 0; i < this._dayLabelArr.length; i++) {
     this._dayLabelArr[i].dispose();

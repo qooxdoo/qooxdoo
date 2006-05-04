@@ -224,7 +224,7 @@ qx.ui.basic.Label._textToHtml = function(s)
 
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
-  var vNode = qx.ui.basic.Label._measureNodes[vId]
+  var vNode = qx.ui.basic.Label._measureNodes[vId];
 
   if (!vNode)
   {
