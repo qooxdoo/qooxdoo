@@ -324,7 +324,7 @@ qx.Proto._onScrollY = function(evt) {
     };
 
     this._internalChange = false;
-    qx.ui.core.Widget.flushGlobalQueues();
+    //qx.ui.core.Widget.flushGlobalQueues();
   }
 };
 
