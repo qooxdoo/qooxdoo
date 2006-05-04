@@ -331,7 +331,6 @@ qx.Proto.setColumnVisible = function(col, visible) {
  *    moved to.
  */
 qx.Proto.moveColumn = function(fromOverXPos, toOverXPos) {
-this.debug("move from " + fromOverXPos + " to " + toOverXPos);
   this._internalChange = true;
 
   var col = this._overallColumnArr[fromOverXPos];
