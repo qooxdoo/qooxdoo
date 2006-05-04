@@ -42,6 +42,9 @@ R_OPERATORS = re.compile(S_OPERATORS)
 R_REGEXP = re.compile(S_REGEXP)
 R_ALL = re.compile(S_ALL)
 
+
+
+
 parseLine = 0
 parseUniqueId = ""
 
@@ -63,23 +66,23 @@ def parseElement(content):
 
   if config.JSPROTECTED.has_key(content):
     # print "PROTECTED: %s" % PROTECTED[content]
-    return { "type" : "protected", "detail" : config.JSPROTECTED[content], "source" : content, "line" : parseLine, "file" : parseUniqueId }
+    return { "type" : "protected", "detail" : config.JSPROTECTED[content], "source" : content, "line" : parseLine, "id" : parseUniqueId }
 
   elif content in config.JSBUILTIN:
     # print "BUILTIN: %s" % content
-    return { "type" : "builtin", "detail" : "", "source" : content, "line" : parseLine, "file" : parseUniqueId }
+    return { "type" : "builtin", "detail" : "", "source" : content, "line" : parseLine, "id" : parseUniqueId }
 
   elif R_NUMBER.search(content):
     # print "NUMBER: %s" % content
-    return { "type" : "number", "detail" : "int", "source" : content, "line" : parseLine, "file" : parseUniqueId }
+    return { "type" : "number", "detail" : "int", "source" : content, "line" : parseLine, "id" : parseUniqueId }
 
   elif content.startswith("_"):
     # print "PRIVATE NAME: %s" % content
-    return { "type" : "name", "detail" : "private", "source" : content, "line" : parseLine, "file" : parseUniqueId }
+    return { "type" : "name", "detail" : "private", "source" : content, "line" : parseLine, "id" : parseUniqueId }
 
   elif len(content) > 0:
     # print "PUBLIC NAME: %s" % content
-    return { "type" : "name", "detail" : "public", "source" : content, "line" : parseLine, "file" : parseUniqueId }
+    return { "type" : "name", "detail" : "public", "source" : content, "line" : parseLine, "id" : parseUniqueId }
 
 
 
@@ -88,12 +91,12 @@ def parsePart(content):
   global parseUniqueId
   global parseLine
 
-  result = []
+  tokens = []
   temp = ""
 
   for line in R_NEWLINE.split(content):
     if line == "\n":
-      result.append({ "type" : "eol", "source" : "", "detail" : "", "line" : parseLine, "file" : parseUniqueId })
+      tokens.append({ "type" : "eol", "source" : "", "detail" : "", "line" : parseLine, "id" : parseUniqueId })
       parseLine += 1
 
     else:
@@ -102,30 +105,30 @@ def parsePart(content):
           if config.JSTOKENS.has_key(char):
             if temp != "":
               if R_NONWHITESPACE.search(temp):
-                result.append(parseElement(temp))
+                tokens.append(parseElement(temp))
 
               temp = ""
 
-            result.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : parseLine, "file" : parseUniqueId })
+            tokens.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : parseLine, "id" : parseUniqueId })
 
           else:
             temp += char
 
         if temp != "":
           if R_NONWHITESPACE.search(temp):
-            result.append(parseElement(temp))
+            tokens.append(parseElement(temp))
 
           temp = ""
 
-  return result
+  return tokens
 
 
 
-def parseFragmentLead(content, fragment, tokenized):
+def parseFragmentLead(content, fragment, tokens):
   pos = content.find(fragment)
 
   if pos > 0:
-    tokenized.extend(parsePart(recoverEscape(content[0:pos])))
+    tokens.extend(parsePart(recoverEscape(content[0:pos])))
 
   return content[pos+len(fragment):]
 
@@ -141,7 +144,7 @@ def parseStream(content, uniqueId):
   parseUniqueId = uniqueId
 
   # prepare storage
-  tokenized = []
+  tokens = []
   content = protectEscape(content)
 
   for item in R_ALL.findall(content):
@@ -149,50 +152,50 @@ def parseStream(content, uniqueId):
 
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
 
       parseLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine })
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "number", "detail" : "float", "source" : fragment, "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "number", "detail" : "float", "source" : fragment, "id" : parseUniqueId, "line" : parseLine })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
-      content = parseFragmentLead(content, fragment, tokenized)
-      tokenized.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "file" : parseUniqueId, "line" : parseLine })
+      content = parseFragmentLead(content, fragment, tokens)
+      tokens.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine })
 
     else:
       fragresult = R_REGEXP.search(fragment)
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
-        content = parseFragmentLead(content, fragresult.group(0), tokenized)
-        tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : parseUniqueId, "line" : parseLine })
+        content = parseFragmentLead(content, fragresult.group(0), tokens)
+        tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine })
 
       else:
         print "Type:None!"
 
-  tokenized.extend(parsePart(recoverEscape(content)))
-  tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : parseLine, "file" : parseUniqueId })
+  tokens.extend(parsePart(recoverEscape(content)))
+  tokens.append({ "type" : "eof", "source" : "", "detail" : "", "line" : parseLine, "id" : parseUniqueId })
 
-  return tokenized
+  return tokens
 
 
 
@@ -202,10 +205,10 @@ def parseFile(fileName, uniqueId=None):
 
 
 
-def convertTokensToString(tokenized):
+def convertTokensToString(tokens):
   tokenizedString = ""
 
-  for token in tokenized:
+  for token in tokens:
     tokenizedString += "%s%s" % (token, "\n")
 
   return tokenizedString
@@ -226,7 +229,7 @@ def main():
   else:
     print "tokenizer.py input.js [output.txt]"
     print "First Argument should be a JavaScript file."
-    print "Outputs tokenized string to stdout if second argument (the target file) is missing."
+    print "Outputs tokens string to stdout if second argument (the target file) is missing."
 
 
 
