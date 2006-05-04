@@ -25,6 +25,7 @@
 /* ************************************************************************
 
 #require(qx.ui.table.AbstractDataCellRenderer)
+#require(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
@@ -93,10 +94,10 @@ qx.Proto._getImgUrl = function(cellInfo) {
 
 
 /** {string} The URL of the icon showing a true value. */
-qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = "../../themes/widgets/windows/table/boolean-true.png" // "widgets/table/boolean-true.png";
+qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManager.buildUri("widgets/table/boolean-true.png");
 
 /** {string} The URL of the icon showing a false value. */
-qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = "../../themes/widgets/windows/table/boolean-false.png" // "widgets/table/boolean-false.png";
+qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageManager.buildUri("widgets/table/boolean-false.png");
 
 /** {string} The URL of the icon showing a null value. */
-qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = null;
+qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("core/blank.gif");
