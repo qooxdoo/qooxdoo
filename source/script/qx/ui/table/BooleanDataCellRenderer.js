@@ -39,31 +39,6 @@ function() {
 
 
 // overridden
-qx.Proto._createCellWidget = function() {
-  return new qx.ui.basic.Atom();
-};
-
-
-// overridden
-qx.Proto._initCellWidget = function(cellInfo, cellWidget) {
-  cellWidget.setHorizontalChildrenAlign("center");
-  cellWidget.setVerticalChildrenAlign("middle");
-
-  this.updateDataCell(cellInfo, cellWidget);
-};
-
-
-// overridden
-qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
-  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
-  switch (cellInfo.value) {
-    case true:  cellWidget.setIcon(BooleanDataCellRenderer.TRUE_ICON_URL); break;
-    case false: cellWidget.setIcon(BooleanDataCellRenderer.FALSE_ICON_URL); break;
-    default:    cellWidget.setIcon(BooleanDataCellRenderer.NULL_ICON_URL); break;
-  }
-};
-
-
 qx.Proto._getCellStyle = function(cellInfo) {
   var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
 
@@ -73,16 +48,25 @@ qx.Proto._getCellStyle = function(cellInfo) {
 };
 
 
+// overridden
 qx.Proto._getContentHtml = function(cellInfo) {
   return  '<img src="' + this._getImgUrl(cellInfo) + '"/>';
 }
 
 
+// overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   cellElement.firstChild.src = this._getImgUrl(cellInfo);
 };
 
 
+/**
+ * Returns the URL of the image to show.
+ *
+ * @param cellInfo {Map} The information about the cell.
+ *        See {@link #createDataCellHtml}.
+ * @return {string} the URL of the image to show.
+ */
 qx.Proto._getImgUrl = function(cellInfo) {
   var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
   switch (cellInfo.value) {

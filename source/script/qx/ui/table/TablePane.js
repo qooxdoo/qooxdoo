@@ -41,7 +41,6 @@
 qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
 function() {
   qx.ui.basic.Terminator.call(this);
-  //qx.ui.layout.GridLayout.call(this);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
@@ -188,14 +187,6 @@ qx.Proto._onWidthChanged = function(evt) {
   this._updateContent(true);
 };
 
-qx.Proto._onWidthChanged_old = function(evt) {
-  var data = evt.getData();
-  var x = this.getTablePaneModel().getX(data.col);
-  if (x != -1 && x < this.getColumnCount()) {
-    this.setColumnWidth(x, data.newWidth);
-  }
-};
-
 
 /**
  * Event handler. Called the column order has changed.
@@ -242,30 +233,6 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 };
 
 
-/*
-qx.Proto._updateCell = function(x, y, completeUpdate) {
-  var paneModel = this.getTablePaneModel();
-
-  var firstRow = this.getFirstVisibleRow();
-  var row = firstRow + y;
-  var childIndex = y * paneModel.getColumnCount() + x;
-
-  // Remove the old widget if nessesary
-  if (completeUpdate) {
-    var widget = this.getChildren()[childIndex];
-    this.remove(widget);
-    widget.dispose();
-  }
-
-  // Update the cell
-  var cellInfo = { row:row,
-           selected:this.getSelectionModel().isSelectedIndex(row),
-           focusedRow:(this._focusedRow == row) };
-  this._updateCellWidget(x, y, childIndex, cellInfo);
-};
-*/
-
-
 /**
  * Updates the content of the pane.
  *
@@ -278,9 +245,6 @@ qx.Proto._updateCell = function(x, y, completeUpdate) {
 qx.Proto._updateContent = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
-  //var logger = this.getLogger();
-  //logger.measure("Start updateContent");
-
   var selectionModel = this.getSelectionModel();
   var tableModel = this.getTableModel();
   var columnModel = this.getTableColumnModel();
@@ -378,128 +342,6 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
-
-  //logger.measure("End updateContent");
-  //logger.measureReset();
-};
-
-
-qx.Proto._updateContent_old = function(completeUpdate, onlyRow) {
-  var logger = this.getLogger();
-  logger.measure("Start updateContent");
-  // logger.indent();
-  var selectionModel = this.getSelectionModel();
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
-
-  var colCount = paneModel.getColumnCount();
-  var rowHeight = this.getTableRowHeight();
-
-  var children = this.getChildren();
-
-  var firstRow = this.getFirstVisibleRow();
-  var rowCount = this.getVisibleRowCount();
-  var modelRowCount = tableModel.getRowCount();
-  if (firstRow + rowCount > modelRowCount) {
-    rowCount = Math.max(0, modelRowCount - firstRow);
-  }
-
-  // Remove the rows that are not needed any more
-  if (completeUpdate || this._lastRowCount > rowCount) {
-    var firstRowToRemove = completeUpdate ? 0 : rowCount;
-    this._cleanUpRows(firstRowToRemove);
-  }
-
-  // Set up the columns
-  if (colCount != this._lastRowCount) {
-    this.setColumnCount(colCount);
-    for (var x = 0; x < colCount; x++) {
-      var col = paneModel.getColumnAtX(x);
-      this.setColumnWidth(x, columnModel.getColumnWidth(col));
-    }
-  }
-
-  // Set up the new rows
-  if (this._lastRowCount < rowCount) {
-    this.setRowCount(rowCount);
-    for (var y = this._lastRowCount; y < rowCount; y++) {
-      this.setRowHeight(y, rowHeight);
-    }
-  }
-
-  // logger.measure("updateContent 1");
-  // Update or add the visible rows
-  var childIndex = 0;
-  var cellInfo = {};
-  // logger.indent();
-  for (var y = 0; y < rowCount; y++) {
-  // logger.measure("row " + y);
-    var row = firstRow + y;
-    if ((onlyRow != null) && (row != onlyRow)) {
-      childIndex += colCount;
-      continue;
-    }
-
-    cellInfo.row = row;
-    cellInfo.selected = selectionModel.isSelectedIndex(row);
-    cellInfo.focusedRow = (this._focusedRow == row);
-
-    // Update this row
-    for (var x = 0; x < colCount; x++) {
-      this._updateCellWidget(x, y, childIndex, cellInfo);
-      childIndex++;
-    }
-  }
-
-  this.setHeight(rowCount * rowHeight);
-
-  this._lastColCount = colCount;
-  this._lastRowCount = rowCount;
-  // logger.unindent();
-  logger.measure("End updateContent");
-  logger.measureReset();
-};
-
-
-/**
- * Updates or creates one cell widget.
- *
- * @param x {int} the x position of the cell in the pane.
- * @param y {int} the y position of the cell in the pane.
- * @param childIndex {int} the index of the cell widget in the child array.
- * @param cellInfo {Map} the cell info object to use. This has to be prefilled
- *    with the information that stays fixed in one row.
- */
-qx.Proto._updateCellWidget = function(x, y, childIndex, cellInfo) {
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
-
-  var colCount = paneModel.getColumnCount();
-  var col = paneModel.getColumnAtX(x);
-  var row = cellInfo.row;
-
-  cellInfo.xPos = x;
-  cellInfo.col = col;
-  cellInfo.editable = tableModel.isColumnEditable(col);
-  cellInfo.focusedCol = (this._focusedCol == col);
-  cellInfo.value = tableModel.getValue(col, row);
-
-  // Get the cached widget
-  var cellWidget = this.getChildren()[y * colCount + x];
-
-  // Create or update the widget
-  var cellRenderer = columnModel.getDataCellRenderer(col);
-  if (cellWidget == null) {
-    // We have no cached widget -> create it
-    cellWidget = cellRenderer.createDataCell(cellInfo);
-    cellWidget.set({ width:qx.constant.Core.HUNDREDPERCENT, height:qx.constant.Core.HUNDREDPERCENT });
-    this.add(cellWidget, x, y);
-  } else {
-    // This widget already created before -> recycle it
-    cellRenderer.updateDataCell(cellInfo, cellWidget);
-  }
 };
 
 
@@ -517,23 +359,6 @@ qx.Proto._cleanUpRows = function(firstRowToRemove) {
     var colCount = paneModel.getColumnCount();
     for (var y = childNodes.length - 1; y >= firstRowToRemove; y--) {
       elem.removeChild(childNodes[y]);
-    }
-  }
-};
-
-
-qx.Proto._cleanUpRows_old = function(firstRowToRemove) {
-  var children = this.getChildren();
-  if (children.length != 0) {
-    var childIndex = children.length - 1;
-    var colCount = this.getColumnCount();
-    for (var y = this._lastRowCount - 1; y >= firstRowToRemove; y--) {
-      for (var x = 0; x < colCount; x++) {
-        var cellWidget = children[childIndex];
-        this.remove(cellWidget);
-        cellWidget.dispose();
-        childIndex--;
-      }
     }
   }
 };
