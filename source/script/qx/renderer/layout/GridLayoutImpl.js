@@ -193,7 +193,7 @@ qx.Proto.computeChildrenNeededHeight = function()
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONX);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
 
   return true;
 };
@@ -205,7 +205,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
 
   return true;
 };

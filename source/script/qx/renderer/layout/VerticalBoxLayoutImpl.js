@@ -384,7 +384,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 
   // priority to childs internal alignment
   if ((vChild.getHorizontalAlign() || this.getWidget().getHorizontalChildrenAlign()) == qx.constant.Layout.ALIGN_CENTER) {
-    vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONX);
+    vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
   };
 
   // inform the caller if there were any notable changes occured
@@ -398,7 +398,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   if (this.getWidget().getVerticalChildrenAlign() == qx.constant.Layout.ALIGN_MIDDLE) {
-    vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+    vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
   };
 
   // use variables here to be sure to call both methods.
@@ -457,11 +457,11 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 
   // different updates depending from the current orientation (or the new one)
   if (vQueue.spacing || vQueue.orientation || vQueue.reverseChildrenOrder || vQueue.verticalChildrenAlign) {
-    vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.C_JOB_LOCATIONY);
+    vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATIONY);
   };
 
   if (vQueue.horizontalChildrenAlign) {
-    vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.C_JOB_LOCATIONX);
+    vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATIONX);
   };
 
   if (vQueue.stretchChildrenOrthogonalAxis) {
@@ -526,7 +526,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     case qx.constant.Layout.ALIGN_BOTTOM:
     case qx.constant.Layout.ALIGN_TOP_REVERSED:
       while((chc=ch[++i]) && i<vIndex) {
-        chc.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
       };
 
       break;
@@ -534,7 +534,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     case qx.constant.Layout.ALIGN_MIDDLE:
     case qx.constant.Layout.ALIGN_MIDDLE_REVERSED:
       while(chc=ch[++i]) {
-        chc.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
       };
 
       break;
@@ -542,7 +542,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     default:
       i+=vIndex;
       while(chc=ch[++i]) {
-        chc.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+        chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
       };
   };
 };
@@ -560,7 +560,7 @@ qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
   var vStop = Math.max(vIndex, vOldIndex)+1;
 
   for (var i=vStart; i<vStop; i++) {
-    vChildren[i].addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATIONY);
+    vChildren[i].addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
   };
 };
 

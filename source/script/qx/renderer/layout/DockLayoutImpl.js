@@ -156,7 +156,7 @@ qx.Proto.computeChildBoxHeight = function(vChild)
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -169,7 +169,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.C_JOB_LOCATION);
+  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -208,7 +208,7 @@ qx.Proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
 qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.mode || vQueue.addChild || vQueue.removeChild) {
-    this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.C_JOB_LOCATION);
+    this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATION);
   };
 };
 
