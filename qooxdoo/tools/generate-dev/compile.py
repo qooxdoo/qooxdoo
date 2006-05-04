@@ -211,22 +211,18 @@ def main():
       fileContent = file(scanResult["files"][uniqueId], "r").read()
 
       print "    * tokenizing source: %s KB" % (len(fileContent) / 1000)
-      tokenizedFileContent = tokenizer.parseStream(fileContent, uniqueId)
+      tokens = tokenizer.parseStream(fileContent, uniqueId)
 
       if cmds["generateTokenized"]:
-        tokenizedString = ""
+        tokenString = tokenizer.convertTokensToString(tokens)
+        tokenFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
 
-        for token in tokenizedFileContent:
-          tokenizedString += "%s%s" % (token, "\n")
+        print "    * writing tokens to file (%s KB)..." % (len(tokenString) / 1000)
 
-        tokenizedFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
-
-        print "    * writing tokens to file (%s KB)..." % (len(tokenizedString) / 1000)
-
-        tokenizedFile = file(tokenizedFileName, "w")
-        tokenizedFile.write(tokenizedString)
-        tokenizedFile.flush()
-        tokenizedFile.close()
+        tokenFile = file(tokenFileName, "w")
+        tokenFile.write(tokenString)
+        tokenFile.flush()
+        tokenFile.close()
 
 
 
