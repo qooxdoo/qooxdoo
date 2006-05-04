@@ -15,7 +15,9 @@ def printHelp():
   print
 
   # Jobs
-  print "  -b,  --generate-build             generate build version"
+  print "  -c,  --generate-compressed        generate compressed version"
+  print "  -t   --generate-tokenized         generate tokenized output"
+  print "  -n   --encode-names               enable name encoding (compression)"
   print "  -f,  --print-files                print known files"
   print "  -p,  --print-packages             print known packages"
   print "  -s,  --print-sorted               print sorted include list"
@@ -37,6 +39,23 @@ def printHelp():
 
 
 
+compTableBase36 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def compressToken(nr, tbd):
+  l = len(tbd)
+
+  # TODO: Make this much better, really ugly this way
+  prefix = "$" * (1 + (nr / l))
+  postfix = tbd[nr%l]
+
+  return prefix + postfix
+
+
+
+
+
+
 
 def main():
   cmds = {}
@@ -49,8 +68,9 @@ def main():
   cmds["outputBuild"] = "build/script"
 
   # Jobs
-  cmds["generateBuild"] = False
+  cmds["generateCompressed"] = False
   cmds["generateTokenized"] = False
+  cmds["encodeNames"] = False
   cmds["printKnownFiles"] = False
   cmds["printKnownPackages"] = False
   cmds["printSortedIdList"] = False
@@ -97,11 +117,14 @@ def main():
 
 
     # Jobs
-    elif c == "-b" or c == "--generate-build":
-      cmds["generateBuild"] = True
+    elif c == "-c" or c == "--generate-compressed":
+      cmds["generateCompressed"] = True
 
     elif c == "-t" or c == "--generate-tokenized":
       cmds["generateTokenized"] = True
+
+    elif c == "-n" or c == "--encode-names":
+      cmds["encodeNames"] = True
 
     elif c == "-f" or c == "--print-files":
       cmds["printKnownFiles"] = True
@@ -164,7 +187,7 @@ def main():
   if cmds["generateTokenized"] and cmds["outputTokenized"] != "" and not os.path.exists(cmds["outputTokenized"]):
     os.makedirs(cmds["outputTokenized"])
 
-  if cmds["generateBuild"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
+  if cmds["generateCompressed"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
     os.makedirs(cmds["outputBuild"])
 
 
@@ -199,7 +222,11 @@ def main():
     for key in sortedIncludeList:
       print "  * %s" % key
 
-  if cmds["generateBuild"] or cmds["generateTokenized"]:
+  if cmds["encodeNames"]:
+    encodedNames = {}
+    encodedNamesNumber = 0
+
+  if cmds["generateCompressed"] or cmds["generateTokenized"]:
     print
     print "  BUIDLING FILES:"
     print "***********************************************************************************************"
@@ -230,8 +257,27 @@ def main():
         tokenFile.close()
 
 
-      if cmds["generateBuild"]:
-        print "    * compressing tokens..."
+      if cmds["encodeNames"]:
+        print "    * encoding names..."
+
+        for token in tokens:
+          if token["type"] == "name" and len(token["source"]) > 3 and (token["source"][0] == "_" or token["source"].upper() == token["source"]):
+            if not encodedNames.has_key(token["source"]):
+              compressedToken = compressToken(encodedNamesNumber, compTableBase36)
+              if len(compressedToken) < len(token["source"]):
+                encodedNames[token["source"]] = compressedToken
+                encodedNamesNumber += 1
+              else:
+                encodedNames[token["source"]] = token["source"]
+
+            token["source"] = encodedNames[token["source"]]
+
+
+
+      # TODO: Erst Anzahl zählen, dann sortiert nach diesen komprimieren
+      #       Ergebnis: Häufigste Names werden am Kleinsten
+      if cmds["generateCompressed"]:
+        print "    * compressing..."
 
         compString = ""
         lastSource = ""
@@ -300,7 +346,7 @@ def main():
 
 
 
-    if cmds["generateBuild"]:
+    if cmds["generateCompressed"]:
       compFileName = os.path.join(cmds["outputBuild"], "qooxdoo" + config.JSEXT)
 
       compFile = file(compFileName, "w")
