@@ -147,8 +147,9 @@ def parseStream(content, uniqueId):
 
   # prepare storage
   tokenized = []
+  content = protectEscape(content)
 
-  for item in R_ALL.findall(protectEscape(content)):
+  for item in R_ALL.findall(content):
     fragment = item[0]
 
     if R_MULTICOMMENT.match(fragment):
