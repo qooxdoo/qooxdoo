@@ -47,25 +47,6 @@ qx.OO.addProperty({ name:"useAutoAlign", type:qx.constant.Type.BOOLEAN, defaultV
 
 
 // overridden
-qx.Proto._createCellWidget = function() {
-  return new qx.ui.embed.TextEmbed();
-};
-
-
-// overridden
-qx.Proto._updateDataCellContent = function(cellInfo, cellWidget) {
-  cellWidget.setText(this._formatValue(cellInfo.value));
-
-  if (this.getUseAutoAlign()) {
-    if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
-      cellWidget.setTextAlign("right");
-    } else {
-      cellWidget.setTextAlign("left");
-    }
-  }
-};
-
-
 qx.Proto._getCellStyle = function(cellInfo) {
   var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
 
@@ -79,11 +60,13 @@ qx.Proto._getCellStyle = function(cellInfo) {
 };
 
 
+// overridden
 qx.Proto._getContentHtml = function(cellInfo) {
   return this._formatValue(cellInfo.value);
 };
 
 
+// overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   cellElement.firstChild.nodeValue = this._formatValue(cellInfo.value);
 };
