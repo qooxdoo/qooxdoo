@@ -57,11 +57,6 @@ def recoverEscape(s):
 
 
 
-
-
-
-
-
 def parseElement(content):
   global parseUniqueId
   global parseLine
@@ -194,7 +189,6 @@ def parseStream(content, uniqueId):
       else:
         print "Type:None!"
 
-
   tokenized.extend(parsePart(recoverEscape(content)))
   tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : parseLine, "file" : parseUniqueId })
 
@@ -202,6 +196,52 @@ def parseStream(content, uniqueId):
 
 
 
-def parseFile(fileName, uniqueId):
+def parseFile(fileName, uniqueId=None):
   return parseStream(file(fileName, "r").read(), uniqueId)
 
+
+
+
+def convertTokensToString(tokenized):
+  tokenizedString = ""
+
+  for token in tokenized:
+    tokenizedString += "%s%s" % (token, "\n")
+
+  return tokenizedString
+
+
+
+def main():
+  if len(sys.argv) >= 2:
+    tokenString = convertTokensToString(parseFile(sys.argv[1]))
+    if len(sys.argv) >= 3:
+      tokenFile = file(sys.argv[2], "w")
+      tokenFile.write(tokenString)
+      tokenFile.flush()
+      tokenFile.close()
+    else:
+      print tokenString
+
+  else:
+    print "tokenizer.py input.js [output.txt]"
+    print "First Argument should be a JavaScript file."
+    print "Outputs tokenized string to stdout if second argument (the target file) is missing."
+
+
+
+if __name__ == '__main__':
+  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
+    raise RuntimeError, "Please upgrade to >= Python 2.3"
+
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  STOPPED"
+    print "***********************************************************************************************"
+
+  except:
+    print "Unexpected error:", sys.exc_info()[0]
+    raise
