@@ -94,19 +94,19 @@ qx.Class.STATE_FOCUSED = "focused";
 qx.Class.STATE_DISABLED = "disabled";
 
 // Job constants
-qx.Class.C_JOB_INITIAL = "initial";
-qx.Class.C_JOB_VISIBLE = "visible";
-qx.Class.C_JOB_LOCATION = "location";
-qx.Class.C_JOB_LOCATIONX = "locationX";
-qx.Class.C_JOB_LOCATIONY = "locationY";
-qx.Class.C_JOB_ADDCHILD = "addChild";
-qx.Class.C_JOB_REMOVECHILD = "removeChild";
-qx.Class.C_JOB_FRAMEWIDTH = "frameWidth";
-qx.Class.C_JOB_FRAMEHEIGHT = "frameHeight";
-qx.Class.C_JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
-qx.Class.C_JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
+qx.Class.JOB_INITIAL = "initial";
+qx.Class.JOB_VISIBLE = "visible";
+qx.Class.JOB_LOCATION = "location";
+qx.Class.JOB_LOCATIONX = "locationX";
+qx.Class.JOB_LOCATIONY = "locationY";
+qx.Class.JOB_ADDCHILD = "addChild";
+qx.Class.JOB_REMOVECHILD = "removeChild";
+qx.Class.JOB_FRAMEWIDTH = "frameWidth";
+qx.Class.JOB_FRAMEHEIGHT = "frameHeight";
+qx.Class.JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
+qx.Class.JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
 
-qx.Class.C_FOCUS_OUTLINE = "1px dotted invert";
+qx.Class.FOCUS_OUTLINE = "1px dotted invert";
 
 
 /*
@@ -1268,7 +1268,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
     propOldValue.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
 
     // Inform job queue
-    propOldValue.addToJobQueue(qx.ui.core.Widget.C_JOB_REMOVECHILD);
+    propOldValue.addToJobQueue(qx.ui.core.Widget.JOB_REMOVECHILD);
 
     // Invalidate inner preferred dimensions
     propOldValue._invalidatePreferredInnerDimensions();
@@ -1368,12 +1368,12 @@ qx.Proto._handleDisplayable = function(vHint)
       vParent.getLayoutImpl().updateChildrenOnAddChild(this, vParent.getChildren().indexOf(this));
 
       // Inform parents job queue
-      vParent.addToJobQueue(qx.ui.core.Widget.C_JOB_ADDCHILD);
+      vParent.addToJobQueue(qx.ui.core.Widget.JOB_ADDCHILD);
     };
 
     // Add to parents children queue
     // (indirectly with a new layout request)
-    this.addToLayoutChanges(qx.ui.core.Widget.C_JOB_INITIAL);
+    this.addToLayoutChanges(qx.ui.core.Widget.JOB_INITIAL);
 
     // Add to custom queues
     this.addToCustomQueues(vHint);
@@ -1434,7 +1434,7 @@ qx.Proto._handleDisplayable = function(vHint)
         vParent.getLayoutImpl().updateChildrenOnRemoveChild(this, vParent.getChildren().indexOf(this));
 
         // Inform parents job queue
-        vParent.addToJobQueue(qx.ui.core.Widget.C_JOB_REMOVECHILD);
+        vParent.addToJobQueue(qx.ui.core.Widget.JOB_REMOVECHILD);
 
         // Before Remove DOM Event
         this._beforeRemoveDom();
@@ -3792,7 +3792,7 @@ else if (qx.sys.Client.isGecko())
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("MozOutline", qx.ui.core.Widget.C_FOCUS_OUTLINE);
+        this.setStyleProperty("MozOutline", qx.ui.core.Widget.FOCUS_OUTLINE);
       };
     }
     else
@@ -3809,7 +3809,7 @@ else
     {
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
-        this.setStyleProperty("outline", qx.ui.core.Widget.C_FOCUS_OUTLINE);
+        this.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_OUTLINE);
       };
     }
     else
