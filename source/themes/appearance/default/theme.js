@@ -2343,7 +2343,7 @@ theme.registerAppearance("table-data-cell", {
 
   state : function(vWidget, vTheme, vStates) {
     var ret = {
-      color : vStates.selected ? this.selectedColor : this.color,
+      color : vStates.selected ? this.selectedColor : this.color
     };
 
     if (vStates.focusedRow) {
