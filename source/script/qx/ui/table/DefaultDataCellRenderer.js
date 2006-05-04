@@ -84,6 +84,11 @@ qx.Proto._getContentHtml = function(cellInfo) {
 };
 
 
+qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+  cellElement.firstChild.nodeValue = this._formatValue(cellInfo.value);
+};
+
+
 /**
  * Formats a value.
  *

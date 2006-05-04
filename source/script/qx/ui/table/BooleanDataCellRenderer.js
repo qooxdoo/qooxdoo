@@ -73,20 +73,23 @@ qx.Proto._getCellStyle = function(cellInfo) {
 
 
 qx.Proto._getContentHtml = function(cellInfo) {
-  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
-  var imgUrl;
-  switch (cellInfo.value) {
-    case true:  imgUrl = BooleanDataCellRenderer.TRUE_ICON_URL; break;
-    case false: imgUrl = BooleanDataCellRenderer.FALSE_ICON_URL; break;
-    default:    imgUrl = BooleanDataCellRenderer.NULL_ICON_URL; break;
-  }
-
-  if (imgUrl) {
-    return  '<img src="' + imgUrl + '"/>';
-  } else {
-    return "";
-  }
+  return  '<img src="' + this._getImgUrl(cellInfo) + '"/>';
 }
+
+
+qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+  cellElement.firstChild.src = this._getImgUrl(cellInfo);
+};
+
+
+qx.Proto._getImgUrl = function(cellInfo) {
+  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
+  switch (cellInfo.value) {
+    case true:  return BooleanDataCellRenderer.TRUE_ICON_URL; break;
+    case false: return BooleanDataCellRenderer.FALSE_ICON_URL; break;
+    default:    return BooleanDataCellRenderer.NULL_ICON_URL; break;
+  }
+};
 
 
 /** {string} The URL of the icon showing a true value. */

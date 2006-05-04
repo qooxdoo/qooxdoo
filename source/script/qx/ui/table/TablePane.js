@@ -162,8 +162,8 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
     // Update the focused row background
     if (row != oldRow && !massUpdate) {
       // NOTE: Only the old and the new row need update
-      this._updateContent(null, oldRow);
-      this._updateContent(null, row);
+      this._updateContent(false, oldRow, true);
+      this._updateContent(false, row, true);
     }
   }
 };
@@ -175,7 +175,7 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
  * @param evt {Map} the event.
  */
 qx.Proto._onSelectionChanged = function(evt) {
-  this._updateContent();
+  this._updateContent(false, null, true);
 };
 
 
@@ -272,8 +272,12 @@ qx.Proto._updateCell = function(x, y, completeUpdate) {
  * @param completeUpdate {boolean,false} if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
  * @param onlyRow {int,null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {boolean,false} if true, cell values won't
+ *        be updated. Only the row background will.
  */
-qx.Proto._updateContent = function(completeUpdate, onlyRow) {
+qx.Proto._updateContent = function(completeUpdate, onlyRow,
+  onlySelectionOrFocusChanged)
+{
   //var logger = this.getLogger();
   //logger.measure("Start updateContent");
 
@@ -339,32 +343,34 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow) {
     }
     rowElem.style.color = cellInfo.selected ? "white" : "black";
 
-    var html = "";
-    var left = 0;
-    for (var x = 0; x < colCount; x++) {
-      var col = paneModel.getColumnAtX(x);
-      cellInfo.xPos = x;
-      cellInfo.col = col;
-      cellInfo.editable = tableModel.isColumnEditable(col);
-      cellInfo.focusedCol = (this._focusedCol == col);
-      cellInfo.value = tableModel.getValue(col, row);
-      var width = columnModel.getColumnWidth(col);
-      cellInfo.style = 'position:absolute; left:' + left + 'px; top:0px; '
-        + 'width:' + width +'px; height:' + rowHeight + 'px';
-
-      var cellRenderer = columnModel.getDataCellRenderer(col);
-      if (recyleRowElem) {
-        var cellElem = rowElem.childNodes[x];
-        cellRenderer.updateDataCellElement(cellInfo, cellElem);
-      } else {
-        html += cellRenderer.createDataCellHtml(cellInfo);
+    if (!recyleRowElem || !onlySelectionOrFocusChanged) {
+      var html = "";
+      var left = 0;
+      for (var x = 0; x < colCount; x++) {
+        var col = paneModel.getColumnAtX(x);
+        cellInfo.xPos = x;
+        cellInfo.col = col;
+        cellInfo.editable = tableModel.isColumnEditable(col);
+        cellInfo.focusedCol = (this._focusedCol == col);
+        cellInfo.value = tableModel.getValue(col, row);
+        var width = columnModel.getColumnWidth(col);
+        cellInfo.style = 'position:absolute; left:' + left + 'px; top:0px; '
+          + 'width:' + width +'px; height:' + rowHeight + 'px';
+  
+        var cellRenderer = columnModel.getDataCellRenderer(col);
+        if (recyleRowElem) {
+          var cellElem = rowElem.childNodes[x];
+          cellRenderer.updateDataCellElement(cellInfo, cellElem);
+        } else {
+          html += cellRenderer.createDataCellHtml(cellInfo);
+        }
+  
+        left += width;
       }
-
-      left += width;
-    }
-    if (! recyleRowElem) {
-      rowElem.style.width = left + "px";
-      rowElem.innerHTML = html;
+      if (! recyleRowElem) {
+        rowElem.style.width = left + "px";
+        rowElem.innerHTML = html;
+      }
     }
   }
 
