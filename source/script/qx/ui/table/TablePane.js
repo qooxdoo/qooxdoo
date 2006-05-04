@@ -149,8 +149,10 @@ qx.Proto.calculateTableRowHeight = function() {
  *
  * @param col {int} the model index of the focused cell's column.
  * @param row {int} the model index of the focused cell's row.
+ * @param massUpdate {boolean,false} Whether other updates are planned as well.
+ *        If true, no repaint will be done.
  */
-qx.Proto.setFocusedCell = function(col, row) {
+qx.Proto.setFocusedCell = function(col, row, massUpdate) {
   if (col != this._focuesCol || row != this._focusedRow) {
     var oldCol = this._focusedCol;
     var oldRow = this._focusedRow;
@@ -158,7 +160,7 @@ qx.Proto.setFocusedCell = function(col, row) {
     this._focusedRow = row;
 
     // Update the focused row background
-    if (row != oldRow) {
+    if (row != oldRow && !massUpdate) {
       // NOTE: Only the old and the new row need update
       this._updateContent(null, oldRow);
       this._updateContent(null, row);

@@ -302,7 +302,7 @@ qx.Proto._updateHorScrollBarMaximum = function() {
 // overridden
 qx.Proto._changeInnerHeight = function(newValue, oldValue) {
   // The height has changed -> Update content
-  this._posponedUpdateContent();
+  this._postponedUpdateContent();
 
   return qx.ui.layout.DockLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
 };
@@ -348,7 +348,7 @@ qx.Proto._onScrollX = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onScrollY = function(evt) {
-  this._posponedUpdateContent();
+  this._postponedUpdateContent();
   this.setScrollY(evt.getData());
 };
 
@@ -735,13 +735,15 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
  */
 qx.Proto.setFocusedCell = function(col, row) {
   if (!this.isEditing()) {
-    this._tablePane.setFocusedCell(col, row);
+    this._tablePane.setFocusedCell(col, row, this._updateContentPlanned);
 
     this._focusedCol = col;
     this._focusedRow = row;
 
     // Move the focus indicator
-    this._updateFocusIndicator();
+    if (! this._updateContentPlanned) {
+      this._updateFocusIndicator();
+    }
   }
 };
 
@@ -961,10 +963,10 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperBottomY = qx.dom.DomLocation.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
-    var paneOffset = this._paneClipper.getScrollTop();
-    var firstRow = this._tablePane.getFirstVisibleRow();
+    var scrollY = this._verScrollBar.getValue();
+    var tableY = scrollY + pageY - paneClipperTopY;
     var rowHeight = this._tablePane.getTableRowHeight();
-    var row = Math.floor(firstRow + ((pageY - paneClipperTopY + paneOffset) / rowHeight));
+    var row = Math.floor(tableY / rowHeight);
 
     var rowCount = this.getTableModel().getRowCount();
     return (row < rowCount) ? row : null;
@@ -1079,11 +1081,11 @@ qx.Proto.getNeededScrollBars = function(forceHorizontal, preventVertical) {
 
 
 /**
- * Does a posponed update of the content.
+ * Does a postponed update of the content.
  *
  * @see #_updateContent
  */
-qx.Proto._posponedUpdateContent = function() {
+qx.Proto._postponedUpdateContent = function() {
   if (! this._updateContentPlanned) {
     var self = this;
     window.setTimeout(function() {
@@ -1091,9 +1093,9 @@ qx.Proto._posponedUpdateContent = function() {
       // qx.ui.core.Widget.flushGlobalQueues();
       // self.debug("...Flushing queue (TablePaneScroller 3)");
       self._updateContent();
-      self.debug("Flushing queue (TablePaneScroller 4)...");
-      qx.ui.core.Widget.flushGlobalQueues();
-      self.debug("...Flushing queue (TablePaneScroller 4)");
+      // self.debug("Flushing queue (TablePaneScroller 4)...");
+      // qx.ui.core.Widget.flushGlobalQueues();
+      // self.debug("...Flushing queue (TablePaneScroller 4)");
       self._updateContentPlanned = false;
     }, 0);
     this._updateContentPlanned = true;
