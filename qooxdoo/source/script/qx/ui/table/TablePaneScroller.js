@@ -532,6 +532,11 @@ qx.Proto._onmouseup = function(evt) {
         var fromOverXPos = columnModel.getOverallX(fromCol);
         var toOverXPos = (toCol != null) ? columnModel.getOverallX(toCol) : columnModel.getOverallColumnCount();
 
+        if (toOverXPos > fromOverXPos) {
+          // Don't count the column itself
+          toOverXPos--;
+        }
+
         // Move the column
         columnModel.moveColumn(fromOverXPos, toOverXPos);
       }
