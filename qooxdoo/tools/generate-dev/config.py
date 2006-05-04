@@ -148,3 +148,6 @@ JSPROTECTED = {
   "call" : "CALL",
   "apply" : "APPLY"
 }
+
+JSSPACE_BEFORE = [ "INSTANCEOF", "TYPEOF", "IN" ]
+JSSPACE_AFTER = [ "VAR", "NEW", "RETURN", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE" ]

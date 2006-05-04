@@ -115,10 +115,10 @@ qx.Proto.handleKeyDown = function(index, evt) {
 qx.Proto._handleSelectEvent = function(index, evt) {
   var selectionModel = this.getSelectionModel();
   if (evt.getShiftKey()) {
-    var leadIndex = selectionModel.getLeadSelectionIndex()
+    var leadIndex = selectionModel.getLeadSelectionIndex();
     if (index != leadIndex || selectionModel.isSelectionEmpty()) {
       // The lead selection index was changed
-      var anchorIndex = selectionModel.getAnchorSelectionIndex()
+      var anchorIndex = selectionModel.getAnchorSelectionIndex();
       if (evt.isCtrlOrCommandPressed()) {
         selectionModel.addSelectionInterval(anchorIndex, index);
       } else {

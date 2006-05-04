@@ -204,20 +204,25 @@ def main():
     print "  BUIDLING FILES:"
     print "***********************************************************************************************"
 
+    compAllString = ""
+
     for uniqueId in sortedIncludeList:
       print "  * %s" % uniqueId
 
       print "    * reading..."
       fileContent = file(scanResult["files"][uniqueId], "r").read()
+      fileSize = len(fileContent) / 1000.0
 
-      print "    * tokenizing source: %s KB" % (len(fileContent) / 1000)
+      print "    * tokenizing source (%s KB)..." % fileSize
       tokens = tokenizer.parseStream(fileContent, uniqueId)
 
       if cmds["generateTokenized"]:
         tokenString = tokenizer.convertTokensToString(tokens)
-        tokenFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
+        tokenSize = len(tokenString) / 1000.0
 
-        print "    * writing tokens to file (%s KB)..." % (len(tokenString) / 1000)
+        print "    * writing tokens to file (%s KB)..." % tokenSize
+
+        tokenFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
 
         tokenFile = file(tokenFileName, "w")
         tokenFile.write(tokenString)
@@ -225,8 +230,83 @@ def main():
         tokenFile.close()
 
 
+      if cmds["generateBuild"]:
+        print "    * compressing tokens..."
+
+        compString = ""
+        lastSource = ""
+
+        for token in tokens:
+          if token["type"] == "comment" or token["type"] == "eol" or token["type"] == "eof":
+            continue
 
 
+
+          if token["type"] == "protected":
+            if token["detail"] in config.JSSPACE_BEFORE:
+              compString += " "
+
+          if token["type"] == "string":
+            if token["detail"] == "doublequotes":
+              compString += "\""
+            else:
+              compString += "'"
+
+          if token["source"] == "if" and lastSource == "else":
+            compString += " "
+
+          # We need to seperate special blocks (could also be a new line)
+          if lastSource == "}" and token["type"] == "name":
+            compString += ";"
+
+
+          compString += token["source"]
+
+          if token["type"] == "string":
+            if token["detail"] == "doublequotes":
+              compString += "\""
+            else:
+              compString += "'"
+
+          if token["type"] == "protected":
+            if token["detail"] in config.JSSPACE_AFTER:
+              compString += " "
+
+          if token["source"] == ";":
+            compString += "\n"
+
+
+          lastSource = token["source"]
+
+
+
+
+        compAllString += "\n/* " + uniqueId + " */\n" + compString
+
+
+        compSize = len(compString) / 1000.0
+        compFactor = 100 - (compSize / fileSize * 100)
+
+        print "    * writing compressed code to file (%s KB)..." % compSize
+        print ("    * compression: %i" % compFactor) + "%"
+
+        compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
+
+        compFile = file(compFileName, "w")
+        compFile.write(compString)
+        compFile.flush()
+        compFile.close()
+
+
+
+
+    if cmds["generateBuild"]:
+      compFileName = os.path.join(cmds["outputBuild"], "qooxdoo" + config.JSEXT)
+
+      compFile = file(compFileName, "w")
+      compFile.write(compAllString)
+      compFile.flush()
+      compFile.close()
 
 
 

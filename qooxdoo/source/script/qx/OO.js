@@ -25,6 +25,7 @@
 #id(qx.OO)
 #package(core)
 #use(qx.lang.Core)
+#use(qx.lang.String)
 #use(qx.util.Validation)
 #use(qx.constant.Type)
 #use(qx.constant.Core)

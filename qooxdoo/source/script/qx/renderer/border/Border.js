@@ -24,6 +24,7 @@
 
 #package(border)
 #require(qx.renderer.color.ColorObject)
+#require(qx.lang.Object)
 
 ************************************************************************ */
 

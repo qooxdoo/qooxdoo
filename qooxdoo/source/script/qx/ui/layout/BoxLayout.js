@@ -23,12 +23,13 @@
 /* ************************************************************************
 
 #package(layout)
+#require(qx.constant.Layout)
 #use(qx.renderer.layout.HorizontalBoxLayoutImpl)
 #use(qx.renderer.layout.VerticalBoxLayoutImpl)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.BoxLayout", qx.ui.core.Parent, 
+qx.OO.defineClass("qx.ui.layout.BoxLayout", qx.ui.core.Parent,
 function(vOrientation)
 {
   qx.ui.core.Parent.call(this);

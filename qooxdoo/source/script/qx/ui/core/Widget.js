@@ -24,6 +24,7 @@
 
 #package(guicore)
 #require(qx.core.Init)
+#require(qx.constant.Tags)
 #require(qx.renderer.color.ColorObject)
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderObject)
