@@ -71,6 +71,7 @@ def parseElement(content):
     return { "type" : "protected", "detail" : config.JSPROTECTED[content], "source" : content, "line" : parseLine, "file" : parseUniqueId }
 
   elif content in config.JSBUILTIN:
+    # print "BUILTIN: %s" % content
     return { "type" : "builtin", "detail" : "", "source" : content, "line" : parseLine, "file" : parseUniqueId }
 
   elif R_NUMBER.search(content):
@@ -152,7 +153,6 @@ def parseStream(content, uniqueId):
 
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "file" : parseUniqueId, "line" : parseLine })
 
@@ -160,31 +160,26 @@ def parseStream(content, uniqueId):
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "file" : parseUniqueId, "line" : parseLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "file" : parseUniqueId, "line" : parseLine })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "file" : parseUniqueId, "line" : parseLine })
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "number", "detail" : "float", "source" : fragment, "file" : parseUniqueId, "line" : parseLine })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
-
       content = parseFragmentLead(content, fragment, tokenized)
       tokenized.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "file" : parseUniqueId, "line" : parseLine })
 
@@ -192,7 +187,6 @@ def parseStream(content, uniqueId):
       fragresult = R_REGEXP.search(fragment)
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
-
         content = parseFragmentLead(content, fragresult.group(0), tokenized)
         tokenized.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "file" : parseUniqueId, "line" : parseLine })
 
@@ -201,7 +195,6 @@ def parseStream(content, uniqueId):
 
 
   tokenized.extend(parsePart(recoverEscape(content)))
-
   tokenized.append({ "type" : "eof", "source" : "", "detail" : "", "line" : parseLine, "file" : parseUniqueId })
 
   return tokenized
