@@ -13,9 +13,9 @@
   <div id="demoDescription">
     <p>Tests for qooxdoo object performance</p>
     <ol>
-      <li>QxObject</li>
-      <li>QxTarget</li>
-      <li>QxEvent</li>
+      <li>qx.core.Object</li>
+      <li>qx.core.Target</li>
+      <li>qx.event.type.Event</li>
       <li>qx.event.type.MouseEvent</li>
       <li>qx.ui.basic.Terminator</li>
       <li>qx.ui.layout.CanvasLayout</li>
@@ -26,56 +26,56 @@
   <script type="text/javascript">
   window.application.main = function()
   {
-    function TestQxObject(vLoops)
+    function TestObject(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxObject;
+        new qx.core.Object;
       };
     };
 
-    function TestQxTarget(vLoops)
+    function TestTarget(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxTarget;
+        new qx.core.Target;
       };
     };
 
-    function TestQxEvent(vLoops)
+    function TestEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new QxEvent;
+        new qx.event.type.Event;
       };
     };
 
-    function Testqx.event.type.MouseEvent(vLoops)
+    function TestMouseEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
         new qx.event.type.MouseEvent;
       };
     };
 
-    function TestQxTerminator(vLoops)
+    function TestTerminator(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
         new qx.ui.basic.Terminator;
       };
     };
 
-    function TestQxCanvasLayout(vLoops)
+    function TestCanvasLayout(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
         new qx.ui.layout.CanvasLayout;
       };
     };
 
-    function TestQxBoxLayout(vLoops)
+    function TestBoxLayout(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
         new qx.ui.layout.BoxLayout;
       };
     };
 
-    new qx.dev.TimeTracker(TestQxObject, TestQxTarget, TestQxEvent, Testqx.event.type.MouseEvent, TestQxTerminator, TestQxCanvasLayout, TestQxBoxLayout);
+    new qx.dev.TimeTracker(TestObject, TestTarget, TestEvent, TestMouseEvent, TestTerminator, TestCanvasLayout, TestBoxLayout);
   };
   </script>
 </body>
