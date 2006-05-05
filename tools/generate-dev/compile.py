@@ -53,6 +53,9 @@ def compressToken(nr, tbd):
 
 
 
+def nameCompare(n1, n2):
+  return n2["number"] - n1["number"]
+
 
 
 
@@ -223,6 +226,7 @@ def main():
       print "  * %s" % key
 
   if cmds["encodeNames"]:
+    knownNames = {}
     encodedNames = {}
     encodedNamesNumber = 0
 
@@ -258,19 +262,29 @@ def main():
 
 
       if cmds["encodeNames"]:
-        print "    * encoding names..."
+        print "    * encoding names (alpha)..."
 
         for token in tokens:
-          if token["type"] == "name" and len(token["source"]) > 3 and (token["source"][0] == "_" or token["source"].upper() == token["source"]):
-            if not encodedNames.has_key(token["source"]):
-              compressedToken = compressToken(encodedNamesNumber, compTableBase36)
-              if len(compressedToken) < len(token["source"]):
-                encodedNames[token["source"]] = compressedToken
-                encodedNamesNumber += 1
-              else:
-                encodedNames[token["source"]] = token["source"]
+          if token["type"] == "name" and len(token["source"]) > 3:
+            if knownNames.has_key(token["source"]):
+              knownNames[token["source"]] += 1
+            else:
+              knownNames[token["source"]] = 1
 
-            token["source"] = encodedNames[token["source"]]
+
+        sortedNames = []
+
+        for name in knownNames:
+          sortedNames.append({ "name" : name, "number" : knownNames[name] })
+
+        sortedNames.sort(nameCompare)
+
+        for name in sortedNames:
+          if name["number"] > 20:
+            print "%03d %s" % (name["number"], name["name"])
+
+
+
 
 
 
