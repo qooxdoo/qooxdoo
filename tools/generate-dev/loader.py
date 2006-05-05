@@ -130,6 +130,12 @@ def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
 
         if uniqueId == None:
           print "    * Could not extract meta data from file: %s" % filename
+          print "    * Using filename (compatibility mode)"
+          uniqueId = filename.replace(config.JSEXT, "")
+          knownFiles[uniqueId] = completeFileName
+          loadDeps[uniqueId] = []
+          runtimeDeps[uniqueId] = []
+
         else:
 
           splitUniqueId = uniqueId.split(".")

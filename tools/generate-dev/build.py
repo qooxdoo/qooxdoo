@@ -260,7 +260,7 @@ def main():
         print "    * compression %i%% (%s KB)" % (compFactor, compSize)
 
         if cmds["storeSeparateScripts"]:
-          print "    * writing compiled code to file..." % compSize
+          print "    * writing compiled code to file..."
           compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
 
           compFile = file(compFileName, "w")

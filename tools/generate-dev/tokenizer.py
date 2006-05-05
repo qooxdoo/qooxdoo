@@ -147,7 +147,11 @@ def parseStream(content, uniqueId):
   tokens = []
   content = protectEscape(content)
 
-  for item in R_ALL.findall(content):
+  print "      * searching for patterns..."
+  all = R_ALL.findall(content)
+
+  print "      * structuring..."
+  for item in all:
     fragment = item[0]
 
     if R_MULTICOMMENT.match(fragment):
