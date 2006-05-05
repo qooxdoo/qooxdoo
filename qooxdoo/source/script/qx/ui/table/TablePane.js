@@ -245,6 +245,10 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 qx.Proto._updateContent = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
+  if (! this.isSeeable()) {
+    return;
+  }
+
   var selectionModel = this.getSelectionModel();
   var tableModel = this.getTableModel();
   var columnModel = this.getTableColumnModel();
@@ -267,7 +271,7 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
   }
 
   var elem = this.getElement();
-  var childNodes = this.getElement().childNodes;
+  var childNodes = elem.childNodes;
   var cellInfo = {};
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
