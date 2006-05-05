@@ -274,8 +274,8 @@ def main():
 
 
 
-      # TODO: Erst Anzahl zählen, dann sortiert nach diesen komprimieren
-      #       Ergebnis: Häufigste Names werden am Kleinsten
+      # TODO: Erst Anzahl zaehlen, dann sortiert nach diesen komprimieren
+      #       Ergebnis: Haeufigste Names werden am Kleinsten
       if cmds["generateCompressed"]:
         print "    * compressing..."
 
