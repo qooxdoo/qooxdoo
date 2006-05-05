@@ -133,6 +133,7 @@ JSPROTECTED = {
   "default" : "DEFAULT",
   "break" : "BREAK",
   "continue" : "CONTINUE",
+  "goto" : "GOTO",
   "do" : "DO",
   "delete" : "DELETE",
   "for" : "FOR",
@@ -149,5 +150,5 @@ JSPROTECTED = {
   "apply" : "APPLY"
 }
 
-JSSPACE_BEFORE = [ "INSTANCEOF", "TYPEOF", "IN" ]
-JSSPACE_AFTER = [ "VAR", "NEW", "RETURN", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE" ]
+JSSPACE_BEFORE = [ "INSTANCEOF", "IN" ]
+JSSPACE_AFTER = [ "VAR", "NEW", "RETURN", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE" ]
