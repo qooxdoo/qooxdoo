@@ -800,7 +800,7 @@ def main():
   outputTokenJson = None
   outputSyntaxXml = None
   outputDocXml = None
-  outputDocJson = "test/doc-json/docTree.js"
+  outputDocJson = "source/demo/apiviewer/docTree.js"
 
   i = 0
   while i < len(sys.argv):
