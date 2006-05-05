@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-import config, tokenizer, loader
+import config, tokenizer, loader, compile
 
 
 
@@ -15,9 +15,10 @@ def printHelp():
   print
 
   # Jobs
-  print "  -c,  --generate-compressed        generate compressed version"
-  print "  -t   --generate-tokenized         generate tokenized output"
-  print "  -n   --encode-names               enable name encoding (compression)"
+  print "  -c,  --compile-tokens             compile tokens to new js-files"
+  print "  -t   --store-tokens               store token list for each file"
+  print "       --store-separate-scripts     store each compiled file separately"
+  print "       --compile-with-new-lines     enable newlines in compiled js-files"
   print "  -f,  --print-files                print known files"
   print "  -p,  --print-packages             print known packages"
   print "  -s,  --print-sorted               print sorted include list"
@@ -39,26 +40,6 @@ def printHelp():
 
 
 
-compTableBase36 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-
-def compressToken(nr, tbd):
-  l = len(tbd)
-
-  # TODO: Make this much better, really ugly this way
-  prefix = "$" * (1 + (nr / l))
-  postfix = tbd[nr%l]
-
-  return prefix + postfix
-
-
-
-def nameCompare(n1, n2):
-  return n2["number"] - n1["number"]
-
-
-
-
 
 def main():
   cmds = {}
@@ -71,12 +52,14 @@ def main():
   cmds["outputBuild"] = "build/script"
 
   # Jobs
-  cmds["generateCompressed"] = False
-  cmds["generateTokenized"] = False
-  cmds["encodeNames"] = False
+  cmds["compileTokens"] = False
+  cmds["storeTokens"] = False
   cmds["printKnownFiles"] = False
   cmds["printKnownPackages"] = False
   cmds["printSortedIdList"] = False
+  cmds["storeSeparateScripts"] = False
+  cmds["compileWithNewLines"] = False
+  cmds["addUniqueIds"] = False
 
   # Include/Exclude
   cmds["include"] = []
@@ -120,14 +103,11 @@ def main():
 
 
     # Jobs
-    elif c == "-c" or c == "--generate-compressed":
-      cmds["generateCompressed"] = True
+    elif c == "-c" or c == "--compile-tokens":
+      cmds["compileTokens"] = True
 
-    elif c == "-t" or c == "--generate-tokenized":
-      cmds["generateTokenized"] = True
-
-    elif c == "-n" or c == "--encode-names":
-      cmds["encodeNames"] = True
+    elif c == "-t" or c == "--store-tokens":
+      cmds["storeTokens"] = True
 
     elif c == "-f" or c == "--print-files":
       cmds["printKnownFiles"] = True
@@ -137,6 +117,15 @@ def main():
 
     elif c == "-s" or c == "--print-sorted":
       cmds["printSortedIdList"] = True
+
+    elif c == "--store-separate-scripts":
+      cmds["storeSeparateScripts"] = True
+
+    elif c == "--compile-with-new-lines":
+      cmds["compileWithNewLines"] = True
+
+    elif c == "--add-unique-ids":
+      cmds["addUniqueIds"] = True
 
 
 
@@ -187,10 +176,10 @@ def main():
 
   print "  * Creating directory layout..."
 
-  if cmds["generateTokenized"] and cmds["outputTokenized"] != "" and not os.path.exists(cmds["outputTokenized"]):
+  if cmds["storeTokens"] and cmds["outputTokenized"] != "" and not os.path.exists(cmds["outputTokenized"]):
     os.makedirs(cmds["outputTokenized"])
 
-  if cmds["generateCompressed"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
+  if cmds["compileTokens"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
     os.makedirs(cmds["outputBuild"])
 
 
@@ -225,12 +214,7 @@ def main():
     for key in sortedIncludeList:
       print "  * %s" % key
 
-  if cmds["encodeNames"]:
-    knownNames = {}
-    encodedNames = {}
-    encodedNamesNumber = 0
-
-  if cmds["generateCompressed"] or cmds["generateTokenized"]:
+  if cmds["compileTokens"] or cmds["storeTokens"]:
     print
     print "  BUIDLING FILES:"
     print "***********************************************************************************************"
@@ -247,7 +231,7 @@ def main():
       print "    * tokenizing source (%s KB)..." % fileSize
       tokens = tokenizer.parseStream(fileContent, uniqueId)
 
-      if cmds["generateTokenized"]:
+      if cmds["storeTokens"]:
         tokenString = tokenizer.convertTokensToString(tokens)
         tokenSize = len(tokenString) / 1000.0
 
@@ -260,107 +244,34 @@ def main():
         tokenFile.flush()
         tokenFile.close()
 
+      if cmds["compileTokens"]:
+        print "    * compiling..."
 
-      if cmds["encodeNames"]:
-        print "    * encoding names (alpha)..."
+        compString = compile.compile(tokens, cmds["compileWithNewLines"])
 
-        for token in tokens:
-          if token["type"] == "name" and len(token["source"]) > 3:
-            if knownNames.has_key(token["source"]):
-              knownNames[token["source"]] += 1
-            else:
-              knownNames[token["source"]] = 1
-
-
-        sortedNames = []
-
-        for name in knownNames:
-          sortedNames.append({ "name" : name, "number" : knownNames[name] })
-
-        sortedNames.sort(nameCompare)
-
-        for name in sortedNames:
-          if name["number"] > 20:
-            print "%03d %s" % (name["number"], name["name"])
-
-
-
-
-
-
-      # TODO: Erst Anzahl zaehlen, dann sortiert nach diesen komprimieren
-      #       Ergebnis: Haeufigste Names werden am Kleinsten
-      if cmds["generateCompressed"]:
-        print "    * compressing..."
-
-        compString = ""
-        lastSource = ""
-
-        for token in tokens:
-          if token["type"] == "comment" or token["type"] == "eol" or token["type"] == "eof":
-            continue
-
-
-
-          if token["type"] == "protected":
-            if token["detail"] in config.JSSPACE_BEFORE:
-              compString += " "
-
-          if token["type"] == "string":
-            if token["detail"] == "doublequotes":
-              compString += "\""
-            else:
-              compString += "'"
-
-          if token["source"] == "if" and lastSource == "else":
-            compString += " "
-
-          # We need to seperate special blocks (could also be a new line)
-          if lastSource == "}" and token["type"] == "name":
-            compString += ";"
-
-
-          compString += token["source"]
-
-          if token["type"] == "string":
-            if token["detail"] == "doublequotes":
-              compString += "\""
-            else:
-              compString += "'"
-
-          if token["type"] == "protected":
-            if token["detail"] in config.JSSPACE_AFTER:
-              compString += " "
-
-          if token["source"] == ";":
-            compString += "\n"
-
-
-          lastSource = token["source"]
-
-
-
-
-        compAllString += "\n/* " + uniqueId + " */\n" + compString
-
+        if cmds["addUniqueIds"]:
+          compAllString += "/* ID: " + uniqueId + " */\n" + compString + "\n"
+        else:
+          compAllString += compString
 
         compSize = len(compString) / 1000.0
         compFactor = 100 - (compSize / fileSize * 100)
 
-        print "    * writing compressed code to file (%s KB)..." % compSize
-        print ("    * compression: %i" % compFactor) + "%"
+        print "    * compression %i%% (%s KB)" % (compFactor, compSize)
 
-        compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
+        if cmds["storeSeparateScripts"]:
+          print "    * writing compiled code to file..." % compSize
+          compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
 
-        compFile = file(compFileName, "w")
-        compFile.write(compString)
-        compFile.flush()
-        compFile.close()
+          compFile = file(compFileName, "w")
+          compFile.write(compString)
+          compFile.flush()
+          compFile.close()
 
 
 
 
-    if cmds["generateCompressed"]:
+    if cmds["compileTokens"]:
       compFileName = os.path.join(cmds["outputBuild"], "qooxdoo" + config.JSEXT)
 
       compFile = file(compFileName, "w")
