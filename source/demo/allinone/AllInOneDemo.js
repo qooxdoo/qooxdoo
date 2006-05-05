@@ -826,6 +826,7 @@ qx.Proto._createTableDemo = function() {
   var table = new qx.ui.table.Table(tableModel);
   with (table) {
     set({ width:"100%", height:"100%" });
+    setMetaColumnCounts([1, -1]);
     getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
     getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
   };

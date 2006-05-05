@@ -197,12 +197,6 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
       leftX += metaColumnCounts[i];
 
       var paneScroller = new qx.ui.table.TablePaneScroller(this);
-
-      // Workaround: If the correct size is set here an exception will be
-      //       thrown in IE (in qx.io.image.ImagePreloaderSystem ?!?).
-      //       -> We set the correct sizes on appear.
-      paneScroller.setDimension(10, 10);
-
       paneScroller.setSelectionModel(selectionModel);
       paneScroller.setTableModel(tableModel);
       paneScroller.setTableColumnModel(columnModel);
@@ -241,6 +235,7 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
     paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);
   }
 
+  this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 
   return true;
@@ -324,7 +319,6 @@ qx.Proto._onScrollY = function(evt) {
     };
 
     this._internalChange = false;
-    //qx.ui.core.Widget.flushGlobalQueues();
   }
 };
 
@@ -420,6 +414,7 @@ qx.Proto._onkeydown = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onColVisibilityChanged = function(evt) {
+  this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 };
 
@@ -430,6 +425,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
+  this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 };
 
@@ -441,6 +437,7 @@ qx.Proto._onColWidthChanged = function(evt) {
  */
 qx.Proto._onOrderChanged = function(evt) {
   // A column may have been moved between meta columns
+  this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 };
 
@@ -653,6 +650,23 @@ qx.Proto._updateStatusBar = function() {
 
 
 /**
+ * Updates the widths of all scrollers.
+ */
+qx.Proto._updateScrollerWidths = function() {
+  qx.ui.core.Widget.flushGlobalQueues();
+
+  // Give all scrollers except for the last one the wanted width
+  // (The last one has a flex with)
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    var isLast = (i == (scrollerArr.length - 1));
+    var width = isLast ? qx.constant.Core.FLEX : scrollerArr[i].getTablePaneModel().getTotalWidth();
+    scrollerArr[i].setWidth(width);
+  }
+};
+
+
+/**
  * Updates the visibility of the scrollbars in the meta columns.
  */
 qx.Proto._updateScrollBarVisibility = function() {
@@ -793,18 +807,23 @@ qx.Proto.setColumnWidth = function(col, width) {
 };
 
 
+/**
+ * Event handler. Called when the real width of the table has changed.
+ *
+ * @param newValue {int} the new width.
+ * @param oldValue {int} the old width.
+ */
+qx.Proto._changeBoxWidth = function(newValue, oldValue) {
+  var self = this;
+  window.setTimeout(function() {
+    self._updateScrollBarVisibility();
+  }, 0);
+};
+
+
 // overridden
 qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
-
-  // Workaround: See _modifyMetaColumnCounts
-  var scrollerArr = this._getPaneScrollerArr();
-  for (var i = 0; i < scrollerArr.length; i++) {
-    // Workaround: Normally the column should have qx.constant.Core.FLEX as
-    //       width, but qx.ui.layout.DockLayout doesn't work with qx.constant.Core.FLEX
-    //scrollerArr[i].setDimension(qx.constant.Core.FLEX, qx.constant.Core.HUNDREDPERCENT);
-    scrollerArr[i].setDimension(400, qx.constant.Core.HUNDREDPERCENT);
-  }
 
   this._updateScrollBarVisibility();
 };

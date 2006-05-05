@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#require(qx.ui.layout.DockLayout)
+#require(qx.ui.layout.VerticalBoxLayout)
 #require(qx.ui.table.SelectionManager)
 #require(qx.ui.table.TableModel)
 #require(qx.ui.table.TableColumnModel)
@@ -45,9 +45,9 @@
  * @param scrollerPool {TablePaneScrollerPool} the scroller pool the scroller
  *        belongs to.
  */
-qx.OO.defineClass("qx.ui.table.TablePaneScroller", qx.ui.layout.DockLayout,
+qx.OO.defineClass("qx.ui.table.TablePaneScroller", qx.ui.layout.VerticalBoxLayout,
 function(scrollerPool) {
-  qx.ui.layout.DockLayout.call(this);
+  qx.ui.layout.VerticalBoxLayout.call(this);
 
   this._scrollerPool = scrollerPool;
 
@@ -64,9 +64,6 @@ function(scrollerPool) {
 
   this._horScrollBar.addEventListener("changeValue", this._onScrollX, this);
   this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
-
-  this.addBottom(this._horScrollBar);
-  this.addRight(this._verScrollBar);
 
   // init header
   this._header = new qx.ui.table.TablePaneHeader;
@@ -87,7 +84,6 @@ function(scrollerPool) {
     setHeight(qx.constant.Core.AUTO);
     add(this._headerClipper, this._spacer);
   }
-  this.addTop(this._top);
 
   // init pane
   this._tablePane = new qx.ui.table.TablePane;
@@ -105,11 +101,18 @@ function(scrollerPool) {
 
   this._paneClipper = new qx.ui.layout.CanvasLayout;
   with (this._paneClipper) {
+    setWidth(qx.constant.Core.FLEX);
     setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
     add(this._tablePane, this._focusIndicator);
     addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
   };
-  this.add(this._paneClipper);
+
+  // add all child widgets
+  var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;
+  scrollerBody.setHeight(qx.constant.Core.FLEX);
+  scrollerBody.add(this._paneClipper, this._verScrollBar);
+
+  this.add(this._top, scrollerBody, this._horScrollBar);
 
   // init managers
   this._selectionManager = new qx.ui.table.SelectionManager;
@@ -118,7 +121,7 @@ function(scrollerPool) {
   this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove, this);
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
   this.addEventListener(qx.constant.Event.MOUSEUP,   this._onmouseup,   this);
-  this.addEventListener(qx.constant.Event.CLICK,     this._onclick,   this);
+  this.addEventListener(qx.constant.Event.CLICK,     this._onclick,     this);
   this.addEventListener(qx.constant.Event.DBLCLICK,  this._ondblclick,  this);
   this.addEventListener(qx.constant.Event.MOUSEOUT,  this._onmouseout,  this);
 });
@@ -302,13 +305,13 @@ qx.Proto._changeInnerHeight = function(newValue, oldValue) {
   // The height has changed -> Update content
   this._postponedUpdateContent();
 
-  return qx.ui.layout.DockLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
+  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
 };
 
 
 // overridden
 qx.Proto._afterAppear = function() {
-  qx.ui.layout.DockLayout.prototype._afterAppear.call(this);
+  qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
   this._updateContent();
 
@@ -1194,7 +1197,7 @@ qx.Proto.dispose = function() {
     this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
   }
 
-  return qx.ui.layout.DockLayout.prototype.dispose.call(this);
+  return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 };
 
 
