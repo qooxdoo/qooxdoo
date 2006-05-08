@@ -76,3 +76,8 @@ qx.Proto.createDataCellHtml = function(cellInfo) {
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   throw new Error("updateDataCellElement is abstract");
 };
+
+
+qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
+  throw new Error("createDataCellHtml_array_join is abstract");
+};

@@ -75,3 +75,39 @@ qx.Proto._getCellStyle = function(cellInfo) {
 qx.Proto._getContentHtml = function(cellInfo) {
   return cellInfo.value;
 };
+
+
+
+qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
+  throw new Error("createDataCellHtml_array_join is abstract");
+};
+
+
+
+qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
+  htmlArr.push('<div style="position:absolute;left:');
+  htmlArr.push(cellInfo.styleLeft);
+  htmlArr.push('px;top:0px;width:');
+  htmlArr.push(cellInfo.styleWidth);
+  htmlArr.push('px;height:');
+  htmlArr.push(cellInfo.styleHeight);
+  htmlArr.push('px');
+
+  this._createCellStyle_array_join(cellInfo, htmlArr);
+
+  htmlArr.push('">');
+
+  this._createContentHtml_array_join(cellInfo, htmlArr);
+
+  htmlArr.push('</div>');
+};
+
+
+qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
+  htmlArr.push(';overflow:hidden;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px');
+};
+
+
+qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
+  htmlArr.push(cellInfo.value);
+};
