@@ -42,7 +42,7 @@ function(vSource, vWidth, vHeight)
   this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.constant.Core.EMPTY);
 
   // Apply constructor arguments
-  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK));
+  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.BLANK);
 
   // Dimensions
   this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.constant.Core.AUTO);
