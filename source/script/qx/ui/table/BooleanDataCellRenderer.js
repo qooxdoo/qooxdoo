@@ -42,7 +42,7 @@ function() {
 qx.Proto._getCellStyle = function(cellInfo) {
   var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
 
-  style += '; text-align:center; padding-top:1px';
+  style += qx.ui.table.BooleanDataCellRenderer.MAIN_DIV_STYLE;
 
   return style;
 };
@@ -50,7 +50,8 @@ qx.Proto._getCellStyle = function(cellInfo) {
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
-  return  '<img src="' + this._getImgUrl(cellInfo) + '"/>';
+  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
+  return BooleanDataCellRenderer.IMG_START + this._getImgUrl(cellInfo) + BooleanDataCellRenderer.IMG_END;
 }
 
 
@@ -80,14 +81,16 @@ qx.Proto._getImgUrl = function(cellInfo) {
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
   qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
 
-  htmlArr.push(';text-align:center;padding-top:1px');
+  htmlArr.push(qx.ui.table.BooleanDataCellRenderer.MAIN_DIV_STYLE);
 };
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push('<img src="');
+  var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
+
+  htmlArr.push(BooleanDataCellRenderer.IMG_START);
   htmlArr.push(this._getImgUrl(cellInfo));
-  htmlArr.push('"/>');
+  htmlArr.push(BooleanDataCellRenderer.IMG_END);
 };
 
 
@@ -99,3 +102,8 @@ qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageMana
 
 /** {string} The URL of the icon showing a null value. */
 qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("core/blank.gif");
+
+
+qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px';
+qx.Class.IMG_START = '<img src="';
+qx.Class.IMG_END = '"/>';
