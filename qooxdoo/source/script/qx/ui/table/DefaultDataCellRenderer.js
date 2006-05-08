@@ -52,7 +52,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
 
   if (this.getUseAutoAlign()) {
     if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
-      style += '; text-align:right';
+      style += qx.ui.table.DefaultDataCellRenderer.STYLE_ALIGN_RIGHT;
     }
   }
 
@@ -96,7 +96,7 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
   if (this.getUseAutoAlign()) {
     if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
-      htmlArr.push(';text-align:right');
+      htmlArr.push(qx.ui.table.DefaultDataCellRenderer.STYLE_ALIGN_RIGHT);
     }
   }
 };
@@ -109,3 +109,5 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 
 qx.Class._numberFormat = new qx.util.format.NumberFormat();
 qx.Class._numberFormat.setMaximumFractionDigits(2);
+
+qx.Class.STYLE_ALIGN_RIGHT = ';text-align:right';

@@ -40,8 +40,10 @@ function() {
 
 // overridden
 qx.Proto.createDataCellHtml = function(cellInfo) {
-  return '<div style="' + this._getCellStyle(cellInfo) + '">'
-    + this._getContentHtml(cellInfo) + '</div>';
+  var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
+  return AbstractDataCellRenderer.MAIN_DIV_START + this._getCellStyle(cellInfo)
+    + AbstractDataCellRenderer.MAIN_DIV_START_END
+    + this._getContentHtml(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_END;
 };
 
 
@@ -59,9 +61,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  * @return the CSS styles of the main div.
  */
 qx.Proto._getCellStyle = function(cellInfo) {
-  return cellInfo.style + '; overflow:hidden'
-    + '; border-right:1px solid #eeeeee; border-bottom:1px solid #eeeeee'
-    + '; padding-left:2px; padding-right:2px';
+  return cellInfo.style + qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE;
 };
 
 
@@ -85,29 +85,42 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
 
 
 qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push('<div style="position:absolute;left:');
+  var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
+
+  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_LEFT);
   htmlArr.push(cellInfo.styleLeft);
-  htmlArr.push('px;top:0px;width:');
+  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_WIDTH);
   htmlArr.push(cellInfo.styleWidth);
-  htmlArr.push('px;height:');
+  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_HEIGHT);
   htmlArr.push(cellInfo.styleHeight);
-  htmlArr.push('px');
+  htmlArr.push(qx.constant.Core.PIXEL);
 
   this._createCellStyle_array_join(cellInfo, htmlArr);
 
-  htmlArr.push('">');
+  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_START_END);
 
   this._createContentHtml_array_join(cellInfo, htmlArr);
 
-  htmlArr.push('</div>');
+  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
 };
 
 
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push(';overflow:hidden;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px');
+  htmlArr.push(qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE);
 };
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   htmlArr.push(cellInfo.value);
 };
+
+
+qx.Class.MAIN_DIV_START = '<div style="';
+qx.Class.MAIN_DIV_START_END = '">';
+qx.Class.MAIN_DIV_END = '</div>';
+qx.Class.MAIN_DIV_STYLE = ';overflow:hidden;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px';
+qx.Class.ARRAY_JOIN_MAIN_DIV_LEFT = '<div style="position:absolute;left:';
+qx.Class.ARRAY_JOIN_MAIN_DIV_WIDTH = 'px;top:0px;width:';
+qx.Class.ARRAY_JOIN_MAIN_DIV_HEIGHT = 'px;height:';
+qx.Class.ARRAY_JOIN_MAIN_DIV_START_END = '">';
+qx.Class.ARRAY_JOIN_MAIN_DIV_END = '</div>';

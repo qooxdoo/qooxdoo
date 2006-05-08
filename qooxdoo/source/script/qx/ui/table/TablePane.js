@@ -496,7 +496,7 @@ qx.Proto.dispose = function() {
 };
 
 
-qx.Class.USE_ARRAY_JOIN = false;
+qx.Class.USE_ARRAY_JOIN = true;
 
 qx.Class.ARRAY_JOIN_ROW_DIV_START = '<div style="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:';
 qx.Class.ARRAY_JOIN_ROW_DIV_WIDTH = 'px;width:';
