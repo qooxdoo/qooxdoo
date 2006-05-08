@@ -24,6 +24,7 @@
 
 #id(qx.OO)
 #package(core)
+#use(qx.lang.Array)
 #use(qx.lang.Core)
 #use(qx.lang.String)
 #use(qx.util.Validation)
