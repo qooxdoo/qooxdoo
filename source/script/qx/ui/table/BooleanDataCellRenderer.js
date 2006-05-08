@@ -77,6 +77,20 @@ qx.Proto._getImgUrl = function(cellInfo) {
 };
 
 
+qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
+  qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
+
+  htmlArr.push(';text-align:center;padding-top:1px');
+};
+
+
+qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
+  htmlArr.push('<img src="');
+  htmlArr.push(this._getImgUrl(cellInfo));
+  htmlArr.push('"/>');
+};
+
+
 /** {string} The URL of the icon showing a true value. */
 qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManager.buildUri("widgets/table/boolean-true.png");
 

@@ -91,5 +91,21 @@ qx.Proto._formatValue = function(value) {
 };
 
 
+qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
+  qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
+
+  if (this.getUseAutoAlign()) {
+    if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
+      htmlArr.push(';text-align:right');
+    }
+  }
+};
+
+
+qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
+  htmlArr.push(this._formatValue(cellInfo.value));
+};
+
+
 qx.Class._numberFormat = new qx.util.format.NumberFormat();
 qx.Class._numberFormat.setMaximumFractionDigits(2);
