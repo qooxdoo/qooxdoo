@@ -41,7 +41,7 @@ function QxImage(vSource, vWidth, vHeight)
   this.setHtmlProperty(QxImage.ATTR_TITLE, QxConst.CORE_EMPTY);
 
   // Apply constructor arguments
-  this.setSource(QxUtil.isValid(vSource) ? vSource : QxImageManager.buildUri(QxConst.IMAGE_BLANK));
+  this.setSource(QxUtil.isValid(vSource) ? vSource :QxConst.IMAGE_BLANK);
 
   // Dimensions
   this.setWidth(QxUtil.isValid(vWidth) ? vWidth : QxConst.CORE_AUTO);
