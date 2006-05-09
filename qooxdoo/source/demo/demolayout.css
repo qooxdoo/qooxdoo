@@ -91,6 +91,11 @@ p{
   margin: 4px 0;
 }
 
+#demoDescription h1{
+  font-size: 12px;
+  margin: 8px 0 4px;
+}
+
 #demoDebug{
   position: absolute;
   top: 160px;
