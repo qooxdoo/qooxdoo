@@ -11,7 +11,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Tests for String Performance. Using new String instances for concat.</p>
+    <p>Tests for String Performance. Using cached string instances for concat.</p>
     <ol>
       <li>Operator +=</li>
       <li>Operators = and +</li>
@@ -24,30 +24,33 @@
   <script type="text/javascript">
   window.application.main = function()
   {
+    var e = "";
+    var a = "a";
+
     function StringConcatShort(vLoops)
     {
-      var s = "";
+      var s = e;
 
       for (var i=0; i<vLoops; i++) {
-        s += "a";
+        s += a;
       };
     };
 
     function StringConcatShortAlt(vLoops)
     {
-      var s = "";
+      var s = e;
 
       for (var i=0; i<vLoops; i++) {
-        s = s + "a";
+        s = s + a;
       };
     };
 
     function StringConcatMethod(vLoops)
     {
-      var s = "";
+      var s = e;
 
       for (var i=0; i<vLoops; i++) {
-        s=s.concat("a");
+        s=s.concat(a);
       };
     };
 
@@ -56,10 +59,10 @@
       var s = [];
 
       for (var i=0; i<vLoops; i++) {
-        s.push("a");
+        s.push(a);
       };
 
-      s = s.join("");
+      s = s.join(e);
     };
 
     function StringConcatArrayAdd(vLoops)
@@ -67,10 +70,10 @@
       var s = [];
 
       for (var i=0; i<vLoops; i++) {
-        s[s.length] = "a";
+        s[s.length] = a;
       };
 
-      s = s.join("");
+      s = s.join(e);
     };
 
     new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt, StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd);
