@@ -87,13 +87,19 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
 qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
 
-  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_LEFT);
-  htmlArr.push(cellInfo.styleLeft);
-  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_WIDTH);
-  htmlArr.push(cellInfo.styleWidth);
-  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_HEIGHT);
-  htmlArr.push(cellInfo.styleHeight);
-  htmlArr.push(qx.constant.Core.PIXEL);
+  if (qx.ui.table.TablePane.USE_TABLE) {
+    htmlArr.push('<td style="height:');
+    htmlArr.push(cellInfo.styleHeight);
+    htmlArr.push(qx.constant.Core.PIXEL);
+  } else {
+    htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_LEFT);
+    htmlArr.push(cellInfo.styleLeft);
+    htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_WIDTH);
+    htmlArr.push(cellInfo.styleWidth);
+    htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_HEIGHT);
+    htmlArr.push(cellInfo.styleHeight);
+    htmlArr.push(qx.constant.Core.PIXEL);
+  }
 
   this._createCellStyle_array_join(cellInfo, htmlArr);
 
@@ -101,7 +107,11 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
 
   this._createContentHtml_array_join(cellInfo, htmlArr);
 
-  htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
+  if (qx.ui.table.TablePane.USE_TABLE) {
+    htmlArr.push('</td>');
+  } else {
+    htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
+  }
 };
 
 
