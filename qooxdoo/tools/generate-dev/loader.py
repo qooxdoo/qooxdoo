@@ -213,7 +213,7 @@ def getSortedList(cmds, scanResult):
   if cmds.has_key("exclude"):
     for exclude in cmds["exclude"]:
       if exclude in scanResult["packages"]:
-        excludeIds.extend(knownPackages[exclude])
+        excludeIds.extend(scanResult["packages"][exclude])
 
       else:
         excludeIds.append(exclude)
