@@ -12,59 +12,38 @@
 
   <div id="demoDescription">
     <p>JS Object Storage Performance</p>
+
+    <h1>Test Description</h1>
+    <p>Precreate 50.000 objects (globally stored). After this create 10.000 new (non stored) objects inside a loop.</p>
+    <p>Keep global storage over runtime.</p>
+
+    <h1>Result</h1>
+    <p>The performance in IE is poor (~1150ms for each loop), compared to the same stuff executed without so much precreated objects (previous example).</p>
+    <p>It makes no difference if we use a global or a local variable here. It's identical to LocalObject_2.html.</p>
   </div>
 
   <script type="text/javascript">
-  var strg = "strg";
-  var r = "r";
-
-  qx.constant.Core.FOO = "r";
-
-  joo = 0;
-
-  function myClass() {
-  }
-
-
-
-
   window.application.main = function()
   {
-    var store = [];
+    window.store = [];
 
-    for (var i=0; i<100000; i++) {
-      store.push({});
+    for (var i=0; i<50000; i++) {
+      window.store.push({});
     };
 
-    function foo()
+    function test()
     {
-      /*
-      for (var i=0; i<10000; i++) {
-        store.push({});
-      };
-      */
-
       var _s = (new Date).valueOf();
 
       for (var i=0; i<10000; i++) {
-        //joo = qx.lang.String.contains(strg, qx.constant.Core.FOO);
-        //joo += 10
-        //joo = joo + 10
-
         new Object()
       };
 
-      //window.status = store.length + " objects | " + ((new Date).valueOf() - _s) + "ms";
-      window.status = (new Date).valueOf() + " objects | " + ((new Date).valueOf() - _s) + "ms";
-
-      window.setTimeout(foo, 5000);
+      window.status = "time: " + (new Date).valueOf() + " | measured: " + ((new Date).valueOf() - _s) + "ms";
+      window.setTimeout(test, 1000);
     }
 
-    foo();
-
-    //qx.lang.Array.removeAll(store);
-    //store = null;
-    //store = []
+    test();
   }
   </script>
 </body>
