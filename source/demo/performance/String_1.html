@@ -14,6 +14,7 @@
     <p>Tests for String Performance</p>
     <ol>
       <li>Operator +=</li>
+      <li>Operators = and +</li>
       <li>Concat function</li>
       <li>Array Push</li>
       <li>Array Index</li>
@@ -28,7 +29,16 @@
       var s = "";
 
       for (var i=0; i<vLoops; i++) {
-        s+="a";
+        s += "a";
+      };
+    };
+
+    function StringConcatShortAlt(vLoops)
+    {
+      var s = "";
+
+      for (var i=0; i<vLoops; i++) {
+        s = s + "a";
       };
     };
 
@@ -63,7 +73,7 @@
       s = s.join("");
     };
 
-    new qx.dev.TimeTracker(StringConcatShort, StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd);
+    new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt, StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd);
   };
   </script>
 </body>
