@@ -30,10 +30,10 @@
 
   window.application.main = function()
   {
-    var store = [];
+    window.store = [];
 
     for (var i=0; i<100000; i++) {
-      store.push({});
+      window.store.push({});
     };
 
     function foo()
@@ -62,9 +62,11 @@
 
     foo();
 
-    //qx.lang.Array.removeAll(store);
+    qx.lang.Array.removeAll(window.store);
     //store = null;
     //store = []
+
+//    delete window.store;
   }
   </script>
 </body>
