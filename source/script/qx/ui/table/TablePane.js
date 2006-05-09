@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
 function() {
   qx.ui.basic.Terminator.call(this);
 
-  this.debug("USE_ARRAY_JOIN: " + qx.ui.table.TablePane.USE_ARRAY_JOIN);
+  this.debug("USE_ARRAY_JOIN: " + qx.ui.table.TablePane.USE_ARRAY_JOIN + ",USE_TABLE: " + qx.ui.table.TablePane.USE_TABLE);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
@@ -284,6 +284,23 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 
   var htmlArr = [];
   var rowWidth = paneModel.getTotalWidth();
+
+  if (TablePane.USE_TABLE) {
+    htmlArr.push('<table cellspacing="0" cellpadding="0" style="table-layout:fixed;width:');
+    htmlArr.push(rowWidth);
+    htmlArr.push('px"><colgroup>');
+
+    for (var x = 0; x < colCount; x++) {
+      var col = paneModel.getColumnAtX(x);
+
+      htmlArr.push('<col width="');
+      htmlArr.push(columnModel.getColumnWidth(col));
+      htmlArr.push('"/>');
+    }
+
+    htmlArr.push('</colgroup><tbody>');
+  }
+
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
 
@@ -292,13 +309,19 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     cellInfo.focusedRow = (this._focusedRow == row);
 
     // Update this row
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START);
-    htmlArr.push(y * rowHeight);
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_WIDTH);
-    htmlArr.push(rowWidth);
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_HEIGHT);
-    htmlArr.push(rowHeight);
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_BG_COLOR);
+    if (TablePane.USE_TABLE) {
+      htmlArr.push('<tr style="height:');
+      htmlArr.push(rowHeight);
+      htmlArr.push('px;background-color:');
+    } else {
+      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START);
+      htmlArr.push(y * rowHeight);
+      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_WIDTH);
+      htmlArr.push(rowWidth);
+      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_HEIGHT);
+      htmlArr.push(rowHeight);
+      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_BG_COLOR);
+    }
 
     if (cellInfo.focusedRow) {
       htmlArr.push(cellInfo.selected ? TablePane.CONTENT_BGCOL_FOCUSED_SELECTED : TablePane.CONTENT_BGCOL_FOCUSED);
@@ -328,10 +351,19 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
       left += cellWidth;
     }
 
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_END);
+    if (TablePane.USE_TABLE) {
+      htmlArr.push("</tr>\n");
+    } else {
+      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_END);
+    }
+  }
+
+  if (TablePane.USE_TABLE) {
+    htmlArr.push('</tbody></table>');
   }
 
   var elem = this.getElement();
+  this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<")
   elem.innerHTML = htmlArr.join(qx.constant.Core.EMPTY);
 
   this.setHeight(rowCount * rowHeight);
@@ -365,6 +397,10 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   if (completeUpdate || this._lastRowCount > rowCount) {
     var firstRowToRemove = completeUpdate ? 0 : rowCount;
     this._cleanUpRows(firstRowToRemove);
+  }
+
+  if (TablePane.USE_TABLE) {
+    throw new Error("Combination of USE_TABLE==true and USE_ARRAY_JOIN==false is not yet implemented");
   }
 
   var elem = this.getElement();
@@ -496,7 +532,8 @@ qx.Proto.dispose = function() {
 };
 
 
-qx.Class.USE_ARRAY_JOIN = true;
+qx.Class.USE_ARRAY_JOIN = false;
+qx.Class.USE_TABLE = false;
 
 qx.Class.ARRAY_JOIN_ROW_DIV_START = '<div style="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:';
 qx.Class.ARRAY_JOIN_ROW_DIV_WIDTH = 'px;width:';
