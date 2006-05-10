@@ -84,17 +84,16 @@
 #DetailViewer table.info {
 }
 
-#DetailViewer div.empty-info-body {
+#DetailViewer table.info div.empty-info-body {
   border-top: 1px solid #ECECEC;
   background-color: #FDFFF7;
 }
 
-#DetailViewer div.empty-info-body,
-#DetailViewer tr.item-row {
+#DetailViewer table.info tr {
   background-color: #FDFFF7;
 }
 
-#DetailViewer tr.item-row-marked {
+#DetailViewer table.info tr.item-row-marked {
   background-color: #DEFF83;
 }
 
