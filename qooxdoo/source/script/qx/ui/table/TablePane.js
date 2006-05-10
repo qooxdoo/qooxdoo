@@ -363,7 +363,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   }
 
   var elem = this.getElement();
-  this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<")
+  this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<");
   elem.innerHTML = htmlArr.join(qx.constant.Core.EMPTY);
 
   this.setHeight(rowCount * rowHeight);
@@ -458,7 +458,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
         cellInfo.style = TablePane.CONTENT_CELL_STYLE_LEFT + left
           + TablePane.CONTENT_CELL_STYLE_WIDTH + width
           + TablePane.CONTENT_CELL_STYLE_HEIGHT + rowHeight + qx.constant.Core.PIXEL;
-  
+
         var cellRenderer = columnModel.getDataCellRenderer(col);
         if (recyleRowElem) {
           var cellElem = rowElem.childNodes[x];
@@ -466,7 +466,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
         } else {
           html += cellRenderer.createDataCellHtml(cellInfo);
         }
-  
+
         left += width;
       }
       if (! recyleRowElem) {
@@ -555,4 +555,3 @@ qx.Class.CONTENT_COL = "black";
 qx.Class.CONTENT_CELL_STYLE_LEFT = 'position:absolute;left:';
 qx.Class.CONTENT_CELL_STYLE_WIDTH = 'px;top:0px;width:';
 qx.Class.CONTENT_CELL_STYLE_HEIGHT = 'px; height:';
-  
