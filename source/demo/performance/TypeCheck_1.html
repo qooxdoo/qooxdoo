@@ -13,7 +13,8 @@
   <div id="demoDescription">
     <p>Tests for typical value checks and their performance.</p>
     <ol>
-      <li>Typeof</li>
+      <li>Typeof with Strings</li>
+      <li>Typeof with Constants</li>
       <li>Instanceof</li>
     </ol>
   </div>
@@ -33,7 +34,21 @@
     var obj1 = {};
     var obj2 = { key1 : "hello world", key2 : "hello world", key3 : "hello world" }
 
-    function typeCheckTypeof(vLoops)
+    function typeCheckTypeof1(vLoops)
+    {
+      for (var i=0; i<vLoops; i++)
+      {
+        typeof str === "string";
+        typeof nr1 === "number";
+        typeof nr2 === "number";
+        typeof nr3 === "number";
+        typeof nr4 === "number";
+        typeof obj1 === "object";
+        typeof obj2 === "object";
+      }
+    }
+
+    function typeCheckTypeof2(vLoops)
     {
       for (var i=0; i<vLoops; i++)
       {
@@ -61,7 +76,7 @@
       }
     }
 
-    new qx.dev.TimeTracker(typeCheckTypeof, typeCheckInstanceOf);
+    new qx.dev.TimeTracker(typeCheckTypeof1, typeCheckTypeof2, typeCheckInstanceOf);
   };
   </script>
 </body>
