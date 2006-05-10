@@ -16,7 +16,6 @@ L="$L script/qx/constant/Layout"
 L="$L script/qx/constant/Event"
 
 # Core
-L="$L script/qx/core/Main"
 L="$L script/qx/core/DefaultSettings"
 L="$L script/qx/core/Settings"
 
@@ -29,18 +28,17 @@ L="$L script/qx/lang/Object"
 L="$L script/qx/lang/Array"
 L="$L script/qx/lang/String"
 L="$L script/qx/lang/Number"
-L="$L script/qx/lang/Prototype"
+L="$L script/qx/lang/Prototypes"
 L="$L script/qx/lang/Generics"
 # L="$L script/qx/lang/MshtmlEmu"
 # L="$L script/qx/lang/XmlEmu"
 
 # Utilities
-L="$L script/qx/util/Return"
-L="$L script/qx/util/Util"
 L="$L script/qx/util/Validation"
-L="$L script/qx/util/Normalization"
-L="$L script/qx/util/Textile"
 L="$L script/qx/util/Compare"
+L="$L script/qx/util/Normalization"
+L="$L script/qx/util/Return"
+L="$L script/qx/util/Textile"
 
 # Dom Features
 L="$L script/qx/dom/DomDimension"
