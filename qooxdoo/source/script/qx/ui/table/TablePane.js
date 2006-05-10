@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
 function() {
   qx.ui.basic.Terminator.call(this);
 
-  this.debug("USE_ARRAY_JOIN: " + qx.ui.table.TablePane.USE_ARRAY_JOIN + ",USE_TABLE: " + qx.ui.table.TablePane.USE_TABLE);
+  this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
@@ -286,19 +286,19 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   var rowWidth = paneModel.getTotalWidth();
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push('<table cellspacing="0" cellpadding="0" style="table-layout:fixed;width:');
+    htmlArr.push(TablePane.TABLE_START);
     htmlArr.push(rowWidth);
-    htmlArr.push('px"><colgroup>');
+    htmlArr.push(TablePane.TABLE_COLGROUP);
 
     for (var x = 0; x < colCount; x++) {
       var col = paneModel.getColumnAtX(x);
 
-      htmlArr.push('<col width="');
+      htmlArr.push(TablePane.TABLE_COL);
       htmlArr.push(columnModel.getColumnWidth(col));
-      htmlArr.push('"/>');
+      htmlArr.push(TablePane.TABLE_COLEND);
     }
 
-    htmlArr.push('</colgroup><tbody>');
+    htmlArr.push(TablePane.TABLE_TBODY);
   }
 
   for (var y = 0; y < rowCount; y++) {
@@ -310,9 +310,9 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 
     // Update this row
     if (TablePane.USE_TABLE) {
-      htmlArr.push('<tr style="height:');
+      htmlArr.push(TablePane.TABLE_TR);
       htmlArr.push(rowHeight);
-      htmlArr.push('px;background-color:');
+      htmlArr.push(TablePane.TABLE_BGCOLOR);
     } else {
       htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START);
       htmlArr.push(y * rowHeight);
@@ -352,18 +352,18 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     }
 
     if (TablePane.USE_TABLE) {
-      htmlArr.push("</tr>\n");
+      htmlArr.push(TablePane.TABLE_TR_END);
     } else {
       htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_END);
     }
   }
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push('</tbody></table>');
+    htmlArr.push(TablePane.TABLE_TBODY_END);
   }
 
   var elem = this.getElement();
-  this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<");
+  // this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<")
   elem.innerHTML = htmlArr.join(qx.constant.Core.EMPTY);
 
   this.setHeight(rowCount * rowHeight);
@@ -555,3 +555,13 @@ qx.Class.CONTENT_COL = "black";
 qx.Class.CONTENT_CELL_STYLE_LEFT = 'position:absolute;left:';
 qx.Class.CONTENT_CELL_STYLE_WIDTH = 'px;top:0px;width:';
 qx.Class.CONTENT_CELL_STYLE_HEIGHT = 'px; height:';
+
+qx.Class.TABLE_START = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;width:';
+qx.Class.TABLE_COLGROUP = 'px"><colgroup>';
+qx.Class.TABLE_COL = '<col width="';
+qx.Class.TABLE_COLEND = '"/>';
+qx.Class.TABLE_TBODY = '</colgroup><tbody>';
+qx.Class.TABLE_TR = '<tr style="height:';
+qx.Class.TABLE_BGCOLOR = 'px;background-color:';
+qx.Class.TABLE_TR_END = "</tr>";
+qx.Class.TABLE_TBODY_END = '</tbody></table>';
