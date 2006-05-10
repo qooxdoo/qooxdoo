@@ -370,7 +370,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
           {
             // This node has details -> Show the detail button
-            html += '<img class="openclose" src="images/open.gif"'
+            html += '<img src="images/open.gif"'
               + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
               + node.attributes.name + "'"
               + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
@@ -380,10 +380,11 @@ qx.Proto._updateInfoPanel = function(nodeType) {
           html += info.titleHtml;
         html += '</h3>';
 
-        // Create the text row
+        // Create content area
         html += '<div _itemName="' + nodeArr[i].attributes.name + '" class="item-row">'
           html += info.textHtml;
         html += '</div>';
+
       html += '</td></tr>';
     }
 
@@ -439,13 +440,13 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
       node = qx.apiviewer.TreeUtil.getChildByAttribute(listNode, "name", name);
     }
 
-    // Update the text row
+    // Update the close/open image
     var opencloseImgElem = textDiv.parentNode.firstChild.firstChild;
     opencloseImgElem.src = showDetails ? 'images/close.gif' : 'images/open.gif';
 
-    var textTdElem = textDiv.lastChild;
+    // Update content
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
-    textTdElem.innerHTML = info.textHtml;
+    textDiv.innerHTML = info.textHtml;
   } catch (exc) {
     this.error("Toggling item details failed", exc);
   }
