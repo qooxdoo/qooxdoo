@@ -138,7 +138,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   if (addInheritedCheckBox) {
     html += '<span class="inheritCheck"><input type="checkbox" id="chk_' + nodeType + '" '
       + 'onclick="document._detailViewer._onInheritedCheckBoxClick(' + nodeType + ')"></input>'
-      + '<label for="chk_' + nodeType + '">Inherited</label></span>';
+      + '<label for="chk_' + nodeType + '">Show inherited</label></span>';
   }
 
   html += '<img class="openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
@@ -341,10 +341,12 @@ qx.Proto._updateInfoPanel = function(nodeType) {
   }
 
   // Show the nodes
-  if (nodeArr && nodeArr.length != 0) {
-    var html = '<table cellspacing="0" cellpadding="0" class="info" width="100%">'
-      + '<colgroup><col width="20"></col><col></col><col width="100%"></col></colgroup>';
-    for (var i = 0; i < nodeArr.length; i++) {
+  if (nodeArr && nodeArr.length != 0)
+  {
+    var html = '<table cellspacing="0" cellpadding="0" class="info" width="100%">';
+
+    for (var i = 0; i < nodeArr.length; i++)
+    {
       var node = nodeArr[i];
       var fromClassNode = fromClassHash ? fromClassHash[node.attributes.name] : null;
       if (fromClassNode == null) {
@@ -356,32 +358,42 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       // Create the title row
       var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
       var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
-      html += '<tr class="item-row">'
-        + '<td class="icon-cell">' + DetailViewer.createImageHtml(iconUrl) + '</td>'
-        + '<td class="type-cell">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>'
-        + '<td class="title-cell">' + info.titleHtml + '</td>'
-        + '</tr>';
+      html += '<tr class="item-row">';
 
-      // Create the text row
-      html += '<tr _itemName="' + nodeArr[i].attributes.name + '" class="item-row">'
-        + '<td class="openclose-cell">';
-      if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
-        // This node has details -> Show the detail button
-        html += '<img class="openclose" src="images/open.gif"'
-          + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
-          + node.attributes.name + "'"
-          + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
-          + ")\"/>";
-      }
-      html += '</td>'
-        + '<td colspan="2" class="text-cell">' + info.textHtml + '</td>'
-        + '</tr>';
+      html += '<td class="icon">' + DetailViewer.createImageHtml(iconUrl) + '</td>';
+      html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
+      html += '<td class="text">';
+
+        // Create headline
+        html += '<h3>';
+
+          if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
+          {
+            // This node has details -> Show the detail button
+            html += '<img class="openclose" src="images/open.gif"'
+              + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
+              + node.attributes.name + "'"
+              + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
+              + ")\"/>";
+          }
+
+          html += info.titleHtml;
+        html += '</h3>';
+
+        // Create the text row
+        html += '<div _itemName="' + nodeArr[i].attributes.name + '" class="item-row">'
+          html += info.textHtml;
+        html += '</div>';
+      html += '</td></tr>';
     }
+
     html += '</table>';
 
     typeInfo.infoBodyElem.innerHTML = html;
     typeInfo.infoBodyElem.style.display = "";
-  } else {
+  }
+  else
+  {
     if (typeInfo.isOpen) {
       typeInfo.infoBodyElem.innerHTML = '<div class="empty-info-body">'
         + 'This class has no ' + typeInfo.labelText + '</div>';
@@ -405,13 +417,14 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
   try {
     var typeInfo = this._infoPanelHash[nodeType];
-    var textTrElem = this._getItemElement(nodeType, name);
-    if (! textTrElem) {
+    var textDiv = this._getItemElement(nodeType, name);
+
+    if (! textDiv) {
       throw Error("Element for name '" + name + "' not found!");
     }
 
-    var showDetails = textTrElem._showDetails ? !textTrElem._showDetails : true;
-    textTrElem._showDetails = showDetails;
+    var showDetails = textDiv._showDetails ? !textDiv._showDetails : true;
+    textDiv._showDetails = showDetails;
 
     var fromClassNode = this._currentClassDocNode;
     if (fromClassName) {
@@ -427,10 +440,10 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
     }
 
     // Update the text row
-    var opencloseImgElem = textTrElem.firstChild.firstChild;
+    var opencloseImgElem = textDiv.parentNode.firstChild.firstChild;
     opencloseImgElem.src = showDetails ? 'images/close.gif' : 'images/open.gif';
 
-    var textTdElem = textTrElem.lastChild;
+    var textTdElem = textDiv.lastChild;
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
     textTdElem.innerHTML = info.textHtml;
   } catch (exc) {
@@ -491,14 +504,16 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
  */
 qx.Proto._getItemElement = function(nodeType, name) {
   var typeInfo = this._infoPanelHash[nodeType];
-
   var elemArr = typeInfo.infoBodyElem.getElementsByTagName("TBODY")[0].childNodes;
+
   if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
     return elemArr[1];
   } else {
     for (var i = 0; i < elemArr.length; i++) {
-      if (elemArr[i].getAttribute("_itemName") == name) {
-        return elemArr[i];
+      // ARRG, should be implemented in a more fault-tolerant way
+      // iterate over tr's, look inside the third "td" and there the second element
+      if (elemArr[i].childNodes[2].childNodes[1].getAttribute("_itemName") == name) {
+        return elemArr[i].childNodes[2].childNodes[1];
       }
     }
   }
