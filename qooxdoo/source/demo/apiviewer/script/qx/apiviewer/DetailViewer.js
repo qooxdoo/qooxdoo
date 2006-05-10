@@ -354,38 +354,39 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       }
 
       var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
-
-      // Create the title row
       var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
       var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
-      html += '<tr class="item-row">';
 
-      html += '<td class="icon">' + DetailViewer.createImageHtml(iconUrl) + '</td>';
-      html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
-      html += '<td class="text">';
+      // Create the title row
+      html += '<tr>';
 
-        // Create headline
-        html += '<h3>';
+        html += '<td class="icon">' + DetailViewer.createImageHtml(iconUrl) + '</td>';
+        html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
+        html += '<td class="text">';
 
-          if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
-          {
-            // This node has details -> Show the detail button
-            html += '<img src="images/open.gif"'
-              + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
-              + node.attributes.name + "'"
-              + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
-              + ")\"/>";
-          }
+          // Create headline
+          html += '<h3>';
 
-          html += info.titleHtml;
-        html += '</h3>';
+            if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
+            {
+              // This node has details -> Show the detail button
+              html += '<img src="images/open.gif"'
+                + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
+                + node.attributes.name + "'"
+                + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
+                + ")\"/>";
+            }
 
-        // Create content area
-        html += '<div _itemName="' + nodeArr[i].attributes.name + '" class="item-row">'
-          html += info.textHtml;
-        html += '</div>';
+            html += info.titleHtml;
+          html += '</h3>';
 
-      html += '</td></tr>';
+          // Create content area
+          html += '<div _itemName="' + nodeArr[i].attributes.name + '">'
+            html += info.textHtml;
+          html += '</div>';
+
+        html += '</td>';
+      html += '</tr>';
     }
 
     html += '</table>';
@@ -395,11 +396,13 @@ qx.Proto._updateInfoPanel = function(nodeType) {
   }
   else
   {
-    if (typeInfo.isOpen) {
-      typeInfo.infoBodyElem.innerHTML = '<div class="empty-info-body">'
-        + 'This class has no ' + typeInfo.labelText + '</div>';
+    if (typeInfo.isOpen)
+    {
+      typeInfo.infoBodyElem.innerHTML = '<div class="empty-info-body">This class has no ' + typeInfo.labelText + '</div>';
       typeInfo.infoBodyElem.style.display = "";
-    } else {
+    }
+    else
+    {
       typeInfo.infoBodyElem.style.display = "none";
     }
   }
