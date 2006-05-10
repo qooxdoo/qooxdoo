@@ -88,9 +88,19 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
 
+  if (qx.ui.table.TablePane.USE_TABLE) {
+    htmlArr.push(BooleanDataCellRenderer.TABLE_DIV);
+    htmlArr.push(cellInfo.styleHeight - 2); // -1 for the border, -1 for the padding
+    htmlArr.push(BooleanDataCellRenderer.TABLE_DIV_CLOSE);
+  }
+
   htmlArr.push(BooleanDataCellRenderer.IMG_START);
   htmlArr.push(this._getImgUrl(cellInfo));
   htmlArr.push(BooleanDataCellRenderer.IMG_END);
+
+  if (qx.ui.table.TablePane.USE_TABLE) {
+    htmlArr.push(BooleanDataCellRenderer.TABLE_DIV_END);
+  }
 };
 
 
@@ -107,3 +117,7 @@ qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManag
 qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px';
 qx.Class.IMG_START = '<img src="';
 qx.Class.IMG_END = '"/>';
+
+qx.Class.TABLE_DIV = '<div style="overflow:hidden;height:';
+qx.Class.TABLE_DIV_CLOSE = 'px">';
+qx.Class.TABLE_DIV_END = '</div>';
