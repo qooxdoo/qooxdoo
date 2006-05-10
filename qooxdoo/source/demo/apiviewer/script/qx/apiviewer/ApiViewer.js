@@ -248,7 +248,7 @@ qx.Proto.selectItem = function(fullItemName) {
 
     var parenPos = itemName.indexOf("(");
     if (parenPos != -1) {
-      itemName = itemName.substring(0, parenPos).trim();
+      itemName = qx.lang.String.trim(itemName.substring(0, parenPos))
     }
   }
 
