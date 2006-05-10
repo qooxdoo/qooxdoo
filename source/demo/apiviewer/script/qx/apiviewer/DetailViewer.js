@@ -261,15 +261,14 @@ qx.Proto.showItem = function(itemName) {
   }
 
   var nodeType = this._getTypeForItemNode(itemNode);
-  var elem = this._getItemElement(nodeType, itemNode.attributes.name);
+  var elem = this._getItemElement(nodeType, itemNode.attributes.name).parentNode.parentNode;
 
   // NOTE: The previousSibling of the tr elements contain the title of the item,
   //       which has to be marked, too
   if (this._markedElement) {
-    this._markedElement.previousSibling.className = "item-row";
     this._markedElement.className = "item-row";
   }
-  elem.previousSibling.className = "item-row-marked";
+
   elem.className = "item-row-marked";
   this._markedElement = elem;
 
@@ -286,9 +285,9 @@ qx.Proto.showItem = function(itemName) {
   var clientHeight = doc.offsetHeight;
 
   if (scrollTop > top) {
-    doc.body.scrollTop = top;
+    doc.scrollTop = top;
   } else if (scrollTop < top + height - clientHeight) {
-    doc.body.scrollTop = top + height - clientHeight;
+    doc.scrollTop = top + height - clientHeight;
   }
 };
 

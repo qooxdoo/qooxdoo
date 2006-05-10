@@ -96,6 +96,7 @@
 
 #DetailViewer table.info tr.item-row-marked {
   background-color: #DEFF83;
+  background-color: red !important;
 }
 
 
@@ -126,9 +127,6 @@
 
 
 
-
-#DetailViewer div.item-desc {
-}
 
 #DetailViewer div.item-detail-headline {
   font-weight: bold;
