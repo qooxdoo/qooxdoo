@@ -1,134 +1,187 @@
-.api-detail {
-  font-family: "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif;
-  font-weight: normal;
-  font-size: 10pt;
-
-  background-color: white;
-  padding: 10;
+#DetailViewer {
+  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 11px;
 }
 
-a:link {
-  color: blue;
+#DetailViewer h1,
+#DetailViewer h2,
+#DetailViewer h3,
+#DetailViewer h4,
+#DetailViewer h5,
+#DetailViewer h6{
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  color: #134275;
 }
 
-a:visited {
-  color: blue;
+#DetailViewer *{
+  margin: 0;
+  padding: 0;
 }
 
-img {
+#DetailViewer td{
+  border: 1px solid black !important;
+}
+
+#DetailViewer h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#DetailViewer h2 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+
+
+
+
+
+
+
+#DetailViewer a:link,
+#DetailViewer a:visited{
+  color: #134275;
+}
+
+#DetailViewer a:hover,
+#DetailViewer a:active{
+  color: #134275;
+  text-decoration: underline;
+}
+
+
+
+
+
+#DetailViewer img {
   border: 0px;
 }
 
-img.api-img {
+#DetailViewer img.img {
   vertical-align: middle;
 }
 
-img.api-openclose {
+#DetailViewer img.openclose {
+
 }
 
-div.api-title {
-  font-weight: bold;
-  font-size: 16pt;
-  padding-bottom: 10px;
+
+
+
+
+#DetailViewer div.infoPanel {
+  margin-top: 20px;
 }
 
-div.api-info {
-  border: 2px solid gray;
-  margin-top: 15px;
-}
-
-div.api-info-title {
-  background-color: #8d9ec1;
-  font-weight: bold;
-  font-size: 14pt;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-span.api-checkbox {
-  font-size: 10pt;
+#DetailViewer div.infoPanel span.inheritCheck {
   font-weight: normal;
-  padding-left: 15px;
+  float: right;
+  font-size: 11px;
+  vertical-align: bottom;
 }
 
-div.api-empty-info-body {
-  border-top: 1px solid gray;
-  background-color: #EEEEEE;
-  font-style: italic;
-  padding-left:  2px;
-  padding-right: 2px;
+#DetailViewer div.infoPanel span.inheritCheck input,
+#DetailViewer div.infoPanel span.inheritCheck label{
+  vertical-align: middle;
 }
 
-table.api-info {
+#DetailViewer div.infoPanel span.inheritCheck label{
+  margin-left: 3px;
 }
 
-tr.api-item-row {
-  background-color: #EEEEEE;
+
+
+
+
+#DetailViewer table.info {
 }
 
-tr.api-item-row-marked {
-  background-color: #c6d4ee;
+#DetailViewer div.empty-info-body {
+  border-top: 1px solid #ECECEC;
+  background-color: #FDFFF7;
+  font-size: 14px;
 }
 
-td.api-icon-cell {
-  border-top: 1px solid gray;
+#DetailViewer div.empty-info-body,
+#DetailViewer tr.item-row {
+  background-color: #FDFFF7;
+}
 
+#DetailViewer tr.item-row-marked {
+  background-color: #DEFF83;
+}
+
+
+
+
+
+
+
+#DetailViewer td.icon-cell,
+#DetailViewer td.type-cell,
+#DetailViewer td.title-cell{
+  border-top: 1px solid #ECECEC;
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 4px;
+}
+
+#DetailViewer td.icon-cell {
   text-align: center;
   width: 20px;
 }
 
-td.api-type-cell {
-  border-top: 1px solid gray;
-
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 10pt;
-
-  white-space: nowrap;
+#DetailViewer td.type-cell {
+  width: 100px;
 }
 
-td.api-title-cell {
-  border-top: 1px solid gray;
-
-  font-family: monospace;
+#DetailViewer td.title-cell {
   font-weight: bold;
-  font-size: 10pt;
 }
 
-td.api-openclose-cell {
+
+
+
+
+
+#DetailViewer td.openclose-cell {
   text-align: center;
 
   vertical-align: top;
 }
 
-td.api-text-cell {
+#DetailViewer td.text-cell {
+  padding: 4px;
 }
 
-div.api-item-desc {
-  font-size: 10pt;
+
+
+
+
+
+#DetailViewer div.item-desc {
+
 }
 
-div.api-item-detail-headline {
+#DetailViewer div.item-detail-headline {
   font-weight: bold;
-  font-size: 10pt;
 }
 
-div.api-item-detail-text {
-  font-size: 10pt;
+#DetailViewer div.item-detail-text {
   padding-left: 20px;
 }
 
-div.api-item-detail-error {
+#DetailViewer div.item-detail-error {
   font-weight: bold;
-  font-size: 10pt;
   color: red;
 }
 
-span.api-item-detail-optional {
+#DetailViewer span.item-detail-optional {
   font-style: italic;
 }
 
-span.api-item-detail-param-name {
+#DetailViewer span.item-detail-param-name {
   font-family: monospace;
   font-weight: bold;
 }

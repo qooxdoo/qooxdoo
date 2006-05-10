@@ -1,30 +1,37 @@
 /**
  * Shows the class details.
  */
-qx.OO.defineClass("qx.apiviewer.DetailViewer", qx.ui.embed.Iframe, 
+qx.OO.defineClass("qx.apiviewer.DetailViewer", qx.ui.embed.HtmlEmbed,
 function() {
-  qx.ui.embed.Iframe.call(this, "api-detail.html");
+  qx.ui.embed.HtmlEmbed.call(this);
+
+  this.setOverflow("auto");
+  this.setPadding(20);
+  this.setWidth("1*");
+  this.setBorder(qx.renderer.border.BorderObject.presets.horizontalDivider);
+  this.setBackgroundColor("white");
+  this.setHtmlProperty("id", "DetailViewer");
+  this.setVisibility(false);
 
   qx.apiviewer.DetailViewer.instance = this;
 });
 
 
 /**
- * Initializes the content document of the iframe. Will be called by the
- * onload-handler of the iframe.
+ * Initializes the content of the embedding DIV. Will be called by the
+ * HtmlEmbed element initialization routine.
  */
-qx.Proto._initContentDocument = function() {
+qx.Proto._syncHtml = function() {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
-  var doc = this.getContentDocument();
-  doc._detailViewer = this;
+  document._detailViewer = this;
 
   this._infoPanelHash = {};
 
   var html = "";
 
   // Add title
-  html += '<div class="api-title"></div>';
+  html += '<h1></h1>';
 
   // Add description
   html += DetailViewer.DIV_START_DESC + DetailViewer.DIV_END;
@@ -66,10 +73,11 @@ qx.Proto._initContentDocument = function() {
 
 
   // Set the html
-  doc.body.innerHTML = html;
+  // doc.body.innerHTML = html;
+  this.getElement().innerHTML = html;
 
   // Extract the main elements
-  var divArr = doc.body.childNodes;
+  var divArr = this.getElement().childNodes;
   this._titleElem = divArr[0];
   this._classDescElem = divArr[1];
   this._infoPanelHash[DetailViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[2];
@@ -125,16 +133,19 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
     hasInheritedCheckBox:addInheritedCheckBox };
   this._infoPanelHash[nodeType] = typeInfo;
 
-  var html = '<div class="api-info" style="width:100%"><div class="api-info-title">'
-    + '<img class="api-openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
+  var html = '<div class="infoPanel"><h2>'
+
+  if (addInheritedCheckBox) {
+    html += '<span class="inheritCheck"><input type="checkbox" id="chk_' + nodeType + '" '
+      + 'onclick="document._detailViewer._onInheritedCheckBoxClick(' + nodeType + ')"></input>'
+      + '<label for="chk_' + nodeType + '">Inherited</label></span>';
+  }
+
+  html += '<img class="openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
     + uppercaseLabelText;
-  if (addInheritedCheckBox) {
-    html += '<span class="api-checkbox"><input type="checkbox" '
-      + 'onclick="document._detailViewer._onInheritedCheckBoxClick(' + nodeType + ')"></input>'
-      + 'Show inherited ' + labelText + '</span>';
-  }
-  html += '</div><div style="width:100%"></div></div>';
+
+  html += '</h2><div></div></div>';
 
   return html;
 }
@@ -232,8 +243,9 @@ qx.Proto.showClass = function(classNode) {
   }
 
   // Scroll to top
-  var doc = this.getContentDocument();
-  doc.body.scrollTop = 0;
+  // var doc = this.getContentDocument();
+  // doc.body.scrollTop = 0;
+  this.getElement().scrollTop = 0;
 };
 
 
@@ -254,20 +266,24 @@ qx.Proto.showItem = function(itemName) {
   // NOTE: The previousSibling of the tr elements contain the title of the item,
   //       which has to be marked, too
   if (this._markedElement) {
-    this._markedElement.previousSibling.className = "api-item-row";
-    this._markedElement.className = "api-item-row";
+    this._markedElement.previousSibling.className = "item-row";
+    this._markedElement.className = "item-row";
   }
-  elem.previousSibling.className = "api-item-row-marked";
-  elem.className = "api-item-row-marked";
+  elem.previousSibling.className = "item-row-marked";
+  elem.className = "item-row-marked";
   this._markedElement = elem;
 
   // Scroll the element visible
   var top = qx.dom.DomLocation.getPageBoxTop(elem);
   var height = elem.offsetHeight;
 
-  var doc = this.getContentDocument();
-  var scrollTop = doc.body.scrollTop;
-  var clientHeight = doc.body.clientHeight;
+  // REIMPLEMENT?
+  // Scrolling to some position... to what for example...
+  // Is this correctly implemented... what's a valid test-case?
+
+  var doc = this.getElement();
+  var scrollTop = doc.scrollTop;
+  var clientHeight = doc.offsetHeight;
 
   if (scrollTop > top) {
     doc.body.scrollTop = top;
@@ -326,7 +342,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 
   // Show the nodes
   if (nodeArr && nodeArr.length != 0) {
-    var html = '<table cellspacing="0" cellpadding="0" class="api-info" width="100%">'
+    var html = '<table cellspacing="0" cellpadding="0" class="info" width="100%">'
       + '<colgroup><col width="20"></col><col></col><col width="100%"></col></colgroup>';
     for (var i = 0; i < nodeArr.length; i++) {
       var node = nodeArr[i];
@@ -340,25 +356,25 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       // Create the title row
       var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
       var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
-      html += '<tr class="api-item-row">'
-        + '<td class="api-icon-cell">' + DetailViewer.createImageHtml(iconUrl) + '</td>'
-        + '<td class="api-type-cell">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>'
-        + '<td class="api-title-cell">' + info.titleHtml + '</td>'
+      html += '<tr class="item-row">'
+        + '<td class="icon-cell">' + DetailViewer.createImageHtml(iconUrl) + '</td>'
+        + '<td class="type-cell">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>'
+        + '<td class="title-cell">' + info.titleHtml + '</td>'
         + '</tr>';
 
       // Create the text row
-      html += '<tr _itemName="' + nodeArr[i].attributes.name + '" class="api-item-row">'
-        + '<td class="api-openclose-cell">';
+      html += '<tr _itemName="' + nodeArr[i].attributes.name + '" class="item-row">'
+        + '<td class="openclose-cell">';
       if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
         // This node has details -> Show the detail button
-        html += '<img class="api-openclose" src="images/open.gif"'
+        html += '<img class="openclose" src="images/open.gif"'
           + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
           + node.attributes.name + "'"
           + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
           + ")\"/>";
       }
       html += '</td>'
-        + '<td colspan="2" class="api-text-cell">' + info.textHtml + '</td>'
+        + '<td colspan="2" class="text-cell">' + info.textHtml + '</td>'
         + '</tr>';
     }
     html += '</table>';
@@ -367,7 +383,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     typeInfo.infoBodyElem.style.display = "";
   } else {
     if (typeInfo.isOpen) {
-      typeInfo.infoBodyElem.innerHTML = '<div class="api-empty-info-body">'
+      typeInfo.infoBodyElem.innerHTML = '<div class="empty-info-body">'
         + 'This class has no ' + typeInfo.labelText + '</div>';
       typeInfo.infoBodyElem.style.display = "";
     } else {
@@ -389,14 +405,14 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
   try {
     var typeInfo = this._infoPanelHash[nodeType];
-    var textTrElem = this._getItemElement(nodeType, name);  
+    var textTrElem = this._getItemElement(nodeType, name);
     if (! textTrElem) {
       throw Error("Element for name '" + name + "' not found!");
     }
 
     var showDetails = textTrElem._showDetails ? !textTrElem._showDetails : true;
     textTrElem._showDetails = showDetails;
-  
+
     var fromClassNode = this._currentClassDocNode;
     if (fromClassName) {
       fromClassNode = this._getClassDocNode(fromClassName);
@@ -570,7 +586,7 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
     if (allowedValue) {
       info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
         + DetailViewer.DIV_START_DETAIL_TEXT;
-  
+
       if (node.attributes.allowNull != "false") {
         info.textHtml += "null, ";
       }
@@ -1070,10 +1086,10 @@ qx.Proto._createDescriptionHtml = function(description, packageBaseClass) {
     // Add the text before the link
     html += description.substring(lastPos, hit.index)
       + this._createItemLinkHtml(hit[1], packageBaseClass);
-    
+
     lastPos = hit.index + hit[0].length;
   }
-  
+
   // Add the text after the last hit
   html += description.substring(lastPos, description.length);
 
@@ -1222,12 +1238,9 @@ qx.Proto.dispose = function() {
     this._infoPanelHash[nodeType].infoBodyElem = null;
   }
 
-  var doc = this.getContentDocument();
-  if (doc) {
-    doc._detailViewer = null;
-  }
+  document._detailViewer = null;
 
-  return qx.ui.embed.Iframe.prototype.dispose.call(this);
+  return qx.ui.embed.HtmlEmbed.prototype.dispose.call(this);
 };
 
 
@@ -1262,20 +1275,20 @@ qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
 qx.Class.NODE_TYPE_CONSTANT = 7;
 
 /** {string} The start tag of a div containing an item description. */
-qx.Class.DIV_START_DESC = '<div class="api-item-desc">';
+qx.Class.DIV_START_DESC = '<div class="item-desc">';
 /** {string} The start tag of a div containing the headline of an item detail. */
-qx.Class.DIV_START_DETAIL_HEADLINE = '<div class="api-item-detail-headline">';
+qx.Class.DIV_START_DETAIL_HEADLINE = '<div class="item-detail-headline">';
 /** {string} The start tag of a div containing the text of an item detail. */
-qx.Class.DIV_START_DETAIL_TEXT = '<div class="api-item-detail-text">';
+qx.Class.DIV_START_DETAIL_TEXT = '<div class="item-detail-text">';
 /** {string} The start tag of a div containing the headline of an item error. */
-qx.Class.DIV_START_ERROR_HEADLINE = '<div class="api-item-detail-error">';
+qx.Class.DIV_START_ERROR_HEADLINE = '<div class="item-detail-error">';
 /** {string} The end tag of a div. */
 qx.Class.DIV_END = '</div>';
 
 /** {string} The start tag of a span containing an optional detail. */
-qx.Class.SPAN_START_OPTIONAL = '<span class="api-item-detail-optional">';
+qx.Class.SPAN_START_OPTIONAL = '<span class="item-detail-optional">';
 /** {string} The start tag of a span containing a parameter name. */
-qx.Class.SPAN_START_PARAM_NAME = '<span class="api-item-detail-param-name">';
+qx.Class.SPAN_START_PARAM_NAME = '<span class="item-detail-param-name">';
 /** {string} The end tag of a span. */
 qx.Class.SPAN_END = '</span>';
 
@@ -1290,7 +1303,7 @@ qx.Class.SPAN_END = '</span>';
  */
 qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
-    return '<img src="' + imgUrl + '" class="api-img"'
+    return '<img src="' + imgUrl + '" class="img"'
       + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
   } else {
     if (styleAttributes) {
