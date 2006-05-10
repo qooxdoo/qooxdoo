@@ -423,7 +423,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
     var typeInfo = this._infoPanelHash[nodeType];
     var textDiv = this._getItemElement(nodeType, name);
 
-    if (! textDiv) {
+    if (!textDiv) {
       throw Error("Element for name '" + name + "' not found!");
     }
 
@@ -510,15 +510,11 @@ qx.Proto._getItemElement = function(nodeType, name) {
   var typeInfo = this._infoPanelHash[nodeType];
   var elemArr = typeInfo.infoBodyElem.getElementsByTagName("TBODY")[0].childNodes;
 
-  if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
-    return elemArr[1];
-  } else {
-    for (var i = 0; i < elemArr.length; i++) {
-      // ARRG, should be implemented in a more fault-tolerant way
-      // iterate over tr's, look inside the third "td" and there the second element
-      if (elemArr[i].childNodes[2].childNodes[1].getAttribute("_itemName") == name) {
-        return elemArr[i].childNodes[2].childNodes[1];
-      }
+  for (var i = 0; i < elemArr.length; i++) {
+    // ARRG, should be implemented in a more fault-tolerant way
+    // iterate over tr's, look inside the third "td" and there the second element
+    if (elemArr[i].childNodes[2].childNodes[1].getAttribute("_itemName") == name) {
+      return elemArr[i].childNodes[2].childNodes[1];
     }
   }
 };
