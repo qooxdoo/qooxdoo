@@ -4,7 +4,7 @@
  * @param clientWindow {qx.client.ClientWindow} the window were to show the API
  *        documentation.
  */
-qx.OO.defineClass("qx.apiviewer.ApiViewer", qx.core.Object, 
+qx.OO.defineClass("qx.apiviewer.ApiViewer", qx.core.Object,
 function (clientWindow) {
   qx.core.Object.call(this);
 
@@ -14,19 +14,21 @@ function (clientWindow) {
 
   var boxLayout = new qx.ui.layout.HorizontalBoxLayout;
 
-  boxLayout.setLocation(0, 0);
-  boxLayout.set({ right:0, bottom:0, spacing:5 });
+  boxLayout.setEdge(0);
 
   this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation")
-  this._tree.set({ backgroundColor:255, border:qx.renderer.border.BorderObject.presets.black,
-    overflow:"scrollY", width:300, height:qx.constant.Core.HUNDREDPERCENT });
+  this._tree.set({
+    backgroundColor: "white",
+    border: qx.renderer.border.BorderObject.presets.black,
+    overflow: "scroll",
+    width: "22%",
+    minWidth : 150,
+    maxWidth : 300
+  });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   boxLayout.add(this._tree);
 
   this._detailViewer = new qx.apiviewer.DetailViewer;
-  this._detailViewer.set({ border:qx.renderer.border.BorderObject.presets.black,
-    width:qx.constant.Core.FLEX, height:qx.constant.Core.HUNDREDPERCENT,
-    visibility:false });
   boxLayout.add(this._detailViewer);
 
   this._currentTreeType = ApiViewer.PACKAGE_TREE;
@@ -80,7 +82,7 @@ qx.Proto.loadDocTreeFromUrl = function(url) {
     }
   };
   req.addEventListener("completed", handler, this);
-  req.send(); 
+  req.send();
 };
 
 
@@ -269,7 +271,7 @@ qx.Proto.showClass = function(className) {
   this.debug("child 1: " + this._tree.getChildren()[1]);
   this.debug("items:"+this._tree.getItems().length);
   this.debug("item 0:"+this._tree.getItems()[0]);
-  
+
   var item1 = this._tree.getItems()[1];
   this.debug("item 1:"+item1);
   this.debug("item 1 label:"+item1.getLabel());
@@ -299,7 +301,7 @@ qx.Proto.showClass = function(className) {
 
   if (treeNode) {
     treeNode.setSelected(true);
-    
+
     // Open the parents
     /*
     // Grrrrrrrrr: Tree navigation doesn't work!
