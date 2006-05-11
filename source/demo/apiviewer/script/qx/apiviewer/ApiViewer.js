@@ -219,10 +219,14 @@ qx.Proto._onTreeSelectionChange = function(evt) {
 
     this._detailViewer.showClass(treeNode.docNode);
     this._detailViewer.setVisibility(true);
+
+    window.location.hash = "#" + treeNode.docNode.attributes.fullName;
   } else {
     document.title = this._titlePrefix;
-
     this._detailViewer.setVisibility(false);
+
+    // Other than classes are not support for bookmarkable-urls currently
+    window.location.hash = "#";
   }
 };
 
