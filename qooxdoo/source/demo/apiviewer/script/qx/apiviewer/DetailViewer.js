@@ -173,12 +173,20 @@ qx.Proto.showClass = function(classNode) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
   var titleHtml = "";
+
+  titleHtml += '<div class="packageName">' + classNode.attributes.package + '</div>';
+
+  titleHtml += '<span class="typeInfo">';
+
   if (classNode.attributes.isAbstract) {
     titleHtml += "abstract ";
   } else if (classNode.attributes.isStatic) {
     titleHtml += "static ";
   }
-  titleHtml += "class " + classNode.attributes.fullName;
+
+  titleHtml += "class ";
+  titleHtml += '</span>';
+  titleHtml += classNode.attributes.name;
 
   this._titleElem.innerHTML = titleHtml
 
@@ -748,7 +756,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   }
 
   // Add the title (the method signature)
-  info.titleHtml += " (";
+  info.titleHtml += '<span class="methodSignature"> (';
   var paramsNode = TreeUtil.getChild(docNode, "params");
   if (paramsNode) {
     for (var i = 0; i < paramsNode.children.length; i++) {
@@ -756,14 +764,14 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
       if (i != 0) {
         info.titleHtml += ", ";
       }
-      info.titleHtml += this._createTypeHtml(param, fromClassNode, "var") + " "
+      info.titleHtml += '<span class="parameterType">' + this._createTypeHtml(param, fromClassNode, "var") + "</span> "
         + param.attributes.name;
       if (param.attributes.defaultValue) {
         info.titleHtml += "?";
       }
     }
   }
-  info.titleHtml += ")";
+  info.titleHtml += ")</span>";
 
   // Add the description
   if (node.attributes.isCtor) {
