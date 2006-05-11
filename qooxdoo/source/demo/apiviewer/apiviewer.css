@@ -94,9 +94,8 @@
   background-color: #FDFFF7;
 }
 
-#DetailViewer table.info tr.item-row-marked {
-  background-color: #DEFF83;
-  background-color: red !important;
+#DetailViewer table.info tr.marked {
+  background: #DEFF83;
 }
 
 
