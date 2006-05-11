@@ -29,7 +29,6 @@
 #DetailViewer h2 {
   font-size: 18px;
   margin-bottom: 4px;
-  margin-top: 10px;
 }
 
 #DetailViewer h3 {
@@ -60,7 +59,7 @@
 
 
 
-#DetailViewer .classDescription{
+#DetailViewer div.classDescription{
   font-size: 12px;
 
   background: #E9F2FB;
@@ -72,15 +71,28 @@
   width: 450px;
 }
 
-#DetailViewer .classDescription p{
+#DetailViewer div.classDescription p{
   margin-top: 10px;
+}
+
+#DetailViewer div.packageName{
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 2px;
+}
+
+#DetailViewer span.typeInfo{
+  color: #83B300;
+  font-weight: normal;
 }
 
 
 
 
+
+
 #DetailViewer div.infoPanel {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 #DetailViewer div.infoPanel span.inheritCheck {
@@ -131,17 +143,20 @@
   padding: 0;
 }
 
-#DetailViewer table.info td.icon,
-#DetailViewer table.info td.toggle {
+#DetailViewer table.info td.icon{
   text-align: center;
   width: 20px;
 }
 
-#DetailViewer table.info td.type {
-  width: 120px;
+#DetailViewer table.info td.type{
+  width: 100px;
+  font-size: 12px;
+  color: #83B300;
+  font-weight: bold;
 }
 
 #DetailViewer table.info td.toggle{
+  text-align: center;
   width: 16px;
   padding: 1px;
 }
@@ -152,6 +167,20 @@
 
 #DetailViewer table.info td.text h3{
   cursor: default;
+}
+
+#DetailViewer span.methodSignature{
+  font-size: 12px;
+  color: #83B300;
+}
+
+#DetailViewer table.info td.type a,
+#DetailViewer span.methodSignature a{
+  color: #83B300 !important;
+}
+
+#DetailViewer span.methodSignature span.parameterType{
+  font-style: italic;
 }
 
 

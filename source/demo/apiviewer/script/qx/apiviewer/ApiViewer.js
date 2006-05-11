@@ -226,7 +226,7 @@ qx.Proto._onTreeSelectionChange = function(evt) {
     this._detailViewer.setVisibility(false);
 
     // Other than classes are not support for bookmarkable-urls currently
-    window.location.hash = "#";
+    window.location.hash = "#" + treeNode.docNode.attributes.fullName;
   }
 };
 
