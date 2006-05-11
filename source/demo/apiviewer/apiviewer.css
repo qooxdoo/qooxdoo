@@ -1,4 +1,6 @@
-#DetailViewer {
+#DetailViewer,
+#DetailViewer td,
+#DetailViewer th{
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 11px;
 }
