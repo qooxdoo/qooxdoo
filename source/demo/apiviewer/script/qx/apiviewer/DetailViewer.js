@@ -143,7 +143,10 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
 
   html += '<img class="openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
-    + uppercaseLabelText;
+    + '<span '
+    + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">"
+    + uppercaseLabelText
+    + '</span>';
 
   html += '</h2><div></div></div>';
 
@@ -179,12 +182,12 @@ qx.Proto.showClass = function(classNode) {
   titleHtml += '<span class="typeInfo">';
 
   if (classNode.attributes.isAbstract) {
-    titleHtml += "abstract ";
+    titleHtml += "Abstract ";
   } else if (classNode.attributes.isStatic) {
-    titleHtml += "static ";
+    titleHtml += "Static ";
   }
 
-  titleHtml += "class ";
+  titleHtml += "Class ";
   titleHtml += '</span>';
   titleHtml += classNode.attributes.name;
 
