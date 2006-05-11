@@ -263,22 +263,17 @@ qx.Proto.showItem = function(itemName) {
   var nodeType = this._getTypeForItemNode(itemNode);
   var elem = this._getItemElement(nodeType, itemNode.attributes.name).parentNode.parentNode;
 
-  // NOTE: The previousSibling of the tr elements contain the title of the item,
-  //       which has to be marked, too
+  // Handle mark
   if (this._markedElement) {
-    this._markedElement.className = "item-row";
+    this._markedElement.className = "";
   }
 
-  elem.className = "item-row-marked";
+  elem.className = "marked";
   this._markedElement = elem;
 
   // Scroll the element visible
   var top = qx.dom.DomLocation.getPageBoxTop(elem);
   var height = elem.offsetHeight;
-
-  // REIMPLEMENT?
-  // Scrolling to some position... to what for example...
-  // Is this correctly implemented... what's a valid test-case?
 
   var doc = this.getElement();
   var scrollTop = doc.scrollTop;
