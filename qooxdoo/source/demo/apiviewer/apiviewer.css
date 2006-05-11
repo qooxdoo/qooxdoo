@@ -78,7 +78,7 @@
 #DetailViewer div.packageName{
   font-size: 14px;
   font-weight: normal;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 #DetailViewer span.typeInfo{
@@ -93,6 +93,10 @@
 
 #DetailViewer div.infoPanel {
   margin-top: 30px;
+}
+
+#DetailViewer div.infoPanel h2{
+  cursor: default;
 }
 
 #DetailViewer div.infoPanel span.inheritCheck {
