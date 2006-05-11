@@ -778,7 +778,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
 
   // Add the description
   if (node.attributes.isCtor) {
-    info.textHtml = "Creates a new instance of " + fromClassNode.attributes.name;
+    info.textHtml = "Creates a new instance of " + fromClassNode.attributes.name + ".";
   } else {
     info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
   }
@@ -1220,7 +1220,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
           }
           if (itemNode) {
             var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(itemNode);
-            label = qx.apiviewer.DetailViewer.createImageHtml(iconUrl) + label;
+            var iconCode = qx.apiviewer.DetailViewer.createImageHtml(iconUrl);
           }
         }
       }
@@ -1229,7 +1229,8 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
       // NOTE: The onclick-handler must be added by HTML code. If it
       //       is added using the DOM element then the href is followed.
       var fullItemName = className + (itemName ? itemName : "");
-      return '<a href="' + window.location.protocol + '//' +  window.location.pathname
+      return (typeof iconCode != "undefined" ? iconCode : "")
+        + '<a href="' + window.location.protocol + '//' +  window.location.pathname
         + '#' + fullItemName + '" onclick="'
         + 'document._detailViewer._selectItem(\'' + fullItemName + '\'); return false;"'
         + ' title="' + fullItemName + '">' + label + '</a>';
