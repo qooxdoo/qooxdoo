@@ -49,7 +49,10 @@
   text-decoration: underline;
 }
 
-
+#DetailViewer td{
+  vertical-align: top;
+  padding: 2px 4px;
+}
 
 
 
@@ -83,41 +86,36 @@
 
 
 #DetailViewer table.info {
-}
-
-#DetailViewer table.info div.empty-info-body {
-  border-top: 1px solid #ECECEC;
-  background-color: #FDFFF7;
+  table-layout: fixed;
 }
 
 #DetailViewer table.info tr {
-  background-color: #FDFFF7;
+  background: #FBFFEF;
 }
 
 #DetailViewer table.info tr.marked {
   background: #DEFF83;
 }
 
-
-
-
-
-
-
-#DetailViewer td.icon,
-#DetailViewer td.type,
-#DetailViewer td.text{
+#DetailViewer table.info tr td,
+#DetailViewer div.empty-info-body {
   border-top: 1px solid #ECECEC;
-  padding: 4px;
-  vertical-align: top;
 }
 
-#DetailViewer td.icon {
+#DetailViewer table.info tr td{
+  overflow: hidden;
+}
+
+#DetailViewer table.info tr td td{
+  border-top: 0 none;
+}
+
+#DetailViewer table.info td.icon {
   text-align: center;
   width: 20px;
 }
 
-#DetailViewer td.type {
+#DetailViewer table.info td.type {
   width: 120px;
 }
 
