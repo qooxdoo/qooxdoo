@@ -51,7 +51,7 @@
 
 #DetailViewer td{
   vertical-align: top;
-  padding: 2px 4px;
+  padding: 2px;
 }
 
 
@@ -108,15 +108,30 @@
 
 #DetailViewer table.info tr td td{
   border-top: 0 none;
+  padding: 0;
 }
 
-#DetailViewer table.info td.icon {
+#DetailViewer table.info td.icon,
+#DetailViewer table.info td.toggle {
   text-align: center;
   width: 20px;
 }
 
 #DetailViewer table.info td.type {
   width: 120px;
+}
+
+#DetailViewer table.info td.toggle{
+  width: 16px;
+  padding: 1px;
+}
+
+#DetailViewer table.info td.toggle img{
+  cursor: default;
+}
+
+#DetailViewer table.info td.text h3{
+  cursor: default;
 }
 
 
