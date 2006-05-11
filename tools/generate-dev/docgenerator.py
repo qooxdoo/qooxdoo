@@ -549,7 +549,7 @@ def getClassNode(docTree, className):
         childPackage = tree.Node("package")
         childPackage.set("name", split)
         childPackage.set("fullName", ".".join(splits[:-1]))
-        childPackage.set("package", ".".join(splits[:-1]))
+        childPackage.set("packageName", ".".join(splits[:-1]))
         currPackage.addListChild("packages", childPackage)
       currPackage = childPackage
     else:
@@ -560,7 +560,7 @@ def getClassNode(docTree, className):
         classNode = tree.Node("class")
         classNode.set("name", split)
         classNode.set("fullName", className)
-        classNode.set("package", className.replace("." + split, ""))
+        classNode.set("packageName", className.replace("." + split, ""))
         currPackage.addListChild("classes", classNode)
       return classNode
 

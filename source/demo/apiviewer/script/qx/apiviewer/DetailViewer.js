@@ -177,7 +177,7 @@ qx.Proto.showClass = function(classNode) {
 
   var titleHtml = "";
 
-  titleHtml += '<div class="packageName">' + classNode.attributes.package + '</div>';
+  titleHtml += '<div class="packageName">' + classNode.attributes.packageName + '</div>';
 
   titleHtml += '<span class="typeInfo">';
 
