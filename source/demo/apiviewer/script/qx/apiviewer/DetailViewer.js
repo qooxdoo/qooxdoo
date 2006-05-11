@@ -356,22 +356,37 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 
         html += '<td class="icon">' + DetailViewer.createImageHtml(iconUrl) + '</td>';
         html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
+
+        html += '<td class="toggle">';
+        if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
+        {
+          // This node has details -> Show the detail button
+          html += '<img src="images/open.gif"'
+            + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
+            + node.attributes.name + "'"
+            + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
+            + ")\"/>";
+        }
+        html += '</td>';
+
         html += '<td class="text">';
 
           // Create headline
-          html += '<h3>';
+          html += '<h3'
 
-            if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
-            {
-              // This node has details -> Show the detail button
-              html += '<img src="images/open.gif"'
-                + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
-                + node.attributes.name + "'"
-                + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
-                + ")\"/>";
-            }
+          if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
+          {
+            html += " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
+              + node.attributes.name + "'"
+              + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
+              + ")\">";
+          }
+          else
+          {
+            html += '>';
+          }
 
-            html += info.titleHtml;
+          html += info.titleHtml;
           html += '</h3>';
 
           // Create content area
@@ -438,7 +453,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
     }
 
     // Update the close/open image
-    var opencloseImgElem = textDiv.parentNode.firstChild.firstChild;
+    var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
     opencloseImgElem.src = showDetails ? 'images/close.gif' : 'images/open.gif';
 
     // Update content
@@ -507,8 +522,8 @@ qx.Proto._getItemElement = function(nodeType, name) {
   for (var i = 0; i < elemArr.length; i++) {
     // ARRG, should be implemented in a more fault-tolerant way
     // iterate over tr's, look inside the third "td" and there the second element
-    if (elemArr[i].childNodes[2].childNodes[1].getAttribute("_itemName") == name) {
-      return elemArr[i].childNodes[2].childNodes[1];
+    if (elemArr[i].childNodes[3].childNodes[1].getAttribute("_itemName") == name) {
+      return elemArr[i].childNodes[3].childNodes[1];
     }
   }
 };
@@ -1340,9 +1355,23 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
 qx.Class.createOverlayImageHtml
   = function(width, height, imgUrlArr, toolTip, styleAttributes)
 {
+  var html = '<div style="position:relative;top:0;left:0;width:' + width + 'px;height:' + height + 'px'
+  + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+
+  for (var i = 0; i < imgUrlArr.length; i++) {
+    html += '<img';
+    if (toolTip != null) {
+      html += ' title="' + toolTip + '"';
+    }
+    html += ' style="position:absolute;top:0px;left:0px" src="' + imgUrlArr[i] + '"/>';
+  }
+
+  html += '</div>'
+
+  /*
   // NOTE: See testOverlay.html
   var html = '<table cellpadding="0" cellspacing="0" '
-    + 'style="display:inline;position:relative'
+    + 'style="display:inline;position:relative;border:1px solid blue'
     + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '"><tr>'
     + '<td style="width:' + width + 'px;height:' + height + 'px">';
   for (var i = 0; i < imgUrlArr.length; i++) {
@@ -1353,6 +1382,7 @@ qx.Class.createOverlayImageHtml
     html += ' style="position:absolute;top:0px;left:0px" src="' + imgUrlArr[i] + '"></img>';
   }
   html += '</td></tr></table>';
+  */
 
   return html;
 };
