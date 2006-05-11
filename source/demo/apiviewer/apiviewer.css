@@ -3,6 +3,7 @@
 #DetailViewer th{
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 11px;
+  line-height: 150%;
 }
 
 #DetailViewer h1,
@@ -57,6 +58,23 @@
 }
 
 
+
+
+#DetailViewer .classDescription{
+  font-size: 12px;
+
+  background: #E9F2FB;
+  border: 1px solid #E9F2FB;
+
+  -moz-border-radius: 5px;
+  padding: 12px;
+
+  width: 450px;
+}
+
+#DetailViewer .classDescription p{
+  margin-top: 10px;
+}
 
 
 
@@ -144,6 +162,7 @@
 
 #DetailViewer div.item-detail-headline {
   font-weight: bold;
+  color: #1D65B3;
 }
 
 #DetailViewer div.item-detail-text {
@@ -152,7 +171,7 @@
 
 #DetailViewer div.item-detail-error {
   font-weight: bold;
-  color: red;
+  color: #D61F1C;
 }
 
 #DetailViewer span.item-detail-optional {
@@ -160,6 +179,7 @@
 }
 
 #DetailViewer span.item-detail-param-name {
-  font-family: monospace;
-  font-weight: bold;
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  background: #E9F2FB;
+  padding: 1px;
 }

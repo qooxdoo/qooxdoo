@@ -34,7 +34,7 @@ qx.Proto._syncHtml = function() {
   html += '<h1></h1>';
 
   // Add description
-  html += DetailViewer.DIV_START_DESC + DetailViewer.DIV_END;
+  html += DetailViewer.DIV_START + DetailViewer.DIV_END;
 
   // Add constructor info
   html += this._createInfoPanel(DetailViewer.NODE_TYPE_CONSTRUCTOR,
@@ -182,7 +182,23 @@ qx.Proto.showClass = function(classNode) {
 
   this._titleElem.innerHTML = titleHtml
 
+  var classHtml = "";
+
+   // Add the class description
+  var ctorList = qx.apiviewer.TreeUtil.getChild(classNode, "constructor");
+  if (ctorList) {
+    var desc = this._createDescHtml(ctorList.children[0], classNode, true);
+
+    if (desc != "")
+    {
+      classHtml += '<div class="classDescription">' + desc + '</div>';
+      classHtml += "<br/>";
+    }
+  }
+
   // Create the class hierarchie
+  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchie:" + DetailViewer.DIV_END
+
   var classHierarchie = [];
   var currClass = classNode;
   while (currClass != null) {
@@ -192,7 +208,7 @@ qx.Proto.showClass = function(classNode) {
   this._currentClassHierarchie = classHierarchie;
 
   // Add the class hierarchie
-  var classHtml = DetailViewer.createImageHtml("images/class18.gif") + "Object<br/>";
+  classHtml += DetailViewer.createImageHtml("images/class18.gif") + "Object<br/>";
   var indent = 0;
   for (var i = classHierarchie.length - 1; i >= 0; i--) {
     classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "margin-left:" + indent + "px")
@@ -206,17 +222,11 @@ qx.Proto.showClass = function(classNode) {
     indent += 18;
   }
 
-  // Add the class description
-  var ctorList = qx.apiviewer.TreeUtil.getChild(classNode, "constructor");
-  if (ctorList) {
-    classHtml += '<p>' + this._createDescHtml(ctorList.children[0], classNode, true) + '</p>';
-  } else {
-    classHtml += '<p></p>';
-  }
+  classHtml += '<br/>';
 
   // Add child classes
   if (classNode.attributes.childClasses) {
-    classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Direct known subclasses:" + DetailViewer.DIV_END
+    classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Direct subclasses:" + DetailViewer.DIV_END
       + DetailViewer.DIV_START_DETAIL_TEXT;
 
     var classNameArr = classNode.attributes.childClasses.split(",");
@@ -228,11 +238,13 @@ qx.Proto.showClass = function(classNode) {
     }
 
     classHtml += DetailViewer.DIV_END;
+    classHtml += '<br/>';
   }
 
   // Add @see attributes
   if (ctorList) {
     classHtml += this._createSeeAlsoHtml(ctorList.children[0], classNode);
+    classHtml += '<br/>';
   }
 
   this._classDescElem.innerHTML = classHtml;
@@ -243,8 +255,6 @@ qx.Proto.showClass = function(classNode) {
   }
 
   // Scroll to top
-  // var doc = this.getContentDocument();
-  // doc.body.scrollTop = 0;
   this.getElement().scrollTop = 0;
 };
 
@@ -756,7 +766,12 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   info.titleHtml += ")";
 
   // Add the description
-  info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
+  if (node.attributes.isCtor) {
+    info.textHtml = "Creates a new instance of " + fromClassNode.attributes.name;
+  } else {
+    info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
+  }
+
 
   if (showDetails) {
     // Add Parameters
@@ -1298,6 +1313,8 @@ qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
 /** {int} The node type of a constant. */
 qx.Class.NODE_TYPE_CONSTANT = 7;
 
+/** {string} The start tag of a div. */
+qx.Class.DIV_START = '<div>';
 /** {string} The start tag of a div containing an item description. */
 qx.Class.DIV_START_DESC = '<div class="item-desc">';
 /** {string} The start tag of a div containing the headline of an item detail. */
