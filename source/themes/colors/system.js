@@ -28,4 +28,7 @@
 
 ************************************************************************ */
 
-new qx.renderer.theme.ColorTheme("operatingSystemDefault", "Operating System Default", {});
+// hide from global scope
+(function () {
+  new qx.renderer.theme.ColorTheme("operatingSystemDefault", "Operating System Default", {});
+})();

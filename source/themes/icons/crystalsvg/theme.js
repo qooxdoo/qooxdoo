@@ -35,4 +35,7 @@
 
 ************************************************************************ */
 
-new qx.renderer.theme.IconTheme("crystalsvg", "Crystal SVG");
+// hide from global scope
+(function () {
+  new qx.renderer.theme.IconTheme("crystalsvg", "Crystal SVG");
+})();
