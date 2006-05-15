@@ -59,6 +59,7 @@ qx.Class.ignore =
     "screenLeft",
 
     // Standard
+    "length",
     "window",
     "document",
     "location",
