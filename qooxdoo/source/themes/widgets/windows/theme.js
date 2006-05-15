@@ -28,4 +28,7 @@
 
 ************************************************************************ */
 
-new qx.renderer.theme.WidgetTheme("windows", "Windows");
+// hide from global scope
+(function () {
+  new qx.renderer.theme.WidgetTheme("windows", "Windows");
+})();

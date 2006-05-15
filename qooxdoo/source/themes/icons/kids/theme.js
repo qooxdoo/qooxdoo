@@ -28,4 +28,7 @@
 
 ************************************************************************ */
 
-new qx.renderer.theme.IconTheme("kids", "Kids");
+// hide from global scope
+(function () {
+  new qx.renderer.theme.IconTheme("kids", "Kids");
+})();

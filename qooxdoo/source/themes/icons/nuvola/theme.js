@@ -28,4 +28,7 @@
 
 ************************************************************************ */
 
-new qx.renderer.theme.IconTheme("nuvola", "Nuvola");
+// hide from global scope
+(function () {
+  new qx.renderer.theme.IconTheme("nuvola", "Nuvola");
+})();
