@@ -135,8 +135,8 @@
                     str += "$" + i + "._element = $" + i + "._valueElement;\n";
                     str += "$" + i + "._style = $" + i + "._valueElement.style;\n";
 
-                    // map _QxWidget attribute of node to widget
-                    str += "$" + i + "._valueElement._QxWidget = $" + i + ";\n";
+                    // map qx_Widget attribute of node to widget
+                    str += "$" + i + "._valueElement.qx_Widget = $" + i + ";\n";
 
                     if (v instanceof qx.ui.basic.Image)
                     {

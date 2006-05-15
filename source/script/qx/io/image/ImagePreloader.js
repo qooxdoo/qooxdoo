@@ -47,7 +47,7 @@ function(vSource)
   this._element = new Image;
 
   // This is needed for wrapping event to the object
-  this._element._QxImagePreloader = this;
+  this._element.qx_ImagePreloader = this;
 
   // Define handler if image events occurs
   this._element.onload = qx.io.image.ImagePreloader.__onload;
@@ -135,8 +135,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.io.image.ImagePreloader.__onload = function() { this._QxImagePreloader._onload(); };
-qx.io.image.ImagePreloader.__onerror = function() { this._QxImagePreloader._onerror(); };
+qx.io.image.ImagePreloader.__onload = function() { this.qx_ImagePreloader._onload(); };
+qx.io.image.ImagePreloader.__onerror = function() { this.qx_ImagePreloader._onerror(); };
 
 qx.Proto._onload = function()
 {
@@ -178,7 +178,7 @@ qx.Proto.dispose = function()
   if (this._element)
   {
     this._element.onload = this._element.onerror = null;
-    this._element._QxImagePreloader = null;
+    this._element.qx_ImagePreloader = null;
     this._element = null;
   };
 
