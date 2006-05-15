@@ -795,13 +795,13 @@ if (qx.sys.Client.isGecko())
 
   qx.renderer.border.Border._resetBorderX = function(o)
   {
-    s = o._style;
+    var s = o._style;
     s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = qx.constant.Core.EMPTY;
   };
 
   qx.renderer.border.Border._resetBorderY = function(o)
   {
-    s = o._style;
+    var s = o._style;
     s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = qx.constant.Core.EMPTY;
   };
 }
@@ -1093,7 +1093,7 @@ else
 
   qx.renderer.border.Border._resetBorderX = function(o)
   {
-    s = o._style;
+    var s = o._style;
     s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
@@ -1107,7 +1107,7 @@ else
 
   qx.renderer.border.Border._resetBorderY = function(o)
   {
-    s = o._style;
+    var s = o._style;
     s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
