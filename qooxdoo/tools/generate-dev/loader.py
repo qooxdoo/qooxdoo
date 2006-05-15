@@ -6,81 +6,64 @@ import config
 
 
 
-R_QXDEFINECLASS = re.compile('qx.OO.defineClass\("([\.a-zA-Z0-9_-]+)"(\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M)
-R_QXUNIQUEID = re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXPACKAGE = re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXREQUIRE = re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M)
-R_QXUSE = re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
+def extractUniqueId(data):
+  for item in config.QXHEAD["uniqueId"].findall(data):
+    return item
+
+  for item in config.QXHEAD["defineClass"].findall(data):
+    return item[0]
+
+  return None
 
 
+def extractSuperClass(data):
+  for item in config.QXHEAD["defineClass"].findall(data):
+    return item[2]
+
+  return None
 
 
-def extractMetaData(data, loadDeps, runtimeDeps, knownPackages):
-  thisClass = None
-  superClass = None
-
-  dc = config.QXHEAD["defineClass"].search(data)
-
-  if dc:
-    thisClass = dc.group(1)
-    superClass = dc.group(3)
-
-  else:
-    # print "Sorry. Don't find any class informations. Trying id information."
-
-    ns = config.QXHEAD["uniqueId"].search(data)
-
-    if ns:
-      thisClass = ns.group(1)
-
-
-  if thisClass == None:
-    print "    * Error while extracting uniqueId!"
-    return None
-
-
-  # Pre-Creating data storage
-  if not loadDeps.has_key(thisClass):
-    loadDeps[thisClass] = []
-
-  if not runtimeDeps.has_key(thisClass):
-    runtimeDeps[thisClass] = []
-
+def extractLoadtimeDeps(data):
+  deps = []
 
   # Storing inheritance deps
-  if superClass != None:
-    if superClass in config.JSBUILTIN:
-      pass
+  superClass = extractSuperClass(data)
+  if superClass != None and superClass != "" and not superClass in config.JSBUILTIN:
+    deps.append(superClass)
 
-    else:
-      loadDeps[thisClass].append(superClass)
+  # Adding explicit requirements
+  for item in config.QXHEAD["require"].findall(data):
+    deps.append(item)
 
-
-  # Storing defined deps and package informations
-  for line in data.split("\n"):
-    req = config.QXHEAD["require"].search(line)
-    use = config.QXHEAD["use"].search(line)
-    pkg = config.QXHEAD["package"].search(line)
-
-    if req:
-      loadDeps[thisClass].append(req.group(1))
-
-    if use:
-      runtimeDeps[thisClass].append(use.group(1))
-
-    if pkg:
-      pkgname = pkg.group(1)
-
-      if knownPackages.has_key(pkgname):
-        knownPackages[pkgname].append(thisClass)
-      else:
-        knownPackages[pkgname] = [ thisClass ]
+  return deps
 
 
-  return thisClass
+def extractRuntimeDeps(data):
+  deps = []
+
+  # Adding explicit requirements
+  for item in config.QXHEAD["use"].findall(data):
+    deps.append(item)
+
+  return deps
 
 
+def extractPackages(data):
+  pkgs = []
 
+  for item in config.QXHEAD["package"].findall(data):
+    pkgs.append(item)
+
+  return pkgs
+
+
+def extractCopyInfo(data):
+  copy = []
+
+  for item in config.QXHEAD["copy"].findall(data):
+    copy.append(item)
+
+  return copy
 
 
 
@@ -126,18 +109,14 @@ def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
     for filename in files:
       if os.path.splitext(filename)[1] == config.JSEXT:
         completeFileName = os.path.join(root, filename)
-        uniqueId = extractMetaData(file(completeFileName, "r").read(), loadDeps, runtimeDeps, knownPackages)
+        fileData = file(completeFileName, "r").read()
+        uniqueId = extractUniqueId(fileData)
 
         if uniqueId == None:
-          print "    * Could not extract meta data from file: %s" % filename
-          print "    * Using filename (compatibility mode)"
           uniqueId = filename.replace(config.JSEXT, "")
-          knownFiles[uniqueId] = completeFileName
-          loadDeps[uniqueId] = []
-          runtimeDeps[uniqueId] = []
+          print "    * Could not extract uniqueId from file: %s. Using filename!" % uniqueId
 
         else:
-
           splitUniqueId = uniqueId.split(".")
           splitFileName = completeFileName.replace(config.JSEXT, "").split(os.sep)
           uniqueFileId = ".".join(splitFileName[len(splitFileName)-len(splitUniqueId):])
@@ -145,8 +124,20 @@ def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
           if uniqueId != uniqueFileId:
             print "    * UniqueId/Filename mismatch: %s != %s" % (uniqueId, uniqueFileId)
 
-          knownFiles[uniqueId] = completeFileName
 
+        # Map uniqueId to fileName
+        knownFiles[uniqueId] = completeFileName
+
+        # Store explicit deps
+        loadDeps[uniqueId] = extractLoadtimeDeps(fileData)
+        runtimeDeps[uniqueId] = extractRuntimeDeps(fileData)
+
+        # Register file to package information
+        for pkgname in extractPackages(fileData):
+          if knownPackages.has_key(pkgname):
+            knownPackages[pkgname].append(uniqueId)
+          else:
+            knownPackages[pkgname] = [ uniqueId ]
 
 
 
