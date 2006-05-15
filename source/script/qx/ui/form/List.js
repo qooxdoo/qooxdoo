@@ -191,7 +191,7 @@ qx.Proto._onkeydown = function(e)
   };
 };
 
-this._lastKeyPress = 0;
+qx.Proto._lastKeyPress = 0;
 
 qx.Proto._onkeypress = function(e)
 {
