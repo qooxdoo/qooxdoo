@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <script type="text/javascript" src="../demoinclude.js"></script>
+  <script type="text/javascript" src=".qxrpc"></script>
+    <!-- The above line fills the qx.core.ServerSettings structure with path
+         information so that RPC calls always succeed (no matter from which
+         sub-directory they're made). -->
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test for RPC functionality.</p>
+    <p>
+      This test calls a simple echo-style service on the server. The server
+      method accepts a string and sends back a string that says
+      "Client said: [input string]".
+    </p>
+  </div>
+
+  <script type="text/javascript">
+    window.application.main = function() {
+      var layout1 = new qx.ui.layout.VerticalBoxLayout();
+      layout1.setTop(40);
+      layout1.setLeft(20);
+      layout1.setSpacing(4);
+      var async = new qx.ui.form.CheckBox("Asynchronous");
+      layout1.add(async);
+      var layout2 = new qx.ui.layout.HorizontalBoxLayout();
+      layout2.setHeight("auto");
+	  layout2.setVerticalChildrenAlign("middle");
+      layout2.setSpacing(4);
+      var message = new qx.ui.form.TextField("Hello");
+      message.setWidth(200);
+      layout2.add(message);
+      var send = new qx.ui.form.Button("Send to server");
+      layout2.add(send);
+      var abort = new qx.ui.form.Button("Abort");
+      abort.setEnabled(false);
+      layout2.add(abort);
+      layout1.add(layout2);
+
+      var rpc = new qx.io.remote.RPC("net.sf.qooxdoo.rpc.HelloWorld");
+      rpc.setTimeout(10000);
+      var mycall = null;
+      
+      send.addEventListener("execute", function() {
+        if (async.isChecked()) {
+          send.setEnabled(false);
+          abort.setEnabled(true);
+          mycall = rpc.callAsync(function(result, ex) {
+            mycall = null;
+            if (ex == null) {
+              alert("Async result: " + result);
+            } else {
+              alert("Async exception: " + ex);
+            }
+            send.setEnabled(true);
+            abort.setEnabled(false);
+          }, "sayHello", message.getValue());
+        } else {
+          try {
+            var result = rpc.callSync("sayHello", message.getValue());
+            alert("Sync result: " + result);
+          } catch (ex) {
+            alert("Sync exception: " + ex);
+          }
+        }
+      });
+      
+      abort.addEventListener("execute", function() {
+        rpc.abort(mycall);
+      });
+      
+      var d = this.getClientWindow().getClientDocument();
+      d.add(layout1);
+    }
+  </script>
+</body>
+</html>
