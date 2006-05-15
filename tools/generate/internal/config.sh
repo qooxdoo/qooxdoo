@@ -349,6 +349,9 @@ L="$L script/qx/manager/selection/DomSelectionManager"
 L="$L script/qx/ui/embed/Gallery"
 L="$L script/qx/ui/embed/GalleryList"
 
+# IO
+L="$L script/qx/io/JSON"
+
 # IO Local
 L="$L script/qx/io/local/CookieApi"
 L="$L script/qx/io/local/CookieTransport"
@@ -361,6 +364,7 @@ L="$L script/qx/io/remote/RemoteExchange"
 L="$L script/qx/io/remote/AbstractRemoteTransport"
 L="$L script/qx/io/remote/XmlHttpTransport"
 L="$L script/qx/io/remote/IframeTransport"
+L="$L script/qx/io/remote/RPC"
 
 # Debugging
 L="$L script/qx/dev/TimeTracker"
