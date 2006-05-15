@@ -24,6 +24,7 @@
 
 #package(border)
 #require(QxColorObject)
+#require(QxColorCache)
 #post(QxBorderPresets)
 
 ************************************************************************ */
