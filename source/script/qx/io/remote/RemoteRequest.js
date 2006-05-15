@@ -85,7 +85,8 @@ qx.OO.addProperty(
 /*!
   Set the request to asynchronous.
 */
-qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN, defaultValue : true,
+                    getAlias: "isAsynchronous" });
 /*!
   Set the data to be sent via this request
 */
@@ -154,6 +155,12 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
   requests.
 */
 qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+/*!
+  The transport instance used for the request.
+  
+  This is necessary to be able to abort an asynchronous request.
+*/
+qx.OO.addProperty({ name : "transport", type : qx.constant.Type.TYPEOF_OBJECT, instance : "qx.io.remote.RemoteExchange" });
 
 
 
@@ -486,6 +493,8 @@ qx.Proto.dispose = function()
     this.debug("Disposing...");
   };
   */
+
+  this.setTransport(null);
 
   return qx.core.Target.prototype.dispose.call(this);
 };
