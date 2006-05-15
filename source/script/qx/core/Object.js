@@ -39,10 +39,10 @@
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
-  this._hashCode = qx.core.ObjectCounter++;
+  this._hashCode = qx.core.Object._counter++;
 
   if (vAutoDispose !== false) {
-    qx.core.ObjectDataBase.push(this);
+    qx.core.Object._db.push(this);
   };
 });
 
@@ -53,27 +53,27 @@ function(vAutoDispose)
    Class data, properties and methods
 ************************************************************************ */
 
-qx.core.ObjectCounter = 0;
-qx.core.ObjectDataBase = [];
+qx.Class._counter = 0;
+qx.Class._db = [];
 
-qx.core.ObjectUnload = function()
+qx.Class._cleanup = function()
 {
+  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.UNLOAD, qx.core.Object._cleanup);
   qx.core.Object.dispose();
-  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.UNLOAD, qx.core.ObjectUnload);
 };
 
-qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.UNLOAD, qx.core.ObjectUnload);
+qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.UNLOAD, qx.core.Object._cleanup);
 
-qx.core.Object.toHashCode = function(o)
+qx.Class.toHashCode = function(o)
 {
   if(o._hashCode != null) {
     return o._hashCode;
   };
 
-  return o._hashCode = qx.core.ObjectCounter++;
+  return o._hashCode = qx.core.Object._counter++;
 };
 
-qx.core.Object.dispose = function()
+qx.Class.dispose = function()
 {
   // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
   // logger.debug("Disposing Application");
@@ -81,15 +81,15 @@ qx.core.Object.dispose = function()
   var vStart = (new Date).valueOf();
   var vObject;
 
-  for (var i=qx.core.ObjectDataBase.length-1; i>=0; i--)
+  for (var i=qx.core.Object._db.length-1; i>=0; i--)
   {
-    vObject = qx.core.ObjectDataBase[i];
+    vObject = qx.core.Object._db[i];
 
     if (vObject != null)
     {
       // logger.debug("Disposing: " + vObject);
       vObject.dispose();
-      qx.core.ObjectDataBase[i] = null;
+      qx.core.Object._db[i] = null;
     };
   };
 
@@ -402,8 +402,8 @@ qx.Proto.dispose = function()
   */
 
   // Delete Entry from Object DB
-  qx.core.ObjectDataBase[this._hashCode] = null;
-  delete qx.core.ObjectDataBase[this._hashCode];
+  qx.core.Object._db[this._hashCode] = null;
+  delete qx.core.Object._db[this._hashCode];
 
   // Mark as disposed
   this._disposed = true;
