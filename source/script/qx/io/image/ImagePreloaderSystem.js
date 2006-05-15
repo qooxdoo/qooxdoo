@@ -46,7 +46,7 @@ function(vPreloadList)
 
 qx.Proto.start = function()
 {
-  for (vSource in this._list)
+  for (var vSource in this._list)
   {
     var vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource));
 
