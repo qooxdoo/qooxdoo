@@ -25,7 +25,8 @@ QXHEAD = {
   "uniqueId" : re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M),
   "package" : re.compile("#package\(([\.a-zA-Z0-9_-]+)\)", re.M),
   "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M)
+  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M),
+  "copy" : re.compile("#copy\(([\.a-zA-Z0-9_-]+)\)", re.M)
 }
 
 
