@@ -364,6 +364,7 @@ L="$L script/qx/io/remote/IframeTransport"
 
 # Debugging
 L="$L script/qx/dev/TimeTracker"
+L="$L script/qx/dev/Population"
 
 # Builder
 L="$L script/qx/client/Builder"
