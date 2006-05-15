@@ -29,7 +29,7 @@
 /*!
   A key event instance contains all data for each occured key event
 */
-qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent, 
+qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
 {
   qx.event.type.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
@@ -112,7 +112,9 @@ qx.event.type.KeyEvent.keys =
 };
 
 // create dynamic codes copy
-qx.event.type.KeyEvent.codes = {};
-for (var i in qx.event.type.KeyEvent.keys) {
-  qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
-};
+(function() {
+  qx.event.type.KeyEvent.codes = {};
+  for (var i in qx.event.type.KeyEvent.keys) {
+    qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
+  };
+})();
