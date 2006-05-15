@@ -23,6 +23,7 @@
                 <include name="themes/appearance/**"/>
                 <include name="themes/colors/**"/>
                 <include name="themes/icons/crystalsvg/**"/>
+                <include name="themes/widgets/**"/>
             </fileset>
             <fileset dir="webapp">
                 <exclude name="WEB-INF/**"/>
@@ -50,7 +51,7 @@
             <fileset dir="../../build-transport">
                 <include name="script/transport.js"/>
             </fileset>
-            <fileset dir="../../bin">
+            <fileset dir="classes">
             </fileset>
         </jar>
     </target>
