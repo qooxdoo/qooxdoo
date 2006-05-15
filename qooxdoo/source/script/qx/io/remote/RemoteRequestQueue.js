@@ -238,26 +238,30 @@ qx.Proto._oninterval = function(e)
 
   var vCurrent = (new Date).valueOf();
   var vTransport;
+  var vRequest;
   var vDefaultTimeout = this.getDefaultTimeout();
   var vTimeout;
   var vTime;
 
-  for (var i=vActive.length-1; i>0; i--)
+  for (var i=vActive.length-1; i>=0; i--)
   {
     vTransport = vActive[i];
-    vTimeout = vTransport.getRequest().getTimeout();
+    vRequest = vTransport.getRequest();
+    if (vRequest.isAsynchronous()) {
+      vTimeout = vRequest.getTimeout();
 
-    if (vTimeout == null) {
-      vTimeout = vDefaultTimeout;
-    };
+      if (vTimeout == null) {
+        vTimeout = vDefaultTimeout;
+      };
 
-    vTime = vCurrent - vTransport._start;
+      vTime = vCurrent - vTransport._start;
 
-    if (vTime > vTimeout)
-    {
-      this.warn("Timeout: transport " + vTransport.toHashCode());
-      this.warn(vTime + "ms > " + vTimeout + "ms");
-      vTransport.timeout();
+      if (vTime > vTimeout)
+      {
+        this.warn("Timeout: transport " + vTransport.toHashCode());
+        this.warn(vTime + "ms > " + vTimeout + "ms");
+        vTransport.timeout();
+      };
     };
   };
 };

@@ -24,7 +24,9 @@
 
 #package(transport)
 #require(qx.constant.Net)
+#use(qx.io.remote.IframeTransport)
 #use(qx.io.remote.RemoteResponse)
+#use(qx.io.remote.XmlHttpTransport)
 
 ************************************************************************ */
 
@@ -34,6 +36,7 @@ function(vRequest)
   qx.core.Target.call(this);
 
   this.setRequest(vRequest);
+  vRequest.setTransport(this);
 });
 
 
