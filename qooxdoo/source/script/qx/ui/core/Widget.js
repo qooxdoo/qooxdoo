@@ -1717,7 +1717,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   if (propOldValue)
   {
     // reset reference to widget instance
-    propOldValue._QxWidget = null;
+    propOldValue.qx_Widget = null;
 
     // remove events
     this._removeInlineEvents(propOldValue);
@@ -1726,7 +1726,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // add reference to widget instance
-    propValue._QxWidget = this;
+    propValue.qx_Widget = this;
 
     // link element and style reference
     this._element = propValue;
@@ -3416,8 +3416,8 @@ qx.ui.core.Widget.__oninlineevent = function(e)
     e = window.event;
   };
 
-  if (this._QxWidget) {
-    return this._QxWidget._oninlineevent(e);
+  if (this.qx_Widget) {
+    return this.qx_Widget._oninlineevent(e);
   };
 };
 
@@ -5521,7 +5521,7 @@ qx.Proto.dispose = function()
 
     delete this._isCreated;
 
-    vElement._QxWidget = null;
+    vElement.qx_Widget = null;
 
     this._element = null;
     this._style = null;

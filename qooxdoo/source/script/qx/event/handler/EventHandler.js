@@ -337,7 +337,7 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
   };
 
   // Walk up the tree and search for an qx.ui.core.Widget
-  while(vNode != null && vNode._QxWidget == null)
+  while(vNode != null && vNode.qx_Widget == null)
   {
     try {
       vNode = vNode.parentNode;
@@ -348,7 +348,7 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
     };
   };
 
-  return vNode ? vNode._QxWidget : null;
+  return vNode ? vNode.qx_Widget : null;
 };
 
 qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
@@ -362,7 +362,7 @@ qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEv
     var vDocument = vWindow.document;
 
     if (vNode == vWindow || vNode == vDocument || vNode == vDocument.documentElement || vNode == vDocument.body) {
-      return vDocument.body._QxWidget;
+      return vDocument.body.qx_Widget;
     };
   };
 
@@ -664,7 +664,7 @@ else
       // Seems not to be needed anymore. Otherwise we should reinclude it.
       /*
       case qx.constant.Event.MOUSEDOWN:
-        if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget._QxWidget) {
+        if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget.qx_Widget) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         };
       */

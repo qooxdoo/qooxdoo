@@ -108,13 +108,13 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
   if (propOldValue)
   {
-    propOldValue._QxWidget = null;
+    propOldValue.qx_Widget = null;
   };
 
   if (propValue)
   {
     // add reference to widget instance
-    propValue._QxWidget = this;
+    propValue.qx_Widget = this;
 
     // link element and style reference
     this._element = propValue;

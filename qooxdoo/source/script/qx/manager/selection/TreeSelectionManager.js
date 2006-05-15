@@ -154,7 +154,7 @@ qx.Proto.getItemTop = function(vItem)
   var vElement = vItem.getElement();
   var vOffset = 0;
 
-  while (vElement && vElement._QxWidget != vBoundedWidget)
+  while (vElement && vElement.qx_Widget != vBoundedWidget)
   {
     vOffset += vElement.offsetTop;
     vElement = vElement.parentNode;
