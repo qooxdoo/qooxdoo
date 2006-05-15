@@ -51,10 +51,6 @@ p{
   z-index: 1000000000;
 }
 
-* html #demoFrame{
-  height: expression(document.body.offsetHeight - 40);
-}
-
 #demoFiles{
   font-size: 11px;
   font-family: Tahoma, Verdana, sans-serif;
@@ -107,10 +103,6 @@ p{
   z-index: 1000000002;
 }
 
-* html #demoDebug{
-  height: expression(document.body.offsetHeight - 184);
-}
-
 #demoDebug .log-body{
   overflow: auto;
   position: absolute;
@@ -118,10 +110,6 @@ p{
   bottom: 0px;
   width: 266px;
   padding: 4px;
-}
-
-* html #demoDebug .log-body{
-  height: expression(document.body.offsetHeight - 214);
 }
 
 #demoDebug .log-debug{
