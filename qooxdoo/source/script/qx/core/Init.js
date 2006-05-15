@@ -287,7 +287,7 @@ qx.Proto._runPostloadDone = function()
 */
 
 qx.Proto._printInstanceInfo = function() {
-  this.debug("Number of instances: " + qx.core.ObjectDataBase.length);
+  this.debug("Number of instances: " + qx.core.Object._db.length);
 };
 
 qx.Proto._printClassInfo = function() {
