@@ -26,6 +26,13 @@
 #package(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 
+#copy(16)
+#copy(22)
+#copy(32)
+#copy(48)
+#copy(64)
+#copy(128)
+
 ************************************************************************ */
 
 new qx.renderer.theme.IconTheme("crystalsvg", "Crystal SVG");
