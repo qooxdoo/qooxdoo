@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target, 
+qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target,
 function(vPreloadList)
 {
   qx.core.Target.call(this);
@@ -48,7 +48,7 @@ qx.Proto.start = function()
 {
   for (vSource in this._list)
   {
-    vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource));
 
     if (vPreloader.isErroneous() || vPreloader.isLoaded())
     {
