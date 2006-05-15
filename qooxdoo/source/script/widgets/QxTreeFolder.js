@@ -25,6 +25,8 @@
 #package(tree)
 #post(QxHorizontalBoxLayout)
 #post(QxVerticalBoxLayout)
+#post(QxTreeFile)
+#post(QxTimer)
 
 ************************************************************************ */
 
