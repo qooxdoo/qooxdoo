@@ -73,7 +73,7 @@ else
 {
   qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
-    vElement = document.createElement("STYLE");
+    var vElement = document.createElement("STYLE");
     vElement.type = "text/css";
 
     if (vCssText) {
