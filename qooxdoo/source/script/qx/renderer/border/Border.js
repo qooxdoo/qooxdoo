@@ -676,7 +676,7 @@ qx.Proto._applyWidgetXCommon = function(vObject)
     this._compileRight();
   };
 
-  for (i in this._defsX) {
+  for (var i in this._defsX) {
     vObject._style[i] = this._defsX[i];
   };
 
@@ -688,7 +688,7 @@ qx.Proto._applyWidgetXCommon = function(vObject)
 
     if (vObject._borderStyle)
     {
-      for (i in this._enhancedDefsX) {
+      for (var i in this._enhancedDefsX) {
         vObject._borderStyle[i] = this._enhancedDefsX[i];
       };
     };
@@ -705,7 +705,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
     this._compileBottom();
   };
 
-  for (i in this._defsY) {
+  for (var i in this._defsY) {
     vObject._style[i] = this._defsY[i];
   };
 
@@ -717,7 +717,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
 
     if (vObject._borderStyle)
     {
-      for (i in this._enhancedDefsY) {
+      for (var i in this._enhancedDefsY) {
         vObject._borderStyle[i] = this._enhancedDefsY[i];
       };
     };
