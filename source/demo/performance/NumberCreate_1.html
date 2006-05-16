@@ -28,7 +28,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var n1 = "2392";
     var n2 = "223.92";
@@ -106,7 +106,7 @@
     };
 
     new qx.dev.TimeTracker(NumberCreate1, NumberCreate2, NumberCreate3, NumberCreate4, NumberCreate5, NumberCreate6, NumberCreate7, NumberCreate8);
-  };
+  });
   </script>
 </body>
 </html>

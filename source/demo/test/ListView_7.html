@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var ld = [];
       var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
@@ -110,7 +110,7 @@
       btnClear.addEventListener("execute", function(e) { clear(); });
 
       this.add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
-    };
+    });
   </script>
 </body>
 </html>

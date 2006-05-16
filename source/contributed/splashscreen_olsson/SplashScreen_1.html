@@ -16,7 +16,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var doc = this.getClientWindow().getClientDocument();
 
@@ -30,7 +30,7 @@
       doc.add(startSS);
 
       startSS.open();
-    };
+    });
   </script>
 </body>
 </html>

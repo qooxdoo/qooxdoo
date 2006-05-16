@@ -81,7 +81,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var galleryList = [];
 
@@ -110,7 +110,7 @@
       gallery.setBorder(qx.renderer.border.Border.presets.inset);
 
       this.add(gallery);
-    };
+    });
   </script>
 </body>
 </html>

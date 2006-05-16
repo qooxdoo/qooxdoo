@@ -21,7 +21,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function() {
+    qx.core.Init.defineMain(function() {
       var doc = this.getClientWindow().getClientDocument();
 
       var mainF = new QxFrame("Test of SplitPane");

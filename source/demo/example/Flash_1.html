@@ -18,10 +18,10 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
-    
+
     // Try no version required
     var fo1 = new qx.ui.embed.Flash("./images/flashs/fo_tester.swf");
 
@@ -30,7 +30,7 @@
 
     // Try version 9 required
     // var fo1 = new qx.ui.embed.Flash("images/flashs/fo_tester.swf", "9");
-    
+
     // Error handling methods:
     // #1: Enable Express Install: Available in Flash Players >= 6.0.65
     // fo1.setEnableExpressInstall(true);
@@ -39,17 +39,17 @@
 
     fo1.setVariable("flashVarText", "this is passed in via FlashVars");
     fo1.setScale("noscale");
-    
+
     fo1.setLeft(20);
     fo1.setRight(335);
     fo1.setTop(48);
     fo1.setBottom(48);
-    
+
     fo1.setBorder(qx.renderer.border.BorderObject.presets.inset);
     fo1.setBackgroundColor("#FF6600");
-    
+
     d.add(fo1);
-  };
+  });
   </script>
 </body>
 </html>

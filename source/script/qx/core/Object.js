@@ -25,11 +25,11 @@
 #package(core)
 #require(qx.OO)
 #require(qx.constant.Event)
-#require(qx.dom.DomEventRegistration)
 #use(qx.core.Settings)
 #use(qx.constant.Type)
 #use(qx.constant.Core)
 #use(qx.dev.log.Logger)
+#use(qx.component.InitComponent)
 
 ************************************************************************ */
 
@@ -55,14 +55,6 @@ function(vAutoDispose)
 
 qx.Class._counter = 0;
 qx.Class._db = [];
-
-qx.Class._cleanup = function()
-{
-  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.UNLOAD, qx.core.Object._cleanup);
-  qx.core.Object.dispose();
-};
-
-qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.UNLOAD, qx.core.Object._cleanup);
 
 qx.Class.toHashCode = function(o)
 {

@@ -226,7 +226,7 @@
     qx.ui.core.Widget.flushGlobalQueues();
   };
 
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -320,7 +320,7 @@
 
     bl.add(w1, w2, w3, w4, w5, w6, w7);
     d.add(bl);
-  };
+  });
   </script>
 </body>
 </html>

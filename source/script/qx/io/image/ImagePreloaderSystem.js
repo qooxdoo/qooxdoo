@@ -28,11 +28,18 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target,
-function(vPreloadList)
+function(vPreloadList, vCallBack, vCallBackScope)
 {
   qx.core.Target.call(this);
 
   this._list = vPreloadList;
+
+  // If we use the compact syntax, automatically add an event listeners and start the loading process
+  if (vCallBack)
+  {
+    this.addEventListener(qx.constant.Event.COMPLETED, vCallBack, vCallBackScope || null);
+    this.start();
+  }
 });
 
 

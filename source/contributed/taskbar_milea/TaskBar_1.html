@@ -16,7 +16,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -189,7 +189,7 @@
     w1.open();
     w2.open();
     w3.open();
-  };
+  });
   </script>
 </body>
 </html>

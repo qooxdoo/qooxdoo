@@ -52,7 +52,7 @@
 
 
 
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       a1 = new qx.ui.form.Button("Hello World", "icons/32/penguin.png");
       a1.setLocation(20, 50);
@@ -65,7 +65,7 @@
 
     window.application.post = function()
     {
-        var str = "window.application.main = function()\n{\n";
+        var str = "qx.core.Init.defineMain(function()\n{\n";
 
 
 
@@ -113,7 +113,7 @@
                   switch(cv)
                   {
                     case "qx.ui.core.ClientDocument":
-                      str += "$" + i + " = window.application.getClientWindow().getClientDocument();\n";
+                      str += "$" + i + " = qx.core.Init.getComponent().getClientWindow()().getClientDocument();\n";
                       break;
 
                     case "qx.manager.object.ImageManager":

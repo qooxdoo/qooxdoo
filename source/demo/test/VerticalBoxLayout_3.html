@@ -39,7 +39,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -548,7 +548,7 @@
     t12_3.setWidth(10);
     t12_3.setBackgroundColor("red");
     hbl12.add(t12_3);
-  };
+  });
   </script>
 </body>
 </html>

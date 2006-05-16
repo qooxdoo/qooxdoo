@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var doc = this.getClientWindow().getClientDocument();
 
@@ -124,7 +124,7 @@
     view.setBorder(qx.renderer.border.BorderObject.presets.inset);
 
     doc.add(view);
-  };
+  });
   </script>
 </body>
 </html>

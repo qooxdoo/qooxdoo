@@ -100,7 +100,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
       
@@ -124,7 +124,7 @@
       QxDebug("QxDom-Impl", "P2: " + QxDom.getOffsetLeft(p2) + "x" + QxDom.getOffsetTop(p2));    
       QxDebug("QxDom-Impl", "P1A: " + QxDom.getOffsetLeft(p1a) + "x" + QxDom.getOffsetTop(p1a));
       QxDebug("QxDom-Impl", "P2A: " + QxDom.getOffsetLeft(p2a) + "x" + QxDom.getOffsetTop(p2a));
-    };
+    });
   </script>
 </body>
 </html>

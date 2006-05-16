@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dev.TimeTracker", qx.core.Object, 
+qx.OO.defineClass("qx.dev.TimeTracker", qx.core.Object,
 function()
 {
   qx.core.Object.call(this);
@@ -39,6 +39,10 @@ function()
 qx.dev.TimeTracker.compare = function(a, b) {
   return a-b;
 };
+
+
+
+
 
 
 /*
@@ -90,7 +94,7 @@ qx.Proto.buttonSets = function()
   htmlOutput.setOverflow("auto");
 
   btnLayout.add(loopLabel, loopInput, repeatLabel, btnStart1, btnStart2, btnStart3, btnStart4);
-  window.application.add(btnLayout, htmlOutput);
+  qx.core.Init.getComponent().add(btnLayout, htmlOutput);
 };
 
 qx.Proto.start = function(vRounds, vLoops)
@@ -295,6 +299,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
   this._output.setHtml(vHtmlResults.join("") + vHtmlMeasured.join(""));
 };
+
 
 
 

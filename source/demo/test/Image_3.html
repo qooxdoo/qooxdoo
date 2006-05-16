@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -120,7 +120,7 @@
       
       // this.debug("Change Duration: " + ((new Date).valueOf() - s));
     });
-  };
+  });
   </script>
 </body>
 </html>

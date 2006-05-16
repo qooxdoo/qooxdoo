@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
     var w;
@@ -35,7 +35,7 @@
         d.add(w);
       };
     };
-  };
+  });
   </script>
 </body>
 </html>

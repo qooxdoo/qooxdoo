@@ -17,7 +17,7 @@
     <p>QxHttpTransport test - Ugly but functional</p>
   </div>
   <script type="text/javascript">
-  window.application.main = function() {
+  qx.core.Init.defineMain(function() {
     var d = this.getClientWindow().getClientDocument();
     
     var req = new QxHttpTransport();

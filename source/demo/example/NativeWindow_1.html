@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var w1 = new qx.client.NativeWindow("http://www.google.com");
 
@@ -186,7 +186,7 @@
 
 
     fs2.add(tf1, btn1, tf2, btn2, tf3, btn3, btn4, btn5, btn6);
-  };
+  });
   </script>
 </body>
 </html>

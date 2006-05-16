@@ -466,7 +466,7 @@ qx.Proto._open = function()
     // block original document
     if (this.getModal())
     {
-      var vClientWindow = window.application.getClientWindow();
+      var vClientWindow = qx.core.Init.getComponent().getClientWindow()();
 
       if (vClientWindow) {
         vClientWindow.getClientDocument().block(this);
@@ -487,7 +487,7 @@ qx.Proto._close = function()
   // release window again
   if (this.getModal())
   {
-    var vClientWindow = window.application.getClientWindow();
+    var vClientWindow = qx.core.Init.getComponent().getClientWindow()();
 
     if (vClientWindow) {
       vClientWindow.getClientDocument().release(this);

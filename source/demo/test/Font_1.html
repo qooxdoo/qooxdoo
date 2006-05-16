@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var f1 = new qx.ui.layout.CanvasLayout;
    
@@ -59,7 +59,7 @@
     
     f1.add(a1);
     this.add(f1, b1, b2, b3, b4);    
-  };
+  });
   </script>
 </body>
 </html>

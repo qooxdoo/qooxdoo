@@ -20,7 +20,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -107,7 +107,7 @@
     var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a<br/>(show) timeout of 50ms.", "icons/32/bug.png");
     c5.setToolTip(tt4);
     tt4.setShowInterval(50);
-  };
+  });
   </script>
 </body>
 </html>

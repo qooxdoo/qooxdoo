@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -145,7 +145,7 @@
 
     d.add(c1, c2, c3, c4, c5w, c6, c7);
 
-  };
+  });
   </script>
 </body>
 </html>

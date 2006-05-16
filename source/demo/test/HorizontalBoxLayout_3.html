@@ -42,7 +42,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -590,7 +590,7 @@
     var t13_3 = new qx.ui.form.Button(null, "icons/16/apply.png");
     hbl13.add(t13_3);
 
-  };
+  });
   </script>
 </body>
 </html>

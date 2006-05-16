@@ -18,11 +18,11 @@
   </div>
   
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       this.debug("Umlauts Short: " + "הצüßִײÜ".normalizeUmlautsShort())
       this.debug("Umlauts Long: " + "הצüßִײÜ".normalizeUmlautsLong())
-    };
+    });
   </script>
 </body>
 </html>

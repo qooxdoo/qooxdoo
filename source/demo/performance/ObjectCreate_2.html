@@ -23,7 +23,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     function ObjectCreate1(vLoops)
     {
@@ -73,7 +73,7 @@
     };
 
     new qx.dev.TimeTracker(ObjectCreate1, ObjectCreate2, ObjectCreate3);
-  };
+  });
   </script>
 </body>
 </html>

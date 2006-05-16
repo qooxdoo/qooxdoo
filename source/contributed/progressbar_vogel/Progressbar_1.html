@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();  
     var p1 = new QxProgressbar(200);
@@ -85,7 +85,7 @@
       addEventListener("execute", function(e) { p1.setShowPercent(false); });
     }
     d.add(btn6);
-  };
+  });
   </script>
   
 </body>

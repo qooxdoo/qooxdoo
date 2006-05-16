@@ -27,7 +27,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     function TestObject(vLoops)
     {
@@ -79,7 +79,7 @@
     };
 
     new qx.dev.TimeTracker(TestObject, TestTarget, TestEvent, TestMouseEvent, TestTerminator, TestCanvasLayout, TestBoxLayout);
-  };
+  });
   </script>
 </body>
 </html>

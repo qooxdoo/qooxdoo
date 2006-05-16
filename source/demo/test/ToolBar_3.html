@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
       
@@ -35,7 +35,7 @@
         var tbb = new qx.ui.toolbar.ToolBarButton("Flash #" + i, "icons/22/reload.png", 22, 22, "./images/flashs/colors/file" + i + ".swf");        
         tb.add(tbb);
       };    
-    };
+    });
   </script>
 </body>
 </html>

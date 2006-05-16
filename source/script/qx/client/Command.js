@@ -46,7 +46,7 @@ function(vShortcut, vKeyCode, vManager)
     this.setKeyCode(vKeyCode);
   };
 
-  this.setManager(qx.util.Validation.isValid(vManager) ? vManager : window.application.getClientWindow().getEventManager());
+  this.setManager(qx.util.Validation.isValid(vManager) ? vManager : qx.core.Init.getComponent().getClientWindow()().getEventManager());
 });
 
 qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });

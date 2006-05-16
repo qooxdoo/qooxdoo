@@ -22,7 +22,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     function ArrayCreate1(vLoops)
     {
@@ -43,7 +43,7 @@
     };
 
     new qx.dev.TimeTracker(ArrayCreate1, ArrayCreate2);
-  };
+  });
   </script>
 </body>
 </html>

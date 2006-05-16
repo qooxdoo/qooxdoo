@@ -177,7 +177,7 @@
           var menuButton = new qx.ui.menu.MenuButton(commandData.title, null, null, subMenu);
 
           // DEPRECATED CALL
-          window.application.getClientWindow().getClientDocument().add(subMenu);
+          qx.core.Init.getComponent().getClientWindow()().getClientDocument().add(subMenu);
         }
         else
         {
@@ -236,7 +236,7 @@
             {
               menu = this._generateMenu(commanddata.menu);
               // DEPRECATED CALL
-              window.application.getClientWindow().getClientDocument().add(menu);
+              qx.core.Init.getComponent().getClientWindow()().getClientDocument().add(menu);
               btn = new qx.ui.toolbar.ToolBarMenuButton(commanddata.title, menu);
             }
             else
@@ -259,7 +259,7 @@
     return can;
   };
 
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var c1 = new qx.Generator(comp1);
     this.add(c1.getWidget());

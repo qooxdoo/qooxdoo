@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -67,7 +67,7 @@
     t2.addEventListener("click", function(e) {
       this.setHtml(this.getHtml() == "Hello World" ? "Real long text, especially to test this cool behaviour" : "Hello World");
     });
-  };
+  });
   </script>
 </body>
 </html>

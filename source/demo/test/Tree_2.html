@@ -80,7 +80,7 @@
   <script type="text/javascript">
     var desktop, workspace, root, inbox, edit, spam;
     
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var t = new qx.ui.tree.Tree("Root");
 
@@ -290,7 +290,7 @@
       this.add(ct1);
 
 
-    };
+    });
   </script>
 </body>
 </html>

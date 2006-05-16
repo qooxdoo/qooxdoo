@@ -98,7 +98,7 @@ qx.Proto.initCursors = function()
 */
 
 qx.Proto._getClientDocument = function() {
-  return window.application.getClientWindow().getClientDocument();
+  return qx.core.Init.getComponent().getClientWindow()().getClientDocument();
 };
 
 

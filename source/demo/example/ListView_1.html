@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var ld = [];
       var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
@@ -63,7 +63,7 @@
         lv.setLiveResize(e.getData());
       });
       
-    };
+    });
   </script>
 </body>
 </html>

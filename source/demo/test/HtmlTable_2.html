@@ -24,7 +24,7 @@
 
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var updateCount = 0;
 
@@ -137,7 +137,7 @@
 
     qx.dom.DomEventRegistration.addEventListener(scroller, "scroll", doscroll);
     doscroll();
-  };
+  });
   </script>
 </body>
 </html>

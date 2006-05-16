@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var lab1 = new qx.ui.basic.Label("40KB");
     var lab2 = new qx.ui.basic.Label("400KB");
@@ -122,7 +122,7 @@
 
       req.send();
     };
-  };
+  });
   </script>
 </body>
 </html>

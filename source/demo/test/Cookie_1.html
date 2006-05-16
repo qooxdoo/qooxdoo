@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var f1 = new qx.ui.form.TextField;
     f1.setLocation(20, 48);
@@ -41,7 +41,7 @@
     b2.addEventListener("execute", function(e) {
       QxCookie.set("fieldContent", f1.getValue());
     });
-  };
+  });
   </script>
 </body>
 </html>

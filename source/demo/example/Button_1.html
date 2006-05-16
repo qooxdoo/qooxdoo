@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -58,8 +58,8 @@
     };
 
     d.add(btn3);
-    
-    
+
+
     var btn4 = new qx.ui.form.Button("Button No #4", "icons/16/forward.png");
     with(btn4)
     {
@@ -68,8 +68,8 @@
       addEventListener("execute", buttonExecute);
     };
 
-    d.add(btn4);    
-  };
+    d.add(btn4);
+  });
   </script>
 </body>
 </html>

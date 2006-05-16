@@ -23,295 +23,58 @@
 /* ************************************************************************
 
 #package(core)
-#require(qx.sys.Client)
-#require(qx.util.Return)
-#require(qx.dom.DomEventRegistration)
+#require(qx.constant.Type)
+#require(qx.core.Settings)
 
 ************************************************************************ */
 
 /*!
-  This contains the main qooxdoo application.
-
-  Each qooxdoo has only one instance of this class. The application
-  instance is accessible through a reference named "application" in
-  the window object of the main document.
+  This is the qooxdoo init process.
 */
-
 qx.OO.defineClass("qx.core.Init", qx.core.Target,
 function()
 {
   qx.core.Target.call(this, false);
 
-  if (qx.sys.Client.isGecko()) {
-    qx.dom.DomEventRegistration.addEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
-  } else {
-    qx.dom.DomEventRegistration.addEventListener(window, "load", qx.core.Init.onload);
-  };
+  // Object Wrapper to Events (Needed for DOM-Events)
+  var o = this;
+  this.__onload = function(e) { return o._onload(e); };
+  this.__onbeforeunload = function(e) { return o._onbeforeunload(e); };
+  this.__onunload = function(e) { return o._onunload(e); };
+
+  // Attach Events
+  qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
+  qx.dom.DomEventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.dom.DomEventRegistration.addEventListener(window, "unload", this.__onunload);
+
+  // Choose between GUI/Non-GUI initialisation
+  this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
 });
 
 
-qx.core.Init.onload = function()
+
+
+
+/*
+---------------------------------------------------------------------------
+  COMPONENT MANAGMENT
+---------------------------------------------------------------------------
+*/
+
+qx.OO.addProperty({ name : "componentClass", type : qx.constant.Type.FUNCTION });
+
+qx.Proto._modifyComponentClass = function(propValue, propOldValue, propData)
 {
-  if (window.application) {
-    window.application.init();
-  };
-};
-
-
-
-
-/*
----------------------------------------------------------------------------
-  USER APPLICATION METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.pre = qx.util.Return.returnTrue;
-qx.Proto.main = qx.util.Return.returnTrue;
-qx.Proto.post = qx.util.Return.returnTrue;
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MAIN INITIALISATION ROUTINE
----------------------------------------------------------------------------
-*/
+  this._component = new propValue;
+  return true;
+}
 
 /*!
-  Global application init routine
+  Get the assigned component.
 */
-qx.Proto.init = function()
-{
-  if (this._initDone) {
-    return;
-  };
-
-  this._initDone = true;
-
-  this._printVersion();
-  this._printClassInfo();
-  this._printPropertyInfo();
-  this._printClientInfo();
-
-  this._runPre();
-  this._runMain();
-
-  qx.core.Settings.enableUserInterface ? this._runPreload() : this._runPost();
-};
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  SEPERATE INITIALISATION ROUTINES
----------------------------------------------------------------------------
-*/
-
-qx.Proto._runPre = function()
-{
-  var s = (new Date).valueOf();
-
-  this.info("Pre phase");
-
-  try
-  {
-    // Execute user define 'pre' method
-    this.debug("Dispatching application pre event");
-    this.createDispatchEvent("pre");
-
-    if (this.pre !== qx.util.Return.returnTrue)
-    {
-      this.warn("Using old style pre-application!");
-      this.pre();
-    };
-
-    if (qx.core.Settings.enableUserInterface)
-    {
-      // Create client window instance (and client-document, event- and focus-manager, ...)
-      if (typeof qx.client.ClientWindow === qx.constant.Type.FUNCTION) {
-        this._clientWindow = new qx.client.ClientWindow();
-      };
-
-      // Build virtual methods for easy additions of childrens and so on
-      if (typeof qx.ui.core.Parent === qx.constant.Type.FUNCTION)
-      {
-        this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
-        qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
-      };
-    };
-
-    // Output the number of currently instanciated objects
-    this._printInstanceInfo();
-  }
-  catch(ex)
-  {
-    return this.error("...failed", ex);
-  };
-
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
-};
-
-qx.Proto._runMain = function()
-{
-  var s = (new Date).valueOf();
-  this.info("Main phase");
-
-  try
-  {
-    // Execute user define 'main' method
-    this.debug("Dispatching application main event");
-    this.createDispatchEvent("main");
-
-    if (this.main !== qx.util.Return.returnTrue)
-    {
-      this.warn("Using old style main-application!");
-      this.main();
-    };
-
-    // Output the number of currently instanciated objects
-    this._printInstanceInfo();
-  }
-  catch(ex)
-  {
-    return this.error("...failed", ex);
-  };
-
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
-};
-
-qx.Proto._runPreload = function()
-{
-  if (qx.core.Settings.enableUserInterface)
-  {
-    this._preloadStart = (new Date).valueOf();
-
-    this.info("Preload phase");
-    this.debug("Preloading images...");
-
-    if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
-    {
-      var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList());
-      vPreloaderSystem.addEventListener(qx.constant.Event.COMPLETED, this._runPreloadDone, this);
-      vPreloaderSystem.start();
-    };
-  };
-};
-
-qx.Proto._runPreloadDone = function()
-{
-  this.debug("Done in: " + ((new Date).valueOf() - this._preloadStart) + qx.constant.Core.MILLISECONDS);
-  this._runWidgets();
-};
-
-qx.Proto._runWidgets = function()
-{
-  if (typeof qx.ui.core.Widget === qx.constant.Type.FUNCTION)
-  {
-    var s = (new Date).valueOf();
-
-    this.info("Widget phase");
-    this.debug("Rendering widgets");
-
-    this._ready = true;
-    qx.ui.core.Widget.flushGlobalQueues(true);
-
-    this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
-  };
-
-  this._runPost();
-};
-
-qx.Proto._runPost = function()
-{
-  var s = (new Date).valueOf();
-  this.info("Post phase");
-
-  try
-  {
-    // Output the number of currently instanciated objects
-    this._printInstanceInfo();
-
-    // Execute "post" stuff
-    this.debug("Dispatching application post event");
-    this.createDispatchEvent("post");
-
-    if (this.post !== qx.util.Return.returnTrue)
-    {
-      this.warn("Using old style post-application!");
-      this.post();
-    };
-  }
-  catch(ex)
-  {
-    return this.error("...failed", ex);
-  };
-
-  this.debug("Done in: " + ((new Date).valueOf() - s) + qx.constant.Core.MILLISECONDS);
-};
-
-qx.Proto._runPostload = function()
-{
-  this._postloadStart = (new Date).valueOf();
-
-  this.info("Postload phase");
-  this.debug("Preloading images...");
-
-  if (typeof qx.manager.object.ImageManager !== qx.constant.Type.UNDEFINED && typeof qx.io.image.ImagePreloaderSystem !== qx.constant.Type.UNDEFINED)
-  {
-    var vPreloaderSystem = new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList());
-    vPreloaderSystem.addEventListener(qx.constant.Event.COMPLETED, this._runPostloadDone, this);
-    vPreloaderSystem.start();
-  };
-};
-
-qx.Proto._runPostloadDone = function()
-{
-  this.debug("Done in: " + ((new Date).valueOf() - this._postloadStart) + qx.constant.Core.MILLISECONDS);
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  ADDITIONAL INFORMATIONAL OUTPUT
----------------------------------------------------------------------------
-*/
-
-qx.Proto._printInstanceInfo = function() {
-  this.debug("Number of instances: " + qx.core.Object._db.length);
-};
-
-qx.Proto._printClassInfo = function() {
-  this.debug("Number of classes: " + qx.lang.Object.getLength(qx.OO.classes));
-};
-
-qx.Proto._printPropertyInfo = function() {
-  this.debug("Number of properties: " + qx.OO.propertyNumber);
-};
-
-qx.Proto._printClientInfo = function()
-{
-  this.debug("Client: " + qx.sys.Client.getEngine() + qx.constant.Core.SPACE + qx.sys.Client.getVersion() + (qx.util.Validation.isValidString(qx.sys.Client.getEmulation()) ? qx.constant.Core.SPACE + qx.sys.Client.getEmulation() : qx.constant.Core.EMPTY));
-
-  if (!qx.sys.Client.isInQuirksMode() && qx.sys.Client.isMshtml()) {
-    this.warn("Document is not in Quirksmode! This is needed in Internet Explorer <= 6 to let qooxdoo render correctly.");
-  };
-};
-
-qx.Proto._printVersion = function() {
-  this.debug("Version: " + qx.core.DefaultSettings.version);
-};
-
-
+qx.Proto.getComponent = function() {
+  return this._component;
+}
 
 
 
@@ -321,37 +84,54 @@ qx.Proto._printVersion = function() {
 
 /*
 ---------------------------------------------------------------------------
-  UTILITIES
+  COMPONENT BINDING
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._ready = false;
+qx.Proto.defineInitialize = function(vFunc) {
+  return this.getComponent().defineInitialize(vFunc);
+}
 
-qx.Proto.isReady = function() {
-  return this._ready;
-};
+qx.Proto.defineMain = function(vFunc) {
+  return this.getComponent().defineMain(vFunc);
+}
 
-qx.Proto.getClientWindow = function() {
-  return this._clientWindow;
-};
+qx.Proto.defineFinalize = function(vFunc) {
+  return this.getComponent().defineFinalize(vFunc);
+}
 
-qx.Proto.getEventManager = function() {
-  return this.getClientWindow().getEventManager();
-};
+qx.Proto.defineClose = function(vFunc) {
+  return this.getComponent().defineClose(vFunc);
+}
 
-qx.Proto.getClientDocument = function() {
-  return this.getClientWindow().getClientDocument();
-};
+qx.Proto.defineTerminate = function(vFunc) {
+  return this.getComponent().defineTerminate(vFunc);
+}
 
-qx.Proto.postLoad = function()
-{
-  if (this._postLoadDone) {
-    return;
-  };
 
-  this._runPostload();
-  this._postLoadDone = true;
-};
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT HANDLER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._onload = function(e) {
+  return this.getComponent()._onload(e);
+}
+
+qx.Proto._onbeforeunload = function(e) {
+  return this.getComponent()._onbeforeunload(e);
+}
+
+qx.Proto._onunload = function(e) {
+  return this.getComponent()._onunload(e);
+}
+
 
 
 
@@ -370,17 +150,22 @@ qx.Proto.dispose = function()
     return;
   };
 
-  if (qx.sys.Client.isGecko()) {
-    qx.dom.DomEventRegistration.removeEventListener(window, "DOMContentLoaded", qx.core.Init.onload);
-  } else {
-    qx.dom.DomEventRegistration.removeEventListener(window, "load", qx.core.Init.onload);
-  };
+  // Detach Events
+  qx.dom.DomEventRegistration.removeEventListener(window, "load", this.__onload);
+  qx.dom.DomEventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.dom.DomEventRegistration.removeEventListener(window, "unload", this.__onunload);
 
-  delete this._clientWindow;
-  delete this._remappingChildTable;
-  delete this._remappingChildTarget;
+  // Reset inline functions
+  this.__onload = this.__onbeforeunload = this.__onunload = null;
+
+  // Dispose Component
+  if (this._component)
+  {
+    this._component.dispose();
+    this._component = null;
+  }
 
   qx.core.Target.prototype.dispose.call(this);
 };
 
-window.application = new qx.core.Init;
+qx.core.Init = new qx.core.Init;

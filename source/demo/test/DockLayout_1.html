@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -49,7 +49,7 @@
     var t3 = new qx.ui.basic.Terminator;
     t3.setBackgroundColor("blue");
     dl1.add(t3);
-  };
+  });
   </script>
 </body>
 </html>

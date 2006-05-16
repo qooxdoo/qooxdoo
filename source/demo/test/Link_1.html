@@ -18,14 +18,14 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var l1 = new qx.ui.embed.LinkEmbed("Open Google", "http://www.google.com");
     
     l1.setLocation(20, 48);
     
     this.add(l1);
-  };
+  });
   </script>
 </body>
 </html>

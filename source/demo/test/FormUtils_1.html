@@ -64,7 +64,7 @@
   </form>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var btn = new qx.ui.form.Button("Encode");
     btn.setLocation(20, 48);
@@ -82,7 +82,7 @@
     btn.addEventListener("execute", function() {
       area.setValue(QxFormUtils.encodeForm(document.getElementById("mainform")));
     });
-  };
+  });
   </script>
 </body>
 </html>

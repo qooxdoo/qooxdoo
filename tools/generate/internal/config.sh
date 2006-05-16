@@ -82,6 +82,9 @@ L="$L script/qx/event/type/DataEvent"
 L="$L script/qx/manager/object/ObjectManager"
 
 # Init
+L="$L script/qx/component/AbstractComponent"
+L="$L script/qx/component/InitComponent"
+L="$L script/qx/component/InitUiComponent"
 L="$L script/qx/core/Init"
 
 # Text-Formatting

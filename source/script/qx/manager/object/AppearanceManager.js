@@ -23,12 +23,11 @@
 /* ************************************************************************
 
 #package(appearance)
-#use(qx.core.Init)
 #use(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager,
 function()
 {
   qx.manager.object.ObjectManager.call(this);
@@ -52,7 +51,7 @@ qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.STRING, de
 
 qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 {
-  window.application.getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+  qx.core.Init.getComponent().getClientWindow()().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   return true;
 };
 

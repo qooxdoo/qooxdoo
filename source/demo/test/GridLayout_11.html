@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var img = new qx.ui.basic.Image("./images/grid_dialog_box.png");
 
@@ -119,7 +119,7 @@
       gl.setColumnWidth(4, 75);
     });
 
-  };
+  });
   </script>
 
 </body>

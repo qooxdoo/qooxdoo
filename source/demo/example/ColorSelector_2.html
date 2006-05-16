@@ -19,14 +19,14 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var mycolor = new qx.ui.component.ColorSelector(130, 180, 100);
 
     mycolor.setLocation(50, 50);
 
     this.add(mycolor);
-  };
+  });
   </script>
 </body>
 </html>

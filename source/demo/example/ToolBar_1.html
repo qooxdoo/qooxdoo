@@ -22,7 +22,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
 
@@ -248,7 +248,7 @@
       tb2 = tb.clone(true);
       tb2.setTop(400);
       */
-    };
+    });
   </script>
 </body>
 </html>

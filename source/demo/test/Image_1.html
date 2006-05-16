@@ -22,7 +22,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -110,7 +110,7 @@
     qx.manager.object.ImageManager.createThemeList(d, 300, 48);
 
     
-  };
+  });
   </script>
 </body>
 </html>
