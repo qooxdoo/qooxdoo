@@ -8,9 +8,15 @@ def compile(tokens, enableNewLines=False):
   lastSource = ""
 
   for token in tokens:
-    if token["type"] == "comment" or token["type"] == "eol" or token["type"] == "eof":
+    if token["type"] == "comment" or token["type"] == "eol":
       continue
 
+    # Fix end of file if it ends with a '}'
+    if token["type"] == "eof":
+      if lastSource == "}":
+        compString += ";"
+
+      continue
 
     # Special handling for some protected names
     if token["type"] == "protected":
