@@ -68,15 +68,22 @@ QxBuilder.extend(QxTarget, "QxBuilder");
   Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
   Dispatches a QxEvent("done") after the hierarchy is built
 */
-proto.buildFromUrl = function(parent, url) {
-  var loader = new QxXmlHttpLoader();
-  var self = this;
-  loader.addEventListener("complete", function(e) {
-    self.build(parent, e.getData());
+proto.buildFromUrl = function(parent, url)
+{
+  var loader=new QxRequest(url, "GET", "text/plain");
+  var self=this;
+
+  loader.addEventListener("completed", function(e) {
+    var parser = new DOMParser();
+    var xmldoc = parser.parseFromString(e.getData().getContent(), "text/xml");
+
+    self.build(parent, xmldoc.documentElement);
+
     e.preventDefault();
-    self.dispatchEvent(new QxEvent("done"), true);
+    self.dispatchEvent(new QxEvent("done"),true);
   });
-  loader.load(url);
+
+  loader.send();
 };
 
 /*!
