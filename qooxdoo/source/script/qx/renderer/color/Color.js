@@ -24,10 +24,11 @@
 
 #package(color)
 #require(qx.manager.object.ColorManager)
+#require(qx.util.Return)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.color.Color", qx.core.Object, 
+qx.OO.defineClass("qx.renderer.color.Color", qx.core.Object,
 function(vValue)
 {
   if (qx.util.Validation.isValid(vValue)) {
