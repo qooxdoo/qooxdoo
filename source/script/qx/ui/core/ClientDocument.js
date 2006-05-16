@@ -263,7 +263,10 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 ---------------------------------------------------------------------------
 */
 
-qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;} html{border:0 none;} *{box-sizing:border-box;-moz-box-sizing: border-box;} img{box-sizing:content-box;-moz-box-sizing:content-box;}");
+qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
+  " html{border:0 none;} *{" + qx.sys.Client.getBoxSizingAttribute() +
+  ":border-box;} img{" + qx.sys.Client.getBoxSizingAttribute() +
+  ":content-box;}");
 
 if (qx.core.Settings.enableApplicationLayout) {
   qx.dom.DomStyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
