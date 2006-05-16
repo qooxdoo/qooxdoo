@@ -22,11 +22,12 @@
 
 /* ************************************************************************
 
-#package(component)
+#package(init)
 #use(qx.client.ClientWindow)
 #use(qx.manager.object.ImageManager)
 #use(qx.io.image.ImagePreloaderSystem)
 #use(qx.ui.core.Parent)
+#use(qx.core.Init)
 
 ************************************************************************ */
 

@@ -22,9 +22,10 @@
 
 /* ************************************************************************
 
-#package(core)
+#package(init)
 #require(qx.constant.Type)
 #require(qx.core.Settings)
+#require(qx.dom.DomEventRegistration)
 
 ************************************************************************ */
 
@@ -46,9 +47,6 @@ function()
   qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
   qx.dom.DomEventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
   qx.dom.DomEventRegistration.addEventListener(window, "unload", this.__onunload);
-
-  // Choose between GUI/Non-GUI initialisation
-  this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
 });
 
 
@@ -76,6 +74,15 @@ qx.Proto.getComponent = function() {
   return this._component;
 }
 
+// Choose between GUI/Non-GUI initialisation
+qx.Proto.initComponent = function()
+{
+  if (!this._component)
+  {
+    this.debug("Create init component...");
+    this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
+  }
+}
 
 
 
@@ -88,23 +95,33 @@ qx.Proto.getComponent = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.defineInitialize = function(vFunc) {
+qx.Proto.defineInitialize = function(vFunc)
+{
+  this.initComponent();
   return this.getComponent().defineInitialize(vFunc);
 }
 
-qx.Proto.defineMain = function(vFunc) {
+qx.Proto.defineMain = function(vFunc)
+{
+  this.initComponent();
   return this.getComponent().defineMain(vFunc);
 }
 
-qx.Proto.defineFinalize = function(vFunc) {
+qx.Proto.defineFinalize = function(vFunc)
+{
+  this.initComponent();
   return this.getComponent().defineFinalize(vFunc);
 }
 
-qx.Proto.defineClose = function(vFunc) {
+qx.Proto.defineClose = function(vFunc)
+{
+  this.initComponent();
   return this.getComponent().defineClose(vFunc);
 }
 
-qx.Proto.defineTerminate = function(vFunc) {
+qx.Proto.defineTerminate = function(vFunc)
+{
+  this.initComponent();
   return this.getComponent().defineTerminate(vFunc);
 }
 
@@ -120,15 +137,21 @@ qx.Proto.defineTerminate = function(vFunc) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onload = function(e) {
+qx.Proto._onload = function(e)
+{
+  this.initComponent();
   return this.getComponent()._onload(e);
 }
 
-qx.Proto._onbeforeunload = function(e) {
+qx.Proto._onbeforeunload = function(e)
+{
+  this.initComponent();
   return this.getComponent()._onbeforeunload(e);
 }
 
-qx.Proto._onunload = function(e) {
+qx.Proto._onunload = function(e)
+{
+  this.initComponent();
   return this.getComponent()._onunload(e);
 }
 
