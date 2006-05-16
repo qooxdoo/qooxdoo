@@ -21,7 +21,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var gl = new qx.ui.layout.GridLayout;
 
@@ -83,7 +83,7 @@
     term8.setHeight(20);
     term8.setVerticalAlign("bottom");
     gl.add(term8, 3, 1);
-  };
+  });
   </script>
 
 </body>

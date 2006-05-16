@@ -54,10 +54,8 @@ function(vClientWindow)
   this.__onwindowfocus = function(e) { return o._onwindowfocus(e); };
   this.__onwindowresize = function(e) { return o._onwindowresize(e); };
 
-  // Attach Document
-  if (qx.util.Validation.isValid(vClientWindow)) {
-    this.attachEvents(vClientWindow);
-  };
+  // Attach Events
+  this.attachEvents(vClientWindow);
 
   // Init Command Interface
   this._commands = {};
@@ -449,7 +447,7 @@ else
 
 qx.Proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION || !window.application.isReady()) {
+  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION || !qx.core.Init.getComponent().isUiReady()) {
     return;
   };
 
@@ -575,11 +573,11 @@ if(qx.sys.Client.isMshtml())
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
-    if (!window.application.isReady()) {
+    if (!qx.core.Init.getComponent().isUiReady()) {
       return;
     };
 
-    window.application.postLoad();
+    qx.core.Init.getComponent().preload();
 
     if(!vDomEvent) {
       vDomEvent = this._attachedClientWindow.getElement().event;
@@ -638,11 +636,11 @@ else
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
-    if (!window.application.isReady()) {
+    if (!qx.core.Init.getComponent().isUiReady()) {
       return;
     };
 
-    window.application.postLoad();
+    qx.core.Init.getComponent().preload();
 
     var vDomTarget = vDomEvent.target;
     var vType = vDomEvent.type;
@@ -973,7 +971,7 @@ qx.Proto._onselectevent = function(e)
 
 qx.Proto._onwindowblur = function(e)
 {
-  if (!window.application.isReady()) {
+  if (!qx.core.Init.getComponent().isUiReady()) {
     return;
   };
 
@@ -1011,7 +1009,7 @@ qx.Proto._onwindowblur = function(e)
 
 qx.Proto._onwindowfocus = function(e)
 {
-  if (!window.application.isReady()) {
+  if (!qx.core.Init.getComponent().isUiReady()) {
     return;
   };
 
@@ -1054,16 +1052,14 @@ qx.Proto.dispose = function()
     return;
   };
 
+  // Detach mouse events
   this.detachEvents();
 
-  delete this.__onmouseevent;
-  delete this.__onkeyevent;
-  delete this.__ondragevent;
-  delete this.__onselectevent;
-  delete this.__onwindowblur;
-  delete this.__onwindowfocus;
-  delete this.__onwindowresize;
+  // Reset functions
+  this.__onmouseevent = this.__onkeyevent = this.__ondragevent = this.__onselectevent = null;
+  this.__onwindowblur = this.__onwindowfocus = this.__onwindowresize = null;
 
+  // Cleanup
   this._lastMouseEventType = null;
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;

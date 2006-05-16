@@ -20,7 +20,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var gl = new qx.ui.layout.GridLayout;
     
@@ -115,7 +115,7 @@
     var term8 = new qx.ui.basic.Terminator;
     term8.setBackgroundColor("navy");
     gl.add(term8, 3, 1);            
-  };
+  });
   </script> 
 
 </body>

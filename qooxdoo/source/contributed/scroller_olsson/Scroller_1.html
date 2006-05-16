@@ -15,7 +15,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var doc = this.getClientWindow().getClientDocument();
 
@@ -62,6 +62,6 @@
       main6S.start();
 
       doc.add(main1S, main2S, main3S, main4S, main5S, main6S);
-    };
+    });
   </script>
 </body></html>

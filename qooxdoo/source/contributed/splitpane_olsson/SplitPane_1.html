@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function() {
+    qx.core.Init.defineMain(function() {
       var doc = this.getClientWindow().getClientDocument();
 
       var mainW = new qx.ui.window.Window("Test of SplitPane");
@@ -41,7 +41,7 @@
       mainW.add(mainSP);
 
       mainW.open();
-    };
+    });
   </script>
  </body>
 </html>

@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -69,7 +69,7 @@
       setPadding(3, 6);
     };
     d.add(nl5);
-  };
+  });
   </script>
 </body>
 </html>

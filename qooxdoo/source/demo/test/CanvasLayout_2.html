@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
     var w, j;
@@ -135,7 +135,7 @@
       // das in die element queue hängen
       // verhält sich ähnlich
     };
-  };
+  });
   </script>
 </body>
 </html>

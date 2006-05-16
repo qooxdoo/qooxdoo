@@ -18,7 +18,7 @@
   </div>
   
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
       
@@ -318,7 +318,7 @@
       i2.setHeight(150);
       d.add(i2);      
 
-    };
+    });
   </script>
 </body>
 </html>

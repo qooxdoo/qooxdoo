@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -136,7 +136,7 @@
     hb1.add(new qx.ui.basic.Image("icons/64/clock.png"));
     
     dl2.add(hb1);
-  };
+  });
   </script>
 </body>
 </html>

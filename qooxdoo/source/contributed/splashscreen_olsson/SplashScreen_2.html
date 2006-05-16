@@ -16,7 +16,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var doc = this.getClientWindow().getClientDocument();
 
@@ -33,7 +33,7 @@
       for(i = 0; i <= 100; i++) {
         startSS.setProgressBarValue(i);
       };
-    };
+    });
   </script>
 </body>
 </html>

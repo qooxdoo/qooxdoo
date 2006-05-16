@@ -22,7 +22,7 @@
     this.getParent().remove(this);
   };  
   
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -220,7 +220,7 @@
     h2.setBottom(48);
     h2.setLeft(20);
     d.add(h2);    
-  };
+  });
   </script>
 </body>
 </html>

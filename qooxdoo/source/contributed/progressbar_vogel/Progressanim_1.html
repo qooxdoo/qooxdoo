@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();  
     var p1 = new QxProgressanim(200);
@@ -58,7 +58,7 @@
       addEventListener("execute", function(e) { p1.clearBar(); });
     }
     d.add(btn3);
-  };
+  });
   </script>
   
 </body>

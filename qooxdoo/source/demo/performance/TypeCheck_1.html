@@ -23,7 +23,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var STR = "string";
     var NR = "number";
@@ -80,7 +80,7 @@
     }
 
     new qx.dev.TimeTracker(typeCheckTypeof1, typeCheckTypeof2, typeCheckInstanceOf);
-  };
+  });
   </script>
 </body>
 </html>

@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -42,7 +42,7 @@
 
       toppos += sizes[j] + 20;
     };
-  };
+  });
   </script>
 </body>
 </html>

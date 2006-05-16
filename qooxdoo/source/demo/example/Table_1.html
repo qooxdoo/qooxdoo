@@ -20,7 +20,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -37,7 +37,7 @@
     tableModel.setData(rowData);
     tableModel.setColumnEditable(1, true);
     tableModel.setColumnEditable(2, true);
-  
+
     // table
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
@@ -48,7 +48,7 @@
     };
 
     d.add(table);
-  };
+  });
   </script>
 </body>
 </html>

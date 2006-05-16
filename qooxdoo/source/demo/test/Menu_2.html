@@ -20,7 +20,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
 
@@ -201,7 +201,7 @@
       qx.manager.object.ColorManager.createThemeList(d, 380, 48);
 
 
-    };
+    });
   </script>
 </body>
 </html>

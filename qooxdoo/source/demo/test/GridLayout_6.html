@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var gl = new qx.ui.layout.GridLayout;
     
@@ -104,7 +104,7 @@
     gl.add(label6, 0, 5);
     gl.add(input6, 1, 5);
     gl.add(input7, 1, 6);
-  };
+  });
   </script> 
 
 </body>

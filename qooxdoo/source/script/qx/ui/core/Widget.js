@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #package(guicore)
-#require(qx.core.Init)
 #require(qx.constant.Tags)
 #require(qx.renderer.color.ColorObject)
 #require(qx.renderer.color.ColorCache)
@@ -32,6 +31,7 @@
 #require(qx.manager.object.AppearanceManager)
 #use(qx.dom.DomScrollIntoView)
 #use(qx.dom.DomOffset)
+#use(qx.component.InitUiComponent)
 
 ************************************************************************ */
 
@@ -516,7 +516,7 @@ if (qx.core.Settings.enableWidgetDebug)
 {
   qx.ui.core.Widget.flushGlobalQueues = function()
   {
-    if (qx.ui.core.Widget._inFlushGlobalQueues || !window.application.isReady()) {
+    if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getComponent().isUiReady()) {
       return;
     };
 
@@ -587,7 +587,7 @@ else
 {
   qx.ui.core.Widget.flushGlobalQueues = function()
   {
-    if (qx.ui.core.Widget._inFlushGlobalQueues || !window.application.isReady()) {
+    if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getComponent().isUiReady()) {
       return;
     };
 

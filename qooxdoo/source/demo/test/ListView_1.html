@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var ld = [];
       var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
@@ -53,7 +53,7 @@
 
       // Color Themes
       qx.manager.object.ColorManager.createThemeList(this.getClientWindow().getClientDocument(), 20, 448);
-    };
+    });
   </script>
 </body>
 </html>

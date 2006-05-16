@@ -131,7 +131,7 @@
   <script type="text/javascript">
   var at1;
 
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -168,7 +168,7 @@
     };
 
     d.add(at1, ct1);
-  };
+  });
   </script>
 </body>
 </html>

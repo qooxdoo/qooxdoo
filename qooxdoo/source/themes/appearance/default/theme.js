@@ -1094,8 +1094,8 @@
     {
       if (vStates.lead)
       {
-        vWidget.setStyleProperty("MozOutline", qx.Const.FOCUS_OUTLINE);
-        vWidget.setStyleProperty("outline", qx.Const.FOCUS_OUTLINE);
+        vWidget.setStyleProperty("MozOutline", qx.ui.core.Widget.FOCUS_OUTLINE);
+        vWidget.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_OUTLINE);
       }
       else
       {

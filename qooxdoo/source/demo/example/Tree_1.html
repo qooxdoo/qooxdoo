@@ -18,7 +18,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var t = new qx.ui.tree.Tree("Root");
 
@@ -195,7 +195,7 @@
       tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
 
 
-    };
+    });
   </script>
 </body>
 </html>

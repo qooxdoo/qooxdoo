@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var doc = this.getClientWindow().getClientDocument();
 
@@ -65,7 +65,7 @@
         progressPB3.setValue(i);
         progressPB4.setValue(i);
       };
-    };
+    });
   </script>
 </body>
 </html>

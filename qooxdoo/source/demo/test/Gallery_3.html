@@ -102,7 +102,7 @@
   <script type="text/javascript">
     var updateAdd;
   
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var galleryList = [];
 
@@ -176,7 +176,7 @@
         gallery.addFromUpdatedList(galleryListUpdated);
       };
       
-    };
+    });
   </script>
 </body>
 </html>

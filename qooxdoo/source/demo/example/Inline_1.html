@@ -31,7 +31,7 @@
   </div>
 
   <script type="text/javascript">
-  window.application.main = function()
+  qx.core.Init.defineMain(function()
   {
     var d = this.getClientWindow().getClientDocument();
 
@@ -261,7 +261,7 @@
     inline2.add(mb1);
 
     d.add(inline2);
-  };
+  });
   </script>
 </body>
 </html>

@@ -19,7 +19,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var doc = this.getClientWindow().getClientDocument();
 
@@ -32,7 +32,7 @@
       buttons2BP.setLeft(200);
 
       doc.add(buttons1BP, buttons2BP);
-    };
+    });
   </script>
 </body>
 </html>

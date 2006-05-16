@@ -91,7 +91,7 @@
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var galleryData = [];
 
@@ -123,7 +123,7 @@
       galleryList.setBackgroundColor("white");
 
       this.add(galleryList);
-    };
+    });
   </script>
 </body>
 </html>

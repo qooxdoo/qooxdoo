@@ -14,7 +14,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <script type="text/javascript">
-    window.application.main = function() {
+    qx.core.Init.defineMain(function() {
       new qx.client.Builder().build(this, document.getElementById('widgets'));
     }
   </script>

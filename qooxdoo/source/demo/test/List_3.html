@@ -19,7 +19,7 @@
 
   <script type="text/javascript">
    
-    window.application.main = function() {
+    qx.core.Init.defineMain(function() {
         var list = new qx.ui.form.List(); list.set({top:50,left:50,height:150,width:100});
         
         list.add(new qx.ui.form.ListItem('Will',null,'1'));
@@ -51,7 +51,7 @@
 
         this.add(btn1,btn2,btn3,btn4);
         this.add(list);
-    };
+    });
   </script>
 </body>
 </html>

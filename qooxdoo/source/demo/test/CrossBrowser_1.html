@@ -32,7 +32,7 @@ Mit seiner Aufnahme in die Elite war Knechts Leben auf eine andre Ebene verpflan
   </div>
 
   <script type="text/javascript">
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var d = this.getClientWindow().getClientDocument();
 
@@ -162,7 +162,7 @@ Mit seiner Aufnahme in die Elite war Knechts Leben auf eine andre Ebene verpflan
         QxDebug("Screen", "getComputedScreenInnerRight: " + w1.getComputedScreenInnerRight());
         QxDebug("Screen", "getComputedScreenInnerBottom: " + w1.getComputedScreenInnerBottom());
       });
-    };
+    });
   </script>
 </body>
 </html>
