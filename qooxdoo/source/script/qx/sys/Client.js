@@ -116,6 +116,8 @@ function()
   this._browserModeHta = vBrowserModeHta;
 
   this._browserPlatformNameMac = vBrowserUserAgent.indexOf("Macintosh") != -1;
+  
+  this._boxSizingAttribute = this._engineNameGecko ? "-moz-box-sizing" : "box-sizing";
 });
 
 
@@ -179,6 +181,17 @@ qx.Proto.isKhtml = function() {
 qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
 };
+
+
+/**
+ * Returns the CSS attribute name for box-sizing.
+ *
+ * @return {string} the attribute name.
+ */
+qx.Proto.getBoxSizingAttribute = function() {
+  return this._boxSizingAttribute;
+};
+
 
 /**
  * Returns whether the client platform is a Mac.
