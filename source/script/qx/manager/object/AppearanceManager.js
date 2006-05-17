@@ -51,7 +51,7 @@ qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.STRING, de
 
 qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 {
-  qx.core.Init.getComponent().getClientWindow()().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+  qx.core.Init.getComponent().getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   return true;
 };
 
