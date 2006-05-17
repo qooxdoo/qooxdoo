@@ -2,7 +2,7 @@
 
 import sys, string, re, os, random
 import config, tokenizer, loader, compile
-
+import fchksum
 
 
 def printHelp():
@@ -289,7 +289,12 @@ def main():
       if cmds["verbose"]:
         print "    * reading..."
 
-      fileContent = file(scanResult["files"][uniqueId], "r").read()
+      fileName = scanResult["files"][uniqueId]
+
+      # checksum
+      # fchksum.fmd5t(fileName)[0]
+
+      fileContent = file(fileName, "r").read()
       fileSize = len(fileContent) / 1000.0
 
       if cmds["verbose"]:
