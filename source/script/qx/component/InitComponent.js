@@ -53,8 +53,6 @@ qx.Proto._onbeforeunload = function(e) {
   this.close();
 }
 
-qx.Proto._onunload = function(e)
-{
+qx.Proto._onunload = function(e) {
   this.terminate();
-  qx.core.Object.dispose();
 }
