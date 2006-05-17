@@ -3,12 +3,6 @@ h4. Homepage
 * Improve homepage to include more project informations above the news section.
 * Install Wiki, Bugzilla and some other tools
 
-h4. Documentation
-
-* Describe each class using documentation system
-* Drag & Drop Support
-* Transport
-
 h4. AJAX Layer
 
 # Implement QxRequestQueue (Done)
