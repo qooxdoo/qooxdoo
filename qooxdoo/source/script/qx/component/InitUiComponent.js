@@ -91,6 +91,8 @@ qx.Proto.isUiReady = function() {
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
+  var start = (new Date).valueOf();
+
   switch(propValue)
   {
     case qx.component.AbstractComponent.STATE_INITIALIZE:
@@ -100,7 +102,6 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       // Build virtual methods for easy additions of childrens and so on
       this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
       qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
-
       break;
 
     case qx.component.AbstractComponent.STATE_FINALIZE:
@@ -120,6 +121,9 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList(), this.finalize, this);
       break;
   }
+
+  // Print runtime
+  this.info(propValue + " runtime: " + ((new Date).valueOf() - start) + "ms");
 
   return true;
 }

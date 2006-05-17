@@ -70,19 +70,15 @@ qx.Proto._modifyComponentClass = function(propValue, propOldValue, propData)
 /*!
   Get the assigned component.
 */
-qx.Proto.getComponent = function() {
+qx.Proto.getComponent = function()
+{
+  if (!this._component) {
+    this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
+  }
+
   return this._component;
 }
 
-// Choose between GUI/Non-GUI initialisation
-qx.Proto.initComponent = function()
-{
-  if (!this._component)
-  {
-    this.debug("Create init component...");
-    this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
-  }
-}
 
 
 
@@ -95,33 +91,23 @@ qx.Proto.initComponent = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.defineInitialize = function(vFunc)
-{
-  this.initComponent();
+qx.Proto.defineInitialize = function(vFunc) {
   return this.getComponent().defineInitialize(vFunc);
 }
 
-qx.Proto.defineMain = function(vFunc)
-{
-  this.initComponent();
+qx.Proto.defineMain = function(vFunc) {
   return this.getComponent().defineMain(vFunc);
 }
 
-qx.Proto.defineFinalize = function(vFunc)
-{
-  this.initComponent();
+qx.Proto.defineFinalize = function(vFunc) {
   return this.getComponent().defineFinalize(vFunc);
 }
 
-qx.Proto.defineClose = function(vFunc)
-{
-  this.initComponent();
+qx.Proto.defineClose = function(vFunc) {
   return this.getComponent().defineClose(vFunc);
 }
 
-qx.Proto.defineTerminate = function(vFunc)
-{
-  this.initComponent();
+qx.Proto.defineTerminate = function(vFunc) {
   return this.getComponent().defineTerminate(vFunc);
 }
 
@@ -137,22 +123,18 @@ qx.Proto.defineTerminate = function(vFunc)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onload = function(e)
-{
-  this.initComponent();
+qx.Proto._onload = function(e) {
   return this.getComponent()._onload(e);
 }
 
-qx.Proto._onbeforeunload = function(e)
-{
-  this.initComponent();
+qx.Proto._onbeforeunload = function(e) {
   return this.getComponent()._onbeforeunload(e);
 }
 
 qx.Proto._onunload = function(e)
 {
-  this.initComponent();
-  return this.getComponent()._onunload(e);
+  this.getComponent()._onunload(e);
+  qx.core.Object.dispose();
 }
 
 
