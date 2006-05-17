@@ -26,7 +26,7 @@
 
 #package(table)
 #require(qx.ui.layout.HorizontalBoxLayout)
-#use(qx.constant.Type.OBJECT)
+#use(qx.constant.Type)
 #use(qx.ui.table.TableModel)
 #use(qx.ui.table.TableColumnModel)
 #use(qx.ui.table.TablePaneModel)
