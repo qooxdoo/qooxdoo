@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.DefaultHeaderCellRenderer)
 #require(qx.ui.table.DefaultDataCellRenderer)
 #require(qx.ui.table.TextFieldCellEditorFactory)

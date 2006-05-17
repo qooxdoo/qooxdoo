@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.HeaderCellRenderer)
 
 ************************************************************************ */
@@ -31,7 +32,7 @@
 /**
  * The default header cell renderer.
  */
-qx.OO.defineClass("qx.ui.table.DefaultHeaderCellRenderer", qx.ui.table.HeaderCellRenderer, 
+qx.OO.defineClass("qx.ui.table.DefaultHeaderCellRenderer", qx.ui.table.HeaderCellRenderer,
 function() {
   qx.ui.table.HeaderCellRenderer.call(this);
 });

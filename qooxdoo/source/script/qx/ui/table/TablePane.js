@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.layout.GridLayout)
 #require(qx.constant.Type)
 #use(qx.ui.table.SelectionManager)

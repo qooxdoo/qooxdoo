@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.AbstractTableModel)
 #use(qx.ui.table.TableModel)
 
@@ -32,7 +33,7 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.OO.defineClass("qx.ui.table.SimpleTableModel", qx.ui.table.AbstractTableModel, 
+qx.OO.defineClass("qx.ui.table.SimpleTableModel", qx.ui.table.AbstractTableModel,
 function() {
   qx.ui.table.AbstractTableModel.call(this);
 

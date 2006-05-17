@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.layout.BoxLayout)
 #require(qx.constant.Type)
 #use(qx.constant.Layout)

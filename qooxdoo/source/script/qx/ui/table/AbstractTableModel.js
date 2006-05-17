@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.TableModel)
 
 ************************************************************************ */
@@ -32,7 +33,7 @@
  * An abstract table model that performs the column handling, so subclasses only
  * need to care for row handling.
  */
-qx.OO.defineClass("qx.ui.table.AbstractTableModel", qx.ui.table.TableModel, 
+qx.OO.defineClass("qx.ui.table.AbstractTableModel", qx.ui.table.TableModel,
 function() {
   qx.ui.table.TableModel.call(this);
 
@@ -77,7 +78,7 @@ qx.Proto.getColumnName = function(columnIndex) {
  */
 qx.Proto.setColumnIds = function(columnIdArr) {
   this._columnIdArr = columnIdArr;
-  
+
   // Create the reverse map
   this._columnIndexMap = {};
   for (var i = 0; i < columnIdArr.length; i++) {
