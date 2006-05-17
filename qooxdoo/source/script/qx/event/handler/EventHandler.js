@@ -104,6 +104,8 @@ qx.Proto._lastMouseEventType = null;
 qx.Proto._lastMouseDown = false;
 qx.Proto._lastMouseEventDate = 0;
 
+qx.Proto._lastKeyEventType = null;
+
 
 
 
@@ -451,14 +453,24 @@ qx.Proto._onkeyevent = function(vDomEvent)
     return;
   };
 
-
-
-
   if(!vDomEvent) {
     vDomEvent = this._attachedClientWindow.getElement().event;
   };
 
   var vType = vDomEvent.type;
+
+  // MSHTML sometimes does not include a keypress event type
+  if (this._lastKeyEventType === qx.constant.Event.KEYDOWN && vType === qx.constant.Event.KEYUP) {
+    this._onkeyevent_post(vDomEvent, qx.constant.Event.KEYPRESS);
+  }
+
+  this._lastKeyEventType = vType;
+
+  this._onkeyevent_post(vDomEvent, vType);
+}
+
+qx.Proto._onkeyevent_post = function(vDomEvent, vType)
+{
   var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
   var vKeyCode = vDomEvent.keyCode || vDomEvent.charCode;
 
@@ -514,7 +526,6 @@ qx.Proto._onkeyevent = function(vDomEvent)
       };
     };
   };
-
 
 
 
@@ -1063,6 +1074,7 @@ qx.Proto.dispose = function()
   this._lastMouseEventType = null;
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;
+  this._lastKeyEventType = null;
 
   if (this._commands)
   {
