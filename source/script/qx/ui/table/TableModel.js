@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.core.Target)
 
 ************************************************************************ */
@@ -31,7 +32,7 @@
 /**
  * The data model of a table.
  */
-qx.OO.defineClass("qx.ui.table.TableModel", qx.core.Target, 
+qx.OO.defineClass("qx.ui.table.TableModel", qx.core.Target,
 function() {
   qx.core.Target.call(this);
 });

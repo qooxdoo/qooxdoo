@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.layout.HorizontalBoxLayout)
 #use(qx.constant.Type.OBJECT)
 #use(qx.ui.table.TableModel)

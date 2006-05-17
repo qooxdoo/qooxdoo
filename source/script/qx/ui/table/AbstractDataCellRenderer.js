@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.DataCellRenderer)
 
 ************************************************************************ */
@@ -32,7 +33,7 @@
  * An abstract data cell renderer that does the basic coloring
  * (borders, selected look, ...).
  */
-qx.OO.defineClass("qx.ui.table.AbstractDataCellRenderer", qx.ui.table.DataCellRenderer, 
+qx.OO.defineClass("qx.ui.table.AbstractDataCellRenderer", qx.ui.table.DataCellRenderer,
 function() {
   qx.ui.table.DataCellRenderer.call(this);
 });

@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.core.Object)
 
 ************************************************************************ */
@@ -31,7 +32,7 @@
 /**
  * A factory creating widgets to use for editing table cells.
  */
-qx.OO.defineClass("qx.ui.table.CellEditorFactory", qx.core.Object, 
+qx.OO.defineClass("qx.ui.table.CellEditorFactory", qx.core.Object,
 function() {
   qx.core.Object.call(this);
 });

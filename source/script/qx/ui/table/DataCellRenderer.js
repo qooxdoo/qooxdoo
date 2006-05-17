@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.core.Object)
 
 ************************************************************************ */
@@ -31,7 +32,7 @@
 /**
  * A cell renderer for data cells.
  */
-qx.OO.defineClass("qx.ui.table.DataCellRenderer", qx.core.Object, 
+qx.OO.defineClass("qx.ui.table.DataCellRenderer", qx.core.Object,
 function() {
   qx.core.Object.call(this);
 });

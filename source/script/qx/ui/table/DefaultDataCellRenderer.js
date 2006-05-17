@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.AbstractDataCellRenderer)
 #require(qx.constant.Type)
 #require(qx.util.format.NumberFormat)
@@ -33,7 +34,7 @@
 /**
  * The default data cell renderer.
  */
-qx.OO.defineClass("qx.ui.table.DefaultDataCellRenderer", qx.ui.table.AbstractDataCellRenderer, 
+qx.OO.defineClass("qx.ui.table.DefaultDataCellRenderer", qx.ui.table.AbstractDataCellRenderer,
 function() {
   qx.ui.table.AbstractDataCellRenderer.call(this);
 });

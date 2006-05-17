@@ -24,6 +24,7 @@
 
 /* ************************************************************************
 
+#package(table)
 #require(qx.ui.table.AbstractDataCellRenderer)
 #require(qx.manager.object.ImageManager)
 
@@ -32,7 +33,7 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.OO.defineClass("qx.ui.table.BooleanDataCellRenderer", qx.ui.table.AbstractDataCellRenderer, 
+qx.OO.defineClass("qx.ui.table.BooleanDataCellRenderer", qx.ui.table.AbstractDataCellRenderer,
 function() {
   qx.ui.table.AbstractDataCellRenderer.call(this);
 });
