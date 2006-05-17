@@ -3430,6 +3430,8 @@ qx.Proto._oninlineevent = function(e)
     return;
   };
 
+  // this.debug("Inlineevent: " + e.type);
+
   switch(e.type)
   {
     case qx.ui.core.Widget.INLINE_EVENTTYPE:
