@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.TextField", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.form.TextField", qx.ui.basic.Terminator,
 function(vValue)
 {
   // ************************************************************************
@@ -84,6 +84,7 @@ qx.OO.addProperty({ name : "validator", type : qx.constant.Type.FUNCTION });
   The font property describes how to paint the font on the widget.
 */
 qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+
 
 
 
@@ -202,6 +203,44 @@ qx.Proto._computePreferredInnerWidth = function() {
 qx.Proto._computePreferredInnerHeight = function() {
   return 15;
 };
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  BROWSER QUIRKS
+---------------------------------------------------------------------------
+*/
+
+if (qx.sys.Client.isMshtml())
+{
+  qx.Proto._firstInputFixApplied = false;
+
+  qx.Proto._afterAppear = function()
+  {
+    qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+
+    if (!this._firstInputFixApplied) {
+      qx.client.Timer.once(this._ieFirstInputFix, this, 1);
+    }
+  };
+
+  /*!
+    Fix IE's input event for filled text fields
+  */
+  qx.Proto._ieFirstInputFix = function()
+  {
+    this._inValueProperty = true;
+    this.getElement().value = this.getValue() === null ? qx.constant.Core.EMPTY : this.getValue();
+    this._firstInputFixApplied = true;
+    delete this._inValueProperty;
+  }
+};
+
+
+
 
 
 
