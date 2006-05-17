@@ -33,7 +33,7 @@
     t1.setTop(48);
     t1.setLeft(20);
 
-    t1.addEventListener("changeText", textChange);
+    t1.addEventListener("changeValue", textChange);
     t1.addEventListener("input", function(e) {
       this.debug("Input: " + e.getData());
     });
@@ -48,7 +48,7 @@
     t2.setTop(80);
     t2.setLeft(20);
 
-    t2.addEventListener("changeText", textChange);
+    t2.addEventListener("changeValue", textChange);
 
     d.add(t2);
 
@@ -60,7 +60,7 @@
     t3.setWidth(300);
     t3.setHeight(60);
 
-    t3.addEventListener("changeText", textChange);
+    t3.addEventListener("changeValue", textChange);
 
     d.add(t3);
 
@@ -73,7 +73,7 @@
     t4.setMaxLength(100);
     t4.setReadOnly(true);
 
-    t4.addEventListener("changeText", textChange);
+    t4.addEventListener("changeValue", textChange);
 
     d.add(t4);
 
@@ -83,28 +83,26 @@
     t5.setTop(240);
     t5.setLeft(20);
 
-    t5.addEventListener("changeText", textChange);
+    t5.addEventListener("changeValue", textChange);
 
     d.add(t5);
 
-    /*
-    TODO:
 
-    t5.setSelectionStart(4);
-    t5.setSelectionLength(3);
 
-    this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
+    var t6 = new qx.ui.form.TextField;
+    t6.setTop(270);
+    t6.setLeft(20);
 
-    t5.setSelectionText("are not");
+    t6.addEventListener("changeText", textChange);
+    t6.addEventListener("input", function(e) {
+      this.debug("Input: " + e.getData());
+    });
 
-    this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
+    t6.addEventListener("keydown", function(e) {
+      this.debug("Keypress: " + e.getKeyCode());
+    });
 
-    t5.setSelectionLength(0);
-    this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
-
-    t5.selectFromTo(12, 15);
-    this.debug("Selection: '" + t5.getSelectionText() + "' (" + t5.getSelectionLength() + ")");
-    */
+    d.add(t6);
   });
   </script>
 </body>
