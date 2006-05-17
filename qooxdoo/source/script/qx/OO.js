@@ -37,6 +37,8 @@ if (typeof qx == "undefined") {
   qx = {};
 };
 
+qx.loadStart = (new Date).valueOf();
+
 qx.OO = {};
 
 qx.OO.classes = {};
