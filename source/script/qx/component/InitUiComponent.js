@@ -114,6 +114,9 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   qx.component.InitComponent.prototype._modifyState.call(this, propValue, propOldValue, propData);
 
+  // Print runtime
+  this.info(propValue + " runtime: " + ((new Date).valueOf() - start) + "ms");
+
   switch(propValue)
   {
     case qx.component.AbstractComponent.STATE_MAIN:
@@ -121,9 +124,6 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList(), this.finalize, this);
       break;
   }
-
-  // Print runtime
-  this.info(propValue + " runtime: " + ((new Date).valueOf() - start) + "ms");
 
   return true;
 }
