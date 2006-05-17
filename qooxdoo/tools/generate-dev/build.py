@@ -14,6 +14,10 @@ def printHelp():
   print "  -h,  --help                       show this help screen"
   print
 
+  # Options
+  print "  -r   --read-from-file             read arguments from file"
+  print "  -q   --quiet                      be less verbose"
+
   # Jobs
   print "  -c,  --compile-tokens             compile tokens to new js-files"
   print "  -t   --store-tokens               store token list for each file"
@@ -40,63 +44,49 @@ def printHelp():
 
 
 
+def argparser(args, cmds):
+  print args
 
-def main():
-  cmds = {}
-
-  # Source
-  cmds["source"] = ["source/script", "source/themes"]
-
-  # Output
-  cmds["outputTokenized"] = "build/tokens"
-  cmds["outputBuild"] = "build/script"
-
-  # Jobs
-  cmds["compileTokens"] = False
-  cmds["storeTokens"] = False
-  cmds["printKnownFiles"] = False
-  cmds["printKnownPackages"] = False
-  cmds["printSortedIdList"] = False
-  cmds["storeSeparateScripts"] = False
-  cmds["compileWithNewLines"] = False
-  cmds["addUniqueIds"] = False
-
-  # Include/Exclude
-  cmds["include"] = []
-  cmds["exclude"] = []
-  cmds["ignoreIncludeDeps"] = False
-  cmds["ignoreExcludeDeps"] = False
+  i = 0
+  while i < len(args):
+    c = args[i]
 
 
+    # Options
+    if c == "-q" or c == "--quiet":
+      cmds["verbose"] = False
 
-
-  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
-    printHelp()
-    return
-
-
-
-  i = 1
-  while i < len(sys.argv):
-    c = sys.argv[i]
 
     # Source
-    if c == "--source-directories":
-      cmds["source"] = sys.argv[i+1].split(",")
+    elif c == "--source-directories":
+      if len(args) <= i+1:
+        printHelp()
+        raise RuntimeError, "Missing parameter(s)"
+
+      cmds["source"] = args[i+1].split(",")
 
       if "" in cmds["source"]:
         cmds["source"].remove("")
+
       i += 1
 
 
 
     # Output
     elif c == "--output-tokenized":
-      cmds["outputTokenized"] = sys.argv[i+1]
+      if len(args) <= i+1:
+        printHelp()
+        raise RuntimeError, "Missing parameter(s)"
+
+      cmds["outputTokenized"] = args[i+1]
       i += 1
 
     elif c == "--output-build":
-      cmds["outputBuild"] = sys.argv[i+1]
+      if len(args) <= i+1:
+        printHelp()
+        raise RuntimeError, "Missing parameter(s)"
+
+      cmds["outputBuild"] = args[i+1]
       i += 1
 
 
@@ -131,21 +121,19 @@ def main():
 
     # Include/Exclude
     elif c == "-i" or c == "--include":
-      if len(sys.argv) <= i+1:
-        print ">>> Missing parameter(s) to include"
+      if len(args) <= i+1:
         printHelp()
-        return
+        raise RuntimeError, "Missing parameter(s)"
 
-      cmds["include"] = sys.argv[i+1].split(",")
+      cmds["include"] = args[i+1].split(",")
       i += 1
 
     elif c == "-e" or c == "--exclude":
-      if len(sys.argv) <= i+1:
-        print ">>> Missing parameter(s) to exclude"
+      if len(args) <= i+1:
         printHelp()
-        return
+        raise RuntimeError, "Missing parameter(s)"
 
-      cmds["exclude"] = sys.argv[i+1].split(",")
+      cmds["exclude"] = args[i+1].split(",")
       i += 1
 
     elif c == "--disable-include-deps":
@@ -156,15 +144,87 @@ def main():
 
 
 
+    # Read from file
+    elif c == "-r" or c == "--read-from-file":
+      if len(args) <= i+1:
+        printHelp()
+        raise RuntimeError, "Missing parameter(s)"
+
+      fileargs = []
+      for line in file(args[i+1]).read().split("\n"):
+        if line == "":
+          continue
+
+        sline = line.split("=")
+        key = sline[0].strip()
+
+        if len(key) == 1:
+          key = "-" + key
+        else:
+          key = "--" + key
+
+        fileargs.append(key)
+
+        if len(sline) > 1:
+          value = sline[1].strip()
+          fileargs.append(value)
+
+      argparser(fileargs, cmds)
+      i += 1
+
+
+
+
     # Fallback
     else:
-      print ">>> Unknown option: %s" % c
       printHelp()
-      return
+      raise RuntimeError, "Unknown option: %s" % c
 
 
     # Countin' up
     i += 1
+
+
+
+
+
+def main():
+  cmds = {}
+
+  # Options
+  cmds["verbose"] = True
+
+  # Source
+  cmds["source"] = ["source/script", "source/themes"]
+
+  # Output
+  cmds["outputTokenized"] = "build/tokens"
+  cmds["outputBuild"] = "build/script"
+
+  # Jobs
+  cmds["compileTokens"] = False
+  cmds["storeTokens"] = False
+  cmds["printKnownFiles"] = False
+  cmds["printKnownPackages"] = False
+  cmds["printSortedIdList"] = False
+  cmds["storeSeparateScripts"] = False
+  cmds["compileWithNewLines"] = False
+  cmds["addUniqueIds"] = False
+
+  # Include/Exclude
+  cmds["include"] = []
+  cmds["exclude"] = []
+  cmds["ignoreIncludeDeps"] = False
+  cmds["ignoreExcludeDeps"] = False
+
+
+
+
+  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
+    printHelp()
+    return
+
+  argparser(sys.argv[1:], cmds)
 
 
 
@@ -224,18 +284,23 @@ def main():
     for uniqueId in sortedIncludeList:
       print "  * %s" % uniqueId
 
-      print "    * reading..."
+      if cmds["verbose"]:
+        print "    * reading..."
+
       fileContent = file(scanResult["files"][uniqueId], "r").read()
       fileSize = len(fileContent) / 1000.0
 
-      print "    * tokenizing source (%s KB)..." % fileSize
+      if cmds["verbose"]:
+        print "    * tokenizing source (%s KB)..." % fileSize
+
       tokens = tokenizer.parseStream(fileContent, uniqueId)
 
       if cmds["storeTokens"]:
         tokenString = tokenizer.convertTokensToString(tokens)
         tokenSize = len(tokenString) / 1000.0
 
-        print "    * writing tokens to file (%s KB)..." % tokenSize
+        if cmds["verbose"]:
+          print "    * writing tokens to file (%s KB)..." % tokenSize
 
         tokenFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
 
@@ -245,7 +310,8 @@ def main():
         tokenFile.close()
 
       if cmds["compileTokens"]:
-        print "    * compiling..."
+        if cmds["verbose"]:
+          print "    * compiling..."
 
         compString = compile.compile(tokens, cmds["compileWithNewLines"])
 
@@ -257,10 +323,12 @@ def main():
         compSize = len(compString) / 1000.0
         compFactor = 100 - (compSize / fileSize * 100)
 
-        print "    * compression %i%% (%s KB)" % (compFactor, compSize)
+        if cmds["verbose"]:
+          print "    * compression %i%% (%s KB)" % (compFactor, compSize)
 
         if cmds["storeSeparateScripts"]:
-          print "    * writing compiled code to file..."
+          if cmds["verbose"]:
+            print "    * writing compiled code to file..."
           compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
 
           compFile = file(compFileName, "w")
