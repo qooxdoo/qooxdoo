@@ -17,12 +17,13 @@ def printHelp():
   # Options
   print "  -r   --read-from-file             read arguments from file"
   print "  -q   --quiet                      be less verbose"
+  print "       --store-separate-scripts     store each compiled file separately"
+  print "       --compile-with-new-lines     enable newlines in compiled js-files"
+  print "       --add-unique-ids             insert uniqueIds into compiled js-files"
 
   # Jobs
   print "  -c,  --compile-tokens             compile tokens to new js-files"
   print "  -t   --store-tokens               store token list for each file"
-  print "       --store-separate-scripts     store each compiled file separately"
-  print "       --compile-with-new-lines     enable newlines in compiled js-files"
   print "  -f,  --print-files                print known files"
   print "  -p,  --print-packages             print known packages"
   print "  -s,  --print-sorted               print sorted include list"
