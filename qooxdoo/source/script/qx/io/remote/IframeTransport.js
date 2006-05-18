@@ -394,12 +394,19 @@ qx.Proto.getResponseContent = function()
       break;
 
     case qx.constant.Mime.JSON:
-    case qx.constant.Mime.JAVASCRIPT:
       try {
         var vText = this.getIframeTextContent();
         return vText ? eval("(" + vText + ")") : null;
       } catch(ex) {
-        return this.error("Could not execute javascript/json", ex);
+        return this.error("Could not execute json", ex);
+      };
+
+    case qx.constant.Mime.JAVASCRIPT:
+      try {
+        var vText = this.getIframeTextContent();
+        return vText ? window.eval("(" + vText + ")") : null;
+      } catch(ex) {
+        return this.error("Could not execute javascript", ex);
       };
 
     case qx.constant.Mime.XML:
