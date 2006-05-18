@@ -562,11 +562,17 @@ qx.Proto.getResponseContent = function()
       return this.getResponseText();
 
     case qx.constant.Mime.JSON:
-    case qx.constant.Mime.JAVASCRIPT:
       try {
         return eval("(" + this.getResponseText() + ")");
       } catch(ex) {
-        return this.error("Could not execute javascript/json", ex);
+        return this.error("Could not execute json", ex);
+      };
+
+    case qx.constant.Mime.JAVASCRIPT:
+      try {
+        return window.eval("(" + this.getResponseText() + ")");
+      } catch(ex) {
+        return this.error("Could not execute javascript", ex);
       };
 
     case qx.constant.Mime.XML:
