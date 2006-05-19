@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.color.ColorObject", qx.renderer.color.Color, 
+qx.OO.defineClass("qx.renderer.color.ColorObject", qx.renderer.color.Color,
 function(vValue)
 {
   // this.debug("Value: " + vValue);
@@ -78,10 +78,7 @@ qx.Proto._updateTheme = function(vTheme)
   };
 
   this._applyThemedValue();
-
-  for (i in this._dependentObjects) {
-    this._dependentObjects[i]._updateColors(this, this._style);
-  };
+  this._syncObjects();
 };
 
 qx.Proto._applyThemedValue = function()
@@ -100,8 +97,17 @@ qx.Proto._applyThemedValue = function()
   this._hex = null;
 };
 
-qx.Proto.setValue = function(vValue) {
+qx.Proto._syncObjects = function()
+{
+  for (i in this._dependentObjects) {
+    this._dependentObjects[i]._updateColors(this, this._style);
+  };
+};
+
+qx.Proto.setValue = function(vValue)
+{
   this._normalize(vValue);
+  this._syncObjects();
 };
 
 
