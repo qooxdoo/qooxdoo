@@ -36,6 +36,9 @@ h4. Layouter Rework
 
 h4. Unsorted
 
+* Convert: MouseEvent and KeyEvent to singletons.
+* Add instance pooling feature to transport API, Event and other mass-created objects.
+
 * QxDebug: Move styling to script implementation (makes it easier to use debug console outside demos)
 * QxDebug: Add ex.fileName and ex.lineNumber to debug output if available
 * QxDebug: Allow usage of a newly created window for debug output
