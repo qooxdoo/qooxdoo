@@ -79,10 +79,7 @@ proto._updateTheme = function(vTheme)
   };
 
   this._applyThemedValue();
-
-  for (i in this._dependentObjects) {
-    this._dependentObjects[i]._updateColors(this, this._style);
-  };
+  this._syncObjects();
 };
 
 proto._applyThemedValue = function()
@@ -101,8 +98,17 @@ proto._applyThemedValue = function()
   this._hex = null;
 };
 
-proto.setValue = function(vValue) {
+proto._syncObjects = function()
+{
+  for (i in this._dependentObjects) {
+    this._dependentObjects[i]._updateColors(this, this._style);
+  };
+};
+
+proto.setValue = function(vValue)
+{
   this._normalize(vValue);
+  this._syncObjects();
 };
 
 
