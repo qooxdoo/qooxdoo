@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing the incluence to the performance of data using the prototype mechanism on classes.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function()
+  {
+    var emptyObject = function() {};
+    var protoObject1 = function() {};
+    var protoObject2 = function() {};
+
+    for (var i=0; i<1000; i++)
+    {
+      protoObject1.prototype["i" + i] = function() {
+        alert("Hello World: " + i);
+      };
+    }
+
+    for (var i=0; i<1000; i++)
+    {
+      protoObject2.prototype["i" + i] = "Hello World";
+    }
+
+    function empty(vLoops)
+    {
+      for (var i=0; i<vLoops; i++) {
+        new emptyObject;
+      }
+    }
+
+    function protos1(vLoops)
+    {
+      for (var i=0; i<vLoops; i++) {
+        new protoObject1;
+      }
+    }
+
+    function protos2(vLoops)
+    {
+      for (var i=0; i<vLoops; i++) {
+        new protoObject2;
+      }
+    }
+
+    new qx.dev.TimeTracker(empty, protos1, protos2);
+  });
+  </script>
+</body>
+</html>
