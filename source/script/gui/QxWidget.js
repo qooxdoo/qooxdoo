@@ -837,7 +837,7 @@ proto._computeDisplayable = function() {
 proto._beforeAppear = function()
 {
   // this.debug("_beforeAppear");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFORERAPPEAR);
+  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFOREAPPEAR);
 };
 
 proto._afterAppear = function()
@@ -857,7 +857,7 @@ proto._beforeDisappear = function()
   this.removeState(QxConst.STATE_ABANDONED);
 
   // this.debug("_beforeDisappear");
-  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFORERDISAPPEAR);
+  this.createDispatchEvent(QxConst.EVENT_TYPE_BEFOREDISAPPEAR);
 };
 
 proto._afterDisappear = function()
