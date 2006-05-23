@@ -3374,7 +3374,7 @@ proto._applyHtmlAttributes = function(vElement)
     var propName;
 
     for (propName in vAttributes) {
-      vElement.setAttribute(propName, vAttributes[i]);
+      vElement.setAttribute(propName, vAttributes[propName]);
     };
   };
 };
