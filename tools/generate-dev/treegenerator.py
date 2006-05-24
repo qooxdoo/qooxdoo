@@ -85,6 +85,18 @@ class TokenStream:
       else:
         break
 
+    if token["type"] == "token" and (token["detail"] == "LT" or token["detail"] == "GT"):
+      # Workaround: The tokenizer creates for ">>" two tokens with ">" and ">"
+      nexttoken = self.tokens[self.parsepos + 1]
+      if nexttoken["type"] == "token" and nexttoken["detail"] == token["detail"]:
+        self.parsepos += 1
+        if token["detail"] == "LT":
+          token["detail"] = "LSH"
+          token["source"] = "<<"
+        else:
+          token["detail"] = "RSH"
+          token["source"] = ">>"
+
     #print "next token: " + str(token)
 
     if token == None:
@@ -130,7 +142,7 @@ def raiseSyntaxException (token, expectedDesc = None):
   if token["detail"]:
     msg += "/" + token["detail"]
   msg += ": '" + token["source"] + "'. file " + \
-    token["file"] + " line " + str(token["line"])
+    token["id"] + " line " + str(token["line"])
   raise SyntaxException(msg)
 
 

@@ -268,6 +268,13 @@ qx.Class.ICON_METHOD_PUB_ABSTRACT_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.O
 /** {string[]} The icon URL of a public abstract method with error. */
 qx.Class.ICON_METHOD_PUB_ABSTRACT_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_ERROR ];
 
+/** {string[]} The icon URL of an overridden public abstract method. */
+qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN ];
+/** {string[]} The icon URL of an overridden public abstract method with warning. */
+qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
+/** {string[]} The icon URL of an overridden public abstract method with error. */
+qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+
 /** {string[]} The icon URL of an inherited public abstract method. */
 qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited public abstract method with warning. */
