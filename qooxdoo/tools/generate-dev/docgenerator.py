@@ -60,11 +60,11 @@ def createDoc(syntaxTree, docTree = None):
               currClassNode = handleClassDefinition(docTree, item)
             elif methodName == "addProperty" or methodName == "addFastProperty" or methodName == "addCachedProperty" or methodName == "changeProperty":
               handlePropertyDefinition(item, currClassNode)
-      elif item.type == "function":
-        name = item.get("name", False)
-        if name and name[0].isupper():
-          # This is an old class definition "function MyClass (...)"
-          currClassNode = handleClassDefinition(docTree, item)
+      #elif item.type == "function":
+      #  name = item.get("name", False)
+      #  if name and name[0].isupper():
+      #    # This is an old class definition "function MyClass (...)"
+      #    currClassNode = handleClassDefinition(docTree, item)
 
   except Exception:
     exc = sys.exc_info()[1]
