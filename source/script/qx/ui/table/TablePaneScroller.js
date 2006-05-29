@@ -315,13 +315,7 @@ qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
   this._updateContent();
-
   this._header._updateContent();
-
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
-  var colCount = paneModel.getColumnCount();
-  var totalWidth = 0;
   this._updateHorScrollBarMaximum();
 
   var rowCount = this.getTableModel().getRowCount();
