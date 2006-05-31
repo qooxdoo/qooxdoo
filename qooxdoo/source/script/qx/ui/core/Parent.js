@@ -549,7 +549,7 @@ qx.Proto.removeAt = function(vIndex)
 
   if (vChild)
   {
-    delete o._insertIndex;
+    delete vChild._insertIndex;
 
     vChild.setParent(null);
   };
