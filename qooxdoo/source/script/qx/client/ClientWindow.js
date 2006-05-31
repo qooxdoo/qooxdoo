@@ -40,7 +40,6 @@ function()
 
   // Establish connection between Object and Node
   this._element = window;
-  this._element.qx_ClientWindow = this;
 
   // Create Client Document
   this._clientDocument = new qx.ui.core.ClientDocument(this);
@@ -103,11 +102,7 @@ qx.Proto.dispose = function()
     this._clientDocument = null;
   };
 
-  if (this._element)
-  {
-    this._element.qx_ClientWindow = null;
-    this._element = null;
-  };
+  this._element = null;
 
   return qx.core.Target.prototype.dispose.call(this);
 };
