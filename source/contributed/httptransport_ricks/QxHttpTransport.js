@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
 
    Copyright:
      (C) 2006 by IT Operations PTY LTD (www.itoperations.com.au)
@@ -10,7 +10,7 @@
      LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
 
    Internet:
-     * http://qooxdoo.oss.schlund.de
+     * http://qooxdoo.org
 
    Authors:
      * Chris Ricks
