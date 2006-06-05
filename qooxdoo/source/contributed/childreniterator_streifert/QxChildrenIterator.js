@@ -1,6 +1,6 @@
 /* ****************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
 
    Authors:
      * Dietrich Sreifert (ds)
