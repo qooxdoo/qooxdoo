@@ -1,6 +1,6 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
 
    Copyright:
      (C) 2004-2006 by Schlund + Partner AG, Germany
@@ -10,7 +10,7 @@
      LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
 
    Internet:
-     * http://qooxdoo.oss.schlund.de
+     * http://qooxdoo.org
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -33,7 +33,7 @@
   Version shemes following wikipedia: major.minor[.revision[.build]]
   http://en.wikipedia.org/wiki/Software_version
 */
-qx.OO.defineClass("qx.sys.Client", Object, 
+qx.OO.defineClass("qx.sys.Client", Object,
 function()
 {
   var vRunsLocally = window.location.protocol === "file:";
@@ -43,6 +43,7 @@ function()
   var vBrowserProduct = navigator.product;
   var vBrowserPlatform = navigator.platform;
   var vBrowserModeHta = false;
+  var vBrowser;
 
   var vEngine = null;
   var vEngineVersion = null;
@@ -67,6 +68,12 @@ function()
   else if (typeof vBrowserVendor==="string" && vBrowserVendor==="KDE")
   {
     vEngine = "khtml";
+    vBrowser = "konqueror";
+  }
+  else if (vBrowserUserAgent.indexOf("Safari") != -1)
+  {
+    vEngine = "khtml";
+    vBrowser = "safari";
   }
   else if (window.controllers && typeof vBrowserProduct==="string" && vBrowserProduct==="Gecko" && /rv\:([^\);]+)(\)|;)/.test(vBrowserUserAgent))
   {
@@ -95,6 +102,42 @@ function()
     vEngineVersionBuild = vVersionHelper[3] || 0;
   };
 
+  var vEngineBoxSizingAttr = vEngine == "gecko" ? "-moz-box-sizing" : vEngine == "mshtml" ? null : "box-sizing";
+  var vEngineQuirksMode = document.compatMode !== "CSS1Compat";
+
+  var vDefaultLocale = "en";
+  var vBrowserLocale = (vEngine == "mshtml" ? navigator.userLanguage : navigator.language).toLowerCase();
+
+  var vPlatformWin = vBrowserPlatform.indexOf("Windows") != -1;
+  var vPlatformX11 = vBrowserPlatform.indexOf("X11") != -1;
+  var vPlatformMac = vBrowserPlatform.indexOf("Macintosh") != -1;
+
+  var vGfxVml = false;
+  var vGfxSvg = false;
+  var vGfxSvgBuiltin = false;
+  var vGfxSvgPlugin = false;
+
+  if (vEngine == "mshtml")
+  {
+    vGfxVml = true;
+
+    // TODO: Namespace for VML:
+		// document.write('<style>v\:*{ behavior:url(#default#VML); }</style>');
+		// document.write('<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>');
+  }
+
+	if (document.implementation && document.implementation.hasFeature)
+	{
+	  if (document.implementation.hasFeature("org.w3c.dom.svg", "1.0"))
+	  {
+	    vGfxSvg = vGfxSvgBuiltin = true;
+	  }
+	}
+
+
+
+
+
   this._runsLocally = vRunsLocally;
 
   this._engineName = vEngine;
@@ -109,15 +152,23 @@ function()
   this._engineVersionRevision = parseInt(vEngineVersionRevision);
   this._engineVersionBuild = parseInt(vEngineVersionBuild);
 
-  this._engineQuirksMode = document.compatMode !== "CSS1Compat";
+  this._engineQuirksMode = vEngineQuirksMode;
+  this._engineBoxSizingAttribute = vEngineBoxSizingAttr;
   this._engineEmulation = vEngineEmulation;
 
-  this._browserPlatform = vBrowserPlatform;
-  this._browserModeHta = vBrowserModeHta;
+  this._defaultLocale = vDefaultLocale;
 
-  this._browserPlatformNameMac = vBrowserUserAgent.indexOf("Macintosh") != -1;
-  
-  this._boxSizingAttribute = this._engineNameGecko ? "-moz-box-sizing" : "box-sizing";
+  this._browserPlatform = vBrowserPlatform;
+  this._browserPlatformWindows = vPlatformWindows;
+  this._browserPlatformMacintosh = vPlatformMacintosh;
+  this._browserPlatformX11 = vPlatformX11;
+  this._browserModeHta = vBrowserModeHta;
+  this._browserLocale = vBrowserLocale;
+
+	this._gfxVml = vGfxVml;
+	this._gfxSvg = vGfxSvg;
+	this._gfxSvgBuiltin = vGfxSvgBuiltin;
+	this._gfxSvgPlugin = vGfxSvgPlugin;
 });
 
 
@@ -182,25 +233,72 @@ qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
 };
 
+qx.Proto.getLocale = function() {
+  return this._browserLocale;
+}
+
+qx.Proto.getDefaultLocale = function() {
+  return this._defaultLocale;
+}
+
+qx.Proto.usesDefaultLocale = function() {
+  return this._browserLocale === this._defaultLocale;
+}
+
+
 
 /**
- * Returns the CSS attribute name for box-sizing.
+ * Returns the CSS attribute name for box-sizing if supported.
  *
  * @return {string} the attribute name.
  */
-qx.Proto.getBoxSizingAttribute = function() {
-  return this._boxSizingAttribute;
+qx.Proto.getEngineBoxSizingAttribute = function() {
+  return this._boxEngineBoxSizingAttribute;
 };
 
 
 /**
- * Returns whether the client platform is a Mac.
+ * Returns whether the client platform is a Windows machine.
  *
- * @return {boolean} whether the client platform is a Mac.
+ * @return {boolean} whether the client platform is a Windows.
  */
-qx.Proto.isMac = function() {
-  return this._browserPlatformNameMac;
+qx.Proto.runsOnWindows = function() {
+  return this._browserPlatformWindows;
 };
+
+/**
+ * Returns whether the client platform is a Macintosh machine.
+ *
+ * @return {boolean} whether the client platform is a Macintosh.
+ */
+qx.Proto.runsOnMacintosh = function() {
+  return this._browserPlatformMac;
+};
+
+/**
+ * Returns whether the client platform is a X11 powered machine.
+ *
+ * @return {boolean} whether the client platform is a X11 powered machine.
+ */
+qx.Proto.runsOnX11 = function() {
+  return this._browserPlatformX11;
+};
+
+qx.Proto.supportsVml = function() {
+  return this._gfxVml;
+}
+
+qx.Proto.supportsSvg = function() {
+  return this._gfxSvg;
+}
+
+qx.Proto.usesSvgBuiltin = function() {
+  return this._gfxSvgBuiltin;
+}
+
+qx.Proto.usesSvgPlugin = function() {
+  return this._gfxSvgPlugin;
+}
 
 
 
