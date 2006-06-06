@@ -2,115 +2,187 @@
 
 ===== Homepage =====
 
-  * Improve homepage to include more project informations above the news section.
-  * Install Wiki, Bugzilla and some other tools
+  * Move TODO issues into bugzilla
+  * Bugzilla styling
+  * Blog
 
-===== AJAX Layer =====
+===== Transport =====
 
-  - Implement QxRequestQueue (Done)
-    - queuing (Done)
-    - timeouts (Done)
-    - non-caching (IE!) (Done)
-  - Implement QxIFrameTransport (Done, but without form submission)
-  - Implement Data Provider
+  * Find consistent solution for setData() in POST, setParameter() in GET
+  * Improve ''IFrameTransport'' (hidden fields in form submission)
+  * Support for file uploads (''IFrameTransport'')
+
+  * Implement Data Provider
     - json
     - xml
     - SOAP
     - YAML
     - AHAH (http://microformats.org/wiki/rest/ahah)
-  - Implement Data Binding
+  * Implement Data Binding
 
-===== Layouter Rework =====
+===== Layout =====
 
-  * QxListView is problematic inside complex layout parents like QxDockLayout or inside a QxBoxLayout if the height is defined as a flex (1*) value.
-  * Speed-up toggling (tree, tabView) without re-layouting of children
+  * ''ListView'' is problematic inside complex layout parents like ''DockLayout'' or inside a ''BoxLayout'' if the height is defined as a flex (1*) value.
+  * Allow access to computed values at any time.
+  * Remove spacing and margins from inner width/height of each ''Parent'' to calculate percents. (Mail: Stanislav Ievlev, 08.02.2006, 13:18 Uhr)
+  * Think about additionally supporting dimensions like '100%-10' as in RelativeLayers
+
   * Optimize unit detection and unit handling and storage for dimension and location properties. Try to remove all these boolean flags.
   * Move all layout depending properties from widgets to the used layout implementation like in Qt or SWT.
   * Try to only have one queue for layouts and jobs
+
   * Omit caching on setting of the value.
   * Try to reduce caching stuff (sometimes the cache is probably slower than the (re-)calculation)
   * Discuss if it is useful to also cache hasPercentX, hasAutoX, ...
   * Reimplement cached properties so that the invaliation will not set the old value to null, but set a isInvalid flag which will define that the next get must re-evaluate the value first.
+
+  * Speed-up toggling (tree, tabView) without re-layouting of children
   * Add depth property to widgets. Sort job queue according to depth before flush.
-  * Remove spacing and margins from inner width/height of each QxParent to calculate percents. (Mail: Stanislav Ievlev, 08.02.2006, 13:18 Uhr)
-  * Think about additionally supporting dimensions like '100%-10' as in RelativeLayers
-  * Introduce QxClientSupport, which stores if the client supports min/max or top/bottom stretching and also other non layout relevant stuff.
 
-===== Unsorted =====
+  * Introduce ''ClientSupport'', which stores if the client supports min/max or top/bottom stretching and also other non layout relevant stuff.
 
-  * Convert: MouseEvent and KeyEvent to singletons.
-  * Add instance pooling feature to transport API, Event and other mass-created objects.
-
-  * QxDebug: Move styling to script implementation (makes it easier to use debug console outside demos)
-  * QxDebug: Add ex.fileName and ex.lineNumber to debug output if available
-  * QxDebug: Allow usage of a newly created window for debug output
-
-  * Rename "changeSelection" event of QxSelectionManager to just "change"?
-
-  * Better keyboard support: http://ecmanaut.blogspot.com/2006/02/javascript-libraries-handling-keyboard.html
-
-  * Support tooltipText in QxWidget (to reuse one QxToolTip instance)
-  * Check this for qooxdoo: http://hartshorne.ca/2006/01/23/javascript_cursor_position/
-
-  * QxColorObject has a seperate caching algorithm inside the constructor, which is a bit inefficient as it returns from the constructor call (like the old singletons did).
-  * QxBorderObject and QxFontObject's caching is implemented inside the *Cache methods which is IMHO the better way. But this makes direct creations of QxBorderObject or QxFontObject inefficient as then each identical border or font creates its own object.
-
-  * Support image path updates also for background images in QxWidgets. This needs some registration mechanism like the ones in normal QxImages.
-
-  * Add dynamically generated debug console (which does not need a "div" inside the document)
-  * Maybe implement possibility of debug console as separate window
-  * Add generated debug console (which does not need a "div" inside the document)
-
-  * Add behaviour support
-  * Add Mac OS X Theme
-
-  * Add QxHiddenField widget (should be not a real widget)
-  * Add QxAccordionWidget (naming?)
-  * Add QxSlider
-  * Add QxScrollBar
-  * Add QxSplitPane
-  * Add QxDataPicker
-  * Add QxFontPicker
-
-  * qx.io.local.flash und entsprechende Wrapper nach Vorbild von Dojo Storage.
-
-  * Reimplement QxColorSelector
-
-  * QxFontTheme
-
-  * Accelerator support for QxAtom
-  * Add overflow fallback handling to layouts (show a menu at the end when the toolbar is to small)
-
-  * Support for multiple images in one image source (clipping)
-
-  * Recursive Enabling/Disabling of Widgets
-  * ImagePreloader should support forced reload of existing images (using a random get parameter)
-  * Add resize events which will be fired if widgets like QxWindow are resized by the user
-  * Add focus groups (e.g. radio buttons are handled as a single group)
-
-  * Add Object registry (and use id and/or name properties for this; forms)
-  * Automatic method bindings from QxSelectionManager to bounded widget
+  * Add overflow fallback handling to layouts (e.g. show a menu at the end when the toolbar is to small)
   * Support overflow 'auto' with 'auto' width or(/and?) height
   * Support splitted overflow properties "overflow-x/y" in gecko-1.8 (split overflow properties for this?)
 
-  * Support horizontal scrolling in QxListView
-  * After this: Support horizontal virtual scrolling in QxListView
+===== Widgets (New) =====
 
-  * Compiler (mass recreation of an complete initialized application)
-  * Add Property Compiler (only compiles the property methods)
-  * Complete new python script to compile source and create documentation
-  * qooxdoo class tree (documentation) as QxTree
+  * Add ''ScrollBar''
+  * Add ''SplitPane''
+  * Add ''Slider''
+  * Add ''ProgressBar''
+  * Add ''SplashScreen''
+  * Add ''HiddenField'' widget (does not have to be a real widget)
+  * Add ''Accordion''
+  * Add ''FontPicker'' (Popup)
+  * Reimplement ''ColorPresetPopup'' (Popup)
 
+===== Widgets (Modifications) =====
+
+  * Finish ''Table'' (performance, features)
+  * Support horizontal virtual scrolling in ''Table''
+
+  * Map scrollLeft and scrollTop getters/setter of ''Iframe'' to the iframe node
+  * Accelerator support for ''Atom''
+  * Support tooltipText in ''Widget'' (to reuse one ''ToolTip'' instance)
+  * Integration of context menues
+  * Some rounded borners like nifty corners or these ones: http://www.456bereastreet.com/archive/200505/transparent_custom_corners_and_borders/
+
+  * Rename "changeSelection" event of QxSelectionManager to just "change"?
+  * Automatic method bindings from QxSelectionManager to bounded widget
+
+  * Add resize events which will be fired if widgets are resized, e.g. ''Window''
+  * Dedicated events in ''Window'' handling ("maximize", etc.)
+
+  * Image-based ''CheckBox'', ''RadioButton''
+  * Add focus groups (e.g. radio buttons are handled as a single group)
+
+  * Virtual widgets (''Tree'')
+  * "virtual mode" was removed from ''NativeWindow''; Maybe experiment and re-implement (IE performance)?
+
+===== Images =====
+
+  * Support for multiple images in one image source (clipping) (see ActiveWidgets)
+  * Support image path updates also for background images in ''Widget''. This needs some registration mechanism like the ones in normal ''Image''.
+  * ''ImagePreloader'' should support forced reload of existing images (using a random get parameter), refresh()
+
+===== Performance, Optimization =====
+
+  * Clean-up or optimize code of namespaces branch
+
+  * Convert: ''MouseEvent'' and ''KeyEvent'' to singletons.
+  * Add instance pooling feature to ''Transport'' API, ''Event'' and other mass-created objects.
+
+  * ''ColorObject'' has a seperate caching algorithm inside the constructor, which is a bit inefficient as it returns from the constructor call (like the old singletons did).
+  * ''BorderObject'' and ''FontObject'' caching is implemented inside the *Cache methods which is the better way. But this makes direct creation of ''BorderObject'' or ''FontObject'' inefficient as then each identical border or font creates its own object.
+
+  * Rework addProperty(). Default values to be applied at instantiation (calling _modify*()). Related to theming challenges.
+
+  * Object disposing (array slicing, etc.)
+
+===== Logging, Debugging =====
+
+  * Add dynamically generated debug console (which does not need a "div" inside the document)
+  * Make debug console work in Opera again
+
+===== Theming =====
+
+  * Appearance (problems in run-time switching, most visible in dimension changes, padding/margin). Related to current property system that does not account for user-supplied values, i.e. does not support priorities.
+  * Recursive Enabling/Disabling of Widgets (Related to property rework, property inheritance (maybe we could inform us how to implement inheritance generally)) (user defined vs. appearance defined vs. inheritance defined)
+  * QxFontTheme
+  * Add additional themes (Mac OS X, etc.)
+
+===== Build tools =====
+
+  * New wording: #module() instead of #package()
+  * Theme support (e.g. copying images for icon themes via include/exclude command-line parameters)
+  * User application support (custom classes)
+  * Support for static content (html, images)
+  * Automatic dependeny resolving (#use())
+  * Build support for specific browsers (#ifdef())
+  * Fine-grained linking (method level, not class level)
+  * Remove unneccessary semicolons after closing brackets
+  * Unify code comments (JavaDoc-like)
+  * Serialization (mass recreation of an complete initialized application)
+  * Configuration presets (Ajax-only, etc.). Support for automatic release generation.
+  * Rebuild demos (widget browser?)
+
+===== Ideas from other sources =====
+
+  * URL Handling (also take a look at contributions/urlhandling_vegetti)
+  * qx.io.local.flash and similar wrappers according to Dojo Storage.
+  * Merge some ideas from other open-source libraries ("Dojo", "MochiKit", "Prototype","moo.fx")
+  * Better keyboard support: http://ecmanaut.blogspot.com/2006/02/javascript-libraries-handling-keyboard.html
+  * Check this for qooxdoo: http://hartshorne.ca/2006/01/23/javascript_cursor_position/
+
+===== Form Handling =====
+
+  * Add Object registry (and use id and/or name properties for this; forms)
+
+  * Form handling
+  * FormUtils
+  * Field validation
+    
+===== Internationlisation (i18n) =====
+
+  * Add ''Bundle'' support
+  * Dynamic runtime switching support
+  * Add handling to objects which interact with internationalized string information. How to differ between bundle-IDs and real label strings?
+
+===== User Application =====
+
+  * User application
+  * Components
+  * Parts
+
+===== Encoding =====
+
+  * Crypto features
   * Add Encoders/Decoders section (md5, blowfish, ...)
   * Add Transformers (QxTextile, ...) section
-  * "virtual mode" was removed from QxNativeWindow; Maybe experiment and re-implement?
 
-  * Some rounded borners like nifty corners or these ones: http://www.456bereastreet.com/archive/200505/transparent_custom_corners_and_borders/
-  * Merge some ideas from "prototype" and "moo.fx" to qooxdoo
+===== Miscellaneous =====
 
-  * Field validation
-  * i18n support
-  * Crypto features
-  * URL Handling (also take a look at contributions/urlhandling_vegetti)
+  * Add behaviour support (later)
 
-  * Map scrollLeft and scrollTop getters/setter of QxIframe to the iframe node
+  * Extended browser support (Opera, Safari)
+
+==== Done ====
+
+  * Improve homepage to include more project informations above the news section.
+  * Install Wiki, Bugzilla and some other tools
+
+  * Add QxDatePicker
+  * Reimplement QxColorSelector
+
+  * QxDebug: Allow usage of a newly created window for debug output
+  * Maybe implement possibility of debug console as separate window
+
+  * qooxdoo class tree (documentation) as QxTree
+
+  - Implement QxRequestQueue (Done)
+    - queuing (Done)
+    - timeouts (Done)
+    - non-caching (IE!) (Done)
+  * Implement QxIFrameTransport (Done, but without hidden fields in form submission)
+
