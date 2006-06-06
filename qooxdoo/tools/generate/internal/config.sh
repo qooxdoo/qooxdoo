@@ -15,6 +15,9 @@ L="$L script/qx/constant/Mime"
 L="$L script/qx/constant/Layout"
 L="$L script/qx/constant/Event"
 
+# Version
+L="$L script/qx/core/Version"
+
 # Core
 L="$L script/qx/core/DefaultSettings"
 L="$L script/qx/core/Settings"

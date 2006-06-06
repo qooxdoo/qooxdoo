@@ -42,4 +42,4 @@ qx.OO.defineClass("qx.core.Version",
 			return major + "." + minor + "." + revision + (state == "" ? "" : "-" + state) + " (" + svn + ")";
 		}
 	}
-}
+});
