@@ -3,8 +3,8 @@
    qooxdoo - the new era of web development
 
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
-         All rights reserved
+     2004-2006 by Schlund + Partner AG, Germany
+     All rights reserved
 
    License:
      LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
