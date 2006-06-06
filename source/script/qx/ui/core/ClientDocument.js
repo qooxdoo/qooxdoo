@@ -36,7 +36,7 @@
   also handles their resizing and focus navigation. This widget will be automatically
   created through qx.client.ClientWindow.
 */
-qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout,
 function(vClientWindow)
 {
   this._window = vClientWindow;
@@ -264,8 +264,8 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 */
 
 qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
-  " html{border:0 none;} *{" + qx.sys.Client.getBoxSizingAttribute() +
-  ":border-box;} img{" + qx.sys.Client.getBoxSizingAttribute() +
+  " html{border:0 none;} *{" + qx.sys.Client.getEngineBoxSizingAttribute() +
+  ":border-box;} img{" + qx.sys.Client.getEngineBoxSizingAttribute() +
   ":content-box;}");
 
 if (qx.core.Settings.enableApplicationLayout) {

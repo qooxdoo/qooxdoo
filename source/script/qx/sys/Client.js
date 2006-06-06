@@ -108,9 +108,9 @@ function()
   var vDefaultLocale = "en";
   var vBrowserLocale = (vEngine == "mshtml" ? navigator.userLanguage : navigator.language).toLowerCase();
 
-  var vPlatformWin = vBrowserPlatform.indexOf("Windows") != -1;
+  var vPlatformWindows = vBrowserPlatform.indexOf("Windows") != -1;
+  var vPlatformMacintosh = vBrowserPlatform.indexOf("Macintosh") != -1;
   var vPlatformX11 = vBrowserPlatform.indexOf("X11") != -1;
-  var vPlatformMac = vBrowserPlatform.indexOf("Macintosh") != -1;
 
   var vGfxVml = false;
   var vGfxSvg = false;
@@ -253,7 +253,7 @@ qx.Proto.usesDefaultLocale = function() {
  * @return {string} the attribute name.
  */
 qx.Proto.getEngineBoxSizingAttribute = function() {
-  return this._boxEngineBoxSizingAttribute;
+  return this._engineBoxSizingAttribute;
 };
 
 
