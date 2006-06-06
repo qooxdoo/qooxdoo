@@ -1,9 +1,8 @@
-
 #!/usr/bin/env python
 
 import sys, string, re, os, random
 import config, tokenizer, loader, compile
-#import fchksum
+import fchksum
 
 
 def printHelp():
