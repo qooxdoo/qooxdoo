@@ -14,9 +14,9 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
-     * Andreas Ecker (aecker)
-       <andreas dot ecker at 1und1 dot de>
+       <sw at schlund dot de>
+     * Andreas Ecker (ecker)
+       <ae at schlund dot de>
 
 ************************************************************************ */
 
