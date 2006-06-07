@@ -196,8 +196,8 @@ public class RpcServlet extends HttpServlet {
 "(function() {" +
 "  var index = qx.core.ServerSettings.serverPathPrefix.indexOf(\";jsessionid\");" +
 "  if (index != -1) {" +
-"    qx.core.ServerSettings.serverPathPrefix = QxServerSettings.serverPathPrefix.substring(0, index);" +
-"    qx.core.ServerSettings.serverPathSuffix = QxServerSettings.serverPathPrefix.substring(index);" +
+"    qx.core.ServerSettings.serverPathSuffix = qx.core.ServerSettings.serverPathPrefix.substring(index);" +
+"    qx.core.ServerSettings.serverPathPrefix = qx.core.ServerSettings.serverPathPrefix.substring(0, index);" +
 "  }" +
 "})();"
 );
