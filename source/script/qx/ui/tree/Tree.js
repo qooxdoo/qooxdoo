@@ -72,7 +72,11 @@ function(vLabel, vIcon, vIconSelected)
 qx.OO.addProperty({ name : "useDoubleClick", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
 qx.OO.addProperty({ name : "useTreeLines", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
 
-
+/*
+ * Add a "hideNode" property.  This differs from the visibility property in
+ * that this property hides *only* the current node, not the node's children.
+ */
+qx.OO.addProperty({ name : "hideNode", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "hideNode" });
 
 
 
@@ -174,6 +178,23 @@ qx.Proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
   return true;
 };
 
+qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
+{
+  if (! propValue) {
+    this._horizontalLayout.setHeight(this._horizontalLayout.originalHeight);
+    this._horizontalLayout.show();
+  } else {
+    this._horizontalLayout.originalHeight = this._horizontalLayout.getHeight();
+    this._horizontalLayout.setHeight(0);
+    this._horizontalLayout.hide();
+  }
+
+  if (this._initialLayoutDone) {
+    this._updateIndent();
+  }
+  
+  return true;
+};
 
 
 

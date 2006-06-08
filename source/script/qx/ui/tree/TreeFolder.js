@@ -442,11 +442,40 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
   {
     if (this.hasContent() || this.getAlwaysShowPlusMinusSymbol())
     {
+      /* If tree lines were not requested, don't display them */
       if (!vUseTreeLines)
       {
         return this.getOpen() ? "minus" : "plus";
       }
-      else if (this.isLastChild())
+
+
+      /* If this is the first level under the root... */
+      if (this.getLevel() == 1) {
+        /*
+         * ... and the root is not being displayed and this is the first
+         * child... 
+         */
+        var vParentFolder = this.getParentFolder();
+        if (vParentFolder &&
+            !vParentFolder._horizontalLayout.getVisibility() &&
+            this.isFirstChild())
+        {
+          /*
+           * ... then if this is also the last (i.e. only) child, use no tree
+           * lines; otherwise, use descender lines but no ascender.
+           */
+          if (this.isLastChild())
+          {
+            return this.getOpen() ? "minus" : "plus";
+          }
+          else
+          {
+            return this.getOpen() ? "start_minus" : "start_plus";
+          }
+        }
+      }
+
+      if (this.isLastChild())
       {
         return this.getOpen() ? "end_minus" : "end_plus";
       }
