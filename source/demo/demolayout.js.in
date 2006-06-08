@@ -69,6 +69,7 @@
 
   function showTestFiles()
   {
+    var str = "";
     if( window.location.href.search(/\/showcase\//)+1 ) {
       str = showstr;
     }
@@ -80,9 +81,6 @@
     }
     else if( window.location.href.search(/\/test\//)+1 ) {
       str = teststr;
-    }
-    else {
-      str = "";
     }
 
     var arr = str.split(" ");
@@ -117,8 +115,6 @@
     };
   }
 
-  window.showTestFiles = showTestFiles;
-
   document.title = location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ") + " @ qooxdoo :: demo";
 
   if(location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
@@ -129,4 +125,4 @@
     document.write(url_of_counter_file + "?chCounter_mode=js&amp;jscode_version=3.1.1&amp;status=" + cstatus + "&amp;visible=" + visible + "&amp;page_title=" + encodeURIComponent( page_title ));
     document.write("&amp;page_url=" + encodeURIComponent( page_url ) + "&amp;referrer=" + encodeURIComponent( referrer ) + "&amp;res_width=" + screen.width + "&amp;res_height=" + screen.height + "\"><" + "/script>");
   }
-})();
+//})();

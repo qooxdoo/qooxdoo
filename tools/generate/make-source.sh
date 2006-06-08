@@ -6,6 +6,7 @@ echo ">>> Creating includer script..."
 
 cat source/demo/demoinclude.js.in > source/demo/demoinclude.js
 grep -v \"\" tools/generate/internal/config.sh | sed s:"L=\"\$L ":"inc('":g | sed s:"\"":"\");":g | sed s:"\# ":"// ":g | sed s:"'":"\"":g >> source/demo/demoinclude.js
+echo "})();" >> source/demo/demoinclude.js
 
 length=`cat tools/generate/internal/config.sh | grep -R "^L" | grep -v "\"\"" | wc -l`
 echo ">>> Includer System Loads $length Files"
@@ -51,3 +52,6 @@ done
 echo "var teststr = \"$teststr\";" >> source/demo/demolayout.js
 
 echo "showTestFiles();" >> source/demo/demolayout.js
+
+echo "})();" >> source/demo/demolayout.js
+
