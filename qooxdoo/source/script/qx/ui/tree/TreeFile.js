@@ -23,44 +23,59 @@
 /* ************************************************************************
 
 #package(tree)
+#use(qx.ui.tree.TreeFileFull)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement, 
-function(vLabel, vIcon, vIconSelected) {
-  qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
+/**
+ * @brief
+ * qx.ui.tree.TreeFile objects are terminal tree rows (i.e. no sub-trees)
+ *
+ * The structure of a tree row is "standard"; i.e. it has an icon (either the
+ * icon for a non-selected row or the icon for a selected row) followed by the
+ * label and nothing else on the tree row.  For full control of the structure
+ * of the tree row, use qx.ui.tree.TreeFileFull.
+ */
+qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.TreeFileFull, 
+function(vLabel, vIcon, vIconSelected)
+{
+  fields = new Array();
+
+  /*
+   * Note order of objects put into 'fields': indent, icon, icon-selected,
+   * label.  It doesn't much matter where icon-selected goes, but our standard
+   * tree has the icon first (after indentation) followed by the label.
+   */
+
+  /* A standard tree always has indentation first. */
+  fields["indent"] = null;
+
+  /* vIcon */
+  if (arguments.length >= 2 && typeof arguments[1] == "string")
+  {
+    fields["icon"] = vIcon;
+  }
+  else
+  {
+    fields["icon"] = "";      // ensure that some icon (the default) is used
+  }
+    
+  /* vIconSelected */
+  if (arguments.length >= 3 && typeof arguments[2] == "string")
+  {
+    fields["icon-selected"] = vIconSelected;
+  }
+    
+  /* vLabel */
+  if (arguments.length >= 1 && typeof arguments[0] == "string")
+  {
+    fields["label"] = vLabel;
+  }
+
+  qx.ui.tree.TreeFileFull.call(this, fields);
 });
 
 
 
 
-/*
----------------------------------------------------------------------------
-  INDENT HELPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
-{
-  if (vUseTreeLines)
-  {
-    if (vIsLastColumn)
-    {
-      return this.isLastChild() ? "end" : "cross";
-    }
-    else
-    {
-      return "line";
-    };
-  };
-
-  return null;
-};
-
-qx.Proto._updateIndent = function() {
-  this.addToTreeQueue();
-};
-
-qx.Proto.getItems = function() {
-  return [this];
-};
+  
