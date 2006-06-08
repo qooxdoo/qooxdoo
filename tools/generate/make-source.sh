@@ -32,6 +32,15 @@ do
 done
 echo "var exastr = \"$exastr\";" >> source/demo/demolayout.js
 
+perfstr=""
+for file in source/demo/performance/*.html ;
+do
+  if [ `basename $file` != "index.html" ]; then
+    perfstr="$perfstr `basename $file`";
+  fi
+done
+echo "var perfstr = \"$perfstr\";" >> source/demo/demolayout.js
+
 teststr=""
 for file in source/demo/test/*.html ;
 do

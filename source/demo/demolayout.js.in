@@ -75,6 +75,9 @@
     else if( window.location.href.search(/\/example\//)+1 ) {
       str = exastr;
     }
+    else if( window.location.href.search(/\/performance\//)+1 ) {
+      str = perfstr;
+    }
     else if( window.location.href.search(/\/test\//)+1 ) {
       str = teststr;
     }
