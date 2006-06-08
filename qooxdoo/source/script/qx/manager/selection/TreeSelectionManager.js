@@ -67,7 +67,7 @@ qx.Proto.getNext = function(vItem)
 {
   if (vItem)
   {
-    if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
+    if (qx.ui.tree.TreeFull.isOpenTreeFolder(vItem))
     {
       return vItem.getFirstVisibleChildOfFolder();
     }
@@ -104,7 +104,7 @@ qx.Proto.getPrevious = function(vItem)
     }
     else if (vItem.isFirstVisibleChild())
     {
-      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
+      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolderFull) {
         return vItem.getParentFolder();
       };
     }
@@ -114,7 +114,7 @@ qx.Proto.getPrevious = function(vItem)
 
       while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
       {
-        if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev))
+        if (qx.ui.tree.TreeFull.isOpenTreeFolder(vPrev))
         {
           vPrev = vPrev.getLastVisibleChildOfFolder();
         }
@@ -165,7 +165,7 @@ qx.Proto.getItemTop = function(vItem)
 
 qx.Proto.getItemHeight = function(vItem)
 {
-  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
+  if (vItem instanceof qx.ui.tree.TreeFolderFull && vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.getOffsetHeight();
   }
@@ -177,7 +177,7 @@ qx.Proto.getItemHeight = function(vItem)
 
 qx.Proto.scrollItemIntoView = function(vItem)
 {
-  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
+  if (vItem instanceof qx.ui.tree.TreeFolderFull && vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.scrollIntoView();
   }
