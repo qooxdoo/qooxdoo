@@ -390,6 +390,13 @@ qx.Proto.setSelectedElement = function(vElement)
   vManager.setLeadItem(vElement);
 };
 
+/* Override getHierarchy: do not add label if root node is hidden */
+qx.Proto.getHierarchy = function(vArr) {
+  if (! this.hideNode() && this._labelObject) {
+    vArr.unshift(this._labelObject.getHtml());
+  }
+  return vArr;
+};
 
 
 
