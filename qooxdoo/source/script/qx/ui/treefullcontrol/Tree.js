@@ -25,7 +25,7 @@
 /* ************************************************************************
 
 #package(tree)
-#use(qx.manager.selection.TreeSelectionManager)
+#use(qx.manager.selection.TreeFullControlSelectionManager)
 
 ************************************************************************ */
 
@@ -47,7 +47,7 @@ function(treeRowStructure)
   // ************************************************************************
   //   INITILISIZE MANAGER
   // ************************************************************************
-  this._manager = new qx.manager.selection.TreeSelectionManager(this);
+  this._manager = new qx.manager.selection.TreeFullControlSelectionManager(this);
 
 
   this._iconObject.setAppearance("tree-icon");
