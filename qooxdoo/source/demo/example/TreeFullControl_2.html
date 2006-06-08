@@ -19,7 +19,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
   <script type="text/javascript">
     function stuff(vLabel, vIcon, vIconSelected)
         {
-        treeRowStructure = new qx.ui.tree.TreeRowStructure();
+        treeRowStructure = new qx.ui.treeFullControl.TreeRowStructure();
 
         // A left-justified icon
         if (Math.floor(Math.random() * 4) == 0)
@@ -70,7 +70,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
     qx.core.Init.defineMain(function()
     {
-      var t = new qx.ui.tree.TreeFull(stuff("Root"));
+      var t = new qx.ui.treeFullControl.Tree(stuff("Root"));
       with(t)
       {
         setBackgroundColor(255);
@@ -86,78 +86,78 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
       this.add(t);
       // One icon for selected and one for unselected states
-      var te1 = new qx.ui.tree.TreeFolderFull(stuff("Desktop"));
+      var te1 = new qx.ui.treeFullControl.TreeFolder(stuff("Desktop"));
       t.add(te1);
 
       desktop = te1;
 
-      var te1_1 = new qx.ui.tree.TreeFolderFull(stuff("Files"));
-      var te1_2 = new qx.ui.tree.TreeFolderFull(stuff("Workspace"));
-      var te1_3 = new qx.ui.tree.TreeFolderFull(stuff("Network"));
-      var te1_4 = new qx.ui.tree.TreeFolderFull(stuff("Trash"));
+      var te1_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Files"));
+      var te1_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Workspace"));
+      var te1_3 = new qx.ui.treeFullControl.TreeFolder(stuff("Network"));
+      var te1_4 = new qx.ui.treeFullControl.TreeFolder(stuff("Trash"));
 
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
       // One icon specified, and used for both selected unselected states
-      var te1_2_1 = new qx.ui.tree.TreeFileFull(stuff("Windows (C:)", "icons/16/harddrive.png"));
-      var te1_2_2 = new qx.ui.tree.TreeFileFull(stuff("Documents (D:)", "icons/16/harddrive.png"));
+      var te1_2_1 = new qx.ui.treeFullControl.TreeFile(stuff("Windows (C:)", "icons/16/harddrive.png"));
+      var te1_2_2 = new qx.ui.treeFullControl.TreeFile(stuff("Documents (D:)", "icons/16/harddrive.png"));
 
       te1_2.add(te1_2_1, te1_2_2);
 
       arbeitsplatz = te1_2;
 
 
-      var te2 = new qx.ui.tree.TreeFolderFull(stuff("Inbox"));
+      var te2 = new qx.ui.treeFullControl.TreeFolder(stuff("Inbox"));
       posteingang = te2;
 
-      var te2_1 = new qx.ui.tree.TreeFolderFull(stuff("Presets"));
-      var te2_2 = new qx.ui.tree.TreeFolderFull(stuff("Sent"));
-      var te2_3 = new qx.ui.tree.TreeFolderFull(stuff("Trash", "icons/16/trash.png"));
-      var te2_4 = new qx.ui.tree.TreeFolderFull(stuff("Data"));
-      var te2_5 = new qx.ui.tree.TreeFolderFull(stuff("Edit"));
+      var te2_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Presets"));
+      var te2_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Sent"));
+      var te2_3 = new qx.ui.treeFullControl.TreeFolder(stuff("Trash", "icons/16/trash.png"));
+      var te2_4 = new qx.ui.treeFullControl.TreeFolder(stuff("Data"));
+      var te2_5 = new qx.ui.treeFullControl.TreeFolder(stuff("Edit"));
 
       editieren = te2_5;
 
-      var te2_5_1 = new qx.ui.tree.TreeFolderFull(stuff("Chat"));
-      var te2_5_2 = new qx.ui.tree.TreeFolderFull(stuff("Pustefix"));
-      var te2_5_3 = new qx.ui.tree.TreeFolderFull(stuff("TINC"));
+      var te2_5_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Chat"));
+      var te2_5_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Pustefix"));
+      var te2_5_3 = new qx.ui.treeFullControl.TreeFolder(stuff("TINC"));
 
-      var te2_5_3_1 = new qx.ui.tree.TreeFolderFull(stuff("Announce"));
-      var te2_5_3_2 = new qx.ui.tree.TreeFolderFull(stuff("Devel"));
+      var te2_5_3_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Announce"));
+      var te2_5_3_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Devel"));
 
       te2_5_3.add(te2_5_3_1, te2_5_3_2);
 
       te2_5.add(te2_5_1, te2_5_2, te2_5_3);
 
-      var te2_6 = new qx.ui.tree.TreeFolderFull(stuff("Lists"));
+      var te2_6 = new qx.ui.treeFullControl.TreeFolder(stuff("Lists"));
 
-      var te2_6_1 = new qx.ui.tree.TreeFolderFull(stuff("Relations"));
-      var te2_6_2 = new qx.ui.tree.TreeFolderFull(stuff("Company"));
-      var te2_6_3 = new qx.ui.tree.TreeFolderFull(stuff("Questions"));
-      var te2_6_4 = new qx.ui.tree.TreeFolderFull(stuff("Internal"));
-      var te2_6_5 = new qx.ui.tree.TreeFolderFull(stuff("Products"));
-      var te2_6_6 = new qx.ui.tree.TreeFolderFull(stuff("Press"));
-      var te2_6_7 = new qx.ui.tree.TreeFolderFull(stuff("Development"));
-      var te2_6_8 = new qx.ui.tree.TreeFolderFull(stuff("Competition"));
+      var te2_6_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Relations"));
+      var te2_6_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Company"));
+      var te2_6_3 = new qx.ui.treeFullControl.TreeFolder(stuff("Questions"));
+      var te2_6_4 = new qx.ui.treeFullControl.TreeFolder(stuff("Internal"));
+      var te2_6_5 = new qx.ui.treeFullControl.TreeFolder(stuff("Products"));
+      var te2_6_6 = new qx.ui.treeFullControl.TreeFolder(stuff("Press"));
+      var te2_6_7 = new qx.ui.treeFullControl.TreeFolder(stuff("Development"));
+      var te2_6_8 = new qx.ui.treeFullControl.TreeFolder(stuff("Competition"));
 
       te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
 
-      var te2_7 = new qx.ui.tree.TreeFolderFull(stuff("Personal"));
+      var te2_7 = new qx.ui.treeFullControl.TreeFolder(stuff("Personal"));
 
-      var te2_7_1 = new qx.ui.tree.TreeFolderFull(stuff("Bugs"));
-      var te2_7_2 = new qx.ui.tree.TreeFolderFull(stuff("Family"));
-      var te2_7_3 = new qx.ui.tree.TreeFolderFull(stuff("Projects"));
-      var te2_7_4 = new qx.ui.tree.TreeFolderFull(stuff("Holiday"));
+      var te2_7_1 = new qx.ui.treeFullControl.TreeFolder(stuff("Bugs"));
+      var te2_7_2 = new qx.ui.treeFullControl.TreeFolder(stuff("Family"));
+      var te2_7_3 = new qx.ui.treeFullControl.TreeFolder(stuff("Projects"));
+      var te2_7_4 = new qx.ui.treeFullControl.TreeFolder(stuff("Holiday"));
 
       te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
       
-      var te2_8 = new qx.ui.tree.TreeFolderFull(stuff("Big"));
+      var te2_8 = new qx.ui.treeFullControl.TreeFolder(stuff("Big"));
       
       for (var i=0;i<50; i++) {
-        te2_8.add(new qx.ui.tree.TreeFolderFull(stuff("Item " + i)));
+        te2_8.add(new qx.ui.treeFullControl.TreeFolder(stuff("Item " + i)));
       };
 
-      var te2_9 = new qx.ui.tree.TreeFolderFull(stuff("Spam"));
+      var te2_9 = new qx.ui.treeFullControl.TreeFolder(stuff("Spam"));
       spam = te2_9;
       
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
