@@ -62,7 +62,7 @@
  *
  *   // A left-justified icon
  *   obj = new qx.ui.basic.Image("icons/16/alarm.png");
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  *
  *   // Here's our indentation and tree-lines
  *   treeRowStructure.addIndent();
@@ -73,25 +73,25 @@
  *   // Right after the tree icon is a checkbox
  *   obj = new qx.ui.form.CheckBox(null, 23, null, false);
  *   obj.setPadding(0, 0);
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  *
  *   // The label
  *   treeRowStructure.addLabel("Trash");
  *
  *   // All else should be right justified
  *   obj = new qx.ui.basic.HorizontalSpacer;
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  *
  *   // Add a file size, date and mode
  *   obj = new qx.ui.basic.Label("23kb");
  *   obj.setWidth(50);
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  *   obj = new qx.ui.basic.Label("11 Sept 1959");
  *   obj.setWidth(150);
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  *   obj = new qx.ui.basic.Label("-rw-r--r--");
  *   obj.setWidth(80);
- *   treeRowStructure.addObject(obj);
+ *   treeRowStructure.addObject(obj, true);
  */
 
 qx.OO.defineClass("qx.ui.tree.TreeRowStructure", qx.core.Object,
@@ -174,8 +174,21 @@ qx.Proto.addLabel = function(vLabel)
   this._fields.push(this._labelObject);
 };
 
-qx.Proto.addObject = function(vObj)
+/*
+ * Add an object to the tree row structure.  For convenience, vAnonymous can
+ * be provided, and if a boolean value is provided, vObj.setAnonymous() is
+ * called with the provided value.  If the object has already been
+ * setAnonymous or if there is no need to do so, then provide no value for
+ * vAnonymous or pass 'null'.
+ */
+qx.Proto.addObject = function(vObj, vAnonymous)
 {
+  /* Is requested, set this object's anonymous state */
+  if (typeof vAnonymous == "boolean")
+  {
+    vObj.setAnonymous(vAnonymous);
+  }
+
   /* Add this user-specified object to the structure */
   this._fields.push(vObj);
 };
