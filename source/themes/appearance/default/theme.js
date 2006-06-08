@@ -1092,21 +1092,8 @@
 
     state : function(vWidget, vTheme, vStates)
     {
-      if (vStates.lead)
-      {
-        vWidget.setStyleProperty("MozOutline", qx.ui.core.Widget.FOCUS_OUTLINE);
-        vWidget.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_OUTLINE);
-      }
-      else
-      {
-        vWidget.removeStyleProperty("MozOutline");
-        vWidget.removeStyleProperty("outline");
-      };
-
-      return {
-        backgroundColor : vStates.selected ? this.bgcolor_selected : null,
-        color : vStates.selected ? this.color_selected : null
-      };
+      vWidget.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
+      vWidget.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
     }
   });
 

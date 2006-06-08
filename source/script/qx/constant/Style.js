@@ -82,5 +82,7 @@ qx.OO.defineClass("qx.constant.Style",
   OVERFLOW_ELLIPSIS : "ellipsis",
   OVERFLOW_MOZ_NONE : "-moz-scrollbars-none",
   OVERFLOW_MOZ_HORIZONTAL : "-moz-scrollbars-horizontal",
-  OVERFLOW_MOZ_VERTICAL : "-moz-scrollbars-vertical"
+  OVERFLOW_MOZ_VERTICAL : "-moz-scrollbars-vertical",
+
+  FOCUS_OUTLINE : "1px dotted invert"
 });
