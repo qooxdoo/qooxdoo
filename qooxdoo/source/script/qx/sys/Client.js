@@ -272,7 +272,7 @@ qx.Proto.runsOnWindows = function() {
  * @return {boolean} whether the client platform is a Macintosh.
  */
 qx.Proto.runsOnMacintosh = function() {
-  return this._browserPlatformMac;
+  return this._browserPlatformMacintosh;
 };
 
 /**
