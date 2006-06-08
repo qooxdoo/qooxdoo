@@ -1,5 +1,3 @@
 all:
-	tools/generate-dev/make.sh
-
-clean:
 	tools/make-realclean.sh
+	tools/generate-dev/make.sh
