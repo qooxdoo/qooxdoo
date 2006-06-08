@@ -11,7 +11,9 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Shows a tree, with user-defined icons for some nodes.</p>
+<p>Shows a tree, with user-defined extra fields.  In this example, the extra
+fields include a left-justified icon, a checkbox between the node icon and the
+label, and a whole series of right-justified fields.  Additionally, the root node may be hidden. </p>
   </div>
 
   <script type="text/javascript">
@@ -66,7 +68,7 @@
         return treeRowStructure;
         }
 
-    window.application.main = function()
+    qx.core.Init.defineMain(function()
     {
       var t = new qx.ui.tree.TreeFull(stuff("Root"));
       with(t)
@@ -256,7 +258,7 @@
 
       tHideNode.addEventListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
 
-    };
+    });
   </script>
 </body>
 </html>
