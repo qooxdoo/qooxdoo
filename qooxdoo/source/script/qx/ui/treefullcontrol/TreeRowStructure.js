@@ -30,7 +30,7 @@
  * @brief
  * The structure of a tree row.
  *
- * The structure of a tree row is provided by a qx.ui.tree.TreeRowStructure.
+ * The structure of a tree row is provided by a qx.ui.treeFullControl.TreeRowStructure.
  * The order of elements added to this object is the order in which they will
  * be presented in a tree row.
  *
@@ -51,14 +51,14 @@
  *
  * A "standard" (traditional) tree row would be generated like this:
  *
- *   treeRowStructure = new qx.ui.tree.TreeRowStructure();
+ *   treeRowStructure = new qx.ui.treeFullControl.TreeRowStructure();
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
  *   treeRowStructure.addIcon();
  *   treeRowStructure.addLabel("Trash");
  *
  * An example of a more sophisticated structure:
  *
- *   treeRowStructure = new qx.ui.tree.TreeRowStructure();
+ *   treeRowStructure = new qx.ui.treeFullControl.TreeRowStructure();
  *
  *   // A left-justified icon
  *   obj = new qx.ui.basic.Image("icons/16/alarm.png");
@@ -94,7 +94,7 @@
  *   treeRowStructure.addObject(obj, true);
  */
 
-qx.OO.defineClass("qx.ui.tree.TreeRowStructure", qx.core.Object,
+qx.OO.defineClass("qx.ui.treeFullControl.TreeRowStructure", qx.core.Object,
 function()
 {
   /* Create the indent, icon, and label objects */
