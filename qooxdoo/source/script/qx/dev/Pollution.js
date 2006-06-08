@@ -26,17 +26,14 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dev.Pollution", qx.core.Object,
-function() {
-  qx.core.Object.call(this);
+qx.OO.defineClass("qx.dev.Pollution");
 
-  this.names =
-  {
-    "window" : window,
-    "document" : document,
-    "body" : document.body
-  }
-});
+qx.Class.names =
+{
+  "window" : window,
+  "document" : document,
+  "body" : document.body
+};
 
 qx.Class.ignore =
 {
@@ -182,11 +179,16 @@ qx.Class.ignore =
   ]
 }
 
-qx.Proto.extract = function(object)
+qx.Class.consoleInfo = function(object)
+{
+  alert(qx.dev.Pollution.getTextList(object));
+};
+
+qx.Class.extract = function(object)
 {
   var ext = [];
   var ign = qx.dev.Pollution.ignore[object];
-  var obj = this.names[object];
+  var obj = qx.dev.Pollution.names[object];
 
   for (var key in obj)
   {
@@ -218,7 +220,7 @@ qx.Proto.extract = function(object)
   return ext;
 }
 
-qx.Proto.getHtmlTable = function(object)
+qx.Class.getHtmlTable = function(object)
 {
   var all = [];
 
@@ -235,6 +237,22 @@ qx.Proto.getHtmlTable = function(object)
   };
 
   all.push("</table>");
+
+  return all.join(qx.constant.Core.EMPTY);
+}
+
+qx.Class.getTextList = function(object)
+{
+  var all = [];
+
+  var cellSplit = ": ";
+  var rowEnd = "\n";
+
+  var ext = this.extract(object);
+
+  for (var i=0; i<ext.length; i++) {
+    all.push(ext[i].key + cellSplit + ext[i].value + rowEnd);
+  };
 
   return all.join(qx.constant.Core.EMPTY);
 }
