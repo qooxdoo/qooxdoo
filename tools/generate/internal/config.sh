@@ -313,6 +313,17 @@ L="$L script/qx/ui/tree/TreeFile"
 L="$L script/qx/ui/tree/TreeFolder"
 L="$L script/qx/ui/tree/Tree"
 
+# Tree Full Control Support
+L="$L script/qx/manager/selection/TreeFullControlSelectionManager"
+L="$L script/qx/ui/treefullcontrol/TreeRowStructure"
+L="$L script/qx/ui/treefullcontrol/AbstractTreeElement"
+L="$L script/qx/ui/treefullcontrol/TreeFolder"
+L="$L script/qx/ui/treefullcontrol/Tree"
+L="$L script/qx/ui/treefullcontrol/TreeFile"
+L="$L script/qx/ui/treefullcontrol/TreeFileSimple"
+L="$L script/qx/ui/treefullcontrol/TreeFolderSimple"
+L="$L script/qx/ui/treefullcontrol/TreeSimple"
+
 # List View
 L="$L script/qx/manager/selection/VirtualSelectionManager"
 L="$L script/qx/ui/listview/ListView"
