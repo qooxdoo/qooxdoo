@@ -34,30 +34,18 @@
  * @brief
  * qx.ui.tree.TreeFolderFull objects are tree rows which may contain sub-trees 
  *
- * The structure of a tree row is provided by the array argument.  The order
- * of elements in the array is the order in which they will be presented in a
- * tree row.  The array should be an "associative" array with the following
- * named elements for the "standard" parts of a tree row:
- *
- *   label -
- *     A string of text or a string containing valid HTML
- *
- *   icon - 
- *   icon-selected - 
- *     A string of text containing the relative path to the icon image
- *
- * All other elements of the array should be objects which may be add()ed to a
- * Horizontal Layout.  If the object has no special treatment, it may be
- * (prior to instantiating this object) made anonymous with:
- *
- *   object.SetAnonymous(true).
- *
- * Otherwise, all handling for the object should be done by the application.
+ * @param
+ * treeRowStructure -
+ *   An instance of qx.ui.tree.TreeRowStructure, defining the structure of
+ *   this tree row.
  */
 qx.OO.defineClass("qx.ui.tree.TreeFolderFull", qx.ui.tree.AbstractTreeElement, 
-function(fields)
+function(treeRowStructure)
 {
-  qx.ui.tree.AbstractTreeElement.call(this, fields);
+  qx.ui.tree.AbstractTreeElement.call(this, treeRowStructure);
+
+  // Save the tree row structure.  We'll need it to create children structure
+  this._treeRowStructure = treeRowStructure;
 
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
@@ -155,27 +143,26 @@ qx.Proto._createChildrenStructure = function()
   {
     this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
 
+    // Create a horizontal layout for this tree row
     this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
     this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
 
-    for (field in this.fields)
+    // Move the row fields into the horizontal layout
+    for (var i = 0; i < treeRowStructure._fields.length; i++)
     {
-      if (typeof this.fields[field] != "object")
-      {
-        continue;
-      }
-
-      this.fields[field].setParent(this._horizontalLayout);
-      delete this.fields[field];
+      this._treeRowStructure._fields[i].setParent(this._horizontalLayout);
     }
-    delete this.fields;
+
+    // We don't need the tree row structure any more.
+    this._treeRowStructure = null;
   };
 
   if (!this._containerObject)
   {
+    // Create a veritcal box layout for all of this folder's children
     this._containerObject = new qx.ui.layout.VerticalBoxLayout;
     this._containerObject.setWidth(null);
     this._containerObject.setAnonymous(true);

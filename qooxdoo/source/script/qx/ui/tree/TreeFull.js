@@ -33,30 +33,15 @@
  * @brief
  * qx.ui.tree.TreeFull objects are tree root nodes but act like TreeFolderFull.
  *
- * The structure of a tree row is provided by the array argument.  The order
- * of elements in the array is the order in which they will be presented in a
- * tree row.  The array should be an "associative" array with the following
- * named elements for the "standard" parts of a tree row:
- *
- *   label -
- *     A string of text or a string containing valid HTML
- *
- *   icon - 
- *   icon-selected - 
- *     A string of text containing the relative path to the icon image
- *
- * All other elements of the array should be objects which may be add()ed to a
- * Horizontal Layout.  If the object has no special treatment, it may be
- * (prior to instantiating this object) made anonymous with:
- *
- *   object.SetAnonymous(true).
- *
- * Otherwise, all handling for the object should be done by the application.
+ * @param
+ * treeRowStructure -
+ *   An instance of qx.ui.tree.TreeRowStructure, defining the structure of
+ *   this tree row.
  */
 qx.OO.defineClass("qx.ui.tree.TreeFull", qx.ui.tree.TreeFolder, 
-function(fields)
+function(treeRowStructure)
 {
-  qx.ui.tree.TreeFolderFull.call(this, fields);
+  qx.ui.tree.TreeFolderFull.call(this, treeRowStructure);
 
   // ************************************************************************
   //   INITILISIZE MANAGER

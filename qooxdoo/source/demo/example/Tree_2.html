@@ -17,47 +17,53 @@
   <script type="text/javascript">
     function stuff(vLabel, vIcon, vIconSelected)
         {
-        var arr = new Array();
+        treeRowStructure = new qx.ui.tree.TreeRowStructure();
 
+        // A left-justified icon
         if (Math.floor(Math.random() * 4) == 0)
         {
-          arr["alarm"] = new qx.ui.basic.Image("icons/16/alarm.png", 16);
+          obj = new qx.ui.basic.Image("icons/16/alarm.png", 16);
         }
         else
         {
-          arr["alarm"] = new qx.ui.basic.Image(null, 16);
+          obj = new qx.ui.basic.Image(null, 16);
         }
+        treeRowStructure.addObject(obj);
 
-        arr["indent"] = null;
+        // Here's our indentation and tree-lines
+        treeRowStructure.addIndent();
 
-        if (arguments.length >= 2)
-        {
-          arr["icon"] = vIcon;
-        }
-        else
-        {
-          arr["icon"] = "icons/16/desktop.png";
-        }
-        if (arguments.length >= 3)
-        {
-          arr["icon-selected"] = vIconSelected
-        }
-        else
-        {
-          arr["icon-selected"] = "icons/16/dictionary.png";
-        }
-        arr["checkbox"] = new qx.ui.form.CheckBox(null, 23, null, Math.floor(Math.random() * 2) == 0 ? false : true);
-        arr["checkbox"].setPadding(0, 0);
-        arr["label"] = vLabel;
-//        arr["comment"] = new qx.ui.basic.Label(" (some comment text)");
-        arr["spacer"] = new qx.ui.basic.HorizontalSpacer;
-        arr["size"] = new qx.ui.basic.Label(Math.round(Math.random() * 100) + "kb");
-        arr["size"].setWidth(50);
-        arr["date"] = new qx.ui.basic.Label("May " + Math.round(Math.random() * 30 + 1) + " 2005");
-        arr["date"].setWidth(150);
-        arr["mode"] = new qx.ui.basic.Label("-rw-r--r--");
-        arr["mode"].setWidth(80);
-        return arr;
+        // The standard tree icon follows
+        treeRowStructure.addIcon(
+          arguments.length >= 2 ? vIcon : "icons/16/desktop.png",
+          arguments.length >= 3 ? vIconSelected : "icons/16/dictionary.png");
+
+        // A checkbox comes right after the tree icon
+        obj = new qx.ui.form.CheckBox(
+          null, 23, null, Math.floor(Math.random() * 2) == 0 ? false : true);
+        obj.setPadding(0, 0);
+        treeRowStructure.addObject(obj);
+
+        // The label
+        treeRowStructure.addLabel(vLabel);
+
+        // All else should be right justified
+        obj = new qx.ui.basic.HorizontalSpacer;
+        treeRowStructure.addObject(obj);
+
+        // Add a file size, date and mode
+        obj = new qx.ui.basic.Label(Math.round(Math.random() * 100) + "kb");
+        obj.setWidth(50);
+        treeRowStructure.addObject(obj);
+        obj = new qx.ui.basic.Label(
+          "May " + Math.round(Math.random() * 30 + 1) + " 2005");
+        obj.setWidth(150);
+        treeRowStructure.addObject(obj);
+        obj = new qx.ui.basic.Label("-rw-r--r--");
+        obj.setWidth(80);
+        treeRowStructure.addObject(obj);
+
+        return treeRowStructure;
         }
 
     window.application.main = function()

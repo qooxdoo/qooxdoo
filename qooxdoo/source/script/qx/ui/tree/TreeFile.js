@@ -24,6 +24,7 @@
 
 #package(tree)
 #use(qx.ui.tree.TreeFileFull)
+#use(qx.ui.tree.TreeRowStructure)
 
 ************************************************************************ */
 
@@ -39,40 +40,11 @@
 qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.TreeFileFull, 
 function(vLabel, vIcon, vIconSelected)
 {
-  fields = new Array();
+  treeRowStructure = new qx.ui.tree.TreeRowStructure();
+  treeRowStructure.addIcon(vIcon, vIconSelected);
+  treeRowStructure.addLabel(vLabel);
 
-  /*
-   * Note order of objects put into 'fields': indent, icon, icon-selected,
-   * label.  It doesn't much matter where icon-selected goes, but our standard
-   * tree has the icon first (after indentation) followed by the label.
-   */
-
-  /* A standard tree always has indentation first. */
-  fields["indent"] = null;
-
-  /* vIcon */
-  if (arguments.length >= 2 && typeof arguments[1] == "string")
-  {
-    fields["icon"] = vIcon;
-  }
-  else
-  {
-    fields["icon"] = "";      // ensure that some icon (the default) is used
-  }
-    
-  /* vIconSelected */
-  if (arguments.length >= 3 && typeof arguments[2] == "string")
-  {
-    fields["icon-selected"] = vIconSelected;
-  }
-    
-  /* vLabel */
-  if (arguments.length >= 1 && typeof arguments[0] == "string")
-  {
-    fields["label"] = vLabel;
-  }
-
-  qx.ui.tree.TreeFileFull.call(this, fields);
+  qx.ui.tree.TreeFileFull.call(this, treeRowStructure);
 });
 
 
