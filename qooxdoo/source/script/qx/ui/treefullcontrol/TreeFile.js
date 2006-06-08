@@ -3,6 +3,7 @@
    qooxdoo - the new era of web interface development
 
    Copyright:
+     (C) 2004-2006 by Schlund + Partner AG, Germany
      (C) 2006 by Derrell Lipman
          All rights reserved
 
@@ -12,7 +13,11 @@
    Internet:
      * http://qooxdoo.oss.schlund.de
 
-   Author:
+   Authors:
+     * Sebastian Werner (wpbasti)
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
      * Derrell Lipman
 
 ************************************************************************ */
@@ -20,28 +25,55 @@
 /* ************************************************************************
 
 #package(tree)
-#use(qx.ui.treeFullControl.TreeFileFull)
-#use(qx.ui.treeFullControl.TreeRowStructure)
 
 ************************************************************************ */
 
 /**
  * @brief
- * Provide an interface compatible with qx.ui.tree.TreeFile with the standard
- * structure: an icon (either the icon for a non-selected row or the icon for
- * a selected row) followed by the label and nothing else on the tree row.
+ * qx.ui.treeFullControl.TreeFile objects are terminal tree rows (i.e. no
+ * sub-trees)
+ *
+ * @param
+ * treeRowStructure -
+ *   An instance of qx.ui.treeFullControl.TreeRowStructure, defining the
+ *   structure  of this tree row.
  */
-qx.OO.defineClass("qx.ui.treeFullControl.TreeFileCompat", qx.ui.treeFullControl.TreeFileFull, 
-function(vLabel, vIcon, vIconSelected)
+qx.OO.defineClass("qx.ui.treeFullControl.TreeFile", qx.ui.treeFullControl.AbstractTreeElement, 
+function(treeRowStructure)
 {
-  treeRowStructure = new qx.ui.treeFullControl.TreeRowStructure();
-  treeRowStructure.addIcon(vIcon, vIconSelected);
-  treeRowStructure.addLabel(vLabel);
-
-  qx.ui.treeFullControl.TreeFileFull.call(this, treeRowStructure);
+  qx.ui.treeFullControl.AbstractTreeElement.call(this, treeRowStructure);
 });
 
 
 
 
-  
+/*
+---------------------------------------------------------------------------
+  INDENT HELPER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+{
+  if (vUseTreeLines)
+  {
+    if (vIsLastColumn)
+    {
+      return this.isLastChild() ? "end" : "cross";
+    }
+    else
+    {
+      return "line";
+    };
+  };
+
+  return null;
+};
+
+qx.Proto._updateIndent = function() {
+  this.addToTreeQueue();
+};
+
+qx.Proto.getItems = function() {
+  return [this];
+};
