@@ -1092,8 +1092,21 @@
 
     state : function(vWidget, vTheme, vStates)
     {
-      vWidget.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
-      vWidget.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
+      if (vStates.lead)
+      {
+        vWidget.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
+        vWidget.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
+      }
+      else
+      {
+        vWidget.removeStyleProperty("MozOutline");
+        vWidget.removeStyleProperty("outline");
+      };
+
+      return {
+        backgroundColor : vStates.selected ? this.bgcolor_selected : null,
+        color : vStates.selected ? this.color_selected : null
+      };
     }
   });
 
@@ -1292,7 +1305,7 @@
       var vParent = vWidget.getParent();
       while (vParent &&
              !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
-             !(vParent instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
+             !(vParent instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
         vParent = vParent.getParent();
       };
 
@@ -1370,7 +1383,7 @@
       var vParent = vWidget.getParent();
       while (vParent &&
              !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
-             !(vParent instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
+             !(vParent instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
         vParent = vParent.getParent();
       };
 
