@@ -1290,7 +1290,9 @@
       // The widget is the icon.
       // We need the property of the qx.ui.tree.TreeFile, the qx.ui.tree.TreeFolder or of the qx.ui.tree.Tree
       var vParent = vWidget.getParent();
-      while (vParent && !(vParent instanceof qx.ui.tree.AbstractTreeElement)) {
+      while (vParent &&
+             !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
+             !(vParent instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
         vParent = vParent.getParent();
       };
 
@@ -1366,7 +1368,9 @@
       // The widget is the icon.
       // We need the property of the qx.ui.tree.TreeFile, the qx.ui.tree.TreeFolder or of the qx.ui.tree.Tree
       var vParent = vWidget.getParent();
-      while (vParent && !(vParent instanceof qx.ui.tree.AbstractTreeElement)) {
+      while (vParent &&
+             !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
+             !(vParent instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
         vParent = vParent.getParent();
       };
 

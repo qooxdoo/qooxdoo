@@ -67,7 +67,7 @@ qx.Proto.getNext = function(vItem)
 {
   if (vItem)
   {
-    if (qx.ui.tree.TreeFull.isOpenTreeFolder(vItem))
+    if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
     {
       return vItem.getFirstVisibleChildOfFolder();
     }
@@ -79,7 +79,12 @@ qx.Proto.getNext = function(vItem)
         vCurrent = vCurrent.getParentFolder();
       };
 
-      if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
+      if (vCurrent &&
+          (vCurrent instanceof qx.ui.tree.AbstractTreeElement ||
+           vCurrent instanceof qx.ui.treeFullControl.AbstractTreeElement) &&
+          vCurrent.getNextVisibleSibling() &&
+          (vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement ||
+           vCurrent.getNextVisibleSibling() instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
         return vCurrent.getNextVisibleSibling();
       };
     }
@@ -104,7 +109,8 @@ qx.Proto.getPrevious = function(vItem)
     }
     else if (vItem.isFirstVisibleChild())
     {
-      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolderFull) {
+      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder ||
+          vItem.getParentFolder() instanceof qx.ui.treeFullControl.TreeFolder) {
         return vItem.getParentFolder();
       };
     }
@@ -112,17 +118,34 @@ qx.Proto.getPrevious = function(vItem)
     {
       var vPrev = vItem.getPreviousVisibleSibling();
 
-      while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
+      if (vPrev instanceof qx.ui.tree.AbstractTreeElement)
       {
-        if (qx.ui.tree.TreeFull.isOpenTreeFolder(vPrev))
+        while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
         {
-          vPrev = vPrev.getLastVisibleChildOfFolder();
-        }
-        else
-        {
-          break;
+          if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev))
+          {
+            vPrev = vPrev.getLastVisibleChildOfFolder();
+          }
+          else
+          {
+            break;
+          };
         };
-      };
+      }
+      else if (vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement)
+      {
+        while (vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement)
+        {
+          if (qx.ui.treeFullControl.Tree.isOpenTreeFolder(vPrev))
+          {
+            vPrev = vPrev.getLastVisibleChildOfFolder();
+          }
+          else
+          {
+            break;
+          };
+        };
+      }
 
       return vPrev;
     };
@@ -165,7 +188,9 @@ qx.Proto.getItemTop = function(vItem)
 
 qx.Proto.getItemHeight = function(vItem)
 {
-  if (vItem instanceof qx.ui.tree.TreeFolderFull && vItem._horizontalLayout)
+  if ((vItem instanceof qx.ui.tree.TreeFolder ||
+       vItem instanceof qx.ui.treeFullControl.TreeFolder) &&
+      vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.getOffsetHeight();
   }
@@ -177,7 +202,9 @@ qx.Proto.getItemHeight = function(vItem)
 
 qx.Proto.scrollItemIntoView = function(vItem)
 {
-  if (vItem instanceof qx.ui.tree.TreeFolderFull && vItem._horizontalLayout)
+  if ((vItem instanceof qx.ui.tree.TreeFolder ||
+       vItem instanceof qx.ui.treeFullControl.TreeFolder) &&
+      vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.scrollIntoView();
   }
