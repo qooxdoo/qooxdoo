@@ -32,7 +32,7 @@ qx.OO.defineClass("qx.ui.treeFullControl.AbstractTreeElement", qx.ui.layout.BoxL
 function(treeRowStructure)
 {
   if (this.classname == qx.ui.treeFullControl.AbstractTreeElement.ABSTRACT_CLASS) {
-    throw new Error("Please omit the usage of qx.ui.treeFullControl.AbstractTreeElement directly. Choose between qx.ui.treeFullControl.TreeFolder, qx.ui.treeFullControl.TreeFolderFull, qx.ui.treeFullControl.TreeFile and qx.ui.treeFullControl.TreeFileFull instead!");
+    throw new Error("Please omit the usage of qx.ui.treeFullControl.AbstractTreeElement directly. Choose between qx.ui.treeFullControl.TreeFolder, qx.ui.treeFullControl.TreeFolderSimple, qx.ui.treeFullControl.TreeFile and qx.ui.treeFullControl.TreeFileSimple instead!");
   };
 
   if (! (treeRowStructure instanceof qx.ui.treeFullControl.TreeRowStructure))
