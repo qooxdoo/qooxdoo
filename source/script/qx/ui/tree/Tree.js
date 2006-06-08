@@ -142,7 +142,7 @@ qx.Proto.flushTreeQueue = function()
 {
   if (!qx.lang.Object.isEmpty(this._treeQueue))
   {
-    for (vHashCode in this._treeQueue)
+    for (var vHashCode in this._treeQueue)
     {
       // this.debug("Flushing Tree Child: " + this._treeQueue[vHashCode]);
       this._treeQueue[vHashCode].flushTree();
