@@ -14,7 +14,7 @@
   <script type="text/javascript" src="../demolayout.js"></script>
 
   <div id="demoDescription">
-    <p>Test global namespace population through qooxdoo.</p>
+    <p>Test global namespace pollution through qooxdoo.</p>
   </div>
 
   <script type="text/javascript">
@@ -232,42 +232,42 @@
 
 
 
-      var popClass = new qx.dev.Population;
+      var pollClass = new qx.dev.Pollution;
 
-      var popTxt = new qx.ui.embed.HtmlEmbed;
-      popTxt.setLocation(20, 300);
-      popTxt.setRight(450);
-      popTxt.setBottom(48);
-      popTxt.setOverflow("auto");
-      popTxt.setBorder("1px solid black");
-      popTxt.setBackgroundColor("white");
-      this.add(popTxt);
+      var pollTxt = new qx.ui.embed.HtmlEmbed;
+      pollTxt.setLocation(20, 300);
+      pollTxt.setRight(450);
+      pollTxt.setBottom(48);
+      pollTxt.setOverflow("auto");
+      pollTxt.setBorder("1px solid black");
+      pollTxt.setBackgroundColor("white");
+      this.add(pollTxt);
 
-      var popWinBtn = new qx.ui.form.Button("Print Window");
-      popWinBtn.setTop(300);
-      popWinBtn.setRight(335);
-      this.add(popWinBtn);
+      var pollWinBtn = new qx.ui.form.Button("Print Window");
+      pollWinBtn.setTop(300);
+      pollWinBtn.setRight(335);
+      this.add(pollWinBtn);
 
-      var popDocBtn = new qx.ui.form.Button("Print Document");
-      popDocBtn.setTop(330);
-      popDocBtn.setRight(335);
-      this.add(popDocBtn);
+      var pollDocBtn = new qx.ui.form.Button("Print Document");
+      pollDocBtn.setTop(330);
+      pollDocBtn.setRight(335);
+      this.add(pollDocBtn);
 
-      var popBodyBtn = new qx.ui.form.Button("Print Body");
-      popBodyBtn.setTop(360);
-      popBodyBtn.setRight(335);
-      this.add(popBodyBtn);
+      var pollBodyBtn = new qx.ui.form.Button("Print Body");
+      pollBodyBtn.setTop(360);
+      pollBodyBtn.setRight(335);
+      this.add(pollBodyBtn);
 
-      popWinBtn.addEventListener("execute", function(e) {
-        popTxt.setHtml(popClass.getHtmlTable("window"));
+      pollWinBtn.addEventListener("execute", function(e) {
+        pollTxt.setHtml(pollClass.getHtmlTable("window"));
       });
 
-      popDocBtn.addEventListener("execute", function(e) {
-        popTxt.setHtml(popClass.getHtmlTable("document"));
+      pollDocBtn.addEventListener("execute", function(e) {
+        pollTxt.setHtml(pollClass.getHtmlTable("document"));
       });
 
-      popBodyBtn.addEventListener("execute", function(e) {
-        popTxt.setHtml(popClass.getHtmlTable("body"));
+      pollBodyBtn.addEventListener("execute", function(e) {
+        pollTxt.setHtml(pollClass.getHtmlTable("body"));
       });
     });
   </script>
