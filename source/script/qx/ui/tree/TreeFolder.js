@@ -45,7 +45,6 @@ function(vLabel, vIcon, vIconSelected)
   this.addAt = this.addAtToFolder;
   this.addAtBegin = this.addAtBeginToFolder;
   this.addAtEnd = this.addAtEndToFolder;
-  this.remove = this.removeFromFolder;
 });
 
 
