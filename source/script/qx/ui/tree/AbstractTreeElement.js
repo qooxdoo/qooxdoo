@@ -31,11 +31,16 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout, 
-function(vLabel, vIcon, vIconSelected)
+function(fields)
 {
   if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
-    throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
+    throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder, qx.ui.tree.TreeFolderFull, qx.ui.tree.TreeFile and qx.ui.tree.TreeFileFull instead!");
   };
+
+  // Retrieve the standard fields
+  var vLabel = fields["label"];
+  var vIcon = fields["icon"];
+  var vIconSelected = fields["icon-selected"];
 
   // Precreate subwidgets
   this._indentObject = new qx.ui.embed.HtmlEmbed;
@@ -63,8 +68,84 @@ function(vLabel, vIcon, vIconSelected)
   // Base URL used for indent images
   this.BASE_URI = qx.manager.object.ImageManager.buildUri("widgets/tree/");
 
-  // Adding subwidgets
-  this.add(this._indentObject, this._iconObject, this._labelObject);
+  /* We need to be able to pass the fields to subclasses.  Save them here. */
+  this.fields = Array();
+
+  /* If there's no indent object specified... */
+  if (fields["indent"] === undefined)
+  {
+    /* ... then by default it is the first object to be added */
+    this.add(this._indentObject);
+    this.fields["indent"] = this._indentObject;
+  }
+
+  /*
+   * Add all of the objects which are to be in the horizontal layout.
+   */
+  for (var fieldName in fields)
+  {
+    var field = fields[fieldName];
+    
+    if (fieldName == "indent")
+    {
+      /* Indent is a standard element.  Use the already-created object */
+      field = this._indentObject;
+      this.fields["indent"] = field;
+    }
+    else if (typeof field == "string")
+    {
+      switch(fieldName)
+      {
+      case "label":
+        /* Label is a standard element.  Use the already-created label object */
+        field = this._labelObject;
+        this.fields["label"] = field;
+        break;
+
+      case "icon":
+        /* Icon is a standard element.  Use the already-created icon object */
+        field = this._iconObject;
+        this.fields["icon"] = field;
+        break;
+        
+      case "icon-selected":
+        /* Skip icon-selected.  It'll be handled later. */
+        continue;
+
+      default:
+        throw new Error("Invalid string field [" + fieldName + "]. Fields other than 'label', 'icon' and 'icon-selected' must be objects suitable to be add()ed to a QxHorizontalLayout.");
+        break;
+      }
+    }
+    else if (typeof field == "object")
+    {
+      /*
+       * A non-standard element that's an object (as it should be).
+       * Just save the object.
+       */
+      this.fields[fieldName] = field;
+    }
+    else if (field instanceof Function)
+    {
+      /*
+       * Yuck.  Arrays have been extended in Core.js such that enumerating the
+       * elements of an associative array gives not only the elements placed
+       * there by the user, but also all of the functions which have been
+       * added to the prototype of Array.  To make matters worse, they're at
+       * the end of the array in Firefox and at the beginning of the array in
+       * IE.  If they were always at the end, we could break out of the loop
+       * upon encountering one, but alas, that's not the case.  We need to
+       * just ignore them, but it's a waste of time.
+       */
+      continue;
+    }
+    else
+    {
+      throw new Error("Invalid field type for fields [" + fieldName + "] (" + typeof fields[fieldName] + ").  The standard elements 'label', 'icon' and 'icon-selected' should be strings; all others should be objects suitable to be add()ed to a QxHorizontalLayout.");
+    }
+
+    this.add(field);
+  }
 
   // Set Icons
   if ((vIcon != null) && (qx.util.Validation.isValidString(vIcon))) {
