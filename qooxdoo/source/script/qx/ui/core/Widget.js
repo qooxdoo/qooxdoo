@@ -3769,7 +3769,7 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
     var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
     var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
 
-    for (vProp in vOldAppearanceProperties)
+    for (var vProp in vOldAppearanceProperties)
     {
       if (!(vProp in vNewAppearanceProperties)) {
         this[qx.OO.resetter[vProp]]();
@@ -3860,7 +3860,7 @@ qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
       qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
     };
 
-    for (vProp in vOldAppearanceProperties)
+    for (var vProp in vOldAppearanceProperties)
     {
       if (!(vProp in vNewAppearanceProperties)) {
         this[qx.OO.resetter[vProp]]();
