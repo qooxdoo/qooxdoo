@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dev.Population", qx.core.Object,
+qx.OO.defineClass("qx.dev.Pollution", qx.core.Object,
 function() {
   qx.core.Object.call(this);
 
@@ -131,14 +131,38 @@ qx.Class.ignore =
     "currentStyle",
     "isMultiLine",
     "clientHeight",
-    "clientWidth"
+    "clientWidth",
+
+    "lastChild",
+    "firstChild",
+    "offsetTop",
+    "offsetLeft",
+    "offsetWidth",
+    "offsetHeight",
+    "tabIndex",
+    "className",
+    "attributes",
+    "previousSibling",
+    "nextSibling",
+    "ownerDocument",
+    "localName",
+    "childNodes",
+    "parentNode",
+    "nodeType",
+    "nodeName",
+    "style",
+
+    "scrollTop",
+    "scrollLeft",
+    "scrollWidth",
+    "scrollHeight"
   ]
 }
 
 qx.Proto.extract = function(object)
 {
   var ext = [];
-  var ign = qx.dev.Population.ignore[object];
+  var ign = qx.dev.Pollution.ignore[object];
   var obj = this.names[object];
 
   for (var key in obj)
