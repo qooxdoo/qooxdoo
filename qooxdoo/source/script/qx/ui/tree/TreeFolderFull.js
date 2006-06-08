@@ -98,16 +98,34 @@ qx.Proto.open = function()
 
   if (this.hasContent())
   {
+    // If there are listeners waiting for a treeOpenWithContent event...
+    if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWITHCONTENT)) {
+      // ... then issue the event
+      this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWITHCONTENT, this), true);
+    };
+
     this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
     qx.client.Timer.once(this._openCallback, this, 0);
   }
   else
   {
+    // If there are listeners waiting for a treeOpenWithContent event...
+    if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWHILEEMPTY)) {
+      // ... then issue the event
+      this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWHILEEMPTY, this), true);
+    };
+
     this.setOpen(true);
   };
 };
 
 qx.Proto.close = function() {
+  // If there are listeners waiting for a treeClose event...
+  if (this.getTree().hasEventListeners(qx.constant.Event.TREECLOSE)) {
+    // ... then issue the event
+    this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREECLOSE, this), true);
+  };
+
   this.setOpen(false);
 };
 

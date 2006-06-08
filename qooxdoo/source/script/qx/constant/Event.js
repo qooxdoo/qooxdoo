@@ -65,6 +65,10 @@ qx.OO.defineClass("qx.constant.Event",
   UNLOAD : "unload",
   BEFOREUNLOAD : "beforeunload",
 
+  TREEOPENWITHCONTENT : "treeOpenWithContent",
+  TREEOPENWHILEEMPTY  : "treeOpenWhileEmpty",
+  TREECLOSE           : "treeClose",
+
   // ui visualisation related
   BEFOREAPPEAR : "beforeAppear",
   APPEAR : "appear",

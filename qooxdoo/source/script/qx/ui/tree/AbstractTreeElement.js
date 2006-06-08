@@ -212,7 +212,34 @@ qx.Proto.getLabelObject = function() {
   return this._labelObject;
 };
 
+/**
+ * @brief
+ * Obtain the entire hierarchy of labels from the root down to the current
+ * node.
+ *
+ * @param
+ *   vArr -
+ *     When called by the user, arr should typically be an empty array.  Each
+ *     level from the current node upwards will push its label onto the array.
+ */
+qx.Proto.getHierarchy = function(vArr) {
+  // Add our label to the array
+  if (this._labelObject) {
+    vArr.unshift(this._labelObject.getHtml());
+  }
 
+  // Get the parent folder
+  var parent = this.getParentFolder();
+
+  // If it exists...
+  if (parent) {
+    // ... then add it and its ancestors' labels to the array.
+    parent.getHierarchy(vArr);
+  }
+
+  // Give 'em what they came for
+  return vArr;
+};
 
 
 
