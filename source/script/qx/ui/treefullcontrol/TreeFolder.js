@@ -32,18 +32,18 @@
 
 /**
  * @brief
- * qx.ui.treeFullControl.TreeFolder objects are tree rows which may contain
+ * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
  *
  * @param
  * treeRowStructure -
- *   An instance of qx.ui.treeFullControl.TreeRowStructure, defining the
+ *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  */
-qx.OO.defineClass("qx.ui.treeFullControl.TreeFolder", qx.ui.treeFullControl.AbstractTreeElement, 
+qx.OO.defineClass("qx.ui.treefullcontrol.TreeFolder", qx.ui.treefullcontrol.AbstractTreeElement, 
 function(treeRowStructure)
 {
-  qx.ui.treeFullControl.AbstractTreeElement.call(this, treeRowStructure);
+  qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
 
   // Save the tree row structure.  We'll need it to create children structure
   this._treeRowStructure = treeRowStructure;
@@ -156,7 +156,7 @@ qx.Proto._openCallback = function()
 
 qx.Proto._createChildrenStructure = function()
 {
-  this.setAppearance(this instanceof qx.ui.treeFullControl.Tree ? "tree-container" : "tree-folder-container");
+  this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree-container" : "tree-folder-container");
 
   if (!this._horizontalLayout)
   {
@@ -167,7 +167,7 @@ qx.Proto._createChildrenStructure = function()
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
-    this._horizontalLayout.setAppearance(this instanceof qx.ui.treeFullControl.Tree ? "tree" : "tree-folder");
+    this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
 
     // Move the row fields into the horizontal layout
     for (var i = 0; i < treeRowStructure._fields.length; i++)
@@ -537,7 +537,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 
 qx.Proto._updateIndent = function()
 {
-  qx.ui.treeFullControl.TreeFile.prototype._updateIndent.call(this);
+  qx.ui.treefullcontrol.TreeFile.prototype._updateIndent.call(this);
 
   if (!this._containerObject) {
     return;
@@ -581,5 +581,5 @@ qx.Proto.dispose = function()
     this._containerObject = null;
   };
 
-  return qx.ui.treeFullControl.AbstractTreeElement.prototype.dispose.call(this);
+  return qx.ui.treefullcontrol.AbstractTreeElement.prototype.dispose.call(this);
 };

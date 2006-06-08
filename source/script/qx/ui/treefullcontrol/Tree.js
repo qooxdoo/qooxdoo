@@ -31,18 +31,18 @@
 
 /**
  * @brief
- * qx.ui.treeFullControl.Tree objects are tree root nodes but act like
+ * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
  * TreeFolder. 
  *
  * @param
  * treeRowStructure -
- *   An instance of qx.ui.treeFullControl.TreeRowStructure, defining the
+ *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  */
-qx.OO.defineClass("qx.ui.treeFullControl.Tree", qx.ui.treeFullControl.TreeFolder, 
+qx.OO.defineClass("qx.ui.treefullcontrol.Tree", qx.ui.treefullcontrol.TreeFolder, 
 function(treeRowStructure)
 {
-  qx.ui.treeFullControl.TreeFolder.call(this, treeRowStructure);
+  qx.ui.treefullcontrol.TreeFolder.call(this, treeRowStructure);
 
   // ************************************************************************
   //   INITILISIZE MANAGER
@@ -244,12 +244,12 @@ qx.Proto.getLevel = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.ui.treeFullControl.Tree.isTreeFolder = function(vObject) {
-  return vObject && vObject instanceof qx.ui.treeFullControl.TreeFolder && !(vObject instanceof qx.ui.treeFullControl.Tree);
+qx.ui.treefullcontrol.Tree.isTreeFolder = function(vObject) {
+  return vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree);
 };
 
-qx.ui.treeFullControl.Tree.isOpenTreeFolder = function(vObject) {
-  return vObject instanceof qx.ui.treeFullControl.TreeFolder && vObject.getOpen() && vObject.hasContent();
+qx.ui.treefullcontrol.Tree.isOpenTreeFolder = function(vObject) {
+  return vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent();
 };
 
 
@@ -274,13 +274,13 @@ qx.Proto._onkeydown = function(e)
     case qx.event.type.KeyEvent.keys.left:
       e.preventDefault();
 
-      if (qx.ui.treeFullControl.Tree.isTreeFolder(vSelectedItem))
+      if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
       {
         if (!vSelectedItem.getOpen())
         {
           var vParent = vSelectedItem.getParentFolder();
-          if (vParent instanceof qx.ui.treeFullControl.TreeFolder) {
-            if (!(vParent instanceof qx.ui.treeFullControl.Tree)) {
+          if (vParent instanceof qx.ui.treefullcontrol.TreeFolder) {
+            if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
               vParent.close();
             };
 
@@ -292,11 +292,11 @@ qx.Proto._onkeydown = function(e)
           return vSelectedItem.close();
         };
       }
-      else if (vSelectedItem instanceof qx.ui.treeFullControl.TreeFile)
+      else if (vSelectedItem instanceof qx.ui.treefullcontrol.TreeFile)
       {
         var vParent = vSelectedItem.getParentFolder();
-        if (vParent instanceof qx.ui.treeFullControl.TreeFolder) {
-          if (!(vParent instanceof qx.ui.treeFullControl.Tree)) {
+        if (vParent instanceof qx.ui.treefullcontrol.TreeFolder) {
+          if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
             vParent.close();
           };
 
@@ -309,7 +309,7 @@ qx.Proto._onkeydown = function(e)
     case qx.event.type.KeyEvent.keys.right:
       e.preventDefault();
 
-      if (qx.ui.treeFullControl.Tree.isTreeFolder(vSelectedItem))
+      if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
       {
         if (!vSelectedItem.getOpen())
         {
@@ -329,7 +329,7 @@ qx.Proto._onkeydown = function(e)
     case qx.event.type.KeyEvent.keys.enter:
       e.preventDefault();
 
-      if (qx.ui.treeFullControl.Tree.isTreeFolder(vSelectedItem)) {
+      if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem)) {
         return vSelectedItem.toggle();
       };
 
@@ -367,9 +367,9 @@ qx.Proto.getLastTreeChild = function()
 {
   var vLast = this;
 
-  while (vLast instanceof qx.ui.treeFullControl.AbstractTreeElement)
+  while (vLast instanceof qx.ui.treefullcontrol.AbstractTreeElement)
   {
-    if (!(vLast instanceof qx.ui.treeFullControl.TreeFolder) || !vLast.getOpen()) {
+    if (!(vLast instanceof qx.ui.treefullcontrol.TreeFolder) || !vLast.getOpen()) {
       return vLast;
     };
 
@@ -424,5 +424,5 @@ qx.Proto.dispose = function()
 
   delete this._oldItem;
 
-  return qx.ui.treeFullControl.TreeFolder.prototype.dispose.call(this);
+  return qx.ui.treefullcontrol.TreeFolder.prototype.dispose.call(this);
 };

@@ -30,18 +30,18 @@
 
 /**
  * @brief
- * qx.ui.treeFullControl.TreeFile objects are terminal tree rows (i.e. no
+ * qx.ui.treefullcontrol.TreeFile objects are terminal tree rows (i.e. no
  * sub-trees)
  *
  * @param
  * treeRowStructure -
- *   An instance of qx.ui.treeFullControl.TreeRowStructure, defining the
+ *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure  of this tree row.
  */
-qx.OO.defineClass("qx.ui.treeFullControl.TreeFile", qx.ui.treeFullControl.AbstractTreeElement, 
+qx.OO.defineClass("qx.ui.treefullcontrol.TreeFile", qx.ui.treefullcontrol.AbstractTreeElement, 
 function(treeRowStructure)
 {
-  qx.ui.treeFullControl.AbstractTreeElement.call(this, treeRowStructure);
+  qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
 });
 
 

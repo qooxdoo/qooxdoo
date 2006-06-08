@@ -20,8 +20,8 @@
 /* ************************************************************************
 
 #package(tree)
-#use(qx.ui.treeFullControl.TreeFile)
-#use(qx.ui.treeFullControl.TreeRowStructure)
+#use(qx.ui.treefullcontrol.TreeFile)
+#use(qx.ui.treefullcontrol.TreeRowStructure)
 
 ************************************************************************ */
 
@@ -31,14 +31,14 @@
  * structure: an icon (either the icon for a non-selected row or the icon for
  * a selected row) followed by the label and nothing else on the tree row.
  */
-qx.OO.defineClass("qx.ui.treeFullControl.TreeFileSimple", qx.ui.treeFullControl.TreeFile, 
+qx.OO.defineClass("qx.ui.treefullcontrol.TreeFileSimple", qx.ui.treefullcontrol.TreeFile, 
 function(vLabel, vIcon, vIconSelected)
 {
-  treeRowStructure = new qx.ui.treeFullControl.TreeRowStructure();
+  treeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();
   treeRowStructure.addIcon(vIcon, vIconSelected);
   treeRowStructure.addLabel(vLabel);
 
-  qx.ui.treeFullControl.TreeFile.call(this, treeRowStructure);
+  qx.ui.treefullcontrol.TreeFile.call(this, treeRowStructure);
 });
 
 
