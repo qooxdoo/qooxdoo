@@ -44,6 +44,9 @@ qx.Class.ignore =
     "Components",
     "controllers",
 
+    // Firefox extension: Firebug
+    "console",
+
     // IE
     "event",
     "offscreenBuffering",
@@ -96,15 +99,7 @@ qx.Class.ignore =
     "scrollMaxX",
     "scrollMaxY",
     "fullScreen",
-    "frameElement",
-
-    // Demo Layout
-    "str",
-    "showTestFiles",
-    "teststr",
-    "exastr",
-    "showstr",
-    "inc"
+    "frameElement"
   ],
 
   "document" :
@@ -181,7 +176,7 @@ qx.Class.ignore =
 
 qx.Class.consoleInfo = function(object)
 {
-  alert(qx.dev.Pollution.getTextList(object));
+  alert("Global namespace is polluted by:\n\n" + qx.dev.Pollution.getTextList(object));
 };
 
 qx.Class.extract = function(object)
