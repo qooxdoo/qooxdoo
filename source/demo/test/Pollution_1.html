@@ -232,8 +232,6 @@
 
 
 
-      var pollClass = new qx.dev.Pollution;
-
       var pollTxt = new qx.ui.embed.HtmlEmbed;
       pollTxt.setLocation(20, 300);
       pollTxt.setRight(450);
@@ -259,15 +257,15 @@
       this.add(pollBodyBtn);
 
       pollWinBtn.addEventListener("execute", function(e) {
-        pollTxt.setHtml(pollClass.getHtmlTable("window"));
+        pollTxt.setHtml(qx.dev.Pollution.getHtmlTable("window"));
       });
 
       pollDocBtn.addEventListener("execute", function(e) {
-        pollTxt.setHtml(pollClass.getHtmlTable("document"));
+        pollTxt.setHtml(qx.dev.Pollution.getHtmlTable("document"));
       });
 
       pollBodyBtn.addEventListener("execute", function(e) {
-        pollTxt.setHtml(pollClass.getHtmlTable("body"));
+        pollTxt.setHtml(qx.dev.Pollution.getHtmlTable("body"));
       });
     });
   </script>
