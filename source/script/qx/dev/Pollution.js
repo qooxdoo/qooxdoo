@@ -112,7 +112,30 @@ qx.Class.ignore =
 
   "document" :
   [
-    "domConfig"
+    "domConfig",
+    "location",
+    "compatMode",
+    "implementation",
+    "defaultView",
+    "title",
+    "body",
+    "styleSheets",
+    "documentElement",
+    "nodeName",
+    "nodeType",
+    "firstChild",
+    "lastChild",
+    "doctype",
+    "images",
+    "applets",
+    "links",
+    "forms",
+    "anchors",
+    "cookie",
+    "embeds",
+    "plugins",
+    "designMode",
+    "childNodes"
   ],
 
   "body" :
@@ -167,20 +190,27 @@ qx.Proto.extract = function(object)
 
   for (var key in obj)
   {
-    // Ignore null or undefined values
-    if (typeof obj[key] == "undefined" || obj[key] === null) {
-      continue;
-    }
+    try
+    {
+      // Ignore null or undefined values
+      if (typeof obj[key] == "undefined" || obj[key] === null) {
+        continue;
+      }
 
-    // Ignore native code
-    if (typeof obj[key] == "function" && obj[key].toString().indexOf("[native code]") != -1) {
-      continue;
-    }
+      // Ignore native code
+      if (typeof obj[key] == "function" && obj[key].toString().indexOf("[native code]") != -1) {
+        continue;
+      }
 
-    // Ignore if configured
-    if (qx.lang.Array.contains(ign, key)) {
-      continue;
+      // Ignore if configured
+      if (qx.lang.Array.contains(ign, key)) {
+        continue;
+      }
     }
+    catch(ex)
+    {
+      continue;
+    };
 
     ext.push({ "key" : key, "value" : obj[key] });
   }
