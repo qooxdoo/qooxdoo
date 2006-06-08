@@ -81,10 +81,10 @@ qx.Proto.getNext = function(vItem)
 
       if (vCurrent &&
           (vCurrent instanceof qx.ui.tree.AbstractTreeElement ||
-           vCurrent instanceof qx.ui.treeFullControl.AbstractTreeElement) &&
+           vCurrent instanceof qx.ui.treefullcontrol.AbstractTreeElement) &&
           vCurrent.getNextVisibleSibling() &&
           (vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement ||
-           vCurrent.getNextVisibleSibling() instanceof qx.ui.treeFullControl.AbstractTreeElement)) {
+           vCurrent.getNextVisibleSibling() instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
         return vCurrent.getNextVisibleSibling();
       };
     }
@@ -110,7 +110,7 @@ qx.Proto.getPrevious = function(vItem)
     else if (vItem.isFirstVisibleChild())
     {
       if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder ||
-          vItem.getParentFolder() instanceof qx.ui.treeFullControl.TreeFolder) {
+          vItem.getParentFolder() instanceof qx.ui.treefullcontrol.TreeFolder) {
         return vItem.getParentFolder();
       };
     }
@@ -132,11 +132,11 @@ qx.Proto.getPrevious = function(vItem)
           };
         };
       }
-      else if (vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement)
+      else if (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
       {
-        while (vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement)
+        while (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
         {
-          if (qx.ui.treeFullControl.Tree.isOpenTreeFolder(vPrev))
+          if (qx.ui.treefullcontrol.Tree.isOpenTreeFolder(vPrev))
           {
             vPrev = vPrev.getLastVisibleChildOfFolder();
           }
@@ -189,7 +189,7 @@ qx.Proto.getItemTop = function(vItem)
 qx.Proto.getItemHeight = function(vItem)
 {
   if ((vItem instanceof qx.ui.tree.TreeFolder ||
-       vItem instanceof qx.ui.treeFullControl.TreeFolder) &&
+       vItem instanceof qx.ui.treefullcontrol.TreeFolder) &&
       vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.getOffsetHeight();
@@ -203,7 +203,7 @@ qx.Proto.getItemHeight = function(vItem)
 qx.Proto.scrollItemIntoView = function(vItem)
 {
   if ((vItem instanceof qx.ui.tree.TreeFolder ||
-       vItem instanceof qx.ui.treeFullControl.TreeFolder) &&
+       vItem instanceof qx.ui.treefullcontrol.TreeFolder) &&
       vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.scrollIntoView();

@@ -23,21 +23,21 @@
 /* ************************************************************************
 
 #package(tree)
-#use(qx.ui.treeFullControl.TreeRowStructure)
+#use(qx.ui.treefullcontrol.TreeRowStructure)
 #use(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.treeFullControl.AbstractTreeElement", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.treefullcontrol.AbstractTreeElement", qx.ui.layout.BoxLayout, 
 function(treeRowStructure)
 {
-  if (this.classname == qx.ui.treeFullControl.AbstractTreeElement.ABSTRACT_CLASS) {
-    throw new Error("Please omit the usage of qx.ui.treeFullControl.AbstractTreeElement directly. Choose between qx.ui.treeFullControl.TreeFolder, qx.ui.treeFullControl.TreeFolderSimple, qx.ui.treeFullControl.TreeFile and qx.ui.treeFullControl.TreeFileSimple instead!");
+  if (this.classname == qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS) {
+    throw new Error("Please omit the usage of qx.ui.treefullcontrol.AbstractTreeElement directly. Choose between qx.ui.treefullcontrol.TreeFolder, qx.ui.treefullcontrol.TreeFolderSimple, qx.ui.treefullcontrol.TreeFile and qx.ui.treefullcontrol.TreeFileSimple instead!");
   };
 
-  if (! (treeRowStructure instanceof qx.ui.treeFullControl.TreeRowStructure))
+  if (! (treeRowStructure instanceof qx.ui.treefullcontrol.TreeRowStructure))
   {
-    throw new Error("A qx.ui.treeFullControl.TreeRowStructure parameter is required.");
+    throw new Error("A qx.ui.treefullcontrol.TreeRowStructure parameter is required.");
   };
 
   // Precreate subwidgets
@@ -95,7 +95,7 @@ function(treeRowStructure)
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 });
 
-qx.ui.treeFullControl.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treeFullControl.AbstractTreeElement";
+qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treefullcontrol.AbstractTreeElement";
 
 
 
@@ -339,7 +339,7 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
     {
       var vPrev = this.getPreviousVisibleSibling();
 
-      if (vPrev && vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement) {
+      if (vPrev && vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
         vPrev._updateIndent();
       };
     };
@@ -380,11 +380,11 @@ qx.Proto._onmouseup = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
-qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
-qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_3 = "\" />";
+qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
+qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
+qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_3 = "\" />";
 
-qx.ui.treeFullControl.AbstractTreeElement.IMG_EXTENSION = "gif";
+qx.ui.treefullcontrol.AbstractTreeElement.IMG_EXTENSION = "gif";
 
 qx.Proto.flushTree = function()
 {
@@ -405,14 +405,14 @@ qx.Proto.flushTree = function()
 
     if (vImage)
     {
-      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_1);
+      vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_1);
       vHtml.push((vLevel-i-1) * 19);
-      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_2);
+      vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
       vHtml.push(qx.constant.Core.DOT);
-      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.IMG_EXTENSION);
-      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_3);
+      vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.IMG_EXTENSION);
+      vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_3);
     };
 
     vCurrentObject = vCurrentObject.getParentFolder();
