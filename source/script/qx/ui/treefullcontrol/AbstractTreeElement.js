@@ -1,46 +1,49 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web development
+   qooxdoo - the new era of web interface development
 
    Copyright:
-     2004-2006 by Schlund + Partner AG, Germany
-     All rights reserved
+     (C) 2004-2006 by Schlund + Partner AG, Germany
+         All rights reserved
 
    License:
      LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
 
    Internet:
-     * http://qooxdoo.org
+     * http://qooxdoo.oss.schlund.de
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sw at schlund dot de>
-     * Andreas Ecker (ecker)
-       <ae at schlund dot de>
+       <sebastian dot werner at 1und1 dot de>
+     * Andreas Ecker (aecker)
+       <andreas dot ecker at 1und1 dot de>
 
 ************************************************************************ */
 
 /* ************************************************************************
 
 #package(tree)
-#use(qx.ui.embed.HtmlEmbed)
-#use(qx.ui.basic.Image)
-#use(qx.ui.basic.Label)
+#use(qx.ui.treeFullControl.TreeRowStructure)
 #use(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout, 
-function(vLabel, vIcon, vIconSelected)
+qx.OO.defineClass("qx.ui.treeFullControl.AbstractTreeElement", qx.ui.layout.BoxLayout, 
+function(treeRowStructure)
 {
-  if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
-    throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
+  if (this.classname == qx.ui.treeFullControl.AbstractTreeElement.ABSTRACT_CLASS) {
+    throw new Error("Please omit the usage of qx.ui.treeFullControl.AbstractTreeElement directly. Choose between qx.ui.treeFullControl.TreeFolder, qx.ui.treeFullControl.TreeFolderFull, qx.ui.treeFullControl.TreeFile and qx.ui.treeFullControl.TreeFileFull instead!");
+  };
+
+  if (! (treeRowStructure instanceof qx.ui.treeFullControl.TreeRowStructure))
+  {
+    throw new Error("A qx.ui.treeFullControl.TreeRowStructure parameter is required.");
   };
 
   // Precreate subwidgets
-  this._indentObject = new qx.ui.embed.HtmlEmbed;
-  this._iconObject = new qx.ui.basic.Image;
-  this._labelObject = new qx.ui.basic.Label;
+  this._indentObject = treeRowStructure._indentObject;
+  this._iconObject = treeRowStructure._iconObject;
+  this._labelObject = treeRowStructure._labelObject;
 
   // Make anonymous
   this._indentObject.setAnonymous(true);
@@ -53,8 +56,8 @@ function(vLabel, vIcon, vIconSelected)
 
   qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
 
-  if (qx.util.Validation.isValid(vLabel)) {
-    this.setLabel(vLabel);
+  if (qx.util.Validation.isValid(treeRowStructure._label)) {
+    this.setLabel(treeRowStructure._label);
   };
 
   // Prohibit selection
@@ -63,16 +66,23 @@ function(vLabel, vIcon, vIconSelected)
   // Base URL used for indent images
   this.BASE_URI = qx.manager.object.ImageManager.buildUri("widgets/tree/");
 
-  // Adding subwidgets
-  this.add(this._indentObject, this._iconObject, this._labelObject);
+  /*
+   * Add all of the objects which are to be in the horizontal layout.
+   */
+  for (var i = 0; i < treeRowStructure._fields.length; i++)
+  {
+    this.add(treeRowStructure._fields[i]);
+  }
 
   // Set Icons
-  if ((vIcon != null) && (qx.util.Validation.isValidString(vIcon))) {
-    this.setIcon(vIcon);
-    this.setIconSelected(vIcon);
+  if ((treeRowStructure._icons.unselected != null) &&
+      (qx.util.Validation.isValidString(treeRowStructure._icons.unselected))) {
+    this.setIcon(treeRowStructure._icons.unselected);
+    this.setIconSelected(treeRowStructure._icons.unselected);
   };
-  if ((vIconSelected != null) && (qx.util.Validation.isValidString(vIconSelected))) {
-    this.setIconSelected(vIconSelected);
+  if ((treeRowStructure._icons.selected != null) &&
+      (qx.util.Validation.isValidString(treeRowStructure._icons.selected))) {
+    this.setIconSelected(treeRowStructure._icons.selected);
   };
 
 
@@ -85,7 +95,7 @@ function(vLabel, vIcon, vIconSelected)
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 });
 
-qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.tree.AbstractTreeElement";
+qx.ui.treeFullControl.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treeFullControl.AbstractTreeElement";
 
 
 
@@ -202,7 +212,34 @@ qx.Proto.getLabelObject = function() {
   return this._labelObject;
 };
 
+/**
+ * @brief
+ * Obtain the entire hierarchy of labels from the root down to the current
+ * node.
+ *
+ * @param
+ *   vArr -
+ *     When called by the user, arr should typically be an empty array.  Each
+ *     level from the current node upwards will push its label onto the array.
+ */
+qx.Proto.getHierarchy = function(vArr) {
+  // Add our label to the array
+  if (this._labelObject) {
+    vArr.unshift(this._labelObject.getHtml());
+  }
 
+  // Get the parent folder
+  var parent = this.getParentFolder();
+
+  // If it exists...
+  if (parent) {
+    // ... then add it and its ancestors' labels to the array.
+    parent.getHierarchy(vArr);
+  }
+
+  // Give 'em what they came for
+  return vArr;
+};
 
 
 
@@ -302,7 +339,7 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
     {
       var vPrev = this.getPreviousVisibleSibling();
 
-      if (vPrev && vPrev instanceof qx.ui.tree.AbstractTreeElement) {
+      if (vPrev && vPrev instanceof qx.ui.treeFullControl.AbstractTreeElement) {
         vPrev._updateIndent();
       };
     };
@@ -343,11 +380,11 @@ qx.Proto._onmouseup = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_3 = "\" />";
+qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
+qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
+qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_3 = "\" />";
 
-qx.ui.tree.AbstractTreeElement.IMG_EXTENSION = "gif";
+qx.ui.treeFullControl.AbstractTreeElement.IMG_EXTENSION = "gif";
 
 qx.Proto.flushTree = function()
 {
@@ -368,14 +405,14 @@ qx.Proto.flushTree = function()
 
     if (vImage)
     {
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_1);
+      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_1);
       vHtml.push((vLevel-i-1) * 19);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_2);
+      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
       vHtml.push(qx.constant.Core.DOT);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.IMG_EXTENSION);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_3);
+      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.IMG_EXTENSION);
+      vHtml.push(qx.ui.treeFullControl.AbstractTreeElement.INDENT_CODE_3);
     };
 
     vCurrentObject = vCurrentObject.getParentFolder();

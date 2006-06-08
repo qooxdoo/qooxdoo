@@ -23,31 +23,44 @@
 /* ************************************************************************
 
 #package(tree)
-#use(qx.ui.tree.TreeFileFull)
-#use(qx.ui.tree.TreeRowStructure)
 
 ************************************************************************ */
 
-/**
- * @brief
- * qx.ui.tree.TreeFile objects are terminal tree rows (i.e. no sub-trees)
- *
- * The structure of a tree row is "standard"; i.e. it has an icon (either the
- * icon for a non-selected row or the icon for a selected row) followed by the
- * label and nothing else on the tree row.  For full control of the structure
- * of the tree row, use qx.ui.tree.TreeFileFull.
- */
-qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.TreeFileFull, 
-function(vLabel, vIcon, vIconSelected)
-{
-  treeRowStructure = new qx.ui.tree.TreeRowStructure();
-  treeRowStructure.addIcon(vIcon, vIconSelected);
-  treeRowStructure.addLabel(vLabel);
-
-  qx.ui.tree.TreeFileFull.call(this, treeRowStructure);
+qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement, 
+function(vLabel, vIcon, vIconSelected) {
+  qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
 });
 
 
 
 
-  
+/*
+---------------------------------------------------------------------------
+  INDENT HELPER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+{
+  if (vUseTreeLines)
+  {
+    if (vIsLastColumn)
+    {
+      return this.isLastChild() ? "end" : "cross";
+    }
+    else
+    {
+      return "line";
+    };
+  };
+
+  return null;
+};
+
+qx.Proto._updateIndent = function() {
+  this.addToTreeQueue();
+};
+
+qx.Proto.getItems = function() {
+  return [this];
+};
