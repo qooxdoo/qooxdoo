@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(tree)
+#package(treefullcontrol)
 
 ************************************************************************ */
 
@@ -67,7 +67,7 @@ qx.Proto.getNext = function(vItem)
 {
   if (vItem)
   {
-    if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
+    if (qx.ui.treefullcontrol.Tree.isOpenTreeFolder(vItem))
     {
       return vItem.getFirstVisibleChildOfFolder();
     }
@@ -80,11 +80,9 @@ qx.Proto.getNext = function(vItem)
       };
 
       if (vCurrent &&
-          (vCurrent instanceof qx.ui.tree.AbstractTreeElement ||
-           vCurrent instanceof qx.ui.treefullcontrol.AbstractTreeElement) &&
+          vCurrent instanceof qx.ui.treefullcontrol.AbstractTreeElement &&
           vCurrent.getNextVisibleSibling() &&
-          (vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement ||
-           vCurrent.getNextVisibleSibling() instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
+          vCurrent.getNextVisibleSibling() instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
         return vCurrent.getNextVisibleSibling();
       };
     }
@@ -109,8 +107,7 @@ qx.Proto.getPrevious = function(vItem)
     }
     else if (vItem.isFirstVisibleChild())
     {
-      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder ||
-          vItem.getParentFolder() instanceof qx.ui.treefullcontrol.TreeFolder) {
+      if (vItem.getParentFolder() instanceof qx.ui.treefullcontrol.TreeFolder) {
         return vItem.getParentFolder();
       };
     }
@@ -118,21 +115,7 @@ qx.Proto.getPrevious = function(vItem)
     {
       var vPrev = vItem.getPreviousVisibleSibling();
 
-      if (vPrev instanceof qx.ui.tree.AbstractTreeElement)
-      {
-        while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
-        {
-          if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev))
-          {
-            vPrev = vPrev.getLastVisibleChildOfFolder();
-          }
-          else
-          {
-            break;
-          };
-        };
-      }
-      else if (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
+      if (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
       {
         while (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
         {
@@ -188,8 +171,7 @@ qx.Proto.getItemTop = function(vItem)
 
 qx.Proto.getItemHeight = function(vItem)
 {
-  if ((vItem instanceof qx.ui.tree.TreeFolder ||
-       vItem instanceof qx.ui.treefullcontrol.TreeFolder) &&
+  if (vItem instanceof qx.ui.treefullcontrol.TreeFolder &&
       vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.getOffsetHeight();
@@ -202,8 +184,7 @@ qx.Proto.getItemHeight = function(vItem)
 
 qx.Proto.scrollItemIntoView = function(vItem)
 {
-  if ((vItem instanceof qx.ui.tree.TreeFolder ||
-       vItem instanceof qx.ui.treefullcontrol.TreeFolder) &&
+  if (vItem instanceof qx.ui.treefullcontrol.TreeFolder &&
       vItem._horizontalLayout)
   {
     return vItem._horizontalLayout.scrollIntoView();
