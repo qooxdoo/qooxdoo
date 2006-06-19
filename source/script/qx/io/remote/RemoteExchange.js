@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -17,6 +18,8 @@
        <sw at schlund dot de>
      * Andreas Ecker (ecker)
        <ae at schlund dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -256,6 +259,51 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 };
 
 
+qx.io.remote.RemoteExchange.statusCodeToString = function(vStatusCode)
+{
+  switch(vStatusCode)
+  {
+    case -1:    return "Not available";
+    case 200:   return "Ok";
+    case 304:   return "Not modified";
+    case 206:   return "Partial content";
+    case 204:   return "No content";
+    case 300:   return "Multiple choices";
+    case 301:   return "Moved permanently";
+    case 302:   return "Moved temporarily";
+    case 303:   return "See other";
+    case 305:   return "Use proxy";
+    case 400:   return "Bad request";
+    case 401:   return "Unauthorized";
+    case 402:   return "Payment required";
+    case 403:   return "Forbidden";
+    case 404:   return "Not found";
+    case 405:   return "Method not allowed";
+    case 406:   return "Not acceptable";
+    case 407:   return "Proxy authentication required";
+    case 408:   return "Request time-out";
+    case 409:   return "Conflict";
+    case 410:   return "Gone";
+    case 411:   return "Length required";
+    case 412:   return "Precondition failed";
+    case 413:   return "Request entity too large";
+    case 414:   return "Request-URL too large";
+    case 415:   return "Unsupported media type";
+    case 500:   return "Server error";
+    case 501:   return "Not implemented";
+    case 502:   return "Bad gateway";
+    case 503:   return "Out of resources";
+    case 504:   return "Gateway time-out";
+    case 505:   return "HTTP version not supported";
+    case 12002: return "Server timeout";
+    case 12029: return "Connection dropped";
+    case 12030: return "Connection dropped";
+    case 12031: return "Connection dropped";
+    case 12152: return "Connection closed by server";
+    case 13030: return "MSHTML-specific HTTP status code";
+    default:    return "Unknown status code";
+  }
+}
 
 
 
@@ -405,6 +453,11 @@ qx.Proto.timeout = function()
     this.warn("Timeout: forcing state to timeout");
     this.setState(qx.constant.Net.STATE_TIMEOUT);
   };
+
+  // Disable future timeouts in case user handler blocks
+  if (this.getRequest()) {
+    this.getRequest().setTimeout(0);
+  }
 };
 
 
@@ -501,7 +554,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
   var vRequest = this.getRequest();
 
   if (qx.core.Settings.enableTransportDebug) {
-    this.debug("State: " + propValue);
+    this.debug("State: " + propOldValue + " => " + propValue);
   };
 
   switch(propValue)
@@ -519,10 +572,33 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
     case qx.constant.Net.STATE_TIMEOUT:
     case qx.constant.Net.STATE_FAILED:
       var vImpl = this.getImplementation();
+
+      if (! vImpl) {
+        // implementation has already been disposed
+        break;
+      }
+
       var vResponse = new qx.io.remote.RemoteResponse;
 
+      if (propValue == qx.constant.Net.STATE_COMPLETED) {
+        var vContent = vImpl.getResponseContent();
+        vResponse.setContent(vContent);
+
+        /*
+         * Was there acceptable content?  This might occur, for example, if
+         * the web server was shut down unexpectedly and thus the connection
+         * closed with no data having been sent.
+         */
+        if (vContent === null) {
+          // Nope.  Change COMPLETED to FAILED.
+          if (qx.core.Settings.enableTransportDebug) {
+            this.debug("Altered State: " + propValue + " => failed");
+          };
+          propValue = qx.constant.Net.STATE_FAILED;
+        }
+      }
+
       vResponse.setStatusCode(vImpl.getStatusCode());
-      vResponse.setContent(vImpl.getResponseContent());
       vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
       // this.debug("Result Text: " + vResponse.getTextContent());

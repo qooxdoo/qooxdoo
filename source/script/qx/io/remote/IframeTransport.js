@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -17,6 +18,8 @@
        <sw at schlund dot de>
      * Andreas Ecker (ecker)
        <ae at schlund dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -69,6 +72,10 @@ function()
   this._form.style.visibility = "hidden";
 
   document.body.appendChild(this._form);
+
+  this._data = document.createElement("textarea");
+  this._data.id = this._data.name = "_data_";
+  this._form.appendChild(this._data);
 
   var o = this;
   this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
@@ -151,6 +158,7 @@ qx.Proto.send = function()
   //   Sending data
   // --------------------------------------
 
+  this._data.appendChild(document.createTextNode(this.getData()));
   this._form.submit();
 };
 
@@ -383,10 +391,12 @@ qx.Proto.getResponseContent = function()
     this.debug("Returning content for responseType: " + this.getResponseType());
   };
 
+  var vText = this.getIframeTextContent();
+
   switch(this.getResponseType())
   {
     case qx.constant.Mime.TEXT:
-      return this.getIframeTextContent();
+      return vText;
       break;
 
     case qx.constant.Mime.HTML:
@@ -395,18 +405,16 @@ qx.Proto.getResponseContent = function()
 
     case qx.constant.Mime.JSON:
       try {
-        var vText = this.getIframeTextContent();
-        return vText ? eval("(" + vText + ")") : null;
+        return vText && vText.length > 0 ? qx.io.Json.parse(vText) : null;
       } catch(ex) {
-        return this.error("Could not execute json", ex);
+        return this.error("Could not execute json: (" + vText + ")", ex);
       };
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
-        var vText = this.getIframeTextContent();
-        return vText ? window.eval("(" + vText + ")") : null;
+        return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
       } catch(ex) {
-        return this.error("Could not execute javascript", ex);
+        return this.error("Could not execute javascript: (" + vText + ")", ex);
       };
 
     case qx.constant.Mime.XML:
