@@ -270,13 +270,19 @@ def getValue(item):
 
 
 def handleMethodDefinition(item, isStatic, classNode):
-  leftItem = item.getFirstListChild("left")
-  rightItem = item.getFirstListChild("right")
+  if (item.type == "assignment"):
+    # This is a "normal" method definition
+    leftItem = item.getFirstListChild("left")
+    name = leftItem.children[len(leftItem.children) - 1].get("name")
+    functionItem = item.getFirstListChild("right")
+  elif (item.type == "keyvalue"):
+    # This is a method definition of a map-style class (like qx.Const)
+    name = item.get("key")
+    functionItem = item.getFirstListChild("value")
 
   commentNode = parseDocComment(item)
 
-  node = handleFunction(rightItem, commentNode, classNode)
-  name = leftItem.children[len(leftItem.children) - 1].get("name")
+  node = handleFunction(functionItem, commentNode, classNode)
   node.set("name", name)
 
   isPublic = name[0] != "_"
