@@ -524,12 +524,17 @@ def readArray(stream):
   stream.next()
 
   item = createItemNode("array", stream)
+  # NOTE: We use our own flag for checking whether the array already has entries
+  #       and not item.hasChildren(), because item.hasChildren() is also true
+  #       when there are comments before the array
+  hasEntries = False
   while not stream.currIsType("token", "RB"):
-    if item.hasChildren():
+    if hasEntries:
       stream.expectCurrType("token", "COMMA")
       stream.next()
 
     item.addChild(readExpression(stream))
+    hasEntries = True
 
   stream.next()
 
