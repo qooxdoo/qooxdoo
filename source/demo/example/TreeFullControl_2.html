@@ -17,9 +17,11 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
   </div>
 
   <script type="text/javascript">
+    var treeRowStructure;
+
     function stuff(vLabel, vIcon, vIconSelected)
-        {
-        treeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();
+    {
+        treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
 
         // A left-justified icon
         if (Math.floor(Math.random() * 4) == 0)
@@ -70,6 +72,9 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
     qx.core.Init.defineMain(function()
     {
+      var x = new qx.ui.basic.Atom("Test #1", "icons/16/reload.png", 16, 16);
+        x.debug("In main");
+
       var t = new qx.ui.treefullcontrol.Tree(stuff("Root"));
       with(t)
       {
