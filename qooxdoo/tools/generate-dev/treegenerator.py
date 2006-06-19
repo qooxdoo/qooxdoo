@@ -175,7 +175,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
   if currIsIdentifier(stream, True):
     # statement starts with an identifier
     variable = readVariable(stream, True)
-    variable = readObjectOperation(variable, stream);
+    variable = readObjectOperation(stream, variable);
 
     if stream.currIsType("token", ASSIGN_OPERATORS):
       # This is an assignment
@@ -215,12 +215,14 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
       item.addChild(readStatement(stream))
     stream.expectCurrType("token", "RP")
     stream.next()
-    item = readObjectOperation(item, stream);
+    item = readObjectOperation(stream, item);
   elif expressionMode and stream.currIsType("string"):
     item = createItemNode("constant", stream)
     item.set("constantType", "string")
     item.set("value", stream.currSource())
     stream.next()
+    # Allow function calls for strings. E.g.: "a string".match(...)
+    item = readObjectOperation(stream, item, True);
   elif expressionMode and stream.currIsType("number"):
     item = createItemNode("constant", stream)
     item.set("constantType", "number")
@@ -231,7 +233,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     item.set("constantType", "regexp")
     item.set("value", stream.currSource())
     stream.next()
-    item = readObjectOperation(item, stream);
+    item = readObjectOperation(stream, item);
   elif expressionMode and (stream.currIsType("protected", "TRUE") or stream.currIsType("protected", "FALSE")):
     item = createItemNode("constant", stream)
     item.set("constantType", "boolean")
@@ -254,7 +256,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     item.addListChild("first", readExpression(stream))
   elif stream.currIsType("protected", "NEW"):
     item = readInstantiation(stream)
-    item = readObjectOperation(item, stream);
+    item = readObjectOperation(stream, item);
   elif not expressionMode and stream.currIsType("protected", "VAR"):
     item = createItemNode("definition", stream)
     stream.next()
@@ -396,22 +398,22 @@ def readVariable (stream, allowArrays):
 
 
 
-def readObjectOperation(operand, stream):
+def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
   if stream.currIsType("token", "DOT"):
-    # This is a member accessor
+    # This is a member accessor (E.g. "bla.blubb")
     item = createItemNode("accessor", stream)
     stream.next()
     item.addListChild("left", operand)
     variable = readVariable(stream, False)
-    item.addListChild("right", readObjectOperation(variable, stream))
+    item.addListChild("right", readObjectOperation(stream, variable))
   elif stream.currIsType("token", "LP"):
-    # This is a function call
+    # This is a function call (E.g. "bla(...)")
     item = createItemNode("call", stream)
     item.addListChild("operand", operand)
     readParamList(item, stream)
-    item = readObjectOperation(item, stream)
+    item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LB"):
-    # This is an array access
+    # This is an array access (E.g. "bla[...]")
     item = createItemNode("accessor", stream)
     stream.next()
     item.addListChild("identifier", operand)
@@ -419,7 +421,7 @@ def readObjectOperation(operand, stream):
 
     stream.expectCurrType("token", "RB")
     stream.next()
-    item = readObjectOperation(item, stream)
+    item = readObjectOperation(stream, item)
   else:
     item = operand
 
