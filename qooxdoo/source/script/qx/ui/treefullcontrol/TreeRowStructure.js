@@ -30,6 +30,15 @@
  * @brief
  * The structure of a tree row.
  *
+ * This is a singleton class.  The constructor is not accessed by users;
+ * instead, to obtain the one and only TreeRowStructure object, call either
+ *
+ *   qx.ui.treefullcontrol.TreeRowStructure.newRow()
+ *
+ * or
+ *
+ *   qx.ui.treefullcontrol.TreeRowStructure.standard().
+ *
  * The structure of a tree row is provided by a
  * qx.ui.treefullcontrol.TreeRowStructure.  The order of elements added to
  * this object is the order in which they will be presented in a tree row.
@@ -51,14 +60,21 @@
  *
  * A "standard" (traditional) tree row would be generated like this:
  *
- *   treeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();
+ *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash");
+ *
+ * which equates to issuing these commands:
+ *
+ *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
+ *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
  *   treeRowStructure.addIcon();
  *   treeRowStructure.addLabel("Trash");
  *
+ * The former method is typically preferred.
+ *
  * An example of a more sophisticated structure:
  *
- *   treeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();
+ *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
  *
  *   // A left-justified icon
  *   obj = new qx.ui.basic.Image("icons/16/alarm.png");
@@ -97,6 +113,20 @@
 qx.OO.defineClass("qx.ui.treefullcontrol.TreeRowStructure", qx.core.Object,
 function()
 {
+  qx.core.Object.call(this);
+});
+
+
+/**
+ * Prepare to define a new row.
+ *
+ * This reinitializes the singleton TreeRowStructure so that it is ready to
+ * define a new tree row.
+ *
+ * @return The singleton itself, purely for convenience.
+ */
+qx.Proto.newRow = function()
+{
   /* Create the indent, icon, and label objects */
   this._indentObject = new qx.ui.embed.HtmlEmbed;
   this._iconObject = new qx.ui.basic.Image;
@@ -115,7 +145,37 @@ function()
   this._indentAdded = false;
   this._iconAdded = false;
   this._labelAdded = false;
-});
+
+  /* Return the singleton (from which we were called) */
+  return this;
+};
+
+/**
+ * Define a new row with the 'standard' structure.
+ *
+ * This reinitializes the singleton TreeRowStructure to the state of a
+ * standard'or traditional tree row:
+ *   - indentation
+ *   - icon
+ *   - label
+ *
+ * The icon parameters may be omitted in which case the defaults will be
+ * used.  If the label parameter is omitted, no label will appear.
+ *
+ * @param vLabel        {string} The label text
+ * @param vIcon         {string} Relative path to the 'non-selected' icon
+ * @param vIconSelected {string} Relative path to the 'selected' icon
+ *
+ * @return The singleton itself, purely for convenience.
+ */
+qx.Proto.standard = function(vLabel, vIcon, vIconSelected)
+{
+  this.newRow();
+  this.addIcon(vIcon, vIconSelected);
+  this.addLabel(vLabel);
+
+  return this;
+};
 
 qx.Proto.addIndent = function()
 {
@@ -192,3 +252,12 @@ qx.Proto.addObject = function(vObj, vAnonymous)
   /* Add this user-specified object to the structure */
   this._fields.push(vObj);
 };
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.ui.treefullcontrol.TreeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();

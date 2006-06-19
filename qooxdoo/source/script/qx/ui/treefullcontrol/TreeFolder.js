@@ -45,8 +45,8 @@ function(treeRowStructure)
 {
   qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
 
-  // Save the tree row structure.  We'll need it to create children structure
-  this._treeRowStructure = treeRowStructure;
+  // Save the tree row field order. We'll need it to create children structure.
+  this._treeRowStructureFields = treeRowStructure._fields;
 
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
@@ -170,13 +170,13 @@ qx.Proto._createChildrenStructure = function()
     this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
 
     // Move the row fields into the horizontal layout
-    for (var i = 0; i < treeRowStructure._fields.length; i++)
+    for (var i = 0; i < this._treeRowStructureFields.length; i++)
     {
-      this._treeRowStructure._fields[i].setParent(this._horizontalLayout);
+      this._treeRowStructureFields[i].setParent(this._horizontalLayout);
     }
 
     // We don't need the tree row structure any more.
-    this._treeRowStructure = null;
+    this._treeRowStructureFields = null;
   };
 
   if (!this._containerObject)
