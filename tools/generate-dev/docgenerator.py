@@ -800,6 +800,7 @@ def listHasError(node, listName):
 def main():
   sourceDirectories = ["source/script"]
   onlyClasses = None
+  skipClasses = None
   outputTokenJson = None
   outputSyntaxXml = None
   outputDocXml = None
@@ -821,6 +822,10 @@ def main():
       onlyClasses = sys.argv[i].split(",")
       i += 1
 
+    elif c == "-scl" or c == "--skip-classes":
+      skipClasses = sys.argv[i].split(",")
+      i += 1
+
     elif c == "-otj" or c == "--output-token-json":
       outputTokenJson = sys.argv[i]
       i += 1
@@ -840,6 +845,7 @@ def main():
   print "  Configuration"
   print "  * Directories (-sd):        %s" % sourceDirectories
   print "  * Only classes (-cl):       %s" % onlyClasses
+  print "  * Skip classes (-scl):      %s" % skipClasses
   print "  * Output token JSON (-otj): %s" % outputTokenJson
   print "  * Output syntax XML (-osx): %s" % outputSyntaxXml
   print "  * Output doc XML (-odx):    %s" % outputDocXml
@@ -853,7 +859,7 @@ def main():
           path = os.path.join(root, filename)
           className = path[len(basedir) + 1:-3].replace("/", ".").replace("\\", ".")
 
-          if onlyClasses == None or className in onlyClasses:
+          if (onlyClasses == None or className in onlyClasses) and (skipClasses == None or not className in skipClasses):
             print "Processing class " + className + "..."
             tokenArr = tokenizer.parseFile(path, className)
             if outputTokenJson:
