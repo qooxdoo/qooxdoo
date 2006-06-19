@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -17,6 +18,8 @@
        <sw at schlund dot de>
      * Andreas Ecker (ecker)
        <ae at schlund dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -108,7 +111,6 @@ qx.Proto._check = function()
     return;
   };
 
-  // TODO: How to support concurrent requests?
   var vRequest = this._queue.shift();
   var vTransport = new qx.io.remote.RemoteExchange(vRequest);
 
@@ -249,6 +251,12 @@ qx.Proto._oninterval = function(e)
     vRequest = vTransport.getRequest();
     if (vRequest.isAsynchronous()) {
       vTimeout = vRequest.getTimeout();
+
+      // if timer is disabled...
+      if (vTimeout == 0) {
+        // then ignore it.
+        continue;
+      }
 
       if (vTimeout == null) {
         vTimeout = vDefaultTimeout;

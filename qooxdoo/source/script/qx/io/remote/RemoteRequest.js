@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -17,6 +18,8 @@
        <sw at schlund dot de>
      * Andreas Ecker (ecker)
        <ae at schlund dot de>
+     * Derell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -53,9 +56,10 @@ function(vUrl, vMethod, vResponseType)
   // Prototype-Style Request Headers
   this.setRequestHeader("X-Requested-With", "qooxdoo");
   this.setRequestHeader("X-Qooxdoo-Version", qx.core.DefaultSettings.version);
+
+  // Get the next sequence number for this request
+  this._seqNum = ++qx.io.remote.RemoteRequest._seqNum;
 });
-
-
 
 
 
@@ -148,7 +152,7 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
 /*!
   Indicate that the request is cross domain.
 
-  A request is cross domain if the requests URL points to a host other
+  A request is cross domain if the request's URL points to a host other
   than the local host. This switches the concrete implementation that
   is used for sending the request from qx.io.remote.XmlHttpTransport to
   qx.io.remote.IframeTransport because only the latter can handle cross domain
@@ -321,6 +325,20 @@ qx.Proto._onaborted = function(e)
 
 qx.Proto._ontimeout = function(e)
 {
+/*
+  // User's handler can block until timeout.
+  switch(this.getState())
+  {
+    // If we're no longer running...
+    case qx.constant.Net.STATE_COMPLETED:
+    case qx.constant.Net.STATE_TIMEOUT:
+    case qx.constant.Net.STATE_ABORTED:
+    case qx.constant.Net.STATE_FAILED:
+      // then don't bubble up the timeout event
+      return;
+  }
+*/
+
   // Modify internal state
   this.setState(qx.constant.Net.STATE_TIMEOUT);
 
@@ -386,6 +404,7 @@ qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
   this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
   return true;
 };
+
 
 
 
@@ -467,6 +486,30 @@ qx.Proto.getParameters = function() {
 };
 
 
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SEQUENCE NUMBER
+---------------------------------------------------------------------------
+*/
+
+/*
+ * Sequence (id) number of a request, used to associate a response or error
+ * with its initiating request.
+ */
+qx.io.remote.RemoteRequest._seqNum = 0;
+
+/**
+ * Obtain the sequence (id) number used for this request
+ */
+qx.Proto.getSequenceNumber = function() {
+  return this._seqNum;
+}
 
 
 

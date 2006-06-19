@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -17,6 +18,8 @@
        <sw at schlund dot de>
      * Andreas Ecker (ecker)
        <ae at schlund dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -555,24 +558,26 @@ qx.Proto.getResponseContent = function()
     this.debug("Returning content for responseType: " + this.getResponseType());
   };
 
+  var vText = this.getResponseText();
+
   switch(this.getResponseType())
   {
     case qx.constant.Mime.TEXT:
     case qx.constant.Mime.HTML:
-      return this.getResponseText();
+      return vText;
 
     case qx.constant.Mime.JSON:
       try {
-        return eval("(" + this.getResponseText() + ")");
+        return qx.io.Json.parse(vText);
       } catch(ex) {
-        return this.error("Could not execute json", ex);
+        return this.error("Could not execute json: [" + vText + "]", ex);
       };
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
-        return window.eval("(" + this.getResponseText() + ")");
+        return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
       } catch(ex) {
-        return this.error("Could not execute javascript", ex);
+        return this.error("Could not execute javascript: [" + vText + "]", ex);
       };
 
     case qx.constant.Mime.XML:

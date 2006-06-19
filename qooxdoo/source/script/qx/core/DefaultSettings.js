@@ -34,6 +34,7 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enableWidgetDebug : false,
   enableDisposerDebug : false,
   enableTransportDebug : false,
+  enableJsonDebug : false,
 
   enableApplicationLayout : true,
   enableUserInterface : true,
@@ -44,5 +45,7 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   imageCorePath : "../../images",
   imageLocalPath : "./",
   imageIconPath : "../../themes/icons",
-  imageWidgetPath : "../../themes/widgets"
+  imageWidgetPath : "../../themes/widgets",
+
+  jsonEncodeUndefined : true
 });

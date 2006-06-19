@@ -9,10 +9,6 @@
   <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
   <![endif]-->
   <script type="text/javascript" src="../demoinclude.js"></script>
-  <script type="text/javascript" src=".qxrpc"></script>
-    <!-- The above line fills the qx.core.ServerSettings structure with path
-         information so that RPC calls always succeed (no matter from which
-         sub-directory they're made). -->
 </head>
 <body>
   <script type="text/javascript" src="../demolayout.js"></script>
@@ -27,16 +23,36 @@
   </div>
 
   <script type="text/javascript">
+//    qx.core.Settings.enableTransportDebug = true;
+    qx.core.Settings.enableJsonDebug = true;
+
     qx.core.Init.defineMain(function() {
       var layout1 = new qx.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
       layout1.setLeft(20);
       layout1.setSpacing(4);
-      var async = new qx.ui.form.CheckBox("Asynchronous");
+
+      var async = new qx.ui.form.CheckBox("Asynchronous (must be checked if cross-domain is selected)");
       layout1.add(async);
+
+      var crossDomain = new qx.ui.form.CheckBox("Cross Domain");
+      layout1.add(crossDomain);
+
+      layout1.add(new qx.ui.basic.Label("URL:"));
+      var url = new qx.ui.form.TextField("/services/");
+      layout1.add(url);
+
+      layout1.add(new qx.ui.basic.Label("Service:"));
+      var service = new qx.ui.form.TextField("qooxdoo.test");
+      layout1.add(service);
+
+      layout1.add(new qx.ui.basic.Label("Method:"));
+      var method = new qx.ui.form.TextField("echo");
+      layout1.add(method);
+
       var layout2 = new qx.ui.layout.HorizontalBoxLayout();
       layout2.setHeight("auto");
-	  layout2.setVerticalChildrenAlign("middle");
+      layout2.setVerticalChildrenAlign("middle");
       layout2.setSpacing(4);
       var message = new qx.ui.form.TextField("Hello");
       message.setWidth(200);
@@ -48,27 +64,33 @@
       layout2.add(abort);
       layout1.add(layout2);
 
-      var rpc = new qx.io.remote.RPC("net.sf.qooxdoo.rpc.HelloWorld");
+      // We'll be setting url and service upon execute; no need to do it now.
+      var rpc = new qx.io.remote.Rpc();
       rpc.setTimeout(10000);
       var mycall = null;
-      
+
       send.addEventListener("execute", function() {
+        // Allow the user to reset the URL and Service on each call
+        rpc.setUrl(url.getValue());
+        rpc.setServiceName(service.getValue());
+        rpc.setCrossDomain(crossDomain.isChecked());
+
         if (async.isChecked()) {
           send.setEnabled(false);
           abort.setEnabled(true);
-          mycall = rpc.callAsync(function(result, ex) {
+          mycall = rpc.callAsync(function(result, ex, id) {
             mycall = null;
             if (ex == null) {
-              alert("Async result: " + result);
+              alert("Async(" + id + ") result: " + result);
             } else {
-              alert("Async exception: " + ex);
+              alert("Async(" + id + ") exception: " + ex);
             }
             send.setEnabled(true);
             abort.setEnabled(false);
-          }, "sayHello", message.getValue());
+          }, method.getValue(), message.getValue());
         } else {
           try {
-            var result = rpc.callSync("sayHello", message.getValue());
+            var result = rpc.callSync(method.getValue(), message.getValue());
             alert("Sync result: " + result);
           } catch (ex) {
             alert("Sync exception: " + ex);
