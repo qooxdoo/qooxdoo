@@ -92,7 +92,7 @@ function(serviceName, instanceId)
  * The timeout for asynchronous calls in milliseconds.
  */
 
-qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.TYPEOF_NUMBER });
+qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
 
 
 
