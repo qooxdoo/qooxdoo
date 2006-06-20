@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-import config
+import config, tokenizer
 
 def compile(tokens, enableNewLines=False):
   compString = ""
@@ -64,3 +64,42 @@ def compile(tokens, enableNewLines=False):
     lastSource = token["source"]
 
   return compString
+
+
+
+
+
+
+def main():
+  if len(sys.argv) >= 2:
+    compiledString = compile(tokenizer.parseFile(sys.argv[1]))
+    if len(sys.argv) >= 3:
+      compiledFile = file(sys.argv[2], "w")
+      compiledFile.write(compiledString)
+      compiledFile.flush()
+      compiledFile.close()
+    else:
+      print compiledString
+
+  else:
+    print "compile.py input.js [output.js]"
+    print "First Argument should be a JavaScript file."
+    print "Outputs compiled javascript to stdout if the second argument (the target file) is missing."
+
+
+
+if __name__ == '__main__':
+  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
+    raise RuntimeError, "Please upgrade to >= Python 2.3"
+
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  STOPPED"
+    print "***********************************************************************************************"
+
+  except:
+    print "Unexpected error:", sys.exc_info()[0]
+    raise
