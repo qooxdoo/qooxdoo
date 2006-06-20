@@ -85,18 +85,6 @@ class TokenStream:
       else:
         break
 
-    if token["type"] == "token" and (token["detail"] == "LT" or token["detail"] == "GT"):
-      # Workaround: The tokenizer creates for ">>" two tokens with ">" and ">"
-      nexttoken = self.tokens[self.parsepos + 1]
-      if nexttoken["type"] == "token" and nexttoken["detail"] == token["detail"]:
-        self.parsepos += 1
-        if token["detail"] == "LT":
-          token["detail"] = "LSH"
-          token["source"] = "<<"
-        else:
-          token["detail"] = "RSH"
-          token["source"] = ">>"
-
     #print "next token: " + str(token)
 
     if token == None:
@@ -206,6 +194,15 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
 
     readParamList(item, stream)
     item.addListChild("body", readBlock(stream))
+
+    # Check for direct execution: function() {}();
+    if stream.currIsType("token", "LP"):
+      # The function is executed directly
+      functionItem = item;
+      item = createItemNode("call", stream)
+      item.addListChild("operand", functionItem)
+      readParamList(item, stream)
+      item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LP"):
     stream.next()
     item = createItemNode("group", stream)
@@ -307,11 +304,16 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     stream.next()
 
   if not item:
-    if expressionMode:
-      expectedDesc = "expression"
+    if stream.currIsType("token", "SEMICOLON") and not expressionMode:
+      # This is an empty statement
+      item = createItemNode("emptyStatement", stream)
+      stream.next()
     else:
-      expectedDesc = "statement"
-    raiseSyntaxException(stream.curr(), expectedDesc)
+      if expressionMode:
+        expectedDesc = "expression"
+      else:
+        expectedDesc = "statement"
+      raiseSyntaxException(stream.curr(), expectedDesc)
 
   # check whether this is an operation
   if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("protected", MULTI_PROTECTED_OPERATORS) or stream.currIsType("token", SINGLE_RIGHT_OPERATORS):
