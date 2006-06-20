@@ -16,6 +16,9 @@ S_MULTICOMMENT = "/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/"
 S_SINGLECOMMENT = "//.*"
 S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
 S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
+
+
+
 S_FLOAT = "([0-9]+\.[0-9]+)"
 
 S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(\^\|)|(\|=)|(\^=)|(&=)"
@@ -51,12 +54,12 @@ parseUniqueId = ""
 
 
 def protectEscape(s):
-  return s.replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__").replace("\/", "__$ESCAPE3__")
+  return s.replace("\\\\", "__$ESCAPE0$__").replace("\\\"", "__$ESCAPE1$__").replace("\\\'", "__$ESCAPE2__").replace("\/", "__$ESCAPE3__")
 
 
 
 def recoverEscape(s):
-  return s.replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'").replace("__$ESCAPE3__", "\/")
+  return s.replace("__$ESCAPE0$__", "\\\\").replace("__$ESCAPE1$__", "\\\"").replace("__$ESCAPE2__", "\\'").replace("__$ESCAPE3__", "\/")
 
 
 
@@ -154,6 +157,8 @@ def parseStream(content, uniqueId):
   for item in all:
     fragment = item[0]
 
+    # print fragment
+
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
       content = parseFragmentLead(content, fragment, tokens)
@@ -233,7 +238,7 @@ def main():
   else:
     print "tokenizer.py input.js [output.txt]"
     print "First Argument should be a JavaScript file."
-    print "Outputs tokens string to stdout if second argument (the target file) is missing."
+    print "Outputs tokens string to stdout if the second argument (the target file) is missing."
 
 
 
