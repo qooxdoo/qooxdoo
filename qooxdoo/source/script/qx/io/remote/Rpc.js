@@ -279,7 +279,6 @@ qx.Proto.callSync = function(methodName) {
 };
 
 
-
 /**
  * Makes an asynchronous server call. The method arguments (if any) follow
  * after the method name (as normal JavaScript arguments, separated by commas,
