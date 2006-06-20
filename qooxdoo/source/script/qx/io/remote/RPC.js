@@ -4,6 +4,7 @@
 
    Copyright:
      2004-2006 by Schlund + Partner AG, Germany
+     2006 by Derrell Lipman
      All rights reserved
 
    License:
@@ -19,6 +20,8 @@
        <ae at schlund dot de>
      * Andreas Junghans (lucidcake)
        <andreas dot junghans at stz-ida dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -54,27 +57,30 @@
  * be expensive), so you as the user are responsible for avoiding them.
  * </p>
  *
+ * @param       url {string}            identifies the url where the service
+ *                                      is found.  Note that if the url is to
+ *                                      a domain (server) other than where the
+ *                                      qooxdoo script came from, i.e. it is
+ *                                      cross-domain, then you must also call
+ *                                      the setCrossDomain(true) method to
+ *                                      enable the IframeTrannsport instead of
+ *                                      the XmlHttpTransport, since the latter
+ *                                      can not handle cross-domain requests.
+ *                                      
  * @param       serviceName {string}    identifies the service. For the Java
  *                                      implementation, this is the fully
  *                                      qualified name of the class that offers
  *                                      the service methods
  *                                      (e.g. "my.pkg.MyService").
- * @param       instanceId {var}        an identifier for this particular
- *                                      instance. All calls to the same service
- *                                      with the same instance id are routed to
- *                                      the same object instance on the server.
- *                                      The instance id can also be used to
- *                                      provide additional data for the service
- *                                      instantiation on the server.
  */
 
-qx.OO.defineClass("qx.io.remote.RPC", qx.core.Target,
-function(serviceName, instanceId)
+qx.OO.defineClass("qx.io.remote.Rpc", qx.core.Target,
+function(url, serviceName)
 {
   qx.core.Target.call(this);
 
-  this._serviceName = serviceName;
-  this._instanceId = instanceId;
+  this.setUrl(url);
+  this.setServiceName(serviceName);
 });
 
 
@@ -89,13 +95,40 @@ function(serviceName, instanceId)
 */
 
 /**
- * The timeout for asynchronous calls in milliseconds.
+  The timeout for asynchronous calls in milliseconds.
  */
-
 qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
 
+/**
+  Indicate that the request is cross domain.
 
+  A request is cross domain if the request's URL points to a host other
+  than the local host. This switches the concrete implementation that
+  is used for sending the request from qx.io.remote.XmlHttpTransport to
+  qx.io.remote.IframeTransport because only the latter can handle cross domain
+  requests.
+*/
+qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
+/**
+  The URL at which the service is located.
+*/
+qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING, defaultValue : null });
+
+/**
+  The service name.
+*/
+qx.OO.addProperty({ name : "serviceName", type : qx.constant.Type.STRING, defaultValue : null });
+
+/**
+  Data sent as "out of band" data in the request to the server.  The format of
+  the data is opaque to RPC and may be recognized only by particular servers
+  It is up to the server to decide what to do with it: whether to ignore it,
+  handle it locally before calling the specified method, or pass it on to the
+  method.  This server data is not sent to the server if it has been set to
+  'undefined'.
+*/
+qx.OO.addProperty({ name : "serverData", type : qx.constant.Type.OBJECT, defaultValue : undefined });
 
 
 
@@ -116,53 +149,95 @@ qx.Proto._callInternal = function(args, async) {
   for (var i = offset + 1; i < args.length; ++i) {
     argsArray.push(args[i]);
   }
+  var req = new qx.io.remote.RemoteRequest(this.getUrl(),
+                                           qx.constant.Net.METHOD_POST,
+                                           qx.constant.Mime.JSON);
   var requestObject = {
-    "service": this._serviceName,
+    "service": this.getServiceName(),
     "method": whichMethod,
-    "arguments": argsArray
+    "id": req.getSequenceNumber(),
+    "params": argsArray
+    // additional field 'server_data' optionally included, below
   };
-  if (this._instanceId != null) {
-    requestObject["instance"] = this._instanceId;
+
+  // See if there's any out-of-band data to be sent to the server
+  var serverData = this.getServerData();
+  if (serverData !== undefined) {
+    // There is.  Send it.
+    requestObject.server_data = serverData;
   }
 
-  var req = new qx.io.remote.RemoteRequest(qx.core.ServerSettings.serverPathPrefix + "/.qxrpc" + qx.core.ServerSettings.serverPathSuffix,
-                                           qx.constant.Net.METHOD_POST, qx.constant.Mime.JSON);
+  req.setCrossDomain(this.getCrossDomain());
+
   req.setTimeout(this.getTimeout());
   var ex = null;
+  var id = null;
   var result = null;
+
   var handleRequestFinished = function() {
     if (async) {
-      handler(result, ex);
+      handler(result, ex, id);
     }
   };
+  
+  var makeException = function(code, message) {
+    var ex = new Object();
+
+    ex.code = code;
+    if (message) {
+      ex.message = message;
+    } else {
+      ex.message = qx.io.remote.RemoteExchange.statusCodeToString(code);
+    }
+
+    ex.toString = function() {
+      return "Code " + this.code + ": " + this.message;
+    };
+
+    return ex;
+  };
+  
   req.addEventListener("failed", function(evt) {
-    ex = "Request failed. Status code: " + evt.getData().getStatusCode().toString();
+    ex = makeException(evt.getData().getStatusCode(), null);
+    id = this.getSequenceNumber();
     handleRequestFinished();
   });
   req.addEventListener("timeout", function(evt) {
-    ex = "Request timed out. Status code: " + evt.getData().getStatusCode().toString();
+    ex = makeException(408, "Local time-out expired");
+    id = this.getSequenceNumber();
     handleRequestFinished();
   });
   req.addEventListener("aborted", function(evt) {
-    ex = "Request aborted. Status code: " + evt.getData().getStatusCode().toString();
+    ex = makeException(409, "Aborted");
+    id = this.getSequenceNumber();
     handleRequestFinished();
   });
   req.addEventListener("completed", function(evt) {
     result = evt.getData().getContent();
-    var exTest = result["exception"];
+    id = result["id"];
+    if (id != this.getSequenceNumber()) {
+      this.warn("Received id (" + this.getSequenceNumber() + ") does not match requested id (" + id + ")!");
+    }
+    var exTest = result["error"];
     if (exTest != null) {
       result = null;
-      ex = exTest;
-      ex.toString = function() {
-        return this.name + ": " + this.message;
-      };
+      ex = makeException(this.code, this.message);
     } else {
-      result = result["return"];
+      result = result["result"];
     }
     handleRequestFinished();
   });
-  req.setData(qx.io.JSON.stringify(requestObject));
+  req.setData(qx.io.Json.stringify(requestObject));
   req.setAsynchronous(async);
+
+  if (req.getCrossDomain()) {
+    // Our choice here has no effect anyway.  This is purely informational.
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  } else {
+    // When not cross-domain, set type to text/json
+    req.setRequestHeader("Content-Type", "text/json");
+  }
+
   req.send();
 
   if (!async) {
@@ -183,7 +258,17 @@ qx.Proto._callInternal = function(args, async) {
  * <p>
  * If a problem occurs when making the call, an exception is thrown.
  * </p>
- * 
+ * <p>
+ * DO NOT USE THIS INTERFACE.  With some browsers, the synchronous interface
+ * causes the browser to hang while awaiting a response!  If the server
+ * decides to pause for a minute or two, your browser may do nothing
+ * (including refreshing following window changes) until the response is
+ * received.  Instead, use the asynchronous interface.
+ * </p>
+ * <p>
+ * YOU HAVE BEEN WARNED.
+ * </p>
+ *
  * @param       methodName {string}   the name of the method to call.
  *
  * @return      {var}                 the result returned by the server.
@@ -194,14 +279,16 @@ qx.Proto.callSync = function(methodName) {
 };
 
 
+
 /**
  * Makes an asynchronous server call. The method arguments (if any) follow
  * after the method name (as normal JavaScript arguments, separated by commas,
  * not as an array).
  * <p>
- * When an answer from the server arrives, the <code>handler</code> function is
- * called with the result of the call as the first and an exception as the
- * second parameter. If the call was successful, the second parameter is
+ * When an answer from the server arrives, the <code>handler</code> function
+ * is called with the result of the call as the first,  an exception as the
+ * second parameter, and the id (aka sequence number) of the invoking request
+ * as the third parameter. If the call was successful, the second parameter is
  * <code>null</code>. If there was a problem, the second parameter contains an
  * exception, and the first one is <code>null</code>.
  * </p>
@@ -209,10 +296,19 @@ qx.Proto.callSync = function(methodName) {
  * The return value of this method is a call reference that you can store if
  * you want to abort the request later on. This value should be treated as
  * opaque and can change completely in the future! The only thing you can rely
- * on is that the <code>abort</code> method will accept this reference.
+ * on is that the <code>abort</code> method will accept this reference and
+ * that you can retrieve the sequence number of the request by invoking the
+ * getSequenceNumber() method (see below).
  * </p>
- * 
+ * <p>
+ * If a specific method is being called, asynchronously, a number of times in
+ * succession, the getSequenceNumber() method may be used to disambiguate
+ * which request a response corresponds to.  The sequence number value is a
+ * value which increments with each request.)
+ * </p>
+ *
  * @param       handler {Function}    the callback function.
+ *
  * @param       methodName {string}   the name of the method to call.
  *
  * @return      {var}                 the method call reference.
@@ -234,9 +330,3 @@ qx.Proto.callAsync = function(handler, methodName) {
 qx.Proto.abort = function(opaqueCallRef) {
   opaqueCallRef.abort();
 };
-
-
-// dummy server settings to avoid confusing error messages
-if (!qx.core.ServerSettings) {
-  qx.core.ServerSettings = {serverPathPrefix: "", serverPathSuffix: ""};
-}
