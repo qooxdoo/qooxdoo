@@ -20,6 +20,8 @@
        <ae at schlund dot de>
      * Andreas Junghans (lucidcake)
        <andreas dot junghans at stz-ida dot de>
+     * Derrell Lipman
+       <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
@@ -56,9 +58,9 @@ SOFTWARE.
  * treats undefined like null. 
  */
 
-qx.OO.defineClass("qx.io.JSON");
+qx.OO.defineClass("qx.io.Json");
 
-qx.io.JSON = function () {
+qx.io.Json = function () {
     var m = {
             '\b': '\\b',
             '\t': '\\t',
@@ -111,10 +113,74 @@ qx.io.JSON = function () {
                             }
                         }
                         a[a.length] = ']';
-                    // AJ --
+                    // AJ, DJL --
                     } else if (x instanceof Date) {
-                        return "new Date(" + x.getTime() + ")";
-                    // -- AJ
+                      /*
+                       * The Date object is a primitive type in Javascript,
+                       * but the Javascript specification neglects to provide
+                       * a literal form for it.  The only way to generate a
+                       * Date object is with "new Date()".  For fast
+                       * processing by Javascript, we want to be able to
+                       * eval() a JSON response.  If Date objects are to be
+                       * passed to the client using JSON, about the only
+                       * reasonable way to do it is to have "new Date()"
+                       * in the JSON message.  See this page for a proposal to
+                       * add a Date literal syntax to Javascript which,
+                       * if/when implemented in Javascript, would eliminate
+                       * the need to pass "new Date() in JSON":
+                       *
+                       *   http://www.hikhilk.net/DateSyntaxForJSON.aspx
+                       *
+                       * Sending a JSON message from client to server, we have
+                       * no idea what language the server will be written in,
+                       * what size integers it supports, etc.  We do want to
+                       * be able to represent as large a range of dates as
+                       * possible, though.  If we were to send the number of
+                       * milliseconds since the beginning of the epoch, the
+                       * value would exceed, in many cases, what can fit in a
+                       * 32-bit integer.  Even if one were to simply strip off
+                       * the last three digits (milliseconds), the number of
+                       * seconds could exceed a 32-bit signed integer's range
+                       * with very distant past or distant future dates.  To
+                       * make it easier for any generic server to handle a
+                       * date without risk of loss of precision due to
+                       * automatic type casting, we'll send a UTC date with
+                       * separated fields, in the form:
+                       *
+                       *  new Date(Date.UTC(year,month,day,hour,min,sec,ms))
+                       *
+                       * The server can fairly easily parse this in its JSON
+                       * implementation by stripping of "new Date(Date.UTC("
+                       * from the beginning of the string, and "))" from the
+                       * end of the string.  What remains is the set of
+                       * comma-separated date components, which are also very
+                       * easy to parse.
+                       *
+                       * The server should send this same format to the
+                       * client, which can simply eval() it just as with the
+                       * remainder of JSON.
+                       *
+                       * A requirement of the implementation of the server is
+                       * that after a date has been sent from the client to
+                       * the server, converted by the server into whatever
+                       * native type the date will be stored or manipulated
+                       * in, convered back to JSON, and received back at the
+                       * client, a comparison of the sent and received Date
+                       * object should yield identity.  This means that even
+                       * if the server does not natively operate on
+                       * milliseconds, it must maintain milliseconds in dates
+                       * sent to it by the client.
+                       */
+                      var dateParams =
+                        x.getUTCFullYear() + "," +
+                        x.getUTCMonth() + "," +
+                        x.getUTCDate() + "," +
+                        x.getUTCHours() + "," +
+                        x.getUTCMinutes() + "," +
+                        x.getUTCSeconds() + "," +
+                        x.getUTCMilliseconds();
+                        return "new Date(Date.UTC(" + dateParams + "))";
+                    // -- AJ, DJL
                     } else if (x instanceof Object) {
                         a[0] = '{';
                         for (i in x) {
@@ -139,11 +205,12 @@ qx.io.JSON = function () {
                 }
                 return 'null';
             },
-            // AJ --
+            // AJ, DJL --
             undefined: function(x) {
-                return 'null';
+                if (qx.core.Settings.jsonEncodeUndefined)
+                    return 'null';
             }
-            // -- AJ
+            // -- AJ, DJL
         };
     return {
         copyright: '(c)2005 JSON.org',
@@ -153,26 +220,85 @@ qx.io.JSON = function () {
 */
         stringify: function (v) {
             var f = s[typeof v];
+            var ret;
             if (f) {
                 v = f(v);
                 if (typeof v == 'string') {
-                    return v;
+                    ret = v;
+                } else {
+                  ret = null;
                 }
+            } else {
+              ret = null;
             }
-            return null;
-        },
-/*
-    Parse a JSON text, producing a JavaScript value.
-    It returns false if there is a syntax error.
-*/
-        parse: function (text) {
-            try {
-                return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
-                        text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
-                    eval('(' + text + ')');
-            } catch (e) {
-                return false;
+            
+            if (qx.core.Settings.enableJsonDebug) {
+              var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+              logger.debug("JSON request: " + ret);
             }
+
+            return ret;
         }
     };
 }();
+
+///*
+// * Recursively descend through an object looking for any class hints.  Right
+// * now, the only class hint we support is 'Date' which can not be easily sent
+// * from javascript to an arbitrary (e.g. PHP) JSON-RPC server and back again
+// * without truncation or modification.
+// */
+//qx.io.Json._fixObj = function(obj) {
+//  /* If there's a class hint... */
+//  if (obj.__jsonclass__)
+//  {
+//    /* ... then check for supported classes.  We support only Date. */
+//    if (obj.__jsonclass__ == "Date" && obj.secSinceEpoch && obj.msAdditional)
+//    {
+//      /* Found a Date.  Replace class hint object with a Date object. */
+//      obj = new Date((obj.secSinceEpoch * 1000) + obj.msAdditional);
+//      return obj;
+//    }
+//  }
+//
+//  /*
+//   * It wasn't something with a supported class hint, so recursively descend
+//   */
+//  for (var member in obj) {
+//    thisObj = obj[member];
+//    if (typeof thisObj == 'object' && thisObj !== null) {
+//        obj[member] = qx.io.Json._fixObj(thisObj);
+//    }
+//  }
+//  
+//  return obj;
+//};
+
+
+/**
+ * Parse a JSON text, producing a JavaScript value.
+ * It triggers an exception if there is a syntax error.
+ */
+qx.io.Json.parse = function(text) {
+  /* Convert the result text into a result primitive or object */
+  
+  if (qx.core.Settings.enableJsonDebug) {
+    var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+    logger.debug("JSON response: " + text);
+  }
+  
+  var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;
+
+//  /*
+//   * Something like this fixObj() call may be used later when we want to
+//   * support class hints.  For now, ignore that code
+//   */
+//
+//  /* If it's an object, not null, and contains a "result" field.. */
+//  if (typeof obj == 'object' && obj !== null && obj.result) {
+//    /* ... then 'fix' the result by handling any supported class hints */
+//    obj.result = qx.io.Json._fixObj(obj.result);
+//  }
+
+  return obj;
+};
