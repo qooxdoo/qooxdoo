@@ -367,7 +367,7 @@ L="$L script/qx/ui/embed/Gallery"
 L="$L script/qx/ui/embed/GalleryList"
 
 # IO
-L="$L script/qx/io/JSON"
+L="$L script/qx/io/Json"
 
 # IO Local
 L="$L script/qx/io/local/CookieApi"
@@ -381,7 +381,7 @@ L="$L script/qx/io/remote/RemoteExchange"
 L="$L script/qx/io/remote/AbstractRemoteTransport"
 L="$L script/qx/io/remote/XmlHttpTransport"
 L="$L script/qx/io/remote/IframeTransport"
-L="$L script/qx/io/remote/RPC"
+L="$L script/qx/io/remote/Rpc"
 
 # Debugging
 L="$L script/qx/dev/TimeTracker"
