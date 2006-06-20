@@ -47,8 +47,6 @@ def printHelp():
 
 
 def argparser(args, cmds):
-  print args
-
   i = 0
   while i < len(args):
     c = args[i]
