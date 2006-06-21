@@ -201,7 +201,7 @@
         $now = time();
         $obj = new stdClass();
         $obj->now = $now;
-        $obj->json = new JSON_Date();
+        $obj->json = new JSON_Date($now);
         return $obj;
     }
 

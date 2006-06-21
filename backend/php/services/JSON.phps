@@ -834,9 +834,9 @@ class JSON_Date
     var             $second;
     var             $millisecond;
 
-    function JSON_Date()
+    function JSON_Date($secondsSinceEpoch = null)
     {
-        $this->setEpochTime();
+        $this->setEpochTime($now);
     }
 
     function setUtcDateTimeFields($year,
