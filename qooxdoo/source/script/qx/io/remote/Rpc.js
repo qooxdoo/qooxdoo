@@ -131,6 +131,26 @@ qx.OO.addProperty({ name : "serviceName", type : qx.constant.Type.STRING, defaul
 qx.OO.addProperty({ name : "serverData", type : qx.constant.Type.OBJECT, defaultValue : undefined });
 
 
+/**
+   Origins of errors
+*/
+qx.io.remote.Rpc.origin =
+{
+  server      : 1,
+  application : 2,
+  transport   : 3,
+  local       : 4
+};
+
+/**
+   Locally-detected errors
+*/
+qx.io.remote.Rpc.localError =
+{
+  timeout     : 1,
+  abort       : 2
+};
+
 
 /*
 ---------------------------------------------------------------------------
@@ -180,35 +200,51 @@ qx.Proto._callInternal = function(args, async) {
     }
   };
   
-  var makeException = function(code, message) {
+  var makeException = function(origin, code, message) {
     var ex = new Object();
 
+    ex.origin = origin;
     ex.code = code;
-    if (message) {
-      ex.message = message;
-    } else {
-      ex.message = qx.io.remote.RemoteExchange.statusCodeToString(code);
-    }
+    ex.message = message;
 
     ex.toString = function() {
-      return "Code " + this.code + ": " + this.message;
+      switch(origin)
+      {
+      case qx.io.remote.Rpc.origin.server:
+        return "Server error " + this.code + ": " + this.message;
+      case qx.io.remote.Rpc.origin.application:
+        return "Application error " + this.code + ": " + this.message;
+      case qx.io.remote.Rpc.origin.transport:
+        return "Transport error " + this.code + ": " + this.message;
+      case qx.io.remote.Rpc.origin.local:
+        return "Local error " + this.code + ": " + this.message;
+      default:
+        return "UNEXPECTED origin " + this.origin + " error " + this.code + ": " + this.message;
+      }
     };
 
     return ex;
   };
   
   req.addEventListener("failed", function(evt) {
-    ex = makeException(evt.getData().getStatusCode(), null);
+    var code = evt.getData().getStatusCode();
+    ex = makeException(qx.io.remote.Rpc.origin.transport,
+                       code,
+                       qx.io.remote.RemoteExchange.statusCodeToString(code));
     id = this.getSequenceNumber();
     handleRequestFinished();
   });
   req.addEventListener("timeout", function(evt) {
-    ex = makeException(408, "Local time-out expired");
+    ex = makeException(qx.io.remote.Rpc.origin.local,
+                       qx.io.remote.Rpc.localError.timeout,
+                       "Local time-out expired");
     id = this.getSequenceNumber();
     handleRequestFinished();
   });
   req.addEventListener("aborted", function(evt) {
-    ex = makeException(409, "Aborted");
+    ex = makeException(qx.io.remote.Rpc.origin.local,
+                       qx.io.remote.Rpc.localError.abort,
+                       "Aborted");
     id = this.getSequenceNumber();
     handleRequestFinished();
   });
@@ -221,7 +257,7 @@ qx.Proto._callInternal = function(args, async) {
     var exTest = result["error"];
     if (exTest != null) {
       result = null;
-      ex = makeException(this.code, this.message);
+      ex = makeException(exTest.origin, exTest.code, exTest.message);
     } else {
       result = result["result"];
     }
