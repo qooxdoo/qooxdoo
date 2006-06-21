@@ -51,7 +51,7 @@ RPC.
     A remote method is invoked by sending a request to a remote service. The
     request is a single object serialized using JSON.
 
-    It has three properties:
+    It has four properties:
 
         * service - A String containing the name of the service.  The server
           may use this to locate a set of related methods, all contained
