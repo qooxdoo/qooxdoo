@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(dom)
+#module(dom)
 #require(qx.sys.Client)
 #require(qx.dom.DomStyle)
 

@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(form)
+#module(form)
 #require(qx.dom.DomLocation)
 #require(qx.ui.form.List)
 #require(qx.ui.popup.Popup)

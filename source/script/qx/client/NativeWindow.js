@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(nativewindow)
+#module(nativewindow)
 #require(qx.dom.DomWindow)
 #use(qx.ui.core.ClientDocument)
 #use(qx.util.Validation)

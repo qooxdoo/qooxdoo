@@ -25,7 +25,7 @@
 /* ************************************************************************
 
 #id(qx.themes.appearance.default)
-#package(appearancethemes)
+#module(appearancethemes)
 #require(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */

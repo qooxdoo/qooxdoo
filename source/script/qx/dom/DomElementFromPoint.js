@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(dom)
+#module(dom)
 #require(qx.dom.DomStyle)
 #require(qx.dom.DomLocation)
 

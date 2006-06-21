@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(image)
+#module(image)
 #require(qx.constant.Type)
 #use(qx.constant.Core)
 #use(qx.io.image.ImagePreloader)

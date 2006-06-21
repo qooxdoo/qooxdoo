@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.themes.widgets.windows)
-#package(iconthemes)
+#module(iconthemes)
 #require(qx.renderer.theme.WidgetTheme)
 
 ************************************************************************ */

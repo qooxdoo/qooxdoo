@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(tree)
+#module(tree)
 #use(qx.ui.layout.HorizontalBoxLayout)
 #use(qx.ui.layout.VerticalBoxLayout)
 

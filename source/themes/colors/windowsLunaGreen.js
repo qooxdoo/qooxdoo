@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.themes.color.windowsLunaGreen)
-#package(colorthemes)
+#module(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 
 ************************************************************************ */

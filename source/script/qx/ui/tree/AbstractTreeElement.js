@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(tree)
+#module(tree)
 #use(qx.ui.embed.HtmlEmbed)
 #use(qx.ui.basic.Image)
 #use(qx.ui.basic.Label)

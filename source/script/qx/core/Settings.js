@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(core)
+#module(core)
 #require(qx.OO)
 #require(qx.core.DefaultSettings)
 

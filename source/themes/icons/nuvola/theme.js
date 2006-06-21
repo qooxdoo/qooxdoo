@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.themes.icons.nuvola)
-#package(iconthemes)
+#module(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 
 ************************************************************************ */

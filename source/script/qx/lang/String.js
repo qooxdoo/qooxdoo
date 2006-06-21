@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(core)
+#module(core)
 #use(qx.constant.Core)
 #use(qx.constant.Type)
 

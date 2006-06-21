@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(guicore)
+#module(guicore)
 #require(qx.ui.basic.Image)
 #require(qx.ui.basic.Label)
 

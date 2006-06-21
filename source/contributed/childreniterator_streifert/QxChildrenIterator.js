@@ -10,7 +10,7 @@
 
 /* ************************************************************************
 
-#package(guicore)
+#module(guicore)
 #require(qx.core.Object)
 #require(qx.ui.core.Parent)
 

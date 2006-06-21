@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(core)
+#module(core)
 #require(qx.OO)
 #require(qx.constant.Event)
 #use(qx.core.Settings)

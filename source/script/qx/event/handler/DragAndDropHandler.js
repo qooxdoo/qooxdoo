@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(dragndrop)
+#module(dragndrop)
 #require(qx.ui.basic.Image)
 #use(qx.event.type.DragEvent)
 #use(qx.dom.DomElementFromPoint)

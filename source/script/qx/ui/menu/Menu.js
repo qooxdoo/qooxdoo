@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(menu)
+#module(menu)
 #use(qx.dom.DomDimension)
 #use(qx.dom.DomLocation)
 

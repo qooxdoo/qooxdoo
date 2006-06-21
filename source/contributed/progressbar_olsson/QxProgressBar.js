@@ -20,7 +20,7 @@
 
 /* ****************************************************************************
 
-#package(form)
+#module(form)
 #require(qx.type.Range)
 #require(qx.ui.basic.Atom)
 #require(qx.client.Timer)

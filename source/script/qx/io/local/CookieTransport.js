@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(storage)
+#module(storage)
 #require(qx.OO)
 #use(qx.io.local.CookieApi)
 

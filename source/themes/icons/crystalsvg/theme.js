@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.themes.icons.crystalsvg)
-#package(iconthemes)
+#module(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 
 #copy(16)

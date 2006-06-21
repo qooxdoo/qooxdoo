@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(core)
+#module(core)
 #use(qx.lang.Object)
 #use(qx.util.Validation)
 #use(qx.event.type.Event)

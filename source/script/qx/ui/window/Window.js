@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(window)
+#module(window)
 #use(qx.dom.DomDimension)
 #use(qx.dom.DomLocation)
 #use(qx.ui.basic.Terminator)

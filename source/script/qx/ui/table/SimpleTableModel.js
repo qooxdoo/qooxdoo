@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#package(table)
+#module(table)
 #require(qx.ui.table.AbstractTableModel)
 #use(qx.ui.table.TableModel)
 

@@ -25,7 +25,7 @@
 
 /* ************************************************************************
 
-#package(transport)
+#module(transport)
 #require(qx.constant.Mime)
 #require(qx.io.remote.RemoteExchange)
 

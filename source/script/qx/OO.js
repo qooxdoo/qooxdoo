@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.OO)
-#package(core)
+#module(core)
 #use(qx.lang.Array)
 #use(qx.lang.Core)
 #use(qx.lang.String)

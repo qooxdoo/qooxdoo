@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(init)
+#module(init)
 #use(qx.client.ClientWindow)
 #use(qx.manager.object.ImageManager)
 #use(qx.io.image.ImagePreloaderSystem)

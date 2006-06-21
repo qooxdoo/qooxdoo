@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(gallery)
+#module(gallery)
 #require(qx.dom.DomScrollIntoView)
 #require(qx.manager.selection.DomSelectionManager)
 

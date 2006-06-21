@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(listview)
+#module(listview)
 #require(qx.util.Validation)
 #require(qx.util.Compare)
 #use(qx.ui.basic.Image)

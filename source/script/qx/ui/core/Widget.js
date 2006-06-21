@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(guicore)
+#module(guicore)
 #require(qx.constant.Tags)
 #require(qx.renderer.color.ColorObject)
 #require(qx.renderer.color.ColorCache)
