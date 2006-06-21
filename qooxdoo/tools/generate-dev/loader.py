@@ -48,10 +48,10 @@ def extractRuntimeDeps(data):
   return deps
 
 
-def extractPackages(data):
+def extractModules(data):
   pkgs = []
 
-  for item in config.QXHEAD["package"].findall(data):
+  for item in config.QXHEAD["module"].findall(data):
     pkgs.append(item)
 
   return pkgs
@@ -98,7 +98,7 @@ def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreD
 
 
 
-def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
+def scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps):
   for root, dirs, files in os.walk(sourceDir):
     if "CVS" in dirs:
       dirs.remove('CVS')
@@ -132,19 +132,19 @@ def scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps):
         loadDeps[uniqueId] = extractLoadtimeDeps(fileData)
         runtimeDeps[uniqueId] = extractRuntimeDeps(fileData)
 
-        # Register file to package information
-        for pkgname in extractPackages(fileData):
-          if knownPackages.has_key(pkgname):
-            knownPackages[pkgname].append(uniqueId)
+        # Register file to module information
+        for pkgname in extractModules(fileData):
+          if knownModules.has_key(pkgname):
+            knownModules[pkgname].append(uniqueId)
           else:
-            knownPackages[pkgname] = [ uniqueId ]
+            knownModules[pkgname] = [ uniqueId ]
 
 
 
 
 def scanAll(sourceDirectories):
   knownFiles = {}
-  knownPackages = {}
+  knownModules = {}
 
   loadDeps = {}
   runtimeDeps = {}
@@ -152,13 +152,13 @@ def scanAll(sourceDirectories):
   print "  * Searching for files..."
 
   for sourceDir in sourceDirectories:
-    scan(sourceDir, knownFiles, knownPackages, loadDeps, runtimeDeps)
+    scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps)
 
   print "  * Found %s files" % len(knownFiles)
 
   return {
     "files" : knownFiles,
-    "packages" : knownPackages,
+    "modules" : knownModules,
     "loadDeps" : loadDeps,
     "runtimeDeps" : runtimeDeps
   }
@@ -178,11 +178,11 @@ def getSortedList(cmds, scanResult):
 
   # INCLUDE
 
-  # Add Packages and Files
+  # Add Modules and Files
   if cmds.has_key("include"):
     for include in cmds["include"]:
-      if include in scanResult["packages"]:
-        includeIds.extend(scanResult["packages"][include])
+      if include in scanResult["modules"]:
+        includeIds.extend(scanResult["modules"][include])
 
       else:
         includeIds.append(include)
@@ -200,11 +200,11 @@ def getSortedList(cmds, scanResult):
 
   # EXCLUDE
 
-  # Add Packages and Files
+  # Add Modules and Files
   if cmds.has_key("exclude"):
     for exclude in cmds["exclude"]:
-      if exclude in scanResult["packages"]:
-        excludeIds.extend(scanResult["packages"][exclude])
+      if exclude in scanResult["modules"]:
+        excludeIds.extend(scanResult["modules"][exclude])
 
       else:
         excludeIds.append(exclude)

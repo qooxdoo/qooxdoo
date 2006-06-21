@@ -18,7 +18,7 @@ def printHelp():
   print "  -c,  --compile-tokens             compile tokens to new js-files"
   print "  -t   --store-tokens               store token list for each file"
   print "  -f,  --print-files                print known files"
-  print "  -p,  --print-packages             print known packages"
+  print "  -m,  --print-modules              print known modules"
   print "  -s,  --print-sorted               print sorted include list"
   print
 
@@ -102,8 +102,8 @@ def argparser(args, cmds):
     elif c == "-f" or c == "--print-files":
       cmds["printKnownFiles"] = True
 
-    elif c == "-p" or c == "--print-packages":
-      cmds["printKnownPackages"] = True
+    elif c == "-m" or c == "--print-modules":
+      cmds["printKnownModules"] = True
 
     elif c == "-s" or c == "--print-sorted":
       cmds["printSortedIdList"] = True
@@ -205,7 +205,7 @@ def main():
   cmds["compileTokens"] = False
   cmds["storeTokens"] = False
   cmds["printKnownFiles"] = False
-  cmds["printKnownPackages"] = False
+  cmds["printKnownModules"] = False
   cmds["printSortedIdList"] = False
   cmds["storeSeparateScripts"] = False
   cmds["compileWithNewLines"] = False
@@ -258,13 +258,13 @@ def main():
     for key in scanResult["files"]:
       print "  %s (%s)" % (key, scanResult["files"][key])
 
-  if cmds["printKnownPackages"]:
+  if cmds["printKnownModules"]:
     print
-    print "  KNOWN PACKAGES:"
+    print "  KNOWN MODULES:"
     print "***********************************************************************************************"
-    for pkg in scanResult["packages"]:
+    for pkg in scanResult["modules"]:
       print "  * %s" % pkg
-      for key in scanResult["packages"][pkg]:
+      for key in scanResult["modules"][pkg]:
         print "    - %s" % key
 
   if cmds["printSortedIdList"]:
