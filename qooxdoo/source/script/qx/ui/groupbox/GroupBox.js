@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(form)
+#module(form)
 #require(qx.ui.basic.Atom)
 #appearance(fieldset)
 

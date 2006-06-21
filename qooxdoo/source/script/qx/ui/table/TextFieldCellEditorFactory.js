@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#package(table)
+#module(table)
 #require(qx.ui.table.CellEditorFactory)
 #use(qx.constant.Event)
 

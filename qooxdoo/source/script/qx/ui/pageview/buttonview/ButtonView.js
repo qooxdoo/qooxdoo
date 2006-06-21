@@ -25,7 +25,7 @@
 #use(qx.ui.pageview.buttonview.ButtonViewBar)
 #use(qx.ui.pageview.buttonview.ButtonViewPane)
 
-#package(barview)
+#module(barview)
 
 ************************************************************************ */
 

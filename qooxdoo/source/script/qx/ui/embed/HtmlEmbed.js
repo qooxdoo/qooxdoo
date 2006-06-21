@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(simpleterminators)
+#module(simpleterminators)
 #require(qx.renderer.font.FontCache)
 
 ************************************************************************ */

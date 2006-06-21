@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(border)
+#module(border)
 #require(qx.renderer.color.ColorObject)
 #require(qx.lang.Object)
 

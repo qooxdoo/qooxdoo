@@ -25,7 +25,7 @@
 
 /* ************************************************************************
 
-#package(transport)
+#module(transport)
 #require(qx.constant.Net)
 #use(qx.io.remote.IframeTransport)
 #use(qx.io.remote.RemoteResponse)

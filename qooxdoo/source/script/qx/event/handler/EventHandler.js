@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(eventcore)
+#module(eventcore)
 #use(qx.dom.DomEventRegistration)
 #use(qx.manager.object.PopupManager)
 #use(qx.manager.object.ToolTipManager)

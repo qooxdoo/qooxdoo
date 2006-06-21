@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(core)
+#module(core)
 #use(qx.event.handler.EventHandler)
 #use(qx.ui.core.ClientDocument)
 

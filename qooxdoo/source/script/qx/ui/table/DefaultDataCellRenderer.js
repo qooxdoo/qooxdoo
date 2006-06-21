@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#package(table)
+#module(table)
 #require(qx.ui.table.AbstractDataCellRenderer)
 #require(qx.constant.Type)
 #require(qx.util.format.NumberFormat)

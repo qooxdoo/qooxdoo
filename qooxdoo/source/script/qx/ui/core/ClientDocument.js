@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(guicore)
+#module(guicore)
 #require(qx.dom.DomStyleSheet)
 #use(qx.ui.core.ClientDocumentBlocker)
 #use(qx.event.handler.FocusHandler)

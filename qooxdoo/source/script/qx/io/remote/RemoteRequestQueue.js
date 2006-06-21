@@ -25,7 +25,7 @@
 
 /* ************************************************************************
 
-#package(transport)
+#module(transport)
 #require(qx.client.Timer)
 #use(qx.io.remote.RemoteExchange)
 

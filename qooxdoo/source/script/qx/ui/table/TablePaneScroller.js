@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#package(table)
+#module(table)
 #require(qx.ui.layout.VerticalBoxLayout)
 #require(qx.ui.table.SelectionManager)
 #require(qx.ui.table.TableModel)

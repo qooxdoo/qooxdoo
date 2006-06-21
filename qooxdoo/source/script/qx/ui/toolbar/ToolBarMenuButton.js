@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(toolbar)
+#module(toolbar)
 #use(qx.dom.DomDimension)
 #use(qx.dom.DomLocation)
 

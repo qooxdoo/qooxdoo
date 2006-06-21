@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(list)
+#module(list)
 
 #use(qx.manager.selection.SelectionManager)
 #use(qx.event.type.KeyEvent)

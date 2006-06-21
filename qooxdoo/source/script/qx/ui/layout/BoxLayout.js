@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(layout)
+#module(layout)
 #require(qx.constant.Layout)
 #use(qx.renderer.layout.HorizontalBoxLayoutImpl)
 #use(qx.renderer.layout.VerticalBoxLayoutImpl)

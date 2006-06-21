@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #id(qx.themes.color.windowsRoyale)
-#package(colorthemes)
+#module(colorthemes)
 #require(qx.renderer.theme.ColorTheme)
 
 ************************************************************************ */

@@ -20,7 +20,7 @@
 
 /* ****************************************************************************
 
-#package(form) //???Olli???
+#module(form) //???Olli???
 #require(qx.renderer.border.BorderObject)
 #require(qx.ui.basic.Terminator)
 #require(qx.client.Timer)

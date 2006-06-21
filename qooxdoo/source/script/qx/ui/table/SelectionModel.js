@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#package(table)
+#module(table)
 #require(qx.core.Target)
 #require(qx.constant.Type)
 

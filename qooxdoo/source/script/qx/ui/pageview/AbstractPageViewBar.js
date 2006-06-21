@@ -24,7 +24,7 @@
 
 #use(qx.manager.selection.RadioManager)
 
-#package(viewcommon)
+#module(viewcommon)
 
 ************************************************************************ */
 

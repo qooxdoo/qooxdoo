@@ -25,7 +25,7 @@
 
 /* ************************************************************************
 
-#package(transport)
+#module(transport)
 #require(qx.io.remote.RemoteExchange)
 #require(qx.constant.Mime)
 #use(qx.dom.DomIframe)

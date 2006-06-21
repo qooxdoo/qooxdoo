@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#package(listview)
+#module(listview)
 #use(qx.dom.DomDimension)
 #use(qx.dom.DomLocation)
 
