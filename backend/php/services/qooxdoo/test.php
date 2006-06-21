@@ -1,6 +1,29 @@
 <?php
+  /*
+   * qooxdoo - the new era of web interface development
+   *
+   * Copyright:
+   *   (C) 2006 by Derrell Lipman
+   *       All rights reserved
+   *
+   * License:
+   *   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+   *
+   * Internet:
+   *   * http://qooxdoo.org
+   *
+   * Author:
+   *   * Derrell Lipman
+   *     derrell dot lipman at unwireduniverse dot com
+   */
 
-class class_test
+  /*
+   * This is the standard qooxdoo test class.  There are tests for each of the
+   * primitive types here, along with standard named tests "echo", "sink" and
+   * "sleep".
+   */
+
+  class class_test
 {
     /**
      * Echo the (one and only) parameter.
@@ -36,11 +59,11 @@ class class_test
      *   An object of class JsonRpcError.
      *
      * @return
-     *   Never
+     *   "Never"
      */
     function method_sink($params, $error)
     {
-        /* We're never supposed to return.  Just sleep for a long time. */
+        /* We're never supposed to return.  Just sleep for a very long time. */
         sleep(240);
     }
     
@@ -170,21 +193,6 @@ class class_test
     
     function method_getParam($params, $error)
     {
-/*
-        if (get_class($params[0]) == "JSON_Date")
-        {
-            $d = $params[0];
-            debug("Date = " .
-                  $d->getUtcYear() . "/" .
-                  $d->getUtcMonth() . "/" .
-                  $d->getUtcDay() . " at " .
-                  $d->getUtcHour() . ":" .
-                  $d->getUtcMinute() . ":" .
-                  $d->getUtcSecond() . "." .
-                  $d->getUtcMilliseconds() . " which is epoch time " .
-                  $d->getEpochTime());
-        }
-*/
         return $params[0];
     }	
     
@@ -199,8 +207,7 @@ class class_test
 
     function method_getError($params, $error)
     {
-        $error->SetError(JsonRpcError_FIRST_APPLICATION_ERROR,
-                         "This is an application-provided error");
+        $error->SetError(23, "This is an application-provided error");
         return $error;
     }	
 }
