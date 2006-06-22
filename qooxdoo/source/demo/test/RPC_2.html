@@ -38,13 +38,17 @@
       layout1.setSpacing(4);
 
       /*
-       * Sigh.  Both IE and Firefox follow (too strictly) RFC2616 and limit
-       * the number of simultaneous asyncronous XMLHTTPRequests to 2.  We'll
-       * allow testing just 2 simultaneous requests or issuing 6 simultaneous
-       * requests.  In the former case, we'll get expected results.  In the
-       * latter, we'll see two at a time being processed.
-       */
-      var tooMany = new qx.ui.form.CheckBox("Issue more requests than IE's and Firefox's implementations of XmlHttpRequest will process simultaneously");
+        * Sigh.  Both IE and Firefox follow (too strictly) RFC2616 and limit
+        * the number of simultaneous asyncronous HTTP requests to 2.  We'll
+        * allow testing just 2 simultaneous requests or issuing 6 simultaneous
+        * requests.  In the former case, we'll get expected results.  In the
+        * latter, we'll see two at a time being processed.
+        *
+        * Note that this applies to both XmlHTTPTransport and IframeTransport.
+        * It is an HTTP limitation, not a limitation of a particular method of
+        * issuing a request.
+        */
+      var tooMany = new qx.ui.form.CheckBox("Issue more requests than IE's and Firefox's implementations of HTTP will process simultaneously");
       layout1.add(tooMany);
 
       var crossDomain = new qx.ui.form.CheckBox("Cross Domain");
