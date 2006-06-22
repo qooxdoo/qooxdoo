@@ -60,7 +60,7 @@ public class RemoteCallUtils {
             }
             if (obj instanceof JSONArray) {
                 Class componentType;
-                if (targetType == null) {
+                if (targetType == null || targetType == Object.class) {
                     componentType = null;
                 } else {
                     componentType = targetType.getComponentType();
@@ -79,7 +79,7 @@ public class RemoteCallUtils {
                 JSONObject jsonObject = (JSONObject)obj;
                 JSONArray names = jsonObject.names();
                 if (targetType == Map.class || targetType == HashMap.class ||
-                        targetType == null) {
+                        targetType == null || targetType == Object.class) {
                     HashMap retVal = new HashMap();
                     if (names != null) {
                         int length = names.length();
@@ -105,7 +105,7 @@ public class RemoteCallUtils {
                 }
                 return bean;
             }
-            if (targetType == null) {
+            if (targetType == null || targetType == Object.class) {
                 return obj;
             }
             Class actualTargetType;
