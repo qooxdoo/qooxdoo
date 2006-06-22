@@ -33,7 +33,7 @@ JSON.
 
   A resulting Date representation might therefore be:
 
-    new Date(Date.UTC(2006,6,20,22,18,42,223))
+    new Date(Date.UTC(2006,5,20,22,18,42,223))
 
   Notes:
     Whitespace -
@@ -43,11 +43,14 @@ JSON.
       - when parsing these date strings, implementations SHOULD allow white
         space before/after/between any of the fields within the date string 
     Numbers -
-      - when generating these date strings, implementations SHOULD NOT add
-        leading zeros to the numeric values in the date string
-      - when parsing these date strings, implementations SHOULD take the
-        integer value of numeric portions of the string, thereby ignoring
-        leading zeros on numeric values.
+      - when generating these date strings, implementations MUST NOT add
+        leading zeros to the numeric values in the date string.  Doing so will
+        cause them to be parsed as octal values.  Numbers MUST be passed in
+        decimal (base 10) notation without leading zeros.
+      - when parsing these date strings, implementations MUST take the
+        integer value of numeric portions of the string as base 10 values,
+        even if leading zeros appear in the string representation of the
+        numbers..
 
   Within the JSON protocol and in JSON messages between peers, Date objects
   are always passed as UTC.
