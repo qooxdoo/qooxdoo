@@ -6,6 +6,7 @@ import config, tokenizer
 def compile(tokens, enableNewLines=False):
   compString = ""
   lastSource = ""
+  lastNeedsSpace = False
 
   for token in tokens:
     if token["type"] == "comment" or token["type"] == "eol":
@@ -17,6 +18,15 @@ def compile(tokens, enableNewLines=False):
         compString += ";"
 
       continue
+
+    # Advanced check for for previous token and the space needs
+    if lastNeedsSpace:
+      # If a token follows a function or return statement, we need no additional space
+      if token["type"] == "token" and (lastSource == "function" or lastSource == "return"):
+        pass
+
+      else:
+        compString += " "
 
     # Special handling for some protected names
     if token["type"] == "protected":
@@ -35,11 +45,18 @@ def compile(tokens, enableNewLines=False):
       compString += " "
 
     # We need to seperate special blocks (could also be a new line)
-    if lastSource == "}" and (token["type"] == "name" or token["source"] == "var"):
+    if lastSource == "}" and token["type"] != "token" and (token["type"] != "protected" or not token["detail"] in config.JSPARANTHESIS_BEFORE):
       compString += ";"
+
+
+
+
 
     # Add source
     compString += token["source"]
+
+
+
 
     # Add quotes for strings
     if token["type"] == "string":
@@ -48,11 +65,16 @@ def compile(tokens, enableNewLines=False):
       else:
         compString += "'"
 
+    # Reset
+    lastNeedsSpace = False
+
     # Special handling for some protected names
     if token["type"] == "protected":
       if token["detail"] in config.JSSPACE_AFTER:
         compString += " "
 
+      elif token["detail"] in config.JSSPACE_AFTER_USAGE:
+        lastNeedsSpace = True
 
 
     # Add new lines (if enabled)
