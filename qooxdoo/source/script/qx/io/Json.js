@@ -220,24 +220,39 @@ qx.io.Json = function () {
 */
         stringify: function (v) {
             var f = s[typeof v];
-            var ret;
+            // AJ, DJL --
+            var ret = null;
+            // -- AJ, DJL
             if (f) {
                 v = f(v);
                 if (typeof v == 'string') {
+                    // DJL --
                     ret = v;
-                } else {
-                  ret = null;
+                    // -- DJL
                 }
-            } else {
-              ret = null;
             }
             
+            // DJL --
             if (qx.core.Settings.enableJsonDebug) {
               var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
               logger.debug("JSON request: " + ret);
             }
 
             return ret;
+            // -- DJL
+        },
+/*
+    Parse a JSON text, producing a JavaScript value.
+    It returns false if there is a syntax error.
+*/
+        parse: function (text) {
+            try {
+                return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
+                        text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
+                    eval('(' + text + ')');
+            } catch (e) {
+                return false;
+            }
         }
     };
 }();
@@ -280,7 +295,7 @@ qx.io.Json = function () {
  * Parse a JSON text, producing a JavaScript value.
  * It triggers an exception if there is a syntax error.
  */
-qx.io.Json.parse = function(text) {
+qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
   
   if (qx.core.Settings.enableJsonDebug) {
