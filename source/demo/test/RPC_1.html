@@ -9,6 +9,9 @@
   <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
   <![endif]-->
   <script type="text/javascript" src="../demoinclude.js"></script>
+  <script type="text/javascript" src=".qxrpc"></script>
+    <!-- With the above script, the service URL for a J2EE application can be
+         automatically determined, no matter on what path it's deployed. -->
 </head>
 <body>
   <script type="text/javascript" src="../demolayout.js"></script>
@@ -39,7 +42,11 @@
       layout1.add(crossDomain);
 
       layout1.add(new qx.ui.basic.Label("URL:"));
-      var url = new qx.ui.form.TextField("/services/");
+      var defaultURL = qx.io.remote.Rpc.makeServerURL();
+      if (defaultURL == null) {
+        defaultURL = "/services/";
+      }
+      var url = new qx.ui.form.TextField(defaultURL);
       layout1.add(url);
 
       layout1.add(new qx.ui.basic.Label("Service:"));
