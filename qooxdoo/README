@@ -3,15 +3,15 @@ INTRODUCTION
 
 qooxdoo is an advanced open-source javascript based gui toolkit.
 
-qooxdoo continues where simple HTML is not enough anymore. This way qooxdoo 
-can help you to get your rich web application interface done - easier than 
+qooxdoo continues where simple HTML is not enough anymore. This way qooxdoo
+can help you to get your rich web application interface done - easier than
 ever before.
 
 
 LICENSE
 ----------------------------------------------------------------------------
 
-qooxdoo is licensed under the "GNU Lesser General Public License" (LGPL). 
+qooxdoo is licensed under the "GNU Lesser General Public License" (LGPL).
 This means you can do the following:
 
 * use qooxdoo for whatever you want
@@ -21,19 +21,19 @@ This means you can do the following:
 You must leave all copyrights intact and must redistribute the
 full source code with your modifications.
 
-Please make sure you have read and understood the contents of the file 
+Please make sure you have read and understood the contents of the file
 LICENSE within the qooxdoo distribution.
 
 
 INSTALLATION
 ----------------------------------------------------------------------------
 
-After the first checkout from the qooxdoo repository please run the 
+After the first checkout from the qooxdoo repository please run the
 following command to generate a working version:
 
-$ bash tools/make.sh
+$ bash tools/generate-dev/make.sh
 
-Upon successful completion of this command, please point your browser to the 
+Upon successful completion of this command, please point your browser to the
 file build/demo/index.html in order to browse the demo section.
 
 
@@ -41,7 +41,7 @@ BROWSERS
 ----------------------------------------------------------------------------
 
 qooxdoo works for most of modern web browsers:
-  
+
 * officially supported:
   - Internet Explorer 6.0
   - Mozilla >= 1.7 (and all similar Gecko-based browsers)
@@ -57,7 +57,7 @@ qooxdoo works for most of modern web browsers:
 REQUIREMENTS
 ----------------------------------------------------------------------------
 
-In order to generate a working version and the documentation at least the 
+In order to generate a working version and the documentation at least the
 following packages are required to be installed properly:
 
 * bash
