@@ -24,10 +24,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 // AJ
 import java.util.Date;
 //
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A JSONTokener takes a source string and extracts characters and tokens from
@@ -50,6 +54,11 @@ public class JSONTokener {
     private String mySource;
 
 
+    // AJ
+    private DateFormat internalDateFormat =
+        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSS z");
+    //
+    
     /**
      * Construct a JSONTokener from a string.
      *
@@ -304,6 +313,54 @@ public class JSONTokener {
     }
 
 
+    // AJ
+    private static final Pattern DATE_PATTERN =
+        Pattern.compile("new\\s+Date\\s*\\(\\s*Date\\s*\\.\\s*UTC\\s*\\(" +
+                        "\\s*(\\d+)\\s*" +      // year
+                        ",\\s*(\\d+)\\s*" +     // month
+                        ",\\s*(\\d+)\\s*" +     // day
+                        ",\\s*(\\d+)\\s*" +     // hour
+                        ",\\s*(\\d+)\\s*" +     // minute
+                        ",\\s*(\\d+)\\s*" +     // second
+                        "(,\\s*(\\d+)\\s*)?" +  // millisecond
+                        "\\)\\)");
+                        
+    public Date nextDate() throws ParseException {
+        String dateString = nextTo(")");
+        char next = nextClean();
+        if (next != 0) {
+            dateString += next;
+        }
+        if (next != ')') {
+            throw syntaxError("Illegal date syntax: " + dateString);
+        }
+        next = nextClean();
+        if (next != 0) {
+            dateString += next;
+        }
+        if (next != ')') {
+            throw syntaxError("Illegal date syntax: " + dateString);
+        }
+        Matcher m = DATE_PATTERN.matcher(dateString);
+        if (!m.matches()) {
+            throw syntaxError("Illegal date syntax: " + dateString);
+        }
+        String millis = null;
+        try {
+            millis = m.group(8);
+        } catch (Exception e) {
+            // no millis found
+        }
+        String newDateString =
+            m.group(1) + "-" + (Integer.parseInt(m.group(2)) + 1) + "-" + m.group(3) + " " +
+            m.group(4) + ":" + m.group(5) + ":" + m.group(6) + "." +
+            (millis == null ? "0" : millis) + " GMT";
+        Date retVal = internalDateFormat.parse(newDateString);
+        System.out.println("Millis of date: " + retVal.getTime());
+        return retVal;
+    }
+    //
+    
     /**
      * Get the next value. The value can be a Boolean, Double, Integer,
      * JSONArray, JSONObject, or String, or the JSONObject.NULL object.
@@ -313,6 +370,10 @@ public class JSONTokener {
      */
     public Object nextValue() throws ParseException {
         char c = nextClean();
+        // AJ
+        char c2 = next();
+        back();
+        //
         String s;
 
         switch (c) {
@@ -325,6 +386,14 @@ public class JSONTokener {
             case '[':
                 back();
                 return new JSONArray(this);
+            // AJ
+            case 'n':
+                if (c2 == 'e') {
+                    // ugly, but the only way without rewriting the whole parser
+                    back();
+                    return nextDate();
+                }
+            //
         }
 
         /*
