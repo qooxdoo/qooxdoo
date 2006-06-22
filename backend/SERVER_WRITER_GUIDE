@@ -13,27 +13,41 @@ JSON.
   Date.  For this reason, a format for passing Dates in JSON is defined here
   so that all conforming servers can parse the data received from clients.
 
-  Date objects are sent as the following 'tokens':
+  Date objects are sent as the following 'tokens'.
 
     - The string "new Date(Date.UTC("
     - The year, integer, e.g. 2006
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The month, 1-relative integer, e.g. 6 is June
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The day of the month, integer, range: 1-31
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The hour of the day on a 24-hour clock, integer, range: 0-23
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The minute of the hour, integer, range: 0-59
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The second within the minute, integer, range: 0-59
-    - A comma (implementations SHOULD NOT add white space before/after)
+    - A comma
     - The milliseconds within the second, integer, range: 0-999
     - The string "))"
 
   A resulting Date representation might therefore be:
 
-    new Date(Date.UTC(2006,06,20,22,18,42,223))
+    new Date(Date.UTC(2006,6,20,22,18,42,223))
+
+  Notes:
+    Whitespace -
+      - when generating these date strings, implementations SHOULD NOT add
+        white space before/after/between any of the fields within the date
+        string 
+      - when parsing these date strings, implementations SHOULD allow white
+        space before/after/between any of the fields within the date string 
+    Numbers -
+      - when generating these date strings, implementations SHOULD NOT add
+        leading zeros to the numeric values in the date string
+      - when parsing these date strings, implementations SHOULD take the
+        integer value of numeric portions of the string, thereby ignoring
+        leading zeros on numeric values.
 
   Within the JSON protocol and in JSON messages between peers, Date objects
   are always passed as UTC.
