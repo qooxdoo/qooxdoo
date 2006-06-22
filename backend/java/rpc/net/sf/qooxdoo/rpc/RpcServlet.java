@@ -235,14 +235,15 @@ public class RpcServlet extends HttpServlet {
                 requestBuffer.append(readBuffer, 0, length);
             }
             System.out.println("Request buffer: " + requestBuffer);
+            String instanceId = request.getParameter("instanceId");
             JSONObject req = new JSONObject(requestBuffer.toString());
             String serviceClassName = req.getString("service");
-            Object instanceId = req.opt("instance");
+            String callId = req.getString("id");
             RemoteService inst = (RemoteService) getServiceInstance(
                     request.getSession(), serviceClassName, instanceId,
                     RemoteService.class);
             String methodName = req.getString("method");
-            JSONArray args = req.getJSONArray("arguments");
+            JSONArray args = req.getJSONArray("params");
 
             // call the method
             Object retVal = null;
@@ -258,13 +259,22 @@ public class RpcServlet extends HttpServlet {
                     error = ((InvocationTargetException)error).getTargetException();
                 }
                 JSONObject ex = new JSONObject();
-                ex.put("name", error.getClass().getName());
-                ex.put("message", error.getMessage());
-                res.put("exception", ex);
+                ex.put("code", 500);    // 500: internal server error
+                                        // (executing the method generated
+                                        //  an exception)
+                                        // TODO: properly detect common errors
+                                        //       like "method not found" and
+                                        //       return appropriate codes
+                                        // TODO: fill in the origin property
+                ex.put("message", error.getClass().getName() + ": " + error.getMessage());
+                res.put("error", ex);
                 //error.printStackTrace();
                 // FIXME: Use proper logging (configurable; default: System.out)
             } else {
-                res.put("return", RemoteCallUtils.fromJava(retVal));
+                res.put("result", RemoteCallUtils.fromJava(retVal));
+            }
+            if (callId != null) {
+                res.put("id", callId);
             }
 
             response.setContentType("text/plain; charset=UTF-8");
