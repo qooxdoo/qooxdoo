@@ -28,42 +28,44 @@
       var txtfld;
 
       var  dialogEditFrage = new qx.ui.window.Window("Edit", "icons/16/editor.png");
+
+
       with(dialogEditFrage) {
         setSpace(300, 400, 100, 300);
 
         setShowClose(false);
 
-        var qx = new qx.ui.basic.Atom('Question');
-        with(qx)
+        var qxObj = new qx.ui.basic.Atom('Question');
+        with(qxObj)
         {
           setHorizontalChildrenAlign('right');
           set({top:10,left:10,width:'20%'});
         };
-        add(qx);
+        add(qxObj);
 
-        qx = txtfld = new qx.ui.form.TextArea();
-        with (qx) {
+        qxObj = txtfld = new qx.ui.form.TextArea();
+        with (qxObj) {
           set({top:10,right:10,width:'70%'})
         }
-        add(qx);
+        add(qxObj);
 
         txtfld.addEventListener("appear", function(e) {
           this.focus();
         });
 
-        qx = new qx.ui.basic.Atom('Type');
-        with(qx)
+        qxObj = new qx.ui.basic.Atom('Type');
+        with(qxObj)
         {
           setHorizontalChildrenAlign('right');
           set({top:70,left:10,width:'20%'});
         };
-        add(qx);
+        add(qxObj);
 
-        qx = new qx.ui.form.TextField();
-        with (qx) {
+        qxObj = new qx.ui.form.TextField();
+        with (qxObj) {
           set({top:70,right:10,width:'70%'})
         }
-        add(qx);
+        add(qxObj);
 
 
         var btnOK = new qx.ui.form.Button("OK", "icons/16/button-ok.png");
@@ -88,7 +90,6 @@
         add(btnOK, btnCancel, btnSetFocus);
       }
 
-
       var btnOpen = new qx.ui.form.Button("Open the dialog");
       btnOpen.set({ top : 50, left : 20 });
       btnOpen.addEventListener("click", function(e) {
@@ -102,7 +103,7 @@
       });
 
       d.add(btnOpen,btnRestore,dialogEditFrage);
-    }
+    });
 
   </script>
 
