@@ -89,8 +89,8 @@ qx.OO.addProperty({ name:"errorClassName", type:qx.constant.Type.STRING, default
 qx.Proto._createClearButtonHandler = function(logElem) {
   return function(evt) {
     logElem.innerHTML = "";
-  };
-};
+  }
+}
 
 
 // overridden
@@ -155,14 +155,14 @@ qx.Proto.appendLogEvent = function(evt) {
     this._logElem.firstChild.innerHTML = "(" + this._removedMessageCount
       + " messages removed)";
   }
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
       return true;
-  };
+  }
 
   if (this._clearBt) {
     this._clearBt.onclick = null;
@@ -171,4 +171,4 @@ qx.Proto.dispose = function() {
   this._logElem = null;
 
   return qx.dev.log.Appender.prototype.dispose.call(this);
-};
+}

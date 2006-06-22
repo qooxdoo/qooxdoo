@@ -35,7 +35,7 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 
 qx.ui.listview.ListViewContentCellImage.empty = {
   source : qx.manager.object.ImageManager.BLANK
-};
+}
 
 
 
@@ -54,8 +54,8 @@ qx.Proto.setSource = function(vSource)
   else
   {
     return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
-  };
-};
+  }
+}
 
 // Omit dimension setup in list-view
 qx.Proto._postApplyDimensions = qx.util.Return.returnTrue;

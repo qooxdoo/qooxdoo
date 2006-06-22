@@ -33,11 +33,11 @@ function()
   qx.manager.object.ObjectManager.call(this);
 
   // Contains the qx.renderer.theme.ColorTheme instances
-  this._themes = {};
+  this._themes = {}
 
   // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
-  this._dependentObjects = {};
+  this._dependentObjects = {}
 });
 
 
@@ -60,7 +60,7 @@ qx.OO.addProperty({ name : "theme", type : qx.constant.Type.STRING });
 
 qx.Proto.getThemeObject = function() {
   return this._themes[this.getTheme()];
-};
+}
 
 
 
@@ -81,8 +81,8 @@ qx.Proto.add = function(oObject)
 
   if (oObject.isThemedColor()) {
     this._dependentObjects[vValue] = oObject;
-  };
-};
+  }
+}
 
 qx.Proto.remove = function(oObject)
 {
@@ -90,15 +90,15 @@ qx.Proto.remove = function(oObject)
 
   delete this._objects[vValue];
   delete this._dependentObjects[vValue];
-};
+}
 
 qx.Proto.has = function(vValue) {
   return this._objects[vValue] != null;
-};
+}
 
 qx.Proto.get = function(vValue) {
   return this._objects[vValue];
-};
+}
 
 
 
@@ -117,15 +117,15 @@ qx.Proto.registerTheme = function(vTheme)
 
   if (this._themes[vId]) {
     throw new Error("A theme with this ID is already known");
-  };
+  }
 
   this._themes[vId] = vTheme;
 
   // Register first incoming theme as default
   if (this.getTheme() == null) {
     this.setTheme(vId);
-  };
-};
+  }
+}
 
 
 
@@ -147,10 +147,10 @@ qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 
   for (var i in this._dependentObjects) {
     this._dependentObjects[i]._updateTheme(vTheme);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -181,8 +181,8 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     vParent.add(vButton);
 
     yCor += 30;
-  };
-};
+  }
+}
 
 
 
@@ -199,22 +199,22 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   for (var i in this._themes) {
     delete this._themes[i];
-  };
+  }
 
   delete this._themes;
 
   for (var i in this._dependentObjects) {
     delete this._dependentObjects[i];
-  };
+  }
 
   delete this._dependentObjects;
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
-};
+}
 
 
 

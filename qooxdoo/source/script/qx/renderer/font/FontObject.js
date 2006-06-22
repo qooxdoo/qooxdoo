@@ -29,7 +29,7 @@
 qx.OO.defineClass("qx.renderer.font.FontObject", qx.renderer.font.Font, 
 function(vSize, vName)
 {
-  this._dependentObjects = {};
+  this._dependentObjects = {}
 
   qx.renderer.font.Font.call(this, vSize, vName);
 });
@@ -45,11 +45,11 @@ function(vSize, vName)
 
 qx.Proto.addListenerWidget = function(o) {
   this._dependentObjects[o.toHashCode()] = o;
-};
+}
 
 qx.Proto.removeListenerWidget = function(o) {
   delete this._dependentObjects[o.toHashCode()];
-};
+}
 
 qx.Proto._sync = function(vEdge)
 {
@@ -62,9 +62,9 @@ qx.Proto._sync = function(vEdge)
 
     if (vCurrent.isCreated()) {
       vCurrent._updateFont(vEdge);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -82,16 +82,16 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (typeof this._dependentObjects === qx.constant.Type.OBJECT)
   {
     for (vKey in this._dependentObjects) {
       delete this._dependentObjects[vKey];
-    };
+    }
 
     delete this._dependentObjects;
-  };
+  }
 
   return qx.renderer.font.Font.prototype.dispose.call(this);
-};
+}

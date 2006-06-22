@@ -36,7 +36,7 @@ function(vWidth, vStyle, vColor)
 {
   qx.core.Object.call(this);
 
-  this._themedEdges = {};
+  this._themedEdges = {}
   this._initCache();
 
   if (qx.util.Validation.isValidNumber(vWidth))
@@ -45,12 +45,12 @@ function(vWidth, vStyle, vColor)
 
     if (qx.util.Validation.isValidString(vStyle)) {
       this.setStyle(vStyle);
-    };
+    }
 
     if (qx.util.Validation.isValid(vColor)) {
       this.setColor(vColor);
-    };
-  };
+    }
+  }
 });
 
 qx.Class.STYLE_GROOVE = "groove";
@@ -144,14 +144,14 @@ qx.renderer.border.Border.fromString = function(vDefString)
         {
           vPart = vPart.toLowerCase();
           vBorder.setColor(new qx.renderer.color.Color(vPart));
-        };
+        }
 
         break;
-    };
-  };
+    }
+  }
 
   return vBorder;
-};
+}
 
 
 
@@ -186,7 +186,7 @@ qx.Proto.setWidth = function(vWidth)
   this.setLeftWidth(vWidth);
 
   return true;
-};
+}
 
 qx.Proto.setStyle = function(vStyle)
 {
@@ -196,7 +196,7 @@ qx.Proto.setStyle = function(vStyle)
   this.setLeftStyle(vStyle);
 
   return true;
-};
+}
 
 qx.Proto.setColor = function(vColor)
 {
@@ -206,7 +206,7 @@ qx.Proto.setColor = function(vColor)
   this.setLeftColor(vColor);
 
   return true;
-};
+}
 
 
 
@@ -218,7 +218,7 @@ qx.Proto.setTop = function(vWidth, vStyle, vColor)
   this.setTopColor(vColor);
 
   return true;
-};
+}
 
 qx.Proto.setRight = function(vWidth, vStyle, vColor)
 {
@@ -227,7 +227,7 @@ qx.Proto.setRight = function(vWidth, vStyle, vColor)
   this.setRightColor(vColor);
 
   return true;
-};
+}
 
 qx.Proto.setBottom = function(vWidth, vStyle, vColor)
 {
@@ -236,7 +236,7 @@ qx.Proto.setBottom = function(vWidth, vStyle, vColor)
   this.setBottomColor(vColor);
 
   return true;
-};
+}
 
 qx.Proto.setLeft = function(vWidth, vStyle, vColor)
 {
@@ -245,7 +245,7 @@ qx.Proto.setLeft = function(vWidth, vStyle, vColor)
   this.setLeftColor(vColor);
 
   return true;
-};
+}
 
 
 
@@ -269,7 +269,7 @@ if (qx.sys.Client.isGecko())
 
       MozBorderLeftColors : qx.constant.Core.EMPTY,
       MozBorderRightColors : qx.constant.Core.EMPTY
-    };
+    }
 
     this._defsY =
     {
@@ -278,8 +278,8 @@ if (qx.sys.Client.isGecko())
 
       MozBorderTopColors : qx.constant.Core.EMPTY,
       MozBorderBottomColors : qx.constant.Core.EMPTY
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -289,13 +289,13 @@ else
     {
       borderLeft : qx.constant.Core.EMPTY,
       borderRight : qx.constant.Core.EMPTY
-    };
+    }
 
     this._defsY =
     {
       borderTop : qx.constant.Core.EMPTY,
       borderBottom : qx.constant.Core.EMPTY
-    };
+    }
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
@@ -303,16 +303,16 @@ else
       {
         borderLeft : qx.constant.Core.EMPTY,
         borderRight : qx.constant.Core.EMPTY
-      };
+      }
 
       this._enhancedDefsY =
       {
         borderTop : qx.constant.Core.EMPTY,
         borderBottom : qx.constant.Core.EMPTY
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 
 /*
@@ -335,8 +335,8 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
       (new qx.renderer.color.ColorObject("ThreeDShadow")).add(this);
       (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
       (new qx.renderer.color.ColorObject("ThreeDHighlight")).add(this);
-    };
-  };
+    }
+  }
 
   qx.Proto._removeFromThemed3DColors = function(vProp)
   {
@@ -348,8 +348,8 @@ if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMod
       (new qx.renderer.color.ColorObject("ThreeDShadow")).remove(this);
       (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
       (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -362,8 +362,8 @@ else
     if (needRegistering)
     {
       (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
-    };
-  };
+    }
+  }
 
   qx.Proto._removeFromThemed3DColors = function(vProp)
   {
@@ -372,9 +372,9 @@ else
     if (qx.lang.Object.isEmpty(this._themedEdges))
     {
       (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -435,7 +435,7 @@ qx.renderer.border.Border.data =
       left : [ "threedshadow", "threedhighlight" ]
     }
   }
-};
+}
 
 
 
@@ -445,24 +445,24 @@ qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 {
   if (typeof vWidth !== qx.constant.Type.NUMBER || vWidth < 0) {
     return qx.constant.Core.EMPTY;
-  };
+  }
 
   var vArr = [ vWidth + qx.constant.Core.PIXEL ];
 
   if (qx.util.Validation.isValidString(vStyle)) {
     vArr.push(vStyle);
-  };
+  }
 
   if (qx.util.Validation.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
     vColor = vColor.getStyle();
-  };
+  }
 
   if (qx.util.Validation.isValidString(vColor)) {
     vArr.push(vColor);
-  };
+  }
 
   return vArr.join(qx.constant.Core.SPACE);
-};
+}
 
 
 
@@ -480,7 +480,7 @@ qx.Proto._updateColors = function(vColorObject, vNewValue)
   this._sync(qx.renderer.border.Border.POSITION_RIGHT);
   this._sync(qx.renderer.border.Border.POSITION_BOTTOM);
   this._sync(qx.renderer.border.Border.POSITION_LEFT);
-};
+}
 
 
 
@@ -503,8 +503,8 @@ qx.Proto._handleColorRegistration = function(propValue, propOldValue, propData)
 
       default:
         this._removeFromThemed3DColors(propData.name);
-    };
-  };
+    }
+  }
 
   if (qx.lang.String.contains(propData.name, qx.renderer.border.Border.colorPart))
   {
@@ -521,8 +521,8 @@ qx.Proto._handleColorRegistration = function(propValue, propOldValue, propData)
 
         default:
           propOldValue.remove(this);
-      };
-    };
+      }
+    }
 
     if (propValue instanceof qx.renderer.color.ColorObject)
     {
@@ -530,9 +530,9 @@ qx.Proto._handleColorRegistration = function(propValue, propOldValue, propData)
       // this is not a problem also if this is already
       // registered there.
       propValue.add(this);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -551,7 +551,7 @@ qx.Proto._modifyBorderTopProperty = function(propValue, propOldValue, propData)
   this._sync("top");
 
   return true;
-};
+}
 
 qx.Proto._modifyBorderRightProperty = function(propValue, propOldValue, propData)
 {
@@ -563,7 +563,7 @@ qx.Proto._modifyBorderRightProperty = function(propValue, propOldValue, propData
   this._sync("right");
 
   return true;
-};
+}
 
 qx.Proto._modifyBorderBottomProperty = function(propValue, propOldValue, propData)
 {
@@ -575,7 +575,7 @@ qx.Proto._modifyBorderBottomProperty = function(propValue, propOldValue, propDat
   this._sync("bottom");
 
   return true;
-};
+}
 
 qx.Proto._modifyBorderLeftProperty = function(propValue, propOldValue, propData)
 {
@@ -587,7 +587,7 @@ qx.Proto._modifyBorderLeftProperty = function(propValue, propOldValue, propData)
   this._sync("left");
 
   return true;
-};
+}
 
 
 
@@ -601,39 +601,39 @@ qx.Proto.getUseEnhancedCrossBrowserMode = function()
 {
   if (this._useEnhancedCrossBrowserMode == null) {
     this._useEnhancedCrossBrowserMode = this._evalUseEnhancedCrossBrowserMode();
-  };
+  }
 
   return this._useEnhancedCrossBrowserMode;
-};
+}
 
 qx.Proto._evalUseEnhancedCrossBrowserMode = function()
 {
   if (this.getTopWidth() == 2) {
     switch(this.getTopStyle()) {
       case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
-    };
-  };
+    }
+  }
 
   if (this.getRightWidth() == 2) {
     switch(this.getRightStyle()) {
       case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
-    };
-  };
+    }
+  }
 
   if (this.getBottomWidth() == 2) {
     switch(this.getBottomStyle()) {
       case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
-    };
-  };
+    }
+  }
 
   if (this.getLeftWidth() == 2) {
     switch(this.getLeftStyle()) {
       case qx.renderer.border.Border.STYLE_OUTSET: case qx.renderer.border.Border.STYLE_INSET: case qx.renderer.border.Border.STYLE_GROOVE: case qx.renderer.border.Border.STYLE_RIDGE: return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 
 
@@ -650,79 +650,79 @@ qx.Proto._applyWidget = function(o)
 {
   this._applyWidgetX(o);
   this._applyWidgetY(o);
-};
+}
 
 qx.Proto._resetWidget = function(o)
 {
   this._resetWidgetX(o);
   this._resetWidgetY(o);
-};
+}
 
 qx.Proto._resetWidgetX = function(o) {
   return qx.renderer.border.Border._resetBorderX(o);
-};
+}
 
 qx.Proto._resetWidgetY = function(o) {
   return qx.renderer.border.Border._resetBorderY(o);
-};
+}
 
 qx.Proto._applyWidgetXCommon = function(vObject)
 {
   if (this._needsCompilationLeft) {
     this._compileLeft();
-  };
+  }
 
   if (this._needsCompilationRight) {
     this._compileRight();
-  };
+  }
 
   for (var i in this._defsX) {
     vObject._style[i] = this._defsX[i];
-  };
+  }
 
   if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
-    };
+    }
 
     if (vObject._borderStyle)
     {
       for (var i in this._enhancedDefsX) {
         vObject._borderStyle[i] = this._enhancedDefsX[i];
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 qx.Proto._applyWidgetYCommon = function(vObject)
 {
   if (this._needsCompilationTop) {
     this._compileTop();
-  };
+  }
 
   if (this._needsCompilationBottom) {
     this._compileBottom();
-  };
+  }
 
   for (var i in this._defsY) {
     vObject._style[i] = this._defsY[i];
-  };
+  }
 
   if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
-    };
+    }
 
     if (vObject._borderStyle)
     {
       for (var i in this._enhancedDefsY) {
         vObject._borderStyle[i] = this._enhancedDefsY[i];
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 if (qx.sys.Client.isGecko())
 {
@@ -735,23 +735,23 @@ if (qx.sys.Client.isGecko())
     {
       try {
         var a = qx.renderer.border.Border.data[vWidth][vStyle][vEdge];
-      } catch(ex) {};
+      } catch(ex) {}
 
       if (typeof a === qx.constant.Type.OBJECT)
       {
         for (var i=0, s=[], l=a.length; i<l; i++) {
           s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
-        };
+        }
 
         return s.join(qx.constant.Core.SPACE);
-      };
+      }
     }
     catch(ex) {
       this.error("Failed to generate Mozilla Color Definition Strings", ex);
-    };
+    }
 
     return qx.constant.Core.EMPTY;
-  };
+  }
 
   qx.Proto._compileTop = function()
   {
@@ -761,7 +761,7 @@ if (qx.sys.Client.isGecko())
     d.MozBorderTopColors = this._generateMozColorDefString(w, s, qx.renderer.border.Border.POSITION_TOP);
 
     this._needsCompilationTop = false;
-  };
+  }
 
   qx.Proto._compileRight = function()
   {
@@ -771,7 +771,7 @@ if (qx.sys.Client.isGecko())
     d.MozBorderRightColors = this._generateMozColorDefString(w, s, qx.renderer.border.Border.POSITION_RIGHT);
 
     this._needsCompilationRight = false;
-  };
+  }
 
   qx.Proto._compileBottom = function()
   {
@@ -781,7 +781,7 @@ if (qx.sys.Client.isGecko())
     d.MozBorderBottomColors = this._generateMozColorDefString(w, s, qx.renderer.border.Border.POSITION_BOTTOM);
 
     this._needsCompilationBottom = false;
-  };
+  }
 
   qx.Proto._compileLeft = function()
   {
@@ -791,19 +791,19 @@ if (qx.sys.Client.isGecko())
     d.MozBorderLeftColors = this._generateMozColorDefString(w, s, qx.renderer.border.Border.POSITION_LEFT);
 
     this._needsCompilationLeft = false;
-  };
+  }
 
   qx.renderer.border.Border._resetBorderX = function(o)
   {
     var s = o._style;
     s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = qx.constant.Core.EMPTY;
-  };
+  }
 
   qx.renderer.border.Border._resetBorderY = function(o)
   {
     var s = o._style;
     s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = qx.constant.Core.EMPTY;
-  };
+  }
 }
 else
 {
@@ -815,16 +815,16 @@ else
     {
       if (this.getUseEnhancedCrossBrowserMode()) {
         vObject._createElementForEnhancedBorder();
-      };
+      }
 
       if (vObject._borderStyle)
       {
         for (i in this._enhancedDefsX) {
           vObject._borderStyle[i] = this._enhancedDefsX[i];
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   qx.Proto._applyWidgetY = function(vObject)
   {
@@ -834,16 +834,16 @@ else
     {
       if (this.getUseEnhancedCrossBrowserMode()) {
         vObject._createElementForEnhancedBorder();
-      };
+      }
 
       if (vObject._borderStyle)
       {
         for (i in this._enhancedDefsY) {
           vObject._borderStyle[i] = this._enhancedDefsY[i];
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   qx.Proto._compileTop = function()
   {
@@ -860,7 +860,7 @@ else
           case qx.renderer.border.Border.STYLE_INSET:
             vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle][qx.renderer.border.Border.POSITION_TOP][0]));
             vTopStyle = qx.renderer.border.Border.STYLE_SOLID;
-        };
+        }
 
         break;
 
@@ -886,26 +886,26 @@ else
                   this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
 
                   vTopColor = (new qx.renderer.color.ColorObject(c[0]));
-                };
+                }
               }
               catch(ex)
               {
                 this.error("Failed to compile top border", ex);
                 this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
-              };
+              }
             }
             else
             {
               vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
-            };
-        };
+            }
+        }
 
         break;
-    };
+    }
 
     this._defsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
     this._needsCompilationTop = false;
-  };
+  }
 
   qx.Proto._compileRight = function()
   {
@@ -922,7 +922,7 @@ else
           case qx.renderer.border.Border.STYLE_INSET:
             vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle][qx.renderer.border.Border.POSITION_RIGHT][0]));
             vRightStyle = qx.renderer.border.Border.STYLE_SOLID;
-        };
+        }
 
         break;
 
@@ -948,26 +948,26 @@ else
                   this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
 
                   vRightColor = (new qx.renderer.color.ColorObject(c[0]));
-                };
+                }
               }
               catch(ex)
               {
                 this.error("Failed to compile right border", ex);
                 this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
-              };
+              }
             }
             else
             {
               vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
-            };
-        };
+            }
+        }
 
         break;
-    };
+    }
 
     this._defsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
     this._needsCompilationRight = false;
-  };
+  }
 
   qx.Proto._compileBottom = function()
   {
@@ -984,7 +984,7 @@ else
           case qx.renderer.border.Border.STYLE_INSET:
             vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle][qx.renderer.border.Border.POSITION_BOTTOM][0]));
             vBottomStyle = qx.renderer.border.Border.STYLE_SOLID;
-        };
+        }
 
         break;
 
@@ -1010,25 +1010,25 @@ else
                   this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
 
                   vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
-                };
+                }
               }
               catch(ex) {
                 this.error("Failed to compile bottom border", ex);
                 this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
-              };
+              }
             }
             else
             {
               vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
-            };
-        };
+            }
+        }
 
         break;
-    };
+    }
 
     this._defsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
     this._needsCompilationBottom = false;
-  };
+  }
 
   qx.Proto._compileLeft = function()
   {
@@ -1045,7 +1045,7 @@ else
           case qx.renderer.border.Border.STYLE_INSET:
             vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle][qx.renderer.border.Border.POSITION_LEFT][0]));
             vLeftStyle = qx.renderer.border.Border.STYLE_SOLID;
-        };
+        }
 
         break;
 
@@ -1071,25 +1071,25 @@ else
                   this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
 
                   vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
-                };
+                }
               }
               catch(ex) {
                 this.error("Failed to compile left border", ex);
                 this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
-              };
+              }
             }
             else
             {
               vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.baseColor));
-            };
-        };
+            }
+        }
 
         break;
-    };
+    }
 
     this._defsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
     this._needsCompilationLeft = false;
-  };
+  }
 
   qx.renderer.border.Border._resetBorderX = function(o)
   {
@@ -1101,9 +1101,9 @@ else
       s = o._borderStyle;
       if (s) {
         s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.renderer.border.Border._resetBorderY = function(o)
   {
@@ -1115,10 +1115,10 @@ else
       s = o._borderStyle;
       if (s) {
         s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 
 
@@ -1140,21 +1140,21 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (typeof this._defsX === qx.constant.Type.OBJECT) {
     for (var i in this._defsX) {
       delete this._defsX[i];
-    };
-  };
+    }
+  }
 
   delete this._defsX;
 
   if (typeof this._defsY === qx.constant.Type.OBJECT) {
     for (var i in this._defsY) {
       delete this._defsY[i];
-    };
-  };
+    }
+  }
 
   delete this._defsY;
 
@@ -1163,24 +1163,24 @@ qx.Proto.dispose = function()
     if (typeof this._enhancedDefsX === qx.constant.Type.OBJECT) {
       for (var i in this._enhancedDefsX) {
         delete this._enhancedDefsX[i];
-      };
-    };
+      }
+    }
 
     delete this._enhancedDefsX;
 
     if (typeof this._enhancedDefsY === qx.constant.Type.OBJECT) {
       for (var i in this._enhancedDefsY) {
         delete this._enhancedDefsY[i];
-      };
-    };
+      }
+    }
 
     delete this._enhancedDefsY;
-  };
+  }
 
   delete this._themedEdges;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}
 
 
 
@@ -1200,4 +1200,4 @@ qx.Class.presets =
   black : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "black"),
   white : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "white"),
   none : new qx.Class(0, qx.renderer.border.Border.STYLE_NONE)
-};
+}

@@ -43,7 +43,7 @@ function(vName, vMembers)
 
   if (qx.util.Validation.isValidArray(vMembers)) {
     qx.manager.selection.RadioManager.prototype.add.apply(this, vMembers);
-  };
+  }
 });
 
 qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "qx-radio-";
@@ -73,7 +73,7 @@ qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 qx.Proto.getItems = function() {
   return this._items;
-};
+}
 
 qx.Proto.handleItemChecked = function(vItem, vChecked)
 {
@@ -84,8 +84,8 @@ qx.Proto.handleItemChecked = function(vItem, vChecked)
   else if (this.getSelected() == vItem)
   {
     this.setSelected(null);
-  };
-};
+  }
+}
 
 
 
@@ -108,7 +108,7 @@ qx.Proto.add = function()
 
   if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof qx.ui.basic.Terminator)) {
     vLength--;
-  };
+  }
 
   var vItem;
   for (var i=0; i<vLength; i++)
@@ -117,7 +117,7 @@ qx.Proto.add = function()
 
     if(qx.lang.Array.contains(this._items, vItem)) {
       return;
-    };
+    }
 
     // Push RadioButton to array
     this._items.push(vItem);
@@ -128,15 +128,15 @@ qx.Proto.add = function()
     // Need to update internal value?
     if(vItem.getChecked()) {
       this.setSelected(vItem);
-    };
+    }
 
     // Make enabled the same status as the the manager has
     vItem.setEnabled(this.getEnabled());
 
     // Apply Make name the same
     vItem.setName(this.getName());
-  };
-};
+  }
+}
 
 qx.Proto.remove = function(vItem)
 {
@@ -149,8 +149,8 @@ qx.Proto.remove = function(vItem)
   // if the radio was checked, set internal selection to null
   if(vItem.getChecked()) {
     this.setSelected(null);
-  };
-};
+  }
+}
 
 
 
@@ -167,32 +167,32 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
   if (propOldValue && propOldValue.getChecked()) {
     propOldValue.setChecked(false);
-  };
+  }
 
   if (propValue && !propValue.getChecked()) {
     propValue.setChecked(true);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
     vItems[i].setEnabled(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
     vItems[i].setName(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -212,7 +212,7 @@ qx.Proto.selectNext = function(vItem)
 
   if(vIndex == -1) {
     return;
-  };
+  }
 
   var i = 0;
   var vLength = this._items.length;
@@ -223,10 +223,10 @@ qx.Proto.selectNext = function(vItem)
   {
     vIndex = (vIndex + 1) % vLength;
     i++;
-  };
+  }
 
   this._selectByIndex(vIndex);
-};
+}
 
 qx.Proto.selectPrevious = function(vItem)
 {
@@ -234,7 +234,7 @@ qx.Proto.selectPrevious = function(vItem)
 
   if(vIndex == -1) {
     return;
-  };
+  }
 
   var i = 0;
   var vLength = this._items.length;
@@ -245,10 +245,10 @@ qx.Proto.selectPrevious = function(vItem)
   {
     vIndex = (vIndex - 1 + vLength) % vLength;
     i++;
-  };
+  }
 
   this._selectByIndex(vIndex);
-};
+}
 
 qx.Proto._selectByIndex = function(vIndex)
 {
@@ -256,8 +256,8 @@ qx.Proto._selectByIndex = function(vIndex)
   {
     this.setSelected(this._items[vIndex]);
     this._items[vIndex].setFocused(true);
-  };
-};
+  }
+}
 
 
 
@@ -275,7 +275,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this.forceSelected(null);
 
@@ -285,11 +285,11 @@ qx.Proto.dispose = function()
     {
       vItems[i].dispose();
       delete vItems[i];
-    };
+    }
 
     vItems=null;
     delete this._items;
-  };
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

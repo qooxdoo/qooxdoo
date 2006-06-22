@@ -64,7 +64,7 @@ qx.OO.changeProperty({ name : "minHeight", defaultValue : -Infinity, addToQueue 
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.DockLayoutImpl(this);
-};
+}
 
 
 
@@ -80,43 +80,43 @@ qx.Proto._createLayoutImpl = function() {
 */
 qx.Proto.addLeft = function() {
   this._addAlignedHorizontal(qx.constant.Layout.ALIGN_LEFT, arguments);
-};
+}
 
 /*!
   Add multiple childrens and make them right aligned
 */
 qx.Proto.addRight = function() {
   this._addAlignedHorizontal(qx.constant.Layout.ALIGN_RIGHT, arguments);
-};
+}
 
 /*!
   Add multiple childrens and make them top aligned
 */
 qx.Proto.addTop = function() {
   this._addAlignedVertical(qx.constant.Layout.ALIGN_TOP, arguments);
-};
+}
 
 /*!
   Add multiple childrens and make them bottom aligned
 */
 qx.Proto.addBottom = function() {
   this._addAlignedVertical(qx.constant.Layout.ALIGN_BOTTOM, arguments);
-};
+}
 
 qx.Proto._addAlignedVertical = function(vAlign, vArgs)
 {
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setVerticalAlign(vAlign);
-  };
+  }
 
   this.add.apply(this, vArgs);
-};
+}
 
 qx.Proto._addAlignedHorizontal = function(vAlign, vArgs)
 {
   for (var i=0, l=vArgs.length; i<l; i++) {
     vArgs[i].setHorizontalAlign(vAlign);
-  };
+  }
 
   this.add.apply(this, vArgs);
-};
+}

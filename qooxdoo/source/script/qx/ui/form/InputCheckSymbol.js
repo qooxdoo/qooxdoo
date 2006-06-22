@@ -44,7 +44,7 @@ function()
   {
     // Remove gecko default margin
     this.setMargin(0);
-  };
+  }
 
   // we need to be sure that the dom protection of this is added
   this.forceTabIndex(1);
@@ -58,15 +58,15 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 
 qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);
-};
+}
 
 qx.Proto.getPreferredBoxWidth = function() {
   return 13;
-};
+}
 
 qx.Proto.getPreferredBoxHeight = function() {
   return 13;
-};
+}
 
 qx.Proto.getBoxWidth = qx.Proto.getPreferredBoxWidth;
 qx.Proto.getBoxHeight = qx.Proto.getPreferredBoxHeight;
@@ -85,12 +85,12 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getEnabled()) {
       vElement.disabled = true;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-};
+}

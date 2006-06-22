@@ -32,7 +32,7 @@ function QxStatusBarPane(vWidget) {
 
   if(qx.util.Validation.isValidObject(vWidget)) {
     this.setWidget(vWidget);
-  };
+  }
 });
 
 
@@ -66,16 +66,16 @@ qx.Proto._modifyWidget = function(propValue, propOldValue, propData)
     this.remove(propOldValue);
     propOldValue.dispose();
     propOldValue = null;
-  };
+  }
 
   if(propValue != null)
   {
     propValue.setAppearance("statusbar-widget");
     this.add(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 /*
@@ -88,7 +88,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   var widget = this.getWidget();
 
@@ -96,7 +96,7 @@ qx.Proto.dispose = function()
   {
     widget.dispose();
     widget = null;
-  };
+  }
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

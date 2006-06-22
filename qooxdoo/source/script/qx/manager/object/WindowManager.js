@@ -54,22 +54,22 @@ qx.Proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 
   if (propOldValue) {
     propOldValue.setActive(false);
-  };
+  }
 
   if (propValue) {
     propValue.setActive(true);
-  };
+  }
 
   if (propOldValue && propOldValue.getModal()) {
     propOldValue.getTopLevelWidget().release(propOldValue);
-  };
+  }
 
   if (propValue && propValue.getModal()) {
     propValue.getTopLevelWidget().block(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -93,11 +93,11 @@ qx.Proto.update = function(oTarget)
 
     if(!vWindow.getAutoHide()) {
       continue;
-    };
+    }
 
     vWindow.hide();
-  };
-};
+  }
+}
 
 
 
@@ -118,10 +118,10 @@ qx.Proto.compareWindows = function(w1, w2)
 
     case w2:
       return -1;
-  };
+  }
 
   return w1.getZIndex() - w2.getZIndex();
-};
+}
 
 qx.Proto.add = function(vWindow)
 {
@@ -129,7 +129,7 @@ qx.Proto.add = function(vWindow)
 
   // this.debug("Add: " + vWindow);
   this.setActiveWindow(vWindow);
-};
+}
 
 qx.Proto.remove = function(vWindow)
 {
@@ -142,7 +142,7 @@ qx.Proto.remove = function(vWindow)
     var a = [];
     for (var i in this._objects) {
       a.push(this._objects[i]);
-    };
+    }
 
     var l = a.length;
 
@@ -158,6 +158,6 @@ qx.Proto.remove = function(vWindow)
     {
       a.sort(this.compareWindows);
       this.setActiveWindow(a[l-1]);
-    };
-  };
-};
+    }
+  }
+}

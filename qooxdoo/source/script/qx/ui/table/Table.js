@@ -117,7 +117,7 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
   }
 
   return true;
-};
+}
 
 
 // property modifier
@@ -134,7 +134,7 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
     scrollerArr[i].setTableModel(propValue);
   }
   return true;
-};
+}
 
 
 // property modifier
@@ -153,7 +153,7 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
     scrollerArr[i].setTableColumnModel(propValue);
   }
   return true;
-};
+}
 
 
 // property modifier
@@ -164,7 +164,7 @@ qx.Proto._modifyStatusBarVisible = function(propValue, propOldValue, propData) {
     this._updateStatusBar();
   }
   return true;
-};
+}
 
 
 // property modifier
@@ -240,7 +240,7 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
   this._updateScrollBarVisibility();
 
   return true;
-};
+}
 
 
 /**
@@ -281,7 +281,7 @@ qx.Proto._cleanUpMetaColumns = function(fromMetaColumn) {
       paneScroller.dispose();
     }
   }
-};
+}
 
 
 /**
@@ -291,7 +291,7 @@ qx.Proto._cleanUpMetaColumns = function(fromMetaColumn) {
  */
 qx.Proto._onSelectionChanged = function(evt) {
   this._updateStatusBar();
-};
+}
 
 
 /**
@@ -301,7 +301,7 @@ qx.Proto._onSelectionChanged = function(evt) {
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateStatusBar();
-};
+}
 
 
 /**
@@ -317,11 +317,11 @@ qx.Proto._onScrollY = function(evt) {
     var scrollerArr = this._getPaneScrollerArr();
     for (var i = 0; i < scrollerArr.length; i++) {
       scrollerArr[i].setScrollY(evt.getData());
-    };
+    }
 
     this._internalChange = false;
   }
-};
+}
 
 
 /**
@@ -406,7 +406,7 @@ qx.Proto._onkeydown = function(evt) {
       }
     }
   }
-};
+}
 
 
 /**
@@ -417,7 +417,7 @@ qx.Proto._onkeydown = function(evt) {
 qx.Proto._onColVisibilityChanged = function(evt) {
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
-};
+}
 
 
 /**
@@ -428,7 +428,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
 qx.Proto._onColWidthChanged = function(evt) {
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
-};
+}
 
 
 /**
@@ -440,7 +440,7 @@ qx.Proto._onOrderChanged = function(evt) {
   // A column may have been moved between meta columns
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
-};
+}
 
 
 /**
@@ -456,7 +456,7 @@ qx.Proto._onOrderChanged = function(evt) {
 qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
   var metaCol = this._getMetaColumnAtPageX(pageX);
   return (metaCol != -1) ? this._getPaneScroller(metaCol) : null;
-};
+}
 
 
 /**
@@ -484,7 +484,7 @@ qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
       this.scrollCellVisible(col, row);
     }
   }
-};
+}
 
 
 /**
@@ -511,7 +511,7 @@ qx.Proto.moveFocusedCell = function(deltaX, deltaY) {
   }
 
   this.setFocusedCell(col, row, true);
-};
+}
 
 
 /**
@@ -528,7 +528,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
   if (metaColumn != -1) {
     this._getPaneScroller(metaColumn).scrollCellVisible(col, row);
   }
-};
+}
 
 
 /**
@@ -542,7 +542,7 @@ qx.Proto.isEditing = function() {
     var metaColumn = this._getMetaColumnAtColumnX(x);
     return this._getPaneScroller(metaColumn).isEditing();
   }
-};
+}
 
 
 /**
@@ -558,7 +558,7 @@ qx.Proto.startEditing = function() {
     return this._getPaneScroller(metaColumn).startEditing();
   }
   return false;
-};
+}
 
 
 /**
@@ -570,7 +570,7 @@ qx.Proto.stopEditing = function() {
     var metaColumn = this._getMetaColumnAtColumnX(x);
     this._getPaneScroller(metaColumn).stopEditing();
   }
-};
+}
 
 
 /**
@@ -582,7 +582,7 @@ qx.Proto.cancelEditing = function() {
     var metaColumn = this._getMetaColumnAtColumnX(x);
     this._getPaneScroller(metaColumn).cancelEditing();
   }
-};
+}
 
 
 /**
@@ -601,10 +601,10 @@ qx.Proto._getMetaColumnAtPageX = function(pageX) {
     {
       return i;
     }
-  };
+  }
 
   return -1;
-};
+}
 
 
 /**
@@ -627,7 +627,7 @@ qx.Proto._getMetaColumnAtColumnX = function(visXPos) {
   }
 
   return -1;
-};
+}
 
 
 /**
@@ -647,7 +647,7 @@ qx.Proto._updateStatusBar = function() {
     }
     this._statusBar.setHtml(text);
   }
-};
+}
 
 
 /**
@@ -664,7 +664,7 @@ qx.Proto._updateScrollerWidths = function() {
     var width = isLast ? qx.constant.Core.FLEX : scrollerArr[i].getTablePaneModel().getTotalWidth();
     scrollerArr[i].setWidth(width);
   }
-};
+}
 
 
 /**
@@ -702,7 +702,7 @@ qx.Proto._updateScrollBarVisibility = function() {
       scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
     }
   }
-};
+}
 
 
 /**
@@ -714,7 +714,7 @@ qx.Proto._onColumnVisibilityBtExecuted = function() {
   {
     this._toggleColumnVisibilityMenu();
   }
-};
+}
 
 
 /**
@@ -736,7 +736,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     for (var x = 0; x < columnModel.getOverallColumnCount(); x++) {
       var col = columnModel.getOverallColumnAtX(x);
       var visible = columnModel.isColumnVisible(col);
-      var cmd = { col:col };
+      var cmd = { col:col }
       var bt = new qx.ui.menu.MenuCheckBox(tableModel.getColumnName(col), null, visible);
 
       var handler = this._createColumnVisibilityCheckBoxHandler(col);
@@ -763,7 +763,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     menu.hide();
     this._cleanupColumnVisibilityMenu();
   }
-};
+}
 
 
 /**
@@ -781,7 +781,7 @@ qx.Proto._cleanupColumnVisibilityMenu = function() {
     this._columnVisibilityMenu.dispose();
     this._columnVisibilityMenu = null;
   }
-};
+}
 
 
 /**
@@ -793,8 +793,8 @@ qx.Proto._createColumnVisibilityCheckBoxHandler = function(col) {
   return function(evt) {
     var columnModel = this.getTableColumnModel();
     columnModel.setColumnVisible(col, !columnModel.isColumnVisible(col));
-  };
-};
+  }
+}
 
 
 /**
@@ -805,7 +805,7 @@ qx.Proto._createColumnVisibilityCheckBoxHandler = function(col) {
  */
 qx.Proto.setColumnWidth = function(col, width) {
   this.getTableColumnModel().setColumnWidth(col, width);
-};
+}
 
 
 /**
@@ -819,7 +819,7 @@ qx.Proto._changeBoxWidth = function(newValue, oldValue) {
   window.setTimeout(function() {
     self._updateScrollBarVisibility();
   }, 0);
-};
+}
 
 
 // overridden
@@ -827,14 +827,14 @@ qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
   this._updateScrollBarVisibility();
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._tableModel) {
     this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
@@ -854,4 +854,4 @@ qx.Proto.dispose = function() {
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
-};
+}

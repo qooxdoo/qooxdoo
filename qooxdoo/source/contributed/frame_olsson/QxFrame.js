@@ -72,13 +72,13 @@ qx.Proto._modifyMenuBar = function(propValue, propOldValue, propData)
   {
     if(propOldValue) {
       this._layout.remove(propOldValue);
-    };
+    }
 
     this._layout.addAfter(propValue, this._captionBar);
   }
 
   return true;
-};
+}
 
 qx.Proto._modifyToolBar = function(propValue, propOldValue, propData)
 {
@@ -86,7 +86,7 @@ qx.Proto._modifyToolBar = function(propValue, propOldValue, propData)
   {
     if(propOldValue) {
       this._layout.remove(propOldValue);
-    };
+    }
 
     var menuBar = this.getMenuBar();
 
@@ -94,7 +94,7 @@ qx.Proto._modifyToolBar = function(propValue, propOldValue, propData)
   }
 
   return true;
-};
+}
 
 qx.Proto._modifyStatusBar = function(propValue, propOldValue, propData)
 {
@@ -102,13 +102,13 @@ qx.Proto._modifyStatusBar = function(propValue, propOldValue, propData)
   {
     if(propOldValue) {
       this._layout.remove(propOldValue);
-    };
+    }
 
     this._layout.addAtEnd(propValue);
   }
 
   return true;
-};
+}
 
 
 /*
@@ -121,7 +121,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   return qx.ui.window.Window.prototype.dispose.call(this);
-};
+}

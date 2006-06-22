@@ -39,32 +39,32 @@ function() {
 
   this._columnIdArr = [];
   this._columnNameArr = [];
-  this._columnIndexMap = {};
+  this._columnIndexMap = {}
 });
 
 
 // overridden
 qx.Proto.getColumnCount = function() {
   return this._columnIdArr.length;
-};
+}
 
 
 // overridden
 qx.Proto.getColumnIndexById = function(columnId) {
   return this._columnIndexMap[columnId];
-};
+}
 
 
 // overridden
 qx.Proto.getColumnId = function(columnIndex) {
   return this._columnIdArr[columnIndex];
-};
+}
 
 
 // overridden
 qx.Proto.getColumnName = function(columnIndex) {
   return this._columnNameArr[columnIndex];
-};
+}
 
 
 /**
@@ -80,7 +80,7 @@ qx.Proto.setColumnIds = function(columnIdArr) {
   this._columnIdArr = columnIdArr;
 
   // Create the reverse map
-  this._columnIndexMap = {};
+  this._columnIndexMap = {}
   for (var i = 0; i < columnIdArr.length; i++) {
     this._columnIndexMap[columnIdArr[i]] = i;
   }
@@ -90,7 +90,7 @@ qx.Proto.setColumnIds = function(columnIdArr) {
   if (!this._internalChange) {
     this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
   }
-};
+}
 
 
 /**
@@ -111,7 +111,7 @@ qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
 
   // Inform the listeners
   this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
-};
+}
 
 
 /**
@@ -129,7 +129,7 @@ qx.Proto.setColumnNamesById = function(columnNameMap) {
   for (var i = 0; i < this._columnIdArr.length; ++i) {
     this._columnNameArr[i] = columnNameMap[this._columnIdArr[i]];
   }
-};
+}
 
 
 /**
@@ -155,4 +155,4 @@ qx.Proto.setColumns = function(columnNameArr, columnIdArr) {
   this.setColumnIds(columnIdArr);
   this._internalChange = false;
   this.setColumnNamesByIndex(columnNameArr);
-};
+}

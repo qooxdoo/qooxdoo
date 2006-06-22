@@ -67,7 +67,7 @@ qx.Proto._onkeydown = function(e)
 
         // and naturally make it also checked
         vPrev.setChecked(true);
-      };
+      }
       break;
 
     case qx.event.type.KeyEvent.keys.right:
@@ -83,7 +83,7 @@ qx.Proto._onkeydown = function(e)
 
         // and naturally make it also checked
         vNext.setChecked(true);
-      };
+      }
       break;
-  };
-};
+  }
+}

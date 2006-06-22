@@ -53,15 +53,15 @@ qx.OO.changeProperty({ name : "dragSelection", type : qx.constant.Type.BOOLEAN, 
 
 qx.Proto._getFirst = function() {
   return qx.lang.Array.getFirst(this.getItems());
-};
+}
 
 qx.Proto._getLast = function() {
   return qx.lang.Array.getLast(this.getItems());
-};
+}
 
 qx.Proto.getItems = function() {
   return this.getBoundedWidget().getItems();
-};
+}
 
 qx.Proto.getNext = function(vItem)
 {
@@ -77,22 +77,22 @@ qx.Proto.getNext = function(vItem)
 
       while(vCurrent && vCurrent.isLastVisibleChild()) {
         vCurrent = vCurrent.getParentFolder();
-      };
+      }
 
       if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
         return vCurrent.getNextVisibleSibling();
-      };
+      }
     }
     else
     {
       return vItem.getNextVisibleSibling();
-    };
+    }
   }
   else
   {
     return this.getBoundedWidget().getFirstTreeChild();
-  };
-};
+  }
+}
 
 qx.Proto.getPrevious = function(vItem)
 {
@@ -106,7 +106,7 @@ qx.Proto.getPrevious = function(vItem)
     {
       if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
         return vItem.getParentFolder();
-      };
+      }
     }
     else
     {
@@ -121,17 +121,17 @@ qx.Proto.getPrevious = function(vItem)
         else
         {
           break;
-        };
-      };
+        }
+      }
 
       return vPrev;
-    };
+    }
   }
   else
   {
     return this.getBoundedWidget().getLastTreeChild();
-  };
-};
+  }
+}
 
 
 
@@ -158,10 +158,10 @@ qx.Proto.getItemTop = function(vItem)
   {
     vOffset += vElement.offsetTop;
     vElement = vElement.parentNode;
-  };
+  }
 
   return vOffset;
-};
+}
 
 qx.Proto.getItemHeight = function(vItem)
 {
@@ -172,8 +172,8 @@ qx.Proto.getItemHeight = function(vItem)
   else
   {
     return vItem.getOffsetHeight();
-  };
-};
+  }
+}
 
 qx.Proto.scrollItemIntoView = function(vItem)
 {
@@ -184,8 +184,8 @@ qx.Proto.scrollItemIntoView = function(vItem)
   else
   {
     return vItem.scrollIntoView();
-  };
-};
+  }
+}
 
 
 
@@ -199,4 +199,4 @@ qx.Proto.scrollItemIntoView = function(vItem)
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   vItem.setSelected(vIsSelected);
-};
+}

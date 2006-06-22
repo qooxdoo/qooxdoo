@@ -33,11 +33,11 @@ function(vHtml, vUri, vTarget)
 
   if (typeof vUri != qx.constant.Type.UNDEFINED) {
     this.setUri(vUri);
-  };
+  }
 
   if (typeof vTarget != qx.constant.Type.UNDEFINED) {
     this.setTarget(vTarget);
-  };
+  }
 });
 
 
@@ -90,4 +90,4 @@ qx.Proto._syncHtml = function()
   vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
 
   this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
-};
+}

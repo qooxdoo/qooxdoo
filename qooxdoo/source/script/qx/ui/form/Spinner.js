@@ -42,7 +42,7 @@ function(vMin, vValue, vMax)
 
   if (qx.sys.Client.isMshtml()) {
     this.setStyleProperty("fontSize", qx.constant.Core.ZEROPIXEL);
-  };
+  }
 
 
   // ************************************************************************
@@ -113,15 +113,15 @@ function(vMin, vValue, vMax)
 
   if(qx.util.Validation.isValidNumber(vMin)) {
     this.setMin(vMin);
-  };
+  }
 
   if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
-  };
+  }
 
   if(qx.util.Validation.isValidNumber(vValue)) {
     this.setValue(vValue);
-  };
+  }
 });
 
 
@@ -186,11 +186,11 @@ qx.OO.addProperty({ name : "amountGrowth", type : qx.constant.Type.NUMBER, defau
 
 qx.Proto._computePreferredInnerWidth = function() {
   return 50;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function() {
   return 14;
-};
+}
 
 
 
@@ -244,12 +244,12 @@ qx.Proto._onkeypress = function(e)
       default:
         if (vCode >= 48 && vCode <= 57) {
           return;
-        };
+        }
 
         e.preventDefault();
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._onkeydown = function(e)
 {
@@ -284,9 +284,9 @@ qx.Proto._onkeydown = function(e)
         this._timer.startWith(this.getFirstInterval());
 
         break;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._onkeyup = function(e)
 {
@@ -302,9 +302,9 @@ qx.Proto._onkeyup = function(e)
 
         this._intervalIncrease = null;
         this._intervalMode = null;
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -320,7 +320,7 @@ qx.Proto._onmousedown = function(e)
 {
   if (!e.isLeftButtonPressed()) {
     return;
-  };
+  }
 
   this._checkValue(true);
 
@@ -339,7 +339,7 @@ qx.Proto._onmousedown = function(e)
 
   this._timer.setInterval(this.getFirstInterval());
   this._timer.start();
-};
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -355,13 +355,13 @@ qx.Proto._onmouseup = function(e)
 
   this._timer.stop();
   this._intervalIncrease = null;
-};
+}
 
 qx.Proto._onmousewheel = function(e)
 {
   this._manager.setValue(this._manager.getValue() + this.getWheelIncrementAmount() * e.getWheelDelta());
   this._textfield.selectAll();
-};
+}
 
 
 
@@ -374,7 +374,7 @@ qx.Proto._onmousewheel = function(e)
 
 qx.Proto._oninput = function(e) {
   this._checkValue(true, true);
-};
+}
 
 qx.Proto._onchange = function(e)
 {
@@ -391,7 +391,7 @@ qx.Proto._onchange = function(e)
   else
   {
     this._downbutton.setEnabled(true);
-  };
+  }
 
   if (vValue == this.getMax())
   {
@@ -402,16 +402,16 @@ qx.Proto._onchange = function(e)
   else
   {
     this._upbutton.setEnabled(true);
-  };
+  }
 
   if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
-  };
-};
+  }
+}
 
 qx.Proto._onblur = function(e) {
   this._checkValue(false);
-};
+}
 
 
 
@@ -426,32 +426,32 @@ qx.Proto._onblur = function(e) {
 
 qx.Proto.setValue = function(nValue) {
   this._manager.setValue(nValue);
-};
+}
 
 qx.Proto.getValue = function() {
   this._checkValue(true);
   return this._manager.getValue();
-};
+}
 
 qx.Proto.resetValue = function() {
   return this._manager.resetValue();
-};
+}
 
 qx.Proto.setMax = function(vMax) {
   return this._manager.setMax(vMax);
-};
+}
 
 qx.Proto.getMax = function() {
   return this._manager.getMax();
-};
+}
 
 qx.Proto.setMin = function(vMin) {
   return this._manager.setMin(vMin);
-};
+}
 
 qx.Proto.getMin = function() {
   return this._manager.getMin();
-};
+}
 
 
 
@@ -482,26 +482,26 @@ qx.Proto._oninterval = function(e)
   {
     if (this.getInterval() == this.getMinTimer()) {
       this.setIncrementAmount(this.getAmountGrowth() * this.getIncrementAmount());
-    };
+    }
 
     this._increment();
-  };
+  }
 
   switch(this._intervalIncrease)
   {
     case true:
       if (this.getValue() == this.getMax()) {
         return;
-      };
+      }
 
     case false:
       if (this.getValue() == this.getMin()) {
         return;
-      };
-  };
+      }
+  }
 
   this._timer.restartWith(this.getInterval());
-};
+}
 
 
 
@@ -519,7 +519,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
 
   if (!el) {
     return;
-  };
+  }
 
   if (el.value == qx.constant.Core.EMPTY)
   {
@@ -529,7 +529,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
       this._textfield.selectAll();
 
       return;
-    };
+    }
   }
   else
   {
@@ -541,25 +541,25 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     {
       while(val.charAt(0) == qx.constant.Core.ZERO) {
         val = val.substr(1, val.length);
-      };
+      }
 
       var f1 = parseInt(val) || 0;
 
       if (f1 != el.value) {
         el.value = f1;
         return;
-      };
-    };
+      }
+    }
 
     // fix for negative integer handling
     if (val == qx.constant.Core.MINUS && acceptEmpty && this.getMin() < 0)
     {
       if (el.value != val) {
         el.value = val;
-      };
+      }
 
       return;
-    };
+    }
 
     // parse the string
     val = parseInt(val);
@@ -570,7 +570,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
 
     if (isNaN(fixedVal)) {
       fixedVal = this._manager.getValue();
-    };
+    }
 
     // handle empty string
     if (acceptEmpty && val == qx.constant.Core.EMPTY)
@@ -590,35 +590,35 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
         else if (val < fixedVal && !(val < 0 && fixedVal >= 0) && String(val).length < String(fixedVal).length)
         {
           doFix = false;
-        };
-      };
-    };
+        }
+      }
+    }
 
     // apply value fix
     if (doFix && el.value != fixedVal) {
       el.value = fixedVal;
-    };
+    }
 
     // inform manager
     if (!acceptEdit) {
       this._manager.setValue(fixedVal);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._increment = function() {
   this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getIncrementAmount()));
-};
+}
 
 qx.Proto._pageIncrement = function() {
   this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageIncrementAmount()));
-};
+}
 
 qx.Proto._resetIncrements = function()
 {
   this.resetIncrementAmount();
   this.resetInterval();
-};
+}
 
 
 
@@ -634,7 +634,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress, this);
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
@@ -647,27 +647,27 @@ qx.Proto.dispose = function()
     this._textfield.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
     this._textfield.dispose();
     this._textfield = null;
-  };
+  }
 
   if (this._buttonlayout)
   {
     this._buttonlayout.dispose();
     this._buttonlayout = null;
-  };
+  }
 
   if (this._upbutton)
   {
     this._upbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
     this._upbutton.dispose();
     this._upbutton = null;
-  };
+  }
 
   if (this._downbutton)
   {
     this._downbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
     this._downbutton.dispose();
     this._downbutton = null;
-  };
+  }
 
   if (this._timer)
   {
@@ -675,14 +675,14 @@ qx.Proto.dispose = function()
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   if (this._manager)
   {
     this._manager.removeEventListener(qx.constant.Event.CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

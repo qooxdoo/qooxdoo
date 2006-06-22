@@ -77,7 +77,7 @@ qx.Proto._modifyFirstVisibleRow = function(propValue, propOldValue, propData) {
     this._updateContent();
   }
   return true;
-};
+}
 
 
 // property modifier
@@ -86,7 +86,7 @@ qx.Proto._modifyVisibleRowCount = function(propValue, propOldValue, propData) {
     this._updateContent();
   }
   return true;
-};
+}
 
 
 // property modifier
@@ -97,7 +97,7 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener("selectionChanged", this._onSelectionChanged, this);
 
   return true;
-};
+}
 
 
 // property modifier
@@ -110,7 +110,7 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
 
   return true;
-};
+}
 
 
 // property modifier
@@ -122,7 +122,7 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener("widthChanged", this._onWidthChanged, this);
   propValue.addEventListener("orderChanged", this._onOrderChanged, this);
   return true;
-};
+}
 
 
 // property modifier
@@ -132,7 +132,7 @@ qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
   }
   propValue.addEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
   return true;
-};
+}
 
 
 /**
@@ -143,7 +143,7 @@ qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
 qx.Proto.calculateTableRowHeight = function() {
   // TODO: Create one row and measure its height
   return 15;
-};
+}
 
 
 /**
@@ -168,7 +168,7 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
       this._updateContent(false, row, true);
     }
   }
-};
+}
 
 
 /**
@@ -178,7 +178,7 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
  */
 qx.Proto._onSelectionChanged = function(evt) {
   this._updateContent(false, null, true);
-};
+}
 
 
 /**
@@ -188,7 +188,7 @@ qx.Proto._onSelectionChanged = function(evt) {
  */
 qx.Proto._onWidthChanged = function(evt) {
   this._updateContent(true);
-};
+}
 
 
 /**
@@ -198,7 +198,7 @@ qx.Proto._onWidthChanged = function(evt) {
  */
 qx.Proto._onOrderChanged = function(evt) {
   this._updateContent(true);
-};
+}
 
 
 /**
@@ -208,7 +208,7 @@ qx.Proto._onOrderChanged = function(evt) {
  */
 qx.Proto._onPaneModelChanged = function(evt) {
   this._updateContent(true);
-};
+}
 
 
 /**
@@ -223,7 +223,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
     // The change intersects this pane
     this._updateContent();
   }
-};
+}
 
 
 /**
@@ -233,7 +233,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateContent();
-};
+}
 
 
 /**
@@ -257,7 +257,7 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
   } else {
     this._updateContent_orig(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
   }
-};
+}
 
 
 qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
@@ -280,7 +280,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     rowCount = Math.max(0, modelRowCount - firstRow);
   }
 
-  var cellInfo = {};
+  var cellInfo = {}
   cellInfo.styleHeight = rowHeight;
 
   var htmlArr = [];
@@ -371,7 +371,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
-};
+}
 
 
 qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
@@ -406,7 +406,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 
   var elem = this.getElement();
   var childNodes = elem.childNodes;
-  var cellInfo = {};
+  var cellInfo = {}
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
     if ((onlyRow != null) && (row != onlyRow)) {
@@ -481,7 +481,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
-};
+}
 
 
 /**
@@ -500,14 +500,14 @@ qx.Proto._cleanUpRows = function(firstRowToRemove) {
       elem.removeChild(childNodes[y]);
     }
   }
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._selectionModel != null) {
     this._selectionModel.removeEventListener("selectionChanged", this._onSelectionChanged, this);
@@ -530,7 +530,7 @@ qx.Proto.dispose = function() {
   this._cleanUpRows(0);
 
   return qx.ui.layout.GridLayout.prototype.dispose.call(this);
-};
+}
 
 
 qx.Class.USE_ARRAY_JOIN = false;

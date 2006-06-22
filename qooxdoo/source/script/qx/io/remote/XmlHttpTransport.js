@@ -39,7 +39,7 @@ function()
   this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
 
   var o = this;
-  this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); };
+  this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); }
 });
 
 
@@ -61,7 +61,7 @@ qx.io.remote.XmlHttpTransport.handles =
   crossDomain : false,
   fileUpload: false,
   responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
-};
+}
 
 qx.io.remote.XmlHttpTransport.requestObjects = [];
 qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
@@ -72,11 +72,11 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
   {
     if (qx.core.Settings.enableTransportDebug) {
       qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using XMLHttpRequest");
-    };
+    }
 
     qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createNativeRequestObject;
     return true;
-  };
+  }
 
   if (window.ActiveXObject)
   {
@@ -96,24 +96,24 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
       catch(ex)
       {
         vObject = null;
-      };
-    };
+      }
+    }
 
     if (vObject)
     {
       if (qx.core.Settings.enableTransportDebug) {
         qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using ActiveXObject: " + vServer);
-      };
+      }
 
       qx.io.remote.XmlHttpTransport._activeXServer = vServer;
       qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
 
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 /*!
   Return a new request object suitable for the client browser.
@@ -126,15 +126,15 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 */
 qx.io.remote.XmlHttpTransport.createRequestObject = function() {
   throw new Error("XMLHTTP is not supported!");
-};
+}
 
 qx.io.remote.XmlHttpTransport._createNativeRequestObject = function() {
    return new XMLHttpRequest;
-};
+}
 
 qx.io.remote.XmlHttpTransport._createActiveXRequestObject = function() {
   return new ActiveXObject(qx.io.remote.XmlHttpTransport._activeXServer);
-};
+}
 
 
 
@@ -159,7 +159,7 @@ qx.Proto._lastReadyState = 0;
 
 qx.Proto.getRequest = function() {
   return this._req;
-};
+}
 
 
 
@@ -199,11 +199,11 @@ qx.Proto.send = function()
   var vParametersList = [];
   for (var vId in vParameters) {
     vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
-  };
+  }
 
   if (vParametersList.length > 0) {
     vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
-  };
+  }
 
 
 
@@ -214,7 +214,7 @@ qx.Proto.send = function()
     vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
   } else {
     vRequest.open(vMethod, vUrl, vAsynchronous);
-  };
+  }
 
 
 
@@ -225,7 +225,7 @@ qx.Proto.send = function()
   var vRequestHeaders = this.getRequestHeaders();
   for (var vId in vRequestHeaders) {
     vRequest.setRequestHeader(vId, vRequestHeaders[vId]);
-  };
+  }
 
 
 
@@ -247,10 +247,10 @@ qx.Proto.send = function()
     {
       this.error("Failed to send data: " + ex, "send");
       this.failed();
-    };
+    }
 
     return;
-  };
+  }
 
 
 
@@ -260,8 +260,8 @@ qx.Proto.send = function()
 
   if (!vAsynchronous) {
     this._onreadystatechange();
-  };
-};
+  }
+}
 
 /*!
   Force the transport into the failed state
@@ -274,15 +274,15 @@ qx.Proto.failedLocally = function()
 {
   if (this.getState() === qx.constant.Net.STATE_FAILED) {
     return;
-  };
+  }
 
   // should only occours on "file://" access
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Could not load from file: " + this.getUrl());
-  };
+  }
 
   this.failed();
-};
+}
 
 
 
@@ -309,19 +309,19 @@ qx.Proto._onreadystatechange = function(e)
     case qx.constant.Net.STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
-  };
+  }
 
   // Checking status code
   var vReadyState = this.getReadyState();
   if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
     return this.failed();
-  };
+  }
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
     this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
-  };
-};
+  }
+}
 
 
 
@@ -345,10 +345,10 @@ qx.Proto.getReadyState = function()
 
   try {
     vReadyState = this._req.readyState;
-  } catch(ex) {};
+  } catch(ex) {}
 
   return vReadyState;
-};
+}
 
 
 
@@ -366,7 +366,7 @@ qx.Proto.getReadyState = function()
 */
 qx.Proto.setRequestHeader = function(vLabel, vValue) {
   this._req.setRequestHeader(vLabel, vValue);
-};
+}
 
 
 
@@ -393,10 +393,10 @@ qx.Proto.getResponseHeader = function(vLabel)
 
   try {
     this.getRequest().getResponseHeader(vLabel) || null;
-  } catch(ex) {};
+  } catch(ex) {}
 
   return vResponseHeader;
-};
+}
 
 qx.Proto.getStringResponseHeaders = function()
 {
@@ -407,11 +407,11 @@ qx.Proto.getStringResponseHeaders = function()
     var vLoadHeader = this._req.getAllResponseHeaders();
     if (vLoadHeader) {
       vSourceHeader = vLoadHeader;
-    };
-  } catch(ex) {};
+    }
+  } catch(ex) {}
 
   return vSourceHeader;
-};
+}
 
 /*!
   Provides a hash of all response headers.
@@ -419,7 +419,7 @@ qx.Proto.getStringResponseHeaders = function()
 qx.Proto.getResponseHeaders = function()
 {
   var vSourceHeader = this.getStringResponseHeaders();
-  var vHeader = {};
+  var vHeader = {}
 
   if (vSourceHeader)
   {
@@ -430,12 +430,12 @@ qx.Proto.getResponseHeaders = function()
       var vPair = vValues[i].match(/^([^:]+)\s*:\s*(.+)$/i);
       if(vPair) {
         vHeader[vPair[1]] = vPair[2];
-      };
-    };
-  };
+      }
+    }
+  }
 
   return vHeader;
-};
+}
 
 
 
@@ -459,10 +459,10 @@ qx.Proto.getStatusCode = function()
 
   try {
     vStatusCode = this.getRequest().status;
-  } catch(ex) {};
+  } catch(ex) {}
 
   return vStatusCode;
-};
+}
 
 /*!
   Provides the status text for the current request if available and null otherwise.
@@ -473,10 +473,10 @@ qx.Proto.getStatusText = function()
 
   try {
     vStatusText = this.getRequest().statusText;
-  } catch(ex) {};
+  } catch(ex) {}
 
   return vStatusText;
-};
+}
 
 
 
@@ -507,11 +507,11 @@ qx.Proto.getResponseText = function()
     case 200:
       try {
         vResponseText = this.getRequest().responseText;
-      } catch(ex) {};
-  };
+      } catch(ex) {}
+  }
 
   return vResponseText;
-};
+}
 
 /*!
   Provides the XML provided by the response if any and null otherwise.
@@ -528,11 +528,11 @@ qx.Proto.getResponseXml = function()
     case 200:
       try {
         vResponseXML = this.getRequest().responseXML;
-      } catch(ex) {};
-  };
+      } catch(ex) {}
+  }
 
   return vResponseXML;
-};
+}
 
 /*!
   Returns the length of the content as fetched thus far
@@ -541,7 +541,7 @@ qx.Proto.getFetchedLength = function()
 {
   var vText = this.getResponseText(true);
   return qx.util.Validation.isValidString(vText) ? vText.length : 0;
-};
+}
 
 qx.Proto.getResponseContent = function()
 {
@@ -549,14 +549,14 @@ qx.Proto.getResponseContent = function()
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
-    };
+    }
 
     return null;
-  };
+  }
 
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("Returning content for responseType: " + this.getResponseType());
-  };
+  }
 
   var vText = this.getResponseText();
 
@@ -571,14 +571,14 @@ qx.Proto.getResponseContent = function()
         return qx.io.Json.parseQx(vText);
       } catch(ex) {
         return this.error("Could not execute json: [" + vText + "]", ex);
-      };
+      }
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
       } catch(ex) {
         return this.error("Could not execute javascript: [" + vText + "]", ex);
-      };
+      }
 
     case qx.constant.Mime.XML:
       return this.getResponseXml();
@@ -586,8 +586,8 @@ qx.Proto.getResponseContent = function()
     default:
       this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
       return null;
-  };
-};
+  }
+}
 
 
 
@@ -604,7 +604,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
-  };
+  }
 
   switch(propValue)
   {
@@ -642,10 +642,10 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       this.getRequest().abort();
       this.createDispatchEvent(qx.constant.Event.TIMEOUT);
       break;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -663,12 +663,12 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   /*
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("Disposing...");
-  };
+  }
   */
 
   var vRequest = this.getRequest();
@@ -679,7 +679,7 @@ qx.Proto.dispose = function()
     // but is not compatible to mshtml (throws an exception)
     if (!qx.sys.Client.isMshtml()) {
       vRequest.onreadystatechange = null;
-    };
+    }
 
     // Aborting
     switch(vRequest.readyState)
@@ -688,11 +688,11 @@ qx.Proto.dispose = function()
       case 2:
       case 3:
         vRequest.abort();
-    };
+    }
 
     // Cleanup objects
     this._req = null;
-  };
+  }
 
   return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
-};
+}

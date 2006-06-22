@@ -48,39 +48,39 @@ function(vBoundedWidget)
 
 qx.Proto.getItemEnabled = function(oItem) {
   return true;
-};
+}
 
 qx.Proto.getItemClassName = function(vItem) {
   return vItem.className || qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto.setItemClassName = function(vItem, vClassName) {
   return vItem.className = vClassName;
-};
+}
 
 qx.Proto.getItemBaseClassName = function(vItem)
 {
   var p = vItem.className.split(qx.constant.Core.SPACE)[0];
   return p ? p : "Status";
-};
+}
 
 qx.Proto.getNextSibling = function(vItem) {
   return vItem.nextSibling;
-};
+}
 
 qx.Proto.getPreviousSibling = function(vItem) {
   return vItem.previousSibling;
-};
+}
 
 qx.Proto.getFirst = function() {
   return this.getItems()[0];
-};
+}
 
 qx.Proto.getLast = function()
 {
   var vItems = this.getItems();
   return vItems[vItems.length-1];
-};
+}
 
 
 
@@ -94,19 +94,19 @@ qx.Proto.getLast = function()
 
 qx.Proto.getItemLeft = function(vItem) {
   return vItem.offsetLeft;
-};
+}
 
 qx.Proto.getItemTop = function(vItem) {
   return vItem.offsetTop;
-};
+}
 
 qx.Proto.getItemWidth = function(vItem) {
   return vItem.offsetWidth;
-};
+}
 
 qx.Proto.getItemHeight = function(vItem) {
   return vItem.offsetHeight;
-};
+}
 
 
 
@@ -123,10 +123,10 @@ qx.Proto.getItemHashCode = function(oItem)
 {
   if (oItem._hash) {
     return oItem._hash;
-  };
+  }
 
   return oItem._hash = qx.core.Object.toHashCode(oItem);
-};
+}
 
 qx.Proto.isBefore = function(vItem1, vItem2)
 {
@@ -141,17 +141,17 @@ qx.Proto.isBefore = function(vItem1, vItem2)
 
       case vItem1:
         return true;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.scrollItemIntoView = function(vItem) {
   this.getBoundedWidget().scrollItemIntoView(vItem);
-};
+}
 
 qx.Proto.getItems = function() {
   return this.getBoundedWidget().getItems();
-};
+}
 
 qx.Proto.getAbove = function(vItem)
 {
@@ -168,17 +168,17 @@ qx.Proto.getAbove = function(vItem)
     {
       if (vChild == vItem) {
         vFound = true;
-      };
+      }
     }
     else
     {
       if (vChild.offsetLeft == vLeft)
       {
         return vChild;
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 qx.Proto.getUnder = function(vItem)
 {
@@ -195,17 +195,17 @@ qx.Proto.getUnder = function(vItem)
     {
       if (vChild == vItem) {
         vFound = true;
-      };
+      }
     }
     else
     {
       if (vChild.offsetLeft == vLeft)
       {
         return vChild;
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 
 
@@ -232,16 +232,16 @@ qx.Proto._updateState = function(vItem, vState, vIsState)
   var n = this.getItemBaseClassName(vItem) + "-" + vState;
 
   this.setItemClassName(vItem, vIsState ? qx.lang.String.add(c, n, " ") : qx.lang.String.remove(c, n, " "));
-};
+}
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   this._updateState(vItem, "Selected", vIsSelected);
-};
+}
 
 qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   this._updateState(vItem, "Anchor", vIsAnchor);
-};
+}
 
 qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   this._updateState(vItem, "Lead", vIsLead);
-};
+}

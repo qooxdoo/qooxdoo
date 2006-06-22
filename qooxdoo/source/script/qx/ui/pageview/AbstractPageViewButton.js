@@ -91,7 +91,7 @@ qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 
 qx.Proto.getView = function() {
   return this.getParent().getParent();
-};
+}
 
 
 
@@ -107,42 +107,42 @@ qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue) {
     propValue.add(this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.getManager().remove(this);
-  };
+  }
 
   if (propValue) {
     propValue.getManager().add(this);
-  };
+  }
 
   return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyPage = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setButton(null);
-  };
+  }
 
   if (propValue)
   {
     propValue.setButton(this);
     this.getChecked() ? propValue.show() : propValue.hide();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
@@ -151,27 +151,27 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
     var vManager = this.getManager();
     if (vManager) {
       vManager.handleItemChecked(this, propValue);
-    };
-  };
+    }
+  }
 
   propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
 
   var vPage = this.getPage();
   if (vPage) {
     this.getChecked() ? vPage.show() : vPage.hide();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this.getManager()) {
     this.getManager().setName(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -187,17 +187,17 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData)
 
 qx.Proto._onmousedown = function(e) {
   this.setChecked(true);
-};
+}
 
 qx.Proto._onmouseover = function(e) {
   this.addState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
 qx.Proto._onmouseout = function(e) {
   this.removeState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
-qx.Proto._onkeydown = function(e) {};
+qx.Proto._onkeydown = function(e) {}
 
 
 
@@ -214,7 +214,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // ************************************************************************
   //   MOUSE EVENTS
@@ -231,4 +231,4 @@ qx.Proto.dispose = function()
 
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
-};
+}

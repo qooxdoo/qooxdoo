@@ -86,7 +86,7 @@ qx.Proto.computeChildrenNeededWidth = function()
 
   // Let the menu do the real hard things
   return vMenu.getMenuButtonNeededWidth();
-};
+}
 
 
 
@@ -130,11 +130,11 @@ qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
     case vWidget._arrowObject:
       vMenu._invalidateMaxArrowWidth();
       break;
-  };
+  }
 
   // Call superclass implementation
   return qx.renderer.layout.HorizontalBoxLayoutImpl.prototype.updateSelfOnChildOuterWidthChange.call(this, vChild);
-};
+}
 
 
 
@@ -177,11 +177,11 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
     case vWidget._arrowObject:
       vPos = vMenu.getArrowPosition();
       break;
-  };
+  }
 
   if (vPos != null)
   {
     vPos += vWidget.getPaddingLeft();
     vChild._applyRuntimeLeft(vPos);
-  };
-};
+  }
+}

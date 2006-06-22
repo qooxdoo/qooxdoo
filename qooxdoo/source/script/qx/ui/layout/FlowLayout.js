@@ -73,7 +73,7 @@ qx.OO.addProperty({ name : "reverseChildrenOrder", type : qx.constant.Type.BOOLE
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.FlowLayoutImpl(this);
-};
+}
 
 
 
@@ -91,7 +91,7 @@ qx.Proto._changeInnerWidth = function(vNew, vOld)
 
   // allow 'auto' values for height to update when the inner width changes
   this._invalidatePreferredInnerHeight();
-};
+}
 
 
 
@@ -108,4 +108,4 @@ qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
   this._invalidatePreferredInnerDimensions();
 
   return true;
-};
+}

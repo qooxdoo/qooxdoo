@@ -75,7 +75,7 @@ function(scrollerPool) {
     setDimension(qx.constant.Core.FLEX, qx.constant.Core.AUTO);
     setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
     add(this._header);
-  };
+  }
 
   this._spacer = new qx.ui.basic.Terminator;
   this._spacer.setWidth(scrollBarWidth);
@@ -106,7 +106,7 @@ function(scrollerPool) {
     setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
     add(this._tablePane, this._focusIndicator);
     addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
-  };
+  }
 
   // add all child widgets
   var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;
@@ -177,7 +177,7 @@ qx.Proto._modifyHorizontalScrollBarVisible = function(propValue, propOldValue, p
   this._updateContent();
 
   return true;
-};
+}
 
 
 // property modifier
@@ -195,7 +195,7 @@ qx.Proto._modifyVerticalScrollBarVisible = function(propValue, propOldValue, pro
   this._spacer.setWidth(scrollBarWidth);
 
   return true;
-};
+}
 
 
 // property modifier
@@ -203,7 +203,7 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
   this._selectionManager.setSelectionModel(propValue);
   this._tablePane.setSelectionModel(propValue);
   return true;
-};
+}
 
 
 // property modifier
@@ -211,7 +211,7 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
   this._header.setTableModel(propValue);
   this._tablePane.setTableModel(propValue);
   return true;
-};
+}
 
 
 // property modifier
@@ -229,7 +229,7 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener("orderChanged", this._onOrderChanged, this);
 
   return true;
-};
+}
 
 
 // property modifier
@@ -237,21 +237,21 @@ qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
   this._header.setTablePaneModel(propValue);
   this._tablePane.setTablePaneModel(propValue);
   return true;
-};
+}
 
 
 // property modifier
 qx.Proto._modifyScrollX = function(propValue, propOldValue, propData) {
   this._horScrollBar.setValue(propValue);
   return true;
-};
+}
 
 
 // property modifier
 qx.Proto._modifyScrollY = function(propValue, propOldValue, propData) {
   this._verScrollBar.setValue(propValue);
   return true;
-};
+}
 
 
 /**
@@ -262,7 +262,7 @@ qx.Proto._modifyScrollY = function(propValue, propOldValue, propData) {
 qx.Proto._onColVisibilityChanged = function(evt) {
   this._updateHorScrollBarMaximum();
   this._updateFocusIndicator();
-};
+}
 
 
 /**
@@ -279,7 +279,7 @@ qx.Proto._onColWidthChanged = function(evt) {
     this._updateHorScrollBarMaximum();
     this._updateFocusIndicator();
   }
-};
+}
 
 
 /**
@@ -289,7 +289,7 @@ qx.Proto._onColWidthChanged = function(evt) {
  */
 qx.Proto._onOrderChanged = function(evt) {
   this._updateHorScrollBarMaximum();
-};
+}
 
 
 /**
@@ -298,7 +298,7 @@ qx.Proto._onOrderChanged = function(evt) {
  */
 qx.Proto._updateHorScrollBarMaximum = function() {
   this._horScrollBar.setMaximum(this.getTablePaneModel().getTotalWidth());
-};
+}
 
 
 // overridden
@@ -307,7 +307,7 @@ qx.Proto._changeInnerHeight = function(newValue, oldValue) {
   this._postponedUpdateContent();
 
   return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
-};
+}
 
 
 // overridden
@@ -321,7 +321,7 @@ qx.Proto._afterAppear = function() {
   var rowCount = this.getTableModel().getRowCount();
   var rowHeight = this._tablePane.getTableRowHeight();
   this._verScrollBar.setMaximum(rowCount * rowHeight);
-};
+}
 
 
 /**
@@ -335,7 +335,7 @@ qx.Proto._onScrollX = function(evt) {
 
   this._paneClipper.setScrollLeft(evt.getData());
   this.setScrollX(evt.getData());
-};
+}
 
 
 /**
@@ -346,7 +346,7 @@ qx.Proto._onScrollX = function(evt) {
 qx.Proto._onScrollY = function(evt) {
   this._postponedUpdateContent();
   this.setScrollY(evt.getData());
-};
+}
 
 
 /**
@@ -362,7 +362,7 @@ qx.Proto._onmousewheel = function(evt) {
   if (this._lastMousePageX) {
     this._focusCellAtPagePos(this._lastMousePageX, this._lastMousePageY);
   }
-};
+}
 
 
 /**
@@ -447,7 +447,7 @@ qx.Proto._onmousemove = function(evt) {
   this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table.TablePaneScroller.CURSOR_RESIZE_HORIZONTAL : null);
 
   this._header.setMouseOverColumn(mouseOverColumn);
-};
+}
 
 
 /**
@@ -485,7 +485,7 @@ qx.Proto._onmousedown = function(evt) {
   } else if (row != null) {
     this._selectionManager.handleMouseDown(row, evt);
   }
-};
+}
 
 
 /**
@@ -548,7 +548,7 @@ qx.Proto._onmouseup = function(evt) {
       this._selectionManager.handleMouseUp(row, evt);
     }
   }
-};
+}
 
 
 /**
@@ -580,7 +580,7 @@ qx.Proto._onclick = function(evt) {
   } else if (row != null) {
     this._selectionManager.handleClick(row, evt);
   }
-};
+}
 
 
 /**
@@ -593,7 +593,7 @@ qx.Proto._ondblclick = function(evt) {
     this._focusCellAtPagePos(evt.getPageX(), evt.getPageY());
     this.startEditing();
   }
-};
+}
 
 
 /**
@@ -616,7 +616,7 @@ qx.Proto._onmouseout = function(evt) {
   }
 
   this._header.setMouseOverColumn(null);
-};
+}
 
 
 /**
@@ -641,7 +641,7 @@ qx.Proto._showResizeLine = function(x) {
   resizeLine._applyRuntimeHeight(this._paneClipper.getBoxHeight() + this._paneClipper.getScrollTop());
 
   this._resizeLine.removeStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY);
-};
+}
 
 
 /**
@@ -649,7 +649,7 @@ qx.Proto._showResizeLine = function(x) {
  */
 qx.Proto._hideResizeLine = function() {
   this._resizeLine.setStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
-};
+}
 
 
 /**
@@ -691,7 +691,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
 
   // Return the overall target x position
   return paneModel.getFirstColumnX() + targetXPos;
-};
+}
 
 
 /**
@@ -699,7 +699,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
  */
 qx.Proto.hideColumnMoveFeedback = function() {
   this._hideResizeLine();
-};
+}
 
 
 /**
@@ -723,7 +723,7 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
       }
     }
   }
-};
+}
 
 
 /**
@@ -744,7 +744,7 @@ qx.Proto.setFocusedCell = function(col, row) {
       this._updateFocusIndicator();
     }
   }
-};
+}
 
 
 /**
@@ -779,7 +779,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
     var maxScrollY = rowTop;
     this.setScrollY(Math.max(minScrollY, Math.min(maxScrollY, scrollY)));
   }
-};
+}
 
 
 /**
@@ -789,7 +789,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
  */
 qx.Proto.isEditing = function() {
   return this._cellEditor != null;
-};
+}
 
 
 /**
@@ -808,7 +808,7 @@ qx.Proto.startEditing = function() {
     var value = tableModel.getValue(col, row);
 
     this._cellEditorFactory = this.getTableColumnModel().getCellEditorFactory(col);
-    var cellInfo = { col:col, row:row, xPos:xPos, value:value };
+    var cellInfo = { col:col, row:row, xPos:xPos, value:value }
     this._cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
     this._cellEditor.set({ width:qx.constant.Core.HUNDREDPERCENT, height:qx.constant.Core.HUNDREDPERCENT });
 
@@ -827,7 +827,7 @@ qx.Proto.startEditing = function() {
   }
 
   return false;
-};
+}
 
 
 /**
@@ -836,7 +836,7 @@ qx.Proto.startEditing = function() {
 qx.Proto.stopEditing = function() {
   this.flushEditor();
   this.cancelEditing();
-};
+}
 
 
 /**
@@ -852,7 +852,7 @@ qx.Proto.flushEditor = function() {
       this._scrollerPool.focus();
     }
   }
-};
+}
 
 
 /**
@@ -868,7 +868,7 @@ qx.Proto.cancelEditing = function() {
     this._cellEditor = null;
     this._cellEditorFactory = null;
   }
-};
+}
 
 
 /**
@@ -880,7 +880,7 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
   if (!this._cellEditor.getFocused()) {
     this.stopEditing();
   }
-};
+}
 
 
 /**
@@ -908,7 +908,7 @@ qx.Proto._getColumnForPageX = function(pageX) {
   }
 
   return null;
-};
+}
 
 
 /**
@@ -937,7 +937,7 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
   }
 
   return -1;
-};
+}
 
 
 /**
@@ -980,7 +980,7 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   }
 
   return null;
-};
+}
 
 
 /**
@@ -1005,7 +1005,7 @@ qx.Proto.setTopRightWidget = function(widget) {
   }
 
   this._topRightWidget = widget;
-};
+}
 
 
 /**
@@ -1015,7 +1015,7 @@ qx.Proto.setTopRightWidget = function(widget) {
  */
 qx.Proto.getHeader = function() {
   return this._header;
-};
+}
 
 
 /**
@@ -1025,7 +1025,7 @@ qx.Proto.getHeader = function() {
  */
 qx.Proto.getTablePane = function() {
   return this._tablePane;
-};
+}
 
 
 /**
@@ -1076,7 +1076,7 @@ qx.Proto.getNeededScrollBars = function(forceHorizontal, preventVertical) {
   var verBar = qx.ui.table.TablePaneScroller.VERTICAL_SCROLLBAR;
   return ((forceHorizontal || horNeeded) ? horBar : 0)
      | ((preventVertical || !verNeeded) ? 0 : verBar);
-};
+}
 
 
 /**
@@ -1093,7 +1093,7 @@ qx.Proto._postponedUpdateContent = function() {
     }, 0);
     this._updateContentPlanned = true;
   }
-};
+}
 
 
 /**
@@ -1129,7 +1129,7 @@ qx.Proto._updateContent = function() {
   this._paneClipper.setScrollTop(paneOffset);
 
   //this.debug("paneHeight:"+paneHeight+",rowHeight:"+rowHeight+",firstRow:"+firstRow+",rowCount:"+rowCount+",paneOffset:"+paneOffset);
-};
+}
 
 
 /**
@@ -1155,14 +1155,14 @@ qx.Proto._updateFocusIndicator = function() {
       this._focusIndicator.show();
     }
   }
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this.cancelEditing();
 
@@ -1193,7 +1193,7 @@ qx.Proto.dispose = function() {
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
-};
+}
 
 
 /** {int} The minimum width a colum could get in pixels. */

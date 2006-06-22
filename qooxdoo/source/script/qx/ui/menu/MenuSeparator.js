@@ -63,19 +63,19 @@ qx.Proto.hasMenu = qx.util.Return.returnFalse;
 
 qx.Proto._onmousedown = function(e) {
   e.stopPropagation();
-};
+}
 
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._line)
   {
     this._line.dispose();
     this._line = null;
-  };
+  }
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

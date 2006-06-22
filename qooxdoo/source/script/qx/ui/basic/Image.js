@@ -105,7 +105,7 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 
 qx.Proto._onload = function() {
   this.setLoaded(true);
-};
+}
 
 qx.Proto._onerror = function()
 {
@@ -115,8 +115,8 @@ qx.Proto._onerror = function()
 
   if (this.hasEventListeners(qx.constant.Event.ERROR)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
-  };
-};
+  }
+}
 
 
 
@@ -134,10 +134,10 @@ qx.Proto._beforeAppear = function()
 
   if (qx.util.Validation.isValidString(vSource)) {
     qx.manager.object.ImageManager._sources[vSource]++;
-  };
+  }
 
   return qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -152,11 +152,11 @@ qx.Proto._beforeDisappear = function()
     else
     {
       qx.manager.object.ImageManager._sources[vSource]--;
-    };
-  };
+    }
+  }
 
   return qx.ui.basic.Terminator.prototype._beforeDisappear.call(this);
-};
+}
 
 
 
@@ -172,7 +172,7 @@ qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
   if (propValue && typeof qx.manager.object.ImageManager._sources[propValue] === qx.constant.Type.UNDEFINED) {
     qx.manager.object.ImageManager._sources[propValue] = 0;
-  };
+  }
 
   if (propOldValue)
   {
@@ -183,8 +183,8 @@ qx.Proto._modifySource = function(propValue, propOldValue, propData)
     else
     {
       qx.manager.object.ImageManager._sources[propValue]--;
-    };
-  };
+    }
+  }
 
   if (this.isCreated())
   {
@@ -196,11 +196,11 @@ qx.Proto._modifySource = function(propValue, propOldValue, propData)
     {
       this._resetContent();
       this.setPreloader(null);
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
 {
@@ -209,7 +209,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     // remove event connection
     propOldValue.removeEventListener(qx.constant.Event.LOAD, this._onload, this);
     propOldValue.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
-  };
+  }
 
   if (propValue)
   {
@@ -234,7 +234,7 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     {
       propValue.addEventListener(qx.constant.Event.LOAD, this._onload, this);
       propValue.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
-    };
+    }
   }
   else
   {
@@ -242,10 +242,10 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     qx.manager.object.ImageManager.remove(this);
 
     this.setLoaded(false);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyLoaded = function(propValue, propOldValue, propData)
 {
@@ -257,10 +257,10 @@ qx.Proto._modifyLoaded = function(propValue, propOldValue, propData)
   {
     this._invalidatePreferredInnerWidth();
     this._invalidatePreferredInnerHeight();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
@@ -283,11 +283,11 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
       if (!qx.sys.Client.isMshtml()) {
         this._applyEnabled();
-      };
-    };
+      }
+    }
 
     propValue.appendChild(this._image);
-  };
+  }
 
   // call widget implmentation
   qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
@@ -298,11 +298,11 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     var vSource = this.getSource();
     if (qx.util.Validation.isValidString(vSource)) {
       this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource)));
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 
@@ -318,11 +318,11 @@ qx.Proto._postApply = function()
 {
   if (!this.getLoaded()) {
     return;
-  };
+  }
 
   this._postApplyDimensions();
   this._updateContent();
-};
+}
 
 if (qx.sys.Client.isMshtml())
 {
@@ -334,10 +334,10 @@ if (qx.sys.Client.isMshtml())
   {
     if (this._image) {
       this._applyEnabled();
-    };
+    }
 
     return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-  };
+  }
 
   qx.Proto._updateContent = function(vSource)
   {
@@ -353,8 +353,8 @@ if (qx.sys.Client.isMshtml())
     {
       i.src = vSource || pl.getSource();
       i.style.filter = this.getEnabled() ? qx.constant.Core.EMPTY : qx.ui.basic.Image.FILTER_GRAY;
-    };
-  };
+    }
+  }
 
   qx.Proto._resetContent = function()
   {
@@ -362,7 +362,7 @@ if (qx.sys.Client.isMshtml())
 
     i.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
     i.style.filter = qx.constant.Core.EMPTY;
-  };
+  }
 
   qx.Proto._applyEnabled = qx.Proto._postApply;
 }
@@ -372,19 +372,19 @@ else
   {
     if (!this.getLoaded()) {
       return;
-    };
+    }
 
     this._postApplyDimensions();
     this._updateContent();
-  };
+  }
 
   qx.Proto._updateContent = function(vSource) {
     this._image.src = vSource || this.getPreloader().getSource();
-  };
+  }
 
   qx.Proto._resetContent = function() {
     this._image.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
-  };
+  }
 
   qx.Proto._applyEnabled = function()
   {
@@ -394,18 +394,18 @@ else
       var s = this._image.style;
 
       s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
-    };
-  };
+    }
+  }
 
   qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
     if (this._image) {
       this._applyEnabled();
-    };
+    }
 
     return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-  };
-};
+  }
+}
 
 
 
@@ -431,11 +431,11 @@ qx.Proto._computePreferredInnerWidth = function()
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getWidth();
-    };
-  };
+    }
+  }
 
   return 0;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function()
 {
@@ -449,11 +449,11 @@ qx.Proto._computePreferredInnerHeight = function()
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getHeight();
-    };
-  };
+    }
+  }
 
   return 0;
-};
+}
 
 
 
@@ -474,7 +474,7 @@ qx.Proto._applyContent = function()
   // Images load asyncron, so we need to force flushing here
   // to get an up-to-date view when an image is loaded.
   qx.ui.core.Widget.flushGlobalQueues();
-};
+}
 
 if (qx.sys.Client.isMshtml())
 {
@@ -493,13 +493,13 @@ if (qx.sys.Client.isMshtml())
       {
         vImageStyle.pixelWidth = this.getPreferredInnerWidth();
         vImageStyle.pixelHeight = this.getPreferredInnerHeight();
-      };
+      }
     }
     catch(ex)
     {
       this.error("postApplyDimensions failed", ex);
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -518,14 +518,14 @@ else
       {
         vImageNode.width = this.getPreferredInnerWidth();
         vImageNode.height = this.getPreferredInnerHeight();
-      };
+      }
     }
     catch(ex)
     {
       this.error("postApplyDimensions failed", ex);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -542,15 +542,15 @@ if (qx.sys.Client.isMshtml())
   {
     if (this.getResizeToInner()) {
       this._image.style.pixelWidth = vNew;
-    };
-  };
+    }
+  }
 
   qx.Proto._changeInnerHeight = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.style.pixelHeight = vNew;
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -558,16 +558,16 @@ else
   {
     if (this.getResizeToInner()) {
       this._image.width = vNew;
-    };
-  };
+    }
+  }
 
   qx.Proto._changeInnerHeight = function(vNew, vOld)
   {
     if (this.getResizeToInner()) {
       this._image.height = vNew;
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -583,7 +583,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   var vPreloader = this.getPreloader();
   if (vPreloader)
@@ -593,16 +593,16 @@ qx.Proto.dispose = function()
     vPreloader.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
 
     this.forcePreloader(null);
-  };
+  }
 
   if (this._image)
   {
     // Remove leaking filter attribute before leaving page
     this._image.style.filter = qx.constant.Core.EMPTY;
     this._image = null;
-  };
+  }
 
   qx.manager.object.ImageManager.remove(this);
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
-};
+}

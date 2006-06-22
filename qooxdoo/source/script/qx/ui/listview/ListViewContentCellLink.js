@@ -41,4 +41,4 @@ qx.ui.listview.ListViewContentCellLink.empty =
 {
   html : qx.constant.Core.EMPTY,
   uri : qx.constant.Core.HASH
-};
+}

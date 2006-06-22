@@ -40,12 +40,12 @@ function(vSource)
   this.setTabIndex(0);
 
   var o = this;
-  this.__onreadystatechange = function(e) { return o._onreadystatechange(e); };
-  this.__onload = function(e) { return o._onload(e); };
+  this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
+  this.__onload = function(e) { return o._onload(e); }
 
   if (qx.util.Validation.isValid(vSource)) {
     this.setSource(vSource);
-  };
+  }
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "iframe" });
@@ -80,11 +80,11 @@ qx.Proto._iframeNode = null;
 
 qx.Proto.getIframeNode = function() {
   return this._iframeNode;
-};
+}
 
 qx.Proto.setIframeNode = function(vIframeNode) {
   return this._iframeNode = vIframeNode;
-};
+}
 
 
 
@@ -111,8 +111,8 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
       iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
       iframeNode.onload = this.__onload;
-    };
-  };
+    }
+  }
 
   this._applyFrameName();
   this._applySource();
@@ -123,16 +123,16 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   return true;
-};
+}
 
 qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
   if(this.isCreated()) {
     this._applySource();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._applySource = function()
 {
@@ -140,26 +140,26 @@ qx.Proto._applySource = function()
 
   if (qx.util.Validation.isInvalidString(currentSource)) {
     currentSource = qx.manager.object.ImageManager.buildUri("core/blank.gif");
-  };
+  }
 
   this._isLoaded = false;
   this.getIframeNode().src = currentSource;
-};
+}
 
 qx.Proto._applyFrameName = function()
 {
   var vName = this.getFrameName();
   this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
 {
   if( this.isCreated()) {
     this._applyFrameName();
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -177,14 +177,14 @@ qx.Proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
-  };
-};
+  }
+}
 
 qx.Proto._onload = function()
 {
   this._isLoaded = true;
   this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
-};
+}
 
 
 
@@ -203,22 +203,22 @@ if (qx.sys.Client.isMshtml())
   {
     if (this.isCreated()) {
       try { return this.getIframeNode().contentWindow; }
-      catch (ex) {};
-    };
+      catch (ex) {}
+    }
 
     return null;
-  };
+  }
 
   qx.Proto.getContentDocument = function()
   {
     var win = this.getContentWindow();
     if (win) {
       try { return win.document; }
-      catch (ex) {};
-    };
+      catch (ex) {}
+    }
 
     return null;
-  };
+  }
 }
 else
 {
@@ -226,18 +226,18 @@ else
   {
     var doc = this.getContentDocument();
     return doc ? doc.defaultView : null;
-  };
+  }
 
   qx.Proto.getContentDocument = function()
   {
     if (this.isCreated()) {
       try { return this.getIframeNode().contentDocument; }
-      catch (ex) {};
-    };
+      catch (ex) {}
+    }
 
     return null;
-  };
-};
+  }
+}
 
 
 
@@ -259,15 +259,15 @@ if (qx.sys.Client.isMshtml())
   {
     var doc = this.getContentDocument();
     return doc ? doc.readyState == "complete" : false;
-  };
+  }
 }
 else
 {
   qx.Proto.isLoaded = function()
   {
     return this._isLoaded;
-  };
-};
+  }
+}
 
 
 
@@ -284,7 +284,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._iframeNode)
   {
@@ -292,10 +292,10 @@ qx.Proto.dispose = function()
     this._iframeNode.onload = null;
 
     this._iframeNode = null;
-  };
+  }
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
-};
+}
 
 
 
@@ -311,7 +311,7 @@ qx.ui.embed.Iframe.init = function()
 {
   if (qx.ui.embed.Iframe._element) {
     return;
-  };
+  }
 
   var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
 
@@ -331,4 +331,4 @@ qx.ui.embed.Iframe.init = function()
   f.scrolling = qx.constant.Core.AUTO;
   f.unselectable = "on";
   f.allowTransparency = "true";
-};
+}

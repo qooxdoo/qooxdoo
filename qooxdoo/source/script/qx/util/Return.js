@@ -40,24 +40,24 @@ qx.OO.defineClass("qx.util.Return");
 
 qx.util.Return.returnTrue = function() {
   return true;
-};
+}
 
 qx.util.Return.returnFalse = function() {
   return false;
-};
+}
 
 qx.util.Return.returnNull = function() {
   return null;
-};
+}
 
 qx.util.Return.returnThis = function() {
   return this;
-};
+}
 
 qx.util.Return.returnZero = function() {
   return 0;
-};
+}
 
 qx.util.Return.returnNegativeIndex = function() {
   return -1;
-};
+}

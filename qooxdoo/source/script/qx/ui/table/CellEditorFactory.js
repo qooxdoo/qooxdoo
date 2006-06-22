@@ -55,7 +55,7 @@ function() {
  */
 qx.Proto.createCellEditor = function(cellInfo) {
   throw new Error("createCellEditor is abstract");
-};
+}
 
 
 /**
@@ -67,4 +67,4 @@ qx.Proto.createCellEditor = function(cellInfo) {
  */
 qx.Proto.getCellEditorValue = function(cellEditor) {
   throw new Error("getCellEditorValue is abstract");
-};
+}

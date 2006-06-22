@@ -67,7 +67,7 @@ qx.Proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
   vBar._addChildrenToStateQueue();
 
   return true;
-};
+}
 
 qx.Proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propData)
 {
@@ -81,10 +81,10 @@ qx.Proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propData)
     vBar.moveSelfToBegin();
   } else {
     vBar.moveSelfToEnd();
-  };
+  }
 
   // force re-apply of states for all tabs
   vBar._addChildrenToStateQueue();
 
   return true;
-};
+}

@@ -35,15 +35,15 @@ function(vSize, vName)
 {
   qx.core.Object.call(this);
 
-  this._defs = {};
+  this._defs = {}
 
   if (qx.util.Validation.isValidNumber(vSize)) {
     this.setSize(vSize);
-  };
+  }
 
   if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
-  };
+  }
 });
 
 qx.Class.STYLE_BOLD = "bold";
@@ -83,7 +83,7 @@ qx.Proto._modifyStyle = function(propValue, propOldValue, propData)
 {
   this._needsCompilation = true;
   return true;
-};
+}
 
 
 
@@ -131,18 +131,18 @@ qx.renderer.font.Font.fromString = function(s)
         else
         {
           vName.push(vPart);
-        };
+        }
 
         break;
-    };
-  };
+    }
+  }
 
   if(vName.length > 0) {
     vFont.setName(vName.join(qx.constant.Core.SPACE));
-  };
+  }
 
   return vFont;
-};
+}
 
 
 
@@ -173,11 +173,11 @@ qx.Proto._compile = function()
 
   if (this.getUnderline()) {
     vDecoration = qx.renderer.font.Font.STYLE_UNDERLINE;
-  };
+  }
 
   if (this.getStrikeout()) {
     vDecoration += qx.constant.Core.SPACE + qx.renderer.font.Font.STYLE_STRIKEOUT;
-  };
+  }
 
   this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
   this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + qx.constant.Core.PIXEL : qx.constant.Core.EMPTY;
@@ -186,20 +186,20 @@ qx.Proto._compile = function()
   this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : qx.constant.Core.EMPTY;
 
   this._needsCompilation = false;
-};
+}
 
 qx.Proto.applyWidget = function(vWidget)
 {
   if (this._needsCompilation) {
     this._compile();
-  };
+  }
 
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_FAMILY, this._defs.fontFamily);
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_SIZE, this._defs.fontSize);
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_WEIGHT, this._defs.fontWeight);
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_STYLE, this._defs.fontStyle);
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION, this._defs.textDecoration);
-};
+}
 
 qx.Proto.resetWidget = function(vWidget)
 {
@@ -208,7 +208,7 @@ qx.Proto.resetWidget = function(vWidget)
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_WEIGHT);
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_STYLE);
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION);
-};
+}
 
 
 
@@ -225,9 +225,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   delete this._defs;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

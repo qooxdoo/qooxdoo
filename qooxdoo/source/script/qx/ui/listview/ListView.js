@@ -150,35 +150,35 @@ qx.OO.addProperty({ name : "sortBy", type : qx.constant.Type.STRING });
 
 qx.Proto.getData = function() {
   return this._data;
-};
+}
 
 qx.Proto.getColumns = function() {
   return this._columns;
-};
+}
 
 qx.Proto.getHeader = function() {
   return this._header;
-};
+}
 
 qx.Proto.getFrame = function() {
   return this._frame;
-};
+}
 
 qx.Proto.getPane = function() {
   return this._pane;
-};
+}
 
 qx.Proto.getScroll = function() {
   return this._scroll;
-};
+}
 
 qx.Proto.getScrollContent = function() {
   return this._scrollContent;
-};
+}
 
 qx.Proto.getResizeLine = function() {
   return this._resizeLine;
-};
+}
 
 qx.Proto.update = function()
 {
@@ -186,11 +186,11 @@ qx.Proto.update = function()
   this.updateContent();
 
   // ignore updateLayout here, as it is mostly initially used
-};
+}
 
 qx.Proto.updateScrollBar = function() {
   this._scrollContent.setHeight((this._data.length * this._pane._rowHeight) + this._pane._rowHeight);
-};
+}
 
 /*!
   Bugfix for gecko 1.8 (the one released with firefox 1.5)
@@ -208,16 +208,16 @@ if (qx.sys.Client.isGecko() && qx.sys.Client.getVersion() >= 1.8)
     this._scroll.setStyleProperty(qx.constant.Style.PROPERTY_HEIGHT, qx.constant.Core.ZEROPIXEL);
     this._scroll.forceHeight(0);
     this._scroll.setHeight(null);
-  };
-};
+  }
+}
 
 qx.Proto.updateContent = function() {
   this.getPane()._updateRendering(true);
-};
+}
 
 qx.Proto.updateLayout = function() {
   this.getPane()._updateLayout();
-};
+}
 
 qx.Proto.updateSort = function()
 {
@@ -225,20 +225,20 @@ qx.Proto.updateSort = function()
 
   if (!vSortBy) {
     return;
-  };
+  }
 
   var vCell = this._getHeaderCell(vSortBy);
 
   if (vCell) {
     vCell.updateSort();
-  };
-};
+  }
+}
 
 qx.Proto._getHeaderCell = function(vCellId)
 {
   var vNewEntry = this._columns[vCellId];
   return vNewEntry ? vNewEntry.headerCell : null;
-};
+}
 
 
 
@@ -259,8 +259,8 @@ qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
 
     if (vOldCell) {
       vOldCell.setSortOrder(null);
-    };
-  };
+    }
+  }
 
   if (propValue)
   {
@@ -268,11 +268,11 @@ qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
 
     if (vNewCell && vNewCell.getSortOrder() == null) {
       vNewCell.setSortOrder(qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING);
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 
@@ -287,11 +287,11 @@ qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
 
 qx.Proto._onscroll = function(e) {
   this._pane._onscroll(e);
-};
+}
 
 qx.Proto._onmousedown = function(e) {
   this.getFocusRoot().setActiveChild(this.getPane());
-};
+}
 
 
 
@@ -313,8 +313,8 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
     this.updateLayout();
     this.updateScrollBar();
     this.updateContent();
-  };
-};
+  }
+}
 
 
 
@@ -330,43 +330,43 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._header)
   {
     this._header.dispose();
     this._header = null;
-  };
+  }
 
   if (this._frame)
   {
     this._frame.dispose();
     this._frame = null;
-  };
+  }
 
   if (this._pane)
   {
     this._pane.dispose();
     this._pane = null;
-  };
+  }
 
   if (this._scroll)
   {
     this._scroll.dispose();
     this._scroll = null;
-  };
+  }
 
   if (this._scrollContent)
   {
     this._scrollContent.dispose();
     this._scrollContent = null;
-  };
+  }
 
   if (this._resizeLine)
   {
     this._resizeLine.dispose();
     this._resizeLine = null;
-  };
+  }
 
   delete this._columns;
   delete this._data;
@@ -374,4 +374,4 @@ qx.Proto.dispose = function()
   this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
-};
+}

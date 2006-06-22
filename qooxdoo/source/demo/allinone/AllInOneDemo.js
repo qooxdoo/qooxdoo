@@ -75,7 +75,7 @@ qx.Proto._createPage = function(barView, title, iconUrl, widget, backgroundColor
   page.add(widget);
 
   return page;
-};
+}
 
 
 qx.Proto._createFormDemo = function() {
@@ -173,7 +173,7 @@ qx.Proto._createFormDemo = function() {
   new qx.manager.selection.RadioManager("network", [radio1, radio2, radio3]);
 
   return main;
-};
+}
 
 
 qx.Proto._createTooltipDemo = function() {
@@ -205,7 +205,7 @@ qx.Proto._createTooltipDemo = function() {
   main.add(c3);
 
   return main;
-};
+}
 
 
 qx.Proto._createToolbarDemo = function(clientWindow) {
@@ -334,14 +334,14 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   // Toolbar
   function changeLayout(e) {
     this.setShow(e.getData());
-  };
+  }
 
   function changeSize(e) {
     var v = e.getData();
     var o = v == 22 ? 32 : 22;
       
     this.setIcon(this.getIcon().replace(o, v));
-  };    
+  }    
 
   function createButton(text, icon, clazz, checked) {
     if (! clazz) {
@@ -357,7 +357,7 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
     }
 
     return button;
-  };
+  }
 
   var tb = new qx.ui.toolbar.ToolBar;
   main.add(tb);
@@ -437,7 +437,7 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   vert.add(button);
 
   return main;
-};
+}
 
 
 qx.Proto._createTabDemo = function() {
@@ -525,7 +525,7 @@ qx.Proto._createTabDemo = function() {
   
   function dosearch(e) {
     alert("Searching...");
-  };
+  }
   
   b2_1.addEventListener("click", dosearch);
   b2_2.addEventListener("click", dosearch);
@@ -586,7 +586,7 @@ qx.Proto._createTabDemo = function() {
   });
 
   return main;
-};
+}
 
 
 qx.Proto._createTreeDemo = function() {
@@ -660,7 +660,7 @@ qx.Proto._createTreeDemo = function() {
   
   for (var i = 0; i < 50; i++) {
     te2_8.add(new qx.ui.tree.TreeFolder("Item " + i));
-  };
+  }
   
   var te2_9 = new qx.ui.tree.TreeFolder("Spam");
   
@@ -698,7 +698,7 @@ qx.Proto._createTreeDemo = function() {
   command.add(tTreeLines);
 
   return main;
-};
+}
 
 
 qx.Proto._createListDemo = function() {
@@ -726,7 +726,7 @@ qx.Proto._createListDemo = function() {
     if (!(i % 9)) (item.setEnabled(false));
 
     list.add(item);
-  };
+  }
 
   // Control
   var control = new qx.ui.layout.VerticalBoxLayout;
@@ -771,7 +771,7 @@ qx.Proto._createListDemo = function() {
   });
   
   return main;
-};
+}
 
 
 qx.Proto._createListViewDemo = function() {
@@ -785,7 +785,7 @@ qx.Proto._createListViewDemo = function() {
   for (var i = 0, t; i < 1000; i++) {
     t = Math.round(Math.random() * 4);
     ld.push({ name : { html : "E-Mail " + i, icon : "icons/16/email.png", iconWidth : 16, iconHeight : 16 }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }, open : { uri : "http://www.google.com/search?q=" + i, html : "Open " + i }});
-  };
+  }
 
   var lc = {
     name : { label : "Name", width : 120, type : "iconHtml" },
@@ -793,7 +793,7 @@ qx.Proto._createListViewDemo = function() {
     type : { label : "Type", width : 80, type : "text" },
     modified : { label : "Last Modified", width : 150, type : "text" },
     rights : { label : "Rights", width: 80, type : "text" }   
-  };
+  }
 
   var lv = new qx.ui.listview.ListView(ld, lc);
   main.add(lv);
@@ -804,7 +804,7 @@ qx.Proto._createListViewDemo = function() {
   lv.setHeight(350);
 
   return main;
-};
+}
 
 
 qx.Proto._createTableDemo = function() {
@@ -829,10 +829,10 @@ qx.Proto._createTableDemo = function() {
     setMetaColumnCounts([1, -1]);
     getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
     getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
-  };
+  }
 
   return table;
-};
+}
 
 
 qx.Proto._createDateChooserDemo = function() {
@@ -845,7 +845,7 @@ qx.Proto._createDateChooserDemo = function() {
   main.add(chooser);
 
   return main;
-};
+}
 
 
 qx.Proto._createNativeWindowDemo = function() {
@@ -994,7 +994,7 @@ qx.Proto._createNativeWindowDemo = function() {
   vert.add(btn4, btn5, btn6);
 
   return main;
-};
+}
 
 
 qx.Proto._createInternalWindowDemo = function(clientWindow) {
@@ -1238,7 +1238,7 @@ qx.Proto._createInternalWindowDemo = function(clientWindow) {
   w3.open();
 
   return main;
-};
+}
 
 
 qx.Proto._createThemesDemo = function(clientWindow) {
@@ -1292,4 +1292,4 @@ qx.Proto._createThemesDemo = function(clientWindow) {
   main.add(openThemeWinBt);
 
   return main;
-};
+}

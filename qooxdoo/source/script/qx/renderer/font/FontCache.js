@@ -41,7 +41,7 @@ qx.renderer.font.FontCache = function(propValue, propData)
       {
         propValue = propKey = propValue.toLowerCase();
         break;
-      };
+      }
 
       return propValue;
 
@@ -52,24 +52,24 @@ qx.renderer.font.FontCache = function(propValue, propData)
     case qx.constant.Type.OBJECT:
       if (propValue == null || propValue instanceof qx.renderer.font.Font) {
         return propValue;
-      };
+      }
 
       // Try to detect array of RGB values
       if (typeof propValue.join === qx.constant.Type.FUNCTION)
       {
         propKey = propValue.join(qx.constant.Core.SPACE).toLowerCase();
         break;
-      };
+      }
 
     default:
       return propValue;
-  };
+  }
 
   if (qx.renderer.font.FontCache._data[propKey]) {
     return qx.renderer.font.FontCache._data[propKey];
-  };
+  }
 
   return qx.renderer.font.FontCache._data[propKey] = qx.renderer.font.Font.fromString(propKey);
-};
+}
 
-qx.renderer.font.FontCache._data = {};
+qx.renderer.font.FontCache._data = {}

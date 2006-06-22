@@ -41,7 +41,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 
   if (this.getOrientation() == null) {
     this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
-  };
+  }
 
   // Prohibit selection
   this.setSelectable(false);
@@ -52,7 +52,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   // Apply constructor arguments
   if (qx.util.Validation.isValidString(vLabel)) {
     this.setLabel(vLabel);
-  };
+  }
 
   // Simple flash wrapper
   if (qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
@@ -71,12 +71,12 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 
     if (qx.util.Validation.isValidNumber(vIconWidth)) {
       this.setIconWidth(vIconWidth);
-    };
+    }
 
     if (qx.util.Validation.isValidNumber(vIconHeight)) {
       this.setIconHeight(vIconHeight);
-    };
-  };
+    }
+  }
 });
 
 qx.ui.basic.Atom.SHOW_LABEL = "label";
@@ -150,7 +150,7 @@ qx.Proto._createLabel = function()
   l.setSelectable(false);
 
   this.addAt(l, this._iconObject ? 1 : 0);
-};
+}
 
 qx.Proto._createIcon = function()
 {
@@ -161,21 +161,21 @@ qx.Proto._createIcon = function()
   else
   {
     var i = this._iconObject = new qx.ui.basic.Image(this.getIcon());
-  };
+  }
 
   i.setAnonymous(true);
   i.setEnabled(this.getEnabled());
 
   this.addAt(i, 0);
-};
+}
 
 qx.Proto.getLabelObject = function() {
   return this._labelObject;
-};
+}
 
 qx.Proto.getIconObject = function() {
   return this._iconObject;
-};
+}
 
 
 
@@ -192,14 +192,14 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setEnabled(propValue);
-  };
+  }
 
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
-  };
+  }
 
   return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyIconPosition = function(propValue, propOldValue, propData)
 {
@@ -215,10 +215,10 @@ qx.Proto._modifyIconPosition = function(propValue, propOldValue, propData)
       this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
       this.setReverseChildrenOrder(propValue == qx.constant.Layout.ALIGN_RIGHT);
       break;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShow = function(propValue, propOldValue, propData)
 {
@@ -226,41 +226,41 @@ qx.Proto._modifyShow = function(propValue, propOldValue, propData)
   this._handleLabel();
 
   return true;
-};
+}
 
 qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   if (this._labelObject) {
     this._labelObject.setHtml(propValue);
-  };
+  }
 
   this._handleLabel();
 
   return true;
-};
+}
 
 qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setSource(propValue);
-  };
+  }
 
   this._handleIcon();
 
   return true;
-};
+}
 
 qx.Proto._modifyIconWidth = function(propValue, propOldValue, propData)
 {
   this._iconObject.setWidth(propValue);
   return true;
-};
+}
 
 qx.Proto._modifyIconHeight = function(propValue, propOldValue, propData)
 {
   this._iconObject.setHeight(propValue);
   return true;
-};
+}
 
 
 
@@ -287,7 +287,7 @@ qx.Proto._handleLabel = function()
 
     default:
       this._labelIsVisible = false;
-  };
+  }
 
   if (this._labelIsVisible)
   {
@@ -296,8 +296,8 @@ qx.Proto._handleLabel = function()
   else if (this._labelObject)
   {
     this._labelObject.setDisplay(false);
-  };
-};
+  }
+}
 
 qx.Proto._handleIcon = function()
 {
@@ -310,7 +310,7 @@ qx.Proto._handleIcon = function()
 
     default:
       this._iconIsVisible = false;
-  };
+  }
 
   if (this._iconIsVisible)
   {
@@ -319,8 +319,8 @@ qx.Proto._handleIcon = function()
   else if (this._iconObject)
   {
     this._iconObject.setDisplay(false);
-  };
-};
+  }
+}
 
 
 
@@ -352,19 +352,19 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._iconObject)
   {
     this._iconObject.dispose();
     this._iconObject = null;
-  };
+  }
 
   if (this._labelObject)
   {
     this._labelObject.dispose();
     this._labelObject = null;
-  };
+  }
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

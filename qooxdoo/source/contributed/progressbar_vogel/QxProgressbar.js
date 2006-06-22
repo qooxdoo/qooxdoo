@@ -58,10 +58,10 @@ function QxProgressbar(vMax, vShowPercent)
   // ***********************************************************************
   if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
-  };
+  }
   if(qx.util.Validation.isValidBoolean(vShowPercent)) {
     this.setShowPercent(vShowPercent);
-  };
+  }
 });
 
 
@@ -105,11 +105,11 @@ qx.OO.addProperty({ name : "showPercent", type : qx.constant.Type.BOOLEAN, defau
 
 qx.Proto._computePreferredInnerWidth = function() { //???Olli???
   return 200;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function() { //???Olli???
   return 20;
-};
+}
 
 
 
@@ -122,7 +122,7 @@ qx.Proto._checkMin = function(newValue, propData){
   // min must be < max    
   if (newValue < this.getMax()) return newValue;
   return this.getMin();
-};
+}
 qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 {
   // position must be >= min
@@ -136,7 +136,7 @@ qx.Proto._checkMax = function(newValue, propData){
   // max must be > min
   if (newValue > this.getMin()) return newValue;
   return this.getMax();
-};
+}
 qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 {
   // position must be <= max
@@ -151,12 +151,12 @@ qx.Proto._checkPosition = function(newValue, propData){
   if (newValue < this.getMin()) return this.getMin();
   if (newValue > this.getMax()) return this.getMax();
   return newValue;
-};
+}
 qx.Proto._modifyPosition = function(propValue, propOldValue, propData)
 {
   // make changes visible
   return this._applyChanges();
-};
+}
 
 qx.Proto._modifyShowPercent = function(propValue, propOldValue, propData)
 {
@@ -208,19 +208,19 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._bar)
   {
     this._bar.dispose();
     this._bar = null;
-  };
+  }
   
   if (this._percent)
   {
     this._percent.dispose();
     this._percent = null;
-  };
+  }
   
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

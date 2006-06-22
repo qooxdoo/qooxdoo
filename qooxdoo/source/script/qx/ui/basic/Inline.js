@@ -35,7 +35,7 @@ function(vId)
 
   if (qx.util.Validation.isValidString(vId)) {
     this.setInlineNodeId(vId);
-  };
+  }
 });
 
 qx.OO.addProperty({ name : "inlineNodeId", type : qx.constant.Type.STRING });

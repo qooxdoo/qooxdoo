@@ -63,28 +63,28 @@ qx.Proto._modifyModal = function(propValue, propOldValue, propData)
   {
     var vTop = this.getTopLevelWidget();
     propValue ? vTop.block(this) : vTop.release(this);
-  };
+  }
 
   // Disallow minimize and close for modal dialogs
   this._closeButtonManager();
   this._minimizeButtonManager();
 
   return true;
-};
+}
 
 qx.Proto._minimizeButtonManager = function()
 {
   this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
 
   return true;
-};
+}
 
 qx.Proto._closeButtonManager = function()
 {
   this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
 
   return true;
-};
+}
 
 
 /*
@@ -97,7 +97,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   return qx.ui.window.Window.prototype.dispose.call(this);
-};
+}

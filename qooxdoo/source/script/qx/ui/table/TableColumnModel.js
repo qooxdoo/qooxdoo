@@ -59,13 +59,13 @@ qx.Proto.init = function(colCount) {
   this._visibleColumnArr = [];
   for (var col = 0; col < colCount; col++) {
     this._columnDataArr[col] = { width:width, headerRenderer:headerRenderer,
-      dataRenderer:dataRenderer, editorFactory:editorFactory };
+      dataRenderer:dataRenderer, editorFactory:editorFactory }
     this._overallColumnArr[col] = col;
     this._visibleColumnArr[col] = col;
   }
 
   this._colToXPosMap = null;
-};
+}
 
 
 /**
@@ -79,11 +79,11 @@ qx.Proto.setColumnWidth = function(col, width) {
   if (oldWidth != width) {
     this._columnDataArr[col].width = width;
     if (this.hasEventListeners("widthChanged")) {
-      var data = { col:col, newWidth:width, oldWidth:oldWidth };
+      var data = { col:col, newWidth:width, oldWidth:oldWidth }
       this.dispatchEvent(new qx.event.type.DataEvent("widthChanged", data), true);
-    };
+    }
   }
-};
+}
 
 
 /**
@@ -94,7 +94,7 @@ qx.Proto.setColumnWidth = function(col, width) {
  */
 qx.Proto.getColumnWidth = function(col) {
   return this._columnDataArr[col].width;
-};
+}
 
 
 /**
@@ -106,7 +106,7 @@ qx.Proto.getColumnWidth = function(col) {
  */
 qx.Proto.setHeaderCellRenderer = function(col, renderer) {
   this._columnDataArr[col].headerRenderer = renderer;
-};
+}
 
 
 /**
@@ -117,7 +117,7 @@ qx.Proto.setHeaderCellRenderer = function(col, renderer) {
  */
 qx.Proto.getHeaderCellRenderer = function(col) {
   return this._columnDataArr[col].headerRenderer;
-};
+}
 
 
 /**
@@ -128,7 +128,7 @@ qx.Proto.getHeaderCellRenderer = function(col) {
  */
 qx.Proto.setDataCellRenderer = function(col, renderer) {
   this._columnDataArr[col].dataRenderer = renderer;
-};
+}
 
 
 /**
@@ -139,7 +139,7 @@ qx.Proto.setDataCellRenderer = function(col, renderer) {
  */
 qx.Proto.getDataCellRenderer = function(col) {
   return this._columnDataArr[col].dataRenderer;
-};
+}
 
 
 /**
@@ -150,7 +150,7 @@ qx.Proto.getDataCellRenderer = function(col) {
  */
 qx.Proto.setCellEditorFactory = function(col, factory) {
   this._columnDataArr[col].editorFactory = factory;
-};
+}
 
 
 /**
@@ -161,7 +161,7 @@ qx.Proto.setCellEditorFactory = function(col, factory) {
  */
 qx.Proto.getCellEditorFactory = function(col) {
   return this._columnDataArr[col].editorFactory;
-};
+}
 
 
 /**
@@ -176,10 +176,10 @@ qx.Proto.getCellEditorFactory = function(col) {
  */
 qx.Proto._getColToXPosMap = function() {
   if (this._colToXPosMap == null) {
-    this._colToXPosMap = {};
+    this._colToXPosMap = {}
     for (var overX = 0; overX < this._overallColumnArr.length; overX++) {
       var col = this._overallColumnArr[overX];
-      this._colToXPosMap[col] = { overX:overX };
+      this._colToXPosMap[col] = { overX:overX }
     }
     for (var visX = 0; visX < this._visibleColumnArr.length; visX++) {
       var col = this._visibleColumnArr[visX];
@@ -187,7 +187,7 @@ qx.Proto._getColToXPosMap = function() {
     }
   }
   return this._colToXPosMap;
-};
+}
 
 
 /**
@@ -197,7 +197,7 @@ qx.Proto._getColToXPosMap = function() {
  */
 qx.Proto.getVisibleColumnCount = function() {
   return this._visibleColumnArr.length;
-};
+}
 
 
 /**
@@ -208,7 +208,7 @@ qx.Proto.getVisibleColumnCount = function() {
  */
 qx.Proto.getVisibleColumnAtX = function(visXPos) {
   return this._visibleColumnArr[visXPos];
-};
+}
 
 
 /**
@@ -219,7 +219,7 @@ qx.Proto.getVisibleColumnAtX = function(visXPos) {
  */
 qx.Proto.getVisibleX = function(col) {
   return this._getColToXPosMap()[col].visX;
-};
+}
 
 
 /**
@@ -229,7 +229,7 @@ qx.Proto.getVisibleX = function(col) {
  */
 qx.Proto.getOverallColumnCount = function() {
   return this._overallColumnArr.length;
-};
+}
 
 
 /**
@@ -240,7 +240,7 @@ qx.Proto.getOverallColumnCount = function() {
  */
 qx.Proto.getOverallColumnAtX = function(overXPos) {
   return this._overallColumnArr[overXPos];
-};
+}
 
 
 /**
@@ -251,7 +251,7 @@ qx.Proto.getOverallColumnAtX = function(overXPos) {
  */
 qx.Proto.getOverallX = function(col) {
   return this._getColToXPosMap()[col].overX;
-};
+}
 
 
 /**
@@ -262,7 +262,7 @@ qx.Proto.getOverallX = function(col) {
  */
 qx.Proto.isColumnVisible = function(col) {
   return (this._getColToXPosMap()[col].visX != null);
-};
+}
 
 
 /**
@@ -312,18 +312,18 @@ qx.Proto.setColumnVisible = function(col, visible) {
     // Inform the listeners
     if (! this._internalChange) {
       if (this.hasEventListeners("visibilityChangedPre")) {
-        var data = { col:col, visible:visible };
+        var data = { col:col, visible:visible }
         this.dispatchEvent(new qx.event.type.DataEvent("visibilityChangedPre", data), true);
-      };
+      }
       if (this.hasEventListeners("visibilityChanged")) {
-        var data = { col:col, visible:visible };
+        var data = { col:col, visible:visible }
         this.dispatchEvent(new qx.event.type.DataEvent("visibilityChanged", data), true);
-      };
+      }
     }
 
     //this.debug("setColumnVisible col:"+col+",visible:"+visible+",this._overallColumnArr:"+this._overallColumnArr+",this._visibleColumnArr:"+this._visibleColumnArr);
   }
-};
+}
 
 
 /**
@@ -357,10 +357,10 @@ qx.Proto.moveColumn = function(fromOverXPos, toOverXPos) {
 
   // Inform the listeners
   if (this.hasEventListeners("orderChanged")) {
-    var data = { col:col, fromOverXPos:fromOverXPos, toOverXPos:toOverXPos };
+    var data = { col:col, fromOverXPos:fromOverXPos, toOverXPos:toOverXPos }
     this.dispatchEvent(new qx.event.type.DataEvent("orderChanged", data), true);
-  };
-};
+  }
+}
 
 
 /** {int} the default width of a column in pixes. */

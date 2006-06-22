@@ -40,7 +40,7 @@ qx.client.Timer.prototype.wait = function(vMilliseconds)
   do { 
     vCurrentTime = (new Date).valueOf();
   } while(vExitTime > vCurrentTime);
-};
+}
 
 
 function QxProgressBar(vDirection, vMin, vMax) {
@@ -89,15 +89,15 @@ function QxProgressBar(vDirection, vMin, vMax) {
   // ***********************************************************************
   if(qx.util.Validation.isValidString(vDirection)) {
     this.setDirection(vDirection);
-  };
+  }
 
   if(qx.util.Validation.isValidNumber(vMin)) {
     this.setMin(vMin);
-  };
+  }
 
   if(qx.util.Validation.isValidNumber(vMax)) {
     this.setMax(vMax);
-  };
+  }
 });
 
 /*
@@ -177,8 +177,8 @@ qx.Proto._onchange = function(e)
           this._bar.setHeight(barSize);
           this._bar.setWidth(this.getInnerWidth());
           break;
-      };  
-    };
+      }  
+    }
 
     this.getLabel().setText(Math.round(100 * barSizePercent) + '%');
 
@@ -189,9 +189,9 @@ qx.Proto._onchange = function(e)
     if (this.hasEventListeners(qx.OO.C_CHANGE))
     {
       this.dispatchEvent(new qx.event.type.Event(qx.OO.C_CHANGE));
-    };
-  };
-};
+    }
+  }
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -202,37 +202,37 @@ qx.Proto._onchange = function(e)
 qx.Proto.setValue = function(nValue)
 {
   this._manager.setValue(nValue);
-};
+}
 
 qx.Proto.getValue = function()
 {
   return this._manager.getValue();
-};
+}
 
 qx.Proto.resetValue = function()
 {
   return this._manager.resetValue();
-};
+}
 
 qx.Proto.setMax = function(vMax)
 {
   return this._manager.setMax(vMax);
-};
+}
 
 qx.Proto.getMax = function()
 {
   return this._manager.getMax();
-};
+}
 
 qx.Proto.setMin = function(vMin)
 {
   return this._manager.setMin(vMin);
-};
+}
 
 qx.Proto.getMin = function()
 {
   return this._manager.getMin();
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -251,8 +251,8 @@ qx.Proto.increment = function()
   else
   {
     this.setValue(this.getMax());
-  };
-};
+  }
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -264,27 +264,27 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._timer)
   {
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   if (this._manager)
   {
     this._manager.removeEventListener(qx.OO.C_CHANGE, this._onchange, this);
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   if (this._bar)
   {
     this._bar.dispose();
     this._bar = null;
-  };
+  }
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

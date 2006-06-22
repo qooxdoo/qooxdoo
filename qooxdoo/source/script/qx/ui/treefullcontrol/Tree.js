@@ -101,11 +101,11 @@ qx.OO.addProperty({ name : "hideNode", type : qx.constant.Type.BOOLEAN, defaultV
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 qx.Proto.getSelectedElement = function() {
   return this.getSelectedItems()[0];
-};
+}
 
 
 
@@ -122,21 +122,21 @@ qx.Proto.addChildToTreeQueue = function(vChild)
 {
   if (!vChild._isInTreeQueue && !vChild._isDisplayable) {
     this.debug("Ignoring invisible child: " + vChild);
-  };
+  }
 
   if (!vChild._isInTreeQueue && vChild._isDisplayable)
   {
     qx.ui.core.Widget.addToGlobalWidgetQueue(this);
 
     if (!this._treeQueue) {
-      this._treeQueue = {};
-    };
+      this._treeQueue = {}
+    }
 
     this._treeQueue[vChild.toHashCode()] = vChild;
 
     vChild._isInTreeQueue = true;
-  };
-};
+  }
+}
 
 qx.Proto.removeChildFromTreeQueue = function(vChild)
 {
@@ -144,15 +144,15 @@ qx.Proto.removeChildFromTreeQueue = function(vChild)
   {
     if (this._treeQueue) {
       delete this._treeQueue[vChild.toHashCode()];
-    };
+    }
 
     delete vChild._isInTreeQueue;
-  };
-};
+  }
+}
 
 qx.Proto.flushWidgetQueue = function() {
   this.flushTreeQueue();
-};
+}
 
 qx.Proto.flushTreeQueue = function()
 {
@@ -163,11 +163,11 @@ qx.Proto.flushTreeQueue = function()
       // this.debug("Flushing Tree Child: " + this._treeQueue[vHashCode]);
       this._treeQueue[vHashCode].flushTree();
       delete this._treeQueue[vHashCode]._isInTreeQueue;
-    };
+    }
 
     delete this._treeQueue;
-  };
-};
+  }
+}
 
 
 
@@ -185,10 +185,10 @@ qx.Proto._modifyUseTreeLines = function(propValue, propOldValue, propData)
 {
   if (this._initialLayoutDone) {
     this._updateIndent();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
 {
@@ -206,7 +206,7 @@ qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
   }
   
   return true;
-};
+}
 
 
 
@@ -221,15 +221,15 @@ qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
 
 qx.Proto.getTree = function() {
   return this;
-};
+}
 
 qx.Proto.getParentFolder = function() {
   return null;
-};
+}
 
 qx.Proto.getLevel = function() {
   return 0;
-};
+}
 
 
 
@@ -246,11 +246,11 @@ qx.Proto.getLevel = function() {
 
 qx.ui.treefullcontrol.Tree.isTreeFolder = function(vObject) {
   return vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree);
-};
+}
 
 qx.ui.treefullcontrol.Tree.isOpenTreeFolder = function(vObject) {
   return vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent();
-};
+}
 
 
 
@@ -282,15 +282,15 @@ qx.Proto._onkeydown = function(e)
           if (vParent instanceof qx.ui.treefullcontrol.TreeFolder) {
             if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
               vParent.close();
-            };
+            }
 
             this.setSelectedElement(vParent);
-          };
+          }
         }
         else
         {
           return vSelectedItem.close();
-        };
+        }
       }
       else if (vSelectedItem instanceof qx.ui.treefullcontrol.TreeFile)
       {
@@ -298,11 +298,11 @@ qx.Proto._onkeydown = function(e)
         if (vParent instanceof qx.ui.treefullcontrol.TreeFolder) {
           if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
             vParent.close();
-          };
+          }
 
           this.setSelectedElement(vParent);
-        };
-      };
+        }
+      }
 
       break;
 
@@ -321,8 +321,8 @@ qx.Proto._onkeydown = function(e)
           this.setSelectedElement(vFirst);
           vFirst.open();
           return;
-        };
-      };
+        }
+      }
 
       break;
 
@@ -331,7 +331,7 @@ qx.Proto._onkeydown = function(e)
 
       if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem)) {
         return vSelectedItem.toggle();
-      };
+      }
 
       break;
 
@@ -340,11 +340,11 @@ qx.Proto._onkeydown = function(e)
       {
         this._fastUpdate = true;
         this._oldItem = vSelectedItem;
-      };
+      }
 
       vManager.handleKeyDown(e);
-  };
-};
+  }
+}
 
 qx.Proto._onkeyup = function(e)
 {
@@ -360,8 +360,8 @@ qx.Proto._onkeyup = function(e)
 
     delete this._fastUpdate;
     delete this._oldItem;
-  };
-};
+  }
+}
 
 qx.Proto.getLastTreeChild = function()
 {
@@ -371,17 +371,17 @@ qx.Proto.getLastTreeChild = function()
   {
     if (!(vLast instanceof qx.ui.treefullcontrol.TreeFolder) || !vLast.getOpen()) {
       return vLast;
-    };
+    }
 
     vLast = vLast.getLastVisibleChildOfFolder();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getFirstTreeChild = function() {
   return this;
-};
+}
 
 qx.Proto.setSelectedElement = function(vElement)
 {
@@ -389,7 +389,7 @@ qx.Proto.setSelectedElement = function(vElement)
 
   vManager.setSelectedItem(vElement);
   vManager.setLeadItem(vElement);
-};
+}
 
 /* Override getHierarchy: do not add label if root node is hidden */
 qx.Proto.getHierarchy = function(vArr) {
@@ -397,7 +397,7 @@ qx.Proto.getHierarchy = function(vArr) {
     vArr.unshift(this._labelObject.getHtml());
   }
   return vArr;
-};
+}
 
 
 
@@ -414,15 +414,15 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._manager)
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   delete this._oldItem;
 
   return qx.ui.treefullcontrol.TreeFolder.prototype.dispose.call(this);
-};
+}

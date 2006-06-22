@@ -119,16 +119,16 @@ qx.OO.addProperty({ name : "responseType", type: qx.constant.Type.STRING });
 
 qx.Proto.send = function() {
   throw new Error("send is abstract");
-};
+}
 
 qx.Proto.abort = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Aborting...");
-  };
+  }
 
   this.setState(qx.constant.Net.STATE_ABORTED);
-};
+}
 
 /*!
 
@@ -137,10 +137,10 @@ qx.Proto.timeout = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Timeout...");
-  };
+  }
 
   this.setState(qx.constant.Net.STATE_TIMEOUT);
-};
+}
 
 /*!
 
@@ -152,10 +152,10 @@ qx.Proto.failed = function()
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.warn("Failed...");
-  };
+  }
 
   this.setState(qx.constant.Net.STATE_FAILED);
-};
+}
 
 
 
@@ -176,7 +176,7 @@ qx.Proto.failed = function()
 */
 qx.Proto.setRequestHeader = function(vLabel, vValue) {
   throw new Error("setRequestHeader is abstract");
-};
+}
 
 
 
@@ -191,14 +191,14 @@ qx.Proto.setRequestHeader = function(vLabel, vValue) {
 
 qx.Proto.getResponseHeader = function(vLabel) {
   throw new Error("getResponseHeader is abstract");
-};
+}
 
 /*!
   Provides an hash of all response headers.
 */
 qx.Proto.getResponseHeaders = function() {
   throw new Error("getResponseHeaders is abstract");
-};
+}
 
 
 
@@ -217,14 +217,14 @@ qx.Proto.getResponseHeaders = function() {
 */
 qx.Proto.getStatusCode = function() {
   throw new Error("getStatusCode is abstract");
-};
+}
 
 /*!
   Provides the status text for the current request if available and null otherwise.
 */
 qx.Proto.getStatusText = function() {
   throw new Error("getStatusText is abstract");
-};
+}
 
 
 
@@ -244,7 +244,7 @@ qx.Proto.getStatusText = function() {
 */
 qx.Proto.getResponseText = function() {
   throw new Error("getResponseText is abstract");
-};
+}
 
 /*!
   Provides the XML provided by the response if any and null otherwise.
@@ -253,14 +253,14 @@ qx.Proto.getResponseText = function() {
 */
 qx.Proto.getResponseXml = function() {
   throw new Error("getResponseXml is abstract");
-};
+}
 
 /*!
   Returns the length of the content as fetched thus far
 */
 qx.Proto.getFetchedLength = function() {
   throw new Error("getFetchedLength is abstract");
-};
+}
 
 
 
@@ -278,7 +278,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
-  };
+  }
 
   switch(propValue)
   {
@@ -313,7 +313,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
     case qx.constant.Net.STATE_TIMEOUT:
       this.createDispatchEvent(qx.constant.Event.TIMEOUT);
       break;
-  };
+  }
 
   return true;
-};
+}

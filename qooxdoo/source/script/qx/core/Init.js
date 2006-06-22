@@ -39,9 +39,9 @@ function()
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
-  this.__onload = function(e) { return o._onload(e); };
-  this.__onbeforeunload = function(e) { return o._onbeforeunload(e); };
-  this.__onunload = function(e) { return o._onunload(e); };
+  this.__onload = function(e) { return o._onload(e); }
+  this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
+  this.__onunload = function(e) { return o._onunload(e); }
 
   // Attach Events
   qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
@@ -153,7 +153,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // Detach Events
   qx.dom.DomEventRegistration.removeEventListener(window, "load", this.__onload);
@@ -171,6 +171,6 @@ qx.Proto.dispose = function()
   }
 
   qx.core.Target.prototype.dispose.call(this);
-};
+}
 
 qx.core.Init = new qx.core.Init;

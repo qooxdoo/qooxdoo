@@ -64,23 +64,23 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
     return;
-  };
+  }
 
   if(typeof vFunction !== qx.constant.Type.FUNCTION) {
     throw new Error("qx.core.Target: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
-  };
+  }
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
   if (typeof this._listeners === qx.constant.Type.UNDEFINED)
   {
-    this._listeners = {};
-    this._listeners[vType] = {};
+    this._listeners = {}
+    this._listeners[vType] = {}
   }
   else if(typeof this._listeners[vType] === qx.constant.Type.UNDEFINED)
   {
-    this._listeners[vType] = {};
-  };
+    this._listeners[vType] = {}
+  }
 
   // Create a special vKey string to allow identification of each bound action
   var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
@@ -90,8 +90,8 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   {
     handler : vFunction,
     object : vObject
-  };
-};
+  }
+}
 
 /*!
   Remove event listener from object
@@ -100,23 +100,23 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
     return;
-  };
+  }
 
   var vListeners = this._listeners;
   if (!vListeners || typeof vListeners[vType] === qx.constant.Type.UNDEFINED) {
     return;
-  };
+  }
 
   if(typeof vFunction !== qx.constant.Type.FUNCTION) {
     throw new Error("qx.core.Target: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
-  };
+  }
 
   // Create a special vKey string to allow identification of each bound action
   var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
-};
+}
 
 
 
@@ -136,7 +136,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 */
 qx.Proto.hasEventListeners = function(vType) {
   return this._listeners && typeof this._listeners[vType] !== qx.constant.Type.UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
-};
+}
 
 /*!
   Checks if the event is registered. If so it creates a event object and dispatch it.
@@ -145,8 +145,8 @@ qx.Proto.createDispatchEvent = function(vType)
 {
   if (this.hasEventListeners(vType)) {
     this.dispatchEvent(new qx.event.type.Event(vType), true);
-  };
-};
+  }
+}
 
 /*!
   Checks if the event is registered. If so it creates a data event object and dispatch it.
@@ -155,8 +155,8 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
 {
   if (this.hasEventListeners(vType)) {
     this.dispatchEvent(new qx.event.type.DataEvent(vType, vData), true);
-  };
-};
+  }
+}
 
 
 
@@ -179,21 +179,21 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
   // Ignore event if eventTarget is disposed
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   if (vEvent.getTarget() == null) {
     vEvent.setTarget(this);
-  };
+  }
 
   if (vEvent.getCurrentTarget() == null) {
     vEvent.setCurrentTarget(this);
-  };
+  }
 
   // Dispatch Event
   this._dispatchEvent(vEvent, vEnableDispose);
 
   return !vEvent._defaultPrevented;
-};
+}
 
 /*!
   Internal dispatch implementation
@@ -202,7 +202,7 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   var vListeners = this._listeners;
   if (vListeners)
@@ -229,32 +229,32 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
         {
           if(typeof vFunction === qx.constant.Type.FUNCTION) {
             vFunction.call(qx.util.Validation.isValid(vObject) ? vObject : this, vEvent);
-          };
+          }
         }
         catch(ex)
         {
           this.error("Could not dispatch event of type \"" + vEvent.getType() + "\"", ex);
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   // Bubble event to parents
   var vParent = this.getParent();
   if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && vParent && !vParent.getDisposed() && vParent.getEnabled()) {
     vParent._dispatchEvent(vEvent, false);
-  };
+  }
 
   // vEnableDispose event?
   vEnableDispose && vEvent.dispose();
-};
+}
 
 /*!
   Internal placeholder for bubbling phase of an event.
 */
 qx.Proto.getParent = function() {
   return null;
-};
+}
 
 
 
@@ -271,7 +271,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   if (typeof this._listeners === qx.constant.Type.OBJECT)
   {
@@ -281,15 +281,15 @@ qx.Proto.dispose = function()
       {
         this._listeners[vType][vKey] = null;
         delete this._listeners[vType][vKey];
-      };
+      }
 
       this._listeners[vType] = null;
       delete this._listeners[vType];
-    };
-  };
+    }
+  }
 
   this._listeners = null;
   delete this._listeners;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

@@ -32,7 +32,7 @@ qx.OO.defineClass("qx.dom.DomElementFromPoint");
 
 qx.dom.DomElementFromPoint.getElementFromPoint = function(x, y) {
   return qx.dom.DomElementFromPoint.getElementFromPointHandler(document.body, x, y);
-};
+}
 
 qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
 {
@@ -41,7 +41,7 @@ qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, rec
 
   if (chl < 0) {
     return null;
-  };
+  }
 
   var chc, subres, ret;
 
@@ -60,13 +60,13 @@ qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, rec
       {
         subres = qx.dom.DomElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.dom.DomStyle.getBorderLeft(chc), y-ret[2]-qx.dom.DomStyle.getBorderTop(chc));
         return subres ? subres : chc;
-      };
-    };
+      }
+    }
   }
   while(chl--);
 
   return null;
-};
+}
 
 qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
 {
@@ -74,7 +74,7 @@ qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
 
   if (chc.nodeType != 1) {
     return false;
-  };
+  }
 
   xstart = qx.dom.DomOffset.getLeft(chc);
   if (x > xstart)
@@ -90,13 +90,13 @@ qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
         if (y < ystop)
         {
           return [ xstart, xstop, ystart, ystop ];
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   return false;
-};
+}
 
 qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
 {
@@ -104,7 +104,7 @@ qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
 
   if (!chc || chc.nodeType != 1) {
     return false;
-  };
+  }
 
   xstart = qx.dom.DomLocation.getPageBoxLeft(chc);
   if (x > xstart)
@@ -120,10 +120,10 @@ qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
         if (y < ystop)
         {
           return [ xstart, xstop, ystart, ystop ];
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   return false;
-};
+}

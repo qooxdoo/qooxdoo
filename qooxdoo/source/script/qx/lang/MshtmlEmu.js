@@ -142,7 +142,7 @@ if (qx.sys.Client.isGecko())
   */
   HTMLDocument.prototype.createEventObject = function() {
     return document.createEvent("Events");
-  };
+  }
 
 
 
@@ -178,7 +178,7 @@ if (qx.sys.Client.isGecko())
     // initialise the counter
     if (!arguments.callee.count) {
       arguments.callee.count = 0;
-    };
+    }
 
     // create the id and increment the counter
     var vUniqueID = "moz_id" + arguments.callee.count++;
@@ -228,21 +228,21 @@ if (qx.sys.Client.isGecko())
   */
   HTMLElement.prototype.attachEvent = function(vName, vHandler) {
     this.addEventListener(vName.slice(2), vHandler, false);
-  };
+  }
 
   /*
     Mimic the "removeEvent" method
   */
   HTMLElement.prototype.removeEvent = function(vName, vHandler) {
     this.removeEventListener(vName.slice(2), vHandler, false);
-  };
+  }
 
   /*
     Mimic the "createEventObject" method
   */
   HTMLElement.prototype.createEventObject = function() {
     return this.ownerDocument.createEventObject();
-  };
+  }
 
   /*
     Mimic the "fireEvent" method
@@ -251,7 +251,7 @@ if (qx.sys.Client.isGecko())
   {
     if (!vEvent) {
       vEvent = this.ownerDocument.createEventObject();
-    };
+    }
 
     vEvent.initEvent(vName.slice(2), false, false);
 
@@ -265,15 +265,15 @@ if (qx.sys.Client.isGecko())
     else if (this.getAttribute(vName))
     {
       eval(this.getAttribute(vName));
-    };
-  };
+    }
+  }
 
   /*
     Support the "contains" method
   */
   HTMLElement.prototype.contains = function(vElement) {
     return Boolean(vElement == this || (vElement && this.contains(vElement.parentElement)));
-  };
+  }
 
 
 
@@ -330,7 +330,7 @@ if (qx.sys.Client.isGecko())
       this.__defineGetter__("returnValue", function() {
         return false;
       });
-    };
+    }
   });
   */
 
@@ -343,7 +343,7 @@ if (qx.sys.Client.isGecko())
     // this can't be undone!
     if (vValue) {
       this.stopPropagation();
-    };
+    }
   });
 
   Event.prototype.__defineGetter__("offsetX", function() {
@@ -353,4 +353,4 @@ if (qx.sys.Client.isGecko())
   Event.prototype.__defineGetter__("offsetY", function() {
     return this.layerY;
   });
-};
+}

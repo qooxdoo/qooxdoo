@@ -51,16 +51,16 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
     else
     {
       return "line";
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 qx.Proto._updateIndent = function() {
   this.addToTreeQueue();
-};
+}
 
 qx.Proto.getItems = function() {
   return [this];
-};
+}

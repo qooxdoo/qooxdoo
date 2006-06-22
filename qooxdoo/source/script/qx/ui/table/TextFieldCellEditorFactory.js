@@ -51,7 +51,7 @@ qx.Proto.createCellEditor = function(cellInfo) {
   });
 
   return cellEditor;
-};
+}
 
 
 // overridden
@@ -64,4 +64,4 @@ qx.Proto.getCellEditorValue = function(cellEditor) {
     value = parseFloat(value);
   }
   return value;
-};
+}

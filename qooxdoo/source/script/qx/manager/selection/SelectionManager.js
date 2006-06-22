@@ -39,7 +39,7 @@ function(vBoundedWidget)
 
   if (qx.util.Validation.isValid(vBoundedWidget)) {
     this.setBoundedWidget(vBoundedWidget);
-  };
+  }
 });
 
 qx.Class.STATE_SELECTED = "selected";
@@ -112,27 +112,27 @@ qx.Proto._modifyAnchorItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemAnchorState(propOldValue, false);
-  };
+  }
 
   if (propValue) {
     this.renderItemAnchorState(propValue, true);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyLeadItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     this.renderItemLeadState(propOldValue, false);
-  };
+  }
 
   if (propValue) {
     this.renderItemLeadState(propValue, true);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -147,39 +147,39 @@ qx.Proto._modifyLeadItem = function(propValue, propOldValue, propData)
 
 qx.Proto._getFirst = function() {
   return this.getBoundedWidget().getFirstVisibleChild();
-};
+}
 
 qx.Proto._getLast = function() {
   return this.getBoundedWidget().getLastVisibleChild();
-};
+}
 
 qx.Proto.getFirst = function()
 {
   var vItem = this._getFirst();
   if (vItem) {
     return vItem.isEnabled() ? vItem : this.getNext(vItem);
-  };
-};
+  }
+}
 
 qx.Proto.getLast = function()
 {
   var vItem = this._getLast();
   if (vItem) {
     return vItem.isEnabled() ? vItem : this.getPrevious(vItem);
-  };
-};
+  }
+}
 
 qx.Proto.getItems = function() {
   return this.getBoundedWidget().getChildren();
-};
+}
 
 qx.Proto.getNextSibling = function(vItem) {
   return vItem.getNextSibling();
-};
+}
 
 qx.Proto.getPreviousSibling = function(vItem) {
   return vItem.getPreviousSibling();
-};
+}
 
 qx.Proto.getNext = function(vItem)
 {
@@ -189,15 +189,15 @@ qx.Proto.getNext = function(vItem)
 
     if (!vItem) {
       break;
-    };
+    }
 
     if (this.getItemEnabled(vItem)) {
       return vItem;
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 qx.Proto.getPrevious = function(vItem)
 {
@@ -207,25 +207,25 @@ qx.Proto.getPrevious = function(vItem)
 
     if (!vItem) {
       break;
-    };
+    }
 
     if (this.getItemEnabled(vItem)) {
       return vItem;
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 qx.Proto.isBefore = function(vItem1, vItem2)
 {
   var cs = this.getItems();
   return cs.indexOf(vItem1) < cs.indexOf(vItem2);
-};
+}
 
 qx.Proto.isEqual = function(vItem1, vItem2) {
   return vItem1 == vItem2;
-};
+}
 
 
 
@@ -237,7 +237,7 @@ qx.Proto.isEqual = function(vItem1, vItem2) {
 
 qx.Proto.getItemHashCode = function(vItem) {
   return vItem.toHashCode();
-};
+}
 
 
 
@@ -251,27 +251,27 @@ qx.Proto.getItemHashCode = function(vItem) {
 
 qx.Proto.scrollItemIntoView = function(vItem, vTopLeft) {
   vItem.scrollIntoView(vTopLeft);
-};
+}
 
 qx.Proto.getItemLeft = function(vItem) {
   return vItem.getOffsetLeft();
-};
+}
 
 qx.Proto.getItemTop = function(vItem) {
   return vItem.getOffsetTop();
-};
+}
 
 qx.Proto.getItemWidth = function(vItem) {
   return vItem.getOffsetWidth();
-};
+}
 
 qx.Proto.getItemHeight = function(vItem) {
   return vItem.getOffsetHeight();
-};
+}
 
 qx.Proto.getItemEnabled = function(vItem) {
   return vItem.getEnabled();
-};
+}
 
 
 
@@ -286,15 +286,15 @@ qx.Proto.getItemEnabled = function(vItem) {
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   vIsSelected ? vItem.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
-};
+}
 
 qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   vIsAnchor ? vItem.addState(qx.manager.selection.SelectionManager.STATE_ANCHOR) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_ANCHOR);
-};
+}
 
 qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   vIsLead ? vItem.addState(qx.manager.selection.SelectionManager.STATE_LEAD) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_LEAD);
-};
+}
 
 
 
@@ -308,7 +308,7 @@ qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
 
 qx.Proto.getItemSelected = function(vItem) {
   return this._selectedItems.contains(vItem);
-};
+}
 
 /*!
 Make a single item selected / not selected
@@ -326,12 +326,12 @@ qx.Proto.setItemSelected = function(vItem, vSelected)
     case true:
       if (!this.getItemEnabled(vItem)) {
         return;
-      };
+      }
 
       // If selection state is not to be changed => return
       if (this.getItemSelected(vItem) == vSelected) {
         return;
-      };
+      }
 
       // Otherwise render new state
       this.renderItemSelectionState(vItem, vSelected);
@@ -359,12 +359,12 @@ qx.Proto.setItemSelected = function(vItem, vSelected)
 
         if (this.isEqual(vItem, old)) {
           return;
-        };
+        }
 
         // Reset rendering of previous selected item
         if (old != null) {
           this.renderItemSelectionState(old, false);
-        };
+        }
 
         // Render new item as selected
         this.renderItemSelectionState(vItem, true);
@@ -392,13 +392,13 @@ qx.Proto.setItemSelected = function(vItem, vSelected)
 
           // Dispatch change Event
           this._dispatchChange();
-        };
-      };
+        }
+      }
 
       break;
 
-  };
-};
+  }
+}
 
 
 
@@ -412,11 +412,11 @@ qx.Proto.setItemSelected = function(vItem, vSelected)
 */
 qx.Proto.getSelectedItems = function() {
   return this._selectedItems.toArray();
-};
+}
 
 qx.Proto.getSelectedItem = function() {
   return this._selectedItems.getFirst();
-};
+}
 
 /*!
 Select given items
@@ -444,14 +444,14 @@ qx.Proto.setSelectedItems = function(vItems)
 
     if (!this.getItemEnabled(vItem)) {
       continue;
-    };
+    }
 
     // Add item to selection
     this._selectedItems.add(vItem);
 
     // Render new state for item
     this.renderItemSelectionState(vItem, true);
-  };
+  }
 
   // Recover change event status
   this.setFireChange(oldFireChange);
@@ -459,19 +459,19 @@ qx.Proto.setSelectedItems = function(vItems)
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 
 qx.Proto.setSelectedItem = function(vItem)
 {
   if (!vItem) {
     return;
-  };
+  }
 
   if (!this.getItemEnabled(vItem)) {
     return;
-  };
+  }
 
   var oldVal = this._getChangeValue();
 
@@ -494,8 +494,8 @@ qx.Proto.setSelectedItem = function(vItem)
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 
 
@@ -521,8 +521,8 @@ qx.Proto.selectAll = function()
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 /*!
   Sub method for selectAll. Handles the real work
@@ -532,7 +532,7 @@ qx.Proto._selectAll = function()
 {
   if (!this.getMultiSelection()) {
     return;
-  };
+  }
 
   var vItem;
   var vItems = this.getItems();
@@ -547,17 +547,17 @@ qx.Proto._selectAll = function()
 
     if (!this.getItemEnabled(vItem)) {
       continue;
-    };
+    }
 
     // Add item to selection
     this._selectedItems.add(vItem);
 
     // Render new state for item
     this.renderItemSelectionState(vItem, true);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -583,7 +583,7 @@ qx.Proto.deselectAll = function()
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal))
     this._dispatchChange();
-  };
+  }
 
 /*!
   Sub method for deselectAll. Handles the real work
@@ -595,13 +595,13 @@ qx.Proto._deselectAll = function()
   var items = this._selectedItems.toArray();
   for (var i = 0; i < items.length; i++) {
     this.renderItemSelectionState(items[i], false);
-  };
+  }
 
   // Delete all entries in selectedItems hash
   this._selectedItems.removeAll();
 
   return true;
-};
+}
 
 
 
@@ -629,8 +629,8 @@ qx.Proto.selectItemRange = function(vItem1, vItem2)
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 
 
@@ -651,12 +651,12 @@ qx.Proto._selectItemRange = function(vItem1, vItem2, vDeselect)
   // Pre-Check a revert call if vItem2 is before vItem1
   if (this.isBefore(vItem2, vItem1)) {
     return this._selectItemRange(vItem2, vItem1, vDeselect);
-  };
+  }
 
   // Deselect all
   if (vDeselect) {
     this._deselectAll();
-  };
+  }
 
   var vCurrentItem = vItem1;
 
@@ -669,19 +669,19 @@ qx.Proto._selectItemRange = function(vItem1, vItem2, vDeselect)
 
       // Render new state for item
       this.renderItemSelectionState(vCurrentItem, true);
-    };
+    }
 
     // Stop here if we reached target item
     if (this.isEqual(vCurrentItem, vItem2)) {
       break;
-    };
+    }
 
     // Get next item
     vCurrentItem = this.getNext(vCurrentItem);
-  };
+  }
 
   return true;
-};
+}
 
 /*!
 Internal method for deselection of ranges.
@@ -694,7 +694,7 @@ qx.Proto._deselectItemRange = function(vItem1, vItem2)
   // Pre-Check a revert call if vItem2 is before vItem1
   if (this.isBefore(vItem2, vItem1)) {
     return this._deselectItemRange(vItem2, vItem1);
-  };
+  }
 
   var vCurrentItem = vItem1;
 
@@ -709,12 +709,12 @@ qx.Proto._deselectItemRange = function(vItem1, vItem2)
     // Stop here if we reached target item
     if (this.isEqual(vCurrentItem, vItem2)) {
       break;
-    };
+    }
 
     // Get next item
     vCurrentItem = this.getNext(vCurrentItem);
-  };
-};
+  }
+}
 
 
 /*
@@ -730,12 +730,12 @@ qx.Proto.handleMouseDown = function(vItem, e)
   // Only allow left and right button
   if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
     return;
-  };
+  }
 
   // Keep selection on right click on already selected item
   if (e.isRightButtonPressed() && this.getItemSelected(vItem)) {
     return;
-  };
+  }
 
   // Shift Key
   //   or
@@ -749,7 +749,7 @@ qx.Proto.handleMouseDown = function(vItem, e)
   {
     // Update lead item
     this.setLeadItem(vItem);
-  };
+  }
 
 
   // Handle dragging
@@ -760,47 +760,47 @@ qx.Proto.handleMouseDown = function(vItem, e)
     // Add mouseup listener and register as capture widget
     this.getBoundedWidget().addEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
     this.getBoundedWidget().setCapture(true);
-  };
-};
+  }
+}
 
 qx.Proto._ondragup = function(e)
 {
   this.getBoundedWidget().removeEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
   this.getBoundedWidget().setCapture(false);
   this._activeDragSession = false;
-};
+}
 
 qx.Proto.handleMouseUp = function(vItem, e)
 {
   if (!e.isLeftButtonPressed()) {
     return;
-  };
+  }
 
   if (e.getCtrlKey() || this.getItemSelected(vItem) && !this._activeDragSession) {
     this._onmouseevent(vItem, e);
-  };
+  }
 
   if (this._activeDragSession)
   {
     this._activeDragSession = false;
     this.getBoundedWidget().setCapture(false);
-  };
-};
+  }
+}
 
 qx.Proto.handleMouseOver = function(oItem, e)
 {
   if (! this.getDragSelection() || !this._activeDragSession) {
     return;
-  };
+  }
 
   this._onmouseevent(oItem, e, true);
-};
+}
 
 // currently unused placeholder
-qx.Proto.handleClick = function(vItem, e) {};
+qx.Proto.handleClick = function(vItem, e) {}
 
 // currently unused placeholder
-qx.Proto.handleDblClick = function(vItem, e) {};
+qx.Proto.handleDblClick = function(vItem, e) {}
 
 
 /*!
@@ -810,7 +810,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
 {
   if (!this.getItemEnabled(oItem)) {
     return;
-  };
+  }
 
   // ********************************************************************
   //   Init
@@ -847,7 +847,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   {
     this.setAnchorItem(oItem);
     currentAnchorItem = oItem;
-  };
+  }
 
 
 
@@ -858,7 +858,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   {
     if (!this.getItemEnabled(oItem)) {
       return;
-    };
+    }
 
     // Remove current selection
     this._deselectAll();
@@ -870,11 +870,11 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
     {
       // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
       this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
-    };
+    }
 
     if (!this.getItemSelected(oItem)) {
       this.renderItemSelectionState(oItem, true);
-    };
+    }
 
     // Clear up and add new one
     //this._selectedItems.removeAll();
@@ -891,7 +891,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   {
     if (oldLead) {
       this._deselectItemRange(currentAnchorItem, oldLead);
-    };
+    }
 
     // Drag down
     if (this.isBefore(currentAnchorItem, oItem))
@@ -903,7 +903,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
       else
       {
         this._deselectItemRange(currentAnchorItem, oItem);
-      };
+      }
     }
 
     // Drag up
@@ -916,8 +916,8 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
       else
       {
         this._deselectItemRange(oItem, currentAnchorItem);
-      };
-    };
+      }
+    }
 
     // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
     this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
@@ -931,7 +931,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   {
     if (!this._activeDragSession) {
       this._addToCurrentSelection = !(this.getCanDeselect() && this.getItemSelected(oItem));
-    };
+    }
 
     this.setItemSelected(oItem, this._addToCurrentSelection);
     this.setAnchorItem(oItem);
@@ -945,7 +945,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   {
     if (!this._activeDragSession) {
       this._addToCurrentSelection = !(this.getCanDeselect() && this.getItemSelected(oItem));
-    };
+    }
 
     if (this._addToCurrentSelection)
     {
@@ -954,7 +954,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
     else
     {
       this._deselectItemRange(currentAnchorItem, oItem);
-    };
+    }
   }
 
   // ********************************************************************
@@ -971,11 +971,11 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
     {
       if (oldLead) {
         this._deselectItemRange(currentAnchorItem, oldLead);
-      };
+      }
 
       this._selectItemRange(currentAnchorItem, oItem, false);
-    };
-  };
+    }
+  }
 
 
 
@@ -985,8 +985,8 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   // Dispatch change Event
   if(oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 
 
@@ -1017,7 +1017,7 @@ qx.Proto.handleKeyDown = function(e)
       // Update lead item to this new last
       // (or better here: first) selected item
       this.setLeadItem(this.getFirst());
-    };
+    }
   }
 
   // Default operation
@@ -1048,7 +1048,7 @@ qx.Proto.handleKeyDown = function(e)
         // a range without any previous selection.
         if (aIndex == null) {
           this.setAnchorItem(itemToSelect);
-        };
+        }
 
         // Select new range (and clear up current selection first)
         this._selectItemRange(this.getAnchorItem(), itemToSelect, true);
@@ -1086,7 +1086,7 @@ qx.Proto.handleKeyDown = function(e)
           // Clear current selection
           if (!e.getCtrlKey() || !this.getMultiSelection()) {
             this._deselectAll();
-          };
+          }
 
           // Update new item to be selected
           this.renderItemSelectionState(itemToSelect, true);
@@ -1097,10 +1097,10 @@ qx.Proto.handleKeyDown = function(e)
           // Update anchor to this new item
           // (allows following shift range selection)
           this.setAnchorItem(itemToSelect);
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   // Recover change event status
   this.setFireChange(oldFireChange);
@@ -1108,15 +1108,15 @@ qx.Proto.handleKeyDown = function(e)
   // Dispatch change Event
   if (oldFireChange && this._hasChanged(oldVal)) {
     this._dispatchChange();
-  };
-};
+  }
+}
 
 qx.Proto.getItemToSelect = function(vKeyboardEvent)
 {
   // Don't handle ALT here
   if (vKeyboardEvent.getAltKey()) {
     return null;
-  };
+  }
 
   // Handle event by keycode
   switch (vKeyboardEvent.getKeyCode())
@@ -1152,11 +1152,11 @@ qx.Proto.getItemToSelect = function(vKeyboardEvent)
     case qx.event.type.KeyEvent.keys.space:
       if (vKeyboardEvent.getCtrlKey()) {
         return this.getLeadItem();
-      };
-  };
+      }
+  }
 
   return null;
-};
+}
 
 
 
@@ -1171,20 +1171,20 @@ qx.Proto._dispatchChange = function()
 {
   if (!this.getFireChange()) {
     return;
-  };
+  }
 
   if (this.hasEventListeners("changeSelection")) {
     this.dispatchEvent(new qx.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
-  };
-};
+  }
+}
 
 qx.Proto._hasChanged = function(sOldValue) {
   return sOldValue != this._getChangeValue();
-};
+}
 
 qx.Proto._getChangeValue = function() {
   return this._selectedItems.getChangeValue();
-};
+}
 
 
 
@@ -1199,57 +1199,57 @@ qx.Proto._getChangeValue = function() {
 
 qx.Proto.getHome = function() {
   return this.getFirst();
-};
+}
 
 qx.Proto.getEnd = function() {
   return this.getLast();
-};
+}
 
 qx.Proto.getDown = function(vItem)
 {
   if (!vItem) {
     return this.getFirst();
-  };
+  }
 
   return this.getMultiColumnSupport() ? (this.getUnder(vItem) || this.getLast()) : this.getNext(vItem);
-};
+}
 
 qx.Proto.getUp = function(vItem)
 {
   if (!vItem) {
     return this.getLast();
-  };
+  }
 
   return this.getMultiColumnSupport() ? (this.getAbove(vItem) || this.getFirst()) : this.getPrevious(vItem);
-};
+}
 
 qx.Proto.getLeft = function(vItem)
 {
   if (!this.getMultiColumnSupport()) {
     return null;
-  };
+  }
 
   return !vItem ? this.getLast() : this.getPrevious(vItem);
-};
+}
 
 qx.Proto.getRight = function(vItem)
 {
   if (!this.getMultiColumnSupport()) {
     return null;
-  };
+  }
 
   return !vItem ? this.getFirst() : this.getNext(vItem);
-};
+}
 
 qx.Proto.getAbove = function(vItem)
 {
   throw new Error("getAbove(): Not implemented yet");
-};
+}
 
 qx.Proto.getUnder = function(vItem)
 {
   throw new Error("getUnder(): Not implemented yet");
-};
+}
 
 
 
@@ -1279,7 +1279,7 @@ qx.Proto.getPageUp = function(vItem)
   var nextItem = this.getLeadItem();
   if (!nextItem) {
     nextItem = this.getFirst();
-  };
+  }
 
   // Normally we should reach the status "lead" for the
   // nextItem after two iterations.
@@ -1288,12 +1288,12 @@ qx.Proto.getPageUp = function(vItem)
   {
     while (nextItem && (this.getItemTop(nextItem) - this.getItemHeight(nextItem) >= vParentScrollTop)) {
       nextItem = this.getUp(nextItem);
-    };
+    }
 
     // This should never occour after the fix above
     if (nextItem == null) {
       break;
-    };
+    }
 
     // If the nextItem is not anymore the leadItem
     // Means: There has occured a change.
@@ -1303,7 +1303,7 @@ qx.Proto.getPageUp = function(vItem)
       // be sure that the top is reached
       this.scrollItemIntoView(nextItem, true);
       break;
-    };
+    }
 
     // Update scrolling (this is normally the first step)
     // this.debug("Scroll-Up: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
@@ -1314,10 +1314,10 @@ qx.Proto.getPageUp = function(vItem)
 
     // Increment counter
     tryLoops++;
-  };
+  }
 
   return nextItem;
-};
+}
 
 /*!
 Jump a "page" down.
@@ -1340,7 +1340,7 @@ qx.Proto.getPageDown = function(vItem)
   var nextItem = this.getLeadItem();
   if (!nextItem) {
     nextItem = this.getFirst();
-  };
+  }
 
   // Normally we should reach the status "lead" for the
   // nextItem after two iterations.
@@ -1354,19 +1354,19 @@ qx.Proto.getPageDown = function(vItem)
     // Find next
     while (nextItem && ((this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
       nextItem = this.getDown(nextItem);
-    };
+    }
 
     // This should never occour after the fix above
     if (nextItem == null) {
       break;
-    };
+    }
 
     // If the nextItem is not anymore the leadItem
     // Means: There has occured a change.
     // We break here. This is normally the second step.
     if (nextItem != this.getLeadItem()) {
       break;
-    };
+    }
 
     // Update scrolling (this is normally the first step)
     // this.debug("Scroll-Down: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
@@ -1377,12 +1377,12 @@ qx.Proto.getPageDown = function(vItem)
 
     // Increment counter
     tryLoops++;
-  };
+  }
 
   //this.debug("Select: " + nextItem._labelObject.getHtml());
 
   return nextItem;
-};
+}
 
 
 
@@ -1403,13 +1403,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._selectedItems)
   {
     this._selectedItems.dispose();
     this._selectedItems = null;
-  };
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

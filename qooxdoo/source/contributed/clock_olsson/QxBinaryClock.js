@@ -86,13 +86,13 @@ qx.Proto.display = function(hours, minutes, seconds)
     if (hours > 12)
     {
       hours = hours - 12;
-    };
+    }
 
     if (hours == 0)
     {
       hours = 12;
-    };
-  };
+    }
+  }
 
   var time = ((hours < 10) ? "0"+hours : hours) + '' + ((minutes < 10) ? "0"+minutes : minutes) + '' + ((seconds < 10) ? "0"+seconds : seconds);
 
@@ -105,7 +105,7 @@ qx.Proto.display = function(hours, minutes, seconds)
   else
   {
     this._hour1I.setSource(imagePath + "blank.png");
-  };
+  }
 
   this._hour2I.setSource(imagePath + time.charAt(1) + ".png");
   this._divisor1I.setSource(imagePath + "divisor.png");
@@ -114,7 +114,7 @@ qx.Proto.display = function(hours, minutes, seconds)
   this._divisor2I.setSource(imagePath + "divisor.png");
   this._second1I.setSource(imagePath + time.charAt(4) + ".png");
   this._second2I.setSource(imagePath + time.charAt(5) + ".png");
-};
+}
 
 
 
@@ -131,55 +131,55 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if(this._hour1I)
   {
     this._hour1I.dispose();
     this._hour1I = null;
-  };
+  }
 
   if(this._hour2I)
   {
     this._hour2I.dispose();
     this._hour2I = null;
-  };
+  }
 
   if(this._divisor1I)
   {
     this._divisor1I.dispose();
     this._divisor1I = null;
-  };
+  }
 
   if(this._minute1I)
   {
     this._minute1I.dispose();
     this._minute1I = null;
-  };
+  }
 
   if(this._minute2I)
   {
     this._minute2I.dispose();
     this._minute2I = null;
-  };
+  }
 
   if(this._divisor2I)
   {
     this._divisor2I.dispose();
     this._divisor2I = null;
-  };
+  }
 
   if(this._second1I)
   {
     this._second1I.dispose();
     this._second1I = null;
-  };
+  }
 
   if(this._second2I)
   {
     this._second2I.dispose();
     this._second2I = null;
-  };
+  }
 
   return QxClock.prototype.dispose.call(this);
-};
+}

@@ -87,7 +87,7 @@ function()
     vEngineVersion = RegExp.$1;
 
     vBrowserModeHta = !window.external;
-  };
+  }
 
   // Support Konqueror?
   // Mozilla/5.0 (compatible; Konqueror/3.5) KHTML/3.5.0 (like Gecko)
@@ -100,7 +100,7 @@ function()
     vEngineVersionMinor = vVersionHelper[1] || 0;
     vEngineVersionRevision = vVersionHelper[2] || 0;
     vEngineVersionBuild = vVersionHelper[3] || 0;
-  };
+  }
 
   var vEngineBoxSizingAttr = vEngine == "gecko" ? "-moz-box-sizing" : vEngine == "mshtml" ? null : "box-sizing";
   var vEngineQuirksMode = document.compatMode !== "CSS1Compat";
@@ -183,55 +183,55 @@ function()
 
 qx.Proto.getRunsLocally = function() {
   return this._runsLocally;
-};
+}
 
 qx.Proto.getEngine = function() {
   return this._engineName;
-};
+}
 
 qx.Proto.getVersion = function() {
   return this._engineVersion;
-};
+}
 
 qx.Proto.getMajor = function() {
   return this._engineVersionMajor;
-};
+}
 
 qx.Proto.getMinor = function() {
   return this._engineVersionMinor;
-};
+}
 
 qx.Proto.getRevision = function() {
   return this._engineVersionRevision;
-};
+}
 
 qx.Proto.getBuild = function() {
   return this._engineVersionBuild;
-};
+}
 
 qx.Proto.getEmulation = function() {
   return this._engineEmulation;
-};
+}
 
 qx.Proto.isMshtml = function() {
   return this._engineNameMshtml;
-};
+}
 
 qx.Proto.isGecko = function() {
   return this._engineNameGecko;
-};
+}
 
 qx.Proto.isOpera = function() {
   return this._engineNameOpera;
-};
+}
 
 qx.Proto.isKhtml = function() {
   return this._engineNameKhtml;
-};
+}
 
 qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
-};
+}
 
 qx.Proto.getLocale = function() {
   return this._browserLocale;
@@ -254,7 +254,7 @@ qx.Proto.usesDefaultLocale = function() {
  */
 qx.Proto.getEngineBoxSizingAttribute = function() {
   return this._engineBoxSizingAttribute;
-};
+}
 
 
 /**
@@ -264,7 +264,7 @@ qx.Proto.getEngineBoxSizingAttribute = function() {
  */
 qx.Proto.runsOnWindows = function() {
   return this._browserPlatformWindows;
-};
+}
 
 /**
  * Returns whether the client platform is a Macintosh machine.
@@ -273,7 +273,7 @@ qx.Proto.runsOnWindows = function() {
  */
 qx.Proto.runsOnMacintosh = function() {
   return this._browserPlatformMacintosh;
-};
+}
 
 /**
  * Returns whether the client platform is a X11 powered machine.
@@ -282,7 +282,7 @@ qx.Proto.runsOnMacintosh = function() {
  */
 qx.Proto.runsOnX11 = function() {
   return this._browserPlatformX11;
-};
+}
 
 qx.Proto.supportsVml = function() {
   return this._gfxVml;

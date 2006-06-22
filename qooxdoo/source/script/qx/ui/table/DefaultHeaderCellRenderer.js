@@ -46,7 +46,7 @@ qx.Proto.createHeaderCell = function(cellInfo) {
   this.updateHeaderCell(cellInfo, widget);
 
   return widget;
-};
+}
 
 
 // overridden
@@ -56,7 +56,7 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   cellWidget.setLabel(cellInfo.name);
   cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED, cellInfo.sorted);
   cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED_ASCENDING, cellInfo.sortedAscending);
-};
+}
 
 /**
  * {string} The state which will be set for header cells of sorted columns.

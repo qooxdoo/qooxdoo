@@ -24,7 +24,7 @@ theme.registerAppearance("statusbar",
       paddingRight : 1,
       paddingBottom : 1,
       paddingLeft : 1
-    };
+    }
   }
 });
 
@@ -36,7 +36,7 @@ theme.registerAppearance("statusbar-pane",
       width : qx.constant.Core.AUTO,
       height : null,
       border : qx.renderer.border.BorderObject.presets.inset
-    };
+    }
   }
 });
 
@@ -47,6 +47,6 @@ theme.registerAppearance("statusbar-widget",
     return{
       paddingRight : 1,
       paddingLeft : 1
-    };
+    }
   }
 });

@@ -62,7 +62,7 @@ qx.Proto._onkeydown = function(e)
 
         default:
           return;
-      };
+      }
 
       break;
 
@@ -80,13 +80,13 @@ qx.Proto._onkeydown = function(e)
 
         default:
           return;
-      };
+      }
 
       break;
 
     default:
       return;
-  };
+  }
 
   var vChild = vPrevious ? this.isFirstChild() ? this.getParent().getLastChild() : this.getPreviousSibling() : this.isLastChild() ? this.getParent().getFirstChild() : this.getNextSibling();
 
@@ -95,4 +95,4 @@ qx.Proto._onkeydown = function(e)
 
   // and naturally also check it
   vChild.setChecked(true);
-};
+}

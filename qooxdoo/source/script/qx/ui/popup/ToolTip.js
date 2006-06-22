@@ -92,13 +92,13 @@ qx.Proto._modifyHideInterval = function(propValue, propOldValue, propData)
 {
   this._hideTimer.setInterval(propValue);
   return true;
-};
+}
 
 qx.Proto._modifyShowInterval = function(propValue, propOldValue, propData)
 {
   this._showTimer.setInterval(propValue);
   return true;
-};
+}
 
 qx.Proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
 {
@@ -109,10 +109,10 @@ qx.Proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
   else if (propOldValue)
   {
     this.setParent(null);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -129,11 +129,11 @@ qx.Proto._beforeAppear = function()
 {
   this._stopShowTimer();
   this._startHideTimer();
-};
+}
 
 qx.Proto._beforeDisappear = function() {
   this._stopHideTimer();
-};
+}
 
 
 
@@ -150,29 +150,29 @@ qx.Proto._startShowTimer = function()
 {
   if(!this._showTimer.getEnabled()) {
     this._showTimer.start();
-  };
-};
+  }
+}
 
 qx.Proto._startHideTimer = function()
 {
   if(!this._hideTimer.getEnabled()) {
     this._hideTimer.start();
-  };
-};
+  }
+}
 
 qx.Proto._stopShowTimer = function()
 {
   if(this._showTimer.getEnabled()) {
     this._showTimer.stop();
-  };
-};
+  }
+}
 
 qx.Proto._stopHideTimer = function()
 {
   if(this._hideTimer.getEnabled()) {
     this._hideTimer.stop();
-  };
-};
+  }
+}
 
 
 
@@ -190,8 +190,8 @@ qx.Proto._onmouseover = function(e)
 {
   if(this.getHideOnHover()) {
     this.hide();
-  };
-};
+  }
+}
 
 qx.Proto._onshowtimer = function(e)
 {
@@ -206,11 +206,11 @@ qx.Proto._onshowtimer = function(e)
   qx.ui.core.Widget.flushGlobalQueues();
 
   return true;
-};
+}
 
 qx.Proto._onhidetimer = function(e) {
   return this.hide();
-};
+}
 
 
 
@@ -228,7 +228,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
   this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseover);
@@ -238,14 +238,14 @@ qx.Proto.dispose = function()
     this._showTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onshowtimer, this);
     this._showTimer.dispose();
     this._showTimer = null;
-  };
+  }
 
   if (this._hideTimer)
   {
     this._hideTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onhidetimer, this);
     this._hideTimer.dispose();
     this._hideTimer = null;
-  };
+  }
 
   return qx.ui.popup.PopupAtom.prototype.dispose.call(this);
-};
+}

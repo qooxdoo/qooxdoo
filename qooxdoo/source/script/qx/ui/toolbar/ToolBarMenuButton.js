@@ -35,7 +35,7 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 
   if (qx.util.Validation.isValidObject(vMenu)) {
     this.setMenu(vMenu);
-  };
+  }
 
   /*
   this._menuButton = new qx.ui.basic.Image("widgets/arrows/down_small.gif");
@@ -71,10 +71,10 @@ qx.Proto.getParentToolBar = function()
 
   if (vParent instanceof qx.ui.toolbar.ToolBarPart) {
     vParent = vParent.getParent();
-  };
+  }
 
   return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
-};
+}
 
 qx.Proto._showMenu = function(vFromKeyEvent)
 {
@@ -112,7 +112,7 @@ qx.Proto._showMenu = function(vFromKeyEvent)
         vMenu.setTop(vButtonTop + vButtonHeight);
         vMenu.setBottom(null);
         break;
-    };
+    }
 
     this.addState(qx.ui.form.Button.STATE_PRESSED);
 
@@ -120,11 +120,11 @@ qx.Proto._showMenu = function(vFromKeyEvent)
     // the first menubutton inside.
     if (vFromKeyEvent) {
       vMenu.setHoverItem(vMenu.getFirstActiveChild());
-    };
+    }
 
     vMenu.show();
-  };
-};
+  }
+}
 
 qx.Proto._hideMenu = function()
 {
@@ -132,8 +132,8 @@ qx.Proto._hideMenu = function()
 
   if (vMenu) {
     vMenu.hide();
-  };
-};
+  }
+}
 
 
 
@@ -153,7 +153,7 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 
     propOldValue.removeEventListener(qx.constant.Event.APPEAR, this._onmenuappear, this);
     propOldValue.removeEventListener(qx.constant.Event.DISAPPEAR, this._onmenudisappear, this);
-  };
+  }
 
   if (propValue)
   {
@@ -161,10 +161,10 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 
     propValue.addEventListener(qx.constant.Event.APPEAR, this._onmenuappear, this);
     propValue.addEventListener(qx.constant.Event.DISAPPEAR, this._onmenudisappear, this);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -181,21 +181,21 @@ qx.Proto._onmousedown = function(e)
 {
   if (e.getTarget() != this || !e.isLeftButtonPressed()) {
     return;
-  };
+  }
 
   this.hasState(qx.ui.form.Button.STATE_PRESSED) ? this._hideMenu() : this._showMenu();
-};
+}
 
-qx.Proto._onmouseup = function(e) {};
+qx.Proto._onmouseup = function(e) {}
 
 qx.Proto._onmouseout = function(e)
 {
   if (e.getTarget() != this) {
     return;
-  };
+  }
 
   this.removeState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
 qx.Proto._onmouseover = function(e)
 {
@@ -217,11 +217,11 @@ qx.Proto._onmouseover = function(e)
 
         // show this menu
         this._showMenu();
-    };
-  };
+    }
+  }
 
   return qx.ui.toolbar.ToolBarButton.prototype._onmouseover.call(this, e);
-};
+}
 
 
 
@@ -240,12 +240,12 @@ qx.Proto._onmenuappear = function(e)
 
   if (!vToolBar) {
     return;
-  };
+  }
 
   var vMenu = this.getMenu();
 
   vToolBar.setOpenMenu(vMenu);
-};
+}
 
 qx.Proto._onmenudisappear = function(e)
 {
@@ -253,11 +253,11 @@ qx.Proto._onmenudisappear = function(e)
 
   if (!vToolBar) {
     return;
-  };
+  }
 
   var vMenu = this.getMenu();
 
   if (vToolBar.getOpenMenu() == vMenu) {
     vToolBar.setOpenMenu(null);
-  };
-};
+  }
+}

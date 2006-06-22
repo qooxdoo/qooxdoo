@@ -32,7 +32,7 @@ function()
 {
   if (this.classname == qx.ui.core.Parent.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
-  };
+  }
 
   qx.ui.core.Widget.call(this);
 
@@ -94,28 +94,28 @@ qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 
 qx.Proto.isFocusRoot = function() {
   return this.getFocusManager() != null;
-};
+}
 
 qx.Proto.getFocusRoot = function()
 {
   if (this.isFocusRoot()) {
     return this;
-  };
+  }
 
   if(this._hasParent) {
     return this.getParent().getFocusRoot();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.activateFocusRoot = function() {
   this.setFocusManager(new qx.event.handler.FocusHandler(this));
-};
+}
 
 qx.Proto._onfocuskeyevent = function(e) {
   this.getFocusManager()._onkeyevent(this, e);
-};
+}
 
 qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
 {
@@ -128,7 +128,7 @@ qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
     // Activate focus handling (but keep already configured tabIndex)
     if (this.getTabIndex() < 1) {
       this.setTabIndex(1);
-    };
+    }
 
     // But hide the focus outline
     this.setHideFocus(true);
@@ -147,10 +147,10 @@ qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
 
     // Don't hide focus outline
     this.setHideFocus(false);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 {
@@ -161,7 +161,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
   if (vFocusValid && typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update(propValue);
-  };
+  }
 
   if (vBlurValid)
   {
@@ -172,12 +172,12 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
       if (vFocusValid) {
         vEventObject.setRelatedTarget(propValue);
-      };
+      }
 
       propOldValue.dispatchEvent(vEventObject);
       vEventObject.dispose();
-    };
-  };
+    }
+  }
 
   if (vFocusValid)
   {
@@ -188,18 +188,18 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
       if (vBlurValid) {
         vEventObject.setRelatedTarget(propOldValue);
-      };
+      }
 
       propValue.dispatchEvent(vEventObject);
       vEventObject.dispose();
-    };
-  };
+    }
+  }
 
   if (vBlurValid)
   {
     if (this.getActiveChild() == propOldValue) {
       this.setActiveChild(null);
-    };
+    }
 
     propOldValue.setFocused(false);
 
@@ -208,13 +208,13 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     if (vFocusValid) {
       vEventObject.setRelatedTarget(propValue);
-    };
+    }
 
     propOldValue.dispatchEvent(vEventObject);
 
     qx.manager.object.ToolTipManager.handleBlur(vEventObject);
     vEventObject.dispose();
-  };
+  }
 
   if (vFocusValid)
   {
@@ -227,21 +227,21 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     if (vBlurValid) {
       vEventObject.setRelatedTarget(propOldValue);
-    };
+    }
 
     propValue.dispatchEvent(vEventObject);
 
     qx.manager.object.ToolTipManager.handleFocus(vEventObject);
 
     vEventObject.dispose();
-  };
+  }
 
   // Flush Queues
   // Do we really need this?
   // qx.ui.core.Widget.flushGlobalQueues();
 
   return true;
-};
+}
 
 
 
@@ -257,11 +257,11 @@ qx.Proto._layoutImpl = null;
 
 qx.Proto._createLayoutImpl = function() {
   return null;
-};
+}
 
 qx.Proto.getLayoutImpl = function() {
   return this._layoutImpl;
-};
+}
 
 
 
@@ -280,35 +280,35 @@ qx.Proto.getLayoutImpl = function() {
 */
 qx.Proto.getChildren = function() {
   return this._children;
-};
+}
 
 /*!
   Get children count
 */
 qx.Proto.getChildrenLength = function() {
   return this.getChildren().length;
-};
+}
 
 /*!
   Check if the widget has a children
 */
 qx.Proto.hasChildren = function() {
   return this.getChildrenLength() > 0;
-};
+}
 
 /*!
   Check if there are any childrens inside
 */
 qx.Proto.isEmpty = function() {
   return this.getChildrenLength() == 0;
-};
+}
 
 /*!
   Get the position of a children.
 */
 qx.Proto.indexOf = function(vChild) {
   return this.getChildren().indexOf(vChild);
-};
+}
 
 /*!
 Check if the given qx.ui.core.Widget is a children.
@@ -328,8 +328,8 @@ qx.Proto.contains = function(vWidget)
     default:
       // try the next parent of the widget (recursive until found)
       return this.contains(vWidget.getParent());
-  };
-};
+  }
+}
 
 
 
@@ -359,32 +359,32 @@ qx.Proto._computeVisibleChildren = function()
     var vChild = vChildren[i];
     if (vChild._isDisplayable) {
       vVisible.push(vChild);
-    };
-  };
+    }
+  }
 
   return vVisible;
-};
+}
 
 /*!
   Get length of visible children
 */
 qx.Proto.getVisibleChildrenLength = function() {
   return this.getVisibleChildren().length;
-};
+}
 
 /*!
   Check if the widget has any visible children
 */
 qx.Proto.hasVisibleChildren = function() {
   return this.getVisibleChildrenLength() > 0;
-};
+}
 
 /*!
   Check if there are any visible childrens inside
 */
 qx.Proto.isVisibleEmpty = function() {
   return this.getVisibleChildrenLength() == 0;
-};
+}
 
 
 
@@ -416,17 +416,17 @@ qx.Proto.add = function()
     else
     {
       vWidget.setParent(this);
-    };
-  };
+    }
+  }
 
   return this;
-};
+}
 
 qx.Proto.addAt = function(vChild, vIndex)
 {
   if (qx.util.Validation.isInvalidNumber(vIndex) || vIndex == -1) {
     throw new Error("Not a valid index for addAt(): " + vIndex);
-  };
+  }
 
   if (vChild.getParent() == this)
   {
@@ -437,7 +437,7 @@ qx.Proto.addAt = function(vChild, vIndex)
     {
       if (vOldIndex != -1) {
         qx.lang.Array.removeAt(vChildren, vOldIndex);
-      };
+      }
 
       qx.lang.Array.insertAt(vChildren, vChild, vIndex);
 
@@ -445,19 +445,19 @@ qx.Proto.addAt = function(vChild, vIndex)
       {
         this._invalidateVisibleChildren();
         this.getLayoutImpl().updateChildrenOnMoveChild(vChild, vIndex, vOldIndex);
-      };
-    };
+      }
+    }
   }
   else
   {
     vChild._insertIndex = vIndex;
     vChild.setParent(this);
-  };
-};
+  }
+}
 
 qx.Proto.addAtBegin = function(vChild) {
   return this.addAt(vChild, 0);
-};
+}
 
 qx.Proto.addAtEnd = function(vChild)
 {
@@ -465,7 +465,7 @@ qx.Proto.addAtEnd = function(vChild)
   // want to change its position
   var vLength = this.getChildrenLength();
   return this.addAt(vChild, vChild.getParent() == this ? vLength - 1 : vLength);
-};
+}
 
 /*!
   Add a widget before another already inserted child
@@ -477,16 +477,16 @@ qx.Proto.addBefore = function(vChild, vBefore)
 
   if (vTargetIndex == -1) {
     throw new Error("Child to add before: " + vBefore + " is not inside this parent.");
-  };
+  }
 
   var vSourceIndex = vChildren.indexOf(vChild);
 
   if (vSourceIndex == -1 || vSourceIndex > vTargetIndex) {
     vTargetIndex++;
-  };
+  }
 
   return this.addAt(vChild, Math.max(0, vTargetIndex-1));
-};
+}
 
 /*!
   Add a widget after another already inserted child
@@ -498,16 +498,16 @@ qx.Proto.addAfter = function(vChild, vAfter)
 
   if (vTargetIndex == -1) {
     throw new Error("Child to add after: " + vAfter + " is not inside this parent.");
-  };
+  }
 
   var vSourceIndex = vChildren.indexOf(vChild);
 
   if (vSourceIndex != -1 && vSourceIndex < vTargetIndex) {
     vTargetIndex--;
-  };
+  }
 
   return this.addAt(vChild, Math.min(vChildren.length, vTargetIndex+1));
-};
+}
 
 
 
@@ -539,9 +539,9 @@ qx.Proto.remove = function()
     else if (vWidget.getParent() == this)
     {
       vWidget.setParent(null);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.removeAt = function(vIndex)
 {
@@ -552,8 +552,8 @@ qx.Proto.removeAt = function(vIndex)
     delete vChild._insertIndex;
 
     vChild.setParent(null);
-  };
-};
+  }
+}
 
 /*!
   Remove all childrens.
@@ -567,8 +567,8 @@ qx.Proto.removeAll = function()
   {
     this.remove(co);
     co = cs[0];
-  };
-};
+  }
+}
 
 
 
@@ -583,15 +583,15 @@ qx.Proto.removeAll = function()
 
 qx.Proto.getFirstChild = function() {
   return qx.lang.Array.getFirst(this.getChildren());
-};
+}
 
 qx.Proto.getFirstVisibleChild = function() {
   return qx.lang.Array.getFirst(this.getVisibleChildren());
-};
+}
 
 qx.Proto.getFirstActiveChild = function(vIgnoreClasses) {
   return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
-};
+}
 
 
 
@@ -606,15 +606,15 @@ qx.Proto.getFirstActiveChild = function(vIgnoreClasses) {
 
 qx.Proto.getLastChild = function() {
   return qx.lang.Array.getLast(this.getChildren());
-};
+}
 
 qx.Proto.getLastVisibleChild = function() {
   return qx.lang.Array.getLast(this.getVisibleChildren());
-};
+}
 
 qx.Proto.getLastActiveChild = function(vIgnoreClasses) {
   return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
-};
+}
 
 
 
@@ -632,16 +632,16 @@ qx.Proto.forEachChild = function(vFunc)
   var ch=this.getChildren(), chc, i=-1;
   while(chc=ch[++i]) {
     vFunc.call(chc, i);
-  };
-};
+  }
+}
 
 qx.Proto.forEachVisibleChild = function(vFunc)
 {
   var ch=this.getVisibleChildren(), chc, i=-1;
   while(chc=ch[++i]) {
     vFunc.call(chc, i);
-  };
-};
+  }
+}
 
 
 
@@ -661,9 +661,9 @@ qx.Proto._beforeAppear = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._beforeAppear();
-    };
+    }
   });
-};
+}
 
 qx.Proto._afterAppear = function()
 {
@@ -672,9 +672,9 @@ qx.Proto._afterAppear = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._afterAppear();
-    };
+    }
   });
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -683,9 +683,9 @@ qx.Proto._beforeDisappear = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._beforeDisappear();
-    };
+    }
   });
-};
+}
 
 qx.Proto._afterDisappear = function()
 {
@@ -694,9 +694,9 @@ qx.Proto._afterDisappear = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._afterDisappear();
-    };
+    }
   });
-};
+}
 
 
 
@@ -717,9 +717,9 @@ qx.Proto._beforeInsertDom = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._beforeInsertDom();
-    };
+    }
   });
-};
+}
 
 qx.Proto._afterInsertDom = function()
 {
@@ -728,9 +728,9 @@ qx.Proto._afterInsertDom = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._afterInsertDom();
-    };
+    }
   });
-};
+}
 
 qx.Proto._beforeRemoveDom = function()
 {
@@ -739,9 +739,9 @@ qx.Proto._beforeRemoveDom = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._beforeRemoveDom();
-    };
+    }
   });
-};
+}
 
 qx.Proto._afterRemoveDom = function()
 {
@@ -750,9 +750,9 @@ qx.Proto._afterRemoveDom = function()
   this.forEachVisibleChild(function() {
     if (this.isAppearRelevant()) {
       this._afterRemoveDom();
-    };
+    }
   });
-};
+}
 
 
 
@@ -771,7 +771,7 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
   this.forEachChild(function() {
     this._handleDisplayable();
   });
-};
+}
 
 
 
@@ -790,7 +790,7 @@ qx.Proto._addChildrenToStateQueue = function()
   this.forEachVisibleChild(function() {
     this.addToStateQueue();
   });
-};
+}
 
 qx.Proto.recursiveAddToStateQueue = function()
 {
@@ -799,7 +799,7 @@ qx.Proto.recursiveAddToStateQueue = function()
   this.forEachVisibleChild(function() {
     this.recursiveAddToStateQueue();
   });
-};
+}
 
 qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
@@ -808,7 +808,7 @@ qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldApp
   this.forEachVisibleChild(function() {
     this._recursiveAppearanceThemeUpdate(vNewAppearanceTheme, vOldAppearanceTheme);
   });
-};
+}
 
 
 
@@ -825,19 +825,19 @@ qx.Proto._addChildToChildrenQueue = function(vChild)
 {
   if (!vChild._isInParentChildrenQueue && !vChild._isDisplayable) {
     this.warn("Ignoring invisible child: " + vChild);
-  };
+  }
 
   if (!vChild._isInParentChildrenQueue && vChild._isDisplayable)
   {
     qx.ui.core.Widget.addToGlobalLayoutQueue(this);
 
     if (!this._childrenQueue) {
-      this._childrenQueue = {};
-    };
+      this._childrenQueue = {}
+    }
 
     this._childrenQueue[vChild.toHashCode()] = vChild;
-  };
-};
+  }
+}
 
 qx.Proto._removeChildFromChildrenQueue = function(vChild)
 {
@@ -847,9 +847,9 @@ qx.Proto._removeChildFromChildrenQueue = function(vChild)
 
     if (qx.lang.Object.isEmpty(this._childrenQueue)) {
       qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._flushChildrenQueue = function()
 {
@@ -857,8 +857,8 @@ qx.Proto._flushChildrenQueue = function()
   {
     this.getLayoutImpl().flushChildrenQueue(this._childrenQueue);
     delete this._childrenQueue;
-  };
-};
+  }
+}
 
 
 
@@ -877,7 +877,7 @@ qx.Proto._addChildrenToLayoutQueue = function(p)
   this.forEachChild(function() {
     this.addToLayoutChanges(p);
   });
-};
+}
 
 qx.Proto._layoutChild = function(vChild)
 {
@@ -885,7 +885,7 @@ qx.Proto._layoutChild = function(vChild)
   {
     this.warn("Want to render an invisible child: " + vChild + " -> omitting!");
     return;
-  };
+  }
 
   // APPLY LAYOUT
   var vChanges = vChild._layoutChanges;
@@ -896,31 +896,31 @@ qx.Proto._layoutChild = function(vChild)
   {
     if (vChanges.borderX) {
       this._applyBorderX(vChild, vChanges);
-    };
+    }
 
     if (vChanges.borderY) {
       this._applyBorderY(vChild, vChanges);
-    };
+    }
   }
   catch(ex)
   {
     this.error("Could not apply border to child " + vChild, ex);
-  };
+  }
 
   try
   {
     if (vChanges.paddingLeft || vChanges.paddingRight) {
       vChild._applyPaddingX(this, vChanges);
-    };
+    }
 
     if (vChanges.paddingTop || vChanges.paddingBottom) {
       vChild._applyPaddingY(this, vChanges);
-    };
+    }
   }
   catch(ex)
   {
     this.error("Could not apply padding to child " + vChild, ex);
-  };
+  }
 
 
   // WRAP TO LAYOUT ENGINE
@@ -931,7 +931,7 @@ qx.Proto._layoutChild = function(vChild)
   catch(ex)
   {
     this.error("Could not layout child " + vChild + " through layout handler", ex);
-  };
+  }
 
 
   // POST LAYOUT
@@ -942,7 +942,7 @@ qx.Proto._layoutChild = function(vChild)
   catch(ex)
   {
     this.error("Could not post layout child " + vChild, ex);
-  };
+  }
 
 
   // DISPLAY DOM NODE
@@ -953,20 +953,20 @@ qx.Proto._layoutChild = function(vChild)
     {
       vChild._initialLayoutDone = true;
       qx.ui.core.Widget.addToGlobalDisplayQueue(vChild);
-    };
+    }
   }
   catch(ex)
   {
     this.error("Could not handle display updates from layout flush for child " + vChild, ex);
-  };
+  }
 
 
   // CLEANUP
-  vChild._layoutChanges = {};
+  vChild._layoutChanges = {}
 
   delete vChild._isInParentLayoutQueue;
   delete this._childrenQueue[vChild.toHashCode()];
-};
+}
 
 qx.Proto._layoutPost = qx.util.Return.returnTrue;
 
@@ -981,7 +981,7 @@ if (qx.sys.Client.isOpera())
   {
     if (!vChild._initialLayoutDone || !vChild._layoutChanges.borderX || !vChild._layoutChanges.borderY) {
       return this._layoutChildOrig(vChild);
-    };
+    }
 
     var vStyle = vChild.getElement().style;
 
@@ -991,8 +991,8 @@ if (qx.sys.Client.isOpera())
     vStyle.display = vOldDisplay;
 
     return vRet;
-  };
-};
+  }
+}
 
 
 
@@ -1007,11 +1007,11 @@ if (qx.sys.Client.isOpera())
 
 qx.Proto._computePreferredInnerWidth = function() {
   return this.getLayoutImpl().computeChildrenNeededWidth();
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function() {
   return this.getLayoutImpl().computeChildrenNeededHeight();
-};
+}
 
 qx.Proto._changeInnerWidth = function(vNew, vOld)
 {
@@ -1019,7 +1019,7 @@ qx.Proto._changeInnerWidth = function(vNew, vOld)
 
   if (vLayout.invalidateChildrenFlexWidth) {
     vLayout.invalidateChildrenFlexWidth();
-  };
+  }
 
   this.forEachVisibleChild(function()
   {
@@ -1027,9 +1027,9 @@ qx.Proto._changeInnerWidth = function(vNew, vOld)
     {
       this._recomputeOuterWidth();
       this._recomputeInnerWidth();
-    };
+    }
   });
-};
+}
 
 qx.Proto._changeInnerHeight = function(vNew, vOld)
 {
@@ -1037,7 +1037,7 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
 
   if (vLayout.invalidateChildrenFlexHeight) {
     vLayout.invalidateChildrenFlexHeight();
-  };
+  }
 
   this.forEachVisibleChild(function()
   {
@@ -1045,17 +1045,17 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
     {
       this._recomputeOuterHeight();
       this._recomputeInnerHeight();
-    };
+    }
   });
-};
+}
 
 qx.Proto.getInnerWidthForChild = function(vChild) {
   return this.getInnerWidth();
-};
+}
 
 qx.Proto.getInnerHeightForChild = function(vChild) {
   return this.getInnerHeight();
-};
+}
 
 
 
@@ -1076,11 +1076,11 @@ qx.Proto.getWidgetFromPointHelper = function(x, y)
   for (var chl=ch.length, i=0; i<chl; i++) {
     if (qx.dom.DomElementFromPoint.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
       return ch[i].getWidgetFromPointHelper(x, y);
-    };
-  };
+    }
+  }
 
   return this;
-};
+}
 
 
 
@@ -1104,8 +1104,8 @@ qx.Proto._cloneRecursive = function(cloneInstance)
   {
     cloneChild = ch[i].clone(true);
     cloneInstance.add(cloneChild);
-  };
-};
+  }
+}
 
 
 
@@ -1129,8 +1129,8 @@ qx.Proto.remapChildrenHandlingTo = function(vTarget)
 
   for (var i=0, l=t.length, s; i<l; i++) {
     s = t[i]; this[s] = new Function(qx.ui.core.Parent.prototype._remapStart + s + qx.ui.core.Parent.prototype._remapStop);
-  };
-};
+  }
+}
 
 
 
@@ -1147,17 +1147,17 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._layoutImpl)
   {
     this._layoutImpl.dispose();
     this._layoutImpl = null;
-  };
+  }
 
   for (var i in this._childrenQueue) {
     delete this._childrenQueue[i];
-  };
+  }
 
   this._childrenQueue = null;
   this._remappingChildTable = null;
@@ -1171,10 +1171,10 @@ qx.Proto.dispose = function()
     {
       this._children[i].dispose();
       this._children[i] = null;
-    };
+    }
 
     this._children = null;
-  };
+  }
 
   delete this._cachedVisibleChildren;
 
@@ -1185,7 +1185,7 @@ qx.Proto.dispose = function()
     this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
 
     this.forceFocusManager(null);
-  };
+  }
 
   return qx.ui.core.Widget.prototype.dispose.call(this);
-};
+}

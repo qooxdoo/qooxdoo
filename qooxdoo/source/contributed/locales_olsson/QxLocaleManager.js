@@ -47,7 +47,7 @@ qx.Proto._modifyCurrentLocale = function(propValue, propOldValue, propData)
   qx.ui.core.Widget.flushGlobalQueues();
 
   return true;
-};
+}
 
 /*
 ---------------------------------------------------------------------------
@@ -59,10 +59,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}
 
 /*
 ---------------------------------------------------------------------------

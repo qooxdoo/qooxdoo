@@ -45,7 +45,7 @@ function() {
  */
 qx.Proto.format = function(obj) {
   throw new Error("format is abstract");
-};
+}
 
 
 /**
@@ -56,4 +56,4 @@ qx.Proto.format = function(obj) {
  */
 qx.Proto.parse = function(str) {
   throw new Error("parse is abstract");
-};
+}

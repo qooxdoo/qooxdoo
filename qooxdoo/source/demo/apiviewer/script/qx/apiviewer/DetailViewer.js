@@ -26,7 +26,7 @@ qx.Proto._syncHtml = function() {
 
   document._detailViewer = this;
 
-  this._infoPanelHash = {};
+  this._infoPanelHash = {}
 
   var html = "";
 
@@ -103,7 +103,7 @@ qx.Proto._syncHtml = function() {
     this._currentClassDocNode = null;
     this.showClass(classDocNode);
   }
-};
+}
 
 
 /**
@@ -130,7 +130,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
 
   typeInfo = { listName:listName, labelText:labelText, infoFactory:infoFactory,
     hasDetailDecider:hasDetailDecider, isOpen:isOpen,
-    hasInheritedCheckBox:addInheritedCheckBox };
+    hasInheritedCheckBox:addInheritedCheckBox }
   this._infoPanelHash[nodeType] = typeInfo;
 
   var html = '<div class="infoPanel"><h2>'
@@ -267,7 +267,7 @@ qx.Proto.showClass = function(classNode) {
 
   // Scroll to top
   this.getElement().scrollTop = 0;
-};
+}
 
 
 /**
@@ -305,7 +305,7 @@ qx.Proto.showItem = function(itemName) {
   } else if (scrollTop < top + height - clientHeight) {
     doc.scrollTop = top + height - clientHeight;
   }
-};
+}
 
 
 /**
@@ -325,7 +325,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     if (typeInfo.showInherited) {
       nodeArr = [];
       fromClassArr = [];
-      fromClassHash = {};
+      fromClassHash = {}
       var currClassNode = this._currentClassDocNode;
       while (currClassNode != null) {
         var currParentNode = qx.apiviewer.TreeUtil.getChild(currClassNode, typeInfo.listName);
@@ -436,7 +436,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       typeInfo.infoBodyElem.style.display = "none";
     }
   }
-};
+}
 
 
 /**
@@ -504,7 +504,7 @@ qx.Proto._onInheritedCheckBoxClick = function(nodeType) {
   } catch (exc) {
     this.error("Handling inherited checkbox click failed", exc);
   }
-};
+}
 
 
 /**
@@ -526,7 +526,7 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
   } catch (exc) {
     this.error("Toggling info body failed", exc);
   }
-};
+}
 
 
 /**
@@ -547,7 +547,7 @@ qx.Proto._getItemElement = function(nodeType, name) {
       return elemArr[i].childNodes[3].childNodes[1];
     }
   }
-};
+}
 
 
 /**
@@ -563,7 +563,7 @@ qx.Proto._selectItem = function(itemName) {
   } catch (exc) {
     this.error("Selecting item '" + itemName + "' failed", exc);
   }
-};
+}
 
 
 /**
@@ -578,7 +578,7 @@ qx.Proto._getClassDocNode = function(className) {
   } else {
     return null;
   }
-};
+}
 
 
 /**
@@ -593,7 +593,7 @@ qx.Proto._getClassDocNode = function(className) {
 qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
   var DetailViewer = qx.apiviewer.DetailViewer;
 
-  var info = {};
+  var info = {}
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -677,7 +677,7 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
   }
 
   return info;
-};
+}
 
 
 /**
@@ -714,7 +714,7 @@ qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
     || this._hasSeeAlsoHtml(docNode)
     || this._hasErrorHtml(docNode)
     || this._descHasDetails(docNode);
-};
+}
 
 
 /**
@@ -730,7 +730,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   var DetailViewer = qx.apiviewer.DetailViewer;
   var TreeUtil = qx.apiviewer.TreeUtil;
 
-  var info = {};
+  var info = {}
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -849,7 +849,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   }
 
   return info;
-};
+}
 
 
 /**
@@ -862,7 +862,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
  */
 qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
   return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node) || this._descHasDetails(node);
-};
+}
 
 
 /**
@@ -875,7 +875,7 @@ qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
  * @return {string} the HTML showing the information about the constant.
  */
 qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var info = {};
+  var info = {}
 
   // Add the title
   info.typeHtml = this._createTypeHtml(node, fromClassNode, "var");
@@ -893,7 +893,7 @@ qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetai
   }
 
   return info;
-};
+}
 
 
 /**
@@ -916,7 +916,7 @@ qx.Proto._descHasDetails = function(node) {
   } else {
     return false;
   }
-};
+}
 
 
 /**
@@ -959,7 +959,7 @@ qx.Proto._extractFirstSentence = function(text) {
   } else {
     return text;
   }
-};
+}
 
 
 /**
@@ -984,7 +984,7 @@ qx.Proto._hasSeeAlsoHtml = function(node) {
 
   // There is no @see attribute
   return false;
-};
+}
 
 
 /**
@@ -1035,7 +1035,7 @@ qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
 qx.Proto._hasErrorHtml = function(node) {
   var errorNode = qx.apiviewer.TreeUtil.getChild(node, "errors");
   return (errorNode != null);
-};
+}
 
 
 /**
@@ -1063,7 +1063,7 @@ qx.Proto._createErrorHtml = function(node, fromClassNode) {
   } else {
     return "";
   }
-};
+}
 
 
 /**
@@ -1116,7 +1116,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
   }
 
   return typeHtml;
-};
+}
 
 
 /**
@@ -1144,7 +1144,7 @@ qx.Proto._createDescriptionHtml = function(description, packageBaseClass) {
   html += description.substring(lastPos, description.length);
 
   return html;
-};
+}
 
 
 /**
@@ -1236,7 +1236,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
         + ' title="' + fullItemName + '">' + label + '</a>';
     }
   }
-};
+}
 
 
 /**
@@ -1270,14 +1270,14 @@ qx.Proto._getTypeForItemNode = function(itemNode) {
       }
     }
   }
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._titleElem = null;
   this._classDescElem = null;
@@ -1292,13 +1292,13 @@ qx.Proto.dispose = function() {
   document._detailViewer = null;
 
   return qx.ui.embed.HtmlEmbed.prototype.dispose.call(this);
-};
+}
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
 qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true,
   "int":true, "double":true, "var":true, "regexp":true, "Map":true, "Date":true,
-  "Element":true };
+  "Element":true }
 
 /**
  * {regexp} The regexp for parsing a item name
@@ -1366,7 +1366,7 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
     }
     return qx.apiviewer.DetailViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
   }
-};
+}
 
 
 /**
@@ -1414,4 +1414,4 @@ qx.Class.createOverlayImageHtml
   */
 
   return html;
-};
+}

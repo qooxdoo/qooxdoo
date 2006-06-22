@@ -91,7 +91,7 @@ qx.Proto._oninterval = function(e)
   else
   {
     hours = hours - offset; // Else just subtract it.
-  };
+  }
 
   this.display(hours, minutes, seconds);
 
@@ -100,10 +100,10 @@ qx.Proto._oninterval = function(e)
   if (this.hasEventListeners(qx.constant.Event.INTERVAL))
   {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.INTERVAL));
-  };
+  }
 
   this._timer.restartWith(this.getInterval());
-};
+}
 
 
 
@@ -118,7 +118,7 @@ qx.Proto._oninterval = function(e)
 */
 
 // placeholder method
-qx.Proto.display = function(hours, minutes, seconds) {};
+qx.Proto.display = function(hours, minutes, seconds) {}
 
 
 
@@ -135,7 +135,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._timer)
   {
@@ -143,7 +143,7 @@ qx.Proto.dispose = function()
     this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

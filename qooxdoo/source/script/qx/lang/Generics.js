@@ -121,13 +121,13 @@ qx.lang.Generics.init = function()
           {
             var args = Array.prototype.slice.call(arguments, 1);
             return constr.prototype[name].apply(s, args);
-          };
+          }
         }(constr, name);
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 if (qx.core.Settings.enableGenerics) {
   qx.lang.Generics.init();
-};
+}

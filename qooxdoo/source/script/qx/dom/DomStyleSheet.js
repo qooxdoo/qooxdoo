@@ -37,14 +37,14 @@ if (qx.sys.Client.isMshtml())
 
     if (vCssText) {
       vSheet.cssText = vCssText;
-    };
+    }
 
     return vSheet;
-  };
+  }
 
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.addRule(vSelector, vStyle);
-  };
+  }
 
   qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
@@ -55,9 +55,9 @@ if (qx.sys.Client.isMshtml())
     {
       if (vRules[i].selectorText == vSelector) {
         vSheet.removeRule(i);
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
@@ -66,8 +66,8 @@ if (qx.sys.Client.isMshtml())
 
     for (i=vLength-1; i>=0; i--) {
       vSheet.removeRule(i);
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -78,16 +78,16 @@ else
 
     if (vCssText) {
       vElement.appendChild(document.createTextNode(vCssText));
-    };
+    }
 
     document.getElementsByTagName("HEAD")[0].appendChild(vElement);
 
     return vElement.sheet;
-  };
+  }
 
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
-  };
+  }
 
   qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
@@ -98,9 +98,9 @@ else
     {
       if (vRules[i].selectorText == vSelector) {
         vSheet.deleteRule(i);
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
@@ -109,6 +109,6 @@ else
 
     for (i=vLength-1; i>=0; i--) {
       vSheet.deleteRule(i);
-    };
-  };
-};
+    }
+  }
+}

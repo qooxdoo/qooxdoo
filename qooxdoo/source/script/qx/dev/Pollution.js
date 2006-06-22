@@ -33,7 +33,7 @@ qx.Class.names =
   "window" : window,
   "document" : document,
   "body" : document.body
-};
+}
 
 qx.Class.ignore =
 {
@@ -177,7 +177,7 @@ qx.Class.ignore =
 qx.Class.consoleInfo = function(object)
 {
   alert("Global namespace is polluted by:\n\n" + qx.dev.Pollution.getTextList(object));
-};
+}
 
 qx.Class.extract = function(object)
 {
@@ -207,7 +207,7 @@ qx.Class.extract = function(object)
     catch(ex)
     {
       continue;
-    };
+    }
 
     ext.push({ "key" : key, "value" : obj[key] });
   }
@@ -229,7 +229,7 @@ qx.Class.getHtmlTable = function(object)
 
   for (var i=0; i<ext.length; i++) {
     all.push(rowStart + ext[i].key + cellSplit + ext[i].value + rowEnd);
-  };
+  }
 
   all.push("</table>");
 
@@ -247,7 +247,7 @@ qx.Class.getTextList = function(object)
 
   for (var i=0; i<ext.length; i++) {
     all.push(ext[i].key + cellSplit + ext[i].value + rowEnd);
-  };
+  }
 
   return all.join(qx.constant.Core.EMPTY);
 }

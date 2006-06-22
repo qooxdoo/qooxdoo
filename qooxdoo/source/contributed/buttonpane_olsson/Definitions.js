@@ -15,6 +15,6 @@ theme.registerAppearance("buttonpane",
       paddingRight : 2,
       paddingBottom : 2,
       paddingLeft : 2
-    };
+    }
   }
 });

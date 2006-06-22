@@ -57,7 +57,7 @@ qx.Proto.setEditable = function(editable) {
   }
 
   this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
-};
+}
 
 
 /**
@@ -75,19 +75,19 @@ qx.Proto.setColumnEditable = function(columnIndex, editable) {
 
     this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
   }
-};
+}
 
 
 // overridden
 qx.Proto.isColumnEditable = function(columnIndex) {
   return this._editableColArr ? (this._editableColArr[columnIndex] == true) : false;
-};
+}
 
 
 // overridden
 qx.Proto.isColumnSortable = function(columnIndex) {
   return true;
-};
+}
 
 
 // overridden
@@ -100,13 +100,13 @@ qx.Proto.sortByColumn = function(columnIndex, ascending) {
       var obj1 = row1[columnIndex];
       var obj2 = row2[columnIndex];
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-    };
+    }
   } else {
     comperator = function(row1, row2) {
       var obj1 = row1[columnIndex];
       var obj2 = row2[columnIndex];
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-    };
+    }
   }
 
   this._rowArr.sort(comperator);
@@ -115,7 +115,7 @@ qx.Proto.sortByColumn = function(columnIndex, ascending) {
   this._sortAscending = ascending;
 
   this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
-};
+}
 
 
 /**
@@ -128,25 +128,25 @@ qx.Proto._clearSorting = function() {
 
     this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
   }
-};
+}
 
 
 // overridden
 qx.Proto.getSortColumnIndex = function() {
   return this._sortColumnIndex;
-};
+}
 
 
 // overridden
 qx.Proto.isSortAscending = function() {
   return this._sortAscending;
-};
+}
 
 
 // overridden
 qx.Proto.getRowCount = function() {
   return this._rowArr.length;
-};
+}
 
 
 // overridden
@@ -156,7 +156,7 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
   }
 
   return this._rowArr[rowIndex][columnIndex];
-};
+}
 
 
 // overridden
@@ -167,15 +167,15 @@ qx.Proto.setValue = function(columnIndex, rowIndex, value) {
     // Inform the listeners
     if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
       var data = { firstRow:rowIndex, lastRow:rowIndex,
-                   firstColumn:columnIndex, lastColumn:columnIndex };
+                   firstColumn:columnIndex, lastColumn:columnIndex }
       this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
-    };
+    }
 
     if (columnIndex == this._sortColumnIndex) {
       this._clearSorting();
     }
   }
-};
+}
 
 
 /**
@@ -192,7 +192,7 @@ qx.Proto.setData = function(rowArr) {
   this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
 
   this._clearSorting();
-};
+}
 
 
 /**
@@ -219,4 +219,4 @@ qx.Proto.setDataAsMapArray = function(mapArr) {
   this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
 
   this._clearSorting();
-};
+}

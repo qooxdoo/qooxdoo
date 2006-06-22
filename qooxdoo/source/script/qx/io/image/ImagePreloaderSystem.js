@@ -67,11 +67,11 @@ qx.Proto.start = function()
 
       vPreloader.addEventListener(qx.constant.Event.LOAD, this._onload, this);
       vPreloader.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
-    };
-  };
+    }
+  }
 
   this._check();
-};
+}
 
 
 
@@ -87,13 +87,13 @@ qx.Proto._onload = function(e)
 {
   delete this._list[e.getTarget()._origSource];
   this._check();
-};
+}
 
 qx.Proto._onerror = function(e)
 {
   delete this._list[e.getTarget()._origSource];
   this._check();
-};
+}
 
 
 
@@ -112,8 +112,8 @@ qx.Proto._check = function()
 
   if (qx.lang.Object.isEmpty(this._list)) {
     this.createDispatchEvent(qx.constant.Event.COMPLETED);
-  };
-};
+  }
+}
 
 
 
@@ -130,10 +130,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this._list = null;
   delete this._list;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

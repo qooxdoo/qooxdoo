@@ -39,12 +39,12 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
   var cmax = (vRed > vGreen) ? vRed : vGreen;
   if (vBlue > cmax) {
     cmax = vBlue;
-  };
+  }
 
   var cmin = (vRed < vGreen) ? vRed : vGreen;
   if (vBlue < cmin) {
     cmin = vBlue;
-  };
+  }
 
   vBrightness = cmax / 255.0;
 
@@ -55,7 +55,7 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
   else
   {
     vSaturation = 0;
-  };
+  }
 
   if (vSaturation == 0)
   {
@@ -78,18 +78,18 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
     else
     {
       vHue = 4.0 + greenc - redc;
-    };
+    }
 
     vHue = vHue / 6.0;
     if (vHue < 0) vHue = vHue + 1.0;
-  };
+  }
 
   return {
     hue : Math.round(vHue * 360),
     saturation : Math.round(vSaturation * 100),
     brightness : Math.round(vBrightness * 100)
-  };
-};
+  }
+}
 
 qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 {
@@ -105,7 +105,7 @@ qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 
   var tov = Math.floor(255 * vBrightness);
 
-  var vReturn = {};
+  var vReturn = {}
 
   if(vSaturation == 0.0)
   {
@@ -160,8 +160,8 @@ qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
         vReturn.green = p;
         vReturn.blue = q;
         break;
-    };
-  };
+    }
+  }
 
   return vReturn;
-};
+}

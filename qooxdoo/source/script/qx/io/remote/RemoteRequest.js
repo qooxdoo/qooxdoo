@@ -44,8 +44,8 @@ function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
 
-  this._requestHeaders = {};
-  this._parameters = {};
+  this._requestHeaders = {}
+  this._parameters = {}
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || qx.constant.Net.METHOD_GET);
@@ -184,7 +184,7 @@ qx.OO.addProperty({ name : "transport", type : qx.constant.Type.OBJECT, instance
 */
 qx.Proto.send = function() {
   qx.io.remote.RemoteRequestQueue.add(this);
-};
+}
 
 /*!
   Abort sending this request.
@@ -195,7 +195,7 @@ qx.Proto.send = function() {
 */
 qx.Proto.abort = function() {
   qx.io.remote.RemoteRequestQueue.abort(this);
-};
+}
 
 qx.Proto.reset = function()
 {
@@ -209,8 +209,8 @@ qx.Proto.reset = function()
     case qx.constant.Net.STATE_QUEUED:
       this.abort();
       break;
-  };
-};
+  }
+}
 
 
 
@@ -226,31 +226,31 @@ qx.Proto.reset = function()
 
 qx.Proto.isConfigured = function() {
   return this.getState() === qx.constant.Net.STATE_CONFIGURED;
-};
+}
 
 qx.Proto.isQueued = function() {
   return this.getState() === qx.constant.Net.STATE_QUEUED;
-};
+}
 
 qx.Proto.isSending = function() {
   return this.getState() === qx.constant.Net.STATE_SENDING;
-};
+}
 
 qx.Proto.isReceiving = function() {
   return this.getState() === qx.constant.Net.STATE_RECEIVING;
-};
+}
 
 qx.Proto.isCompleted = function() {
   return this.getState() === qx.constant.Net.STATE_COMPLETED;
-};
+}
 
 qx.Proto.isAborted = function() {
   return this.getState() === qx.constant.Net.STATE_ABORTED;
-};
+}
 
 qx.Proto.isTimeout = function() {
   return this.getState() === qx.constant.Net.STATE_TIMEOUT;
-};
+}
 
 /*!
   Return true if the request is in the failed state
@@ -258,7 +258,7 @@ qx.Proto.isTimeout = function() {
 */
 qx.Proto.isFailed = function() {
   return this.getState() === qx.constant.Net.STATE_FAILED;
-};
+}
 
 
 
@@ -279,7 +279,7 @@ qx.Proto._onqueued = function(e)
 
   // Bubbling up
   this.dispatchEvent(e);
-};
+}
 
 qx.Proto._onsending = function(e)
 {
@@ -288,7 +288,7 @@ qx.Proto._onsending = function(e)
 
   // Bubbling up
   this.dispatchEvent(e);
-};
+}
 
 qx.Proto._onreceiving = function(e)
 {
@@ -297,7 +297,7 @@ qx.Proto._onreceiving = function(e)
 
   // Bubbling up
   this.dispatchEvent(e);
-};
+}
 
 qx.Proto._oncompleted = function(e)
 {
@@ -309,7 +309,7 @@ qx.Proto._oncompleted = function(e)
 
   // Automatically dispose after event completion
   this.dispose();
-};
+}
 
 qx.Proto._onaborted = function(e)
 {
@@ -321,7 +321,7 @@ qx.Proto._onaborted = function(e)
 
   // Automatically dispose after event completion
   this.dispose();
-};
+}
 
 qx.Proto._ontimeout = function(e)
 {
@@ -347,7 +347,7 @@ qx.Proto._ontimeout = function(e)
 
   // Automatically dispose after event completion
   this.dispose();
-};
+}
 
 qx.Proto._onfailed = function(e)
 {
@@ -359,7 +359,7 @@ qx.Proto._onfailed = function(e)
 
   // Automatically dispose after event completion
   this.dispose();
-};
+}
 
 
 
@@ -378,32 +378,32 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 {
   propValue ? this.setParameter("nocache", new Date().valueOf()) : this.removeParameter("nocache");
 
   return true;
-};
+}
 
 qx.Proto._modifyMethod = function(propValue, propOldValue, propData)
 {
   if (propValue === qx.constant.Net.METHOD_POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
 {
   this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
   return true;
-};
+}
 
 
 
@@ -423,19 +423,19 @@ qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
 */
 qx.Proto.setRequestHeader = function(vId, vValue) {
   this._requestHeaders[vId] = vValue;
-};
+}
 
 qx.Proto.removeRequestHeader = function(vId) {
   delete this._requestHeaders[vId];
-};
+}
 
 qx.Proto.getRequestHeader = function(vId) {
   return this._requestHeaders[vId] || null;
-};
+}
 
 qx.Proto.getRequestHeaders = function() {
   return this._requestHeaders;
-};
+}
 
 
 
@@ -458,7 +458,7 @@ qx.Proto.getRequestHeaders = function() {
 */
 qx.Proto.setParameter = function(vId, vValue) {
   this._parameters[vId] = vValue;
-};
+}
 
 /*!
   Remove a parameter from the request.
@@ -467,7 +467,7 @@ qx.Proto.setParameter = function(vId, vValue) {
 */
 qx.Proto.removeParameter = function(vId) {
   delete this._parameters[vId];
-};
+}
 
 /*!
   Get a parameter in the request.
@@ -476,14 +476,14 @@ qx.Proto.removeParameter = function(vId) {
 */
 qx.Proto.getParameter = function(vId) {
   return this._parameters[vId] || null;
-};
+}
 
 /*!
   Returns an object containg all parameters for the request.
 */
 qx.Proto.getParameters = function() {
   return this._parameters;
-};
+}
 
 
 
@@ -526,7 +526,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._requestHeaders = null;
   this._parameters = null;
@@ -534,10 +534,10 @@ qx.Proto.dispose = function()
   /*
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("Disposing...");
-  };
+  }
   */
 
   this.setTransport(null);
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

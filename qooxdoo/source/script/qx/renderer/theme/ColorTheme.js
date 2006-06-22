@@ -36,10 +36,10 @@ function(vId, vTitle, vColors)
 
   if (qx.util.Validation.isInvalidString(vId)) {
     throw new Error("Each instance of qx.renderer.theme.ColorTheme need an unique ID!");
-  };
+  }
 
   this._definedColors = vColors;
-  this._compiledColors = {};
+  this._compiledColors = {}
 
   this.setId(vId);
   this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
@@ -48,7 +48,7 @@ function(vId, vTitle, vColors)
     qx.manager.object.ColorManager.registerTheme(this);
   } catch(ex) {
     throw new Error("Could not register Theme: " + ex);
-  };
+  }
 });
 
 
@@ -89,11 +89,11 @@ qx.Proto._needsCompilation = true;
 
 qx.Proto.getValueByName = function(vName) {
   return this._definedColors[vName] || qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto.getStyleByName = function(vName) {
   return this._compiledColors[vName] || qx.constant.Core.EMPTY;
-};
+}
 
 
 
@@ -110,20 +110,20 @@ qx.Proto.compile = function()
 {
   if (!this._needsCompilation) {
     return;
-  };
+  }
 
   for (var vName in qx.renderer.color.Color.themedNames) {
     this._compileValue(vName);
-  };
+  }
 
   this._needsCompilation = false;
-};
+}
 
 qx.Proto._compileValue = function(vName)
 {
   var v = this._definedColors[vName];
   this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._definedColors[vName]) : vName;
-};
+}
 
 
 
@@ -139,10 +139,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   delete this._definedColors;
   delete this._compiledColors;
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}

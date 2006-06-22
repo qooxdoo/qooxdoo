@@ -44,21 +44,21 @@ function(vClientWindow)
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
-  this.__onmouseevent = function(e) { return o._onmouseevent(e); };
-  this.__onkeyevent = function(e) { return o._onkeyevent(e); };
-  this.__ondragevent = function(e) { return o._ondragevent(e); };
-  this.__onselectevent = function(e) { return o._onselectevent(e); };
+  this.__onmouseevent = function(e) { return o._onmouseevent(e); }
+  this.__onkeyevent = function(e) { return o._onkeyevent(e); }
+  this.__ondragevent = function(e) { return o._ondragevent(e); }
+  this.__onselectevent = function(e) { return o._onselectevent(e); }
 
   // Some Window Events
-  this.__onwindowblur = function(e) { return o._onwindowblur(e); };
-  this.__onwindowfocus = function(e) { return o._onwindowfocus(e); };
-  this.__onwindowresize = function(e) { return o._onwindowresize(e); };
+  this.__onwindowblur = function(e) { return o._onwindowblur(e); }
+  this.__onwindowfocus = function(e) { return o._onwindowfocus(e); }
+  this.__onwindowresize = function(e) { return o._onwindowresize(e); }
 
   // Attach Events
   this.attachEvents(vClientWindow);
 
   // Init Command Interface
-  this._commands = {};
+  this._commands = {}
 });
 
 qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.constant.Type.BOOLEAN, defaultValue : false });
@@ -83,7 +83,7 @@ else if (qx.sys.Client.isMshtml())
 else
 {
   qx.Class.dragEventTypes = [ qx.constant.Event.DRAGSTART, qx.constant.Event.DRAGDROP, qx.constant.Event.DRAGOVER, "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
-};
+}
 
 
 
@@ -120,14 +120,14 @@ qx.Proto._modifyCaptureWidget = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setCapture(false);
-  };
+  }
 
   if (propValue) {
     propValue.setCapture(true);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyFocusRoot = function(propValue, propOldValue, propData)
 {
@@ -135,17 +135,17 @@ qx.Proto._modifyFocusRoot = function(propValue, propOldValue, propData)
 
   if (propOldValue) {
     propOldValue.setFocusedChild(null);
-  };
+  }
 
   if (propValue)
   {
     if (propValue.getFocusedChild() == null) {
       propValue.setFocusedChild(propValue);
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 
@@ -160,11 +160,11 @@ qx.Proto._modifyFocusRoot = function(propValue, propOldValue, propData)
 
 qx.Proto.addCommand = function(vCommand) {
   this._commands[vCommand.toHashCode()] = vCommand;
-};
+}
 
 qx.Proto.removeCommand = function(vCommand) {
   delete this._commands[vCommand.toHashCode()];
-};
+}
 
 qx.Proto._checkKeyEventMatch = function(e)
 {
@@ -180,12 +180,12 @@ qx.Proto._checkKeyEventMatch = function(e)
       // through the execute event.
       if (!vCommand.execute()) {
         e.preventDefault();
-      };
+      }
 
       break;
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -202,7 +202,7 @@ qx.Proto.attachEvents = function(wobj)
 {
   if (this._attachedClientWindow) {
     return false;
-  };
+  }
 
   // Local
   var wel = wobj.getElement();
@@ -225,13 +225,13 @@ qx.Proto.attachEvents = function(wobj)
 
   // Register selection events
   bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
-};
+}
 
 qx.Proto.detachEvents = function()
 {
   if (!this._attachedClientWindow) {
     return false;
-  };
+  }
 
   // Local
   var wel = this._attachedClientWindowElement;
@@ -254,7 +254,7 @@ qx.Proto.detachEvents = function()
   // Detach client window
   this._attachedClientWindow = null;
   this._attachedClientWindowElement = null;
-};
+}
 
 
 
@@ -280,17 +280,17 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
       var d = this._attachedClientWindow.getElement();
     } else {
       var d = this._attachedClientWindow.getClientDocument().getElement();
-    };
+    }
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.dom.DomEventRegistration.addEventListener(d, vEventTypes[i], vFunctionPointer);
-    };
+    }
   }
   catch(ex)
   {
     throw new Error("qx.event.handler.EventHandler: Failed to attach window event types: " + vEventTypes + ": " + ex);
-  };
-};
+  }
+}
 
 qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
@@ -300,17 +300,17 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
       var d = this._attachedClientWindow.getElement();
     } else {
       var d = this._attachedClientWindow.getClientDocument().getElement();
-    };
+    }
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.dom.DomEventRegistration.removeEventListener(d, vEventTypes[i], vFunctionPointer);
-    };
+    }
   }
   catch(ex)
   {
     throw new Error("qx.event.handler.EventHandler: Failed to detach window event types: " + vEventTypes + ": " + ex);
-  };
-};
+  }
+}
 
 
 
@@ -334,7 +334,7 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
   // on the HTML element.
   if (vNode == document.documentElement) {
     vNode = document.body;
-  };
+  }
 
   // Walk up the tree and search for an qx.ui.core.Widget
   while(vNode != null && vNode.qx_Widget == null)
@@ -345,11 +345,11 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
     catch(vDomEvent)
     {
       vNode = null;
-    };
-  };
+    }
+  }
 
   return vNode ? vNode.qx_Widget : null;
-};
+}
 
 qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 {
@@ -363,15 +363,15 @@ qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEv
 
     if (vNode == vWindow || vNode == vDocument || vNode == vDocument.documentElement || vNode == vDocument.body) {
       return vDocument.body.qx_Widget;
-    };
-  };
+    }
+  }
 
   return qx.event.handler.EventHandler.getOriginalTargetObject(vNode);
-};
+}
 
 qx.event.handler.EventHandler.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
-};
+}
 
 
 
@@ -387,8 +387,8 @@ qx.event.handler.EventHandler.getTargetObject = function(vNode, vObject)
 
     if (!vObject) {
       return null;
-    };
-  };
+    }
+  }
 
   // Search parent tree
   while(vObject)
@@ -397,34 +397,34 @@ qx.event.handler.EventHandler.getTargetObject = function(vNode, vObject)
     // event should be ignored then.
     if (!vObject.getEnabled()) {
       return null;
-    };
+    }
 
     // If object is anonymous, search for
     // first parent which is not anonymous
     // and not disabled
     if (!vObject.getAnonymous()) {
       break;
-    };
+    }
 
     vObject = vObject.getParent();
-  };
+  }
 
   return vObject;
-};
+}
 
 qx.event.handler.EventHandler.getTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(vDomEvent.target || vDomEvent.srcElement);
-};
+}
 
 qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
-};
+}
 
 if (qx.sys.Client.isMshtml())
 {
   qx.event.handler.EventHandler.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
-  };
+  }
 }
 else
 {
@@ -432,8 +432,8 @@ else
   {
     vDomEvent.preventDefault();
     vDomEvent.returnValue = false;
-  };
-};
+  }
+}
 
 
 
@@ -451,11 +451,11 @@ qx.Proto._onkeyevent = function(vDomEvent)
 {
   if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION || !qx.core.Init.getComponent().isUiReady()) {
     return;
-  };
+  }
 
   if(!vDomEvent) {
     vDomEvent = this._attachedClientWindow.getElement().event;
-  };
+  }
 
   var vType = vDomEvent.type;
 
@@ -484,10 +484,10 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
     case qx.event.type.KeyEvent.keys.tab:
       if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
         qx.manager.object.MenuManager.update();
-      };
+      }
 
       break;
-  };
+  }
 
 
 
@@ -499,7 +499,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
   if (vTarget == null || !vTarget.getEnabled()) {
     return false;
-  };
+  }
 
   var vDomEventTarget = vTarget.getElement();
 
@@ -523,9 +523,9 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
         default:
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-      };
-    };
-  };
+      }
+    }
+  }
 
 
 
@@ -536,7 +536,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
   // Check for commands
   if (vDomEvent.type == qx.constant.Event.KEYDOWN) {
     this._checkKeyEventMatch(vKeyEventObject);
-  };
+  }
 
   // Starting Objects Internal Event Dispatcher
   // This handles the real event action
@@ -545,14 +545,14 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
   // Send event to qx.event.handler.DragAndDropHandler
   if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
     qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
-  };
+  }
 
   // Cleanup Event Object
   vKeyEventObject.dispose();
 
   // Flush Queues
   qx.ui.core.Widget.flushGlobalQueues();
-};
+}
 
 
 
@@ -586,13 +586,13 @@ if(qx.sys.Client.isMshtml())
   {
     if (!qx.core.Init.getComponent().isUiReady()) {
       return;
-    };
+    }
 
     qx.core.Init.getComponent().preload();
 
     if(!vDomEvent) {
       vDomEvent = this._attachedClientWindow.getElement().event;
-    };
+    }
 
     var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
     var vType = vDomEvent.type;
@@ -603,7 +603,7 @@ if(qx.sys.Client.isMshtml())
       {
         this._onmouseevent_post(vDomEvent, qx.constant.Event.MOUSEUP);
         this._mouseIsDown = false;
-      };
+      }
     }
     else
     {
@@ -614,7 +614,7 @@ if(qx.sys.Client.isMshtml())
       else if(vType == qx.constant.Event.MOUSEUP)
       {
         this._mouseIsDown = false;
-      };
+      }
 
       // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
       if(vType == qx.constant.Event.MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
@@ -625,7 +625,7 @@ if(qx.sys.Client.isMshtml())
       else if(vType == qx.constant.Event.DBLCLICK && this._lastMouseEventType == qx.constant.Event.MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
         this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK);
-      };
+      }
 
       switch(vType)
       {
@@ -637,11 +637,11 @@ if(qx.sys.Client.isMshtml())
           this._lastMouseEventType = vType;
           this._lastMouseEventDate = (new Date).valueOf();
           this._lastMouseDown = vType == qx.constant.Event.MOUSEDOWN;
-      };
-    };
+      }
+    }
 
     this._onmouseevent_post(vDomEvent, vType, vDomTarget);
-  };
+  }
 }
 else
 {
@@ -649,7 +649,7 @@ else
   {
     if (!qx.core.Init.getComponent().isUiReady()) {
       return;
-    };
+    }
 
     qx.core.Init.getComponent().preload();
 
@@ -668,20 +668,20 @@ else
         // ignore click or dblclick events with other then the left mouse button
         if (vDomEvent.button != qx.event.type.MouseEvent.buttons.left) {
           return;
-        };
+        }
 
       // Seems not to be needed anymore. Otherwise we should reinclude it.
       /*
       case qx.constant.Event.MOUSEDOWN:
         if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget.qx_Widget) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-        };
+        }
       */
-    };
+    }
 
     this._onmouseevent_post(vDomEvent, vType, vDomTarget);
-  };
-};
+  }
+}
 
 
 
@@ -716,11 +716,11 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     else
     {
       vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
-    };
+    }
 
     if (!vTarget) {
       return false;
-    };
+    }
 
 
 
@@ -731,7 +731,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
       case qx.constant.Event.CONTEXTMENU:
         if (!this.getAllowClientContextMenu()) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-        };
+        }
 
         break;
 
@@ -746,13 +746,13 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
           vRoot.setActiveChild(vTarget);
           vRoot.setFocusedChild(vTarget.isFocusable() ? vTarget : vRoot);
-        };
+        }
 
         // the more intelli method, ignore blur after mousedown event
         this._ignoreBlur = true;
 
         break;
-    };
+    }
 
 
 
@@ -761,7 +761,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Check if is seeable (this is really needed for Opera as of 8.5)
     if ((vTarget && !vTarget.isSeeable()) || (vDispatchTarget && !vDispatchTarget.isSeeable())) {
       return false;
-    };
+    }
 
     var vDomEventTarget = vTarget.getElement();
 
@@ -779,8 +779,8 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
         // the real target are equal - from our sight
         if (vRelatedTarget == vTarget) {
           return;
-        };
-    };
+        }
+    }
 
 
 
@@ -792,7 +792,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     catch(ex)
     {
       return this.error("Failed to create mouse event", ex);
-    };
+    }
 
 
     // Store last Event in MouseEvent Constructor
@@ -809,7 +809,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     catch(ex)
     {
       return this.error("Failed to dispatch mouse event", ex);
-    };
+    }
 
 
 
@@ -821,25 +821,25 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
       case qx.constant.Event.MOUSEDOWN:
         if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.PopupManager.update(vTarget);
-        };
+        }
 
         if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.MenuManager.update(vTarget);
-        };
+        }
 
         break;
 
       case qx.constant.Event.MOUSEOVER:
         if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
-        };
+        }
 
         break;
 
       case qx.constant.Event.MOUSEOUT:
         if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
           qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
-        };
+        }
 
         break;
 
@@ -848,7 +848,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
         vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
 
         break;
-    };
+    }
 
 
 
@@ -856,7 +856,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Send Event Object to Drag&Drop Manager
     if (typeof qx.event.handler.DragAndDropHandler  !== qx.constant.Type.UNDEFINED && vTarget) {
       qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
-    };
+    }
 
 
 
@@ -874,8 +874,8 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
   catch(ex)
   {
     return this.error("Failed to handle mouse event", ex);
-  };
-};
+  }
+}
 
 if (qx.sys.Client.isGecko())
 {
@@ -883,13 +883,13 @@ if (qx.sys.Client.isGecko())
   {
     if(vTarget == null) {
       return;
-    };
+    }
 
     // ingore if overflow is configured as hidden
     // in this case send the event to the parent instead
     if(vTarget.getOverflowY() == qx.ui.core.Widget.SCROLL_VALUE_HIDDEN) {
       return this._onmousewheel(vTarget.getParent(), vEvent);
-    };
+    }
 
     var vScrollTop = vTarget.getScrollTop();
     var vDelta = 20 * vEvent.getWheelDelta();
@@ -898,7 +898,7 @@ if (qx.sys.Client.isGecko())
     // then send the event to the parent instead
     if(vScrollTop == 0 && vDelta > 0) {
       return this._onmousewheel(vTarget.getParent(), vEvent);
-    };
+    }
 
     var vScrollHeight = vTarget.getScrollHeight();
     var vClientHeight = vTarget.getClientHeight();
@@ -907,19 +907,19 @@ if (qx.sys.Client.isGecko())
     // then send the event to the parent instead
     if(vScrollTop + vClientHeight >= vScrollHeight && vDelta < 0) {
       return this._onmousewheel(vTarget.getParent(), vEvent);
-    };
+    }
 
     // apply new scroll position
     vTarget.setScrollTop(vScrollTop - vDelta);
 
     // stop default handling, that works sometimes, too
     vEvent.preventDefault();
-  };
+  }
 }
 else
 {
   qx.Proto._onmousewheel = qx.util.Return.returnTrue;
-};
+}
 
 
 
@@ -939,10 +939,10 @@ qx.Proto._ondragevent = function(vEvent)
 {
   if (!vEvent) {
     vEvent = window.event;
-  };
+  }
 
   qx.event.handler.EventHandler.stopDomEvent(vEvent);
-};
+}
 
 
 
@@ -960,14 +960,14 @@ qx.Proto._onselectevent = function(e)
 {
   if(!e) {
     e = window.event;
-  };
+  }
 
   var vTarget = qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent(e);
 
   if(vTarget && !vTarget.getSelectable()) {
     qx.event.handler.EventHandler.stopDomEvent(e);
-  };
-};
+  }
+}
 
 
 
@@ -984,13 +984,13 @@ qx.Proto._onwindowblur = function(e)
 {
   if (!qx.core.Init.getComponent().isUiReady()) {
     return;
-  };
+  }
 
   if (this._ignoreBlur)
   {
     delete this._ignoreBlur;
     return;
-  };
+  }
 
   this._allowFocus = true;
 
@@ -1000,35 +1000,35 @@ qx.Proto._onwindowblur = function(e)
   // Hide Popups, Tooltips, ...
   if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update();
-  };
+  }
 
   // Hide Menus
   if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.MenuManager.update();
-  };
+  }
 
   // Cancel Drag Operations
   if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
     qx.event.handler.DragAndDropHandler.globalCancelDrag();
-  };
+  }
 
   // Send blur event to client document
   if (this._attachedClientWindow) {
     this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.BLUR);
-  };
-};
+  }
+}
 
 qx.Proto._onwindowfocus = function(e)
 {
   if (!qx.core.Init.getComponent().isUiReady()) {
     return;
-  };
+  }
 
   // Make focus more intelligent and only allow focus if
   // a previous blur occured
   if (!this._allowFocus) {
     return;
-  };
+  }
 
   delete this._allowFocus;
 
@@ -1038,14 +1038,14 @@ qx.Proto._onwindowfocus = function(e)
   // Send focus event to client document
   if (this._attachedClientWindow) {
     this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.FOCUS);
-  };
-};
+  }
+}
 
 qx.Proto._onwindowresize = function(e)
 {
   // Send resize event to client document
   this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.RESIZE);
-};
+}
 
 
 
@@ -1061,7 +1061,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // Detach mouse events
   this.detachEvents();
@@ -1082,10 +1082,10 @@ qx.Proto.dispose = function()
     {
       this._commands[vHash].dispose();
       delete this._commands[vHash];
-    };
+    }
 
     this._commands = null;
-  };
+  }
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}

@@ -43,12 +43,12 @@ qx.lang.Prototypes.init = function()
       {
         return function() {
           return qx.lang[obj][key].apply(null, Array.prototype.concat.call([this], Array.prototype.slice.call(arguments, 0)));
-        };
+        }
       }(key, obj);
-    };
-  };
-};
+    }
+  }
+}
 
 if (qx.core.Settings.enablePrototypes) {
   qx.lang.Prototypes.init();
-};
+}

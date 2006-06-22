@@ -82,11 +82,11 @@ qx.Proto.getAllButtons = function()
     else if (vCurrent instanceof qx.ui.toolbar.ToolBarPart)
     {
       vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
-    };
-  };
+    }
+  }
 
   return vDeepChildren;
-};
+}
 
 
 
@@ -112,20 +112,20 @@ qx.Proto._onkeydown = function(e)
 
     case qx.event.type.KeyEvent.keys.right:
       return this._onkeydown_right(e);
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown_left = function(e)
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
     return;
-  };
+  }
 
   var vOpener = vMenu.getOpener();
   if (!vOpener) {
     return;
-  };
+  }
 
   var vChildren = this.getAllButtons();
   var vChildrenLength = vChildren.length;
@@ -141,8 +141,8 @@ qx.Proto._onkeydown_left = function(e)
     {
       vPrevButton = vCurrent;
       break;
-    };
-  };
+    }
+  }
 
   // If none found, try again from the begin (looping)
   if (!vPrevButton)
@@ -155,9 +155,9 @@ qx.Proto._onkeydown_left = function(e)
       {
         vPrevButton = vCurrent;
         break;
-      };
-    };
-  };
+      }
+    }
+  }
 
   if (vPrevButton)
   {
@@ -166,20 +166,20 @@ qx.Proto._onkeydown_left = function(e)
 
     // show previous menu
     vPrevButton._showMenu(true);
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown_right = function(e)
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
     return;
-  };
+  }
 
   var vOpener = vMenu.getOpener();
   if (!vOpener) {
     return;
-  };
+  }
 
   var vChildren = this.getAllButtons();
   var vChildrenLength = vChildren.length;
@@ -195,8 +195,8 @@ qx.Proto._onkeydown_right = function(e)
     {
       vNextButton = vCurrent;
       break;
-    };
-  };
+    }
+  }
 
   // If none found, try again from the begin (looping)
   if (!vNextButton)
@@ -209,9 +209,9 @@ qx.Proto._onkeydown_right = function(e)
       {
         vNextButton = vCurrent;
         break;
-      };
-    };
-  };
+      }
+    }
+  }
 
   if (vNextButton)
   {
@@ -220,8 +220,8 @@ qx.Proto._onkeydown_right = function(e)
 
     // show next menu
     vNextButton._showMenu(true);
-  };
-};
+  }
+}
 
 
 
@@ -239,9 +239,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

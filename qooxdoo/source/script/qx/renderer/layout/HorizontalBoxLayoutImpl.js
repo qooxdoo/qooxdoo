@@ -67,7 +67,7 @@ qx.OO.addProperty({ name : "enableFlexSupport", type : qx.constant.Type.BOOLEAN,
 */
 qx.Proto.computeChildBoxWidth = function(vChild) {
   return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
-};
+}
 
 /*!
   Compute and return the box height of the given child.
@@ -76,10 +76,10 @@ qx.Proto.computeChildBoxHeight = function(vChild)
 {
   if (this.getWidget().getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull && vChild.getAllowStretchY()) {
     return this.getWidget().getInnerHeight();
-  };
+  }
 
   return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
-};
+}
 
 /*!
   Computes the width of all flexible children.
@@ -88,7 +88,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 {
   if (this._childrenFlexWidthComputed || !this.getEnableFlexSupport()) {
     return;
-  };
+  }
 
   this._childrenFlexWidthComputed = true;
 
@@ -118,13 +118,13 @@ qx.Proto.computeChildrenFlexWidth = function()
 
       if (vWidget._computedWidthTypeAuto) {
         vUsedWidth += vCurrentChild.getPreferredBoxWidth();
-      };
+      }
     }
     else
     {
       vUsedWidth += vCurrentChild.getOuterWidth();
-    };
-  };
+    }
+  }
 
   // this.debug("Width: " + vUsedWidth + "/" + vAvailWidth);
   // this.debug("Flexible Count: " + vFlexibleChildren.length);
@@ -139,7 +139,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 
   for (vIterator=0; vIterator<vFlexibleChildrenLength; vIterator++) {
     vPrioritySum += vFlexibleChildren[vIterator]._computedWidthParsed;
-  };
+  }
 
 
   // *************************************************************
@@ -161,7 +161,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 
       vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthParsed * vPartWidth);
       vUsedWidth += vCurrentChild._computedWidthFlexValue;
-    };
+    }
   }
   else
   {
@@ -180,7 +180,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 
       vComputedFlexibleWidth = vCurrentChild._computedWidthFlexValue = vCurrentChild._computedWidthParsed * vPartWidth;
       vAllocationDiff += vComputedFlexibleWidth - qx.lang.Number.limit(vComputedFlexibleWidth, vCurrentChild.getMinWidthValue(), vCurrentChild.getMaxWidthValue());
-    };
+    }
 
     // Rounding diff
     vAllocationDiff = Math.round(vAllocationDiff);
@@ -201,7 +201,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 
         vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthFlexValue);
         vUsedWidth += vCurrentChild._computedWidthFlexValue;
-      };
+      }
     }
     else
     {
@@ -229,7 +229,7 @@ qx.Proto.computeChildrenFlexWidth = function()
 
             vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthFlexValue);
             vUsedWidth += Math.round(vCurrentChild._computedWidthFlexValue + vAdjust);
-          };
+          }
         }
         else
         {
@@ -245,9 +245,9 @@ qx.Proto.computeChildrenFlexWidth = function()
 
             vCurrentChild._computedWidthFlexValue = Math.round(vCurrentChild._computedWidthFlexValue);
             vUsedWidth += Math.round(vCurrentChild._computedWidthFlexValue - vAdjust);
-          };
-        };
-      };
+          }
+        }
+      }
 
       // *************************************************************
       // 6. Try to reallocate the width between flexible children
@@ -265,7 +265,7 @@ qx.Proto.computeChildrenFlexWidth = function()
         {
           vMinAllocationLoops = Math.min(vMinAllocationLoops, vFlexibleChildren[vIterator]._allocationLoops);
           vFactorSum += vFlexibleChildren[vIterator]._computedWidthParsed;
-        };
+        }
 
         // Be sure that the adjustment is not bigger/smaller than diff
         vCurrentAllocationSum = Math.min(vFactorSum * vMinAllocationLoops, vAllocationDiff);
@@ -303,22 +303,22 @@ qx.Proto.computeChildrenFlexWidth = function()
             else
             {
               vCurrentChild._allocationLoops -= vMinAllocationLoops;
-            };
-          };
-        };
-      };
-    };
-  };
+            }
+          }
+        }
+      }
+    }
+  }
 
   // *************************************************************
   // 7. Fix rounding errors
   // *************************************************************
   vCurrentChild._computedWidthFlexValue += vAvailWidth - vUsedWidth;
-};
+}
 
 qx.Proto.invalidateChildrenFlexWidth = function() {
   delete this._childrenFlexWidthComputed;
-};
+}
 
 
 
@@ -339,7 +339,7 @@ qx.Proto.computeChildrenNeededWidth = function()
 {
   var w = this.getWidget();
   return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength()-1) * w.getSpacing());
-};
+}
 
 
 
@@ -361,7 +361,7 @@ qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
   // if a childrens outer width changes we need to update our accumulated
   // width of all childrens (used for center or right alignments)
   this.getWidget()._invalidateAccumulatedChildrenOuterWidth();
-};
+}
 
 
 
@@ -381,7 +381,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   if (this.getWidget().getHorizontalChildrenAlign() == qx.constant.Layout.ALIGN_CENTER) {
     vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-  };
+  }
 
   // use variables here to be sure to call both methods.
   var vUpdatePercent = vChild._recomputePercentX();
@@ -389,7 +389,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 
   // inform the caller if there were any notable changes occured
   return vUpdatePercent || vUpdateFlex;
-};
+}
 
 /*!
   Actions that should be done if the inner height of the widget was changed.
@@ -404,11 +404,11 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
   // priority to childs internal alignment
   if ((vChild.getVerticalAlign() || this.getWidget().getVerticalChildrenAlign()) == qx.constant.Layout.ALIGN_MIDDLE) {
     vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
-  };
+  }
 
   // inform the caller if there were any notable changes occured
   return vUpdatePercent || vUpdateStretch;
-};
+}
 
 
 
@@ -427,8 +427,8 @@ qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue)
 {
   if (vJobQueue.addChild || vJobQueue.removeChild) {
     this.getWidget()._invalidateAccumulatedChildrenOuterWidth();
-  };
-};
+  }
+}
 
 
 
@@ -452,20 +452,20 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
   // switching the orientation need updates for stretching on both axis
   if (vQueue.orientation) {
     vStretchX = vStretchY = true;
-  };
+  }
 
   // different updates depending from the current orientation (or the new one)
   if (vQueue.spacing || vQueue.orientation || vQueue.reverseChildrenOrder || vQueue.horizontalChildrenAlign) {
     vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATIONX);
-  };
+  }
 
   if (vQueue.verticalChildrenAlign) {
     vWidget._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATIONY);
-  };
+  }
 
   if (vQueue.stretchChildrenOrthogonalAxis) {
     vStretchY = true;
-  };
+  }
 
   // if stretching should be reworked reset the previous one and add
   // a layout job to update the width respectively height.
@@ -473,16 +473,16 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
   {
     vWidget._recomputeChildrenStretchingX();
     vWidget._addChildrenToLayoutQueue(qx.OO.PROPERTY_WIDTH);
-  };
+  }
 
   if (vStretchY)
   {
     vWidget._recomputeChildrenStretchingY();
     vWidget._addChildrenToLayoutQueue(qx.OO.PROPERTY_HEIGHT);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -512,11 +512,11 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
       {
         vIndex = Math.min(vIndex, i);
         break;
-      };
-    };
+      }
+    }
 
     i=-1;
-  };
+  }
 
   // Handle differently depending on layout mode
   switch(w.getLayoutMode())
@@ -525,7 +525,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     case qx.constant.Layout.ALIGN_LEFT_REVERSED:
       while((chc=ch[++i]) && i<vIndex) {
         chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-      };
+      }
 
       break;
 
@@ -533,7 +533,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
     case qx.constant.Layout.ALIGN_CENTER_REVERSED:
       while(chc=ch[++i]) {
         chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-      };
+      }
 
       break;
 
@@ -541,9 +541,9 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
       i+=vIndex;
       while(chc=ch[++i]) {
         chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-      };
-  };
-};
+      }
+  }
+}
 
 /*!
   This method combines calls of methods which should be done if a child should be moved
@@ -559,8 +559,8 @@ qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
 
   for (var i=vStart; i<vStop; i++) {
     vChildren[i].addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-  };
-};
+  }
+}
 
 
 
@@ -599,25 +599,25 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
         {
           chc._recomputeOuterWidth();
           chc._recomputeInnerWidth();
-        };
+        }
 
         vChildrenQueue[chc.toHashCode()] = chc;
         chc._layoutChanges.width = true;
-      };
-    };
-  };
+      }
+    }
+  }
 
   switch(w.getLayoutMode())
   {
     case qx.constant.Layout.ALIGN_RIGHT:
     case qx.constant.Layout.ALIGN_LEFT_REVERSED:
       // find the last child which has a layout request
-      for (var i=chl-1; i>=0 && !vChildrenQueue[ch[i].toHashCode()]; i--) {};
+      for (var i=chl-1; i>=0 && !vChildrenQueue[ch[i].toHashCode()]; i--) {}
 
       // layout all children before this last child
       for (var j=0; j<=i; j++) {
         w._layoutChild(chc=ch[j]);
-      };
+      }
 
       break;
 
@@ -627,7 +627,7 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
       i = -1;
       while(chc=ch[++i]) {
         w._layoutChild(chc);
-      };
+      }
 
       break;
 
@@ -642,10 +642,10 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
         {
           w._layoutChild(chc);
           changed = true;
-        };
-      };
-  };
-};
+        }
+      }
+  }
+}
 
 
 
@@ -675,7 +675,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
 
   this.layoutChild_marginX(vChild, vJobs);
   this.layoutChild_marginY(vChild, vJobs);
-};
+}
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
@@ -690,9 +690,9 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       else
       {
         vChild._resetRuntimeWidth();
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
@@ -705,9 +705,9 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       else
       {
         vChild._resetRuntimeHeight();
-      };
-    };
-  };
+      }
+    }
+  }
 }
 else
 {
@@ -722,9 +722,9 @@ else
       else
       {
         vChild._resetRuntimeWidth();
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
@@ -737,10 +737,10 @@ else
       else
       {
         vChild._resetRuntimeHeight();
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
@@ -763,7 +763,7 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
       default:
         var vPos = vWidget.getPaddingLeft();
-    };
+    }
   }
 
   // handle any following child
@@ -780,8 +780,8 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
       default:
         var vPos = vPrev._cachedLocationHorizontal + vPrev.getOuterWidth() + vWidget.getSpacing();
-    };
-  };
+    }
+  }
 
   // store for next sibling
   vChild._cachedLocationHorizontal = vPos;
@@ -805,8 +805,8 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
       vChild._resetRuntimeRight();
       vChild._applyRuntimeLeft(vPos);
-  };
-};
+  }
+}
 
 qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 {
@@ -819,7 +819,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
     vChild._applyRuntimeBottom(vWidget.getPaddingBottom() || 0);
 
     return;
-  };
+  }
 
   // priority to childs internal alignment
   var vAlign = vChild.getVerticalAlign() || vWidget.getVerticalChildrenAlign();
@@ -840,7 +840,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
     }
     else if (!vChild._computedTopTypeNull) {
       vPos -= vChild.getTopValue();
-    };
+    }
 
     // apply styles
     vChild._resetRuntimeTop();
@@ -857,10 +857,10 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
     }
     else if (!vChild._computedBottomTypeNull) {
       vPos -= vChild.getBottomValue();
-    };
+    }
 
     // apply styles
     vChild._resetRuntimeBottom();
     vChild._applyRuntimeTop(vPos);
-  };
-};
+  }
+}

@@ -36,11 +36,11 @@ function(vHtml, vMnemonic)
   // Apply constructor arguments
   if (qx.util.Validation.isValidString(vHtml)) {
     this.setHtml(vHtml);
-  };
+  }
 
   if (qx.util.Validation.isValidString(vMnemonic)) {
     this.setMnemonic(vMnemonic);
-  };
+  }
 
   // Prohibit stretching through layout handler
   this.setAllowStretchX(false);
@@ -54,7 +54,7 @@ qx.Class.COPY_STYLEPROPERTY = "styleproperty";
 qx.Class.COPY_COMPUTEDELEMENT = "computedelement";
 qx.Class.COPY_LOCALELEMENT = "localelement";
 
-qx.Class._measureNodes = {};
+qx.Class._measureNodes = {}
 
 
 
@@ -149,7 +149,7 @@ qx.ui.basic.Label._fontProperties =
   "extendedmultiline" : ["fontFamily", "fontSize", "fontStyle", "fontWeight", "letterSpacing", "textDecoration", "textTransform", "whiteSpace", "wordSpacing", "lineHeight", "wordBreak", "wordWrap", "quotes"],
 
   "all" : ["fontFamily", "fontSize", "fontStyle", "fontVariant", "fontWeight", "letterSpacing", "lineBreak", "lineHeight", "quotes", "textDecoration", "textIndent", "textShadow", "textTransform", "textUnderlinePosition", "whiteSpace", "wordBreak", "wordSpacing", "wordWrap"]
-};
+}
 
 qx.ui.basic.Label.BR = "<br/>";
 qx.ui.basic.Label.CODE1 = "&#x";
@@ -158,7 +158,7 @@ qx.ui.basic.Label.TOSTRHELPER = "0x";
 
 qx.ui.basic.Label.htmlToText = function(s) {
   return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, qx.ui.basic.Label._htmlToText);
-};
+}
 
 qx.ui.basic.Label._htmlToText = function(s)
 {
@@ -191,15 +191,15 @@ qx.ui.basic.Label._htmlToText = function(s)
       }
       else if (/^<BR/gi.test(s)) {
         return qx.constant.Core.NEWLINE;
-      };
+      }
 
       return qx.constant.Core.EMPTY;
-  };
-};
+  }
+}
 
 qx.ui.basic.Label.textToHtml = function(s) {
   return String(s).replace(/&|<|>|\n|\u00A0/g, qx.ui.basic.Label._textToHtml);
-};
+}
 
 qx.ui.basic.Label._textToHtml = function(s)
 {
@@ -219,8 +219,8 @@ qx.ui.basic.Label._textToHtml = function(s)
 
     default:
       return qx.constant.Core.SPACE;
-  };
-};
+  }
+}
 
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
@@ -237,10 +237,10 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
     vStyle.zIndex = "-1";
 
     document.body.appendChild(vNode);
-  };
+  }
 
   return vNode;
-};
+}
 
 
 
@@ -270,16 +270,16 @@ qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 
   if (this._isCreated) {
     this._applyContent();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty("textAlign", propValue);
   return true;
-};
+}
 
 qx.Proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
@@ -289,7 +289,7 @@ qx.Proto._modifyMnemonic = function(propValue, propOldValue, propData)
   this._mnemonicTest = this._hasMnemonic ? new RegExp(qx.ui.basic.Label.MNEMONIC_TEST1 + propValue + qx.ui.basic.Label.MNEMONIC_TEST2 + propValue + qx.ui.basic.Label.MNEMONIC_TEST3 + propValue + qx.ui.basic.Label.MNEMONIC_TEST4 + propValue + qx.ui.basic.Label.MNEMONIC_TEST5, qx.ui.basic.Label.MNEMONIC_REGMODE) : null;
 
   return true;
-};
+}
 
 qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
@@ -299,16 +299,16 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
     propValue.applyWidget(this);
   } else if (propOldValue) {
     propOldValue.resetWidget(this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
-};
+}
 
 
 
@@ -331,7 +331,7 @@ qx.Proto._computeObjectNeededDimensions = function()
   // test for mnemonic and fix content
   if (this._hasMnemonic && !this._mnemonicTest.test(vHtml)) {
     vHtml += this._mnemonicHtml;
-  };
+  }
 
   // apply html
   vNode.innerHTML = vHtml;
@@ -339,7 +339,7 @@ qx.Proto._computeObjectNeededDimensions = function()
   // store values
   this._cachedPreferredInnerWidth = vNode.scrollWidth;
   this._cachedPreferredInnerHeight = vNode.scrollHeight;
-};
+}
 
 qx.Proto._copyStyles = function()
 {
@@ -354,14 +354,14 @@ qx.Proto._copyStyles = function()
 
   if (!vProperty) {
     return vNode;
-  };
+  }
 
   do {
     vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : qx.constant.Core.EMPTY;
   } while(vProperty=vUseProperties[vUsePropertiesLength--]);
 
   return vNode;
-};
+}
 
 
 
@@ -378,13 +378,13 @@ qx.Proto._computePreferredInnerWidth = function()
 {
   this._computeObjectNeededDimensions();
   return this._cachedPreferredInnerWidth;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function()
 {
   this._computeObjectNeededDimensions();
   return this._cachedPreferredInnerHeight;
-};
+}
 
 
 
@@ -406,11 +406,11 @@ qx.Proto._postApply = function()
   if (qx.util.Validation.isInvalidString(vHtml)) {
     vElement.innerHTML = qx.constant.Core.EMPTY;
     return;
-  };
+  }
 
   if (this._hasMnemonic) {
     vMnemonicMode = this._mnemonicTest.test(vHtml) ? 1 : 2;
-  };
+  }
 
   // works only with text
   if (!this._htmlMode)
@@ -431,7 +431,7 @@ qx.Proto._postApply = function()
             vElement.innerText = qx.constant.Core.DEFAULT;
           } catch(ex) {
             vUseInnerText = false;
-          };
+          }
 
           vElement.style.overflow = qx.ui.basic.Label.OVERFLOW_HIDDEN;
 
@@ -456,7 +456,7 @@ qx.Proto._postApply = function()
             {
               var vPost = this._mnemonicHtml + vPost;
               vUseInnerText = false;
-            };
+            }
 
             // Measure Words (if more than one)
             if (vSplitLength > 1)
@@ -470,8 +470,8 @@ qx.Proto._postApply = function()
                 vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
                 if (vMeasureNode.scrollWidth > vInner) {
                   break;
-                };
-              };
+                }
+              }
 
               // Remove last word which does not fit
               vSplitTemp.pop();
@@ -486,7 +486,7 @@ qx.Proto._postApply = function()
             {
               var vSplitTemp = [];
               vCharaterString = vHtml;
-            };
+            }
 
             var vCharaterLength = vCharaterString.length;
 
@@ -498,8 +498,8 @@ qx.Proto._postApply = function()
               vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
               if (vMeasureNode.scrollWidth > vInner) {
                 break;
-              };
-            };
+              }
+            }
 
             // Remove last char which does not fit
             vSplitTemp.pop();
@@ -509,14 +509,14 @@ qx.Proto._postApply = function()
 
             // Building Final HTML String
             vHtml = vSplitTemp.join(qx.constant.Core.EMPTY);
-          };
+          }
 
           break;
         }
         else
         {
           vHtml += this._mnemonicHtml;
-        };
+        }
 
         // no break here
 
@@ -525,19 +525,19 @@ qx.Proto._postApply = function()
 
         if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS) {
           vElement.style.textOverflow = qx.constant.Core.EMPTY;
-        };
-    };
-  };
+        }
+    }
+  }
 
   if (vMnemonicMode == 1)
   {
     // re-test: needed to make ellipsis handling correct
     this._mnemonicTest.test(vHtml);
     vHtml = RegExp.$1 + qx.ui.basic.Label.MNEMONIC_IN_START + RegExp.$7 + qx.ui.basic.Label.MNEMONIC_IN_STOP + RegExp.rightContext;
-  };
+  }
 
   return this._postApplyHtml(vElement, vHtml, vMnemonicMode);
-};
+}
 
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
@@ -555,9 +555,9 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
         vElement.innerText = vHtml;
       } catch(ex) {
         vElement.innerHTML = vHtml;
-      };
-    };
-  };
+      }
+    }
+  }
 }
 else
 {
@@ -573,7 +573,7 @@ else
         vElement.textContent = vHtml;
       } catch(ex) {
         vElement.innerHTML = vHtml;
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}

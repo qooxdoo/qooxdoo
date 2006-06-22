@@ -52,7 +52,7 @@ function(vClientWindow)
   qx.ui.layout.CanvasLayout.call(this);
 
   // Don't use widget styles
-  this._styleProperties = {};
+  this._styleProperties = {}
 
   // Configure as focus root
   this.activateFocusRoot();
@@ -81,7 +81,7 @@ function(vClientWindow)
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
-  };
+  }
   */
 });
 
@@ -109,7 +109,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   if (propOldValue)
   {
     propOldValue.qx_Widget = null;
-  };
+  }
 
   if (propValue)
   {
@@ -124,15 +124,15 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   {
     this._element = null;
     this._style = null;
-  };
+  }
 
   return true;
-};
+}
 
-qx.Proto.getWindow = function() { return this._window; };
+qx.Proto.getWindow = function() { return this._window; }
 qx.Proto.getTopLevelWidget = qx.util.Return.returnThis;
-qx.Proto.getDocumentElement = function() { return this._document; };
-qx.Proto.getEventManager = function() { return this.getWindow().getEventManager(); };
+qx.Proto.getDocumentElement = function() { return this._document; }
+qx.Proto.getEventManager = function() { return this.getWindow().getEventManager(); }
 
 qx.Proto.getParent = qx.Proto.getToolTip = qx.util.Return.returnNull;
 qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.util.Return.returnTrue;
@@ -167,9 +167,9 @@ qx.Proto.blockHelper = function(e)
     {
       this.debug("Window seems to be closed already! => Releasing Blocker: (" + e.getType() + ")", ex);
       this.release(this._modalNativeWindow);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.block = function(vActiveChild)
 {
@@ -189,8 +189,8 @@ qx.Proto.block = function(vActiveChild)
   {
     this._modalNativeWindow = vActiveChild;
     this._blocker.setZIndex(1e7);
-  };
-};
+  }
+}
 
 qx.Proto.release = function(vActiveChild)
 {
@@ -205,8 +205,8 @@ qx.Proto.release = function(vActiveChild)
     else
     {
       qx.lang.Array.remove(this._modalWidgets, vActiveChild);
-    };
-  };
+    }
+  }
 
   var l = this._modalWidgets.length;
   if (l == 0)
@@ -220,8 +220,8 @@ qx.Proto.release = function(vActiveChild)
     var o = oldActiveChild.getZIndex();
     this._blocker.setZIndex(o);
     oldActiveChild.setZIndex(o+1);
-  };
-};
+  }
+}
 
 
 
@@ -238,19 +238,19 @@ qx.Proto.release = function(vActiveChild)
 
 qx.Proto.createStyleElement = function(vCssText) {
   return qx.dom.DomStyleSheet.createElement(vCssText);
-};
+}
 
 qx.Proto.addCssRule = function(vSheet, vSelector, vStyle) {
   return qx.dom.DomStyleSheet.addRule(vSheet, vSelector, vStyle);
-};
+}
 
 qx.Proto.removeCssRule = function(vSheet, vSelector) {
   return qx.dom.DomStyleSheet.removeRule(vSheet, vSelector);
-};
+}
 
 qx.Proto.removeAllCssRules = function(vSheet) {
   return qx.dom.DomStyleSheet.removeAllRules(vSheet);
-};
+}
 
 
 
@@ -270,7 +270,7 @@ qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
 
 if (qx.core.Settings.enableApplicationLayout) {
   qx.dom.DomStyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
-};
+}
 
 
 
@@ -286,7 +286,7 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 {
   if (!this._globalCursorStyleSheet) {
     this._globalCursorStyleSheet = this.createStyleElement();
-  };
+  }
 
   // Selector based remove does not work with the "*" selector in mshtml
   // this.removeCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR);
@@ -295,10 +295,10 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 
   if (propValue) {
     this.addCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR, "cursor:" + propValue + " !important");
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -315,7 +315,7 @@ qx.Proto._onresize = function(e)
   // Hide popups, tooltips, ...
   if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
     qx.manager.object.PopupManager.update();
-  };
+  }
 
   // Update children
   this._recomputeInnerWidth();
@@ -323,7 +323,7 @@ qx.Proto._onresize = function(e)
 
   // Flush queues
   qx.ui.core.Widget.flushGlobalQueues();
-};
+}
 
 // This was an idea to allow mozilla more realtime document resize updates
 // but it seems so, that mozilla stops javascript execution while the user
@@ -339,17 +339,17 @@ qx.Proto._onresizehelper = function()
   // Flush queues
   if (t1 || t2) {
     qx.ui.core.Widget.flushGlobalQueues();
-  };
-};
+  }
+}
 */
 
 qx.Proto._computeInnerWidth = function() {
   return this._document.body.offsetWidth;
-};
+}
 
 qx.Proto._computeInnerHeight = function() {
   return this._document.body.offsetHeight;
-};
+}
 
 
 
@@ -367,7 +367,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   delete this._window;
   delete this._document;
@@ -383,15 +383,15 @@ qx.Proto.dispose = function()
 
     this._blocker.dispose();
     this._blocker = null;
-  };
+  }
 
   /*
   if (this._resizeHelper)
   {
     window.clearInterval(this._resizeHelper);
     this._resizeHelper = null;
-  };
+  }
   */
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

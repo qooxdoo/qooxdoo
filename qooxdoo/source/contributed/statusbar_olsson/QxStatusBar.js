@@ -54,7 +54,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

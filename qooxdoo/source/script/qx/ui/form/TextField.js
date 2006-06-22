@@ -36,7 +36,7 @@ function(vValue)
 
   if (typeof vValue === qx.constant.Type.STRING) {
     this.setValue(vValue);
-  };
+  }
 
 
   // ************************************************************************
@@ -109,7 +109,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
@@ -118,15 +118,15 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
   delete this._inValueProperty;
 
   return true;
-};
+}
 
 qx.Proto._modifyMaxLength = function(propValue, propOldValue, propData) {
   return propValue ? this.setHtmlProperty(propData.name, propValue) : this.removeHtmlProperty(propData.name);
-};
+}
 
 qx.Proto._modifyReadOnly = function(propValue, propOldValue, propData) {
   return propValue ? this.setHtmlProperty(propData.name, propData.name) : this.removeHtmlProperty(propData.name);
-};
+}
 
 qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
@@ -136,10 +136,10 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
     propValue.applyWidget(this);
   } else if (propOldValue) {
     propOldValue.resetWidget(this);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -154,7 +154,7 @@ qx.Proto.getComputedValue = function(e)
 {
   this._visualPropertyCheck();
   return this.getElement().value;
-};
+}
 
 
 
@@ -170,20 +170,20 @@ qx.ui.form.TextField.createRegExpValidator = function(vRegExp)
 {
   return function(s) {
     return vRegExp.test(s);
-  };
-};
+  }
+}
 
 qx.Proto.isValid = function()
 {
   var vValidator = this.getValidator();
   return !vValidator || vValidator(this.getValue());
-};
+}
 
 qx.Proto.isComputedValid = function()
 {
   var vValidator = this.getValidator();
   return !vValidator || vValidator(this.getComputedValue());
-};
+}
 
 
 
@@ -198,11 +198,11 @@ qx.Proto.isComputedValid = function()
 
 qx.Proto._computePreferredInnerWidth = function() {
   return 120;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function() {
   return 15;
-};
+}
 
 
 
@@ -225,7 +225,7 @@ if (qx.sys.Client.isMshtml())
     if (!this._firstInputFixApplied) {
       qx.client.Timer.once(this._ieFirstInputFix, this, 1);
     }
-  };
+  }
 
   /*!
     Fix IE's input event for filled text fields
@@ -237,7 +237,7 @@ if (qx.sys.Client.isMshtml())
     this._firstInputFixApplied = true;
     delete this._inValueProperty;
   }
-};
+}
 
 
 
@@ -256,11 +256,11 @@ qx.Proto._textOnFocus = null;
 
 qx.Proto._ontabfocus = function(e) {
   this.selectAll();
-};
+}
 
 qx.Proto._onfocus = function(e) {
   this._textOnFocus = this.getComputedValue();
-};
+}
 
 qx.Proto._onblur = function(e)
 {
@@ -268,10 +268,10 @@ qx.Proto._onblur = function(e)
 
   if (this._textOnFocus != vValue) {
     this.setValue(vValue);
-  };
+  }
 
   this.setSelectionLength(0);
-};
+}
 
 
 
@@ -297,13 +297,13 @@ if (qx.sys.Client.isMshtml())
   {
     this._visualPropertyCheck();
     return this.getElement().createTextRange();
-  };
+  }
 
   qx.Proto._getSelectionRange = function()
   {
     this._visualPropertyCheck();
     return this.getTopLevelWidget().getDocumentElement().selection.createRange();
-  };
+  }
 
   qx.Proto.setSelectionStart = function(vStart)
   {
@@ -320,18 +320,18 @@ if (qx.sys.Client.isMshtml())
 
       if (i == -1) {
         break;
-      };
+      }
 
       vStart--;
       i++;
-    };
+    }
 
     var vRange = this._getRange();
 
     vRange.collapse();
     vRange.move("character", vStart);
     vRange.select();
-  };
+  }
 
   qx.Proto.getSelectionStart = function()
   {
@@ -341,13 +341,13 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return -1;
-    };
+    }
 
     var vRange = this._getRange();
 
     vRange.setEndPoint("EndToStart", vSelectionRange);
     return vRange.text.length;
-  };
+  }
 
   qx.Proto.setSelectionLength = function(vLength)
   {
@@ -357,12 +357,12 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return;
-    };
+    }
 
     vSelectionRange.collapse();
     vSelectionRange.moveEnd("character", vLength);
     vSelectionRange.select();
-  };
+  }
 
   qx.Proto.getSelectionLength = function()
   {
@@ -372,10 +372,10 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return 0;
-    };
+    }
 
     return vSelectionRange.text.length;
-  };
+  }
 
   qx.Proto.setSelectionText = function(vText)
   {
@@ -386,7 +386,7 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return;
-    };
+    }
 
     vSelectionRange.text = vText;
 
@@ -398,7 +398,7 @@ if (qx.sys.Client.isMshtml())
     this.setSelectionLength(vText.length);
 
     return true;
-  };
+  }
 
   qx.Proto.getSelectionText = function()
   {
@@ -408,10 +408,10 @@ if (qx.sys.Client.isMshtml())
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
       return qx.constant.Core.EMPTY;
-    };
+    }
 
     return vSelectionRange.text;
-  };
+  }
 
   qx.Proto.selectAll = function()
   {
@@ -421,11 +421,11 @@ if (qx.sys.Client.isMshtml())
     {
       this.setSelectionStart(0);
       this.setSelectionLength(this.getValue().length);
-    };
+    }
 
     // to be sure we get the element selected
     this.getElement().select();
-  };
+  }
 
   qx.Proto.selectFromTo = function(vStart, vEnd)
   {
@@ -433,7 +433,7 @@ if (qx.sys.Client.isMshtml())
 
     this.setSelectionStart(vStart);
     this.setSelectionLength(vEnd-vStart);
-  };
+  }
 }
 else
 {
@@ -441,13 +441,13 @@ else
   {
     this._visualPropertyCheck();
     this.getElement().selectionStart = vStart;
-  };
+  }
 
   qx.Proto.getSelectionStart = function()
   {
     this._visualPropertyCheck();
     return this.getElement().selectionStart;
-  };
+  }
 
   qx.Proto.setSelectionLength = function(vLength)
   {
@@ -456,8 +456,8 @@ else
     var el = this.getElement();
     if (qx.util.Validation.isValidString(el.value)) {
       el.selectionEnd = el.selectionStart + vLength;
-    };
-  };
+    }
+  }
 
   qx.Proto.getSelectionLength = function()
   {
@@ -465,7 +465,7 @@ else
 
     var el = this.getElement();
     return el.selectionEnd - el.selectionStart;
-  };
+  }
 
   qx.Proto.setSelectionText = function(vText)
   {
@@ -489,21 +489,21 @@ else
     this.setValue(vValue);
 
     return true;
-  };
+  }
 
   qx.Proto.getSelectionText = function()
   {
     this._visualPropertyCheck();
 
     return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
-  };
+  }
 
   qx.Proto.selectAll = function()
   {
     this._visualPropertyCheck();
 
     this.getElement().select();
-  };
+  }
 
   qx.Proto.selectFromTo = function(vStart, vEnd)
   {
@@ -512,8 +512,8 @@ else
     var el = this.getElement();
     el.selectionStart = vStart;
     el.selectionEnd = vEnd;
-  };
-};
+  }
+}
 
 
 
@@ -531,10 +531,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.BLUR, this._onblur);
   this.removeEventListener(qx.constant.Event.FOCUS, this._onfocus);
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
-};
+}

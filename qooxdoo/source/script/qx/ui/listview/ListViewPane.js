@@ -84,7 +84,7 @@ qx.Proto._rowHeight = 16;
 
 qx.Proto.getView = function() {
   return this.getParent().getParent();
-};
+}
 
 
 
@@ -125,9 +125,9 @@ qx.Proto._updateLayout = function(vUpdate)
 
         if (vColumns[vCol].align) {
           vCell.setStyleProperty(qx.constant.Style.PROPERTY_TEXTALIGN, vColumns[vCol].align);
-        };
-      };
-    };
+        }
+      }
+    }
   }
 
   // Sync cells: Remove existing ones and dispose them
@@ -143,20 +143,20 @@ qx.Proto._updateLayout = function(vUpdate)
         vCell = vChildren[vChildrenLength--];
         this.remove(vCell);
         vCell.dispose();
-      };
-    };
-  };
+      }
+    }
+  }
 
   // Update row and column count
   this.setRowCount(vRowCount);
   if (!vUpdate) {
     this.setColumnCount(qx.lang.Object.getLength(vColumns));
-  };
+  }
 
   // Apply height to all rows
   for (var i=0; i<vRowCount; i++) {
     this.setRowHeight(i, this._rowHeight);
-  };
+  }
 
   if (!vUpdate)
   {
@@ -168,12 +168,12 @@ qx.Proto._updateLayout = function(vUpdate)
       this.setColumnWidth(vCount, vColumns[vCol].width);
 
       vCount++;
-    };
-  };
+    }
+  }
 
   // Store last row count
   this._lastRowCount = vRowCount;
-};
+}
 
 qx.Proto._currentScrollTop = -1;
 
@@ -181,7 +181,7 @@ qx.Proto._updateRendering = function(vForce)
 {
   if (this._updatingRendering) {
     return;
-  };
+  }
 
   var vScrollTop = this._initialLayoutDone ? this.getView().getScroll().getScrollTop() : 0;
 
@@ -190,10 +190,10 @@ qx.Proto._updateRendering = function(vForce)
 
   for (var i=0; i<this._rowCount; i++) {
     this._updateRow(i);
-  };
+  }
 
   delete this._updatingRendering;
-};
+}
 
 qx.Proto._updateRow = function(vRelativeRow)
 {
@@ -217,13 +217,13 @@ qx.Proto._updateRow = function(vRelativeRow)
     {
       vEntry && vEntry._selected ? vChild.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vChild.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
       vChild.set(vEntry ? vEntry[vCol] : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._onscroll = function(e) {
   this._updateRendering();
-};
+}
 
 
 
@@ -241,7 +241,7 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
   this._updateRendering(true);
 
   return qx.ui.layout.GridLayout.prototype._changeInnerHeight.call(this, vNew, vOld);
-};
+}
 
 
 
@@ -256,7 +256,7 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 qx.Proto.getListViewTarget = function(e)
 {
@@ -266,37 +266,37 @@ qx.Proto.getListViewTarget = function(e)
                 Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
   return this._data[vItemNo];
-};
+}
 
 qx.Proto.getSelectedItem = function() {
   return this.getSelectedItems()[0];
-};
+}
 
 qx.Proto.getSelectedItems = function() {
   return this._manager.getSelectedItems();
-};
+}
 
 qx.Proto.getData = function() {
   return this._data;
-};
+}
 
 // use static row height
 qx.Proto.getItemHeight = function(vItem) {
   return this._rowHeight;
-};
+}
 
 // use the full inner width of the pane
 qx.Proto.getItemWidth = function(vItem) {
   return qx.dom.DomDimension.getInnerWidth(this.getElement());
-};
+}
 
 qx.Proto.getItemLeft = function(vItem) {
   return 0;
-};
+}
 
 qx.Proto.getItemTop = function(vItem) {
   return this._data.indexOf(vItem) * this._rowHeight;
-};
+}
 
 
 
@@ -311,47 +311,47 @@ qx.Proto._onmousewheel = function(e)
 {
   var vScroll = this.getView().getScroll();
   vScroll.setScrollTop(vScroll.getScrollTop() - (e.getWheelDelta() * 20));
-};
+}
 
 qx.Proto._onmouseover = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
     this._manager.handleMouseOver(vTarget, e);
-  };
-};
+  }
+}
 
 qx.Proto._onmousedown = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
     this._manager.handleMouseDown(vTarget, e);
-  };
-};
+  }
+}
 
 qx.Proto._onmouseup = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
     this._manager.handleMouseUp(vTarget, e);
-  };
-};
+  }
+}
 
 qx.Proto._onclick = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
     this._manager.handleClick(vTarget, e);
-  };
-};
+  }
+}
 
 qx.Proto._ondblclick = function(e)
 {
   var vTarget = this.getListViewTarget(e);
   if (vTarget) {
     this._manager.handleDblClick(vTarget, e);
-  };
-};
+  }
+}
 
 
 
@@ -368,7 +368,7 @@ qx.Proto._onkeydown = function(e)
 {
   this._manager.handleKeyDown(e);
   e.preventDefault();
-};
+}
 
 
 
@@ -385,29 +385,29 @@ qx.Proto._updateSelectionState = function(vItem, vIsSelected)
 {
   vItem._selected = vIsSelected;
   this._updateItem(vItem);
-};
+}
 
 qx.Proto._updateAnchorState = function(vItem, vIsAnchor)
 {
   vItem._anchor = vIsAnchor;
   this._updateItem(vItem);
-};
+}
 
 qx.Proto._updateLeadState = function(vItem, vIsLead)
 {
   vItem._lead = vIsLead;
   this._updateItem(vItem);
-};
+}
 
 qx.Proto.scrollItemIntoView = function(vItem, vAlignLeftTop)
 {
   this.scrollItemIntoViewX(vItem, vAlignLeftTop);
   this.scrollItemIntoViewY(vItem, vAlignLeftTop);
-};
+}
 
 qx.Proto.scrollItemIntoViewX = function(vItem, vAlignLeft) {
   // this.error("Not implemented in qx.ui.listview.ListViewPane!");
-};
+}
 
 qx.Proto.scrollItemIntoViewY = function(vItem, vAlignTop)
 {
@@ -436,30 +436,30 @@ qx.Proto.scrollItemIntoViewY = function(vItem, vAlignTop)
   else if ((vOffset + vHeight) > (vParentScrollTop + vParentHeight))
   {
     vNewScrollTop = vOffset + vHeight - vParentHeight;
-  };
+  }
 
   if (vNewScrollTop != null) {
     this.getView().getScroll().setScrollTop(vNewScrollTop);
-  };
-};
+  }
+}
 
 qx.Proto.setScrollTop = function(vScrollTop)
 {
   this.getView().getScroll().setScrollTop(vScrollTop);
   this._updateRendering();
-};
+}
 
 qx.Proto.getScrollTop = function() {
   return this._currentScrollTop;
-};
+}
 
 qx.Proto.setScrollLeft = function() {
   this.error("Not implemented in qx.ui.listview.ListViewPane!");
-};
+}
 
 qx.Proto.getScrollLeft = function() {
   return 0;
-};
+}
 
 qx.Proto.isItemVisible = function(vItem)
 {
@@ -468,7 +468,7 @@ qx.Proto.isItemVisible = function(vItem)
   var vRowLength = Math.ceil(this.getClientHeight() / this._rowHeight);
 
   return vIndex >= vRowStart && vIndex <= (vRowStart + vRowLength);
-};
+}
 
 qx.Proto.getRelativeItemPosition = function(vItem)
 {
@@ -476,7 +476,7 @@ qx.Proto.getRelativeItemPosition = function(vItem)
   var vRowStart = Math.floor(this._currentScrollTop / this._rowHeight);
 
   return vIndex - vRowStart;
-};
+}
 
 qx.Proto._updateItem = function(vItem)
 {
@@ -486,10 +486,10 @@ qx.Proto._updateItem = function(vItem)
 
   if (vIndex < vRowStart || vIndex > (vRowStart + vRowLength)) {
     return;
-  };
+  }
 
   this._updateRow(vIndex - vRowStart);
-};
+}
 
 
 
@@ -506,7 +506,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
 
   // ************************************************************************
@@ -540,7 +540,7 @@ qx.Proto.dispose = function()
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   return qx.ui.layout.GridLayout.prototype.dispose.call(this);
-};
+}

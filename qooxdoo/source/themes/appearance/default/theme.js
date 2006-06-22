@@ -52,7 +52,7 @@
       return {
         allowStretchX : false,
         allowStretchY : false
-      };
+      }
     }
   });
 
@@ -71,7 +71,7 @@
         color : this.color,
         hideFocus : true,
         enableElementFocus : false
-      };
+      }
     }
   });
 
@@ -85,7 +85,7 @@
       return {
         cursor : qx.constant.Core.DEFAULT,
         backgroundImage : qx.manager.object.ImageManager.BLANK
-      };
+      }
     }
   });
 
@@ -103,7 +103,7 @@
         stretchChildrenOrthogonalAxis : false,
         allowStretchY : false,
         allowStretchX : false
-      };
+      }
     }
   });
 
@@ -120,14 +120,14 @@
       return {
         font: this.font,
         wrap : false
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
     {
       return {
         color : vStates.disabled ? this.color_disabled : null
-      };
+      }
     }
   });
 
@@ -149,7 +149,7 @@
       return {
         width : qx.constant.Core.AUTO,
         height : qx.constant.Core.AUTO
-      };
+      }
     }
   });
 
@@ -183,7 +183,7 @@
     {
       return {
         border : qx.renderer.border.BorderObject.presets.inset
-      };
+      }
     }
   });
 
@@ -219,7 +219,7 @@
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : vStates.over ? this.bgcolor_over : this.bgcolor_default,
         border : vStates.pressed || vStates.checked || vStates.abandoned ? this.border_pressed : this.border_default
-      };
+      }
 
       if (vStates.pressed || vStates.abandoned)
       {
@@ -232,7 +232,7 @@
       {
         vReturn.paddingTop = vReturn.paddingBottom = 3;
         vReturn.paddingRight = vReturn.paddingLeft = 4;
-      };
+      }
 
       return vReturn;
     }
@@ -264,7 +264,7 @@
         border : qx.renderer.border.BorderObject.presets.thinOutset,
         backgroundColor : this.bgcolor,
         height : qx.constant.Core.AUTO
-      };
+      }
     }
   });
 
@@ -274,7 +274,7 @@
     {
       return {
         width : qx.constant.Core.AUTO
-      };
+      }
     }
   });
 
@@ -284,7 +284,7 @@
     {
       return {
         width : 10
-      };
+      }
     }
   });
 
@@ -298,7 +298,7 @@
         bottom : 2,
         width : 4,
         border : qx.renderer.border.BorderObject.presets.thinOutset
-      };
+      }
     }
   });
 
@@ -308,7 +308,7 @@
     {
       return {
         width : 8
-      };
+      }
     }
   });
 
@@ -338,7 +338,7 @@
         width : 2,
         bottom : 2,
         border : this.border
-      };
+      }
     }
   });
 
@@ -363,7 +363,7 @@
         spacing : 4,
         width : qx.constant.Core.AUTO,
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -372,7 +372,7 @@
       {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
         backgroundImage : vStates.checked && !vStates.over ? this.checked_background : null
-      };
+      }
 
       if (vStates.pressed || vStates.checked || vStates.abandoned) {
         vReturn.border = this.border_pressed;
@@ -380,7 +380,7 @@
         vReturn.border = this.border_over;
       } else {
         vReturn.border = this.border_default;
-      };
+      }
 
       if (vStates.pressed || vStates.checked || vStates.abandoned)
       {
@@ -398,7 +398,7 @@
       {
         vReturn.paddingTop = vReturn.paddingBottom = 3;
         vReturn.paddingLeft = vReturn.paddingRight = 4;
-      };
+      }
 
       return vReturn;
     }
@@ -428,7 +428,7 @@
       return {
         backgroundColor : this.background,
         border : qx.renderer.border.BorderObject.presets.shadow
-      };
+      }
     }
   });
 
@@ -443,15 +443,15 @@
           return {
             width : null,
             height : qx.constant.Core.FLEX
-          };
+          }
 
         case qx.constant.Layout.ALIGN_LEFT:
         case qx.constant.Layout.ALIGN_RIGHT:
           return {
             width : qx.constant.Core.FLEX,
             height : null
-          };
-      };
+          }
+      }
     }
   });
 
@@ -464,7 +464,7 @@
         right : 10,
         top : 10,
         bottom : 10
-      };
+      }
     }
   });
 
@@ -493,7 +493,7 @@
     {
       return {
         backgroundColor : this.background_color
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vState)
@@ -511,7 +511,7 @@
             height : qx.constant.Core.AUTO,
             width : null,
             orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
-          };
+          }
 
         case qx.constant.Layout.ALIGN_BOTTOM:
           return {
@@ -524,7 +524,7 @@
             height : qx.constant.Core.AUTO,
             width : null,
             orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
-          };
+          }
 
         case qx.constant.Layout.ALIGN_LEFT:
           return {
@@ -537,7 +537,7 @@
             height : null,
             width : qx.constant.Core.AUTO,
             orientation : qx.constant.Layout.ORIENTATION_VERTICAL
-          };
+          }
 
         case qx.constant.Layout.ALIGN_RIGHT:
           return {
@@ -550,8 +550,8 @@
             height : null,
             width : qx.constant.Core.AUTO,
             orientation : qx.constant.Layout.ORIENTATION_VERTICAL
-          };
-      };
+          }
+      }
     }
   });
 
@@ -594,7 +594,7 @@
         backgroundColor : vStates.checked ? this.background_color_checked : this.background_color_normal,
         allowStretchX : true,
         allowStretchY : true
-      };
+      }
 
       if (vStates.checked || vStates.over)
       {
@@ -630,14 +630,14 @@
             vReturn.paddingRight = 6;
             vReturn.paddingBottom = 3;
             vReturn.paddingLeft = 4;
-        };
+        }
       }
       else
       {
         vReturn.border = null;
         vReturn.paddingTop = vReturn.paddingBottom = 4;
         vReturn.paddingRight = vReturn.paddingLeft = 7;
-      };
+      }
 
       switch(vBarPosition)
       {
@@ -655,7 +655,7 @@
           vReturn.marginRight = vReturn.marginLeft = 0;
           vReturn.height = qx.constant.Core.AUTO;
           vReturn.width = null;
-      };
+      }
 
       return vReturn;
     }
@@ -692,14 +692,14 @@
         paddingRight : 1,
         paddingBottom : 1,
         paddingLeft : 1
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
     {
       return {
         border : vStates.maximized ? qx.renderer.border.BorderObject.presets.none : qx.renderer.border.BorderObject.presets.outset
-      };
+      }
     }
   });
 
@@ -723,7 +723,7 @@
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
         height : qx.constant.Core.AUTO,
         overflow : qx.constant.Style.OVERFLOW_HIDDEN
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -731,7 +731,7 @@
       return {
         backgroundColor : vStates.active ? this.bgcolor_active : this.bgcolor_inactive,
         color : vStates.active ? this.color_active : this.color_inactive
-      };
+      }
     }
   });
 
@@ -741,7 +741,7 @@
     {
       return {
         border : qx.renderer.border.BorderObject.presets.shadow
-      };
+      }
     }
   });
 
@@ -751,7 +751,7 @@
     {
       return {
         marginRight : 2
-      };
+      }
     }
   });
 
@@ -770,7 +770,7 @@
         font : this.font,
         marginRight : 2,
         wrap : false
-      };
+      }
     }
   });
 
@@ -795,7 +795,7 @@
       {
         vReturn.paddingTop = vReturn.paddingBottom = 1;
         vReturn.paddingRight = vReturn.paddingLeft = 2;
-      };
+      }
 
       return vReturn;
     }
@@ -855,7 +855,7 @@
       return {
         border : qx.renderer.border.BorderObject.presets.thinInset,
         height : qx.constant.Core.AUTO
-      };
+      }
     }
   });
 
@@ -869,7 +869,7 @@
         paddingBottom : 1,
         paddingLeft : 4,
         cursor : qx.constant.Core.DEFAULT
-      };
+      }
     }
   });
 
@@ -906,7 +906,7 @@
         paddingRight : 1,
         paddingBottom : 1,
         paddingLeft : 1
-      };
+      }
     }
   });
 
@@ -919,7 +919,7 @@
         right : 0,
         bottom : 0,
         left : 0
-      };
+      }
     }
   });
 
@@ -947,7 +947,7 @@
         cursor : qx.constant.Core.DEFAULT,
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
         allowStretchX : true
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -955,7 +955,7 @@
       return {
         backgroundColor : vStates.over ? this.BGCOLOR_OVER : this.BGCOLOR_OUT,
         color : vStates.over ? this.COLOR_OVER : this.COLOR_OUT
-      };
+      }
     }
   });
 
@@ -980,7 +980,7 @@
     {
       return {
         source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
-      };
+      }
     }
   });
 
@@ -1005,7 +1005,7 @@
     {
       return {
         source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
-      };
+      }
     }
   });
 
@@ -1019,7 +1019,7 @@
         marginBottom : 2,
         paddingLeft : 3,
         paddingRight : 3
-      };
+      }
     }
   });
 
@@ -1032,7 +1032,7 @@
         left : 0,
         height : qx.constant.Core.AUTO,
         border : qx.renderer.border.BorderObject.presets.verticalDivider
-      };
+      }
     }
   });
 
@@ -1062,7 +1062,7 @@
         overflow : qx.constant.Style.OVERFLOW_HIDDEN,
         border : qx.renderer.border.BorderObject.presets.thinInset,
         backgroundColor : this.bgcolor
-      };
+      }
     }
   });
 
@@ -1087,7 +1087,7 @@
         paddingBottom : 3,
         paddingLeft : 5,
         minWidth : qx.constant.Core.AUTO
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -1101,12 +1101,12 @@
       {
         vWidget.removeStyleProperty("MozOutline");
         vWidget.removeStyleProperty("outline");
-      };
+      }
 
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null
-      };
+      }
     }
   });
 
@@ -1144,7 +1144,7 @@
         font : this.font,
         width : qx.constant.Core.AUTO,
         height : qx.constant.Core.AUTO
-      };
+      }
     },
 
     state : function(vWidget, vTheme) {
@@ -1197,7 +1197,7 @@
         border : qx.renderer.border.BorderObject.presets.inset,
         backgroundColor : this.bgcolor,
         allowStretchY : false
-      };
+      }
     }
   });
 
@@ -1284,7 +1284,7 @@
       return {
         height : 16,
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
-      };
+      }
     }
   });
 
@@ -1295,7 +1295,7 @@
       return {
         width : 16,
         height : 16
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -1307,20 +1307,20 @@
              !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
              !(vParent instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
         vParent = vParent.getParent();
-      };
+      }
 
       if (vParent.getIcon())
       {
         return {
           source : vStates.selected ? vParent.getIconSelected() || vParent.getIcon() : vParent.getIcon()
-        };
+        }
       }
       else
       {
         return {
           source : "icons/16/file-new.png"
-        };
-      };
+        }
+      }
     }
   });
 
@@ -1373,7 +1373,7 @@
       return {
         width : 16,
         height : 16
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -1385,20 +1385,20 @@
              !(vParent instanceof qx.ui.tree.AbstractTreeElement) &&
              !(vParent instanceof qx.ui.treefullcontrol.AbstractTreeElement)) {
         vParent = vParent.getParent();
-      };
+      }
 
       if (vParent.getIcon())
       {
         return {
           source : vStates.selected ? vParent.getIconSelected() || vParent.getIcon() : vParent.getIcon()
-        };
+        }
       }
       else
       {
         return {
           source : vStates.selected ? "icons/16/folder-open.png" : "icons/16/folder.png"
-        };
-      };
+        }
+      }
     }
   });
 
@@ -1452,7 +1452,7 @@
     {
       return {
         verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
-      };
+      }
     }
   });
 
@@ -1463,7 +1463,7 @@
       return {
         height : qx.constant.Core.AUTO,
         verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
-      };
+      }
     }
   });
 
@@ -1488,7 +1488,7 @@
       return {
         cursor : qx.constant.Core.DEFAULT,
         overflow: qx.constant.Style.OVERFLOW_HIDDEN
-      };
+      }
     }
   });
 
@@ -1500,7 +1500,7 @@
         width : qx.constant.Core.FLEX,
         horizontalSpacing : 1,
         overflow : qx.constant.Style.OVERFLOW_HIDDEN
-      };
+      }
     }
   });
 
@@ -1521,7 +1521,7 @@
         overflow: qx.constant.Style.OVERFLOW_HIDDEN,
         border : this.border,
         backgroundColor : this.bgcolor
-      };
+      }
     }
   });
 
@@ -1547,7 +1547,7 @@
         paddingBottom : 2,
         paddingLeft : 6,
         spacing : 4
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -1558,7 +1558,7 @@
           backgroundColor : this.bgcolor_hover,
           paddingBottom : 0,
           border : this.border_hover
-        };
+        }
       }
       else
       {
@@ -1566,8 +1566,8 @@
           backgroundColor : null,
           paddingBottom : 2,
           border : null
-        };
-      };
+        }
+      }
     }
   });
 
@@ -1584,7 +1584,7 @@
         width : 1,
         marginTop : 1,
         marginBottom : 1
-      };
+      }
     }
   });
 
@@ -1601,7 +1601,7 @@
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null
-      };
+      }
     }
   });
 
@@ -1612,7 +1612,7 @@
       return {
         paddingLeft : 6,
         paddingRight : 6
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
@@ -1690,7 +1690,7 @@
     {
       return {
         spacing : -1
-      };
+      }
     }
   });
 
@@ -1700,7 +1700,7 @@
     {
       return {
         height : qx.constant.Core.AUTO
-      };
+      }
     }
   });
 
@@ -1722,7 +1722,7 @@
         paddingRight : 10,
         paddingBottom : 10,
         paddingLeft : 10
-      };
+      }
     }
   });
 
@@ -1735,7 +1735,7 @@
         right : 0,
         bottom : 0,
         left : 0
-      };
+      }
     }
   });
 
@@ -1787,7 +1787,7 @@
           marginBottom : 0,
           marginRight : -1,
           marginLeft : -2
-        };
+        }
 
         if (vAlignLeft)
         {
@@ -1806,7 +1806,7 @@
             vReturn.paddingRight = 5;
             vReturn.marginRight = 0;
           }
-        };
+        }
       }
       else
       {
@@ -1820,7 +1820,7 @@
           paddingRight : 6,
           marginRight : 1,
           marginLeft : 0
-        };
+        }
 
         if (vAlignLeft)
         {
@@ -1838,7 +1838,7 @@
             vReturn.paddingRight = 5;
             vReturn.marginRight = 0;
           }
-        };
+        }
 
         if (vBarTop)
         {
@@ -1851,8 +1851,8 @@
           vReturn.border = this.border_bottom_normal;
           vReturn.marginTop = 1;
           vReturn.marginBottom = 3;
-        };
-      };
+        }
+      }
 
       return vReturn;
     }
@@ -1880,7 +1880,7 @@
     {
       return {
         backgroundColor : this.bgcolor
-      };
+      }
     }
   });
 
@@ -1917,7 +1917,7 @@
         paddingBottom : 12,
         paddingLeft : 9,
         border : qx.renderer.border.BorderObject.presets.groove
-      };
+      }
     }
   });
 
@@ -1972,7 +1972,7 @@
         height : 22,
         border : qx.renderer.border.BorderObject.presets.inset,
         backgroundColor : this.bgcolor
-      };
+      }
     }
   });
 
@@ -2062,7 +2062,7 @@
         border : this.border,
         width: qx.constant.Core.AUTO,
         height: qx.constant.Core.AUTO
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -2099,14 +2099,14 @@
         spacing : 4,
         width : qx.constant.Core.AUTO,
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
         backgroundImage : (vStates.checked && !vStates.over) ? this.checked_background : null
-      };
+      }
 
       if (vStates.pressed || vStates.checked || vStates.abandoned) {
         vReturn.border = this.border_pressed;
@@ -2114,7 +2114,7 @@
         vReturn.border = this.border_over;
       } else {
         vReturn.border = this.border_default;
-      };
+      }
 
       if (vStates.pressed || vStates.checked || vStates.abandoned) {
         vReturn.paddingTop = 2;
@@ -2127,7 +2127,7 @@
       } else {
         vReturn.paddingTop = vReturn.paddingBottom = 2;
         vReturn.paddingLeft = vReturn.paddingRight = 2;
-      };
+      }
 
       return vReturn;
     }
@@ -2144,7 +2144,7 @@
         font : this.font,
         textAlign: "center",
         verticalAlign: "middle"
-      };
+      }
     }
   });
 
@@ -2159,7 +2159,7 @@
       return {
         border : this.border,
         backgroundColor : this.bgcolor
-      };
+      }
     }
   });
 
@@ -2179,14 +2179,14 @@
         border : this.border,
         font : this.font,
         textAlign : "center"
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
       return {
         color : vStates.weekend ? this.bgcolor : this.color,
         backgroundColor : vStates.weekend ? this.color : this.bgcolor
-      };
+      }
     }
 
   });
@@ -2213,7 +2213,7 @@
         textAlign : "center",
         verticalAlign: "middle",
         selectable: false
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
@@ -2222,7 +2222,7 @@
         color : vStates.selected ? this.selectedColor :
           (vStates.otherMonth ? this.otherMonthColor : this.color),
         backgroundColor : vStates.selected ? this.selectedBgColor : null
-      };
+      }
     }
 
   });
@@ -2245,13 +2245,13 @@
         font : this.font,
         color: this.color,
         paddingLeft : 2
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
       return {
         border : vStates.header ? this.headerBorder : this.border
-      };
+      }
     }
   });
 
@@ -2279,7 +2279,7 @@
         border: this.border,
         paddingLeft: 2,
         paddingRight: 2
-      };
+      }
     }
   });
 
@@ -2293,7 +2293,7 @@
     state : function(vWidget, vTheme, vStates) {
       return {
         border : vStates.editing ? this.editingBorder : this.border
-      };
+      }
     }
   });
 
@@ -2311,7 +2311,7 @@
         paddingRight: 2,
         paddingTop: 0,
         paddingBottom: 0
-      };
+      }
     }
   });
 
@@ -2341,7 +2341,7 @@
         paddingLeft : 2,
         paddingRight : 2,
         selectable: false
-      };
+      }
       if (vWidget.setFont) {
         properties.font = this.font;
       }
@@ -2351,7 +2351,7 @@
     state : function(vWidget, vTheme, vStates) {
       var ret = {
         color : vStates.selected ? this.selectedColor : this.color
-      };
+      }
 
       if (vStates.focusedRow) {
         ret.backgroundColor = vStates.selected ? this.focusedSelectedBackground : this.focusedBackground;
@@ -2395,7 +2395,7 @@
         backgroundColor:this.background,
         iconPosition:"right",
         verticalChildrenAlign:"middle"
-      };
+      }
     },
 
     state : function(vWidget, vTheme, vStates) {
@@ -2403,7 +2403,7 @@
         backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
         border : vStates.mouseover ? this.mouseOverBorder : this.border,
         icon : vStates.sorted ? (vStates.sortedAscending ? this.sortedAscendingImg : this.sortedDescendingImg) : null
-      };
+      }
     }
   });
 

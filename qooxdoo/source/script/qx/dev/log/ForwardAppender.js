@@ -45,4 +45,4 @@ function(targetProcessor) {
 // overridden
 qx.Proto.appendLogEvent = function(evt) {
   this._targetProcessor.handleLogEvent(evt);
-};
+}

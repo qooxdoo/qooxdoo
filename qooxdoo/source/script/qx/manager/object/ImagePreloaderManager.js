@@ -46,28 +46,28 @@ function() {
 
 qx.Proto.add = function(vObject) {
   this._objects[vObject.getUri()] = vObject;
-};
+}
 
 qx.Proto.remove = function(vObject) {
   delete this._objects[vObject.getUri()];
-};
+}
 
 qx.Proto.has = function(vSource) {
   return this._objects[vSource] != null;
-};
+}
 
 qx.Proto.get = function(vSource) {
   return this._objects[vSource];
-};
+}
 
 qx.Proto.create = function(vSource)
 {
   if (this._objects[vSource]) {
     return this._objects[vSource];
-  };
+  }
 
   return new qx.io.image.ImagePreloader(vSource);
-};
+}
 
 
 

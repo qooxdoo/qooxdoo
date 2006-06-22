@@ -41,7 +41,7 @@ function(vType, vMouseEvent, vTarget, vRelatedTarget)
     case qx.constant.Event.DRAGSTART:
     case qx.constant.Event.DRAGOVER:
       vOriginalTarget = vMouseEvent.getOriginalTarget();
-  };
+  }
 
   qx.event.type.MouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
 });
@@ -58,7 +58,7 @@ function(vType, vMouseEvent, vTarget, vRelatedTarget)
 
 qx.Proto.getMouseEvent = function() {
   return this._mouseEvent;
-};
+}
 
 
 
@@ -75,11 +75,11 @@ qx.Proto.startDrag = function()
 {
   if (this.getType() != qx.constant.Event.DRAGSTART) {
     throw new Error("qx.event.type.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
-  };
+  }
 
   this.stopPropagation();
   qx.event.handler.DragAndDropHandler.startDrag();
-};
+}
 
 
 
@@ -94,19 +94,19 @@ qx.Proto.startDrag = function()
 
 qx.Proto.addData = function(sType, oData) {
   qx.event.handler.DragAndDropHandler.addData(sType, oData);
-};
+}
 
 qx.Proto.getData = function(sType) {
   return qx.event.handler.DragAndDropHandler.getData(sType);
-};
+}
 
 qx.Proto.clearData = function() {
   qx.event.handler.DragAndDropHandler.clearData();
-};
+}
 
 qx.Proto.getDropDataTypes = function() {
   return qx.event.handler.DragAndDropHandler.getDropDataTypes();
-};
+}
 
 
 
@@ -121,19 +121,19 @@ qx.Proto.getDropDataTypes = function() {
 
 qx.Proto.addAction = function(sAction) {
   qx.event.handler.DragAndDropHandler.addAction(sAction);
-};
+}
 
 qx.Proto.removeAction = function(sAction) {
   qx.event.handler.DragAndDropHandler.removeAction(sAction);
-};
+}
 
 qx.Proto.getAction = function() {
   return qx.event.handler.DragAndDropHandler.getCurrentAction();
-};
+}
 
 qx.Proto.clearActions = function() {
   qx.event.handler.DragAndDropHandler.clearActions();
-};
+}
 
 
 
@@ -151,9 +151,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._mouseEvent = null;
 
   return qx.event.type.MouseEvent.prototype.dispose.call(this);
-};
+}

@@ -89,13 +89,13 @@ qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.
 
 qx.Proto.hasContent = function() {
   return this._containerObject && this._containerObject.getChildrenLength() > 0;
-};
+}
 
 qx.Proto.open = function()
 {
   if (this.getOpen()) {
     return;
-  };
+  }
 
   if (this.hasContent())
   {
@@ -103,7 +103,7 @@ qx.Proto.open = function()
     if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWITHCONTENT)) {
       // ... then issue the event
       this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWITHCONTENT, this), true);
-    };
+    }
 
     this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
     qx.client.Timer.once(this._openCallback, this, 0);
@@ -114,32 +114,32 @@ qx.Proto.open = function()
     if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWHILEEMPTY)) {
       // ... then issue the event
       this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWHILEEMPTY, this), true);
-    };
+    }
 
     this.setOpen(true);
-  };
-};
+  }
+}
 
 qx.Proto.close = function() {
   // If there are listeners waiting for a treeClose event...
   if (this.getTree().hasEventListeners(qx.constant.Event.TREECLOSE)) {
     // ... then issue the event
     this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREECLOSE, this), true);
-  };
+  }
 
   this.setOpen(false);
-};
+}
 
 qx.Proto.toggle = function() {
   this.getOpen() ? this.close() : this.open();
-};
+}
 
 qx.Proto._openCallback = function()
 {
   this.setOpen(true);
   qx.ui.core.Widget.flushGlobalQueues();
   this.getTopLevelWidget().setGlobalCursor(null);
-};
+}
 
 
 
@@ -177,7 +177,7 @@ qx.Proto._createChildrenStructure = function()
 
     // We don't need the tree row structure any more.
     this._treeRowStructureFields = null;
-  };
+  }
 
   if (!this._containerObject)
   {
@@ -196,8 +196,8 @@ qx.Proto._createChildrenStructure = function()
 
     // remap remove* functions
     this.remapChildrenHandlingTo(this._containerObject);
-  };
-};
+  }
+}
 
 qx.Proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
 {
@@ -210,7 +210,7 @@ qx.Proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
     {
       if (vRelationChild) {
         vRelationIndex = vChildren.indexOf(vRelationChild);
-      };
+      }
 
       if (vRelationIndex == vChildren.length-1)
       {
@@ -227,11 +227,11 @@ qx.Proto._handleChildMove = function(vChild, vRelationIndex, vRelationChild)
         var vPreviousSibling = vChild.getPreviousVisibleSibling();
         if (vPreviousSibling) {
           vPreviousSibling._updateIndent();
-        };
-      };
-    };
-  };
-};
+        }
+      }
+    }
+  }
+}
 
 qx.Proto.addToFolder = function()
 {
@@ -239,8 +239,8 @@ qx.Proto.addToFolder = function()
 
   if (this._containerObject) {
     return this._containerObject.add.apply(this._containerObject, arguments);
-  };
-};
+  }
+}
 
 qx.Proto.addBeforeToFolder = function(vChild, vBefore)
 {
@@ -250,8 +250,8 @@ qx.Proto.addBeforeToFolder = function(vChild, vBefore)
   {
     this._handleChildMove(vChild, null, vBefore);
     return this._containerObject.addBefore.apply(this._containerObject, arguments);
-  };
-};
+  }
+}
 
 qx.Proto.addAfterToFolder = function(vChild, vAfter)
 {
@@ -261,8 +261,8 @@ qx.Proto.addAfterToFolder = function(vChild, vAfter)
   {
     this._handleChildMove(vChild, null, vAfter);
     return this._containerObject.addAfter.apply(this._containerObject, arguments);
-  };
-};
+  }
+}
 
 qx.Proto.addAtToFolder = function(vChild, vIndex)
 {
@@ -272,12 +272,12 @@ qx.Proto.addAtToFolder = function(vChild, vIndex)
   {
     this._handleChildMove(vChild, vIndex);
     return this._containerObject.addAt.apply(this._containerObject, arguments);
-  };
-};
+  }
+}
 
 qx.Proto.addAtBeginToFolder = function(vChild) {
   return this.addAtToFolder(vChild, 0);
-};
+}
 
 qx.Proto.addAtEndToFolder = function(vChild)
 {
@@ -295,9 +295,9 @@ qx.Proto.addAtEndToFolder = function(vChild)
     else
     {
       return this.addAtBeginToFolder(vChild);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
 
@@ -314,25 +314,25 @@ qx.Proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
 
 qx.Proto.getContainerObject = function() {
   return this._containerObject;
-};
+}
 
 qx.Proto.getHorizontalLayout = function() {
   return this._horizontalLayout;
-};
+}
 
 qx.Proto.getFirstVisibleChildOfFolder = function()
 {
   if (this._containerObject) {
     return this._containerObject.getFirstChild();
-  };
-};
+  }
+}
 
 qx.Proto.getLastVisibleChildOfFolder = function()
 {
   if (this._containerObject) {
     return this._containerObject.getLastChild();
-  };
-};
+  }
+}
 
 qx.Proto.getItems = function()
 {
@@ -344,11 +344,11 @@ qx.Proto.getItems = function()
 
     for (var i=0, chl=ch.length; i<chl; i++) {
       a = a.concat(ch[i].getItems());
-    };
-  };
+    }
+  }
 
   return a;
-};
+}
 
 
 
@@ -368,17 +368,17 @@ qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 
   if (this._containerObject) {
     this._containerObject.setDisplay(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
 {
   this._updateLastColumn();
 
   return true;
-};
+}
 
 qx.Proto._updateLastColumn = function()
 {
@@ -388,9 +388,9 @@ qx.Proto._updateLastColumn = function()
 
     if (vElement && vElement.firstChild) {
       vElement.firstChild.src = this.BASE_URI + this.getIndentSymbol(this.getTree().getUseTreeLines(), true) + ".gif";
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -415,7 +415,7 @@ qx.Proto._onmousedown = function(e)
       {
         this.getTree().getManager().handleMouseDown(this, e);
         this.toggle();
-      };
+      }
 
       break;
 
@@ -425,16 +425,16 @@ qx.Proto._onmousedown = function(e)
     case this:
       if (this._containerObject) {
         break;
-      };
+      }
 
       // no break here
 
     default:
       this.getTree().getManager().handleMouseDown(this, e);
-  };
+  }
 
   e.stopPropagation();
-};
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -450,19 +450,19 @@ qx.Proto._onmouseup = function(e)
     default:
       if (!this.getTree().getUseDoubleClick()) {
         this.open();
-      };
-  };
-};
+      }
+  }
+}
 
 qx.Proto._ondblclick = function(e)
 {
   if (!this.getTree().getUseDoubleClick()) {
     return;
-  };
+  }
 
   this.toggle();
   e.stopPropagation();
-};
+}
 
 
 
@@ -522,18 +522,18 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
       else
       {
         return this.getOpen() ? "cross_minus" : "cross_plus";
-      };
+      }
     }
     else if (vUseTreeLines)
     {
       return this.isLastChild() ? "end" : "cross";
-    };
+    }
   }
   else
   {
     return vUseTreeLines && !this.isLastChild() ? "line" : null;
-  };
-};
+  }
+}
 
 qx.Proto._updateIndent = function()
 {
@@ -541,13 +541,13 @@ qx.Proto._updateIndent = function()
 
   if (!this._containerObject) {
     return;
-  };
+  }
 
   var ch = this._containerObject.getVisibleChildren();
   for (var i=0, l=ch.length; i<l; i++) {
     ch[i]._updateIndent();
-  };
-};
+  }
+}
 
 
 
@@ -565,7 +565,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
 
@@ -573,13 +573,13 @@ qx.Proto.dispose = function()
   {
     this._horizontalLayout.dispose();
     this._horizontalLayout = null;
-  };
+  }
 
   if (this._containerObject)
   {
     this._containerObject.dispose();
     this._containerObject = null;
-  };
+  }
 
   return qx.ui.treefullcontrol.AbstractTreeElement.prototype.dispose.call(this);
-};
+}

@@ -30,11 +30,11 @@ qx.OO.defineClass("qx.lang.Number");
 
 qx.lang.Number.isInRange = function(nr, vmin, vmax) {
   return nr >= vmin && nr <= vmax;
-};
+}
 
 qx.lang.Number.isBetweenRange = function(nr, vmin, vmax) {
   return nr > vmin && nr < vmax;
-};
+}
 
 qx.lang.Number.limit = function(nr, vmin, vmax)
 {
@@ -49,5 +49,5 @@ qx.lang.Number.limit = function(nr, vmin, vmax)
   else
   {
     return nr;
-  };
-};
+  }
+}

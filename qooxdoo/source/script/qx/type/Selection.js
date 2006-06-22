@@ -50,19 +50,19 @@ function(vManager)
 
 qx.Proto.add = function(oItem) {
   this._storage[this.getItemHashCode(oItem)] = oItem;
-};
+}
 
 qx.Proto.remove = function(oItem) {
   delete this._storage[this.getItemHashCode(oItem)];
-};
+}
 
 qx.Proto.removeAll = function() {
-  this._storage = {};
-};
+  this._storage = {}
+}
 
 qx.Proto.contains = function(oItem) {
   return this.getItemHashCode(oItem) in this._storage;
-};
+}
 
 qx.Proto.toArray = function()
 {
@@ -70,17 +70,17 @@ qx.Proto.toArray = function()
 
   for (var key in this._storage) {
     res.push(this._storage[key]);
-  };
+  }
 
   return res;
-};
+}
 
 qx.Proto.getFirst = function()
 {
   for (var key in this._storage) {
     return this._storage[key];
-  };
-};
+  }
+}
 
 qx.Proto.getChangeValue = function()
 {
@@ -88,19 +88,19 @@ qx.Proto.getChangeValue = function()
 
   for (var hc in this._storage) {
     sb.push(hc);
-  };
+  }
 
   sb.sort();
   return sb.join(qx.constant.Core.SEMICOLON);
-};
+}
 
 qx.Proto.getItemHashCode = function(oItem) {
   return this._manager.getItemHashCode(oItem);
-};
+}
 
 qx.Proto.isEmpty = function() {
   return qx.lang.Object.isEmpty(this._storage);
-};
+}
 
 
 
@@ -115,10 +115,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._storage = null;
   this._manager = null;
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}

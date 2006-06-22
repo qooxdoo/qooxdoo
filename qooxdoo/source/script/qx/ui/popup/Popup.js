@@ -77,7 +77,7 @@ qx.Proto._beforeAppear = function()
 
   this._showTimeStamp = (new Date).valueOf();
   this.bringToFront();
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -86,7 +86,7 @@ qx.Proto._beforeDisappear = function()
   qx.manager.object.PopupManager.remove(this);
 
   this._hideTimeStamp = (new Date).valueOf();
-};
+}
 
 
 
@@ -100,7 +100,7 @@ qx.Proto._beforeDisappear = function()
 
 qx.Proto._makeActive = function() {
   this.getFocusRoot().setActiveChild(this);
-};
+}
 
 qx.Proto._makeInactive = function()
 {
@@ -109,8 +109,8 @@ qx.Proto._makeInactive = function()
 
   if (vCurrent == this) {
     vRoot.setActiveChild(vRoot);
-  };
-};
+  }
+}
 
 
 
@@ -124,7 +124,7 @@ qx.Proto._makeInactive = function()
 
 qx.Proto.isFocusable = function() {
   return false;
-};
+}
 
 
 
@@ -142,13 +142,13 @@ qx.Proto.bringToFront = function()
 {
   this.forceZIndex(Infinity);
   this._sendTo();
-};
+}
 
 qx.Proto.sendToBack = function()
 {
   this.forceZIndex(-Infinity);
   this._sendTo();
-};
+}
 
 qx.Proto._sendTo = function()
 {
@@ -161,8 +161,8 @@ qx.Proto._sendTo = function()
 
   for (var i=0; i<vLength; i++) {
     vAll[i].setZIndex(vIndex++);
-  };
-};
+  }
+}
 
 
 
@@ -177,11 +177,11 @@ qx.Proto._sendTo = function()
 
 qx.Proto.getShowTimeStamp = function() {
   return this._showTimeStamp;
-};
+}
 
 qx.Proto.getHideTimeStamp = function() {
   return this._hideTimeStamp;
-};
+}
 
 /*
 ---------------------------------------------------------------------------
@@ -198,7 +198,7 @@ qx.Proto.centerToBrowser = function()
 
   this.setLeft(left < 0 ? 0 : left);
   this.setTop(top < 0 ? 0 : top);
-};
+}
 
 
 
@@ -212,10 +212,10 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._showTimeStamp = null;
   this._hideTimeStamp = null;
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

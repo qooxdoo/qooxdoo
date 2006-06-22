@@ -102,7 +102,7 @@ function(vCaption, vIcon, vWindowManager)
     var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
     ci.setAppearance("window-captionbar-icon");
     cb.add(ci);
-  };
+  }
 
 
   // ************************************************************************
@@ -383,10 +383,10 @@ qx.ui.window.Window.getDefaultWindowManager = function()
 {
   if (!qx.ui.window.Window._defaultWindowManager) {
     qx.ui.window.Window._defaultWindowManager = new qx.manager.object.WindowManager;
-  };
+  }
 
   return qx.ui.window.Window._defaultWindowManager;
-};
+}
 
 
 
@@ -418,52 +418,52 @@ qx.ui.window.Window.MODE_MAXIMIZED = "maximized";
 
 qx.Proto.getPane = function() {
   return this._pane;
-};
+}
 
 qx.Proto.getCaptionBar = function() {
   return this._captionBar;
-};
+}
 
 qx.Proto.getStatusBar = function() {
   return this._statusBar;
-};
+}
 
 qx.Proto.close = function() {
   this.hide();
-};
+}
 
 qx.Proto.open = function(vOpener)
 {
   if (qx.util.Validation.isValid(vOpener)) {
     this.setOpener(vOpener);
-  };
+  }
 
   if (this.getCentered()) {
     this.centerToBrowser();
-  };
+  }
 
   this.show();
-};
+}
 
 qx.Proto.focus = function() {
   this.setActive(true);
-};
+}
 
 qx.Proto.blur = function() {
   this.setActive(false);
-};
+}
 
 qx.Proto.maximize = function() {
   this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
-};
+}
 
 qx.Proto.minimize = function() {
   this.setMode(qx.ui.window.Window.MODE_MINIMIZED);
-};
+}
 
 qx.Proto.restore = function() {
   this.setMode(null);
-};
+}
 
 
 
@@ -486,7 +486,7 @@ qx.Proto._beforeAppear = function()
 
   this.getWindowManager().add(this);
   this._makeActive();
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -498,11 +498,11 @@ qx.Proto._beforeDisappear = function()
   var vWidget = this.getTopLevelWidget().getEventManager().getCaptureWidget();
   if (vWidget && this.contains(vWidget)) {
     vWidget.setCapture(false);
-  };
+  }
 
   this.getWindowManager().remove(this);
   this._makeInactive();
-};
+}
 
 
 
@@ -524,8 +524,8 @@ qx.Proto._sendTo = function()
 
   for (var i=0; i<vLength; i++) {
     vAll[i].setZIndex(vIndex++);
-  };
-};
+  }
+}
 
 
 
@@ -544,11 +544,11 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
   {
     if (this.getFocused()) {
       this.setFocused(false);
-    };
+    }
 
     if (this.getWindowManager().getActiveWindow() == this) {
       this.getWindowManager().setActiveWindow(null);
-    };
+    }
 
     this.removeState(qx.ui.window.Window.STATE_ACTIVE);
     this._captionBar.removeState(qx.ui.window.Window.STATE_ACTIVE);
@@ -560,17 +560,17 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
     // away from any focused child.
     if (!this.getFocusedChild()) {
       this.setFocused(true);
-    };
+    }
 
     this.getWindowManager().setActiveWindow(this);
     this.bringToFront();
 
     this.addState(qx.ui.window.Window.STATE_ACTIVE);
     this._captionBar.addState(qx.ui.window.Window.STATE_ACTIVE);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyModal = function(propValue, propOldValue, propData)
 {
@@ -579,26 +579,26 @@ qx.Proto._modifyModal = function(propValue, propOldValue, propData)
   {
     var vTop = this.getTopLevelWidget();
     propValue ? vTop.block(this) : vTop.release(this);
-  };
+  }
 
   // Disallow minimize and close for modal dialogs
   this._closeButtonManager();
   this._minimizeButtonManager();
 
   return true;
-};
+}
 
 qx.Proto._modifyAllowClose = function(propValue, propOldValue, propData) {
   return this._closeButtonManager();
-};
+}
 
 qx.Proto._modifyAllowMaximize = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
-};
+}
 
 qx.Proto._modifyAllowMinimize = function(propValue, propOldValue, propData) {
   return this._minimizeButtonManager();
-};
+}
 
 qx.Proto._modifyMode = function(propValue, propOldValue, propData)
 {
@@ -622,11 +622,11 @@ qx.Proto._modifyMode = function(propValue, propOldValue, propData)
         case qx.ui.window.Window.MODE_MINIMIZED:
           this._restoreFromMinimized();
           break;
-      };
-  };
+      }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowCaption = function(propValue, propOldValue, propData)
 {
@@ -637,10 +637,10 @@ qx.Proto._modifyShowCaption = function(propValue, propOldValue, propData)
   else
   {
     this._captionBar.remove(this._captionTitle);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowIcon = function(propValue, propOldValue, propData)
 {
@@ -651,10 +651,10 @@ qx.Proto._modifyShowIcon = function(propValue, propOldValue, propData)
   else
   {
     this._captionBar.remove(this._captionIcon);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
 {
@@ -665,10 +665,10 @@ qx.Proto._modifyShowStatusbar = function(propValue, propOldValue, propData)
   else
   {
     this._layout.remove(this._statusBar);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowClose = function(propValue, propOldValue, propData)
 {
@@ -679,10 +679,10 @@ qx.Proto._modifyShowClose = function(propValue, propOldValue, propData)
   else
   {
     this._captionBar.remove(this._closeButton);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
@@ -697,16 +697,16 @@ qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
     else
     {
       this._captionBar.addAfter(t, this._captionFlex);
-    };
+    }
   }
   else
   {
     this._captionBar.remove(this._maximizeButton);
     this._captionBar.remove(this._restoreButton);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowMinimize = function(propValue, propOldValue, propData)
 {
@@ -717,24 +717,24 @@ qx.Proto._modifyShowMinimize = function(propValue, propOldValue, propData)
   else
   {
     this._captionBar.remove(this._minimizeButton);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._minimizeButtonManager = function()
 {
   this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
 
   return true;
-};
+}
 
 qx.Proto._closeButtonManager = function()
 {
   this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
 
   return true;
-};
+}
 
 qx.Proto._maximizeButtonManager = function()
 {
@@ -744,32 +744,32 @@ qx.Proto._maximizeButtonManager = function()
   this._restoreButton.setEnabled(b);
 
   return true;
-};
+}
 
 qx.Proto._modifyStatus = function(propValue, propOldValue, propData)
 {
   this._statusText.setHtml(propValue);
 
   return true;
-};
+}
 
 qx.Proto._modifyMaxWidth = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
-};
+}
 
 qx.Proto._modifyMaxHeight = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
-};
+}
 
 qx.Proto._modifyResizeable = function(propValue, propOldValue, propData) {
   return this._maximizeButtonManager();
-};
+}
 
 qx.Proto._modifyCaption = function(propValue, propOldValue, propData)
 {
   this._captionTitle.setHtml(propValue);
   return true;
-};
+}
 
 
 
@@ -785,7 +785,7 @@ qx.Proto._minimize = function()
 {
   this.blur();
   this.hide();
-};
+}
 
 qx.Proto._restoreFromMaximized = function()
 {
@@ -809,17 +809,17 @@ qx.Proto._restoreFromMaximized = function()
 
     cb.remove(this._restoreButton);
     cb.addAt(this._maximizeButton, v);
-  };
+  }
 
   // finally focus the window
   this.focus();
-};
+}
 
 qx.Proto._restoreFromMinimized = function()
 {
   this.show();
   this.focus();
-};
+}
 
 qx.Proto._maximize = function()
 {
@@ -850,11 +850,11 @@ qx.Proto._maximize = function()
 
     cb.remove(this._maximizeButton);
     cb.addAt(this._restoreButton, v);
-  };
+  }
 
   // finally focus the window
   this.focus();
-};
+}
 
 
 
@@ -906,7 +906,7 @@ qx.Proto._onwindowmousedown = function(e)
         {
           f.setParent(this.getParent());
           qx.ui.core.Widget.flushGlobalQueues();
-        };
+        }
 
         f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
         f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
@@ -917,16 +917,16 @@ qx.Proto._onwindowmousedown = function(e)
         f.setZIndex(this.getZIndex() + 1);
 
         break;
-    };
+    }
 
     // create resize session
-    var s = this._resizeSession = {};
+    var s = this._resizeSession = {}
 
     if (this._resizeWest)
     {
       s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
       s.boxRight = qx.dom.DomLocation.getPageBoxRight(el);
-    };
+    }
 
     if (this._resizeWest || this._resizeEast)
     {
@@ -937,13 +937,13 @@ qx.Proto._onwindowmousedown = function(e)
 
       s.minWidth = this.getMinWidthValue();
       s.maxWidth = this.getMaxWidthValue();
-    };
+    }
 
     if (this._resizeNorth)
     {
       s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
       s.boxBottom = qx.dom.DomLocation.getPageBoxBottom(el);
-    };
+    }
 
     if (this._resizeNorth || this._resizeSouth)
     {
@@ -954,14 +954,14 @@ qx.Proto._onwindowmousedown = function(e)
 
       s.minHeight = this.getMinHeightValue();
       s.maxHeight = this.getMaxHeightValue();
-    };
+    }
   }
   else
   {
     // cleanup resize session
     delete this._resizeSession;
-  };
-};
+  }
+}
 
 qx.Proto._onwindowmouseup = function(e)
 {
@@ -982,35 +982,35 @@ qx.Proto._onwindowmouseup = function(e)
         var o = this._frame;
         if (!(o && o.getParent())) {
           break;
-        };
+        }
         // no break here
 
       case qx.ui.window.Window.MODE_LAZYOPAQUE:
         if (qx.util.Validation.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
-        };
+        }
 
         if (qx.util.Validation.isValidNumber(s.lastTop)) {
           this.setTop(s.lastTop);
-        };
+        }
 
         if (qx.util.Validation.isValidNumber(s.lastWidth)) {
           this.setWidth(s.lastWidth);
-        };
+        }
 
         if (qx.util.Validation.isValidNumber(s.lastHeight)) {
           this.setHeight(s.lastHeight);
-        };
+        }
 
         if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
           this._frame.setParent(null);
-        };
+        }
         break;
 
       case qx.ui.window.Window.MODE_TRANSLUCENT:
         this.setOpacity(null);
         break;
-    };
+    }
 
     // cleanup session
     delete this._resizeNorth;
@@ -1019,18 +1019,18 @@ qx.Proto._onwindowmouseup = function(e)
     delete this._resizeWest;
 
     delete this._resizeSession;
-  };
-};
+  }
+}
 
 qx.Proto._near = function(p, e) {
   return e > (p - 5) && e < (p + 5);
-};
+}
 
 qx.Proto._onwindowmousemove = function(e)
 {
   if (!this.getResizeable() || this.getMode() != null) {
     return;
-  };
+  }
 
   var s = this._resizeSession;
 
@@ -1044,7 +1044,7 @@ qx.Proto._onwindowmousemove = function(e)
     else if (this._resizeEast)
     {
       s.lastWidth = qx.lang.Number.limit(Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
-    };
+    }
 
     if (this._resizeNorth)
     {
@@ -1054,7 +1054,7 @@ qx.Proto._onwindowmousemove = function(e)
     else if (this._resizeSouth)
     {
       s.lastHeight = qx.lang.Number.limit(Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
-    };
+    }
 
     switch(this.getResizeMethod())
     {
@@ -1066,8 +1066,8 @@ qx.Proto._onwindowmousemove = function(e)
 
           if (this._resizeWest) {
             this.setLeft(s.lastLeft);
-          };
-        };
+          }
+        }
 
         if (this._resizeNorth || this._resizeSouth)
         {
@@ -1075,8 +1075,8 @@ qx.Proto._onwindowmousemove = function(e)
 
           if (this._resizeNorth) {
             this.setTop(s.lastTop);
-          };
-        };
+          }
+        }
 
         break;
 
@@ -1089,8 +1089,8 @@ qx.Proto._onwindowmousemove = function(e)
 
           if (this._resizeWest) {
             o._applyRuntimeLeft(s.lastLeft);
-          };
-        };
+          }
+        }
 
         if (this._resizeNorth || this._resizeSouth)
         {
@@ -1098,9 +1098,9 @@ qx.Proto._onwindowmousemove = function(e)
 
           if (this._resizeNorth) {
             o._applyRuntimeTop(s.lastTop);
-          };
-        };
-    };
+          }
+        }
+    }
   }
   else
   {
@@ -1118,7 +1118,7 @@ qx.Proto._onwindowmousemove = function(e)
     {
       resizeMode = "s";
       this._resizeSouth = true;
-    };
+    }
 
     if (this._near(qx.dom.DomLocation.getPageBoxLeft(el), e.getPageX()))
     {
@@ -1129,7 +1129,7 @@ qx.Proto._onwindowmousemove = function(e)
     {
       resizeMode += "e";
       this._resizeEast = true;
-    };
+    }
 
     if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
     {
@@ -1138,11 +1138,11 @@ qx.Proto._onwindowmousemove = function(e)
     else
     {
       this.setCursor(null);
-    };
-  };
+    }
+  }
 
   e.preventDefault();
-};
+}
 
 
 
@@ -1158,7 +1158,7 @@ qx.Proto._onwindowmousemove = function(e)
 
 qx.Proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
-};
+}
 
 qx.Proto._onminimizebuttonclick = function(e)
 {
@@ -1171,7 +1171,7 @@ qx.Proto._onminimizebuttonclick = function(e)
   this._minimizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
-};
+}
 
 qx.Proto._onrestorebuttonclick = function(e)
 {
@@ -1184,7 +1184,7 @@ qx.Proto._onrestorebuttonclick = function(e)
   this._restoreButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
-};
+}
 
 qx.Proto._onmaximizebuttonclick = function(e)
 {
@@ -1197,7 +1197,7 @@ qx.Proto._onmaximizebuttonclick = function(e)
   this._maximizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
-};
+}
 
 qx.Proto._onclosebuttonclick = function(e)
 {
@@ -1210,7 +1210,7 @@ qx.Proto._onclosebuttonclick = function(e)
   this._closeButton.removeState(qx.ui.core.Widget.STATE_OVER);
 
   e.stopPropagation();
-};
+}
 
 
 
@@ -1228,7 +1228,7 @@ qx.Proto._oncaptionmousedown = function(e)
 {
   if (!e.isLeftButtonPressed() || !this.getMoveable() || this.getMode() != null) {
     return;
-  };
+  }
 
   // enable capturing
   this._captionBar.setCapture(true);
@@ -1254,7 +1254,7 @@ qx.Proto._oncaptionmousedown = function(e)
     parentAvailableAreaTop : t + 5,
     parentAvailableAreaRight : r - 5,
     parentAvailableAreaBottom : b - 5
-  };
+  }
 
   // handle frame and translucently
   switch(this.getMoveMethod())
@@ -1270,7 +1270,7 @@ qx.Proto._oncaptionmousedown = function(e)
       {
         f.setParent(this.getParent());
         qx.ui.core.Widget.flushGlobalQueues();
-      };
+      }
 
       f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
       f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
@@ -1281,8 +1281,8 @@ qx.Proto._oncaptionmousedown = function(e)
       f.setZIndex(this.getZIndex() + 1);
 
       break;
-  };
-};
+  }
+}
 
 qx.Proto._oncaptionmouseup = function(e)
 {
@@ -1290,7 +1290,7 @@ qx.Proto._oncaptionmouseup = function(e)
 
   if (!s) {
     return;
-  };
+  }
 
   // disable capturing
   this._captionBar.setCapture(false);
@@ -1298,11 +1298,11 @@ qx.Proto._oncaptionmouseup = function(e)
   // move window to last position
   if (qx.util.Validation.isValidNumber(s.lastX)) {
     this.setLeft(s.lastX);
-  };
+  }
 
   if (qx.util.Validation.isValidNumber(s.lastY)) {
     this.setTop(s.lastY);
-  };
+  }
 
   // handle frame and translucently
   switch(this.getMoveMethod())
@@ -1314,11 +1314,11 @@ qx.Proto._oncaptionmouseup = function(e)
     case qx.ui.window.Window.MODE_FRAME:
       this._frame.setParent(null);
       break;
-  };
+  }
 
   // cleanup session
   delete this._dragSession;
-};
+}
 
 qx.Proto._oncaptionmousemove = function(e)
 {
@@ -1327,12 +1327,12 @@ qx.Proto._oncaptionmousemove = function(e)
   // pre check for active session and capturing
   if (!s || !this._captionBar.getCapture()) {
     return;
-  };
+  }
 
   // pre check if we go out of the available area
   if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
     return;
-  };
+  }
 
   // use the fast and direct dom methods
   var o = this.getMoveMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
@@ -1341,16 +1341,16 @@ qx.Proto._oncaptionmousemove = function(e)
   o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
 
   e.preventDefault();
-};
+}
 
 qx.Proto._oncaptiondblblick = function()
 {
   if (!this._maximizeButton.getEnabled()) {
     return;
-  };
+  }
 
   return this.getMode() == qx.ui.window.Window.MODE_MAXIMIZED ? this.restore() : this.maximize();
-};
+}
 
 
 
@@ -1369,85 +1369,85 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._layout)
   {
     this._layout.dispose();
     this._layout = null;
-  };
+  }
 
   if (this._frame)
   {
     this._frame.dispose();
     this._frame = null;
-  };
+  }
 
   if (this._captionBar)
   {
     this._captionBar.dispose();
     this._captionBar = null;
-  };
+  }
 
   if (this._captionIcon)
   {
     this._captionIcon.dispose();
     this._captionIcon = null;
-  };
+  }
 
   if (this._captionTitle)
   {
     this._captionTitle.dispose();
     this._captionTitle = null;
-  };
+  }
 
   if (this._captionFlex)
   {
     this._captionFlex.dispose();
     this._captionFlex = null;
-  };
+  }
 
   if (this._closeButton)
   {
     this._closeButton.dispose();
     this._closeButton = null;
-  };
+  }
 
   if (this._minimizeButton)
   {
     this._minimizeButton.dispose();
     this._minimizeButton = null;
-  };
+  }
 
   if (this._maximizeButton)
   {
     this._maximizeButton.dispose();
     this._maximizeButton = null;
-  };
+  }
 
   if (this._restoreButton)
   {
     this._restoreButton.dispose();
     this._restoreButton = null;
-  };
+  }
 
   if (this._pane)
   {
     this._pane.dispose();
     this._pane = null;
-  };
+  }
 
   if (this._statusBar)
   {
     this._statusBar.dispose();
     this._statusBar = null;
-  };
+  }
 
   if (this._statusText)
   {
     this._statusText.dispose();
     this._statusText = null;
-  };
+  }
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
-};
+}

@@ -50,7 +50,7 @@ qx.Proto.handleLogEvent = function(evt) {
   if (this.decideLogEvent(evt) != qx.dev.log.Filter.DENY) {
     this.appendLogEvent(evt);
   }
-};
+}
 
 
 /**
@@ -60,7 +60,7 @@ qx.Proto.handleLogEvent = function(evt) {
  */
 qx.Proto.appendLogEvent = function(evt) {
   throw new Error("appendLogEvent is abstract");
-};
+}
 
 
 /**
@@ -163,7 +163,7 @@ qx.Proto.formatLogEvent = function(evt) {
   }
 
   return text;
-};
+}
 
 
 /**
@@ -188,4 +188,4 @@ qx.Proto._beautyStackTrace = function(stack) {
     out += "  at " + className + ":" + lineNumber + "\n";
   }
   return out;
-};
+}

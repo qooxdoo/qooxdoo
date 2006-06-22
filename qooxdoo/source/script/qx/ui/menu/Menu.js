@@ -115,7 +115,7 @@ qx.OO.addProperty({ name : "indentShortcuts", type : qx.constant.Type.BOOLEAN, d
 
 qx.Proto.getLayout = function() {
   return this._layout;
-};
+}
 
 
 
@@ -141,7 +141,7 @@ qx.Proto._beforeAppear = function()
 
   //setup as global active widget
   this._makeActive();
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -161,8 +161,8 @@ qx.Proto._beforeDisappear = function()
   var vOpener = this.getOpener();
   if (vOpener) {
     vOpener.removeState(qx.ui.form.Button.STATE_PRESSED);
-  };
-};
+  }
+}
 
 
 
@@ -179,14 +179,14 @@ qx.Proto._modifyHoverItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.removeState(qx.ui.core.Widget.STATE_OVER);
-  };
+  }
 
   if (propValue) {
     propValue.addState(qx.ui.core.Widget.STATE_OVER);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
 {
@@ -201,8 +201,8 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
       vOldSub.setParentMenu(null);
       vOldSub.setOpener(null);
       vOldSub.hide();
-    };
-  };
+    }
+  }
 
   if (propValue)
   {
@@ -222,11 +222,11 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
       vSub.show();
 
       qx.ui.core.Widget.flushGlobalQueues();
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 
@@ -278,11 +278,11 @@ qx.Proto._computeMaxIconWidth = function()
 
     if (chc.hasIcon()) {
       m = Math.max(m, chc.getIconObject().getPreferredBoxWidth());
-    };
-  };
+    }
+  }
 
   return m;
-};
+}
 
 qx.Proto._computeMaxLabelWidth = function()
 {
@@ -294,11 +294,11 @@ qx.Proto._computeMaxLabelWidth = function()
 
     if (chc.hasLabel()) {
       m = Math.max(m, chc.getLabelObject().getPreferredBoxWidth());
-    };
-  };
+    }
+  }
 
   return m;
-};
+}
 
 qx.Proto._computeMaxLabelWidthIncShortcut = function()
 {
@@ -310,11 +310,11 @@ qx.Proto._computeMaxLabelWidthIncShortcut = function()
 
     if (chc.hasLabel() && chc.hasShortcut()) {
       m = Math.max(m, chc.getLabelObject().getPreferredBoxWidth());
-    };
-  };
+    }
+  }
 
   return m;
-};
+}
 
 qx.Proto._computeMaxShortcutWidth = function()
 {
@@ -326,11 +326,11 @@ qx.Proto._computeMaxShortcutWidth = function()
 
     if (chc.hasShortcut()) {
       m = Math.max(m, chc.getShortcutObject().getPreferredBoxWidth());
-    };
-  };
+    }
+  }
 
   return m;
-};
+}
 
 qx.Proto._computeMaxArrowWidth = function()
 {
@@ -342,11 +342,11 @@ qx.Proto._computeMaxArrowWidth = function()
 
     if (chc.hasMenu()) {
       m = Math.max(m, chc.getArrowObject().getPreferredBoxWidth());
-    };
-  };
+    }
+  }
 
   return m;
-};
+}
 
 qx.Proto._computeMaxContentWidth = function()
 {
@@ -361,7 +361,7 @@ qx.Proto._computeMaxContentWidth = function()
 
     if (sw > 0) {
       vTemp += this.getLabelShortcutGap();
-    };
+    }
 
     vSum = Math.max(lw, vTemp);
   }
@@ -371,11 +371,11 @@ qx.Proto._computeMaxContentWidth = function()
 
     if (lw > 0 && sw > 0) {
       vSum += this.getLabelShortcutGap();
-    };
-  };
+    }
+  }
 
   return vSum;
-};
+}
 
 
 
@@ -392,23 +392,23 @@ qx.Proto._computeMaxContentWidth = function()
 
 qx.Proto._computeIconPosition = function() {
   return 0;
-};
+}
 
 qx.Proto._computeLabelPosition = function()
 {
   var v = this.getMaxIconWidth();
   return v > 0 ? v + this.getIconContentGap() : this.getContentNonIconPadding();
-};
+}
 
 qx.Proto._computeShortcutPosition = function() {
   return this.getLabelPosition() + this.getMaxContentWidth() - this.getMaxShortcutWidth();
-};
+}
 
 qx.Proto._computeArrowPosition = function()
 {
   var v = this.getMaxContentWidth();
   return this.getLabelPosition() + (v > 0 ? v + this.getContentArrowGap() : v);
-};
+}
 
 
 
@@ -429,7 +429,7 @@ qx.Proto._invalidateMaxIconWidth = function()
 
   this._invalidateLabelPosition();
   this._invalidateMenuButtonNeededWidth();
-};
+}
 
 qx.Proto._invalidateMaxLabelWidth = function()
 {
@@ -439,7 +439,7 @@ qx.Proto._invalidateMaxLabelWidth = function()
   this._invalidateMaxLabelWidthIncShortcut();
   this._invalidateMaxContentWidth();
   this._invalidateMenuButtonNeededWidth();
-};
+}
 
 qx.Proto._invalidateMaxShortcutWidth = function()
 {
@@ -448,25 +448,25 @@ qx.Proto._invalidateMaxShortcutWidth = function()
   this._invalidateArrowPosition();
   this._invalidateMaxContentWidth();
   this._invalidateMenuButtonNeededWidth();
-};
+}
 
 qx.Proto._invalidateMaxLabelWidth = function()
 {
   this._cachedMaxArrowWidth = null;
   this._invalidateMenuButtonNeededWidth();
-};
+}
 
 qx.Proto._invalidateLabelPosition = function()
 {
   this._cachedLabelPosition = null;
   this._invalidateShortcutPosition();
-};
+}
 
 qx.Proto._invalidateShortcutPosition = function()
 {
   this._cachedShortcutPosition = null;
   this._invalidateArrowPosition();
-};
+}
 
 
 
@@ -495,32 +495,32 @@ qx.Proto._computeMenuButtonNeededWidth = function()
   else
   {
     vSum += this.getContentNonIconPadding();
-  };
+  }
 
   if (vMaxContent > 0)
   {
     if (vMaxIcon > 0) {
       vSum += this.getIconContentGap();
-    };
+    }
 
     vSum += vMaxContent;
-  };
+  }
 
   if (vMaxArrow > 0)
   {
     if (vMaxIcon > 0 || vMaxContent > 0) {
       vSum += this.getContentArrowGap();
-    };
+    }
 
     vSum += vMaxArrow;
   }
   else
   {
     vSum += this.getContentNonArrowPadding();
-  };
+  }
 
   return vSum;
-};
+}
 
 
 
@@ -556,8 +556,8 @@ qx.Proto._onmouseover = function(e)
     // then setup it to look hovered
     if (vOpener) {
       vParent.setHoverItem(vOpener);
-    };
-  };
+    }
+  }
 
 
 
@@ -576,7 +576,7 @@ qx.Proto._onmouseover = function(e)
     this.setHoverItem(null);
 
     return;
-  };
+  }
 
 
 
@@ -607,14 +607,14 @@ qx.Proto._onmouseover = function(e)
       else
       {
         this._openTimer.start();
-      };
+      }
     }
 
     // otherwise start the close timer for the old menu
     else
     {
       this._closeTimer.start();
-    };
+    }
   }
 
   // otherwise handle the mouseover and restart the timer
@@ -628,9 +628,9 @@ qx.Proto._onmouseover = function(e)
     // and restart it if the new one has a menu, too
     if (t.hasMenu()) {
       this._openTimer.start();
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._onmouseout = function(e)
 {
@@ -641,11 +641,11 @@ qx.Proto._onmouseout = function(e)
   var t = e.getTarget();
   if (t != this && t.hasMenu()) {
     this._closeTimer.start();
-  };
+  }
 
   // reset the current hover item
   this.setHoverItem(null);
-};
+}
 
 qx.Proto._onopentimer = function(e)
 {
@@ -656,8 +656,8 @@ qx.Proto._onopentimer = function(e)
   var vHover = this.getHoverItem();
   if (vHover && vHover.hasMenu()) {
     this.setOpenItem(vHover);
-  };
-};
+  }
+}
 
 qx.Proto._onclosetimer = function(e)
 {
@@ -666,7 +666,7 @@ qx.Proto._onclosetimer = function(e)
 
   // reset the current opened item
   this.setOpenItem(null);
-};
+}
 
 /*!
   Wraps key events to target functions
@@ -697,11 +697,11 @@ qx.Proto._onkeydown = function(e)
 
     default:
       return;
-  };
+  }
 
   // Stop all matching events
   e.preventDefault();
-};
+}
 
 qx.Proto._onkeydown_up = function(e)
 {
@@ -709,7 +709,7 @@ qx.Proto._onkeydown_up = function(e)
   var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
 
   this.setHoverItem(vPrev);
-};
+}
 
 qx.Proto._onkeydown_down = function(e)
 {
@@ -717,7 +717,7 @@ qx.Proto._onkeydown_down = function(e)
   var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
 
   this.setHoverItem(vNext);
-};
+}
 
 qx.Proto._onkeydown_left = function(e)
 {
@@ -744,8 +744,8 @@ qx.Proto._onkeydown_left = function(e)
 
     // execute toolbars keydown implementation
     vToolBar._onkeydown(e);
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown_right = function(e)
 {
@@ -763,7 +763,7 @@ qx.Proto._onkeydown_right = function(e)
       vMenu.setHoverItem(vMenu.getFirstActiveChild());
 
       return;
-    };
+    }
   }
   else if (!this.getOpenItem())
   {
@@ -771,8 +771,8 @@ qx.Proto._onkeydown_right = function(e)
 
     if (vFirst) {
       vFirst.hasMenu() ? this.setOpenItem(vFirst) : this.setHoverItem(vFirst);
-    };
-  };
+    }
+  }
 
   // Jump to the next ToolBarMenuButton
   var vOpener = this.getOpener();
@@ -806,34 +806,34 @@ qx.Proto._onkeydown_right = function(e)
       {
         if (vOpener) {
           vOpenerParent = vOpener.getParent();
-        };
+        }
 
         break;
-      };
-    };
+      }
+    }
 
     if (vOpenerParent instanceof qx.ui.toolbar.ToolBarPart) {
       vOpenerParent = vOpenerParent.getParent();
-    };
+    }
 
     if (vOpenerParent instanceof qx.ui.toolbar.ToolBar)
     {
       // jump to next menubarbutton
       this.getFocusRoot().setActiveChild(vOpenerParent);
       vOpenerParent._onkeydown(e);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._onkeydown_enter = function(e)
 {
   var vHover = this.getHoverItem();
   if (vHover) {
     vHover.execute();
-  };
+  }
 
   qx.manager.object.MenuManager.update();
-};
+}
 
 
 
@@ -850,25 +850,25 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._layout)
   {
     this._layout.dispose();
     this._layout = null;
-  };
+  }
 
   if (this._openTimer)
   {
     this._openTimer.dispose();
     this._openTimer = null;
-  };
+  }
 
   if (this._closeTimer)
   {
     this._closeTimer.dispose();
     this._closeTimer = null;
-  };
+  }
 
   // Remove event listeners
   this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
@@ -878,4 +878,4 @@ qx.Proto.dispose = function()
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
-};
+}

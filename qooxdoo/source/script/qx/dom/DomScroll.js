@@ -37,10 +37,10 @@ qx.dom.DomScroll.getLeftSum = function(el)
   {
     sum += p.scrollLeft;
     p = p.parentNode;
-  };
+  }
 
   return sum;
-};
+}
 
 qx.dom.DomScroll.getTopSum = function(el)
 {
@@ -51,7 +51,7 @@ qx.dom.DomScroll.getTopSum = function(el)
   {
     sum += p.scrollTop;
     p = p.parentNode;
-  };
+  }
 
   return sum;
-};
+}

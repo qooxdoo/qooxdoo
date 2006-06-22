@@ -59,11 +59,11 @@ qx.OO.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompu
 
 qx.Proto.preventDefault = function() {
   this.setDefaultPrevented(true);
-};
+}
 
 qx.Proto.stopPropagation = function() {
   this.setPropagationStopped(true);
-};
+}
 
 
 
@@ -78,7 +78,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   this._valueOriginalTarget = null;
   this._valueTarget = null;
@@ -86,4 +86,4 @@ qx.Proto.dispose = function()
   this._valueCurrentTarget = null;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

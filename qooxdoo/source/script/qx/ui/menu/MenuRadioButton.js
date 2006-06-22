@@ -73,33 +73,33 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
     else if (vManager.getSelected() == this)
     {
       vManager.setSelected(null);
-    };
-  };
+    }
+  }
 
   return qx.ui.menu.MenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue) {
     propValue.add(this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this.getManager()) {
     this.getManager().setName(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -115,4 +115,4 @@ qx.Proto.execute = function()
 {
   this.setChecked(true);
   qx.ui.menu.MenuButton.prototype.execute.call(this);
-};
+}

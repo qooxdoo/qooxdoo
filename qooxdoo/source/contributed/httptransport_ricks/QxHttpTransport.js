@@ -205,7 +205,7 @@ qx.Proto._lastReadyState = 0;
  * _requestHeaders - Hash containing headers to be added to the request 
  */
 
-qx.Proto._requestHeaders = {};
+qx.Proto._requestHeaders = {}
 
 /*! _req - Holds the XMLHttpRequest object used to actually make requests */
 

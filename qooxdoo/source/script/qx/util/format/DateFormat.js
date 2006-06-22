@@ -56,7 +56,7 @@ qx.Proto._fillNumber = function(number, minSize) {
     str = "0" + str;
   }
   return str;
-};
+}
 
 
 /**
@@ -74,7 +74,7 @@ qx.Proto._getDayInYear = function(date) {
     day += helpDate.getDate() + 1;
   }
   return day;
-};
+}
 
 
 /**
@@ -111,7 +111,7 @@ qx.Proto._getWeekInYear = function(date) {
   var thursdayWeek1 = this._thursdayOfSameWeek(new Date(weekYear, 0, 4));
   // Calculate the calendar week
   return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7)
-};
+}
 
 
 /**
@@ -222,7 +222,7 @@ qx.Proto.format = function(date) {
   }
 
   return output;
-};
+}
 
 
 /**
@@ -247,7 +247,7 @@ qx.Proto.parse = function(dateStr) {
   }
 
   // Apply the rules
-  var dateValues = { year:1970, month:0, day:1, hour:0, ispm:false, min:0, sec:0, ms:0 };
+  var dateValues = { year:1970, month:0, day:1, hour:0, ispm:false, min:0, sec:0, ms:0 }
   var currGroup = 1;
   for (var i = 0; i < this._parseFeed.usedRules.length; i++) {
     var rule = this._parseFeed.usedRules[i];
@@ -407,8 +407,8 @@ qx.Proto._initParseFeed = function() {
   }
 
   // Create the this._parseFeed
-  this._parseFeed = { regex:regex, "usedRules":usedRules, pattern:pattern };
-};
+  this._parseFeed = { regex:regex, "usedRules":usedRules, pattern:pattern }
+}
 
 
 /**
@@ -433,7 +433,7 @@ qx.Proto._initParseRules = function() {
     }
 
     dateValues.year = value;
-  };
+  }
 
   var monthManipulator = function(dateValues, value) {
     dateValues.month = parseInt(value, 10) - 1;
@@ -481,7 +481,7 @@ qx.Proto._initParseRules = function() {
   DateFormat._parseRules.push({ pattern:"SSS",  regex:"(\\d\\d?\\d?)", field:"ms" });
   DateFormat._parseRules.push({ pattern:"SS",   regex:"(\\d\\d?\\d?)", field:"ms" });
   DateFormat._parseRules.push({ pattern:"S",    regex:"(\\d\\d?\\d?)", field:"ms" });
-};
+}
 
 
 /**
@@ -497,7 +497,7 @@ qx.Class.getDateTimeInstance = function() {
     DateFormat._dateTimeInstance = new DateFormat();
   }
   return DateFormat._dateTimeInstance;
-};
+}
 
 
 /**
@@ -513,7 +513,7 @@ qx.Class.getDateInstance = function() {
     DateFormat._dateInstance = new DateFormat(DateFormat.DEFAULT_DATE_FORMAT);
   }
   return DateFormat._dateInstance;
-};
+}
 
 
 /**

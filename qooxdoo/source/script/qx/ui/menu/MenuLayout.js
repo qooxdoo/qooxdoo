@@ -57,4 +57,4 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.MenuLayoutImpl(this);
-};
+}

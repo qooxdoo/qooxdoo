@@ -43,7 +43,7 @@ function(vAutoDispose)
 
   if (vAutoDispose !== false) {
     qx.core.Object._db.push(this);
-  };
+  }
 });
 
 
@@ -60,10 +60,10 @@ qx.Class.toHashCode = function(o)
 {
   if(o._hashCode != null) {
     return o._hashCode;
-  };
+  }
 
   return o._hashCode = qx.core.Object._counter++;
-};
+}
 
 qx.Class.dispose = function()
 {
@@ -82,11 +82,11 @@ qx.Class.dispose = function()
       // logger.debug("Disposing: " + vObject);
       vObject.dispose();
       qx.core.Object._db[i] = null;
-    };
-  };
+    }
+  }
 
   // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
-};
+}
 
 qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
@@ -112,31 +112,31 @@ qx.Proto.toString = function()
 {
   if(this.classname) {
     return "[object " + this.classname + "]";
-  };
+  }
 
   return "[object Object]";
-};
+}
 
 /*!
   Return unique hash code of object
 */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
-};
+}
 
 /*!
   Returns true if the object is disposed.
 */
 qx.Proto.getDisposed = function() {
   return this._disposed;
-};
+}
 
 /*!
   Returns true if the object is disposed.
 */
 qx.Proto.isDisposed = function() {
   return this._disposed;
-};
+}
 
 
 
@@ -157,7 +157,7 @@ qx.Proto.isDisposed = function() {
  */
 qx.Proto.getLogger = function() {
   return qx.dev.log.Logger.getClassLogger(this.constructor);
-};
+}
 
 
 /**
@@ -169,7 +169,7 @@ qx.Proto.getLogger = function() {
  */
 qx.Proto.debug = function(msg, exc) {
   this.getLogger().debug(msg, this._hashCode, exc);
-};
+}
 
 
 /**
@@ -181,7 +181,7 @@ qx.Proto.debug = function(msg, exc) {
  */
 qx.Proto.info = function(msg, exc) {
   this.getLogger().info(msg, this._hashCode, exc);
-};
+}
 
 
 /**
@@ -193,7 +193,7 @@ qx.Proto.info = function(msg, exc) {
  */
 qx.Proto.warn = function(msg, exc) {
   this.getLogger().warn(msg, this._hashCode, exc);
-};
+}
 
 
 /**
@@ -205,7 +205,7 @@ qx.Proto.warn = function(msg, exc) {
  */
 qx.Proto.error = function(msg, exc) {
   this.getLogger().error(msg, this._hashCode, exc);
-};
+}
 
 
 
@@ -225,7 +225,7 @@ qx.Proto.set = function(propertyValues)
 {
   if (typeof propertyValues !== qx.constant.Type.OBJECT) {
     throw new Error("Please use a valid hash of property key-values pairs.");
-  };
+  }
 
   for (var prop in propertyValues)
   {
@@ -236,11 +236,11 @@ qx.Proto.set = function(propertyValues)
     catch(ex)
     {
       this.error("Setter of property " + prop + " returned with an error", ex);
-    };
-  };
+    }
+  }
 
   return this;
-};
+}
 
 /*!
 
@@ -257,7 +257,7 @@ qx.Proto.get = function(propertyNames, outputHint)
       {
         if (outputHint == "hash")
         {
-          var h = {};
+          var h = {}
 
           propertyLength = propertyNames.length;
           for (var i=0; i<propertyLength; i++)
@@ -268,8 +268,8 @@ qx.Proto.get = function(propertyNames, outputHint)
             catch(ex)
             {
               throw new Error("Could not get a valid value from property: " + propertyNames[i] + "! Is the property existing? (" + ex + ")");
-            };
-          };
+            }
+          }
 
           return h;
         }
@@ -284,25 +284,25 @@ qx.Proto.get = function(propertyNames, outputHint)
             catch(ex)
             {
               throw new Error("Could not get a valid value from property: " + propertyNames[i] + "! Is the property existing? (" + ex + ")");
-            };
-          };
+            }
+          }
 
           return propertyNames;
-        };
+        }
       }
       else
       {
         for (var i in propertyNames) {
           propertyNames[i] = this[qx.constant.Core.GET + qx.lang.String.toFirstUp(i)]();
-        };
+        }
 
         return propertyNames;
-      };
+      }
 
     default:
       throw new Error("Please use a valid array, hash or string as parameter!");
-  };
-};
+  }
+}
 
 
 
@@ -317,20 +317,20 @@ qx.Proto.get = function(propertyNames, outputHint)
 qx.Proto.setUserData = function(vKey, vValue)
 {
   if (!this._userData) {
-    this._userData = {};
-  };
+    this._userData = {}
+  }
 
   this._userData[vKey] = vValue;
-};
+}
 
 qx.Proto.getUserData = function(vKey)
 {
   if (!this._userData) {
     return null;
-  };
+  }
 
   return this._userData[vKey];
-};
+}
 
 
 
@@ -352,17 +352,17 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // Dispose user data
   if (this._userData)
   {
     for(var vKey in this._userData) {
       this._userData[vKey] = null;
-    };
+    }
 
     this._userData = null;
-  };
+  }
 
   // Finally cleanup properties
   if (this._objectproperties)
@@ -370,10 +370,10 @@ qx.Proto.dispose = function()
     var a = this._objectproperties.split(qx.constant.Core.COMMA);
     for (var i=0, l=a.length; i<l; i++) {
       delete this[qx.OO.values[a[i]]];
-    };
+    }
 
     delete this._objectproperties;
-  };
+  }
 
   if (qx.core.Settings.enableDisposerDebug)
   {
@@ -383,14 +383,14 @@ qx.Proto.dispose = function()
       {
         this.debug("Missing class implementation to dispose: " + vKey);
         delete this[vKey];
-      };
-    };
-  };
+      }
+    }
+  }
 
   /*
   if (typeof CollectGarbage === qx.constant.Type.FUNCTION) {
     CollectGarbage();
-  };
+  }
   */
 
   // Delete Entry from Object DB
@@ -399,4 +399,4 @@ qx.Proto.dispose = function()
 
   // Mark as disposed
   this._disposed = true;
-};
+}

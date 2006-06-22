@@ -56,9 +56,9 @@ qx.Proto._cloneRecursive = function(cloneInstance)
   for (var i=0; i<vLength; i++) {
     if (!(vChildren[i] instanceof qx.ui.toolbar.ToolBarPartHandle)) {
       cloneInstance.add(vChildren[i].clone(true));
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -74,13 +74,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._handle)
   {
     this._handle.dispose();
     this._handle = null;
-  };
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

@@ -29,7 +29,7 @@
 qx.OO.defineClass("qx.renderer.border.BorderObject", qx.renderer.border.Border,
 function(vWidth, vStyle, vColor)
 {
-  this._dependentObjects = {};
+  this._dependentObjects = {}
 
   qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
 });
@@ -77,14 +77,14 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
         {
           vPart = vPart.toLowerCase();
           vBorder.setColor(qx.renderer.color.Color.themedNames[vPart] ? new qx.renderer.color.ColorObject(vPart) : new qx.renderer.color.Color(vPart));
-        };
+        }
 
         break;
-    };
-  };
+    }
+  }
 
   return vBorder;
-};
+}
 
 
 
@@ -99,11 +99,11 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
 
 qx.Proto.addListenerWidget = function(o) {
   this._dependentObjects[o.toHashCode()] = o;
-};
+}
 
 qx.Proto.removeListenerWidget = function(o) {
   delete this._dependentObjects[o.toHashCode()];
-};
+}
 
 qx.Proto._sync = function(vEdge)
 {
@@ -116,9 +116,9 @@ qx.Proto._sync = function(vEdge)
 
     if (vCurrent.isCreated()) {
       vCurrent._updateBorder(vEdge);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -136,21 +136,21 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (typeof this._dependentObjects === qx.constant.Type.OBJECT)
   {
     var vAll = this._dependentObjects;
     for (vKey in vAll) {
       delete vAll[vKey];
-    };
+    }
 
     vAll = null;
     delete this._dependentObjects;
-  };
+  }
 
   return qx.renderer.border.Border.prototype.dispose.call(this);
-};
+}
 
 
 
@@ -178,7 +178,7 @@ qx.Class.presets =
   shadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedshadow"),
   lightShadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedlightshadow"),
   info : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "infotext")
-};
+}
 
 qx.Class.presets.verticalDivider.setLeftWidth(0);
 qx.Class.presets.verticalDivider.setRightWidth(0);

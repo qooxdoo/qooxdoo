@@ -39,21 +39,21 @@ function(flags)
   qx.core.Target.call(this);
 
   // map<className, map<propertyName, function>>
-  this._propertyEditors = {};
+  this._propertyEditors = {}
 
   this._registerDefaultPropertyEditors();
 
   // keep track of where we are up to within the XML document - to assist in debugging messages
   this._debugContext = [];
 
-  this._flags = flags || {};
+  this._flags = flags || {}
 
   // ensure the default flags are setup
   if (this._flags.strict == null) {
     // strick mode throws exceptions when
     //  * widget setters don't exist
     this._flags.strict = true;
-  };
+  }
 
 });
 
@@ -76,7 +76,7 @@ qx.Proto.buildFromUrl = function(parent, url) {
     self.dispatchEvent(new qx.event.type.Event("done"), true);
   });
   loader.load(url);
-};
+}
 
 /*!
   parse the children of the xml and appending all widgets to the parent widget
@@ -87,21 +87,21 @@ qx.Proto.build = function(parent, node) {
 
     if (parent instanceof qx.core.Init) {
       parent = parent.getClientWindow().getClientDocument();
-    };
+    }
 
     // support embedding of an XML string within a textarea
     if (typeof node == "object" && node.nodeName == 'TEXTAREA') {
       node = node.value;
-    };
+    }
 
     // parse strings in to XML DOM
     if (typeof node == "string") {
       var parser = new DOMParser();
       node = parser.parseFromString(node, "text/xml");
       // TODO handle parse errors
-    };
+    }
     this._buildNodes(parent, node.childNodes);
-};
+}
 
 qx.Proto._buildNodes = function(parent, nodes) {
     var x = 0;
@@ -112,14 +112,14 @@ qx.Proto._buildNodes = function(parent, nodes) {
           this._debugContext.push(n.nodeName+'['+(x++)+']');
           this._buildWidgetFromNode(parent, n);
           this._debugContext.pop();
-      };
-    };
-};
+      }
+    }
+}
 
 qx.Proto._buildEventListener = function(widget, args, text) {
   if (qx.util.Validation.isInvalidString(args.type)) {
     throw this._newBuildError('eventListener requires a string type attribute');
-  };
+  }
 
   var self = this;
 
@@ -138,11 +138,11 @@ qx.Proto._buildEventListener = function(widget, args, text) {
 
           if (!window[o]) {
             throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
-          };
+          }
 
           if (!window[o][m]) {
             throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
-          };
+          }
 
           window[o][m].apply(window[o], [e]);
       });
@@ -154,11 +154,11 @@ qx.Proto._buildEventListener = function(widget, args, text) {
 
         if (!window[args.delegate]) {
           throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
-        };
+        }
 
         window[args.delegate].apply(null, [e]);
       });
-    };
+    }
   }
   else {
 
@@ -168,12 +168,12 @@ qx.Proto._buildEventListener = function(widget, args, text) {
     // if not provided - use 'event' as the name
     if (!args.args) {
       args.args = "event";
-    };
+    }
 
     var f = new Function(args.args, text);
     widget.addEventListener(args.type, f);
-  };
-};
+  }
+}
 
 
 /*
@@ -185,13 +185,13 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
 
   if (!className) {
     throw this._newBuildError("unrecognised node", {nodeName:node.nodeName});
-  };
+  }
 
   if (className == "QxWidgets") {
     // generic container node to allow xml to contain multiple toplevel nodes
     this._buildNodes(parent, node.childNodes);
     return;
-  };
+  }
 
   if (className == "QxScript") {
     var e = document.createElement("script");
@@ -201,7 +201,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     }
     else {
       e.type='text/javascript';
-    };
+    }
 
     // e.innerHTML = node.firstChild.nodeValue;
 
@@ -213,26 +213,26 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     else
     {
       e.innerHTML = node.firstChild.nodeValue;
-    };
+    }
 
     document.body.appendChild(e);
     return;
-  };
+  }
 
   if (className == "qx.event.type.EventListener") {
     var attribs = this._mapXmlAttribToObject(node);
     var text;
     if (node.firstChild) {
       text = node.firstChild.nodeValue;
-    };
+    }
     this._buildEventListener(parent, attribs, text);
     return;
-  };
+  }
 
   var classConstructor = window[className];
   if (!classConstructor) {
     throw this._newBuildError("constructor not found", {className:className});
-  };
+  }
 
   // construct the widget instance - using the default constructor
   var widget = new classConstructor();
@@ -245,7 +245,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     // register a global refrence for this widget
     window[attribs.id] = widget;
     delete attribs.id;
-  };
+  }
 
   // convert any on??  attribs into event listeners
   for (var a in attribs) {
@@ -259,14 +259,14 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
       this._buildEventListener(widget, {type:type,args:'event'}, attribs[a]);
 
       delete attribs[a];
-    };
-  };
+    }
+  }
 
   for (var n in attribs) {
     this._debugContext.push("@" + n);
     this._setWidgetProperty(widget, n, attribs[n]);
     this._debugContext.pop();
-  };
+  }
 
   if(!dummyWidget) {
     parent.add(widget);
@@ -274,7 +274,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
 
   // recurse to all of the nodes children, using the newly created widget as the parent
   this._buildNodes(widget, node.childNodes);
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -290,9 +290,9 @@ qx.Proto._setWidgetProperty = function(widget, name, value) {
   var editor = this._findPropertyEditor(widget.classname, name);
   if (!editor) {
     editor = this._coercePropertyEditor;
-  };
+  }
   editor.set(widget, name, value);
-};
+}
 
 qx.Proto._findPropertyEditor = function(className, propertyName) {
   // get all defined propertyEditors for this widget's prototype
@@ -300,56 +300,56 @@ qx.Proto._findPropertyEditor = function(className, propertyName) {
   // lookup the converter for this property name
   if (m && m[propertyName]) {
     return m[propertyName];
-  };
+  }
 
   // try the widget's superclass
   var w = window[className];
   if (w && w.superclass && w.superclass.prototype.classname) {
     return this._findPropertyEditor(w.superclass.prototype.classname, propertyName);
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.registerPropertyEditor = function(className, propertyName, editor) {
-  if (!this._propertyEditors[className]) this._propertyEditors[className] = {};
+  if (!this._propertyEditors[className]) this._propertyEditors[className] = {}
   this._propertyEditors[className][propertyName] = editor;
-};
+}
 
 qx.Proto._registerDefaultPropertyEditors = function() {
   var self = this;
 
   // a property editor that splits the values on a comma and coerces each one into a suitable type
-  var commaDelimitedPropertyEditor = {};
+  var commaDelimitedPropertyEditor = {}
   commaDelimitedPropertyEditor.set = function(widget, name, value) {
       if (value == null || value == "") {
         self._setProperty(widget, name, null);
         return;
-      };
+      }
 
       var s = value.split(",");
       var v = [];
       for (var i = 0; i < s.length; i++) {
         v[i] = self._coerce(s[i]);
-      };
+      }
 
       self._setProperties(widget, name, v);
-  };
+  }
 
-  var evalPropertyEditor = {};
+  var evalPropertyEditor = {}
   evalPropertyEditor.set = function(widget, name, value) {
       if (value == null || value == "") {
         self._setProperty(widget, name, null);
         return;
-      };
+      }
 
       self._setProperty(widget, name, eval(value));
-  };
+  }
 
-  var referencePropertyEditor = {};
+  var referencePropertyEditor = {}
   referencePropertyEditor.set = function(widget, name, value) {
     self._setProperty(widget, name, window[value]);
-  };
+  }
 
   this.registerPropertyEditor('qx.ui.core.Widget', 'location', commaDelimitedPropertyEditor);
   this.registerPropertyEditor('qx.ui.core.Widget', 'dimension', commaDelimitedPropertyEditor);
@@ -381,12 +381,12 @@ qx.Proto._registerDefaultPropertyEditors = function() {
 
 
   // a property editor that just tries to coerce the string value into a suitable type
-  this._coercePropertyEditor = {};
+  this._coercePropertyEditor = {}
   this._coercePropertyEditor.set = function(widget, name, value) {
       self._setProperty(widget, name, self._coerce(value));
-  };
+  }
 
-};
+}
 
 
 qx.Proto._coerce = function(value) {
@@ -418,14 +418,14 @@ qx.Proto._coerce = function(value) {
   if (typeof value == 'string') {
     // convert empty string into null
     if (value == "") return null;
-  };
+  }
 
   return value;
-};
+}
 
 qx.Proto._setProperty = function(widget, name, value) {
   this._setProperties(widget, name, [value]);
-};
+}
 
 qx.Proto._setProperties = function(widget, name, value) {
 
@@ -437,11 +437,11 @@ qx.Proto._setProperties = function(widget, name, value) {
     if (n == a.toLowerCase()) {
       var setter = widget[a];
       break;
-    };
-  };
+    }
+  }
   if (!setter && this._flags.strict) throw this._newBuildError('no setter defined on widget instance', {widget:widget, property:name});
   setter.apply(widget, value);
-};
+}
 
 
 /*
@@ -469,16 +469,16 @@ qx.Proto._extractClassName = function(node) {
      return qx.lang.String.toFirstUp(nameParts[0]) + qx.lang.String.toFirstUp(nameParts[1]);
   }
   return "Qx" + qx.lang.String.toFirstUp(n);
-};
+}
 
 qx.Proto._mapXmlAttribToObject = function(node) {
-  var r = {};
+  var r = {}
   var c = node.attributes;
   for (var i=0; i<c.length; i++) {
     r[c[i].name.toLowerCase()] = c[i].value;
-  };
+  }
   return r;
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -491,7 +491,7 @@ qx.Proto._mapXmlAttribToObject = function(node) {
 */
 qx.Proto._newBuildError = function(message, data, exception) {
   return this._newError(this._formatDebugContext(), message, data, exception);
-};
+}
 
 qx.Proto._newError = function(debugContext, message, data, exception) {
   var m = message;
@@ -501,21 +501,21 @@ qx.Proto._newError = function(debugContext, message, data, exception) {
     for (var p in data) {
       d += joiner + p + "=" + data[p] + '';
       joiner = " ";
-    };
+    }
     m += " " + d + " ";
-  };
+  }
   m += " context: " + debugContext + " ";
   if (exception) {
     m+= " error: " + exception + " ";
-  };
+  }
   return new Error(m);
-};
+}
 
 qx.Proto._formatDebugContext = function() {
   var s = "";
   for (var i = 0; i < this._debugContext.length; i++) {
     var v = this._debugContext[i];
     s += '/'+v;
-  };
+  }
   return s;
-};
+}

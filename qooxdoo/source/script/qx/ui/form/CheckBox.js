@@ -39,15 +39,15 @@ function(vText, vValue, vName, vChecked)
 
   if (qx.util.Validation.isValidString(vValue)) {
     this.setValue(vValue);
-  };
+  }
 
   if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
-  };
+  }
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
-  };
+  }
 
   this.addEventListener(qx.constant.Event.CLICK, this._onclick);
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
@@ -99,7 +99,7 @@ qx.Proto._createIcon = function()
   i.setAnonymous(true);
 
   this.addAtBegin(i);
-};
+}
 
 
 
@@ -115,10 +115,10 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setChecked(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -141,7 +141,7 @@ qx.Proto._handleIcon = function()
 
     default:
       this._iconIsVisible = false;
-  };
+  }
 
   if (this._iconIsVisible)
   {
@@ -150,8 +150,8 @@ qx.Proto._handleIcon = function()
   else if (this._iconObject)
   {
     this._iconObject.setDisplay(false);
-  };
-};
+  }
+}
 
 
 
@@ -164,21 +164,21 @@ qx.Proto._handleIcon = function()
 
 qx.Proto._onclick = function(e) {
   this.toggleChecked();
-};
+}
 
 qx.Proto._onkeydown = function(e)
 {
   if(e.getKeyCode() == qx.event.type.KeyEvent.keys.enter && !e.getAltKey()) {
     this.toggleChecked();
-  };
-};
+  }
+}
 
 qx.Proto._onkeyup = function(e)
 {
   if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
     this.toggleChecked();
-  };
-};
+  }
+}
 
 
 
@@ -194,11 +194,11 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
-};
+}

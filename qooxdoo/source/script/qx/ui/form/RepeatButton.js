@@ -60,7 +60,7 @@ qx.Proto._onmousedown = function(e)
 {
   if (e.getTarget() != this || !e.isLeftButtonPressed()) {
     return;
-  };
+  }
 
   this._executed = false;
 
@@ -69,7 +69,7 @@ qx.Proto._onmousedown = function(e)
 
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   this.addState(qx.ui.form.Button.STATE_PRESSED);
-};
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -81,14 +81,14 @@ qx.Proto._onmouseup = function(e)
 
     if (this.hasState(qx.ui.form.Button.STATE_PRESSED) && !this._executed) {
       this.execute();
-    };
-  };
+    }
+  }
 
   this._timer.stop();
 
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   this.removeState(qx.ui.form.Button.STATE_PRESSED);
-};
+}
 
 qx.Proto._oninterval = function(e)
 {
@@ -98,7 +98,7 @@ qx.Proto._oninterval = function(e)
 
   this._executed = true;
   this.createDispatchEvent(qx.constant.Event.EXECUTE);
-};
+}
 
 
 
@@ -115,14 +115,14 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._timer)
   {
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   return qx.ui.form.Button.prototype.dispose.call(this);
-};
+}

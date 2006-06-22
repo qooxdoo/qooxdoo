@@ -33,7 +33,7 @@ function(vId)
 
   if (qx.util.Validation.isValidString(vId)) {
     this.setSourceNodeId(vId);
-  };
+  }
 });
 
 qx.OO.addProperty({ name : "sourceNodeId", type : qx.constant.Type.STRING });
@@ -44,9 +44,9 @@ qx.Proto._createElementImpl = function()
 
   if (!vNode) {
     throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
-  };
+  }
 
   vNode.style.display = qx.constant.Core.EMPTY;
 
   return this.setElement(vNode);
-};
+}

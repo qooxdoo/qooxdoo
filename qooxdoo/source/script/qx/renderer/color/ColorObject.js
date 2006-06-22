@@ -34,7 +34,7 @@ function(vValue)
 
   if(qx.manager.object.ColorManager.has(this._value)) {
     return qx.manager.object.ColorManager.get(this._value);
-  };
+  }
 
   qx.core.Object.call(this);
 
@@ -43,7 +43,7 @@ function(vValue)
 
   // Here will all objects with a dependency to this
   // color stored.
-  this._dependentObjects = {};
+  this._dependentObjects = {}
 });
 
 
@@ -57,7 +57,7 @@ function(vValue)
 
 qx.renderer.color.ColorObject.fromString = function(vDefString) {
   return new qx.renderer.color.ColorObject(vDefString);
-};
+}
 
 
 
@@ -75,11 +75,11 @@ qx.Proto._updateTheme = function(vTheme)
 {
   if (!this._isThemedColor) {
     throw new Error("Could not redefine themed value of non os colors!");
-  };
+  }
 
   this._applyThemedValue();
   this._syncObjects();
-};
+}
 
 qx.Proto._applyThemedValue = function()
 {
@@ -91,24 +91,24 @@ qx.Proto._applyThemedValue = function()
     this._red = vRgb[0];
     this._green = vRgb[1];
     this._blue = vRgb[2];
-  };
+  }
 
   this._style = vTheme.getStyleByName(this._value);
   this._hex = null;
-};
+}
 
 qx.Proto._syncObjects = function()
 {
   for (i in this._dependentObjects) {
     this._dependentObjects[i]._updateColors(this, this._style);
-  };
-};
+  }
+}
 
 qx.Proto.setValue = function(vValue)
 {
   this._normalize(vValue);
   this._syncObjects();
-};
+}
 
 
 
@@ -122,11 +122,11 @@ qx.Proto.setValue = function(vValue)
 
 qx.Proto.add = function(vObject) {
   this._dependentObjects[vObject.toHashCode()] = vObject;
-};
+}
 
 qx.Proto.remove = function(vObject) {
   delete this._dependentObjects[vObject.toHashCode()];
-};
+}
 
 
 
@@ -143,16 +143,16 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._dependentObjects)
   {
     for (var i in this._dependentObjects) {
       delete this._dependentObjects[i];
-    };
+    }
 
     delete this._dependentObjects;
-  };
+  }
 
   return qx.renderer.color.Color.prototype.dispose.call(this);
-};
+}

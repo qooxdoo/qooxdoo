@@ -53,7 +53,7 @@ function(name, parentLogger) {
  */
 qx.Proto.getName = function() {
   return this._name;
-};
+}
 
 
 /**
@@ -63,7 +63,7 @@ qx.Proto.getName = function() {
  */
 qx.Proto.getParentLogger = function() {
   return this._parentLogger;
-};
+}
 
 
 /**
@@ -73,7 +73,7 @@ qx.Proto.getParentLogger = function() {
  */
 qx.Proto.indent = function() {
   qx.dev.log.Logger._indent++;
-};
+}
 
 
 /**
@@ -83,7 +83,7 @@ qx.Proto.indent = function() {
  */
 qx.Proto.unindent = function() {
   qx.dev.log.Logger._indent--;
-};
+}
 
 
 /**
@@ -101,7 +101,7 @@ qx.Proto.addAppender = function(appender) {
   }
 
   this._appenderArr.push(appender);
-};
+}
 
 
 /**
@@ -113,7 +113,7 @@ qx.Proto.removeAppender = function(appender) {
   if (this._appenderArr != null) {
     this._appenderArr.remove(appender);
   }
-};
+}
 
 
 /**
@@ -121,7 +121,7 @@ qx.Proto.removeAppender = function(appender) {
  */
 qx.Proto.removeAllAppenders = function() {
   this._appenderArr = null;
-};
+}
 
 
 // overridden
@@ -138,7 +138,7 @@ qx.Proto.handleLogEvent = function(evt) {
   if (decision != Filter.DENY) {
     this.appendLogEvent(evt);
   }
-};
+}
 
 
 /**
@@ -155,7 +155,7 @@ qx.Proto.appendLogEvent = function(evt) {
   } else if (this._parentLogger != null) {
     this._parentLogger.appendLogEvent(evt);
   }
-};
+}
 
 
 /**
@@ -169,9 +169,9 @@ qx.Proto.appendLogEvent = function(evt) {
  */
 qx.Proto.log = function(level, msg, instanceId, exc) {
   var evt = { logger:this, level:level, message:msg, throwable:exc,
-              indent:qx.dev.log.Logger._indent, instanceId:instanceId };
+              indent:qx.dev.log.Logger._indent, instanceId:instanceId }
   this.handleLogEvent(evt);
-};
+}
 
 
 /**
@@ -184,7 +184,7 @@ qx.Proto.log = function(level, msg, instanceId, exc) {
  */
 qx.Proto.debug = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
-};
+}
 
 
 /**
@@ -197,7 +197,7 @@ qx.Proto.debug = function(msg, instanceId, exc) {
  */
 qx.Proto.info = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_INFO, msg, instanceId, exc);
-};
+}
 
 
 /**
@@ -210,7 +210,7 @@ qx.Proto.info = function(msg, instanceId, exc) {
  */
 qx.Proto.warn = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_WARN, msg, instanceId, exc);
-};
+}
 
 
 /**
@@ -223,7 +223,7 @@ qx.Proto.warn = function(msg, instanceId, exc) {
  */
 qx.Proto.error = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
-};
+}
 
 
 /**
@@ -236,7 +236,7 @@ qx.Proto.error = function(msg, instanceId, exc) {
  */
 qx.Proto.fatal = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
-};
+}
 
 
 /**
@@ -251,7 +251,7 @@ qx.Proto.measureReset = function() {
 
   this._lastMeasureTime = null;
   this._totalMeasureTime = null;
-};
+}
 
 
 /**
@@ -278,7 +278,7 @@ qx.Proto.measure = function(msg, instanceId, exc) {
   this.debug(msg, instanceId, exc);
 
   this._lastMeasureTime = new Date().getTime();
-};
+}
 
 
 /**
@@ -290,7 +290,7 @@ qx.Proto.printStackTrace = function() {
   } catch (exc) {
     this.debug("Current stack trace", "", exc);
   }
-};
+}
 
 
 /**
@@ -323,7 +323,7 @@ qx.Class.getClassLogger = function(clazz) {
     clazz._logger = logger;
   }
   return logger;
-};
+}
 
 
 /** {int} The current indent. */

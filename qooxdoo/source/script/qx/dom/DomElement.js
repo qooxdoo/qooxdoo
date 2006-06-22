@@ -39,13 +39,13 @@ qx.dom.DomElement.cleanWhitespace = function(vElement)
 
     if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
       vElement.removeChild(node);
-    };
-  };
-};
+    }
+  }
+}
 
 /*!
   Checks if a element has no content
 */
 qx.dom.DomElement.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
-};
+}

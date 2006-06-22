@@ -38,8 +38,8 @@ for (var vKey in qx.core.DefaultSettings)
 {
   if (typeof qx.core.Settings[vKey] === "undefined") {
     qx.core.Settings[vKey] = qx.core.DefaultSettings[vKey];
-  };
-};
+  }
+}
 
 // hide from global scope
 })();

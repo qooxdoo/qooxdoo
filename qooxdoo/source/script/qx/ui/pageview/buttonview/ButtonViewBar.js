@@ -51,7 +51,7 @@ qx.Proto.getWheelDelta = function(e)
     case qx.constant.Layout.ALIGN_LEFT:
     case qx.constant.Layout.ALIGN_RIGHT:
       vWheelDelta *= -1;
-  };
+  }
 
   return vWheelDelta;
-};
+}

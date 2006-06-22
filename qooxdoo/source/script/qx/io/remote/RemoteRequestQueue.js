@@ -83,8 +83,8 @@ qx.Proto._debug = function()
   {
     this.debug("Progress: " + vText);
     window.status = "Request-Queue Progress: " + vText;
-  };
-};
+  }
+}
 
 qx.Proto._check = function()
 {
@@ -94,22 +94,22 @@ qx.Proto._check = function()
   // Check queues and stop timer if not needed anymore
   if (this._active.length == 0 && this._queue.length == 0) {
     this._timer.stop();
-  };
+  }
 
   // Checking if enabled
   if (!this.getEnabled()) {
     return;
-  };
+  }
 
   // Checking active queue fill
   if (this._active.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
     return;
-  };
+  }
 
   // Checking number of total requests
   if (this.getMaxTotalRequests() != null && this._totalRequests >= this.getMaxTotalRequests()) {
     return;
-  };
+  }
 
   var vRequest = this._queue.shift();
   var vTransport = new qx.io.remote.RemoteExchange(vRequest);
@@ -147,8 +147,8 @@ qx.Proto._check = function()
   // Retry
   if (this._queue.length > 0) {
     this._check();
-  };
-};
+  }
+}
 
 qx.Proto._remove = function(vTransport)
 {
@@ -177,7 +177,7 @@ qx.Proto._remove = function(vTransport)
 
   // Check again
   this._check();
-};
+}
 
 
 
@@ -201,8 +201,8 @@ qx.Proto._onsending = function(e)
     e.getTarget()._counted = true;
 
     this.debug("ActiveCount: " + this._activeCount);
-  };
-};
+  }
+}
 
 qx.Proto._oncompleted = function(e)
 {
@@ -212,11 +212,11 @@ qx.Proto._oncompleted = function(e)
     {
       this._activeCount--;
       this.debug("ActiveCount: " + this._activeCount);
-    };
-  };
+    }
+  }
 
   this._remove(e.getTarget());
-};
+}
 
 
 
@@ -236,7 +236,7 @@ qx.Proto._oninterval = function(e)
 
   if (vActive.length == 0) {
     return;
-  };
+  }
 
   var vCurrent = (new Date).valueOf();
   var vTransport;
@@ -260,7 +260,7 @@ qx.Proto._oninterval = function(e)
 
       if (vTimeout == null) {
         vTimeout = vDefaultTimeout;
-      };
+      }
 
       vTime = vCurrent - vTransport._start;
 
@@ -269,10 +269,10 @@ qx.Proto._oninterval = function(e)
         this.warn("Timeout: transport " + vTransport.toHashCode());
         this.warn(vTime + "ms > " + vTimeout + "ms");
         vTransport.timeout();
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 
 
@@ -287,12 +287,12 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (propValue) {
     this._check();
-  };
+  }
 
   this._timer.setEnabled(propValue);
 
   return true;
-};
+}
 
 
 
@@ -317,8 +317,8 @@ qx.Proto.add = function(vRequest)
 
   if (this.getEnabled()) {
     this._timer.start();
-  };
-};
+  }
+}
 
 /*!
   Remove the request from the pending requests queue.
@@ -339,8 +339,8 @@ qx.Proto.abort = function(vRequest)
   else if (qx.lang.Array.contains(this._queue, vRequest))
   {
     qx.lang.Array.remove(this._queue, vRequest);
-  };
-};
+  }
+}
 
 
 
@@ -358,27 +358,27 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._active)
   {
     for (var i=0, a=this._active, l=a.length; i<l; i++) {
       this._remove(a[i]);
-    };
+    }
 
     this._active = null;
-  };
+  }
 
   if (this._timer)
   {
     this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer = null;
-  };
+  }
 
   this._queue = null;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}
 
 
 

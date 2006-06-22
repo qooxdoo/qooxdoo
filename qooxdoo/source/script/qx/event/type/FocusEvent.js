@@ -46,5 +46,5 @@ function(vType, vTarget)
     case qx.constant.Event.FOCUSOUT:
       this.setBubbles(true);
       this.setPropagationStopped(false);
-  };
+  }
 });

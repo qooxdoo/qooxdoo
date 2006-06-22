@@ -53,11 +53,11 @@ function()
     this._frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
   } else {
     this._frame = document.createElement("iframe");
-  };
+  }
 
   this._frame.src = "javascript:void(0)";
   this._frame.id = this._frame.name = vFrameName;
-  this._frame.onload = function(e) { return o._onload(e); };
+  this._frame.onload = function(e) { return o._onload(e); }
 
   this._frame.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
   this._frame.style.visibility = "hidden";
@@ -78,7 +78,7 @@ function()
   this._form.appendChild(this._data);
 
   var o = this;
-  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); };
+  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); }
 });
 
 qx.Proto._lastReadyState = 0;
@@ -104,11 +104,11 @@ qx.io.remote.IframeTransport.handles =
   crossDomain : true,
   fileUpload: true,
   responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
-};
+}
 
 qx.io.remote.IframeTransport.isSupported = function() {
   return true;
-};
+}
 
 
 
@@ -137,11 +137,11 @@ qx.Proto.send = function()
   var vParametersList = [];
   for (var vId in vParameters) {
     vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
-  };
+  }
 
   if (vParametersList.length > 0) {
     vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
-  };
+  }
 
 
 
@@ -160,7 +160,7 @@ qx.Proto.send = function()
 
   this._data.appendChild(document.createTextNode(this.getData()));
   this._form.submit();
-};
+}
 
 
 
@@ -182,7 +182,7 @@ qx.io.remote.IframeTransport._numericMap =
   "loaded" : 2,
   "interactive" : 3,
   "complete" : 4
-};
+}
 
 /*!
   Converting complete state to numeric value and update state property
@@ -191,17 +191,17 @@ qx.Proto._onload = function(e)
 {
   if (this._form.src) {
     return;
-  };
+  }
 
   this._switchReadyState(qx.io.remote.IframeTransport._numericMap.complete);
-};
+}
 
 /*!
   Converting named readyState to numeric value and update state property
 */
 qx.Proto._onreadystatechange = function(e) {
   this._switchReadyState(qx.io.remote.IframeTransport._numericMap[this._frame.readyState]);
-};
+}
 
 qx.Proto._switchReadyState = function(vReadyState)
 {
@@ -214,13 +214,13 @@ qx.Proto._switchReadyState = function(vReadyState)
     case qx.constant.Net.STATE_TIMEOUT:
       this.warn("Ignore Ready State Change");
       return;
-  };
+  }
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
     this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
-  };
-};
+  }
+}
 
 
 
@@ -236,7 +236,7 @@ qx.Proto.setRequestHeader = function(vLabel, vValue)
 {
   // TODO
   // throw new Error("setRequestHeader is abstract");
-};
+}
 
 
 
@@ -255,18 +255,18 @@ qx.Proto.getResponseHeader = function(vLabel)
 
   // TODO
   // this.error("Need implementation", "getResponseHeader");
-};
+}
 
 /*!
   Provides an hash of all response headers.
 */
 qx.Proto.getResponseHeaders = function()
 {
-  return {};
+  return {}
 
   // TODO
   // throw new Error("getResponseHeaders is abstract");
-};
+}
 
 
 
@@ -289,7 +289,7 @@ qx.Proto.getStatusCode = function()
 
   // TODO
   // this.error("Need implementation", "getStatusCode");
-};
+}
 
 /*!
   Provides the status text for the current request if available and null otherwise.
@@ -300,7 +300,7 @@ qx.Proto.getStatusText = function()
 
   // TODO
   // this.error("Need implementation", "getStatusText");
-};
+}
 
 
 
@@ -316,15 +316,15 @@ qx.Proto.getStatusText = function()
 
 qx.Proto.getIframeWindow = function() {
   return qx.dom.DomIframe.getWindow(this._frame);
-};
+}
 
 qx.Proto.getIframeDocument = function() {
   return qx.dom.DomIframe.getDocument(this._frame);
-};
+}
 
 qx.Proto.getIframeBody = function() {
   return qx.dom.DomIframe.getBody(this._frame);
-};
+}
 
 
 
@@ -345,7 +345,7 @@ qx.Proto.getIframeTextContent = function()
 
   if (!vBody) {
     return null;
-  };
+  }
 
   // Mshtml returns the content inside a PRE
   // element if we use plain text
@@ -356,14 +356,14 @@ qx.Proto.getIframeTextContent = function()
   else
   {
     return vBody.innerHTML;
-  };
-};
+  }
+}
 
 qx.Proto.getIframeHtmlContent = function()
 {
   var vBody = this.getIframeBody();
   return vBody ? vBody.innerHTML : null;
-};
+}
 
 /*!
   Returns the length of the content as fetched thus far
@@ -374,7 +374,7 @@ qx.Proto.getFetchedLength = function()
 
   // TODO
   // throw new Error("getFetchedLength is abstract");
-};
+}
 
 qx.Proto.getResponseContent = function()
 {
@@ -382,14 +382,14 @@ qx.Proto.getResponseContent = function()
   {
     if (qx.core.Settings.enableTransportDebug) {
       this.warn("Transfer not complete, ignoring content!");
-    };
+    }
 
     return null;
-  };
+  }
 
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("Returning content for responseType: " + this.getResponseType());
-  };
+  }
 
   var vText = this.getIframeTextContent();
 
@@ -408,14 +408,14 @@ qx.Proto.getResponseContent = function()
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: (" + vText + ")", ex);
-      };
+      }
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
       } catch(ex) {
         return this.error("Could not execute javascript: (" + vText + ")", ex);
-      };
+      }
 
     case qx.constant.Mime.XML:
       return this.getIframeDocument();
@@ -423,8 +423,8 @@ qx.Proto.getResponseContent = function()
     default:
       this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
       return null;
-  };
-};
+  }
+}
 
 
 
@@ -441,7 +441,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._frame)
   {
@@ -452,19 +452,19 @@ qx.Proto.dispose = function()
     // Otherwise it will switch into a load-without-end behaviour
     if (qx.sys.Client.isGecko()) {
       this._frame.src = qx.manager.object.ImageManager.buildUri("core/blank.gif");
-    };
+    }
 
     // Finally remove element node
     document.body.removeChild(this._frame);
 
     this._frame = null;
-  };
+  }
 
   if (this._form)
   {
     document.body.removeChild(this._form);
     this._form = null;
-  };
+  }
 
   return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
-};
+}

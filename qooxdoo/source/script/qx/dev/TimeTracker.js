@@ -38,7 +38,7 @@ function()
 
 qx.dev.TimeTracker.compare = function(a, b) {
   return a-b;
-};
+}
 
 
 
@@ -95,7 +95,7 @@ qx.Proto.buttonSets = function()
 
   btnLayout.add(loopLabel, loopInput, repeatLabel, btnStart1, btnStart2, btnStart3, btnStart4);
   qx.core.Init.getComponent().add(btnLayout, htmlOutput);
-};
+}
 
 qx.Proto.start = function(vRounds, vLoops)
 {
@@ -120,7 +120,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
   for (var j=0; j<vLength; j++) {
     vHtmlMeasured.push("<td>Method " + (j+1) + "</td>");
-  };
+  }
 
   vHtmlMeasured.push("</thead><tbody>");
 
@@ -135,17 +135,17 @@ qx.Proto.start = function(vRounds, vLoops)
       vFuncs[j](vLoops);
 
       vLocalTimes.push((new Date).valueOf()-vStart);
-    };
+    }
 
     vHtmlMeasured.push("<tr><th>Round " + i + "</th>");
 
     for (var j=0; j<vLocalTimes.length; j++) {
       vHtmlMeasured.push("<td>" + vLocalTimes[j] + "</td>");
-    };
+    }
 
     vHtmlMeasured.push("</tr>");
     vAllTimes.push(vLocalTimes);
-  };
+  }
 
   vHtmlMeasured.push("</tbody></table>");
 
@@ -162,7 +162,7 @@ qx.Proto.start = function(vRounds, vLoops)
     for (var i=0; i<vRounds; i++)
     {
       vSum += vAllTimes[i][j];
-    };
+    }
 
     vMeanValue = Math.round(vSum / vRounds);
 
@@ -170,7 +170,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
     vMeanMin = Math.min(vMeanMin, vMeanValue);
     vMeanMax = Math.max(vMeanMax, vMeanValue);
-  };
+  }
 
 
 
@@ -183,7 +183,7 @@ qx.Proto.start = function(vRounds, vLoops)
     for (var i=0; i<vRounds; i++)
     {
       vMedian.push(vAllTimes[i][j]);
-    };
+    }
 
     vMedian.sort(qx.dev.TimeTracker.compare);
     vMedianValue = vMedian[Math.floor(vRounds / 2)].toString();
@@ -192,7 +192,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
     vMedianMin = Math.min(vMedianValue, vMedianMin);
     vMedianMax = Math.max(vMedianValue, vMedianMax);
-  };
+  }
 
 
 
@@ -208,7 +208,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
   for (var j=0; j<vLength; j++) {
     vHtmlResults.push("<td>Method " + (j+1) + "</td>");
-  };
+  }
 
   vHtmlResults.push("</thead><tbody>");
 
@@ -219,7 +219,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
   for (var j=0; j<vLength; j++) {
     vHtmlResults.push("<td>" + vMedianAll[j] + "</td>");
-  };
+  }
 
   vHtmlResults.push("</tr>");
 
@@ -234,7 +234,7 @@ qx.Proto.start = function(vRounds, vLoops)
     vHtmlResults.push("<td>");
     vHtmlResults.push(vMedianMin > 0 ? Math.round(vMedianAll[j] / vMedianMin) : "1");
     vHtmlResults.push("x</td>");
-  };
+  }
 
   vHtmlResults.push("</tr>");
 
@@ -246,7 +246,7 @@ qx.Proto.start = function(vRounds, vLoops)
 
   for (var j=0; j<vLength; j++) {
     vHtmlResults.push("<td>" + vMeanAll[j] + "</td>");
-  };
+  }
 
   vHtmlResults.push("</tr>");
 
@@ -261,7 +261,7 @@ qx.Proto.start = function(vRounds, vLoops)
     vHtmlResults.push("<td>");
     vHtmlResults.push(vMeanMin > 0 ? Math.round(vMeanAll[j] / vMeanMin) : 1);
     vHtmlResults.push("x</td>");
-  };
+  }
 
   vHtmlResults.push("</tr>");
 
@@ -288,17 +288,17 @@ qx.Proto.start = function(vRounds, vLoops)
     else if (vMeanMin == vMeanAll[j])
     {
       vHtmlResults.push("MEAN");
-    };
+    }
 
     vHtmlResults.push("</td>");
-  };
+  }
 
   vHtmlResults.push("</tr>");
 
   vHtmlResults.push("</tbody></table>");
 
   this._output.setHtml(vHtmlResults.join("") + vHtmlMeasured.join(""));
-};
+}
 
 
 
@@ -315,9 +315,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._functions = null;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

@@ -211,7 +211,7 @@ qx.io.Json = function () {
                     return 'null';
             }
             // -- AJ, DJL
-        };
+        }
     return {
         copyright: '(c)2005 JSON.org',
         license: 'http://www.JSON.org/license.html',
@@ -254,7 +254,7 @@ qx.io.Json = function () {
                 return false;
             }
         }
-    };
+    }
 }();
 
 
@@ -288,7 +288,7 @@ qx.io.Json = function () {
 //  }
 //  
 //  return obj;
-//};
+//}
 
 
 /**
@@ -317,4 +317,4 @@ qx.io.Json.parseQx = function(text) {
 //  }
 
   return obj;
-};
+}

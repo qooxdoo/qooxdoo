@@ -50,7 +50,7 @@ qx.Proto.addFilter = function(filter) {
     this._filterArr = []
   }
   this._filterArr.push(filter);
-};
+}
 
 
 /**
@@ -58,7 +58,7 @@ qx.Proto.addFilter = function(filter) {
  */
 qx.Proto.clearFilters = function() {
   this._filterArr = null;
-};
+}
 
 
 /**
@@ -68,7 +68,7 @@ qx.Proto.clearFilters = function() {
  */
 qx.Proto.getHeadFilter = function() {
   return (this._filterArr == null || this._filterArr.length == 0) ? null : this._filterArr[0];
-};
+}
 
 
 /**
@@ -89,7 +89,7 @@ qx.Proto._getDefaultFilter = function() {
   }
 
   return headFilter;
-};
+}
 
 
 /**
@@ -101,7 +101,7 @@ qx.Proto._getDefaultFilter = function() {
  */
 qx.Proto.setEnabled = function(enabled) {
   this._getDefaultFilter().setEnabled(enabled);
-};
+}
 
 
 /**
@@ -113,7 +113,7 @@ qx.Proto.setEnabled = function(enabled) {
  */
 qx.Proto.setMinLevel = function(minLevel) {
   this._getDefaultFilter().setMinLevel(minLevel);
-};
+}
 
 
 /**
@@ -137,7 +137,7 @@ qx.Proto.decideLogEvent = function(evt) {
 
   // All filters are neutral, so are we
   return NEUTRAL;
-};
+}
 
 
 /**
@@ -147,4 +147,4 @@ qx.Proto.decideLogEvent = function(evt) {
  */
 qx.Proto.handleLogEvent = function(evt) {
   throw new Error("handleLogEvent is abstract");
-};
+}

@@ -178,7 +178,7 @@ qx.OO.addProperty({ name:"date", type:qx.constant.Type.OBJECT, defaultValue:null
 qx.Proto._checkDate = function(propValue, propData) {
   // Use a clone of the date internally since date instances may be changed
   return (propValue == null) ? null : new Date(propValue.getTime());
-};
+}
 
 
 // property modifier
@@ -208,7 +208,7 @@ qx.Proto._modifyDate = function(propValue, propOldValue, propData) {
   }
 
   return true;
-};
+}
 
 
 /**
@@ -241,10 +241,10 @@ qx.Proto._onNavButtonClicked = function(evt) {
     case this._nextYearBt:
       year++;
       break;
-  };
+  }
 
   this.showMonth(month, year);
-};
+}
 
 
 /**
@@ -255,7 +255,7 @@ qx.Proto._onNavButtonClicked = function(evt) {
 qx.Proto._onDayClicked = function(evt) {
   var time = evt.getCurrentTarget().dateTime;
   this.setDate(new Date(time));
-};
+}
 
 
 /**
@@ -315,7 +315,7 @@ qx.Proto._onkeydown = function(evt) {
     }
     this.setDate(date);
   }
-};
+}
 
 
 // ***** Methods *****
@@ -330,7 +330,7 @@ qx.Proto._onkeydown = function(evt) {
  */
 qx.Proto._isWeekend = function(dayOfWeek) {
   return (dayOfWeek == 0) || (dayOfWeek == 6);
-};
+}
 
 
 /**
@@ -354,7 +354,7 @@ qx.Proto.showMonth = function(month, year) {
 
     this._updateDatePane();
   }
-};
+}
 
 
 /**
@@ -442,7 +442,7 @@ qx.Proto._updateDatePane = function() {
       helpDate.setDate(helpDate.getDate() + 1);
     }
   }
-};
+}
 
 
 /** {string} The state of a week label when it is the header label. */
@@ -483,7 +483,7 @@ qx.Class.WEEK_FORMAT = new qx.util.format.DateFormat("ww");
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this._lastYearBt.removeEventListener("click", this._onNavButtonClicked, this);
   this._lastMonthBt.removeEventListener("click", this._onNavButtonClicked, this);
@@ -522,4 +522,4 @@ qx.Proto.dispose = function() {
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

@@ -13,7 +13,7 @@ theme.registerAppearance("api-viewer", {
       paddingTop: 10,
       paddingBottom: 10,
       spacing: 10
-    };
+    }
   }
 });
 
@@ -27,7 +27,7 @@ theme.registerAppearance("api-viewer-title", {
   initial : function(vWidget, vTheme) {
     return {
       font: this.font
-    };
+    }
   }
 });
 
@@ -39,7 +39,7 @@ theme.registerAppearance("api-viewer-open-button", {
       paddingRight: 2,
       paddingTop: 2,
       paddingBottom: 2
-    };
+    }
   }
 });
 
@@ -52,7 +52,7 @@ theme.registerAppearance("api-viewer-main-info", {
   initial : function(vWidget, vTheme) {
     return {
       border: this.border
-    };
+    }
   }
 });
 
@@ -65,7 +65,7 @@ theme.registerAppearance("api-viewer-main-info-title", {
   initial : function(vWidget, vTheme) {
     return {
       backgroundColor: this.bgcolor
-    };
+    }
   }
 });
 
@@ -80,7 +80,7 @@ theme.registerAppearance("api-viewer-main-info-title-label", {
     return {
       font: this.font,
       paddingLeft: 4
-    };
+    }
   }
 });
 
@@ -97,7 +97,7 @@ theme.registerAppearance("api-viewer-info", {
     return {
       border: this.border,
       backgroundColor: this.bgcolor
-    };
+    }
   }
 });
 
@@ -112,7 +112,7 @@ theme.registerAppearance("api-viewer-info-title-label", {
     return {
       font: this.font,
       paddingLeft: 4
-    };
+    }
   }
 });
 */

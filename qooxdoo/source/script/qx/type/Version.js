@@ -50,7 +50,7 @@ function(arrVersion)
 
   if (typeof arrVersion === qx.constant.Type.STRING) {
     arrVersion = arrVersion.split(qx.constant.Core.DOT);
-  };
+  }
 
   this._major = parseInt(arrVersion[0]) || 0;
   this._minor = parseInt(arrVersion[1]) || 0;
@@ -91,19 +91,19 @@ qx.Proto.versionIsValid = function(fv)
   if (this.getRev() < fv.getRev()) return false;
 
   return true;
-};
+}
 
 qx.Proto.getMajor = function() {
   return this._major;
-};
+}
 
 qx.Proto.getMinor = function() {
   return this._minor;
-};
+}
 
 qx.Proto.getRev = function() {
   return this._rev;
-};
+}
 
 
 
@@ -119,9 +119,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._major = this._minor = this._rev = null;
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}

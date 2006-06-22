@@ -33,12 +33,12 @@ function(treeRowStructure)
 {
   if (this.classname == qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.treefullcontrol.AbstractTreeElement directly. Choose between qx.ui.treefullcontrol.TreeFolder, qx.ui.treefullcontrol.TreeFolderSimple, qx.ui.treefullcontrol.TreeFile and qx.ui.treefullcontrol.TreeFileSimple instead!");
-  };
+  }
 
   if (treeRowStructure !== qx.ui.treefullcontrol.TreeRowStructure)
   {
     throw new Error("A qx.ui.treefullcontrol.TreeRowStructure parameter is required.");
-  };
+  }
 
   // Precreate subwidgets
   this._indentObject = treeRowStructure._indentObject;
@@ -58,7 +58,7 @@ function(treeRowStructure)
 
   if (qx.util.Validation.isValid(treeRowStructure._label)) {
     this.setLabel(treeRowStructure._label);
-  };
+  }
 
   // Prohibit selection
   this.setSelectable(false);
@@ -79,11 +79,11 @@ function(treeRowStructure)
       (qx.util.Validation.isValidString(treeRowStructure._icons.unselected))) {
     this.setIcon(treeRowStructure._icons.unselected);
     this.setIconSelected(treeRowStructure._icons.unselected);
-  };
+  }
   if ((treeRowStructure._icons.selected != null) &&
       (qx.util.Validation.isValidString(treeRowStructure._icons.selected))) {
     this.setIconSelected(treeRowStructure._icons.selected);
-  };
+  }
 
 
   // Set Appearance
@@ -139,10 +139,10 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   if (this._labelObject) {
     this._labelObject.setHtml(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
@@ -152,7 +152,7 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   var vTree = this.getTree();
   if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this)) {
     propValue ? this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
-  };
+  }
 
   var vManager = this.getTree().getManager();
 
@@ -163,10 +163,10 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   else if (propValue && vManager.getSelectedItem() != this)
   {
     vManager.setSelectedItem(this);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -183,34 +183,34 @@ qx.Proto.getParentFolder = function()
 {
   try {
     return this.getParent().getParent();
-  } catch(ex) {};
+  } catch(ex) {}
 
   return null;
-};
+}
 
 qx.Proto.getLevel = function()
 {
   var vParentFolder = this.getParentFolder();
   return vParentFolder ? vParentFolder.getLevel() + 1 : null;
-};
+}
 
 qx.Proto.getTree = function()
 {
   var vParentFolder = this.getParentFolder();
   return vParentFolder ? vParentFolder.getTree() : null;
-};
+}
 
 qx.Proto.getIndentObject = function() {
   return this._indentObject;
-};
+}
 
 qx.Proto.getIconObject = function() {
   return this._iconObject;
-};
+}
 
 qx.Proto.getLabelObject = function() {
   return this._labelObject;
-};
+}
 
 /**
  * @brief
@@ -239,7 +239,7 @@ qx.Proto.getHierarchy = function(vArr) {
 
   // Give 'em what they came for
   return vArr;
-};
+}
 
 
 
@@ -255,30 +255,30 @@ qx.Proto.addToTreeQueue = function()
   var vTree = this.getTree();
   if (vTree) {
     vTree.addChildToTreeQueue(this);
-  };
-};
+  }
+}
 
 qx.Proto.removeFromTreeQueue = function()
 {
   var vTree = this.getTree();
   if (vTree) {
     vTree.removeChildFromTreeQueue(this);
-  };
-};
+  }
+}
 
 qx.Proto.addToCustomQueues = function(vHint)
 {
   this.addToTreeQueue();
 
   qx.ui.layout.BoxLayout.prototype.addToCustomQueues.call(this, vHint);
-};
+}
 
 qx.Proto.removeFromCustomQueues = function(vHint)
 {
   this.removeFromTreeQueue();
 
   qx.ui.layout.BoxLayout.prototype.removeFromCustomQueues.call(this, vHint);
-};
+}
 
 
 
@@ -300,15 +300,15 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
   // Be sure to update previous folder also if it is closed currently (plus/minus symbol)
   if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
     propOldValue.getParent().addToTreeQueue();
-  };
+  }
 
   // Be sure to update new folder also if it is closed currently (plus/minus symbol)
   if (propValue && !propValue.isDisplayable() && propValue.getParent() && propValue.getParent().isDisplayable()) {
     propValue.getParent().addToTreeQueue();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
@@ -328,12 +328,12 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
       else if (!vPreviousParentFolder.hasContent())
       {
         vPreviousParentFolder.addToTreeQueue();
-      };
-    };
+      }
+    }
 
     if (vParentFolder && vParentFolder.isDisplayable() && vParentFolder._initialLayoutDone) {
       vParentFolder.addToTreeQueue();
-    };
+    }
 
     if (this.isLastVisibleChild())
     {
@@ -341,14 +341,14 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 
       if (vPrev && vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
         vPrev._updateIndent();
-      };
-    };
+      }
+    }
 
     if (vDisplayable) {
       this._updateIndent();
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -366,7 +366,7 @@ qx.Proto._onmousedown = function(e)
 {
   this.getTree().getManager().handleMouseDown(this, e);
   e.stopPropagation();
-};
+}
 
 qx.Proto._onmouseup = qx.util.Return.returnTrue;
 
@@ -413,14 +413,14 @@ qx.Proto.flushTree = function()
       vHtml.push(qx.constant.Core.DOT);
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.IMG_EXTENSION);
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_3);
-    };
+    }
 
     vCurrentObject = vCurrentObject.getParentFolder();
-  };
+  }
 
   this._indentObject.setHtml(vHtml.join(qx.constant.Core.EMPTY));
   this._indentObject.setWidth(vLevel * 19);
-};
+}
 
 
 
@@ -441,25 +441,25 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._indentObject)
   {
     this._indentObject.dispose();
     this._indentObject = null;
-  };
+  }
 
   if (this._iconObject)
   {
     this._iconObject.dispose();
     this._iconObject = null;
-  };
+  }
 
   if (this._labelObject)
   {
     this._labelObject.dispose();
     this._labelObject = null;
-  };
+  }
 
   this._previousParentFolder = null;
 
@@ -467,4 +467,4 @@ qx.Proto.dispose = function()
   this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

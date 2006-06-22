@@ -34,18 +34,18 @@
 ************************************************************************ */
 
 if (typeof qx == "undefined") {
-  qx = {};
-};
+  qx = {}
+}
 
 qx.loadStart = (new Date).valueOf();
 
-qx.OO = {};
+qx.OO = {}
 
-qx.OO.classes = {};
-qx.OO.setter = {};
-qx.OO.getter = {};
-qx.OO.resetter = {};
-qx.OO.values = {};
+qx.OO.classes = {}
+qx.OO.setter = {}
+qx.OO.getter = {}
+qx.OO.resetter = {}
+qx.OO.values = {}
 qx.OO.propertyNumber = 0;
 
 qx.OO.C_SET = "set";
@@ -112,20 +112,20 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
   for (var i=0; i<vNameLength; i++)
   {
     if (typeof vTempObject[vSplitName[i]] === qx.OO.C_UNDEFINED) {
-      vTempObject[vSplitName[i]] = {};
-    };
+      vTempObject[vSplitName[i]] = {}
+    }
 
     vTempObject = vTempObject[vSplitName[i]];
-  };
+  }
 
   // Instantiate objects/inheritance
   if (typeof vSuper === qx.OO.C_UNDEFINED)
   {
     if (typeof vConstructor !== qx.OO.C_UNDEFINED) {
       throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
-    };
+    }
 
-    qx.Class = vTempObject[vSplitName[i]] = {};
+    qx.Class = vTempObject[vSplitName[i]] = {}
     qx.Proto = null;
   }
   else if (typeof vConstructor === qx.OO.C_UNDEFINED)
@@ -150,8 +150,8 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
     // Store reference to global classname registry
     qx.OO.classes[vClassName] = vConstructor;
-  };
-};
+  }
+}
 
 
 
@@ -180,14 +180,14 @@ qx.OO.addFastProperty = function(vConfig)
   {
     qx.Proto[vGetterName] = function() {
       return this[vStorageField];
-    };
+    }
   }
   else
   {
     qx.Proto[vGetterName] = function() {
       return this[vStorageField] == null ? this[vStorageField] = this[vComputerName]() : this[vStorageField];
-    };
-  };
+    }
+  }
 
   if (vConfig.setOnlyOnce)
   {
@@ -197,22 +197,22 @@ qx.OO.addFastProperty = function(vConfig)
       this[vSetterName] = null;
 
       return vValue;
-    };
+    }
   }
   else
   {
     qx.Proto[vSetterName] = function(vValue) {
       return this[vStorageField] = vValue;
-    };
-  };
+    }
+  }
 
   if (!vConfig.noCompute)
   {
     qx.Proto[vComputerName] = function() {
       return null;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.OO.addCachedProperty = function(p)
 {
@@ -225,16 +225,16 @@ qx.OO.addCachedProperty = function(p)
 
   if (typeof p.defaultValue !== qx.constant.Type.UNDEFINED) {
     qx.Proto[vStorageField] = p.defaultValue;
-  };
+  }
 
   qx.Proto[qx.OO.C_GET + vUpName] = function()
   {
     if (this[vStorageField] == null) {
       this[vStorageField] = this[vComputerName]();
-    };
+    }
 
     return this[vStorageField];
-  };
+  }
 
   qx.Proto[qx.OO.C_INVALIDATE + vUpName] = function()
   {
@@ -244,9 +244,9 @@ qx.OO.addCachedProperty = function(p)
 
       if (p.addToQueueRuntime) {
         this.addToQueueRuntime(p.name);
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto[qx.OO.C_RECOMPUTE + vUpName] = function()
   {
@@ -259,14 +259,14 @@ qx.OO.addCachedProperty = function(p)
       this[vChangeName](vNew, vOld);
 
       return true;
-    };
+    }
 
     return false;
-  };
+  }
 
-  qx.Proto[vChangeName] = function(vNew, vOld) {};
-  qx.Proto[vComputerName] = function() { return null; };
-};
+  qx.Proto[vChangeName] = function(vNew, vOld) {}
+  qx.Proto[vComputerName] = function() { return null; }
+}
 
 qx.OO.addPropertyGroup = function(p)
 {
@@ -275,15 +275,15 @@ qx.OO.addPropertyGroup = function(p)
   -------------------------------------------------------------------------------- */
   if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("Param should be an object!");
-  };
+  }
 
   if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("Malformed input parameters: name needed!");
-  };
+  }
 
   if (qx.util.Validation.isInvalid(p.members)) {
     throw new Error("Malformed input parameters: members needed!");
-  };
+  }
 
   p.method = qx.lang.String.toFirstUp(p.name);
 
@@ -296,11 +296,11 @@ qx.OO.addPropertyGroup = function(p)
 
   for (var i=0, l=p.members.length; i<l; i++) {
     p.setter.push(qx.OO.C_SET + qx.lang.String.toFirstUp(p.members[i]));
-  };
+  }
 
   for (var i=0, l=p.members.length; i<l; i++) {
     p.getter.push(qx.OO.C_GET + qx.lang.String.toFirstUp(p.members[i]));
-  };
+  }
 
 
   /* --------------------------------------------------------------------------------
@@ -313,10 +313,10 @@ qx.OO.addPropertyGroup = function(p)
 
     for (var i=0, l=g.length; i<l; i++) {
       a.push(this[g[i]]());
-    };
+    }
 
     return a;
-  };
+  }
 
 
   /* --------------------------------------------------------------------------------
@@ -329,7 +329,7 @@ qx.OO.addPropertyGroup = function(p)
       {
         if (arguments.length > 4 || arguments.length == 0) {
           throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
-        };
+        }
 
         try
         {
@@ -338,15 +338,15 @@ qx.OO.addPropertyGroup = function(p)
         catch(ex)
         {
           throw new Error("Invalid shorthand values for property " + p.name + ": " + arguments + ": " + ex);
-        };
+        }
 
         var s = p.setter;
         var l = s.length;
 
         for (var i=0; i<l; i++) {
           this[s[i]](ret[i]);
-        };
-      };
+        }
+      }
       break;
 
     default:
@@ -357,28 +357,28 @@ qx.OO.addPropertyGroup = function(p)
 
         if (arguments.length != l) {
           throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + p.name + ": " + qx.lang.Array.fromArguments(arguments).toString());
-        };
+        }
 
         for (var i=0; i<l; i++) {
           this[s[i]](arguments[i]);
-        };
-      };
-  };
-};
+        }
+      }
+  }
+}
 
 qx.OO.removeProperty = function(p)
 {
   if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
     throw new Error("Has no properties!");
-  };
+  }
 
   if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("Param should be an object!");
-  };
+  }
 
   if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("Malformed input parameters: name needed!");
-  };
+  }
 
   // building shorter prototype access
   var pp = qx.Proto;
@@ -402,17 +402,17 @@ qx.OO.removeProperty = function(p)
   pp[qx.OO.C_FORCE + p.method] = null;
   pp[qx.OO.C_GETDEFAULT + p.method] = null;
   pp[qx.OO.C_SETDEFAULT + p.method] = null;
-};
+}
 
 qx.OO._createProperty = function(p)
 {
   if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("AddProperty: Param should be an object!");
-  };
+  }
 
   if (qx.util.Validation.isInvalid(p.name)) {
     throw new Error("AddProperty: Malformed input parameters: name needed!");
-  };
+  }
 
   // building shorter prototype access
   var pp = qx.Proto;
@@ -422,15 +422,15 @@ qx.OO._createProperty = function(p)
 
   if (qx.util.Validation.isInvalid(p.defaultValue)) {
     p.defaultValue = null;
-  };
+  }
 
   if (qx.util.Validation.isInvalidBoolean(p.allowNull)) {
     p.allowNull = true;
-  };
+  }
 
   if (qx.util.Validation.isInvalidBoolean(p.allowMultipleArguments)) {
     p.allowMultipleArguments = false;
-  };
+  }
 
 
 
@@ -445,7 +445,7 @@ qx.OO._createProperty = function(p)
   }
   else {
     p.hasType = false;
-  };
+  }
 
   if (typeof p.instance === qx.constant.Type.STRING) {
     p.hasInstance = true;
@@ -455,7 +455,7 @@ qx.OO._createProperty = function(p)
   }
   else {
     p.hasInstance = false;
-  };
+  }
 
   if (typeof p.classname === qx.constant.Type.STRING) {
     p.hasClassName = true;
@@ -465,7 +465,7 @@ qx.OO._createProperty = function(p)
   }
   else {
     p.hasClassName = false;
-  };
+  }
 
 
 
@@ -497,7 +497,7 @@ qx.OO._createProperty = function(p)
     qx.OO.getter[p.name] = qx.OO.C_GET + p.method;
     qx.OO.resetter[p.name] = qx.OO.C_RESET + p.method;
     qx.OO.values[p.name] = valueKey;
-  };
+  }
 
   // unit detection support
   if (p.hasUnitDetection)
@@ -514,7 +514,7 @@ qx.OO._createProperty = function(p)
     pp[cu + qx.OO.C_UNIT_TYPE_FLEX] = false;
 
     var unitDetectionKey = qx.OO.C_UNITDETECTION + qx.lang.String.toFirstUp(p.unitDetection);
-  };
+  }
 
   // apply default value
   pp[valueKey] = p.defaultValue;
@@ -522,25 +522,25 @@ qx.OO._createProperty = function(p)
   // building getFoo(): Returns current stored value
   pp[qx.OO.C_GET + p.method] = function() {
     return this[valueKey];
-  };
+  }
 
   // building forceFoo(): Set (override) without do anything else
   pp[qx.OO.C_FORCE + p.method] = function(newValue) {
     return this[valueKey] = newValue;
-  };
+  }
 
   // building resetFoo(): Reset value to default value
   pp[qx.OO.C_RESET + p.method] = function() {
     return this[qx.OO.C_SET + p.method](p.defaultValue);
-  };
+  }
 
   // building toggleFoo(): Switching between two boolean values
   if (p.type === qx.constant.Type.BOOLEAN)
   {
     pp[qx.OO.C_TOGGLE + p.method] = function(newValue) {
       return this[qx.OO.C_SET + p.method](!this[valueKey]);
-    };
-  };
+    }
+  }
 
   if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
   {
@@ -550,7 +550,7 @@ qx.OO._createProperty = function(p)
       // convert multiple arguments to array
       if (p.allowMultipleArguments && arguments.length > 1) {
         newValue = qx.lang.Array.fromArguments(arguments);
-      };
+      }
 
       // support converter methods
       if (p.hasConvert)
@@ -562,33 +562,33 @@ qx.OO._createProperty = function(p)
         catch(ex)
         {
           throw new Error("Attention! Could not convert new value for " + p.name + ": " + newValue + ": " + ex);
-        };
-      };
+        }
+      }
 
       var oldValue = this[valueKey];
 
       if (newValue === oldValue) {
         return newValue;
-      };
+      }
 
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!");
-        };
+        }
 
         if (p.hasInstance && !(newValue instanceof qx.OO.classes[p.instance])) {
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!");
-        };
+        }
 
         if (p.hasClassName && newValue.classname != p.classname) {
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!");
-        };
+        }
 
         if (p.hasPossibleValues && newValue != null && !qx.lang.Array.contains(p.possibleValues, newValue)) {
           return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!");
-        };
-      };
+        }
+      }
 
       // Allow to check and transform the new value before storage
       if (this[checkKey])
@@ -600,13 +600,13 @@ qx.OO._createProperty = function(p)
           // Don't do anything if new value is indentical to old value
           if (newValue === oldValue) {
             return newValue;
-          };
+          }
         }
         catch(ex)
         {
           return this.error("Failed to check property " + p.name, ex);
-        };
-      };
+        }
+      }
 
       // Store new value
       this[valueKey] = newValue;
@@ -619,18 +619,18 @@ qx.OO._createProperty = function(p)
           var r = this[modifyKey](newValue, oldValue, p);
           if (!r) {
             return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")");
-          };
+          }
         }
         catch(ex)
         {
           return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
-        };
-      };
+        }
+      }
 
       // Unit detection support
       if (p.hasUnitDetection) {
         this[unitDetectionKey](p, newValue);
-      };
+      }
 
       // Auto queue addition support
       if (p.addToQueue) {
@@ -638,12 +638,12 @@ qx.OO._createProperty = function(p)
       }
       else if (p.addToQueueRuntime) {
         this.addToQueueRuntime(p.name);
-      };
+      }
 
       // Auto state queue addition support
       if (p.addToStateQueue) {
         this.addToStateQueue();
-      };
+      }
 
       // Create Event
       if (this.hasEventListeners && this.hasEventListeners(changeKey))
@@ -655,11 +655,11 @@ qx.OO._createProperty = function(p)
         catch(ex)
         {
           throw new Error("Property " + p.name + " modified: Failed to dispatch change event: " + ex);
-        };
-      };
+        }
+      }
 
       return newValue;
-    };
+    }
   }
   else
   {
@@ -672,14 +672,14 @@ qx.OO._createProperty = function(p)
 
       if (newValue === oldValue) {
         return newValue;
-      };
+      }
 
       if (!(p.allowNull && newValue == null))
       {
         if (p.hasType && typeof newValue !== p.type) {
           return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!");
-        };
-      };
+        }
+      }
 
       // Allow to check and transform the new value before storage
       if (this[checkKey])
@@ -691,13 +691,13 @@ qx.OO._createProperty = function(p)
           // Don't do anything if new value is indentical to old value
           if (newValue === oldValue) {
             return newValue;
-          };
+          }
         }
         catch(ex)
         {
           return this.error("Failed to check property " + p.name, ex);
-        };
-      };
+        }
+      }
 
       // Store new value
       this[valueKey] = newValue;
@@ -710,13 +710,13 @@ qx.OO._createProperty = function(p)
           var r = this[modifyKey](newValue, oldValue, p);
           if (!r) {
             return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")");
-          };
+          }
         }
         catch(ex)
         {
           return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
-        };
-      };
+        }
+      }
 
       // Create Event
       if (this.hasEventListeners && this.hasEventListeners(changeKey))
@@ -732,23 +732,23 @@ qx.OO._createProperty = function(p)
         catch(ex)
         {
           throw new Error("Property " + p.name + " modified: Failed to dispatch change event: " + ex);
-        };
-      };
+        }
+      }
 
       return newValue;
-    };
-  };
+    }
+  }
 
   // building user configured get alias for property
   if (typeof p.getAlias === qx.constant.Type.STRING) {
     pp[p.getAlias] = pp[qx.OO.C_GET + p.method];
-  };
+  }
 
   // building user configured set alias for property
   if (typeof p.setAlias === qx.constant.Type.STRING) {
     pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
-  };
-};
+  }
+}
 
 qx.OO.changeProperty = qx.OO._createProperty;
 
@@ -763,7 +763,7 @@ qx.OO.addProperty = function(p)
     qx.Proto._properties = p.name;
   } else {
     qx.Proto._properties += qx.constant.Core.COMMA + p.name;
-  };
+  }
 
   // add property to object property list
   switch(p.type)
@@ -775,6 +775,6 @@ qx.OO.addProperty = function(p)
         qx.Proto._objectproperties = p.name;
       } else {
         qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;
-      };
-  };
-};
+      }
+  }
+}

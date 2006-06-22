@@ -33,11 +33,11 @@ function QxResource(vResource, vLocale) {
 
   if(qx.util.Validation.isValidString(vResource)) {
     this.setResource(vResource);
-  };
+  }
 
   if(qx.util.Validation.isValidObject(vLocale)) {
     this.setLocale(vLocale);
-  };
+  }
 
   this.loadResource(vResource, vLocale);
 });
@@ -74,16 +74,16 @@ qx.Proto._modifyResource = function(propValue, propOldValue, propData)
     {
       this._request.dispose();
       this._request = null;
-    };
-  };
+    }
+  }
 
   if(propValue)
   {
     this.loadResource(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyLocale = function(propValue, propOldValue, propData)
 {
@@ -96,16 +96,16 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData)
     {
       this._request.dispose();
       this._request = null;
-    };
-  };
+    }
+  }
 
   if(propValue)
   {
     this.loadResource(this.getResource(), propValue);
-  };
+  }
 
   return true;
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ qx.Proto.loadResource = function(vResource, vLocale)
   if(!vResource)
   {
     vResource = this.getResource();
-  };
+  }
 
   if(!vLocale)
   {
@@ -129,23 +129,23 @@ qx.Proto.loadResource = function(vResource, vLocale)
     else
     {
       vLocale = QxLocaleManager.getCurrentLocale();
-    };
-  };
+    }
+  }
 
   if(vLocale.getLanguage())
   {
     vResource += "_" + vLocale.getLanguage();
-  };
+  }
 
   if(vLocale.getCountry())
   {
     vResource += "_" + vLocale.getCountry();
-  };
+  }
 
   if(vLocale.getVariant())
   {
     vResource +=  "_" + vLocale.getCountry();
-  };
+  }
 
   vResource += ".js";
 
@@ -195,7 +195,7 @@ qx.Proto.loadResource = function(vResource, vLocale)
   });
 
   req.send();
-};
+}
 
 qx.Proto.getKey = function(value)
 {
@@ -204,14 +204,14 @@ qx.Proto.getKey = function(value)
     if(this._content[i].value = value)
     {
       return this._content[i].key;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.getValue = function(key)
 {
   return this._content[key];
-};
+}
 
 
 /*
@@ -224,15 +224,15 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._request)
   {
     this._request.dispose();
     this._request = null;
-  };
+  }
 
   delete this._content;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

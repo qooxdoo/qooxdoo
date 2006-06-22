@@ -93,7 +93,7 @@ qx.Proto._modifyBarPosition = function(propValue, propOldValue, propData)
       vBar.moveSelfToEnd();
       this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
       break;
-  };
+  }
 
   // force re-apply of states for bar and pane
   this._addChildrenToStateQueue();
@@ -102,4 +102,4 @@ qx.Proto._modifyBarPosition = function(propValue, propOldValue, propData)
   vBar._addChildrenToStateQueue();
 
   return true;
-};
+}

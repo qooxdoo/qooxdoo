@@ -34,7 +34,7 @@ function(vButton)
 
   if (qx.util.Validation.isValid(vButton)) {
     this.setButton(vButton);
-  };
+  }
 });
 
 
@@ -71,11 +71,11 @@ qx.Proto._modifyButton = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.setPage(null);
-  };
+  }
 
   if (propValue) {
     propValue.setPage(this);
-  };
+  }
 
   return true;
-};
+}

@@ -80,10 +80,10 @@ qx.Proto.computeChildBoxWidth = function(vChild)
   else if (vChild._hasParent)
   {
     vValue = this.getWidget().getInnerWidth() - vChild.getLeftValue() - vChild.getRightValue();
-  };
+  }
 
   return vValue || vChild._computeBoxWidthFallback();
-};
+}
 
 /*!
   Compute and return the box height of the given child
@@ -99,10 +99,10 @@ qx.Proto.computeChildBoxHeight = function(vChild)
   else if (vChild._hasParent)
   {
     vValue = this.getWidget().getInnerHeight() - vChild.getTopValue() - vChild.getBottomValue();
-  };
+  }
 
   return vValue || vChild._computeBoxHeightFallback();
-};
+}
 
 
 
@@ -131,10 +131,10 @@ qx.Proto.computeChildNeededWidth = function(vChild)
   else
   {
     var vBox = (vChild._computedWidthTypePercent ? null : vChild.getWidthValue()) || vChild.getPreferredBoxWidth() || 0;
-  };
+  }
 
   return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vLeft + vRight + vChild.getMarginLeft() + vChild.getMarginRight();
-};
+}
 
 /*!
   Compute and return the needed height of the given child
@@ -153,10 +153,10 @@ qx.Proto.computeChildNeededHeight = function(vChild)
   else
   {
     var vBox = (vChild._computedHeightTypePercent ? null : vChild.getHeightValue()) || vChild.getPreferredBoxHeight() || 0;
-  };
+  }
 
   return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vTop + vBottom + vChild.getMarginTop() + vChild.getMarginBottom();
-};
+}
 
 
 
@@ -180,7 +180,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
   var vUpdateRange = vChild._recomputeRangeX();
 
   return vUpdatePercent || vUpdateRange;
-};
+}
 
 /*!
   Actions that should be done if the inner height of the widget was changed.
@@ -193,7 +193,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
   var vUpdateRange = vChild._recomputeRangeY();
 
   return vUpdatePercent || vUpdateRange;
-};
+}
 
 
 
@@ -222,7 +222,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
 
   this.layoutChild_marginX(vChild, vJobs);
   this.layoutChild_marginY(vChild, vJobs);
-};
+}
 
 if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 {
@@ -237,9 +237,9 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       else
       {
         vChild._applyRuntimeWidth(vChild.getBoxWidth());
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
@@ -252,9 +252,9 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       else
       {
         vChild._applyRuntimeHeight(vChild.getBoxHeight());
-      };
-    };
-  };
+      }
+    }
+  }
 }
 else
 {
@@ -262,16 +262,16 @@ else
   {
     if (vJobs.initial || vJobs.width) {
       vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height) {
       vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
@@ -279,12 +279,12 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
   if (vJobs.initial || vJobs.left || vJobs.parentPaddingLeft) {
     vChild._computedLeftTypeNull ? vChild._computedRightTypeNull && vWidget.getPaddingLeft() > 0 ? vChild._applyRuntimeLeft(vWidget.getPaddingLeft()) : vChild._resetRuntimeLeft() : vChild._applyRuntimeLeft(vChild.getLeftValue() + vWidget.getPaddingLeft());
-  };
+  }
 
   if (vJobs.initial || vJobs.right || vJobs.parentPaddingRight) {
     vChild._computedRightTypeNull ? vChild._computedLeftTypeNull && vWidget.getPaddingRight() > 0 ? vChild._applyRuntimeRight(vWidget.getPaddingRight()) : vChild._resetRuntimeRight() : vChild._applyRuntimeRight(vChild.getRightValue() + vWidget.getPaddingRight());
-  };
-};
+  }
+}
 
 qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 {
@@ -292,9 +292,9 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 
   if (vJobs.initial || vJobs.top || vJobs.parentPaddingTop) {
     vChild._computedTopTypeNull ? vChild._computedBottomTypeNull && vWidget.getPaddingTop() > 0 ? vChild._applyRuntimeTop(vWidget.getPaddingTop()) : vChild._resetRuntimeTop() : vChild._applyRuntimeTop(vChild.getTopValue() + vWidget.getPaddingTop());
-  };
+  }
 
   if (vJobs.initial || vJobs.bottom || vJobs.parentPaddingBottom) {
     vChild._computedBottomTypeNull ? vChild._computedTopTypeNull && vWidget.getPaddingBottom() > 0 ? vChild._applyRuntimeBottom(vWidget.getPaddingBottom()) : vChild._resetRuntimeBottom() : vChild._applyRuntimeBottom(vChild.getBottomValue() + vWidget.getPaddingBottom());
-  };
-};
+  }
+}

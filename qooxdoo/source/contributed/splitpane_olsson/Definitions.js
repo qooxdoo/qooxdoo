@@ -17,7 +17,7 @@ theme.registerAppearance("splitpane",
   {
     return {
       backgroundColor : this.bgcolor
-    };
+    }
   },
 
   state : function(vWidget, vTheme, vStates)
@@ -26,7 +26,7 @@ theme.registerAppearance("splitpane",
 
     var vReturn = {
       border : firstLevel ? null : qx.renderer.border.BorderObject.presets.thinInset
-    };
+    }
 
     return vReturn;
   }
@@ -38,7 +38,7 @@ theme.registerAppearance("splitpane-divider",
   {
     return {
       border : qx.renderer.border.BorderObject.presets.thinOutset
-    };
+    }
   }
 });
 
@@ -48,7 +48,7 @@ theme.registerAppearance("splitpane-move-frame",
   {
     return {
       border : qx.renderer.border.BorderObject.presets.shadow
-    };
+    }
   }
 });
 
@@ -73,7 +73,7 @@ theme.registerAppearance("splitpane-button",
     var vReturn = {
       backgroundColor : vStates.abandoned ? this.bgcolor_left : vStates.over ? this.bgcolor_over : this.bgcolor_default,
       border : vStates.pressed || vStates.checked || vStates.abandoned ? this.border_pressed : this.border_default
-    };
+    }
 
     return vReturn;
   }

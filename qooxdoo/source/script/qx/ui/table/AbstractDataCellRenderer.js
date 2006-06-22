@@ -45,13 +45,13 @@ qx.Proto.createDataCellHtml = function(cellInfo) {
   return AbstractDataCellRenderer.MAIN_DIV_START + this._getCellStyle(cellInfo)
     + AbstractDataCellRenderer.MAIN_DIV_START_END
     + this._getContentHtml(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_END;
-};
+}
 
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   cellElement.innerHTML = this._getContentHtml(cellInfo);
-};
+}
 
 
 /**
@@ -63,7 +63,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  */
 qx.Proto._getCellStyle = function(cellInfo) {
   return cellInfo.style + qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE;
-};
+}
 
 
 /**
@@ -75,13 +75,13 @@ qx.Proto._getCellStyle = function(cellInfo) {
  */
 qx.Proto._getContentHtml = function(cellInfo) {
   return cellInfo.value;
-};
+}
 
 
 
 qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   throw new Error("createDataCellHtml_array_join is abstract");
-};
+}
 
 
 
@@ -113,17 +113,17 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   } else {
     htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
   }
-};
+}
 
 
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
   htmlArr.push(qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE);
-};
+}
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   htmlArr.push(cellInfo.value);
-};
+}
 
 
 qx.Class.MAIN_DIV_START = '<div style="';

@@ -103,7 +103,7 @@ qx.OO.addProperty({ name : "cellPaddingLeft", type : qx.constant.Type.NUMBER });
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.GridLayoutImpl(this);
-};
+}
 
 
 
@@ -124,10 +124,10 @@ qx.Proto.add = function(vChild, vCol, vRow)
 
   if (this.isFillCell(vCol, vRow)) {
     throw new Error("Could not insert child " + vChild + " into a fill cell: " + vCol + "x" + vRow);
-  };
+  }
 
   qx.ui.core.Parent.prototype.add.call(this, vChild);
-};
+}
 
 
 
@@ -147,7 +147,7 @@ qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
   this._invalidatePreferredInnerDimensions();
 
   return true;
-};
+}
 
 
 
@@ -164,14 +164,14 @@ qx.Proto._syncDataFields = function(vData, vOldLength, vNewLength)
   if (vNewLength > vOldLength)
   {
     for (var i=vOldLength; i<vNewLength; i++) {
-      vData[i] = {};
-    };
+      vData[i] = {}
+    }
   }
   else if (vOldLength > vNewLength)
   {
     vData.splice(vNewLength, vOldLength - vNewLength);
-  };
-};
+  }
+}
 
 
 
@@ -190,17 +190,17 @@ qx.Proto.setColumnCount = function(vCount)
 {
   this._columnCount = vCount;
   this._syncColumnDataFields();
-};
+}
 
 qx.Proto.getColumnCount = function() {
   return this._columnCount;
-};
+}
 
 qx.Proto.addColumn = function()
 {
   this._columnCount++;
   this._syncColumnDataFields();
-};
+}
 
 qx.Proto.removeColumn = function()
 {
@@ -208,8 +208,8 @@ qx.Proto.removeColumn = function()
   {
     this._columnCount--;
     this._syncColumnDataFields();
-  };
-};
+  }
+}
 
 qx.Proto._syncColumnDataFields = function()
 {
@@ -218,7 +218,7 @@ qx.Proto._syncColumnDataFields = function()
   var vNewLength = this._columnCount;
 
   this._syncDataFields(vData, vOldLength, vNewLength);
-};
+}
 
 
 
@@ -236,17 +236,17 @@ qx.Proto.setRowCount = function(vCount)
 {
   this._rowCount = vCount;
   this._syncRowDataFields();
-};
+}
 
 qx.Proto.getRowCount = function() {
   return this._rowCount;
-};
+}
 
 qx.Proto.addRow = function()
 {
   this._rowCount++;
   this._syncRowDataFields();
-};
+}
 
 qx.Proto.removeRow = function()
 {
@@ -254,8 +254,8 @@ qx.Proto.removeRow = function()
   {
     this._rowCount--;
     this._syncRowDataFields();
-  };
-};
+  }
+}
 
 qx.Proto._syncRowDataFields = function()
 {
@@ -264,7 +264,7 @@ qx.Proto._syncRowDataFields = function()
   var vNewLength = this._rowCount;
 
   this._syncDataFields(vData, vOldLength, vNewLength);
-};
+}
 
 
 
@@ -288,31 +288,31 @@ qx.Proto._getColumnProperty = function(vColumnIndex, vProperty)
   {
     this.error("Error while getting column property (" + vColumnIndex + "|" + vProperty + ")", ex);
     return null;
-  };
-};
+  }
+}
 
 qx.Proto._setupColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
   this._columnData[vColumnIndex][vProperty] = vValue;
   this._invalidateColumnLayout();
-};
+}
 
 qx.Proto._removeColumnProperty = function(vColumnIndex, vProperty, vValue)
 {
   delete this._columnData[vColumnIndex][vProperty];
   this._invalidateColumnLayout();
-};
+}
 
 qx.Proto._invalidateColumnLayout = function()
 {
   if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
-  };
+  }
 
   this.forEachVisibleChild(function() {
     this.addToQueue(qx.OO.PROPERTY_WIDTH);
   });
-};
+}
 
 
 
@@ -335,31 +335,31 @@ qx.Proto._getRowProperty = function(vRowIndex, vProperty)
   {
     this.error("Error while getting row property (" + vRowIndex + "|" + vProperty + ")", ex);
     return null;
-  };
-};
+  }
+}
 
 qx.Proto._setupRowProperty = function(vRowIndex, vProperty, vValue)
 {
   this._rowData[vRowIndex][vProperty] = vValue;
   this._invalidateRowLayout();
-};
+}
 
 qx.Proto._removeRowProperty = function(vRowIndex, vProperty, vValue)
 {
   delete this._rowData[vRowIndex][vProperty];
   this._invalidateRowLayout();
-};
+}
 
 qx.Proto._invalidateRowLayout = function()
 {
   if (!this._initialLayoutDone || !this._isDisplayable) {
     return;
-  };
+  }
 
   this.forEachVisibleChild(function() {
     this.addToQueue(qx.OO.PROPERTY_HEIGHT);
   });
-};
+}
 
 
 
@@ -402,11 +402,11 @@ qx.Proto.setColumnWidth = function(vIndex, vValue)
 
     default:
       vParsed = vComputed = null;
-  };
+  }
 
   this._setupColumnProperty(vIndex, "widthParsed", vParsed);
   this._setupColumnProperty(vIndex, "widthComputed", vComputed);
-};
+}
 
 qx.Proto.setRowHeight = function(vIndex, vValue)
 {
@@ -435,11 +435,11 @@ qx.Proto.setRowHeight = function(vIndex, vValue)
 
     default:
       vParsed = vComputed = null;
-  };
+  }
 
   this._setupRowProperty(vIndex, "heightParsed", vParsed);
   this._setupRowProperty(vIndex, "heightComputed", vComputed);
-};
+}
 
 
 
@@ -451,7 +451,7 @@ qx.Proto.getColumnBoxWidth = function(vIndex)
 
   if (vComputed != null) {
     return vComputed;
-  };
+  }
 
   var vType = this._getColumnProperty(vIndex, "widthType");
   var vParsed = this._getColumnProperty(vIndex, "widthParsed");
@@ -476,11 +476,11 @@ qx.Proto.getColumnBoxWidth = function(vIndex)
       // TODO
       vComputed = null;
       break;
-  };
+  }
 
   this._setupColumnProperty(vIndex, "widthComputed", vComputed);
   return vComputed;
-};
+}
 
 qx.Proto.getRowBoxHeight = function(vIndex)
 {
@@ -488,7 +488,7 @@ qx.Proto.getRowBoxHeight = function(vIndex)
 
   if (vComputed != null) {
     return vComputed;
-  };
+  }
 
   var vType = this._getRowProperty(vIndex, "heightType");
   var vParsed = this._getRowProperty(vIndex, "heightParsed");
@@ -513,41 +513,41 @@ qx.Proto.getRowBoxHeight = function(vIndex)
       // TODO
       vComputed = null;
       break;
-  };
+  }
 
   this._setupRowProperty(vIndex, "heightComputed", vComputed);
   return vComputed;
-};
+}
 
 
 // GETTER: PADDING
 
 qx.Proto.getComputedCellPaddingLeft = function(vCol, vRow) {
   return this.getColumnPaddingLeft(vCol) || this.getRowPaddingLeft(vRow) || this.getCellPaddingLeft() || 0;
-};
+}
 
 qx.Proto.getComputedCellPaddingRight = function(vCol, vRow) {
   return this.getColumnPaddingRight(vCol) || this.getRowPaddingRight(vRow) || this.getCellPaddingRight() || 0;
-};
+}
 
 qx.Proto.getComputedCellPaddingTop = function(vCol, vRow) {
   return this.getRowPaddingTop(vRow) || this.getColumnPaddingTop(vCol) || this.getCellPaddingTop() || 0;
-};
+}
 
 qx.Proto.getComputedCellPaddingBottom = function(vCol, vRow) {
   return this.getRowPaddingBottom(vRow) || this.getColumnPaddingBottom(vCol) || this.getCellPaddingBottom() || 0;
-};
+}
 
 
 // GETTER: INNER
 
 qx.Proto.getColumnInnerWidth = function(vCol, vRow) {
   return this.getColumnBoxWidth(vCol) - this.getComputedCellPaddingLeft(vCol, vRow) - this.getComputedCellPaddingRight(vCol, vRow);
-};
+}
 
 qx.Proto.getRowInnerHeight = function(vCol, vRow) {
   return this.getRowBoxHeight(vRow) - this.getComputedCellPaddingTop(vCol, vRow) - this.getComputedCellPaddingBottom(vCol, vRow);
-};
+}
 
 
 
@@ -566,19 +566,19 @@ qx.Proto.getRowInnerHeight = function(vCol, vRow) {
 
 qx.Proto.setColumnHorizontalAlignment = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "horizontalAlignment", vValue);
-};
+}
 
 qx.Proto.setColumnVerticalAlignment = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "verticalAlignment", vValue);
-};
+}
 
 qx.Proto.setRowHorizontalAlignment = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "horizontalAlignment", vValue);
-};
+}
 
 qx.Proto.setRowVerticalAlignment = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "verticalAlignment", vValue);
-};
+}
 
 
 
@@ -586,19 +586,19 @@ qx.Proto.setRowVerticalAlignment = function(vIndex, vValue) {
 
 qx.Proto.getColumnHorizontalAlignment = function(vIndex) {
   return this._getColumnProperty(vIndex, "horizontalAlignment");
-};
+}
 
 qx.Proto.getColumnVerticalAlignment = function(vIndex) {
   return this._getColumnProperty(vIndex, "verticalAlignment");
-};
+}
 
 qx.Proto.getRowHorizontalAlignment = function(vIndex) {
   return this._getRowProperty(vIndex, "horizontalAlignment");
-};
+}
 
 qx.Proto.getRowVerticalAlignment = function(vIndex) {
   return this._getRowProperty(vIndex, "verticalAlignment");
-};
+}
 
 
 
@@ -615,35 +615,35 @@ qx.Proto.getRowVerticalAlignment = function(vIndex) {
 
 qx.Proto.setColumnPaddingTop = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingTop", vValue);
-};
+}
 
 qx.Proto.setColumnPaddingRight = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingRight", vValue);
-};
+}
 
 qx.Proto.setColumnPaddingBottom = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingBottom", vValue);
-};
+}
 
 qx.Proto.setColumnPaddingLeft = function(vIndex, vValue) {
   this._setupColumnProperty(vIndex, "paddingLeft", vValue);
-};
+}
 
 qx.Proto.setRowPaddingTop = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingTop", vValue);
-};
+}
 
 qx.Proto.setRowPaddingRight = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingRight", vValue);
-};
+}
 
 qx.Proto.setRowPaddingBottom = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingBottom", vValue);
-};
+}
 
 qx.Proto.setRowPaddingLeft = function(vIndex, vValue) {
   this._setupRowProperty(vIndex, "paddingLeft", vValue);
-};
+}
 
 
 
@@ -651,35 +651,35 @@ qx.Proto.setRowPaddingLeft = function(vIndex, vValue) {
 
 qx.Proto.getColumnPaddingTop = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingTop");
-};
+}
 
 qx.Proto.getColumnPaddingRight = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingRight");
-};
+}
 
 qx.Proto.getColumnPaddingBottom = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingBottom");
-};
+}
 
 qx.Proto.getColumnPaddingLeft = function(vIndex) {
   return this._getColumnProperty(vIndex, "paddingLeft");
-};
+}
 
 qx.Proto.getRowPaddingTop = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingTop");
-};
+}
 
 qx.Proto.getRowPaddingRight = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingRight");
-};
+}
 
 qx.Proto.getRowPaddingBottom = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingBottom");
-};
+}
 
 qx.Proto.getRowPaddingLeft = function(vIndex) {
   return this._getRowProperty(vIndex, "paddingLeft");
-};
+}
 
 
 
@@ -697,22 +697,22 @@ qx.Proto._changeInnerWidth = function(vNew, vOld)
   for (var i=0, l=this.getColumnCount(); i<l; i++) {
     if (this._getColumnProperty(i, "widthType") == qx.ui.core.Widget.TYPE_PERCENT) {
       this._setupColumnProperty(i, "widthComputed", null);
-    };
-  };
+    }
+  }
 
   qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
-};
+}
 
 qx.Proto._changeInnerHeight = function(vNew, vOld)
 {
   for (var i=0, l=this.getRowCount(); i<l; i++) {
     if (this._getRowProperty(i, "heightType") == qx.ui.core.Widget.TYPE_PERCENT) {
       this._setupRowProperty(i, "heightComputed", null);
-    };
-  };
+    }
+  }
 
   qx.ui.core.Parent.prototype._changeInnerHeight.call(this, vNew, vOld);
-};
+}
 
 
 
@@ -727,11 +727,11 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
 
 qx.Proto.getInnerWidthForChild = function(vChild) {
   return this._getColumnProperty(vChild._col, "widthComputed");
-};
+}
 
 qx.Proto.getInnerHeightForChild = function(vChild) {
   return this._getRowProperty(vChild._row, "heightComputed");
-};
+}
 
 
 
@@ -758,18 +758,18 @@ qx.Proto.mergeCells = function(vStartCol, vStartRow, vColLength, vRowLength)
 
     // Send out warning
     return false;
-  };
+  }
 
   // Finally store new span entry
   vSpans.push({ startCol : vStartCol, startRow : vStartRow, endCol : vEndCol, endRow : vEndRow, colLength : vColLength, rowLength : vRowLength });
 
   // Send out ok
   return true;
-};
+}
 
 qx.Proto.hasSpans = function() {
   return this._spans.length > 0;
-};
+}
 
 qx.Proto.getSpanEntry = function(vCol, vRow)
 {
@@ -779,11 +779,11 @@ qx.Proto.getSpanEntry = function(vCol, vRow)
 
     if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow) {
       return c;
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 qx.Proto.isSpanStart = function(vCol, vRow)
 {
@@ -793,11 +793,11 @@ qx.Proto.isSpanStart = function(vCol, vRow)
 
     if (c.startCol == vCol && c.startRow == vRow) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 qx.Proto.isSpanCell = function(vCol, vRow)
 {
@@ -807,11 +807,11 @@ qx.Proto.isSpanCell = function(vCol, vRow)
 
     if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 qx.Proto.isFillCell = function(vCol, vRow)
 {
@@ -821,11 +821,11 @@ qx.Proto.isFillCell = function(vCol, vRow)
 
     if (vCol >= c.startCol && vCol <= c.endCol && vRow >= c.startRow && vRow <= c.endRow && (vCol > c.startCol || vRow > c.startRow)) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 qx.Proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
 {
@@ -835,11 +835,11 @@ qx.Proto._collidesWithSpans = function(vStartCol, vStartRow, vEndCol, vEndRow)
 
     if (vEndCol >= c.startCol && vStartCol <= c.endCol && vEndRow >= c.startRow && vStartRow <= c.endRow ) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 
 
@@ -857,7 +857,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
 
   delete this._columnData;
@@ -866,4 +866,4 @@ qx.Proto.dispose = function()
   delete this._spans;
 
   return qx.ui.core.Parent.prototype.dispose.call(this);
-};
+}

@@ -39,7 +39,7 @@ qx.renderer.color.ColorCache = function(propValue, propData)
       if (propValue != qx.constant.Core.EMPTY) {
         propValue = propKey = propValue.toLowerCase();
         break;
-      };
+      }
 
       return propValue;
 
@@ -48,14 +48,14 @@ qx.renderer.color.ColorCache = function(propValue, propData)
       {
         propKey = propValue.toString();
         break;
-      };
+      }
 
       return propValue;
 
     case qx.constant.Type.OBJECT:
       if (propValue == null || propValue instanceof qx.renderer.color.Color) {
         return propValue;
-      };
+      }
 
       // Try to detect array of RGB values
       if (typeof propValue.join === qx.constant.Type.FUNCTION && propValue.length == 3)
@@ -63,15 +63,15 @@ qx.renderer.color.ColorCache = function(propValue, propData)
         propKey = qx.renderer.color.Color.RGBCSS_START + propValue.join(qx.constant.Core.COMMA) + qx.renderer.color.Color.RGBCSS_STOP;
         propKeyAsStyle = true;
         break;
-      };
+      }
 
     default:
       return propValue;
-  };
+  }
 
   if (qx.renderer.color.ColorCache._data[propKey]) {
     return qx.renderer.color.ColorCache._data[propKey];
-  };
+  }
 
   // this.debug("Create new color instance: " + propKey);
 
@@ -79,9 +79,9 @@ qx.renderer.color.ColorCache = function(propValue, propData)
 
   if (propKeyAsStyle) {
     vColorObject._style = propKey;
-  };
+  }
 
   return vColorObject;
-};
+}
 
-qx.renderer.color.ColorCache._data = {};
+qx.renderer.color.ColorCache._data = {}

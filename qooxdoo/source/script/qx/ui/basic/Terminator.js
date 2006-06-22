@@ -49,23 +49,23 @@ qx.Proto._applyPaddingX = function(vParent, vChanges, vStyle)
 {
   if (vChanges.paddingLeft) {
     this._applyRuntimePaddingLeft(this.getPaddingLeft());
-  };
+  }
 
   if (vChanges.paddingRight) {
     this._applyRuntimePaddingRight(this.getPaddingRight());
-  };
-};
+  }
+}
 
 qx.Proto._applyPaddingY = function(vParent, vChanges, vStyle)
 {
   if (vChanges.paddingTop) {
     this._applyRuntimePaddingTop(this.getPaddingTop());
-  };
+  }
 
   if (vChanges.paddingBottom) {
     this._applyRuntimePaddingBottom(this.getPaddingBottom());
-  };
-};
+  }
+}
 
 
 
@@ -86,7 +86,7 @@ qx.Proto._applyContent = function()
     this._cachedPreferredInnerWidth = null;
   } else {
     this._invalidatePreferredInnerWidth();
-  };
+  }
 
   // Small optimization: Only add innerPreferred jobs
   // if we don't have a static height
@@ -94,19 +94,19 @@ qx.Proto._applyContent = function()
     this._cachedPreferredInnerHeight = null;
   } else {
     this._invalidatePreferredInnerHeight();
-  };
+  }
 
   // add load job
   if (this._initialLayoutDone) {
     this.addToJobQueue(qx.constant.Event.LOAD);
-  };
-};
+  }
+}
 
 qx.Proto._layoutPost = function(vChanges) {
   if (vChanges.initial || vChanges.load || vChanges.width || vChanges.height) {
     this._postApply();
-  };
-};
+  }
+}
 
 qx.Proto._postApply = qx.util.Return.returnTrue;
 
@@ -144,48 +144,48 @@ qx.Proto._isWidthEssential = function()
 {
   if (!this._computedLeftTypeNull && !this._computedRightTypeNull) {
     return true;
-  };
+  }
 
   if (!this._computedWidthTypeNull && !this._computedWidthTypeAuto) {
     return true;
-  };
+  }
 
   if (!this._computedMinWidthTypeNull && !this._computedMinWidthTypeAuto) {
     return true;
-  };
+  }
 
   if (!this._computedMaxWidthTypeNull && !this._computedMaxWidthTypeAuto) {
     return true;
-  };
+  }
 
   if (this._borderElement) {
     return true;
-  };
+  }
 
   return false;
-};
+}
 
 qx.Proto._isHeightEssential = function()
 {
   if (!this._computedTopTypeNull && !this._computedBottomTypeNull) {
     return true;
-  };
+  }
 
   if (!this._computedHeightTypeNull && !this._computedHeightTypeAuto) {
     return true;
-  };
+  }
 
   if (!this._computedMinHeightTypeNull && !this._computedMinHeightTypeAuto) {
     return true;
-  };
+  }
 
   if (!this._computedMaxHeightTypeNull && !this._computedMaxHeightTypeAuto) {
     return true;
-  };
+  }
 
   if (this._borderElement) {
     return true;
-  };
+  }
 
   return false;
-};
+}

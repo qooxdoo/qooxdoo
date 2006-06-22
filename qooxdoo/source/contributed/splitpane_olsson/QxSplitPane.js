@@ -61,7 +61,7 @@ function QxSplitPane(vOrientation)
     case qx.constant.Layout.ORIENTATION_VERTICAL :
       sb.setHeight(this.getDividerSize());
       break;
-  };
+  }
 
   sb.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbarmousedown, this);
   sb.addEventListener(qx.constant.Event.MOUSEUP, this._onbarmouseup, this);
@@ -88,7 +88,7 @@ function QxSplitPane(vOrientation)
       this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/down-divider.gif");
       this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-vert-divider.gif");
       break;
-  };
+  }
 
   sb.add(buttonLayout);
 
@@ -232,11 +232,11 @@ this.error("Hereeeeeee");
         this.getFirstWidget().setHeight(propValue);
         this.getSecondWidget().setHeight(this.getHeight() - propValue - this.getDividerSize());
         break;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyDividerSize = function(propValue, propOldValue, propData)
 {
@@ -245,10 +245,10 @@ qx.Proto._modifyDividerSize = function(propValue, propOldValue, propData)
   }
   else if(this.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL) {
     this._bar.setHeight(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyFirstWidget = function(propValue, propOldValue, propData)
 {
@@ -259,13 +259,13 @@ qx.Proto._modifyFirstWidget = function(propValue, propOldValue, propData)
     if(this._leftWidget) {
       this._firstWidget.dispose();
       this._firstWidget = null;
-    };
-  };
+    }
+  }
 
   if (!propValue)
   {
     propValue = new qx.ui.layout.CanvasLayout();
-  };
+  }
 
   this.addAtBegin(propValue);
   this._lastDividerLocation = propValue.getWidth();
@@ -273,10 +273,10 @@ qx.Proto._modifyFirstWidget = function(propValue, propOldValue, propData)
 //  if(!this.getMaximumDividerLocation())
 //  {
 //    this.setMaximumDividerLocation(this.getWidth() - this.getDividerSize());
-//  };
+//  }
 
   return true;
-};
+}
 
 qx.Proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propData)
 {
@@ -291,14 +291,14 @@ qx.Proto._modifyMaximumDividerLocation = function(propValue, propOldValue, propD
     case qx.constant.Layout.ORIENTATION_VERTICAL :
       maxValue = this.getHeight();
       break;
-  };
+  }
 
   if(propValue >= 0 && propValue <= (maxValue - this.getDividerSize()) && propValue >= this.getMinimumDividerLocation()) {
     return true;
-  };
+  }
 
   return false;   
-};
+}
 
 qx.Proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propData)
 {
@@ -309,14 +309,14 @@ qx.Proto._modifyMinimumDividerLocation = function(propValue, propOldValue, propD
   }
   else if(this.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL) {
     minValue = this.getHeight();
-  };
+  }
 
   if(propValue >= 0 && propValue <= (maxValue - this.getDividerSize()) && propValue <= this.getMaximumDividerLocation()) {
     return true;
-  };
+  }
 
   return false;
-};
+}
 
 qx.Proto._modifySecondWidget = function(propValue, propOldValue, propData)
 {
@@ -327,19 +327,19 @@ qx.Proto._modifySecondWidget = function(propValue, propOldValue, propData)
     if(this._secondWidget) {
       this._secondWidget.dispose();
       this._secondWidget = null;
-    };
-  };
+    }
+  }
 
   if (!propValue)
   {
     propValue = new qx.ui.layout.CanvasLayout();
-  };
+  }
 
   this.addAtEnd(propValue);
   this._lastDividerLocation = this.getFirstWidget().getWidth();
 
   return true;
-};
+}
 
 
 /*
@@ -383,7 +383,7 @@ qx.Proto._onbarmousedown = function(e)
       {
         f.setParent(this._bar.getParent());
         qx.ui.core.Widget.flushGlobalQueues();
-      };
+      }
 
       f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
       f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
@@ -393,10 +393,10 @@ qx.Proto._onbarmousedown = function(e)
 
       f.setZIndex(this._bar.getZIndex() + 1);
       break;
-  };
+  }
 
   // create move session
-  var s = this._moveSession = {};
+  var s = this._moveSession = {}
 
   switch(this.getOrientation())
   {
@@ -425,8 +425,8 @@ qx.Proto._onbarmousedown = function(e)
       s.minPos = this.getMinimumDividerLocation() ? this.getMinimumDividerLocation() : 0;
       s.maxPos = this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (b - t - s.boxHeight);
       break;
-  };
-};
+  }
+}
 
 qx.Proto._onbarmouseup = function(e)
 {
@@ -448,7 +448,7 @@ qx.Proto._onbarmouseup = function(e)
 
         if (!(obj && obj.getParent())) {
           break;
-        };
+        }
         // no break here
 
       case QxSplitPane.MODE_LAZYOPAQUE:
@@ -472,11 +472,11 @@ qx.Proto._onbarmouseup = function(e)
             firstWidget.setHeight(s.newPosition.limit(s.minPos, s.maxPos));
             secondWidget.setHeight(s.parentAreaOffsetBottom - s.parentAreaOffsetTop - s.boxHeight - s.newPosition);
             break;
-        };
+        }
 
         if (this.getMoveMethod() == QxSplitPane.MODE_BAR) {
           this._frame.setParent(null);
-        };
+        }
 
         // Divider buttons
         this._buttonLayout.addAt(this._minimizeButton, 0);
@@ -489,26 +489,26 @@ qx.Proto._onbarmouseup = function(e)
         else
         {
           this._buttonLayout.addAt(this._restoreButton, 2);
-        };
+        }
         
         break;
 
       case QxSplitPane.MODE_TRANSLUCENT:
         this._bar.setOpacity(null);
         break;
-    };
+    }
 
     this.setDividerLocation(this._lastDividerLocation);
 
     delete this._moveSession;
-  };
-};
+  }
+}
 
 qx.Proto._onbarmousemove = function(e)
 {
   if (!this.getAllowMove()) {
     return;
-  };
+  }
 
   var s = this._moveSession;
 
@@ -527,7 +527,7 @@ qx.Proto._onbarmousemove = function(e)
           case qx.constant.Layout.ORIENTATION_VERTICAL :
             this._bar.setTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
             break;
-        };
+        }
         break;
 
       default:
@@ -542,8 +542,8 @@ qx.Proto._onbarmousemove = function(e)
           case qx.constant.Layout.ORIENTATION_VERTICAL :
             o._applyRuntimeTop((s.boxTop - s.parentAreaOffsetTop + e.getPageY() - s.firstPageY).limit(s.minPos, s.maxPos));
             break;
-        };
-    };
+        }
+    }
   }
   else
   {
@@ -556,11 +556,11 @@ qx.Proto._onbarmousemove = function(e)
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         this._bar.setCursor("n-resize");
         break;
-    };
-  };
+    }
+  }
 
   e.preventDefault();
-};
+}
 
 /*
 ---------------------------------------------------------------------------
@@ -570,7 +570,7 @@ qx.Proto._onbarmousemove = function(e)
 
 qx.Proto._onbuttonmousedown = function(e) {
   e.stopPropagation();
-};
+}
 
 qx.Proto._onminimizebuttonclick = function(e)
 {
@@ -579,7 +579,7 @@ qx.Proto._onminimizebuttonclick = function(e)
   this._buttonLayout.remove(this._restoreButton);
   this._buttonLayout.addAt(this._restoreButton, 0);
   this._buttonLayout.addAt(this._maximizeButton, 1);
-};
+}
 
 qx.Proto._onrestorebuttonclick = function(e) {
   this.restore();
@@ -587,7 +587,7 @@ qx.Proto._onrestorebuttonclick = function(e) {
   this._buttonLayout.remove(this._restoreButton);
   this._buttonLayout.addAt(this._minimizeButton, 0);
   this._buttonLayout.addAt(this._maximizeButton, 1);
-};
+}
 
 qx.Proto._onmaximizebuttonclick = function(e)
 {
@@ -596,7 +596,7 @@ qx.Proto._onmaximizebuttonclick = function(e)
   this._buttonLayout.addAt(this._minimizeButton, 0);
   this._buttonLayout.remove(this._restoreButton);
   this._buttonLayout.addAt(this._restoreButton, 1);
-};
+}
 
 
 /*
@@ -607,31 +607,31 @@ qx.Proto._onmaximizebuttonclick = function(e)
 
 qx.Proto.addLeft = function(vWidget) {
   this.getFirstWidget().add(vWidget);
-};
+}
 
 qx.Proto.addTop = function(vWidget) {
   this.getFirstWidget().add(vWidget);
-};
+}
 
 qx.Proto.addRight = function(vWidget) {
   this.getSecondWidget().add(vWidget);
-};
+}
 
 qx.Proto.addBottom = function(vWidget) {
   this.getSecondWidget().add(vWidget);
-};
+}
 
 qx.Proto.minimize = function() {
   this.setDividerLocation(0);
-};
+}
 
 qx.Proto.maximize = function() {
   this.setDividerLocation(this.getMaximumDividerLocation() ? this.getMaximumDividerLocation() : (this.getWidth() - this.getDividerSize()));
-};
+}
 
 qx.Proto.restore = function() {
   this.setDividerLocation(this._lastDividerLocation);
-};
+}
 
 
 /*
@@ -644,13 +644,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._frame)
   {
     this._frame.dispose();
     this._frame = null;
-  };
+  }
 
   if (this._bar)
   {
@@ -659,65 +659,65 @@ qx.Proto.dispose = function()
     this._bar.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onbarmousemove, this);
     this._bar.dispose();
     this._bar = null;
-  };
+  }
 
   if (this._buttonLayout) {
     this._buttonLayout.dispose();
     this._buttonLayout = null;
-  };
+  }
 
   if (this._minimizeButton) {
     this._minimizeButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
     this._minimizeButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._minimizeButton.dispose();
     this._minimizeButton = null;
-  };
+  }
 
   if (this._maximizeButton) {
     this._maximizeButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
     this._maximizeButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._maximizeButton.dispose();
     this._maximizeButton = null;
-  };
+  }
 
   if (this._restoreButton) {
     this._restoreButton.removeEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
     this._restoreButton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
     this._restoreButton.dispose();
     this._restoreButton = null;
-  };
+  }
 
   if (this._firstWidget)
   {
     this._firstWidget.dispose();
     this._firstWidget = null;
-  };
+  }
 
   if (this._secondWidget)
   {
     this._secondWidget.dispose();
     this._secondWidget = null;
-  };
+  }
 
   if(this._minimizeImage)
   {
     this._minimizeImage.dispose();
     this._minimizeImage = null;
-  };
+  }
 
   if(this._maximizeImage)
   {
     this._maximizeImage.dispose();
     this._maximizeImage = null;
-  };
+  }
 
   if(this._restoreImage)
   {
     this._restoreImage.dispose();
     this._restoreImage = null;
-  };
+  }
 
   delete this._lastDividerLocation;
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}
