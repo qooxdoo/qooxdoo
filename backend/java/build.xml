@@ -5,7 +5,7 @@
 
     <target name="compile">
         <mkdir dir="classes"/>
-        <javac srcdir="rpc" destdir="classes">
+        <javac srcdir="rpc" destdir="classes" debug="true">
             <classpath>
                 <fileset dir="lib">
                     <include name="**.jar"/>
