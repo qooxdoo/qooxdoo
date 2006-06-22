@@ -405,7 +405,7 @@ qx.Proto.getResponseContent = function()
 
     case qx.constant.Mime.JSON:
       try {
-        return vText && vText.length > 0 ? qx.io.Json.parse(vText) : null;
+        return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: (" + vText + ")", ex);
       };
