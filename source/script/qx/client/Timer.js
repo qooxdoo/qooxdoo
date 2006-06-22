@@ -38,11 +38,11 @@ function(vInterval)
 
   if (qx.util.Validation.isValidNumber(vInterval)) {
     this.setInterval(vInterval);
-  };
+  }
 
   // Object wrapper to timer event
   var o = this;
-  this.__oninterval = function() { o._oninterval(); };
+  this.__oninterval = function() { o._oninterval(); }
 });
 
 qx.OO.addProperty({ name : "interval", type : qx.constant.Type.NUMBER, defaultValue : 1000 });
@@ -67,10 +67,10 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   else if (propValue)
   {
     this._intervalHandle = window.setInterval(this.__oninterval, this.getInterval());
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -83,29 +83,29 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 
 qx.Proto.start = function() {
   this.setEnabled(true);
-};
+}
 
 qx.Proto.startWith = function(vInterval)
 {
   this.setInterval(vInterval);
   this.start();
-};
+}
 
 qx.Proto.stop = function() {
   this.setEnabled(false);
-};
+}
 
 qx.Proto.restart = function()
 {
   this.stop();
   this.start();
-};
+}
 
 qx.Proto.restartWith = function(vInterval)
 {
   this.stop();
   this.startWith(vInterval);
-};
+}
 
 
 
@@ -120,8 +120,8 @@ qx.Proto._oninterval = function()
 {
   if (this.getEnabled()) {
     this.createDispatchEvent(qx.constant.Event.INTERVAL);
-  };
-};
+  }
+}
 
 
 
@@ -137,7 +137,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   // Stop interval
   this.stop();
@@ -147,14 +147,14 @@ qx.Proto.dispose = function()
   {
     window.clearInterval(this._intervalHandle);
     this._intervalHandler = null;
-  };
+  }
 
   // Clear object wrapper function
   this.__oninterval = null;
 
   // Call qx.core.Target to do the other dispose work
   return qx.core.Target.prototype.dispose.call(this);
-};
+}
 
 
 
@@ -182,4 +182,4 @@ qx.client.Timer.once = function(vFunction, vObject, vTimeout)
 
   // Directly start timer
   vTimer.start();
-};
+}

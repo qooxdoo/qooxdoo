@@ -37,19 +37,19 @@ function(vLabel, vIcon)
 
 qx.Proto.getAtom = function() {
   return this._atom;
-};
+}
 
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._atom)
   {
     this._atom.dispose();
     this._atom = null;
-  };
+  }
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
-};
+}

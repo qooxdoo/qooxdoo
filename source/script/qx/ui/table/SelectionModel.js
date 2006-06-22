@@ -79,7 +79,7 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
     this.clearSelection();
   }
   return true;
-};
+}
 
 
 /**
@@ -90,7 +90,7 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
  */
 qx.Proto.getAnchorSelectionIndex = function() {
   return this._anchorSelectionIndex;
-};
+}
 
 
 /**
@@ -101,7 +101,7 @@ qx.Proto.getAnchorSelectionIndex = function() {
  */
 qx.Proto.getLeadSelectionIndex = function() {
   return this._leadSelectionIndex;
-};
+}
 
 
 /**
@@ -112,7 +112,7 @@ qx.Proto.clearSelection = function() {
     this._clearSelection();
     this._fireSelectionChanged();
   }
-};
+}
 
 
 /**
@@ -122,7 +122,7 @@ qx.Proto.clearSelection = function() {
  */
 qx.Proto.isSelectionEmpty = function() {
   return this._selectedRangeArr.length == 0;
-};
+}
 
 
 /**
@@ -138,7 +138,7 @@ qx.Proto.getSelectedCount = function() {
   }
 
   return selectedCount;
-};
+}
 
 
 /**
@@ -157,7 +157,7 @@ qx.Proto.isSelectedIndex = function(index) {
   }
 
   return false;
-};
+}
 
 
 /**
@@ -181,7 +181,7 @@ qx.Proto.setSelectionInterval = function(fromIndex, toIndex) {
   this._addSelectionInterval(fromIndex, toIndex);
 
   this._fireSelectionChanged();
-};
+}
 
 
 /**
@@ -204,7 +204,7 @@ qx.Proto.addSelectionInterval = function(fromIndex, toIndex) {
       this.setSelectionInterval(fromIndex, toIndex);
       break;
   }
-};
+}
 
 
 /**
@@ -246,7 +246,7 @@ qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
         range.maxIndex = minIndex - 1;
       } else {
         // The range is split
-        var newRange = { minIndex:maxIndex + 1, maxIndex:range.maxIndex };
+        var newRange = { minIndex:maxIndex + 1, maxIndex:range.maxIndex }
         this._selectedRangeArr.splice(i + 1, 0, newRange);
 
         range.maxIndex = minIndex - 1;
@@ -260,7 +260,7 @@ qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
   //this._dumpRanges();
 
   this._fireSelectionChanged();
-};
+}
 
 
 /**
@@ -268,7 +268,7 @@ qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
  */
 qx.Proto._clearSelection = function() {
   this._selectedRangeArr = [];
-};
+}
 
 
 /**
@@ -317,7 +317,7 @@ qx.Proto._addSelectionInterval = function(fromIndex, toIndex) {
   }
 
   //this._dumpRanges();
-};
+}
 
 
 /**
@@ -330,7 +330,7 @@ qx.Proto._dumpRanges = function() {
     text += " [" + range.minIndex + ".." + range.maxIndex + "]";
   }
   this.debug(text);
-};
+}
 
 
 /**
@@ -339,5 +339,5 @@ qx.Proto._dumpRanges = function() {
 qx.Proto._fireSelectionChanged = function() {
   if (this.hasEventListeners("selectionChanged")) {
     this.dispatchEvent(new qx.event.type.Event("selectionChanged"), true);
-  };
-};
+  }
+}

@@ -55,13 +55,13 @@ qx.Proto.update = function(vTarget)
 
     if(!vMenu.getAutoHide()) {
       continue;
-    };
+    }
 
     if (!vTarget || vMenu.getOpener() != vTarget) {
       vMenu.hide();
-    };
-  };
-};
+    }
+  }
+}
 
 
 

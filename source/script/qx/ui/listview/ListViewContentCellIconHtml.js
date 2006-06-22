@@ -40,4 +40,4 @@ qx.ui.listview.ListViewContentCellIconHtml.empty =
 {
   icon : qx.constant.Core.EMPTY,
   html : qx.constant.Core.EMPTY
-};
+}

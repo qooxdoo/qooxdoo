@@ -42,25 +42,25 @@ qx.renderer.border.BorderCache = function(propValue, propData)
 
       if (typeof p === qx.constant.Type.NUMBER) {
         propString += qx.constant.Core.PIXEL;
-      };
+      }
 
       if (i<(l-1)) {
         propString += qx.constant.Core.SPACE;
-      };
-    };
+      }
+    }
 
     propValue = propString;
   }
   else if (qx.util.Validation.isInvalidString(propValue))
   {
     return propValue;
-  };
+  }
 
   if (qx.renderer.border.BorderCache._data[propValue]) {
     return qx.renderer.border.BorderCache._data[propValue];
-  };
+  }
 
   return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
-};
+}
 
-qx.renderer.border.BorderCache._data = {};
+qx.renderer.border.BorderCache._data = {}

@@ -27,7 +27,7 @@ function QxTaskBar() {
     this._tBarPanel = new qx.ui.toolbar.ToolBarPart;
     this.add(this._tBarPanel);
     this._addingWindow = false;
-};
+}
 
 QxTaskBar.extend(qx.ui.layout.HorizontalBoxLayout, "TaskBar");
 
@@ -47,11 +47,11 @@ qx.Proto.removeWindow = function(win) {
                     this._tBarPanel.remove(botones[btn]);
                     win.createDispatchEvent("removedFromTaskbar");
                 }
-            };
-        };
+            }
+        }
     }
-    catch(ex){this.debug("Could not remove window from taskbar. Exeption: " + ex);};
-};
+    catch(ex){this.debug("Could not remove window from taskbar. Exeption: " + ex);}
+}
 /* Updates button status in the taskbar it gets called whe u add a new qx.ui.window.Window
 */
 qx.Proto._updateButtons = function(selected) {
@@ -62,11 +62,11 @@ qx.Proto._updateButtons = function(selected) {
                 if(botones[btn].getUserData("winId") != selected.getUserData("winId")) {
                     botones[btn].setChecked(false);
                 }
-            };
-        };
+            }
+        }
     }
-    catch(ex){this.debug("Could not update buttons in taskbar. Exeption: " + ex);};
-};
+    catch(ex){this.debug("Could not update buttons in taskbar. Exeption: " + ex);}
+}
 
 /* Adds a qx.ui.window.Window to the taskbar 
     the current implementation doesnt check if there is a win with the same name.
@@ -100,7 +100,7 @@ qx.Proto.addWindow = function(win) {
     win.addEventListener(qx.constant.Event.FOCUS, function(e) {
         tmpButton.setChecked(true);
     });
-};
+}
 
 
 /*
@@ -113,7 +113,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

@@ -40,8 +40,8 @@ if (qx.sys.Client.isMshtml())
     catch(ex)
     {
       return null;
-    };
-  };
+    }
+  }
 
   qx.dom.DomIframe.getDocument = function(vIframe)
   {
@@ -53,8 +53,8 @@ if (qx.sys.Client.isMshtml())
     catch(ex)
     {
       return null;
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -68,8 +68,8 @@ else
     catch(ex)
     {
       return null;
-    };
-  };
+    }
+  }
 
   qx.dom.DomIframe.getDocument = function(vIframe)
   {
@@ -80,12 +80,12 @@ else
     catch(ex)
     {
       return null;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.dom.DomIframe.getBody = function(vIframe)
 {
   var vDoc = qx.dom.DomIframe.getDocument(vIframe);
   return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
-};
+}

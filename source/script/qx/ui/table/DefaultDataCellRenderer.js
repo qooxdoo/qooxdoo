@@ -58,19 +58,19 @@ qx.Proto._getCellStyle = function(cellInfo) {
   }
 
   return style;
-};
+}
 
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
   return this._formatValue(cellInfo.value);
-};
+}
 
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   cellElement.firstChild.nodeValue = this._formatValue(cellInfo.value);
-};
+}
 
 
 /**
@@ -89,7 +89,7 @@ qx.Proto._formatValue = function(value) {
   } else {
     return value;
   }
-};
+}
 
 
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
@@ -100,12 +100,12 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
       htmlArr.push(qx.ui.table.DefaultDataCellRenderer.STYLE_ALIGN_RIGHT);
     }
   }
-};
+}
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   htmlArr.push(this._formatValue(cellInfo.value));
-};
+}
 
 
 qx.Class._numberFormat = new qx.util.format.NumberFormat();

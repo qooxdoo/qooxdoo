@@ -68,7 +68,7 @@ qx.Proto.handleMouseDown = function(index, evt) {
     // This index is already selected -> We react when the mouse is released (because of drag and drop)
     this._lastMouseDownHandled = false;
   }
-};
+}
 
 
 /**
@@ -78,7 +78,7 @@ qx.Proto.handleMouseDown = function(index, evt) {
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseUp = function(index, evt) {
-};
+}
 
 
 /**
@@ -91,7 +91,7 @@ qx.Proto.handleClick = function(index, evt) {
   if (!this._lastMouseDownHandled) {
     this._handleSelectEvent(index, evt);
   }
-};
+}
 
 
 /**
@@ -104,7 +104,7 @@ qx.Proto.handleKeyDown = function(index, evt) {
   if (evt.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
     this._handleSelectEvent(index, evt);
   }
-};
+}
 
 
 /**
@@ -135,4 +135,4 @@ qx.Proto._handleSelectEvent = function(index, evt) {
   } else {
     selectionModel.setSelectionInterval(index, index);
   }
-};
+}

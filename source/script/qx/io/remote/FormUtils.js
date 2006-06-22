@@ -38,30 +38,30 @@ qx.io.remote.FormUtils.inputFilter = function(vNode)
 {
   if (vNode.disabled) {
     return false;
-  };
+  }
 
   var vTag = (vNode.tagName || qx.constant.Core.EMPTY).toLowerCase();
 
   if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreElementTypes, vTag)) {
     return false;
-  };
+  }
 
   var vType = vNode.type.toLowerCase();
 
   if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreInputTypes, vType)) {
     return false;
-  };
+  }
 
   if (!vNode.checked && qx.lang.Array.contains(qx.io.remote.FormUtils.checkElementTypes, vType)) {
     return false;
-  };
+  }
 
   return true;
-};
+}
 
 qx.io.remote.FormUtils.getFields = function(vForm) {
   return Array.filter(vForm.elements, qx.io.remote.FormUtils.inputFilter);
-};
+}
 
 qx.io.remote.FormUtils.encodeField = function(vNode)
 {
@@ -76,16 +76,16 @@ qx.io.remote.FormUtils.encodeField = function(vNode)
     {
       if(vNode.options[i].selected) {
         vValues.push(vName + qx.constant.Core.EQUAL + vNode.options[i].value);
-      };
-    };
+      }
+    }
 
     return vValues.join(qx.constant.Core.AMPERSAND);
   }
   else
   {
     return vName + qx.constant.Core.EQUAL + vNode.value;
-  };
-};
+  }
+}
 
 qx.io.remote.FormUtils.encodeForm = function(vForm)
 {
@@ -94,10 +94,10 @@ qx.io.remote.FormUtils.encodeForm = function(vForm)
 
   for (var i=0, l=vFields.length; i<l; i++) {
     vAll.push(qx.io.remote.FormUtils.encodeField(vFields[i]));
-  };
+  }
 
   return vAll.join(qx.constant.Core.AMPERSAND);
-};
+}
 
 qx.io.remote.FormUtils.bind = function(vForm, vMethod)
 {
@@ -107,8 +107,8 @@ qx.io.remote.FormUtils.bind = function(vForm, vMethod)
 
     if (typeof e.preventDefault === qx.constant.Type.FUNCTION) {
       e.preventDefault();
-    };
+    }
 
     return vMethod(e);
   });
-};
+}

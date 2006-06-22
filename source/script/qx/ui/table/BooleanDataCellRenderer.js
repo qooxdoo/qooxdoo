@@ -46,7 +46,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
   style += qx.ui.table.BooleanDataCellRenderer.MAIN_DIV_STYLE;
 
   return style;
-};
+}
 
 
 // overridden
@@ -59,7 +59,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   cellElement.firstChild.src = this._getImgUrl(cellInfo);
-};
+}
 
 
 /**
@@ -76,14 +76,14 @@ qx.Proto._getImgUrl = function(cellInfo) {
     case false: return BooleanDataCellRenderer.FALSE_ICON_URL; break;
     default:    return BooleanDataCellRenderer.NULL_ICON_URL; break;
   }
-};
+}
 
 
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
   qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
 
   htmlArr.push(qx.ui.table.BooleanDataCellRenderer.MAIN_DIV_STYLE);
-};
+}
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
@@ -102,7 +102,7 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   if (qx.ui.table.TablePane.USE_TABLE) {
     htmlArr.push(BooleanDataCellRenderer.TABLE_DIV_END);
   }
-};
+}
 
 
 /** {string} The URL of the icon showing a true value. */

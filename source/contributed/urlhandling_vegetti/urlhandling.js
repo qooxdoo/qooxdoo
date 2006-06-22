@@ -12,7 +12,7 @@ getSiteUrl = function()
    }
    result = result.substring(0, result.length - 1);
    return result;
-};
+}
 
 getParam = function(name, alternativeUrl)
 {
@@ -43,4 +43,4 @@ document.location.search.length);
        }
    }
    return result;
-};
+}

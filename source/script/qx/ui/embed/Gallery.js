@@ -85,7 +85,7 @@ qx.OO.addProperty({ name : "showComment", type : qx.constant.Type.BOOLEAN, defau
 
 qx.Proto._applyElementData = function() {
   this.getElement().appendChild(this.createView());
-};
+}
 
 
 
@@ -100,11 +100,11 @@ qx.Proto._applyElementData = function() {
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 qx.Proto.getList = function() {
   return this._list;
-};
+}
 
 qx.Proto.update = function(vGalleryList)
 {
@@ -114,28 +114,28 @@ qx.Proto.update = function(vGalleryList)
 
   var el = this.getElement();
   el.replaceChild(this.createView(), el.firstChild);
-};
+}
 
 qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
   this.getElement().innerHTML = qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
   this.updateImageSrcById(vId, vSrc);
   this.updateImageDimensionsById(vId, vWidth, vHeight);
-};
+}
 
 qx.Proto.updateImageDimensionsById = function(vId, vWidth, vHeight) {
   this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
-};
+}
 
 qx.Proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
   // TBD: compare dimensions with max. thumb size and scale proportionally if necessary
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
-  };
+  }
 
   var cnode = this.getNodeByPosition(vPos).getElementsByTagName("IMG")[0];
 
@@ -147,27 +147,27 @@ qx.Proto.updateImageDimensionsByPosition = function(vPos, vWidth, vHeight) {
 
   this._list[vPos].thumbWidth = vWidth;
   this._list[vPos].thumbHeight = vHeight;
-};
+}
 
 qx.Proto.updateImageSrcById = function(vId, vSrc) {
   this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
-};
+}
 
 qx.Proto.updateImageSrcByPosition = function(vPos, vSrc)
 {
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
-  };
+  }
 
   var vNode = this.getNodeByPosition(vPos);
 
   vNode.getElementsByTagName("IMG")[0].src = vSrc;
   this._list[vPos].src = vSrc;
-};
+}
 
 qx.Proto.deleteById = function(vId) {
   this.deleteByPosition(this.getPositionById(vId));
-};
+}
 
 qx.Proto.deleteByPosition = function(vPos)
 {
@@ -175,47 +175,47 @@ qx.Proto.deleteByPosition = function(vPos)
 
   if (vPos == -1) {
     throw new Error("No valid Position: " + vPos);
-  };
+  }
 
   var vNode = this.getNodeByPosition(vPos);
 
   if (vNode) {
     vNode.parentNode.removeChild(vNode);
-  };
+  }
 
   this._list.splice(vPos, 1);
-};
+}
 
 qx.Proto.getPositionById = function(vId)
 {
   for (var i=0, a=this._list, l=a.length; i<l; i++) {
     if (a[i].id == vId) {
       return i;
-    };
-  };
+    }
+  }
 
   return -1;
-};
+}
 
 qx.Proto.getEntryById = function(vId) {
   return this.getEntryByPosition(this.getPositionById(vId));
-};
+}
 
 qx.Proto.getNodeById = function(vId) {
   return this.getNodeByPosition(this.getPositionById(vId));
-};
+}
 
 qx.Proto.getEntryByPosition = function(vPosition) {
   return vPosition == -1 ? null : this._list[vPosition];
-};
+}
 
 qx.Proto.getNodeByPosition = function(vPosition) {
   return vPosition == -1 ? null : this._frame.childNodes[vPosition];
-};
+}
 
 qx.Proto.getEntryByNode = function(vNode) {
   return this.getEntryById(vNode.id);
-};
+}
 
 qx.Proto.addFromPartialList = function(vPartialList)
 {
@@ -223,17 +223,17 @@ qx.Proto.addFromPartialList = function(vPartialList)
 
   for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
-  };
-};
+  }
+}
 
 qx.Proto.addFromUpdatedList = function(vNewList)
 {
   for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
-  };
+  }
 
   this._list = vNewList;
-};
+}
 
 
 
@@ -250,8 +250,8 @@ qx.Proto._onmousedown = function(e)
 
   if (vItem) {
     this._manager.handleMouseDown(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -259,47 +259,47 @@ qx.Proto._onmouseup = function(e)
 
   if (vItem) {
     this._manager.handleMouseUp(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onmousemove = function(e)
 {
   if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.OBJECT) {
     return;
-  };
+  }
 
   var vItem = this.getListItemTarget(e.getDomTarget());
 
   if (vItem == this._lastItem) {
     return;
-  };
+  }
 
   if (this._lastItem)
   {
     var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
     qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
     vEventObject.dispose();
-  };
+  }
 
   if (vItem)
   {
     if (this.hasEventListeners("beforeToolTipAppear")) {
       this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
-    };
+    }
 
     if (!this.getToolTip()) {
       return;
-    };
+    }
 
     var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
     qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
     vEventObject.dispose();
 
     this.setToolTip(null);
-  };
+  }
 
   this._lastItem = vItem;
-};
+}
 
 qx.Proto._onclick = function(e)
 {
@@ -307,8 +307,8 @@ qx.Proto._onclick = function(e)
 
   if (vItem) {
     this._manager.handleClick(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._ondblclick = function(e)
 {
@@ -316,25 +316,25 @@ qx.Proto._ondblclick = function(e)
 
   if (vItem) {
     this._manager.handleDblClick(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown = function(e) {
   this._manager.handleKeyDown(e);
-};
+}
 
 qx.Proto.getListItemTarget = function(dt)
 {
   while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
-  };
+  }
 
   if (dt.tagName == "BODY") {
     return null;
-  };
+  }
 
   return dt;
-};
+}
 
 
 
@@ -350,15 +350,15 @@ qx.Proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
   this.scrollItemIntoViewY(vItem);
-};
+}
 
 qx.Proto.scrollItemIntoViewX = function(vItem) {
   qx.dom.DomScrollIntoView.scrollX(vItem);
-};
+}
 
 qx.Proto.scrollItemIntoViewY = function(vItem) {
   qx.dom.DomScrollIntoView.scrollY(vItem);
-};
+}
 
 
 
@@ -372,15 +372,15 @@ qx.Proto.scrollItemIntoViewY = function(vItem) {
 
 qx.Proto.getItems = function() {
   return this._frame.childNodes;
-};
+}
 
 qx.Proto.getFirstChild = function() {
   return this._frame.childNodes[0];
-};
+}
 
 qx.Proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
-};
+}
 
 
 
@@ -400,17 +400,17 @@ qx.Proto.createView = function()
 
   if (!this._protoCell) {
     this.createProtoCell();
-  };
+  }
 
   this._frame = document.createElement("div");
   this._frame.className = "galleryFrame clearfix";
 
   for (var i=0, a=this._list, l=a.length; i<l; i++) {
     this._frame.appendChild(this.createCell(a[i], i));
-  };
+  }
 
   return this._frame;
-};
+}
 
 qx.Proto.createCell = function(d, i)
 {
@@ -423,7 +423,7 @@ qx.Proto.createCell = function(d, i)
   {
     cnode = cframe.childNodes[0];
     cnode.firstChild.nodeValue = d.title;
-  };
+  }
 
   var cnode = cframe.childNodes[this.getShowTitle() ? 1 : 0];
   this.createImageCell(cnode, d);
@@ -432,10 +432,10 @@ qx.Proto.createCell = function(d, i)
   {
     cnode = cframe.childNodes[this.getShowTitle() ? 2 : 1];
     cnode.firstChild.nodeValue = d.comment;
-  };
+  }
 
   return cframe;
-};
+}
 
 qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
@@ -446,19 +446,19 @@ qx.Proto.createImageCell = function(inode, d)
     inode.onload = qx.ui.embed.Gallery.imageOnLoad;
     inode.onerror = qx.ui.embed.Gallery.imageOnError;
     inode.gallery = this;
-  };
+  }
 
   if (this._mshtml) {
     inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
   } else {
     inode.src = d.src;
-  };
+  }
 
   inode.width = d.thumbWidth + 2;
   inode.height = d.thumbHeight + 2;
   inode.style.marginLeft = inode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
   inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
-};
+}
 
 qx.Proto.imageOnComplete = function()
 {
@@ -466,8 +466,8 @@ qx.Proto.imageOnComplete = function()
 
   if(this._processedImages == this._listSize) {
     this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
-  };
-};
+  }
+}
 
 qx.ui.embed.Gallery.imageOnLoad = function()
 {
@@ -475,7 +475,7 @@ qx.ui.embed.Gallery.imageOnLoad = function()
   this.gallery = null;
   this.onload = null;
   this.onerror = null;
-};
+}
 
 qx.ui.embed.Gallery.imageOnError = function()
 {
@@ -483,7 +483,7 @@ qx.ui.embed.Gallery.imageOnError = function()
   this.gallery = null;
   this.onload = null;
   this.onerror = null;
-};
+}
 
 qx.Proto.createProtoCell = function()
 {
@@ -502,7 +502,7 @@ qx.Proto.createProtoCell = function()
     title.appendChild(ttext);
 
     frame.appendChild(title);
-  };
+  }
 
   var image = new Image();
   image.src = this._blank;
@@ -517,8 +517,8 @@ qx.Proto.createProtoCell = function()
     comment.appendChild(ctext);
 
     frame.appendChild(comment);
-  };
-};
+  }
+}
 
 
 
@@ -534,7 +534,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this._list = null;
   this._protoCell = null;
@@ -544,7 +544,7 @@ qx.Proto.dispose = function()
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   this.removeEventListener("mousedown", this._onmousedown);
   this.removeEventListener("mouseup", this._onmouseup);
@@ -556,4 +556,4 @@ qx.Proto.dispose = function()
   this.removeEventListener("keydown", this._onkeydown);
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
-};
+}

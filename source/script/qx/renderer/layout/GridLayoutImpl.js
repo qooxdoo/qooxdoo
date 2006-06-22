@@ -91,11 +91,11 @@ qx.Proto.computeChildBoxWidth = function(vChild)
 
       // inner width of the current cell plus
       vColWidth += vWidget.getColumnInnerWidth(vChild._col + i, vChild._row);
-    };
-  };
+    }
+  }
 
   return vChild.getAllowStretchX() ? vColWidth : Math.min(vChild.getWidthValue(), vColWidth);
-};
+}
 
 /*!
   Compute and return the box height of the given child.
@@ -122,11 +122,11 @@ qx.Proto.computeChildBoxHeight = function(vChild)
 
       // inner width of the current cell plus
       vRowHeight += vWidget.getRowInnerHeight(vChild._col, vChild._row + i);
-    };
-  };
+    }
+  }
 
   return vChild.getAllowStretchY() ? vRowHeight : Math.min(vChild.getHeightValue(), vRowHeight);
-};
+}
 
 
 
@@ -152,10 +152,10 @@ qx.Proto.computeChildrenNeededWidth = function()
 
   for (var i=0, l=vWidget.getColumnCount(); i<l; i++) {
     vSum += vWidget.getColumnBoxWidth(i) + vSpacingX;
-  };
+  }
 
   return vSum;
-};
+}
 
 /*!
   Compute and return the height needed by all children of this widget
@@ -169,10 +169,10 @@ qx.Proto.computeChildrenNeededHeight = function()
 
   for (var i=0, l=vWidget.getRowCount(); i<l; i++) {
     vSum += vWidget.getRowBoxHeight(i) + vSpacingY;
-  };
+  }
 
   return vSum;
-};
+}
 
 
 
@@ -196,7 +196,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
   vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
 
   return true;
-};
+}
 
 /*!
   Actions that should be done if the inner height of the widget was changed.
@@ -208,7 +208,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
   vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
 
   return true;
-};
+}
 
 
 
@@ -243,17 +243,17 @@ qx.Proto.layoutChild = function(vChild, vJobs)
 
   this.layoutChild_locationX(vChild, vJobs);
   this.layoutChild_locationY(vChild, vJobs);
-};
+}
 
 qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
 {
   vChild._applyRuntimeWidth(vChild.getBoxWidth());
-};
+}
 
 qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
 {
   vChild._applyRuntimeHeight(vChild.getBoxHeight());
-};
+}
 
 qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 {
@@ -263,7 +263,7 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
   for (var i=0; i<vChild._col; i++) {
     vLocSumX += vWidget.getColumnBoxWidth(i) + vSpacingX;
-  };
+  }
 
   switch(vChild.getHorizontalAlign() || vWidget.getColumnHorizontalAlignment(vChild._col) || vWidget.getRowHorizontalAlignment(vChild._row) || vWidget.getHorizontalChildrenAlign())
   {
@@ -274,10 +274,10 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
     case qx.constant.Layout.ALIGN_RIGHT:
       vLocSumX += vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth();
       break;
-  };
+  }
 
   vChild._applyRuntimeLeft(vLocSumX);
-};
+}
 
 qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 {
@@ -287,7 +287,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 
   for (var i=0; i<vChild._row; i++) {
     vLocSumY += vWidget.getRowBoxHeight(i) + vSpacingY;
-  };
+  }
 
   switch(vChild.getVerticalAlign() || vWidget.getRowVerticalAlignment(vChild._row) || vWidget.getColumnVerticalAlignment(vChild._col) || vWidget.getVerticalChildrenAlign())
   {
@@ -298,7 +298,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
     case qx.constant.Layout.ALIGN_BOTTOM:
       vLocSumY += vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight();
       break;
-  };
+  }
 
   vChild._applyRuntimeTop(vLocSumY);
-};
+}

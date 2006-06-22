@@ -39,8 +39,8 @@ if (!Error.prototype.toString)
 {
   Error.prototype.toString = function() {
     return this.message;
-  };
-};
+  }
+}
 
 
 
@@ -69,15 +69,15 @@ if (!Function.prototype.apply)
 
     if (!oScope) {
       oScope = window;
-    };
+    }
 
     if (!args) {
       args = [];
-    };
+    }
 
     for (var i = 0; i < args.length; i++) {
       sarg[i] = "args["+i+"]";
-    };
+    }
 
     call = "oScope._applyTemp_(" + sarg.join(qx.constant.Core.COMMA) + ");";
 
@@ -87,8 +87,8 @@ if (!Function.prototype.apply)
     delete oScope._applyTemp_;
 
     return rtrn;
-  };
-};
+  }
+}
 
 /*!
   Greatly developed by: http://laurens.vd.oever.nl/weblog/items2005/closures/
@@ -101,7 +101,7 @@ Function.prototype.closure = function(obj)
   {
     window.__objs = [];
     window.__funs = [];
-  };
+  }
 
   // For symmetry and clarity.
   var fun = this;
@@ -110,24 +110,24 @@ Function.prototype.closure = function(obj)
   var objId = obj.__objId;
   if (!objId) {
     __objs[objId = obj.__objId = __objs.length] = obj;
-  };
+  }
 
   // Make sure the function has an id and is stored in the function store.
   var funId = fun.__funId;
   if (!funId) {
     __funs[funId = fun.__funId = __funs.length] = fun;
-  };
+  }
 
   // Init closure storage.
   if (!obj.__closures) {
     obj.__closures = [];
-  };
+  }
 
   // See if we previously created a closure for this object/function pair.
   var closure = obj.__closures[funId];
   if (closure) {
     return closure;
-  };
+  }
 
   // Clear references to keep them out of the closure scope.
   obj = null;
@@ -136,8 +136,8 @@ Function.prototype.closure = function(obj)
   // Create the closure, store in cache and return result.
   return __objs[objId].__closures[funId] = function () {
     return __funs[funId].apply(__objs[objId], arguments);
-  };
-};
+  }
+}
 
 /*
   TODO
@@ -149,8 +149,8 @@ Function.prototype.bind = function() {
   var __method = this, args = $A(arguments), object = args.shift();
   return function() {
     return __method.apply(object, args.concat($A(arguments)));
-  };
-};
+  }
+}
 */
 
 
@@ -184,17 +184,17 @@ if (!Array.prototype.indexOf)
     else if (fromIndex < 0)
     {
       fromIndex = Math.max(0, this.length + fromIndex);
-    };
+    }
 
     for (var i=fromIndex; i<this.length; i++) {
       if (this[i] === obj) {
         return i;
-      };
-    };
+      }
+    }
 
     return -1;
-  };
-};
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
 if (!Array.prototype.lastIndexOf)
@@ -208,17 +208,17 @@ if (!Array.prototype.lastIndexOf)
     else if (fromIndex < 0)
     {
       fromIndex = Math.max(0, this.length + fromIndex);
-    };
+    }
 
     for (var i=fromIndex; i>=0; i--) {
       if (this[i] === obj) {
         return i;
-      };
-    };
+      }
+    }
 
     return -1;
-  };
-};
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:forEach
 if (!Array.prototype.forEach)
@@ -228,9 +228,9 @@ if (!Array.prototype.forEach)
     // 'l' must be fixed during loop... see docs
     for (var i=0, l=this.length; i<l; i++) {
       f.call(obj, this[i], i, this);
-    };
-  };
-};
+    }
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter
 if (!Array.prototype.filter)
@@ -245,12 +245,12 @@ if (!Array.prototype.filter)
     {
       if (f.call(obj, this[i], i, this)) {
         res.push(this[i]);
-      };
-    };
+      }
+    }
 
     return res;
-  };
-};
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:map
 if (!Array.prototype.map)
@@ -262,11 +262,11 @@ if (!Array.prototype.map)
 
     for (var i=0; i<l; i++) {
       res.push(f.call(obj, this[i], i, this));
-    };
+    }
 
     return res;
-  };
-};
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
 if (!Array.prototype.some)
@@ -279,12 +279,12 @@ if (!Array.prototype.some)
     {
       if (f.call(obj, this[i], i, this)) {
         return true;
-      };
-    };
+      }
+    }
 
     return false;
-  };
-};
+  }
+}
 
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:every
 if (!Array.prototype.every)
@@ -296,9 +296,9 @@ if (!Array.prototype.every)
     {
       if (!f.call(obj, this[i], i, this)) {
         return false;
-      };
-    };
+      }
+    }
 
     return true;
-  };
-};
+  }
+}

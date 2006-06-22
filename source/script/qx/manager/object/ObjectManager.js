@@ -34,7 +34,7 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._objects = {};
+  this._objects = {}
 });
 
 
@@ -51,33 +51,33 @@ qx.Proto.add = function(vObject)
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._objects[vObject.toHashCode()] = vObject;
   return true;
-};
+}
 
 qx.Proto.remove = function(vObject)
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   delete this._objects[vObject.toHashCode()];
   return true;
-};
+}
 
 qx.Proto.has = function(vObject) {
   return this._objects[vObject.toHashCode()] != null;
-};
+}
 
 qx.Proto.get = function(vObject) {
   return this._objects[vObject.toHashCode()];
-};
+}
 
 qx.Proto.getAll = function() {
   return this._objects;
-};
+}
 
 
 
@@ -93,16 +93,16 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._objects)
   {
     for (var i in this._objects) {
       delete this._objects[i];
-    };
+    }
 
     delete this._objects;
-  };
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

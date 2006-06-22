@@ -40,10 +40,10 @@ if (qx.sys.Client.isMshtml())
     else if (w.document.body)
     {
       return w.document.body.clientWidth;
-    };
+    }
 
     return 0;
-  };
+  }
 
   qx.dom.DomWindow.getInnerHeight = function(w)
   {
@@ -54,10 +54,10 @@ if (qx.sys.Client.isMshtml())
     else if (w.document.body)
     {
       return w.document.body.clientHeight;
-    };
+    }
 
     return 0;
-  };
+  }
 
   qx.dom.DomWindow.getScrollLeft = function(w)
   {
@@ -68,10 +68,10 @@ if (qx.sys.Client.isMshtml())
     else if (w.document.body)
     {
       return w.document.body.scrollTop;
-    };
+    }
 
     return 0;
-  };
+  }
 
   qx.dom.DomWindow.getScrollTop = function(w)
   {
@@ -82,26 +82,26 @@ if (qx.sys.Client.isMshtml())
     else if (w.document.body)
     {
       return w.document.body.scrollTop;
-    };
+    }
 
     return 0;
-  };
+  }
 }
 else
 {
   qx.dom.DomWindow.getInnerWidth = function(w) {
     return w.innerWidth;
-  };
+  }
 
   qx.dom.DomWindow.getInnerHeight = function(w) {
     return w.innerHeight;
-  };
+  }
 
   qx.dom.DomWindow.getScrollLeft = function(w) {
     return w.document.body.scrollLeft;
-  };
+  }
 
   qx.dom.DomWindow.getScrollTop = function(w) {
     return w.document.body.scrollTop;
-  };
-};
+  }
+}

@@ -37,9 +37,9 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._data = {};
-  this._actions = {};
-  this._cursors = {};
+  this._data = {}
+  this._actions = {}
+  this._cursors = {}
 });
 
 qx.OO.addProperty({ name : "sourceWidget", type : qx.constant.Type.OBJECT });
@@ -53,7 +53,7 @@ qx.Proto._actionNames =
   copy : "copy",
   alias : "alias",
   nodrop : "nodrop"
-};
+}
 
 qx.Proto._cursorPath = "widgets/cursors/";
 qx.Proto._cursorFormat = "gif";
@@ -74,17 +74,17 @@ qx.Proto.initCursors = function()
 {
   if (this._initCursorsDone) {
     return;
-  };
+  }
 
   var vCursor;
   for (var vAction in this._actionNames)
   {
     vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.constant.Core.DOT + this._cursorFormat);
     vCursor.setZIndex(1e8);
-  };
+  }
 
   this._initCursorsDone = true;
-};
+}
 
 
 
@@ -99,7 +99,7 @@ qx.Proto.initCursors = function()
 
 qx.Proto._getClientDocument = function() {
   return qx.core.Init.getComponent().getClientWindow().getClientDocument();
-};
+}
 
 
 
@@ -117,10 +117,10 @@ qx.Proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
   {
     propValue.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
     this._lastDestinationEvent = null;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -143,15 +143,15 @@ Add data of mimetype.
 */
 qx.Proto.addData = function(vMimeType, vData) {
   this._data[vMimeType] = vData;
-};
+}
 
 qx.Proto.getData = function(vMimeType) {
   return this._data[vMimeType];
-};
+}
 
 qx.Proto.clearData = function() {
-  this._data = {};
-};
+  this._data = {}
+}
 
 
 
@@ -175,7 +175,7 @@ qx.Proto.getDropDataTypes = function()
   // If there is not any destination, simple return
   if (!vDestination) {
     return vDropTypes;
-  };
+  }
 
   // Search for matching mimetypes
   var vDropDataTypes = vDestination.getDropDataTypes();
@@ -183,11 +183,11 @@ qx.Proto.getDropDataTypes = function()
   for (var i=0, l=vDropDataTypes.length; i<l; i++) {
     if (vDropDataTypes[i] in this._data) {
       vDropTypes.push(vDropDataTypes[i]);
-    };
-  };
+    }
+  }
 
   return vDropTypes;
-};
+}
 
 
 
@@ -208,14 +208,14 @@ qx.Proto.startDrag = function()
 {
   if (!this._dragCache) {
     throw new Error("Invalid usage of startDrag. Missing dragInfo!");
-  };
+  }
 
   // Update status flag
   this._dragCache.dragHandlerActive = true;
 
   // Internal storage of source widget
   this.setSourceWidget(this._dragCache.sourceWidget);
-};
+}
 
 
 
@@ -233,19 +233,19 @@ qx.Proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
   if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.constant.Event.DRAGOUT)) {
     fromWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOUT, e, fromWidget, toWidget), true);
-  };
+  }
 
   if (toWidget)
   {
     if (fromWidget != toWidget && toWidget.hasEventListeners(qx.constant.Event.DRAGOVER)) {
       toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOVER, e, toWidget, fromWidget), true);
-    };
+    }
 
     if (toWidget.hasEventListeners(qx.constant.Event.DRAGMOVE)) {
       toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGMOVE, e, toWidget, null), true);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -275,8 +275,8 @@ qx.Proto.handleMouseEvent = function(e)
 
     case qx.constant.Event.MOUSEMOVE:
       return this._handleMouseMove(e);
-  };
-};
+  }
+}
 
 /*!
 This starts the core drag and drop session.
@@ -289,7 +289,7 @@ qx.Proto._handleMouseDown = function(e)
 {
   if (e.getDefaultPrevented()) {
     return;
-  };
+  }
 
   // Store initial dragCache
   this._dragCache =
@@ -305,8 +305,8 @@ qx.Proto._handleMouseDown = function(e)
 
     dragHandlerActive : false,
     hasFiredDragStart : false
-  };
-};
+  }
+}
 
 
 /*!
@@ -318,7 +318,7 @@ qx.Proto._handleMouseMove = function(e)
   // Return if dragCache was not filled before
   if (!this._dragCache) {
     return;
-  };
+  }
 
   /*
     Default handling if drag handler is activated
@@ -370,10 +370,10 @@ qx.Proto._handleMouseMove = function(e)
 
         // Activate capture for clientDocument
         this._getClientDocument().setCapture(true);
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 /*!
 Handle mouse up event. Normally this finalize the drag and drop event.
@@ -383,7 +383,7 @@ qx.Proto._handleMouseUp = function(e)
   // Return if dragCache was not filled before
   if (!this._dragCache) {
     return;
-  };
+  }
 
   if (this._dragCache.dragHandlerActive)
   {
@@ -393,8 +393,8 @@ qx.Proto._handleMouseUp = function(e)
   {
     // Clear drag cache
     this._dragCache = null;
-  };
-};
+  }
+}
 
 
 
@@ -415,7 +415,7 @@ qx.Proto.handleKeyEvent = function(e)
 {
   if (!this._dragCache) {
     return;
-  };
+  }
 
   switch (e.getType())
   {
@@ -426,8 +426,8 @@ qx.Proto.handleKeyEvent = function(e)
     case qx.constant.Event.KEYUP:
       this._handleKeyUp(e);
       return;
-  };
-};
+  }
+}
 
 qx.Proto._handleKeyDown = function(e)
 {
@@ -449,9 +449,9 @@ qx.Proto._handleKeyDown = function(e)
         this._renderCursor();
 
         e.preventDefault();
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._handleKeyUp = function(e)
 {
@@ -467,9 +467,9 @@ qx.Proto._handleKeyUp = function(e)
       this._renderCursor();
 
       e.preventDefault();
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -490,14 +490,14 @@ qx.Proto._handleKeyUp = function(e)
 */
 qx.Proto.cancelDrag = function(e) {
   this._endDrag(null, e);
-};
+}
 
 qx.Proto.globalCancelDrag = function()
 {
   if (this._dragCache && this._dragCache.dragHandlerActive) {
     this._endDragCore();
-  };
-};
+  }
+}
 
 /*!
   This will be called to the end of each drag and drop session
@@ -509,7 +509,7 @@ qx.Proto._endDrag = function(currentDestinationWidget, e)
   {
     this._lastDestinationEvent = e;
     this.setDestinationWidget(currentDestinationWidget);
-  };
+  }
 
   // Dispatch dragend event
   this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
@@ -519,7 +519,7 @@ qx.Proto._endDrag = function(currentDestinationWidget, e)
 
   // Call helper
   this._endDragCore();
-};
+}
 
 qx.Proto._endDragCore = function()
 {
@@ -529,14 +529,14 @@ qx.Proto._endDragCore = function()
   {
     oldCursor._style.display = "none";
     this.forceCursor(null);
-  };
+  }
 
   // Reset drag cache for next drag and drop session
   if (this._dragCache)
   {
     this._dragCache.currentDropWidget = null;
     this._dragCache = null;
-  };
+  }
 
   // Deactivate capture for clientDocument
   this._getClientDocument().setCapture(false);
@@ -548,7 +548,7 @@ qx.Proto._endDragCore = function()
   // Cleanup widgets
   this.setSourceWidget(null);
   this.setDestinationWidget(null);
-};
+}
 
 
 
@@ -590,19 +590,19 @@ qx.Proto._renderCursor = function()
 
     default:
       vNewCursor = this._cursors.nodrop;
-  };
+  }
 
   // Hide old cursor
   if (vNewCursor != vOldCursor && vOldCursor != null) {
     vOldCursor._style.display = "none";
-  };
+  }
 
   // Ensure that the cursor is created
   if (!vNewCursor._initialLayoutDone)
   {
     this._getClientDocument().add(vNewCursor);
     qx.ui.core.Widget.flushGlobalQueues();
-  };
+  }
 
   // Apply position with runtime style (fastest qooxdoo method)
   vNewCursor._applyRuntimeLeft(this._dragCache.pageX + 5);
@@ -611,11 +611,11 @@ qx.Proto._renderCursor = function()
   // Finally show new cursor
   if (vNewCursor != vOldCursor) {
     vNewCursor._style.display = qx.constant.Core.EMPTY;
-  };
+  }
 
   // Store new cursor
   this.forceCursor(vNewCursor);
-};
+}
 
 
 
@@ -636,17 +636,17 @@ qx.Proto.supportsDrop = function(vWidget)
 
   if (!vTypes) {
     return false;
-  };
+  }
 
   for (var i=0; i<vTypes.length; i++)
   {
     if (vTypes[i] in this._data) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 /*!
 #param e[qx.event.type.MouseEvent]: Current MouseEvent for dragdrop action
@@ -671,23 +671,23 @@ if (qx.sys.Client.isGecko())
     else
     {
       vCurrent = qx.event.handler.EventHandler.getTargetObject(null, vCurrent);
-    };
+    }
 
     while (vCurrent != null && vCurrent != this._dragCache.sourceWidget)
     {
       if (!vCurrent.supportsDrop(this._dragCache)) {
         return null;
-      };
+      }
 
       if (this.supportsDrop(vCurrent)) {
         return vCurrent;
-      };
+      }
 
       vCurrent = vCurrent.getParent();
-    };
+    }
 
     return null;
-  };
+  }
 }
 else
 {
@@ -699,18 +699,18 @@ else
     {
       if (!vCurrent.supportsDrop(this._dragCache)) {
         return null;
-      };
+      }
 
       if (this.supportsDrop(vCurrent)) {
         return vCurrent;
-      };
+      }
 
       vCurrent = vCurrent.getParent();
-    };
+    }
 
     return null;
-  };
-};
+  }
+}
 
 
 
@@ -733,14 +733,14 @@ qx.Proto.addAction = function(vAction, vForce)
   // Defaults to first added action
   if (vForce || this.getCurrentAction() == null) {
     this.setCurrentAction(vAction);
-  };
-};
+  }
+}
 
 qx.Proto.clearActions = function()
 {
-  this._actions = {};
+  this._actions = {}
   this.setCurrentAction(null);
-};
+}
 
 qx.Proto.removeAction = function(vAction)
 {
@@ -749,8 +749,8 @@ qx.Proto.removeAction = function(vAction)
   // Reset current action on remove
   if (this.getCurrentAction() == vAction) {
     this.setCurrentAction(null);
-  };
-};
+  }
+}
 
 qx.Proto.setAction = function(vAction)
 {
@@ -760,8 +760,8 @@ qx.Proto.setAction = function(vAction)
   else
   {
     this.setCurrentAction(vAction);
-  };
-};
+  }
+}
 
 qx.Proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
 {
@@ -790,11 +790,11 @@ qx.Proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
     // Return the first action found
     for (var vAction in this._actions) {
       return vAction;
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 
 
@@ -814,14 +814,14 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // Reset drag cache for next drag and drop session
   if (this._dragCache)
   {
     this._dragCache.currentDropWidget = null;
     this._dragCache = null;
-  };
+  }
 
   // Cleanup data and actions
   this._data = null;
@@ -836,31 +836,31 @@ qx.Proto.dispose = function()
     {
       this._cursors.move.dispose();
       delete this._cursors.move;
-    };
+    }
 
     if (this._cursors.copy)
     {
       this._cursors.copy.dispose();
       delete this._cursors.copy;
-    };
+    }
 
     if (this._cursors.alias)
     {
       this._cursors.alias.dispose();
       delete this._cursors.alias;
-    };
+    }
 
     if (this._cursors.nodrop)
     {
       this._cursors.nodrop.dispose();
       delete this._cursors.nodrop;
-    };
+    }
 
     this._cursors = null;
-  };
+  }
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
-};
+}
 
 
 

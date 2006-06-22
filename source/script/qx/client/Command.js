@@ -36,15 +36,15 @@ function(vShortcut, vKeyCode, vManager)
 {
   qx.core.Target.call(this);
 
-  this._shortcutParts = {};
+  this._shortcutParts = {}
 
   if (qx.util.Validation.isValid(vShortcut)) {
     this.setShortcut(vShortcut);
-  };
+  }
 
   if (qx.util.Validation.isValid(vKeyCode)) {
     this.setKeyCode(vKeyCode);
-  };
+  }
 
   this.setManager(qx.util.Validation.isValid(vManager) ? vManager : qx.core.Init.getComponent().getClientWindow().getEventManager());
 });
@@ -71,10 +71,10 @@ qx.Proto.execute = function(vTarget)
 {
   if (this.hasEventListeners(qx.constant.Event.EXECUTE)) {
     this.dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.EXECUTE, vTarget), true);
-  };
+  }
 
   return false;
-};
+}
 
 
 
@@ -94,35 +94,35 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
   {
     // split string to get each key which must be pressed
     // build a hash with active keys
-    this._shortcutParts = {};
+    this._shortcutParts = {}
 
     var a = propValue.toLowerCase().split(/[-+\s]+/);
     var al = a.length;
 
     for (var i=0; i<al; i++) {
       this._shortcutParts[a[i]] = true;
-    };
+    }
   }
   else
   {
-    this._shortcutParts = {};
-  };
+    this._shortcutParts = {}
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.removeCommand(this);
-  };
+  }
 
   if (propValue) {
     propValue.addCommand(this);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -141,18 +141,18 @@ qx.Proto._matchesKeyEvent = function(e)
   // pre check if parts are configured
   if (typeof this._shortcutParts !== qx.constant.Type.OBJECT && this._shortcutParts !== null) {
     return false;
-  };
+  }
 
   // pre check for configured shortcut or keycode
   if (!(qx.util.Validation.isValid(this.getShortcut()) || qx.util.Validation.isValid(this.getKeyCode()))) {
     return false;
-  };
+  }
 
   // pre-check for check special keys
   // we handle this here to omit to check this later again.
   if ((this._shortcutParts.shift && !e.getShiftKey()) || (this._shortcutParts.ctrl && !e.getCtrlKey()) || (this._shortcutParts.alt && !e.getAltKey())) {
     return false;
-  };
+  }
 
   var vEventCode = e.getKeyCode();
   var vSelfCode = this.getKeyCode();
@@ -177,7 +177,7 @@ qx.Proto._matchesKeyEvent = function(e)
 
     case vEventCode:
       return true;
-  };
+  }
 
 
   /* ------------------------------------------
@@ -198,7 +198,7 @@ qx.Proto._matchesKeyEvent = function(e)
   // if keycode string is in shortcuts
   if (this._shortcutParts[c]) {
     return true;
-  };
+  }
 
 
   /* ------------------------------------------
@@ -226,13 +226,13 @@ qx.Proto._matchesKeyEvent = function(e)
         default:
           if (vEventCode == qx.event.type.KeyEvent.keys[vPart]) {
             return true;
-          };
-      };
-    };
-  };
+          }
+      }
+    }
+  }
 
   return false;
-};
+}
 
 
 
@@ -259,16 +259,16 @@ qx.Proto.toString = function()
     {
       var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
       vString += qx.constant.Core.PLUS + (vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
-    };
+    }
   }
   else if (qx.util.Validation.isValidNumber(vKeyCode))
   {
     var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
     vString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
-  };
+  }
 
   return vString;
-};
+}
 
 
 
@@ -284,14 +284,14 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._shortcutParts = null;
 
   var vManager = this.getManager();
   if (vManager) {
     vManager.removeCommand(this);
-  };
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

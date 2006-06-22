@@ -49,7 +49,7 @@ function()
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 
 
@@ -71,7 +71,7 @@ qx.Proto._onmousewheel = function(e)
 
   if ((vDate - 50) < this._lastDate) {
     return;
-  };
+  }
 
   this._lastDate = vDate;
 
@@ -85,7 +85,7 @@ qx.Proto._onmousewheel = function(e)
 
     if (!vNext) {
       vNext = vItems[0];
-    };
+    }
   }
   else if (vPos > 0)
   {
@@ -93,19 +93,19 @@ qx.Proto._onmousewheel = function(e)
 
     if (!vNext) {
       vNext = vItems[0];
-    };
+    }
   }
   else
   {
     vNext = vItems[vItems.length-1];
-  };
+  }
 
   vManager.setSelected(vNext);
-};
+}
 
 qx.Proto.getWheelDelta = function(e) {
   return e.getWheelDelta();
-};
+}
 
 
 
@@ -122,15 +122,15 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._manager)
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

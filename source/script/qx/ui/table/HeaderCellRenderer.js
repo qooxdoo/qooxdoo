@@ -57,7 +57,7 @@ function() {
  */
 qx.Proto.createHeaderCell = function(cellInfo) {
   throw new Error("createHeaderCell is abstract");
-};
+}
 
 
 /**
@@ -70,4 +70,4 @@ qx.Proto.createHeaderCell = function(cellInfo) {
  */
 qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   throw new Error("updateHeaderCell is abstract");
-};
+}

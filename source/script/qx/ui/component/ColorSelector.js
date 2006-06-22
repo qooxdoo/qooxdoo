@@ -78,7 +78,7 @@ function(vPreviousRed, vPreviousGreen, vPreviousBlue)
 
   if (vPreviousRed) {
     this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
-  };
+  }
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "colorselector" });
@@ -141,7 +141,7 @@ qx.Proto._createControlBar = function()
   this._controlBar = new qx.ui.layout.HorizontalBoxLayout;
   this._controlBar.setHeight(qx.constant.Core.AUTO);
   this._controlBar.setParent(this);
-};
+}
 
 qx.Proto._createButtonBar = function()
 {
@@ -156,7 +156,7 @@ qx.Proto._createButtonBar = function()
   this._btnok = new qx.ui.form.Button("OK", "icons/16/button-ok.png");
 
   this._btnbar.add(this._btncancel, this._btnok);
-};
+}
 
 
 
@@ -176,7 +176,7 @@ qx.Proto._createControlPane = function()
   this._controlPane.setPadding(4);
   this._controlPane.setPaddingBottom(7);
   this._controlPane.setParent(this._controlBar);
-};
+}
 
 qx.Proto._createHueSaturationPane = function()
 {
@@ -201,7 +201,7 @@ qx.Proto._createHueSaturationPane = function()
   this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationHandleMouseDown, this);
   this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEUP, this._onHueSaturationHandleMouseUp, this);
   this._hueSaturationHandle.addEventListener(qx.constant.Event.MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
-};
+}
 
 qx.Proto._createBrightnessPane = function()
 {
@@ -226,7 +226,7 @@ qx.Proto._createBrightnessPane = function()
   this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessHandleMouseDown, this);
   this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEUP, this._onBrightnessHandleMouseUp, this);
   this._brightnessHandle.addEventListener(qx.constant.Event.MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
-};
+}
 
 
 
@@ -280,9 +280,9 @@ qx.Proto._createPresetFieldSet = function()
       colorField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onColorFieldClick, this);
 
       this._presetGrid.add(colorField, j, i);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._createInputFieldSet = function()
 {
@@ -294,7 +294,7 @@ qx.Proto._createInputFieldSet = function()
   this._inputLayout.setHeight(qx.constant.Core.AUTO);
   this._inputLayout.setSpacing(10);
   this._inputLayout.setParent(this._inputFieldSet.getFrameObject());
-};
+}
 
 qx.Proto._createPreviewFieldSet = function()
 {
@@ -308,7 +308,7 @@ qx.Proto._createPreviewFieldSet = function()
   this._previewLayout.setRight(0);
   this._previewLayout.setSpacing(10);
   this._previewLayout.setParent(this._previewFieldSet.getFrameObject());
-};
+}
 
 
 
@@ -344,7 +344,7 @@ qx.Proto._createHexField = function()
   this._hexField.setParent(this._hexLayout);
 
   this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
-};
+}
 
 qx.Proto._createRgbSpinner = function()
 {
@@ -372,7 +372,7 @@ qx.Proto._createRgbSpinner = function()
   this._rgbSpinRed.addEventListener("change", this._setRedFromSpinner, this);
   this._rgbSpinGreen.addEventListener("change", this._setGreenFromSpinner, this);
   this._rgbSpinBlue.addEventListener("change", this._setBlueFromSpinner, this);
-};
+}
 
 qx.Proto._createHsbSpinner = function()
 {
@@ -400,7 +400,7 @@ qx.Proto._createHsbSpinner = function()
   this._hsbSpinHue.addEventListener("change", this._setHueFromSpinner, this);
   this._hsbSpinSaturation.addEventListener("change", this._setSaturationFromSpinner, this);
   this._hsbSpinBrightness.addEventListener("change", this._setBrightnessFromSpinner, this);
-};
+}
 
 
 
@@ -427,7 +427,7 @@ qx.Proto._createPreviewContent = function()
   this._newColorPreview.setWidth(qx.constant.Core.FLEX);
   this._newColorPreview.setBackgroundColor("white");
   this._newColorPreview.setParent(this._previewLayout);
-};
+}
 
 
 
@@ -446,15 +446,15 @@ qx.Proto._modifyRed = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_RED_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinRed.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
-  };
+  }
 
   switch(this._updateContext)
   {
@@ -462,30 +462,30 @@ qx.Proto._modifyRed = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_RED_MODIFIER:
       this._setHueFromRgb();
-  };
+  }
 
   this._setPreviewFromRgb();
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_RED_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyGreen = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_GREEN_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinGreen.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
-  };
+  }
 
   switch(this._updateContext)
   {
@@ -493,30 +493,30 @@ qx.Proto._modifyGreen = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_GREEN_MODIFIER:
       this._setHueFromRgb();
-  };
+  }
 
   this._setPreviewFromRgb();
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_GREEN_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyBlue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_BLUE_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER) {
     this._rgbSpinBlue.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD) {
     this._setHexFromRgb();
-  };
+  }
 
   switch(this._updateContext)
   {
@@ -524,16 +524,16 @@ qx.Proto._modifyBlue = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_BLUE_MODIFIER:
       this._setHueFromRgb();
-  };
+  }
 
   this._setPreviewFromRgb();
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_BLUE_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -551,11 +551,11 @@ qx.Proto._modifyHue = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HUE_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinHue.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HUE_SATURATION_FIELD)
   {
@@ -566,8 +566,8 @@ qx.Proto._modifyHue = function(propValue, propOldValue, propData)
     else
     {
       this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
-    };
-  };
+    }
+  }
 
   switch(this._updateContext)
   {
@@ -575,24 +575,24 @@ qx.Proto._modifyHue = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_HUE_SATURATION_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_HUE_MODIFIER:
       this._setRgbFromHue();
-  };
+  }
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_HUE_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifySaturation = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_SATURATION_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinSaturation.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HUE_SATURATION_FIELD)
   {
@@ -603,8 +603,8 @@ qx.Proto._modifySaturation = function(propValue, propOldValue, propData)
     else
     {
       this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
-    };
-  };
+    }
+  }
 
   switch(this._updateContext)
   {
@@ -612,24 +612,24 @@ qx.Proto._modifySaturation = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_HUE_SATURATION_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_SATURATION_MODIFIER:
       this._setRgbFromHue();
-  };
+  }
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_SATURATION_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyBrightness = function(propValue, propOldValue, propData)
 {
   if (this._updateContext === null) {
     this._updateContext = qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER;
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER) {
     this._hsbSpinBrightness.setValue(propValue);
-  };
+  }
 
   if (this._updateContext !== qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_FIELD)
   {
@@ -642,8 +642,8 @@ qx.Proto._modifyBrightness = function(propValue, propOldValue, propData)
     else
     {
       this._brightnessHandle.setTop(topValue);
-    };
-  };
+    }
+  }
 
   switch(this._updateContext)
   {
@@ -651,14 +651,14 @@ qx.Proto._modifyBrightness = function(propValue, propOldValue, propData)
     case qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_FIELD:
     case qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER:
       this._setRgbFromHue();
-  };
+  }
 
   if (this._updateContext === qx.ui.component.ColorSelector.CONTEXT_BRIGHTNESS_MODIFIER) {
     this._updateContext = null;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -683,21 +683,21 @@ qx.Proto._onBrightnessHandleMouseDown = function(e)
 
   // Block field event handling
   e.setPropagationStopped(true);
-};
+}
 
 qx.Proto._onBrightnessHandleMouseUp = function(e)
 {
   // Disabling capturing
   this._brightnessHandle.setCapture(false);
-};
+}
 
 qx.Proto._onBrightnessHandleMouseMove = function(e)
 {
   // Update if captured currently (through previous mousedown)
   if (this._brightnessHandle.getCapture()) {
     this._setBrightnessOnFieldEvent(e);
-  };
-};
+  }
+}
 
 qx.Proto._onBrightnessFieldMouseDown = function(e)
 {
@@ -709,11 +709,11 @@ qx.Proto._onBrightnessFieldMouseDown = function(e)
 
   // Afterwards: Activate Capturing for handle
   this._brightnessHandle.setCapture(true);
-};
+}
 
 qx.Proto._onBrightnessPaneMouseWheel = function(e) {
   this.setBrightness(qx.lang.Number.limit(this.getBrightness() + e.getWheelDelta(), 0, 100));
-};
+}
 
 qx.Proto._setBrightnessOnFieldEvent = function(e)
 {
@@ -728,12 +728,12 @@ qx.Proto._setBrightnessOnFieldEvent = function(e)
   else
   {
     this._brightnessHandle.setTop(vValue);
-  };
+  }
 
   this.setBrightness(100-Math.round(vValue / 2.56));
 
   this._updateContext = null;
-};
+}
 
 
 
@@ -759,21 +759,21 @@ qx.Proto._onHueSaturationHandleMouseDown = function(e)
 
   // Block field event handling
   e.setPropagationStopped(true);
-};
+}
 
 qx.Proto._onHueSaturationHandleMouseUp = function(e)
 {
   // Disabling capturing
   this._hueSaturationHandle.setCapture(false);
-};
+}
 
 qx.Proto._onHueSaturationHandleMouseMove = function(e)
 {
   // Update if captured currently (through previous mousedown)
   if (this._hueSaturationHandle.getCapture()) {
     this._setHueSaturationOnFieldEvent(e);
-  };
-};
+  }
+}
 
 qx.Proto._onHueSaturationFieldMouseDown = function(e)
 {
@@ -786,11 +786,11 @@ qx.Proto._onHueSaturationFieldMouseDown = function(e)
 
   // Afterwards: Activate Capturing for handle
   this._hueSaturationHandle.setCapture(true);
-};
+}
 
 qx.Proto._onHueSaturationPaneMouseWheel = function(e) {
   this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
-};
+}
 
 qx.Proto._setHueSaturationOnFieldEvent = function(e)
 {
@@ -806,7 +806,7 @@ qx.Proto._setHueSaturationOnFieldEvent = function(e)
   {
     this._hueSaturationHandle.setTop(vTop);
     this._hueSaturationHandle.setLeft(vLeft);
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HUE_SATURATION_FIELD;
 
@@ -814,7 +814,7 @@ qx.Proto._setHueSaturationOnFieldEvent = function(e)
   this.setHue(Math.round(vLeft * 1.40625));
 
   this._updateContext = null;
-};
+}
 
 
 
@@ -835,34 +835,34 @@ qx.Proto._setRedFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setRed(this._rgbSpinRed.getValue());
   this._updateContext = null;
-};
+}
 
 qx.Proto._setGreenFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setGreen(this._rgbSpinGreen.getValue());
   this._updateContext = null;
-};
+}
 
 qx.Proto._setBlueFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_RGB_SPINNER;
   this.setBlue(this._rgbSpinBlue.getValue());
   this._updateContext = null;
-};
+}
 
 
 
@@ -883,34 +883,34 @@ qx.Proto._setHueFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setHue(this._hsbSpinHue.getValue());
   this._updateContext = null;
-};
+}
 
 qx.Proto._setSaturationFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setSaturation(this._hsbSpinSaturation.getValue());
   this._updateContext = null;
-};
+}
 
 qx.Proto._setBrightnessFromSpinner = function()
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HSB_SPINNER;
   this.setBrightness(this._hsbSpinBrightness.getValue());
   this._updateContext = null;
-};
+}
 
 
 
@@ -929,7 +929,7 @@ qx.Proto._onHexFieldChange = function(e)
 {
   if (this._updateContext !== null) {
     return;
-  };
+  }
 
   var vValue = this._hexField.getValue().toLowerCase();
 
@@ -959,7 +959,7 @@ qx.Proto._onHexFieldChange = function(e)
 
     default:
       return false;
-  };
+  }
 
   this._updateContext = qx.ui.component.ColorSelector.CONTEXT_HEX_FIELD;
 
@@ -968,11 +968,11 @@ qx.Proto._onHexFieldChange = function(e)
   this.setBlue(vBlue);
 
   this._updateContext = null;
-};
+}
 
 qx.Proto._setHexFromRgb = function() {
   this._hexField.setValue(qx.lang.String.pad(this.getRed().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getGreen().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getBlue().toString(16).toUpperCase(), 2));
-};
+}
 
 
 
@@ -993,12 +993,12 @@ qx.Proto._onColorFieldClick = function(e)
 
   if (!vColor) {
     return this.error("Missing backgroundColor value for field: " + e.getTarget());
-  };
+  }
 
   this.setRed(vColor.getRed());
   this.setGreen(vColor.getGreen());
   this.setBlue(vColor.getBlue());
-};
+}
 
 
 
@@ -1028,8 +1028,8 @@ qx.Proto._setHueFromRgb = function()
       this.setHue(vHsb.hue);
       this.setSaturation(vHsb.saturation);
       this.setBrightness(vHsb.brightness);
-  };
-};
+  }
+}
 
 qx.Proto._setRgbFromHue = function()
 {
@@ -1045,8 +1045,8 @@ qx.Proto._setRgbFromHue = function()
       this.setRed(vRgb.red);
       this.setGreen(vRgb.green);
       this.setBlue(vRgb.blue);
-  };
-};
+  }
+}
 
 
 
@@ -1069,8 +1069,8 @@ qx.Proto._setPreviewFromRgb = function()
   else
   {
     this._newColorPreview.setBackgroundColor([this.getRed(), this.getGreen(), this.getBlue()]);
-  };
-};
+  }
+}
 
 qx.Proto.setPreviousColor = function(vRed, vGreen, vBlue)
 {
@@ -1080,7 +1080,7 @@ qx.Proto.setPreviousColor = function(vRed, vGreen, vBlue)
   this.setRed(vRed);
   this.setGreen(vGreen);
   this.setBlue(vBlue);
-};
+}
 
 
 
@@ -1098,51 +1098,51 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._controlBar)
   {
     this._controlBar.dispose();
     this._controlBar = null;
-  };
+  }
 
   if (this._btnbar)
   {
     this._btnbar.dispose();
     this._btnbar = null;
-  };
+  }
 
   if (this._btncancel)
   {
     this._btncancel.dispose();
     this._btncancel = null;
-  };
+  }
 
   if (this._btnok)
   {
     this._btnok.dispose();
     this._btnok = null;
-  };
+  }
 
   if (this._controlPane)
   {
     this._controlPane.dispose();
     this._controlPane = null;
-  };
+  }
 
   if (this._hueSaturationPane)
   {
     this._hueSaturationPane.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
     this._hueSaturationPane.dispose();
     this._hueSaturationPane = null;
-  };
+  }
 
   if (this._hueSaturationField)
   {
     this._hueSaturationField.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
     this._hueSaturationField.dispose();
     this._hueSaturationField = null;
-  };
+  }
 
   if (this._hueSaturationHandle)
   {
@@ -1151,21 +1151,21 @@ qx.Proto.dispose = function()
     this._hueSaturationHandle.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onHueSaturationHandleMouseMove, this);
     this._hueSaturationHandle.dispose();
     this._hueSaturationHandle = null;
-  };
+  }
 
   if (this._brightnessPane)
   {
     this._brightnessPane.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
     this._brightnessPane.dispose();
     this._brightnessPane = null;
-  };
+  }
 
   if (this._brightnessField)
   {
     this._brightnessField.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
     this._brightnessField.dispose();
     this._brightnessField = null;
-  };
+  }
 
   if (this._brightnessHandle)
   {
@@ -1174,19 +1174,19 @@ qx.Proto.dispose = function()
     this._brightnessHandle.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onBrightnessHandleMouseMove, this);
     this._brightnessHandle.dispose();
     this._brightnessHandle = null;
-  };
+  }
 
   if (this._presetFieldSet)
   {
     this._presetFieldSet.dispose();
     this._presetFieldSet = null;
-  };
+  }
 
   if (this._presetGrid)
   {
     this._presetGrid.dispose();
     this._presetGrid = null;
-  };
+  }
 
   this._presetTable = null;
 
@@ -1194,128 +1194,128 @@ qx.Proto.dispose = function()
   {
     this._inputFieldSet.dispose();
     this._inputFieldSet = null;
-  };
+  }
 
   if (this._inputLayout)
   {
     this._inputLayout.dispose();
     this._inputLayout = null;
-  };
+  }
 
   if (this._previewFieldSet)
   {
     this._previewFieldSet.dispose();
     this._previewFieldSet = null;
-  };
+  }
 
   if (this._previewLayout)
   {
     this._previewLayout.dispose();
     this._previewLayout = null;
-  };
+  }
 
   if (this._hexLayout)
   {
     this._hexLayout.dispose();
     this._hexLayout = null;
-  };
+  }
 
   if (this._hexLabel)
   {
     this._hexLabel.dispose();
     this._hexLabel = null;
-  };
+  }
 
   if (this._hexHelper)
   {
     this._hexHelper.dispose();
     this._hexHelper = null;
-  };
+  }
 
   if (this._hexField)
   {
     this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
     this._hexField.dispose();
     this._hexField = null;
-  };
+  }
 
   if (this._rgbSpinLayout)
   {
     this._rgbSpinLayout.dispose();
     this._rgbSpinLayout = null;
-  };
+  }
 
   if (this._rgbSpinLabel)
   {
     this._rgbSpinLabel.dispose();
     this._rgbSpinLabel = null;
-  };
+  }
 
   if (this._rgbSpinRed)
   {
     this._rgbSpinRed.removeEventListener("change", this._setRedFromSpinner, this);
     this._rgbSpinRed.dispose();
     this._rgbSpinRed = null;
-  };
+  }
 
   if (this._rgbSpinGreen)
   {
     this._rgbSpinGreen.removeEventListener("change", this._setGreenFromSpinner, this);
     this._rgbSpinGreen.dispose();
     this._rgbSpinGreen = null;
-  };
+  }
 
   if (this._rgbSpinBlue)
   {
     this._rgbSpinBlue.removeEventListener("change", this._setBlueFromSpinner, this);
     this._rgbSpinBlue.dispose();
     this._rgbSpinBlue = null;
-  };
+  }
 
   if (this._hsbSpinLayout)
   {
     this._hsbSpinLayout.dispose();
     this._hsbSpinLayout = null;
-  };
+  }
 
   if (this._hsbSpinLabel)
   {
     this._hsbSpinLabel.dispose();
     this._hsbSpinLabel = null;
-  };
+  }
 
   if (this._hsbSpinHue)
   {
     this._hsbSpinHue.removeEventListener("change", this._setHueFromSpinner, this);
     this._hsbSpinHue.dispose();
     this._hsbSpinHue = null;
-  };
+  }
 
   if (this._hsbSpinSaturation)
   {
     this._hsbSpinSaturation.removeEventListener("change", this._setSaturationFromSpinner, this);
     this._hsbSpinSaturation.dispose();
     this._hsbSpinSaturation = null;
-  };
+  }
 
   if (this._hsbSpinBrightness)
   {
     this._hsbSpinBrightness.removeEventListener("change", this._setBrightnessFromSpinner, this);
     this._hsbSpinBrightness.dispose();
     this._hsbSpinBrightness = null;
-  };
+  }
 
   if (this._oldColorPreview)
   {
     this._oldColorPreview.dispose();
     this._oldColorPreview = null;
-  };
+  }
 
   if (this._newColorPreview)
   {
     this._newColorPreview.dispose();
     this._newColorPreview = null;
-  };
+  }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
-};
+}

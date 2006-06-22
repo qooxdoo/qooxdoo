@@ -67,7 +67,7 @@ qx.OO.addProperty({ name : "decorHeight", type : qx.constant.Type.NUMBER, defaul
 
 qx.Proto._applyElementData = function() {
   this.getElement().appendChild(this.createView());
-};
+}
 
 
 
@@ -79,7 +79,7 @@ qx.Proto._applyElementData = function() {
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 
 qx.Proto.update = function(vGalleryList)
@@ -90,14 +90,14 @@ qx.Proto.update = function(vGalleryList)
 
   var el = this.getElement();
   el.replaceChild(this.createView(), el.firstChild);
-};
+}
 
 
 qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
   this.getElement().innerHTML = qx.constant.Core.EMPTY;
-};
+}
 
 
 /*
@@ -112,8 +112,8 @@ qx.Proto._onmousedown = function(e)
 
   if (vItem) {
     this._manager.handleMouseDown(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -121,8 +121,8 @@ qx.Proto._onmouseup = function(e)
 
   if (vItem) {
     this._manager.handleMouseUp(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onclick = function(e)
 {
@@ -130,8 +130,8 @@ qx.Proto._onclick = function(e)
 
   if (vItem) {
     this._manager.handleClick(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._ondblclick = function(e)
 {
@@ -139,25 +139,25 @@ qx.Proto._ondblclick = function(e)
 
   if (vItem) {
     this._manager.handleDblClick(vItem, e);
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown = function(e) {
   this._manager.handleKeyDown(e);
-};
+}
 
 qx.Proto.getListItemTarget = function(dt)
 {
   while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
     dt = dt.parentNode;
-  };
+  }
 
   if (dt.tagName == "BODY") {
     return null;
-  };
+  }
 
   return dt;
-};
+}
 
 
 
@@ -175,15 +175,15 @@ qx.Proto.scrollItemIntoView = function(vItem)
 {
   this.scrollItemIntoViewX(vItem);
   this.scrollItemIntoViewY(vItem);
-};
+}
 
 qx.Proto.scrollItemIntoViewX = function(vItem) {
   qx.dom.DomScrollIntoView.scrollX(vItem);
-};
+}
 
 qx.Proto.scrollItemIntoViewY = function(vItem) {
   qx.dom.DomScrollIntoView.scrollY(vItem);
-};
+}
 
 
 
@@ -201,15 +201,15 @@ qx.Proto.scrollItemIntoViewY = function(vItem) {
 
 qx.Proto.getItems = function() {
   return this._frame.childNodes;
-};
+}
 
 qx.Proto.getFirstChild = function() {
   return this._frame.childNodes[0];
-};
+}
 
 qx.Proto.getLastChild = function() {
   return this._frame.childNodes[this._frame.childNodes.length-1];
-};
+}
 
 
 
@@ -255,10 +255,10 @@ qx.Proto.createView = function()
     cnode.firstChild.nodeValue = d.comment;
 
     frame.appendChild(cframe);
-  };
+  }
 
   return frame;
-};
+}
 
 qx.Proto._mshtml = qx.sys.Client.isMshtml();
 
@@ -268,7 +268,7 @@ qx.Proto.createImageCell = function(inode, d)
     inode.onload = qx.ui.embed.GalleryList.imageOnLoad;
     inode.onerror = qx.ui.embed.GalleryList.imageOnError;
     inode.gallery = this;
-  };
+  }
 
   inode.width = d.thumbWidth;
   inode.height = d.thumbHeight;
@@ -277,11 +277,11 @@ qx.Proto.createImageCell = function(inode, d)
     inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
   } else {
     inode.src = d.src;
-  };
+  }
 
   inode.style.marginLeft = inode.style.marginRight = Math.floor((this.getThumbMaxWidth()-d.thumbWidth)/2) + "px";
   inode.style.marginTop = inode.style.marginBottom = Math.floor((this.getThumbMaxHeight()-d.thumbHeight)/2) + "px";
-};
+}
 
 qx.Proto.createProtoCell = function(tHeight)
 {
@@ -328,7 +328,7 @@ qx.Proto.createProtoCell = function(tHeight)
   frame.appendChild(text);
 
   return frame;
-};
+}
 
 
 
@@ -348,8 +348,8 @@ qx.Proto.imageOnComplete = function()
 
   if(this._processedImages == this._listSize) {
     this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
-  };
-};
+  }
+}
 
 qx.ui.embed.GalleryList.imageOnLoad = function()
 {
@@ -357,7 +357,7 @@ qx.ui.embed.GalleryList.imageOnLoad = function()
   this.gallery = null;
   this.onload = null;
   this.onerror = null;
-};
+}
 
 qx.ui.embed.GalleryList.imageOnError = function()
 {
@@ -365,7 +365,7 @@ qx.ui.embed.GalleryList.imageOnError = function()
   this.gallery = null;
   this.onload = null;
   this.onerror = null;
-};
+}
 
 
 
@@ -383,7 +383,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this._list = null;
   this._frame = null;
@@ -392,7 +392,7 @@ qx.Proto.dispose = function()
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   this.removeEventListener("mousedown", this._onmousedown);
   this.removeEventListener("mouseup", this._onmouseup);
@@ -401,4 +401,4 @@ qx.Proto.dispose = function()
   this.removeEventListener("keydown", this._onkeydown);
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
-};
+}

@@ -68,29 +68,29 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 qx.Proto.getOkButton = function()
 {
   return this._okB;
-};
+}
 
 qx.Proto.getCancelButton = function()
 {
   return this._cancelB;
-};
+}
 
 qx.Proto.getHelpButton = function()
 {
   return this._helpB;
-};
+}
 
 qx.Proto.executeOk = function(e)
 {
-};
+}
 
 qx.Proto.executeCancel = function(e)
 {
-};
+}
 
 qx.Proto.executeHelp = function(e)
 {
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -102,25 +102,25 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._okB)
   {
     this._okB.dispose();
     this._okB = null;
-  };
+  }
 
   if (this._cancelB)
   {
     this._cancelB.dispose();
     this._cancelB = null;
-  };
+  }
 
   if (this._helpB)
   {
     this._helpB.dispose();
     this._helpB = null;
-  };
+  }
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

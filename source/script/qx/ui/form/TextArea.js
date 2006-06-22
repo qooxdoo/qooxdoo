@@ -43,15 +43,15 @@ if (qx.sys.Client.isMshtml())
 {
   qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-  };
+  }
 }
 else
 {
   qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
-  };
-};
+  }
+}
 
 qx.Proto._computePreferredInnerHeight = function() {
   return 60;
-};
+}

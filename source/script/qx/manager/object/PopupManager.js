@@ -47,7 +47,7 @@ qx.Proto.update = function(vTarget)
   // be sure that target is correctly set (needed for contains() later)
   if (!(vTarget instanceof qx.ui.core.Widget)) {
     vTarget = null;
-  };
+  }
 
   var vPopup, vHashCode;
   var vAll = this.getAll();
@@ -58,11 +58,11 @@ qx.Proto.update = function(vTarget)
 
     if(!vPopup.getAutoHide() || vTarget == vPopup || vPopup.contains(vTarget)) {
       continue;
-    };
+    }
 
     vPopup.hide();
-  };
-};
+  }
+}
 
 
 

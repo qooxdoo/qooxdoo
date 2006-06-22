@@ -43,7 +43,7 @@ function()
 {
   if (this.classname == qx.ui.core.Widget.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
-  };
+  }
 
   qx.core.Target.call(this, true);
 
@@ -54,22 +54,22 @@ function()
   // Allows the user to setup styles and attributes without a
   // need to have the target element created already.
   /*
-  this._htmlProperties = { className : this.classname };
-  this._htmlAttributes = { qxhashcode : this._hashCode };
+  this._htmlProperties = { className : this.classname }
+  this._htmlAttributes = { qxhashcode : this._hashCode }
   */
-  this._styleProperties = { position : qx.constant.Style.POSITION_ABSOLUTE };
+  this._styleProperties = { position : qx.constant.Style.POSITION_ABSOLUTE }
 
 
   // ************************************************************************
   //   LAYOUT CHANGES
   // ************************************************************************
-  this._layoutChanges = {};
+  this._layoutChanges = {}
 
 
   // ************************************************************************
   //   APPEARANCE
   // ************************************************************************
-  this._states = {};
+  this._states = {}
   this._applyInitialAppearance();
 });
 
@@ -518,14 +518,14 @@ if (qx.core.Settings.enableWidgetDebug)
   {
     if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getComponent().isUiReady()) {
       return;
-    };
+    }
 
     if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 ||
         qx.ui.core.Widget._globalStateQueue.length > 0  || qx.ui.core.Widget._globalJobQueue.length > 0 ||
         qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 ||
         !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
       return;
-    };
+    }
 
     var globalWidgetQueueLength      = qx.ui.core.Widget._globalWidgetQueue.length;
     var globalElementQueueLength     = qx.ui.core.Widget._globalElementQueue.length;
@@ -578,10 +578,10 @@ if (qx.core.Settings.enableWidgetDebug)
       logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
 
       window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
-    };
+    }
 
     delete qx.ui.core.Widget._inFlushGlobalQueues;
-  };
+  }
 }
 else
 {
@@ -589,7 +589,7 @@ else
   {
     if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getComponent().isUiReady()) {
       return;
-    };
+    }
 
     // Also used for inline event handling to seperate 'real' events
     qx.ui.core.Widget._inFlushGlobalQueues = true;
@@ -602,8 +602,8 @@ else
     qx.ui.core.Widget.flushGlobalDisplayQueue();
 
     delete qx.ui.core.Widget._inFlushGlobalQueues;
-  };
-};
+  }
+}
 
 
 
@@ -627,8 +627,8 @@ qx.ui.core.Widget.addToGlobalWidgetQueue = function(vWidget)
   {
     qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
     vWidget._isInGlobalWidgetQueue = true;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.removeFromGlobalWidgetQueue = function(vWidget)
 {
@@ -636,8 +636,8 @@ qx.ui.core.Widget.removeFromGlobalWidgetQueue = function(vWidget)
   {
     qx.lang.Array.remove(qx.ui.core.Widget._globalWidgetQueue, vWidget);
     delete vWidget._isInGlobalWidgetQueue;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.flushGlobalWidgetQueue = function()
 {
@@ -651,11 +651,11 @@ qx.ui.core.Widget.flushGlobalWidgetQueue = function()
 
       vWidget.flushWidgetQueue();
       delete vWidget._isInGlobalWidgetQueue;
-    };
+    }
 
     vQueue.splice(0, vLength);
-  };
-};
+  }
+}
 
 
 
@@ -681,8 +681,8 @@ qx.ui.core.Widget.addToGlobalElementQueue = function(vWidget)
   {
     qx.ui.core.Widget._globalElementQueue.push(vWidget);
     vWidget._isInGlobalElementQueue = true;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.removeFromGlobalElementQueue = function(vWidget)
 {
@@ -690,8 +690,8 @@ qx.ui.core.Widget.removeFromGlobalElementQueue = function(vWidget)
   {
     qx.lang.Array.remove(qx.ui.core.Widget._globalElementQueue, vWidget);
     delete vWidget._isInGlobalElementQueue;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.flushGlobalElementQueue = function()
 {
@@ -705,11 +705,11 @@ qx.ui.core.Widget.flushGlobalElementQueue = function()
 
       vWidget._createElementImpl();
       delete vWidget._isInGlobalElementQueue;
-    };
+    }
 
     vQueue.splice(0, vLength);
-  };
-};
+  }
+}
 
 
 
@@ -732,8 +732,8 @@ qx.ui.core.Widget.addToGlobalStateQueue = function(vWidget)
   {
     qx.ui.core.Widget._globalStateQueue.push(vWidget);
     vWidget._isInGlobalStateQueue = true;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.removeFromGlobalStateQueue = function(vWidget)
 {
@@ -741,8 +741,8 @@ qx.ui.core.Widget.removeFromGlobalStateQueue = function(vWidget)
   {
     qx.lang.Array.remove(qx.ui.core.Widget._globalStateQueue, vWidget);
     delete vWidget._isInGlobalStateQueue;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.flushGlobalStateQueue = function()
 {
@@ -757,11 +757,11 @@ qx.ui.core.Widget.flushGlobalStateQueue = function()
       vWidget._applyStateAppearance();
 
       delete vWidget._isInGlobalStateQueue;
-    };
+    }
 
     vQueue.splice(0, vLength);
-  };
-};
+  }
+}
 
 
 
@@ -785,8 +785,8 @@ qx.ui.core.Widget.addToGlobalJobQueue = function(vWidget)
   {
     qx.ui.core.Widget._globalJobQueue.push(vWidget);
     vWidget._isInGlobalJobQueue = true;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.removeFromGlobalJobQueue = function(vWidget)
 {
@@ -794,8 +794,8 @@ qx.ui.core.Widget.removeFromGlobalJobQueue = function(vWidget)
   {
     qx.lang.Array.remove(qx.ui.core.Widget._globalJobQueue, vWidget);
     delete vWidget._isInGlobalJobQueue;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.flushGlobalJobQueue = function()
 {
@@ -809,11 +809,11 @@ qx.ui.core.Widget.flushGlobalJobQueue = function()
 
       vWidget._flushJobQueue(vWidget._jobQueue);
       delete vWidget._isInGlobalJobQueue;
-    };
+    }
 
     vQueue.splice(0, vLength);
-  };
-};
+  }
+}
 
 
 
@@ -836,8 +836,8 @@ qx.ui.core.Widget.addToGlobalLayoutQueue = function(vParent)
   {
     qx.ui.core.Widget._globalLayoutQueue.push(vParent);
     vParent._isInGlobalLayoutQueue = true;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.removeFromGlobalLayoutQueue = function(vParent)
 {
@@ -845,8 +845,8 @@ qx.ui.core.Widget.removeFromGlobalLayoutQueue = function(vParent)
   {
     qx.lang.Array.remove(qx.ui.core.Widget._globalLayoutQueue, vParent);
     delete vParent._isInGlobalLayoutQueue;
-  };
-};
+  }
+}
 
 qx.ui.core.Widget.flushGlobalLayoutQueue = function()
 {
@@ -860,11 +860,11 @@ qx.ui.core.Widget.flushGlobalLayoutQueue = function()
 
       vParent._flushChildrenQueue();
       delete vParent._isInGlobalLayoutQueue;
-    };
+    }
 
     vQueue.splice(0, vLength);
-  };
-};
+  }
+}
 
 
 
@@ -881,7 +881,7 @@ qx.ui.core.Widget.flushGlobalLayoutQueue = function()
 */
 
 qx.ui.core.Widget._fastGlobalDisplayQueue = [];
-qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
+qx.ui.core.Widget._lazyGlobalDisplayQueues = {}
 
 qx.ui.core.Widget.addToGlobalDisplayQueue = function(vWidget)
 {
@@ -900,18 +900,18 @@ qx.ui.core.Widget.addToGlobalDisplayQueue = function(vWidget)
       else
       {
         qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey] = [vWidget];
-      };
+      }
     }
     else
     {
       qx.ui.core.Widget._fastGlobalDisplayQueue.push(vWidget);
-    };
+    }
 
     vWidget._isInGlobalDisplayQueue = true;
-  };
-};
+  }
+}
 
-qx.ui.core.Widget.removeFromGlobalDisplayQueue = function(vWidget) {};
+qx.ui.core.Widget.removeFromGlobalDisplayQueue = function(vWidget) {}
 
 qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 {
@@ -932,7 +932,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
   {
     vWidget = vFastQueue[i];
     vWidget.getParent()._getTargetNode().appendChild(vWidget.getElement());
-  };
+  }
 
 
   // Work on lazy queues: Inline widgets
@@ -955,7 +955,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
         catch(ex)
         {
           vWidget.debug("Could not append to inline id: " + vWidget.getInlineNodeId(), ex);
-        };
+        }
 
         vWidget._afterInsertDom();
         vWidget._afterAppear();
@@ -966,9 +966,9 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 
         // Reset display queue flag
         delete vWidget._isInGlobalDisplayQueue;
-      };
-    };
-  };
+      }
+    }
+  }
 
 
   // Work on lazy queues: Other widgets
@@ -990,7 +990,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 
         vWidget._beforeInsertDom();
         vFragment.appendChild(vWidget.getElement());
-      };
+      }
 
       // append all fragment data at once to
       // the already visible parent widget element
@@ -1000,7 +1000,7 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
       {
         vWidget = vLazyQueue[i];
         vWidget._afterInsertDom();
-      };
+      }
     }
     else
     {
@@ -1013,9 +1013,9 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
         vWidget._beforeInsertDom();
         vWidget.getParent()._getTargetNode().appendChild(vWidget.getElement());
         vWidget._afterInsertDom();
-      };
-    };
-  };
+      }
+    }
+  }
 
 
 
@@ -1039,23 +1039,23 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 
       if (vWidget.getVisibility()) {
         vWidget._afterAppear();
-      };
+      }
 
       // Reset display queue flag
       delete vWidget._isInGlobalDisplayQueue;
-    };
+    }
 
     delete vLazyQueues[vKey];
-  };
+  }
 
   // Reset display queue flag for widgets in fastQueue
   for (var i=0, l=vFastQueue.length; i<l; i++) {
     delete vFastQueue[i]._isInGlobalDisplayQueue;
-  };
+  }
 
   // Remove fast queue entries
   qx.lang.Array.removeAll(vFastQueue);
-};
+}
 
 
 
@@ -1075,17 +1075,17 @@ qx.ui.core.Widget.getActiveSiblingHelperIgnore = function(vIgnoreClasses, vInsta
   for (var j=0; j<vIgnoreClasses.length; j++) {
     if (vInstance instanceof vIgnoreClasses[j]) {
       return true;
-    };
-  };
+    }
+  }
 
   return false;
-};
+}
 
 qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIgnoreClasses, vMode)
 {
   if (!vIgnoreClasses) {
     vIgnoreClasses = [];
-  };
+  }
 
   var vChilds = vParent.getChildren();
   var vPosition = qx.util.Validation.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
@@ -1098,11 +1098,11 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
 
     if (!vInstance) {
       return null;
-    };
-  };
+    }
+  }
 
   return vInstance;
-};
+}
 
 
 
@@ -1125,7 +1125,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
 */
 qx.Proto.isMaterialized = function() {
   var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_DISPLAY) != qx.constant.Core.NONE && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
-};
+}
 
 /*!
   A single setup to the current preferrd pixel values of the widget
@@ -1134,7 +1134,7 @@ qx.Proto.pack = function()
 {
   this.setWidth(this.getPreferredBoxWidth());
   this.setHeight(this.getPreferredBoxHeight());
-};
+}
 
 /*!
   A bounded setup to the preferred width/height of the widget. Keeps in
@@ -1144,7 +1144,7 @@ qx.Proto.auto = function()
 {
   this.setWidth(qx.constant.Core.AUTO);
   this.setHeight(qx.constant.Core.AUTO);
-};
+}
 
 
 
@@ -1232,16 +1232,16 @@ qx.Proto._isDisplayable = false;
 
 qx.Proto.isDisplayable = function() {
   return this._isDisplayable;
-};
+}
 
 qx.Proto._checkParent = function(propValue, propOldValue, propData)
 {
   if (this.contains(propValue)) {
     throw new Error("Could not insert myself into a child " + propValue + "!");
-  };
+  }
 
   return propValue;
-};
+}
 
 qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
@@ -1276,7 +1276,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 
     // Store old parent (needed later by _handleDisplayable)
     this._oldParent = propOldValue;
-  };
+  }
 
   if (propValue)
   {
@@ -1290,19 +1290,19 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
     else
     {
       propValue.getChildren().push(this);
-    };
+    }
   }
   else
   {
     this._hasParent = false;
-  };
+  }
 
   return this._handleDisplayable(qx.OO.PROPERTY_PARENT);
-};
+}
 
 qx.Proto._modifyDisplay = function(propValue, propOldValue, propData) {
   return this._handleDisplayable(qx.constant.Style.PROPERTY_DISPLAY);
-};
+}
 
 
 
@@ -1324,7 +1324,7 @@ qx.Proto._handleDisplayable = function(vHint)
   var vDisplayable = this._computeDisplayable();
   if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.OO.PROPERTY_PARENT)) {
     return true;
-  };
+  }
 
   this._isDisplayable = vDisplayable;
 
@@ -1335,13 +1335,13 @@ qx.Proto._handleDisplayable = function(vHint)
   {
     vParent._invalidateVisibleChildren();
     vParent._invalidatePreferredInnerDimensions();
-  };
+  }
 
   if (vHint && this._oldParent && this._oldParent._initialLayoutDone)
   {
     if (this.getVisibility()) {
       this._beforeDisappear();
-    };
+    }
 
     this._beforeRemoveDom();
 
@@ -1351,10 +1351,10 @@ qx.Proto._handleDisplayable = function(vHint)
 
     if (this.getVisibility()) {
       this._afterDisappear();
-    };
+    }
 
     delete this._oldParent;
-  };
+  }
 
   // Handle 'show'
   if (vDisplayable)
@@ -1370,7 +1370,7 @@ qx.Proto._handleDisplayable = function(vHint)
 
       // Inform parents job queue
       vParent.addToJobQueue(qx.ui.core.Widget.JOB_ADDCHILD);
-    };
+    }
 
     // Add to parents children queue
     // (indirectly with a new layout request)
@@ -1384,7 +1384,7 @@ qx.Proto._handleDisplayable = function(vHint)
     // Handle beforeAppear signals
     if (this.getVisibility()) {
       this._beforeAppear();
-    };
+    }
 
 
 
@@ -1395,18 +1395,18 @@ qx.Proto._handleDisplayable = function(vHint)
     // Add element (and create if not ready)
     if (!this._isCreated) {
       qx.ui.core.Widget.addToGlobalElementQueue(this);
-    };
+    }
 
     // Add to global queues
     qx.ui.core.Widget.addToGlobalStateQueue(this);
 
     if (!qx.lang.Object.isEmpty(this._jobQueue)) {
       qx.ui.core.Widget.addToGlobalJobQueue(this);
-    };
+    }
 
     if (!qx.lang.Object.isEmpty(this._childrenQueue)) {
       qx.ui.core.Widget.addToGlobalLayoutQueue(this);
-    };
+    }
   }
 
   // Handle 'hide'
@@ -1427,7 +1427,7 @@ qx.Proto._handleDisplayable = function(vHint)
     {
       if (this.getVisibility()) {
         this._beforeDisappear();
-      };
+      }
 
       // The the layouter add some layout jobs
       if (vParent._initialLayoutDone && this._initialLayoutDone)
@@ -1445,21 +1445,21 @@ qx.Proto._handleDisplayable = function(vHint)
 
         // After Remove DOM Event
         this._afterRemoveDom();
-      };
+      }
 
       // Remove from parents children queue
       vParent._removeChildFromChildrenQueue(this);
 
       if (this.getVisibility()) {
         this._afterDisappear();
-      };
-    };
-  };
+      }
+    }
+  }
 
   this._handleDisplayableCustom(vDisplayable, vParent, vHint);
 
   return true;
-};
+}
 
 qx.Proto.addToCustomQueues = qx.util.Return.returnTrue;
 qx.Proto.removeFromCustomQueues = qx.util.Return.returnTrue;
@@ -1468,20 +1468,20 @@ qx.Proto._handleDisplayableCustom = qx.util.Return.returnTrue;
 
 qx.Proto._computeDisplayable = function() {
   return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
-};
+}
 
 qx.Proto._beforeAppear = function()
 {
   // this.debug("_beforeAppear");
   this.createDispatchEvent(qx.constant.Event.BEFOREAPPEAR);
-};
+}
 
 qx.Proto._afterAppear = function()
 {
   // this.debug("_afterAppear");
   this._isSeeable = true;
   this.createDispatchEvent(qx.constant.Event.APPEAR);
-};
+}
 
 qx.Proto._beforeDisappear = function()
 {
@@ -1494,14 +1494,14 @@ qx.Proto._beforeDisappear = function()
 
   // this.debug("_beforeDisappear");
   this.createDispatchEvent(qx.constant.Event.BEFOREDISAPPEAR);
-};
+}
 
 qx.Proto._afterDisappear = function()
 {
   // this.debug("_afterDisappear");
   this._isSeeable = false;
   this.createDispatchEvent(qx.constant.Event.DISAPPEAR);
-};
+}
 
 qx.Proto._isSeeable = false;
 
@@ -1514,11 +1514,11 @@ qx.Proto._isSeeable = false;
 */
 qx.Proto.isSeeable = function() {
   return this._isSeeable;
-};
+}
 
 qx.Proto.isAppearRelevant = function() {
   return this.getVisibility() && this._isDisplayable;
-};
+}
 
 
 
@@ -1534,25 +1534,25 @@ qx.Proto._beforeInsertDom = function()
 {
   // this.debug("_beforeInsertDom");
   this.createDispatchEvent(qx.constant.Event.BEFOREINSERTDOM);
-};
+}
 
 qx.Proto._afterInsertDom = function()
 {
   // this.debug("_afterInsertDom");
   this.createDispatchEvent(qx.constant.Event.INSERTDOM);
-};
+}
 
 qx.Proto._beforeRemoveDom = function()
 {
   // this.debug("_beforeRemoveDom");
   this.createDispatchEvent(qx.constant.Event.BEFOREREMOVEDOM);
-};
+}
 
 qx.Proto._afterRemoveDom = function()
 {
   // this.debug("_afterRemoveDom");
   this.createDispatchEvent(qx.constant.Event.REMOVEDOM);
-};
+}
 
 
 
@@ -1571,47 +1571,47 @@ qx.Proto._modifyVisibility = function(propValue, propOldValue, propData)
   {
     if (this._isDisplayable) {
       this._beforeAppear();
-    };
+    }
 
     this.removeStyleProperty(qx.constant.Style.PROPERTY_DISPLAY);
 
     if (this._isDisplayable) {
       this._afterAppear();
-    };
+    }
   }
   else
   {
     if (this._isDisplayable) {
       this._beforeDisappear();
-    };
+    }
 
     this.setStyleProperty(qx.constant.Style.PROPERTY_DISPLAY, qx.constant.Core.NONE);
 
     if (this._isDisplayable) {
       this._afterDisappear();
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto.show = function()
 {
   this.setVisibility(true);
   this.setDisplay(true);
-};
+}
 
 qx.Proto.hide = function() {
   this.setVisibility(false);
-};
+}
 
 qx.Proto.connect = function() {
   this.setDisplay(true);
-};
+}
 
 qx.Proto.disconnect = function() {
   this.setDisplay(false);
-};
+}
 
 
 
@@ -1656,18 +1656,18 @@ else
           default:
             cs[i] = this._styleProperties[i];
             es[i] = qx.constant.Core.EMPTY;
-        };
-      };
+        }
+      }
 
       // Move existing childs
       while(el.firstChild) {
         cl.appendChild(el.firstChild);
-      };
+      }
 
       el.appendChild(cl);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -1687,28 +1687,28 @@ if (qx.sys.Client.isGecko())
 {
   qx.Proto._getTargetNode = function() {
     return this._element;
-  };
+  }
 }
 else
 {
   qx.Proto._getTargetNode = function() {
     return this._borderElement || this._element;
-  };
-};
+  }
+}
 
 /*!
   Check if the widget is created (or the element is already available).
 */
 qx.Proto.isCreated = function() {
   return this._isCreated;
-};
+}
 
 /*!
   Create widget with empty element (of specified tagname).
 */
 qx.Proto._createElementImpl = function() {
   this.setElement(this.getTopLevelWidget().getDocumentElement().createElement(this.getTagName()));
-};
+}
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
@@ -1721,7 +1721,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
     // remove events
     this._removeInlineEvents(propOldValue);
-  };
+  }
 
   if (propValue)
   {
@@ -1746,10 +1746,10 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   else
   {
     this._element = this._style = null;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -1767,15 +1767,15 @@ qx.Proto.addToJobQueue = function(p)
 {
   if (this._hasParent) {
     qx.ui.core.Widget.addToGlobalJobQueue(this);
-  };
+  }
 
   if (!this._jobQueue) {
-    this._jobQueue = {};
-  };
+    this._jobQueue = {}
+  }
 
   this._jobQueue[p] = true;
   return true;
-};
+}
 
 qx.Proto._flushJobQueue = function(q)
 {
@@ -1790,18 +1790,18 @@ qx.Proto._flushJobQueue = function(q)
 
     if (!vParent || qx.lang.Object.isEmpty(vQueue)) {
       return;
-    };
+    }
 
     var vLayoutImpl = this instanceof qx.ui.core.Parent ? this.getLayoutImpl() : null;
 
     if (vLayoutImpl) {
       vLayoutImpl.updateSelfOnJobQueueFlush(vQueue);
-    };
+    }
   }
   catch(ex)
   {
     this.error("Flushing job queue (prechecks#1) failed", ex);
-  };
+  }
 
 
 
@@ -1829,20 +1829,20 @@ qx.Proto._flushJobQueue = function(q)
       {
         this._computedWidthValue = vPref;
         vQueue.width = true;
-      };
+      }
 
       if (this._computedMinWidthTypeAuto)
       {
         this._computedMinWidthValue = vPref;
         vQueue.minWidth = true;
-      };
+      }
 
       if (this._computedMaxWidthTypeAuto)
       {
         this._computedMaxWidthValue = vPref;
         vQueue.maxWidth = true;
-      };
-    };
+      }
+    }
 
     if (vRecomputeParentPreferredInnerHeight)
     {
@@ -1852,33 +1852,33 @@ qx.Proto._flushJobQueue = function(q)
       {
         this._computedHeightValue = vPref;
         vQueue.height = true;
-      };
+      }
 
       if (this._computedMinHeightTypeAuto)
       {
         this._computedMinHeightValue = vPref;
         vQueue.minHeight = true;
-      };
+      }
 
       if (this._computedMaxHeightTypeAuto)
       {
         this._computedMaxHeightValue = vPref;
         vQueue.maxHeight = true;
-      };
-    };
+      }
+    }
 
     if ((vQueue.width || vQueue.minWidth || vQueue.maxWidth || vQueue.left || vQueue.right) && this._recomputeBoxWidth()) {
       vRecomputeOuterWidth = vRecomputeInnerWidth = true;
-    };
+    }
 
     if ((vQueue.height || vQueue.minHeight || vQueue.maxHeight || vQueue.top || vQueue.bottom) && this._recomputeBoxHeight()) {
       vRecomputeOuterHeight = vRecomputeInnerHeight = true;
-    };
+    }
   }
   catch(ex)
   {
     this.error("Flushing job queue (recompute#2) failed", ex);
-  };
+  }
 
 
 
@@ -1896,7 +1896,7 @@ qx.Proto._flushJobQueue = function(q)
       vParent.getLayoutImpl().updateSelfOnChildOuterWidthChange(this);
 
       vFlushParentJobQueue = true;
-    };
+    }
 
     if ((vRecomputeOuterHeight && this._recomputeOuterHeight()) || vRecomputeParentPreferredInnerHeight)
     {
@@ -1904,16 +1904,16 @@ qx.Proto._flushJobQueue = function(q)
       vParent.getLayoutImpl().updateSelfOnChildOuterHeightChange(this);
 
       vFlushParentJobQueue = true;
-    };
+    }
 
     if (vFlushParentJobQueue) {
       vParent._flushJobQueue();
-    };
+    }
   }
   catch(ex)
   {
     this.error("Flushing job queue (parentsignals#3) failed", ex);
-  };
+  }
 
 
 
@@ -1931,12 +1931,12 @@ qx.Proto._flushJobQueue = function(q)
     // convert jobs to layout jobs
     for (var i in vQueue) {
       this._layoutChanges[i] = true;
-    };
+    }
   }
   catch(ex)
   {
     this.error("Flushing job queue (addjobs#4) failed", ex);
-  };
+  }
 
 
 
@@ -1956,47 +1956,47 @@ qx.Proto._flushJobQueue = function(q)
       if (vQueue.paddingLeft) {
         for (var i=0; i<chl; i++) {
           ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGLEFT);
-        };
-      };
+        }
+      }
 
       if (vQueue.paddingRight) {
         for (var i=0; i<chl; i++) {
           ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGRIGHT);
-        };
-      };
+        }
+      }
 
       if (vQueue.paddingTop) {
         for (var i=0; i<chl; i++) {
           ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGTOP);
-        };
-      };
+        }
+      }
 
       if (vQueue.paddingBottom) {
         for (var i=0; i<chl; i++) {
           ch[i].addToLayoutChanges(qx.ui.core.Widget.PROPERTY_PARENT_PADDINGBOTTOM);
-        };
-      };
-    };
+        }
+      }
+    }
 
     if (vRecomputeInnerWidth) {
       this._recomputeInnerWidth();
-    };
+    }
 
     if (vRecomputeInnerHeight) {
       this._recomputeInnerHeight();
-    };
+    }
 
     if (this._initialLayoutDone)
     {
       if (vLayoutImpl) {
         vLayoutImpl.updateChildrenOnJobQueueFlush(vQueue);
-      };
-    };
+      }
+    }
   }
   catch(ex)
   {
     this.error("Flushing job queue (childrensignals#5) failed", ex);
-  };
+  }
 
 
 
@@ -2005,7 +2005,7 @@ qx.Proto._flushJobQueue = function(q)
   -------------------------------------------------------------------------------- */
 
   delete this._jobQueue;
-};
+}
 
 
 
@@ -2043,7 +2043,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   {
     qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
     qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
-  };
+  }
 
   var pad = "padding", upad = "Padding";
 
@@ -2053,7 +2053,7 @@ qx.ui.core.Widget.initApplyMethods = function()
     {
       qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
       qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
-    };
+    }
   }
   else
   {
@@ -2067,8 +2067,8 @@ qx.ui.core.Widget.initApplyMethods = function()
     {
       qx.Proto[fn+propsup[i]] = new Function(vpar, s1 + propsup[i] + s2);
       qx.Proto[rn+propsup[i]] = new Function(s3 + propsup[i] + s4);
-    };
-  };
+    }
+  }
 
   /*
     Use optimized method for internet explorer
@@ -2092,7 +2092,7 @@ qx.ui.core.Widget.initApplyMethods = function()
 
       qx.Proto[f+propsup[i]] = new Function(vpar, s + tpos + propsup[i] + vset);
       qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
-    };
+    }
   }
   else
   {
@@ -2103,9 +2103,9 @@ qx.ui.core.Widget.initApplyMethods = function()
 
       qx.Proto[f+propsup[i]] = new Function(vpar, s + props[i] + v);
       qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.ui.core.Widget.initApplyMethods();
 
@@ -2133,43 +2133,43 @@ qx.OO.addCachedProperty({ name : "outerHeight", defaultValue : null });
 
 qx.Proto._computeBoxWidthFallback = function() {
   return 0;
-};
+}
 
 qx.Proto._computeBoxHeightFallback = function() {
   return 0;
-};
+}
 
 qx.Proto._computeBoxWidth = function() {
   return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxWidth(this), this.getMinWidthValue(), this.getMaxWidthValue()));
-};
+}
 
 qx.Proto._computeBoxHeight = function() {
   return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxHeight(this), this.getMinHeightValue(), this.getMaxHeightValue()));
-};
+}
 
 qx.Proto._computeOuterWidth = function() {
   return Math.max(0, this.getMarginLeft() + this.getBoxWidth() + this.getMarginRight());
-};
+}
 
 qx.Proto._computeOuterHeight = function() {
   return Math.max(0, this.getMarginTop() + this.getBoxHeight() + this.getMarginBottom());
-};
+}
 
 qx.Proto._computeInnerWidth = function() {
   return Math.max(0, this.getBoxWidth() - this.getFrameWidth());
-};
+}
 
 qx.Proto._computeInnerHeight = function() {
   return Math.max(0, this.getBoxHeight() - this.getFrameHeight());
-};
+}
 
 qx.Proto.getNeededWidth = function() {
   return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededWidth(this));
-};
+}
 
 qx.Proto.getNeededHeight = function() {
   return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededHeight(this));
-};
+}
 
 
 
@@ -2187,31 +2187,31 @@ qx.Proto._recomputeFlexX = function()
 {
   if (!this.getHasFlexX()) {
     return false;
-  };
+  }
 
   if (this._computedWidthTypeFlex)
   {
     this._computedWidthValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._recomputeFlexY = function()
 {
   if (!this.getHasFlexY()) {
     return false;
-  };
+  }
 
   if (this._computedHeightTypeFlex)
   {
     this._computedHeightValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -2229,79 +2229,79 @@ qx.Proto._recomputePercentX = function()
 {
   if (!this.getHasPercentX()) {
     return false;
-  };
+  }
 
   if (this._computedWidthTypePercent)
   {
     this._computedWidthValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
-  };
+  }
 
   if (this._computedMinWidthTypePercent)
   {
     this._computedMinWidthValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_MINWIDTH);
-  };
+  }
 
   if (this._computedMaxWidthTypePercent)
   {
     this._computedMaxWidthValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_MAXWIDTH);
-  };
+  }
 
   if (this._computedLeftTypePercent)
   {
     this._computedLeftValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_LEFT);
-  };
+  }
 
   if (this._computedRightTypePercent)
   {
     this._computedRightValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_RIGHT);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._recomputePercentY = function()
 {
   if (!this.getHasPercentY()) {
     return false;
-  };
+  }
 
   if (this._computedHeightTypePercent)
   {
     this._computedHeightValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
-  };
+  }
 
   if (this._computedMinHeightTypePercent)
   {
     this._computedMinHeightValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_MINHEIGHT);
-  };
+  }
 
   if (this._computedMaxHeightTypePercent)
   {
     this._computedMaxHeightValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_MAXHEIGHT);
-  };
+  }
 
   if (this._computedTopTypePercent)
   {
     this._computedTopValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_TOP);
-  };
+  }
 
   if (this._computedBottomTypePercent)
   {
     this._computedBottomValue = null;
     this.addToLayoutChanges(qx.OO.PROPERTY_BOTTOM);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -2321,32 +2321,32 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
   {
     if (this._computedLeftTypeNull || this._computedRightTypeNull) {
       return false;
-    };
+    }
 
     this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
     return true;
-  };
+  }
 
   qx.Proto._recomputeRangeY = function()
   {
     if (this._computedTopTypeNull || this._computedBottomTypeNull) {
       return false;
-    };
+    }
 
     this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
     return true;
-  };
+  }
 }
 else
 {
   qx.Proto._recomputeRangeX = function() {
     return !(this._computedLeftTypeNull || this._computedRightTypeNull);
-  };
+  }
 
   qx.Proto._recomputeRangeY = function() {
     return !(this._computedTopTypeNull || this._computedBottomTypeNull);
-  };
-};
+  }
+}
 
 
 
@@ -2369,10 +2369,10 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       this.addToLayoutChanges(qx.OO.PROPERTY_WIDTH);
 
       return true;
-    };
+    }
 
     return false;
-  };
+  }
 
   qx.Proto._recomputeStretchingY = function()
   {
@@ -2382,10 +2382,10 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
       this.addToLayoutChanges(qx.OO.PROPERTY_HEIGHT);
 
       return true;
-    };
+    }
 
     return false;
-  };
+  }
 }
 else
 {
@@ -2393,20 +2393,20 @@ else
   {
     if (this.getAllowStretchX() && this._computedWidthTypeNull) {
       return true;
-    };
+    }
 
     return false;
-  };
+  }
 
   qx.Proto._recomputeStretchingY = function()
   {
     if (this.getAllowStretchY() && this._computedHeightTypeNull) {
       return true;
-    };
+    }
 
     return false;
-  };
-};
+  }
+}
 
 
 
@@ -2421,27 +2421,27 @@ else
 
 qx.Proto._computeValuePixel = function(v) {
   return Math.round(v);
-};
+}
 
 qx.Proto._computeValuePixelLimit = function(v) {
   return Math.max(0, this._computeValuePixel(v));
-};
+}
 
 qx.Proto._computeValuePercentX = function(v) {
   return Math.round(this.getParent().getInnerWidthForChild(this) * v * 0.01);
-};
+}
 
 qx.Proto._computeValuePercentXLimit = function(v) {
   return Math.max(0, this._computeValuePercentX(v));
-};
+}
 
 qx.Proto._computeValuePercentY = function(v) {
   return Math.round(this.getParent().getInnerHeightForChild(this) * v * 0.01);
-};
+}
 
 qx.Proto._computeValuePercentYLimit = function(v) {
   return Math.max(0, this._computeValuePercentY(v));
-};
+}
 
 
 
@@ -2457,7 +2457,7 @@ qx.Proto.getWidthValue = function()
 {
   if (this._computedWidthValue != null) {
     return this._computedWidthValue;
-  };
+  }
 
   switch(this._computedWidthType)
   {
@@ -2473,16 +2473,16 @@ qx.Proto.getWidthValue = function()
     case qx.ui.core.Widget.TYPE_FLEX:
       this.getParent().getLayoutImpl().computeChildrenFlexWidth();
       return this._computedWidthValue = this._computedWidthFlexValue;
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getMinWidthValue = function()
 {
   if (this._computedMinWidthValue != null) {
     return this._computedMinWidthValue;
-  };
+  }
 
   switch(this._computedMinWidthType)
   {
@@ -2494,16 +2494,16 @@ qx.Proto.getMinWidthValue = function()
 
     case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMinWidthValue = this.getPreferredBoxWidth();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getMaxWidthValue = function()
 {
   if (this._computedMaxWidthValue != null) {
     return this._computedMaxWidthValue;
-  };
+  }
 
   switch(this._computedMaxWidthType)
   {
@@ -2515,16 +2515,16 @@ qx.Proto.getMaxWidthValue = function()
 
     case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMaxWidthValue = this.getPreferredBoxWidth();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getLeftValue = function()
 {
   if (this._computedLeftValue != null) {
     return this._computedLeftValue;
-  };
+  }
 
   switch(this._computedLeftType)
   {
@@ -2533,16 +2533,16 @@ qx.Proto.getLeftValue = function()
 
     case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedLeftValue = this._computeValuePercentX(this._computedLeftParsed);
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getRightValue = function()
 {
   if (this._computedRightValue != null) {
     return this._computedRightValue;
-  };
+  }
 
   switch(this._computedRightType)
   {
@@ -2551,10 +2551,10 @@ qx.Proto.getRightValue = function()
 
     case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedRightValue = this._computeValuePercentX(this._computedRightParsed);
-  };
+  }
 
   return null;
-};
+}
 
 
 
@@ -2572,7 +2572,7 @@ qx.Proto.getHeightValue = function()
 {
   if (this._computedHeightValue != null) {
     return this._computedHeightValue;
-  };
+  }
 
   switch(this._computedHeightType)
   {
@@ -2588,16 +2588,16 @@ qx.Proto.getHeightValue = function()
     case qx.ui.core.Widget.TYPE_FLEX:
       this.getParent().getLayoutImpl().computeChildrenFlexHeight();
       return this._computedHeightValue = this._computedHeightFlexValue;
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getMinHeightValue = function()
 {
   if (this._computedMinHeightValue != null) {
     return this._computedMinHeightValue;
-  };
+  }
 
   switch(this._computedMinHeightType)
   {
@@ -2609,16 +2609,16 @@ qx.Proto.getMinHeightValue = function()
 
     case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMinHeightValue = this.getPreferredBoxHeight();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getMaxHeightValue = function()
 {
   if (this._computedMaxHeightValue != null) {
     return this._computedMaxHeightValue;
-  };
+  }
 
   switch(this._computedMaxHeightType)
   {
@@ -2630,16 +2630,16 @@ qx.Proto.getMaxHeightValue = function()
 
     case qx.ui.core.Widget.TYPE_AUTO:
       return this._computedMaxHeightValue = this.getPreferredBoxHeight();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getTopValue = function()
 {
   if (this._computedTopValue != null) {
     return this._computedTopValue;
-  };
+  }
 
   switch(this._computedTopType)
   {
@@ -2648,16 +2648,16 @@ qx.Proto.getTopValue = function()
 
     case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedTopValue = this._computeValuePercentY(this._computedTopParsed);
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getBottomValue = function()
 {
   if (this._computedBottomValue != null) {
     return this._computedBottomValue;
-  };
+  }
 
   switch(this._computedBottomType)
   {
@@ -2666,10 +2666,10 @@ qx.Proto.getBottomValue = function()
 
     case qx.ui.core.Widget.TYPE_PERCENT:
       return this._computedBottomValue = this._computeValuePercentY(this._computedBottomParsed);
-  };
+  }
 
   return null;
-};
+}
 
 
 
@@ -2704,10 +2704,10 @@ qx.Proto._computeFrameWidth = function()
       // This seems to be really hard to implement
       // this.debug("Check Auto Scroll-X: " + this.getPreferredBoxHeight() + " :: " + this.getBoxHeight());
       break;
-  };
+  }
 
   return fw;
-};
+}
 
 qx.Proto._computeFrameHeight = function()
 {
@@ -2725,16 +2725,16 @@ qx.Proto._computeFrameHeight = function()
       // This seems to be really hard to implement
       // this.debug("Check Auto Scroll-Y: " + this.getPreferredBoxWidth() + " :: " + this.getBoxWidth());
       break;
-  };
+  }
 
   return fh;
-};
+}
 
 qx.Proto._invalidateFrameDimensions = function()
 {
   this._invalidateFrameWidth();
   this._invalidateFrameHeight();
-};
+}
 
 
 
@@ -2755,7 +2755,7 @@ qx.Proto._invalidatePreferredInnerDimensions = function()
 {
   this._invalidatePreferredInnerWidth();
   this._invalidatePreferredInnerHeight();
-};
+}
 
 
 
@@ -2778,8 +2778,8 @@ qx.Proto._computePreferredBoxWidth = function()
     return Math.max(0, this.getPreferredInnerWidth() + this.getFrameWidth());
   } catch(ex) {
     this.error("_computePreferredBoxWidth failed", ex);
-  };
-};
+  }
+}
 
 qx.Proto._computePreferredBoxHeight = function()
 {
@@ -2787,8 +2787,8 @@ qx.Proto._computePreferredBoxHeight = function()
     return Math.max(0, this.getPreferredInnerHeight() + this.getFrameHeight());
   } catch(ex) {
     this.error("_computePreferredBoxHeight failed", ex);
-  };
-};
+  }
+}
 
 
 
@@ -2808,18 +2808,18 @@ qx.Proto.addToLayoutChanges = function(p)
 {
   if (this._isDisplayable) {
     this.getParent()._addChildToChildrenQueue(this);
-  };
+  }
 
   return this._layoutChanges[p] = true;
-};
+}
 
 qx.Proto.addToQueue = function(p) {
   this._initialLayoutDone ? this.addToJobQueue(p) : this.addToLayoutChanges(p);
-};
+}
 
 qx.Proto.addToQueueRuntime = function(p) {
   return !this._initialLayoutDone || this.addToJobQueue(p);
-};
+}
 
 
 
@@ -2837,13 +2837,13 @@ qx.Proto._applyBorderX = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
   vBorder ? vBorder._applyWidgetX(vChild) : qx.renderer.border.Border._resetBorderX(vChild);
-};
+}
 
 qx.Proto._applyBorderY = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
   vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
-};
+}
 
 qx.Proto._applyPaddingX = qx.util.Return.returnTrue;
 qx.Proto._applyPaddingY = qx.util.Return.returnTrue;
@@ -2872,27 +2872,27 @@ qx.OO.addCachedProperty({ name : "hasFlexY", defaultValue : false });
 
 qx.Proto._computeHasPercentX = function() {
   return this._computedLeftTypePercent || this._computedWidthTypePercent || this._computedMinWidthTypePercent || this._computedMaxWidthTypePercent || this._computedRightTypePercent;
-};
+}
 
 qx.Proto._computeHasPercentY = function() {
   return this._computedTopTypePercent || this._computedHeightTypePercent || this._computedMinHeightTypePercent || this._computedMaxHeightTypePercent || this._computedBottomTypePercent;
-};
+}
 
 qx.Proto._computeHasAutoX = function() {
   return this._computedWidthTypeAuto || this._computedMinWidthTypeAuto || this._computedMaxWidthTypeAuto;
-};
+}
 
 qx.Proto._computeHasAutoY = function() {
   return this._computedHeightTypeAuto || this._computedMinHeightTypeAuto || this._computedMaxHeightTypeAuto;
-};
+}
 
 qx.Proto._computeHasFlexX = function() {
   return this._computedWidthTypeFlex;
-};
+}
 
 qx.Proto._computeHasFlexY = function() {
   return this._computedHeightTypeFlex;
-};
+}
 
 
 
@@ -2922,7 +2922,7 @@ qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
     case Infinity:
     case -Infinity:
       return qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   switch(typeof propValue)
   {
@@ -2931,10 +2931,10 @@ qx.Proto._evalUnitsPixelPercentAutoFlex = function(propValue)
 
     case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf(qx.constant.Core.STAR) != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   return qx.ui.core.Widget.TYPE_NULL;
-};
+}
 
 qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
 {
@@ -2946,7 +2946,7 @@ qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
     case Infinity:
     case -Infinity:
       return qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   switch(typeof propValue)
   {
@@ -2955,10 +2955,10 @@ qx.Proto._evalUnitsPixelPercentAuto = function(propValue)
 
     case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   return qx.ui.core.Widget.TYPE_NULL;
-};
+}
 
 qx.Proto._evalUnitsPixelPercent = function(propValue)
 {
@@ -2967,7 +2967,7 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
     case Infinity:
     case -Infinity:
       return qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   switch(typeof propValue)
   {
@@ -2976,10 +2976,10 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
 
     case qx.constant.Type.STRING:
       return propValue.indexOf(qx.constant.Core.PERCENT) != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
-  };
+  }
 
   return qx.ui.core.Widget.TYPE_NULL;
-};
+}
 
 
 
@@ -2992,7 +2992,7 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.layoutPropertyTypes = {};
+qx.ui.core.Widget.layoutPropertyTypes = {}
 
 qx.ui.core.Widget.initLayoutProperties = function()
 {
@@ -3015,9 +3015,9 @@ qx.ui.core.Widget.initLayoutProperties = function()
       typeAuto : t + "Auto",
       typeFlex : t + "Flex",
       typeNull : t + "Null"
-    };
-  };
-};
+    }
+  }
+}
 
 qx.ui.core.Widget.initLayoutProperties();
 
@@ -3082,7 +3082,7 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
       this[s1] = this[s2] = this[s3] = this[s4] = false;
       this[p] = this[v] = null;
       break;
-  };
+  }
 
   if (wasPercent != this[s2])
   {
@@ -3103,8 +3103,8 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
       case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
-    };
-  };
+    }
+  }
 
   // No ELSE because you can also switch from percent to auto
   if (wasAuto != this[s3])
@@ -3122,8 +3122,8 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
       case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
-    };
-  };
+    }
+  }
 
   // No ELSE because you can also switch from percent to auto
   if (wasFlex != this[s4])
@@ -3137,9 +3137,9 @@ qx.Proto._unitDetectionPixelPercentAutoFlex = function(propData, propValue)
       case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasFlexY();
         break;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
 {
@@ -3183,7 +3183,7 @@ qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
       this[s1] = this[s2] = this[s3] = false;
       this[p] = this[v] = null;
       break;
-  };
+  }
 
   if (wasPercent != this[s2])
   {
@@ -3204,8 +3204,8 @@ qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
       case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
-    };
-  };
+    }
+  }
 
   // No ELSE because you can also switch from percent to auto
   if (wasAuto != this[s3])
@@ -3223,9 +3223,9 @@ qx.Proto._unitDetectionPixelPercentAuto = function(propData, propValue)
       case qx.OO.PROPERTY_HEIGHT:
         this._invalidateHasAutoY();
         break;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
 {
@@ -3261,7 +3261,7 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
       this[s1] = this[s2] = false;
       this[p] = this[v] = null;
       break;
-  };
+  }
 
   if (wasPercent != this[s2])
   {
@@ -3282,9 +3282,9 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
       case qx.OO.PROPERTY_BOTTOM:
         this._invalidateHasPercentY();
         break;
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -3307,7 +3307,7 @@ if (qx.sys.Client.isMshtml())
     scroll : "onscroll",
     focus : "onfocus",
     blur : "onblur"
-  };
+  }
 
   qx.Proto.enableInlineEvent = function(vEventName)
   {
@@ -3320,12 +3320,12 @@ if (qx.sys.Client.isMshtml())
     else
     {
       this._inlineEvents.push(vEventType);
-    };
+    }
 
     if (this._isCreated) {
       this.getElement()[vEventType] = qx.ui.core.Widget.__oninlineevent;
-    };
-  };
+    }
+  }
 
   qx.Proto.disableInlineEvent = function(vEventName)
   {
@@ -3333,12 +3333,12 @@ if (qx.sys.Client.isMshtml())
 
     if (this._inlineEvents) {
       qx.lang.Array.remove(this._inlineEvents, vEventType);
-    };
+    }
 
     if (this._isCreated) {
       this.getElement()[vEventType] = null;
-    };
-  };
+    }
+  }
 
   qx.Proto._addInlineEvents = function(vElement)
   {
@@ -3346,9 +3346,9 @@ if (qx.sys.Client.isMshtml())
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
         vElement[a[i]] = qx.ui.core.Widget.__oninlineevent;
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto._removeInlineEvents = function(vElement)
   {
@@ -3356,9 +3356,9 @@ if (qx.sys.Client.isMshtml())
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
         vElement[a[i]] = null;
-      };
-    };
-  };
+      }
+    }
+  }
 }
 else
 {
@@ -3371,23 +3371,23 @@ else
     else
     {
       this._inlineEvents.push(vEventName);
-    };
+    }
 
     if (this._isCreated) {
       this.getElement().addEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
-    };
-  };
+    }
+  }
 
   qx.Proto.disableInlineEvent = function(vEventName)
   {
     if (this._inlineEvents) {
       qx.lang.Array.remove(this._inlineEvents, vEventName);
-    };
+    }
 
     if (this._isCreated) {
       this.getElement().removeEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
-    };
-  };
+    }
+  }
 
   qx.Proto._addInlineEvents = function(vElement)
   {
@@ -3395,9 +3395,9 @@ else
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
         vElement.addEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
-      };
-    };
-  };
+      }
+    }
+  }
 
   qx.Proto._removeInlineEvents = function(vElement)
   {
@@ -3405,21 +3405,21 @@ else
     {
       for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
         vElement.removeEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 qx.ui.core.Widget.__oninlineevent = function(e)
 {
   if (!e) {
     e = window.event;
-  };
+  }
 
   if (this.qx_Widget) {
     return this.qx_Widget._oninlineevent(e);
-  };
-};
+  }
+}
 
 qx.Class.INLINE_EVENTTYPE = "propertychange";
 qx.Class.INLINE_EVENTTYPE_PROPERTY = "value";
@@ -3428,7 +3428,7 @@ qx.Proto._oninlineevent = function(e)
 {
   if (qx.ui.core.Widget._inFlushGlobalQueues) {
     return;
-  };
+  }
 
   // this.debug("Inlineevent: " + e.type);
 
@@ -3444,8 +3444,8 @@ qx.Proto._oninlineevent = function(e)
 
     default:
       this.createDispatchEvent(e.type);
-  };
-};
+  }
+}
 
 qx.Proto._oninlineinput = function(e)
 {
@@ -3454,10 +3454,10 @@ qx.Proto._oninlineinput = function(e)
   // Block parents from this event
   if (e.stopPropagation) {
     e.stopPropagation();
-  };
+  }
 
   e.returnValue = -1;
-};
+}
 
 qx.Proto._oninlineproperty = function(e)
 {
@@ -3466,11 +3466,11 @@ qx.Proto._oninlineproperty = function(e)
     case qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY:
       if (!this._inValueProperty) {
         this._oninlineinput(e);
-      };
+      }
 
       break;
-  };
-};
+  }
+}
 
 
 
@@ -3491,35 +3491,35 @@ qx.Proto._oninlineproperty = function(e)
 */
 qx.Proto.getTopLevelWidget = function() {
   return this._hasParent ? this.getParent().getTopLevelWidget() : null;
-};
+}
 
 /*!
   Move myself before another child of the same parent.
 */
 qx.Proto.moveSelfBefore = function(vBefore) {
   this.getParent().addBefore(this, vBefore);
-};
+}
 
 /*!
   Move myself after another child of the same parent.
 */
 qx.Proto.moveSelfAfter = function(vAfter) {
   this.getParent().addAfter(this, vAfter);
-};
+}
 
 /*!
   Move myself to the begin and this way make me the first child.
 */
 qx.Proto.moveSelfToBegin = function() {
   this.getParent().addAtBegin(this);
-};
+}
 
 /*!
   Move myself to the end and this way make me the last child.
 */
 qx.Proto.moveSelfToEnd = function() {
   this.getParent().addAtEnd(this);
-};
+}
 
 /*!
   Returns the previous sibling.
@@ -3530,11 +3530,11 @@ qx.Proto.getPreviousSibling = function()
 
   if(p == null) {
     return null;
-  };
+  }
 
   var cs = p.getChildren();
   return cs[cs.indexOf(this) - 1];
-};
+}
 
 /*!
   Returns the next sibling.
@@ -3545,11 +3545,11 @@ qx.Proto.getNextSibling = function()
 
   if(p == null) {
     return null;
-  };
+  }
 
   var cs = p.getChildren();
   return cs[cs.indexOf(this) + 1];
-};
+}
 
 /*!
   Returns the previous sibling.
@@ -3558,11 +3558,11 @@ qx.Proto.getPreviousVisibleSibling = function()
 {
   if(!this._hasParent) {
     return null;
-  };
+  }
 
   var vChildren = this.getParent().getVisibleChildren();
   return vChildren[vChildren.indexOf(this) - 1];
-};
+}
 
 /*!
   Returns the next sibling.
@@ -3571,39 +3571,39 @@ qx.Proto.getNextVisibleSibling = function()
 {
   if(!this._hasParent) {
     return null;
-  };
+  }
 
   var vChildren = this.getParent().getVisibleChildren();
   return vChildren[vChildren.indexOf(this) + 1];
-};
+}
 
 qx.Proto.getPreviousActiveSibling = function(vIgnoreClasses)
 {
   var vPrev = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
   return vPrev ? vPrev : this.getParent().getLastActiveChild();
-};
+}
 
 qx.Proto.getNextActiveSibling = function(vIgnoreClasses)
 {
   var vNext = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
   return vNext ? vNext : this.getParent().getFirstActiveChild();
-};
+}
 
 qx.Proto.isFirstChild = function() {
   return this._hasParent && this.getParent().getFirstChild() == this;
-};
+}
 
 qx.Proto.isLastChild = function() {
   return this._hasParent && this.getParent().getLastChild() == this;
-};
+}
 
 qx.Proto.isFirstVisibleChild = function() {
   return this._hasParent && this.getParent().getFirstVisibleChild() == this;
-};
+}
 
 qx.Proto.isLastVisibleChild = function() {
   return this._hasParent && this.getParent().getLastVisibleChild() == this;
-};
+}
 
 
 
@@ -3631,10 +3631,10 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
     this.removeState(qx.ui.core.Widget.STATE_OVER);
     this.removeState(qx.ui.form.Button.STATE_ABANDONED);
     this.removeState(qx.ui.form.Button.STATE_PRESSED);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -3654,7 +3654,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
  */
 qx.Proto.hasState = function(vState) {
   return this._states[vState] ? true : false;
-};
+}
 
 /**
  * Sets a state.
@@ -3668,9 +3668,9 @@ qx.Proto.addState = function(vState)
 
     if (this._hasParent) {
       qx.ui.core.Widget.addToGlobalStateQueue(this);
-    };
+    }
   }
-};
+}
 
 /**
  * Clears a state.
@@ -3684,9 +3684,9 @@ qx.Proto.removeState = function(vState)
 
     if (this._hasParent) {
       qx.ui.core.Widget.addToGlobalStateQueue(this);
-    };
+    }
   }
-};
+}
 
 /**
  * Sets or clears a state.
@@ -3701,7 +3701,7 @@ qx.Proto.setState = function(state, enabled) {
   } else {
     this.removeState(state);
   }
-};
+}
 
 
 
@@ -3726,14 +3726,14 @@ qx.Proto._applyInitialAppearance = function()
       var r = qx.manager.object.AppearanceManager.getAppearanceThemeObject().initialFrom(this, vAppearance);
       if (r) {
         this.set(r);
-      };
+      }
     }
     catch(ex)
     {
       this.error("Could not apply initial appearance", ex);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._applyStateAppearance = function()
 {
@@ -3748,14 +3748,14 @@ qx.Proto._applyStateAppearance = function()
       var r = qx.manager.object.AppearanceManager.getAppearanceThemeObject().stateFrom(this, vAppearance);
       if (r) {
         this.set(r);
-      };
+      }
     }
     catch(ex)
     {
       this.error("Could not apply state appearance", ex);
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
@@ -3773,19 +3773,19 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
     {
       if (!(vProp in vNewAppearanceProperties)) {
         this[qx.OO.resetter[vProp]]();
-      };
-    };
+      }
+    }
 
     this.set(vNewAppearanceProperties);
-  };
-};
+  }
+}
 
 if (qx.sys.Client.isMshtml())
 {
   /*
     Mshtml does not support outlines by css
   */
-  qx.Proto._applyStateStyleFocus = function(vStates) {};
+  qx.Proto._applyStateStyleFocus = function(vStates) {}
 }
 else if (qx.sys.Client.isGecko())
 {
@@ -3796,13 +3796,13 @@ else if (qx.sys.Client.isGecko())
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
         this.setStyleProperty("MozOutline", qx.ui.core.Widget.FOCUS_OUTLINE);
-      };
+      }
     }
     else
     {
       this.removeStyleProperty("MozOutline");
-    };
-  };
+    }
+  }
 }
 else
 {
@@ -3813,22 +3813,22 @@ else
       if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus())
       {
         this.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_OUTLINE);
-      };
+      }
     }
     else
     {
       this.removeStyleProperty("outline");
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto.addToStateQueue = function() {
   qx.ui.core.Widget.addToGlobalStateQueue(this);
-};
+}
 
 qx.Proto.recursiveAddToStateQueue = function() {
   this.addToStateQueue();
-};
+}
 
 
 
@@ -3850,7 +3850,7 @@ qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 
   if (this.isCreated()) {
     qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
-  };
+  }
 
   if (propOldValue)
   {
@@ -3858,20 +3858,20 @@ qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 
     if (this.isCreated()) {
       qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
-    };
+    }
 
     for (var vProp in vOldAppearanceProperties)
     {
       if (!(vProp in vNewAppearanceProperties)) {
         this[qx.OO.resetter[vProp]]();
-      };
-    };
-  };
+      }
+    }
+  }
 
   this.set(vNewAppearanceProperties);
 
   return true;
-};
+}
 
 qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldAppearanceTheme)
 {
@@ -3882,8 +3882,8 @@ qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldApp
   catch(ex)
   {
     this.error("Failed to update appearance theme", ex);
-  };
-};
+  }
+}
 
 
 
@@ -3899,7 +3899,7 @@ qx.Proto._recursiveAppearanceThemeUpdate = function(vNewAppearanceTheme, vOldApp
 /*!
   Placeholder method to add attributes and other content to element node
 */
-qx.Proto._applyElementData = function(el) {};
+qx.Proto._applyElementData = function(el) {}
 
 
 
@@ -3915,17 +3915,17 @@ qx.Proto._applyElementData = function(el) {};
 qx.Proto.setHtmlProperty = function(propName, propValue)
 {
   if (!this._htmlProperties) {
-    this._htmlProperties = {};
-  };
+    this._htmlProperties = {}
+  }
 
   this._htmlProperties[propName] = propValue;
 
   if (this._isCreated) {
     this.getElement()[propName] = propValue;
-  };
+  }
 
   return true;
-};
+}
 
 if (qx.sys.Client.isMshtml())
 {
@@ -3933,16 +3933,16 @@ if (qx.sys.Client.isMshtml())
   {
     if (!this._htmlProperties) {
       return;
-    };
+    }
 
     delete this._htmlProperties[propName];
 
     if (this._isCreated) {
       this.getElement().removeAttribute(propName);
-    };
+    }
 
     return true;
-  };
+  }
 }
 else
 {
@@ -3950,7 +3950,7 @@ else
   {
     if (!this._htmlProperties) {
       return;
-    };
+    }
 
     delete this._htmlProperties[propName];
 
@@ -3958,20 +3958,20 @@ else
     {
       this.getElement().removeAttribute(propName);
       delete this.getElement()[propName];
-    };
+    }
 
     return true;
-  };
-};
+  }
+}
 
 qx.Proto.getHtmlProperty = function(propName)
 {
   if (!this._htmlProperties) {
     return qx.constant.Core.EMPTY;
-  };
+  }
 
   return this._htmlProperties[propName] || qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto._applyHtmlProperties = function(vElement)
 {
@@ -3985,9 +3985,9 @@ qx.Proto._applyHtmlProperties = function(vElement)
 
     for (propName in vProperties) {
       vElement[propName] = vProperties[propName];
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -4003,41 +4003,41 @@ qx.Proto._applyHtmlProperties = function(vElement)
 qx.Proto.setHtmlAttribute = function(propName, propValue)
 {
   if (!this._htmlAttributes) {
-    this._htmlAttributes = {};
-  };
+    this._htmlAttributes = {}
+  }
 
   this._htmlAttributes[propName] = propValue;
 
   if (this._isCreated) {
     this.getElement().setAttribute(propName, propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto.removeHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
     return;
-  };
+  }
 
   delete this._htmlAttributes[propName];
 
   if (this._isCreated) {
     this.getElement().removeAttribute(propName);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto.getHtmlAttribute = function(propName)
 {
   if (!this._htmlAttributes) {
     return qx.constant.Core.EMPTY;
-  };
+  }
 
   return this._htmlAttributes[propName] || qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto._applyHtmlAttributes = function(vElement)
 {
@@ -4051,9 +4051,9 @@ qx.Proto._applyHtmlAttributes = function(vElement)
 
     for (propName in vAttributes) {
       vElement.setAttribute(propName, vAttributes[propName]);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -4068,7 +4068,7 @@ qx.Proto._applyHtmlAttributes = function(vElement)
 
 qx.Proto.getStyleProperty = function(propName) {
   return this._styleProperties[propName] || qx.constant.Core.EMPTY;
-};
+}
 
 qx.Proto.setStyleProperty = function(propName, propValue)
 {
@@ -4091,15 +4091,15 @@ qx.Proto.setStyleProperty = function(propName, propValue)
 
       default:
         var vElement = this._getTargetNode();
-    };
+    }
 
     if (vElement) {
       vElement.style[propName] = propValue;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto.removeStyleProperty = function(propName)
 {
@@ -4122,15 +4122,15 @@ qx.Proto.removeStyleProperty = function(propName)
 
       default:
         var vElement = this._getTargetNode();
-    };
+    }
 
     if (vElement) {
       vElement.style[propName] = qx.constant.Core.EMPTY;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._applyStyleProperties = function(vElement)
 {
@@ -4155,11 +4155,11 @@ qx.Proto._applyStyleProperties = function(vElement)
 
       default:
         vElement = vTargetElement;
-    };
+    }
 
     vElement.style[propName] = vProperties[propName];
-  };
-};
+  }
+}
 
 
 
@@ -4176,30 +4176,30 @@ qx.Proto._applyStyleProperties = function(vElement)
 
 qx.Proto.isFocusable = function() {
   return this.isEnabled() && this.isSeeable() && this.getTabIndex() >= 0;
-};
+}
 
 qx.Proto.isFocusRoot = function() {
   return false;
-};
+}
 
 qx.Proto.getFocusRoot = function()
 {
   if(this._hasParent) {
     return this.getParent().getFocusRoot();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto.getActiveChild = function()
 {
   var vRoot = this.getFocusRoot();
   if (vRoot) {
     return vRoot.getActiveChild();
-  };
+  }
 
   return null;
-};
+}
 
 qx.Proto._ontabfocus = qx.util.Return.returnTrue;
 
@@ -4207,7 +4207,7 @@ qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 {
   if (!this.isCreated()) {
     return true;
-  };
+  }
 
   var vFocusRoot = this.getFocusRoot();
 
@@ -4222,13 +4222,13 @@ qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
   {
     if (vFocusRoot.getFocusedChild() == this) {
       vFocusRoot.setFocusedChild(null);
-    };
+    }
 
     this._visualizeBlur();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._visualizeBlur = function()
 {
@@ -4238,12 +4238,12 @@ qx.Proto._visualizeBlur = function()
   {
     try {
       this.getElement().blur();
-    } catch(ex) {};
-  };
+    } catch(ex) {}
+  }
 
   this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
   return true;
-};
+}
 
 qx.Proto._visualizeFocus = function()
 {
@@ -4251,24 +4251,24 @@ qx.Proto._visualizeFocus = function()
   {
     try {
       this.getElement().focus();
-    } catch(ex) {};
-  };
+    } catch(ex) {}
+  }
 
   this.addState(qx.ui.core.Widget.STATE_FOCUSED);
   return true;
-};
+}
 
 qx.Proto.focus = function()
 {
   delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(true);
-};
+}
 
 qx.Proto.blur = function()
 {
   delete qx.event.handler.FocusHandler.mouseFocus;
   this.setFocused(false);
-};
+}
 
 
 
@@ -4288,7 +4288,7 @@ qx.Proto._modifyCapture = function(propValue, propOldValue, propData)
   catch(ex)
   {
     throw new Error("Could not apply new capture value: event manager of top level widget is not available!");
-  };
+  }
 
   if (propOldValue)
   {
@@ -4297,10 +4297,10 @@ qx.Proto._modifyCapture = function(propValue, propOldValue, propData)
   else if (propValue)
   {
     ev.setCaptureWidget(this);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -4314,7 +4314,7 @@ qx.Proto._modifyCapture = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
   return this.setStyleProperty(propData.name, propValue);
-};
+}
 
 
 
@@ -4345,7 +4345,7 @@ if (qx.sys.Client.isMshtml())
     this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
 
     return true;
-  };
+  }
 }
 else if (qx.sys.Client.isGecko())
 {
@@ -4357,7 +4357,7 @@ else if (qx.sys.Client.isGecko())
     this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
 
     return true;
-  };
+  }
 }
 else
 {
@@ -4371,8 +4371,8 @@ else
     this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
 
     return true;
-  };
-};
+  }
+}
 
 
 
@@ -4387,11 +4387,11 @@ else
 
 qx.Proto.setCssClassName = function(propValue) {
   this.setHtmlProperty(qx.ui.core.Widget.PROPERTY_CLASSNAME, propValue);
-};
+}
 
 qx.Proto.getCssClassName = function() {
   return this.getHtmlProperty(qx.ui.core.Widget.PROPERTY_CLASSNAME);
-};
+}
 
 
 
@@ -4410,11 +4410,11 @@ qx.Proto.getWidgetFromPoint = function(x, y)
 {
   var ret = this.getWidgetFromPointHelper(x, y);
   return ret && ret != this ? ret : null;
-};
+}
 
 qx.Proto.getWidgetFromPointHelper = function(x, y) {
   return this;
-};
+}
 
 
 
@@ -4437,7 +4437,7 @@ if(qx.sys.Client.isMshtml())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return propValue ? this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.SEL_VALUE_ON);
-  };
+  }
 }
 else if(qx.sys.Client.isGecko())
 {
@@ -4453,24 +4453,24 @@ else if(qx.sys.Client.isGecko())
     {
       this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.constant.Core.NONE);
       this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
-    };
+    }
 
     return true;
-  };
+  }
 }
 else if (qx.sys.Client.isOpera())
 {
   // No known method available for this client
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return true;
-  };
+  }
 }
 else
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
-  };
-};
+  }
+}
 
 
 
@@ -4511,10 +4511,10 @@ if(qx.sys.Client.isMshtml())
     else
     {
       throw new Error("Unsupported opacity value: " + propValue);
-    };
+    }
 
     return true;
-  };
+  }
 }
 else
 {
@@ -4529,7 +4529,7 @@ else
       else if (qx.sys.Client.isKhtml())
       {
         this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_KHTML);
-      };
+      }
 
       this.removeStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_CSS3);
     }
@@ -4547,14 +4547,14 @@ else
       else if (qx.sys.Client.isKhtml())
       {
         this.setStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_KHTML, propValue);
-      };
+      }
 
       this.setStyleProperty(qx.ui.core.Widget.OPACITY_PROPERTY_CSS3, propValue);
-    };
+    }
 
     return true;
-  };
-};
+  }
+}
 
 
 
@@ -4580,10 +4580,10 @@ qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
   else
   {
     this.removeStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -4603,7 +4603,7 @@ qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
 qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
   return qx.util.Validation.isValidString(propValue) ? this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY, qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START + qx.manager.object.ImageManager.buildUri(propValue) + qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) : this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
-};
+}
 
 
 
@@ -4622,7 +4622,7 @@ qx.ui.core.Widget.CLIP_VALUE_STOP = ")";
 
 qx.Proto._modifyClip = function(propValue, propOldValue, propData) {
   return this._compileClipString();
-};
+}
 
 qx.Proto._compileClipString = function()
 {
@@ -4642,7 +4642,7 @@ qx.Proto._compileClipString = function()
   {
     vRight = vWidth == null ? qx.constant.Core.AUTO : vLeft + vWidth + qx.constant.Core.PIXEL;
     vLeft = vLeft + qx.constant.Core.PIXEL;
-  };
+  }
 
   if(vTop == null)
   {
@@ -4653,10 +4653,10 @@ qx.Proto._compileClipString = function()
   {
     vBottom = vHeight == null ? qx.constant.Core.AUTO : vTop + vHeight + qx.constant.Core.PIXEL;
     vTop = vTop + qx.constant.Core.PIXEL;
-  };
+  }
 
   return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + qx.constant.Core.COMMA + vRight + qx.constant.Core.COMMA + vBottom + qx.constant.Core.COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
-};
+}
 
 
 
@@ -4676,7 +4676,7 @@ qx.ui.core.Widget.initOverflow = function()
 {
   if (qx.ui.core.Widget.initOverflowDone) {
     return;
-  };
+  }
 
   var t = document.createElement(qx.constant.Tags.DIV);
   var s = t.style;
@@ -4689,12 +4689,12 @@ qx.ui.core.Widget.initOverflow = function()
   var c = qx.dom.DomDimension.getScrollBarSizeRight(t);
   if (c) {
     qx.ui.core.Widget.SCROLLBAR_SIZE = c;
-  };
+  }
 
   document.body.removeChild(t);
 
   qx.ui.core.Widget.initOverflowDone = true;
-};
+}
 
 qx.ui.core.Widget.SCROLL_PROPERTY = "overflow";
 qx.ui.core.Widget.SCROLL_PROPERTYX = "overflowX";
@@ -4730,10 +4730,10 @@ if (qx.sys.Client.isGecko())
       case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
         pv = qx.ui.core.Widget.SCROLL_VALUE_MOZSCROLLY;
         break;
-    };
+    }
 
     return this._applyOverflow(pn, pv, propValue, propOldValue);
-  };
+  }
 }
 
 // Mshtml conforms here to CSS3 Spec. Sometime here are multiple browsers
@@ -4756,7 +4756,7 @@ else if (qx.sys.Client.isMshtml())
         pn = qx.ui.core.Widget.SCROLL_PROPERTYY;
         pv = qx.ui.core.Widget.SCROLL_VALUE_SCROLL;
         break;
-    };
+    }
 
     // Clear up concurrenting rules
     var a = [ qx.ui.core.Widget.SCROLL_PROPERTY, qx.ui.core.Widget.SCROLL_PROPERTYX, qx.ui.core.Widget.SCROLL_PROPERTYY ];
@@ -4764,11 +4764,11 @@ else if (qx.sys.Client.isMshtml())
     {
       if (a[i]!=pn) {
         this.removeStyleProperty(a[i]);
-      };
-    };
+      }
+    }
 
     return this._applyOverflow(pn, pv, propValue, propOldValue);
-  };
+  }
 }
 
 // Opera/Khtml Mode...
@@ -4789,11 +4789,11 @@ else
       case qx.ui.core.Widget.SCROLL_VALUE_SCROLLY:
         pv = qx.ui.core.Widget.SCROLL_VALUE_SCROLL;
         break;
-    };
+    }
 
     return this._applyOverflow(pn, pv, propValue, propOldValue);
-  };
-};
+  }
+}
 
 qx.Proto._applyOverflow = function(pn, pv, propValue, propOldValue)
 {
@@ -4805,19 +4805,19 @@ qx.Proto._applyOverflow = function(pn, pv, propValue, propOldValue)
   this._invalidateFrameHeight();
 
   return true;
-};
+}
 
 qx.Proto.getOverflowX = function()
 {
   var vOverflow = this.getOverflow();
   return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLY ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
-};
+}
 
 qx.Proto.getOverflowY = function()
 {
   var vOverflow = this.getOverflow();
   return vOverflow == qx.ui.core.Widget.SCROLL_VALUE_SCROLLX ? qx.ui.core.Widget.SCROLL_VALUE_HIDDEN : vOverflow;
-};
+}
 
 
 
@@ -4836,8 +4836,8 @@ if (qx.sys.Client.isMshtml())
   {
     this.setHtmlProperty(propData.name, propValue);
     return true;
-  };
-};
+  }
+}
 
 // Need no implementation for others then mshtml, because
 // all these browsers support css outlines and does not
@@ -4858,7 +4858,7 @@ qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue)
   {
@@ -4868,16 +4868,16 @@ qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
   else
   {
     this._resetBackgroundColor();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue)
   {
@@ -4887,37 +4887,37 @@ qx.Proto._modifyColor = function(propValue, propOldValue, propData)
   else
   {
     this._resetColor();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._updateColors = function(vColor, vNewValue)
 {
   if (this.getColor() == vColor) {
     this._applyColor(vNewValue);
-  };
+  }
 
   if (this.getBackgroundColor() == vColor) {
     this._applyBackgroundColor(vNewValue);
-  };
-};
+  }
+}
 
 qx.Proto._applyColor = function(vNewValue) {
   this.setStyleProperty(qx.constant.Style.PROPERTY_COLOR, vNewValue);
-};
+}
 
 qx.Proto._applyBackgroundColor = function(vNewValue) {
   this.setStyleProperty(qx.constant.Style.PROPERTY_BACKGROUNDCOLOR, vNewValue);
-};
+}
 
 qx.Proto._resetColor = function(vNewValue) {
   this.removeStyleProperty(qx.constant.Style.PROPERTY_COLOR);
-};
+}
 
 qx.Proto._resetBackgroundColor = function() {
   this.removeStyleProperty(qx.constant.Style.PROPERTY_BACKGROUNDCOLOR);
-};
+}
 
 
 
@@ -4944,7 +4944,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
 
   if (propOldValue) {
     propOldValue.removeListenerWidget(this);
-  };
+  }
 
   if (propValue)
   {
@@ -4958,7 +4958,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
   else
   {
     this._cachedBorderTop = this._cachedBorderRight = this._cachedBorderBottom = this._cachedBorderLeft = 0;
-  };
+  }
 
 
 
@@ -4967,7 +4967,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
   // ----------------
   if ((vOldLeft + vOldRight) != (this._cachedBorderLeft + this._cachedBorderRight)) {
     this._invalidateFrameWidth();
-  };
+  }
 
   this.addToQueue(qx.ui.core.Widget.PROPERTY_BORDERX);
 
@@ -4978,7 +4978,7 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
   // ----------------
   if ((vOldTop + vOldBottom) != (this._cachedBorderTop + this._cachedBorderBottom)) {
     this._invalidateFrameHeight();
-  };
+  }
 
   this.addToQueue(qx.ui.core.Widget.PROPERTY_BORDERY);
 
@@ -4987,23 +4987,23 @@ qx.Proto._modifyBorder = function(propValue, propOldValue, propData)
 
 
   return true;
-};
+}
 
 qx.Proto.getCachedBorderTop = function() {
   return this._cachedBorderTop;
-};
+}
 
 qx.Proto.getCachedBorderRight = function() {
   return this._cachedBorderRight;
-};
+}
 
 qx.Proto.getCachedBorderBottom = function() {
   return this._cachedBorderBottom;
-};
+}
 
 qx.Proto.getCachedBorderLeft = function() {
   return this._cachedBorderLeft;
-};
+}
 
 qx.Proto._updateBorder = function(vEdge)
 {
@@ -5024,7 +5024,7 @@ qx.Proto._updateBorder = function(vEdge)
     case qx.renderer.border.Border.POSITION_RIGHT:
       if (vWidthChanged) {
         this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHX);
-      };
+      }
 
       this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERX);
       break;
@@ -5033,12 +5033,12 @@ qx.Proto._updateBorder = function(vEdge)
     case qx.renderer.border.Border.POSITION_BOTTOM:
       if (vWidthChanged) {
         this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERWIDTHY);
-      };
+      }
 
       this.addToJobQueue(qx.ui.core.Widget.PROPERTY_BORDERY);
       break;
-  };
-};
+  }
+}
 
 
 
@@ -5056,13 +5056,13 @@ qx.Proto._modifyPaddingX = function(propValue, propOldValue, propData)
 {
   this._invalidateFrameWidth();
   return true;
-};
+}
 
 qx.Proto._modifyPaddingY = function(propValue, propOldValue, propData)
 {
   this._invalidateFrameHeight();
   return true;
-};
+}
 
 
 
@@ -5101,7 +5101,7 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
     propertyName = sourcePropertyList[sourcePropertyListLength];
     if (!qx.lang.Array.contains(propertyIngoreList, propertyName)) {
       propertyList.push(propertyName);
-    };
+    }
   }
   while(sourcePropertyListLength--);
 
@@ -5119,18 +5119,18 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
     var myParent = this.getParent();
     if (myParent) {
       cloneInstance.setParent(myParent);
-    };
-  };
+    }
+  }
 
   // clone recursion
   if (cloneRecursive) {
     this._cloneRecursive(cloneInstance);
-  };
+  }
 
   return cloneInstance;
-};
+}
 
-qx.Proto._cloneRecursive = function(cloneInstance) {};
+qx.Proto._cloneRecursive = function(cloneInstance) {}
 
 
 
@@ -5148,10 +5148,10 @@ qx.Proto.execute = function()
   var vCommand = this.getCommand();
   if (vCommand) {
     vCommand.execute(this);
-  };
+  }
 
   this.createDispatchEvent(qx.constant.Event.EXECUTE);
-};
+}
 
 
 
@@ -5168,80 +5168,80 @@ qx.Proto._visualPropertyCheck = function()
 {
   if (!this.isCreated()) {
     throw new Error("Element must be created previously!");
-  };
-};
+  }
+}
 
 qx.Proto.setScrollLeft = function(nScrollLeft)
 {
   this._visualPropertyCheck();
   this._getTargetNode().scrollLeft = nScrollLeft;
-};
+}
 
 qx.Proto.setScrollTop = function(nScrollTop)
 {
   this._visualPropertyCheck();
   this._getTargetNode().scrollTop = nScrollTop;
-};
+}
 
 qx.Proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
   return qx.dom.DomOffset.getLeft(this.getElement());
-};
+}
 
 qx.Proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
   return qx.dom.DomOffset.getTop(this.getElement());
-};
+}
 
 qx.Proto.getScrollLeft = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().scrollLeft;
-};
+}
 
 qx.Proto.getScrollTop = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().scrollTop;
-};
+}
 
 qx.Proto.getClientWidth = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().clientWidth;
-};
+}
 
 qx.Proto.getClientHeight = function()
 {
   this._visualPropertyCheck();
   return this._getTargetNode().clientHeight;
-};
+}
 
 qx.Proto.getOffsetWidth = function()
 {
   this._visualPropertyCheck();
   return this.getElement().offsetWidth;
-};
+}
 
 qx.Proto.getOffsetHeight = function()
 {
   this._visualPropertyCheck();
   return this.getElement().offsetHeight;
-};
+}
 
 qx.Proto.getScrollWidth = function()
 {
   this._visualPropertyCheck();
   return this.getElement().scrollWidth;
-};
+}
 
 qx.Proto.getScrollHeight = function()
 {
   this._visualPropertyCheck();
   return this.getElement().scrollHeight;
-};
+}
 
 
 
@@ -5257,25 +5257,25 @@ qx.Proto.scrollIntoView = function(vAlignTopLeft)
 {
   this.scrollIntoViewX(vAlignTopLeft);
   this.scrollIntoViewY(vAlignTopLeft);
-};
+}
 
 qx.Proto.scrollIntoViewX = function(vAlignLeft)
 {
   if (!this._isCreated || !this._isDisplayable) {
     return false;
-  };
+  }
 
   return qx.dom.DomScrollIntoView.scrollX(this.getElement(), vAlignLeft);
-};
+}
 
 qx.Proto.scrollIntoViewY = function(vAlignTop)
 {
   if (!this._isCreated || !this._isDisplayable) {
     return false;
-  };
+  }
 
   return qx.dom.DomScrollIntoView.scrollY(this.getElement(), vAlignTop);
-};
+}
 
 
 
@@ -5292,7 +5292,7 @@ qx.Proto.scrollIntoViewY = function(vAlignTop)
 qx.Proto.applyRoundedBorder = function()
 {
   this.addEventListener(qx.constant.Event.BEFOREAPPEAR, this._applyRoundedBorder);
-};
+}
 
 qx.Proto._applyRoundedBorder = function()
 {
@@ -5303,7 +5303,7 @@ qx.Proto._applyRoundedBorder = function()
 
 
   this._applyRoundedFadedTopLeftBorder();
-};
+}
 
 qx.Proto._applyRoundedTopLeftBorder = function()
 {
@@ -5348,7 +5348,7 @@ qx.Proto._applyRoundedTopLeftBorder = function()
   el.appendChild(cornerTop);
 
 
-};
+}
 
 qx.Proto._applyRoundedFadedTopLeftBorder = function()
 {
@@ -5414,7 +5414,7 @@ qx.Proto._applyRoundedFadedTopLeftBorder = function()
   el.appendChild(cornerInnerLeft);
 
 
-};
+}
 
 qx.Proto._applyRoundedTopRightBorder = function()
 {
@@ -5435,7 +5435,7 @@ qx.Proto._applyRoundedTopRightBorder = function()
 
 
 
-};
+}
 
 qx.Proto._applyRoundedBottomLeftBorder = function()
 {
@@ -5457,7 +5457,7 @@ qx.Proto._applyRoundedBottomLeftBorder = function()
 
 
 
-};
+}
 
 qx.Proto._applyRoundedBottomRightBorder = function()
 {
@@ -5478,7 +5478,7 @@ qx.Proto._applyRoundedBottomRightBorder = function()
 
 
 
-};
+}
 */
 
 
@@ -5495,7 +5495,7 @@ qx.Proto._applyRoundedBottomRightBorder = function()
 
 qx.Proto.supportsDrop = function(vDragCache) {
   return true;
-};
+}
 
 
 
@@ -5513,7 +5513,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   var vElement = this.getElement();
 
@@ -5527,7 +5527,7 @@ qx.Proto.dispose = function()
 
     this._element = null;
     this._style = null;
-  };
+  }
 
   this._inlineEvents = null;
   this._element = null;
@@ -5545,13 +5545,13 @@ qx.Proto.dispose = function()
   // remove queue content
   for (var i in this._jobQueue) {
     delete this._jobQueue[i];
-  };
+  }
   delete this._jobQueue;
 
   for (var i in this._layoutChanges) {
     delete this._layoutChanges[i];
-  };
+  }
   delete this._layoutChanges;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

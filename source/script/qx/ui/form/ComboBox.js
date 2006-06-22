@@ -164,23 +164,23 @@ qx.OO.addProperty({ name: "pagingInterval", type: qx.constant.Type.NUMBER, defau
 
 qx.Proto.getManager = function() {
   return this._manager;
-};
+}
 
 qx.Proto.getPopup = function() {
   return this._popup;
-};
+}
 
 qx.Proto.getList = function() {
   return this._list;
-};
+}
 
 qx.Proto.getField = function() {
   return this._field;
-};
+}
 
 qx.Proto.getButton = function() {
   return this._button;
-};
+}
 
 
 
@@ -202,7 +202,7 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   // and not from the property "value".
   if (!this._fromValue) {
     this.setValue(propValue ? propValue.getLabel() : qx.constant.Core.EMPTY);
-  };
+  }
 
   // reset manager cache
   this._manager.setLeadItem(propValue);
@@ -215,7 +215,7 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   delete this._fromSelected;
 
   return true;
-};
+}
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
@@ -225,7 +225,7 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
   // and not from the event qx.constant.Event.INPUT.
   if (!this._fromInput) {
     this._field.setValue(propValue);
-  };
+  }
 
   // only do this if we called setValue seperatly
   // and not from the property "selected".
@@ -237,7 +237,7 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
     // ignore disabled items
     if (vSelItem != null && !vSelItem.getEnabled()) {
       vSelItem = null;
-    };
+    }
 
     this.setSelected(vSelItem);
 
@@ -245,14 +245,14 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
     // if 'selected' was already 'null'
     if (vSelItem == null) {
       this._manager.deselectAll();
-    };
-  };
+    }
+  }
 
   // reset hint
   delete this._fromValue;
 
   return true;
-};
+}
 
 qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
 {
@@ -263,7 +263,7 @@ qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
   f.setSelectable(propValue);
 
   return true;
-};
+}
 
 
 
@@ -281,8 +281,8 @@ qx.Proto._onpopupappear = function(e)
   var vSelItem = this.getSelected();
   if (vSelItem) {
     vSelItem.scrollIntoView();
-  };
-};
+  }
+}
 
 qx.Proto._oninput = function(e)
 {
@@ -294,10 +294,10 @@ qx.Proto._oninput = function(e)
   // be sure that the found item is in view
   if (this.getPopup().isSeeable() && this.getSelected()) {
     this.getSelected().scrollIntoView();
-  };
+  }
 
   delete this._fromInput;
-};
+}
 
 
 
@@ -318,7 +318,7 @@ qx.Proto._onmousedown = function(e)
     case this._field:
       if (this.getEditable()) {
         break;
-      };
+      }
 
       // no break here
 
@@ -343,9 +343,9 @@ qx.Proto._onmousedown = function(e)
       {
         this._popup.hide();
         this.setCapture(false);
-      };
-  };
-};
+      }
+  }
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -354,15 +354,15 @@ qx.Proto._onmouseup = function(e)
     case this._field:
       if (this.getEditable()) {
         break;
-      };
+      }
 
       // no break here
 
     case this._button:
       this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
       break;
-  };
-};
+  }
+}
 
 qx.Proto._onmouseover = function(e)
 {
@@ -378,8 +378,8 @@ qx.Proto._onmouseover = function(e)
     vManager.setAnchorItem(vTarget);
 
     vManager.setSelectedItem(vTarget);
-  };
-};
+  }
+}
 
 qx.Proto._onmousewheel = function(e)
 {
@@ -396,14 +396,14 @@ qx.Proto._onmousewheel = function(e)
     else
     {
       toSelect = isSelected ? this._manager.getPrevious(isSelected) : this._manager.getLast();
-    };
+    }
 
     if (toSelect)
     {
       this.setSelected(toSelect);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -435,7 +435,7 @@ qx.Proto._onkeydown = function(e)
       else
       {
         this._openPopup();
-      };
+      }
 
       return;
 
@@ -451,7 +451,7 @@ qx.Proto._onkeydown = function(e)
         this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.constant.Core.EMPTY);
 
         this._closePopup();
-      };
+      }
 
       return;
 
@@ -473,12 +473,12 @@ qx.Proto._onkeydown = function(e)
         else
         {
           vPrevious = vManager.getLast();
-        };
+        }
 
         this.setSelected(vPrevious);
 
         return;
-      };
+      }
 
       break;
 
@@ -500,15 +500,15 @@ qx.Proto._onkeydown = function(e)
         else
         {
           vNext = vManager.getFirst();
-        };
+        }
 
         this.setSelected(vNext);
 
         return;
-      };
+      }
 
       break;
-  };
+  }
 
   // Default Handling
   if (!this.isEditable() || vVisible)
@@ -524,10 +524,10 @@ qx.Proto._onkeydown = function(e)
     else if (vSelected)
     {
       this._field.setValue(vSelected.getLabel());
-    };
+    }
 
     return;
-  };
+  }
 
   switch(vKeyCode)
   {
@@ -535,7 +535,7 @@ qx.Proto._onkeydown = function(e)
     case vKeys.pagedown:
       if (!this._popup.isCreated()) {
         return;
-      };
+      }
 
       // no break here
 
@@ -544,15 +544,15 @@ qx.Proto._onkeydown = function(e)
       this._list._onkeydown(e);
       this.setSelected(this._manager.getSelectedItem());
       break;
-  };
-};
+  }
+}
 
 qx.Proto._onkeypress = function(e)
 {
   if (!this.isEditable()) {
     this._list._onkeypress(e);
-  };
-};
+  }
+}
 
 
 
@@ -575,11 +575,11 @@ qx.Proto._openPopup = function()
 
   if (!p.isCreated()) {
     this.createDispatchEvent("beforeInitialOpen");
-  };
+  }
 
   if (this._list.getChildrenLength() == 0) {
     return;
-  };
+  }
 
   p.setLeft(qx.dom.DomLocation.getPageBoxLeft(el)+1);
   p.setTop(qx.dom.DomLocation.getPageBoxTop(el) + qx.dom.DomDimension.getBoxHeight(el));
@@ -591,7 +591,7 @@ qx.Proto._openPopup = function()
   this._oldSelected = this.getSelected();
 
   this.setCapture(true);
-};
+}
 
 qx.Proto._closePopup = function()
 {
@@ -599,11 +599,11 @@ qx.Proto._closePopup = function()
 
   this.setCapture(false);
   this.setFocused(true);
-};
+}
 
 qx.Proto._togglePopup = function() {
   this._popup.isSeeable() ? this._closePopup() : this._openPopup();
-};
+}
 
 
 
@@ -620,37 +620,37 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._list)
   {
     this._list.dispose();
     this._list = null;
-  };
+  }
 
   if (this._manager)
   {
     this._manager.dispose();
     this._manager = null;
-  };
+  }
 
   if (this._popup)
   {
     this._popup.dispose();
     this._popup = null;
-  };
+  }
 
   if (this._field)
   {
     this._field.dispose();
     this._field = null;
-  };
+  }
 
   if (this._button)
   {
     this._button.dispose();
     this._button = null;
-  };
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-};
+}

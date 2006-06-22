@@ -44,7 +44,7 @@ function() {
  */
 qx.Proto.decide = function(evt) {
   throw new Error("decide is abstract");
-};
+}
 
 
 /** {int} Specifies that the log event is accepted. */

@@ -36,7 +36,7 @@ function(vLabel, vCommand, vChecked)
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
-  };
+  }
 
   this._iconObject.setAppearance("menu-check-box-icon");
 });
@@ -75,10 +75,10 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
   {
     this.removeState(qx.ui.form.Button.STATE_CHECKED);
     this.getIconObject().removeState(qx.ui.form.Button.STATE_CHECKED);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -94,4 +94,4 @@ qx.Proto.execute = function()
 {
   this.setChecked(!this.getChecked());
   qx.ui.menu.MenuButton.prototype.execute.call(this);
-};
+}

@@ -33,7 +33,7 @@ function(vText, vIcon, vValue)
 
   if (qx.util.Validation.isValid(vValue)) {
     this.setValue(vValue);
-  };
+  }
 
 
   // ************************************************************************
@@ -57,19 +57,19 @@ qx.OO.addProperty({ name : "value" });
 
 qx.Proto.matchesString = function(vText) {
   return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
-};
+}
 
 qx.Proto.matchesStringExact = function(vText) {
   return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
-};
+}
 
 qx.Proto.matchesValue = function(vText) {
   return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
-};
+}
 
 qx.Proto.matchesValueExact = function(vText) {
   return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
-};
+}
 
 
 
@@ -86,5 +86,5 @@ qx.Proto._ondblclick = function(e)
   var vCommand = this.getCommand();
   if (vCommand) {
     vCommand.execute();
-  };
-};
+  }
+}

@@ -32,7 +32,7 @@ function(vId, vTitle)
 {
   qx.core.Object.call(this);
 
-  this._appearances = {};
+  this._appearances = {}
 
   this.setId(vId);
   this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
@@ -69,11 +69,11 @@ qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : 
 
 qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
-};
+}
 
 qx.Proto.getAppearance = function(vId) {
   return this._appearances[vId];
-};
+}
 
 qx.Proto.setupAppearance = function(vAppearance)
 {
@@ -81,11 +81,11 @@ qx.Proto.setupAppearance = function(vAppearance)
   {
     if (vAppearance.setup) {
       vAppearance.setup();
-    };
+    }
 
     vAppearance._setupDone = true;
-  };
-};
+  }
+}
 
 
 
@@ -109,18 +109,18 @@ qx.Proto.initialFrom = function(vWidget, vId)
 
     try
     {
-      return vAppearance.initial ? vAppearance.initial(vWidget, this) : {};
+      return vAppearance.initial ? vAppearance.initial(vWidget, this) : {}
     }
     catch(ex)
     {
       this.error("Couldn't apply initial appearance", ex);
-    };
+    }
   }
   else
   {
     return this.error("Missing appearance: " + vId);
-  };
-};
+  }
+}
 
 qx.Proto.stateFrom = function(vWidget, vId)
 {
@@ -131,18 +131,18 @@ qx.Proto.stateFrom = function(vWidget, vId)
 
     try
     {
-      return vAppearance.state ? vAppearance.state(vWidget, this, vWidget._states) : {};
+      return vAppearance.state ? vAppearance.state(vWidget, this, vWidget._states) : {}
     }
     catch(ex)
     {
       this.error("Couldn't apply state appearance", ex);
-    };
+    }
   }
   else
   {
     return this.error("Missing appearance: " + vId);
-  };
-};
+  }
+}
 
 
 
@@ -160,9 +160,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._appearances = null;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

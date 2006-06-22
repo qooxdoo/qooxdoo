@@ -44,22 +44,22 @@ qx.Proto._curPos = null ;
 
 qx.Proto.getParent = function() {
   return this._parent;
-};
+}
 
 
 qx.Proto.getCurParent = function() {
   return this._curParent;
-};
+}
 
 
 qx.Proto.getCurPos = function() {
   return this._curLvl[this._curPos];
-};
+}
 
 
 qx.Proto.getCurLvl = function() {
   return this._curLvl;
-};
+}
 
 
 
@@ -113,7 +113,7 @@ qx.Proto.getNext = function() {
     this._curPos[this._curLvl] += 1;
     return this._curChild;
   }
-};
+}
 
 
 
@@ -127,5 +127,5 @@ qx.Proto.dispose = function() {
   this._curParent = null;
   this._curChild = null;
   this._curPos = null;
-};
+}
 

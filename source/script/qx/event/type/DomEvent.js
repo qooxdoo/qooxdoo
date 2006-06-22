@@ -60,7 +60,7 @@ qx.Proto._computeModifiers = function() {
     if (evt.altKey)   mask |= qx.event.type.DomEvent.ALT_MASK;
     if (evt.metaKey)  mask |= qx.event.type.DomEvent.META_MASK;
     return mask;
-};
+}
 
 
 
@@ -80,7 +80,7 @@ qx.Proto._computeModifiers = function() {
  */
 qx.Proto.isCtrlPressed = function() {
   return this.getDomEvent().ctrlKey;
-};
+}
 
 /**
  * Returns whether the the ctrl key is pressed.
@@ -98,7 +98,7 @@ qx.Proto.getCtrlKey = qx.Proto.isCtrlPressed;
  */
 qx.Proto.isShiftPressed = function() {
   return this.getDomEvent().shiftKey;
-};
+}
 
 /**
  * Returns whether the the shift key is pressed.
@@ -116,7 +116,7 @@ qx.Proto.getShiftKey = qx.Proto.isShiftPressed;
  */
 qx.Proto.isAltPressed = function() {
   return this.getDomEvent().altKey;
-};
+}
 
 /**
  * Returns whether the the alt key is pressed.
@@ -134,7 +134,7 @@ qx.Proto.getAltKey = qx.Proto.isAltPressed;
  */
 qx.Proto.isMetaPressed = function() {
   return this.getDomEvent().metaKey;
-};
+}
 
 
 /**
@@ -149,7 +149,7 @@ qx.Proto.isCtrlOrCommandPressed = function() {
   } else {
     return this.getDomEvent().ctrlKey;
   }
-};
+}
 
 
 
@@ -169,12 +169,12 @@ if(qx.sys.Client.isMshtml())
   {
     if (!vValue) {
       return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");
-    };
+    }
 
     this.getDomEvent().returnValue = false;
 
     qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
-  };
+  }
 }
 else
 {
@@ -182,14 +182,14 @@ else
   {
     if (!vValue) {
       return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");
-    };
+    }
 
     this.getDomEvent().preventDefault();
     this.getDomEvent().returnValue = false;
 
     qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
-  };
-};
+  }
+}
 
 
 
@@ -207,13 +207,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._valueDomEvent = null;
   this._valueDomTarget = null;
 
   return qx.event.type.Event.prototype.dispose.call(this);
-};
+}
 
 
 

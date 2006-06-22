@@ -44,9 +44,9 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   this._valueData = null;
 
   return qx.event.type.Event.prototype.dispose.call(this);
-};
+}

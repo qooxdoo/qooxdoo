@@ -109,12 +109,12 @@ qx.event.type.KeyEvent.keys =
   numpad_multiply : 106,
   numpad_minus : 109,
   numpad_plus : 107
-};
+}
 
 // create dynamic codes copy
-(function() {
-  qx.event.type.KeyEvent.codes = {};
+;(function() {
+  qx.event.type.KeyEvent.codes = {}
   for (var i in qx.event.type.KeyEvent.keys) {
     qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
-  };
+  }
 })();

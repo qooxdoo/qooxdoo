@@ -97,10 +97,10 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
       {
         sch[j].addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
 
-      };
-    };
-  };
+      }
+    }
+  }
 
   // Call superclass implementation
   return qx.renderer.layout.VerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
-};
+}

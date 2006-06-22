@@ -32,7 +32,7 @@ function()
 {
   qx.manager.object.ObjectManager.call(this);
 
-  this._themes = {};
+  this._themes = {}
 });
 
 
@@ -53,7 +53,7 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 {
   qx.core.Init.getComponent().getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   return true;
-};
+}
 
 
 
@@ -68,15 +68,15 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 
 qx.Proto.registerTheme = function(vThemeObject) {
   this._themes[vThemeObject.getId()] = vThemeObject;
-};
+}
 
 qx.Proto.getAppearanceThemeObjectById = function(vThemeId) {
   return this._themes[vThemeId];
-};
+}
 
 qx.Proto.getAppearanceThemeObject = function() {
   return this.getAppearanceThemeObjectById(this.getAppearanceTheme());
-};
+}
 
 
 
@@ -92,7 +92,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._themes)
   {
@@ -100,13 +100,13 @@ qx.Proto.dispose = function()
     {
       this._themes[vTheme].dispose();
       this._themes[vTheme] = null;
-    };
+    }
 
     this._themes = null;
-  };
+  }
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
-};
+}
 
 
 

@@ -50,11 +50,11 @@ function(vUrl, vName)
 
   if (qx.util.Validation.isValidString(vUrl)) {
     this.setUrl(vUrl);
-  };
+  }
 
   if (qx.util.Validation.isValidString(vName)) {
     this.setName(vName);
-  };
+  }
 });
 
 
@@ -209,11 +209,11 @@ qx.Proto._modifyPosition = function(propValue, propOldValue, propName)
     catch(ex)
     {
       this.error("Cross-Domain Scripting problem: Could not move window!", ex);
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyDimension = function(propValue, propOldValue, propName)
 {
@@ -235,36 +235,36 @@ qx.Proto._modifyDimension = function(propValue, propOldValue, propName)
     catch(ex)
     {
       this.error("Cross-Domain Scripting problem: Could not resize window!", ex);
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyName = function(propValue, propOldValue, propName)
 {
   if (!this.isClosed()) {
     this._window.name = propValue;
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
     this._window.location.replace(qx.util.Validation.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {
   propValue ? this._open() : this._close();
   return true;
-};
+}
 
 
 
@@ -288,7 +288,7 @@ qx.Proto.getName = function()
     catch(ex)
     {
       return this._valueName;
-    };
+    }
 
     if (vName == this._valueName)
     {
@@ -297,13 +297,13 @@ qx.Proto.getName = function()
     else
     {
       throw new Error("window name and name property are not identical");
-    };
+    }
   }
   else
   {
     return this._valueName;
-  };
-};
+  }
+}
 
 
 
@@ -324,19 +324,19 @@ qx.Proto.isClosed = function()
   {
     try {
       vClosed = this._window.closed;
-    } catch(ex) {};
-  };
+    } catch(ex) {}
+  }
 
   return vClosed;
-};
+}
 
 qx.Proto.open = function() {
   this.setOpen(true);
-};
+}
 
 qx.Proto.close = function() {
   this.setOpen(false);
-};
+}
 
 
 
@@ -369,7 +369,7 @@ qx.Proto._open = function()
     vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getWidth());
     vConf.push(qx.constant.Core.COMMA);
-  };
+  }
 
   if (qx.util.Validation.isValidNumber(this.getHeight()))
   {
@@ -377,7 +377,7 @@ qx.Proto._open = function()
     vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getHeight());
     vConf.push(qx.constant.Core.COMMA);
-  };
+  }
 
   if (qx.util.Validation.isValidNumber(this.getLeft()))
   {
@@ -385,7 +385,7 @@ qx.Proto._open = function()
     vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getLeft());
     vConf.push(qx.constant.Core.COMMA);
-  };
+  }
 
   if (qx.util.Validation.isValidNumber(this.getTop()))
   {
@@ -393,7 +393,7 @@ qx.Proto._open = function()
     vConf.push(qx.constant.Core.EQUAL);
     vConf.push(this.getTop());
     vConf.push(qx.constant.Core.COMMA);
-  };
+  }
 
 
 
@@ -450,7 +450,7 @@ qx.Proto._open = function()
 
   if (qx.util.Validation.isInvalidString(this.getName())) {
     this.setName(this.classname + this.toHashCode());
-  };
+  }
 
   this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
 
@@ -470,16 +470,16 @@ qx.Proto._open = function()
 
       if (vClientWindow) {
         vClientWindow.getClientDocument().block(this);
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 qx.Proto._close = function()
 {
   if (!this._window) {
     return;
-  };
+  }
 
   // stop timer for close detection
   this._timer.stop();
@@ -491,14 +491,14 @@ qx.Proto._close = function()
 
     if (vClientWindow) {
       vClientWindow.getClientDocument().release(this);
-    };
-  };
+    }
+  }
 
   // finally close window
   if (!this.isClosed()) {
     this._window.close();
-  };
-};
+  }
+}
 
 
 
@@ -513,15 +513,15 @@ qx.Proto._close = function()
 
 qx.Proto.centerToScreen = function() {
   return this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
-};
+}
 
 qx.Proto.centerToScreenArea = function() {
   return this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
-};
+}
 
 qx.Proto.centerToOpener = function() {
   return this._centerHelper(((qx.dom.DomWindow.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.DomLocation.getScreenBoxLeft(window.document.body), ((qx.dom.DomWindow.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.DomLocation.getScreenBoxTop(window.document.body));
-};
+}
 
 qx.Proto._centerHelper = function(l, t)
 {
@@ -532,8 +532,8 @@ qx.Proto._centerHelper = function(l, t)
   // focus window if opened
   if (!this.isClosed()) {
     this.focus();
-  };
-};
+  }
+}
 
 
 
@@ -550,15 +550,15 @@ qx.Proto.focus = function()
 {
   if (!this.isClosed()) {
     this._window.focus();
-  };
-};
+  }
+}
 
 qx.Proto.blur = function()
 {
   if (!this.isClosed()) {
     this._window.blur();
-  };
-};
+  }
+}
 
 
 
@@ -576,8 +576,8 @@ qx.Proto._oninterval = function(e)
 {
   if (this.isClosed()) {
     this.setOpen(false);
-  };
-};
+  }
+}
 
 
 
@@ -594,19 +594,19 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this.getDependent()) {
     this.close();
-  };
+  }
 
   if (this._timer)
   {
     this._timer.stop();
     this._timer = null;
-  };
+  }
 
   this._window = null;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

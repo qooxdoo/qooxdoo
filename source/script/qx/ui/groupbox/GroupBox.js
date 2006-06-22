@@ -48,7 +48,7 @@ function(vLegend, vIcon)
 
   if (qx.util.Validation.isValidString(vIcon)) {
     this.setIcon(vIcon);
-  };
+  }
 
 
   // ************************************************************************
@@ -74,7 +74,7 @@ qx.Proto._createLegendObject = function()
   this._legendObject.setAppearance("field-set-legend");
 
   this.add(this._legendObject);
-};
+}
 
 qx.Proto._createFrameObject = function()
 {
@@ -82,7 +82,7 @@ qx.Proto._createFrameObject = function()
   this._frameObject.setAppearance("field-set-frame");
 
   this.add(this._frameObject);
-};
+}
 
 
 
@@ -96,11 +96,11 @@ qx.Proto._createFrameObject = function()
 
 qx.Proto.getFrameObject = function() {
   return this._frameObject;
-};
+}
 
 qx.Proto.getLegendObject = function() {
   return this._legendObject;
-};
+}
 
 
 
@@ -115,19 +115,19 @@ qx.Proto.getLegendObject = function() {
 
 qx.Proto.setLegend = function(vLegend) {
   this._legendObject.setLabel(vLegend);
-};
+}
 
 qx.Proto.getLegend = function() {
   return this._legendObject.getLabel();
-};
+}
 
 qx.Proto.setIcon = function(vIcon) {
   this._legendObject.setIcon(vIcon);
-};
+}
 
 qx.Proto.getIcon = function() {
   this._legendObject.getIcon();
-};
+}
 
 
 
@@ -144,19 +144,19 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._legendObject)
   {
     this._legendObject.dispose();
     this._legendObject = null;
-  };
+  }
 
   if (this._frameObject)
   {
     this._frameObject.dispose();
     this._frameObject = null;
-  };
+  }
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

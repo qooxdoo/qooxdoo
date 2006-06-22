@@ -43,7 +43,7 @@ function(vWidget)
 */
 qx.Proto.getWidget = function() {
   return this._widget;
-};
+}
 
 
 /*!
@@ -73,14 +73,14 @@ qx.Proto.getWidget = function() {
 */
 qx.Proto.computeChildBoxWidth = function(vChild) {
   return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
-};
+}
 
 /*!
   Compute and return the box height of the given child
 */
 qx.Proto.computeChildBoxHeight = function(vChild) {
   return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
-};
+}
 
 
 
@@ -105,7 +105,7 @@ qx.Proto.computeChildNeededWidth = function(vChild)
   var vBox = (vChild._computedWidthTypePercent || vChild._computedWidthTypeFlex ? null : vChild.getWidthValue()) || vChild.getPreferredBoxWidth() || 0;
 
   return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vChild.getMarginLeft() + vChild.getMarginRight();
-};
+}
 
 /*!
   Compute and return the needed height of the given child
@@ -120,7 +120,7 @@ qx.Proto.computeChildNeededHeight = function(vChild)
   var vBox = (vChild._computedHeightTypePercent || vChild._computedHeightTypeFlex ? null : vChild.getHeightValue()) || vChild.getPreferredBoxHeight() || 0;
 
   return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vChild.getMarginTop() + vChild.getMarginBottom();
-};
+}
 
 
 
@@ -138,10 +138,10 @@ qx.Proto.computeChildrenNeededWidth_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
     maxv = Math.max(maxv, ch[i].getNeededWidth());
-  };
+  }
 
   return maxv;
-};
+}
 
 /*!
   Calculate the maximum needed height of all children
@@ -150,28 +150,28 @@ qx.Proto.computeChildrenNeededHeight_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
     maxv = Math.max(maxv, ch[i].getNeededHeight());
-  };
+  }
 
   return maxv;
-};
+}
 
 qx.Proto.computeChildrenNeededWidth_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
     sumv += ch[i].getNeededWidth();
-  };
+  }
 
   return sumv;
-};
+}
 
 qx.Proto.computeChildrenNeededHeight_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
     sumv += ch[i].getNeededHeight();
-  };
+  }
 
   return sumv;
-};
+}
 
 /*!
   Compute and return the width needed by all children of this widget
@@ -196,13 +196,13 @@ qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
   Things to do and layout when any of the childs changes its outer width.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {};
+qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {}
 
 /*!
   Things to do and layout when any of the childs changes its outer height.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {};
+qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {}
 
 
 
@@ -218,13 +218,13 @@ qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {};
   Actions that should be done if the inner width of the layout widget has changed.
   Normally this includes updates to percent values and ranges.
 */
-qx.Proto.updateChildOnInnerWidthChange = function(vChild) {};
+qx.Proto.updateChildOnInnerWidthChange = function(vChild) {}
 
 /*!
   Actions that should be done if the inner height of the layout widget has changed.
   Normally this includes updates to percent values and ranges.
 */
-qx.Proto.updateChildOnInnerHeightChange = function(vChild) {};
+qx.Proto.updateChildOnInnerHeightChange = function(vChild) {}
 
 
 
@@ -240,7 +240,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild) {};
   Invalidate and recompute cached data according to job queue.
   This is executed at the beginning of the job queue handling.
 */
-qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {};
+qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {}
 
 
 
@@ -257,7 +257,7 @@ qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {};
   Updates children on job queue flush.
   This is executed at the end of the job queue handling.
 */
-qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {};
+qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {}
 
 
 
@@ -273,19 +273,19 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {};
 /*!
   Add child to current layout. Rarely needed by some layout implementations.
 */
-qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {};
+qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
 
 /*!
   Remove child from current layout.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {};
+qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {}
 
 /*!
   Move child within its parent to a new position.
   Needed by layouts where the children depend on each other, like flow or box layouts.
 */
-qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {};
+qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {}
 
 
 
@@ -309,8 +309,8 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 
   for (var vHashCode in vChildrenQueue) {
     vWidget._layoutChild(vChildrenQueue[vHashCode]);
-  };
-};
+  }
+}
 
 
 
@@ -329,7 +329,7 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
   Called from qx.ui.core.Widget. Its task is to apply the layout
   (excluding border and padding) to the child.
 */
-qx.Proto.layoutChild = function(vChild, vJobs) {};
+qx.Proto.layoutChild = function(vChild, vJobs) {}
 
 if (qx.sys.Client.isMshtml())
 {
@@ -350,15 +350,15 @@ else
     }
     else if (vJobs.initial && !vChild._computedMinWidthTypeNull) {
       vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
-    };
+    }
 
     if (vJobs.maxWidth) {
       vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeMaxWidth() : vChild._applyRuntimeMaxWidth(vChild.getMaxWidthValue());
     }
     else if (vJobs.initial && !vChild._computedMaxWidthTypeNull) {
       vChild._applyRuntimeMaxWidth(vChild.getMaxWidthValue());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs)
   {
@@ -367,16 +367,16 @@ else
     }
     else if (vJobs.initial && !vChild._computedMinHeightTypeNull) {
       vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());
-    };
+    }
 
     if (vJobs.maxHeight) {
       vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeMaxHeight() : vChild._applyRuntimeMaxHeight(vChild.getMaxHeightValue());
     }
     else if (vJobs.initial && !vChild._computedMaxHeightTypeNull) {
       vChild._applyRuntimeMaxHeight(vChild.getMaxHeightValue());
-    };
-  };
-};
+    }
+  }
+}
 
 /*!
   Apply the margin values as pure stylesheet equivalent.
@@ -387,14 +387,14 @@ qx.Proto.layoutChild_marginX = function(vChild, vJobs)
   {
     var vValueLeft = vChild.getMarginLeft();
     vValueLeft != null ? vChild._applyRuntimeMarginLeft(vValueLeft) : vChild._resetRuntimeMarginLeft();
-  };
+  }
 
   if (vJobs.marginRight || vJobs.initial)
   {
     var vValueRight = vChild.getMarginRight();
     vValueRight != null ? vChild._applyRuntimeMarginRight(vValueRight) : vChild._resetRuntimeMarginRight();
-  };
-};
+  }
+}
 
 qx.Proto.layoutChild_marginY = function(vChild, vJobs)
 {
@@ -402,22 +402,22 @@ qx.Proto.layoutChild_marginY = function(vChild, vJobs)
   {
     var vValueTop = vChild.getMarginTop();
     vValueTop != null ? vChild._applyRuntimeMarginTop(vValueTop) : vChild._resetRuntimeMarginTop();
-  };
+  }
 
   if (vJobs.marginBottom || vJobs.initial)
   {
     var vValueBottom = vChild.getMarginBottom();
     vValueBottom != null ? vChild._applyRuntimeMarginBottom(vValueBottom) : vChild._resetRuntimeMarginBottom();
-  };
-};
+  }
+}
 
 qx.Proto.layoutChild_sizeX_essentialWrapper = function(vChild, vJobs) {
   return vChild._isWidthEssential() ? this.layoutChild_sizeX(vChild, vJobs) : vChild._resetRuntimeWidth();
-};
+}
 
 qx.Proto.layoutChild_sizeY_essentialWrapper = function(vChild, vJobs) {
   return vChild._isHeightEssential() ? this.layoutChild_sizeY(vChild, vJobs) : vChild._resetRuntimeHeight();
-};
+}
 
 
 
@@ -437,9 +437,9 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this._widget = null;
 
   qx.core.Object.prototype.dispose.call(this);
-};
+}

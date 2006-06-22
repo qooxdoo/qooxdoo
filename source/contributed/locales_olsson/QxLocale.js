@@ -33,15 +33,15 @@ function QxLocale(vLanguage, vCountry, vVariant) {
 
   if(qx.util.Validation.isValidString(vLanguage)) {
     this.setLanguage(vLanguage);
-  };
+  }
 
   if(qx.util.Validation.isValidString(vCountry)) {
     this.setCountry(vCountry);
-  };
+  }
 
   if(qx.util.Validation.isValidString(vVariant)) {
     this.setVariant(vVariant);
-  };
+  }
 });
 
 
@@ -81,7 +81,7 @@ qx.Proto._modifyLanguage = function(propValue, propOldValue, propData)
   this.setVariant(null);
 
   return true;
-};
+}
 
 qx.Proto._modifyCountry = function(propValue, propOldValue, propData)
 {
@@ -96,11 +96,11 @@ qx.Proto._modifyCountry = function(propValue, propOldValue, propData)
     else
     {
       return false;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyVariant = function(propValue, propOldValue, propData)
 {
@@ -113,11 +113,11 @@ qx.Proto._modifyVariant = function(propValue, propOldValue, propData)
     else
     {
       return false;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 /*
@@ -129,12 +129,12 @@ qx.Proto._modifyVariant = function(propValue, propOldValue, propData)
 qx.Proto._checkLanguage = function()
 {
   return true;
-};
+}
 
 qx.Proto._checkLanguageCountry = function()
 {
   return true;
-};
+}
 
 qx.Proto.isEqual = function(locale) {
   if(this.getLanguage() == locale.getLanguage() && this.getCountry() == locale.getCountry() && this.getVariatn() == locale.getVariant())
@@ -144,8 +144,8 @@ qx.Proto.isEqual = function(locale) {
   else
   {
     return false;
-  };
-};
+  }
+}
 
 qx.Proto.getAvailableLocales = function() {
 //  var req = new QxPostRequest( '../locale/locales.xml'); //?param=value
@@ -153,51 +153,51 @@ qx.Proto.getAvailableLocales = function() {
 //    return e.getData();
 //  });
 //  req.send();
-};
+}
 
 // Gets the current value of the default locale.
 qx.Proto.getDefault = function() {
   return QxLocale.DEFAULT_LOCALE;
-};
+}
 
 qx.Proto.getDisplayCountry = function(locale) {
 //          Returns a name for the locale's country that is appropriate for display to the user.
-};
+}
 
 qx.Proto.getDisplayLanguage = function(locale) {
 //          Returns a name for the locale's language that is appropriate for display to the user.
-};
+}
 
 qx.Proto.getDisplayName = function(locale) {
 //          Returns a name for the locale that is appropriate for display to the user.
-};
+}
 
 qx.Proto.getDisplayVariant = function(locale) {
 //          Returns a name for the locale's variant code that is appropriate for display to the user.
-};
+}
 
 qx.Proto.getISO3Country = function() {
 //          Returns a three-letter abbreviation for this locale's country.
-};
+}
 
 qx.Proto.getISO3Language = function() {
 //          Returns a three-letter abbreviation for this locale's language.
-};
+}
 
 qx.Proto.getISOCountries = function() {
 //          Returns a list of all 2-letter country codes defined in ISO 3166.
-};
+}
 
 qx.Proto.getISOLanguages = function() {
 //          Returns a list of all 2-letter language codes defined in ISO 639.
-};
+}
 
 // Sets the default locale.
 qx.Proto.setDefault = function(locale) {
   if(qx.util.Validation.isValidObject(locale)) {
     QxLocale.DEFAULT_LOCALE = locale;
-  };
-};
+  }
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

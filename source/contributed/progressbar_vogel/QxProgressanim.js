@@ -74,11 +74,11 @@ function QxProgressanim()
 
 qx.Proto._computePreferredInnerWidth = function() { //???Olli???
   return 200;
-};
+}
 
 qx.Proto._computePreferredInnerHeight = function() { //???Olli???
   return 20;
-};
+}
 
 
 /*
@@ -159,7 +159,7 @@ qx.Proto._oninterval = function(e)
   
   // Show the changes
   this._applyChanges();
-};
+}
 
 
 /*
@@ -172,13 +172,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._bar)
   {
     this._bar.dispose();
     this._bar = null;
-  };
+  }
   
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

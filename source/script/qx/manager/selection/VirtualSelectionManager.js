@@ -46,27 +46,27 @@ function(vBoundedWidget) {
 
 qx.Proto.getFirst = function() {
   return qx.lang.Array.getFirst(this.getItems());
-};
+}
 
 qx.Proto.getLast = function() {
   return qx.lang.Array.getLast(this.getItems());
-};
+}
 
 qx.Proto.getItems = function() {
   return this.getBoundedWidget().getData();
-};
+}
 
 qx.Proto.getNextSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)+1];
-};
+}
 
 qx.Proto.getPreviousSibling = function(vItem)
 {
   var vData = this.getItems();
   return vData[vData.indexOf(vItem)-1];
-};
+}
 
 
 
@@ -81,10 +81,10 @@ qx.Proto.getItemHashCode = function(oItem)
 {
   if (oItem._hash) {
     return oItem._hash;
-  };
+  }
 
   return oItem._hash = qx.core.Object.toHashCode(oItem);
-};
+}
 
 
 
@@ -98,30 +98,30 @@ qx.Proto.getItemHashCode = function(oItem)
 
 qx.Proto.scrollItemIntoView = function(vItem, vTopLeft) {
   this.getBoundedWidget().scrollItemIntoView(vItem, vTopLeft);
-};
+}
 
 qx.Proto.getItemLeft = function(vItem) {
   return this.getBoundedWidget().getItemLeft(vItem);
-};
+}
 
 qx.Proto.getItemTop = function(vItem) {
   return this.getBoundedWidget().getItemTop(vItem);
-};
+}
 
 qx.Proto.getItemWidth = function(vItem) {
   return this.getBoundedWidget().getItemWidth(vItem);
-};
+}
 
 qx.Proto.getItemHeight = function(vItem) {
   return this.getBoundedWidget().getItemHeight(vItem);
-};
+}
 
 /*!
   In a qx.ui.listview.ListView there are no disabled entries support currently.
 */
 qx.Proto.getItemEnabled = function(vItem) {
   return true;
-};
+}
 
 
 
@@ -136,12 +136,12 @@ qx.Proto.getItemEnabled = function(vItem) {
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
   this.getBoundedWidget()._updateSelectionState(vItem, vIsSelected);
-};
+}
 
 qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
   this.getBoundedWidget()._updateAnchorState(vItem, vIsAnchor);
-};
+}
 
 qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
   this.getBoundedWidget()._updateLeadState(vItem, vIsLead);
-};
+}

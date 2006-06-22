@@ -64,7 +64,7 @@ qx.Proto._modifyFirstColumnX = function(propValue, propOldValue, propData) {
   this._columnCount = null;
   this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
   return true;
-};
+}
 
 
 // property modifier
@@ -72,7 +72,7 @@ qx.Proto._modifyMaxColumnCount = function(propValue, propOldValue, propData) {
   this._columnCount = null;
   this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
   return true;
-};
+}
 
 
 /**
@@ -87,7 +87,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
   //     tricky, because the column could _have been_ in this model, but is
   //     not in it after the change)
   this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
-};
+}
 
 
 /**
@@ -108,7 +108,7 @@ qx.Proto.getColumnCount = function() {
     }
   }
   return this._columnCount;
-};
+}
 
 
 /**
@@ -120,7 +120,7 @@ qx.Proto.getColumnCount = function() {
 qx.Proto.getColumnAtX = function(xPos) {
   var firstX = this.getFirstColumnX();
   return this._tableColumnModel.getVisibleColumnAtX(firstX + xPos);
-};
+}
 
 
 /**
@@ -139,7 +139,7 @@ qx.Proto.getX = function(col) {
   } else {
     return -1;
   }
-};
+}
 
 
 /**
@@ -164,7 +164,7 @@ qx.Proto.getColumnLeft = function(col) {
     left += this._tableColumnModel.getColumnWidth(currCol);
   }
   return -1;
-};
+}
 
 
 /**
@@ -180,7 +180,7 @@ qx.Proto.getTotalWidth = function() {
     totalWidth += this._tableColumnModel.getColumnWidth(col);
   }
   return totalWidth;
-};
+}
 
 
 /** {string} The type of the event fired when the model changed. */

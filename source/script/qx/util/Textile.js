@@ -58,7 +58,7 @@ qx.util.Textile.textilize = function(s)
     ttag = qtags[i][0]; htag = qtags[i][1];
     re = new RegExp(ttag+"\\b(.+?)\\b"+ttag,"g");
     r = r.replace(re,"<"+htag+">"+"$1"+"</"+htag+">");
-  };
+  }
 
   // underscores count as part of a word, so do them separately
   re = new RegExp("\\b_(.+?)_\\b","g");
@@ -103,7 +103,7 @@ qx.util.Textile.textilize = function(s)
     {
       line = line.replace(/^\s*bq\.\s+/,"\t<blockquote>")+"</blockquote>";
       changed = 1;
-    };
+    }
 
     // jeff adds h#.
     if (line.search(/^\s*h[1-6]\.\s+/) != -1)
@@ -111,29 +111,29 @@ qx.util.Textile.textilize = function(s)
        re = new RegExp("h([1-6])\.(.+)","g");
       line = line.replace(re,"<h$1>$2</h$1>");
       changed = 1;
-    };
+    }
 
     if (line.search(/^\s*\*\s+/) != -1)
     {
       // for bullet list; make up an liu tag to be fixed later
       line = line.replace(/^\s*\*\s+/,"\t<liu>") + "</liu>";
       changed = 1;
-    };
+    }
 
     if (line.search(/^\s*#\s+/) != -1)
     {
       // # for numeric list; make up an lio tag to be fixed later
       line = line.replace(/^\s*#\s+/,"\t<lio>") + "</lio>";
       changed = 1;
-    };
+    }
 
     if (!changed && (line.replace(/\s/g,qx.constant.Core.EMPTY).length > 0))
     {
       line = "<p>"+line+"</p>";
-    };
+    }
 
     lines[i] = line + "\n";
-  };
+  }
 
   // Second pass to do lists
   inlist = 0;
@@ -147,30 +147,30 @@ qx.util.Textile.textilize = function(s)
     {
       line = "</ul>\n" + line;
       inlist = 0;
-    };
+    }
 
     if (inlist && listtype == "ol" && !line.match(/^\t<lio/))
     {
       line = "</ol>\n" + line;
       inlist = 0;
-    };
+    }
 
     if (!inlist && line.match(/^\t<liu/))
     {
       line = "<ul>" + line;
       inlist = 1;
       listtype = "ul";
-    };
+    }
 
     if (!inlist && line.match(/^\t<lio/))
     {
       line = "<ol>" + line;
       inlist = 1;
       listtype = "ol";
-    };
+    }
 
     lines[i] = line;
-  };
+  }
 
   r = lines.join("\n");
 
@@ -178,4 +178,4 @@ qx.util.Textile.textilize = function(s)
   r = r.replace(/li[o|u]>/g, "li>");
 
   return r;
-};
+}

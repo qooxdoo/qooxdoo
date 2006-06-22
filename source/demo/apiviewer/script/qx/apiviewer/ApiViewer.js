@@ -35,9 +35,9 @@ function (clientWindow) {
 
   // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
   //             maintain a hash that keeps the tree nodes for class names
-  this._classTreeNodeHash = {};
-  this._classTreeNodeHash[ApiViewer.PACKAGE_TREE] = {};
-  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE] = {};
+  this._classTreeNodeHash = {}
+  this._classTreeNodeHash[ApiViewer.PACKAGE_TREE] = {}
+  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE] = {}
 
   clientWindow.getClientDocument().add(boxLayout);
 
@@ -56,7 +56,7 @@ qx.OO.addProperty({ name:"docTree", type:qx.constant.Type.OBJECT });
 qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
   this._updateTree(propValue);
   return true;
-};
+}
 
 
 /**
@@ -80,10 +80,10 @@ qx.Proto.loadDocTreeFromUrl = function(url) {
         self.selectItem(window.location.hash.substring(1));
       }, 0);
     }
-  };
+  }
   req.addEventListener("completed", handler, this);
   req.send();
-};
+}
 
 
 /**
@@ -118,7 +118,7 @@ qx.Proto._updateTree = function(docTree) {
     this.showClass(this._wantedClassName);
     this._wantedClassName = null;
   }
-};
+}
 
 
 /**
@@ -168,7 +168,7 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
       }
     }
   }
-};
+}
 
 
 /**
@@ -201,7 +201,7 @@ qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree
       this._createInheritanceNode(classTreeNode, childClassDocNode, docTree);
     }
   }
-};
+}
 
 
 /**
@@ -228,12 +228,12 @@ qx.Proto._onTreeSelectionChange = function(evt) {
     // Other than classes are not support for bookmarkable-urls currently
     window.location.hash = "#" + treeNode.docNode.attributes.fullName;
   }
-};
+}
 
 
 qx.Proto._onHistoryRequest = function(evt) {
   this.showClass(evt.getData());
-};
+}
 
 
 /**
@@ -260,7 +260,7 @@ qx.Proto.selectItem = function(fullItemName) {
   if (itemName) {
     this._detailViewer.showItem(itemName);
   }
-};
+}
 
 
 /**
@@ -322,7 +322,7 @@ qx.Proto.showClass = function(className) {
   } else {
     alert("Unknown class: " + className);
   }
-};
+}
 
 
 qx.Class.PACKAGE_TREE = 1;

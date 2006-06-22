@@ -148,7 +148,7 @@ qx.Proto.newRow = function()
 
   /* Return the singleton (from which we were called) */
   return this;
-};
+}
 
 /**
  * Define a new row with the 'standard' structure.
@@ -175,7 +175,7 @@ qx.Proto.standard = function(vLabel, vIcon, vIconSelected)
   this.addLabel(vLabel);
 
   return this;
-};
+}
 
 qx.Proto.addIndent = function()
 {
@@ -193,7 +193,7 @@ qx.Proto.addIndent = function()
   
   /* Add the indentation to the structure */
   this._fields.push(this._indentObject);
-};
+}
 
 qx.Proto.addIcon = function(vIcon, vIconSelected)
 {
@@ -213,7 +213,7 @@ qx.Proto.addIcon = function(vIcon, vIconSelected)
 
   /* Add the icon to the structure */
   this._fields.push(this._iconObject);
-};
+}
 
 qx.Proto.addLabel = function(vLabel)
 {
@@ -232,7 +232,7 @@ qx.Proto.addLabel = function(vLabel)
 
   /* Add the label to the structure */
   this._fields.push(this._labelObject);
-};
+}
 
 /*
  * Add an object to the tree row structure.  For convenience, vAnonymous can
@@ -251,7 +251,7 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 
   /* Add this user-specified object to the structure */
   this._fields.push(vObj);
-};
+}
 
 
 /*

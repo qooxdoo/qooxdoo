@@ -43,12 +43,12 @@ function(vSource, vVersion)
   qx.ui.basic.Terminator.call(this);
 
   // Use background handling of qx.ui.core.Widget instead
-  this._params = {};
-  this._variables = {};
+  this._params = {}
+  this._variables = {}
 
   if(qx.util.Validation.isValidString(vSource)) {
     this.setSource(vSource);
-  };
+  }
 
   this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
@@ -87,7 +87,7 @@ qx.ui.embed.Flash.getPlayerVersion = function()
 {
   if (qx.ui.embed.Flash.PLAYERVERSION != null) {
     return qx.ui.embed.Flash.PLAYERVERSION;
-  };
+  }
 
   var vPlayerVersion = new qx.type.Version(0,0,0);
 
@@ -97,7 +97,7 @@ qx.ui.embed.Flash.getPlayerVersion = function()
 
     if(x && x.description) {
       vPlayerVersion = new qx.type.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
-    };
+    }
   }
   else if (window.ActiveXObject)
   {
@@ -105,11 +105,11 @@ qx.ui.embed.Flash.getPlayerVersion = function()
       var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
        vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
     }
-    catch (e) {};
-  };
+    catch (e) {}
+  }
 
   return qx.ui.embed.Flash.PLAYERVERSION = vPlayerVersion;
-};
+}
 
 
 
@@ -140,8 +140,8 @@ qx.Proto._applyElementData = function(el)
 
     if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
       this._expressInstall = true;
-    };
-  };
+    }
+  }
 
   // this.debug("ExpressInstall Enabled: " + this._expressInstall);
 
@@ -156,9 +156,9 @@ qx.Proto._applyElementData = function(el)
 
     if(redir != qx.constant.Core.EMPTY) {
       document.location.replace(redir);
-    };
-  };
-};
+    }
+  }
+}
 
 
 
@@ -174,7 +174,7 @@ qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
   this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.constant.Core.EMPTY;
   return true;
-};
+}
 
 qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
 {
@@ -182,20 +182,20 @@ qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
   {
     this._version.dispose();
     this._version = null;
-  };
+  }
 
   if (qx.util.Validation.isValidString(propValue)) {
     this._version = new qx.type.Version(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyParam = function(propValue, propOldValue, propData)
 {
   this.setParam(propData.name, propValue.toString());
   return true;
-};
+}
 
 
 
@@ -211,7 +211,7 @@ qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue)
   {
@@ -221,14 +221,14 @@ qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
   else
   {
     this._resetBackgroundColor();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._applyBackgroundColor = function(vNewValue) {
   this.setParam("bgcolor", vNewValue);
-};
+}
 
 
 
@@ -241,15 +241,15 @@ qx.Proto._applyBackgroundColor = function(vNewValue) {
 
 qx.Proto.setParam = function(name, value){
   this._params[name] = value;
-};
+}
 
 qx.Proto.getParam = function(name){
   return this._params[name];
-};
+}
 
 qx.Proto.getParams = function() {
   return this._params;
-};
+}
 
 
 
@@ -263,15 +263,15 @@ qx.Proto.getParams = function() {
 
 qx.Proto.setVariable = function(name, value){
   this._variables[name] = value;
-};
+}
 
 qx.Proto.getVariable = function(name){
   return this._variables[name];
-};
+}
 
 qx.Proto.getVariables = function(){
   return this._variables;
-};
+}
 
 
 
@@ -295,10 +295,10 @@ qx.Proto.generateParamTags = function()
     vParamTags.push("' value='");
     vParamTags.push(vParams[vKey]);
     vParamTags.push("'/>");
-  };
+  }
 
   return vParamTags.join(qx.constant.Core.EMPTY);
-};
+}
 
 qx.Proto.getVariablePairs = function()
 {
@@ -307,10 +307,10 @@ qx.Proto.getVariablePairs = function()
 
   for (var key in variables) {
     variablePairs.push(key + qx.constant.Core.EQUAL + variables[key]);
-  };
+  }
 
   return variablePairs.join(qx.constant.Core.AMPERSAND);
-};
+}
 
 
 
@@ -338,7 +338,7 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
       this.addVariable('MMredirectURL', escape(window.location));
       this.addVariable('MMdoctitle', document.title);
       this.addVariable('MMplayerType', 'PlugIn');
-    };
+    }
 
     html.push("<embed type='application/x-shockwave-flash' width='100%' height='100%' src='");
     html.push(this._source);
@@ -354,7 +354,7 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
       html.push(qx.constant.Core.SINGLEQUOTE);
       html.push(params[key]);
       html.push(qx.constant.Core.SINGLEQUOTE);
-    };
+    }
 
     var pairs = this.getVariablePairs();
 
@@ -366,12 +366,12 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
       html.push(qx.constant.Core.SINGLEQUOTE);
       html.push(pairs);
       html.push(qx.constant.Core.SINGLEQUOTE);
-    };
+    }
 
     html.push("></embed>");
 
     return html.join(qx.constant.Core.EMPTY);
-  };
+  }
 }
 
 // Internet Explorer ActiveX Architecture
@@ -389,7 +389,7 @@ else
       this.addVariable("MMredirectURL", escape(window.location));
       this.addVariable("MMdoctitle", document.title);
       this.addVariable("MMplayerType", "ActiveX");
-    };
+    }
 
     html.push("<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%'>");
     html.push("<param name='movie' value='");
@@ -400,7 +400,7 @@ else
 
     if(tags.length > 0) {
       html.push(tags);
-    };
+    }
 
     var pairs = this.getVariablePairs();
 
@@ -409,13 +409,13 @@ else
       html.push("<param name='flashvars' value='");
       html.push(pairs);
       html.push("'/>");
-    };
+    }
 
     html.push("</object>");
 
     return html.join(qx.constant.Core.EMPTY);
-  };
-};
+  }
+}
 
 
 
@@ -457,7 +457,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   delete this._source;
   delete this._params;
@@ -467,7 +467,7 @@ qx.Proto.dispose = function()
   {
     this._version.dispose();
     this._version = null;
-  };
+  }
 
   qx.ui.core.Widget.prototype.dispose.call(this);
-};
+}

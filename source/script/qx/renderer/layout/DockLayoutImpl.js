@@ -70,28 +70,28 @@ qx.renderer.layout.DockLayoutImpl._childRanking = {
   vertical : function(c) { return c.getVerticalAlign() ? 1e6 : c.getHorizontalAlign() ? 2e6 : 3e6; },
   horizontal : function(c) { return c.getHorizontalAlign() ? 1e6 : c.getVerticalAlign() ? 2e6 : 3e6; },
   ordered : function(c) { return c.getHorizontalAlign() || c.getVerticalAlign() ? 1e6 : 2e6; }
-};
+}
 
 qx.renderer.layout.DockLayoutImpl._childCheck =
 {
   common : function(vChild) {
     if (!(vChild._computedLeftTypeNull && vChild._computedRightTypeNull && vChild._computedTopTypeNull && vChild._computedBottomTypeNull)) {
       throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any location values for children: " + vChild + "!");
-    };
+    }
   },
 
   horizontal : function(vChild)
   {
     if (!(vChild._computedMinHeightTypeNull && vChild._computedHeightTypeNull && vChild._computedMaxHeightTypeNull)) {
       throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any vertical dimension for 'horizontal' placed children: " + vChild + "!");
-    };
+    }
   },
 
   vertical : function(vChild)
   {
     if (!(vChild._computedMinWidthTypeNull && vChild._computedWidthTypeNull && vChild._computedMaxWidthTypeNull)) {
       throw new Error("qx.renderer.layout.DockLayoutImpl: It is not allowed to define any horizontal dimension for 'vertical' placed children: " + vChild + "!");
-    };
+    }
   },
 
   "default" : function(vChild)
@@ -99,7 +99,7 @@ qx.renderer.layout.DockLayoutImpl._childCheck =
     qx.renderer.layout.DockLayoutImpl._childCheck.horizontal(vChild);
     qx.renderer.layout.DockLayoutImpl._childCheck.vertical(vChild);
   }
-};
+}
 
 
 
@@ -120,10 +120,10 @@ qx.Proto.computeChildBoxWidth = function(vChild)
 {
   if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_HORIZONTAL) {
     return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
-  };
+  }
 
   return this.getWidget().getInnerWidth() - this._lastLeft - this._lastRight;
-};
+}
 
 /*!
   Compute and return the box height of the given child
@@ -132,10 +132,10 @@ qx.Proto.computeChildBoxHeight = function(vChild)
 {
   if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_VERTICAL) {
     return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
-  };
+  }
 
   return this.getWidget().getInnerHeight() - this._lastTop - this._lastBottom;
-};
+}
 
 
 
@@ -160,7 +160,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 
   // inform the caller if there were any notable changes occured
   return true;
-};
+}
 
 /*!
   Actions that should be done if the inner height of the widget was changed.
@@ -173,7 +173,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 
   // inform the caller if there were any notable changes occured
   return true;
-};
+}
 
 
 
@@ -209,8 +209,8 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.mode || vQueue.addChild || vQueue.removeChild) {
     this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATION);
-  };
-};
+  }
+}
 
 
 
@@ -247,16 +247,16 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
   // flushing children
   for (var i=0; i<vChildrenLength; i++) {
     vWidget._layoutChild(vOrderedChildren[i]);
-  };
-};
+  }
+}
 
 qx.Proto.getChildAlign = function(vChild) {
   return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.constant.Core.DEFAULT;
-};
+}
 
 qx.Proto.getChildAlignMode = function(vChild) {
   return vChild.getVerticalAlign() ? qx.constant.Layout.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.constant.Layout.ORIENTATION_HORIZONTAL : qx.constant.Core.DEFAULT;
-};
+}
 
 
 
@@ -286,7 +286,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_sizeLimitY(vChild, vJobs);
 
   this[qx.renderer.layout.DockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
-};
+}
 
 qx.Proto.layoutChild_location_top = function(vChild, vJobs)
 {
@@ -296,7 +296,7 @@ qx.Proto.layoutChild_location_top = function(vChild, vJobs)
   this.layoutChild_location_horizontal(vChild);
 
   this._lastTop += vChild.getBoxHeight();
-};
+}
 
 qx.Proto.layoutChild_location_left = function(vChild, vJobs)
 {
@@ -306,7 +306,7 @@ qx.Proto.layoutChild_location_left = function(vChild, vJobs)
   this.layoutChild_location_vertical(vChild);
 
   this._lastLeft += vChild.getBoxWidth();
-};
+}
 
 
 
@@ -329,7 +329,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 
     // apply calculated width
     vChild._applyRuntimeWidth(vChild.getBoxWidth());
-  };
+  }
 
   qx.Proto._applyComputedHeight = function(vChild)
   {
@@ -344,31 +344,31 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 
     // apply calculated height
     vChild._applyRuntimeHeight(vChild.getBoxHeight());
-  };
+  }
 
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     // We need to respect all dimension properties on the horizontal axis in internet explorer to set the 'width' style
     if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth) {
       vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     // We need to respect all dimension properties on the vertical axis in internet explorer to set the 'height' style
     if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight) {
       vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_location_horizontal = function(vChild) {
     this._applyComputedWidth(vChild);
-  };
+  }
 
   qx.Proto.layoutChild_location_vertical = function(vChild) {
     this._applyComputedHeight(vChild);
-  };
+  }
 
   qx.Proto.layoutChild_location_right = function(vChild, vJobs)
   {
@@ -378,7 +378,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     this.layoutChild_location_vertical(vChild);
 
     this._lastRight += vChild.getBoxWidth();
-  };
+  }
 
   qx.Proto.layoutChild_location_bottom = function(vChild, vJobs)
   {
@@ -388,7 +388,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
     this.layoutChild_location_horizontal(vChild);
 
     this._lastBottom += vChild.getBoxHeight();
-  };
+  }
 
   qx.Proto.layoutChild_location_default = function(vChild, vJobs)
   {
@@ -402,7 +402,7 @@ if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
 
     this._applyComputedWidth(vChild);
     this._applyComputedHeight(vChild);
-  };
+  }
 }
 else
 {
@@ -416,7 +416,7 @@ else
     // correct: needs recompute to inform children (to update centering for example)
     vChild._recomputeOuterWidth();
     vChild._recomputeInnerWidth();
-  };
+  }
 
   qx.Proto._applyComputedHeight = function(vChild)
   {
@@ -428,33 +428,33 @@ else
     // correct: needs recompute to inform children (to update centering for example)
     vChild._recomputeOuterHeight();
     vChild._recomputeInnerHeight();
-  };
+  }
 
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.width) {
       vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_sizeY = function(vChild, vJobs)
   {
     if (vJobs.initial || vJobs.height) {
       vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
-    };
-  };
+    }
+  }
 
   qx.Proto.layoutChild_location_horizontal = function(vChild)
   {
     this._applyComputedWidth(vChild);
     vChild._applyRuntimeRight(this._lastRight);
-  };
+  }
 
   qx.Proto.layoutChild_location_vertical = function(vChild)
   {
     this._applyComputedHeight(vChild);
     vChild._applyRuntimeBottom(this._lastBottom);
-  };
+  }
 
   qx.Proto.layoutChild_location_right = function(vChild, vJobs)
   {
@@ -464,7 +464,7 @@ else
     this.layoutChild_location_vertical(vChild);
 
     this._lastRight += vChild.getBoxWidth();
-  };
+  }
 
   qx.Proto.layoutChild_location_bottom = function(vChild, vJobs)
   {
@@ -474,7 +474,7 @@ else
     this.layoutChild_location_horizontal(vChild);
 
     this._lastBottom += vChild.getBoxHeight();
-  };
+  }
 
   qx.Proto.layoutChild_location_default = function(vChild, vJobs)
   {
@@ -488,5 +488,5 @@ else
 
     this._applyComputedWidth(vChild);
     this._applyComputedHeight(vChild);
-  };
-};
+  }
+}

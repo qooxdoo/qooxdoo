@@ -42,20 +42,20 @@ qx.OO.addProperty({ name : "step", type : qx.constant.Type.NUMBER, defaultValue 
 
 qx.Proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
-};
+}
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._checkMax = function(propValue) {
   return Math.floor(propValue);
-};
+}
 
 qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 {
@@ -63,14 +63,14 @@ qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 
   if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._checkMin = function(propValue) {
   return Math.floor(propValue);
-};
+}
 
 qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 {
@@ -78,7 +78,7 @@ qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 
   if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
-  };
+  }
 
   return true;
-};
+}

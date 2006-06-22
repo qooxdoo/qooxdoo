@@ -53,7 +53,7 @@ qx.Proto._modifyCurrentToolTip = function(propValue, propOldValue, propData)
   // Return if the new tooltip is a child of the old one
   if(propOldValue && propOldValue.contains(propValue)) {
     return;
-  };
+  }
 
   // If old tooltip existing, hide it and clear widget binding
   if(propOldValue)
@@ -62,15 +62,15 @@ qx.Proto._modifyCurrentToolTip = function(propValue, propOldValue, propData)
 
     propOldValue._stopShowTimer();
     propOldValue._stopHideTimer();
-  };
+  }
 
   // If new tooltip is not null, set it up and start the timer
   if(propValue) {
     propValue._startShowTimer();
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -90,21 +90,21 @@ qx.Proto.handleMouseOver = function(e)
   // Allows us to use DOM Nodes as tooltip target :)
   if (!(vTarget instanceof qx.ui.core.Widget) && vTarget.nodeType == 1) {
     vTarget = qx.event.handler.EventHandler.getTargetObject(vTarget);
-  };
+  }
 
   //Search first parent which has a tooltip
   while(vTarget != null && !(vToolTip = vTarget.getToolTip())) {
     vTarget = vTarget.getParent();
-  };
+  }
 
   // Bind tooltip to widget
   if (vToolTip != null) {
     vToolTip.setBoundToWidget(vTarget);
-  };
+  }
 
   // Set Property
   this.setCurrentToolTip(vToolTip);
-};
+}
 
 qx.Proto.handleMouseOut = function(e)
 {
@@ -119,18 +119,18 @@ qx.Proto.handleMouseOut = function(e)
   // - the current tooltip contains the destination target
   if(vToolTip && (vRelatedTarget == vToolTip || vToolTip.contains(vRelatedTarget))) {
     return;
-  };
+  }
 
   // If the destination target exists and the target contains it
   if(vRelatedTarget && vTarget && vTarget.contains(vRelatedTarget)) {
     return;
-  };
+  }
 
   // If there was a tooltip and there is no new one
   if(vToolTip && !vRelatedTarget) {
     this.setCurrentToolTip(null);
-  };
-};
+  }
+}
 
 
 
@@ -158,8 +158,8 @@ qx.Proto.handleFocus = function(e)
 
     // Set Property
     this.setCurrentToolTip(vToolTip);
-  };
-};
+  }
+}
 
 qx.Proto.handleBlur = function(e)
 {
@@ -167,7 +167,7 @@ qx.Proto.handleBlur = function(e)
 
   if(!vTarget) {
     return;
-  };
+  }
 
   var vToolTip = this.getCurrentToolTip();
 
@@ -175,8 +175,8 @@ qx.Proto.handleBlur = function(e)
   // one which has created the current tooltip
   if(vToolTip && vToolTip == vTarget.getToolTip()) {
     this.setCurrentToolTip(null);
-  };
-};
+  }
+}
 
 
 

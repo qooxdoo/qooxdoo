@@ -107,7 +107,7 @@ qx.Proto.openWindow = function() {
     }
     this._logEventQueue = null;
   }
-};
+}
 
 
 /**
@@ -120,7 +120,7 @@ qx.Proto.closeWindow = function() {
     this._logElem = null;
     this._logWindowOpened = false;
   }
-};
+}
 
 
 // overridden
@@ -163,23 +163,23 @@ qx.Proto.appendLogEvent = function(evt) {
     // Scroll to bottom
     this._logWindow.scrollTo(0, this._logElem.offsetHeight);
   }
-};
+}
 
 
 // overridden
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   this.closeWindow();
 
   return qx.dev.log.Appender.prototype.dispose.call(this);
-};
+}
 
 
 qx.Class._nextId = 1;
-qx.Class._registeredAppenders = {};
+qx.Class._registeredAppenders = {}
 
 
 /**
@@ -196,7 +196,7 @@ qx.Class.register = function(appender) {
   WindowAppender._registeredAppenders[id] = appender;
 
   return id;
-};
+}
 
 
 /**
@@ -208,4 +208,4 @@ qx.Class.register = function(appender) {
  */
 qx.Class.getAppender = function(id) {
   return qx.dev.log.WindowAppender._registeredAppenders[id];
-};
+}

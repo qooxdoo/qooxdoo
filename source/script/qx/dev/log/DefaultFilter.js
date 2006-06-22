@@ -61,4 +61,4 @@ qx.Proto.decide = function(evt) {
   } else {
     return (evt.level >= this.getMinLevel()) ? Filter.ACCEPT : Filter.DENY;
   }
-};
+}

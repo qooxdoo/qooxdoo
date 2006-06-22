@@ -51,12 +51,12 @@ qx.Class.set = function(vName, vValue)
 {
   if (!qx.util.Validation.isValid(vValue)) {
     return qx.io.local.CookieTransport.del(vName);
-  };
+  }
 
   var vAll = qx.io.local.CookieTransport._getAll();
   vAll[vName] = vValue;
   this._setAll(vAll);
-};
+}
 
 qx.Class.get = function(vName)
 {
@@ -65,36 +65,36 @@ qx.Class.get = function(vName)
   var vValue = qx.io.local.CookieTransport._getAll()[vName];
   if (qx.util.Validation.isValidString(vValue)) {
     return vValue;
-  };
+  }
 
   return qx.constant.Core.EMPTY;
-};
+}
 
 qx.Class.del = function(vName)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
   delete vAll[vName];
   this._setAll(vAll);
-};
+}
 
 qx.Class.setAll = function(vHash)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
   vAll = qx.lang.Object.mergeWith(vAll, vHash);
   qx.io.local.CookieTransport._setAll(vAll);
-};
+}
 
 qx.Class.getAll = function() {
   return qx.io.local.CookieTransport._getAll();
-};
+}
 
 qx.Class.replaceAll = function(vHash) {
   qx.io.local.CookieTransport._setAll(vHash);
-};
+}
 
 qx.Class.delAll = function() {
   qx.io.local.CookieTransport.replaceAll({});
-};
+}
 
 
 
@@ -108,7 +108,7 @@ qx.Class.delAll = function() {
 
 qx.Class._getAll = function()
 {
-  var vHash = {};
+  var vHash = {}
   var vCookie, vItems, vItem;
 
   for (var i=0; i<qx.io.local.CookieTransport.MAXCOOKIES; i++)
@@ -121,12 +121,12 @@ qx.Class._getAll = function()
       {
         vItem = vItems[j].split(qx.io.local.CookieTransport.KEYVALUESEPARATOR);
         vHash[vItem[0]] = vItem[1];
-      };
-    };
-  };
+      }
+    }
+  }
 
   return vHash;
-};
+}
 
 qx.Class._setAll = function(vHash)
 {
@@ -142,7 +142,7 @@ qx.Class._setAll = function(vHash)
     {
       qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
       continue;
-    };
+    }
 
     if ((qx.io.local.CookieTransport.ITEMSEPARATOR.length + vString.length + vTemp.length) > qx.io.local.CookieTransport.MAXSIZE)
     {
@@ -152,7 +152,7 @@ qx.Class._setAll = function(vHash)
       {
         qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Failed to store cookie. Max cookie amount reached!", "error");
         return false;
-      };
+      }
 
       vString = vTemp;
     }
@@ -160,29 +160,29 @@ qx.Class._setAll = function(vHash)
     {
       if (vString != qx.constant.Core.EMPTY) {
         vString += qx.io.local.CookieTransport.ITEMSEPARATOR;
-      };
+      }
 
       vString += vTemp;
-    };
-  };
+    }
+  }
 
   if (vString != qx.constant.Core.EMPTY) {
     qx.io.local.CookieTransport._setCookie(vIndex++, vString);
-  };
+  }
 
   while (vIndex < qx.io.local.CookieTransport.MAXCOOKIES) {
     qx.io.local.CookieTransport._delCookie(vIndex++);
-  };
-};
+  }
+}
 
 qx.Class._setCookie = function(vIndex, vString)
 {
   // qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Store: " + vIndex + " = " + vString);
   qx.io.local.CookieApi.set(qx.io.local.CookieTransport.BASENAME + vIndex, vString);
-};
+}
 
 qx.Class._delCookie = function(vIndex)
 {
   // qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Delete: " + vIndex);
   qx.io.local.CookieApi.del(qx.io.local.CookieTransport.BASENAME + vIndex);
-};
+}

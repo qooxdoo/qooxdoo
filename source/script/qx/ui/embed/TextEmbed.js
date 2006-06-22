@@ -33,7 +33,7 @@ function(vText)
 
   if (qx.util.Validation.isValidString(vText)) {
     this.setText(vText);
-  };
+  }
 });
 
 
@@ -76,10 +76,10 @@ qx.Proto._modifyText = function()
 {
   if (this._isCreated) {
     this._syncText();
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
@@ -87,22 +87,22 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
     propValue.applyWidget(this);
   } else if (propOldValue) {
     propOldValue.resetWidget(this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
   this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
   return true;
-};
+}
 
 // property modifier
 qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData) {
   this.setStyleProperty("textAlign", propValue);
   return true;
-};
+}
 
 
 
@@ -116,8 +116,8 @@ qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData) {
 
 qx.Proto._applyElementData = function() {
   this.getElement().appendChild(document.createTextNode(this.getText()));
-};
+}
 
 qx.Proto._syncText = function() {
   this.getElement().firstChild.nodeValue = this.getText();
-};
+}

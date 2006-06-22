@@ -65,10 +65,10 @@ qx.Proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
 {
   for (vKey in propValue) {
     this.debug("R-Header: " + vKey + "=" + propValue[vKey]);
-  };
+  }
 
   return true;
-};
+}
 */
 
 
@@ -88,10 +88,10 @@ qx.Proto.getResponseHeader = function(vHeader)
   var vAll = this.getResponseHeaders();
   if (vAll) {
     return vAll[vHeader] || null;
-  };
+  }
 
   return null;
-};
+}
 
 
 
@@ -108,7 +108,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

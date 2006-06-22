@@ -36,7 +36,7 @@ qx.lang.String.toCamelCase = function(str)
 
   if(vLength == 1) {
     return vArr[0];
-  };
+  }
 
   var vNew = str.indexOf(qx.constant.Core.DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
 
@@ -44,53 +44,53 @@ qx.lang.String.toCamelCase = function(str)
   {
     vPart = vArr[i];
     vNew += vPart.charAt(0).toUpperCase() + vPart.substring(1);
-  };
+  }
 
   return vNew;
-};
+}
 
 qx.lang.String.trimLeft = function(str) {
   return str.replace(/^\s+/, qx.constant.Core.EMPTY);
-};
+}
 
 qx.lang.String.trimRight = function(str) {
   return str.replace(/\s+$/, qx.constant.Core.EMPTY);
-};
+}
 
 qx.lang.String.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, qx.constant.Core.EMPTY);
-};
+}
 
 qx.lang.String.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, qx.constant.Core.EMPTY);
-};
+}
 
 qx.lang.String.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
-};
+}
 
 qx.lang.String.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
-};
+}
 
 qx.lang.String.pad = function(str, length, ch)
 {
   if (typeof ch === qx.constant.Type.UNDEFINED) {
     ch = qx.constant.Core.ZERO;
-  };
+  }
 
   var temp = qx.constant.Core.EMPTY;
 
   for (var i=length, l=str.length; l<i; l++) {
     temp += ch;
-  };
+  }
 
   return temp + str;
-};
+}
 
 qx.lang.String.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
-};
+}
 
 qx.lang.String.add = function(str, v, sep)
 {
@@ -106,7 +106,7 @@ qx.lang.String.add = function(str, v, sep)
   {
     if (qx.util.Validation.isInvalid(sep)) {
       sep = qx.constant.Core.COMMA;
-    };
+    }
 
     var a = str.split(sep);
 
@@ -118,9 +118,9 @@ qx.lang.String.add = function(str, v, sep)
     else
     {
       return str;
-    };
-  };
-};
+    }
+  }
+}
 
 qx.lang.String.remove = function(str, v, sep)
 {
@@ -132,25 +132,25 @@ qx.lang.String.remove = function(str, v, sep)
   {
     if (qx.util.Validation.isInvalid(sep)) {
       sep = qx.constant.Core.COMMA;
-    };
+    }
 
     var a = str.split(sep);
     var p = a.indexOf(v);
 
     if (p === -1) {
       return str;
-    };
+    }
 
     do { a.splice(p, 1); }
     while((p = a.indexOf(v)) != -1);
 
     return a.join(sep);
-  };
-};
+  }
+}
 
 qx.lang.String.contains = function(str, s) {
   return str.indexOf(s) != -1;
-};
+}
 
 
 /**
@@ -161,4 +161,4 @@ qx.lang.String.contains = function(str, s) {
  */
 qx.Class.escapeRegexpChars = function(str) {
     return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
-};
+}

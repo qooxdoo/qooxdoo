@@ -39,7 +39,7 @@ function(vSource)
     this.debug("Please use qx.manager.object.ImagePreloaderManager.create(source) instead!");
 
     return qx.manager.object.ImagePreloaderManager.get(vSource);
-  };
+  }
 
   qx.core.Target.call(this);
 
@@ -60,7 +60,7 @@ function(vSource)
   // Set PNG State
   if (qx.sys.Client.isMshtml()) {
     this._isPng = /\.png$/i.test(this._element.nameProp);
-  };
+  }
 
   qx.manager.object.ImagePreloaderManager.add(this);
 });
@@ -78,7 +78,7 @@ function(vSource)
 qx.io.image.ImagePreloader.get = function(vSource)
 {
 
-};
+}
 
 
 
@@ -105,25 +105,25 @@ qx.Proto._isErroneous = false;
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getUri = function() { return this._source; };
-qx.Proto.getSource = function() { return this._source; };
-qx.Proto.isLoaded = function() { return this._isLoaded; };
-qx.Proto.isErroneous = function() { return this._isErroneous; };
+qx.Proto.getUri = function() { return this._source; }
+qx.Proto.getSource = function() { return this._source; }
+qx.Proto.isLoaded = function() { return this._isLoaded; }
+qx.Proto.isErroneous = function() { return this._isErroneous; }
 
 // only used in mshtml: true when the image format is in png
 qx.Proto._isPng = false;
-qx.Proto.getIsPng = function() { return this._isPng; };
+qx.Proto.getIsPng = function() { return this._isPng; }
 
 if(qx.sys.Client.isGecko())
 {
-  qx.Proto.getWidth = function() { return this._element.naturalWidth; };
-  qx.Proto.getHeight = function() { return this._element.naturalHeight; };
+  qx.Proto.getWidth = function() { return this._element.naturalWidth; }
+  qx.Proto.getHeight = function() { return this._element.naturalHeight; }
 }
 else
 {
-  qx.Proto.getWidth = function() { return this._element.width; };
-  qx.Proto.getHeight = function() { return this._element.height; };
-};
+  qx.Proto.getWidth = function() { return this._element.width; }
+  qx.Proto.getHeight = function() { return this._element.height; }
+}
 
 
 
@@ -135,8 +135,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.io.image.ImagePreloader.__onload = function() { this.qx_ImagePreloader._onload(); };
-qx.io.image.ImagePreloader.__onerror = function() { this.qx_ImagePreloader._onerror(); };
+qx.io.image.ImagePreloader.__onload = function() { this.qx_ImagePreloader._onload(); }
+qx.io.image.ImagePreloader.__onerror = function() { this.qx_ImagePreloader._onerror(); }
 
 qx.Proto._onload = function()
 {
@@ -145,8 +145,8 @@ qx.Proto._onload = function()
 
   if (this.hasEventListeners(qx.constant.Event.LOAD)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
-  };
-};
+  }
+}
 
 qx.Proto._onerror = function()
 {
@@ -157,8 +157,8 @@ qx.Proto._onerror = function()
 
   if (this.hasEventListeners(qx.constant.Event.ERROR)) {
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
-  };
-};
+  }
+}
 
 
 
@@ -173,16 +173,16 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._element)
   {
     this._element.onload = this._element.onerror = null;
     this._element.qx_ImagePreloader = null;
     this._element = null;
-  };
+  }
 
   this._isLoaded = this._isErroneous = this._isPng = false;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

@@ -33,7 +33,7 @@ function(vText, vIcon, vChecked)
 
   if (qx.util.Validation.isValid(vChecked)) {
     this.setChecked(vChecked);
-  };
+  }
 });
 
 
@@ -60,7 +60,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
   return true;
-};
+}
 
 
 
@@ -81,10 +81,10 @@ qx.Proto._onmouseup = function(e)
     this.addState(qx.ui.core.Widget.STATE_OVER);
     this.setChecked(!this.getChecked());
     this.execute();
-  };
+  }
 
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   this.removeState(qx.ui.form.Button.STATE_PRESSED);
 
   e.stopPropagation();
-};
+}

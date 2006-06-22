@@ -38,4 +38,4 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 
 qx.ui.listview.ListViewContentCellText.empty = {
   text : qx.constant.Core.EMPTY
-};
+}

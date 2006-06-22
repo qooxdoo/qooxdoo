@@ -49,7 +49,7 @@ if (qx.sys.Client.isGecko())
     // If element is positioned non-static: Substract the border of the element
     if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
       val -= qx.dom.DomStyle.getBorderLeft(pa);
-    };
+    }
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
@@ -61,19 +61,19 @@ if (qx.sys.Client.isGecko())
 
         if (!pa || qx.util.Validation.isInvalidString(pa.tagName)) {
           break;
-        };
+        }
 
         var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
         if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
           val -= qx.dom.DomStyle.getBorderLeft(pa) + qx.dom.DomStyle.getPaddingLeft(pa);
           break;
-        };
-      };
-    };
+        }
+      }
+    }
 
     return val;
-  };
+  }
 
   qx.dom.DomOffset.getTop = function(el)
   {
@@ -86,7 +86,7 @@ if (qx.sys.Client.isGecko())
     // If element is positioned non-static: Substract the border of the element
     if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
       val -= qx.dom.DomStyle.getBorderTop(pa);
-    };
+    }
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
@@ -98,27 +98,27 @@ if (qx.sys.Client.isGecko())
 
         if (!pa || qx.util.Validation.isInvalidString(pa.tagName)) {
           break;
-        };
+        }
 
         var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
 
         if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
           val -= qx.dom.DomStyle.getBorderTop(pa) + qx.dom.DomStyle.getPaddingTop(pa);
           break;
-        };
-      };
-    };
+        }
+      }
+    }
 
     return val;
-  };
+  }
 }
 else
 {
   qx.dom.DomOffset.getLeft = function(el) {
     return el.offsetLeft;
-  };
+  }
 
   qx.dom.DomOffset.getTop = function(el) {
     return el.offsetTop;
-  };
-};
+  }
+}

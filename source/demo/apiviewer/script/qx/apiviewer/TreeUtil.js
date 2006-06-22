@@ -25,7 +25,7 @@ qx.Class.getChild = function(docNode, childType) {
   }
 
   return null;
-};
+}
 
 
 /**
@@ -47,7 +47,7 @@ qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) 
   }
 
   return null;
-};
+}
 
 
 /**
@@ -75,7 +75,7 @@ qx.Class.getItemDocNode = function(classNode, itemName) {
 
   // Nothing found
   return null;
-};
+}
 
 
 /**
@@ -101,7 +101,7 @@ qx.Class.getClassDocNode = function(docTree, className) {
   }
 
   return currNode;
-};
+}
 
 
 /**
@@ -169,7 +169,7 @@ qx.Class.getIconUrl = function(node, inherited) {
     throw new Error("Unknown img constant: " + constName);
   }
   return iconUrl;
-};
+}
 
 
 /** {string[]} The names of lists containing items. */

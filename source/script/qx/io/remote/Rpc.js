@@ -142,7 +142,7 @@ qx.io.remote.Rpc.origin =
   application : 2,
   transport   : 3,
   local       : 4
-};
+}
 
 /**
    Locally-detected errors
@@ -151,7 +151,7 @@ qx.io.remote.Rpc.localError =
 {
   timeout     : 1,
   abort       : 2
-};
+}
 
 
 /*
@@ -180,7 +180,7 @@ qx.Proto._callInternal = function(args, async) {
     "id": req.getSequenceNumber(),
     "params": argsArray
     // additional field 'server_data' optionally included, below
-  };
+  }
 
   // See if there's any out-of-band data to be sent to the server
   var serverData = this.getServerData();
@@ -200,7 +200,7 @@ qx.Proto._callInternal = function(args, async) {
     if (async) {
       handler(result, ex, id);
     }
-  };
+  }
   
   var makeException = function(origin, code, message) {
     var ex = new Object();
@@ -223,10 +223,10 @@ qx.Proto._callInternal = function(args, async) {
       default:
         return "UNEXPECTED origin " + this.origin + " error " + this.code + ": " + this.message;
       }
-    };
+    }
 
     return ex;
-  };
+  }
   
   req.addEventListener("failed", function(evt) {
     var code = evt.getData().getStatusCode();
@@ -286,7 +286,7 @@ qx.Proto._callInternal = function(args, async) {
   } else {
     return req;
   }
-};
+}
 
 
 /**
@@ -314,7 +314,7 @@ qx.Proto._callInternal = function(args, async) {
 
 qx.Proto.callSync = function(methodName) {
   return this._callInternal(arguments, false);
-};
+}
 
 
 /**
@@ -353,7 +353,7 @@ qx.Proto.callSync = function(methodName) {
 
 qx.Proto.callAsync = function(handler, methodName) {
   return this._callInternal(arguments, true);
-};
+}
 
 
 /**
@@ -366,7 +366,7 @@ qx.Proto.callAsync = function(handler, methodName) {
 
 qx.Proto.abort = function(opaqueCallRef) {
   opaqueCallRef.abort();
-};
+}
 
 
 /**
@@ -397,4 +397,4 @@ qx.Class.makeServerURL = function(instanceId) {
     }
   }
   return retVal;
-};
+}

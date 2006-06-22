@@ -82,33 +82,33 @@ qx.Proto.display = function(hours, minutes, seconds)
     else
     {
       am_pm = "AM";
-    };
+    }
 
     if (hours > 12)
     {
       hours = hours - 12;
-    };
+    }
 
     if (hours == 0)
     {
       hours = 12;
-    };
-  };
+    }
+  }
 
   if (minutes <= 9)
   {
     minutes = "0" + minutes;
-  };
+  }
 
   if (seconds <= 9)
   {
     seconds = "0" + seconds;
-  };
+  }
 
   var time = hours + ':' + minutes + ':' + seconds + " " + am_pm;
 
   this.getLabel().setHtml(time);
-};
+}
 
 
 
@@ -126,13 +126,13 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._label)
   {
     this._label.dispose();
     this._label = null;
-  };
+  }
 
   return QxClock.prototype.dispose.call(this);
-};
+}

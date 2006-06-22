@@ -40,7 +40,7 @@ if (qx.sys.Client.isMshtml())
 {
   var DOMParser = function() {
     /* empty constructor */
-  };
+  }
 
   DOMParser.prototype =
   {
@@ -58,11 +58,11 @@ if (qx.sys.Client.isMshtml())
     // not supported
     parseFromStream: new Function,
     baseURI: ""
-  };
+  }
 
   var XMLSerializer = function() {
     /* empty constructor */
-  };
+  }
 
   XMLSerializer.prototype =
   {
@@ -76,8 +76,8 @@ if (qx.sys.Client.isMshtml())
 
     // not supported
     serializeToStream: new Function
-  };
-};
+  }
+}
 
 // Create a XML dom node
 qx.lang.XmlEmu.createXmlDom = function()
@@ -85,15 +85,15 @@ qx.lang.XmlEmu.createXmlDom = function()
   // The Mozilla style
   if (document.implementation && document.implementation.createDocument) {
     return document.implementation.createDocument("", "", null);
-  };
+  }
 
   // The Microsoft style
   if (window.ActiveXObject) {
     return new ActiveXObject("Microsoft.XMLDOM");
-  };
+  }
 
   throw new Error("This browser does not support xml dom creation.");
-};
+}
 
 // Implementation of selectNodes() and selectSingleNode()
 // for Gecko/Mozilla browsers
@@ -106,8 +106,8 @@ if (window.XPathEvaluator)
   {
     Element.prototype.selectSingleNode = function (xpath) {
       return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    };
-  };
+    }
+  }
 
   if (!Element.prototype.selectNodes)
   {
@@ -117,18 +117,18 @@ if (window.XPathEvaluator)
 
       for (var i=0; i<result.snapshotLength; i++) {
         nodes[i] = result.snapshotItem(i);
-      };
+      }
 
       return nodes;
-    };
-  };
+    }
+  }
 
   if (!Document.prototype.selectSingleNode)
   {
     Document.prototype.selectSingleNode = function (xpath) {
       return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    };
-  };
+    }
+  }
 
   if (!Document.prototype.selectNodes)
   {
@@ -138,18 +138,18 @@ if (window.XPathEvaluator)
 
       for (var i=0; i<result.snapshotLength; i++) {
         nodes[i] = result.snapshotItem(i);
-      };
+      }
 
       return nodes;
-    };
-  };
+    }
+  }
 
   Element.prototype.__defineGetter__('text',
     function() {
       var text = "";
       for (var i=0; i<this.childNodes.length; i++) {
         text += this.childNodes[i].text != null ? this.childNodes[i].text : "";
-      };
+      }
       return text;
     }
   );
@@ -161,4 +161,4 @@ if (window.XPathEvaluator)
 
   Text.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Text.prototype.__lookupGetter__('text');
-};
+}

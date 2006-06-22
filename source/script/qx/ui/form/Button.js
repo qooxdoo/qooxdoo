@@ -73,22 +73,22 @@ qx.Proto._onmouseover = function(e)
 {
   if (e.getTarget() != this) {
     return;
-  };
+  }
 
   if (this.hasState(qx.ui.form.Button.STATE_ABANDONED))
   {
     this.removeState(qx.ui.form.Button.STATE_ABANDONED);
     this.addState(qx.ui.form.Button.STATE_PRESSED);
-  };
+  }
 
   this.addState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
 qx.Proto._onmouseout = function(e)
 {
   if (e.getTarget() != this) {
     return;
-  };
+  }
 
   this.removeState(qx.ui.core.Widget.STATE_OVER);
 
@@ -100,18 +100,18 @@ qx.Proto._onmouseout = function(e)
 
     this.removeState(qx.ui.form.Button.STATE_PRESSED);
     this.addState(qx.ui.form.Button.STATE_ABANDONED);
-  };
-};
+  }
+}
 
 qx.Proto._onmousedown = function(e)
 {
   if (e.getTarget() != this || !e.isLeftButtonPressed()) {
     return;
-  };
+  }
 
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   this.addState(qx.ui.form.Button.STATE_PRESSED);
-};
+}
 
 qx.Proto._onmouseup = function(e)
 {
@@ -123,12 +123,12 @@ qx.Proto._onmouseup = function(e)
 
     if (this.hasState(qx.ui.form.Button.STATE_PRESSED)) {
       this.execute();
-    };
-  };
+    }
+  }
 
   this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   this.removeState(qx.ui.form.Button.STATE_PRESSED);
-};
+}
 
 qx.Proto._onkeydown = function(e)
 {
@@ -138,8 +138,8 @@ qx.Proto._onkeydown = function(e)
     case qx.event.type.KeyEvent.keys.space:
       this.removeState(qx.ui.form.Button.STATE_ABANDONED);
       this.addState(qx.ui.form.Button.STATE_PRESSED);
-  };
-};
+  }
+}
 
 qx.Proto._onkeyup = function(e)
 {
@@ -152,9 +152,9 @@ qx.Proto._onkeyup = function(e)
         this.removeState(qx.ui.form.Button.STATE_ABANDONED);
         this.removeState(qx.ui.form.Button.STATE_PRESSED);
         this.execute();
-      };
-  };
-};
+      }
+  }
+}
 
 
 
@@ -173,7 +173,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // ************************************************************************
   //   MOUSE EVENTS
@@ -195,4 +195,4 @@ qx.Proto.dispose = function()
   //   SUPER CLASS
   // ************************************************************************
   return qx.ui.basic.Atom.prototype.dispose.call(this);
-};
+}

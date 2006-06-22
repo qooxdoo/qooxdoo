@@ -70,50 +70,50 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setChecked(propValue);
-  };
+  }
 
   var vManager = this.getManager();
   if (vManager) {
     vManager.handleItemChecked(this, propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyManager = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
     propOldValue.remove(this);
-  };
+  }
 
   if (propValue) {
     propValue.add(this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyName = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setName(propValue);
-  };
+  }
 
   if (this.getManager()) {
     this.getManager().setName(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   if (this.isCreated() && this._iconObject) {
     this._iconObject.setValue(propValue);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -133,7 +133,7 @@ qx.Proto._onkeydown = function(e)
     case qx.event.type.KeyEvent.keys.enter:
       if (!e.getAltKey()) {
         this.setChecked(true);
-      };
+      }
 
       break;
 
@@ -151,19 +151,19 @@ qx.Proto._onkeydown = function(e)
       qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectNext(this) : true;
-  };
-};
+  }
+}
 
 qx.Proto._onclick = function(e) {
   this.setChecked(true);
-};
+}
 
 qx.Proto._onkeyup = function(e)
 {
   if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
     this.setChecked(true);
-  };
-};
+  }
+}
 
 
 
@@ -179,7 +179,7 @@ qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {
     return;
-  };
+  }
 
   return qx.ui.form.CheckBox.prototype.dispose.call(this);
-};
+}

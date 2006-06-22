@@ -45,7 +45,7 @@ function() {
  */
 qx.Proto.getRowCount = function() {
   throw new Error("getRowCount is abstract");
-};
+}
 
 
 /**
@@ -55,7 +55,7 @@ qx.Proto.getRowCount = function() {
  */
 qx.Proto.getColumnCount = function() {
   throw new Error("getColumnCount is abstract");
-};
+}
 
 
 /**
@@ -68,7 +68,7 @@ qx.Proto.getColumnCount = function() {
  */
 qx.Proto.getColumnId = function(columnIndex) {
   throw new Error("getColumnId is abstract");
-};
+}
 
 
 /**
@@ -79,7 +79,7 @@ qx.Proto.getColumnId = function(columnIndex) {
  */
 qx.Proto.getColumnIndexById = function(columnId) {
   throw new Error("getColumnIndexById is abstract");
-};
+}
 
 
 /**
@@ -91,7 +91,7 @@ qx.Proto.getColumnIndexById = function(columnId) {
  */
 qx.Proto.getColumnName = function(columnIndex) {
   throw new Error("getColumnName is abstract");
-};
+}
 
 
 /**
@@ -102,7 +102,7 @@ qx.Proto.getColumnName = function(columnIndex) {
  */
 qx.Proto.isColumnEditable = function(columnIndex) {
   return false;
-};
+}
 
 
 /**
@@ -113,7 +113,7 @@ qx.Proto.isColumnEditable = function(columnIndex) {
  */
 qx.Proto.isColumnSortable = function(columnIndex) {
   return false;
-};
+}
 
 
 /**
@@ -123,7 +123,7 @@ qx.Proto.isColumnSortable = function(columnIndex) {
  * @param ascending {boolean} whether to sort ascending.
  */
 qx.Proto.sortByColumn = function(columnIndex, ascending) {
-};
+}
 
 
 /**
@@ -134,7 +134,7 @@ qx.Proto.sortByColumn = function(columnIndex, ascending) {
  */
 qx.Proto.getSortColumnIndex = function() {
   return -1;
-};
+}
 
 
 /**
@@ -144,7 +144,7 @@ qx.Proto.getSortColumnIndex = function() {
  */
 qx.Proto.isSortAscending = function() {
   return true;
-};
+}
 
 
 /**
@@ -155,7 +155,7 @@ qx.Proto.isSortAscending = function() {
  * @param lastRowIndex {int} the index of last row.
  */
 qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
-};
+}
 
 
 /**
@@ -168,7 +168,7 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
  */
 qx.Proto.getValue = function(columnIndex, rowIndex) {
   throw new Error("getValue is abstract");
-};
+}
 
 
 /**
@@ -183,7 +183,7 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
  */
 qx.Proto.getValueById = function(columnId, rowIndex) {
   return self.getValueByIndex(self.getColumnIndexById(columnId), rowIndex);
-};
+}
 
 
 /**
@@ -196,7 +196,7 @@ qx.Proto.getValueById = function(columnId, rowIndex) {
  */
 qx.Proto.setValue = function(columnIndex, rowIndex, value) {
   throw new Error("setValue is abstract");
-};
+}
 
 
 /**
@@ -211,7 +211,7 @@ qx.Proto.setValue = function(columnIndex, rowIndex, value) {
  */
 qx.Proto.setValueById = function(columnId, rowIndex, value) {
   return self.setValueByIndex(self.getColumnIndexById(columnId), rowIndex, value);
-};
+}
 
 
 /** {string} The type of the event fired when the data changed. */

@@ -52,7 +52,7 @@ qx.Proto.init = function() {
     this._iframe.style.visibility = "hidden";
     document.body.appendChild(this._iframe);
   }
-};
+}
 
 
 /**
@@ -83,7 +83,7 @@ qx.Proto.addToHistory = function(command, newTitle) {
     //       (Anchors would have the advantage that the helper is only loaded once)
     this._iframe.src = this.HISTORY_HELPER_URL + "?c=" + command;
   }
-};
+}
 
 
 /**

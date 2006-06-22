@@ -37,12 +37,12 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 
     if (typeof vIconWidth != qx.constant.Type.UNDEFINED) {
       this.setIconWidth(vIconWidth);
-    };
+    }
 
     if (typeof vIconHeight != qx.constant.Type.UNDEFINED) {
       this.setIconHeight(vIconWidth);
-    };
-  };
+    }
+  }
 });
 
 
@@ -112,21 +112,21 @@ qx.Proto._syncHtml = function()
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN);
       vHtml.push(this.getSpacing());
       vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
-    };
+    }
 
     if (qx.util.Validation.isValidNumber(this.getIconWidth()))
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH);
       vHtml.push(this.getIconWidth());
       vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
-    };
+    }
 
     if (qx.util.Validation.isValidNumber(this.getIconHeight()))
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT);
       vHtml.push(this.getIconHeight());
       vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
-    };
+    }
 
     if (this._mshtml)
     {
@@ -135,14 +135,14 @@ qx.Proto._syncHtml = function()
       vHtml.push(qx.manager.object.ImageManager.buildUri(this.getIcon()));
       vHtml.push(qx.ui.basic.Image.IMGLOADER_STOP);
       vHtml.push(qx.constant.Core.SEMICOLON);
-    };
+    }
 
     vHtml.push(qx.ui.embed.IconHtmlEmbed.STOP_IMAGE);
-  };
+  }
 
   if (qx.util.Validation.isValidString(this.getHtml())) {
     vHtml.push(this.getHtml());
-  };
+  }
 
   this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
-};
+}

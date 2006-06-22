@@ -46,4 +46,4 @@ function() {
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.CanvasLayoutImpl(this);
-};
+}

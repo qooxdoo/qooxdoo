@@ -100,35 +100,35 @@ qx.Proto._hasMenu = false;
 
 qx.Proto.hasIcon = function() {
   return this._hasIcon;
-};
+}
 
 qx.Proto.hasLabel = function() {
   return this._hasLabel;
-};
+}
 
 qx.Proto.hasShortcut = function() {
   return this._hasShortcut;
-};
+}
 
 qx.Proto.hasMenu = function() {
   return this._hasMenu;
-};
+}
 
 qx.Proto.getIconObject = function() {
   return this._iconObject;
-};
+}
 
 qx.Proto.getLabelObject = function() {
   return this._labelObject;
-};
+}
 
 qx.Proto.getShortcutObject = function() {
   return this._shortcutObject;
-};
+}
 
 qx.Proto.getArrowObject = function() {
   return this._arrowObject;
-};
+}
 
 qx.Proto.getParentMenu = function()
 {
@@ -139,11 +139,11 @@ qx.Proto.getParentMenu = function()
 
     if (vParent && vParent instanceof qx.ui.menu.Menu) {
       return vParent;
-    };
-  };
+    }
+  }
 
   return null;
-};
+}
 
 
 
@@ -160,7 +160,7 @@ qx.Proto.getParentMenu = function()
 */
 qx.Proto._createLayoutImpl = function() {
   return new qx.renderer.layout.MenuButtonLayoutImpl(this);
-};
+}
 
 
 
@@ -176,14 +176,14 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
   if (this._iconObject) {
     this._iconObject.setEnabled(propValue);
-  };
+  }
 
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
-  };
+  }
 
   return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 {
@@ -195,16 +195,16 @@ qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 
     if (qx.util.Validation.isInvalidString(propOldValue)) {
       this.addAtBegin(this._iconObject);
-    };
+    }
   }
   else
   {
     this._hasIcon = false;
     this.remove(this._iconObject);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
@@ -216,16 +216,16 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
     if (qx.util.Validation.isInvalidString(propOldValue)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
-    };
+    }
   }
   else
   {
     this._hasLabel = false;
     this.remove(this._labelObject);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 {
@@ -248,17 +248,17 @@ qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
       else
       {
         this.addAtEnd(this._shortcutObject);
-      };
-    };
+      }
+    }
   }
   else
   {
     this._hasShortcut = false;
     this.remove(this._shortcutObject);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 {
@@ -268,16 +268,16 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 
     if (qx.util.Validation.isInvalidObject(propOldValue)) {
       this.addAtEnd(this._arrowObject);
-    };
+    }
   }
   else
   {
     this._hasMenu = false;
     this.remove(this._arrowObject);
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -292,7 +292,7 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 
 qx.Proto._onmousedown = function(e) {
   this.execute();
-};
+}
 
 
 
@@ -308,35 +308,35 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   // Dispose children
   if (this._iconObject)
   {
     this._iconObject.dispose();
     this._iconObject = null;
-  };
+  }
 
   if (this._labelObject)
   {
     this._labelObject.dispose();
     this._labelObject = null;
-  };
+  }
 
   if (this._shortcutObject)
   {
     this._shortcutObject.dispose();
     this._shortcutObject = null;
-  };
+  }
 
   if (this._arrowObject)
   {
     this._arrowObject.dispose();
     this._arrowObject = null;
-  };
+  }
 
   // Remove event listeners
   this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-};
+}

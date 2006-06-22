@@ -41,21 +41,21 @@ function()
   qx.manager.object.ObjectManager.call(this);
 
   // Contains available icon themes
-  this._iconThemes = {};
+  this._iconThemes = {}
 
   // Contains available widget themes
-  this._widgetThemes = {};
+  this._widgetThemes = {}
 
   // Contains known image sources (all of them, if loaded or not)
   // The value is a number which represents the number of image
   // instances which use this source
-  this._sources = {};
+  this._sources = {}
 
   // Full image URIs (working as a cache to reduce the _buildUri executions)
-  this._uris = {};
+  this._uris = {}
 
   // Contains defined aliases (like icons/, widgets/, application/, ...)
-  this._aliases = {};
+  this._aliases = {}
 
   // Apply default pathes
   this.setCorePath(qx.core.Settings.imageCorePath);
@@ -100,13 +100,13 @@ qx.Proto._modifyCoreAlias = function(propValue, propOldValue, propData)
 {
   this.defineAlias("core", propValue);
   return true;
-};
+}
 
 qx.Proto._modifyLocalAlias = function(propValue, propOldValue, propData)
 {
   this.defineAlias("local", propValue);
   return true;
-};
+}
 
 qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
 {
@@ -120,10 +120,10 @@ qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
   else
   {
     this.removeAlias("icons");
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 {
@@ -137,10 +137,10 @@ qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
   else
   {
     this.removeAlias("widgets");
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -159,15 +159,15 @@ qx.Proto.registerIconTheme = function(vTheme)
 
   if (this._iconThemes[vId]) {
     throw new Error("A icon theme with this ID is already known");
-  };
+  }
 
   this._iconThemes[vId] = vTheme;
 
   // Register first incoming theme as default
   if (this.getIconTheme() == null) {
     this.setIconTheme(vId);
-  };
-};
+  }
+}
 
 
 qx.Proto.registerWidgetTheme = function(vTheme)
@@ -176,15 +176,15 @@ qx.Proto.registerWidgetTheme = function(vTheme)
 
   if (this._widgetThemes[vId]) {
     throw new Error("A widget theme with this ID is already known");
-  };
+  }
 
   this._widgetThemes[vId] = vTheme;
 
   // Register first incoming theme as default
   if (this.getWidgetTheme() == null) {
     this.setWidgetTheme(vId);
-  };
-};
+  }
+}
 
 
 
@@ -200,31 +200,31 @@ qx.Proto.registerWidgetTheme = function(vTheme)
 
 qx.Proto.getPreloadImageList = function()
 {
-  var vPreload = {};
+  var vPreload = {}
 
   for (var vSource in this._sources)
   {
     if (this._sources[vSource]) {
       vPreload[vSource] = true;
-    };
-  };
+    }
+  }
 
   return vPreload;
-};
+}
 
 qx.Proto.getPostPreloadImageList = function()
 {
-  var vPreload = {};
+  var vPreload = {}
 
   for (var vSource in this._sources)
   {
     if (!this._sources[vSource]) {
       vPreload[vSource] = true;
-    };
-  };
+    }
+  }
 
   return vPreload;
-};
+}
 
 
 
@@ -246,21 +246,21 @@ qx.Proto.buildUri = function(vPath, vForceUpdate)
 
   if (vForceUpdate || typeof vUri === qx.constant.Type.UNDEFINED) {
     vUri = this._uris[vPath] = this._buildUri(vPath);
-  };
+  }
 
   // this.debug("URI: " + vPath + " => " + vUri);
   return vUri;
-};
+}
 
 qx.Proto.defineAlias = function(vPrefix, vPath)
 {
   this._aliases[vPrefix] = vPath;
   this._updateImages();
-};
+}
 
 qx.Proto.removeAlias = function(vPrefix) {
   delete this._aliases[vPrefix];
-};
+}
 
 
 
@@ -288,18 +288,18 @@ qx.Proto._buildUri = function(vPath, vForce)
     default:
       if (qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_FILE)) {
         return vPath;
-      };
+      }
 
       var vAlias = vPath.substring(0, vPath.indexOf(qx.constant.Core.SLASH));
       var vResolved = this._aliases[vAlias];
 
       if (qx.util.Validation.isValidString(vResolved)) {
         return vResolved + vPath.substring(vAlias.length);
-      };
+      }
 
       return vPath;
-  };
-};
+  }
+}
 
 qx.Proto._updateImages = function()
 {
@@ -311,10 +311,10 @@ qx.Proto._updateImages = function()
   {
     vObject = vAll[vHashCode];
     vObject.setPreloader(qx.manager.object.ImagePreloaderManager.create(this.buildUri(vObject.getSource(), true)));
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -347,8 +347,8 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     vParent.add(vButton);
 
     yCor += 30;
-  };
-};
+  }
+}
 
 
 
@@ -367,7 +367,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   this._iconThemes = null;
   this._widgetThemes = null;
@@ -377,7 +377,7 @@ qx.Proto.dispose = function()
   this._aliases = null;
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
-};
+}
 
 
 

@@ -40,7 +40,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 //  {
 //this.error("Make modal!!!");
 //    this.getTopLevelWidget().block(this); //Make modal
-//  };
+//  }
 
   // ***********************************************************************
   //   LAYOUT
@@ -63,7 +63,7 @@ function QxSplashScreen(vComponent, vShowProgressBar)
 
   if(qx.util.Validation.isValidBoolean(vShowProgressBar)) {
     this.setShowProgressBar(vShowProgressBar);
-  };
+  }
 
   // ***********************************************************************
   //   EVENTS
@@ -119,10 +119,10 @@ qx.Proto._modifyShowProgressBar = function(propValue, propOldValue, propData)
   else
   {
     this._layout.remove(this._progressBar);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyShowTime = function(propValue, propOldValue, propData)
 {
@@ -137,10 +137,10 @@ qx.Proto._modifyShowTime = function(propValue, propOldValue, propData)
     this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   return true;
-};
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -158,22 +158,22 @@ qx.Proto._oninterval = function(e)
   {
     this._timer.stop();
     this.close();
-  };
-};
+  }
+}
 
 qx.Proto._onwindowmousedown = function(e)
 {
   if(this.getAllowClose()) {
     this.close();
-  };
-};
+  }
+}
 
 qx.Proto._onkeydown = function(e) {
   if(e.getKeyCode() == qx.event.type.KeyEvent.keys.esc)
   {
     this.close();
-  };
-};
+  }
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -185,19 +185,19 @@ qx.Proto.open = function()
 {
   if (this.getCentered()) {
     QxUtil.centerToBrowser(this);
-  };
+  }
 
   this.show();
 
   if(this.getShowTime())
   {
     this._timer.start();
-  };
-};
+  }
+}
 
 qx.Proto.close = function() {
   this.hide();
-};
+}
 
 qx.Proto.setProgressBarValue = function(vValue)
 {
@@ -208,8 +208,8 @@ qx.Proto.setProgressBarValue = function(vValue)
   else
   {
     this.error("Can not manually increase the progress bar or a timer controlled splash screen.");
-  };
-};
+  }
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -221,25 +221,25 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._layout)
   {
     this._layout.dispose();
     this._layout = null;
-  };
+  }
 
   if (this._component)
   {
     this._component.dispose();
     this._component = null;
-  };
+  }
 
   if (this._progressBar)
   {
     this._progressBar.dispose();
     this._progressBar = null;
-  };
+  }
 
   if (this._timer)
   {
@@ -247,7 +247,7 @@ qx.Proto.dispose = function()
     this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
     this._timer.dispose();
     this._timer = null;
-  };
+  }
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
-};
+}

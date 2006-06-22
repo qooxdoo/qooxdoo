@@ -47,7 +47,7 @@ function() {
  */
 qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
   throw new Error("getTablePaneForMouseEvent is abstract");
-};
+}
 
 
 /**
@@ -60,4 +60,4 @@ qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
  */
 qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
   throw new Error("setFocusedCell is abstract");
-};
+}

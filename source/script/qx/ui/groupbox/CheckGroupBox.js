@@ -38,6 +38,6 @@ qx.Proto._createLegendObject = function()
   this._legendObject.setChecked(true);
 
   this.add(this._legendObject);
-};
+}
 
 qx.Proto.setIcon = qx.Proto.getIcon = null;

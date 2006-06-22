@@ -23,13 +23,13 @@ theme.registerAppearance("frame",
       paddingRight : 1,
       paddingBottom : 1,
       paddingLeft : 1
-    };
+    }
   },
 
   state : function(vWidget, vTheme, vStates)
   {
     return {
       border : vStates.maximized ? qx.renderer.border.BorderObject.presets.none : qx.renderer.border.BorderObject.presets.outset
-    };
+    }
   }
 });

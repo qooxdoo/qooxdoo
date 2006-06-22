@@ -50,11 +50,11 @@ function(vConfig, vId)
 
   if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
-  };
+  }
 
   if (qx.util.Validation.isValid(vConfig.maxWidth)) {
     this.setMaxWidth(vConfig.maxWidth);
-  };
+  }
 
 
   // ************************************************************************
@@ -102,7 +102,7 @@ qx.Class.C_SORT_DESCENDING = "descending";
 
 qx.Proto.getView = function() {
   return this.getParent().getParent();
-};
+}
 
 qx.Proto.getNextSortOrder = function()
 {
@@ -115,8 +115,8 @@ qx.Proto.getNextSortOrder = function()
 
     default:
       return qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING;
-  };
-};
+  }
+}
 
 qx.Proto.updateSort = function()
 {
@@ -133,8 +133,8 @@ qx.Proto.updateSort = function()
 
   if (this.getSortOrder() == qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING) {
     vData.reverse();
-  };
-};
+  }
+}
 
 
 
@@ -172,17 +172,17 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 
       if (vListView.getSortBy() == this._id) {
         vListView.setSortBy(null);
-      };
-  };
+      }
+  }
 
   if (propValue)
   {
     this.updateSort();
     vListView.update();
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -198,21 +198,21 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 
 qx.Proto._onmouseover = function(e) {
   this.addState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
 qx.Proto._onmouseout = function(e) {
   this.removeState(qx.ui.core.Widget.STATE_OVER);
-};
+}
 
 qx.Proto._onmouseup = function(e)
 {
   if (!this._config.sortable || this.getParent()._resizeSeparator) {
     return;
-  };
+  }
 
   this.setSortOrder(this.getNextSortOrder());
   e.stopPropagation();
-};
+}
 
 
 
@@ -230,7 +230,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   delete this._config;
 
@@ -238,23 +238,23 @@ qx.Proto.dispose = function()
   {
     this._spacer.dispose();
     this._spacer = null;
-  };
+  }
 
   if (this._arrowup)
   {
     this._arrowup.dispose();
     this._arrowup = null;
-  };
+  }
 
   if (this._arrowdown)
   {
     this._arrowdown.dispose();
     this._arrowdown = null;
-  };
+  }
 
   this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
   this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
   this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
-};
+}

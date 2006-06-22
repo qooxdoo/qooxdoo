@@ -50,11 +50,11 @@ function(vBarClass, vPaneClass)
 
 qx.Proto.getPane = function() {
   return this._pane;
-};
+}
 
 qx.Proto.getBar = function() {
   return this._bar;
-};
+}
 
 
 
@@ -71,19 +71,19 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   if (this._bar)
   {
     this._bar.dispose();
     this._bar = null;
-  };
+  }
 
   if (this._pane)
   {
     this._pane.dispose();
     this._pane = null;
-  };
+  }
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-};
+}

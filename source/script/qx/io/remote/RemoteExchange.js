@@ -61,18 +61,18 @@ qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.
 
 qx.io.remote.RemoteExchange.typesReady = false;
 
-qx.io.remote.RemoteExchange.typesAvailable = {};
-qx.io.remote.RemoteExchange.typesSupported = {};
+qx.io.remote.RemoteExchange.typesAvailable = {}
+qx.io.remote.RemoteExchange.typesSupported = {}
 
 qx.io.remote.RemoteExchange.registerType = function(vClass, vId) {
   qx.io.remote.RemoteExchange.typesAvailable[vId] = vClass;
-};
+}
 
 qx.io.remote.RemoteExchange.initTypes = function()
 {
   if (qx.io.remote.RemoteExchange.typesReady) {
     return;
-  };
+  }
 
   for (var vId in qx.io.remote.RemoteExchange.typesAvailable)
   {
@@ -80,31 +80,31 @@ qx.io.remote.RemoteExchange.initTypes = function()
 
     if (vTransporterImpl.isSupported()) {
       qx.io.remote.RemoteExchange.typesSupported[vId] = vTransporterImpl;
-    };
-  };
+    }
+  }
 
   qx.io.remote.RemoteExchange.typesReady = true;
 
   if (qx.lang.Object.isEmpty(qx.io.remote.RemoteExchange.typesSupported)) {
     throw new Error("No supported transport types were found!");
-  };
-};
+  }
+}
 
 qx.io.remote.RemoteExchange.canHandle = function(vImpl, vNeeds, vResponseType)
 {
   if (!qx.lang.Array.contains(vImpl.handles.responseTypes, vResponseType)) {
     return false;
-  };
+  }
 
   for (var vKey in vNeeds)
   {
     if (!vImpl.handles[vKey]) {
       return false;
-    };
-  };
+    }
+  }
 
   return true;
-};
+}
 
 
 
@@ -142,7 +142,7 @@ qx.io.remote.RemoteExchange._nativeMap =
   2 : qx.constant.Net.STATE_SENDING,
   3 : qx.constant.Net.STATE_RECEIVING,
   4 : qx.constant.Net.STATE_COMPLETED
-};
+}
 
 
 
@@ -171,7 +171,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 
       default:
         return typeof vStatusCode === qx.constant.Type.UNDEFINED;
-    };
+    }
   }
   else
   {
@@ -180,7 +180,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
         if (qx.core.Settings.enableTransportDebug && vReadyState > 3) {
           qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
-        };
+        }
 
         return vReadyState < 4;
 
@@ -193,7 +193,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case 206: // Partial Content
         if (qx.core.Settings.enableTransportDebug && vReadyState === 4) {
           qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
-        };
+        }
 
         return vReadyState !== 4;
 
@@ -228,7 +228,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case 505: // HTTP Version not supported
         if (qx.core.Settings.enableTransportDebug) {
           qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
-        };
+        }
 
         return false;
 
@@ -246,7 +246,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case 13030:
         if (qx.core.Settings.enableTransportDebug) {
           qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
-        };
+        }
 
         return false;
 
@@ -254,9 +254,9 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       default:
         qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
-    };
-  };
-};
+    }
+  }
+}
 
 
 qx.io.remote.RemoteExchange.statusCodeToString = function(vStatusCode)
@@ -364,7 +364,7 @@ qx.Proto.send = function()
 
   if (!vRequest) {
     return this.error("Please attach a request object first");
-  };
+  }
 
   qx.io.remote.RemoteExchange.initTypes();
 
@@ -375,17 +375,17 @@ qx.Proto.send = function()
   // if the selected transport implementation can handle
   // fulfill these requirements.
   var vResponseType = vRequest.getResponseType();
-  var vNeeds = {};
+  var vNeeds = {}
 
   if (vRequest.getAsynchronous()) {
     vNeeds.asynchronous = true;
   } else {
     vNeeds.synchronous = true;
-  };
+  }
 
   if (vRequest.getCrossDomain()) {
     vNeeds.crossDomain = true;
-  };
+  }
 
   var vTransportImpl, vTransport;
   for (var i=0, l=vUsage.length; i<l; i++)
@@ -396,7 +396,7 @@ qx.Proto.send = function()
     {
       if (!qx.io.remote.RemoteExchange.canHandle(vTransportImpl, vNeeds, vResponseType)) {
         continue;
-      };
+      }
 
       try
       {
@@ -411,12 +411,12 @@ qx.Proto.send = function()
       catch(ex)
       {
         return this.error("Request handler throws error", ex);
-      };
-    };
-  };
+      }
+    }
+  }
 
   this.error("There is no transport implementation available to handle this request: " + vRequest);
-};
+}
 /*!
   Force the transport into the aborted (qx.constant.Net.STATE_ABORTED)
   state.
@@ -434,8 +434,8 @@ qx.Proto.abort = function()
   {
     this.debug("Abort: forcing state to be aborted");
     this.setState(qx.constant.Net.STATE_ABORTED);
-  };
-};
+  }
+}
 /*!
   Force the transport into the timeout state.
 */
@@ -452,13 +452,13 @@ qx.Proto.timeout = function()
   {
     this.warn("Timeout: forcing state to timeout");
     this.setState(qx.constant.Net.STATE_TIMEOUT);
-  };
+  }
 
   // Disable future timeouts in case user handler blocks
   if (this.getRequest()) {
     this.getRequest().setTimeout(0);
   }
-};
+}
 
 
 
@@ -476,27 +476,27 @@ qx.Proto.timeout = function()
 
 qx.Proto._onsending = function(e) {
   this.setState(qx.constant.Net.STATE_SENDING);
-};
+}
 
 qx.Proto._onreceiving = function(e) {
   this.setState(qx.constant.Net.STATE_RECEIVING);
-};
+}
 
 qx.Proto._oncompleted = function(e) {
   this.setState(qx.constant.Net.STATE_COMPLETED);
-};
+}
 
 qx.Proto._onabort = function(e) {
   this.setState(qx.constant.Net.STATE_ABORTED);
-};
+}
 
 qx.Proto._onfailed = function(e) {
   this.setState(qx.constant.Net.STATE_FAILED);
-};
+}
 
 qx.Proto._ontimeout = function(e) {
   this.setState(qx.constant.Net.STATE_TIMEOUT);
-};
+}
 
 
 
@@ -519,7 +519,7 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
     propOldValue.removeEventListener(qx.constant.Event.ABORTED, this._onabort, this);
     propOldValue.removeEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
     propOldValue.removeEventListener(qx.constant.Event.FAILED, this._onfailed, this);
-  };
+  }
 
   if (propValue)
   {
@@ -544,10 +544,10 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.addEventListener(qx.constant.Event.ABORTED, this._onabort, this);
     propValue.addEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
     propValue.addEventListener(qx.constant.Event.FAILED, this._onfailed, this);
-  };
+  }
 
   return true;
-};
+}
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
@@ -555,7 +555,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("State: " + propOldValue + " => " + propValue);
-  };
+  }
 
   switch(propValue)
   {
@@ -593,7 +593,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
           // Nope.  Change COMPLETED to FAILED.
           if (qx.core.Settings.enableTransportDebug) {
             this.debug("Altered State: " + propValue + " => failed");
-          };
+          }
           propValue = qx.constant.Net.STATE_FAILED;
         }
       }
@@ -622,7 +622,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
         case qx.constant.Net.STATE_FAILED:
           vEventType = qx.constant.Event.FAILED;
           break;
-      };
+      }
 
       // Disconnect and dispose implementation
       this.setImplementation(null);
@@ -631,10 +631,10 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       // Fire event to listeners
       this.createDispatchDataEvent(vEventType, vResponse);
       break;
-  };
+  }
 
   return true;
-};
+}
 
 
 
@@ -653,12 +653,12 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   /*
   if (qx.core.Settings.enableTransportDebug) {
     this.debug("Disposing...");
-  };
+  }
   */
 
   var vImpl = this.getImplementation();
@@ -666,9 +666,9 @@ qx.Proto.dispose = function()
   {
     this.setImplementation(null);
     vImpl.dispose();
-  };
+  }
 
   this.setRequest(null);
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

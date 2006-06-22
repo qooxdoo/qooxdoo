@@ -63,15 +63,15 @@ function()
 
 qx.Proto.getEventManager = function() {
   return this._eventManager;
-};
+}
 
 qx.Proto.getClientDocument = function() {
   return this._clientDocument;
-};
+}
 
 qx.Proto.getElement = function() {
   return this._element;
-};
+}
 
 
 
@@ -88,21 +88,21 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return;
-  };
+  }
 
   if (this._eventManager)
   {
     this._eventManager.dispose();
     this._eventManager = null;
-  };
+  }
 
   if (this._clientDocument)
   {
     this._clientDocument.dispose();
     this._clientDocument = null;
-  };
+  }
 
   this._element = null;
 
   return qx.core.Target.prototype.dispose.call(this);
-};
+}

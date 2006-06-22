@@ -37,7 +37,7 @@ function(vOrientation)
   // apply orientation
   if (qx.util.Validation.isValidString(vOrientation)) {
     this.setOrientation(vOrientation);
-  };
+  }
 });
 
 qx.ui.layout.BoxLayout.STR_REVERSED = "-reversed";
@@ -102,7 +102,7 @@ qx.OO.addProperty({ name : "useAdvancedFlexAllocation", type : qx.constant.Type.
 */
 qx.Proto._createLayoutImpl = function() {
   return this.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
-};
+}
 
 
 
@@ -121,20 +121,20 @@ qx.Proto._layoutMode = "left";
 
 qx.Proto.isHorizontal = function() {
   return this._layoutHorizontal;
-};
+}
 
 qx.Proto.isVertical = function() {
   return this._layoutVertical;
-};
+}
 
 qx.Proto.getLayoutMode = function()
 {
   if (this._layoutMode == null) {
     this._updateLayoutMode();
-  };
+  }
 
   return this._layoutMode;
-};
+}
 
 qx.Proto._updateLayoutMode = function()
 {
@@ -142,12 +142,12 @@ qx.Proto._updateLayoutMode = function()
 
   if (this.getReverseChildrenOrder()) {
     this._layoutMode += qx.ui.layout.BoxLayout.STR_REVERSED;
-  };
-};
+  }
+}
 
 qx.Proto._invalidateLayoutMode = function() {
   this._layoutMode = null;
-};
+}
 
 
 
@@ -171,15 +171,15 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
   {
     this._layoutImpl.dispose();
     this._layoutImpl = null;
-  };
+  }
 
   if (qx.util.Validation.isValidString(propValue)) {
     this._layoutImpl = this._createLayoutImpl();
-  };
+  }
 
   // call other core modifier
   return this._modifyLayoutOrder(propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
 {
@@ -188,7 +188,7 @@ qx.Proto._modifyLayoutOrder = function(propValue, propOldValue, propData)
 
   // call other core modifier
   return this._modifyLayout(propValue, propOldValue, propData);
-};
+}
 
 qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 {
@@ -201,7 +201,7 @@ qx.Proto._modifyLayout = function(propValue, propOldValue, propData)
 
   // make property handling happy :)
   return true;
-};
+}
 
 
 
@@ -226,10 +226,10 @@ qx.Proto._computeAccumulatedChildrenOuterWidth = function()
 
   while(chc=ch[++i]) {
     s += chc.getOuterWidth() + sp;
-  };
+  }
 
   return s;
-};
+}
 
 qx.Proto._computeAccumulatedChildrenOuterHeight = function()
 {
@@ -237,10 +237,10 @@ qx.Proto._computeAccumulatedChildrenOuterHeight = function()
 
   while(chc=ch[++i]) {
     s += chc.getOuterHeight() + sp;
-  };
+  }
 
   return s;
-};
+}
 
 
 
@@ -262,9 +262,9 @@ qx.Proto._recomputeChildrenStretchingX = function()
   {
     if (chc._recomputeStretchingX() && chc._recomputeBoxWidth()) {
       chc._recomputeOuterWidth();
-    };
-  };
-};
+    }
+  }
+}
 
 qx.Proto._recomputeChildrenStretchingY = function()
 {
@@ -274,6 +274,6 @@ qx.Proto._recomputeChildrenStretchingY = function()
   {
     if (chc._recomputeStretchingY() && chc._recomputeBoxHeight()) {
       chc._recomputeOuterHeight();
-    };
-  };
-};
+    }
+  }
+}

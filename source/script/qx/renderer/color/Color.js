@@ -33,7 +33,7 @@ function(vValue)
 {
   if (qx.util.Validation.isValid(vValue)) {
     this.setValue(vValue);
-  };
+  }
 
   qx.core.Object.call(this);
 });
@@ -54,7 +54,7 @@ function(vValue)
 
 qx.renderer.color.Color.rgb2style = function(r, g, b) {
   return qx.renderer.color.Color.RGBCSS_START + r + qx.constant.Core.COMMA + g + qx.constant.Core.COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
-};
+}
 
 
 
@@ -70,7 +70,7 @@ qx.renderer.color.Color.RGBCSS_START = "rgb(";
 qx.renderer.color.Color.RGBCSS_STOP = ")";
 
 qx.renderer.color.Color.m_hex = [ "0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f" ];
-qx.renderer.color.Color.m_rgb = { 0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15 };
+qx.renderer.color.Color.m_rgb = { 0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15 }
 
 qx.renderer.color.Color.r_hex3 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
 qx.renderer.color.Color.r_hex6 = /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/;
@@ -100,7 +100,7 @@ qx.renderer.color.Color.htmlNames =
   silver : [ 192,192,192 ],
   gray : [ 128,128,128 ],
   transparent : [-1,-1,-1]
-};
+}
 
 // TODO: Add some IE related colors (IE 4.x)
 // http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/colors/colors.asp
@@ -108,7 +108,7 @@ qx.renderer.color.Color.htmlNames =
 qx.renderer.color.Color.cssNames =
 {
 
-};
+}
 */
 
 /*
@@ -182,7 +182,7 @@ qx.renderer.color.Color.themedNames =
   window : 1,
   windowframe : 1,
   windowtext : 1
-};
+}
 
 
 
@@ -202,11 +202,11 @@ qx.renderer.color.Color.themedNames =
 
 qx.renderer.color.Color.fromString = function(vDefString) {
   return new qx.renderer.color.Color(vDefString);
-};
+}
 
 qx.renderer.color.Color.fromRandom = function() {
   return new qx.renderer.color.Color([Math.round(255*Math.random()), Math.round(255*Math.random()), Math.round(255*Math.random())]);
-};
+}
 
 
 
@@ -258,15 +258,15 @@ qx.Proto.remove = qx.util.Return.returnTrue;
 
 qx.Proto.isRgbColor = function() {
   return this._isRgbColor;
-};
+}
 
 qx.Proto.isHtmlColor = function() {
   return this._isHtmlColor;
-};
+}
 
 qx.Proto.isThemedColor = function() {
   return this._isThemedColor;
-};
+}
 
 
 
@@ -277,12 +277,12 @@ qx.Proto.setValue = function(vValue)
 
   if (this._isThemedColor) {
     throw new Error("Please use qx.renderer.color.ColorObject for themed colors!");
-  };
-};
+  }
+}
 
 qx.Proto.getValue = function() {
   return this._value || qx.constant.Core.EMPTY;
-};
+}
 
 
 
@@ -291,10 +291,10 @@ qx.Proto.getStyle = function()
 {
   if (this._style == null) {
     this._evalStyle();
-  };
+  }
 
   return this._style;
-};
+}
 
 qx.Proto._evalStyle = function()
 {
@@ -313,8 +313,8 @@ qx.Proto._evalStyle = function()
   else if (qx.util.Validation.isValid(this._value))
   {
     throw new Error("_evalStyle could not handle non-rgb colors :" + this.getValue() + "!");
-  };
-};
+  }
+}
 
 
 
@@ -323,10 +323,10 @@ qx.Proto.getHex = function()
 {
   if (this._hex == null) {
     this._evalHex();
-  };
+  }
 
   return this._hex;
-};
+}
 
 qx.Proto._evalHex = function()
 {
@@ -351,8 +351,8 @@ qx.Proto._evalHex = function()
   else
   {
     // TODO
-  };
-};
+  }
+}
 
 
 
@@ -361,28 +361,28 @@ qx.Proto.getRed = function()
 {
   if (this._red == null) {
     this._evalRgb();
-  };
+  }
 
   return this._red;
-};
+}
 
 qx.Proto.getGreen = function()
 {
   if (this._green == null) {
     this._evalRgb();
-  };
+  }
 
   return this._green;
-};
+}
 
 qx.Proto.getBlue = function()
 {
   if (this._blue == null) {
     this._evalRgb();
-  };
+  }
 
   return this._blue;
-};
+}
 
 
 
@@ -404,8 +404,8 @@ qx.Proto._evalRgb = function()
   else
   {
     throw new Error("_evalRgb needs implementation!");
-  };
-};
+  }
+}
 
 
 
@@ -468,7 +468,7 @@ qx.Proto._normalize = function(vInValue)
       else
       {
         throw invalid;
-      };
+      }
 
       break;
 
@@ -481,7 +481,7 @@ qx.Proto._normalize = function(vInValue)
       else
       {
         throw invalid;
-      };
+      }
 
       break;
 
@@ -494,11 +494,11 @@ qx.Proto._normalize = function(vInValue)
 
         this._isRgbColor = true;
         break;
-      };
+      }
 
     default:
       throw invalid;
-  };
+  }
 
   if (!this._isRgbColor)
   {
@@ -511,11 +511,11 @@ qx.Proto._normalize = function(vInValue)
 
     if (!(this._red >= 0 && this._red <= 255 && this._green >= 0 && this._green <= 255 && this._blue >= 0 && this._blue <= 255)) {
       throw invalid;
-    };
-  };
+    }
+  }
 
   return this._value = vInValue;
-};
+}
 
 
 
@@ -532,7 +532,7 @@ qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
-  };
+  }
 
   delete this._value;
   delete this._style;
@@ -546,4 +546,4 @@ qx.Proto.dispose = function()
   delete this._isThemedColor;
 
   return qx.core.Object.prototype.dispose.call(this);
-};
+}

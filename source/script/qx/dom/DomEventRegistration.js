@@ -33,19 +33,19 @@ if (qx.sys.Client.isMshtml())
 {
   qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent(qx.constant.Core.ON + vType, vFunction);
-  };
+  }
 
   qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.detachEvent(qx.constant.Core.ON + vType, vFunction);
-  };
+  }
 }
 else
 {
   qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.addEventListener(vType, vFunction, false);
-  };
+  }
 
   qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.removeEventListener(vType, vFunction, false);
-  };
-};
+  }
+}

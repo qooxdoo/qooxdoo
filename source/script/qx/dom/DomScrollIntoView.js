@@ -64,8 +64,8 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 
           default:
             vHasScroll = false;
-        };
-    };
+        }
+    }
 
     if (vHasScroll)
     {
@@ -87,7 +87,7 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
       else if ((vOffset + vWidth) > (vParentScrollLeft + vParentWidth))
       {
         vParent.scrollLeft = vOffset + vWidth - vParentWidth;
-      };
+      }
 
       vOffset = vParent.offsetLeft;
       vWidth = vParent.offsetWidth;
@@ -95,17 +95,17 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
     else
     {
       vOffset += vParent.offsetLeft;
-    };
+    }
 
     if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
       break;
-    };
+    }
 
     vParent = vParent.parentNode;
-  };
+  }
 
   return true;
-};
+}
 
 qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 {
@@ -135,8 +135,8 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 
           default:
             vHasScroll = false;
-        };
-    };
+        }
+    }
 
     if (vHasScroll)
     {
@@ -158,7 +158,7 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
       else if ((vOffset + vHeight) > (vParentScrollTop + vParentHeight))
       {
         vParent.scrollTop = vOffset + vHeight - vParentHeight;
-      };
+      }
 
       vOffset = vParent.offsetTop;
       vHeight = vParent.offsetHeight;
@@ -166,14 +166,14 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
     else
     {
       vOffset += vParent.offsetTop;
-    };
+    }
 
     if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
       break;
-    };
+    }
 
     vParent = vParent.parentNode;
-  };
+  }
 
   return true;
-};
+}
