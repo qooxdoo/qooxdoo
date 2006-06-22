@@ -276,10 +276,8 @@ qx.Proto.failedLocally = function()
     return;
   }
 
-  // should only occours on "file://" access
-  if (qx.core.Settings.enableTransportDebug) {
-    this.warn("Could not load from file: " + this.getUrl());
-  }
+  // should only occur on "file://" access
+  this.warn("Could not load from file: " + this.getUrl());
 
   this.failed();
 }
