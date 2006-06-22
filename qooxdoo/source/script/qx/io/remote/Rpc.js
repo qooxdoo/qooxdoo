@@ -80,7 +80,9 @@ function(url, serviceName)
   qx.core.Target.call(this);
 
   this.setUrl(url);
-  this.setServiceName(serviceName);
+  if (serviceName != null) {
+    this.setServiceName(serviceName);
+  }
 });
 
 
@@ -252,7 +254,7 @@ qx.Proto._callInternal = function(args, async) {
     result = evt.getData().getContent();
     id = result["id"];
     if (id != this.getSequenceNumber()) {
-      this.warn("Received id (" + this.getSequenceNumber() + ") does not match requested id (" + id + ")!");
+      this.warn("Received id (" + id + ") does not match requested id (" + this.getSequenceNumber + ")!");
     }
     var exTest = result["error"];
     if (exTest != null) {
@@ -295,7 +297,7 @@ qx.Proto._callInternal = function(args, async) {
  * If a problem occurs when making the call, an exception is thrown.
  * </p>
  * <p>
- * DO NOT USE THIS INTERFACE.  With some browsers, the synchronous interface
+ * WARNING.  With some browsers, the synchronous interface
  * causes the browser to hang while awaiting a response!  If the server
  * decides to pause for a minute or two, your browser may do nothing
  * (including refreshing following window changes) until the response is
@@ -364,4 +366,35 @@ qx.Proto.callAsync = function(handler, methodName) {
 
 qx.Proto.abort = function(opaqueCallRef) {
   opaqueCallRef.abort();
+};
+
+
+/**
+ * Creates an URL for talking to a local service. A local service is one that
+ * lives in the same application as the page calling the service. For backends
+ * that don't support this auto-generation, this method returns null.
+ *
+ * @param       instanceId {string,null}    an optional identifier for the
+ *                                          server side instance that should be
+ *                                          used. All calls to the same service
+ *                                          with the same instance id are
+ *                                          routed to the same object instance
+ *                                          on the server. The instance id can
+ *                                          also be used to provide additional
+ *                                          data for the service instantiation
+ *                                          on the server.
+ *
+ * @return      {string}                    the url.
+ */
+
+qx.Class.makeServerURL = function(instanceId) {
+  var retVal = null;
+  if (qx.core.ServerSettings) {
+    retVal = qx.core.ServerSettings.serverPathPrefix + "/.qxrpc" +
+             qx.core.ServerSettings.serverPathSuffix;
+    if (instanceId != null) {
+      retVal += "?instanceId=" + instanceId;
+    }
+  }
+  return retVal;
 };
