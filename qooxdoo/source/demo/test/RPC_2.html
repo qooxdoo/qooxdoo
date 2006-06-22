@@ -9,6 +9,9 @@
   <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
   <![endif]-->
   <script type="text/javascript" src="../demoinclude.js"></script>
+  <script type="text/javascript" src=".qxrpc"></script>
+    <!-- With the above script, the service URL for a J2EE application can be
+         automatically determined, no matter on what path it's deployed. -->
 </head>
 <body>
   <script type="text/javascript" src="../demolayout.js"></script>
@@ -41,14 +44,18 @@
        * requests.  In the former case, we'll get expected results.  In the
        * latter, we'll see two at a time being processed.
        */
-      var tooMany = new qx.ui.form.CheckBox("Issue more requests than IE's and Firefox's implementations of HTTP will process simultaneously");
+      var tooMany = new qx.ui.form.CheckBox("Issue more requests than IE's and Firefox's implementations of XmlHttpRequest will process simultaneously");
       layout1.add(tooMany);
 
       var crossDomain = new qx.ui.form.CheckBox("Cross Domain");
       layout1.add(crossDomain);
 
       layout1.add(new qx.ui.basic.Label("URL:"));
-      var url = new qx.ui.form.TextField("/services/");
+      var defaultURL = qx.io.remote.Rpc.makeServerURL();
+      if (defaultURL == null) {
+        defaultURL = "/services/";
+      }
+      var url = new qx.ui.form.TextField(defaultURL);
       layout1.add(url);
 
       layout1.add(new qx.ui.basic.Label("Service:"));
@@ -97,7 +104,7 @@
               } else {
                 layout1.warn(t + ": exception " + seqnum + ": " + ex);
               }
-            }, "sleep", i.toString());
+            }, "sleep", i.toString());  // FIXME: Why is this sent as a string?
 
           t = new Date().getTime() - t0;
           seqnum = mycall.getSequenceNumber();
