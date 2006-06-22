@@ -18,7 +18,7 @@ JSON.
     - The string "new Date(Date.UTC("
     - The year, integer, e.g. 2006
     - A comma
-    - The month, 1-relative integer, e.g. 6 is June
+    - The month, 0-relative integer, e.g. 5 is June
     - A comma
     - The day of the month, integer, range: 1-31
     - A comma
