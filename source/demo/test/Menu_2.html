@@ -169,8 +169,8 @@
         {
           var el = this.getElement();
 
-          m1.setLeft(QxDom.getComputedPageBoxLeft(el));
-          m1.setTop(QxDom.getComputedPageBoxBottom(el));
+          m1.setLeft(qx.dom.DomLocation.getPageBoxLeft(el));
+          m1.setTop(qx.dom.DomLocation.getPageBoxBottom(el));
 
           m1.show();
         };
