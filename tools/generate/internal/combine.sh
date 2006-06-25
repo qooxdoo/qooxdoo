@@ -15,12 +15,8 @@ for file in $L; do
   fi
   
   echo "  - File: `basename $file`.js [js]"
-#djl  rest=`grep -v "Copyright" build/${file}.js`
-#djl  echo -n $rest >> build/script/qooxdoo.js
-#djl...
-  grep -v "Copyright" build/${file}.js >> build/script/qooxdoo.js
-#...djl
-  
+  rest=`grep -v "Copyright" build/${file}.js`
+  echo -n $rest >> build/script/qooxdoo.js
   dold="$d"
 done
 
