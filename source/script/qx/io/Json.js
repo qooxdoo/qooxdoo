@@ -150,7 +150,7 @@ qx.io.Json = function () {
                        *  new Date(Date.UTC(year,month,day,hour,min,sec,ms))
                        *
                        * The server can fairly easily parse this in its JSON
-                       * implementation by stripping of "new Date(Date.UTC("
+                       * implementation by stripping off "new Date(Date.UTC("
                        * from the beginning of the string, and "))" from the
                        * end of the string.  What remains is the set of
                        * comma-separated date components, which are also very
@@ -179,7 +179,7 @@ qx.io.Json = function () {
                         x.getUTCMinutes() + "," +
                         x.getUTCSeconds() + "," +
                         x.getUTCMilliseconds();
-                        return "new Date(Date.UTC(" + dateParams + "))";
+                      return "new Date(Date.UTC(" + dateParams + "))";
                     // -- AJ, DJL
                     } else if (x instanceof Object) {
                         a[0] = '{';
