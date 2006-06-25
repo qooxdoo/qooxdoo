@@ -9,7 +9,10 @@ buildpath = "build"
 sourcepath = "."
 prefix = "docs"
 cachepath = ".cache"
-newlines = False
+#djl newlines = False
+#djl...
+newlines = True
+#...djl
 
 # lines to be removed from optimized code
 outremove = []

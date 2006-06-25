@@ -979,7 +979,7 @@
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
+        source : vStates.checked ? "widgets/menu/checkbox.gif" : "widgets/menu/menu-blank.gif"
       }
     }
   });
@@ -1004,7 +1004,7 @@
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
+        source : vStates.checked ? "widgets/menu/radiobutton.gif" : "widgets/menu/menu-blank.gif"
       }
     }
   });
