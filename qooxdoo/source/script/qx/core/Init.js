@@ -73,7 +73,11 @@ qx.Proto._modifyComponentClass = function(propValue, propOldValue, propData)
 qx.Proto.getComponent = function()
 {
   if (!this._component) {
-    this.setComponentClass(qx.core.Settings.enableUserInterface ? qx.component.InitUiComponent : qx.component.InitComponent);
+    if (qx.core.Settings.enableUserInterface && (qx.component.InitUiComponent != null)) {
+      this.setComponentClass(qx.component.InitUiComponent);
+    } else {
+      this.setComponentClass(qx.component.InitComponent);
+    }
   }
 
   return this._component;
