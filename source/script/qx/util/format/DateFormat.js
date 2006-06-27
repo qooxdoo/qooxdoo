@@ -155,7 +155,7 @@ qx.Proto.format = function(date) {
       switch (wildcardChar) {
         // TODO: G - Era designator (e.g. AD). Problem: Not covered by JScript Date class
         // TODO: W - Week in month (e.g. 2)
-        // TODO: F - Day of week in month (e.g. 	2). Problem: What is this?
+        // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
 
         case 'y': // Year
           if (wildcardSize == 2) {
