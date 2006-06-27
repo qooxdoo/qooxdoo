@@ -34,18 +34,18 @@
 ************************************************************************ */
 
 if (typeof qx == "undefined") {
-  qx = {}
+  var qx = {};
 }
 
-qx.loadStart = (new Date).valueOf();
+qx._loadStart = (new Date).valueOf();
 
-qx.OO = {}
+qx.OO = {};
 
-qx.OO.classes = {}
-qx.OO.setter = {}
-qx.OO.getter = {}
-qx.OO.resetter = {}
-qx.OO.values = {}
+qx.OO.classes = {};
+qx.OO.setter = {};
+qx.OO.getter = {};
+qx.OO.resetter = {};
+qx.OO.values = {};
 qx.OO.propertyNumber = 0;
 
 qx.OO.C_SET = "set";
@@ -99,12 +99,12 @@ qx.OO.C_MODIFY = "_modify";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.C_CLASSSEP = ".";
+qx.OO.C_NAMESPACE_SEP = ".";
 qx.OO.C_UNDEFINED = "undefined";
 
 qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 {
-  var vSplitName = vClassName.split(qx.OO.C_CLASSSEP);
+  var vSplitName = vClassName.split(qx.OO.C_NAMESPACE_SEP);
   var vNameLength = vSplitName.length-1;
   var vTempObject = window;
 
@@ -112,7 +112,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
   for (var i=0; i<vNameLength; i++)
   {
     if (typeof vTempObject[vSplitName[i]] === qx.OO.C_UNDEFINED) {
-      vTempObject[vSplitName[i]] = {}
+      vTempObject[vSplitName[i]] = {};
     }
 
     vTempObject = vTempObject[vSplitName[i]];
@@ -125,7 +125,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
       throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
     }
 
-    qx.Class = vTempObject[vSplitName[i]] = {}
+    qx.Class = vTempObject[vSplitName[i]] = {};
     qx.Proto = null;
   }
   else if (typeof vConstructor === qx.OO.C_UNDEFINED)
@@ -151,7 +151,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
     // Store reference to global classname registry
     qx.OO.classes[vClassName] = vConstructor;
   }
-}
+};
 
 
 
@@ -212,7 +212,7 @@ qx.OO.addFastProperty = function(vConfig)
       return null;
     }
   }
-}
+};
 
 qx.OO.addCachedProperty = function(p)
 {
@@ -264,9 +264,9 @@ qx.OO.addCachedProperty = function(p)
     return false;
   }
 
-  qx.Proto[vChangeName] = function(vNew, vOld) {}
-  qx.Proto[vComputerName] = function() { return null; }
-}
+  qx.Proto[vChangeName] = function(vNew, vOld) {};
+  qx.Proto[vComputerName] = function() { return null; };
+};
 
 qx.OO.addPropertyGroup = function(p)
 {
@@ -316,7 +316,7 @@ qx.OO.addPropertyGroup = function(p)
     }
 
     return a;
-  }
+  };
 
 
   /* --------------------------------------------------------------------------------
@@ -346,7 +346,7 @@ qx.OO.addPropertyGroup = function(p)
         for (var i=0; i<l; i++) {
           this[s[i]](ret[i]);
         }
-      }
+      };
       break;
 
     default:
@@ -362,9 +362,9 @@ qx.OO.addPropertyGroup = function(p)
         for (var i=0; i<l; i++) {
           this[s[i]](arguments[i]);
         }
-      }
+      };
   }
-}
+};
 
 qx.OO.removeProperty = function(p)
 {
@@ -402,7 +402,7 @@ qx.OO.removeProperty = function(p)
   pp[qx.OO.C_FORCE + p.method] = null;
   pp[qx.OO.C_GETDEFAULT + p.method] = null;
   pp[qx.OO.C_SETDEFAULT + p.method] = null;
-}
+};
 
 qx.OO._createProperty = function(p)
 {
@@ -522,24 +522,24 @@ qx.OO._createProperty = function(p)
   // building getFoo(): Returns current stored value
   pp[qx.OO.C_GET + p.method] = function() {
     return this[valueKey];
-  }
+  };
 
   // building forceFoo(): Set (override) without do anything else
   pp[qx.OO.C_FORCE + p.method] = function(newValue) {
     return this[valueKey] = newValue;
-  }
+  };
 
   // building resetFoo(): Reset value to default value
   pp[qx.OO.C_RESET + p.method] = function() {
     return this[qx.OO.C_SET + p.method](p.defaultValue);
-  }
+  };
 
   // building toggleFoo(): Switching between two boolean values
   if (p.type === qx.constant.Type.BOOLEAN)
   {
     pp[qx.OO.C_TOGGLE + p.method] = function(newValue) {
       return this[qx.OO.C_SET + p.method](!this[valueKey]);
-    }
+    };
   }
 
   if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
@@ -659,7 +659,7 @@ qx.OO._createProperty = function(p)
       }
 
       return newValue;
-    }
+    };
   }
   else
   {
@@ -736,7 +736,7 @@ qx.OO._createProperty = function(p)
       }
 
       return newValue;
-    }
+    };
   }
 
   // building user configured get alias for property
@@ -748,7 +748,7 @@ qx.OO._createProperty = function(p)
   if (typeof p.setAlias === qx.constant.Type.STRING) {
     pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
   }
-}
+};
 
 qx.OO.changeProperty = qx.OO._createProperty;
 
@@ -777,4 +777,4 @@ qx.OO.addProperty = function(p)
         qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;
       }
   }
-}
+};
