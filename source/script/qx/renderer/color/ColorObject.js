@@ -99,7 +99,7 @@ qx.Proto._applyThemedValue = function()
 
 qx.Proto._syncObjects = function()
 {
-  for (i in this._dependentObjects) {
+  for (var i in this._dependentObjects) {
     this._dependentObjects[i]._updateColors(this, this._style);
   }
 }

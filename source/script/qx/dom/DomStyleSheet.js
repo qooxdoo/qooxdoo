@@ -51,7 +51,7 @@ if (qx.sys.Client.isMshtml())
     vRules = vSheet.rules;
     vLength = vRules.length;
 
-    for (i=vLength-1; i>=0; i--)
+    for (var i=vLength-1; i>=0; i--)
     {
       if (vRules[i].selectorText == vSelector) {
         vSheet.removeRule(i);
@@ -64,7 +64,7 @@ if (qx.sys.Client.isMshtml())
     vRules = vSheet.rules;
     vLength = vRules.length;
 
-    for (i=vLength-1; i>=0; i--) {
+    for (var i=vLength-1; i>=0; i--) {
       vSheet.removeRule(i);
     }
   }
@@ -94,7 +94,7 @@ else
     vRules = vSheet.cssRules;
     vLength = vRules.length;
 
-    for (i=vLength-1; i>=0; i--)
+    for (var i=vLength-1; i>=0; i--)
     {
       if (vRules[i].selectorText == vSelector) {
         vSheet.deleteRule(i);
@@ -107,7 +107,7 @@ else
     vRules = vSheet.cssRules;
     vLength = vRules.length;
 
-    for (i=vLength-1; i>=0; i--) {
+    for (var i=vLength-1; i>=0; i--) {
       vSheet.deleteRule(i);
     }
   }
