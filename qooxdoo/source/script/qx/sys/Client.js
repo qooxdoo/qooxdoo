@@ -122,17 +122,17 @@ function()
     vGfxVml = true;
 
     // TODO: Namespace for VML:
-		// document.write('<style>v\:*{ behavior:url(#default#VML); }</style>');
-		// document.write('<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>');
+    // document.write('<style>v\:*{ behavior:url(#default#VML); }</style>');
+    // document.write('<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>');
   }
 
-	if (document.implementation && document.implementation.hasFeature)
-	{
-	  if (document.implementation.hasFeature("org.w3c.dom.svg", "1.0"))
-	  {
-	    vGfxSvg = vGfxSvgBuiltin = true;
-	  }
-	}
+  if (document.implementation && document.implementation.hasFeature)
+  {
+    if (document.implementation.hasFeature("org.w3c.dom.svg", "1.0"))
+    {
+      vGfxSvg = vGfxSvgBuiltin = true;
+    }
+  }
 
 
 
@@ -165,10 +165,10 @@ function()
   this._browserModeHta = vBrowserModeHta;
   this._browserLocale = vBrowserLocale;
 
-	this._gfxVml = vGfxVml;
-	this._gfxSvg = vGfxSvg;
-	this._gfxSvgBuiltin = vGfxSvgBuiltin;
-	this._gfxSvgPlugin = vGfxSvgPlugin;
+  this._gfxVml = vGfxVml;
+  this._gfxSvg = vGfxSvg;
+  this._gfxSvgBuiltin = vGfxSvgBuiltin;
+  this._gfxSvgPlugin = vGfxSvgPlugin;
 });
 
 
