@@ -505,7 +505,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
   // Fix index to be at the first flex child
   if (this.getEnableFlexSupport())
   {
-    for (var i=0; i<chl; i++)
+    for (i=0; i<chl; i++)
     {
       chc = ch[i];
       if (chc.getHasFlexX())

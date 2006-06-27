@@ -819,7 +819,7 @@ else
 
       if (vObject._borderStyle)
       {
-        for (i in this._enhancedDefsX) {
+        for (var i in this._enhancedDefsX) {
           vObject._borderStyle[i] = this._enhancedDefsX[i];
         }
       }
@@ -838,7 +838,7 @@ else
 
       if (vObject._borderStyle)
       {
-        for (i in this._enhancedDefsY) {
+        for (var i in this._enhancedDefsY) {
           vObject._borderStyle[i] = this._enhancedDefsY[i];
         }
       }

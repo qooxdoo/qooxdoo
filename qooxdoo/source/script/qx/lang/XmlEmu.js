@@ -100,19 +100,19 @@ qx.lang.XmlEmu.createXmlDom = function()
 
 if (window.XPathEvaluator)
 {
-  var xpe = new XPathEvaluator();
+  qx.lang.XmlEmu._xpe = new XPathEvaluator();
 
   if (!Element.prototype.selectSingleNode)
   {
     Element.prototype.selectSingleNode = function (xpath) {
-      return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+      return qx.lang.XmlEmu._xpe.evaluate(xpath, this, qx.lang.XmlEmu._xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
   }
 
   if (!Element.prototype.selectNodes)
   {
     Element.prototype.selectNodes = function (xpath) {
-      var result = xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      var result = qx.lang.XmlEmu._xpe.evaluate(xpath, this, qx.lang.XmlEmu._xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
       var nodes = [];
 
       for (var i=0; i<result.snapshotLength; i++) {
@@ -126,14 +126,14 @@ if (window.XPathEvaluator)
   if (!Document.prototype.selectSingleNode)
   {
     Document.prototype.selectSingleNode = function (xpath) {
-      return xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+      return qx.lang.XmlEmu._xpe.evaluate(xpath, this, qx.lang.XmlEmu._xpe.createNSResolver(this), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
   }
 
   if (!Document.prototype.selectNodes)
   {
     Document.prototype.selectNodes = function (xpath) {
-      var result = xpe.evaluate(xpath, this, xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      var result = qx.lang.XmlEmu._xpe.evaluate(xpath, this, qx.lang.XmlEmu._xpe.createNSResolver(this), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
       var nodes = [];
 
       for (var i=0; i<result.snapshotLength; i++) {
