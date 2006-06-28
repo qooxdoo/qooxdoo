@@ -755,7 +755,15 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
     menu.setTop(qx.dom.DomLocation.getClientBoxBottom(btElem));
-    menu.setRight(this.getRight());
+    var right = this.getRight();
+    if (right === null) {
+      // No 'right' available.  Get top-level widget: ClientDocument object.
+      var d = this.getTopLevelWidget().getDocumentElement();
+
+      // Determine 'right' from document width and table width
+      right = d.width - this.getWidth();
+    }
+    menu.setRight(right);
     menu.show();
   } else {
     // hide the menu
