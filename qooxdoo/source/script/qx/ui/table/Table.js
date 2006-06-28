@@ -758,10 +758,11 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     var right = this.getRight();
     if (right === null) {
       // No 'right' available.  Get top-level widget: ClientDocument object.
-      var d = this.getTopLevelWidget().getDocumentElement();
+      // From it, we get the ClientWindow object and from there, 'window'.
+      var w = this.getTopLevelWidget().getWindow()._element;
 
-      // Determine 'right' from document width and table width
-      right = d.width - this.getWidth();
+      // Determine 'right' from window width and table width
+      right = qx.dom.DomWindow.getInnerWidth(w) - this.getWidth();
     }
     menu.setRight(right);
     menu.show();
