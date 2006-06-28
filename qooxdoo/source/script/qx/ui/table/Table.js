@@ -654,7 +654,9 @@ qx.Proto._updateStatusBar = function() {
  * Updates the widths of all scrollers.
  */
 qx.Proto._updateScrollerWidths = function() {
-  qx.ui.core.Widget.flushGlobalQueues();
+/*  no longer needed, per Til, and removing it does not appear to add problems.
+ *  qx.ui.core.Widget.flushGlobalQueues();
+ */
 
   // Give all scrollers except for the last one the wanted width
   // (The last one has a flex with)
@@ -753,11 +755,16 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
     menu.setTop(qx.dom.DomLocation.getClientBoxBottom(btElem));
+
+// this literal 300 should instead be based on the scroll bar width
+    menu.setRight(300);
     menu.show();
 
-    // Workaround: We have to set the left after show, because calling
-    //       getBoxWidth before show gives the menu a zero width
-    menu.setLeft(qx.dom.DomLocation.getClientBoxRight(btElem) - menu.getBoxWidth());
+/* calling menu.getBoxWidth() screws up the menu layout...
+ *    // Workaround: We have to set the left after show, because calling
+ *    //       getBoxWidth before show gives the menu a zero width
+ *    menu.setLeft(qx.dom.DomLocation.getClientBoxRight(btElem) - menu.getBoxWidth());
+ */
   } else {
     // hide the menu
     menu.hide();
