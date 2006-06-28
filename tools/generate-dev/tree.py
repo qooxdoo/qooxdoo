@@ -180,7 +180,7 @@ def escapeXmlChars(text, inAttribute):
 
 
 def escapeJsonChars(text):
-  return text.replace('"', '\\"').replace('\n', '\\n')
+  return text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
 
 
 
