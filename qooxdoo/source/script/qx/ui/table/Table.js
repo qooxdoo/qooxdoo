@@ -755,16 +755,8 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
     menu.setTop(qx.dom.DomLocation.getClientBoxBottom(btElem));
-
-// this literal 300 should instead be based on the scroll bar width
-    menu.setRight(300);
+    menu.setRight(this.getRight());
     menu.show();
-
-/* calling menu.getBoxWidth() screws up the menu layout...
- *    // Workaround: We have to set the left after show, because calling
- *    //       getBoxWidth before show gives the menu a zero width
- *    menu.setLeft(qx.dom.DomLocation.getClientBoxRight(btElem) - menu.getBoxWidth());
- */
   } else {
     // hide the menu
     menu.hide();
