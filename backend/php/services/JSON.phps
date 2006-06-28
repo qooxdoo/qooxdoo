@@ -700,7 +700,7 @@ class JSON
 
                             }
 
-                        } elseif (preg_match("/^new *Date *\( *Date\.UTC *\( */", substr($chrs, $c)) && ($top['what'] != SERVICES_JSON_IN_DATE)) {
+                        } elseif (preg_match("/^new +Date *\( *Date\.UTC *\( */", substr($chrs, $c)) && ($top['what'] != SERVICES_JSON_IN_DATE)) {
                             // found a date start, and we are not inside a date
                             array_push($stk, array('what' => SERVICES_JSON_IN_DATE, 'where' => $c));
                             // print("Found start of date at {$c}\n");
