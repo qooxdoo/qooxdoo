@@ -131,6 +131,7 @@ qx.Proto.getLayout = function() {
 
 qx.Proto._beforeAppear = function()
 {
+  // Intentionally bypass superclass and call super.super._beforeAppear
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
   // register to menu manager as active widget
@@ -145,6 +146,7 @@ qx.Proto._beforeAppear = function()
 
 qx.Proto._beforeDisappear = function()
 {
+  // Intentionally bypass superclass and call super.super._beforeDisappear
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
   // deregister as opened from qx.manager.object.MenuManager

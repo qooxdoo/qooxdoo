@@ -100,6 +100,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       this._clientWindow = new qx.client.ClientWindow;
 
       // Build virtual methods for easy additions of childrens and so on
+      // Intentionally call Parent functions even though it's not a superclass
       this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
       qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
       break;

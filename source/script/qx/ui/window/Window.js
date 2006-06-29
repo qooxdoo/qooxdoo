@@ -480,6 +480,7 @@ qx.Proto.restore = function() {
 
 qx.Proto._beforeAppear = function()
 {
+  // Intentionally bypass superclass and call super.super._beforeAppear
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
   qx.manager.object.PopupManager.update();
@@ -490,6 +491,7 @@ qx.Proto._beforeAppear = function()
 
 qx.Proto._beforeDisappear = function()
 {
+  // Intentionally bypass superclass and call super.super._beforeDisappear
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
   // Be sure to disable any capturing inside invisible parts

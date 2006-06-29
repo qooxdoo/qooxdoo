@@ -210,7 +210,7 @@ qx.Proto._positionKnob = function(value) {
 
 // overridden
 qx.Proto._afterAppear = function() {
-  qx.ui.layout.CanvasLayout.prototype._afterAppear.call(this);
+  qx.ui.layout.BoxLayout.prototype._afterAppear.call(this);
 
   //this.debug("Setting to value: " + this.getValue());
   this._positionKnob(this.getValue());
@@ -228,7 +228,7 @@ qx.Proto.dispose = function() {
     this._scrollContent = null;
   }
 
-  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }
 
 
