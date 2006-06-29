@@ -529,7 +529,7 @@ qx.Proto.dispose = function() {
 
   this._cleanUpRows(0);
 
-  return qx.ui.layout.GridLayout.prototype.dispose.call(this);
+  return qx.ui.basic.Terminator.prototype.dispose.call(this);
 }
 
 
