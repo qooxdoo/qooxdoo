@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-cd `dirname $0`/../..
+echo "This script has been deprecated."
+echo "Please use 'tools/generate-dev/docgenerator.py' instead."
 
-tools/generate/internal/docs.sh
-tools/generate/internal/combine.sh
-tools/generate/internal/syncfiles.sh
-tools/generate/internal/patchdemos.sh
-tools/utils/fix-rights.sh

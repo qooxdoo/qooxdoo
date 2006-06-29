@@ -896,7 +896,9 @@ def main():
     if outputDocJson:
       tree.writeJsonFile(docTree, outputDocJson)
 
-
+    print "Documentation generation complete.  "
+    print "To view documentation, browse to: source/demo/apiviewer/index.html"
+    print ""
 
 
 
