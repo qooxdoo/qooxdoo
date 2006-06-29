@@ -114,5 +114,7 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData)
 qx.Proto.execute = function()
 {
   this.setChecked(true);
+
+  // Intentionally bypass superclass and call super.super.execute
   qx.ui.menu.MenuButton.prototype.execute.call(this);
 }

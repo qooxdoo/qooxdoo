@@ -537,6 +537,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
 
 qx.Proto._updateIndent = function()
 {
+  // Intentionally bypass superclass; the _updateIndent we want is in TreeFile
   qx.ui.treefullcontrol.TreeFile.prototype._updateIndent.call(this);
 
   if (!this._containerObject) {

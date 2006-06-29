@@ -182,7 +182,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
     this._labelObject.setEnabled(propValue);
   }
 
-  return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+  return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 }
 
 qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
@@ -338,5 +338,5 @@ qx.Proto.dispose = function()
   // Remove event listeners
   this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
 
-  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }

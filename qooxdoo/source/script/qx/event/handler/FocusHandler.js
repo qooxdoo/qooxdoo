@@ -339,5 +339,5 @@ qx.Proto.dispose = function()
 
   this._attachedWidget = null;
 
-  qx.core.Object.prototype.dispose.call(this);
+  qx.core.ObjectManager.prototype.dispose.call(this);
 }

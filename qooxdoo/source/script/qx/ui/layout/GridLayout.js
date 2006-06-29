@@ -378,7 +378,7 @@ qx.Proto.setColumnWidth = function(vIndex, vValue)
 {
   this._setupColumnProperty(vIndex, "widthValue", vValue);
 
-  var vType = qx.ui.core.Widget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+  var vType = qx.ui.core.Parent.prototype._evalUnitsPixelPercentAutoFlex(vValue);
 
   this._setupColumnProperty(vIndex, "widthType", vType);
 
