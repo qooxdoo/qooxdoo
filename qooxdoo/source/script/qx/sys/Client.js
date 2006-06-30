@@ -72,7 +72,7 @@ function()
   }
   else if (vBrowserUserAgent.indexOf("Safari") != -1)
   {
-    vEngine = "khtml";
+    vEngine = "webkit";
     vBrowser = "safari";
   }
   else if (window.controllers && typeof vBrowserProduct==="string" && vBrowserProduct==="Gecko" && /rv\:([^\);]+)(\)|;)/.test(vBrowserUserAgent))
@@ -145,6 +145,7 @@ function()
   this._engineNameGecko = vEngine === "gecko";
   this._engineNameOpera = vEngine === "opera";
   this._engineNameKhtml = vEngine === "khtml";
+  this._engineNameWebkit = vEngine === "webkit";
 
   this._engineVersion = parseFloat(vEngineVersion);
   this._engineVersionMajor = parseInt(vEngineVersionMajor);
@@ -227,6 +228,10 @@ qx.Proto.isOpera = function() {
 
 qx.Proto.isKhtml = function() {
   return this._engineNameKhtml;
+}
+
+qx.Proto.isWebkit = function() {
+  return this._engineNameWebkit;
 }
 
 qx.Proto.isInQuirksMode = function() {
