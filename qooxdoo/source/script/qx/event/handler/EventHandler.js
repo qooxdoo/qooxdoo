@@ -1087,5 +1087,5 @@ qx.Proto.dispose = function()
     this._commands = null;
   }
 
-  qx.core.ObjectManager.prototype.dispose.call(this);
+  qx.manager.object.ObjectManager.prototype.dispose.call(this);
 }
