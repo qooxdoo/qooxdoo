@@ -139,7 +139,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
     // build helper function
     // this omits the initial constructor call while inherit properties
-    var vHelperConstructor = new Function;
+    var vHelperConstructor = function() {};
     vHelperConstructor.prototype = vSuper.prototype;
     qx.Proto = vConstructor.prototype = new vHelperConstructor;
 
