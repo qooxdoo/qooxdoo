@@ -1,0 +1,3 @@
+This is the date/time functionality required to build a JSON-RPC server in
+Python.  When a complete Python implementation of JSON-RPC is ready, it will
+move into backend/python.
