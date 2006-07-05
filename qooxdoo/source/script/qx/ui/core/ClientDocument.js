@@ -64,16 +64,11 @@ function(vClientWindow)
   // Add Resize Handler
   this.addEventListener(qx.constant.Event.RESIZE, this._onresize);
 
-  // Blocker and Dialog Support
-  this._blocker = new qx.ui.core.ClientDocumentBlocker;
+  // Dialog Support
   this._modalWidgets = [];
   this._modalNativeWindow = null;
 
-  // Blocker Events
-  this._blocker.addEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
-  this._blocker.addEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
 
-  this.add(this._blocker);
 
   // Init Resize Helper
   /*
@@ -155,6 +150,29 @@ qx.Proto._initialLayoutDone = true;
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Returns the blocker widget if already created; otherwise create it first
+ * 
+ * @return {ClientDocumentBlocker} the blocker widget.
+ */
+qx.Proto._getBlocker = function() 
+{ 
+  if (!this._blocker)
+  {
+    // Create blocker instance
+    this._blocker = new qx.ui.core.ClientDocumentBlocker;
+
+    // Add blocker events
+    this._blocker.addEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
+    this._blocker.addEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
+
+    // Add blocker to client document
+    this.add(this._blocker);
+  }
+  
+  return this._blocker;
+};
+
 qx.Proto.blockHelper = function(e)
 {
   if (this._modalNativeWindow)
@@ -175,20 +193,20 @@ qx.Proto.block = function(vActiveChild)
 {
   // this.debug("BLOCK: " + vActiveChild.toHashCode());
 
-  this._blocker.show();
+  this._getBlocker().show();
 
   if (typeof qx.ui.window.Window === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.ui.window.Window)
   {
     this._modalWidgets.push(vActiveChild);
 
     var vOrigIndex = vActiveChild.getZIndex();
-    this._blocker.setZIndex(vOrigIndex);
+    this._getBlocker().setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
   else if (typeof qx.client.NativeWindow === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
-    this._blocker.setZIndex(1e7);
+    this._getBlocker().setZIndex(1e7);
   }
 }
 
@@ -211,14 +229,14 @@ qx.Proto.release = function(vActiveChild)
   var l = this._modalWidgets.length;
   if (l == 0)
   {
-    this._blocker.hide();
+    this._getBlocker().hide();
   }
   else
   {
     var oldActiveChild = this._modalWidgets[l-1];
 
     var o = oldActiveChild.getZIndex();
-    this._blocker.setZIndex(o);
+    this._getBlocker().setZIndex(o);
     oldActiveChild.setZIndex(o+1);
   }
 }
