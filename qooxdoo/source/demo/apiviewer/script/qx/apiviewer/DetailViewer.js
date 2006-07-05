@@ -1296,9 +1296,9 @@ qx.Proto.dispose = function() {
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
-qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true, "number":true,
-  "int":true, "double":true, "var":true, "regexp":true, "Map":true, "Date":true,
-  "Element":true }
+qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true,
+  "number":true, "int":true, "double":true, "var":true, "regexp":true,
+  "function":true, "Map":true, "Date":true, "Element":true }
 
 /**
  * {regexp} The regexp for parsing a item name
