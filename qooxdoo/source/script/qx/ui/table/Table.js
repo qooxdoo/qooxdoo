@@ -95,6 +95,9 @@ qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //
 /** Whether to show the status bar */
 qx.OO.addProperty({ name:"statusBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
 
+/** Whether to show the column visibility button */
+qx.OO.addProperty({ name:"columnVisibilityButtonVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+
 /**
  * {int[]} The number of columns per meta column. If the last array entry is -1,
  * this meta column will get the remaining columns.
@@ -153,7 +156,7 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
     scrollerArr[i].setTableColumnModel(propValue);
   }
   return true;
-}
+};
 
 
 // property modifier
@@ -164,7 +167,15 @@ qx.Proto._modifyStatusBarVisible = function(propValue, propOldValue, propData) {
     this._updateStatusBar();
   }
   return true;
-}
+};
+
+
+// property modifier
+qx.Proto._modifyColumnVisibilityButtonVisible = function(propValue, propOldValue, propData) {
+  this._columnVisibilityBt.setDisplay(propValue);
+
+  return true;
+};
 
 
 // property modifier
