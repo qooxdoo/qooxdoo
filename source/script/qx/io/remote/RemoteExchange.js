@@ -400,7 +400,9 @@ qx.Proto.send = function()
 
       try
       {
-        this.debug("Using implementation: " + vTransportImpl.classname);
+        if (qx.core.Settings.enableTransportDebug) {
+          this.debug("Using implementation: " + vTransportImpl.classname);
+        }
 
         vTransport = new vTransportImpl;
         this.setImplementation(vTransport);
@@ -427,12 +429,16 @@ qx.Proto.abort = function()
 
   if (vImplementation)
   {
-    this.debug("Abort: implementation " + vImplementation.toHashCode());
+    if (qx.core.Settings.enableTransportDebug) {
+      this.debug("Abort: implementation " + vImplementation.toHashCode());
+    }
     vImplementation.abort();
   }
   else
   {
-    this.debug("Abort: forcing state to be aborted");
+    if (qx.core.Settings.enableTransportDebug) {
+      this.debug("Abort: forcing state to be aborted");
+    }
     this.setState(qx.constant.Net.STATE_ABORTED);
   }
 }
