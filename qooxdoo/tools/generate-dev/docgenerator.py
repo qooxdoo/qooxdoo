@@ -818,7 +818,9 @@ def listHasError(node, listName):
 def main():
   sourceDirectories = ["source/script"]
   onlyClasses = None
+  onlyClassesRe = None
   skipClasses = None
+  skipClassesRe = None
   outputTokenJson = None
   outputSyntaxXml = None
   outputDocXml = None
@@ -838,10 +840,12 @@ def main():
 
     elif c == "-cl" or c == "--classes":
       onlyClasses = sys.argv[i].split(",")
+      onlyClassesRe = createNameRegex(onlyClasses)
       i += 1
 
     elif c == "-scl" or c == "--skip-classes":
       skipClasses = sys.argv[i].split(",")
+      skipClassesRe = createNameRegex(skipClasses)
       i += 1
 
     elif c == "-otj" or c == "--output-token-json":
@@ -877,7 +881,7 @@ def main():
           path = os.path.join(root, filename)
           className = path[len(basedir) + 1:-3].replace("/", ".").replace("\\", ".")
 
-          if (onlyClasses == None or className in onlyClasses) and (skipClasses == None or not className in skipClasses):
+          if (onlyClassesRe == None or onlyClassesRe.search(className)) and (skipClassesRe == None or not skipClassesRe.search(className)):
             print "Processing class " + className + "..."
             tokenArr = tokenizer.parseFile(path, className)
             if outputTokenJson:
@@ -911,6 +915,23 @@ def main():
     print "Documentation generation complete.  "
     print "To view documentation, browse to: source/demo/apiviewer/index.html"
     print ""
+
+
+def createNameRegex(nameArr):
+  regex = "^(";
+
+  firstName = True
+  for name in nameArr:
+    if (not firstName):
+      regex += "|"
+    regex += name.replace('.', '\\.').replace('*', '.*')
+    firstName = False
+
+  regex += ")$"
+
+  print "regex: " + regex
+
+  return re.compile(regex);
 
 
 
