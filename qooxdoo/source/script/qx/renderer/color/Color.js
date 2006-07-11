@@ -439,9 +439,9 @@ qx.Proto._normalize = function(vInValue)
       }
       else if (qx.renderer.color.Color.r_cssrgb.test(vInValue))
       {
-        this._red   = RegExp.$1;
-        this._green = RegExp.$2;
-        this._blue  = RegExp.$3;
+        this._red   = parseInt(RegExp.$1);
+        this._green = parseInt(RegExp.$2);
+        this._blue  = parseInt(RegExp.$3);
 
         this._isRgbColor = true;
       }
