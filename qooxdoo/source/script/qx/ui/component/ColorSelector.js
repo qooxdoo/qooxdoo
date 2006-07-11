@@ -155,6 +155,9 @@ qx.Proto._createButtonBar = function()
   this._btncancel = new qx.ui.form.Button("Cancel", "icons/16/button-cancel.png");
   this._btnok = new qx.ui.form.Button("OK", "icons/16/button-ok.png");
 
+  this._btncancel.addEventListener(qx.constant.Event.EXECUTE, this._onButtonCancelExecute, this);
+  this._btnok.addEventListener(qx.constant.Event.EXECUTE, this._onButtonOkExecute, this);
+
   this._btnbar.add(this._btncancel, this._btnok);
 }
 
@@ -735,7 +738,13 @@ qx.Proto._setBrightnessOnFieldEvent = function(e)
   this._updateContext = null;
 }
 
+qx.Proto._onButtonOkExecute = function(e) {
+  this.createDispatchEvent(qx.constant.Event.DIALOGOK);
+}
 
+qx.Proto._onButtonCancelExecute = function(e) {
+  this.createDispatchEvent(qx.constant.Event.DIALOGCANCEL);
+}
 
 
 
