@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test for qx.ui.component.ColorPopup.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function()
+  {
+    var mybtn = new qx.ui.form.Button("Open Popup");
+    mybtn.setLocation(100, 70);
+    mybtn.addEventListener("click", function() {
+      mypop.show();
+    });
+
+    var mytables =
+    {
+      core : {
+        label : "Basic Colors",
+        values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
+      },
+
+      template : {
+        label : "Template Colors",
+        values : [ "#B07B30", "#B07BC9", "#E3AEC9", "#7A2A53" ]
+      },
+
+      previously : {
+        label : "Previous Colors",
+        values : [ "#7AC386", "orange" ]
+      }
+    }
+
+    var mypop = new qx.ui.component.ColorPopup(mytables);
+    mypop.setLocation(100, 100);
+    mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
+
+    this.add(mybtn, mypop);
+
+    mypop.addEventListener("changeValue", function(e) {
+      this.debug("Value Listener: " + e.getData());
+    });
+
+    mypop.addEventListener("changeRed", function(e) {
+      this.debug("Red Listener: " + e.getData());
+    });
+
+    mypop.addEventListener("changeGreen", function(e) {
+      this.debug("Green Listener: " + e.getData());
+    });
+
+    mypop.addEventListener("changeBlue", function(e) {
+      this.debug("Blue Listener: " + e.getData());
+    });
+  });
+  </script>
+</body>
+</html>

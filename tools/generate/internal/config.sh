@@ -393,6 +393,7 @@ L="$L script/qx/client/Builder"
 # Color Selector
 L="$L script/qx/renderer/color/ColorUtil"
 L="$L script/qx/ui/component/ColorSelector"
+L="$L script/qx/ui/component/ColorPopup"
 
 # Date Chooser
 L="$L script/qx/ui/component/DateChooser"
