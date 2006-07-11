@@ -37,7 +37,7 @@
   A color popup
 */
 qx.OO.defineClass("qx.ui.component.ColorPopup", qx.ui.popup.Popup,
-function(colorTables)
+function(tables)
 {
   qx.ui.popup.Popup.call(this);
 
@@ -46,7 +46,7 @@ function(colorTables)
   this.setBorder(qx.renderer.border.BorderObject.presets.outset);
   this.setBackgroundColor("threedface");
 
-  this._colorTables = colorTables;
+  this._tables = tables;
 
   this._createLayout();
   this._createAutoBtn();
@@ -91,18 +91,25 @@ qx.Proto._createAutoBtn = function()
   this._automaticBtn.setWidth(null);
   this._automaticBtn.setAllowStretchX(true);
   this._automaticBtn.addEventListener(qx.constant.Event.EXECUTE, this._onAutomaticBtnExecute, this);
+
   this._layout.add(this._automaticBtn);
 }
+
+qx.Proto._recentTableId = "recent";
+qx.Proto._fieldWidth = 14;
+qx.Proto._fieldHeight = 14;
+qx.Proto._fieldNumber = 12;
 
 qx.Proto._createBoxes = function()
 {
   this._boxes = {};
 
-  var colorTables = this._colorTables;
+  var tables = this._tables;
   var table, box, boxLayout, field;
-  for (var tableId in colorTables)
+
+  for (var tableId in tables)
   {
-    table = colorTables[tableId];
+    table = tables[tableId];
 
     box = new qx.ui.groupbox.GroupBox(table.label);
     box.setHeight(qx.constant.Core.AUTO);
@@ -116,12 +123,13 @@ qx.Proto._createBoxes = function()
     boxLayout.auto();
     box.add(boxLayout);
 
-    for (var i=0; i<12; i++)
+    for (var i=0; i<this._fieldNumber; i++)
     {
       field = new qx.ui.basic.Terminator;
+
       field.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
       field.setBackgroundColor(table.values[i] || null);
-      field.setDimension(14, 14);
+      field.setDimension(this._fieldWidth, this._fieldHeight);
 
       field.addEventListener(qx.constant.Event.MOUSEDOWN, this._onFieldMouseDown, this);
       field.addEventListener(qx.constant.Event.MOUSEOVER, this._onFieldMouseOver, this);
@@ -142,13 +150,16 @@ qx.Proto._createPreview = function()
   this._previewLayout.setWidth(qx.constant.Core.HUNDREDPERCENT);
   this._previewLayout.setSpacing(4);
   this._previewLayout.add(this._selectedPreview, this._currentPreview);
+
   this._previewBox.setHeight(qx.constant.Core.AUTO);
   this._previewBox.add(this._previewLayout);
+
   this._layout.add(this._previewBox);
 
   this._selectedPreview.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this._selectedPreview.setWidth(qx.constant.Core.FLEX);
   this._selectedPreview.setHeight(24);
+
   this._currentPreview.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this._currentPreview.setWidth(qx.constant.Core.FLEX);
   this._currentPreview.setHeight(24);
@@ -160,6 +171,7 @@ qx.Proto._createSelectorBtn = function()
   this._selectorButton.setWidth(null);
   this._selectorButton.setAllowStretchX(true);
   this._selectorButton.addEventListener(qx.constant.Event.EXECUTE, this._onSelectorButtonExecute, this);
+
   this._layout.add(this._selectorButton);
 }
 
@@ -216,13 +228,44 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 
   this._selectedPreview.setBackgroundColor(propValue);
   this._rotatePreviousColors();
+
   return true;
 }
 
 qx.Proto._rotatePreviousColors = function()
 {
+  var vRecentTable = this._tables[this._recentTableId].values;
+  var vRecentBox = this._boxes[this._recentTableId];
 
+  if (!vRecentTable) {
+    return;
+  }
 
+  var newValue = this.getValue();
+
+  if (!newValue) {
+    return;
+  }
+
+  // use style compatible value (like the incoming value from the user or as RGB value string)
+  newValue = newValue.getStyle();
+
+  // Modifying incoming table
+  var vIndex = vRecentTable.indexOf(newValue);
+
+  if (vIndex != -1) {
+    qx.lang.Array.removeAt(vRecentTable, vIndex);
+  } else if (vRecentTable.length == this._fieldNumber) {
+    vRecentTable.shift();
+  }
+
+  vRecentTable.push(newValue);
+
+  // Sync to visible fields
+  var vFields = vRecentBox.getFrameObject().getFirstChild().getChildren();
+  for (var i=0; i<vFields.length; i++) {
+    vFields[i].setBackgroundColor(vRecentTable[i] || null);
+  }
 }
 
 
@@ -246,6 +289,7 @@ qx.Proto._onFieldMouseOver = function(e) {
 
 qx.Proto._onAutomaticBtnExecute = function(e) {
   this.setValue(null);
+  this.hide();
 }
 
 qx.Proto._onSelectorButtonExecute = function(e)
@@ -254,6 +298,9 @@ qx.Proto._onSelectorButtonExecute = function(e)
 
   this._colorSelectorWindow.setTop(qx.dom.DomLocation.getPageBoxTop(this._selectorButton.getElement()) + 10);
   this._colorSelectorWindow.setLeft(qx.dom.DomLocation.getPageBoxLeft(this._selectorButton.getElement()) + 100);
+
+  this.hide();
+
   this._colorSelectorWindow.open();
 }
 
