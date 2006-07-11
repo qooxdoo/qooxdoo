@@ -237,6 +237,8 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
     vStyle.zIndex = "-1";
 
     document.body.appendChild(vNode);
+
+    qx.ui.basic.Label._measureNodes[vId] = vNode;
   }
 
   return vNode;
