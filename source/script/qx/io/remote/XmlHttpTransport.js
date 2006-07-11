@@ -305,7 +305,9 @@ qx.Proto._onreadystatechange = function(e)
     case qx.constant.Net.STATE_ABORTED:
     case qx.constant.Net.STATE_FAILED:
     case qx.constant.Net.STATE_TIMEOUT:
-      this.warn("Ignore Ready State Change");
+      if (qx.core.Settings.enableTransportDebug) {
+        this.warn("Ignore Ready State Change");
+      }
       return;
   }
 
