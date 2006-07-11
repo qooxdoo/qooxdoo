@@ -96,5 +96,14 @@ qx.OO.defineClass("qx.constant.Event",
   COMPLETED : "completed",
   ABORTED : "aborted",
   FAILED : "failed",
-  TIMEOUT : "timeout"
+  TIMEOUT : "timeout",
+
+  // dialog
+  DIALOGOK : "dialogok",
+  DIALOGCANCEL : "dialogcancel",
+  DIALOGCLOSE : "dialogclose",
+  DIALOGPREVIOUS : "dialogprevious",
+  DIALOGNEXT : "dialognext",
+  DIALOGFIRST : "dialogfirst",
+  DIALOGLAST : "dialoglast"
 });
