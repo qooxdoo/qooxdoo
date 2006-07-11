@@ -41,30 +41,64 @@ function(colorTables)
 {
   qx.ui.popup.Popup.call(this);
 
-  this._colorTables = colorTables;
-
-  var borders = qx.renderer.border.BorderObject.presets;
-
   this.setPadding(4);
   this.auto();
-  this.setAutoHide(false);
-  this.setBorder(borders.outset);
+  this.setBorder(qx.renderer.border.BorderObject.presets.outset);
   this.setBackgroundColor("threedface");
 
+  this._colorTables = colorTables;
+
+  this._createLayout();
+  this._createAutoBtn();
+  this._createBoxes();
+  this._createPreview();
+  this._createSelectorBtn();
+
+  this.addEventListener(qx.constant.Event.BEFOREAPPEAR, this._onBeforeAppear);
+});
+
+qx.OO.addProperty({ name : "value", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color" });
+
+qx.OO.addProperty({ name : "red", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "green", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "blue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+
+qx.Proto._minZIndex = 1e5;
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  CREATOR SUBS
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._createLayout = function()
+{
   this._layout = new qx.ui.layout.VerticalBoxLayout;
   this._layout.setLocation(0, 0);
   this._layout.auto();
   this._layout.setSpacing(2);
-  this.add(this._layout);
 
+  this.add(this._layout);
+}
+
+qx.Proto._createAutoBtn = function()
+{
   this._automaticBtn = new qx.ui.form.Button("Automatic");
   this._automaticBtn.setWidth(null);
   this._automaticBtn.setAllowStretchX(true);
-  this._automaticBtn.addEventListener("execute", this._onAutomaticBtnExecute, this);
+  this._automaticBtn.addEventListener(qx.constant.Event.EXECUTE, this._onAutomaticBtnExecute, this);
   this._layout.add(this._automaticBtn);
+}
 
+qx.Proto._createBoxes = function()
+{
   this._boxes = {};
 
+  var colorTables = this._colorTables;
   var table, box, boxLayout, field;
   for (var tableId in colorTables)
   {
@@ -85,7 +119,7 @@ function(colorTables)
     for (var i=0; i<12; i++)
     {
       field = new qx.ui.basic.Terminator;
-      field.setBorder(borders.thinInset);
+      field.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
       field.setBackgroundColor(table.values[i] || null);
       field.setDimension(14, 14);
 
@@ -95,7 +129,10 @@ function(colorTables)
       boxLayout.add(field);
     }
   }
+}
 
+qx.Proto._createPreview = function()
+{
   this._previewBox = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
   this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._selectedPreview = new qx.ui.basic.Terminator;
@@ -109,67 +146,58 @@ function(colorTables)
   this._previewBox.add(this._previewLayout);
   this._layout.add(this._previewBox);
 
-  this._selectedPreview.setBorder(borders.inset);
+  this._selectedPreview.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this._selectedPreview.setWidth(qx.constant.Core.FLEX);
   this._selectedPreview.setHeight(24);
-  this._currentPreview.setBorder(borders.inset);
+  this._currentPreview.setBorder(qx.renderer.border.BorderObject.presets.inset);
   this._currentPreview.setWidth(qx.constant.Core.FLEX);
   this._currentPreview.setHeight(24);
+}
 
+qx.Proto._createSelectorBtn = function()
+{
   this._selectorButton = new qx.ui.form.Button("Open ColorSelector");
   this._selectorButton.setWidth(null);
   this._selectorButton.setAllowStretchX(true);
-  this._selectorButton.addEventListener("execute", this._onSelectorButtonExecute, this);
+  this._selectorButton.addEventListener(qx.constant.Event.EXECUTE, this._onSelectorButtonExecute, this);
   this._layout.add(this._selectorButton);
-});
-
-qx.OO.addProperty({ name : "value", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color" });
-
-qx.OO.addProperty({ name : "red", type : qx.constant.Type.NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "green", type : qx.constant.Type.NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "blue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
-
-qx.Proto._onFieldMouseDown = function(e) {
-  this.setValue(this._currentPreview.getBackgroundColor());
-  this.hide();
 }
 
-qx.Proto._onFieldMouseOver = function(e) {
-  this._currentPreview.setBackgroundColor(e.getTarget().getBackgroundColor());
-}
-
-qx.Proto._onAutomaticBtnExecute = function(e) {
-  this.setValue(null);
-  this.hide();
-}
-
-qx.Proto._onSelectorButtonExecute = function(e)
+qx.Proto._createColorSelector = function()
 {
-  this._createColorSelector();
-
-  this._colorSelectorWindow.setTop(qx.dom.DomLocation.getPageBoxTop(this._selectorButton.getElement()));
-  this._colorSelectorWindow.setLeft(qx.dom.DomLocation.getPageBoxLeft(this._selectorButton.getElement()));
-  this._colorSelectorWindow.open();
-}
-
-qx.Proto._createColorSelector = function(e) {
   if (this._colorSelector) {
     return;
   }
 
-  var root = qx.core.Init.getComponent().getClientDocument();
-
   this._colorSelectorWindow = new qx.ui.window.Window("Color Selector");
   this._colorSelectorWindow.setMinWidth(null);
-  this._colorSelectorWindow.setMaxWidth(null);
+  this._colorSelectorWindow.setMinHeight(null);
+  this._colorSelectorWindow.setResizeable(false);
   this._colorSelectorWindow.auto();
-  root.add(this._colorSelectorWindow);
 
   this._colorSelector = new qx.ui.component.ColorSelector;
   this._colorSelector.setBorder(null);
   this._colorSelector.setLocation(0, 0);
+  this._colorSelector.addEventListener(qx.constant.Event.DIALOGOK, this._onColorSelectorOk, this);
+  this._colorSelector.addEventListener(qx.constant.Event.DIALOGCANCEL, this._onColorSelectorCancel, this);
+
   this._colorSelectorWindow.add(this._colorSelector);
+
+  var root = qx.core.Init.getComponent().getClientDocument();
+  root.add(this._colorSelectorWindow);
 }
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
@@ -187,7 +215,59 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
   };
 
   this._selectedPreview.setBackgroundColor(propValue);
-
+  this._rotatePreviousColors();
   return true;
 }
 
+qx.Proto._rotatePreviousColors = function()
+{
+
+
+}
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  EVENT HANDLER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._onFieldMouseDown = function(e) {
+  this.setValue(this._currentPreview.getBackgroundColor());
+}
+
+qx.Proto._onFieldMouseOver = function(e) {
+  this._currentPreview.setBackgroundColor(e.getTarget().getBackgroundColor());
+}
+
+qx.Proto._onAutomaticBtnExecute = function(e) {
+  this.setValue(null);
+}
+
+qx.Proto._onSelectorButtonExecute = function(e)
+{
+  this._createColorSelector();
+
+  this._colorSelectorWindow.setTop(qx.dom.DomLocation.getPageBoxTop(this._selectorButton.getElement()) + 10);
+  this._colorSelectorWindow.setLeft(qx.dom.DomLocation.getPageBoxLeft(this._selectorButton.getElement()) + 100);
+  this._colorSelectorWindow.open();
+}
+
+qx.Proto._onColorSelectorOk = function(e)
+{
+  var sel = this._colorSelector;
+  this.setValue(qx.renderer.color.ColorCache([sel.getRed(), sel.getGreen(), sel.getBlue()]));
+  this._colorSelectorWindow.close();
+}
+
+qx.Proto._onColorSelectorCancel = function(e) {
+  this._colorSelectorWindow.close();
+}
+
+qx.Proto._onBeforeAppear = function(e) {
+  this._currentPreview.setBackgroundColor(null);
+}

@@ -21,10 +21,19 @@
   qx.core.Init.defineMain(function()
   {
     var mybtn = new qx.ui.form.Button("Open Popup");
-    mybtn.setLocation(100, 70);
-    mybtn.addEventListener("click", function() {
+    mybtn.setLocation(20, 48);
+    mybtn.addEventListener("execute", function() {
+      mypop.setTop(qx.dom.DomLocation.getPageBoxBottom(this.getElement()));
+      mypop.setLeft(qx.dom.DomLocation.getPageBoxLeft(this.getElement()));
       mypop.show();
     });
+
+    var myview = new qx.ui.basic.Label("Selected Color");
+    myview.setBorder(qx.renderer.border.BorderObject.presets.inset);
+    myview.setLocation(100, 48);
+    myview.setPadding(3, 6);
+    myview.setBackgroundImage("core/dotted_white.gif");
+    this.add(myview);
 
     var mytables =
     {
@@ -52,6 +61,8 @@
 
     mypop.addEventListener("changeValue", function(e) {
       this.debug("Value Listener: " + e.getData());
+      myview.setBackgroundColor(e.getData());
+      myview.setBackgroundImage(e.getData() ? null : "core/dotted_white.gif");
     });
 
     mypop.addEventListener("changeRed", function(e) {
