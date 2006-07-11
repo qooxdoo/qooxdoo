@@ -666,17 +666,9 @@ else
       case qx.constant.Event.CLICK:
       case qx.constant.Event.DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
-        if (vDomEvent.button != qx.event.type.MouseEvent.buttons.left) {
+        if (vDomEvent.button !== qx.event.type.MouseEvent.buttons.left) {
           return;
         }
-
-      // Seems not to be needed anymore. Otherwise we should reinclude it.
-      /*
-      case qx.constant.Event.MOUSEDOWN:
-        if(vDomTarget && vDomTarget.localName == "IMG" && vDomTarget.qx_Widget) {
-          qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-        }
-      */
     }
 
     this._onmouseevent_post(vDomEvent, vType, vDomTarget);
@@ -756,12 +748,6 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
 
-
-
-    // Check if is seeable (this is really needed for Opera as of 8.5)
-    if ((vTarget && !vTarget.isSeeable()) || (vDispatchTarget && !vDispatchTarget.isSeeable())) {
-      return false;
-    }
 
     var vDomEventTarget = vTarget.getElement();
 
@@ -854,7 +840,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Send Event Object to Drag&Drop Manager
-    if (typeof qx.event.handler.DragAndDropHandler  !== qx.constant.Type.UNDEFINED && vTarget) {
+    if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED && vTarget) {
       qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
     }
 
