@@ -24,7 +24,7 @@ echo ">>> Syncing files..."
 rsync -rl --delete --exclude=.svn source/demo source/images $dir/$unixbasename
 rsync -rl --delete --exclude=.svn source/script $dir/$unixbasename
 rsync -rl --delete --exclude=.svn source/themes $dir/$unixbasename
-rsync -l --delete --exclude=.svn [A-Z]* $dir/$unixbasename
+rsync -ld --delete --exclude=.svn [A-Z]* $dir/$unixbasename
 echo ">>> Done"
 
 cd $dir
