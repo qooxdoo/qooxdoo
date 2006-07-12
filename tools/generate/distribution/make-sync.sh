@@ -9,6 +9,6 @@ fi
 tools/generate/make-source.sh
 tools/generate/make-docs.sh
 
-rsync -rlvzcp --delete build/demo build/docs build/images ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public
-rsync -rlvzcp --delete --delete-excluded --exclude=*.js build/themes ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public
-rsync -rlvzcp --delete --delete-excluded build/script/qooxdoo.js* ${SCHLUNDUSER}@qooxdoo.oss.schlund.de:/kunden/homepages/21/d74480075/htdocs/qooxdoo/public/script
+rsync -rlvzcp --delete build/demo build/docs build/images ${SCHLUNDUSER}@old.qooxdoo.org:/kunden/homepages/21/d74480075/htdocs/qooxdoo/homepage/public
+rsync -rlvzcp --delete --delete-excluded --exclude=*.js build/themes ${SCHLUNDUSER}@old.qooxdoo.org:/kunden/homepages/21/d74480075/htdocs/qooxdoo/homepage/public
+rsync -rlvzcp --delete --delete-excluded build/script/qooxdoo.js* ${SCHLUNDUSER}@old.qooxdoo.org:/kunden/homepages/21/d74480075/htdocs/qooxdoo/homepage/public/script
