@@ -469,5 +469,5 @@ qx.Proto.dispose = function()
     this._version = null;
   }
 
-  qx.ui.core.Terminator.prototype.dispose.call(this);
+  qx.ui.basic.Terminator.prototype.dispose.call(this);
 }
