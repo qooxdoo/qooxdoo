@@ -197,13 +197,13 @@ qx.OO.addProperty({ name : "allowStretchY", type : qx.constant.Type.BOOLEAN, def
 qx.OO.addProperty({ name : "zIndex", type : qx.constant.Type.NUMBER });
 
 /*!
-  The color style property of the rendered widget.
+  The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
 qx.OO.addProperty({ name : "backgroundColor", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
 
 /*!
-  The backgroundColor style property of the rendered widget.
+  The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
 qx.OO.addProperty({ name : "color", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
@@ -976,8 +976,12 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
   {
     vLazyQueue = vLazyQueues[vKey];
 
-    // test for minimum childrens which should
-    // be added to the same parent
+    // Speed enhancement: Choose a fairly small arbitrary value for the number
+    // of elements that should be added to the parent individually.  If more
+    // than this number of elements is to be added to the parent, we'll create
+    // a document fragment, add the elements to the document fragment, and
+    // then add the whole fragment to the parent en mass (assuming that
+    // creation of a document fragment is supported by the browser).
     if (document.createDocumentFragment && vLazyQueue.length >= 3)
     {
       // creating new document fragment
@@ -1124,11 +1128,16 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   If the widget is visible and rendered on the screen.
 */
 qx.Proto.isMaterialized = function() {
-  var el=this._element; return this._initialLayoutDone && this._isDisplayable && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_DISPLAY) != qx.constant.Core.NONE && qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN && el.offsetWidth > 0 && el.offsetHeight > 0;
+  var el=this._element;
+  return (this._initialLayoutDone &&
+          this._isDisplayable &&
+          qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_DISPLAY) != qx.constant.Core.NONE &&
+          qx.dom.DomStyle.getStyleProperty(el, qx.constant.Style.PROPERTY_VISIBILITY) != qx.constant.Core.HIDDEN &&
+          el.offsetWidth > 0 && el.offsetHeight > 0);
 }
 
 /*!
-  A single setup to the current preferrd pixel values of the widget
+  A single setup to the current preferred pixel values of the widget
 */
 qx.Proto.pack = function()
 {
@@ -1162,7 +1171,7 @@ qx.Proto.auto = function()
 qx.Proto.getChildren = qx.util.Return.returnNull;
 
 /*!
-  Get the number of childrens
+  Get the number of children
 */
 qx.Proto.getChildrenLength = qx.util.Return.returnZero;
 
@@ -1203,7 +1212,7 @@ qx.Proto.contains = qx.util.Return.returnFalse;
 qx.Proto.getVisibleChildren = qx.util.Return.returnNull;
 
 /*!
-  Get the number of childrens
+  Get the number of children
 */
 qx.Proto.getVisibleChildrenLength = qx.util.Return.returnZero;
 
@@ -1213,7 +1222,7 @@ qx.Proto.getVisibleChildrenLength = qx.util.Return.returnZero;
 qx.Proto.hasVisibleChildren = qx.util.Return.returnFalse;
 
 /*!
-  Check if there are any visible childrens inside
+  Check if there are any visible children inside
 */
 qx.Proto.isVisibleEmpty = qx.util.Return.returnTrue;
 
@@ -1262,10 +1271,10 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
     // Invalidate visible children cache
     propOldValue._invalidateVisibleChildren();
 
-    // Remove child from old parents children queue
+    // Remove child from old parent's children queue
     propOldValue._removeChildFromChildrenQueue(this);
 
-    // The the layouter add some layout jobs
+    // The layouter adds some layout jobs
     propOldValue.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
 
     // Inform job queue
@@ -1318,11 +1327,13 @@ qx.Proto._modifyDisplay = function(propValue, propOldValue, propData) {
 
 qx.Proto._handleDisplayable = function(vHint)
 {
-  // Detect for changes. Return if there is not change.
+  // Detect changes. Return if there is no change.
   // Also handle the case if the displayable keeps true and the parent
   // was changed then we must not return here.
   var vDisplayable = this._computeDisplayable();
-  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.OO.PROPERTY_PARENT)) {
+  if (!vDisplayable &&                       // - shouldn't be displayable
+      this._isDisplayable == vDisplayable && // - already isn't displayable
+      vHint != qx.OO.PROPERTY_PARENT) {      // - parent didn't changed
     return true;
   }
 
@@ -1337,6 +1348,7 @@ qx.Proto._handleDisplayable = function(vHint)
     vParent._invalidatePreferredInnerDimensions();
   }
 
+  // Remove old parent's elements from DOM and delete old parent
   if (vHint && this._oldParent && this._oldParent._initialLayoutDone)
   {
     if (this.getVisibility()) {
@@ -1363,7 +1375,7 @@ qx.Proto._handleDisplayable = function(vHint)
        Update current parent
     -------------------------------- */
 
-    // The the layouter add some layout jobs
+    // The layouter added some layout jobs
     if (vParent._initialLayoutDone)
     {
       vParent.getLayoutImpl().updateChildrenOnAddChild(this, vParent.getChildren().indexOf(this));
@@ -1378,8 +1390,6 @@ qx.Proto._handleDisplayable = function(vHint)
 
     // Add to custom queues
     this.addToCustomQueues(vHint);
-
-
 
     // Handle beforeAppear signals
     if (this.getVisibility()) {
@@ -1429,12 +1439,12 @@ qx.Proto._handleDisplayable = function(vHint)
         this._beforeDisappear();
       }
 
-      // The the layouter add some layout jobs
+      // The layouter added some layout jobs
       if (vParent._initialLayoutDone && this._initialLayoutDone)
       {
         vParent.getLayoutImpl().updateChildrenOnRemoveChild(this, vParent.getChildren().indexOf(this));
 
-        // Inform parents job queue
+        // Inform parent's job queue
         vParent.addToJobQueue(qx.ui.core.Widget.JOB_REMOVECHILD);
 
         // Before Remove DOM Event
@@ -1632,7 +1642,9 @@ else
   qx.Proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (qx.renderer.border.Border.enhancedCrossBrowserMode && this.getTagName() == qx.constant.Tags.DIV && !this._borderElement)
+    if (qx.renderer.border.Border.enhancedCrossBrowserMode &&
+        this.getTagName() == qx.constant.Tags.DIV &&
+        !this._borderElement)
     {
       var el = this.getElement();
       var cl = this._borderElement = document.createElement(qx.constant.Tags.DIV);
@@ -1659,7 +1671,7 @@ else
         }
       }
 
-      // Move existing childs
+      // Move existing children
       while(el.firstChild) {
         cl.appendChild(el.firstChild);
       }
@@ -1890,7 +1902,8 @@ qx.Proto._flushJobQueue = function(q)
 
   try
   {
-    if ((vRecomputeOuterWidth && this._recomputeOuterWidth()) || vRecomputeParentPreferredInnerWidth)
+    if ((vRecomputeOuterWidth && this._recomputeOuterWidth()) ||
+        vRecomputeParentPreferredInnerWidth)
     {
       vParent._invalidatePreferredInnerWidth();
       vParent.getLayoutImpl().updateSelfOnChildOuterWidthChange(this);
@@ -1898,7 +1911,8 @@ qx.Proto._flushJobQueue = function(q)
       vFlushParentJobQueue = true;
     }
 
-    if ((vRecomputeOuterHeight && this._recomputeOuterHeight()) || vRecomputeParentPreferredInnerHeight)
+    if ((vRecomputeOuterHeight && this._recomputeOuterHeight()) ||
+        vRecomputeParentPreferredInnerHeight)
     {
       vParent._invalidatePreferredInnerHeight();
       vParent.getLayoutImpl().updateSelfOnChildOuterHeightChange(this);
@@ -1949,7 +1963,11 @@ qx.Proto._flushJobQueue = function(q)
   try
   {
     // inform children about padding change
-    if (this instanceof qx.ui.core.Parent && (vQueue.paddingLeft || vQueue.paddingRight || vQueue.paddingTop || vQueue.paddingBottom))
+    if (this instanceof qx.ui.core.Parent &&
+        (vQueue.paddingLeft ||
+         vQueue.paddingRight ||
+         vQueue.paddingTop ||
+         vQueue.paddingBottom))
     {
       var ch=this.getChildren(), chl=ch.length;
 
@@ -2013,7 +2031,7 @@ qx.Proto._flushJobQueue = function(q)
 
 /*
 ---------------------------------------------------------------------------
-  METHODS TO GIVE THE LAYOUTERS INFORMATIONS
+  METHODS TO GIVE THE LAYOUTERS INFORMATION
 ---------------------------------------------------------------------------
 */
 
@@ -2034,10 +2052,17 @@ qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 
 qx.ui.core.Widget.initApplyMethods = function()
 {
-  var f="_applyRuntime", r="_resetRuntime", s="this._style.", e="=qx.constant.Core.EMPTY", v="=v+qx.constant.Core.PIXEL", vpar="v";
+  var f = "_applyRuntime";
+  var r = "_resetRuntime";
+  var s = "this._style.";
+  var e = "=qx.constant.Core.EMPTY";
+  var v = "=v+qx.constant.Core.PIXEL";
+  var vpar = "v";
 
-  var props = ["left", "right", "top", "bottom", "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight"];
-  var propsup = ["Left", "Right", "Top", "Bottom", "Width", "Height", "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"];
+  var props = ["left", "right", "top", "bottom", "width", "height",
+               "minWidth", "maxWidth", "minHeight", "maxHeight"];
+  var propsup = ["Left", "Right", "Top", "Bottom", "Width", "Height",
+                 "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"];
 
   for (var i=0, fn=f+"Margin", rn=r+"Margin", sp=s+"margin"; i<4; i++)
   {
@@ -2045,7 +2070,8 @@ qx.ui.core.Widget.initApplyMethods = function()
     qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
   }
 
-  var pad = "padding", upad = "Padding";
+  var pad = "padding";
+  var upad = "Padding";
 
   if (qx.sys.Client.isGecko())
   {
@@ -2076,18 +2102,19 @@ qx.ui.core.Widget.initApplyMethods = function()
     the new layout property.
 
     We could not use this to reset the value however.
-    It seems that is just not work this way. And the
-    left/top get always priority. Tried: "", null, qx.constant.Core.AUTO
+    It seems that is just doesn't work this way. And the
+    left/top always get priority. Tried: "", null, qx.constant.Core.AUTO.
     Nothing helps.
 
-    Now I'am switched back to conventional method
+    Now I've switched back to the conventional method
     to reset the value. This seems to work again.
   */
   if (qx.sys.Client.isMshtml())
   {
     for (var i=0, tpos="pos", vset="=v"; i<6; i++)
     {
-      // to debug the values which will be applied use this instead the first line
+      // to debug the values which will be applied use this instead of the
+      // first line:
       // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + tpos + propsup[i] + vset);
 
       qx.Proto[f+propsup[i]] = new Function(vpar, s + tpos + propsup[i] + vset);
@@ -2098,7 +2125,8 @@ qx.ui.core.Widget.initApplyMethods = function()
   {
     for (var i=0; i<10; i++)
     {
-      // to debug the values which will be applied use this instead the first line
+      // to debug the values which will be applied use this instead of the
+      // first line:
       // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + props[i] + v);
 
       qx.Proto[f+propsup[i]] = new Function(vpar, s + props[i] + v);
@@ -2140,19 +2168,33 @@ qx.Proto._computeBoxHeightFallback = function() {
 }
 
 qx.Proto._computeBoxWidth = function() {
-  return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxWidth(this), this.getMinWidthValue(), this.getMaxWidthValue()));
+  var vLayoutImpl = this.getParent().getLayoutImpl();
+  return Math.max(0,
+                  qx.lang.Number.limit(vLayoutImpl.computeChildBoxWidth(this),
+                                       this.getMinWidthValue(),
+                                       this.getMaxWidthValue()));
 }
 
 qx.Proto._computeBoxHeight = function() {
-  return Math.max(0, qx.lang.Number.limit(this.getParent().getLayoutImpl().computeChildBoxHeight(this), this.getMinHeightValue(), this.getMaxHeightValue()));
+  var vLayoutImpl = this.getParent().getLayoutImpl();
+  return Math.max(0,
+                  qx.lang.Number.limit(vLayoutImpl.computeChildBoxHeight(this),
+                                       this.getMinHeightValue(),
+                                       this.getMaxHeightValue()));
 }
 
 qx.Proto._computeOuterWidth = function() {
-  return Math.max(0, this.getMarginLeft() + this.getBoxWidth() + this.getMarginRight());
+  return Math.max(0,
+                  (this.getMarginLeft() +
+                   this.getBoxWidth() +
+                   this.getMarginRight()));
 }
 
 qx.Proto._computeOuterHeight = function() {
-  return Math.max(0, this.getMarginTop() + this.getBoxHeight() + this.getMarginBottom());
+  return Math.max(0,
+                  (this.getMarginTop() +
+                   this.getBoxHeight() +
+                   this.getMarginBottom()));
 }
 
 qx.Proto._computeInnerWidth = function() {
@@ -2164,11 +2206,13 @@ qx.Proto._computeInnerHeight = function() {
 }
 
 qx.Proto.getNeededWidth = function() {
-  return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededWidth(this));
+  var vLayoutImpl = this.getParent().getLayoutImpl();
+  return Math.max(0, vLayoutImpl.computeChildNeededWidth(this));
 }
 
 qx.Proto.getNeededHeight = function() {
-  return Math.max(0, this.getParent().getLayoutImpl().computeChildNeededHeight(this));
+  var vLayoutImpl = this.getParent().getLayoutImpl();
+  return Math.max(0, vLayoutImpl.computeChildNeededHeight(this));
 }
 
 
@@ -2871,19 +2915,31 @@ qx.OO.addCachedProperty({ name : "hasFlexX", defaultValue : false });
 qx.OO.addCachedProperty({ name : "hasFlexY", defaultValue : false });
 
 qx.Proto._computeHasPercentX = function() {
-  return this._computedLeftTypePercent || this._computedWidthTypePercent || this._computedMinWidthTypePercent || this._computedMaxWidthTypePercent || this._computedRightTypePercent;
+  return (this._computedLeftTypePercent ||
+          this._computedWidthTypePercent ||
+          this._computedMinWidthTypePercent ||
+          this._computedMaxWidthTypePercent ||
+          this._computedRightTypePercent);
 }
 
 qx.Proto._computeHasPercentY = function() {
-  return this._computedTopTypePercent || this._computedHeightTypePercent || this._computedMinHeightTypePercent || this._computedMaxHeightTypePercent || this._computedBottomTypePercent;
+  return (this._computedTopTypePercent ||
+          this._computedHeightTypePercent ||
+          this._computedMinHeightTypePercent ||
+          this._computedMaxHeightTypePercent ||
+          this._computedBottomTypePercent);
 }
 
 qx.Proto._computeHasAutoX = function() {
-  return this._computedWidthTypeAuto || this._computedMinWidthTypeAuto || this._computedMaxWidthTypeAuto;
+  return (this._computedWidthTypeAuto ||
+          this._computedMinWidthTypeAuto ||
+          this._computedMaxWidthTypeAuto);
 }
 
 qx.Proto._computeHasAutoY = function() {
-  return this._computedHeightTypeAuto || this._computedMinHeightTypeAuto || this._computedMaxHeightTypeAuto;
+  return (this._computedHeightTypeAuto ||
+          this._computedMinHeightTypeAuto ||
+          this._computedMaxHeightTypeAuto);
 }
 
 qx.Proto._computeHasFlexX = function() {
@@ -2996,7 +3052,10 @@ qx.ui.core.Widget.layoutPropertyTypes = {}
 
 qx.ui.core.Widget.initLayoutProperties = function()
 {
-  var a = [ "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight", "left", "right", "top", "bottom" ];
+  var a = [ "width", "height",
+            "minWidth", "maxWidth",
+            "minHeight", "maxHeight",
+            "left", "right", "top", "bottom" ];
 
   for (var i=0, l=a.length, p, b, t; i<l; i++)
   {
@@ -3485,7 +3544,7 @@ qx.Proto._oninlineproperty = function(e)
 */
 
 /*!
-  The the widget which is at the top level,
+  The widget which is at the top level,
   which contains all others (normally a
   instance of qx.ui.core.ClientDocument).
 */
@@ -3494,28 +3553,28 @@ qx.Proto.getTopLevelWidget = function() {
 }
 
 /*!
-  Move myself before another child of the same parent.
+  Move myself to immediately before another child of the same parent.
 */
 qx.Proto.moveSelfBefore = function(vBefore) {
   this.getParent().addBefore(this, vBefore);
 }
 
 /*!
-  Move myself after another child of the same parent.
+  Move myself to immediately after another child of the same parent.
 */
 qx.Proto.moveSelfAfter = function(vAfter) {
   this.getParent().addAfter(this, vAfter);
 }
 
 /*!
-  Move myself to the begin and this way make me the first child.
+  Move myself to the head of the list: make me the first child.
 */
 qx.Proto.moveSelfToBegin = function() {
   this.getParent().addAtBegin(this);
 }
 
 /*!
-  Move myself to the end and this way make me the last child.
+  Move myself to the end of the list: make me the last child.
 */
 qx.Proto.moveSelfToEnd = function() {
   this.getParent().addAtEnd(this);
@@ -3552,7 +3611,7 @@ qx.Proto.getNextSibling = function()
 }
 
 /*!
-  Returns the previous sibling.
+  Returns the previous visible sibling.
 */
 qx.Proto.getPreviousVisibleSibling = function()
 {
@@ -3565,7 +3624,7 @@ qx.Proto.getPreviousVisibleSibling = function()
 }
 
 /*!
-  Returns the next sibling.
+  Returns the next visible sibling.
 */
 qx.Proto.getNextVisibleSibling = function()
 {
@@ -3627,7 +3686,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
     this.addState(qx.ui.core.Widget.STATE_DISABLED);
 
-    // Also reset some states to be sure a pressed/hovered button gets resetted
+    // Also reset some states to be sure a pressed/hovered button gets reset
     this.removeState(qx.ui.core.Widget.STATE_OVER);
     this.removeState(qx.ui.form.Button.STATE_ABANDONED);
     this.removeState(qx.ui.form.Button.STATE_PRESSED);
@@ -3692,8 +3751,8 @@ qx.Proto.removeState = function(vState)
  * Sets or clears a state.
  *
  * @param state {string} the state to set or clear.
- * @param enabled {boolean} whether the state should be set. If false it will be
- *        cleared.
+ * @param enabled {boolean} whether the state should be set.
+ *        If false it will be cleared.
  */
 qx.Proto.setState = function(state, enabled) {
   if (enabled) {
@@ -4341,8 +4400,15 @@ if (qx.sys.Client.isMshtml())
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
-    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.TAB_VALUE_ON) : this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
-    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
+    if (propValue < 0 || !this.getEnabled()) {
+      this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE,
+                           qx.ui.core.Widget.TAB_VALUE_ON);
+    } else {
+      this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
+    }
+
+    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX,
+                         propValue < 0 ? -1 : 1);
 
     return true;
   }
@@ -4351,10 +4417,16 @@ else if (qx.sys.Client.isGecko())
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
-    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_MOZUSERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_MOZUSERFOCUS,
+                          (propValue < 0
+                           ? qx.ui.core.Widget.TAB_VALUE_IGNORE
+                           : qx.ui.core.Widget.TAB_VALUE_NORMAL));
 
     // be forward compatible (CSS 3 Draft)
-    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS,
+                          (propValue < 0
+                           ? qx.ui.core.Widget.TAB_VALUE_IGNORE
+                           : qx.ui.core.Widget.TAB_VALUE_NORMAL));
 
     return true;
   }
@@ -4364,11 +4436,21 @@ else
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
     // CSS 3 Draft
-    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS, propValue < 0 ? qx.ui.core.Widget.TAB_VALUE_IGNORE : qx.ui.core.Widget.TAB_VALUE_NORMAL);
+    this.setStyleProperty(qx.ui.core.Widget.TAB_PROPERTY_USERFOCUS,
+                          (propValue < 0
+                           ? qx.ui.core.Widget.TAB_VALUE_IGNORE
+                           : qx.ui.core.Widget.TAB_VALUE_NORMAL));
 
     // IE Backward Compatible
-    propValue < 0 || !this.getEnabled() ? this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.TAB_VALUE_ON) : this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
-    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX, propValue < 0 ? -1 : 1);
+    if (propValue < 0 || !this.getEnabled()) {
+      this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE,
+                           qx.ui.core.Widget.TAB_VALUE_ON);
+    } else {
+      this.removeHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_UNSELECTABLE);
+    }
+
+    this.setHtmlProperty(qx.ui.core.Widget.TAB_PROPERTY_TABINDEX,
+                         propValue < 0 ? -1 : 1);
 
     return true;
   }
@@ -4436,7 +4518,12 @@ qx.ui.core.Widget.SEL_VALUE_ON = "on";
 if(qx.sys.Client.isMshtml())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE) : this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.SEL_VALUE_ON);
+    if (propValue) {
+      return this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE);
+    } else {
+      return this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE,
+                                  qx.ui.core.Widget.SEL_VALUE_ON);
+    }
   }
 }
 else if(qx.sys.Client.isGecko())
@@ -4451,8 +4538,10 @@ else if(qx.sys.Client.isGecko())
     }
     else
     {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.constant.Core.NONE);
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT,
+                            qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
+                            qx.constant.Core.NONE);
     }
 
     return true;
@@ -4468,7 +4557,12 @@ else if (qx.sys.Client.isOpera())
 else
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
-    return propValue ? this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT) : this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
+    if (propValue) {
+      return this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
+    } else {
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
+                            qx.constant.Core.NONE);
+    }
   }
 }
 
@@ -4492,9 +4586,9 @@ qx.ui.core.Widget.OPACITY_PROPERTY_MOZ = "MozOpacity";
 qx.ui.core.Widget.OPACITY_PROPERTY_KHTML = "KhtmlOpacity";
 
 /*!
-Sets the opacit for the widget. Any child widget inside the widget will
-also become transparent. The value should be a number between 0 and 1 where 1
-means totally opaque and 0 invisible.
+Sets the opacity for the widget. Any child widget inside the widget will also
+become (semi-)transparent. The value should be a number between 0 and 1
+inclusive, where 1 means totally opaque and 0 invisible.
 */
 if(qx.sys.Client.isMshtml())
 {
@@ -4506,7 +4600,10 @@ if(qx.sys.Client.isMshtml())
     }
     else if (qx.util.Validation.isValidNumber(propValue))
     {
-      this.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, qx.ui.core.Widget.OPACITY_FILTER_START + Math.round(propValue * 100) + qx.ui.core.Widget.OPACITY_FILTER_STOP);
+      this.setStyleProperty(qx.constant.Style.PROPERTY_FILTER,
+                            (qx.ui.core.Widget.OPACITY_FILTER_START +
+                             Math.round(propValue * 100) +
+                             qx.ui.core.Widget.OPACITY_FILTER_STOP));
     }
     else
     {
@@ -4537,7 +4634,7 @@ else
     {
       propValue = qx.lang.Number.limit(propValue, 0, 1);
 
-      // should we omit geckos flickering here
+      // should we omit gecko's flickering here
       // and limit the max value to 0.99?
 
       if (qx.sys.Client.isGecko())
@@ -4575,7 +4672,14 @@ qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    this.setStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY, propValue == qx.ui.core.Widget.CURSOR_VALUE_POINTER && qx.sys.Client.isMshtml() ? qx.ui.core.Widget.CURSOR_VALUE_HAND : propValue);
+    if (propValue == qx.ui.core.Widget.CURSOR_VALUE_POINTER &&
+        qx.sys.Client.isMshtml()) {
+    this.setStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY,
+                          qx.ui.core.Widget.CURSOR_VALUE_HAND);
+    } else {
+    this.setStyleProperty(qx.ui.core.Widget.CURSOR_PROPERTY,
+                          propValue);
+    }
   }
   else
   {
@@ -4640,27 +4744,44 @@ qx.Proto._compileClipString = function()
 
   if(vLeft == null)
   {
-    vRight = vWidth == null ? qx.constant.Core.AUTO : vWidth + qx.constant.Core.PIXEL;
+    vRight = (vWidth == null
+              ? qx.constant.Core.AUTO
+              : vWidth + qx.constant.Core.PIXEL);
     vLeft = qx.constant.Core.AUTO;
   }
   else
   {
-    vRight = vWidth == null ? qx.constant.Core.AUTO : vLeft + vWidth + qx.constant.Core.PIXEL;
+    vRight = (vWidth == null
+              ? qx.constant.Core.AUTO
+              : vLeft + vWidth + qx.constant.Core.PIXEL);
     vLeft = vLeft + qx.constant.Core.PIXEL;
   }
 
   if(vTop == null)
   {
-    vBottom = vHeight == null ? qx.constant.Core.AUTO : vHeight + qx.constant.Core.PIXEL;
+    vBottom = (vHeight == null
+               ? qx.constant.Core.AUTO
+               : vHeight + qx.constant.Core.PIXEL);
     vTop = qx.constant.Core.AUTO;
   }
   else
   {
-    vBottom = vHeight == null ? qx.constant.Core.AUTO : vTop + vHeight + qx.constant.Core.PIXEL;
+    vBottom = (vHeight == null
+               ? qx.constant.Core.AUTO
+               : vTop + vHeight + qx.constant.Core.PIXEL);
     vTop = vTop + qx.constant.Core.PIXEL;
   }
 
-  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY, qx.ui.core.Widget.CLIP_VALUE_START + vTop + qx.constant.Core.COMMA + vRight + qx.constant.Core.COMMA + vBottom + qx.constant.Core.COMMA + vLeft + qx.ui.core.Widget.CLIP_VALUE_STOP);
+  return this.setStyleProperty(qx.ui.core.Widget.CLIP_PROPERTY,
+                               (qx.ui.core.Widget.CLIP_VALUE_START +
+                                vTop +
+                                qx.constant.Core.COMMA +
+                                vRight +
+                                qx.constant.Core.COMMA +
+                                vBottom +
+                                qx.constant.Core.COMMA +
+                                vLeft +
+                                qx.ui.core.Widget.CLIP_VALUE_STOP));
 }
 
 
@@ -4741,8 +4862,8 @@ if (qx.sys.Client.isGecko())
   }
 }
 
-// Mshtml conforms here to CSS3 Spec. Sometime here are multiple browsers
-// which support these new overflowX overflowY properties.
+// Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
+// browsers which support these new overflowX overflowY properties.
 else if (qx.sys.Client.isMshtml())
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
@@ -4764,7 +4885,9 @@ else if (qx.sys.Client.isMshtml())
     }
 
     // Clear up concurrenting rules
-    var a = [ qx.ui.core.Widget.SCROLL_PROPERTY, qx.ui.core.Widget.SCROLL_PROPERTYX, qx.ui.core.Widget.SCROLL_PROPERTYY ];
+    var a = [ qx.ui.core.Widget.SCROLL_PROPERTY,
+              qx.ui.core.Widget.SCROLL_PROPERTYX,
+              qx.ui.core.Widget.SCROLL_PROPERTYY ];
     for (var i=0; i<a.length; i++)
     {
       if (a[i]!=pn) {
@@ -4845,7 +4968,7 @@ if (qx.sys.Client.isMshtml())
 }
 
 // Need no implementation for others then mshtml, because
-// all these browsers support css outlines and does not
+// all these browsers support css outlines and do not
 // have an attribute "hideFocus" as IE.
 
 
