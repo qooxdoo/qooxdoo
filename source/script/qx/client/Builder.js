@@ -43,9 +43,6 @@ function(flags)
 
   this._registerDefaultPropertyEditors();
 
-  // keep track of where we are up to within the XML document - to assist in debugging messages
-  this._debugContext = [];
-
   this._flags = flags || {}
 
   // ensure the default flags are setup
@@ -68,14 +65,13 @@ function(flags)
   Dispatches a qx.event.type.Event("done") after the hierarchy is built
 */
 qx.Proto.buildFromUrl = function(parent, url) {
-  var loader = new QxXmlHttpLoader();
+  var req = new qx.io.remote.RemoteRequest(url, "GET", "application/xml");
   var self = this;
-  loader.addEventListener("complete", function(e) {
-    self.build(parent, e.getData());
-    e.preventDefault();
-    self.dispatchEvent(new qx.event.type.Event("done"), true);
+  req.addEventListener("completed", function(e) {
+    self.build(parent, e.getData().getContent());
+    qx.ui.core.Widget.flushGlobalQueues();
   });
-  loader.load(url);
+  req.send();
 }
 
 /*!
@@ -84,11 +80,6 @@ qx.Proto.buildFromUrl = function(parent, url) {
   @param node can be either a xml string, or a xml dom document or fragment
 */
 qx.Proto.build = function(parent, node) {
-
-    if (parent instanceof qx.core.Init) {
-      parent = parent.getClientWindow().getClientDocument();
-    }
-
     // support embedding of an XML string within a textarea
     if (typeof node == "object" && node.nodeName == 'TEXTAREA') {
       node = node.value;
@@ -109,25 +100,20 @@ qx.Proto._buildNodes = function(parent, nodes) {
       var n = nodes[i];
       // 1 = ELEMENT_NODE
       if (n.nodeType == 1) {
-          this._debugContext.push(n.nodeName+'['+(x++)+']');
           this._buildWidgetFromNode(parent, n);
-          this._debugContext.pop();
       }
     }
 }
 
 qx.Proto._buildEventListener = function(widget, args, text) {
   if (qx.util.Validation.isInvalidString(args.type)) {
-    throw this._newBuildError('eventListener requires a string type attribute');
+    throw this._newError('eventListener requires a string type attribute');
   }
 
   var self = this;
 
   // are we delegating ?
   if (qx.util.Validation.isValidString(args.delegate)) {
-
-    // remember the build context to be able to display it after built time
-    var dc = this._formatDebugContext();
 
     if (args.delegate.indexOf('.') > -1) {
       // delegation to a global method
@@ -137,11 +123,11 @@ qx.Proto._buildEventListener = function(widget, args, text) {
       widget.addEventListener(args.type, function(e) {
 
           if (!window[o]) {
-            throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
+            throw self._newError('delegate not found', {delegate:args.delegate});
           }
 
           if (!window[o][m]) {
-            throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
+            throw self._newError('delegate not found', {delegate:args.delegate});
           }
 
           window[o][m].apply(window[o], [e]);
@@ -153,7 +139,7 @@ qx.Proto._buildEventListener = function(widget, args, text) {
       widget.addEventListener(args.type, function(e) {
 
         if (!window[args.delegate]) {
-          throw self._newError(dc, 'delegate not found', {delegate:args.delegate});
+          throw self._newError('delegate not found', {delegate:args.delegate});
         }
 
         window[args.delegate].apply(null, [e]);
@@ -184,16 +170,16 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
   var className = this._extractClassName(node);
 
   if (!className) {
-    throw this._newBuildError("unrecognised node", {nodeName:node.nodeName});
+    throw this._newError("unrecognised node", {nodeName:node.nodeName});
   }
 
-  if (className == "QxWidgets") {
+  if (className == "qx.client.builder.Container") {
     // generic container node to allow xml to contain multiple toplevel nodes
     this._buildNodes(parent, node.childNodes);
     return;
   }
 
-  if (className == "QxScript") {
+  if (className == "qx.client.builder.Script") {
     var e = document.createElement("script");
     var attribs = this._mapXmlAttribToObject(node);
     if (attribs.type) {
@@ -219,7 +205,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     return;
   }
 
-  if (className == "qx.event.type.EventListener") {
+  if (className == "qx.client.builder.EventListener") {
     var attribs = this._mapXmlAttribToObject(node);
     var text;
     if (node.firstChild) {
@@ -229,9 +215,10 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     return;
   }
 
-  var classConstructor = window[className];
+
+  var classConstructor = qx.OO.classes[className];
   if (!classConstructor) {
-    throw this._newBuildError("constructor not found", {className:className});
+    throw this._newError("constructor not found", {className:className});
   }
 
   // construct the widget instance - using the default constructor
@@ -263,9 +250,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
   }
 
   for (var n in attribs) {
-    this._debugContext.push("@" + n);
     this._setWidgetProperty(widget, n, attribs[n]);
-    this._debugContext.pop();
   }
 
   if(!dummyWidget) {
@@ -286,7 +271,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
 /*!
   Set a widget's property using a propertyEditor
 */
-qx.Proto._setWidgetProperty = function(widget, name, value) {
+qx.Proto._setWidgetProperty = function(widget, name, value) {  
   var editor = this._findPropertyEditor(widget.classname, name);
   if (!editor) {
     editor = this._coercePropertyEditor;
@@ -303,7 +288,7 @@ qx.Proto._findPropertyEditor = function(className, propertyName) {
   }
 
   // try the widget's superclass
-  var w = window[className];
+  var w = qx.OO.classes[className];
   if (w && w.superclass && w.superclass.prototype.classname) {
     return this._findPropertyEditor(w.superclass.prototype.classname, propertyName);
   }
@@ -439,7 +424,7 @@ qx.Proto._setProperties = function(widget, name, value) {
       break;
     }
   }
-  if (!setter && this._flags.strict) throw this._newBuildError('no setter defined on widget instance', {widget:widget, property:name});
+  if (!setter && this._flags.strict) throw this._newError('no setter defined on widget instance', {widget:widget, property:name});
   setter.apply(widget, value);
 }
 
@@ -451,24 +436,18 @@ qx.Proto._setProperties = function(widget, name, value) {
 */
 
 /*
-3 format
-1. <qx:atom/>
-2. <atom/>
+2 format
+1. <qx.ui.basic.Atom/>
 3. <div qxtype="qx.ui.basic.Atom"/>
 */
 qx.Proto._extractClassName = function(node) {
-  var n;
   if (node.nodeName.toUpperCase() == "DIV") {
     if (!node.attributes['qxtype'])
       return null;
-    n = node.attributes['qxtype'].value;
+    return node.attributes['qxtype'].value;
   } else {
-    n = node.nodeName;
-    var nameParts = n.split(":");
-    if (nameParts.length == 2)
-     return qx.lang.String.toFirstUp(nameParts[0]) + qx.lang.String.toFirstUp(nameParts[1]);
+    return node.nodeName;
   }
-  return "Qx" + qx.lang.String.toFirstUp(n);
 }
 
 qx.Proto._mapXmlAttribToObject = function(node) {
@@ -486,14 +465,7 @@ qx.Proto._mapXmlAttribToObject = function(node) {
 ------------------------------------------------------------------------------------
 */
 
-/*!
-  the debugContext is only correct at build time
-*/
-qx.Proto._newBuildError = function(message, data, exception) {
-  return this._newError(this._formatDebugContext(), message, data, exception);
-}
-
-qx.Proto._newError = function(debugContext, message, data, exception) {
+qx.Proto._newError = function(message, data, exception) {
   var m = message;
   var joiner = "";
   var d = "";
@@ -504,18 +476,8 @@ qx.Proto._newError = function(debugContext, message, data, exception) {
     }
     m += " " + d + " ";
   }
-  m += " context: " + debugContext + " ";
   if (exception) {
     m+= " error: " + exception + " ";
   }
   return new Error(m);
-}
-
-qx.Proto._formatDebugContext = function() {
-  var s = "";
-  for (var i = 0; i < this._debugContext.length; i++) {
-    var v = this._debugContext[i];
-    s += '/'+v;
-  }
-  return s;
 }

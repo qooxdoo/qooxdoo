@@ -1,33 +1,33 @@
-<qx:widgets xmlns:qx='qooxdoo'>
-   <qx:menu id='m2'>
-    <qx:menuButton label='New Window'/>
-    <qx:menuButton label='Overlapping'/>
-    <qx:menuButton label='Split Vertical'/>
-    <qx:menuButton label='Split Horizontal'/>
-    <qx:menuButton label='Next Window'/>
-    <qx:menuButton label='Previous Window'/>
-  </qx:menu>
+<qx.client.builder.Container>
+   <qx.ui.menu.Menu id='m2'>
+    <qx.ui.menu.MenuButton label='New Window'/>
+    <qx.ui.menu.MenuButton label='Overlapping'/>
+    <qx.ui.menu.MenuButton label='Split Vertical'/>
+    <qx.ui.menu.MenuButton label='Split Horizontal'/>
+    <qx.ui.menu.MenuButton label='Next Window'/>
+    <qx.ui.menu.MenuButton label='Previous Window'/>
+  </qx.ui.menu.Menu>
 
-  <qx:menu id='m1'>
-    <qx:menuButton label='View/Lists'/>
-    <qx:menuButton label='Syntax Highlighting'/>
-    <qx:menuSeparator/>
-    <qx:menuButton label='Window Font'/>
-    <qx:menuButton label='Printer Font' menu='m2'/>
-  </qx:menu>
+  <qx.ui.menu.Menu id='m1'>
+    <qx.ui.menu.MenuButton label='View/Lists'/>
+    <qx.ui.menu.MenuButton label='Syntax Highlighting'/>
+    <qx.ui.menu.MenuSeparator/>
+    <qx.ui.menu.MenuButton label='Window Font'/>
+    <qx.ui.menu.MenuButton label='Printer Font' menu='m2'/>
+  </qx.ui.menu.Menu>
     
-  <qx:button id='btn' label='Reference Property' location='20,48'>
-    <qx:eventListener type='click' args='e'>
+  <qx.ui.form.Button id='btn' label='Reference Property' location='20,48'>
+    <qx.client.builder.EventListener type='click' args='e'>
       var el = this.getElement();
-      m1.setLeft(QxDom.getComputedPageBoxLeft(el));
-      m1.setTop(QxDom.getComputedPageBoxBottom(el));
+      m1.setLeft(qx.dom.DomLocation.getPageBoxLeft(el));
+      m1.setTop(qx.dom.DomLocation.getPageBoxBottom(el));      ;
       m1.show();
       e.setPropagationStopped(true);
-    </qx:eventListener>
-    <qx:eventListener type='mousedown' args='e'>
+    </qx.client.builder.EventListener>
+    <qx.client.builder.EventListener type='mousedown' args='e'>
       e.setPropagationStopped(true);
-    </qx:eventListener>  
-  </qx:button>
+    </qx.client.builder.EventListener>  
+  </qx.ui.form.Button>
   
-  <qx:atom label='Comma Delimited Property &amp; Eval Property ' location='140,48' backgroundColor='#BDD2EF' dimension='220,220' border='QxBorderObject.presets.outset'/>
-</qx:widgets>
+  <qx.ui.basic.Atom label='Comma Delimited Property &amp; Eval Property ' location='140,48' backgroundColor='#BDD2EF' dimension='220,220' border='qx.renderer.border.Border.presets.outset'/>
+</qx.client.builder.Container>
