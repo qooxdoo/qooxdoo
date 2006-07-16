@@ -50,8 +50,8 @@ function(vData, vColumns)
   //   MOUSE EVENT LISTENER
   // ************************************************************************
   // Add handling for mouse wheel events
-  // Needed because the virtual scroll area does not fire browser understandable
-  // events above this pane.
+  // Needed because the virtual scroll area does not fire browser
+  // understandable events above this pane.
   this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
   this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
@@ -67,7 +67,10 @@ function(vData, vColumns)
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-pane" });
+qx.OO.changeProperty({ name : "appearance",
+                       type : qx.constant.Type.STRING,
+                       defaultValue : "list-view-pane"
+                     });
 
 qx.Proto._rowHeight = 16;
 
@@ -124,7 +127,8 @@ qx.Proto._updateLayout = function(vUpdate)
         this.add(vCell, j++, i);
 
         if (vColumns[vCol].align) {
-          vCell.setStyleProperty(qx.constant.Style.PROPERTY_TEXTALIGN, vColumns[vCol].align);
+          vCell.setStyleProperty(qx.constant.Style.PROPERTY_TEXTALIGN,
+                                 vColumns[vCol].align);
         }
       }
     }
@@ -183,7 +187,9 @@ qx.Proto._updateRendering = function(vForce)
     return;
   }
 
-  var vScrollTop = this._initialLayoutDone ? this.getView().getScroll().getScrollTop() : 0;
+  var vScrollTop = (this._initialLayoutDone
+                    ? this.getView().getScroll().getScrollTop()
+                    : 0);
 
   this._updatingRendering = true;
   this._currentScrollTop = vScrollTop;
@@ -215,8 +221,14 @@ qx.Proto._updateRow = function(vRelativeRow)
 
     if (vChild)
     {
-      vEntry && vEntry._selected ? vChild.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vChild.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
-      vChild.set(vEntry ? vEntry[vCol] : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
+      if (vEntry && vEntry._selected) {
+        vChild.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+      } else {
+        vChild.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+      }
+      vChild.set(vEntry
+                 ? vEntry[vCol]
+                 : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
     }
   }
 }
@@ -240,7 +252,9 @@ qx.Proto._changeInnerHeight = function(vNew, vOld)
   this._updateLayout(true);
   this._updateRendering(true);
 
-  return qx.ui.layout.GridLayout.prototype._changeInnerHeight.call(this, vNew, vOld);
+  return qx.ui.layout.GridLayout.prototype._changeInnerHeight.call(this,
+                                                                   vNew,
+                                                                   vOld);
 }
 
 
@@ -416,7 +430,8 @@ qx.Proto.scrollItemIntoViewY = function(vItem, vAlignTop)
   var vHeight = this._rowHeight;
 
   // normalize client height (we want that the item is fully visible)
-  var vParentHeight = Math.floor(this.getClientHeight() / this._rowHeight) * this._rowHeight;
+  var vParentHeight = (Math.floor(this.getClientHeight() / this._rowHeight) *
+                       this._rowHeight);
   var vParentScrollTop = this._currentScrollTop;
 
   var vNewScrollTop = null;
