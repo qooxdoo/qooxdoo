@@ -52,7 +52,8 @@ function(treeRowStructure)
 
   // Behaviour and Hard Styling
   this._labelObject.setSelectable(false);
-  this._labelObject.setStyleProperty(qx.constant.Style.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
+  this._labelObject.setStyleProperty(qx.constant.Style.PROPERTY_LINEHEIGHT,
+                                     qx.constant.Core.HUNDREDPERCENT);
 
   qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
 
@@ -106,23 +107,36 @@ qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treefullcontro
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tree-element" });
+qx.OO.changeProperty({ name : "appearance",
+                       type : qx.constant.Type.STRING,
+                       defaultValue : "tree-element"
+                     });
 
 /*!
   The icons
 */
-qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
-qx.OO.addProperty({ name : "iconSelected", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "icon",
+                    type : qx.constant.Type.STRING
+                  });
+
+qx.OO.addProperty({ name : "iconSelected",
+                    type : qx.constant.Type.STRING
+                  });
 
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "label",
+                    type : qx.constant.Type.STRING
+                  });
 
 /*!
   Selected property
 */
-qx.OO.addProperty({ name : "selected", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "selected",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : false
+                  });
 
 
 
@@ -146,12 +160,22 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
-  propValue ? this._labelObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._labelObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  if (propValue) {
+    this.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    this._labelObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  } else {
+    this.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    this._labelObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  }
 
   var vTree = this.getTree();
-  if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this)) {
-    propValue ? this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  if (!vTree._fastUpdate ||
+      (propOldValue && vTree._oldItem == this)) {
+    if (propValue) {
+      this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    } else {
+      this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    }
   }
 
   var vManager = this.getTree().getManager();
@@ -297,13 +321,21 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 {
   qx.ui.layout.BoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 
-  // Be sure to update previous folder also if it is closed currently (plus/minus symbol)
-  if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
+  // Be sure to update previous folder also if it is closed currently
+  // (plus/minus symbol)
+  if (propOldValue &&
+      !propOldValue.isDisplayable() &&
+      propOldValue.getParent() &&
+      propOldValue.getParent().isDisplayable()) {
     propOldValue.getParent().addToTreeQueue();
   }
 
-  // Be sure to update new folder also if it is closed currently (plus/minus symbol)
-  if (propValue && !propValue.isDisplayable() && propValue.getParent() && propValue.getParent().isDisplayable()) {
+  // Be sure to update new folder also if it is closed currently
+  // (plus/minus symbol)
+  if (propValue &&
+      !propValue.isDisplayable() &&
+      propValue.getParent() &&
+      propValue.getParent().isDisplayable()) {
     propValue.getParent().addToTreeQueue();
   }
 
@@ -312,7 +344,10 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
 
 qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
 {
-  qx.ui.layout.BoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
+  qx.ui.layout.BoxLayout.prototype._handleDisplayableCustom.call(this,
+                                                                 vDisplayable,
+                                                                 vParent,
+                                                                 vHint);
 
   if (vHint)
   {
@@ -331,7 +366,9 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
       }
     }
 
-    if (vParentFolder && vParentFolder.isDisplayable() && vParentFolder._initialLayoutDone) {
+    if (vParentFolder &&
+        vParentFolder.isDisplayable() &&
+        vParentFolder._initialLayoutDone) {
       vParentFolder.addToTreeQueue();
     }
 
@@ -339,7 +376,8 @@ qx.Proto._handleDisplayableCustom = function(vDisplayable, vParent, vHint)
     {
       var vPrev = this.getPreviousVisibleSibling();
 
-      if (vPrev && vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
+      if (vPrev &&
+          vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
         vPrev._updateIndent();
       }
     }
@@ -388,7 +426,7 @@ qx.ui.treefullcontrol.AbstractTreeElement.IMG_EXTENSION = "gif";
 
 qx.Proto.flushTree = function()
 {
-  // store informations for update process
+  // store information for update process
   this._previousParentFolder = this.getParentFolder();
   this._wasLastVisibleChild = this.isLastVisibleChild();
 
