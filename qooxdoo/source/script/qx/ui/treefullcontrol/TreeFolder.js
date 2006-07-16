@@ -71,12 +71,28 @@ function(treeRowStructure)
 */
 
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tree-folder" });
-qx.OO.changeProperty({ name : "icon", type : qx.constant.Type.STRING });
-qx.OO.changeProperty({ name : "iconSelected", type : qx.constant.Type.STRING });
+qx.OO.changeProperty({ name : "appearance",
+                       type : qx.constant.Type.STRING,
+                       defaultValue : "tree-folder"
+                     });
 
-qx.OO.addProperty({ name : "open", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "icon",
+                       type : qx.constant.Type.STRING
+                     });
+
+qx.OO.changeProperty({ name : "iconSelected",
+                       type : qx.constant.Type.STRING
+                     });
+
+qx.OO.addProperty({ name : "open",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : false
+                  });
+
+qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : false
+                  });
 
 
 
@@ -88,7 +104,8 @@ qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.
 */
 
 qx.Proto.hasContent = function() {
-  return this._containerObject && this._containerObject.getChildrenLength() > 0;
+  return (this._containerObject &&
+          this._containerObject.getChildrenLength() > 0);
 }
 
 qx.Proto.open = function()
@@ -120,7 +137,8 @@ qx.Proto.open = function()
   }
 }
 
-qx.Proto.close = function() {
+qx.Proto.close = function()
+{
   // If there are listeners waiting for a treeClose event...
   if (this.getTree().hasEventListeners(qx.constant.Event.TREECLOSE)) {
     // ... then issue the event
@@ -130,7 +148,8 @@ qx.Proto.close = function() {
   this.setOpen(false);
 }
 
-qx.Proto.toggle = function() {
+qx.Proto.toggle = function()
+{
   this.getOpen() ? this.close() : this.open();
 }
 
@@ -156,7 +175,9 @@ qx.Proto._openCallback = function()
 
 qx.Proto._createChildrenStructure = function()
 {
-  this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree-container" : "tree-folder-container");
+  this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree
+                     ? "tree-container"
+                     : "tree-folder-container");
 
   if (!this._horizontalLayout)
   {
@@ -167,7 +188,9 @@ qx.Proto._createChildrenStructure = function()
     this._horizontalLayout.setWidth(null);
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
-    this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
+    this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree
+                                         ? "tree"
+                                         : "tree-folder");
 
     // Move the row fields into the horizontal layout
     for (var i = 0; i < this._treeRowStructureFields.length; i++)
@@ -249,7 +272,8 @@ qx.Proto.addBeforeToFolder = function(vChild, vBefore)
   if (this._containerObject)
   {
     this._handleChildMove(vChild, null, vBefore);
-    return this._containerObject.addBefore.apply(this._containerObject, arguments);
+    return this._containerObject.addBefore.apply(this._containerObject,
+                                                 arguments);
   }
 }
 
@@ -260,7 +284,8 @@ qx.Proto.addAfterToFolder = function(vChild, vAfter)
   if (this._containerObject)
   {
     this._handleChildMove(vChild, null, vAfter);
-    return this._containerObject.addAfter.apply(this._containerObject, arguments);
+    return this._containerObject.addAfter.apply(this._containerObject,
+                                                arguments);
   }
 }
 
@@ -290,7 +315,9 @@ qx.Proto.addAtEndToFolder = function(vChild)
     if (vLast)
     {
       this._handleChildMove(vChild, null, vLast);
-      return this._containerObject.addAfter.call(this._containerObject, vChild, vLast);
+      return this._containerObject.addAfter.call(this._containerObject,
+                                                 vChild,
+                                                 vLast);
     }
     else
     {
@@ -312,11 +339,13 @@ qx.Proto._remappingChildTable = [ "remove", "removeAt", "removeAll" ];
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getContainerObject = function() {
+qx.Proto.getContainerObject = function()
+{
   return this._containerObject;
 }
 
-qx.Proto.getHorizontalLayout = function() {
+qx.Proto.getHorizontalLayout = function()
+{
   return this._horizontalLayout;
 }
 
@@ -482,28 +511,24 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
   {
     if (this.hasContent() || this.getAlwaysShowPlusMinusSymbol())
     {
-      /* If tree lines were not requested, don't display them */
+      // If tree lines were not requested, don't display them
       if (!vUseTreeLines)
       {
         return this.getOpen() ? "minus" : "plus";
       }
 
 
-      /* If this is the first level under the root... */
+      // If this is the first level under the root...
       if (this.getLevel() == 1) {
-        /*
-         * ... and the root is not being displayed and this is the first
-         * child... 
-         */
+        // ... and the root is not being displayed and this is the first
+        // child... 
         var vParentFolder = this.getParentFolder();
         if (vParentFolder &&
             !vParentFolder._horizontalLayout.getVisibility() &&
             this.isFirstChild())
         {
-          /*
-           * ... then if this is also the last (i.e. only) child, use no tree
-           * lines; otherwise, use descender lines but no ascender.
-           */
+          //... then if this is also the last (i.e. only) child, use no tree
+          // lines; otherwise, use descender lines but no ascender.
           if (this.isLastChild())
           {
             return this.getOpen() ? "minus" : "plus";

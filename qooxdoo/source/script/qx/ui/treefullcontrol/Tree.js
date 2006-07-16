@@ -81,14 +81,27 @@ function(treeRowStructure)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "useDoubleClick", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
-qx.OO.addProperty({ name : "useTreeLines", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+qx.OO.addProperty({ name : "useDoubleClick",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : false,
+                    getAlias : "useDoubleClick"
+                  });
+
+qx.OO.addProperty({ name : "useTreeLines",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : true,
+                    getAlias : "useTreeLines"
+                  });
 
 /*
  * Add a "hideNode" property.  This differs from the visibility property in
  * that this property hides *only* the current node, not the node's children.
  */
-qx.OO.addProperty({ name : "hideNode", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "hideNode" });
+qx.OO.addProperty({ name : "hideNode",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : false,
+                    getAlias : "hideNode"
+                  });
 
 
 
@@ -245,11 +258,15 @@ qx.Proto.getLevel = function() {
 */
 
 qx.ui.treefullcontrol.Tree.isTreeFolder = function(vObject) {
-  return vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree);
+  return (vObject &&
+          vObject instanceof qx.ui.treefullcontrol.TreeFolder &&
+          !(vObject instanceof qx.ui.treefullcontrol.Tree));
 }
 
 qx.ui.treefullcontrol.Tree.isOpenTreeFolder = function(vObject) {
-  return vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent();
+  return (vObject instanceof qx.ui.treefullcontrol.TreeFolder &&
+          vObject.getOpen() &&
+          vObject.hasContent());
 }
 
 
@@ -369,7 +386,8 @@ qx.Proto.getLastTreeChild = function()
 
   while (vLast instanceof qx.ui.treefullcontrol.AbstractTreeElement)
   {
-    if (!(vLast instanceof qx.ui.treefullcontrol.TreeFolder) || !vLast.getOpen()) {
+    if (!(vLast instanceof qx.ui.treefullcontrol.TreeFolder) ||
+        !vLast.getOpen()) {
       return vLast;
     }
 
@@ -392,7 +410,8 @@ qx.Proto.setSelectedElement = function(vElement)
 }
 
 /* Override getHierarchy: do not add label if root node is hidden */
-qx.Proto.getHierarchy = function(vArr) {
+qx.Proto.getHierarchy = function(vArr)
+{
   if (! this.hideNode() && this._labelObject) {
     vArr.unshift(this._labelObject.getHtml());
   }
