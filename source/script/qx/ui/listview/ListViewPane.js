@@ -41,7 +41,7 @@ function(vData, vColumns)
 
 
   // ************************************************************************
-  //   INITILISIZE MANAGER
+  //   INITIALIZE MANAGER
   // ************************************************************************
   this._manager = new qx.manager.selection.VirtualSelectionManager(this);
 
