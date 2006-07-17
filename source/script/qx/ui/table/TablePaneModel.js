@@ -3,7 +3,8 @@
    qooxdoo - the new era of web development
 
    Copyright:
-     2004-2006 by Schlund + Partner AG, Germany
+     2004-2006 by 1&1 Internet AG, Germany
+     http://www.1und1.de | http://www.1and1.com
      All rights reserved
 
    License:
@@ -14,9 +15,9 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sw at schlund dot de>
+       <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (ecker)
-       <ae at schlund dot de>
+       <andreas dot ecker at 1und1 dot de>
      * Til Schneider (til132)
        <tilman dot schneider at stz-ida dot de>
 
