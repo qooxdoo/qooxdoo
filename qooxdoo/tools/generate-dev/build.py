@@ -50,7 +50,7 @@ def argparser(cmdlineargs):
     for line in file(options.fromFile).read().split("\n"):
       line = line.strip()
 
-      if line == "":
+      if line == "" or line.startswith("#") or line.startswith("//"):
         continue
 
       line = line.split("=")
@@ -79,12 +79,20 @@ def argparser(cmdlineargs):
 
 def main():
   if len(sys.argv[1:]) == 0:
-    dirname = os.path.dirname(sys.argv[0])
-    print "usage: %s [options]" % dirname
-    print "Try '%s -h' or '%s --help' to show the help message." % (dirname, dirname)
+    basename = os.path.basename(sys.argv[0])
+    print "usage: %s [options]" % basename
+    print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
   options = argparser(sys.argv[1:])
+
+  if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
+    basename = os.path.basename(sys.argv[0])
+    print "You must define at least one source directory!"
+    print "usage: %s [options]" % basename
+    print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
+    sys.exit(1)
+
 
   print
   print "  PREPARING:"

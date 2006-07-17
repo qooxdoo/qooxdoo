@@ -70,7 +70,7 @@ def extractResources(data):
 
 def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, enableDeps):
   if not loadDeps.has_key(uniqueId):
-    print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
+    print "    * Could not find required: %s" % uniqueId
     return False
 
   # Test if already in
