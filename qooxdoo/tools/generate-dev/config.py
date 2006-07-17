@@ -12,6 +12,7 @@ import re
 JSEXT = ".js"
 XMLEXT = ".xml"
 TOKENEXT = ".txt"
+DIRIGNORE = [ ".svn", "CVS" ]
 
 
 
@@ -26,7 +27,7 @@ QXHEAD = {
   "module" : re.compile("#module\(([\.a-zA-Z0-9_-]+)\)", re.M),
   "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M),
   "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "copy" : re.compile("#copy\(([\.a-zA-Z0-9_-]+)\)", re.M)
+  "resource" : re.compile("#resource\(([\.a-zA-Z0-9_-]+)\)", re.M)
 }
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random
+import sys, string, re, os, random, optparse
 import config, tokenizer
 
 def compile(tokens, enableNewLines=False):
@@ -93,35 +93,36 @@ def compile(tokens, enableNewLines=False):
 
 
 def main():
-  if len(sys.argv) >= 2:
-    compiledString = compile(tokenizer.parseFile(sys.argv[1]))
-    if len(sys.argv) >= 3:
-      compiledFile = file(sys.argv[2], "w")
+  parser = optparse.OptionParser()
+
+  parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
+  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+
+  (options, args) = parser.parse_args()
+
+  if len(args) == 0:
+    print "Needs one or more arguments (files) to compile!"
+    sys.exit(1)
+
+  for fileName in args:
+    print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+
+    compiledString = compile(tokenizer.parseFile(fileName))
+    if options.write:
+      compiledFile = file(fileName + options.extension, "w")
       compiledFile.write(compiledString)
       compiledFile.flush()
       compiledFile.close()
+
     else:
       print compiledString
-
-  else:
-    print "compile.py input.js [output.js]"
-    print "First Argument should be a JavaScript file."
-    print "Outputs compiled javascript to stdout if the second argument (the target file) is missing."
 
 
 
 if __name__ == '__main__':
-  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
-    raise RuntimeError, "Please upgrade to >= Python 2.3"
-
   try:
     main()
 
   except KeyboardInterrupt:
-    print
-    print "  STOPPED"
-    print "***********************************************************************************************"
-
-  except:
-    print "Unexpected error:", sys.exc_info()[0]
-    raise
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
