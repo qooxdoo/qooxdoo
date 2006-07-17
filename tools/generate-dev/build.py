@@ -4,7 +4,7 @@ import sys, string, re, os, random, shutil, optparse
 import config, tokenizer, loader, compile
 
 
-def argparser(args):
+def argparser(cmdlineargs):
   parser = optparse.OptionParser("usage: %prog [options]")
 
   # From file
@@ -24,8 +24,8 @@ def argparser(args):
   parser.add_option("--output-list", action="store_true", dest="outputList", default=False, help="Output sorted file list.")
 
   # General options
-  parser.add_option("-q", "--quiet", action="store_false", dest="verbose", help="Quiet output mode.")
-  parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=True, help="Verbose output mode.")
+  parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
+  parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
 
   # Include/Exclude
   parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
@@ -36,10 +36,11 @@ def argparser(args):
   # Compile options
   parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
   parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
+  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", help="Name of output file from compiler")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
 
   # Parse arguments
-  (options, args) = parser.parse_args(args)
+  (options, args) = parser.parse_args(cmdlineargs)
 
   # Read from file
   if options.fromFile != None:
@@ -47,27 +48,29 @@ def argparser(args):
     # Convert file content into arguments
     fileargs = []
     for line in file(options.fromFile).read().split("\n"):
+      line = line.strip()
+
       if line == "":
         continue
 
-      sline = line.split("=")
-      key = sline[0].strip()
+      line = line.split("=")
+      key = "--%s" % line.pop(0).strip()
 
-      if len(key) == 1:
-        key = "-" + key
+      if len(line) > 0:
+        line = line[0].split(",")
+
+        for elem in line:
+          fileargs.append(key)
+          fileargs.append(elem.strip())
+
       else:
-        key = "--" + key
-
-      fileargs.append(key)
-
-      if len(sline) > 1:
-        value = sline[1].strip()
-        fileargs.append(value)
+        fileargs.append(key)
 
     # Parse
-    (options, args) = parser.parse_args(args)
+    (options, args) = parser.parse_args(fileargs)
 
   # Return
+  print options
   return options
 
 
@@ -281,7 +284,7 @@ def main():
           compFile.close()
 
     if options.compileSource:
-      compFileName = os.path.join(options.buildDirectory, "qooxdoo" + config.JSEXT)
+      compFileName = os.path.join(options.buildDirectory, options.compileOutputName)
 
       compFile = file(compFileName, "w")
       compFile.write(compAllString)
