@@ -25,6 +25,12 @@
 #id(qx.themes.icons.nuvola)
 #module(iconthemes)
 #require(qx.renderer.theme.IconTheme)
+#resource(16)
+#resource(22)
+#resource(32)
+#resource(48)
+#resource(64)
+#resource(128)
 
 ************************************************************************ */
 
