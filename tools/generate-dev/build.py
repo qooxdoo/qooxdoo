@@ -36,7 +36,7 @@ def argparser(cmdlineargs):
   # Compile options
   parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
   parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
-  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", help="Name of output file from compiler")
+  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
 
   # Parse arguments
