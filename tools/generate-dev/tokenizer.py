@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random
+import sys, string, re, os, random, optparse
 import config
 
 R_WHITESPACE = re.compile("\s+")
@@ -222,36 +222,40 @@ def convertTokensToString(tokens):
 
 
 
+
+
 def main():
-  if len(sys.argv) >= 2:
-    tokenString = convertTokensToString(parseFile(sys.argv[1]))
-    if len(sys.argv) >= 3:
-      tokenFile = file(sys.argv[2], "w")
+  parser = optparse.OptionParser()
+
+  parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
+  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".tokenized")
+
+  (options, args) = parser.parse_args()
+
+  if len(args) == 0:
+    print "Needs one or more arguments (files) to tokenize!"
+    sys.exit(1)
+
+  for fileName in args:
+    print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+
+    tokenString = convertTokensToString(parseFile(fileName))
+    if options.write:
+      tokenFile = file(fileName + options.extension, "w")
       tokenFile.write(tokenString)
       tokenFile.flush()
       tokenFile.close()
+
     else:
       print tokenString
 
-  else:
-    print "tokenizer.py input.js [output.txt]"
-    print "First Argument should be a JavaScript file."
-    print "Outputs tokens string to stdout if the second argument (the target file) is missing."
 
 
 
 if __name__ == '__main__':
-  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
-    raise RuntimeError, "Please upgrade to >= Python 2.3"
-
   try:
     main()
 
   except KeyboardInterrupt:
-    print
-    print "  STOPPED"
-    print "***********************************************************************************************"
-
-  except:
-    print "Unexpected error:", sys.exc_info()[0]
-    raise
+    print "  * Keyboard Interrupt"
+    sys.exit(1)

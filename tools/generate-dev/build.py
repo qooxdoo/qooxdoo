@@ -1,264 +1,144 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random
+import sys, string, re, os, random, shutil, optparse
 import config, tokenizer, loader, compile
-#import fchksum
 
 
-def printHelp():
-  print
+def argparser(args):
+  parser = optparse.OptionParser("usage: %prog [options]")
 
-  # Help
-  print "  HELP"
-  print "***********************************************************************************************"
-  print "  -h,  --help                       show this help screen"
-  print
-
-  # Jobs
-  print "  -c,  --compile-tokens             compile tokens to new js-files"
-  print "  -t   --store-tokens               store token list for each file"
-  print "  -f,  --print-files                print known files"
-  print "  -m,  --print-modules              print known modules"
-  print "  -s,  --print-sorted               print sorted include list"
-  print
-
-  # Include/Exclude
-  print "  -i,  --include <LIST>             comma seperated include list"
-  print "  -e,  --exclude <LIST>             comma seperated exclude list"
-  print "       --disable-include-deps       disable include dependencies"
-  print "       --disable-exclude-deps       disable exclude dependencies"
-  print
-
-  # Options
-  print "  -r   --read-from-file             read arguments from file"
-  print "  -q   --quiet                      be less verbose"
-  print "       --store-separate-scripts     store each compiled file separately"
-  print "       --compile-with-new-lines     enable newlines in compiled js-files"
-  print "       --add-unique-ids             insert uniqueIds into compiled js-files"
-  print
+  # From file
+  parser.add_option("--from-file", dest="fromFile", metavar="CONFIG_FILE", help="Read options from CONFIG_FILE.")
 
   # Directories
-  print "       --source-directories <LIST>  comma separated list with source directories"
-  print "       --output-tokenized <DIR>     destination directory of tokenized files"
-  print "       --output-build <DIR>         destination directory of build files"
-  print
+  parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
+  parser.add_option("--token-directory", dest="tokenDirectory", metavar="DIRECTORY", help="Define output directory for tokenized source files.")
+  parser.add_option("--build-directory", dest="buildDirectory", metavar="DIRECTORY", help="Define output directory for build source files.")
 
+  # Actions
+  parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
+  parser.add_option("-r", "--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
+  parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files.")
+  parser.add_option("--output-files", action="store_true", dest="outputFiles", default=False, help="Output known files.")
+  parser.add_option("--output-modules", action="store_true", dest="outputModules", default=False, help="Output known modules.")
+  parser.add_option("--output-list", action="store_true", dest="outputList", default=False, help="Output sorted file list.")
 
+  # General options
+  parser.add_option("-q", "--quiet", action="store_false", dest="verbose", help="Quiet output mode.")
+  parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=True, help="Verbose output mode.")
 
+  # Include/Exclude
+  parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
+  parser.add_option("-e", "--exclude", action="append", dest="exclude", help="Exclude ID")
+  parser.add_option("--disable-include-deps", action="store_false", dest="enableIncludeDeps", default=True, help="Enable include dependencies.")
+  parser.add_option("--disable-exclude-deps", action="store_false", dest="enableExcludeDeps", default=True, help="Enable exclude dependencies.")
 
-def argparser(args, cmds):
-  i = 0
-  while i < len(args):
-    c = args[i]
+  # Compile options
+  parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
+  parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
+  parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
 
+  # Parse arguments
+  (options, args) = parser.parse_args(args)
 
-    # Options
-    if c == "-q" or c == "--quiet":
-      cmds["verbose"] = False
+  # Read from file
+  if options.fromFile != None:
 
+    # Convert file content into arguments
+    fileargs = []
+    for line in file(options.fromFile).read().split("\n"):
+      if line == "":
+        continue
 
-    # Source
-    elif c == "--source-directories":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
+      sline = line.split("=")
+      key = sline[0].strip()
 
-      cmds["source"] = args[i+1].split(",")
+      if len(key) == 1:
+        key = "-" + key
+      else:
+        key = "--" + key
 
-      if "" in cmds["source"]:
-        cmds["source"].remove("")
+      fileargs.append(key)
 
-      i += 1
+      if len(sline) > 1:
+        value = sline[1].strip()
+        fileargs.append(value)
 
+    # Parse
+    (options, args) = parser.parse_args(args)
 
+  # Return
+  return options
 
-    # Output
-    elif c == "--output-tokenized":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
-
-      cmds["outputTokenized"] = args[i+1]
-      i += 1
-
-    elif c == "--output-build":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
-
-      cmds["outputBuild"] = args[i+1]
-      i += 1
-
-
-
-
-    # Jobs
-    elif c == "-c" or c == "--compile-tokens":
-      cmds["compileTokens"] = True
-
-    elif c == "-t" or c == "--store-tokens":
-      cmds["storeTokens"] = True
-
-    elif c == "-f" or c == "--print-files":
-      cmds["printKnownFiles"] = True
-
-    elif c == "-m" or c == "--print-modules":
-      cmds["printKnownModules"] = True
-
-    elif c == "-s" or c == "--print-sorted":
-      cmds["printSortedIdList"] = True
-
-    elif c == "--store-separate-scripts":
-      cmds["storeSeparateScripts"] = True
-
-    elif c == "--compile-with-new-lines":
-      cmds["compileWithNewLines"] = True
-
-    elif c == "--add-unique-ids":
-      cmds["addUniqueIds"] = True
-
-
-
-    # Include/Exclude
-    elif c == "-i" or c == "--include":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
-
-      cmds["include"] = args[i+1].split(",")
-      i += 1
-
-    elif c == "-e" or c == "--exclude":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
-
-      cmds["exclude"] = args[i+1].split(",")
-      i += 1
-
-    elif c == "--disable-include-deps":
-      cmds["ignoreIncludeDeps"] = True
-
-    elif c == "--disable-exclude-deps":
-      cmds["ignoreExcludeDeps"] = True
-
-
-
-    # Read from file
-    elif c == "-r" or c == "--read-from-file":
-      if len(args) <= i+1:
-        printHelp()
-        raise RuntimeError, "Missing parameter(s)"
-
-      fileargs = []
-      for line in file(args[i+1]).read().split("\n"):
-        if line == "":
-          continue
-
-        sline = line.split("=")
-        key = sline[0].strip()
-
-        if len(key) == 1:
-          key = "-" + key
-        else:
-          key = "--" + key
-
-        fileargs.append(key)
-
-        if len(sline) > 1:
-          value = sline[1].strip()
-          fileargs.append(value)
-
-      argparser(fileargs, cmds)
-      i += 1
-
-
-
-
-    # Fallback
-    else:
-      printHelp()
-      raise RuntimeError, "Unknown option: %s" % c
-
-
-    # Countin' up
-    i += 1
 
 
 
 
 
 def main():
-  cmds = {}
+  if len(sys.argv[1:]) == 0:
+    dirname = os.path.dirname(sys.argv[0])
+    print "usage: %s [options]" % dirname
+    print "Try '%s -h' or '%s --help' to show the help message." % (dirname, dirname)
+    sys.exit(1)
 
-  # Options
-  cmds["verbose"] = True
-
-  # Source
-  cmds["source"] = ["source/script", "source/themes"]
-
-  # Output
-  cmds["outputTokenized"] = "build/tokens"
-  cmds["outputBuild"] = "build/script"
-
-  # Jobs
-  cmds["compileTokens"] = False
-  cmds["storeTokens"] = False
-  cmds["printKnownFiles"] = False
-  cmds["printKnownModules"] = False
-  cmds["printSortedIdList"] = False
-  cmds["storeSeparateScripts"] = False
-  cmds["compileWithNewLines"] = False
-  cmds["addUniqueIds"] = False
-
-  # Include/Exclude
-  cmds["include"] = []
-  cmds["exclude"] = []
-  cmds["ignoreIncludeDeps"] = False
-  cmds["ignoreExcludeDeps"] = False
-
-
-
-
-  if "-h" in sys.argv or "--help" in sys.argv or len(sys.argv) == 1:
-    printHelp()
-    return
-
-  argparser(sys.argv[1:], cmds)
-
-
-
-
+  options = argparser(sys.argv[1:])
 
   print
   print "  PREPARING:"
   print "***********************************************************************************************"
 
-  print "  * Creating directory layout..."
+  print "  * Creating needed directories..."
 
-  if cmds["storeTokens"] and cmds["outputTokenized"] != "" and not os.path.exists(cmds["outputTokenized"]):
-    os.makedirs(cmds["outputTokenized"])
+  if options.storeTokens:
+    if options.tokenDirectory == None:
+      print "    * You must define the token directory!"
+      sys.exit(1)
 
-  if cmds["compileTokens"] and cmds["outputBuild"] != "" and not os.path.exists(cmds["outputBuild"]):
-    os.makedirs(cmds["outputBuild"])
+    else:
+      options.tokenDirectory = os.path.normpath(options.tokenDirectory)
+
+      # Normalizing directory
+      if not os.path.exists(options.tokenDirectory):
+        os.makedirs(options.tokenDirectory)
+
+  if options.compileSource or options.copyResources:
+    if options.buildDirectory == None:
+      print "    * You must define the build directory!"
+      sys.exit(1)
+
+    else:
+      options.buildDirectory = os.path.normpath(options.buildDirectory)
+
+      # Normalizing directory
+      if not os.path.exists(options.buildDirectory):
+        os.makedirs(options.buildDirectory)
 
 
 
-  scanResult = loader.scanAll(cmds["source"])
-  sortedIncludeList = loader.getSortedList(cmds, scanResult)
+  print "  * Loading directory content..."
+
+  # Normalizing directories
+  i=0
+  for directory in options.sourceDirectories:
+    options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
+    i+=1
+
+  scanResult = loader.scanAll(options.sourceDirectories)
+  sortedIncludeList = loader.getSortedList(options, scanResult)
 
 
 
 
 
-  if cmds["printKnownFiles"]:
+  if options.outputFiles:
     print
     print "  KNOWN FILES:"
     print "***********************************************************************************************"
     for key in scanResult["files"]:
       print "  %s (%s)" % (key, scanResult["files"][key])
 
-  if cmds["printKnownModules"]:
+  if options.outputModules:
     print
     print "  KNOWN MODULES:"
     print "***********************************************************************************************"
@@ -267,85 +147,141 @@ def main():
       for key in scanResult["modules"][pkg]:
         print "    - %s" % key
 
-  if cmds["printSortedIdList"]:
+  if options.outputList:
     print
     print "  INCLUDE ORDER:"
     print "***********************************************************************************************"
     for key in sortedIncludeList:
       print "  * %s" % key
 
-  if cmds["compileTokens"] or cmds["storeTokens"]:
+
+
+
+  if options.copyResources:
     print
-    print "  BUIDLING FILES:"
+    print "  COPY RESOURCES:"
+    print "***********************************************************************************************"
+    for fileId in sortedIncludeList:
+      filePath = scanResult["files"][fileId]
+      fileContent = file(filePath, "r").read()
+      fileResourceList = loader.extractResources(fileContent)
+
+      if len(fileResourceList) > 0:
+        print "  * Found %i resources in %s" % (len(fileResourceList), fileId)
+
+        for fileResource in fileResourceList:
+          resourceId = fileId + "." + fileResource
+          resourcePath = resourceId.replace(".", os.sep)
+
+          if options.verbose:
+            print "    * ResourcePath: %s" % resourcePath
+
+          sourceDir = os.path.join(os.path.dirname(filePath), fileResource)
+          destDir = os.path.join(options.buildDirectory, resourcePath)
+
+          for root, dirs, files in os.walk(sourceDir):
+
+            # Filter ignored directories
+            for ignoredDir in config.DIRIGNORE:
+              if ignoredDir in dirs:
+                dirs.remove(ignoredDir)
+
+            # Searching for items (resource files)
+            for itemName in files:
+
+              # Generate absolute source file path
+              itemSourcePath = os.path.join(root, itemName)
+
+              # Extract relative path and directory
+              itemRelPath = itemSourcePath.replace(sourceDir + os.sep, "")
+              itemRelDir = os.path.dirname(itemRelPath)
+
+              # Generate destination directory and file path
+              itemDestDir = os.path.join(destDir, itemRelDir)
+              itemDestPath = os.path.join(itemDestDir, itemName)
+
+              # Check/Create destination directory
+              if not os.path.exists(itemDestDir):
+                os.makedirs(itemDestDir)
+
+              # Copy file
+              shutil.copyfile(itemSourcePath, itemDestPath)
+
+
+
+
+
+  if options.compileSource or options.storeTokens:
+    print
+    print "  COMPILING SOURCE:"
     print "***********************************************************************************************"
 
     compAllString = ""
 
-    for uniqueId in sortedIncludeList:
-      print "  * %s" % uniqueId
+    for fileId in sortedIncludeList:
+      print "  * %s" % fileId
 
-      if cmds["verbose"]:
+      if options.verbose:
         print "    * reading..."
 
-      fileName = scanResult["files"][uniqueId]
-
-      # checksum
-      # fchksum.fmd5t(fileName)[0]
-
+      fileName = scanResult["files"][fileId]
       fileContent = file(fileName, "r").read()
       fileSize = len(fileContent) / 1000.0
 
-      if cmds["verbose"]:
+      if options.verbose:
         print "    * tokenizing source (%s KB)..." % fileSize
 
-      tokens = tokenizer.parseStream(fileContent, uniqueId)
+      tokens = tokenizer.parseStream(fileContent, fileId)
 
-      if cmds["storeTokens"]:
+      if options.storeTokens:
         tokenString = tokenizer.convertTokensToString(tokens)
         tokenSize = len(tokenString) / 1000.0
 
-        if cmds["verbose"]:
+        if options.verbose:
           print "    * writing tokens to file (%s KB)..." % tokenSize
 
-        tokenFileName = os.path.join(cmds["outputTokenized"], uniqueId + config.TOKENEXT)
+        tokenFileName = os.path.join(options.tokenDirectory, fileId + config.TOKENEXT)
 
         tokenFile = file(tokenFileName, "w")
         tokenFile.write(tokenString)
         tokenFile.flush()
         tokenFile.close()
 
-      if cmds["compileTokens"]:
-        if cmds["verbose"]:
+      if options.compileSource:
+        if options.verbose:
           print "    * compiling..."
 
-        compString = compile.compile(tokens, cmds["compileWithNewLines"])
+        compString = compile.compile(tokens, options.compileWithNewLines)
 
-        if cmds["addUniqueIds"]:
-          compAllString += "/* ID: " + uniqueId + " */\n" + compString + "\n"
+        if options.addFileIds:
+          compAllString += "/* ID: " + fileId + " */\n" + compString + "\n"
         else:
           compAllString += compString
 
         compSize = len(compString) / 1000.0
         compFactor = 100 - (compSize / fileSize * 100)
 
-        if cmds["verbose"]:
+        if options.verbose:
           print "    * compression %i%% (%s KB)" % (compFactor, compSize)
 
-        if cmds["storeSeparateScripts"]:
-          if cmds["verbose"]:
-            print "    * writing compiled code to file..."
-          compFileName = os.path.join(cmds["outputBuild"], uniqueId + config.JSEXT)
+        if options.storeSeparateScripts:
+          if options.verbose:
+            print "    * writing compiled file..."
+
+          compFileName = os.path.join(options.buildDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
+          compFileDir = os.path.dirname(compFileName)
+
+          # Check/Create destination directory
+          if not os.path.exists(compFileDir):
+            os.makedirs(compFileDir)
 
           compFile = file(compFileName, "w")
           compFile.write(compString)
           compFile.flush()
           compFile.close()
 
-
-
-
-    if cmds["compileTokens"]:
-      compFileName = os.path.join(cmds["outputBuild"], "qooxdoo" + config.JSEXT)
+    if options.compileSource:
+      compFileName = os.path.join(options.buildDirectory, "qooxdoo" + config.JSEXT)
 
       compFile = file(compFileName, "w")
       compFile.write(compAllString)
@@ -356,17 +292,9 @@ def main():
 
 
 if __name__ == '__main__':
-  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
-    raise RuntimeError, "Please upgrade to >= Python 2.3"
-
   try:
     main()
 
   except KeyboardInterrupt:
-    print
-    print "  STOPPED"
-    print "***********************************************************************************************"
-
-  except:
-    print "Unexpected error:", sys.exc_info()[0]
-    raise
+    print "  * Keyboard Interrupt"
+    sys.exit(1)

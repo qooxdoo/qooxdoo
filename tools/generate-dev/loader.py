@@ -57,10 +57,10 @@ def extractModules(data):
   return pkgs
 
 
-def extractCopyInfo(data):
+def extractResources(data):
   copy = []
 
-  for item in config.QXHEAD["copy"].findall(data):
+  for item in config.QXHEAD["resource"].findall(data):
     copy.append(item)
 
   return copy
@@ -68,7 +68,7 @@ def extractCopyInfo(data):
 
 
 
-def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreDeps):
+def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, enableDeps):
   if not loadDeps.has_key(uniqueId):
     print "    * Could not resolve requirement of uniqueId: %s" % uniqueId
     return False
@@ -79,9 +79,9 @@ def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreD
 
   except ValueError:
     # Including pre-deps
-    if not ignoreDeps:
+    if enableDeps:
       for preUniqueId in loadDeps[uniqueId]:
-        addUniqueIdToSortedList(preUniqueId, loadDeps, runtimeDeps, sortedList, False)
+        addUniqueIdToSortedList(preUniqueId, loadDeps, runtimeDeps, sortedList, True)
 
     # Add myself
     try:
@@ -90,9 +90,9 @@ def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreD
       sortedList.append(uniqueId)
 
     # Include post-deps
-    if not ignoreDeps:
+    if enableDeps:
       for postUniqueId in runtimeDeps[uniqueId]:
-        addUniqueIdToSortedList(postUniqueId, loadDeps, runtimeDeps, sortedList, False)
+        addUniqueIdToSortedList(postUniqueId, loadDeps, runtimeDeps, sortedList, True)
 
 
 
@@ -100,44 +100,48 @@ def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, ignoreD
 
 def scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps):
   for root, dirs, files in os.walk(sourceDir):
-    if "CVS" in dirs:
-      dirs.remove('CVS')
 
-    if ".svn" in dirs:
-      dirs.remove('.svn')
+    # Filter ignored directories
+    for ignoredDir in config.DIRIGNORE:
+      if ignoredDir in dirs:
+        dirs.remove(ignoredDir)
 
-    for filename in files:
-      if os.path.splitext(filename)[1] == config.JSEXT:
-        completeFileName = os.path.join(root, filename)
-        fileData = file(completeFileName, "r").read()
-        uniqueId = extractUniqueId(fileData)
+    # Searching for files
+    for fileName in files:
+      if os.path.splitext(fileName)[1] == config.JSEXT:
 
-        if uniqueId == None:
-          uniqueId = filename.replace(config.JSEXT, "")
-          print "    * Could not extract uniqueId from file: %s. Using filename!" % uniqueId
+        # Build complete filename and extract ID from relative path
+        filePath = os.path.join(root, fileName)
+        filePathId = os.path.join(root.replace(sourceDir + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
+
+        # Read file content and extract ID from content definition
+        fileContent = file(filePath, "r").read()
+        fileContentId = extractUniqueId(fileContent)
+
+        # Search for valid ID
+        if fileContentId == None:
+          fileId = filePathId
+          print "    * Could not extract uniqueId from file: %s. Using fileName!" % uniqueId
 
         else:
-          splitUniqueId = uniqueId.split(".")
-          splitFileName = completeFileName.replace(config.JSEXT, "").split(os.sep)
-          uniqueFileId = ".".join(splitFileName[len(splitFileName)-len(splitUniqueId):])
+          fileId = fileContentId
 
-          if uniqueId != uniqueFileId:
-            print "    * UniqueId/Filename mismatch: %s != %s" % (uniqueId, uniqueFileId)
-
+          if fileContentId != filePathId:
+            print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
 
         # Map uniqueId to fileName
-        knownFiles[uniqueId] = completeFileName
+        knownFiles[fileId] = filePath
 
         # Store explicit deps
-        loadDeps[uniqueId] = extractLoadtimeDeps(fileData)
-        runtimeDeps[uniqueId] = extractRuntimeDeps(fileData)
+        loadDeps[fileId] = extractLoadtimeDeps(fileContent)
+        runtimeDeps[fileId] = extractRuntimeDeps(fileContent)
 
         # Register file to module information
-        for pkgname in extractModules(fileData):
+        for pkgname in extractModules(fileContent):
           if knownModules.has_key(pkgname):
-            knownModules[pkgname].append(uniqueId)
+            knownModules[pkgname].append(fileId)
           else:
-            knownModules[pkgname] = [ uniqueId ]
+            knownModules[pkgname] = [ fileId ]
 
 
 
@@ -167,7 +171,7 @@ def scanAll(sourceDirectories):
 
 
 
-def getSortedList(cmds, scanResult):
+def getSortedList(options, scanResult):
   includeIds = []
   excludeIds = []
 
@@ -179,8 +183,8 @@ def getSortedList(cmds, scanResult):
   # INCLUDE
 
   # Add Modules and Files
-  if cmds.has_key("include"):
-    for include in cmds["include"]:
+  if options.include:
+    for include in options.include:
       if include in scanResult["modules"]:
         includeIds.extend(scanResult["modules"][include])
 
@@ -194,15 +198,15 @@ def getSortedList(cmds, scanResult):
 
   # Sorting
   for uniqueId in includeIds:
-    addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedList, cmds["ignoreIncludeDeps"])
+    addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedList, options.enableIncludeDeps)
 
 
 
   # EXCLUDE
 
   # Add Modules and Files
-  if cmds.has_key("exclude"):
-    for exclude in cmds["exclude"]:
+  if options.exclude:
+    for exclude in options.exclude:
       if exclude in scanResult["modules"]:
         excludeIds.extend(scanResult["modules"][exclude])
 
@@ -211,7 +215,7 @@ def getSortedList(cmds, scanResult):
 
     # Sorting
     for uniqueId in excludeIds:
-      addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedExcludeList, cmds["ignoreExcludeDeps"])
+      addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedExcludeList, options.enableExcludeDeps)
 
 
 

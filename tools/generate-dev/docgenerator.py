@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import sys, os, re, compile, tree, treegenerator, tokenizer
+import sys, os, re, optparse
+import compile, tree, treegenerator, tokenizer
 
 
 # contains 4 groups (1:type, 2:array dimensions, 5:default value)
@@ -938,19 +939,9 @@ def createNameRegex(nameArr):
 
 
 if __name__ == '__main__':
-  if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] < 3):
-    raise RuntimeError, "Please upgrade to >= Python 2.3"
-
   try:
     main()
 
   except KeyboardInterrupt:
-    print
-    print "  STOPPED"
-    print "***********************************************************************************************"
-
-  except:
-    print "Unexpected error:", sys.exc_info()[0]
-    raise
-
-
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
