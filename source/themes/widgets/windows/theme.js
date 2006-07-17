@@ -25,6 +25,13 @@
 #id(qx.themes.widgets.windows)
 #module(iconthemes)
 #require(qx.renderer.theme.WidgetTheme)
+#resource(arrows)
+#resource(cursors)
+#resource(datechooser)
+#resource(menu)
+#resource(table)
+#resource(tree)
+#resource(window)
 
 ************************************************************************ */
 
