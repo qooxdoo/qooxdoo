@@ -90,34 +90,6 @@ def main():
   print "  PREPARING:"
   print "***********************************************************************************************"
 
-  print "  * Creating needed directories..."
-
-  if options.storeTokens:
-    if options.tokenDirectory == None:
-      print "    * You must define the token directory!"
-      sys.exit(1)
-
-    else:
-      options.tokenDirectory = os.path.normpath(options.tokenDirectory)
-
-      # Normalizing directory
-      if not os.path.exists(options.tokenDirectory):
-        os.makedirs(options.tokenDirectory)
-
-  if options.compileSource or options.copyResources:
-    if options.compileDirectory == None:
-      print "    * You must define the build directory!"
-      sys.exit(1)
-
-    else:
-      options.compileDirectory = os.path.normpath(options.compileDirectory)
-
-      # Normalizing directory
-      if not os.path.exists(options.compileDirectory):
-        os.makedirs(options.compileDirectory)
-
-
-
   print "  * Loading directory content..."
 
   # Normalizing directories
@@ -215,8 +187,37 @@ def main():
 
   if options.compileSource or options.storeTokens:
     print
-    print "  COMPILING SOURCE:"
+    print "  TRANSFORMING SOURCE:"
     print "***********************************************************************************************"
+
+    print "  * Creating needed directories..."
+
+    if options.storeTokens:
+      if options.tokenDirectory == None:
+        print "    * You must define the token directory!"
+        sys.exit(1)
+
+      else:
+        options.tokenDirectory = os.path.normpath(options.tokenDirectory)
+
+        # Normalizing directory
+        if not os.path.exists(options.tokenDirectory):
+          os.makedirs(options.tokenDirectory)
+
+    if options.compileSource or options.copyResources:
+      if options.compileDirectory == None:
+        print "    * You must define the build directory!"
+        sys.exit(1)
+
+      else:
+        options.compileDirectory = os.path.normpath(options.compileDirectory)
+
+        # Normalizing directory
+        if not os.path.exists(options.compileDirectory):
+          os.makedirs(options.compileDirectory)
+
+
+
 
     compAllString = ""
 
