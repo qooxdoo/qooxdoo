@@ -13,7 +13,7 @@ def argparser(cmdlineargs):
   # Directories
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
   parser.add_option("--token-directory", dest="tokenDirectory", metavar="DIRECTORY", help="Define output directory for tokenized source files.")
-  parser.add_option("--build-directory", dest="buildDirectory", metavar="DIRECTORY", help="Define output directory for build source files.")
+  parser.add_option("--compile-directory", dest="compileDirectory", metavar="DIRECTORY", help="Define output directory for build source files.")
 
   # Actions
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
@@ -70,7 +70,6 @@ def argparser(cmdlineargs):
     (options, args) = parser.parse_args(fileargs)
 
   # Return
-  print options
   return options
 
 
@@ -106,16 +105,16 @@ def main():
         os.makedirs(options.tokenDirectory)
 
   if options.compileSource or options.copyResources:
-    if options.buildDirectory == None:
+    if options.compileDirectory == None:
       print "    * You must define the build directory!"
       sys.exit(1)
 
     else:
-      options.buildDirectory = os.path.normpath(options.buildDirectory)
+      options.compileDirectory = os.path.normpath(options.compileDirectory)
 
       # Normalizing directory
-      if not os.path.exists(options.buildDirectory):
-        os.makedirs(options.buildDirectory)
+      if not os.path.exists(options.compileDirectory):
+        os.makedirs(options.compileDirectory)
 
 
 
@@ -180,7 +179,7 @@ def main():
             print "    * ResourcePath: %s" % resourcePath
 
           sourceDir = os.path.join(os.path.dirname(filePath), fileResource)
-          destDir = os.path.join(options.buildDirectory, resourcePath)
+          destDir = os.path.join(options.compileDirectory, resourcePath)
 
           for root, dirs, files in os.walk(sourceDir):
 
@@ -271,7 +270,7 @@ def main():
           if options.verbose:
             print "    * writing compiled file..."
 
-          compFileName = os.path.join(options.buildDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
+          compFileName = os.path.join(options.compileDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
           compFileDir = os.path.dirname(compFileName)
 
           # Check/Create destination directory
@@ -284,7 +283,7 @@ def main():
           compFile.close()
 
     if options.compileSource:
-      compFileName = os.path.join(options.buildDirectory, options.compileOutputName)
+      compFileName = os.path.join(options.compileDirectory, options.compileOutputName)
 
       compFile = file(compFileName, "w")
       compFile.write(compAllString)
