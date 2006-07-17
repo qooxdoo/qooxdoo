@@ -40,7 +40,7 @@ function(vGalleryList)
 
   this.setOverflow("auto");
 
-  this.setHtmlProperty("className", "qx.ui.embed.Gallery");
+  this.setHtmlProperty("className", "qx_ui_embed_Gallery");
 
   this._manager = new qx.manager.selection.DomSelectionManager(this);
 
