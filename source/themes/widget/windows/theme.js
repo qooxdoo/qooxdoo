@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#id(qx.themes.widgets.windows)
+#id(qx.themes.widget.windows)
 #module(iconthemes)
 #require(qx.renderer.theme.WidgetTheme)
 #resource(arrows)

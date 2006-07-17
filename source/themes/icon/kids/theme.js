@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#id(qx.themes.icons.kids)
+#id(qx.themes.icon.kids)
 #module(iconthemes)
 #require(qx.renderer.theme.IconTheme)
 #resource(16)
