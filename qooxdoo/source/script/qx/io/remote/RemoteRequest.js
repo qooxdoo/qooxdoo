@@ -15,9 +15,9 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sw at schlund dot de>
+       <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (ecker)
-       <ae at schlund dot de>
+       <andreas dot ecker at 1und1 dot de>
      * Derell Lipman
        <derrell dot lipman at unwireduniverse dot com>
 

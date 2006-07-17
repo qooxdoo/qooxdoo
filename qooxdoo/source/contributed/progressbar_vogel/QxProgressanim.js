@@ -3,7 +3,8 @@
    qooxdoo - the new era of web development
 
    Copyright:
-     2004-2006 by Schlund + Partner AG, Germany
+     2004-2006 by 1&1 Internet AG, Germany
+     http://www.1und1.de | http://www.1and1.com
      All rights reserved
 
    License:
