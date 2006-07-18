@@ -4,7 +4,8 @@ import sys, string, re, os, random, shutil, optparse
 import config, tokenizer, loader, compile
 
 
-def argparser(cmdlineargs):
+
+def getparser():
   parser = optparse.OptionParser("usage: %prog [options]")
 
   # From file
@@ -39,38 +40,69 @@ def argparser(cmdlineargs):
   parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
 
+  return parser
+
+
+
+def argparser(cmdlineargs):
+
   # Parse arguments
-  (options, args) = parser.parse_args(cmdlineargs)
+  (options, args) = getparser().parse_args(cmdlineargs)
 
   # Read from file
-  if options.fromFile != None:
+  if options.fromFile == None:
+
+    execute(options)
+
+  else:
 
     # Convert file content into arguments
     fileargs = []
+    fileargpos = 0
+
     for line in file(options.fromFile).read().split("\n"):
+      if len(fileargs) <= fileargpos:
+        currentfileargs = []
+        fileargs.append(currentfileargs)
+
       line = line.strip()
 
       if line == "" or line.startswith("#") or line.startswith("//"):
         continue
 
       line = line.split("=")
-      key = "--%s" % line.pop(0).strip()
+      key = line.pop(0).strip()
+
+      # Separate packages
+      if key == "package":
+        fileargpos += 1
+        continue
+
+      key = "--%s" % key
 
       if len(line) > 0:
         line = line[0].split(",")
 
         for elem in line:
-          fileargs.append(key)
-          fileargs.append(elem.strip())
+          currentfileargs.append(key)
+          currentfileargs.append(elem.strip())
 
       else:
-        fileargs.append(key)
+        currentfileargs.append(key)
 
     # Parse
-    (options, args) = parser.parse_args(fileargs)
+    if len(fileargs) > 1:
+      # Combine basearg later with the current args
+      basearg = fileargs.pop(0)
+      for filearg in fileargs:
+        combinedargs = []
+        combinedargs.extend(basearg)
+        combinedargs.extend(filearg)
+        execute(getparser().parse_args(combinedargs)[0])
 
-  # Return
-  return options
+    else:
+      execute(getparser().parse_args(fileargs[0])[0])
+
 
 
 
@@ -84,8 +116,16 @@ def main():
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
-  options = argparser(sys.argv[1:])
+  argparser(sys.argv[1:])
 
+
+
+
+
+
+
+
+def execute(options):
   if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
     basename = os.path.basename(sys.argv[0])
     print "You must define at least one source directory!"
@@ -98,7 +138,7 @@ def main():
   print "  PREPARING:"
   print "***********************************************************************************************"
 
-  print "  * Loading directory content..."
+  print "  * Loading source directory content..."
 
   # Normalizing directories
   i=0
