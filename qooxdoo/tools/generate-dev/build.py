@@ -172,9 +172,6 @@ def main():
 
 
 
-
-
-
 def execute(options):
   if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
     basename = os.path.basename(sys.argv[0])
@@ -240,17 +237,16 @@ def execute(options):
 
     print "  * Creating needed directories..."
 
-    if options.copyResources:
-      if options.resourceDirectory == None:
-        print "    * You must define the resource directory!"
-        sys.exit(1)
+    if options.resourceDirectory == None:
+      print "    * You must define the resource directory!"
+      sys.exit(1)
 
-      else:
-        options.resourceDirectory = os.path.normpath(options.resourceDirectory)
+    else:
+      options.resourceDirectory = os.path.normpath(options.resourceDirectory)
 
-        # Normalizing directory
-        if not os.path.exists(options.resourceDirectory):
-          os.makedirs(options.resourceDirectory)
+      # Normalizing directory
+      if not os.path.exists(options.resourceDirectory):
+        os.makedirs(options.resourceDirectory)
 
     for fileId in sortedIncludeList:
       filePath = scanResult["files"][fileId]
@@ -338,7 +334,6 @@ def execute(options):
     ######################################################################
 
     if options.storeTokens:
-      print "  * Storing tokens..."
 
       if options.tokenDirectory == None:
         print "    * You must define the token directory!"
@@ -350,6 +345,8 @@ def execute(options):
         # Normalizing directory
         if not os.path.exists(options.tokenDirectory):
           os.makedirs(options.tokenDirectory)
+
+      print "  * Storing tokens..."
 
       for fileId in sortedIncludeList:
         if options.verbose:
@@ -380,8 +377,6 @@ def execute(options):
       print "  * Compressing strings..."
 
       compressedStrings = {}
-      compressedCounter = {}
-      compressedIndex = 0
 
       for fileId in sortedIncludeList:
         if options.verbose:
@@ -394,17 +389,27 @@ def execute(options):
           compressSource = token["source"]
 
           if not compressedStrings.has_key(compressSource):
-            compressedStrings[compressSource] = compressedIndex
-            compressedCounter[compressSource] = 0
-            compressedIndex += 1
+            compressedStrings[compressSource] = 1
+          else:
+            compressedStrings[compressSource] += 1
 
-            if options.verbose:
-              print "      * Compressed [%s]: %s" % (compressedIndex, compressSource)
 
-          compressedCounter[compressSource] += 1
+      compressedList = []
 
-          token["source"] = "qxStr[%s]" % compressedStrings[compressSource]
-          token["detail"] = "compressed"
+      for compressSource in compressedStrings:
+        compressedList.append({ "source" : compressSource, "usages" : compressedStrings[compressSource] })
+
+      compressedList.sort(lambda x, y: x["usages"]-y["usages"])
+
+      for item in compressedList:
+        if item["usages"] <= 1:
+          compressedList.remove(item)
+
+
+      print "Found %s string instances" % len(compressedList)
+
+
+
 
 
 
