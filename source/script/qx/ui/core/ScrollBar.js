@@ -108,7 +108,13 @@ qx.OO.addProperty({ name:"mergeEvents", type:qx.constant.Type.BOOLEAN, defaultVa
 qx.Proto._checkValue = function(propValue, propData) {
   var innerSize = (this.getParent() == null) ? 0 :
     (this._horizontal ? this.getInnerWidth() : this.getInnerHeight());
-  return qx.lang.Number.limit(propValue, 0, this.getMaximum() - innerSize);
+
+  // NOTE: We can't use Number.limit here because our maximum may get negative
+  //       (when the scrollbar isn't needed). In this case Number.limit returns
+  //       this negative maximum instead of 0. But we need that the minimum is
+  //       stronger than the maximum.
+  //       -> We use Math.max and Math.min
+  return Math.max(0, Math.min(this.getMaximum() - innerSize, propValue));
 }
 
 
