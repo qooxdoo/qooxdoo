@@ -12,10 +12,13 @@ def getparser():
   parser.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
-  # Directories
+  # Source Directories
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
-  parser.add_option("--token-directory", dest="tokenDirectory", metavar="DIRECTORY", help="Define output directory for tokenized source files.")
-  parser.add_option("--compile-directory", dest="compileDirectory", metavar="DIRECTORY", help="Define output directory for compiled source files.")
+
+  # Destination Directories
+  parser.add_option("--token-directory", dest="tokenDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
+  parser.add_option("--compile-directory", dest="compileDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
+  parser.add_option("--resource-directory", dest="resourceDirectory", metavar="DIRECTORY", help="Define resource output directory.")
 
   # Actions
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
@@ -228,6 +231,21 @@ def execute(options):
     print
     print "  COPY RESOURCES:"
     print "***********************************************************************************************"
+
+    print "  * Creating needed directories..."
+
+    if options.copyResources:
+      if options.resourceDirectory == None:
+        print "    * You must define the resource directory!"
+        sys.exit(1)
+
+      else:
+        options.resourceDirectory = os.path.normpath(options.resourceDirectory)
+
+        # Normalizing directory
+        if not os.path.exists(options.resourceDirectory):
+          os.makedirs(options.resourceDirectory)
+
     for fileId in sortedIncludeList:
       filePath = scanResult["files"][fileId]
       fileContent = file(filePath, "r").read()
@@ -244,7 +262,7 @@ def execute(options):
             print "    * ResourcePath: %s" % resourcePath
 
           sourceDir = os.path.join(os.path.dirname(filePath), fileResource)
-          destDir = os.path.join(options.compileDirectory, resourcePath)
+          destDir = os.path.join(options.resourceDirectory, resourcePath)
 
           for root, dirs, files in os.walk(sourceDir):
 
