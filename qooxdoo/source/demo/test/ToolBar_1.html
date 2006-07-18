@@ -44,9 +44,9 @@
 
       var m2 = new qx.ui.menu.Menu;
 
-      var mb5 = new qx.ui.menu.MenuButton("Copy", "icons/16/edit-copy.png");
-      var mb6 = new qx.ui.menu.MenuButton("Move", "icons/16/edit-cut.png");
-      var mb7 = new qx.ui.menu.MenuButton("Delete", "icons/16/edit-delete.png");
+      var mb5 = new qx.ui.menu.MenuButton("Copy", "icon/16/edit-copy.png");
+      var mb6 = new qx.ui.menu.MenuButton("Move", "icon/16/edit-cut.png");
+      var mb7 = new qx.ui.menu.MenuButton("Delete", "icon/16/edit-delete.png");
 
       m2.add(mb5, mb6, mb7);
       d.add(m2);
@@ -97,7 +97,7 @@
               break;
 
             case "menu":
-              var o = new qx.ui.toolbar.ToolBarMenuButton(btn.label, btn.menu, "icons/22/" + btn.icon + ".png", 22, 22);
+              var o = new qx.ui.toolbar.ToolBarMenuButton(btn.label, btn.menu, "icon/22/" + btn.icon + ".png", 22, 22);
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
@@ -107,7 +107,7 @@
               break;
 
             case "button":
-              var o = new qx.ui.toolbar.ToolBarButton(btn.label, "icons/22/" + btn.icon + ".png");
+              var o = new qx.ui.toolbar.ToolBarButton(btn.label, "icon/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 

@@ -56,7 +56,7 @@ qx.Proto._actionNames =
   nodrop : "nodrop"
 }
 
-qx.Proto._cursorPath = "widgets/cursors/";
+qx.Proto._cursorPath = "widget/cursors/";
 qx.Proto._cursorFormat = "gif";
 qx.Proto._lastDestinationEvent = null;
 

@@ -78,15 +78,15 @@ function QxSplitPane(vOrientation)
   switch(this.getOrientation())
   {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/left-divider.gif");
-      this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/right-divider.gif");
-      this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-horiz-divider.gif");
+      this._minimizeImage = new qx.ui.basic.Image("widget/arrows/left-divider.gif");
+      this._maximizeImage = new qx.ui.basic.Image("widget/arrows/right-divider.gif");
+      this._restoreImage = new qx.ui.basic.Image("widget/arrows/restore-horiz-divider.gif");
       break;
 
     case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this._minimizeImage = new qx.ui.basic.Image("widgets/arrows/up-divider.gif");
-      this._maximizeImage = new qx.ui.basic.Image("widgets/arrows/down-divider.gif");
-      this._restoreImage = new qx.ui.basic.Image("widgets/arrows/restore-vert-divider.gif");
+      this._minimizeImage = new qx.ui.basic.Image("widget/arrows/up-divider.gif");
+      this._maximizeImage = new qx.ui.basic.Image("widget/arrows/down-divider.gif");
+      this._restoreImage = new qx.ui.basic.Image("widget/arrows/restore-vert-divider.gif");
       break;
   }
 

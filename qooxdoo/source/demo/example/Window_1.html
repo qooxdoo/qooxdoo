@@ -18,15 +18,15 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var w1 = new qx.ui.window.Window("First Window", "icons/16/bell.png");
+    var w1 = new qx.ui.window.Window("First Window", "icon/16/bell.png");
     w1.setSpace(20, 400, 48, 250);
     d.add(w1);
 
-    var w2 = new qx.ui.window.Window("Second Window", "icons/16/colors.png");
+    var w2 = new qx.ui.window.Window("Second Window", "icon/16/colors.png");
     w2.setSpace(250, "auto", 120, "auto");
     d.add(w2);
 
-    var w3 = new qx.ui.window.Window("Third Window", "icons/16/network.png");
+    var w3 = new qx.ui.window.Window("Third Window", "icon/16/network.png");
     w3.setSpace(100, 300, 200, 300);
     w3.setMaxWidth(450);
     w3.setMaxHeight(400);
@@ -46,7 +46,7 @@
 
 
 
-    var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icons/32/chart.png");
+    var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/chart.png");
     a1.set({ top: 4, left: 4 });
     w1.add(a1);
 
@@ -74,14 +74,14 @@
 
 
 
-    var at1 = new qx.ui.basic.Atom("Your second window", "icons/22/find.png");
+    var at1 = new qx.ui.basic.Atom("Your second window", "icon/22/find.png");
     at1.setLocation(8, 8);
     w2.add(at1);
 
 
 
 
-    var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icons/16/control-center.png");
+    var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/control-center.png");
     btn1.setLocation(4, 4);
     w3.add(btn1);
 
@@ -90,7 +90,7 @@
     });
 
 
-    var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icons/16/control-center.png");
+    var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/control-center.png");
     btn2.setLocation(4, 4);
     wm1.add(btn2);
 
@@ -194,7 +194,7 @@
 
 
 
-    var l1 = new qx.ui.basic.Atom("Move Method", "icons/16/misc.png");
+    var l1 = new qx.ui.basic.Atom("Move Method", "icon/16/misc.png");
     l1.setLocation(0, 100);
 
     var rb1 = new qx.ui.form.RadioButton("Frame", "frame");
@@ -216,7 +216,7 @@
 
 
 
-    var l2 = new qx.ui.basic.Atom("Resize Method", "icons/16/misc.png");
+    var l2 = new qx.ui.basic.Atom("Resize Method", "icon/16/misc.png");
     l2.setLocation(0, 190);
 
     var rb4 = new qx.ui.form.RadioButton("Frame", "frame");
@@ -251,7 +251,7 @@
 
 
 
-    var btnpack = new qx.ui.form.Button("Pack Window", "icons/16/cdrom.png");
+    var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/cdrom.png");
     btnpack.setLocation(140, 170);
     btnpack.addEventListener("execute", function(e) {
       w2.pack();
@@ -262,7 +262,7 @@
     w2.add(fs1);
 
 
-    var icon1 = new qx.ui.basic.Image("icons/32/error.png");
+    var icon1 = new qx.ui.basic.Image("icon/32/error.png");
     var warn1 = new qx.ui.basic.Label("Do you want to delete<br/>all your personal data?");
 
     icon1.setTop(10);
@@ -271,8 +271,8 @@
     warn1.setTop(10);
     warn1.setLeft(48);
 
-    var btn3 = new qx.ui.form.Button("Yes", "icons/16/button-ok.png");
-    var btn4 = new qx.ui.form.Button("No", "icons/16/button-cancel.png");
+    var btn3 = new qx.ui.form.Button("Yes", "icon/16/button-ok.png");
+    var btn4 = new qx.ui.form.Button("No", "icon/16/button-cancel.png");
 
     btn3.addEventListener("execute", function(e) {
       alert("Thank you!");

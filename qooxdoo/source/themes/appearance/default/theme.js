@@ -980,7 +980,7 @@
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        source : vStates.checked ? "widgets/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
+        source : vStates.checked ? "widget/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
       }
     }
   });
@@ -1005,7 +1005,7 @@
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        source : vStates.checked ? "widgets/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
+        source : vStates.checked ? "widget/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
       }
     }
   });
@@ -1319,7 +1319,7 @@
       else
       {
         return {
-          source : "icons/16/file-new.png"
+          source : "icon/16/file-new.png"
         }
       }
     }
@@ -1397,7 +1397,7 @@
       else
       {
         return {
-          source : vStates.selected ? "icons/16/folder-open.png" : "icons/16/folder.png"
+          source : vStates.selected ? "icon/16/folder-open.png" : "icon/16/folder.png"
         }
       }
     }
@@ -2379,8 +2379,8 @@
       this.mouseOverBackground = new qx.renderer.color.ColorObject("white");
       this.background = new qx.renderer.color.ColorObject("#ebeadb");
 
-      this.sortedAscendingImg  = "widgets/table/ascending.png";
-      this.sortedDescendingImg = "widgets/table/descending.png";
+      this.sortedAscendingImg  = "widget/table/ascending.png";
+      this.sortedDescendingImg = "widget/table/descending.png";
     },
 
     initial : function(vWidget, vTheme) {

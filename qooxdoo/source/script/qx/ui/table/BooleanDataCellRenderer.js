@@ -107,10 +107,10 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 
 
 /** {string} The URL of the icon showing a true value. */
-qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManager.buildUri("widgets/table/boolean-true.png");
+qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManager.buildUri("widget/table/boolean-true.png");
 
 /** {string} The URL of the icon showing a false value. */
-qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageManager.buildUri("widgets/table/boolean-false.png");
+qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png");
 
 /** {string} The URL of the icon showing a null value. */
 qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("core/blank.gif");

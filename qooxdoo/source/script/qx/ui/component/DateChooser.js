@@ -51,11 +51,11 @@ function(date) {
   var navBar = new qx.ui.layout.BoxLayout;
   navBar.set({ width:null, height:"auto", spacing:1 });
 
-  var lastYearBt = new qx.ui.toolbar.ToolBarButton(null, "widgets/datechooser/lastYear.png");
-  var lastMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widgets/datechooser/lastMonth.png");
+  var lastYearBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/lastYear.png");
+  var lastMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/lastMonth.png");
   var monthYearLabel = new qx.ui.basic.Label;
-  var nextMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widgets/datechooser/nextMonth.png");
-  var nextYearBt = new qx.ui.toolbar.ToolBarButton(null, "widgets/datechooser/nextYear.png");
+  var nextMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/nextMonth.png");
+  var nextYearBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/nextYear.png");
 
   lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last year"), spacing:0 });
   lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last month") });

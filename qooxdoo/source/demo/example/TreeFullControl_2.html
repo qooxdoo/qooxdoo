@@ -26,7 +26,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
         // A left-justified icon
         if (Math.floor(Math.random() * 4) == 0)
         {
-          obj = new qx.ui.basic.Image("icons/16/alarm.png", 16);
+          obj = new qx.ui.basic.Image("icon/16/alarm.png", 16);
         }
         else
         {
@@ -39,8 +39,8 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
         // The standard tree icon follows
         treeRowStructure.addIcon(
-          arguments.length >= 2 ? vIcon : "icons/16/desktop.png",
-          arguments.length >= 3 ? vIconSelected : "icons/16/dictionary.png");
+          arguments.length >= 2 ? vIcon : "icon/16/desktop.png",
+          arguments.length >= 3 ? vIconSelected : "icon/16/dictionary.png");
 
         // A checkbox comes right after the tree icon
         obj = new qx.ui.form.CheckBox(
@@ -72,7 +72,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
     qx.core.Init.defineMain(function()
     {
-      var x = new qx.ui.basic.Atom("Test #1", "icons/16/reload.png", 16, 16);
+      var x = new qx.ui.basic.Atom("Test #1", "icon/16/reload.png", 16, 16);
         x.debug("In main");
 
       var t = new qx.ui.treefullcontrol.Tree(stuff("Root"));
@@ -104,8 +104,8 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
       // One icon specified, and used for both selected unselected states
-      var te1_2_1 = new qx.ui.treefullcontrol.TreeFile(stuff("Windows (C:)", "icons/16/harddrive.png"));
-      var te1_2_2 = new qx.ui.treefullcontrol.TreeFile(stuff("Documents (D:)", "icons/16/harddrive.png"));
+      var te1_2_1 = new qx.ui.treefullcontrol.TreeFile(stuff("Windows (C:)", "icon/16/harddrive.png"));
+      var te1_2_2 = new qx.ui.treefullcontrol.TreeFile(stuff("Documents (D:)", "icon/16/harddrive.png"));
 
       te1_2.add(te1_2_1, te1_2_2);
 
@@ -117,7 +117,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
 
       var te2_1 = new qx.ui.treefullcontrol.TreeFolder(stuff("Presets"));
       var te2_2 = new qx.ui.treefullcontrol.TreeFolder(stuff("Sent"));
-      var te2_3 = new qx.ui.treefullcontrol.TreeFolder(stuff("Trash", "icons/16/trash.png"));
+      var te2_3 = new qx.ui.treefullcontrol.TreeFolder(stuff("Trash", "icon/16/trash.png"));
       var te2_4 = new qx.ui.treefullcontrol.TreeFolder(stuff("Data"));
       var te2_5 = new qx.ui.treefullcontrol.TreeFolder(stuff("Edit"));
 

@@ -77,14 +77,14 @@
  *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
  *
  *   // A left-justified icon
- *   obj = new qx.ui.basic.Image("icons/16/alarm.png");
+ *   obj = new qx.ui.basic.Image("icon/16/alarm.png");
  *   treeRowStructure.addObject(obj, true);
  *
  *   // Here's our indentation and tree-lines
  *   treeRowStructure.addIndent();
  *
  *   // The standard tree icon follows
- *   treeRowStructure.addIcon("icons/16/desktop.png","icons/16/dictionary.png");
+ *   treeRowStructure.addIcon("icon/16/desktop.png","icon/16/dictionary.png");
  *
  *   // Right after the tree icon is a checkbox
  *   obj = new qx.ui.form.CheckBox(null, 23, null, false);

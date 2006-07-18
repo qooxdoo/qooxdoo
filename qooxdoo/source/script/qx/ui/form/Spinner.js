@@ -73,7 +73,7 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   //   UP-BUTTON
   // ************************************************************************
-  this._upbutton = new qx.ui.basic.Image("widgets/arrows/up_small.gif");
+  this._upbutton = new qx.ui.basic.Image("widget/arrows/up_small.gif");
   this._upbutton.setAppearance("spinner-button-up");
   this._buttonlayout.add(this._upbutton);
 
@@ -81,7 +81,7 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   //   DOWN-BUTTON
   // ************************************************************************
-  this._downbutton = new qx.ui.basic.Image("widgets/arrows/down_small.gif");
+  this._downbutton = new qx.ui.basic.Image("widget/arrows/down_small.gif");
   this._downbutton.setAppearance("spinner-button-down");
   this._buttonlayout.add(this._downbutton);
 

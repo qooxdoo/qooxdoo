@@ -48,7 +48,7 @@ function(vLabel, vIcon, vCommand, vMenu)
   so.setAnonymous(true);
   so.setSelectable(false);
 
-  var ao = this._arrowObject = new qx.ui.basic.Image("widgets/arrows/next.gif");
+  var ao = this._arrowObject = new qx.ui.basic.Image("widget/arrows/next.gif");
   ao.setAnonymous(true);
 
 
