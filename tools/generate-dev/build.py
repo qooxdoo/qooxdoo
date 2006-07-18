@@ -229,6 +229,11 @@ def execute(options):
 
 
   if options.copyResources:
+
+    ######################################################################
+    #  COPY RESOURCES
+    ######################################################################
+
     print
     print "  COPY RESOURCES:"
     print "***********************************************************************************************"
@@ -302,9 +307,36 @@ def execute(options):
     print "  TRANSFORMING SOURCE:"
     print "***********************************************************************************************"
 
-    print "  * Creating needed directories..."
+    ######################################################################
+    #  TOKENIZE
+    ######################################################################
+
+    print "  * Tokenizing Source..."
+
+    tokenizedContent = {}
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+
+      fileName = scanResult["files"][fileId]
+      fileContent = file(fileName, "r").read()
+      fileSize = len(fileContent) / 1000.0
+
+      tokens = tokenizer.parseStream(fileContent, fileId)
+      tokenizedContent[fileId] = tokens
+
+
+
+
+
+    ######################################################################
+    #  STORE TOKENS
+    ######################################################################
 
     if options.storeTokens:
+      print "  * Storing Tokens..."
+
       if options.tokenDirectory == None:
         print "    * You must define the token directory!"
         sys.exit(1)
@@ -316,45 +348,11 @@ def execute(options):
         if not os.path.exists(options.tokenDirectory):
           os.makedirs(options.tokenDirectory)
 
-    if options.compileSource or options.copyResources:
-      if options.compileDirectory == None:
-        print "    * You must define the build directory!"
-        sys.exit(1)
+      for fileId in sortedIncludeList:
+        if options.verbose:
+          print "    - %s" % fileId
 
-      else:
-        options.compileDirectory = os.path.normpath(options.compileDirectory)
-
-        # Normalizing directory
-        if not os.path.exists(options.compileDirectory):
-          os.makedirs(options.compileDirectory)
-
-
-
-
-    compiledOutput = ""
-    compressedStrings = {}
-    compressedIndex = 0
-
-    for fileId in sortedIncludeList:
-      print "  * %s" % fileId
-
-      if options.verbose:
-        print "    * reading..."
-
-      fileName = scanResult["files"][fileId]
-      fileContent = file(fileName, "r").read()
-      fileSize = len(fileContent) / 1000.0
-
-      if options.verbose:
-        print "    * tokenizing source (%s KB)..." % fileSize
-
-      tokens = tokenizer.parseStream(fileContent, fileId)
-
-
-
-
-      if options.storeTokens:
-        tokenString = tokenizer.convertTokensToString(tokens)
+        tokenString = tokenizer.convertTokensToString(tokenizedContent[fileId])
         tokenSize = len(tokenString) / 1000.0
 
         if options.verbose:
@@ -370,8 +368,23 @@ def execute(options):
 
 
 
-      if options.compressStrings:
-        for token in tokens:
+
+    ######################################################################
+    #  COMPRESS STRINGS
+    ######################################################################
+
+    if options.compressStrings:
+      print "  * Compressing Strings..."
+
+      compressedStrings = {}
+      compressedCounter = {}
+      compressedIndex = 0
+
+      for fileId in sortedIncludeList:
+        if options.verbose:
+          print "    - %s" % fileId
+
+        for token in tokenizedContent[fileId]:
           if token["type"] != "string":
             continue
 
@@ -379,19 +392,46 @@ def execute(options):
 
           if not compressedStrings.has_key(compressSource):
             compressedStrings[compressSource] = compressedIndex
+            compressedCounter[compressSource] = 0
             compressedIndex += 1
-            print "Compressed [%s]: %s" % (compressedIndex, compressSource)
+
+            if options.verbose:
+              print "      * Compressed [%s]: %s" % (compressedIndex, compressSource)
+
+          compressedCounter[compressSource] += 1
 
           token["source"] = "qxStr[%s]" % compressedStrings[compressSource]
           token["detail"] = "compressed"
 
 
 
-      if options.compileSource:
-        if options.verbose:
-          print "    * compiling..."
 
-        compiledFileContent = compile.compile(tokens, options.compileWithNewLines)
+
+    ######################################################################
+    #  COMPILE TOKENS
+    ######################################################################
+
+    if options.compileSource:
+      compiledOutput = ""
+
+      print "  * Compiling tokens..."
+
+      if options.compileDirectory == None:
+        print "    * You must define the build directory!"
+        sys.exit(1)
+
+      else:
+        options.compileDirectory = os.path.normpath(options.compileDirectory)
+
+        # Normalizing directory
+        if not os.path.exists(options.compileDirectory):
+          os.makedirs(options.compileDirectory)
+
+      for fileId in sortedIncludeList:
+        if options.verbose:
+          print "    - %s" % fileId
+
+        compiledFileContent = compile.compile(tokenizedContent[fileId], options.compileWithNewLines)
 
         if options.addFileIds:
           compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
@@ -402,11 +442,11 @@ def execute(options):
         compiledFileSizeFactor = 100 - (compiledFileSize / fileSize * 100)
 
         if options.verbose:
-          print "    * compression %i%% (%s KB)" % (compiledFileSizeFactor, compiledFileSize)
+          print "      * compression %i%% (%s KB)" % (compiledFileSizeFactor, compiledFileSize)
 
         if options.storeSeparateScripts:
           if options.verbose:
-            print "    * writing compiled file..."
+            print "      * writing compiled file..."
 
           compiledSeparateFileName = os.path.join(options.compileDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
           compiledSeparateFileDir = os.path.dirname(compiledSeparateFileName)
@@ -421,9 +461,9 @@ def execute(options):
           compiledSeparateFile.close()
 
 
+      print "  * Saving compiled output..."
 
-
-    if options.compileSource:
+      # Store combined file
       compiledOutputFileName = os.path.join(options.compileDirectory, options.compileOutputName)
       compiledOutputFileDir = os.path.dirname(compiledOutputFileName)
 
@@ -437,8 +477,17 @@ def execute(options):
       compiledOutputFile.close()
 
 
+  print "  * Done"
 
 
+
+
+
+
+
+######################################################################
+#  MAIN LOOP
+######################################################################
 
 if __name__ == '__main__':
   try:
