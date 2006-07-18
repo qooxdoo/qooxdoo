@@ -63,7 +63,7 @@ function(tableModel) {
 
   this.add(this._scrollerParent, this._statusBar);
 
-  this._columnVisibilityBt = new qx.ui.toolbar.ToolBarButton(null, "widgets/table/selectColumnOrder.png");
+  this._columnVisibilityBt = new qx.ui.toolbar.ToolBarButton(null, "widget/table/selectColumnOrder.png");
   this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
   // Create the models

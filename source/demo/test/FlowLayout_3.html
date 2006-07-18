@@ -83,15 +83,15 @@
     w6.setWidth(400);
     w6.setHeight(50);     
     
-    var i1 = new qx.ui.basic.Image("icons/32/clock.png");
-    var i2 = new qx.ui.basic.Image("icons/32/colors.png");
+    var i1 = new qx.ui.basic.Image("icon/32/clock.png");
+    var i2 = new qx.ui.basic.Image("icon/32/colors.png");
     
     i2.setResizeToInner(true);
        
     var c1 = new qx.ui.basic.Label("Hello World");
     var c2 = new qx.ui.basic.Label("<ol><li>Simple HTML List</li><li>with one</li><li>and another item</li></ol>");
     
-    var a1 = new qx.ui.form.Button("Press", "icons/16/tip.png");
+    var a1 = new qx.ui.form.Button("Press", "icon/16/tip.png");
 
 
     flow1.add(w1, i1, w2, w3, a1, c2, w4, i2, w5, c1, w6);
@@ -119,7 +119,7 @@
     });
     
     i1.addEventListener("click", function(e) {
-      this.setSource(this.getSource() == "icons/32/clock.png" ? "icons/128/clock.png" : "icons/32/clock.png");
+      this.setSource(this.getSource() == "icon/32/clock.png" ? "icon/128/clock.png" : "icon/32/clock.png");
     });
     
     i2.addEventListener("click", function(e)
@@ -155,12 +155,12 @@
     var cc0 = new qx.ui.basic.Label("Spacing: ");
     cc0.setWidth(50);
     
-    var bc0 = new qx.ui.form.Button("0x0", "icons/16/button-ok.png");
-    var bc1 = new qx.ui.form.Button("4x4", "icons/16/button-ok.png");
-    var bc2 = new qx.ui.form.Button("8x8", "icons/16/button-ok.png");
-    var bc3 = new qx.ui.form.Button("20x20", "icons/16/button-ok.png");
-    var bc4 = new qx.ui.form.Button("0x10", "icons/16/button-ok.png");
-    var bc5 = new qx.ui.form.Button("10x0", "icons/16/button-ok.png");
+    var bc0 = new qx.ui.form.Button("0x0", "icon/16/button-ok.png");
+    var bc1 = new qx.ui.form.Button("4x4", "icon/16/button-ok.png");
+    var bc2 = new qx.ui.form.Button("8x8", "icon/16/button-ok.png");
+    var bc3 = new qx.ui.form.Button("20x20", "icon/16/button-ok.png");
+    var bc4 = new qx.ui.form.Button("0x10", "icon/16/button-ok.png");
+    var bc5 = new qx.ui.form.Button("10x0", "icon/16/button-ok.png");
     
     bc0.addEventListener("execute", function(e) {
       flow1.setHorizontalSpacing(0);
@@ -208,8 +208,8 @@
     var cr0 = new qx.ui.basic.Label("Order: ");
     cr0.setWidth(50);
     
-    var br0 = new qx.ui.form.Button("Default", "icons/16/button-ok.png");
-    var br1 = new qx.ui.form.Button("Reversed", "icons/16/button-ok.png");    
+    var br0 = new qx.ui.form.Button("Default", "icon/16/button-ok.png");
+    var br1 = new qx.ui.form.Button("Reversed", "icon/16/button-ok.png");    
     
     br0.addEventListener("execute", function(e) {
       flow1.setReverseChildrenOrder(false);
@@ -238,26 +238,26 @@
     var ca0 = new qx.ui.basic.Label("Children: ");
     ca0.setWidth(50);
     
-    var ba0 = new qx.ui.form.Button("New Atom", "icons/16/button-ok.png");
-    var ba1 = new qx.ui.form.Button("New Image", "icons/16/button-ok.png");    
-    var ba2 = new qx.ui.form.Button("New Atom to #3", "icons/16/button-ok.png");    
-    var ba3 = new qx.ui.form.Button("New Image to #6", "icons/16/button-ok.png");    
-    var ba4 = new qx.ui.form.Button("Remove First", "icons/16/button-ok.png");    
+    var ba0 = new qx.ui.form.Button("New Atom", "icon/16/button-ok.png");
+    var ba1 = new qx.ui.form.Button("New Image", "icon/16/button-ok.png");    
+    var ba2 = new qx.ui.form.Button("New Atom to #3", "icon/16/button-ok.png");    
+    var ba3 = new qx.ui.form.Button("New Image to #6", "icon/16/button-ok.png");    
+    var ba4 = new qx.ui.form.Button("Remove First", "icon/16/button-ok.png");    
     
     ba0.addEventListener("execute", function(e) {
-      flow1.add(new qx.ui.basic.Atom("New Atom", "icons/16/services.png"));
+      flow1.add(new qx.ui.basic.Atom("New Atom", "icon/16/services.png"));
     });
     
     ba1.addEventListener("execute", function(e) {
-      flow1.add(new qx.ui.basic.Image("icons/64/pipe.png"));
+      flow1.add(new qx.ui.basic.Image("icon/64/pipe.png"));
     });   
     
     ba2.addEventListener("execute", function(e) {
-      flow1.addAt(new qx.ui.basic.Atom("New Atom", "icons/16/tip.png"), 3);
+      flow1.addAt(new qx.ui.basic.Atom("New Atom", "icon/16/tip.png"), 3);
     });  
     
     ba3.addEventListener("execute", function(e) {
-      flow1.addAt(new qx.ui.basic.Image("icons/64/shapetool.png"), 6);
+      flow1.addAt(new qx.ui.basic.Image("icon/64/shapetool.png"), 6);
     });  
     
     ba4.addEventListener("click", function(e) {

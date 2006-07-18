@@ -73,10 +73,10 @@ qx.Proto.buttonSets = function()
   repeatLabel.setVerticalAlign("middle");
   repeatLabel.setMarginLeft(30);
 
-  var btnStart1 = new qx.ui.form.Button("Start 3x", "icons/16/button-ok.png");
-  var btnStart2 = new qx.ui.form.Button("Start 7x", "icons/16/button-ok.png");
-  var btnStart3 = new qx.ui.form.Button("Start 15x", "icons/16/button-ok.png");
-  var btnStart4 = new qx.ui.form.Button("Start 25x", "icons/16/button-ok.png");
+  var btnStart1 = new qx.ui.form.Button("Start 3x", "icon/16/button-ok.png");
+  var btnStart2 = new qx.ui.form.Button("Start 7x", "icon/16/button-ok.png");
+  var btnStart3 = new qx.ui.form.Button("Start 15x", "icon/16/button-ok.png");
+  var btnStart4 = new qx.ui.form.Button("Start 25x", "icon/16/button-ok.png");
 
   btnStart1.addEventListener("execute", function() { this.start(3, parseInt(loopInput.getValue())); }, this);
   btnStart2.addEventListener("execute", function() { this.start(7, parseInt(loopInput.getValue())); }, this);

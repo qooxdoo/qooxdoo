@@ -116,11 +116,11 @@ qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vIconPath) && qx.util.Validation.isValidString(vIconTheme))
   {
-    this.defineAlias("icons", vIconPath + qx.constant.Core.SLASH + vIconTheme);
+    this.defineAlias("icon", vIconPath + qx.constant.Core.SLASH + vIconTheme);
   }
   else
   {
-    this.removeAlias("icons");
+    this.removeAlias("icon");
   }
 
   return true;
@@ -133,11 +133,11 @@ qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 
   if (qx.util.Validation.isValidString(vWidgetPath) && qx.util.Validation.isValidString(vWidgetTheme))
   {
-    this.defineAlias("widgets", vWidgetPath + qx.constant.Core.SLASH + vWidgetTheme);
+    this.defineAlias("widget", vWidgetPath + qx.constant.Core.SLASH + vWidgetTheme);
   }
   else
   {
-    this.removeAlias("widgets");
+    this.removeAlias("widget");
   }
 
   return true;
@@ -334,7 +334,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._iconThemes;
-  var vIcon = "icons/16/icons.png";
+  var vIcon = "icon/16/icons.png";
   var vPrefix = "Icon Theme: ";
   var vEvent = qx.constant.Event.EXECUTE;
 

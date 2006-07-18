@@ -168,7 +168,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._themes;
-  var vIcon = "icons/16/colors.png";
+  var vIcon = "icon/16/colors.png";
   var vPrefix = "Color Theme: ";
   var vEvent = qx.constant.Event.EXECUTE;
 

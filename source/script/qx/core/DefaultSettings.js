@@ -41,12 +41,12 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enableUserInterface : true,
 
   enablePrototypes : false,
-  enableGenerics : true,
+  enableGenerics : false,
 
   imageCorePath : "../../images",
   imageLocalPath : "./",
-  imageIconPath : "../../themes/icons",
-  imageWidgetPath : "../../themes/widgets",
+  imageIconPath : "../../themes/icon",
+  imageWidgetPath : "../../themes/widget",
 
   jsonEncodeUndefined : true
 });

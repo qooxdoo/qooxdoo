@@ -30,7 +30,7 @@
 
     var d = this.getClientWindow().getClientDocument();
 
-    var btn1 = new qx.ui.form.Button("Open Native Window", "icons/16/appearance.png");
+    var btn1 = new qx.ui.form.Button("Open Native Window", "icon/16/appearance.png");
     with(btn1)
     {
       setTop(48);
@@ -131,7 +131,7 @@
     tf1.setLocation(0, 2);
     tf1.setWidth(150);
 
-    var btn1 = new qx.ui.form.Button("Set Url", "icons/16/button-ok.png");
+    var btn1 = new qx.ui.form.Button("Set Url", "icon/16/button-ok.png");
     btn1.setLocation(155, 0);
     btn1.addEventListener("click", function() {
       w1.setUrl(tf1.getValue());
@@ -144,7 +144,7 @@
     tf2.setLocation(0, 42);
     tf2.setWidth(50);
 
-    var btn2 = new qx.ui.form.Button("Set Width", "icons/16/button-ok.png");
+    var btn2 = new qx.ui.form.Button("Set Width", "icon/16/button-ok.png");
     btn2.setLocation(55, 40);
     btn2.addEventListener("click", function() {
       w1.setWidth(parseInt(tf2.getValue()));
@@ -157,7 +157,7 @@
     tf3.setLocation(0, 72);
     tf3.setWidth(50);
 
-    var btn3 = new qx.ui.form.Button("Set Height", "icons/16/button-ok.png");
+    var btn3 = new qx.ui.form.Button("Set Height", "icon/16/button-ok.png");
     btn3.setLocation(55, 70);
     btn3.addEventListener("click", function() {
       w1.setHeight(parseInt(tf3.getValue()));
@@ -165,19 +165,19 @@
 
 
 
-    var btn4 = new qx.ui.form.Button("Center to screen", "icons/16/paint.png");
+    var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/paint.png");
     btn4.setLocation(0, 110);
     btn4.addEventListener("click", function() {
       w1.centerToScreen()
     });
 
-    var btn5 = new qx.ui.form.Button("Center to screen area", "icons/16/paint.png");
+    var btn5 = new qx.ui.form.Button("Center to screen area", "icon/16/paint.png");
     btn5.setLocation(0, 140);
     btn5.addEventListener("click", function() {
       w1.centerToScreenArea()
     });
 
-    var btn6 = new qx.ui.form.Button("Center to opener", "icons/16/paint.png");
+    var btn6 = new qx.ui.form.Button("Center to opener", "icon/16/paint.png");
     btn6.setLocation(0, 170);
     btn6.addEventListener("click", function() {
       w1.centerToOpener()

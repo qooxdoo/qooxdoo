@@ -67,11 +67,11 @@ function(vConfig, vId)
 
   this._spacer = new qx.ui.basic.HorizontalSpacer;
 
-  this._arrowup = new qx.ui.basic.Image("widgets/arrows/up.gif");
+  this._arrowup = new qx.ui.basic.Image("widget/arrows/up.gif");
   this._arrowup.setVerticalAlign("middle");
   this._arrowup.setDisplay(false);
 
-  this._arrowdown = new qx.ui.basic.Image("widgets/arrows/down.gif");
+  this._arrowdown = new qx.ui.basic.Image("widget/arrows/down.gif");
   this._arrowdown.setVerticalAlign("middle");
   this._arrowdown.setDisplay(false);
 
