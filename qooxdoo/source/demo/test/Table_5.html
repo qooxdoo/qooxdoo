@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>A table having few rows.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function()
+  {
+    var d = this.getClientWindow().getClientDocument();
+
+    // table model
+    var tableModel = new qx.ui.table.SimpleTableModel();
+    tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
+    var rowData = [];
+    var now = new Date().getTime();
+    var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+    for (var row = 0; row < 20; row++) {
+      var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+      rowData.push([ row, Math.random() * 10000, date, (Math.random() > 0.5) ]);
+    }
+    tableModel.setData(rowData);
+    tableModel.setColumnEditable(1, true);
+    tableModel.setColumnEditable(2, true);
+
+    // table
+    var table = new qx.ui.table.Table(tableModel);
+    with (table) {
+      set({ left:10, top:30, right:300, bottom:30 });
+      setMetaColumnCounts([1, -1]);
+      getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
+      getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+    };
+
+    d.add(table);
+  });
+  </script>
+</body>
+</html>
