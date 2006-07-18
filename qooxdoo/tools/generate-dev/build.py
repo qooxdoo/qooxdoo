@@ -43,6 +43,7 @@ def getparser():
   parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
   parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
+  parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
 
   return parser
 
@@ -330,7 +331,9 @@ def execute(options):
 
 
 
-    compAllString = ""
+    compiledOutput = ""
+    compressedStrings = {}
+    compressedIndex = 0
 
     for fileId in sortedIncludeList:
       print "  * %s" % fileId
@@ -347,6 +350,9 @@ def execute(options):
 
       tokens = tokenizer.parseStream(fileContent, fileId)
 
+
+
+
       if options.storeTokens:
         tokenString = tokenizer.convertTokensToString(tokens)
         tokenSize = len(tokenString) / 1000.0
@@ -361,46 +367,75 @@ def execute(options):
         tokenFile.flush()
         tokenFile.close()
 
+
+
+
+      if options.compressStrings:
+        for token in tokens:
+          if token["type"] != "string":
+            continue
+
+          compressSource = token["source"]
+
+          if not compressedStrings.has_key(compressSource):
+            compressedStrings[compressSource] = compressedIndex
+            compressedIndex += 1
+            print "Compressed [%s]: %s" % (compressedIndex, compressSource)
+
+          token["source"] = "qxStr[%s]" % compressedStrings[compressSource]
+          token["detail"] = "compressed"
+
+
+
       if options.compileSource:
         if options.verbose:
           print "    * compiling..."
 
-        compString = compile.compile(tokens, options.compileWithNewLines)
+        compiledFileContent = compile.compile(tokens, options.compileWithNewLines)
 
         if options.addFileIds:
-          compAllString += "/* ID: " + fileId + " */\n" + compString + "\n"
+          compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
         else:
-          compAllString += compString
+          compiledOutput += compiledFileContent
 
-        compSize = len(compString) / 1000.0
-        compFactor = 100 - (compSize / fileSize * 100)
+        compiledFileSize = len(compiledFileContent) / 1000.0
+        compiledFileSizeFactor = 100 - (compiledFileSize / fileSize * 100)
 
         if options.verbose:
-          print "    * compression %i%% (%s KB)" % (compFactor, compSize)
+          print "    * compression %i%% (%s KB)" % (compiledFileSizeFactor, compiledFileSize)
 
         if options.storeSeparateScripts:
           if options.verbose:
             print "    * writing compiled file..."
 
-          compFileName = os.path.join(options.compileDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
-          compFileDir = os.path.dirname(compFileName)
+          compiledSeparateFileName = os.path.join(options.compileDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
+          compiledSeparateFileDir = os.path.dirname(compiledSeparateFileName)
 
           # Check/Create destination directory
-          if not os.path.exists(compFileDir):
-            os.makedirs(compFileDir)
+          if not os.path.exists(compiledSeparateFileDir):
+            os.makedirs(compiledSeparateFileDir)
 
-          compFile = file(compFileName, "w")
-          compFile.write(compString)
-          compFile.flush()
-          compFile.close()
+          compiledSeparateFile = file(compiledSeparateFileName, "w")
+          compiledSeparateFile.write(compiledFileContent)
+          compiledSeparateFile.flush()
+          compiledSeparateFile.close()
+
+
+
 
     if options.compileSource:
-      compFileName = os.path.join(options.compileDirectory, options.compileOutputName)
+      compiledOutputFileName = os.path.join(options.compileDirectory, options.compileOutputName)
+      compiledOutputFileDir = os.path.dirname(compiledOutputFileName)
 
-      compFile = file(compFileName, "w")
-      compFile.write(compAllString)
-      compFile.flush()
-      compFile.close()
+      # Check/Create destination directory
+      if not os.path.exists(compiledOutputFileDir):
+        os.makedirs(compiledOutputFileDir)
+
+      compiledOutputFile = file(compiledOutputFileName, "w")
+      compiledOutputFile.write(compiledOutput)
+      compiledOutputFile.flush()
+      compiledOutputFile.close()
+
 
 
 

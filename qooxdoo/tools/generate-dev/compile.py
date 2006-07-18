@@ -35,7 +35,9 @@ def compile(tokens, enableNewLines=False):
 
     # Add quotes for strings
     if token["type"] == "string":
-      if token["detail"] == "doublequotes":
+      if token["detail"] == "compressed":
+        pass
+      elif token["detail"] == "doublequotes":
         compString += "\""
       else:
         compString += "'"
@@ -53,14 +55,16 @@ def compile(tokens, enableNewLines=False):
 
 
     # Add source
-    compString += token["source"]
+    compString += "%s" % token["source"]
 
 
 
 
     # Add quotes for strings
     if token["type"] == "string":
-      if token["detail"] == "doublequotes":
+      if token["detail"] == "compressed":
+        pass
+      elif token["detail"] == "doublequotes":
         compString += "\""
       else:
         compString += "'"
