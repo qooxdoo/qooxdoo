@@ -299,6 +299,9 @@ def execute(options):
               shutil.copyfile(itemSourcePath, itemDestPath)
 
 
+    print "  * Done"
+
+
 
 
 
@@ -311,7 +314,7 @@ def execute(options):
     #  TOKENIZE
     ######################################################################
 
-    print "  * Tokenizing Source..."
+    print "  * Tokenizing source..."
 
     tokenizedContent = {}
 
@@ -335,7 +338,7 @@ def execute(options):
     ######################################################################
 
     if options.storeTokens:
-      print "  * Storing Tokens..."
+      print "  * Storing tokens..."
 
       if options.tokenDirectory == None:
         print "    * You must define the token directory!"
@@ -374,7 +377,7 @@ def execute(options):
     ######################################################################
 
     if options.compressStrings:
-      print "  * Compressing Strings..."
+      print "  * Compressing strings..."
 
       compressedStrings = {}
       compressedCounter = {}
