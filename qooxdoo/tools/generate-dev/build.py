@@ -9,7 +9,8 @@ def getparser():
   parser = optparse.OptionParser("usage: %prog [options]")
 
   # From file
-  parser.add_option("--from-file", dest="fromFile", metavar="CONFIG_FILE", help="Read options from CONFIG_FILE.")
+  parser.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
+  parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
   # Directories
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
@@ -49,8 +50,53 @@ def argparser(cmdlineargs):
   # Parse arguments
   (options, args) = getparser().parse_args(cmdlineargs)
 
+  # Export to file
+  if options.exportToFile != None:
+    print
+    print "  EXPORTING:"
+    print "***********************************************************************************************"
+
+    print " * Translating options..."
+
+    optionString = "# Exported configuration from build.py\n\n"
+    ignoreValue = True
+    lastWasKey = False
+
+    for arg in cmdlineargs:
+      if arg == "--export-to-file":
+        ignoreValue = True
+
+      elif arg.startswith("--"):
+        if lastWasKey:
+          optionString += "\n"
+
+        optionString += arg[2:]
+        ignoreValue = False
+        lastWasKey = True
+
+      elif arg.startswith("-"):
+        print "   * Couldn't export short argument: %s" % arg
+        optionString += "\n# Ignored short argument %s\n" % arg
+        ignoreValue = True
+
+      elif not ignoreValue:
+        optionString += " = %s\n" % arg
+        ignoreValue = True
+        lastWasKey = False
+
+
+
+    print " * Export to file: %s" % options.exportToFile
+    exportFile = file(options.exportToFile, "w")
+    exportFile.write(optionString)
+    exportFile.flush()
+    exportFile.close()
+
+    print " * Done"
+    sys.exit(0)
+
   # Read from file
-  if options.fromFile == None:
+  elif options.fromFile == None:
 
     execute(options)
 
@@ -132,7 +178,6 @@ def execute(options):
     print "usage: %s [options]" % basename
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
-
 
   print
   print "  PREPARING:"
