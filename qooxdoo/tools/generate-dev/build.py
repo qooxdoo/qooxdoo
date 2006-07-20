@@ -5,6 +5,27 @@ import config, tokenizer, loader, compile
 
 
 
+
+
+def filetool(filepath, filename, content=""):
+  # Concatting and Splitting
+  outputFileName = os.path.normpath(os.path.join(filepath, filename))
+  outputFileDir = os.path.dirname(outputFileName)
+
+  # Check/Create directory
+  if not os.path.exists(outputFileDir):
+    os.makedirs(outputFileDir)
+
+  # Writing file
+  outputFile = file(outputFileName, "w")
+  outputFile.write(content)
+  outputFile.flush()
+  outputFile.close()
+
+
+
+
+
 def getparser():
   parser = optparse.OptionParser("usage: %prog [options]")
 
@@ -16,18 +37,24 @@ def getparser():
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
 
   # Destination Directories
-  parser.add_option("--token-directory", dest="tokenDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
-  parser.add_option("--compile-directory", dest="compileDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
-  parser.add_option("--resource-directory", dest="resourceDirectory", metavar="DIRECTORY", help="Define resource output directory.")
+  parser.add_option("--source-output-directory", dest="sourceOutputDirectory", metavar="DIRECTORY", help="Define output directory for source JavaScript files.")
+  parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
+  parser.add_option("--compile-output-directory", dest="compileOutputDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
+  parser.add_option("--resource-output-directory", dest="resourceOutputDirectory", metavar="DIRECTORY", help="Define resource output directory.")
+
+  # Destination Filenames
+  parser.add_option("--source-output-filename", dest="sourceOutputFilename", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from source build process.")
+  parser.add_option("--compile-output-filename", dest="compileOutputFilename", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler.")
 
   # Actions
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
   parser.add_option("-r", "--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files.")
   parser.add_option("--generate-source", action="store_true", dest="generateSource", default=False, help="Generate source version of qooxdoo.js.")
-  parser.add_option("--output-files", action="store_true", dest="outputFiles", default=False, help="Output known files.")
-  parser.add_option("--output-modules", action="store_true", dest="outputModules", default=False, help="Output known modules.")
-  parser.add_option("--output-list", action="store_true", dest="outputList", default=False, help="Output sorted file list.")
+
+  parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files.")
+  parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules.")
+  parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list.")
 
   # General options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
@@ -38,17 +65,18 @@ def getparser():
   parser.add_option("-e", "--exclude", action="append", dest="exclude", help="Exclude ID")
 
   # Include/Exclude options
-  parser.add_option("--disable-include-deps", action="store_false", dest="enableIncludeDeps", default=True, help="Enable include dependencies.")
-  parser.add_option("--disable-exclude-deps", action="store_false", dest="enableExcludeDeps", default=True, help="Enable exclude dependencies.")
+  parser.add_option("--disable-include-dependencies", action="store_false", dest="enableIncludeDependencies", default=True, help="Enable include dependencies.")
+  parser.add_option("--disable-exclude-dependencies", action="store_false", dest="enableExcludeDependencies", default=True, help="Enable exclude dependencies.")
   parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
 
   # Compile options
-  parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
-  parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
-  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler.")
-  parser.add_option("--additional-output-name", dest="additionalOutputName", default="additional.js", metavar="FILENAME", help="Name of the additional output file.")
+  parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
+  parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
+
+  # Source options
+  parser.add_option("--relative-source-path", dest="relativeSourcePath", default="", metavar="PATH", help="Defines the relative source path.")
 
   return parser
 
@@ -252,7 +280,7 @@ def load(options):
 
   print "  * Found %s files" % len(fileDb)
 
-  if options.outputFiles:
+  if options.printFiles:
     print
     print "  KNOWN FILES:"
     print "----------------------------------------------------------------------------"
@@ -260,7 +288,7 @@ def load(options):
     for fileEntry in fileDb:
       print "    - %s (%s)" % (fileEntry, fileDb[fileEntry]["path"])
 
-  if options.outputModules:
+  if options.printModules:
     print
     print "  KNOWN MODULES:"
     print "----------------------------------------------------------------------------"
@@ -344,7 +372,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  if options.outputList:
+  if options.printList:
     print
     print "  INCLUDE ORDER:"
     print "----------------------------------------------------------------------------"
@@ -459,16 +487,16 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   if options.storeTokens:
 
-    if options.tokenDirectory == None:
+    if options.tokenOutputDirectory == None:
       print "    * You must define the token directory!"
       sys.exit(1)
 
     else:
-      options.tokenDirectory = os.path.normpath(options.tokenDirectory)
+      options.tokenOutputDirectory = os.path.normpath(options.tokenOutputDirectory)
 
       # Normalizing directory
-      if not os.path.exists(options.tokenDirectory):
-        os.makedirs(options.tokenDirectory)
+      if not os.path.exists(options.tokenOutputDirectory):
+        os.makedirs(options.tokenOutputDirectory)
 
     print "  * Storing tokens..."
 
@@ -482,7 +510,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "    * writing tokens to file (%s KB)..." % tokenSize
 
-      tokenFileName = os.path.join(options.tokenDirectory, fileId + config.TOKENEXT)
+      tokenFileName = os.path.join(options.tokenOutputDirectory, fileId + config.TOKENEXT)
 
       tokenFile = file(tokenFileName, "w")
       tokenFile.write(tokenString)
@@ -505,16 +533,16 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Creating needed directories..."
 
-    if options.resourceDirectory == None:
+    if options.resourceOutputDirectory == None:
       print "    * You must define the resource directory!"
       sys.exit(1)
 
     else:
-      options.resourceDirectory = os.path.normpath(options.resourceDirectory)
+      options.resourceOutputDirectory = os.path.normpath(options.resourceOutputDirectory)
 
       # Normalizing directory
-      if not os.path.exists(options.resourceDirectory):
-        os.makedirs(options.resourceDirectory)
+      if not os.path.exists(options.resourceOutputDirectory):
+        os.makedirs(options.resourceOutputDirectory)
 
     for fileId in sortedIncludeList:
       filePath = fileDb[fileId]["path"]
@@ -532,7 +560,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
             print "    * ResourcePath: %s" % resourcePath
 
           sourceDir = os.path.join(os.path.dirname(filePath), fileResource)
-          destDir = os.path.join(options.resourceDirectory, resourcePath)
+          destDir = os.path.join(options.resourceOutputDirectory, resourcePath)
 
           for root, dirs, files in os.walk(sourceDir):
 
@@ -573,11 +601,25 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   if options.generateSource:
     print
-    print "  GENERATING SOURCE:"
+    print "  GENERATING SOURCE VERSION:"
     print "----------------------------------------------------------------------------"
 
+    if options.sourceOutputDirectory == None:
+      print "    * You must define the source output directory!"
+      sys.exit(1)
+
+    else:
+      options.sourceOutputDirectory = os.path.normpath(options.sourceOutputDirectory)
+
+    print "  * Generating includer..."
+
+    sourceOutput = ""
+
     for fileId in sortedIncludeList:
-      print '<script type="text/javascript" src="%s"></script>' % fileDb[fileId]["path"]
+      sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+
+    # Store file
+    filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput)
 
 
 
@@ -590,7 +632,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   if options.compileSource:
     print
-    print "  COMPILING:"
+    print "  GENERATING COMPILED VERSION:"
     print "----------------------------------------------------------------------------"
 
     if options.compileSource:
@@ -598,22 +640,18 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       print "  * Compiling tokens..."
 
-      if options.compileDirectory == None:
+      if options.compileOutputDirectory == None:
         print "    * You must define the compile directory!"
         sys.exit(1)
 
       else:
-        options.compileDirectory = os.path.normpath(options.compileDirectory)
-
-        # Normalizing directory
-        if not os.path.exists(options.compileDirectory):
-          os.makedirs(options.compileDirectory)
+        options.compileOutputDirectory = os.path.normpath(options.compileOutputDirectory)
 
       for fileId in sortedIncludeList:
         if options.verbose:
           print "    - %s" % fileId
 
-        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.compileWithNewLines)
+        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
 
         if options.addFileIds:
           compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
@@ -623,37 +661,10 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         if options.storeSeparateScripts:
           if options.verbose:
             print "      * writing compiled file..."
+          filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent)
 
-          compiledSeparateFileName = os.path.join(options.compileDirectory, fileId.replace(".", os.path.sep) + config.JSEXT)
-          compiledSeparateFileDir = os.path.dirname(compiledSeparateFileName)
-
-          # Check/Create destination directory
-          if not os.path.exists(compiledSeparateFileDir):
-            os.makedirs(compiledSeparateFileDir)
-
-          compiledSeparateFile = file(compiledSeparateFileName, "w")
-          compiledSeparateFile.write(compiledFileContent)
-          compiledSeparateFile.flush()
-          compiledSeparateFile.close()
-
-
-      print "  * Saving compiled output %s..." % options.compileOutputName
-
-      # Store combined file
-      compiledOutputFileName = os.path.join(options.compileDirectory, options.compileOutputName)
-      compiledOutputFileDir = os.path.dirname(compiledOutputFileName)
-
-      # Check/Create destination directory
-      if not os.path.exists(compiledOutputFileDir):
-        os.makedirs(compiledOutputFileDir)
-
-      compiledOutputFile = file(compiledOutputFileName, "w")
-      compiledOutputFile.write("".join(additionalOutput) + compiledOutput)
-      compiledOutputFile.flush()
-      compiledOutputFile.close()
-
-
-
+      print "  * Saving compiled output %s..." % options.compileOutputFilename
+      filetool(options.compileOutputDirectory, options.compileOutputFilename, "".join(additionalOutput) + compiledOutput)
 
 
 
@@ -668,10 +679,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 if __name__ == '__main__':
   try:
     main()
-
-    print
-    print
-    print "  COMPLETED SUCCESSFULLY"
 
   except KeyboardInterrupt:
     print "  * Keyboard Interrupt"

@@ -16,6 +16,9 @@ docs:
 buildsource:
 	tools/generate/make-source.sh
 
+buildsource2:
+	tools/generate-dev/build.py -s source/script/ -s source/themes/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
+
 buildresources:
 	mkdir -p build/images build/themes
 	rsync -rl --exclude=$(SVN) --exclude=*.js source/images build/
@@ -25,7 +28,7 @@ builddemos:
 	tools/generate/internal/patchdemos.sh
 
 compile:
-	tools/generate-dev/build.py --compile-source -s source/script -s source/themes --compile-directory build/script
+	tools/generate-dev/build.py --compile-source -s source/script -s source/themes --compile-output-directory build/script
 
 online:
 

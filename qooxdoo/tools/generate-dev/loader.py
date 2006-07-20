@@ -210,7 +210,7 @@ def getSortedList(options, fileDb, moduleDb):
 
   # Sorting
   for fileId in includeIds:
-    addFileToSortedList(sortedIncludeList, fileDb, moduleDb, fileId, options.enableIncludeDeps)
+    addFileToSortedList(sortedIncludeList, fileDb, moduleDb, fileId, options.enableIncludeDependencies)
 
 
 
@@ -227,7 +227,7 @@ def getSortedList(options, fileDb, moduleDb):
 
     # Sorting
     for fileId in excludeIds:
-      addFileToSortedList(sortedExcludeList, fileDb, moduleDb, fileId, options.enableExcludeDeps)
+      addFileToSortedList(sortedExcludeList, fileDb, moduleDb, fileId, options.enableExcludeDependencies)
 
 
 
