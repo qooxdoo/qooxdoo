@@ -14,7 +14,6 @@ docs:
 	tools/generate-dev/docgenerator.py
 
 buildsource:
-	@echo TODO: Remove dependency to shell script if possible
 	tools/generate/make-source.sh
 
 buildresources:
@@ -23,19 +22,19 @@ buildresources:
 	rsync -rl --exclude=$(SVN) --exclude=*.js source/themes build/
 
 builddemos:
-  @echo TODO: Remove dependency to shell script if possible
 	tools/generate/internal/patchdemos.sh
 
 compile:
 	tools/generate-dev/build.py --compile-source -s source/script -s source/themes --compile-directory build/script
 
 online:
-  @echo TODO: Sync Demos online
+
 
 release: source-release build-release
 
+
 source-release:
-  @echo TODO: Generate source release
+
 
 build-release:
-  @echo TODO: Generate build release
+
