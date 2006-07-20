@@ -1,6 +1,6 @@
 SVN = ".svn"
 
-all: buildresources builddemos compile
+all: buildresources builddemos compile buildsource
 
 clean:
 	rm  -f source/demo/demoinclude.js source/demo/demolayout.js
