@@ -92,7 +92,7 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
   # Search for valid ID
   if fileContentId == None:
     fileId = filePathId
-    print "    * Could not extract uniqueId from file: %s. Using fileName!" % uniqueId
+    print "    * Could not extract uniqueId from file: %s. Using fileName!" % fileId
 
   else:
     fileId = fileContentId
