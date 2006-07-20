@@ -43,6 +43,9 @@
       setMetaColumnCounts([1, -1]);
       getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
       getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+      setColumnWidth(0, 80);
+      setColumnWidth(1, 200);
+      setColumnWidth(2, 150);
     };
 
     d.add(table);
