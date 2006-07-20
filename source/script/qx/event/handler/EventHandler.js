@@ -37,10 +37,9 @@
 /*!
   This manager registers and manage all incoming key and mouse events.
 */
-qx.OO.defineClass("qx.event.handler.EventHandler", qx.manager.object.ObjectManager,
+qx.OO.defineClass("qx.event.handler.EventHandler", qx.core.Target,
 function(vClientWindow)
 {
-  // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
 
   // Object Wrapper to Events (Needed for DOM-Events)
@@ -1074,5 +1073,5 @@ qx.Proto.dispose = function()
     this._commands = null;
   }
 
-  qx.manager.object.ObjectManager.prototype.dispose.call(this);
+  qx.core.Target.prototype.dispose.call(this);
 }

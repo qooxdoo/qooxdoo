@@ -33,10 +33,9 @@
 /*!
   This object gets an instance in vAll qx.client.ClientWindows and manage the focus handling for it.
 */
-qx.OO.defineClass("qx.event.handler.FocusHandler", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.event.handler.FocusHandler", qx.core.Target,
 function(vWidget)
 {
-  // Don't use qx.manager.object.ObjectManager things, but include qx.core.Target functinality
   qx.core.Target.call(this);
 
   if (qx.util.Validation.isValidObject(vWidget)) {
@@ -339,5 +338,5 @@ qx.Proto.dispose = function()
 
   this._attachedWidget = null;
 
-  qx.manager.object.ObjectManager.prototype.dispose.call(this);
+  qx.core.Target.prototype.dispose.call(this);
 }
