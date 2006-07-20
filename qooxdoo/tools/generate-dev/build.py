@@ -24,6 +24,7 @@ def getparser():
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
   parser.add_option("-r", "--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files.")
+  parser.add_option("--generate-source", action="store_true", dest="generateSource", default=False, help="Generate source version of qooxdoo.js.")
   parser.add_option("--output-files", action="store_true", dest="outputFiles", default=False, help="Output known files.")
   parser.add_option("--output-modules", action="store_true", dest="outputModules", default=False, help="Output known modules.")
   parser.add_option("--output-list", action="store_true", dest="outputList", default=False, help="Output sorted file list.")
@@ -35,13 +36,17 @@ def getparser():
   # Include/Exclude
   parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
   parser.add_option("-e", "--exclude", action="append", dest="exclude", help="Exclude ID")
+
+  # Include/Exclude options
   parser.add_option("--disable-include-deps", action="store_false", dest="enableIncludeDeps", default=True, help="Enable include dependencies.")
   parser.add_option("--disable-exclude-deps", action="store_false", dest="enableExcludeDeps", default=True, help="Enable exclude dependencies.")
+  parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
 
   # Compile options
   parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
   parser.add_option("--compile-with-new-lines", action="store_true", dest="compileWithNewLines", default=False, help="Keep newlines in compiled files.")
-  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler")
+  parser.add_option("--compile-output-name", dest="compileOutputName", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler.")
+  parser.add_option("--additional-output-name", dest="additionalOutputName", default="additional.js", metavar="FILENAME", help="Name of the additional output file.")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
 
@@ -58,7 +63,7 @@ def argparser(cmdlineargs):
   if options.exportToFile != None:
     print
     print "  EXPORTING:"
-    print "***********************************************************************************************"
+    print "----------------------------------------------------------------------------"
 
     print " * Translating options..."
 
@@ -96,36 +101,45 @@ def argparser(cmdlineargs):
     exportFile.flush()
     exportFile.close()
 
-    print " * Done"
     sys.exit(0)
 
   # Read from file
-  elif options.fromFile == None:
+  elif options.fromFile != None:
 
-    execute(options)
+    print
+    print "  INITIALIZATION:"
+    print "----------------------------------------------------------------------------"
 
-  else:
+    print "  * Reading configuration..."
 
     # Convert file content into arguments
-    fileargs = []
+    fileargs = {}
     fileargpos = 0
+    fileargid = "default"
+    currentfileargs = []
+    fileargs[fileargid] = currentfileargs
 
     for line in file(options.fromFile).read().split("\n"):
-      if len(fileargs) <= fileargpos:
-        currentfileargs = []
-        fileargs.append(currentfileargs)
-
       line = line.strip()
 
       if line == "" or line.startswith("#") or line.startswith("//"):
         continue
 
+      # Splitting line
       line = line.split("=")
+
+      # Extract key element
       key = line.pop(0).strip()
 
       # Separate packages
       if key == "package":
         fileargpos += 1
+        fileargid = line[0].strip()
+
+        print "    - Found package: %s" % fileargid
+
+        currentfileargs = []
+        fileargs[fileargid] = currentfileargs
         continue
 
       key = "--%s" % key
@@ -141,17 +155,41 @@ def argparser(cmdlineargs):
         currentfileargs.append(key)
 
     # Parse
+    defaultargs = fileargs["default"]
+
     if len(fileargs) > 1:
-      # Combine basearg later with the current args
-      basearg = fileargs.pop(0)
+      (fileDb, moduleDb) = load(getparser().parse_args(defaultargs)[0])
+
       for filearg in fileargs:
+        if filearg == "default":
+          continue
+
+        print
+        print
+        print "**************************** Next Package **********************************"
+        print "PACKAGE: %s" % filearg
+
         combinedargs = []
-        combinedargs.extend(basearg)
-        combinedargs.extend(filearg)
-        execute(getparser().parse_args(combinedargs)[0])
+        combinedargs.extend(defaultargs)
+        combinedargs.extend(fileargs[filearg])
+
+        options = getparser().parse_args(combinedargs)[0]
+        execute(fileDb, moduleDb, options, filearg)
 
     else:
-      execute(getparser().parse_args(fileargs[0])[0])
+      options = getparser().parse_args(defaultargs)[0]
+      (fileDb, moduleDb) = load(options)
+      execute(fileDb, moduleDb, options)
+
+  else:
+    print
+    print "  INITIALIZATION:"
+    print "----------------------------------------------------------------------------"
+
+    print "  * Processing arguments..."
+
+    (fileDb, moduleDb) = load(options)
+    execute(fileDb, moduleDb, options)
 
 
 
@@ -172,68 +210,298 @@ def main():
 
 
 
-def execute(options):
+
+def load(options):
+
+  ######################################################################
+  #  INITIAL CHECK
+  ######################################################################
+
   if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
     basename = os.path.basename(sys.argv[0])
     print "You must define at least one source directory!"
     print "usage: %s [options]" % basename
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
+  else:
+    # Normalizing directories
+    i=0
+    for directory in options.sourceDirectories:
+      options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
+      i+=1
 
   print
-  print "  PREPARING:"
-  print "***********************************************************************************************"
-
-  print "  * Loading source directory content..."
-
-  # Normalizing directories
-  i=0
-  for directory in options.sourceDirectories:
-    options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
-    i+=1
-
-  scanResult = loader.scanAll(options.sourceDirectories)
-  sortedIncludeList = loader.getSortedList(options, scanResult)
+  print "  LOADING:"
+  print "----------------------------------------------------------------------------"
 
 
 
 
+
+
+
+
+
+  ######################################################################
+  #  SCANNING FOR FILES
+  ######################################################################
+
+  print "  * Indexing files..."
+
+  (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.verbose)
+
+  print "  * Found %s files" % len(fileDb)
 
   if options.outputFiles:
     print
     print "  KNOWN FILES:"
-    print "***********************************************************************************************"
-    for key in scanResult["files"]:
-      print "  %s (%s)" % (key, scanResult["files"][key])
+    print "----------------------------------------------------------------------------"
+    print "  * These are all known files:"
+    for fileEntry in fileDb:
+      print "    - %s (%s)" % (fileEntry, fileDb[fileEntry]["path"])
 
   if options.outputModules:
     print
     print "  KNOWN MODULES:"
-    print "***********************************************************************************************"
-    for pkg in scanResult["modules"]:
-      print "  * %s" % pkg
-      for key in scanResult["modules"][pkg]:
-        print "    - %s" % key
+    print "----------------------------------------------------------------------------"
+    print "  * These are all known modules:"
+    for moduleEntry in moduleDb:
+      print "    * %s" % moduleEntry
+      for fileEntry in moduleDb[moduleEntry]:
+        print "      - %s" % fileEntry
+
+
+
+
+
+
+  ######################################################################
+  #  PLUGIN: AUTO DEPENDENCIES
+  ######################################################################
+
+  if options.enableAutoDependencies:
+    print
+    print "  AUTO DEPENDENCIES:"
+    print "----------------------------------------------------------------------------"
+
+    print "  * Detecting dependencies..."
+
+    for fileEntry in fileDb:
+      fileContent = fileDb[fileEntry]["content"]
+      if options.verbose:
+        print "    * %s" % fileEntry
+
+      for depFileEntry in fileDb:
+        if depFileEntry != fileEntry:
+          if fileContent.find(depFileEntry) != -1:
+
+            if depFileEntry in fileDb[fileEntry]["optionalDeps"]:
+              if options.verbose:
+                print "      - Optional: %s" % depFileEntry
+
+            elif depFileEntry in fileDb[fileEntry]["loadDeps"]:
+              if options.verbose:
+                print "      - Load: %s" % depFileEntry
+
+            elif depFileEntry in fileDb[fileEntry]["runtimeDeps"]:
+              if options.verbose:
+                print "      - Runtime: %s" % depFileEntry
+
+            else:
+              if options.verbose:
+                print "      - Missing: %s" % depFileEntry
+
+              fileDb[fileEntry]["runtimeDeps"].append(depFileEntry)
+
+
+
+  return fileDb, moduleDb
+
+
+
+
+
+
+
+def execute(fileDb, moduleDb, options, pkgid=""):
+
+  additionalOutput = []
+
+
+  ######################################################################
+  #  SORTING FILES
+  ######################################################################
+
+  print
+  print "  LIST SORT:"
+  print "----------------------------------------------------------------------------"
+
+  if options.verbose:
+    print "  * Include: %s" % options.include
+    print "  * Exclude: %s" % options.exclude
+
+  print "  * Sorting files..."
+
+  sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
   if options.outputList:
     print
     print "  INCLUDE ORDER:"
-    print "***********************************************************************************************"
+    print "----------------------------------------------------------------------------"
+    print "  * The files will be included in this order:"
     for key in sortedIncludeList:
-      print "  * %s" % key
+      print "    - %s" % key
 
 
 
+
+
+
+
+  ######################################################################
+  #  PLUGIN: COMPRESS STRINGS
+  ######################################################################
+
+  if options.compressStrings:
+    print
+    print "  STRING COMPRESSION:"
+    print "----------------------------------------------------------------------------"
+
+    print "  * Searching for string instances..."
+
+    compressedStrings = {}
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+
+      for token in fileDb[fileId]["tokens"]:
+        if token["type"] != "string":
+          continue
+
+        if token["detail"] == "doublequotes":
+          compressSource = "\"%s\"" % token["source"]
+        else:
+          compressSource = "'%s'" % token["source"]
+
+        if not compressedStrings.has_key(compressSource):
+          compressedStrings[compressSource] = 1
+        else:
+          compressedStrings[compressSource] += 1
+
+
+    if options.verbose:
+      print "  * Sorting strings..."
+
+    compressedList = []
+
+    for compressSource in compressedStrings:
+      compressedList.append({ "source" : compressSource, "usages" : compressedStrings[compressSource] })
+
+    pos = 0
+    while pos < len(compressedList):
+      item = compressedList[pos]
+      if item["usages"] <= 1:
+        compressedList.remove(item)
+
+      else:
+        pos += 1
+
+    compressedList.sort(lambda x, y: y["usages"]-x["usages"])
+
+    print "  * Found %s string instances" % len(compressedList)
+
+    if options.verbose:
+      print "  * Building replacement map..."
+
+    compressMap = {}
+    compressCounter = 0
+    compressJavaScript = "QXS%s=[" % pkgid
+
+    for item in compressedList:
+      if compressCounter != 0:
+        compressJavaScript += ","
+
+      compressMap[item["source"]] = compressCounter
+      compressCounter += 1
+      compressJavaScript += item["source"]
+
+    compressJavaScript += "];"
+
+    additionalOutput.append(compressJavaScript)
+
+    print "  * Updating tokens..."
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+
+      for token in fileDb[fileId]["tokens"]:
+        if token["type"] != "string":
+          continue
+
+        if token["detail"] == "doublequotes":
+          compressSource = "\"%s\"" % token["source"]
+        else:
+          compressSource = "'%s'" % token["source"]
+
+        if compressSource in compressMap:
+          token["source"] = "QXS%s[%s]" % (pkgid, compressMap[compressSource])
+          token["detail"] = "compressed"
+
+
+
+
+
+  ######################################################################
+  #  PLUGIN: STORE TOKENS
+  ######################################################################
+
+  if options.storeTokens:
+
+    if options.tokenDirectory == None:
+      print "    * You must define the token directory!"
+      sys.exit(1)
+
+    else:
+      options.tokenDirectory = os.path.normpath(options.tokenDirectory)
+
+      # Normalizing directory
+      if not os.path.exists(options.tokenDirectory):
+        os.makedirs(options.tokenDirectory)
+
+    print "  * Storing tokens..."
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+
+      tokenString = tokenizer.convertTokensToString(fileDb[fileId]["tokens"])
+      tokenSize = len(tokenString) / 1000.0
+
+      if options.verbose:
+        print "    * writing tokens to file (%s KB)..." % tokenSize
+
+      tokenFileName = os.path.join(options.tokenDirectory, fileId + config.TOKENEXT)
+
+      tokenFile = file(tokenFileName, "w")
+      tokenFile.write(tokenString)
+      tokenFile.flush()
+      tokenFile.close()
+
+
+
+
+
+  ######################################################################
+  #  COPY RESOURCES
+  ######################################################################
 
   if options.copyResources:
 
-    ######################################################################
-    #  COPY RESOURCES
-    ######################################################################
-
     print
     print "  COPY RESOURCES:"
-    print "***********************************************************************************************"
+    print "----------------------------------------------------------------------------"
 
     print "  * Creating needed directories..."
 
@@ -249,8 +517,8 @@ def execute(options):
         os.makedirs(options.resourceDirectory)
 
     for fileId in sortedIncludeList:
-      filePath = scanResult["files"][fileId]
-      fileContent = file(filePath, "r").read()
+      filePath = fileDb[fileId]["path"]
+      fileContent = fileDb[fileId]["content"]
       fileResourceList = loader.extractResources(fileContent)
 
       if len(fileResourceList) > 0:
@@ -295,129 +563,35 @@ def execute(options):
               shutil.copyfile(itemSourcePath, itemDestPath)
 
 
-    print "  * Done"
 
 
 
 
+  ######################################################################
+  #  SOURCE
+  ######################################################################
 
-  if options.compileSource or options.storeTokens:
+  if options.generateSource:
     print
-    print "  TRANSFORMING SOURCE:"
-    print "***********************************************************************************************"
-
-    ######################################################################
-    #  TOKENIZE
-    ######################################################################
-
-    print "  * Tokenizing source..."
-
-    tokenizedContent = {}
+    print "  GENERATING SOURCE:"
+    print "----------------------------------------------------------------------------"
 
     for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
-
-      fileName = scanResult["files"][fileId]
-      fileContent = file(fileName, "r").read()
-      fileSize = len(fileContent) / 1000.0
-
-      tokens = tokenizer.parseStream(fileContent, fileId)
-      tokenizedContent[fileId] = tokens
-
-
-
-
-
-    ######################################################################
-    #  STORE TOKENS
-    ######################################################################
-
-    if options.storeTokens:
-
-      if options.tokenDirectory == None:
-        print "    * You must define the token directory!"
-        sys.exit(1)
-
-      else:
-        options.tokenDirectory = os.path.normpath(options.tokenDirectory)
-
-        # Normalizing directory
-        if not os.path.exists(options.tokenDirectory):
-          os.makedirs(options.tokenDirectory)
-
-      print "  * Storing tokens..."
-
-      for fileId in sortedIncludeList:
-        if options.verbose:
-          print "    - %s" % fileId
-
-        tokenString = tokenizer.convertTokensToString(tokenizedContent[fileId])
-        tokenSize = len(tokenString) / 1000.0
-
-        if options.verbose:
-          print "    * writing tokens to file (%s KB)..." % tokenSize
-
-        tokenFileName = os.path.join(options.tokenDirectory, fileId + config.TOKENEXT)
-
-        tokenFile = file(tokenFileName, "w")
-        tokenFile.write(tokenString)
-        tokenFile.flush()
-        tokenFile.close()
-
-
-
-
-
-    ######################################################################
-    #  COMPRESS STRINGS
-    ######################################################################
-
-    if options.compressStrings:
-      print "  * Compressing strings..."
-
-      compressedStrings = {}
-
-      for fileId in sortedIncludeList:
-        if options.verbose:
-          print "    - %s" % fileId
-
-        for token in tokenizedContent[fileId]:
-          if token["type"] != "string":
-            continue
-
-          compressSource = token["source"]
-
-          if not compressedStrings.has_key(compressSource):
-            compressedStrings[compressSource] = 1
-          else:
-            compressedStrings[compressSource] += 1
-
-
-      compressedList = []
-
-      for compressSource in compressedStrings:
-        compressedList.append({ "source" : compressSource, "usages" : compressedStrings[compressSource] })
-
-      compressedList.sort(lambda x, y: x["usages"]-y["usages"])
-
-      for item in compressedList:
-        if item["usages"] <= 1:
-          compressedList.remove(item)
-
-
-      print "Found %s string instances" % len(compressedList)
+      print '<script type="text/javascript" src="%s"></script>' % fileDb[fileId]["path"]
 
 
 
 
 
 
+  ######################################################################
+  #  COMPILE
+  ######################################################################
 
-
-    ######################################################################
-    #  COMPILE TOKENS
-    ######################################################################
+  if options.compileSource:
+    print
+    print "  COMPILING:"
+    print "----------------------------------------------------------------------------"
 
     if options.compileSource:
       compiledOutput = ""
@@ -425,7 +599,7 @@ def execute(options):
       print "  * Compiling tokens..."
 
       if options.compileDirectory == None:
-        print "    * You must define the build directory!"
+        print "    * You must define the compile directory!"
         sys.exit(1)
 
       else:
@@ -439,18 +613,12 @@ def execute(options):
         if options.verbose:
           print "    - %s" % fileId
 
-        compiledFileContent = compile.compile(tokenizedContent[fileId], options.compileWithNewLines)
+        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.compileWithNewLines)
 
         if options.addFileIds:
           compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
         else:
           compiledOutput += compiledFileContent
-
-        compiledFileSize = len(compiledFileContent) / 1000.0
-        compiledFileSizeFactor = 100 - (compiledFileSize / fileSize * 100)
-
-        if options.verbose:
-          print "      * compression %i%% (%s KB)" % (compiledFileSizeFactor, compiledFileSize)
 
         if options.storeSeparateScripts:
           if options.verbose:
@@ -469,7 +637,7 @@ def execute(options):
           compiledSeparateFile.close()
 
 
-      print "  * Saving compiled output..."
+      print "  * Saving compiled output %s..." % options.compileOutputName
 
       # Store combined file
       compiledOutputFileName = os.path.join(options.compileDirectory, options.compileOutputName)
@@ -480,12 +648,12 @@ def execute(options):
         os.makedirs(compiledOutputFileDir)
 
       compiledOutputFile = file(compiledOutputFileName, "w")
-      compiledOutputFile.write(compiledOutput)
+      compiledOutputFile.write("".join(additionalOutput) + compiledOutput)
       compiledOutputFile.flush()
       compiledOutputFile.close()
 
 
-  print "  * Done"
+
 
 
 
@@ -500,6 +668,10 @@ def execute(options):
 if __name__ == '__main__':
   try:
     main()
+
+    print
+    print
+    print "  COMPLETED SUCCESSFULLY"
 
   except KeyboardInterrupt:
     print "  * Keyboard Interrupt"
