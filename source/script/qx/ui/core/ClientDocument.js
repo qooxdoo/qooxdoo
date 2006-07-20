@@ -27,6 +27,7 @@
 #require(qx.dom.DomStyleSheet)
 #use(qx.ui.core.ClientDocumentBlocker)
 #use(qx.event.handler.FocusHandler)
+#optional(qx.client.NativeWindow)
 
 ************************************************************************ */
 
@@ -153,11 +154,11 @@ qx.Proto._initialLayoutDone = true;
 
 /**
  * Returns the blocker widget if already created; otherwise create it first
- * 
+ *
  * @return {ClientDocumentBlocker} the blocker widget.
  */
-qx.Proto._getBlocker = function() 
-{ 
+qx.Proto._getBlocker = function()
+{
   if (!this._blocker)
   {
     // Create blocker instance
@@ -170,7 +171,7 @@ qx.Proto._getBlocker = function()
     // Add blocker to client document
     this.add(this._blocker);
   }
-  
+
   return this._blocker;
 };
 
