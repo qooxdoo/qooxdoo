@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-import config
+import config, tokenizer
 
 
 
 
-def extractUniqueId(data):
+def extractFileContentId(data):
   for item in config.QXHEAD["uniqueId"].findall(data):
     return item
 
@@ -48,6 +48,16 @@ def extractRuntimeDeps(data):
   return deps
 
 
+def extractOptionalDeps(data):
+  deps = []
+
+  # Adding explicit requirements
+  for item in config.QXHEAD["optional"].findall(data):
+    deps.append(item)
+
+  return deps
+
+
 def extractModules(data):
   pkgs = []
 
@@ -68,38 +78,52 @@ def extractResources(data):
 
 
 
-def addUniqueIdToSortedList(uniqueId, loadDeps, runtimeDeps, sortedList, enableDeps):
-  if not loadDeps.has_key(uniqueId):
-    print "    * Could not find required: %s" % uniqueId
-    return False
-
-  # Test if already in
-  try:
-    sortedList.index(uniqueId)
-
-  except ValueError:
-    # Including pre-deps
-    if enableDeps:
-      for preUniqueId in loadDeps[uniqueId]:
-        addUniqueIdToSortedList(preUniqueId, loadDeps, runtimeDeps, sortedList, True)
-
-    # Add myself
-    try:
-      sortedList.index(uniqueId)
-    except ValueError:
-      sortedList.append(uniqueId)
-
-    # Include post-deps
-    if enableDeps:
-      for postUniqueId in runtimeDeps[uniqueId]:
-        addUniqueIdToSortedList(postUniqueId, loadDeps, runtimeDeps, sortedList, True)
 
 
 
 
 
-def scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps):
-  for root, dirs, files in os.walk(sourceDir):
+
+def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
+  # Read file content and extract ID from content definition
+  fileContent = file(filePath, "r").read()
+  fileContentId = extractFileContentId(fileContent)
+
+  # Search for valid ID
+  if fileContentId == None:
+    fileId = filePathId
+    print "    * Could not extract uniqueId from file: %s. Using fileName!" % uniqueId
+
+  else:
+    fileId = fileContentId
+
+    if fileContentId != filePathId:
+      print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+
+  if verbose:
+    print "    - Indexing %s" % fileId
+
+  # Store file data
+  fileDb[fileId] = {
+    "path" : filePath,
+    "content" : fileContent,
+    "tokens" : tokenizer.parseStream(fileContent, fileId),
+    "loadDeps" : extractLoadtimeDeps(fileContent),
+    "runtimeDeps" : extractRuntimeDeps(fileContent),
+    "optionalDeps" : extractOptionalDeps(fileContent)
+    # Add syntax tree here?
+  }
+
+  # Register file to module data
+  for moduleId in extractModules(fileContent):
+    if moduleDb.has_key(moduleId):
+      moduleDb[moduleId].append(fileId)
+    else:
+      moduleDb[moduleId] = [ fileId ]
+
+
+def indexSingleDirectory(sourceDirectory, fileDb={}, moduleDb={}, verbose=False):
+  for root, dirs, files in os.walk(sourceDirectory):
 
     # Filter ignored directories
     for ignoredDir in config.DIRIGNORE:
@@ -109,73 +133,61 @@ def scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps):
     # Searching for files
     for fileName in files:
       if os.path.splitext(fileName)[1] == config.JSEXT:
-
-        # Build complete filename and extract ID from relative path
         filePath = os.path.join(root, fileName)
-        filePathId = os.path.join(root.replace(sourceDir + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
+        filePathId = os.path.join(root.replace(sourceDirectory + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
 
-        # Read file content and extract ID from content definition
-        fileContent = file(filePath, "r").read()
-        fileContentId = extractUniqueId(fileContent)
-
-        # Search for valid ID
-        if fileContentId == None:
-          fileId = filePathId
-          print "    * Could not extract uniqueId from file: %s. Using fileName!" % uniqueId
-
-        else:
-          fileId = fileContentId
-
-          if fileContentId != filePathId:
-            print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
-
-        # Map uniqueId to fileName
-        knownFiles[fileId] = filePath
-
-        # Store explicit deps
-        loadDeps[fileId] = extractLoadtimeDeps(fileContent)
-        runtimeDeps[fileId] = extractRuntimeDeps(fileContent)
-
-        # Register file to module information
-        for pkgname in extractModules(fileContent):
-          if knownModules.has_key(pkgname):
-            knownModules[pkgname].append(fileId)
-          else:
-            knownModules[pkgname] = [ fileId ]
+        indexFile(filePath, filePathId, fileDb, moduleDb, verbose)
 
 
-
-
-def scanAll(sourceDirectories):
-  knownFiles = {}
-  knownModules = {}
-
-  loadDeps = {}
-  runtimeDeps = {}
-
-  print "  * Searching for files..."
+def indexDirectories(sourceDirectories, verbose=False):
+  fileDb = {}
+  moduleDb = {}
 
   for sourceDir in sourceDirectories:
-    scan(sourceDir, knownFiles, knownModules, loadDeps, runtimeDeps)
+    indexSingleDirectory(sourceDir, fileDb, moduleDb, verbose)
 
-  print "  * Found %s files" % len(knownFiles)
-
-  return {
-    "files" : knownFiles,
-    "modules" : knownModules,
-    "loadDeps" : loadDeps,
-    "runtimeDeps" : runtimeDeps
-  }
+  return fileDb, moduleDb
 
 
 
 
 
-def getSortedList(options, scanResult):
+
+
+
+
+def addFileToSortedList(sortedList, fileDb, moduleDb, fileId, enableDeps):
+  if not fileDb.has_key(fileId):
+    print "    * Error: Couldn't find required file: %s" % fileId
+    return False
+
+  # Test if already in
+  try:
+    sortedList.index(fileId)
+
+  except ValueError:
+    # Including load dependencies
+    if enableDeps:
+      for loadDepId in fileDb[fileId]["loadDeps"]:
+        addFileToSortedList(sortedList, fileDb, moduleDb, loadDepId, True)
+
+    # Add myself
+    try:
+      sortedList.index(fileId)
+    except ValueError:
+      sortedList.append(fileId)
+
+    # Include runtime dependencies
+    if enableDeps:
+      for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
+        addFileToSortedList(sortedList, fileDb, moduleDb, runtimeDepId, True)
+
+
+def getSortedList(options, fileDb, moduleDb):
   includeIds = []
   excludeIds = []
 
-  sortedList = []
+  sortedIncludeList = []
   sortedExcludeList = []
 
 
@@ -185,20 +197,20 @@ def getSortedList(options, scanResult):
   # Add Modules and Files
   if options.include:
     for include in options.include:
-      if include in scanResult["modules"]:
-        includeIds.extend(scanResult["modules"][include])
+      if include in moduleDb:
+        includeIds.extend(moduleDb[include])
 
       else:
         includeIds.append(include)
 
   # Add all if empty
   if len(includeIds) == 0:
-    for uniqueId in scanResult["files"]:
-      includeIds.append(uniqueId)
+    for fileId in fileDb:
+      includeIds.append(fileId)
 
   # Sorting
-  for uniqueId in includeIds:
-    addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedList, options.enableIncludeDeps)
+  for fileId in includeIds:
+    addFileToSortedList(sortedIncludeList, fileDb, moduleDb, fileId, options.enableIncludeDeps)
 
 
 
@@ -207,15 +219,15 @@ def getSortedList(options, scanResult):
   # Add Modules and Files
   if options.exclude:
     for exclude in options.exclude:
-      if exclude in scanResult["modules"]:
-        excludeIds.extend(scanResult["modules"][exclude])
+      if exclude in moduleDb:
+        excludeIds.extend(moduleDb[exclude])
 
       else:
         excludeIds.append(exclude)
 
     # Sorting
-    for uniqueId in excludeIds:
-      addUniqueIdToSortedList(uniqueId, scanResult["loadDeps"], scanResult["runtimeDeps"], sortedExcludeList, options.enableExcludeDeps)
+    for fileId in excludeIds:
+      addFileToSortedList(sortedExcludeList, fileDb, moduleDb, fileId, options.enableExcludeDeps)
 
 
 
@@ -223,12 +235,12 @@ def getSortedList(options, scanResult):
   # MERGE
 
   # Remove excluded files from included files list
-  for uniqueId in sortedExcludeList:
-    if uniqueId in sortedList:
-      sortedList.remove(uniqueId)
+  for fileId in sortedExcludeList:
+    if fileId in sortedIncludeList:
+      sortedIncludeList.remove(fileId)
 
 
 
   # RETURN
 
-  return sortedList
+  return sortedIncludeList
