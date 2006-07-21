@@ -23,19 +23,21 @@
 
 /* ************************************************************************
 
-#id(qx.themes.icon.nuvola)
 #module(iconthemes)
-#require(qx.renderer.theme.IconTheme)
-#resource(16)
-#resource(22)
-#resource(32)
-#resource(48)
-#resource(64)
-#resource(128)
 
 ************************************************************************ */
 
-// hide from global scope
-(function () {
-  new qx.renderer.theme.IconTheme("nuvola", "Nuvola");
-})();
+qx.OO.defineClass("qx.themes.icon.NuvolaIconTheme", qx.renderer.theme.IconTheme,
+function() {
+  qx.renderer.theme.IconTheme.call(this, "Nuvola Icon Theme");
+});
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.themes.icon.NuvolaIconTheme = new qx.themes.icon.NuvolaIconTheme;
