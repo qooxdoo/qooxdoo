@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.themes.icon.NuvolaIconTheme", qx.renderer.theme.IconTheme,
+qx.OO.defineClass("qx.theme.icon.NuvolaIconTheme", qx.renderer.theme.IconTheme,
 function() {
   qx.renderer.theme.IconTheme.call(this, "Nuvola Icon Theme");
 });
