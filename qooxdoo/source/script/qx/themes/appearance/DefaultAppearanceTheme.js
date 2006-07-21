@@ -25,20 +25,14 @@
 
 /* ************************************************************************
 
-#id(qx.themes.appearance.default)
 #module(appearancethemes)
-#require(qx.renderer.theme.AppearanceTheme)
 
 ************************************************************************ */
 
-// hide from global scope
-(function ()
+qx.OO.defineClass("qx.theme.appearance.DefaultAppearanceTheme", qx.renderer.theme.AppearanceTheme,
+function()
 {
-  var theme = new qx.renderer.theme.AppearanceTheme("default", "qooxdoo default appearance");
-
-
-
-
+  qx.renderer.theme.AppearanceTheme.call(this, "qooxdoo default appearance");
 
   /*
   ---------------------------------------------------------------------------
@@ -46,7 +40,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("image",
+  this.registerAppearance("image",
   {
     initial : function(vWidget, vTheme)
     {
@@ -57,7 +51,7 @@
     }
   });
 
-  theme.registerAppearance("client-document",
+  this.registerAppearance("client-document",
   {
     setup : function()
     {
@@ -76,7 +70,7 @@
     }
   });
 
-  theme.registerAppearance("blocker",
+  this.registerAppearance("blocker",
   {
     initial : function(vWidget, vTheme)
     {
@@ -90,7 +84,7 @@
     }
   });
 
-  theme.registerAppearance("atom",
+  this.registerAppearance("atom",
   {
     initial : function(vWidget, vTheme)
     {
@@ -108,7 +102,7 @@
     }
   });
 
-  theme.registerAppearance("label",
+  this.registerAppearance("label",
   {
     setup : function()
     {
@@ -132,7 +126,7 @@
     }
   });
 
-  theme.registerAppearance("htmlcontainer",
+  this.registerAppearance("htmlcontainer",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "label");
@@ -143,7 +137,7 @@
     }
   });
 
-  theme.registerAppearance("popup",
+  this.registerAppearance("popup",
   {
     initial : function(vWidget, vTheme)
     {
@@ -154,7 +148,7 @@
     }
   });
 
-  theme.registerAppearance("tool-tip",
+  this.registerAppearance("tool-tip",
   {
     setup : function()
     {
@@ -178,7 +172,7 @@
     }
   });
 
-  theme.registerAppearance("iframe",
+  this.registerAppearance("iframe",
   {
     initial : function(vWidget, vTheme)
     {
@@ -199,7 +193,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("button",
+  this.registerAppearance("button",
   {
     setup : function()
     {
@@ -252,7 +246,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("toolbar",
+  this.registerAppearance("toolbar",
   {
     setup : function()
     {
@@ -269,7 +263,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-part",
+  this.registerAppearance("toolbar-part",
   {
     initial : function(vWidget, vTheme)
     {
@@ -279,7 +273,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-part-handle",
+  this.registerAppearance("toolbar-part-handle",
   {
     initial : function(vWidget, vTheme)
     {
@@ -289,7 +283,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-part-handle-line",
+  this.registerAppearance("toolbar-part-handle-line",
   {
     initial : function(vWidget, vTheme)
     {
@@ -303,7 +297,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-separator",
+  this.registerAppearance("toolbar-separator",
   {
     initial : function(vWidget, vTheme)
     {
@@ -313,7 +307,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-separator-line",
+  this.registerAppearance("toolbar-separator-line",
   {
     setup : function()
     {
@@ -343,7 +337,7 @@
     }
   });
 
-  theme.registerAppearance("toolbar-button",
+  this.registerAppearance("toolbar-button",
   {
     setup : function()
     {
@@ -417,7 +411,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("bar-view",
+  this.registerAppearance("bar-view",
   {
     setup : function()
     {
@@ -433,7 +427,7 @@
     }
   });
 
-  theme.registerAppearance("bar-view-pane",
+  this.registerAppearance("bar-view-pane",
   {
     state : function(vWidget, vTheme, vStates)
     {
@@ -456,7 +450,7 @@
     }
   });
 
-  theme.registerAppearance("bar-view-page",
+  this.registerAppearance("bar-view-page",
   {
     initial : function(vWidget, vTheme)
     {
@@ -469,7 +463,7 @@
     }
   });
 
-  theme.registerAppearance("bar-view-bar",
+  this.registerAppearance("bar-view-bar",
   {
     setup : function()
     {
@@ -556,7 +550,7 @@
     }
   });
 
-  theme.registerAppearance("bar-view-button",
+  this.registerAppearance("bar-view-button",
   {
     setup : function()
     {
@@ -676,7 +670,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("window",
+  this.registerAppearance("window",
   {
     setup : function()
     {
@@ -704,7 +698,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar",
+  this.registerAppearance("window-captionbar",
   {
     setup : function()
     {
@@ -736,7 +730,7 @@
     }
   });
 
-  theme.registerAppearance("window-resize-frame",
+  this.registerAppearance("window-resize-frame",
   {
     initial : function(vWidget, vTheme)
     {
@@ -746,7 +740,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-icon",
+  this.registerAppearance("window-captionbar-icon",
   {
     initial : function(vWidget, vTheme)
     {
@@ -756,7 +750,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-title",
+  this.registerAppearance("window-captionbar-title",
   {
     setup : function()
     {
@@ -775,7 +769,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-button",
+  this.registerAppearance("window-captionbar-button",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "button");
@@ -802,7 +796,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-minimize-button",
+  this.registerAppearance("window-captionbar-minimize-button",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -813,7 +807,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-restore-button",
+  this.registerAppearance("window-captionbar-restore-button",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -824,7 +818,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-maximize-button",
+  this.registerAppearance("window-captionbar-maximize-button",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -835,7 +829,7 @@
     }
   });
 
-  theme.registerAppearance("window-captionbar-close-button",
+  this.registerAppearance("window-captionbar-close-button",
   {
     initial : function(vWidget, vTheme)
     {
@@ -849,7 +843,7 @@
     }
   });
 
-  theme.registerAppearance("window-statusbar",
+  this.registerAppearance("window-statusbar",
   {
     initial : function(vWidget, vTheme)
     {
@@ -860,7 +854,7 @@
     }
   });
 
-  theme.registerAppearance("window-statusbar-text",
+  this.registerAppearance("window-statusbar-text",
   {
     initial : function(vWidget, vTheme)
     {
@@ -889,7 +883,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("menu",
+  this.registerAppearance("menu",
   {
     setup : function()
     {
@@ -911,7 +905,7 @@
     }
   });
 
-  theme.registerAppearance("menu-layout",
+  this.registerAppearance("menu-layout",
   {
     initial : function(vWidget, vTheme)
     {
@@ -924,7 +918,7 @@
     }
   });
 
-  theme.registerAppearance("menu-button",
+  this.registerAppearance("menu-button",
   {
     setup : function()
     {
@@ -960,7 +954,7 @@
     }
   });
 
-  theme.registerAppearance("menu-check-box",
+  this.registerAppearance("menu-check-box",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "menu-button");
@@ -971,7 +965,7 @@
     }
   });
 
-  theme.registerAppearance("menu-check-box-icon",
+  this.registerAppearance("menu-check-box-icon",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "image");
@@ -985,7 +979,7 @@
     }
   });
 
-  theme.registerAppearance("menu-radio-button",
+  this.registerAppearance("menu-radio-button",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "menu-button");
@@ -996,7 +990,7 @@
     }
   });
 
-  theme.registerAppearance("menu-radio-button-icon",
+  this.registerAppearance("menu-radio-button-icon",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "image");
@@ -1010,7 +1004,7 @@
     }
   });
 
-  theme.registerAppearance("menu-separator",
+  this.registerAppearance("menu-separator",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1024,7 +1018,7 @@
     }
   });
 
-  theme.registerAppearance("menu-separator-line",
+  this.registerAppearance("menu-separator-line",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1050,7 +1044,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("list",
+  this.registerAppearance("list",
   {
     setup : function()
     {
@@ -1067,7 +1061,7 @@
     }
   });
 
-  theme.registerAppearance("list-item",
+  this.registerAppearance("list-item",
   {
     setup : function()
     {
@@ -1124,7 +1118,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("text-field",
+  this.registerAppearance("text-field",
   {
     setup : function()
     {
@@ -1153,7 +1147,7 @@
     }
   });
 
-  theme.registerAppearance("text-area",
+  this.registerAppearance("text-area",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1182,7 +1176,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("combo-box",
+  this.registerAppearance("combo-box",
   {
     setup : function()
     {
@@ -1202,7 +1196,7 @@
     }
   });
 
-  theme.registerAppearance("combo-box-list",
+  this.registerAppearance("combo-box-list",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1217,7 +1211,7 @@
     }
   });
 
-  theme.registerAppearance("combo-box-popup",
+  this.registerAppearance("combo-box-popup",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1229,7 +1223,7 @@
     }
   });
 
-  theme.registerAppearance("combo-box-text-field",
+  this.registerAppearance("combo-box-text-field",
   {
     setup : function()
     {
@@ -1246,7 +1240,7 @@
     }
   });
 
-  theme.registerAppearance("combo-box-button",
+  this.registerAppearance("combo-box-button",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1278,7 +1272,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("tree-element",
+  this.registerAppearance("tree-element",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1289,7 +1283,7 @@
     }
   });
 
-  theme.registerAppearance("tree-element-icon",
+  this.registerAppearance("tree-element-icon",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1325,7 +1319,7 @@
     }
   });
 
-  theme.registerAppearance("tree-element-label",
+  this.registerAppearance("tree-element-label",
   {
     setup : function()
     {
@@ -1356,7 +1350,7 @@
     }
   });
 
-  theme.registerAppearance("tree-folder",
+  this.registerAppearance("tree-folder",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-element");
@@ -1367,7 +1361,7 @@
     }
   });
 
-  theme.registerAppearance("tree-folder-icon",
+  this.registerAppearance("tree-folder-icon",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1403,7 +1397,7 @@
     }
   });
 
-  theme.registerAppearance("tree-folder-label",
+  this.registerAppearance("tree-folder-label",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-element-label");
@@ -1414,7 +1408,7 @@
     }
   });
 
-  theme.registerAppearance("tree",
+  this.registerAppearance("tree",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder");
@@ -1425,7 +1419,7 @@
     }
   });
 
-  theme.registerAppearance("tree-icon",
+  this.registerAppearance("tree-icon",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder-icon");
@@ -1436,7 +1430,7 @@
     }
   });
 
-  theme.registerAppearance("tree-label",
+  this.registerAppearance("tree-label",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder-label");
@@ -1447,7 +1441,7 @@
     }
   });
 
-  theme.registerAppearance("tree-container",
+  this.registerAppearance("tree-container",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1457,7 +1451,7 @@
     }
   });
 
-  theme.registerAppearance("tree-folder-container",
+  this.registerAppearance("tree-folder-container",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1482,7 +1476,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("list-view",
+  this.registerAppearance("list-view",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1493,7 +1487,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-pane",
+  this.registerAppearance("list-view-pane",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1505,7 +1499,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-header",
+  this.registerAppearance("list-view-header",
   {
     setup : function()
     {
@@ -1526,7 +1520,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-header-cell",
+  this.registerAppearance("list-view-header-cell",
   {
     setup : function()
     {
@@ -1572,7 +1566,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-header-separator",
+  this.registerAppearance("list-view-header-separator",
   {
     setup : function() {
       this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
@@ -1589,7 +1583,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell",
+  this.registerAppearance("list-view-content-cell",
   {
     setup : function()
     {
@@ -1606,7 +1600,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell-image",
+  this.registerAppearance("list-view-content-cell-image",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1621,7 +1615,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell-text",
+  this.registerAppearance("list-view-content-cell-text",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1640,7 +1634,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell-html",
+  this.registerAppearance("list-view-content-cell-html",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1651,7 +1645,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell-icon-html",
+  this.registerAppearance("list-view-content-cell-icon-html",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1662,7 +1656,7 @@
     }
   });
 
-  theme.registerAppearance("list-view-content-cell-link",
+  this.registerAppearance("list-view-content-cell-link",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1685,7 +1679,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("tab-view",
+  this.registerAppearance("tab-view",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1695,7 +1689,7 @@
     }
   });
 
-  theme.registerAppearance("tab-view-bar",
+  this.registerAppearance("tab-view-bar",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1705,7 +1699,7 @@
     }
   });
 
-  theme.registerAppearance("tab-view-pane",
+  this.registerAppearance("tab-view-pane",
   {
     setup : function()
     {
@@ -1727,7 +1721,7 @@
     }
   });
 
-  theme.registerAppearance("tab-view-page",
+  this.registerAppearance("tab-view-page",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1740,7 +1734,7 @@
     }
   });
 
-  theme.registerAppearance("tab-view-button",
+  this.registerAppearance("tab-view-button",
   {
     setup : function()
     {
@@ -1870,7 +1864,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("field-set",
+  this.registerAppearance("field-set",
   {
     setup : function()
     {
@@ -1885,7 +1879,7 @@
     }
   });
 
-  theme.registerAppearance("field-set-legend",
+  this.registerAppearance("field-set-legend",
   {
     setup : function()
     {
@@ -1904,7 +1898,7 @@
     }
   });
 
-  theme.registerAppearance("field-set-frame",
+  this.registerAppearance("field-set-frame",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1922,7 +1916,7 @@
     }
   });
 
-  theme.registerAppearance("check-box-field-set-legend",
+  this.registerAppearance("check-box-field-set-legend",
   {
     setup : function()
     {
@@ -1940,7 +1934,7 @@
     }
   });
 
-  theme.registerAppearance("radio-button-field-set-legend",
+  this.registerAppearance("radio-button-field-set-legend",
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "check-box-field-set-legend");
@@ -1959,7 +1953,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("spinner",
+  this.registerAppearance("spinner",
   {
     setup : function()
     {
@@ -1977,7 +1971,7 @@
     }
   });
 
-  theme.registerAppearance("spinner-field",
+  this.registerAppearance("spinner-field",
   {
     initial : function(vWidget, vTheme)
     {
@@ -1992,7 +1986,7 @@
     }
   });
 
-  theme.registerAppearance("spinner-button-up",
+  this.registerAppearance("spinner-button-up",
   {
     initial : function(vWidget, vTheme)
     {
@@ -2016,7 +2010,7 @@
     }
   });
 
-  theme.registerAppearance("spinner-button-down",
+  this.registerAppearance("spinner-button-down",
   {
     initial : function(vWidget, vTheme)
     {
@@ -2050,7 +2044,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("colorselector",
+  this.registerAppearance("colorselector",
   {
     setup : function()
     {
@@ -2082,7 +2076,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("datechooser-toolbar-button", {
+  this.registerAppearance("datechooser-toolbar-button", {
     setup : function() {
       this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
       this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
@@ -2135,7 +2129,7 @@
   });
 
 
-  theme.registerAppearance("datechooser-monthyear", {
+  this.registerAppearance("datechooser-monthyear", {
     setup : function() {
       this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
@@ -2150,7 +2144,7 @@
   });
 
 
-  theme.registerAppearance("datechooser-datepane", {
+  this.registerAppearance("datechooser-datepane", {
     setup : function() {
       this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "gray");
       this.bgcolor = new qx.renderer.color.ColorObject("window");
@@ -2165,7 +2159,7 @@
   });
 
 
-  theme.registerAppearance("datechooser-weekday", {
+  this.registerAppearance("datechooser-weekday", {
     setup : function() {
       this.border = new qx.renderer.border.Border;
       this.border.set({ bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
@@ -2193,7 +2187,7 @@
   });
 
 
-  theme.registerAppearance("datechooser-day", {
+  this.registerAppearance("datechooser-day", {
     setup : function() {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
 
@@ -2229,7 +2223,7 @@
   });
 
 
-  theme.registerAppearance("datechooser-week", {
+  this.registerAppearance("datechooser-week", {
     setup : function() {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1 });
@@ -2267,7 +2261,7 @@
   ---------------------------------------------------------------------------
   */
 
-  theme.registerAppearance("table-focus-statusbar", {
+  this.registerAppearance("table-focus-statusbar", {
     setup : function() {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       this.border = new qx.renderer.border.Border;
@@ -2285,7 +2279,7 @@
   });
 
 
-  theme.registerAppearance("table-focus-indicator", {
+  this.registerAppearance("table-focus-indicator", {
     setup : function() {
       this.border = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
       this.editingBorder = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
@@ -2299,7 +2293,7 @@
   });
 
 
-  theme.registerAppearance("table-editor-textfield", {
+  this.registerAppearance("table-editor-textfield", {
     setup : function() {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
@@ -2317,7 +2311,7 @@
   });
 
 
-  theme.registerAppearance("table-data-cell", {
+  this.registerAppearance("table-data-cell", {
     setup : function() {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"#eeeeee", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
@@ -2365,7 +2359,7 @@
   });
 
 
-  theme.registerAppearance("table-header-cell", {
+  this.registerAppearance("table-header-cell", {
     setup : function() {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"#d6d2c2", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
@@ -2407,6 +2401,16 @@
       }
     }
   });
+});
 
-// hide from global scope
-})();
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.themes.appearance.DefaultAppearanceTheme = new qx.themes.appearance.DefaultAppearanceTheme;

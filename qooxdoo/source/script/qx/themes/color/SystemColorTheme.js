@@ -23,13 +23,22 @@
 
 /* ************************************************************************
 
-#id(qx.themes.color.operatingSystemDefault)
 #module(colorthemes)
-#require(qx.renderer.theme.ColorTheme)
 
 ************************************************************************ */
 
-// hide from global scope
-(function () {
-  new qx.renderer.theme.ColorTheme("operatingSystemDefault", "Operating System Default", {});
-})();
+qx.OO.defineClass("qx.theme.color.SystemColorTheme", qx.renderer.theme.ColorTheme,
+function() {
+  qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
+}
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.theme.color.SystemColorTheme = new qx.theme.color.SystemColorTheme;
