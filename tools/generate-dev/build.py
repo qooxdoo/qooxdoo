@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, shutil, optparse
-import config, tokenizer, loader, compile
+import config, tokenizer, loader, compile, docgenerator, tree, treegenerator
 
 
 
@@ -41,17 +41,20 @@ def getparser():
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
   parser.add_option("--compile-output-directory", dest="compileOutputDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
   parser.add_option("--resource-output-directory", dest="resourceOutputDirectory", metavar="DIRECTORY", help="Define resource output directory.")
+  parser.add_option("--api-output-directory", dest="apiOutputDirectory", metavar="DIRECTORY", help="Define api output directory.")
 
   # Destination Filenames
-  parser.add_option("--source-output-filename", dest="sourceOutputFilename", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from source build process.")
-  parser.add_option("--compile-output-filename", dest="compileOutputFilename", default="qooxdoo.js", metavar="FILENAME", help="Name of output file from compiler.")
+  parser.add_option("--source-output-filename", dest="sourceOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from source build process.")
+  parser.add_option("--compile-output-filename", dest="compileOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from compiler.")
+  parser.add_option("--api-json-output-filename", dest="apiJsonOutputFilename", default="api.js", metavar="FILENAME", help="Name of JSON API file.")
+  parser.add_option("--api-xml-output-filename", dest="apiXmlOutputFilename", default="api.xml", metavar="FILENAME", help="Name of XML API file.")
 
   # Actions
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
   parser.add_option("-r", "--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files.")
-  parser.add_option("--generate-source", action="store_true", dest="generateSource", default=False, help="Generate source version of qooxdoo.js.")
-
+  parser.add_option("-g", "--generate-source", action="store_true", dest="generateSource", default=False, help="Generate source version.")
+  parser.add_option("-a", "--generate-api", action="store_true", dest="generateApi", default=False, help="Generate API documentation.")
   parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files.")
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules.")
   parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list.")
@@ -520,6 +523,46 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
 
+  ######################################################################
+  #  GENERATE API
+  ######################################################################
+
+  if options.generateApi:
+    print
+    print "  GENERATE API:"
+    print "----------------------------------------------------------------------------"
+
+    if options.apiOutputDirectory == None:
+      print "    * You must define the API output directory!"
+      sys.exit(1)
+
+    else:
+      options.apiOutputDirectory = os.path.normpath(options.apiOutputDirectory)
+
+      # Normalizing directory
+      if not os.path.exists(options.apiOutputDirectory):
+        os.makedirs(options.apiOutputDirectory)
+
+    docTree = None
+
+    print "  * Docufying tokens"
+
+    for fileId in fileDb:
+      if options.verbose:
+        print "  - %s" % fieId
+
+      docTree = docgenerator.createDoc(fileDb[fileId]["tree"], docTree)
+
+    if docTree:
+      print "  * Doing post work..."
+      docgenerator.postWorkPackage(docTree, docTree)
+
+    print "  * Writing files..."
+    filetool(options.apiOutputDirectory, options.apiJsonOutputFilename, tree.nodeToJsonString(docTree).encode("utf-8"))
+    filetool(options.apiOutputDirectory, options.apiXmlOutputFilename, tree.nodeToXmlString(docTree).encode("utf-8"))
+
+
+
 
   ######################################################################
   #  COPY RESOURCES
@@ -534,7 +577,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  * Creating needed directories..."
 
     if options.resourceOutputDirectory == None:
-      print "    * You must define the resource directory!"
+      print "    * You must define the resource output directory!"
       sys.exit(1)
 
     else:

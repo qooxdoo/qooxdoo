@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random
-import config, tokenizer
+import config, tokenizer, treegenerator
 
 
 
@@ -103,15 +103,18 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
   if verbose:
     print "    - Indexing %s" % fileId
 
+  tokens = tokenizer.parseStream(fileContent, fileId)
+  tree = treegenerator.createSyntaxTree(tokens)
+
   # Store file data
   fileDb[fileId] = {
     "path" : filePath,
     "content" : fileContent,
-    "tokens" : tokenizer.parseStream(fileContent, fileId),
+    "tokens" : tokens,
+    "tree" : tree,
     "loadDeps" : extractLoadtimeDeps(fileContent),
     "runtimeDeps" : extractRuntimeDeps(fileContent),
     "optionalDeps" : extractOptionalDeps(fileContent)
-    # Add syntax tree here?
   }
 
   # Register file to module data
