@@ -218,9 +218,11 @@ qx.Proto._onPaneModelChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onTableModelDataChanged = function(evt) {
+  var data = evt.getData();
+
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
-  if (evt.lastRow >= firstRow && evt.firstRow < firstRow + rowCount) {
+  if (data.lastRow >= firstRow && data.firstRow < firstRow + rowCount) {
     // The change intersects this pane
     this._updateContent();
   }
