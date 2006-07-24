@@ -6,4 +6,4 @@ echo "--------------------------------------------------------------------------
 echo "  * Syncing resource files..."
 
 mkdir -p build/images build/themes
-rsync -rl --exclude=$(SVN) --exclude=*.js source/resources build/
+rsync -rl --exclude=.svn --exclude=*.js source/resources build/
