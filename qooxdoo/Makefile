@@ -14,8 +14,8 @@ apidocs:
 	tools/generate-dev/build.py -s source/script/ --generate-api --api-output-directory api --generate-json-api
 
 buildsource:
-	tools/generate-dev/build.py -s source/script/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
-	tools/generate-dev/make-demolayout.sh
+	@tools/generate-dev/build.py -s source/script/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
+	@tools/generate-dev/make-demolayout.sh
 
 buildresources:
 	mkdir -p build/images build/themes
