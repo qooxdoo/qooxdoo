@@ -30,7 +30,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.theme.ColorTheme", qx.core.Object, 
+qx.OO.defineClass("qx.renderer.theme.ColorTheme", qx.core.Object,
 function(vId, vTitle, vColors)
 {
   qx.core.Object.call(this);
@@ -39,7 +39,6 @@ function(vId, vTitle, vColors)
     throw new Error("Each instance of qx.renderer.theme.ColorTheme need an unique ID!");
   }
 
-  this._definedColors = vColors;
   this._compiledColors = {}
 
   this.setId(vId);
@@ -76,8 +75,7 @@ qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : 
 */
 
 qx.Proto._needsCompilation = true;
-
-
+qx.Proto._colors = {};
 
 
 
@@ -89,7 +87,7 @@ qx.Proto._needsCompilation = true;
 */
 
 qx.Proto.getValueByName = function(vName) {
-  return this._definedColors[vName] || qx.constant.Core.EMPTY;
+  return this._colors[vName] || qx.constant.Core.EMPTY;
 }
 
 qx.Proto.getStyleByName = function(vName) {
@@ -122,8 +120,8 @@ qx.Proto.compile = function()
 
 qx.Proto._compileValue = function(vName)
 {
-  var v = this._definedColors[vName];
-  this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._definedColors[vName]) : vName;
+  var v = this._colors[vName];
+  this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._colors[vName]) : vName;
 }
 
 
@@ -142,7 +140,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  delete this._definedColors;
+  delete this._colors;
   delete this._compiledColors;
 
   qx.core.Object.prototype.dispose.call(this);

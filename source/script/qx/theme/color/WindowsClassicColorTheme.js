@@ -31,7 +31,8 @@
 qx.OO.defineClass("qx.theme.color.WindowsClassicColorTheme", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Windows Classic");
-}
+});
+
 
 
 
@@ -42,34 +43,37 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._activeborder = [ 212,208,200 ];
-qx.Proto._activecaption = [ 10,36,106 ];
-qx.Proto._appworkspace = [ 128,128,128 ];
-qx.Proto._background = [ 58,110,165 ];
-qx.Proto._buttonface = [ 212,208,200 ];
-qx.Proto._buttonhighlight = [ 255,255,255 ];
-qx.Proto._buttonshadow = [ 128,128,128 ];
-qx.Proto._buttontext = [ 0,0,0 ];
-qx.Proto._captiontext = [ 255,255,255 ];
-qx.Proto._graytext = [ 128,128,128 ];
-qx.Proto._highlight = [ 10,36,106 ];
-qx.Proto._highlighttext = [ 255,255,255 ];
-qx.Proto._inactiveborder = [ 212,208,200 ];
-qx.Proto._inactivecaption = [ 128,128,128 ];
-qx.Proto._inactivecaptiontext = [ 212,208,200 ];
-qx.Proto._infobackground = [ 255,255,225 ];
-qx.Proto._infotext = [ 0,0,0 ];
-qx.Proto._menu = [ 212,208,200 ];
-qx.Proto._menutext = [ 0,0,0 ];
-qx.Proto._scrollbar = [ 212,208,200 ];
-qx.Proto._threeddarkshadow = [ 64,64,64 ];
-qx.Proto._threedface = [ 212,208,200 ];
-qx.Proto._threedhighlight = [ 255,255,255 ];
-qx.Proto._threedlightshadow = [ 212,208,200 ];
-qx.Proto._threedshadow = [ 128,128,128 ];
-qx.Proto._window = [ 255,255,255 ];
-qx.Proto._windowframe = [ 0,0,0 ];
-qx.Proto._windowtext = [ 0,0,0 ]
+qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
+  activeborder : [ 212,208,200 ],
+  activecaption : [ 10,36,106 ],
+  appworkspace : [ 128,128,128 ],
+  background : [ 58,110,165 ],
+  buttonface : [ 212,208,200 ],
+  buttonhighlight : [ 255,255,255 ],
+  buttonshadow : [ 128,128,128 ],
+  buttontext : [ 0,0,0 ],
+  captiontext : [ 255,255,255 ],
+  graytext : [ 128,128,128 ],
+  highlight : [ 10,36,106 ],
+  highlighttext : [ 255,255,255 ],
+  inactiveborder : [ 212,208,200 ],
+  inactivecaption : [ 128,128,128 ],
+  inactivecaptiontext : [ 212,208,200 ],
+  infobackground : [ 255,255,225 ],
+  infotext : [ 0,0,0 ],
+  menu : [ 212,208,200 ],
+  menutext : [ 0,0,0 ],
+  scrollbar : [ 212,208,200 ],
+  threeddarkshadow : [ 64,64,64 ],
+  threedface : [ 212,208,200 ],
+  threedhighlight : [ 255,255,255 ],
+  threedlightshadow : [ 212,208,200 ],
+  threedshadow : [ 128,128,128 ],
+  window : [ 255,255,255 ],
+  windowframe : [ 0,0,0 ],
+  windowtext : [ 0,0,0 ]
+}, qx.Super.prototype._colors);
+
 
 
 
