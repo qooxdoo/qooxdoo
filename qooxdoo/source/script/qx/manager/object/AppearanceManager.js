@@ -36,7 +36,7 @@ function()
   this._themes = [];
 });
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false });
 
 
 
@@ -48,9 +48,14 @@ qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT });
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
+qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 {
-  qx.core.Init.getComponent().getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+  var vComp = qx.core.Init.getComponent();
+
+  if (vComp.isUiReady()) {
+    vComp.getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+  }
+
   return true;
 }
 
@@ -69,18 +74,11 @@ qx.Proto.registerTheme = function(vThemeObject) {
   this._themes.push(vThemeObject);
 
   if (this.getTheme() === null) {
-    this.setTheme(qx.theme.appearance.DefaultAppearanceTheme);
+    this.setTheme(vThemeObject);
   }
 }
 
-qx.Proto.getAppearanceThemeObjectById = function(vThemeId) {
-  this.debug("Execute getAppearanceThemeObjectById -> Not supported anymore");
-}
 
-qx.Proto.getAppearanceThemeObject = function() {
-  this.debug("Execute getAppearanceThemeObject -> Use getTheme instead!");
-  return this.getTheme();
-}
 
 
 

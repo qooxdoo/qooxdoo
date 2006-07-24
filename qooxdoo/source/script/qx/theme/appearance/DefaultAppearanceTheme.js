@@ -2466,4 +2466,3 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith({
 */
 
 qx.theme.appearance.DefaultAppearanceTheme = new qx.theme.appearance.DefaultAppearanceTheme;
-qx.theme.appearance.DefaultAppearanceTheme.register();
