@@ -23,7 +23,7 @@ def extractSuperClass(data):
   return None
 
 
-def extractLoadtimeDeps(data):
+def extractLoadtimeDeps(data, fileId=""):
   deps = []
 
   # Storing inheritance deps
@@ -33,18 +33,26 @@ def extractLoadtimeDeps(data):
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
-    if not item in deps:
+    if item in deps:
+      print "      - Double definition of loadtime dependency: %s" % fileId
+    elif item == fileId:
+      print "      - Self-referring loadtime dependency: %s" % fileId
+    else:
       deps.append(item)
 
   return deps
 
 
-def extractRuntimeDeps(data):
+def extractRuntimeDeps(data, fileId=""):
   deps = []
 
   # Adding explicit requirements
   for item in config.QXHEAD["use"].findall(data):
-    if not item in deps:
+    if item in deps:
+      print "      - Double definition of runtime dependency: %s" % fileId
+    elif item == fileId:
+      print "      - Self-referring runtime dependency: %s" % fileId
+    else:
       deps.append(item)
 
   return deps
@@ -115,9 +123,9 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
     "content" : fileContent,
     "tokens" : tokens,
     "tree" : tree,
-    "loadDeps" : extractLoadtimeDeps(fileContent),
-    "runtimeDeps" : extractRuntimeDeps(fileContent),
-    "optionalDeps" : extractOptionalDeps(fileContent)
+    "optionalDeps" : extractOptionalDeps(fileContent),
+    "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
+    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId)
   }
 
   # Register file to module data
