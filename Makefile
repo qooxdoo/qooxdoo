@@ -3,12 +3,12 @@ SVN = ".svn"
 all: buildresources builddemos compile buildsource
 
 clean:
-	rm  -f source/demo/demoinclude.js source/demo/demolayout.js
-	rm -rf tools/generate/internal/cache
-	rm -rf build/demo build/script build/themes
+	@rm  -f source/demo/demoinclude.js source/demo/demolayout.js
+	@rm -rf tools/generate/internal/cache
+	@rm -rf build/demo build/script build/themes
 
 realclean: clean
-	rm -rf public build release
+	@rm -rf public build release
 
 apidocs:
 	tools/generate-dev/build.py -s source/script/ --generate-api --api-output-directory api --generate-json-api
@@ -18,11 +18,10 @@ buildsource:
 	@tools/generate-dev/make-demolayout.sh
 
 buildresources:
-	mkdir -p build/images build/themes
-	rsync -rl --exclude=$(SVN) --exclude=*.js source/resources build/
+	@tools/generate-dev/make-resourcebuild.sh
 
 builddemos:
-	tools/generate/internal/patchdemos.sh
+	@tools/generate-dev/make-htmlbuild.sh
 
 compile:
 	tools/generate-dev/build.py -s source/script --compile-source --compile-output-directory build/script

@@ -13,6 +13,7 @@ JSEXT = ".js"
 XMLEXT = ".xml"
 TOKENEXT = ".txt"
 DIRIGNORE = [ ".svn", "CVS" ]
+SETTINGSOUTPUT = "__settings__"
 
 
 
