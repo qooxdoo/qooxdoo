@@ -694,6 +694,53 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
 
+
+
+  ######################################################################
+  #  SETTINGS
+  ######################################################################
+
+  if options.generateSource or options.compileSource:
+    print
+    print "  GENERATING SETTINGS:"
+    print "----------------------------------------------------------------------------"
+
+    print "  * Processing input data..."
+
+    settingsStr = 'if(typeof %s==="undefined"){%s={};}' % (config.SETTINGSOUTPUT, config.SETTINGSOUTPUT)
+    if options.addNewLines:
+      settingsStr += "\n"
+
+    for setting in options.setting:
+      settingSplit = setting.split(":")
+      settingKey = settingSplit.pop(0)
+      settingValue = ":".join(settingSplit)
+
+      settingKeySplit = settingKey.split(".")
+      settingKeyName = settingKeySplit.pop()
+      settingKeySpace = ".".join(settingKeySplit)
+
+      checkStr = 'if(typeof %s["%s"]==="undefined"){%s["%s"]={};}' % (config.SETTINGSOUTPUT, settingKeySpace, config.SETTINGSOUTPUT, settingKeySpace)
+      if not checkStr in settingsStr:
+        settingsStr += checkStr
+
+        if options.addNewLines:
+          settingsStr += "\n"
+
+      settingsStr += '%s["%s"]["%s"]="%s";' % (config.SETTINGSOUTPUT, settingKeySpace, settingKeyName, settingValue)
+      if options.addNewLines:
+        settingsStr += "\n"
+
+
+
+
+
+
+
+
+
+
+
   ######################################################################
   #  SOURCE
   ######################################################################
@@ -712,10 +759,20 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Generating includer..."
 
-    sourceOutput = ""
+    sourceOutput = settingsStr
 
-    for fileId in sortedIncludeList:
-      sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+    if sourceOutput != "" and options.addNewLines:
+      settingsStr += "\n"
+
+    if options.addNewLines:
+      for fileId in sortedIncludeList:
+        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+
+    else:
+      includeCode = ""
+      for fileId in sortedIncludeList:
+        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+      sourceOutput += "document.write('%s');" % includeCode
 
     # Store file
     filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput, options.encoding)
