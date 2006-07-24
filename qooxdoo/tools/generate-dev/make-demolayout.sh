@@ -3,7 +3,7 @@
 echo
 echo "  GENERATING DEMO LAYOUT:"
 echo "----------------------------------------------------------------------------"
-echo "  Generating layout script..."
+echo "  * Generating layout script..."
 
 cat source/demo/demolayout.js.in > source/demo/demolayout.js
 

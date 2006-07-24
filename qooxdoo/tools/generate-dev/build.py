@@ -33,6 +33,9 @@ def getparser():
   parser.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
+  # Setting
+  parser.add_option("--setting", action="append", dest="setting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+
   # Source Directories
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
 
@@ -438,7 +441,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   if options.compressStrings:
     print
-    print "  STRING COMPRESSION:"
+    print "  STRING COMPRESSION (ALPHA!!!):"
     print "----------------------------------------------------------------------------"
 
     print "  * Searching for string instances..."
