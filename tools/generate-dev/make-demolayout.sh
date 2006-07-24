@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-cd `dirname $0`/../..
-
-echo ">>> Creating layout script..."
+echo
+echo "  GENERATING DEMO LAYOUT:"
+echo "----------------------------------------------------------------------------"
+echo "  Generating layout script..."
 
 cat source/demo/demolayout.js.in > source/demo/demolayout.js
 
@@ -45,4 +46,3 @@ echo "var teststr = \"$teststr\";" >> source/demo/demolayout.js
 echo "showTestFiles();" >> source/demo/demolayout.js
 
 echo "})();" >> source/demo/demolayout.js
-
