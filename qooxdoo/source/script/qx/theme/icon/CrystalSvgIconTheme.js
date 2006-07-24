@@ -40,4 +40,4 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.themes.icon.CrystalSvgIconTheme = new qx.themes.icon.CrystalSvgIconTheme;
+qx.theme.icon.CrystalSvgIconTheme = new qx.theme.icon.CrystalSvgIconTheme;
