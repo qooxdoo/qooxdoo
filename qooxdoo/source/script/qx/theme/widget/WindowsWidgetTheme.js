@@ -23,20 +23,23 @@
 
 /* ************************************************************************
 
-#id(qx.themes.widget.windows)
-#module(iconthemes)
-#require(qx.renderer.theme.WidgetTheme)
-#resource(arrows)
-#resource(cursors)
-#resource(datechooser)
-#resource(menu)
-#resource(table)
-#resource(tree)
-#resource(window)
+#module(widgetthemes)
 
 ************************************************************************ */
 
-// hide from global scope
-(function () {
-  new qx.renderer.theme.WidgetTheme("windows", "Windows");
-})();
+qx.OO.defineClass("qx.theme.widget.WindowsWidgetTheme", qx.renderer.theme.WidgetTheme,
+function() {
+  qx.renderer.theme.WidgetTheme.call(this, "Windows");
+});
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.theme.widget.WindowsWidgetTheme = new qx.theme.widget.WindowsWidgetTheme;
