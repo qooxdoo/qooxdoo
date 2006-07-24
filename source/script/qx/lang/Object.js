@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(core)
+#use(qx.constant.Type)
 
 ************************************************************************ */
 
@@ -94,6 +95,17 @@ qx.lang.Object.mergeWith = function(vObjectA, vObjectB)
 {
   for (var vKey in vObjectB) {
     vObjectA[vKey] = vObjectB[vKey];
+  }
+
+  return vObjectA;
+}
+
+qx.lang.Object.carefullyMergeWith = function(vObjectA, vObjectB) {
+  for (vKey in vObjectB)
+  {
+    if (typeof vObjectA[vKey] === qx.constant.Type.UNDEFINED) {
+      vObjectA[vKey] = vObjectB[vKey];
+    }
   }
 
   return vObjectA;
