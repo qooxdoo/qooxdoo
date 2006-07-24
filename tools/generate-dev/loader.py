@@ -33,10 +33,10 @@ def extractLoadtimeDeps(data, fileId=""):
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
-    if item in deps:
-      print "      - Double definition of loadtime dependency: %s" % fileId
-    elif item == fileId:
+    if item == fileId:
       print "      - Self-referring loadtime dependency: %s" % fileId
+    elif item in deps:
+      print "      - Double definition of loadtime dependency: %s" % fileId
     else:
       deps.append(item)
 
@@ -48,10 +48,10 @@ def extractRuntimeDeps(data, fileId=""):
 
   # Adding explicit requirements
   for item in config.QXHEAD["use"].findall(data):
-    if item in deps:
-      print "      - Double definition of runtime dependency: %s" % fileId
-    elif item == fileId:
+    if item == fileId:
       print "      - Self-referring runtime dependency: %s" % fileId
+    elif item in deps:
+      print "      - Double definition of runtime dependency: %s" % fileId
     else:
       deps.append(item)
 
