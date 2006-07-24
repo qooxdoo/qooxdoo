@@ -10,7 +10,7 @@ clean:
 realclean: clean
 	rm -rf public build release
 
-api:
+apidocs:
 	tools/generate-dev/build.py -s source/script/ --generate-api --api-output-directory api --generate-json-api
 
 buildsource:

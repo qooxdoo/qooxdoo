@@ -279,10 +279,10 @@ def load(options):
 
 
   ######################################################################
-  #  SCANNING FOR FILES
+  #  PROCESSING FILES
   ######################################################################
 
-  print "  * Indexing files..."
+  print "  * Processing files..."
 
   (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.verbose)
 
@@ -320,45 +320,73 @@ def load(options):
     print "  AUTO DEPENDENCIES:"
     print "----------------------------------------------------------------------------"
 
-    print "  * Detecting dependencies..."
+    print "  * Collecting IDs..."
 
     knownIds = []
 
     for fileEntry in fileDb:
-      print fileEntry
       knownIds.append(fileEntry)
 
+    print "  * Detecting dependencies..."
 
-
-
-    """
     for fileEntry in fileDb:
-      fileContent = fileDb[fileEntry]["content"]
       if options.verbose:
         print "    * %s" % fileEntry
 
-      for depFileEntry in fileDb:
-        if depFileEntry != fileEntry:
-          if fileContent.find(depFileEntry) != -1:
+      fileTokens = fileDb[fileEntry]["tokens"]
+      fileDeps = []
 
-            if depFileEntry in fileDb[fileEntry]["optionalDeps"]:
-              if options.verbose:
-                print "      - Optional: %s" % depFileEntry
+      assembledName = ""
 
-            elif depFileEntry in fileDb[fileEntry]["loadDeps"]:
-              if options.verbose:
-                print "      - Load: %s" % depFileEntry
+      for token in fileTokens:
+        if token["type"] == "name" or token["type"] == "builtin":
+          if assembledName == "":
+            assembledName = token["source"]
+          else:
+            assembledName += ".%s" % token["source"]
 
-            elif depFileEntry in fileDb[fileEntry]["runtimeDeps"]:
-              if options.verbose:
-                print "      - Runtime: %s" % depFileEntry
+          if assembledName in knownIds:
+            if assembledName != fileEntry and not assembledName in fileDeps:
+              fileDeps.append(assembledName)
 
-            else:
-              if options.verbose:
-                print "      - Missing: %s" % depFileEntry
+            assembledName = ""
 
-              fileDb[fileEntry]["runtimeDeps"].append(depFileEntry)
-    """
+        elif not (token["type"] == "token" and token["source"] == "."):
+          if assembledName != "":
+            assembledName = ""
+
+          if token["type"] == "string" and token["source"] in knownIds and token["source"] != fileEntry and not token["source"] in fileDeps:
+            fileDeps.append(token["source"])
+
+      # Updating lists...
+      optionalDeps = fileDb[fileEntry]["optionalDeps"]
+      loadtimeDeps = fileDb[fileEntry]["loadDeps"]
+      runtimeDeps = fileDb[fileEntry]["runtimeDeps"]
+
+      # Removing optional deps from list
+      for dep in optionalDeps:
+        if dep in fileDeps:
+          fileDeps.remove(dep)
+
+      # Checking loadtime dependencies
+      for dep in loadtimeDeps:
+        if not dep in fileDeps:
+          print "    * Wrong load dependency %s in %s!" % (dep, fileEntry)
+
+      # Checking runtime dependencies
+      for dep in runtimeDeps:
+        if not dep in fileDeps:
+          print "    * Wrong runtime dependency %s in %s!" % (dep, fileEntry)
+
+      # Adding new content to runtime dependencies
+      for dep in fileDeps:
+        if not dep in runtimeDeps and not dep in loadtimeDeps:
+          runtimeDeps.append(dep)
+
+
+
+
+
 
 
   return fileDb, moduleDb
