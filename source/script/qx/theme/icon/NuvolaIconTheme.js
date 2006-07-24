@@ -40,4 +40,4 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.themes.icon.NuvolaIconTheme = new qx.themes.icon.NuvolaIconTheme;
+qx.theme.icon.NuvolaIconTheme = new qx.theme.icon.NuvolaIconTheme;
