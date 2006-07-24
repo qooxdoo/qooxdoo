@@ -564,12 +564,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Writing API files..."
 
-    if options.generateJsonApi:
+    if options.generateXmlApi:
       jsonContent = tree.nodeToXmlString(docTree)
 
       filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, jsonContent, options.encoding)
 
-    if options.generateXmlApi:
+    if options.generateJsonApi:
       xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
       xmlContent += tree.nodeToJsonString(docTree)
 
