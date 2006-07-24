@@ -21,6 +21,8 @@ buildresources:
 
 builddemos:
 	@tools/generate-dev/make-htmlbuild.sh
+	@tools/generate-dev/make-demolayout.sh
+	cp source/demo/demolayout.js build/demo
 
 compile:
 	tools/generate-dev/build.py -s source/script --compile-source --compile-output-directory build/demo
