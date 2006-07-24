@@ -33,7 +33,8 @@ def extractLoadtimeDeps(data):
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
-    deps.append(item)
+    if not item in deps:
+      deps.append(item)
 
   return deps
 
@@ -43,7 +44,8 @@ def extractRuntimeDeps(data):
 
   # Adding explicit requirements
   for item in config.QXHEAD["use"].findall(data):
-    deps.append(item)
+    if not item in deps:
+      deps.append(item)
 
   return deps
 
@@ -53,27 +55,29 @@ def extractOptionalDeps(data):
 
   # Adding explicit requirements
   for item in config.QXHEAD["optional"].findall(data):
-    deps.append(item)
+    if not item in deps:
+      deps.append(item)
 
   return deps
 
 
 def extractModules(data):
-  pkgs = []
+  mods = []
 
   for item in config.QXHEAD["module"].findall(data):
-    pkgs.append(item)
+    if not item in mods:
+      mods.append(item)
 
-  return pkgs
+  return mods
 
 
 def extractResources(data):
-  copy = []
+  res = []
 
   for item in config.QXHEAD["resource"].findall(data):
-    copy.append(item)
+    res.append(item)
 
-  return copy
+  return res
 
 
 
@@ -100,8 +104,7 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
     if fileContentId != filePathId:
       print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
 
-  if verbose:
-    print "    - Indexing %s" % fileId
+  print "    - %s" % fileId
 
   tokens = tokenizer.parseStream(fileContent, fileId)
   tree = treegenerator.createSyntaxTree(tokens)
