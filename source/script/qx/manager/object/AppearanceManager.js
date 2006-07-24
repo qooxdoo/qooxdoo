@@ -33,13 +33,11 @@ function()
 {
   qx.manager.object.ObjectManager.call(this);
 
-  this._themes = {}
+  this._themes = [];
 });
 
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT });
 
-
-
-qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.STRING, defaultValue : "default" });
 
 
 
@@ -68,15 +66,20 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 */
 
 qx.Proto.registerTheme = function(vThemeObject) {
-  this._themes[vThemeObject.getId()] = vThemeObject;
+  this._themes.push(vThemeObject);
+
+  if (this.getTheme() === null) {
+    this.setTheme(qx.theme.appearance.DefaultAppearanceTheme);
+  }
 }
 
 qx.Proto.getAppearanceThemeObjectById = function(vThemeId) {
-  return this._themes[vThemeId];
+  this.debug("Execute getAppearanceThemeObjectById -> Not supported anymore");
 }
 
 qx.Proto.getAppearanceThemeObject = function() {
-  return this.getAppearanceThemeObjectById(this.getAppearanceTheme());
+  this.debug("Execute getAppearanceThemeObject -> Use getTheme instead!");
+  return this.getTheme();
 }
 
 
@@ -97,10 +100,8 @@ qx.Proto.dispose = function()
 
   if (this._themes)
   {
-    for (vTheme in this._themes)
-    {
-      this._themes[vTheme].dispose();
-      this._themes[vTheme] = null;
+    for (var i=0; i<this._themes.length; i++) {
+      this._themes[i].dispose();
     }
 
     this._themes = null;
