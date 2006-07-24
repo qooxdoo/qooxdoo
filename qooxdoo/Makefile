@@ -4,7 +4,6 @@ all: buildresources builddemos compile buildsource
 
 clean:
 	@rm  -f source/demo/demoinclude.js source/demo/demolayout.js
-	@rm -rf tools/generate/internal/cache
 	@rm -rf build/demo build/script build/themes
 
 realclean: clean
