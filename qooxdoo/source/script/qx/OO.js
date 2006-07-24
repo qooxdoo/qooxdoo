@@ -128,11 +128,13 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
     qx.Class = vTempObject[vSplitName[i]] = {};
     qx.Proto = null;
+    qx.Super = null;
   }
   else if (typeof vConstructor === qx.OO.C_UNDEFINED)
   {
     qx.Class = vTempObject[vSplitName[i]] = vSuper;
     qx.Proto = null;
+    qx.Super = vSuper;
   }
   else
   {
@@ -144,7 +146,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
     vHelperConstructor.prototype = vSuper.prototype;
     qx.Proto = vConstructor.prototype = new vHelperConstructor;
 
-    vConstructor.superclass = vSuper;
+    qx.Super = vConstructor.superclass = vSuper;
 
     qx.Proto.classname = vConstructor.classname = vClassName;
     qx.Proto.constructor = vConstructor;
@@ -152,7 +154,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
     // Store reference to global classname registry
     qx.OO.classes[vClassName] = vConstructor;
   }
-};
+}
 
 
 
@@ -213,7 +215,7 @@ qx.OO.addFastProperty = function(vConfig)
       return null;
     }
   }
-};
+}
 
 qx.OO.addCachedProperty = function(p)
 {
@@ -267,7 +269,7 @@ qx.OO.addCachedProperty = function(p)
 
   qx.Proto[vChangeName] = function(vNew, vOld) {};
   qx.Proto[vComputerName] = function() { return null; };
-};
+}
 
 qx.OO.addPropertyGroup = function(p)
 {
@@ -365,7 +367,7 @@ qx.OO.addPropertyGroup = function(p)
         }
       };
   }
-};
+}
 
 qx.OO.removeProperty = function(p)
 {
@@ -403,7 +405,7 @@ qx.OO.removeProperty = function(p)
   pp[qx.OO.C_FORCE + p.method] = null;
   pp[qx.OO.C_GETDEFAULT + p.method] = null;
   pp[qx.OO.C_SETDEFAULT + p.method] = null;
-};
+}
 
 qx.OO._createProperty = function(p)
 {
@@ -749,7 +751,7 @@ qx.OO._createProperty = function(p)
   if (typeof p.setAlias === qx.constant.Type.STRING) {
     pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
   }
-};
+}
 
 qx.OO.changeProperty = qx.OO._createProperty;
 
@@ -778,4 +780,10 @@ qx.OO.addProperty = function(p)
         qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;
       }
   }
-};
+}
+
+qx.OO.inheritField = function(vField, vData)
+{
+  qx.lang.Object.carefullyMergeWith(vData, qx.Super.prototype[vField]);
+  qx.Proto[vField] = vData;
+}
