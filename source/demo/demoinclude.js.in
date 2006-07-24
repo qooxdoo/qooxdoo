@@ -1,4 +1,0 @@
-(function()
-{
-function inc(pa) { document.write("<script type=\"text/javascript\" src=\"../../" + pa + ".js\"></script>"); };
-//})();
