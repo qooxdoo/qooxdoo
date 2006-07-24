@@ -84,7 +84,7 @@ qx.Proto._updateTheme = function(vTheme)
 
 qx.Proto._applyThemedValue = function()
 {
-  var vTheme = qx.manager.object.ColorManager.getThemeObject();
+  var vTheme = qx.manager.object.ColorManager.getTheme();
   var vRgb = vTheme.getValueByName(this._value);
 
   if (vRgb)

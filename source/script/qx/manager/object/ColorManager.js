@@ -28,17 +28,17 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.manager.object.ColorManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.ColorManager", qx.manager.object.ObjectManager,
 function()
 {
   qx.manager.object.ObjectManager.call(this);
 
   // Contains the qx.renderer.theme.ColorTheme instances
-  this._themes = {}
+  this._themes = [];
 
   // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
-  this._dependentObjects = {}
+  this._dependentObjects = {};
 });
 
 
@@ -48,20 +48,8 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false });
 
-
-
-
-/*
----------------------------------------------------------------------------
-  COMMON PUBLIC METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getThemeObject = function() {
-  return this._themes[this.getTheme()];
-}
 
 
 
@@ -112,19 +100,12 @@ qx.Proto.get = function(vValue) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.registerTheme = function(vTheme)
+qx.Proto.registerTheme = function(vThemeObject)
 {
-  var vId = vTheme.getId();
+  this._themes.push(vThemeObject);
 
-  if (this._themes[vId]) {
-    throw new Error("A theme with this ID is already known");
-  }
-
-  this._themes[vId] = vTheme;
-
-  // Register first incoming theme as default
-  if (this.getTheme() == null) {
-    this.setTheme(vId);
+  if (this.getTheme() === null) {
+    this.setTheme(vThemeObject);
   }
 }
 
@@ -142,16 +123,16 @@ qx.Proto.registerTheme = function(vTheme)
 
 qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 {
-  var vTheme = this.getThemeObject();
-
-  vTheme.compile();
+  propValue.compile();
 
   for (var i in this._dependentObjects) {
-    this._dependentObjects[i]._updateTheme(vTheme);
+    this._dependentObjects[i]._updateTheme(propValue);
   }
 
   return true;
 }
+
+
 
 
 
@@ -202,11 +183,14 @@ qx.Proto.dispose = function()
     return;
   }
 
-  for (var i in this._themes) {
-    delete this._themes[i];
-  }
+  if (this._themes)
+  {
+    for (var i=0; i<this._themes.length; i++) {
+      this._themes[i].dispose();
+    }
 
-  delete this._themes;
+    this._themes = null;
+  }
 
   for (var i in this._dependentObjects) {
     delete this._dependentObjects[i];

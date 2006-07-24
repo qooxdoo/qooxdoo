@@ -31,24 +31,13 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.renderer.theme.ColorTheme", qx.core.Object,
-function(vId, vTitle, vColors)
+function(vTitle)
 {
   qx.core.Object.call(this);
 
-  if (qx.util.Validation.isInvalidString(vId)) {
-    throw new Error("Each instance of qx.renderer.theme.ColorTheme need an unique ID!");
-  }
-
-  this._compiledColors = {}
-
-  this.setId(vId);
-  this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
-
-  try {
-    qx.manager.object.ColorManager.registerTheme(this);
-  } catch(ex) {
-    throw new Error("Could not register Theme: " + ex);
-  }
+  this._compiledColors = {};
+  this.setTitle(vTitle);
+  this._register();
 });
 
 
@@ -61,7 +50,6 @@ function(vId, vTitle, vColors)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "id", type : qx.constant.Type.STRING, allowNull : false });
 qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
 
 
@@ -123,6 +111,11 @@ qx.Proto._compileValue = function(vName)
   var v = this._colors[vName];
   this._compiledColors[vName] = v ? qx.renderer.color.Color.rgb2style.apply(this, this._colors[vName]) : vName;
 }
+
+qx.Proto._register = function() {
+  return qx.manager.object.ColorManager.registerTheme(this);
+}
+
 
 
 
