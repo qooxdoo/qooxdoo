@@ -7,7 +7,7 @@ import config, tokenizer, loader, compile, docgenerator, tree, treegenerator
 
 
 
-def filetool(filepath, filename, content=""):
+def filetool(filepath, filename, content="", encoding="utf-8"):
   # Concatting and Splitting
   outputFileName = os.path.normpath(os.path.join(filepath, filename))
   outputFileDir = os.path.dirname(outputFileName)
@@ -18,7 +18,7 @@ def filetool(filepath, filename, content=""):
 
   # Writing file
   outputFile = file(outputFileName, "w")
-  outputFile.write(content)
+  outputFile.write(content.encode(encoding))
   outputFile.flush()
   outputFile.close()
 
@@ -46,8 +46,8 @@ def getparser():
   # Destination Filenames
   parser.add_option("--source-output-filename", dest="sourceOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from source build process.")
   parser.add_option("--compile-output-filename", dest="compileOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from compiler.")
-  parser.add_option("--api-json-output-filename", dest="apiJsonOutputFilename", default="api.js", metavar="FILENAME", help="Name of JSON API file.")
-  parser.add_option("--api-xml-output-filename", dest="apiXmlOutputFilename", default="api.xml", metavar="FILENAME", help="Name of XML API file.")
+  parser.add_option("--json-api-output-filename", dest="jsonApiOutputFilename", default="api.js", metavar="FILENAME", help="Name of JSON API file.")
+  parser.add_option("--xml-api-output-filename", dest="xmlApiOutputFilename", default="api.xml", metavar="FILENAME", help="Name of XML API file.")
 
   # Actions
   parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
@@ -62,6 +62,7 @@ def getparser():
   # General options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for output files.")
 
   # Include/Exclude
   parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
@@ -80,6 +81,10 @@ def getparser():
 
   # Source options
   parser.add_option("--relative-source-path", dest="relativeSourcePath", default="", metavar="PATH", help="Defines the relative source path.")
+
+  # API options
+  parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=True, help="Generate JSON output in API documentation process.")
+  parser.add_option("--generate-xml-api", action="store_true", dest="generateXmlApi", default=False, help="Generate XML output in API documentation process.")
 
   return parser
 
@@ -545,7 +550,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     docTree = None
 
-    print "  * Docufying tokens"
+    print "  * Generating API tree..."
 
     for fileId in fileDb:
       if options.verbose:
@@ -554,12 +559,22 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       docTree = docgenerator.createDoc(fileDb[fileId]["tree"], docTree)
 
     if docTree:
-      print "  * Doing post work..."
+      print "  * Finalising tree..."
       docgenerator.postWorkPackage(docTree, docTree)
 
-    print "  * Writing files..."
-    filetool(options.apiOutputDirectory, options.apiJsonOutputFilename, tree.nodeToJsonString(docTree).encode("utf-8"))
-    filetool(options.apiOutputDirectory, options.apiXmlOutputFilename, tree.nodeToXmlString(docTree).encode("utf-8"))
+    print "  * Writing API files..."
+
+    if options.generateJsonApi:
+      jsonContent = tree.nodeToXmlString(docTree)
+
+      filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, jsonContent, options.encoding)
+
+    if options.generateXmlApi:
+      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
+      xmlContent += tree.nodeToJsonString(docTree)
+
+      filetool(options.apiOutputDirectory, options.jsonApiOutputFilename, xmlContent, options.encoding)
+
 
 
 
@@ -662,7 +677,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
 
     # Store file
-    filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput)
+    filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput, options.encoding)
 
 
 
@@ -704,10 +719,10 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         if options.storeSeparateScripts:
           if options.verbose:
             print "      * writing compiled file..."
-          filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent)
+          filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent, options.encoding)
 
       print "  * Saving compiled output %s..." % options.compileOutputFilename
-      filetool(options.compileOutputDirectory, options.compileOutputFilename, "".join(additionalOutput) + compiledOutput)
+      filetool(options.compileOutputDirectory, options.compileOutputFilename, "".join(additionalOutput) + compiledOutput, options.encoding)
 
 
 
