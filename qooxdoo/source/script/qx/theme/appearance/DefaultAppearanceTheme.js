@@ -26,13 +26,19 @@
 /* ************************************************************************
 
 #module(appearancethemes)
+#autodependencies(disable)
 
 ************************************************************************ */
 
 qx.OO.defineClass("qx.theme.appearance.DefaultAppearanceTheme", qx.renderer.theme.AppearanceTheme,
-function()
-{
+function() {
   qx.renderer.theme.AppearanceTheme.call(this, "qooxdoo default appearance");
+});
+
+
+
+
+qx.Proto._appearances = qx.lang.Object.carefullyMergeWith({
 
   /*
   ---------------------------------------------------------------------------
@@ -40,7 +46,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("image",
+  "image" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -49,9 +55,9 @@ function()
         allowStretchY : false
       }
     }
-  });
+  },
 
-  this.registerAppearance("client-document",
+  "client-document" :
   {
     setup : function()
     {
@@ -68,9 +74,9 @@ function()
         enableElementFocus : false
       }
     }
-  });
+  },
 
-  this.registerAppearance("blocker",
+  "blocker" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -82,9 +88,9 @@ function()
         backgroundImage : qx.manager.object.ImageManager.BLANK
       }
     }
-  });
+  },
 
-  this.registerAppearance("atom",
+  "atom" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -100,9 +106,9 @@ function()
         allowStretchX : false
       }
     }
-  });
+  },
 
-  this.registerAppearance("label",
+  "label" :
   {
     setup : function()
     {
@@ -124,9 +130,9 @@ function()
         color : vStates.disabled ? this.color_disabled : null
       }
     }
-  });
+  },
 
-  this.registerAppearance("htmlcontainer",
+  "htmlcontainer" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "label");
@@ -135,9 +141,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "label");
     }
-  });
+  },
 
-  this.registerAppearance("popup",
+  "popup" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -146,9 +152,9 @@ function()
         height : qx.constant.Core.AUTO
       }
     }
-  });
+  },
 
-  this.registerAppearance("tool-tip",
+  "tool-tip" :
   {
     setup : function()
     {
@@ -170,9 +176,9 @@ function()
         paddingLeft : 3
       });
     }
-  });
+  },
 
-  this.registerAppearance("iframe",
+  "iframe" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -180,7 +186,7 @@ function()
         border : qx.renderer.border.BorderObject.presets.inset
       }
     }
-  });
+  },
 
 
 
@@ -193,7 +199,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("button",
+  "button" :
   {
     setup : function()
     {
@@ -231,7 +237,7 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
 
 
@@ -246,7 +252,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("toolbar",
+  "toolbar" :
   {
     setup : function()
     {
@@ -261,9 +267,9 @@ function()
         height : qx.constant.Core.AUTO
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-part",
+  "toolbar-part" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -271,9 +277,9 @@ function()
         width : qx.constant.Core.AUTO
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-part-handle",
+  "toolbar-part-handle" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -281,9 +287,9 @@ function()
         width : 10
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-part-handle-line",
+  "toolbar-part-handle-line" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -295,9 +301,9 @@ function()
         border : qx.renderer.border.BorderObject.presets.thinOutset
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-separator",
+  "toolbar-separator" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -305,9 +311,9 @@ function()
         width : 8
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-separator-line",
+  "toolbar-separator-line" :
   {
     setup : function()
     {
@@ -335,9 +341,9 @@ function()
         border : this.border
       }
     }
-  });
+  },
 
-  this.registerAppearance("toolbar-button",
+  "toolbar-button" :
   {
     setup : function()
     {
@@ -397,7 +403,7 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
 
 
@@ -411,7 +417,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("bar-view",
+  "bar-view" :
   {
     setup : function()
     {
@@ -425,9 +431,9 @@ function()
         border : qx.renderer.border.BorderObject.presets.shadow
       }
     }
-  });
+  },
 
-  this.registerAppearance("bar-view-pane",
+  "bar-view-pane" :
   {
     state : function(vWidget, vTheme, vStates)
     {
@@ -448,9 +454,9 @@ function()
           }
       }
     }
-  });
+  },
 
-  this.registerAppearance("bar-view-page",
+  "bar-view-page" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -461,9 +467,9 @@ function()
         bottom : 10
       }
     }
-  });
+  },
 
-  this.registerAppearance("bar-view-bar",
+  "bar-view-bar" :
   {
     setup : function()
     {
@@ -548,9 +554,9 @@ function()
           }
       }
     }
-  });
+  },
 
-  this.registerAppearance("bar-view-button",
+  "bar-view-button" :
   {
     setup : function()
     {
@@ -654,7 +660,7 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
 
 
@@ -670,7 +676,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("window",
+  "window" :
   {
     setup : function()
     {
@@ -696,9 +702,9 @@ function()
         border : vStates.maximized ? qx.renderer.border.BorderObject.presets.none : qx.renderer.border.BorderObject.presets.outset
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar",
+  "window-captionbar" :
   {
     setup : function()
     {
@@ -728,9 +734,9 @@ function()
         color : vStates.active ? this.color_active : this.color_inactive
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-resize-frame",
+  "window-resize-frame" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -738,9 +744,9 @@ function()
         border : qx.renderer.border.BorderObject.presets.shadow
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-icon",
+  "window-captionbar-icon" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -748,9 +754,9 @@ function()
         marginRight : 2
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-title",
+  "window-captionbar-title" :
   {
     setup : function()
     {
@@ -767,9 +773,9 @@ function()
         wrap : false
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-button",
+  "window-captionbar-button" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "button");
@@ -794,9 +800,9 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-minimize-button",
+  "window-captionbar-minimize-button" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -805,9 +811,9 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "window-captionbar-button");
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-restore-button",
+  "window-captionbar-restore-button" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -816,9 +822,9 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "window-captionbar-button");
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-maximize-button",
+  "window-captionbar-maximize-button" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "window-captionbar-button");
@@ -827,9 +833,9 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "window-captionbar-button");
     }
-  });
+  },
 
-  this.registerAppearance("window-captionbar-close-button",
+  "window-captionbar-close-button" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -841,9 +847,9 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "window-captionbar-button");
     }
-  });
+  },
 
-  this.registerAppearance("window-statusbar",
+  "window-statusbar" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -852,9 +858,9 @@ function()
         height : qx.constant.Core.AUTO
       }
     }
-  });
+  },
 
-  this.registerAppearance("window-statusbar-text",
+  "window-statusbar-text" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -866,7 +872,7 @@ function()
         cursor : qx.constant.Core.DEFAULT
       }
     }
-  });
+  },
 
 
 
@@ -883,7 +889,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("menu",
+  "menu" :
   {
     setup : function()
     {
@@ -903,9 +909,9 @@ function()
         paddingLeft : 1
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-layout",
+  "menu-layout" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -916,9 +922,9 @@ function()
         left : 0
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-button",
+  "menu-button" :
   {
     setup : function()
     {
@@ -952,9 +958,9 @@ function()
         color : vStates.over ? this.COLOR_OVER : this.COLOR_OUT
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-check-box",
+  "menu-check-box" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "menu-button");
@@ -963,9 +969,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "menu-button");
     }
-  });
+  },
 
-  this.registerAppearance("menu-check-box-icon",
+  "menu-check-box-icon" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "image");
@@ -977,9 +983,9 @@ function()
         source : vStates.checked ? "widget/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-radio-button",
+  "menu-radio-button" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "menu-button");
@@ -988,9 +994,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "menu-button");
     }
-  });
+  },
 
-  this.registerAppearance("menu-radio-button-icon",
+  "menu-radio-button-icon" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "image");
@@ -1002,9 +1008,9 @@ function()
         source : vStates.checked ? "widget/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-separator",
+  "menu-separator" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1016,9 +1022,9 @@ function()
         paddingRight : 3
       }
     }
-  });
+  },
 
-  this.registerAppearance("menu-separator-line",
+  "menu-separator-line" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1029,7 +1035,7 @@ function()
         border : qx.renderer.border.BorderObject.presets.verticalDivider
       }
     }
-  });
+  },
 
 
 
@@ -1044,7 +1050,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("list",
+  "list" :
   {
     setup : function()
     {
@@ -1059,9 +1065,9 @@ function()
         backgroundColor : this.bgcolor
       }
     }
-  });
+  },
 
-  this.registerAppearance("list-item",
+  "list-item" :
   {
     setup : function()
     {
@@ -1103,7 +1109,7 @@ function()
         color : vStates.selected ? this.color_selected : null
       }
     }
-  });
+  },
 
 
 
@@ -1118,7 +1124,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("text-field",
+  "text-field" :
   {
     setup : function()
     {
@@ -1145,9 +1151,9 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "label");
     }
-  });
+  },
 
-  this.registerAppearance("text-area",
+  "text-area" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1159,7 +1165,7 @@ function()
     state : function(vWidget, vTheme) {
       return vTheme.stateFrom(vWidget, "text-field");
     }
-  });
+  },
 
 
 
@@ -1176,7 +1182,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("combo-box",
+  "combo-box" :
   {
     setup : function()
     {
@@ -1194,9 +1200,9 @@ function()
         allowStretchY : false
       }
     }
-  });
+  },
 
-  this.registerAppearance("combo-box-list",
+  "combo-box-list" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1209,9 +1215,9 @@ function()
         overflow : qx.constant.Style.OVERFLOW_VERTICAL
       });
     }
-  });
+  },
 
-  this.registerAppearance("combo-box-popup",
+  "combo-box-popup" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1221,9 +1227,9 @@ function()
         border : qx.renderer.border.BorderObject.presets.shadow
       });
     }
-  });
+  },
 
-  this.registerAppearance("combo-box-text-field",
+  "combo-box-text-field" :
   {
     setup : function()
     {
@@ -1238,9 +1244,9 @@ function()
         backgroundColor : this.bgcolor
       });
     }
-  });
+  },
 
-  this.registerAppearance("combo-box-button",
+  "combo-box-button" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1258,7 +1264,7 @@ function()
         paddingLeft : 2
       });
     }
-  });
+  },
 
 
 
@@ -1272,7 +1278,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("tree-element",
+  "tree-element" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1281,9 +1287,9 @@ function()
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
       }
     }
-  });
+  },
 
-  this.registerAppearance("tree-element-icon",
+  "tree-element-icon" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1317,9 +1323,9 @@ function()
         }
       }
     }
-  });
+  },
 
-  this.registerAppearance("tree-element-label",
+  "tree-element-label" :
   {
     setup : function()
     {
@@ -1348,9 +1354,9 @@ function()
         color : vStates.selected ? this.color_selected : null
       });
     }
-  });
+  },
 
-  this.registerAppearance("tree-folder",
+  "tree-folder" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-element");
@@ -1359,9 +1365,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "tree-element");
     }
-  });
+  },
 
-  this.registerAppearance("tree-folder-icon",
+  "tree-folder-icon" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1395,9 +1401,9 @@ function()
         }
       }
     }
-  });
+  },
 
-  this.registerAppearance("tree-folder-label",
+  "tree-folder-label" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-element-label");
@@ -1406,9 +1412,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "tree-element-label");
     }
-  });
+  },
 
-  this.registerAppearance("tree",
+  "tree" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder");
@@ -1417,9 +1423,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "tree-folder");
     }
-  });
+  },
 
-  this.registerAppearance("tree-icon",
+  "tree-icon" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder-icon");
@@ -1428,9 +1434,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "tree-folder-icon");
     }
-  });
+  },
 
-  this.registerAppearance("tree-label",
+  "tree-label" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "tree-folder-label");
@@ -1439,9 +1445,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "tree-folder-label");
     }
-  });
+  },
 
-  this.registerAppearance("tree-container",
+  "tree-container" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1449,9 +1455,9 @@ function()
         verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
       }
     }
-  });
+  },
 
-  this.registerAppearance("tree-folder-container",
+  "tree-folder-container" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1460,7 +1466,7 @@ function()
         verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
       }
     }
-  });
+  },
 
 
 
@@ -1476,7 +1482,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("list-view",
+  "list-view" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1485,9 +1491,9 @@ function()
         overflow: qx.constant.Style.OVERFLOW_HIDDEN
       }
     }
-  });
+  },
 
-  this.registerAppearance("list-view-pane",
+  "list-view-pane" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1497,9 +1503,9 @@ function()
         overflow : qx.constant.Style.OVERFLOW_HIDDEN
       }
     }
-  });
+  },
 
-  this.registerAppearance("list-view-header",
+  "list-view-header" :
   {
     setup : function()
     {
@@ -1518,9 +1524,9 @@ function()
         backgroundColor : this.bgcolor
       }
     }
-  });
+  },
 
-  this.registerAppearance("list-view-header-cell",
+  "list-view-header-cell" :
   {
     setup : function()
     {
@@ -1542,7 +1548,7 @@ function()
         paddingBottom : 2,
         paddingLeft : 6,
         spacing : 4
-      }
+      };
     },
 
     state : function(vWidget, vTheme, vStates)
@@ -1553,7 +1559,7 @@ function()
           backgroundColor : this.bgcolor_hover,
           paddingBottom : 0,
           border : this.border_hover
-        }
+        };
       }
       else
       {
@@ -1561,12 +1567,12 @@ function()
           backgroundColor : null,
           paddingBottom : 2,
           border : null
-        }
+        };
       }
     }
-  });
+  },
 
-  this.registerAppearance("list-view-header-separator",
+  "list-view-header-separator" :
   {
     setup : function() {
       this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
@@ -1579,11 +1585,11 @@ function()
         width : 1,
         marginTop : 1,
         marginBottom : 1
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell",
+  "list-view-content-cell" :
   {
     setup : function()
     {
@@ -1596,26 +1602,26 @@ function()
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell-image",
+  "list-view-content-cell-image" :
   {
     initial : function(vWidget, vTheme)
     {
       return {
         paddingLeft : 6,
         paddingRight : 6
-      }
+      };
     },
 
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "list-view-content-cell");
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell-text",
+  "list-view-content-cell-text" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1632,9 +1638,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "htmlcontainer"), vTheme.stateFrom(vWidget, "list-view-content-cell"));
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell-html",
+  "list-view-content-cell-html" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1643,9 +1649,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell-icon-html",
+  "list-view-content-cell-icon-html" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1654,9 +1660,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
     }
-  });
+  },
 
-  this.registerAppearance("list-view-content-cell-link",
+  "list-view-content-cell-link" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
@@ -1665,7 +1671,7 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
     }
-  });
+  },
 
 
 
@@ -1679,27 +1685,27 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("tab-view",
+  "tab-view" :
   {
     initial : function(vWidget, vTheme)
     {
       return {
         spacing : -1
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("tab-view-bar",
+  "tab-view-bar" :
   {
     initial : function(vWidget, vTheme)
     {
       return {
         height : qx.constant.Core.AUTO
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("tab-view-pane",
+  "tab-view-pane" :
   {
     setup : function()
     {
@@ -1717,11 +1723,11 @@ function()
         paddingRight : 10,
         paddingBottom : 10,
         paddingLeft : 10
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("tab-view-page",
+  "tab-view-page" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1730,11 +1736,11 @@ function()
         right : 0,
         bottom : 0,
         left : 0
-      }
+      };
     }
-  });
+  },
 
-  this.registerAppearance("tab-view-button",
+  "tab-view-button" :
   {
     setup : function()
     {
@@ -1851,7 +1857,7 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
 
 
@@ -1864,7 +1870,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("field-set",
+  "field-set" :
   {
     setup : function()
     {
@@ -1877,9 +1883,9 @@ function()
         backgroundColor : this.bgcolor
       }
     }
-  });
+  },
 
-  this.registerAppearance("field-set-legend",
+  "field-set-legend" :
   {
     setup : function()
     {
@@ -1896,9 +1902,9 @@ function()
         paddingLeft : 4
       });
     }
-  });
+  },
 
-  this.registerAppearance("field-set-frame",
+  "field-set-frame" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1914,9 +1920,9 @@ function()
         border : qx.renderer.border.BorderObject.presets.groove
       }
     }
-  });
+  },
 
-  this.registerAppearance("check-box-field-set-legend",
+  "check-box-field-set-legend" :
   {
     setup : function()
     {
@@ -1932,14 +1938,14 @@ function()
         paddingRight : 3
       });
     }
-  });
+  },
 
-  this.registerAppearance("radio-button-field-set-legend",
+  "radio-button-field-set-legend" :
   {
     initial : function(vWidget, vTheme) {
       return vTheme.initialFrom(vWidget, "check-box-field-set-legend");
     }
-  });
+  },
 
 
 
@@ -1953,7 +1959,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("spinner",
+  "spinner" :
   {
     setup : function()
     {
@@ -1969,9 +1975,9 @@ function()
         backgroundColor : this.bgcolor
       }
     }
-  });
+  },
 
-  this.registerAppearance("spinner-field",
+  "spinner-field" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -1984,9 +1990,9 @@ function()
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "text-field");
     }
-  });
+  },
 
-  this.registerAppearance("spinner-button-up",
+  "spinner-button-up" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -2008,9 +2014,9 @@ function()
         paddingLeft : 3
       });
     }
-  });
+  },
 
-  this.registerAppearance("spinner-button-down",
+  "spinner-button-down" :
   {
     initial : function(vWidget, vTheme)
     {
@@ -2032,7 +2038,7 @@ function()
         paddingLeft : 3
       });
     }
-  });
+  },
 
 
 
@@ -2044,7 +2050,7 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("colorselector",
+  "colorselector" :
   {
     setup : function()
     {
@@ -2064,7 +2070,7 @@ function()
     {
 
     }
-  });
+  },
 
 
 
@@ -2076,8 +2082,10 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("datechooser-toolbar-button", {
-    setup : function() {
+  "datechooser-toolbar-button" :
+  {
+    setup : function()
+    {
       this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
       this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
@@ -2088,7 +2096,8 @@ function()
       this.checked_background = "core/dotted_white.gif";
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         cursor : qx.constant.Core.DEFAULT,
         spacing : 4,
@@ -2097,7 +2106,8 @@ function()
       }
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
         backgroundImage : (vStates.checked && !vStates.over) ? this.checked_background : null
@@ -2126,41 +2136,49 @@ function()
 
       return vReturn;
     }
-  });
+  },
 
 
-  this.registerAppearance("datechooser-monthyear", {
-    setup : function() {
+  "datechooser-monthyear" :
+  {
+    setup : function()
+    {
       this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         font : this.font,
         textAlign: "center",
         verticalAlign: "middle"
       }
     }
-  });
+  },
 
 
-  this.registerAppearance("datechooser-datepane", {
-    setup : function() {
+  "datechooser-datepane" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "gray");
       this.bgcolor = new qx.renderer.color.ColorObject("window");
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         border : this.border,
         backgroundColor : this.bgcolor
       }
     }
-  });
+  },
 
 
-  this.registerAppearance("datechooser-weekday", {
-    setup : function() {
+  "datechooser-weekday" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border;
       this.border.set({ bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
       this.color = new qx.renderer.color.ColorObject("window");
@@ -2169,7 +2187,8 @@ function()
       this.font.setBold(true);
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         border : this.border,
         font : this.font,
@@ -2177,18 +2196,21 @@ function()
       }
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       return {
         color : vStates.weekend ? this.bgcolor : this.color,
         backgroundColor : vStates.weekend ? this.color : this.bgcolor
       }
     }
 
-  });
+  },
 
 
-  this.registerAppearance("datechooser-day", {
-    setup : function() {
+  "datechooser-day" :
+  {
+    setup : function()
+    {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
 
       this.selectedColor = new qx.renderer.color.ColorObject("highlightText");
@@ -2199,7 +2221,8 @@ function()
       this.transparentBorder = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_NONE);
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         cursor : qx.constant.Core.DEFAULT,
         border : this.border,
@@ -2211,7 +2234,8 @@ function()
       }
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       return {
         border : vStates.today ? qx.renderer.border.Border.presets.black : this.transparentBorder,
         color : vStates.selected ? this.selectedColor :
@@ -2219,12 +2243,12 @@ function()
         backgroundColor : vStates.selected ? this.selectedBgColor : null
       }
     }
+  },
 
-  });
-
-
-  this.registerAppearance("datechooser-week", {
-    setup : function() {
+  "datechooser-week" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1 });
       this.headerBorder = new qx.renderer.border.Border;
@@ -2234,7 +2258,8 @@ function()
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         border : this.border,
         font : this.font,
@@ -2243,12 +2268,13 @@ function()
       }
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       return {
         border : vStates.header ? this.headerBorder : this.border
       }
     }
-  });
+  },
 
 
 
@@ -2261,14 +2287,17 @@ function()
   ---------------------------------------------------------------------------
   */
 
-  this.registerAppearance("table-focus-statusbar", {
-    setup : function() {
+  "table-focus-statusbar" :
+  {
+    setup : function()
+    {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       this.border = new qx.renderer.border.Border;
       this.border.set({ topColor:"threedshadow", topStyle :qx.renderer.border.Border.STYLE_SOLID, topWidth:1 });
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         font: this.font,
         border: this.border,
@@ -2276,29 +2305,35 @@ function()
         paddingRight: 2
       }
     }
-  });
+  },
 
 
-  this.registerAppearance("table-focus-indicator", {
-    setup : function() {
+  "table-focus-indicator" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
       this.editingBorder = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       return {
         border : vStates.editing ? this.editingBorder : this.border
       }
     }
-  });
+  },
 
 
-  this.registerAppearance("table-editor-textfield", {
-    setup : function() {
+  "table-editor-textfield" :
+  {
+    setup : function()
+    {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         font: this.font,
         border: qx.renderer.border.Border.presets.none,
@@ -2308,11 +2343,13 @@ function()
         paddingBottom: 0
       }
     }
-  });
+  },
 
 
-  this.registerAppearance("table-data-cell", {
-    setup : function() {
+  "table-data-cell" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"#eeeeee", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
                  bottomColor:"#eeeeee", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
@@ -2329,7 +2366,8 @@ function()
       this.focusedSelectedBackground = new qx.renderer.color.ColorObject("#5a8ad3");
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       var properties = {
         cursor : qx.constant.Core.DEFAULT,
         border : this.border,
@@ -2343,7 +2381,8 @@ function()
       return properties;
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       var ret = {
         color : vStates.selected ? this.selectedColor : this.color
       }
@@ -2356,11 +2395,13 @@ function()
 
       return ret;
     }
-  });
+  },
 
 
-  this.registerAppearance("table-header-cell", {
-    setup : function() {
+  "table-header-cell" :
+  {
+    setup : function()
+    {
       this.border = new qx.renderer.border.Border;
       this.border.set({ rightColor:"#d6d2c2", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
                 bottomColor:"#d6d2c2", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:2 });
@@ -2377,7 +2418,8 @@ function()
       this.sortedDescendingImg = "widget/table/descending.png";
     },
 
-    initial : function(vWidget, vTheme) {
+    initial : function(vWidget, vTheme)
+    {
       return {
         cursor : qx.constant.Core.DEFAULT,
         border : this.border,
@@ -2393,15 +2435,25 @@ function()
       }
     },
 
-    state : function(vWidget, vTheme, vStates) {
+    state : function(vWidget, vTheme, vStates)
+    {
       return {
         backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
         border : vStates.mouseover ? this.mouseOverBorder : this.border,
         icon : vStates.sorted ? (vStates.sortedAscending ? this.sortedAscendingImg : this.sortedDescendingImg) : null
       }
     }
-  });
-});
+  }
+
+
+
+
+  /*
+  ---------------------------------------------------------------------------
+    END
+  ---------------------------------------------------------------------------
+  */
+}, qx.Super.prototype._appearances);
 
 
 
@@ -2413,4 +2465,5 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.themes.appearance.DefaultAppearanceTheme = new qx.themes.appearance.DefaultAppearanceTheme;
+qx.theme.appearance.DefaultAppearanceTheme = new qx.theme.appearance.DefaultAppearanceTheme;
+qx.theme.appearance.DefaultAppearanceTheme.register();
