@@ -83,7 +83,7 @@ def getparser():
   parser.add_option("--relative-source-path", dest="relativeSourcePath", default="", metavar="PATH", help="Defines the relative source path.")
 
   # API options
-  parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=True, help="Generate JSON output in API documentation process.")
+  parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=False, help="Generate JSON output in API documentation process.")
   parser.add_option("--generate-xml-api", action="store_true", dest="generateXmlApi", default=False, help="Generate XML output in API documentation process.")
 
   return parser
@@ -322,6 +322,16 @@ def load(options):
 
     print "  * Detecting dependencies..."
 
+    knownIds = []
+
+    for fileEntry in fileDb:
+      print fileEntry
+      knownIds.append(fileEntry)
+
+
+
+
+    """
     for fileEntry in fileDb:
       fileContent = fileDb[fileEntry]["content"]
       if options.verbose:
@@ -348,7 +358,7 @@ def load(options):
                 print "      - Missing: %s" % depFileEntry
 
               fileDb[fileEntry]["runtimeDeps"].append(depFileEntry)
-
+    """
 
 
   return fileDb, moduleDb

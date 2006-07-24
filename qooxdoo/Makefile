@@ -10,25 +10,24 @@ clean:
 realclean: clean
 	rm -rf public build release
 
-docs:
-	tools/generate-dev/docgenerator.py
+api:
+	tools/generate-dev/build.py -s source/script/ --generate-api --api-output-directory api --generate-json-api
 
 buildsource:
 	tools/generate/make-source.sh
 
 buildsource2:
-	tools/generate-dev/build.py -s source/script/ -s source/themes/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
+	tools/generate-dev/build.py -s source/script/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
 
 buildresources:
 	mkdir -p build/images build/themes
-	rsync -rl --exclude=$(SVN) --exclude=*.js source/images build/
-	rsync -rl --exclude=$(SVN) --exclude=*.js source/themes build/
+	rsync -rl --exclude=$(SVN) --exclude=*.js source/resources build/
 
 builddemos:
 	tools/generate/internal/patchdemos.sh
 
 compile:
-	tools/generate-dev/build.py --compile-source -s source/script -s source/themes --compile-output-directory build/script
+	tools/generate-dev/build.py -s source/script --compile-source --compile-output-directory build/script
 
 online:
 
