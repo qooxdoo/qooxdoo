@@ -23,7 +23,7 @@ builddemos:
 	@tools/generate-dev/make-htmlbuild.sh
 
 compile:
-	tools/generate-dev/build.py -s source/script --compile-source --compile-output-directory build/script
+	tools/generate-dev/build.py -s source/script --compile-source --compile-output-directory build/demo
 
 online:
 
