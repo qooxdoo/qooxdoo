@@ -93,6 +93,9 @@ def getparser():
 
 
 
+
+
+
 def argparser(cmdlineargs):
 
   # Parse arguments
@@ -820,7 +823,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
           filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent, options.encoding)
 
       print "  * Saving compiled output %s..." % options.compileOutputFilename
-      filetool(options.compileOutputDirectory, options.compileOutputFilename, "".join(additionalOutput) + compiledOutput, options.encoding)
+      filetool(options.compileOutputDirectory, options.compileOutputFilename, settingsStr + "".join(additionalOutput) + compiledOutput, options.encoding)
 
 
 
