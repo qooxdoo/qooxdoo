@@ -25,6 +25,7 @@
 
 #id(qx.OO)
 #module(core)
+#require(qx.Settings)
 #use(qx.lang.Array)
 #use(qx.lang.Core)
 #use(qx.lang.String)
@@ -33,12 +34,6 @@
 #use(qx.constant.Core)
 
 ************************************************************************ */
-
-if (typeof qx == "undefined") {
-  var qx = {};
-}
-
-qx._loadStart = (new Date).valueOf();
 
 qx.OO = {};
 
