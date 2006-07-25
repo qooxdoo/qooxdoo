@@ -43,10 +43,5 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enablePrototypes : false,
   enableGenerics : false,
 
-  imageCorePath : "../../images",
-  imageLocalPath : "./",
-  imageIconPath : "../../themes/icon",
-  imageWidgetPath : "../../themes/widget",
-
   jsonEncodeUndefined : true
 });
