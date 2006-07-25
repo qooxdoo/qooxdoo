@@ -13,7 +13,6 @@ JSEXT = ".js"
 XMLEXT = ".xml"
 TOKENEXT = ".txt"
 DIRIGNORE = [ ".svn", "CVS" ]
-SETTINGSOUTPUT = "__settings__"
 
 
 
@@ -24,12 +23,12 @@ SETTINGSOUTPUT = "__settings__"
 
 QXHEAD = {
   "defineClass" : re.compile('qx.OO.defineClass\(["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
-  "uniqueId" : re.compile("#id\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "module" : re.compile("#module\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "optional" : re.compile("#optional\(([\.a-zA-Z0-9_-]+)\)", re.M),
-  "resource" : re.compile("#resource\(([\.a-zA-Z0-9_-]+)\)", re.M)
+  "uniqueId" : re.compile("#id\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "module" : re.compile("#module\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "optional" : re.compile("#optional\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "resource" : re.compile("#resource\((.*?)\)", re.M)
 }
 
 

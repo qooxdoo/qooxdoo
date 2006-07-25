@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, shutil, optparse
+import sys, string, re, os, random, shutil, optparse, subprocess
 import config, tokenizer, loader, compile, docgenerator, tree, treegenerator
 
 
@@ -43,7 +43,6 @@ def getparser():
   parser.add_option("--source-output-directory", dest="sourceOutputDirectory", metavar="DIRECTORY", help="Define output directory for source JavaScript files.")
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
   parser.add_option("--compile-output-directory", dest="compileOutputDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
-  parser.add_option("--resource-output-directory", dest="resourceOutputDirectory", metavar="DIRECTORY", help="Define resource output directory.")
   parser.add_option("--api-output-directory", dest="apiOutputDirectory", metavar="DIRECTORY", help="Define api output directory.")
 
   # Destination Filenames
@@ -66,6 +65,7 @@ def getparser():
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for output files.")
+  parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   # Include/Exclude
   parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
@@ -77,17 +77,19 @@ def getparser():
   parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
 
   # Compile options
-  parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
   parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
 
   # Source options
-  parser.add_option("--relative-source-path", dest="relativeSourcePath", default="", metavar="PATH", help="Defines the relative source path.")
+  parser.add_option("--script-source-uri", dest="scriptSourceUri", default="", metavar="URI", help="Defines the script source URI (or path).")
 
   # API options
   parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=False, help="Generate JSON output in API documentation process.")
   parser.add_option("--generate-xml-api", action="store_true", dest="generateXmlApi", default=False, help="Generate XML output in API documentation process.")
+
+  # Resource options
+  parser.add_option("--resource-target", action="append", dest="resourceTargets", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Add source directory.")
 
   return parser
 
@@ -633,18 +635,27 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  COPY RESOURCES:"
     print "----------------------------------------------------------------------------"
 
-    print "  * Creating needed directories..."
+    print "  * Preparing target configuration..."
 
-    if options.resourceOutputDirectory == None:
-      print "    * You must define the resource output directory!"
-      sys.exit(1)
+    targets = []
 
-    else:
-      options.resourceOutputDirectory = os.path.normpath(options.resourceOutputDirectory)
+    for target in options.resourceTargets:
+      # fileId.resourceId:destinationDirectory
 
-      # Normalizing directory
-      if not os.path.exists(options.resourceOutputDirectory):
-        os.makedirs(options.resourceOutputDirectory)
+      cur = {}
+      targets.append(cur)
+
+      targetSplit = target.split(":")
+      targetStart = targetSplit.pop(0)
+
+      cur["destinationFileDirectory"] = ":".join(targetSplit)
+
+      targetStartSplit = targetStart.split(".")
+
+      cur["resourceId"] = targetStartSplit.pop()
+      cur["fileId"] = ".".join(targetStartSplit)
+
+    print "  * Syncing..."
 
     for fileId in sortedIncludeList:
       filePath = fileDb[fileId]["path"]
@@ -652,47 +663,52 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       fileResourceList = loader.extractResources(fileContent)
 
       if len(fileResourceList) > 0:
-        print "  * Found %i resources in %s" % (len(fileResourceList), fileId)
+        print "    - Found %i resources in %s" % (len(fileResourceList), fileId)
 
         for fileResource in fileResourceList:
-          resourceId = fileId + "." + fileResource
-          resourcePath = resourceId.replace(".", os.sep)
+          fileResourceSplit = fileResource.split(":")
 
-          if options.verbose:
-            print "    * ResourcePath: %s" % resourcePath
+          resourceId = fileResourceSplit.pop(0)
+          sourceFileDirectory = ":".join(fileResourceSplit)
 
-          sourceDir = os.path.join(os.path.dirname(filePath), fileResource)
-          destDir = os.path.join(options.resourceOutputDirectory, resourcePath)
+          for target in targets:
+            if fileId != target["fileId"] or resourceId != target["resourceId"]:
+              continue
 
-          for root, dirs, files in os.walk(sourceDir):
+            destinationFileDirectory = target["destinationFileDirectory"]
 
-            # Filter ignored directories
-            for ignoredDir in config.DIRIGNORE:
-              if ignoredDir in dirs:
-                dirs.remove(ignoredDir)
+            print "    - Sync: %s => %s" % (sourceFileDirectory, destinationFileDirectory)
 
-            # Searching for items (resource files)
-            for itemName in files:
+            for root, dirs, files in os.walk(sourceFileDirectory):
 
-              # Generate absolute source file path
-              itemSourcePath = os.path.join(root, itemName)
+              # Filter ignored directories
+              for ignoredDir in config.DIRIGNORE:
+                if ignoredDir in dirs:
+                  dirs.remove(ignoredDir)
 
-              # Extract relative path and directory
-              itemRelPath = itemSourcePath.replace(sourceDir + os.sep, "")
-              itemRelDir = os.path.dirname(itemRelPath)
+              # Searching for items (resource files)
+              for itemName in files:
 
-              # Generate destination directory and file path
-              itemDestDir = os.path.join(destDir, itemRelDir)
-              itemDestPath = os.path.join(itemDestDir, itemName)
+                # Generate absolute source file path
+                itemSourcePath = os.path.join(root, itemName)
 
-              # Check/Create destination directory
-              if not os.path.exists(itemDestDir):
-                os.makedirs(itemDestDir)
+                # Extract relative path and directory
+                itemRelPath = itemSourcePath.replace(sourceFileDirectory + os.sep, "")
+                itemRelDir = os.path.dirname(itemRelPath)
 
-              # Copy file
-              shutil.copyfile(itemSourcePath, itemDestPath)
+                # Generate destination directory and file path
+                itemDestDir = os.path.join(destinationFileDirectory, itemRelDir)
+                itemDestPath = os.path.join(itemDestDir, itemName)
 
+                # Check/Create destination directory
+                if not os.path.exists(itemDestDir):
+                  os.makedirs(itemDestDir)
 
+                # Copy file
+                if options.verbose:
+                  print "      - Copy: %s => %s" % (itemSourcePath, itemDestPath)
+
+                shutil.copyfile(itemSourcePath, itemDestPath)
 
 
 
@@ -710,7 +726,20 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Processing input data..."
 
-    settingsStr = 'if(typeof %s==="undefined"){%s={};}' % (config.SETTINGSOUTPUT, config.SETTINGSOUTPUT)
+    TypeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
+    TypeNumber = re.compile("^([0-9\-])$")
+
+    settingsStr = ""
+
+    # If you change this, change this in qx.Settings and qx.OO, too.
+    settingsStr += 'if(typeof qx==="undefined"){var qx={_UNDEFINED:"undefined",_LOADSTART:(new Date).valueOf()};}'
+
+    if options.addNewLines:
+      settingsStr += "\n"
+
+    # If you change this, change this in qx.Settings, too.
+    settingsStr += 'if(typeof qx.Settings===qx._UNDEFINED){qx.Settings={_userSettings:{},_defaultSettings:{}};}'
+
     if options.addNewLines:
       settingsStr += "\n"
 
@@ -723,14 +752,23 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       settingKeyName = settingKeySplit.pop()
       settingKeySpace = ".".join(settingKeySplit)
 
-      checkStr = 'if(typeof %s["%s"]==="undefined"){%s["%s"]={};}' % (config.SETTINGSOUTPUT, settingKeySpace, config.SETTINGSOUTPUT, settingKeySpace)
+      checkStr = 'if(typeof qx.Settings._userSettings["%s"]===qx._UNDEFINED){qx.Settings._userSettings["%s"]={};}' % (settingKeySpace, settingKeySpace)
       if not checkStr in settingsStr:
         settingsStr += checkStr
 
         if options.addNewLines:
           settingsStr += "\n"
 
-      settingsStr += '%s["%s"]["%s"]="%s";' % (config.SETTINGSOUTPUT, settingKeySpace, settingKeyName, settingValue)
+      settingsStr += 'qx.Settings._userSettings["%s"]["%s"]=' % (settingKeySpace, settingKeyName)
+
+      if settingValue == "false" or settingValue == "true" or TypeFloat.match(settingValue) or TypeNumber.match(settingValue):
+        settingsStr += '%s' % settingValue
+
+      else:
+        settingsStr += '"%s"' % settingValue.replace("\"", "\\\"")
+
+      settingsStr += ";"
+
       if options.addNewLines:
         settingsStr += "\n"
 
@@ -769,12 +807,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if options.addNewLines:
       for fileId in sortedIncludeList:
-        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.scriptSourceUri, fileId.replace(".", os.sep)), config.JSEXT)
 
     else:
       includeCode = ""
       for fileId in sortedIncludeList:
-        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(options.relativeSourcePath, fileId.replace(".", os.sep)), config.JSEXT)
+        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(options.scriptSourceUri, fileId.replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
     # Store file
