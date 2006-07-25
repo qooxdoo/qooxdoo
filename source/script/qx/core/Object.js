@@ -142,19 +142,8 @@ qx.Proto.isDisposed = function() {
 /*!
   Returns a settings from global setting definition
 */
-qx.Proto.getSetting = function(vSetting, vClassName)
-{
-  if (typeof vClassName === qx.constant.Type.UNDEFINED) {
-    vClassName = this.classname;
-  }
-
-  var vObject = __settings__[vClassName];
-
-  if (!vObject) {
-    return null;
-  }
-
-  return vObject[vSetting] || null;
+qx.Proto.getSetting = function(vKey) {
+  return qx.Settings.getValueOfClass(this.classname, vKey);
 }
 
 
