@@ -28,24 +28,17 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.theme.WidgetTheme", qx.core.Object, 
-function(vId, vTitle)
+qx.OO.defineClass("qx.renderer.theme.WidgetTheme", qx.core.Object,
+function(vTitle)
 {
   qx.core.Object.call(this);
 
-  if (qx.util.Validation.isInvalidString(vId)) {
-    throw new Error("Each instance of qx.renderer.theme.WidgetTheme need an unique ID!");
-  }
-
-  this.setId(vId);
-  this.setTitle(qx.util.Validation.isValidString(vTitle) ? vTitle : vId);
-
-  try {
-    qx.manager.object.ImageManager.registerWidgetTheme(this);
-  } catch(ex) {
-    throw new Error("Could not register Theme: " + ex);
-  }
+  this.setTitle(vTitle);
+  this._register();
 });
 
-qx.OO.addProperty({ name : "id", type : qx.constant.Type.STRING, allowNull : false });
 qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
+
+qx.Proto._register = function() {
+  return qx.manager.object.ImageManager.registerWidgetTheme(this);
+}

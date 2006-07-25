@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(iconthemes)
+#resource(images:source/resources/icon/nuvola)
 
 ************************************************************************ */
 
@@ -31,6 +32,18 @@ qx.OO.defineClass("qx.theme.icon.NuvolaIconTheme", qx.renderer.theme.IconTheme,
 function() {
   qx.renderer.theme.IconTheme.call(this, "Nuvola Icon Theme");
 });
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("imageUri", "../../resources/icon/nuvola");
+
 
 
 

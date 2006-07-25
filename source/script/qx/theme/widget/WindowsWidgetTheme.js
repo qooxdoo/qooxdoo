@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(widgetthemes)
+#resource(images:source/resources/widget/windows)
 
 ************************************************************************ */
 
@@ -32,6 +33,16 @@ function() {
   qx.renderer.theme.WidgetTheme.call(this, "Windows");
 });
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("imagePath", "../../resources/widget/windows");
 
 
 
