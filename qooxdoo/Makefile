@@ -1,6 +1,6 @@
 SVN = ".svn"
 
-all: builddemos compile
+all: builddemos buildsource compile
 
 clean:
 	@rm  -f source/demo/demoinclude.js source/demo/demolayout.js
@@ -16,7 +16,7 @@ apidocs:
   # tools/generate-dev/build.py -s source/script/ -s docs/script/ -i qx.apiviewer.ApiViewer --compile-output-directory docs/ --api-output-directory docs/ -a -c
 
 buildsource:
-	@tools/generate-dev/build.py -s source/script/ --generate-source --relative-source-path ../../script/ --source-output-directory source/demo
+	@tools/generate-dev/build.py -s source/script/ --generate-source --script-source-uri ../../script/ --source-output-directory source/demo
 	@tools/generate-dev/make-demolayout.sh
 
 builddemos:
