@@ -108,13 +108,13 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("icon", propValue.getSetting("imageUri")) : this.removeAlias("icon");
+  propValue ? this.defineAlias("icon", propValue.getSetting("imagePath")) : this.removeAlias("icon");
   return true;
 }
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("widget", propValue.getSetting("widgetUri")) : this.removeAlias("widget");
+  propValue ? this.defineAlias("widget", propValue.getSetting("imagePath")) : this.removeAlias("widget");
   return true;
 }
 
