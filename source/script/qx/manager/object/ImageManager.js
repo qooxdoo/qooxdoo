@@ -114,7 +114,7 @@ qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("widget", propValue.getSetting("imageUri")) : this.removeAlias("widget");
+  propValue ? this.defineAlias("widget", propValue.getSetting("widgetUri")) : this.removeAlias("widget");
   return true;
 }
 
