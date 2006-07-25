@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, shutil, optparse, subprocess
+import sys, string, re, os, random, shutil, optparse
 import config, tokenizer, loader, compile, docgenerator, tree, treegenerator
 
 
