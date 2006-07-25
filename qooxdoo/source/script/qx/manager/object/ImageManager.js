@@ -42,30 +42,45 @@ function()
   qx.manager.object.ObjectManager.call(this);
 
   // Contains available icon themes
-  this._iconThemes = {}
+  this._iconThemes = {};
 
   // Contains available widget themes
-  this._widgetThemes = {}
+  this._widgetThemes = {};
 
   // Contains known image sources (all of them, if loaded or not)
   // The value is a number which represents the number of image
   // instances which use this source
-  this._sources = {}
+  this._sources = {};
 
   // Full image URIs (working as a cache to reduce the _buildUri executions)
-  this._uris = {}
+  this._uris = {};
 
   // Contains defined aliases (like icons/, widgets/, application/, ...)
-  this._aliases = {}
+  this._aliases = {};
 
   // Apply default pathes
-  this.setCorePath(qx.core.Settings.imageCorePath);
-  this.setLocalPath(qx.core.Settings.imageLocalPath);
-  this.setIconPath(qx.core.Settings.imageIconPath);
-  this.setWidgetPath(qx.core.Settings.imageWidgetPath);
+  this.defineAlias("core", this.getSetting("corePath"));
+  this.defineAlias("local", this.getSetting("localPath"));
 });
 
 qx.Proto.BLANK = "core/blank.gif";
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("corePath", "../../resources/static");
+qx.Settings.setDefaultSetting("localPath", ".");
+qx.Settings.setDefaultSetting("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
+qx.Settings.setDefaultSetting("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
+
+
 
 
 
@@ -76,14 +91,8 @@ qx.Proto.BLANK = "core/blank.gif";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "corePath", type : qx.constant.Type.STRING, impl : "coreAlias" });
-qx.OO.addProperty({ name : "localPath", type : qx.constant.Type.STRING, impl : "localAlias" });
-
-qx.OO.addProperty({ name : "iconPath", type : qx.constant.Type.STRING, impl : "iconAlias" });
-qx.OO.addProperty({ name : "iconTheme", type : qx.constant.Type.STRING, impl : "iconAlias" });
-
-qx.OO.addProperty({ name : "widgetPath", type : qx.constant.Type.STRING, impl : "widgetAlias" });
-qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.STRING, impl : "widgetAlias" });
+qx.OO.addProperty({ name : "iconTheme", type : qx.constant.Type.OBJECT, instance : "qx.renderer.theme.IconTheme" });
+qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instance : "qx.renderer.theme.WidgetTheme" });
 
 
 
@@ -97,49 +106,15 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.STRING, impl :
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyCoreAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  this.defineAlias("core", propValue);
+  propValue ? this.defineAlias("icon", propValue.getSetting("imageUri")) : this.removeAlias("icon");
   return true;
 }
 
-qx.Proto._modifyLocalAlias = function(propValue, propOldValue, propData)
+qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  this.defineAlias("local", propValue);
-  return true;
-}
-
-qx.Proto._modifyIconAlias = function(propValue, propOldValue, propData)
-{
-  var vIconPath = this.getIconPath();
-  var vIconTheme = this.getIconTheme();
-
-  if (qx.util.Validation.isValidString(vIconPath) && qx.util.Validation.isValidString(vIconTheme))
-  {
-    this.defineAlias("icon", vIconPath + qx.constant.Core.SLASH + vIconTheme);
-  }
-  else
-  {
-    this.removeAlias("icon");
-  }
-
-  return true;
-}
-
-qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
-{
-  var vWidgetPath = this.getWidgetPath();
-  var vWidgetTheme = this.getWidgetTheme();
-
-  if (qx.util.Validation.isValidString(vWidgetPath) && qx.util.Validation.isValidString(vWidgetTheme))
-  {
-    this.defineAlias("widget", vWidgetPath + qx.constant.Core.SLASH + vWidgetTheme);
-  }
-  else
-  {
-    this.removeAlias("widget");
-  }
-
+  propValue ? this.defineAlias("widget", propValue.getSetting("imageUri")) : this.removeAlias("widget");
   return true;
 }
 
@@ -156,37 +131,33 @@ qx.Proto._modifyWidgetAlias = function(propValue, propOldValue, propData)
 
 qx.Proto.registerIconTheme = function(vTheme)
 {
-  var vId = vTheme.getId();
-
-  if (this._iconThemes[vId]) {
-    throw new Error("A icon theme with this ID is already known");
-  }
+  var vId = vTheme.classname;
 
   this._iconThemes[vId] = vTheme;
 
-  // Register first incoming theme as default
-  if (this.getIconTheme() == null) {
-    this.setIconTheme(vId);
+  if (vId === this.getSetting("iconTheme") && this.getIconTheme() === null) {
+    this.setIconThemeById(vId);
   }
 }
-
 
 qx.Proto.registerWidgetTheme = function(vTheme)
 {
-  var vId = vTheme.getId();
-
-  if (this._widgetThemes[vId]) {
-    throw new Error("A widget theme with this ID is already known");
-  }
+  var vId = vTheme.classname;
 
   this._widgetThemes[vId] = vTheme;
 
-  // Register first incoming theme as default
-  if (this.getWidgetTheme() == null) {
-    this.setWidgetTheme(vId);
+  if (vId === this.getSetting("widgetTheme") && this.getWidgetTheme() === null) {
+    this.setWidgetThemeById(vId);
   }
 }
 
+qx.Proto.setIconThemeById = function(vId) {
+  return this.setIconTheme(this._iconThemes[vId]);
+}
+
+qx.Proto.setWidgetThemeById = function(vId) {
+  return this.setWidgetTheme(this._widgetThemes[vId]);
+}
 
 
 
@@ -255,6 +226,8 @@ qx.Proto.buildUri = function(vPath, vForceUpdate)
 
 qx.Proto.defineAlias = function(vPrefix, vPath)
 {
+  this.debug("defineAlias: " + vPrefix + " => " + vPath);
+
   this._aliases[vPrefix] = vPath;
   this._updateImages();
 }

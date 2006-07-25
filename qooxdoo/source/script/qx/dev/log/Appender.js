@@ -76,7 +76,7 @@ qx.Proto.formatLogEvent = function(evt) {
   var text = "";
 
   // Append the time stamp
-  var time = new String(new Date().getTime() - qx._loadStart);
+  var time = new String(new Date().getTime() - qx._LOADSTART);
   while (time.length < 6) {
     time = qx.constant.Core.ZERO + time;
   }

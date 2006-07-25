@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(iconthemes)
+#resource(images:source/resources/icon/crystalsvg)
 
 ************************************************************************ */
 
@@ -31,6 +32,18 @@ qx.OO.defineClass("qx.theme.icon.CrystalSvgIconTheme", qx.renderer.theme.IconThe
 function() {
   qx.renderer.theme.IconTheme.call(this, "Crystal SVG Icon Theme");
 });
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("imageUri", "../../resources/icon/crystalsvg");
+
 
 
 
