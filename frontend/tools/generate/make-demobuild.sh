@@ -6,4 +6,4 @@ echo "--------------------------------------------------------------------------
 echo "  * Syncing files..."
 
 mkdir -p build/demo
-rsync --recursive --links --include=*.html --exclude=.svn --delete --exclude=qx.js source/demo/* build/demo
+rsync --recursive --links --delete --include=*.html --exclude=*.in --exclude=.svn --exclude=qx.js source/demo/* build/demo
