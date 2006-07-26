@@ -213,7 +213,7 @@ qx.Proto._onTreeSelectionChange = function(evt) {
   var treeNode = evt.getData()[0];
   if (treeNode && treeNode.docNode && treeNode.docNode.type == "class") {
     var newTitle = this._titlePrefix + " - class " + treeNode.docNode.attributes.fullName;
-    qx.client.History.addToHistory(treeNode.docNode.attributes.fullName, newTitle);
+//    qx.client.History.addToHistory(treeNode.docNode.attributes.fullName, newTitle);
 
     this._currentTreeType = treeNode.treeType;
 
@@ -225,8 +225,10 @@ qx.Proto._onTreeSelectionChange = function(evt) {
     document.title = this._titlePrefix;
     this._detailViewer.setVisibility(false);
 
-    // Other than classes are not support for bookmarkable-urls currently
-    window.location.hash = "#" + treeNode.docNode.attributes.fullName;
+    if (treeNode && treeNode.docNode && treeNode.docNode.attributes) {
+      // Other than classes are not support for bookmarkable-urls currently
+      window.location.hash = "#" + treeNode.docNode.attributes.fullName;
+    }
   }
 }
 
