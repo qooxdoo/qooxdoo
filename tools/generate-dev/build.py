@@ -258,8 +258,14 @@ def main():
 def load(options):
 
   ######################################################################
-  #  INITIAL CHECK
+  #  SOURCE LOADER
   ######################################################################
+
+  print
+  print "  SOURCE LOADER:"
+  print "----------------------------------------------------------------------------"
+
+  print "  * Normalizing directory information..."
 
   if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
     basename = os.path.basename(sys.argv[0])
@@ -274,31 +280,15 @@ def load(options):
       options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
       i+=1
 
-  print
-  print "  LOADING:"
-  print "----------------------------------------------------------------------------"
-
-
-
-
-
-
-
-
-
-  ######################################################################
-  #  PROCESSING FILES
-  ######################################################################
-
-  print "  * Processing files..."
+  print "  * Loading JavaScript files..."
 
   (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.verbose)
 
-  print "  * Found %s files" % len(fileDb)
+  print "  * Found %s JavaScript files" % len(fileDb)
 
   if options.printFiles:
     print
-    print "  KNOWN FILES:"
+    print "  OUTPUT OF KNOWN FILES:"
     print "----------------------------------------------------------------------------"
     print "  * These are all known files:"
     for fileEntry in fileDb:
@@ -306,7 +296,7 @@ def load(options):
 
   if options.printModules:
     print
-    print "  KNOWN MODULES:"
+    print "  OUTPUT OF KNOWN MODULES:"
     print "----------------------------------------------------------------------------"
     print "  * These are all known modules:"
     for moduleEntry in moduleDb:
@@ -320,12 +310,12 @@ def load(options):
 
 
   ######################################################################
-  #  PLUGIN: AUTO DEPENDENCIES
+  #  DETECTION OF AUTO DEPENDENCIES
   ######################################################################
 
   if options.enableAutoDependencies:
     print
-    print "  AUTO DEPENDENCIES:"
+    print "  DETECTION OF AUTO DEPENDENCIES:"
     print "----------------------------------------------------------------------------"
 
     print "  * Collecting IDs..."
@@ -393,10 +383,6 @@ def load(options):
 
 
 
-
-
-
-
   return fileDb, moduleDb
 
 
@@ -411,11 +397,11 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  SORTING FILES
+  #  SORT OF INCLUDE LIST
   ######################################################################
 
   print
-  print "  LIST SORT:"
+  print "  SORT OF INCLUDE LIST:"
   print "----------------------------------------------------------------------------"
 
   if options.verbose:
@@ -428,7 +414,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
   if options.printList:
     print
-    print "  INCLUDE ORDER:"
+    print "  PRINT OF INCLUDE ORDER:"
     print "----------------------------------------------------------------------------"
     print "  * The files will be included in this order:"
     for key in sortedIncludeList:
@@ -441,12 +427,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  PLUGIN: COMPRESS STRINGS
+  #  STRING COMPRESSION (ALPHA!)
   ######################################################################
 
   if options.compressStrings:
     print
-    print "  STRING COMPRESSION (ALPHA!!!):"
+    print "  STRING COMPRESSION (ALPHA!):"
     print "----------------------------------------------------------------------------"
 
     print "  * Searching for string instances..."
@@ -536,10 +522,13 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  PLUGIN: STORE TOKENS
+  #  TOKEN STORAGE
   ######################################################################
 
   if options.storeTokens:
+    print
+    print "  TOKEN STORAGE:"
+    print "----------------------------------------------------------------------------"
 
     if options.tokenOutputDirectory == None:
       print "    * You must define the token directory!"
@@ -575,12 +564,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  GENERATE API
+  #  GENERATION OF API
   ######################################################################
 
   if options.generateApi:
     print
-    print "  GENERATE API:"
+    print "  GENERATION OF API:"
     print "----------------------------------------------------------------------------"
 
     if options.apiOutputDirectory == None:
@@ -608,31 +597,33 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "  * Finalising tree..."
       docgenerator.postWorkPackage(docTree, docTree)
 
-    print "  * Writing API files..."
-
     if options.generateXmlApi:
-      jsonContent = tree.nodeToXmlString(docTree)
+      print "  * Writing XML API file..."
 
-      filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, jsonContent, options.encoding)
+      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
+      xmlContent += tree.nodeToXmlString(docTree)
+
+      filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, xmlContent, options.encoding)
 
     if options.generateJsonApi:
-      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
-      xmlContent += tree.nodeToJsonString(docTree)
+      print "  * Writing JSON API file..."
 
-      filetool(options.apiOutputDirectory, options.jsonApiOutputFilename, xmlContent, options.encoding)
+      jsonContent = tree.nodeToJsonString(docTree)
+
+      filetool(options.apiOutputDirectory, options.jsonApiOutputFilename, jsonContent, options.encoding)
 
 
 
 
 
   ######################################################################
-  #  COPY RESOURCES
+  #  SYNCRONISATION OF BUILD RESOURCES
   ######################################################################
 
   if options.copyResources:
 
     print
-    print "  COPY RESOURCES:"
+    print "  SYNCRONISATION OF BUILD RESOURCES:"
     print "----------------------------------------------------------------------------"
 
     print "  * Preparing target configuration..."
@@ -677,7 +668,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
             destinationFileDirectory = target["destinationFileDirectory"]
 
-            print "    - Sync: %s => %s" % (sourceFileDirectory, destinationFileDirectory)
+            print "    - Syncing %s => %s" % (sourceFileDirectory, destinationFileDirectory)
 
             for root, dirs, files in os.walk(sourceFileDirectory):
 
@@ -706,7 +697,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
                 # Copy file
                 if options.verbose:
-                  print "      - Copy: %s => %s" % (itemSourcePath, itemDestPath)
+                  print "      - Copying: %s => %s" % (itemSourcePath, itemDestPath)
 
                 shutil.copyfile(itemSourcePath, itemDestPath)
 
@@ -716,12 +707,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  SETTINGS
+  #  GENERATION OF SETTINGS
   ######################################################################
 
   if options.generateSource or options.compileSource:
     print
-    print "  GENERATING SETTINGS:"
+    print "  GENERATION OF SETTINGS:"
     print "----------------------------------------------------------------------------"
 
     print "  * Processing input data..."
@@ -772,7 +763,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.addNewLines:
         settingsStr += "\n"
 
-
+      print settingsStr
 
 
 
@@ -783,12 +774,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  SOURCE
+  #  GENERATION OF SOURCE VERSION
   ######################################################################
 
   if options.generateSource:
     print
-    print "  GENERATING SOURCE VERSION:"
+    print "  GENERATION OF SOURCE VERSION:"
     print "----------------------------------------------------------------------------"
 
     if options.sourceOutputDirectory == None:
@@ -815,7 +806,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(options.scriptSourceUri, fileId.replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
-    # Store file
+    print "  * Saving includer output as %s..." % options.sourceOutputFilename
     filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput, options.encoding)
 
 
@@ -824,12 +815,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  COMPILE
+  #  GENERATION OF COMPILED VERSION
   ######################################################################
 
   if options.compileSource:
     print
-    print "  GENERATING COMPILED VERSION:"
+    print "  GENERATION OF COMPILED VERSION:"
     print "----------------------------------------------------------------------------"
 
     if options.compileSource:
@@ -857,10 +848,10 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
         if options.storeSeparateScripts:
           if options.verbose:
-            print "      * writing compiled file..."
+            print "      * Writing compiled file..."
           filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent, options.encoding)
 
-      print "  * Saving compiled output %s..." % options.compileOutputFilename
+      print "  * Saving compiled output as %s..." % options.compileOutputFilename
       filetool(options.compileOutputDirectory, options.compileOutputFilename, settingsStr + "".join(additionalOutput) + compiledOutput, options.encoding)
 
 
