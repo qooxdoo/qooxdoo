@@ -38,8 +38,6 @@
       var te1 = new qx.ui.tree.TreeFolder("Desktop", "icon/16/desktop.png", "icon/16/dictionary.png");
       t.add(te1);
 
-      desktop = te1;
-
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
       var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
       var te1_3 = new qx.ui.tree.TreeFolder("Network");
@@ -53,19 +51,14 @@
 
       te1_2.add(te1_2_1, te1_2_2);
 
-      arbeitsplatz = te1_2;
-
 
       var te2 = new qx.ui.tree.TreeFolder("Inbox");
-      posteingang = te2;
 
       var te2_1 = new qx.ui.tree.TreeFolder("Presets");
       var te2_2 = new qx.ui.tree.TreeFolder("Sent");
       var te2_3 = new qx.ui.tree.TreeFolder("Trash", "icon/16/trash.png");
       var te2_4 = new qx.ui.tree.TreeFolder("Data");
       var te2_5 = new qx.ui.tree.TreeFolder("Edit");
-
-      editieren = te2_5;
 
       var te2_5_1 = new qx.ui.tree.TreeFolder("Chat");
       var te2_5_2 = new qx.ui.tree.TreeFolder("Pustefix");
@@ -107,7 +100,6 @@
       };
 
       var te2_9 = new qx.ui.tree.TreeFolder("Spam");
-      spam = te2_9;
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
 
