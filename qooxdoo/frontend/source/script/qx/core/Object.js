@@ -25,7 +25,6 @@
 
 #module(core)
 #require(qx.OO)
-#require(qx.constant.Event)
 #use(qx.core.Settings)
 #use(qx.constant.Type)
 #use(qx.constant.Core)

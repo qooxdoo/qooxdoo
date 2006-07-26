@@ -28,7 +28,6 @@
 #require(qx.dev.log.LogEventProcessor)
 #use(qx.constant.Type)
 #use(qx.constant.Core)
-#use(qx.core.DefaultSettings)
 #use(qx.dev.log.Logger)
 
 ************************************************************************ */
