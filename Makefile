@@ -12,7 +12,7 @@ all: update-buildlayout update-sourcelayout generate-all
 ###################################################################################
 
 generate-all:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --compile-source \
 	  --compile-output-directory build/demo \
@@ -25,13 +25,13 @@ generate-all:
 	  --source-output-directory source/demo
 
 generate-compile:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --compile-source \
 	  --compile-output-directory build/demo
 
 generate-resources:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --copy-resources \
 	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
@@ -39,7 +39,7 @@ generate-resources:
 	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
 
 generate-build:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --compile-source \
 	  --compile-output-directory build/demo \
@@ -49,21 +49,21 @@ generate-build:
 	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
 
 generate-source:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --generate-source \
 	  --script-source-uri ../../script/ \
 	  --source-output-directory source/demo
 
 generate-api:
-	@tools/generate-dev/build.py \
+	@tools/generate-dev/generate.py \
 	  --source-directory source/script \
 	  --generate-api \
 	  --api-output-directory source/demo/apiviewer \
 	  --generate-json-api
 
   # Test
-  #  @tools/generate-dev/build.py \
+  #  @tools/generate-dev/generate.py \
   #  --source-directory source/script \
   #  --source-directory docs/script \
   #  --include qx.apiviewer.ApiViewer \
