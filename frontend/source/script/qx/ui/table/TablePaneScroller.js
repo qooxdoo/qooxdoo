@@ -27,7 +27,7 @@
 
 #module(table)
 #require(qx.ui.layout.VerticalBoxLayout)
-#require(qx.ui.table.SelectionManager)
+#require(qx.ui.table.SelectionModel)
 #require(qx.ui.table.TableModel)
 #require(qx.ui.table.TableColumnModel)
 #require(qx.ui.table.TablePaneModel)
@@ -135,16 +135,16 @@ qx.OO.addProperty({ name:"horizontalScrollBarVisible", type:qx.constant.Type.BOO
 qx.OO.addProperty({ name:"verticalScrollBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
 
 /** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.SelectionManager" });
+qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
 
 /** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableModel" });
+qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
 
 /** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableColumnModel" });
+qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
 
 /** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TablePaneModel" });
+qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
 
 /** The current position of the the horizontal scroll bar. */
 qx.OO.addProperty({ name:"scrollX", type:qx.constant.Type.NUMBER, allowNull:false, defaultValue:0 });

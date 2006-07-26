@@ -26,9 +26,8 @@
 /* ************************************************************************
 
 #module(table)
-#require(qx.ui.layout.GridLayout)
 #require(qx.constant.Type)
-#use(qx.ui.table.SelectionManager)
+#use(qx.ui.table.SelectionModel)
 #use(qx.ui.table.TableModel)
 #use(qx.ui.table.TableColumnModel)
 #use(qx.ui.table.TablePaneModel)
@@ -60,16 +59,16 @@ qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaul
 qx.OO.addProperty({ name:"visibleRowCount", type:qx.constant.Type.NUMBER, defaultValue:0 });
 
 /** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.SelectionManager" });
+qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
 
 /** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableModel" });
+qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
 
 /** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableColumnModel" });
+qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
 
 /** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TablePaneModel" });
+qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
 
 
 // property modifier

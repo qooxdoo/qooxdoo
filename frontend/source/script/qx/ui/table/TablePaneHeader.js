@@ -44,13 +44,13 @@ function() {
 
 
 /** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableModel" });
+qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
 
 /** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableColumnModel" });
+qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
 
 /** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TablePaneModel" });
+qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
 
 
 // property modifier

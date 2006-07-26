@@ -28,7 +28,6 @@
 #module(table)
 #require(qx.core.Target)
 #require(qx.constant.Type)
-#use(qx.ui.table.TablePaneModel)
 
 ************************************************************************ */
 
