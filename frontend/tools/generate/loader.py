@@ -115,8 +115,8 @@ def indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb={}, m
   if verbose:
     print "    - %s" % fileId
   else:
-    print "    - %s" % fileId
-	# print "#"
+    sys.stdout.write(".")
+    sys.stdout.flush()
 
   tokens = tokenizer.parseStream(fileContent, fileId)
   tree = treegenerator.createSyntaxTree(tokens)
