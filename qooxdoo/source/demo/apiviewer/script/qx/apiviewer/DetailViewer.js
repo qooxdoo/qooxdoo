@@ -207,27 +207,27 @@ qx.Proto.showClass = function(classNode) {
     }
   }
 
-  // Create the class hierarchie
-  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchie:" + DetailViewer.DIV_END
+  // Create the class hierarchy
+  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + DetailViewer.DIV_END
 
-  var classHierarchie = [];
+  var classHierarchy = [];
   var currClass = classNode;
   while (currClass != null) {
-    classHierarchie.push(currClass);
+    classHierarchy.push(currClass);
     currClass = this._getClassDocNode(currClass.attributes.superClass);
   }
-  this._currentClassHierarchie = classHierarchie;
+  this._currentClassHierarchy = classHierarchy;
 
-  // Add the class hierarchie
+  // Add the class hierarchy
   classHtml += DetailViewer.createImageHtml("images/class18.gif") + "Object<br/>";
   var indent = 0;
-  for (var i = classHierarchie.length - 1; i >= 0; i--) {
+  for (var i = classHierarchy.length - 1; i >= 0; i--) {
     classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "margin-left:" + indent + "px")
-      + DetailViewer.createImageHtml(qx.apiviewer.TreeUtil.getIconUrl(classHierarchie[i]));
+      + DetailViewer.createImageHtml(qx.apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
     if (i != 0) {
-      classHtml += this._createItemLinkHtml(classHierarchie[i].attributes.fullName, null, false)
+      classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false)
     } else {
-      classHtml += classHierarchie[i].attributes.fullName;
+      classHtml += classHierarchy[i].attributes.fullName;
     }
     classHtml += "<br/>";
     indent += 18;

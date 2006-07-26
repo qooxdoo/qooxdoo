@@ -10,8 +10,16 @@
     <script type="text/javascript" src="script/qx/apiviewer/TreeUtil.js"></script>
     <script type="text/javascript" src="script/qx/apiviewer/DetailViewer.js"></script>
     <script type="text/javascript" src="script/qx/apiviewer/ApiViewer.js"></script>
+    
+    <script type="text/javascript">
+      qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
+      qx.core.Init.defineMain(function() {
+        qx.manager.object.ImageManager.defineAlias("images", "images");
+        var viewer = new qx.apiviewer.ApiViewer(this.getClientWindow());
+        viewer.loadDocTreeFromUrl("apiviewer.js");
+      });
+    </script>
 
     <link type="text/css" rel="stylesheet" href="apiviewer.css"/>
-    <script type="text/javascript" src="apiviewer.js"></script>
   </head>
 </html>

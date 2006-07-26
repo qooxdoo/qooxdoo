@@ -226,7 +226,7 @@ qx.Proto.buildUri = function(vPath, vForceUpdate)
 
 qx.Proto.defineAlias = function(vPrefix, vPath)
 {
-  this.debug("defineAlias: " + vPrefix + " => " + vPath);
+  //  this.debug("defineAlias: " + vPrefix + " => " + vPath);
 
   this._aliases[vPrefix] = vPath;
   this._updateImages();

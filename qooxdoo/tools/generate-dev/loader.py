@@ -23,7 +23,7 @@ def extractSuperClass(data):
   return None
 
 
-def extractLoadtimeDeps(data, fileId=""):
+def extractLoadtimeDeps(data, fileId="", verbose=True):
   deps = []
 
   # Storing inheritance deps
@@ -33,9 +33,9 @@ def extractLoadtimeDeps(data, fileId=""):
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
-    if item == fileId:
+    if verbose and item == fileId:
       print "      - Self-referring load dependency: %s" % item
-    elif item in deps:
+    elif verbose and item in deps:
       print "      - Double definition of load dependency: %s" % item
     else:
       deps.append(item)
@@ -43,14 +43,14 @@ def extractLoadtimeDeps(data, fileId=""):
   return deps
 
 
-def extractRuntimeDeps(data, fileId=""):
+def extractRuntimeDeps(data, fileId="", verbose=True):
   deps = []
 
   # Adding explicit requirements
   for item in config.QXHEAD["use"].findall(data):
-    if item == fileId:
+    if verbose and item == fileId:
       print "      - Self-referring runtime dependency: %s" % item
-    elif item in deps:
+    elif verbose and item in deps:
       print "      - Double definition of runtime dependency: %s" % item
     else:
       deps.append(item)
@@ -112,7 +112,11 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
     if fileContentId != filePathId:
       print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
 
-  print "    - %s" % fileId
+  if verbose:
+    print "    - %s" % fileId
+  else:
+    print "    - %s" % fileId
+	# print "#"
 
   tokens = tokenizer.parseStream(fileContent, fileId)
   tree = treegenerator.createSyntaxTree(tokens)
@@ -124,8 +128,8 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
     "tokens" : tokens,
     "tree" : tree,
     "optionalDeps" : extractOptionalDeps(fileContent),
-    "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
-    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId)
+    "loadDeps" : extractLoadtimeDeps(fileContent, fileId, verbose),
+    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId, verbose)
   }
 
   # Register file to module data
