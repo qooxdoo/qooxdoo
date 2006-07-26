@@ -280,10 +280,12 @@ def load(options):
       options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
       i+=1
 
-  print "  * Loading JavaScript files..."
+  print "  * Loading JavaScript files...",
 
   (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.webSourcePaths, options.verbose)
 
+  if not options.verbose:
+    print
   print "  * Found %s JavaScript files" % len(fileDb)
 
   if options.printFiles:
