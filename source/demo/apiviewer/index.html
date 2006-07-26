@@ -3,32 +3,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
   <head>
     <title>qooxdoo API documentation</title>
-
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-    <meta http-equiv="MsThemeCompatible" content="yes" />
-    <meta http-equiv="ImageToolBar" content="no" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="-1" />
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta name="MSSmartTagsPreventParsing" content="yes" />
-
-    <link type="text/css" rel="stylesheet" href="apiviewer.css"/>
 
     <script type="text/javascript" src="../qx.js"></script>
-    <script type="text/javascript" src="theme/apitheme.js"></script>
+    <script type="text/javascript" src="script/qx/apiviewer/ApiTheme.js"></script>
     <script type="text/javascript" src="script/qx/apiviewer/TreeUtil.js"></script>
     <script type="text/javascript" src="script/qx/apiviewer/DetailViewer.js"></script>
     <script type="text/javascript" src="script/qx/apiviewer/ApiViewer.js"></script>
-    <script type="text/javascript">
-      qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
-      qx.core.Init.defineMain(function() {
-        qx.manager.object.ImageManager.defineAlias("images", "images");
-        var viewer = new qx.apiviewer.ApiViewer(this.getClientWindow());
-        viewer.loadDocTreeFromUrl("docTree.js");
-      });
-    </script>
+    <link type="text/css" rel="stylesheet" href="apiviewer.css"/>
+    <script type="text/javascript" src="apiviewer.js"></script>
   </head>
-  <body>
-  </body>
 </html>
