@@ -5632,6 +5632,140 @@ qx.Proto.supportsDrop = function(vDragCache) {
 
 
 
+/*
+---------------------------------------------------------------------------
+  FADING PROPERTIES
+---------------------------------------------------------------------------
+ */
+/*!
+  The amount of steps for the fade.
+ */
+qx.OO.addProperty({ name : 'fadeSteps', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 10});
+/*!
+  The duration for the fade.
+ */
+qx.OO.addProperty({ name : 'fadeTime', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 400});
+/*!
+  The time between the fade steps.
+ */
+qx.OO.addProperty({ name : 'fadeInterval', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 40});
+/*!
+  The current state of a fade in progress.
+ */
+qx.OO.addProperty({ name : 'fadeCounter', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 0});
+/*!
+  The amount of oppacity changed on each fade step.
+ */
+qx.OO.addProperty({ name : 'fadeUnit', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 10});
+/*!
+  The maximum opacity for a fadeIn.
+ */
+qx.OO.addProperty({ name : 'fadeMax', type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 100});
+
+
+/*
+---------------------------------------------------------------------------
+  FADING SUPPORT
+---------------------------------------------------------------------------
+ */
+qx.ui.core.Widget.FADE_IN = 'FADE_IN';
+qx.ui.core.Widget.FADE_OUT = 'FADE_OUT';
+qx.ui.core.Widget.FADE_FINISHED = 'FADE_FINISHED';
+
+
+qx.Proto.fadeIn = function(vSteps, vTime) {
+  if(vSteps) this.setFadeSteps(vSteps);
+  if(vTime) this.setFadeTime(vTime);
+  this._fadeMode = qx.ui.core.Widget.FADE_IN;
+  var timer = this.getFadeTimer();
+  timer.addEventListener(qx.constant.Event.INTERVAL, this._onInterval, this);
+  timer.start();
+}
+
+qx.Proto.fadeOut = function(vSteps, vTime) {
+  if(vSteps) this.setFadeSteps(vSteps);
+  if(vTime) this.setFadeTime(vTime);
+  this._fadeMode = qx.ui.core.Widget.FADE_OUT;
+  var timer = this.getFadeTimer();
+  timer.addEventListener(qx.constant.Event.INTERVAL, this._onInterval, this);
+  timer.start();
+};
+
+qx.Proto.getFadeTimer = function() {
+  if(this._fadeTimer){
+    this._fadeTimer.setInterval(this.getFadeInterval());
+  } else {
+    this._fadeTimer = new qx.client.Timer(this.getFadeInterval());
+  };
+  return this._fadeTimer;
+};
+
+qx.Proto.resetFader = function() {
+  this.setFadeCounter(0);
+  if(this.getFadeTimer()) {
+    this._fadeTimer.stop();
+    this._fadeTimer.dispose();
+  };
+  this._fadeTimer.dispose();
+  this._fadeTimer = null;
+};
+
+qx.Proto._onInterval = function(e) {
+  this.getFadeTimer().stop();
+  var counter = this.getFadeCounter();
+  switch (this._fadeMode){
+    case qx.ui.core.Widget.FADE_IN:
+      this.setFadeCounter(++counter);
+      if(counter <= this.getFadeSteps()){
+        this.setOpacity(this._computeFadeOpacity());
+        this.getFadeTimer().restart();
+      } else if(this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED)) {
+        this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_IN);
+      };
+    break;
+            
+    case qx.ui.core.Widget.FADE_OUT:
+      this.setFadeCounter(--counter);
+      if(counter >= 0){
+        this.setOpacity(this._computeFadeOpacity());
+        this.getFadeTimer().restart();
+      } else if(this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED)) {
+        this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_OUT);
+      };
+      break;
+    };
+    qx.ui.core.Widget.flushGlobalQueues();
+};
+
+qx.Proto._modifyFadeSteps = function(propValue, propOldValue, propData) {
+  if(propValue < 1) return;
+  this.setFadeInterval(parseInt(this.getFadeTime() / propValue));
+  this.setFadeUnit(Math.round(this.getFadeMax()/propValue));
+  return true;
+};
+
+qx.Proto._modifyFadeTime = function(propValue, propOldValue, propData) {
+  if(propValue < 1) return;
+  this.setFadeInterval(parseInt(propValue / this.getFadeSteps()));
+  return true;
+};
+
+qx.Proto._modifyFadeUnit = function(propValue, propOldValue, propData) {
+  this.setFadeSteps(Math.round(this.getFadeMax()/propValue));
+  return true;
+};
+
+qx.Proto._modifyFadeMax = function(propValue, propOldValue, propData) {
+  this.setFadeUnit(Math.round(propValue / this.getFadeSteps()));
+  return true;
+};
+
+qx.Proto._computeFadeOpacity = function() {
+  var op = this.getFadeUnit() * this.getFadeCounter() / 100;
+  return(op);
+};
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -5681,6 +5815,12 @@ qx.Proto.dispose = function()
     delete this._layoutChanges[i];
   }
   delete this._layoutChanges;
+  
+  // dispose the fader
+  if(this._fadeTimer){
+    this._fadeTimer.dispose();
+    this._fadeTimer = null;
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
 }
