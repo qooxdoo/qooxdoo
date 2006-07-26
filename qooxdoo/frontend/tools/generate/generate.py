@@ -39,6 +39,9 @@ def getparser():
   # Source Directories
   parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
 
+  # Web-Directories
+  parser.add_option("-w", "--source-web-path", action="append", dest="webSourcePaths", metavar="PATH", default=[], help="Add web directories (one for each source directory).")
+
   # Destination Directories
   parser.add_option("--source-output-directory", dest="sourceOutputDirectory", metavar="DIRECTORY", help="Define output directory for source JavaScript files.")
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
@@ -80,9 +83,6 @@ def getparser():
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
   parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
-
-  # Source options
-  parser.add_option("--script-source-uri", dest="scriptSourceUri", default="", metavar="URI", help="Defines the script source URI (or path).")
 
   # API options
   parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=False, help="Generate JSON output in API documentation process.")
@@ -282,7 +282,7 @@ def load(options):
 
   print "  * Loading JavaScript files..."
 
-  (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.verbose)
+  (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.webSourcePaths, options.verbose)
 
   print "  * Found %s JavaScript files" % len(fileDb)
 
@@ -801,12 +801,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if options.addNewLines:
       for fileId in sortedIncludeList:
-        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(options.scriptSourceUri, fileId.replace(".", os.sep)), config.JSEXT)
+        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["webSourcePath"], fileId.replace(".", os.sep)), config.JSEXT)
 
     else:
       includeCode = ""
       for fileId in sortedIncludeList:
-        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(options.scriptSourceUri, fileId.replace(".", os.sep)), config.JSEXT)
+        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["webSourcePath"], fileId.replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
     print "  * Saving includer output as %s..." % options.sourceOutputFilename

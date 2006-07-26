@@ -96,7 +96,7 @@ def extractResources(data):
 
 
 
-def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
+def indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb={}, moduleDb={}, verbose=False):
   # Read file content and extract ID from content definition
   fileContent = file(filePath, "r").read()
   fileContentId = extractFileContentId(fileContent)
@@ -123,6 +123,8 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
 
   # Store file data
   fileDb[fileId] = {
+    "sourceDirectory" : sourceDirectory,
+    "webSourcePath" : webSourcePath,
     "path" : filePath,
     "content" : fileContent,
     "tokens" : tokens,
@@ -140,7 +142,7 @@ def indexFile(filePath, filePathId, fileDb={}, moduleDb={}, verbose=False):
       moduleDb[moduleId] = [ fileId ]
 
 
-def indexSingleDirectory(sourceDirectory, fileDb={}, moduleDb={}, verbose=False):
+def indexSingleDirectory(sourceDirectory, webSourcePath, fileDb={}, moduleDb={}, verbose=False):
   for root, dirs, files in os.walk(sourceDirectory):
 
     # Filter ignored directories
@@ -154,15 +156,22 @@ def indexSingleDirectory(sourceDirectory, fileDb={}, moduleDb={}, verbose=False)
         filePath = os.path.join(root, fileName)
         filePathId = os.path.join(root.replace(sourceDirectory + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, fileDb, moduleDb, verbose)
+        indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb, moduleDb, verbose)
 
 
-def indexDirectories(sourceDirectories, verbose=False):
+def indexDirectories(sourceDirectories, webSourcePaths, verbose=False):
   fileDb = {}
   moduleDb = {}
 
+  pos = 0
   for sourceDir in sourceDirectories:
-    indexSingleDirectory(sourceDir, fileDb, moduleDb, verbose)
+    if len(webSourcePaths)-1 >= pos:
+      webSourcePath = webSourcePaths[pos]
+    else:
+      webSourcePath = None
+
+    indexSingleDirectory(sourceDir, webSourcePath, fileDb, moduleDb, verbose)
+    pos += 1
 
   return fileDb, moduleDb
 
