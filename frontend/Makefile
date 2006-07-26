@@ -14,6 +14,7 @@ all: update-buildlayout update-sourcelayout generate-all
 generate-all:
 	@tools/generate/generate.py \
 	  --source-directory source/script \
+	  --source-web-path ../../script \
 	  --compile-source \
 	  --compile-output-directory build/demo \
 	  --copy-resources \
@@ -21,14 +22,13 @@ generate-all:
 	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
 	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
 	  --generate-source \
-	  --script-source-uri ../../script/ \
 	  --source-output-directory source/demo
 
 generate-compile:
 	@tools/generate/generate.py \
 	  --source-directory source/script \
 	  --compile-source \
-	  --compile-output-directory build/demo
+	  --compile-output-directory build/demo \
 
 generate-resources:
 	@tools/generate/generate.py \
@@ -51,8 +51,8 @@ generate-build:
 generate-source:
 	@tools/generate/generate.py \
 	  --source-directory source/script \
+	  --source-web-path ../../script \
 	  --generate-source \
-	  --script-source-uri ../../script/ \
 	  --source-output-directory source/demo
 
 generate-api:
