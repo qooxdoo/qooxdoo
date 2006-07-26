@@ -904,7 +904,7 @@ if (qx.sys.Client.isGecko())
 }
 else
 {
-  qx.Proto._onmousewheel = qx.util.Return.returnTrue;
+  qx.Proto._onmousewheel = function() {};
 }
 
 
