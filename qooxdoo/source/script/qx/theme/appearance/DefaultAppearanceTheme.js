@@ -31,15 +31,15 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.theme.appearance.DefaultAppearanceTheme", qx.renderer.theme.AppearanceTheme,
-function() {
-  qx.renderer.theme.AppearanceTheme.call(this, "qooxdoo default appearance");
+function(vTitle) {
+  qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");
 });
 
 
 
 
-qx.Proto._appearances = qx.lang.Object.carefullyMergeWith({
-
+qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
+{
   /*
   ---------------------------------------------------------------------------
     CORE

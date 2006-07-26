@@ -1,48 +1,53 @@
 #!/usr/bin/env bash
 
+BASE="source/demo/demolayout.js.in"
+DIST="$1"
+SCAN="$2"
+TITLE="$3"
+
 echo
-echo "  GENERATING DEMO LAYOUT:"
+echo "  GENERATION OF DEMO $TITLE LAYOUT:"
 echo "----------------------------------------------------------------------------"
 echo "  * Generating layout script..."
 
-cat source/demo/demolayout.js.in > source/demo/demolayout.js
+cat $BASE > $DIST
 
 showstr=""
-for file in source/demo/showcase/*.html ;
+for file in $SCAN/showcase/*.html ;
 do
   if [ `basename $file` != "index.html" ]; then
     showstr="$showstr `basename $file`";
   fi
 done
-echo "var showstr = \"$showstr\";" >> source/demo/demolayout.js
+echo "var showstr = \"$showstr\";" >> $DIST
 
 exastr=""
-for file in source/demo/example/*.html ;
+for file in $SCAN/example/*.html ;
 do
   if [ `basename $file` != "index.html" ]; then
     exastr="$exastr `basename $file`";
   fi
 done
-echo "var exastr = \"$exastr\";" >> source/demo/demolayout.js
+echo "var exastr = \"$exastr\";" >> $DIST
 
 perfstr=""
-for file in source/demo/performance/*.html ;
+for file in $SCAN/performance/*.html ;
 do
   if [ `basename $file` != "index.html" ]; then
     perfstr="$perfstr `basename $file`";
   fi
 done
-echo "var perfstr = \"$perfstr\";" >> source/demo/demolayout.js
+echo "var perfstr = \"$perfstr\";" >> $DIST
 
 teststr=""
-for file in source/demo/test/*.html ;
+for file in $SCAN/test/*.html ;
 do
   if [ `basename $file` != "index.html" ]; then
     teststr="$teststr `basename $file`";
   fi
 done
-echo "var teststr = \"$teststr\";" >> source/demo/demolayout.js
+echo "var teststr = \"$teststr\";" >> $DIST
 
-echo "showTestFiles();" >> source/demo/demolayout.js
+echo "showTestFiles();" >> $DIST
 
-echo "})();" >> source/demo/demolayout.js
+echo "})();" >> $DIST

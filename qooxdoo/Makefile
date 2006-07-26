@@ -1,31 +1,45 @@
-SVN = ".svn"
+###################################################################################
+# DEFAULT TARGET
+###################################################################################
 
-all: builddemos buildsource compile
+all: update-buildlayout update-sourcelayout generate-all
 
-clean:
-	@rm  -f source/demo/demoinclude.js source/demo/demolayout.js
-	@rm -rf build/demo build/script build/themes
 
-realclean: clean
-	@rm -rf public build release
 
-apidocs:
-	tools/generate-dev/build.py -s source/script/ --generate-api --api-output-directory api --generate-json-api
 
-  # Test
-  # tools/generate-dev/build.py -s source/script/ -s docs/script/ -i qx.apiviewer.ApiViewer --compile-output-directory docs/ --api-output-directory docs/ -a -c
+###################################################################################
+# BUILD SCRIPT CALLS
+###################################################################################
 
-buildsource:
-	@tools/generate-dev/build.py -s source/script/ --generate-source --script-source-uri ../../script/ --source-output-directory source/demo
-	@tools/generate-dev/make-demolayout.sh
+generate-all:
+	@tools/generate-dev/build.py \
+	  --source-directory source/script \
+	  --compile-source \
+	  --compile-output-directory build/demo \
+	  --copy-resources \
+	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
+	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
+	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
+	  --generate-source \
+	  --script-source-uri ../../script/ \
+	  --source-output-directory source/demo
 
-builddemos:
-	@tools/generate-dev/make-htmlbuild.sh
-	@tools/generate-dev/make-demolayout.sh
-	cp source/demo/demolayout.js build/demo
+generate-compile:
+	@tools/generate-dev/build.py \
+	  --source-directory source/script \
+	  --compile-source \
+	  --compile-output-directory build/demo
 
-compile:
-	tools/generate-dev/build.py \
+generate-resources:
+	@tools/generate-dev/build.py \
+	  --source-directory source/script \
+	  --copy-resources \
+	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
+	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
+	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
+
+generate-build:
+	@tools/generate-dev/build.py \
 	  --source-directory source/script \
 	  --compile-source \
 	  --compile-output-directory build/demo \
@@ -34,15 +48,72 @@ compile:
 	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
 	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
 
-online:
+generate-source:
+	@tools/generate-dev/build.py \
+	  --source-directory source/script \
+	  --generate-source \
+	  --script-source-uri ../../script/ \
+	  --source-output-directory source/demo
+
+generate-api:
+	@tools/generate-dev/build.py \
+	  --source-directory source/script \
+	  --generate-api \
+	  --api-output-directory source/demo/apiviewer \
+	  --generate-json-api
+
+  # Test
+  #  @tools/generate-dev/build.py \
+  #  --source-directory source/script \
+  #  --source-directory docs/script \
+  #  --include qx.apiviewer.ApiViewer \
+  #  --compile-source \
+  #  --compile-output-directory docs \
+  #  --generate-api \
+  #  --api-output-directory docs \
+  #  --generate-json-api
 
 
-release: source-release build-release
 
 
-source-release:
+
+###################################################################################
+# FILE HANDLING
+###################################################################################
+
+update-sourcelayout:
+	@tools/generate-dev/make-demolayout.sh source/demo/demolayout.js source/demo SOURCE
+
+update-builddemo:
+	@tools/generate-dev/make-demobuild.sh
+
+update-buildlayout: update-builddemo
+	@tools/generate-dev/make-demolayout.sh build/demo/demolayout.js build/demo BUILD
 
 
-build-release:
 
 
+
+
+###################################################################################
+# GENERAL JOBS
+###################################################################################
+
+source: generate-source update-sourcelayout
+build: generate-build update-buildlayout
+
+
+
+
+
+
+###################################################################################
+# CLEANUP
+###################################################################################
+
+clean:
+	rm  -f source/demo/demoinclude.js source/demo/demolayout.js
+	rm -rf build/demo build/script build/themes
+
+realclean: clean
+	rm -rf public build release
