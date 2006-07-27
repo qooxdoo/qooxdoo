@@ -696,7 +696,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
           try:
             os.listdir(sourceDirectory)
           except OSError:
-            print "        - Source-Directory isn't readable!"
+            print "        - Source directory isn't readable! Ignore resource!"
             continue
 
           for root, dirs, files in os.walk(sourceDirectory):
