@@ -23,7 +23,7 @@ def extractSuperClass(data):
   return None
 
 
-def extractLoadtimeDeps(data, fileId="", verbose=True):
+def extractLoadtimeDeps(data, fileId=""):
   deps = []
 
   # Storing inheritance deps
@@ -33,9 +33,9 @@ def extractLoadtimeDeps(data, fileId="", verbose=True):
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
-    if verbose and item == fileId:
+    if item == fileId:
       print "      - Self-referring load dependency: %s" % item
-    elif verbose and item in deps:
+    elif item in deps:
       print "      - Double definition of load dependency: %s" % item
     else:
       deps.append(item)
@@ -43,14 +43,14 @@ def extractLoadtimeDeps(data, fileId="", verbose=True):
   return deps
 
 
-def extractRuntimeDeps(data, fileId="", verbose=True):
+def extractRuntimeDeps(data, fileId=""):
   deps = []
 
   # Adding explicit requirements
   for item in config.QXHEAD["use"].findall(data):
-    if verbose and item == fileId:
+    if item == fileId:
       print "      - Self-referring runtime dependency: %s" % item
-    elif verbose and item in deps:
+    elif item in deps:
       print "      - Double definition of runtime dependency: %s" % item
     else:
       deps.append(item)
@@ -96,7 +96,7 @@ def extractResources(data):
 
 
 
-def indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb={}, moduleDb={}, verbose=False):
+def indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb={}, moduleDb={}):
   # Read file content and extract ID from content definition
   fileContent = file(filePath, "r").read()
   fileContentId = extractFileContentId(fileContent)
@@ -112,26 +112,43 @@ def indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb={}, m
     if fileContentId != filePathId:
       print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
 
-  if verbose:
-    print "    - %s" % fileId
-  else:
-    sys.stdout.write(".")
-    sys.stdout.flush()
+  print "    - %s" % fileId
 
+  # Structuring
   tokens = tokenizer.parseStream(fileContent, fileId)
   tree = treegenerator.createSyntaxTree(tokens)
 
+  # Search for other indexed lists
+  if len(options.sourceScriptPath) > listIndex:
+    sourceScriptPath = options.sourceScriptPath[listIndex]
+  else:
+    sourceScriptPath = None
+
+  if len(options.resourceInput) > listIndex:
+    resourceInput = options.resourceInput[listIndex]
+  else:
+    resourceInput = None
+
+  if len(options.resourceOutput) > listIndex:
+    resourceOutput = options.resourceOutput[listIndex]
+  else:
+    resourceOutput = None
+
   # Store file data
   fileDb[fileId] = {
-    "sourceDirectory" : sourceDirectory,
-    "webSourcePath" : webSourcePath,
+    "sourceDirectory" : scriptInput,
+    "sourceScriptPath" : sourceScriptPath,
+    "resourceInput" : resourceInput,
+    "resourceOutput" : resourceOutput,
+    "listIndex" : listIndex,
     "path" : filePath,
     "content" : fileContent,
     "tokens" : tokens,
     "tree" : tree,
     "optionalDeps" : extractOptionalDeps(fileContent),
-    "loadDeps" : extractLoadtimeDeps(fileContent, fileId, verbose),
-    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId, verbose)
+    "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
+    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+    "resources" : extractResources(fileContent)
   }
 
   # Register file to module data
@@ -142,8 +159,8 @@ def indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb={}, m
       moduleDb[moduleId] = [ fileId ]
 
 
-def indexSingleDirectory(sourceDirectory, webSourcePath, fileDb={}, moduleDb={}, verbose=False):
-  for root, dirs, files in os.walk(sourceDirectory):
+def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
+  for root, dirs, files in os.walk(scriptInput):
 
     # Filter ignored directories
     for ignoredDir in config.DIRIGNORE:
@@ -154,24 +171,19 @@ def indexSingleDirectory(sourceDirectory, webSourcePath, fileDb={}, moduleDb={},
     for fileName in files:
       if os.path.splitext(fileName)[1] == config.JSEXT:
         filePath = os.path.join(root, fileName)
-        filePathId = os.path.join(root.replace(sourceDirectory + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
+        filePathId = os.path.join(root.replace(scriptInput + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, sourceDirectory, webSourcePath, fileDb, moduleDb, verbose)
+        indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb, moduleDb)
 
 
-def indexDirectories(sourceDirectories, webSourcePaths, verbose=False):
+def indexScriptInput(options):
   fileDb = {}
   moduleDb = {}
+  listIndex = 0
 
-  pos = 0
-  for sourceDir in sourceDirectories:
-    if len(webSourcePaths)-1 >= pos:
-      webSourcePath = webSourcePaths[pos]
-    else:
-      webSourcePath = None
-
-    indexSingleDirectory(sourceDir, webSourcePath, fileDb, moduleDb, verbose)
-    pos += 1
+  for scriptInput in options.scriptInput:
+    indexSingleScriptInput(scriptInput, listIndex, options, fileDb, moduleDb)
+    listIndex += 1
 
   return fileDb, moduleDb
 

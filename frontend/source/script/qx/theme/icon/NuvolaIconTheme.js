@@ -25,7 +25,7 @@
 
 #module(iconthemes)
 #require(qx.manager.object.SingletonManager)
-#resource(images:source/resources/icon/nuvola)
+#resource(images:icon/nuvola)
 
 ************************************************************************ */
 
