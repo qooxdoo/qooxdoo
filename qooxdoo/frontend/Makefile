@@ -40,21 +40,19 @@ generate-resources:
 
 generate-build:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
-	  --compile-source \
-	  --compile-output-directory build/demo \
+	  --script-input source/script \
+	  --generate-compiled-script \
+	  --compiled-script-file build/demo/qx.js \
 	  --copy-resources \
-	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
-	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
-	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
-	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages
+	  --resource-input source/resources \
+	  --resource-output build/resources
 
 generate-source:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
-	  --source-web-path ../../script \
-	  --generate-source \
-	  --source-output-directory source/demo
+	  --script-input source/script \
+	  --source-script-path ../../script \
+	  --generate-source-script \
+	  --source-script-file source/demo/qx.js
 
 generate-api:
 	@tools/generate/generate.py \
