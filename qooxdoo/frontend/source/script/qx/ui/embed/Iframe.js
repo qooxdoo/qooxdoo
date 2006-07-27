@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator,
 function(vSource)
 {
   // **********************************************************************
@@ -140,7 +140,7 @@ qx.Proto._applySource = function()
   var currentSource = this.getSource();
 
   if (qx.util.Validation.isInvalidString(currentSource)) {
-    currentSource = qx.manager.object.ImageManager.buildUri("core/blank.gif");
+    currentSource = qx.manager.object.ImageManager.buildUri("core/coreimages/blank.gif");
   }
 
   this._isLoaded = false;

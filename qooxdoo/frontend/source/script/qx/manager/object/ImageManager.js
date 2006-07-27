@@ -63,7 +63,7 @@ function()
   this.defineAlias("local", this.getSetting("localPath"));
 });
 
-qx.Proto.BLANK = "core/blank.gif";
+qx.Proto.BLANK = "core/coreimages/blank.gif";
 
 
 
