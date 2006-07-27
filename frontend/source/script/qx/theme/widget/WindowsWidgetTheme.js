@@ -53,4 +53,4 @@ qx.Settings.setDefaultSetting("imageUri", "../../resources/widget/windows");
 ---------------------------------------------------------------------------
 */
 
-qx.theme.widget.WindowsWidgetTheme = new qx.theme.widget.WindowsWidgetTheme;
+qx.manager.object.SingletonManager.add(qx.theme.widget, "WindowsWidgetTheme");

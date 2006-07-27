@@ -35,7 +35,7 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._objects = {}
+  this._objects = {};
 });
 
 

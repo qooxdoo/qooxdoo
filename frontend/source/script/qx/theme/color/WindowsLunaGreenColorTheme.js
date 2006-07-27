@@ -82,4 +82,4 @@ qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
 ---------------------------------------------------------------------------
 */
 
-qx.theme.color.WindowsLunaGreenColorTheme = new qx.theme.color.WindowsLunaGreenColorTheme;
+qx.manager.object.SingletonManager.add(qx.theme.color, "WindowsLunaGreenColorTheme");

@@ -2465,4 +2465,4 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 ---------------------------------------------------------------------------
 */
 
-qx.theme.appearance.DefaultAppearanceTheme = new qx.theme.appearance.DefaultAppearanceTheme;
+qx.manager.object.SingletonManager.add(qx.theme.appearance, "DefaultAppearanceTheme");
