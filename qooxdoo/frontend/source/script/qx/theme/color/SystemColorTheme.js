@@ -41,4 +41,4 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.theme.color.SystemColorTheme = new qx.theme.color.SystemColorTheme;
+qx.manager.object.SingletonManager.add(qx.theme.color, "SystemColorTheme");

@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(iconthemes)
+#require(qx.manager.object.SingletonManager)
 #resource(images:source/resources/icon/crystalsvg)
 
 ************************************************************************ */
@@ -53,4 +54,4 @@ qx.Settings.setDefaultSetting("imageUri", "../../resources/icon/crystalsvg");
 ---------------------------------------------------------------------------
 */
 
-qx.theme.icon.CrystalSvgIconTheme = new qx.theme.icon.CrystalSvgIconTheme;
+qx.manager.object.SingletonManager.add(qx.theme.icon, "CrystalSvgIconTheme");

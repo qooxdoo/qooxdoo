@@ -24,6 +24,7 @@
 /* ************************************************************************
 
 #module(iconthemes)
+#require(qx.manager.object.SingletonManager)
 #resource(images:source/resources/icon/nuvola)
 
 ************************************************************************ */
@@ -53,4 +54,4 @@ qx.Settings.setDefaultSetting("imageUri", "../../resources/icon/nuvola");
 ---------------------------------------------------------------------------
 */
 
-qx.theme.icon.NuvolaIconTheme = new qx.theme.icon.NuvolaIconTheme;
+qx.manager.object.SingletonManager.add(qx.theme.icon, "NuvolaIconTheme");

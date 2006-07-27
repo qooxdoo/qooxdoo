@@ -27,6 +27,7 @@
 #require(qx.constant.Type)
 #require(qx.core.Settings)
 #require(qx.dom.DomEventRegistration)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -129,6 +130,7 @@ qx.Proto.defineTerminate = function(vFunc) {
 */
 
 qx.Proto._onload = function(e) {
+  qx.manager.object.SingletonManager.flush();
   return this.getComponent()._onload(e);
 }
 
