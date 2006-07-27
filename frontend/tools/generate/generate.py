@@ -668,7 +668,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       # Append
       overrideList.append(overrideData)
 
-
     print "  * Syncing..."
 
     for fileId in sortedIncludeList:
@@ -693,6 +692,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
               destinationDirectory = overrideData["destinationDirectory"]
 
           print "      - Copy %s => %s" % (sourceDirectory, destinationDirectory)
+
+          try:
+            os.listdir(sourceDirectory)
+          except OSError:
+            print "        - Source-Directory isn't readable!"
+            continue
 
           for root, dirs, files in os.walk(sourceDirectory):
 
