@@ -27,18 +27,16 @@ generate-all:
 
 generate-compile:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
-	  --compile-source \
-	  --compile-output-directory build/demo \
+	  --script-input source/script \
+	  --generate-compiled-script \
+	  --compiled-script-file build/demo/qx.js
 
 generate-resources:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
+	  --script-input source/script \
 	  --copy-resources \
-	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
-	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
-	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
-	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages
+	  --resource-input source/resources \
+	  --resource-output build/resources
 
 generate-build:
 	@tools/generate/generate.py \

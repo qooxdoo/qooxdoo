@@ -7,17 +7,16 @@ import config, tokenizer, loader, compile, docgenerator, tree, treegenerator
 
 
 
-def filetool(filepath, filename, content="", encoding="utf-8"):
-  # Concatting and Splitting
-  outputFileName = os.path.normpath(os.path.join(filepath, filename))
-  outputFileDir = os.path.dirname(outputFileName)
+def filetool(filename, content="", encoding="utf-8"):
+  # Splitting
+  directory = os.path.dirname(filename)
 
   # Check/Create directory
-  if not os.path.exists(outputFileDir):
-    os.makedirs(outputFileDir)
+  if not os.path.exists(directory):
+    os.makedirs(directory)
 
   # Writing file
-  outputFile = file(outputFileName, "w")
+  outputFile = file(filename, "w")
   outputFile.write(content.encode(encoding))
   outputFile.flush()
   outputFile.close()
@@ -29,46 +28,70 @@ def filetool(filepath, filename, content="", encoding="utf-8"):
 def getparser():
   parser = optparse.OptionParser("usage: %prog [options]")
 
-  # From file
+
+  #################################################################################
+  # GENERAL
+  #################################################################################
+
+  # From/To File
   parser.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
-  # Setting
-  parser.add_option("--setting", action="append", dest="setting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+  # Directories (Lists, Match using index)
+  parser.add_option("--script-input", action="append", dest="scriptInput", metavar="DIRECTORY", default=[], help="Define a script input directory.")
+  parser.add_option("--source-script-path", action="append", dest="sourceScriptPath", metavar="PATH", default=[], help="Define a script path for the source version.")
+  parser.add_option("--resource-input", action="append", dest="resourceInput", metavar="DIRECTORY", default=[], help="Define a resource input directory.")
+  parser.add_option("--resource-output", action="append", dest="resourceOutput", metavar="DIRECTORY", default=[], help="Define a resource output directory.")
 
-  # Source Directories
-  parser.add_option("-s", "--source-directory", action="append", dest="sourceDirectories", metavar="DIRECTORY", default=[], help="Add source directory.")
+  # Available Actions
+  parser.add_option("--generate-compiled-script", action="store_true", dest="generateCompiledScript", default=False, help="Compile source files.")
+  parser.add_option("--generate-source-script", action="store_true", dest="generateSourceScript", default=False, help="Generate source version.")
+  parser.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
+  parser.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
 
-  # Web-Directories
-  parser.add_option("-w", "--source-web-path", action="append", dest="webSourcePaths", metavar="PATH", default=[], help="Add web directories (one for each source directory).")
+  # Debug Actions
+  parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
+  parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
+  parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
+  parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list. (Debugging)")
 
-  # Destination Directories
-  parser.add_option("--source-output-directory", dest="sourceOutputDirectory", metavar="DIRECTORY", help="Define output directory for source JavaScript files.")
-  parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files.")
-  parser.add_option("--compile-output-directory", dest="compileOutputDirectory", metavar="DIRECTORY", help="Define output directory for compiled JavaScript files.")
-  parser.add_option("--api-output-directory", dest="apiOutputDirectory", metavar="DIRECTORY", help="Define api output directory.")
+  # Output files
+  parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
+  parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
+  parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
+  parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
 
-  # Destination Filenames
-  parser.add_option("--source-output-filename", dest="sourceOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from source build process.")
-  parser.add_option("--compile-output-filename", dest="compileOutputFilename", default="qx.js", metavar="FILENAME", help="Name of output file from compiler.")
-  parser.add_option("--json-api-output-filename", dest="jsonApiOutputFilename", default="api.js", metavar="FILENAME", help="Name of JSON API file.")
-  parser.add_option("--xml-api-output-filename", dest="xmlApiOutputFilename", default="api.xml", metavar="FILENAME", help="Name of XML API file.")
 
-  # Actions
-  parser.add_option("-c", "--compile-source", action="store_true", dest="compileSource", default=False, help="Compile source files.")
-  parser.add_option("-r", "--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
-  parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files.")
-  parser.add_option("-g", "--generate-source", action="store_true", dest="generateSource", default=False, help="Generate source version.")
-  parser.add_option("-a", "--generate-api", action="store_true", dest="generateApi", default=False, help="Generate API documentation.")
-  parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files.")
-  parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules.")
-  parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list.")
+
+  #################################################################################
+  # OPTIONS
+  #################################################################################
 
   # General options
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for output files.")
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
-  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for output files.")
+
+  # Options for source and compiled version
+  parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
+
+  # Options for compiled version
+  parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
+  parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress strings. (ALPHA)")
+
+  # Options for resource copying
+  parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
+
+  # Options for token storage
+  parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files. (Debugging)")
+
+
+
+
+  #################################################################################
+  # INCLUDE/EXCLUDE
+  #################################################################################
 
   # Include/Exclude
   parser.add_option("-i", "--include", action="append", dest="include", help="Include ID")
@@ -78,18 +101,6 @@ def getparser():
   parser.add_option("--disable-include-dependencies", action="store_false", dest="enableIncludeDependencies", default=True, help="Enable include dependencies.")
   parser.add_option("--disable-exclude-dependencies", action="store_false", dest="enableExcludeDependencies", default=True, help="Enable exclude dependencies.")
   parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
-
-  # Compile options
-  parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
-  parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress Strings.")
-  parser.add_option("--store-separate-scripts", action="store_true", dest="storeSeparateScripts", default=False, help="Store compiled javascript files separately, too.")
-
-  # API options
-  parser.add_option("--generate-json-api", action="store_true", dest="generateJsonApi", default=False, help="Generate JSON output in API documentation process.")
-  parser.add_option("--generate-xml-api", action="store_true", dest="generateXmlApi", default=False, help="Generate XML output in API documentation process.")
-
-  # Resource options
-  parser.add_option("--resource-target", action="append", dest="resourceTargets", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Add source directory.")
 
   return parser
 
@@ -163,11 +174,19 @@ def argparser(cmdlineargs):
     currentfileargs = []
     fileargs[fileargid] = currentfileargs
 
+    alternativeFormatBegin = re.compile("\s*\[\s*")
+    alternativeFormatEnd = re.compile("\s*\]\s*=\s*")
+    emptyLine = re.compile("^\s*$")
+
     for line in file(options.fromFile).read().split("\n"):
       line = line.strip()
 
-      if line == "" or line.startswith("#") or line.startswith("//"):
+      if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
+
+      # Translating...
+      line = alternativeFormatBegin.sub(" = ", line)
+      line = alternativeFormatEnd.sub(":", line)
 
       # Splitting line
       line = line.split("=")
@@ -267,7 +286,7 @@ def load(options):
 
   print "  * Normalizing directory information..."
 
-  if options.sourceDirectories == None or len(options.sourceDirectories) == 0:
+  if options.scriptInput == None or len(options.scriptInput) == 0:
     basename = os.path.basename(sys.argv[0])
     print "You must define at least one source directory!"
     print "usage: %s [options]" % basename
@@ -276,16 +295,14 @@ def load(options):
   else:
     # Normalizing directories
     i=0
-    for directory in options.sourceDirectories:
-      options.sourceDirectories[i] = os.path.normpath(options.sourceDirectories[i])
+    for directory in options.scriptInput:
+      options.scriptInput[i] = os.path.normpath(options.scriptInput[i])
       i+=1
 
-  print "  * Loading JavaScript files...",
+  print "  * Loading JavaScript files..."
 
-  (fileDb, moduleDb) = loader.indexDirectories(options.sourceDirectories, options.webSourcePaths, options.verbose)
+  (fileDb, moduleDb) = loader.indexScriptInput(options)
 
-  if not options.verbose:
-    print
   print "  * Found %s JavaScript files" % len(fileDb)
 
   if options.printFiles:
@@ -572,7 +589,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   #  GENERATION OF API
   ######################################################################
 
-  if options.generateApi:
+  if options.generateApiDocumentation:
     print
     print "  GENERATION OF API:"
     print "----------------------------------------------------------------------------"
@@ -602,7 +619,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "  * Finalising tree..."
       docgenerator.postWorkPackage(docTree, docTree)
 
-    if options.generateXmlApi:
+    if options.xmlApiOutputFilename:
       print "  * Writing XML API file..."
 
       xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
@@ -610,7 +627,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, xmlContent, options.encoding)
 
-    if options.generateJsonApi:
+    if options.jsonApiOutputFilename:
       print "  * Writing JSON API file..."
 
       jsonContent = tree.nodeToJsonString(docTree)
@@ -622,89 +639,91 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  SYNCRONISATION OF BUILD RESOURCES
+  #  CREATE COPY OF RESOURCES
   ######################################################################
 
   if options.copyResources:
 
     print
-    print "  SYNCRONISATION OF BUILD RESOURCES:"
+    print "  CREATE COPY OF RESOURCES:"
     print "----------------------------------------------------------------------------"
 
     print "  * Preparing target configuration..."
 
-    targets = []
+    overrideList = []
 
-    for target in options.resourceTargets:
+    for overrideEntry in options.overrideResourceOutput:
+      # Parse
       # fileId.resourceId:destinationDirectory
-
-      cur = {}
-      targets.append(cur)
-
-      targetSplit = target.split(":")
+      targetSplit = overrideEntry.split(":")
       targetStart = targetSplit.pop(0)
-
-      cur["destinationFileDirectory"] = ":".join(targetSplit)
-
       targetStartSplit = targetStart.split(".")
 
-      cur["resourceId"] = targetStartSplit.pop()
-      cur["fileId"] = ".".join(targetStartSplit)
+      # Store
+      overrideData = {}
+      overrideData["destinationDirectory"] = ":".join(targetSplit)
+      overrideData["resourceId"] = targetStartSplit.pop()
+      overrideData["fileId"] = ".".join(targetStartSplit)
+
+      # Append
+      overrideList.append(overrideData)
+
 
     print "  * Syncing..."
 
     for fileId in sortedIncludeList:
       filePath = fileDb[fileId]["path"]
-      fileContent = fileDb[fileId]["content"]
-      fileResourceList = loader.extractResources(fileContent)
+      fileResources = fileDb[fileId]["resources"]
 
-      if len(fileResourceList) > 0:
-        print "    - Found %i resources in %s" % (len(fileResourceList), fileId)
+      if len(fileResources) > 0:
+        print "    - Found %i resources in %s" % (len(fileResources), fileId)
 
-        for fileResource in fileResourceList:
+        for fileResource in fileResources:
           fileResourceSplit = fileResource.split(":")
 
           resourceId = fileResourceSplit.pop(0)
-          sourceFileDirectory = ":".join(fileResourceSplit)
+          relativeDirectory = ":".join(fileResourceSplit)
 
-          for target in targets:
-            if fileId != target["fileId"] or resourceId != target["resourceId"]:
-              continue
+          sourceDirectory = os.path.join(fileDb[fileId]["resourceInput"], relativeDirectory)
+          destinationDirectory = os.path.join(fileDb[fileId]["resourceOutput"], relativeDirectory)
 
-            destinationFileDirectory = target["destinationFileDirectory"]
+          # Searching for overrides
+          for overrideData in overrideList:
+            if overrideData["fileId"] == fileId and overrideData["resourceId"] == resourceId:
+              destinationDirectory = overrideData["destinationDirectory"]
 
-            print "    - Syncing %s => %s" % (sourceFileDirectory, destinationFileDirectory)
+          print "      - Copy %s => %s" % (sourceDirectory, destinationDirectory)
 
-            for root, dirs, files in os.walk(sourceFileDirectory):
+          for root, dirs, files in os.walk(sourceDirectory):
 
-              # Filter ignored directories
-              for ignoredDir in config.DIRIGNORE:
-                if ignoredDir in dirs:
-                  dirs.remove(ignoredDir)
+            # Filter ignored directories
+            for ignoredDir in config.DIRIGNORE:
+              if ignoredDir in dirs:
+                dirs.remove(ignoredDir)
 
-              # Searching for items (resource files)
-              for itemName in files:
+            # Searching for items (resource files)
+            for itemName in files:
 
-                # Generate absolute source file path
-                itemSourcePath = os.path.join(root, itemName)
+              # Generate absolute source file path
+              itemSourcePath = os.path.join(root, itemName)
 
-                # Extract relative path and directory
-                itemRelPath = itemSourcePath.replace(sourceFileDirectory + os.sep, "")
-                itemRelDir = os.path.dirname(itemRelPath)
+              # Extract relative path and directory
+              itemRelPath = itemSourcePath.replace(sourceDirectory + os.sep, "")
+              itemRelDir = os.path.dirname(itemRelPath)
 
-                # Generate destination directory and file path
-                itemDestDir = os.path.join(destinationFileDirectory, itemRelDir)
-                itemDestPath = os.path.join(itemDestDir, itemName)
+              # Generate destination directory and file path
+              itemDestDir = os.path.join(destinationDirectory, itemRelDir)
+              itemDestPath = os.path.join(itemDestDir, itemName)
 
-                # Check/Create destination directory
-                if not os.path.exists(itemDestDir):
-                  os.makedirs(itemDestDir)
+              # Check/Create destination directory
+              if not os.path.exists(itemDestDir):
+                os.makedirs(itemDestDir)
 
-                # Copy file
-                if options.verbose:
-                  print "      - Copying: %s => %s" % (itemSourcePath, itemDestPath)
+              # Copy file
+              if options.verbose:
+                print "      - Copying: %s => %s" % (itemSourcePath, itemDestPath)
 
-                shutil.copyfile(itemSourcePath, itemDestPath)
+              shutil.copyfile(itemSourcePath, itemDestPath)
 
 
 
@@ -715,7 +734,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   #  GENERATION OF SETTINGS
   ######################################################################
 
-  if options.generateSource or options.compileSource:
+  if options.generateSourceScript or options.generateCompiledScript:
     print
     print "  GENERATION OF SETTINGS:"
     print "----------------------------------------------------------------------------"
@@ -782,9 +801,9 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   #  GENERATION OF SOURCE VERSION
   ######################################################################
 
-  if options.generateSource:
+  if options.generateSourceScript:
     print
-    print "  GENERATION OF SOURCE VERSION:"
+    print "  GENERATION OF SOURCE SCRIPT:"
     print "----------------------------------------------------------------------------"
 
     if options.sourceOutputDirectory == None:
@@ -823,41 +842,35 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   #  GENERATION OF COMPILED VERSION
   ######################################################################
 
-  if options.compileSource:
+  if options.generateCompiledScript:
     print
-    print "  GENERATION OF COMPILED VERSION:"
+    print "  GENERATION OF COMPILED SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    if options.compileSource:
-      compiledOutput = ""
+    compiledOutput = settingsStr + "".join(additionalOutput)
 
-      print "  * Compiling tokens..."
+    print "  * Compiling tokens..."
 
-      if options.compileOutputDirectory == None:
-        print "    * You must define the compile directory!"
-        sys.exit(1)
+    if options.compiledScriptFile == None:
+      print "    * You must define the compiled script file!"
+      sys.exit(1)
 
+    else:
+      options.compiledScriptFile = os.path.normpath(options.compiledScriptFile)
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+
+      compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
+
+      if options.addFileIds:
+        compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
       else:
-        options.compileOutputDirectory = os.path.normpath(options.compileOutputDirectory)
+        compiledOutput += compiledFileContent
 
-      for fileId in sortedIncludeList:
-        if options.verbose:
-          print "    - %s" % fileId
-
-        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
-
-        if options.addFileIds:
-          compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
-        else:
-          compiledOutput += compiledFileContent
-
-        if options.storeSeparateScripts:
-          if options.verbose:
-            print "      * Writing compiled file..."
-          filetool(options.compileOutputDirectory, fileId.replace(".", os.path.sep) + config.JSEXT, compiledFileContent, options.encoding)
-
-      print "  * Saving compiled output as %s..." % options.compileOutputFilename
-      filetool(options.compileOutputDirectory, options.compileOutputFilename, settingsStr + "".join(additionalOutput) + compiledOutput, options.encoding)
+    print "  * Saving compiled output as %s..." % options.compiledScriptFile
+    filetool(options.compiledScriptFile, compiledOutput, options.encoding)
 
 
 

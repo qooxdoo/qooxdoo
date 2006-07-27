@@ -24,7 +24,7 @@
 /* ************************************************************************
 
 #module(widgetthemes)
-#resource(images:source/resources/widget/windows)
+#resource(images:widget/windows)
 
 ************************************************************************ */
 
