@@ -188,9 +188,25 @@ public class RpcServlet extends HttpServlet {
         
         try {
             Writer outWriter = response.getWriter();
+
+            // reconstruct the start of the URL
+            StringBuffer contextURL = new StringBuffer();
+            String scheme = request.getScheme();
+            int port = request.getServerPort();
+            
+            contextURL.append(scheme);
+            contextURL.append("://");
+            contextURL.append(request.getServerName());
+            if ((scheme.equals("http") && port != 80) ||
+                (scheme.equals ("https") && port != 443)) {
+                contextURL.append(':');
+                contextURL.append(request.getServerPort());
+            }
+            contextURL.append(request.getContextPath());
+            
             outWriter.write(
 "qx.OO.defineClass(\"qx.core.ServerSettings\", {" +
-"  serverPathPrefix: \"" + response.encodeURL(request.getContextPath()) + "\"," +
+"  serverPathPrefix: \"" + response.encodeURL(contextURL.toString()) + "\"," +
 "  serverPathSuffix: \"\"" +
 "});" +
 "(function() {" +
@@ -226,17 +242,28 @@ public class RpcServlet extends HttpServlet {
         InputStream is = null;
         Reader reader = null;
         try {
-            is = request.getInputStream();
-            reader = new InputStreamReader(is, "UTF-8");
-            StringBuffer requestBuffer = new StringBuffer();
-            char[] readBuffer = new char[BUFFER_SIZE];
-            int length;
-            while ((length = reader.read(readBuffer)) != -1) {
-                requestBuffer.append(readBuffer, 0, length);
+            String requestString = null;
+            
+            String contentType = request.getHeader("Content-Type");
+            if (contentType != null) {
+                if (contentType.indexOf("x-www-form-urlencoded") != -1) {
+                    requestString = request.getParameter("_data_");
+                }
             }
-            System.out.println("Request buffer: " + requestBuffer);
+            if (requestString == null) {
+                is = request.getInputStream();
+                reader = new InputStreamReader(is, "UTF-8");
+                StringBuffer requestBuffer = new StringBuffer();
+                char[] readBuffer = new char[BUFFER_SIZE];
+                int length;
+                while ((length = reader.read(readBuffer)) != -1) {
+                    requestBuffer.append(readBuffer, 0, length);
+                }
+                requestString = requestBuffer.toString();
+            }
+            System.out.println("Request string: " + requestString);
             String instanceId = request.getParameter("instanceId");
-            JSONObject req = new JSONObject(requestBuffer.toString());
+            JSONObject req = new JSONObject(requestString);
             String serviceClassName = req.getString("service");
             String callId = req.getString("id");
             RemoteService inst = (RemoteService) getServiceInstance(
