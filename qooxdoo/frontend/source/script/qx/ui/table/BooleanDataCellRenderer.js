@@ -113,7 +113,7 @@ qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManag
 qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png");
 
 /** {string} The URL of the icon showing a null value. */
-qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("core/coreimages/blank.gif");
+qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("static/coreimages/blank.gif");
 
 
 qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px';
