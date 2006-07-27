@@ -21,6 +21,7 @@ generate-all:
 	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
 	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
 	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
+	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages \
 	  --generate-source \
 	  --source-output-directory source/demo
 
@@ -36,7 +37,8 @@ generate-resources:
 	  --copy-resources \
 	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
 	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
-	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
+	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
+	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages
 
 generate-build:
 	@tools/generate/generate.py \
@@ -46,7 +48,8 @@ generate-build:
 	  --copy-resources \
 	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
 	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
-	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows
+	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
+	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages
 
 generate-source:
 	@tools/generate/generate.py \
