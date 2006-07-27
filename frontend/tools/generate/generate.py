@@ -792,8 +792,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.addNewLines:
         settingsStr += "\n"
 
-    print settingsStr
-
 
 
 
@@ -811,12 +809,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  GENERATION OF SOURCE SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    if options.sourceOutputDirectory == None:
-      print "    * You must define the source output directory!"
+    if options.sourceScriptFile == None:
+      print "    * You must define the source script file!"
       sys.exit(1)
 
     else:
-      options.sourceOutputDirectory = os.path.normpath(options.sourceOutputDirectory)
+      options.sourceScriptFile = os.path.normpath(options.sourceScriptFile)
 
     print "  * Generating includer..."
 
@@ -827,16 +825,16 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if options.addNewLines:
       for fileId in sortedIncludeList:
-        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["webSourcePath"], fileId.replace(".", os.sep)), config.JSEXT)
+        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
 
     else:
       includeCode = ""
       for fileId in sortedIncludeList:
-        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["webSourcePath"], fileId.replace(".", os.sep)), config.JSEXT)
+        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
-    print "  * Saving includer output as %s..." % options.sourceOutputFilename
-    filetool(options.sourceOutputDirectory, options.sourceOutputFilename, sourceOutput, options.encoding)
+    print "  * Saving includer output as %s..." % options.sourceScriptFile
+    filetool(options.sourceScriptFile, sourceOutput, options.encoding)
 
 
 
