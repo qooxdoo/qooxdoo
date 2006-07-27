@@ -746,8 +746,8 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Processing input data..."
 
-    TypeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
-    TypeNumber = re.compile("^([0-9\-])$")
+    typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
+    typeNumber = re.compile("^([0-9\-])$")
 
     settingsStr = ""
 
@@ -763,7 +763,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     if options.addNewLines:
       settingsStr += "\n"
 
-    for setting in options.setting:
+    for setting in options.defineRuntimeSetting:
       settingSplit = setting.split(":")
       settingKey = settingSplit.pop(0)
       settingValue = ":".join(settingSplit)
@@ -781,7 +781,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       settingsStr += 'qx.Settings._userSettings["%s"]["%s"]=' % (settingKeySpace, settingKeyName)
 
-      if settingValue == "false" or settingValue == "true" or TypeFloat.match(settingValue) or TypeNumber.match(settingValue):
+      if settingValue == "false" or settingValue == "true" or typeFloat.match(settingValue) or typeNumber.match(settingValue):
         settingsStr += '%s' % settingValue
 
       else:
@@ -792,7 +792,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.addNewLines:
         settingsStr += "\n"
 
-      print settingsStr
+    print settingsStr
 
 
 
