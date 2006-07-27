@@ -13,17 +13,15 @@ all: update-buildlayout update-sourcelayout generate-all
 
 generate-all:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
-	  --source-web-path ../../script \
-	  --compile-source \
-	  --compile-output-directory build/demo \
+	  --script-input source/script \
+	  --generate-compiled-script \
+	  --compiled-script-file build/demo/qx.js \
 	  --copy-resources \
-	  --resource-target qx.theme.icon.NuvolaIconTheme.images:build/resources/icon/nuvola \
-	  --resource-target qx.theme.icon.CrystalSvgIconTheme.images:build/resources/icon/crystalsvg \
-	  --resource-target qx.theme.widget.WindowsWidgetTheme.images:build/resources/widget/windows \
-	  --resource-target qx.ui.basic.Image.core:build/resources/static/coreimages \
-	  --generate-source \
-	  --source-output-directory source/demo
+	  --resource-input source/resources \
+	  --resource-output build/resources \
+	  --source-script-path ../../script \
+	  --generate-source-script \
+	  --source-script-file source/demo/qx.js
 
 generate-compile:
 	@tools/generate/generate.py \
@@ -56,10 +54,9 @@ generate-source:
 
 generate-api:
 	@tools/generate/generate.py \
-	  --source-directory source/script \
-	  --generate-api \
-	  --api-output-directory source/demo/apiviewer \
-	  --generate-json-api
+	  --script-input source/script \
+	  --generate-api-documentation \
+	  --api-documentation-json-file source/demo/apiviewer/api.js
 
   # Test
   #  @tools/generate/generate.py \
@@ -111,7 +108,7 @@ build: generate-build update-buildlayout
 ###################################################################################
 
 clean:
-	rm  -f source/demo/demoinclude.js source/demo/demolayout.js
+	rm  -f source/demo/qx.js source/demo/demolayout.js source/demo/apiviewer/api.js
 	rm -rf build/demo build/script build/themes
 
 realclean: clean
