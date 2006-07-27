@@ -59,11 +59,10 @@ function()
   this._aliases = {};
 
   // Apply default pathes
-  this.defineAlias("core", this.getSetting("corePath"));
-  this.defineAlias("local", this.getSetting("localPath"));
+  this.defineAlias("static", this.getSetting("staticPath"));
 });
 
-qx.Proto.BLANK = "core/coreimages/blank.gif";
+qx.Proto.BLANK = "static/coreimages/blank.gif";
 
 
 
@@ -75,8 +74,7 @@ qx.Proto.BLANK = "core/coreimages/blank.gif";
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("corePath", "../../resources/static");
-qx.Settings.setDefaultSetting("localPath", ".");
+qx.Settings.setDefaultSetting("staticPath", "../../resources/static");
 qx.Settings.setDefaultSetting("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
 qx.Settings.setDefaultSetting("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 
