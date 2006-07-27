@@ -191,14 +191,14 @@ qx.Proto._createHueSaturationPane = function()
 
   this._hueSaturationPane.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onHueSaturationPaneMouseWheel, this);
 
-  this._hueSaturationField = new qx.ui.basic.Image("core/huesaturation-field.jpg");
+  this._hueSaturationField = new qx.ui.basic.Image("widget/colorselector/huesaturation-field.jpg");
   this._hueSaturationField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._hueSaturationField.setMargin(5);
   this._hueSaturationField.setParent(this._hueSaturationPane);
 
   this._hueSaturationField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onHueSaturationFieldMouseDown, this);
 
-  this._hueSaturationHandle = new qx.ui.basic.Image("core/huesaturation-handle.gif");
+  this._hueSaturationHandle = new qx.ui.basic.Image("widget/colorselector/huesaturation-handle.gif");
   this._hueSaturationHandle.setLocation(0, 256);
   this._hueSaturationHandle.setParent(this._hueSaturationPane);
 
@@ -216,14 +216,14 @@ qx.Proto._createBrightnessPane = function()
 
   this._brightnessPane.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onBrightnessPaneMouseWheel, this);
 
-  this._brightnessField = new qx.ui.basic.Image("core/brightness-field.jpg");
+  this._brightnessField = new qx.ui.basic.Image("widget/colorselector/brightness-field.jpg");
   this._brightnessField.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._brightnessField.setMargin(5, 7);
   this._brightnessField.setParent(this._brightnessPane);
 
   this._brightnessField.addEventListener(qx.constant.Event.MOUSEDOWN, this._onBrightnessFieldMouseDown, this);
 
-  this._brightnessHandle = new qx.ui.basic.Image("core/brightness-handle.gif");
+  this._brightnessHandle = new qx.ui.basic.Image("widget/colorselector/brightness-handle.gif");
   this._brightnessHandle.setLocation(0, 0);
   this._brightnessHandle.setParent(this._brightnessPane);
 
@@ -423,7 +423,7 @@ qx.Proto._createPreviewContent = function()
   this._oldColorPreview = new qx.ui.basic.Terminator;
   this._oldColorPreview.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._oldColorPreview.setWidth(qx.constant.Core.FLEX);
-  this._oldColorPreview.setBackgroundImage("core/dotted_white.gif");
+  this._oldColorPreview.setBackgroundImage("static/coreimages/dotted_white.gif");
   this._oldColorPreview.setParent(this._previewLayout);
 
   this._newColorPreview = new qx.ui.basic.Terminator;

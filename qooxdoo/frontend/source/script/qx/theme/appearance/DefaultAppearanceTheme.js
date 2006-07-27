@@ -80,7 +80,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
   {
     initial : function(vWidget, vTheme)
     {
-      // You could also use: "core/dotted_white.gif" for example as backgroundImage here
+      // You could also use: "static/coreimages/dotted_white.gif" for example as backgroundImage here
       // (Visible) background tiles could be dramatically slow down mshtml!
       // A background image or color is always needed for mshtml to block the events successfully.
       return {
@@ -354,7 +354,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
       this.border_default = null;
 
-      this.checked_background = "core/dotted_white.gif";
+      this.checked_background = "static/coreimages/dotted_white.gif";
     },
 
     initial : function(vWidget, vTheme)
@@ -2093,7 +2093,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
       this.border_default = null;
 
-      this.checked_background = "core/dotted_white.gif";
+      this.checked_background = "static/coreimages/dotted_white.gif";
     },
 
     initial : function(vWidget, vTheme)
