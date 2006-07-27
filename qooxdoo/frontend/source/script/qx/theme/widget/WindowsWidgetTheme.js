@@ -42,7 +42,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("imagePath", "../../resources/widget/windows");
+qx.Settings.setDefaultSetting("imageUri", "../../resources/widget/windows");
 
 
 

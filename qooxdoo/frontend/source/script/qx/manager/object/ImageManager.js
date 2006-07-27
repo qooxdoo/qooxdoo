@@ -59,7 +59,7 @@ function()
   this._aliases = {};
 
   // Apply default pathes
-  this.defineAlias("static", this.getSetting("staticPath"));
+  this.defineAlias("static", this.getSetting("staticUri"));
 });
 
 qx.Proto.BLANK = "static/coreimages/blank.gif";
@@ -74,7 +74,7 @@ qx.Proto.BLANK = "static/coreimages/blank.gif";
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("staticPath", "../../resources/static");
+qx.Settings.setDefaultSetting("staticUri", "../../resources/static");
 qx.Settings.setDefaultSetting("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
 qx.Settings.setDefaultSetting("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 
@@ -106,13 +106,13 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("icon", propValue.getSetting("imagePath")) : this.removeAlias("icon");
+  propValue ? this.defineAlias("icon", propValue.getSetting("imageUri")) : this.removeAlias("icon");
   return true;
 }
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("widget", propValue.getSetting("imagePath")) : this.removeAlias("widget");
+  propValue ? this.defineAlias("widget", propValue.getSetting("imageUri")) : this.removeAlias("widget");
   return true;
 }
 
