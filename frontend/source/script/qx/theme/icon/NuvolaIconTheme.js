@@ -42,7 +42,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("imagePath", "../../resources/icon/nuvola");
+qx.Settings.setDefaultSetting("imageUri", "../../resources/icon/nuvola");
 
 
 
