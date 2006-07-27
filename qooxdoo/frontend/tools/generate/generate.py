@@ -594,16 +594,26 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  GENERATION OF API:"
     print "----------------------------------------------------------------------------"
 
-    if options.apiOutputDirectory == None:
-      print "    * You must define the API output directory!"
-      sys.exit(1)
+    if options.apiDocumentationJsonFile == None and options.apiDocumentationXmlFile == None:
+      print "    * You must define one of JSON or XML API documentation file!"
 
-    else:
-      options.apiOutputDirectory = os.path.normpath(options.apiOutputDirectory)
+    # Create JSON directory
+    if options.apiDocumentationJsonFile != None:
+      options.apiDocumentationJsonFile = os.path.normpath(options.apiDocumentationJsonFile)
+      jsonDir = os.path.dirname(options.apiDocumentationJsonFile)
 
       # Normalizing directory
-      if not os.path.exists(options.apiOutputDirectory):
-        os.makedirs(options.apiOutputDirectory)
+      if not os.path.exists(jsonDir):
+        os.makedirs(jsonDir)
+
+    # Create XML directory
+    if options.apiDocumentationXmlFile != None:
+      options.apiDocumentationXmlFile = os.path.normpath(options.apiDocumentationXmlFile)
+      xmlDir = os.path.dirname(options.apiDocumentationXmlFile)
+
+      # Normalizing directory
+      if not os.path.exists(xmlDir):
+        os.makedirs(xmlDir)
 
     docTree = None
 
@@ -619,20 +629,20 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "  * Finalising tree..."
       docgenerator.postWorkPackage(docTree, docTree)
 
-    if options.xmlApiOutputFilename:
+    if options.apiDocumentationXmlFile != None:
       print "  * Writing XML API file..."
 
       xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
       xmlContent += tree.nodeToXmlString(docTree)
 
-      filetool(options.apiOutputDirectory, options.xmlApiOutputFilename, xmlContent, options.encoding)
+      filetool(options.apiDocumentationXmlFile, xmlContent, options.encoding)
 
-    if options.jsonApiOutputFilename:
+    if options.apiDocumentationJsonFile != None:
       print "  * Writing JSON API file..."
 
       jsonContent = tree.nodeToJsonString(docTree)
 
-      filetool(options.apiOutputDirectory, options.jsonApiOutputFilename, jsonContent, options.encoding)
+      filetool(options.apiDocumentationJsonFile, jsonContent, options.encoding)
 
 
 
