@@ -6,51 +6,45 @@
 
 /**
  * The API viewer. Shows the API documentation.
- *
- * @param clientWindow {qx.client.ClientWindow} the window were to show the API
- *        documentation.
  */
-qx.OO.defineClass("api.ApiViewer", qx.core.Object,
-function (clientWindow) {
-  qx.core.Object.call(this);
+qx.OO.defineClass("api.ApiViewer", qx.ui.layout.HorizontalBoxLayout,
+function (vUrl) {
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  var ApiViewer = api.ApiViewer;
+  this.setEdge(0);
 
   this._titlePrefix = document.title;
-
-  var boxLayout = new qx.ui.layout.HorizontalBoxLayout;
-
-  boxLayout.setEdge(0);
 
   this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation");
   this._tree.set({
     backgroundColor: "white",
-    border: qx.renderer.border.BorderObject.presets.black,
     overflow: "scroll",
     width: "22%",
     minWidth : 150,
     maxWidth : 300
   });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
-  boxLayout.add(this._tree);
+  this.add(this._tree);
 
   this._detailViewer = new api.DetailViewer;
-  boxLayout.add(this._detailViewer);
+  this.add(this._detailViewer);
 
-  this._currentTreeType = ApiViewer.PACKAGE_TREE;
+  this._currentTreeType = api.ApiViewer.PACKAGE_TREE;
 
   // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
   //             maintain a hash that keeps the tree nodes for class names
   this._classTreeNodeHash = {};
-  this._classTreeNodeHash[ApiViewer.PACKAGE_TREE] = {};
-  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE] = {};
-
-  clientWindow.getClientDocument().add(boxLayout);
+  this._classTreeNodeHash[api.ApiViewer.PACKAGE_TREE] = {};
+  this._classTreeNodeHash[api.ApiViewer.INHERITENCE_TREE] = {};
 
   api.ApiViewer.instance = this;
 
   qx.client.History.init();
   qx.client.History.addEventListener("request", this._onHistoryRequest, this);
+
+  if (qx.util.Validation.isValidString(vUrl)) {
+    this.loadDocTreeFromUrl(vUrl);
+  }
 });
 
 
@@ -71,12 +65,13 @@ qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
  *
  * @param url {string} the URL.
  */
-qx.Proto.loadDocTreeFromUrl = function(url) {
+qx.Proto.loadDocTreeFromUrl = function(url)
+{
   var req = new qx.io.remote.RemoteRequest(url);
-  handler = function(evt) {
-    req.removeEventListener("completed", handler, this);
 
-    content = evt.getData().getContent();
+  req.addEventListener("completed", function(evt)
+  {
+    var content = evt.getData().getContent();
     this.setDocTree(eval("(" + content + ")"));
 
     // Handle bookmarks
@@ -86,8 +81,8 @@ qx.Proto.loadDocTreeFromUrl = function(url) {
         self.selectItem(window.location.hash.substring(1));
       }, 0);
     }
-  }
-  req.addEventListener("completed", handler, this);
+  }, this);
+
   req.send();
 }
 
@@ -335,3 +330,28 @@ qx.Proto.showClass = function(className) {
 
 qx.Class.PACKAGE_TREE = 1;
 qx.Class.INHERITENCE_TREE = 2;
+
+
+
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  if (this._tree)
+  {
+    this._tree.dispose();
+    this._tree = null;
+  }
+
+  if (this._detailViewer)
+  {
+    this._detailViewer.dispose();
+    this._detailViewer = null;
+  }
+
+  this._classTreeNodeHash = null;
+
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+}
