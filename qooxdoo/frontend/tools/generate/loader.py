@@ -136,7 +136,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb={}, 
 
   # Store file data
   fileDb[fileId] = {
-    "sourceDirectory" : scriptInput,
+    "scriptInput" : scriptInput,
     "sourceScriptPath" : sourceScriptPath,
     "resourceInput" : resourceInput,
     "resourceOutput" : resourceOutput,

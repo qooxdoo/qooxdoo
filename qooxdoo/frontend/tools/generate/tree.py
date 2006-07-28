@@ -107,7 +107,7 @@ class Node:
 
 
 
-def nodeToXmlString(node, prefix = ""):
+def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
   hasText = False
   asString = prefix + "<" + node.type
   if node.hasAttributes():
@@ -118,30 +118,31 @@ def nodeToXmlString(node, prefix = ""):
         asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True) + "\""
 
   if not node.hasChildren() and not hasText:
-    asString += "/>\n"
+    asString += "/>" + newLine
   else:
     asString += ">"
 
     if hasText:
       if node.hasChildren():
-        asString += "\n" + prefix + "  "
+        asString += newLine + prefix + "  "
       asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>"
 
     if node.hasChildren():
-      asString += "\n"
-      childPrefix = prefix + "  "
+      asString += newLine
+      prefix = prefix + childPrefix
       for child in node.children:
-        asString += nodeToXmlString(child, childPrefix)
+        asString += nodeToXmlString(child, prefix, childPrefix, newLine)
       asString += prefix
 
-    asString += "</" + node.type + ">\n"
-  
+    asString += "</" + node.type + ">" + newLine
+
   return asString
 
 
 
-def nodeToJsonString(node, prefix = ""):
+def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
   asString = prefix + '{type:"' + escapeJsonChars(node.type) + '"'
+
   if node.hasAttributes():
     asString += ',attributes:{'
     firstAttribute = True
@@ -153,17 +154,17 @@ def nodeToJsonString(node, prefix = ""):
     asString += '}'
 
   if node.hasChildren():
-    asString += ',children:[\n'
+    asString += ',children:[' + newLine
 
     firstChild = True
     if node.hasChildren():
-      childPrefix = prefix + "  "
+      prefix = prefix + childPrefix
       for child in node.children:
-        asString += nodeToJsonString(child, childPrefix) + ',\n'
+        asString += nodeToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
         firstChild = False
 
     # NOTE We remove the ',\n' of the last child
-    asString = asString[:-2] + '\n' + prefix + ']'
+    asString = asString[:-2] + newLine + prefix + ']'
 
   asString += '}'
 
@@ -181,22 +182,3 @@ def escapeXmlChars(text, inAttribute):
 
 def escapeJsonChars(text):
   return text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
-
-
-
-def writeXmlFile(rootNode, fileName, encoding = "iso-8859-15"):
-  outfile = file(fileName, "w")
-  outfile.write("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n\n")
-  outfile.write(nodeToXmlString(rootNode).encode(encoding))
-  outfile.flush()
-  outfile.close()    
-
-
-
-def writeJsonFile(rootNode, fileName, encoding = "utf-8"):
-  outfile = file(fileName, "w")
-  outfile.write(nodeToJsonString(rootNode).encode(encoding))
-  outfile.flush()
-  outfile.close()    
-
-    
