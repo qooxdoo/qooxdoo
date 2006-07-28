@@ -53,11 +53,10 @@ generate-source:
 	  --source-script-file source/demo/qx.js
 
 generate-api:
-	$(MAKE) -C api all
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-api-documentation \
-	  --api-documentation-json-file api/build/jsondata.js
+	  --api-documentation-json-file api/build/dist/data.js
 
 
 
@@ -87,6 +86,8 @@ update-buildlayout: update-builddemo
 source: generate-source update-sourcelayout
 build: generate-build update-buildlayout
 docs: generate-api
+	$(MAKE) -C api build
+
 
 
 
