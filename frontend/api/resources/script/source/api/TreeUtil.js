@@ -1,7 +1,11 @@
+/*
+#module(api)
+*/
+
 /**
  * A util class for handling the documentation tree.
  */
-qx.OO.defineClass("api.TreeUtil", qx.core.Object, 
+qx.OO.defineClass("api.TreeUtil", qx.core.Object,
 function () {
   qx.core.Object.call(this);
 });
