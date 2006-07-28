@@ -14,7 +14,8 @@ generate-source:
 	  --source-script-file source/dist/api.js \
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../source/resources/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../source/resources/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../source/resources/static
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../source/resources/static \
+	  --cache-directory ../.cache
 
 generate-build:
 	@../tools/generate/generate.py \
@@ -33,7 +34,8 @@ generate-build:
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resources/qooxdoo/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resources/qooxdoo/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resources/qooxdoo/static \
-	  --copy-resources
+	  --copy-resources \
+	  --cache-directory ../.cache
 
 source: generate-source
 

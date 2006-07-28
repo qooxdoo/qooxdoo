@@ -21,20 +21,23 @@ generate-all:
 	  --resource-output build/resources \
 	  --source-script-path ../../script \
 	  --generate-source-script \
-	  --source-script-file source/demo/qx.js
+	  --source-script-file source/demo/qx.js \
+	  --cache-directory .cache
 
 generate-compile:
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-compiled-script \
-	  --compiled-script-file build/demo/qx.js
+	  --compiled-script-file build/demo/qx.js \
+	  --cache-directory .cache
 
 generate-resources:
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --copy-resources \
 	  --resource-input source/resources \
-	  --resource-output build/resources
+	  --resource-output build/resources \
+	  --cache-directory .cache
 
 generate-build:
 	@tools/generate/generate.py \
@@ -43,20 +46,23 @@ generate-build:
 	  --compiled-script-file build/demo/qx.js \
 	  --copy-resources \
 	  --resource-input source/resources \
-	  --resource-output build/resources
+	  --resource-output build/resources \
+	  --cache-directory .cache
 
 generate-source:
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --source-script-path ../../script \
 	  --generate-source-script \
-	  --source-script-file source/demo/qx.js
+	  --source-script-file source/demo/qx.js \
+	  --cache-directory .cache
 
 generate-api:
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-api-documentation \
-	  --api-documentation-json-file api/build/dist/data.js
+	  --api-documentation-json-file api/build/dist/data.js \
+	  --cache-directory .cache
 
 
 
