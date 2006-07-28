@@ -1,3 +1,7 @@
+/*
+#module(api)
+*/
+
 /**
  * The API viewer. Shows the API documentation.
  *

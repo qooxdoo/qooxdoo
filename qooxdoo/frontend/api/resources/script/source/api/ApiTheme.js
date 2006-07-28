@@ -1,3 +1,7 @@
+/*
+#module(api)
+*/
+
 qx.OO.defineClass("api.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme.constructor,
 function() {
   qx.theme.appearance.DefaultAppearanceTheme.constructor.call(this, "api appearance");

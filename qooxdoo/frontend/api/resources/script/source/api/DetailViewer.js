@@ -1,3 +1,7 @@
+/*
+#module(api)
+*/
+
 /**
  * Shows the class details.
  */
