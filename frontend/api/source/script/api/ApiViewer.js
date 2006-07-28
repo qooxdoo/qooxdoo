@@ -1,5 +1,7 @@
 /*
 #module(api)
+#resource(css:css)
+#resource(images:images)
 */
 
 /**
