@@ -216,9 +216,9 @@ qx.Proto.buildUri = function(vPath, vForceUpdate)
 
   if (vForceUpdate || typeof vUri === qx.constant.Type.UNDEFINED) {
     vUri = this._uris[vPath] = this._buildUri(vPath);
+    // this.debug("URI: " + vPath + " => " + vUri);
   }
 
-  // this.debug("URI: " + vPath + " => " + vUri);
   return vUri;
 }
 
