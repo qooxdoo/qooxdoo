@@ -6,13 +6,13 @@
     <link type="text/css" rel="stylesheet" href="resources/css/apiviewer.css"/>
     <script type="text/javascript" src="resources/script/build/api.js"></script>
     <script type="text/javascript">
-    qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
+    //qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
     qx.core.Init.defineMain(function()
     {
-      qx.manager.object.ImageManager.defineAlias("images", "images");
+      qx.manager.object.ImageManager.defineAlias("api", "resources/images");
       var viewer = new api.ApiViewer(this.getClientWindow());
-      viewer.loadDocTreeFromUrl("api.js");
+      viewer.loadDocTreeFromUrl("jsondata.js");
     });
     </script>
   </head>

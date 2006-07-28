@@ -182,43 +182,43 @@ qx.Class.ITEM_LIST_ARR = [ "constants", "properties", "methods-pub", "methods-pu
 
 
 /** {string} The URL of the overlay "abstract". */
-qx.Class.OVERLAY_ABSTRACT   = "images/overlay_abstract18.gif";
+qx.Class.OVERLAY_ABSTRACT   = "api/overlay_abstract18.gif";
 /** {string} The URL of the overlay "error". */
-qx.Class.OVERLAY_ERROR      = "images/overlay_error18.gif";
+qx.Class.OVERLAY_ERROR      = "api/overlay_error18.gif";
 /** {string} The URL of the overlay "inherited". */
-qx.Class.OVERLAY_INHERITED  = "images/overlay_inherited18.gif";
+qx.Class.OVERLAY_INHERITED  = "api/overlay_inherited18.gif";
 /** {string} The URL of the overlay "overridden". */
-qx.Class.OVERLAY_OVERRIDDEN = "images/overlay_overridden18.gif";
+qx.Class.OVERLAY_OVERRIDDEN = "api/overlay_overridden18.gif";
 /** {string} The URL of the overlay "static". */
-qx.Class.OVERLAY_STATIC     = "images/overlay_static18.gif";
+qx.Class.OVERLAY_STATIC     = "api/overlay_static18.gif";
 /** {string} The URL of the overlay "warning". */
-qx.Class.OVERLAY_WARN       = "images/overlay_warning18.gif";
+qx.Class.OVERLAY_WARN       = "api/overlay_warning18.gif";
 
 
 /** {string} The icon URL of a package. */
-qx.Class.ICON_PACKAGE      = "images/package18.gif";
+qx.Class.ICON_PACKAGE      = "api/package18.gif";
 /** {string} The icon URL of a package with warning. */
-qx.Class.ICON_PACKAGE_WARN = "images/package_warning18.gif";
+qx.Class.ICON_PACKAGE_WARN = "api/package_warning18.gif";
 
 
 /** {string} The icon URL of a class. */
-qx.Class.ICON_CLASS      = "images/class18.gif";
+qx.Class.ICON_CLASS      = "api/class18.gif";
 /** {string} The icon URL of a class with warning. */
-qx.Class.ICON_CLASS_WARN = "images/class_warning18.gif";
+qx.Class.ICON_CLASS_WARN = "api/class_warning18.gif";
 
 /** {string} The icon URL of a static class. */
-qx.Class.ICON_CLASS_STATIC      = "images/class_static18.gif";
+qx.Class.ICON_CLASS_STATIC      = "api/class_static18.gif";
 /** {string} The icon URL of a static class with warning. */
-qx.Class.ICON_CLASS_STATIC_WARN = "images/class_static_warning18.gif";
+qx.Class.ICON_CLASS_STATIC_WARN = "api/class_static_warning18.gif";
 
 /** {string} The icon URL of an abstract class. */
-qx.Class.ICON_CLASS_ABSTRACT      = "images/class_abstract18.gif";
+qx.Class.ICON_CLASS_ABSTRACT      = "api/class_abstract18.gif";
 /** {string} The icon URL of an abstract class with warning. */
-qx.Class.ICON_CLASS_ABSTRACT_WARN = "images/class_abstract_warning18.gif";
+qx.Class.ICON_CLASS_ABSTRACT_WARN = "api/class_abstract_warning18.gif";
 
 
 /** {string} The icon URL of a property. */
-qx.Class.ICON_PROPERTY       = "images/property18.gif";
+qx.Class.ICON_PROPERTY       = "api/property18.gif";
 /** {string[]} The icon URL of a property with warning. */
 qx.Class.ICON_PROPERTY_WARN  = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_WARN ];
 /** {string[]} The icon URL of a property with error. */
@@ -240,7 +240,7 @@ qx.Class.ICON_PROPERTY_OVERRIDDEN_ERROR = [ qx.Class.ICON_PROPERTY, qx.Class.OVE
 
 
 /** {string} The icon URL of a public method. */
-qx.Class.ICON_METHOD_PUB       = "images/method_public18.gif";
+qx.Class.ICON_METHOD_PUB       = "api/method_public18.gif";
 /** {string[]} The icon URL of a public method with warning. */
 qx.Class.ICON_METHOD_PUB_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ERROR ];
 /** {string[]} The icon URL of a public method with error. */
@@ -288,13 +288,13 @@ qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PUB, 
 
 
 /** {string} The icon URL of a constructor. */
-qx.Class.ICON_METHOD_PUB_CTOR       = "images/constructor18.gif";
+qx.Class.ICON_METHOD_PUB_CTOR       = "api/constructor18.gif";
 /** {string[]} The icon URL of a constructor with error. */
 qx.Class.ICON_METHOD_PUB_CTOR_ERROR = [ qx.Class.ICON_METHOD_PUB_CTOR, qx.Class.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of a protected method. */
-qx.Class.ICON_METHOD_PROT       = "images/method_protected18.gif";
+qx.Class.ICON_METHOD_PROT       = "api/method_protected18.gif";
 /** {string[]} The icon URL of a protected method with warning. */
 qx.Class.ICON_METHOD_PROT_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ERROR ];
 /** {string[]} The icon URL of a protected method with error. */
@@ -335,6 +335,6 @@ qx.Class.ICON_METHOD_PROT_ABSTRACT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PROT
 
 
 /** {string} The icon URL of a constant. */
-qx.Class.ICON_CONSTANT       = "images/constant18.gif";
+qx.Class.ICON_CONSTANT       = "api/constant18.gif";
 /** {string[]} The icon URL of a constant with error. */
 qx.Class.ICON_CONSTANT_ERROR = [ qx.Class.ICON_CONSTANT, qx.Class.OVERLAY_ERROR ];
