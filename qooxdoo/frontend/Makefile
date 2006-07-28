@@ -57,7 +57,7 @@ generate-api:
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-api-documentation \
-	  --api-documentation-json-file api/jsondata.js
+	  --api-documentation-json-file api/build/jsondata.js
 
 
 
