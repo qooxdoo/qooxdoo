@@ -36,6 +36,7 @@ generate-build:
 	  --copy-resources
 
 source: generate-source
+
 build: generate-build
 	@cp -f source/index.html build/index.html
 
