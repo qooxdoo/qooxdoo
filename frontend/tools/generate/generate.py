@@ -630,17 +630,24 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       docgenerator.postWorkPackage(docTree, docTree)
 
     if options.apiDocumentationXmlFile != None:
-      print "  * Writing XML API file..."
+      print "  * Writing XML API file to %s" % options.apiDocumentationXmlFile
 
-      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n\n"
-      xmlContent += tree.nodeToXmlString(docTree)
+      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n"
+
+      if options.addNewLines:
+        xmlContent += "\n" + tree.nodeToXmlString(docTree)
+      else:
+        xmlContent += tree.nodeToXmlString(docTree, "", "", "")
 
       filetool(options.apiDocumentationXmlFile, xmlContent, options.encoding)
 
     if options.apiDocumentationJsonFile != None:
-      print "  * Writing JSON API file..."
+      print "  * Writing JSON API file to %s" % options.apiDocumentationJsonFile
 
-      jsonContent = tree.nodeToJsonString(docTree)
+      if options.addNewLines:
+        jsonContent = tree.nodeToJsonString(docTree)
+      else:
+        jsonContent = tree.nodeToJsonString(docTree, "", "", "")
 
       filetool(options.apiDocumentationJsonFile, jsonContent, options.encoding)
 
@@ -658,7 +665,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  CREATE COPY OF RESOURCES:"
     print "----------------------------------------------------------------------------"
 
-    print "  * Preparing target configuration..."
+    print "  * Preparing configuration..."
 
     overrideList = []
 
@@ -835,11 +842,19 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if options.addNewLines:
       for fileId in sortedIncludeList:
+        if fileDb[fileId]["sourceScriptPath"] == None:
+          print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
+          sys.exit(1)
+
         sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
 
     else:
       includeCode = ""
       for fileId in sortedIncludeList:
+        if fileDb[fileId]["sourceScriptPath"] == None:
+          print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
+          sys.exit(1)
+
         includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
