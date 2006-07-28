@@ -17,4 +17,4 @@ all:
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resources/qooxdoo/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resources/qooxdoo/static
 
-  @cp -f source/index.html build/index.html
+	@cp -f source/index.html build/index.html
