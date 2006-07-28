@@ -18,3 +18,9 @@ all:
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resources/qooxdoo/static
 
 	@cp -f source/index.html build/index.html
+
+clean:
+	rm -rf build/script/api.js
+
+realclean:
+	rm -rf build

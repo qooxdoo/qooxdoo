@@ -53,7 +53,7 @@ generate-source:
 	  --source-script-file source/demo/qx.js
 
 generate-api:
-	$(MAKE) -C api
+	$(MAKE) -C api all
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-api-documentation \
@@ -86,7 +86,7 @@ update-buildlayout: update-builddemo
 
 source: generate-source update-sourcelayout
 build: generate-build update-buildlayout
-
+docs: generate-api
 
 
 
@@ -99,6 +99,8 @@ build: generate-build update-buildlayout
 clean:
 	rm  -f source/demo/qx.js source/demo/demolayout.js source/demo/apiviewer/api.js
 	rm -rf build/demo build/script build/themes
+	$(MAKE) -C api clean
 
 realclean: clean
 	rm -rf public build release
+	$(MAKE) -C api realclean
