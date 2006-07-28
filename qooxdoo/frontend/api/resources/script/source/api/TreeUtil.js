@@ -1,7 +1,7 @@
 /**
  * A util class for handling the documentation tree.
  */
-qx.OO.defineClass("qx.apiviewer.TreeUtil", qx.core.Object, 
+qx.OO.defineClass("api.TreeUtil", qx.core.Object, 
 function () {
   qx.core.Object.call(this);
 });
@@ -60,7 +60,7 @@ qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) 
  *         no such item.
  */
 qx.Class.getItemDocNode = function(classNode, itemName) {
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var TreeUtil = api.TreeUtil;
 
   // Go through the item lists and check whether one contains the wanted item
   for (var i = 0; i < TreeUtil.ITEM_LIST_ARR.length; i++) {
@@ -164,7 +164,7 @@ qx.Class.getIconUrl = function(node, inherited) {
     constName += "_WARN";
   }
 
-  var iconUrl = qx.apiviewer.TreeUtil[constName];
+  var iconUrl = api.TreeUtil[constName];
   if (iconUrl == null) {
     throw new Error("Unknown img constant: " + constName);
   }

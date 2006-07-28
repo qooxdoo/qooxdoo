@@ -4,11 +4,11 @@
  * @param clientWindow {qx.client.ClientWindow} the window were to show the API
  *        documentation.
  */
-qx.OO.defineClass("qx.apiviewer.ApiViewer", qx.core.Object,
+qx.OO.defineClass("api.ApiViewer", qx.core.Object,
 function (clientWindow) {
   qx.core.Object.call(this);
 
-  var ApiViewer = qx.apiviewer.ApiViewer;
+  var ApiViewer = api.ApiViewer;
 
   this._titlePrefix = document.title;
 
@@ -28,7 +28,7 @@ function (clientWindow) {
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   boxLayout.add(this._tree);
 
-  this._detailViewer = new qx.apiviewer.DetailViewer;
+  this._detailViewer = new api.DetailViewer;
   boxLayout.add(this._detailViewer);
 
   this._currentTreeType = ApiViewer.PACKAGE_TREE;
@@ -41,7 +41,7 @@ function (clientWindow) {
 
   clientWindow.getClientDocument().add(boxLayout);
 
-  qx.apiviewer.ApiViewer.instance = this;
+  api.ApiViewer.instance = this;
 
   qx.client.History.init();
   qx.client.History.addEventListener("request", this._onHistoryRequest, this);
@@ -128,8 +128,8 @@ qx.Proto._updateTree = function(docTree) {
  * @param docNode {Map} the documentation node of the package.
  */
 qx.Proto._fillPackageNode = function(treeNode, docNode) {
-  var ApiViewer = qx.apiviewer.ApiViewer;
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var ApiViewer = api.ApiViewer;
+  var TreeUtil = api.TreeUtil;
 
   var packagesDocNode = TreeUtil.getChild(docNode, "packages");
   if (packagesDocNode && packagesDocNode.children) {
@@ -179,8 +179,8 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
  * @param docTree {Map} the documentation tree.
  */
 qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree) {
-  var ApiViewer = qx.apiviewer.ApiViewer;
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var ApiViewer = api.ApiViewer;
+  var TreeUtil = api.TreeUtil;
 
   // Create the tree node
   var iconUrl = TreeUtil.getIconUrl(classDocNode);

@@ -1,4 +1,4 @@
-qx.OO.defineClass("qx.apiviewer.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme.constructor,
+qx.OO.defineClass("api.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme.constructor,
 function() {
   qx.theme.appearance.DefaultAppearanceTheme.constructor.call(this, "api appearance");
 });
@@ -104,4 +104,4 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 ---------------------------------------------------------------------------
 */
 
-qx.apiviewer.ApiTheme = new qx.apiviewer.ApiTheme;
+api.ApiTheme = new api.ApiTheme;
