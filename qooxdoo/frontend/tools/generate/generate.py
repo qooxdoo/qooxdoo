@@ -86,6 +86,9 @@ def getparser():
   # Options for token storage
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files. (Debugging)")
 
+  # Cache Directory
+  parser.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
+
 
 
 
@@ -298,6 +301,11 @@ def load(options):
     for directory in options.scriptInput:
       options.scriptInput[i] = os.path.normpath(options.scriptInput[i])
       i+=1
+
+  if options.cacheDirectory:
+    options.cacheDirectory = os.path.normpath(options.cacheDirectory)
+    if not os.path.exists(options.cacheDirectory):
+      os.makedirs(options.cacheDirectory)
 
   print "  * Loading JavaScript files..."
 

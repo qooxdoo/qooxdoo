@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random
+import sys, string, re, os, random, pickle, cPickle
 import config, tokenizer, treegenerator
 
 
@@ -96,28 +96,100 @@ def extractResources(data):
 
 
 
-def indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb={}, moduleDb={}):
-  # Read file content and extract ID from content definition
-  fileContent = file(filePath, "r").read()
-  fileContentId = extractFileContentId(fileContent)
+def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
+  print "    - %s" % filePathId,
 
-  # Search for valid ID
-  if fileContentId == None:
+  # Modification time
+  fileModTime = os.stat(filePath).st_mtime
+
+  if options.cacheDirectory:
+    fileCacheName = os.path.join(options.cacheDirectory, filePathId + ".cache")
+
+    try:
+      cacheModTime = os.stat(fileCacheName).st_mtime
+    except OSError:
+      cacheModTime = 0
+
+  # If we must read the file again
+  if fileModTime <= cacheModTime:
+
+    # We hope the ID is valid (saves one file read!)
     fileId = filePathId
-    print "    * Could not extract ID from file: %s. Using fileName!" % fileId
+
+    # Use Cache
+    try:
+      fileDb[fileId] = cPickle.load(open(fileCacheName))
+
+    except EOFError or PickleError or UnpicklingError:
+      cacheModTime = 0
+      print "      - Error while reading! Ignore cache"
+
+  if fileModTime > cacheModTime:
+    print "=> parse..."
+
+    useCache = True
+
+    # Read file content and extract ID from content definition
+    fileContent = file(filePath, "r").read()
+    fileContentId = extractFileContentId(fileContent)
+
+    # Search for valid ID
+    if fileContentId == None:
+      fileId = filePathId
+      print "    * Could not extract ID from file: %s. Using fileName!" % fileId
+      useCache = False
+
+    else:
+      fileId = fileContentId
+
+      if fileContentId != filePathId:
+        print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+        useCache = False
+
+    # Structuring
+    tokens = tokenizer.parseStream(fileContent, fileId)
+    tree = treegenerator.createSyntaxTree(tokens)
+
+    # Store file data
+    fileDb[fileId] = {
+      "scriptInput" : scriptInput,
+      "modificationTime" : fileModTime,
+      "path" : filePath,
+      "content" : fileContent,
+      "tokens" : tokens,
+      "tree" : tree,
+      "optionalDeps" : extractOptionalDeps(fileContent),
+      "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
+      "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+      "resources" : extractResources(fileContent),
+      "modules" : extractModules(fileContent)
+    }
+
+    if useCache:
+      try:
+        cPickle.dump(fileDb[fileId], open(fileCacheName,'w'), 2)
+
+      except EOFError or PickleError or PicklingError:
+        print "      - Could not store cache file!"
 
   else:
-    fileId = fileContentId
+    print "=> cached"
 
-    if fileContentId != filePathId:
-      print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+  # Register file to module data
+  for moduleId in fileDb[fileId]["modules"]:
+    if moduleDb.has_key(moduleId):
+      moduleDb[moduleId].append(fileId)
+    else:
+      moduleDb[moduleId] = [ fileId ]
 
-  print "    - %s" % fileId
+  # Store additional data (non-cached data)
+  fileDb[fileId]["resourceInput"] = resourceInput
+  fileDb[fileId]["resourceOutput"] = resourceOutput
+  fileDb[fileId]["sourceScriptPath"] = sourceScriptPath
+  fileDb[fileId]["listIndex"] = listIndex
 
-  # Structuring
-  tokens = tokenizer.parseStream(fileContent, fileId)
-  tree = treegenerator.createSyntaxTree(tokens)
 
+def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
   # Search for other indexed lists
   if len(options.sourceScriptPath) > listIndex:
     sourceScriptPath = options.sourceScriptPath[listIndex]
@@ -134,32 +206,6 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb={}, 
   else:
     resourceOutput = None
 
-  # Store file data
-  fileDb[fileId] = {
-    "scriptInput" : scriptInput,
-    "sourceScriptPath" : sourceScriptPath,
-    "resourceInput" : resourceInput,
-    "resourceOutput" : resourceOutput,
-    "listIndex" : listIndex,
-    "path" : filePath,
-    "content" : fileContent,
-    "tokens" : tokens,
-    "tree" : tree,
-    "optionalDeps" : extractOptionalDeps(fileContent),
-    "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
-    "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
-    "resources" : extractResources(fileContent)
-  }
-
-  # Register file to module data
-  for moduleId in extractModules(fileContent):
-    if moduleDb.has_key(moduleId):
-      moduleDb[moduleId].append(fileId)
-    else:
-      moduleDb[moduleId] = [ fileId ]
-
-
-def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
   for root, dirs, files in os.walk(scriptInput):
 
     # Filter ignored directories
@@ -173,7 +219,7 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
         filePath = os.path.join(root, fileName)
         filePathId = os.path.join(root.replace(scriptInput + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, scriptInput, listIndex, options, fileDb, moduleDb)
+        indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
 
 
 def indexScriptInput(options):
