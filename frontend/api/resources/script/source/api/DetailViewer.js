@@ -30,7 +30,7 @@ qx.Proto._syncHtml = function() {
 
   document._detailViewer = this;
 
-  this._infoPanelHash = {}
+  this._infoPanelHash = {};
 
   var html = "";
 
@@ -137,7 +137,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
     hasInheritedCheckBox:addInheritedCheckBox }
   this._infoPanelHash[nodeType] = typeInfo;
 
-  var html = '<div class="infoPanel"><h2>'
+  var html = '<div class="infoPanel"><h2>';
 
   if (addInheritedCheckBox) {
     html += '<span class="inheritCheck"><input type="checkbox" id="chk_' + nodeType + '" '
@@ -145,7 +145,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
       + '<label for="chk_' + nodeType + '">Show inherited</label></span>';
   }
 
-  html += '<img class="openclose" src="images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
+  html += '<img class="openclose" src="resources/images/' + (isOpen ? 'close.gif' : 'open.gif') + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
     + '<span '
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">"
@@ -195,7 +195,7 @@ qx.Proto.showClass = function(classNode) {
   titleHtml += '</span>';
   titleHtml += classNode.attributes.name;
 
-  this._titleElem.innerHTML = titleHtml
+  this._titleElem.innerHTML = titleHtml;
 
   var classHtml = "";
 
@@ -212,7 +212,7 @@ qx.Proto.showClass = function(classNode) {
   }
 
   // Create the class hierarchy
-  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + DetailViewer.DIV_END
+  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + DetailViewer.DIV_END;
 
   var classHierarchy = [];
   var currClass = classNode;
@@ -223,13 +223,13 @@ qx.Proto.showClass = function(classNode) {
   this._currentClassHierarchy = classHierarchy;
 
   // Add the class hierarchy
-  classHtml += DetailViewer.createImageHtml("images/class18.gif") + "Object<br/>";
+  classHtml += DetailViewer.createImageHtml("resources/images/class18.gif") + "Object<br/>";
   var indent = 0;
   for (var i = classHierarchy.length - 1; i >= 0; i--) {
-    classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "margin-left:" + indent + "px")
+    classHtml += DetailViewer.createImageHtml("resources/images/nextlevel.gif", null, "margin-left:" + indent + "px")
       + DetailViewer.createImageHtml(api.TreeUtil.getIconUrl(classHierarchy[i]));
     if (i != 0) {
-      classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false)
+      classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
     } else {
       classHtml += classHierarchy[i].attributes.fullName;
     }
@@ -329,7 +329,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     if (typeInfo.showInherited) {
       nodeArr = [];
       fromClassArr = [];
-      fromClassHash = {}
+      fromClassHash = {};
       var currClassNode = this._currentClassDocNode;
       while (currClassNode != null) {
         var currParentNode = api.TreeUtil.getChild(currClassNode, typeInfo.listName);
@@ -386,7 +386,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
         if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
         {
           // This node has details -> Show the detail button
-          html += '<img src="images/open.gif"'
+          html += '<img src="resources/images/open.gif"'
             + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
             + node.attributes.name + "'"
             + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
@@ -397,7 +397,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
         html += '<td class="text">';
 
           // Create headline
-          html += '<h3'
+          html += '<h3';
 
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
           {
@@ -415,7 +415,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
           html += '</h3>';
 
           // Create content area
-          html += '<div _itemName="' + nodeArr[i].attributes.name + '">'
+          html += '<div _itemName="' + nodeArr[i].attributes.name + '">';
             html += info.textHtml;
           html += '</div>';
 
@@ -479,7 +479,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
 
     // Update the close/open image
     var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
-    opencloseImgElem.src = showDetails ? 'images/close.gif' : 'images/open.gif';
+    opencloseImgElem.src = showDetails ? 'resources/images/close.gif' : 'resources/images/open.gif';
 
     // Update content
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
@@ -524,7 +524,7 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
     typeInfo.isOpen = !typeInfo.isOpen;
 
     var imgElem = typeInfo.infoTitleElem.getElementsByTagName("img")[0];
-    imgElem.src = typeInfo.isOpen ? 'images/close.gif' : 'images/open.gif';
+    imgElem.src = typeInfo.isOpen ? 'resources/images/close.gif' : 'resources/images/open.gif';
 
     this._updateInfoPanel(nodeType);
   } catch (exc) {
@@ -1360,7 +1360,7 @@ qx.Class.SPAN_END = '</span>';
  */
 qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
-    return '<img src="' + imgUrl + '" class="img"'
+    return '<img src="' + qx.manager.object.ImageManager.buildUri(imgUrl) + '" class="img"'
       + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
   } else {
     if (styleAttributes) {
@@ -1396,10 +1396,10 @@ qx.Class.createOverlayImageHtml
     if (toolTip != null) {
       html += ' title="' + toolTip + '"';
     }
-    html += ' style="position:absolute;top:0px;left:0px" src="' + imgUrlArr[i] + '"/>';
+    html += ' style="position:absolute;top:0px;left:0px" src="' + qx.manager.object.ImageManager.buildUri(imgUrlArr[i]) + '"/>';
   }
 
-  html += '</div>'
+  html += '</div>';
 
   /*
   // NOTE: See testOverlay.html

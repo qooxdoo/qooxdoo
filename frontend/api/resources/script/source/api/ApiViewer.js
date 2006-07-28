@@ -20,7 +20,7 @@ function (clientWindow) {
 
   boxLayout.setEdge(0);
 
-  this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation")
+  this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation");
   this._tree.set({
     backgroundColor: "white",
     border: qx.renderer.border.BorderObject.presets.black,
@@ -39,9 +39,9 @@ function (clientWindow) {
 
   // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
   //             maintain a hash that keeps the tree nodes for class names
-  this._classTreeNodeHash = {}
-  this._classTreeNodeHash[ApiViewer.PACKAGE_TREE] = {}
-  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE] = {}
+  this._classTreeNodeHash = {};
+  this._classTreeNodeHash[ApiViewer.PACKAGE_TREE] = {};
+  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE] = {};
 
   clientWindow.getClientDocument().add(boxLayout);
 
@@ -164,7 +164,7 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
       treeNode.add(classTreeNode);
 
       // Register the tree node
-      this._classTreeNodeHash[ApiViewer.PACKAGE_TREE][classDocNode.attributes.fullName] = classTreeNode
+      this._classTreeNodeHash[ApiViewer.PACKAGE_TREE][classDocNode.attributes.fullName] = classTreeNode;
 
       // Check whether this is a top-level-class
       if (classDocNode.attributes.superClass == null) {
@@ -194,7 +194,7 @@ qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree
   parentTreeNode.add(classTreeNode);
 
   // Register the tree node
-  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE][classDocNode.attributes.fullName] = classTreeNode
+  this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE][classDocNode.attributes.fullName] = classTreeNode;
 
   // Add all child classes
   var childClassNameCsv = classDocNode.attributes.childClasses;
@@ -258,7 +258,7 @@ qx.Proto.selectItem = function(fullItemName) {
 
     var parenPos = itemName.indexOf("(");
     if (parenPos != -1) {
-      itemName = qx.lang.String.trim(itemName.substring(0, parenPos))
+      itemName = qx.lang.String.trim(itemName.substring(0, parenPos));
     }
   }
 

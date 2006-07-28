@@ -2,7 +2,7 @@
 #module(api)
 */
 
-qx.OO.defineClass("api.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme.constructor,
+qx.OO.defineClass("api.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme,
 function() {
   qx.theme.appearance.DefaultAppearanceTheme.constructor.call(this, "api appearance");
 });
@@ -26,7 +26,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         paddingTop: 10,
         paddingBottom: 10,
         spacing: 10
-      }
+      };
     }
   },
 
@@ -40,7 +40,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme) {
       return {
         font: this.font
-      }
+      };
     }
   },
 
@@ -52,7 +52,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         paddingRight: 2,
         paddingTop: 2,
         paddingBottom: 2
-      }
+      };
     }
   },
 
@@ -65,7 +65,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme) {
       return {
         border: this.border
-      }
+      };
     }
   },
 
@@ -78,7 +78,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme) {
       return {
         backgroundColor: this.bgcolor
-      }
+      };
     }
   },
 
@@ -93,7 +93,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return {
         font: this.font,
         paddingLeft: 4
-      }
+      };
     }
   }
 }, qx.Super.prototype._appearances);
@@ -108,4 +108,4 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 ---------------------------------------------------------------------------
 */
 
-api.ApiTheme = new api.ApiTheme;
+qx.manager.object.SingletonManager.add(api, "ApiTheme");

@@ -53,22 +53,11 @@ generate-source:
 	  --source-script-file source/demo/qx.js
 
 generate-api:
+	$(MAKE) -C api
 	@tools/generate/generate.py \
 	  --script-input source/script \
 	  --generate-api-documentation \
-	  --api-documentation-json-file source/demo/apiviewer/api.js
-
-  # Test
-  #  @tools/generate/generate.py \
-  #  --source-directory source/script \
-  #  --source-directory docs/script \
-  #  --include qx.apiviewer.ApiViewer \
-  #  --compile-source \
-  #  --compile-output-directory docs \
-  #  --generate-api \
-  #  --api-output-directory docs \
-  #  --generate-json-api
-
+	  --api-documentation-json-file api/jsondata.js
 
 
 
