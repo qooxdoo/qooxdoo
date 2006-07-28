@@ -11,7 +11,7 @@
     qx.core.Init.defineMain(function()
     {
       qx.manager.object.ImageManager.defineAlias("images", "images");
-      var viewer = new qx.apiviewer.ApiViewer(this.getClientWindow());
+      var viewer = new api.ApiViewer(this.getClientWindow());
       viewer.loadDocTreeFromUrl("api.js");
     });
     </script>

@@ -1,7 +1,7 @@
 /**
  * Shows the class details.
  */
-qx.OO.defineClass("qx.apiviewer.DetailViewer", qx.ui.embed.HtmlEmbed,
+qx.OO.defineClass("api.DetailViewer", qx.ui.embed.HtmlEmbed,
 function() {
   qx.ui.embed.HtmlEmbed.call(this);
 
@@ -13,7 +13,7 @@ function() {
   this.setHtmlProperty("id", "DetailViewer");
   this.setVisibility(false);
 
-  qx.apiviewer.DetailViewer.instance = this;
+  api.DetailViewer.instance = this;
 });
 
 
@@ -22,7 +22,7 @@ function() {
  * HtmlEmbed element initialization routine.
  */
 qx.Proto._syncHtml = function() {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
   document._detailViewer = this;
 
@@ -173,7 +173,7 @@ qx.Proto.showClass = function(classNode) {
     return;
   }
 
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
   var titleHtml = "";
 
@@ -196,7 +196,7 @@ qx.Proto.showClass = function(classNode) {
   var classHtml = "";
 
    // Add the class description
-  var ctorList = qx.apiviewer.TreeUtil.getChild(classNode, "constructor");
+  var ctorList = api.TreeUtil.getChild(classNode, "constructor");
   if (ctorList) {
     var desc = this._createDescHtml(ctorList.children[0], classNode, true);
 
@@ -223,7 +223,7 @@ qx.Proto.showClass = function(classNode) {
   var indent = 0;
   for (var i = classHierarchy.length - 1; i >= 0; i--) {
     classHtml += DetailViewer.createImageHtml("images/nextlevel.gif", null, "margin-left:" + indent + "px")
-      + DetailViewer.createImageHtml(qx.apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
+      + DetailViewer.createImageHtml(api.TreeUtil.getIconUrl(classHierarchy[i]));
     if (i != 0) {
       classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false)
     } else {
@@ -276,7 +276,7 @@ qx.Proto.showClass = function(classNode) {
  * @param itemName {string} the name of the item to highlight.
  */
 qx.Proto.showItem = function(itemName) {
-  var itemNode = qx.apiviewer.TreeUtil.getItemDocNode(this._currentClassDocNode, itemName);
+  var itemNode = api.TreeUtil.getItemDocNode(this._currentClassDocNode, itemName);
   if (! itemNode) {
     alert("Item '" + itemName + "' not found");
   }
@@ -314,7 +314,7 @@ qx.Proto.showItem = function(itemName) {
  * @param nodeType {int} the node type of which to update the info panel.
  */
 qx.Proto._updateInfoPanel = function(nodeType) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -328,7 +328,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       fromClassHash = {}
       var currClassNode = this._currentClassDocNode;
       while (currClassNode != null) {
-        var currParentNode = qx.apiviewer.TreeUtil.getChild(currClassNode, typeInfo.listName);
+        var currParentNode = api.TreeUtil.getChild(currClassNode, typeInfo.listName);
         var currNodeArr = currParentNode ? currParentNode.children : null;
         if (currNodeArr) {
           // Add the nodes from this class
@@ -350,7 +350,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
         return (obj1.attributes.name < obj2.attributes.name) ? -1 : 1;
       });
     } else {
-      var parentNode = qx.apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
+      var parentNode = api.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
       nodeArr = parentNode ? parentNode.children : null;
     }
   }
@@ -370,7 +370,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 
       var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
       var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
-      var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(node, inherited);
+      var iconUrl = api.TreeUtil.getIconUrl(node, inherited);
 
       // Create the title row
       html += '<tr>';
@@ -465,12 +465,12 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
       fromClassNode = this._getClassDocNode(fromClassName);
     }
 
-    var listNode = qx.apiviewer.TreeUtil.getChild(fromClassNode, typeInfo.listName);
+    var listNode = api.TreeUtil.getChild(fromClassNode, typeInfo.listName);
     var node;
-    if (nodeType == qx.apiviewer.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
+    if (nodeType == api.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
       node = listNode.children[0];
     } else {
-      node = qx.apiviewer.TreeUtil.getChildByAttribute(listNode, "name", name);
+      node = api.TreeUtil.getChildByAttribute(listNode, "name", name);
     }
 
     // Update the close/open image
@@ -558,7 +558,7 @@ qx.Proto._getItemElement = function(nodeType, name) {
  */
 qx.Proto._selectItem = function(itemName) {
   try {
-    qx.apiviewer.ApiViewer.instance.selectItem(itemName);
+    api.ApiViewer.instance.selectItem(itemName);
     qx.ui.core.Widget.flushGlobalQueues();
   } catch (exc) {
     this.error("Selecting item '" + itemName + "' failed", exc);
@@ -574,7 +574,7 @@ qx.Proto._selectItem = function(itemName) {
  */
 qx.Proto._getClassDocNode = function(className) {
   if (className) {
-    return qx.apiviewer.TreeUtil.getClassDocNode(qx.apiviewer.ApiViewer.instance.getDocTree(), className);
+    return api.TreeUtil.getClassDocNode(api.ApiViewer.instance.getDocTree(), className);
   } else {
     return null;
   }
@@ -591,7 +591,7 @@ qx.Proto._getClassDocNode = function(className) {
  * @return {string} the HTML showing the information about the property.
  */
 qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
   var info = {}
 
@@ -602,8 +602,8 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
   var docNode = node;
   if (node.attributes.docFrom) {
     docClassNode = this._getClassDocNode(node.attributes.docFrom);
-    var listNode = qx.apiviewer.TreeUtil.getChild(docClassNode, typeInfo.listName);
-    docNode = qx.apiviewer.TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
+    var listNode = api.TreeUtil.getChild(docClassNode, typeInfo.listName);
+    docNode = api.TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
   }
 
   // Add the title
@@ -689,7 +689,7 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
  * @return {boolean} whether the method has details.
  */
 qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var TreeUtil = api.TreeUtil;
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -727,8 +727,8 @@ qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
  * @return {string} the HTML showing the information about the method.
  */
 qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var DetailViewer = api.DetailViewer;
+  var TreeUtil = api.TreeUtil;
 
   var info = {}
 
@@ -904,10 +904,10 @@ qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetai
  * @return {boolean} whether the description of an item has details.
  */
 qx.Proto._descHasDetails = function(node) {
-  var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
+  var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
     var desc = descNode.attributes.text;
-    var hit = qx.apiviewer.DetailViewer.SENTENCE_END_REGEX.exec(desc);
+    var hit = api.DetailViewer.SENTENCE_END_REGEX.exec(desc);
     if (hit != null) {
       return desc.length != hit.index + hit[0].length;
     } else {
@@ -929,15 +929,15 @@ qx.Proto._descHasDetails = function(node) {
  * @return {string} the HTML showing the description.
  */
 qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
-  var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
+  var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
     var desc = descNode.attributes.text;
     if (!showDetails) {
       desc = this._extractFirstSentence(desc);
     }
-    return qx.apiviewer.DetailViewer.DIV_START_DESC
+    return api.DetailViewer.DIV_START_DESC
       + this._createDescriptionHtml(desc, fromClassNode)
-      + qx.apiviewer.DetailViewer.DIV_END;
+      + api.DetailViewer.DIV_END;
   } else {
     return "";
   }
@@ -953,7 +953,7 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
 qx.Proto._extractFirstSentence = function(text) {
   // Look for a point followed by white space, but don't match if there is
   // a point two chars before, like in "e.g. "
-  var hit = qx.apiviewer.DetailViewer.SENTENCE_END_REGEX.exec(text);
+  var hit = api.DetailViewer.SENTENCE_END_REGEX.exec(text);
   if (hit != null) {
     return text.substring(0, hit.index + hit[0].length);
   } else {
@@ -969,7 +969,7 @@ qx.Proto._extractFirstSentence = function(text) {
  * @return {boolean} whether the item has &#64;see attributes.
  */
 qx.Proto._hasSeeAlsoHtml = function(node) {
-  var TreeUtil = qx.apiviewer.TreeUtil;
+  var TreeUtil = api.TreeUtil;
 
   var descNode = TreeUtil.getChild(node, "desc");
   if (descNode) {
@@ -995,11 +995,11 @@ qx.Proto._hasSeeAlsoHtml = function(node) {
  * @return {string} the HTML showing the &#64;see attributes.
  */
 qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
-  var descNode = qx.apiviewer.TreeUtil.getChild(node, "desc");
+  var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
-    var attributesNode = qx.apiviewer.TreeUtil.getChild(descNode, "attributes");
+    var attributesNode = api.TreeUtil.getChild(descNode, "attributes");
     if (attributesNode) {
       var seeAlsoHtml = "";
       for (var i = 0; i < attributesNode.children.length; i++) {
@@ -1033,7 +1033,7 @@ qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
  * @return {boolean} whether the item has documentation errors.
  */
 qx.Proto._hasErrorHtml = function(node) {
-  var errorNode = qx.apiviewer.TreeUtil.getChild(node, "errors");
+  var errorNode = api.TreeUtil.getChild(node, "errors");
   return (errorNode != null);
 }
 
@@ -1046,9 +1046,9 @@ qx.Proto._hasErrorHtml = function(node) {
  * @return {string} the HTML showing the documentation errors.
  */
 qx.Proto._createErrorHtml = function(node, fromClassNode) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
-  var errorNode = qx.apiviewer.TreeUtil.getChild(node, "errors");
+  var errorNode = api.TreeUtil.getChild(node, "errors");
   if (errorNode) {
     var html = DetailViewer.DIV_START_ERROR_HEADLINE + "Documentation errors:" + DetailViewer.DIV_END;
     var errArr = errorNode.children;
@@ -1095,7 +1095,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
   if (typeName == null) {
     typeHtml = defaultType;
   } else {
-    if (qx.apiviewer.DetailViewer.PRIMITIVES[typeName]) {
+    if (api.DetailViewer.PRIMITIVES[typeName]) {
       typeHtml = typeName;
     } else {
       var linkText = typeName;
@@ -1174,7 +1174,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
     // This is a link to another class or method -> Create an item link
 
     // Separate item name from label
-    var hit = qx.apiviewer.DetailViewer.ITEM_SPEC_REGEX.exec(linkText);
+    var hit = api.DetailViewer.ITEM_SPEC_REGEX.exec(linkText);
     if (hit == null) {
       // Malformed item name
       return linkText;
@@ -1213,14 +1213,14 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
             if (parenPos != -1) {
               cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
             }
-            itemNode = qx.apiviewer.TreeUtil.getItemDocNode(classNode, cleanItemName);
+            itemNode = api.TreeUtil.getItemDocNode(classNode, cleanItemName);
           } else {
             // The links points to the class
             itemNode = classNode;
           }
           if (itemNode) {
-            var iconUrl = qx.apiviewer.TreeUtil.getIconUrl(itemNode);
-            var iconCode = qx.apiviewer.DetailViewer.createImageHtml(iconUrl);
+            var iconUrl = api.TreeUtil.getIconUrl(itemNode);
+            var iconCode = api.DetailViewer.createImageHtml(iconUrl);
           }
         }
       }
@@ -1246,7 +1246,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
  * @return {int} the item's node type.
  */
 qx.Proto._getTypeForItemNode = function(itemNode) {
-  var DetailViewer = qx.apiviewer.DetailViewer;
+  var DetailViewer = api.DetailViewer;
 
   if (itemNode.type == "constant") {
     return DetailViewer.NODE_TYPE_CONSTANT;
@@ -1364,7 +1364,7 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
     } else {
       styleAttributes = "vertical-align:top";
     }
-    return qx.apiviewer.DetailViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
+    return api.DetailViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
   }
 }
 
