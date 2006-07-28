@@ -412,7 +412,7 @@ qx.Proto.getResponseContent = function()
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
-        return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
+        return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: (" + vText + ")", ex);
       }

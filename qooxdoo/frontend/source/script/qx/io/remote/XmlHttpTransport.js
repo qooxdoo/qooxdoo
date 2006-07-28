@@ -568,14 +568,14 @@ qx.Proto.getResponseContent = function()
 
     case qx.constant.Mime.JSON:
       try {
-        return qx.io.Json.parseQx(vText);
+        return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: [" + vText + "]", ex);
       }
 
     case qx.constant.Mime.JAVASCRIPT:
       try {
-        return vText && vText.length > 0 ? window.eval("(" + vText + ")") : null;
+        return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: [" + vText + "]", ex);
       }
