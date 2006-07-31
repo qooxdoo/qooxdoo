@@ -2,49 +2,49 @@ all: source build
 
 generate-source:
 	@../tools/generate/generate.py \
-	  --script-input ../source/script \
-	  --source-script-path ../../source/script \
-	  --script-input source/script \
-	  --source-script-path script \
+	  --script-input ../source/class \
+	  --source-script-path ../../source/class \
+	  --script-input source/class \
+	  --source-script-path class \
 	  --include api \
 	  --include qx.theme.color.WindowsRoyaleColorTheme \
 	  --include qx.theme.icon.CrystalSvgIconTheme \
 	  --include qx.theme.widget.WindowsWidgetTheme \
 	  --generate-source-script \
-	  --source-script-file source/dist/api.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../source/resources/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../source/resources/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../source/resources/static \
+	  --source-script-file source/script/api.js \
+	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../source/resource/icon/crystalsvg \
+	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../source/resource/widget/windows \
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../source/resource/static \
 	  --cache-directory ../.cache
 
 generate-build:
 	@../tools/generate/generate.py \
-	  --script-input ../source/script \
-	  --resource-input ../source/resources \
-	  --resource-output build/resources/qooxdoo \
-	  --script-input source/script \
-	  --resource-input source/resources \
-	  --resource-output build/resources \
+	  --script-input ../source/class \
+	  --resource-input ../source/resource \
+	  --resource-output build/resource/qooxdoo \
+	  --script-input source/class \
+	  --resource-input source/resource \
+	  --resource-output build/resource \
 	  --include api \
 	  --include qx.theme.color.WindowsRoyaleColorTheme \
 	  --include qx.theme.icon.CrystalSvgIconTheme \
 	  --include qx.theme.widget.WindowsWidgetTheme \
 	  --generate-compiled-script \
-	  --compiled-script-file build/dist/api.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resources/qooxdoo/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resources/qooxdoo/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resources/qooxdoo/static \
-	  --copy-resources \
+	  --compiled-script-file build/script/api.js \
+	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resource/qooxdoo/icon/crystalsvg \
+	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resource/qooxdoo/static \
+	  --copy-resource \
 	  --cache-directory ../.cache
 
 source: generate-source
 
 build: generate-build
-	@cp -f source/index.html build/index.html
+	cp -f source/index.html build/index.html
 
 clean:
-	rm -f source/dist/api.js
-	rm -f build/dist/api.js
+	rm -f source/script/api.js
+	rm -f build/script/api.js
 
 realclean: clean
 	rm -rf build
