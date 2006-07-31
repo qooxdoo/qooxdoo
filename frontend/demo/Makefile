@@ -12,7 +12,7 @@ CACHE=../.cache
 # DEFAULT TARGET
 ###################################################################################
 
-all: generate-all update-sourcelayout update-buildlayout
+all: source build
 
 
 
@@ -41,34 +41,6 @@ realclean: clean
 # GENERATE TARGETS
 ###################################################################################
 
-generate-all:
-	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --generate-compiled-script \
-	  --compiled-script-file build/script/qx.js \
-	  --copy-resource \
-	  --resource-input $(FRAMEWORK)/source/resource \
-	  --resource-output build/resource \
-	  --source-script-path ../$(FRAMEWORK)/source/class \
-	  --generate-source-script \
-	  --source-script-file source/script/qx.js \
-	  --cache-directory $(CACHE)
-
-generate-compile:
-	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --generate-compiled-script \
-	  --compiled-script-file build/script/qx.js \
-	  --cache-directory $(CACHE)
-
-generate-resource:
-	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --copy-resource \
-	  --resource-input $(FRAMEWORK)/source/resource \
-	  --resource-output build/resource \
-	  --cache-directory $(CACHE)
-
 generate-build:
 	@$(GENERATE) \
 	  --script-input $(FRAMEWORK)/source/class \
@@ -77,15 +49,23 @@ generate-build:
 	  --copy-resource \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource \
-	  --cache-directory $(CACHE)
+	  --cache-directory $(CACHE) \
+	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../resource/icon/crystalsvg \
+	  --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../resource/icon/nuvola \
+	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../resource/widget/windows \
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../resource/static
 
 generate-source:
 	@$(GENERATE) \
 	  --script-input $(FRAMEWORK)/source/class \
-	  --source-script-path ../$(FRAMEWORK)/source/class \
+	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script \
 	  --source-script-file source/script/qx.js \
-	  --cache-directory $(CACHE)
+	  --cache-directory $(CACHE) \
+	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/crystalsvg \
+	  --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/nuvola \
+	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../../$(FRAMEWORK)/source/resource/widget/windows \
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../../$(FRAMEWORK)/source/resource/static
 
 
 
