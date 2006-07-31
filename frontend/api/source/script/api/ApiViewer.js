@@ -83,6 +83,11 @@ qx.Proto.loadDocTreeFromUrl = function(url)
     }
   }, this);
 
+  req.addEventListener("failed", function(evt)
+  {
+    this.error("Couldn't load file: " + url);
+  }, this);
+
   req.send();
 }
 
