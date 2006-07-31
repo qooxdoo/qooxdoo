@@ -97,7 +97,8 @@ update-sourcelayout:
 	@tool/make-demolayout.sh source/script/layout.js source/demo SOURCE
 
 update-builddemo:
-	@tool/make-demobuild.sh
+	mkdir -p build/demo
+  rsync --recursive --links --delete --include=*.html --exclude=*.in --exclude=.svn --exclude=qx.js source/demo/* build/demo
 
 update-buildlayout: update-builddemo
 	@tool/make-demolayout.sh build/script/layout.js build/demo BUILD
