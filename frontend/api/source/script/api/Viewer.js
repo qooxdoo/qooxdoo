@@ -7,7 +7,7 @@
 /**
  * The API viewer. Shows the API documentation.
  */
-qx.OO.defineClass("api.ApiViewer", qx.ui.layout.HorizontalBoxLayout,
+qx.OO.defineClass("api.Viewer", qx.ui.layout.HorizontalBoxLayout,
 function (vUrl) {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -134,7 +134,7 @@ qx.Proto._updateTree = function(docTree) {
  * @param docNode {Map} the documentation node of the package.
  */
 qx.Proto._fillPackageNode = function(treeNode, docNode) {
-  var ApiViewer = api.ApiViewer;
+  var ApiViewer = api.Viewer;
   var TreeUtil = api.TreeUtil;
 
   var packagesDocNode = TreeUtil.getChild(docNode, "packages");
@@ -185,7 +185,7 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
  * @param docTree {Map} the documentation tree.
  */
 qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree) {
-  var ApiViewer = api.ApiViewer;
+  var ApiViewer = api.Viewer;
   var TreeUtil = api.TreeUtil;
 
   // Create the tree node
