@@ -24,7 +24,6 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.renderer.border.BorderObject)
 #require(qx.ui.form.TextField)
 #require(qx.ui.basic.Image)
 #require(qx.client.Timer)
