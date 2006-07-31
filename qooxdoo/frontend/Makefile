@@ -13,7 +13,7 @@ all: update-buildlayout update-sourcelayout generate-all
 
 generate-all:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/demo/qx.js \
 	  --copy-resources \
@@ -26,14 +26,14 @@ generate-all:
 
 generate-compile:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/demo/qx.js \
 	  --cache-directory .cache
 
 generate-resources:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --copy-resources \
 	  --resource-input source/resources \
 	  --resource-output build/resources \
@@ -41,7 +41,7 @@ generate-resources:
 
 generate-build:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/demo/qx.js \
 	  --copy-resources \
@@ -51,7 +51,7 @@ generate-build:
 
 generate-source:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --source-script-path ../../script \
 	  --generate-source-script \
 	  --source-script-file source/demo/qx.js \
@@ -59,7 +59,7 @@ generate-source:
 
 generate-api:
 	@tools/generate/generate.py \
-	  --script-input source/script \
+	  --script-input source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file api/build/dist/data.js \
 	  --cache-directory .cache
@@ -111,7 +111,7 @@ clean:
 realclean: clean
 	rm -rf public build release
 	$(MAKE) -C api realclean
-	
+
 distclean: realclean
 	rm -rf .cache
 
