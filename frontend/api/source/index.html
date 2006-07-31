@@ -2,18 +2,18 @@
   <head>
     <title>qooxdoo API documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link type="text/css" rel="stylesheet" href="resources/css/apiviewer.css"/>
-    <script type="text/javascript" src="dist/api.js"></script>
+    <link type="text/css" rel="stylesheet" href="resource/css/apiviewer.css"/>
+    <script type="text/javascript" src="script/api.js"></script>
 
     <script type="text/javascript">
       qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
       qx.core.Init.defineInitialize(function() {
-        qx.manager.object.ImageManager.defineAlias("api", "resources/images");
+        qx.manager.object.ImageManager.defineAlias("api", "resource/image");
       });
 
       qx.core.Init.defineMain(function() {
-        this.add(new api.Viewer("dist/data.js"));
+        this.add(new api.Viewer("script/data.js"));
       });
     </script>
   </head>
