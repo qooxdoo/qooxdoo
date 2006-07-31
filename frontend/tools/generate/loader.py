@@ -101,6 +101,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
 
   # Modification time
   fileModTime = os.stat(filePath).st_mtime
+  cacheModTime = 0
 
   if options.cacheDirectory:
     fileCacheName = os.path.join(options.cacheDirectory, filePathId + ".cache")
@@ -152,10 +153,6 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
 
     # Store file data
     fileDb[fileId] = {
-      "scriptInput" : scriptInput,
-      "modificationTime" : fileModTime,
-      "path" : filePath,
-      "content" : fileContent,
       "tokens" : tokens,
       "tree" : tree,
       "optionalDeps" : extractOptionalDeps(fileContent),
@@ -183,6 +180,9 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
       moduleDb[moduleId] = [ fileId ]
 
   # Store additional data (non-cached data)
+  fileDb[fileId]["scriptInput"] = scriptInput
+  fileDb[fileId]["modificationTime"] = fileModTime
+  fileDb[fileId]["path"] = filePath
   fileDb[fileId]["resourceInput"] = resourceInput
   fileDb[fileId]["resourceOutput"] = resourceOutput
   fileDb[fileId]["sourceScriptPath"] = sourceScriptPath
