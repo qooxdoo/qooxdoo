@@ -5,10 +5,7 @@ DIST="$1"
 SCAN="$2"
 TITLE="$3"
 
-echo
-echo "  GENERATION OF DEMO $TITLE LAYOUT:"
-echo "----------------------------------------------------------------------------"
-echo "  * Generating layout script..."
+mkdir -p `dirname $DIST`
 
 cat $BASE > $DIST
 

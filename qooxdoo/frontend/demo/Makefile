@@ -94,11 +94,11 @@ generate-source:
 ###################################################################################
 
 update-sourcelayout:
-	@tool/layout.sh source/script/layout.js source/demo/html SOURCE
+	tool/layout.sh source/script/layout.js source/html SOURCE
 
 update-builddemo:
-	mkdir -p build/demo/html
-  rsync --recursive --links --delete --include=*.html --exclude=.svn source/demo/html/* build/demo/html
+	mkdir -p build/html
+	rsync --recursive --links --delete --include=*.html --exclude=.svn source/html/* build/html
 
 update-buildlayout: update-builddemo
-	@tool/layout.sh build/script/layout.js build/demo/html BUILD
+	tool/layout.sh build/script/layout.js build/html BUILD
