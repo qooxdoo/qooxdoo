@@ -98,7 +98,9 @@ update-sourcelayout:
 
 update-builddemo:
 	mkdir -p build/html
-	rsync --recursive --links --delete --include=*.html --exclude=.svn source/html/* build/html
+	rsync --recursive --links --delete --exclude=.svn source/html/* build/html
+	mkdir -p build/resource/css
+	rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
 
 update-buildlayout: update-builddemo
 	tool/layout.sh build/script/layout.js build/html BUILD
