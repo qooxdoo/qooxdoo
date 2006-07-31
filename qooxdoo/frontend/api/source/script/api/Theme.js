@@ -2,7 +2,7 @@
 #module(api)
 */
 
-qx.OO.defineClass("api.ApiTheme", qx.theme.appearance.DefaultAppearanceTheme,
+qx.OO.defineClass("api.Theme", qx.theme.appearance.DefaultAppearanceTheme,
 function() {
   qx.theme.appearance.DefaultAppearanceTheme.constructor.call(this, "api appearance");
 });
@@ -108,4 +108,4 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(api, "ApiTheme");
+qx.manager.object.SingletonManager.add(api, "Theme");
