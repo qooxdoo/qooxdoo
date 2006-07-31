@@ -1,7 +1,7 @@
 /*
 #module(api)
 #resource(css:css)
-#resource(images:images)
+#resource(images:image)
 */
 
 /**
@@ -29,15 +29,15 @@ function (vUrl) {
   this._detailViewer = new api.DetailViewer;
   this.add(this._detailViewer);
 
-  this._currentTreeType = api.ApiViewer.PACKAGE_TREE;
+  this._currentTreeType = api.Viewer.PACKAGE_TREE;
 
   // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
   //             maintain a hash that keeps the tree nodes for class names
   this._classTreeNodeHash = {};
-  this._classTreeNodeHash[api.ApiViewer.PACKAGE_TREE] = {};
-  this._classTreeNodeHash[api.ApiViewer.INHERITENCE_TREE] = {};
+  this._classTreeNodeHash[api.Viewer.PACKAGE_TREE] = {};
+  this._classTreeNodeHash[api.Viewer.INHERITENCE_TREE] = {};
 
-  api.ApiViewer.instance = this;
+  api.Viewer.instance = this;
 
   qx.client.History.init();
   qx.client.History.addEventListener("request", this._onHistoryRequest, this);

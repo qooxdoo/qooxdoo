@@ -1,9 +1,53 @@
+###################################################################################
+# VARIABLES
+###################################################################################
+
+FRAMEWORK=../framework
+GENERATE=../framework/tool/generate/generate.py
+CACHE=../.cache
+
+
+
+###################################################################################
+# DEFAULT TARGET
+###################################################################################
+
 all: source build
 
-generate-source:
-	@../tools/generate/generate.py \
-	  --script-input ../source/class \
-	  --source-script-path ../../source/class \
+
+
+###################################################################################
+# COMMON TARGETS
+###################################################################################
+
+source: generate-script-source generate-data-source
+
+build: generate-script-build generate-data-build
+	cp -f source/index.html build/index.html
+
+
+
+###################################################################################
+# CLEANUP TARGETS
+###################################################################################
+
+clean:
+	rm -f source/script/api.js source/script/data.js
+	rm -f build/script/api.js build/script/data.js
+
+realclean: clean
+	rm -rf build
+
+
+
+###################################################################################
+# GENERATE TARGETS
+###################################################################################
+
+generate-script-source:
+	@$(GENERATE) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --source-script-path class \
 	  --include api \
@@ -12,15 +56,15 @@ generate-source:
 	  --include qx.theme.widget.WindowsWidgetTheme \
 	  --generate-source-script \
 	  --source-script-file source/script/api.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../source/resource/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../source/resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../source/resource/static \
-	  --cache-directory ../.cache
+	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../$(FRAMEWORK)/source/resource/icon/crystalsvg \
+	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../$(FRAMEWORK)/source/resource/widget/windows \
+	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../$(FRAMEWORK)/source/resource/static \
+	  --cache-directory $(CACHE)
 
-generate-build:
-	@../tools/generate/generate.py \
-	  --script-input ../source/class \
-	  --resource-input ../source/resource \
+generate-script-build:
+	@$(GENERATE) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource/qooxdoo \
 	  --script-input source/class \
 	  --resource-input source/resource \
@@ -35,16 +79,18 @@ generate-build:
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resource/qooxdoo/static \
 	  --copy-resource \
-	  --cache-directory ../.cache
+	  --cache-directory $(CACHE)
 
-source: generate-source
+generate-data-source:
+	@$(GENERATE) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --generate-api-documentation \
+	  --api-documentation-json-file source/script/data.js \
+	  --cache-directory $(CACHE)
 
-build: generate-build
-	cp -f source/index.html build/index.html
-
-clean:
-	rm -f source/script/api.js
-	rm -f build/script/api.js
-
-realclean: clean
-	rm -rf build
+generate-data-build:
+	@$(GENERATE) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --generate-api-documentation \
+	  --api-documentation-json-file build/script/data.js \
+	  --cache-directory $(CACHE)
