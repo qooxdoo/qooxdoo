@@ -111,3 +111,7 @@ clean:
 realclean: clean
 	rm -rf public build release
 	$(MAKE) -C api realclean
+	
+distclean: realclean
+	rm -rf .cache
+
