@@ -157,14 +157,16 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     asString += ',children:[' + newLine
 
     firstChild = True
-    if node.hasChildren():
-      prefix = prefix + childPrefix
-      for child in node.children:
-        asString += nodeToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
-        firstChild = False
+    prefix = prefix + childPrefix
+    for child in node.children:
+      asString += nodeToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
+      firstChild = False
 
     # NOTE We remove the ',\n' of the last child
-    asString = asString[:-2] + newLine + prefix + ']'
+    if newLine == "":
+      asString = asString[:-1] + prefix + ']'
+    else:
+      asString = asString[:-2] + newLine + prefix + ']'
 
   asString += '}'
 
