@@ -1,4 +1,7 @@
-all: api demo framework
+all:
+	$(MAKE) -C api build
+	$(MAKE) -C demo build
+	$(MAKE) -C framework build
 
 api:
 	$(MAKE) -C api build
