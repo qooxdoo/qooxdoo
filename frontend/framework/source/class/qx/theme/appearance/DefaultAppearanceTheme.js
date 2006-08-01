@@ -2382,12 +2382,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.mouseOverBorder.set({ rightColor:"#d6d2c2", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
                      bottomColor:"#F9B119", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:2 });
 
-      //this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       this.mouseOverBackground = new qx.renderer.color.ColorObject("white");
       this.background = new qx.renderer.color.ColorObject("#ebeadb");
-
-      this.sortedAscendingImg  = "widget/table/ascending.png";
-      this.sortedDescendingImg = "widget/table/descending.png";
     },
 
     initial : function(vWidget, vTheme)
@@ -2395,7 +2391,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return {
         cursor : qx.constant.Core.DEFAULT,
         border : this.border,
-        //font : this.font,
         paddingLeft : 2,
         paddingRight : 2,
         spacing:2,
@@ -2412,7 +2407,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return {
         backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
         border : vStates.mouseover ? this.mouseOverBorder : this.border,
-        icon : vStates.sorted ? (vStates.sortedAscending ? this.sortedAscendingImg : this.sortedDescendingImg) : null
       }
     }
   }
