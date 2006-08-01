@@ -34,12 +34,26 @@ function()
   qx.manager.object.ObjectManager.call(this);
 
   // Contains the qx.renderer.theme.ColorTheme instances
-  this._themes = [];
+  this._themes = {};
 
   // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
   this._dependentObjects = {};
 });
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("theme", "qx.theme.color.WindowsRoyaleColorTheme");
+
+
 
 
 /*
@@ -100,15 +114,20 @@ qx.Proto.get = function(vValue) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.registerTheme = function(vThemeObject)
+qx.Proto.registerTheme = function(vTheme)
 {
-  this._themes.push(vThemeObject);
+  var vId = vTheme.classname;
 
-  if (this.getTheme() === null) {
-    this.setTheme(vThemeObject);
+  this._themes[vId] = vTheme;
+
+  if (vId === this.getSetting("theme") && this.getTheme() === null) {
+    this.setTheme(vTheme);
   }
 }
 
+qx.Proto.setThemeById = function(vId) {
+  return this.setTheme(this._themes[vId]);
+}
 
 
 
@@ -158,7 +177,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     var vButton = new qx.ui.form.Button(vPrefix + vThemes[vId].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.setTheme('" + vId + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.setThemeById('" + vId + "')"));
 
     vParent.add(vButton);
 
@@ -185,8 +204,10 @@ qx.Proto.dispose = function()
 
   if (this._themes)
   {
-    for (var i=0; i<this._themes.length; i++) {
-      this._themes[i].dispose();
+    for (var vTheme in this._themes)
+    {
+      this._themes[vTheme].dispose();
+      this._themes[vTheme] = null;
     }
 
     this._themes = null;
