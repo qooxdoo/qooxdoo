@@ -134,7 +134,7 @@ qx.Proto.registerIconTheme = function(vTheme)
   this._iconThemes[vId] = vTheme;
 
   if (vId === this.getSetting("iconTheme") && this.getIconTheme() === null) {
-    this.setIconThemeById(vId);
+    this.setIconTheme(vTheme);
   }
 }
 
@@ -145,7 +145,7 @@ qx.Proto.registerWidgetTheme = function(vTheme)
   this._widgetThemes[vId] = vTheme;
 
   if (vId === this.getSetting("widgetTheme") && this.getWidgetTheme() === null) {
-    this.setWidgetThemeById(vId);
+    this.setWidgetTheme(vTheme);
   }
 }
 
@@ -314,7 +314,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     var vButton = new qx.ui.form.Button(vPrefix + vThemes[vTheme].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.setIconTheme('" + vTheme + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.setIconThemeById('" + vTheme + "')"));
 
     vParent.add(vButton);
 
