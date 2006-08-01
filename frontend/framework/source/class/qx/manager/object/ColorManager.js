@@ -62,7 +62,7 @@ qx.Settings.setDefaultSetting("theme", "qx.theme.color.WindowsRoyaleColorTheme")
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false });
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instace : "qx.renderer.theme.ColorTheme" });
 
 
 
