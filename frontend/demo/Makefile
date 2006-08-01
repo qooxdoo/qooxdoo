@@ -12,7 +12,7 @@ CACHE=../.cache
 # DEFAULT TARGET
 ###################################################################################
 
-all: source build
+all: build
 
 
 
@@ -77,10 +77,12 @@ update-layout-source:
 	tool/layout.sh source/script/layout.js source/html SOURCE
 
 update-demo-build:
+	mkdir -p build
+	cp -f source/index.html build/
 	mkdir -p build/html
 	rsync --recursive --links --delete --exclude=.svn source/html/* build/html
 	mkdir -p build/resource/css
 	rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
-
+	
 update-layout-build: update-demo-build
 	tool/layout.sh build/script/layout.js build/html BUILD
