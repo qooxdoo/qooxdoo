@@ -33,10 +33,29 @@ function()
 {
   qx.manager.object.ObjectManager.call(this);
 
-  this._themes = [];
+  this._themes = {};
 });
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false });
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("theme", "qx.theme.appearance.DefaultAppearanceTheme");
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PROPERTIES
+---------------------------------------------------------------------------
+*/
+
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instace : "qx.renderer.theme.AppearanceTheme" });
 
 
 
@@ -70,12 +89,19 @@ qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.registerTheme = function(vThemeObject) {
-  this._themes.push(vThemeObject);
+qx.Proto.registerTheme = function(vTheme)
+{
+  var vId = vTheme.classname;
 
-  if (this.getTheme() === null) {
-    this.setTheme(vThemeObject);
+  this._themes[vId] = vTheme;
+
+  if (vId === this.getSetting("theme") && this.getTheme() === null) {
+    this.setTheme(vTheme);
   }
+}
+
+qx.Proto.setThemeById = function(vId) {
+  return this.setTheme(this._themes[vId]);
 }
 
 
@@ -98,8 +124,10 @@ qx.Proto.dispose = function()
 
   if (this._themes)
   {
-    for (var i=0; i<this._themes.length; i++) {
-      this._themes[i].dispose();
+    for (var vTheme in this._themes)
+    {
+      this._themes[vTheme].dispose();
+      this._themes[vTheme] = null;
     }
 
     this._themes = null;
