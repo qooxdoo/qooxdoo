@@ -54,7 +54,7 @@
 
       var btns1 = [
         { type : "menu", icon : "file-new", label : "New", menu : m1 },
-        { type : "menu", icon : "edit-document", label : "Edit", menu : m2 }
+        { type : "menu", icon : "edit", label : "Edit", menu : m2 }
       ];
 
       var btns2 = [
@@ -211,16 +211,16 @@
       ram.addEventListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getData().getValue());
       });
-      
-      
-   
-      
-      
-      
+
+
+
+
+
+
 
       // Icon & Color Themes
       qx.manager.object.ImageManager.createThemeList(d, 20, 248);
-      qx.manager.object.ColorManager.createThemeList(d, 220, 248);      
+      qx.manager.object.ColorManager.createThemeList(d, 220, 248);
     });
   </script>
 </body>

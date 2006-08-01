@@ -20,18 +20,18 @@
     <qx.client.builder.EventListener type='click' delegate='f'/>
     
   </qx.ui.form.Button>
-  <qx.ui.basic.Atom id='atom1' label='Test No #1' icon='icons/16/penguin.png' border='qx.renderer.border.Border.presets.black' location='20,90'/>
+  <qx.ui.basic.Atom id='atom1' label='Test No #1' icon='icon/16/penguin.png' border='qx.renderer.border.Border.presets.black' location='20,90'/>
 
-  <qx.ui.form.Button label='Test No #2' icon='icons/16/penguin.png' location='20,120'>
+  <qx.ui.form.Button label='Test No #2' icon='icon/16/penguin.png' location='20,120'>
       <qx.client.builder.EventListener type='click'>
         atom1.setLabel(atom1.getLabel() + ".");
       </qx.client.builder.EventListener>
   </qx.ui.form.Button>
   
-  <qx.ui.basic.Atom label='Test No #3' icon='icons/16/penguin.png' location='20,160'/>
+  <qx.ui.basic.Atom label='Test No #3' icon='icon/16/penguin.png' location='20,160'/>
 
-   <qx.ui.basic.Atom label='a' icon='icons/16/penguin.png' location='20,200'/>
-  <qx.ui.basic.Atom label='b' icon='icons/16/penguin.png' location='20,240'/>
+   <qx.ui.basic.Atom label='a' icon='icon/16/penguin.png' location='20,200'/>
+  <qx.ui.basic.Atom label='b' icon='icon/16/penguin.png' location='20,240'/>
   
   
   <qx.client.builder.Script>        
