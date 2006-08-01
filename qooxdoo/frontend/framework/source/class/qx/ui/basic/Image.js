@@ -147,7 +147,7 @@ qx.Proto._beforeDisappear = function()
 
   if (qx.util.Validation.isValidString(vSource))
   {
-    if (qx.manager.object.ImageManager._sources[vSource] == 1)
+    if (qx.manager.object.ImageManager._sources[vSource] <= 1)
     {
       delete qx.manager.object.ImageManager._sources[vSource];
     }
