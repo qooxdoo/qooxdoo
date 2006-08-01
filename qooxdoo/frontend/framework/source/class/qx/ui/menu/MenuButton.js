@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuButton", qx.ui.layout.HorizontalBoxLayout, 
+qx.OO.defineClass("qx.ui.menu.MenuButton", qx.ui.layout.HorizontalBoxLayout,
 function(vLabel, vIcon, vCommand, vMenu)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
@@ -56,10 +56,21 @@ function(vLabel, vIcon, vCommand, vMenu)
   //   INIT
   // ************************************************************************
 
-  this.setLabel(vLabel);
-  this.setIcon(vIcon);
-  this.setCommand(vCommand);
-  this.setMenu(vMenu);
+  if (qx.util.Validation.isValidString(vLabel)) {
+    this.setLabel(vLabel);
+  }
+
+  if (qx.util.Validation.isValidString(vIcon)) {
+    this.setIcon(vIcon);
+  }
+
+  if (qx.util.Validation.isValid(vCommand)) {
+    this.setCommand(vCommand);
+  }
+
+  if (qx.util.Validation.isValid(vMenu)) {
+    this.setMenu(vMenu);
+  }
 
 
   // ************************************************************************
