@@ -28,12 +28,12 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuRadioButton", qx.ui.menu.MenuCheckBox, 
+qx.OO.defineClass("qx.ui.menu.MenuRadioButton", qx.ui.menu.MenuCheckBox,
 function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.MenuCheckBox.call(this, vLabel, vCommand, vChecked);
 
-  this._iconObject.setAppearance("menu-radio-button-icon");
+  qx.manager.object.ImagePreloaderManager.create("widget/menu/checkbox.gif");
 });
 
 
@@ -77,7 +77,10 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
     }
   }
 
-  return qx.ui.menu.MenuCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
+  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK);
+
+  return true;
 }
 
 qx.Proto._modifyManager = function(propValue, propOldValue, propData)
