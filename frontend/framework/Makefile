@@ -30,10 +30,14 @@ build: generate-build
 ###################################################################################
 
 clean:
-	rm -f build/script/qx.js $(FRAMEWORK)/source/script/qx.js
+	@rm -fv build/script/qx.js $(FRAMEWORK)/source/script/qx.js
 
 realclean: clean
-	rm -rf build
+	@rm -rfv build source/script
+
+distclean: realclean
+	@rm -fv tool/generate/*.pyc
+	@find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rfv
 
 
 

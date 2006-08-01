@@ -27,4 +27,9 @@ realclean:
 	$(MAKE) -C demo realclean
 	$(MAKE) -C framework realclean
 
-	rm -rf .cache
+distclean:
+	$(MAKE) -C api distclean
+	$(MAKE) -C demo distclean
+	$(MAKE) -C framework distclean
+
+	@rm -rfv .cache
