@@ -1,12 +1,12 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-  <title>qooxdoo demo</title>
-  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
   <!--[if IE]>
-  <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
   <![endif]-->
-  <script type="text/javascript" src="../qx.js"></script>
+  <script type="text/javascript" src="../../script/qx.js"></script>
 
   <style type="text/css">
 .qx_ui_embed_Gallery .galleryFrame{
@@ -72,7 +72,7 @@
   </style>
 </head>
 <body>
-  <script type="text/javascript" src="../demolayout.js"></script>
+  <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
     <p>Test file for qx.ui.embed.Gallery</p>
@@ -81,6 +81,8 @@
   <script type="text/javascript">
     qx.core.Init.defineMain(function()
     {
+      var imgPath = qx.manager.object.ImageManager.buildUri("icon/64/chart.png");
+
       var galleryList = [];
 
       for (var i=0; i<100; i++)
@@ -95,7 +97,7 @@
           timestamp : Math.random().toString(),
           comment : "Cool Comment",
           id : "7686191121780974-10682",
-          src : "../../themes/icons/crystalsvg/64/chart.png"
+          src : imgPath
         });
       };
 
