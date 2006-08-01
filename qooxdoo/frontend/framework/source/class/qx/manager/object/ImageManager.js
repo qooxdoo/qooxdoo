@@ -341,8 +341,27 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this._iconThemes = null;
-  this._widgetThemes = null;
+  if (this._iconThemes)
+  {
+    for (var vTheme in this._iconThemes)
+    {
+      this._iconThemes[vTheme].dispose();
+      this._iconThemes[vTheme] = null;
+    }
+
+    this._iconThemes = null;
+  }
+
+  if (this._widgetThemes)
+  {
+    for (var vTheme in this._widgetThemes)
+    {
+      this._widgetThemes[vTheme].dispose();
+      this._widgetThemes[vTheme] = null;
+    }
+
+    this._widgetThemes = null;
+  }
 
   this._sources = null;
   this._uris = null;
