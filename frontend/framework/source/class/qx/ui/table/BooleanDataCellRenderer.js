@@ -73,9 +73,9 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 qx.Proto._getImgUrl = function(cellInfo) {
   var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
   switch (cellInfo.value) {
-    case true:  return BooleanDataCellRenderer.TRUE_ICON_URL; break;
-    case false: return BooleanDataCellRenderer.FALSE_ICON_URL; break;
-    default:    return BooleanDataCellRenderer.NULL_ICON_URL; break;
+    case true:  return qx.manager.object.ImageManager.buildUri("widget/table/boolean-true.png"); break;
+    case false: return qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png"); break;
+    default:    return qx.manager.object.ImageManager.buildUri("static/coreimages/blank.gif"); break;
   }
 }
 
@@ -104,17 +104,6 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
     htmlArr.push(BooleanDataCellRenderer.TABLE_DIV_END);
   }
 }
-
-
-/** {string} The URL of the icon showing a true value. */
-qx.ui.table.BooleanDataCellRenderer.TRUE_ICON_URL = qx.manager.object.ImageManager.buildUri("widget/table/boolean-true.png");
-
-/** {string} The URL of the icon showing a false value. */
-qx.ui.table.BooleanDataCellRenderer.FALSE_ICON_URL = qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png");
-
-/** {string} The URL of the icon showing a null value. */
-qx.ui.table.BooleanDataCellRenderer.NULL_ICON_URL = qx.manager.object.ImageManager.buildUri("static/coreimages/blank.gif");
-
 
 qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px';
 qx.Class.IMG_START = '<img src="';
