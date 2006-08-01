@@ -1286,9 +1286,13 @@ qx.Proto._createThemesDemo = function(clientWindow) {
   var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/launch.png");
   openThemeWinBt.addEventListener("execute", function(e) {
     win.open();
-
+   
+    // the following breaks in the current layouter
     win.setLeft(doc.getClientWidth() - win.getBoxWidth() - 5);
     win.setTop(doc.getClientHeight() - win.getBoxHeight() - 5);
+
+    win.setLeft(doc.getClientWidth() - 500);
+    win.setTop(doc.getClientHeight() - 300);
   });
   main.add(openThemeWinBt);
 
