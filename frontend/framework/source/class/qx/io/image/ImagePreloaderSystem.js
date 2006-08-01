@@ -122,8 +122,7 @@ qx.Proto._onerror = function(e)
 
 qx.Proto._oninterval = function(e)
 {
-  this.debug("The following images couldn't preloaded: " + qx.lang.Object.getKeysAsString(this._list));
-  this.debug("Canceling...");
+  this.error("Could not preload: " + qx.lang.Object.getKeysAsString(this._list));
 
   this._stopped = true;
   this._timer.stop();
