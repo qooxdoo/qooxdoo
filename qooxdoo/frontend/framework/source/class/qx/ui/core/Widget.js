@@ -1332,9 +1332,7 @@ qx.Proto._handleDisplayable = function(vHint)
   // Also handle the case if the displayable keeps true and the parent
   // was changed then we must not return here.
   var vDisplayable = this._computeDisplayable();
-  if (!vDisplayable &&                       // - shouldn't be displayable
-      this._isDisplayable == vDisplayable && // - already isn't displayable
-      vHint != qx.OO.PROPERTY_PARENT) {      // - parent didn't changed
+  if (this._isDisplayable == vDisplayable && !(vDisplayable && vHint == qx.OO.PROPERTY_PARENT)) {
     return true;
   }
 
@@ -5723,7 +5721,7 @@ qx.Proto._onInterval = function(e) {
         this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_IN);
       };
     break;
-            
+
     case qx.ui.core.Widget.FADE_OUT:
       this.setFadeCounter(--counter);
       if(counter >= 0){
@@ -5815,7 +5813,7 @@ qx.Proto.dispose = function()
     delete this._layoutChanges[i];
   }
   delete this._layoutChanges;
-  
+
   // dispose the fader
   if(this._fadeTimer){
     this._fadeTimer.dispose();
