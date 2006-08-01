@@ -1,25 +1,21 @@
 <html>
-  <head>
-    <title>All in one Demo</title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+  <script type="text/javascript" src="AllInOneDemo.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-    <meta http-equiv="MsThemeCompatible" content="yes" />
-    <meta http-equiv="ImageToolBar" content="no" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="-1" />
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta name="MSSmartTagsPreventParsing" content="yes" />
-
-    <script type="text/javascript" src="../qx.js"></script>
-    <script type="text/javascript" src="AllInOneDemo.js"></script>
-  </head>
-  <body>
-    <script type="text/javascript">
-      qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
-
-      qx.core.Init.defineMain(function() {
-        new AllInOneDemo(this.getClientWindow());
-      });
-    </script>
-  </body>
+    qx.core.Init.defineMain(function() {
+      new AllInOneDemo(this.getClientWindow());
+    });
+  </script>
+</body>
 </html>
