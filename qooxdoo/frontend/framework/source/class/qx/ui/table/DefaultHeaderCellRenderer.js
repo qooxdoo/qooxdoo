@@ -55,6 +55,8 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   var DefaultHeaderCellRenderer = qx.ui.table.DefaultHeaderCellRenderer;
 
   cellWidget.setLabel(cellInfo.name);
+
+  cellWidget.setIcon(cellInfo.sorted ? (cellInfo.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png") : null);
   cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED, cellInfo.sorted);
   cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED_ASCENDING, cellInfo.sortedAscending);
 }
