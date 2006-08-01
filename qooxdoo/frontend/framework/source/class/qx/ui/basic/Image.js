@@ -178,13 +178,13 @@ qx.Proto._modifySource = function(propValue, propOldValue, propData)
 
   if (propOldValue)
   {
-    if (qx.manager.object.ImageManager._sources[propValue] == 1)
+    if (qx.manager.object.ImageManager._sources[propOldValue] <= 1)
     {
-      delete qx.manager.object.ImageManager._sources[propValue];
+      delete qx.manager.object.ImageManager._sources[propOldValue];
     }
     else
     {
-      qx.manager.object.ImageManager._sources[propValue]--;
+      qx.manager.object.ImageManager._sources[propOldValue]--;
     }
   }
 
