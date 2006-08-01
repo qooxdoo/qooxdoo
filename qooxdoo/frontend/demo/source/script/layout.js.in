@@ -23,7 +23,7 @@
     tppos = String(tppos)
 
 
-  document.write('<div id="demoHead">qooxdoo: <span>The new era of web interface development</span></div>');
+  document.write('<div id="demoHead">qooxdoo: <span>The new era of web development</span></div>');
   document.write('<div id="demoFoot">');
 
   if( /\/showcase\//.test(window.location.href) ) {
@@ -46,16 +46,6 @@
     document.write('[<a href="../showcase/index.html">Go to: Showcase</a>] &#160;');
     document.write('[<a href="../example/index.html">Go to: Example</a>] &#160;');
     document.write('[<a href="../performance/index.html">Go to: Performance</a>] &#160;');
-  };
-
-  if(window.location.href.indexOf("oss.schlund.de") == -1)
-  {
-    document.write("&#160;&#160;&#160;&#160;&#160;-&#160;&#160;&#160;&#160;&#160; &#160;");
-    if( /\/source\//.test(window.location.href) ) {
-      document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/source\\//, \'\\/build\\/\'))">Go to: Build</a>] &#160;');
-    } else {
-      document.write('[<a href="javascript:void(window.location.href=window.location.href.replace(/\\/build\\//, \'\\/source\\/\'))">Go to: Source</a>] &#160;');
-    };
   };
 
   document.write('[<a href="javascript:qx.dev.Pollution.consoleInfo(\'window\');">Global Pollution</a>] &#160;');
@@ -115,14 +105,5 @@
     };
   }
 
-  document.title = location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ") + " @ qooxdoo :: demo";
-
-  if(location.href.indexOf("qooxdoo.oss.schlund.de") != -1)
-  {
-    var cstatus="active", visible="0", page_title="", url_of_counter_file="http://qooxdoo.oss.schlund.de/counter/counter.php", page_url=unescape(location.href), referrer=(document.referrer) ? document.referrer : "", page_title=(page_title.length == 0) ? document.title : page_title;
-
-    document.write("<script type=\"text/javascript\" src=\"");
-    document.write(url_of_counter_file + "?chCounter_mode=js&amp;jscode_version=3.1.1&amp;status=" + cstatus + "&amp;visible=" + visible + "&amp;page_title=" + encodeURIComponent( page_title ));
-    document.write("&amp;page_url=" + encodeURIComponent( page_url ) + "&amp;referrer=" + encodeURIComponent( referrer ) + "&amp;res_width=" + screen.width + "&amp;res_height=" + screen.height + "\"><" + "/script>");
-  }
+  document.title = "qooxdoo » Demo » " + location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ");
 //})();
