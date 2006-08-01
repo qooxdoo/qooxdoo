@@ -14,33 +14,33 @@
   <div id="demoDescription">
     <p>Test file for qx.ui.embed.Gallery</p>
   </div>
-  
+
   <style type="text/css">
     .qx.ui.embed.Gallery .galleryFrame{
       padding: 2px;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell{
       border: 1px solid #444;
       background: #fff;
       margin: 2px;
       float: left;
       overflow: hidden;
-    
+
       font-family: Tahoma, Verdana, sans-serif;
       font-size: 10px;
-    
+
       cursor: default;
-    
+
       -moz-user-select: none;
       user-select: none;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell img{
       vertical-align: bottom;
       display: block;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell .galleryTitle,
     .qx.ui.embed.Gallery .galleryCell .galleryComment{
       background: #eee;
@@ -50,46 +50,46 @@
       overflow: hidden;
       white-space: nowrap;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell .galleryTitle{
       border-bottom: 1px solid #aaa;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell .galleryComment{
       border-top: 1px solid #aaa;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell-Selected{
       background: #DCE8F6;
       border: 1px solid #2760A1;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell-Selected .galleryTitle,
     .qx.ui.embed.Gallery .galleryCell-Selected .galleryComment{
       background: #9BBFE7;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell-Selected .galleryTitle{
       border-bottom: 1px dotted #2760A1;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell-Selected .galleryComment{
       border-top: 1px dotted #2760A1;
     }
 
-    
+
     /* customize */
-    
+
     .qx.ui.embed.Gallery{
-      background: #fff; 
+      background: #fff;
       padding: 5px;
     }
-  
+
     .qx.ui.embed.Gallery .galleryCell{
-      margin: 5px; 
+      margin: 5px;
       border: 1px solid #DCDFE8;
     }
-    
+
     .qx.ui.embed.Gallery .galleryCell-Selected{
       border: 1px solid #5E6474;
       background: #DADDE4;
@@ -100,7 +100,7 @@
     qx.core.Init.defineMain(function() 
     {
       var galleryList = [];
-      
+
       for (var i=0; i<100; i++)
       {
         galleryList.push({
@@ -114,11 +114,11 @@
           comment : "Cool Comment",
           id : "7686191121780974-10682",
           src : "../../themes/icons/crystalsvg/64/tv.png"
-        });        
+        });
       };
-      
+
       var gallery = new qx.ui.embed.Gallery(galleryList);
-      
+
       gallery.setLeft(20);
       gallery.setRight(335);
       gallery.setTop(48);
@@ -127,9 +127,9 @@
       gallery.setShowTitle(false);
       gallery.setShowComment(false);
       gallery.setDecorHeight(0);
-      
+
       this.getClientWindow().getClientDocument().add(gallery);
-    };  
+    });
   </script>
 </body>
 </html>

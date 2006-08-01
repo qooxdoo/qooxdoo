@@ -24,8 +24,8 @@
   {
     var d = this.getClientWindow().getClientDocument();
 
-    var i1 = new qx.ui.basic.Image("icon/48/hardwareinfo.png", 48, 48);
-    with(i1) 
+    var i1 = new qx.ui.basic.Image("icon/48/favourite.png", 48, 48);
+    with(i1)
     {
       setTop(48);
       setLeft(20);
@@ -35,8 +35,8 @@
 
 
 
-    var i2 = new qx.ui.basic.Image("icon/48/hardwareinfo.png", 48, 48);
-    with(i2) 
+    var i2 = new qx.ui.basic.Image("icon/48/favourite.png", 48, 48);
+    with(i2)
     {
       setTop(48);
       setLeft(100);
@@ -47,8 +47,8 @@
 
 
 
-    var i3 = new qx.ui.basic.Image("icon/48/hardwareinfo.png", 96, 96);
-    with(i3) 
+    var i3 = new qx.ui.basic.Image("icon/48/favourite.png", 96, 96);
+    with(i3)
     {
       setTop(120);
       setLeft(60);
@@ -66,8 +66,8 @@
 
 
 
-    var i4 = new qx.ui.basic.Image("icon/48/hardwareinfo.png", 24, 24);
-    with(i4) 
+    var i4 = new qx.ui.basic.Image("icon/48/favourite.png", 24, 24);
+    with(i4)
     {
       setTop(120);
       setLeft(20);
@@ -81,33 +81,33 @@
     */
 
     d.add(i4);
-    
-    
-    
-    
+
+
+
+
     var i5 = new qx.ui.basic.Image("http://www.google.com/images/google_sm.gif");
     with(i5)
     {
       setTop(300);
       setLeft(20);
     };
-    
+
     /*
     i5.addEventListener("load", function() {
       new QxDebug("Google Image", "Preferred (Original) Size: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
-    });    
+    });
     */
-    
+
     d.add(i5);
-    
 
 
-    
+
+
 
     // Icon Themes
     qx.manager.object.ImageManager.createThemeList(d, 300, 48);
 
-    
+
   });
   </script>
 </body>
