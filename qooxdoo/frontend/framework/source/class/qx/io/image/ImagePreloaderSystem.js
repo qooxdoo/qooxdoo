@@ -35,6 +35,10 @@ function(vPreloadList, vCallBack, vCallBackScope)
 
   this._list = vPreloadList;
 
+  // Create timer
+  this._timer = new qx.client.Timer(this.getSetting("timeout"));
+  this._timer.addEventListener("interval", this._oninterval, this);
+
   // If we use the compact syntax, automatically add an event listeners and start the loading process
   if (vCallBack)
   {
@@ -42,6 +46,19 @@ function(vPreloadList, vCallBack, vCallBackScope)
     this.start();
   }
 });
+
+qx.Proto._stopped = false;
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefaultSetting("timeout", 3000);
+
 
 
 
@@ -54,6 +71,12 @@ function(vPreloadList, vCallBack, vCallBackScope)
 
 qx.Proto.start = function()
 {
+  if (qx.lang.Object.isEmpty(this._list))
+  {
+    this.createDispatchEvent(qx.constant.Event.COMPLETED);
+    return;
+  }
+
   for (var vSource in this._list)
   {
     var vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource));
@@ -71,6 +94,7 @@ qx.Proto.start = function()
     }
   }
 
+  // Initial check
   this._check();
 }
 
@@ -96,6 +120,17 @@ qx.Proto._onerror = function(e)
   this._check();
 }
 
+qx.Proto._oninterval = function(e)
+{
+  this.debug("The following images couldn't preloaded: " + qx.lang.Object.getKeysAsString(this._list));
+  this.debug("Canceling...");
+
+  this._stopped = true;
+  this._timer.stop();
+
+  this.createDispatchEvent(qx.constant.Event.COMPLETED);
+}
+
 
 
 
@@ -109,10 +144,21 @@ qx.Proto._onerror = function(e)
 
 qx.Proto._check = function()
 {
+  if (this._stopped) {
+    return;
+  }
+
   // this.debug("Check: " + qx.lang.Object.getKeysAsString(this._list));
 
-  if (qx.lang.Object.isEmpty(this._list)) {
+  if (qx.lang.Object.isEmpty(this._list))
+  {
+    this._timer.stop();
     this.createDispatchEvent(qx.constant.Event.COMPLETED);
+  }
+  else
+  {
+    // Restart timer for timeout
+    this._timer.restart();
   }
 }
 
@@ -134,7 +180,12 @@ qx.Proto.dispose = function()
   }
 
   this._list = null;
-  delete this._list;
+
+  if (this._timer)
+  {
+    this._timer.dispose();
+    this._timer = null;
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
 }
