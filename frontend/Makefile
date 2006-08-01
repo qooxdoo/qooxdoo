@@ -1,21 +1,46 @@
+###################################################################################
+# DEFAULT TARGET
+###################################################################################
+
 all:
 	$(MAKE) -C api build
 	$(MAKE) -C demo build
 	$(MAKE) -C framework build
+
+
+
+###################################################################################
+# COMMON TARGETS
+###################################################################################
 
 source:
 	$(MAKE) -C api source
 	$(MAKE) -C demo source
 	$(MAKE) -C framework source
 
-api:
+api-build:
 	$(MAKE) -C api build
 
-demo:
+demo-build:
 	$(MAKE) -C demo build
 
-framework:
+framework-build:
 	$(MAKE) -C framework build
+
+api-source:
+	$(MAKE) -C api source
+
+demo-source:
+	$(MAKE) -C demo source
+
+framework-source:
+	$(MAKE) -C framework source
+
+
+
+###################################################################################
+# CLEANUP TARGETS
+###################################################################################
 
 clean:
 	$(MAKE) -C api clean
