@@ -55,7 +55,7 @@ qx.Settings.setDefaultSetting("theme", "qx.theme.appearance.DefaultAppearanceThe
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instace : "qx.renderer.theme.AppearanceTheme" });
+qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
 
 
 
