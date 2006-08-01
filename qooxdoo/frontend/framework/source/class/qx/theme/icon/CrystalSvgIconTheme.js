@@ -31,7 +31,7 @@
 
 qx.OO.defineClass("qx.theme.icon.CrystalSvgIconTheme", qx.renderer.theme.IconTheme,
 function() {
-  qx.renderer.theme.IconTheme.call(this, "Crystal SVG Icon Theme");
+  qx.renderer.theme.IconTheme.call(this, "Crystal SVG");
 });
 
 
