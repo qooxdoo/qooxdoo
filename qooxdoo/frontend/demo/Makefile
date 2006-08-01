@@ -30,10 +30,13 @@ build: generate-script-build update-layout-build
 ###################################################################################
 
 clean:
-	rm -f source/script/qx.js source/script/layout.js build/script/layout.js
+	@rm -fv source/script/qx.js source/script/layout.js build/script/layout.js
 
 realclean: clean
-	rm -rf build
+	@rm -rfv build
+
+distclean: realclean
+	@find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rfv
 
 
 
@@ -83,6 +86,6 @@ update-demo-build:
 	rsync --recursive --links --delete --exclude=.svn source/html/* build/html
 	mkdir -p build/resource/css
 	rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
-	
+
 update-layout-build: update-demo-build
 	tool/layout.sh build/script/layout.js build/html BUILD

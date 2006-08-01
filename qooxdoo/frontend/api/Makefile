@@ -32,11 +32,14 @@ build: generate-script-build generate-data-build
 ###################################################################################
 
 clean:
-	rm -f source/script/api.js source/script/data.js
-	rm -f build/script/api.js build/script/data.js
+	rm -fv source/script/api.js source/script/data.js
+	rm -fv build/script/api.js build/script/data.js
 
 realclean: clean
-	rm -rf build
+	rm -rfv build source/script
+
+distclean: realclean
+	@find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rfv
 
 
 
