@@ -971,20 +971,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     }
   },
 
-  "menu-check-box-icon" :
-  {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "image");
-    },
-
-    state : function(vWidget, vTheme, vStates)
-    {
-      return {
-        source : vStates.checked ? "widget/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK
-      }
-    }
-  },
-
   "menu-radio-button" :
   {
     initial : function(vWidget, vTheme) {
@@ -993,20 +979,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     state : function(vWidget, vTheme, vStates) {
       return vTheme.stateFrom(vWidget, "menu-button");
-    }
-  },
-
-  "menu-radio-button-icon" :
-  {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "image");
-    },
-
-    state : function(vWidget, vTheme, vStates)
-    {
-      return {
-        source : vStates.checked ? "widget/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK
-      }
     }
   },
 

@@ -30,7 +30,7 @@
 /*!
   A checkbox for the menu system.
 */
-qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton, 
+qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton,
 function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.MenuButton.call(this, vLabel, qx.manager.object.ImageManager.BLANK, vCommand);
@@ -39,7 +39,7 @@ function(vLabel, vCommand, vChecked)
     this.setChecked(vChecked);
   }
 
-  this._iconObject.setAppearance("menu-check-box-icon");
+  qx.manager.object.ImagePreloaderManager.create("widget/menu/checkbox.gif");
 });
 
 
@@ -67,16 +67,8 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  if (propValue)
-  {
-    this.addState(qx.ui.form.Button.STATE_CHECKED);
-    this.getIconObject().addState(qx.ui.form.Button.STATE_CHECKED);
-  }
-  else
-  {
-    this.removeState(qx.ui.form.Button.STATE_CHECKED);
-    this.getIconObject().removeState(qx.ui.form.Button.STATE_CHECKED);
-  }
+  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK);
 
   return true;
 }
