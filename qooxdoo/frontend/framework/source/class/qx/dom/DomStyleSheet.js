@@ -49,8 +49,8 @@ if (qx.sys.Client.isMshtml())
 
   qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
-    vRules = vSheet.rules;
-    vLength = vRules.length;
+    var vRules = vSheet.rules;
+    var vLength = vRules.length;
 
     for (var i=vLength-1; i>=0; i--)
     {
@@ -62,8 +62,8 @@ if (qx.sys.Client.isMshtml())
 
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
-    vRules = vSheet.rules;
-    vLength = vRules.length;
+    var vRules = vSheet.rules;
+    var vLength = vRules.length;
 
     for (var i=vLength-1; i>=0; i--) {
       vSheet.removeRule(i);
@@ -92,8 +92,8 @@ else
 
   qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
-    vRules = vSheet.cssRules;
-    vLength = vRules.length;
+    var vRules = vSheet.cssRules;
+    var vLength = vRules.length;
 
     for (var i=vLength-1; i>=0; i--)
     {
@@ -105,8 +105,8 @@ else
 
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
-    vRules = vSheet.cssRules;
-    vLength = vRules.length;
+    var vRules = vSheet.cssRules;
+    var vLength = vRules.length;
 
     for (var i=vLength-1; i>=0; i--) {
       vSheet.deleteRule(i);
