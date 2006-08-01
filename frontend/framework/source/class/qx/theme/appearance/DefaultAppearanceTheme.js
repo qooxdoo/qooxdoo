@@ -2406,7 +2406,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return {
         backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
-        border : vStates.mouseover ? this.mouseOverBorder : this.border,
+        border : vStates.mouseover ? this.mouseOverBorder : this.border
       }
     }
   }
