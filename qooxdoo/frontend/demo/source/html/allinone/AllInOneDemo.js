@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("AllInOneDemo", qx.core.Object, 
+qx.OO.defineClass("AllInOneDemo", qx.core.Object,
 function (clientWindow) {
   qx.core.Object.call(this);
 
@@ -34,7 +34,7 @@ function (clientWindow) {
   barView.setBottom(10);
 
   this._createPage(barView, "Form",             "icon/32/wordprocessor.png",    this._createFormDemo(), "threedface");
-  this._createPage(barView, "Tooltip",          "icon/32/tip.png",              this._createTooltipDemo());
+  this._createPage(barView, "Tooltip",          "icon/32/run.png",              this._createTooltipDemo());
   this._createPage(barView, "Menu and Toolbar", "icon/32/display.png",          this._createToolbarDemo(clientWindow));
   this._createPage(barView, "Tab",              "icon/32/contents.png",         this._createTabDemo(), "threedface", true);
   this._createPage(barView, "Tree",             "icon/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
@@ -182,7 +182,7 @@ qx.Proto._createTooltipDemo = function() {
   main.setPadding(10);
   main.setSpacing(10);
 
-  var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/tip.png");
+  var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/run.png");
   c1.setPadding(5);
   c1.setBorder(qx.renderer.border.BorderObject.presets.outset);
   c1.setBackgroundColor(new qx.renderer.color.Color("#BDD2EF"));
@@ -241,7 +241,7 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   mb2_06.setEnabled(false);
   mb2_09.setEnabled(false);
   m2.add(mb2_01, mb2_02, mb2_b1, mb2_03, mb2_04, mb2_05, mb2_06, mb2_b2, mb2_07, mb2_08, mb2_09);
-  
+
   var m3 = new qx.ui.menu.Menu;
   var m3_suba = new qx.ui.menu.Menu;
   var m3_subb = new qx.ui.menu.Menu;
@@ -264,22 +264,22 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   var mb3_suba_03 = new qx.ui.menu.MenuButton("Tahoma, 13pt");
   var mb3_suba_04 = new qx.ui.menu.MenuButton("Tahoma, 14pt");
   var mb3_suba_05 = new qx.ui.menu.MenuButton("Tahoma, 15pt");
-  m3_suba.add(mb3_suba_01, mb3_suba_02, mb3_suba_03, mb3_suba_04, mb3_suba_05);    
+  m3_suba.add(mb3_suba_01, mb3_suba_02, mb3_suba_03, mb3_suba_04, mb3_suba_05);
 
   var mb3_subb_01 = new qx.ui.menu.MenuButton("Verdana, 11pt");
   var mb3_subb_02 = new qx.ui.menu.MenuButton("Verdana, 12pt");
   var mb3_subb_03 = new qx.ui.menu.MenuButton("Verdana, 13pt");
   var mb3_subb_04 = new qx.ui.menu.MenuButton("Verdana, 14pt");
   var mb3_subb_05 = new qx.ui.menu.MenuButton("Verdana, 15pt");
-  m3_subb.add(mb3_subb_01, mb3_subb_02, mb3_subb_03, mb3_subb_04, mb3_subb_05);    
+  m3_subb.add(mb3_subb_01, mb3_subb_02, mb3_subb_03, mb3_subb_04, mb3_subb_05);
 
   var mb3_subc_01 = new qx.ui.menu.MenuButton("Courier, 11pt");
   var mb3_subc_02 = new qx.ui.menu.MenuButton("Courier, 12pt");
   var mb3_subc_03 = new qx.ui.menu.MenuButton("Courier, 13pt");
   var mb3_subc_04 = new qx.ui.menu.MenuButton("Courier, 14pt");
   var mb3_subc_05 = new qx.ui.menu.MenuButton("Courier, 15pt");
-  m3_subc.add(mb3_subc_01, mb3_subc_02, mb3_subc_03, mb3_subc_04, mb3_subc_05);    
-  
+  m3_subc.add(mb3_subc_01, mb3_subc_02, mb3_subc_03, mb3_subc_04, mb3_subc_05);
+
   var mb3_subd_02_suba = new qx.ui.menu.Menu();
   var mb3_subd_02_suba_01 = new qx.ui.menu.MenuButton("First");
   var mb3_subd_02_suba_02 = new qx.ui.menu.MenuButton("Second");
@@ -291,10 +291,10 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   var mb3_subd_03 = new qx.ui.menu.MenuButton("Third");
 
   m3_subd.add(mb3_subd_01, mb3_subd_02, mb3_subd_03);
-  
+
   var m4 = new qx.ui.menu.Menu;
-  var m4_suba = new qx.ui.menu.Menu;    
-  
+  var m4_suba = new qx.ui.menu.Menu;
+
   var mb4_01 = new qx.ui.menu.MenuButton("View", null, null, m4_suba);
   var mb4_b1 = new qx.ui.menu.MenuSeparator();
   var mb4_02 = new qx.ui.menu.MenuButton("Editor Preferences...", "icon/16/configure.png");
@@ -318,7 +318,7 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
 
   var m5 = new qx.ui.menu.Menu;
   var mb5_01 = new qx.ui.menu.MenuButton("Help", "icon/16/help.png");
-  var mb5_02 = new qx.ui.menu.MenuButton("About", "icon/16/tip.png");
+  var mb5_02 = new qx.ui.menu.MenuButton("About", "icon/16/run.png");
   m5.add(mb5_01, mb5_02);
 
   doc.add(m1, m2, m3, m3_suba, m3_subb, m3_subc, m3_subd, mb3_subd_02_suba, m4, m4_suba, m5);
@@ -340,9 +340,9 @@ qx.Proto._createToolbarDemo = function(clientWindow) {
   function changeSize(e) {
     var v = e.getData();
     var o = v == 22 ? 32 : 22;
-      
+
     this.setIcon(this.getIcon().replace(o, v));
-  }    
+  }
 
   function createButton(text, icon, clazz, checked) {
     if (! clazz) {
@@ -461,29 +461,29 @@ qx.Proto._createTabDemo = function() {
   var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
   var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
   tf1.getPane().add(p1_1, p1_2, p1_3);
-  
+
   p1_2.add(new qx.ui.form.TextField("Find Anywhere"));
   p1_3.add(new qx.ui.form.TextField("Backup Input"));
-  
+
   var c1 = new qx.ui.form.CheckBox("Place bar on top");
   var c2 = new qx.ui.form.CheckBox("Align tabs to left");
 
   c1.setTop(0);
   c1.setChecked(true);
-  
+
   c2.setTop(20);
   c2.setChecked(true);
-  
+
   p1_1.add(c1, c2);
-  
+
   c1.addEventListener("changeChecked", function(e) {
     tf1.setPlaceBarOnTop(e.getData());
   });
-  
+
   c2.addEventListener("changeChecked", function(e) {
     tf1.setAlignTabsToLeft(e.getData());
   });
-  
+
   // Inner tab view
   var tf2 = new qx.ui.pageview.tabview.TabView;
   tf2.set({ left: 0, top: 50, right: 0, bottom: 0 });
@@ -494,7 +494,7 @@ qx.Proto._createTabDemo = function() {
   var t2_3 = new qx.ui.pageview.tabview.TabViewButton("Search in Mails",  "icon/16/mail.png");
   t2_1.setChecked(true);
   tf2.getBar().add(t2_1, t2_2, t2_3);
-  
+
   var p2_1 = new qx.ui.pageview.tabview.TabViewPage(t2_1);
   var p2_2 = new qx.ui.pageview.tabview.TabViewPage(t2_2);
   var p2_3 = new qx.ui.pageview.tabview.TabViewPage(t2_3);
@@ -515,19 +515,19 @@ qx.Proto._createTabDemo = function() {
   var b2_1 = new qx.ui.form.Button("Search", "icon/16/search.png");
   var b2_2 = new qx.ui.form.Button("Search", "icon/16/search.png");
   var b2_3 = new qx.ui.form.Button("Search", "icon/16/search.png");
-  
+
   b2_1.set({ top: 0, left: 150 });
   b2_2.set({ top: 0, left: 150 });
   b2_3.set({ top: 0, left: 150 });
-  
+
   p2_1.add(b2_1);
   p2_2.add(b2_2);
   p2_3.add(b2_3);
-  
+
   function dosearch(e) {
     alert("Searching...");
   }
-  
+
   b2_1.addEventListener("click", dosearch);
   b2_2.addEventListener("click", dosearch);
   b2_3.addEventListener("click", dosearch);
@@ -540,7 +540,7 @@ qx.Proto._createTabDemo = function() {
   var bsb1 = new qx.ui.pageview.buttonview.ButtonViewButton("Display", "icon/16/display.png");
   var bsb2 = new qx.ui.pageview.buttonview.ButtonViewButton("Colorize", "icon/16/colors.png");
   var bsb3 = new qx.ui.pageview.buttonview.ButtonViewButton("Icons", "icon/16/icons.png");
-  var bsb4 = new qx.ui.pageview.buttonview.ButtonViewButton("Applications", "icon/16/package.png");
+  var bsb4 = new qx.ui.pageview.buttonview.ButtonViewButton("Applications", "icon/16/run.png");
   var bsb5 = new qx.ui.pageview.buttonview.ButtonViewButton("System", "icon/16/display.png");
 
   bsb1.setChecked(true);
@@ -647,24 +647,24 @@ qx.Proto._createTreeDemo = function() {
   var te2_6_8 = new qx.ui.tree.TreeFolder("Competition");
 
   te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
-  
+
   var te2_7 = new qx.ui.tree.TreeFolder("Personal");
-  
+
   var te2_7_1 = new qx.ui.tree.TreeFolder("Bugs");
   var te2_7_2 = new qx.ui.tree.TreeFolder("Family");
   var te2_7_3 = new qx.ui.tree.TreeFolder("Projects");
   var te2_7_4 = new qx.ui.tree.TreeFolder("Holiday");
-  
+
   te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
-  
+
   var te2_8 = new qx.ui.tree.TreeFolder("Big");
-  
+
   for (var i = 0; i < 50; i++) {
     te2_8.add(new qx.ui.tree.TreeFolder("Item " + i));
   }
-  
+
   var te2_9 = new qx.ui.tree.TreeFolder("Spam");
-  
+
   te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
 
   // Command frame
@@ -678,7 +678,7 @@ qx.Proto._createTreeDemo = function() {
 
   var tCurrentLabel = new qx.ui.basic.Atom("Current Folder: ");
   command.add(tCurrentLabel);
-  
+
   var tCurrentInput = new qx.ui.form.TextField;
   tCurrentInput.set({ readOnly:true, marginBottom:20 });
   command.add(tCurrentInput);
@@ -692,7 +692,7 @@ qx.Proto._createTreeDemo = function() {
     t.setUseDoubleClick(e.getData());
   });
   command.add(tDoubleClick);
-  
+
   var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
   tTreeLines.setChecked(true);
   tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
@@ -720,7 +720,7 @@ qx.Proto._createListDemo = function() {
       case 1: iconName = "harddrive.png"; break;
       case 2: iconName = "penguin.png"; break;
       case 3: iconName = "pda.png"; break;
-      case 4: iconName = "tip.png"; break;
+      case 4: iconName = "bell.png"; break;
     }
     item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/" + iconName);
 
@@ -739,12 +739,12 @@ qx.Proto._createListDemo = function() {
   var c3 = new qx.ui.form.CheckBox("Allow Deselection");
   var c4 = new qx.ui.form.CheckBox("Enable Inline Find");
   control.add(c1, c2, c3, c4);
-  
+
   c1.setChecked(true);
   c2.setChecked(true);
   c3.setChecked(true);
   c4.setChecked(true);
-  
+
   c1.addEventListener("changeChecked", function(e) {
     list.getManager().setMultiSelection(e.getData());
   });
@@ -757,20 +757,20 @@ qx.Proto._createListDemo = function() {
   c4.addEventListener("changeChecked", function(e) {
     list.setEnableInlineFind(e.getData());
   });
-  
+
   var rd1 = new qx.ui.form.RadioButton("Show Label", "label");
   var rd2 = new qx.ui.form.RadioButton("Show Icon", "icon");
   var rd3 = new qx.ui.form.RadioButton("Show Both", "both");
   rd3.setChecked(true);
   control.add(rd1, rd2, rd3);
   var rbm = new qx.manager.selection.RadioManager( name, [rd1, rd2, rd3]);
-  
+
   rbm.addEventListener("changeSelected", function(e) {
     for (var i = 0; i < list.getChildrenLength(); i++) {
       list.getChildren()[i].setShow(e.getData().getValue());
     }
   });
-  
+
   return main;
 }
 
@@ -793,7 +793,7 @@ qx.Proto._createListViewDemo = function() {
     size: { label : "Size", width : 50, type : "text", align : "right" },
     type : { label : "Type", width : 80, type : "text" },
     modified : { label : "Last Modified", width : 150, type : "text" },
-    rights : { label : "Rights", width: 80, type : "text" }   
+    rights : { label : "Rights", width: 80, type : "text" }
   }
 
   var lv = new qx.ui.listview.ListView(ld, lc);
@@ -905,18 +905,18 @@ qx.Proto._createNativeWindowDemo = function() {
   chk6.addEventListener("changeChecked", function(e) {
     win.setAllowScrollbars(e.getData());
   });
-  
+
   var chk7 = new qx.ui.form.CheckBox("Modal");
   chk7.setChecked(false);
-  chk7.addEventListener("changeChecked", function(e) { 
-    win.setModal(e.getData()); 
-  });  
-  
+  chk7.addEventListener("changeChecked", function(e) {
+    win.setModal(e.getData());
+  });
+
   var chk8 = new qx.ui.form.CheckBox("Dependent");
   chk8.setChecked(true);
-  chk8.addEventListener("changeChecked", function(e) { 
-    win.setDependent(e.getData()); 
-  });   
+  chk8.addEventListener("changeChecked", function(e) {
+    win.setDependent(e.getData());
+  });
 
   vert.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8);
 
@@ -933,8 +933,8 @@ qx.Proto._createNativeWindowDemo = function() {
   tf1.setWidth(150);
 
   var setUrlBt = new qx.ui.form.Button("Set Url", "icon/16/ok.png");
-  setUrlBt.addEventListener("click", function() { 
-    win.setUrl(tf1.getValue()); 
+  setUrlBt.addEventListener("click", function() {
+    win.setUrl(tf1.getValue());
   });
 
   var hor = new qx.ui.layout.HorizontalBoxLayout;
@@ -948,8 +948,8 @@ qx.Proto._createNativeWindowDemo = function() {
   tf2.setWidth(50);
 
   var btn2 = new qx.ui.form.Button("Set Width", "icon/16/ok.png");
-  btn2.addEventListener("click", function() { 
-    win.setWidth(parseInt(tf2.getValue())); 
+  btn2.addEventListener("click", function() {
+    win.setWidth(parseInt(tf2.getValue()));
   });
 
   var hor = new qx.ui.layout.HorizontalBoxLayout;
@@ -963,8 +963,8 @@ qx.Proto._createNativeWindowDemo = function() {
   tf3.setWidth(50);
 
   var btn3 = new qx.ui.form.Button("Set Height", "icon/16/ok.png");
-  btn3.addEventListener("click", function() { 
-    win.setHeight(parseInt(tf3.getValue())); 
+  btn3.addEventListener("click", function() {
+    win.setHeight(parseInt(tf3.getValue()));
   });
 
   var hor = new qx.ui.layout.HorizontalBoxLayout;
@@ -976,20 +976,20 @@ qx.Proto._createNativeWindowDemo = function() {
 
   var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/display.png");
   btn4.setWidth("100%");
-  btn4.addEventListener("click", function() { 
-    win.centerToScreen() 
+  btn4.addEventListener("click", function() {
+    win.centerToScreen()
   });
 
   var btn5 = new qx.ui.form.Button("Center to screen area", "icon/16/display.png");
   btn5.setWidth("100%");
-  btn5.addEventListener("click", function() { 
-    win.centerToScreenArea() 
+  btn5.addEventListener("click", function() {
+    win.centerToScreenArea()
   });
 
   var btn6 = new qx.ui.form.Button("Center to opener", "icon/16/display.png");
   btn6.setWidth("100%");
-  btn6.addEventListener("click", function() { 
-    win.centerToOpener() 
+  btn6.addEventListener("click", function() {
+    win.centerToOpener()
   });
 
   vert.add(btn4, btn5, btn6);
@@ -1256,7 +1256,7 @@ qx.Proto._createThemesDemo = function(clientWindow) {
   win.add(vert);
 
   var info = new qx.ui.basic.Atom("Click on one of the buttons and then view the "
-    + "other tabs to see the changes", "icon/32/tip.png");
+    + "other tabs to see the changes", "icon/32/run.png");
   //info.set({ border:qx.renderer.border.BorderObject.presets.inset, backgroundColor:"white" });
   info.setPadding(5);
   vert.add(info);
