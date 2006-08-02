@@ -26,7 +26,6 @@
 #module(core)
 #require(qx.OO)
 #require(qx.constant.Event)
-#use(qx.core.Settings)
 #use(qx.constant.Type)
 #use(qx.constant.Core)
 #use(qx.dev.log.Logger)
@@ -391,7 +390,7 @@ qx.Proto.dispose = function()
     delete this._objectproperties;
   }
 
-  if (this.getSetting("enableDisposerDebug")) {
+  if (this.getSetting("enableDisposerDebug"))
   {
     for (var vKey in this)
     {
