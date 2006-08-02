@@ -2,16 +2,18 @@
 # DEFAULT TARGET
 ###################################################################################
 
-all:
-	$(MAKE) -C api build
-	$(MAKE) -C demo build
-	$(MAKE) -C framework build
+all: build
 
 
 
 ###################################################################################
 # COMMON TARGETS
 ###################################################################################
+
+build:
+	$(MAKE) -C api build
+	$(MAKE) -C demo build
+	$(MAKE) -C framework build
 
 source:
 	$(MAKE) -C api source
