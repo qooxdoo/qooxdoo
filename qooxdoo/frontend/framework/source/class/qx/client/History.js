@@ -117,6 +117,6 @@ qx.Proto._onHistoryLoad = function(location) {
 
 
 /** The URL to the helper page. */
-qx.Settings.setDefaultSetting("helperFile", "../../resources/static/history/historyHelper.html");
+qx.Settings.setDefault("helperFile", "../../resources/static/history/historyHelper.html");
 
 qx.client.History = new qx.client.History();

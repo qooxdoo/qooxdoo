@@ -51,7 +51,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("theme", "qx.theme.color.WindowsRoyaleColorTheme");
+qx.Settings.setDefault("theme", "qx.theme.color.WindowsRoyaleColorTheme");
 
 
 

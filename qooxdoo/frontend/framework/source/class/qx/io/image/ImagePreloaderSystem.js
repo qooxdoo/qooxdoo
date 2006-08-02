@@ -57,7 +57,7 @@ qx.Proto._stopped = false;
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("timeout", 3000);
+qx.Settings.setDefault("timeout", 3000);
 
 
 

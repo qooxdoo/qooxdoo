@@ -71,9 +71,9 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("staticUri", "../../resources/static");
-qx.Settings.setDefaultSetting("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
-qx.Settings.setDefaultSetting("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
+qx.Settings.setDefault("staticUri", "../../resources/static");
+qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
+qx.Settings.setDefault("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 
 
 
