@@ -78,7 +78,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
   }
 
   propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
-  this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : qx.manager.object.ImageManager.BLANK);
+  this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : "static/image/blank.gif");
 
   return true;
 }

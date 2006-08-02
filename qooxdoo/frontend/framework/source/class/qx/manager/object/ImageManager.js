@@ -58,12 +58,9 @@ function()
   // Contains defined aliases (like icons/, widgets/, application/, ...)
   this._aliases = {};
 
-  // Apply default pathes
+  // Define static alias from setting
   this.defineAlias("static", this.getSetting("staticUri"));
 });
-
-qx.Proto.BLANK = "static/image/blank.gif";
-
 
 
 
@@ -200,10 +197,6 @@ qx.Proto.getPostPreloadImageList = function()
 
 
 
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   URI/ALIAS HANDLING
@@ -233,11 +226,6 @@ qx.Proto.defineAlias = function(vPrefix, vPath)
 qx.Proto.removeAlias = function(vPrefix) {
   delete this._aliases[vPrefix];
 }
-
-
-
-
-
 
 
 

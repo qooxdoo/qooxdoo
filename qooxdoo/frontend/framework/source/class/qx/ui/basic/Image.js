@@ -44,7 +44,7 @@ function(vSource, vWidth, vHeight)
   this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.constant.Core.EMPTY);
 
   // Apply constructor arguments
-  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : qx.manager.object.ImageManager.BLANK);
+  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : "static/image/blank.gif");
 
   // Dimensions
   this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.constant.Core.AUTO);
@@ -278,7 +278,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?
-      // this._image.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
+      // this._image.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
 
       this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
       this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
@@ -348,7 +348,7 @@ if (qx.sys.Client.isMshtml())
 
     if (pl.getIsPng() && this.getEnabled())
     {
-      i.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
+      i.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
       i.style.filter = qx.ui.basic.Image.IMGLOADER_START + (vSource || pl.getSource()) + qx.ui.basic.Image.IMGLOADER_STOP;
     }
     else
@@ -362,7 +362,7 @@ if (qx.sys.Client.isMshtml())
   {
     var i = this._image;
 
-    i.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
+    i.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
     i.style.filter = qx.constant.Core.EMPTY;
   }
 
@@ -385,7 +385,7 @@ else
   }
 
   qx.Proto._resetContent = function() {
-    this._image.src = qx.manager.object.ImageManager.buildUri(qx.manager.object.ImageManager.BLANK);
+    this._image.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
   }
 
   qx.Proto._applyEnabled = function()

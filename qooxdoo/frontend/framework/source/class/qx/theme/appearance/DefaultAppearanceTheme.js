@@ -85,7 +85,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       // A background image or color is always needed for mshtml to block the events successfully.
       return {
         cursor : qx.constant.Core.DEFAULT,
-        backgroundImage : qx.manager.object.ImageManager.BLANK
+        backgroundImage : "static/image/blank.gif"
       }
     }
   },
