@@ -35,10 +35,7 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enableWidgetDebug : false,
   enableDisposerDebug : false,
   enableTransportDebug : false,
-  enableJsonDebug : false,
 
   enableApplicationLayout : true,
   enableUserInterface : true,
-
-  jsonEncodeUndefined : true
 });
