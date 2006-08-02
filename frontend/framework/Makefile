@@ -2,7 +2,6 @@
 # VARIABLES
 ###################################################################################
 
-FRAMEWORK=./
 GENERATE=./tool/generate/generate.py
 CACHE=../.cache
 
@@ -30,7 +29,7 @@ build: generate-build
 ###################################################################################
 
 clean:
-	@rm -fv build/script/qx.js $(FRAMEWORK)/source/script/qx.js
+	@rm -fv build/script/qx.js source/script/qx.js
 
 realclean: clean
 	@rm -rfv build source/script
@@ -47,11 +46,11 @@ distclean: realclean
 
 generate-all:
 	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --copy-resource \
-	  --resource-input $(FRAMEWORK)/source/resource \
+	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --source-script-path ../class \
 	  --generate-source-script \
@@ -60,32 +59,32 @@ generate-all:
 
 generate-compile:
 	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --cache-directory $(CACHE)
 
 generate-resource:
 	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
 	  --copy-resource \
-	  --resource-input $(FRAMEWORK)/source/resource \
+	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --cache-directory $(CACHE)
 
 generate-build:
 	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --copy-resource \
-	  --resource-input $(FRAMEWORK)/source/resource \
+	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --cache-directory $(CACHE)
 
 generate-source:
 	@$(GENERATE) \
-	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
 	  --source-script-path ../class \
 	  --generate-source-script \
 	  --source-script-file source/script/qx.js \
