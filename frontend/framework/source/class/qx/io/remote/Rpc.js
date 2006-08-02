@@ -27,6 +27,8 @@
 
 /* ************************************************************************
 
+#module(rpc)
+#module(transport)
 #use(qx.io.Json)
 #use(qx.io.remote.RemoteRequest)
 
@@ -66,7 +68,7 @@
  *                                      enable the IframeTrannsport instead of
  *                                      the XmlHttpTransport, since the latter
  *                                      can not handle cross-domain requests.
- *                                      
+ *
  * @param       serviceName {string}    identifies the service. For the Java
  *                                      implementation, this is the fully
  *                                      qualified name of the class that offers
@@ -201,7 +203,7 @@ qx.Proto._callInternal = function(args, async) {
       handler(result, ex, id);
     }
   }
-  
+
   var makeException = function(origin, code, message) {
     var ex = new Object();
 
@@ -227,7 +229,7 @@ qx.Proto._callInternal = function(args, async) {
 
     return ex;
   }
-  
+
   req.addEventListener("failed", function(evt) {
     var code = evt.getData().getStatusCode();
     ex = makeException(qx.io.remote.Rpc.origin.transport,
