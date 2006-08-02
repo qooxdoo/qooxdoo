@@ -3,30 +3,32 @@
    qooxdoo - the new era of web development
 
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
-     (C) 2006 by STZ-IDA, Germany
-         All rights reserved
+   (C) 2004-2006 by Schlund + Partner AG, Germany
+   (C) 2006 by STZ-IDA, Germany
+     All rights reserved
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
 
    Internet:
-     * http://qooxdoo.org
+   * http://qooxdoo.org
 
    Authors:
-     * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
-     * Andreas Ecker (ecker)
-       <andreas dot ecker at 1und1 dot de>
-     * Andreas Junghans (lucidcake)
-       <andreas dot junghans at stz-ida dot de>
-     * Derrell Lipman
-       <derrell dot lipman at unwireduniverse dot com>
+   * Sebastian Werner (wpbasti)
+     <sebastian dot werner at 1und1 dot de>
+   * Andreas Ecker (ecker)
+     <andreas dot ecker at 1und1 dot de>
+   * Andreas Junghans (lucidcake)
+     <andreas dot junghans at stz-ida dot de>
+   * Derrell Lipman
+     <derrell dot lipman at unwireduniverse dot com>
 
 ************************************************************************ */
 
 /* ************************************************************************
 
+#module(json)
+#module(transport)
 
 ************************************************************************ */
 
@@ -55,206 +57,234 @@ SOFTWARE.
 
 /**
  * This is a slightly modified JSON implementation that supports Dates and
- * treats undefined like null. 
+ * treats undefined like null.
  */
 
 qx.OO.defineClass("qx.io.Json");
 
-qx.io.Json = function () {
-    var m = {
-            '\b': '\\b',
-            '\t': '\\t',
-            '\n': '\\n',
-            '\f': '\\f',
-            '\r': '\\r',
-            '"' : '\\"',
-            '\\': '\\\\'
-        },
-        s = {
-            'boolean': function (x) {
-                return String(x);
-            },
-            number: function (x) {
-                return isFinite(x) ? String(x) : 'null';
-            },
-            string: function (x) {
-                if (/["\\\x00-\x1f]/.test(x)) {
-                    x = x.replace(/([\x00-\x1f\\"])/g, function(a, b) {
-                        var c = m[b];
-                        if (c) {
-                            return c;
-                        }
-                        c = b.charCodeAt();
-                        return '\\u00' +
-                            Math.floor(c / 16).toString(16) +
-                            (c % 16).toString(16);
-                    });
-                }
-                return '"' + x + '"';
-            },
-            object: function (x) {
-                if (x) {
-                    var a = [], b, f, i, l, v;
-                    if (x instanceof Array) {
-                        a[0] = '[';
-                        l = x.length;
-                        for (i = 0; i < l; i += 1) {
-                            v = x[i];
-                            f = s[typeof v];
-                            if (f) {
-                                v = f(v);
-                                if (typeof v == 'string') {
-                                    if (b) {
-                                        a[a.length] = ',';
-                                    }
-                                    a[a.length] = v;
-                                    b = true;
-                                }
-                            }
-                        }
-                        a[a.length] = ']';
-                    // AJ, DJL --
-                    } else if (x instanceof Date) {
-                      /*
-                       * The Date object is a primitive type in Javascript,
-                       * but the Javascript specification neglects to provide
-                       * a literal form for it.  The only way to generate a
-                       * Date object is with "new Date()".  For fast
-                       * processing by Javascript, we want to be able to
-                       * eval() a JSON response.  If Date objects are to be
-                       * passed to the client using JSON, about the only
-                       * reasonable way to do it is to have "new Date()"
-                       * in the JSON message.  See this page for a proposal to
-                       * add a Date literal syntax to Javascript which,
-                       * if/when implemented in Javascript, would eliminate
-                       * the need to pass "new Date() in JSON":
-                       *
-                       *   http://www.hikhilk.net/DateSyntaxForJSON.aspx
-                       *
-                       * Sending a JSON message from client to server, we have
-                       * no idea what language the server will be written in,
-                       * what size integers it supports, etc.  We do want to
-                       * be able to represent as large a range of dates as
-                       * possible, though.  If we were to send the number of
-                       * milliseconds since the beginning of the epoch, the
-                       * value would exceed, in many cases, what can fit in a
-                       * 32-bit integer.  Even if one were to simply strip off
-                       * the last three digits (milliseconds), the number of
-                       * seconds could exceed a 32-bit signed integer's range
-                       * with very distant past or distant future dates.  To
-                       * make it easier for any generic server to handle a
-                       * date without risk of loss of precision due to
-                       * automatic type casting, we'll send a UTC date with
-                       * separated fields, in the form:
-                       *
-                       *  new Date(Date.UTC(year,month,day,hour,min,sec,ms))
-                       *
-                       * The server can fairly easily parse this in its JSON
-                       * implementation by stripping off "new Date(Date.UTC("
-                       * from the beginning of the string, and "))" from the
-                       * end of the string.  What remains is the set of
-                       * comma-separated date components, which are also very
-                       * easy to parse.
-                       *
-                       * The server should send this same format to the
-                       * client, which can simply eval() it just as with the
-                       * remainder of JSON.
-                       *
-                       * A requirement of the implementation of the server is
-                       * that after a date has been sent from the client to
-                       * the server, converted by the server into whatever
-                       * native type the date will be stored or manipulated
-                       * in, convered back to JSON, and received back at the
-                       * client, a comparison of the sent and received Date
-                       * object should yield identity.  This means that even
-                       * if the server does not natively operate on
-                       * milliseconds, it must maintain milliseconds in dates
-                       * sent to it by the client.
-                       */
-                      var dateParams =
-                        x.getUTCFullYear() + "," +
-                        x.getUTCMonth() + "," +
-                        x.getUTCDate() + "," +
-                        x.getUTCHours() + "," +
-                        x.getUTCMinutes() + "," +
-                        x.getUTCSeconds() + "," +
-                        x.getUTCMilliseconds();
-                      return "new Date(Date.UTC(" + dateParams + "))";
-                    // -- AJ, DJL
-                    } else if (x instanceof Object) {
-                        a[0] = '{';
-                        for (i in x) {
-                            v = x[i];
-                            f = s[typeof v];
-                            if (f) {
-                                v = f(v);
-                                if (typeof v == 'string') {
-                                    if (b) {
-                                        a[a.length] = ',';
-                                    }
-                                    a.push(s.string(i), ':', v);
-                                    b = true;
-                                }
-                            }
-                        }
-                        a[a.length] = '}';
-                    } else {
-                        return;
-                    }
-                    return a.join('');
-                }
-                return 'null';
-            },
-            // AJ, DJL --
-            undefined: function(x) {
-                if (qx.core.Settings.jsonEncodeUndefined)
-                    return 'null';
-            }
-            // -- AJ, DJL
-        }
-    return {
-        copyright: '(c)2005 JSON.org',
-        license: 'http://www.JSON.org/license.html',
+
+
+
 /*
-    Stringify a JavaScript value, producing a JSON text.
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
 */
-        stringify: function (v) {
-            var f = s[typeof v];
-            // AJ, DJL --
-            var ret = null;
-            // -- AJ, DJL
-            if (f) {
+
+qx.Settings.setDefault("encodeUndefined", true);
+qx.Settings.setDefault("enableDebug", false);
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  IMPLEMENTATION
+---------------------------------------------------------------------------
+*/
+
+qx.io.Json = function ()
+{
+  var m = {
+      '\b': '\\b',
+      '\t': '\\t',
+      '\n': '\\n',
+      '\f': '\\f',
+      '\r': '\\r',
+      '"' : '\\"',
+      '\\': '\\\\'
+    },
+    s = {
+      'boolean': function (x) {
+        return String(x);
+      },
+
+      number: function (x) {
+        return isFinite(x) ? String(x) : 'null';
+      },
+
+      string: function (x) {
+        if (/["\\\x00-\x1f]/.test(x)) {
+          x = x.replace(/([\x00-\x1f\\"])/g, function(a, b) {
+            var c = m[b];
+            if (c) {
+              return c;
+            }
+            c = b.charCodeAt();
+            return '\\u00' +
+              Math.floor(c / 16).toString(16) +
+              (c % 16).toString(16);
+          });
+        }
+        return '"' + x + '"';
+      },
+
+      object: function (x) {
+        if (x) {
+          var a = [], b, f, i, l, v;
+          if (x instanceof Array) {
+            a[0] = '[';
+            l = x.length;
+            for (i = 0; i < l; i += 1) {
+              v = x[i];
+              f = s[typeof v];
+              if (f) {
                 v = f(v);
                 if (typeof v == 'string') {
-                    // DJL --
-                    ret = v;
-                    // -- DJL
+                  if (b) {
+                    a[a.length] = ',';
+                  }
+                  a[a.length] = v;
+                  b = true;
                 }
+              }
             }
-            
-            // DJL --
-            if (qx.core.Settings.enableJsonDebug) {
-              var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
-              logger.debug("JSON request: " + ret);
+            a[a.length] = ']';
+          // AJ, DJL --
+          } else if (x instanceof Date) {
+            /*
+             * The Date object is a primitive type in Javascript,
+             * but the Javascript specification neglects to provide
+             * a literal form for it.  The only way to generate a
+             * Date object is with "new Date()".  For fast
+             * processing by Javascript, we want to be able to
+             * eval() a JSON response.  If Date objects are to be
+             * passed to the client using JSON, about the only
+             * reasonable way to do it is to have "new Date()"
+             * in the JSON message.  See this page for a proposal to
+             * add a Date literal syntax to Javascript which,
+             * if/when implemented in Javascript, would eliminate
+             * the need to pass "new Date() in JSON":
+             *
+             *   http://www.hikhilk.net/DateSyntaxForJSON.aspx
+             *
+             * Sending a JSON message from client to server, we have
+             * no idea what language the server will be written in,
+             * what size integers it supports, etc.  We do want to
+             * be able to represent as large a range of dates as
+             * possible, though.  If we were to send the number of
+             * milliseconds since the beginning of the epoch, the
+             * value would exceed, in many cases, what can fit in a
+             * 32-bit integer.  Even if one were to simply strip off
+             * the last three digits (milliseconds), the number of
+             * seconds could exceed a 32-bit signed integer's range
+             * with very distant past or distant future dates.  To
+             * make it easier for any generic server to handle a
+             * date without risk of loss of precision due to
+             * automatic type casting, we'll send a UTC date with
+             * separated fields, in the form:
+             *
+             *  new Date(Date.UTC(year,month,day,hour,min,sec,ms))
+             *
+             * The server can fairly easily parse this in its JSON
+             * implementation by stripping off "new Date(Date.UTC("
+             * from the beginning of the string, and "))" from the
+             * end of the string.  What remains is the set of
+             * comma-separated date components, which are also very
+             * easy to parse.
+             *
+             * The server should send this same format to the
+             * client, which can simply eval() it just as with the
+             * remainder of JSON.
+             *
+             * A requirement of the implementation of the server is
+             * that after a date has been sent from the client to
+             * the server, converted by the server into whatever
+             * native type the date will be stored or manipulated
+             * in, convered back to JSON, and received back at the
+             * client, a comparison of the sent and received Date
+             * object should yield identity.  This means that even
+             * if the server does not natively operate on
+             * milliseconds, it must maintain milliseconds in dates
+             * sent to it by the client.
+             */
+            var dateParams =
+            x.getUTCFullYear() + "," +
+            x.getUTCMonth() + "," +
+            x.getUTCDate() + "," +
+            x.getUTCHours() + "," +
+            x.getUTCMinutes() + "," +
+            x.getUTCSeconds() + "," +
+            x.getUTCMilliseconds();
+            return "new Date(Date.UTC(" + dateParams + "))";
+          // -- AJ, DJL
+          } else if (x instanceof Object) {
+            a[0] = '{';
+            for (i in x) {
+              v = x[i];
+              f = s[typeof v];
+              if (f) {
+                v = f(v);
+                if (typeof v == 'string') {
+                  if (b) {
+                    a[a.length] = ',';
+                  }
+                  a.push(s.string(i), ':', v);
+                  b = true;
+                }
+              }
             }
-
-            return ret;
-            // -- DJL
-        },
-/*
-    Parse a JSON text, producing a JavaScript value.
-    It returns false if there is a syntax error.
-*/
-        parse: function (text) {
-            try {
-                return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
-                        text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
-                    eval('(' + text + ')');
-            } catch (e) {
-                return false;
-            }
+            a[a.length] = '}';
+          } else {
+            return;
+          }
+          return a.join('');
         }
+        return 'null';
+      },
+
+      // AJ, DJL --
+      undefined: function(x) {
+        if (qx.Settings.getValueOfClass("qx.io.Json", "encodeUndefined"))
+          return 'null';
+      }
+      // -- AJ, DJL
     }
+
+  return {
+    copyright: '(c)2005 JSON.org',
+    license: 'http://www.JSON.org/license.html',
+/*
+  Stringify a JavaScript value, producing a JSON text.
+*/
+    stringify: function (v) {
+      var f = s[typeof v];
+      // AJ, DJL --
+      var ret = null;
+      // -- AJ, DJL
+      if (f) {
+        v = f(v);
+        if (typeof v == 'string') {
+          // DJL --
+          ret = v;
+          // -- DJL
+        }
+      }
+
+      // DJL --
+      if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+        var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+        logger.debug("JSON request: " + ret);
+      }
+
+      return ret;
+      // -- DJL
+    },
+/*
+  Parse a JSON text, producing a JavaScript value.
+  It returns false if there is a syntax error.
+*/
+    parse: function (text) {
+      try {
+        return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
+            text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
+          eval('(' + text + ')');
+      } catch (e) {
+        return false;
+      }
+    }
+  }
 }();
 
 
@@ -268,25 +298,25 @@ qx.io.Json = function () {
 //  /* If there's a class hint... */
 //  if (obj.__jsonclass__)
 //  {
-//    /* ... then check for supported classes.  We support only Date. */
-//    if (obj.__jsonclass__ == "Date" && obj.secSinceEpoch && obj.msAdditional)
-//    {
-//      /* Found a Date.  Replace class hint object with a Date object. */
-//      obj = new Date((obj.secSinceEpoch * 1000) + obj.msAdditional);
-//      return obj;
-//    }
+//  /* ... then check for supported classes.  We support only Date. */
+//  if (obj.__jsonclass__ == "Date" && obj.secSinceEpoch && obj.msAdditional)
+//  {
+//    /* Found a Date.  Replace class hint object with a Date object. */
+//    obj = new Date((obj.secSinceEpoch * 1000) + obj.msAdditional);
+//    return obj;
+//  }
 //  }
 //
 //  /*
 //   * It wasn't something with a supported class hint, so recursively descend
 //   */
 //  for (var member in obj) {
-//    thisObj = obj[member];
-//    if (typeof thisObj == 'object' && thisObj !== null) {
-//        obj[member] = qx.io.Json._fixObj(thisObj);
-//    }
+//  thisObj = obj[member];
+//  if (typeof thisObj == 'object' && thisObj !== null) {
+//    obj[member] = qx.io.Json._fixObj(thisObj);
 //  }
-//  
+//  }
+//
 //  return obj;
 //}
 
@@ -297,12 +327,12 @@ qx.io.Json = function () {
  */
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
-  
-  if (qx.core.Settings.enableJsonDebug) {
-    var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
-    logger.debug("JSON response: " + text);
+
+  if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+  var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  logger.debug("JSON response: " + text);
   }
-  
+
   var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;
 
 //  /*
@@ -312,8 +342,8 @@ qx.io.Json.parseQx = function(text) {
 //
 //  /* If it's an object, not null, and contains a "result" field.. */
 //  if (typeof obj == 'object' && obj !== null && obj.result) {
-//    /* ... then 'fix' the result by handling any supported class hints */
-//    obj.result = qx.io.Json._fixObj(obj.result);
+//  /* ... then 'fix' the result by handling any supported class hints */
+//  obj.result = qx.io.Json._fixObj(obj.result);
 //  }
 
   return obj;
