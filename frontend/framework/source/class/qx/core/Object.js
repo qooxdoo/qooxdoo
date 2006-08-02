@@ -391,7 +391,7 @@ qx.Proto.dispose = function()
     delete this._objectproperties;
   }
 
-  if (qx.Settings.getValueOfClass("qx.core.Object", "enableDisposerDebug")) {
+  if (this.getSetting("enableDisposerDebug")) {
   {
     for (var vKey in this)
     {
