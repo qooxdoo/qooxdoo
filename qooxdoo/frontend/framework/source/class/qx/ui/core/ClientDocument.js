@@ -88,6 +88,17 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 
 
 
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enableApplicationLayout", true);
+
+
+
+
 
 
 /*
@@ -288,7 +299,7 @@ qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
   ":border-box;} img{" + qx.sys.Client.getEngineBoxSizingAttribute() +
   ":content-box;}");
 
-if (qx.core.Settings.enableApplicationLayout) {
+if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
   qx.dom.DomStyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 
