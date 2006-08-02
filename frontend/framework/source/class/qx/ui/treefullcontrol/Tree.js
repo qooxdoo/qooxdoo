@@ -1,24 +1,20 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
 
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
-     (C) 2006 by Derrell Lipman
-         All rights reserved
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 by Derrell Lipman
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-
-   Internet:
-     * http://qooxdoo.oss.schlund.de
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
-     * Andreas Ecker (aecker)
-       <andreas dot ecker at 1und1 dot de>
-     * Derrell Lipman
+     * Andreas Ecker (ecker)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
@@ -32,14 +28,14 @@
 /**
  * @brief
  * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
- * TreeFolder. 
+ * TreeFolder.
  *
  * @param
  * treeRowStructure -
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  */
-qx.OO.defineClass("qx.ui.treefullcontrol.Tree", qx.ui.treefullcontrol.TreeFolder, 
+qx.OO.defineClass("qx.ui.treefullcontrol.Tree", qx.ui.treefullcontrol.TreeFolder,
 function(treeRowStructure)
 {
   qx.ui.treefullcontrol.TreeFolder.call(this, treeRowStructure);
@@ -217,7 +213,7 @@ qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
   if (this._initialLayoutDone) {
     this._updateIndent();
   }
-  
+
   return true;
 }
 
@@ -372,7 +368,7 @@ qx.Proto._onkeyup = function(e)
     if (! vNewItem) {
       return;
     }
-    
+
     vNewItem.getIconObject().addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
 
     delete this._fastUpdate;

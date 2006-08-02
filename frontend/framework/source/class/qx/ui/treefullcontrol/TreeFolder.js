@@ -1,24 +1,20 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
 
    Copyright:
-     (C) 2004-2006 by Schlund + Partner AG, Germany
-     (C) 2006 by Derrell Lipman
-         All rights reserved
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 by Derrell Lipman
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-
-   Internet:
-     * http://qooxdoo.oss.schlund.de
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
-     * Andreas Ecker (aecker)
-       <andreas dot ecker at 1und1 dot de>
-     * Derrell Lipman
+     * Andreas Ecker (ecker)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
@@ -40,7 +36,7 @@
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  */
-qx.OO.defineClass("qx.ui.treefullcontrol.TreeFolder", qx.ui.treefullcontrol.AbstractTreeElement, 
+qx.OO.defineClass("qx.ui.treefullcontrol.TreeFolder", qx.ui.treefullcontrol.AbstractTreeElement,
 function(treeRowStructure)
 {
   qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
@@ -521,7 +517,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
       // If this is the first level under the root...
       if (this.getLevel() == 1) {
         // ... and the root is not being displayed and this is the first
-        // child... 
+        // child...
         var vParentFolder = this.getParentFolder();
         if (vParentFolder &&
             !vParentFolder._horizontalLayout.getVisibility() &&
