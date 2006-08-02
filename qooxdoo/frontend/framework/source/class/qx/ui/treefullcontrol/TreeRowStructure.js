@@ -1,19 +1,17 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web interface development
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
 
    Copyright:
-     (C) 2006 by Derrell Lipman
-         All rights reserved
+     2006 by Derrell Lipman
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-
-   Internet:
-     * http://qooxdoo.oss.schlund.de
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
    Authors:
-     * Derrell Lipman
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
@@ -190,7 +188,7 @@ qx.Proto.addIndent = function()
   {
     throw new Error("Indent object added more than once.");
   }
-  
+
   /* Add the indentation to the structure */
   this._fields.push(this._indentObject);
 }

@@ -2,24 +2,19 @@
 
    qooxdoo - the new era of web development
 
+   http://qooxdoo.org
+
    Copyright:
-     2004-2006 by Schlund + Partner AG, Germany
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
      2006 by Derrell Lipman
-     All rights reserved
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-
-   Internet:
-     * http://qooxdoo.org
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (ecker)
-       <andreas dot ecker at 1und1 dot de>
-     * Derell Lipman
-       <derrell dot lipman at unwireduniverse dot com>
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
