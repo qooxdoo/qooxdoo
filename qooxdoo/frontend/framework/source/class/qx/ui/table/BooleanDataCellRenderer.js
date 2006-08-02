@@ -75,7 +75,7 @@ qx.Proto._getImgUrl = function(cellInfo) {
   switch (cellInfo.value) {
     case true:  return qx.manager.object.ImageManager.buildUri("widget/table/boolean-true.png"); break;
     case false: return qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png"); break;
-    default:    return qx.manager.object.ImageManager.buildUri("static/coreimages/blank.gif"); break;
+    default:    return qx.manager.object.ImageManager.buildUri("static/image/blank.gif"); break;
   }
 }
 
