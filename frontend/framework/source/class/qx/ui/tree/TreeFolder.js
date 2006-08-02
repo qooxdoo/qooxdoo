@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.TreeFolder", qx.ui.tree.AbstractTreeElement, 
+qx.OO.defineClass("qx.ui.tree.TreeFolder", qx.ui.tree.AbstractTreeElement,
 function(vLabel, vIcon, vIconSelected)
 {
   qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
@@ -84,7 +84,7 @@ qx.Proto.open = function()
     return;
   }
 
-  if (this.hasContent())
+  if (this.hasContent() && this.isSeeable())
   {
     this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
     qx.client.Timer.once(this._openCallback, this, 0);
