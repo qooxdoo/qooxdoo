@@ -61,11 +61,11 @@ qx.Settings.getValueOfClass = function(vClassName, vKey)
   return null;
 }
 
-qx.Settings.setDefaultSetting = function(vKey, vValue) {
-  return qx.Settings.setDefaultSettingOfClass(qx.Class.classname, vKey, vValue);
+qx.Settings.setDefault = function(vKey, vValue) {
+  return qx.Settings.setDefaultOfClass(qx.Class.classname, vKey, vValue);
 }
 
-qx.Settings.setDefaultSettingOfClass = function(vClassName, vKey, vValue)
+qx.Settings.setDefaultOfClass = function(vClassName, vKey, vValue)
 {
   var vDefaultObject = qx.Settings._defaultSettings[vClassName];
 

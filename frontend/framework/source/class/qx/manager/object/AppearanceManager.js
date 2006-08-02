@@ -43,7 +43,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefaultSetting("theme", "qx.theme.appearance.DefaultAppearanceTheme");
+qx.Settings.setDefault("theme", "qx.theme.appearance.DefaultAppearanceTheme");
 
 
 
