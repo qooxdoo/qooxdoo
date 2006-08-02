@@ -36,7 +36,7 @@
   This class is a singleton and is used by qx.io.remote.RemoteRequest to schedule its
   requests. It should not be used directly.
  */
-qx.OO.defineClass("qx.io.remote.RemoteRequestQueue", qx.core.Target, 
+qx.OO.defineClass("qx.io.remote.RemoteRequestQueue", qx.core.Target,
 function()
 {
   qx.core.Target.call(this);
@@ -79,7 +79,7 @@ qx.Proto._debug = function()
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
-  if (qx.core.Settings.enableTransportDebug)
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug"))
   {
     this.debug("Progress: " + vText);
     window.status = "Request-Queue Progress: " + vText;
@@ -195,7 +195,7 @@ qx.Proto._activeCount = 0;
 
 qx.Proto._onsending = function(e)
 {
-  if (qx.core.Settings.enableTransportDebug)
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug"))
   {
     this._activeCount++;
     e.getTarget()._counted = true;
@@ -206,7 +206,7 @@ qx.Proto._onsending = function(e)
 
 qx.Proto._oncompleted = function(e)
 {
-  if (qx.core.Settings.enableTransportDebug)
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug"))
   {
     if (e.getTarget()._counted)
     {

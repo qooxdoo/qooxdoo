@@ -161,7 +161,7 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
 qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 /*!
   The transport instance used for the request.
-  
+
   This is necessary to be able to abort an asynchronous request.
 */
 qx.OO.addProperty({ name : "transport", type : qx.constant.Type.OBJECT, instance : "qx.io.remote.RemoteExchange" });
@@ -376,7 +376,7 @@ qx.Proto._onfailed = function(e)
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.core.Settings.enableTransportDebug) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
     this.debug("State: " + propValue);
   }
 
@@ -530,12 +530,6 @@ qx.Proto.dispose = function()
 
   this._requestHeaders = null;
   this._parameters = null;
-
-  /*
-  if (qx.core.Settings.enableTransportDebug) {
-    this.debug("Disposing...");
-  }
-  */
 
   this.setTransport(null);
 

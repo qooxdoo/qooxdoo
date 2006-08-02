@@ -48,6 +48,16 @@ function(vAutoDispose)
 });
 
 
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enableDisposerDebug", false);
+
+
+
 
 
 /* ************************************************************************
@@ -381,7 +391,7 @@ qx.Proto.dispose = function()
     delete this._objectproperties;
   }
 
-  if (qx.core.Settings.enableDisposerDebug)
+  if (qx.Settings.getValueOfClass("qx.core.Object", "enableDisposerDebug")) {
   {
     for (var vKey in this)
     {

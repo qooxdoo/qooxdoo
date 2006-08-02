@@ -111,6 +111,22 @@ qx.Class.JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
 qx.Class.FOCUS_OUTLINE = "1px dotted invert";
 
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enableQueueDebug", false);
+
+
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   BASIC PROPERTIES
@@ -513,7 +529,7 @@ qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clip
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Settings.enableWidgetDebug)
+if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug")) {
 {
   qx.ui.core.Widget.flushGlobalQueues = function()
   {
