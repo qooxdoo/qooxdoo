@@ -62,7 +62,7 @@ function()
   this.defineAlias("static", this.getSetting("staticUri"));
 });
 
-qx.Proto.BLANK = "static/coreimages/blank.gif";
+qx.Proto.BLANK = "static/image/blank.gif";
 
 
 

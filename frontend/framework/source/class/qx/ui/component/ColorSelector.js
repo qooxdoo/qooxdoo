@@ -423,7 +423,7 @@ qx.Proto._createPreviewContent = function()
   this._oldColorPreview = new qx.ui.basic.Terminator;
   this._oldColorPreview.setBorder(qx.renderer.border.BorderObject.presets.thinInset);
   this._oldColorPreview.setWidth(qx.constant.Core.FLEX);
-  this._oldColorPreview.setBackgroundImage("static/coreimages/dotted_white.gif");
+  this._oldColorPreview.setBackgroundImage("static/image/dotted_white.gif");
   this._oldColorPreview.setParent(this._previewLayout);
 
   this._newColorPreview = new qx.ui.basic.Terminator;
