@@ -29,6 +29,26 @@
 
 qx.OO.defineClass("qx.lang.Prototypes");
 
+
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enable", false);
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  PROTOTYPES MAPPER
+---------------------------------------------------------------------------
+*/
+
 qx.lang.Prototypes.init = function()
 {
   var key, obj;
@@ -50,6 +70,6 @@ qx.lang.Prototypes.init = function()
   }
 }
 
-if (qx.core.Settings.enablePrototypes) {
+if (qx.Settings.getValueOfClass("qx.lang.Generics", "enable")) {
   qx.lang.Prototypes.init();
 }
