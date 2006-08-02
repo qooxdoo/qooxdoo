@@ -37,5 +37,5 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enableTransportDebug : false,
 
   enableApplicationLayout : true,
-  enableUserInterface : true,
+  enableUserInterface : true
 });
