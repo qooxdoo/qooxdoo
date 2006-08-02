@@ -25,7 +25,6 @@
 
 #module(init)
 #require(qx.constant.Type)
-#require(qx.core.Settings)
 #require(qx.dom.DomEventRegistration)
 #require(qx.manager.object.SingletonManager)
 
