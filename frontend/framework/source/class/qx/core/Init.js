@@ -53,6 +53,17 @@ function()
 
 
 
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enableUserInterface", true);
+
+
+
+
 
 
 /*
@@ -75,7 +86,7 @@ qx.Proto._modifyComponentClass = function(propValue, propOldValue, propData)
 qx.Proto.getComponent = function()
 {
   if (!this._component) {
-    if (qx.core.Settings.enableUserInterface && (qx.component.InitUiComponent != null)) {
+    if (this.getSetting("enableUserInterface") && qx.component.InitUiComponent != null) {
       this.setComponentClass(qx.component.InitUiComponent);
     } else {
       this.setComponentClass(qx.component.InitComponent);
