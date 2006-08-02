@@ -33,7 +33,7 @@
 qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton,
 function(vLabel, vCommand, vChecked)
 {
-  qx.ui.menu.MenuButton.call(this, vLabel, qx.manager.object.ImageManager.BLANK, vCommand);
+  qx.ui.menu.MenuButton.call(this, vLabel, "static/image/blank.gif", vCommand);
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
@@ -68,7 +68,7 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
   propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
-  this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : qx.manager.object.ImageManager.BLANK);
+  this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : "static/image/blank.gif");
 
   return true;
 }

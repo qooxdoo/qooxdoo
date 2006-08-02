@@ -105,7 +105,7 @@ qx.Proto._syncHtml = function()
   if (qx.util.Validation.isValidString(this.getIcon()))
   {
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_IMAGE);
-    vHtml.push(qx.manager.object.ImageManager.buildUri(this._mshtml ? qx.manager.object.ImageManager.BLANK : this.getIcon()));
+    vHtml.push(qx.manager.object.ImageManager.buildUri(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_STYLE);
 
     if (qx.util.Validation.isValidNumber(this.getSpacing()))
