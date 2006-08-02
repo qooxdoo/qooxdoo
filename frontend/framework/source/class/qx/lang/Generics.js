@@ -29,6 +29,19 @@
 
 qx.OO.defineClass("qx.lang.Generics");
 
+
+/*
+---------------------------------------------------------------------------
+  DEFAULT SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault("enable", false);
+
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   JAVASCRIPT 1.6 GENERICS
@@ -129,6 +142,6 @@ qx.lang.Generics.init = function()
   }
 }
 
-if (qx.core.Settings.enableGenerics) {
+if (qx.Settings.getValueOfClass("qx.lang.Generics", "enable")) {
   qx.lang.Generics.init();
 }

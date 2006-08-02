@@ -40,8 +40,5 @@ qx.OO.defineClass("qx.core.DefaultSettings",
   enableApplicationLayout : true,
   enableUserInterface : true,
 
-  enablePrototypes : false,
-  enableGenerics : false,
-
   jsonEncodeUndefined : true
 });
