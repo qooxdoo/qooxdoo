@@ -70,7 +70,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 {
   if (window.XMLHttpRequest)
   {
-    if (qx.core.Settings.enableTransportDebug) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
       qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using XMLHttpRequest");
     }
 
@@ -101,7 +101,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 
     if (vObject)
     {
-      if (qx.core.Settings.enableTransportDebug) {
+      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
         qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using ActiveXObject: " + vServer);
       }
 
@@ -305,7 +305,7 @@ qx.Proto._onreadystatechange = function(e)
     case qx.constant.Net.STATE_ABORTED:
     case qx.constant.Net.STATE_FAILED:
     case qx.constant.Net.STATE_TIMEOUT:
-      if (qx.core.Settings.enableTransportDebug) {
+      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
         this.warn("Ignore Ready State Change");
       }
       return;
@@ -547,14 +547,14 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
   {
-    if (qx.core.Settings.enableTransportDebug) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
       this.warn("Transfer not complete, ignoring content!");
     }
 
     return null;
   }
 
-  if (qx.core.Settings.enableTransportDebug) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   }
 
@@ -602,7 +602,7 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.core.Settings.enableTransportDebug) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
     this.debug("State: " + propValue);
   }
 
@@ -664,12 +664,6 @@ qx.Proto.dispose = function()
   if (this.getDisposed()) {
     return;
   }
-
-  /*
-  if (qx.core.Settings.enableTransportDebug) {
-    this.debug("Disposing...");
-  }
-  */
 
   var vRequest = this.getRequest();
 

@@ -380,14 +380,14 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
   {
-    if (qx.core.Settings.enableTransportDebug) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
       this.warn("Transfer not complete, ignoring content!");
     }
 
     return null;
   }
 
-  if (qx.core.Settings.enableTransportDebug) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   }
 
