@@ -20,11 +20,9 @@
 
 #module(core)
 #require(qx.OO)
-#require(qx.constant.Event)
 #use(qx.constant.Type)
 #use(qx.constant.Core)
 #use(qx.dev.log.Logger)
-#use(qx.component.InitComponent)
 
 ************************************************************************ */
 

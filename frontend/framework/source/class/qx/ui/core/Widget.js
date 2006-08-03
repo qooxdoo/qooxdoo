@@ -18,16 +18,12 @@
 
 /* ************************************************************************
 
-#module(guicore)
-#require(qx.constant.Tags)
-#require(qx.renderer.color.ColorObject)
-#require(qx.renderer.color.ColorCache)
-#require(qx.renderer.border.BorderObject)
-#require(qx.renderer.border.BorderCache)
-#require(qx.manager.object.AppearanceManager)
-#use(qx.dom.DomScrollIntoView)
-#use(qx.dom.DomOffset)
-#use(qx.component.InitUiComponent)
+#module(uicore)
+#after(qx.renderer.color.ColorObject)
+#after(qx.renderer.color.ColorCache)
+#after(qx.renderer.border.BorderObject)
+#after(qx.renderer.border.BorderCache)
+#after(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 

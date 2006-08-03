@@ -24,7 +24,6 @@
 #require(qx.ui.popup.Popup)
 #require(qx.ui.basic.Atom)
 #require(qx.ui.form.TextField)
-#require(qx.ui.basic.Image)
 
 ************************************************************************ */
 
@@ -40,7 +39,7 @@
   * Images inside the list
   * Images and text inside the list
 */
-qx.OO.defineClass("qx.ui.form.ComboBox", qx.ui.layout.HorizontalBoxLayout, 
+qx.OO.defineClass("qx.ui.form.ComboBox", qx.ui.layout.HorizontalBoxLayout,
 function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);

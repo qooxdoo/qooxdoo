@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(color)
-#use(qx.util.Validation)
 #use(qx.renderer.color.Color)
 #use(qx.manager.object.ColorManager)
 
