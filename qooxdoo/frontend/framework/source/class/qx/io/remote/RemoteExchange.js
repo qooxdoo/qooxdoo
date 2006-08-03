@@ -194,6 +194,14 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
         return true;
 
 
+      case 201: // Created
+      case 202: // Accepted
+      case 203: // Non-Authoritative Information
+      case 204: // No Content
+      case 205: // Reset Content
+        return true;
+
+
       case 206: // Partial Content
         if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug") && vReadyState === 4) {
           qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
@@ -202,7 +210,6 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
         return vReadyState !== 4;
 
 
-      case 204: // No Content
       case 300: // Multiple Choices
       case 301: // Moved Permanently
       case 302: // Moved Temporarily
