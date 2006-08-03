@@ -30,7 +30,11 @@ def extractLoadtimeDeps(data, fileId=""):
   # store inheritance deps
   superClass = extractSuperClass(data)
   if superClass != None and superClass != "" and not superClass in config.JSBUILTIN:
+    deps.append("qx.OO")
     deps.append(superClass)
+  elif "qx.OO" in data:
+    deps.append("qx.OO")
+
 
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
