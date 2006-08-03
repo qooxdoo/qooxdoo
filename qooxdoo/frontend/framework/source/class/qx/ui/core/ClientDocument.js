@@ -22,6 +22,7 @@
 #require(qx.dom.DomStyleSheet)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
+#optional(qx.ui.core.ClientDocumentBlocker)
 
 ************************************************************************ */
 

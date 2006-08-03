@@ -28,6 +28,9 @@
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
 #optional(qx.client.Timer)
+#optional(qx.client.Command)
+#optional(qx.ui.popup.ToolTip)
+#optional(qx.ui.menu.Menu)
 
 ************************************************************************ */
 

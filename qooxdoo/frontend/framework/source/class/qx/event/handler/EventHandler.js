@@ -19,6 +19,11 @@
 /* ************************************************************************
 
 #module(eventcore)
+#optional(qx.event.handler.DragAndDropHandler)
+#optional(qx.manager.object.MenuManager)
+#optional(qx.event.handler.FocusHandler)
+#optional(qx.manager.object.PopupManager)
+#optional(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 
