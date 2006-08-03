@@ -172,7 +172,7 @@ qx.Proto.getCellEditorFactory = function(col) {
  */
 qx.Proto._getColToXPosMap = function() {
   if (this._colToXPosMap == null) {
-    this._colToXPosMap = {}
+    this._colToXPosMap = {};
     for (var overX = 0; overX < this._overallColumnArr.length; overX++) {
       var col = this._overallColumnArr[overX];
       this._colToXPosMap[col] = { overX:overX }

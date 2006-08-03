@@ -51,7 +51,7 @@ function(vClientWindow)
   this.attachEvents(vClientWindow);
 
   // Init Command Interface
-  this._commands = {}
+  this._commands = {};
 });
 
 qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.constant.Type.BOOLEAN, defaultValue : false });

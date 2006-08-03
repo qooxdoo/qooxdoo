@@ -35,7 +35,7 @@ function(vWidth, vStyle, vColor)
 {
   qx.core.Object.call(this);
 
-  this._themedEdges = {}
+  this._themedEdges = {};
   this._initCache();
 
   if (qx.util.Validation.isValidNumber(vWidth))

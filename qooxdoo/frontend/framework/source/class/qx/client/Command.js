@@ -32,7 +32,7 @@ function(vShortcut, vKeyCode, vManager)
 {
   qx.core.Target.call(this);
 
-  this._shortcutParts = {}
+  this._shortcutParts = {};
 
   if (qx.util.Validation.isValid(vShortcut)) {
     this.setShortcut(vShortcut);
@@ -90,7 +90,7 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
   {
     // split string to get each key which must be pressed
     // build a hash with active keys
-    this._shortcutParts = {}
+    this._shortcutParts = {};
 
     var a = propValue.toLowerCase().split(/[-+\s]+/);
     var al = a.length;
@@ -101,7 +101,7 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
   }
   else
   {
-    this._shortcutParts = {}
+    this._shortcutParts = {};
   }
 
   return true;

@@ -109,7 +109,7 @@ qx.event.type.KeyEvent.keys =
 
 // create dynamic codes copy
 ;(function() {
-  qx.event.type.KeyEvent.codes = {}
+  qx.event.type.KeyEvent.codes = {};
   for (var i in qx.event.type.KeyEvent.keys) {
     qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
   }

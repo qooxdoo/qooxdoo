@@ -62,13 +62,13 @@ function()
   // ************************************************************************
   //   LAYOUT CHANGES
   // ************************************************************************
-  this._layoutChanges = {}
+  this._layoutChanges = {};
 
 
   // ************************************************************************
   //   APPEARANCE
   // ************************************************************************
-  this._states = {}
+  this._states = {};
   this._applyInitialAppearance();
 });
 
@@ -896,7 +896,7 @@ qx.ui.core.Widget.flushGlobalLayoutQueue = function()
 */
 
 qx.ui.core.Widget._fastGlobalDisplayQueue = [];
-qx.ui.core.Widget._lazyGlobalDisplayQueues = {}
+qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
 
 qx.ui.core.Widget.addToGlobalDisplayQueue = function(vWidget)
 {
@@ -1795,7 +1795,7 @@ qx.Proto.addToJobQueue = function(p)
   }
 
   if (!this._jobQueue) {
-    this._jobQueue = {}
+    this._jobQueue = {};
   }
 
   this._jobQueue[p] = true;
@@ -3061,7 +3061,7 @@ qx.Proto._evalUnitsPixelPercent = function(propValue)
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.layoutPropertyTypes = {}
+qx.ui.core.Widget.layoutPropertyTypes = {};
 
 qx.ui.core.Widget.initLayoutProperties = function()
 {
@@ -3987,7 +3987,7 @@ qx.Proto._applyElementData = function(el) {}
 qx.Proto.setHtmlProperty = function(propName, propValue)
 {
   if (!this._htmlProperties) {
-    this._htmlProperties = {}
+    this._htmlProperties = {};
   }
 
   this._htmlProperties[propName] = propValue;
@@ -4075,7 +4075,7 @@ qx.Proto._applyHtmlProperties = function(vElement)
 qx.Proto.setHtmlAttribute = function(propName, propValue)
 {
   if (!this._htmlAttributes) {
-    this._htmlAttributes = {}
+    this._htmlAttributes = {};
   }
 
   this._htmlAttributes[propName] = propValue;

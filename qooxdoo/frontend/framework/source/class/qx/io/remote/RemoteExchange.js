@@ -62,8 +62,8 @@ qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.
 
 qx.io.remote.RemoteExchange.typesReady = false;
 
-qx.io.remote.RemoteExchange.typesAvailable = {}
-qx.io.remote.RemoteExchange.typesSupported = {}
+qx.io.remote.RemoteExchange.typesAvailable = {};
+qx.io.remote.RemoteExchange.typesSupported = {};
 
 qx.io.remote.RemoteExchange.registerType = function(vClass, vId) {
   qx.io.remote.RemoteExchange.typesAvailable[vId] = vClass;
@@ -389,7 +389,7 @@ qx.Proto.send = function()
   // if the selected transport implementation can handle
   // fulfill these requirements.
   var vResponseType = vRequest.getResponseType();
-  var vNeeds = {}
+  var vNeeds = {};
 
   if (vRequest.getAsynchronous()) {
     vNeeds.asynchronous = true;

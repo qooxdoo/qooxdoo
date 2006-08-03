@@ -49,7 +49,7 @@ function(vClientWindow)
   qx.ui.layout.CanvasLayout.call(this);
 
   // Don't use widget styles
-  this._styleProperties = {}
+  this._styleProperties = {};
 
   // Configure as focus root
   this.activateFocusRoot();

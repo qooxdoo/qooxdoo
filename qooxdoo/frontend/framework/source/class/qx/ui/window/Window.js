@@ -904,7 +904,7 @@ qx.Proto._onwindowmousedown = function(e)
     }
 
     // create resize session
-    var s = this._resizeSession = {}
+    var s = this._resizeSession = {};
 
     if (this._resizeWest)
     {

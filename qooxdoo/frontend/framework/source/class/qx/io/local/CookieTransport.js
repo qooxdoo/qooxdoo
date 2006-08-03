@@ -102,7 +102,7 @@ qx.Class.delAll = function() {
 
 qx.Class._getAll = function()
 {
-  var vHash = {}
+  var vHash = {};
   var vCookie, vItems, vItem;
 
   for (var i=0; i<qx.io.local.CookieTransport.MAXCOOKIES; i++)

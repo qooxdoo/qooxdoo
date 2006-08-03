@@ -25,7 +25,7 @@
 /*!
   Helper for qx.manager.selection.SelectionManager, contains data for selections
 */
-qx.OO.defineClass("qx.type.Selection", qx.core.Object, 
+qx.OO.defineClass("qx.type.Selection", qx.core.Object,
 function(vManager)
 {
   qx.core.Object.call(this);
@@ -53,7 +53,7 @@ qx.Proto.remove = function(oItem) {
 }
 
 qx.Proto.removeAll = function() {
-  this._storage = {}
+  this._storage = {};
 }
 
 qx.Proto.contains = function(oItem) {

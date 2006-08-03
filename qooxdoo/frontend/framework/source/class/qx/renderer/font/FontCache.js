@@ -67,4 +67,4 @@ qx.renderer.font.FontCache = function(propValue, propData)
   return qx.renderer.font.FontCache._data[propKey] = qx.renderer.font.Font.fromString(propKey);
 }
 
-qx.renderer.font.FontCache._data = {}
+qx.renderer.font.FontCache._data = {};

@@ -27,7 +27,7 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._methods = {}
+  this._methods = {};
 });
 
 qx.OO.addProperty({ name : "state", type : qx.constant.Type.STRING });

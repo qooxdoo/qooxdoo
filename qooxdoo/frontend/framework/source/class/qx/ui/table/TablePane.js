@@ -269,7 +269,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     rowCount = Math.max(0, modelRowCount - firstRow);
   }
 
-  var cellInfo = {}
+  var cellInfo = {};
   cellInfo.styleHeight = rowHeight;
 
   var htmlArr = [];
@@ -395,7 +395,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 
   var elem = this.getElement();
   var childNodes = elem.childNodes;
-  var cellInfo = {}
+  var cellInfo = {};
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
     if ((onlyRow != null) && (row != onlyRow)) {

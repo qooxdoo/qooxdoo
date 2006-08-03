@@ -33,14 +33,14 @@
     Relicensed under LGPL in assent of Geoff Stearns
 */
 
-qx.OO.defineClass("qx.ui.embed.Flash", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.Flash", qx.ui.basic.Terminator,
 function(vSource, vVersion)
 {
   qx.ui.basic.Terminator.call(this);
 
   // Use background handling of qx.ui.core.Widget instead
-  this._params = {}
-  this._variables = {}
+  this._params = {};
+  this._variables = {};
 
   if(qx.util.Validation.isValidString(vSource)) {
     this.setSource(vSource);

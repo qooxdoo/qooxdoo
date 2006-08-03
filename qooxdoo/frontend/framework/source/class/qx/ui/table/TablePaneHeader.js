@@ -249,7 +249,7 @@ qx.Proto._updateContent = function(completeUpdate) {
   }
 
   // Update the header
-  var cellInfo = {}
+  var cellInfo = {};
   cellInfo.sortedAscending = tableModel.isSortAscending();
   for (var x = 0; x < colCount; x++) {
     var col = paneModel.getColumnAtX(x);

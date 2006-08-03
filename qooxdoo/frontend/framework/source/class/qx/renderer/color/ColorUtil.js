@@ -101,7 +101,7 @@ qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 
   var tov = Math.floor(255 * vBrightness);
 
-  var vReturn = {}
+  var vReturn = {};
 
   if(vSaturation == 0.0)
   {

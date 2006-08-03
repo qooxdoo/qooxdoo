@@ -159,7 +159,7 @@ qx.Proto._syncDataFields = function(vData, vOldLength, vNewLength)
   if (vNewLength > vOldLength)
   {
     for (var i=vOldLength; i<vNewLength; i++) {
-      vData[i] = {}
+      vData[i] = {};
     }
   }
   else if (vOldLength > vNewLength)

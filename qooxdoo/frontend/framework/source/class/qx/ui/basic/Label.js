@@ -50,7 +50,7 @@ qx.Class.COPY_STYLEPROPERTY = "styleproperty";
 qx.Class.COPY_COMPUTEDELEMENT = "computedelement";
 qx.Class.COPY_LOCALELEMENT = "localelement";
 
-qx.Class._measureNodes = {}
+qx.Class._measureNodes = {};
 
 
 
