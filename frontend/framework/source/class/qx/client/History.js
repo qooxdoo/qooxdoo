@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#require(qx.core.Target)
 #resource(html:static/history)
 
 ************************************************************************ */
@@ -68,11 +67,11 @@ qx.Proto.addToHistory = function(command, newTitle) {
     if (this._iframe == null) {
       throw new Error("You have to call init first!");
     }
-  
+
     this._pageFlag = !this._pageFlag;
     this._currentCommand = command;
     this._newTitle = newTitle;
-  
+
     // NOTE: We need the command attribute to enforce a loading of the page
     //       (Otherwise we don't get an onload event).
     //       The browser will still cache commands loaded once.
@@ -93,7 +92,7 @@ qx.Proto._onHistoryLoad = function(location) {
   try {
     var equalsPos = location.search.indexOf("=");
     var command = location.search.substring(equalsPos + 1);
-  
+
     if (this._newTitle) {
       document.title = this._newTitle;
       this._newTitle = null;

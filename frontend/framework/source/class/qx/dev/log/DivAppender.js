@@ -17,7 +17,6 @@
 
 /* ************************************************************************
 
-#require(qx.dev.log.Appender)
 #use(qx.constant.Type)
 #use(qx.constant.Tags)
 #use(qx.dev.log.Logger)

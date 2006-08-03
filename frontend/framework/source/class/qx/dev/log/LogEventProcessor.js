@@ -17,7 +17,6 @@
 
 /* ************************************************************************
 
-#require(qx.core.Object)
 #use(qx.dev.log.Filter)
 #use(qx.dev.log.DefaultFilter)
 

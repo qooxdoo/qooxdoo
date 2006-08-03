@@ -17,7 +17,6 @@
 
 /* ************************************************************************
 
-#require(qx.ui.layout.BoxLayout)
 #require(qx.util.format.DateFormat)
 #require(qx.constant.Type)
 #use(qx.constant.Core)
