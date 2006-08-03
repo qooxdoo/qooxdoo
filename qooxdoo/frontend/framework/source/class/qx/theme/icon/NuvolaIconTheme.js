@@ -45,8 +45,8 @@ qx.Settings.setDefault("imageUri", "../../resources/icon/nuvola");
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.icon, "NuvolaIconTheme");
+qx.manager.object.SingletonManager.add(qx.theme.icon.NuvolaIconTheme);

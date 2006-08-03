@@ -45,8 +45,8 @@ qx.Settings.setDefault("imageUri", "../../resources/icon/crystalsvg");
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.icon, "CrystalSvgIconTheme");
+qx.manager.object.SingletonManager.add(qx.theme.icon.CrystalSvgIconTheme);

@@ -74,8 +74,8 @@ qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.color, "WindowsRoyaleColorTheme");
+qx.manager.object.SingletonManager.add(qx.theme.color.WindowsRoyaleColorTheme);

@@ -33,8 +33,8 @@ function() {
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.color, "SystemColorTheme");
+qx.manager.object.SingletonManager.add(qx.theme.color.SystemColorTheme);
