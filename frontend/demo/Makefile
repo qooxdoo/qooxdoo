@@ -30,13 +30,13 @@ build: generate-script-build update-layout-build
 ###################################################################################
 
 clean:
-	@rm -f source/script/qx.js source/script/layout.js build/script/layout.js
+	rm -f source/script/qx.js source/script/layout.js build/script/layout.js
 
 realclean: clean
-	@rm -rf build
+	rm -rf build
 
 distclean: realclean
-	@find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 

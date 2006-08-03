@@ -39,7 +39,7 @@ realclean: clean
 	rm -rf build source/script
 
 distclean: realclean
-	@find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 
