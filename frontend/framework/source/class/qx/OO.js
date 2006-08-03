@@ -773,3 +773,7 @@ qx.OO.inheritField = function(vField, vData)
   qx.lang.Object.carefullyMergeWith(vData, qx.Super.prototype[vField]);
   qx.Proto[vField] = vData;
 }
+
+qx.OO.isAvailable = function(vClassName) {
+  return qx.OO.classes[vClassName] !== qx.constant.Type.UNDEFINED;
+}
