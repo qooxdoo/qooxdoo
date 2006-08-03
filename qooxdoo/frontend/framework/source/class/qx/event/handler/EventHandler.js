@@ -536,7 +536,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
   vTarget.dispatchEvent(vKeyEventObject);
 
   // Send event to qx.event.handler.DragAndDropHandler
-  if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
+  if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
     qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
   }
 
@@ -987,7 +987,7 @@ qx.Proto._onwindowblur = function(e)
   }
 
   // Cancel Drag Operations
-  if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED) {
+  if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
     qx.event.handler.DragAndDropHandler.globalCancelDrag();
   }
 
