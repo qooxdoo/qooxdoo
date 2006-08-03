@@ -7,7 +7,7 @@ import config, tokenizer, treegenerator
 
 
 def extractFileContentId(data):
-  for item in config.QXHEAD["uniqueId"].findall(data):
+  for item in config.QXHEAD["id"].findall(data):
     return item
 
   for item in config.QXHEAD["defineClass"].findall(data):
@@ -26,7 +26,8 @@ def extractSuperClass(data):
 def extractLoadtimeDeps(data, fileId=""):
   deps = []
 
-  # Storing inheritance deps
+  # qooxdoo specific:
+  # store inheritance deps
   superClass = extractSuperClass(data)
   if superClass != None and superClass != "" and not superClass in config.JSBUILTIN:
     deps.append(superClass)
@@ -43,10 +44,25 @@ def extractLoadtimeDeps(data, fileId=""):
   return deps
 
 
+def extractAfterDeps(data, fileId=""):
+  deps = []
+
+  # Adding explicit after requirements
+  for item in config.QXHEAD["after"].findall(data):
+    if item == fileId:
+      print "      - Self-referring load dependency: %s" % item
+    elif item in deps:
+      print "      - Double definition of load dependency: %s" % item
+    else:
+      deps.append(item)
+
+  return deps
+
+
 def extractRuntimeDeps(data, fileId=""):
   deps = []
 
-  # Adding explicit requirements
+  # Adding explicit runtime requirements
   for item in config.QXHEAD["use"].findall(data):
     if item == fileId:
       print "      - Self-referring runtime dependency: %s" % item
@@ -58,7 +74,22 @@ def extractRuntimeDeps(data, fileId=""):
   return deps
 
 
-def extractOptionalDeps(data):
+def extractBeforeDeps(data, fileId=""):
+  deps = []
+
+  # Adding before requirements
+  for item in config.QXHEAD["before"].findall(data):
+    if item == fileId:
+      print "      - Self-referring runtime dependency: %s" % item
+    elif item in deps:
+      print "      - Double definition of runtime dependency: %s" % item
+    else:
+      deps.append(item)
+
+  return deps
+
+
+def extractOptional(data):
   deps = []
 
   # Adding explicit requirements
@@ -155,14 +186,16 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
     fileDb[fileId] = {
       "tokens" : tokens,
       "tree" : tree,
-      "optionalDeps" : extractOptionalDeps(fileContent),
-      "loadDeps" : extractLoadtimeDeps(fileContent, fileId),
+      "optionalDeps" : extractOptional(fileContent),
+      "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+      "afterDeps" : extractAfterDeps(fileContent, fileId),
+      "beforeDeps" : extractBeforeDeps(fileContent, fileId),
       "resources" : extractResources(fileContent),
       "modules" : extractModules(fileContent)
     }
 
-    if useCache:
+    if useCache and options.cacheDirectory:
       try:
         cPickle.dump(fileDb[fileId], open(fileCacheName,'w'), 2)
 
@@ -251,10 +284,15 @@ def addFileToSortedList(sortedList, fileDb, moduleDb, fileId, enableDeps):
     sortedList.index(fileId)
 
   except ValueError:
-    # Including load dependencies
+    # Including loadtime dependencies
     if enableDeps:
-      for loadDepId in fileDb[fileId]["loadDeps"]:
-        addFileToSortedList(sortedList, fileDb, moduleDb, loadDepId, True)
+      for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
+        addFileToSortedList(sortedList, fileDb, moduleDb, loadtimeDepId, True)
+
+    # Including after dependencies
+    if enableDeps:
+      for afterDepId in fileDb[fileId]["afterDeps"]:
+        addFileToSortedList(sortedList, fileDb, moduleDb, afterDepId, True)
 
     # Add myself
     try:
@@ -266,6 +304,11 @@ def addFileToSortedList(sortedList, fileDb, moduleDb, fileId, enableDeps):
     if enableDeps:
       for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
         addFileToSortedList(sortedList, fileDb, moduleDb, runtimeDepId, True)
+
+    # Include before dependencies
+    if enableDeps:
+      for beforeDepId in fileDb[fileId]["beforeDeps"]:
+        addFileToSortedList(sortedList, fileDb, moduleDb, beforeDepId, True)
 
 
 def getSortedList(options, fileDb, moduleDb):
