@@ -263,6 +263,12 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 
 
       default:
+        // Handle all 20x status codes as OK as defined in the corresponding RFC
+        // http://www.w3.org/Protocols/rfc2616/rfc2616.html
+        if (vStatusCode > 206 && vStatusCode < 300) {
+          return true;
+        }
+
         qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
     }
