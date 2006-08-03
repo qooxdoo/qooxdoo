@@ -59,4 +59,4 @@ distclean:
 	$(MAKE) -C demo distclean
 	$(MAKE) -C framework distclean
 
-	@rm -rfv .cache
+	@rm -rf .cache
