@@ -75,18 +75,17 @@ qx.Class.dispose = function()
   // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
   // logger.debug("Disposing Application");
 
-  var vStart = (new Date).valueOf();
+  // var vStart = (new Date).valueOf();
   var vObject;
 
   for (var i=qx.core.Object._db.length-1; i>=0; i--)
   {
     vObject = qx.core.Object._db[i];
 
-    if (vObject != null)
+    if (vObject !== null && vObject._disposed === false)
     {
       // logger.debug("Disposing: " + vObject);
       vObject.dispose();
-      qx.core.Object._db[i] = null;
     }
   }
 
@@ -378,11 +377,13 @@ qx.Proto.dispose = function()
   if (this._objectproperties)
   {
     var a = this._objectproperties.split(qx.constant.Core.COMMA);
+    var d = qx.OO.values;
+
     for (var i=0, l=a.length; i<l; i++) {
-      delete this[qx.OO.values[a[i]]];
+      this[d[a[i]]] = null;
     }
 
-    delete this._objectproperties;
+    this._objectproperties = null;
   }
 
   if (this.getSetting("enableDisposerDebug"))
@@ -405,7 +406,6 @@ qx.Proto.dispose = function()
 
   // Delete Entry from Object DB
   qx.core.Object._db[this._hashCode] = null;
-  delete qx.core.Object._db[this._hashCode];
 
   // Mark as disposed
   this._disposed = true;
