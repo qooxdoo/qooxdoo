@@ -17,7 +17,6 @@
 
 /* ************************************************************************
 
-#require(qx.dev.log.LogEventProcessor)
 #require(qx.dev.log.WindowAppender)
 #use(qx.dev.log.Filter)
 
