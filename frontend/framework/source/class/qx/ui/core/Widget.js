@@ -25,6 +25,9 @@
 #before(qx.renderer.color.ColorObject)
 #before(qx.renderer.border.BorderObject)
 #before(qx.manager.object.AppearanceManager)
+#optional(qx.ui.core.Parent)
+#optional(qx.ui.form.Button)
+#optional(qx.client.Timer)
 
 ************************************************************************ */
 

@@ -19,6 +19,10 @@
 /* ************************************************************************
 
 #module(guicore)
+#optional(qx.event.handler.FocusHandler)
+#optional(qx.manager.object.ToolTipManager)
+#optional(qx.manager.object.PopupManager)
+#optional(qx.dom.DomElementFromPoint)
 
 ************************************************************************ */
 
