@@ -19,8 +19,6 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.event.handler.EventHandler)
-#use(qx.ui.core.ClientDocument)
 
 ************************************************************************ */
 
@@ -29,7 +27,7 @@
 
   Mainly a reference for the window object of the browser
 */
-qx.OO.defineClass("qx.client.ClientWindow", qx.core.Target, 
+qx.OO.defineClass("qx.client.ClientWindow", qx.core.Target,
 function()
 {
   qx.core.Target.call(this);

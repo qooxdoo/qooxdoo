@@ -21,8 +21,6 @@
 
 #module(rpc)
 #module(transport)
-#use(qx.io.Json)
-#use(qx.io.remote.RemoteRequest)
 
 ************************************************************************ */
 

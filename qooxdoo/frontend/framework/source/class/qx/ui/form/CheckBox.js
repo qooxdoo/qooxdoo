@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.ui.form.InputCheckSymbol)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.CheckBox", qx.ui.basic.Atom, 
+qx.OO.defineClass("qx.ui.form.CheckBox", qx.ui.basic.Atom,
 function(vText, vValue, vName, vChecked)
 {
   qx.ui.basic.Atom.call(this, vText);

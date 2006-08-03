@@ -19,10 +19,7 @@
 /* ************************************************************************
 
 #module(colorselector)
-#use(qx.ui.layout.HorizontalBoxLayout)
-#use(qx.ui.layout.VerticalBoxLayout)
-#use(qx.ui.form.Button)
-#use(qx.ui.groupbox.GroupBox)
+
 
 ************************************************************************ */
 

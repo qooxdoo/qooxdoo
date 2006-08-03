@@ -20,9 +20,6 @@
 
 #module(dom)
 #require(qx.sys.Client)
-#require(qx.dom.DomStyle)
-#require(qx.dom.DomScroll)
-#require(qx.dom.DomDimension)
 
 ************************************************************************ */
 

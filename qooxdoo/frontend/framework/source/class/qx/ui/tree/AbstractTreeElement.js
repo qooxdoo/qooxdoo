@@ -19,14 +19,10 @@
 /* ************************************************************************
 
 #module(tree)
-#use(qx.ui.embed.HtmlEmbed)
-#use(qx.ui.basic.Image)
-#use(qx.ui.basic.Label)
-#use(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout,
 function(vLabel, vIcon, vIconSelected)
 {
   if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {

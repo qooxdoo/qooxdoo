@@ -19,14 +19,12 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.constant.Core)
-#use(qx.constant.Type)
 
 ************************************************************************ */
 
 qx.OO.defineClass("qx.lang.String");
 
-qx.lang.String.toCamelCase = function(str)
+qx.Class.toCamelCase = function(str)
 {
   var vArr = str.split(qx.constant.Core.DASH), vLength = vArr.length;
 
@@ -45,31 +43,31 @@ qx.lang.String.toCamelCase = function(str)
   return vNew;
 }
 
-qx.lang.String.trimLeft = function(str) {
+qx.Class.trimLeft = function(str) {
   return str.replace(/^\s+/, qx.constant.Core.EMPTY);
 }
 
-qx.lang.String.trimRight = function(str) {
+qx.Class.trimRight = function(str) {
   return str.replace(/\s+$/, qx.constant.Core.EMPTY);
 }
 
-qx.lang.String.trim = function(str) {
+qx.Class.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, qx.constant.Core.EMPTY);
 }
 
-qx.lang.String.stripTags = function(str) {
+qx.Class.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, qx.constant.Core.EMPTY);
 }
 
-qx.lang.String.startsWith = function(fullstr, substr) {
+qx.Class.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
 }
 
-qx.lang.String.endsWith = function(fullstr, substr) {
+qx.Class.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 }
 
-qx.lang.String.pad = function(str, length, ch)
+qx.Class.pad = function(str, length, ch)
 {
   if (typeof ch === qx.constant.Type.UNDEFINED) {
     ch = qx.constant.Core.ZERO;
@@ -84,11 +82,11 @@ qx.lang.String.pad = function(str, length, ch)
   return temp + str;
 }
 
-qx.lang.String.toFirstUp = function(str) {
+qx.Class.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
 }
 
-qx.lang.String.add = function(str, v, sep)
+qx.Class.add = function(str, v, sep)
 {
   if (str == v)
   {
@@ -118,7 +116,7 @@ qx.lang.String.add = function(str, v, sep)
   }
 }
 
-qx.lang.String.remove = function(str, v, sep)
+qx.Class.remove = function(str, v, sep)
 {
   if (str == v || str == qx.constant.Core.EMPTY)
   {
@@ -144,7 +142,7 @@ qx.lang.String.remove = function(str, v, sep)
   }
 }
 
-qx.lang.String.contains = function(str, s) {
+qx.Class.contains = function(str, s) {
   return str.indexOf(s) != -1;
 }
 

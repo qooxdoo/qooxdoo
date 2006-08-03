@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(listview)
-#use(qx.manager.selection.VirtualSelectionManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewPane", qx.ui.layout.GridLayout, 
+qx.OO.defineClass("qx.ui.listview.ListViewPane", qx.ui.layout.GridLayout,
 function(vData, vColumns)
 {
   qx.ui.layout.GridLayout.call(this);

@@ -19,14 +19,13 @@
 /* ************************************************************************
 
 #module(image)
-#require(qx.manager.object.ImagePreloaderManager)
 
 ************************************************************************ */
 
 /*!
   This is the preloader used from qx.ui.basic.Image instances.
 */
-qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target, 
+qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target,
 function(vSource)
 {
   if(qx.manager.object.ImagePreloaderManager.has(vSource))

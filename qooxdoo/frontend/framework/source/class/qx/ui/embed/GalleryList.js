@@ -19,12 +19,10 @@
 /* ************************************************************************
 
 #module(gallery)
-#require(qx.dom.DomScrollIntoView)
-#require(qx.manager.selection.DomSelectionManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.GalleryList", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.GalleryList", qx.ui.basic.Terminator,
 function(galleryList)
 {
   qx.ui.basic.Terminator.call(this);

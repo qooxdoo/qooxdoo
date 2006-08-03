@@ -19,12 +19,10 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.ui.basic.Atom)
-#appearance(fieldset)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.groupbox.GroupBox", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.groupbox.GroupBox", qx.ui.layout.CanvasLayout,
 function(vLegend, vIcon)
 {
   qx.ui.layout.CanvasLayout.call(this);

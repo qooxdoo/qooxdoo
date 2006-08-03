@@ -19,12 +19,10 @@
 /* ************************************************************************
 
 #module(toolbar)
-#use(qx.dom.DomDimension)
-#use(qx.dom.DomLocation)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarMenuButton", qx.ui.toolbar.ToolBarButton, 
+qx.OO.defineClass("qx.ui.toolbar.ToolBarMenuButton", qx.ui.toolbar.ToolBarButton,
 function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);

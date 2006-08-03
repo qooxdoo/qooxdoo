@@ -20,8 +20,6 @@
 
 #module(nativewindow)
 #require(qx.dom.DomWindow)
-#use(qx.util.Validation)
-#use(qx.client.Timer)
 
 ************************************************************************ */
 

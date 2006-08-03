@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(layoutcore)
-#require(qx.renderer.layout.CanvasLayoutImpl)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.CanvasLayout", qx.ui.core.Parent, 
+qx.OO.defineClass("qx.ui.layout.CanvasLayout", qx.ui.core.Parent,
 function() {
   qx.ui.core.Parent.call(this);
 });

@@ -20,7 +20,6 @@
 
 #module(image)
 #module(guicore)
-#use(qx.manager.object.ImageManager)
 #resource(core:static/image)
 
 ************************************************************************ */

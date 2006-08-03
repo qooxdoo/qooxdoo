@@ -18,13 +18,11 @@
 
 /* ************************************************************************
 
-#use(qx.manager.selection.RadioManager)
-
 #module(viewcommon)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageViewBar", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.pageview.AbstractPageViewBar", qx.ui.layout.BoxLayout,
 function()
 {
   qx.ui.layout.BoxLayout.call(this);

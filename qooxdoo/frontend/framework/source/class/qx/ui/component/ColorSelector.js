@@ -19,15 +19,6 @@
 /* ************************************************************************
 
 #module(colorselector)
-#use(qx.ui.layout.HorizontalBoxLayout)
-#use(qx.ui.form.Button)
-#use(qx.ui.layout.CanvasLayout)
-#use(qx.ui.basic.Image)
-#use(qx.ui.groupbox.GroupBox)
-#use(qx.ui.basic.Label)
-#use(qx.ui.form.Spinner)
-#use(qx.ui.form.TextField)
-#use(qx.renderer.color.ColorUtil)
 
 ************************************************************************ */
 

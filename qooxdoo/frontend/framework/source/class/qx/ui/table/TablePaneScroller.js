@@ -18,15 +18,6 @@
 /* ************************************************************************
 
 #module(table)
-#require(qx.ui.table.SelectionModel)
-#require(qx.ui.table.TableModel)
-#require(qx.ui.table.TableColumnModel)
-#require(qx.ui.table.TablePaneModel)
-#use(qx.ui.core.ScrollBar)
-#use(qx.constant.Core)
-#use(qx.constant.Style)
-#use(qx.ui.layout.HorizontalBoxLayout)
-#use(qx.ui.basic.Terminator)
 
 ************************************************************************ */
 

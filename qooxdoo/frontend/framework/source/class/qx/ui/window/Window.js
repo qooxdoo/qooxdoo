@@ -19,20 +19,6 @@
 /* ************************************************************************
 
 #module(window)
-#use(qx.dom.DomDimension)
-#use(qx.dom.DomLocation)
-#use(qx.ui.basic.Terminator)
-#use(qx.ui.layout.VerticalBoxLayout)
-#use(qx.ui.layout.HorizontalBoxLayout)
-#use(qx.ui.layout.CanvasLayout)
-#use(qx.ui.basic.Image)
-#use(qx.ui.basic.Label)
-#use(qx.ui.basic.HorizontalSpacer)
-#use(qx.ui.form.Button)
-#use(qx.manager.object.WindowManager)
-#use(qx.ui.core.Widget)
-#use(qx.util.Validation)
-#use(qx.util.Compare)
 
 ************************************************************************ */
 

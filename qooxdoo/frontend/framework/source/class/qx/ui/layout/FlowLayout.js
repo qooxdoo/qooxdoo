@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(layout)
-#use(qx.renderer.layout.FlowLayoutImpl)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.FlowLayout", qx.ui.core.Parent, 
+qx.OO.defineClass("qx.ui.layout.FlowLayout", qx.ui.core.Parent,
 function() {
   qx.ui.core.Parent.call(this);
 });

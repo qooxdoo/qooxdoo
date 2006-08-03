@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(toolbar)
-#require(qx.manager.selection.RadioManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarRadioButton", qx.ui.toolbar.ToolBarCheckBox, 
+qx.OO.defineClass("qx.ui.toolbar.ToolBarRadioButton", qx.ui.toolbar.ToolBarCheckBox,
 function(vText, vIcon, vChecked) {
   qx.ui.toolbar.ToolBarCheckBox.call(this, vText, vIcon, vChecked);
 });

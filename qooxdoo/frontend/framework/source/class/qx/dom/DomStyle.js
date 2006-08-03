@@ -20,9 +20,6 @@
 
 #module(dom)
 #require(qx.sys.Client)
-#use(qx.constant.Style)
-#use(qx.constant.Core)
-#use(qx.constant.Type)
 
 ************************************************************************ */
 

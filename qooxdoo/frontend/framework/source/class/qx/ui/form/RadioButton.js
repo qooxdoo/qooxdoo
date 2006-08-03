@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.manager.selection.RadioManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.RadioButton", qx.ui.form.CheckBox, 
+qx.OO.defineClass("qx.ui.form.RadioButton", qx.ui.form.CheckBox,
 function(vText, vValue, vName, vChecked) {
   qx.ui.form.CheckBox.call(this, vText, vValue, vName, vChecked);
 });

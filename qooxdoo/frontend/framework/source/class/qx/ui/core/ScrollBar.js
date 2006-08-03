@@ -18,11 +18,6 @@
 /* ************************************************************************
 
 #module(table)
-#require(qx.constant.Type)
-#use(qx.constant.Layout)
-#use(qx.ui.layout.CanvasLayout)
-#use(qx.sys.Client)
-#use(qx.constant.Style)
 
 ************************************************************************ */
 

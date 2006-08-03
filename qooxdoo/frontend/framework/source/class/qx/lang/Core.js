@@ -52,10 +52,10 @@ if (!Error.prototype.toString)
 /**
  * function apply for browsers that do not support it natively, e.g. IE 5.0
  * <p>
- * Based on code from youngpup.net licensed under 
+ * Based on code from youngpup.net licensed under
  * Creative Commons Attribution 2.0
  * </p>
- */ 
+ */
 if (!Function.prototype.apply)
 {
   Function.prototype.apply = function(oScope, args)

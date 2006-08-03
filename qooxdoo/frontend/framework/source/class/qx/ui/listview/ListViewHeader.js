@@ -19,12 +19,10 @@
 /* ************************************************************************
 
 #module(listview)
-#use(qx.dom.DomDimension)
-#use(qx.dom.DomLocation)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewHeader", qx.ui.layout.HorizontalBoxLayout, 
+qx.OO.defineClass("qx.ui.listview.ListViewHeader", qx.ui.layout.HorizontalBoxLayout,
 function(vColumns)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
