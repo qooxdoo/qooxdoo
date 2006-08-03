@@ -19,10 +19,11 @@
 /* ************************************************************************
 
 #module(popup)
+#optional(qx.manager.object.MenuManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.popup.Popup", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.popup.Popup", qx.ui.layout.CanvasLayout,
 function()
 {
   qx.ui.layout.CanvasLayout.call(this);
