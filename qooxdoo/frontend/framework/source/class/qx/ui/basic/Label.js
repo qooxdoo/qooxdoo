@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(guicore)
-#require(qx.renderer.font.FontObject)
+#after(qx.renderer.font.FontObject)
 #require(qx.renderer.font.FontCache)
 
 ************************************************************************ */

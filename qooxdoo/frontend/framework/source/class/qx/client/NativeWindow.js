@@ -20,13 +20,12 @@
 
 #module(nativewindow)
 #require(qx.dom.DomWindow)
-#use(qx.ui.core.ClientDocument)
 #use(qx.util.Validation)
 #use(qx.client.Timer)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.client.NativeWindow", qx.core.Target, 
+qx.OO.defineClass("qx.client.NativeWindow", qx.core.Target,
 function(vUrl, vName)
 {
   qx.core.Target.call(this);

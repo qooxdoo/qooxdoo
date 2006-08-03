@@ -21,7 +21,6 @@
 #module(image)
 #module(guicore)
 #use(qx.manager.object.ImageManager)
-#use(qx.io.image.ImagePreloader)
 #resource(core:static/image)
 
 ************************************************************************ */

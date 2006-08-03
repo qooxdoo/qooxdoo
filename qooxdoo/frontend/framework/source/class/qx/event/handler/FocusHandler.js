@@ -20,9 +20,6 @@
 
 #module(eventcore)
 #use(qx.dom.DomLocation)
-#use(qx.event.type.FocusEvent)
-#use(qx.manager.object.PopupManager)
-#use(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 

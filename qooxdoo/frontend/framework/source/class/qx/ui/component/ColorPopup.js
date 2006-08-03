@@ -22,10 +22,7 @@
 #use(qx.ui.layout.HorizontalBoxLayout)
 #use(qx.ui.layout.VerticalBoxLayout)
 #use(qx.ui.form.Button)
-#use(qx.ui.basic.Image)
 #use(qx.ui.groupbox.GroupBox)
-#use(qx.ui.basic.Label)
-#use(qx.renderer.color.ColorUtil)
 
 ************************************************************************ */
 
@@ -355,7 +352,7 @@ qx.Proto.dispose = function()
     this._previewBox.dispose();
     this._previewBox = null;
   }
-  
+
   if (this._previewLayout)
   {
     this._previewLayout.dispose();

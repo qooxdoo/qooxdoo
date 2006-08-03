@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(tabview)
-#require(qx.manager.selection.RadioManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewBar", qx.ui.pageview.AbstractPageViewBar, 
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewBar", qx.ui.pageview.AbstractPageViewBar,
 function()
 {
   qx.ui.pageview.AbstractPageViewBar.call(this);
