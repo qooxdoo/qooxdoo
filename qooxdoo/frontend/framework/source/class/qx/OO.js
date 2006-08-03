@@ -20,7 +20,7 @@
 
 #id(qx.OO)
 #module(core)
-#require(qx.Settings)
+#after(qx.Settings)
 #use(qx.lang.Array)
 #use(qx.lang.Core)
 #use(qx.lang.String)

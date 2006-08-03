@@ -386,7 +386,7 @@ def load(options):
 
       # Updating lists...
       optionalDeps = fileDb[fileEntry]["optionalDeps"]
-      loadtimeDeps = fileDb[fileEntry]["loadDeps"]
+      loadtimeDeps = fileDb[fileEntry]["loadtimeDeps"]
       runtimeDeps = fileDb[fileEntry]["runtimeDeps"]
 
       # Removing optional deps from list
@@ -397,12 +397,12 @@ def load(options):
       # Checking loadtime dependencies
       for dep in loadtimeDeps:
         if not dep in fileDeps:
-          print "    * Could not confirm load dependency to %s in %s!" % (dep, fileEntry)
+          print "    * Could not confirm #require(%s) in %s!" % (dep, fileEntry)
 
       # Checking runtime dependencies
       for dep in runtimeDeps:
         if not dep in fileDeps:
-          print "    * Could not confirm runtime dependency to %s in %s!" % (dep, fileEntry)
+          print "    * Could not confirm #use(%s) in %s!" % (dep, fileEntry)
 
       # Adding new content to runtime dependencies
       for dep in fileDeps:
