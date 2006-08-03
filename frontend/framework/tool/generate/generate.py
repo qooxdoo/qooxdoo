@@ -54,6 +54,7 @@ def getparser():
   parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
   parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list. (Debugging)")
+  parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
 
   # Output files
   parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
@@ -337,6 +338,11 @@ def load(options):
 
 
 
+
+
+
+
+
   ######################################################################
   #  DETECTION OF AUTO DEPENDENCIES
   ######################################################################
@@ -448,11 +454,40 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  PRINT OF INCLUDE ORDER:"
     print "----------------------------------------------------------------------------"
     print "  * The files will be included in this order:"
-    for key in sortedIncludeList:
-      print "    - %s" % key
+    for fileEntry in sortedIncludeList:
+      print "    - %s" % fileEntry
 
+  if options.printDeps:
+    print
+    print "  OUTPUT OF DEPENDENCIES:"
+    print "----------------------------------------------------------------------------"
+    print "  * These are all included files with their dependencies:"
+    for fileEntry in sortedIncludeList:
+      print "    - %s" % fileEntry
+      if len(fileDb[fileEntry]["loadtimeDeps"]) > 0:
+        print "      - Loadtime: "
+        for depEntry in fileDb[fileEntry]["loadtimeDeps"]:
+          print "        - %s" % depEntry
 
+      if len(fileDb[fileEntry]["afterDeps"]) > 0:
+        print "      - After: "
+        for depEntry in fileDb[fileEntry]["afterDeps"]:
+          print "        - %s" % depEntry
 
+      if len(fileDb[fileEntry]["runtimeDeps"]) > 0:
+        print "      - Runtime: "
+        for depEntry in fileDb[fileEntry]["runtimeDeps"]:
+          print "        - %s" % depEntry
+
+      if len(fileDb[fileEntry]["beforeDeps"]) > 0:
+        print "      - Before: "
+        for depEntry in fileDb[fileEntry]["beforeDeps"]:
+          print "        - %s" % depEntry
+
+      if len(fileDb[fileEntry]["optionalDeps"]) > 0:
+        print "      - Optional: "
+        for depEntry in fileDb[fileEntry]["optionalDeps"]:
+          print "        - %s" % depEntry
 
 
 
