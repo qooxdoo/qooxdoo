@@ -108,4 +108,4 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(api, "Theme");
+qx.manager.object.SingletonManager.add(api.Theme);
