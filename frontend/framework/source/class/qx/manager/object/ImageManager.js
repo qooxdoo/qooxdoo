@@ -20,6 +20,7 @@
 
 #module(image)
 #require(qx.constant.Type)
+#optional(qx.ui.form.Button)
 
 ************************************************************************ */
 
