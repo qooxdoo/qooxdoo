@@ -45,8 +45,8 @@ qx.Settings.setDefault("imageUri", "../../resources/widget/windows");
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.widget, "WindowsWidgetTheme");
+qx.manager.object.SingletonManager.add(qx.theme.widget.WindowsWidgetTheme);

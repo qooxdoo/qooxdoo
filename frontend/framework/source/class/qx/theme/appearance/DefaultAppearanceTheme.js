@@ -2428,8 +2428,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.appearance, "DefaultAppearanceTheme");
+qx.manager.object.SingletonManager.add(qx.theme.appearance.DefaultAppearanceTheme);
