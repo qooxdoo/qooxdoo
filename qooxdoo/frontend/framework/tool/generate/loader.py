@@ -32,7 +32,7 @@ def extractLoadtimeDeps(data, fileId=""):
   if superClass != None and superClass != "" and not superClass in config.JSBUILTIN:
     deps.append("qx.OO")
     deps.append(superClass)
-  elif "qx.OO" in data:
+  elif "qx.OO.defineClass(" in data:
     deps.append("qx.OO")
 
 
