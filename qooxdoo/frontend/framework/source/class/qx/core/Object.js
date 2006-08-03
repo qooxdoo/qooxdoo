@@ -76,7 +76,7 @@ qx.Class.dispose = function()
   {
     vObject = qx.core.Object._db[i];
 
-    if (vObject !== null && vObject._disposed === false)
+    if (typeof vObject !== qx.constant.Type.UNDEFINED && vObject !== null && vObject._disposed === false)
     {
       // logger.debug("Disposing: " + vObject);
       vObject.dispose();
