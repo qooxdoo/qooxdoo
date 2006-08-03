@@ -20,7 +20,6 @@
 
 #module(guicore)
 #require(qx.dom.DomStyleSheet)
-#use(qx.ui.core.ClientDocumentBlocker)
 #optional(qx.client.NativeWindow)
 
 ************************************************************************ */

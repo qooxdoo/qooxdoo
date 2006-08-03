@@ -21,6 +21,13 @@
 /* ************************************************************************
 
 #module(appearancethemes)
+#require(qx.manager.object.SingletonManager)
+
+// HACK temporary:
+// we need to ignore these, appearance theme should be fixed to
+// not use widget checks.
+#optional(qx.ui.tree.AbstractTreeElement)
+#optional(qx.ui.treefullcontrol.AbstractTreeElement)
 
 ************************************************************************ */
 

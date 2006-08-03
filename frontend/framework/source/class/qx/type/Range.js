@@ -26,8 +26,7 @@
   This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
 */
 qx.OO.defineClass("qx.type.Range", qx.core.Target,
-function()
-{
+function() {
   qx.core.Target.call(this);
 });
 

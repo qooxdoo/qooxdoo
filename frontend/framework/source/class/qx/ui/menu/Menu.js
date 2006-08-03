@@ -19,12 +19,10 @@
 /* ************************************************************************
 
 #module(menu)
-#use(qx.dom.DomDimension)
-#use(qx.dom.DomLocation)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.Menu", qx.ui.popup.Popup, 
+qx.OO.defineClass("qx.ui.menu.Menu", qx.ui.popup.Popup,
 function()
 {
   qx.ui.popup.Popup.call(this);

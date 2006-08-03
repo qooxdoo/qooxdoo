@@ -18,11 +18,6 @@
 /* ************************************************************************
 
 #require(qx.util.format.DateFormat)
-#require(qx.constant.Type)
-#use(qx.constant.Core)
-#use(qx.constant.Layout)
-#use(qx.constant.Event)
-#use(qx.event.type.DomEvent)
 
 ************************************************************************ */
 

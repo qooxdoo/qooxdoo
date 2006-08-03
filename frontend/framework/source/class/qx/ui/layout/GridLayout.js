@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(layout)
-#use(qx.renderer.layout.GridLayoutImpl)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.GridLayout", qx.ui.core.Parent, 
+qx.OO.defineClass("qx.ui.layout.GridLayout", qx.ui.core.Parent,
 function()
 {
   qx.ui.core.Parent.call(this);

@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(tree)
-#use(qx.ui.treefullcontrol.TreeRowStructure)
-#use(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

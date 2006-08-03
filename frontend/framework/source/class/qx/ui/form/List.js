@@ -20,12 +20,9 @@
 
 #module(list)
 
-#use(qx.manager.selection.SelectionManager)
-#use(qx.event.type.KeyEvent)
-
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.List", qx.ui.layout.VerticalBoxLayout, 
+qx.OO.defineClass("qx.ui.form.List", qx.ui.layout.VerticalBoxLayout,
 function()
 {
   qx.ui.layout.VerticalBoxLayout.call(this);

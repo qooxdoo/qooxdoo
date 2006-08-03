@@ -19,13 +19,10 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.ui.form.TextField)
-#require(qx.ui.basic.Image)
-#require(qx.client.Timer)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.Spinner", qx.ui.layout.HorizontalBoxLayout, 
+qx.OO.defineClass("qx.ui.form.Spinner", qx.ui.layout.HorizontalBoxLayout,
 function(vMin, vValue, vMax)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);

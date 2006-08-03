@@ -19,10 +19,6 @@
 /* ************************************************************************
 
 #module(listview)
-#require(qx.util.Validation)
-#require(qx.util.Compare)
-#use(qx.ui.basic.Image)
-#use(qx.ui.basic.HorizontalSpacer)
 
 ************************************************************************ */
 

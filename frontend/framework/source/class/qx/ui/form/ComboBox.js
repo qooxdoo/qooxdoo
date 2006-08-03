@@ -19,11 +19,6 @@
 /* ************************************************************************
 
 #module(form)
-#require(qx.dom.DomLocation)
-#require(qx.ui.form.List)
-#require(qx.ui.popup.Popup)
-#require(qx.ui.basic.Atom)
-#require(qx.ui.form.TextField)
 
 ************************************************************************ */
 

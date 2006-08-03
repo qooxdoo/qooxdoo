@@ -18,9 +18,6 @@
 
 /* ************************************************************************
 
-#use(qx.ui.pageview.buttonview.ButtonViewBar)
-#use(qx.ui.pageview.buttonview.ButtonViewPane)
-
 #module(barview)
 
 ************************************************************************ */
@@ -31,7 +28,7 @@
   qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
   be found in more modern versions of the settings dialog in Mozilla Firefox.
 */
-qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonView", qx.ui.pageview.AbstractPageView, 
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonView", qx.ui.pageview.AbstractPageView,
 function()
 {
   qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);

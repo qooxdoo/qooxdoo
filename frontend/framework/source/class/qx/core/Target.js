@@ -19,12 +19,6 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.lang.Object)
-#use(qx.util.Validation)
-#use(qx.event.type.Event)
-#use(qx.event.type.DataEvent)
-#use(qx.constant.Type)
-#use(qx.constant.Core)
 
 ************************************************************************ */
 

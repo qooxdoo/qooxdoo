@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.constant.Type)
 
 ************************************************************************ */
 
@@ -28,7 +27,7 @@ qx.OO.defineClass("qx.lang.Object");
 /*!
   Function to check if a hash has any keys
 */
-qx.lang.Object.isEmpty = function(h)
+qx.Class.isEmpty = function(h)
 {
   for (var s in h) {
     return false;
@@ -37,7 +36,7 @@ qx.lang.Object.isEmpty = function(h)
   return true;
 }
 
-qx.lang.Object.hasMinLength = function(h, j)
+qx.Class.hasMinLength = function(h, j)
 {
   var i=0;
 
@@ -51,7 +50,7 @@ qx.lang.Object.hasMinLength = function(h, j)
   return false;
 }
 
-qx.lang.Object.getLength = function(h)
+qx.Class.getLength = function(h)
 {
   var i=0;
 
@@ -62,7 +61,7 @@ qx.lang.Object.getLength = function(h)
   return i;
 }
 
-qx.lang.Object.getKeys = function(h)
+qx.Class.getKeys = function(h)
 {
   var r = [];
   for (var s in h) {
@@ -72,11 +71,11 @@ qx.lang.Object.getKeys = function(h)
   return r;
 }
 
-qx.lang.Object.getKeysAsString = function(h) {
+qx.Class.getKeysAsString = function(h) {
   return qx.lang.Object.getKeys(h).join(", ");
 }
 
-qx.lang.Object.getValues = function(h)
+qx.Class.getValues = function(h)
 {
   var r = [];
   for (var s in h) {
@@ -86,7 +85,7 @@ qx.lang.Object.getValues = function(h)
   return r;
 }
 
-qx.lang.Object.mergeWith = function(vObjectA, vObjectB)
+qx.Class.mergeWith = function(vObjectA, vObjectB)
 {
   for (var vKey in vObjectB) {
     vObjectA[vKey] = vObjectB[vKey];
@@ -95,7 +94,7 @@ qx.lang.Object.mergeWith = function(vObjectA, vObjectB)
   return vObjectA;
 }
 
-qx.lang.Object.carefullyMergeWith = function(vObjectA, vObjectB) {
+qx.Class.carefullyMergeWith = function(vObjectA, vObjectB) {
   for (vKey in vObjectB)
   {
     if (typeof vObjectA[vKey] === qx.constant.Type.UNDEFINED) {
@@ -106,7 +105,7 @@ qx.lang.Object.carefullyMergeWith = function(vObjectA, vObjectB) {
   return vObjectA;
 }
 
-qx.lang.Object.merge = function(vObjectA)
+qx.Class.merge = function(vObjectA)
 {
   var vLength = arguments.length;
 
@@ -117,6 +116,6 @@ qx.lang.Object.merge = function(vObjectA)
   return vObjectA;
 }
 
-qx.lang.Object.copy = function(vObject) {
+qx.Class.copy = function(vObject) {
   return qx.lang.Object.mergeWith({}, vObject);
 }

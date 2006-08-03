@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(tree)
-#use(qx.manager.selection.TreeSelectionManager)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.Tree", qx.ui.tree.TreeFolder, 
+qx.OO.defineClass("qx.ui.tree.Tree", qx.ui.tree.TreeFolder,
 function(vLabel, vIcon, vIconSelected)
 {
   qx.ui.tree.TreeFolder.call(this, vLabel, vIcon, vIconSelected);

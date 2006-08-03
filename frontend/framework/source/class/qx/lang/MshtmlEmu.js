@@ -20,9 +20,6 @@
 
 #module(emu)
 #require(qx.sys.Client)
-#use(qx.constant.Core)
-#use(qx.constant.Type)
-#use(qx.constant.Event)
 
 ************************************************************************ */
 

@@ -20,10 +20,6 @@
 
 #module(image)
 #require(qx.constant.Type)
-#use(qx.constant.Core)
-#use(qx.util.Validation)
-#use(qx.renderer.theme.WidgetTheme)
-#use(qx.renderer.theme.IconTheme)
 
 ************************************************************************ */
 

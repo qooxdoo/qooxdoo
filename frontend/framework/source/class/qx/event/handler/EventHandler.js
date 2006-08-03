@@ -19,13 +19,6 @@
 /* ************************************************************************
 
 #module(eventcore)
-#use(qx.dom.DomEventRegistration)
-#use(qx.manager.object.PopupManager)
-#use(qx.manager.object.ToolTipManager)
-#use(qx.manager.object.MenuManager)
-#use(qx.event.handler.DragAndDropHandler)
-#use(qx.event.type.MouseEvent)
-#use(qx.event.type.KeyEvent)
 
 ************************************************************************ */
 

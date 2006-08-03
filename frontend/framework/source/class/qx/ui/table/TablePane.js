@@ -18,11 +18,6 @@
 /* ************************************************************************
 
 #module(table)
-#require(qx.constant.Type)
-#use(qx.ui.table.SelectionModel)
-#use(qx.ui.table.TableModel)
-#use(qx.ui.table.TableColumnModel)
-#use(qx.ui.table.TablePaneModel)
 
 ************************************************************************ */
 

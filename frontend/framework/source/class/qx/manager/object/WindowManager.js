@@ -19,14 +19,13 @@
 /* ************************************************************************
 
 #module(window)
-#use(qx.manager.object.PopupManager)
 
 ************************************************************************ */
 
 /*!
   This singleton manages qx.ui.window.Windows
 */
-qx.OO.defineClass("qx.manager.object.WindowManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.WindowManager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 });

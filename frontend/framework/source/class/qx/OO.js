@@ -21,11 +21,7 @@
 #id(qx.OO)
 #module(core)
 #after(qx.Settings)
-#use(qx.lang.Array)
-#use(qx.lang.String)
-#use(qx.util.Validation)
-#use(qx.constant.Type)
-#use(qx.constant.Core)
+#before(qx.constant.Type)
 
 ************************************************************************ */
 

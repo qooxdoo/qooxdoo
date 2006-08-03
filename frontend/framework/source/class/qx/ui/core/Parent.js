@@ -19,11 +19,10 @@
 /* ************************************************************************
 
 #module(guicore)
-#use(qx.event.handler.FocusHandler)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget, 
+qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget,
 function()
 {
   if (this.classname == qx.ui.core.Parent.ABSTRACT_CLASS) {

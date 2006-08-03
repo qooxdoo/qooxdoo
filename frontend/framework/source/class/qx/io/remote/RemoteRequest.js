@@ -23,7 +23,6 @@
 #module(transport)
 #require(qx.constant.Mime)
 #require(qx.constant.Net)
-#use(qx.io.remote.RemoteRequestQueue)
 
 ************************************************************************ */
 

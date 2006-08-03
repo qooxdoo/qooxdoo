@@ -18,6 +18,9 @@
 /* ************************************************************************
 
 #module(table)
+
+// These are needed because of their instantiation at bottom. I don't think this
+// is a good idea. (wpbasti)
 #require(qx.ui.table.DefaultHeaderCellRenderer)
 #require(qx.ui.table.DefaultDataCellRenderer)
 #require(qx.ui.table.TextFieldCellEditorFactory)

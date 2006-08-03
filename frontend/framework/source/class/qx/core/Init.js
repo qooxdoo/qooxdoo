@@ -18,10 +18,7 @@
 
 /* ************************************************************************
 
-#module(init)
-#require(qx.constant.Type)
-#require(qx.dom.DomEventRegistration)
-#require(qx.manager.object.SingletonManager)
+#module(core)
 
 ************************************************************************ */
 

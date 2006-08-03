@@ -19,11 +19,11 @@
 /* ************************************************************************
 
 #module(uicore)
-#after(qx.renderer.color.ColorObject)
-#after(qx.renderer.color.ColorCache)
-#after(qx.renderer.border.BorderObject)
-#after(qx.renderer.border.BorderCache)
-#after(qx.manager.object.AppearanceManager)
+#before(qx.renderer.color.ColorObject)
+#before(qx.renderer.color.ColorCache)
+#before(qx.renderer.border.BorderObject)
+#before(qx.renderer.border.BorderCache)
+#before(qx.manager.object.AppearanceManager)
 
 ************************************************************************ */
 
