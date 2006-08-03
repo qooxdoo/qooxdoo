@@ -22,10 +22,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.font.FontObject", qx.renderer.font.Font, 
+qx.OO.defineClass("qx.renderer.font.FontObject", qx.renderer.font.Font,
 function(vSize, vName)
 {
-  this._dependentObjects = {}
+  this._dependentObjects = {};
 
   qx.renderer.font.Font.call(this, vSize, vName);
 });

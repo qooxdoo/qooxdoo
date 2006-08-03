@@ -832,7 +832,7 @@ qx.Proto._addChildToChildrenQueue = function(vChild)
     qx.ui.core.Widget.addToGlobalLayoutQueue(this);
 
     if (!this._childrenQueue) {
-      this._childrenQueue = {}
+      this._childrenQueue = {};
     }
 
     this._childrenQueue[vChild.toHashCode()] = vChild;
@@ -962,7 +962,7 @@ qx.Proto._layoutChild = function(vChild)
 
 
   // CLEANUP
-  vChild._layoutChanges = {}
+  vChild._layoutChanges = {};
 
   delete vChild._isInParentLayoutQueue;
   delete this._childrenQueue[vChild.toHashCode()];

@@ -158,7 +158,7 @@ qx.Proto.setWidgetThemeById = function(vId) {
 
 qx.Proto.getPreloadImageList = function()
 {
-  var vPreload = {}
+  var vPreload = {};
 
   for (var vSource in this._sources)
   {
@@ -172,7 +172,7 @@ qx.Proto.getPreloadImageList = function()
 
 qx.Proto.getPostPreloadImageList = function()
 {
-  var vPreload = {}
+  var vPreload = {};
 
   for (var vSource in this._sources)
   {

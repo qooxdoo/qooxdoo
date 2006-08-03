@@ -29,17 +29,17 @@
     - state information is stored at the instance level
     - only use it from a single thread
 */
-qx.OO.defineClass("qx.client.Builder", qx.core.Target, 
+qx.OO.defineClass("qx.client.Builder", qx.core.Target,
 function(flags)
 {
   qx.core.Target.call(this);
 
   // map<className, map<propertyName, function>>
-  this._propertyEditors = {}
+  this._propertyEditors = {};
 
   this._registerDefaultPropertyEditors();
 
-  this._flags = flags || {}
+  this._flags = flags || {};
 
   // ensure the default flags are setup
   if (this._flags.strict == null) {
@@ -267,7 +267,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
 /*!
   Set a widget's property using a propertyEditor
 */
-qx.Proto._setWidgetProperty = function(widget, name, value) {  
+qx.Proto._setWidgetProperty = function(widget, name, value) {
   var editor = this._findPropertyEditor(widget.classname, name);
   if (!editor) {
     editor = this._coercePropertyEditor;
@@ -293,7 +293,7 @@ qx.Proto._findPropertyEditor = function(className, propertyName) {
 }
 
 qx.Proto.registerPropertyEditor = function(className, propertyName, editor) {
-  if (!this._propertyEditors[className]) this._propertyEditors[className] = {}
+  if (!this._propertyEditors[className]) this._propertyEditors[className] = {};
   this._propertyEditors[className][propertyName] = editor;
 }
 
@@ -301,7 +301,7 @@ qx.Proto._registerDefaultPropertyEditors = function() {
   var self = this;
 
   // a property editor that splits the values on a comma and coerces each one into a suitable type
-  var commaDelimitedPropertyEditor = {}
+  var commaDelimitedPropertyEditor = {};
   commaDelimitedPropertyEditor.set = function(widget, name, value) {
       if (value == null || value == "") {
         self._setProperty(widget, name, null);
@@ -317,7 +317,7 @@ qx.Proto._registerDefaultPropertyEditors = function() {
       self._setProperties(widget, name, v);
   }
 
-  var evalPropertyEditor = {}
+  var evalPropertyEditor = {};
   evalPropertyEditor.set = function(widget, name, value) {
       if (value == null || value == "") {
         self._setProperty(widget, name, null);
@@ -327,7 +327,7 @@ qx.Proto._registerDefaultPropertyEditors = function() {
       self._setProperty(widget, name, eval(value));
   }
 
-  var referencePropertyEditor = {}
+  var referencePropertyEditor = {};
   referencePropertyEditor.set = function(widget, name, value) {
     self._setProperty(widget, name, window[value]);
   }
@@ -362,7 +362,7 @@ qx.Proto._registerDefaultPropertyEditors = function() {
 
 
   // a property editor that just tries to coerce the string value into a suitable type
-  this._coercePropertyEditor = {}
+  this._coercePropertyEditor = {};
   this._coercePropertyEditor.set = function(widget, name, value) {
       self._setProperty(widget, name, self._coerce(value));
   }
@@ -447,7 +447,7 @@ qx.Proto._extractClassName = function(node) {
 }
 
 qx.Proto._mapXmlAttribToObject = function(node) {
-  var r = {}
+  var r = {};
   var c = node.attributes;
   for (var i=0; i<c.length; i++) {
     r[c[i].name.toLowerCase()] = c[i].value;

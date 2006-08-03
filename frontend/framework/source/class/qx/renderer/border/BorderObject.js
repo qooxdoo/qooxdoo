@@ -25,7 +25,7 @@
 qx.OO.defineClass("qx.renderer.border.BorderObject", qx.renderer.border.Border,
 function(vWidth, vStyle, vColor)
 {
-  this._dependentObjects = {}
+  this._dependentObjects = {};
 
   qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
 });

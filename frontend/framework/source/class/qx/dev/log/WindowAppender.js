@@ -172,7 +172,7 @@ qx.Proto.dispose = function() {
 
 
 qx.Class._nextId = 1;
-qx.Class._registeredAppenders = {}
+qx.Class._registeredAppenders = {};
 
 
 /**

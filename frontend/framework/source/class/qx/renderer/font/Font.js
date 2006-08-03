@@ -31,7 +31,7 @@ function(vSize, vName)
 {
   qx.core.Object.call(this);
 
-  this._defs = {}
+  this._defs = {};
 
   if (qx.util.Validation.isValidNumber(vSize)) {
     this.setSize(vSize);

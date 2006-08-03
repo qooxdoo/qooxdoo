@@ -108,7 +108,7 @@ qx.Proto.addChildToTreeQueue = function(vChild)
     qx.ui.core.Widget.addToGlobalWidgetQueue(this);
 
     if (!this._treeQueue) {
-      this._treeQueue = {}
+      this._treeQueue = {};
     }
 
     this._treeQueue[vChild.toHashCode()] = vChild;

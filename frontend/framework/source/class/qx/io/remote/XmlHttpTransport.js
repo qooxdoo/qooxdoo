@@ -414,7 +414,7 @@ qx.Proto.getStringResponseHeaders = function()
 qx.Proto.getResponseHeaders = function()
 {
   var vSourceHeader = this.getStringResponseHeaders();
-  var vHeader = {}
+  var vHeader = {};
 
   if (vSourceHeader)
   {

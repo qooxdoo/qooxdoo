@@ -80,4 +80,4 @@ qx.renderer.color.ColorCache = function(propValue)
   return vColorObject;
 }
 
-qx.renderer.color.ColorCache._data = {}
+qx.renderer.color.ColorCache._data = {};

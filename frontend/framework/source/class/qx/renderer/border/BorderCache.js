@@ -59,4 +59,4 @@ qx.renderer.border.BorderCache = function(propValue, propData)
   return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
 }
 
-qx.renderer.border.BorderCache._data = {}
+qx.renderer.border.BorderCache._data = {};

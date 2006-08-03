@@ -30,9 +30,9 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._data = {}
-  this._actions = {}
-  this._cursors = {}
+  this._data = {};
+  this._actions = {};
+  this._cursors = {};
 });
 
 qx.OO.addProperty({ name : "sourceWidget", type : qx.constant.Type.OBJECT });
@@ -143,7 +143,7 @@ qx.Proto.getData = function(vMimeType) {
 }
 
 qx.Proto.clearData = function() {
-  this._data = {}
+  this._data = {};
 }
 
 
@@ -731,7 +731,7 @@ qx.Proto.addAction = function(vAction, vForce)
 
 qx.Proto.clearActions = function()
 {
-  this._actions = {}
+  this._actions = {};
   this.setCurrentAction(null);
 }
 

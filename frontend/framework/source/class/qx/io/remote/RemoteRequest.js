@@ -38,8 +38,8 @@ function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
 
-  this._requestHeaders = {}
-  this._parameters = {}
+  this._requestHeaders = {};
+  this._parameters = {};
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || qx.constant.Net.METHOD_GET);

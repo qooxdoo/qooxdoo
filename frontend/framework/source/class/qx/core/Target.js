@@ -64,12 +64,12 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   // that contains all the actions that will be assigned to this type
   if (typeof this._listeners === qx.constant.Type.UNDEFINED)
   {
-    this._listeners = {}
-    this._listeners[vType] = {}
+    this._listeners = {};
+    this._listeners[vType] = {};
   }
   else if(typeof this._listeners[vType] === qx.constant.Type.UNDEFINED)
   {
-    this._listeners[vType] = {}
+    this._listeners[vType] = {};
   }
 
   // Create a special vKey string to allow identification of each bound action

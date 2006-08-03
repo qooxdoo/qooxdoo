@@ -31,7 +31,7 @@ function() {
 
   this._columnIdArr = [];
   this._columnNameArr = [];
-  this._columnIndexMap = {}
+  this._columnIndexMap = {};
 });
 
 
@@ -72,7 +72,7 @@ qx.Proto.setColumnIds = function(columnIdArr) {
   this._columnIdArr = columnIdArr;
 
   // Create the reverse map
-  this._columnIndexMap = {}
+  this._columnIndexMap = {};
   for (var i = 0; i < columnIdArr.length; i++) {
     this._columnIndexMap[columnIdArr[i]] = i;
   }

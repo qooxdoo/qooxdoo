@@ -39,7 +39,7 @@ function(vValue)
 
   // Here will all objects with a dependency to this
   // color stored.
-  this._dependentObjects = {}
+  this._dependentObjects = {};
 });
 
 

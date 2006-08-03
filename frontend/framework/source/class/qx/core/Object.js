@@ -260,7 +260,7 @@ qx.Proto.get = function(propertyNames, outputHint)
       {
         if (outputHint == "hash")
         {
-          var h = {}
+          var h = {};
 
           propertyLength = propertyNames.length;
           for (var i=0; i<propertyLength; i++)
@@ -320,7 +320,7 @@ qx.Proto.get = function(propertyNames, outputHint)
 qx.Proto.setUserData = function(vKey, vValue)
 {
   if (!this._userData) {
-    this._userData = {}
+    this._userData = {};
   }
 
   this._userData[vKey] = vValue;
