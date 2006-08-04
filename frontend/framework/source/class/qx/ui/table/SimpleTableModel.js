@@ -180,7 +180,10 @@ qx.Proto.setData = function(rowArr) {
   this._rowArr = rowArr;
 
   // Inform the listeners
-  this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
+  if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
+    var data = { firstRow:0, lastRow:rowArr.length - 1, firstColumn:0, lastColumn:rowArr[0].length }
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+  }
 
   this._clearSorting();
 }
