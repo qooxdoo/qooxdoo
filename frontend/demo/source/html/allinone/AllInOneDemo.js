@@ -184,21 +184,21 @@ qx.Proto._createTooltipDemo = function() {
 
   var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/run.png");
   c1.setPadding(5);
-  c1.setBorder(qx.renderer.border.BorderObject.presets.outset);
+  c1.setBorder(qx.renderer.border.BorderPresets.outset);
   c1.setBackgroundColor(new qx.renderer.color.Color("#BDD2EF"));
   c1.setToolTip(new qx.ui.popup.ToolTip("Look at this"));
   main.add(c1);
 
   var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/toys.png");
   c2.setPadding(5);
-  c2.setBorder(qx.renderer.border.BorderObject.presets.outset);
+  c2.setBorder(qx.renderer.border.BorderPresets.outset);
   c2.setBackgroundColor(new qx.renderer.color.Color("#D1DFAD"));
   c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/help.png"));
   main.add(c2);
 
   var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/penguin.png");
   c3.setPadding(5);
-  c3.setBorder(qx.renderer.border.BorderObject.presets.outset);
+  c3.setBorder(qx.renderer.border.BorderPresets.outset);
   c3.setBackgroundColor(new qx.renderer.color.Color("#D1A4AD"));
   var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/penguin.png");
   tip3.setShowInterval(50);
@@ -601,7 +601,7 @@ qx.Proto._createTreeDemo = function() {
   workaround.add(main);
 
   var t = new qx.ui.tree.Tree("Root");
-  t.set({ backgroundColor:255, border:qx.renderer.border.BorderObject.presets.inset,
+  t.set({ backgroundColor:255, border:qx.renderer.border.BorderPresets.inset,
     overflow:"scrollY", height:"100%", width:200 });
   main.add(t);
 
@@ -799,7 +799,7 @@ qx.Proto._createListViewDemo = function() {
   var lv = new qx.ui.listview.ListView(ld, lc);
   main.add(lv);
 
-  lv.setBorder(qx.renderer.border.BorderObject.presets.shadow);
+  lv.setBorder(qx.renderer.border.BorderPresets.shadow);
   lv.setBackgroundColor("white");
   lv.setWidth(600);
   lv.setHeight(350);
@@ -1257,7 +1257,7 @@ qx.Proto._createThemesDemo = function(clientWindow) {
 
   var info = new qx.ui.basic.Atom("Click on one of the buttons and then view the "
     + "other tabs to see the changes", "icon/32/run.png");
-  //info.set({ border:qx.renderer.border.BorderObject.presets.inset, backgroundColor:"white" });
+  //info.set({ border:qx.renderer.border.BorderPresets.inset, backgroundColor:"white" });
   info.setPadding(5);
   vert.add(info);
 
