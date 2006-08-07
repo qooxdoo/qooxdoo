@@ -12,10 +12,13 @@ function() {
   this.setOverflow("auto");
   this.setPadding(20);
   this.setEdge(0);
-  this.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
-  this.setBackgroundColor("white");
   this.setHtmlProperty("id", "InfoViewer");
   this.setVisibility(false);
 
   api.InfoViewer.instance = this;
 });
+
+qx.Proto.showInfo = function(classNode)
+{
+  this.setHtml("TEST: " + classNode.attributes.fullName);
+}
