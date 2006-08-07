@@ -1512,8 +1512,12 @@ qx.Proto._beforeDisappear = function()
 
   // Remove any hover/pressed styles
   this.removeState(qx.ui.core.Widget.STATE_OVER);
-  this.removeState(qx.ui.form.Button.STATE_PRESSED);
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+
+  if (qx.OO.isAvailable("qx.ui.form.Button"))
+  {
+    this.removeState(qx.ui.form.Button.STATE_PRESSED);
+    this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  }
 
   // this.debug("_beforeDisappear");
   this.createDispatchEvent(qx.constant.Event.BEFOREDISAPPEAR);
@@ -3701,8 +3705,12 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 
     // Also reset some states to be sure a pressed/hovered button gets reset
     this.removeState(qx.ui.core.Widget.STATE_OVER);
-    this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-    this.removeState(qx.ui.form.Button.STATE_PRESSED);
+
+    if (qx.OO.isAvailable("qx.ui.form.Button"))
+    {
+      this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+      this.removeState(qx.ui.form.Button.STATE_PRESSED);
+    }
   }
 
   return true;
