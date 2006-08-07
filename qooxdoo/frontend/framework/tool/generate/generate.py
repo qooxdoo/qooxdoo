@@ -313,9 +313,15 @@ def load(options):
     if not os.path.exists(options.cacheDirectory):
       os.makedirs(options.cacheDirectory)
 
-  print "  * Loading JavaScript files..."
+  print "  * Loading JavaScript files...",
+
+  if options.verbose:
+    print
 
   (fileDb, moduleDb) = loader.indexScriptInput(options)
+
+  if not options.verbose:
+    print
 
   print "  * Found %s JavaScript files" % len(fileDb)
 
