@@ -770,7 +770,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
           print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
           sys.exit(1)
 
-        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
+        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
 
     else:
       includeCode = ""
@@ -779,7 +779,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
           print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
           sys.exit(1)
 
-        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileId.replace(".", os.sep)), config.JSEXT)
+        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
     print "  * Saving includer output as %s..." % options.sourceScriptFile

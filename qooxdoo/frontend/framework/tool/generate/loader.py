@@ -133,7 +133,7 @@ def extractResources(data):
 
 def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
   if options.verbose:
-    print "    - %s" % filePathId,
+    print "    - %s" % filePathId
 
   # Modification time
   fileModTime = os.stat(filePath).st_mtime
@@ -245,6 +245,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
   fileDb[fileId]["scriptInput"] = scriptInput
   fileDb[fileId]["modificationTime"] = fileModTime
   fileDb[fileId]["path"] = filePath
+  fileDb[fileId]["pathId"] = filePathId
   fileDb[fileId]["resourceInput"] = resourceInput
   fileDb[fileId]["resourceOutput"] = resourceOutput
   fileDb[fileId]["sourceScriptPath"] = sourceScriptPath
