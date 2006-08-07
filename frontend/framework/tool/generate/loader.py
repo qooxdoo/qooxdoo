@@ -187,7 +187,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     if fileContentId == None:
       fileId = filePathId
       if not options.verbose:
-        print "\n    - %s" % filePathId,
+        print "\n    - %s" % filePathId
 
       print "      * Could not extract ID from file: %s. Using fileName!" % fileId
       useCache = False
@@ -197,7 +197,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
       if fileContentId != filePathId:
         if not options.verbose:
-          print "\n    - %s" % filePathId,
+          print "\n    - %s" % filePathId
 
         print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
         useCache = False
