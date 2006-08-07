@@ -62,6 +62,7 @@ generate-script-source:
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../$(FRAMEWORK)/source/resource/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../$(FRAMEWORK)/source/resource/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../$(FRAMEWORK)/source/resource/static \
+	  --define-runtime-setting qx.client.History.helperFile:../$(FRAMEWORK)/source/resource/static/history/historyHelper.html \
 	  --cache-directory $(CACHE)
 
 generate-script-build:
@@ -81,6 +82,7 @@ generate-script-build:
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resource/qooxdoo/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resource/qooxdoo/static \
+	  --define-runtime-setting qx.client.History.helperFile:resource/qooxdoo/static/history/historyHelper.html \
 	  --copy-resource \
 	  --cache-directory $(CACHE)
 
