@@ -19,13 +19,14 @@
 /* ************************************************************************
 
 #module(popup)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
 /*!
   This singleton is used to manager multiple instances of popups and their state.
 */
-qx.OO.defineClass("qx.manager.object.PopupManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.PopupManager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 });
@@ -67,8 +68,8 @@ qx.Proto.update = function(vTarget)
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.PopupManager = new qx.manager.object.PopupManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.PopupManager);

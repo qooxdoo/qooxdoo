@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(tooltip)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -181,8 +182,8 @@ qx.Proto.handleBlur = function(e)
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ToolTipManager = new qx.manager.object.ToolTipManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.ToolTipManager);

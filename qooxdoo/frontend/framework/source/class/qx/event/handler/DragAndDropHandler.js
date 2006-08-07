@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(dragndrop)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -864,8 +865,8 @@ qx.Proto.dispose = function()
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.event.handler.DragAndDropHandler = new qx.event.handler.DragAndDropHandler;
+qx.manager.object.SingletonManager.add(qx.event.handler.DragAndDropHandler);

@@ -18,6 +18,7 @@
 /* ************************************************************************
 
 #module(tree)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -251,8 +252,8 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.ui.treefullcontrol.TreeRowStructure = new qx.ui.treefullcontrol.TreeRowStructure();
+qx.manager.object.SingletonManager.add(qx.ui.treefullcontrol.TreeRowStructure);

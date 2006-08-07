@@ -19,13 +19,14 @@
 /* ************************************************************************
 
 #module(image)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
 /*!
   This singleton manage all qx.io.image.ImagePreloader instances.
 */
-qx.OO.defineClass("qx.manager.object.ImagePreloaderManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.ImagePreloaderManager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 });
@@ -72,8 +73,8 @@ qx.Proto.create = function(vSource)
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ImagePreloaderManager = new qx.manager.object.ImagePreloaderManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.ImagePreloaderManager);
