@@ -74,6 +74,8 @@ qx.Proto.loadDocTreeFromUrl = function(url)
     var content = evt.getData().getContent();
     this.setDocTree(eval("(" + content + ")"));
 
+    qx.ui.core.Widget.flushGlobalQueues();
+
     // Handle bookmarks
     if (window.location.hash) {
       var self = this;
