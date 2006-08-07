@@ -26,8 +26,8 @@
 // HACK temporary:
 // we need to ignore these, appearance theme should be fixed to
 // not use widget checks.
-#optional(qx.ui.tree.AbstractTreeElement)
-#optional(qx.ui.treefullcontrol.AbstractTreeElement)
+#use(qx.ui.tree.AbstractTreeElement)
+#use(qx.ui.treefullcontrol.AbstractTreeElement)
 
 ************************************************************************ */
 
