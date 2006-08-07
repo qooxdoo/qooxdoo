@@ -775,5 +775,5 @@ qx.OO.inheritField = function(vField, vData)
 }
 
 qx.OO.isAvailable = function(vClassName) {
-  return qx.OO.classes[vClassName] !== qx.constant.Type.UNDEFINED;
+  return typeof qx.OO.classes[vClassName] !== qx.constant.Type.UNDEFINED;
 }
