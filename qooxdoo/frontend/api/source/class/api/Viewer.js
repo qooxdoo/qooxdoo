@@ -26,7 +26,7 @@ function (vUrl) {
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   this.add(this._tree);
 
-  this._detailViewer = new api.DetailViewer;
+  this._detailViewer = new api.ClassViewer;
   this.add(this._detailViewer);
 
   this._currentTreeType = api.Viewer.PACKAGE_TREE;
@@ -217,26 +217,30 @@ qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onTreeSelectionChange = function(evt) {
+qx.Proto._onTreeSelectionChange = function(evt)
+{
   var treeNode = evt.getData()[0];
-  if (treeNode && treeNode.docNode && treeNode.docNode.type == "class") {
+
+  if (treeNode && treeNode.docNode)
+  {
     var newTitle = this._titlePrefix + " - class " + treeNode.docNode.attributes.fullName;
-//    qx.client.History.addToHistory(treeNode.docNode.attributes.fullName, newTitle);
+
+    qx.client.History.addToHistory(treeNode.docNode.attributes.fullName, newTitle);
 
     this._currentTreeType = treeNode.treeType;
 
-    this._detailViewer.showClass(treeNode.docNode);
+    if (treeNode && treeNode.docNode && treeNode.docNode.type == "class")
+    {
+      this._detailViewer.showClass(treeNode.docNode);
+    }
+    else
+    {
+      this._detailViewer.showInfo(treeNode.docNode);
+    }
+
     this._detailViewer.setVisibility(true);
 
     window.location.hash = "#" + treeNode.docNode.attributes.fullName;
-  } else {
-    document.title = this._titlePrefix;
-    this._detailViewer.setVisibility(false);
-
-    if (treeNode && treeNode.docNode && treeNode.docNode.attributes) {
-      // Other than classes are not support for bookmarkable-urls currently
-      window.location.hash = "#" + treeNode.docNode.attributes.fullName;
-    }
   }
 }
 
@@ -279,52 +283,10 @@ qx.Proto.selectItem = function(fullItemName) {
  * @param className {string} the name of the class to show.
  */
 qx.Proto.showClass = function(className) {
-  /*
-  this.debug("Showing class: " + className);
-  this.debug("traverse bug:"+(this._tree.getItems()[0] == this._tree));
-  this.debug("child 1: " + this._tree.getChildren()[1]);
-  this.debug("items:"+this._tree.getItems().length);
-  this.debug("item 0:"+this._tree.getItems()[0]);
-
-  var item1 = this._tree.getItems()[1];
-  this.debug("item 1:"+item1);
-  this.debug("item 1 label:"+item1.getLabel());
-  this.debug("item 1 items:"+item1.getItems().length);
-  this.debug("item 1 items:"+item1.getItems()[0].getLabel());
-
-  var splits = className.split(".");
-  var treeNode = this._tree.getItems()[0].getItems()[0];
-  for (var i = 0; i < splits.length; i++) {
-    if (treeNode) {
-      this.debug("Searching " + splits[i] + " in " + treeNode);
-      var childNodes = treeNode.getItems();
-      nextChild = null;
-      for (var j = 0; j < childNodes.length; j++) {
-        if (childNodes[j].getLabel() == splits[i]) {
-          nextChild = childNodes[j];
-          break;
-        }
-      }
-      this.debug("Found: " + nextChild);
-      treeNode = nextChild;
-    }
-  }
-  */
-
   var treeNode = this._classTreeNodeHash[this._currentTreeType][className];
 
   if (treeNode) {
     treeNode.setSelected(true);
-
-    // Open the parents
-    /*
-    // Grrrrrrrrr: Tree navigation doesn't work!
-    var parent = treeNode.getParent();
-    while (parent && parent.open) {
-      parent.open();
-      parent = parent.getParent();
-    }
-    */
   } else if (this.getDocTree() == null) {
     // The doc tree has not been loaded yet
     // -> Remeber the wanted class and show when loading is done

@@ -5,7 +5,7 @@
 /**
  * Shows the class details.
  */
-qx.OO.defineClass("api.DetailViewer", qx.ui.embed.HtmlEmbed,
+qx.OO.defineClass("api.ClassViewer", qx.ui.embed.HtmlEmbed,
 function() {
   qx.ui.embed.HtmlEmbed.call(this);
 
@@ -14,10 +14,10 @@ function() {
   this.setWidth("1*");
   this.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
   this.setBackgroundColor("white");
-  this.setHtmlProperty("id", "DetailViewer");
+  this.setHtmlProperty("id", "ClassViewer");
   this.setVisibility(false);
 
-  api.DetailViewer.instance = this;
+  api.ClassViewer.instance = this;
 });
 
 
@@ -26,7 +26,7 @@ function() {
  * HtmlEmbed element initialization routine.
  */
 qx.Proto._syncHtml = function() {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   document._detailViewer = this;
 
@@ -38,40 +38,40 @@ qx.Proto._syncHtml = function() {
   html += '<h1></h1>';
 
   // Add description
-  html += DetailViewer.DIV_START + DetailViewer.DIV_END;
+  html += ClassViewer.DIV_START + ClassViewer.DIV_END;
 
   // Add constructor info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_CONSTRUCTOR,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR,
     "constructor", "constructor", this._createMethodInfo,
     this._methodHasDetails, false, true);
 
   // Add properties info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_PROPERTY,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY,
     "properties", "properties", this._createPropertyInfo,
     qx.util.Return.returnTrue, true, true);
 
   // Add public methods info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_PUBLIC,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PUBLIC,
     "methods-pub", "public methods", this._createMethodInfo,
     this._methodHasDetails, true, true);
 
   // Add protected methods info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_PROTECTED,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PROTECTED,
     "methods-prot", "protected methods", this._createMethodInfo,
     this._methodHasDetails, true, false);
 
   // Add static public methods info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_STATIC_PUBLIC,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC,
     "methods-static-pub", "static public methods", this._createMethodInfo,
     this._methodHasDetails, false, true);
 
   // Add static protected methods info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_METHOD_STATIC_PROTECTED,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED,
     "methods-static-prot", "static protected methods", this._createMethodInfo,
     this._methodHasDetails, false, false);
 
   // Add constants info
-  html += this._createInfoPanel(DetailViewer.NODE_TYPE_CONSTANT,
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT,
     "constants", "constants", this._createConstantInfo,
     this._constantHasDetails, false, true);
 
@@ -84,13 +84,13 @@ qx.Proto._syncHtml = function() {
   var divArr = this.getElement().childNodes;
   this._titleElem = divArr[0];
   this._classDescElem = divArr[1];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[2];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[3];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[4];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[5];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[6];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[7];
-  this._infoPanelHash[DetailViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[8];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[2];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[3];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[4];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[5];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[6];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[7];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[8];
 
   // Get the child elements
   for (var nodeType in this._infoPanelHash) {
@@ -178,7 +178,7 @@ qx.Proto.showClass = function(classNode) {
     return;
   }
 
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   var titleHtml = "";
 
@@ -213,7 +213,7 @@ qx.Proto.showClass = function(classNode) {
   }
 
   // Create the class hierarchy
-  classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + DetailViewer.DIV_END;
+  classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
 
   var classHierarchy = [];
   var currClass = classNode;
@@ -224,11 +224,11 @@ qx.Proto.showClass = function(classNode) {
   this._currentClassHierarchy = classHierarchy;
 
   // Add the class hierarchy
-  classHtml += DetailViewer.createImageHtml("api/class18.gif") + "Object<br/>";
+  classHtml += ClassViewer.createImageHtml("api/class18.gif") + "Object<br/>";
   var indent = 0;
   for (var i = classHierarchy.length - 1; i >= 0; i--) {
-    classHtml += DetailViewer.createImageHtml("api/nextlevel.gif", null, "margin-left:" + indent + "px")
-      + DetailViewer.createImageHtml(api.TreeUtil.getIconUrl(classHierarchy[i]));
+    classHtml += ClassViewer.createImageHtml("api/nextlevel.gif", null, "margin-left:" + indent + "px")
+      + ClassViewer.createImageHtml(api.TreeUtil.getIconUrl(classHierarchy[i]));
     if (i != 0) {
       classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
     } else {
@@ -242,8 +242,8 @@ qx.Proto.showClass = function(classNode) {
 
   // Add child classes
   if (classNode.attributes.childClasses) {
-    classHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Direct subclasses:" + DetailViewer.DIV_END
-      + DetailViewer.DIV_START_DETAIL_TEXT;
+    classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Direct subclasses:" + ClassViewer.DIV_END
+      + ClassViewer.DIV_START_DETAIL_TEXT;
 
     var classNameArr = classNode.attributes.childClasses.split(",");
     for (var i = 0; i < classNameArr.length; i++) {
@@ -253,7 +253,7 @@ qx.Proto.showClass = function(classNode) {
       classHtml += this._createItemLinkHtml(classNameArr[i], null, true, false);
     }
 
-    classHtml += DetailViewer.DIV_END;
+    classHtml += ClassViewer.DIV_END;
     classHtml += '<br/>';
   }
 
@@ -274,6 +274,28 @@ qx.Proto.showClass = function(classNode) {
   this.getElement().scrollTop = 0;
 }
 
+qx.Proto.showInfo = function(classNode) {
+  if (this._currentClassDocNode == classNode) {
+    // Nothing to do
+    return;
+  }
+
+  this._currentClassDocNode = classNode;
+
+  if (!this._titleElem) {
+    // _initContentDocument was not called yet
+    // -> Do nothing, the class will be shown in _initContentDocument.
+    return;
+  }
+
+  var ClassViewer = api.ClassViewer;
+
+  this._titleElem.innerHTML = "Info View";
+  this._classDescElem.innerHTML = "";
+
+  // Scroll to top
+  this.getElement().scrollTop = 0;
+}
 
 /**
  * Highlights an item (property, method or constant) and scrolls it visible.
@@ -319,7 +341,7 @@ qx.Proto.showItem = function(itemName) {
  * @param nodeType {int} the node type of which to update the info panel.
  */
 qx.Proto._updateInfoPanel = function(nodeType) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   var typeInfo = this._infoPanelHash[nodeType];
 
@@ -380,7 +402,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       // Create the title row
       html += '<tr>';
 
-        html += '<td class="icon">' + DetailViewer.createImageHtml(iconUrl) + '</td>';
+        html += '<td class="icon">' + ClassViewer.createImageHtml(iconUrl) + '</td>';
         html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
 
         html += '<td class="toggle">';
@@ -472,7 +494,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
 
     var listNode = api.TreeUtil.getChild(fromClassNode, typeInfo.listName);
     var node;
-    if (nodeType == api.DetailViewer.NODE_TYPE_CONSTRUCTOR) {
+    if (nodeType == api.ClassViewer.NODE_TYPE_CONSTRUCTOR) {
       node = listNode.children[0];
     } else {
       node = api.TreeUtil.getChildByAttribute(listNode, "name", name);
@@ -596,7 +618,7 @@ qx.Proto._getClassDocNode = function(className) {
  * @return {string} the HTML showing the information about the property.
  */
 qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   var info = {}
 
@@ -634,44 +656,44 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
     }
 
     if (allowedValue) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT;
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT;
 
       if (node.attributes.allowNull != "false") {
         info.textHtml += "null, ";
       }
-      info.textHtml += allowedValue + DetailViewer.DIV_END;
+      info.textHtml += allowedValue + ClassViewer.DIV_END;
     }
 
     // Add default value
-    info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + DetailViewer.DIV_END
-      + DetailViewer.DIV_START_DETAIL_TEXT
+    info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + ClassViewer.DIV_END
+      + ClassViewer.DIV_START_DETAIL_TEXT
       + (node.attributes.defaultValue ? node.attributes.defaultValue : "null")
-      + DetailViewer.DIV_END;
+      + ClassViewer.DIV_END;
 
     // Add get alias
     if (node.attributes.getAlias) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Get alias:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT + node.attributes.getAlias + DetailViewer.DIV_END;
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Get alias:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT + node.attributes.getAlias + ClassViewer.DIV_END;
     }
 
     // Add set alias
     if (node.attributes.setAlias) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Set alias:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT + node.attributes.setAlias + DetailViewer.DIV_END;
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Set alias:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT + node.attributes.setAlias + ClassViewer.DIV_END;
     }
 
     // Add inherited from or overridden from
     if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(fromClassNode.attributes.fullName)
-        + DetailViewer.DIV_END;
+        + ClassViewer.DIV_END;
     } else if (node.attributes.overriddenFrom) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(node.attributes.overriddenFrom)
-        + DetailViewer.DIV_END;
+        + ClassViewer.DIV_END;
     }
 
     // Add @see attributes
@@ -732,7 +754,7 @@ qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
  * @return {string} the HTML showing the information about the method.
  */
 qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
   var TreeUtil = api.TreeUtil;
 
   var info = {}
@@ -793,7 +815,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
     // Add Parameters
     var paramsNode = TreeUtil.getChild(docNode, "params");
     if (paramsNode) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Parameters:" + DetailViewer.DIV_END;
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Parameters:" + ClassViewer.DIV_END;
       for (var i = 0; i < paramsNode.children.length; i++) {
         var param = paramsNode.children[i];
         var paramType = param.attributes.type ? param.attributes.type : "var";
@@ -805,20 +827,20 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
         }
         var defaultValue = param.attributes.defaultValue;
 
-        info.textHtml += DetailViewer.DIV_START_DETAIL_TEXT;
+        info.textHtml += ClassViewer.DIV_START_DETAIL_TEXT;
         if (defaultValue) {
-          info.textHtml += DetailViewer.SPAN_START_OPTIONAL;
+          info.textHtml += ClassViewer.SPAN_START_OPTIONAL;
         }
-        info.textHtml += DetailViewer.SPAN_START_PARAM_NAME + param.attributes.name + DetailViewer.SPAN_END;
+        info.textHtml += ClassViewer.SPAN_START_PARAM_NAME + param.attributes.name + ClassViewer.SPAN_END;
         if (defaultValue) {
-          info.textHtml += " (default: " + defaultValue + ") " + DetailViewer.SPAN_END;
+          info.textHtml += " (default: " + defaultValue + ") " + ClassViewer.SPAN_END;
         }
 
         var paramDescNode = TreeUtil.getChild(param, "desc");
         if (paramDescNode) {
           info.textHtml += " " + this._createDescriptionHtml(paramDescNode.attributes.text, docClassNode);
         }
-        info.textHtml += DetailViewer.DIV_END;
+        info.textHtml += ClassViewer.DIV_END;
       }
     }
 
@@ -826,24 +848,24 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
     if (returnNode) {
       var returnDescNode = TreeUtil.getChild(returnNode, "desc");
       if (returnDescNode) {
-        info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Returns:" + DetailViewer.DIV_END
-          + DetailViewer.DIV_START_DETAIL_TEXT
+        info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Returns:" + ClassViewer.DIV_END
+          + ClassViewer.DIV_START_DETAIL_TEXT
           + this._createDescriptionHtml(returnDescNode.attributes.text, docClassNode)
-          + DetailViewer.DIV_END;
+          + ClassViewer.DIV_END;
       }
     }
 
     // Add inherited from or overridden from
     if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(fromClassNode.attributes.fullName)
-        + DetailViewer.DIV_END;
+        + ClassViewer.DIV_END;
     } else if (node.attributes.overriddenFrom) {
-      info.textHtml += DetailViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + DetailViewer.DIV_END
-        + DetailViewer.DIV_START_DETAIL_TEXT
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT
         + this._createItemLinkHtml(node.attributes.overriddenFrom)
-        + DetailViewer.DIV_END;
+        + ClassViewer.DIV_END;
     }
 
     // Add @see attributes
@@ -912,7 +934,7 @@ qx.Proto._descHasDetails = function(node) {
   var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
     var desc = descNode.attributes.text;
-    var hit = api.DetailViewer.SENTENCE_END_REGEX.exec(desc);
+    var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(desc);
     if (hit != null) {
       return desc.length != hit.index + hit[0].length;
     } else {
@@ -940,9 +962,9 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
     if (!showDetails) {
       desc = this._extractFirstSentence(desc);
     }
-    return api.DetailViewer.DIV_START_DESC
+    return api.ClassViewer.DIV_START_DESC
       + this._createDescriptionHtml(desc, fromClassNode)
-      + api.DetailViewer.DIV_END;
+      + api.ClassViewer.DIV_END;
   } else {
     return "";
   }
@@ -958,7 +980,7 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
 qx.Proto._extractFirstSentence = function(text) {
   // Look for a point followed by white space, but don't match if there is
   // a point two chars before, like in "e.g. "
-  var hit = api.DetailViewer.SENTENCE_END_REGEX.exec(text);
+  var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(text);
   if (hit != null) {
     return text.substring(0, hit.index + hit[0].length);
   } else {
@@ -1000,7 +1022,7 @@ qx.Proto._hasSeeAlsoHtml = function(node) {
  * @return {string} the HTML showing the &#64;see attributes.
  */
 qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
@@ -1020,8 +1042,8 @@ qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
 
       if (seeAlsoHtml.length != 0) {
         // We had @see attributes
-        return DetailViewer.DIV_START_DETAIL_HEADLINE + "See also:" + DetailViewer.DIV_END
-          + DetailViewer.DIV_START_DETAIL_TEXT + seeAlsoHtml + DetailViewer.DIV_END;
+        return ClassViewer.DIV_START_DETAIL_HEADLINE + "See also:" + ClassViewer.DIV_END
+          + ClassViewer.DIV_START_DETAIL_TEXT + seeAlsoHtml + ClassViewer.DIV_END;
       }
     }
   }
@@ -1051,18 +1073,18 @@ qx.Proto._hasErrorHtml = function(node) {
  * @return {string} the HTML showing the documentation errors.
  */
 qx.Proto._createErrorHtml = function(node, fromClassNode) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   var errorNode = api.TreeUtil.getChild(node, "errors");
   if (errorNode) {
-    var html = DetailViewer.DIV_START_ERROR_HEADLINE + "Documentation errors:" + DetailViewer.DIV_END;
+    var html = ClassViewer.DIV_START_ERROR_HEADLINE + "Documentation errors:" + ClassViewer.DIV_END;
     var errArr = errorNode.children;
     for (var i = 0; i < errArr.length; i++) {
-      html += DetailViewer.DIV_START_DETAIL_TEXT + errArr[i].attributes.msg + " (";
+      html += ClassViewer.DIV_START_DETAIL_TEXT + errArr[i].attributes.msg + " (";
       if (fromClassNode && fromClassNode != this._currentClassDocNode) {
         html += fromClassNode.attributes.fullName + " ";
       }
-      html += "line " + errArr[i].attributes.line + ")" + DetailViewer.DIV_END;
+      html += "line " + errArr[i].attributes.line + ")" + ClassViewer.DIV_END;
     }
     return html;
   } else {
@@ -1100,7 +1122,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
   if (typeName == null) {
     typeHtml = defaultType;
   } else {
-    if (api.DetailViewer.PRIMITIVES[typeName]) {
+    if (api.ClassViewer.PRIMITIVES[typeName]) {
       typeHtml = typeName;
     } else {
       var linkText = typeName;
@@ -1179,7 +1201,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
     // This is a link to another class or method -> Create an item link
 
     // Separate item name from label
-    var hit = api.DetailViewer.ITEM_SPEC_REGEX.exec(linkText);
+    var hit = api.ClassViewer.ITEM_SPEC_REGEX.exec(linkText);
     if (hit == null) {
       // Malformed item name
       return linkText;
@@ -1225,7 +1247,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
           }
           if (itemNode) {
             var iconUrl = api.TreeUtil.getIconUrl(itemNode);
-            var iconCode = api.DetailViewer.createImageHtml(iconUrl);
+            var iconCode = api.ClassViewer.createImageHtml(iconUrl);
           }
         }
       }
@@ -1251,27 +1273,27 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
  * @return {int} the item's node type.
  */
 qx.Proto._getTypeForItemNode = function(itemNode) {
-  var DetailViewer = api.DetailViewer;
+  var ClassViewer = api.ClassViewer;
 
   if (itemNode.type == "constant") {
-    return DetailViewer.NODE_TYPE_CONSTANT;
+    return ClassViewer.NODE_TYPE_CONSTANT;
   } else if (itemNode.type == "property") {
-    return DetailViewer.NODE_TYPE_PROPERTY;
+    return ClassViewer.NODE_TYPE_PROPERTY;
   } else if (itemNode.type == "method") {
     var name = itemNode.attributes.name;
     if (name == null) {
-      return DetailViewer.NODE_TYPE_CONSTRUCTOR;
+      return ClassViewer.NODE_TYPE_CONSTRUCTOR;
     } else if (name.charAt(0) == "_") {
       if (itemNode.attributes.isStatic) {
-        return DetailViewer.NODE_TYPE_METHOD_STATIC_PROTECTED;
+        return ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED;
       } else {
-        return DetailViewer.NODE_TYPE_METHOD_PROTECTED;
+        return ClassViewer.NODE_TYPE_METHOD_PROTECTED;
       }
     } else {
       if (itemNode.attributes.isStatic) {
-        return DetailViewer.NODE_TYPE_METHOD_STATIC_PUBLIC;
+        return ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC;
       } else {
-        return DetailViewer.NODE_TYPE_METHOD_PUBLIC;
+        return ClassViewer.NODE_TYPE_METHOD_PUBLIC;
       }
     }
   }
@@ -1369,7 +1391,7 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
     } else {
       styleAttributes = "vertical-align:top";
     }
-    return api.DetailViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
+    return api.ClassViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
   }
 }
 
