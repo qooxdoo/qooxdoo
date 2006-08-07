@@ -27,8 +27,9 @@ function (vUrl) {
   this.add(this._tree);
 
   this._detailFrame = new qx.ui.layout.CanvasLayout;
-  this._detailFrame.setPadding(20);
   this._detailFrame.setWidth("1*");
+  this._detailFrame.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
+  this._detailFrame.setBackgroundColor("white");
   this.add(this._detailFrame);
 
   this._classViewer = new api.ClassViewer;
