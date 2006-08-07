@@ -132,7 +132,8 @@ def extractResources(data):
 
 
 def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
-  print "    - %s" % filePathId,
+  if options.verbose:
+    print "    - %s" % filePathId,
 
   # Modification time
   fileModTime = os.stat(filePath).st_mtime
@@ -161,7 +162,10 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       print "      - Error while reading! Ignore cache"
 
   if fileModTime > cacheModTime:
-    print "=> parse..."
+    if options.verbose:
+      print "=> parse..."
+    else:
+      sys.stdout.write("p")
 
     useCache = True
 
@@ -182,6 +186,9 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     # Search for valid ID
     if fileContentId == None:
       fileId = filePathId
+      if not options.verbose:
+        print "\n    - %s" % filePathId,
+
       print "      * Could not extract ID from file: %s. Using fileName!" % fileId
       useCache = False
 
@@ -189,6 +196,9 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       fileId = fileContentId
 
       if fileContentId != filePathId:
+        if not options.verbose:
+          print "\n    - %s" % filePathId,
+
         print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
         useCache = False
 
@@ -217,7 +227,10 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
         print "      - Could not store cache file!"
 
   else:
-    print "=> cached"
+    if options.verbose:
+      print "=> cached"
+    else:
+      sys.stdout.write(".")
 
   # Register file to module data
   for moduleId in fileDb[fileId]["modules"]:
@@ -225,6 +238,8 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       moduleDb[moduleId].append(fileId)
     else:
       moduleDb[moduleId] = [ fileId ]
+
+  sys.stdout.flush()
 
   # Store additional data (non-cached data)
   fileDb[fileId]["scriptInput"] = scriptInput
