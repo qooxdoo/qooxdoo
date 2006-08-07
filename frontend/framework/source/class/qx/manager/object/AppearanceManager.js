@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(appearance)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -138,8 +139,8 @@ qx.Proto.dispose = function()
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.AppearanceManager = new qx.manager.object.AppearanceManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.AppearanceManager);

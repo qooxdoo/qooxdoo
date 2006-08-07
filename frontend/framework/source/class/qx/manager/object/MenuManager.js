@@ -19,13 +19,14 @@
 /* ************************************************************************
 
 #module(menu)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
 /*!
   This singleton manages multiple instances of qx.ui.menu.Menu and their state.
 */
-qx.OO.defineClass("qx.manager.object.MenuManager", qx.manager.object.ObjectManager, 
+qx.OO.defineClass("qx.manager.object.MenuManager", qx.manager.object.ObjectManager,
 function(){
   qx.manager.object.ObjectManager.call(this);
 });
@@ -67,8 +68,8 @@ qx.Proto.update = function(vTarget)
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.MenuManager = new qx.manager.object.MenuManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.MenuManager);

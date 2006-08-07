@@ -49,13 +49,12 @@ qx.Proto.add = function(vConstructor) {
 qx.Proto.flush = function()
 {
   var vConstructor, vClassName, vSplit, vBasename, vNamespace;
+  var vStart = (new Date).valueOf();
 
   for (var i=0, a=this._objects, il=a.length; i<il; i++)
   {
     vConstructor = this._objects[i];
     vClassName = vConstructor.classname;
-
-    this.debug("Create: " + vClassName);
 
     vSplit = vClassName.split(qx.constant.Core.DOT);
     vBasename = vSplit.pop();
@@ -69,6 +68,9 @@ qx.Proto.flush = function()
   }
 
   this._objects = [];
+
+  // Print runtime
+  this.info("Created " + il + " singletons in " + ((new Date).valueOf() - vStart) + "ms");
 }
 
 

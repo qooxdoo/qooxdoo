@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(transport)
+#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 /*!
@@ -381,8 +382,8 @@ qx.Proto.dispose = function()
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteRequestQueue = new qx.io.remote.RemoteRequestQueue;
+qx.manager.object.SingletonManager.add(qx.io.remote.RemoteRequestQueue);

@@ -1194,9 +1194,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
+/*
 qx.Class.presets =
 {
   black : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "black"),
   white : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "white"),
   none : new qx.Class(0, qx.renderer.border.Border.STYLE_NONE)
 }
+*/

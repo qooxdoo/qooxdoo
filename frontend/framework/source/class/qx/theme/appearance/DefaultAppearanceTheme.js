@@ -170,7 +170,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
         backgroundColor : this.bgcolor,
         color : this.color,
-        border : qx.renderer.border.BorderObject.presets.info,
+        border : qx.renderer.border.BorderPresets.info,
         paddingTop : 1,
         paddingRight : 3,
         paddingBottom : 2,
@@ -184,7 +184,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme)
     {
       return {
-        border : qx.renderer.border.BorderObject.presets.inset
+        border : qx.renderer.border.BorderPresets.inset
       }
     }
   },
@@ -208,8 +208,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
       this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-      this.border_pressed = qx.renderer.border.BorderObject.presets.inset;
-      this.border_default = qx.renderer.border.BorderObject.presets.outset;
+      this.border_pressed = qx.renderer.border.BorderPresets.inset;
+      this.border_default = qx.renderer.border.BorderPresets.outset;
     },
 
     initial : function(vWidget, vTheme) {
@@ -263,7 +263,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme)
     {
       return {
-        border : qx.renderer.border.BorderObject.presets.thinOutset,
+        border : qx.renderer.border.BorderPresets.thinOutset,
         backgroundColor : this.bgcolor,
         height : qx.constant.Core.AUTO
       }
@@ -299,7 +299,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         left : 3,
         bottom : 2,
         width : 4,
-        border : qx.renderer.border.BorderObject.presets.thinOutset
+        border : qx.renderer.border.BorderPresets.thinOutset
       }
     }
   },
@@ -351,8 +351,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
       this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-      this.border_pressed = qx.renderer.border.BorderObject.presets.thinInset;
-      this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
+      this.border_pressed = qx.renderer.border.BorderPresets.thinInset;
+      this.border_over = qx.renderer.border.BorderPresets.thinOutset;
       this.border_default = null;
 
       this.checked_background = "static/image/dotted_white.gif";
@@ -429,7 +429,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return {
         backgroundColor : this.background,
-        border : qx.renderer.border.BorderObject.presets.shadow
+        border : qx.renderer.border.BorderPresets.shadow
       }
     }
   },
@@ -700,7 +700,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        border : vStates.maximized ? qx.renderer.border.BorderObject.presets.none : qx.renderer.border.BorderObject.presets.outset
+        border : vStates.maximized ? qx.renderer.border.BorderPresets.none : qx.renderer.border.BorderPresets.outset
       }
     }
   },
@@ -742,7 +742,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme)
     {
       return {
-        border : qx.renderer.border.BorderObject.presets.shadow
+        border : qx.renderer.border.BorderPresets.shadow
       }
     }
   },
@@ -855,7 +855,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme)
     {
       return {
-        border : qx.renderer.border.BorderObject.presets.thinInset,
+        border : qx.renderer.border.BorderPresets.thinInset,
         height : qx.constant.Core.AUTO
       }
     }
@@ -903,7 +903,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         width : qx.constant.Core.AUTO,
         height : qx.constant.Core.AUTO,
         backgroundColor : this.bgcolor,
-        border : qx.renderer.border.BorderObject.presets.outset,
+        border : qx.renderer.border.BorderPresets.outset,
         paddingTop : 1,
         paddingRight : 1,
         paddingBottom : 1,
@@ -1005,7 +1005,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         right : 0,
         left : 0,
         height : qx.constant.Core.AUTO,
-        border : qx.renderer.border.BorderObject.presets.verticalDivider
+        border : qx.renderer.border.BorderPresets.verticalDivider
       }
     }
   },
@@ -1034,7 +1034,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return {
         overflow : qx.constant.Style.OVERFLOW_HIDDEN,
-        border : qx.renderer.border.BorderObject.presets.thinInset,
+        border : qx.renderer.border.BorderPresets.thinInset,
         backgroundColor : this.bgcolor
       }
     }
@@ -1108,7 +1108,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return {
         hideFocus : true,
-        border : qx.renderer.border.BorderObject.presets.thinInset,
+        border : qx.renderer.border.BorderPresets.thinInset,
         paddingTop : 1,
         paddingRight : 3,
         paddingBottom : 1,
@@ -1168,7 +1168,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         minWidth : 40,
         width : 120,
         height : qx.constant.Core.AUTO,
-        border : qx.renderer.border.BorderObject.presets.inset,
+        border : qx.renderer.border.BorderPresets.inset,
         backgroundColor : this.bgcolor,
         allowStretchY : false
       }
@@ -1197,7 +1197,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
         height : qx.constant.Core.AUTO,
         maxHeight : 150,
-        border : qx.renderer.border.BorderObject.presets.shadow
+        border : qx.renderer.border.BorderPresets.shadow
       });
     }
   },
@@ -1212,7 +1212,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     initial : function(vWidget, vTheme)
     {
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
-        border : qx.renderer.border.Border.presets.none,
+        border : qx.renderer.border.BorderPresets.none,
         width : qx.constant.Core.FLEX,
         backgroundColor : this.bgcolor
       });
@@ -1890,7 +1890,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         paddingRight : 9,
         paddingBottom : 12,
         paddingLeft : 9,
-        border : qx.renderer.border.BorderObject.presets.groove
+        border : qx.renderer.border.BorderPresets.groove
       }
     }
   },
@@ -1944,7 +1944,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       return {
         width : 60,
         height : 22,
-        border : qx.renderer.border.BorderObject.presets.inset,
+        border : qx.renderer.border.BorderPresets.inset,
         backgroundColor : this.bgcolor
       }
     }
@@ -1956,7 +1956,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
         width : qx.constant.Core.FLEX,
-        border : qx.renderer.border.Border.presets.none
+        border : qx.renderer.border.BorderPresets.none
       });
     },
 
@@ -2027,7 +2027,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
   {
     setup : function()
     {
-      this.border = qx.renderer.border.BorderObject.presets.outset;
+      this.border = qx.renderer.border.BorderPresets.outset;
     },
 
     initial : function(vWidget, vTheme)
@@ -2062,8 +2062,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
       this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-      this.border_pressed = qx.renderer.border.BorderObject.presets.thinInset;
-      this.border_over = qx.renderer.border.BorderObject.presets.thinOutset;
+      this.border_pressed = qx.renderer.border.BorderPresets.thinInset;
+      this.border_over = qx.renderer.border.BorderPresets.thinOutset;
       this.border_default = null;
 
       this.checked_background = "static/image/dotted_white.gif";
@@ -2210,7 +2210,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     state : function(vWidget, vTheme, vStates)
     {
       return {
-        border : vStates.today ? qx.renderer.border.Border.presets.black : this.transparentBorder,
+        border : vStates.today ? qx.renderer.border.BorderPresets.black : this.transparentBorder,
         color : vStates.selected ? this.selectedColor :
           (vStates.otherMonth ? this.otherMonthColor : this.color),
         backgroundColor : vStates.selected ? this.selectedBgColor : null
@@ -2309,7 +2309,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     {
       return {
         font: this.font,
-        border: qx.renderer.border.Border.presets.none,
+        border: qx.renderer.border.BorderPresets.none,
         paddingLeft: 2,
         paddingRight: 2,
         paddingTop: 0,

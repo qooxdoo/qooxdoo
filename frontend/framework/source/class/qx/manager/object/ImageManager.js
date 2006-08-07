@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(image)
+#require(qx.manager.object.SingletonManager)
 #require(qx.constant.Type)
 #optional(qx.ui.form.Button)
 
@@ -359,8 +360,9 @@ qx.Proto.dispose = function()
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ImageManager = new qx.manager.object.ImageManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.ImageManager);
+

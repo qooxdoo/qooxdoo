@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(color)
+#require(qx.manager.object.SingletonManager)
 #optional(qx.ui.form.Button)
 
 ************************************************************************ */
@@ -225,8 +226,8 @@ qx.Proto.dispose = function()
 
 /*
 ---------------------------------------------------------------------------
-  SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ColorManager = new qx.manager.object.ColorManager;
+qx.manager.object.SingletonManager.add(qx.manager.object.ColorManager);

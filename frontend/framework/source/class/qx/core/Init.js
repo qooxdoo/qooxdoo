@@ -183,4 +183,13 @@ qx.Proto.dispose = function()
   qx.core.Target.prototype.dispose.call(this);
 }
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIRECT SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
 qx.core.Init = new qx.core.Init;

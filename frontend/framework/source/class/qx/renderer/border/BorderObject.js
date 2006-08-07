@@ -147,37 +147,3 @@ qx.Proto.dispose = function()
 
   return qx.renderer.border.Border.prototype.dispose.call(this);
 }
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PRESETS
----------------------------------------------------------------------------
-*/
-
-qx.Class.presets =
-{
-  inset : new qx.Class(2, qx.renderer.border.Border.STYLE_INSET),
-  outset : new qx.Class(2, qx.renderer.border.Border.STYLE_OUTSET),
-  groove : new qx.Class(2, qx.renderer.border.Border.STYLE_GROOVE),
-  ridge : new qx.Class(2, qx.renderer.border.Border.STYLE_RIDGE),
-  thinInset : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
-  thinOutset : new qx.Class(1, qx.renderer.border.Border.STYLE_OUTSET),
-  verticalDivider : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
-  horizontalDivider : new qx.Class(1, qx.renderer.border.Border.STYLE_INSET),
-
-  shadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedshadow"),
-  lightShadow : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "threedlightshadow"),
-  info : new qx.Class(1, qx.renderer.border.Border.STYLE_SOLID, "infotext")
-}
-
-qx.Class.presets.verticalDivider.setLeftWidth(0);
-qx.Class.presets.verticalDivider.setRightWidth(0);
-
-qx.Class.presets.horizontalDivider.setTopWidth(0);
-qx.Class.presets.horizontalDivider.setBottomWidth(0);
