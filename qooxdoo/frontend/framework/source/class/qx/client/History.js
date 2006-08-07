@@ -88,7 +88,8 @@ qx.Proto.addToHistory = function(command, newTitle) {
  * @param location {Map} the location property of the window object of the
  *        helper page.
  */
-qx.Proto._onHistoryLoad = function(location) {
+qx.Proto._onHistoryLoad = function(location)
+{
   try {
     var equalsPos = location.search.indexOf("=");
     var command = location.search.substring(equalsPos + 1);
