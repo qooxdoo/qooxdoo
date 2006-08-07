@@ -23,14 +23,22 @@
 
 ************************************************************************ */
 
-// If you change this, change these in build.py, too.
 if (typeof qx === "undefined") {
-  var qx = { _UNDEFINED : "undefined", _LOADSTART : (new Date).valueOf() };
+  qx = {};
 }
 
+qx._UNDEFINED = "undefined";
+qx._LOADSTART = (new Date).valueOf();
+
 if (typeof qx.Settings === qx._UNDEFINED) {
-  qx.Settings = { _userSettings:{}, _defaultSettings:{} };
+  qx.Settings = {};
 }
+
+if (typeof qx.Settings._userSettings === qx._UNDEFINED) {
+  qx.Settings._userSettings = {};
+}
+
+qx.Settings._defaultSettings = {};
 
 
 
