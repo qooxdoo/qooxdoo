@@ -22,6 +22,7 @@
 #module(core)
 #after(qx.Settings)
 #before(qx.constant.Type)
+#before(qx.lang.Core)
 #optional(qx.event.type.DataEvent)
 
 ************************************************************************ */
