@@ -172,14 +172,14 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
     # Search for valid ID
     if fileContentId == None:
       fileId = filePathId
-      print "    * Could not extract ID from file: %s. Using fileName!" % fileId
+      print "      * Could not extract ID from file: %s. Using fileName!" % fileId
       useCache = False
 
     else:
       fileId = fileContentId
 
       if fileContentId != filePathId:
-        print "    * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+        print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
         useCache = False
 
     # Structuring
