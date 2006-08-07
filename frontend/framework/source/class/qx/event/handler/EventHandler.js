@@ -475,7 +475,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
   {
     case qx.event.type.KeyEvent.keys.esc:
     case qx.event.type.KeyEvent.keys.tab:
-      if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
+      if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
         qx.manager.object.MenuManager.update();
       }
 
@@ -798,25 +798,25 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     switch(vType)
     {
       case qx.constant.Event.MOUSEDOWN:
-        if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
+        if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
           qx.manager.object.PopupManager.update(vTarget);
         }
 
-        if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
+        if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
           qx.manager.object.MenuManager.update(vTarget);
         }
 
         break;
 
       case qx.constant.Event.MOUSEOVER:
-        if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
+        if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
         }
 
         break;
 
       case qx.constant.Event.MOUSEOUT:
-        if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.UNDEFINED) {
+        if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
         }
 
@@ -833,7 +833,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Send Event Object to Drag&Drop Manager
-    if (typeof qx.event.handler.DragAndDropHandler !== qx.constant.Type.UNDEFINED && vTarget) {
+    if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler") && vTarget) {
       qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
     }
 
@@ -977,12 +977,12 @@ qx.Proto._onwindowblur = function(e)
   this.setCaptureWidget(null);
 
   // Hide Popups, Tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
+  if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
     qx.manager.object.PopupManager.update();
   }
 
   // Hide Menus
-  if (typeof qx.manager.object.MenuManager !== qx.constant.Type.UNDEFINED) {
+  if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
     qx.manager.object.MenuManager.update();
   }
 
