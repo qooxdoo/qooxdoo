@@ -813,23 +813,3 @@ def listHasError(node, listName):
         return True
 
   return False
-
-
-
-
-
-def createNameRegex(nameArr):
-  regex = "^(";
-
-  firstName = True
-  for name in nameArr:
-    if (not firstName):
-      regex += "|"
-    regex += name.replace('.', '\\.').replace('*', '.*')
-    firstName = False
-
-  regex += ")$"
-
-  print "regex: " + regex
-
-  return re.compile(regex);
