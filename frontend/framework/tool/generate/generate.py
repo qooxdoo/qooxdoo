@@ -297,7 +297,7 @@ def load(options):
 
   if options.scriptInput == None or len(options.scriptInput) == 0:
     basename = os.path.basename(sys.argv[0])
-    print "You must define at least one source directory!"
+    print "You must define at least one script input directory!"
     print "usage: %s [options]" % basename
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
@@ -313,7 +313,7 @@ def load(options):
     if not os.path.exists(options.cacheDirectory):
       os.makedirs(options.cacheDirectory)
 
-  print "  * Loading JavaScript files...",
+  print "  * Loading JavaScript files... ",
 
   if options.verbose:
     print
