@@ -39,6 +39,7 @@ def getparser():
 
   # Directories (Lists, Match using index)
   parser.add_option("--script-input", action="append", dest="scriptInput", metavar="DIRECTORY", default=[], help="Define a script input directory.")
+  parser.add_option("--script-encoding", action="append", dest="scriptEncoding", metavar="ENCODING", default=[], help="Define the encoding for a script input directory.")
   parser.add_option("--source-script-path", action="append", dest="sourceScriptPath", metavar="PATH", default=[], help="Define a script path for the source version.")
   parser.add_option("--resource-input", action="append", dest="resourceInput", metavar="DIRECTORY", default=[], help="Define a resource input directory.")
   parser.add_option("--resource-output", action="append", dest="resourceOutput", metavar="DIRECTORY", default=[], help="Define a resource output directory.")
@@ -63,6 +64,10 @@ def getparser():
   parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
   parser.add_option("--settings-script-file", dest="settingsScriptFile", metavar="FILENAME", help="Name of settings script file.")
 
+  # Encoding
+  parser.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
+  parser.add_option("--xml-output-encoding", dest="xmlOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for XML output files.")
+
 
 
   #################################################################################
@@ -70,7 +75,6 @@ def getparser():
   #################################################################################
 
   # General options
-  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for output files.")
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
 
@@ -676,14 +680,14 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     if options.apiDocumentationXmlFile != None:
       print "  * Writing XML API file to %s" % options.apiDocumentationXmlFile
 
-      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.encoding + "\"?>\n"
+      xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n"
 
       if options.addNewLines:
         xmlContent += "\n" + tree.nodeToXmlString(docTree)
       else:
         xmlContent += tree.nodeToXmlString(docTree, "", "", "")
 
-      filetool(options.apiDocumentationXmlFile, xmlContent, options.encoding)
+      filetool(options.apiDocumentationXmlFile, xmlContent, options.xmlOutputEncoding)
 
     if options.apiDocumentationJsonFile != None:
       print "  * Writing JSON API file to %s" % options.apiDocumentationJsonFile
@@ -693,7 +697,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       else:
         jsonContent = tree.nodeToJsonString(docTree, "", "", "")
 
-      filetool(options.apiDocumentationJsonFile, jsonContent, options.encoding)
+      filetool(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
 
 
 
@@ -773,7 +777,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       sourceOutput += "document.write('%s');" % includeCode
 
     print "  * Saving includer output as %s..." % options.sourceScriptFile
-    filetool(options.sourceScriptFile, sourceOutput, options.encoding)
+    filetool(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
 
 
 
@@ -812,7 +816,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         compiledOutput += compiledFileContent
 
     print "  * Saving compiled output as %s..." % options.compiledScriptFile
-    filetool(options.compiledScriptFile, compiledOutput, options.encoding)
+    filetool(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
 
 
 
