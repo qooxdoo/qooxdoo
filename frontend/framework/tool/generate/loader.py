@@ -165,7 +165,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     if options.verbose:
       print "=> parse..."
     else:
-      sys.stdout.write("p")
+      sys.stdout.write("!")
 
     useCache = True
 
@@ -362,8 +362,18 @@ def getSortedList(options, fileDb, moduleDb):
       if include in moduleDb:
         includeIds.extend(moduleDb[include])
 
+      elif "*" in include or "?" in include:
+        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+        regexp = re.compile(regstr)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in includeIds:
+              includeIds.append(fileId)
+
       else:
-        includeIds.append(include)
+        if not include in includeIds:
+          includeIds.append(include)
 
   # Add all if empty
   if len(includeIds) == 0:
@@ -384,8 +394,18 @@ def getSortedList(options, fileDb, moduleDb):
       if exclude in moduleDb:
         excludeIds.extend(moduleDb[exclude])
 
+      elif "*" in exclude or "?" in exclude:
+        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+        regexp = re.compile(regstr)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in excludeIds:
+              excludeIds.append(fileId)
+
       else:
-        excludeIds.append(exclude)
+        if not exclude in excludeIds:
+          excludeIds.append(exclude)
 
     # Sorting
     for fileId in excludeIds:
