@@ -15,7 +15,7 @@ class Node:
 
   def set(self, key, value):
     """Sets an attribute"""
-    if not type(value) == str:
+    if not isinstance(value, basestring):
       raise NodeAccessException("'value' is no string: " + str(value), self)
     if not self.hasAttributes():
       self.attributes = {}

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, pickle, cPickle
+import sys, string, re, os, random, cPickle, codecs
 import config, tokenizer, treegenerator
 
 
@@ -131,7 +131,7 @@ def extractResources(data):
 
 
 
-def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
+def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
   print "    - %s" % filePathId,
 
   # Modification time
@@ -166,7 +166,17 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
     useCache = True
 
     # Read file content and extract ID from content definition
-    fileContent = file(filePath, "r").read()
+    try:
+      fileObject = codecs.open(filePath, "r", scriptEncoding)
+
+    except ValueError:
+      print "      * Invalid Encoding. Require encoding: %s" % scriptEncoding
+      sys.exit(1)
+
+    # Read content
+    fileContent = fileObject.read()
+
+    # Extract ID
     fileContentId = extractFileContentId(fileContent)
 
     # Search for valid ID
@@ -228,6 +238,11 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, re
 
 def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
   # Search for other indexed lists
+  if len(options.scriptEncoding) > listIndex:
+    scriptEncoding = options.scriptEncoding[listIndex]
+  else:
+    scriptEncoding = "utf-8"
+
   if len(options.sourceScriptPath) > listIndex:
     sourceScriptPath = options.sourceScriptPath[listIndex]
   else:
@@ -256,7 +271,7 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
         filePath = os.path.join(root, fileName)
         filePathId = os.path.join(root.replace(scriptInput + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, scriptInput, listIndex, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
+        indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
 
 
 def indexScriptInput(options):
