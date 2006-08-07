@@ -2,17 +2,17 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
   <title>qooxdoo &raquo; Demo</title>
-  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
   <!--[if IE]>
-  <link type="text/css" rel="stylesheet" href="../demolayout_ie.css"/>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
   <![endif]-->
-  <script type="text/javascript" src="../qx.js"></script>
+  <script type="text/javascript" src="../../script/qx.js"></script>
   <script type="text/javascript" src=".qxrpc"></script>
-    <!-- With the above script, the service URL for a J2EE application can be
-         automatically determined, no matter on what path it's deployed. -->
+  <!-- With the above script, the service URL for a J2EE application can be
+       automatically determined, no matter on what path it's deployed. -->
 </head>
 <body>
-  <script type="text/javascript" src="../demolayout.js"></script>
+  <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
     <p>Test for RPC functionality.</p>
@@ -76,13 +76,13 @@
 
       // ensure there's room in the queue for all of our requests
       qx.io.remote.RemoteRequestQueue.setMaxConcurrentRequests(8);
-  
+
       // We'll be setting url and service upon execute; no need to do it now.
       var rpc = new qx.io.remote.Rpc();
       rpc.setTimeout(60000);
       var mycall;
       var mycalls = [];
-      
+
       start.addEventListener("execute", function() {
         t0 = new Date().getTime();
 
@@ -124,7 +124,7 @@
         }
         mycalls = [];
       });
-      
+
       var d = this.getClientWindow().getClientDocument();
       d.add(layout1);
     });
