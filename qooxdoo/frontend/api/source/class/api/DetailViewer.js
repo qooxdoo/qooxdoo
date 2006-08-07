@@ -12,7 +12,7 @@ function() {
   this.setOverflow("auto");
   this.setPadding(20);
   this.setWidth("1*");
-  this.setBorder(qx.renderer.border.BorderObject.presets.horizontalDivider);
+  this.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
   this.setBackgroundColor("white");
   this.setHtmlProperty("id", "DetailViewer");
   this.setVisibility(false);
