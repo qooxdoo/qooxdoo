@@ -136,10 +136,10 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 
     qx.Proto.classname = vConstructor.classname = vClassName;
     qx.Proto.constructor = vConstructor;
-
-    // Store reference to global classname registry
-    qx.OO.classes[vClassName] = vConstructor;
   }
+
+  // Store reference to global classname registry
+  qx.OO.classes[vClassName] = qx.Class;
 }
 
 
