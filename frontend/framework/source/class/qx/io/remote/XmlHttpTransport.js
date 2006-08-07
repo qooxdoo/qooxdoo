@@ -496,13 +496,12 @@ qx.Proto.getResponseText = function()
 {
   var vResponseText = null;
 
-  switch(this.getStatusCode())
+  var vStatus = this.getStatusCode();
+  if ((vStatus == 0) || (vStatus>=200 && vStatus<300))
   {
-    case 0:
-    case 200:
-      try {
-        vResponseText = this.getRequest().responseText;
-      } catch(ex) {}
+    try {
+      vResponseText = this.getRequest().responseText;
+    } catch(ex) {}
   }
 
   return vResponseText;
@@ -517,13 +516,12 @@ qx.Proto.getResponseXml = function()
 {
   var vResponseXML = null;
 
-  switch(this.getStatusCode())
+  var vStatus = this.getStatusCode();
+  if ((vStatus == 0) || (vStatus>=200 && vStatus<300))
   {
-    case 0:
-    case 200:
-      try {
-        vResponseXML = this.getRequest().responseXML;
-      } catch(ex) {}
+    try {
+      vResponseXML = this.getRequest().responseXML;
+    } catch(ex) {}
   }
 
   return vResponseXML;
@@ -534,7 +532,7 @@ qx.Proto.getResponseXml = function()
 */
 qx.Proto.getFetchedLength = function()
 {
-  var vText = this.getResponseText(true);
+  var vText = this.getResponseText();
   return qx.util.Validation.isValidString(vText) ? vText.length : 0;
 }
 
