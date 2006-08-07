@@ -132,7 +132,9 @@ qx.Proto.defineTerminate = function(vFunc) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onload = function(e) {
+qx.Proto._onload = function(e)
+{
+  this.info(qx.lang.Object.getLength(qx.OO.classes) + " available classes.");
   qx.manager.object.SingletonManager.flush();
   return this.getComponent()._onload(e);
 }
