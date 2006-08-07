@@ -13,14 +13,17 @@ def generate(options):
 
   settingsStr = ""
 
-  # If you change this, change this in qx.Settings and qx.OO, too.
-  settingsStr += 'if(typeof qx==="undefined"){var qx={_UNDEFINED:"undefined",_LOADSTART:(new Date).valueOf()};}'
+  settingsStr += 'if(typeof qx==="undefined")var qx={_UNDEFINED:"undefined"};'
 
   if options.addNewLines:
     settingsStr += "\n"
 
-  # If you change this, change this in qx.Settings, too.
-  settingsStr += 'if(typeof qx.Settings===qx._UNDEFINED){qx.Settings={_userSettings:{},_defaultSettings:{}};}'
+  settingsStr += 'if(typeof qx.Settings===qx._UNDEFINED)qx.Settings={};'
+
+  if options.addNewLines:
+    settingsStr += "\n"
+
+  settingsStr += 'if(typeof qx.Settings._userSettings===qx._UNDEFINED)qx.Settings._userSettings={};'
 
   if options.addNewLines:
     settingsStr += "\n"
@@ -34,7 +37,7 @@ def generate(options):
     settingKeyName = settingKeySplit.pop()
     settingKeySpace = ".".join(settingKeySplit)
 
-    checkStr = 'if(typeof qx.Settings._userSettings["%s"]===qx._UNDEFINED){qx.Settings._userSettings["%s"]={};}' % (settingKeySpace, settingKeySpace)
+    checkStr = 'if(typeof qx.Settings._userSettings["%s"]===qx._UNDEFINED)qx.Settings._userSettings["%s"]={};' % (settingKeySpace, settingKeySpace)
     if not checkStr in settingsStr:
       settingsStr += checkStr
 
