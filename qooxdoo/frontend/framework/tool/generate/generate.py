@@ -673,7 +673,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Generating API tree..."
 
-    for fileId in fileDb:
+    for fileId in sortedIncludeList:
       if options.verbose:
         print "  - %s" % fieId
 
