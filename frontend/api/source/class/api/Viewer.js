@@ -26,8 +26,16 @@ function (vUrl) {
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
   this.add(this._tree);
 
-  this._detailViewer = new api.ClassViewer;
-  this.add(this._detailViewer);
+  this._detailFrame = new qx.ui.layout.CanvasLayout;
+  this._detailFrame.setPadding(20);
+  this._detailFrame.setWidth("1*");
+  this.add(this._detailFrame);
+
+  this._classViewer = new api.ClassViewer;
+  this._detailFrame.add(this._classViewer);
+
+  this._infoViewer = new api.InfoViewer;
+  this._detailFrame.add(this._infoViewer);
 
   this._currentTreeType = api.Viewer.PACKAGE_TREE;
 
@@ -231,14 +239,16 @@ qx.Proto._onTreeSelectionChange = function(evt)
 
     if (treeNode && treeNode.docNode && treeNode.docNode.type == "class")
     {
-      this._detailViewer.showClass(treeNode.docNode);
+      this._infoViewer.setVisibility(false);
+      this._classViewer.showClass(treeNode.docNode);
+      this._classViewer.setVisibility(true);
     }
     else
     {
-      this._detailViewer.showInfo(treeNode.docNode);
+      this._classViewer.setVisibility(false);
+      this._infoViewer.showInfo(treeNode.docNode);
+      this._infoViewer.setVisibility(true);
     }
-
-    this._detailViewer.setVisibility(true);
 
     window.location.hash = "#" + treeNode.docNode.attributes.fullName;
   }
@@ -272,7 +282,7 @@ qx.Proto.selectItem = function(fullItemName) {
 
   this.showClass(className);
   if (itemName) {
-    this._detailViewer.showItem(itemName);
+    this._classViewer.showItem(itemName);
   }
 }
 
@@ -314,10 +324,10 @@ qx.Proto.dispose = function()
     this._tree = null;
   }
 
-  if (this._detailViewer)
+  if (this._classViewer)
   {
-    this._detailViewer.dispose();
-    this._detailViewer = null;
+    this._classViewer.dispose();
+    this._classViewer = null;
   }
 
   this._classTreeNodeHash = null;

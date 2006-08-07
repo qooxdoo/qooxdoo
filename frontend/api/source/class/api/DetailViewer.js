@@ -11,7 +11,7 @@ function() {
 
   this.setOverflow("auto");
   this.setPadding(20);
-  this.setWidth("1*");
+  this.setEdge(0);
   this.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
   this.setBackgroundColor("white");
   this.setHtmlProperty("id", "ClassViewer");
