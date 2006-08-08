@@ -12,7 +12,7 @@ def filetool(filename, content="", encoding="utf-8"):
   directory = os.path.dirname(filename)
 
   # Check/Create directory
-  if not os.path.exists(directory):
+  if directory != "" and not os.path.exists(directory):
     os.makedirs(directory)
 
   # Writing file
