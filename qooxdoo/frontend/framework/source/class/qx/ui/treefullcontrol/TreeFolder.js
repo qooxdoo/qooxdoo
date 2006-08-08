@@ -42,8 +42,8 @@ function(treeRowStructure)
   // Save the tree row field order. We'll need it to create children structure.
   this._treeRowStructureFields = treeRowStructure._fields;
 
-  this._iconObject.setAppearance("treefullcontrol-folder-icon");
-  this._labelObject.setAppearance("treefullcontrol-folder-label");
+  this._iconObject.setAppearance("tree-folder-icon");
+  this._labelObject.setAppearance("tree-folder-label");
 
   this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
 
@@ -67,7 +67,7 @@ function(treeRowStructure)
 
 qx.OO.changeProperty({ name : "appearance",
                        type : qx.constant.Type.STRING,
-                       defaultValue : "treefullcontrol-folder"
+                       defaultValue : "tree-folder"
                      });
 
 qx.OO.changeProperty({ name : "icon",
@@ -170,8 +170,8 @@ qx.Proto._openCallback = function()
 qx.Proto._createChildrenStructure = function()
 {
   this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree
-                     ? "treefullcontrol-container"
-                     : "treefullcontrol-folder-container");
+                     ? "tree-container"
+                     : "tree-folder-container");
 
   if (!this._horizontalLayout)
   {
@@ -183,8 +183,8 @@ qx.Proto._createChildrenStructure = function()
     this._horizontalLayout.setParent(this);
     this._horizontalLayout.setAnonymous(true);
     this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree
-                                         ? "treefullcontrol"
-                                         : "treefullcontrol-folder");
+                                         ? "tree"
+                                         : "tree-folder");
 
     // Move the row fields into the horizontal layout
     for (var i = 0; i < this._treeRowStructureFields.length; i++)
@@ -384,6 +384,15 @@ qx.Proto.getItems = function()
   MODIFIER
 ---------------------------------------------------------------------------
 */
+
+qx.Proto._evalCurrentIcon = function()
+{
+  if (this.getSelected()) {
+    return this.getIconSelected() || "icon/16/folder-open.png";
+  } else {
+    return this.getIcon() || "icon/16/folder.png";
+  }
+}
 
 qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {

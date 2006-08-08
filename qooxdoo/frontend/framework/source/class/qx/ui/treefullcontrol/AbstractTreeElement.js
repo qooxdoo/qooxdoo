@@ -82,10 +82,12 @@ function(treeRowStructure)
     this.setIconSelected(treeRowStructure._icons.selected);
   }
 
+  // Setup initial icon
+  this._iconObject.setSource(this._evalCurrentIcon());
 
   // Set Appearance
-  this._iconObject.setAppearance("treefullcontrol-element-icon");
-  this._labelObject.setAppearance("treefullcontrol-element-label");
+  this._iconObject.setAppearance("tree-element-icon");
+  this._labelObject.setAppearance("tree-element-label");
 
   // Register event listeners
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
@@ -105,7 +107,7 @@ qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treefullcontro
 
 qx.OO.changeProperty({ name : "appearance",
                        type : qx.constant.Type.STRING,
-                       defaultValue : "treefullcontrol-element"
+                       defaultValue : "tree-element"
                      });
 
 /*!
@@ -167,6 +169,8 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   var vTree = this.getTree();
   if (!vTree._fastUpdate ||
       (propOldValue && vTree._oldItem == this)) {
+    this._iconObject.setSource(this._evalCurrentIcon());
+
     if (propValue) {
       this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
     } else {
@@ -188,6 +192,14 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   return true;
 }
 
+qx.Proto._evalCurrentIcon = function()
+{
+  if (this.getSelected() && this.getIconSelected()) {
+    return this.getIconSelected();
+  } else {
+    return this.getIcon() || "icon/16/file-new.png";
+  }
+}
 
 
 

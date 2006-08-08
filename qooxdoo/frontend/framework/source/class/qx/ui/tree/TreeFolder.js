@@ -317,6 +317,15 @@ qx.Proto.getItems = function()
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._evalCurrentIcon = function()
+{
+  if (this.getSelected()) {
+    return this.getIconSelected() || "icon/16/folder-open.png";
+  } else {
+    return this.getIcon() || "icon/16/folder.png";
+  }
+}
+
 qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {
   this._updateLastColumn();
