@@ -87,8 +87,8 @@ function(treeRowStructure)
 
 
   // Set Appearance
-  this._iconObject.setAppearance("tree-element-icon");
-  this._labelObject.setAppearance("tree-element-label");
+  this._iconObject.setAppearance("treefullcontrol-element-icon");
+  this._labelObject.setAppearance("treefullcontrol-element-label");
 
   // Register event listeners
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
@@ -108,7 +108,7 @@ qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.treefullcontro
 
 qx.OO.changeProperty({ name : "appearance",
                        type : qx.constant.Type.STRING,
-                       defaultValue : "tree-element"
+                       defaultValue : "treefullcontrol-element"
                      });
 
 /*!
