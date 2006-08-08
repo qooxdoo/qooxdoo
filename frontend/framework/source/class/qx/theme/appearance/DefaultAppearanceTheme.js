@@ -1774,9 +1774,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
   {
     initial : function(vWidget, vTheme)
     {
-      vWidget.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, "nowrap");
-      vWidget.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
-
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
         overflow: qx.constant.Style.OVERFLOW_HIDDEN,
         paddingLeft : 6,
