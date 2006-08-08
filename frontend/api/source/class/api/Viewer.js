@@ -33,7 +33,7 @@ function (vUrl) {
   this._detailFrame.setHtmlProperty("id", "DetailFrame");
   this.add(this._detailFrame);
 
-  this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">Please wait.</div>Loading data...</h1>');
+  this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
   this._detailLoader.setHtmlProperty("id", "DetailLoader");
   this._detailLoader.setMarginLeft(20);
   this._detailLoader.setMarginTop(20);
