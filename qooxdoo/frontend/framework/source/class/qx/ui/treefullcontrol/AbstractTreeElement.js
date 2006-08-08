@@ -22,9 +22,6 @@
 
 #module(tree)
 
-// HACK: cross-referencing, needed for if-construct in appearance
-#after(qx.ui.tree.AbstractTreeElement)
-
 ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.treefullcontrol.AbstractTreeElement", qx.ui.layout.BoxLayout,
