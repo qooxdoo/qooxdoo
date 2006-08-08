@@ -27,6 +27,9 @@ function(vConfig, vId)
 {
   qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
+  // Text Overflow
+  this.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
+
 
   // ************************************************************************
   //   STORE REFERENCE TO CONFIG ENTRY

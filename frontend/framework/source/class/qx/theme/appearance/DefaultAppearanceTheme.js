@@ -1690,9 +1690,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     initial : function(vWidget, vTheme)
     {
-      // Text Overflow
-      vWidget.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
-
       return {
         overflow : qx.constant.Style.OVERFLOW_HIDDEN,
         paddingTop : 2,
