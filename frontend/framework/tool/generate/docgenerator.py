@@ -560,17 +560,24 @@ def getClassNode(docTree, className):
   length = len(splits)
   for i in range(length):
     split = splits[i]
+
     if (i < length - 1):
       # This is a package name -> Get the right package
       childPackage = currPackage.getListChildByAttribute("packages", "name", split, False)
       if not childPackage:
+        childPackageName = ".".join(splits[:-(length-i-1)])
+
         # The package does not exist -> Create it
         childPackage = tree.Node("package")
         childPackage.set("name", split)
-        childPackage.set("fullName", ".".join(splits[:-1]))
-        childPackage.set("packageName", ".".join(splits[:-1]))
+        childPackage.set("fullName", childPackageName)
+        childPackage.set("packageName", childPackageName.replace("." + split, ""))
+
         currPackage.addListChild("packages", childPackage)
+
+      # Update current package
       currPackage = childPackage
+
     else:
       # This is a class name -> Get the right class
       classNode = currPackage.getListChildByAttribute("classes", "name", split, False)
@@ -581,6 +588,7 @@ def getClassNode(docTree, className):
         classNode.set("fullName", className)
         classNode.set("packageName", className.replace("." + split, ""))
         currPackage.addListChild("classes", classNode)
+
       return classNode
 
 
