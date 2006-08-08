@@ -1,60 +1,85 @@
-#ClassViewer,
-#ClassViewer td,
-#ClassViewer th{
+#DetailFrame,
+#DetailFrame td,
+#DetailFrame th{
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 11px;
   line-height: 150%;
 }
 
-#ClassViewer h1,
-#ClassViewer h2,
-#ClassViewer h3,
-#ClassViewer h4,
-#ClassViewer h5,
-#ClassViewer h6{
+#DetailFrame h1,
+#DetailFrame h2,
+#DetailFrame h3,
+#DetailFrame h4,
+#DetailFrame h5,
+#DetailFrame h6{
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
   color: #134275;
 }
 
-#ClassViewer *{
+#DetailFrame *{
   margin: 0;
   padding: 0;
 }
 
-#ClassViewer h1 {
+#DetailFrame h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-#ClassViewer h2 {
+#DetailFrame h2 {
   font-size: 18px;
   margin-bottom: 4px;
 }
 
-#ClassViewer h3 {
+#DetailFrame h3 {
   font-size: 14px;
 }
 
-#ClassViewer img {
+#DetailFrame img {
   border: 0 none;
   vertical-align: middle;
 }
 
-#ClassViewer a:link,
-#ClassViewer a:visited{
+#DetailFrame a:link,
+#DetailFrame a:visited{
   color: #134275;
 }
 
-#ClassViewer a:hover,
-#ClassViewer a:active{
+#DetailFrame a:hover,
+#DetailFrame a:active{
   color: #134275;
   text-decoration: underline;
 }
 
-#ClassViewer td{
+#DetailFrame td{
   vertical-align: top;
   padding: 2px;
 }
+
+
+
+
+
+#DetailLoader div.please{
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 4px;
+}
+
+
+
+
+
+
+#InfoViewer div.pkgtitle{
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 4px;
+}
+
+
+
+
 
 
 
