@@ -165,8 +165,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     initial : function(vWidget, vTheme)
     {
-      vWidget.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
-
       return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
         backgroundColor : this.bgcolor,
         color : this.color,
@@ -1066,17 +1064,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     state : function(vWidget, vTheme, vStates)
     {
-      if (vStates.lead)
-      {
-        vWidget.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
-        vWidget.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
-      }
-      else
-      {
-        vWidget.removeStyleProperty("MozOutline");
-        vWidget.removeStyleProperty("outline");
-      }
-
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null

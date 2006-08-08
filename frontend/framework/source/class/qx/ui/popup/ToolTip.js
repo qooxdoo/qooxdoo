@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.popup.ToolTip", qx.ui.popup.PopupAtom, 
+qx.OO.defineClass("qx.ui.popup.ToolTip", qx.ui.popup.PopupAtom,
 function(vLabel, vIcon)
 {
   // ************************************************************************
@@ -30,6 +30,9 @@ function(vLabel, vIcon)
   // ************************************************************************
 
   qx.ui.popup.PopupAtom.call(this, vLabel, vIcon);
+
+  // Apply shadow
+  vWidget.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
 
   // ************************************************************************

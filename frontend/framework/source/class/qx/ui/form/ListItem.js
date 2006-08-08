@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.ListItem", qx.ui.basic.Atom, 
+qx.OO.defineClass("qx.ui.form.ListItem", qx.ui.basic.Atom,
 function(vText, vIcon, vValue)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon);
@@ -41,6 +41,32 @@ function(vText, vIcon, vValue)
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-item" });
 qx.OO.addProperty({ name : "value" });
 
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  STATE
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.handleStateChange = function()
+{
+  if (this.hasState(qx.manager.selection.SelectionManager.STATE_LEAD))
+  {
+    this.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
+    this.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
+  }
+  else
+  {
+    this.removeStyleProperty("MozOutline");
+    this.removeStyleProperty("outline");
+  }
+}
+
+// Remove default outline focus border
+qx.Proto._applyStateStyleFocus = function(vStates) {};
 
 
 
