@@ -22,10 +22,13 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellText", qx.ui.embed.TextEmbed, 
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellText", qx.ui.embed.TextEmbed,
 function(vText)
 {
   qx.ui.embed.TextEmbed.call(this, vText);
+
+  this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, "nowrap");
+  this.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
 
   this.setSelectable(false);
 });
