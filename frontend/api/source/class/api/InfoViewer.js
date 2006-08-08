@@ -20,5 +20,16 @@ function() {
 
 qx.Proto.showInfo = function(classNode)
 {
-  this.setHtml("TEST: " + classNode.attributes.fullName);
+  var vHtml = "";
+
+  // Title
+  vHtml += '<h1>';
+  vHtml += '<div class="pkgtitle">package</div>';
+  vHtml += classNode.attributes.fullName;
+  vHtml += '</h1>';
+
+  // TODO: Overview of classes in this package
+
+  // Apply HTML
+  this.setHtml(vHtml);
 }

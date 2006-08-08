@@ -15,7 +15,7 @@ function (vUrl) {
 
   this._titlePrefix = document.title;
 
-  this._tree = new qx.ui.tree.Tree("qooxdoo API Documentation");
+  this._tree = new qx.ui.tree.Tree("API Documentation");
   this._tree.set({
     backgroundColor: "white",
     overflow: "scroll",
@@ -30,7 +30,14 @@ function (vUrl) {
   this._detailFrame.setWidth("1*");
   this._detailFrame.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
   this._detailFrame.setBackgroundColor("white");
+  this._detailFrame.setHtmlProperty("id", "DetailFrame");
   this.add(this._detailFrame);
+
+  this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">Please wait.</div>Loading data...</h1>');
+  this._detailLoader.setHtmlProperty("id", "DetailLoader");
+  this._detailLoader.setMarginLeft(20);
+  this._detailLoader.setMarginTop(20);
+  this._detailFrame.add(this._detailLoader);
 
   this._classViewer = new api.ClassViewer;
   this._detailFrame.add(this._classViewer);
@@ -132,7 +139,7 @@ qx.Proto._updateTree = function(docTree) {
   packagesNode.open();
 
   if (this._wantedClassName) {
-    this.showClass(this._wantedClassName);
+    this.showClassByName(this._wantedClassName);
     this._wantedClassName = null;
   }
 }
@@ -163,6 +170,9 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
       if (TreeUtil.getChild(packageDocNode, "packages")) {
         packageTreeNode.open();
       }
+
+      // Register the tree node
+      this._classTreeNodeHash[ApiViewer.PACKAGE_TREE][packageDocNode.attributes.fullName] = packageTreeNode;
     }
   }
 
@@ -238,26 +248,40 @@ qx.Proto._onTreeSelectionChange = function(evt)
 
     this._currentTreeType = treeNode.treeType;
 
-    if (treeNode && treeNode.docNode && treeNode.docNode.type == "class")
-    {
-      this._infoViewer.setVisibility(false);
-      this._classViewer.showClass(treeNode.docNode);
-      this._classViewer.setVisibility(true);
-    }
-    else
-    {
-      this._classViewer.setVisibility(false);
-      this._infoViewer.showInfo(treeNode.docNode);
-      this._infoViewer.setVisibility(true);
-    }
+    this._selectTreeNode(treeNode);
 
     window.location.hash = "#" + treeNode.docNode.attributes.fullName;
   }
 }
 
 
-qx.Proto._onHistoryRequest = function(evt) {
-  this.showClass(evt.getData());
+qx.Proto._onHistoryRequest = function(evt)
+{
+  this.showClassByName(evt.getData());
+}
+
+qx.Proto._selectTreeNode = function(vTreeNode)
+{
+  if (!(vTreeNode && vTreeNode.docNode)) {
+    this.error("Invalid tree node: " + vTreeNode);
+  }
+
+  var vDoc = vTreeNode.docNode;
+
+  this._detailLoader.setVisibility(false);
+
+  if (vDoc.type == "class")
+  {
+    this._infoViewer.setVisibility(false);
+    this._classViewer.showClass(vDoc);
+    this._classViewer.setVisibility(true);
+  }
+  else
+  {
+    this._classViewer.setVisibility(false);
+    this._infoViewer.showInfo(vDoc);
+    this._infoViewer.setVisibility(true);
+  }
 }
 
 
@@ -281,7 +305,7 @@ qx.Proto.selectItem = function(fullItemName) {
     }
   }
 
-  this.showClass(className);
+  this.showClassByName(className);
   if (itemName) {
     this._classViewer.showItem(itemName);
   }
@@ -293,7 +317,7 @@ qx.Proto.selectItem = function(fullItemName) {
  *
  * @param className {string} the name of the class to show.
  */
-qx.Proto.showClass = function(className) {
+qx.Proto.showClassByName = function(className) {
   var treeNode = this._classTreeNodeHash[this._currentTreeType][className];
 
   if (treeNode) {
@@ -303,7 +327,7 @@ qx.Proto.showClass = function(className) {
     // -> Remeber the wanted class and show when loading is done
     this._wantedClassName = className;
   } else {
-    alert("Unknown class: " + className);
+    this.error("Unknown class: " + className);
   }
 }
 
@@ -325,10 +349,28 @@ qx.Proto.dispose = function()
     this._tree = null;
   }
 
+  if (this._detailFrame)
+  {
+    this._detailFrame.dispose();
+    this._detailFrame = null;
+  }
+
+  if (this._detailLoader)
+  {
+    this._detailLoader.dispose();
+    this._detailLoader = null;
+  }
+
   if (this._classViewer)
   {
     this._classViewer.dispose();
     this._classViewer = null;
+  }
+
+  if (this._infoViewer)
+  {
+    this._infoViewer.dispose();
+    this._infoViewer = null;
   }
 
   this._classTreeNodeHash = null;
