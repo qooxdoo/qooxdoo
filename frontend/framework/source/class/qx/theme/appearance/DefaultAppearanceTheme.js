@@ -2247,59 +2247,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
     }
   },
 
-
-  "table-data-cell" :
-  {
-    setup : function()
-    {
-      this.border = new qx.renderer.border.Border;
-      this.border.set({ rightColor:"#eeeeee", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
-                 bottomColor:"#eeeeee", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
-      this.focusedBorder = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
-
-      this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-
-      this.color = new qx.renderer.color.ColorObject("windowText");
-      this.selectedColor = new qx.renderer.color.ColorObject("highlightText");
-      this.selectedBgColor = new qx.renderer.color.ColorObject("highlight");
-      this.evenBackground = new qx.renderer.color.ColorObject("#faf8f3");
-      this.oddBackground = new qx.renderer.color.ColorObject("window");
-      this.focusedBackground = new qx.renderer.color.ColorObject("#ddeeff");
-      this.focusedSelectedBackground = new qx.renderer.color.ColorObject("#5a8ad3");
-    },
-
-    initial : function(vWidget, vTheme)
-    {
-      var properties = {
-        cursor : qx.constant.Core.DEFAULT,
-        border : this.border,
-        paddingLeft : 2,
-        paddingRight : 2,
-        selectable: false
-      }
-      if (vWidget.setFont) {
-        properties.font = this.font;
-      }
-      return properties;
-    },
-
-    state : function(vWidget, vTheme, vStates)
-    {
-      var ret = {
-        color : vStates.selected ? this.selectedColor : this.color
-      }
-
-      if (vStates.focusedRow) {
-        ret.backgroundColor = vStates.selected ? this.focusedSelectedBackground : this.focusedBackground;
-      } else {
-        ret.backgroundColor = (vStates.selected ? this.selectedBgColor : (vStates.even ? this.evenBackground : this.oddBackground));
-      }
-
-      return ret;
-    }
-  },
-
-
   "table-header-cell" :
   {
     setup : function()
