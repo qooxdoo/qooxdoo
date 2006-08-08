@@ -67,6 +67,8 @@ function(vLabel, vIcon, vIconSelected)
     this.setIconSelected(vIconSelected);
   }
 
+  // Setup initial icon
+  this._iconObject.setSource(this._evalCurrentIcon());
 
   // Set Appearance
   this._iconObject.setAppearance("tree-element-icon");
@@ -132,8 +134,15 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   propValue ? this._labelObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._labelObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
 
   var vTree = this.getTree();
-  if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this)) {
-    propValue ? this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this))
+  {
+    this._iconObject.setSource(this._evalCurrentIcon());
+
+    if (propValue) {
+      this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    } else {
+      this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    }
   }
 
   var vManager = this.getTree().getManager();
@@ -150,6 +159,14 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   return true;
 }
 
+qx.Proto._evalCurrentIcon = function()
+{
+  if (this.getSelected() && this.getIconSelected()) {
+    return this.getIconSelected();
+  } else {
+    return this.getIcon() || "icon/16/file-new.png";
+  }
+}
 
 
 

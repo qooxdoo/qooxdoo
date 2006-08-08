@@ -45,8 +45,8 @@ function(treeRowStructure)
   this._manager = new qx.manager.selection.TreeFullControlSelectionManager(this);
 
 
-  this._iconObject.setAppearance("treefullcontrol-icon");
-  this._labelObject.setAppearance("treefullcontrol-label");
+  this._iconObject.setAppearance("tree-icon");
+  this._labelObject.setAppearance("tree-label");
 
 
   // ************************************************************************
