@@ -279,16 +279,31 @@ qx.Proto.getItemEnabled = function(vItem) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
+qx.Proto.renderItemSelectionState = function(vItem, vIsSelected)
+{
   vIsSelected ? vItem.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+
+  if (vItem.handleStateChange) {
+    vItem.handleStateChange();
+  }
 }
 
-qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor) {
+qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor)
+{
   vIsAnchor ? vItem.addState(qx.manager.selection.SelectionManager.STATE_ANCHOR) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_ANCHOR);
+
+  if (vItem.handleStateChange != null) {
+    vItem.handleStateChange();
+  }
 }
 
-qx.Proto.renderItemLeadState = function(vItem, vIsLead) {
+qx.Proto.renderItemLeadState = function(vItem, vIsLead)
+{
   vIsLead ? vItem.addState(qx.manager.selection.SelectionManager.STATE_LEAD) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_LEAD);
+
+  if (vItem.handleStateChange != null) {
+    vItem.handleStateChange();
+  }
 }
 
 
