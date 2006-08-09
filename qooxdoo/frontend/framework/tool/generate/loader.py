@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, cPickle, codecs
-import config, tokenizer, treegenerator
+import config, tokenizer, treegenerator, filetool
 
 
 
@@ -140,7 +140,9 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
   cacheModTime = 0
 
   if options.cacheDirectory:
+    options.cacheDirectory = filetool.normalize(options.cacheDirectory)
     fileCacheName = os.path.join(options.cacheDirectory, filePathId + ".cache")
+    filetool.directory(options.cacheDirectory)
 
     try:
       cacheModTime = os.stat(fileCacheName).st_mtime
@@ -253,6 +255,8 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
 
 def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
+  scriptInput = filetool.normalize(scriptInput)
+
   # Search for other indexed lists
   if len(options.scriptEncoding) > listIndex:
     scriptEncoding = options.scriptEncoding[listIndex]
