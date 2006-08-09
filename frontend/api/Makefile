@@ -83,7 +83,7 @@ generate-script-build:
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
 	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resource/qooxdoo/static \
 	  --define-runtime-setting qx.client.History.helperFile:resource/qooxdoo/static/history/historyHelper.html \
-	  --copy-resource \
+	  --copy-resources \
 	  --cache-directory $(CACHE)
 
 generate-data-source:
