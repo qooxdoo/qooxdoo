@@ -49,7 +49,7 @@ generate-all:
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
-	  --copy-resource \
+	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --source-script-path ../class \
@@ -67,7 +67,7 @@ generate-compile:
 generate-resource:
 	@$(GENERATE) \
 	  --script-input source/class \
-	  --copy-resource \
+	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --cache-directory $(CACHE)
@@ -77,7 +77,7 @@ generate-build:
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
-	  --copy-resource \
+	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --cache-directory $(CACHE)
