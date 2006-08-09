@@ -715,7 +715,15 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  GENERATION OF SETTINGS:"
     print "----------------------------------------------------------------------------"
 
+    print "  * Processing input data..."
     settingsStr = settings.generate(options)
+
+    if options.settingsScriptFile:
+      print "   * Saving settings to %s" % options.settingsScriptFile
+      filetool.save(options.settingsScriptFile, settingsStr)
+
+      # clear settings for build and source
+      settingsStr = ""
 
 
 

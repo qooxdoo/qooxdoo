@@ -3,6 +3,9 @@
 import os
 
 def save(filename, content="", encoding="utf-8"):
+  # Fixing
+  filename = os.path.normcase(os.path.normpath(filename))
+
   # Splitting
   directory = os.path.dirname(filename)
 
