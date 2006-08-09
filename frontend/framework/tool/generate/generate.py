@@ -273,25 +273,12 @@ def load(options):
   print "  SOURCE LOADER:"
   print "----------------------------------------------------------------------------"
 
-  print "  * Normalizing directory information..."
-
   if options.scriptInput == None or len(options.scriptInput) == 0:
     basename = os.path.basename(sys.argv[0])
     print "You must define at least one script input directory!"
     print "usage: %s [options]" % basename
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
-  else:
-    # Normalizing directories
-    i=0
-    for directory in options.scriptInput:
-      options.scriptInput[i] = os.path.normpath(options.scriptInput[i])
-      i+=1
-
-  if options.cacheDirectory:
-    options.cacheDirectory = os.path.normpath(options.cacheDirectory)
-    if not os.path.exists(options.cacheDirectory):
-      os.makedirs(options.cacheDirectory)
 
   if options.verbose:
     print "  * Loading JavaScript files... "
