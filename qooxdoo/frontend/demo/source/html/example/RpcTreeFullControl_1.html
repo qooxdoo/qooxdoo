@@ -73,17 +73,20 @@ qx.core.Init.defineMain(
                 mode = ((child.mode & 0400) ? "r" : "-") + mode;
                 obj = new qx.ui.basic.Label(mode);
                 obj.setWidth(80);
+                obj.setStyleProperty("fontFamily", "monospace");
                 trs.addObject(obj, true);
 
                 // Add a file size, date and mode
                 obj = new qx.ui.basic.Label(child.size + "");
                 obj.setWidth(50);
+                obj.setStyleProperty("fontFamily", "monospace");
                 trs.addObject(obj, true);
 
                 var d = new Date();
                 d.setTime(child.mtime * 1000);
                 obj = new qx.ui.basic.Label(d.toString().slice(0,33));
                 obj.setWidth(200);
+                obj.setStyleProperty("fontFamily", "monospace");
                 trs.addObject(obj, true);
 
                 if (bIsDirectory)
@@ -179,7 +182,7 @@ qx.core.Init.defineMain(
     });
 /*
  * Local Variables:
- * mode: javascript
+ * mode: java
  * End:
  */
 </script>
