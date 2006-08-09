@@ -99,6 +99,9 @@ qx.Proto.loadDocTreeFromUrl = function(url)
         self.selectItem(window.location.hash.substring(1));
       }, 0);
     }
+    
+    this._detailLoader.setHtml('<h1><div class="please">qooxdoo</div>API Documentation</h1>');
+    
   }, this);
 
   req.addEventListener("failed", function(evt)
