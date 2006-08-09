@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, optparse
-import config, tokenizer
+import config, tokenizer, filetool
 
 def compile(tokens, enableNewLines=False):
   compString = ""
@@ -113,10 +113,7 @@ def main():
 
     compiledString = compile(tokenizer.parseFile(fileName))
     if options.write:
-      compiledFile = file(fileName + options.extension, "w")
-      compiledFile.write(compiledString)
-      compiledFile.flush()
-      compiledFile.close()
+      filetool.save(fileName + options.extension, compiledString)
 
     else:
       print compiledString

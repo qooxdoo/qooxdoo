@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, optparse
-import config
+import config, filetool
 
 R_WHITESPACE = re.compile("\s+")
 R_NONWHITESPACE = re.compile("\S+")
@@ -206,8 +206,8 @@ def parseStream(content, uniqueId):
 
 
 
-def parseFile(fileName, uniqueId=None):
-  return parseStream(file(fileName, "r").read(), uniqueId)
+def parseFile(fileName, uniqueId=None, encoding="utf-8"):
+  return parseStream(codecs.open(fileName, "r", encoding).read(), uniqueId)
 
 
 
@@ -241,10 +241,7 @@ def main():
 
     tokenString = convertTokensToString(parseFile(fileName))
     if options.write:
-      tokenFile = file(fileName + options.extension, "w")
-      tokenFile.write(tokenString)
-      tokenFile.flush()
-      tokenFile.close()
+      filetool.save(fileName + options.extension, tokenString)
 
     else:
       print tokenString
