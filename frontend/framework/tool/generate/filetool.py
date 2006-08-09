@@ -7,7 +7,7 @@ def save(filename, content="", encoding="utf-8"):
   filename = normalize(filename)
 
   # Create directory
-  makedir(filename)
+  directory(os.path.dirname(filename))
 
   # Writing file
   outputFile = file(filename, "w")
@@ -16,16 +16,14 @@ def save(filename, content="", encoding="utf-8"):
   outputFile.close()
 
 
-def directory(filename):
+def directory(dirname):
+
   # Normalize
-  filename = normalize(filename)
-
-  # Splitting
-  directory = os.path.dirname(filename)
-
+  dirname = normalize(dirname)
+   
   # Check/Create directory
-  if directory != "" and not os.path.exists(directory):
-    os.makedirs(directory)
+  if dirname != "" and not os.path.exists(dirname):
+    os.makedirs(dirname)
 
 
 def normalize(filename):
