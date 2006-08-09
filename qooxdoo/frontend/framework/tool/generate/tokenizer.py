@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, optparse
+import sys, string, re, os, random, optparse, codecs
 import config, filetool
 
 R_WHITESPACE = re.compile("\s+")
