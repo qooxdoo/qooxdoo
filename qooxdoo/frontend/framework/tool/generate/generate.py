@@ -1,27 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re, os, optparse
-import config, tokenizer, loader, compile, docgenerator, tree, treegenerator, settings, resources
-
-
-
-
-
-def filetool(filename, content="", encoding="utf-8"):
-  # Splitting
-  directory = os.path.dirname(filename)
-
-  # Check/Create directory
-  if directory != "" and not os.path.exists(directory):
-    os.makedirs(directory)
-
-  # Writing file
-  outputFile = file(filename, "w")
-  outputFile.write(content.encode(encoding))
-  outputFile.flush()
-  outputFile.close()
-
-
+import config, tokenizer, loader, compile, docgenerator, tree, treegenerator, settings, resources, filetool
 
 
 
@@ -693,7 +673,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       else:
         xmlContent += tree.nodeToXmlString(docTree, "", "", "")
 
-      filetool(options.apiDocumentationXmlFile, xmlContent, options.xmlOutputEncoding)
+      filetool.save(options.apiDocumentationXmlFile, xmlContent, options.xmlOutputEncoding)
 
     if options.apiDocumentationJsonFile != None:
       print "  * Writing JSON API file to %s" % options.apiDocumentationJsonFile
@@ -703,7 +683,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       else:
         jsonContent = tree.nodeToJsonString(docTree, "", "", "")
 
-      filetool(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
+      filetool.save(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
 
 
 
@@ -783,7 +763,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       sourceOutput += "document.write('%s');" % includeCode
 
     print "  * Saving includer output as %s..." % options.sourceScriptFile
-    filetool(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
+    filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
 
 
 
@@ -822,7 +802,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         compiledOutput += compiledFileContent
 
     print "  * Saving compiled output as %s..." % options.compiledScriptFile
-    filetool(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
+    filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
 
 
 
@@ -839,5 +819,6 @@ if __name__ == '__main__':
     main()
 
   except KeyboardInterrupt:
+    print
     print "  * Keyboard Interrupt"
     sys.exit(1)

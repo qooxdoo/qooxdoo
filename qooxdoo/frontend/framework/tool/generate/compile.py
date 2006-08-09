@@ -128,5 +128,6 @@ if __name__ == '__main__':
     main()
 
   except KeyboardInterrupt:
+    print
     print "  * Keyboard Interrupt"
     sys.exit(1)
