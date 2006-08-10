@@ -63,7 +63,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("staticUri", "../../resources/static");
+qx.Settings.setDefault("staticUri", "../../resource/static");
 qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
 qx.Settings.setDefault("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 
