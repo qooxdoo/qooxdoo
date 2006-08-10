@@ -410,8 +410,8 @@ qx.Proto._postApply = function()
     vMnemonicMode = this._mnemonicTest.test(vHtml) ? 1 : 2;
   }
 
-  // works only with text
-  if (!this._htmlMode)
+  // works only with text, don't use when wrap is enabled
+  if (!this._htmlMode && !this.getWrap())
   {
     switch(this._computedWidthType)
     {
