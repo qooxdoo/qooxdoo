@@ -140,10 +140,7 @@ def argparser(cmdlineargs):
 
 
     print " * Export to file: %s" % options.exportToFile
-    exportFile = file(options.exportToFile, "w")
-    exportFile.write(optionString)
-    exportFile.flush()
-    exportFile.close()
+    filetool.save(options.exportToFile, optionString)
 
     sys.exit(0)
 
@@ -577,13 +574,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "    * You must define the token directory!"
       sys.exit(1)
 
-    else:
-      options.tokenOutputDirectory = os.path.normpath(options.tokenOutputDirectory)
-
-      # Normalizing directory
-      if not os.path.exists(options.tokenOutputDirectory):
-        os.makedirs(options.tokenOutputDirectory)
-
     print "  * Storing tokens..."
 
     for fileId in sortedIncludeList:
@@ -596,12 +586,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "    * writing tokens to file (%s KB)..." % tokenSize
 
-      tokenFileName = os.path.join(options.tokenOutputDirectory, fileId + config.TOKENEXT)
-
-      tokenFile = file(tokenFileName, "w")
-      tokenFile.write(tokenString)
-      tokenFile.flush()
-      tokenFile.close()
+      filetool.save(os.path.join(filetool.normalize(options.tokenOutputDirectory), fileId + config.TOKENEXT), tokenString)
 
 
 
@@ -617,24 +602,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if options.apiDocumentationJsonFile == None and options.apiDocumentationXmlFile == None:
       print "    * You must define one of JSON or XML API documentation file!"
-
-    # Create JSON directory
-    if options.apiDocumentationJsonFile != None:
-      options.apiDocumentationJsonFile = os.path.normpath(options.apiDocumentationJsonFile)
-      jsonDir = os.path.dirname(options.apiDocumentationJsonFile)
-
-      # Normalizing directory
-      if not os.path.exists(jsonDir):
-        os.makedirs(jsonDir)
-
-    # Create XML directory
-    if options.apiDocumentationXmlFile != None:
-      options.apiDocumentationXmlFile = os.path.normpath(options.apiDocumentationXmlFile)
-      xmlDir = os.path.dirname(options.apiDocumentationXmlFile)
-
-      # Normalizing directory
-      if not os.path.exists(xmlDir):
-        os.makedirs(xmlDir)
 
     docTree = None
 
