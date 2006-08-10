@@ -294,9 +294,9 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
   this._invalidatePreferredInnerDimensions();
 
   if (propValue) {
-    propValue.applyWidget(this);
+    propValue._applyWidget(this);
   } else if (propOldValue) {
-    propOldValue.resetWidget(this);
+    propOldValue._resetWidget(this);
   }
 
   return true;

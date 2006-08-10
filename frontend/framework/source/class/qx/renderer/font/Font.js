@@ -184,7 +184,7 @@ qx.Proto._compile = function()
   this._needsCompilation = false;
 }
 
-qx.Proto.applyWidget = function(vWidget)
+qx.Proto._applyWidget = function(vWidget)
 {
   if (this._needsCompilation) {
     this._compile();
@@ -197,7 +197,7 @@ qx.Proto.applyWidget = function(vWidget)
   vWidget.setStyleProperty(qx.renderer.font.Font.PROPERTY_DECORATION, this._defs.textDecoration);
 }
 
-qx.Proto.resetWidget = function(vWidget)
+qx.Proto._resetWidget = function(vWidget)
 {
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_FAMILY);
   vWidget.removeStyleProperty(qx.renderer.font.Font.PROPERTY_SIZE);

@@ -78,9 +78,9 @@ qx.Proto._modifyHtml = function()
 qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 {
   if (propValue) {
-    propValue.applyWidget(this);
+    propValue._applyWidget(this);
   } else if (propOldValue) {
-    propOldValue.resetWidget(this);
+    propOldValue._resetWidget(this);
   }
 
   return true;
