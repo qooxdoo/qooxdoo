@@ -38,7 +38,8 @@ function(vName, vMembers)
   this.setName(qx.util.Validation.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
   if (qx.util.Validation.isValidArray(vMembers)) {
-    qx.manager.selection.RadioManager.prototype.add.apply(this, vMembers);
+    // add() iterates over arguments, but vMembers is an array
+    this.add.apply(this, vMembers);
   }
 });
 

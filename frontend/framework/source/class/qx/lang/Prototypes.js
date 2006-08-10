@@ -55,12 +55,12 @@ qx.lang.Prototypes.init = function()
 
     for (key in qx.lang[obj])
     {
-      window[obj].prototype[key] = function(key, obj)
+      window[obj].prototype[key] = (function(key, obj)
       {
         return function() {
           return qx.lang[obj][key].apply(null, Array.prototype.concat.call([this], Array.prototype.slice.call(arguments, 0)));
         }
-      }(key, obj);
+      })(key, obj);
     }
   }
 }
