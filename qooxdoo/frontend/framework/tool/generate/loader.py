@@ -141,7 +141,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
   if options.cacheDirectory:
     filetool.directory(options.cacheDirectory)
-    fileCacheName = os.path.join(filetool.normalize(options.cacheDirectory), filePathId)
+    fileCacheName = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + ".pcl")
 
     try:
       cacheModTime = os.stat(fileCacheName).st_mtime
@@ -222,7 +222,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
     if useCache and options.cacheDirectory:
       try:
-        cPickle.dump(fileDb[fileId], open(fileCacheName,'w'), 2)
+        cPickle.dump(fileDb[fileId], open(fileCacheName, 'w'), 2)
 
       except EOFError or PickleError or PicklingError:
         print "      - Could not store cache file!"
