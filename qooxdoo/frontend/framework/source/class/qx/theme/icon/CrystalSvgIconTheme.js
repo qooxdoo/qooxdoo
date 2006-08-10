@@ -38,7 +38,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", "../../resources/icon/crystalsvg");
+qx.Settings.setDefault("imageUri", "../../resource/icon/crystalsvg");
 
 
 
