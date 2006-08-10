@@ -32,7 +32,7 @@
   faster in Firefox than the alternative Array concat in
   all browsers (which is in relation to IEs performance issues
   only marginal) and in IE the performance lost through this
-  wrapper isn't that big.
+  wrapper is not quite big.
 
   So this class is the finally the best method to handle
   string concatination in qooxdoo.
