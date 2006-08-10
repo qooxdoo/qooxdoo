@@ -19,7 +19,7 @@
       <li>Concat function</li>
       <li>Array Push</li>
       <li>Array Index</li>
-      <li>Buffer Object</li>
+      <li>StringBuilder Object</li>
     </ol>
   </div>
 
@@ -78,9 +78,9 @@
       s = s.join(e);
     };
 
-    function StringConcatBuffer(vLoops)
+    function StringConcatStringBuilder(vLoops)
     {
-      var s = new qx.type.Buffer;
+      var s = new qx.type.StringBuilder;
 
       for (var i=0; i<vLoops; i++) {
         s.add(a);
@@ -89,7 +89,9 @@
       s = s.get();
     };
 
-    new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt, StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd, StringConcatBuffer);
+    new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt, 
+      StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd, 
+      StringConcatStringBuilder);
   });
   </script>
 </body>
