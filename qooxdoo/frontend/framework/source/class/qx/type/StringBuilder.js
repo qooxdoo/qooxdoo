@@ -24,19 +24,19 @@
 
 /**
  * A string builder class
- *
- * += operator is faster in Firefox and Opera
+ * <p>
+ * += operator is faster in Firefox and Opera. 
  * Array push/join is faster in Internet Explorer
- *
+ * </p><p>
  * Even with this wrapper, which costs some time, this is
  * faster in Firefox than the alternative Array concat in
- * all browsers (which is in relation to IEs performance issues
- * only marginal) and in IE the performance lost through this
- * wrapper is not quite big.
- *
- * So this class is the finally the best method to handle
- * string concatination in qooxdoo.
-*/
+ * all browsers (which is in relation to IE's performance issues
+ * only marginal). The IE performance loss caused by this
+ * wrapper is not relevant.
+ * </p><p>
+ * So this class seems to be the best compromise to handle
+ * string concatination.</p>
+ */
 qx.OO.defineClass("qx.type.StringBuilder", qx.core.Object,
 function(vStr)
 {
