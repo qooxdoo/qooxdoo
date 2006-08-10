@@ -17,10 +17,9 @@ def save(filename, content="", encoding="utf-8"):
 
 
 def directory(dirname):
-
   # Normalize
   dirname = normalize(dirname)
-   
+
   # Check/Create directory
   if dirname != "" and not os.path.exists(dirname):
     os.makedirs(dirname)

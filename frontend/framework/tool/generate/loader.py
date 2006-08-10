@@ -140,9 +140,8 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
   cacheModTime = 0
 
   if options.cacheDirectory:
-    options.cacheDirectory = filetool.normalize(options.cacheDirectory)
-    fileCacheName = os.path.join(options.cacheDirectory, filePathId + ".cache")
     filetool.directory(options.cacheDirectory)
+    fileCacheName = os.path.join(filetool.normalize(options.cacheDirectory), filePathId)
 
     try:
       cacheModTime = os.stat(fileCacheName).st_mtime
