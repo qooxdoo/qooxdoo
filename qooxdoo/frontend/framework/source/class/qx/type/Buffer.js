@@ -63,7 +63,7 @@ if (qx.sys.Client.isMshtml())
 
     this._array = null;
 
-    qx.core.Object.dispose.call(this);
+    qx.core.Object.prototype.dispose.call(this);
   }
 }
 else
@@ -92,7 +92,7 @@ else
 
     this._string = null;
 
-    qx.core.Object.dispose.call(this);
+    qx.core.Object.prototype.dispose.call(this);
   }
 }
 

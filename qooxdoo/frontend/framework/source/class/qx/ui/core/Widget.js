@@ -3816,6 +3816,8 @@ qx.Proto._applyInitialAppearance = function()
 
 qx.Proto._applyStateAppearance = function()
 {
+  // HACK: Is there a cleaner way to implement this?
+  // Maybe not use the appearance for this, but a simple property and event handler combination?
   this._applyStateStyleFocus(this._states);
 
   var vAppearance = this.getAppearance();
