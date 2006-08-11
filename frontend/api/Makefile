@@ -61,7 +61,7 @@ generate-script-source:
 	  --source-script-file source/script/api.js \
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../$(FRAMEWORK)/source/resource/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../$(FRAMEWORK)/source/resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../$(FRAMEWORK)/source/resource/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../$(FRAMEWORK)/source/resource/static \
 	  --define-runtime-setting qx.client.History.helperFile:../$(FRAMEWORK)/source/resource/static/history/historyHelper.html \
 	  --cache-directory $(CACHE)
 
@@ -81,7 +81,7 @@ generate-script-build:
 	  --compiled-script-file build/script/api.js \
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resource/qooxdoo/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:resource/qooxdoo/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:resource/qooxdoo/static \
 	  --define-runtime-setting qx.client.History.helperFile:resource/qooxdoo/static/history/historyHelper.html \
 	  --copy-resources \
 	  --cache-directory $(CACHE)
