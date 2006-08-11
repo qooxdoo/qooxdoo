@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(listview)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellIconHtml", qx.ui.embed.IconHtmlEmbed, 
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellIconHtml", qx.ui.embed.IconHtmlEmbed,
 function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);

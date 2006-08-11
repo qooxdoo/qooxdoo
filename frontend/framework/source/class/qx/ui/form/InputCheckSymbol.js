@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(form)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.InputCheckSymbol", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.form.InputCheckSymbol", qx.ui.basic.Terminator,
 function()
 {
   qx.ui.basic.Terminator.call(this);

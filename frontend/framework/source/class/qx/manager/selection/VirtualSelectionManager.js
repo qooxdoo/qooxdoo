@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
+#module(listview)
 
 ************************************************************************ */
 
 /*!
   This class represents a selection and manage incoming events for widgets which need selection support.
 */
-qx.OO.defineClass("qx.manager.selection.VirtualSelectionManager", qx.manager.selection.SelectionManager, 
+qx.OO.defineClass("qx.manager.selection.VirtualSelectionManager", qx.manager.selection.SelectionManager,
 function(vBoundedWidget) {
   qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 });

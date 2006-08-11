@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(form)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.PasswordField", qx.ui.form.TextField, 
+qx.OO.defineClass("qx.ui.form.PasswordField", qx.ui.form.TextField,
 function(vText)
 {
   qx.ui.form.TextField.call(this, vText);

@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(form)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.groupbox.CheckGroupBox", qx.ui.groupbox.GroupBox, 
+qx.OO.defineClass("qx.ui.groupbox.CheckGroupBox", qx.ui.groupbox.GroupBox,
 function(vLegend) {
   qx.ui.groupbox.GroupBox.call(this, vLegend);
 });
