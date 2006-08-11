@@ -171,11 +171,11 @@ qx.Proto._modifyComponent = function(propValue, propOldValue, propData)
 
 qx.Proto._onload = function(e)
 {
-  // Init component from settings
-  this._createComponent();
-
   // Print out class informations
   this.info("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
+
+  // Init component from settings
+  this._createComponent();
 
   // Create singletons
   qx.manager.object.SingletonManager.flush();
