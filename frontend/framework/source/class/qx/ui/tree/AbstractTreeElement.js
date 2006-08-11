@@ -53,7 +53,7 @@ function(vLabel, vIcon, vIconSelected)
   this.setSelectable(false);
 
   // Base URL used for indent images
-  this.BASE_URI = qx.manager.object.ImageManager.buildUri("widget/tree/");
+  this.BASE_URI = qx.manager.object.AliasManager.resolvePath("widget/tree/");
 
   // Adding subwidgets
   this.add(this._indentObject, this._iconObject, this._labelObject);

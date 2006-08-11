@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.IconHtmlEmbed", qx.ui.embed.HtmlEmbed, 
+qx.OO.defineClass("qx.ui.embed.IconHtmlEmbed", qx.ui.embed.HtmlEmbed,
 function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
@@ -99,7 +99,7 @@ qx.Proto._syncHtml = function()
   if (qx.util.Validation.isValidString(this.getIcon()))
   {
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_IMAGE);
-    vHtml.push(qx.manager.object.ImageManager.buildUri(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
+    vHtml.push(qx.manager.object.AliasManager.resolvePath(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
     vHtml.push(qx.ui.embed.IconHtmlEmbed.START_STYLE);
 
     if (qx.util.Validation.isValidNumber(this.getSpacing()))
@@ -127,7 +127,7 @@ qx.Proto._syncHtml = function()
     {
       vHtml.push(qx.ui.embed.IconHtmlEmbed.FILTER_START);
       vHtml.push(qx.ui.basic.Image.IMGLOADER_START);
-      vHtml.push(qx.manager.object.ImageManager.buildUri(this.getIcon()));
+      vHtml.push(qx.manager.object.AliasManager.resolvePath(this.getIcon()));
       vHtml.push(qx.ui.basic.Image.IMGLOADER_STOP);
       vHtml.push(qx.constant.Core.SEMICOLON);
     }

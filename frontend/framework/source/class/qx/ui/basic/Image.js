@@ -184,7 +184,7 @@ qx.Proto._modifySource = function(propValue, propOldValue, propData)
   {
     if (propValue)
     {
-      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(propValue)));
+      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.AliasManager.resolvePath(propValue)));
     }
     else if (propOldValue)
     {
@@ -270,7 +270,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
       // this costs much performance, move setup to blank gif to error handling
       // is this SSL save?
-      // this._image.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
+      // this._image.src = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
 
       this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
       this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
@@ -291,7 +291,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     // initialisize preloader
     var vSource = this.getSource();
     if (qx.util.Validation.isValidString(vSource)) {
-      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.ImageManager.buildUri(vSource)));
+      this.setPreloader(qx.manager.object.ImagePreloaderManager.create(qx.manager.object.AliasManager.resolvePath(vSource)));
     }
   }
 
@@ -340,7 +340,7 @@ if (qx.sys.Client.isMshtml())
 
     if (pl.getIsPng() && this.getEnabled())
     {
-      i.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
+      i.src = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
       i.style.filter = qx.ui.basic.Image.IMGLOADER_START + (vSource || pl.getSource()) + qx.ui.basic.Image.IMGLOADER_STOP;
     }
     else
@@ -354,7 +354,7 @@ if (qx.sys.Client.isMshtml())
   {
     var i = this._image;
 
-    i.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
+    i.src = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
     i.style.filter = qx.constant.Core.EMPTY;
   }
 
@@ -377,7 +377,7 @@ else
   }
 
   qx.Proto._resetContent = function() {
-    this._image.src = qx.manager.object.ImageManager.buildUri("static/image/blank.gif");
+    this._image.src = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
   }
 
   qx.Proto._applyEnabled = function()
@@ -421,7 +421,7 @@ qx.Proto._computePreferredInnerWidth = function()
   }
   else if (qx.util.Validation.isValidString(this.getSource()))
   {
-    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.AliasManager.resolvePath(this.getSource()));
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getWidth();
@@ -439,7 +439,7 @@ qx.Proto._computePreferredInnerHeight = function()
   }
   else if (qx.util.Validation.isValidString(this.getSource()))
   {
-    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.ImageManager.buildUri(this.getSource()));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.get(qx.manager.object.AliasManager.resolvePath(this.getSource()));
 
     if (vPreloader && vPreloader.isLoaded()) {
       return vPreloader.getHeight();

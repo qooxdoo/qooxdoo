@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellImage", qx.ui.basic.Image, 
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellImage", qx.ui.basic.Image,
 function(vSource, vWidth, vHeight) {
   qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
 });
@@ -44,7 +44,7 @@ qx.Proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
-    return this._updateContent(qx.manager.object.ImageManager.buildUri(vSource == qx.constant.Core.EMPTY ? "static/image/blank.gif" : vSource));
+    return this._updateContent(qx.manager.object.AliasManager.resolvePath(vSource == qx.constant.Core.EMPTY ? "static/image/blank.gif" : vSource));
   }
   else
   {

@@ -44,14 +44,8 @@ function()
   // instances which use this source
   this._sources = {};
 
-  // Full image URIs (working as a cache to reduce the _buildUri executions)
-  this._uris = {};
-
-  // Contains defined aliases (like icons/, widgets/, application/, ...)
-  this._aliases = {};
-
-  // Define static alias from setting
-  this.defineAlias("static", this.getSetting("staticUri"));
+  // Change event connection to AliasManager
+  qx.manager.object.AliasManager.addEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
 });
 
 
@@ -63,7 +57,6 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("staticUri", "../../resource/static");
 qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
 qx.Settings.setDefault("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 
@@ -86,6 +79,19 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 
 
+/*
+---------------------------------------------------------------------------
+  EVENTS
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._onaliaschange = function() {
+  this._updateImages();
+}
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -95,13 +101,13 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("icon", propValue.getSetting("imageUri")) : this.removeAlias("icon");
+  propValue ? qx.manager.object.AliasManager.add("icon", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.remove("icon");
   return true;
 }
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? this.defineAlias("widget", propValue.getSetting("imageUri")) : this.removeAlias("widget");
+  propValue ? qx.manager.object.AliasManager.add("widget", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.remove("widget");
   return true;
 }
 
@@ -189,38 +195,6 @@ qx.Proto.getPostPreloadImageList = function()
 
 
 
-/*
----------------------------------------------------------------------------
-  URI/ALIAS HANDLING
----------------------------------------------------------------------------
-*/
-
-qx.Proto.buildUri = function(vPath, vForceUpdate)
-{
-  var vUri = this._uris[vPath];
-
-  if (vForceUpdate || typeof vUri === qx.constant.Type.UNDEFINED) {
-    vUri = this._uris[vPath] = this._buildUri(vPath);
-    // this.debug("URI: " + vPath + " => " + vUri);
-  }
-
-  return vUri;
-}
-
-qx.Proto.defineAlias = function(vPrefix, vPath)
-{
-  //  this.debug("defineAlias: " + vPrefix + " => " + vPath);
-
-  this._aliases[vPrefix] = vPath;
-  this._updateImages();
-}
-
-qx.Proto.removeAlias = function(vPrefix) {
-  delete this._aliases[vPrefix];
-}
-
-
-
 
 
 /*
@@ -229,40 +203,18 @@ qx.Proto.removeAlias = function(vPrefix) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._buildUri = function(vPath, vForce)
-{
-  switch(vPath.charAt(0))
-  {
-    case qx.constant.Core.SLASH:
-    case qx.constant.Core.DOT:
-      return vPath;
-
-    default:
-      if (qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_FILE)) {
-        return vPath;
-      }
-
-      var vAlias = vPath.substring(0, vPath.indexOf(qx.constant.Core.SLASH));
-      var vResolved = this._aliases[vAlias];
-
-      if (qx.util.Validation.isValidString(vResolved)) {
-        return vResolved + vPath.substring(vAlias.length);
-      }
-
-      return vPath;
-  }
-}
-
 qx.Proto._updateImages = function()
 {
   var vAll = this.getAll();
+  var vPreMgr = qx.manager.object.ImagePreloaderManager;
+  var vAliasMgr = qx.manager.object.AliasManager;
   var vObject;
 
   // Recreate preloader of affected images
   for (var vHashCode in vAll)
   {
     vObject = vAll[vHashCode];
-    vObject.setPreloader(qx.manager.object.ImagePreloaderManager.create(this.buildUri(vObject.getSource(), true)));
+    vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource(), true)));
   }
 
   return true;
@@ -321,6 +273,10 @@ qx.Proto.dispose = function()
     return;
   }
 
+  // Change event connection to AliasManager
+  qx.manager.object.AliasManager.removeEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
+
+  // Destroy icon and widget themes
   if (this._iconThemes)
   {
     for (var vTheme in this._iconThemes)
@@ -343,9 +299,8 @@ qx.Proto.dispose = function()
     this._widgetThemes = null;
   }
 
+  // Delete counter field
   this._sources = null;
-  this._uris = null;
-  this._aliases = null;
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 }
