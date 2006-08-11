@@ -18,11 +18,12 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 #require(qx.renderer.font.FontCache)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.HtmlEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.HtmlEmbed", qx.ui.basic.Terminator,
 function(vHtml)
 {
   qx.ui.basic.Terminator.call(this);

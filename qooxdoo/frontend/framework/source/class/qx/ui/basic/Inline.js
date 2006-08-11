@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.basic.Inline", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.basic.Inline", qx.ui.layout.CanvasLayout,
 function(vId)
 {
   qx.ui.layout.CanvasLayout.call(this);

@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.basic.HorizontalSpacer", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.basic.HorizontalSpacer", qx.ui.basic.Terminator,
 function()
 {
   qx.ui.basic.Terminator.call(this);
