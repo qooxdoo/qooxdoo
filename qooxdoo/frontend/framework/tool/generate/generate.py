@@ -347,6 +347,7 @@ def load(options):
     print "  * Collecting IDs..."
 
     knownIds = []
+    depCounter = 0
 
     for fileEntry in fileDb:
       knownIds.append(fileEntry)
@@ -429,12 +430,13 @@ def load(options):
             print "    * Add dependency: %s" % dep
 
           runtimeDeps.append(dep)
+          depCounter += 1
 
 
     if not hasMessage and not options.verbose:
       print
 
-
+    print "  * Added %s dependencies" % depCounter
 
 
   return fileDb, moduleDb
