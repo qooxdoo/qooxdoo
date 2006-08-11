@@ -34,6 +34,7 @@ def getparser():
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
   parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
+  parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
   parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list. (Debugging)")
   parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
 
@@ -306,6 +307,23 @@ def load(options):
       print "    * %s" % moduleEntry
       for fileEntry in moduleDb[moduleEntry]:
         print "      - %s" % fileEntry
+
+  if options.printFilesWithoutModules:
+    print
+    print "  OUTPUT OF FILES WHICH HAVE NO MODULE CONNECTION:"
+    print "----------------------------------------------------------------------------"
+    print "  * These are all files without a module connection:"
+    for fileEntry in fileDb:
+      fileFound = False
+
+      for moduleEntry in moduleDb:
+        for moduleFile in moduleDb[moduleEntry]:
+          if moduleFile == fileEntry:
+            fileFound = True
+            break
+
+      if not fileFound:
+        print "    - %s" % fileEntry
 
 
 
