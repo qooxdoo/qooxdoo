@@ -71,7 +71,7 @@
 
       function handleStartDrag(e) 
       {
-        e.addData("QxListItems", sourceList.getManager().getSelectedItems().copy());
+        e.addData("ListItems", qx.lang.Array.copy(sourceList.getManager().getSelectedItems()));
         e.addAction("move");
         e.startDrag();
       };
@@ -103,7 +103,7 @@
 
       // Set event properties for destination list
 
-      destList.setDropDataTypes(["QxListItems"]);
+      destList.setDropDataTypes(["ListItems"]);
       destList.addEventListener("dragdrop", handleListDrop);
     });
   </script>
