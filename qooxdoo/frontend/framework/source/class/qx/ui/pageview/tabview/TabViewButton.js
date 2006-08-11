@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(tabview)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewButton", qx.ui.pageview.AbstractPageViewButton, 
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewButton", qx.ui.pageview.AbstractPageViewButton,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 });

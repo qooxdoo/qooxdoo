@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(layout)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.FlowLayoutImpl", qx.renderer.layout.LayoutImpl, 
+qx.OO.defineClass("qx.renderer.layout.FlowLayoutImpl", qx.renderer.layout.LayoutImpl,
 function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
 });

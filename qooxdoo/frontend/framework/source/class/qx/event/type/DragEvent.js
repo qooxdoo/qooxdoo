@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
+#module(dragdrop)
 
 ************************************************************************ */
 
 /*!
   The event object for drag and drop sessions
 */
-qx.OO.defineClass("qx.event.type.DragEvent", qx.event.type.MouseEvent, 
+qx.OO.defineClass("qx.event.type.DragEvent", qx.event.type.MouseEvent,
 function(vType, vMouseEvent, vTarget, vRelatedTarget)
 {
   this._mouseEvent = vMouseEvent;

@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(buttonview)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewBar", qx.ui.pageview.AbstractPageViewBar, 
+qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewBar", qx.ui.pageview.AbstractPageViewBar,
 function() {
   qx.ui.pageview.AbstractPageViewBar.call(this);
 });
