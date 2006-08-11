@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../demolayout.css"/>
+  <script type="text/javascript" src="../demoinclude.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing SplashScreen implementation.</p>
+    <p>The elements of the splash screen will be created on the first open of the QxSplashScreen.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var mediaA = new qx.ui.basic.Atom(QxTextile("*File Information*:\nJPEG-Photo\nCreated: 01/03/05"), "icon/48/icons.png");
+      mediaA.setBorder(qx.renderer.border.BorderObject.presets.outset);
+      mediaA.setPadding(3, 6);
+
+      var startSS = new QxSplashScreen(mediaA, true);
+      startSS.setShowTime(10000);
+
+      doc.add(startSS);
+
+      startSS.open();
+    });
+  </script>
+</body>
+</html>

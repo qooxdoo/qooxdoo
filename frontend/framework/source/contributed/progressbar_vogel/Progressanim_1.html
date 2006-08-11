@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../style/qooxdoo.css"/>
+  <link type="text/css" rel="stylesheet" href="../../style/demolayout.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+  <script type="text/javascript" src="QxProgressbar.js"></script>
+  <script type="text/javascript" src="QxProgressanim.js"></script>    
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Simple test of the QxProgressanim</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function()
+  {
+    var d = this.getClientWindow().getClientDocument();  
+    var p1 = new QxProgressanim(200);
+
+    with(p1)
+    {
+      setLeft(20);
+      setTop(64);
+    };
+
+    d.add(p1);
+    
+    var btn1 = new qx.ui.form.Button("Start animation");
+    with(btn1)
+    {
+      setTop(100);
+      setLeft(20);
+      addEventListener("execute", function(e) { p1.startAnimation(); });
+    }
+    d.add(btn1);
+      
+    var btn2 = new qx.ui.form.Button("Stop animation");
+    with(btn2)
+    {
+      setTop(100);
+      setLeft(120);
+      addEventListener("execute", function(e) { p1.stopAnimation(); });
+    }
+    d.add(btn2);
+
+    var btn3 = new qx.ui.form.Button("Clear Bar");
+    with(btn3)
+    {
+      setTop(130);
+      setLeft(20);
+      addEventListener("execute", function(e) { p1.clearBar(); });
+    }
+    d.add(btn3);
+  });
+  </script>
+  
+</body>
+</html>

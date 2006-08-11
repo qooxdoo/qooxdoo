@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../demo/demolayout.css"/>
+  <script type="text/javascript" src="../../demo/demoinclude.js"></script>
+ </head>
+ <body>
+  <script type="text/javascript" src="../../demo/demolayout.js"></script>
+
+  <script type="text/javascript" src="./Definitions.js"></script>
+  <script type="text/javascript" src="./QxDialog.js"></script>
+  <!---script type="text/javascript" src="../buttonpane_olsson/QxButtonPane.js"></script--->
+
+  <div id="demoDescription">
+    <p>Testing the Dialog implementation.</p>
+    <p>A QxDialog is a class possible to use for creation of custom dialogs.
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var mainD = new QxDialog("Test of dialog");
+      mainD.setSpace(20, 400, 48, 250);
+
+//      var dialogBP = new QxButtonPane();
+//      mainD.add(dialogBP);
+
+      doc.add(mainD);
+
+      mainD.open();
+    });
+  </script>
+ </body>
+</html>

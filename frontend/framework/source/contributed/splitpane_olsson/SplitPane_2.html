@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../demo/demolayout.css"/>
+  <script type="text/javascript" src="../../demo/demoinclude.js"></script>
+ </head>
+ <body>
+  <script type="text/javascript" src="../../demo/demolayout.js"></script>
+
+  <script type="text/javascript" src="./Definitions.js"></script>
+  <script type="text/javascript" src="./QxSplitPane.js"></script>
+  <script type="text/javascript" src="../frame_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../frame_olsson/QxFrame.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing SplitPane implementation.</p>
+    <p>Two splitpanes split the window into four parts with two movable curtains.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function() {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var mainF = new QxFrame("Test of SplitPane");
+      mainF.setSpace(20, 400, 48, 250);
+      doc.add(mainF);
+
+      var topL = new qx.ui.basic.Label("Top Widget");
+      topL.setPadding(5);
+
+      var bottomL = new qx.ui.basic.Label("Bottom Widget");
+      bottomL.setPadding(5);
+
+      var mainSP = new QxSplitPane(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+      mainSP.setHeight(qx.constant.Core.HUNDREDPERCENT);
+      mainSP.setWidth(qx.constant.Core.HUNDREDPERCENT);
+      mainSP.setLeftWidget(createTree());
+
+      var rightSP = new QxSplitPane(qx.constant.Layout.ORIENTATION_VERTICAL);
+      rightSP.setHeight(qx.constant.Core.HUNDREDPERCENT);
+      rightSP.setWidth(qx.constant.Core.HUNDREDPERCENT);
+      rightSP.setTopWidget(topL);//createListView());
+      rightSP.setBottomWidget(bottomL);
+
+      mainSP.setRightWidget(rightSP);
+
+      mainF.add(mainSP);
+
+      mainF.open();
+
+      function createTree() {
+          var t = new qx.ui.tree.Tree("Root");
+
+          with(t)
+          {
+            setBackgroundColor("white");
+            setBorder(qx.renderer.border.BorderObject.presets.inset);
+            setHeight(qx.constant.Core.AUTO);
+            setWidth(qx.constant.Core.AUTO);
+          };
+
+          var te1 = new qx.ui.tree.TreeFolder("Desktop");
+          t.add(te1);
+
+          var te1_1 = new qx.ui.tree.TreeFolder("Files");
+          var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
+          var te1_3 = new qx.ui.tree.TreeFolder("Network");
+          var te1_4 = new qx.ui.tree.TreeFolder("Trash");
+
+          te1.add(te1_1, te1_2, te1_3, te1_4);
+
+          var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
+          var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
+
+          te1_2.add(te1_2_1, te1_2_2);
+
+          var te2 = new qx.ui.tree.TreeFolder("Inbox");
+
+          var te2_1 = new qx.ui.tree.TreeFolder("Presets");
+          var te2_2 = new qx.ui.tree.TreeFolder("Sent");
+          var te2_3 = new qx.ui.tree.TreeFolder("Trash");
+          var te2_4 = new qx.ui.tree.TreeFolder("Data");
+          var te2_5 = new qx.ui.tree.TreeFolder("Edit");
+
+          t.add(te2);
+
+    return t;
+  };
+
+  function createListView() {
+          var ld = [];
+          var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
+
+          for (var i=0, t; i<1000; i++)
+          {
+            t=Math.round(Math.random()*4);
+            ld.push({ name : { text : "File " + i }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }});
+          };
+
+          var lc =
+          {
+            name     : { label : "Name", width : 100, type : "text" },
+            size     : { label : "Size", width : 50, type : "text" },
+            type     : { label : "Type", width : 80, type : "text" },
+            modified : { label : "Last Modified", width : 150, type : "text" },
+            rights   : { label : "Rights", width: 80, type : "text" }
+          };
+
+          var lv = new qx.ui.listview.ListView(ld, lc);
+          lv.setBackgroundColor("white");
+//          lv.setEdge(0);
+          lv.setWidth(null);
+          lv.setHeight(null);
+
+          return lv;      
+  };
+      };
+    </script>
+  </body>
+</html>
