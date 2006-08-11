@@ -333,11 +333,19 @@ def load(options):
     for fileEntry in fileDb:
       knownIds.append(fileEntry)
 
-    print "  * Detecting dependencies..."
+    if options.verbose:
+      print "  * Detecting dependencies..."
+    else:
+      print "  * Detecting dependencies: ",
 
     for fileEntry in fileDb:
       if options.verbose:
         print "    * %s" % fileEntry
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      hasMessage = False
 
       fileTokens = fileDb[fileEntry]["tokens"]
       fileDeps = []
@@ -377,20 +385,37 @@ def load(options):
       # Checking loadtime dependencies
       for dep in loadtimeDeps:
         if not dep in fileDeps:
+          if not hasMessage and not options.verbose:
+            hasMessage = True
+            print
+
           print "    * Could not confirm #require(%s) in %s!" % (dep, fileEntry)
 
       # Checking runtime dependencies
       for dep in runtimeDeps:
         if not dep in fileDeps:
+          if not hasMessage and not options.verbose:
+            hasMessage = True
+            print
+
           print "    * Could not confirm #use(%s) in %s!" % (dep, fileEntry)
 
       # Adding new content to runtime dependencies
       for dep in fileDeps:
         if not dep in runtimeDeps and not dep in loadtimeDeps:
           if options.verbose:
+            if not hasMessage and not options.verbose:
+              hasMessage = True
+              print
+
             print "    * Add dependency: %s" % dep
 
           runtimeDeps.append(dep)
+
+
+    if not hasMessage and not options.verbose:
+      print
+
 
 
 
