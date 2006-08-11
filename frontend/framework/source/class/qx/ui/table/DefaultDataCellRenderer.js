@@ -17,7 +17,7 @@
 
 /* ************************************************************************
 
-#module(table)
+#module(ui_table)
 
 // This is needed because of the instantiation at the end of this file.
 // I don't think this is a good idea. (wpbasti)

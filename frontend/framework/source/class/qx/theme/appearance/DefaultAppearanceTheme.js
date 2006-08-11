@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#module(uicore)
-#module(appearancethemes)
+#module(ui_core)
+#module(theme_appearance)
 #require(qx.manager.object.SingletonManager)
 #optional(qx.renderer.color.Color)
 #optional(qx.renderer.color.ColorObject)

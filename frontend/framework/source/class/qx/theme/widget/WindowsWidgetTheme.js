@@ -18,8 +18,8 @@
 
 /* ************************************************************************
 
-#module(uicore)
-#module(widgetthemes)
+#module(ui_core)
+#module(theme_widget)
 #require(qx.manager.object.SingletonManager)
 #resource(images:widget/windows)
 

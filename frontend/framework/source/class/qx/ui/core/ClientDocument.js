@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#module(uicore)
+#module(ui_core)
 #require(qx.dom.DomStyleSheet)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)

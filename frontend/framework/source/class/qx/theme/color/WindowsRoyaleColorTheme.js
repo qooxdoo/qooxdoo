@@ -18,8 +18,8 @@
 
 /* ************************************************************************
 
-#module(uicore)
-#module(colorthemes)
+#module(ui_core)
+#module(theme_color)
 #require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
