@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-GENERATE=./tool/generate/generate.py
+GENERATOR=./tool/generate/generator.py
 CACHE=../.cache
 
 
@@ -41,11 +41,11 @@ distclean: realclean
 
 
 ###################################################################################
-# GENERATE TARGETS
+# GENERATOR TARGETS
 ###################################################################################
 
 generate-all:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -58,14 +58,14 @@ generate-all:
 	  --cache-directory $(CACHE)
 
 generate-compile:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --cache-directory $(CACHE)
 
 generate-resource:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input source/class \
 	  --copy-resources \
 	  --resource-input source/resource \
@@ -73,7 +73,7 @@ generate-resource:
 	  --cache-directory $(CACHE)
 
 generate-build:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -83,7 +83,7 @@ generate-build:
 	  --cache-directory $(CACHE)
 
 generate-source:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input source/class \
 	  --source-script-path ../class \
 	  --generate-source-script \
