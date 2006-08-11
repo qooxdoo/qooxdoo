@@ -53,7 +53,7 @@ generate-script-source:
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/nuvola \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../../$(FRAMEWORK)/source/resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../../$(FRAMEWORK)/source/resource/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../../$(FRAMEWORK)/source/resource/static \
 	  --cache-directory $(CACHE)
 
 generate-script-build:
@@ -67,7 +67,7 @@ generate-script-build:
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../resource/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../resource/icon/nuvola \
 	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.ImageManager.staticUri:../../resource/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../resource/static \
 	  --cache-directory $(CACHE)
 
 
