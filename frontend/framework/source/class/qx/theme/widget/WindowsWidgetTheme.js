@@ -18,6 +18,7 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #require(qx.manager.object.SingletonManager)
 #resource(images:widget/windows)
 
