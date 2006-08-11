@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(uicore)
+#module(appearancethemes)
 #require(qx.manager.object.SingletonManager)
 #optional(qx.renderer.color.Color)
 #optional(qx.renderer.color.ColorObject)
