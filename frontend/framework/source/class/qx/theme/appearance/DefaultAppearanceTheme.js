@@ -22,6 +22,12 @@
 
 #module(uicore)
 #require(qx.manager.object.SingletonManager)
+#optional(qx.renderer.color.Color)
+#optional(qx.renderer.color.ColorObject)
+#optional(qx.renderer.border.Border)
+#optional(qx.renderer.border.BorderObject)
+#optional(qx.renderer.font.Font)
+#optional(qx.renderer.font.FontObject)
 
 ************************************************************************ */
 
