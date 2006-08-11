@@ -175,11 +175,26 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       fileObject = codecs.open(filePath, "r", scriptEncoding)
 
     except ValueError:
-      print "      * Invalid Encoding. Require encoding: %s" % scriptEncoding
+      if options.verbose:
+        print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
+
+      else:
+        print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
+
       sys.exit(1)
 
     # Read content
-    fileContent = fileObject.read()
+    try:
+      fileContent = fileObject.read()
+
+    except ValueError:
+      if options.verbose:
+        print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
+
+      else:
+        print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
+
+      sys.exit(1)
 
     # Extract ID
     fileContentId = extractFileContentId(fileContent)
