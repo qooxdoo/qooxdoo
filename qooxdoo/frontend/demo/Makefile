@@ -3,7 +3,7 @@
 ###################################################################################
 
 FRAMEWORK=../framework
-GENERATE=../framework/tool/generate/generate.py
+GENERATOR=../framework/tool/generate/generator.py
 CACHE=../.cache
 
 
@@ -41,11 +41,11 @@ distclean: realclean
 
 
 ###################################################################################
-# GENERATE TARGETS
+# GENERATOR TARGETS
 ###################################################################################
 
 generate-script-source:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script \
@@ -57,7 +57,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
