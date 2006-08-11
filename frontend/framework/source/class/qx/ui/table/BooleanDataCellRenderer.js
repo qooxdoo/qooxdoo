@@ -63,9 +63,9 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 qx.Proto._getImgUrl = function(cellInfo) {
   var BooleanDataCellRenderer = qx.ui.table.BooleanDataCellRenderer;
   switch (cellInfo.value) {
-    case true:  return qx.manager.object.ImageManager.buildUri("widget/table/boolean-true.png"); break;
-    case false: return qx.manager.object.ImageManager.buildUri("widget/table/boolean-false.png"); break;
-    default:    return qx.manager.object.ImageManager.buildUri("static/image/blank.gif"); break;
+    case true:  return qx.manager.object.AliasManager.resolvePath("widget/table/boolean-true.png"); break;
+    case false: return qx.manager.object.AliasManager.resolvePath("widget/table/boolean-false.png"); break;
+    default:    return qx.manager.object.AliasManager.resolvePath("static/image/blank.gif"); break;
   }
 }
 

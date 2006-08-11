@@ -4730,12 +4730,13 @@ qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP = ")";
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP1 = /^url\(/i;
 qx.ui.core.Widget.BACKGROUNDIMG_REGEXP2 = /\)$/;
 
-qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData) {
+qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData)
+{
   return qx.util.Validation.isValidString(propValue) ?
     this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY,
-        qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START +
-        qx.manager.object.ImageManager.buildUri(propValue) +
-        qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) :
+      qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START +
+      qx.manager.object.AliasManager.resolvePath(propValue) +
+      qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) :
     this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 }
 
