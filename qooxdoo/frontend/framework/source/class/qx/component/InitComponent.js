@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.InitComponent", qx.component.AbstractComponent,
+qx.OO.defineClass("qx.component.init.BasicInitComponent", qx.component.AbstractComponent,
 function() {
   qx.component.AbstractComponent.call(this);
 });
