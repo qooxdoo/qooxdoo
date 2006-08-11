@@ -1,0 +1,59 @@
+<?xml version='1.0'?>
+<project name="HelloAnt" default="make" basedir=".">
+
+    <property file="build.properties"/>
+
+    <target name="compile">
+        <mkdir dir="classes"/>
+        <javac srcdir="rpc" destdir="classes" debug="true">
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="war">
+        <war destfile="qooxdoo.war" webxml="webapp/WEB-INF/web.xml">
+            <fileset dir="../../source">
+                <include name="demo/**"/>
+                <include name="script/**"/>
+                <include name="images/**"/>
+                <include name="themes/appearance/**"/>
+                <include name="themes/colors/**"/>
+                <include name="themes/icons/crystalsvg/**"/>
+                <include name="themes/widgets/**"/>
+            </fileset>
+            <fileset dir="webapp">
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+            <lib dir="lib">
+                <exclude name="servlet-api.jar"/>
+            </lib>
+            <classes dir="classes"/>
+        </war>
+    </target>
+
+    <target name="make" depends="compile, war"/>
+    
+    <target name="clean">
+        <delete dir="classes"/>
+        <delete file="qooxdoo.war"/>
+    </target>
+    
+    <target name="deploy">
+        <copy file="qooxdoo.war" todir="${deployDir}"/>
+    </target>
+
+    <target name="transport-jar">
+        <jar destfile="qooxdoo-transport.jar">
+            <fileset dir="../../build-transport">
+                <include name="script/transport.js"/>
+            </fileset>
+            <fileset dir="classes">
+            </fileset>
+        </jar>
+    </target>
+    
+</project>

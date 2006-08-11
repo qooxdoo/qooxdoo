@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../style/qooxdoo.css"/>
+  <link type="text/css" rel="stylesheet" href="../../style/demolayout.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+  <script type="text/javascript" src="QxClock.js"></script>
+  <script type="text/javascript" src="QxBinaryClock.js"></script>
+  <script type="text/javascript" src="QxDigitalClock.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing Clocks implementation.</p>
+    <p>The elements of the clock will be created on the first open of the QxClockAnalog, QxClockDigital and QxClockBinary.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var digitalClock = new QxDigitalClock();
+      digitalClock.setTop(48);
+      digitalClock.setLeft(20);
+
+      var binaryClock = new QxBinaryClock();
+      binaryClock.setTop(100);
+      binaryClock.setLeft(20);
+      binaryClock.setBackgroundColor("black");
+
+      doc.add(digitalClock, binaryClock);
+    });
+  </script>
+</body>
+</html>

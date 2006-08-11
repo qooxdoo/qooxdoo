@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../style/qooxdoo.css"/>
+  <link type="text/css" rel="stylesheet" href="../../style/demolayout.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+  <script type="text/javascript" src="QxProgressBar.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/demolayout.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing ProgressBar implementation.</p>
+    <p>The elements of the progress bar will be created on the first open of the QxProgressBar.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      // Create components
+      var progressPB1 = new QxProgressBar(qx.Const.DIRECTION_RIGHT, 1, 100);
+      progressPB1.setTop(50);
+      progressPB1.setLeft(50);
+      progressPB1.setHeight(20);
+      progressPB1.setWidth(100);
+      progressPB1.setWait(1000);
+
+      var progressPB2 = new QxProgressBar(qx.Const.DIRECTION_DOWN, 1, 100);
+      progressPB2.setTop(50);
+      progressPB2.setLeft(200);
+      progressPB2.setHeight(100);
+      progressPB2.setWidth(20);
+
+      var progressPB3 = new QxProgressBar(qx.Const.DIRECTION_LEFT, 1, 100);
+      progressPB3.setTop(200);
+      progressPB3.setLeft(50);
+      progressPB3.setHeight(20);
+      progressPB3.setWidth(100);
+      progressPB3.setWait(5000);
+
+      var progressPB4 = new QxProgressBar(qx.Const.DIRECTION_UP, 1, 100);
+      progressPB4.setTop(200);
+      progressPB4.setLeft(200);
+      progressPB4.setHeight(100);
+      progressPB4.setWidth(20);
+
+      var progressPB5 = new QxProgressBar(qx.Const.DIRECTION_RIGHT, 1, 100);
+      progressPB5.setIndeterminate(true);
+      progressPB5.setTop(400);
+      progressPB5.setLeft(50);
+      progressPB5.setHeight(30);
+      progressPB5.setWidth(200);
+
+      doc.add(progressPB1, progressPB2, progressPB3, progressPB4, progressPB5);
+
+      for(var i=1; i<=100; i++) {
+        progressPB1.setValue(i);
+        progressPB2.setValue(i);
+        progressPB3.setValue(i);
+        progressPB4.setValue(i);
+      };
+    });
+  </script>
+</body>
+</html>

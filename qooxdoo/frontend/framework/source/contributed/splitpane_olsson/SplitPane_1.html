@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../demo/demolayout.css"/>
+  <script type="text/javascript" src="../../demo/demoinclude.js"></script>
+ </head>
+ <body>
+  <script type="text/javascript" src="../../demo/demolayout.js"></script>
+
+  <script type="text/javascript" src="./Definitions.js"></script>
+  <script type="text/javascript" src="./QxSplitPane.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing SplitPane implementation.</p>
+    <p>The splitpane splits the window into two parts with a movable curtain.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function() {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var mainW = new qx.ui.window.Window("Test of SplitPane");
+      mainW.setSpace(20, 400, 48, 250);
+      doc.add(mainW);
+
+      var leftL = new qx.ui.basic.Label("Left Widget");
+      leftL.setPadding(5);
+
+      var rightL = new qx.ui.basic.Label("Right Widget");
+      rightL.setPadding(5);
+
+      var mainSP = new QxSplitPane(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+      mainSP.setHeight(qx.constant.Core.HUNDREDPERCENT);
+      mainSP.setWidth(qx.constant.Core.HUNDREDPERCENT);
+      mainSP.setLeftWidget(leftL);
+      mainSP.setRightWidget(rightL);
+
+      mainW.add(mainSP);
+
+      mainW.open();
+    });
+  </script>
+ </body>
+</html>

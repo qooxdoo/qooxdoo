@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../demo/demolayout.css"/>
+  <script type="text/javascript" src="../../demo/demoinclude.js"></script>
+ </head>
+ <body>
+  <script type="text/javascript" src="../../demo/demolayout.js"></script>
+
+  <script type="text/javascript" src="./Definitions.js"></script>
+  <script type="text/javascript" src="./QxLocale.js"></script>
+  <script type="text/javascript" src="./QxLocaleManager.js"></script>
+  <script type="text/javascript" src="./QxResource.js"></script>
+  <script type="text/javascript" src="../frame_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../frame_olsson/QxFrame.js"></script>
+  <script type="text/javascript" src="../statusbar_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../statusbar_olsson/QxStatusBar.js"></script>
+  <script type="text/javascript" src="../statusbar_olsson/QxStatusBarPane.js"></script>
+  <script type="text/javascript" src="../clock_olsson/Definitions.js"></script>
+  <script type="text/javascript" src="../clock_olsson/QxClock.js"></script>
+  <script type="text/javascript" src="../clock_olsson/QxDigitalClock.js"></script>
+
+  <div id="demoDescription">
+    <p>Testing Locale implementation.</p>
+    <p>The internationalisation is an important feature of a class library.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var resource = new QxResource("./locale/Locale");
+
+      var mainF = new QxFrame(resource.getValue("frameTitle"));
+      mainF.setSpace(20, 400, 48, 250);
+      mainF.setMenuBar(createMenuBar());
+      mainF.setToolBar(createToolBar());
+      mainF.setStatusBar(createStatusBar());
+      mainF.addEventListener(qx.constant.Event.KEYDOWN, function _onkeydown(e) {
+        if(e.getKeyCode() == 90) // The NUM key
+        {
+          numL.setHtml("NUM");
+        }
+        else
+        {
+          numL.setHtml("");
+        };
+      });
+
+      doc.add(mainF);
+
+      mainF.open();
+
+      function createMenuBar() {
+        var menuMB = new qx.ui.menu.MenuBar();
+
+        var fileM = new qx.ui.menu.Menu();
+
+        var newMB    = new qx.ui.menu.MenuButton(resource.getValue("newMB"));
+        var openMB   = new qx.ui.menu.MenuButton(resource.getValue("openMB"));
+        var saveAsMB = new qx.ui.menu.MenuButton(resource.getValue("saveAsMB"));
+        var mailS    = new qx.ui.menu.MenuSeparator();
+        var closeMB  = new qx.ui.menu.MenuButton(resource.getValue("closeMB"));
+        var exitMB   = new qx.ui.menu.MenuButton(resource.getValue("exitMB"));
+        exitMB.addEventListener("execute", function() {
+          mainF.close();
+        });
+
+        fileM.add(newMB, openMB, saveAsMB, mailS, closeMB, exitMB);
+
+        var fileMBB = new qx.ui.menu.MenuBarButton(resource.getValue("fileMBB"), fileM);
+
+        // Edit Menu
+        var editM    = new qx.ui.menu.Menu();
+
+        var undoMB        = new qx.ui.menu.MenuButton(resource.getValue("undoMB"));
+        var redoMB        = new qx.ui.menu.MenuButton(resource.getValue("redoMB"));
+        var editS1        = new qx.ui.menu.MenuSeparator();
+        var cutMB         = new qx.ui.menu.MenuButton(resource.getValue("cutMB"));
+        var copyMB        = new qx.ui.menu.MenuButton(resource.getValue("copyMB"));
+        var pasteMB       = new qx.ui.menu.MenuButton(resource.getValue("pasteMB"));
+        var deleteMB      = new qx.ui.menu.MenuButton(resource.getValue("deleteMB"));
+        var editS2        = new qx.ui.menu.MenuSeparator();
+        var selectAllMB   = new qx.ui.menu.MenuButton(resource.getValue("selectAllMB"));
+        var editS3        = new qx.ui.menu.MenuSeparator();
+        var preferencesMB = new qx.ui.menu.MenuButton(resource.getValue("preferencesMB"));
+
+        editM.add(undoMB, redoMB, editS1, cutMB, copyMB, pasteMB, deleteMB, editS2, selectAllMB, editS3, preferencesMB);
+
+        var editMBB = new qx.ui.menu.MenuBarButton(resource.getValue("editMBB"), editM);
+
+        // Language Menu
+        var languageM = new qx.ui.menu.Menu();
+
+        var languageC = new qx.client.Command();
+        languageC.addEventListener("execute", function(e) {
+          switch(e.getData().getValue())
+          {
+            case "englishMRB" :
+              resource.setLocale(new QxLocale("en", "GB", null));
+              break;
+
+            case "swedishMRB" :
+              resource.setLocale(new QxLocale("sv", "SE", null));
+              break;
+          };
+        });
+
+        var englishMRB = new qx.ui.menu.MenuRadioButton(resource.getValue("englishMRB"), languageC, true);
+        var swedishMRB = new qx.ui.menu.MenuRadioButton(resource.getValue("swedishMRB"), languageC);
+
+        languageM.add(englishMRB, swedishMRB);
+
+        var languageRM = new qx.manager.selection.RadioManager("languageRM", [englishMRB, swedishMRB]);
+
+        var languageMBB = new qx.ui.menu.MenuBarButton(resource.getValue("languageMBB"), languageM);
+
+        doc.add(fileM, editM, languageM);
+
+        menuMB.add(fileMBB, editMBB, languageMBB);
+
+        return menuMB;
+      };
+
+      function createToolBar() {
+        var toolTB = new qx.ui.toolbar.ToolBar();
+
+        var mailTBP = new qx.ui.toolbar.ToolBarPart();
+
+        var newTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("newTBB"),"icon/16/file-new.png");
+
+        mailTBP.add(newTBB);
+
+        var firstTBS = new qx.ui.toolbar.ToolBarSeparator();
+
+        var editTBP = new qx.ui.toolbar.ToolBarPart();
+
+        var copyTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("copyTBB"),"icon/16/edit-copy.png");
+
+        var cutTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("cutTBB"),"icon/16/edit-cut.png");
+
+        var pasteTBB = new qx.ui.toolbar.ToolBarButton(resource.getValue("pasteTBB"),"icon/16/edit-paste.png");
+
+        editTBP.add(copyTBB, cutTBB, pasteTBB);
+
+        toolTB.add(mailTBP, firstTBS, editTBP);
+
+        return toolTB;
+      };
+
+      function createStatusBar() {
+        var statusSB = new QxStatusBar();
+
+        var statusL = new qx.ui.basic.Label(resource.getValue("statusL"));
+        var statusSBP1 = new QxStatusBarPane(statusL);
+        statusSBP1.setWidth("50%");
+
+        var numL = new qx.ui.basic.Label();
+        var statusSBP2 = new QxStatusBarPane(numL);
+        statusSBP2.setWidth(30);
+        statusSBP2.setLeft(95);
+
+        var digitalClockC = new QxDigitalClock();
+        var statusSBP3 = new QxStatusBarPane(digitalClockC);
+        statusSBP3.setLeft(98);
+
+        statusSB.add(statusSBP1, statusSBP2, statusSBP3);
+
+        return statusSB;
+      };
+    });
+  </script>
+ </body>
+</html>

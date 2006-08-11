@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15"><title>qooxdoo demo</title>
+  
+  <link type="text/css" rel="stylesheet" href="Scroller_1_files/demolayout">
+  <script type="text/javascript" src="Scroller_1_files/demoinclude"></script></head>
+
+
+<body>
+  <script type="text/javascript" src="Scroller_1_files/demolayout_002"></script>
+
+  <div id="demoDescription">
+    <p>Testing Scroller implementation.</p>
+    <p>The children of the scroller widget will be scrolled.</p>
+  </div>
+
+  <script type="text/javascript">
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+      var text1A = new qx.ui.basic.Atom("Hello! How are you doing? Have you ever heard about Qooxdoo? It is a wonderful tool for developers.");
+      var main1S = new QxScroller();
+      main1S.setTop(50);
+      main1S.setLeft(50);
+      main1S.add(text1A);
+      main1S.start();
+
+      var text2A = new qx.ui.basic.Atom("Is it the first time you are trying Qooxdoo? It is a strange name of the tool.");
+      var main2S = new QxScroller(1);
+      main2S.setTop(50);
+      main2S.setLeft(200);
+      main2S.add(text2A);
+      main2S.start();
+
+      var text3A = new qx.ui.basic.Atom("Qooxdoo has mainly been developed by Sebastian and Andreas.");
+      var main3S = new QxScroller(0, -1);
+      main3S.setTop(100);
+      main3S.setLeft(50);
+      main3S.add(text3A);
+      main3S.start();
+
+      var text4A = new qx.ui.basic.Atom("It is a must for developers going for Web 2.0, more interactive web applications.");
+      var main4S = new QxScroller(0, 1);
+      main4S.setTop(100);
+      main4S.setLeft(200);
+      main4S.add(text4S);
+      main4S.start();
+
+      var text5A = new qx.ui.basic.Atom("Here you can see it scroll diagonally in any direction.");
+      var main5S = new QxScroller(1, 1);
+      main5S.setTop(150);
+      main5S.setLeft(50);
+      main5S.add(text4S);
+      main5S.start();
+
+      var text6A = new qx.ui.basic.Atom("and finally in the other direction with bigger steps.");
+      var main6S = new QxScroller(-3, -2);
+      main6S.setTop(150);
+      main6S.setLeft(200);
+      main6S.add(text4S);
+      main6S.start();
+
+      doc.add(main1S, main2S, main3S, main4S, main5S, main6S);
+    });
+  </script>
+</body></html>

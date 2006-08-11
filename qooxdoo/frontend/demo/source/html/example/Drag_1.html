@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>Show one way to drag a widget around the screen.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function()
+  {
+    var d = this.getClientWindow().getClientDocument();
+    
+    var a1 = new qx.ui.basic.Atom("Drag Me");
+    a1.set({ backgroundColor: "white", border: qx.renderer.border.BorderPresets.groove });
+    a1.setPadding(10);
+    a1.setLocation(20, 48); 
+    d.add(a1);
+
+		
+    d.addEventListener("mousedown", handleMouseDown);
+    d.addEventListener("mousemove", handleMouseMove);
+    d.addEventListener("mouseup", handleMouseUp);
+		
+    function handleMouseDown(e)
+    {
+      this.setCapture(true);
+    }
+		
+    function handleMouseMove(e)
+    {
+      if (this.getCapture())
+      {
+        a1.setLeft(e.getPageX());
+        a1.setTop(e.getPageY());
+      }
+    }
+					
+    function handleMouseUp(e)
+    {
+      this.setCapture(false);
+    }
+  });
+  </script>
+</body>
+</html>
