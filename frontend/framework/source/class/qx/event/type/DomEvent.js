@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uicore)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.event.type.DomEvent", qx.event.type.Event, 
+qx.OO.defineClass("qx.event.type.DomEvent", qx.event.type.Event,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
 {
   qx.event.type.Event.call(this, vType);
