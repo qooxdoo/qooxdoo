@@ -3,7 +3,7 @@
 ###################################################################################
 
 FRAMEWORK=../framework
-GENERATE=../framework/tool/generate/generate.py
+GENERATOR=../framework/tool/generate/generator.py
 CACHE=../.cache
 
 
@@ -44,11 +44,11 @@ distclean: realclean
 
 
 ###################################################################################
-# GENERATE TARGETS
+# GENERATOR TARGETS
 ###################################################################################
 
 generate-script-source:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
@@ -66,7 +66,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource/qooxdoo \
@@ -87,14 +87,14 @@ generate-script-build:
 	  --cache-directory $(CACHE)
 
 generate-data-source:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file source/script/data.js \
 	  --cache-directory $(CACHE)
 
 generate-data-build:
-	@$(GENERATE) \
+	@$(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file build/script/data.js \
