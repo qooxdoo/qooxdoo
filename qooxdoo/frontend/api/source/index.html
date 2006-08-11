@@ -9,7 +9,7 @@
       qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
       qx.core.Init.defineInitialize(function() {
-        qx.manager.object.ImageManager.defineAlias("api", "resource/image");
+        qx.manager.object.AliasManager.add("api", "resource/image");
       });
 
       qx.core.Init.defineMain(function() {
