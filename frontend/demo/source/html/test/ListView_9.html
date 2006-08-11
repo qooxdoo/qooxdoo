@@ -47,7 +47,7 @@
 
       function handleDrag(e)
       {
-        e.addData("qx.ui.listview.ListViewEntries", e.getCurrentTarget().getManager().getSelectedItems().copy());
+        e.addData("qx.ui.listview.ListViewEntries", qx.lang.Array.copy(e.getCurrentTarget().getManager().getSelectedItems()));
         e.addAction("move");
         e.startDrag();
       };
@@ -66,7 +66,7 @@
 
             for (var i=0, l=data.length; i<l; i++)
             {
-              sourceView.getData().remove(data[i]);
+              qx.lang.Array.remove(sourceView.getData(), data[i]);
               destView.getData().push(data[i]);
             };
 
