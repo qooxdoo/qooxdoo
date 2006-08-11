@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re, os, optparse
-import config, tokenizer, loader, compile, docgenerator, tree, treegenerator, settings, resources, filetool
+import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool
 
 
 
@@ -656,11 +656,11 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "  - %s" % fieId
 
-      docTree = docgenerator.createDoc(fileDb[fileId]["tree"], docTree)
+      docTree = api.createDoc(fileDb[fileId]["tree"], docTree)
 
     if docTree:
       print "  * Finalising tree..."
-      docgenerator.postWorkPackage(docTree, docTree)
+      api.postWorkPackage(docTree, docTree)
 
     if options.apiDocumentationXmlFile != None:
       print "  * Writing XML API file to %s" % options.apiDocumentationXmlFile
