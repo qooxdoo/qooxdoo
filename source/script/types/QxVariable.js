@@ -1,1 +1,0 @@
-function QxVariable(v) { return v; };

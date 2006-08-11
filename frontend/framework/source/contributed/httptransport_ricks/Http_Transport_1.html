@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo demo</title>
+  <link type="text/css" rel="stylesheet" href="../../style/qooxdoo.css"/>
+  <link type="text/css" rel="stylesheet" href="../../style/demolayout.css"/>
+
+  <script type="text/javascript" src="../../../tools/script/includer.js"></script>
+  <script type="text/javascript" src="QxHttpTransportQueue.js"></script>
+  <script type="text/javascript" src="QxHttpTransport.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../../tools/script/demolayout.js"></script>
+  <div id="demoDescription">
+    <p>QxHttpTransport test - Ugly but functional</p>
+  </div>
+  <script type="text/javascript">
+  qx.core.Init.defineMain(function() {
+    var d = this.getClientWindow().getClientDocument();
+    
+    var req = new QxHttpTransport();
+    var queue = new QxHttpTransportQueue(1);
+    
+    req.setQueue(queue);
+    
+    var ta = new qx.ui.form.TextArea();
+    var fs = new qx.ui.groupbox.GroupBox("Response");
+    var statLabel = new qx.ui.basic.Label("Status code:");
+    var statCode = new qx.ui.form.TextField();
+    
+    var sizeLabel = new qx.ui.basic.Label("Transfer:");
+    var sizeText = new qx.ui.form.TextField();
+    
+    function handleSendClick(e) {
+      sizeText.setValue("0");
+      req.setTarget(targetBox.getValue());
+      req.setPayload(payloadBox.getValue());
+      req.send();
+    }
+    
+    function inspect(obj) {
+      var s = new String();
+      
+      for (var i in obj) {
+        s += i + ": " + obj[i] + "\n";
+      }
+      return s;
+    }
+    
+    function handleReqDone(e) {
+      ta.setValue(this.getResponseText());
+      statCode.setValue(this.getReadyState().toString());
+    }
+    
+    function handleReqError(e) {
+      ta.setValue(inspect(e));
+      statCode.setValue(this.getReadyState().toString);
+    }
+    
+    function handleReqProgress(e) {
+      sizeText.setValue(this.getFetchedLength().toString());
+    }
+    
+    statLabel.setLocation(200, 48);
+    statCode.setLocation(280, 48);
+    statCode.setReadOnly(true);
+    
+    sizeLabel.setLocation(200, 78);
+    sizeText.setLocation(280, 78);
+    
+    fs.setLocation(20, 150);
+    fs.setWidth(600);
+    fs.setHeight(600);
+    fs.add(ta)
+    ta.setHeight("100%");
+    ta.setWidth("100%");
+    ta.setReadOnly(true);
+    
+    this.add(fs);
+    this.add(statLabel);
+    this.add(statCode);
+    
+    this.add(sizeLabel);
+    this.add(sizeText);
+    
+    req.addEventListener("error", handleReqError);
+    req.addEventListener("done", handleReqDone);
+    req.addEventListener("progress", handleReqProgress);
+    
+    var grid = new qx.ui.layout.GridLayout();
+    this.add(grid);
+    
+    with (grid) {
+      setLocation(20, 48);
+      setColumnCount(2);
+      setDimension("auto", "auto");
+      setBorder(qx.renderer.border.BorderObject.presets.outset);
+      setRowCount(3);
+      setVerticalSpacing(4);
+      setPadding(8);
+      
+      for (var i = 0; i < getRowCount(); i++) {
+        setRowHeight(i, 20);
+      }      
+      
+      setColumnWidth(0, 45);
+      setColumnWidth(1, 100);
+    }
+    
+    var targetLabel = new qx.ui.basic.Label("Target");
+    var targetBox = new qx.ui.form.TextField();
+    
+    var payloadLabel = new qx.ui.basic.Label("Payload");
+    var payloadBox = new qx.ui.form.TextField();
+    
+    var button = new qx.ui.form.Button("Send");
+    button.setHorizontalAlign("right");
+    button.addEventListener("execute", handleSendClick);
+    
+    grid.add(targetLabel, 0, 0);
+    grid.add(targetBox, 1, 0);
+    grid.add(payloadLabel, 0, 1);
+    grid.add(payloadBox, 1, 1);
+    grid.add(button, 1, 2);
+    
+
+  }
+  </script>
+</body>
+</html>

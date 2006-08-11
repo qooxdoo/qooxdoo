@@ -1,0 +1,118 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>List with colored List Items</p>
+  </div>
+
+  <script type="text/javascript">
+
+    // first we create a new appearance called colored-list-item and add it to the current
+    // appearance theme. This appearance is mainly a copy of the list-item appearance.
+    // note the commented difference below in the state function
+    //
+    qx.manager.object.AppearanceManager.getAppearanceThemeObject().registerAppearance("colored-list-item",
+    {
+      setup : function()
+      {
+        this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
+        this.color_selected   = new qx.renderer.color.ColorObject("highlighttext");
+      },
+
+      initial : function(vWidget, vTheme)
+      {
+        return {
+          cursor : qx.constant.Core.DEFAULT,
+          height : qx.constant.Core.AUTO,
+          horizontalChildrenAlign : qx.constant.Layout.ALIGN_LEFT,
+          verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
+          spacing : 4,
+          paddingTop : 3,
+          paddingRight : 5,
+          paddingBottom : 3,
+          paddingLeft : 5
+        };
+      },
+
+      state : function(vWidget, vTheme, vStates)
+      {
+        if (vStates.lead)
+        {
+          vWidget.setStyleProperty("MozOutline", qx.ui.core.Widget.FOCUS_OUTLINE);
+          vWidget.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_OUTLINE);
+        }
+        else
+        {
+          vWidget.removeStyleProperty("MozOutline");
+          vWidget.removeStyleProperty("outline");
+        };
+
+        return {
+          // in the case vStates.selected is false, the backgroundColor is set to backgroundColorUnselected
+          //
+          backgroundColor : vStates.selected ? this.bgcolor_selected : vWidget.getBackgroundColorUnselected(),
+          color : vStates.selected ? this.color_selected : null
+        };
+      }
+    });
+
+    // second we create a new class qx.renderer.color.ColoredListItem which is derived
+    // from qx.ui.form.ListItem and has an additional property backgroundColorUnselected
+    // and a changed appearance to "colored-list-item"
+    //
+    function qx.renderer.color.ColoredListItem(vText, vIcon, vValue) {
+      qx.ui.form.ListItem.call(this, vText, vIcon, vValue);
+    };
+
+    qx.renderer.color.ColoredListItem.extend(qx.ui.form.ListItem, "qx.renderer.color.ColoredListItem");
+
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "colored-list-item" });
+
+qx.OO.addProperty({ name : "backgroundColorUnselected", type : qx.constant.Type.OBJECT, instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+
+
+
+    qx.core.Init.defineMain(function()
+    {
+      var doc = this.getClientWindow().getClientDocument();
+
+
+      var sourceList = new qx.ui.form.List();
+      sourceList.setWidth(200);
+      sourceList.setHeight(400);
+      sourceList.setLeft(20);
+      sourceList.setTop(48);
+
+      // Set horizontal scroll bar to always visible
+      sourceList.setOverflow("auto");
+
+      var colors = [ new qx.renderer.color.Color("#FFDFDF"), new qx.renderer.color.Color("#FEFF9F"), new qx.renderer.color.Color("#AAFFFF") ];
+
+      // Add items to source list
+
+      for (var i = 1; i <= 10; i++)
+      {
+        // now we use the class qx.renderer.color.ColoredListItem and set the backgroundColorUnselected
+        // to alternating colors
+        //
+        var item = new qx.renderer.color.ColoredListItem("Item " + i + " is colored.");
+        item.setBackgroundColorUnselected(colors[i%3]);
+        sourceList.add(item);
+      };
+
+      doc.add(sourceList);
+
+   });
+  </script>
+</body>
+</html>
