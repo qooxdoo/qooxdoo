@@ -18,6 +18,7 @@
 
 /* ************************************************************************
 
+#require(qx.manager.object.SingletonManager)
 #resource(html:static/history)
 
 ************************************************************************ */
@@ -126,4 +127,4 @@ qx.Settings.setDefault("helperFile", "../../resource/static/history/historyHelpe
 ---------------------------------------------------------------------------
 */
 
-qx.mananger.object.SingletonManager.add(qx.client.History);
+qx.manager.object.SingletonManager.add(qx.client.History);
