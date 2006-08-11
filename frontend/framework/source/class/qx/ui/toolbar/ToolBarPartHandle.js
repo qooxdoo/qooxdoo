@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(toolbar)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarPartHandle", qx.ui.layout.CanvasLayout, 
+qx.OO.defineClass("qx.ui.toolbar.ToolBarPartHandle", qx.ui.layout.CanvasLayout,
 function()
 {
   qx.ui.layout.CanvasLayout.call(this);

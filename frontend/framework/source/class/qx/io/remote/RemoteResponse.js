@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(ioremote)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.RemoteResponse", qx.core.Target, 
+qx.OO.defineClass("qx.io.remote.RemoteResponse", qx.core.Target,
 function() {
   qx.core.Target.call(this);
 });

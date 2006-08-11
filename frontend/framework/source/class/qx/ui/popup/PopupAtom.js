@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(popup)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.popup.PopupAtom", qx.ui.popup.Popup, 
+qx.OO.defineClass("qx.ui.popup.PopupAtom", qx.ui.popup.Popup,
 function(vLabel, vIcon)
 {
   qx.ui.popup.Popup.call(this);

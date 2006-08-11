@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(toolbar)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarCheckBox", qx.ui.toolbar.ToolBarButton, 
+qx.OO.defineClass("qx.ui.toolbar.ToolBarCheckBox", qx.ui.toolbar.ToolBarButton,
 function(vText, vIcon, vChecked)
 {
   qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon);
