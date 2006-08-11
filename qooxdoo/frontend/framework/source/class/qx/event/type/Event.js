@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
+#module(core)
 
 ************************************************************************ */
 
 /*!
   The qooxdoo core event object. Each event object for qx.core.Targets should extend this class.
 */
-qx.OO.defineClass("qx.event.type.Event", qx.core.Object, 
+qx.OO.defineClass("qx.event.type.Event", qx.core.Object,
 function(vType)
 {
   qx.core.Object.call(this, false);

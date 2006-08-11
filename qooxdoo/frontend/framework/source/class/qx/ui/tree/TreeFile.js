@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(tree)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement, 
+qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement,
 function(vLabel, vIcon, vIconSelected) {
   qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
 });

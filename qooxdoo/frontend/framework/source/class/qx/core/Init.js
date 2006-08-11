@@ -18,7 +18,9 @@
 
 /* ************************************************************************
 
+#module(core)
 #require(qx.dom.DomEventRegistration)
+#optional(qx.component.init.InterfaceInitComponent)
 
 ************************************************************************ */
 
