@@ -37,10 +37,13 @@ function()
   this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
   this.__onunload = function(e) { return o._onunload(e); }
 
-  // Attach Events
+  // Attach events
   qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
   qx.dom.DomEventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
   qx.dom.DomEventRegistration.addEventListener(window, "unload", this.__onunload);
+
+  // Init component from settings
+  this.setComponent(qx.OO.classes[this.getSetting("component")]);
 });
 
 
@@ -51,7 +54,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("enableUserInterface", true);
+qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
 
 
 
@@ -64,29 +67,7 @@ qx.Settings.setDefault("enableUserInterface", true);
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "componentClass", type : qx.constant.Type.FUNCTION });
-
-qx.Proto._modifyComponentClass = function(propValue, propOldValue, propData)
-{
-  this._component = new propValue;
-  return true;
-}
-
-/*!
-  Get the assigned component.
-*/
-qx.Proto.getComponent = function()
-{
-  if (!this._component) {
-    if (this.getSetting("enableUserInterface") && qx.component.InitUiComponent != null) {
-      this.setComponentClass(qx.component.InitUiComponent);
-    } else {
-      this.setComponentClass(qx.component.InitComponent);
-    }
-  }
-
-  return this._component;
-}
+qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance : "qx.component.init.BasicInitComponent" });
 
 
 
