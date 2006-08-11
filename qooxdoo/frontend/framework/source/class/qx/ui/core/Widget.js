@@ -18,9 +18,11 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #require(qx.constant.Tags)
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderCache)
+#after(qx.component.init.InterfaceInitComponent)
 #before(qx.renderer.color.ColorObject)
 #before(qx.renderer.border.BorderObject)
 #optional(qx.ui.core.Parent)

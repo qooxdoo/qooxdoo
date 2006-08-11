@@ -18,6 +18,7 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.basic.Terminator)
 

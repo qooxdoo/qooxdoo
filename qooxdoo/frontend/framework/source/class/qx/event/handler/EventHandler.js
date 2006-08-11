@@ -18,6 +18,7 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #optional(qx.event.handler.DragAndDropHandler)
 #optional(qx.manager.object.MenuManager)
 #optional(qx.event.handler.FocusHandler)
