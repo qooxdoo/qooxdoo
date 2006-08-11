@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(uicore)
+#module(iconthemes)
 #require(qx.manager.object.SingletonManager)
 #resource(images:icon/crystalsvg)
 

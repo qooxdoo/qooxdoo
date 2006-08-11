@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(tabview)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewPane", qx.ui.pageview.AbstractPageViewPane, 
+qx.OO.defineClass("qx.ui.pageview.tabview.TabViewPane", qx.ui.pageview.AbstractPageViewPane,
 function()
 {
   qx.ui.pageview.AbstractPageViewPane.call(this);
