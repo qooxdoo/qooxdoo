@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(form)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.RepeatButton", qx.ui.form.Button, 
+qx.OO.defineClass("qx.ui.form.RepeatButton", qx.ui.form.Button,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);

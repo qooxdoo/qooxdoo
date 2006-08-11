@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(form)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField, 
+qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField,
 function(vValue)
 {
   qx.ui.form.TextField.call(this, vValue);
