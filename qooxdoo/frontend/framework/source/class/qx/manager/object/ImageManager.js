@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(image)
 #require(qx.manager.object.SingletonManager)
 #require(qx.constant.Type)
 #optional(qx.ui.form.Button)

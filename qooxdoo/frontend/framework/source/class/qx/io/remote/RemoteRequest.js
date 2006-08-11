@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(transport)
 #require(qx.constant.Mime)
 #require(qx.constant.Net)
 

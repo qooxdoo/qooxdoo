@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(eventcore)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.basic.Terminator)
 

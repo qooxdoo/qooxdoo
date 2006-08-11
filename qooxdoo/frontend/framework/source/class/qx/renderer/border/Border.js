@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(border)
 #require(qx.sys.Client)
 
 // These are needed for the presets at bottom. I don't like this (wpbasti)

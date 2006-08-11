@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(appearancethemes)
 #require(qx.manager.object.SingletonManager)
 
 // HACK temporary:

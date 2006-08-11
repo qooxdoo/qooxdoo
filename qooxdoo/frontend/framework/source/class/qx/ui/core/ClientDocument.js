@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(guicore)
 #require(qx.dom.DomStyleSheet)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)

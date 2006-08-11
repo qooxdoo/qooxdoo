@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(color)
 #require(qx.manager.object.SingletonManager)
 #optional(qx.ui.form.Button)
 
