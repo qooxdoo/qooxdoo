@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(ioremote)
+#module(io_remote)
 #require(qx.constant.Mime)
 #require(qx.constant.Net)
 

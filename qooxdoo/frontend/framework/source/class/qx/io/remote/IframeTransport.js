@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(ioremote)
+#module(io_remote)
 #require(qx.io.remote.RemoteExchange)
 #require(qx.constant.Mime)
 
