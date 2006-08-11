@@ -18,6 +18,7 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #require(qx.manager.object.SingletonManager)
 #optional(qx.ui.form.Button)
 

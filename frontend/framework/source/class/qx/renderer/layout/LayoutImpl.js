@@ -18,11 +18,12 @@
 
 /* ************************************************************************
 
+#module(uicore)
 #require(qx.sys.Client)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.LayoutImpl", qx.core.Object, 
+qx.OO.defineClass("qx.renderer.layout.LayoutImpl", qx.core.Object,
 function(vWidget)
 {
   qx.core.Object.call(this);

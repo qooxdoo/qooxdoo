@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uicore)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.CanvasLayoutImpl", qx.renderer.layout.LayoutImpl, 
+qx.OO.defineClass("qx.renderer.layout.CanvasLayoutImpl", qx.renderer.layout.LayoutImpl,
 function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
 });
