@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(transport)
 #require(qx.io.remote.RemoteExchange)
 #require(qx.constant.Mime)
 
