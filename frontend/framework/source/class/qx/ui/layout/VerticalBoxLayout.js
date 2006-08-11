@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.VerticalBoxLayout", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.layout.VerticalBoxLayout", qx.ui.layout.BoxLayout,
 function() {
   qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_VERTICAL);
 });

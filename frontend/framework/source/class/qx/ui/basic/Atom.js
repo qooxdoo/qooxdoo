@@ -18,6 +18,8 @@
 
 /* ************************************************************************
 
+#module(uibasic)
+#optional(qx.ui.embed.Flash)
 
 ************************************************************************ */
 
@@ -48,7 +50,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   }
 
   // Simple flash wrapper
-  if (qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+  if (qx.OO.isAvailable("qx.ui.embed.Flash") && qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -147,7 +149,7 @@ qx.Proto._createLabel = function()
 
 qx.Proto._createIcon = function()
 {
-  if (this._flashMode)
+  if (this._flashMode && qx.OO.isAvailable("qx.ui.embed.Flash"))
   {
     var i = this._iconObject = new qx.ui.embed.Flash(this.getIcon());
   }
