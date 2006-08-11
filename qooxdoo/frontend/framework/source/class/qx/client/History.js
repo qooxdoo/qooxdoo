@@ -107,6 +107,7 @@ qx.Proto._onHistoryLoad = function(location)
   } catch (exc) {
     this.error("Handling history load failed", exc);
   }
+
   qx.ui.core.Widget.flushGlobalQueues();
 }
 
@@ -114,4 +115,15 @@ qx.Proto._onHistoryLoad = function(location)
 /** The URL to the helper page. */
 qx.Settings.setDefault("helperFile", "../../resource/static/history/historyHelper.html");
 
-qx.client.History = new qx.client.History();
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFER SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.mananger.object.SingletonManager.add(qx.client.History);
