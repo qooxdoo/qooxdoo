@@ -77,8 +77,12 @@ qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._createComponent = function() {
-  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
+qx.Proto._createComponent = function()
+{
+  var vComponentName = this.getSetting("component");
+
+  this.info("Init: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
+  this.setComponent(new qx.OO.classes[vComponentName](this));
 }
 
 
