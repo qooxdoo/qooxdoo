@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#module(uicore)
+#module(ui_core)
 #require(qx.util.Return)
 #before(qx.renderer.color.ColorObject)
 

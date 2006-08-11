@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#module(uicore)
+#module(ui_core)
 #require(qx.constant.Tags)
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderCache)

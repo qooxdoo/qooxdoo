@@ -17,7 +17,7 @@
 
 /* ************************************************************************
 
-#module(treefullcontrol)
+#module(ui_treefullcontrol)
 #require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */

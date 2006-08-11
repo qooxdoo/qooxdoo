@@ -17,7 +17,7 @@
 
 /* ************************************************************************
 
-#module(table)
+#module(ui_table)
 
 // These are needed because of their instantiation at bottom. I don't think this
 // is a good idea. (wpbasti)
