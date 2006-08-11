@@ -22,7 +22,7 @@
 #require(qx.dom.DomStyleSheet)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
-#optional(qx.ui.core.ClientDocumentBlocker)
+#optional(qx.manager.object.PopupManager)
 
 ************************************************************************ */
 
@@ -339,7 +339,7 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 qx.Proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
-  if (typeof qx.manager.object.PopupManager !== qx.constant.Type.UNDEFINED) {
+  if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
     qx.manager.object.PopupManager.update();
   }
 
