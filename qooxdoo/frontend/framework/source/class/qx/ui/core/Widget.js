@@ -23,14 +23,13 @@
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderCache)
 #after(qx.component.init.InterfaceInitComponent)
-#before(qx.renderer.color.ColorObject)
-#before(qx.renderer.border.BorderObject)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
 #optional(qx.client.Timer)
 #optional(qx.client.Command)
 #optional(qx.ui.popup.ToolTip)
 #optional(qx.ui.menu.Menu)
+#optional(qx.ui.basic.Inline)
 
 ************************************************************************ */
 
@@ -951,36 +950,39 @@ qx.ui.core.Widget.flushGlobalDisplayQueue = function()
 
 
   // Work on lazy queues: Inline widgets
-  for (vKey in vLazyQueues)
+  if (qx.OO.isAvailable("qx.ui.basic.Inline"))
   {
-    vLazyQueue = vLazyQueues[vKey];
-
-    for (var i=0; i<vLazyQueue.length; i++)
+    for (vKey in vLazyQueues)
     {
-      vWidget = vLazyQueue[i];
+      vLazyQueue = vLazyQueues[vKey];
 
-      if (vWidget instanceof qx.ui.basic.Inline)
+      for (var i=0; i<vLazyQueue.length; i++)
       {
-        vWidget._beforeInsertDom();
+        vWidget = vLazyQueue[i];
 
-        try
+        if (vWidget instanceof qx.ui.basic.Inline)
         {
-          document.getElementById(vWidget.getInlineNodeId()).appendChild(vWidget.getElement());
+          vWidget._beforeInsertDom();
+
+          try
+          {
+            document.getElementById(vWidget.getInlineNodeId()).appendChild(vWidget.getElement());
+          }
+          catch(ex)
+          {
+            vWidget.debug("Could not append to inline id: " + vWidget.getInlineNodeId(), ex);
+          }
+
+          vWidget._afterInsertDom();
+          vWidget._afterAppear();
+
+          // Remove inline widget from queue and fix iterator position
+          qx.lang.Array.remove(vLazyQueue, vWidget);
+          i--;
+
+          // Reset display queue flag
+          delete vWidget._isInGlobalDisplayQueue;
         }
-        catch(ex)
-        {
-          vWidget.debug("Could not append to inline id: " + vWidget.getInlineNodeId(), ex);
-        }
-
-        vWidget._afterInsertDom();
-        vWidget._afterAppear();
-
-        // Remove inline widget from queue and fix iterator position
-        qx.lang.Array.remove(vLazyQueue, vWidget);
-        i--;
-
-        // Reset display queue flag
-        delete vWidget._isInGlobalDisplayQueue;
       }
     }
   }

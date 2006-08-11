@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
+#module(uicore)
 
 ************************************************************************ */
 
 /*!
   This widget is the last widget of the current child chain.
 */
-qx.OO.defineClass("qx.ui.basic.Terminator", qx.ui.core.Widget, 
+qx.OO.defineClass("qx.ui.basic.Terminator", qx.ui.core.Widget,
 function() {
   qx.ui.core.Widget.call(this);
 });
