@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(menu)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.MenuButtonLayoutImpl", qx.renderer.layout.HorizontalBoxLayoutImpl, 
+qx.OO.defineClass("qx.renderer.layout.MenuButtonLayoutImpl", qx.renderer.layout.HorizontalBoxLayoutImpl,
 function(vWidget)
 {
   qx.renderer.layout.HorizontalBoxLayoutImpl.call(this, vWidget);
