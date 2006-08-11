@@ -167,7 +167,7 @@ qx.Proto._applyElementData = function(el)
 
 qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.ImageManager.buildUri(propValue) : qx.constant.Core.EMPTY;
+  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.AliasManager.resolvePath(propValue) : qx.constant.Core.EMPTY;
   return true;
 }
 
