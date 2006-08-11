@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.HorizontalBoxLayoutImpl", qx.renderer.layout.LayoutImpl, 
+qx.OO.defineClass("qx.renderer.layout.HorizontalBoxLayoutImpl", qx.renderer.layout.LayoutImpl,
 function(vWidget) {
   qx.renderer.layout.LayoutImpl.call(this, vWidget);
 });

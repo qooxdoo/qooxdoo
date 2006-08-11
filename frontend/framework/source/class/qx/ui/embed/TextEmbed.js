@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(uibasic)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.TextEmbed", qx.ui.basic.Terminator, 
+qx.OO.defineClass("qx.ui.embed.TextEmbed", qx.ui.basic.Terminator,
 function(vText)
 {
   qx.ui.basic.Terminator.call(this);
