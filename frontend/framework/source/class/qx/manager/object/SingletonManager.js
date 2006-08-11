@@ -70,7 +70,7 @@ qx.Proto.flush = function()
   this._objects = [];
 
   // Print runtime
-  this.info("Created " + il + " singletons in " + ((new Date).valueOf() - vStart) + "ms");
+  this.info("Created " + il + " singletons in " + ((new Date).valueOf() - vStart) + "ms.");
 }
 
 

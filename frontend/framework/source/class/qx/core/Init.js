@@ -41,9 +41,6 @@ function()
   qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
   qx.dom.DomEventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
   qx.dom.DomEventRegistration.addEventListener(window, "unload", this.__onunload);
-
-  // Init component from settings
-  this.setComponent(qx.OO.classes[this.getSetting("component")]);
 });
 
 
@@ -63,13 +60,26 @@ qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
 
 /*
 ---------------------------------------------------------------------------
-  COMPONENT MANAGMENT
+  PROPERTIES
 ---------------------------------------------------------------------------
 */
 
 qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance : "qx.component.init.BasicInitComponent" });
 
 
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  COMPONENT MANAGMENT
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._createComponent = function() {
+  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
+}
 
 
 
@@ -81,24 +91,66 @@ qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._initialize = null;
+qx.Proto._main = null;
+qx.Proto._finalize = null;
+qx.Proto._close = null;
+qx.Proto._terminate = null;
+
 qx.Proto.defineInitialize = function(vFunc) {
-  return this.getComponent().defineInitialize(vFunc);
+  return this._initialize = vFunc || null;
 }
 
 qx.Proto.defineMain = function(vFunc) {
-  return this.getComponent().defineMain(vFunc);
+  return this._main = vFunc || null;
 }
 
 qx.Proto.defineFinalize = function(vFunc) {
-  return this.getComponent().defineFinalize(vFunc);
+  return this._finalize = vFunc || null;
 }
 
 qx.Proto.defineClose = function(vFunc) {
-  return this.getComponent().defineClose(vFunc);
+  return this._close = vFunc || null;
 }
 
 qx.Proto.defineTerminate = function(vFunc) {
-  return this.getComponent().defineTerminate(vFunc);
+  return this._terminate = vFunc || null;
+}
+
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._modifyComponent = function(propValue, propOldValue, propData)
+{
+  if (propOldValue)
+  {
+    propOldValue.defineInitialize(null);
+    propOldValue.defineMain(null);
+    propOldValue.defineFinalize(null);
+    propOldValue.defineClose(null);
+    propOldValue.defineTerminate(null);
+  }
+
+  if (propValue)
+  {
+    propValue.defineInitialize(this._initialize);
+    propValue.defineMain(this._main);
+    propValue.defineFinalize(this._finalize);
+    propValue.defineClose(this._close);
+    propValue.defineTerminate(this._terminate);
+  }
+
+  return true;
 }
 
 
@@ -115,18 +167,31 @@ qx.Proto.defineTerminate = function(vFunc) {
 
 qx.Proto._onload = function(e)
 {
-  this.info(qx.lang.Object.getLength(qx.OO.classes) + " available classes.");
+  // Init component from settings
+  this._createComponent();
+
+  // Print out class informations
+  this.info("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
+
+  // Create singletons
   qx.manager.object.SingletonManager.flush();
+
+  // Send onload
   return this.getComponent()._onload(e);
 }
 
-qx.Proto._onbeforeunload = function(e) {
+qx.Proto._onbeforeunload = function(e)
+{
+  // Send onbeforeunload event (can be cancelled)
   return this.getComponent()._onbeforeunload(e);
 }
 
 qx.Proto._onunload = function(e)
 {
+  // Send onunload event (last event)
   this.getComponent()._onunload(e);
+
+  // Dispose all qooxdoo objects
   qx.core.Object.dispose();
 }
 
