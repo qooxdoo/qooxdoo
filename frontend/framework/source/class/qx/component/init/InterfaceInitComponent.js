@@ -24,7 +24,7 @@
 
 qx.OO.defineClass("qx.component.init.InterfaceInitComponent", qx.component.init.BasicInitComponent,
 function() {
-  qx.component.InitComponent.call(this);
+  qx.component.init.BasicInitComponent.call(this);
 });
 
 
@@ -104,7 +104,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       break;
   }
 
-  qx.component.InitComponent.prototype._modifyState.call(this, propValue, propOldValue, propData);
+  qx.component.init.BasicInitComponent.prototype._modifyState.call(this, propValue, propOldValue, propData);
 
   // Print runtime
   this.info(propValue + " runtime: " + ((new Date).valueOf() - start) + "ms");
@@ -184,5 +184,5 @@ qx.Proto.dispose = function()
   this._preloadDone = null;
   this._uiReady = null;
 
-  return qx.component.InitComponent.prototype.dispose.call(this);
+  return qx.component.init.BasicInitComponent.prototype.dispose.call(this);
 }
