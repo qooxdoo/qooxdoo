@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(menu)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuBar", qx.ui.toolbar.ToolBar, 
+qx.OO.defineClass("qx.ui.menu.MenuBar", qx.ui.toolbar.ToolBar,
 function() {
   qx.ui.toolbar.ToolBar.call(this);
 });

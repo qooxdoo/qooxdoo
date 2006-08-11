@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(toolbar)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarPart", qx.ui.layout.HorizontalBoxLayout, 
+qx.OO.defineClass("qx.ui.toolbar.ToolBarPart", qx.ui.layout.HorizontalBoxLayout,
 function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);

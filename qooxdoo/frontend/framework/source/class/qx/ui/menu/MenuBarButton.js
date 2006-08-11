@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(menu)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuBarButton", qx.ui.toolbar.ToolBarMenuButton, 
+qx.OO.defineClass("qx.ui.menu.MenuBarButton", qx.ui.toolbar.ToolBarMenuButton,
 function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.toolbar.ToolBarMenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
 });
