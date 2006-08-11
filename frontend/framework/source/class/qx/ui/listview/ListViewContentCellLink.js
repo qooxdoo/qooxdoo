@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(listview)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellLink", qx.ui.embed.LinkEmbed, 
+qx.OO.defineClass("qx.ui.listview.ListViewContentCellLink", qx.ui.embed.LinkEmbed,
 function(vHtml)
 {
   qx.ui.embed.LinkEmbed.call(this, vHtml);
