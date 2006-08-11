@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.InitUiComponent", qx.component.InitComponent,
+qx.OO.defineClass("qx.component.init.InterfaceInitComponent", qx.component.init.BasicInitComponent,
 function() {
   qx.component.InitComponent.call(this);
 });
