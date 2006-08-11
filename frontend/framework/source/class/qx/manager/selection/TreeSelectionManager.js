@@ -18,10 +18,11 @@
 
 /* ************************************************************************
 
+#module(tree)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.manager.selection.TreeSelectionManager", qx.manager.selection.SelectionManager, 
+qx.OO.defineClass("qx.manager.selection.TreeSelectionManager", qx.manager.selection.SelectionManager,
 function(vBoundedWidget) {
   qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
 });

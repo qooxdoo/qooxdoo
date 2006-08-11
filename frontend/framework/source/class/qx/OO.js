@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #id(qx.OO)
+#module(core)
 #after(qx.Settings)
 #before(qx.constant.Type)
 #before(qx.lang.Core)

@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
+#module(core)
 
 ************************************************************************ */
 
 /*!
   Event object for property changes.
 */
-qx.OO.defineClass("qx.event.type.DataEvent", qx.event.type.Event, 
+qx.OO.defineClass("qx.event.type.DataEvent", qx.event.type.Event,
 function(vType, vData)
 {
   qx.event.type.Event.call(this, vType);
