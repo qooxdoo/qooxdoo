@@ -35,7 +35,7 @@ def getparser():
   parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
   parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
-  parser.add_option("--print-include", action="store_true", dest="printList", default=False, help="Output sorted file list. (Debugging)")
+  parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
   parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
 
   # Output files
@@ -464,11 +464,13 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  * Include: %s" % options.include
     print "  * Exclude: %s" % options.exclude
 
-  print "  * Sorting files..."
+  print "  * Sorting classes..."
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  if options.printList:
+  print "  * Arranged %s classes" % len(sortedIncludeList)
+
+  if options.printIncludes:
     print
     print "  PRINT OF INCLUDE ORDER:"
     print "----------------------------------------------------------------------------"
