@@ -532,7 +532,11 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       stringcompress.search(fileTree, stringMap)
 
-    print "  * Found %s different strings" % len(stringMap)
+    counter = 0
+    for value in stringMap:
+      counter += stringMap[value]
+
+    print "  * Found %s strings, used %s times" % (len(stringMap), counter)
 
     print "  * Sorting strings..."
     stringList = stringcompress.sort(stringMap)
