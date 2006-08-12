@@ -535,11 +535,9 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  * Found %s different strings" % len(stringMap)
 
     print "  * Sorting strings..."
-
     stringList = stringcompress.sort(stringMap)
 
     print "  * Replacing strings..."
-
     for fileId in sortedIncludeList:
       fileEntry = fileDb[fileId]
       fileTree = fileEntry["tree"]
@@ -547,10 +545,8 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       stringcompress.replace(fileTree, stringList)
 
     print "  * Generating replacement object..."
-
     stringReplacement = stringcompress.array(stringList)
-    print stringReplacement
-    additionalOutput += stringReplacement
+    additionalOutput.append(stringReplacement)
 
 
 
