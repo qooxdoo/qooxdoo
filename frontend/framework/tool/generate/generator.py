@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re, os, optparse
-import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool
+import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress
 
 
 
@@ -514,95 +514,46 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  STRING COMPRESSION (ALPHA!)
+  #  STRING COMPRESSION
   ######################################################################
 
   if options.compressStrings:
     print
-    print "  STRING COMPRESSION (ALPHA!):"
+    print "  STRING COMPRESSION:"
     print "----------------------------------------------------------------------------"
 
-    print "  * Searching for string instances..."
+    print "  * Searching for strings..."
 
-    compressedStrings = {}
-
-    for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
-
-      for token in fileDb[fileId]["tokens"]:
-        if token["type"] != "string":
-          continue
-
-        if token["detail"] == "doublequotes":
-          compressSource = "\"%s\"" % token["source"]
-        else:
-          compressSource = "'%s'" % token["source"]
-
-        if not compressedStrings.has_key(compressSource):
-          compressedStrings[compressSource] = 1
-        else:
-          compressedStrings[compressSource] += 1
-
-
-    if options.verbose:
-      print "  * Sorting strings..."
-
-    compressedList = []
-
-    for compressSource in compressedStrings:
-      compressedList.append({ "source" : compressSource, "usages" : compressedStrings[compressSource] })
-
-    pos = 0
-    while pos < len(compressedList):
-      item = compressedList[pos]
-      if item["usages"] <= 1:
-        compressedList.remove(item)
-
-      else:
-        pos += 1
-
-    compressedList.sort(lambda x, y: y["usages"]-x["usages"])
-
-    print "  * Found %s string instances" % len(compressedList)
-
-    if options.verbose:
-      print "  * Building replacement map..."
-
-    compressMap = {}
-    compressCounter = 0
-    compressJavaScript = "QXS%s=[" % pkgid
-
-    for item in compressedList:
-      if compressCounter != 0:
-        compressJavaScript += ","
-
-      compressMap[item["source"]] = compressCounter
-      compressCounter += 1
-      compressJavaScript += item["source"]
-
-    compressJavaScript += "];"
-
-    additionalOutput.append(compressJavaScript)
-
-    print "  * Updating tokens..."
+    stringMap = {}
 
     for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
+      fileEntry = fileDb[fileId]
+      fileTree = fileEntry["tree"]
 
-      for token in fileDb[fileId]["tokens"]:
-        if token["type"] != "string":
-          continue
+      stringcompress.search(fileTree, stringMap)
 
-        if token["detail"] == "doublequotes":
-          compressSource = "\"%s\"" % token["source"]
-        else:
-          compressSource = "'%s'" % token["source"]
+    print "  * Found %s different strings" % len(stringMap)
 
-        if compressSource in compressMap:
-          token["source"] = "QXS%s[%s]" % (pkgid, compressMap[compressSource])
-          token["detail"] = "compressed"
+    print "  * Sorting strings..."
+
+    stringList = stringcompress.sort(stringMap)
+
+    print "  * Replacing strings..."
+
+    for fileId in sortedIncludeList:
+      fileEntry = fileDb[fileId]
+      fileTree = fileEntry["tree"]
+
+      stringcompress.replace(fileTree, stringList)
+
+    print "  * Generating replacement object..."
+
+    stringReplacement = stringcompress.array(stringList)
+    print stringReplacement
+    additionalOutput += stringReplacement
+
+
+
 
 
 
