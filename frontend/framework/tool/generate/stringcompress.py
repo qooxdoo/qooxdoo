@@ -60,6 +60,6 @@ def array(stringList, var="$"):
   for item in stringList:
     repl += "%s," % (item["value"])
 
-  repl = repl[:-1] + "]"
+  repl = repl[:-1] + "];"
 
   return repl
