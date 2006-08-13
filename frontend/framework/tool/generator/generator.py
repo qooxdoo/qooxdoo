@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 import sys, re, os, optparse
+
+# reconfigure path to import own modules from modules subfolder
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
+
 import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress
 
 
