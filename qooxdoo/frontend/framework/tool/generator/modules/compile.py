@@ -3,6 +3,61 @@
 import sys, string, re, os, random, optparse
 import config, tokenizer, filetool
 
+
+def compile2(node, enableNewLines=False):
+  compString = ""
+
+  print "Type: %s" % node.type
+  print "Value: %s" % node.get("value", False)
+
+  if node.type == "map":
+    compString += "{"
+
+  elif node.type == "constant":
+    if node.get("constantType") == "string":
+      if node.get("detail") == "singlequotes":
+        compString += "'"
+      else:
+        compString += '"'
+
+    compString += node.get("value")
+
+    if node.get("constantType") == "string":
+      if node.get("detail") == "singlequotes":
+        compString += "'"
+      else:
+        compString += '"'
+
+  elif node.type == "keyvalue":
+    compString += node.get("key") + ":"
+
+  elif node.type == "value":
+    # use children content
+    pass
+
+
+  # Generate code for children
+  if node.hasChildren():
+    for child in node.children:
+      compString += compile2(child, enableNewLines)
+
+
+  # Closing stuff
+  if node.type == "map":
+    compString += "}"
+
+  elif node.type == "value":
+    # use children content
+    pass
+
+
+  return compString
+
+
+
+
+
+
 def compile(tokens, enableNewLines=False):
   compString = ""
   lastSource = ""
