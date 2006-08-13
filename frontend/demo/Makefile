@@ -3,7 +3,7 @@
 ###################################################################################
 
 FRAMEWORK=../framework
-GENERATOR=$(FRAMEWORK)/tool/generate/generator.py
+GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=../.cache
 
 
