@@ -7,6 +7,9 @@ import filetool
 
 
 def generate(options):
+  if len(options.defineRuntimeSetting) == 0:
+    return ""
+
   typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
   typeNumber = re.compile("^([0-9\-])$")
 

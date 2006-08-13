@@ -70,6 +70,7 @@ def getparser():
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress strings. (ALPHA)")
+  parser.add_option("--use-tree-compiler", action="store_true", dest="useTreeCompiler", default=False, help="Use tree compiler. (ALPHA)")
 
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
@@ -758,7 +759,11 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "    - %s" % fileId
 
-      compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
+      if options.useTreeCompiler:
+        # Alpha
+        compiledFileContent = compile.compile2(fileDb[fileId]["tree"], options.addNewLines)
+      else:
+        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
 
       if options.addFileIds:
         compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
