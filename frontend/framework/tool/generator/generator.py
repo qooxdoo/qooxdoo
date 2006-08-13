@@ -294,6 +294,14 @@ def load(options):
 
   print "  * Found %s JavaScript files" % len(fileDb)
 
+
+
+
+
+  ######################################################################
+  #  DEBUG OUTPUT JOBS
+  ######################################################################
+
   if options.printFiles:
     print
     print "  OUTPUT OF KNOWN FILES:"
@@ -328,13 +336,6 @@ def load(options):
 
       if not fileFound:
         print "    - %s" % fileEntry
-
-
-
-
-
-
-
 
 
 
@@ -441,7 +442,6 @@ def load(options):
       print
 
     print "  * Added %s dependencies" % depCounter
-
 
   return fileDb, moduleDb
 
