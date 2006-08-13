@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-GENERATOR=./tool/generate/generator.py
+GENERATOR=./tool/generator/generator.py
 CACHE=../.cache
 
 
@@ -35,7 +35,7 @@ realclean: clean
 	rm -rf build source/script
 
 distclean: realclean
-	rm -f tool/generate/*.pyc
+	rm -f tool/generator/*.pyc
 	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
