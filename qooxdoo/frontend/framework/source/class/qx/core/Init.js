@@ -82,7 +82,7 @@ qx.Proto._createComponent = function()
 {
   var vComponentName = this.getSetting("component");
 
-  this.info("Init: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
+  this.debug("Init: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
   this.setComponent(new qx.OO.classes[vComponentName](this));
 }
 
@@ -173,7 +173,7 @@ qx.Proto._modifyComponent = function(propValue, propOldValue, propData)
 qx.Proto._onload = function(e)
 {
   // Print out class informations
-  this.info("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
+  this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
 
   // Init component from settings
   this._createComponent();
