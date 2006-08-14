@@ -34,6 +34,13 @@ function()
   this._data = {};
   this._actions = {};
   this._cursors = {};
+
+  var vCursor;
+  for (var vAction in this._actionNames)
+  {
+    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.constant.Core.DOT + this._cursorFormat);
+    vCursor.setZIndex(1e8);
+  }
 });
 
 qx.OO.addProperty({ name : "sourceWidget", type : qx.constant.Type.OBJECT });
@@ -52,33 +59,6 @@ qx.Proto._actionNames =
 qx.Proto._cursorPath = "widget/cursors/";
 qx.Proto._cursorFormat = "gif";
 qx.Proto._lastDestinationEvent = null;
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INIT CURSORS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.initCursors = function()
-{
-  if (this._initCursorsDone) {
-    return;
-  }
-
-  var vCursor;
-  for (var vAction in this._actionNames)
-  {
-    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.constant.Core.DOT + this._cursorFormat);
-    vCursor.setZIndex(1e8);
-  }
-
-  this._initCursorsDone = true;
-}
 
 
 
@@ -563,8 +543,6 @@ qx.Proto._endDragCore = function()
 */
 qx.Proto._renderCursor = function()
 {
-  this.initCursors();
-
   var vNewCursor;
   var vOldCursor = this.getCursor();
 
