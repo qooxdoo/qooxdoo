@@ -15,17 +15,17 @@ def generate(options):
 
   settingsStr = ""
 
-  settingsStr += 'if(typeof qx==="undefined")var qx={_UNDEFINED:"undefined"};'
+  settingsStr += 'if(!window.qx)qx={};'
 
   if options.addNewLines:
     settingsStr += "\n"
 
-  settingsStr += 'if(typeof qx.Settings===qx._UNDEFINED)qx.Settings={};'
+  settingsStr += 'if(!qx.Settings)qx.Settings={};'
 
   if options.addNewLines:
     settingsStr += "\n"
 
-  settingsStr += 'if(typeof qx.Settings._userSettings===qx._UNDEFINED)qx.Settings._userSettings={};'
+  settingsStr += 'if(!qx.Settings._customSettings)qx.Settings._customSettings={};'
 
   if options.addNewLines:
     settingsStr += "\n"
@@ -39,14 +39,14 @@ def generate(options):
     settingKeyName = settingKeySplit.pop()
     settingKeySpace = ".".join(settingKeySplit)
 
-    checkStr = 'if(typeof qx.Settings._userSettings["%s"]===qx._UNDEFINED)qx.Settings._userSettings["%s"]={};' % (settingKeySpace, settingKeySpace)
+    checkStr = 'if(!qx.Settings._customSettings["%s"])qx.Settings._customSettings["%s"]={};' % (settingKeySpace, settingKeySpace)
     if not checkStr in settingsStr:
       settingsStr += checkStr
 
       if options.addNewLines:
         settingsStr += "\n"
 
-    settingsStr += 'qx.Settings._userSettings["%s"]["%s"]=' % (settingKeySpace, settingKeyName)
+    settingsStr += 'qx.Settings._customSettings["%s"]["%s"]=' % (settingKeySpace, settingKeyName)
 
     if settingValue == "false" or settingValue == "true" or typeFloat.match(settingValue) or typeNumber.match(settingValue):
       settingsStr += '%s' % settingValue
