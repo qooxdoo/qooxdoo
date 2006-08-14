@@ -428,7 +428,7 @@ qx.Proto._handleKeyDown = function(e)
   // Stop Drag on Escape
   if (e.getKeyCode() == qx.event.type.KeyEvent.keys.esc)
   {
-    this.cancelDrag();
+    this.cancelDrag(e);
   }
 
   // Update cursor and action on press of modifier keys
