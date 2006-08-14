@@ -37,5 +37,5 @@ $(SUBDIRS):
 	cd ..
 
 clean:
-  rm -rf build
-  rm -rf source/*/build source/*/source/script
+	rm -rf build
+	rm -rf source/*/build source/*/source/script
