@@ -22,6 +22,7 @@ all: build
 
 source: generate-script-source update-layout-source
 build: generate-script-build update-layout-build
+sync: build sync-qooxdoo-org
 
 
 
@@ -89,3 +90,14 @@ update-demo-build:
 
 update-layout-build: update-demo-build
 	tool/layout.sh build/script/layout.js build/html BUILD
+
+
+
+
+
+###################################################################################
+# ONLINE TARGETS
+###################################################################################
+
+sync-qooxdoo-org:
+	rsync --checksum --recursive --links --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo
