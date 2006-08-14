@@ -1,4 +1,23 @@
 ###################################################################################
+# VARIABLES
+###################################################################################
+
+VERSION = 0.6
+
+BUILD_RELEASE_UNIX = release/build/unix/qooxdoo-$(VERSION)-build
+BUILD_RELEASE_DOS = release/build/dos/qooxdoo-$(VERSION)-build
+
+SOURCE_RELEASE_UNIX = release/source/unix/qooxdoo-$(VERSION)-source
+SOURCE_RELEASE_DOS = release/source/dos/qooxdoo-$(VERSION)-source
+
+FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile
+
+RSYNC_BUILD_OPT = --recursive --links --delete
+RSYNC_SOURCE_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
+
+
+
+###################################################################################
 # DEFAULT TARGET
 ###################################################################################
 
@@ -76,72 +95,130 @@ build-release: build build-release-sync build-release-compress
 
 build-release-sync:
 	@echo
-	@echo "  SYNCHRONISATION OF BUILD RELEASE"
+	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing build folders..."
-	@mkdir -p release/build/api
-	@rsync --recursive --links --delete api/build/* release/build/api
-	@mkdir -p release/build/demo
-	@rsync --recursive --links --delete demo/build/* release/build/demo
-	@mkdir -p release/build/framework
-	@rsync --recursive --links --delete framework/build/* release/build/framework
+	@echo "  * Synchronizing Unix build folders..."
+	@mkdir -p $(BUILD_RELEASE_UNIX)/api
+	@rsync $(RSYNC_BUILD_OPT) api/build/* $(BUILD_RELEASE_UNIX)/api
+	@mkdir -p $(BUILD_RELEASE_UNIX)/demo
+	@rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_UNIX)/demo
+	@mkdir -p $(BUILD_RELEASE_UNIX)/framework
+	@rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_UNIX)/framework
+
+	@echo "  * Fixing line-breaks..."
+	@find $(BUILD_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix -q
+
+
+	@echo
+	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
+	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing DOS build folders..."
+	@mkdir -p $(BUILD_RELEASE_DOS)/api
+	@rsync $(RSYNC_BUILD_OPT) api/build/* $(BUILD_RELEASE_DOS)/api
+	@mkdir -p $(BUILD_RELEASE_DOS)/demo
+	@rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_DOS)/demo
+	@mkdir -p $(BUILD_RELEASE_DOS)/framework
+	@rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_DOS)/framework
+
+	@echo "  * Fixing line-breaks..."
+	@find $(BUILD_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos -q
+
 
 build-release-compress:
 	@echo
 	@echo "  COMPRESSION OF BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Generating gzip archive..."
-	@cd release; tar cfz build.tar.gz build
+	@echo "  * Generating gzip (Unix) archive..."
+	@cd release/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.gz; tar cfz qooxdoo-$(VERSION)-build.tar.gz qooxdoo-$(VERSION)-build
 
-	@echo "  * Generating bzip2 archive..."
-	@cd release; tar cfj build.tar.bz2 build
+	@echo "  * Generating bzip2 (Unix) archive..."
+	@cd release/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.bz2; tar cfj qooxdoo-$(VERSION)-build.tar.bz2 qooxdoo-$(VERSION)-build
 
-	@echo "  * Generating zip archive..."
-	@cd release; zip -rq build.zip build
+	@echo "  * Generating zip (DOS) archive..."
+	@cd release/build/dos; rm -f qooxdoo-$(VERSION)-build.zip; zip -rq qooxdoo-$(VERSION)-build.zip qooxdoo-$(VERSION)-build
+
 
 source-release: source source-release-sync source-release-compress
 
+
 source-release-sync:
 	@echo
-	@echo "  SYNCHRONISATION OF SOURCE RELEASE"
+	@echo "  SYNCHRONISATION OF UNIX SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying Makefiles..."
-	@mkdir -p release/source
-	@cp -f Makefile release/source
-	@mkdir -p release/source/api
-	@cp -f api/Makefile release/source/api
-	@mkdir -p release/source/demo
-	@cp -f demo/Makefile release/source/demo
-	@mkdir -p release/source/framework
-	@cp -f framework/Makefile release/source/framework
+	@mkdir -p $(SOURCE_RELEASE_UNIX)
+	@cp -f Makefile $(SOURCE_RELEASE_UNIX)
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/api
+	@cp -f api/Makefile $(SOURCE_RELEASE_UNIX)/api
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo
+	@cp -f demo/Makefile $(SOURCE_RELEASE_UNIX)/demo
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework
+	@cp -f framework/Makefile $(SOURCE_RELEASE_UNIX)/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p release/source/api/source
-	@rsync --recursive --links --delete --exclude script api/source/* --exclude .svn release/source/api/source
-	@mkdir -p release/source/demo/source
-	@rsync --recursive --links --delete --exclude script demo/source/* --exclude .svn release/source/demo/source
-	@mkdir -p release/source/framework/source
-	@rsync --recursive --links --delete --exclude script framework/source/* --exclude .svn release/source/framework/source
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/api/source
+	@rsync $(RSYNC_SOURCE_OPT) api/source/* $(SOURCE_RELEASE_UNIX)/api/source
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo/source
+	@rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_UNIX)/demo/source
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework/source
+	@rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_UNIX)/framework/source
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p release/source/demo/tool
-	@rsync --recursive --links --delete --exclude script demo/source/* --exclude .svn release/source/demo/tool
-	@mkdir -p release/source/framework/tool
-	@rsync --recursive --links --delete --exclude script framework/source/* --exclude .svn release/source/framework/tool
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo/tool
+	@rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(SOURCE_RELEASE_UNIX)/demo/tool
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework/tool
+	@rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_UNIX)/framework/tool
+
+	@echo "  * Fixing line-breaks..."
+	@find $(SOURCE_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix -q
+
+
+	@echo
+	@echo "  SYNCHRONISATION OF DOS SOURCE RELEASE"
+	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Copying Makefiles..."
+	@mkdir -p $(SOURCE_RELEASE_DOS)
+	@cp -f Makefile $(SOURCE_RELEASE_DOS)
+	@mkdir -p $(SOURCE_RELEASE_DOS)/api
+	@cp -f api/Makefile $(SOURCE_RELEASE_DOS)/api
+	@mkdir -p $(SOURCE_RELEASE_DOS)/demo
+	@cp -f demo/Makefile $(SOURCE_RELEASE_DOS)/demo
+	@mkdir -p $(SOURCE_RELEASE_DOS)/framework
+	@cp -f framework/Makefile $(SOURCE_RELEASE_DOS)/framework
+
+	@echo "  * Synchronizing source folders..."
+	@mkdir -p $(SOURCE_RELEASE_DOS)/api/source
+	@rsync $(RSYNC_SOURCE_OPT) api/source/* $(SOURCE_RELEASE_DOS)/api/source
+	@mkdir -p $(SOURCE_RELEASE_DOS)/demo/source
+	@rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_DOS)/demo/source
+	@mkdir -p $(SOURCE_RELEASE_DOS)/framework/source
+	@rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_DOS)/framework/source
+
+	@echo "  * Synchronizing tool folders..."
+	@mkdir -p $(SOURCE_RELEASE_DOS)/demo/tool
+	@rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(SOURCE_RELEASE_DOS)/demo/tool
+	@mkdir -p $(SOURCE_RELEASE_DOS)/framework/tool
+	@rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_DOS)/framework/tool
+
+	@echo "  * Fixing line-breaks..."
+	@find $(SOURCE_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos -q
+
 
 source-release-compress:
 	@echo
 	@echo "  COMPRESSION OF SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Generating gzip archive..."
-	@cd release; tar cfz source.tar.gz source
+	@echo "  * Generating gzip (Unix) archive..."
+	@cd release/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.gz; tar cfz qooxdoo-$(VERSION)-source.tar.gz qooxdoo-$(VERSION)-source
 
-	@echo "  * Generating bzip2 archive..."
-	@cd release; tar cfj source.tar.bz2 source
+	@echo "  * Generating bzip2 (Unix) archive..."
+	@cd release/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.bz2; tar cfj qooxdoo-$(VERSION)-source.tar.bz2 qooxdoo-$(VERSION)-source
 
-	@echo "  * Generating zip archive..."
-	@cd release; zip -rq source.zip source
+	@echo "  * Generating zip (DOS) archive..."
+	@cd release/source/dos; rm -f qooxdoo-$(VERSION)-source.zip; zip -rq qooxdoo-$(VERSION)-source.zip qooxdoo-$(VERSION)-source
