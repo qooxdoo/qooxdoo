@@ -23,19 +23,24 @@
 
 ************************************************************************ */
 
-if (typeof qx === "undefined") {
+
+
+/*
+---------------------------------------------------------------------------
+  CREATE NAMESPACE HIERARCHY
+---------------------------------------------------------------------------
+*/
+
+if (!window.qx) {
   qx = {};
 }
 
-qx._UNDEFINED = "undefined";
-qx._LOADSTART = (new Date).valueOf();
-
-if (typeof qx.Settings === qx._UNDEFINED) {
+if (!qx.Settings) {
   qx.Settings = {};
 }
 
-if (typeof qx.Settings._userSettings === qx._UNDEFINED) {
-  qx.Settings._userSettings = {};
+if (!qx.Settings._customSettings) {
+  qx.Settings._customSettings = {};
 }
 
 qx.Settings._defaultSettings = {};
@@ -43,7 +48,42 @@ qx.Settings._defaultSettings = {};
 
 
 
+/*
+---------------------------------------------------------------------------
+  ATTACH GLOBAL DATA
+---------------------------------------------------------------------------
+*/
 
+qx._LOADSTART = (new Date).valueOf();
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  UTILITES METHODS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.substitute = function(vTemplate)
+{
+	return vTemplate.replace(/\%\{(.+)\}/g, function(vMatch, vKey) {
+	  return eval(vKey);
+	});
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  ACCESS METHODS
+---------------------------------------------------------------------------
+*/
 
 qx.Settings.getValue = function(vKey) {
   return qx.Settings.getValueOfClass(qx.Class.classname, vKey);
@@ -51,7 +91,7 @@ qx.Settings.getValue = function(vKey) {
 
 qx.Settings.getValueOfClass = function(vClassName, vKey)
 {
-  var vUserObject = qx.Settings._userSettings[vClassName];
+  var vUserObject = qx.Settings._customSettings[vClassName];
   if (vUserObject && typeof vUserObject[vKey] !== qx._UNDEFINED) {
     return vUserObject[vKey];
   }
@@ -76,5 +116,47 @@ qx.Settings.setDefaultOfClass = function(vClassName, vKey, vValue)
     vDefaultObject = qx.Settings._defaultSettings[vClassName] = {};
   }
 
+  // default values doesn't support substitution
   vDefaultObject[vKey] = vValue;
 }
+
+qx.Settings.setCustom = function(vKey, vValue) {
+  return qx.Settings.setCustumOfClass(qx.Class.classname, vKey, vValue);
+}
+
+qx.Settings.setCustumOfClass = function(vClassName, vKey, vValue)
+{
+  var vCustomObject = qx.Settings._customSettings[vClassName];
+
+  if (!vCustomObject) {
+    vCustomObject = qx.Settings._customSettings[vClassName] = {};
+  }
+
+  vCustomObject[vKey] = qx.Settings.substitute(vValue);
+}
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  IMPORT VARIABLES OF CUSTOM SETTINGS
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.init = function()
+{
+  for (var vClass in qx.Settings._customSettings)
+  {
+    var vSettings = qx.Settings._customSettings[vClass];
+
+    for (var vKey in vSettings) {
+      qx.Settings.setCustumOfClass(vClass, vKey, vSettings[vKey]);
+    }
+  }
+}
+
+qx.Settings.init();
