@@ -38,7 +38,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", "../../resource/icon/nuvola");
+qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "icon/nuvola");
 
 
 
