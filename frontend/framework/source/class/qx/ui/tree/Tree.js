@@ -83,7 +83,7 @@ qx.Proto.getManager = function() {
 }
 
 qx.Proto.getSelectedElement = function() {
-  return this.getSelectedItems()[0];
+  return this.getManager().getSelectedItem();
 }
 
 
