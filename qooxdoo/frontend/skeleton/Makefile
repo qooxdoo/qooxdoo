@@ -18,7 +18,6 @@ realclean: sample1-realclean sample2-realclean
 distclean: sample1-distclean sample2-distclean
 	rm -rf build
 
-.PHONY: sample1 sample2
 
 
 
@@ -34,21 +33,23 @@ sample1-build:
 sample1-source:
 	$(MAKE) -C source/sample1 source
 
-sample1-archives: sample1-build sample1-source
+sample1-archives:
 	@echo
 	@echo "  GENERATION OF SAMPLE 1 ARCHIVES"
 	@echo "----------------------------------------------------------------------------"
 
+	@echo "  * Syncronising content..."
 	@mkdir -p build
+	@rsync --recursive --links --delete --exclude build --exclude .cache --exclude=*.svn source/sample1 build
 
 	@echo "  * Creating gzip archive..."
-	@cd source; tar cfz ../build/sample1.tar.gz sample1
+	@cd build; tar cfz sample1.tar.gz sample1
 
 	@echo "  * Creating bzip2 archive..."
-	@cd source; tar cfj ../build/sample1.tar.bz2 sample1
+	@cd build; tar cfj sample1.tar.bz2 sample1
 
 	@echo "  * Creating zip archive..."
-	@cd source; zip -rq ../build/sample1.zip sample1
+	@cd build; zip -rq sample1.zip sample1
 
 sample1-clean:
 	rm -rf build/sample1*
@@ -75,21 +76,23 @@ sample2-build:
 sample2-source:
 	$(MAKE) -C source/sample2 source
 
-sample2-archives: sample2-build sample2-source
+sample2-archives:
 	@echo
 	@echo "  GENERATION OF SAMPLE 2 ARCHIVES"
 	@echo "----------------------------------------------------------------------------"
 
+	@echo "  * Syncronising content..."
 	@mkdir -p build
+	@rsync --recursive --links --delete --exclude build --exclude .cache --exclude=*.svn source/sample2 build
 
 	@echo "  * Creating gzip archive..."
-	@cd source; tar cfz ../build/sample2.tar.gz sample2
+	@cd build; tar cfz sample2.tar.gz sample2
 
 	@echo "  * Creating bzip2 archive..."
-	@cd source; tar cfj ../build/sample2.tar.bz2 sample2
+	@cd build; tar cfj sample2.tar.bz2 sample2
 
 	@echo "  * Creating zip archive..."
-	@cd source; zip -rq ../build/sample2.zip sample2
+	@cd build; zip -rq sample2.zip sample2
 
 sample2-clean:
 	rm -rf build/sample2*
@@ -100,3 +103,4 @@ sample2-realclean: sample2-clean
 
 sample2-distclean: sample2-realclean
 	$(MAKE) -C source/sample2 distclean
+
