@@ -41,11 +41,11 @@ sample1-archives:
 	@mkdir -p build/dos
 	@mkdir -p build/unix
 
-	@echo "  * Syncronising Unix content..."
+	@echo "  * Synchronizing Unix content..."
 	@rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample1 build/unix
 	@find build/unix -name "*.js" -o -name "*.html" -o -name Makefile | xargs dos2unix -q
 
-	@echo "  * Syncronising DOS content..."
+	@echo "  * Synchronizing DOS content..."
 	@rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample1 build/dos
 	@find build/dos -name "*.js" -o -name "*.html" -o -name Makefile | xargs unix2dos -q
 
@@ -94,11 +94,11 @@ sample2-archives:
 	@mkdir -p build/dos
 	@mkdir -p build/unix
 
-	@echo "  * Syncronising Unix content..."
+	@echo "  * Synchronizing Unix content..."
 	@rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample2 build/unix
 	@find build/unix -name "*.js" -o -name "*.html" -o -name Makefile | xargs dos2unix -q
 
-	@echo "  * Syncronising DOS content..."
+	@echo "  * Synchronizing DOS content..."
 	@rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample2 build/dos
 	@find build/dos -name "*.js" -o -name "*.html" -o -name Makefile | xargs unix2dos -q
 

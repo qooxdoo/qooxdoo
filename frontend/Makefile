@@ -76,10 +76,10 @@ build-release: build build-release-sync build-release-compress
 
 build-release-sync:
 	@echo
-	@echo "  SYNCRONISATION OF BUILD RELEASE"
+	@echo "  SYNCHRONISATION OF BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Syncronizing build folders..."
+	@echo "  * Synchronizing build folders..."
 	@mkdir -p release/build/api
 	@rsync --recursive --links --delete api/build/* release/build/api
 	@mkdir -p release/build/demo
@@ -105,7 +105,7 @@ source-release: source source-release-sync source-release-compress
 
 source-release-sync:
 	@echo
-	@echo "  SYNCRONISATION OF SOURCE RELEASE"
+	@echo "  SYNCHRONISATION OF SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying Makefiles..."
@@ -118,7 +118,7 @@ source-release-sync:
 	@mkdir -p release/source/framework
 	@cp -f framework/Makefile release/source/framework
 
-	@echo "  * Syncronizing source folders..."
+	@echo "  * Synchronizing source folders..."
 	@mkdir -p release/source/api/source
 	@rsync --recursive --links --delete --exclude script api/source/* --exclude .svn release/source/api/source
 	@mkdir -p release/source/demo/source
@@ -126,7 +126,7 @@ source-release-sync:
 	@mkdir -p release/source/framework/source
 	@rsync --recursive --links --delete --exclude script framework/source/* --exclude .svn release/source/framework/source
 
-	@echo "  * Syncronizing tool folders..."
+	@echo "  * Synchronizing tool folders..."
 	@mkdir -p release/source/demo/tool
 	@rsync --recursive --links --delete --exclude script demo/source/* --exclude .svn release/source/demo/tool
 	@mkdir -p release/source/framework/tool
