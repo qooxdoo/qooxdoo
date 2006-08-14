@@ -7,7 +7,7 @@ all: build
 
 
 ###################################################################################
-# TARGETS
+# GENERAL TARGETS
 ###################################################################################
 
 build: sample1 sample2
@@ -123,4 +123,3 @@ sample2-realclean: sample2-clean
 
 sample2-distclean: sample2-realclean
 	$(MAKE) -C source/sample2 distclean
-
