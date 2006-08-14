@@ -114,7 +114,7 @@ qx.Proto._onHistoryLoad = function(location)
 
 
 /** The URL to the helper page. */
-qx.Settings.setDefault("helperFile", "../../resource/static/history/historyHelper.html");
+qx.Settings.setDefault("helperFile", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "static/history/historyHelper.html");
 
 
 
