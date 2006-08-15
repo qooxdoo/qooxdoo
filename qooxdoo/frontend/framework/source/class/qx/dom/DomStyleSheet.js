@@ -6,6 +6,7 @@
 
    Copyright:
      2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 by STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
@@ -13,6 +14,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Andreas Junghans (lucidcake)
 
 ************************************************************************ */
 
@@ -64,6 +66,31 @@ if (qx.sys.Client.isMshtml())
       vSheet.removeRule(i);
     }
   }
+  
+  qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
+    vSheet.addImport(vUrl);
+  }
+  
+  qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {
+    var vImports = vSheet.imports;
+    var vLength = vImports.length;
+    
+    for (var i=vLength-1; i>=0; i--) {
+      if (vImports[i].href == vUrl) {
+        vSheet.removeImport(i);
+      }
+    }
+  }
+  
+  qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {
+    var vImports = vSheet.imports;
+    var vLength = vImports.length;
+    
+    for (var i=vLength-1; i>=0; i--) {
+      vSheet.removeImport(i);
+    }
+  }
+
 }
 else
 {
@@ -107,4 +134,31 @@ else
       vSheet.deleteRule(i);
     }
   }
+
+  qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
+    vSheet.insertRule('@import "' + vUrl + '";', vSheet.cssRules.length);
+  }
+  
+  qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {
+    var vRules = vSheet.cssRules;
+    var vLength = vRules.length;
+    
+    for (var i=vLength-1; i>=0; i--) {
+      if (vRules[i].href == vUrl) {
+        vSheet.deleteRule(i);
+      }
+    }
+  }
+  
+  qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {
+    var vRules = vSheet.cssRules;
+    var vLength = vRules.length;
+    
+    for (var i=vLength-1; i>=0; i--) {
+      if (vRules[i].type == vRules[i].IMPORT_RULE) {
+        vSheet.deleteRule(i);
+      }
+    }
+  }
+
 }
