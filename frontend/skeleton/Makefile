@@ -52,9 +52,6 @@ sample1-archives:
 	@echo "  * Creating gzip archive..."
 	@cd build/unix; rm -f sample1.tar.gz; tar cfz sample1.tar.gz sample1
 
-	@echo "  * Creating bzip2 archive..."
-	@cd build/unix; rm -f sample1.tar.bz2; tar cfj sample1.tar.bz2 sample1
-
 	@echo "  * Creating zip archive..."
 	@cd build/dos; rm -f sample1.zip; zip -rq sample1.zip sample1
 
@@ -104,9 +101,6 @@ sample2-archives:
 
 	@echo "  * Creating gzip archive..."
 	@cd build/unix; rm -f sample2.tar.gz; tar cfz sample2.tar.gz sample2
-
-	@echo "  * Creating bzip2 archive..."
-	@cd build/unix; rm -f sample2.tar.bz2; tar cfj sample2.tar.bz2 sample2
 
 	@echo "  * Creating zip archive..."
 	@cd build/dos; rm -f sample2.zip; zip -rq sample2.zip sample2
