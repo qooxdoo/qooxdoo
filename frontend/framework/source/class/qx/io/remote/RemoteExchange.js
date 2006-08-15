@@ -7,6 +7,7 @@
    Copyright:
      2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
      2006 by Derrell Lipman
+     2006 by STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
@@ -15,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
+     * Andreas Junghans (lucidcake)
 
 ************************************************************************ */
 
@@ -58,7 +60,7 @@ qx.Settings.setDefault("enableDebug", false);
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport" ];
+qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.JsTransport" ];
 
 qx.io.remote.RemoteExchange.typesReady = false;
 
