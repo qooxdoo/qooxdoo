@@ -13,7 +13,8 @@ function (vUrl) {
 
   this.setEdge(0);
 
-  this._titlePrefix = document.title;
+  this._titlePrefix = this.getSetting("title") + " API Documentation";
+  document.title = this._titlePrefix;
 
   this._tree = new qx.ui.tree.Tree("API Documentation");
   this._tree.set({
@@ -68,6 +69,9 @@ function (vUrl) {
 qx.OO.addProperty({ name:"docTree", type:qx.constant.Type.OBJECT });
 
 
+qx.Settings.setDefault("title", "qooxdoo");
+
+
 // property checker
 qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
   this._updateTree(propValue);
@@ -99,9 +103,10 @@ qx.Proto.loadDocTreeFromUrl = function(url)
         self.selectItem(window.location.hash.substring(1));
       }, 0);
     }
-    
-    this._detailLoader.setHtml('<h1><div class="please">qooxdoo</div>API Documentation</h1>');
-    
+
+    this._detailLoader.setHtml('<h1><div class="please">' + this.getSetting("title") +
+        '</div>API Documentation</h1>');
+
   }, this);
 
   req.addEventListener("failed", function(evt)
