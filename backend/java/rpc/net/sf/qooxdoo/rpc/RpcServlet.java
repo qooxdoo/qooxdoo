@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -172,6 +171,103 @@ public class RpcServlet extends HttpServlet {
     }
 
     
+    private String makeJavaScriptServerInfo(HttpServletRequest request) {
+        // reconstruct the start of the URL
+        StringBuffer contextURL = new StringBuffer();
+        String scheme = request.getScheme();
+        int port = request.getServerPort();
+        
+        contextURL.append(scheme);
+        contextURL.append("://");
+        contextURL.append(request.getServerName());
+        if ((scheme.equals("http") && port != 80) ||
+            (scheme.equals ("https") && port != 443)) {
+            contextURL.append(':');
+            contextURL.append(request.getServerPort());
+        }
+        contextURL.append(request.getContextPath());
+        
+        return "if (!qx || !qx.core || !qx.core.ServerSettings) {" +
+                 "qx.OO.defineClass(\"qx.core.ServerSettings\");" +
+                "}" +
+                "qx.core.ServerSettings.serverPathPrefix = \"" + contextURL.toString() + "\";" +
+                "qx.core.ServerSettings.serverPathSuffix = \";jsessionid=" + request.getSession().getId() + "\";" +
+                "qx.core.ServerSettings.sessionTimeoutInSeconds = " + request.getSession().getMaxInactiveInterval() + ";" +
+                "qx.core.ServerSettings.lastSessionRefresh = (new Date()).getTime();";
+    }
+    
+    
+    /**
+     * Handles an RPC call.
+     * 
+     * @param   request             the servlet request.
+     * @param   requestString       the JSON request string.
+     * 
+     * @return  the response as a string.
+     * 
+     * @throws  Exception           passed through.
+     */
+    
+    protected String handleRPC(HttpServletRequest request,
+                               String requestString) throws Exception {
+        _currentRequest.set(request);
+        String instanceId = request.getParameter("instanceId");
+        JSONObject req = new JSONObject(requestString);
+        Object serviceClassNameObject = req.get("service");
+        String serviceClassName = null;
+        if (!serviceClassNameObject.equals(null)) {
+            serviceClassName = serviceClassNameObject.toString();
+        }
+        String methodName = req.getString("method");
+        JSONObject res = new JSONObject();
+        String callId = req.getString("id");
+        if (callId != null) {
+            res.put("id", callId);
+        }
+        
+        // special handling: if the service class was not specified and the
+        // method is "refreshSession", we refresh the session :-)
+        if (serviceClassName == null && methodName.equals("refreshSession")) {
+            res.put("result", "function() {" + makeJavaScriptServerInfo(request) +
+                    "return true;}()");
+        } else {
+            RemoteService inst = (RemoteService) getServiceInstance(
+                    request.getSession(), serviceClassName, instanceId,
+                    RemoteService.class);
+            JSONArray args = req.getJSONArray("params");
+    
+            // call the method
+            Object retVal = null;
+            Throwable error = null;
+            try {
+                retVal = RemoteCallUtils.callCompatibleMethod(inst, methodName, args);
+            } catch (Throwable e) {
+                error = e;
+            }
+            if (error != null) {
+                if (error instanceof InvocationTargetException) {
+                    error = ((InvocationTargetException)error).getTargetException();
+                }
+                JSONObject ex = new JSONObject();
+                ex.put("code", 500);    // 500: internal server error
+                                        // (executing the method generated
+                                        //  an exception)
+                                        // TODO: properly detect common errors
+                                        //       like "method not found" and
+                                        //       return appropriate codes
+                                        // TODO: fill in the origin property
+                ex.put("message", error.getClass().getName() + ": " + error.getMessage());
+                res.put("error", ex);
+                //error.printStackTrace();
+                // FIXME: Use proper logging (configurable; default: System.out)
+            } else {
+                res.put("result", RemoteCallUtils.fromJava(retVal));
+            }
+        }
+        return res.toString();
+    }
+    
+    
     /**
      * Returns context path information to the client (as a JavaScript hash
      * map).
@@ -186,39 +282,33 @@ public class RpcServlet extends HttpServlet {
                       HttpServletResponse response)
         throws ServletException {
         
+        response.setContentType("text/javascript; charset=UTF-8");
+        Writer responseWriter;
         try {
-            Writer outWriter = response.getWriter();
-
-            // reconstruct the start of the URL
-            StringBuffer contextURL = new StringBuffer();
-            String scheme = request.getScheme();
-            int port = request.getServerPort();
-            
-            contextURL.append(scheme);
-            contextURL.append("://");
-            contextURL.append(request.getServerName());
-            if ((scheme.equals("http") && port != 80) ||
-                (scheme.equals ("https") && port != 443)) {
-                contextURL.append(':');
-                contextURL.append(request.getServerPort());
-            }
-            contextURL.append(request.getContextPath());
-            
-            outWriter.write(
-"qx.OO.defineClass(\"qx.core.ServerSettings\", {" +
-"  serverPathPrefix: \"" + response.encodeURL(contextURL.toString()) + "\"," +
-"  serverPathSuffix: \"\"" +
-"});" +
-"(function() {" +
-"  var index = qx.core.ServerSettings.serverPathPrefix.indexOf(\";jsessionid\");" +
-"  if (index != -1) {" +
-"    qx.core.ServerSettings.serverPathSuffix = qx.core.ServerSettings.serverPathPrefix.substring(index);" +
-"    qx.core.ServerSettings.serverPathPrefix = qx.core.ServerSettings.serverPathPrefix.substring(0, index);" +
-"  }" +
-"})();"
-);
+            responseWriter = response.getWriter();
         } catch (Exception e) {
-            throw new ServletException("Cannot write path information", e);
+            throw new ServletException("Cannot generate a response");
+        }
+        String jsTransportId = request.getParameter("_jstransport_id");
+        if (jsTransportId != null) {
+            try {
+                String requestString = request.getParameter("_jstransport_data");
+                //System.out.println("Request string: " + requestString);
+                //System.out.println("Session id: " + request.getSession().getId());
+                //System.out.println("Requested session id: " + request.getRequestedSessionId());
+                String res = handleRPC(request, requestString);
+                
+                responseWriter.write("qx.io.remote.JsTransport._requestFinished(\"" +
+                        jsTransportId + "\", " + res + ");");
+            } catch (Exception e) {
+                throw new ServletException("Cannot execute remote method", e);
+            }
+        } else {
+            try {
+                responseWriter.write(makeJavaScriptServerInfo(request));
+            } catch (Exception e) {
+                throw new ServletException("Cannot write path information", e);
+            }
         }
     }
     
@@ -238,7 +328,6 @@ public class RpcServlet extends HttpServlet {
                        HttpServletResponse response)
         throws ServletException {
 
-        _currentRequest.set(request);
         InputStream is = null;
         Reader reader = null;
         try {
@@ -262,51 +351,11 @@ public class RpcServlet extends HttpServlet {
                 requestString = requestBuffer.toString();
             }
             System.out.println("Request string: " + requestString);
-            String instanceId = request.getParameter("instanceId");
-            JSONObject req = new JSONObject(requestString);
-            String serviceClassName = req.getString("service");
-            String callId = req.getString("id");
-            RemoteService inst = (RemoteService) getServiceInstance(
-                    request.getSession(), serviceClassName, instanceId,
-                    RemoteService.class);
-            String methodName = req.getString("method");
-            JSONArray args = req.getJSONArray("params");
-
-            // call the method
-            Object retVal = null;
-            Throwable error = null;
-            try {
-                retVal = RemoteCallUtils.callCompatibleMethod(inst, methodName, args);
-            } catch (Throwable e) {
-                error = e;
-            }
-            JSONObject res = new JSONObject();
-            if (error != null) {
-                if (error instanceof InvocationTargetException) {
-                    error = ((InvocationTargetException)error).getTargetException();
-                }
-                JSONObject ex = new JSONObject();
-                ex.put("code", 500);    // 500: internal server error
-                                        // (executing the method generated
-                                        //  an exception)
-                                        // TODO: properly detect common errors
-                                        //       like "method not found" and
-                                        //       return appropriate codes
-                                        // TODO: fill in the origin property
-                ex.put("message", error.getClass().getName() + ": " + error.getMessage());
-                res.put("error", ex);
-                //error.printStackTrace();
-                // FIXME: Use proper logging (configurable; default: System.out)
-            } else {
-                res.put("result", RemoteCallUtils.fromJava(retVal));
-            }
-            if (callId != null) {
-                res.put("id", callId);
-            }
-
+            String res = handleRPC(request, requestString);
+            
             response.setContentType("text/plain; charset=UTF-8");
             Writer responseWriter = response.getWriter();
-            responseWriter.write(res.toString());
+            responseWriter.write(res);            
         } catch (Exception e) {
             throw new ServletException("Cannot execute remote method", e);
         } finally {
