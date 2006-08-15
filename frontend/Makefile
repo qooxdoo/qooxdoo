@@ -48,6 +48,9 @@ demo-build:
 framework-build:
 	$(MAKE) -C framework build
 
+skeleton-build:
+	$(MAKE) -C skeleton build
+
 api-source:
 	$(MAKE) -C api source
 
@@ -91,7 +94,7 @@ distclean:
 
 release: build-release source-release
 
-build-release: build build-release-sync build-release-compress
+build-release: build skeleton-build build-release-sync build-release-compress
 
 build-release-sync:
 	@echo
@@ -146,7 +149,6 @@ build-release-compress:
 
 
 source-release: source source-release-sync source-release-compress
-
 
 source-release-sync:
 	@echo
