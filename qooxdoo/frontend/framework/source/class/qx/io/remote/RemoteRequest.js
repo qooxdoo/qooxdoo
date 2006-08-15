@@ -149,7 +149,7 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
   A request is cross domain if the request's URL points to a host other
   than the local host. This switches the concrete implementation that
   is used for sending the request from qx.io.remote.XmlHttpTransport to
-  qx.io.remote.IframeTransport because only the latter can handle cross domain
+  qx.io.remote.JsTransport, because only the latter can handle cross domain
   requests.
 */
 qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
