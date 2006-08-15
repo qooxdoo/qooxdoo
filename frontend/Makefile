@@ -112,7 +112,8 @@ build-release-sync:
 	@rsync $(RSYNC_BUILD_OPT) skeleton/build/unix/*.tar.gz $(BUILD_RELEASE_UNIX)/skeleton
 
 	@echo "  * Fixing line-breaks..."
-	@find $(BUILD_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix -q
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@find $(BUILD_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
 
 
 	@echo
@@ -130,7 +131,8 @@ build-release-sync:
 	@rsync $(RSYNC_BUILD_OPT) skeleton/build/dos/*.zip $(BUILD_RELEASE_DOS)/skeleton
 
 	@echo "  * Fixing line-breaks..."
-	@find $(BUILD_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos -q
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@find $(BUILD_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
 
 
 build-release-compress:
@@ -184,7 +186,8 @@ source-release-sync:
 	@rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_UNIX)/framework/tool
 
 	@echo "  * Fixing line-breaks..."
-	@find $(SOURCE_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix -q
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@find $(SOURCE_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
 
 
 	@echo
@@ -220,7 +223,8 @@ source-release-sync:
 	@rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_DOS)/framework/tool
 
 	@echo "  * Fixing line-breaks..."
-	@find $(SOURCE_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos -q
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@find $(SOURCE_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
 
 
 source-release-compress:
