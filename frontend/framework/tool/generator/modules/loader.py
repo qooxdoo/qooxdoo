@@ -323,50 +323,99 @@ def indexScriptInput(options):
 
 
 
-
-
-
-
-def addFileToSortedList(sortedList, fileDb, moduleDb, fileId, enableDeps):
+"""
+Simple resolver, just try to add items and put missing stuff around
+the new one.
+"""
+def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
   if not fileDb.has_key(fileId):
     print "    * Error: Couldn't find required file: %s" % fileId
     return False
 
   # Test if already in
-  try:
-    sortedList.index(fileId)
+  if not fileId in sortedList:
 
-  except ValueError:
     # Including loadtime dependencies
-    if enableDeps:
-      for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
-        addFileToSortedList(sortedList, fileDb, moduleDb, loadtimeDepId, True)
+    for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
+      addIdWithDepsToSortedList(sortedList, fileDb, loadtimeDepId)
 
     # Including after dependencies
-    if enableDeps:
-      for afterDepId in fileDb[fileId]["afterDeps"]:
-        addFileToSortedList(sortedList, fileDb, moduleDb, afterDepId, True)
+    for afterDepId in fileDb[fileId]["afterDeps"]:
+      addIdWithDepsToSortedList(sortedList, fileDb, afterDepId)
 
     # Add myself
-    try:
-      sortedList.index(fileId)
-    except ValueError:
+    if not fileId in sortedList:
       sortedList.append(fileId)
 
     # Include runtime dependencies
-    if enableDeps:
-      for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
-        addFileToSortedList(sortedList, fileDb, moduleDb, runtimeDepId, True)
+    for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
+      addIdWithDepsToSortedList(sortedList, fileDb, runtimeDepId)
 
     # Include before dependencies
-    if enableDeps:
-      for beforeDepId in fileDb[fileId]["beforeDeps"]:
-        addFileToSortedList(sortedList, fileDb, moduleDb, beforeDepId, True)
+    for beforeDepId in fileDb[fileId]["beforeDeps"]:
+      addIdWithDepsToSortedList(sortedList, fileDb, beforeDepId)
+
+
+
+
+
+"""
+Search for dependencies, but don't add them. Just use them to put
+the new class after the stuff which is required (if it's included, too)
+"""
+def addIdWithoutDepsToSortedList(sortedList, fileDb, fileId):
+  if not fileDb.has_key(fileId):
+    print "    * Error: Couldn't find required file: %s" % fileId
+    return False
+
+  # Test if already in
+  if not fileId in sortedList:
+
+    # Search sortedList for files which needs this one and are already included
+    lowestIndex = None
+    currentIndex = 0
+    for lowId in sortedList:
+      for lowDepId in getResursiveLoadDeps([], fileDb, lowId, lowId):
+        if lowDepId == fileId and (lowestIndex == None or currentIndex < lowestIndex):
+          lowestIndex = currentIndex
+
+      currentIndex += 1
+
+    # Insert at defined index or just append new entry
+    if lowestIndex != None:
+      sortedList.insert(lowestIndex, fileId)
+    else:
+      sortedList.append(fileId)
+
+
+
+
+def getResursiveLoadDeps(deps, fileDb, fileId, ignoreId=None):
+  if fileId in deps:
+    return
+
+  if fileId != ignoreId:
+    deps.append(fileId)
+
+  # Including loadtime dependencies
+  for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
+    getResursiveLoadDeps(deps, fileDb, loadtimeDepId)
+
+  # Including after dependencies
+  for afterDepId in fileDb[fileId]["afterDeps"]:
+    getResursiveLoadDeps(deps, fileDb, afterDepId)
+
+  return deps
+
+
+
 
 
 def getSortedList(options, fileDb, moduleDb):
-  includeIds = []
-  excludeIds = []
+  includeWithDeps = []
+  excludeWithDeps = []
+  includeWithoutDeps = []
+  excludeWithoutDeps = []
 
   sortedIncludeList = []
   sortedExcludeList = []
@@ -375,11 +424,11 @@ def getSortedList(options, fileDb, moduleDb):
 
   # INCLUDE
 
-  # Add Modules and Files
-  if options.include:
-    for include in options.include:
+  # Add Modules and Files (with deps)
+  if options.includeWithDeps:
+    for include in options.includeWithDeps:
       if include in moduleDb:
-        includeIds.extend(moduleDb[include])
+        includeWithDeps.extend(moduleDb[include])
 
       elif "*" in include or "?" in include:
         regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
@@ -387,31 +436,61 @@ def getSortedList(options, fileDb, moduleDb):
 
         for fileId in fileDb:
           if regexp.search(fileId):
-            if not fileId in includeIds:
-              includeIds.append(fileId)
+            if not fileId in includeWithDeps:
+              includeWithDeps.append(fileId)
 
       else:
-        if not include in includeIds:
-          includeIds.append(include)
+        if not include in includeWithDeps:
+          includeWithDeps.append(include)
 
-  # Add all if empty
-  if len(includeIds) == 0:
+
+  # Add Modules and Files (without deps)
+  if options.includeWithoutDeps:
+    for include in options.includeWithoutDeps:
+      if include in moduleDb:
+        includeWithoutDeps.extend(moduleDb[include])
+
+      elif "*" in include or "?" in include:
+        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+        regexp = re.compile(regstr)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in includeWithoutDeps:
+              includeWithoutDeps.append(fileId)
+
+      else:
+        if not include in includeWithoutDeps:
+          includeWithoutDeps.append(include)
+
+
+
+
+
+
+  # Add all if both lists are empty
+  if len(includeWithDeps) == 0 and len(includeWithoutDeps) == 0:
+    print "  * Including all classes..."
     for fileId in fileDb:
-      includeIds.append(fileId)
+      includeWithDeps.append(fileId)
 
-  # Sorting
-  for fileId in includeIds:
-    addFileToSortedList(sortedIncludeList, fileDb, moduleDb, fileId, options.enableIncludeDependencies)
+  # Sorting include (with deps)
+  for fileId in includeWithDeps:
+    addIdWithDepsToSortedList(sortedIncludeList, fileDb, fileId)
+
+  # Sorting include (without deps)
+  for fileId in includeWithoutDeps:
+    addIdWithoutDepsToSortedList(sortedIncludeList, fileDb, fileId)
 
 
 
   # EXCLUDE
 
-  # Add Modules and Files
-  if options.exclude:
-    for exclude in options.exclude:
+  # Add Modules and Files (with deps)
+  if options.excludeWithDeps:
+    for exclude in options.excludeWithDeps:
       if exclude in moduleDb:
-        excludeIds.extend(moduleDb[exclude])
+        excludeWithDeps.extend(moduleDb[exclude])
 
       elif "*" in exclude or "?" in exclude:
         regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
@@ -419,16 +498,44 @@ def getSortedList(options, fileDb, moduleDb):
 
         for fileId in fileDb:
           if regexp.search(fileId):
-            if not fileId in excludeIds:
-              excludeIds.append(fileId)
+            if not fileId in excludeWithDeps:
+              excludeWithDeps.append(fileId)
 
       else:
-        if not exclude in excludeIds:
-          excludeIds.append(exclude)
+        if not exclude in excludeWithDeps:
+          excludeWithDeps.append(exclude)
 
-    # Sorting
-    for fileId in excludeIds:
-      addFileToSortedList(sortedExcludeList, fileDb, moduleDb, fileId, options.enableExcludeDependencies)
+
+  # Add Modules and Files (without deps)
+  if options.excludeWithoutDeps:
+    for exclude in options.excludeWithoutDeps:
+      if exclude in moduleDb:
+        excludeWithoutDeps.extend(moduleDb[exclude])
+
+      elif "*" in exclude or "?" in exclude:
+        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+        regexp = re.compile(regstr)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in excludeWithDeps:
+              excludeWithoutDeps.append(fileId)
+
+      else:
+        if not exclude in excludeWithDeps:
+          excludeWithoutDeps.append(exclude)
+
+
+
+
+
+  # Sorting exclude (with deps)
+  for fileId in excludeWithDeps:
+    addIdWithDepsToSortedList(sortedExcludeList, fileDb, fileId)
+
+  # Sorting exclude (without deps)
+  for fileId in excludeWithoutDeps:
+    addIdWithoutDepsToSortedList(sortedExcludeList, fileDb, fileId)
 
 
 
