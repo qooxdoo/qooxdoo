@@ -612,7 +612,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     for fileId in sortedIncludeList:
       if options.verbose:
-        print "  - %s" % fieId
+        print "  - %s" % fileId
 
       docTree = api.createDoc(fileDb[fileId]["tree"], docTree)
 
