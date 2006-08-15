@@ -35,7 +35,7 @@ realclean: clean
 	rm -rf build source/script
 
 distclean: realclean
-	rm -f tool/generator/*.pyc
+	find tool -name "*.pyc" | xargs rm -f
 	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
