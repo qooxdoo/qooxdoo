@@ -105,6 +105,8 @@ build-release-sync:
 	@rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_UNIX)/demo
 	@mkdir -p $(BUILD_RELEASE_UNIX)/framework
 	@rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_UNIX)/framework
+	@mkdir -p $(BUILD_RELEASE_UNIX)/skeleton
+	@rsync $(RSYNC_BUILD_OPT) skeleton/build/unix/*.tar.gz $(BUILD_RELEASE_UNIX)/skeleton
 
 	@echo "  * Fixing line-breaks..."
 	@find $(BUILD_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix -q
@@ -121,6 +123,8 @@ build-release-sync:
 	@rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_DOS)/demo
 	@mkdir -p $(BUILD_RELEASE_DOS)/framework
 	@rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_DOS)/framework
+	@mkdir -p $(BUILD_RELEASE_UNIX)/skeleton
+	@rsync $(RSYNC_BUILD_OPT) skeleton/build/dos/*.zip $(BUILD_RELEASE_DOS)/skeleton
 
 	@echo "  * Fixing line-breaks..."
 	@find $(BUILD_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos -q
@@ -158,6 +162,8 @@ source-release-sync:
 	@cp -f demo/Makefile $(SOURCE_RELEASE_UNIX)/demo
 	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework
 	@cp -f framework/Makefile $(SOURCE_RELEASE_UNIX)/framework
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/skeleton
+	@cp -f skeleton/Makefile $(SOURCE_RELEASE_UNIX)/skeleton
 
 	@echo "  * Synchronizing source folders..."
 	@mkdir -p $(SOURCE_RELEASE_UNIX)/api/source
@@ -166,6 +172,8 @@ source-release-sync:
 	@rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_UNIX)/demo/source
 	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework/source
 	@rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_UNIX)/framework/source
+	@mkdir -p $(SOURCE_RELEASE_UNIX)/skeleton/source
+	@rsync $(RSYNC_SOURCE_OPT) skeleton/source/* $(SOURCE_RELEASE_UNIX)/skeleton/source
 
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo/tool
@@ -190,6 +198,8 @@ source-release-sync:
 	@cp -f demo/Makefile $(SOURCE_RELEASE_DOS)/demo
 	@mkdir -p $(SOURCE_RELEASE_DOS)/framework
 	@cp -f framework/Makefile $(SOURCE_RELEASE_DOS)/framework
+	@mkdir -p $(SOURCE_RELEASE_DOS)/skeleton
+	@cp -f skeleton/Makefile $(SOURCE_RELEASE_DOS)/skeleton
 
 	@echo "  * Synchronizing source folders..."
 	@mkdir -p $(SOURCE_RELEASE_DOS)/api/source
@@ -198,6 +208,8 @@ source-release-sync:
 	@rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_DOS)/demo/source
 	@mkdir -p $(SOURCE_RELEASE_DOS)/framework/source
 	@rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_DOS)/framework/source
+	@mkdir -p $(SOURCE_RELEASE_DOS)/skeleton/source
+	@rsync $(RSYNC_SOURCE_OPT) skeleton/source/* $(SOURCE_RELEASE_DOS)/skeleton/source
 
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(SOURCE_RELEASE_DOS)/demo/tool
