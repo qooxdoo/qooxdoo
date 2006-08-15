@@ -17,7 +17,6 @@ import config, tokenizer, loader, compile, api, tree, treegenerator, settings, r
 
 class ExtendedOption(Option):
   ACTIONS = Option.ACTIONS + ("extend",)
-  ALWAYS_TYPED_ACTIONS = Option.ALWAYS_TYPED_ACTIONS + ("extend",)
   STORE_ACTIONS = Option.STORE_ACTIONS + ("extend",)
   TYPED_ACTIONS = Option.TYPED_ACTIONS + ("extend",)
 
@@ -44,11 +43,11 @@ def getparser():
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
   # Directories (Lists, Match using index)
-  parser.add_option("--script-input", action="extend", dest="scriptInput", metavar="DIRECTORY", default=[], help="Define a script input directory.")
-  parser.add_option("--script-encoding", action="extend", dest="scriptEncoding", metavar="ENCODING", default=[], help="Define the encoding for a script input directory.")
-  parser.add_option("--source-script-path", action="extend", dest="sourceScriptPath", metavar="PATH", default=[], help="Define a script path for the source version.")
-  parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", default=[], help="Define a resource input directory.")
-  parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", default=[], help="Define a resource output directory.")
+  parser.add_option("--script-input", action="extend", dest="scriptInput", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
+  parser.add_option("--script-encoding", action="extend", dest="scriptEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
+  parser.add_option("--source-script-path", action="extend", dest="sourceScriptPath", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+  parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
+  parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
 
   # Available Actions
   parser.add_option("--generate-compiled-script", action="store_true", dest="generateCompiledScript", default=False, help="Compile source files.")
@@ -111,10 +110,10 @@ def getparser():
   #################################################################################
 
   # Include/Exclude
-  parser.add_option("-i", "--include", action="extend", dest="includeWithDeps", metavar="ID", default=[], help="Include ID")
-  parser.add_option("-e", "--exclude", action="extend", dest="excludeWithDeps", metavar="ID", default=[], help="Exclude ID")
-  parser.add_option("--include-without-dependencies", action="extend", dest="includeWithoutDeps", metavar="ID", default=[], help="Include ID")
-  parser.add_option("--exclude-without-dependencies", action="extend", dest="excludeWithoutDeps", metavar="ID", default=[], help="Exclude ID")
+  parser.add_option("-i", "--include", action="extend", dest="includeWithDeps", metavar="ID", type="string", default=[], help="Include ID")
+  parser.add_option("-e", "--exclude", action="extend", dest="excludeWithDeps", metavar="ID", type="string", default=[], help="Exclude ID")
+  parser.add_option("--include-without-dependencies", action="extend", dest="includeWithoutDeps", metavar="ID", type="string", default=[], help="Include ID")
+  parser.add_option("--exclude-without-dependencies", action="extend", dest="excludeWithoutDeps", metavar="ID", type="string", default=[], help="Exclude ID")
 
   # Include/Exclude options
   parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
