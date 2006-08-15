@@ -74,6 +74,11 @@ function(url, serviceName)
   if (serviceName != null) {
     this.setServiceName(serviceName);
   }
+  this._previousServerSuffix = null;
+  this._currentServerSuffix = null;
+  if (qx.core.ServerSettings) {
+    this._currentServerSuffix = qx.core.ServerSettings.serverPathSuffix;
+  }
 });
 
 
@@ -98,7 +103,7 @@ qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
   A request is cross domain if the request's URL points to a host other
   than the local host. This switches the concrete implementation that
   is used for sending the request from qx.io.remote.XmlHttpTransport to
-  qx.io.remote.IframeTransport because only the latter can handle cross domain
+  qx.io.remote.JsTransport because only the latter can handle cross domain
   requests.
 */
 qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
@@ -151,13 +156,14 @@ qx.io.remote.Rpc.localError =
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._callInternal = function(args, async) {
+qx.Proto._callInternal = function(args, async, refreshSession) {
+  var self = this;
   var offset = 0;
   var handler = args[0];
   if (async) {
     offset = 1;
   }
-  var whichMethod = args[offset];
+  var whichMethod = (refreshSession ? "refreshSession" : args[offset]);
   var argsArray = [];
   for (var i = offset + 1; i < args.length; ++i) {
     argsArray.push(args[i]);
@@ -166,7 +172,7 @@ qx.Proto._callInternal = function(args, async) {
                                            qx.constant.Net.METHOD_POST,
                                            qx.constant.Mime.JSON);
   var requestObject = {
-    "service": this.getServiceName(),
+    "service": (refreshSession ? null : this.getServiceName()),
     "method": whichMethod,
     "id": req.getSequenceNumber(),
     "params": argsArray
@@ -253,6 +259,15 @@ qx.Proto._callInternal = function(args, async) {
       ex = makeException(exTest.origin, exTest.code, exTest.message);
     } else {
       result = result["result"];
+      if (refreshSession) {
+        result = eval("(" + result + ")");
+        var newSuffix = qx.core.ServerSettings.serverPathSuffix;
+        if (self._currentServerSuffix != newSuffix) {
+          self._previousServerSuffix = self._currentServerSuffix;
+          self._currentServerSuffix = newSuffix;
+        }
+        self.setUrl(self.fixUrl(self.getUrl()));
+      }
     }
     handleRequestFinished();
   });
@@ -280,6 +295,30 @@ qx.Proto._callInternal = function(args, async) {
 }
 
 
+/**
+ * Helper method to rewrite a URL with a stale session id (so that it includes
+ * the correct session id afterwards).
+ * 
+ * @param   url {string}        the URL to examine.
+ * 
+ * @return  {string}            the (possibly re-written) URL.
+ */
+
+qx.Proto.fixUrl = function(url) {
+  if (this._previousServerSuffix == null || this._currentServerSuffix == null ||
+    this._previousServerSuffix == "" ||
+    this._previousServerSuffix == this._currentServerSuffix) {
+    return url;
+  }
+  var index = url.indexOf(this._previousServerSuffix);
+  if (index == -1) {
+    return url;
+  }
+  return url.substring(0, index) + this._currentServerSuffix +
+         url.substring(index + this._previousServerSuffix.length);
+};
+
+    
 /**
  * Makes a synchronous server call. The method arguments (if any) follow
  * after the method name (as normal JavaScript arguments, separated by commas,
@@ -344,6 +383,42 @@ qx.Proto.callSync = function(methodName) {
 
 qx.Proto.callAsync = function(handler, methodName) {
   return this._callInternal(arguments, true);
+}
+
+
+/**
+ * Refreshes a server session by retrieving the session id again from the
+ * server.
+ * <p>
+ * The specified handler function is called when the refresh is complete. The
+ * first parameter can be <code>true</code> (indicating that a refresh either
+ * wasn't necessary at this time or it was successful) or <code>false</code>
+ * (indicating that a refresh would have been necessary but can't be performed
+ * because the server backend doesn't support it). If there is a non-null
+ * second parameter, it's an exception indicating that there was an error when
+ * refreshing the session.
+ * </p>
+ * 
+ * @param   handler {Function}      a callback function that is called when the
+ *                                  refresh is complete (or failed).
+ */
+
+qx.Proto.refreshSession = function(handler) {
+  if (this.getCrossDomain()) {
+    if (qx.core.ServerSettings && qx.core.ServerSettings.serverPathSuffix) {
+      var timeDiff = (new Date()).getTime() - qx.core.ServerSettings.lastSessionRefresh;
+      if (timeDiff/1000 > (qx.core.ServerSettings.sessionTimeoutInSeconds - 30)) {
+        //this.info("refreshing session");
+        this._callInternal([handler], true, true);
+      } else {
+        handler(true);    // session refresh was OK (in this case: not needed)
+      }
+    } else {
+      handler(false);   // no refresh possible, but would be necessary
+    }
+  } else {
+    handler(true);  // session refresh was OK (in this case: not needed)
+  }
 }
 
 
