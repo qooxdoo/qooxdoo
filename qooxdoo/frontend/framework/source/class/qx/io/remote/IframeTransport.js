@@ -7,6 +7,7 @@
    Copyright:
      2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
      2006 by Derrell Lipman
+     2006 by STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
@@ -15,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
+     * Andreas Junghans (lucidcake)
 
 ************************************************************************ */
 
@@ -53,8 +55,7 @@ function()
   this._frame.id = this._frame.name = vFrameName;
   this._frame.onload = function(e) { return o._onload(e); }
 
-  this._frame.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
-  this._frame.style.visibility = "hidden";
+  this._frame.style.display = "none";
 
   document.body.appendChild(this._frame);
 
@@ -62,8 +63,7 @@ function()
   this._form.target = vFrameName;
   this._form.id = this._form.name = vFormName;
 
-  this._form.style.width = this._frame.style.height = this._frame.style.left = this._frame.style.top = "0px";
-  this._form.style.visibility = "hidden";
+  this._form.style.display = "none";
 
   document.body.appendChild(this._form);
 
@@ -95,7 +95,7 @@ qx.io.remote.IframeTransport.handles =
 {
   synchronous : false,
   asynchronous : true,
-  crossDomain : true,
+  crossDomain : false,
   fileUpload: true,
   responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
 }
@@ -118,7 +118,6 @@ qx.io.remote.IframeTransport.isSupported = function() {
 qx.Proto.send = function()
 {
   var vMethod = this.getMethod();
-  var vAsynchronous = this.getAsynchronous();
   var vUrl = this.getUrl();
 
 
