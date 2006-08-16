@@ -177,7 +177,7 @@ qx.OO.addProperty({ name : "transport", type : qx.constant.Type.OBJECT, instance
   pending requests.
 */
 qx.Proto.send = function() {
-  qx.io.remote.RemoteRequestQueue.add(this);
+  qx.io.remote.RemoteRequestQueue.getInstance().add(this);
 }
 
 /*!
@@ -188,7 +188,7 @@ qx.Proto.send = function() {
   method is a noop.
 */
 qx.Proto.abort = function() {
-  qx.io.remote.RemoteRequestQueue.abort(this);
+  qx.io.remote.RemoteRequestQueue.getInstance().abort(this);
 }
 
 qx.Proto.reset = function()
