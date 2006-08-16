@@ -158,8 +158,12 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   var vFocusValid = qx.util.Validation.isValidObject(propValue);
   var vBlurValid = qx.util.Validation.isValidObject(propOldValue);
 
-  if (qx.OO.isAvailable("qx.manager.object.PopupManager") && vFocusValid) {
-    qx.manager.object.PopupManager.getInstance().update(propValue);
+  if (qx.OO.isAvailable("qx.manager.object.PopupManager") && vFocusValid)
+  {
+    var vMgr = qx.manager.object.PopupManager.getInstance();
+    if (vMgr) {
+      vMgr.update(propValue);
+    }
   }
 
   if (vBlurValid)
@@ -211,8 +215,12 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     propOldValue.dispatchEvent(vEventObject);
 
-    if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
-      qx.manager.object.ToolTipManager.getInstance().handleBlur(vEventObject);
+    if (qx.OO.isAvailable("qx.manager.object.ToolTipManager"))
+    {
+      var vMgr = qx.manager.object.ToolTipManager.getInstance();
+      if (vMgr) {
+        vMgr.handleBlur(vEventObject);
+      }
     }
 
     vEventObject.dispose();
@@ -233,8 +241,12 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
     propValue.dispatchEvent(vEventObject);
 
-    if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
-      qx.manager.object.ToolTipManager.getInstance().handleFocus(vEventObject);
+    if (qx.OO.isAvailable("qx.manager.object.ToolTipManager"))
+    {
+      var vMgr = qx.manager.object.ToolTipManager.getInstance();
+      if (vMgr) {
+        vMgr.handleFocus(vEventObject);
+      }
     }
 
     vEventObject.dispose();

@@ -51,7 +51,7 @@
 
     gl.setRowVerticalAlignment(1, "middle");
 
-    this.add(img, gl);
+    qx.ui.core.ClientDocument.getInstance().add(img, gl);
 
 
 
@@ -103,7 +103,7 @@
     c1.setLocation(500, 300);
     c2.setLocation(500, 330);
 
-    this.add(c1, c2);
+    qx.ui.core.ClientDocument.getInstance().add(c1, c2);
 
     c1.addEventListener("execute", function(e) {
       gl.setColumnWidth(2, 100);
