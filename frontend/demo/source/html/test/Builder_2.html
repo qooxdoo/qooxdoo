@@ -13,7 +13,7 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      new qx.client.Builder().buildFromUrl(this.getClientWindow().getClientDocument(), 'Builder_2.xml');
+      new qx.client.Builder().buildFromUrl(qx.ui.core.ClientDocument.getInstance(), 'Builder_2.xml');
     });
   </script>
   <div id="demoDescription">

@@ -67,7 +67,7 @@ qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
   var vComp = qx.core.Init.getInstance().getComponent();
 
   if (vComp.isUiReady()) {
-    vComp.getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+    qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   }
 
   return true;

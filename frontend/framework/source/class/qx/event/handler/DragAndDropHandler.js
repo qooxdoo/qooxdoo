@@ -64,21 +64,6 @@ qx.Proto._lastDestinationEvent = null;
 
 
 
-
-/*
----------------------------------------------------------------------------
-  HELPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._getClientDocument = function() {
-  return qx.core.Init.getInstance().getComponent().getClientWindow().getClientDocument();
-}
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   COMMON MODIFIER
@@ -343,7 +328,7 @@ qx.Proto._handleMouseMove = function(e)
         this._dragCache.currentDropWidget = this._dragCache.sourceWidget;
 
         // Activate capture for clientDocument
-        this._getClientDocument().setCapture(true);
+        qx.ui.core.ClientDocument.getInstance().setCapture(true);
       }
     }
   }
@@ -513,7 +498,7 @@ qx.Proto._endDragCore = function()
   }
 
   // Deactivate capture for clientDocument
-  this._getClientDocument().setCapture(false);
+  qx.ui.core.ClientDocument.getInstance().setCapture(false);
 
   // Cleanup data and actions
   this.clearData();
@@ -572,7 +557,7 @@ qx.Proto._renderCursor = function()
   // Ensure that the cursor is created
   if (!vNewCursor._initialLayoutDone)
   {
-    this._getClientDocument().add(vNewCursor);
+    qx.ui.core.ClientDocument.getInstance().add(vNewCursor);
     qx.ui.core.Widget.flushGlobalQueues();
   }
 
