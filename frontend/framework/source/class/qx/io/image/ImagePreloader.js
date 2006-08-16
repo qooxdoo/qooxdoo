@@ -33,7 +33,7 @@ function(vSource)
     this.debug("Reuse qx.io.image.ImagePreloader in old-style!");
     this.debug("Please use qx.manager.object.ImagePreloaderManager.getInstance().create(source) instead!");
 
-    return qx.manager.object.ImagePreloaderManager.get(vSource);
+    return qx.manager.object.ImagePreloaderManager.getInstance().get(vSource);
   }
 
   qx.core.Target.call(this);
