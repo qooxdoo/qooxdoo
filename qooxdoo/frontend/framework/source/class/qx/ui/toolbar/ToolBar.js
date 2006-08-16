@@ -157,7 +157,7 @@ qx.Proto._onkeydown_left = function(e)
   if (vPrevButton)
   {
     // hide other menus
-    qx.manager.object.MenuManager.update();
+    qx.manager.object.MenuManager.getInstance().update();
 
     // show previous menu
     vPrevButton._showMenu(true);
@@ -211,7 +211,7 @@ qx.Proto._onkeydown_right = function(e)
   if (vNextButton)
   {
     // hide other menus
-    qx.manager.object.MenuManager.update();
+    qx.manager.object.MenuManager.getInstance().update();
 
     // show next menu
     vNextButton._showMenu(true);

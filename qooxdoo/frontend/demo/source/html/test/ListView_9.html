@@ -86,7 +86,7 @@
 
       var sourceView = new qx.ui.listview.ListView(ld, lc1);
 
-      sourceView.setBorder(qx.renderer.border.BorderPresets.shadow);
+      sourceView.setBorder(qx.renderer.border.BorderPresets.getInstance().shadow);
       sourceView.setBackgroundColor("white");
       sourceView.setWidth(600);
       sourceView.setHeight(250);
@@ -102,7 +102,7 @@
 
       var destView = new qx.ui.listview.ListView([], lc2);
 
-      destView.setBorder(qx.renderer.border.BorderPresets.shadow);
+      destView.setBorder(qx.renderer.border.BorderPresets.getInstance().shadow);
       destView.setBackgroundColor("white");
       destView.setWidth(600);
       destView.setHeight(250);

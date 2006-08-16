@@ -73,7 +73,7 @@ qx.Proto.start = function()
 
   for (var vSource in this._list)
   {
-    var vPreloader = qx.manager.object.ImagePreloaderManager.create(qx.manager.object.AliasManager.resolvePath(vSource));
+    var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource));
 
     if (vPreloader.isErroneous() || vPreloader.isLoaded())
     {

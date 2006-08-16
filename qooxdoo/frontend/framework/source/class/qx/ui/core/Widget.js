@@ -3805,7 +3805,7 @@ qx.Proto._applyInitialAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getTheme().initialFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getTheme().initialFrom(this, vAppearance);
       if (r) {
         this.set(r);
       }
@@ -3829,7 +3829,7 @@ qx.Proto._applyStateAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getTheme().stateFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getTheme().stateFrom(this, vAppearance);
       if (r) {
         this.set(r);
       }
@@ -3847,8 +3847,8 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
 
   if (vAppearance)
   {
-    var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getThemeById(vOldAppearanceTheme);
-    var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getThemeById(vNewAppearanceTheme);
+    var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vOldAppearanceTheme);
+    var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vNewAppearanceTheme);
 
     var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
     var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
@@ -3928,7 +3928,7 @@ qx.Proto.recursiveAddToStateQueue = function() {
 
 qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
-  var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getTheme();
+  var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getTheme();
 
   var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
 
@@ -4735,7 +4735,7 @@ qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData)
   return qx.util.Validation.isValidString(propValue) ?
     this.setStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY,
       qx.ui.core.Widget.BACKGROUNDIMG_VALUE_START +
-      qx.manager.object.AliasManager.resolvePath(propValue) +
+      qx.manager.object.AliasManager.getInstance().resolvePath(propValue) +
       qx.ui.core.Widget.BACKGROUNDIMG_VALUE_STOP) :
     this.removeStyleProperty(qx.ui.core.Widget.BACKGROUNDIMG_PROPERTY);
 }

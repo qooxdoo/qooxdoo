@@ -129,7 +129,7 @@ qx.Proto._beforeAppear = function()
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
   // register to menu manager as active widget
-  qx.manager.object.MenuManager.add(this);
+  qx.manager.object.MenuManager.getInstance().add(this);
 
   // zIndex handling
   this.bringToFront();
@@ -144,7 +144,7 @@ qx.Proto._beforeDisappear = function()
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
   // deregister as opened from qx.manager.object.MenuManager
-  qx.manager.object.MenuManager.remove(this);
+  qx.manager.object.MenuManager.getInstance().remove(this);
 
   // reset global active widget
   this._makeInactive();
@@ -828,7 +828,7 @@ qx.Proto._onkeydown_enter = function(e)
     vHover.execute();
   }
 
-  qx.manager.object.MenuManager.update();
+  qx.manager.object.MenuManager.getInstance().update();
 }
 
 

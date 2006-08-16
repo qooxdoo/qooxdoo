@@ -45,7 +45,7 @@ qx.OO.addProperty({ name : "activeWindow", type : qx.constant.Type.OBJECT });
 
 qx.Proto._modifyActiveWindow = function(propValue, propOldValue, propData)
 {
-  qx.manager.object.PopupManager.update();
+  qx.manager.object.PopupManager.getInstance().update();
 
   if (propOldValue) {
     propOldValue.setActive(false);

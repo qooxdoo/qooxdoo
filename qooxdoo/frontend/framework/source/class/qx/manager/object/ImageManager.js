@@ -45,7 +45,7 @@ function()
   this._sources = {};
 
   // Change event connection to AliasManager
-  qx.manager.object.AliasManager.addEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
+  qx.manager.object.AliasManager.getInstance().addEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
 });
 
 
@@ -101,13 +101,13 @@ qx.Proto._onaliaschange = function() {
 
 qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? qx.manager.object.AliasManager.add("icon", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.remove("icon");
+  propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.getInstance().remove("icon");
   return true;
 }
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? qx.manager.object.AliasManager.add("widget", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.remove("widget");
+  propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.getInstance().remove("widget");
   return true;
 }
 
@@ -206,8 +206,8 @@ qx.Proto.getPostPreloadImageList = function()
 qx.Proto._updateImages = function()
 {
   var vAll = this.getAll();
-  var vPreMgr = qx.manager.object.ImagePreloaderManager;
-  var vAliasMgr = qx.manager.object.AliasManager;
+  var vPreMgr = qx.manager.object.ImagePreloaderManager.getInstance();
+  var vAliasMgr = qx.manager.object.AliasManager.getInstance();
   var vObject;
 
   // Recreate preloader of affected images
@@ -246,7 +246,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     var vButton = new qx.ui.form.Button(vPrefix + vThemes[vTheme].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.setIconThemeById('" + vTheme + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vTheme + "')"));
 
     vParent.add(vButton);
 
@@ -274,7 +274,7 @@ qx.Proto.dispose = function()
   }
 
   // Change event connection to AliasManager
-  qx.manager.object.AliasManager.removeEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
+  qx.manager.object.AliasManager.getInstance().removeEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
 
   // Destroy icon and widget themes
   if (this._iconThemes)

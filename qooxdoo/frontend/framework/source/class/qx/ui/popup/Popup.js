@@ -69,8 +69,8 @@ qx.Proto._beforeAppear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
-  qx.manager.object.PopupManager.add(this);
-  qx.manager.object.PopupManager.update(this);
+  qx.manager.object.PopupManager.getInstance().add(this);
+  qx.manager.object.PopupManager.getInstance().update(this);
 
   this._showTimeStamp = (new Date).valueOf();
   this.bringToFront();
@@ -80,7 +80,7 @@ qx.Proto._beforeDisappear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-  qx.manager.object.PopupManager.remove(this);
+  qx.manager.object.PopupManager.getInstance().remove(this);
 
   this._hideTimeStamp = (new Date).valueOf();
 }
@@ -149,8 +149,8 @@ qx.Proto.sendToBack = function()
 
 qx.Proto._sendTo = function()
 {
-  var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getAll());
-  var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getAll());
+  var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getInstance().getAll());
+  var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
 
   var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
   var vLength = vAll.length;

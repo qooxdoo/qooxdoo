@@ -105,7 +105,7 @@ qx.Proto._compileValue = function(vName)
 }
 
 qx.Proto._register = function() {
-  return qx.manager.object.ColorManager.registerTheme(this);
+  return qx.manager.object.ColorManager.getInstance().registerTheme(this);
 }
 
 

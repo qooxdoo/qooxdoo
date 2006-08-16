@@ -476,7 +476,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
     case qx.event.type.KeyEvent.keys.esc:
     case qx.event.type.KeyEvent.keys.tab:
       if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-        qx.manager.object.MenuManager.update();
+        qx.manager.object.MenuManager.getInstance().update();
       }
 
       break;
@@ -537,7 +537,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
   // Send event to qx.event.handler.DragAndDropHandler
   if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
-    qx.event.handler.DragAndDropHandler.handleKeyEvent(vKeyEventObject);
+    qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
   }
 
   // Cleanup Event Object
@@ -799,25 +799,25 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     {
       case qx.constant.Event.MOUSEDOWN:
         if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
-          qx.manager.object.PopupManager.update(vTarget);
+          qx.manager.object.PopupManager.getInstance().update(vTarget);
         }
 
         if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-          qx.manager.object.MenuManager.update(vTarget);
+          qx.manager.object.MenuManager.getInstance().update(vTarget);
         }
 
         break;
 
       case qx.constant.Event.MOUSEOVER:
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
-          qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
+          qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         }
 
         break;
 
       case qx.constant.Event.MOUSEOUT:
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
-          qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
+          qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         }
 
         break;
@@ -834,7 +834,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     // Send Event Object to Drag&Drop Manager
     if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler") && vTarget) {
-      qx.event.handler.DragAndDropHandler.handleMouseEvent(vEventObject);
+      qx.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
     }
 
 
@@ -978,17 +978,17 @@ qx.Proto._onwindowblur = function(e)
 
   // Hide Popups, Tooltips, ...
   if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
-    qx.manager.object.PopupManager.update();
+    qx.manager.object.PopupManager.getInstance().update();
   }
 
   // Hide Menus
   if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-    qx.manager.object.MenuManager.update();
+    qx.manager.object.MenuManager.getInstance().update();
   }
 
   // Cancel Drag Operations
   if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
-    qx.event.handler.DragAndDropHandler.globalCancelDrag();
+    qx.event.handler.DragAndDropHandler.getInstance().globalCancelDrag();
   }
 
   // Send blur event to client document

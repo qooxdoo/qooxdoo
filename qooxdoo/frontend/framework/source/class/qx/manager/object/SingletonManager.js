@@ -48,23 +48,10 @@ qx.Proto.add = function(vConstructor) {
 
 qx.Proto.flush = function()
 {
-  var vConstructor, vClassName, vSplit, vBasename, vNamespace;
   var vStart = (new Date).valueOf();
 
-  for (var i=0, a=this._objects, il=a.length; i<il; i++)
-  {
-    vConstructor = this._objects[i];
-    vClassName = vConstructor.classname;
-
-    vSplit = vClassName.split(qx.constant.Core.DOT);
-    vBasename = vSplit.pop();
-    vNamespace = window;
-
-    for (var j=0, jl=vSplit.length; j<jl; j++) {
-      vNamespace = vNamespace[vSplit[j]];
-    }
-
-    vNamespace[vBasename] = new vConstructor;
+  for (var i=0, a=this._objects, il=a.length; i<il; i++) {
+    a[i]._instance = new a[i];
   }
 
   this._objects = [];

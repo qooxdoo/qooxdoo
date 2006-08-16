@@ -146,7 +146,7 @@ qx.Proto._applySource = function()
   var currentSource = this.getSource();
 
   if (qx.util.Validation.isInvalidString(currentSource)) {
-    currentSource = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
+    currentSource = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
   }
 
   this._isLoaded = false;

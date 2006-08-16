@@ -444,7 +444,7 @@ qx.Proto.dispose = function()
     // Reset source to a blank image for gecko
     // Otherwise it will switch into a load-without-end behaviour
     if (qx.sys.Client.getInstance().isGecko()) {
-      this._frame.src = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
+      this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
     }
 
     // Finally remove element node
