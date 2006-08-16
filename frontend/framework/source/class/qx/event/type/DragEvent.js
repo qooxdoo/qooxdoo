@@ -74,7 +74,7 @@ qx.Proto.startDrag = function()
   }
 
   this.stopPropagation();
-  qx.event.handler.DragAndDropHandler.startDrag();
+  qx.event.handler.DragAndDropHandler.getInstance().startDrag();
 }
 
 
@@ -89,19 +89,19 @@ qx.Proto.startDrag = function()
 */
 
 qx.Proto.addData = function(sType, oData) {
-  qx.event.handler.DragAndDropHandler.addData(sType, oData);
+  qx.event.handler.DragAndDropHandler.getInstance().addData(sType, oData);
 }
 
 qx.Proto.getData = function(sType) {
-  return qx.event.handler.DragAndDropHandler.getData(sType);
+  return qx.event.handler.DragAndDropHandler.getInstance().getData(sType);
 }
 
 qx.Proto.clearData = function() {
-  qx.event.handler.DragAndDropHandler.clearData();
+  qx.event.handler.DragAndDropHandler.getInstance().clearData();
 }
 
 qx.Proto.getDropDataTypes = function() {
-  return qx.event.handler.DragAndDropHandler.getDropDataTypes();
+  return qx.event.handler.DragAndDropHandler.getInstance().getDropDataTypes();
 }
 
 
@@ -116,19 +116,19 @@ qx.Proto.getDropDataTypes = function() {
 */
 
 qx.Proto.addAction = function(sAction) {
-  qx.event.handler.DragAndDropHandler.addAction(sAction);
+  qx.event.handler.DragAndDropHandler.getInstance().addAction(sAction);
 }
 
 qx.Proto.removeAction = function(sAction) {
-  qx.event.handler.DragAndDropHandler.removeAction(sAction);
+  qx.event.handler.DragAndDropHandler.getInstance().removeAction(sAction);
 }
 
 qx.Proto.getAction = function() {
-  return qx.event.handler.DragAndDropHandler.getCurrentAction();
+  return qx.event.handler.DragAndDropHandler.getInstance().getCurrentAction();
 }
 
 qx.Proto.clearActions = function() {
-  qx.event.handler.DragAndDropHandler.clearActions();
+  qx.event.handler.DragAndDropHandler.getInstance().clearActions();
 }
 
 
