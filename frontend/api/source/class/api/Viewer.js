@@ -56,8 +56,8 @@ function (vUrl) {
 
   api.Viewer.instance = this;
 
-  qx.client.History.init();
-  qx.client.History.addEventListener("request", this._onHistoryRequest, this);
+  qx.client.History.getInstance().init();
+  qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
 
   if (qx.util.Validation.isValidString(vUrl)) {
     this.loadDocTreeFromUrl(vUrl);
@@ -252,7 +252,7 @@ qx.Proto._onTreeSelectionChange = function(evt)
   {
     var newTitle = this._titlePrefix + " - class " + treeNode.docNode.attributes.fullName;
 
-    qx.client.History.addToHistory(treeNode.docNode.attributes.fullName, newTitle);
+    qx.client.History.getInstance().addToHistory(treeNode.docNode.attributes.fullName, newTitle);
 
     this._currentTreeType = treeNode.treeType;
 
