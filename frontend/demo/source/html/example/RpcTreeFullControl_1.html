@@ -122,9 +122,9 @@ qx.core.Init.getInstance().defineMain(
 
         var mycall = null;
 
-        var trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Root");
+        var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Root");
         var t = new qx.ui.treefullcontrol.Tree(trs);
-        
+
         with(t)
         {
             setBackgroundColor(255);
@@ -173,10 +173,10 @@ qx.core.Init.getInstance().defineMain(
                     hierarchy,
                     true);
             });
-                
+
         qx.ui.core.ClientDocument.getInstance().add(t);
 
-        var trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Sandbox");
+        var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Sandbox");
         var tf = new qx.ui.treefullcontrol.TreeFolder(trs);
         t.add(tf);
     });
