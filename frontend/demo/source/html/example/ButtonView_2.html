@@ -18,7 +18,7 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
 
       var bs = new qx.ui.pageview.buttonview.ButtonView;
       bs.set({ left: 20, top: 48, right: 335, bottom: 48 });

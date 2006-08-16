@@ -22,7 +22,7 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
 
       var tb = new qx.ui.toolbar.ToolBar;
       with(tb)

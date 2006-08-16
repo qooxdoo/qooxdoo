@@ -226,7 +226,7 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     bl = new qx.ui.layout.BoxLayout("horizontal");
     bl.setBorder(qx.renderer.border.BorderPresets.getInstance().black);

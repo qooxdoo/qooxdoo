@@ -18,7 +18,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     // Try no version required
     var fo1 = new qx.ui.embed.Flash("./image/flash/fo_tester.swf");

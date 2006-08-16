@@ -20,7 +20,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
     
     var rb1 = new qx.ui.form.RadioButton("Option #1", "rb1");
     with(rb1)

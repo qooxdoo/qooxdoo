@@ -18,7 +18,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     var chooser = new qx.ui.component.DateChooser;
     chooser.setLocation(10, 50);

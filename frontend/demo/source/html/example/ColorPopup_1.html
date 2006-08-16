@@ -31,7 +31,7 @@
     myview.setLocation(100, 48);
     myview.setPadding(3, 6);
     myview.setBackgroundImage("core/dotted_white.gif");
-    this.add(myview);
+    myview.addToDocument();
 
     var mytables =
     {
@@ -57,7 +57,8 @@
     mypop.setLocation(100, 100);
     mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
 
-    this.add(mybtn, mypop);
+    mybtn.addToDocument();
+    mypop.addToDocument();
 
     mypop.addEventListener("changeValue", function(e) {
       this.debug("Value Listener: " + e.getData());

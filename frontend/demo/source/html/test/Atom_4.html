@@ -18,7 +18,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     var icons = [ "clock", "colors", "date", "folder", "locale", "penguin" ];
     var sizes = [ 16, 22, 32, 48, 64, 48, 32, 22, 16 ];

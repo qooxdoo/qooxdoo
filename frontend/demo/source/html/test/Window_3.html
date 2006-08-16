@@ -20,7 +20,7 @@
 
       qx.core.Init.getInstance().defineMain(function() {
 
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
       var txtfld;
       
       var  dialogEditFrage = new qx.ui.window.Window("Edit", "icon/16/editor.png");
