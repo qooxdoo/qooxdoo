@@ -77,4 +77,11 @@ qx.Proto.create = function(vSource)
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.manager.object.ImagePreloaderManager);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ImagePreloaderManager);

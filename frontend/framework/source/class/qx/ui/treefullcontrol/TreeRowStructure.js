@@ -256,4 +256,11 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.ui.treefullcontrol.TreeRowStructure);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.ui.treefullcontrol.TreeRowStructure);

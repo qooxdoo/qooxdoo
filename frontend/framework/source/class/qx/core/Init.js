@@ -82,7 +82,7 @@ qx.Proto._createComponent = function()
 {
   var vComponentName = this.getSetting("component");
 
-  this.debug("Init: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
+  this.debug("Component: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
   this.setComponent(new qx.OO.classes[vComponentName](this));
 }
 
@@ -179,7 +179,7 @@ qx.Proto._onload = function(e)
   this._createComponent();
 
   // Create singletons
-  qx.manager.object.SingletonManager.flush();
+  qx.manager.object.SingletonManager.getInstance().flush();
 
   // Send onload
   return this.getComponent()._onload(e);
@@ -245,4 +245,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.core.Init = new qx.core.Init;
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.core.Init._instance = new qx.core.Init;

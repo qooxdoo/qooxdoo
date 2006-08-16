@@ -45,7 +45,7 @@ qx.OO.defineClass("qx.lang.MshtmlEmu");
   * mimic = close enough
 */
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   /*
   --------------------------------------------------------------------------------

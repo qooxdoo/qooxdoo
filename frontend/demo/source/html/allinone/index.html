@@ -13,7 +13,7 @@
   <script type="text/javascript">
     qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
-    qx.core.Init.defineMain(function() {
+    qx.core.Init.getInstance().defineMain(function() {
       new AllInOneDemo(this.getClientWindow());
     });
   </script>

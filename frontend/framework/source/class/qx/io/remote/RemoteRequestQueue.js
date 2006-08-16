@@ -386,4 +386,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.io.remote.RemoteRequestQueue);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.io.remote.RemoteRequestQueue);

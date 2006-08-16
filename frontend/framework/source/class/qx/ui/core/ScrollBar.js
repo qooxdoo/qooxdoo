@@ -33,7 +33,7 @@ function(horizontal) {
   this._horizontal = (horizontal == true);
 
   this._scrollBar = new qx.ui.layout.CanvasLayout;
-  if (qx.sys.Client.isGecko()) {
+  if (qx.sys.Client.getInstance().isGecko()) {
     // NOTE: We have to force not using position:absolute, because this causes
     //     strange looking scrollbars in some cases (e.g. in Firefox under
     //     Linux the horizontal scrollbar is too high)
@@ -44,7 +44,7 @@ function(horizontal) {
   this._scrollBar.addEventListener(qx.constant.Event.SCROLL, this._onscroll, this);
 
   this._scrollContent = new qx.ui.basic.Terminator;
-  if (qx.sys.Client.isGecko()) {
+  if (qx.sys.Client.getInstance().isGecko()) {
     this._scrollContent.setStyleProperty("position", "");
   }
   this._scrollBar.add(this._scrollContent);

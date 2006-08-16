@@ -254,7 +254,7 @@ qx.Proto.setLeft = function(vWidth, vStyle, vColor)
 */
 
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto._initCache = function()
   {
@@ -317,7 +317,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
+if (qx.sys.Client.getInstance().isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
 {
   qx.Proto._addToThemed3DColors = function(vProp)
   {
@@ -676,7 +676,7 @@ qx.Proto._applyWidgetXCommon = function(vObject)
     vObject._style[i] = this._defsX[i];
   }
 
-  if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+  if (!qx.sys.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -705,7 +705,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
     vObject._style[i] = this._defsY[i];
   }
 
-  if (!qx.sys.Client.isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+  if (!qx.sys.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -720,7 +720,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
   }
 }
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto._applyWidgetX = qx.Proto._applyWidgetXCommon;
   qx.Proto._applyWidgetY = qx.Proto._applyWidgetYCommon;

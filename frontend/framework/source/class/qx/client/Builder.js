@@ -187,7 +187,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
     // e.innerHTML = node.firstChild.nodeValue;
 
     // fix for Internet Explorer by Cristian Bica
-    if (qx.sys.Client.isMshtml())
+    if (qx.sys.Client.getInstance().isMshtml())
     {
       e.innerHTML = eval(node.firstChild.nodeValue);
     }

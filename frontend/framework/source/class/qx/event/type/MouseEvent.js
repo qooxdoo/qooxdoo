@@ -74,7 +74,7 @@ qx.event.type.MouseEvent.getPageX   = function() { return qx.event.type.MouseEve
 qx.event.type.MouseEvent.getPageY   = function() { return qx.event.type.MouseEvent._pageY;   }
 qx.event.type.MouseEvent.getButton  = function() { return qx.event.type.MouseEvent._button;  }
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.event.type.MouseEvent.buttons = { left : 1, right : 2, middle : 4 }
 }
@@ -119,12 +119,12 @@ qx.Proto.getScreenY = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
 qx.OO.addFastProperty({ name : "pageX", readOnly : true });
 qx.OO.addFastProperty({ name : "pageY", readOnly : true });
 
-  if (qx.sys.Client.isInQuirksMode())
+  if (qx.sys.Client.getInstance().isInQuirksMode())
   {
     qx.Proto._computePageX = function() {
       return this.getDomEvent().clientX + document.documentElement.scrollLeft;
@@ -145,7 +145,7 @@ qx.OO.addFastProperty({ name : "pageY", readOnly : true });
     }
   }
 }
-else if (qx.sys.Client.isGecko())
+else if (qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto.getPageX = function() {
     return this.getDomEvent().pageX;
@@ -178,7 +178,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isMshtml() || qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto.getClientX = function() {
     return this.getDomEvent().clientX;
@@ -228,7 +228,7 @@ qx.Proto.isRightButtonPressed = function() {
   return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_RIGHT;
 }
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._computeButton = function()
   {
@@ -284,7 +284,7 @@ else
 
 qx.OO.addFastProperty({ name : "wheelDelta", readOnly : true });
 
-if(qx.sys.Client.isMshtml())
+if(qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._computeWheelDelta = function() {
     return this.getDomEvent().wheelDelta ? this.getDomEvent().wheelDelta / 40 : 0;

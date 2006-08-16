@@ -53,7 +53,7 @@ function(vSource)
   this._element.src = vSource;
 
   // Set PNG State
-  if (qx.sys.Client.isMshtml()) {
+  if (qx.sys.Client.getInstance().isMshtml()) {
     this._isPng = /\.png$/i.test(this._element.nameProp);
   }
 
@@ -109,7 +109,7 @@ qx.Proto.isErroneous = function() { return this._isErroneous; }
 qx.Proto._isPng = false;
 qx.Proto.getIsPng = function() { return this._isPng; }
 
-if(qx.sys.Client.isGecko())
+if(qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto.getWidth = function() { return this._element.naturalWidth; }
   qx.Proto.getHeight = function() { return this._element.naturalHeight; }

@@ -674,7 +674,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_marginY(vChild, vJobs);
 }
 
-if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
+if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
 {
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
@@ -810,7 +810,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
   var vWidget = this.getWidget();
 
   // special stretching support
-  if (qx.sys.Client.isGecko() && vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
+  if (qx.sys.Client.getInstance().isGecko() && vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
   {
     vChild._applyRuntimeTop(vWidget.getPaddingTop() || 0);
     vChild._applyRuntimeBottom(vWidget.getPaddingBottom() || 0);

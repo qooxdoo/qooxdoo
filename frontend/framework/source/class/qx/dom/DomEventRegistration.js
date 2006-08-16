@@ -25,7 +25,7 @@
 
 qx.OO.defineClass("qx.dom.DomEventRegistration");
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent(qx.constant.Core.ON + vType, vFunction);

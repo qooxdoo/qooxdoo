@@ -311,4 +311,11 @@ qx.Proto.usesSvgPlugin = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.sys.Client = new qx.sys.Client;
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.sys.Client._instance = new qx.sys.Client;

@@ -275,7 +275,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
       this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
       this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
 
-      if (!qx.sys.Client.isMshtml()) {
+      if (!qx.sys.Client.getInstance().isMshtml()) {
         this._applyEnabled();
       }
     }
@@ -318,7 +318,7 @@ qx.Proto._postApply = function()
   this._updateContent();
 }
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.ui.basic.Image.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
   qx.ui.basic.Image.IMGLOADER_STOP = "',sizingMethod='scale')";
@@ -470,7 +470,7 @@ qx.Proto._applyContent = function()
   qx.ui.core.Widget.flushGlobalQueues();
 }
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._postApplyDimensions = function()
   {
@@ -530,7 +530,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._changeInnerWidth = function(vNew, vOld)
   {

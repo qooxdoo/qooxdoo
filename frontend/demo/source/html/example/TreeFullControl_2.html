@@ -71,7 +71,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
         return treeRowStructure;
         }
 
-    qx.core.Init.defineMain(function()
+    qx.core.Init.getInstance().defineMain(function()
     {
       var x = new qx.ui.basic.Atom("Test #1", "icon/16/reload.png", 16, 16);
         x.debug("In main");

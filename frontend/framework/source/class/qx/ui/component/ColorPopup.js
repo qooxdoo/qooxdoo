@@ -184,7 +184,7 @@ qx.Proto._createColorSelector = function()
 
   this._colorSelectorWindow.add(this._colorSelector);
 
-  var root = qx.core.Init.getComponent().getClientDocument();
+  var root = qx.core.Init.getInstance().getComponent().getClientDocument();
   root.add(this._colorSelectorWindow);
 }
 
