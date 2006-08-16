@@ -70,8 +70,10 @@ def start(infoList, patchList, fileList, options):
 
 
 
+
 def handle(options):
   inputPaths = options.input
+  inputEncodings = options.encoding
 
   print "  * Input directories:"
   for inputPath in inputPaths:
@@ -135,6 +137,7 @@ def handle(options):
 
   print "  * Scanning input directories..."
 
+  indexPos = 0
   for inputPath in inputPaths:
     for root, dirs, files in os.walk(inputPath):
 
@@ -149,11 +152,26 @@ def handle(options):
           continue
 
         filePath = os.path.join(root, fileName)
-        fileList.append(filePath)
+
+        if len(inputEncodings) > indexPos:
+          fileEncoding = inputEncodings[indexPos]
+        else:
+          fileEncoding = "utf-8"
+
+        fileObject = codecs.open(filePath, "r", fileEncoding)
+
+        try:
+          fileContent = fileObject.read()
+        except ValueError:
+          print "    * Invalid Encoding. Required encoding: %s in %s" % (fileEncoding, filePath)
+          print "        => Ignore file"
+          continue
+
+        fileList.append({"path":filePath,"encoding":fileEncoding,"content":fileContent})
         if options.verbose:
           print "    - %s" % filePath
 
-
+    indexPos += 1
 
 
   start(infoList, patchList, fileList, options)
