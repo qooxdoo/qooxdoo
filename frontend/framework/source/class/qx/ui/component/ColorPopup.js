@@ -32,7 +32,7 @@ function(tables)
 
   this.setPadding(4);
   this.auto();
-  this.setBorder(qx.renderer.border.BorderPresets.outset);
+  this.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
   this.setBackgroundColor("threedface");
 
   this._tables = tables;
@@ -116,7 +116,7 @@ qx.Proto._createBoxes = function()
     {
       field = new qx.ui.basic.Terminator;
 
-      field.setBorder(qx.renderer.border.BorderPresets.thinInset);
+      field.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
       field.setBackgroundColor(table.values[i] || null);
       field.setDimension(this._fieldWidth, this._fieldHeight);
 
@@ -145,11 +145,11 @@ qx.Proto._createPreview = function()
 
   this._layout.add(this._previewBox);
 
-  this._selectedPreview.setBorder(qx.renderer.border.BorderPresets.inset);
+  this._selectedPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   this._selectedPreview.setWidth(qx.constant.Core.FLEX);
   this._selectedPreview.setHeight(24);
 
-  this._currentPreview.setBorder(qx.renderer.border.BorderPresets.inset);
+  this._currentPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   this._currentPreview.setWidth(qx.constant.Core.FLEX);
   this._currentPreview.setHeight(24);
 }

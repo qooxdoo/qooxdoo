@@ -22,7 +22,7 @@
   </div>
   <textarea id='widgets' style='display:none'>
     <qx.client.builder.Container>
-      <qx.ui.basic.Atom id="linfo" label="Current Value" icon="icon/16/forward.png" border="qx.renderer.border.BorderPresets.black" padding="2,4" backgroundColor="white" top="48" left="20"/>
+      <qx.ui.basic.Atom id="linfo" label="Current Value" icon="icon/16/forward.png" border="qx.renderer.border.BorderPresets.getInstance().black" padding="2,4" backgroundColor="white" top="48" left="20"/>
       <qx.manager.selection.RadioManager id='_rm1' name="mygroup">
         <qx.client.builder.EventListener type='changeSelected' args='e'>
           linfo.setLabel("Current Value: \"" + e.getData().getLabel() + "\" (" + e.getData().getValue() + ")");

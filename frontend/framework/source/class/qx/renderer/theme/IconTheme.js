@@ -34,5 +34,5 @@ function(vTitle)
 qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
 
 qx.Proto._register = function() {
-  return qx.manager.object.ImageManager.registerIconTheme(this);
+  return qx.manager.object.ImageManager.getInstance().registerIconTheme(this);
 }

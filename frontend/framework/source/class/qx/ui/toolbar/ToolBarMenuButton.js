@@ -208,7 +208,7 @@ qx.Proto._onmouseover = function(e)
 
       default:
         // hide other menus
-        qx.manager.object.MenuManager.update();
+        qx.manager.object.MenuManager.getInstance().update();
 
         // show this menu
         this._showMenu();

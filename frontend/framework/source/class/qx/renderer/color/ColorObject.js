@@ -28,14 +28,14 @@ function(vValue)
   // this.debug("Value: " + vValue);
   this.setValue(vValue);
 
-  if(qx.manager.object.ColorManager.has(this._value)) {
-    return qx.manager.object.ColorManager.get(this._value);
+  if(qx.manager.object.ColorManager.getInstance().has(this._value)) {
+    return qx.manager.object.ColorManager.getInstance().get(this._value);
   }
 
   qx.core.Object.call(this);
 
   // Register this color object to manager instance
-  qx.manager.object.ColorManager.add(this);
+  qx.manager.object.ColorManager.getInstance().add(this);
 
   // Here will all objects with a dependency to this
   // color stored.
@@ -79,7 +79,7 @@ qx.Proto._updateTheme = function(vTheme)
 
 qx.Proto._applyThemedValue = function()
 {
-  var vTheme = qx.manager.object.ColorManager.getTheme();
+  var vTheme = qx.manager.object.ColorManager.getInstance().getTheme();
   var vRgb = vTheme.getValueByName(this._value);
 
   if (vRgb)

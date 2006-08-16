@@ -110,7 +110,7 @@
     w7.setWidth(100);
     w7.setHeight(100);
     w7.setBackgroundColor(new qx.renderer.color.Color("aqua"));
-    w7.setBorder(qx.renderer.border.BorderPresets.black);
+    w7.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
 
     d.add(w7);
 
@@ -169,7 +169,7 @@
     w11.setHeight("auto");
     w11.setBackgroundColor(new qx.renderer.color.Color("green"));
     w11.setDisplay(false);
-    w11.setBorder(qx.renderer.border.BorderPresets.white);
+    w11.setBorder(qx.renderer.border.BorderPresets.getInstance().white);
     w11.setPaddingLeft(20);
 
     d.add(w11);
@@ -219,7 +219,7 @@
 
     w14.setTop(400);
     w14.setLeft(20);
-    w14.setBorder(qx.renderer.border.BorderPresets.black);
+    w14.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
     //w14.setWidth("auto");
     w14.setMinWidth("auto");
     w14.setWidth("30%");
@@ -468,8 +468,8 @@
 
 
 
-    var w25_b1 = qx.renderer.border.BorderPresets.outset;
-    var w25_b2 = qx.renderer.border.BorderPresets.inset;
+    var w25_b1 = qx.renderer.border.BorderPresets.getInstance().outset;
+    var w25_b2 = qx.renderer.border.BorderPresets.getInstance().inset;
 
     var w25_p1 = 10;
     var w25_p2 = 5;
@@ -527,7 +527,7 @@
     w27.setTop(50);
     w27.setLeft(550);
 
-    w27.setBorder(qx.renderer.border.BorderPresets.outset);
+    w27.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
     w27.setPadding(10, 10, 10, 10);
 
     d.add(w27);
@@ -535,14 +535,14 @@
 
     w27.addEventListener("click", function(e)
     {
-      if (w27.getBorder() == qx.renderer.border.BorderPresets.outset)
+      if (w27.getBorder() == qx.renderer.border.BorderPresets.getInstance().outset)
       {
-        w27.setBorder(qx.renderer.border.BorderPresets.inset);
+        w27.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
         w27.setPadding(12, 8, 8, 12);
       }
       else
       {
-        w27.setBorder(qx.renderer.border.BorderPresets.outset);
+        w27.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
         w27.setPadding(10, 10, 10, 10);
       };
     });
@@ -564,8 +564,8 @@
 
 
 
-    var w29_b1 = qx.renderer.border.BorderPresets.outset;
-    var w29_b2 = qx.renderer.border.BorderPresets.inset;
+    var w29_b1 = qx.renderer.border.BorderPresets.getInstance().outset;
+    var w29_b2 = qx.renderer.border.BorderPresets.getInstance().inset;
 
     var w29_p1 = 10;
     var w29_p2 = 5;

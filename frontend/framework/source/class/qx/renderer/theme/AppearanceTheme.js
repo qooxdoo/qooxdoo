@@ -85,7 +85,7 @@ qx.Proto.setupAppearance = function(vAppearance)
 }
 
 qx.Proto._register = function() {
-  qx.manager.object.AppearanceManager.registerTheme(this);
+  qx.manager.object.AppearanceManager.getInstance().registerTheme(this);
 }
 
 

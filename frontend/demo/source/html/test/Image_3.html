@@ -23,7 +23,7 @@
 
     var frame = new qx.ui.layout.CanvasLayout;
     
-    frame.setBorder(qx.renderer.border.BorderPresets.ridge);
+    frame.setBorder(qx.renderer.border.BorderPresets.getInstance().ridge);
     frame.setWidth("auto");
     frame.setHeight("auto");
     frame.setPadding(8);
@@ -36,7 +36,7 @@
 
     var out = new qx.ui.layout.CanvasLayout;
     
-    out.setBorder(qx.renderer.border.BorderPresets.inset);
+    out.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
     out.setWidth("auto");
     out.setHeight("auto");
     out.setPadding(8);
@@ -47,7 +47,7 @@
 
     var bar = new qx.ui.layout.CanvasLayout;
     
-    bar.setBorder(qx.renderer.border.BorderPresets.outset);
+    bar.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
     bar.setWidth("auto");
     bar.setHeight("auto");
     bar.setPadding(4);    
@@ -69,7 +69,7 @@
     
       part.setWidth("auto");
       part.setHeight("auto");
-      part.setBorder(qx.renderer.border.BorderPresets.outset);
+      part.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
       part.setLeft(j*90);
       part.setTop(0);
       part.setBackgroundColor(new qx.renderer.color.ColorObject("Threedface"));

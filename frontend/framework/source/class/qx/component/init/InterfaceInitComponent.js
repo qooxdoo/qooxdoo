@@ -113,7 +113,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
   {
     case qx.component.AbstractComponent.STATE_MAIN:
       this.debug("preloading visible images...");
-      new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPreloadImageList(), this.finalize, this);
+      new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
       break;
   }
 
@@ -136,7 +136,7 @@ qx.Proto.preload = function()
   if (!this._preloadDone)
   {
     this.debug("preloading hidden images...");
-    new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getPostPreloadImageList(), this._printPreloadComplete, this);
+    new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
     this._preloadDone = true;
   }
 }

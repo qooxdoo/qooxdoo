@@ -26,7 +26,7 @@ function(vGalleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
-  this._blank = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
+  this._blank = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
   this._list = vGalleryList;
   this._listSize = vGalleryList.length;
   this._processedImages = 0;
@@ -270,7 +270,7 @@ qx.Proto._onmousemove = function(e)
   if (this._lastItem)
   {
     var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
-    qx.manager.object.ToolTipManager.handleMouseOut(vEventObject);
+    qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
     vEventObject.dispose();
   }
 
@@ -285,7 +285,7 @@ qx.Proto._onmousemove = function(e)
     }
 
     var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
-    qx.manager.object.ToolTipManager.handleMouseOver(vEventObject);
+    qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
     vEventObject.dispose();
 
     this.setToolTip(null);
