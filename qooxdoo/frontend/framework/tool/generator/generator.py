@@ -2,36 +2,18 @@
 
 import sys, re, os, optparse
 
-from optparse import *
-
-
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress
+import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption
 
 
 
-
-
-
-class ExtendedOption(Option):
-  ACTIONS = Option.ACTIONS + ("extend",)
-  STORE_ACTIONS = Option.STORE_ACTIONS + ("extend",)
-  TYPED_ACTIONS = Option.TYPED_ACTIONS + ("extend",)
-
-  def take_action(self, action, dest, opt, value, values, parser):
-    if action == "extend":
-      lvalue = value.split(",")
-      values.ensure_value(dest, []).extend(lvalue)
-    else:
-      Option.take_action(
-        self, action, dest, opt, value, values, parser)
 
 
 
 def getparser():
-  parser = OptionParser("usage: %prog [options]", option_class=ExtendedOption)
+  parser = optparse.OptionParser("usage: %prog [options]", option_class=extendedoption.ExtendedOption)
 
 
   #################################################################################
