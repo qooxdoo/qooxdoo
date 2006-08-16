@@ -21,7 +21,7 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
 
       var fs = new qx.ui.groupbox.GroupBox("My first Fieldset", "icon/16/clock.png");
 

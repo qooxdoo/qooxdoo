@@ -36,8 +36,8 @@
 qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout,
 function(vClientWindow)
 {
-  this._window = vClientWindow;
-  this._document = this._window.getElement().document;
+  this._window = window;
+  this._document = window.document;
 
   // Init element
   this.setElement(this._document.body);
@@ -132,10 +132,9 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   return true;
 }
 
-qx.Proto.getWindow = function() { return this._window; }
 qx.Proto.getTopLevelWidget = qx.util.Return.returnThis;
+qx.Proto.getWindowElement = function() { return this._window; }
 qx.Proto.getDocumentElement = function() { return this._document; }
-qx.Proto.getEventManager = function() { return this.getWindow().getEventManager(); }
 
 qx.Proto.getParent = qx.Proto.getToolTip = qx.util.Return.returnNull;
 qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.util.Return.returnTrue;
@@ -395,7 +394,6 @@ qx.Proto.dispose = function()
     return;
   }
 
-  delete this._window;
   delete this._document;
   delete this._modalWidgets;
   delete this._modalNativeWindow;
@@ -421,3 +419,23 @@ qx.Proto.dispose = function()
 
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 }
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFER SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.ui.core.ClientDocument);

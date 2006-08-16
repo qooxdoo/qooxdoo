@@ -18,7 +18,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
     
     var a1 = new qx.ui.basic.Atom("Drag Me");
     a1.set({ backgroundColor: "white", border: qx.renderer.border.BorderPresets.getInstance().groove });
