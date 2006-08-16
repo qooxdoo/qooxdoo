@@ -1,16 +1,70 @@
 #!/usr/bin/env python
 
-import sys, re, os, optparse
+import sys, re, os, optparse, codecs
 import config
+
+
+
+def entryCompiler(line):
+  # protect escaped equal symbols
+  line = line.replace("\=", "----EQUAL----")
+
+  splitLine = line.split("=")
+  key = splitLine[0]
+  repl = splitLine[1]
+
+  #print "%s :: %s" % (key, value)
+
+  # recover protected equal symbols
+  key = key.replace("----EQUAL----", "=")
+
+  return {"reg":re.compile(key), "repl":repl}
+
+
 
 
 
 def start(infoList, patchList, fileList, options):
 
   print "  * Starting..."
-  print "    - File number: %s" % len(fileList)
-  print "    - Info number: %s" % len(infoList)
-  print "    - Patch number: %s" % len(patchList)
+  print "    - Number of input files: %s" % len(fileList)
+  print "    - Number of info files: %s" % len(infoList)
+  print "    - Number of patch files: %s" % len(patchList)
+
+  print "  * Compiling..."
+
+  emptyLine = re.compile("^\s*$")
+
+  compiledInfos = []
+  compiledPatches = []
+
+  for infoFile in infoList:
+    print "    - %s" % os.path.basename(infoFile["path"])
+    for line in infoFile["content"]:
+      if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
+        continue
+
+      compiledInfos.append(entryCompiler(line))
+
+
+  for patchFile in patchList:
+    print "    - %s" % os.path.basename(patchFile["path"])
+    for line in patchFile["content"]:
+      if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
+        continue
+
+      compiledPatches.append(entryCompiler(line))
+
+
+  print "  * Statistics"
+  print "    - Number of infos: %s" % len(compiledInfos)
+  print "    - Number of patches: %s" % len(compiledPatches)
+
+
+
+
+
+
 
 
 
@@ -49,10 +103,12 @@ def handle(options):
     # Searching for files
     for fileName in files:
       filePath = os.path.join(root, fileName)
-      infoList.append(filePath)
+
+      fileObject = codecs.open(filePath, "r", "utf-8")
+      infoList.append({"path":filePath, "content":fileObject.read().split("\n")})
+
       if options.verbose:
         print "    - %s" % filePath
-
 
 
 
@@ -68,7 +124,10 @@ def handle(options):
     # Searching for files
     for fileName in files:
       filePath = os.path.join(root, fileName)
-      patchList.append(filePath)
+
+      fileObject = codecs.open(filePath, "r", "utf-8")
+      patchList.append({"path":filePath, "content":fileObject.read().split("\n")})
+
       if options.verbose:
         print "    - %s" % filePath
 
@@ -104,18 +163,22 @@ def handle(options):
 
 
 def main():
+  # Initialize new parser
   parser = optparse.OptionParser("usage: %prog [options]")
 
-  # Required options
+  # Add required options
   parser.add_option("--input", action="append", dest="input", metavar="DIRECTORY", type="string", default=[], help="Define a input directory.")
+  parser.add_option("--encoding", action="append", dest="encoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
   parser.add_option("--version", action="store", dest="version", metavar="VERSION", type="string", help="Define the version to switch to.")
 
-  # General options
+  # Add general options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
 
+  # Parse incoming arguments
   (options, args) = parser.parse_args(sys.argv[1:])
 
+  # Verification
   if options.input == None:
     print "  * You must define a input directory!"
     sys.exit(1)
@@ -124,6 +187,7 @@ def main():
     print "  * You must define a version string!"
     sys.exit(1)
 
+  # Start migration preparations
   handle(options)
 
 
