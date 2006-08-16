@@ -257,7 +257,7 @@ qx.Proto._onmouseup = function(e)
 
 qx.Proto._onmousemove = function(e)
 {
-  if (typeof qx.manager.object.ToolTipManager !== qx.constant.Type.OBJECT) {
+  if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
     return;
   }
 

@@ -31,7 +31,7 @@ function(treeRowStructure)
     throw new Error("Please omit the usage of qx.ui.treefullcontrol.AbstractTreeElement directly. Choose between qx.ui.treefullcontrol.TreeFolder, qx.ui.treefullcontrol.TreeFolderSimple, qx.ui.treefullcontrol.TreeFile and qx.ui.treefullcontrol.TreeFileSimple instead!");
   }
 
-  if (treeRowStructure !== qx.ui.treefullcontrol.TreeRowStructure)
+  if (treeRowStructure !== qx.ui.treefullcontrol.TreeRowStructure.getInstance())
   {
     throw new Error("A qx.ui.treefullcontrol.TreeRowStructure parameter is required.");
   }
