@@ -12,7 +12,7 @@
       });
 
       qx.core.Init.getInstance().defineMain(function() {
-        this.add(new api.Viewer("script/data.js"));
+        (new api.Viewer("script/data.js")).addToDocument();
       });
     </script>
   </head>
