@@ -44,7 +44,7 @@
       qx.OO.changeProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 
-      var trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Root");
+      var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Root");
       var t = new qx.ui.treefullcontrol.Tree(trs);
 
       /*
@@ -86,27 +86,27 @@
 
       qx.ui.core.ClientDocument.getInstance().add(t);
       // One icon for selected and one for unselected states
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Desktop", "icon/16/desktop.png", "icon/16/dictionary.png");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Desktop", "icon/16/desktop.png", "icon/16/dictionary.png");
       var te1 = new qx.ui.treefullcontrol.TreeFolder(trs);
       t.add(te1);
 
       desktop = te1;
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Files");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Files");
       var te1_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Workspace");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Workspace");
       var te1_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Network");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Network");
       var te1_3 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Trash");
       var te1_4 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
       // One icon specified, and used for both selected unselected states
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Windows (C:)", "icon/16/harddrive.png");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Windows (C:)", "icon/16/harddrive.png");
       var te1_2_1 = new qx.ui.treefullcontrol.TreeFile(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Documents (D:)", "icon/16/harddrive.png");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Documents (D:)", "icon/16/harddrive.png");
       var te1_2_2 = new qx.ui.treefullcontrol.TreeFile(trs);
 
       te1_2.add(te1_2_1, te1_2_2);
@@ -114,84 +114,84 @@
       arbeitsplatz = te1_2;
 
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Inbox");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Inbox");
       var te2 = new qx.ui.treefullcontrol.TreeFolder(trs);
       posteingang = te2;
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Presets");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Presets");
       var te2_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Sent");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Sent");
       var te2_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash", "icon/16/trash.png");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Trash", "icon/16/trash.png");
       var te2_3 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Data");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Data");
       var te2_4 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Edit");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Edit");
       var te2_5 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       editieren = te2_5;
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Chat");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Chat");
       var te2_5_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Pustefix");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Pustefix");
       var te2_5_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("TINC");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("TINC");
       var te2_5_3 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Announce");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Announce");
       var te2_5_3_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Devel");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Devel");
       var te2_5_3_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       te2_5_3.add(te2_5_3_1, te2_5_3_2);
 
       te2_5.add(te2_5_1, te2_5_2, te2_5_3);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Lists");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Lists");
       var te2_6 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Relations");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Relations");
       var te2_6_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Company");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Company");
       var te2_6_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Questions");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Questions");
       var te2_6_3 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Internal");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Internal");
       var te2_6_4 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Products");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Products");
       var te2_6_5 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Press");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Press");
       var te2_6_6 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Development");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Development");
       var te2_6_7 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Competition");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Competition");
       var te2_6_8 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Personal");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Personal");
       var te2_7 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Bugs");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Bugs");
       var te2_7_1 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Family");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Family");
       var te2_7_2 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Projects");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Projects");
       var te2_7_3 = new qx.ui.treefullcontrol.TreeFolder(trs);
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Holiday");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Holiday");
       var te2_7_4 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Big");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Big");
       var te2_8 = new qx.ui.treefullcontrol.TreeFolder(trs);
 
       for (var i=0;i<50; i++) {
-        trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Item " + i);
+        trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Item " + i);
         te2_8.add(new qx.ui.treefullcontrol.TreeFolder(trs));
       };
 
-      trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Spam");
+      trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Spam");
       var te2_9 = new qx.ui.treefullcontrol.TreeFolder(trs);
       spam = te2_9;
 
