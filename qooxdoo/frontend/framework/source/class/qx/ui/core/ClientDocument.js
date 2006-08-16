@@ -31,11 +31,10 @@
   This is the basic widget of all qooxdoo applications.
 
   qx.ui.core.ClientDocument is the parent of all children inside your application. It
-  also handles their resizing and focus navigation. This widget will be automatically
-  created through qx.client.ClientWindow.
+  also handles their resizing and focus navigation.
 */
 qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout,
-function(vClientWindow)
+function()
 {
   this._window = window;
   this._document = window.document;

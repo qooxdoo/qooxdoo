@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /*!
-  This object gets an instance in vAll qx.client.ClientWindows and manage the focus handling for it.
+  This object gets an instance in each focus root and manage the focus handling for it.
 */
 qx.OO.defineClass("qx.event.handler.FocusHandler", qx.core.Target,
 function(vWidget)
