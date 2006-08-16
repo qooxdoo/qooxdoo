@@ -20,6 +20,7 @@
 
 #module(ui_core)
 #require(qx.dom.DomStyleSheet)
+#require(qx.event.handler.EventHandler)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
 #optional(qx.manager.object.PopupManager)
@@ -65,6 +66,8 @@ function(vClientWindow)
   this._modalWidgets = [];
   this._modalNativeWindow = null;
 
+  // Register as focus root
+  qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
 
   // Init Resize Helper

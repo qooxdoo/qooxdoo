@@ -76,7 +76,7 @@
         setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
-      this.add(treeSource);
+      qx.ui.core.ClientDocument.getInstance().add(treeSource);
       
       for (var i=1, f; i<4; i++)
       {
@@ -141,7 +141,7 @@
         setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
 
-      this.add(treeDest);
+      qx.ui.core.ClientDocument.getInstance().add(treeDest);
     });
   </script>
 </body>

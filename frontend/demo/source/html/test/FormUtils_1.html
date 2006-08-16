@@ -66,12 +66,12 @@
   {
     var btn = new qx.ui.form.Button("Encode");
     btn.setLocation(20, 48);
-    this.add(btn);
+    qx.ui.core.ClientDocument.getInstance().add(btn);
 
     var area = new qx.ui.form.TextArea;
     area.setLocation(20, 100);
     area.setDimension(200, 100);
-    this.add(area);
+    qx.ui.core.ClientDocument.getInstance().add(area);
 
     QxFormUtils.bind(document.getElementById("mainform"), function() {
       alert("Submitting Form Replacement...");

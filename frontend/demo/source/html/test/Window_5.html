@@ -23,14 +23,14 @@
     
     var btnaler = new qx.ui.form.Button("Open Alert", "icon/16/error.png");
     btnaler.setLocation(450, 50);
-    this.add(btnaler);
+    qx.ui.core.ClientDocument.getInstance().add(btnaler);
     
     
     var aler = new qx.ui.popup.PopupAtom("Attention", "icon/128/error.png");
     aler.setLocation(40, 70);
     aler.setBackgroundColor("yellow");
     aler.setOpacity(0.5);
-    this.add(aler);
+    qx.ui.core.ClientDocument.getInstance().add(aler);
     
     btnaler.addEventListener("execute", function(e)
     {
@@ -46,7 +46,7 @@
     bar.setBackgroundColor("black");
     bar.setOpacity(0.5);
     bar.setZIndex(1e7);
-    this.add(bar);
+    qx.ui.core.ClientDocument.getInstance().add(bar);
     
     
     
@@ -88,7 +88,7 @@
     
     m4.add(mb41, mb42);
     
-    this.add(m1, m2, m3, m4);
+    qx.ui.core.ClientDocument.getInstance().add(m1, m2, m3, m4);
     
     
     
@@ -120,7 +120,7 @@
     tb3.setToolTip(tt3);
     tb4.setToolTip(tt4);
     
-    this.add(tt1, tt2, tt3, tt4);
+    qx.ui.core.ClientDocument.getInstance().add(tt1, tt2, tt3, tt4);
     
     
     
@@ -212,7 +212,7 @@
     var w2 = new qx.ui.window.Window("Test 2");
     w2.setDimension(400, 200);
     w2.setLocation(200, 200);
-    this.add(w2);
+    qx.ui.core.ClientDocument.getInstance().add(w2);
     w2.show();
 
   });

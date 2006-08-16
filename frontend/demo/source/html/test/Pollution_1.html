@@ -237,22 +237,22 @@
       pollTxt.setOverflow("auto");
       pollTxt.setBorder("1px solid black");
       pollTxt.setBackgroundColor("white");
-      this.add(pollTxt);
+      qx.ui.core.ClientDocument.getInstance().add(pollTxt);
 
       var pollWinBtn = new qx.ui.form.Button("Print Window");
       pollWinBtn.setTop(300);
       pollWinBtn.setRight(335);
-      this.add(pollWinBtn);
+      qx.ui.core.ClientDocument.getInstance().add(pollWinBtn);
 
       var pollDocBtn = new qx.ui.form.Button("Print Document");
       pollDocBtn.setTop(330);
       pollDocBtn.setRight(335);
-      this.add(pollDocBtn);
+      qx.ui.core.ClientDocument.getInstance().add(pollDocBtn);
 
       var pollBodyBtn = new qx.ui.form.Button("Print Body");
       pollBodyBtn.setTop(360);
       pollBodyBtn.setRight(335);
-      this.add(pollBodyBtn);
+      qx.ui.core.ClientDocument.getInstance().add(pollBodyBtn);
 
       pollWinBtn.addEventListener("execute", function(e) {
         pollTxt.setHtml(qx.dev.Pollution.getHtmlTable("window"));

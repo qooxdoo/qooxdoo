@@ -174,7 +174,7 @@ qx.core.Init.getInstance().defineMain(
                     true);
             });
                 
-        this.add(t);
+        qx.ui.core.ClientDocument.getInstance().add(t);
 
         var trs = qx.ui.treefullcontrol.TreeRowStructure.standard("Sandbox");
         var tf = new qx.ui.treefullcontrol.TreeFolder(trs);

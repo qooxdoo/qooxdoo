@@ -54,11 +54,11 @@
     {
       a1 = new qx.ui.form.Button("Hello World", "icon/32/penguin.png");
       a1.setLocation(20, 50);
-      this.add(a1);
+      qx.ui.core.ClientDocument.getInstance().add(a1);
 
       a2 = new qx.ui.form.Button("Hello World", "icon/32/appearance.png");
       a2.setLocation(220, 50);
-      this.add(a2);
+      qx.ui.core.ClientDocument.getInstance().add(a2);
     };
 
     window.application.post = function()

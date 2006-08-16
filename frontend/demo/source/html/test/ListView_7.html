@@ -39,7 +39,7 @@
       lv.setHeight(350);
       lv.setLocation(20, 48);
 
-      this.add(lv);
+      qx.ui.core.ClientDocument.getInstance().add(lv);
 
       function add(nu)
       {
@@ -107,7 +107,7 @@
 
       btnClear.addEventListener("execute", function(e) { clear(); });
 
-      this.add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
+      qx.ui.core.ClientDocument.getInstance().add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
     });
   </script>
 </body>

@@ -49,7 +49,7 @@
     grid.setRowHeight(0, 18);
     grid.setRowHeight(1, 22);
 
-    this.add(grid);
+    qx.ui.core.ClientDocument.getInstance().add(grid);
 
     grid.add(lab1, 0, 0);
     grid.add(lab2, 1, 0);
@@ -63,14 +63,14 @@
 
     var btn = new qx.ui.form.Button("Send", "icon/16/button-ok.png");
     btn.setLocation(20, 120);
-    this.add(btn);
+    qx.ui.core.ClientDocument.getInstance().add(btn);
 
 
 
     var area = new qx.ui.form.TextArea("");
     area.setLocation(20, 154);
     area.setDimension(192, 400);
-    this.add(area);
+    qx.ui.core.ClientDocument.getInstance().add(area);
 
 
 
