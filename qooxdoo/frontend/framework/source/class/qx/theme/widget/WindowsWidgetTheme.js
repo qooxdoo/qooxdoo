@@ -50,4 +50,11 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.widget.WindowsWidgetTheme);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.theme.widget.WindowsWidgetTheme);

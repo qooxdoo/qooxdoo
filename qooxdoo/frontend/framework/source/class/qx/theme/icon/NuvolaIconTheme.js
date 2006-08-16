@@ -49,4 +49,11 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.theme.icon.NuvolaIconTheme);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.theme.icon.NuvolaIconTheme);

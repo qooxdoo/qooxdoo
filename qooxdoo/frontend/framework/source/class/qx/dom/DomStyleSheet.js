@@ -27,7 +27,7 @@
 
 qx.OO.defineClass("qx.dom.DomStyleSheet");
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomStyleSheet.createElement = function(vCssText)
   {

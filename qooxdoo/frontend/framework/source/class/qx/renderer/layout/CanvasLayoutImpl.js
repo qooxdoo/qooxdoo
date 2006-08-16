@@ -221,7 +221,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_marginY(vChild, vJobs);
 }
 
-if (qx.sys.Client.isMshtml() || qx.sys.Client.isOpera())
+if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
 {
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {

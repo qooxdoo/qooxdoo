@@ -72,4 +72,11 @@ qx.Proto.update = function(vTarget)
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.manager.object.PopupManager);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.PopupManager);

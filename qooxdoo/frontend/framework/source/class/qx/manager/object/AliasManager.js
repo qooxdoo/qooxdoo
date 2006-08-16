@@ -165,4 +165,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.manager.object.AliasManager);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.AliasManager);

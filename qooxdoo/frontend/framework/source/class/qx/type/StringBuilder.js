@@ -46,7 +46,7 @@ function(vStr)
 });
 
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto.clear = function() {
     this._array = [];

@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <script type="text/javascript">
-    qx.core.Init.defineMain(function() {
+    qx.core.Init.getInstance().defineMain(function() {
       new qx.client.Builder().build(this.getClientWindow().getClientDocument(), document.getElementById('widgets'));
     });
 

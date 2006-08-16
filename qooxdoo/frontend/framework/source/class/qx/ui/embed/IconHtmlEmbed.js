@@ -90,7 +90,7 @@ qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT = "px;";
 qx.ui.embed.IconHtmlEmbed.FILTER_START = "filter:";
 qx.ui.embed.IconHtmlEmbed.STOP_IMAGE = "\"/>";
 
-qx.Proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
 
 qx.Proto._syncHtml = function()
 {

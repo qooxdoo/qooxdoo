@@ -103,4 +103,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager = new qx.manager.object.SingletonManager;
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager._instance = new qx.manager.object.SingletonManager;

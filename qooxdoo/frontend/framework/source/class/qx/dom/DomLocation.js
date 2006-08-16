@@ -36,7 +36,7 @@ qx.dom.DomLocation.getClientOuterRight  = function(el) { return qx.dom.DomLocati
 qx.dom.DomLocation.getClientOuterBottom = function(el) { return qx.dom.DomLocation.getClientBoxBottom(el) + qx.dom.DomStyle.getMarginBottom(el); }
 
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomLocation.getClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; }
   qx.dom.DomLocation.getClientBoxTop    = function(el) { return el.getBoundingClientRect().top; }
@@ -44,7 +44,7 @@ if (qx.sys.Client.isMshtml())
   qx.dom.DomLocation.getPageBoxLeft     = function(el) { return qx.dom.DomLocation.getClientBoxLeft(el)  + qx.dom.DomScroll.getLeftSum(el); }
   qx.dom.DomLocation.getPageBoxTop      = function(el) { return qx.dom.DomLocation.getClientBoxTop(el)   + qx.dom.DomScroll.getTopSum(el); }
 }
-else if (qx.sys.Client.isGecko())
+else if (qx.sys.Client.getInstance().isGecko())
 {
   qx.dom.DomLocation.getClientBoxLeft   = function(el) { return qx.dom.DomLocation.getClientAreaLeft(el) - qx.dom.DomStyle.getBorderLeft(el); }
   qx.dom.DomLocation.getClientBoxTop    = function(el) { return qx.dom.DomLocation.getClientAreaTop(el)  - qx.dom.DomStyle.getBorderTop(el); }
@@ -103,7 +103,7 @@ else
   }
 }
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomLocation.getClientBoxRight  = function(el) { return el.getBoundingClientRect().right; }
   qx.dom.DomLocation.getClientBoxBottom = function(el) { return el.getBoundingClientRect().bottom; }
@@ -120,7 +120,7 @@ else
   qx.dom.DomLocation.getPageBoxBottom   = function(el) { return qx.dom.DomLocation.getPageBoxTop(el)    + qx.dom.DomDimension.getBoxHeight(el); }
 }
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   qx.dom.DomLocation.getPageAreaLeft = function(el) {
     return el.ownerDocument.getBoxObjectFor(el).x;
@@ -172,7 +172,7 @@ qx.dom.DomLocation.getPageInnerBottom   = function(el) { return qx.dom.DomLocati
 
 
 // Screen
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   /*
     screenX and screenY seem to return the distance to the box
@@ -234,7 +234,7 @@ qx.dom.DomLocation.getScreenInnerRight  = function(el) { return qx.dom.DomLocati
 qx.dom.DomLocation.getScreenInnerBottom = function(el) { return qx.dom.DomLocation.getScreenAreaBottom(el) - qx.dom.DomStyle.getPaddingBottom(el); }
 
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   /*
     Notice:
