@@ -101,6 +101,10 @@ def compile(tokens, enableNewLines=False):
     elif token["source"] == "if" and lastSource == "else":
       compString += " "
 
+    # Special handling for open else cases
+    elif not (token["type"] == "token" and token["detail"] == "LC") and lastSource == "else":
+      compString += " "
+
     # We need to seperate special blocks (could also be a new line)
     if lastSource == "}" and token["type"] != "token" and (token["type"] != "protected" or not token["detail"] in config.JSPARANTHESIS_BEFORE):
       compString += ";"
