@@ -10,15 +10,15 @@ def entryCompiler(line):
   line = line.replace("\=", "----EQUAL----")
 
   splitLine = line.split("=")
-  key = splitLine[0]
+  orig = splitLine[0]
   repl = splitLine[1]
 
-  #print "%s :: %s" % (key, value)
+  #print "%s :: %s" % (orig, value)
 
   # recover protected equal symbols
-  key = key.replace("----EQUAL----", "=")
+  orig = orig.replace("----EQUAL----", "=")
 
-  return {"reg":re.compile(key), "repl":repl}
+  return {"expr":re.compile(orig), "orig":orig, "repl":repl}
 
 
 
@@ -44,7 +44,7 @@ def start(infoList, patchList, fileList, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledInfos.append({"cfg":line,"reg":entryCompiler(line)})
+      compiledInfos.append(entryCompiler(line))
 
 
   for patchFile in patchList:
@@ -53,7 +53,7 @@ def start(infoList, patchList, fileList, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledPatches.append({"cfg":line,"comp":entryCompiler(line)})
+      compiledPatches.append(entryCompiler(line))
 
 
   print "  * Statistics"
@@ -67,8 +67,8 @@ def start(infoList, patchList, fileList, options):
 
     for fileLine in inputFile["content"]:
       for patchEntry in compiledPatches:
-        if patchEntry["comp"]["reg"].search(fileLine):
-          print "      - Matches %s" % patchEntry["cfg"]
+        if patchEntry["expr"].search(fileLine):
+          print "      - Matches %s" % patchEntry["orig"]
 
 
 
