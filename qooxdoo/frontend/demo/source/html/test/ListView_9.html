@@ -95,7 +95,7 @@
       sourceView.getPane().getManager().setDragSelection(false);
       sourceView.getPane().addEventListener("dragstart", handleDrag);
 
-      this.add(sourceView);
+      qx.ui.core.ClientDocument.getInstance().add(sourceView);
 
 
 
@@ -112,7 +112,7 @@
       destView.getPane().setDropDataTypes(["qx.ui.listview.ListViewEntries"]);
       destView.getPane().addEventListener("dragdrop", handleDrop);
 
-      this.add(destView);
+      qx.ui.core.ClientDocument.getInstance().add(destView);
     });
   </script>
 </body>

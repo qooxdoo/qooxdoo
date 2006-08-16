@@ -90,7 +90,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
         setBottom(48);
       };
 
-      this.add(t);
+      qx.ui.core.ClientDocument.getInstance().add(t);
       // One icon for selected and one for unselected states
       var te1 = new qx.ui.treefullcontrol.TreeFolder(stuff("Desktop"));
       t.add(te1);
@@ -169,7 +169,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
 
       t.add(te2);
-      this.add(t);
+      qx.ui.core.ClientDocument.getInstance().add(t);
 
 
 
@@ -187,7 +187,7 @@ label, and a whole series of right-justified fields.  Additionally, the root nod
         setHeight("auto");
       };
 
-      this.add(commandFrame);
+      qx.ui.core.ClientDocument.getInstance().add(commandFrame);
 
 
 

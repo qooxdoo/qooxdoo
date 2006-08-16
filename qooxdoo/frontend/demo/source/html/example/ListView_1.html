@@ -48,14 +48,14 @@
       // Prohibit resizing of columns completly
       // lv.setResizable(false);
 
-      this.add(lv);
+      qx.ui.core.ClientDocument.getInstance().add(lv);
       
       
       
       
       var chk1 = new qx.ui.form.CheckBox("Enable Live Resize");
       chk1.setLocation(20, 420);
-      this.add(chk1);
+      qx.ui.core.ClientDocument.getInstance().add(chk1);
       
       chk1.addEventListener("changeChecked", function(e) {
         lv.setLiveResize(e.getData());

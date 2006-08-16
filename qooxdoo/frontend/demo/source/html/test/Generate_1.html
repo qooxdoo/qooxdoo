@@ -260,7 +260,7 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var c1 = new qx.Generator(comp1);
-    this.add(c1.getWidget());
+    qx.ui.core.ClientDocument.getInstance().add(c1.getWidget());
   };
 
   </script>
