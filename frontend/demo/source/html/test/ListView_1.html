@@ -38,7 +38,7 @@
 
       var lv = new qx.ui.listview.ListView(ld, lc);
 
-      lv.setBorder(qx.renderer.border.BorderPresets.shadow);
+      lv.setBorder(qx.renderer.border.BorderPresets.getInstance().shadow);
       lv.setBackgroundColor("white");
       lv.setWidth(600);
       lv.setHeight(350);
@@ -50,7 +50,7 @@
 
 
       // Color Themes
-      qx.manager.object.ColorManager.createThemeList(this.getClientWindow().getClientDocument(), 20, 448);
+      qx.manager.object.ColorManager.getInstance().createThemeList(this.getClientWindow().getClientDocument(), 20, 448);
     });
   </script>
 </body>

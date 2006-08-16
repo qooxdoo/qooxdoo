@@ -21,7 +21,7 @@
     var d = this.getClientWindow().getClientDocument();
     
     var a1 = new qx.ui.basic.Atom("Drag Me");
-    a1.set({ backgroundColor: "white", border: qx.renderer.border.BorderPresets.groove });
+    a1.set({ backgroundColor: "white", border: qx.renderer.border.BorderPresets.getInstance().groove });
     a1.setPadding(10);
     a1.setLocation(20, 48); 
     d.add(a1);

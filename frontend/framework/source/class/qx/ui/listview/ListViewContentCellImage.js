@@ -45,7 +45,7 @@ qx.Proto.setSource = function(vSource)
 {
   if (this._initialLayoutDone)
   {
-    return this._updateContent(qx.manager.object.AliasManager.resolvePath(vSource == qx.constant.Core.EMPTY ? "static/image/blank.gif" : vSource));
+    return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == qx.constant.Core.EMPTY ? "static/image/blank.gif" : vSource));
   }
   else
   {

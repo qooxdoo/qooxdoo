@@ -140,7 +140,7 @@ qx.Proto.isMetaPressed = function() {
  *         or the ctrl key is pressed on another system.
  */
 qx.Proto.isCtrlOrCommandPressed = function() {
-  if (qx.sys.Client.runsOnMacintosh()) {
+  if (qx.sys.Client.getInstance().runsOnMacintosh()) {
     return this.getDomEvent().metaKey;
   } else {
     return this.getDomEvent().ctrlKey;

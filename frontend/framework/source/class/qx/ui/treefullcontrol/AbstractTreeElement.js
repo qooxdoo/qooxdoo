@@ -61,7 +61,7 @@ function(treeRowStructure)
   this.setSelectable(false);
 
   // Base URL used for indent images
-  this.BASE_URI = qx.manager.object.AliasManager.resolvePath("widget/tree/");
+  this.BASE_URI = qx.manager.object.AliasManager.getInstance().resolvePath("widget/tree/");
 
   /*
    * Add all of the objects which are to be in the horizontal layout.

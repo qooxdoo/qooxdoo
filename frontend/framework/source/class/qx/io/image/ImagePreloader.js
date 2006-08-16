@@ -28,10 +28,10 @@
 qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target,
 function(vSource)
 {
-  if(qx.manager.object.ImagePreloaderManager.has(vSource))
+  if(qx.manager.object.ImagePreloaderManager.getInstance().has(vSource))
   {
     this.debug("Reuse qx.io.image.ImagePreloader in old-style!");
-    this.debug("Please use qx.manager.object.ImagePreloaderManager.create(source) instead!");
+    this.debug("Please use qx.manager.object.ImagePreloaderManager.getInstance().create(source) instead!");
 
     return qx.manager.object.ImagePreloaderManager.get(vSource);
   }
@@ -57,7 +57,7 @@ function(vSource)
     this._isPng = /\.png$/i.test(this._element.nameProp);
   }
 
-  qx.manager.object.ImagePreloaderManager.add(this);
+  qx.manager.object.ImagePreloaderManager.getInstance().add(this);
 });
 
 

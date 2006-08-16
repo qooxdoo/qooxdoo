@@ -82,7 +82,7 @@
     };
     d.add(c3);
 
-    c3.setBorder(qx.renderer.border.BorderPresets.thinInset);
+    c3.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
 
     var c4 = new qx.ui.basic.Terminator;
     with(c4)
@@ -95,7 +95,7 @@
     };
     d.add(c4);
 
-    c4.setBorder(qx.renderer.border.BorderPresets.thinOutset);
+    c4.setBorder(qx.renderer.border.BorderPresets.getInstance().thinOutset);
 
     var c5 = new qx.ui.basic.Terminator;
     with(c5)
@@ -108,7 +108,7 @@
     };
     d.add(c5);
 
-    c5.setBorder(qx.renderer.border.BorderPresets.inset);
+    c5.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
 
     var c6 = new qx.ui.basic.Terminator;
@@ -122,7 +122,7 @@
     };
     d.add(c6);
 
-    c6.setBorder(qx.renderer.border.BorderPresets.outset);
+    c6.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
 
 
     var c7 = new qx.ui.basic.Terminator;
@@ -136,7 +136,7 @@
     };
     d.add(c7);
 
-    c7.setBorder(qx.renderer.border.BorderPresets.groove);
+    c7.setBorder(qx.renderer.border.BorderPresets.getInstance().groove);
 
     var c8 = new qx.ui.basic.Terminator;
     with(c8)
@@ -149,7 +149,7 @@
     };
     d.add(c8);
 
-    c8.setBorder(qx.renderer.border.BorderPresets.ridge);
+    c8.setBorder(qx.renderer.border.BorderPresets.getInstance().ridge);
 
 
 
@@ -170,7 +170,7 @@
     
     
     // Color Themes
-    qx.manager.object.ColorManager.createThemeList(d, 220, 248);
+    qx.manager.object.ColorManager.getInstance().createThemeList(d, 220, 248);
   });
   </script>
 </body>

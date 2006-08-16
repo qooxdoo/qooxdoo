@@ -340,7 +340,7 @@ qx.Proto._onresize = function(e)
 {
   // Hide popups, tooltips, ...
   if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
-    qx.manager.object.PopupManager.update();
+    qx.manager.object.PopupManager.getInstance().update();
   }
 
   // Update children

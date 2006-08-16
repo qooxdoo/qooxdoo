@@ -465,7 +465,7 @@ qx.Proto._beforeAppear = function()
   // Intentionally bypass superclass and call super.super._beforeAppear
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
-  qx.manager.object.PopupManager.update();
+  qx.manager.object.PopupManager.getInstance().update();
 
   this.getWindowManager().add(this);
   this._makeActive();
@@ -564,10 +564,6 @@ qx.Proto._modifyModal = function(propValue, propOldValue, propData)
     var vTop = this.getTopLevelWidget();
     propValue ? vTop.block(this) : vTop.release(this);
   }
-
-  // Disallow minimize and close for modal dialogs
-  this._closeButtonManager();
-  this._minimizeButtonManager();
 
   return true;
 }
@@ -708,14 +704,14 @@ qx.Proto._modifyShowMinimize = function(propValue, propOldValue, propData)
 
 qx.Proto._minimizeButtonManager = function()
 {
-  this._minimizeButton.setEnabled(this.getAllowMinimize() && !this.getModal());
+  this._minimizeButton.setEnabled(this.getAllowMinimize());
 
   return true;
 }
 
 qx.Proto._closeButtonManager = function()
 {
-  this._closeButton.setEnabled(this.getAllowClose() && !this.getModal());
+  this._closeButton.setEnabled(this.getAllowClose());
 
   return true;
 }

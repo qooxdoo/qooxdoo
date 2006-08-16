@@ -27,6 +27,8 @@
 */
 qx.OO.defineClass("qx.renderer.border.BorderPresets", qx.core.Object, function()
 {
+  qx.core.Object.call(this);
+
   this.black = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "black");
   this.white = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "white");
   this.none = new qx.renderer.border.Border(0, qx.renderer.border.Border.STYLE_NONE);

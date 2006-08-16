@@ -173,7 +173,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
     var vButton = new qx.ui.form.Button(vPrefix + vThemes[vId].getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.setThemeById('" + vId + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setThemeById('" + vId + "')"));
 
     vParent.add(vButton);
 

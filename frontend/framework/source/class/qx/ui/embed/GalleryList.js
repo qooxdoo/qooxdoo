@@ -26,7 +26,7 @@ function(galleryList)
 {
   qx.ui.basic.Terminator.call(this);
 
-  this._blank = qx.manager.object.AliasManager.resolvePath("static/image/blank.gif");
+  this._blank = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
   this._list = galleryList;
   this._listSize = galleryList.length;
   this._processedImages = 0;
