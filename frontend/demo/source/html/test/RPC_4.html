@@ -462,7 +462,7 @@
         tests[testNum][0]();            // [][0] = request
       });
 
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
       d.add(layout1);
     });
   </script>

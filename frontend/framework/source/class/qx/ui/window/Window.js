@@ -479,7 +479,7 @@ qx.Proto._beforeDisappear = function()
   // Be sure to disable any capturing inside invisible parts
   // Is this to much overhead?
   // Are there any other working solutions?
-  var vWidget = this.getTopLevelWidget().getEventManager().getCaptureWidget();
+  var vWidget = qx.event.handler.EventHandler.getInstance().getCaptureWidget();
   if (vWidget && this.contains(vWidget)) {
     vWidget.setCapture(false);
   }

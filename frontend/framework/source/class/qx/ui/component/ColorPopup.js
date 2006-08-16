@@ -183,9 +183,7 @@ qx.Proto._createColorSelector = function()
   this._colorSelector.addEventListener(qx.constant.Event.DIALOGCANCEL, this._onColorSelectorCancel, this);
 
   this._colorSelectorWindow.add(this._colorSelector);
-
-  var root = qx.core.Init.getInstance().getComponent().getClientDocument();
-  root.add(this._colorSelectorWindow);
+  this._colorSelectorWindow.addToDocument();
 }
 
 

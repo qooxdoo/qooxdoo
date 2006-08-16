@@ -22,6 +22,7 @@
 #require(qx.constant.Tags)
 #require(qx.renderer.color.ColorCache)
 #require(qx.renderer.border.BorderCache)
+#require(qx.manager.object.AppearanceManager)
 #after(qx.component.init.InterfaceInitComponent)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
@@ -1725,6 +1726,10 @@ else
   qx.Proto._getTargetNode = function() {
     return this._borderElement || this._element;
   }
+}
+
+qx.Proto.addToDocument = function() {
+  qx.ui.core.ClientDocument.getInstance().add(this);
 }
 
 /*!
@@ -4365,22 +4370,15 @@ qx.Proto.blur = function()
 
 qx.Proto._modifyCapture = function(propValue, propOldValue, propData)
 {
-  try
-  {
-    var ev = this.getTopLevelWidget().getEventManager();
-  }
-  catch(ex)
-  {
-    throw new Error("Could not apply new capture value: event manager of top level widget is not available!");
-  }
+  var vMgr = qx.event.handler.EventHandler.getInstance();
 
   if (propOldValue)
   {
-    ev.setCaptureWidget(null);
+    vMgr.setCaptureWidget(null);
   }
   else if (propValue)
   {
-    ev.setCaptureWidget(this);
+    vMgr.setCaptureWidget(this);
   }
 
   return true;

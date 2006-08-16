@@ -20,7 +20,7 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = this.getClientWindow().getClientDocument();
+      var d = qx.ui.core.ClientDocument.getInstance();
 
       var q1 = new qx.client.Command("Ctrl+Z");
       q1.addEventListener("execute", function(e) {

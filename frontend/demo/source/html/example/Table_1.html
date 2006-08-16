@@ -20,7 +20,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     // table model
     var tableModel = new qx.ui.table.SimpleTableModel();

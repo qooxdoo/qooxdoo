@@ -18,7 +18,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     var main = new qx.ui.layout.VerticalBoxLayout();
     main.set({ left:10, top:30, right:300, bottom:30 });

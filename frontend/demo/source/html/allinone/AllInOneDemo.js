@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 qx.OO.defineClass("AllInOneDemo", qx.core.Object,
-function (clientWindow) {
+function () {
   qx.core.Object.call(this);
 
   var barView = new qx.ui.pageview.buttonview.ButtonView;
@@ -33,9 +33,11 @@ function (clientWindow) {
   barView.setRight(10);
   barView.setBottom(10);
 
+  barView.addToDocument();
+
   this._createPage(barView, "Form",             "icon/32/wordprocessor.png",    this._createFormDemo(), "threedface");
   this._createPage(barView, "Tooltip",          "icon/32/run.png",              this._createTooltipDemo());
-  this._createPage(barView, "Menu and Toolbar", "icon/32/display.png",          this._createToolbarDemo(clientWindow));
+  this._createPage(barView, "Menu and Toolbar", "icon/32/display.png",          this._createToolbarDemo());
   this._createPage(barView, "Tab",              "icon/32/contents.png",         this._createTabDemo(), "threedface", true);
   this._createPage(barView, "Tree",             "icon/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
   this._createPage(barView, "List",             "icon/32/view-detailed.png",    this._createListDemo(), "threedface");
@@ -43,10 +45,8 @@ function (clientWindow) {
   this._createPage(barView, "Table",            "icon/32/view-multicolumn.png", this._createTableDemo(), "threedface", true);
   this._createPage(barView, "DateChooser",      "icon/32/date.png",             this._createDateChooserDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icon/32/display.png",          this._createNativeWindowDemo(), "threedface");
-  this._createPage(barView, "Internal Window",  "icon/32/look-and-feel.png",    this._createInternalWindowDemo(clientWindow), null, true);
-  this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo(clientWindow));
-
-  clientWindow.getClientDocument().add(barView);
+  this._createPage(barView, "Internal Window",  "icon/32/look-and-feel.png",    this._createInternalWindowDemo(), null, true);
+  this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
 });
 
 
@@ -209,8 +209,8 @@ qx.Proto._createTooltipDemo = function() {
 }
 
 
-qx.Proto._createToolbarDemo = function(clientWindow) {
-  var doc = clientWindow.getClientDocument();
+qx.Proto._createToolbarDemo = function() {
+  var doc = qx.ui.core.ClientDocument.getInstance();
 
   var main = new qx.ui.layout.VerticalBoxLayout;
   main.setPadding(10);
@@ -998,8 +998,8 @@ qx.Proto._createNativeWindowDemo = function() {
 }
 
 
-qx.Proto._createInternalWindowDemo = function(clientWindow) {
-  var doc = clientWindow.getClientDocument();
+qx.Proto._createInternalWindowDemo = function() {
+  var doc = qx.ui.core.ClientDocument.getInstance();
 
   var main = new qx.ui.layout.CanvasLayout;
   main.setOverflow("hidden");
@@ -1242,8 +1242,8 @@ qx.Proto._createInternalWindowDemo = function(clientWindow) {
 }
 
 
-qx.Proto._createThemesDemo = function(clientWindow) {
-  var doc = clientWindow.getClientDocument();
+qx.Proto._createThemesDemo = function() {
+  var doc = qx.ui.core.ClientDocument.getInstance();
 
   // Theming window
   var win = new qx.ui.window.Window("Theming window", "icon/16/style.png");

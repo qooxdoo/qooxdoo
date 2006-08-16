@@ -19,7 +19,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = this.getClientWindow().getClientDocument();
+    var d = qx.ui.core.ClientDocument.getInstance();
 
     // test no1
     var nl1 = new qx.ui.basic.Atom("Test #1", "icon/16/reload.png", 16, 16);

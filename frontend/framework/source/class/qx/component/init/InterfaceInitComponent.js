@@ -31,32 +31,6 @@ function() {
 
 
 
-
-
-/*
----------------------------------------------------------------------------
-  UI HELPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getClientWindow = function() {
-  return this._clientWindow;
-}
-
-qx.Proto.getEventManager = function() {
-  return this.getClientWindow().getEventManager();
-}
-
-qx.Proto.getClientDocument = function() {
-  return this.getClientWindow().getClientDocument();
-}
-
-
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   READY STATE
@@ -86,19 +60,8 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.component.AbstractComponent.STATE_INITIALIZE:
-      // Create client window instance (and client-document, event- and focus-manager, ...)
-      this._clientWindow = new qx.client.ClientWindow;
-
-      // Build virtual methods for easy additions of childrens and so on
-      // Intentionally call Parent functions even though it's not a superclass
-      this._remappingChildTable = qx.ui.core.Parent.prototype._remappingChildTable;
-      qx.ui.core.Parent.prototype.remapChildrenHandlingTo.call(this, this._clientWindow.getClientDocument());
-      break;
-
     case qx.component.AbstractComponent.STATE_FINALIZE:
       this._printPreloadComplete();
-
       this._uiReady = true;
       qx.ui.core.Widget.flushGlobalQueues();
       break;

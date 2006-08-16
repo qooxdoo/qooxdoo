@@ -222,7 +222,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   {
     this.setActiveChild(propValue);
     propValue.setFocused(true);
-    propValue.getTopLevelWidget().getEventManager().setFocusRoot(this);
+    qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
     // Dispatch Focus
     var vEventObject = new qx.event.type.FocusEvent(qx.constant.Event.FOCUS, propValue);

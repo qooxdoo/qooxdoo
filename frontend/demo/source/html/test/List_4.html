@@ -84,7 +84,7 @@ qx.OO.addProperty({ name : "backgroundColorUnselected", type : qx.constant.Type.
 
     qx.core.Init.getInstance().defineMain(function()
     {
-      var doc = this.getClientWindow().getClientDocument();
+      var doc = qx.ui.core.ClientDocument.getInstance();
 
 
       var sourceList = new qx.ui.form.List();

@@ -48,7 +48,7 @@ function(vClientWindow)
   this.__onwindowresize = function(e) { return o._onwindowresize(e); }
 
   // Attach Events
-  this.attachEvents(vClientWindow);
+  this.attachEvents();
 
   // Init Command Interface
   this._commands = {};
@@ -191,62 +191,36 @@ qx.Proto._checkKeyEventMatch = function(e)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.attachEvents = function(wobj)
+qx.Proto.attachEvents = function()
 {
-  if (this._attachedClientWindow) {
-    return false;
-  }
-
-  // Local
-  var wel = wobj.getElement();
-  var del = wel.document;
-  var bel = del.body;
-
-  // Attach client window
-  this._attachedClientWindow = wobj;
-  this._attachedClientWindowElement = wel;
-
   // Register dom events
   this.attachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
   this.attachEventTypes(qx.event.handler.EventHandler.keyEventTypes, this.__onkeyevent);
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Register window events
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.addEventListener(wel, qx.constant.Event.RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.RESIZE, this.__onwindowresize);
 
   // Register selection events
-  bel.onselect = del.onselectstart = del.onselectionchange = this.__onselectevent;
+  document.body.onselect = document.onselectstart = document.onselectionchange = this.__onselectevent;
 }
 
 qx.Proto.detachEvents = function()
 {
-  if (!this._attachedClientWindow) {
-    return false;
-  }
-
-  // Local
-  var wel = this._attachedClientWindowElement;
-  var del = wel.document;
-  var bel = del.body;
-
   // Unregister dom events
   this.detachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
   this.detachEventTypes(qx.event.handler.EventHandler.keyEventTypes, this.__onkeyevent);
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Unregister window events
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.removeEventListener(wel, qx.constant.Event.RESIZE, this.__onwindowresize);
+  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
+  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.FOCUS, this.__onwindowfocus);
+  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.RESIZE, this.__onwindowresize);
 
   // Unregister selection events
-  bel.onselect = del.onselectstart = del.onselectionchange = null;
-
-  // Detach client window
-  this._attachedClientWindow = null;
-  this._attachedClientWindowElement = null;
+  document.body.onselect = document.onselectstart = document.onselectionchange = null;
 }
 
 
@@ -269,14 +243,10 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     // I think they will fix this sometimes, and we should add a version check here.
     // Internet Explorer has problems to use 'window', so there we use the 'body' element
     // as previously.
-    if (qx.sys.Client.getInstance().isGecko()) {
-      var d = this._attachedClientWindow.getElement();
-    } else {
-      var d = this._attachedClientWindow.getClientDocument().getElement();
-    }
+    var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.DomEventRegistration.addEventListener(d, vEventTypes[i], vFunctionPointer);
+      qx.dom.DomEventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)
@@ -289,14 +259,10 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
-    if (qx.sys.Client.getInstance().isGecko()) {
-      var d = this._attachedClientWindow.getElement();
-    } else {
-      var d = this._attachedClientWindow.getClientDocument().getElement();
-    }
+    var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.DomEventRegistration.removeEventListener(d, vEventTypes[i], vFunctionPointer);
+      qx.dom.DomEventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)
@@ -1068,3 +1034,23 @@ qx.Proto.dispose = function()
 
   qx.core.Target.prototype.dispose.call(this);
 }
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DEFER SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.event.handler.EventHandler);
