@@ -44,7 +44,7 @@ def start(infoList, patchList, fileList, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledInfos.append(entryCompiler(line))
+      compiledInfos.append({"cfg":line,"reg":entryCompiler(line)})
 
 
   for patchFile in patchList:
@@ -53,13 +53,22 @@ def start(infoList, patchList, fileList, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledPatches.append(entryCompiler(line))
+      compiledPatches.append({"cfg":line,"comp":entryCompiler(line)})
 
 
   print "  * Statistics"
   print "    - Number of infos: %s" % len(compiledInfos)
   print "    - Number of patches: %s" % len(compiledPatches)
 
+  print "  * Processing:"
+
+  for inputFile in fileList:
+    print "    - %s" % inputFile["path"]
+
+    for fileLine in inputFile["content"]:
+      for patchEntry in compiledPatches:
+        if patchEntry["comp"]["reg"].search(fileLine):
+          print "      - Matches %s" % patchEntry["cfg"]
 
 
 
@@ -161,7 +170,7 @@ def handle(options):
         fileObject = codecs.open(filePath, "r", fileEncoding)
 
         try:
-          fileContent = fileObject.read()
+          fileContent = fileObject.read().split("\n")
         except ValueError:
           print "    * Invalid Encoding. Required encoding: %s in %s" % (fileEncoding, filePath)
           print "        => Ignore file"
@@ -175,6 +184,10 @@ def handle(options):
 
 
   start(infoList, patchList, fileList, options)
+
+
+
+
 
 
 
