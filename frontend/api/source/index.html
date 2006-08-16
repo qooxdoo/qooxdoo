@@ -7,11 +7,11 @@
     <script type="text/javascript">
       qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_ERROR);
 
-      qx.core.Init.defineInitialize(function() {
-        qx.manager.object.AliasManager.add("api", "resource/image");
+      qx.core.Init.getInstance().defineInitialize(function() {
+        qx.manager.object.AliasManager.getInstance().add("api", "resource/image");
       });
 
-      qx.core.Init.defineMain(function() {
+      qx.core.Init.getInstance().defineMain(function() {
         this.add(new api.Viewer("script/data.js"));
       });
     </script>

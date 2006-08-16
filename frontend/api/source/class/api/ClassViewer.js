@@ -144,7 +144,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   }
 
   html += '<img class="openclose" src="'
-    + qx.manager.object.AliasManager.resolvePath('api/' + (isOpen ? 'close.gif' : 'open.gif')) + '"'
+    + qx.manager.object.AliasManager.getInstance().resolvePath('api/' + (isOpen ? 'close.gif' : 'open.gif')) + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
     + '<span '
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">"
@@ -407,7 +407,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
         if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
         {
           // This node has details -> Show the detail button
-          html += '<img src="' + qx.manager.object.AliasManager.resolvePath("api/open.gif") + '"'
+          html += '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/open.gif") + '"'
             + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
             + node.attributes.name + "'"
             + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
@@ -500,7 +500,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
 
     // Update the close/open image
     var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
-    opencloseImgElem.src = qx.manager.object.AliasManager.resolvePath(showDetails ? 'api/close.gif' : 'api/open.gif');
+    opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/close.gif' : 'api/open.gif');
 
     // Update content
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
@@ -545,7 +545,7 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
     typeInfo.isOpen = !typeInfo.isOpen;
 
     var imgElem = typeInfo.infoTitleElem.getElementsByTagName("img")[0];
-    imgElem.src = qx.manager.object.AliasManager.resolvePath(typeInfo.isOpen ? 'api/close.gif' : 'api/open.gif');
+    imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(typeInfo.isOpen ? 'api/close.gif' : 'api/open.gif');
 
     this._updateInfoPanel(nodeType);
   } catch (exc) {
@@ -1381,7 +1381,7 @@ qx.Class.SPAN_END = '</span>';
  */
 qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
-    return '<img src="' + qx.manager.object.AliasManager.resolvePath(imgUrl) + '" class="img"'
+    return '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath(imgUrl) + '" class="img"'
       + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
   } else {
     if (styleAttributes) {
@@ -1417,7 +1417,7 @@ qx.Class.createOverlayImageHtml
     if (toolTip != null) {
       html += ' title="' + toolTip + '"';
     }
-    html += ' style="position:absolute;top:0px;left:0px" src="' + qx.manager.object.AliasManager.resolvePath(imgUrlArr[i]) + '"/>';
+    html += ' style="position:absolute;top:0px;left:0px" src="' + qx.manager.object.AliasManager.getInstance().resolvePath(imgUrlArr[i]) + '"/>';
   }
 
   html += '</div>';
