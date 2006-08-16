@@ -2,7 +2,7 @@
 # PUBLIC VARIABLES
 ###################################################################################
 
-QOOXDOO = ../../../
+QOOXDOO = ../../../../
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application
 INCLUDEALL = false
@@ -12,9 +12,9 @@ INCLUDEALL = false
 # PRIVATE VARIABLES
 ###################################################################################
 
-FRAMEWORK = $(QOOXDOO)framework/
+FRAMEWORK = $(QOOXDOO)frontend/framework/
+CACHE = $(QOOXDOO)frontend/.cache
 GENERATOR = $(FRAMEWORK)tool/generator/generator.py
-CACHE = .cache
 
 
 ifeq ($(INCLUDEALL),false)

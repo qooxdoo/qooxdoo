@@ -82,6 +82,7 @@ distclean:
 	$(MAKE) -C framework distclean
 
 	@rm -rf .cache
+	@rm -rf release
 
 
 
