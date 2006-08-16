@@ -210,7 +210,7 @@ qx.Proto._computePreferredInnerHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._firstInputFixApplied = false;
 
@@ -281,7 +281,7 @@ qx.Proto._onblur = function(e)
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   /*!
     Microsoft Documentation:

@@ -1205,4 +1205,4 @@ qx.Class.VERTICAL_SCROLLBAR = 2;
  * {string} The correct value for the CSS style attribute "cursor" for the
  * horizontal resize cursor.
  */
-qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.sys.Client.isGecko() && (qx.sys.Client.getMajor() > 1 || qx.sys.Client.getMinor() >= 8)) ? "ew-resize" : "e-resize";
+qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.sys.Client.getInstance().isGecko() && (qx.sys.Client.getInstance().getMajor() > 1 || qx.sys.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";

@@ -90,7 +90,7 @@ qx.Proto.buttonSets = function()
   htmlOutput.setOverflow("auto");
 
   btnLayout.add(loopLabel, loopInput, repeatLabel, btnStart1, btnStart2, btnStart3, btnStart4);
-  qx.core.Init.getComponent().add(btnLayout, htmlOutput);
+  qx.core.Init.getInstance().getComponent().add(btnLayout, htmlOutput);
 }
 
 qx.Proto.start = function(vRounds, vLoops)

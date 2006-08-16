@@ -24,7 +24,7 @@
 
 qx.OO.defineClass("qx.dom.DomWindow");
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomWindow.getInnerWidth = function(w)
   {

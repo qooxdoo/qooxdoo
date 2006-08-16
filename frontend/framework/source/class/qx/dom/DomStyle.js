@@ -41,7 +41,7 @@ if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedSty
     }
   }
 }
-else if (qx.sys.Client.isMshtml())
+else if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomStyle.getStyleProperty = function(el, prop)
   {

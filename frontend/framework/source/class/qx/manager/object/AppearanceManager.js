@@ -64,7 +64,7 @@ qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : 
 
 qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
 {
-  var vComp = qx.core.Init.getComponent();
+  var vComp = qx.core.Init.getInstance().getComponent();
 
   if (vComp.isUiReady()) {
     vComp.getClientWindow().getClientDocument()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
@@ -143,4 +143,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.manager.object.AppearanceManager);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.AppearanceManager);

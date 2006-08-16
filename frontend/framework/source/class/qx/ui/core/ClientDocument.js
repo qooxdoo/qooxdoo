@@ -69,7 +69,7 @@ function(vClientWindow)
 
   // Init Resize Helper
   /*
-  if (qx.sys.Client.isGecko())
+  if (qx.sys.Client.getInstance().isGecko())
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
@@ -290,8 +290,8 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 */
 
 qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
-  " html{border:0 none;} *{" + qx.sys.Client.getEngineBoxSizingAttribute() +
-  ":border-box;} img{" + qx.sys.Client.getEngineBoxSizingAttribute() +
+  " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
+  ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
   ":content-box;}");
 
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {

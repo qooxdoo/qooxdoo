@@ -72,7 +72,7 @@ qx.Proto._lastDestinationEvent = null;
 */
 
 qx.Proto._getClientDocument = function() {
-  return qx.core.Init.getComponent().getClientWindow().getClientDocument();
+  return qx.core.Init.getInstance().getComponent().getClientWindow().getClientDocument();
 }
 
 
@@ -623,7 +623,7 @@ qx.Proto.supportsDrop = function(vWidget)
 /*!
 #param e[qx.event.type.MouseEvent]: Current MouseEvent for dragdrop action
 */
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto.getDropTarget = function(e)
   {
@@ -847,4 +847,11 @@ qx.Proto.dispose = function()
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.event.handler.DragAndDropHandler);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.event.handler.DragAndDropHandler);

@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.lang.XmlEmu");
   Modelled after: http://www.mozilla.org/xmlextras
 */
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   var DOMParser = function() {
     /* empty constructor */

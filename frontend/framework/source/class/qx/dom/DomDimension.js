@@ -85,7 +85,7 @@ qx.dom.DomDimension.getBoxHeight = function(el) {
   return el.offsetHeight;
 }
 
-if (qx.sys.Client.isGecko())
+if (qx.sys.Client.getInstance().isGecko())
 {
   qx.dom.DomDimension.getAreaWidth = function(el)
   {
@@ -161,7 +161,7 @@ qx.dom.DomDimension.getInnerHeight = function(el) { return qx.dom.DomDimension.g
 
 
 // Insets
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.DomDimension.getInsetLeft   = function(el) { return el.clientLeft; }
   qx.dom.DomDimension.getInsetTop    = function(el) { return el.clientTop; }

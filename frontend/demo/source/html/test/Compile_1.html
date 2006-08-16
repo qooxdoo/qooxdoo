@@ -50,7 +50,7 @@
 
 
 
-    qx.core.Init.defineMain(function()
+    qx.core.Init.getInstance().defineMain(function()
     {
       a1 = new qx.ui.form.Button("Hello World", "icon/32/penguin.png");
       a1.setLocation(20, 50);
@@ -63,7 +63,7 @@
 
     window.application.post = function()
     {
-        var str = "qx.core.Init.defineMain(function()\n{\n";
+        var str = "qx.core.Init.getInstance().defineMain(function()\n{\n";
 
 
 

@@ -116,7 +116,7 @@ qx.Proto._syncResizeLine = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.sys.Client.isMshtml();
+qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
 
 qx.Proto._onmousemove = function(e)
 {

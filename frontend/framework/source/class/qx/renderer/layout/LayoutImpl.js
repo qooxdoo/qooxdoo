@@ -328,7 +328,7 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 */
 qx.Proto.layoutChild = function(vChild, vJobs) {}
 
-if (qx.sys.Client.isMshtml())
+if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
   qx.Proto.layoutChild_sizeLimitY = qx.util.Return.returnTrue;

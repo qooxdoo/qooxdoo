@@ -186,4 +186,11 @@ qx.Proto.handleBlur = function(e)
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.SingletonManager.add(qx.manager.object.ToolTipManager);
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = function() {
+  return this._instance;
+}
+
+qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ToolTipManager);

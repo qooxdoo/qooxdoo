@@ -182,7 +182,7 @@ qx.Proto.send = function()
   //   Local handling
   // --------------------------------------
 
-  var vLocalRequest = this._localRequest = qx.sys.Client.getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl));
+  var vLocalRequest = this._localRequest = qx.sys.Client.getInstance().getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl));
 
 
 
@@ -664,7 +664,7 @@ qx.Proto.dispose = function()
   {
     // Should be right,
     // but is not compatible to mshtml (throws an exception)
-    if (!qx.sys.Client.isMshtml()) {
+    if (!qx.sys.Client.getInstance().isMshtml()) {
       vRequest.onreadystatechange = null;
     }
 
