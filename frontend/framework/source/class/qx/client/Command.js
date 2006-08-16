@@ -28,7 +28,7 @@
   Each command could be accigned to multiple widgets.
 */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
-function(vShortcut, vKeyCode, vManager)
+function(vShortcut, vKeyCode)
 {
   qx.core.Target.call(this);
 
@@ -42,13 +42,12 @@ function(vShortcut, vKeyCode, vManager)
     this.setKeyCode(vKeyCode);
   }
 
-  this.setManager(qx.util.Validation.isValid(vManager) ? vManager : qx.core.Init.getInstance().getComponent().getClientWindow().getEventManager());
+  qx.event.handler.EventHandler.getInstance().addCommand(this);
 });
 
 qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 qx.OO.addProperty({ name : "shortcut", type : qx.constant.Type.STRING });
 qx.OO.addProperty({ name : "keyCode", type : qx.constant.Type.NUMBER });
-qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.EventHandler" });
 
 qx.Class.C_KEY_CTRL = "ctrl";
 qx.Class.C_KEY_SHIFT = "shift";
@@ -102,19 +101,6 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
   else
   {
     this._shortcutParts = {};
-  }
-
-  return true;
-}
-
-qx.Proto._modifyManager = function(propValue, propOldValue, propData)
-{
-  if (propOldValue) {
-    propOldValue.removeCommand(this);
-  }
-
-  if (propValue) {
-    propValue.addCommand(this);
   }
 
   return true;
@@ -284,9 +270,9 @@ qx.Proto.dispose = function()
 
   this._shortcutParts = null;
 
-  var vManager = this.getManager();
-  if (vManager) {
-    vManager.removeCommand(this);
+  var vMgr = qx.event.handler.EventHandler.getInstance();
+  if (vMgr) {
+    vMgr.removeCommand(this);
   }
 
   return qx.core.Target.prototype.dispose.call(this);

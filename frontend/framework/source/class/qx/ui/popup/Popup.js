@@ -188,7 +188,7 @@ qx.Proto.getHideTimeStamp = function() {
 
 qx.Proto.centerToBrowser = function()
 {
-  var d = qx.core.Init.getInstance().getComponent().getClientWindow().getClientDocument();
+  var d = qx.ui.core.ClientDocument.getInstance();
 
   var left = (d.getClientWidth() - this.getBoxWidth()) / 2;
   var top = (d.getClientHeight() - this.getBoxHeight()) / 2;

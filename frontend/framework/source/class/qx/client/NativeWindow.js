@@ -456,13 +456,8 @@ qx.Proto._open = function()
     this._timer.start();
 
     // block original document
-    if (this.getModal())
-    {
-      var vClientWindow = qx.core.Init.getInstance().getComponent().getClientWindow();
-
-      if (vClientWindow) {
-        vClientWindow.getClientDocument().block(this);
-      }
+    if (this.getModal()) {
+      qx.ui.core.ClientDocument.getInstance().block(this);
     }
   }
 }
@@ -477,13 +472,8 @@ qx.Proto._close = function()
   this._timer.stop();
 
   // release window again
-  if (this.getModal())
-  {
-    var vClientWindow = qx.core.Init.getInstance().getComponent().getClientWindow();
-
-    if (vClientWindow) {
-      vClientWindow.getClientDocument().release(this);
-    }
+  if (this.getModal()){
+    qx.ui.core.ClientDocument.getInstance().release(this);
   }
 
   // finally close window

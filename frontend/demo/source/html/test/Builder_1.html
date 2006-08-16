@@ -13,7 +13,7 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      new qx.client.Builder().build(this.getClientWindow().getClientDocument(), document.getElementById('widgets'));
+      new qx.client.Builder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
     });
 
     // test delegate object

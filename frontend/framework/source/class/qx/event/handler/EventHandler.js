@@ -31,7 +31,7 @@
   This manager registers and manage all incoming key and mouse events.
 */
 qx.OO.defineClass("qx.event.handler.EventHandler", qx.core.Target,
-function(vClientWindow)
+function()
 {
   qx.core.Target.call(this);
 
@@ -413,7 +413,7 @@ qx.Proto._onkeyevent = function(vDomEvent)
   }
 
   if(!vDomEvent) {
-    vDomEvent = this._attachedClientWindow.getElement().event;
+    vDomEvent = window.event;
   }
 
   var vType = vDomEvent.type;
@@ -550,7 +550,7 @@ if(qx.sys.Client.getInstance().isMshtml())
     qx.core.Init.getInstance().getComponent().preload();
 
     if(!vDomEvent) {
-      vDomEvent = this._attachedClientWindow.getElement().event;
+      vDomEvent = window.event;
     }
 
     var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
@@ -958,9 +958,7 @@ qx.Proto._onwindowblur = function(e)
   }
 
   // Send blur event to client document
-  if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.BLUR);
-  }
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.BLUR);
 }
 
 qx.Proto._onwindowfocus = function(e)
@@ -981,15 +979,13 @@ qx.Proto._onwindowfocus = function(e)
   this.setCaptureWidget(null);
 
   // Send focus event to client document
-  if (this._attachedClientWindow) {
-    this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.FOCUS);
-  }
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.FOCUS);
 }
 
 qx.Proto._onwindowresize = function(e)
 {
   // Send resize event to client document
-  this._attachedClientWindow.getClientDocument().createDispatchEvent(qx.constant.Event.RESIZE);
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.RESIZE);
 }
 
 
