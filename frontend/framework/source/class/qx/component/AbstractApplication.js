@@ -22,12 +22,49 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.AbstractComponent", qx.core.Target,
+qx.OO.defineClass("qx.component.AbstractApplication", qx.component.AbstractComponent,
 function()
 {
-  qx.core.Target.call(this);
-
+  qx.component.AbstractComponent.call(this);
 });
+
+/*!
+  Run initialisation part of component creation.
+*/
+qx.Proto.initialize = function() {
+
+}
+
+/*!
+  Run main  part of component creation.
+*/
+qx.Proto.main = function() {
+
+}
+
+/*!
+  Run finalization part of component creation.
+*/
+qx.Proto.finalize = function() {
+
+}
+
+/*!
+  Terminate this component.
+*/
+qx.Proto.close = function() {
+
+}
+
+/*!
+  Terminate this component.
+*/
+qx.Proto.terminate = function() {
+
+}
+
+
+
 
 
 qx.Proto.dispose = function()
@@ -36,5 +73,5 @@ qx.Proto.dispose = function()
     return;
   }
 
-  return qx.core.Target.prototype.dispose.call(this);
+  return qx.component.AbstractComponent.prototype.dispose.call(this);
 }

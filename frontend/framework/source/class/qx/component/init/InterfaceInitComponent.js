@@ -54,35 +54,55 @@ qx.Proto.isUiReady = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyState = function(propValue, propOldValue, propData)
+qx.Proto.initialize = function()
+{
+  var start = (new Date).valueOf();
+  qx.component.init.BasicInitComponent.prototype.initialize.call(this);
+
+  this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
+};
+
+qx.Proto.main = function()
 {
   var start = (new Date).valueOf();
 
-  switch(propValue)
-  {
-    case qx.component.AbstractComponent.STATE_FINALIZE:
-      this._printPreloadComplete();
-      this._uiReady = true;
-      qx.ui.core.Widget.flushGlobalQueues();
-      break;
-  }
+  qx.component.init.BasicInitComponent.prototype.main.call(this);
 
-  qx.component.init.BasicInitComponent.prototype._modifyState.call(this, propValue, propOldValue, propData);
+  this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
 
-  // Print runtime
-  this.info(propValue + " runtime: " + ((new Date).valueOf() - start) + "ms");
+  this.debug("preloading visible images...");
+  new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
+};
 
-  switch(propValue)
-  {
-    case qx.component.AbstractComponent.STATE_MAIN:
-      this.debug("preloading visible images...");
-      new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
-      break;
-  }
 
-  return true;
-}
+qx.Proto.finalize = function()
+{
+  var start = (new Date).valueOf();
 
+  this._printPreloadComplete();
+  this._uiReady = true;
+  qx.ui.core.Widget.flushGlobalQueues();
+
+  qx.component.init.BasicInitComponent.prototype.finalize.call(this);
+
+  this.info("finalize runtime: " + ((new Date).valueOf() - start) + "ms");
+};
+
+qx.Proto.close = function()
+{
+  var start = (new Date).valueOf();
+  qx.component.init.BasicInitComponent.prototype.close.call(this);
+
+  this.info("close runtime: " + ((new Date).valueOf() - start) + "ms");
+};
+
+qx.Proto.terminate = function()
+{
+  var start = (new Date).valueOf();
+  qx.component.init.BasicInitComponent.prototype.terminate.call(this);
+
+  this.info("terminate runtime: " + ((new Date).valueOf() - start) + "ms");
+};
 
 
 
