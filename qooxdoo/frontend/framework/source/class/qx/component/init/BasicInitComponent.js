@@ -22,12 +22,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.init.BasicInitComponent", qx.component.AbstractComponent,
+qx.OO.defineClass("qx.component.init.BasicInitComponent", qx.component.init.AbstractInitComponent,
 function() {
-  qx.component.AbstractComponent.call(this);
+  qx.component.init.AbstractInitComponent.call(this);
 });
-
-
 
 
 
@@ -39,15 +37,15 @@ function() {
 
 qx.Proto._onload = function(e)
 {
-  this.initialize();
-  this.main();
-  this.finalize();
+  this.initialize(e);
+  this.main(e);
+  this.finalize(e);
 }
 
 qx.Proto._onbeforeunload = function(e) {
-  this.close();
+  this.close(e);
 }
 
 qx.Proto._onunload = function(e) {
-  this.terminate();
+  this.terminate(e);
 }
