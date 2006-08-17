@@ -50,6 +50,15 @@ qx.util.Return.returnThis = function() {
   return this;
 }
 
+qx.util.Return.returnInstance = function() {
+
+  if (!this._instance) {
+    this._instance = new this;
+  }
+
+  return this._instance;
+}
+
 qx.util.Return.returnZero = function() {
   return 0;
 }
