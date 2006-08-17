@@ -66,6 +66,7 @@ qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
 */
 
 qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance : "qx.component.init.BasicInitComponent" });
+qx.OO.addProperty({ name : "application", type : qx.constant.Type.OBJECT, instance : "qx.component.AbstractApplication" });
 
 
 
@@ -85,6 +86,42 @@ qx.Proto._createComponent = function()
   this.debug("Component: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
   this.setComponent(new qx.OO.classes[vComponentName](this));
 }
+
+/*
+---------------------------------------------------------------------------
+  APPLICATION MANAGMENT
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
+{
+  if (propOldValue)
+  {
+    this.error("Could not modify application");
+  }
+  
+  if (propValue)
+  {
+
+    // proposed new way (using custom application class)
+    // define(Initialize|Main|Finalize|Close|Terminate) are deprecated
+    /*
+    this._initialize = propValue._initialize;
+    this._main = propValue._main;
+    this._finalize = propValue._finalize;
+    this._close = propValue._close;
+    this._terminate = propValue._terminate;
+    */
+
+    this.defineInitialize(propValue.initialize);
+    this.defineMain(propValue.main);
+    this.defineFinalize(propValue.finalize);
+    this.defineClose(propValue.close);
+    this.defineTerminate(propValue.terminate);
+  }
+  
+  return true;
+};
 
 
 

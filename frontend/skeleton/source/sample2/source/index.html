@@ -1,22 +1,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-    <title>qooxdoo &raquo; Sample 1</title>
+    <title>qooxdoo &raquo; Sample 2</title>
     <script type="text/javascript" src="script/custom.js"></script>
   </head>
   <body>
     <script type="text/javascript">
-
-    qx.core.Init.defineInitialize(function() 
-    {
-      qx.manager.object.AliasManager.add("custom", "./resource");
-    });
     
-    qx.core.Init.defineMain(function() 
-    {
-      new custom.Application();
-    });
-
+    qx.core.Init.getInstance().setApplication(new custom.Application);
+    
     </script>
   </body>
 </html>
