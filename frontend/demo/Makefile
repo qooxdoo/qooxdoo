@@ -5,7 +5,7 @@
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=../.cache
-
+NICE=10
 
 
 ###################################################################################
@@ -34,10 +34,10 @@ clean:
 	rm -f source/script/qx.js source/script/layout.js build/script/layout.js
 
 realclean: clean
-	rm -rf build
+	nice -n $(NICE) rm -rf build
 
 distclean: realclean
-	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 
@@ -46,7 +46,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script \
@@ -58,7 +58,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -78,18 +78,18 @@ generate-script-build:
 ###################################################################################
 
 update-layout-source:
-	tool/layout.sh source/script/layout.js source/html SOURCE
+	nice -n $(NICE) tool/layout.sh source/script/layout.js source/html SOURCE
 
 update-demo-build:
 	mkdir -p build
 	cp -f source/index.html build/
 	mkdir -p build/html
-	rsync --recursive --links --delete --exclude=.svn source/html/* build/html
+	nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/html/* build/html
 	mkdir -p build/resource/css
-	rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
+	nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
 
 update-layout-build: update-demo-build
-	tool/layout.sh build/script/layout.js build/html BUILD
+	nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
 
 
 
