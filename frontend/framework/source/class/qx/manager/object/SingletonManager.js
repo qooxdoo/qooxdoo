@@ -51,7 +51,9 @@ qx.Proto.flush = function()
   var vStart = (new Date).valueOf();
 
   for (var i=0, a=this._objects, il=a.length; i<il; i++) {
-    a[i]._instance = new a[i];
+    if (!a[i]._instance) {
+      a[i]._instance = new a[i];
+    }
   }
 
   this._objects = [];
