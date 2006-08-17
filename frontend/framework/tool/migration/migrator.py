@@ -23,6 +23,40 @@ def entryCompiler(line):
 
 
 
+def regtool(content, regs, patch, options):
+  for patchEntry in regs:
+    matches = patchEntry["expr"].findall(content)
+    itercontent = content
+    line = 1
+
+    for fragment in matches:
+      # Search for first match position
+      pos = itercontent.find(fragment)
+      pos = patchEntry["expr"].search(itercontent).start()
+
+      # Update current line
+      line += len((itercontent[:pos] + fragment).split("\n")) - 1
+
+      # Removing leading part til matching part
+      itercontent = itercontent[pos+len(fragment):]
+
+      # Debug
+      if options.verbose:
+        print "      - Matches %s in %s" % (patchEntry["orig"], line)
+
+      # Replacing
+      if patch:
+        content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
+      else:
+        print "    - In line %s please note the following:"
+        print patchEntry["repl"]
+
+
+  return content
+
+
+
+
 
 def start(infoList, patchList, fileList, options):
 
@@ -65,13 +99,28 @@ def start(infoList, patchList, fileList, options):
   for inputFile in fileList:
     print "    - %s" % inputFile["path"]
 
-    for fileLine in inputFile["content"]:
-      for patchEntry in compiledPatches:
-        if patchEntry["expr"].search(fileLine):
-          print "      - Matches %s" % patchEntry["orig"]
+    content = inputFile["content"]
 
+    content = regtool(content, compiledPatches, True, options)
+    content = regtool(content, compiledInfos, False, options)
 
+    content = content.encode(inputFile["encoding"])
 
+    outname = inputFile["path"] + options.extension
+
+    if inputFile["content"] != content:
+      if options.extension == "":
+        print "      - Overwrite original file"
+      else:
+        print "      - Saving changes to: %s" % outname
+
+      outputFile = file(outname, "w")
+      outputFile.write(content)
+      outputFile.flush()
+      outputFile.close()
+
+    else:
+      print "      - No changes"
 
 
 
@@ -170,7 +219,8 @@ def handle(options):
         fileObject = codecs.open(filePath, "r", fileEncoding)
 
         try:
-          fileContent = fileObject.read().split("\n")
+          fileContent = fileObject.read()
+
         except ValueError:
           print "    * Invalid Encoding. Required encoding: %s in %s" % (fileEncoding, filePath)
           print "        => Ignore file"
@@ -201,6 +251,7 @@ def main():
   parser.add_option("--input", action="append", dest="input", metavar="DIRECTORY", type="string", default=[], help="Define a input directory.")
   parser.add_option("--encoding", action="append", dest="encoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
   parser.add_option("--version", action="store", dest="version", metavar="VERSION", type="string", help="Define the version to switch to.")
+  parser.add_option("--extension", action="store", dest="extension", metavar="EXTENSION", type="string", default="", help="Extension of new file, leave empty to overwrite original file")
 
   # Add general options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
