@@ -4,7 +4,7 @@
 
 GENERATOR=./tool/generator/generator.py
 CACHE=../.cache
-
+NICE=10
 
 
 ###################################################################################
@@ -32,7 +32,7 @@ clean:
 	rm -f build/script/qx.js source/script/qx.js
 
 realclean: clean
-	rm -rf build source/script
+	nice -n $(NICE) rm -rf build source/script
 
 distclean: realclean
 	find tool -name "*.pyc" | xargs rm -f
@@ -45,7 +45,7 @@ distclean: realclean
 ###################################################################################
 
 generate-all:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -58,14 +58,14 @@ generate-all:
 	  --cache-directory $(CACHE)
 
 generate-compile:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --cache-directory $(CACHE)
 
 generate-resource:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --copy-resources \
 	  --resource-input source/resource \
@@ -73,7 +73,7 @@ generate-resource:
 	  --cache-directory $(CACHE)
 
 generate-build:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -83,7 +83,7 @@ generate-build:
 	  --cache-directory $(CACHE)
 
 generate-source:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --source-script-path ../class \
 	  --generate-source-script \
