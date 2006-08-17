@@ -6,6 +6,7 @@ QOOXDOO = ../../../../
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application
 INCLUDEALL = false
+NICE=10
 
 
 ###################################################################################
@@ -51,11 +52,11 @@ clean:
 	rm -f source/script/custom.js build/script/custom.js
 
 realclean: clean
-	rm -rf build
+	nice -n $(NICE) rm -rf build
 
 distclean: realclean
-	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	rm -rf $(CACHE)
+	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	nice -n $(NICE) rm -rf $(CACHE)
 
 
 
@@ -64,7 +65,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../$(FRAMEWORK)source/class \
 	  --script-input source/class \
@@ -78,7 +79,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \

@@ -5,7 +5,7 @@
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=../.cache
-
+NICE=10
 
 
 ###################################################################################
@@ -36,10 +36,10 @@ clean:
 	rm -f build/script/api.js build/script/data.js
 
 realclean: clean
-	rm -rf build source/script
+	nice -n $(NICE) rm -rf build source/script
 
 distclean: realclean
-	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 
@@ -48,7 +48,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
@@ -66,7 +66,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource/qooxdoo \
@@ -87,14 +87,14 @@ generate-script-build:
 	  --cache-directory $(CACHE)
 
 generate-data-source:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file source/script/data.js \
 	  --cache-directory $(CACHE)
 
 generate-data-build:
-	@$(GENERATOR) \
+	@nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file build/script/data.js \
