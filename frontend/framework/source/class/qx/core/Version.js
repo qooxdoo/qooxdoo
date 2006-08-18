@@ -27,14 +27,14 @@ qx.OO.defineClass("qx.core.Version",
   major : 0,
   minor : 6,
   revision : 0,
-  state : "",
+  state : "RC1",
 
   svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
 	toString: function()
 	{
 		with(qx.core.Version) {
-			return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (" + svn + ")";
+			return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (r" + svn + ")";
 		}
 	}
 });
