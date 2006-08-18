@@ -83,10 +83,7 @@ qx.OO.addProperty({ name : "application", type : qx.constant.Type.OBJECT, instan
 
 qx.Proto._createComponent = function()
 {
-  var vComponentName = this.getSetting("component");
-
-  this.debug("Component: " + vComponentName.substring(vComponentName.lastIndexOf(qx.constant.Core.DOT)+1));
-  this.setComponent(new qx.OO.classes[vComponentName](this));
+  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
 }
 
 
@@ -220,9 +217,10 @@ qx.Proto._modifyComponent = function(propValue, propOldValue, propData)
 
 qx.Proto._onload = function(e)
 {
-  // Print out class informations
-  this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
   this.debug("qooxdoo " + qx.core.Version.toString());
+
+  // Print out class informations
+  this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
 
   // Init component from settings
   this._createComponent();
