@@ -56,18 +56,23 @@ qx.Proto.isUiReady = function() {
 
 qx.Proto.initialize = function()
 {
+  // Force creation of event handler
+  qx.event.handler.EventHandler.getInstance();
+
+  // Force creation of client document
+  qx.ui.core.ClientDocument.getInstance();
+
+  // Start real initialisation
   var start = (new Date).valueOf();
   qx.component.init.BasicInitComponent.prototype.initialize.call(this);
-
   this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
 };
 
 qx.Proto.main = function()
 {
+  // Start real main process
   var start = (new Date).valueOf();
-
   qx.component.init.BasicInitComponent.prototype.main.call(this);
-
   this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
 
   this.debug("preloading visible images...");

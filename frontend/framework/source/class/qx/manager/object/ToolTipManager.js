@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_popup)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -189,8 +188,4 @@ qx.Proto.handleBlur = function(e)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ToolTipManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;

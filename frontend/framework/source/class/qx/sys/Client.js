@@ -307,15 +307,11 @@ qx.Proto.usesSvgPlugin = function() {
 
 /*
 ---------------------------------------------------------------------------
-  DIRECT SINGLETON INSTANCE
+  DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.sys.Client._instance = new qx.sys.Client;
+qx.Class.getInstance = qx.util.Return.returnInstance;

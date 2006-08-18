@@ -28,7 +28,6 @@ function(vTitle)
   qx.core.Object.call(this);
 
   this.setTitle(vTitle);
-  this._register();
 });
 
 
@@ -84,9 +83,6 @@ qx.Proto.setupAppearance = function(vAppearance)
   }
 }
 
-qx.Proto._register = function() {
-  qx.manager.object.AppearanceManager.getInstance().registerTheme(this);
-}
 
 
 

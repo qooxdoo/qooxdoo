@@ -50,10 +50,12 @@ qx.util.Return.returnThis = function() {
   return this;
 }
 
-qx.util.Return.returnInstance = function() {
-
-  if (!this._instance) {
+qx.util.Return.returnInstance = function()
+{
+  if (!this._instance)
+  {
     this._instance = new this;
+    // this._instance.debug("Created...");
   }
 
   return this._instance;

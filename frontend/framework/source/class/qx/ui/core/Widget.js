@@ -3810,7 +3810,7 @@ qx.Proto._applyInitialAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getInstance().getTheme().initialFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(this, vAppearance);
       if (r) {
         this.set(r);
       }
@@ -3834,7 +3834,7 @@ qx.Proto._applyStateAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getInstance().getTheme().stateFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(this, vAppearance);
       if (r) {
         this.set(r);
       }
@@ -3933,7 +3933,7 @@ qx.Proto.recursiveAddToStateQueue = function() {
 
 qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
-  var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getTheme();
+  var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
 
   var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
 
