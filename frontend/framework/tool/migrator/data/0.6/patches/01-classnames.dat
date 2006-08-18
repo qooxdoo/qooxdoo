@@ -20,8 +20,8 @@
 
 \bQxDebug\b=qx.dev.Debug
 \bQxTimeTracker\b=qx.dev.TimeTracker
-\bQxDom\b=qx.dom
-\bQxDomStyle\b=qx.dom.DomStyle
+
+\bQxXmlExtras\b=qx.lang.Xml
 
 \bQxDataEvent\b=qx.event.type.DataEvent
 \bQxDomEvent\b=qx.event.type.DomEvent
@@ -156,13 +156,17 @@
 \bQxMenuLayoutImpl\b=qx.renderer.layout.MenuLayoutImpl
 \bQxVerticalBoxLayoutImpl\b=qx.renderer.layout.VerticalBoxLayoutImpl
 
+\bQxBorder\.presets\b=qx.renderer.border.BorderPresets
+\bQxBorderObject\.presets\b=qx.renderer.border.BorderPresets
 \bQxBorder\b=qx.renderer.border.Border
 \bQxBorderCache\b=qx.renderer.border.BorderCache
 \bQxBorderObject\b=qx.renderer.border.BorderObject
+\bQxBorderPresets\b=qx.renderer.border.BorderPresets
 
 \bQxColor\b=qx.renderer.color.Color
 \bQxColorCache\b=qx.renderer.color.ColorCache
 \bQxColorObject\b=qx.renderer.color.ColorObject
+\bQxColorUtil\b=qx.util.ColorUtil
 
 \bQxFont\b=qx.renderer.font.Font
 \bQxFontCache\b=qx.renderer.font.FontCache
@@ -199,6 +203,7 @@
 \bQxText\b=qx.ui.embed.TextEmbed
 \bQxNode\b=qx.ui.embed.NodeEmbed
 
-\bQxTextile\b=qx.util.Textile
-
+\bQxTextile\b=qx.util.Textile.textilize
 \bQxCompare\b=qx.util.Compare
+\bQxFormUtils\b=qx.util.FormUtil
+

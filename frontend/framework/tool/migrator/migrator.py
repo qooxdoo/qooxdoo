@@ -12,8 +12,8 @@ def entryCompiler(line):
   line = line.replace("\=", "----EQUAL----")
 
   splitLine = line.split("=")
-  orig = splitLine[0]
-  repl = splitLine[1]
+  orig = splitLine[0].strip()
+  repl = splitLine[1].strip()
 
   #print "%s :: %s" % (orig, value)
 
@@ -50,7 +50,7 @@ def regtool(content, regs, patch, options):
       if patch:
         content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
       else:
-        print "      - In line %s (%s) please note:" % (line, patchEntry["orig"])
+        print "      - line %s : (%s)" % (line, patchEntry["orig"])
         print "        %s" % patchEntry["repl"]
 
 
@@ -103,14 +103,13 @@ def start(infoList, patchList, fileList, options):
   print "  * Processing:"
 
   for inputFile in fileList:
-    print "    - %s" % inputFile["path"]
+    print
+    print "    * %s" % inputFile["path"]
 
     content = inputFile["content"]
 
     content = regtool(content, compiledPatches, True, options)
     content = regtool(content, compiledInfos, False, options)
-
-    content = content.encode(inputFile["encoding"])
 
     outname = inputFile["path"] + options.extension
 
@@ -121,7 +120,7 @@ def start(infoList, patchList, fileList, options):
         print "      - Saving changes to: %s" % outname
 
       outputFile = file(outname, "w")
-      outputFile.write(content)
+      outputFile.write(content.encode(inputFile["encoding"]))
       outputFile.flush()
       outputFile.close()
 
@@ -207,6 +206,7 @@ def handle(options):
   print "  * Scanning input directories..."
 
   indexPos = 0
+  errorFlag = False
   for inputPath in inputPaths:
     for root, dirs, files in os.walk(inputPath):
 
@@ -234,7 +234,7 @@ def handle(options):
 
         except ValueError:
           print "    * Invalid Encoding. Required encoding: %s in %s" % (fileEncoding, filePath)
-          print "        => Ignore file"
+          errorFlag = True
           continue
 
         fileList.append({"path":filePath,"encoding":fileEncoding,"content":fileContent})
@@ -243,6 +243,9 @@ def handle(options):
 
     indexPos += 1
 
+  if errorFlag:
+    print "  * Exiting due to errors."
+    sys.exit(1)
 
   start(infoList, patchList, fileList, options)
 
@@ -265,10 +268,10 @@ def main():
   parser = optparse.OptionParser("usage: %prog [options]")
 
   # Add required options
-  parser.add_option("--input", action="append", dest="input", metavar="DIRECTORY", type="string", default=[], help="Define a input directory.")
-  parser.add_option("--encoding", action="append", dest="encoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
-  parser.add_option("--version", action="store", dest="version", metavar="VERSION", type="string", help="Define the version to switch to.")
-  parser.add_option("--extension", action="store", dest="extension", metavar="EXTENSION", type="string", default="", help="Extension of new file, leave empty to overwrite original file")
+  parser.add_option("--input", action="append", dest="input", metavar="DIRECTORY", type="string", default=[], help="Define a input directory. Multiple --input are supported.")
+  parser.add_option("--encoding", action="append", dest="encoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory (default: utf-8).")
+  parser.add_option("--version", action="store", dest="version", metavar="VERSION", type="string", help="Define the version number to switch to, e.g. 0.6")
+  parser.add_option("--extension", action="store", dest="extension", metavar="EXTENSION", type="string", default="", help="File extension of new file(s), leave empty to overwrite original file(s)")
 
   # Add general options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
