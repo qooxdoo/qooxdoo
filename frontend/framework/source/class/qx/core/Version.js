@@ -34,7 +34,7 @@ qx.OO.defineClass("qx.core.Version",
 	toString: function()
 	{
 		with(qx.core.Version) {
-			return major + "." + minor + "." + revision + (state == "" ? "" : "-" + state) + " (" + svn + ")";
+			return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (" + svn + ")";
 		}
 	}
 });
