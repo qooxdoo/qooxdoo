@@ -157,3 +157,65 @@ sample2-distclean: sample2-realclean
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	@$(MAKE) -C source/sample2 distclean
+
+
+
+
+###################################################################################
+# SAMPLE 3 TARGETS
+###################################################################################
+
+sample3-build:
+	@$(MAKE) -C source/sample3 build
+
+sample3-source:
+	@$(MAKE) -C source/sample3 source
+
+sample3-archives:
+	@echo
+	@echo "  GENERATION OF SAMPLE 3 ARCHIVES"
+	@echo "----------------------------------------------------------------------------"
+
+	@mkdir -p build/dos
+	@mkdir -p build/unix
+
+	@echo "  * Synchronizing Unix content..."
+	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample3 build/unix
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@nice -n $(NICE) find build/unix -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs dos3unix > /dev/null 3>&3
+
+	@echo "  * Synchronizing DOS content..."
+	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample3 build/dos
+	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
+	@nice -n $(NICE) find build/dos -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs unix3dos > /dev/null 3>&3
+
+	@echo "  * Creating gzip archive..."
+	@cd build/unix; rm -f sample3.tar.gz; nice -n $(NICE) tar cfz sample3.tar.gz sample3
+
+	@echo "  * Creating zip archive..."
+	@cd build/dos; rm -f sample3.zip; nice -n $(NICE) zip -rq sample3.zip sample3
+
+sample3-clean:
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@rm -rf build/unix/sample3.*
+	@rm -rf build/dos/sample3.*
+	@$(MAKE) -C source/sample3 clean
+
+sample3-realclean: sample3-clean
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) rm -rf build/unix/sample3
+	@nice -n $(NICE) rm -rf build/dos/sample3
+	@$(MAKE) -C source/sample3 realclean
+
+sample3-distclean: sample3-realclean
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@$(MAKE) -C source/sample3 distclean
