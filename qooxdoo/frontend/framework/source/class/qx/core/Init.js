@@ -46,6 +46,8 @@ function()
 
 
 
+
+
 /*
 ---------------------------------------------------------------------------
   DEFAULT SETTINGS
@@ -87,6 +89,12 @@ qx.Proto._createComponent = function()
   this.setComponent(new qx.OO.classes[vComponentName](this));
 }
 
+
+
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   APPLICATION MANAGMENT
@@ -122,6 +130,9 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 
   return true;
 };
+
+
+
 
 
 
@@ -211,6 +222,7 @@ qx.Proto._onload = function(e)
 {
   // Print out class informations
   this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
+  this.debug("qooxdoo " + qx.core.Version.toString() + " ready");
 
   // Init component from settings
   this._createComponent();
