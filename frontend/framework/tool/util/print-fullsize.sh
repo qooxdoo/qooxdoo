@@ -2,9 +2,15 @@
 
 cd `dirname $0`/../..
 
-kbytes=`LANG="C" du -c source/class/*.js --apparent-size -k | grep total | cut -f1`
-bytes=`LANG="C" du -c source/class/*.js --apparent-size -b | grep total | cut -f1`
+bytes=0
+
+for size in `find source/class/ -name "*.js" | xargs du -b | awk '{ print $1 }'`; 
+do 
+  bytes=$[$bytes+$size]; 
+done;
+
+kbytes=$[$bytes/1024]
 
 echo ">>> qooxdoo source full size"
-echo ">>> ${kbytes}kb ($bytes)"
+echo ">>> ${kbytes}KB"
 
