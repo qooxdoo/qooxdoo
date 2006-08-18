@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
+#after(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 
@@ -28,11 +29,6 @@ function(vTitle)
   qx.core.Object.call(this);
 
   this.setTitle(vTitle);
-  this._register();
 });
 
 qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
-
-qx.Proto._register = function() {
-  return qx.manager.object.ImageManager.getInstance().registerWidgetTheme(this);
-}

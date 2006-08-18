@@ -18,7 +18,6 @@
 /* ************************************************************************
 
 #module(ui_treefullcontrol)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -259,8 +258,4 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.ui.treefullcontrol.TreeRowStructure);
+qx.Class.getInstance = qx.util.Return.returnInstance;

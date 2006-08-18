@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -168,8 +167,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.AliasManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;

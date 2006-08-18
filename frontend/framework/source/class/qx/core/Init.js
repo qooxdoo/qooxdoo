@@ -99,7 +99,7 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
   {
     this.error("Could not modify application");
   }
-  
+
   if (propValue)
   {
 
@@ -119,7 +119,7 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
     this.defineClose(propValue.close);
     this.defineTerminate(propValue.terminate);
   }
-  
+
   return true;
 };
 
@@ -215,9 +215,6 @@ qx.Proto._onload = function(e)
   // Init component from settings
   this._createComponent();
 
-  // Create singletons
-  qx.manager.object.SingletonManager.getInstance().flush();
-
   // Send onload
   return this.getComponent()._onload(e);
 }
@@ -285,8 +282,7 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
+qx.Class.getInstance = qx.util.Return.returnInstance;
 
-qx.core.Init._instance = new qx.core.Init;
+// Force direct creation
+qx.Class.getInstance();

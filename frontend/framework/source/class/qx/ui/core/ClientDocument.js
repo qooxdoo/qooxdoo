@@ -436,8 +436,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.ui.core.ClientDocument);
+qx.Class.getInstance = qx.util.Return.returnInstance;

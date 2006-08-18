@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(theme_color)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -81,8 +80,15 @@ qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
+qx.Class.getInstance = qx.util.Return.returnInstance;
 
-qx.manager.object.SingletonManager.getInstance().add(qx.theme.color.WindowsLunaSilverColorTheme);
+
+
+
+/*
+---------------------------------------------------------------------------
+  REGISTER TO MANAGER
+---------------------------------------------------------------------------
+*/
+
+qx.manager.object.ColorManager.getInstance().registerColorTheme(qx.Class);

@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_dragdrop)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -835,8 +834,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.event.handler.DragAndDropHandler);
+qx.Class.getInstance = qx.util.Return.returnInstance;

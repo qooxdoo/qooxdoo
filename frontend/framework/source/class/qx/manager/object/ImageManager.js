@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.manager.object.SingletonManager)
 #require(qx.constant.Type)
 #optional(qx.ui.form.Button)
 
@@ -33,10 +32,8 @@ function()
 {
   qx.manager.object.ObjectManager.call(this);
 
-  // Contains available icon themes
+  // Themes
   this._iconThemes = {};
-
-  // Contains available widget themes
   this._widgetThemes = {};
 
   // Contains known image sources (all of them, if loaded or not)
@@ -78,6 +75,35 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 
 
+/*
+---------------------------------------------------------------------------
+  REGISTRATION
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.registerIconTheme = function(vThemeClass)
+{
+  this._iconThemes[vThemeClass.classname] = vThemeClass;
+
+  if (vThemeClass.classname == this.getSetting("iconTheme")) {
+    this.setIconTheme(vThemeClass.getInstance());
+  }
+}
+
+qx.Proto.registerWidgetTheme = function(vThemeClass)
+{
+  this._widgetThemes[vThemeClass.classname] = vThemeClass;
+
+  if (vThemeClass.classname == this.getSetting("widgetTheme")) {
+    this.setWidgetTheme(vThemeClass.getInstance());
+  }
+}
+
+
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -88,6 +114,7 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 qx.Proto._onaliaschange = function() {
   this._updateImages();
 }
+
 
 
 
@@ -109,47 +136,6 @@ qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
   propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.getInstance().remove("widget");
   return true;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  THEMES
----------------------------------------------------------------------------
-*/
-
-qx.Proto.registerIconTheme = function(vTheme)
-{
-  var vId = vTheme.classname;
-
-  this._iconThemes[vId] = vTheme;
-
-  if (vId === this.getSetting("iconTheme") && this.getIconTheme() === null) {
-    this.setIconTheme(vTheme);
-  }
-}
-
-qx.Proto.registerWidgetTheme = function(vTheme)
-{
-  var vId = vTheme.classname;
-
-  this._widgetThemes[vId] = vTheme;
-
-  if (vId === this.getSetting("widgetTheme") && this.getWidgetTheme() === null) {
-    this.setWidgetTheme(vTheme);
-  }
-}
-
-qx.Proto.setIconThemeById = function(vId) {
-  return this.setIconTheme(this._iconThemes[vId]);
-}
-
-qx.Proto.setWidgetThemeById = function(vId) {
-  return this.setWidgetTheme(this._widgetThemes[vId]);
 }
 
 
@@ -276,31 +262,12 @@ qx.Proto.dispose = function()
   // Change event connection to AliasManager
   qx.manager.object.AliasManager.getInstance().removeEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
 
-  // Destroy icon and widget themes
-  if (this._iconThemes)
-  {
-    for (var vTheme in this._iconThemes)
-    {
-      this._iconThemes[vTheme].dispose();
-      this._iconThemes[vTheme] = null;
-    }
-
-    this._iconThemes = null;
-  }
-
-  if (this._widgetThemes)
-  {
-    for (var vTheme in this._widgetThemes)
-    {
-      this._widgetThemes[vTheme].dispose();
-      this._widgetThemes[vTheme] = null;
-    }
-
-    this._widgetThemes = null;
-  }
-
   // Delete counter field
   this._sources = null;
+
+  // Themes
+  this._iconThemes = null;
+  this._widgetThemes = null;
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 }
@@ -322,9 +289,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ImageManager);
-
+qx.Class.getInstance = qx.util.Return.returnInstance;

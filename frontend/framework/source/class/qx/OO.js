@@ -23,6 +23,7 @@
 #after(qx.Settings)
 #before(qx.constant.Type)
 #before(qx.lang.Core)
+#before(qx.util.Return)
 #optional(qx.event.type.DataEvent)
 
 ************************************************************************ */

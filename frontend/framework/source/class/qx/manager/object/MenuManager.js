@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -75,8 +74,4 @@ qx.Proto.update = function(vTarget)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.MenuManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;

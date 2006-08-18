@@ -105,5 +105,5 @@
     };
   }
 
-  document.title = "qooxdoo » Demo » " + location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ");
+  document.title = "qooxdoo Â» Demo Â» " + location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ");
 //})();
