@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import sys, re, os, optparse, codecs
-import config
 
+
+DIRIGNORE = [ ".svn", "CVS" ]
+EXTINCLUDE = [ ".php", ".asp", ".jsp", ".html", ".htm", ".js" ]
 
 
 def entryCompiler(line):
@@ -156,7 +158,7 @@ def handle(options):
   for root, dirs, files in os.walk(infoPath):
 
     # Filter ignored directories
-    for ignoredDir in config.DIRIGNORE:
+    for ignoredDir in DIRIGNORE:
       if ignoredDir in dirs:
         dirs.remove(ignoredDir)
 
@@ -177,7 +179,7 @@ def handle(options):
   for root, dirs, files in os.walk(patchPath):
 
     # Filter ignored directories
-    for ignoredDir in config.DIRIGNORE:
+    for ignoredDir in DIRIGNORE:
       if ignoredDir in dirs:
         dirs.remove(ignoredDir)
 
@@ -200,13 +202,13 @@ def handle(options):
     for root, dirs, files in os.walk(inputPath):
 
       # Filter ignored directories
-      for ignoredDir in config.DIRIGNORE:
+      for ignoredDir in DIRIGNORE:
         if ignoredDir in dirs:
           dirs.remove(ignoredDir)
 
       # Searching for files
       for fileName in files:
-        if not os.path.splitext(fileName)[1] in config.EXTINCLUDE:
+        if not os.path.splitext(fileName)[1] in EXTINCLUDE:
           continue
 
         filePath = os.path.join(root, fileName)
