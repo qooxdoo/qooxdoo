@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #require(qx.util.Return)
-#before(qx.renderer.color.ColorObject)
+#load(qx.renderer.color.ColorObject)
 
 ************************************************************************ */
 
