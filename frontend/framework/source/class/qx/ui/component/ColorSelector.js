@@ -1018,7 +1018,7 @@ qx.Proto._setHueFromRgb = function()
       break;
 
     default:
-      var vHsb = qx.renderer.color.ColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
+      var vHsb = qx.util.ColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
 
       this.setHue(vHsb.hue);
       this.setSaturation(vHsb.saturation);
@@ -1035,7 +1035,7 @@ qx.Proto._setRgbFromHue = function()
       break;
 
     default:
-      var vRgb = qx.renderer.color.ColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
+      var vRgb = qx.util.ColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
 
       this.setRed(vRgb.red);
       this.setGreen(vRgb.green);
