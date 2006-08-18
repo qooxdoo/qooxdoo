@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#require(qx.manager.object.SingletonManager)
 #resource(html:static/history)
 
 ************************************************************************ */
@@ -130,8 +129,4 @@ qx.Settings.setDefault("helperFile", qx.Settings.getValueOfClass("qx.manager.obj
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.client.History);
+qx.Class.getInstance = qx.util.Return.returnInstance;

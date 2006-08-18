@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
+#after(qx.manager.object.ColorManager)
 
 ************************************************************************ */
 
@@ -29,7 +30,6 @@ function(vTitle)
 
   this._compiledColors = {};
   this.setTitle(vTitle);
-  this._register();
 });
 
 

@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(theme_icon)
-#require(qx.manager.object.SingletonManager)
 #resource(images:icon/nuvola)
 
 ************************************************************************ */
@@ -52,8 +51,16 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
+qx.Class.getInstance = qx.util.Return.returnInstance;
 
-qx.manager.object.SingletonManager.getInstance().add(qx.theme.icon.NuvolaIconTheme);
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  REGISTER TO MANAGER
+---------------------------------------------------------------------------
+*/
+
+qx.manager.object.ImageManager.getInstance().registerIconTheme(qx.Class);

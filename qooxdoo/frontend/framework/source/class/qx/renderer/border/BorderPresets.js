@@ -68,8 +68,4 @@ qx.OO.defineClass("qx.renderer.border.BorderPresets", qx.core.Object, function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.renderer.border.BorderPresets);
+qx.Class.getInstance = qx.util.Return.returnInstance;

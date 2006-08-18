@@ -19,17 +19,18 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
 qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager,
-function()
-{
+function() {
   qx.manager.object.ObjectManager.call(this);
 
-  this._themes = {};
+  // Themes
+  this._appearanceThemes = {};
 });
+
+
 
 
 /*
@@ -38,7 +39,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("theme", "qx.theme.appearance.DefaultAppearanceTheme");
+qx.Settings.setDefault("appearanceTheme", "qx.theme.appearance.DefaultAppearanceTheme");
 
 
 
@@ -50,7 +51,30 @@ qx.Settings.setDefault("theme", "qx.theme.appearance.DefaultAppearanceTheme");
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
+qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  REGISTRATION
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.registerAppearanceTheme = function(vThemeClass)
+{
+  this._appearanceThemes[vThemeClass.classname] = vThemeClass;
+
+  if (vThemeClass.classname == this.getSetting("appearanceTheme")) {
+    this.setAppearanceTheme(vThemeClass.getInstance());
+  }
+}
+
+
+
 
 
 
@@ -62,41 +86,15 @@ qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : 
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
+qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 {
   var vComp = qx.core.Init.getInstance().getComponent();
 
-  if (vComp.isUiReady()) {
+  if (vComp && vComp.isUiReady()) {
     qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
   }
 
   return true;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.registerTheme = function(vTheme)
-{
-  var vId = vTheme.classname;
-
-  this._themes[vId] = vTheme;
-
-  if (vId === this.getSetting("theme") && this.getTheme() === null) {
-    this.setTheme(vTheme);
-  }
-}
-
-qx.Proto.setThemeById = function(vId) {
-  return this.setTheme(this._themes[vId]);
 }
 
 
@@ -117,16 +115,8 @@ qx.Proto.dispose = function()
     return;
   }
 
-  if (this._themes)
-  {
-    for (var vTheme in this._themes)
-    {
-      this._themes[vTheme].dispose();
-      this._themes[vTheme] = null;
-    }
-
-    this._themes = null;
-  }
+  // Themes
+  this._appearanceThemes = null;
 
   return qx.manager.object.ObjectManager.prototype.dispose.call(this);
 }
@@ -146,8 +136,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.AppearanceManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;

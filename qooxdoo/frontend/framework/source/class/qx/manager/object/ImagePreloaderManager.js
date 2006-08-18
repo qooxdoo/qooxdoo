@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.manager.object.SingletonManager)
 
 ************************************************************************ */
 
@@ -80,8 +79,4 @@ qx.Proto.create = function(vSource)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ImagePreloaderManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;

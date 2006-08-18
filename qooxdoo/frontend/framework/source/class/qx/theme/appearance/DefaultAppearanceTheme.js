@@ -22,7 +22,6 @@
 
 #module(ui_core)
 #module(theme_appearance)
-#require(qx.manager.object.SingletonManager)
 #optional(qx.renderer.color.Color)
 #optional(qx.renderer.color.ColorObject)
 #optional(qx.renderer.border.Border)
@@ -2312,8 +2311,14 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
+qx.Class.getInstance = qx.util.Return.returnInstance;
 
-qx.manager.object.SingletonManager.getInstance().add(qx.theme.appearance.DefaultAppearanceTheme);
+
+
+/*
+---------------------------------------------------------------------------
+  REGISTER TO MANAGER
+---------------------------------------------------------------------------
+*/
+
+qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(qx.Class);

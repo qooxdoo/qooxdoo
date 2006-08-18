@@ -48,7 +48,7 @@ def regtool(content, regs, patch, options):
       if patch:
         content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
       else:
-        print "    - In line %s please note the following:"
+        print "    - In line %s please note the following:" % line
         print patchEntry["repl"]
 
 

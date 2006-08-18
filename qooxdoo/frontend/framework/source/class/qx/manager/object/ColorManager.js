@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.manager.object.SingletonManager)
 #optional(qx.ui.form.Button)
 
 ************************************************************************ */
@@ -29,8 +28,8 @@ function()
 {
   qx.manager.object.ObjectManager.call(this);
 
-  // Contains the qx.renderer.theme.ColorTheme instances
-  this._themes = {};
+  // Themes
+  this._colorThemes = {};
 
   // Contains the qx.renderer.color.ColorObjects which
   // represent a themed color.
@@ -47,7 +46,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("theme", "qx.theme.color.WindowsRoyaleColorTheme");
+qx.Settings.setDefault("colorTheme", "qx.theme.color.WindowsRoyaleColorTheme");
 
 
 
@@ -58,7 +57,27 @@ qx.Settings.setDefault("theme", "qx.theme.color.WindowsRoyaleColorTheme");
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "theme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.ColorTheme" });
+qx.OO.addProperty({ name : "colorTheme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.ColorTheme" });
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  REGISTRATION
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.registerColorTheme = function(vThemeClass)
+{
+  this._colorThemes[vThemeClass.classname] = vThemeClass;
+
+  if (vThemeClass.classname == this.getSetting("colorTheme")) {
+    this.setColorTheme(vThemeClass.getInstance());
+  }
+}
 
 
 
@@ -104,31 +123,6 @@ qx.Proto.get = function(vValue) {
 
 
 
-/*
----------------------------------------------------------------------------
-  PUBLIC METHODS FOR qx.renderer.theme.ColorThemeS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.registerTheme = function(vTheme)
-{
-  var vId = vTheme.classname;
-
-  this._themes[vId] = vTheme;
-
-  if (vId === this.getSetting("theme") && this.getTheme() === null) {
-    this.setTheme(vTheme);
-  }
-}
-
-qx.Proto.setThemeById = function(vId) {
-  return this.setTheme(this._themes[vId]);
-}
-
-
-
-
-
 
 /*
 ---------------------------------------------------------------------------
@@ -136,7 +130,7 @@ qx.Proto.setThemeById = function(vId) {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyTheme = function(propValue, propOldValue, propData)
+qx.Proto._modifyColorTheme = function(propValue, propOldValue, propData)
 {
   propValue.compile();
 
@@ -198,17 +192,10 @@ qx.Proto.dispose = function()
     return;
   }
 
-  if (this._themes)
-  {
-    for (var vTheme in this._themes)
-    {
-      this._themes[vTheme].dispose();
-      this._themes[vTheme] = null;
-    }
+  // Themes
+  this._colorThemes = null;
 
-    this._themes = null;
-  }
-
+  // Cleanup dependent objects
   for (var i in this._dependentObjects) {
     delete this._dependentObjects[i];
   }
@@ -233,8 +220,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = function() {
-  return this._instance;
-}
-
-qx.manager.object.SingletonManager.getInstance().add(qx.manager.object.ColorManager);
+qx.Class.getInstance = qx.util.Return.returnInstance;
