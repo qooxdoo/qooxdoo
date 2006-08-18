@@ -82,6 +82,7 @@ clean:
 	@$(MAKE) -C api clean
 	@$(MAKE) -C demo clean
 	@$(MAKE) -C framework clean
+	@$(MAKE) -C skeleton clean
 
 realclean:
 	@echo
@@ -91,6 +92,7 @@ realclean:
 	@$(MAKE) -C api realclean
 	@$(MAKE) -C demo realclean
 	@$(MAKE) -C framework realclean
+	@$(MAKE) -C skeleton realclean
 
 distclean:
 	@echo
@@ -100,6 +102,7 @@ distclean:
 	@$(MAKE) -C api distclean
 	@$(MAKE) -C demo distclean
 	@$(MAKE) -C framework distclean
+	@$(MAKE) -C skeleton distclean
 
 	@echo "  * Deleting cache..."
 	@nice -n $(NICE) rm -rf .cache
