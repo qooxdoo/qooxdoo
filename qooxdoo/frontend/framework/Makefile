@@ -29,14 +29,26 @@ build: generate-build
 ###################################################################################
 
 clean:
-	rm -f build/script/qx.js source/script/qx.js
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@rm -f build/script/qx.js source/script/qx.js
 
 realclean: clean
-	nice -n $(NICE) rm -rf build source/script
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) rm -rf build source/script
 
 distclean: realclean
-	find tool -name "*.pyc" | xargs rm -f
-	find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) find tool -name "*.pyc" | xargs rm -f
+	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 

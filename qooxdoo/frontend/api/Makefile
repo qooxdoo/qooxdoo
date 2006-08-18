@@ -23,7 +23,11 @@ all: build
 source: generate-script-source generate-data-source
 
 build: generate-script-build generate-data-build
-	cp -f source/index.html build/index.html
+	@echo
+	@echo "  CREATE COPY OF HTML FILE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Copying file..."
+	@cp -f source/index.html build/index.html
 
 
 
@@ -32,14 +36,26 @@ build: generate-script-build generate-data-build
 ###################################################################################
 
 clean:
-	rm -f source/script/api.js source/script/data.js
-	rm -f build/script/api.js build/script/data.js
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@rm -f source/script/api.js source/script/data.js
+	@rm -f build/script/api.js build/script/data.js
 
 realclean: clean
-	nice -n $(NICE) rm -rf build source/script
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) rm -rf build source/script
 
 distclean: realclean
-	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 
