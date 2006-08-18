@@ -14,20 +14,20 @@ all: archives
 # GENERAL TARGETS
 ###################################################################################
 
-archives: sample1-archives sample2-archives
-build: sample1-build sample2-build
-source: sample1-source sample2-source
+archives: sample1-archives sample2-archives sample3-archives
+build: sample1-build sample2-build sample3-build
+source: sample1-source sample2-source sample3-source
 
-clean: sample1-clean sample2-clean
+clean: sample1-clean sample2-clean sample3-clean
 
-realclean: sample1-realclean sample2-realclean
+realclean: sample1-realclean sample2-realclean sample3-realclean
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES (REAL)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	rm -rf build
 
-distclean: sample1-distclean sample2-distclean
+distclean: sample1-distclean sample2-distclean sample3-distclean
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES (DIST)"
 	@echo "----------------------------------------------------------------------------"
