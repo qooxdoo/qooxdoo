@@ -36,35 +36,39 @@ qx.OO.defineClass("qx.util.Return");
 
 qx.util.Return.returnTrue = function() {
   return true;
-}
+};
 
 qx.util.Return.returnFalse = function() {
   return false;
-}
+};
 
 qx.util.Return.returnNull = function() {
   return null;
-}
+};
 
 qx.util.Return.returnThis = function() {
   return this;
-}
+};
 
 qx.util.Return.returnInstance = function()
 {
   if (!this._instance)
   {
     this._instance = new this;
-    // this._instance.debug("Created...");
+
+    /*
+    if (this._instance.debug) {
+      this._instance.debug("Created...");
+    }*/
   }
 
   return this._instance;
-}
+};
 
 qx.util.Return.returnZero = function() {
   return 0;
-}
+};
 
 qx.util.Return.returnNegativeIndex = function() {
   return -1;
-}
+};
