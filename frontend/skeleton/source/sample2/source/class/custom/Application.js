@@ -1,13 +1,13 @@
 /**
  * Sample 3
  */
-qx.OO.defineClass("custom.Application", qx.component.AbstractApplication,
+qx.OO.defineClass("custom.Application2", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
 
 qx.Proto.initialize = function(e)
-{ 
+{
   qx.manager.object.AliasManager.getInstance().add("custom", "./resource");
 };
 
@@ -25,7 +25,7 @@ qx.Proto.main = function(e)
 };
 
 qx.Proto.finalize = function(e)
-{ 
+{
 };
 
 qx.Proto.close = function(e)
