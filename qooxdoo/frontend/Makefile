@@ -70,6 +70,9 @@ skeleton-archives:
 demo-sync:
 	@$(MAKE) -C demo sync
 
+api-sync:
+	@$(MAKE) -C api sync
+
 
 
 ###################################################################################

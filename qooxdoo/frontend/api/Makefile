@@ -29,6 +29,8 @@ build: generate-script-build generate-data-build
 	@echo "  * Copying file..."
 	@cp -f source/index.html build/index.html
 
+sync: build sync-qooxdoo-org
+
 
 
 ###################################################################################
@@ -115,3 +117,17 @@ generate-data-build:
 	  --generate-api-documentation \
 	  --api-documentation-json-file build/script/data.js \
 	  --cache-directory $(CACHE)
+
+
+
+
+###################################################################################
+# ONLINE TARGETS
+###################################################################################
+
+sync-qooxdoo-org:
+	@echo
+	@echo "  SYNC FILES TO HOMEPAGE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Syncing..."
+	@nice -n $(NICE) rsync --checksum --recursive --links --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/api
