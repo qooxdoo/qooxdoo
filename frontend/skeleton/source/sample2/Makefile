@@ -4,7 +4,7 @@
 
 QOOXDOO = ../../../../
 SCRIPTNAME = custom.js
-APPCLASS = custom.Application
+APPCLASS = custom.Application2
 INCLUDEALL = false
 NICE=10
 
