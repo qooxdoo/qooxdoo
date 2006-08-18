@@ -105,7 +105,7 @@ qx.Proto.appendLogEvent = function(evt) {
   // Append the group when needed
   var group = evt.logger.getName();
   if (evt.instanceId != null) {
-    group += "[HASHCODE:" + evt.instanceId + "]";
+    group += "[" + evt.instanceId + "]";
   }
 
   if (group != this._lastGroup) {
