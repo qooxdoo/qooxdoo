@@ -22,14 +22,14 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.FormUtils");
+qx.OO.defineClass("qx.util.FormUtil");
 
-qx.io.remote.FormUtils.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
-qx.io.remote.FormUtils.ignoreElementTypes = [ "fieldset" ];
-qx.io.remote.FormUtils.checkElementTypes = [ "radio", "checkbox" ];
-qx.io.remote.FormUtils.multiSelectType = "select-multiple";
+qx.Class.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
+qx.Class.ignoreElementTypes = [ "fieldset" ];
+qx.Class.checkElementTypes = [ "radio", "checkbox" ];
+qx.Class.multiSelectType = "select-multiple";
 
-qx.io.remote.FormUtils.inputFilter = function(vNode)
+qx.Class.inputFilter = function(vNode)
 {
   if (vNode.disabled) {
     return false;
@@ -37,33 +37,33 @@ qx.io.remote.FormUtils.inputFilter = function(vNode)
 
   var vTag = (vNode.tagName || qx.constant.Core.EMPTY).toLowerCase();
 
-  if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreElementTypes, vTag)) {
+  if (qx.lang.Array.contains(qx.util.FormUtil.ignoreElementTypes, vTag)) {
     return false;
   }
 
   var vType = vNode.type.toLowerCase();
 
-  if (qx.lang.Array.contains(qx.io.remote.FormUtils.ignoreInputTypes, vType)) {
+  if (qx.lang.Array.contains(qx.util.FormUtil.ignoreInputTypes, vType)) {
     return false;
   }
 
-  if (!vNode.checked && qx.lang.Array.contains(qx.io.remote.FormUtils.checkElementTypes, vType)) {
+  if (!vNode.checked && qx.lang.Array.contains(qx.util.FormUtil.checkElementTypes, vType)) {
     return false;
   }
 
   return true;
 }
 
-qx.io.remote.FormUtils.getFields = function(vForm) {
-  return Array.filter(vForm.elements, qx.io.remote.FormUtils.inputFilter);
+qx.Class.getFields = function(vForm) {
+  return Array.filter(vForm.elements, qx.util.FormUtil.inputFilter);
 }
 
-qx.io.remote.FormUtils.encodeField = function(vNode)
+qx.Class.encodeField = function(vNode)
 {
   var vName = vNode.name || qx.constant.Core.EMPTY;
   var vType = (vNode.type || qx.constant.Core.EMPTY).toLowerCase();
 
-  if(vType === qx.io.remote.FormUtils.multiSelectType)
+  if(vType === qx.util.FormUtil.multiSelectType)
   {
     var vValues = [];
 
@@ -82,19 +82,19 @@ qx.io.remote.FormUtils.encodeField = function(vNode)
   }
 }
 
-qx.io.remote.FormUtils.encodeForm = function(vForm)
+qx.Class.encodeForm = function(vForm)
 {
-  var vFields = qx.io.remote.FormUtils.getFields(vForm);
+  var vFields = qx.util.FormUtil.getFields(vForm);
   var vAll = [];
 
   for (var i=0, l=vFields.length; i<l; i++) {
-    vAll.push(qx.io.remote.FormUtils.encodeField(vFields[i]));
+    vAll.push(qx.util.FormUtil.encodeField(vFields[i]));
   }
 
   return vAll.join(qx.constant.Core.AMPERSAND);
 }
 
-qx.io.remote.FormUtils.bind = function(vForm, vMethod)
+qx.Class.bind = function(vForm, vMethod)
 {
   qx.dom.DomEventRegistration.addEventListener(vForm, qx.constant.Event.SUBMIT, function(e)
   {
