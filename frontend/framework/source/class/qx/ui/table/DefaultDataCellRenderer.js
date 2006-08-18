@@ -63,7 +63,12 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
-  cellElement.firstChild.nodeValue = this._formatValue(cellInfo.value);
+  var textNode = cellElement.firstChild;
+  if (textNode != null) {
+    textNode.nodeValue = this._formatValue(cellInfo.value);
+  } else {
+    cellElement.innerHTML = this._formatValue(cellInfo.value);
+  }
 }
 
 
