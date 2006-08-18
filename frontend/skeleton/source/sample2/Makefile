@@ -49,14 +49,26 @@ build: info-build generate-script-build copy-build-files
 ###################################################################################
 
 clean:
-	rm -f source/script/custom.js build/script/custom.js
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@rm -f source/script/custom.js build/script/custom.js
 
 realclean: clean
-	nice -n $(NICE) rm -rf build
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) rm -rf build
 
 distclean: realclean
-	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	nice -n $(NICE) rm -rf $(CACHE)
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@nice -n $(NICE) rm -rf $(CACHE)
 
 
 

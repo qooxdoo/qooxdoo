@@ -31,35 +31,43 @@ all: build
 ###################################################################################
 
 build:
-	$(MAKE) -C api build
-	$(MAKE) -C demo build
-	$(MAKE) -C framework build
+	@$(MAKE) -C api build
+	@$(MAKE) -C demo build
+	@$(MAKE) -C framework build
 
 source:
-	$(MAKE) -C api source
-	$(MAKE) -C demo source
-	$(MAKE) -C framework source
+	@$(MAKE) -C api source
+	@$(MAKE) -C demo source
+	@$(MAKE) -C framework source
 
 api-build:
-	$(MAKE) -C api build
+	@$(MAKE) -C api build
 
 demo-build:
-	$(MAKE) -C demo build
+	@$(MAKE) -C demo build
 
 framework-build:
-	$(MAKE) -C framework build
+	@$(MAKE) -C framework build
 
 skeleton-build:
-	$(MAKE) -C skeleton build
+	@$(MAKE) -C skeleton build
 
 api-source:
-	$(MAKE) -C api source
+	@$(MAKE) -C api source
 
 demo-source:
-	$(MAKE) -C demo source
+	@$(MAKE) -C demo source
 
 framework-source:
-	$(MAKE) -C framework source
+	@$(MAKE) -C framework source
+
+skeleton-source:
+	@$(MAKE) -C skeleton source
+
+skeleton-archives:
+	@$(MAKE) -C skeleton archives
+
+
 
 
 
@@ -68,22 +76,36 @@ framework-source:
 ###################################################################################
 
 clean:
-	$(MAKE) -C api clean
-	$(MAKE) -C demo clean
-	$(MAKE) -C framework clean
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@$(MAKE) -C api clean
+	@$(MAKE) -C demo clean
+	@$(MAKE) -C framework clean
 
 realclean:
-	$(MAKE) -C api realclean
-	$(MAKE) -C demo realclean
-	$(MAKE) -C framework realclean
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@$(MAKE) -C api realclean
+	@$(MAKE) -C demo realclean
+	@$(MAKE) -C framework realclean
 
 distclean:
-	$(MAKE) -C api distclean
-	$(MAKE) -C demo distclean
-	$(MAKE) -C framework distclean
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@$(MAKE) -C api distclean
+	@$(MAKE) -C demo distclean
+	@$(MAKE) -C framework distclean
 
-	nice -n $(NICE) rm -rf .cache
-	nice -n $(NICE) rm -rf release
+	@echo "  * Deleting cache..."
+	@nice -n $(NICE) rm -rf .cache
+
+	@echo "  * Deleting release..."
+	@nice -n $(NICE) rm -rf release
 
 
 
@@ -96,7 +118,7 @@ distclean:
 
 release: build-release source-release
 
-build-release: build skeleton-build build-release-sync build-release-compress
+build-release: build skeleton-archives build-release-sync build-release-compress
 
 build-release-sync:
 	@echo
