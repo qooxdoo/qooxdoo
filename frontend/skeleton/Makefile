@@ -25,14 +25,14 @@ realclean: sample1-realclean sample2-realclean sample3-realclean
 	@echo "  CLEANUP OF GENERATED FILES (REAL)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	rm -rf build
+	@rm -rf build
 
 distclean: sample1-distclean sample2-distclean sample3-distclean
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES (DIST)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	rm -rf build
+	@rm -rf build
 
 
 
