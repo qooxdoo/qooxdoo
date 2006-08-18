@@ -21,9 +21,9 @@
 #id(qx.OO)
 #module(core)
 #after(qx.Settings)
-#before(qx.constant.Type)
-#before(qx.lang.Core)
-#before(qx.util.Return)
+#load(qx.constant.Type)
+#load(qx.lang.Core)
+#load(qx.util.Return)
 #optional(qx.event.type.DataEvent)
 
 ************************************************************************ */

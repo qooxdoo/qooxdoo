@@ -27,8 +27,8 @@ QXHEAD = {
   "module" : re.compile("#module\(([\.a-zA-Z0-9_-]+?)\)", re.M),
   "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+?)\)", re.M),
   "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "before" : re.compile("#before\(([\.a-zA-Z0-9_-]+?)\)", re.M),
   "after" : re.compile("#after\(([\.a-zA-Z0-9_-]+?)\)", re.M),
+  "load" : re.compile("#load\(([\.a-zA-Z0-9_-]+?)\)", re.M),
   "optional" : re.compile("#optional\(([\.a-zA-Z0-9_-]+?)\)", re.M),
   "resource" : re.compile("#resource\((.*?)\)", re.M)
 }
