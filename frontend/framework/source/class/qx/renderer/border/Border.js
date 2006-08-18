@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #require(qx.sys.Client)
-#before(qx.renderer.border.BorderObject)
+#load(qx.renderer.border.BorderObject)
 
 ************************************************************************ */
 

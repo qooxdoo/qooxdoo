@@ -78,11 +78,11 @@ def extractRuntimeDeps(data, fileId=""):
   return deps
 
 
-def extractBeforeDeps(data, fileId=""):
+def extractLoadDeps(data, fileId=""):
   deps = []
 
   # Adding before requirements
-  for item in config.QXHEAD["before"].findall(data):
+  for item in config.QXHEAD["load"].findall(data):
     if item == fileId:
       print "      - Self-referring runtime dependency: %s" % item
     elif item in deps:
@@ -230,7 +230,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
       "afterDeps" : extractAfterDeps(fileContent, fileId),
-      "beforeDeps" : extractBeforeDeps(fileContent, fileId),
+      "loadDeps" : extractLoadDeps(fileContent, fileId),
       "resources" : extractResources(fileContent),
       "modules" : extractModules(fileContent)
     }
@@ -352,8 +352,8 @@ def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
       addIdWithDepsToSortedList(sortedList, fileDb, runtimeDepId)
 
     # Include before dependencies
-    for beforeDepId in fileDb[fileId]["beforeDeps"]:
-      addIdWithDepsToSortedList(sortedList, fileDb, beforeDepId)
+    for loadDepId in fileDb[fileId]["loadDeps"]:
+      addIdWithDepsToSortedList(sortedList, fileDb, loadDepId)
 
 
 
