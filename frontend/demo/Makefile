@@ -31,13 +31,25 @@ sync: build sync-qooxdoo-org
 ###################################################################################
 
 clean:
-	rm -f source/script/qx.js source/script/layout.js build/script/layout.js
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@rm -f source/script/qx.js source/script/layout.js build/script/layout.js
 
 realclean: clean
-	nice -n $(NICE) rm -rf build
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (REAL)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) rm -rf build
 
 distclean: realclean
-	nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@echo
+	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Deleting files..."
+	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 
 
 
@@ -78,18 +90,30 @@ generate-script-build:
 ###################################################################################
 
 update-layout-source:
-	nice -n $(NICE) tool/layout.sh source/script/layout.js source/html SOURCE
+	@echo
+	@echo "  CREATION OF DEMO LAYOUT (SOURCE)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Generating..."
+	@nice -n $(NICE) tool/layout.sh source/script/layout.js source/html SOURCE
 
 update-demo-build:
-	mkdir -p build
-	cp -f source/index.html build/
-	mkdir -p build/html
-	nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/html/* build/html
-	mkdir -p build/resource/css
-	nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
+	@echo
+	@echo "  CREATE COPY OF HTML FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Copying files..."
+	@mkdir -p build
+	@cp -f source/index.html build/
+	@mkdir -p build/html
+	@nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/html/* build/html
+	@mkdir -p build/resource/css
+	@nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/resource/css/* build/resource/css
 
 update-layout-build: update-demo-build
-	nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
+	@echo
+	@echo "  CREATION OF DEMO LAYOUT (BUILD)"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Generating..."
+	@nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
 
 
 
@@ -100,4 +124,8 @@ update-layout-build: update-demo-build
 ###################################################################################
 
 sync-qooxdoo-org:
-	rsync --checksum --recursive --links --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo
+	@echo
+	@echo "  SYNC FILES TO HOMEPAGE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Syncing..."
+	@nice -n $(NICE) rsync --checksum --recursive --links --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo
