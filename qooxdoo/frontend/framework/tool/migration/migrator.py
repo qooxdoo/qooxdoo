@@ -96,6 +96,10 @@ def start(infoList, patchList, fileList, options):
   print "    - Number of infos: %s" % len(compiledInfos)
   print "    - Number of patches: %s" % len(compiledPatches)
 
+  print
+  print "  FILE PROCESSING:"
+  print "----------------------------------------------------------------------------"
+
   print "  * Processing:"
 
   for inputFile in fileList:
@@ -124,6 +128,7 @@ def start(infoList, patchList, fileList, options):
     else:
       print "      - No changes"
 
+  print "  * Done"
 
 
 
@@ -132,6 +137,10 @@ def start(infoList, patchList, fileList, options):
 
 
 def handle(options):
+  print
+  print "  PREPARATION:"
+  print "----------------------------------------------------------------------------"
+
   inputPaths = options.input
   inputEncodings = options.encoding
 
@@ -141,7 +150,7 @@ def handle(options):
 
   print "  * Update to version: %s" % options.version
 
-  confPath = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), options.version)
+  confPath = os.path.join(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "data"), options.version)
   infoPath = os.path.join(confPath, "info")
   patchPath = os.path.join(confPath, "patches")
 
@@ -246,6 +255,12 @@ def handle(options):
 
 
 def main():
+  print
+  print "  INITIALIZATION:"
+  print "----------------------------------------------------------------------------"
+
+  print "  * Processing arguments..."
+
   # Initialize new parser
   parser = optparse.OptionParser("usage: %prog [options]")
 
