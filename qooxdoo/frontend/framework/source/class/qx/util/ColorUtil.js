@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.color.ColorUtil");
+qx.OO.defineClass("qx.util.ColorUtil");
 
 qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
 {
