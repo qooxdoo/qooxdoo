@@ -95,7 +95,7 @@ qx.Proto.formatLogEvent = function(evt) {
   if (this.getUseLongFormat()) {
     text += evt.logger.getName();
     if (evt.instanceId != null) {
-      text += "(" + evt.instanceId + ")";
+      text += "[" + evt.instanceId + "]";
     }
     text += ": ";
   }

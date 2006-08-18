@@ -222,7 +222,7 @@ qx.Proto._onload = function(e)
 {
   // Print out class informations
   this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes.");
-  this.debug("qooxdoo " + qx.core.Version.toString() + " ready");
+  this.debug("qooxdoo " + qx.core.Version.toString());
 
   // Init component from settings
   this._createComponent();
