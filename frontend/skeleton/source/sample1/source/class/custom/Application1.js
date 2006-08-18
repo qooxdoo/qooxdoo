@@ -1,5 +1,5 @@
 /**
- * Sample 3
+ * Sample 1
  */
 qx.OO.defineClass("custom.Application1", qx.component.AbstractApplication,
 function () {

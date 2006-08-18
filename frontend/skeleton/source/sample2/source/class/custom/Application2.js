@@ -1,6 +1,9 @@
 /**
- * Sample 3
+ * Sample 2
  */
+/*
+#resource(image:image)
+*/
 qx.OO.defineClass("custom.Application2", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
@@ -14,7 +17,7 @@ qx.Proto.initialize = function(e)
 qx.Proto.main = function(e)
 {
   // create button
-  var button1 = new qx.ui.form.Button("Welcome to qooxdoo!", "custom/image.png");
+  var button1 = new qx.ui.form.Button("Welcome to qooxdoo!", "custom/image/test.png");
 
   // set button location
   button1.setTop(50);
