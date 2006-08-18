@@ -67,7 +67,8 @@ skeleton-source:
 skeleton-archives:
 	@$(MAKE) -C skeleton archives
 
-
+demo-sync:
+	@$(MAKE) -C demo sync
 
 
 
