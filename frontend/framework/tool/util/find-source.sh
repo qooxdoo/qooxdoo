@@ -6,4 +6,4 @@ if [ "$1" = "" ]; then
   exit 1
 fi
 
-find source/script/ -name "*.js" | xargs grep -n "$*"
+find source/class/ -name "*.js" | xargs grep -n "$*"
