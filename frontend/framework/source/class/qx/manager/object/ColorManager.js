@@ -79,6 +79,9 @@ qx.Proto.registerColorTheme = function(vThemeClass)
   }
 }
 
+qx.Proto.setColorThemeById = function(vId) {
+  this.setColorTheme(this._colorThemes[vId].getInstance());
+}
 
 
 
@@ -157,17 +160,18 @@ qx.Proto._modifyColorTheme = function(propValue, propOldValue, propData)
 qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
-  var vThemes = this._themes;
+  var vThemes = this._colorThemes;
   var vIcon = "icon/16/colors.png";
   var vPrefix = "Color Theme: ";
   var vEvent = qx.constant.Event.EXECUTE;
 
   for (var vId in vThemes)
   {
-    var vButton = new qx.ui.form.Button(vPrefix + vThemes[vId].getTitle(), vIcon);
+    var vObj = vThemes[vId].getInstance();
+    var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
 
     vButton.setLocation(xCor, yCor);
-    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setThemeById('" + vId + "')"));
+    vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
 
     vParent.add(vButton);
 
