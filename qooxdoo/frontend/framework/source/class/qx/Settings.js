@@ -121,10 +121,10 @@ qx.Settings.setDefaultOfClass = function(vClassName, vKey, vValue)
 }
 
 qx.Settings.setCustom = function(vKey, vValue) {
-  return qx.Settings.setCustumOfClass(qx.Class.classname, vKey, vValue);
+  return qx.Settings.setCustomOfClass(qx.Class.classname, vKey, vValue);
 }
 
-qx.Settings.setCustumOfClass = function(vClassName, vKey, vValue)
+qx.Settings.setCustomOfClass = function(vClassName, vKey, vValue)
 {
   var vCustomObject = qx.Settings._customSettings[vClassName];
 
@@ -154,7 +154,7 @@ qx.Settings.init = function()
     var vSettings = qx.Settings._customSettings[vClass];
 
     for (var vKey in vSettings) {
-      qx.Settings.setCustumOfClass(vClass, vKey, vSettings[vKey]);
+      qx.Settings.setCustomOfClass(vClass, vKey, vSettings[vKey]);
     }
   }
 }
