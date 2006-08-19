@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-VERSION = 0.6-RC1
+VERSION = 0.6-rc1
 
 BUILD_RELEASE_UNIX = release/build/unix/qooxdoo-$(VERSION)-build
 BUILD_RELEASE_DOS = release/build/dos/qooxdoo-$(VERSION)-build
