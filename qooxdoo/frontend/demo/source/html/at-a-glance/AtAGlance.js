@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("AllInOneDemo", qx.core.Object,
+qx.OO.defineClass("AtAGlance", qx.core.Object,
 function () {
   qx.core.Object.call(this);
 
