@@ -33,14 +33,14 @@
 
   This class should not be used directly by client programmers.
  */
-qx.OO.defineClass("qx.io.remote.JsTransport", qx.io.remote.AbstractRemoteTransport,
+qx.OO.defineClass("qx.io.remote.ScriptTransport", qx.io.remote.AbstractRemoteTransport,
 function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
   
-  var vUniqueId = ++qx.io.remote.JsTransport._uniqueId;
+  var vUniqueId = ++qx.io.remote.ScriptTransport._uniqueId;
   if (vUniqueId >= 2000000000) {
-    qx.io.remote.JsTransport._uniqueId = vUniqueId = 1;
+    qx.io.remote.ScriptTransport._uniqueId = vUniqueId = 1;
   }
 
   this._element = null;
@@ -49,9 +49,9 @@ function()
 
 qx.Class._uniqueId = 0;
 qx.Class._instanceRegistry = {};
-qx.Class.JSTRANSPORT_PREFIX = "_jstransport_";
-qx.Class.JSTRANSPORT_ID_PARAM = qx.Class.JSTRANSPORT_PREFIX + "id";
-qx.Class.JSTRANSPORT_DATA_PARAM = qx.Class.JSTRANSPORT_PREFIX + "data";
+qx.Class.ScriptTransport_PREFIX = "_ScriptTransport_";
+qx.Class.ScriptTransport_ID_PARAM = qx.Class.ScriptTransport_PREFIX + "id";
+qx.Class.ScriptTransport_DATA_PARAM = qx.Class.ScriptTransport_PREFIX + "data";
 qx.Proto._lastReadyState = 0;
 
 
@@ -66,9 +66,9 @@ qx.Proto._lastReadyState = 0;
 
 // basic registration to qx.io.remote.RemoteExchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-qx.io.remote.RemoteExchange.registerType(qx.io.remote.JsTransport, "qx.io.remote.JsTransport");
+qx.io.remote.RemoteExchange.registerType(qx.io.remote.ScriptTransport, "qx.io.remote.ScriptTransport");
 
-qx.io.remote.JsTransport.handles =
+qx.io.remote.ScriptTransport.handles =
 {
   synchronous : false,
   asynchronous : true,
@@ -77,7 +77,7 @@ qx.io.remote.JsTransport.handles =
   responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON ]
 }
 
-qx.io.remote.JsTransport.isSupported = function() {
+qx.io.remote.ScriptTransport.isSupported = function() {
   return true;
 }
 
@@ -102,14 +102,14 @@ qx.Proto.send = function()
   //   Adding parameters
   // --------------------------------------
 
-  vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + qx.io.remote.JsTransport.JSTRANSPORT_ID_PARAM + qx.constant.Core.EQUAL + this._uniqueId;
+  vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + qx.io.remote.ScriptTransport.ScriptTransport_ID_PARAM + qx.constant.Core.EQUAL + this._uniqueId;
 
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    if (vId.indexOf(qx.io.remote.JsTransport.JSTRANSPORT_PREFIX) == 0) {
+    if (vId.indexOf(qx.io.remote.ScriptTransport.ScriptTransport_PREFIX) == 0) {
       this.error("Illegal parameter name. The following prefix is used internally by qooxdoo): " +
-        qx.io.remote.JsTransport.JSTRANSPORT_PREFIX);
+        qx.io.remote.ScriptTransport.ScriptTransport_PREFIX);
     }
     vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
   }
@@ -126,10 +126,10 @@ qx.Proto.send = function()
 
   vData = this.getData();
   if (vData != null) {
-    vUrl += qx.constant.Core.AMPERSAND + qx.io.remote.JsTransport.JSTRANSPORT_DATA_PARAM + qx.constant.Core.EQUAL + encodeURIComponent(vData);
+    vUrl += qx.constant.Core.AMPERSAND + qx.io.remote.ScriptTransport.ScriptTransport_DATA_PARAM + qx.constant.Core.EQUAL + encodeURIComponent(vData);
   }
   
-  qx.io.remote.JsTransport._instanceRegistry[this._uniqueId] = this;
+  qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId] = this;
   this._element = document.createElement("script");
   this._element.charset = "utf-8";  // IE needs this (it ignores the
                                     // encoding from the header sent by the
@@ -151,7 +151,7 @@ qx.Proto.send = function()
 
 // For reference:
 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
-qx.io.remote.JsTransport._numericMap =
+qx.io.remote.ScriptTransport._numericMap =
 {
   "uninitialized" : 1,
   "loading" : 2,
@@ -179,14 +179,14 @@ qx.Proto._switchReadyState = function(vReadyState)
   }
 }
 qx.Class._requestFinished = function(id, content) {
-  var vInstance = qx.io.remote.JsTransport._instanceRegistry[id];
+  var vInstance = qx.io.remote.ScriptTransport._instanceRegistry[id];
   if (vInstance == null) {
     if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
       this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
     }
   } else {
     vInstance._responseContent = content;
-    vInstance._switchReadyState(qx.io.remote.JsTransport._numericMap.complete);
+    vInstance._switchReadyState(qx.io.remote.ScriptTransport._numericMap.complete);
   }
 }
 
@@ -343,7 +343,7 @@ qx.Proto.dispose = function()
 
   if (this._element != null)
   {
-    delete qx.io.remote.JsTransport._instanceRegistry[this._uniqueId];
+    delete qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId];
     document.body.removeChild(this._element);
     this._element = null;
   }
