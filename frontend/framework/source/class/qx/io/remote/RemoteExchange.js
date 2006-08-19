@@ -60,7 +60,7 @@ qx.Settings.setDefault("enableDebug", false);
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.JsTransport" ];
+qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.ScriptTransport" ];
 
 qx.io.remote.RemoteExchange.typesReady = false;
 
