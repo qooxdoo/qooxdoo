@@ -27,7 +27,7 @@ qx.OO.defineClass("qx.core.Version",
   major : 0,
   minor : 6,
   revision : 0,
-  state : "RC1",
+  state : "rc1",
 
   svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
