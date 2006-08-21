@@ -61,7 +61,6 @@ qx.Proto.openWindow = function() {
   }
 
   // Open the logger window
-  this._logWindowOpened = true;
   var winWidth = 600;
   var winHeight = 350;
   var winLeft = window.screen.width - winWidth;
@@ -76,6 +75,23 @@ qx.Proto.openWindow = function() {
   //     this._logElem is not created yet. These events will be added to the
   //     this._logEventQueue and logged after this._logElem is created.
   this._logWindow = window.open("", this._name, params);
+
+  if (!this._logWindow || this._logWindow.closed)
+  {
+    if (!this._popupBlockerWarning) {
+      alert("Couldn't open debug window. Please disable your popup blocker!");
+    }
+
+    this._popupBlockerWarning = true;
+    return;
+  }
+
+  // Seems to be OK now.
+  this._popupBlockerWarning = false;
+
+  // Store that window is open
+  this._logWindowOpened = true;
+
   if (this.getPopUnder()) {
     this._logWindow.blur();
     window.focus();
@@ -118,11 +134,16 @@ qx.Proto.closeWindow = function() {
 
 // overridden
 qx.Proto.appendLogEvent = function(evt) {
-  if (! this._logWindowOpened) {
+  if (!this._logWindowOpened) {
     this._logEventQueue = [];
     this._logEventQueue.push(evt);
 
     this.openWindow();
+
+    // Popup-Blocker was active!
+    if (!this._logWindowOpened) {
+      return;
+    }
   } else if (this._logElem == null) {
     // The window is currenlty opening, but not yet finished
     // -> Put the event in the queue
