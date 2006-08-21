@@ -20,6 +20,7 @@
 #module(core)
 #module(log)
 #require(qx.dev.log.WindowAppender)
+#require(qx.dev.log.FireBugAppender)
 
 ************************************************************************ */
 
@@ -371,4 +372,8 @@ qx.Class.LEVEL_OFF = 1000;
  */
 qx.Class.ROOT_LOGGER = new qx.dev.log.Logger("root", null);
 qx.Class.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_DEBUG);
-qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.WindowAppender());
+if (typeof console != 'undefined' && console.debug) {
+	qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.FireBugAppender);
+} else {
+	qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.WindowAppender());
+}
