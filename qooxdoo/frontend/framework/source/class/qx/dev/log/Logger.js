@@ -371,4 +371,4 @@ qx.Class.LEVEL_OFF = 1000;
  */
 qx.Class.ROOT_LOGGER = new qx.dev.log.Logger("root", null);
 qx.Class.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_DEBUG);
-qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.WindowAppender();
+qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.WindowAppender);
