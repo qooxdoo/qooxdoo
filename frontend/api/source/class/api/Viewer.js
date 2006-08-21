@@ -8,7 +8,7 @@
  * The API viewer. Shows the API documentation.
  */
 qx.OO.defineClass("api.Viewer", qx.ui.layout.HorizontalBoxLayout,
-function (vUrl) {
+function () {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
   this.setEdge(0);
@@ -58,10 +58,6 @@ function (vUrl) {
 
   qx.client.History.getInstance().init();
   qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
-
-  if (qx.util.Validation.isValidString(vUrl)) {
-    this.loadDocTreeFromUrl(vUrl);
-  }
 });
 
 
@@ -85,9 +81,11 @@ qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
  *
  * @param url {string} the URL.
  */
-qx.Proto.loadDocTreeFromUrl = function(url)
+qx.Proto.load = function(url)
 {
   var req = new qx.io.remote.RemoteRequest(url);
+
+  req.setTimeout(10000);
 
   req.addEventListener("completed", function(evt)
   {
