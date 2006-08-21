@@ -69,6 +69,10 @@ qx._LOADSTART = (new Date).valueOf();
 
 qx.Settings.substitute = function(vTemplate)
 {
+  if (typeof vTemplate !== "string") {
+    return vTemplate;
+  }
+
 	return vTemplate.replace(/\%\{(.+)\}/g, function(vMatch, vKey) {
 	  return eval(vKey);
 	});
