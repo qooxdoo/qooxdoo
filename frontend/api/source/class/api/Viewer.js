@@ -85,7 +85,7 @@ qx.Proto.load = function(url)
 {
   var req = new qx.io.remote.RemoteRequest(url);
 
-  req.setTimeout(10000);
+  req.setTimeout(60000);
 
   req.addEventListener("completed", function(evt)
   {
