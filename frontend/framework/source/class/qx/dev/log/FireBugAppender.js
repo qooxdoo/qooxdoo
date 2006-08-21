@@ -5,13 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 by David Perez
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
    Authors:
-     * David Perez (til132)
+     * David Perez (david-perez)
 
 ************************************************************************ */
 
