@@ -73,9 +73,9 @@ qx.Settings.substitute = function(vTemplate)
     return vTemplate;
   }
 
-	return vTemplate.replace(/\%\{(.+)\}/g, function(vMatch, vKey) {
-	  return eval(vKey);
-	});
+  return vTemplate.replace(/\%\{(.+)\}/g, function(vMatch, vKey) {
+    return eval(vKey);
+  });
 };
 
 
