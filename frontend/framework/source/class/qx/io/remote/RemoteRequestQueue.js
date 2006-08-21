@@ -54,7 +54,7 @@ function()
 
 qx.OO.addProperty({ name : "maxTotalRequests", type : qx.constant.Type.NUMBER });
 qx.OO.addProperty({ name : "maxConcurrentRequests", type : qx.constant.Type.NUMBER, defaultValue : 3 });
-qx.OO.addProperty({ name : "defaultTimeout", type : qx.constant.Type.NUMBER, defaultValue : 3000 });
+qx.OO.addProperty({ name : "defaultTimeout", type : qx.constant.Type.NUMBER, defaultValue : 5000 });
 
 
 
