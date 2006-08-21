@@ -66,6 +66,7 @@ qx.OO.addProperty({ name:"docTree", type:qx.constant.Type.OBJECT });
 
 
 qx.Settings.setDefault("title", "qooxdoo");
+qx.Settings.setDefault("initialTreeDepth", 1);
 
 
 // property checker
@@ -130,7 +131,7 @@ qx.Proto._updateTree = function(docTree) {
 
   // Fille the packages tree (and fill the _topLevelClassNodeArr)
   this._topLevelClassNodeArr = [];
-  this._fillPackageNode(packagesNode, docTree);
+  this._fillPackageNode(packagesNode, docTree, 0);
 
   // Sort the _topLevelClassNodeArr
   this._topLevelClassNodeArr.sort(function (node1, node2) {
@@ -157,7 +158,7 @@ qx.Proto._updateTree = function(docTree) {
  * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
  * @param docNode {Map} the documentation node of the package.
  */
-qx.Proto._fillPackageNode = function(treeNode, docNode) {
+qx.Proto._fillPackageNode = function(treeNode, docNode, depth) {
   var ApiViewer = api.Viewer;
   var TreeUtil = api.TreeUtil;
 
@@ -170,10 +171,10 @@ qx.Proto._fillPackageNode = function(treeNode, docNode) {
       packageTreeNode.docNode = packageDocNode;
       treeNode.add(packageTreeNode);
 
-      this._fillPackageNode(packageTreeNode, packageDocNode);
+      this._fillPackageNode(packageTreeNode, packageDocNode, depth+1);
 
       // Open the package node if it has child packages
-      if (TreeUtil.getChild(packageDocNode, "packages")) {
+      if (depth < this.getSetting("initialTreeDepth") && TreeUtil.getChild(packageDocNode, "packages")) {
         packageTreeNode.open();
       }
 
