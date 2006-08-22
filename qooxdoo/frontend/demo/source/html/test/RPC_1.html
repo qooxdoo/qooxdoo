@@ -24,8 +24,8 @@
   </div>
 
   <script type="text/javascript">
-//    qx.core.Settings.enableTransportDebug = true;
-    qx.core.Settings.enableJsonDebug = true;
+//    qx.Settings.setDefaultOfClass("qx.io.remote.RemoteExchange", "enableDebug", true);
+    qx.Settings.setDefaultOfClass("qx.io.Json", "enableDebug", true);
 
     qx.core.Init.getInstance().defineMain(function() {
       var layout1 = new qx.ui.layout.VerticalBoxLayout();
