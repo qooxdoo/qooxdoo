@@ -105,5 +105,19 @@
     };
   }
 
-  document.title = "qooxdoo » Demo » " + location.href.substring(location.href.lastIndexOf("/")+1).replace(".html", "").replace(/_/g, " ");
+  var url = location.href;
+  var pos = url.indexOf("/html/")+6;
+  var split = url.substring(pos).split("/");
+  var category = split[0];
+  category = category.charAt(0).toUpperCase() + category.substring(1);
+  var pagename = split[1].replace(".html", "").replace(/_/g, " ");
+  pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
+
+  document.title = "qooxdoo » Demo » " + category + " » " + pagename;
+
+  if (window.location.href.indexOf("demo.qooxdoo.org") != -1)
+  {
+    document.write('<script type="text/javascript">var a_vars = []; var pagename=""; var phpmyvisitesSite = 5; var phpmyvisitesURL = "http://counter.qooxdoo.org/phpmyvisites.php";</script><script type="text/javascript" src="http://counter.qooxdoo.org/phpmyvisites.js"></script>');
+    document.write('<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-415440-1"; urchinTracker();</script>');
+  }
 //})();
