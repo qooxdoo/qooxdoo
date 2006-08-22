@@ -29,7 +29,7 @@ require "JSON.phps";
 /**
  * The location of the service class directories.
  */
-define("servicePathPrefix",                "/var/www/services/");
+define("servicePathPrefix",                "");
 
 
 /*
