@@ -104,7 +104,8 @@ function()
   var vBrowserLocale = (vEngine == "mshtml" ? navigator.userLanguage : navigator.language).toLowerCase();
 
   var vPlatformWindows = vBrowserPlatform.indexOf("Windows") != -1;
-  var vPlatformMacintosh = vBrowserPlatform.indexOf("Macintosh") != -1;
+  var vPlatformMacintosh = (vBrowserPlatform.indexOf("Macintosh") != -1 ||
+                            vBrowserPlatform.indexOf("MacIntel") != -1);
   var vPlatformX11 = vBrowserPlatform.indexOf("X11") != -1;
 
   var vGfxVml = false;
