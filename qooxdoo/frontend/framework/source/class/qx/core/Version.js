@@ -31,10 +31,10 @@ qx.OO.defineClass("qx.core.Version",
 
   svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
-	toString: function()
-	{
-		with(qx.core.Version) {
-			return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (r" + svn + ")";
-		}
-	}
+  toString: function()
+  {
+    with(qx.core.Version) {
+      return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (r" + svn + ")";
+    }
+  }
 });
