@@ -74,6 +74,20 @@ qx.Proto.getAll = function() {
   return this._objects;
 }
 
+qx.Proto.enableAll = function()
+{
+  for (var vHashCode in this._objects) {
+    this._objects[vHashCode].setEnabled(true);
+  };
+};
+
+qx.Proto.disableAll = function()
+{
+  for (var vHashCode in this._objects) {
+    this._objects[vHashCode].setEnabled(false);
+  };
+};
+
 
 
 
