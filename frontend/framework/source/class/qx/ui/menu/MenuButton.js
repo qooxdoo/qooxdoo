@@ -188,6 +188,10 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
   }
+  
+  if (this._shortcutObject) {
+     this._shortcutObject.setEnabled(propValue);
+  }
 
   return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 }
