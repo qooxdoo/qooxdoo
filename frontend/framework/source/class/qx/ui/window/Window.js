@@ -114,7 +114,7 @@ function(vCaption, vIcon, vWindowManager)
   bm.setAppearance("window-captionbar-minimize-button");
   bm.setTabIndex(-1);
 
-  bm.addEventListener(qx.constant.Event.CLICK, this._onminimizebuttonclick, this);
+  bm.addEventListener(qx.constant.Event.EXECUTE, this._onminimizebuttonclick, this);
   bm.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bm);
@@ -129,7 +129,7 @@ function(vCaption, vIcon, vWindowManager)
   br.setAppearance("window-captionbar-restore-button");
   br.setTabIndex(-1);
 
-  br.addEventListener(qx.constant.Event.CLICK, this._onrestorebuttonclick, this);
+  br.addEventListener(qx.constant.Event.EXECUTE, this._onrestorebuttonclick, this);
   br.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   // don't add initially
@@ -145,7 +145,7 @@ function(vCaption, vIcon, vWindowManager)
   bx.setAppearance("window-captionbar-maximize-button");
   bx.setTabIndex(-1);
 
-  bx.addEventListener(qx.constant.Event.CLICK, this._onmaximizebuttonclick, this);
+  bx.addEventListener(qx.constant.Event.EXECUTE, this._onmaximizebuttonclick, this);
   bx.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bx);
@@ -160,7 +160,7 @@ function(vCaption, vIcon, vWindowManager)
   bc.setAppearance("window-captionbar-close-button");
   bc.setTabIndex(-1);
 
-  bc.addEventListener(qx.constant.Event.CLICK, this._onclosebuttonclick, this);
+  bc.addEventListener(qx.constant.Event.EXECUTE, this._onclosebuttonclick, this);
   bc.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
 
   cb.add(bc);
