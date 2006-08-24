@@ -208,7 +208,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
 
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
-  if (data.lastRow >= firstRow && data.firstRow < firstRow + rowCount) {
+  if (data.lastRow == -1 || data.lastRow >= firstRow && data.firstRow < firstRow + rowCount) {
     // The change intersects this pane
     this._updateContent();
   }
