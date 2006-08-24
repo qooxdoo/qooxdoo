@@ -181,7 +181,7 @@ qx.Proto.setData = function(rowArr) {
 
   // Inform the listeners
   if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
-    var data = { firstRow:0, lastRow:rowArr.length - 1, firstColumn:0, lastColumn:rowArr[0].length }
+    var data = { firstRow:0, lastRow:rowArr.length - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
     this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
   }
 
@@ -210,7 +210,8 @@ qx.Proto.setDataAsMapArray = function(mapArr) {
   }
 
   // Inform the listeners
-  this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
+  var data = { firstRow:0, lastRow:rowCount - 1, firstColumn:0, lastColumn:columnCount - 1 };
+  this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
 
   this._clearSorting();
 }
