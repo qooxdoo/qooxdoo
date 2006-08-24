@@ -351,7 +351,7 @@ def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
     for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
       addIdWithDepsToSortedList(sortedList, fileDb, runtimeDepId)
 
-    # Include before dependencies
+    # Include load dependencies
     for loadDepId in fileDb[fileId]["loadDeps"]:
       addIdWithDepsToSortedList(sortedList, fileDb, loadDepId)
 
