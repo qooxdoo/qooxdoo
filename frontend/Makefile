@@ -10,16 +10,16 @@ NICE_CALL = nice -n $(NICE)
 RELEASE_BUILD_UNIX = release/temp/build/unix/qooxdoo-$(VERSION)-build
 RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
 
-RELEASE_SOURCE_UNIX = release/temp/source/unix/qooxdoo-$(VERSION)-source
-RELEASE_SOURCE_DOS = release/temp/source/dos/qooxdoo-$(VERSION)-source
+RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(VERSION)-sdk
+RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(VERSION)-sdk
 
 FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
 RSYNC_BUILD_OPT = --recursive --links --delete
-RSYNC_SOURCE_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
+RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
 
 RSYNC_BUILD_EXEC = @$(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
-RSYNC_SOURCE_EXEC = @$(NICE_CALL) rsync $(RSYNC_SOURCE_OPT)
+RSYNC_SDK_EXEC = @$(NICE_CALL) rsync $(RSYNC_SDK_OPT)
 
 UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
 DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
@@ -134,8 +134,8 @@ distclean:
 # RELEASE TARGETS
 ###################################################################################
 
-release: release-build release-source
-release-fast: release-build-fast release-source-fast
+release: release-build release-sdk
+release-fast: release-build-fast release-sdk-fast
 
 
 
@@ -201,97 +201,97 @@ release-build-compress:
 
 
 
-release-source: source skeleton-archives release-source-fast
-release-source-fast: release-source-sync release-source-compress
+release-sdk: source skeleton-archives release-sdk-fast
+release-sdk-fast: release-sdk-sync release-sdk-compress
 
-release-source-sync:
+release-sdk-sync:
 	@echo
-	@echo "  SYNCHRONISATION OF UNIX SOURCE RELEASE"
+	@echo "  SYNCHRONISATION OF UNIX SDK RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
-	@mkdir -p $(RELEASE_SOURCE_UNIX)
-	@cp -f ../[A-Z]* $(RELEASE_SOURCE_UNIX)
+	@mkdir -p $(RELEASE_SDK_UNIX)
+	@cp -f ../[A-Z]* $(RELEASE_SDK_UNIX)
 
 	@echo "  * Copying Makefiles..."
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend
-	@cp -f Makefile $(RELEASE_SOURCE_UNIX)/frontend
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/api
-	@cp -f api/Makefile $(RELEASE_SOURCE_UNIX)/frontend/api
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo
-	@cp -f demo/Makefile $(RELEASE_SOURCE_UNIX)/frontend/demo
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework
-	@cp -f framework/Makefile $(RELEASE_SOURCE_UNIX)/frontend/framework
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend
+	@cp -f Makefile $(RELEASE_SDK_UNIX)/frontend
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/api
+	@cp -f api/Makefile $(RELEASE_SDK_UNIX)/frontend/api
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo
+	@cp -f demo/Makefile $(RELEASE_SDK_UNIX)/frontend/demo
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
+	@cp -f framework/Makefile $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/api/source
-	$(RSYNC_SOURCE_EXEC) api/source/* $(RELEASE_SOURCE_UNIX)/frontend/api/source
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo/source
-	$(RSYNC_SOURCE_EXEC) demo/source/* $(RELEASE_SOURCE_UNIX)/frontend/demo/source
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework/source
-	$(RSYNC_SOURCE_EXEC) framework/source/* $(RELEASE_SOURCE_UNIX)/frontend/framework/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/api/source
+	$(RSYNC_SDK_EXEC) api/source/* $(RELEASE_SDK_UNIX)/frontend/api/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/source
+	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_UNIX)/frontend/demo/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
+	$(RSYNC_SDK_EXEC) framework/source/* $(RELEASE_SDK_UNIX)/frontend/framework/source
 
 	@echo "  * Synchronizing skeleton folder..."
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/skeleton
-	$(RSYNC_BUILD_EXEC) skeleton/build/unix/*.tar.gz $(RELEASE_SOURCE_UNIX)/frontend/skeleton
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/skeleton
+	$(RSYNC_BUILD_EXEC) skeleton/build/unix/*.tar.gz $(RELEASE_SDK_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo/tool
-	$(RSYNC_SOURCE_EXEC) demo/tool/* $(RELEASE_SOURCE_UNIX)/frontend/demo/tool
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework/tool
-	$(RSYNC_SOURCE_EXEC) framework/tool/* $(RELEASE_SOURCE_UNIX)/frontend/framework/tool
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
+	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_UNIX)/frontend/demo/tool
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
+	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_SOURCE_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	@$(NICE_CALL) find $(RELEASE_SDK_UNIX) $(FIX_FILES) $(DOS2UNIX)
 
 	@echo
-	@echo "  SYNCHRONISATION OF DOS SOURCE RELEASE"
+	@echo "  SYNCHRONISATION OF DOS SDK RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
-	@mkdir -p $(RELEASE_SOURCE_DOS)
-	@cp -f ../[A-Z]* $(RELEASE_SOURCE_DOS)
+	@mkdir -p $(RELEASE_SDK_DOS)
+	@cp -f ../[A-Z]* $(RELEASE_SDK_DOS)
 
 	@echo "  * Copying Makefiles..."
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend
-	@cp -f Makefile $(RELEASE_SOURCE_DOS)/frontend
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/api
-	@cp -f api/Makefile $(RELEASE_SOURCE_DOS)/frontend/api
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo
-	@cp -f demo/Makefile $(RELEASE_SOURCE_DOS)/frontend/demo
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework
-	@cp -f framework/Makefile $(RELEASE_SOURCE_DOS)/frontend/framework
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend
+	@cp -f Makefile $(RELEASE_SDK_DOS)/frontend
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/api
+	@cp -f api/Makefile $(RELEASE_SDK_DOS)/frontend/api
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo
+	@cp -f demo/Makefile $(RELEASE_SDK_DOS)/frontend/demo
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
+	@cp -f framework/Makefile $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/api/source
-	$(RSYNC_SOURCE_EXEC) api/source/* $(RELEASE_SOURCE_DOS)/frontend/api/source
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo/source
-	$(RSYNC_SOURCE_EXEC) demo/source/* $(RELEASE_SOURCE_DOS)/frontend/demo/source
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework/source
-	$(RSYNC_SOURCE_EXEC) framework/source/* $(RELEASE_SOURCE_DOS)/frontend/framework/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/api/source
+	$(RSYNC_SDK_EXEC) api/source/* $(RELEASE_SDK_DOS)/frontend/api/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/source
+	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_DOS)/frontend/demo/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/source
+	$(RSYNC_SDK_EXEC) framework/source/* $(RELEASE_SDK_DOS)/frontend/framework/source
 
 	@echo "  * Synchronizing skeleton folder..."
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/skeleton
-	$(RSYNC_BUILD_EXEC) skeleton/build/dos/*.zip $(RELEASE_SOURCE_DOS)/frontend/skeleton
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/skeleton
+	$(RSYNC_BUILD_EXEC) skeleton/build/dos/*.zip $(RELEASE_SDK_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo/tool
-	$(RSYNC_SOURCE_EXEC) demo/tool/* $(RELEASE_SOURCE_DOS)/frontend/demo/tool
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework/tool
-	$(RSYNC_SOURCE_EXEC) framework/tool/* $(RELEASE_SOURCE_DOS)/frontend/framework/tool
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
+	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_DOS)/frontend/demo/tool
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
+	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_SOURCE_DOS) $(FIX_FILES) $(UNIX2DOS)
+	@$(NICE_CALL) find $(RELEASE_SDK_DOS) $(FIX_FILES) $(UNIX2DOS)
 
-release-source-compress:
+release-sdk-compress:
 	@echo
-	@echo "  COMPRESSION OF SOURCE RELEASE"
+	@echo "  COMPRESSION OF SDK RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/temp/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.gz; $(NICE_CALL) tar cfz ../../../qooxdoo-$(VERSION)-source.tar.gz qooxdoo-$(VERSION)-source
+	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(NICE_CALL) tar cfz ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
 
 	@echo "  * Generating zip (DOS) archive..."
-	@cd release/temp/source/dos; rm -f qooxdoo-$(VERSION)-source.zip; $(NICE_CALL) zip -rq ../../../qooxdoo-$(VERSION)-source.zip qooxdoo-$(VERSION)-source
+	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(NICE_CALL) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
