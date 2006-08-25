@@ -152,6 +152,24 @@ qx.Proto.isSelectedIndex = function(index) {
 
 
 /**
+ * Returns the selected ranges as an array. Each array element has a
+ * <code>minIndex</code> and a <code>maxIndex</code> property.
+ * 
+ * @return {Map[]} the selected ranges.
+ */
+qx.Proto.getSelectedRanges = function() {
+  // clone the selection array and the individual elements - this prevents the
+  // caller from messing with the internal model
+  var retVal = [];
+  for (var i = 0; i < this._selectedRangeArr.length; i++) {
+    retVal.push({minIndex: this._selectedRangeArr[i].minIndex,
+                 maxIndex: this._selectedRangeArr[i].maxIndex});
+  }
+  return retVal;
+}
+
+
+/**
  * Sets the selected interval. This will clear the former selection.
  *
  * @param fromIndex {int} the first index of the selection (including).
