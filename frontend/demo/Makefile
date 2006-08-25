@@ -58,7 +58,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script \
@@ -70,7 +70,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -94,7 +94,7 @@ update-layout-source:
 	@echo "  CREATION OF DEMO LAYOUT (SOURCE)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Generating..."
-	@nice -n $(NICE) tool/layout.sh source/script/layout.js source/html SOURCE
+	@chmod u+x tool/layout.sh && nice -n $(NICE) tool/layout.sh source/script/layout.js source/html SOURCE
 
 update-demo-build:
 	@echo
@@ -113,7 +113,7 @@ update-layout-build: update-demo-build
 	@echo "  CREATION OF DEMO LAYOUT (BUILD)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Generating..."
-	@nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
+	@chmod u+x tool/layout.sh && nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
 
 
 
