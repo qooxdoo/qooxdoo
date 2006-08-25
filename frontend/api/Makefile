@@ -66,7 +66,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
@@ -84,7 +84,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource/qooxdoo \
@@ -105,14 +105,14 @@ generate-script-build:
 	  --cache-directory $(CACHE)
 
 generate-data-source:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file source/script/data.js \
 	  --cache-directory $(CACHE)
 
 generate-data-build:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-json-file build/script/data.js \
