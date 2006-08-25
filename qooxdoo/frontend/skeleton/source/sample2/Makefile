@@ -2,7 +2,7 @@
 # PUBLIC VARIABLES
 ###################################################################################
 
-QOOXDOO = ../../../../
+QOOXDOO = PATH_TO_QOOXDOO
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application2
 INCLUDEALL = false
@@ -13,8 +13,8 @@ NICE=10
 # PRIVATE VARIABLES
 ###################################################################################
 
-FRAMEWORK = $(QOOXDOO)frontend/framework/
-CACHE = $(QOOXDOO)frontend/.cache
+FRAMEWORK = $(QOOXDOO)/frontend/framework/
+CACHE = $(QOOXDOO)/frontend/.cache
 GENERATOR = $(FRAMEWORK)tool/generator/generator.py
 
 
@@ -77,7 +77,7 @@ distclean: realclean
 ###################################################################################
 
 generate-script-source:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../$(FRAMEWORK)source/class \
 	  --script-input source/class \
@@ -91,7 +91,7 @@ generate-script-source:
 	  --cache-directory $(CACHE)
 
 generate-script-build:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \

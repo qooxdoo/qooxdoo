@@ -57,7 +57,7 @@ distclean: realclean
 ###################################################################################
 
 generate-all:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -70,14 +70,14 @@ generate-all:
 	  --cache-directory $(CACHE)
 
 generate-compile:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --cache-directory $(CACHE)
 
 generate-resource:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --copy-resources \
 	  --resource-input source/resource \
@@ -85,7 +85,7 @@ generate-resource:
 	  --cache-directory $(CACHE)
 
 generate-build:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
@@ -95,7 +95,7 @@ generate-build:
 	  --cache-directory $(CACHE)
 
 generate-source:
-	@nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --source-script-path ../class \
 	  --generate-source-script \
