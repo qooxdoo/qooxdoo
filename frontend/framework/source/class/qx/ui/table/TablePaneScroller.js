@@ -193,6 +193,12 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
 qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
   this._header.setTableModel(propValue);
   this._tablePane.setTableModel(propValue);
+
+  if (propOldValue != null) {
+    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+  }
+  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+
   return true;
 }
 
@@ -276,11 +282,44 @@ qx.Proto._onOrderChanged = function(evt) {
 
 
 /**
+ * Event handler. Called when the table model has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onTableModelDataChanged = function(evt) {
+  var rowCount = this.getTableModel().getRowCount();
+  if (rowCount != this._lastRowCount) {
+    this._lastRowCount = rowCount;
+
+    this._updateVerScrollBarMaximum();
+    if (this.getFocusedRow() >= rowCount) {
+      if (rowCount == 0) {
+        this.setFocusedCell(null, null);
+      } else {
+        this.setFocusedCell(this.getFocusedColumn(), rowCount - 1);
+      }
+    }
+  }
+}
+
+
+/**
  * Updates the maximum of the horizontal scroll bar, so it corresponds to the
  * total width of the columns in the table pane.
  */
 qx.Proto._updateHorScrollBarMaximum = function() {
   this._horScrollBar.setMaximum(this.getTablePaneModel().getTotalWidth());
+}
+
+
+/**
+ * Updates the maximum of the vertical scroll bar, so it corresponds to the
+ * number of rows in the table.
+ */
+qx.Proto._updateVerScrollBarMaximum = function() {
+  var rowCount = this.getTableModel().getRowCount();
+  var rowHeight = this._tablePane.getTableRowHeight();
+  this._verScrollBar.setMaximum(rowCount * rowHeight);
 }
 
 
@@ -300,10 +339,7 @@ qx.Proto._afterAppear = function() {
   this._updateContent();
   this._header._updateContent();
   this._updateHorScrollBarMaximum();
-
-  var rowCount = this.getTableModel().getRowCount();
-  var rowHeight = this._tablePane.getTableRowHeight();
-  this._verScrollBar.setMaximum(rowCount * rowHeight);
+  this._updateVerScrollBarMaximum();
 }
 
 
@@ -731,6 +767,26 @@ qx.Proto.setFocusedCell = function(col, row) {
 
 
 /**
+ * Returns the column of currently focused cell.
+ *
+ * @return {int} the model index of the focused cell's column.
+ */
+qx.Proto.getFocusedColumn = function() {
+  return this._focusedCol;
+};
+
+
+/**
+ * Returns the row of currently focused cell.
+ *
+ * @return {int} the model index of the focused cell's column.
+ */
+qx.Proto.getFocusedRow = function() {
+  return this._focusedRow;
+};
+
+
+/**
  * Scrolls a cell visible.
  *
  * @param col {int} the model index of the column the cell belongs to.
@@ -1119,7 +1175,9 @@ qx.Proto._updateContent = function() {
  * Updates the location and the visibility of the focus indicator.
  */
 qx.Proto._updateFocusIndicator = function() {
-  if (this._focusedCol != null) {
+  if (this._focusedCol == null) {
+    this._focusIndicator.hide();
+  } else {
     var xPos = this.getTablePaneModel().getX(this._focusedCol);
     if (xPos == -1) {
       this._focusIndicator.hide();
