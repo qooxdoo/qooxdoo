@@ -70,13 +70,6 @@ qx.Proto._getContentHtml = function(cellInfo) {
 }
 
 
-
-qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
-  throw new Error("createDataCellHtml_array_join is abstract");
-}
-
-
-
 qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
 
