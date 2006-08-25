@@ -140,7 +140,7 @@ release-build-sync:
 	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing info files..."
+	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_BUILD_UNIX)
 	@cp -f ../[A-Z]* $(RELEASE_BUILD_UNIX)
 
@@ -160,7 +160,7 @@ release-build-sync:
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing info files..."
+	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_BUILD_DOS)
 	@cp -f ../[A-Z]* $(RELEASE_BUILD_DOS)
 
@@ -201,7 +201,7 @@ release-source-sync:
 	@echo "  SYNCHRONISATION OF UNIX SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing info files..."
+	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_SOURCE_UNIX)
 	@cp -f ../[A-Z]* $(RELEASE_SOURCE_UNIX)
 
@@ -214,8 +214,6 @@ release-source-sync:
 	@cp -f demo/Makefile $(RELEASE_SOURCE_UNIX)/frontend/demo
 	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SOURCE_UNIX)/frontend/framework
-	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/skeleton
-	@cp -f skeleton/Makefile $(RELEASE_SOURCE_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing source folders..."
 	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/api/source
@@ -243,7 +241,7 @@ release-source-sync:
 	@echo "  SYNCHRONISATION OF DOS SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing info files..."
+	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_SOURCE_DOS)
 	@cp -f ../[A-Z]* $(RELEASE_SOURCE_DOS)
 
@@ -256,8 +254,6 @@ release-source-sync:
 	@cp -f demo/Makefile $(RELEASE_SOURCE_DOS)/frontend/demo
 	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SOURCE_DOS)/frontend/framework
-	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/skeleton
-	@cp -f skeleton/Makefile $(RELEASE_SOURCE_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing source folders..."
 	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/api/source
