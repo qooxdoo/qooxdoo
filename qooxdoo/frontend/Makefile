@@ -233,7 +233,7 @@ release-sdk-sync:
 
 	@echo "  * Synchronizing skeleton folder..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/skeleton
-	$(RSYNC_BUILD_EXEC) skeleton/build/unix/*.tar.gz $(RELEASE_SDK_UNIX)/frontend/skeleton
+	$(RSYNC_BUILD_EXEC) skeleton/build/*.tar.gz $(RELEASE_SDK_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
@@ -273,7 +273,7 @@ release-sdk-sync:
 
 	@echo "  * Synchronizing skeleton folder..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/skeleton
-	$(RSYNC_BUILD_EXEC) skeleton/build/dos/*.zip $(RELEASE_SDK_DOS)/frontend/skeleton
+	$(RSYNC_BUILD_EXEC) skeleton/build/*.zip $(RELEASE_SDK_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
