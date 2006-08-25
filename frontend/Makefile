@@ -10,7 +10,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
 RELEASE_SOURCE_UNIX = release/temp/source/unix/qooxdoo-$(VERSION)-source
 RELEASE_SOURCE_DOS = release/temp/source/dos/qooxdoo-$(VERSION)-source
 
-FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile
+FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
 RSYNC_BUILD_OPT = --recursive --links --delete
 RSYNC_SOURCE_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
