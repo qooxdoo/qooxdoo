@@ -111,8 +111,10 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
 
   if (propOldValue != null) {
     propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
   }
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
@@ -252,7 +254,7 @@ qx.Proto._getPaneScrollerArr = function() {
  * @param metaColumn {int} the meta column to get the TablePaneScroller for.
  * @return {TablePaneScroller} the TablePaneScroller.
  */
-qx.Proto._getPaneScroller = function(metaColumn) {
+qx.Proto.getPaneScroller = function(metaColumn) {
   return this._getPaneScrollerArr()[metaColumn];
 }
 
@@ -295,6 +297,22 @@ qx.Proto._onSelectionChanged = function(evt) {
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateStatusBar();
 }
+
+
+/**
+ * Event handler. Called when the table model data has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onTableModelDataChanged = function() {
+  var rowCount = this.getTableModel().getRowCount();
+  if (rowCount != this._lastRowCount) {
+    this._lastRowCount = rowCount;
+
+    this._updateScrollBarVisibility();
+    window.setTimeout(qx.ui.core.Widget.flushGlobalQueues, 0);
+  }
+};
 
 
 /**
@@ -364,7 +382,7 @@ qx.Proto._onkeydown = function(evt) {
           break;
         case qx.event.type.KeyEvent.keys.pageup:
         case qx.event.type.KeyEvent.keys.pagedown:
-          var scroller = this._getPaneScroller(0);
+          var scroller = this.getPaneScroller(0);
           var pane = scroller.getTablePane();
           var rowCount = pane.getVisibleRowCount() - 1;
           var rowHeight = pane.getTableRowHeight();
@@ -448,7 +466,7 @@ qx.Proto._onOrderChanged = function(evt) {
 // overridden from qx.ui.table.TablePaneScrollerPool
 qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
   var metaCol = this._getMetaColumnAtPageX(pageX);
-  return (metaCol != -1) ? this._getPaneScroller(metaCol) : null;
+  return (metaCol != -1) ? this.getPaneScroller(metaCol) : null;
 }
 
 
@@ -519,7 +537,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
 
   var metaColumn = this._getMetaColumnAtColumnX(x);
   if (metaColumn != -1) {
-    this._getPaneScroller(metaColumn).scrollCellVisible(col, row);
+    this.getPaneScroller(metaColumn).scrollCellVisible(col, row);
   }
 }
 
@@ -533,7 +551,7 @@ qx.Proto.isEditing = function() {
   if (this._focusedCol != null) {
     var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
     var metaColumn = this._getMetaColumnAtColumnX(x);
-    return this._getPaneScroller(metaColumn).isEditing();
+    return this.getPaneScroller(metaColumn).isEditing();
   }
 }
 
@@ -548,7 +566,7 @@ qx.Proto.startEditing = function() {
   if (this._focusedCol != null) {
     var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
     var metaColumn = this._getMetaColumnAtColumnX(x);
-    return this._getPaneScroller(metaColumn).startEditing();
+    return this.getPaneScroller(metaColumn).startEditing();
   }
   return false;
 }
@@ -561,7 +579,7 @@ qx.Proto.stopEditing = function() {
   if (this._focusedCol != null) {
     var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
     var metaColumn = this._getMetaColumnAtColumnX(x);
-    this._getPaneScroller(metaColumn).stopEditing();
+    this.getPaneScroller(metaColumn).stopEditing();
   }
 }
 
@@ -573,7 +591,7 @@ qx.Proto.cancelEditing = function() {
   if (this._focusedCol != null) {
     var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
     var metaColumn = this._getMetaColumnAtColumnX(x);
-    this._getPaneScroller(metaColumn).cancelEditing();
+    this.getPaneScroller(metaColumn).cancelEditing();
   }
 }
 
