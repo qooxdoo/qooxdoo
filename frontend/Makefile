@@ -4,11 +4,11 @@
 
 VERSION = 0.6-rc2
 
-BUILD_RELEASE_UNIX = release/build/unix/qooxdoo-$(VERSION)-build
-BUILD_RELEASE_DOS = release/build/dos/qooxdoo-$(VERSION)-build
+RELEASE_BUILD_UNIX = release/temp/build/unix/qooxdoo-$(VERSION)-build
+RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
 
-SOURCE_RELEASE_UNIX = release/source/unix/qooxdoo-$(VERSION)-source
-SOURCE_RELEASE_DOS = release/source/dos/qooxdoo-$(VERSION)-source
+RELEASE_SOURCE_UNIX = release/temp/source/unix/qooxdoo-$(VERSION)-source
+RELEASE_SOURCE_DOS = release/temp/source/dos/qooxdoo-$(VERSION)-source
 
 FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile
 
@@ -98,6 +98,9 @@ realclean:
 	@$(MAKE) -C framework realclean
 	@$(MAKE) -C skeleton realclean
 
+	@echo "  * Deleting release temp data..."
+	@nice -n $(NICE) rm -rf release/temp
+
 distclean:
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES (DIST)"
@@ -111,7 +114,7 @@ distclean:
 	@echo "  * Deleting cache..."
 	@nice -n $(NICE) rm -rf .cache
 
-	@echo "  * Deleting release..."
+	@echo "  * Deleting release archives..."
 	@nice -n $(NICE) rm -rf release
 
 
@@ -123,151 +126,146 @@ distclean:
 # RELEASE TARGETS
 ###################################################################################
 
-release: build-release source-release
+release: release-build release-source
 
-build-release: build skeleton-archives build-release-sync build-release-compress
+release-build: build release-build-sync release-build-compress
 
-build-release-sync:
+release-build-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Synchronizing Unix build folders..."
-	@mkdir -p $(BUILD_RELEASE_UNIX)/api
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) api/build/* $(BUILD_RELEASE_UNIX)/api
-	@mkdir -p $(BUILD_RELEASE_UNIX)/demo
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_UNIX)/demo
-	@mkdir -p $(BUILD_RELEASE_UNIX)/framework
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_UNIX)/framework
-	@mkdir -p $(BUILD_RELEASE_UNIX)/skeleton
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) skeleton/build/unix/*.tar.gz $(BUILD_RELEASE_UNIX)/skeleton
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/api
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) api/build/* $(RELEASE_BUILD_UNIX)/frontend/api
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/demo
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) demo/build/* $(RELEASE_BUILD_UNIX)/frontend/demo
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/framework
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) framework/build/* $(RELEASE_BUILD_UNIX)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find $(BUILD_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
-
+	@nice -n $(NICE) find $(RELEASE_BUILD_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Synchronizing DOS build folders..."
-	@mkdir -p $(BUILD_RELEASE_DOS)/api
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) api/build/* $(BUILD_RELEASE_DOS)/api
-	@mkdir -p $(BUILD_RELEASE_DOS)/demo
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) demo/build/* $(BUILD_RELEASE_DOS)/demo
-	@mkdir -p $(BUILD_RELEASE_DOS)/framework
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) framework/build/* $(BUILD_RELEASE_DOS)/framework
-	@mkdir -p $(BUILD_RELEASE_UNIX)/skeleton
-	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) skeleton/build/dos/*.zip $(BUILD_RELEASE_DOS)/skeleton
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/api
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) api/build/* $(RELEASE_BUILD_DOS)/frontend/api
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/demo
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) demo/build/* $(RELEASE_BUILD_DOS)/frontend/demo
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/framework
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) framework/build/* $(RELEASE_BUILD_DOS)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find $(BUILD_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
+	@nice -n $(NICE) find $(RELEASE_BUILD_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
 
-
-build-release-compress:
+release-build-compress:
 	@echo
 	@echo "  COMPRESSION OF BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.gz; nice -n $(NICE) tar cfz qooxdoo-$(VERSION)-build.tar.gz qooxdoo-$(VERSION)-build
-
-	@echo "  * Generating bzip2 (Unix) archive..."
-	@cd release/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.bz2; nice -n $(NICE) tar cfj qooxdoo-$(VERSION)-build.tar.bz2 qooxdoo-$(VERSION)-build
+	@cd release/temp/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.gz; nice -n $(NICE) tar cfz ../../../qooxdoo-$(VERSION)-build.tar.gz qooxdoo-$(VERSION)-build
 
 	@echo "  * Generating zip (DOS) archive..."
-	@cd release/build/dos; rm -f qooxdoo-$(VERSION)-build.zip; nice -n $(NICE) zip -rq qooxdoo-$(VERSION)-build.zip qooxdoo-$(VERSION)-build
+	@cd release/temp/build/dos; rm -f qooxdoo-$(VERSION)-build.zip; nice -n $(NICE) zip -rq ../../../qooxdoo-$(VERSION)-build.zip qooxdoo-$(VERSION)-build
 
 
-source-release: source source-release-sync source-release-compress
 
-source-release-sync:
+
+
+
+
+release-source: source skeleton-archives release-source-sync release-source-compress
+
+release-source-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF UNIX SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying Makefiles..."
-	@mkdir -p $(SOURCE_RELEASE_UNIX)
-	@cp -f Makefile $(SOURCE_RELEASE_UNIX)
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/api
-	@cp -f api/Makefile $(SOURCE_RELEASE_UNIX)/api
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo
-	@cp -f demo/Makefile $(SOURCE_RELEASE_UNIX)/demo
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework
-	@cp -f framework/Makefile $(SOURCE_RELEASE_UNIX)/framework
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/skeleton
-	@cp -f skeleton/Makefile $(SOURCE_RELEASE_UNIX)/skeleton
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend
+	@cp -f Makefile $(RELEASE_SOURCE_UNIX)/frontend
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/api
+	@cp -f api/Makefile $(RELEASE_SOURCE_UNIX)/frontend/api
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo
+	@cp -f demo/Makefile $(RELEASE_SOURCE_UNIX)/frontend/demo
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework
+	@cp -f framework/Makefile $(RELEASE_SOURCE_UNIX)/frontend/framework
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/skeleton
+	@cp -f skeleton/Makefile $(RELEASE_SOURCE_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/api/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) api/source/* $(SOURCE_RELEASE_UNIX)/api/source
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_UNIX)/demo/source
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_UNIX)/framework/source
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/skeleton/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) skeleton/source/* $(SOURCE_RELEASE_UNIX)/skeleton/source
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/api/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) api/source/* $(RELEASE_SOURCE_UNIX)/frontend/api/source
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/source/* $(RELEASE_SOURCE_UNIX)/frontend/demo/source
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/source/* $(RELEASE_SOURCE_UNIX)/frontend/framework/source
+
+	@echo "  * Synchronizing skeleton folder..."
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/skeleton
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) skeleton/build/unix/*.tar.gz $(RELEASE_SOURCE_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/demo/tool
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(SOURCE_RELEASE_UNIX)/demo/tool
-	@mkdir -p $(SOURCE_RELEASE_UNIX)/framework/tool
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_UNIX)/framework/tool
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/demo/tool
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(RELEASE_SOURCE_UNIX)/frontend/demo/tool
+	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend/framework/tool
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(RELEASE_SOURCE_UNIX)/frontend/framework/tool
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find $(SOURCE_RELEASE_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
-
+	@nice -n $(NICE) find $(RELEASE_SOURCE_UNIX) $(FIX_FILES) | xargs dos2unix > /dev/null 2>&1
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying Makefiles..."
-	@mkdir -p $(SOURCE_RELEASE_DOS)
-	@cp -f Makefile $(SOURCE_RELEASE_DOS)
-	@mkdir -p $(SOURCE_RELEASE_DOS)/api
-	@cp -f api/Makefile $(SOURCE_RELEASE_DOS)/api
-	@mkdir -p $(SOURCE_RELEASE_DOS)/demo
-	@cp -f demo/Makefile $(SOURCE_RELEASE_DOS)/demo
-	@mkdir -p $(SOURCE_RELEASE_DOS)/framework
-	@cp -f framework/Makefile $(SOURCE_RELEASE_DOS)/framework
-	@mkdir -p $(SOURCE_RELEASE_DOS)/skeleton
-	@cp -f skeleton/Makefile $(SOURCE_RELEASE_DOS)/skeleton
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend
+	@cp -f Makefile $(RELEASE_SOURCE_DOS)/frontend
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/api
+	@cp -f api/Makefile $(RELEASE_SOURCE_DOS)/frontend/api
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo
+	@cp -f demo/Makefile $(RELEASE_SOURCE_DOS)/frontend/demo
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework
+	@cp -f framework/Makefile $(RELEASE_SOURCE_DOS)/frontend/framework
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/skeleton
+	@cp -f skeleton/Makefile $(RELEASE_SOURCE_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(SOURCE_RELEASE_DOS)/api/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) api/source/* $(SOURCE_RELEASE_DOS)/api/source
-	@mkdir -p $(SOURCE_RELEASE_DOS)/demo/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/source/* $(SOURCE_RELEASE_DOS)/demo/source
-	@mkdir -p $(SOURCE_RELEASE_DOS)/framework/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/source/* $(SOURCE_RELEASE_DOS)/framework/source
-	@mkdir -p $(SOURCE_RELEASE_DOS)/skeleton/source
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) skeleton/source/* $(SOURCE_RELEASE_DOS)/skeleton/source
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/api/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) api/source/* $(RELEASE_SOURCE_DOS)/frontend/api/source
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/source/* $(RELEASE_SOURCE_DOS)/frontend/demo/source
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework/source
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/source/* $(RELEASE_SOURCE_DOS)/frontend/framework/source
+
+	@echo "  * Synchronizing skeleton folder..."
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/skeleton
+	@nice -n $(NICE) rsync $(RSYNC_BUILD_OPT) skeleton/build/dos/*.zip $(RELEASE_SOURCE_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(SOURCE_RELEASE_DOS)/demo/tool
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(SOURCE_RELEASE_DOS)/demo/tool
-	@mkdir -p $(SOURCE_RELEASE_DOS)/framework/tool
-	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(SOURCE_RELEASE_DOS)/framework/tool
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/demo/tool
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) demo/tool/* $(RELEASE_SOURCE_DOS)/frontend/demo/tool
+	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend/framework/tool
+	@nice -n $(NICE) rsync $(RSYNC_SOURCE_OPT) framework/tool/* $(RELEASE_SOURCE_DOS)/frontend/framework/tool
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find $(SOURCE_RELEASE_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
+	@nice -n $(NICE) find $(RELEASE_SOURCE_DOS) $(FIX_FILES) | xargs unix2dos > /dev/null 2>&1
 
-
-source-release-compress:
+release-source-compress:
 	@echo
 	@echo "  COMPRESSION OF SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.gz; nice -n $(NICE) tar cfz qooxdoo-$(VERSION)-source.tar.gz qooxdoo-$(VERSION)-source
-
-	@echo "  * Generating bzip2 (Unix) archive..."
-	@cd release/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.bz2; nice -n $(NICE) tar cfj qooxdoo-$(VERSION)-source.tar.bz2 qooxdoo-$(VERSION)-source
+	@cd release/temp/source/unix; rm -f qooxdoo-$(VERSION)-source.tar.gz; nice -n $(NICE) tar cfz ../../../qooxdoo-$(VERSION)-source.tar.gz qooxdoo-$(VERSION)-source
 
 	@echo "  * Generating zip (DOS) archive..."
-	@cd release/source/dos; rm -f qooxdoo-$(VERSION)-source.zip; nice -n $(NICE) zip -rq qooxdoo-$(VERSION)-source.zip qooxdoo-$(VERSION)-source
+	@cd release/temp/source/dos; rm -f qooxdoo-$(VERSION)-source.zip; nice -n $(NICE) zip -rq ../../../qooxdoo-$(VERSION)-source.zip qooxdoo-$(VERSION)-source
