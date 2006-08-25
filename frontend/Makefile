@@ -127,13 +127,22 @@ distclean:
 ###################################################################################
 
 release: release-build release-source
+release-fast: release-build-fast release-source-fast
 
-release-build: build release-build-sync release-build-compress
+
+
+
+release-build: build release-build-fast
+release-build-fast: release-build-sync release-build-compress
 
 release-build-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing info files..."
+	@mkdir -p $(RELEASE_BUILD_UNIX)
+	@cp -f ../[A-Z]* $(RELEASE_BUILD_UNIX)
 
 	@echo "  * Synchronizing Unix build folders..."
 	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/api
@@ -150,6 +159,10 @@ release-build-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
 	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing info files..."
+	@mkdir -p $(RELEASE_BUILD_DOS)
+	@cp -f ../[A-Z]* $(RELEASE_BUILD_DOS)
 
 	@echo "  * Synchronizing DOS build folders..."
 	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/api
@@ -180,12 +193,17 @@ release-build-compress:
 
 
 
-release-source: source skeleton-archives release-source-sync release-source-compress
+release-source: source skeleton-archives release-source-fast
+release-source-fast: release-source-sync release-source-compress
 
 release-source-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF UNIX SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing info files..."
+	@mkdir -p $(RELEASE_SOURCE_UNIX)
+	@cp -f ../[A-Z]* $(RELEASE_SOURCE_UNIX)
 
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SOURCE_UNIX)/frontend
@@ -224,6 +242,10 @@ release-source-sync:
 	@echo
 	@echo "  SYNCHRONISATION OF DOS SOURCE RELEASE"
 	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing info files..."
+	@mkdir -p $(RELEASE_SOURCE_DOS)
+	@cp -f ../[A-Z]* $(RELEASE_SOURCE_DOS)
 
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SOURCE_DOS)/frontend
