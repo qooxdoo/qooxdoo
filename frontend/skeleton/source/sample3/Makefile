@@ -13,9 +13,10 @@ NICE=10
 # PRIVATE VARIABLES
 ###################################################################################
 
-FRAMEWORK = $(QOOXDOO)/frontend/framework/
+FRAMEWORK = $(QOOXDOO)/frontend/framework
+API = $(QOOXDOO)/frontend/api
 CACHE = $(QOOXDOO)/frontend/.cache
-GENERATOR = $(FRAMEWORK)tool/generator/generator.py
+GENERATOR = $(FRAMEWORK)/tool/generator/generator.py
 
 
 ifeq ($(INCLUDEALL),false)
@@ -41,6 +42,13 @@ all: build
 
 source: info-source generate-script-source
 build: info-build generate-script-build copy-build-files
+
+api: generate-api-build generate-api-data
+	@echo
+	@echo "  CREATE COPY OF HTML FILE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Copying file..."
+	@cp -f $(API)/source/index.html api/index.html
 
 
 
@@ -79,7 +87,7 @@ distclean: realclean
 generate-script-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
-	  --source-script-path ../$(FRAMEWORK)source/class \
+	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --source-script-path class \
 	  --generate-source-script \
@@ -90,7 +98,7 @@ generate-script-source:
 
 generate-script-build:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input $(FRAMEWORK)source/class \
+	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  $(INCLUDE) \
@@ -98,6 +106,29 @@ generate-script-build:
 	  --define-runtime-setting qx.core.Init.component:qx.component.init.BasicInitComponent \
 	  --cache-directory $(CACHE)
 
+generate-api-build:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --resource-input $(FRAMEWORK)/source/resource \
+	  --resource-output api/resource/qooxdoo \
+	  --script-input $(API)/source/class \
+	  --resource-input $(API)/source/resource \
+	  --resource-output api/resource \
+	  --include api \
+	  --generate-compiled-script \
+	  --compiled-script-file api/script/api.js \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
+	  --define-runtime-setting api.Viewer.title:Sample \
+	  --copy-resources \
+	  --cache-directory $(CACHE)
+
+generate-api-data:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --script-input source/class \
+	  --generate-api-documentation \
+	  --api-documentation-json-file api/script/data.js \
+	  --cache-directory $(CACHE)
 
 
 
