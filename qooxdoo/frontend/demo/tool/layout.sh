@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BASE="layout.js.in"
+BASE="tool/layout.js.in"
 DIST="$1"
 SCAN="$2"
 TITLE="$3"
