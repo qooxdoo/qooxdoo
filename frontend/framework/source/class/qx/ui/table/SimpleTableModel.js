@@ -190,6 +190,21 @@ qx.Proto.setData = function(rowArr) {
 
 
 /**
+ * Returns the data of this model.
+ * <p>
+ * Warning: Do not alter this array! If you want to change the data use
+ * {@link #setData}, {@link #setDataAsMapArray} or {@link #setValue} instead.
+ *
+ * @return {var[][]} An array containing an array for each row. Each
+ *         row-array contains the values in that row in the order of the columns
+ *         in this model.
+ */
+qx.Proto.getData = function() {
+  return this._rowArr;
+};
+
+
+/**
  * Sets the whole data in a bulk.
  *
  * @param mapArr {Map[]} An array containing a map for each row. Each
