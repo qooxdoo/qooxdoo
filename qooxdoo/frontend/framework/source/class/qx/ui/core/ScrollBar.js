@@ -127,6 +127,18 @@ qx.Proto._modifyMaximum = function(propValue, propOldValue, propData) {
 }
 
 
+// property modifier
+qx.Proto._modifyVisibility = function(propValue, propOldValue, propData) {
+  if (! propValue) {
+    this._positionKnob(0);
+  } else {
+    this._positionKnob(this.getValue());
+  }
+
+  return qx.ui.layout.BoxLayout.prototype._modifyVisibility.call(this, propValue, propOldValue, propData);
+};
+
+
 // overridden
 qx.Proto._computePreferredInnerWidth = function() {
   return this._horizontal ? 0 : this._getScrollBarWidth();
