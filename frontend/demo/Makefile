@@ -35,7 +35,7 @@ clean:
 	@echo "  CLEANUP OF GENERATED FILES"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@rm -f source/script/qx.js source/script/layout.js build/script/layout.js
+	@rm -rf source/script
 
 realclean: clean
 	@echo
