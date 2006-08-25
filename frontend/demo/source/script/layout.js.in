@@ -117,7 +117,9 @@
 
   if (window.location.href.indexOf("demo.qooxdoo.org") != -1)
   {
-    document.write('<script type="text/javascript">var a_vars = []; var pagename=""; var phpmyvisitesSite = 5; var phpmyvisitesURL = "http://counter.qooxdoo.org/phpmyvisites.php";</script><script type="text/javascript" src="http://counter.qooxdoo.org/phpmyvisites.js"></script>');
-    document.write('<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-415440-1"; urchinTracker();</script>');
+    document.write('<script type="text/javascript">var a_vars = []; var pagename=""; var phpmyvisitesSite = 5; var phpmyvisitesURL = "http://counter.qooxdoo.org/phpmyvisites.php";</script>');
+    document.write('<script type="text/javascript" src="http://counter.qooxdoo.org/phpmyvisites.js"></script>');
+    document.write('<script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>');
+    document.write('<script type="text/javascript">_uacct = "UA-415440-1"; function urchinStart() { urchinTracker() }; if (window.addEventListener)window.addEventListener("load", urchinStart, false); else if(window.attachEvent)window.attachEvent("onload", urchinStart);</script>');
   }
 //})();
