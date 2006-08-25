@@ -72,15 +72,9 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --include api \
-	  --include qx.theme.color.WindowsRoyaleColorTheme \
-	  --include qx.theme.icon.CrystalSvgIconTheme \
-	  --include qx.theme.widget.WindowsWidgetTheme \
 	  --generate-source-script \
 	  --source-script-file source/script/api.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../$(FRAMEWORK)/source/resource/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../$(FRAMEWORK)/source/resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../$(FRAMEWORK)/source/resource/static \
-	  --define-runtime-setting qx.client.History.helperFile:../$(FRAMEWORK)/source/resource/static/history/historyHelper.html \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
 
 generate-script-build:
@@ -92,15 +86,9 @@ generate-script-build:
 	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --include api \
-	  --include qx.theme.color.WindowsRoyaleColorTheme \
-	  --include qx.theme.icon.CrystalSvgIconTheme \
-	  --include qx.theme.widget.WindowsWidgetTheme \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/api.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:resource/qooxdoo/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:resource/qooxdoo/widget/windows \
-	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:resource/qooxdoo/static \
-	  --define-runtime-setting qx.client.History.helperFile:resource/qooxdoo/static/history/historyHelper.html \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
 	  --cache-directory $(CACHE)
 

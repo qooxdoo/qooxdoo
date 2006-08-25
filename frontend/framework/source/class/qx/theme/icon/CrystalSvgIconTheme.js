@@ -38,7 +38,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "icon/crystalsvg");
+qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/crystalsvg");
 
 
 

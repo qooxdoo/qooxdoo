@@ -95,13 +95,13 @@ qx.Settings.getValue = function(vKey) {
 
 qx.Settings.getValueOfClass = function(vClassName, vKey)
 {
-  var vUserObject = qx.Settings._customSettings[vClassName];
-  if (vUserObject && typeof vUserObject[vKey] !== qx._UNDEFINED) {
-    return vUserObject[vKey];
+  var vCustomObject = qx.Settings._customSettings[vClassName];
+  if (vCustomObject && vCustomObject[vKey] != null) {
+    return vCustomObject[vKey];
   }
 
   var vDefaultObject = qx.Settings._defaultSettings[vClassName];
-  if (vDefaultObject && typeof vDefaultObject[vKey] !== qx._UNDEFINED) {
+  if (vDefaultObject && vDefaultObject[vKey] != null) {
     return vDefaultObject[vKey];
   }
 
