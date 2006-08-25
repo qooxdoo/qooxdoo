@@ -51,8 +51,8 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("resourceUri", "../../resource/");
-qx.Settings.setDefault("staticUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "static");
+qx.Settings.setDefault("resourceUri", "../../resource");
+qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/static");
 
 
 
