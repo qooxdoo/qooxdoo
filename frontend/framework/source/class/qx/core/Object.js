@@ -87,6 +87,51 @@ qx.Class.dispose = function()
   // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
 }
 
+qx.Class.summary = function()
+{
+  var vData = {};
+  var vCounter = 0;
+
+  for (var i=qx.core.Object._db.length-1; i>=0; i--)
+  {
+    vObject = qx.core.Object._db[i];
+
+    if (vObject && vObject._disposed === false)
+    {
+      if (vData[vObject.classname] == null)
+      {
+        vData[vObject.classname] = 1;
+      }
+      else
+      {
+        vData[vObject.classname]++;
+      }
+
+      vCounter++;
+    }
+  }
+
+  var vArrData = [];
+
+  for (var vClassName in vData) {
+    vArrData.push({ classname : vClassName, number : vData[vClassName] });
+  }
+
+  vArrData.sort(function(a, b) {
+    return b.number - a.number;
+  });
+
+  var vMsg = "Summary: (" + vCounter + " Objects)\n\n";
+
+  for (var i=0; i<vArrData.length; i++) {
+    vMsg += vArrData[i].number + ": " + vArrData[i].classname + "\n";
+  }
+
+  alert(vMsg);
+}
+
+
+
 qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
 
