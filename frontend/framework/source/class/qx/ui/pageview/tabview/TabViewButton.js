@@ -83,3 +83,23 @@ qx.Proto._onkeydown = function(e)
       break;
   }
 }
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  APPEARANCE ADDITIONS
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._applyStateAppearance = function()
+{
+  this._states.firstChild = this.isFirstVisibleChild();
+  this._states.lastChild = this.isLastVisibleChild();
+  this._states.alignLeft = this.getView().getAlignTabsToLeft();
+  this._states.barTop = this.getView().getPlaceBarOnTop();
+
+  qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
+}
