@@ -3810,7 +3810,7 @@ qx.Proto._applyInitialAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(vAppearance);
       if (r) {
         this.set(r);
       }
@@ -3834,7 +3834,7 @@ qx.Proto._applyStateAppearance = function()
   {
     try
     {
-      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(this, vAppearance);
+      var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(vAppearance, this._states);
       if (r) {
         this.set(r);
       }
@@ -3855,8 +3855,8 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
     var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vOldAppearanceTheme);
     var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vNewAppearanceTheme);
 
-    var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(this, vAppearance), vOldAppearanceThemeObject.stateFrom(this, vAppearance));
-    var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(this, vAppearance), vNewAppearanceThemeObject.stateFrom(this, vAppearance));
+    var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(vAppearance), vOldAppearanceThemeObject.stateFrom(vAppearance, this._states));
+    var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(vAppearance), vNewAppearanceThemeObject.stateFrom(vAppearance, this._states));
 
     for (var vProp in vOldAppearanceProperties)
     {
@@ -3935,18 +3935,18 @@ qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 {
   var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
 
-  var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propValue);
+  var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(propValue);
 
   if (this.isCreated()) {
-    qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propValue));
+    qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(propValue, this._states));
   }
 
   if (propOldValue)
   {
-    var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(this, propOldValue);
+    var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(propOldValue);
 
     if (this.isCreated()) {
-      qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(this, propOldValue));
+      qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(propOldValue, this._states));
     }
 
     for (var vProp in vOldAppearanceProperties)
