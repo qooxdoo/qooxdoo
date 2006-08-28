@@ -135,6 +135,10 @@ qx.io.image.ImagePreloader.__onerror = function() { this.qx_ImagePreloader._oner
 
 qx.Proto._onload = function()
 {
+  if (this._isLoaded || this._isErroneous) {
+    return;
+  }
+
   this._isLoaded = true;
   this._isErroneous = false;
 
@@ -145,6 +149,10 @@ qx.Proto._onload = function()
 
 qx.Proto._onerror = function()
 {
+  if (this._isLoaded || this._isErroneous) {
+    return;
+  }
+
   this.debug("Could not load: " + this._source);
 
   this._isLoaded = false;
