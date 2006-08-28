@@ -28,27 +28,20 @@
 
   if( /\/showcase\//.test(window.location.href) ) {
     document.write('Selected: Showcase | ');
-    document.write('[<a href="../example/index.html">Go to: Example</a>] &#160;');
-    document.write('[<a href="../performance/index.html">Go to: Performance</a>] &#160;');
-    document.write('[<a href="../test/index.html">Go to: Test</a>] &#160;');
+    document.write('[<a href="../index.html">Back to overview</a>] &#160;');
   } else if( /\/example\//.test(window.location.href) ) {
     document.write('Selected: Example | ');
-    document.write('[<a href="../showcase/index.html">Go to: Showcase</a>] &#160;');
-    document.write('[<a href="../performance/index.html">Go to: Performance</a>] &#160;');
-    document.write('[<a href="../test/index.html">Go to: Test</a>] &#160;');
+    document.write('[<a href="../index.html">Back to overview</a>] &#160;');
   } else if( /\/performance\//.test(window.location.href) ) {
     document.write('Selected: Performance | ');
-    document.write('[<a href="../showcase/index.html">Go to: Showcase</a>] &#160;');
-    document.write('[<a href="../example/index.html">Go to: Example</a>] &#160;');
-    document.write('[<a href="../test/index.html">Go to: Test</a>] &#160;');
+    document.write('[<a href="../index.html">Back to overview</a>] &#160;');
   } else {
     document.write('Selected: Test | ');
-    document.write('[<a href="../showcase/index.html">Go to: Showcase</a>] &#160;');
-    document.write('[<a href="../example/index.html">Go to: Example</a>] &#160;');
-    document.write('[<a href="../performance/index.html">Go to: Performance</a>] &#160;');
+    document.write('[<a href="../index.html">Back to overview</a>] &#160;');
   };
 
   document.write('[<a href="javascript:qx.dev.Pollution.consoleInfo(\'window\');">Global Pollution</a>] &#160;');
+  document.write('[<a href="javascript:qx.core.Object.summary();">Object Summary</a>] &#160;');
 
   document.write('</div>');
   document.write('<div id="demoDebug"></div>');
