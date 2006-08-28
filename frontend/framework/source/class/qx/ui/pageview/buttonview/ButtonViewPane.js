@@ -28,3 +28,24 @@ function() {
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view-pane" });
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  APPEARANCE ADDITIONS
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._applyStateAppearance = function()
+{
+  var vPos = this.getParent().getBarPosition();
+
+  this._states.barHorizontal = vPos === qx.constant.Layout.ALIGN_TOP || vPos === qx.constant.Layout.ALIGN_BOTTOM;
+
+  qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
+}
