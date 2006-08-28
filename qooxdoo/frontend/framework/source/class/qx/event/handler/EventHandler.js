@@ -286,7 +286,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 // If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
 // it can not return the correct event target for DOMMouseScroll.
 
-qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
+qx.Class.getOriginalTargetObject = function(vNode)
 {
   // Events on the HTML element, when using absolute locations which
   // are outside the HTML element. Opera does not seem to fire events
@@ -310,7 +310,7 @@ qx.event.handler.EventHandler.getOriginalTargetObject = function(vNode)
   return vNode ? vNode.qx_Widget : null;
 }
 
-qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
+qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 {
   var vNode = vDomEvent.target || vDomEvent.srcElement;
 
@@ -328,7 +328,7 @@ qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent = function(vDomEv
   return qx.event.handler.EventHandler.getOriginalTargetObject(vNode);
 }
 
-qx.event.handler.EventHandler.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
+qx.Class.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 }
 
@@ -338,7 +338,7 @@ qx.event.handler.EventHandler.getRelatedOriginalTargetObjectFromEvent = function
 
 
 
-qx.event.handler.EventHandler.getTargetObject = function(vNode, vObject)
+qx.Class.getTargetObject = function(vNode, vObject)
 {
   if (!vObject)
   {
@@ -371,23 +371,23 @@ qx.event.handler.EventHandler.getTargetObject = function(vNode, vObject)
   return vObject;
 }
 
-qx.event.handler.EventHandler.getTargetObjectFromEvent = function(vDomEvent) {
+qx.Class.getTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(vDomEvent.target || vDomEvent.srcElement);
 }
 
-qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent = function(vDomEvent) {
+qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
 }
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.event.handler.EventHandler.stopDomEvent = function(vDomEvent) {
+  qx.Class.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
   }
 }
 else
 {
-  qx.event.handler.EventHandler.stopDomEvent = function(vDomEvent)
+  qx.Class.stopDomEvent = function(vDomEvent)
   {
     vDomEvent.preventDefault();
     vDomEvent.returnValue = false;
@@ -634,8 +634,49 @@ else
   }
 }
 
+/*!
+Fixes browser quirks with 'click' detection
 
+Firefox 1.5.0.6: The DOM-targets are different. The click event only fires, if the target of the
+  mousedown is the same than with the mouseup. If the content moved away, the click isn't fired.
 
+Internet Explorer 6.0: The DOM-targets are identical and the click fires fine.
+
+Opera 9.01: The DOM-targets are different, but the click fires fine. Fires click successfull,
+  even if the content under the cursor was moved away.
+*/
+if (qx.sys.Client.getInstance().isGecko())
+{
+  qx.Proto._onmouseevent_click_fix = function(vDomTarget, vType, vDispatchTarget)
+  {
+    var vReturn = false;
+
+    switch(vType)
+    {
+      case qx.constant.Event.MOUSEDOWN:
+        this._lastMouseDownDomTarget = vDomTarget;
+        this._lastMouseDownDispatchTarget = vDispatchTarget;
+        break;
+
+      case qx.constant.Event.MOUSEUP:
+        // Add additional click event if the dispatch target is the same, but the dom target is different
+        if (this._lastMouseDownDispatchTarget === vDispatchTarget && vDomTarget !== this._lastMouseDownDomTarget) {
+          vReturn = true;
+        }
+
+        this._lastMouseDownDomTarget = null;
+        this._lastMouseDownDispatchTarget = null;
+    }
+
+    return vReturn;
+  };
+}
+else
+{
+  qx.Proto._onmouseevent_click_fix = function(vDomTarget, vDispatchTarget) {
+    return false;
+  }
+};
 
 /*!
   This is the crossbrowser post handler for all mouse events.
@@ -644,7 +685,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 {
   try
   {
-    var vEventObject, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget;
+    var vEventObject, vCaptureTarget, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget, vFixClick;
 
 
 
@@ -653,26 +694,30 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Check for capturing, if enabled the target is the captured widget.
-    vDispatchTarget = this.getCaptureWidget();
+    vCaptureTarget = this.getCaptureWidget();
 
     // Event Target Object
     vOriginalTarget = qx.event.handler.EventHandler.getOriginalTargetObject(vDomTarget);
 
-    // If no capturing is active search for a valid target object
-    if (!qx.util.Validation.isValidObject(vDispatchTarget))
+    // If capturing isn't active search for a valid target object
+    if (!vCaptureTarget)
     {
       // Get Target Object
       vDispatchTarget = vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
     }
     else
     {
+      vDispatchTarget = vCaptureTarget;
       vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
     }
 
+    // If there is no target, we have nothing TODO
     if (!vTarget) {
       return false;
     }
 
+    // Fix click event
+    vFixClick = this._onmouseevent_click_fix(vDomTarget, vType, vDispatchTarget);
 
 
 
@@ -815,6 +860,12 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     // Flush Queues
     qx.ui.core.Widget.flushGlobalQueues();
+
+
+    // Fix Click (Gecko Bug, see above)
+    if (vFixClick) {
+      this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK, vDomTarget);
+    }
   }
   catch(ex)
   {
@@ -1016,6 +1067,9 @@ qx.Proto.dispose = function()
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;
   this._lastKeyEventType = null;
+
+  this._lastMouseDownDomTarget = null;
+  this._lastMouseDownDispatchTarget = null;
 
   if (this._commands)
   {
