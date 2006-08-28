@@ -20,9 +20,12 @@
 \.endsWith\b=Maybe old use of prototype function. Please use qx.lang.String instead.
 \.pad\b=Maybe old use of prototype function. Please use qx.lang.String instead.
 \.toFirstUp\b=Maybe old use of prototype function. Please use qx.lang.String instead.
-\.add\b=Maybe old use of prototype function. Please use qx.lang.String instead.
-\.remove\b=Maybe old use of prototype function. Please use qx.lang.String instead.
 \.escapeRegexpChars\b=Maybe old use of prototype function. Please use qx.lang.String instead.
+
+# All widget add/remove is affected. It's generally better to hide these because the string
+# methods are relatively rarely used.
+#\.add\b=Maybe old use of prototype function. Please use qx.lang.String instead.
+#\.remove\b=Maybe old use of prototype function. Please use qx.lang.String instead.
 
 \.isInRange\b=Maybe old use of prototype function. Please use qx.lang.Number instead.
 \.isBetweenRange\b=Maybe old use of prototype function. Please use qx.lang.Number instead.
