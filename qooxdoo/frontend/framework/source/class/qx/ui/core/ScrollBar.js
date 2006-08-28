@@ -53,10 +53,26 @@ function(horizontal) {
     this._scrollContent.setHeight(5);
     this._scrollBar.setWidth("100%");
     this._scrollBar.setHeight(this._getScrollBarWidth());
+
+    // IE needs that the scrollbar element has a width of +1
+    if (qx.sys.Client.getInstance().isMshtml()) {
+      this.setHeight(this._getScrollBarWidth());
+      this.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+      this._scrollBar.setHeight(this._getScrollBarWidth() + 1);
+      this._scrollBar.setTop(-1);
+    }
   } else {
     this._scrollContent.setWidth(5);
     this._scrollBar.setHeight("100%");
     this._scrollBar.setWidth(this._getScrollBarWidth());
+
+    // IE needs that the scrollbar element has a width of +1
+    if (qx.sys.Client.getInstance().isMshtml()) {
+      this.setWidth(this._getScrollBarWidth());
+      this.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+      this._scrollBar.setWidth(this._getScrollBarWidth() + 1);
+      this._scrollBar.setLeft(-1);
+    }
   }
 
   this.add(this._scrollBar);
