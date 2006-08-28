@@ -27,7 +27,7 @@ function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.MenuCheckBox.call(this, vLabel, vCommand, vChecked);
 
-  qx.manager.object.ImagePreloaderManager.getInstance().create("widget/menu/checkbox.gif");
+  qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
 });
 
 
