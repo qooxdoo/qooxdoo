@@ -96,7 +96,7 @@ qx.Proto.setupAppearance = function(vAppearance)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.initialFrom = function(vWidget, vId)
+qx.Proto.initialFrom = function(vId)
 {
   var vAppearance = this.getAppearance(vId);
   if (vAppearance)
@@ -105,7 +105,7 @@ qx.Proto.initialFrom = function(vWidget, vId)
 
     try
     {
-      return vAppearance.initial ? vAppearance.initial(vWidget, this) : {}
+      return vAppearance.initial ? vAppearance.initial(this) : {}
     }
     catch(ex)
     {
@@ -118,7 +118,7 @@ qx.Proto.initialFrom = function(vWidget, vId)
   }
 }
 
-qx.Proto.stateFrom = function(vWidget, vId)
+qx.Proto.stateFrom = function(vId, vStates)
 {
   var vAppearance = this.getAppearance(vId);
   if (vAppearance)
@@ -127,7 +127,7 @@ qx.Proto.stateFrom = function(vWidget, vId)
 
     try
     {
-      return vAppearance.state ? vAppearance.state(vWidget, this, vWidget._states) : {}
+      return vAppearance.state ? vAppearance.state(this, vStates) : {}
     }
     catch(ex)
     {

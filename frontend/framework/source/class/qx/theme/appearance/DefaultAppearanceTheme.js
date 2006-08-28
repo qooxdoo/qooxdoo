@@ -49,7 +49,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "image" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         allowStretchX : false,
@@ -66,7 +66,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color = new qx.renderer.color.ColorObject("windowtext");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.bgcolor,
@@ -79,7 +79,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "blocker" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
       // (Visible) background tiles could be dramatically slow down mshtml!
@@ -93,7 +93,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "atom" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -117,7 +117,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         font: this.font,
@@ -125,7 +125,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         color : vStates.disabled ? this.color_disabled : null
@@ -135,18 +135,18 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "htmlcontainer" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "label");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("label");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "label");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("label", vStates);
     }
   },
 
   "popup" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : qx.constant.Core.AUTO,
@@ -163,9 +163,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color = new qx.renderer.color.ColorObject("InfoText");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "popup"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("popup"), {
         backgroundColor : this.bgcolor,
         color : this.color,
         border : qx.renderer.border.BorderPresets.getInstance().info,
@@ -179,7 +179,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "iframe" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().inset
@@ -210,11 +210,11 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_default = qx.renderer.border.BorderPresets.getInstance().outset;
     },
 
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "atom");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("atom");
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : vStates.over ? this.bgcolor_over : this.bgcolor_default,
@@ -258,7 +258,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("threedface");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().thinOutset,
@@ -270,7 +270,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "toolbar-part" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : qx.constant.Core.AUTO
@@ -280,7 +280,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "toolbar-part-handle" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : 10
@@ -290,7 +290,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "toolbar-part-handle-line" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         top : 2,
@@ -304,7 +304,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "toolbar-separator" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : 8
@@ -330,7 +330,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       b.setBottomWidth(0);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         top : 2,
@@ -356,7 +356,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.checked_background = "static/image/dotted_white.gif";
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -366,7 +366,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       var vReturn =
       {
@@ -423,7 +423,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.background = new qx.renderer.color.ColorObject("#FAFBFE");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.background,
@@ -434,7 +434,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "bar-view-pane" :
   {
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       if (vStates.barHorizontal)
       {
@@ -455,7 +455,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "bar-view-page" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         left : 10,
@@ -487,14 +487,14 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_right.setLeft(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.background_color
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       if (vStates.barTop)
       {
@@ -578,14 +578,14 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_right_checked.setLeft(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), {
         iconPosition : qx.constant.Layout.ALIGN_TOP
       });
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       var vReturn =
       {
@@ -677,7 +677,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color = new qx.renderer.color.ColorObject("windowtext");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.bgcolor,
@@ -689,7 +689,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         border : vStates.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset
@@ -707,7 +707,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color_inactive = new qx.renderer.color.ColorObject("inactivecaptiontext");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         paddingTop : 1,
@@ -720,7 +720,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor : vStates.active ? this.bgcolor_active : this.bgcolor_inactive,
@@ -731,7 +731,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "window-resize-frame" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().shadow
@@ -741,7 +741,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "window-captionbar-icon" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         marginRight : 2
@@ -757,7 +757,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font.setBold(true);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -770,13 +770,13 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "window-captionbar-button" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("button");
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
-      var vReturn = vTheme.stateFrom(vWidget, "button");
+      var vReturn = vTheme.stateFrom("button", vStates);
 
       if (vStates.pressed || vStates.abandoned)
       {
@@ -797,54 +797,54 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "window-captionbar-minimize-button" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "window-captionbar-button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("window-captionbar-button");
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "window-captionbar-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("window-captionbar-button", vStates);
     }
   },
 
   "window-captionbar-restore-button" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "window-captionbar-button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("window-captionbar-button");
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "window-captionbar-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("window-captionbar-button", vStates);
     }
   },
 
   "window-captionbar-maximize-button" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "window-captionbar-button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("window-captionbar-button");
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "window-captionbar-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("window-captionbar-button", vStates);
     }
   },
 
   "window-captionbar-close-button" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "window-captionbar-button"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("window-captionbar-button"), {
         marginLeft : 2
       });
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "window-captionbar-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("window-captionbar-button", vStates);
     }
   },
 
   "window-statusbar" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().thinInset,
@@ -855,7 +855,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "window-statusbar-text" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         paddingTop : 1,
@@ -889,7 +889,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("menu");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : qx.constant.Core.AUTO,
@@ -906,7 +906,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "menu-layout" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         top : 0,
@@ -928,7 +928,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.COLOR_OUT = null;
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         minWidth : qx.constant.Core.AUTO,
@@ -944,7 +944,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor : vStates.over ? this.BGCOLOR_OVER : this.BGCOLOR_OUT,
@@ -955,29 +955,29 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "menu-check-box" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "menu-button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("menu-button");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "menu-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("menu-button", vStates);
     }
   },
 
   "menu-radio-button" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "menu-button");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("menu-button");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "menu-button");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("menu-button", vStates);
     }
   },
 
   "menu-separator" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : qx.constant.Core.AUTO,
@@ -991,7 +991,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "menu-separator-line" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         right : 0,
@@ -1022,7 +1022,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("white");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         overflow : qx.constant.Style.OVERFLOW_HIDDEN,
@@ -1040,7 +1040,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -1056,7 +1056,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
@@ -1085,7 +1085,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         hideFocus : true,
@@ -1102,22 +1102,22 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "label");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("label", vStates);
     }
   },
 
   "text-area" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
         overflow : qx.constant.Core.AUTO
       });
     },
 
-    state : function(vWidget, vTheme) {
-      return vTheme.stateFrom(vWidget, "text-field");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("text-field", vStates);
     }
   },
 
@@ -1143,7 +1143,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("white");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         minWidth : 40,
@@ -1158,9 +1158,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "combo-box-list" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
         top : 0,
         right : 0,
         bottom : 0,
@@ -1173,9 +1173,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "combo-box-popup" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "list"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
         height : qx.constant.Core.AUTO,
         maxHeight : 150,
         border : qx.renderer.border.BorderPresets.getInstance().shadow
@@ -1190,9 +1190,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("transparent");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
         border : qx.renderer.border.BorderPresets.getInstance().none,
         width : qx.constant.Core.FLEX,
         backgroundColor : this.bgcolor
@@ -1202,16 +1202,16 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "combo-box-button" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "button"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("button"), {
         height : null,
         allowStretchY : true
       });
     },
 
-    state : function(vWidget, vTheme) {
-      return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"), {
+    state : function(vTheme, vStates) {
+      return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates), {
         paddingTop : 0,
         paddingRight : 3,
         paddingBottom : 0,
@@ -1234,7 +1234,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tree-element" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : 16,
@@ -1245,7 +1245,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tree-element-icon" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : 16,
@@ -1262,9 +1262,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "label"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("label"), {
         cursor : qx.constant.Core.DEFAULT,
         marginLeft : 3,
         height : 15,
@@ -1276,9 +1276,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       });
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
-      return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "label"), {
+      return qx.lang.Object.mergeWith(vTheme.stateFrom("label", vStates), {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null
       });
@@ -1287,18 +1287,18 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tree-folder" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "tree-element");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("tree-element");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "tree-element");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("tree-element", vStates);
     }
   },
 
   "tree-folder-icon" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : 16,
@@ -1309,51 +1309,51 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tree-folder-label" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "tree-element-label");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("tree-element-label");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "tree-element-label");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("tree-element-label", vStates);
     }
   },
 
   "tree" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "tree-folder");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("tree-folder");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "tree-folder");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("tree-folder", vStates);
     }
   },
 
   "tree-icon" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "tree-folder-icon");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("tree-folder-icon");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "tree-folder-icon");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("tree-folder-icon", vStates);
     }
   },
 
   "tree-label" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "tree-folder-label");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("tree-folder-label");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "tree-folder-label");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("tree-folder-label", vStates);
     }
   },
 
   "tree-container" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
@@ -1363,7 +1363,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tree-folder-container" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : qx.constant.Core.AUTO,
@@ -1386,7 +1386,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "list-view" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -1397,7 +1397,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "list-view-pane" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : qx.constant.Core.FLEX,
@@ -1417,7 +1417,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("#f2f2f2");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : qx.constant.Core.AUTO,
@@ -1438,7 +1438,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor_hover = new qx.renderer.color.Color("white");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         overflow : qx.constant.Style.OVERFLOW_HIDDEN,
@@ -1450,7 +1450,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       };
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       if (vStates.over)
       {
@@ -1477,7 +1477,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.bgcolor,
@@ -1496,7 +1496,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
@@ -1507,7 +1507,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "list-view-content-cell-image" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         paddingLeft : 6,
@@ -1515,57 +1515,57 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       };
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "list-view-content-cell");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("list-view-content-cell", vStates);
     }
   },
 
   "list-view-content-cell-text" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "htmlcontainer"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("htmlcontainer"), {
         overflow: qx.constant.Style.OVERFLOW_HIDDEN,
         paddingLeft : 6,
         paddingRight : 6
       });
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "htmlcontainer"), vTheme.stateFrom(vWidget, "list-view-content-cell"));
+    state : function(vTheme, vStates) {
+      return qx.lang.Object.mergeWith(vTheme.stateFrom("htmlcontainer", vStates), vTheme.stateFrom("list-view-content-cell", vStates));
     }
   },
 
   "list-view-content-cell-html" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("list-view-content-cell-text");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("list-view-content-cell-text", vStates);
     }
   },
 
   "list-view-content-cell-icon-html" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("list-view-content-cell-text");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("list-view-content-cell-text", vStates);
     }
   },
 
   "list-view-content-cell-link" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "list-view-content-cell-text");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("list-view-content-cell-text");
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "list-view-content-cell-text");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("list-view-content-cell-text", vStates);
     }
   },
 
@@ -1583,7 +1583,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tab-view" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         spacing : -1
@@ -1593,7 +1593,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tab-view-bar" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : qx.constant.Core.AUTO
@@ -1609,7 +1609,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         height : qx.constant.Core.FLEX,
@@ -1625,7 +1625,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "tab-view-page" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         top : 0,
@@ -1658,11 +1658,11 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border_bottom_checked.setBottom(3, qx.renderer.border.Border.STYLE_SOLID, "#FEC83C");
     },
 
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "atom");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("atom");
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       var vReturn;
 
@@ -1770,7 +1770,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("threedface");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         backgroundColor : this.bgcolor
@@ -1785,9 +1785,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("threedface");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), {
         top : 1,
         left : 10,
         backgroundColor : this.bgcolor,
@@ -1799,7 +1799,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "field-set-frame" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         top : 8,
@@ -1822,9 +1822,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("threedface");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "atom"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), {
         top : 1,
         left : 10,
         backgroundColor : this.bgcolor,
@@ -1835,8 +1835,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "radio-button-field-set-legend" :
   {
-    initial : function(vWidget, vTheme) {
-      return vTheme.initialFrom(vWidget, "check-box-field-set-legend");
+    initial : function(vTheme) {
+      return vTheme.initialFrom("check-box-field-set-legend");
     }
   },
 
@@ -1859,7 +1859,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.Color("white");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         width : 60,
@@ -1872,24 +1872,24 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "spinner-field" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "text-field"), {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
         width : qx.constant.Core.FLEX,
         border : qx.renderer.border.BorderPresets.getInstance().none
       });
     },
 
-    state : function(vWidget, vTheme, vStates) {
-      return vTheme.stateFrom(vWidget, "text-field");
+    state : function(vTheme, vStates) {
+      return vTheme.stateFrom("text-field", vStates);
     }
   },
 
   "spinner-button-up" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
       {
         height: qx.constant.Core.FLEX,
         width: 16,
@@ -1897,9 +1897,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       });
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
-      return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"),
+      return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
       {
         paddingTop : 0,
         paddingRight : 0,
@@ -1911,9 +1911,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
   "spinner-button-down" :
   {
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
-      return qx.lang.Object.mergeWith(vTheme.initialFrom(vWidget, "image"),
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
       {
         height: qx.constant.Core.FLEX,
         width: 16,
@@ -1921,9 +1921,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       });
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
-      return qx.lang.Object.mergeWith(vTheme.stateFrom(vWidget, "button"),
+      return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
       {
         paddingTop : 1,
         paddingRight : 0,
@@ -1950,7 +1950,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border = qx.renderer.border.BorderPresets.getInstance().outset;
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : this.border,
@@ -1959,7 +1959,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
 
     }
@@ -1989,7 +1989,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.checked_background = "static/image/dotted_white.gif";
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -1999,7 +1999,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
@@ -2039,7 +2039,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         font : this.font,
@@ -2058,7 +2058,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.bgcolor = new qx.renderer.color.ColorObject("window");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : this.border,
@@ -2080,7 +2080,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font.setBold(true);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : this.border,
@@ -2089,7 +2089,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         color : vStates.weekend ? this.bgcolor : this.color,
@@ -2114,7 +2114,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.transparentBorder = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_NONE);
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -2127,7 +2127,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         border : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : this.transparentBorder,
@@ -2151,7 +2151,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         border : this.border,
@@ -2161,7 +2161,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         border : vStates.header ? this.headerBorder : this.border
@@ -2189,7 +2189,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.border.set({ topColor:"threedshadow", topStyle :qx.renderer.border.Border.STYLE_SOLID, topWidth:1 });
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         font: this.font,
@@ -2209,7 +2209,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.editingBorder = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         border : vStates.editing ? this.editingBorder : this.border
@@ -2225,7 +2225,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         font: this.font,
@@ -2254,7 +2254,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       this.background = new qx.renderer.color.ColorObject("#ebeadb");
     },
 
-    initial : function(vWidget, vTheme)
+    initial : function(vTheme)
     {
       return {
         cursor : qx.constant.Core.DEFAULT,
@@ -2270,7 +2270,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vStates)
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
