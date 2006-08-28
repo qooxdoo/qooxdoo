@@ -1670,9 +1670,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     state : function(vWidget, vTheme, vStates)
     {
-      var vFrame = vWidget.getView();
-      var vAlignLeft = vFrame.getAlignTabsToLeft();
-      var vBarTop = vFrame.getPlaceBarOnTop();
       var vReturn;
 
       if (vStates.checked)
@@ -1685,16 +1682,16 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
           paddingBottom : 4,
           paddingLeft : 7,
           paddingRight : 8,
-          border : vBarTop ? this.border_top_checked : this.border_bottom_checked,
+          border : vStates.barTop ? this.border_top_checked : this.border_bottom_checked,
           marginTop : 0,
           marginBottom : 0,
           marginRight : -1,
           marginLeft : -2
         }
 
-        if (vAlignLeft)
+        if (vStates.alignLeft)
         {
-          if (vWidget.getParent().getFirstVisibleChild() == vWidget)
+          if (vStates.firstChild)
           {
             vReturn.paddingLeft = 6;
             vReturn.paddingRight = 7;
@@ -1703,7 +1700,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         }
         else
         {
-          if (vWidget.getParent().getLastVisibleChild() == vWidget)
+          if (vStates.lastChild)
           {
             vReturn.paddingLeft = 8;
             vReturn.paddingRight = 5;
@@ -1725,9 +1722,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
           marginLeft : 0
         }
 
-        if (vAlignLeft)
+        if (vStates.alignLeft)
         {
-          if (vWidget.getParent().getFirstVisibleChild() == vWidget)
+          if (vStates.firstChild)
           {
             vReturn.paddingLeft = 6;
             vReturn.paddingRight = 5;
@@ -1735,7 +1732,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         }
         else
         {
-          if (vWidget.getParent().getLastVisibleChild() == vWidget)
+          if (vStates.lastChild)
           {
             vReturn.paddingLeft = 6;
             vReturn.paddingRight = 5;
@@ -1743,7 +1740,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
           }
         }
 
-        if (vBarTop)
+        if (vStates.barTop)
         {
           vReturn.border = this.border_top_normal;
           vReturn.marginTop = 3;
