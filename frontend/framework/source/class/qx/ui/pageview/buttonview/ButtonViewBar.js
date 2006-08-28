@@ -51,3 +51,25 @@ qx.Proto.getWheelDelta = function(e)
 
   return vWheelDelta;
 }
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  APPEARANCE ADDITIONS
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._applyStateAppearance = function()
+{
+  var vPos = this.getParent().getBarPosition();
+
+  this._states.barLeft = vPos === qx.constant.Layout.ALIGN_LEFT;
+  this._states.barRight = vPos === qx.constant.Layout.ALIGN_RIGHT;
+  this._states.barTop = vPos === qx.constant.Layout.ALIGN_TOP;
+  this._states.barBottom = vPos === qx.constant.Layout.ALIGN_BOTTOM;
+
+  qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
+}
