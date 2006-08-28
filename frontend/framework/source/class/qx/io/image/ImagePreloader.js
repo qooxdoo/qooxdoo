@@ -63,23 +63,6 @@ function(vSource)
 
 
 
-
-/*
----------------------------------------------------------------------------
-  GETTER
----------------------------------------------------------------------------
-*/
-
-qx.io.image.ImagePreloader.get = function(vSource)
-{
-
-}
-
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   STATE MANAGERS
@@ -162,6 +145,8 @@ qx.Proto._onerror = function()
     this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
   }
 }
+
+
 
 
 
