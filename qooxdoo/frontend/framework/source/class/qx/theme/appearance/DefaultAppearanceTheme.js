@@ -436,21 +436,19 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
   {
     state : function(vWidget, vTheme, vStates)
     {
-      switch(vWidget.getParent().getBarPosition())
+      if (vStates.barHorizontal)
       {
-        case qx.constant.Layout.ALIGN_TOP:
-        case qx.constant.Layout.ALIGN_BOTTOM:
-          return {
-            width : null,
-            height : qx.constant.Core.FLEX
-          }
-
-        case qx.constant.Layout.ALIGN_LEFT:
-        case qx.constant.Layout.ALIGN_RIGHT:
-          return {
-            width : qx.constant.Core.FLEX,
-            height : null
-          }
+        return {
+          width : null,
+          height : qx.constant.Core.FLEX
+        }
+      }
+      else
+      {
+        return {
+          width : qx.constant.Core.FLEX,
+          height : null
+        }
       }
     }
   },
@@ -496,61 +494,63 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
       }
     },
 
-    state : function(vWidget, vTheme, vState)
+    state : function(vWidget, vTheme, vStates)
     {
-      switch(vWidget.getParent().getBarPosition())
+      if (vStates.barTop)
       {
-        case qx.constant.Layout.ALIGN_TOP:
-          return {
-            paddingTop : 1,
-            paddingRight : 0,
-            paddingBottom : 1,
-            paddingLeft : 0,
+        return {
+          paddingTop : 1,
+          paddingRight : 0,
+          paddingBottom : 1,
+          paddingLeft : 0,
 
-            border : this.border_top,
-            height : qx.constant.Core.AUTO,
-            width : null,
-            orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
-          }
+          border : this.border_top,
+          height : qx.constant.Core.AUTO,
+          width : null,
+          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
+        };
+      }
+      else if (vStates.barBottom)
+      {
+        return {
+          paddingTop : 1,
+          paddingRight : 0,
+          paddingBottom : 1,
+          paddingLeft : 0,
 
-        case qx.constant.Layout.ALIGN_BOTTOM:
-          return {
-            paddingTop : 1,
-            paddingRight : 0,
-            paddingBottom : 1,
-            paddingLeft : 0,
+          border : this.border_bottom,
+          height : qx.constant.Core.AUTO,
+          width : null,
+          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
+        };
+      }
+      else if (vStates.barLeft)
+      {
+        return {
+          paddingTop : 0,
+          paddingRight : 1,
+          paddingBottom : 0,
+          paddingLeft : 1,
 
-            border : this.border_bottom,
-            height : qx.constant.Core.AUTO,
-            width : null,
-            orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
-          }
+          border : this.border_left,
+          height : null,
+          width : qx.constant.Core.AUTO,
+          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
+        };
+      }
+      else if (vStates.barRight)
+      {
+        return {
+          paddingTop : 0,
+          paddingRight : 1,
+          paddingBottom : 0,
+          paddingLeft : 1,
 
-        case qx.constant.Layout.ALIGN_LEFT:
-          return {
-            paddingTop : 0,
-            paddingRight : 1,
-            paddingBottom : 0,
-            paddingLeft : 1,
-
-            border : this.border_left,
-            height : null,
-            width : qx.constant.Core.AUTO,
-            orientation : qx.constant.Layout.ORIENTATION_VERTICAL
-          }
-
-        case qx.constant.Layout.ALIGN_RIGHT:
-          return {
-            paddingTop : 0,
-            paddingRight : 1,
-            paddingBottom : 0,
-            paddingLeft : 1,
-
-            border : this.border_right,
-            height : null,
-            width : qx.constant.Core.AUTO,
-            orientation : qx.constant.Layout.ORIENTATION_VERTICAL
-          }
+          border : this.border_right,
+          height : null,
+          width : qx.constant.Core.AUTO,
+          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
+        };
       }
     }
   },
@@ -587,8 +587,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
     state : function(vWidget, vTheme, vStates)
     {
-      var vBarPosition = vWidget.getView().getBarPosition();
-
       var vReturn =
       {
         backgroundColor : vStates.checked ? this.background_color_checked : this.background_color_normal,
@@ -598,38 +596,37 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
 
       if (vStates.checked || vStates.over)
       {
-        switch(vBarPosition)
+        if (vStates.barTop)
         {
-          case qx.constant.Layout.ALIGN_TOP:
-            vReturn.border = this.border_top_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 1;
-            vReturn.paddingLeft = 6;
-            break;
-
-          case qx.constant.Layout.ALIGN_BOTTOM:
-            vReturn.border = this.border_bottom_checked;
-            vReturn.paddingTop = 1;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 6;
-            break;
-
-          case qx.constant.Layout.ALIGN_LEFT:
-            vReturn.border = this.border_left_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 4;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 6;
-            break;
-
-          case qx.constant.Layout.ALIGN_RIGHT:
-            vReturn.border = this.border_right_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 4;
+          vReturn.border = this.border_top_checked;
+          vReturn.paddingTop = 3;
+          vReturn.paddingRight = 6;
+          vReturn.paddingBottom = 1;
+          vReturn.paddingLeft = 6;
+        }
+        else if (vStates.barBottom)
+        {
+          vReturn.border = this.border_bottom_checked;
+          vReturn.paddingTop = 1;
+          vReturn.paddingRight = 6;
+          vReturn.paddingBottom = 3;
+          vReturn.paddingLeft = 6;
+        }
+        else if (vStates.barLeft)
+        {
+          vReturn.border = this.border_left_checked;
+          vReturn.paddingTop = 3;
+          vReturn.paddingRight = 4;
+          vReturn.paddingBottom = 3;
+          vReturn.paddingLeft = 6;
+        }
+        else if (vStates.barRight)
+        {
+          vReturn.border = this.border_right_checked;
+          vReturn.paddingTop = 3;
+          vReturn.paddingRight = 6;
+          vReturn.paddingBottom = 3;
+          vReturn.paddingLeft = 4;
         }
       }
       else
@@ -639,22 +636,19 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         vReturn.paddingRight = vReturn.paddingLeft = 7;
       }
 
-      switch(vBarPosition)
+      if (vStates.barTop || vStates.barBottom)
       {
-        case qx.constant.Layout.ALIGN_TOP:
-        case qx.constant.Layout.ALIGN_BOTTOM:
-          vReturn.marginTop = vReturn.marginBottom = 0;
-          vReturn.marginRight = vReturn.marginLeft = 1;
-          vReturn.width = qx.constant.Core.AUTO;
-          vReturn.height = null;
-          break;
-
-        case qx.constant.Layout.ALIGN_LEFT:
-        case qx.constant.Layout.ALIGN_RIGHT:
-          vReturn.marginTop = vReturn.marginBottom = 1;
-          vReturn.marginRight = vReturn.marginLeft = 0;
-          vReturn.height = qx.constant.Core.AUTO;
-          vReturn.width = null;
+        vReturn.marginTop = vReturn.marginBottom = 0;
+        vReturn.marginRight = vReturn.marginLeft = 1;
+        vReturn.width = qx.constant.Core.AUTO;
+        vReturn.height = null;
+      }
+      else if (vStates.barLeft || vStates.barRight)
+      {
+        vReturn.marginTop = vReturn.marginBottom = 1;
+        vReturn.marginRight = vReturn.marginLeft = 0;
+        vReturn.height = qx.constant.Core.AUTO;
+        vReturn.width = null;
       }
 
       return vReturn;
