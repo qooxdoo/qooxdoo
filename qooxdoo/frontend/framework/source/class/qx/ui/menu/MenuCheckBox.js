@@ -34,7 +34,7 @@ function(vLabel, vCommand, vChecked)
     this.setChecked(vChecked);
   }
 
-  qx.manager.object.ImagePreloaderManager.getInstance().create("widget/menu/checkbox.gif");
+  qx.manager.object.ImageManager.getInstance().preload("widget/menu/checkbox.gif");
 });
 
 

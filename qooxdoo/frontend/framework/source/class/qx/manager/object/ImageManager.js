@@ -75,6 +75,7 @@ qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instan
 
 
 
+
 /*
 ---------------------------------------------------------------------------
   REGISTRATION
@@ -247,6 +248,10 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
 
     yCor += 30;
   }
+}
+
+qx.Proto.preload = function(vPath) {
+  qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vPath));
 }
 
 
