@@ -246,9 +246,15 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     item = readMap(stream)
   elif expressionMode and stream.currIsType("token", "LB"):
     item = readArray(stream)
-  elif stream.currIsType("token", SINGLE_LEFT_OPERATORS) or stream.currIsType("protected", "TYPEOF"):
+  elif stream.currIsType("token", SINGLE_LEFT_OPERATORS):
     item = createItemNode("operation", stream)
     item.set("operator", stream.currDetail())
+    item.set("left", "true")
+    stream.next()
+    item.addListChild("first", readExpression(stream))
+  elif stream.currIsType("protected", "TYPEOF"):
+    item = createItemNode("operation", stream)
+    item.set("operator", "TYPEOF")
     item.set("left", "true")
     stream.next()
     item.addListChild("first", readExpression(stream))
