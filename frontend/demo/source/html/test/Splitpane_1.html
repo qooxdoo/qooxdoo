@@ -17,9 +17,48 @@
   {
     var d = qx.ui.core.ClientDocument.getInstance();
     
+    // the splitpane itself
     var sp = new qx.ui.splitpane.HorizontalSplitPane;
+    sp.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+    sp.setBackgroundColor(new qx.renderer.color.Color("white"));
+    sp.setLocation(20, 48);
+    sp.setDimension(700, 500);
     
-    d.add(p);
+    // cache left pane
+    var lp = sp.getLeftPane();
+    lp.setWidth(199);
+    lp.setHeight('100%');
+    
+    // cache right pane
+    var rp = sp.getRightPane();
+    rp.setWidth(499);
+    rp.setHeight('100%');
+    
+    // create content of left pane
+    var lpContent = new qx.ui.layout.HorizontalBoxLayout;
+    lpContent.setWidth('100%');
+    lpContent.setHeight('100%');
+    
+    // create content of right pane
+    var rpContent = new qx.ui.layout.VerticalSplitPane;
+    rpContent.setWidth('100%');
+    rpContent.setHeight('100%');
+    
+    // create tree
+    var tree = new qx.ui.tree.Tree("Inbox");
+    tree.setWidth(200);
+    tree.setHeight('100%');
+    tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    tree.add(new qx.ui.tree.TreeFolder("Drafts"));
+    tree.add(new qx.ui.tree.TreeFolder("Sent"));
+    tree.add(new qx.ui.tree.TreeFolder("Trash"));
+    tree.add(new qx.ui.tree.TreeFolder("Junk"));
+    
+    lpContent.add(tree);
+    
+    lp.add(lpContent);
+
+    d.add(sp);
 
   });
   </script>

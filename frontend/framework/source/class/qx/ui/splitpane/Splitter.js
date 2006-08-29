@@ -1,28 +1,34 @@
 /* ************************************************************************
-
+ 
    qooxdoo - the new era of web development
-
+ 
    http://qooxdoo.org
-
+ 
    Copyright:
      2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-
+ 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-
+ 
    Authors:
  * Volker Pauli
-
+ 
  ************************************************************************ */
 
 /* ************************************************************************
  
 #module(ui_splitpane)
-
+ 
  ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.splitpane.Splitter", qx.ui.layout.CanvasLayout,
-function() {
+function(vOrientation) {
+  
+  // apply orientation
+  if (qx.util.Validation.isValidString(vOrientation)) {
+    this.setOrientation(vOrientation);
+  }
+  
   qx.ui.layout.CanvasLayout.call(this);
 });
 
@@ -99,11 +105,26 @@ qx.Proto.isVertical = function() {
  */
 
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
-
+  
+  this.debug('set orientation');
+  
   // update fast access variables
   this._layoutHorizontal = propValue == qx.constant.Layout.ORIENTATION_HORIZONTAL;
   this._layoutVertical = propValue == qx.constant.Layout.ORIENTATION_VERTICAL;
-
+  
+  // set cursor
+  /*
+  switch(propValue) {
+    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
+      this.setCursor('w-resize');
+      break;
+      
+    case qx.constant.Layout.ORIENTATION_VERTICAL :
+      this.setCursor("n-resize");
+      break;
+  }
+   */
+  
   return true;
 }
 
@@ -124,6 +145,6 @@ qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
   }
-
+  
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 }
