@@ -34,6 +34,9 @@
 qx.OO.defineClass("qx.ui.table.IconHeaderCellRenderer", qx.ui.table.DefaultHeaderCellRenderer,
 function(iconUrl, tooltip) {
   qx.ui.table.DefaultHeaderCellRenderer.call(this);
+  if (iconUrl == null){
+    iconUrl = "";
+  }
   this.setIconUrl(iconUrl);
   this.setToolTip(tooltip);
 });
@@ -41,19 +44,19 @@ function(iconUrl, tooltip) {
 /**
  * URL of the icon to show
  */
-qx.OO.addProperty({ name:"iconUrl", type:qx.constant.Type.STRING, defaultValue:false, allowNull:false });
+qx.OO.addProperty({ name:"iconUrl", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
 
 /**
  * ToolTip to show if the mouse hovers of the icon
  */
-qx.OO.addProperty({ name:"toolTip", type:qx.constant.Type.STRING, defaultValue:false, allowNull:true });
+qx.OO.addProperty({ name:"toolTip", type:qx.constant.Type.STRING, defaultValue:null, allowNull:true });
 
 // overridden
 qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   qx.ui.table.DefaultHeaderCellRenderer.prototype.updateHeaderCell.call(this, cellInfo, cellWidget);
 
   // Set URL to icon
-  img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");
+  var img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");
   if (img == null){
     img = new qx.ui.basic.Image();
     cellWidget.setUserData("qx_ui_table_IconHeaderCellRenderer_icon", img);
@@ -62,10 +65,20 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   img.setSource(this.getIconUrl());
 
   // Set image tooltip if given
-  widgetToolTip = cellWidget.getToolTip();
-  if (widgetToolTip == null && this.getToolTip() != null){
-    widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
-    cellWidget.setToolTip(widgetToolTip)
-  }
+  var widgetToolTip = cellWidget.getToolTip();
+  if (this.getToolTip() != null){
+
+    //Create tooltip if necessary
+    if (true || widgetToolTip == null ){    
+      widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
+      cellWidget.setToolTip(widgetToolTip);
+      //this.debug("Creating tooltip");
+    }
+    
+    //Set tooltip text    
+    widgetToolTip.getAtom().setLabel(this.getToolTip());
+    //this.debug("Setting tooltip text " + this.getToolTip());
+  }  
+
 }
 
