@@ -37,7 +37,7 @@ function() {
   qx.ui.table.AbstractTableModel.call(this);
 
   this._sortColumnIndex = -1;
-  this._sortAscending;
+  this._sortAscending = true;
   this._rowCount = -1;
 
   this._lruCounter = 0;
@@ -308,4 +308,51 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
 };
 
 
-// TODO: Sorting
+/**
+ * Sets whether a column is sortable.
+ *
+ * @param columnIndex {int} the column of which to set the sortable state.
+ * @param sortable {boolean} whether the column should be sortable.
+ */
+qx.Proto.setColumnSortable = function(columnIndex, sortable) {
+  if (sortable != this.isColumnSortable(columnIndex)) {
+    if (this._sortableColArr == null) {
+      this._sortableColArr = [];
+    }
+    this._sortableColArr[columnIndex] = sortable;
+
+    this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+  }
+}
+
+
+// overridden
+qx.Proto.isColumnSortable = function(columnIndex) {
+  return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : false;
+}
+
+
+// overridden
+qx.Proto.sortByColumn = function(columnIndex, ascending) {
+  if (this._sortColumnIndex != columnIndex || this._sortAscending != ascending) {
+    this._sortColumnIndex = columnIndex;
+    this._sortAscending = ascending;
+
+    this.clearCache();
+
+    // Inform the listeners
+    this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+  }
+};
+
+
+// overridden
+qx.Proto.getSortColumnIndex = function() {
+  return this._sortColumnIndex;
+}
+
+
+// overridden
+qx.Proto.isSortAscending = function() {
+  return this._sortAscending;
+}
