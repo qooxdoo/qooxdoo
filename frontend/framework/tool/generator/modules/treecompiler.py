@@ -23,12 +23,23 @@ def compile(node, level=0, enableNewLines=False):
   if node.type == "map":
     compString += "{"
 
+  elif node.type == "body":
+    compString += "{"
+
+  elif node.type == "function":
+    functionDeclHasParams = False
+    compString += "function"
+
   elif node.type == "identifier":
-    compString += node.get("name")
+    name = node.get("name", False)
+    if name != None:
+      compString += name
 
   elif node.type == "call":
     callHasParams = False
-    pass
+
+  elif node.type == "params":
+    compString += "("
 
   elif node.type == "operand":
     pass
@@ -73,21 +84,20 @@ def compile(node, level=0, enableNewLines=False):
     previousType = None
 
     for child in node.children:
-      if previousType == "call":
+      if previousType == "call" or previousType == "function":
         compString += ";"
 
-
-
-
+      # Hints for close of node later
       if node.type == "call" and child.type == "params":
-        compString += "("
         callHasParams = True
 
+      elif node.type == "function" and child.type == "params":
+        functionDeclHasParams = True
+
+      # Add child
       compString += compile(child, level+1, enableNewLines)
 
-      if node.type == "call" and child.type == "params":
-        compString += ")"
-
+      # Separate children in parent list
       if childPosition < childrenNumber:
         if node.type == "variable":
           compString += "."
@@ -115,11 +125,19 @@ def compile(node, level=0, enableNewLines=False):
   if node.type == "map":
     compString += "}"
 
+  elif node.type == "body":
+    compString += "}"
+
+  elif node.type == "params":
+    compString += ")"
+
   elif node.type == "call":
     if not callHasParams:
       compString += "()"
 
-
+  elif node.type == "function":
+    if not functionDeclHasParams:
+      compString += "()"
 
 
 
