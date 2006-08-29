@@ -48,11 +48,17 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "loop":
     loopType = node.get("loopType")
     if loopType == "IF":
+      if node.parent.type == "elseStatement":
+        compString += " "
+
       compString += "if"
     elif loopType == "WHILE":
       compString += "while"
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
+
+  elif node.type == "elseStatement":
+    compString += "else"
 
   elif node.type == "function":
     functionDeclHasParams = False
