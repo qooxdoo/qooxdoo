@@ -74,9 +74,8 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "keyvalue":
     compString += node.get("key") + ":"
 
-  elif node.type == "assignment":
-    compString += "="
-
+  elif node.type == "return":
+    compString += "return "
 
 
 
@@ -90,12 +89,16 @@ def compile(node, level=0, enableNewLines=False):
     previousType = None
 
     for child in node.children:
+      separators = [ "assignment", "call", "definition" ]
+
       # Separate execution blocks
-      if previousType == "call" or previousType == "function":
+      if previousType in separators:
         compString += ";"
 
         if enableNewLines:
           compString += "\n"
+
+
 
       # Hints for close of node later
       if node.type == "call" and child.type == "params":
@@ -110,13 +113,31 @@ def compile(node, level=0, enableNewLines=False):
           compString += "()"
           functionDeclHasParams = True
 
+      elif node.type == "definition" and child.type == "assignment":
+        compString += "="
+
+      elif node.type == "accessor" and child.type == "key":
+        compString += "["
+
+
       # Add child
       compString += compile(child, level+1, enableNewLines)
 
 
 
       if node.type == "operation" and child.type == "first":
-        compString += " %s " % getTokenSource(node.get("operator"))
+        op = getTokenSource(node.get("operator"))
+        if op == None:
+          print "NONE OPERATOR"
+        else:
+          compString += op
+
+      elif node.type == "assignment" and child.type == "left":
+        compString += "="
+
+      elif node.type == "accessor" and child.type == "key":
+        compString += "]"
+
 
 
 
@@ -153,14 +174,8 @@ def compile(node, level=0, enableNewLines=False):
   if node.type == "map":
     compString += "}"
 
-    if enableNewLines:
-      compString += "\n"
-
   elif node.type == "block":
     compString += "}"
-
-    if enableNewLines:
-      compString += "\n"
 
   elif node.type == "params":
     compString += ")"
