@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption
+import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption, treecompiler
 
 
 
@@ -760,7 +760,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       if options.useTreeCompiler:
         # Alpha
-        compiledFileContent = compile.compile2(fileDb[fileId]["tree"], options.addNewLines)
+        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], options.addNewLines)
       else:
         compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
 
