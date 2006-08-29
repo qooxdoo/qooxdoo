@@ -21,7 +21,7 @@
 
  ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.splitpane.Pane", qx.ui.layout.CanvasLayout,
+qx.OO.defineClass("qx.ui.splitpane.Splitter", qx.ui.layout.CanvasLayout,
 function() {
   qx.ui.layout.CanvasLayout.call(this);
 });
@@ -98,7 +98,7 @@ qx.Proto.isVertical = function() {
 ---------------------------------------------------------------------------
  */
 
-qx.Proto._modifyOrientation(propValue, propOldValue, propData) {
+qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
 
   // update fast access variables
   this._layoutHorizontal = propValue == qx.constant.Layout.ORIENTATION_HORIZONTAL;

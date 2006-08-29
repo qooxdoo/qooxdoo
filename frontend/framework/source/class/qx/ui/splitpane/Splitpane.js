@@ -21,7 +21,7 @@
  
  ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.splitpane.Splitpane", qx.ui.layout.BoxLayout,
+qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.BoxLayout,
 function(vOrientation, vFirstPaneSize, vSecondPaneSize) {
   
   qx.ui.layout.BoxLayout.call(this);
