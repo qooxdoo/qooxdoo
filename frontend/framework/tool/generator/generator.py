@@ -760,7 +760,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
       if options.useTreeCompiler:
         # Alpha
-        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], options.addNewLines)
+        print "    * Using treecompiler"
+
+        if options.addNewLines:
+          print "    * Add new lines"
+
+        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], 0, options.addNewLines)
       else:
         compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
 
