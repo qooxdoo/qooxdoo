@@ -119,18 +119,23 @@ def compile(node, level=0, enableNewLines=False):
       elif node.type == "accessor" and child.type == "key":
         compString += "["
 
+      if node.type == "operation" and node.get("left", False) == "true":
+        op = node.get("operator")
+
+        if op == "TYPEOF":
+          compString += "typeof "
+        else:
+          compString += getTokenSource(op)
+
+
 
       # Add child
       compString += compile(child, level+1, enableNewLines)
 
 
 
-      if node.type == "operation" and child.type == "first":
-        op = getTokenSource(node.get("operator"))
-        if op == None:
-          print "NONE OPERATOR"
-        else:
-          compString += op
+      if node.type == "operation" and child.type == "first" and node.get("left", False) != "true":
+        compString += getTokenSource(node.get("operator"))
 
       elif node.type == "assignment" and child.type == "left":
         compString += "="
