@@ -22,39 +22,20 @@
  ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.BoxLayout,
-function(vOrientation, vFirstPaneSize, vSecondPaneSize) {
+function(vOrientation) {
   
-  qx.ui.layout.BoxLayout.call(this);
-  
-  // apply orientation
-  if (qx.util.Validation.isValidString(vOrientation)) {
-    this.setOrientation(vOrientation);
-  }
-  
-  // ************************************************************************
-  //   FIRST PANE
-  // ************************************************************************
+  qx.ui.layout.BoxLayout.call(this, vOrientation);
   
   var fPane = this._firstPane = new qx.ui.splitpane.FirstPane;
   
-  // ************************************************************************
-  //   SECOND PANE
-  // ************************************************************************
-  
   var sPane = this._secondPane = new qx.ui.splitpane.SecondPane;
   
-  // ************************************************************************
-  //   SPLITTER
-  // ************************************************************************
-  
   var splitter = this._splitter = new qx.ui.splitpane.Splitter(this.getOrientation());
-  
-  splitter.setOrientation(this.getOrientation());
   
   splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onsplittermousedown, this);
   splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
   splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
-  
+
   this.addAtBegin(fPane);
   this.add(splitter);
   this.addAtEnd(sPane);
@@ -128,32 +109,20 @@ qx.Proto._onsplittermousedown = function(e) {
   // enable capturing
   this._splitter.setCapture(true);
   
-  // set cursor
-  switch(this.getOrientation()) {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this._splitter.setCursor('w-resize');
-      break;
-      
-    case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this._splitter.setCursor("n-resize");
-      break;
-  }
-  
 }
 
 
-qx.Proto._onsplittermouseup = function() {
+qx.Proto._onsplittermouseup = function(e) {
   
   // disable capturing
   this._splitter.setCapture(false);
   
-  // reset cursor
-  this._splitter.setCursor(null);
-  
 }
 
 
-
+qx.Proto._onsplittermousemove = function(e) {
+  
+}
 
 
 
