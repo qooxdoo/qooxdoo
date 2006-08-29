@@ -112,7 +112,7 @@ def compile(node, level=0, enableNewLines=False):
     previousType = None
 
     for child in node.children:
-      separators = [ "assignment", "call", "definition", "return" ]
+      separators = [ "assignment", "call", "definition", "return", "loop" ]
 
       # Separate execution blocks
       if previousType in separators and child.type in separators:
