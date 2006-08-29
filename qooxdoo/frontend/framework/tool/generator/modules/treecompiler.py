@@ -52,8 +52,16 @@ def compile(node, level=0, enableNewLines=False):
         compString += " "
 
       compString += "if"
+
     elif loopType == "WHILE":
       compString += "while"
+
+    elif loopType == "FOR":
+      compString += "for"
+
+    elif loopType == "DO":
+      compString += "do"
+
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
 
@@ -152,11 +160,24 @@ def compile(node, level=0, enableNewLines=False):
       elif node.type == "accessor" and child.type == "right":
         compString += "."
 
+      elif node.type == "loop" and node.get("loopType") == "FOR":
+        if child.type == "first":
+          compString += "("
+        elif child.type == "statement":
+          compString += ")"
+        else:
+          compString += ";"
+
+          if enableNewLines:
+            compString += "\n"
+
       if node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
 
         if op == "TYPEOF":
           compString += "typeof "
+        elif op == None:
+          print "BAD OPERATOR [A]: %s" % op
         else:
           compString += getTokenSource(op)
 
@@ -168,13 +189,22 @@ def compile(node, level=0, enableNewLines=False):
 
 
       if node.type == "operation" and child.type == "first" and node.get("left", False) != "true":
-        compString += getTokenSource(node.get("operator"))
+        op = node.get("operator")
+
+        if op == "IN":
+          compString += " in "
+        elif op == None:
+          print "BAD OPERATOR [B]: %s" % op
+        else:
+          compString += getTokenSource(op)
 
       elif node.type == "assignment" and child.type == "left":
         compString += "="
 
       elif node.type == "accessor" and child.type == "key":
         compString += "]"
+
+
 
 
 
@@ -194,7 +224,6 @@ def compile(node, level=0, enableNewLines=False):
 
           if enableNewLines:
             compString += "\n"
-
 
 
 
