@@ -291,6 +291,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     htmlArr.push(TablePane.TABLE_TBODY);
   }
 
+  tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
 
@@ -396,6 +397,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   var elem = this.getElement();
   var childNodes = elem.childNodes;
   var cellInfo = {};
+  tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
     if ((onlyRow != null) && (row != onlyRow)) {
