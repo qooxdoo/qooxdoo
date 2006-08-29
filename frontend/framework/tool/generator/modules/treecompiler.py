@@ -4,16 +4,24 @@ import sys, string, re, os, random, optparse
 import config, tokenizer, filetool
 
 
-def indentout(level, text):
+def indentPrint(level, text):
   print "%s%s" % ("  " * level, text)
 
 
 
+def getTokenSource(id):
+  for key in config.JSTOKENS:
+    if config.JSTOKENS[key] == id:
+      return key
+
+  return None
+
+
+
+
+
 def compile(node, level=0, enableNewLines=False):
-  indentout(level, "%s (%s)" % (node.type, node.get("line", False)))
-
-  print enableNewLines
-
+  indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
   compString = ""
 
 
@@ -24,10 +32,6 @@ def compile(node, level=0, enableNewLines=False):
 
   if node.type == "map":
     compString += "{"
-
-  elif node.type == "body":
-    # creates block inside with 'block'
-    pass
 
   elif node.type == "block":
     compString += "{"
@@ -48,7 +52,7 @@ def compile(node, level=0, enableNewLines=False):
     compString += "("
 
   elif node.type == "definition":
-    compString += "var "
+    compString += "var %s" % node.get("identifier")
 
   elif node.type == "constant":
     if node.get("constantType") == "string":
@@ -70,9 +74,8 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "keyvalue":
     compString += node.get("key") + ":"
 
-  elif node.type == "value":
-    # use children content: constant, ...
-    pass
+  elif node.type == "assignment":
+    compString += "="
 
 
 
@@ -110,6 +113,13 @@ def compile(node, level=0, enableNewLines=False):
       # Add child
       compString += compile(child, level+1, enableNewLines)
 
+
+
+      if node.type == "operation" and child.type == "first":
+        compString += " %s " % getTokenSource(node.get("operator"))
+
+
+
       # Separate children in parent list
       if childPosition < childrenNumber:
         if node.type == "variable":
@@ -145,10 +155,6 @@ def compile(node, level=0, enableNewLines=False):
 
     if enableNewLines:
       compString += "\n"
-
-  elif node.type == "body":
-    # creates block inside with 'block'
-    pass
 
   elif node.type == "block":
     compString += "}"
