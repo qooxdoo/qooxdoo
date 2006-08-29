@@ -20,7 +20,7 @@ def getTokenSource(id):
 
 
 
-def compile(node, level=0, enableNewLines=False, parentType=None):
+def compile(node, level=0, enableNewLines=False):
   indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
   compString = ""
 
@@ -39,7 +39,10 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
   elif node.type == "params":
     compString += "("
 
-  elif node.type == "expression" and parentType == "loop":
+  elif node.type == "expression" and node.parent.type == "loop":
+    compString += "("
+
+  elif node.type == "group":
     compString += "("
 
   elif node.type == "loop":
@@ -89,6 +92,14 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
   elif node.type == "return":
     compString += "return "
 
+  elif node.type == "third":
+    if node.parent.type == "operation":
+      if node.parent.get("operator") == "HOOK":
+        compString += ":"
+      else:
+        print "Unknown third argument... Not a hook"
+
+
 
 
   ##################################################################
@@ -112,6 +123,7 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
 
 
 
+
       # Hints for close of node later
       if node.type == "call" and child.type == "params":
         callHasParams = True
@@ -131,6 +143,9 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
       elif node.type == "accessor" and child.type == "key":
         compString += "["
 
+      elif node.type == "accessor" and child.type == "right":
+        compString += "."
+
       if node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
 
@@ -142,7 +157,7 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
 
 
       # Add child
-      compString += compile(child, level+1, enableNewLines, node.type)
+      compString += compile(child, level+1, enableNewLines)
 
 
 
@@ -154,7 +169,6 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
 
       elif node.type == "accessor" and child.type == "key":
         compString += "]"
-
 
 
 
@@ -200,7 +214,10 @@ def compile(node, level=0, enableNewLines=False, parentType=None):
   elif node.type == "params":
     compString += ")"
 
-  elif node.type == "expression" and parentType == "loop":
+  elif node.type == "expression" and node.parent.type == "loop":
+    compString += ")"
+
+  elif node.type == "group":
     compString += ")"
 
   elif node.type == "call":
