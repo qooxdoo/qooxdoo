@@ -20,7 +20,7 @@ def getTokenSource(id):
 
 
 
-def compile(node, level=0, enableNewLines=False):
+def compile(node, level=0, enableNewLines=False, parentType=None):
   indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
   compString = ""
 
@@ -36,6 +36,21 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "block":
     compString += "{"
 
+  elif node.type == "params":
+    compString += "("
+
+  elif node.type == "expression" and parentType == "loop":
+    compString += "("
+
+  elif node.type == "loop":
+    loopType = node.get("loopType")
+    if loopType == "IF":
+      compString += "if"
+    elif loopType == "WHILE":
+      compString += "while"
+    else:
+      print "UNKNOWN LOOP TYPE: %s" % loopType
+
   elif node.type == "function":
     functionDeclHasParams = False
     compString += "function"
@@ -47,9 +62,6 @@ def compile(node, level=0, enableNewLines=False):
 
   elif node.type == "call":
     callHasParams = False
-
-  elif node.type == "params":
-    compString += "("
 
   elif node.type == "definition":
     compString += "var %s" % node.get("identifier")
@@ -89,10 +101,10 @@ def compile(node, level=0, enableNewLines=False):
     previousType = None
 
     for child in node.children:
-      separators = [ "assignment", "call", "definition" ]
+      separators = [ "assignment", "call", "definition", "return" ]
 
       # Separate execution blocks
-      if previousType in separators:
+      if previousType in separators and child.type in separators:
         compString += ";"
 
         if enableNewLines:
@@ -130,7 +142,7 @@ def compile(node, level=0, enableNewLines=False):
 
 
       # Add child
-      compString += compile(child, level+1, enableNewLines)
+      compString += compile(child, level+1, enableNewLines, node.type)
 
 
 
@@ -164,6 +176,9 @@ def compile(node, level=0, enableNewLines=False):
             compString += "\n"
 
 
+
+
+
       # Next...
       childPosition += 1
       previousType = child.type
@@ -183,6 +198,9 @@ def compile(node, level=0, enableNewLines=False):
     compString += "}"
 
   elif node.type == "params":
+    compString += ")"
+
+  elif node.type == "expression" and parentType == "loop":
     compString += ")"
 
   elif node.type == "call":
