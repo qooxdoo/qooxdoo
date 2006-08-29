@@ -10,7 +10,7 @@ def indentout(level, text):
 
 
 def compile(node, level=0, enableNewLines=False):
-  indentout(level, node.type)
+  indentout(level, "%s (%s)" % (node.type, node.get("line", False)))
 
   compString = ""
 
