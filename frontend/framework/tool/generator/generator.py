@@ -751,16 +751,13 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "    * You must define the compiled script file!"
       sys.exit(1)
 
-    else:
-      options.compiledScriptFile = os.path.normpath(options.compiledScriptFile)
-
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
 
       if options.useTreeCompiler:
         # Alpha
-        print "    * Using treecompiler"
+        print "    * Using treecompiler for %s" % fileId
 
         if options.addNewLines:
           print "    * Add new lines"
@@ -773,6 +770,9 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
       else:
         compiledOutput += compiledFileContent
+
+        if options.useTreeCompiler and not compiledOutput.endswith(";"):
+          compiledOutput += ";"
 
     print "  * Saving compiled output as %s..." % options.compiledScriptFile
     filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
