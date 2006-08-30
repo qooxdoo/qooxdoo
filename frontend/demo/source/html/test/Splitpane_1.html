@@ -18,35 +18,22 @@
     var d = qx.ui.core.ClientDocument.getInstance();
     
     // the splitpane itself
-    var sp = new qx.ui.splitpane.HorizontalSplitPane;
-    sp.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
-    sp.setBackgroundColor(new qx.renderer.color.Color("white"));
-    sp.setLocation(20, 48);
-    sp.setDimension(700, 500);
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane;
+    splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+    splitpane.setBackgroundColor(new qx.renderer.color.Color("white"));
+    splitpane.setLocation(20, 48);
+    splitpane.setDimension(700, 500);
+    
+
     
     // cache left pane
-    var lp = sp.getLeftPane();
-    lp.setWidth(199);
-    lp.setHeight('100%');
-    
-    // cache right pane
-    var rp = sp.getRightPane();
-    rp.setWidth(499);
-    rp.setHeight('100%');
-    
+    var leftPane = splitpane.getLeftPane();
+    leftPane.setWidth(199);
+    leftPane.setHeight('100%');
+
     // create content of left pane
-    var lpContent = new qx.ui.layout.HorizontalBoxLayout;
-    lpContent.setWidth('100%');
-    lpContent.setHeight('100%');
-    
-    // create content of right pane
-    var rpContent = new qx.ui.layout.VerticalSplitPane;
-    rpContent.setWidth('100%');
-    rpContent.setHeight('100%');
-    
-    // create tree
     var tree = new qx.ui.tree.Tree("Inbox");
-    tree.setWidth(200);
+    tree.setWidth('100%');
     tree.setHeight('100%');
     tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
     tree.add(new qx.ui.tree.TreeFolder("Drafts"));
@@ -54,11 +41,77 @@
     tree.add(new qx.ui.tree.TreeFolder("Trash"));
     tree.add(new qx.ui.tree.TreeFolder("Junk"));
     
-    lpContent.add(tree);
     
-    lp.add(lpContent);
+    // add all the stuff to the left pane
+    leftPane.add(tree);
 
-    d.add(sp);
+    
+    
+    // cache right pane
+    var rightPane = splitpane.getRightPane();
+    rightPane.setWidth(499);
+    rightPane.setHeight('100%');
+    
+    // create content of right pane
+    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane;
+    rightPaneContent.setWidth('100%');
+    rightPaneContent.setHeight('100%');
+    
+    // caceh top pane of right content pane
+    var rightPaneContentTopPane = rightPaneContent.getTopPane();
+    rightPaneContentTopPane.setWidth('100%');
+    rightPaneContentTopPane.setHeight(249);
+    
+    // create content of right top pane
+    var ld = [];
+    var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
+
+    for (var i=0, t; i<333; i++)
+    {
+      t=Math.round(Math.random()*4);
+      ld.push({ subject : { text : "Subject " + i }, from : { text : "qooxdoo User" }, date : { text : "01/26/2006" }});
+    };
+
+    var lc =
+    {
+      subject : { label : "Subject", width : 200, type : "text" },
+      from : { label : "From", width : 100, type : "text" },
+      date: { label : "Date", width : 100, type : "text" }
+    };
+
+    var view = new qx.ui.listview.ListView(ld, lc);
+    view.setWidth('100%');
+    view.setHeight('100%');
+    view.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    
+    rightPaneContentTopPane.add(view);
+    
+    
+    
+    // caceh bottom pane of right content pane
+    var rightPaneContentBottomPane = rightPaneContent.getBottomPane();
+    rightPaneContentBottomPane.setWidth('100%');
+    rightPaneContentBottomPane.setHeight(249);
+    
+    var preview = new qx.ui.basic.Atom;
+    preview.setWidth('100%');
+    preview.setHeight('100%');
+    preview.setHorizontalChildrenAlign('left');
+    preview.setVerticalChildrenAlign('top');
+    preview.setPaddingLeft(10);
+    preview.setPaddingTop(10);
+    
+    preview.setLabel('<h1>Mail preview</h1><p>The body of the mail</p><ul><li>with a list</li><li>inside</li></ul>');
+
+    rightPaneContentBottomPane.add(preview);
+    
+    
+    // add all the stuff to the right pane
+    rightPane.add(rightPaneContent);
+    
+    
+    // finally add all to the document
+    d.add(splitpane);
 
   });
   </script>
