@@ -262,17 +262,21 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     item = readInstantiation(stream)
     item = readObjectOperation(stream, item)
   elif not expressionMode and stream.currIsType("protected", "VAR"):
-    item = createItemNode("definition", stream)
+    item = createItemNode("definitionGroup", stream)
     stream.next()
     finished = False
     while not finished:
       if not currIsIdentifier(stream, False):
         raiseSyntaxException(stream.curr(), "identifier")
-      item.set("identifier", stream.currSource())
+
+      childitem = createItemNode("definition", stream)
+      childitem.set("identifier", stream.currSource())
       stream.next()
       if stream.currIsType("token", "ASSIGN"):
         stream.next()
-        item.addListChild("assignment", readExpression(stream))
+        childitem.addListChild("assignment", readExpression(stream))
+
+      item.addChild(childitem)
 
       # Check whether anothe definition follows, e.g. "var a, b=1, c=4"
       if stream.currIsType("token", "COMMA"):
