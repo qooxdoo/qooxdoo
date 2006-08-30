@@ -16,9 +16,7 @@
  ************************************************************************ */
 
 /* ************************************************************************
- 
 #module(ui_splitpane)
- 
  ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.BoxLayout,
@@ -35,7 +33,7 @@ function(vOrientation) {
   splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onsplittermousedown, this);
   splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
   splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
-
+  
   this.addAtBegin(fPane);
   this.add(splitter);
   this.addAtEnd(sPane);
@@ -109,19 +107,73 @@ qx.Proto._onsplittermousedown = function(e) {
   // enable capturing
   this._splitter.setCapture(true);
   
+  // measuring and caching of values for drag session
+  
+  var el = this._splitter.getElement();
+  var pl = this.getElement();
+  
+  var l = qx.dom.DomLocation.getPageAreaLeft(pl);
+  var t = qx.dom.DomLocation.getPageAreaTop(pl);
+  var r = qx.dom.DomLocation.getPageAreaRight(pl);
+  var b = qx.dom.DomLocation.getPageAreaBottom(pl);
+
+  this._dragSession = {
+    offsetX : e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(el) + l,
+    offsetY : e.getPageY() - qx.dom.DomLocation.getPageBoxTop(el) + t,
+
+    parentAvailableAreaLeft : l + 1,
+    parentAvailableAreaTop : t + 1,
+    parentAvailableAreaRight : r - 1,
+    parentAvailableAreaBottom : b - 1
+  };
+  
 }
 
 
 qx.Proto._onsplittermouseup = function(e) {
   
+  var splitter = this._splitter;
+  var s = this._dragSession;
+  
+  if(!s) {
+    return;
+  }
+  
   // disable capturing
-  this._splitter.setCapture(false);
+  splitter.setCapture(false);
+  
+  // cleanup session
+  this._dragSession = null;
   
 }
 
 
 qx.Proto._onsplittermousemove = function(e) {
   
+  var s = this._dragSession;
+  var o = this._splitter;
+  
+  // pre check for active session and capturing
+  if (!s || !this._splitter.getCapture()) {
+    return;
+  }
+
+  // pre check if we go out of the available area
+  if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
+    return;
+  }
+  
+  // use the fast and direct dom methods
+  switch(this.getOrientation()) {
+    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
+      o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
+      break;
+    case qx.constant.Layout.ORIENTATION_VERTICAL :
+      o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
+      break;
+  }
+  
+  e.preventDefault();
 }
 
 
