@@ -106,8 +106,6 @@ qx.Proto.isVertical = function() {
 
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
   
-  this.debug('set orientation');
-  
   // update fast access variables
   this._layoutHorizontal = propValue == qx.constant.Layout.ORIENTATION_HORIZONTAL;
   this._layoutVertical = propValue == qx.constant.Layout.ORIENTATION_VERTICAL;
