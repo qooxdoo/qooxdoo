@@ -647,6 +647,7 @@ def readSwitch(stream):
   stream.expectCurrType("protected", "SWITCH")
 
   item = createItemNode("switch", stream)
+  item.set("switchType", "case")
 
   stream.next()
   stream.expectCurrType("token", "LP")
@@ -666,7 +667,8 @@ def readSwitch(stream):
       caseItem.addListChild("expression", readExpression(stream))
       item.addChild(caseItem)
     elif stream.currIsType("protected", "DEFAULT"):
-      item.addChild(createItemNode("protected", stream))
+      defaultItem = createItemNode("default", stream)
+      item.addChild(defaultItem)
       stream.next()
     else:
       raiseSyntaxException(stream.curr(), "case or default")
@@ -685,6 +687,7 @@ def readTryCatch(stream):
   stream.expectCurrType("protected", "TRY")
 
   item = createItemNode("switch", stream)
+  item.set("switchType", "catch")
   stream.next()
 
   item.addListChild("statement", readStatement(stream))
@@ -712,15 +715,3 @@ def readTryCatch(stream):
     item.addChild(finallyItem)
 
   return item
-
-
-if __name__ == '__main__':
-  srcFile = "../../source/script/qx/util/text/NumberFormat.js"
-  treeFile = "tree/NumberFormat.xml"
-
-  tokenArr = compile.tokenizer(file(srcFile, "r").read(), srcFile)
-  try:
-    tree = createSyntaxTree(tokenArr)
-    tree.writeXmlFile(tree, treeFile)
-  except SyntaxException:
-    print "Parse error: " + str(sys.exc_info()[1])

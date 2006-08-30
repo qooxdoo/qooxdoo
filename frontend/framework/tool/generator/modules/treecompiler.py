@@ -39,8 +39,13 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "params":
     compString += "("
 
-  elif node.type == "expression" and node.parent.type == "loop":
-    compString += "("
+  elif node.type == "expression":
+    if node.parent.type == "loop":
+      compString += "("
+    elif node.parent.type == "catch":
+      compString += "("
+    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+      compString += "("
 
   elif node.type == "group":
     compString += "("
@@ -71,6 +76,10 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "function":
     functionDeclHasParams = False
     compString += "function"
+
+    functionName = node.get("name", False)
+    if functionName != None:
+      compString += " %s" % functionName
 
   elif node.type == "identifier":
     name = node.get("name", False)
@@ -106,6 +115,39 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "return":
     compString += "return "
 
+  elif node.type == "switch":
+    if node.get("switchType") == "case":
+      compString += "switch"
+    elif node.get("switchType") == "catch":
+      compString += "try"
+
+  elif node.type == "case":
+    compString += "case "
+
+  elif node.type == "default":
+    compString += "default:"
+
+  elif node.type == "try":
+    compString += "try:"
+
+  elif node.type == "catch":
+    compString += "catch"
+
+  elif node.type == "finally":
+    compString += "finally"
+
+  elif node.type == "throw":
+    compString += "throw "
+
+  elif node.type == "delete":
+    compString += "delete "
+
+  elif node.type == "break":
+    compString += "break "
+
+  elif node.type == "continue":
+    compString += "continue "
+
   elif node.type == "third":
     if node.parent.type == "operation":
       if node.parent.get("operator") == "HOOK":
@@ -124,9 +166,13 @@ def compile(node, level=0, enableNewLines=False):
     childPosition = 1
     childrenNumber = len(node.children)
     previousType = None
+    separators = [ "assignment", "call", "definition", "return", "loop", "switch", "break", "continue" ]
+
 
     for child in node.children:
-      separators = [ "assignment", "call", "definition", "return", "loop" ]
+      if child.type == "commentsBefore" or child.type == "comments":
+        continue
+
 
       # Separate execution blocks
       if previousType in separators and child.type in separators:
@@ -146,7 +192,7 @@ def compile(node, level=0, enableNewLines=False):
         if child.type == "params":
           functionDeclHasParams = True
 
-        elif child.type == "body":
+        elif child.type == "body" and not functionDeclHasParams:
           # has no params before body, fix it here, and add body afterwards
           compString += "()"
           functionDeclHasParams = True
@@ -193,6 +239,8 @@ def compile(node, level=0, enableNewLines=False):
 
         if op == "IN":
           compString += " in "
+        elif op == "INSTANCEOF":
+          compString += " instanceof "
         elif op == None:
           print "BAD OPERATOR [B]: %s" % op
         else:
@@ -225,6 +273,13 @@ def compile(node, level=0, enableNewLines=False):
           if enableNewLines:
             compString += "\n"
 
+        elif node.type == "statementList":
+          compString += ","
+
+          if enableNewLines:
+            compString += "\n"
+
+
 
 
 
@@ -249,11 +304,22 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "params":
     compString += ")"
 
-  elif node.type == "expression" and node.parent.type == "loop":
-    compString += ")"
+  elif node.type == "expression":
+    if node.parent.type == "loop":
+      compString += ")"
+    elif node.parent.type == "catch":
+      compString += ")"
+    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+      compString += ")"
 
   elif node.type == "group":
     compString += ")"
+
+  elif node.type == "case":
+    compString += ":"
+
+  elif node.type == "catch":
+    compString += ":"
 
   elif node.type == "call":
     if not callHasParams:
