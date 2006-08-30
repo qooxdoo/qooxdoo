@@ -179,13 +179,15 @@ def handleClassDefinition(docTree, item):
     # Check for methods defined in the constructor
     # (for method definition style that supports real private methods)
     ctorBlock = ctorItem.getChild("body").getChild("block")
-    for item in ctorBlock.children:
-      if item.type == "assignment":
-        leftItem = item.getFirstListChild("left")
-        rightItem = item.getFirstListChild("right")
-        if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
-          # It's a method definition
-          handleMethodDefinition(item, False, classNode)
+
+    if ctorBlock.hasChildren():
+      for item in ctorBlock.children:
+        if item.type == "assignment":
+          leftItem = item.getFirstListChild("left")
+          rightItem = item.getFirstListChild("right")
+          if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
+            # It's a method definition
+            handleMethodDefinition(item, False, classNode)
 
   elif ctorItem and ctorItem.type == "map":
     for keyvalueItem in ctorItem.children:
