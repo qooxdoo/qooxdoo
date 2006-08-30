@@ -42,16 +42,74 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "params":
     compString += "("
 
-  elif node.type == "expression":
-    if node.parent.type == "loop":
-      compString += "("
-    elif node.parent.type == "catch":
-      compString += "("
-    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      compString += "("
-
   elif node.type == "group":
     compString += "("
+
+
+
+
+
+  elif node.type == "case":
+    compString += "case "
+
+  elif node.type == "catch":
+    compString += "catch"
+
+  elif node.type == "finally":
+    compString += "finally"
+
+  elif node.type == "delete":
+    compString += "delete "
+
+  elif node.type == "break":
+    compString += "break"
+
+  elif node.type == "continue":
+    compString += "continue"
+
+  elif node.type == "elseStatement":
+    compString += "else"
+
+  elif node.type == "switch" and node.get("switchType") == "case":
+    compString += "switch"
+
+  elif node.type == "switch" and node.get("switchType") == "catch":
+    compString += "try"
+
+  elif node.type == "throw":
+    compString += "throw "
+
+  elif node.type == "instantiation":
+    compString += "new "
+
+  elif node.type == "return":
+    compString += "return "
+
+  elif node.type == "definitionGroup":
+    compString += "var "
+
+  elif node.type == "default":
+    compString += "default:"
+
+  elif node.type == "try":
+    compString += "try:"
+
+
+
+
+  elif node.type == "keyvalue":
+    compString += node.get("key") + ":"
+
+  elif node.type == "expression":
+    if node.parent.type == "loop":
+      # open expression block of IF/WHILE/DO-WHILE/FOR statements
+      compString += "("
+    elif node.parent.type == "catch":
+      # open expression block of CATCH statement
+      compString += "("
+    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+      # open expression block of SWITCH statement
+      compString += "("
 
   elif node.type == "loop":
     loopType = node.get("loopType")
@@ -73,9 +131,6 @@ def compile(node, level=0, enableNewLines=False):
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
 
-  elif node.type == "elseStatement":
-    compString += "else"
-
   elif node.type == "function":
     functionDeclHasParams = False
     compString += "function"
@@ -93,7 +148,10 @@ def compile(node, level=0, enableNewLines=False):
     callHasParams = False
 
   elif node.type == "definition":
-    compString += "var %s" % node.get("identifier")
+    if node.parent.type != "definitionGroup":
+      compString += "var "
+
+    compString += node.get("identifier")
 
   elif node.type == "constant":
     if node.get("constantType") == "string":
@@ -112,48 +170,6 @@ def compile(node, level=0, enableNewLines=False):
     else:
       compString += node.get("value")
 
-  elif node.type == "keyvalue":
-    compString += node.get("key") + ":"
-
-  elif node.type == "return":
-    compString += "return "
-
-  elif node.type == "switch":
-    if node.get("switchType") == "case":
-      compString += "switch"
-    elif node.get("switchType") == "catch":
-      compString += "try"
-
-  elif node.type == "case":
-    compString += "case "
-
-  elif node.type == "default":
-    compString += "default:"
-
-  elif node.type == "try":
-    compString += "try:"
-
-  elif node.type == "catch":
-    compString += "catch"
-
-  elif node.type == "finally":
-    compString += "finally"
-
-  elif node.type == "throw":
-    compString += "throw "
-
-  elif node.type == "delete":
-    compString += "delete "
-
-  elif node.type == "break":
-    compString += "break"
-
-  elif node.type == "continue":
-    compString += "continue"
-
-  elif node.type == "instantiation":
-    compString += "new "
-
   elif node.type == "third":
     if node.parent.type == "operation":
       if node.parent.get("operator") == "HOOK":
@@ -164,28 +180,44 @@ def compile(node, level=0, enableNewLines=False):
 
 
 
+
+
+
+
+
+
   ##################################################################
   # Children content
   ##################################################################
 
   if node.hasChildren():
     childPosition = 1
-    childrenNumber = len(node.children)
+    childrenNumber = 0
+
+    # We need to ignore comment blocks
+    # childrenNumber = len(node.children)
+
+    for child in node.children:
+      if not (child.type == "commentsBefore" or child.type == "comments"):
+        childrenNumber += 1
+
     previousType = None
-    separators = [ "assignment", "call", "definition", "return", "loop", "switch", "break", "continue" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case" ]
+    not_after = [ "case", "default" ]
 
 
     for child in node.children:
       if child.type == "commentsBefore" or child.type == "comments":
         continue
 
-
       # Separate execution blocks
-      if previousType in separators and child.type in separators:
-        compString += ";"
+      if node.type != "definitionGroup":
+        if previousType in separators and child.type in separators:
+          if not previousType in not_after:
+            compString += ";"
 
-        if enableNewLines:
-          compString += "\n"
+            if enableNewLines:
+              compString += "\n"
 
 
 
@@ -279,6 +311,12 @@ def compile(node, level=0, enableNewLines=False):
           if enableNewLines:
             compString += "\n"
 
+        elif node.type == "definitionGroup":
+          compString += ","
+
+          if enableNewLines:
+            compString += "\n"
+
         elif node.type == "params":
           compString += ","
 
@@ -319,13 +357,8 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "params":
     compString += ")"
 
-  elif node.type == "expression":
-    if node.parent.type == "loop":
-      compString += ")"
-    elif node.parent.type == "catch":
-      compString += ")"
-    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      compString += ")"
+  elif node.type == "switch" and node.get("switchType") == "case":
+    compString += "}"
 
   elif node.type == "group":
     compString += ")"
@@ -333,16 +366,20 @@ def compile(node, level=0, enableNewLines=False):
   elif node.type == "case":
     compString += ":"
 
-  elif node.type == "catch":
-    compString += ":"
+  elif node.type == "call" and not callHasParams:
+    compString += "()"
 
-  elif node.type == "call":
-    if not callHasParams:
-      compString += "()"
+  elif node.type == "function" and not functionDeclHasParams:
+    compString += "()"
 
-  elif node.type == "function":
-    if not functionDeclHasParams:
-      compString += "()"
+  elif node.type == "expression":
+    if node.parent.type == "loop":
+      compString += ")"
+    elif node.parent.type == "catch":
+      compString += ")"
+    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+      compString += "){"
+
 
 
 
