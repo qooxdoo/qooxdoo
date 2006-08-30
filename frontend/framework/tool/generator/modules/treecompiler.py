@@ -102,6 +102,11 @@ def compile(node, level=0, enableNewLines=False):
 
   elif node.type == "expression":
     if node.parent.type == "loop":
+      loopType = node.parent.get("loopType")
+
+      if loopType == "DO":
+        compString += "while"
+
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
       compString += "("
     elif node.parent.type == "catch":
@@ -202,8 +207,9 @@ def compile(node, level=0, enableNewLines=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete" ]
     not_after = [ "case", "default" ]
+    not_in = [ "definitionGroup" ]
 
 
     for child in node.children:
@@ -211,7 +217,7 @@ def compile(node, level=0, enableNewLines=False):
         continue
 
       # Separate execution blocks
-      if node.type != "definitionGroup":
+      if not node.type in not_in:
         if previousType in separators and child.type in separators:
           if not previousType in not_after:
             compString += ";"
