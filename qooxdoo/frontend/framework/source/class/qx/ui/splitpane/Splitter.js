@@ -24,12 +24,19 @@
 qx.OO.defineClass("qx.ui.splitpane.Splitter", qx.ui.layout.CanvasLayout,
 function(vOrientation) {
   
+  qx.ui.layout.CanvasLayout.call(this);
+
+  // set defaults
+  this.setWidth(this.getSize());
+  this.setCursor('col-resize');
+
   // apply orientation
   if (qx.util.Validation.isValidString(vOrientation)) {
     this.setOrientation(vOrientation);
   }
   
-  qx.ui.layout.CanvasLayout.call(this);
+  this.setBackgroundColor(new qx.renderer.color.Color('red'));
+  
 });
 
 
@@ -56,7 +63,7 @@ qx.OO.addProperty({ name : "size", type : qx.constant.Type.NUMBER, allowNull : f
 /*!
   The orientation of the splitter control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
  */
-qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ], defaultValue : qx.constant.Layout.ORIENTATION_HORIZONTAL });
 
 
 
@@ -111,17 +118,21 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
   this._layoutVertical = propValue == qx.constant.Layout.ORIENTATION_VERTICAL;
   
   // set cursor
-  /*
   switch(propValue) {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this.setCursor('w-resize');
+      this.debug('horizontal');
+      this.setWidth(this.getSize());
+      this.setHeight(null);
+      this.setCursor('col-resize');
       break;
       
     case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this.setCursor("n-resize");
+      this.debug('vertical');
+      this.setWidth(null);
+      this.setHeight(this.getSize());
+      this.setCursor("row-resize");
       break;
   }
-   */
   
   return true;
 }
