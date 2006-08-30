@@ -62,22 +62,35 @@ function(vPreviousRed, vPreviousGreen, vPreviousBlue)
   //   INIT COLORS
   // ********************************************
 
-  if (vPreviousRed) {
+  if (arguments.length == 3) {
     this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
   }
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "colorselector" });
 
-qx.OO.addProperty({ name : "red", type : qx.constant.Type.NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "green", type : qx.constant.Type.NUMBER, defaultValue : 0 });
-qx.OO.addProperty({ name : "blue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "red", type : qx.constant.Type.NUMBER, defaultValue : 255 });
+qx.OO.addProperty({ name : "green", type : qx.constant.Type.NUMBER, defaultValue : 255 });
+qx.OO.addProperty({ name : "blue", type : qx.constant.Type.NUMBER, defaultValue : 255 });
 
 qx.OO.addProperty({ name : "hue", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 qx.OO.addProperty({ name : "saturation", type : qx.constant.Type.NUMBER, defaultValue : 0 });
 qx.OO.addProperty({ name : "brightness", type : qx.constant.Type.NUMBER, defaultValue : 100 });
 
+/*
+---------------------------------------------------------------------------
+  LOCALIZATION SUPPORT
+---------------------------------------------------------------------------
+*/
 
+qx.Settings.setDefault("labelOK", "OK");
+qx.Settings.setDefault("labelCancel", "Cancel");
+qx.Settings.setDefault("labelPresets", "Presets");
+qx.Settings.setDefault("labelDetails", "Details");
+qx.Settings.setDefault("labelPreview", "Preview (Old/New)");
+qx.Settings.setDefault("labelRGB", "RGB");
+qx.Settings.setDefault("labelHSV", "HSV");
+qx.Settings.setDefault("labelHex", "Hex");
 
 
 
@@ -138,8 +151,8 @@ qx.Proto._createButtonBar = function()
   this._btnbar.setPadding(2, 4);
   this.add(this._btnbar);
 
-  this._btncancel = new qx.ui.form.Button("Cancel", "icon/16/button-cancel.png");
-  this._btnok = new qx.ui.form.Button("OK", "icon/16/button-ok.png");
+  this._btncancel = new qx.ui.form.Button(this.getSetting("labelCancel"), "icon/16/button-cancel.png");
+  this._btnok = new qx.ui.form.Button(this.getSetting("labelOK"), "icon/16/button-ok.png");
 
   this._btncancel.addEventListener(qx.constant.Event.EXECUTE, this._onButtonCancelExecute, this);
   this._btnok.addEventListener(qx.constant.Event.EXECUTE, this._onButtonOkExecute, this);
@@ -275,7 +288,7 @@ qx.Proto._createPresetFieldSet = function()
 
 qx.Proto._createInputFieldSet = function()
 {
-  this._inputFieldSet = new qx.ui.groupbox.GroupBox("Details");
+  this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelDetails"));
   this._inputFieldSet.setHeight(qx.constant.Core.AUTO);
   this._inputFieldSet.setParent(this._controlPane);
 
@@ -287,7 +300,7 @@ qx.Proto._createInputFieldSet = function()
 
 qx.Proto._createPreviewFieldSet = function()
 {
-  this._previewFieldSet = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
+  this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelPreview"));
   this._previewFieldSet.setHeight(qx.constant.Core.FLEX);
   this._previewFieldSet.setParent(this._controlPane);
 
@@ -320,7 +333,7 @@ qx.Proto._createHexField = function()
   this._hexLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._hexLayout.setParent(this._inputLayout);
 
-  this._hexLabel = new qx.ui.basic.Label("Hex");
+  this._hexLabel = new qx.ui.basic.Label(this.getSetting("labelHex"));
   this._hexLabel.setWidth(25);
   this._hexLabel.setParent(this._hexLayout);
 
@@ -343,7 +356,7 @@ qx.Proto._createRgbSpinner = function()
   this._rgbSpinLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._rgbSpinLayout.setParent(this._inputLayout);
 
-  this._rgbSpinLabel = new qx.ui.basic.Label("RGB");
+  this._rgbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelRGB"));
   this._rgbSpinLabel.setWidth(25);
   this._rgbSpinLabel.setParent(this._rgbSpinLayout);
 
@@ -371,7 +384,7 @@ qx.Proto._createHsbSpinner = function()
   this._hsbSpinLayout.setVerticalChildrenAlign(qx.constant.Layout.ALIGN_MIDDLE);
   this._hsbSpinLayout.setParent(this._inputLayout);
 
-  this._hsbSpinLabel = new qx.ui.basic.Label("HSB");
+  this._hsbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelHSB"));
   this._hsbSpinLabel.setWidth(25);
   this._hsbSpinLayout.add(this._hsbSpinLabel);
 
