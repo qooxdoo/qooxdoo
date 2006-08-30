@@ -16,6 +16,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import net.sf.qooxdoo.rpc.RemoteServiceException;
+
 
 /**
  * A class for assisting with remote calls in JSON syntax.
@@ -250,6 +252,23 @@ public class RemoteCallUtils {
     
     
     /**
+     * Check if a method throws the expected exception (used as a tag to
+     * allow a method to be called).
+     */
+
+    protected static boolean throwsExpectedException(Method method) {
+        Class[] methodExceptionTypes = method.getExceptionTypes();
+        int exceptionCount = methodExceptionTypes.length;
+        for (int i = 0; i < exceptionCount; ++i) {
+            if (RemoteServiceException.class.isAssignableFrom(methodExceptionTypes[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * Invokes a method compatible to the specified parameters.
      *
      * @param       instance            the object on which to invoke the
@@ -299,6 +318,9 @@ public class RemoteCallUtils {
             for (i = 0; i < methodCount; ++i) {
                 candidate = methods[i];
                 if (!candidate.getName().equals(methodName)) {
+                    continue;
+                }
+                if (!throwsExpectedException(candidate)) {
                     continue;
                 }
                 methodParameterTypes = candidate.getParameterTypes();
