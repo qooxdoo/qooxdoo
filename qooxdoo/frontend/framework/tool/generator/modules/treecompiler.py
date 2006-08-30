@@ -33,6 +33,9 @@ def compile(node, level=0, enableNewLines=False):
   if node.type == "map":
     compString += "{"
 
+  elif node.type == "array":
+    compString += "["
+
   elif node.type == "block":
     compString += "{"
 
@@ -143,10 +146,13 @@ def compile(node, level=0, enableNewLines=False):
     compString += "delete "
 
   elif node.type == "break":
-    compString += "break "
+    compString += "break"
 
   elif node.type == "continue":
-    compString += "continue "
+    compString += "continue"
+
+  elif node.type == "instantiation":
+    compString += "new "
 
   elif node.type == "third":
     if node.parent.type == "operation":
@@ -267,6 +273,12 @@ def compile(node, level=0, enableNewLines=False):
           if enableNewLines:
             compString += "\n"
 
+        elif node.type == "array":
+          compString += ","
+
+          if enableNewLines:
+            compString += "\n"
+
         elif node.type == "params":
           compString += ","
 
@@ -297,6 +309,9 @@ def compile(node, level=0, enableNewLines=False):
 
   if node.type == "map":
     compString += "}"
+
+  elif node.type == "array":
+    compString += "]"
 
   elif node.type == "block":
     compString += "}"
