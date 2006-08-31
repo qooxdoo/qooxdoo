@@ -348,7 +348,7 @@ qx.Proto._onmouseup = function(e)
 
       // no break here
 
-    case this._button:
+    default:
       this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
       break;
   }
