@@ -24,7 +24,7 @@ S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
 S_OPERATORS_4 = r"(\>\>\>=)"
 S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
-S_REGEXP = "(\/[^\t\n\r\f\v]+?\/g?i?)"
+S_REGEXP = "(\/[^\t\n\r\f\v]+?\/[mgi]*)"
 S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
 S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ","
 S_REGEXP_C = "\s*=\s*" + S_REGEXP
