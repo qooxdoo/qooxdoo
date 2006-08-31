@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test for Splitpane functionality.</p>
+    <p>
+      Splitpane with realtime resize method. This means, the
+      new dimensions of panes will be computed and set on the fly.
+      <strong>Warning:</strong> Don't try on slow computers. You will be warned ;-)
+    </p>
+  </div>
+
+  <script type="text/javascript">
+
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+    
+    
+    // left Component
+    var leftComponent = new qx.ui.basic.Terminator;
+    leftComponent.setBackgroundColor(new qx.renderer.color.Color("yellow"));
+    
+    // rightComponent
+    var rightComponent = new qx.ui.basic.Terminator;
+    rightComponent.setBackgroundColor(new qx.renderer.color.Color("green"));
+    
+    // the splitpane itself
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(false, leftComponent, rightComponent);
+    splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+    splitpane.setLocation(20, 48);
+    splitpane.setDimension(700, 500);
+
+    d.add(splitpane);
+
+  });
+  </script>
+</body>
+</html>
