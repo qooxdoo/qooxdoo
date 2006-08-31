@@ -101,7 +101,13 @@ def compile(node, level=0, enableNewLines=False):
 
 
   elif node.type == "keyvalue":
-    compString += node.get("key") + ":"
+    keyString = node.get("key")
+
+    if "-" in keyString or keyString in config.JSPROTECTED:
+      # print "PROTECT: %s" % keyString
+      keyString = "\"" + keyString + "\""
+
+    compString += keyString + ":"
 
   elif node.type == "expression":
     if node.parent.type == "loop":
@@ -223,15 +229,7 @@ def compile(node, level=0, enableNewLines=False):
       if child.type == "commentsBefore" or child.type == "comments":
         continue
 
-      # Separate execution blocks
-      if not node.type in not_in:
-        if previousType in separators and child.type in separators:
-          if not previousType in not_after:
-            if not (previousType == "accessor" and child.type == "accessor"):
-              compString += ";"
 
-              if enableNewLines:
-                compString += "\n"
 
 
 
@@ -269,7 +267,7 @@ def compile(node, level=0, enableNewLines=False):
           if enableNewLines:
             compString += "\n"
 
-      if node.type == "operation" and node.get("left", False) == "true":
+      elif node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
 
         if op == "TYPEOF":
@@ -278,6 +276,19 @@ def compile(node, level=0, enableNewLines=False):
           print "BAD OPERATOR [A]: %s" % op
         else:
           compString += getTokenSource(op)
+
+
+      # Separate execution blocks
+      elif not node.type in not_in:
+        if previousType in separators and child.type in separators:
+          if not previousType in not_after:
+            if not (previousType == "accessor" and child.type == "accessor"):
+              if not child.parent.type == "array":
+                compString += ";"
+                #compString += ";EXEC[%s];" % child.type
+
+                if enableNewLines:
+                  compString += "\n"
 
 
 
