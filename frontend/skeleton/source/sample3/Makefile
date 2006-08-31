@@ -6,6 +6,7 @@ QOOXDOO = PATH_TO_QOOXDOO
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application3
 INCLUDEALL = false
+OLDCOMPILER = false
 NICE=10
 
 
@@ -25,6 +26,11 @@ else
   INCLUDE =
 endif
 
+ifeq ($(OLDCOMPILER),false)
+  COMPILER =
+else
+  COMPILER = --use-token-compiler
+endif
 
 
 
@@ -101,7 +107,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
-	  $(INCLUDE) \
+	  $(INCLUDE) $(COMPILER)\
 	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --define-runtime-setting qx.core.Init.component:qx.component.init.BasicInitComponent \
 	  --cache-directory $(CACHE)

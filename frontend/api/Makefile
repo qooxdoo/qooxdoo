@@ -1,11 +1,24 @@
 ###################################################################################
-# VARIABLES
+# PUBLIC VARIABLES
 ###################################################################################
 
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=../.cache
+OLDCOMPILER = false
 NICE=10
+
+
+###################################################################################
+# PRIVATE VARIABLES
+###################################################################################
+
+ifeq ($(OLDCOMPILER),false)
+  COMPILER =
+else
+  COMPILER = --use-token-compiler
+endif
+
 
 
 ###################################################################################
@@ -88,6 +101,7 @@ generate-script-build:
 	  --include api \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/api.js \
+	  $(COMPILER) \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
 	  --cache-directory $(CACHE)
