@@ -21,10 +21,10 @@
  
  ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.splitpane.Splitter", qx.ui.layout.CanvasLayout,
+qx.OO.defineClass("qx.ui.splitpane.Separator", qx.ui.basic.Terminator,
 function(vOrientation) {
   
-  qx.ui.layout.CanvasLayout.call(this);
+  qx.ui.basic.Terminator.call(this);
 
   // set defaults
   this.setWidth(this.getSize());
@@ -155,5 +155,5 @@ qx.Proto.dispose = function() {
     return true;
   }
   
-  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+  return qx.ui.basic.Terminator.prototype.dispose.call(this);
 }
