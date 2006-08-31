@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, compile, tree
+import sys, tree
 
 
 SINGLE_LEFT_OPERATORS = [ "NOT", "BITNOT", "SUB", "INC", "DEC" ]
