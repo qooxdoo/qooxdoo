@@ -749,12 +749,12 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "  * Compiling tree..."
       else:
-        print "  * Compiling tree...",
+        print "  * Compiling tree: ",
     else:
       if options.verbose:
         print "  * Compiling tokens..."
       else:
-        print "  * Compiling tokens...",
+        print "  * Compiling tokens: ",
 
     if options.compiledScriptFile == None:
       print "    * You must define the compiled script file!"
