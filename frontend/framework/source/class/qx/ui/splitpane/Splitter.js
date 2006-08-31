@@ -35,8 +35,6 @@ function(vOrientation) {
     this.setOrientation(vOrientation);
   }
   
-  this.setBackgroundColor(new qx.renderer.color.Color('red'));
-  
 });
 
 
@@ -54,14 +52,14 @@ function(vOrientation) {
 ---------------------------------------------------------------------------
  */
 
-/*!
-  The size of the splitter control in px
+/**
+ * The size of the splitter control in px
  */
 qx.OO.addProperty({ name : "size", type : qx.constant.Type.NUMBER, allowNull : false, defaultValue : 2});
 
 
-/*!
-  The orientation of the splitter control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
+/**
+ * The orientation of the splitter control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
  */
 qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ], defaultValue : qx.constant.Layout.ORIENTATION_HORIZONTAL });
 
@@ -84,15 +82,19 @@ qx.Proto._layoutHorizontal = false;
 qx.Proto._layoutVertical = false;
 
 
-/*!
- is true, if it is a horizontal splitter
+/**
+ * Is true, if it is a horizontal splitter.
+ *
+ * @return {boolean}
  */
 qx.Proto.isHorizontal = function() {
   return this._layoutHorizontal;
 }
 
-/*!
- is true, if it is a vertical splitter
+/**
+ * Is true, if it is a vertical splitter.
+ *
+ * @return {boolean}
  */
 qx.Proto.isVertical = function() {
   return this._layoutVertical;
@@ -120,14 +122,12 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
   // set cursor
   switch(propValue) {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this.debug('horizontal');
       this.setWidth(this.getSize());
       this.setHeight(null);
       this.setCursor('col-resize');
       break;
       
     case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this.debug('vertical');
       this.setWidth(null);
       this.setHeight(this.getSize());
       this.setCursor("row-resize");

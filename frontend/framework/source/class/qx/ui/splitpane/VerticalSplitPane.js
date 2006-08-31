@@ -22,6 +22,6 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.splitpane.VerticalSplitPane", qx.ui.splitpane.SplitPane,
-function() {
-  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_VERTICAL);
+function(continuousLayout, leftComponent, rightComponent) {
+  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_VERTICAL, continuousLayout, leftComponent, rightComponent);
 });
