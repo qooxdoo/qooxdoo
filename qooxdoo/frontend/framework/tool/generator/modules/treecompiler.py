@@ -136,6 +136,9 @@ def compile(node, level=0, enableNewLines=False):
     elif loopType == "DO":
       compString += "do"
 
+    elif loopType == "WITH":
+      compString += "with"
+
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
 
@@ -210,9 +213,10 @@ def compile(node, level=0, enableNewLines=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor" ]
     not_after = [ "case", "default" ]
     not_in = [ "definitionGroup" ]
+
 
 
     for child in node.children:
@@ -223,10 +227,11 @@ def compile(node, level=0, enableNewLines=False):
       if not node.type in not_in:
         if previousType in separators and child.type in separators:
           if not previousType in not_after:
-            compString += ";"
+            if not (previousType == "accessor" and child.type == "accessor"):
+              compString += ";"
 
-            if enableNewLines:
-              compString += "\n"
+              if enableNewLines:
+                compString += "\n"
 
 
 
