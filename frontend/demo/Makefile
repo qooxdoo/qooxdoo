@@ -74,6 +74,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
+	  --use-tree-compiler --add-new-lines --add-file-ids \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource \
