@@ -22,15 +22,15 @@ DIRIGNORE = [ ".svn", "CVS" ]
 #
 
 QXHEAD = {
-  "defineClass" : re.compile('qx.OO.defineClass\(["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
-  "id" : re.compile("#id\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "module" : re.compile("#module\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "require" : re.compile("#require\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "use" : re.compile("#use\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "after" : re.compile("#after\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "load" : re.compile("#load\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "optional" : re.compile("#optional\(([\.a-zA-Z0-9_-]+?)\)", re.M),
-  "resource" : re.compile("#resource\((.*?)\)", re.M)
+  "defineClass" : re.compile('qx.OO.defineClass\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
+  "id" : re.compile("#id\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "module" : re.compile("#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "require" : re.compile("#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "use" : re.compile("#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "after" : re.compile("#after\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "load" : re.compile("#load\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "optional" : re.compile("#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "resource" : re.compile("#resource\(\s*(.*?)\s*\)", re.M)
 }
 
 
