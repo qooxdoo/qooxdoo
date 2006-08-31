@@ -65,6 +65,7 @@ def getparser():
   # General options
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
+  parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
 
   # Options for source and compiled version
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
@@ -73,7 +74,7 @@ def getparser():
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress strings. (ALPHA)")
-  parser.add_option("--use-tree-compiler", action="store_true", dest="useTreeCompiler", default=False, help="Use tree compiler. (ALPHA)")
+  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler. (ALPHA)")
 
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
@@ -745,20 +746,20 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     compiledOutput = settingsStr + "".join(additionalOutput)
 
-    if options.useTreeCompiler:
-      if options.verbose:
-        print "  * Compiling tree..."
-      else:
-        print "  * Compiling tree: ",
-    else:
+    if options.compiledScriptFile == None:
+      print "    * You must define the compiled script file!"
+      sys.exit(1)
+
+    if options.useTokenCompiler:
       if options.verbose:
         print "  * Compiling tokens..."
       else:
         print "  * Compiling tokens: ",
-
-    if options.compiledScriptFile == None:
-      print "    * You must define the compiled script file!"
-      sys.exit(1)
+    else:
+      if options.verbose:
+        print "  * Compiling tree..."
+      else:
+        print "  * Compiling tree: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -767,10 +768,10 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      if options.useTreeCompiler:
-        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], 0, options.addNewLines)
+      if options.useTokenCompiler:
+        compiledFileContent = tokencompiler.compile(fileDb[fileId]["tokens"], options.addNewLines, options.enableDebug)
       else:
-        compiledFileContent = tokencompiler.compile(fileDb[fileId]["tokens"], options.addNewLines)
+        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], options.addNewLines, options.enableDebug)
 
       if options.addFileIds:
         compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"

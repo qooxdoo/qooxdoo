@@ -6,6 +6,7 @@ QOOXDOO = PATH_TO_QOOXDOO
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application1
 INCLUDEALL = false
+OLDCOMPILER = false
 NICE=10
 
 
@@ -25,6 +26,11 @@ else
   INCLUDE =
 endif
 
+ifeq ($(OLDCOMPILER),false)
+  COMPILER =
+else
+  COMPILER = --use-token-compiler
+endif
 
 
 
@@ -91,7 +97,7 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --generate-source-script \
-	  $(INCLUDE) \
+	  $(INCLUDE) $(COMPILER) \
 	  --source-script-file source/script/custom.js \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
