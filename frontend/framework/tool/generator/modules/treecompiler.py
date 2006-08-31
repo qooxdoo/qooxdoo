@@ -83,7 +83,10 @@ def compile(node, level=0, enableNewLines=False):
     compString += "new "
 
   elif node.type == "return":
-    compString += "return "
+    compString += "return"
+
+    if node.hasChildren():
+      compString += " "
 
   elif node.type == "definitionGroup":
     compString += "var "
