@@ -303,7 +303,7 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
     for fileName in files:
       if os.path.splitext(fileName)[1] == config.JSEXT:
         filePath = os.path.join(root, fileName)
-        filePathId = os.path.join(root.replace(scriptInput + os.sep, ""), fileName.replace(config.JSEXT, "")).replace(os.sep, ".")
+        filePathId = filePath.replace(scriptInput + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
         indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
 
