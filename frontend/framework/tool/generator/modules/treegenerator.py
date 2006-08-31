@@ -262,7 +262,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
     item = readInstantiation(stream)
     item = readObjectOperation(stream, item)
   elif not expressionMode and stream.currIsType("protected", "VAR"):
-    item = createItemNode("definitionGroup", stream)
+    item = createItemNode("definitionList", stream)
     stream.next()
     finished = False
     while not finished:
