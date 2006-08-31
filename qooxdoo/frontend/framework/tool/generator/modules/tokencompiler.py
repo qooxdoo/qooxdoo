@@ -3,7 +3,7 @@
 import sys, string, re, os, random, optparse
 import config, tokenizer, filetool
 
-def compile(tokens, enableNewLines=False):
+def compile(tokens, enableNewLines=False, enableDebug=False):
   compString = ""
   lastSource = ""
   lastNeedsSpace = False

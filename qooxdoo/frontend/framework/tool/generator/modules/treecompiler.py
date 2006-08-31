@@ -22,9 +22,17 @@ def getTokenSource(id):
 
 
 
+def compile(node, enableNewLines=False, enableDebug=False):
+  return compileNode(node, level=0, enableNewLines=False, enableDebug=False)
 
-def compile(node, level=0, enableNewLines=False):
-  # indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
+
+
+
+def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
+
+  if enableDebug:
+    indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
+
   compString = ""
 
 
@@ -304,7 +312,10 @@ def compile(node, level=0, enableNewLines=False):
       elif not node.type in not_in:
         if previousType in separators and child.type in separators:
           if not previousType in not_after:
-            compString += ";/*[Parent:%s|Previous:%s|Child:%s]*/" % (node.type, previousType, child.type)
+            if enableDebug:
+              compString += ";/*[Parent:%s|Previous:%s|Child:%s]*/" % (node.type, previousType, child.type)
+            else:
+              compString += ";"
 
             if enableNewLines:
               compString += "\n"
@@ -312,7 +323,7 @@ def compile(node, level=0, enableNewLines=False):
 
 
       # Add child
-      compString += compile(child, level+1, enableNewLines)
+      compString += compileNode(child, level+1, enableNewLines, enableDebug)
 
 
 

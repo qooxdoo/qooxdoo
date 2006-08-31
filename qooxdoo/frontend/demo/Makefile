@@ -1,11 +1,24 @@
 ###################################################################################
-# VARIABLES
+# PUBLIC VARIABLES
 ###################################################################################
 
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=../.cache
+OLDCOMPILER = false
 NICE=10
+
+
+###################################################################################
+# PRIVATE VARIABLES
+###################################################################################
+
+ifeq ($(OLDCOMPILER),false)
+  COMPILER =
+else
+  COMPILER = --use-token-compiler
+endif
+
 
 
 ###################################################################################
@@ -74,6 +87,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
+	  $(COMPILER) \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource \
