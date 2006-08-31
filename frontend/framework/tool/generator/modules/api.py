@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, os, re, optparse
-import compile, tree, treegenerator, tokenizer
+import tree, treegenerator, tokenizer
 
 
 # contains 4 groups (1:type, 2:array dimensions, 5:default value)

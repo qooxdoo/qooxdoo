@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, compile, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption, treecompiler
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption, treecompiler
 
 
 
@@ -745,7 +745,16 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     compiledOutput = settingsStr + "".join(additionalOutput)
 
-    print "  * Compiling tokens..."
+    if options.useTreeCompiler:
+      if options.verbose:
+        print "  * Compiling tree..."
+      else:
+        print "  * Compiling tree...",
+    else:
+      if options.verbose:
+        print "  * Compiling tokens..."
+      else:
+        print "  * Compiling tokens...",
 
     if options.compiledScriptFile == None:
       print "    * You must define the compiled script file!"
@@ -754,25 +763,25 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
 
       if options.useTreeCompiler:
-        # Alpha
-        print "    * Using treecompiler for %s" % fileId
-
-        if options.addNewLines:
-          print "    * Add new lines"
-
         compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], 0, options.addNewLines)
       else:
-        compiledFileContent = compile.compile(fileDb[fileId]["tokens"], options.addNewLines)
+        compiledFileContent = tokencompiler.compile(fileDb[fileId]["tokens"], options.addNewLines)
 
       if options.addFileIds:
         compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
       else:
         compiledOutput += compiledFileContent
 
-        if options.useTreeCompiler and not compiledOutput.endswith(";"):
-          compiledOutput += ";"
+      if not compiledOutput.endswith(";"):
+        compiledOutput += ";"
+
+    if not options.verbose:
+      print
 
     print "  * Saving compiled output as %s..." % options.compiledScriptFile
     filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)

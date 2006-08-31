@@ -24,7 +24,7 @@ def getTokenSource(id):
 
 
 def compile(node, level=0, enableNewLines=False):
-  indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
+  # indentPrint(level, "%s (%s)" % (node.type, node.get("line", False)))
   compString = ""
 
 
