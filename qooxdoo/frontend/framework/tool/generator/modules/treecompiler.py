@@ -259,7 +259,12 @@ def compile(node, level=0, enableNewLines=False):
           functionDeclHasParams = True
 
       elif node.type == "definition" and child.type == "assignment":
-        compString += "="
+        oper = child.get("operator", False)
+
+        if oper != None:
+          compString += getTokenSource(oper)
+        else:
+          compString += "="
 
       elif node.type == "accessor" and child.type == "key":
         compString += "["
@@ -324,7 +329,12 @@ def compile(node, level=0, enableNewLines=False):
           compString += getTokenSource(op)
 
       elif node.type == "assignment" and child.type == "left":
-        compString += "="
+        oper = node.get("operator", False)
+
+        if oper != None:
+          compString += getTokenSource(oper)
+        else:
+          compString += "="
 
       elif node.type == "accessor" and child.type == "key":
         compString += "]"
