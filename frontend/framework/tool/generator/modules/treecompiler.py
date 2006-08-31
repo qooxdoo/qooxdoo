@@ -4,6 +4,9 @@ import sys, string, re, os, random, optparse
 import config, tokenizer, filetool
 
 
+KEY = re.compile("^[A-Za-z0-9_]+$")
+
+
 def indentPrint(level, text):
   print "%s%s" % ("  " * level, text)
 
@@ -102,9 +105,17 @@ def compile(node, level=0, enableNewLines=False):
 
   elif node.type == "keyvalue":
     keyString = node.get("key")
+    keyQuote = node.get("quotation", False)
 
-    if "-" in keyString or keyString in config.JSPROTECTED:
-      # print "PROTECT: %s" % keyString
+    if keyQuote != None:
+      # print "USE QUOTATION"
+      if keyQuote == "doublequotes":
+        keyString = '"' + keyString + '"'
+      else:
+        keyString = "'" + keyString + "'"
+
+    elif keyString in config.JSPROTECTED or not KEY.match(keyString):
+      print "ATTENTION: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
     compString += keyString + ":"
@@ -219,9 +230,9 @@ def compile(node, level=0, enableNewLines=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw" ]
     not_after = [ "case", "default" ]
-    not_in = [ "definitionGroup" ]
+    not_in = [ "definitionGroup", "params", "variable", "array" ]
 
 
 
@@ -282,13 +293,10 @@ def compile(node, level=0, enableNewLines=False):
       elif not node.type in not_in:
         if previousType in separators and child.type in separators:
           if not previousType in not_after:
-            if not (previousType == "accessor" and child.type == "accessor"):
-              if not child.parent.type == "array":
-                compString += ";"
-                #compString += ";EXEC[%s];" % child.type
+            compString += ";/*[Parent:%s|Previous:%s|Child:%s]*/" % (node.type, previousType, child.type)
 
-                if enableNewLines:
-                  compString += "\n"
+            if enableNewLines:
+              compString += "\n"
 
 
 
