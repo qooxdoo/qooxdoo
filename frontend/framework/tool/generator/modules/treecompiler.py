@@ -91,7 +91,7 @@ def compile(node, level=0, enableNewLines=False):
     if node.hasChildren():
       compString += " "
 
-  elif node.type == "definitionGroup":
+  elif node.type == "definitionList":
     compString += "var "
 
   elif node.type == "default":
@@ -176,7 +176,7 @@ def compile(node, level=0, enableNewLines=False):
     callHasParams = False
 
   elif node.type == "definition":
-    if node.parent.type != "definitionGroup":
+    if node.parent.type != "definitionList":
       compString += "var "
 
     compString += node.get("identifier")
@@ -230,9 +230,9 @@ def compile(node, level=0, enableNewLines=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionGroup", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionList", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable" ]
     not_after = [ "case", "default" ]
-    not_in = [ "definitionGroup", "params", "variable", "array" ]
+    not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
 
 
 
@@ -350,7 +350,7 @@ def compile(node, level=0, enableNewLines=False):
           if enableNewLines:
             compString += "\n"
 
-        elif node.type == "definitionGroup":
+        elif node.type == "definitionList":
           compString += ","
 
           if enableNewLines:
