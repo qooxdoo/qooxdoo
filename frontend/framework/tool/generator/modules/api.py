@@ -30,6 +30,9 @@ def createDoc(syntaxTree, docTree = None):
 
   try:
     currClassNode = None
+    if not syntaxTree.hasChildren():
+      return docTree
+
     for item in syntaxTree.children:
       if item.type == "assignment":
         leftItem = item.getFirstListChild("left")
