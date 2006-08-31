@@ -273,6 +273,12 @@ def compile(node, level=0, enableNewLines=False):
         elif child.type == "statement":
           compString += ")"
         else:
+          if child.type == "second" and node.getChild("first", False) == None:
+            compString += "("
+
+          if child.type == "third" and node.getChild("first", False) == None and node.getChild("second", False) == None:
+            compString += "("
+
           compString += ";"
 
           if enableNewLines:
