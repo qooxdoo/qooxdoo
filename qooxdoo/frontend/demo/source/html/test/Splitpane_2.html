@@ -27,8 +27,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
     
     // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane;
-    splitpane.setContinuousLayout(true);
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(true, new qx.ui.layout.CanvasLayout(), new qx.ui.layout.CanvasLayout());
     splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
     splitpane.setBackgroundColor(new qx.renderer.color.Color("white"));
     splitpane.setLocation(20, 48);
@@ -63,7 +62,7 @@
     rightPane.setHeight('100%');
     
     // create content of right pane
-    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane(true);
+    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane(true, new qx.ui.layout.CanvasLayout(), new qx.ui.layout.CanvasLayout());
     rightPaneContent.setWidth('100%');
     rightPaneContent.setHeight('100%');
     

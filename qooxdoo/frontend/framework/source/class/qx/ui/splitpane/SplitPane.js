@@ -20,46 +20,12 @@
  ************************************************************************ */
 
 
-/**
- * Creates a new instance of a SplitPane. It allows the user to dynamically resize
- * the areas dropping the border between.
- * <br /><br />
- * new qx.ui.splitpane.SplitPane(orientation)<br />
- * new qx.ui.splitpane.SplitPane(orientation, continuousLayout)<br />
- * new qx.ui.splitpane.SplitPane(orientation, continuousLayout, leftComponent, rightComponent)
- *
- * @param orientation {string} The orientation of the splitpane control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL. This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
- * @param continuousLayout {boolean} If true, the content will updated immediately.
- * @param leftComponent {qx.ui.core.Parent} The layout of the left (top) pane.
- * @param rightComponent {qx.ui.core.Parent} The layout of the right (bottom) pane.
- *
- */
-qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.BoxLayout,
-function(orientation, continuousLayout, leftComponent, rightComponent) {
+qx.OO.defineClass("qx.ui.splitpane.Splitable", qx.ui.layout.BoxLayout,
+function() {
   
-  qx.ui.layout.BoxLayout.call(this, orientation);
-  
-  if(qx.util.Validation.isValidBoolean(continuousLayout)) {
-    this.setContinuousLayout(continuousLayout);
-  }
-  
-  this.setLeftComponent(qx.util.Validation.isValidObject(leftComponent) ? leftComponent : new qx.ui.layout.CanvasLayout);
-  this.setRightComponent(qx.util.Validation.isValidObject(rightComponent) ? rightComponent : new qx.ui.layout.CanvasLayout);
-  
-  var splitter = this._splitter = new qx.ui.splitpane.Splitter(this.getOrientation());
-  
-  splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onsplittermousedown, this);
-  splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
-  splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
-  
-  this.addAtBegin(this.getLeftComponent());
-  this.add(splitter);
-  this.addAtEnd(this.getRightComponent());
+  qx.ui.layout.BoxLayout.call(this);
   
 });
-
-
-
 
 
 
@@ -73,26 +39,6 @@ function(orientation, continuousLayout, leftComponent, rightComponent) {
 ---------------------------------------------------------------------------
  */
 
-/**
- * The layout method for the splitpane. If true, the content will updated immediatly.
- */
-qx.OO.addProperty({ name : 'continuousLayout', type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : 'isContinuousLayout'});
-
-
-/**
- * The layout of the left (top) component.
- */
-qx.OO.addProperty({ name : 'leftComponent', type : qx.constant.Type.OBJECT, allowNull : false, instance : 'qx.ui.core.Parent', getAlias : 'getTopComponent', setAlias : 'setTopComponent' });
-
-/**
- * The layout of the right (bottom) component.
- */
-qx.OO.addProperty({ name : 'rightComponent', type : qx.constant.Type.OBJECT, allowNull : false, instance : 'qx.ui.core.Parent', getAlias : 'getBottomComponent', setAlias : 'setBottomComponent' });
-
-/**
- * If true, the an additional control is shown on top of the splitter. This control gives you the abability to move the splitter completely to one ore another site.
- */
-qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : 'isOneTouchExpandable'});
 
 
 
@@ -109,10 +55,169 @@ qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN
 ---------------------------------------------------------------------------
  */
 
+/**
+ * adds a new widget
+ *
+ * @param widget {qx.ui.core.Widget) The widget to add.
+ */
+qx.Proto.add = function(widget) {
+  if(this.getChildrenLength() >= 1) {
+    qx.ui.layout.BoxLayout.prototype.add.call(this, this._getDefaultSeparator());
+  }
+  qx.ui.layout.BoxLayout.prototype.add.call(this, widget);
+}
+
+/**
+ * adds a new widget at the begin
+ *
+ * @param widget {qx.ui.core.Widget) The widget to add.
+ */
+qx.Proto.addAtBegin = function(widget) {
+  if(this.getChildrenLength() >= 1) {
+    qx.ui.layout.BoxLayout.prototype.addAtBegin.call(this, this._getDefaultSeparator());
+  }
+  qx.ui.layout.BoxLayout.prototype.addAtBegin.call(this, widget);
+}
+
+/**
+ * adds a new widget at the end
+ *
+ * @param widget {qx.ui.core.Widget) The widget to add.
+ */
+qx.Proto.addAtBegin = function(widget) {
+  if(this.getChildrenLength() >= 1) {
+    qx.ui.layout.BoxLayout.prototype.addAtEnd.call(this, this._getDefaultSeparator());
+  }
+  qx.ui.layout.BoxLayout.prototype.addAtEnd.call(this, widget);
+}
+
+/**
+ * adds a new widget at the end
+ *
+ * @param widget {qx.ui.core.Widget) The widget to add.
+ */
+qx.Proto.addAtEnd = function(widget) {
+  if(this.getChildrenLength() >= 1) {
+    qx.ui.layout.BoxLayout.prototype.addAtEnd.call(this, this._getDefaultSeparator());
+  }
+  qx.ui.layout.BoxLayout.prototype.addAtEnd.call(this, widget);
+}
 
 
+/**
+ * adds a widget at a defined position
+ *
+ * @param widget {qx.ui.core.Widget} The widget to add.
+ * @param index {int} The position.
+ */
+qx.Proto.addAt = function(widget, index) {
+  var realPosition = this._getIndexOfWidget(index);
+  if(this.getChildrenLength() >= 1) {
+    qx.ui.layout.BoxLayout.prototype.addAt.call(this, this._getDefaultSeparator(), realPosition);
+  }
+  qx.ui.layout.BoxLayout.prototype.addAt.call(this, widget, realPosition);
+}
 
 
+/**
+ * adds a widget before another one
+ *
+ * @param widget {qx.ui.core.Widget} The widget to add.
+ * @param before {qx.ui.core.Widget} The widget will be added before this one.
+ */
+qx.Proto.addBefore = function(widget, before) {
+  qx.ui.layout.BoxLayout.prototype.addBefore.call(this, widget, before);
+  qx.ui.layout.BoxLayout.prototype.addBefore.call(this, this._getDefaultSeparator(), before);
+}
+
+
+/**
+ * adds a widget after another one
+ *
+ * @param widget {qx.ui.core.Widget} The widget to add.
+ * @param after {qx.ui.core.Widget} The widget will be added after this one.
+ */
+qx.Proto.addAfter = function(widget, after) {
+  qx.ui.layout.BoxLayout.prototype.addBefore.call(this, widget, after);
+  qx.ui.layout.BoxLayout.prototype.addBefore.call(this, this._getDefaultSeparator(), after);
+}
+
+
+/**
+ * removes a widget at a defined position
+ *
+ * @param index {int} The index of the widget to be removed.
+ */
+qx.Proto.removeAt = function(index) {
+  var realPosition = this._getIndexOfWidget(index);
+  qx.ui.layout.BoxLayout.prototype.removeAt(index);
+  (index > 0) ? qx.ui.layout.BoxLayout.prototype.removeAt.call(index - 1) : qx.ui.layout.BoxLayout.prototype.removeAt.call(index + 1);
+}
+
+
+/**
+ * removes one or multiple widgets
+ */
+qx.Proto.remove = function() {
+  if(arguments.length == 0) {
+    return;
+  }
+  qx.ui.layout.BoxLayout.prototype.remove.call(this, arguments);
+  
+  var children = qx.ui.layout.BoxLayout.prototype.getChildren.call(this);
+  var cLength = children.length;
+  
+  var isSep = false;
+  
+  for(var i = cLength; i > 0; i--) {
+    if(children[i] instanceof qx.ui.splitpane.Separator) {
+      if(isSep) qx.ui.layout.BoxLayout.prototype.remove.call(this, children[i]);
+      isSep = true;
+    } else {
+      isSep = false;
+    }
+  }
+}
+
+
+/**
+ * Returns an array of the children (widgets without the separators).
+ *
+ * @return {qx.ui.core.Widget[]} The array of children.
+ */
+qx.Proto.getChildren = function() {
+  
+  var widgets = [];
+  
+  var children = qx.ui.layout.BoxLayout.prototype.getChildren.call(this);
+  
+  for(var i = 0, l = children.length; i < l; i++) {
+    if(!(children[i] instanceof qx.ui.splitpane.Separator)) {
+      widgets.push(children[i]);
+    }
+  }
+  return widgets;
+}
+
+
+/**
+ * Returns length of children array.
+ *
+ * @return {int} Length of array.
+ */
+qx.Proto.getChildrenLength = function() {
+  return this.getChildren().length;
+}
+
+/*
+---------------------------------------------------------------------------
+  HELPER
+---------------------------------------------------------------------------
+ */
+
+qx.Proto._getIndexOfWidget = function(position) {
+  return ((2 * position) - 1);
+}
 
 
 
@@ -120,13 +225,20 @@ qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN
 
 /*
 ---------------------------------------------------------------------------
-  RIVAT METHODS
+  PRIVAT METHODS
 ---------------------------------------------------------------------------
  */
 
+/**
+ * returns the default seperator
+ * it is supposed to be overwritten by subclasses
+ *
+ * @return {qx.ui.splitpane.Separator} The seperator object.
+ */
 
-
-
+qx.Proto._getDefaultSeparator = function() {
+  return new qx.ui.splitpane.Separator();
+}
 
 
 
@@ -139,150 +251,7 @@ qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN
 ---------------------------------------------------------------------------
  */
 
-/**
- * Initializes drag session in case of a mousedown event on the splitter.
- *
- * @param e {qx.event.MouseEvent} The event itself.
- */
-qx.Proto._onsplittermousedown = function(e) {
-  
-  // enable capturing
-  this._splitter.setCapture(true);
-  
-  // measuring and caching of values for drag session
-  
-  var el = this._splitter.getElement();
-  var pl = this.getElement();
-  
-  var l = qx.dom.DomLocation.getPageAreaLeft(pl);
-  var t = qx.dom.DomLocation.getPageAreaTop(pl);
-  var r = qx.dom.DomLocation.getPageAreaRight(pl);
-  var b = qx.dom.DomLocation.getPageAreaBottom(pl);
-  
-  this._dragSession = {
-    offsetX : e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(el) + l,
-    offsetY : e.getPageY() - qx.dom.DomLocation.getPageBoxTop(el) + t,
-    
-    width : r - l,
-    height: b - t,
-    
-    parentAvailableAreaLeft : l + 1,
-    parentAvailableAreaTop : t + 1,
-    parentAvailableAreaRight : r - 1,
-    parentAvailableAreaBottom : b - 1
-  };
-  
-}
 
-
-
-/**
- * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on the splitter.
- *
- * @param e {qx.event.MouseEvent} The event itself.
- */
-qx.Proto._onsplittermouseup = function(e) {
-  
-  var splitter = this._splitter;
-  var s = this._dragSession;
-  
-  if(!s) {
-    return;
-  }
-  
-  this._splitter.setBackgroundColor(null);
-  
-  // disable capturing
-  splitter.setCapture(false);
-  
-  // resize panes
-  if(!this.isContinuousLayout()) {
-    switch(this.getOrientation()) {
-      case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-        var sWidth = s.width - s.lastX;
-        var fWidth = s.width - sWidth;
-        this.getLeftComponent().setWidth(fWidth.toString() + '*');
-        this.getLeftComponent().setHeight(null);
-        this.getRightComponent().setWidth(sWidth.toString() + '*');
-        this.getRightComponent().setHeight(null);
-        break;
-        
-      case qx.constant.Layout.ORIENTATION_VERTICAL :
-        var sHeight = s.height - s.lastY;
-        var fHeight = s.height - sHeight;
-        this.getLeftComponent().setWidth(null);
-        this.getLeftComponent().setHeight(fHeight.toString() + '*');
-        this.getRightComponent().setWidth(null);
-        this.getRightComponent().setHeight(sHeight.toString() + '*');
-        break;
-    }
-  }
-  
-  // cleanup session
-  this._dragSession = null;
-  
-}
-
-
-
-/**
- * Move the splitter in case of a mousemove event on the splitter.
- *
- * @param e {qx.event.MouseEvent} The event itself.
- */
-
-qx.Proto._onsplittermousemove = function(e) {
-  
-  var s = this._dragSession;
-  var o = this._splitter;
-  
-  // pre check for active session and capturing
-  if (!s || !this._splitter.getCapture()) {
-    return;
-  }
-  
-  // pre check if we go out of the available area
-  if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
-    return;
-  }
-  
-  this._splitter.setBackgroundColor(new qx.renderer.color.Color('gray'));
-  
-  // use the fast and direct dom methods to draw the splitter
-  switch(this.getOrientation()) {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
-      break;
-    case qx.constant.Layout.ORIENTATION_VERTICAL :
-      o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
-      break;
-  }
-  
-  // resize the panes
-  if(this.isContinuousLayout()) {
-    switch(this.getOrientation()) {
-      case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-        var sWidth = s.width - s.lastX;
-        var fWidth = s.width - sWidth;
-        this.getLeftComponent().setWidth(fWidth.toString() + '*');
-        this.getLeftComponent().setHeight(null);
-        this.getRightComponent().setWidth(sWidth.toString() + '*');
-        this.getRightComponent().setHeight(null);
-        break;
-        
-      case qx.constant.Layout.ORIENTATION_VERTICAL :
-        var sHeight = s.height - s.lastY;
-        var fHeight = s.height - sHeight;
-        this.getLeftComponent().setWidth(null);
-        this.getLeftComponent().setHeight(fHeight.toString() + '*');
-        this.getRightComponent().setWidth(null);
-        this.getRightComponent().setHeight(sHeight.toString() + '*');
-        break;
-    }
-  }
-  
-  e.preventDefault();
-}
 
 
 
@@ -299,21 +268,3 @@ qx.Proto._onsplittermousemove = function(e) {
 ------------------------------------------------------------------------------------
  */
 
-/**
- * Garbage collection
- */
-qx.Proto.dispose = function() {
-  if (this.getDisposed()) {
-    return true;
-  }
-  
-  if (this._splitter) {
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onsplittermousedown, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
-    this._splitter.dispose();
-    this._splitter = null;
-  }
-  
-  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-}
