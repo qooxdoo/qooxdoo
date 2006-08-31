@@ -10,15 +10,16 @@
 </head>
 <body>
   <script type="text/javascript" src="../../script/layout.js"></script>
-  
+
   <div id="demoDescription">
     <p>Test for Splitpane functionality.</p>
     <p>
-      Splitpane with frame resize method. This means, after you release the mouse, the
-      new dimensions of panes will be computed and set.
+      Splitpane with realtime resize method. This means, the
+      new dimensions of panes will be computed and set on the fly.
+      <strong>Warning:</strong> Don't try on slow computers. You will be warned ;-)
     </p>
   </div>
-  
+
   <script type="text/javascript">
 
   qx.core.Init.getInstance().defineMain(function()
@@ -27,7 +28,7 @@
     
     // the splitpane itself
     var splitpane = new qx.ui.splitpane.HorizontalSplitPane;
-    splitpane.setContinuousLayout(false);
+    splitpane.setContinuousLayout(true);
     splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
     splitpane.setBackgroundColor(new qx.renderer.color.Color("white"));
     splitpane.setLocation(20, 48);
@@ -62,8 +63,7 @@
     rightPane.setHeight('100%');
     
     // create content of right pane
-    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane;
-    rightPaneContent.setContinuousLayout(false);
+    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane(true);
     rightPaneContent.setWidth('100%');
     rightPaneContent.setHeight('100%');
     
