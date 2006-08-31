@@ -1432,7 +1432,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
   {
     setup : function()
     {
-      this.border_hover = new qx.renderer.border.Border,
+      this.border_hover = new qx.renderer.border.Border;
       this.border_hover.setBottom(2, "solid", "#F9B119");
 
       this.bgcolor_hover = new qx.renderer.color.Color("white");
