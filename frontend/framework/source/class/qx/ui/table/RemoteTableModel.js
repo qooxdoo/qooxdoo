@@ -44,6 +44,7 @@ function() {
   this._firstLoadingBlock = -1;
   this._firstRowToLoad = -1;
   this._lastRowToLoad = -1;
+  this._ignoreCurrentRequest = false;
 
   this._rowBlockCache = {};
   this._rowBlockCount = 0;
@@ -106,6 +107,12 @@ qx.Proto._onRowCountLoaded = function(rowCount) {
  */
 qx.Proto.reloadData = function() {
   this.clearCache();
+
+  // If there is currently a request on its way, then this request will bring
+  // obsolete data -> Ignore it
+  if (this._firstLoadingBlock != -1) {
+    this._ignoreCurrentRequest = true;
+  }
 
   // NOTE: This will inform the listeners as soon as the new row count is known
   this._loadRowCount();
@@ -194,7 +201,7 @@ qx.Proto._loadRowData = function(firstRow, lastRow) {
  * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
  */
 qx.Proto._onRowDataLoaded = function(rowDataArr) {
-  if (rowDataArr != null) {
+  if (rowDataArr != null && ! this._ignoreCurrentRequest) {
     var blockSize = this.getBlockSize();
     var blockCount = Math.ceil(rowDataArr.length / blockSize);
     if (blockCount == 1) {
@@ -227,6 +234,7 @@ qx.Proto._onRowDataLoaded = function(rowDataArr) {
 
   // We're not loading any blocks any more
   this._firstLoadingBlock = -1;
+  this._ignoreCurrentRequest = false;
 
   // Check whether we have to start a new request
   if (this._firstRowToLoad != -1) {
