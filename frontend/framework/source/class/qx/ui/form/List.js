@@ -168,13 +168,8 @@ qx.Proto._onkeydown = function(e)
     var items = this.getSelectedItems();
     var currentItem;
 
-    for (var i=0; i<items.length; i++)
-    {
-      currentItem = items[i];
-
-      if (currentItem.hasEventListeners("action")) {
-        currentItem._dispachEvent(new qx.event.type.Event("action"));
-      }
+    for (var i=0; i<items.length; i++) {
+      items[i].createDispatchEvent("action");
     }
   }
   else
