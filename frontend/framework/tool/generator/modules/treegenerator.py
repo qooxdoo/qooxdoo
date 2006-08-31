@@ -519,6 +519,10 @@ def readMap(stream):
 
     keyvalue = createItemNode("keyvalue", stream)
     keyvalue.set("key", stream.currSource())
+
+    if stream.currIsType("string"):
+      keyvalue.set("quotation", stream.currDetail())
+
     stream.next()
     stream.expectCurrType("token", "COLON")
     stream.next()
