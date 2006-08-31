@@ -30,10 +30,14 @@
     // left Component
     var leftComponent = new qx.ui.basic.Terminator;
     leftComponent.setBackgroundColor(new qx.renderer.color.Color("yellow"));
+    leftComponent.setWidth('1*');
+    leftComponent.setHeight('100%');
     
     // rightComponent
     var rightComponent = new qx.ui.basic.Terminator;
     rightComponent.setBackgroundColor(new qx.renderer.color.Color("green"));
+    rightComponent.setWidth('2*');
+    rightComponent.setHeight('100%');
     
     // the splitpane itself
     var splitpane = new qx.ui.splitpane.HorizontalSplitPane(false, leftComponent, rightComponent);
