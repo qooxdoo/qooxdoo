@@ -76,7 +76,7 @@ qx.Proto.setupAppearance = function(vAppearance)
   if (!vAppearance._setupDone)
   {
     if (vAppearance.setup) {
-      vAppearance.setup();
+      vAppearance.setup(this);
     }
 
     vAppearance._setupDone = true;
