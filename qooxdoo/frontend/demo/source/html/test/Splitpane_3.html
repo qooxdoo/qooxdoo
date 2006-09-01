@@ -14,9 +14,7 @@
   <div id="demoDescription">
     <p>Test for Splitpane functionality.</p>
     <p>
-      Splitpane with realtime resize method. This means, the
-      new dimensions of panes will be computed and set on the fly.
-      <strong>Warning:</strong> Don't try on slow computers. You will be warned ;-)
+      Splitpane with iframe.
     </p>
   </div>
 
@@ -28,14 +26,25 @@
     
     
     // left Component
-    var leftComponent = new qx.ui.basic.Terminator;
+    var leftComponent = new qx.ui.form.TextArea;
+    leftComponent.setWrap(true);
     leftComponent.setBackgroundColor(new qx.renderer.color.Color("yellow"));
     leftComponent.setWidth('1*');
     leftComponent.setHeight('100%');
+
+    // right top component
+    var topComponent = new qx.ui.form.TextArea('Das ist ein Test');
+    topComponent.setBackgroundColor(new qx.renderer.color.Color("green"));
+    topComponent.setHeight('1*');
+    topComponent.setWidth('100%');
+    
+    // right bottom component
+    var bottomComponent = new qx.ui.embed.Iframe('http://www.qooxdoo.org');
+    bottomComponent.setHeight('1*');
+    bottomComponent.setWidth('100%');
     
     // rightComponent
-    var rightComponent = new qx.ui.basic.Terminator;
-    rightComponent.setBackgroundColor(new qx.renderer.color.Color("green"));
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(false, topComponent, bottomComponent);
     rightComponent.setWidth('2*');
     rightComponent.setHeight('100%');
     
