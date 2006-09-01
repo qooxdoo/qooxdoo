@@ -52,6 +52,9 @@ function(vOrientation) {
 ---------------------------------------------------------------------------
  */
 
+qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "splitpane-splitter" });
+
+
 /**
  * The size of the splitter control in px
  */
@@ -101,6 +104,20 @@ qx.Proto.isVertical = function() {
 }
 
 
+/**
+ * Updates the width or height of the splitter according the the size property.
+ */
+qx.Proto._updateSize = function() {
+  if (this._layoutHorizontal) {
+    this.setWidth(null);
+    this.setHeight(this.getSize());
+  } else {
+    this.setWidth(this.getSize());
+    this.setHeight(null);
+  }
+};
+
+
 
 
 
@@ -122,18 +139,23 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
   // set cursor
   switch(propValue) {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this.setWidth(this.getSize());
-      this.setHeight(null);
       this.setCursor('col-resize');
       break;
       
     case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this.setWidth(null);
-      this.setHeight(this.getSize());
       this.setCursor("row-resize");
       break;
   }
-  
+
+  this._updateSize();
+
+  return true;
+}
+
+
+qx.Proto._modifySize = function(propValue, propOldValue, propData) {
+  this._updateSize();
+
   return true;
 }
 
