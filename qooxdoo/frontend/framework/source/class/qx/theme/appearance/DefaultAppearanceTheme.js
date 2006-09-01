@@ -2277,6 +2277,35 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith(
         border : vStates.mouseover ? this.mouseOverBorder : this.border
       }
     }
+  },
+
+
+
+
+  /*
+  ---------------------------------------------------------------------------
+    SPLITPANE
+  ---------------------------------------------------------------------------
+  */
+
+  "splitpane-splitter" : {
+    setup : function() {
+      this.background = new qx.renderer.color.ColorObject("black");
+    },
+
+    initial : function(vTheme) {
+      return {
+        size: 5,
+        opacity: 0.3
+      }
+    },
+
+    state : function(vTheme, vStates) {
+      return {
+        zIndex: vStates.dragging ? 1000 : 0,
+        backgroundColor: vStates.dragging ? this.background : null
+      }
+    }
   }
 
 

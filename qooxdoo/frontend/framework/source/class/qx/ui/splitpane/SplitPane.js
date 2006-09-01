@@ -189,9 +189,9 @@ qx.Proto._onsplittermouseup = function(e) {
   if(!s) {
     return;
   }
-  
-  this._splitter.setBackgroundColor(null);
-  
+
+  this._splitter.setState("dragging", false);
+
   // disable capturing
   splitter.setCapture(false);
   
@@ -245,9 +245,9 @@ qx.Proto._onsplittermousemove = function(e) {
   if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
     return;
   }
-  
-  this._splitter.setBackgroundColor(new qx.renderer.color.Color('gray'));
-  
+
+  this._splitter.setState("dragging", true);
+
   // use the fast and direct dom methods to draw the splitter
   switch(this.getOrientation()) {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
