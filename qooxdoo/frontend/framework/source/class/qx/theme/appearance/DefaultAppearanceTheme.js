@@ -321,36 +321,32 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
       }
     },
-    
+
     state : function(vTheme, vStates) {
       var vReturn = {
         backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
         backgroundImage : vStates.checked && !vStates.over ? this.checked_background : null
       }
-      
+
       if (vStates.pressed || vStates.checked || vStates.abandoned) {
         vReturn.border = this.border_pressed;
-      } else if (vStates.over) {
-        vReturn.border = this.border_over;
-      } else {
-        vReturn.border = this.border_default;
-      }
-      
-      if (vStates.pressed || vStates.checked || vStates.abandoned) {
+
         vReturn.paddingTop = 3;
         vReturn.paddingRight = 2;
         vReturn.paddingBottom = 1;
         vReturn.paddingLeft = 4;
-      }
-      else if (vStates.over) {
+      } else if (vStates.over) {
+        vReturn.border = this.border_over;
+
         vReturn.paddingTop = vReturn.paddingBottom = 2;
         vReturn.paddingLeft = vReturn.paddingRight = 3;
-      }
-      else {
+      } else {
+        vReturn.border = this.border_default;
+
         vReturn.paddingTop = vReturn.paddingBottom = 3;
         vReturn.paddingLeft = vReturn.paddingRight = 4;
       }
-      
+
       return vReturn;
     }
   },
