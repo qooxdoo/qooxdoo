@@ -189,7 +189,7 @@ qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN
 
 /*
 ---------------------------------------------------------------------------
-  RIVAT METHODS
+  PRIVAT METHODS
 ---------------------------------------------------------------------------
  */
 
@@ -219,14 +219,18 @@ qx.Proto._onsplittermousedown = function(e) {
     return;
   }
   
+  var glasspane = this._glass;
+  var slider = this._slider;
+  var splitter = this._splitter;
+  
   // activate global cursor
-  this.getTopLevelWidget().setGlobalCursor(this._slider.getCursor());
+  this.getTopLevelWidget().setGlobalCursor(slider.getCursor());
   
   // enable capturing
-  this._splitter.setCapture(true);
+  splitter.setCapture(true);
   
   // measuring and caching of values for drag session
-  var el = this._splitter.getElement();
+  var el = splitter.getElement();
   var pl = this.getElement();
   
   var l = qx.dom.DomLocation.getPageAreaLeft(pl);
@@ -236,9 +240,6 @@ qx.Proto._onsplittermousedown = function(e) {
   
   if(!this.isContinuousLayout()) {
     // initialize the glasspane and the slider
-    var glasspane = this._glass;
-    
-    var slider = this._slider;
     slider._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
     slider._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
     slider._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
@@ -273,6 +274,8 @@ qx.Proto._onsplittermousedown = function(e) {
  */
 qx.Proto._onsplittermouseup = function(e) {
   
+  var glasspane = this._glass;
+  var slider = this._slider;
   var splitter = this._splitter;
   var s = this._dragSession;
   
@@ -280,11 +283,10 @@ qx.Proto._onsplittermouseup = function(e) {
     return;
   }
   
-  this._slider.setState("dragging", false);
+  slider.setState("dragging", false);
   
-  var glasspane = this._glass;
   glasspane.setVisibility(false);
-  this._slider.setVisibility(false);
+  slider.setVisibility(false);
   
   // disable capturing
   splitter.setCapture(false);
@@ -315,7 +317,7 @@ qx.Proto._onsplittermouseup = function(e) {
     }
   }
   
-  // cleanup session
+  // cleanup dragsession
   this._dragSession = null;
   
 }
@@ -330,12 +332,13 @@ qx.Proto._onsplittermouseup = function(e) {
 
 qx.Proto._onsplittermousemove = function(e) {
   
-  var s = this._dragSession;
+  var box = this._box;
   var slider = this._slider;
   var splitter = this._splitter;
+  var s = this._dragSession;
   
   // pre check for active session and capturing
-  if (!s || !this._splitter.getCapture()) {
+  if (!s || !splitter.getCapture()) {
     return;
   }
   
@@ -347,7 +350,7 @@ qx.Proto._onsplittermousemove = function(e) {
   // resize the panes
   if(this.isContinuousLayout()) {
     // use the fast and direct dom methods to draw the splitter
-    switch(this._box.getOrientation()) {
+    switch(box.getOrientation()) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         splitter._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
         break;
@@ -355,7 +358,7 @@ qx.Proto._onsplittermousemove = function(e) {
         splitter._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
         break;
     }
-    switch(this._box.getOrientation()) {
+    switch(box.getOrientation()) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
@@ -375,10 +378,10 @@ qx.Proto._onsplittermousemove = function(e) {
         break;
     }
   } else {
-    this._slider.setState("dragging", true);
+    slider.setState("dragging", true);
     
     // use the fast and direct dom methods to draw the splitter
-    switch(this._box.getOrientation()) {
+    switch(box.getOrientation()) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         slider._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
         break;
@@ -422,6 +425,12 @@ qx.Proto.dispose = function() {
     this._splitter.dispose();
     this._splitter = null;
   }
+
+  if (this._slider) {
+    this._slider.dispose();
+    this._slider = null;
+  }
+
   
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }
