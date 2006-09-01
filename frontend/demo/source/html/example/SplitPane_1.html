@@ -14,7 +14,8 @@
   <div id="demoDescription">
     <p>Test for Splitpane functionality.</p>
     <p>
-      Splitpane with iframe.
+      Splitpane with iframe. The horizontal resizing takes place after release the mouse, whereas
+      the vertical resizing is done in realtime.
     </p>
   </div>
 
@@ -44,7 +45,7 @@
     bottomComponent.setWidth('100%');
     
     // rightComponent
-    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(false, topComponent, bottomComponent);
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(true, topComponent, bottomComponent);
     rightComponent.setWidth('2*');
     rightComponent.setHeight('100%');
     

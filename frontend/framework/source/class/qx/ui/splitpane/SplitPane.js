@@ -238,6 +238,8 @@ qx.Proto._onsplittermousedown = function(e) {
   var r = qx.dom.DomLocation.getPageAreaRight(pl);
   var b = qx.dom.DomLocation.getPageAreaBottom(pl);
   
+  glasspane.setVisibility(true);
+
   if(!this.isContinuousLayout()) {
     // initialize the glasspane and the slider
     slider._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
@@ -245,7 +247,6 @@ qx.Proto._onsplittermousedown = function(e) {
     slider._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
     slider._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
     
-    glasspane.setVisibility(true);
     slider.setVisibility(true);
   }
   
@@ -301,17 +302,13 @@ qx.Proto._onsplittermouseup = function(e) {
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
         this.getLeftComponent().setWidth(fWidth.toString() + '*');
-        // this.getLeftComponent().setHeight(null);
         this.getRightComponent().setWidth(sWidth.toString() + '*');
-        // this.getRightComponent().setHeight(null);
         break;
         
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         var sHeight = s.height - s.lastY;
         var fHeight = s.height - sHeight;
-        // this.getLeftComponent().setWidth(null);
         this.getLeftComponent().setHeight(fHeight.toString() + '*');
-        // this.getRightComponent().setWidth(null);
         this.getRightComponent().setHeight(sHeight.toString() + '*');
         break;
     }
@@ -363,17 +360,13 @@ qx.Proto._onsplittermousemove = function(e) {
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
         this.getLeftComponent().setWidth(fWidth.toString() + '*');
-        this.getLeftComponent().setHeight(null);
         this.getRightComponent().setWidth(sWidth.toString() + '*');
-        this.getRightComponent().setHeight(null);
         break;
         
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         var sHeight = s.height - s.lastY;
         var fHeight = s.height - sHeight;
-        this.getLeftComponent().setWidth(null);
         this.getLeftComponent().setHeight(fHeight.toString() + '*');
-        this.getRightComponent().setWidth(null);
         this.getRightComponent().setHeight(sHeight.toString() + '*');
         break;
     }
