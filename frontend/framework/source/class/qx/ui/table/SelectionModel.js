@@ -31,6 +31,8 @@ function() {
   this._selectedRangeArr = [];
   this._anchorSelectionIndex = -1;
   this._leadSelectionIndex = -1;
+  this.hasBatchModeRefCount = 0;
+  this._hadChangeEventInBatchMode = false;
 });
 
 
@@ -58,18 +60,58 @@ qx.Class.MULTIPLE_INTERVAL_SELECTION = 4;
  */
 qx.OO.addProperty({ name:"selectionMode", type:qx.constant.Type.NUMBER,
   defaultValue:qx.Class.SINGLE_SELECTION,
+  allowNull:false,
   possibleValues:[ qx.Class.NO_SELECTION,
            qx.Class.SINGLE_SELECTION,
            qx.Class.SINGLE_INTERVAL_SELECTION,
            qx.Class.MULTIPLE_INTERVAL_SELECTION  ] });
 
-
-// property modifier
+// selectionMode property modifier
 qx.Proto._modifySelectionMode = function(selectionMode) {
   if (selectionMode == qx.ui.table.SelectionModel.NO_SELECTION) {
     this.clearSelection();
   }
   return true;
+}
+
+
+/**
+ * <p>Activates / Deactivates batch mode. In batch mode, no change events will be thrown but
+ * will be collected instead. When batch mode is turned off again and any events have
+ * been collected, one event is thrown to inform the listeners.</p>
+ * 
+ * <p>This method supports nested calling, i. e. batch mode can be turned more than once. 
+ * In this case, batch mode will not end until it has been turned off once for each 
+ * turning on.</p>
+ * 
+ * @param batchMode {boolean} true to activate batch mode, false to deactivate
+ * @return {boolean} true if batch mode is active, false otherwise
+ * @throw Error if batch mode is turned off once more than it has been turned on
+ */
+qx.Proto.setBatchMode = function(batchMode) {
+  if (batchMode){
+    this.hasBatchModeRefCount += 1;
+  } else {
+    if (this.hasBatchModeRefCount == 0){
+      throw new Error("Try to turn off batch mode althoug it was not turned on.")
+    }
+    this.hasBatchModeRefCount -= 1;
+    if (this._hadChangeEventInBatchMode){
+      this._hadChangeEventInBatchMode = false;
+      this._fireSelectionChanged();
+    }
+  }
+  return this.hasBatchMode();
+}
+
+
+/**
+ * <p>Returns whether batch mode is active. See setter for a description of batch mode.</p>
+ * 
+ * @return {boolean} true if batch mode is active, false otherwise
+ */
+qx.Proto.hasBatchMode = function() {
+  return this.hasBatchModeRefCount > 0;
 }
 
 
@@ -201,7 +243,6 @@ qx.Proto.setSelectionInterval = function(fromIndex, toIndex) {
  */
 qx.Proto.addSelectionInterval = function(fromIndex, toIndex) {
   var SelectionModel = qx.ui.table.SelectionModel;
-
   switch (this.getSelectionMode()) {
     case SelectionModel.NO_SELECTION:
       return;
@@ -343,10 +384,16 @@ qx.Proto._dumpRanges = function() {
 
 
 /**
- * Fires the "selectionChanged" event to all registered listeners.
+ * Fires the "selectionChanged" event to all registered listeners. If the selection model
+ * currently is in batch mode, only one event will be thrown when batch mode is ended.
  */
 qx.Proto._fireSelectionChanged = function() {
-  if (this.hasEventListeners("selectionChanged")) {
+  //In batch mode, remember event but do not throw (yet)
+  if (this.hasBatchMode()){
+    this._hadChangeEventInBatchMode = true;
+  
+  //If not in batch mode, throw event
+  } else if (this.hasEventListeners("selectionChanged")) {
     this.dispatchEvent(new qx.event.type.Event("selectionChanged"), true);
   }
 }
