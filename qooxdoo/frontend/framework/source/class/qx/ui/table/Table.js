@@ -499,6 +499,26 @@ qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
 
 
 /**
+ * Returns the column of the currently focused cell.
+ *
+ * @return {int} the model index of the focused cell's column.
+ */
+qx.Proto.getFocusedColumn = function() {
+  return this._focusedCol;
+};
+
+
+/**
+ * Returns the row of the currently focused cell.
+ *
+ * @return {int} the model index of the focused cell's column.
+ */
+qx.Proto.getFocusedRow = function() {
+  return this._focusedRow;
+};
+
+
+/**
  * Moves the focus.
  *
  * @param deltaX {int} The delta by which the focus should be moved on the x axis.
