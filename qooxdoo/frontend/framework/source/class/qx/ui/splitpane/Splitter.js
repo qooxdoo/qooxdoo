@@ -26,14 +26,11 @@ function(vOrientation) {
   
   qx.ui.layout.CanvasLayout.call(this);
 
-  // set defaults
-  this.setWidth(this.getSize());
-  this.setCursor('col-resize');
-
   // apply orientation
-  if (qx.util.Validation.isValidString(vOrientation)) {
-    this.setOrientation(vOrientation);
+  if (! qx.util.Validation.isValidString(vOrientation)) {
+    vOrientation = qx.constant.Layout.ORIENTATION_HORIZONTAL;
   }
+  this.setOrientation(vOrientation);
   
 });
 
@@ -64,7 +61,7 @@ qx.OO.addProperty({ name : "size", type : qx.constant.Type.NUMBER, allowNull : f
 /**
  * The orientation of the splitter control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
  */
-qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ], defaultValue : qx.constant.Layout.ORIENTATION_HORIZONTAL });
+qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ] });
 
 
 
@@ -109,11 +106,11 @@ qx.Proto.isVertical = function() {
  */
 qx.Proto._updateSize = function() {
   if (this._layoutHorizontal) {
-    this.setWidth(null);
-    this.setHeight(this.getSize());
-  } else {
     this.setWidth(this.getSize());
     this.setHeight(null);
+  } else {
+    this.setWidth(null);
+    this.setHeight(this.getSize());
   }
 };
 
