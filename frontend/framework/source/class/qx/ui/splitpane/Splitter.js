@@ -49,8 +49,6 @@ function(vOrientation) {
 ---------------------------------------------------------------------------
  */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "splitpane-splitter" });
-
 
 /**
  * The size of the splitter control in px

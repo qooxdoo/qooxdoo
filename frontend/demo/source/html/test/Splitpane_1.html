@@ -37,6 +37,7 @@
     // cache left pane
     var leftPane = splitpane.getLeftComponent();
     leftPane.setWidth(198);
+    leftPane.setMinWidth(100);
     leftPane.setHeight('100%');
 
     // create content of left pane
@@ -105,6 +106,7 @@
     var preview = new qx.ui.basic.Atom;
     preview.setWidth('100%');
     preview.setHeight('100%');
+    preview.setOverflow('hidden');
     preview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
     preview.setHorizontalChildrenAlign('left');
     preview.setVerticalChildrenAlign('top');
