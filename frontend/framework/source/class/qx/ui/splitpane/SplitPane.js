@@ -34,10 +34,76 @@
  * @param rightComponent {qx.ui.core.Parent} The layout of the right (bottom) pane.
  *
  */
-qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.BoxLayout,
+qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.CanvasLayout,
 function(orientation, continuousLayout, leftComponent, rightComponent) {
   
-  qx.ui.layout.BoxLayout.call(this, orientation);
+  qx.ui.layout.CanvasLayout.call(this);
+  
+  // the boxlayout
+  
+  
+  /*
+   
+   the splitpane itself is a boxlayout resides on top of a canvas for easier computing of positional values
+   
+    ---------------------------------------------------------------------------------------
+   |  canvas                                                                               |
+   |  -----------------------------------------------------------------------------------  |
+   | | box                                                                               | |
+   | | ---------------------------  ---  ----------------------------------------------- | |
+   | | |                         |  | |  |                                             | | |
+   | | | leftComponent           |  |s|  | rightComponent                              | | |
+   | | |                         |  |p|  |                                             | | |
+   | | |                         |  |l|  |                                             | | |
+   | | |                         |  |i|  |                                             | | |
+   | | |                         |  |t|  |                                             | | |
+   | | |                         |  |t|  |                                             | | |
+   | | |                         |  |e|  |                                             | | |
+   | | |                         |  |r|  |                                             | | |
+   | | |                         |  | |  |                                             | | |
+   | | ---------------------------  ---  ----------------------------------------------- | |
+   |  -----------------------------------------------------------------------------------  |
+   |                                                                                       |
+    ---------------------------------------------------------------------------------------
+   
+   in front of the splitpane is a glasspane which contains a dragable copy of the splitter. The glasspane and the copy of the splitter
+   only appears if a mousedown event is captured on the original splitter and will disappear on mouseup. This helps us to use every
+   widget inside the components without paying attention on the special mouseevent handling of the used widget. In particular the iframe
+   interupts the event queue, so the splitter stands still in case of moving about the iframe.
+   
+    ---------------------------------------------------------------------------------------
+   |  canvas (glasspane)                                                                   |
+   |                               ---                                                     |
+   |                               | |                                                     |
+   |                               |s|                                                     |
+   |                               |p|                                                     |
+   |                               |l|                                                     |
+   |                               |i|                                                     |
+   |                               |t|                                                     |
+   |                               |t|                                                     |
+   |                               |e|                                                     |
+   |                               |r|                                                     |
+   |                               | |                                                     |
+   |                               ---                                                     |
+   |                                                                                       |
+    ---------------------------------------------------------------------------------------
+   
+   */
+  
+  
+  var box = this._box = new qx.ui.layout.BoxLayout(orientation);
+  box.setDimension('100%', '100%');
+  
+  var glass = this._glass = new qx.ui.layout.CanvasLayout();
+  glass.setDimension('100%', '100%');
+  glass.setBackgroundColor('gray');
+  glass.setOpacity(0.1);
+  glass.setZIndex(1e7);
+  glass.setVisibility(false);
+  
+  var slider = this._slider = new qx.ui.splitpane.Splitter(this._box.getOrientation());
+  slider.setAppearance('splitpane-slider');
+  slider.setVisibility(false);
   
   if(qx.util.Validation.isValidBoolean(continuousLayout)) {
     this.setContinuousLayout(continuousLayout);
@@ -46,15 +112,18 @@ function(orientation, continuousLayout, leftComponent, rightComponent) {
   this.setLeftComponent(qx.util.Validation.isValidObject(leftComponent) ? leftComponent : new qx.ui.layout.CanvasLayout);
   this.setRightComponent(qx.util.Validation.isValidObject(rightComponent) ? rightComponent : new qx.ui.layout.CanvasLayout);
   
-  var splitter = this._splitter = new qx.ui.splitpane.Splitter(this.getOrientation());
+  var splitter = this._splitter = new qx.ui.splitpane.Splitter(this._box.getOrientation());
+  splitter.setAppearance('splitpane-splitter');
   
   splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onsplittermousedown, this);
   splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
   splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
   
-  this.addAtBegin(this.getLeftComponent());
-  this.add(splitter);
-  this.addAtEnd(this.getRightComponent());
+  box.addAtBegin(this.getLeftComponent());
+  box.add(splitter);
+  box.addAtEnd(this.getRightComponent());
+  
+  this.add(box, glass, slider);
   
 });
 
@@ -146,11 +215,17 @@ qx.OO.addProperty({ name : 'oneTouchExpandable', type : qx.constant.Type.BOOLEAN
  */
 qx.Proto._onsplittermousedown = function(e) {
   
+  if (!e.isLeftButtonPressed()) {
+    return;
+  }
+  
+  // activate global cursor
+  this.getTopLevelWidget().setGlobalCursor(this._slider.getCursor());
+  
   // enable capturing
   this._splitter.setCapture(true);
   
   // measuring and caching of values for drag session
-  
   var el = this._splitter.getElement();
   var pl = this.getElement();
   
@@ -159,6 +234,21 @@ qx.Proto._onsplittermousedown = function(e) {
   var r = qx.dom.DomLocation.getPageAreaRight(pl);
   var b = qx.dom.DomLocation.getPageAreaBottom(pl);
   
+  if(!this.isContinuousLayout()) {
+    // initialize the glasspane and the slider
+    var glasspane = this._glass;
+    
+    var slider = this._slider;
+    slider._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
+    slider._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
+    slider._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
+    slider._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
+    
+    glasspane.setVisibility(true);
+    slider.setVisibility(true);
+  }
+  
+  // initialize the drag session
   this._dragSession = {
     offsetX : e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(el) + l,
     offsetY : e.getPageY() - qx.dom.DomLocation.getPageBoxTop(el) + t,
@@ -166,10 +256,10 @@ qx.Proto._onsplittermousedown = function(e) {
     width : r - l,
     height: b - t,
     
-    parentAvailableAreaLeft : l + 1,
-    parentAvailableAreaTop : t + 1,
-    parentAvailableAreaRight : r - 1,
-    parentAvailableAreaBottom : b - 1
+    parentAvailableAreaLeft : l + (this.getLeftComponent().getMinWidth() ? this.getLeftComponent().getMinWidth() : 0),
+    parentAvailableAreaTop : t + (this.getTopComponent().getMinHeight() ? this.getTopComponent().getMinHeight() : 0),
+    parentAvailableAreaRight : r - (this.getRightComponent().getMinWidth() ? this.getRightComponent().getMinWidth() : 0),
+    parentAvailableAreaBottom : b - (this.getBottomComponent().getMinHeight() ? this.getBottomComponent().getMinHeight() : 0)
   };
   
 }
@@ -186,33 +276,40 @@ qx.Proto._onsplittermouseup = function(e) {
   var splitter = this._splitter;
   var s = this._dragSession;
   
-  if(!s) {
+  if(!s || !(s.lastX || s.lastY)) {
     return;
   }
-
-  this._splitter.setState("dragging", false);
-
+  
+  this._slider.setState("dragging", false);
+  
+  var glasspane = this._glass;
+  glasspane.setVisibility(false);
+  this._slider.setVisibility(false);
+  
   // disable capturing
   splitter.setCapture(false);
   
+  // reset the global cursor
+  this.getTopLevelWidget().setGlobalCursor(null);
+  
   // resize panes
   if(!this.isContinuousLayout()) {
-    switch(this.getOrientation()) {
+    switch(this._box.getOrientation()) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
         this.getLeftComponent().setWidth(fWidth.toString() + '*');
-        this.getLeftComponent().setHeight(null);
+        // this.getLeftComponent().setHeight(null);
         this.getRightComponent().setWidth(sWidth.toString() + '*');
-        this.getRightComponent().setHeight(null);
+        // this.getRightComponent().setHeight(null);
         break;
         
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         var sHeight = s.height - s.lastY;
         var fHeight = s.height - sHeight;
-        this.getLeftComponent().setWidth(null);
+        // this.getLeftComponent().setWidth(null);
         this.getLeftComponent().setHeight(fHeight.toString() + '*');
-        this.getRightComponent().setWidth(null);
+        // this.getRightComponent().setWidth(null);
         this.getRightComponent().setHeight(sHeight.toString() + '*');
         break;
     }
@@ -234,7 +331,8 @@ qx.Proto._onsplittermouseup = function(e) {
 qx.Proto._onsplittermousemove = function(e) {
   
   var s = this._dragSession;
-  var o = this._splitter;
+  var slider = this._slider;
+  var splitter = this._splitter;
   
   // pre check for active session and capturing
   if (!s || !this._splitter.getCapture()) {
@@ -245,22 +343,19 @@ qx.Proto._onsplittermousemove = function(e) {
   if (!qx.lang.Number.isBetweenRange(e.getPageX(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) || !qx.lang.Number.isBetweenRange(e.getPageY(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)) {
     return;
   }
-
-  this._splitter.setState("dragging", true);
-
-  // use the fast and direct dom methods to draw the splitter
-  switch(this.getOrientation()) {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
-      break;
-    case qx.constant.Layout.ORIENTATION_VERTICAL :
-      o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
-      break;
-  }
   
   // resize the panes
   if(this.isContinuousLayout()) {
-    switch(this.getOrientation()) {
+    // use the fast and direct dom methods to draw the splitter
+    switch(this._box.getOrientation()) {
+      case qx.constant.Layout.ORIENTATION_HORIZONTAL :
+        splitter._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
+        break;
+      case qx.constant.Layout.ORIENTATION_VERTICAL :
+        splitter._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
+        break;
+    }
+    switch(this._box.getOrientation()) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
@@ -279,6 +374,19 @@ qx.Proto._onsplittermousemove = function(e) {
         this.getRightComponent().setHeight(sHeight.toString() + '*');
         break;
     }
+  } else {
+    this._slider.setState("dragging", true);
+    
+    // use the fast and direct dom methods to draw the splitter
+    switch(this._box.getOrientation()) {
+      case qx.constant.Layout.ORIENTATION_HORIZONTAL :
+        slider._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
+        break;
+      case qx.constant.Layout.ORIENTATION_VERTICAL :
+        slider._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
+        break;
+    }
+    
   }
   
   e.preventDefault();
