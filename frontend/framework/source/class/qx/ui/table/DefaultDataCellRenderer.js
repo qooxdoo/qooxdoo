@@ -63,6 +63,14 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+  if (this.getUseAutoAlign()) {
+    if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
+      cellElement.style.textAlign = "right";
+    } else {
+      cellElement.style.textAlign = "";
+    }
+  }
+
   var textNode = cellElement.firstChild;
   if (textNode != null) {
     textNode.nodeValue = this._formatValue(cellInfo.value);
