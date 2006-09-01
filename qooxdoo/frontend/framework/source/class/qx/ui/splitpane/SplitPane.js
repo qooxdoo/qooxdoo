@@ -425,12 +425,17 @@ qx.Proto.dispose = function() {
     this._splitter.dispose();
     this._splitter = null;
   }
-
+  
   if (this._slider) {
     this._slider.dispose();
     this._slider = null;
   }
-
+  
+  if(this._glass) {
+    this._glass.dispose();
+    this._glass = null;
+  }
+  
   
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }

@@ -1,0 +1,62 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test for Splitpane functionality.</p>
+    <p>
+      Splitpane with iframe.
+    </p>
+  </div>
+
+  <script type="text/javascript">
+
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+    
+    
+    // left Component
+    var leftComponent = new qx.ui.form.TextArea('LeftComponent');
+    leftComponent.setWrap(true);
+    leftComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    leftComponent.setWidth('1*');
+    leftComponent.setHeight('100%');
+
+    // right top component
+    var topComponent = new qx.ui.form.TextArea('Right Top Component');
+    topComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    topComponent.setHeight('1*');
+    topComponent.setWidth('100%');
+    
+    // right bottom component
+    var bottomComponent = new qx.ui.embed.Iframe('http://www.qooxdoo.org');
+    bottomComponent.setHeight('1*');
+    bottomComponent.setWidth('100%');
+    
+    // rightComponent
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(false, topComponent, bottomComponent);
+    rightComponent.setWidth('2*');
+    rightComponent.setHeight('100%');
+    
+    // the splitpane itself
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(false, leftComponent, rightComponent);
+    splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+    splitpane.setLocation(20, 48);
+    splitpane.setDimension(700, 500);
+
+    d.add(splitpane);
+
+  });
+  </script>
+</body>
+</html>
