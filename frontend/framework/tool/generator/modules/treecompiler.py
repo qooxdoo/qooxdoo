@@ -238,7 +238,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionList", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable" ]
+    separators = [ "assignment", "call", "operation", "definition", "definitionList", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
     not_after = [ "case", "default" ]
     not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
 
