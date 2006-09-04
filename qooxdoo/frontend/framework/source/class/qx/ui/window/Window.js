@@ -482,7 +482,7 @@ qx.Proto._beforeDisappear = function()
 
   // Reset focus root
   var vFocusRoot = qx.event.handler.EventHandler.getInstance().getFocusRoot();
-  if (vFocusRoot == this || this.contains(vFocusRoot) {
+  if (vFocusRoot == this || this.contains(vFocusRoot)) {
     qx.event.handler.EventHandler.getInstance().setFocusRoot(null);
   }
 
