@@ -4009,7 +4009,7 @@ qx.Proto.setHtmlProperty = function(propName, propValue)
 
   this._htmlProperties[propName] = propValue;
 
-  if (this._isCreated) {
+  if (this._isCreated && this.getElement()[propName] != propValue) {
     this.getElement()[propName] = propValue;
   }
 
