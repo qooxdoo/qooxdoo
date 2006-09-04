@@ -33,6 +33,7 @@ function(vLabel, vIcon, vCommand, vMenu)
   // ************************************************************************
 
   var io = this._iconObject = new qx.ui.basic.Image;
+  io.setWidth(16);
   io.setAnonymous(true);
 
   var lo = this._labelObject = new qx.ui.basic.Label;
