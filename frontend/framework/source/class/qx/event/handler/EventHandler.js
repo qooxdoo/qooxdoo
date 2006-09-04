@@ -436,23 +436,6 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
 
 
-  // Hide Menus
-  switch(vKeyCode)
-  {
-    case qx.event.type.KeyEvent.keys.esc:
-    case qx.event.type.KeyEvent.keys.tab:
-      if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-        qx.manager.object.MenuManager.getInstance().update();
-      }
-
-      break;
-  }
-
-
-
-
-
-
   // Find current active qooxdoo object
   var vTarget = this.getCaptureWidget() || this.getFocusRoot().getActiveChild();
 
@@ -462,6 +445,20 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
   var vDomEventTarget = vTarget.getElement();
 
+
+
+
+  // Hide Menus
+  switch(vKeyCode)
+  {
+    case qx.event.type.KeyEvent.keys.esc:
+    case qx.event.type.KeyEvent.keys.tab:
+      if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
+        qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+      }
+
+      break;
+  }
 
 
 
@@ -814,7 +811,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
         }
 
         if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-          qx.manager.object.MenuManager.getInstance().update(vTarget);
+          qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
         }
 
         break;
@@ -823,7 +820,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         // Mouseup event should always hide, independed of target, so don't send a target
         if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-          qx.manager.object.MenuManager.getInstance().update();
+          qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
         }
 
         break;

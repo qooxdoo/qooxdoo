@@ -89,10 +89,8 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
       sch = chc.getChildren();
       schl = sch.length;
 
-      for (var j=0; j<schl; j++)
-      {
+      for (var j=0; j<schl; j++) {
         sch[j].addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
-
       }
     }
   }
