@@ -465,7 +465,11 @@ qx.Proto._beforeAppear = function()
   // Intentionally bypass superclass and call super.super._beforeAppear
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
+  // Hide popups
   qx.manager.object.PopupManager.getInstance().update();
+
+  // Configure the focus root to be the current opened window
+  qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
   this.getWindowManager().add(this);
   this._makeActive();
@@ -475,6 +479,12 @@ qx.Proto._beforeDisappear = function()
 {
   // Intentionally bypass superclass and call super.super._beforeDisappear
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+
+  // Reset focus root
+  var vFocusRoot = qx.event.handler.EventHandler.getInstance().getFocusRoot();
+  if (vFocusRoot == this || this.contains(vFocusRoot) {
+    qx.event.handler.EventHandler.getInstance().setFocusRoot(null);
+  }
 
   // Be sure to disable any capturing inside invisible parts
   // Is this to much overhead?
