@@ -288,7 +288,9 @@ qx.Proto._computeMaxIconWidth = function()
     chc = ch[i];
 
     if (chc.hasIcon()) {
-      m = Math.max(m, chc.getIconObject().getPreferredBoxWidth());
+      // Make static as long as not supported well
+      // m = Math.max(m, chc.getIconObject().getPreferredBoxWidth());
+      m = Math.max(m, 16);
     }
   }
 
@@ -352,7 +354,9 @@ qx.Proto._computeMaxArrowWidth = function()
     chc = ch[i];
 
     if (chc.hasMenu()) {
-      m = Math.max(m, chc.getArrowObject().getPreferredBoxWidth());
+      // Make static as long as not supported well
+      // m = Math.max(m, chc.getArrowObject().getPreferredBoxWidth());
+      m = Math.max(m, 4);
     }
   }
 

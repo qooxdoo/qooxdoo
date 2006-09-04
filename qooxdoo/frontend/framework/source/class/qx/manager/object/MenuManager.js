@@ -40,7 +40,7 @@ function(){
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.update = function(vTarget)
+qx.Proto.update = function(vTarget, vEventName)
 {
   var vMenu, vHashCode;
   var vAll = this.getAll();
@@ -54,14 +54,13 @@ qx.Proto.update = function(vTarget)
     }
 
     // Hide on global events (mouseup, window focus, window blur, ...)
-    if (!vTarget)
-    {
+    if (!vTarget) {
       vMenu.hide();
     }
 
-    // Hide only if the target is not a button inside this or any sub menu
-    else if (vMenu.getOpener() != vTarget && !vMenu.isSubButton(vTarget))
-    {
+    // Hide only if the target is not a button inside this
+    // or any sub menu and is not the opener
+    if (vMenu.getOpener() !== vTarget && ((vTarget && !vMenu.isSubButton(vTarget)) || vEventName !== qx.constant.Event.MOUSEDOWN)) {
       vMenu.hide();
     }
   }
