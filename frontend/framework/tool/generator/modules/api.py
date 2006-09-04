@@ -62,9 +62,9 @@ def createDoc(syntaxTree, docTree = None):
             methodName = var.children[2].get("name")
             if methodName == "defineClass":
               currClassNode = handleClassDefinition(docTree, item)
-            elif methodName == "addProperty":
+            elif methodName == "addProperty" or methodName == "addFastProperty":
               # these are private and should be marked if listed, otherwise just hide them (wpbasti)
-              #or methodName == "addFastProperty" or methodName == "addCachedProperty" or methodName == "changeProperty":
+              #or methodName == "addCachedProperty" or methodName == "changeProperty":
               handlePropertyDefinition(item, currClassNode)
       #elif item.type == "function":
       #  name = item.get("name", False)
