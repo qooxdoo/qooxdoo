@@ -18,8 +18,8 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      this.debug("Umlauts Short: " + "äöüÄÖÜß".normalizeUmlautsShort())
-      this.debug("Umlauts Long: " + "äöüÄÖÜß".normalizeUmlautsLong())
+      alert("Umlauts Short: " + qx.util.Normalization.umlautsShort("äöüÄÖÜß"))
+      alert("Umlauts Long: " + qx.util.Normalization.umlautsLong("äöüÄÖÜß"))
     });
   </script>
 </body>
