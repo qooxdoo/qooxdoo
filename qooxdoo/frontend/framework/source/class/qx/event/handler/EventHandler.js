@@ -819,6 +819,15 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         break;
 
+      case qx.constant.Event.MOUSEUP:
+
+        // Mouseup event should always hide, independed of target, so don't send a target
+        if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
+          qx.manager.object.MenuManager.getInstance().update();
+        }
+
+        break;
+
       case qx.constant.Event.MOUSEOVER:
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);

@@ -72,7 +72,7 @@ function(vLabel, vIcon, vCommand, vMenu)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 });
 
 
@@ -188,7 +188,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
   }
-  
+
   if (this._shortcutObject) {
      this._shortcutObject.setEnabled(propValue);
   }
@@ -301,7 +301,7 @@ qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onmousedown = function(e) {
+qx.Proto._onmouseup = function(e) {
   this.execute();
 }
 
@@ -347,7 +347,7 @@ qx.Proto.dispose = function()
   }
 
   // Remove event listeners
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }
