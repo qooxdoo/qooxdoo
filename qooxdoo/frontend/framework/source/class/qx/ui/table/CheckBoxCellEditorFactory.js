@@ -25,19 +25,19 @@
  * For editing boolean data in a checkbox.  It is advisable to use this in conjuntion with BooleanDataCellRenderer.
  */
 qx.OO.defineClass("qx.ui.table.CheckBoxCellEditorFactory", qx.ui.table.CellEditorFactory, function() {
-	qx.ui.table.CellEditorFactory.call(this);
+  qx.ui.table.CellEditorFactory.call(this);
 });
 
 // overridden
 qx.Proto.createCellEditor = function(cellInfo) {
-	var editor = new qx.ui.form.CheckBox;
-	with (editor) {
-		setChecked(cellInfo.value);
-	}
-	return editor;
+  var editor = new qx.ui.form.CheckBox;
+  with (editor) {
+    setChecked(cellInfo.value);
+  }
+  return editor;
 }
 
 // overridden
 qx.Proto.getCellEditorValue = function(cellEditor) {
- 	return cellEditor.getChecked();
+   return cellEditor.getChecked();
 }
