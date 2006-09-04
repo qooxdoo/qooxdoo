@@ -281,7 +281,11 @@ qx.Proto._onkeydown = function(e)
         {
           var vFirst = vSelectedItem.getFirstVisibleChildOfFolder();
           this.setSelectedElement(vFirst);
-          vFirst.open();
+
+          if (vFirst instanceof qx.ui.tree.TreeFolder) {
+            vFirst.open();
+          }
+
           return;
         }
       }
