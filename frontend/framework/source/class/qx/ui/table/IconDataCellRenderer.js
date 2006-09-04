@@ -97,7 +97,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   
-  // Set image and tooltip text	
+  // Set image and tooltip text  
   var urlAndToolTip = this._getImageInfos(cellInfo);
   img = cellElement.firstChild;
   img.src = urlAndToolTip.url;

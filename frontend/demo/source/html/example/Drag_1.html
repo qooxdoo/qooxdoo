@@ -26,16 +26,16 @@
     a1.setLocation(20, 48); 
     d.add(a1);
 
-		
+    
     d.addEventListener("mousedown", handleMouseDown);
     d.addEventListener("mousemove", handleMouseMove);
     d.addEventListener("mouseup", handleMouseUp);
-		
+    
     function handleMouseDown(e)
     {
       this.setCapture(true);
     }
-		
+    
     function handleMouseMove(e)
     {
       if (this.getCapture())
@@ -44,7 +44,7 @@
         a1.setTop(e.getPageY());
       }
     }
-					
+          
     function handleMouseUp(e)
     {
       this.setCapture(false);

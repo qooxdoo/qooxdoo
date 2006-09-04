@@ -30,38 +30,38 @@
  * </p>
  */
 qx.OO.defineClass('qx.dev.log.FireBugAppender', qx.dev.log.Appender, function() {
-	qx.dev.log.Appender.call(this);
+  qx.dev.log.Appender.call(this);
 });
 
 qx.Proto.appendLogEvent = function(evt)
 {
-	if (typeof console != 'undefined')
-	{
-		var log = qx.dev.log.Logger;
-		var msg = this.formatLogEvent(evt);
+  if (typeof console != 'undefined')
+  {
+    var log = qx.dev.log.Logger;
+    var msg = this.formatLogEvent(evt);
 
     switch (evt.level)
     {
-    	case log.LEVEL_DEBUG:
-    		if (console.debug) {
-    			console.debug(msg);
-    		}
-    		break;
-    	case log.LEVEL_INFO:
-    		if (console.info) {
-    			console.info(msg);
-    		}
-    		break;
-    	case log.LEVEL_WARN:
-    		if (console.warn) {
-    			console.warn(msg);
-    		}
-    		break;
-    	default:
-    		if (console.error) {
-    			console.error(msg);
-    		}
-    		break;
+      case log.LEVEL_DEBUG:
+        if (console.debug) {
+          console.debug(msg);
+        }
+        break;
+      case log.LEVEL_INFO:
+        if (console.info) {
+          console.info(msg);
+        }
+        break;
+      case log.LEVEL_WARN:
+        if (console.warn) {
+          console.warn(msg);
+        }
+        break;
+      default:
+        if (console.error) {
+          console.error(msg);
+        }
+        break;
     }
-	}
+  }
 }
