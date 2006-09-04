@@ -111,6 +111,21 @@ qx.Proto.getLayout = function() {
   return this._layout;
 }
 
+qx.Proto.isSubButton = function(vButton)
+{
+  if (vButton.getParent() === this._layout) {
+    return true;
+  }
+
+  for (var a=this._layout.getChildren(), l=a.length, i=0; i<l; i++)
+  {
+    if (a[i].getMenu && a[i].getMenu() && a[i].getMenu().isSubButton(vButton)) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 
 

@@ -53,7 +53,15 @@ qx.Proto.update = function(vTarget)
       continue;
     }
 
-    if (!vTarget || vMenu.getOpener() != vTarget) {
+    // Hide on global events (mouseup, window focus, window blur, ...)
+    if (!vTarget)
+    {
+      vMenu.hide();
+    }
+
+    // Hide only if the target is not a button inside this or any sub menu
+    else if (vMenu.getOpener() != vTarget && !vMenu.isSubButton(vTarget))
+    {
       vMenu.hide();
     }
   }
