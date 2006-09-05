@@ -1,1 +1,0 @@
-To run this demo u just need to copy TaskBar_1.html and QxTaskBar.js to demo directory of qooxdoo and fix the path to: qooxdoo.js, demolayout.css and demolayout.js (last two are optional, jst to have the debug console an layout like in demo pages).
