@@ -35,29 +35,3 @@ qx.OO.defineClass("qx.ui.splitpane.VerticalSplitPane", qx.ui.splitpane.SplitPane
 function(firstProportion, secondProportion) {
   qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_VERTICAL, firstProportion, secondProportion);
 });
-
-
-
-
-
-
-
-
-
-
-/*
-------------------------------------------------------------------------------------
-  DISPOSER
-------------------------------------------------------------------------------------
- */
-
-/**
- * Garbage collection
- */
-qx.Proto.dispose = function() {
-  if (this.getDisposed()) {
-    return true;
-  }
-  
-  return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
-}
