@@ -165,12 +165,12 @@ qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possib
 /**
  *
  */
-qx.OO.addProperty({ name : "firstSize", defaultValue : "1*" });
+qx.OO.addProperty({ name : "firstSize" });
 
 /**
  *
  */
-qx.OO.addProperty({ name : "secondSize", defaultValue : "1*" });
+qx.OO.addProperty({ name : "secondSize" });
 
 
 
@@ -342,10 +342,6 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
 
-      // apply new dimensions
-      this._firstArea.setWidth(this.getFirstSize());
-      this._secondArea.setWidth(this.getSecondSize());
-
       // apply cursor
       this._splitter.setCursor("col-resize");
 
@@ -357,15 +353,15 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
 
-      // apply new dimensions
-      this._firstArea.setHeight(this.getFirstSize());
-      this._secondArea.setHeight(this.getSecondSize());
-
       // apply cursor
       this._splitter.setCursor("row-resize");
 
       break;
   }
+
+  // apply new dimensions
+  this._syncFirstSize();
+  this._syncSecondSize();
 
   return true;
 };
@@ -375,6 +371,46 @@ qx.Proto._modifyVisibleGlassPane = function(propValue, propOldValue, propData)
 {
   this._glass.setState("visible", propValue);
   return true;
+}
+
+qx.Proto._modifyFirstSize = function(propValue, propOldValue, propData)
+{
+  this._syncFirstSize();
+  return true;
+}
+
+qx.Proto._modifySecondSize = function(propValue, propOldValue, propData)
+{
+  this._syncSecondSize();
+  return true;
+}
+
+qx.Proto._syncFirstSize = function()
+{
+  switch(this.getOrientation())
+  {
+    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+      this._firstArea.setWidth(this.getFirstSize());
+      break;
+
+    case qx.constant.Layout.ORIENTATION_VERTICAL:
+      this._firstArea.setHeight(this.getFirstSize());
+      break;
+  }
+}
+
+qx.Proto._syncSecondSize = function()
+{
+  switch(this.getOrientation())
+  {
+    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+      this._secondArea.setWidth(this.getSecondSize());
+      break;
+
+    case qx.constant.Layout.ORIENTATION_VERTICAL:
+      this._secondArea.setHeight(this.getSecondSize());
+      break;
+  }
 }
 
 
@@ -549,22 +585,25 @@ qx.Proto._commonMouseUp = function()
 
 qx.Proto._syncX = function(e)
 {
-  var firstWidth = e.getPageX() - this._dragStart;
-  var secondWidth = this._box.getInnerWidth() - this._splitter.getBoxWidth() - firstWidth;
+  var first = e.getPageX() - this._dragStart;
+  var second = this._box.getInnerWidth() - this._splitter.getBoxWidth() - first;
 
-  this._firstArea.setWidth(firstWidth + qx.constant.Core.STAR);
-  this._secondArea.setWidth(secondWidth + qx.constant.Core.STAR);
+  this._syncCommon(first, second);
 }
 
 qx.Proto._syncY = function(e)
 {
-  var firstHeight = e.getPageY() - this._dragStart;
-  var secondHeight = this._box.getInnerHeight() - this._splitter.getBoxHeight() - firstHeight;
+  var first = e.getPageY() - this._dragStart;
+  var second = this._box.getInnerHeight() - this._splitter.getBoxHeight() - first;
 
-  this._firstArea.setHeight(firstHeight + qx.constant.Core.STAR);
-  this._secondArea.setHeight(secondHeight + qx.constant.Core.STAR);
+  this._syncCommon(first, second);
 }
 
+qx.Proto._syncCommon = function(first, second)
+{
+  this.setFirstSize(first + qx.constant.Core.STAR);
+  this.setSecondSize(second + qx.constant.Core.STAR);
+}
 
 
 
