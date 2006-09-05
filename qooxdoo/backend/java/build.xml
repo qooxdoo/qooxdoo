@@ -1,7 +1,8 @@
 <?xml version='1.0'?>
-<project name="HelloAnt" default="make" basedir=".">
+<project name="qooxdoo-java-backend" default="make" basedir=".">
 
     <property file="build.properties"/>
+    <property name="frontendDir" value ="../../frontend"/>
 
     <target name="compile">
         <mkdir dir="classes"/>
@@ -15,16 +16,15 @@
     </target>
     
     <target name="war">
+        <mkdir dir="build"/>
+        <copy todir="build/demo">
+            <fileset dir="${frontendDir}/demo/build"/>
+        </copy>
+        <copy todir="build/api">
+            <fileset dir="${frontendDir}/api/build"/>
+        </copy>
         <war destfile="qooxdoo.war" webxml="webapp/WEB-INF/web.xml">
-            <fileset dir="../../source">
-                <include name="demo/**"/>
-                <include name="script/**"/>
-                <include name="images/**"/>
-                <include name="themes/appearance/**"/>
-                <include name="themes/colors/**"/>
-                <include name="themes/icons/crystalsvg/**"/>
-                <include name="themes/widgets/**"/>
-            </fileset>
+            <fileset dir="build"/>
             <fileset dir="webapp">
                 <exclude name="WEB-INF/**"/>
             </fileset>
@@ -39,6 +39,7 @@
     
     <target name="clean">
         <delete dir="classes"/>
+        <delete dir="build"/>
         <delete file="qooxdoo.war"/>
     </target>
     
