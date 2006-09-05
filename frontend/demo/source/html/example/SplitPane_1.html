@@ -13,66 +13,51 @@
 
   <div id="demoDescription">
     <p>Test for Splitpane functionality.</p>
-    <p>
-      Splitpane with iframe. The horizontal resizing takes place after release the mouse, whereas
-      the vertical resizing is done in realtime.
-    </p>
   </div>
 
   <script type="text/javascript">
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
     // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane('1*', '2*');
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
     splitpane.setLocation(20, 48);
     splitpane.setBottom(48);
-    splitpane.setRight(335);
+    splitpane.setRight(320);
+    splitpane.addToDocument();
 
-    splitpane.setFullyMinimizeable(true);
-    splitpane.setVisibleGlassPane(false);
-    splitpane.setContinuousLayout(false);
+    // left Widget
+    var leftWidget = new qx.ui.form.TextArea("LeftWidget");
+    leftWidget.setWrap(true);
+    leftWidget.setBackgroundColor(new qx.renderer.color.Color("white"));
+    leftWidget.setWidth("100%");
+    leftWidget.setHeight("100%");
 
-    // left Component
-    var leftComponent = new qx.ui.form.TextArea('LeftComponent');
-    leftComponent.setWrap(true);
-    leftComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
-    leftComponent.setWidth('100%');
-    leftComponent.setHeight('100%');
-
-    // rightComponent
-    var rightComponent = new qx.ui.splitpane.VerticalSplitPane();
-    rightComponent.setHeight('100%');
-    rightComponent.setWidth('100%');
-    rightComponent.setFullyMinimizeable(false);
-    rightComponent.setContinuousLayout(true);
-
-    // enable the visible class pane
-    // rightComponent.setVisibleGlassPane(true);
-
-    // right top component
-    var topComponent = new qx.ui.form.TextArea('Right Top Component');
-    topComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
-    topComponent.setHeight('100%');
-    topComponent.setWidth('100%');
-
-    // right bottom component
-    var bottomComponent = new qx.ui.embed.Iframe('http://www.qooxdoo.org');
-    bottomComponent.setHeight('100%');
-    bottomComponent.setWidth('100%');
-
-    // add widgets to right splitpane
-    rightComponent.addTop(topComponent);
-    rightComponent.addBottom(bottomComponent);
+    // rightWidget (another splitpane)
+    var rightWidget = new qx.ui.splitpane.VerticalSplitPane();
+    rightWidget.setHeight("100%");
+    rightWidget.setWidth("100%");
 
     // add widgets to splitpane
-    splitpane.addLeft(leftComponent);
-    splitpane.addRight(rightComponent);
+    splitpane.addLeft(leftWidget);
+    splitpane.addRight(rightWidget);
 
-    d.add(splitpane);
 
+
+    // right top widget
+    var topWidget = new qx.ui.form.TextArea("Right Top Widget");
+    topWidget.setBackgroundColor(new qx.renderer.color.Color("white"));
+    topWidget.setHeight("100%");
+    topWidget.setWidth("100%");
+
+    // right bottom widget
+    var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
+    bottomWidget.setHeight("100%");
+    bottomWidget.setWidth("100%");
+
+    // add widgets to right splitpane
+    rightWidget.addTop(topWidget);
+    rightWidget.addBottom(bottomWidget);
   });
   </script>
 </body>
