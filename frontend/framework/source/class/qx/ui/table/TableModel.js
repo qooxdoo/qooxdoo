@@ -166,7 +166,7 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
 /**
  * Returns a cell value by column ID.
  * <p>
- * Whenever you have the choice, use {@link #getValueByIndex()} instead,
+ * Whenever you have the choice, use {@link #getValue()} instead,
  * because this should be faster.
  *
  * @param columnId {string} the ID of the column.
@@ -174,7 +174,7 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
  * @return {var} the value of the cell.
  */
 qx.Proto.getValueById = function(columnId, rowIndex) {
-  return self.getValueByIndex(self.getColumnIndexById(columnId), rowIndex);
+  return this.getValue(this.getColumnIndexById(columnId), rowIndex);
 }
 
 
@@ -194,7 +194,7 @@ qx.Proto.setValue = function(columnIndex, rowIndex, value) {
 /**
  * Sets a cell value by column ID.
  * <p>
- * Whenever you have the choice, use {@link #setValueByIndex()} instead,
+ * Whenever you have the choice, use {@link #setValue()} instead,
  * because this should be faster.
  *
  * @param columnId {string} The ID of the column.
@@ -202,7 +202,7 @@ qx.Proto.setValue = function(columnIndex, rowIndex, value) {
  * @param value {var} The new value.
  */
 qx.Proto.setValueById = function(columnId, rowIndex, value) {
-  return self.setValueByIndex(self.getColumnIndexById(columnId), rowIndex, value);
+  return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
 }
 
 
