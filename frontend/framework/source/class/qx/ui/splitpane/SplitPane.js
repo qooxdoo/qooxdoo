@@ -55,7 +55,7 @@ function(orientation, firstProportion, secondProportion) {
    | | box                                                                               | |
    | | ---------------------------  ---  ----------------------------------------------- | |
    | | |                         |  | |  |                                             | | |
-   | | | firstComponent          |  |s|  | secondComponent                             | | |
+   | | | firstArea          |  |s|  | secondArea                             | | |
    | | |                         |  |p|  |                                             | | |
    | | |                         |  |l|  |                                             | | |
    | | |                         |  |i|  |                                             | | |
@@ -71,7 +71,7 @@ function(orientation, firstProportion, secondProportion) {
 
    in front of the splitpane is a glasspane which contains a dragable copy of the splitter. The glasspane and the copy of the splitter
    only appears if a mousedown event is captured on the original splitter and will disappear on mouseup. This helps us to use every
-   widget inside the components without paying attention on the special mouseevent handling of the used widget. In particular the iframe
+   widget inside the areas without paying attention on the special mouseevent handling of the used widget. In particular the iframe
    interupts the event queue, so the splitter stands still in case of moving about the iframe.
 
     ---------------------------------------------------------------------------------------
@@ -117,26 +117,26 @@ function(orientation, firstProportion, secondProportion) {
   splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onsplittermouseup, this);
   splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onsplittermousemove, this);
 
-  // CREATE COMPONENTS
-  var firstComponent = this._firstComponent = new qx.ui.layout.CanvasLayout();
-  var secondComponent = this._secondComponent = new qx.ui.layout.CanvasLayout();
+  // CREATE AREAS
+  var firstArea = this._firstArea = new qx.ui.layout.CanvasLayout;
+  var secondArea = this._secondArea = new qx.ui.layout.CanvasLayout;
 
-  var firstSize = qx.util.Validation.isValidStringOrNumber(firstProportion) ? firstProportion : "1*";
-  var secondSize = qx.util.Validation.isValidStringOrNumber(secondProportion) ? secondProportion : "1*";
+  var firstSize = qx.util.Validation.isValidStringOrNumber(firstProportion) ? firstProportion : qx.constant.Core.FLEX;
+  var secondSize = qx.util.Validation.isValidStringOrNumber(secondProportion) ? secondProportion : qx.constant.Core.FLEX;
 
   switch(box.getOrientation()) {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      firstComponent.setWidth(firstSize);
-      secondComponent.setWidth(secondSize);
+      firstArea.setWidth(firstSize);
+      secondArea.setWidth(secondSize);
       break;
 
     case qx.constant.Layout.ORIENTATION_VERTICAL :
-      firstComponent.setHeight(firstSize);
-      secondComponent.setHeight(secondSize);
+      firstArea.setHeight(firstSize);
+      secondArea.setHeight(secondSize);
       break;
   }
 
-  box.add(this._firstComponent, splitter, this._secondComponent);
+  box.add(this._firstArea, splitter, this._secondArea);
 });
 
 
@@ -158,11 +158,6 @@ function(orientation, firstProportion, secondProportion) {
  * The layout method for the splitpane. If true, the content will updated immediatly.
  */
 qx.OO.addProperty({ name : 'continuousLayout', type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : 'isContinuousLayout'});
-
-/**
- * Whether the splitter should stop at preferred box width, or not.
- */
-qx.OO.addProperty({ name : 'fullyMinimizeable', type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : 'isFullyMinimizeable' });
 
 /**
  * if the glasspane should be visible, set this to true.
@@ -191,7 +186,7 @@ qx.OO.addProperty({ name : 'visibleGlassPane', type : qx.constant.Type.BOOLEAN, 
  *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addLeft = function() {
-  var c = this.getFirstComponent();
+  var c = this.getFirstArea();
   return c.add.apply(c, arguments);
 }
 
@@ -203,7 +198,7 @@ qx.Proto.addLeft = function() {
  *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addTop = function() {
-  var c = this.getFirstComponent();
+  var c = this.getFirstArea();
   return c.add.apply(c, arguments);
 }
 
@@ -215,7 +210,7 @@ qx.Proto.addTop = function() {
  *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addRight = function() {
-  var c = this.getSecondComponent();
+  var c = this.getSecondArea();
   return c.add.apply(c, arguments);
 }
 
@@ -227,74 +222,74 @@ qx.Proto.addRight = function() {
  *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addBottom = function() {
-  var c = this.getSecondComponent();
+  var c = this.getSecondArea();
   return c.add.apply(c, arguments);
 }
 
 
 
 /**
- * Returns the left component (CanvasLayout)
+ * Returns the left area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getLeftComponent = function() {
-  return this.getFirstComponent();
+qx.Proto.getLeftArea = function() {
+  return this.getFirstArea();
 }
 
 
 
 /**
- * Returns the top component (CanvasLayout)
+ * Returns the top area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getTopComponent = function() {
-  return this.getFirstComponent();
+qx.Proto.getTopArea = function() {
+  return this.getFirstArea();
 }
 
 
 
 /**
- * Returns the right component (CanvasLayout)
+ * Returns the right area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getRightComponent = function() {
-  return this.getSecondComponent();
+qx.Proto.getRightArea = function() {
+  return this.getSecondArea();
 }
 
 
 
 /**
- * Returns the bottom component (CanvasLayout)
+ * Returns the bottom area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getBottomComponent = function() {
-  return this.getSecondComponent();
+qx.Proto.getBottomArea = function() {
+  return this.getSecondArea();
 }
 
 
 
 /**
- * Returns the first component (CanvasLayout)
+ * Returns the first area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getFirstComponent = function() {
-  return this._firstComponent;
+qx.Proto.getFirstArea = function() {
+  return this._firstArea;
 }
 
 
 
 /**
- * Returns the second component (CanvasLayout)
+ * Returns the second area (CanvasLayout)
  *
  * @return {qx.ui.layout.CanvasLayout}
  */
-qx.Proto.getSecondComponent = function() {
-  return this._secondComponent;
+qx.Proto.getSecondArea = function() {
+  return this._secondArea;
 }
 
 
@@ -326,7 +321,8 @@ qx.Proto.getSecondComponent = function() {
   MODIFIER
 ---------------------------------------------------------------------------
  */
-qx.Proto._modifyVisibleGlassPane = function(propValue, propOldValue, propData) {
+qx.Proto._modifyVisibleGlassPane = function(propValue, propOldValue, propData)
+{
   var glass = this._glass;
   if(propValue) {
     glass.setState('visible', true);
@@ -384,7 +380,7 @@ qx.Proto._onsplittermousedown = function(e) {
   var r = qx.dom.DomLocation.getPageAreaRight(pl);
   var b = qx.dom.DomLocation.getPageAreaBottom(pl);
 
-  glasspane.setVisibility(true);
+  glasspane.show();
 
   if(!this.isContinuousLayout()) {
     // initialize the slider
@@ -393,30 +389,22 @@ qx.Proto._onsplittermousedown = function(e) {
     slider._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
     slider._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
 
-    slider.setVisibility(true);
+    slider.show();
   }
 
-  var isLimit = !this.isFullyMinimizeable();
-
   // initialize the drag session
-  this._dragSession = {
+  this._dragSession =
+  {
     offsetX : e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(el) + l,
     offsetY : e.getPageY() - qx.dom.DomLocation.getPageBoxTop(el) + t,
 
     width : r - l,
     height: b - t,
 
-    /*
-    parentAvailableAreaLeft : l + (isLimit ? this.getFirstComponent().getPreferredBoxWidth() : 0),
-    parentAvailableAreaTop : t + (isLimit ? this.getFirstComponent().getPreferredBoxHeight() : 0),
-    parentAvailableAreaRight : r - (isLimit ? this.getSecondComponent().getPreferredBoxWidth() : 0),
-    parentAvailableAreaBottom : b - (isLimit ? this.getSecondComponent().getPreferredBoxHeight() : 0)
-    */
-
-    parentAvailableAreaLeft : l + (isLimit ? this.getFirstComponent().getMinWidth() : 0),
-    parentAvailableAreaTop : t + (isLimit ? this.getFirstComponent().getMinHeight() : 0),
-    parentAvailableAreaRight : r - (isLimit ? this.getSecondComponent().getMinWidth() : 0),
-    parentAvailableAreaBottom : b - (isLimit ? this.getSecondComponent().getMinHeight() : 0)
+    parentAvailableAreaLeft : l,
+    parentAvailableAreaTop : t,
+    parentAvailableAreaRight : r,
+    parentAvailableAreaBottom : b
   };
 
 }
@@ -454,15 +442,15 @@ qx.Proto._onsplittermouseup = function(e) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
-        this._firstComponent.setWidth(fWidth + '*');
-        this._secondComponent.setWidth(sWidth + '*');
+        this._firstArea.setWidth(fWidth + '*');
+        this._secondArea.setWidth(sWidth + '*');
         break;
 
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         var sHeight = s.height - s.lastY;
         var fHeight = s.height - sHeight;
-        this._firstComponent.setHeight(fHeight + '*');
-        this._secondComponent.setHeight(sHeight + '*');
+        this._firstArea.setHeight(fHeight + '*');
+        this._secondArea.setHeight(sHeight + '*');
         break;
     }
   }
@@ -512,15 +500,15 @@ qx.Proto._onsplittermousemove = function(e) {
       case qx.constant.Layout.ORIENTATION_HORIZONTAL :
         var sWidth = s.width - s.lastX;
         var fWidth = s.width - sWidth;
-        this._firstComponent.setWidth(fWidth + '*');
-        this._secondComponent.setWidth(sWidth + '*');
+        this._firstArea.setWidth(fWidth + '*');
+        this._secondArea.setWidth(sWidth + '*');
         break;
 
       case qx.constant.Layout.ORIENTATION_VERTICAL :
         var sHeight = s.height - s.lastY;
         var fHeight = s.height - sHeight;
-        this._firstComponent.setHeight(fHeight + '*');
-        this._secondComponent.setHeight(sHeight + '*');
+        this._firstArea.setHeight(fHeight + '*');
+        this._secondArea.setHeight(sHeight + '*');
         break;
     }
   } else {
@@ -562,14 +550,14 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  if(this._firstComponent) {
-    this._firstComponent.dispose();
-    this._firstComponent = null;
+  if(this._firstArea) {
+    this._firstArea.dispose();
+    this._firstArea = null;
   }
 
-  if(this._secondComponent) {
-    this._secondComponent.dispose();
-    this._secondComponent = null;
+  if(this._secondArea) {
+    this._secondArea.dispose();
+    this._secondArea = null;
   }
 
   if (this._splitter) {
