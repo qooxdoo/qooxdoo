@@ -20,40 +20,54 @@
 
   <script type="text/javascript">
 
-  qx.core.Init.getInstance().defineMain(function()
+qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
-    
-    
-    // left Component
-    var leftComponent = new qx.ui.form.TextArea;
-    leftComponent.setWrap(true);
-    leftComponent.setBackgroundColor(new qx.renderer.color.Color("yellow"));
-    leftComponent.setWidth('1*');
-    leftComponent.setHeight('100%');
 
-    // right top component
-    var topComponent = new qx.ui.form.TextArea('Das ist ein Test');
-    topComponent.setBackgroundColor(new qx.renderer.color.Color("green"));
-    topComponent.setHeight('1*');
-    topComponent.setWidth('100%');
-    
-    // right bottom component
-    var bottomComponent = new qx.ui.embed.Iframe('http://www.qooxdoo.org');
-    bottomComponent.setHeight('1*');
-    bottomComponent.setWidth('100%');
-    
-    // rightComponent
-    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(false, topComponent, bottomComponent);
-    rightComponent.setWidth('2*');
-    rightComponent.setHeight('100%');
-    
     // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(false, leftComponent, rightComponent);
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane('1*', '2*');
     splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
     splitpane.setLocation(20, 48);
     splitpane.setDimension(700, 500);
+    splitpane.getLeftComponent().setMinWidth(100);
+    splitpane.setContinuousLayout(true);
+    
+    // left Component
+    var leftComponent = new qx.ui.form.TextArea("Left Component");;
+    leftComponent.setWidth('100%');
+    leftComponent.setHeight('100%');
+    leftComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    leftComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
 
+    // rightComponent
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane('1*', '2*');
+    rightComponent.setHeight('100%');
+    rightComponent.setWidth('100%');
+    rightComponent.getLeftComponent().setMinHeight(100);
+    rightComponent.setContinuousLayout(true);
+
+    // right top component
+    var topComponent = new qx.ui.form.TextArea('Right Top Component');
+    topComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    topComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    topComponent.setHeight('100%');
+    topComponent.setWidth('100%');
+    
+    // right bottom component
+    var bottomComponent = new qx.ui.form.TextArea('Right Bottom Component');
+    bottomComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    bottomComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    bottomComponent.setHeight('100%');
+    bottomComponent.setWidth('100%');
+
+    // add widgets to right splitpane
+    rightComponent.addTop(topComponent);
+    rightComponent.addBottom(bottomComponent);
+    
+    // add widgets to splitpane
+    splitpane.addLeft(leftComponent);
+    splitpane.addRight(rightComponent);
+    
     d.add(splitpane);
 
   });

@@ -21,6 +21,14 @@
  
  ************************************************************************ */
 
+
+/**
+ * Creates a new instance of a splitter. This class is used by SplitPane an should not used
+ * on its own.
+ *
+ * @parm orientation {string} The orientation of the splitter. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL. This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
+ */
+
 qx.OO.defineClass("qx.ui.splitpane.Splitter", qx.ui.layout.CanvasLayout,
 function(vOrientation) {
   
@@ -49,6 +57,10 @@ function(vOrientation) {
 ---------------------------------------------------------------------------
  */
 
+/**
+ * The appearance of the splitter
+ */
+qx.OO.changeProperty({ name : 'appearance', defaultValue : 'splitpane-splitter' });
 
 /**
  * The size of the splitter control in px
@@ -127,23 +139,26 @@ qx.Proto._updateSize = function() {
 
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData) {
   
-  // update fast access variables
-  this._layoutHorizontal = propValue == qx.constant.Layout.ORIENTATION_HORIZONTAL;
-  this._layoutVertical = propValue == qx.constant.Layout.ORIENTATION_VERTICAL;
-  
-  // set cursor
   switch(propValue) {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL :
-      this.setCursor('col-resize');
+    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+      // update fast access variables
+      this._layoutHorizontal = true;
+      this._layoutVertical = false;
+      // set appearance
+      this.setState('horizLayout', true);
       break;
       
-    case qx.constant.Layout.ORIENTATION_VERTICAL :
-      this.setCursor("row-resize");
+    case qx.constant.Layout.ORIENTATION_VERTICAL:
+      // update fast access variables
+      this._layoutVertical = true;
+      this._layoutHorizontal = false;
+      // set appearance
+      this.setState('horizLayout', false);
       break;
   }
-
+  
   this._updateSize();
-
+  
   return true;
 }
 
