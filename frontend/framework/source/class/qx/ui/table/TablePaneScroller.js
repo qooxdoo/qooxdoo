@@ -630,7 +630,7 @@ qx.Proto._onmouseout = function(evt) {
   // Reset the resize cursor when the mouse leaves the header
   // If currently a column is resized then do nothing
   // (the cursor will be reset on mouseup)
-  if (this._resizeColumn != null) {
+  if (this._resizeColumn == null) {
     this.getTopLevelWidget().setGlobalCursor(null);
   }
 
