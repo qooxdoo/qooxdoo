@@ -411,7 +411,7 @@ qx.Proto._onSplitterMouseDownX = function(e)
   // initialize the drag session
   // dragStart = position of layout + mouse offset on splitter
   this._dragActive = true;
-  this._dragStart = qx.dom.DomLocation.getPageBoxLeft(this.getElement()) + (e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(this._splitter.getElement()));
+  this._dragStart = qx.dom.DomLocation.getPageBoxLeft(this._box.getElement()) + (e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(this._splitter.getElement()));
 }
 
 /**
@@ -433,7 +433,7 @@ qx.Proto._onSplitterMouseDownY = function(e)
   // initialize the drag session
   // dragStart = position of layout + mouse offset on splitter
   this._dragActive = true;
-  this._dragStart = qx.dom.DomLocation.getPageBoxTop(this.getElement()) + (e.getPageY() - qx.dom.DomLocation.getPageBoxTop(this._splitter.getElement()));
+  this._dragStart = qx.dom.DomLocation.getPageBoxTop(this._box.getElement()) + (e.getPageY() - qx.dom.DomLocation.getPageBoxTop(this._splitter.getElement()));
 }
 
 qx.Proto._commonMouseDown = function()
