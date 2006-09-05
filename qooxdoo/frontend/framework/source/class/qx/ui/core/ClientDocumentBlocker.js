@@ -32,6 +32,7 @@ function()
   qx.ui.basic.Terminator.call(this);
 
   this.setEdge(0);
+  this.setZIndex(1e8);
   this.setDisplay(false);
 });
 
