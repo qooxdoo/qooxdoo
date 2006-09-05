@@ -25,51 +25,34 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
-    
+
     // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(true, new qx.ui.layout.CanvasLayout(), new qx.ui.layout.CanvasLayout());
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane('1*', '2*');
     splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
-    splitpane.setBackgroundColor(new qx.renderer.color.Color("white"));
     splitpane.setLocation(20, 48);
     splitpane.setDimension(700, 500);
+    splitpane.getLeftComponent().setMinWidth(100);
+    splitpane.setContinuousLayout(true);
     
+    // left Component
+    var leftComponent = new qx.ui.tree.Tree("Inbox");;
+    leftComponent.setWidth('100%');
+    leftComponent.setHeight('100%');
+    leftComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    leftComponent.add(new qx.ui.tree.TreeFolder("Drafts"));
+    leftComponent.add(new qx.ui.tree.TreeFolder("Sent"));
+    leftComponent.add(new qx.ui.tree.TreeFolder("Trash"));
+    leftComponent.add(new qx.ui.tree.TreeFolder("Junk"));
+    leftComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
 
-    
-    // cache left pane
-    var leftPane = splitpane.getLeftComponent();
-    leftPane.setWidth(198);
-    leftPane.setHeight('100%');
+    // rightComponent
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane('1*', '2*');
+    rightComponent.setHeight('100%');
+    rightComponent.setWidth('100%');
+    rightComponent.getLeftComponent().setMinHeight(100);
+    rightComponent.setContinuousLayout(true);
 
-    // create content of left pane
-    var tree = new qx.ui.tree.Tree("Inbox");
-    tree.setWidth('100%');
-    tree.setHeight('100%');
-    tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
-    tree.add(new qx.ui.tree.TreeFolder("Drafts"));
-    tree.add(new qx.ui.tree.TreeFolder("Sent"));
-    tree.add(new qx.ui.tree.TreeFolder("Trash"));
-    tree.add(new qx.ui.tree.TreeFolder("Junk"));
-    
-    
-    // add all the stuff to the left pane
-    leftPane.add(tree);
-
-    
-    
-    // cache right pane
-    var rightPane = splitpane.getRightComponent();
-    rightPane.setWidth('1*');
-    rightPane.setHeight('100%');
-    
-    // create content of right pane
-    var rightPaneContent = new qx.ui.splitpane.VerticalSplitPane(true, new qx.ui.layout.CanvasLayout(), new qx.ui.layout.CanvasLayout());
-    rightPaneContent.setWidth('100%');
-    rightPaneContent.setHeight('100%');
-    
-    // caceh top pane of right content pane
-    var rightPaneContentTopPane = rightPaneContent.getTopComponent();
-    rightPaneContentTopPane.setWidth('100%');
-    rightPaneContentTopPane.setHeight(248);
+    // right top component
     
     // create content of right top pane
     var ld = [];
@@ -88,39 +71,33 @@
       date: { label : "Date", width : 100, type : "text" }
     };
 
-    var view = new qx.ui.listview.ListView(ld, lc);
-    view.setWidth('100%');
-    view.setHeight('100%');
-    view.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    var topComponent = new qx.ui.listview.ListView(ld, lc);
+    topComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    topComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    topComponent.setHeight('100%');
+    topComponent.setWidth('100%');
     
-    rightPaneContentTopPane.add(view);
-    
-    
-    
-    // caceh bottom pane of right content pane
-    var rightPaneContentBottomPane = rightPaneContent.getBottomComponent();
-    rightPaneContentBottomPane.setWidth('100%');
-    rightPaneContentBottomPane.setHeight(248);
-    
-    var preview = new qx.ui.basic.Atom;
-    preview.setWidth('100%');
-    preview.setHeight('100%');
-    preview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
-    preview.setHorizontalChildrenAlign('left');
-    preview.setVerticalChildrenAlign('top');
-    preview.setPaddingLeft(10);
-    preview.setPaddingTop(10);
-    
-    preview.setLabel('<h1>Mail preview</h1><p>The body of the mail</p><ul><li>with a list</li><li>inside</li></ul>');
+    // right bottom component
+    var bottomComponent = new qx.ui.basic.Atom;
+    bottomComponent.setOverflow('hidden');
+    bottomComponent.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+    bottomComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
+    bottomComponent.setHorizontalChildrenAlign('left');
+    bottomComponent.setVerticalChildrenAlign('top');
+    bottomComponent.setPaddingLeft(10);
+    bottomComponent.setPaddingTop(10);
+    bottomComponent.setLabel('<h1>Mail preview</h1><p>The body of the mail</p><ul><li>with a list</li><li>inside</li></ul>');
+    bottomComponent.setHeight('100%');
+    bottomComponent.setWidth('100%');
 
-    rightPaneContentBottomPane.add(preview);
+    // add widgets to right splitpane
+    rightComponent.addTop(topComponent);
+    rightComponent.addBottom(bottomComponent);
     
+    // add widgets to splitpane
+    splitpane.addLeft(leftComponent);
+    splitpane.addRight(rightComponent);
     
-    // add all the stuff to the right pane
-    rightPane.add(rightPaneContent);
-    
-    
-    // finally add all to the document
     d.add(splitpane);
 
   });

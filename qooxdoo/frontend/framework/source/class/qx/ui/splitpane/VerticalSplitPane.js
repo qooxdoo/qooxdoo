@@ -21,7 +21,43 @@
 
 ************************************************************************ */
 
+/**
+ *
+ * Creates a new instance of a vertical SplitPane.<br /><br />
+ *
+ * new qx.ui.splitpane.VerticalSplitPane()<br />
+ * new qx.ui.splitpane.VerticalSplitPane(firstProportion, secondProportion)
+ *
+ * @param firstProportion {string} The proportion of the left (top) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param secondProportion {string} The proportion of the right (bottom) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ */
 qx.OO.defineClass("qx.ui.splitpane.VerticalSplitPane", qx.ui.splitpane.SplitPane,
-function(continuousLayout, leftComponent, rightComponent) {
-  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_VERTICAL, continuousLayout, leftComponent, rightComponent);
+function(firstProportion, secondProportion) {
+  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_VERTICAL, firstProportion, secondProportion);
 });
+
+
+
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------
+  DISPOSER
+------------------------------------------------------------------------------------
+ */
+
+/**
+ * Garbage collection
+ */
+qx.Proto.dispose = function() {
+  if (this.getDisposed()) {
+    return true;
+  }
+  
+  return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
+}

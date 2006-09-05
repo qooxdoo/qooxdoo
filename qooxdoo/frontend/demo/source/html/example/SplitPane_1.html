@@ -24,37 +24,51 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
+
+    // the splitpane itself
+    var splitpane = new qx.ui.splitpane.HorizontalSplitPane('1*', '2*');
+    splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+    splitpane.setLocation(20, 48);
+    splitpane.setDimension(700, 500);
     
+    splitpane.setFullyMinimizeable(true);
+    splitpane.setVisibleGlassPane(false);
+    splitpane.setContinuousLayout(false);
     
     // left Component
     var leftComponent = new qx.ui.form.TextArea('LeftComponent');
     leftComponent.setWrap(true);
     leftComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
-    leftComponent.setWidth('1*');
+    leftComponent.setWidth('100%');
     leftComponent.setHeight('100%');
+
+    // rightComponent
+    var rightComponent = new qx.ui.splitpane.VerticalSplitPane();
+    rightComponent.setHeight('100%');
+    rightComponent.setWidth('100%');
+    rightComponent.setFullyMinimizeable(false);
+    rightComponent.setContinuousLayout(true);
+    rightComponent.setVisibleGlassPane(true);
 
     // right top component
     var topComponent = new qx.ui.form.TextArea('Right Top Component');
     topComponent.setBackgroundColor(new qx.renderer.color.Color("white"));
-    topComponent.setHeight('1*');
+    topComponent.setHeight('100%');
     topComponent.setWidth('100%');
     
     // right bottom component
     var bottomComponent = new qx.ui.embed.Iframe('http://www.qooxdoo.org');
-    bottomComponent.setHeight('1*');
+    bottomComponent.setHeight('100%');
     bottomComponent.setWidth('100%');
-    
-    // rightComponent
-    var rightComponent = new qx.ui.splitpane.VerticalSplitPane(true, topComponent, bottomComponent);
-    rightComponent.setWidth('2*');
-    rightComponent.setHeight('100%');
-    
-    // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane(false, leftComponent, rightComponent);
-    splitpane.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
-    splitpane.setLocation(20, 48);
-    splitpane.setDimension(700, 500);
 
+    // add widgets to right splitpane
+    rightComponent.addTop(topComponent);
+    rightComponent.addBottom(bottomComponent);
+    
+    // add widgets to splitpane
+    splitpane.addLeft(leftComponent);
+    splitpane.addRight(rightComponent);
+    
     d.add(splitpane);
 
   });
