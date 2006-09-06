@@ -28,11 +28,11 @@
  * the areas dropping the border between.
  * <br /><br />
  * new qx.ui.splitpane.SplitPane(orientation)<br />
- * new qx.ui.splitpane.SplitPane(orientation, firstProportion, secondProportion )<br />
+ * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)<br />
  *
  * @param orientation {string} The orientation of the splitpane control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL. This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
- * @param firstProportion {string} The proportion of the left (top) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
- * @param secondProportion {string} The proportion of the right (bottom) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param firstSize {string} The size of the left (top) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param secondSize {string} The size of the right (bottom) pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
  *
  */
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.CanvasLayout,
@@ -56,7 +56,7 @@ function(orientation, firstSize, secondSize) {
    | | box                                                                               | |
    | | ---------------------------  ---  ----------------------------------------------- | |
    | | |                         |  | |  |                                             | | |
-   | | | firstArea          |  |s|  | secondArea                             | | |
+   | | | firstArea               |  |s|  | secondArea                                  | | |
    | | |                         |  |p|  |                                             | | |
    | | |                         |  |l|  |                                             | | |
    | | |                         |  |i|  |                                             | | |
@@ -163,12 +163,12 @@ qx.OO.addProperty({ name : "visibleGlassPane", type : qx.constant.Type.BOOLEAN, 
 qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ] });
 
 /**
- *
+ * The size of the first (left/top) area.
  */
 qx.OO.addProperty({ name : "firstSize" });
 
 /**
- *
+ * The size of the second (right/bottom) area.
  */
 qx.OO.addProperty({ name : "secondSize" });
 
@@ -429,7 +429,7 @@ qx.Proto._syncSecondSize = function()
 */
 
 /**
- * Initializes drag session in case of a mousedown event on the splitter.
+ * Initializes drag session in case of a mousedown event on splitter in a horizontal splitpane.
  *
  * @param e {qx.event.MouseEvent} The event itself.
  */
@@ -451,7 +451,7 @@ qx.Proto._onSplitterMouseDownX = function(e)
 }
 
 /**
- * Initializes drag session in case of a mousedown event on the splitter.
+ * Initializes drag session in case of a mousedown event on splitter in a vertical splitpane.
  *
  * @param e {qx.event.MouseEvent} The event itself.
  */
@@ -500,11 +500,10 @@ qx.Proto._commonMouseDown = function()
 
 
 /**
- * Move the splitter in case of a mousemove event on the splitter.
+ * Move the splitter in case of a mousemove event on splitter in a horizontal splitpane.
  *
  * @param e {qx.event.MouseEvent} The event itself.
  */
-
 qx.Proto._onSplitterMouseMoveX = function(e)
 {
   if (!this._dragActive) {
@@ -515,6 +514,11 @@ qx.Proto._onSplitterMouseMoveX = function(e)
   e.preventDefault();
 }
 
+/**
+ * Move the splitter in case of a mousemove event on splitter in a vertical splitpane.
+ *
+ * @param e {qx.event.MouseEvent} The event itself.
+ */
 qx.Proto._onSplitterMouseMoveY = function(e)
 {
   if (!this._dragActive) {
@@ -532,7 +536,7 @@ qx.Proto._onSplitterMouseMoveY = function(e)
 
 
 /**
- * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on the splitter.
+ * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a horizontal splitpane.
  *
  * @param e {qx.event.MouseEvent} The event itself.
  */
@@ -550,7 +554,7 @@ qx.Proto._onSplitterMouseUpX = function(e)
 }
 
 /**
- * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on the splitter.
+ * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a vertical splitpane.
  *
  * @param e {qx.event.MouseEvent} The event itself.
  */
