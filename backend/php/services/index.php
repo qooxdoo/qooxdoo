@@ -107,6 +107,28 @@ define("JsonRpcError_ParameterMismatch",   5);
 define("JsonRpcError_PermissionDenied",    6);
 
 
+define("ScriptTransport_NotInUse",         -1);
+
+function SendReply($reply, $scriptTransportId)
+{
+    /* If not using ScriptTransport... */
+    if ($scriptTransportId == ScriptTransport_NotInUse)
+    {
+        /* ... then just output the reply. */
+        print $reply;
+    }
+    else
+    {
+        /* Otherwise, we need to add a call to a qooxdoo-specific function */
+        $reply =
+            "qx.io.remote.ScriptTransport._requestFinished(" .
+            $scriptTransportId . ", " . $reply .
+            ");";
+        print $reply;
+    }
+}
+
+
 /*
  * class JsonRpcError
  *
@@ -118,6 +140,7 @@ class JsonRpcError
     var             $json;
     var             $data;
     var             $id;
+    var             $scriptTransportId;
     
     function JsonRpcError($json,
                           $origin = JsonRpcError_Origin_Server,
@@ -128,6 +151,9 @@ class JsonRpcError
         $this->data = array("origin"  => $origin,
                             "code"    => $code,
                             "message" => $message);
+
+        /* Assume we're not using ScriptTransporrt */
+        $this->scriptTransportId = ScriptTransport_NotInUse;
     }
     
     function SetOrigin($origin)
@@ -146,13 +172,18 @@ class JsonRpcError
         $this->id = $id;
     }
     
+    function SetScriptTransportId($id)
+    {
+        $this->scriptTransportId = $id;
+    }
+    
     function SendAndExit()
     {
         $error = $this;
         $id = $this->id;
         $ret = array("error" => $this->data,
                      "id"    => $id);
-        print $this->json->encode($ret);
+        SendReply($this->json->encode($ret), $this->scriptTransportId);
         exit;
     }
 }
@@ -168,63 +199,80 @@ function debug($str)
     fflush($fw);
 }
 
-
-
-/* Ensure we received POST data */
-if ($_SERVER["REQUEST_METHOD"] != "POST")
-{
-    /*
-     * This request was not issued with JSON-RPC so echo the error rather than
-     * issuing a JsonRpcError response.
-     */
-    echo "Services require POST using JSON-RPC<br>";
-    exit;
-}
-
 /*
  * Create a new instance of JSON and get the JSON-RPC request from
  * the POST data.
  */
 $json = new JSON();
-$input = file_get_contents('php://input', 1000000);
+$error = new JsonRpcError($json);
 
-/*
- * If this was form data (as would be received via an IframeTransport
- * request), we expect "_data_=<url-encoded-json-rpc>"; otherwise
- * (XmlHttpTransport) we'll have simply <json-rpc>, not url-encoded and with
- * no "_data_=".  The "Content-Type" field should be one of our two supported
- * variants: text/json or application/x-json-form-urlencoded.  If neither, or
- * if there is more than one form field provided or if the first form field
- * name is not '_data_', it's an error.
- */
-switch($_SERVER["CONTENT_TYPE"])
+/* Assume (default) we're not using ScriptTransport */
+$scriptTransportId = ScriptTransport_NotInUse;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-case "text/json":
-    /* We found literal POSTed json-rpc data (we hope) */
-    $jsonInput = $json->decode($input);
-    break;
-    
-case "application/x-www-form-urlencoded":
-    /* Form.  See what fields were provided.  There must be only "_data_" */
-    if (count($_POST) == 1 && isset($_POST["_data_"]))
+    /*
+     * We might have received either of two submission methods here.  If this
+     * was form data (as would be received via an IframeTransport request), we
+     * expect "_data_=<url-encoded-json-rpc>"; otherwise (XmlHttpTransport)
+     * we'll have simply <json-rpc>, not url-encoded and with no "_data_=".
+     * The "Content-Type" field should be one of our two supported variants:
+     * text/json or application/x-json-form-urlencoded.  If neither, or if
+     * there is more than one form field provided or if the first form field
+     * name is not '_data_', it's an error.
+     */
+    switch($_SERVER["CONTENT_TYPE"])
     {
-        /* $_POST["_data_"] has quotes escaped.  php://input doesn't. */
+    case "text/json":
+        /* We found literal POSTed json-rpc data (we hope) */
         $input = file_get_contents('php://input', 1000000);
-        $inputFields = explode("=", $input);
-        $jsonInput = $json->decode(urldecode($inputFields[1]));
+        $jsonInput = $json->decode($input);
         break;
+    
+    case "application/x-www-form-urlencoded":
+        /*
+         * We received a form submission.  See what fields were provided.
+         * There must be only "_data_"
+         */
+        if (count($_POST) == 1 && isset($_POST["_data_"]))
+        {
+            /* $_POST["_data_"] has quotes escaped.  php://input doesn't. */
+            $input = file_get_contents('php://input', 1000000);
+            $inputFields = explode("=", $input);
+            $jsonInput = $json->decode(urldecode($inputFields[1]));
+            break;
+        }
+    
+        /* fall through to default */
+    
+    default:
+        /*
+         * This request was not issued with JSON-RPC so echo the error rather
+         * than issuing a JsonRpcError response.
+         */
+        echo
+            "JSON-RPC request expected; " .
+            "unexpected data received";
+        exit;
     }
-    
-    /* fall through to default */
-    
-default:
+}
+else if ($_SERVER["REQUEST_METHOD"] == "GET" &&
+         isset($_GET["_ScriptTransport_id"]) &&
+         isset($_GET["_ScriptTransport_data"]))
+{
+    /* We have what looks like a valid ScriptTransport request */
+    $scriptTransportId = $_GET["_ScriptTransport_id"];
+    $error->SetScriptTransportId($scriptTransportId);
+    $input = $_GET["_ScriptTransport_data"];
+    $jsonInput = $json->decode(stripslashes($input));
+}
+else
+{
     /*
      * This request was not issued with JSON-RPC so echo the error rather than
      * issuing a JsonRpcError response.
      */
-    echo
-        "JSON-RPC request expected; " .
-        "unexpected data received";
+    echo "Services require JSON-RPC<br>";
     exit;
 }
 
@@ -248,7 +296,6 @@ if (! isset($jsonInput) ||
  * Ok, it looks like JSON-RPC, so we'll return an Error object if we encounter
  * errors from here on out.
  */
-$error = new JsonRpcError($json);
 $error->SetId($jsonInput->id);
 
 /*
@@ -304,7 +351,7 @@ if ((@include servicePathPrefix . $servicePath . ".php") === false)
 {
     /* Couldn't find the requested service */
     $error->SetError(JsonRpcError_ServiceNotFound,
-                     "Service not found.");
+                     "Service `$servicePath` not found.");
     $error->SendAndExit();
     /* never gets here */
 }
@@ -316,7 +363,7 @@ $className = "class_" . $serviceComponents[count($serviceComponents) - 1];
 if (! class_exists($className))
 {
     $error->SetError(JsonRpcError_ClassNotFound,
-                     "Class not found.");
+                     "Service class `$className` not found.");
     $error->SendAndExit();
     /* never gets here */
 }
@@ -329,7 +376,8 @@ $method = "method_" . $jsonInput->method;
 if (! method_exists($service, $method))
 {
     $error->SetError(JsonRpcError_MethodNotFound,
-                     "Method not found.");
+                     "Method `$method` not found " .
+                     "in service class `$className`.");
     $error->SendAndExit();
     /* never gets here */
 }
@@ -351,6 +399,6 @@ if (get_class($output) == "JsonRpcError")
 /* Give 'em what they came for! */
 $ret = array("result" => $output,
              "id"     => $jsonInput->id);
-print $json->encode($ret);
+SendReply($json->encode($ret), $scriptTransportId);
 
 ?>
