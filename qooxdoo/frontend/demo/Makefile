@@ -34,7 +34,7 @@ all: build
 ###################################################################################
 
 source: generate-script-source update-layout-source
-build: generate-script-build update-layout-build
+build: generate-script-build update-layout-build fix-build-rights
 sync: build sync-qooxdoo-org
 
 
@@ -129,6 +129,14 @@ update-layout-build: update-demo-build
 	@echo "  * Generating..."
 	@chmod u+x tool/layout.sh && nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
 
+fix-build-rights:
+	@echo
+	@echo "  FIX RIGHTS ON BUILD FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Fixing file rights..."
+	@nice -n $(NICE) find build -type d | xargs chmod a+rx
+	@nice -n $(NICE) find build -type f | xargs chmod a+r
+
 
 
 
@@ -141,8 +149,5 @@ sync-qooxdoo-org:
 	@echo
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
-	@echo "  * Fixing file rights..."
-	@nice -n $(NICE) find build -type d | xargs chmod a+rx
-	@nice -n $(NICE) find build -type f | xargs chmod a+r
 	@echo "  * Syncing..."
 	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo

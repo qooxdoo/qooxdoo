@@ -47,7 +47,7 @@ all: build
 ###################################################################################
 
 source: info-source generate-script-source
-build: info-build generate-script-build copy-build-files
+build: info-build generate-script-build copy-build-files fix-build-rights
 
 api: generate-api-build generate-api-data
 	@echo
@@ -152,6 +152,14 @@ copy-build-files:
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Copying file..."
 	@cp -f source/index.html build/index.html
+
+fix-build-rights:
+	@echo
+	@echo "  FIX RIGHTS ON BUILD FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Fixing file rights..."
+	@nice -n $(NICE) find build -type d | xargs chmod a+rx
+	@nice -n $(NICE) find build -type f | xargs chmod a+r
 
 
 
