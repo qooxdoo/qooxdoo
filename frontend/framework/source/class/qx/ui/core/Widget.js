@@ -2539,7 +2539,15 @@ qx.Proto.getWidthValue = function()
       return this._computedWidthValue = this.getPreferredBoxWidth();
 
     case qx.ui.core.Widget.TYPE_FLEX:
-      this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+      try{
+         this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+      } catch (e){
+        if (this.getParent().getLayoutImpl()["computeChildrenFlexWidth"] == null){
+          throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
+        } else {
+          throw e;
+        }
+      }
       return this._computedWidthValue = this._computedWidthFlexValue;
   }
 
@@ -2654,7 +2662,15 @@ qx.Proto.getHeightValue = function()
       return this._computedHeightValue = this.getPreferredBoxHeight();
 
     case qx.ui.core.Widget.TYPE_FLEX:
-      this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+      try{
+        this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+      } catch (e){
+        if (this.getParent().getLayoutImpl()["computeChildrenFlexHeight"] == null){
+          throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
+        } else {
+          throw e;
+        }
+      }
       return this._computedHeightValue = this._computedHeightFlexValue;
   }
 
