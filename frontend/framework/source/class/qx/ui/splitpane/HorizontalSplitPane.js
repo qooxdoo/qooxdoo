@@ -32,8 +32,8 @@
  * @param secondSize {string} The size of the right pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.HorizontalSplitPane", qx.ui.splitpane.SplitPane,
-function(firstProportion, secondProportion) {
-  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL, firstProportion, secondProportion);
+function(firstSize, secondSize) {
+  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL, firstSize, secondSize);
 });
 
 
