@@ -279,10 +279,10 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
 
 
 /**
- * Returns the data of one row.
+ * <p>See overridden method for details.</p>
  *
  * @param rowIndex {int} the model index of the row.
- * @return {Map} the row data as map containing for a column ID the column's value.
+ * @return {Object} Map containing a value for each column.
  */
 qx.Proto.getRowData = function(rowIndex) {
   var blockSize = this.getBlockSize();
