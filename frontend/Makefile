@@ -5,7 +5,7 @@
 VERSION = 0.6
 
 NICE=10
-NICE_CALL = nice -n $(NICE)
+NICE_CALL = @nice -n $(NICE)
 
 RELEASE_BUILD_UNIX = release/temp/build/unix/qooxdoo-$(VERSION)-build
 RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
@@ -18,8 +18,8 @@ FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o 
 RSYNC_BUILD_OPT = --recursive --archive --executability --delete
 RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
 
-RSYNC_BUILD_EXEC = @$(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
-RSYNC_SDK_EXEC = @$(NICE_CALL) rsync $(RSYNC_SDK_OPT)
+RSYNC_BUILD_EXEC = $(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
+RSYNC_SDK_EXEC = $(NICE_CALL) rsync $(RSYNC_SDK_OPT)
 
 UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
 DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
@@ -107,7 +107,7 @@ realclean:
 	@$(MAKE) -C skeleton realclean
 
 	@echo "  * Deleting release temp data..."
-	@$(NICE_CALL) rm -rf release/temp
+	$(NICE_CALL) rm -rf release/temp
 
 distclean:
 	@echo
@@ -120,10 +120,10 @@ distclean:
 	@$(MAKE) -C skeleton distclean
 
 	@echo "  * Deleting cache..."
-	@$(NICE_CALL) rm -rf .cache
+	$(NICE_CALL) rm -rf .cache
 
 	@echo "  * Deleting release archives..."
-	@$(NICE_CALL) rm -rf release
+	$(NICE_CALL) rm -rf release
 
 
 
@@ -161,8 +161,7 @@ release-build-sync:
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_UNIX)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_BUILD_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	$(NICE_CALL) find $(RELEASE_BUILD_UNIX) $(FIX_FILES) $(DOS2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
@@ -181,8 +180,7 @@ release-build-sync:
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_DOS)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_BUILD_DOS) $(FIX_FILES) $(UNIX2DOS)
+	$(NICE_CALL) find $(RELEASE_BUILD_DOS) $(FIX_FILES) $(UNIX2DOS)
 
 release-build-compress:
 	@echo
@@ -238,14 +236,13 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_UNIX)/frontend/demo/tool
-	@find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
-	@find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_SDK_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	$(NICE_CALL) find $(RELEASE_SDK_UNIX) $(FIX_FILES) $(DOS2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS SDK RELEASE"
@@ -280,14 +277,13 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_DOS)/frontend/demo/tool
-	@find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
 	@$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
-	find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@$(NICE_CALL) find $(RELEASE_SDK_DOS) $(FIX_FILES) $(UNIX2DOS)
+	$(NICE_CALL) find $(RELEASE_SDK_DOS) $(FIX_FILES) $(UNIX2DOS)
 
 release-sdk-compress:
 	@echo
