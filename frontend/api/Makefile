@@ -34,14 +34,7 @@ all: build
 ###################################################################################
 
 source: generate-script-source generate-data-source
-
-build: generate-script-build generate-data-build
-	@echo
-	@echo "  CREATE COPY OF HTML FILE"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Copying file..."
-	@cp -f source/index.html build/index.html
-
+build: generate-script-build generate-data-build copy-index-file fix-build-rights
 sync: build sync-qooxdoo-org
 
 
@@ -123,6 +116,31 @@ generate-data-build:
 
 
 
+
+###################################################################################
+# FILE RELATED TARGETS
+###################################################################################
+
+copy-index-file:
+	@echo
+	@echo "  CREATE COPY OF HTML FILE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Copying file..."
+	@cp -f source/index.html build/index.html
+
+fix-build-rights:
+	@echo
+	@echo "  FIX RIGHTS ON BUILD FILES"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Fixing file rights..."
+	@nice -n $(NICE) find build -type d | xargs chmod a+rx
+	@nice -n $(NICE) find build -type f | xargs chmod a+r
+
+
+
+
+
+
 ###################################################################################
 # ONLINE TARGETS
 ###################################################################################
@@ -131,8 +149,5 @@ sync-qooxdoo-org:
 	@echo
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
-	@echo "  * Fixing file rights..."
-	@nice -n $(NICE) find build -type d | xargs chmod a+rx
-	@nice -n $(NICE) find build -type f | xargs chmod a+r
 	@echo "  * Syncing..."
 	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/api
