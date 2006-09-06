@@ -19,13 +19,19 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
+    var frame = new qx.ui.layout.CanvasLayout;
+    frame.setLocation(20, 48);
+    frame.setBottom(48);
+    frame.setRight(300);
+    frame.setBackgroundColor("threedshadow");
+    frame.setPadding(20);
+    frame.addToDocument();
+
     // the splitpane itself
     var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
-    splitpane.setLocation(20, 48);
-    splitpane.setBottom(48);
-    splitpane.setRight(310);
+    splitpane.setEdge(0);
     splitpane.setLiveResize(true);
-    splitpane.addToDocument();
+    frame.add(splitpane);
 
     // left Widget
     var leftWidget = new qx.ui.form.TextArea("LeftWidget");
