@@ -2020,16 +2020,23 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       }
     }
   },
-  
+
   "splitpane-splitter" : {
     setup : function() {
-      this.background = new qx.renderer.color.ColorObject("threedface");
+      this.backgroundDragging = new qx.renderer.color.ColorObject("black");
     },
-    
+
     initial : function(vTheme) {
       return {
         size: 5,
-        backgroundColor : this.background
+        opacity: 0.3
+      }
+    },
+
+    state : function(vTheme, vStates) {
+      return {
+        zIndex: (vStates.dragging ? 1e8 : 0),
+        backgroundColor: (vStates.dragging ? this.backgroundDragging : null)
       }
     }
   }
