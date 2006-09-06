@@ -15,7 +15,7 @@ RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(VERSION)-sdk
 
 FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
-RSYNC_BUILD_OPT = --recursive --links --delete
+RSYNC_BUILD_OPT = --recursive --archive --executability --delete
 RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
 
 RSYNC_BUILD_EXEC = @$(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
@@ -190,7 +190,7 @@ release-build-compress:
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/temp/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.gz; $(NICE_CALL) tar cfz ../../../qooxdoo-$(VERSION)-build.tar.gz qooxdoo-$(VERSION)-build
+	@cd release/temp/build/unix; rm -f qooxdoo-$(VERSION)-build.tar.gz; $(NICE_CALL) tar cfzp ../../../qooxdoo-$(VERSION)-build.tar.gz qooxdoo-$(VERSION)-build
 
 	@echo "  * Generating zip (DOS) archive..."
 	@cd release/temp/build/dos; rm -f qooxdoo-$(VERSION)-build.zip; $(NICE_CALL) zip -rq ../../../qooxdoo-$(VERSION)-build.zip qooxdoo-$(VERSION)-build
@@ -238,8 +238,10 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_UNIX)/frontend/demo/tool
+	find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
+	find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
@@ -278,8 +280,10 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_DOS)/frontend/demo/tool
+	find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
+	find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
@@ -291,7 +295,7 @@ release-sdk-compress:
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(NICE_CALL) tar cfz ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
+	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(NICE_CALL) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
 
 	@echo "  * Generating zip (DOS) archive..."
 	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(NICE_CALL) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
