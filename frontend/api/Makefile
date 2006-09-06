@@ -131,5 +131,8 @@ sync-qooxdoo-org:
 	@echo
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
+	@echo "  * Fixing file rights..."
+	@nice -n $(NICE) find build -type d | xargs chmod a+rx
+	@nice -n $(NICE) find build -type f | xargs chmod a+r
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync --checksum --recursive --links --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/api
+	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/api
