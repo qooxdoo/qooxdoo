@@ -298,6 +298,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     cellInfo.row = row;
     cellInfo.selected = selectionModel.isSelectedIndex(row);
     cellInfo.focusedRow = (this._focusedRow == row);
+    cellInfo.rowData = tableModel.getRowData(row);
 
     // Update this row
     if (TablePane.USE_TABLE) {
@@ -407,6 +408,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
     cellInfo.row = row;
     cellInfo.selected = selectionModel.isSelectedIndex(row);
     cellInfo.focusedRow = (this._focusedRow == row);
+    cellInfo.rowData = tableModel.getRowData(row);
 
     // Update this row
     var rowElem;
