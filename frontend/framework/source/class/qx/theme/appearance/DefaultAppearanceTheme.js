@@ -2002,17 +2002,27 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   ---------------------------------------------------------------------------
    */
 
-  "splitpane-glasspane" : {
+  "splitpane" :
+  {
+    initial : function(vTheme) {
+      return {
+        overflow : "hidden"
+      }
+    }
+  },
+
+  "splitpane-glasspane" :
+  {
     setup : function() {
       this.background = new qx.renderer.color.ColorObject("gray");
     },
-    
+
     initial : function(vTheme) {
       return {
         zIndex : 1e7
       }
     },
-    
+
     state : function(vTheme, vStates) {
       return {
         backgroundColor : vStates.visible ? this.background : null,
@@ -2021,26 +2031,30 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     }
   },
 
-  "splitpane-splitter" : {
-    setup : function() {
-      this.backgroundDragging = new qx.renderer.color.ColorObject("black");
-    },
-
+  "splitpane-splitter" :
+  {
     initial : function(vTheme) {
       return {
-        size: 5,
-        opacity: 0.3
+        backgroundColor : "threedface"
+      }
+    }
+  },
+
+  "splitpane-slider" :
+  {
+    initial : function(vTheme) {
+      return {
+        opacity: 0.5,
+        zIndex : 1e8
       }
     },
 
     state : function(vTheme, vStates) {
       return {
-        zIndex: (vStates.dragging ? 1e8 : 0),
-        backgroundColor: (vStates.dragging ? this.backgroundDragging : null)
+        backgroundColor: vStates.dragging ? "threeddarkshadow" : "threedface"
       }
     }
   }
-
 
 
 
