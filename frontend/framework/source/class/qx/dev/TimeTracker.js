@@ -88,9 +88,10 @@ qx.Proto.buttonSets = function()
   htmlOutput.setBackgroundColor("white");
   htmlOutput.setPadding(10);
   htmlOutput.setOverflow("auto");
+  htmlOutput.addToDocument();
 
   btnLayout.add(loopLabel, loopInput, repeatLabel, btnStart1, btnStart2, btnStart3, btnStart4);
-  qx.core.Init.getInstance().getComponent().add(btnLayout, htmlOutput);
+  btnLayout.addToDocument();
 }
 
 qx.Proto.start = function(vRounds, vLoops)
