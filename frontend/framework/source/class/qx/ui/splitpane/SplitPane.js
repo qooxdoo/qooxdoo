@@ -41,6 +41,9 @@ function(orientation, firstSize, secondSize) {
   qx.ui.layout.CanvasLayout.call(this);
 
 
+  this.setOverflow("hidden");
+
+
   // CREATE INNER BOX LAYOUT
   var box = this._box = new qx.ui.layout.BoxLayout;
   box.setEdge(0);
