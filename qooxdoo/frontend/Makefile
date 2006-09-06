@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-VERSION = 0.6-rc2
+VERSION = 0.6
 
 NICE=10
 NICE_CALL = nice -n $(NICE)
@@ -238,10 +238,10 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_UNIX)/frontend/demo/tool
-	find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	@find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
-	find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	@find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
 	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
@@ -280,9 +280,9 @@ release-sdk-sync:
 	@echo "  * Synchronizing tool folders..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
 	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_DOS)/frontend/demo/tool
-	find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	@find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
-	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
+	@$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
 	find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
