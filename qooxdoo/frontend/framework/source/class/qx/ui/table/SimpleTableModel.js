@@ -37,6 +37,16 @@ function() {
 
 
 /**
+ * <p>See overridden method for details.</p>
+ *
+ * @param rowIndex {int} the model index of the row.
+ * @return {Array} Array containing a value for each column.
+ */
+qx.Proto.getRowData = function(rowIndex) {
+  return this._rowArr[rowIndex];
+}
+
+/**
  * Sets all columns editable or not editable.
  *
  * @param editable {boolean} whether all columns are editable.
