@@ -140,6 +140,12 @@ qx.OO.addProperty({ name:"scrollY", type:qx.constant.Type.NUMBER, allowNull:fals
  */
 qx.OO.addProperty({ name:"liveResize", type:qx.constant.Type.BOOLEAN, defaultValue:false });
 
+/**
+ * Whether the focus should moved when the mouse is moved over a cell. If false
+ * the focus is only moved on mouse clicks.
+ */
+qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+
 
 // property modifier
 qx.Proto._modifyHorizontalScrollBarVisible = function(propValue, propOldValue, propData) {
@@ -336,6 +342,9 @@ qx.Proto._changeInnerHeight = function(newValue, oldValue) {
 qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
+  var self = this;
+  this.getElement().onselectstart = qx.util.Return.returnFalse;
+
   this._updateContent();
   this._header._updateContent();
   this._updateHorScrollBarMaximum();
@@ -457,7 +466,9 @@ qx.Proto._onmousemove = function(evt) {
       }
     } else if (row != null) {
       // The mouse is over the data -> update the focus
-      this._focusCellAtPagePos(pageX, pageY);
+      if (this.getFocusCellOnMouseMove()) {
+        this._focusCellAtPagePos(pageX, pageY);
+      }
     }
   }
 
@@ -502,6 +513,11 @@ qx.Proto._onmousedown = function(evt) {
       }
     }
   } else if (row != null) {
+    // The mouse is over the data -> update the focus
+    if (! this.getFocusCellOnMouseMove()) {
+      this._focusCellAtPagePos(pageX, pageY);
+    }
+
     this._selectionManager.handleMouseDown(row, evt);
   }
 }
@@ -1203,6 +1219,10 @@ qx.Proto._updateFocusIndicator = function() {
 qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
+  }
+
+  if (this.getElement() != null) {
+    this.getElement().onselectstart = null;
   }
 
   this.cancelEditing();
