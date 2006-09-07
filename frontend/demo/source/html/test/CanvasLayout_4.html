@@ -12,7 +12,8 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-
+    <p>This test is using multiple div-Elements</p>
+	<p>Created with "createElement" and added via "appendChild" to the document.</p>
   </div>
 
   <script type="text/javascript">
@@ -28,11 +29,12 @@
       {
         var w = document.createElement("div");
 
-        w.className = "qx.ui.core.Widget QxWidgetCore";
+        w.className = "qx_ui_core_Widget_QxWidgetCore";
         w.id = "Auto" + i + "|" + j;
 
         w.style.width = "12px";
         w.style.height = "12px";
+	    w.style.position = "absolute";
         w.style.left = (20+(12*i)) + "px";
         w.style.top = (48+(12*j)) + "px";
 
