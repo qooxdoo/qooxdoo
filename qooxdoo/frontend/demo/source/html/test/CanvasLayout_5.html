@@ -12,7 +12,8 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-
+    <p>This test is using multiple div-Elements</p>
+	<p>Added to the document using the "innerHTML" property.</p>
   </div>
 
   <script type="text/javascript">
@@ -27,13 +28,13 @@
     {
       for (var j=1; j<=20; j++)
       {
-        h.push("<div style='width:12px;height:12px;");
+        h.push("<div style='width:12px;height:12px;position:absolute;");
         h.push("left:" + (20+(12*i)) + "px;");
         h.push("top:" + (48+(12*j)) + "px;");
 
         v = Math.round(20+(i*j)/2);
         h.push("background-color:" + "rgb(" + v + "," + v + "," + v + ")");
-        h.push("' class='qx.ui.core.Widget QxWidgetCore' id='Auto" + i + "|" + j + "'></div>");
+        h.push("' class='qx_ui_core_Widget_QxWidgetCore' id='Auto" + i + "|" + j + "'></div>");
       };
     };
 
