@@ -92,18 +92,18 @@
       "helpBtn" : { title : "Hilfe", menu : "helpMnu" },
 
       // Execute-Buttons: Open
-      "openBtn" : { title : "Öffnen", execute : "open" },
-      "openWithBtn" : { title : "Öffnen mit...", execute : "openWith" },
-      "openRecentlyBtn" : { title : "Letzte öffnen...", menu : "openRecentlyMnu" },
+      "openBtn" : { title : "Ã–ffnen", execute : "open" },
+      "openWithBtn" : { title : "Ã–ffnen mit...", execute : "openWith" },
+      "openRecentlyBtn" : { title : "Letzte Ã¶ffnen...", menu : "openRecentlyMnu" },
 
       "saveBtn" : { title : "Speichern", execute : "save" },
       "saveAsBtn" : { title : "Speichern als...", execute : "saveAs" },
-      "closeBtn" : { title : "Schließen", execute : "close" },
+      "closeBtn" : { title : "SchlieÃŸen", execute : "close" },
       "exitBtn" : { title : "Beenden", execute : "exit" },
 
-      "undoBtn" : { title : "Rückgängig", execute : "undo" },
+      "undoBtn" : { title : "RÃ¼ckgÃ¤ngig", execute : "undo" },
       "redoBtn" : { title : "Wiederherstellen", execute : "redo" },
-      "deleteBtn" : { title : "Löschen", execute : "delete" },
+      "deleteBtn" : { title : "LÃ¶schen", execute : "delete" },
       "clipboardBtn" : { title : "Zwischenablage", execute : "clipboard" },
 
       // Execute-Buttons: Search
@@ -114,10 +114,10 @@
       // Execute-Buttons: Edit
       "cutBtn" : { title : "Ausschneiden", execute : "cut" },
       "copyBtn" : { title : "Kopieren", execute : "copy" },
-      "pasteBtn" : { title : "Einfügen", execute : "paste" },
+      "pasteBtn" : { title : "EinfÃ¼gen", execute : "paste" },
 
       // Execute-Buttons: Info
-      "aboutBtn" : { title : "Über", execute : "about" },
+      "aboutBtn" : { title : "Ãœber", execute : "about" },
 
       "doc1Btn" : { title : "Dokument 1", execute : "openDoc1" },
       "doc2Btn" : { title : "Dokument 2", execute : "openDoc2" },
@@ -174,8 +174,7 @@
           var subMenu = this._generateMenu(commandData.menu);
           var menuButton = new qx.ui.menu.MenuButton(commandData.title, null, null, subMenu);
 
-          // DEPRECATED CALL
-          qx.core.Init.getComponent().getClientWindow()().getClientDocument().add(subMenu);
+	      subMenu.addToDocument();
         }
         else
         {
@@ -233,8 +232,8 @@
             if (typeof commanddata.menu != qx.constant.Type.UNDEFINED)
             {
               menu = this._generateMenu(commanddata.menu);
-              // DEPRECATED CALL
-              qx.core.Init.getComponent().getClientWindow()().getClientDocument().add(menu);
+		      menu.addToDocument();
+		
               btn = new qx.ui.toolbar.ToolBarMenuButton(commanddata.title, menu);
             }
             else
@@ -261,7 +260,7 @@
   {
     var c1 = new qx.Generator(comp1);
     qx.ui.core.ClientDocument.getInstance().add(c1.getWidget());
-  };
+  });
 
   </script>
 </body>

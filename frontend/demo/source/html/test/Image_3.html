@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    Some advanced tests for qx.ui.basic.Image. Click on the fourth and fivth image to test the reflow possibilities.
+    Some advanced tests for qx.ui.basic.Image. Click on the fourth and fifth image to test the reflow possibilities.
     The debug log gives you information of the preferred dimensions.
   </div>
 
@@ -108,7 +108,7 @@
         
         for (var i=0; i<icons.length; i++)
         {
-          m = icons[i].getSource().contains("/22/");
+          m = icons[i].getSource().indexOf("/22/") != -1;
           icons[i].setSource(m ? icons[i].getSource().replace("/22/", "/32/") : icons[i].getSource().replace("/32/", "/22/"));
           icons[i].setLeft(m ? 36 * i : 26 * i);
         };

@@ -116,7 +116,7 @@
           timestamp : Math.random().toString(),
           comment : "Cool Comment: " + i,
           id : "7686191121780974-10682-" + i,
-          src : "../../themes/icons/crystalsvg/64/paint.png"
+          src : qx.manager.object.AliasManager.getInstance().resolvePath("icon/64/paint.png")
         });
       };
 
@@ -136,19 +136,17 @@
 
 
       var toolTip = new qx.ui.popup.ToolTip("Photo Details", "icon/32/colors.png");
-
+	  gallery.setToolTip(toolTip);
+	  
       gallery.addEventListener("beforeToolTipAppear", function(e)
-      {
-        var vNode = e.getData();
-        var vEntry = this.getEntryByNode(vNode);
+	  {
+	    var vNode = e.getData();
+	    var vEntry = this.getEntryByNode(vNode);
 
         toolTip.getAtom().setLabel("<strong>" + vEntry.title + "</strong><br/>" + vEntry.comment);
 
-        this.setToolTip(toolTip);
+	    this.setToolTip(toolTip);
       });
-      
-      
-      
       
       
       updateAdd = function()
@@ -167,7 +165,7 @@
             timestamp : Math.random().toString(),
             comment : "Cool Comment: " + i,
             id : "7686191121780974-10682-" + i,
-            src : "../../themes/icons/crystalsvg/64/colors.png"
+            src : qx.manager.object.AliasManager.getInstance().resolvePath("icon/64/colors.png")
           });
         };      
         
