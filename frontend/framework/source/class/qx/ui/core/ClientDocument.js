@@ -204,7 +204,7 @@ qx.Proto.block = function(vActiveChild)
 
   this._getBlocker().show();
 
-  if (typeof qx.ui.window.Window === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.ui.window.Window)
+  if (qx.OO.isAvailable("qx.ui.window.Window") && vActiveChild instanceof qx.ui.window.Window)
   {
     this._modalWidgets.push(vActiveChild);
 
@@ -212,7 +212,7 @@ qx.Proto.block = function(vActiveChild)
     this._getBlocker().setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
-  else if (typeof qx.client.NativeWindow === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+  else if (qx.OO.isAvailable("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
     this._getBlocker().setZIndex(1e7);
@@ -225,7 +225,7 @@ qx.Proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (typeof qx.client.NativeWindow === qx.constant.Type.FUNCTION && vActiveChild instanceof qx.client.NativeWindow)
+    if (qx.OO.isAvailable("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
     {
       this._modalNativeWindow = null;
     }
