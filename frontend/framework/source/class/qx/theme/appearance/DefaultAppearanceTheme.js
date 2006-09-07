@@ -974,7 +974,11 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "text-area" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
-        overflow : qx.constant.Core.AUTO
+        overflow : qx.constant.Core.AUTO,
+
+        // gecko automatically defines a marginTop/marginBottom of 1px. We need to reset these values.
+        marginTop : 0,
+        marginBottom : 0
       });
     },
 
