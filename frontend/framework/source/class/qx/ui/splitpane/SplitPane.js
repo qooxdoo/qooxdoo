@@ -108,6 +108,8 @@ function(orientation, firstSize, secondSize) {
   // CREATE SLIDER
   this._slider = new qx.ui.layout.CanvasLayout;
   this._slider.setAppearance("splitpane-slider");
+  this._slider.setStyleProperty("fontSize", "0px");
+  this._slider.setStyleProperty("lineHeight", "0px");
   this._slider.hide();
   this.add(this._slider);
 
@@ -116,6 +118,8 @@ function(orientation, firstSize, secondSize) {
 
   // CREATE SPLITTER
   this._splitter = new qx.ui.layout.CanvasLayout;
+  this._splitter.setStyleProperty("fontSize", "0px");
+  this._splitter.setStyleProperty("lineHeight", "0px");
   this._splitter.setAppearance("splitpane-splitter");
 
   // CREATE AREAS
