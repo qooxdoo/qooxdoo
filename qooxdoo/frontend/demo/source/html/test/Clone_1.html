@@ -40,23 +40,23 @@
     
     with(c2)
     {
-      setLeft(10);
-      setTop(10);
-      
-      setParent(c1);
-      
-      setBackgroundColor("green");
+      setLeft(30);
+      setTop(58);
+
+	  setBackgroundColor("green");
     };
-    
+    d.add(c2);
     
     var c3 = c2.clone(false, ["top","left","width","height"]);
     
     with(c3)
     {
-      setParent(c2);
-      setBackgroundColor("blue");
+	  setLeft(40);
+	  setTop(68);
+      
+	  setBackgroundColor("blue");
     };
-    
+    d.add(c3);
     
     
     
