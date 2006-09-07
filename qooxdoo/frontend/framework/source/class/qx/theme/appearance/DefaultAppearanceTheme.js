@@ -2014,19 +2014,19 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "splitpane-glasspane" :
   {
     setup : function() {
-      this.background = new qx.renderer.color.ColorObject("gray");
+      this.background = new qx.renderer.color.ColorObject("threedshadow");
     },
 
     initial : function(vTheme) {
       return {
-        zIndex : 1e7
+        zIndex : 1e7,
+        backgroundColor : this.background
       }
     },
 
     state : function(vTheme, vStates) {
       return {
-        backgroundColor : vStates.visible ? this.background : null,
-        opacity : vStates.visible ? 0.1 : null
+        opacity : vStates.visible ? 0.2 : 0
       }
     }
   },
