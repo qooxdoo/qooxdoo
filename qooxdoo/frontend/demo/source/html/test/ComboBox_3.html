@@ -67,15 +67,17 @@
       c1.addEventListener("beforeInitialOpen", function(e)
       {
         var item;
-        var list = [ "menus", "partitions", "pci", "printer", "system", "systemservices", "themes", "user", "disks" ];
+        var list = [ "archive", "binary", "card", "document", "html", "image", "manual", "multimedia", "pdf" ];
 
         for(var i=0; i<list.length; i++)
         {
-          item = new qx.ui.form.ListItem(list[i].toFirstUp(), "icon/48/control-" + list[i] + ".png");
+          item = new qx.ui.form.ListItem(list[i], "icon/48/mime-" + list[i] + ".png");
           item.setShow("icon");
 
           c1.add(item);
         };
+		
+		c1.setSelected(c1.getList().getFirstChild());
       });
 
       // this does not work here (if there is no content)

@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Tests for QxCookie API.</p>
+    <p>Tests for qx.io.local.CookieApi.</p>
   </div>
 
   <script type="text/javascript">
@@ -33,11 +33,11 @@
 
 
     b1.addEventListener("execute", function(e) {
-      f1.setValue(QxCookie.get("fieldContent"));
+      f1.setValue(qx.io.local.CookieApi.get("fieldContent"));
     });
 
     b2.addEventListener("execute", function(e) {
-      QxCookie.set("fieldContent", f1.getValue());
+      qx.io.local.CookieApi.set("fieldContent", f1.getValue());
     });
   });
   </script>

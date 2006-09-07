@@ -59,16 +59,16 @@
       a2 = new qx.ui.form.Button("Hello World", "icon/32/appearance.png");
       a2.setLocation(220, 50);
       qx.ui.core.ClientDocument.getInstance().add(a2);
-    };
+    });
 
-    window.application.post = function()
+    qx.core.Init.getInstance().defineFinalize(function()
     {
         var str = "qx.core.Init.getInstance().defineMain(function()\n{\n";
 
 
 
 
-        this.debug("Updating HTML");
+        qx.core.Init.getInstance().debug("Updating HTML");
 
         htmlout.value = a1.getElement().outerHTML + a2.getElement().outerHTML;
 
@@ -79,14 +79,14 @@
 
 
 
-        this.debug("Serialize...");
+        qx.core.Init.getInstance().debug("Serialize...");
         var vBase1 = serializeMain(a1);
         var vBase2 = serializeMain(a2);
 
-        this.debug("Base1: " + vBase1);
-        this.debug("Base2: " + vBase2);
-        this.debug("Tree Size: " + vObjectCache.length);
-        this.debug("Generating Code...");
+        qx.core.Init.getInstance().debug("Base1: " + vBase1);
+        qx.core.Init.getInstance().debug("Base2: " + vBase2);
+        qx.core.Init.getInstance().debug("Tree Size: " + vObjectCache.length);
+        qx.core.Init.getInstance().debug("Generating Code...");
 
         for (var i=0, n, v, c, cv, l=vObjectCache.length; i<l; i++)
         {
@@ -100,9 +100,9 @@
               {
                 str += "$" + i + " = null;\n";
               }
-              else if (v instanceof QxObject)
+              else if (v instanceof qx.core.Object)
               {
-                // this.debug("QXOBJECT: " + i + "=" + vObjectCache[i].value);
+                // qx.core.Init.getInstance().debug("QXOBJECT: " + i + "=" + vObjectCache[i].value);
 
                 if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
                 {
@@ -154,13 +154,13 @@
               }
               else if (v instanceof Array)
               {
-                // this.debug("JSARRAY: " + i + "=" + vObjectCache[i].value);
+                // qx.core.Init.getInstance().debug("JSARRAY: " + i + "=" + vObjectCache[i].value);
 
                 str += "$" + i + " = [];\n";
               }
               else
               {
-                // this.debug("JSHASHTABLE: " + i + "=" + vObjectCache[i].value);
+                // qx.core.Init.getInstance().debug("JSHASHTABLE: " + i + "=" + vObjectCache[i].value);
 
                 str += "$" + i + " = {};\n";
               };
@@ -177,7 +177,7 @@
               break;
 
             case qx.constant.Type.UNDEFINED:
-              // this.debug("Undefined value found: " + v);
+              // qx.core.Init.getInstance().debug("Undefined value found: " + v);
               str += "$" + i + " = null;\n";
               break;
 
@@ -190,7 +190,7 @@
               break;
 
             default:
-              this.debug("Unsupported value: " + v);
+              qx.core.Init.getInstance().debug("Unsupported value: " + v);
               str += "var $" + i + " = \"UNSUPPORTED VALUE\";\n";
 
           };
@@ -209,7 +209,7 @@
 
           if (typeof v == qx.constant.Type.OBJECT && v != null)
           {
-            if (v instanceof QxObject)
+            if (v instanceof qx.core.Object)
             {
               if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
               {
@@ -252,8 +252,8 @@
 
         jsout.value = str;
 
-        this.debug("Done");
-      };
+        qx.core.Init.getInstance().debug("Done");
+      });
 
 
 
@@ -271,7 +271,7 @@
         };
 
         // Completly ignore DOM nodes
-        if (QxUtil.isValid(vValue) && typeof vValue.nodeType != qx.constant.Type.UNDEFINED) {
+        if (qx.util.Validation.isValid(vValue) && typeof vValue.nodeType != qx.constant.Type.UNDEFINED) {
           return null;
         };
 
@@ -357,7 +357,7 @@
 
           if (typeof vObject[vKey] == qx.constant.Type.FUNCTION)
           {
-            if (!(vObject instanceof QxObject) && vLastListenerContext)
+            if (!(vObject instanceof qx.core.Object) && vLastListenerContext)
             {
               var to = new vLastListenerContext.constructor;
               var tm = null;
@@ -373,7 +373,7 @@
 
               if (tm)
               {
-                QxDebug("Serializer", "Function Mapped: " + tm);
+                qx.core.Init.getInstance().debug("Serializer", "Function Mapped: " + tm);
                 var ts = { value : vObject[vKey], compiled : "$FUNCTIONMAPPER-" + tm + "|" + vLastListenerContext._hashCode };
                 vObjectCache.push(ts);
                 vOut[vKey] = vObjectCache.length-1;
@@ -381,7 +381,7 @@
               }
               else
               {
-                QxDebug("Serializer", "Could not map function: " + vKey + "[" + vLastListenerContext + "]");
+                qx.core.Init.getInstance().debug("Serializer", "Could not map function: " + vKey + "[" + vLastListenerContext + "]");
               };
 
               continue;
