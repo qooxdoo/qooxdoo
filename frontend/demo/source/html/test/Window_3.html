@@ -16,47 +16,48 @@
   </div>
 
 
-  <script type="text/javascript" language="JavaScript">
-
-      qx.core.Init.getInstance().defineMain(function() {
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
 
       var d = qx.ui.core.ClientDocument.getInstance();
       var txtfld;
       
-      var  dialogEditFrage = new qx.ui.window.Window("Edit", "icon/16/editor.png");
+      var dialogEditFrage = new qx.ui.window.Window("Edit", "icon/16/editor.png");
+	  
       with(dialogEditFrage) {
         setSpace(300, 400, 100, 300);
         setModal(true);
         
         setShowClose(false);
 
-        var qx = new qx.ui.basic.Atom('Question');
-        with(qx)
+        var qx_widget = new qx.ui.basic.Atom('Question');
+        with(qx_widget)
         {
           setHorizontalChildrenAlign('right');
           set({top:10,left:10,width:'20%'});
         };
-        add(qx);
+        add(qx_widget);
 
-        qx = txtfld = new qx.ui.form.TextArea();
-        with (qx) {
+        qx_widget = txtfld = new qx.ui.form.TextArea();
+        with (qx_widget) {
           set({top:10,right:10,width:'70%'})
-        }
-        add(qx);
+        };
+        add(qx_widget);
 
-        qx = new qx.ui.basic.Atom('Type');
-        with(qx)
+        qx_widget = new qx.ui.basic.Atom('Type');
+        with(qx_widget)
         {
           setHorizontalChildrenAlign('right');
           set({top:70,left:10,width:'20%'});
         };
-        add(qx);
+        add(qx_widget);
 
-        qx = new qx.ui.form.TextField();
-        with (qx) {
+        qx_widget = new qx.ui.form.TextField();
+        with (qx_widget) {
           set({top:70,right:10,width:'70%'})
-        }
-        add(qx);
+        };
+        add(qx_widget);
 
 
         var btnOK = new qx.ui.form.Button("OK", "icon/16/button-ok.png");
@@ -90,7 +91,7 @@
       });
 
       d.add(btnOpen,dialogEditFrage);
-    }
+    });
 
   </script>
 
