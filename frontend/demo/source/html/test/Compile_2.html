@@ -19,24 +19,24 @@
   <script type="text/javascript" src="Compile_2.js"></script>
 
   <script type="text/javascript">
-    window.application.pre = function()
+    qx.core.Init.getInstance().defineInitialize(function()  //window.application.pre = function()
     {
-      this.debug("Pre-Execute");
-      this.debug("Object DB Length: " + QxObjectDataBase.length);
-    };
+      qx.core.Init.getInstance().debug("Pre-Execute");
+      qx.core.Init.getInstance().debug("Object DB Length: " + qx.core.Object._db.length);
+    });
 
-    window.application.post = function()
+    qx.core.Init.getInstance().defineFinalize(function()  //window.application.post = function()
     {
-      this.debug("Post-Execute");
+      qx.core.Init.getInstance().debug("Post-Execute");
 
-      this.debug("Children: " + $0.getChildren());
-      this.debug("Element: " + $0.getElement());
-      this.debug("Parent: " + $0.getParent());
-      this.debug("Box Width: " + $0.getBoxWidth());
-      this.debug("Has Mouse Down Event: " + $0.hasEventListeners("mousedown"));
-      this.debug("Icon Preferred Width: " + $0.getChildren()[0].getPreferredBoxWidth());
+      qx.core.Init.getInstance().debug("Children: " + $0.getChildren());
+      qx.core.Init.getInstance().debug("Element: " + $0.getElement());
+      qx.core.Init.getInstance().debug("Parent: " + $0.getParent());
+      qx.core.Init.getInstance().debug("Box Width: " + $0.getBoxWidth());
+      qx.core.Init.getInstance().debug("Has Mouse Down Event: " + $0.hasEventListeners("mousedown"));
+      qx.core.Init.getInstance().debug("Icon Preferred Width: " + $0.getChildren()[0].getPreferredBoxWidth());
 
-      this.debug("Object DB Length: " + QxObjectDataBase.length);
+      qx.core.Init.getInstance().debug("Object DB Length: " + qx.core.Object._db.length);
 
       $0.setIconPosition("top");
       qx.ui.core.Widget.flushGlobalQueues();

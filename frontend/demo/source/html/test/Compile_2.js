@@ -1,4 +1,4 @@
-qx.core.Init.defineMain(function()
+qx.core.Init.getInstance().defineMain(function()
 {
 var f = new Function();
 f.prototype = qx.ui.form.Button.prototype;
@@ -134,7 +134,7 @@ $92 = {}
 $93= qx.core.Object._db[74]._onkeyup;
 $94 = 20;
 $95 = 50;
-$96 = qx.core.Init.getComponent().getClientWindow().getClientDocument();
+$96 = qx.core.Init.getInstance().getComponent();
 var f = new Function();
 f.prototype = qx.renderer.color.ColorObject.prototype;
 $97 = new f;
@@ -3864,4 +3864,4 @@ $616["threedface"] = $359;
 $616["windowtext"] = $363;
 $619[0] = $24;
 $619[1] = $54;
-}
+});
