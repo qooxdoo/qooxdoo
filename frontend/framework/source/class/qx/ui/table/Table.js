@@ -86,6 +86,12 @@ qx.OO.addProperty({ name:"columnVisibilityButtonVisible", type:qx.constant.Type.
  */
 qx.OO.addProperty({ name:"metaColumnCounts", type:qx.constant.Type.OBJECT });
 
+/**
+ * Whether the focus should moved when the mouse is moved over a cell. If false
+ * the focus is only moved on mouse clicks.
+ */
+qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+
 
 // property modifier
 qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
@@ -236,6 +242,16 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
 
   return true;
 }
+
+
+// property modifier
+qx.Proto._modifyFocusCellOnMouseMove = function(propValue, propOldValue, propData) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i].setFocusCellOnMouseMove(propValue);
+  }
+  return true;
+};
 
 
 /**
