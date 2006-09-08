@@ -359,14 +359,17 @@ qx.Proto._onScrollY = function(evt) {
 qx.Proto._onkeydown = function(evt) {
   var keyCode = evt.getKeyCode();
 
+  var consumed = false;
   if (keyCode == qx.event.type.KeyEvent.keys.space) {
     if (! this.isEditing()) {
       // No editing mode
       this._selectionManager.handleKeyDown(this._focusedRow, evt);
+      consumed = true;
     }
   } else if (evt.getModifiers() == 0) {
     if (this.isEditing()) {
       // Editing mode
+      consumed = true;
       switch (keyCode) {
         case qx.event.type.KeyEvent.keys.enter:
           this.stopEditing();
@@ -380,9 +383,13 @@ qx.Proto._onkeydown = function(evt) {
           this.cancelEditing();
           this.focus();
           break;
+        default:
+          consumed = false;
+          break;
       }
     } else {
       // No editing mode
+      consumed = true;
       switch (keyCode) {
         case qx.event.type.KeyEvent.keys.left:
           this.moveFocusedCell(-1, 0);
@@ -417,11 +424,15 @@ qx.Proto._onkeydown = function(evt) {
         case qx.event.type.KeyEvent.keys.enter:
           this.startEditing();
           break;
+        default:
+          consumed = false;
+          break;
       }
     }
   } else if (evt.getModifiers() == qx.event.type.DomEvent.CTRL_MASK) {
     if (! this.isEditing()) {
       // No editing mode
+      consumed = true;
       switch (keyCode) {
         case qx.event.type.KeyEvent.keys.home:
           this.setFocusedCell(this._focusedCol, 0, true);
@@ -430,8 +441,16 @@ qx.Proto._onkeydown = function(evt) {
           var rowCount = this.getTableModel().getRowCount();
           this.setFocusedCell(this._focusedCol, rowCount - 1, true);
           break;
+        default:
+          consumed = false;
+          break;
       }
     }
+  }
+
+  if (consumed) {
+    evt.preventDefault();
+    evt.stopPropagation();
   }
 }
 
