@@ -69,6 +69,9 @@ qx.Proto.handleMouseDown = function(index, evt) {
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseUp = function(index, evt) {
+  if (!this._lastMouseDownHandled) {
+    this._handleSelectEvent(index, evt);
+  }
 }
 
 
@@ -79,9 +82,6 @@ qx.Proto.handleMouseUp = function(index, evt) {
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleClick = function(index, evt) {
-  if (!this._lastMouseDownHandled) {
-    this._handleSelectEvent(index, evt);
-  }
 }
 
 
