@@ -89,7 +89,7 @@ qx.Settings.setDefault("labelPresets", "Presets");
 qx.Settings.setDefault("labelDetails", "Details");
 qx.Settings.setDefault("labelPreview", "Preview (Old/New)");
 qx.Settings.setDefault("labelRGB", "RGB");
-qx.Settings.setDefault("labelHSV", "HSV");
+qx.Settings.setDefault("labelHSB", "HSB");
 qx.Settings.setDefault("labelHex", "Hex");
 
 
