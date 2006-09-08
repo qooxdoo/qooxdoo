@@ -387,7 +387,7 @@ qx.Proto._onmousewheel = function(evt) {
     - evt.getWheelDelta() * this._tablePane.getTableRowHeight());
 
   // Update the focus
-  if (this._lastMousePageX) {
+  if (this._lastMousePageX && this.getFocusCellOnMouseMove()) {
     this._focusCellAtPagePos(this._lastMousePageX, this._lastMousePageY);
   }
 }
