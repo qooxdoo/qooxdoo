@@ -34,14 +34,16 @@
     function handleMouseDown(e)
     {
       this.setCapture(true);
+      a1._offsetX = e.getPageX() - a1.getLeft();
+      a1._offsetY = e.getPageY() - a1.getTop();
     }
     
     function handleMouseMove(e)
     {
       if (this.getCapture())
       {
-        a1.setLeft(e.getPageX());
-        a1.setTop(e.getPageY());
+        a1.setLeft(e.getPageX() - a1._offsetX);
+        a1.setTop(e.getPageY() - a1._offsetY);
       }
     }
           
