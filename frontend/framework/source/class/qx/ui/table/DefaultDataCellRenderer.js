@@ -76,7 +76,7 @@ qx.Proto._getStyleFlags = function(cellInfo) {
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
-  return this._formatValue(cellInfo.value);
+  return qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value));
 }
 
 
@@ -107,7 +107,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   if (textNode != null) {
     textNode.nodeValue = this._formatValue(cellInfo.value);
   } else {
-    cellElement.innerHTML = this._formatValue(cellInfo.value);
+    cellElement.innerHTML = qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value));
   }
 }
 
@@ -148,7 +148,7 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push(this._formatValue(cellInfo.value));
+  htmlArr.push(qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value)));
 }
 
 
