@@ -57,6 +57,9 @@ qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, insta
 /** The table pane model. */
 qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
 
+/** Whether the focused row should be highlighted. */
+qx.OO.addProperty({ name:"highlightFocusRow", type:qx.constant.Type.BOOLEAN, allowNull:false, defaultValue:true});
+
 
 // property modifier
 qx.Proto._modifyFirstVisibleRow = function(propValue, propOldValue, propData) {
@@ -315,7 +318,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
       htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_BG_COLOR);
     }
 
-    if (cellInfo.focusedRow) {
+    if (cellInfo.focusedRow && this.getHighlightFocusRow()) {
       htmlArr.push(cellInfo.selected ? TablePane.CONTENT_BGCOL_FOCUSED_SELECTED : TablePane.CONTENT_BGCOL_FOCUSED);
     } else {
       htmlArr.push(cellInfo.selected ? TablePane.CONTENT_BGCOL_SELECTED : ((cellInfo.row % 2 == 0) ? TablePane.CONTENT_BGCOL_EVEN : TablePane.CONTENT_BGCOL_ODD));
@@ -431,7 +434,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
       recyleRowElem = false;
     }
 
-    if (cellInfo.focusedRow) {
+    if (cellInfo.focusedRow && this.getHighlightFocusRow()) {
       rowElem.style.backgroundColor = cellInfo.selected ? TablePane.CONTENT_BGCOL_FOCUSED_SELECTED : TablePane.CONTENT_BGCOL_FOCUSED;
     } else {
       rowElem.style.backgroundColor = (cellInfo.selected ? TablePane.CONTENT_BGCOL_SELECTED : ((cellInfo.row % 2 == 0) ? TablePane.CONTENT_BGCOL_EVEN : TablePane.CONTENT_BGCOL_ODD));
