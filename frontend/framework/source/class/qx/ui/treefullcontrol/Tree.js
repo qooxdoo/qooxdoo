@@ -98,6 +98,18 @@ qx.OO.addProperty({ name : "hideNode",
                     getAlias : "hideNode"
                   });
 
+/*!
+  Whether the Root should have an open/close button.  This may also be
+  used in conjunction with the hideNode property to provide for virtual root
+  nodes.  In the latter case, be very sure that the virtual root nodes are
+  expanded programatically, since there will be no open/close button for the
+  user to open them.
+*/
+qx.OO.addProperty({ name : "rootOpenClose",
+                    type : qx.constant.Type.BOOLEAN,
+                    defaultValue : true
+                  });
+
 
 
 
@@ -209,6 +221,15 @@ qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
     this._horizontalLayout.hide();
   }
 
+  if (this._initialLayoutDone) {
+    this._updateIndent();
+  }
+
+  return true;
+}
+
+qx.Proto._modifyRootOpenClose = function(propValue, propOldValue, propData)
+{
   if (this._initialLayoutDone) {
     this._updateIndent();
   }
@@ -417,6 +438,19 @@ qx.Proto.getHierarchy = function(vArr)
   return vArr;
 }
 
+
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+{
+  if (vIsLastColumn &&
+      (this.hasContent() || this.getAlwaysShowPlusMinusSymbol()))
+  {
+    return this.getOpen() ? "minus" : "plus";
+  }
+  else
+  {
+    return null;
+  }
+}
 
 
 
