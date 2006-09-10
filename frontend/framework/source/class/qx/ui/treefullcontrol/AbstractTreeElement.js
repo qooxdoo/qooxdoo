@@ -447,11 +447,15 @@ qx.Proto.flushTree = function()
   var vMinLevel = 0;
   var vMaxLevel = vLevel;
 
+  // If we're displaying the open/close button for the root node (normal)...
   if (vTree.getRootOpenClose()) {
+    // ... then we need one more level
     vMaxLevel = vLevel + 1;
   }
 
+  // If we're not displaying the root node (creating virtual roots)...
   if (vTree.hideNode()) {
+    // ... then start one level higher
     vMinLevel = 1;
   }
 
@@ -463,7 +467,10 @@ qx.Proto.flushTree = function()
     if (vImage)
     {
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_1);
+
+      // location of image; Root's image could be left of margin (invisible)
       vHtml.push((vMaxLevel-i-1) * 19);
+
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
