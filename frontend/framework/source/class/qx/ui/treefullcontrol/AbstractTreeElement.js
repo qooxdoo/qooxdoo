@@ -444,15 +444,26 @@ qx.Proto.flushTree = function()
   var vImage;
   var vHtml = [];
   var vCurrentObject = this;
+  var vMinLevel = 0;
+  var vMaxLevel = vLevel;
 
-  for (var i=0; i<vLevel; i++)
+  if (vTree.getRootOpenClose()) {
+    vMaxLevel = vLevel + 1;
+  }
+
+  if (vTree.hideNode()) {
+    vMinLevel = 1;
+  }
+
+  for (var i=vMinLevel; i<vMaxLevel; i++)
   {
-    vImage = vCurrentObject.getIndentSymbol(vTree.getUseTreeLines(), i==0);
+    vImage = vCurrentObject.getIndentSymbol(vTree.getUseTreeLines(),
+                                            i == vMinLevel);
 
     if (vImage)
     {
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_1);
-      vHtml.push((vLevel-i-1) * 19);
+      vHtml.push((vMaxLevel-i-1) * 19);
       vHtml.push(qx.ui.treefullcontrol.AbstractTreeElement.INDENT_CODE_2);
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
@@ -465,7 +476,7 @@ qx.Proto.flushTree = function()
   }
 
   this._indentObject.setHtml(vHtml.join(qx.constant.Core.EMPTY));
-  this._indentObject.setWidth(vLevel * 19);
+  this._indentObject.setWidth((vMaxLevel - vMinLevel) * 19);
 }
 
 
