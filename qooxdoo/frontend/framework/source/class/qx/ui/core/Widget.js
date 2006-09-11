@@ -4551,6 +4551,7 @@ qx.Proto.getWidgetFromPointHelper = function(x, y) {
 qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE = "unselectable";
 qx.ui.core.Widget.SEL_PROPERTY_USERSELECT = "userSelect";
 qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT = "MozUserSelect";
+qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT = "KhtmlUserSelect";
 
 qx.ui.core.Widget.SEL_VALUE_ON = "on";
 
@@ -4584,7 +4585,7 @@ else if(qx.sys.Client.getInstance().isGecko())
     }
 
     return true;
-  }
+  };
 }
 else if (qx.sys.Client.getInstance().isOpera())
 {
@@ -4592,6 +4593,27 @@ else if (qx.sys.Client.getInstance().isOpera())
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return true;
   }
+}
+else if (qx.sys.Client.getInstance().isKhtml())
+{
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
+  {
+    // Be forward compatible and use both userSelect and KhtmlUserSelect
+    if (propValue)
+    {
+      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT);
+      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
+    }
+    else
+    {
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT,
+                            qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
+                            qx.constant.Core.NONE);
+    }
+
+    return true;
+  };
 }
 else
 {
