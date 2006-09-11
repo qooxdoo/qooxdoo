@@ -86,7 +86,12 @@ qx.Proto.finalize = function()
 
   this._printPreloadComplete();
   this._uiReady = true;
+
+  // Show initial widgets
   qx.ui.core.Widget.flushGlobalQueues();
+
+  // Finally attach event to make the GUI ready for the user
+  qx.event.handler.EventHandler.getInstance().attachEvents();
 
   qx.component.init.BasicInitComponent.prototype.finalize.call(this);
 

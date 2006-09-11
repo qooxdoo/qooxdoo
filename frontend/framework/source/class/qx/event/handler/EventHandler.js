@@ -47,9 +47,6 @@ function()
   this.__onwindowfocus = function(e) { return o._onwindowfocus(e); }
   this.__onwindowresize = function(e) { return o._onwindowresize(e); }
 
-  // Attach Events
-  this.attachEvents();
-
   // Init Command Interface
   this._commands = {};
 });
@@ -408,7 +405,7 @@ else
 
 qx.Proto._onkeyevent = function(vDomEvent)
 {
-  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION) {
     return;
   }
 
@@ -540,10 +537,6 @@ if(qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
-    if (!qx.core.Init.getInstance().getComponent().isUiReady()) {
-      return;
-    }
-
     qx.core.Init.getInstance().getComponent().preload();
 
     if(!vDomEvent) {
@@ -603,10 +596,6 @@ else
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
-    if (!qx.core.Init.getInstance().getComponent().isUiReady()) {
-      return;
-    }
-
     qx.core.Init.getInstance().getComponent().preload();
 
     var vDomTarget = vDomEvent.target;
@@ -984,10 +973,6 @@ qx.Proto._onselectevent = function(e)
 
 qx.Proto._onwindowblur = function(e)
 {
-  if (!qx.core.Init.getInstance().getComponent().isUiReady()) {
-    return;
-  }
-
   if (this._ignoreBlur)
   {
     delete this._ignoreBlur;
@@ -1020,10 +1005,6 @@ qx.Proto._onwindowblur = function(e)
 
 qx.Proto._onwindowfocus = function(e)
 {
-  if (!qx.core.Init.getInstance().getComponent().isUiReady()) {
-    return;
-  }
-
   // Make focus more intelligent and only allow focus if
   // a previous blur occured
   if (!this._allowFocus) {
