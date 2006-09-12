@@ -417,6 +417,10 @@ qx.Proto._postApply = function()
     {
       case qx.ui.core.Widget.TYPE_PIXEL:
       case qx.ui.core.Widget.TYPE_PERCENT:
+      
+      //carstenl: enabled truncation code for flex sizing, too. Appears to work except for the
+      //          truncation code (gecko version), which I have disabled (see below).
+      case qx.ui.core.Widget.TYPE_FLEX:
         var vNeeded = this.getPreferredInnerWidth();
         var vInner = this.getInnerWidth();
 
@@ -466,7 +470,18 @@ qx.Proto._postApply = function()
                 vSplitTemp.push(vSplitString[vWordIterator]);
 
                 vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
-                if (vMeasureNode.scrollWidth > vInner) {
+
+                if ((vMeasureNode.scrollWidth > vInner)
+                  /* carstenl: The following code (truncate the text to fit in the available
+                   *           space, append ellipsis to indicate truncation) did not reliably
+                   *           work in my tests. Problem was that sometimes the measurer returned
+                   *           insanely high values for short texts, like "I..." requiring 738 px.
+                   * 
+                   *           I don't have time to examine this code in detail. Since all of my 
+                   *           tests used flex width and the truncation code never was intended 
+                   *           for this, I am disabling truncation if flex is active. 
+                   */
+                    && (this._computedWidthType != qx.ui.core.Widget.TYPE_FLEX)){
                   break;
                 }
               }
