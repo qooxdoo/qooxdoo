@@ -94,9 +94,13 @@ qx.OO.addProperty({ name : "useTreeLines",
   index of the array corresponds to the indentation level, counted from left
   to right; and the value of that element, if it contains, specifically, the
   boolean value <i>true</i>, indicates that tree lines at that indentation
-  level are to be omitted.  (Any value of that element other than <i>true</i>,
+  level are to be omitted.  Any value of that element other than <i>true</i>,
   or if an indentation level's index does not exist in the array, means that
-  tree lines should be displayed for that indentation level.
+  tree lines should be displayed for that indentation level.  (There are some
+  minor code efficiencies that are realized if this array is empty, so after
+  having set an element to <i>true</i> and desiring to reset the default
+  behavior, you should 'delete' the element rather than setting it to some
+  value other than <i>true</i>.)
 
   If useTreeLines is <i>false</i>, then all tree lines are excluded and this
   property is ignored.

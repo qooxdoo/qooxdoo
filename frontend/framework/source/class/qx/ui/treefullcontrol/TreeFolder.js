@@ -396,7 +396,12 @@ qx.Proto._evalCurrentIcon = function()
 
 qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 {
-  this._updateLastColumn();
+  // we need the whole indent process if certain tree lines are to be excluded
+  if (this.getTree().getExcludeSpecificTreeLines().length > 0) {
+    this._updateIndent();
+  } else {
+    this._updateLastColumn();
+  }
 
   if (this._containerObject) {
     this._containerObject.setDisplay(propValue);
@@ -407,7 +412,12 @@ qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
 {
-  this._updateLastColumn();
+  // we need the whole indent process if certain tree lines are to be excluded
+  if (this.getTree().getExcludeSpecificTreeLines().length > 0) {
+    this._updateIndent();
+  } else {
+    this._updateLastColumn();
+  }
 
   return true;
 }
@@ -553,7 +563,11 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines,
         }
       }
 
-      if (this.isLastChild())
+      if (vExclude === true)
+      {
+        return this.getOpen() ? "minus" : "plus";
+      }
+      else if (this.isLastChild())
       {
         return this.getOpen() ? "end_minus" : "end_plus";
       }
