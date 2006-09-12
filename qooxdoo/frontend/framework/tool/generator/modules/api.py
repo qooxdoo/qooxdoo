@@ -78,8 +78,9 @@ def createDoc(syntaxTree, docTree = None):
 
     if hasattr(exc, "node"):
       line = getLineFromSyntaxItem(exc.node)
-      if line != None:
-        msg += " - line " + line
+      file = getFileFromSyntaxItem(exc.node)
+      if line != None or file != None:
+        msg += " -  " + str(file) + " line " + str(line)
 
     raise Exception, msg, sys.exc_info()[2]
 
@@ -476,6 +477,16 @@ def getLineFromSyntaxItem(syntaxItem):
       syntaxItem = None
   return line
 
+
+def getFileFromSyntaxItem(syntaxItem):
+  file = None
+  while file == None and syntaxItem:
+    file = syntaxItem.get("file", False)
+    if hasattr(syntaxItem, "parent"):
+      syntaxItem = syntaxItem.parent
+    else:
+      syntaxItem = None
+  return file
 
 
 def getType(item):
