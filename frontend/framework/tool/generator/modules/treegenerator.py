@@ -141,9 +141,10 @@ def createSyntaxTree (tokenArr):
   tokens: the token stream."""
 
   stream = TokenStream(tokenArr)
+  stream.next()
 
   rootBlock = tree.Node("file")
-  stream.next()
+  rootBlock.set("file", stream.curr()["id"])
 
   while not stream.finished():
     rootBlock.addChild(readStatement(stream))
