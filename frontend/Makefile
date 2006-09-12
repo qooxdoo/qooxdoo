@@ -81,6 +81,9 @@ demo-sync:
 api-sync:
 	@$(MAKE) -C api sync
 
+framework-debug:
+	@$(MAKE) -C framework debug
+
 
 
 ###################################################################################

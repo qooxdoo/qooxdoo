@@ -34,6 +34,7 @@ all: build
 
 source: generate-source
 build: generate-build
+debug: generate-debug
 
 
 
@@ -115,4 +116,27 @@ generate-source:
 	  --source-script-path ../class \
 	  --generate-source-script \
 	  --source-script-file source/script/qx.js \
+	  --cache-directory $(CACHE)
+
+generate-tree:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --tree-output-directory debug-tree \
+	  --store-tree \
+	  --cache-directory $(CACHE)
+
+generate-tokens:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --token-output-directory debug-tokens \
+	  --store-tokens \
+	  --cache-directory $(CACHE)
+
+generate-debug:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --tree-output-directory debug-tree \
+	  --token-output-directory debug-tokens \
+	  --store-tree \
+	  --store-tokens \
 	  --cache-directory $(CACHE)
