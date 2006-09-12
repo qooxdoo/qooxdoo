@@ -284,7 +284,7 @@ def getValue(item):
     # E.g. "-1" or "-Infinity"
     value = "-" + getValue(item.getChild("first").getFirstChild())
   if value == None:
-    raise DocException("Can't get value from item type " + item.type, item)
+    value = "[Unsupported item type: " + item.type + "]"
 
   return value
 
