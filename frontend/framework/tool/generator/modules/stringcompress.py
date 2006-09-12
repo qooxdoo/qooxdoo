@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+import tree
+
+
 def search(node, stringMap={}, verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
 
-    print "    - Found: %s" % node.get("value")
+    if verbose:
+      print "    - Found: %s" % node.get("value")
 
     if node.get("detail") == "singlequotes":
       quote = "'"
@@ -95,8 +99,53 @@ def replace(node, stringList, var="$", verbose=False):
     for item in stringList:
       if item["value"] == oldvalue:
         newvalue = "%s[%s]" % (var, pos)
-        print "    - Replace: %s => %s" % (oldvalue, newvalue)
-        node.set("value", newvalue)
+
+        if verbose:
+          print "    - Replace: %s => %s" % (oldvalue, newvalue)
+
+        line = node.get("line")
+
+
+        # GENERATE IDENTIFIER
+
+        newidentifier = tree.Node("identifier")
+        newidentifier.set("line", line)
+
+        childidentifier = tree.Node("identifier")
+        childidentifier.set("line", line)
+        childidentifier.set("name", var)
+
+        newidentifier.addChild(childidentifier)
+
+
+
+        # GENERATE KEY
+
+        newkey = tree.Node("key")
+        newkey.set("line", line)
+
+        newconstant = tree.Node("constant")
+        newconstant.set("line", line)
+        newconstant.set("constantType", "number")
+        newconstant.set("value", "%s" % pos)
+
+        newkey.addChild(newconstant)
+
+
+
+        # COMBINE CHILDREN
+
+        newnode = tree.Node("accessor")
+        newnode.set("line", line)
+        newnode.set("compressed", "true")
+        newnode.set("original", oldvalue)
+        newnode.addChild(newidentifier)
+        newnode.addChild(newkey)
+
+
+        # REPLACE NODE
+
+        node.parent.replaceChild(node, newnode)
         break
 
       pos += 1

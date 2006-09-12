@@ -547,7 +547,6 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Sorting strings..."
     stringList = stringcompress.sort(stringMap)
-    print stringList
 
     print "  * Replacing strings..."
     for fileId in sortedIncludeList:
