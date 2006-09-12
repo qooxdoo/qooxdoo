@@ -75,6 +75,7 @@ generate-all:
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
+	  --compress-strings \
 	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
@@ -88,6 +89,7 @@ generate-compile:
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
+	  --compress-strings \
 	  $(COMPILER) \
 	  --cache-directory $(CACHE)
 
@@ -104,6 +106,7 @@ generate-build:
 	  --script-input source/class \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
+	  --compress-strings \
 	  $(COMPILER) \
 	  --copy-resources \
 	  --resource-input source/resource \

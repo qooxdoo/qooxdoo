@@ -58,6 +58,11 @@ class Node:
       if len(self.children) == 0:
         del self.children
 
+  def replaceChild(self, oldChild, newChild):
+    if self.hasChildren():
+      self.children.insert(self.children.index(oldChild), newChild)
+      self.children.remove(oldChild)
+
   def getChild(self, type, mandatory = True):
     if self.hasChildren():
       for child in self.children:
