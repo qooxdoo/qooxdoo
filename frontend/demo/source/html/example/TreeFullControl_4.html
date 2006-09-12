@@ -241,18 +241,118 @@
 
       tHideNode.addEventListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
 
-      var tExcludeRootOpenClose =
-        new qx.ui.form.CheckBox("Exclude root open/close button?");
+      var tIncludeRootOpenClose =
+        new qx.ui.form.CheckBox("Include root open/close button?");
 
-      with(tExcludeRootOpenClose) {
+      with(tIncludeRootOpenClose) {
         setTop(120);
         setLeft(0);
         setChecked(true);
       };
 
-      commandFrame.add(tExcludeRootOpenClose);
+      commandFrame.add(tIncludeRootOpenClose);
 
-      tExcludeRootOpenClose.addEventListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
+      tIncludeRootOpenClose.addEventListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
+
+      tExcludeTreeLines0 =
+        new qx.ui.form.CheckBox("Exclude tree lines at level 0?");
+
+      with(tExcludeTreeLines0) {
+        setTop(140);
+        setLeft(0);
+        setChecked(false);
+      };
+
+      commandFrame.add(tExcludeTreeLines0);
+
+      tExcludeTreeLines0.addEventListener(
+          "changeChecked",
+          function(e)
+          {
+              var excl = t.getExcludeSpecificTreeLines();
+              excl[0] = e.getData();
+              t.setExcludeSpecificTreeLines(excl);
+          });
+
+      tExcludeTreeLines1 =
+        new qx.ui.form.CheckBox("Exclude tree lines at level 1?");
+
+      with(tExcludeTreeLines1) {
+        setTop(160);
+        setLeft(0);
+        setChecked(false);
+      };
+
+      commandFrame.add(tExcludeTreeLines1);
+
+      tExcludeTreeLines1.addEventListener(
+          "changeChecked",
+          function(e)
+          {
+              var excl = t.getExcludeSpecificTreeLines();
+              excl[1] = e.getData();
+              t.setExcludeSpecificTreeLines(excl);
+          });
+
+      tExcludeTreeLines2 =
+        new qx.ui.form.CheckBox("Exclude tree lines at level 2?");
+
+      with(tExcludeTreeLines2) {
+        setTop(180);
+        setLeft(0);
+        setChecked(false);
+      };
+
+      commandFrame.add(tExcludeTreeLines2);
+
+      tExcludeTreeLines2.addEventListener(
+          "changeChecked",
+          function(e)
+          {
+              var excl = t.getExcludeSpecificTreeLines();
+              excl[2] = e.getData();
+              t.setExcludeSpecificTreeLines(excl);
+          });
+
+      tExcludeTreeLines3 =
+        new qx.ui.form.CheckBox("Exclude tree lines at level 3?");
+
+      with(tExcludeTreeLines3) {
+        setTop(200);
+        setLeft(0);
+        setChecked(false);
+      };
+
+      commandFrame.add(tExcludeTreeLines3);
+
+      tExcludeTreeLines3.addEventListener(
+          "changeChecked",
+          function(e)
+          {
+              var excl = t.getExcludeSpecificTreeLines();
+              excl[3] = e.getData();
+              t.setExcludeSpecificTreeLines(excl);
+          });
+
+      tExcludeTreeLines4 =
+        new qx.ui.form.CheckBox("Exclude tree lines at level 4?");
+
+      with(tExcludeTreeLines4) {
+        setTop(220);
+        setLeft(0);
+        setChecked(false);
+      };
+
+      commandFrame.add(tExcludeTreeLines4);
+
+      tExcludeTreeLines4.addEventListener(
+          "changeChecked",
+          function(e)
+          {
+              var excl = t.getExcludeSpecificTreeLines();
+              excl[4] = e.getData();
+              t.setExcludeSpecificTreeLines(excl);
+          });
 
     });
   </script>
