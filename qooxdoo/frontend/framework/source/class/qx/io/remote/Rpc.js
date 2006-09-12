@@ -128,6 +128,17 @@ qx.OO.addProperty({ name : "serviceName", type : qx.constant.Type.STRING, defaul
 */
 qx.OO.addProperty({ name : "serverData", type : qx.constant.Type.OBJECT, defaultValue : undefined });
 
+/**
+  Username to use for HTTP authentication. Null if HTTP authentication
+  is not used.
+*/
+qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
+
+/**
+  Password to use for HTTP authentication. Null if HTTP authentication
+  is not used.
+*/
+qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
 
 /**
    Origins of errors
@@ -187,6 +198,11 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
   }
 
   req.setCrossDomain(this.getCrossDomain());
+
+  if (this.getUsername()) {
+    req.setUsername(this.getUsername());
+    req.setPassword(this.getPassword());
+  }
 
   req.setTimeout(this.getTimeout());
   var ex = null;
