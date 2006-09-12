@@ -348,7 +348,7 @@ qx.Proto._initParseFeed = function() {
   // Get the used rules and construct the regex pattern
   var usedRules = [];
   var pattern = "^";
-  var formatTree = this._parseDateFormat(format);
+  var formatTree = this._parseDateFormat(this._format);
   for (var atomIdx = 0; atomIdx < formatTree.length; atomIdx++) {
     var currAtom = formatTree[atomIdx];
 
