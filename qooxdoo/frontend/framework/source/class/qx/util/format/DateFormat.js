@@ -577,8 +577,8 @@ qx.Class.PM_MARKER = "pm";
 
 /** {string[]} The full month names. */
 qx.Class.FULL_MONTH_NAMES = [
-  "January", "Februrary", "March", "April", "Mai", "June",
-  "Juli", "August", "September", "October", "November", "December"
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
 /** {string[]} The short month names. */
@@ -599,7 +599,7 @@ qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = [
 
 /** {string[]} The full day of week names. */
 qx.Class.FULL_DAY_OF_WEEK_NAMES = [
-  "Sunday", "Monday", "Tuesday", "Wendsday", "Thusday", "Friday", "Saturday"
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ];
 
 /** {string[]} The medium (three letter) timezone names. */
