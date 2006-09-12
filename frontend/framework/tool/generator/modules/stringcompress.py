@@ -48,12 +48,15 @@ def check(node, verbose=False):
   elif node.type == "assignment":
     left = node.getChild("left", False)
     if left != None:
-      last = left.getChild("variable").getLastChild()
+      var = left.getChild("variable", False)
 
-      if last.type == "identifier" and last.get("name").isupper():
-        if verbose:
-          print "    - Ignore constant assignment at line: %s" % last.get("line")
-        return False
+      if var != None:
+        last = var.getLastChild()
+
+        if last.type == "identifier" and last.get("name").isupper():
+          if verbose:
+            print "    - Ignore constant assignment at line: %s" % last.get("line")
+          return False
 
   # Try to find all constant assignments from Maps ({ UPPER : string })
   elif node.type == "keyvalue":
