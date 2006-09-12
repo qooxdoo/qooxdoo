@@ -39,6 +39,7 @@ def getparser():
 
   # Debug Actions
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
+  parser.add_option("--store-tree", action="store_true", dest="storeTree", default=False, help="Store tree content of source files. (Debugging)")
   parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
   parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
@@ -79,8 +80,9 @@ def getparser():
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
 
-  # Options for token storage
-  parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenized JavaScript files. (Debugging)")
+  # Options for token/tree storage
+  parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenizer result of the incoming JavaScript files. (Debugging)")
+  parser.add_option("--tree-output-directory", dest="treeOutputDirectory", metavar="DIRECTORY", help="Define output directory for generated tree of the incoming JavaScript files. (Debugging)")
 
   # Cache Directory
   parser.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
@@ -574,23 +576,62 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "----------------------------------------------------------------------------"
 
     if options.tokenOutputDirectory == None:
-      print "    * You must define the token directory!"
+      print "    * You must define the token output directory!"
       sys.exit(1)
 
-    print "  * Storing tokens..."
+    if options.verbose:
+      print "  * Storing tokens..."
+    else:
+      print "  * Storing tokens: ",
 
     for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
-
       tokenString = tokenizer.convertTokensToString(fileDb[fileId]["tokens"])
-      tokenSize = len(tokenString) / 1000.0
 
       if options.verbose:
-        print "    * writing tokens to file (%s KB)..." % tokenSize
+        print "    * writing tokens for %s (%s KB)..." % (fileIdm, len(tokenString) / 1000.0)
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
 
       filetool.save(os.path.join(filetool.normalize(options.tokenOutputDirectory), fileId + config.TOKENEXT), tokenString)
 
+    if not options.verbose:
+      print
+
+
+
+
+  ######################################################################
+  #  TREE STORAGE
+  ######################################################################
+
+  if options.storeTree:
+    print
+    print "  TREE STORAGE:"
+    print "----------------------------------------------------------------------------"
+
+    if options.treeOutputDirectory == None:
+      print "    * You must define the tree output directory!"
+      sys.exit(1)
+
+    if options.verbose:
+      print "  * Storing tree..."
+    else:
+      print "  * Storing tree: ",
+
+    for fileId in sortedIncludeList:
+      treeString = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n" + tree.nodeToXmlString(fileDb[fileId]["tree"])
+
+      if options.verbose:
+        print "    * writing tree for %s (%s KB)..." % (fileId, len(treeString) / 1000.0)
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      filetool.save(os.path.join(filetool.normalize(options.treeOutputDirectory), fileId + config.XMLEXT), treeString)
+
+    if not options.verbose:
+      print
 
 
 
