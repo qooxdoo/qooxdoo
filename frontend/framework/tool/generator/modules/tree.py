@@ -82,6 +82,13 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
 
+  def getLastChild(self, mandatory = True):
+    if self.hasChildren():
+      return self.children[-1]
+
+    if mandatory:
+      raise NodeAccessException("Node " + self.type + " has no children", self)
+
   def addListChild(self, listName, childNode):
     listNode = self.getChild(listName, False)
     if not listNode:
@@ -104,6 +111,20 @@ class Node:
 
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no child " + listName, self)
+
+  def getAllChildrenOfType(self, type):
+    return self._getAllChildrenOfType(type, [])
+
+  def _getAllChildrenOfType(self, type, found=[]):
+    if self.hasChildren():
+      for child in self.children:
+        if child.type == type:
+          found.append(child)
+
+        child._getAllChildrenOfType(type, found)
+
+    return found
+
 
 
 
