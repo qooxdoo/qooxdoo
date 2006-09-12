@@ -594,7 +594,7 @@ qx.Class.SHORT_DAY_OF_WEEK_NAMES = [
 
 /** {string[]} The medium (three letter) day of week names. */
 qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = [
-  "Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"
+  "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 ];
 
 /** {string[]} The full day of week names. */
