@@ -270,7 +270,11 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              excl[0] = e.getData();
+              if (e.getData()) {
+                  excl[0] = true;
+              } else {
+                  delete(excl[0]);
+              }
               t.setExcludeSpecificTreeLines(excl);
           });
 
@@ -290,7 +294,11 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              excl[1] = e.getData();
+              if (e.getData()) {
+                  excl[1] = true;
+              } else {
+                  delete(excl[1]);
+              }
               t.setExcludeSpecificTreeLines(excl);
           });
 
@@ -310,7 +318,11 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              excl[2] = e.getData();
+              if (e.getData()) {
+                  excl[2] = true;
+              } else {
+                  delete(excl[2]);
+              }
               t.setExcludeSpecificTreeLines(excl);
           });
 
@@ -330,7 +342,11 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              excl[3] = e.getData();
+              if (e.getData()) {
+                  excl[3] = true;
+              } else {
+                  delete(excl[3]);
+              }
               t.setExcludeSpecificTreeLines(excl);
           });
 
@@ -350,7 +366,11 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              excl[4] = e.getData();
+              if (e.getData()) {
+                  excl[4] = true;
+              } else {
+                  delete(excl[4]);
+              }
               t.setExcludeSpecificTreeLines(excl);
           });
 
