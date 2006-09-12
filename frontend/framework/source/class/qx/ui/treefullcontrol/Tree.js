@@ -88,10 +88,28 @@ qx.OO.addProperty({ name : "useTreeLines",
                     getAlias : "useTreeLines"
                   });
 
-/*
- * Add a "hideNode" property.  This differs from the visibility property in
- * that this property hides *only* the current node, not the node's children.
- */
+/*!
+  In specific applications, it is desirable to omit tree lines for only
+  certain indentation levels.  This property provides an array wherein the
+  index of the array corresponds to the indentation level, counted from left
+  to right; and the value of that element, if it contains, specifically, the
+  boolean value <i>true</i>, indicates that tree lines at that indentation
+  level are to be omitted.  (Any value of that element other than <i>true</i>,
+  or if an indentation level's index does not exist in the array, means that
+  tree lines should be displayed for that indentation level.
+
+  If useTreeLines is <i>false</i>, then all tree lines are excluded and this
+  property is ignored.
+*/
+qx.OO.addProperty({ name : "excludeSpecificTreeLines",
+                    type : qx.constant.Type.OBJECT,
+                    defaultValue : []
+                  });
+
+/*!
+  Hide the root (Tree) node.  This differs from the visibility property in
+  that this property hides *only* the current node, not the node's children.
+*/
 qx.OO.addProperty({ name : "hideNode",
                     type : qx.constant.Type.BOOLEAN,
                     defaultValue : false,
@@ -109,8 +127,6 @@ qx.OO.addProperty({ name : "rootOpenClose",
                     type : qx.constant.Type.BOOLEAN,
                     defaultValue : true
                   });
-
-
 
 
 /*
@@ -229,6 +245,29 @@ qx.Proto._modifyHideNode = function(propValue, propOldValue, propData)
 }
 
 qx.Proto._modifyRootOpenClose = function(propValue, propOldValue, propData)
+{
+  if (this._initialLayoutDone) {
+    this._updateIndent();
+  }
+
+  return true;
+}
+
+// Override getter so we can return a clone of the array.  Otherwise, the
+// setter finds the identical array (after user modifications) and the modify
+// function doesn't get called.
+qx.Proto.getExcludeSpecificTreeLines = function()
+{
+  var vName = "excludeSpecificTreeLines";
+  var vUpName = qx.lang.String.toFirstUp(vName);
+  var vStorageField = qx.OO.C_VALUE + vUpName;
+
+  return this[vStorageField].slice(0);
+}
+
+qx.Proto._modifyExcludeSpecificTreeLines = function(propValue,
+                                                    propOldValue,
+                                                    propData)
 {
   if (this._initialLayoutDone) {
     this._updateIndent();
@@ -439,9 +478,9 @@ qx.Proto.getHierarchy = function(vArr)
 }
 
 
-qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Proto.getIndentSymbol = function(vUseTreeLines, vColumn, vLastColumn)
 {
-  if (vIsLastColumn &&
+  if (vColumn == vLastColumn &&
       (this.hasContent() || this.getAlwaysShowPlusMinusSymbol()))
   {
     return this.getOpen() ? "minus" : "plus";

@@ -419,7 +419,10 @@ qx.Proto._updateLastColumn = function()
     var vElement = this._indentObject.getElement();
 
     if (vElement && vElement.firstChild) {
-      vElement.firstChild.src = this.BASE_URI + this.getIndentSymbol(this.getTree().getUseTreeLines(), true) + ".gif";
+      vElement.firstChild.src =
+        (this.BASE_URI +
+         this.getIndentSymbol(this.getTree().getUseTreeLines(), 0, 0, 0) +
+         ".gif");
     }
   }
 }
@@ -508,21 +511,28 @@ qx.Proto._ondblclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Proto.getIndentSymbol = function(vUseTreeLines,
+                                    vColumn,
+                                    vFirstColumn,
+                                    vLastColumn)
 {
-  if (vIsLastColumn)
+  var vLevel = this.getLevel();
+  var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
+  var vExclude = vExcludeList[vLastColumn - vColumn - 1];
+
+  if (vColumn == vFirstColumn)
   {
     if (this.hasContent() || this.getAlwaysShowPlusMinusSymbol())
     {
       // If tree lines were not requested, don't display them
-      if (!vUseTreeLines)
+      if (!vUseTreeLines || vExclude === true)
       {
         return this.getOpen() ? "minus" : "plus";
       }
 
 
       // If this is the first level under the root...
-      if (this.getLevel() == 1) {
+      if (vLevel == 1) {
         // ... and the root is not being displayed and this is the first
         // child...
         var vParentFolder = this.getParentFolder();
@@ -532,7 +542,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
         {
           //... then if this is also the last (i.e. only) child, use no tree
           // lines; otherwise, use descender lines but no ascender.
-          if (this.isLastChild())
+          if (this.isLastChild() || vExclude === true)
           {
             return this.getOpen() ? "minus" : "plus";
           }
@@ -552,14 +562,20 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
         return this.getOpen() ? "cross_minus" : "cross_plus";
       }
     }
-    else if (vUseTreeLines)
+    else if (vUseTreeLines && ! (vExclude === true))
     {
       return this.isLastChild() ? "end" : "cross";
     }
   }
   else
   {
-    return vUseTreeLines && !this.isLastChild() ? "line" : null;
+    if (vUseTreeLines && ! this.isLastChild()) {
+      if (vExclude === true) {
+        return null;
+      }
+      return "line";
+    }
+    return null;
   }
 }
 

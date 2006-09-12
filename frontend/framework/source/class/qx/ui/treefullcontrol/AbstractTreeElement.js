@@ -462,7 +462,9 @@ qx.Proto.flushTree = function()
   for (var i=vMinLevel; i<vMaxLevel; i++)
   {
     vImage = vCurrentObject.getIndentSymbol(vTree.getUseTreeLines(),
-                                            i == vMinLevel);
+                                            i,
+                                            vMinLevel,
+                                            vMaxLevel);
 
     if (vImage)
     {
