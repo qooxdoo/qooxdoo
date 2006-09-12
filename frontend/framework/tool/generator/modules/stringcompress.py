@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
-def search(node, stringMap={}):
+def search(node, stringMap={}, verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
+
+    print "    - Found: %s" % node.get("value")
+
     if node.get("detail") == "singlequotes":
       quote = "'"
     elif node.get("detail") == "doublequotes":
@@ -14,10 +17,52 @@ def search(node, stringMap={}):
     else:
       stringMap[value] = 1
 
-  if node.hasChildren():
+  if check(node, verbose):
     for child in node.children:
-      search(child, stringMap)
+      search(child, stringMap, verbose)
 
+
+
+def check(node, verbose=False):
+  # Needs children
+  if not node.hasChildren():
+    return False
+
+  # Try to find all output statements
+  if node.type == "call":
+    cu = node
+    nx = cu.getChild("operand", False)
+
+    if nx != None:
+      cu = nx
+
+    all = cu.getAllChildrenOfType("identifier")
+
+    for ch in all:
+      if ch.get("name", False) in [ "Error", "debug", "info", "warning", "error", "alert" ]:
+        if verbose:
+          print "    - Ignore output statement at line: %s" % ch.get("line")
+        return False
+
+  # Try to find all constant assignments (ns.UPPER = string)
+  elif node.type == "assignment":
+    left = node.getChild("left", False)
+    if left != None:
+      last = left.getChild("variable").getLastChild()
+
+      if last.type == "identifier" and last.get("name").isupper():
+        if verbose:
+          print "    - Ignore constant assignment at line: %s" % last.get("line")
+        return False
+
+  # Try to find all constant assignments from Maps ({ UPPER : string })
+  elif node.type == "keyvalue":
+    if node.get("key").isupper():
+      if verbose:
+        print "    - Ignore constant key value at line: %s" % node.get("line")
+      return False
+
+  return True
 
 
 
@@ -34,23 +79,28 @@ def sort(stringMap):
 
 
 
-def replace(node, stringList, var="$"):
+def replace(node, stringList, var="$", verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
-    oldvalue = node.get("value")
+    if node.get("detail") == "singlequotes":
+      quote = "'"
+    elif node.get("detail") == "doublequotes":
+      quote = '"'
+
+    oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
 
     pos = 0
     for item in stringList:
       if item["value"] == oldvalue:
         newvalue = "%s[%s]" % (var, pos)
-        print "      - Replace: %s => %s" % (oldvalue, newvalue)
+        print "    - Replace: %s => %s" % (oldvalue, newvalue)
         node.set("value", newvalue)
         break
 
       pos += 1
 
-  if node.hasChildren():
+  if check(node, verbose):
     for child in node.children:
-      replace(child, stringList)
+      replace(child, stringList, var, verbose)
 
 
 
