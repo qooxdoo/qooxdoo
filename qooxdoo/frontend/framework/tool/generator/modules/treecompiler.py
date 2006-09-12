@@ -23,7 +23,7 @@ def getTokenSource(id):
 
 
 def compile(node, enableNewLines=False, enableDebug=False):
-  return compileNode(node, level=0, enableNewLines=False, enableDebug=False)
+  return compileNode(node, 0, enableNewLines, enableDebug)
 
 
 
