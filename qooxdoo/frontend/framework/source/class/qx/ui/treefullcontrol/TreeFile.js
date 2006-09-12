@@ -49,11 +49,18 @@ function(treeRowStructure)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Proto.getIndentSymbol = function(vUseTreeLines,
+                                    vColumn,
+                                    vFirstColumn,
+                                    vLastColumn)
 {
-  if (vUseTreeLines)
+  var vLevel = this.getLevel();
+  var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
+  var vExclude = vExcludeList[vLastColumn - vColumn - 1];
+
+  if (vUseTreeLines && ! (vExclude === true))
   {
-    if (vIsLastColumn)
+    if (vColumn == vFirstColumn)
     {
       return this.isLastChild() ? "end" : "cross";
     }
