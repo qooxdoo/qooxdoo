@@ -484,10 +484,6 @@ qx.Proto.getHierarchy = function(vArr)
 
 qx.Proto.getIndentSymbol = function(vUseTreeLines, vColumn, vLastColumn)
 {
-  var vLevel = this.getLevel();
-  var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
-  var vExclude = vExcludeList[vLastColumn - vColumn - 1];
-
   if (vColumn == vLastColumn &&
       (this.hasContent() || this.getAlwaysShowPlusMinusSymbol()))
   {
