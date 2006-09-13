@@ -256,6 +256,10 @@ qx.Proto.parse = function(dateStr) {
   var date = new Date(dateValues.year, dateValues.month, dateValues.day,
     (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour,
     dateValues.min, dateValues.sec, dateValues.ms);
+  if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear()) {
+    // TODO: check if this is also necessary for the time components
+    throw "Error parsing date '" + dateStr + "': the value for day or month is too large";
+  }
 
   return date;
 }
