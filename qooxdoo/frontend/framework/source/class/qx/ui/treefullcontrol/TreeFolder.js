@@ -535,7 +535,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines,
     if (this.hasContent() || this.getAlwaysShowPlusMinusSymbol())
     {
       // If tree lines were not requested, don't display them
-      if (!vUseTreeLines || vExclude === true)
+      if (!vUseTreeLines)
       {
         return this.getOpen() ? "minus" : "plus";
       }
@@ -554,7 +554,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines,
           // lines; otherwise, use descender lines but no ascender.
           if (this.isLastChild() || vExclude === true)
           {
-            return this.getOpen() ? "minus" : "plus";
+            return this.getOpen() ? "only_minus" : "only_plus";
           }
           else
           {
@@ -565,7 +565,7 @@ qx.Proto.getIndentSymbol = function(vUseTreeLines,
 
       if (vExclude === true)
       {
-        return this.getOpen() ? "minus" : "plus";
+        return this.getOpen() ? "only_minus" : "only_plus";
       }
       else if (this.isLastChild())
       {
