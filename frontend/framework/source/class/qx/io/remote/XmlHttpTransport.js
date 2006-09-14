@@ -26,7 +26,8 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.XmlHttpTransport", qx.io.remote.AbstractRemoteTransport,
+qx.OO.defineClass("qx.io.remote.XmlHttpTransport",
+                  qx.io.remote.AbstractRemoteTransport,
 function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
@@ -34,7 +35,8 @@ function()
   this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
 
   var o = this;
-  this._req.onreadystatechange = function(e) { return o._onreadystatechange(e); }
+  this._req.onreadystatechange =
+      function(e) { return o._onreadystatechange(e); }
 });
 
 
@@ -47,7 +49,8 @@ function()
 
 // basic registration to qx.io.remote.RemoteExchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-qx.io.remote.RemoteExchange.registerType(qx.io.remote.XmlHttpTransport, "qx.io.remote.XmlHttpTransport");
+qx.io.remote.RemoteExchange.registerType(qx.io.remote.XmlHttpTransport,
+                                         "qx.io.remote.XmlHttpTransport");
 
 qx.io.remote.XmlHttpTransport.handles =
 {
@@ -55,7 +58,13 @@ qx.io.remote.XmlHttpTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: false,
-  responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
+  responseTypes : [
+                    qx.constant.Mime.TEXT,
+                    qx.constant.Mime.JAVASCRIPT,
+                    qx.constant.Mime.JSON,
+                    qx.constant.Mime.XML,
+                    qx.constant.Mime.HTML
+                  ]
 }
 
 qx.io.remote.XmlHttpTransport.requestObjects = [];
@@ -65,17 +74,29 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 {
   if (window.XMLHttpRequest)
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
-      qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using XMLHttpRequest");
+    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+                                    "enableDebug")) {
+      qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
+          "Using XMLHttpRequest");
     }
 
-    qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createNativeRequestObject;
+    qx.io.remote.XmlHttpTransport.createRequestObject =
+      qx.io.remote.XmlHttpTransport._createNativeRequestObject;
     return true;
   }
 
   if (window.ActiveXObject)
   {
-    var vServers = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP.2.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
+    var vServers =
+      [
+        "MSXML2.XMLHTTP.6.0",
+        "MSXML2.XMLHTTP.5.0",
+        "MSXML2.XMLHTTP.4.0",
+        "MSXML2.XMLHTTP.3.0",
+        "MSXML2.XMLHTTP.2.0",
+        "MSXML2.XMLHTTP",
+        "Microsoft.XMLHTTP"
+      ];
     var vObject;
     var vServer;
 
@@ -97,11 +118,13 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
     if (vObject)
     {
       if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
-        qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug("Using ActiveXObject: " + vServer);
+        qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
+            "Using ActiveXObject: " + vServer);
       }
 
       qx.io.remote.XmlHttpTransport._activeXServer = vServer;
-      qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
+      qx.io.remote.XmlHttpTransport.createRequestObject =
+        qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
 
       return true;
     }
@@ -182,8 +205,9 @@ qx.Proto.send = function()
   //   Local handling
   // --------------------------------------
 
-  var vLocalRequest = this._localRequest = qx.sys.Client.getInstance().getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl));
-
+  var vLocalRequest = (qx.sys.Client.getInstance().getRunsLocally() &&
+                       !(/^http(s){0,1}\:/.test(vUrl)));
+  this._localRequest = vLocalRequest;
 
 
   // --------------------------------------
@@ -197,16 +221,62 @@ qx.Proto.send = function()
   }
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
+    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0
+             ? qx.constant.Core.AMPERSAND
+             : (qx.constant.Core.QUESTIONMARK) +
+                vParametersList.join(qx.constant.Core.AMPERSAND));
   }
 
+   
+  var encode64 = function (input) {
+    var keyStr =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    var output = "";
+    var chr1, chr2, chr3;
+    var enc1, enc2, enc3, enc4;
+    var i = 0;
+    
+    do {
+      chr1 = input.charCodeAt(i++);
+      chr2 = input.charCodeAt(i++);
+      chr3 = input.charCodeAt(i++);
+    
+      enc1 = chr1 >> 2;
+      enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+      enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+      enc4 = chr3 & 63;
+    
+      if (isNaN(chr2)) {
+        enc3 = enc4 = 64;
+      } else if (isNaN(chr3)) {
+        enc4 = 64;
+      }
+    
+      output +=
+        keyStr.charAt(enc1) +
+        keyStr.charAt(enc2) + 
+        keyStr.charAt(enc3) +
+        keyStr.charAt(enc4);
 
-
+    } while (i < input.length);
+       
+    return output;
+  }
+    
   // --------------------------------------
   //   Opening connection
   // --------------------------------------
   if (this.getUsername()) {
-    vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
+    if (this.getUseBasicHTTPAuth()) {
+      vRequest.open(vMethod, vUrl, vAsynchronous);
+      vRequest.setRequestHeader('Authorization',
+                                'Basic ' + encode64(this.getUsername() +
+                                                    ':' +
+                                                    this.getPassword()));
+    } else {
+      vRequest.open(vMethod, vUrl, vAsynchronous,
+                    this.getUsername(), this.getPassword());
+    }
   } else {
     vRequest.open(vMethod, vUrl, vAsynchronous);
   }
@@ -300,7 +370,8 @@ qx.Proto._onreadystatechange = function(e)
     case qx.constant.Net.STATE_ABORTED:
     case qx.constant.Net.STATE_FAILED:
     case qx.constant.Net.STATE_TIMEOUT:
-      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+                                      "enableDebug")) {
         this.warn("Ignore Ready State Change");
       }
       return;
@@ -308,7 +379,9 @@ qx.Proto._onreadystatechange = function(e)
 
   // Checking status code
   var vReadyState = this.getReadyState();
-  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(),
+                                                 vReadyState,
+                                                 this._localRequest)) {
     return this.failed();
   }
 
@@ -460,7 +533,8 @@ qx.Proto.getStatusCode = function()
 }
 
 /*!
-  Provides the status text for the current request if available and null otherwise.
+  Provides the status text for the current request if available and null
+  otherwise.
 */
 qx.Proto.getStatusText = function()
 {
@@ -488,9 +562,9 @@ qx.Proto.getStatusText = function()
 */
 
 /*!
-  Provides the response text from the request when available and null otherwise.
-  By passing true as the "partial" parameter of this method, incomplete data will
-  be made available to the caller.
+  Provides the response text from the request when available and null
+  otherwise.  By passing true as the "partial" parameter of this method,
+  incomplete data will be made available to the caller.
 */
 qx.Proto.getResponseText = function()
 {
@@ -508,8 +582,8 @@ qx.Proto.getResponseText = function()
 }
 
 /*!
-  Provides the XML provided by the response if any and null otherwise.
-  By passing true as the "partial" parameter of this method, incomplete data will
+  Provides the XML provided by the response if any and null otherwise.  By
+  passing true as the "partial" parameter of this method, incomplete data will
   be made available to the caller.
 */
 qx.Proto.getResponseXml = function()
@@ -540,14 +614,16 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+                                    "enableDebug")) {
       this.warn("Transfer not complete, ignoring content!");
     }
 
     return null;
   }
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+                                  "enableDebug")) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   }
 
@@ -595,7 +671,8 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+                                  "enableDebug")) {
     this.debug("State: " + propValue);
   }
 

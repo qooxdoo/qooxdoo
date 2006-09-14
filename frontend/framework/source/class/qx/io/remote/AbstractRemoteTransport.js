@@ -99,6 +99,10 @@ qx.OO.addProperty({ name : "parameters", type: qx.constant.Type.OBJECT });
 */
 qx.OO.addProperty({ name : "responseType", type: qx.constant.Type.STRING });
 
+/*!
+  Use Basic HTTP Authentication
+*/
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
 
 
 

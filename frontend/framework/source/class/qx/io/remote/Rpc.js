@@ -141,6 +141,11 @@ qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
 qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
 
 /**
+  Use Basic HTTP Authentication
+*/
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
+
+/**
    Origins of errors
 */
 qx.io.remote.Rpc.origin =
@@ -200,6 +205,7 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
   req.setCrossDomain(this.getCrossDomain());
 
   if (this.getUsername()) {
+    req.setUseBasicHTTPAuth(this.getUseBasicHTTPAuth());
     req.setUsername(this.getUsername());
     req.setPassword(this.getPassword());
   }

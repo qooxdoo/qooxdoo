@@ -159,6 +159,10 @@ qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defau
   This is necessary to be able to abort an asynchronous request.
 */
 qx.OO.addProperty({ name : "transport", type : qx.constant.Type.OBJECT, instance : "qx.io.remote.RemoteExchange" });
+/*!
+  Use Basic HTTP Authentication
+*/
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
 
 
 
