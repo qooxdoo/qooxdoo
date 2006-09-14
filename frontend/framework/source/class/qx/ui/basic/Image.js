@@ -262,18 +262,35 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   {
     if (!this._image)
     {
-      this._image = new Image;
+      try
+      {
+        // Create Image-Node
+        // Webkit has problems with "new Image". Maybe related to "new Function" with
+        // is also not working correctly.
+        if (qx.sys.Client.getInstance().isWebkit())
+        {
+          this._image = document.createElement("img");
+        }
+        else
+        {
+          this._image = new Image;
+        }
 
-      // Possible alternative for MSHTML for PNG images
-      // But it seems not to be faster
-      // this._image = document.createElement(qx.constant.Tags.DIV);
+        // Possible alternative for MSHTML for PNG images
+        // But it seems not to be faster
+        // this._image = document.createElement(qx.constant.Tags.DIV);
 
-      // this costs much performance, move setup to blank gif to error handling
-      // is this SSL save?
-      // this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+        // this costs much performance, move setup to blank gif to error handling
+        // is this SSL save?
+        // this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
 
-      this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
-      this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
+        this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
+        this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
+      }
+      catch(ex)
+      {
+        this.error("Failed while creating image #1", ex);
+      }
 
       if (!qx.sys.Client.getInstance().isMshtml()) {
         this._applyEnabled();
@@ -288,10 +305,17 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
   if (propValue)
   {
-    // initialisize preloader
-    var vSource = this.getSource();
-    if (qx.util.Validation.isValidString(vSource)) {
-      this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource)));
+    try
+    {
+      // initialisize preloader
+      var vSource = this.getSource();
+      if (qx.util.Validation.isValidString(vSource)) {
+        this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource)));
+      }
+    }
+    catch(ex)
+    {
+      this.error("Failed while creating image #2", ex);
     }
   }
 
