@@ -129,6 +129,7 @@ function(date) {
       label.setAppearance("datechooser-day");
       label.set({ width:"100%", height:"100%" });
       label.addEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
+      label.addEventListener(qx.constant.Event.DBLCLICK, this._onDayDblClicked, this);
       datePane.add(label, x + 1, y + 1);
       this._dayLabelArr.push(label);
     }
@@ -183,7 +184,11 @@ qx.Proto._modifyDate = function(propValue, propOldValue, propData) {
     for (var i = 0; i < 6 * 7; i++) {
       var dayLabel = this._dayLabelArr[i];
 
-      if (! dayLabel.hasState(DateChooser.STATE_OTHER_MONTH)) {
+      if (dayLabel.hasState(DateChooser.STATE_OTHER_MONTH)) {
+        if (dayLabel.hasState(DateChooser.STATE_SELECTED)) {
+          dayLabel.removeState(DateChooser.STATE_SELECTED);
+        }
+      } else {
         var day = parseInt(dayLabel.getHtml());
         if (day == newDay) {
           dayLabel.addState(DateChooser.STATE_SELECTED);
@@ -244,6 +249,9 @@ qx.Proto._onDayClicked = function(evt) {
   this.setDate(new Date(time));
 }
 
+qx.Proto._onDayDblClicked = function() {
+  this.createDispatchDataEvent(qx.constant.Event.SELECT, this.getDate());
+}
 
 /**
  * Event handler. Called when a key was pressed.
@@ -254,45 +262,56 @@ qx.Proto._onkeydown = function(evt) {
   var dayIncrement = null;
   var monthIncrement = null;
   var yearIncrement = null;
+  var vKey = qx.event.type.KeyEvent.keys;
   if (evt.getModifiers() == 0) {
     switch(evt.getKeyCode()) {
-      case qx.event.type.KeyEvent.keys.left:
+      case vKey.left:
         dayIncrement = -1;
         break;
-      case qx.event.type.KeyEvent.keys.right:
+      case vKey.right:
         dayIncrement = 1;
         break;
-      case qx.event.type.KeyEvent.keys.up:
+      case vKey.up:
         dayIncrement = -7;
         break;
-      case qx.event.type.KeyEvent.keys.down:
+      case vKey.down:
         dayIncrement = 7;
         break;
-      case qx.event.type.KeyEvent.keys.pageup:
+      case vKey.pageup:
         monthIncrement = -1;
         break;
-      case qx.event.type.KeyEvent.keys.pagedown:
+      case vKey.pagedown:
         monthIncrement = 1;
         break;
-      case qx.event.type.KeyEvent.keys.esc:
+      case vKey.esc:
         if (this.getDate() != null) {
           this.setDate(null);
           return true;
         }
+        break;
+      case vKey.enter:
+      case vKey.space:
+        if (this.getDate() != null) {
+          this.createDispatchDataEvent(qx.constant.Event.SELECT, this.getDate());
+        }
+        return;
     }
   } else if (evt.getModifiers() == qx.event.type.DomEvent.SHIFT_MASK) {
     switch(evt.getKeyCode()) {
-      case qx.event.type.KeyEvent.keys.pageup:
+      case vKey.pageup:
         yearIncrement = -1;
         break;
-      case qx.event.type.KeyEvent.keys.pagedown:
+      case vKey.pagedown:
         yearIncrement = 1;
         break;
     }
   }
 
   if (dayIncrement != null || monthIncrement != null || yearIncrement != null) {
-    var date = new Date(this.getDate().getTime()); // TODO: Do cloning in getter
+    var date = this.getDate();
+    if (date != null) {
+      date = new Date(date.getTime()); // TODO: Do cloning in getter
+    }
     if (date == null) {
       date = new Date();
     } else {
@@ -498,6 +517,7 @@ qx.Proto.dispose = function() {
   for (var i = 0; i < this._dayLabelArr.length; i++) {
     this._dayLabelArr[i].dispose();
     this._dayLabelArr[i].removeEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
+    this._dayLabelArr[i].removeEventListener(qx.constant.Event.DBLCLICK, this._onDayDblClicked, this);
   }
   this._dayLabelArr = null;
 
