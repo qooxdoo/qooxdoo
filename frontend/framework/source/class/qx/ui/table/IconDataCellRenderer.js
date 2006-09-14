@@ -58,7 +58,7 @@ qx.Proto._identifyImage = function(cellInfo) {
  */
 qx.Proto._getImageInfos= function(cellInfo) {
   // Query the subclass about image and tooltip
-  urlAndTooltipMap = this._identifyImage(cellInfo);
+  var urlAndTooltipMap = this._identifyImage(cellInfo);
   
   // If subclass refuses to give map, construct it
   if (urlAndTooltipMap == null || typeof urlAndTooltipMap == "string"){
@@ -84,9 +84,9 @@ qx.Proto._getCellStyle = function(cellInfo) {
 qx.Proto._getContentHtml = function(cellInfo) {
   var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
 
-  urlAndToolTip = this._getImageInfos(cellInfo);
-  html = IconDataCellRenderer.IMG_START +  urlAndToolTip.url;
-  tooltip = urlAndToolTip.tooltip;
+  var urlAndToolTip = this._getImageInfos(cellInfo);
+  var html = IconDataCellRenderer.IMG_START +  urlAndToolTip.url;
+  var tooltip = urlAndToolTip.tooltip;
   if (tooltip != null){
     html += IconDataCellRenderer.IMG_TITLE_START + tooltip;
   }
@@ -99,7 +99,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   
   // Set image and tooltip text  
   var urlAndToolTip = this._getImageInfos(cellInfo);
-  img = cellElement.firstChild;
+  var img = cellElement.firstChild;
   img.src = urlAndToolTip.url;
   if (urlAndToolTip.tooltip != null){
     img.text = urlAndToolTip.tooltip;
@@ -123,9 +123,9 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   }
 
   htmlArr.push(IconDataCellRenderer.IMG_START);
-  urlAndToolTip = this._getImageInfos(cellInfo);
+  var urlAndToolTip = this._getImageInfos(cellInfo);
   htmlArr.push(urlAndToolTip.url);
-  tooltip = urlAndToolTip.tooltip;
+  var tooltip = urlAndToolTip.tooltip;
   if (tooltip != null){
     IconDataCellRenderer.IMG_TITLE_START;
     htmlArr.push(tooltip);    
