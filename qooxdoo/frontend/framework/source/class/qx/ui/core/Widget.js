@@ -4557,12 +4557,15 @@ qx.ui.core.Widget.SEL_VALUE_ON = "on";
 
 if(qx.sys.Client.getInstance().isMshtml())
 {
-  qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
-    if (propValue) {
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
+  {
+    if (propValue)
+    {
       return this.removeHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE);
-    } else {
-      return this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE,
-                                  qx.ui.core.Widget.SEL_VALUE_ON);
+    }
+    else
+    {
+      return this.setHtmlProperty(qx.ui.core.Widget.SEL_PROPERTY_UNSELECTABLE, qx.ui.core.Widget.SEL_VALUE_ON);
     }
   }
 }
@@ -4570,18 +4573,13 @@ else if(qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
-    // Be forward compatible and use both userSelect and MozUserSelect
     if (propValue)
     {
       this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT);
-      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
     }
     else
     {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT,
-                            qx.constant.Core.NONE);
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
-                            qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_MOZUSERSELECT, qx.constant.Core.NONE);
     }
 
     return true;
@@ -4594,7 +4592,7 @@ else if (qx.sys.Client.getInstance().isOpera())
     return true;
   }
 }
-else if (qx.sys.Client.getInstance().isKhtml())
+else if (qx.sys.Client.getInstance().isKhtml() || qx.sys.Client.getInstance().isWebkit())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4602,14 +4600,10 @@ else if (qx.sys.Client.getInstance().isKhtml())
     if (propValue)
     {
       this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT);
-      this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
     }
     else
     {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT,
-                            qx.constant.Core.NONE);
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
-                            qx.constant.Core.NONE);
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_KHTMLUSERSELECT, qx.constant.Core.NONE);
     }
 
     return true;
@@ -4617,12 +4611,15 @@ else if (qx.sys.Client.getInstance().isKhtml())
 }
 else
 {
-  qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
-    if (propValue) {
+  qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
+  {
+    if (propValue)
+    {
       return this.removeStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT);
-    } else {
-      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT,
-                            qx.constant.Core.NONE);
+    }
+    else
+    {
+      this.setStyleProperty(qx.ui.core.Widget.SEL_PROPERTY_USERSELECT, qx.constant.Core.NONE);
     }
   }
 }
