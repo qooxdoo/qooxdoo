@@ -220,7 +220,11 @@ qx.Proto._onload = function(e)
   this.debug("qooxdoo " + qx.core.Version.toString());
 
   // Print out class informations
-  this.debug("Loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
+  this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
+
+  // Print browser information
+  var cl = qx.sys.Client.getInstance();
+  this.debug("system " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
   // Init component from settings
   this._createComponent();
