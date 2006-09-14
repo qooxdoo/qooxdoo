@@ -34,22 +34,28 @@
     t1_1.setChecked(true);    
     
     // add close images to tab
-    t1_1.setCloseTab(true);
-    t1_2.setCloseTabImage(new qx.ui.basic.Image("icon/16/error.png"));
-    t1_2.setCloseTab(true);
-    //t1_3.setCloseTab(true);
-    t1_4.setCloseTabImage(new qx.ui.basic.Image("icon/16/apply.png"));
-    t1_4.setCloseTab(true);
-    t1_5.setCloseTab(true);
-    t1_6.setCloseTab(true);
+    t1_1.setShowCloseButton(true);
+    t1_2.setShowCloseButton(true);
+    t1_3.setShowCloseButton(true);
+    t1_4.setShowCloseButton(true);
+    t1_5.setShowCloseButton(true);
+    t1_6.setShowCloseButton(true);
+
+    // modify the default images
+    t1_2.setCloseButtonImage("icon/16/error.png");
+    t1_4.setCloseButtonImage("icon/16/apply.png");
  
-    t1_1.addEventListener("CLOSE_TAB", _ontabclose);
-    t1_2.addEventListener("CLOSE_TAB", _ontabclose);
-    t1_3.addEventListener("CLOSE_TAB", _ontabclose);
-    t1_4.addEventListener("CLOSE_TAB", _ontabclose);
-    t1_5.addEventListener("CLOSE_TAB", _ontabclose);
-    t1_6.addEventListener("CLOSE_TAB", _ontabclose);
+    // add an eventlistener on the buttons
+    t1_1.addEventListener("closetab", _ontabclose);
+    t1_2.addEventListener("closetab", _ontabclose);
+    t1_3.addEventListener("closetab", _ontabclose);
+    t1_4.addEventListener("closetab", _ontabclose);
+    t1_5.addEventListener("closetab", _ontabclose);
+    t1_6.addEventListener("closetab", _ontabclose);
     
+    
+    
+    // this handler gets called if a tab-button fires a "closetab" event
     function _ontabclose(e){
       var btn = e.getData();
       
@@ -62,14 +68,14 @@
           pageSearched = tmpPage;
         }
       }
-
       if(pageSearched){
 
         var itemsList = tf1.getBar().getChildren();
         var lengthList = itemsList.length;    
         var btnIndex = itemsList.indexOf(btn);
       
-        if( lengthList > 1 ) { // es gibt mehr als 2 buttons
+	// never remove the last tab
+        if( lengthList > 1 ) { 
 
           // Select another tab
           if (btnIndex < lengthList-1 ){

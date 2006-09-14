@@ -25,7 +25,7 @@ qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
   
-  this.setCloseTabImage(new qx.ui.basic.Image("icon/16/cancel.png"));
+  this.setCloseButtonImage("icon/16/cancel.png");
   
   
   this.setTabIndex(1);
@@ -77,12 +77,12 @@ qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
 /*!
   default Close Tab Button
  */
-qx.OO.addProperty({ name : "closeTab", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showCloseButton", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
 /*!
   Close Tab Icon
  */
-qx.OO.addProperty({ name : "closeTabImage", type : qx.constant.Type.OBJECT, instance : "qx.ui.basic.Image"});
+qx.OO.addProperty({ name : "closeButtonImage", type : qx.constant.Type.STRING});
 
 
 
@@ -169,24 +169,34 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData) {
   return true;
 }
 
-qx.Proto._modifyCloseTab = function(propValue, propOldValue, propData) {
-  
+qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
+
   if (propValue) {
-    this.add(this.getCloseTabImage()); 
+    this.add(this._iconObject); 
   }
   else {
-    this.remove(this.getCloseTabImage()); 
+    this.remove(this._iconObject); 
   }
   return true;
 }
 
-qx.Proto._modifyCloseTabImage = function(propValue, propOldValue, propData) {
-  if (propValue) {
-    propValue.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this); 
+qx.Proto._modifyCloseButtonImage = function(propValue, propOldValue, propData) {
+    
+  if (qx.util.Validation.isValidString(propValue)){
+    
+    // cleanly remove the former image-object
+    if (this._iconObject) {
+      this._iconObject.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
+      this.remove(this._iconObject); 
+      this._iconObject.dispose();
+    }
+
+    // assign the new image-object
+    this._iconObject = new qx.ui.basic.Image(propValue);
+    this._iconObject.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
+    this.add(this._iconObject);
   }
-  if (propOldValue){
-    propOldValue.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
-  }
+  
   return true;
 }
 
@@ -213,7 +223,7 @@ qx.Proto._onmouseout = function(e) {
 qx.Proto._onkeydown = function(e) {}
 
 qx.Proto._ontabclose = function(e){
-  this.createDispatchDataEvent("CLOSE_TAB", this);
+  this.createDispatchDataEvent("closetab", this);
 }
 
 
