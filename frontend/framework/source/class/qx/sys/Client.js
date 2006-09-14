@@ -60,21 +60,40 @@ function()
 
     vEngineEmulation = vBrowserUserAgent.indexOf("MSIE") !== -1 ? "mshtml" : vBrowserUserAgent.indexOf("Mozilla") !== -1 ? "gecko" : null;
   }
-  else if (typeof vBrowserVendor==="string" && vBrowserVendor==="KDE")
+  else if (typeof vBrowserVendor==="string" && vBrowserVendor==="KDE" && /KHTML\/([0-9-\.]*)/.test(vBrowserUserAgent))
   {
     vEngine = "khtml";
     vBrowser = "konqueror";
+    vEngineVersion = RegExp.$1;
   }
-  else if (vBrowserUserAgent.indexOf("Safari") != -1)
+  else if (vBrowserUserAgent.indexOf("AppleWebKit") != -1 && /AppleWebKit\/([0-9-\.]*)/.test(vBrowserUserAgent))
   {
     vEngine = "webkit";
-    vBrowser = "safari";
+    vEngineVersion = RegExp.$1;
+
+    if(vBrowserUserAgent.indexOf("Safari") != -1) {
+      vBrowser = "safari";
+    } else if(vBrowserUserAgent.indexOf("Omni") != -1) {
+      vBrowser = "omniweb";
+    } else {
+      vBrowser = "other";
+    }
   }
   else if (window.controllers && typeof vBrowserProduct==="string" && vBrowserProduct==="Gecko" && /rv\:([^\);]+)(\)|;)/.test(vBrowserUserAgent))
   {
     // http://www.mozilla.org/docs/dom/domref/dom_window_ref13.html
     vEngine = "gecko";
     vEngineVersion = RegExp.$1;
+
+    if(vBrowserUserAgent.indexOf("Firefox") != -1) {
+      vBrowser = "firefox";
+    } else if(vBrowserUserAgent.indexOf("Camino") != -1) {
+      vBrowser = "camino";
+    } else if(vBrowserUserAgent.indexOf("Galeon") != -1) {
+      vBrowser = "galeon";
+    } else {
+      vBrowser = "other";
+    }
   }
   else if (/MSIE\s+([^\);]+)(\)|;)/.test(vBrowserUserAgent))
   {
@@ -83,9 +102,6 @@ function()
 
     vBrowserModeHta = !window.external;
   }
-
-  // Support Konqueror?
-  // Mozilla/5.0 (compatible; Konqueror/3.5) KHTML/3.5.0 (like Gecko)
 
   if (vEngineVersion)
   {
@@ -102,11 +118,41 @@ function()
 
   var vDefaultLocale = "en";
   var vBrowserLocale = (vEngine == "mshtml" ? navigator.userLanguage : navigator.language).toLowerCase();
+  var vBrowserLocaleVariant = null;
 
-  var vPlatformWindows = vBrowserPlatform.indexOf("Windows") != -1;
-  var vPlatformMacintosh = (vBrowserPlatform.indexOf("Macintosh") != -1 ||
-                            vBrowserPlatform.indexOf("MacIntel") != -1);
-  var vPlatformX11 = vBrowserPlatform.indexOf("X11") != -1;
+  var vBrowserLocaleVariantIndex = vBrowserLocale.indexOf("-");
+  if (vBrowserLocaleVariantIndex != -1)
+  {
+    vBrowserLocaleVariant = vBrowserLocale.substr(vBrowserLocaleVariantIndex+1);
+    vBrowserLocale = vBrowserLocale.substr(0, vBrowserLocaleVariantIndex);
+  }
+
+  var vPlatform = "none";
+  var vPlatformWindows = false;
+  var vPlatformMacintosh = false;
+  var vPlatformUnix = false;
+  var vPlatformOther = false;
+
+  if (vBrowserPlatform.indexOf("Windows") != -1 || vBrowserPlatform.indexOf("Win32") != -1 || vBrowserPlatform.indexOf("Win64") != -1)
+  {
+    vPlatformWindows = true;
+    vPlatform = "win";
+  }
+  else if (vBrowserPlatform.indexOf("Macintosh") != -1 || vBrowserPlatform.indexOf("MacIntel") != -1)
+  {
+    vPlatformMacintosh = true;
+    vPlatform = "mac";
+  }
+  else if (vBrowserPlatform.indexOf("X11") != -1 || vBrowserPlatform.indexOf("Linux") != -1 || vBrowserPlatform.indexOf("BSD") != -1)
+  {
+    vPlatformUnix = true;
+    vPlatform = "unix";
+  }
+  else
+  {
+    vPlatformOther = true;
+    vPlatform = "other";
+  }
 
   var vGfxVml = false;
   var vGfxSvg = false;
@@ -130,10 +176,6 @@ function()
     }
   }
 
-
-
-
-
   this._runsLocally = vRunsLocally;
 
   this._engineName = vEngine;
@@ -155,12 +197,14 @@ function()
 
   this._defaultLocale = vDefaultLocale;
 
-  this._browserPlatform = vBrowserPlatform;
+  this._browserPlatform = vPlatform;
   this._browserPlatformWindows = vPlatformWindows;
   this._browserPlatformMacintosh = vPlatformMacintosh;
-  this._browserPlatformX11 = vPlatformX11;
+  this._browserPlatformUnix = vPlatformUnix;
+  this._browserPlatformOther = vPlatformOther;
   this._browserModeHta = vBrowserModeHta;
   this._browserLocale = vBrowserLocale;
+  this._browserLocaleVariant = vBrowserLocaleVariant;
 
   this._gfxVml = vGfxVml;
   this._gfxSvg = vGfxSvg;
@@ -238,6 +282,10 @@ qx.Proto.getLocale = function() {
   return this._browserLocale;
 }
 
+qx.Proto.getLocaleVariant = function() {
+  return this._browserLocaleVariant;
+}
+
 qx.Proto.getDefaultLocale = function() {
   return this._defaultLocale;
 }
@@ -257,6 +305,10 @@ qx.Proto.getEngineBoxSizingAttribute = function() {
   return this._engineBoxSizingAttribute;
 }
 
+
+qx.Proto.getPlatform = function() {
+  return this._browserPlatform;
+}
 
 /**
  * Returns whether the client platform is a Windows machine.
@@ -281,8 +333,8 @@ qx.Proto.runsOnMacintosh = function() {
  *
  * @return {boolean} whether the client platform is a X11 powered machine.
  */
-qx.Proto.runsOnX11 = function() {
-  return this._browserPlatformX11;
+qx.Proto.runsOnUnix = function() {
+  return this._browserPlatformUnix;
 }
 
 qx.Proto.supportsVml = function() {
