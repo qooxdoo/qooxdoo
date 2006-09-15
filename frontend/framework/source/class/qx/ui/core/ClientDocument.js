@@ -59,7 +59,7 @@ function()
   this._cachedInnerHeight = this._document.body.offsetHeight;
 
   // Add Resize Handler
-  this.addEventListener(qx.constant.Event.RESIZE, this._onresize);
+  this.addEventListener("windowresize", this._onwindowresize);
 
   // Dialog Support
   this._modalWidgets = [];
@@ -337,7 +337,7 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onresize = function(e)
+qx.Proto._onwindowresize = function(e)
 {
   // Hide popups, tooltips, ...
   if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
@@ -357,7 +357,7 @@ qx.Proto._onresize = function(e)
 // resize windows. Bad.
 
 /*
-qx.Proto._onresizehelper = function()
+qx.Proto._onwindowresizehelper = function()
 {
   // Test for changes
   var t1 = this._recomputeInnerWidth();
@@ -399,6 +399,9 @@ qx.Proto.dispose = function()
   delete this._document;
   delete this._modalWidgets;
   delete this._modalNativeWindow;
+
+  // Remove Resize Handler
+  this.removeEventListener("windowresize", this._onwindowresize);
 
   this._globalCursorStyleSheet = null;
 

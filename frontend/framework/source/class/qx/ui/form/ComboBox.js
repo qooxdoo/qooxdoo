@@ -118,8 +118,16 @@ function()
   // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
-  p.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
-  f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+  this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+  this._field.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+
+
+  // ************************************************************************
+  //   DOCUMENT EVENTS
+  // ************************************************************************
+  var vDoc = qx.ui.core.ClientDocument.getInstance();
+  vDoc.addEventListener("windowblur", this._onwindowblur, this);
+  vDoc.addEventListener("windowfocus", this._onwindowfocus, this);
 
 
   // ************************************************************************
@@ -262,6 +270,55 @@ qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
 
 /*
 ---------------------------------------------------------------------------
+  POPUP HELPER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._oldSelected = null;
+
+qx.Proto._openPopup = function()
+{
+  var p = this._popup;
+  var el = this.getElement();
+
+  if (!p.isCreated()) {
+    this.createDispatchEvent("beforeInitialOpen");
+  }
+
+  if (this._list.getChildrenLength() == 0) {
+    return;
+  }
+
+  p.setLeft(qx.dom.DomLocation.getPageBoxLeft(el)+1);
+  p.setTop(qx.dom.DomLocation.getPageBoxTop(el) + qx.dom.DomDimension.getBoxHeight(el));
+  p.setWidth(this.getBoxWidth()-2);
+
+  p.setParent(this.getTopLevelWidget());
+  p.show();
+
+  this._oldSelected = this.getSelected();
+
+  this.setCapture(true);
+}
+
+qx.Proto._closePopup = function()
+{
+  this._popup.hide();
+
+  this.setCapture(false);
+  this.setFocused(true);
+}
+
+qx.Proto._togglePopup = function() {
+  this._popup.isSeeable() ? this._closePopup() : this._openPopup();
+}
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
   OTHER EVENT HANDLER
 ---------------------------------------------------------------------------
 */
@@ -395,6 +452,16 @@ qx.Proto._onmousewheel = function(e)
   }
 }
 
+
+
+/*
+---------------------------------------------------------------------------
+  BLUR/FOCUS HANDLER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._onwindowblur = qx.Proto._closePopup;
+qx.Proto._onwindowfocus = qx.Proto._closePopup;
 
 
 
@@ -549,57 +616,6 @@ qx.Proto._onkeypress = function(e)
 
 
 
-
-/*
----------------------------------------------------------------------------
-  POPUP HELPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._oldSelected = null;
-
-qx.Proto._openPopup = function()
-{
-  var p = this._popup;
-  var el = this.getElement();
-
-  if (!p.isCreated()) {
-    this.createDispatchEvent("beforeInitialOpen");
-  }
-
-  if (this._list.getChildrenLength() == 0) {
-    return;
-  }
-
-  p.setLeft(qx.dom.DomLocation.getPageBoxLeft(el)+1);
-  p.setTop(qx.dom.DomLocation.getPageBoxTop(el) + qx.dom.DomDimension.getBoxHeight(el));
-  p.setWidth(this.getBoxWidth()-2);
-
-  p.setParent(this.getTopLevelWidget());
-  p.show();
-
-  this._oldSelected = this.getSelected();
-
-  this.setCapture(true);
-}
-
-qx.Proto._closePopup = function()
-{
-  this._popup.hide();
-
-  this.setCapture(false);
-  this.setFocused(true);
-}
-
-qx.Proto._togglePopup = function() {
-  this._popup.isSeeable() ? this._closePopup() : this._openPopup();
-}
-
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   DISPOSE
@@ -611,6 +627,29 @@ qx.Proto.dispose = function()
   if (this.getDisposed()) {
     return;
   }
+
+  // ************************************************************************
+  //   WIDGET MOUSE EVENTS
+  // ************************************************************************
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
+  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+
+
+  // ************************************************************************
+  //   WIDGET KEY EVENTS
+  // ************************************************************************
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+
+
+  // ************************************************************************
+  //   DOCUMENT EVENTS
+  // ************************************************************************
+  var vDoc = qx.ui.core.ClientDocument.getInstance();
+  vDoc.removeEventListener("windowblur", this._onwindowblur, this);
+  vDoc.removeEventListener("windowfocus", this._onwindowfocus, this);
 
   if (this._list)
   {
@@ -626,12 +665,14 @@ qx.Proto.dispose = function()
 
   if (this._popup)
   {
+    this._popup.removeEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
     this._popup.dispose();
     this._popup = null;
   }
 
   if (this._field)
   {
+    this._field.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
     this._field.dispose();
     this._field = null;
   }
