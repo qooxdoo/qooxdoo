@@ -697,6 +697,8 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
       vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
     }
 
+
+
     // If there is no target, we have nothing TODO
     if (!vTarget) {
       return false;
@@ -762,6 +764,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     try
     {
+
       // Create Mouse Event Object
       vEventObject = new qx.event.type.MouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
     }
@@ -1000,7 +1003,7 @@ qx.Proto._onwindowblur = function(e)
   }
 
   // Send blur event to client document
-  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.BLUR);
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowblur");
 }
 
 qx.Proto._onwindowfocus = function(e)
@@ -1017,13 +1020,13 @@ qx.Proto._onwindowfocus = function(e)
   this.setCaptureWidget(null);
 
   // Send focus event to client document
-  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.FOCUS);
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowfocus");
 }
 
 qx.Proto._onwindowresize = function(e)
 {
   // Send resize event to client document
-  qx.ui.core.ClientDocument.getInstance().createDispatchEvent(qx.constant.Event.RESIZE);
+  qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowresize");
 }
 
 
