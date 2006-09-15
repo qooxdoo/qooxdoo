@@ -205,7 +205,7 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
   req.setCrossDomain(this.getCrossDomain());
 
   if (this.getUsername()) {
-    req.setUseBasicHTTPAuth(this.getUseBasicHTTPAuth());
+    req.setUseBasicHttpAuth(this.getUseBasicHttpAuth());
     req.setUsername(this.getUsername());
     req.setPassword(this.getPassword());
   }
