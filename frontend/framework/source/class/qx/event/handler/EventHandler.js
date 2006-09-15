@@ -984,6 +984,8 @@ qx.Proto._onwindowblur = function(e)
 
   this._allowFocus = true;
 
+  // this.debug("Window blur...");
+
   // Disable capturing
   this.setCaptureWidget(null);
 
@@ -1016,8 +1018,7 @@ qx.Proto._onwindowfocus = function(e)
 
   delete this._allowFocus;
 
-  // Disable capturing
-  this.setCaptureWidget(null);
+  // this.debug("Window focus...");
 
   // Send focus event to client document
   qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowfocus");
