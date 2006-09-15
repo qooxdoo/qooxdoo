@@ -41,6 +41,7 @@
     t1_5.setShowCloseButton(true);
     t1_6.setShowCloseButton(true);
 
+    
     // modify the default images
     t1_2.setCloseButtonImage("icon/16/error.png");
     t1_4.setCloseButtonImage("icon/16/apply.png");
@@ -92,7 +93,9 @@
           
           pageSearched.dispose();
           btn.dispose();
-        }
+        } else {
+	  alert("Last Tab won't be removed!");
+	}
       }
      
       e.stopPropagation();
