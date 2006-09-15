@@ -51,16 +51,6 @@ qx.OO.addProperty({ name : "closeButtonImage", type : qx.constant.Type.STRING, d
 
 
 
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.Proto._createCloseButtonImage = function(){
-    this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
-}
-
 
 
 /*
@@ -130,7 +120,7 @@ qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
 
   // if no image exists, then create one
   if(!this._closeButtonImage){
-      this._createCloseButtonImage();
+      this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
   }
   if (propValue) {
     this._closeButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
@@ -157,7 +147,7 @@ qx.Proto._modifyCloseButtonImage = function(propValue, propOldValue, propData) {
     }
 
     // assign the new closeButtonImage
-    var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(propValue);
+    var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
     newCloseButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
     
     // if the close button is enabled, then add the new image immediatelly
