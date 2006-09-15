@@ -4318,18 +4318,21 @@ qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 
   // this.debug("Focused: " + propValue);
 
-  if (propValue)
-  {
-    vFocusRoot.setFocusedChild(this);
-    this._visualizeFocus();
-  }
-  else
-  {
-    if (vFocusRoot.getFocusedChild() == this) {
-      vFocusRoot.setFocusedChild(null);
+  if (vFocusRoot) {
+    // may be undefined if this widget has been removed
+    if (propValue)
+    {
+      vFocusRoot.setFocusedChild(this);
+      this._visualizeFocus();
     }
+    else
+    {
+      if (vFocusRoot.getFocusedChild() == this) {
+        vFocusRoot.setFocusedChild(null);
+      }
 
-    this._visualizeBlur();
+      this._visualizeBlur();
+    }
   }
 
   return true;
@@ -4352,6 +4355,7 @@ qx.Proto._visualizeBlur = function()
 
 qx.Proto._visualizeFocus = function()
 {
+  //this.info("_visualizeFocus: " + qx.event.handler.FocusHandler.mouseFocus);
   if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
   {
     try {
