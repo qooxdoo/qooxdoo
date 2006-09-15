@@ -267,7 +267,7 @@ qx.Proto.send = function()
   //   Opening connection
   // --------------------------------------
   if (this.getUsername()) {
-    if (this.getUseBasicHTTPAuth()) {
+    if (this.getUseBasicHttpAuth()) {
       vRequest.open(vMethod, vUrl, vAsynchronous);
       vRequest.setRequestHeader('Authorization',
                                 'Basic ' + encode64(this.getUsername() +

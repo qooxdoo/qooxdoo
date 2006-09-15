@@ -423,7 +423,7 @@ qx.Proto.send = function()
         vTransport = new vTransportImpl;
         this.setImplementation(vTransport);
 
-        vTransport.setUseBasicHTTPAuth(vRequest.getUseBasicHTTPAuth());
+        vTransport.setUseBasicHttpAuth(vRequest.getUseBasicHttpAuth());
         
         vTransport.send();
         return true;
