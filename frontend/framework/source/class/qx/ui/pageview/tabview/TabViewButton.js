@@ -147,7 +147,7 @@ qx.Proto._modifyCloseButtonImage = function(propValue, propOldValue, propData) {
     }
 
     // assign the new closeButtonImage
-    var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
+    var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(propValue);
     newCloseButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
     
     // if the close button is enabled, then add the new image immediatelly
