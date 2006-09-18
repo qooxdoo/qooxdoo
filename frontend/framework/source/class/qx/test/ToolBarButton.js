@@ -1,11 +1,15 @@
+/*
+#require(qx.Property)
+*/
+
 qx.OO.defineClass("qx.test.ToolBarButton", qx.test.Button,
 function()
 {
-  qx.PropertyTestButton.call(this);
+  qx.test.Button.call(this);
 
 
 });
 
-// ... überschreibe Wert
+// Inheritance and reconfiguration of existing property
 qx.Property.sel("appearance");
 qx.Property.tune("default", "toolbarbutton");
