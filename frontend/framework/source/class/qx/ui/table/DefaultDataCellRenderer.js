@@ -121,6 +121,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  * @return {string} the formatted value.
  */
 qx.Proto._formatValue = function(cellInfo) {
+  var value = cellInfo.value;
   if (value == null) {
     return "";
   } else if (typeof value == qx.constant.Type.NUMBER) {
