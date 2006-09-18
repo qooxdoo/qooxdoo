@@ -79,7 +79,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
     compString += "continue"
 
   elif node.type == "elseStatement":
-    # This is a elseStatement without a block around (a set of {})
+    # This was a (if)statement without a block around (a set of {})
     if not node.parent.getChild("statement").hasChild("block"):
       compString += ";"
 
@@ -87,6 +87,10 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
         compString += "\n"
 
     compString += "else"
+
+    # This is a elseStatement without a block around (a set of {})
+    if not node.hasChild("block"):
+      compString += " "
 
   elif node.type == "switch" and node.get("switchType") == "case":
     compString += "switch"
@@ -154,9 +158,6 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
   elif node.type == "loop":
     loopType = node.get("loopType")
     if loopType == "IF":
-      if node.parent.type == "elseStatement":
-        compString += " "
-
       compString += "if"
 
     elif loopType == "WHILE":
@@ -189,10 +190,6 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
   elif node.type == "call":
     callHasParams = False
-
-    if node.parent.type == "elseStatement":
-      # This is a elseStatement without a block around (a set of {})
-      compString += " "
 
   elif node.type == "definition":
     if node.parent.type != "definitionList":
