@@ -18,10 +18,27 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var t = new qx.test.Widget;
+    /* ---------------------------------
+       TEST WIDGET
+    --------------------------------- */
+    var w = new qx.test.Widget;
+    w.setTabIndex(20);
+    // Error
+    // t.setTabIndex("foo");
 
-    t.setTabIndex(20);
-    t.setTabIndex("foo");
+
+    /* ---------------------------------
+       TEST BUTTON
+    --------------------------------- */
+    var b = new qx.test.Button;
+    b.setCaption("Hello World");
+
+
+    /* ---------------------------------
+       TEST TOOLBARBUTTON
+    --------------------------------- */
+    var t = new qx.test.ToolBarButton;
+    t.setCaption("Hello World");
   });
   </script>
 </body>

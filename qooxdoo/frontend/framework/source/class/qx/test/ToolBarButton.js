@@ -12,4 +12,4 @@ function()
 
 // Inheritance and reconfiguration of existing property
 qx.Property.sel("appearance");
-qx.Property.tune("default", "toolbarbutton");
+qx.Property.tune("defaultValue", "toolbarbutton");
