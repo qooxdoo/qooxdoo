@@ -212,6 +212,31 @@ qx.Proto.getSelectedRanges = function() {
 
 
 /**
+ * Calls a iterator function for each selected index.
+ * <p>
+ * Usage Example:
+ * <pre>
+ * var selectedRowData = [];
+ * mySelectionModel.iterateSelection(function(index) {
+ *   selectedRowData.push(myTableModel.getRowData(index));
+ * });
+ * </pre>
+ *
+ * @param iterator {function} the function to call for each selected index.
+ *        Gets the current index as parameter.
+ * @param object {var,null} the object to use when calling the handler.
+ *        (this object will be available via "this" in the iterator)
+ */
+qx.Proto.iterateSelection = function(iterator, object) {
+  for (var i = 0; i < this._selectedRangeArr.length; i++) {
+    for (var j = this._selectedRangeArr[i].minIndex; j <= this._selectedRangeArr[i].maxIndex; j++) {
+    	iterator.call(object, j);
+    }
+  }
+};
+
+
+/**
  * Sets the selected interval. This will clear the former selection.
  *
  * @param fromIndex {int} the first index of the selection (including).
