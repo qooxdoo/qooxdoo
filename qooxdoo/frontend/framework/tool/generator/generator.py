@@ -283,17 +283,10 @@ def load(options):
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
-  if options.verbose:
-    print "  * Loading JavaScript files... "
-  else:
-    print "  * Loading JavaScript files: ",
-
   (fileDb, moduleDb) = loader.indexScriptInput(options)
 
-  if not options.verbose:
-    print
 
-  print "  * Found %s JavaScript files" % len(fileDb)
+
 
 
 
@@ -340,110 +333,6 @@ def load(options):
 
 
 
-
-  ######################################################################
-  #  DETECTION OF AUTO DEPENDENCIES
-  ######################################################################
-
-  if options.enableAutoDependencies:
-    print
-    print "  DETECTION OF AUTO DEPENDENCIES:"
-    print "----------------------------------------------------------------------------"
-
-    print "  * Collecting IDs..."
-
-    knownIds = []
-    depCounter = 0
-
-    for fileEntry in fileDb:
-      knownIds.append(fileEntry)
-
-    if options.verbose:
-      print "  * Detecting dependencies..."
-    else:
-      print "  * Detecting dependencies: ",
-
-    for fileEntry in fileDb:
-      if options.verbose:
-        print "    * %s" % fileEntry
-      else:
-        sys.stdout.write(".")
-        sys.stdout.flush()
-
-      hasMessage = False
-
-      fileTokens = fileDb[fileEntry]["tokens"]
-      fileDeps = []
-
-      assembledName = ""
-
-      for token in fileTokens:
-        if token["type"] == "name" or token["type"] == "builtin":
-          if assembledName == "":
-            assembledName = token["source"]
-          else:
-            assembledName += ".%s" % token["source"]
-
-          if assembledName in knownIds:
-            if assembledName != fileEntry and not assembledName in fileDeps:
-              fileDeps.append(assembledName)
-
-            assembledName = ""
-
-        elif not (token["type"] == "token" and token["source"] == "."):
-          if assembledName != "":
-            assembledName = ""
-
-          if token["type"] == "string" and token["source"] in knownIds and token["source"] != fileEntry and not token["source"] in fileDeps:
-            fileDeps.append(token["source"])
-
-      # Updating lists...
-      optionalDeps = fileDb[fileEntry]["optionalDeps"]
-      loadtimeDeps = fileDb[fileEntry]["loadtimeDeps"]
-      runtimeDeps = fileDb[fileEntry]["runtimeDeps"]
-
-      # Removing optional deps from list
-      for dep in optionalDeps:
-        if dep in fileDeps:
-          fileDeps.remove(dep)
-
-      # Checking loadtime dependencies
-      for dep in loadtimeDeps:
-        if not dep in fileDeps:
-          if not hasMessage and not options.verbose:
-            hasMessage = True
-            print
-
-          print "    * Could not confirm #require(%s) in %s!" % (dep, fileEntry)
-
-      # Checking runtime dependencies
-      for dep in runtimeDeps:
-        if not dep in fileDeps:
-          if not hasMessage and not options.verbose:
-            hasMessage = True
-            print
-
-          print "    * Could not confirm #use(%s) in %s!" % (dep, fileEntry)
-
-      # Adding new content to runtime dependencies
-      for dep in fileDeps:
-        if not dep in runtimeDeps and not dep in loadtimeDeps:
-          if options.verbose:
-            if not hasMessage and not options.verbose:
-              hasMessage = True
-              print
-
-            print "    * Add dependency: %s" % dep
-
-          runtimeDeps.append(dep)
-          depCounter += 1
-
-
-    if not hasMessage and not options.verbose:
-      print
-
-    print "  * Added %s dependencies" % depCounter
-
   return fileDb, moduleDb
 
 
@@ -482,39 +371,39 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  PRINT OF INCLUDE ORDER:"
     print "----------------------------------------------------------------------------"
     print "  * The files will be included in this order:"
-    for fileEntry in sortedIncludeList:
-      print "    - %s" % fileEntry
+    for fileId in sortedIncludeList:
+      print "    - %s" % fileId
 
   if options.printDeps:
     print
     print "  OUTPUT OF DEPENDENCIES:"
     print "----------------------------------------------------------------------------"
     print "  * These are all included files with their dependencies:"
-    for fileEntry in sortedIncludeList:
-      print "    - %s" % fileEntry
-      if len(fileDb[fileEntry]["loadtimeDeps"]) > 0:
+    for fileId in sortedIncludeList:
+      print "    - %s" % fileId
+      if len(fileDb[fileId]["loadtimeDeps"]) > 0:
         print "      - Loadtime: "
-        for depEntry in fileDb[fileEntry]["loadtimeDeps"]:
+        for depEntry in fileDb[fileId]["loadtimeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileEntry]["afterDeps"]) > 0:
+      if len(fileDb[fileId]["afterDeps"]) > 0:
         print "      - After: "
-        for depEntry in fileDb[fileEntry]["afterDeps"]:
+        for depEntry in fileDb[fileId]["afterDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileEntry]["runtimeDeps"]) > 0:
+      if len(fileDb[fileId]["runtimeDeps"]) > 0:
         print "      - Runtime: "
-        for depEntry in fileDb[fileEntry]["runtimeDeps"]:
+        for depEntry in fileDb[fileId]["runtimeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileEntry]["beforeDeps"]) > 0:
+      if len(fileDb[fileId]["beforeDeps"]) > 0:
         print "      - Before: "
-        for depEntry in fileDb[fileEntry]["beforeDeps"]:
+        for depEntry in fileDb[fileId]["beforeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileEntry]["optionalDeps"]) > 0:
+      if len(fileDb[fileId]["optionalDeps"]) > 0:
         print "      - Optional: "
-        for depEntry in fileDb[fileEntry]["optionalDeps"]:
+        for depEntry in fileDb[fileId]["optionalDeps"]:
           print "        - %s" % depEntry
 
 
@@ -534,10 +423,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     stringMap = {}
 
     for fileId in sortedIncludeList:
-      fileEntry = fileDb[fileId]
-      fileTree = fileEntry["tree"]
-
-      stringcompress.search(fileTree, stringMap, options.verbose)
+      stringcompress.search(loader.getTree(fileDb, fileId, options), stringMap, options.verbose)
 
     counter = 0
     for value in stringMap:
@@ -550,7 +436,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Replacing strings..."
     for fileId in sortedIncludeList:
-      stringcompress.replace(fileDb[fileId]["tree"], stringList, "$", options.verbose)
+      stringcompress.replace(loader.getTree(fileDb, fileId, options), stringList, "$", options.verbose)
 
     print "  * Generating replacement object..."
     additionalOutput.append(stringcompress.array(stringList))
@@ -581,7 +467,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "  * Storing tokens: ",
 
     for fileId in sortedIncludeList:
-      tokenString = tokenizer.convertTokensToString(fileDb[fileId]["tokens"])
+      tokenString = tokenizer.convertTokensToString(loader.getTokens(fileDb, fileId, options))
 
       if options.verbose:
         print "    * writing tokens for %s (%s KB)..." % (fileIdm, len(tokenString) / 1000.0)
@@ -616,7 +502,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print "  * Storing tree: ",
 
     for fileId in sortedIncludeList:
-      treeString = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n" + tree.nodeToXmlString(fileDb[fileId]["tree"])
+      treeString = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n" + tree.nodeToXmlString(loader.getTree(fileDb, fileId, options))
 
       if options.verbose:
         print "    * writing tree for %s (%s KB)..." % (fileId, len(treeString) / 1000.0)
@@ -651,7 +537,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       if options.verbose:
         print "  - %s" % fileId
 
-      docTree = api.createDoc(fileDb[fileId]["tree"], docTree)
+      docTree = api.createDoc(loader.getTree(fileDb, fileId, options), docTree)
 
     if docTree:
       print "  * Finalising tree..."
@@ -705,19 +591,22 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   ######################################################################
 
   if options.generateSourceScript or options.generateCompiledScript:
-    print
-    print "  GENERATION OF SETTINGS:"
-    print "----------------------------------------------------------------------------"
+    settingsStr = ""
 
-    print "  * Processing input data..."
-    settingsStr = settings.generate(options)
+    if len(options.defineRuntimeSetting) != 0:
+      print
+      print "  GENERATION OF SETTINGS:"
+      print "----------------------------------------------------------------------------"
 
-    if options.settingsScriptFile:
-      print "   * Saving settings to %s" % options.settingsScriptFile
-      filetool.save(options.settingsScriptFile, settingsStr)
+      print "  * Processing input data..."
+      settingsStr = settings.generate(options)
 
-      # clear settings for build and source
-      settingsStr = ""
+      if options.settingsScriptFile:
+        print "   * Storing result to %s" % options.settingsScriptFile
+        filetool.save(options.settingsScriptFile, settingsStr)
+
+        # clear settings for build and source
+        settingsStr = ""
 
 
 
@@ -764,7 +653,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
       sourceOutput += "document.write('%s');" % includeCode
 
-    print "  * Saving includer output as %s..." % options.sourceScriptFile
+    print "  * Storing output as %s..." % options.sourceScriptFile
     filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
 
 
@@ -800,15 +689,15 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     for fileId in sortedIncludeList:
       if options.verbose:
-        print "    - %s" % fileId
+        print "    - Compiling %s" % fileId
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
 
       if options.useTokenCompiler:
-        compiledFileContent = tokencompiler.compile(fileDb[fileId]["tokens"], options.addNewLines, options.enableDebug)
+        compiledFileContent = tokencompiler.compile(loader.getTokens(fileDb, fileId, options), options.addNewLines, options.enableDebug)
       else:
-        compiledFileContent = treecompiler.compile(fileDb[fileId]["tree"], options.addNewLines, options.enableDebug)
+        compiledFileContent = treecompiler.compile(loader.getTree(fileDb, fileId, options), options.addNewLines, options.enableDebug)
 
       if options.addFileIds:
         compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
@@ -821,7 +710,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     if not options.verbose:
       print
 
-    print "  * Saving compiled output as %s..." % options.compiledScriptFile
+    print "  * Storing output as %s..." % options.compiledScriptFile
     filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
 
 
