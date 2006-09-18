@@ -18,13 +18,13 @@ qx.Property.add("height");
 
 // Neue Properties definieren mit einem type
 qx.Property.add("color");
-qx.Property.tune("validation", "object");
+qx.Property.tune("validation", "JsObject");
 qx.Property.add("backgroundColor");
-qx.Property.tune("validation", "object");
+qx.Property.tune("validation", "JsObject");
 
 // Verspätete Konfiguration
 qx.Property.sel("tabIndex");
-qx.Property.tune("validation", "number");
+qx.Property.tune("validation", "JsNumber");
 qx.Property.tune("default", "-1");
 
 // Vererbung...
