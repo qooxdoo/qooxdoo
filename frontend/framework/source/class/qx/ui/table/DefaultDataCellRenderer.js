@@ -76,7 +76,7 @@ qx.Proto._getStyleFlags = function(cellInfo) {
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
-  return qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value));
+  return qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo));
 }
 
 
@@ -105,9 +105,9 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 
   var textNode = cellElement.firstChild;
   if (textNode != null) {
-    textNode.nodeValue = this._formatValue(cellInfo.value);
+    textNode.nodeValue = this._formatValue(cellInfo);
   } else {
-    cellElement.innerHTML = qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value));
+    cellElement.innerHTML = qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo));
   }
 }
 
@@ -115,10 +115,12 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 /**
  * Formats a value.
  *
- * @param value {var} the value to format.
+ * @param cellInfo {Map} A map containing the information about the cell to
+ *        create. This map has the same structure as in
+ *        {@link DataCellRenderer#createDataCell}.
  * @return {string} the formatted value.
  */
-qx.Proto._formatValue = function(value) {
+qx.Proto._formatValue = function(cellInfo) {
   if (value == null) {
     return "";
   } else if (typeof value == qx.constant.Type.NUMBER) {
@@ -148,7 +150,7 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push(qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo.value)));
+  htmlArr.push(qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo)));
 }
 
 
