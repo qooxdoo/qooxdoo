@@ -44,7 +44,25 @@ function() {
  */
 qx.Proto.getRowData = function(rowIndex) {
   return this._rowArr[rowIndex];
-}
+};
+
+
+/**
+ * Returns the data of one row as map containing the column IDs as key and the
+ * cell values as value.
+ *
+ * @param rowIndex {int} the model index of the row.
+ * @return {Map} a Map containing the column values.
+ */
+qx.Proto.getRowDataAsMap = function(rowIndex) {
+  var columnArr = this._rowArr[rowIndex];
+  var map = {};
+  for (var col = 0; col < this.getColumnCount(); col++) {
+  	map[this.getColumnId(col)] = columnArr[col];
+  }
+  return map;
+};
+
 
 /**
  * Sets all columns editable or not editable.
