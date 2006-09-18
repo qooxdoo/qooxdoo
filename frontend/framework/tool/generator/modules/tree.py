@@ -71,6 +71,14 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no child with type " + type, self)
 
+  def hasChild(self, type):
+    if self.hasChildren():
+      for child in self.children:
+        if child.type == type:
+          return True
+
+    return False
+
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
