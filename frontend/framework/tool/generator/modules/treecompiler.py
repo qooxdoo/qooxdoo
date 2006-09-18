@@ -79,6 +79,13 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
     compString += "continue"
 
   elif node.type == "elseStatement":
+    # This is a elseStatement without a block around (a set of {})
+    if not node.parent.getChild("statement").hasChild("block"):
+      compString += ";"
+
+      if enableNewLines:
+        compString += "\n"
+
     compString += "else"
 
   elif node.type == "switch" and node.get("switchType") == "case":
@@ -182,6 +189,10 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
   elif node.type == "call":
     callHasParams = False
+
+    if node.parent.type == "elseStatement":
+      # This is a elseStatement without a block around (a set of {})
+      compString += " "
 
   elif node.type == "definition":
     if node.parent.type != "definitionList":
