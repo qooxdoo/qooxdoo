@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, codecs, cPickle
 
 def save(filename, content="", encoding="utf-8"):
   # Normalize
@@ -27,3 +27,46 @@ def directory(dirname):
 
 def normalize(filename):
   return os.path.normcase(os.path.normpath(filename))
+
+
+def read(filePath, encoding):
+  try:
+    return codecs.open(filePath, "r", encoding).read()
+
+  except ValueError:
+    if options.verbose:
+      print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
+
+    else:
+      print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
+
+    sys.exit(1)
+
+
+def storeCache(cachePath, data):
+  try:
+    cPickle.dump(data, open(cachePath, 'w'), 2)
+
+  except EOFError or PickleError or PicklingError:
+    print "Could not store cache to %s" % cachePath
+    sys.exit(1)
+
+
+def readCache(cachePath):
+  try:
+    return cPickle.load(open(cachePath))
+
+  except EOFError or PickleError or UnpicklingError:
+    print "Could not read cache from %s" % cachePath
+    sys.exit(1)
+
+
+def checkCache(filePath, cachePath):
+  fileModTime = os.stat(filePath).st_mtime
+
+  try:
+    cacheModTime = os.stat(cachePath).st_mtime
+  except OSError:
+    cacheModTime = 0
+
+  return fileModTime > cacheModTime
