@@ -113,7 +113,10 @@ def main():
     sys.exit(1)
 
   for fileName in args:
-    print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+    if options.write:
+      print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+    else:
+      print "Compiling %s => stdout" % fileName
 
     compiledString = compile(tokenizer.parseFile(fileName))
     if options.write:
