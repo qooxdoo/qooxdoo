@@ -151,15 +151,14 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     if hasText:
       if node.hasChildren():
         asString += newLine + prefix + childPrefix
-      asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>"
+      asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>" + newLine
 
     if node.hasChildren():
       asString += newLine
       for child in node.children:
         asString += nodeToXmlString(child, prefix + childPrefix, childPrefix, newLine)
-      asString += prefix
 
-    asString += "</" + node.type + ">" + newLine
+    asString += prefix + "</" + node.type + ">" + newLine
 
   return asString
 
