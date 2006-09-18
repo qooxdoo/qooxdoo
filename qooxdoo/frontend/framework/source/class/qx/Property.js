@@ -9,7 +9,7 @@ qx.OO.defineClass("qx.Property",
 
   add : function(vName)
   {
-    if (qx.Proto._properties[vName]) {
+    if (qx.Proto._newproperties[vName]) {
       this.error("Add property: Property: " + vName + " does already exist!");
     }
 
@@ -20,7 +20,7 @@ qx.OO.defineClass("qx.Property",
     this.inheritCheck();
 
     // Füge neue Hashmap hinzu
-    qx.Proto._properties[vName] = {};
+    qx.Proto._newproperties[vName] = {};
 
     // Merke mir dieses Property als aktuelles (zum Tunen)
     this._current = vName;
@@ -28,7 +28,7 @@ qx.OO.defineClass("qx.Property",
 
   remove : function(vName)
   {
-    if (!qx.Proto._properties[vName]) {
+    if (!qx.Proto._newproperties[vName]) {
       this.error("Remove property: Property: " + vName + " does not exist!");
     }
 
@@ -36,7 +36,7 @@ qx.OO.defineClass("qx.Property",
     this.inheritCheck();
 
     // Lösche kompletten Eintrag
-    delete qx.Proto._properties[vName];
+    delete qx.Proto._newproperties[vName];
 
     // Wenn dieses Property aktuell ausgewählt war, müssen wir es zurücksetzen
     if (this._current == vName) {
@@ -46,7 +46,7 @@ qx.OO.defineClass("qx.Property",
 
   sel : function(vName)
   {
-    if (!qx.Proto._properties[vName]) {
+    if (!qx.Proto._newproperties[vName]) {
       this.error("Select property: Property: " + vName + " does not exist!");
     }
 
@@ -65,27 +65,31 @@ qx.OO.defineClass("qx.Property",
 
     // Wenn das Property von der Superklasse definiert wurde, müssen wir
     // hier auf einer Kopie der HashMap operieren.
-    if (qx.Proto._properties[this._current] === qx.Super.prototype._properties[this._current]) {
-      qx.Proto._properties[this._current] = qx.lang.Object.copy(qx.Proto._properties[this._current]);
+    if (qx.Proto._newproperties[this._current] === qx.Super.prototype._newproperties[this._current]) {
+      qx.Proto._newproperties[this._current] = qx.lang.Object.copy(qx.Proto._newproperties[this._current]);
     }
 
     // Speichere neuen Wert
-    qx.Proto._properties[this._current][vKey] = vValue;
+    qx.Proto._newproperties[this._current][vKey] = vValue;
+
+
   },
 
   inheritCheck : function()
   {
-    if (qx.Proto._properties == qx.Super.prototype._properties) {
+    if (qx.Proto._newproperties == qx.Super.prototype._newproperties) {
       this.inherit();
     }
   },
 
   inherit : function()
   {
+alert("Properties: " + qx.lang.Object.getKeysAsString(qx.Proto._newproperties));
+
     // Das passiert beim Vererben. Wir kopieren die Liste einfach
     // Kein deep copy. Es werden nur Daten-Objekte kopiert sobald
     // versucht wird ein property anzupassen.
-    qx.Proto._properties = qx.lang.Object.copy(qx.Proto._properties);
+    qx.Proto._newproperties = qx.lang.Object.copy(qx.Proto._newproperties);
   },
 
   validate : function(vMethod, vValue)
@@ -145,11 +149,11 @@ qx.OO.defineClass("qx.Property",
 
   _createOptimizedSetter : function(vProto, vName, vUpName)
   {
-    var vConf = vProto._properties[vName];
+    var vConf = vProto._newproperties[vName];
     var vCode = new qx.type.StringBuilder;
 
     vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
-    vCode.add("var vOld = this._properties." + vName + ";");
+    vCode.add("var vOld = this._newproperties." + vName + ";");
 
     if (vConf.validation != undefined)
     {
@@ -171,7 +175,7 @@ qx.OO.defineClass("qx.Property",
       vCode.add("};");
     }
 
-    vCode.add("this._properties." + vName + " = vNew;");
+    vCode.add("this._newproperties." + vName + " = vNew;");
 
     if (vConf.fire !== false)
     {
