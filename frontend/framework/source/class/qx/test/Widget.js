@@ -17,7 +17,7 @@ qx.Property.add("height");
 
 // Appearance
 qx.Property.add("appearance");
-qx.Property.tune("default", "button");
+qx.Property.tune("defaultValue", "widget");
 
 // Define new properties including validation
 qx.Property.add("color");
@@ -28,4 +28,4 @@ qx.Property.tune("validation", "JsObject");
 // Lazy configuration of previously created property
 qx.Property.sel("tabIndex");
 qx.Property.tune("validation", "JsNumber");
-qx.Property.tune("default", "-1");
+qx.Property.tune("defaultValue", -1);

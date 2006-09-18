@@ -12,4 +12,9 @@ function()
 
 // Inheritance and reconfiguration of existing property
 qx.Property.sel("appearance");
-qx.Property.tune("default", "button");
+qx.Property.tune("defaultValue", "button");
+
+qx.Property.add("caption");
+qx.Property.add("icon");
+qx.Property.add("iconWidth");
+qx.Property.add("iconHeight");
