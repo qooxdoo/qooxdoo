@@ -418,12 +418,24 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "  STRING COMPRESSION:"
     print "----------------------------------------------------------------------------"
 
-    print "  * Searching for strings..."
+    if options.verbose:
+      print "  * Searching for strings..."
+    else:
+      print "  * Searching for strings: ",
 
     stringMap = {}
 
     for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
       stringcompress.search(loader.getTree(fileDb, fileId, options), stringMap, options.verbose)
+
+    if not options.verbose:
+      print
 
     counter = 0
     for value in stringMap:
@@ -531,13 +543,22 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     docTree = None
 
-    print "  * Generating API tree..."
+    if options.verbose:
+      print "  * Generating API tree..."
+    else:
+      print "  * Generating API tree: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
-        print "  - %s" % fileId
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
 
       docTree = api.createDoc(loader.getTree(fileDb, fileId, options), docTree)
+
+    if not options.verbose:
+      print
 
     if docTree:
       print "  * Finalising tree..."
