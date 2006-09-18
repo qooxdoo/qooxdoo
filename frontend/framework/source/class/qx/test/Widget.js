@@ -2,10 +2,10 @@
 #require(qx.Property)
 */
 
-qx.OO.defineClass("qx.test.Widget", qx.core.Target,
+qx.OO.defineClass("qx.test.Widget", qx.test.Object,
 function()
 {
-  qx.core.Target.call(this);
+  qx.test.Object.call(this);
 
 
 });
