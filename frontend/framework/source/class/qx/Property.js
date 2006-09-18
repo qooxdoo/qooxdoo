@@ -13,14 +13,28 @@ qx.OO.defineClass("qx.Property",
       this.error("Add property: Property: " + vName + " does already exist!");
     }
 
-    // Erstelle Methoden (auf Prototype-Level)
-    this._createMethods(vName);
-
     // Vererbe property registry von der Superklasse
     this.inheritCheck();
 
     // Füge neue Hashmap hinzu
-    qx.Proto._newproperties[vName] = {};
+    var vEntry = {};
+    qx.Proto._newproperties[vName] = vEntry;
+
+    // Create intitial methods
+    var vProto = qx.Proto;
+    var vUpName = vName.charAt(0).toUpperCase() + vName.substr(1);
+
+    vEntry._setter = qx.Proto["set" + vUpName] = function() {
+      return qx.Property._generalSetter(this, vProto, vName, vUpName, arguments);
+    };
+
+    vEntry._getter = qx.Proto["get" + vUpName] = function() {
+      return qx.Property._generalGetter(this, vProto, vName, vUpName, arguments);
+    };
+
+    vEntry._resetter = qx.Proto["reset" + vUpName] = function() {
+      return qx.Property._generalResetter(this, vProto, vName, vUpName, arguments);
+    };
 
     // Merke mir dieses Property als aktuelles (zum Tunen)
     this._current = vName;
@@ -84,8 +98,6 @@ qx.OO.defineClass("qx.Property",
 
   inherit : function()
   {
-alert("Properties: " + qx.lang.Object.getKeysAsString(qx.Proto._newproperties));
-
     // Das passiert beim Vererben. Wir kopieren die Liste einfach
     // Kein deep copy. Es werden nur Daten-Objekte kopiert sobald
     // versucht wird ein property anzupassen.
@@ -110,22 +122,16 @@ alert("Properties: " + qx.lang.Object.getKeysAsString(qx.Proto._newproperties));
     return true;
   },
 
-  _createMethods : function(vName)
-  {
-    var vProto = qx.Proto;
-    var vUpName = vName.charAt(0).toUpperCase() + vName.substr(1);
-
-    qx.Proto["set" + vUpName] = function() { return qx.Property._generalSetter(this, vProto, vName, vUpName, arguments); };
-    qx.Proto["get" + vUpName] = function() { return qx.Property._generalGetter(this, vProto, vName, vUpName, arguments); };
-    qx.Proto["reset" + vUpName] = function() { return qx.Property._generalResetter(this, vProto, vName, vUpName, arguments); };
-  },
-
   _generalSetter : function(vObject, vProto, vName, vUpName, vArgs)
   {
-    alert("Creating setter for " + vProto + "/" + vName);
+    vProto.debug("Creating setter for " + vProto + "/" + vName);
 
     // Create new setter
     vProto["set" + vUpName] = qx.Property._createOptimizedSetter(vProto, vName, vUpName);
+
+    // Overwrite the setter which is used internally
+    alert("Old: " + vProto._newproperties[vName]._setter);
+    vProto._newproperties[vName]._setter = vProto["set" + vUpName];
 
     // Execute new setter
     return vProto["set" + vUpName].apply(vObject, vArgs);
@@ -152,7 +158,7 @@ alert("Properties: " + qx.lang.Object.getKeysAsString(qx.Proto._newproperties));
     var vConf = vProto._newproperties[vName];
     var vCode = new qx.type.StringBuilder;
 
-    vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
+    // vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
     vCode.add("var vOld = this._newproperties." + vName + ";");
 
     if (vConf.validation != undefined)
@@ -175,14 +181,14 @@ alert("Properties: " + qx.lang.Object.getKeysAsString(qx.Proto._newproperties));
       vCode.add("};");
     }
 
-    vCode.add("this._newproperties." + vName + " = vNew;");
+    vCode.add("this._newproperties.value" + vName + " = vNew;");
 
     if (vConf.fire !== false)
     {
       vCode.add("this.createDispatchDataEvent('change" + vUpName + "');");
     }
 
-    alert("Code:\n\n" + vCode);
+    // alert("Code:\n\n" + vCode);
 
     return new Function("vNew", vCode.toString());
   }
