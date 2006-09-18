@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, optparse
-import config, tokenizer, filetool
+import config, tokenizer, filetool, treegenerator
 
 
 KEY = re.compile("^[A-Za-z0-9_]+$")
@@ -445,3 +445,45 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
 
   return compString
+
+
+
+
+
+
+def main():
+  parser = optparse.OptionParser()
+
+  parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
+  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+
+  (options, args) = parser.parse_args()
+
+  if len(args) == 0:
+    print "Needs one or more arguments (files) to compile!"
+    sys.exit(1)
+
+  for fileName in args:
+    if options.write:
+      print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+    else:
+      print "Compiling %s => stdout" % fileName
+
+    compiledString = compile(treegenerator.createSyntaxTree(tokenizer.parseFile(fileName)))
+    if options.write:
+      filetool.save(fileName + options.extension, compiledString)
+
+    else:
+      print compiledString
+
+
+
+if __name__ == '__main__':
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
+
