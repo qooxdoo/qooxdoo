@@ -127,145 +127,303 @@ def extractResources(data):
 
 
 
+def getTokens(fileDb, fileId, options):
+  if not fileDb[fileId].has_key("tokens"):
+    if options.verbose:
+      print "    - Generating tokens for %s..." % fileId
+
+    useCache = False
+    loadCache = False
+
+    fileEntry = fileDb[fileId]
+
+    filePath = fileEntry["path"]
+    fileEncoding = fileEntry["encoding"]
+
+    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
+
+    if options.cacheDirectory != None:
+      useCache = True
+
+      if not filetool.checkCache(filePath, cachePath):
+        loadCache = True
+
+    if loadCache:
+      tokens = filetool.readCache(cachePath)
+    else:
+      fileContent = filetool.read(filePath, fileEncoding)
+      tokens = tokenizer.parseStream(fileContent, fileId)
+
+      if useCache:
+        if options.verbose:
+          print "    - Caching tokens for %s..." % fileId
+
+        filetool.storeCache(cachePath, tokens)
+
+    fileDb[fileId]["tokens"] = tokens
+
+  return fileDb[fileId]["tokens"]
+
+
+
+
+def getTree(fileDb, fileId, options):
+  if not fileDb[fileId].has_key("tree"):
+    if options.verbose:
+      print "    - Generating tree for %s..." % fileId
+
+    useCache = False
+    loadCache = False
+
+    fileEntry = fileDb[fileId]
+    filePath = fileEntry["path"]
+    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
+
+    if options.cacheDirectory != None:
+      useCache = True
+
+      if not filetool.checkCache(filePath, cachePath):
+        loadCache = True
+
+    if loadCache:
+      tree = filetool.readCache(cachePath)
+    else:
+      tree = treegenerator.createSyntaxTree(getTokens(fileDb, fileId, options))
+
+      if useCache:
+        if options.verbose:
+          print "    - Caching tree for %s..." % fileId
+
+        filetool.storeCache(cachePath, tree)
+
+    fileDb[fileId]["tree"] = tree
+
+  return fileDb[fileId]["tree"]
+
+
+
+
+
+def resolveAutoDeps(fileDb, options):
+  ######################################################################
+  #  DETECTION OF AUTO DEPENDENCIES
+  ######################################################################
+
+  if options.verbose:
+    print "  * Resolving dependencies..."
+  else:
+    print "  * Resolving dependencies: ",
+
+  knownIds = []
+  depCounter = 0
+  hasMessage = False
+
+  for fileId in fileDb:
+    knownIds.append(fileId)
+
+  for fileId in fileDb:
+    fileEntry = fileDb[fileId]
+
+    if fileEntry["autoDeps"] == True:
+      continue
+
+    if not options.verbose:
+      sys.stdout.write(".")
+      sys.stdout.flush()
+
+    hasMessage = False
+
+    fileTokens = getTokens(fileDb, fileId, options)
+    fileDeps = []
+
+    assembledName = ""
+
+    for token in fileTokens:
+      if token["type"] == "name" or token["type"] == "builtin":
+        if assembledName == "":
+          assembledName = token["source"]
+        else:
+          assembledName += ".%s" % token["source"]
+
+        if assembledName in knownIds:
+          if assembledName != fileId and not assembledName in fileDeps:
+            fileDeps.append(assembledName)
+
+          assembledName = ""
+
+      elif not (token["type"] == "token" and token["source"] == "."):
+        if assembledName != "":
+          assembledName = ""
+
+        if token["type"] == "string" and token["source"] in knownIds and token["source"] != fileId and not token["source"] in fileDeps:
+          fileDeps.append(token["source"])
+
+
+    if options.verbose:
+      print "    - Analysing %s..." % fileId
+
+    # Updating lists...
+    optionalDeps = fileEntry["optionalDeps"]
+    loadtimeDeps = fileEntry["loadtimeDeps"]
+    runtimeDeps = fileEntry["runtimeDeps"]
+
+    # Removing optional deps from list
+    for dep in optionalDeps:
+      if dep in fileDeps:
+        fileDeps.remove(dep)
+
+    if options.verbose:
+
+      # Checking loadtime dependencies
+      for dep in loadtimeDeps:
+        if not dep in fileDeps:
+          print "    - Could not confirm #require(%s) in %s!" % (dep, fileId)
+
+      # Checking runtime dependencies
+      for dep in runtimeDeps:
+        if not dep in fileDeps:
+          print "    - Could not confirm #use(%s) in %s!" % (dep, fileId)
+
+    # Adding new content to runtime dependencies
+    for dep in fileDeps:
+      if not dep in runtimeDeps and not dep in loadtimeDeps:
+        if options.verbose:
+          print "      - Add dependency: %s" % dep
+
+        runtimeDeps.append(dep)
+        depCounter += 1
+
+    # store flag to omit it the next run
+    fileEntry["autoDeps"] = True
+
+  if not hasMessage and not options.verbose:
+    print
+
+  print "  * Added %s dependencies" % depCounter
+
+
+
+
+def storeEntryCache(fileDb, options):
+  print "  * Storing file entries..."
+
+  cacheCounter = 0
+  ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "sourceScriptPath", "listIndex", "scriptInput" ]
+
+  for fileId in fileDb:
+    fileEntry = fileDb[fileId]
+
+    if fileEntry["cached"] == True:
+      continue
+
+    # Store flag
+    fileEntry["cached"] = True
+
+    # Copy entries
+    fileEntryCopy = {}
+    for key in fileEntry:
+      if not key in ignoreDbEntries:
+        fileEntryCopy[key] = fileEntry[key]
+
+    filetool.storeCache(fileEntry["cachePath"], fileEntryCopy)
+    cacheCounter += 1
+
+  print "  * Updated %s files" % cacheCounter
 
 
 
 
 def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
-  if options.verbose:
-    print "    - %s" % filePathId
 
-  # Modification time
-  fileModTime = os.stat(filePath).st_mtime
-  cacheModTime = 0
+  ########################################
+  # Checking cache
+  ########################################
 
-  if options.cacheDirectory:
-    filetool.directory(options.cacheDirectory)
-    fileCacheName = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + ".pcl")
+  useCache = False
+  loadCache = False
+  cachePath = None
 
-    try:
-      cacheModTime = os.stat(fileCacheName).st_mtime
-    except OSError:
-      cacheModTime = 0
-
-  # If we must read the file again
-  if fileModTime <= cacheModTime:
-
-    # We hope the ID is valid (saves one file read!)
-    fileId = filePathId
-
-    # Use Cache
-    try:
-      fileDb[fileId] = cPickle.load(open(fileCacheName))
-
-    except EOFError or PickleError or UnpicklingError:
-      cacheModTime = 0
-      print "      - Error while reading! Ignore cache"
-
-  if fileModTime > cacheModTime:
-    if options.verbose:
-      print "=> parse..."
-    else:
-      sys.stdout.write("!")
-
+  if options.cacheDirectory != None:
+    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
     useCache = True
 
-    # Read file content and extract ID from content definition
-    try:
-      fileObject = codecs.open(filePath, "r", scriptEncoding)
+    if not filetool.checkCache(filePath, cachePath):
+      loadCache = True
 
-    except ValueError:
-      if options.verbose:
-        print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
 
-      else:
-        print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
 
-      sys.exit(1)
+  ########################################
+  # Loading file content / cache
+  ########################################
 
-    # Read content
-    try:
-      fileContent = fileObject.read()
+  if loadCache:
+    fileEntry = filetool.readCache(cachePath)
+    fileId = filePathId
 
-    except ValueError:
-      if options.verbose:
-        print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
-
-      else:
-        print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
-
-      sys.exit(1)
+  else:
+    fileContent = filetool.read(filePath, scriptEncoding)
 
     # Extract ID
     fileContentId = extractFileContentId(fileContent)
 
     # Search for valid ID
     if fileContentId == None:
-      fileId = filePathId
-      if not options.verbose:
-        print "\n    - %s" % filePathId
-
       print "      * Could not extract ID from file: %s. Using fileName!" % fileId
-      useCache = False
+      sys.exit(1)
 
     else:
       fileId = fileContentId
 
       if fileContentId != filePathId:
-        if not options.verbose:
-          print "\n    - %s" % filePathId
-
         print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
-        useCache = False
+        sys.exit(1)
 
-    # Structuring
-    tokens = tokenizer.parseStream(fileContent, fileId)
-    tree = treegenerator.createSyntaxTree(tokens)
+      fileEntry = {
+        "autoDeps" : False,
+        "cached" : False,
+        "cachePath" : cachePath,
+        "optionalDeps" : extractOptional(fileContent),
+        "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
+        "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+        "afterDeps" : extractAfterDeps(fileContent, fileId),
+        "loadDeps" : extractLoadDeps(fileContent, fileId),
+        "resources" : extractResources(fileContent),
+        "modules" : extractModules(fileContent)
+      }
 
-    # Store file data
-    fileDb[fileId] = {
-      "tokens" : tokens,
-      "tree" : tree,
-      "optionalDeps" : extractOptional(fileContent),
-      "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
-      "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
-      "afterDeps" : extractAfterDeps(fileContent, fileId),
-      "loadDeps" : extractLoadDeps(fileContent, fileId),
-      "resources" : extractResources(fileContent),
-      "modules" : extractModules(fileContent)
-    }
 
-    if useCache and options.cacheDirectory:
-      try:
-        cPickle.dump(fileDb[fileId], open(fileCacheName, 'w'), 2)
 
-      except EOFError or PickleError or PicklingError:
-        print "      - Could not store cache file!"
+  ########################################
+  # Additional data
+  ########################################
 
-  else:
-    if options.verbose:
-      print "=> cached"
-    else:
-      sys.stdout.write(".")
+  # We don't want to cache these items
+  fileEntry["path"] = filePath
+  fileEntry["pathId"] = filePathId
+  fileEntry["encoding"] = scriptEncoding
+  fileEntry["resourceInput"] = resourceInput
+  fileEntry["resourceOutput"] = resourceOutput
+  fileEntry["sourceScriptPath"] = sourceScriptPath
+  fileEntry["listIndex"] = listIndex
+  fileEntry["scriptInput"] = scriptInput
 
-  # Register file to module data
-  for moduleId in fileDb[fileId]["modules"]:
+
+  ########################################
+  # Registering file
+  ########################################
+
+  # Register to file database
+  fileDb[fileId] = fileEntry
+
+  # Register to module database
+  for moduleId in fileEntry["modules"]:
     if moduleDb.has_key(moduleId):
       moduleDb[moduleId].append(fileId)
     else:
       moduleDb[moduleId] = [ fileId ]
 
-  sys.stdout.flush()
 
-  # Store additional data (non-cached data)
-  fileDb[fileId]["scriptInput"] = scriptInput
-  fileDb[fileId]["modificationTime"] = fileModTime
-  fileDb[fileId]["path"] = filePath
-  fileDb[fileId]["pathId"] = filePathId
-  fileDb[fileId]["resourceInput"] = resourceInput
-  fileDb[fileId]["resourceOutput"] = resourceOutput
-  fileDb[fileId]["sourceScriptPath"] = sourceScriptPath
-  fileDb[fileId]["listIndex"] = listIndex
+
 
 
 def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
@@ -309,6 +467,11 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
 
 
 def indexScriptInput(options):
+  if options.cacheDirectory != None:
+    filetool.directory(options.cacheDirectory)
+
+  print "  * Indexing files... "
+
   fileDb = {}
   moduleDb = {}
   listIndex = 0
@@ -316,6 +479,14 @@ def indexScriptInput(options):
   for scriptInput in options.scriptInput:
     indexSingleScriptInput(scriptInput, listIndex, options, fileDb, moduleDb)
     listIndex += 1
+
+  print "  * %s files were found" % len(fileDb)
+
+  if options.enableAutoDependencies:
+    resolveAutoDeps(fileDb, options)
+
+  if options.cacheDirectory != None:
+    storeEntryCache(fileDb, options)
 
   return fileDb, moduleDb
 
