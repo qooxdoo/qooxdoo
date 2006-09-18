@@ -1,11 +1,15 @@
+/*
+#require(qx.Property)
+*/
+
 qx.OO.defineClass("qx.test.Button", qx.test.Widget,
 function()
 {
-  qx.PropertyTest.call(this);
+  qx.test.Widget.call(this);
 
 
 });
 
-// Vererbung...
-qx.Property.add("appearance");
+// Inheritance and reconfiguration of existing property
+qx.Property.sel("appearance");
 qx.Property.tune("default", "button");
