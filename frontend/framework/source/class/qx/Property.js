@@ -154,14 +154,26 @@ qx.OO.defineClass("qx.Property",
 
     var vCode = new qx.type.StringBuilder;
 
-    vCode.add("var vOld = this._properties[" + vName + "]");
+    vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
+    vCode.add("var vOld = this._properties." + vName + ";");
 
     if (vConf.validation != undefined)
     {
       vCode.add("try{");
-      vCode.add("if(!qx.Validation[" + vConf.validation + "]())");
+
+      if (qx.Validation[vConf.validation])
+      {
+        vCode.add("if(!qx.Validation." + vConf.validation + "(vNew)){");
+        vCode.add("this.error('Invalid value: ' + vNew);");
+        vCode.add("};");
+      }
+      else
+      {
+        this.error("Could not add validation to property " + vName + ". Invalid method.");
+      }
+
       vCode.add("}catch(ex){");
-      vCode.add("this.error('Invalid value: ' + vNew);");
+      vCode.add("this.error('Invalid value: ' + vNew, ex);");
       vCode.add("};");
     }
 

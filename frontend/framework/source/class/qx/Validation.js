@@ -1,30 +1,30 @@
 qx.OO.defineClass("qx.Validation",
 {
-  "js-defined" : function(vValue) {
+  "JsDefined" : function(vValue) {
     return typeof vValue != null;
   },
 
-  "js-string" : function(vValue) {
+  "JsString" : function(vValue) {
     return typeof vValue == "string";
   },
 
-  "js-number" : function(vValue) {
+  "JsNumber" : function(vValue) {
     return typeof vValue == "number";
   },
 
-  "js-object" : function(vValue) {
+  "JsObject" : function(vValue) {
     return vValue != null && typeof vValue == "object";
   },
 
-  "qx-object" : function(vValue) {
+  "QxObject" : function(vValue) {
     return vValue instanceof qx.core.Object;
   },
 
-  "qx-target" : function(vValue) {
+  "QxTarget" : function(vValue) {
     return vValue instanceof qx.core.Target;
   },
 
-  "qx-widget" : function(vValue) {
+  "QxWidget" : function(vValue) {
     return vValue instanceof qx.ui.core.Widget;
   }
 
