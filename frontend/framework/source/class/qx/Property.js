@@ -17,24 +17,13 @@ qx.OO.defineClass("qx.Property",
     this.inheritCheck();
 
     // Füge neue Hashmap hinzu
-    var vEntry = {};
-    qx.Proto._newproperties[vName] = vEntry;
+    qx.Proto._newproperties[vName] = {};
 
-    // Create intitial methods
-    var vProto = qx.Proto;
-    var vUpName = vName.charAt(0).toUpperCase() + vName.substr(1);
-
-    vEntry._setter = qx.Proto["set" + vUpName] = function() {
-      return qx.Property._generalSetter(this, vProto, vName, vUpName, arguments);
-    };
-
-    vEntry._getter = qx.Proto["get" + vUpName] = function() {
-      return qx.Property._generalGetter(this, vProto, vName, vUpName, arguments);
-    };
-
-    vEntry._resetter = qx.Proto["reset" + vUpName] = function() {
-      return qx.Property._generalResetter(this, vProto, vName, vUpName, arguments);
-    };
+    // Lokale Properties ergaenzen
+    if (qx.Class._localProperties == undefined) {
+      qx.Class._localProperties = [];
+    }
+    qx.Class._localProperties.push(vName);
 
     // Merke mir dieses Property als aktuelles (zum Tunen)
     this._current = vName;
@@ -79,8 +68,16 @@ qx.OO.defineClass("qx.Property",
 
     // Wenn das Property von der Superklasse definiert wurde, müssen wir
     // hier auf einer Kopie der HashMap operieren.
-    if (qx.Proto._newproperties[this._current] === qx.Super.prototype._newproperties[this._current]) {
+    if (qx.Proto._newproperties[this._current] === qx.Super.prototype._newproperties[this._current])
+    {
+      // Ganzen Property-Eintrag kopieren (damit dieser dann modifiziert werden kann ohne den Parent zu aendern)
       qx.Proto._newproperties[this._current] = qx.lang.Object.copy(qx.Proto._newproperties[this._current]);
+
+      // Als lokales Property merken
+      if (qx.Class._localProperties == undefined) {
+        qx.Class._localProperties = [];
+      }
+      qx.Class._localProperties.push(this._current);
     }
 
     // Speichere neuen Wert
@@ -102,6 +99,24 @@ qx.OO.defineClass("qx.Property",
     // Kein deep copy. Es werden nur Daten-Objekte kopiert sobald
     // versucht wird ein property anzupassen.
     qx.Proto._newproperties = qx.lang.Object.copy(qx.Proto._newproperties);
+  },
+
+  createMethods : function(vName, vProto)
+  {
+    var vEntry = vProto._newproperties[vName];
+    var vUpName = vName.charAt(0).toUpperCase() + vName.substr(1);
+
+    vEntry._setter = vProto["set" + vUpName] = function() {
+      return qx.Property._generalSetter(this, vProto, vName, vUpName, arguments);
+    };
+
+    vEntry._getter = vProto["get" + vUpName] = function() {
+      return qx.Property._generalGetter(this, vProto, vName, vUpName, arguments);
+    };
+
+    vEntry._resetter = vProto["reset" + vUpName] = function() {
+      return qx.Property._generalResetter(this, vProto, vName, vUpName, arguments);
+    };
   },
 
   validate : function(vMethod, vValue)
@@ -181,7 +196,7 @@ qx.OO.defineClass("qx.Property",
       vCode.add("};");
     }
 
-    vCode.add("this._newproperties.value" + vName + " = vNew;");
+    vCode.add("this._newvalues." + vName + " = vNew;");
 
     if (vConf.fire !== false)
     {
