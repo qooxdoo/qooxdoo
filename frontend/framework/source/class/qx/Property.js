@@ -145,13 +145,7 @@ qx.OO.defineClass("qx.Property",
 
   _createOptimizedSetter : function(vProto, vName, vUpName)
   {
-    alert("Create optimized setter");
-
     var vConf = vProto._properties[vName];
-    alert("Property Config: " + qx.lang.Object.getKeysAsString(vConf));
-
-
-
     var vCode = new qx.type.StringBuilder;
 
     vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
@@ -164,7 +158,7 @@ qx.OO.defineClass("qx.Property",
       if (qx.Validation[vConf.validation])
       {
         vCode.add("if(!qx.Validation." + vConf.validation + "(vNew)){");
-        vCode.add("this.error('Invalid value: ' + vNew);");
+        vCode.add("this.error('Invalid value for property " + vName + ": ' + vNew);");
         vCode.add("};");
       }
       else
