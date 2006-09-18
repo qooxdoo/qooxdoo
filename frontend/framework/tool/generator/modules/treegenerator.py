@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, tree
+import sys, optparse, tokenizer, tree
 
 
 SINGLE_LEFT_OPERATORS = [ "NOT", "BITNOT", "SUB", "INC", "DEC" ]
@@ -115,6 +115,7 @@ def createItemNode(type, stream):
       commentNode = tree.Node("comment")
       commentNode.set("line", str(comment["line"]))
       commentNode.set("text", comment["source"])
+      #print comment["source"]
       node.addListChild("commentsBefore", commentNode)
 
   return node
@@ -724,3 +725,47 @@ def readTryCatch(stream):
     item.addChild(finallyItem)
 
   return item
+
+
+
+
+
+
+
+
+
+def main():
+  parser = optparse.OptionParser()
+
+  parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
+  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+
+  (options, args) = parser.parse_args()
+
+  if len(args) == 0:
+    print "Needs one or more arguments (files) to compile!"
+    sys.exit(1)
+
+  for fileName in args:
+    if options.write:
+      print "Generating tree of %s => %s%s" % (fileName, fileName, options.extension)
+    else:
+      print "Generating tree of %s => stdout" % fileName
+
+    compiledString = tree.nodeToXmlString(createSyntaxTree(tokenizer.parseFile(fileName)))
+    if options.write:
+      filetool.save(fileName + options.extension, compiledString)
+
+    else:
+      print compiledString
+
+
+
+if __name__ == '__main__':
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
