@@ -1,7 +1,8 @@
 /*
-#module(core)
+#module(newproperties)
 #require(qx.type.StringBuilder)
 #require(qx.lang.Object)
+#require(qx.Validation)
 */
 
 qx.OO.defineClass("qx.Property",

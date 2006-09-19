@@ -1,3 +1,7 @@
+/*
+#module(newproperties)
+*/
+
 qx.OO.defineClass("qx.Validation",
 {
   "JsDefined" : function(vValue) {
