@@ -806,6 +806,10 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
           qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
         }
 
+        if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
+          qx.manager.object.IframeManager.getInstance().handleMouseDown(vEventObject);
+        }
+
         break;
 
       case qx.constant.Event.MOUSEUP:
@@ -813,6 +817,10 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
         // Mouseup event should always hide, independed of target, so don't send a target
         if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
           qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+        }
+
+        if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
+          qx.manager.object.IframeManager.getInstance().handleMouseUp(vEventObject);
         }
 
         break;
