@@ -9,30 +9,32 @@ function()
 
   this._values_ng = {};
 
-  // New property support
-  // this.debug("Properties: " + qx.lang.Object.getKeysAsString(this._properties_available_ng));
-
-  var vLocalProps = this.constructor._properties_local_ng;
-  var vProto = this.constructor.prototype;
-
-  // Create pseudo methods
-  if (vLocalProps)
-  {
-    for (var i=0,a=vLocalProps,l=a.length; i<l; i++)
-    {
-      // this.debug("Create propery methods for " + vLocalProps[i]);
-      qx.Property.createMethods(vLocalProps[i], vProto);
-    }
-  }
-
-  // Set default values
+  var vConstructor = this.constructor;
+  var vProto = vConstructor.prototype;
   var vProps = this._properties_available_ng;
   var vName, vProp;
+
   for (vName in vProps)
   {
-    vProp = vProps[vName];
-    if (vProp.defaultValue != undefined) {
-      this["set" + vName.charAt(0).toUpperCase() + vName.substr(1)](vProp.defaultValue);
+    vEntry = vProps[vName];
+    vSetterName = "set" + vEntry.upname;
+
+    // Notiz: Wenn wir einen defaultValue haben, koennte man gleich den richtigen setter generieren
+
+    // If the setter is not available
+    if (this[vSetterName] == undefined)
+    {
+      qx.Property.createMethods(vName, vEntry.relation);
+    }
+
+    // Is local but not defined in our prototype
+    else if (vEntry.relation == this.constructor.prototype && vConstructor.superclass.prototype[vSetterName] == this[vSetterName])
+    {
+      qx.Property.createMethods(vName, vEntry.relation);
+    }
+
+    if (vEntry.defaultValue != undefined) {
+      this[vSetterName](vEntry.defaultValue);
     }
   }
 });
