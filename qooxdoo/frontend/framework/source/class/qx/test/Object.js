@@ -1,5 +1,6 @@
 /*
 #require(qx.Property)
+#module(newproperties)
 */
 
 qx.OO.defineClass("qx.test.Object", qx.core.Target,
