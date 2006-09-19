@@ -17,13 +17,11 @@ qx.OO.defineClass("qx.Property",
     this.inheritCheck();
 
     // Füge neue Hashmap hinzu
-    qx.Proto._properties_available_ng[vName] = {};
-
-    // Lokale Properties ergaenzen
-    if (qx.Class._properties_local_ng == undefined) {
-      qx.Class._properties_local_ng = [];
-    }
-    qx.Class._properties_local_ng.push(vName);
+    qx.Proto._properties_available_ng[vName] =
+    {
+      relation : qx.Proto,
+      upname : vName.charAt(0).toUpperCase() + vName.substr(1)
+    };
 
     // Merke mir dieses Property als aktuelles (zum Tunen)
     this._current = vName;
@@ -73,11 +71,8 @@ qx.OO.defineClass("qx.Property",
       // Ganzen Property-Eintrag kopieren (damit dieser dann modifiziert werden kann ohne den Parent zu aendern)
       qx.Proto._properties_available_ng[this._current] = qx.lang.Object.copy(qx.Proto._properties_available_ng[this._current]);
 
-      // Als lokales Property merken
-      if (qx.Class._properties_local_ng == undefined) {
-        qx.Class._properties_local_ng = [];
-      }
-      qx.Class._properties_local_ng.push(this._current);
+      // Update relations-Information
+      qx.Proto._properties_available_ng[this._current].relation = qx.Proto;
     }
 
     // Speichere neuen Wert
@@ -104,20 +99,15 @@ qx.OO.defineClass("qx.Property",
   createMethods : function(vName, vProto)
   {
     var vEntry = vProto._properties_available_ng[vName];
-    var vUpName = vName.charAt(0).toUpperCase() + vName.substr(1);
+    var vUpName = vEntry.upname;
 
     vProto["set" + vUpName] = function() {
       return qx.Property._generalSetter(this, vProto, vName, vUpName, arguments);
     };
 
-    vProto["get" + vUpName] = function() {
-      return
-    };
-
-    vProto["reset" + vUpName] = function() {
-      //geht undefined auch?
-      this["set" + vUpName](null);
-    };
+    //vProto["set" + vUpName] = new Function("return qx.Property._generalSetter(this, " + vName + "," + vUpName + ",arguments);");
+    vProto["get" + vUpName] = new Function("return this._values_ng." + vName + ";");
+    vProto["reset" + vUpName] = new Function("return this.set" + vUpName + "(null);");
   },
 
   validate : function(vMethod, vValue)
@@ -150,19 +140,7 @@ qx.OO.defineClass("qx.Property",
     return vSetter.apply(vObject, vArgs);
   },
 
-  _generalGetter : function(vProto, vName, vArgs)
-  {
-    alert("Creating getter for " + vProto + "/" + vName);
 
-
-
-  },
-
-  _generalResetter : function(vProto, vName, vArgs)
-  {
-    alert("Creating resetter for " + vProto + "/" + vName);
-
-  },
 
 
 
