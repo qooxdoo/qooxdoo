@@ -19,6 +19,15 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     /* ---------------------------------
+       TEST BUTTON
+    --------------------------------- */
+    var b = new qx.test.Button;
+    b.setCaption("Hello World");
+    b.debug("My appearance: " + b.getAppearance());
+
+
+
+    /* ---------------------------------
        TEST WIDGET
     --------------------------------- */
     var w = new qx.test.Widget;
@@ -26,12 +35,8 @@
     // Error
     // t.setTabIndex("foo");
 
+    w.debug("My appearance: " + w.getAppearance());
 
-    /* ---------------------------------
-       TEST BUTTON
-    --------------------------------- */
-    var b = new qx.test.Button;
-    b.setCaption("Hello World");
 
 
     /* ---------------------------------
@@ -39,6 +44,7 @@
     --------------------------------- */
     var t = new qx.test.ToolBarButton;
     t.setCaption("Hello World");
+    t.debug("My appearance: " + t.getAppearance());
   });
   </script>
 </body>
