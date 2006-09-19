@@ -7,6 +7,7 @@ SCRIPTNAME = custom.js
 APPCLASS = custom.Application3
 INCLUDEALL = false
 OLDCOMPILER = false
+COMPRESSSTRINGS = true
 NICE=10
 
 
@@ -30,6 +31,12 @@ ifeq ($(OLDCOMPILER),false)
   COMPILER =
 else
   COMPILER = --use-token-compiler
+endif
+
+ifeq ($(COMPRESSSTRINGS),true)
+  COMPRESS = --compress-strings
+else
+  COMPRESS =
 endif
 
 
@@ -107,7 +114,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
-	  $(INCLUDE) $(COMPILER)\
+	  $(INCLUDE) $(COMPILER) $(COMPRESS) \
 	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --define-runtime-setting qx.core.Init.component:qx.component.init.BasicInitComponent \
 	  --cache-directory $(CACHE)
