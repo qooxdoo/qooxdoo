@@ -7,6 +7,7 @@ SCRIPTNAME = custom.js
 APPCLASS = custom.Application1
 INCLUDEALL = false
 OLDCOMPILER = false
+COMPRESSSTRINGS = true
 NICE=10
 
 
@@ -30,6 +31,12 @@ ifeq ($(OLDCOMPILER),false)
   COMPILER =
 else
   COMPILER = --use-token-compiler
+endif
+
+ifeq ($(COMPRESSSTRINGS),true)
+  COMPRESS = --compress-strings
+else
+  COMPRESS =
 endif
 
 
@@ -97,7 +104,7 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --generate-source-script \
-	  $(INCLUDE) $(COMPILER) \
+	  $(INCLUDE) $(COMPILER) $(COMPRESS) \
 	  --source-script-file source/script/custom.js \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
