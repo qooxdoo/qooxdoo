@@ -7,15 +7,15 @@ function()
 {
   qx.core.Target.call(this);
 
-  this._newvalues = {};
+  this._values_ng = {};
 
   // New property support
-  // this.debug("Properties: " + qx.lang.Object.getKeysAsString(this._newproperties));
+  // this.debug("Properties: " + qx.lang.Object.getKeysAsString(this._properties_available_ng));
 
-  var vLocalProps = this.constructor._localProperties;
+  var vLocalProps = this.constructor._properties_local_ng;
   var vProto = this.constructor.prototype;
 
-  // Create methods
+  // Create pseudo methods
   if (vLocalProps)
   {
     for (var i=0,a=vLocalProps,l=a.length; i<l; i++)
@@ -26,7 +26,7 @@ function()
   }
 
   // Set default values
-  var vProps = this._newproperties;
+  var vProps = this._properties_available_ng;
   var vName, vProp;
   for (vName in vProps)
   {
@@ -37,6 +37,6 @@ function()
   }
 });
 
-qx.Proto._newproperties = {};
+qx.Proto._properties_available_ng = {};
 
 qx.Property.add("id");
