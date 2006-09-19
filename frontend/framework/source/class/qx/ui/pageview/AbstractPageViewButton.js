@@ -197,10 +197,6 @@ qx.Proto.dispose = function() {
     return;
   }
   
-  if(this._closeTabIcon){
-    this._closeTabIcon.dispose();
-    this._closeTabIcon = null;
-  }
   
   // ************************************************************************
   //   MOUSE EVENTS
