@@ -226,6 +226,10 @@ qx.Proto._onload = function(e)
   var cl = qx.sys.Client.getInstance();
   this.debug("system " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
+  if (cl.isMshtml() && !cl.isInQuirksMode()) {
+    this.warn("Wrong box sizing: Please modify your Doctype!");
+  }
+
   // Init component from settings
   this._createComponent();
 
