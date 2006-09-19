@@ -76,7 +76,7 @@ function()
     } else if(vBrowserUserAgent.indexOf("Omni") != -1) {
       vBrowser = "omniweb";
     } else {
-      vBrowser = "other";
+      vBrowser = "other webkit";
     }
   }
   else if (window.controllers && typeof vBrowserProduct==="string" && vBrowserProduct==="Gecko" && /rv\:([^\);]+)(\)|;)/.test(vBrowserUserAgent))
@@ -92,7 +92,7 @@ function()
     } else if(vBrowserUserAgent.indexOf("Galeon") != -1) {
       vBrowser = "galeon";
     } else {
-      vBrowser = "other";
+      vBrowser = "other gecko";
     }
   }
   else if (/MSIE\s+([^\);]+)(\)|;)/.test(vBrowserUserAgent))
