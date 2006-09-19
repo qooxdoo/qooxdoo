@@ -1,7 +1,11 @@
 qx.OO.defineClass("qx.Validation",
 {
   "JsDefined" : function(vValue) {
-    return typeof vValue != null;
+    return vValue != undefined;
+  },
+
+  "JsNull" : function(vValue) {
+    return vValue === null;
   },
 
   "JsString" : function(vValue) {
@@ -9,7 +13,7 @@ qx.OO.defineClass("qx.Validation",
   },
 
   "JsNumber" : function(vValue) {
-    return typeof vValue == "number";
+    return typeof vValue == "number" && !isNaN(vValue);
   },
 
   "JsObject" : function(vValue) {
