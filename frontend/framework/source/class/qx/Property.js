@@ -145,7 +145,6 @@ qx.OO.defineClass("qx.Property",
     vProto["set" + vUpName] = qx.Property._createOptimizedSetter(vProto, vName, vUpName);
 
     // Overwrite the setter which is used internally
-    alert("Old: " + vProto._newproperties[vName]._setter);
     vProto._newproperties[vName]._setter = vProto["set" + vUpName];
 
     // Execute new setter
@@ -155,6 +154,8 @@ qx.OO.defineClass("qx.Property",
   _generalGetter : function(vProto, vName, vArgs)
   {
     alert("Creating getter for " + vProto + "/" + vName);
+
+
 
   },
 

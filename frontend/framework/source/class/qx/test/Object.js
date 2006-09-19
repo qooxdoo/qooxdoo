@@ -2,17 +2,17 @@
 #require(qx.Property)
 */
 
-qx.OO.defineClass("qx.test.Object", qx.core.Object,
+qx.OO.defineClass("qx.test.Object", qx.core.Target,
 function()
 {
-  qx.core.Object.call(this);
+  qx.core.Target.call(this);
 
   this._newvalues = {};
 
   // New property support
   // this.debug("Properties: " + qx.lang.Object.getKeysAsString(this._newproperties));
 
-  var vLocalProps = this._localProperties;
+  var vLocalProps = this.constructor._localProperties;
   var vProto = this.constructor.prototype;
 
   // Create methods
@@ -20,7 +20,7 @@ function()
   {
     for (var i=0,a=vLocalProps,l=a.length; i<l; i++)
     {
-      this.debug("Create local methods for: " + vLocalProps[i]);
+      // this.debug("Create propery methods for " + vLocalProps[i]);
       qx.Property.createMethods(vLocalProps[i], vProto);
     }
   }
