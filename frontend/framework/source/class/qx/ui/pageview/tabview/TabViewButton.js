@@ -175,3 +175,25 @@ qx.Proto._applyStateAppearance = function()
 
   qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
 }
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DISPOSER
+---------------------------------------------------------------------------
+ */
+
+qx.Proto.dispose = function() {
+  if (this.getDisposed()) {
+    return;
+  }
+  
+  if(this._closeButtonImage){
+    this._closeButtonImage.dispose();
+    this._closeButtonImage = null;
+  }
+  
+  return qx.ui.pageview.AbstractPageViewButton.prototype.dispose.call(this);
+}
