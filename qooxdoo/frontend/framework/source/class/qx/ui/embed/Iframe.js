@@ -13,6 +13,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Til Schneider (til132)
 
 ************************************************************************ */
 
@@ -21,18 +22,23 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator,
+qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.layout.CanvasLayout,
 function(vSource)
 {
   // **********************************************************************
   //   INIT
   // **********************************************************************
-  qx.ui.basic.Terminator.call(this);
+  qx.ui.layout.CanvasLayout.call(this);
 
   qx.ui.embed.Iframe.init();
 
   this.setSelectable(false);
   this.setTabIndex(0);
+
+  this._glasspane = new qx.ui.basic.Terminator();
+  this._glasspane.set({ zIndex:1, display:false });
+  this._glasspane.setEdge(0);
+  this.add(this._glasspane);
 
   var o = this;
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
@@ -96,6 +102,16 @@ qx.Proto.reload = function() {
 }
 
 
+qx.Proto.block = function() {
+  this._glasspane.setDisplay(true);
+};
+
+
+qx.Proto.release = function() {
+  this._glasspane.setDisplay(false);
+};
+
+
 
 
 
@@ -127,10 +143,27 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   propValue.appendChild(iframeNode);
 
   // create basic widget
-  qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+  qx.ui.layout.CanvasLayout.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   return true;
 }
+
+
+qx.Proto._beforeAppear = function() {
+  qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
+
+  // register to iframe manager as active widget
+  qx.manager.object.IframeManager.getInstance().add(this);
+};
+
+
+qx.Proto._beforeDisappear = function() {
+  qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+
+  // deregister from iframe manager
+  qx.manager.object.IframeManager.getInstance().remove(this);
+};
+
 
 qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
@@ -301,7 +334,7 @@ qx.Proto.dispose = function()
     this._iframeNode = null;
   }
 
-  qx.ui.basic.Terminator.prototype.dispose.call(this);
+  qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 }
 
 
