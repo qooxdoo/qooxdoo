@@ -131,20 +131,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.io.image.ImagePreloader.__onload = function(e) {
-
-  try
-  {
-    this.qx_ImagePreloader._onload();
-  }catch(ex)
-  {
-    alert("Exp: " + ex + " | " + this + " | " + this._source);
-    alert("TARGET: " + e.target + " :: " + e.type);
-  }
-
-
-
-  };
+qx.io.image.ImagePreloader.__onload = function(e) { this.qx_ImagePreloader._onload(); };
 qx.io.image.ImagePreloader.__onerror = function(e) { this.qx_ImagePreloader._onerror(); };
 
 qx.Proto._onload = function()
