@@ -71,10 +71,25 @@ qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance
 qx.OO.addProperty({ name : "application", type : qx.constant.Type.FUNCTION });
 
 
+qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
+{
+  if (propValue) {
+    this._applicationInstance = new propValue;
+  }
+  
+  return true;
+};
+
+/*
+---------------------------------------------------------------------------
+  INTERNAL PROPERTIES
+---------------------------------------------------------------------------
+*/
 
 
-
-
+qx.Proto.getApplicationInstance() = function() {
+  return this._applicationInstance;
+};
 
 /*
 ---------------------------------------------------------------------------
@@ -88,7 +103,7 @@ qx.Proto.defineInitialize = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().initialize = vFunc;
+  this.getApplicationInstance().initialize = vFunc;
 }
 
 qx.Proto.defineMain = function(vFunc)
@@ -97,7 +112,7 @@ qx.Proto.defineMain = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().main = vFunc;
+  this.getApplicationInstance().main = vFunc;
 }
 
 qx.Proto.defineFinalize = function(vFunc)
@@ -106,7 +121,7 @@ qx.Proto.defineFinalize = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().finalize = vFunc;
+  this.getApplicationInstance().finalize = vFunc;
 }
 
 qx.Proto.defineClose = function(vFunc)
@@ -115,7 +130,7 @@ qx.Proto.defineClose = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().close = vFunc;
+  this.getApplicationInstance().close = vFunc;
 }
 
 qx.Proto.defineTerminate = function(vFunc)
@@ -124,7 +139,7 @@ qx.Proto.defineTerminate = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().terminate = vFunc;
+  this.getApplicationInstance().terminate = vFunc;
 }
 
 
@@ -202,6 +217,11 @@ qx.Proto.dispose = function()
 
   // Reset inline functions
   this.__onload = this.__onbeforeunload = this.__onunload = null;
+
+  if (this._applicationInstance) {
+    this._applicationInstance.dispose();
+    this._applicationInstance = null;
+  }
 
   qx.core.Target.prototype.dispose.call(this);
 }

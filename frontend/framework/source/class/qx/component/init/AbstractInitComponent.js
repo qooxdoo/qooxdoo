@@ -33,33 +33,33 @@ function() {
   Run initialisation part of component creation.
 */
 qx.Proto.initialize = function(e) {
-  return qx.core.Init.getInstance().getApplication().getInstance().initialize(e);
+  return qx.core.Init.getInstance().getApplicationInstance().initialize(e);
 }
 
 /*!
   Run main  part of component creation.
 */
 qx.Proto.main = function(e) {
-  return qx.core.Init.getInstance().getApplication().getInstance().main(e);
+  return qx.core.Init.getInstance().getApplicationInstance().main(e);
 }
 
 /*!
   Run finalization part of component creation.
 */
 qx.Proto.finalize = function(e) {
-  return qx.core.Init.getInstance().getApplication().getInstance().finalize(e);
+  return qx.core.Init.getInstance().getApplicationInstance().finalize(e);
 }
 
 /*!
   Terminate this component.
 */
 qx.Proto.close = function(e) {
-  return qx.core.Init.getInstance().getApplication().getInstance().close(e);
+  return qx.core.Init.getInstance().getApplicationInstance().close(e);
 }
 
 /*!
   Terminate this component.
 */
 qx.Proto.terminate = function(e) {
-  return qx.core.Init.getInstance().getApplication().getInstance().terminate(e);
+  return qx.core.Init.getInstance().getApplicationInstance().terminate(e);
 }
