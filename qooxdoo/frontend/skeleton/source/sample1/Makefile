@@ -104,7 +104,7 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --generate-source-script \
-	  $(INCLUDE) $(COMPILER) $(COMPRESS) \
+	  $(INCLUDE) \
 	  --source-script-file source/script/custom.js \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
@@ -114,7 +114,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
-	  $(INCLUDE) \
+	  $(INCLUDE) $(COMPILER) $(COMPRESS) \
 	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
