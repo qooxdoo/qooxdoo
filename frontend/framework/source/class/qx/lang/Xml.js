@@ -24,7 +24,7 @@
 qx.OO.defineClass("qx.lang.Xml");
 
 // Create a XML dom node
-qx.lang.XmlEmu.createXmlDom = function()
+qx.lang.Xml.createXmlDom = function()
 {
   // The Mozilla style
   if (document.implementation && document.implementation.createDocument) {
@@ -33,15 +33,15 @@ qx.lang.XmlEmu.createXmlDom = function()
 
   // The Microsoft style
   if (window.ActiveXObject) {
-    var vServers = 
-      [ 
-        "MSXML2.DOMDocument.6.0", 
-        "MSXML2.DOMDocument.5.0", 
-        "MSXML2.DOMDocument.4.0", 
-        "MSXML2.DOMDocument.3.0", 
-        "MSXML2.DOMDocument.2.0", 
-        "MSXML2.DOMDocument", 
-        "Microsoft.DOMDocument" 
+    var vServers =
+      [
+        "MSXML2.DOMDocument.6.0",
+        "MSXML2.DOMDocument.5.0",
+        "MSXML2.DOMDocument.4.0",
+        "MSXML2.DOMDocument.3.0",
+        "MSXML2.DOMDocument.2.0",
+        "MSXML2.DOMDocument",
+        "Microsoft.DOMDocument"
       ];
     var vObject;
     var vServer;
