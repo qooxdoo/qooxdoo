@@ -71,14 +71,30 @@ qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance
 qx.OO.addProperty({ name : "application", type : qx.constant.Type.FUNCTION });
 
 
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  MODIFIER
+---------------------------------------------------------------------------
+*/
+
 qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 {
   if (propValue) {
     this._applicationInstance = new propValue;
   }
-  
+
   return true;
 };
+
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -86,10 +102,14 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-
-qx.Proto.getApplicationInstance() = function() {
+qx.Proto.getApplicationInstance = function() {
   return this._applicationInstance;
 };
+
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
