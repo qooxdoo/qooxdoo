@@ -219,15 +219,16 @@ qx.Proto._onload = function(e)
 {
   this.debug("qooxdoo " + qx.core.Version.toString());
 
-  // Print out class informations
+  // Print out class information
   this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
 
   // Print browser information
   var cl = qx.sys.Client.getInstance();
-  this.debug("system " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
+  this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." 
+    + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
   if (cl.isMshtml() && !cl.isInQuirksMode()) {
-    this.warn("Wrong box sizing: Please modify your Doctype!");
+    this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
   }
 
   // Init component from settings
