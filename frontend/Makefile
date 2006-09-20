@@ -57,9 +57,6 @@ demo-build:
 framework-build:
 	@$(MAKE) -C framework build
 
-skeleton-build:
-	@$(MAKE) -C skeleton build
-
 api-source:
 	@$(MAKE) -C api source
 
@@ -68,9 +65,6 @@ demo-source:
 
 framework-source:
 	@$(MAKE) -C framework source
-
-skeleton-source:
-	@$(MAKE) -C skeleton source
 
 skeleton-archives:
 	@$(MAKE) -C skeleton archives
