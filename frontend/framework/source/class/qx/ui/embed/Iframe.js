@@ -22,23 +22,16 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.layout.CanvasLayout,
+qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator,
 function(vSource)
 {
   // **********************************************************************
   //   INIT
   // **********************************************************************
-  qx.ui.layout.CanvasLayout.call(this);
-
-  qx.ui.embed.Iframe.init();
+  qx.ui.basic.Terminator.call(this);
 
   this.setSelectable(false);
   this.setTabIndex(0);
-
-  this._glasspane = new qx.ui.basic.Terminator();
-  this._glasspane.set({ zIndex:1, display:false });
-  this._glasspane.setEdge(0);
-  this.add(this._glasspane);
 
   var o = this;
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
@@ -77,6 +70,9 @@ qx.OO.addProperty({ name : "frameName", type : qx.constant.Type.STRING });
 ---------------------------------------------------------------------------
 */
 
+
+// iframe DOM node
+
 qx.Proto._iframeNode = null;
 
 qx.Proto.getIframeNode = function() {
@@ -87,6 +83,18 @@ qx.Proto.setIframeNode = function(vIframeNode) {
   return this._iframeNode = vIframeNode;
 }
 
+
+// blocker div DOM node
+
+qx.Proto._blockerNode = null;
+
+qx.Proto.getBlockerNode = function() {
+  return this._blockerNode;
+}
+
+qx.Proto.setBlockerNode = function(vBlockerNode) {
+  return this._blockerNode = vBlockerNode;
+}
 
 
 
@@ -103,12 +111,11 @@ qx.Proto.reload = function() {
 
 
 qx.Proto.block = function() {
-  this._glasspane.setDisplay(true);
+  this._blockerNode.style.display = qx.constant.Core.EMPTY;
 };
 
-
 qx.Proto.release = function() {
-  this._glasspane.setDisplay(false);
+  this._blockerNode.style.display = qx.constant.Core.NONE;
 };
 
 
@@ -123,12 +130,21 @@ qx.Proto.release = function() {
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
+
   var iframeNode = this.getIframeNode();
 
   if (!iframeNode)
   {
+    
+    qx.ui.embed.Iframe.initIframe(this.getFrameName());
+
     // clone proto element and assign iframe
     iframeNode = this.setIframeNode(qx.ui.embed.Iframe._element.cloneNode(true));
+
+    qx.ui.embed.Iframe.initBlocker();
+
+    // clone proto blocker
+    blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
 
     if (qx.sys.Client.getInstance().isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
@@ -137,20 +153,20 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     }
   }
 
-  this._applyFrameName();
   this._applySource();
 
   propValue.appendChild(iframeNode);
+  propValue.appendChild(blockerNode);
 
   // create basic widget
-  qx.ui.layout.CanvasLayout.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+  qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
 
   return true;
 }
 
 
 qx.Proto._beforeAppear = function() {
-  qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
+  qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
 
   // register to iframe manager as active widget
   qx.manager.object.IframeManager.getInstance().add(this);
@@ -158,7 +174,7 @@ qx.Proto._beforeAppear = function() {
 
 
 qx.Proto._beforeDisappear = function() {
-  qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+  qx.ui.basic.Terminator.prototype._beforeDisappear.call(this);
 
   // deregister from iframe manager
   qx.manager.object.IframeManager.getInstance().remove(this);
@@ -186,16 +202,10 @@ qx.Proto._applySource = function()
   this.getIframeNode().src = currentSource;
 }
 
-qx.Proto._applyFrameName = function()
-{
-  var vName = this.getFrameName();
-  this.getIframeNode().name = qx.util.Validation.isValidString(vName) ? vName : qx.constant.Core.EMPTY;
-}
-
 qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqModIds)
 {
   if( this.isCreated()) {
-    this._applyFrameName();
+    throw new Error("Not allowed to set frame name after it has been created");
   }
 
   return true;
@@ -334,7 +344,7 @@ qx.Proto.dispose = function()
     this._iframeNode = null;
   }
 
-  qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+  qx.ui.basic.Terminator.prototype.dispose.call(this);
 }
 
 
@@ -347,13 +357,20 @@ qx.Proto.dispose = function()
   INIT
 ---------------------------------------------------------------------------
 */
-qx.ui.embed.Iframe.init = function()
+qx.ui.embed.Iframe.initIframe = function(vFrameName)
 {
-  if (qx.ui.embed.Iframe._element) {
+  if (qx.ui.embed.Iframe._element && !vFrameName) {
     return;
   }
 
-  var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
+  if (vFrameName && qx.sys.Client.getInstance().isMshtml()) {
+    var f = qx.ui.embed.Iframe._element = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
+  } else {
+    var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
+    if (vFrameName) {
+      f.name = vFrameName;      
+    }
+   }
 
   f.frameBorder = qx.constant.Core.ZERO;
   f.frameSpacing = qx.constant.Core.ZERO;
@@ -371,4 +388,34 @@ qx.ui.embed.Iframe.init = function()
   f.scrolling = qx.constant.Core.AUTO;
   f.unselectable = "on";
   f.allowTransparency = "true";
-}
+
+  f.style.position = qx.constant.Style.POSITION_ABSOLUTE;
+  f.style.top = 0;
+  f.style.left = 0;
+ };
+
+qx.ui.embed.Iframe.initBlocker = function()
+{
+
+  if (qx.ui.embed.Iframe._blocker) {
+    return;
+  }
+
+  var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
+  
+  if (qx.sys.Client.getInstance().isMshtml()) {
+    b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
+  }
+  
+  b.style.backgroundColor = "yellow";
+  
+  b.style.position = qx.constant.Style.POSITION_ABSOLUTE;
+  b.style.top = 0;
+  b.style.left = 0;
+  b.style.width = qx.constant.Core.HUNDREDPERCENT;
+  b.style.height = qx.constant.Core.HUNDREDPERCENT;
+  b.style.zIndex = 1;
+  b.style.display = qx.constant.Core.NONE;
+};
+
+
