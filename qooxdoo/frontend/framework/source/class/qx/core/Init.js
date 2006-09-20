@@ -102,7 +102,12 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.getApplicationInstance = function() {
+qx.Proto.getApplicationInstance = function()
+{
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
+  }
+
   return this._applicationInstance;
 };
 
