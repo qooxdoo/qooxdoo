@@ -1,10 +1,19 @@
 /**
  * Sample 1
  */
-qx.OO.defineClass("custom.Application1", qx.component.AbstractApplication,
+qx.OO.defineClass("custom.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
 
 qx.Proto.main = function(e)
 {

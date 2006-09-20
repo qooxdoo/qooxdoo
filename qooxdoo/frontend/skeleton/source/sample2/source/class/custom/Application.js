@@ -4,10 +4,20 @@
 /*
 #resource(image:image)
 */
-qx.OO.defineClass("custom.Application2", qx.component.AbstractApplication,
+qx.OO.defineClass("custom.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
 
 qx.Proto.initialize = function(e)
 {
