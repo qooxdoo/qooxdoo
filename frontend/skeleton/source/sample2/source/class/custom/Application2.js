@@ -4,7 +4,7 @@
 /*
 #resource(image:image)
 */
-qx.OO.defineClass("custom.Application2", qx.component.AbstractApplication,
+qx.OO.defineClass("custom.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
@@ -51,16 +51,3 @@ qx.Proto.terminate = function(e)
 {
   // alert("terminated");
 };
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DIRECT SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-qx.Class.getInstance = qx.util.Return.returnInstance;

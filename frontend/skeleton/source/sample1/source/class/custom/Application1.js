@@ -1,7 +1,7 @@
 /**
  * Sample 1
  */
-qx.OO.defineClass("custom.Application1", qx.component.AbstractApplication,
+qx.OO.defineClass("custom.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
@@ -27,16 +27,3 @@ qx.Proto.main = function(e)
   // add button to document
   button1.addToDocument();
 };
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DIRECT SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-qx.Class.getInstance = qx.util.Return.returnInstance;
