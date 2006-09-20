@@ -23,15 +23,9 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.component.init.AbstractInitComponent", qx.component.AbstractComponent,
-function()
-{
+function() {
   qx.component.AbstractComponent.call(this);
-
-  this._methods = {};
 });
-
-
-
 
 
 
@@ -39,89 +33,33 @@ function()
   Run initialisation part of component creation.
 */
 qx.Proto.initialize = function(e) {
-  return this._methods.initialize && this._methods.initialize(e);
+  return qx.core.Init.getInstance().getApplication().getInstance().initialize(e);
 }
 
 /*!
   Run main  part of component creation.
 */
 qx.Proto.main = function(e) {
-  return this._methods.main && this._methods.main(e);
+  return qx.core.Init.getInstance().getApplication().getInstance().main(e);
 }
 
 /*!
   Run finalization part of component creation.
 */
 qx.Proto.finalize = function(e) {
-  return this._methods.finalize && this._methods.finalize(e);
+  return qx.core.Init.getInstance().getApplication().getInstance().finalize(e);
 }
 
 /*!
   Terminate this component.
 */
 qx.Proto.close = function(e) {
-  return this._methods.close && this._methods.close(e);
+  return qx.core.Init.getInstance().getApplication().getInstance().close(e);
 }
 
 /*!
   Terminate this component.
 */
 qx.Proto.terminate = function(e) {
-  return this._methods.terminate && this._methods.terminate(e);
-}
-
-
-
-
-
-/*!
-  Defines the method which should be executed on initialization of this component.
-*/
-qx.Proto.defineInitialize = function(vFunc) {
-  this._methods.initialize = vFunc;
-}
-
-/*!
-  Defines the method which should be executed as main function of this component.
-*/
-qx.Proto.defineMain = function(vFunc) {
-  this._methods.main = vFunc;
-}
-
-/*!
-  Defines the method which should be executed on finalization of this component.
-*/
-qx.Proto.defineFinalize = function(vFunc) {
-  this._methods.finalize = vFunc;
-}
-
-/*!
-  Defines the method which should be executed on (before) close of this component.
-*/
-qx.Proto.defineClose = function(vFunc) {
-  this._methods.close = vFunc;
-}
-
-/*!
-  Defines the method which should be executed on termination of this component.
-*/
-qx.Proto.defineTerminate = function(vFunc) {
-  this._methods.terminate = vFunc;
-}
-
-
-
-
-
-
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  delete this._methods;
-
-  return qx.component.AbstractComponent.prototype.dispose.call(this);
+  return qx.core.Init.getInstance().getApplication().getInstance().terminate(e);
 }

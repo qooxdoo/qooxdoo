@@ -68,66 +68,7 @@ qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
 */
 
 qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance : "qx.component.init.BasicInitComponent" });
-qx.OO.addProperty({ name : "application", type : qx.constant.Type.OBJECT, instance : "qx.component.AbstractApplication" });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  COMPONENT MANAGMENT
----------------------------------------------------------------------------
-*/
-
-qx.Proto._createComponent = function()
-{
-  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  APPLICATION MANAGMENT
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
-{
-  if (propOldValue)
-  {
-    this.error("Could not modify application");
-  }
-
-  if (propValue)
-  {
-
-    // proposed new way (using custom application class)
-    // define(Initialize|Main|Finalize|Close|Terminate) are deprecated
-    /*
-    this._initialize = propValue._initialize;
-    this._main = propValue._main;
-    this._finalize = propValue._finalize;
-    this._close = propValue._close;
-    this._terminate = propValue._terminate;
-    */
-
-    this.defineInitialize(propValue.initialize);
-    this.defineMain(propValue.main);
-    this.defineFinalize(propValue.finalize);
-    this.defineClose(propValue.close);
-    this.defineTerminate(propValue.terminate);
-  }
-
-  return true;
-};
-
+qx.OO.addProperty({ name : "application", type : qx.constant.Type.FUNCTION });
 
 
 
@@ -141,66 +82,49 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._initialize = null;
-qx.Proto._main = null;
-qx.Proto._finalize = null;
-qx.Proto._close = null;
-qx.Proto._terminate = null;
-
-qx.Proto.defineInitialize = function(vFunc) {
-  return this._initialize = vFunc || null;
-}
-
-qx.Proto.defineMain = function(vFunc) {
-  return this._main = vFunc || null;
-}
-
-qx.Proto.defineFinalize = function(vFunc) {
-  return this._finalize = vFunc || null;
-}
-
-qx.Proto.defineClose = function(vFunc) {
-  return this._close = vFunc || null;
-}
-
-qx.Proto.defineTerminate = function(vFunc) {
-  return this._terminate = vFunc || null;
-}
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyComponent = function(propValue, propOldValue, propData)
+qx.Proto.defineInitialize = function(vFunc)
 {
-  if (propOldValue)
-  {
-    propOldValue.defineInitialize(null);
-    propOldValue.defineMain(null);
-    propOldValue.defineFinalize(null);
-    propOldValue.defineClose(null);
-    propOldValue.defineTerminate(null);
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
   }
 
-  if (propValue)
-  {
-    propValue.defineInitialize(this._initialize);
-    propValue.defineMain(this._main);
-    propValue.defineFinalize(this._finalize);
-    propValue.defineClose(this._close);
-    propValue.defineTerminate(this._terminate);
+  this.getApplication().getInstance().init = vFunc;
+}
+
+qx.Proto.defineMain = function(vFunc)
+{
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
   }
 
-  return true;
+  this.getApplication().getInstance().main = vFunc;
+}
+
+qx.Proto.defineFinalize = function(vFunc)
+{
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
+  }
+
+  this.getApplication().getInstance().finalize = vFunc;
+}
+
+qx.Proto.defineClose = function(vFunc)
+{
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
+  }
+
+  this.getApplication().getInstance().close = vFunc;
+}
+
+qx.Proto.defineTerminate = function(vFunc)
+{
+  if (!this.getApplication()) {
+    this.setApplication(qx.component.DummyApplication);
+  }
+
+  this.getApplication().getInstance().terminate = vFunc;
 }
 
 
@@ -224,7 +148,7 @@ qx.Proto._onload = function(e)
 
   // Print browser information
   var cl = qx.sys.Client.getInstance();
-  this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." 
+  this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "."
     + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
   if (cl.isMshtml() && !cl.isInQuirksMode()) {
@@ -232,7 +156,7 @@ qx.Proto._onload = function(e)
   }
 
   // Init component from settings
-  this._createComponent();
+  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
 
   // Send onload
   return this.getComponent()._onload(e);
@@ -278,13 +202,6 @@ qx.Proto.dispose = function()
 
   // Reset inline functions
   this.__onload = this.__onbeforeunload = this.__onunload = null;
-
-  // Dispose Component
-  if (this._component)
-  {
-    this._component.dispose();
-    this._component = null;
-  }
 
   qx.core.Target.prototype.dispose.call(this);
 }
