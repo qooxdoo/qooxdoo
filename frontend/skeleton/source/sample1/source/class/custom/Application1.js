@@ -6,6 +6,15 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
+
 qx.Proto.main = function(e)
 {
   // create button
@@ -18,3 +27,16 @@ qx.Proto.main = function(e)
   // add button to document
   button1.addToDocument();
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIRECT SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.Class.getInstance = qx.util.Return.returnInstance;

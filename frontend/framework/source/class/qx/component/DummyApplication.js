@@ -22,32 +22,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.init.BasicInitComponent", qx.component.init.AbstractInitComponent,
+qx.OO.defineClass("qx.component.DummyApplication", qx.component.AbstractApplication,
 function() {
-  qx.component.init.AbstractInitComponent.call(this);
+  qx.component.AbstractApplication.call(this);
 });
-
-
 
 
 
 /*
 ---------------------------------------------------------------------------
-  EVENT HANDLER
+  DIRECT SINGLETON INSTANCE
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onload = function(e)
-{
-  this.initialize(e);
-  this.main(e);
-  this.finalize(e);
-}
-
-qx.Proto._onbeforeunload = function(e) {
-  this.close(e);
-}
-
-qx.Proto._onunload = function(e) {
-  this.terminate(e);
-}
+/**
+ * Singleton Instance Getter
+ */
+qx.Class.getInstance = qx.util.Return.returnInstance;

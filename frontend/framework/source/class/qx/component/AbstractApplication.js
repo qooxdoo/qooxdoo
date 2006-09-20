@@ -23,55 +23,31 @@
 ************************************************************************ */
 
 qx.OO.defineClass("qx.component.AbstractApplication", qx.component.AbstractComponent,
-function()
-{
+function() {
   qx.component.AbstractComponent.call(this);
 });
 
 /*!
   Run initialisation part of component creation.
 */
-qx.Proto.initialize = function() {
-
-}
+qx.Proto.initialize = function() {};
 
 /*!
   Run main  part of component creation.
 */
-qx.Proto.main = function() {
-
-}
+qx.Proto.main = function() {};
 
 /*!
   Run finalization part of component creation.
 */
-qx.Proto.finalize = function() {
-
-}
+qx.Proto.finalize = function() {};
 
 /*!
   Terminate this component.
 */
-qx.Proto.close = function() {
-
-}
+qx.Proto.close = function() {};
 
 /*!
   Terminate this component.
 */
-qx.Proto.terminate = function() {
-
-}
-
-
-
-
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  return qx.component.AbstractComponent.prototype.dispose.call(this);
-}
+qx.Proto.terminate = function() {};

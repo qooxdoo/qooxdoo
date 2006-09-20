@@ -6,6 +6,15 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
+
 qx.Proto.main = function(e)
 {
   var r = new qx.io.remote.RemoteRequest("test.xml", "GET", "text/plain");
@@ -16,3 +25,16 @@ qx.Proto.main = function(e)
 
   r.send();
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIRECT SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.Class.getInstance = qx.util.Return.returnInstance;
