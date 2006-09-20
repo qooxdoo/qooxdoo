@@ -407,8 +407,6 @@ qx.ui.embed.Iframe.initBlocker = function()
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
   
-  b.style.backgroundColor = "yellow";
-  
   b.style.position = qx.constant.Style.POSITION_ABSOLUTE;
   b.style.top = 0;
   b.style.left = 0;
