@@ -441,6 +441,12 @@ qx.Proto._onkeydown = function(evt) {
           var rowCount = this.getTableModel().getRowCount();
           this.setFocusedCell(this._focusedCol, rowCount - 1, true);
           break;
+        case 65: // Ctrl + A
+          var rowCount = this.getTableModel().getRowCount();
+          if (rowCount > 0) {
+            this.getSelectionModel().setSelectionInterval(0, rowCount - 1);
+          }
+          break;
         default:
           consumed = false;
           break;
