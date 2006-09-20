@@ -9,6 +9,16 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  METHODS
+---------------------------------------------------------------------------
+*/
+
 qx.Proto.initialize = function(e)
 {
   qx.manager.object.AliasManager.getInstance().add("custom", "./resource");
@@ -41,3 +51,16 @@ qx.Proto.terminate = function(e)
 {
   // alert("terminated");
 };
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  DIRECT SINGLETON INSTANCE
+---------------------------------------------------------------------------
+*/
+
+qx.Class.getInstance = qx.util.Return.returnInstance;
