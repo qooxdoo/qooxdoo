@@ -4,8 +4,8 @@
 
 QOOXDOO = PATH_TO_QOOXDOO
 SCRIPTNAME = custom.js
-APPCLASS = custom.Application3
-INCLUDEALL = false
+APPCLASS = custom.Application
+INCLUDEALL = true
 OLDCOMPILER = false
 COMPRESSSTRINGS = true
 NICE=10
