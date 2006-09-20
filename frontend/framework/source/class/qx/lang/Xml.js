@@ -23,19 +23,45 @@
 
 qx.OO.defineClass("qx.lang.Xml");
 
-// Create an XML dom node
-qx.lang.Xml.createXmlDom = function()
+// Create a XML dom node
+qx.lang.XmlEmu.createXmlDom = function()
 {
-  // Mozilla style
+  // The Mozilla style
   if (document.implementation && document.implementation.createDocument) {
     return document.implementation.createDocument("", "", null);
   }
 
-  // Microsoft style
+  // The Microsoft style
   if (window.ActiveXObject) {
-    return new ActiveXObject("Microsoft.XMLDOM");
+    var vServers = 
+      [ 
+        "MSXML2.DOMDocument.6.0", 
+        "MSXML2.DOMDocument.5.0", 
+        "MSXML2.DOMDocument.4.0", 
+        "MSXML2.DOMDocument.3.0", 
+        "MSXML2.DOMDocument.2.0", 
+        "MSXML2.DOMDocument", 
+        "Microsoft.DOMDocument" 
+      ];
+    var vObject;
+    var vServer;
+
+    for (var i=0, l=vServers.length; i<l; i++)
+    {
+      vServer = vServers[i];
+
+      try
+      {
+        vObject = new ActiveXObject(vServer);
+        break;
+      }
+      catch(ex)
+      {
+        vObject = null;
+      }
+    }
+    return vObject;
   }
 
   throw new Error("This browser does not support xml dom creation.");
 };
-
