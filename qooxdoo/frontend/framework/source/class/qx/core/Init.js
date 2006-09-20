@@ -122,48 +122,23 @@ qx.Proto.getApplicationInstance = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.defineInitialize = function(vFunc)
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
+qx.Proto.defineInitialize = function(vFunc) {
   this.getApplicationInstance().initialize = vFunc;
 }
 
-qx.Proto.defineMain = function(vFunc)
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
+qx.Proto.defineMain = function(vFunc) {
   this.getApplicationInstance().main = vFunc;
 }
 
-qx.Proto.defineFinalize = function(vFunc)
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
+qx.Proto.defineFinalize = function(vFunc) {
   this.getApplicationInstance().finalize = vFunc;
 }
 
-qx.Proto.defineClose = function(vFunc)
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
+qx.Proto.defineClose = function(vFunc) {
   this.getApplicationInstance().close = vFunc;
 }
 
-qx.Proto.defineTerminate = function(vFunc)
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
+qx.Proto.defineTerminate = function(vFunc) {
   this.getApplicationInstance().terminate = vFunc;
 }
 
