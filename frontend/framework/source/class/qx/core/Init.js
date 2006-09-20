@@ -88,7 +88,7 @@ qx.Proto.defineInitialize = function(vFunc)
     this.setApplication(qx.component.DummyApplication);
   }
 
-  this.getApplication().getInstance().init = vFunc;
+  this.getApplication().getInstance().initialize = vFunc;
 }
 
 qx.Proto.defineMain = function(vFunc)
