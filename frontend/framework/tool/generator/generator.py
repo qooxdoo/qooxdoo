@@ -74,7 +74,7 @@ def getparser():
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
-  parser.add_option("--compress-strings", action="store_true", dest="compressStrings", default=False, help="Compress strings. (ALPHA)")
+  parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Compress strings. (ALPHA)")
   parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler. (ALPHA)")
 
   # Options for resource copying
@@ -413,15 +413,15 @@ def execute(fileDb, moduleDb, options, pkgid=""):
   #  STRING COMPRESSION
   ######################################################################
 
-  if options.compressStrings:
+  if options.optimizeStrings:
     print
-    print "  STRING COMPRESSION:"
+    print "  STRING OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
 
     if options.verbose:
-      print "  * Searching for strings..."
+      print "  * Searching strings..."
     else:
-      print "  * Searching for strings: ",
+      print "  * Searching strings: ",
 
     stringMap = {}
 
@@ -432,7 +432,13 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      stringcompress.search(loader.getTree(fileDb, fileId, options), stringMap, options.verbose)
+      localMap = loader.getStrings(fileDb, fileId, options)
+
+      for value in localMap:
+        if value in stringMap:
+          stringMap[value] += localMap[value]
+        else:
+          stringMap[value] = localMap[value]
 
     if not options.verbose:
       print
@@ -441,16 +447,28 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     for value in stringMap:
       counter += stringMap[value]
 
-    print "  * Found %s strings, used %s times" % (len(stringMap), counter)
-
-    print "  * Sorting strings..."
     stringList = stringcompress.sort(stringMap)
 
-    print "  * Replacing strings..."
+    print "  * Found %s strings (used %s times)" % (len(stringMap), counter)
+
+    if options.verbose:
+      print "  * Replacing strings..."
+    else:
+      print "  * Replacing strings: ",
+
     for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
       stringcompress.replace(loader.getTree(fileDb, fileId, options), stringList, "$", options.verbose)
 
-    print "  * Generating replacement object..."
+    if not options.verbose:
+      print
+
+    print "  * Generating replacement..."
     additionalOutput.append(stringcompress.array(stringList))
 
 

@@ -3,7 +3,11 @@
 import tree
 
 
-def search(node, stringMap={}, verbose=False):
+def search(node, verbose=False):
+  return search_loop(node, {}, verbose)
+
+
+def search_loop(node, stringMap={}, verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
 
     if verbose:
@@ -23,7 +27,9 @@ def search(node, stringMap={}, verbose=False):
 
   if check(node, verbose):
     for child in node.children:
-      search(child, stringMap, verbose)
+      search_loop(child, stringMap, verbose)
+
+  return stringMap
 
 
 
