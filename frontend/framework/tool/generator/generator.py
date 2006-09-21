@@ -74,8 +74,8 @@ def getparser():
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
-  parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Compress strings. (ALPHA)")
-  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler. (ALPHA)")
+  parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
+  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler (not recommended).")
 
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
@@ -463,7 +463,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      stringcompress.replace(loader.getTree(fileDb, fileId, options), stringList, "$", options.verbose)
+      stringcompress.replace(loader.getTree(fileDb, fileId, options), stringList, "$" + pkgid, options.verbose)
 
     if not options.verbose:
       print
