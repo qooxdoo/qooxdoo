@@ -7,6 +7,7 @@
 script-input = framework/source/class
 cache-directory = .cache
 generate-compiled-script
+optimize-strings
 
 package = core
 include = core
