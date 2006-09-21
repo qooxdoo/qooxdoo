@@ -67,6 +67,7 @@ def getparser():
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
+  parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
 
   # Options for source and compiled version
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
@@ -221,8 +222,10 @@ def argparser(cmdlineargs):
 
         print
         print
-        print "**************************** Next Package **********************************"
-        print "PACKAGE: %s" % filearg
+        print
+        print
+        print "  PACKAGE: %s" % filearg
+        print "----------------------------------------------------------------------------"
 
         combinedargs = []
         combinedargs.extend(defaultargs)
@@ -244,7 +247,7 @@ def argparser(cmdlineargs):
     print "  * Processing arguments..."
 
     (fileDb, moduleDb) = load(options)
-    execute(fileDb, moduleDb, options)
+    execute(fileDb, moduleDb, options, options.packageId)
 
 
 
