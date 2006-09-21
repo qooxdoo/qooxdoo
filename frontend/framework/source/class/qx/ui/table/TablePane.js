@@ -63,18 +63,14 @@ qx.OO.addProperty({ name:"highlightFocusRow", type:qx.constant.Type.BOOLEAN, all
 
 // property modifier
 qx.Proto._modifyFirstVisibleRow = function(propValue, propOldValue, propData) {
-  if (this.isSeeable()) {
-    this._updateContent();
-  }
+  this._updateContent();
   return true;
 }
 
 
 // property modifier
 qx.Proto._modifyVisibleRowCount = function(propValue, propOldValue, propData) {
-  if (this.isSeeable()) {
-    this._updateContent();
-  }
+  this._updateContent();
   return true;
 }
 
@@ -123,6 +119,19 @@ qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
   return true;
 }
+
+
+// overridden
+qx.Proto._afterAppear = function() {
+  qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+
+  if (this._updateWantedWhileInvisible) {
+    // We are visible now and an update was wanted while we were invisible
+    // -> Do the update now
+    this._updateContent();
+    this._updateWantedWhileInvisible = false;
+  }
+};
 
 
 /**
@@ -241,6 +250,7 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
   if (! this.isSeeable()) {
+    this._updateWantedWhileInvisible = true;
     return;
   }
 
