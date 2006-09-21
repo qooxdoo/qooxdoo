@@ -17,13 +17,13 @@
    *     derrell dot lipman at unwireduniverse dot com
    */
 
-  /*
-   * This is the standard qooxdoo test class.  There are tests for each of the
-   * primitive types here, along with standard named tests "echo", "sink" and
-   * "sleep".
-   */
+/*
+ * This is the standard qooxdoo test class.  There are tests for each of the
+ * primitive types here, along with standard named tests "echo", "sink" and
+ * "sleep".
+ */
 
-  class class_test
+class class_test
 {
     /**
      * Echo the (one and only) parameter.
