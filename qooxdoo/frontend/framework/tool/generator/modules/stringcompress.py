@@ -162,7 +162,7 @@ def replace(node, stringList, var="$", verbose=False):
 
 
 
-def array(stringList, var="$"):
+def replacement(stringList, var="$"):
   repl = "%s=[" % var
 
   for item in stringList:
