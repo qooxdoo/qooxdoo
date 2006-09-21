@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, cPickle, codecs
-import config, tokenizer, treegenerator, filetool
+import config, tokenizer, treegenerator, filetool, stringcompress
 
 
 
@@ -199,6 +199,43 @@ def getTree(fileDb, fileId, options):
     fileDb[fileId]["tree"] = tree
 
   return fileDb[fileId]["tree"]
+
+
+
+
+
+def getStrings(fileDb, fileId, options):
+  if not fileDb[fileId].has_key("strings"):
+    if options.verbose:
+      print "    - Searching for strings in %s..." % fileId
+
+    useCache = False
+    loadCache = False
+
+    fileEntry = fileDb[fileId]
+    filePath = fileEntry["path"]
+    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
+
+    if options.cacheDirectory != None:
+      useCache = True
+
+      if not filetool.checkCache(filePath, cachePath):
+        loadCache = True
+
+    if loadCache:
+      strings = filetool.readCache(cachePath)
+    else:
+      strings = stringcompress.search(getTree(fileDb, fileId, options), options.verbose)
+
+      if useCache:
+        if options.verbose:
+          print "    - Caching strings for %s..." % fileId
+
+        filetool.storeCache(cachePath, strings)
+
+    fileDb[fileId]["strings"] = strings
+
+  return fileDb[fileId]["strings"]
 
 
 
