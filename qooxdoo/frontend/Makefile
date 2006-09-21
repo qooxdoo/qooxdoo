@@ -15,7 +15,7 @@ RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(VERSION)-sdk
 
 FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
-RSYNC_BUILD_OPT = --recursive --archive --executability --delete
+RSYNC_BUILD_OPT = --recursive --archive --delete
 RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
 
 RSYNC_BUILD_EXEC = @$(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
@@ -147,7 +147,7 @@ release-build-sync:
 
 	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_BUILD_UNIX)
-	@find ../ -name "[A-Z]*" -maxdepth 1 -type f -exec cp -f {} $(RELEASE_BUILD_UNIX) \;
+	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_UNIX) \;
 
 	@echo "  * Synchronizing Unix build folders..."
 	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/api
@@ -166,7 +166,7 @@ release-build-sync:
 
 	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_BUILD_DOS)
-	@find ../ -name "[A-Z]*" -maxdepth 1 -type f -exec cp -f {} $(RELEASE_BUILD_DOS) \;
+	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_DOS) \;
 
 	@echo "  * Synchronizing DOS build folders..."
 	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/api
@@ -206,7 +206,7 @@ release-sdk-sync:
 
 	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_SDK_UNIX)
-	@find ../ -name "[A-Z]*" -maxdepth 1 -type f -exec cp -f {} $(RELEASE_SDK_UNIX) \;
+	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_SDK_UNIX) \;
 
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend
@@ -247,7 +247,7 @@ release-sdk-sync:
 
 	@echo "  * Copying info files..."
 	@mkdir -p $(RELEASE_SDK_DOS)
-	@find ../ -name "[A-Z]*" -maxdepth 1 -type f -exec cp -f {} $(RELEASE_SDK_DOS) \;
+	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_SDK_DOS) \;
 
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend
