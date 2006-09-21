@@ -472,7 +472,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       print
 
     print "  * Generating replacement..."
-    additionalOutput.append(stringcompress.array(stringList))
+    additionalOutput.append(stringcompress.replacement(stringList, "$" + pkgid))
 
 
 
