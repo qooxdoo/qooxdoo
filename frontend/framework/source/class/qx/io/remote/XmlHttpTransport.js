@@ -217,9 +217,9 @@ qx.Proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(escape(vId) +
+    vParametersList.push(encodeURIComponent(vId) +
                          qx.constant.Core.EQUAL +
-                         escape(vParameters[vId]));
+                         encodeURIComponent(vParameters[vId]));
   }
 
   if (vParametersList.length > 0) {
