@@ -44,7 +44,7 @@ archive:
 	@echo "  * Syncing backend files..."
 	@$(RSYNC_EXEC) $(FILES) $(RELEASE_UNIX)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_UNIX)/backend $(FIX_FILES) $(DOS2UNIX)
+	@$(NICE_CALL) find $(RELEASE_UNIX) $(FIX_FILES) $(DOS2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
@@ -56,7 +56,7 @@ archive:
 	@echo "  * Syncing backend files..."
 	@$(RSYNC_EXEC) $(FILES) $(RELEASE_DOS)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_UNIX)/backend $(FIX_FILES) $(UNIX2DOS)
+	@$(NICE_CALL) find $(RELEASE_DOS) $(FIX_FILES) $(UNIX2DOS)
 
 	@echo
 	@echo "  COMPRESSION OF RELEASE"
