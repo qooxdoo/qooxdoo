@@ -50,14 +50,16 @@ qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, 
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseDown = function(index, evt) {
-  var selectionModel = this.getSelectionModel();
-  if (!selectionModel.isSelectedIndex(index)) {
-    // This index is not selected -> We react when the mouse is pressed (because of drag and drop)
-    this._handleSelectEvent(index, evt);
-    this._lastMouseDownHandled = true;
-  } else {
-    // This index is already selected -> We react when the mouse is released (because of drag and drop)
-    this._lastMouseDownHandled = false;
+  if (evt.isLeftButtonPressed()) {
+    var selectionModel = this.getSelectionModel();
+    if (!selectionModel.isSelectedIndex(index)) {
+      // This index is not selected -> We react when the mouse is pressed (because of drag and drop)
+      this._handleSelectEvent(index, evt);
+      this._lastMouseDownHandled = true;
+    } else {
+      // This index is already selected -> We react when the mouse is released (because of drag and drop)
+      this._lastMouseDownHandled = false;
+    }
   }
 }
 
@@ -69,7 +71,7 @@ qx.Proto.handleMouseDown = function(index, evt) {
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseUp = function(index, evt) {
-  if (!this._lastMouseDownHandled) {
+  if (evt.isLeftButtonPressed() && !this._lastMouseDownHandled) {
     this._handleSelectEvent(index, evt);
   }
 }
