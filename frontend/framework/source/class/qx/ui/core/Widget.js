@@ -4318,7 +4318,8 @@ qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 
   // this.debug("Focused: " + propValue);
 
-  if (vFocusRoot) {
+  if (vFocusRoot)
+  {
     // may be undefined if this widget has been removed
     if (propValue)
     {
@@ -4340,13 +4341,14 @@ qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 
 qx.Proto._visualizeBlur = function()
 {
-  // force blur, even if mouseFocus is not active because we
+  // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
-  if (this.getEnableElementFocus())
+  // But this only needs to be done, if there is no new focused element.
+  if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
   {
     try {
       this.getElement().blur();
-    } catch(ex) {}
+    } catch(ex) {};
   }
 
   this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
@@ -4360,7 +4362,7 @@ qx.Proto._visualizeFocus = function()
   {
     try {
       this.getElement().focus();
-    } catch(ex) {}
+    } catch(ex) {};
   }
 
   this.addState(qx.ui.core.Widget.STATE_FOCUSED);
