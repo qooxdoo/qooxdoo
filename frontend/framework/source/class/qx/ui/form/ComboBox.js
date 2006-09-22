@@ -629,20 +629,41 @@ qx.Proto._visualizeBlur = function()
   // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
   // But this only needs to be done, if there is no new focused element.
-  if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
+  if (qx.sys.Client.getInstance().isMshtml())
   {
-    try
+    if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
     {
-      if (this.getEditable())
+      try
       {
-        this.getField().getElement().blur();
+        if (this.getEditable())
+        {
+          this.getField().getElement().blur();
+        }
+        else
+        {
+          this.getElement().blur();
+        }
       }
-      else
-      {
-        this.getElement().blur();
-      }
+      catch(ex) {};
     }
-    catch(ex) {};
+  }
+  else
+  {
+    if (this.getEnableElementFocus())
+    {
+      try
+      {
+        if (this.getEditable())
+        {
+          this.getField().getElement().blur();
+        }
+        else if (!this.getFocusRoot().getFocusedChild())
+        {
+          this.getElement().blur();
+        }
+      }
+      catch(ex) {};
+    }
   }
 
   this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
