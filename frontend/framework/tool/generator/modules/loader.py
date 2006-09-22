@@ -405,28 +405,28 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
     # Search for valid ID
     if fileContentId == None:
-      print "      * Could not extract ID from file: %s. Using fileName!" % fileId
-      sys.exit(1)
+      print "      * Could not extract ID from file: %s. Using fileName!" % filePath
+      fileId = filePathId
 
     else:
       fileId = fileContentId
 
-      if fileContentId != filePathId:
-        print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
-        sys.exit(1)
+    if fileId != filePathId:
+      print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+      sys.exit(1)
 
-      fileEntry = {
-        "autoDeps" : False,
-        "cached" : False,
-        "cachePath" : cachePath,
-        "optionalDeps" : extractOptional(fileContent),
-        "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
-        "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
-        "afterDeps" : extractAfterDeps(fileContent, fileId),
-        "loadDeps" : extractLoadDeps(fileContent, fileId),
-        "resources" : extractResources(fileContent),
-        "modules" : extractModules(fileContent)
-      }
+    fileEntry = {
+      "autoDeps" : False,
+      "cached" : False,
+      "cachePath" : cachePath,
+      "optionalDeps" : extractOptional(fileContent),
+      "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
+      "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+      "afterDeps" : extractAfterDeps(fileContent, fileId),
+      "loadDeps" : extractLoadDeps(fileContent, fileId),
+      "resources" : extractResources(fileContent),
+      "modules" : extractModules(fileContent)
+    }
 
 
 
