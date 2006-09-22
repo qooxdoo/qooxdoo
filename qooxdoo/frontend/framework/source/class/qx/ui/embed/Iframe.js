@@ -110,12 +110,18 @@ qx.Proto.reload = function() {
 }
 
 
-qx.Proto.block = function() {
-  this._blockerNode.style.display = qx.constant.Core.EMPTY;
+qx.Proto.block = function()
+{
+  if (this._blockerNode) {
+    this._blockerNode.style.display = qx.constant.Core.EMPTY;
+  }
 };
 
-qx.Proto.release = function() {
-  this._blockerNode.style.display = qx.constant.Core.NONE;
+qx.Proto.release = function()
+{
+  if (this._blockerNode) {
+    this._blockerNode.style.display = qx.constant.Core.NONE;
+  }
 };
 
 
@@ -135,7 +141,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
   if (!iframeNode)
   {
-    
+
     qx.ui.embed.Iframe.initIframe(this.getFrameName());
 
     // clone proto element and assign iframe
@@ -368,7 +374,7 @@ qx.ui.embed.Iframe.initIframe = function(vFrameName)
   } else {
     var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
     if (vFrameName) {
-      f.name = vFrameName;      
+      f.name = vFrameName;
     }
    }
 
@@ -402,11 +408,11 @@ qx.ui.embed.Iframe.initBlocker = function()
   }
 
   var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
-  
+
   if (qx.sys.Client.getInstance().isMshtml()) {
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
-  
+
   b.style.position = qx.constant.Style.POSITION_ABSOLUTE;
   b.style.top = 0;
   b.style.left = 0;
