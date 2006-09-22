@@ -95,6 +95,13 @@ qx.OO.addProperty({ name : "label", type : qx.constant.Type.STRING });
 */
 qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
 
+/**
+ * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
+ * <p>
+ * If not set the normal icon is shown transparently.
+ */
+qx.OO.addProperty({ name : "disabledIcon", type : qx.constant.Type.STRING });
+
 /*!
   Configure the visibility of the sub elements/widgets.
   Possible values: both, text, icon, none
@@ -155,13 +162,31 @@ qx.Proto._createIcon = function()
   }
   else
   {
-    var i = this._iconObject = new qx.ui.basic.Image(this.getIcon());
+    var i = this._iconObject = new qx.ui.basic.Image();
   }
 
   i.setAnonymous(true);
-  i.setEnabled(this.getEnabled());
+
+  this._updateIcon();
 
   this.addAt(i, 0);
+}
+
+qx.Proto._updateIcon = function() {
+  if (this._iconObject) {
+    var disabledIcon = this.getDisabledIcon();
+    if (disabledIcon) {
+      if (this.getEnabled()) {
+        this._iconObject.setSource(this.getIcon());
+      } else {
+        this._iconObject.setSource(disabledIcon);
+      }
+      this._iconObject.setEnabled(true);
+    } else {
+      this._iconObject.setSource(this.getIcon());
+      this._iconObject.setEnabled(this.getEnabled());
+    }
+  }
 }
 
 qx.Proto.getLabelObject = function() {
@@ -185,9 +210,7 @@ qx.Proto.getIconObject = function() {
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  if (this._iconObject) {
-    this._iconObject.setEnabled(propValue);
-  }
+  this._updateIcon();
 
   if (this._labelObject) {
     this._labelObject.setEnabled(propValue);
@@ -236,10 +259,15 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
 {
-  if (this._iconObject) {
-    this._iconObject.setSource(propValue);
-  }
+  this._updateIcon();
+  this._handleIcon();
 
+  return true;
+}
+
+qx.Proto._modifyDisabledIcon = function(propValue, propOldValue, propData)
+{
+  this._updateIcon();
   this._handleIcon();
 
   return true;
