@@ -58,7 +58,7 @@ qx.Proto.getRowDataAsMap = function(rowIndex) {
   var columnArr = this._rowArr[rowIndex];
   var map = {};
   for (var col = 0; col < this.getColumnCount(); col++) {
-  	map[this.getColumnId(col)] = columnArr[col];
+    map[this.getColumnId(col)] = columnArr[col];
   }
   return map;
 };
