@@ -230,7 +230,7 @@ qx.Proto.getSelectedRanges = function() {
 qx.Proto.iterateSelection = function(iterator, object) {
   for (var i = 0; i < this._selectedRangeArr.length; i++) {
     for (var j = this._selectedRangeArr[i].minIndex; j <= this._selectedRangeArr[i].maxIndex; j++) {
-    	iterator.call(object, j);
+      iterator.call(object, j);
     }
   }
 };

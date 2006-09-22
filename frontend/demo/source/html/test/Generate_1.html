@@ -174,7 +174,7 @@
           var subMenu = this._generateMenu(commandData.menu);
           var menuButton = new qx.ui.menu.MenuButton(commandData.title, null, null, subMenu);
 
-	      subMenu.addToDocument();
+        subMenu.addToDocument();
         }
         else
         {
@@ -232,8 +232,8 @@
             if (typeof commanddata.menu != qx.constant.Type.UNDEFINED)
             {
               menu = this._generateMenu(commanddata.menu);
-		      menu.addToDocument();
-		
+          menu.addToDocument();
+    
               btn = new qx.ui.toolbar.ToolBarMenuButton(commanddata.title, menu);
             }
             else
