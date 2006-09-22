@@ -54,9 +54,9 @@ qx.ui.core.Parent.ABSTRACT_CLASS = "qx.ui.core.Parent";
 */
 
 /*!
-  Individual focus manager for all child elements.
+  Individual focus handler for all child elements.
 */
-qx.OO.addProperty({ name : "focusManager", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.FocusHandler" });
+qx.OO.addProperty({ name : "focusHandler", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
@@ -92,7 +92,7 @@ qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 */
 
 qx.Proto.isFocusRoot = function() {
-  return this.getFocusManager() != null;
+  return this.getFocusHandler() != null;
 }
 
 qx.Proto.getFocusRoot = function()
@@ -109,14 +109,14 @@ qx.Proto.getFocusRoot = function()
 }
 
 qx.Proto.activateFocusRoot = function() {
-  this.setFocusManager(new qx.event.handler.FocusHandler(this));
+  this.setFocusHandler(new qx.event.handler.FocusHandler(this));
 }
 
 qx.Proto._onfocuskeyevent = function(e) {
-  this.getFocusManager()._onkeyevent(this, e);
+  this.getFocusHandler()._onkeyevent(this, e);
 }
 
-qx.Proto._modifyFocusManager = function(propValue, propOldValue, propData)
+qx.Proto._modifyFocusHandler = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
@@ -1195,12 +1195,12 @@ qx.Proto.dispose = function()
   delete this._cachedVisibleChildren;
 
   // Remove Key Handler
-  if (this.getFocusManager())
+  if (this.getFocusHandler())
   {
     this.removeEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
     this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
 
-    this.forceFocusManager(null);
+    this.forceFocusHandler(null);
   }
 
   return qx.ui.core.Widget.prototype.dispose.call(this);
