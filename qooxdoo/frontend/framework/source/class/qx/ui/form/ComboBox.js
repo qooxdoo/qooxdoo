@@ -74,6 +74,7 @@ function()
   var f = this._field = new qx.ui.form.TextField;
 
   f.setAppearance("combo-box-text-field");
+  f.setTabIndex(-1);
 
   this.add(f);
 
@@ -456,19 +457,6 @@ qx.Proto._onmousewheel = function(e)
 
 /*
 ---------------------------------------------------------------------------
-  BLUR/FOCUS HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onwindowblur = qx.Proto._closePopup;
-qx.Proto._onwindowfocus = qx.Proto._closePopup;
-
-
-
-
-
-/*
----------------------------------------------------------------------------
   KEY EVENT HANDLER
 ---------------------------------------------------------------------------
 */
@@ -611,6 +599,78 @@ qx.Proto._onkeypress = function(e)
   }
 }
 
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  GLOBAL BLUR/FOCUS HANDLER
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._onwindowblur = qx.Proto._closePopup;
+qx.Proto._onwindowfocus = qx.Proto._closePopup;
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  FOCUS HANDLING
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._visualizeBlur = function()
+{
+  // Force blur, even if mouseFocus is not active because we
+  // need to be sure that the previous focus rect gets removed.
+  // But this only needs to be done, if there is no new focused element.
+  if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
+  {
+    try
+    {
+      if (this.getEditable())
+      {
+        this.getField().getElement().blur();
+      }
+      else
+      {
+        this.getElement().blur();
+      }
+    }
+    catch(ex) {};
+  }
+
+  this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
+  return true;
+}
+
+qx.Proto._visualizeFocus = function()
+{
+  if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+  {
+    try
+    {
+      if (this.getEditable())
+      {
+        this.getField().getElement().focus();
+        this.getField()._ontabfocus();
+      }
+      else
+      {
+        this.getElement().focus();
+      }
+    }
+    catch(ex) {};
+  }
+
+  this.addState(qx.ui.core.Widget.STATE_FOCUSED);
+  return true;
+}
 
 
 
