@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, codecs, cPickle
+import os, codecs, cPickle, sys
 
 def save(filename, content="", encoding="utf-8"):
   # Normalize
@@ -34,12 +34,7 @@ def read(filePath, encoding):
     return codecs.open(filePath, "r", encoding).read()
 
   except ValueError:
-    if options.verbose:
-      print "      * Invalid Encoding. Required encoding: %s" % scriptEncoding
-
-    else:
-      print "\n    * Invalid Encoding in file %s. Required encoding: %s" % (filePath, scriptEncoding)
-
+    print "    * Invalid Encoding. Required encoding %s in %s" % (encoding, filePath)
     sys.exit(1)
 
 
@@ -48,7 +43,7 @@ def storeCache(cachePath, data):
     cPickle.dump(data, open(cachePath, 'w'), 2)
 
   except EOFError or PickleError or PicklingError:
-    print "Could not store cache to %s" % cachePath
+    print "    * Could not store cache to %s" % cachePath
     sys.exit(1)
 
 
@@ -57,7 +52,7 @@ def readCache(cachePath):
     return cPickle.load(open(cachePath))
 
   except EOFError or PickleError or UnpicklingError:
-    print "Could not read cache from %s" % cachePath
+    print "    * Could not read cache from %s" % cachePath
     sys.exit(1)
 
 
