@@ -71,7 +71,16 @@ qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.getInstance().isMshtm
 
 qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
-  if (vEvent.getKeyCode() != qx.event.type.KeyEvent.keys.tab || vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
+  if (vEvent.getKeyCode() != qx.event.type.KeyEvent.keys.tab) {
+    return;
+  }
+
+  // Stop all key-events with a TAB keycode
+  vEvent.stopPropagation();
+  vEvent.preventDefault();
+
+  // But only react on the one to use for this browser.
+  if (vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
     return;
   }
 
@@ -92,9 +101,6 @@ qx.Proto._onkeyevent = function(vContainer, vEvent)
     vNext.setFocused(true);
     vNext._ontabfocus();
   }
-
-  vEvent.stopPropagation();
-  vEvent.preventDefault();
 }
 
 qx.Proto.compareTabOrder = function(c1, c2)
