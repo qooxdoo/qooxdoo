@@ -140,9 +140,8 @@ def getTokens(fileDb, fileId, options):
     filePath = fileEntry["path"]
     fileEncoding = fileEntry["encoding"]
 
-    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
-
     if options.cacheDirectory != None:
+      cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
       useCache = True
 
       if not filetool.checkCache(filePath, cachePath):
@@ -177,9 +176,9 @@ def getTree(fileDb, fileId, options):
 
     fileEntry = fileDb[fileId]
     filePath = fileEntry["path"]
-    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
 
     if options.cacheDirectory != None:
+      cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
       useCache = True
 
       if not filetool.checkCache(filePath, cachePath):
@@ -214,9 +213,9 @@ def getStrings(fileDb, fileId, options):
 
     fileEntry = fileDb[fileId]
     filePath = fileEntry["path"]
-    cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
 
     if options.cacheDirectory != None:
+      cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
       useCache = True
 
       if not filetool.checkCache(filePath, cachePath):
