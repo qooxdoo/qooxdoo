@@ -264,6 +264,18 @@ qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
   return true;
 }
 
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
+{
+  if (this._button) {
+    this._button.setEnabled(propValue);
+  }
+
+  if (this._field) {
+    this._field.setEnabled(propValue);
+  }
+
+  return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+}
 
 
 
