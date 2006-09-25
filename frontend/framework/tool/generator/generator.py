@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringcompress, extendedoption, treecompiler
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler
 
 
 
@@ -450,7 +450,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     for value in stringMap:
       counter += stringMap[value]
 
-    stringList = stringcompress.sort(stringMap)
+    stringList = stringoptimizer.sort(stringMap)
 
     print "  * Found %s strings (used %s times)" % (len(stringMap), counter)
 
@@ -466,13 +466,13 @@ def execute(fileDb, moduleDb, options, pkgid=""):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      stringcompress.replace(loader.getTree(fileDb, fileId, options), stringList, "$" + pkgid, options.verbose)
+      stringoptimizer.replace(loader.getTree(fileDb, fileId, options), stringList, "$" + pkgid, options.verbose)
 
     if not options.verbose:
       print
 
     print "  * Generating replacement..."
-    additionalOutput.append(stringcompress.replacement(stringList, "$" + pkgid))
+    additionalOutput.append(stringoptimizer.replacement(stringList, "$" + pkgid))
 
 
 
