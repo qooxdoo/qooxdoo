@@ -27,8 +27,8 @@ S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + 
 S_REGEXP = "(\/[^\t\n\r\f\v]+?\/[mgi]*)"
 S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
 S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ","
-S_REGEXP_C = "\s*(=|:)\s*" + S_REGEXP
-S_REGEXP_D = S_REGEXP + "\.(test|exec)\("
+S_REGEXP_C = S_REGEXP + "\.(test|exec)\("
+S_REGEXP_D = S_REGEXP
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
 S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
@@ -41,6 +41,10 @@ R_STRING_B = re.compile("^" + S_STRING_B + "$")
 R_FLOAT = re.compile("^" + S_FLOAT + "$")
 R_OPERATORS = re.compile(S_OPERATORS)
 R_REGEXP = re.compile(S_REGEXP)
+R_REGEXP_A = re.compile(S_REGEXP_A)
+R_REGEXP_B = re.compile(S_REGEXP_B)
+R_REGEXP_C = re.compile(S_REGEXP_C)
+R_REGEXP_D = re.compile(S_REGEXP_D)
 R_ALL = re.compile(S_ALL)
 
 
@@ -155,7 +159,7 @@ def parseStream(content, uniqueId):
   for item in all:
     fragment = item[0]
 
-    # print fragment
+    # print "Found: '%s'" % fragment
 
     if R_MULTICOMMENT.match(fragment):
       # print "Type:MultiComment"
@@ -191,10 +195,32 @@ def parseStream(content, uniqueId):
 
     else:
       fragresult = R_REGEXP.search(fragment)
+
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
-        content = parseFragmentLead(content, fragresult.group(0), tokens)
-        tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine })
+
+        validregexp = False
+
+        if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment):
+          validregexp = True
+
+        elif R_REGEXP_D.match(fragment):
+          pos = content.find(fragment)
+          if pos > 0:
+            lead = content[0:pos].strip()
+
+            # Seems to be an assignment, the only valid other case (maybe currently ;))
+            if lead.endswith("=") or lead.endswith(":"):
+              validregexp = True
+
+        if validregexp:
+          content = parseFragmentLead(content, fragresult.group(0), tokens)
+          tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine })
+        else:
+          # print "Ignore regexp like code: %s" % fragment
+
+          content = parseFragmentLead(content, fragresult.group(0), tokens)
+          tokens.extend(parsePart(recoverEscape(fragment)))
 
       else:
         print "Type:None!"
@@ -237,12 +263,15 @@ def main():
     sys.exit(1)
 
   for fileName in args:
-    print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+    if options.write:
+      print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+    else:
+      print "Compiling %s => stdout" % fileName
 
     tokenString = convertTokensToString(parseFile(fileName))
+
     if options.write:
       filetool.save(fileName + options.extension, tokenString)
-
     else:
       print tokenString
 
