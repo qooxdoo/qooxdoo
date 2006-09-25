@@ -26,6 +26,7 @@ class TokenStream:
     self.tokens = tokens
     self.commentsBefore = None
     self.parsepos = -1
+    self.eolBefore = False
 
   def curr (self):
     """Returns the current token."""
@@ -67,7 +68,7 @@ class TokenStream:
 
   def next (self):
     length = len(self.tokens)
-    commentsBefore = None
+    self.eolBefore = False
 
     token = None
     while self.parsepos < length - 1:
@@ -75,6 +76,7 @@ class TokenStream:
 
       token = self.tokens[self.parsepos]
       if token["type"] == "eol":
+        self.eolBefore = True
         # ignore end of line
         pass
       elif token["type"] == "comment":
@@ -92,6 +94,9 @@ class TokenStream:
       return self.tokens[length - 1]
     else:
       return token
+
+  def hadEolBefore(self):
+    return self.eolBefore
 
   def clearCommentsBefore(self):
     commentsBefore = self.commentsBefore
@@ -329,7 +334,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
       raiseSyntaxException(stream.curr(), expectedDesc)
 
   # check whether this is an operation
-  if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("protected", MULTI_PROTECTED_OPERATORS) or stream.currIsType("token", SINGLE_RIGHT_OPERATORS):
+  if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("protected", MULTI_PROTECTED_OPERATORS) or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore()):
     # its an operation -> We've already parsed the first operand (in item)
     parsedItem = item
 
