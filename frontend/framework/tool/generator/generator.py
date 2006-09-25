@@ -492,20 +492,31 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     else:
       print "  * Searching for variables: ",
 
-    stringMap = {}
-    map = {}
+    variableMap = {}
 
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
       else:
-        #sys.stdout.write(".")
-        #sys.stdout.flush()
+        sys.stdout.write(".")
+        sys.stdout.flush()
         pass
 
-      variableoptimizer.search(loader.getTree(fileDb, fileId, options), map)
+      variableoptimizer.search(loader.getTree(fileDb, fileId, options), variableMap)
 
-    print map
+    if not options.verbose:
+      print
+
+    counter = 0
+    for value in variableMap:
+      counter += variableMap[value]
+
+    variableList = variableoptimizer.sort(variableMap)
+
+    print "  * Found %s variables (declared %s times)" % (len(variableMap), counter)
+
+    for item in variableList:
+      print "%s: defined %s times" % (item["value"], item["number"])
 
 
 
