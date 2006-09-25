@@ -116,6 +116,14 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
   return true;
 }
 
+qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
+{
+  if (this._iconObject) {
+    this._iconObject.setEnabled(propValue);
+  }
+
+  return qx.ui.basic.Atom.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+}
 
 
 
