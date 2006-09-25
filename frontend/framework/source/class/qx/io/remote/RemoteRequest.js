@@ -452,7 +452,9 @@ qx.Proto.getRequestHeaders = function() {
   Add a parameter to the request.
 
   @param vId String identifier of the parameter to add.
-  @param vValue Value of parameter.
+  @param vValue Value of parameter. May be a string (for one parameter) or an
+         array of strings (for setting multiple parameter values with the same
+         parameter name).
 */
 qx.Proto.setParameter = function(vId, vValue) {
   this._parameters[vId] = vValue;
