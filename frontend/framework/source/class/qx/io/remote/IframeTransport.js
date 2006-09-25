@@ -129,7 +129,16 @@ qx.Proto.send = function()
   var vParameters = this.getParameters();
   var vParametersList = [];
   for (var vId in vParameters) {
-    vParametersList.push(vId + qx.constant.Core.EQUAL + vParameters[vId]);
+    var value = vParameters[vId];
+    if (value instanceof Array) {
+      for (var i = 0; i < value.length; i++) {
+        vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+                             encodeURIComponent(value[i]));
+      }
+    } else {
+      vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+                           encodeURIComponent(value));
+    }
   }
 
   if (vParametersList.length > 0) {
