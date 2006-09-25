@@ -81,10 +81,11 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
   elif node.type == "elseStatement":
     # This was a (if)statement without a block around (a set of {})
     if not node.parent.getChild("statement").hasChild("block"):
-      compString += ";"
+      if not compString.endswith(";") and not compString.endswith("\n"):
+        compString += ";"
 
-      if enableNewLines:
-        compString += "\n"
+        if enableNewLines:
+          compString += "\n"
 
     compString += "else"
 
@@ -246,7 +247,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
         childrenNumber += 1
 
     previousType = None
-    separators = [ "assignment", "call", "operation", "definition", "definitionList", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
+    separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "loop", "switch", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
     not_after = [ "case", "default" ]
     not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
 
@@ -300,10 +301,11 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
           if child.type == "third" and node.getChild("first", False) == None and node.getChild("second", False) == None:
             compString += "("
 
-          compString += ";"
+          if not compString.endswith(";") and not compString.endswith("\n"):
+            compString += ";"
 
-          if enableNewLines:
-            compString += "\n"
+            if enableNewLines:
+              compString += "\n"
 
       elif node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
@@ -320,13 +322,14 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
       elif not node.type in not_in:
         if previousType in separators and child.type in separators:
           if not previousType in not_after:
-            if enableDebug:
-              compString += ";/*[Parent:%s|Previous:%s|Child:%s]*/" % (node.type, previousType, child.type)
-            else:
-              compString += ";"
+            if not compString.endswith(";") and not compString.endswith("\n"):
+              if enableDebug:
+                compString += ";/*[Parent:%s|Previous:%s|Child:%s]*/" % (node.type, previousType, child.type)
+              else:
+                compString += ";"
 
-            if enableNewLines:
-              compString += "\n"
+              if enableNewLines:
+                compString += "\n"
 
 
 
