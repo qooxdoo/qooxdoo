@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, cPickle, codecs
-import config, tokenizer, treegenerator, filetool, stringcompress
+import config, tokenizer, treegenerator, filetool, stringoptimizer
 
 
 
@@ -224,7 +224,7 @@ def getStrings(fileDb, fileId, options):
     if loadCache:
       strings = filetool.readCache(cachePath)
     else:
-      strings = stringcompress.search(getTree(fileDb, fileId, options), options.verbose)
+      strings = stringoptimizer.search(getTree(fileDb, fileId, options), options.verbose)
 
       if useCache:
         if options.verbose:
