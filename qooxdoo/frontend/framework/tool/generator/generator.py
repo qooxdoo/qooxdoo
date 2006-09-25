@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer
 
 
 
@@ -76,6 +76,7 @@ def getparser():
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
+  parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size. (ALPHA)")
   parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler (not recommended).")
 
   # Options for resource copying
@@ -413,7 +414,7 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
   ######################################################################
-  #  STRING COMPRESSION
+  #  STRING OPTIMIZATION
   ######################################################################
 
   if options.optimizeStrings:
@@ -473,6 +474,39 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     print "  * Generating replacement..."
     additionalOutput.append(stringoptimizer.replacement(stringList, "$" + pkgid))
+
+
+
+
+  ######################################################################
+  #  LOCAL VARIABLE OPTIMIZATION
+  ######################################################################
+
+  if options.optimizeVariables:
+    print
+    print "  LOCAL VARIABLE OPTIMIZATION:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Searching for variables..."
+    else:
+      print "  * Searching for variables: ",
+
+    stringMap = {}
+    map = {}
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        #sys.stdout.write(".")
+        #sys.stdout.flush()
+        pass
+
+      variableoptimizer.search(loader.getTree(fileDb, fileId, options), map)
+
+    print map
+
 
 
 
