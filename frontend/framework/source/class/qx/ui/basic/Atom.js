@@ -173,7 +173,9 @@ qx.Proto._createIcon = function()
 }
 
 qx.Proto._updateIcon = function() {
-  if (this._iconObject) {
+  // NOTE: We have to check whether the properties "icon" and "disabledIcon"
+  //       exist, because some child classes remove them.
+  if (this._iconObject && this.getIcon && this.getDisabledIcon) {
     var disabledIcon = this.getDisabledIcon();
     if (disabledIcon) {
       if (this.getEnabled()) {

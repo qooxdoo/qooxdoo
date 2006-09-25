@@ -56,6 +56,7 @@ function(vText, vValue, vName, vChecked)
 */
 
 qx.OO.removeProperty({ name : "icon" });
+qx.OO.removeProperty({ name : "disabledIcon" });
 
 /*!
   The HTML name of the form element used by the widget
