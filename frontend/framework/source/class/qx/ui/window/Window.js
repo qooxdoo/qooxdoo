@@ -1009,6 +1009,10 @@ qx.Proto._onwindowmouseup = function(e)
     delete this._resizeWest;
 
     delete this._resizeSession;
+
+    // stop event
+    e.stopPropagation();
+    e.preventDefault();
   }
 }
 
@@ -1091,6 +1095,10 @@ qx.Proto._onwindowmousemove = function(e)
           }
         }
     }
+
+    // stop event
+    e.stopPropagation();
+    e.preventDefault();
   }
   else
   {
@@ -1130,8 +1138,6 @@ qx.Proto._onwindowmousemove = function(e)
       this.setCursor(null);
     }
   }
-
-  e.preventDefault();
 }
 
 
