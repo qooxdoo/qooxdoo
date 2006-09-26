@@ -37,13 +37,18 @@ function() {
  *
  * @param cellInfo {Map} The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return {var} if this is a string, must be the URL of the image to show. If this is a map,
-                 the "url" attribute (type string) must be the URL of the image to show and the 
-                 "tooltip" attribute (type string) must be the image tooltip text
+ * @return {Map} A map having the following attributes:
+ *         <ul>
+ *         <li>"url": (type string) must be the URL of the image to show.</li>
+ *         <li>"imageWidth": (type int) the width of the image in pixels.</li>
+ *         <li>"imageHeight": (type int) the height of the image in pixels.</li>
+ *         <li>"tooltip": (type string) must be the image tooltip text.</li>
+ *         </ul>
  */
 qx.Proto._identifyImage = function(cellInfo) {
   throw new Error("_identifyImage is abstract");
 }
+
 
 /**
  * Retrieves the image infos. 
@@ -80,12 +85,25 @@ qx.Proto._getCellStyle = function(cellInfo) {
   return style;
 }
 
+
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
   var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
 
   var urlAndToolTip = this._getImageInfos(cellInfo);
-  var html = IconDataCellRenderer.IMG_START +  urlAndToolTip.url;
+  var html = IconDataCellRenderer.IMG_START;
+  if (qx.sys.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
+    html += qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif")
+      + '" style="filter:' + qx.ui.basic.Image.IMGLOADER_START + urlAndToolTip.url + qx.ui.basic.Image.IMGLOADER_STOP;
+  } else {
+    html += urlAndToolTip.url + '" style="';
+  }
+
+  if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
+    html += ';width:' + urlAndToolTip.imageWidth + 'px';
+         +  ';height:' + urlAndToolTip.imageHeight + 'px';
+  }
+
   var tooltip = urlAndToolTip.tooltip;
   if (tooltip != null){
     html += IconDataCellRenderer.IMG_TITLE_START + tooltip;
@@ -94,17 +112,34 @@ qx.Proto._getContentHtml = function(cellInfo) {
   return html;
 }
 
+
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
-  
   // Set image and tooltip text  
   var urlAndToolTip = this._getImageInfos(cellInfo);
   var img = cellElement.firstChild;
-  img.src = urlAndToolTip.url;
+  if (qx.sys.Client.getInstance().isMshtml()) {
+    if (/\.png$/i.test(urlAndToolTip.url)) {
+      img.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+      img.style.filter = qx.ui.basic.Image.IMGLOADER_START + urlAndToolTip.url + qx.ui.basic.Image.IMGLOADER_STOP;
+    } else {
+      img.src = urlAndToolTip.url;
+      img.style.filter = "";
+    }
+  } else {
+    img.src = urlAndToolTip.url;
+  }
+
+  if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
+    img.style.width = urlAndToolTip.imageWidth + "px";
+    img.style.height = urlAndToolTip.imageHeight + "px";
+  }
+
   if (urlAndToolTip.tooltip != null){
     img.text = urlAndToolTip.tooltip;
   }
 }
+
 
 // overridden
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
