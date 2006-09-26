@@ -209,6 +209,7 @@ function(vCaption, vIcon, vWindowManager)
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onwindowmousedown, this);
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onwindowmouseup, this);
   this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onwindowmousemove, this);
+  this.addEventListener(qx.constant.Event.CLICK, this._onwindowclick, this);
 
 
   // ************************************************************************
@@ -951,6 +952,10 @@ qx.Proto._onwindowmousedown = function(e)
     // cleanup resize session
     delete this._resizeSession;
   }
+
+  // stop event
+  e.stopPropagation();
+  e.preventDefault();
 }
 
 qx.Proto._onwindowmouseup = function(e)
@@ -1009,11 +1014,11 @@ qx.Proto._onwindowmouseup = function(e)
     delete this._resizeWest;
 
     delete this._resizeSession;
-
-    // stop event
-    e.stopPropagation();
-    e.preventDefault();
   }
+
+  // stop event
+  e.stopPropagation();
+  e.preventDefault();
 }
 
 qx.Proto._near = function(p, e) {
@@ -1095,10 +1100,6 @@ qx.Proto._onwindowmousemove = function(e)
           }
         }
     }
-
-    // stop event
-    e.stopPropagation();
-    e.preventDefault();
   }
   else
   {
@@ -1138,9 +1139,18 @@ qx.Proto._onwindowmousemove = function(e)
       this.setCursor(null);
     }
   }
+
+  // stop event
+  e.stopPropagation();
+  e.preventDefault();
 }
 
-
+qx.Proto._onwindowclick = function(e)
+{
+  // stop event
+  e.stopPropagation();
+  e.preventDefault();
+};
 
 
 
