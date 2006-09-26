@@ -646,12 +646,15 @@ if (qx.sys.Client.getInstance().isGecko())
 
       case qx.constant.Event.MOUSEUP:
         // Add additional click event if the dispatch target is the same, but the dom target is different
-        if (this._lastMouseDownDispatchTarget === vDispatchTarget && vDomTarget !== this._lastMouseDownDomTarget) {
+        if (this._lastMouseDownDispatchTarget === vDispatchTarget && vDomTarget !== this._lastMouseDownDomTarget)
+        {
           vReturn = true;
         }
-
-        this._lastMouseDownDomTarget = null;
-        this._lastMouseDownDispatchTarget = null;
+        else
+        {
+          this._lastMouseDownDomTarget = null;
+          this._lastMouseDownDispatchTarget = null;
+        }
     }
 
     return vReturn;
@@ -869,8 +872,12 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
     // Fix Click (Gecko Bug, see above)
-    if (vFixClick) {
-      this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK, vDomTarget);
+    if (vFixClick)
+    {
+      this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK, this._lastMouseDownDomTarget);
+
+      this._lastMouseDownDomTarget = null;
+      this._lastMouseDownDispatchTarget = null;
     }
   }
   catch(ex)
