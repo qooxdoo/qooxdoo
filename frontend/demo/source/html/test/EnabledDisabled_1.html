@@ -186,6 +186,43 @@
 
     d.add(swtf1);
 
+    //-----------
+    // ComboBox
+    //-----------
+
+    var cb1 = new qx.ui.form.ComboBox;
+    with(cb1)
+    {
+      setTop(436);
+      setLeft(20);
+      setEnabled(false);
+      setEditable(true);
+    };
+
+    d.add(cb1);
+
+    cb1.addEventListener("beforeInitialOpen", function(e)
+    {
+      var item;
+
+      for(var i=1; i<=30; i++)
+      {
+        item = new qx.ui.form.ListItem("Item No " + i);
+        !(i % 10) && (item.setEnabled(false));
+        cb1.add(item);
+      };
+    });
+
+    var swcb1 = new qx.ui.form.CheckBox("Enabled");
+    with(swcb1)
+    {
+      setTop(436);
+      setLeft(220);
+      addEventListener("changeChecked", function(e) { cb1.setEnabled(e.getData()); });
+    };
+
+    d.add(swcb1);
+
   });
 
   </script>
