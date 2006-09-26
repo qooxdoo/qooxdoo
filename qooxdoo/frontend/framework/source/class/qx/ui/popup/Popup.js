@@ -51,9 +51,39 @@ qx.OO.changeProperty({ name : "display", type : qx.constant.Type.BOOLEAN, defaul
 */
 qx.OO.addProperty({ name : "centered", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 
+/**
+ * Whether the popup should be restricted to the visible area of the page when opened.
+ */
+qx.OO.addProperty({ name : "restrictToPageOnOpen", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+
 
 qx.Proto._showTimeStamp = (new Date(0)).valueOf();
 qx.Proto._hideTimeStamp = (new Date(0)).valueOf();
+
+
+/**
+ * The minimum offset to the left of the page too keep when
+ * {@link #restrictToPageOnOpen} is true (in pixels).
+ */
+qx.Settings.setDefault("restrictToPageLeft", "5");
+
+/**
+ * The minimum offset to the right of the page too keep when
+ * {@link #restrictToPageOnOpen} is true (in pixels).
+ */
+qx.Settings.setDefault("restrictToPageRight", "5");
+
+/**
+ * The minimum offset to the top of the page too keep when
+ * {@link #restrictToPageOnOpen} is true (in pixels).
+ */
+qx.Settings.setDefault("restrictToPageTop", "5");
+
+/**
+ * The minimum offset to the bottom of the page too keep when
+ * {@link #restrictToPageOnOpen} is true (in pixels).
+ */
+qx.Settings.setDefault("restrictToPageBottom", "5");
 
 
 
@@ -84,6 +114,53 @@ qx.Proto._beforeDisappear = function()
 
   this._hideTimeStamp = (new Date).valueOf();
 }
+
+qx.Proto._afterAppear = function() {
+  qx.ui.layout.CanvasLayout.prototype._afterAppear.call(this);
+
+  if (this.getRestrictToPageOnOpen()) {
+    var doc = qx.ui.core.ClientDocument.getInstance();
+    var docWidth = doc.getClientWidth();
+    var docHeight = doc.getClientHeight();
+    var restrictToPageLeft   = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageLeft"));
+    var restrictToPageRight  = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageRight"));
+    var restrictToPageTop    = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageTop"));
+    var restrictToPageBottom = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageBottom"));
+    var left   = this.getLeft();
+    var top    = this.getTop();
+    var width  = this.getBoxWidth();
+    var height = this.getBoxHeight();
+
+    var oldLeft = left;
+    var oldTop = top;
+
+    // NOTE: We check right and bottom first, because top and left should have
+    //       priority, when both sides are violated.
+    if (left + width > docWidth - restrictToPageRight) {
+      left = docWidth - restrictToPageRight - width;
+    }
+    if (top + height > docHeight - restrictToPageBottom) {
+      top = docHeight - restrictToPageBottom - height;
+    }
+    if (left < restrictToPageLeft) {
+      left = restrictToPageLeft;
+    }
+    if (top < restrictToPageTop) {
+      top = restrictToPageTop;
+    }
+
+    if (left != oldLeft || top != oldTop) {
+      var self = this;
+      self.getElement().style.visibility = "hidden";
+      window.setTimeout(function() {
+        self.getElement().style.visibility = "";
+        self.setLeft(left);
+        self.setTop(top);
+        qx.ui.core.Widget.flushGlobalQueues();
+      }, 0);
+    }
+  }
+};
 
 
 
