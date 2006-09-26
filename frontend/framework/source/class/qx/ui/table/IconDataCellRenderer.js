@@ -100,7 +100,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
   }
 
   if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-    html += ';width:' + urlAndToolTip.imageWidth + 'px';
+    html += ';width:' + urlAndToolTip.imageWidth + 'px'
          +  ';height:' + urlAndToolTip.imageHeight + 'px';
   }
 
