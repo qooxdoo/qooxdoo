@@ -357,21 +357,17 @@ qx.Proto._onScrollY = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onkeydown = function(evt) {
+  var keys = qx.event.type.KeyEvent.keys;
   var keyCode = evt.getKeyCode();
 
   var consumed = false;
-  if (keyCode == qx.event.type.KeyEvent.keys.space) {
-    if (! this.isEditing()) {
-      // No editing mode
-      this._selectionManager.handleKeyDown(this._focusedRow, evt);
-      consumed = true;
-    }
-  } else if (evt.getModifiers() == 0) {
-    if (this.isEditing()) {
-      // Editing mode
+  var oldFocusedRow = this._focusedRow;
+  if (this.isEditing()) {
+    // Editing mode
+    if (evt.getModifiers() == 0) {
       consumed = true;
       switch (keyCode) {
-        case qx.event.type.KeyEvent.keys.enter:
+        case keys.enter:
           this.stopEditing();
           var oldFocusedRow = this._focusedRow;
           this.moveFocusedCell(0, 1);
@@ -379,7 +375,7 @@ qx.Proto._onkeydown = function(evt) {
             this.startEditing();
           }
           break;
-        case qx.event.type.KeyEvent.keys.esc:
+        case keys.esc:
           this.cancelEditing();
           this.focus();
           break;
@@ -387,60 +383,65 @@ qx.Proto._onkeydown = function(evt) {
           consumed = false;
           break;
       }
-    } else {
-      // No editing mode
+    }
+  } else {
+    // No editing mode
+
+    // Handle keys that are independant from the modifiers
+    consumed = true;
+    switch (keyCode) {
+      case keys.space:
+        this._selectionManager.handleSelectKeyDown(this._focusedRow, evt);
+        break;
+      case keys.left:
+        this.moveFocusedCell(-1, 0);
+        break;
+      case keys.right:
+        this.moveFocusedCell(1, 0);
+        break;
+      case keys.up:
+        this.moveFocusedCell(0, -1);
+        break;
+      case keys.down:
+        this.moveFocusedCell(0, 1);
+        break;
+      case keys.pageup:
+      case keys.pagedown:
+        var scroller = this.getPaneScroller(0);
+        var pane = scroller.getTablePane();
+        var rowCount = pane.getVisibleRowCount() - 1;
+        var rowHeight = pane.getTableRowHeight();
+        var direction = (keyCode == keys.pageup) ? -1 : 1;
+        scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
+        this.moveFocusedCell(0, direction * rowCount);
+        break;
+      case keys.home:
+        this.setFocusedCell(this._focusedCol, 0, true);
+        break;
+      case keys.end:
+        var rowCount = this.getTableModel().getRowCount();
+        this.setFocusedCell(this._focusedCol, rowCount - 1, true);
+        break;
+      default:
+        consumed = false;
+        break;
+    }
+
+    // Handle keys that depend on modifiers
+    if (evt.getModifiers() == 0) {
       consumed = true;
       switch (keyCode) {
-        case qx.event.type.KeyEvent.keys.left:
-          this.moveFocusedCell(-1, 0);
-          break;
-        case qx.event.type.KeyEvent.keys.right:
-          this.moveFocusedCell(1, 0);
-          break;
-        case qx.event.type.KeyEvent.keys.up:
-          this.moveFocusedCell(0, -1);
-          break;
-        case qx.event.type.KeyEvent.keys.down:
-          this.moveFocusedCell(0, 1);
-          break;
-        case qx.event.type.KeyEvent.keys.pageup:
-        case qx.event.type.KeyEvent.keys.pagedown:
-          var scroller = this.getPaneScroller(0);
-          var pane = scroller.getTablePane();
-          var rowCount = pane.getVisibleRowCount() - 1;
-          var rowHeight = pane.getTableRowHeight();
-          var direction = (keyCode == qx.event.type.KeyEvent.keys.pageup) ? -1 : 1;
-          scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
-          this.moveFocusedCell(0, direction * rowCount);
-          break;
-        case qx.event.type.KeyEvent.keys.home:
-          this.setFocusedCell(0, this._focusedRow, true);
-          break;
-        case qx.event.type.KeyEvent.keys.end:
-          var colCount = this.getTableColumnModel().getVisibleColumnCount();
-          this.setFocusedCell(colCount - 1, this._focusedRow, true);
-          break;
-        case qx.event.type.KeyEvent.keys.f2:
-        case qx.event.type.KeyEvent.keys.enter:
+        case keys.f2:
+        case keys.enter:
           this.startEditing();
           break;
         default:
           consumed = false;
           break;
       }
-    }
-  } else if (evt.getModifiers() == qx.event.type.DomEvent.CTRL_MASK) {
-    if (! this.isEditing()) {
-      // No editing mode
+    } else if (evt.getModifiers() == qx.event.type.DomEvent.CTRL_MASK) {
       consumed = true;
       switch (keyCode) {
-        case qx.event.type.KeyEvent.keys.home:
-          this.setFocusedCell(this._focusedCol, 0, true);
-          break;
-        case qx.event.type.KeyEvent.keys.end:
-          var rowCount = this.getTableModel().getRowCount();
-          this.setFocusedCell(this._focusedCol, rowCount - 1, true);
-          break;
         case 65: // Ctrl + A
           var rowCount = this.getTableModel().getRowCount();
           if (rowCount > 0) {
@@ -452,6 +453,11 @@ qx.Proto._onkeydown = function(evt) {
           break;
       }
     }
+  }
+
+  if (oldFocusedRow != this._focusedRow) {
+    // The focus moved -> Let the selection manager handle this event
+    this._selectionManager.handleMoveKeyDown(this._focusedRow, evt);
   }
 
   if (consumed) {
