@@ -898,15 +898,15 @@ class JSON_Date
             $secondsSinceEpoch = time();
         }
 
-        $format = "%Y-%m-%dT%H:%M:%SZ";
-        $m = strptime(gmstrftime($format, $secondsSinceEpoch), $format);
-
-        $this->year = 1900 + $m["tm_year"];
-        $this->month = $m["tm_mon"];
-        $this->day = $m["tm_mday"];
-        $this->hour = $m["tm_hour"];
-        $this->minute = $m["tm_min"];
-        $this->second = $m["tm_sec"];
+        $format = "%Y,%m,%d,%H,%M,%S";
+        $s = gmstrftime($format, $secondsSinceEpoch + 0);
+        $a = split(",", $s);
+        $this->year = $a[0];
+        $this->month = $a[1] - 1;
+        $this->day = $a[2];
+        $this->hour = $a[3];
+        $this->minute = $a[4];
+        $this->second = $a[5];
         $this->millisecond = 0;
     }
 
