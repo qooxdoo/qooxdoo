@@ -60,6 +60,12 @@ qx.Proto.handleMouseDown = function(index, evt) {
       // This index is already selected -> We react when the mouse is released (because of drag and drop)
       this._lastMouseDownHandled = false;
     }
+  } else if (evt.isRightButtonPressed() && evt.getModifiers() == 0) {
+    var selectionModel = this.getSelectionModel();
+    if (!selectionModel.isSelectedIndex(index)) {
+      // This index is not selected -> Set the selection to this index
+      selectionModel.setSelectionInterval(index, index);
+    }
   }
 }
 
@@ -88,14 +94,37 @@ qx.Proto.handleClick = function(index, evt) {
 
 
 /**
- * Handles the key down event.
+ * Handles the key down event that is used as replacement for mouse clicks
+ * (Normally space).
  *
  * @param index {int} the index that is currently focused.
  * @param evt {Map} the key event.
  */
-qx.Proto.handleKeyDown = function(index, evt) {
-  if (evt.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
-    this._handleSelectEvent(index, evt);
+qx.Proto.handleSelectKeyDown = function(index, evt) {
+  this._handleSelectEvent(index, evt);
+};
+
+
+/**
+ * Handles a key down event that moved the focus (E.g. up, down, home, end, ...).
+ *
+ * @param index {int} the index that is currently focused.
+ * @param evt {Map} the key event.
+ */
+qx.Proto.handleMoveKeyDown = function(index, evt) {
+  var selectionModel = this.getSelectionModel();
+  switch (evt.getModifiers()) {
+    case 0:
+      selectionModel.setSelectionInterval(index, index);
+      break;
+    case qx.event.type.DomEvent.SHIFT_MASK:
+      var anchor = selectionModel.getAnchorSelectionIndex();
+      if (anchor == -1) {
+        selectionModel.setSelectionInterval(index, index);
+      } else {
+        selectionModel.setSelectionInterval(anchor, index);
+      }
+      break;
   }
 }
 
