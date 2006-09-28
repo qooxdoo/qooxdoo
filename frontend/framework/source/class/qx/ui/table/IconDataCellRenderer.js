@@ -172,7 +172,7 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   }
 }
 
-qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px';
+qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px;';
 qx.Class.IMG_START = '<img src="';
 qx.Class.IMG_END = '"/>';
 qx.Class.IMG_TITLE_START = '" title="';
