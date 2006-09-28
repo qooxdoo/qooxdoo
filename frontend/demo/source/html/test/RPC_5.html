@@ -73,7 +73,8 @@
           rpc.setServerData(undefined);
         }
 
-        qx.core.Settings.jsonEncodeUndefined = encodeUndefined.isChecked();
+        qx.Settings.setCustomOfClass("qx.io.Json", "encodeUndefined",
+                                     encodeUndefined.isChecked());
 
         try {
           obj = new Object();
