@@ -682,8 +682,6 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
     this.debug("State: " + propValue);
   }
 
-  this.debug("State: " + propValue);
-
   switch(propValue)
   {
     case qx.constant.Net.STATE_CREATED:
