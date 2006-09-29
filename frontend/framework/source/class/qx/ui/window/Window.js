@@ -679,7 +679,7 @@ qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    var t = this.getMode() == qx.ui.window.Window.STATE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
+    var t = this.getMode() == qx.ui.window.Window.MODE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
 
     if (this.getShowMinimize())
     {
@@ -808,12 +808,22 @@ qx.Proto._restoreFromMaximized = function()
 
 qx.Proto._restoreFromMinimized = function()
 {
+  if (this.hasState(qx.ui.window.Window.STATE_MAXIMIZED))
+  {
+    this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
+  }
+
   this.show();
   this.focus();
 }
 
 qx.Proto._maximize = function()
 {
+  if (this.hasState(qx.ui.window.Window.STATE_MAXIMIZED))
+  {
+    return;
+  }
+
   // store current dimension and location
   this._previousLeft = this.getLeft();
   this._previousWidth = this.getWidth();
