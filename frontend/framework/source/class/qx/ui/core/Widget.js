@@ -1367,18 +1367,22 @@ qx.Proto._handleDisplayable = function(vHint)
   // Remove old parent's elements from DOM and delete old parent
   if (vHint && this._oldParent && this._oldParent._initialLayoutDone)
   {
-    if (this.getVisibility()) {
-      this._beforeDisappear();
-    }
+    var vElement = this.getElement();
+    if(vElement) 
+    {
+      if (this.getVisibility()) {
+        this._beforeDisappear();
+      }
 
-    this._beforeRemoveDom();
+      this._beforeRemoveDom();
 
-    this._oldParent._getTargetNode().removeChild(this.getElement());
+      this._oldParent._getTargetNode().removeChild(vElement);
 
-    this._afterRemoveDom();
+      this._afterRemoveDom();
 
-    if (this.getVisibility()) {
-      this._afterDisappear();
+      if (this.getVisibility()) {
+        this._afterDisappear();
+      }
     }
 
     delete this._oldParent;
