@@ -88,15 +88,16 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
   if (window.ActiveXObject)
   {
     var vServers =
-      [
-        "MSXML2.XMLHTTP.6.0",
-        "MSXML2.XMLHTTP.5.0",
-        "MSXML2.XMLHTTP.4.0",
-        "MSXML2.XMLHTTP.3.0",
-        "MSXML2.XMLHTTP.2.0",
-        "MSXML2.XMLHTTP",
-        "Microsoft.XMLHTTP"
-      ];
+    [
+      "MSXML2.XMLHTTP.6.0",
+      "MSXML2.XMLHTTP.5.0",
+      "MSXML2.XMLHTTP.4.0",
+      "MSXML2.XMLHTTP.3.0",
+      "MSXML2.XMLHTTP.2.0",
+      "MSXML2.XMLHTTP",
+      "Microsoft.XMLHTTP"
+    ];
+
     var vObject;
     var vServer;
 
@@ -123,8 +124,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
       }
 
       qx.io.remote.XmlHttpTransport._activeXServer = vServer;
-      qx.io.remote.XmlHttpTransport.createRequestObject =
-        qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
+      qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
 
       return true;
     }
@@ -236,7 +236,7 @@ qx.Proto.send = function()
                 vParametersList.join(qx.constant.Core.AMPERSAND));
   }
 
-   
+
   var encode64 = function (input) {
     var keyStr =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -244,34 +244,34 @@ qx.Proto.send = function()
     var chr1, chr2, chr3;
     var enc1, enc2, enc3, enc4;
     var i = 0;
-    
+
     do {
       chr1 = input.charCodeAt(i++);
       chr2 = input.charCodeAt(i++);
       chr3 = input.charCodeAt(i++);
-    
+
       enc1 = chr1 >> 2;
       enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
       enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
       enc4 = chr3 & 63;
-    
+
       if (isNaN(chr2)) {
         enc3 = enc4 = 64;
       } else if (isNaN(chr3)) {
         enc4 = 64;
       }
-    
+
       output +=
         keyStr.charAt(enc1) +
-        keyStr.charAt(enc2) + 
+        keyStr.charAt(enc2) +
         keyStr.charAt(enc3) +
         keyStr.charAt(enc4);
 
     } while (i < input.length);
-       
+
     return output;
   }
-    
+
   // --------------------------------------
   //   Opening connection
   // --------------------------------------
@@ -379,8 +379,7 @@ qx.Proto._onreadystatechange = function(e)
     case qx.constant.Net.STATE_ABORTED:
     case qx.constant.Net.STATE_FAILED:
     case qx.constant.Net.STATE_TIMEOUT:
-      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
-                                      "enableDebug")) {
+      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
         this.warn("Ignore Ready State Change");
       }
       return;
@@ -388,9 +387,7 @@ qx.Proto._onreadystatechange = function(e)
 
   // Checking status code
   var vReadyState = this.getReadyState();
-  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(),
-                                                 vReadyState,
-                                                 this._localRequest)) {
+  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
     return this.failed();
   }
 
@@ -685,6 +682,8 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
     this.debug("State: " + propValue);
   }
 
+  this.debug("State: " + propValue);
+
   switch(propValue)
   {
     case qx.constant.Net.STATE_CREATED:
@@ -707,14 +706,13 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
       this.createDispatchEvent(qx.constant.Event.COMPLETED);
       break;
 
+    case qx.constant.Net.STATE_FAILED:
+      this.createDispatchEvent(qx.constant.Event.FAILED);
+      break;
+
     case qx.constant.Net.STATE_ABORTED:
       this.getRequest().abort();
       this.createDispatchEvent(qx.constant.Event.ABORTED);
-      break;
-
-    case qx.constant.Net.STATE_FAILED:
-      this.getRequest().abort();
-      this.createDispatchEvent(qx.constant.Event.FAILED);
       break;
 
     case qx.constant.Net.STATE_TIMEOUT:
