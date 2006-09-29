@@ -955,7 +955,9 @@ qx.Proto._onwindowmousedown = function(e)
 
   // stop event
   e.stopPropagation();
-  e.preventDefault();
+
+  // We must not add this because then Firefox couldn't focus widgets inside this window anymore.
+  // e.preventDefault();
 }
 
 qx.Proto._onwindowmouseup = function(e)
