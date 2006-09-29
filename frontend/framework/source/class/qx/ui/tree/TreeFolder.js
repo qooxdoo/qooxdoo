@@ -305,6 +305,83 @@ qx.Proto.getItems = function()
   return a;
 }
 
+/**
+ * <p>deselects, disconnects, removes and disposes the 
+ *    content of the folder and its subfolders.   
+ * </p>
+ * 
+ * <p>the current items subitems (and the subitems of each
+ * subitem) are destoyed going top down the TreeFolder 
+ * hierarchy. The current item is left as is.
+ * </p>
+ */
+qx.Proto.destroyContent = function() {
+  if(this.hasContent()) {
+  
+  	var manager = this.getTree() ? this.getTree().getManager() : null;
+  	
+		var leadItem;
+		var anchorItem;
+  	if(manager) {
+  	  leadItem = manager.getLeadItem();
+  	  anchorItem = manager.getAnchorItem();
+  	}
+  	
+    var items = this.getItems();
+    var item;
+    
+    for(var i=items.length-1;i>=0;--i) {
+      item = items[i];
+
+      // this.getItems seems to also contain this.
+      // In order to avoid endless loops by calling
+      // recursively destroyContent we have to avoid
+      // destroying ourselves
+      if(item != this) {
+        if(manager) {
+          // set the leadItem to null if the current 
+          // destroyed item is the leadItem
+    			if(leadItem == item) {
+    				manager.setLeadItem(null);
+    			}
+          // set the anchorItem to null if the current 
+          // destroyed item is the anchorItem
+    			if(anchorItem == item) {
+    				manager.setAnchorItem(null);
+    			}
+  
+          // if the current destroyed item is
+          // selectd deselect the item. If we are
+          // in single selection mode we have to
+          // call deselectAll because setItemSelected
+          // refuses to deselect in this case  
+    			if(manager.getItemSelected(this)) {
+    				if(manager.getMultiSelection()) {
+    					manager.setItemSelected(this,false);
+    				}
+    				else {
+    					manager.deselectAll();
+    				}
+    			}
+  
+    			// if the item has the method destroyContent defined
+    			// then it is a TreeFolder (and it's subclasses)
+    			// which potentially have content which also 
+    			// has to be destroyed
+          if (item.destroyContent) {
+            item.destroyContent();
+    			}
+        }
+      
+        // first disconnect the item so rendering
+        // of the tree lines can be done correctly
+        item.disconnect();
+        this.remove(item);
+        item.dispose();
+      }
+    }
+  }
+}
 
 
 
