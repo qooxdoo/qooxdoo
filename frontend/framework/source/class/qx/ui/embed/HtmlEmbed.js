@@ -20,6 +20,7 @@
 
 #module(ui_basic)
 #require(qx.renderer.font.FontCache)
+#after(qx.renderer.font.FontObject)
 
 ************************************************************************ */
 
