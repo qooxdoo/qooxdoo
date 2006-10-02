@@ -17,7 +17,7 @@
 
   <script type="text/javascript">
 
-  function createItems (t) {
+    function createItems (t) {
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       t.add(te1);
 
@@ -69,7 +69,7 @@
       };
 
       qx.ui.core.ClientDocument.getInstance().add(t);
-      
+
 
 
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
@@ -149,67 +149,84 @@
       commandFrame.add(tTreeLines);
 
       tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
-      
-      
-      
-      
+
+
+
+
       var vShowItems = new qx.ui.form.Button("Show Items");
-      
+
       with(vShowItems) {
         setTop(100);
         setLeft(0);
       };
-      
+
       commandFrame.add(vShowItems);
-      
+
       vShowItems.addEventListener("execute", function(e) {
         alert(t.getItems());
       });
 
 
-      var vRemoveAllItems = new qx.ui.form.Button("Remove All Items");
-      
-      with(vRemoveAllItems) {
+      var vDestroyTreeContent = new qx.ui.form.Button("Destroy tree content");
+
+      with(vDestroyTreeContent) {
         setTop(180);
         setLeft(0);
       };
-      
-      commandFrame.add(vRemoveAllItems);
-      
-      vRemoveAllItems.addEventListener("execute", function(e) {
+
+      commandFrame.add(vDestroyTreeContent);
+
+      vDestroyTreeContent.addEventListener("execute", function(e) {
  				t.destroyContent();
       });
 
 
-      var vCreateItems = new qx.ui.form.Button("Create Items");
-      
+      var vCreateItems = new qx.ui.form.Button("Create items");
+
       with(vCreateItems) {
         setTop(140);
         setLeft(0);
       };
-      
+
       commandFrame.add(vCreateItems);
 
 			vCreateItems.addEventListener("execute", function(e) {
 				createItems(t);
 			});
 
-      var vRemoveSelectedItem = new qx.ui.form.Button("Remove selected Item");
-      
-      with(vRemoveSelectedItem) {
+      var vDestroySelectedItem = new qx.ui.form.Button("Destroy selected item");
+
+      with(vDestroySelectedItem) {
         setTop(220);
         setLeft(0);
       };
-      
-      commandFrame.add(vRemoveSelectedItem);
-      
-      vRemoveSelectedItem.addEventListener("execute", function(e) {
+
+      commandFrame.add(vDestroySelectedItem);
+
+      vDestroySelectedItem.addEventListener("execute", function(e) {
       	var vItem = t.getManager().getSelectedItem();
       	if(vItem) {
 	      	vItem.destroy();
 	      }
       });
-      
+
+
+      var vDestroyContenSelectedItem = new qx.ui.form.Button("Destroy content of selected item");
+
+      with(vDestroyContenSelectedItem) {
+        setTop(260);
+        setLeft(0);
+      };
+
+      commandFrame.add(vDestroyContenSelectedItem);
+
+      vDestroyContenSelectedItem.addEventListener("execute", function(e) {
+      	var vItem = t.getManager().getSelectedItem();
+      	if(vItem && vItem instanceof qx.ui.tree.TreeFolder) {
+	      	vItem.destroyContent();
+	      }
+      });
+
     });
   </script>
 </body>
