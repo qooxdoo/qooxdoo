@@ -355,9 +355,9 @@ qx.Proto.destroyContent = function() {
           // in single selection mode we have to
           // call deselectAll because setItemSelected
           // refuses to deselect in this case  
-    			if(manager.getItemSelected(this)) {
+    			if(manager.getItemSelected(item)) {
     				if(manager.getMultiSelection()) {
-    					manager.setItemSelected(this,false);
+    					manager.setItemSelected(item,false);
     				}
     				else {
     					manager.deselectAll();
