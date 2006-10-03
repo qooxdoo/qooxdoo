@@ -8,6 +8,7 @@ APPCLASS = custom.Application
 INCLUDEALL = true
 OLDCOMPILER = false
 OPTIMIZESTRINGS = true
+OPTIMIZEVARIABLES = true
 NICE=10
 
 
@@ -34,9 +35,15 @@ else
 endif
 
 ifeq ($(OPTIMIZESTRINGS),true)
-  OPTIMIZE = --optimize-strings
+  OPTIMIZESTR = --optimize-strings
 else
-  OPTIMIZE =
+  OPTIMIZESTR =
+endif
+
+ifeq ($(OPTIMIZEVARIABLES),true)
+  OPTIMIZEVAR = --optimize-variables
+else
+  OPTIMIZEVAR =
 endif
 
 
@@ -114,7 +121,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
-	  $(INCLUDE) $(COMPILER) $(OPTIMIZE) \
+	  $(INCLUDE) $(COMPILER) $(OPTIMIZESTR) $(OPTIMIZEVAR) \
 	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
