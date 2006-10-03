@@ -37,6 +37,9 @@ class Node:
     if len(self.attributes) == 0:
       del self.attributes
 
+  def hasParent(self):
+    return hasattr(self, "parent")
+
   def hasChildren(self):
     return hasattr(self, "children")
 
