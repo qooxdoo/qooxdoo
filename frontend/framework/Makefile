@@ -55,6 +55,7 @@ realclean: clean
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) rm -rf build source/script
+	@nice -n $(NICE) rm -rf debug-tokens debug-tree
 
 distclean: realclean
 	@echo
