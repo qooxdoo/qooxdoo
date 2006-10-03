@@ -2,11 +2,7 @@
 
 import tree
 
-# HEX
-# table = "0123456789abcdef"
-
-# Numbers and Characters
-table = "0123456789abcdefghijklmnopqrstuvwxyz"
+table = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def search(node, list, level=0, prefix="$"):
   if node.type == "function":
