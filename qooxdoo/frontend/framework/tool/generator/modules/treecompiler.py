@@ -75,8 +75,14 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
   elif node.type == "break":
     compString += "break"
 
+    if node.get("label", False):
+      compString += " " + node.get("label", False)
+
   elif node.type == "continue":
     compString += "continue"
+
+    if node.get("label", False):
+      compString += " " + node.get("label", False)
 
   elif node.type == "elseStatement":
     # This was a (if)statement without a block around (a set of {})
@@ -221,6 +227,9 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
         compString += ":"
       else:
         print "Unknown third argument... Not a hook"
+
+  elif node.type == "labelTerminator":
+    compString += ":"
 
 
 
