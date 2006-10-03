@@ -478,6 +478,8 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
 
 
+
+
   ######################################################################
   #  LOCAL VARIABLE OPTIMIZATION
   ######################################################################
@@ -488,11 +490,9 @@ def execute(fileDb, moduleDb, options, pkgid=""):
     print "----------------------------------------------------------------------------"
 
     if options.verbose:
-      print "  * Searching for variables..."
+      print "  * Optimizing variables..."
     else:
-      print "  * Searching for variables: ",
-
-    variableMap = {}
+      print "  * Optimizing variables: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -500,27 +500,11 @@ def execute(fileDb, moduleDb, options, pkgid=""):
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
-        pass
 
-      variableoptimizer.search(loader.getTree(fileDb, fileId, options), variableMap)
+      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$")
 
     if not options.verbose:
       print
-
-    counter = 0
-    for value in variableMap:
-      counter += variableMap[value]
-
-    variableList = variableoptimizer.sort(variableMap)
-
-    print "  * Found %s variables (declared %s times)" % (len(variableMap), counter)
-
-    for item in variableList:
-      print "%s: defined %s times" % (item["value"], item["number"])
-
-
-
-
 
 
 
