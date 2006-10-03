@@ -88,6 +88,7 @@ generate-script-build:
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
+	  --optimize-variables \
 	  $(COMPILER) \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
