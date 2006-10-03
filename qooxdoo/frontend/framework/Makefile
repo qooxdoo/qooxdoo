@@ -77,6 +77,7 @@ generate-all:
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
+	  --optimize-variables \
 	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
@@ -91,6 +92,7 @@ generate-compile:
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
+	  --optimize-variables \
 	  $(COMPILER) \
 	  --cache-directory $(CACHE)
 
@@ -108,6 +110,7 @@ generate-build:
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
+	  --optimize-variables \
 	  $(COMPILER) \
 	  --copy-resources \
 	  --resource-input source/resource \

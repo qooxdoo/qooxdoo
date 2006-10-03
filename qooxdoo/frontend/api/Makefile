@@ -95,6 +95,7 @@ generate-script-build:
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/api.js \
 	  --optimize-strings \
+	  --optimize-variables \
 	  $(COMPILER) \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
