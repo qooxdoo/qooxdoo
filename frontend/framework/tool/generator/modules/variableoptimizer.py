@@ -2,61 +2,107 @@
 
 import tree
 
+# HEX
+# table = "0123456789abcdef"
 
+# Numbers and Characters
+table = "0123456789abcdefghijklmnopqrstuvwxyz"
 
+def search(node, list, level=0, prefix="$"):
+  if node.type == "function":
+    # print "%s<scope line='%s'>" % (("  " * level), node.get("line"))
 
-def search(node, map):
-  if node.type == "variable" and node.parent.type == "params":
-    if node.hasChildren() and len(node.children) == 1:
+    funcName = node.get("name", False)
+    if funcName != None:
+      # print "Name: %s" % funcName
+      list.append(funcName)
+
+    # TODO: better copy method?
+    newlist = []
+    for item in list:
+      newlist.append(item)
+    list = newlist
+
+  # e.g. func(name1, name2);
+  elif node.type == "variable" and node.hasChildren() and len(node.children) == 1:
+    if node.parent.type == "params" and node.parent.parent.type != "call":
       first = node.getFirstChild()
 
       if first.type == "identifier":
         name = first.get("name")
 
-        if not map.has_key(name):
-          map[name] = 1
-        else:
-          map[name] += 1
+        if not name in list:
+          list.append(name)
 
-
-
+  # e.g. var name1, name2 = "foo";
   elif node.type == "definition":
     name = node.get("identifier", False)
     if name != None:
-      if not map.has_key(name):
-        map[name] = 1
-      else:
-        map[name] += 1
+      if not name in list:
+        list.append(name)
 
-
-  elif node.type == "function":
-    name = node.get("name", False)
-    if name != None:
-      if not map.has_key(name):
-        map[name] = 1
-      else:
-        map[name] += 1
-
-
-
-
+  # Iterate over children
   if node.hasChildren():
     for child in node.children:
-      search(child, map)
+      search(child, list, level+1, prefix)
+
+  # Function closed
+  if node.type == "function":
+
+    # Debug
+    # for item in list:
+    #   print "  %s<item>%s</item>" % (("  " * level), item)
+    # print "%s</scope>" % ("  " * level)
+
+    # Iterate over content
+    # Replace variables in current scope
+    update(node, list, prefix)
 
 
 
+def update(node, list, prefix="$"):
+  # Handle all identifiers
+  if node.type == "identifier":
+    # inside a variable parent only respect the first member
+    if node.parent.type != "variable" or node.parent.getFirstChild(True, True) == node:
+      idenName = node.get("name", False)
+
+      if idenName != None and idenName in list:
+        replName = "%s%s" % (prefix, mapper(list.index(idenName)))
+        node.set("name", replName)
+
+        # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+
+  # Handle variable definition
+  elif node.type == "definition":
+    idenName = node.get("identifier", False)
+
+    if idenName != None and idenName in list:
+      replName = "%s%s" % (prefix, mapper(list.index(idenName)))
+      node.set("identifier", replName)
+
+      # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+
+  # Iterate over children
+  if node.hasChildren():
+    for child in node.children:
+      update(child, list, prefix)
 
 
 
-def sort(variableMap):
-  variableList = []
+def mapper(current):
+  # Possibilities with each character
+  # 1: 36 = 36
+  # 2: 36*36 = 1296
+  # 3: 36*36*36 = 46656
 
-  for value in variableMap:
-    variableList.append({ "value" : value, "number" : variableMap[value] })
+  res = ""
+  length = len(table) - 1
 
-  variableList.sort(lambda x, y: y["number"]-x["number"])
+  if current / length > 0:
+    res += mapper(current / length)
 
-  return variableList
+  res += table[current % length]
 
+  return res
 
