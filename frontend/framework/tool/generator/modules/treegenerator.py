@@ -317,14 +317,26 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
   elif not expressionMode and stream.currIsType("protected", "BREAK"):
     item = createItemNode("break", stream)
     stream.next()
+    # NOTE: The label after the break keyword is optional
+    if not stream.hadEolBefore() and stream.currIsType("name"):
+      item.set("label", stream.currSource())
+      stream.next()
   elif not expressionMode and stream.currIsType("protected", "CONTINUE"):
     item = createItemNode("continue", stream)
     stream.next()
+    # NOTE: The label after the continue keyword is optional
+    if not stream.hadEolBefore() and stream.currIsType("name"):
+      item.set("label", stream.currSource())
+      stream.next()
 
   if not item:
     if stream.currIsType("token", "SEMICOLON") and not expressionMode:
       # This is an empty statement
       item = createItemNode("emptyStatement", stream)
+      stream.next()
+    elif stream.currIsType("token", "COLON"):
+      # The previous identifier was a label
+      item = createItemNode("labelTerminator", stream)
       stream.next()
     else:
       if expressionMode:
