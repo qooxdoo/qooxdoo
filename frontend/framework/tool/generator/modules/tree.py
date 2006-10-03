@@ -91,16 +91,28 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
-  def getFirstChild(self, mandatory = True):
+  def getFirstChild(self, mandatory = True, ignoreComments = False):
     if self.hasChildren():
-      return self.children[0]
+      for child in self.children:
+        if not ignoreComments or (child.type != "comment" and child.type != "commentsBefore"):
+          return child
 
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
 
-  def getLastChild(self, mandatory = True):
+  def getLastChild(self, mandatory = True, ignoreComments = False):
     if self.hasChildren():
-      return self.children[-1]
+      if not ignoreComments:
+        return self.children[-1]
+      else:
+        pos = len(self.children) - 1
+        while pos > 0:
+          child = self.children[pos]
+
+          if child.type != "comment" and child.type != "commentsBefore":
+            return child
+
+          pos -= 1
 
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
