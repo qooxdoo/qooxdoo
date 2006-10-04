@@ -40,7 +40,7 @@ function() {
 /**
  * The selection model where to set the selection changes.
  */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.SelectionModel" });
+qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance:"qx.ui.table.SelectionModel" });
 
 
 /**
