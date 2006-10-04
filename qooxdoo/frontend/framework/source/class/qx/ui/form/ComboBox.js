@@ -317,9 +317,14 @@ qx.Proto._openPopup = function()
 qx.Proto._closePopup = function()
 {
   this._popup.hide();
-
   this.setCapture(false);
-  this.setFocused(true);
+}
+
+qx.Proto._testClosePopup = function()
+{
+  if (this._popup.isSeeable()) {
+    this._closePopup();
+  }
 }
 
 qx.Proto._togglePopup = function() {
@@ -398,6 +403,7 @@ qx.Proto._onmousedown = function(e)
         this.setSelected(this._list.getSelectedItem());
 
         this._closePopup();
+        this.setFocused(true);
       }
       else if (this._popup.isSeeable())
       {
@@ -488,6 +494,7 @@ qx.Proto._onkeydown = function(e)
       {
         this.setSelected(this._manager.getSelectedItem());
         this._closePopup();
+        this.setFocused(true);
       }
       else
       {
@@ -508,6 +515,7 @@ qx.Proto._onkeydown = function(e)
         this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.constant.Core.EMPTY);
 
         this._closePopup();
+        this.setFocused(true);
       }
 
       return;
@@ -621,8 +629,8 @@ qx.Proto._onkeypress = function(e)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onwindowblur = qx.Proto._closePopup;
-qx.Proto._onwindowfocus = qx.Proto._closePopup;
+qx.Proto._onwindowblur = qx.Proto._testClosePopup;
+qx.Proto._onwindowfocus = qx.Proto._testClosePopup;
 
 
 
