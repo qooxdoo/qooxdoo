@@ -25,10 +25,14 @@
  * The table pane that shows a certain section from a table. This class handles
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
+ *
+ * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
-function() {
+function(paneScroller) {
   qx.ui.basic.Terminator.call(this);
+
+  this._paneScroller = paneScroller;
 
   this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
 
@@ -44,18 +48,6 @@ qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaul
 
 /** The number of rows to show. */
 qx.OO.addProperty({ name:"visibleRowCount", type:qx.constant.Type.NUMBER, defaultValue:0 });
-
-/** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
-
-/** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
-
-/** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
-
-/** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
 
 /** Whether the focused row should be highlighted. */
 qx.OO.addProperty({ name:"highlightFocusRow", type:qx.constant.Type.BOOLEAN, allowNull:false, defaultValue:true});
@@ -75,52 +67,6 @@ qx.Proto._modifyVisibleRowCount = function(propValue, propOldValue, propData) {
 }
 
 
-// property modifier
-qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener("selectionChanged", this._onSelectionChanged, this);
-  }
-  propValue.addEventListener("selectionChanged", this._onSelectionChanged, this);
-
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-  }
-  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener("widthChanged", this._onWidthChanged, this);
-    propOldValue.removeEventListener("orderChanged", this._onOrderChanged, this);
-  }
-  propValue.addEventListener("widthChanged", this._onWidthChanged, this);
-  propValue.addEventListener("orderChanged", this._onOrderChanged, this);
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
-  }
-  propValue.addEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
-  return true;
-}
-
-
 // overridden
 qx.Proto._afterAppear = function() {
   qx.ui.basic.Terminator.prototype._afterAppear.call(this);
@@ -131,6 +77,26 @@ qx.Proto._afterAppear = function() {
     this._updateContent();
     this._updateWantedWhileInvisible = false;
   }
+};
+
+
+/**
+ * Returns the TablePaneScroller this pane belongs to.
+ *
+ * @return {TablePaneScroller} the TablePaneScroller.
+ */
+qx.Proto.getPaneScroller = function() {
+  return this._paneScroller;
+};
+
+
+/**
+ * Returns the table this pane belongs to.
+ *
+ * @return {Table} the table.
+ */
+qx.Proto.getTable = function() {
+  return this._paneScroller.getTable();
 };
 
 
@@ -185,7 +151,7 @@ qx.Proto._onSelectionChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onWidthChanged = function(evt) {
+qx.Proto._onColWidthChanged = function(evt) {
   this._updateContent(true);
 }
 
@@ -195,7 +161,7 @@ qx.Proto._onWidthChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onOrderChanged = function(evt) {
+qx.Proto._onColOrderChanged = function(evt) {
   this._updateContent(true);
 }
 
@@ -267,10 +233,10 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 {
   var TablePane = qx.ui.table.TablePane;
 
-  var selectionModel = this.getSelectionModel();
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
+  var selectionModel = this.getTable().getSelectionModel();
+  var tableModel = this.getTable().getTableModel();
+  var columnModel = this.getTable().getTableColumnModel();
+  var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var colCount = paneModel.getColumnCount();
   var rowHeight = this.getTableRowHeight();
@@ -383,10 +349,10 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 {
   var TablePane = qx.ui.table.TablePane;
 
-  var selectionModel = this.getSelectionModel();
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
+  var selectionModel = this.getTable().getSelectionModel();
+  var tableModel = this.getTable().getTableModel();
+  var columnModel = this.getTable().getTableColumnModel();
+  var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var colCount = paneModel.getColumnCount();
   var rowHeight = this.getTableRowHeight();
@@ -500,7 +466,7 @@ qx.Proto._cleanUpRows = function(firstRowToRemove) {
   var elem = this.getElement();
   if (elem) {
     var childNodes = this.getElement().childNodes;
-    var paneModel = this.getTablePaneModel();
+    var paneModel = this.getPaneScroller().getTablePaneModel();
     var colCount = paneModel.getColumnCount();
     for (var y = childNodes.length - 1; y >= firstRowToRemove; y--) {
       elem.removeChild(childNodes[y]);
@@ -526,7 +492,7 @@ qx.Proto.dispose = function() {
 
   if (this._tableColumnModel != null) {
     this._tableColumnModel.removeEventListener("widthChanged", this._onWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
+    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
   if (this._tablePaneModel != null) {

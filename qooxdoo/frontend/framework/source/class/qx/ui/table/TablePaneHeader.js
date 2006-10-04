@@ -23,54 +23,35 @@
 
 /**
  * Shows the header of a table.
+ *
+ * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePaneHeader", qx.ui.layout.HorizontalBoxLayout,
-function() {
+function(paneScroller) {
   qx.ui.layout.HorizontalBoxLayout.call(this);
+
+  this._paneScroller = paneScroller;
 });
 
 
-/** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
-
-/** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
-
-/** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
-
-
-// property modifier
-qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-  }
-  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-
-  return true;
-}
+/**
+ * Returns the TablePaneScroller this header belongs to.
+ *
+ * @return {TablePaneScroller} the TablePaneScroller.
+ */
+qx.Proto.getPaneScroller = function() {
+  return this._paneScroller;
+};
 
 
-// property modifier
-qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener("widthChanged", this._onWidthChanged, this);
-    propOldValue.removeEventListener("orderChanged", this._onOrderChanged, this);
-  }
-  propValue.addEventListener("widthChanged", this._onWidthChanged, this);
-  propValue.addEventListener("orderChanged", this._onOrderChanged, this);
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
-  if (propOldValue != null) {
-    propOldValue.removeEventListener("modelChanged", this._onPaneModelChanged, this);
-  }
-  propValue.addEventListener("modelChanged", this._onPaneModelChanged, this);
-  return true;
-}
+/**
+ * Returns the table this header belongs to.
+ *
+ * @return {Table} the table.
+ */
+qx.Proto.getTable = function() {
+  return this._paneScroller.getTable();
+};
 
 
 /**
@@ -78,7 +59,7 @@ qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onWidthChanged = function(evt) {
+qx.Proto._onColWidthChanged = function(evt) {
   var data = evt.getData();
   this.setColumnWidth(data.col, data.newWidth);
 }
@@ -89,7 +70,7 @@ qx.Proto._onWidthChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onOrderChanged = function(evt) {
+qx.Proto._onColOrderChanged = function(evt) {
   this._updateContent(true);
 }
 
@@ -121,7 +102,7 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
  * @param width {int} the new width.
  */
 qx.Proto.setColumnWidth = function(col, width) {
-  var x = this.getTablePaneModel().getX(col);
+  var x = this.getPaneScroller().getTablePaneModel().getX(col);
   var children = this.getChildren();
   if (children[x] != null) {
     children[x].setWidth(width);
@@ -137,7 +118,7 @@ qx.Proto.setColumnWidth = function(col, width) {
  */
 qx.Proto.setMouseOverColumn = function(col) {
   if (col != this._lastMouseOverColumn) {
-    var paneModel = this.getTablePaneModel();
+    var paneModel = this.getPaneScroller().getTablePaneModel();
     var children = this.getChildren();
 
     if (this._lastMouseOverColumn != null) {
@@ -165,7 +146,7 @@ qx.Proto.setMouseOverColumn = function(col) {
 qx.Proto.showColumnMoveFeedback = function(col, x) {
   var elem = this.getElement();
   if (this._moveFeedback == null) {
-    var xPos = this.getTablePaneModel().getX(col);
+    var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
     var cellWidget = this.getChildren()[xPos];
 
     // Create the feedback
@@ -173,8 +154,8 @@ qx.Proto.showColumnMoveFeedback = function(col, x) {
     //       added to another component we have to create a new one
     //       using the renderer
     //this._moveFeedback = cellWidget.clone();
-    var tableModel = this.getTableModel();
-    var columnModel = this.getTableColumnModel();
+    var tableModel = this.getTable().getTableModel();
+    var columnModel = this.getTable().getTableColumnModel();
     var cellInfo = { xPos:xPos, col:col, name:tableModel.getColumnName(col) }
     var cellRenderer = columnModel.getHeaderCellRenderer(col);
     this._moveFeedback = cellRenderer.createHeaderCell(cellInfo);
@@ -233,9 +214,9 @@ qx.Proto.calculateHeaderHeight = function() {
  *    complete update all header widgets are recreated.
  */
 qx.Proto._updateContent = function(completeUpdate) {
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
-  var paneModel = this.getTablePaneModel();
+  var tableModel = this.getTable().getTableModel();
+  var columnModel = this.getTable().getTableColumnModel();
+  var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var children = this.getChildren();
   var oldColCount = children.length;
@@ -309,7 +290,7 @@ qx.Proto.dispose = function() {
 
   if (this._tableColumnModel != null) {
     this._tableColumnModel.removeEventListener("widthChanged", this._onWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
+    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
   if (this._tablePaneModel != null) {
