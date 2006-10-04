@@ -26,14 +26,13 @@
  * a {@link TablePane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
  *
- * @param scrollerPool {TablePaneScrollerPool} the scroller pool the scroller
- *        belongs to.
+ * @param table {Table} the table the scroller belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePaneScroller", qx.ui.layout.VerticalBoxLayout,
-function(scrollerPool) {
+function(table) {
   qx.ui.layout.VerticalBoxLayout.call(this);
 
-  this._scrollerPool = scrollerPool;
+  this._table = table;
 
   // init scrollbars
   this._verScrollBar = new qx.ui.core.ScrollBar(false);
@@ -50,7 +49,7 @@ function(scrollerPool) {
   this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
 
   // init header
-  this._header = new qx.ui.table.TablePaneHeader;
+  this._header = new qx.ui.table.TablePaneHeader(this);
   this._header.set({ width:qx.constant.Core.AUTO, height:qx.constant.Core.AUTO });
 
   this._headerClipper = new qx.ui.layout.CanvasLayout;
@@ -70,7 +69,7 @@ function(scrollerPool) {
   }
 
   // init pane
-  this._tablePane = new qx.ui.table.TablePane;
+  this._tablePane = new qx.ui.table.TablePane(this);
   this._tablePane.set({ width:qx.constant.Core.AUTO, height:qx.constant.Core.AUTO });
 
   this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
@@ -98,9 +97,6 @@ function(scrollerPool) {
 
   this.add(this._top, scrollerBody, this._horScrollBar);
 
-  // init managers
-  this._selectionManager = new qx.ui.table.SelectionManager;
-
   // init event handlers
   this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove, this);
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
@@ -116,17 +112,8 @@ qx.OO.addProperty({ name:"horizontalScrollBarVisible", type:qx.constant.Type.BOO
 /** Whether to show the vertical scroll bar */
 qx.OO.addProperty({ name:"verticalScrollBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
 
-/** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
-
-/** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
-
-/** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
-
 /** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TablePaneModel" });
+qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance:"qx.ui.table.TablePaneModel" });
 
 /** The current position of the the horizontal scroll bar. */
 qx.OO.addProperty({ name:"scrollX", type:qx.constant.Type.NUMBER, allowNull:false, defaultValue:0 });
@@ -188,49 +175,12 @@ qx.Proto._modifyVerticalScrollBarVisible = function(propValue, propOldValue, pro
 
 
 // property modifier
-qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
-  this._selectionManager.setSelectionModel(propValue);
-  this._tablePane.setSelectionModel(propValue);
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
-  this._header.setTableModel(propValue);
-  this._tablePane.setTableModel(propValue);
-
-  if (propOldValue != null) {
-    propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-  }
-  propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-
-  return true;
-}
-
-
-// property modifier
-qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
-  this._header.setTableColumnModel(propValue);
-  this._tablePane.setTableColumnModel(propValue);
-
-  if (propOldValue != null) {
-    propOldValue.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-    propOldValue.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    propOldValue.removeEventListener("orderChanged", this._onOrderChanged, this);
-  }
-  propValue.addEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-  propValue.addEventListener("widthChanged", this._onColWidthChanged, this);
-  propValue.addEventListener("orderChanged", this._onOrderChanged, this);
-
-  return true;
-}
-
-
-// property modifier
 qx.Proto._modifyTablePaneModel = function(propValue, propOldValue, propData) {
-  this._header.setTablePaneModel(propValue);
-  this._tablePane.setTablePaneModel(propValue);
+  if (propOldValue != null) {
+    propOldValue.removeEventListener("modelChanged", this._onPaneModelChanged, this);
+  }
+  propValue.addEventListener("modelChanged", this._onPaneModelChanged, this);
+
   return true;
 }
 
@@ -250,6 +200,16 @@ qx.Proto._modifyScrollY = function(propValue, propOldValue, propData) {
 
 
 /**
+ * Returns the table this scroller belongs to.
+ *
+ * @return {Table} the table.
+ */
+qx.Proto.getTable = function() {
+  return this._table;
+};
+
+
+/**
  * Event handler. Called when the visibility of a column has changed.
  *
  * @param evt {Map} the event.
@@ -266,6 +226,9 @@ qx.Proto._onColVisibilityChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
+  this._header._onColWidthChanged(evt);
+  this._tablePane._onColWidthChanged(evt);
+
   var data = evt.getData();
   var paneModel = this.getTablePaneModel();
   var x = paneModel.getX(data.col);
@@ -282,7 +245,10 @@ qx.Proto._onColWidthChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onOrderChanged = function(evt) {
+qx.Proto._onColOrderChanged = function(evt) {
+  this._header._onColOrderChanged(evt);
+  this._tablePane._onColOrderChanged(evt);
+
   this._updateHorScrollBarMaximum();
 }
 
@@ -293,7 +259,9 @@ qx.Proto._onOrderChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onTableModelDataChanged = function(evt) {
-  var rowCount = this.getTableModel().getRowCount();
+  this._tablePane._onTableModelDataChanged(evt);
+
+  var rowCount = getTable().getTableModelTableModel().getRowCount();
   if (rowCount != this._lastRowCount) {
     this._lastRowCount = rowCount;
 
@@ -310,6 +278,38 @@ qx.Proto._onTableModelDataChanged = function(evt) {
 
 
 /**
+ * Event handler. Called when the selection has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onSelectionChanged = function(evt) {
+  this._tablePane._onSelectionChanged(evt);
+};
+
+
+/**
+ * Event handler. Called when the table model meta data has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onTableModelMetaDataChanged = function(evt) {
+  this._header._onTableModelMetaDataChanged(evt);
+  this._tablePane._onTableModelMetaDataChanged(evt);
+};
+
+
+/**
+ * Event handler. Called when the pane model has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onPaneModelChanged = function(evt) {
+  this._header._onPaneModelChanged(evt);
+  this._tablePane._onPaneModelChanged(evt);
+};
+
+
+/**
  * Updates the maximum of the horizontal scroll bar, so it corresponds to the
  * total width of the columns in the table pane.
  */
@@ -323,7 +323,7 @@ qx.Proto._updateHorScrollBarMaximum = function() {
  * number of rows in the table.
  */
 qx.Proto._updateVerScrollBarMaximum = function() {
-  var rowCount = this.getTableModel().getRowCount();
+  var rowCount = this.getTable().getTableModel().getRowCount();
   var rowHeight = this._tablePane.getTableRowHeight();
   this._verScrollBar.setMaximum(rowCount * rowHeight);
 }
@@ -399,8 +399,8 @@ qx.Proto._onmousewheel = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onmousemove = function(evt) {
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
+  var tableModel = this.getTable().getTableModel();
+  var columnModel = this.getTable().getTableColumnModel();
 
   var useResizeCursor = false;
   var mouseOverColumn = null;
@@ -437,7 +437,7 @@ qx.Proto._onmousemove = function(evt) {
     this._header.showColumnMoveFeedback(this._moveColumn, this._lastMoveColPos);
 
     // Get the responsible scroller
-    var targetScroller = this._scrollerPool ? this._scrollerPool.getTablePaneScrollerAtPageX(pageX) : this;
+    var targetScroller = this._table.getTablePaneScrollerAtPageX(pageX);
     if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
       this._lastMoveTargetScroller.hideColumnMoveFeedback();
     }
@@ -486,8 +486,8 @@ qx.Proto._onmousemove = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onmousedown = function(evt) {
-  var tableModel = this.getTableModel();
-  var columnModel = this.getTableColumnModel();
+  var tableModel = this.getTable().getTableModel();
+  var columnModel = this.getTable().getTableColumnModel();
 
   var pageX = evt.getPageX();
   var pageY = evt.getPageY();
@@ -518,7 +518,7 @@ qx.Proto._onmousedown = function(evt) {
       this._focusCellAtPagePos(pageX, pageY);
     }
 
-    this._selectionManager.handleMouseDown(row, evt);
+    this.getTable()._getSelectionManager().handleMouseDown(row, evt);
   }
 }
 
@@ -529,7 +529,7 @@ qx.Proto._onmousedown = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onmouseup = function(evt) {
-  var columnModel = this.getTableColumnModel();
+  var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
 
   if (this._resizeColumn != null) {
@@ -580,7 +580,7 @@ qx.Proto._onmouseup = function(evt) {
     // This is a normal mouse up
     var row = this._getRowForPagePos(evt.getPageX(), evt.getPageY());
     if (row != -1 && row != null) {
-      this._selectionManager.handleMouseUp(row, evt);
+      this.getTable()._getSelectionManager().handleMouseUp(row, evt);
     }
   }
 }
@@ -592,7 +592,7 @@ qx.Proto._onmouseup = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onclick = function(evt) {
-  var tableModel = this.getTableModel();
+  var tableModel = this.getTable().getTableModel();
 
   var pageX = evt.getPageX();
   var pageY = evt.getPageY();
@@ -609,11 +609,11 @@ qx.Proto._onclick = function(evt) {
         var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
 
         tableModel.sortByColumn(col, ascending);
-        this.getSelectionModel().clearSelection();
+        this.getTable().getSelectionModel().clearSelection();
       }
     }
   } else if (row != null) {
-    this._selectionManager.handleClick(row, evt);
+    this.getTable()._getSelectionManager().handleClick(row, evt);
   }
 }
 
@@ -695,7 +695,7 @@ qx.Proto._hideResizeLine = function() {
  */
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
-  var columnModel = this.getTableColumnModel();
+  var columnModel = this.getTable().getTableColumnModel();
   var paneLeftX = qx.dom.DomLocation.getClientBoxLeft(this._tablePane.getElement());
   var colCount = paneModel.getColumnCount();
 
@@ -751,11 +751,7 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
     // The mouse is over the data -> update the focus
     var col = this._getColumnForPageX(pageX);
     if (col != null) {
-      if (this._scrollerPool != null) {
-        this._scrollerPool.setFocusedCell(col, row);
-      } else {
-        this.setFocusedCell(col, row);
-      }
+      this._table.setFocusedCell(col, row);
     }
   }
 }
@@ -813,7 +809,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
   var xPos = paneModel.getX(col);
 
   if (xPos != -1) {
-    var columnModel = this.getTableColumnModel();
+    var columnModel = this.getTable().getTableColumnModel();
 
     var colLeft = paneModel.getColumnLeft(col);
     var colWidth = columnModel.getColumnWidth(col);
@@ -854,7 +850,7 @@ qx.Proto.isEditing = function() {
  * @return {boolean} whether editing was started
  */
 qx.Proto.startEditing = function() {
-  var tableModel = this.getTableModel();
+  var tableModel = this.getTable().getTableModel();
   var col   = this._focusedCol;
 
   if (!this.isEditing() && (col != null) && tableModel.isColumnEditable(col)) {
@@ -862,7 +858,7 @@ qx.Proto.startEditing = function() {
     var xPos  = this.getTablePaneModel().getX(col);
     var value = tableModel.getValue(col, row);
 
-    this._cellEditorFactory = this.getTableColumnModel().getCellEditorFactory(col);
+    this._cellEditorFactory = this.getTable().getTableColumnModel().getCellEditorFactory(col);
     var cellInfo = { col:col, row:row, xPos:xPos, value:value }
     this._cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
     this._cellEditor.set({ width:qx.constant.Core.HUNDREDPERCENT, height:qx.constant.Core.HUNDREDPERCENT });
@@ -900,12 +896,9 @@ qx.Proto.stopEditing = function() {
 qx.Proto.flushEditor = function() {
   if (this.isEditing()) {
     var value = this._cellEditorFactory.getCellEditorValue(this._cellEditor);
-    this.getTableModel().setValue(this._focusedCol, this._focusedRow, value);
+    this.getTable().getTableModel().setValue(this._focusedCol, this._focusedRow, value);
 
-    // TODO: Use clean API
-    if (this._scrollerPool != null) {
-      this._scrollerPool.focus();
-    }
+    this._table.focus();
   }
 }
 
@@ -948,7 +941,7 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
 qx.Proto._getColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
 
-  var columnModel = this.getTableColumnModel();
+  var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
   var colCount = paneModel.getColumnCount();
   var currX = headerLeftX;
@@ -976,7 +969,7 @@ qx.Proto._getColumnForPageX = function(pageX) {
 qx.Proto._getResizeColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
 
-  var columnModel = this.getTableColumnModel();
+  var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
   var colCount = paneModel.getColumnCount();
   var currX = headerLeftX;
@@ -1022,7 +1015,7 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
     var rowHeight = this._tablePane.getTableRowHeight();
     var row = Math.floor(tableY / rowHeight);
 
-    var rowCount = this.getTableModel().getRowCount();
+    var rowCount = this.getTable().getTableModel().getRowCount();
     return (row < rowCount) ? row : null;
   }
 
@@ -1109,7 +1102,7 @@ qx.Proto.getNeededScrollBars = function(forceHorizontal, preventVertical) {
 
   // Get the (virtual) width and height of the pane
   var paneWidth = this.getTablePaneModel().getTotalWidth();
-  var paneHeight = this._tablePane.getTableRowHeight() * this.getTableModel().getRowCount();
+  var paneHeight = this._tablePane.getTableRowHeight() * this.getTable().getTableModel().getRowCount();
 
   // Check which scrollbars are needed
   var horNeeded = false;
@@ -1198,7 +1191,7 @@ qx.Proto._updateFocusIndicator = function() {
     if (xPos == -1) {
       this._focusIndicator.hide();
     } else {
-      var columnModel = this.getTableColumnModel();
+      var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
 
       var firstRow = this._tablePane.getFirstVisibleRow();
@@ -1250,7 +1243,7 @@ qx.Proto.dispose = function() {
   if (this._tableColumnModel != null) {
     this._tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
     this._tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
+    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);

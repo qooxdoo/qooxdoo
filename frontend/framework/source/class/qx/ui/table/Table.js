@@ -66,13 +66,13 @@ function(tableModel) {
 });
 
 /** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.SelectionManager" });
+qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
 
 /** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableModel" });
+qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
 
 /** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT }); //, instance : "qx.ui.table.TableColumnModel" });
+qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
 
 /** Whether to show the status bar */
 qx.OO.addProperty({ name:"statusBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
@@ -102,11 +102,6 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
   }
   propValue.addEventListener("selectionChanged", this._onSelectionChanged, this);
 
-  var scrollerArr = this._getPaneScrollerArr();
-  for (var i = 0; i < scrollerArr.length; i++) {
-    scrollerArr[i].setSelectionModel(propValue);
-  }
-
   return true;
 }
 
@@ -122,10 +117,6 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
-  var scrollerArr = this._getPaneScrollerArr();
-  for (var i = 0; i < scrollerArr.length; i++) {
-    scrollerArr[i].setTableModel(propValue);
-  }
   return true;
 }
 
@@ -135,16 +126,12 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
   if (propOldValue != null) {
     propOldValue.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
     propOldValue.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    propOldValue.removeEventListener("orderChanged", this._onOrderChanged, this);
+    propOldValue.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
   propValue.addEventListener("visibilityChanged", this._onColVisibilityChanged, this);
   propValue.addEventListener("widthChanged", this._onColWidthChanged, this);
-  propValue.addEventListener("orderChanged", this._onOrderChanged, this);
+  propValue.addEventListener("orderChanged", this._onColOrderChanged, this);
 
-  var scrollerArr = this._getPaneScrollerArr();
-  for (var i = 0; i < scrollerArr.length; i++) {
-    scrollerArr[i].setTableColumnModel(propValue);
-  }
   return true;
 };
 
@@ -199,9 +186,6 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
       leftX += metaColumnCounts[i];
 
       var paneScroller = new qx.ui.table.TablePaneScroller(this);
-      paneScroller.setSelectionModel(selectionModel);
-      paneScroller.setTableModel(tableModel);
-      paneScroller.setTableColumnModel(columnModel);
       paneScroller.setTablePaneModel(paneModel);
 
       // Register event listener for vertical scrolling
@@ -255,6 +239,16 @@ qx.Proto._modifyFocusCellOnMouseMove = function(propValue, propOldValue, propDat
 
 
 /**
+ * Returns the selection manager.
+ *
+ * @return {SelectionManager} the selection manager.
+ */
+qx.Proto._getSelectionManager = function() {
+  return this._selectionManager;
+};
+
+
+/**
  * Returns an array containing all TablePaneScrollers in this table.
  *
  * @return {TablePaneScroller[]} all TablePaneScrollers in this table.
@@ -301,6 +295,11 @@ qx.Proto._cleanUpMetaColumns = function(fromMetaColumn) {
  * @param evt {Map} the event.
  */
 qx.Proto._onSelectionChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onSelectionChanged(evt);
+  }
+
   this._updateStatusBar();
 }
 
@@ -311,6 +310,11 @@ qx.Proto._onSelectionChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onTableModelMetaDataChanged(evt);
+  }
+
   this._updateStatusBar();
 }
 
@@ -320,7 +324,12 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onTableModelDataChanged = function() {
+qx.Proto._onTableModelDataChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onTableModelDataChanged(evt);
+  }
+
   var rowCount = this.getTableModel().getRowCount();
   if (rowCount != this._lastRowCount) {
     this._lastRowCount = rowCount;
@@ -473,6 +482,11 @@ qx.Proto._onkeydown = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onColVisibilityChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onColVisibilityChanged(evt);
+  }
+
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 }
@@ -484,6 +498,11 @@ qx.Proto._onColVisibilityChanged = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onColWidthChanged(evt);
+  }
+
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
 }
@@ -494,7 +513,12 @@ qx.Proto._onColWidthChanged = function(evt) {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onOrderChanged = function(evt) {
+qx.Proto._onColOrderChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onColOrderChanged(evt);
+  }
+
   // A column may have been moved between meta columns
   this._updateScrollerWidths();
   this._updateScrollBarVisibility();
@@ -510,7 +534,6 @@ qx.Proto._onOrderChanged = function(evt) {
  *
  * @see TablePaneScrollerPool
  */
-// overridden from qx.ui.table.TablePaneScrollerPool
 qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
   var metaCol = this._getMetaColumnAtPageX(pageX);
   return (metaCol != -1) ? this.getPaneScroller(metaCol) : null;
@@ -527,7 +550,6 @@ qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
  *
  * @see TablePaneScrollerPool
  */
-// overridden from qx.ui.table.TablePaneScrollerPool
 qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
   if (!this.isEditing() && (col != this._focusedCol || row != this._focusedRow)) {
     this._focusedCol = col;
@@ -933,7 +955,7 @@ qx.Proto.dispose = function() {
   if (this._tableColumnModel) {
     this._tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
     this._tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onOrderChanged, this);
+    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
