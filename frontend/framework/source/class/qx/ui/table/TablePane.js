@@ -154,7 +154,7 @@ qx.Proto.calculateTableRowHeight = function() {
  *        If true, no repaint will be done.
  */
 qx.Proto.setFocusedCell = function(col, row, massUpdate) {
-  if (col != this._focuesCol || row != this._focusedRow) {
+  if (col != this._focusedCol || row != this._focusedRow) {
     var oldCol = this._focusedCol;
     var oldRow = this._focusedRow;
     this._focusedCol = col;
