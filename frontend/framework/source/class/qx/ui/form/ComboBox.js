@@ -579,6 +579,16 @@ qx.Proto._onkeydown = function(e)
       }
 
       break;
+      
+    // Handle Alt+Down
+    case vKeys.down:
+      if (e.getAltKey())
+      {
+        this._togglePopup();
+        return;
+      }
+      
+      break;
   }
 
   // Default Handling
