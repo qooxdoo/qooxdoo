@@ -77,7 +77,7 @@ def getparser():
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
-  parser.add_option("--obfuscate-names", action="store_true", dest="obfuscateNames", default=False, help="Obfuscate public names like function names. (ALPHA!)")
+  parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
   parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler (not recommended).")
 
   # Options for resource copying
@@ -218,7 +218,7 @@ def argparser(cmdlineargs):
     if len(fileargs) > 1:
       (fileDb, moduleDb) = load(getparser().parse_args(defaultargs)[0])
 
-      if options.obfuscateNames:
+      if options.obfuscateIdentifiers:
         sharednames = {}
 
         for filearg in fileargs:
@@ -256,7 +256,7 @@ def argparser(cmdlineargs):
       options = getparser().parse_args(defaultargs)[0]
       (fileDb, moduleDb) = load(options)
 
-      if options.obfuscateNames:
+      if options.obfuscateIdentifiers:
         execute(fileDb, moduleDb, options, "", obfuscator.sort(findnames(fileDb, moduleDb, options)))
       else:
         execute(fileDb, moduleDb, options, "", names)
@@ -270,7 +270,7 @@ def argparser(cmdlineargs):
 
     (fileDb, moduleDb) = load(options)
 
-    if options.obfuscateNames:
+    if options.obfuscateIdentifiers:
       execute(fileDb, moduleDb, options, options.packageId, obfuscator.sort(findnames(fileDb, moduleDb, options)))
     else:
       execute(fileDb, moduleDb, options, options.packageId)
@@ -371,15 +371,29 @@ def load(options):
 def findnames(fileDb, moduleDb, options, names={}):
 
   print
-  print "  SEARCHING FOR NAMES:"
+  print "  SEARCHING FOR IDENTIFIERS:"
   print "----------------------------------------------------------------------------"
 
-  print "  * Searching..."
+  if options.verbose:
+    print "  * Searching..."
+  else:
+    print "  * Searching: ",
+
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
   for fileId in sortedIncludeList:
+    if options.verbose:
+      print "    - %s" % fileId
+
+    else:
+      sys.stdout.write(".")
+      sys.stdout.flush()
+
     obfuscator.search(loader.getTree(fileDb, fileId, options), names)
+
+  if not options.verbose:
+    print
 
   return names
 
@@ -412,6 +426,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   print "  * Sorting classes..."
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
+
+  if len(sortedIncludeList) == len(fileDb):
+    print "  * Including all classes"
 
   print "  * Arranged %s classes" % len(sortedIncludeList)
 
@@ -560,15 +577,17 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   #  NAME OBFUSCATION
   ######################################################################
 
-  if options.obfuscateNames:
+  if options.obfuscateIdentifiers:
     print
-    print "  OBFUSCATE NAMES:"
+    print "  OBFUSCATE IDENTIFIERS:"
     print "----------------------------------------------------------------------------"
 
     if options.verbose:
-      print "  * Obfuscating names..."
+      print "  * Obfuscating identifiers..."
     else:
-      print "  * Obfuscating names: ",
+      print "  * Obfuscating identifiers: ",
+
+    counter = 0
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -577,11 +596,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      obfuscator.update(loader.getTree(fileDb, fileId, options), names, "$$")
+      counter += obfuscator.update(loader.getTree(fileDb, fileId, options), names, "$$")
 
     if not options.verbose:
       print
 
+    print "  * Updated %s names" % counter
 
 
 
@@ -849,7 +869,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         compiledFileContent = treecompiler.compile(loader.getTree(fileDb, fileId, options), options.addNewLines, options.enableDebug)
 
       if options.addFileIds:
-        compiledOutput += "/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
+        compiledOutput += "\n\n\n/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
       else:
         compiledOutput += compiledFileContent
 

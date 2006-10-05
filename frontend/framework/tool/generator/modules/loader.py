@@ -677,7 +677,6 @@ def getSortedList(options, fileDb, moduleDb):
 
   # Add all if both lists are empty
   if len(includeWithDeps) == 0 and len(includeWithoutDeps) == 0:
-    print "  * Including all classes..."
     for fileId in fileDb:
       includeWithDeps.append(fileId)
 
