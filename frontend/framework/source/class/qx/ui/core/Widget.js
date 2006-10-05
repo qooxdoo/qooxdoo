@@ -1368,7 +1368,7 @@ qx.Proto._handleDisplayable = function(vHint)
   if (vHint && this._oldParent && this._oldParent._initialLayoutDone)
   {
     var vElement = this.getElement();
-    if(vElement) 
+    if(vElement)
     {
       if (this.getVisibility()) {
         this._beforeDisappear();
@@ -4348,7 +4348,7 @@ qx.Proto._visualizeBlur = function()
   // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
   // But this only needs to be done, if there is no new focused element.
-  if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
+  if (this.getEnableElementFocus() && (!this.getFocusRoot().getFocusedChild() || (this.getFocusRoot().getFocusedChild() && this.getFocusRoot().getFocusedChild().getEnableElementFocus())))
   {
     try {
       this.getElement().blur();
