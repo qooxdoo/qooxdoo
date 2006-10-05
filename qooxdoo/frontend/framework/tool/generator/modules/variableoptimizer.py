@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import tree
-
-table = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+import tree, mapper
 
 def search(node, list, level=0, prefix="$"):
   if node.type == "function":
@@ -64,7 +62,7 @@ def update(node, list, prefix="$"):
       idenName = node.get("name", False)
 
       if idenName != None and idenName in list:
-        replName = "%s%s" % (prefix, mapper(list.index(idenName)))
+        replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
         node.set("name", replName)
 
         # print "  - Replaced '%s' with '%s'" % (idenName, replName)
@@ -74,7 +72,7 @@ def update(node, list, prefix="$"):
     idenName = node.get("identifier", False)
 
     if idenName != None and idenName in list:
-      replName = "%s%s" % (prefix, mapper(list.index(idenName)))
+      replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
       node.set("identifier", replName)
 
       # print "  - Replaced '%s' with '%s'" % (idenName, replName)
@@ -83,22 +81,3 @@ def update(node, list, prefix="$"):
   if node.hasChildren():
     for child in node.children:
       update(child, list, prefix)
-
-
-
-def mapper(current):
-  # Possibilities with each character
-  # 1: 36 = 36
-  # 2: 36*36 = 1296
-  # 3: 36*36*36 = 46656
-
-  res = ""
-  length = len(table) - 1
-
-  if current / length > 0:
-    res += mapper(current / length)
-
-  res += table[current % length]
-
-  return res
-
