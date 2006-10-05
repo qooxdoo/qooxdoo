@@ -99,6 +99,23 @@ generate-script-build:
 	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../resource/static \
 	  --cache-directory $(CACHE)
 
+generate-script-build-test:
+        @chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+          --script-input $(FRAMEWORK)/source/class \
+          --generate-compiled-script \
+          --compiled-script-file build/script/qx.js \
+          --optimize-strings \
+          --optimize-variables \
+          --obfuscate-identifiers --add-new-lines --add-file-ids \
+          $(COMPILER) \
+          --copy-resources \
+          --resource-input $(FRAMEWORK)/source/resource \
+          --resource-output build/resource \
+          --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../resource/icon/crystalsvg \
+          --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../resource/icon/nuvola \
+          --define-runtime-setting qx.theme.widget.WindowsWidgetTheme.imageUri:../../resource/widget/windows \
+          --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../resource/static \
+          --cache-directory $(CACHE)
 
 
 ###################################################################################
