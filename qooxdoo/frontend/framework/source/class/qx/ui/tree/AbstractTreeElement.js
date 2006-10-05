@@ -227,52 +227,52 @@ qx.Proto.getLabelObject = function() {
  * </p>
  */
 qx.Proto.destroy = function() {
- 	var manager = this.getTree() ? this.getTree().getManager() : null;
-	if(manager) {
+   var manager = this.getTree() ? this.getTree().getManager() : null;
+  if(manager) {
     
     // if the current destroyed item is
     // selectd deselect the item. If we are
     // in single selection mode we have to
     // call deselectAll because setItemSelected
     // refuses to deselect in this case  
-		if(manager.getItemSelected(this)) {
-			if(manager.getMultiSelection()) {
-				manager.setItemSelected(this,false);
-			}
-			else {
-				manager.deselectAll();
-			}
-		}
-		
+    if(manager.getItemSelected(this)) {
+      if(manager.getMultiSelection()) {
+        manager.setItemSelected(this,false);
+      }
+      else {
+        manager.deselectAll();
+      }
+    }
+    
     // set the leadItem to null if the current 
     // destroyed item is the leadItem
-		if(manager.getLeadItem() == this) {
-			manager.setLeadItem(null);
-		}
+    if(manager.getLeadItem() == this) {
+      manager.setLeadItem(null);
+    }
     // set the anchorItem to null if the current 
     // destroyed item is the anchorItem
-		if(manager.getAnchorItem() == this) {
-			manager.setAnchorItem(null);
-		}
-	}
-	
-	// if the item has the method destroyContent defined
-	// then it is a TreeFolder (and it's subclasses)
-	// which potentially have content which also 
-	// has to be destroyed
-	if(this.destroyContent) {
-		this.destroyContent();
-	}
-			
+    if(manager.getAnchorItem() == this) {
+      manager.setAnchorItem(null);
+    }
+  }
+  
+  // if the item has the method destroyContent defined
+  // then it is a TreeFolder (and it's subclasses)
+  // which potentially have content which also 
+  // has to be destroyed
+  if(this.destroyContent) {
+    this.destroyContent();
+  }
+      
   // first disconnect the item so rendering
   // of the tree lines can be done correctly
   this.disconnect();
   
   // remove the current item from
   // the parent folder
-	var parentFolder = this.getParentFolder();
+  var parentFolder = this.getParentFolder();
   if(parentFolder) {
-  	parentFolder.remove(this);
+    parentFolder.remove(this);
   }
 
   this.dispose();
