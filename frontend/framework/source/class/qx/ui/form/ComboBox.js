@@ -208,7 +208,14 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   this._manager.setAnchorItem(propValue);
 
   // sync to manager
-  this._manager.setSelectedItem(propValue);
+  if (propValue)
+  {
+    this._manager.setSelectedItem(propValue);
+  }
+  else
+  {
+    this._manager.deselectAll();
+  }
 
   // reset hint
   delete this._fromSelected;
@@ -222,7 +229,12 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 
   // only do this if we called setValue seperatly
   // and not from the event qx.constant.Event.INPUT.
-  if (!this._fromInput) {
+  if (!this._fromInput)
+  {
+    if (this._field.getValue() == propValue) {
+      this._field.forceValue(null);
+    }
+
     this._field.setValue(propValue);
   }
 
@@ -239,12 +251,6 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
     }
 
     this.setSelected(vSelItem);
-
-    // be sure that the manager get informed
-    // if 'selected' was already 'null'
-    if (vSelItem == null) {
-      this._manager.deselectAll();
-    }
   }
 
   // reset hint
