@@ -263,6 +263,27 @@ qx.Proto.getHideTimeStamp = function() {
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Positions the popup relative to some reference element.
+ * @param el		{var} Reference DOM element/widget.
+ * @param offsetX   {int} Offset in pixels in X direction (optional).
+ * @param offsetY   {int} Offset in pixels in Y direction (optional).
+ */
+qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
+{
+  if (el instanceof qx.ui.core.Widget) {
+    el = el.getElement();
+  }
+  if (el) {
+    var gecko = qx.sys.Client.getInstance().isGecko();
+    var loc = qx.dom.DomLocation;
+    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.dom.DomStyle.getBorderLeft(el):0) + (offsetX || 0),
+  	  loc.getClientAreaTop(el) - (gecko ? qx.dom.DomStyle.getBorderTop(el):0) + (offsetY || 0));
+  } else {
+    this.warn('Missing reference element');	  
+  }
+}
+
 qx.Proto.centerToBrowser = function()
 {
   var d = qx.ui.core.ClientDocument.getInstance();
