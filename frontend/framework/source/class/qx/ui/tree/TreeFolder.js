@@ -318,15 +318,15 @@ qx.Proto.getItems = function()
 qx.Proto.destroyContent = function() {
   if(this.hasContent()) {
   
-  	var manager = this.getTree() ? this.getTree().getManager() : null;
-  	
-		var leadItem;
-		var anchorItem;
-  	if(manager) {
-  	  leadItem = manager.getLeadItem();
-  	  anchorItem = manager.getAnchorItem();
-  	}
-  	
+    var manager = this.getTree() ? this.getTree().getManager() : null;
+    
+    var leadItem;
+    var anchorItem;
+    if(manager) {
+      leadItem = manager.getLeadItem();
+      anchorItem = manager.getAnchorItem();
+    }
+    
     var items = this.getItems();
     var item;
     
@@ -341,36 +341,36 @@ qx.Proto.destroyContent = function() {
         if(manager) {
           // set the leadItem to null if the current 
           // destroyed item is the leadItem
-    			if(leadItem == item) {
-    				manager.setLeadItem(null);
-    			}
+          if(leadItem == item) {
+            manager.setLeadItem(null);
+          }
           // set the anchorItem to null if the current 
           // destroyed item is the anchorItem
-    			if(anchorItem == item) {
-    				manager.setAnchorItem(null);
-    			}
+          if(anchorItem == item) {
+            manager.setAnchorItem(null);
+          }
   
           // if the current destroyed item is
           // selectd deselect the item. If we are
           // in single selection mode we have to
           // call deselectAll because setItemSelected
           // refuses to deselect in this case  
-    			if(manager.getItemSelected(item)) {
-    				if(manager.getMultiSelection()) {
-    					manager.setItemSelected(item,false);
-    				}
-    				else {
-    					manager.deselectAll();
-    				}
-    			}
+          if(manager.getItemSelected(item)) {
+            if(manager.getMultiSelection()) {
+              manager.setItemSelected(item,false);
+            }
+            else {
+              manager.deselectAll();
+            }
+          }
   
-    			// if the item has the method destroyContent defined
-    			// then it is a TreeFolder (and it's subclasses)
-    			// which potentially have content which also 
-    			// has to be destroyed
+          // if the item has the method destroyContent defined
+          // then it is a TreeFolder (and it's subclasses)
+          // which potentially have content which also 
+          // has to be destroyed
           if (item.destroyContent) {
             item.destroyContent();
-    			}
+          }
         }
       
         // first disconnect the item so rendering
