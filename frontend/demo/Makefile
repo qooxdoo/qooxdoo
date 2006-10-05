@@ -100,7 +100,7 @@ generate-script-build:
 	  --cache-directory $(CACHE)
 
 generate-script-build-test:
-        @chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
           --script-input $(FRAMEWORK)/source/class \
           --generate-compiled-script \
           --compiled-script-file build/script/qx.js \
