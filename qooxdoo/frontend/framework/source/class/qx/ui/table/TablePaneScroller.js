@@ -261,7 +261,7 @@ qx.Proto._onColOrderChanged = function(evt) {
 qx.Proto._onTableModelDataChanged = function(evt) {
   this._tablePane._onTableModelDataChanged(evt);
 
-  var rowCount = getTable().getTableModelTableModel().getRowCount();
+  var rowCount = this.getTable().getTableModel().getRowCount();
   if (rowCount != this._lastRowCount) {
     this._lastRowCount = rowCount;
 

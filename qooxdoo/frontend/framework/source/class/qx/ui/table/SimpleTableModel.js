@@ -209,8 +209,7 @@ qx.Proto.setData = function(rowArr) {
 
   // Inform the listeners
   if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
-    var data = { firstRow:0, lastRow:rowArr.length - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
-    this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+    this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
   }
 
   this._clearSorting();
@@ -239,9 +238,89 @@ qx.Proto.getData = function() {
  *        row-map contains the column IDs as key and the cell values as value.
  */
 qx.Proto.setDataAsMapArray = function(mapArr) {
+  this.setData(this._mapArray2RowArr(mapArr));
+};
+
+
+/**
+ * Adds some rows to the model.
+ * <p>
+ * Warning: The given array will be altered!
+ *
+ * @param rowArr {var[][]} An array containing an array for each row. Each
+ *        row-array contains the values in that row in the order of the columns
+ *        in this model.
+ * @param startIndex {int,null} The index where to insert the new rows. If null,
+ *        the rows are appended to the end.
+ */
+qx.Proto.addRows = function(rowArr, startIndex) {
+  if (startIndex == null) {
+    startIndex = this._rowArr.length;
+  }
+
+  // Prepare the rowArr so it can be used for apply
+  rowArr.splice(0, 0, startIndex, 0);
+
+  // Insert the new rows
+  Array.prototype.splice.apply(this._rowArr, rowArr);
+
+  // Inform the listeners
+  if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
+    var data = { firstRow:startIndex, lastRow:this._rowArr.length - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+  }
+
+  this._clearSorting();
+};
+
+
+/**
+ * Adds some rows to the model.
+ * <p>
+ * Warning: The given array (mapArr) will be altered!
+ *
+ * @param mapArr {Map[]} An array containing a map for each row. Each
+ *        row-map contains the column IDs as key and the cell values as value.
+ * @param startIndex {int,null} The index where to insert the new rows. If null,
+ *        the rows are appended to the end.
+ */
+qx.Proto.addRowsAsMapArray = function(mapArr, startIndex) {
+  this.addRows(this._mapArray2RowArr(mapArr), startIndex);
+};
+
+
+/**
+ * Removes some rows from the model.
+ *
+ * @param startIndex {int} the index of the first row to remove.
+ * @param howMany {int} the number of rows to remove.
+ */
+qx.Proto.removeRows = function(startIndex, howMany) {
+  this._rowArr.splice(startIndex, howMany);
+
+  // Inform the listeners
+  if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
+    var data = { firstRow:startIndex, lastRow:this._rowArr.length - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+  }
+
+  this._clearSorting();
+};
+
+
+/**
+ * Creates an array of maps to an array of arrays.
+ *
+ * @param mapArr {Map[]} An array containing a map for each row. Each
+ *        row-map contains the column IDs as key and the cell values as value.
+ * @return {var[][]} An array containing an array for each row. Each
+ *         row-array contains the values in that row in the order of the columns
+ *         in this model.
+ */
+qx.Proto._mapArray2RowArr = function(mapArr) {
   var rowCount = mapArr.length;
   var columnCount = this.getColumnCount();
-  this._rowArr = new Array(rowCount);
+  var dataArr = new Array(rowCount);
   var columnArr;
   var j;
   for (var i = 0; i < rowCount; ++i) {
@@ -249,12 +328,8 @@ qx.Proto.setDataAsMapArray = function(mapArr) {
     for (var j = 0; j < columnCount; ++j) {
       columnArr[j] = mapArr[i][this.getColumnId(j)];
     }
-    this._rowArr[i] = columnArr;
+    dataArr[i] = columnArr;
   }
 
-  // Inform the listeners
-  var data = { firstRow:0, lastRow:rowCount - 1, firstColumn:0, lastColumn:columnCount - 1 };
-  this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
-
-  this._clearSorting();
-}
+  return dataArr;
+};
