@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator
 
 
 
@@ -76,7 +76,8 @@ def getparser():
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
-  parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size. (ALPHA)")
+  parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--obfuscate-names", action="store_true", dest="obfuscateNames", default=False, help="Obfuscate public names like function names. (ALPHA!)")
   parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler (not recommended).")
 
   # Options for resource copying
@@ -217,6 +218,22 @@ def argparser(cmdlineargs):
     if len(fileargs) > 1:
       (fileDb, moduleDb) = load(getparser().parse_args(defaultargs)[0])
 
+      if options.obfuscateNames:
+        sharednames = {}
+
+        for filearg in fileargs:
+          if filearg == "default":
+            continue
+
+          combinedargs = []
+          combinedargs.extend(defaultargs)
+          combinedargs.extend(fileargs[filearg])
+
+          options = getparser().parse_args(defaultargs)[0]
+          findnames(fileDb, moduleDb, options, sharednames)
+
+        names = obfuscator.sort(sharednames)
+
       for filearg in fileargs:
         if filearg == "default":
           continue
@@ -233,12 +250,16 @@ def argparser(cmdlineargs):
         combinedargs.extend(fileargs[filearg])
 
         options = getparser().parse_args(combinedargs)[0]
-        execute(fileDb, moduleDb, options, filearg)
+        execute(fileDb, moduleDb, options, filearg, names)
 
     else:
       options = getparser().parse_args(defaultargs)[0]
       (fileDb, moduleDb) = load(options)
-      execute(fileDb, moduleDb, options)
+
+      if options.obfuscateNames:
+        execute(fileDb, moduleDb, options, "", obfuscator.sort(findnames(fileDb, moduleDb, options)))
+      else:
+        execute(fileDb, moduleDb, options, "", names)
 
   else:
     print
@@ -248,7 +269,11 @@ def argparser(cmdlineargs):
     print "  * Processing arguments..."
 
     (fileDb, moduleDb) = load(options)
-    execute(fileDb, moduleDb, options, options.packageId)
+
+    if options.obfuscateNames:
+      execute(fileDb, moduleDb, options, options.packageId, obfuscator.sort(findnames(fileDb, moduleDb, options)))
+    else:
+      execute(fileDb, moduleDb, options, options.packageId)
 
 
 
@@ -343,9 +368,29 @@ def load(options):
 
 
 
+def findnames(fileDb, moduleDb, options, names={}):
+
+  print
+  print "  SEARCHING FOR NAMES:"
+  print "----------------------------------------------------------------------------"
+
+  print "  * Searching..."
+
+  sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
+
+  for fileId in sortedIncludeList:
+    obfuscator.search(loader.getTree(fileDb, fileId, options), names)
+
+  return names
 
 
-def execute(fileDb, moduleDb, options, pkgid=""):
+
+
+
+
+
+
+def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
   additionalOutput = []
 
@@ -505,6 +550,39 @@ def execute(fileDb, moduleDb, options, pkgid=""):
 
     if not options.verbose:
       print
+
+
+
+
+
+
+  ######################################################################
+  #  NAME OBFUSCATION
+  ######################################################################
+
+  if options.obfuscateNames:
+    print
+    print "  OBFUSCATE NAMES:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Obfuscating names..."
+    else:
+      print "  * Obfuscating names: ",
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      obfuscator.update(loader.getTree(fileDb, fileId, options), names, "$$")
+
+    if not options.verbose:
+      print
+
+
 
 
 
