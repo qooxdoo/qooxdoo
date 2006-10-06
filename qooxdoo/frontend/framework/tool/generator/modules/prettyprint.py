@@ -77,12 +77,14 @@ def compileNode(node, enableDebug=False):
 
   if node.getChild("commentsBefore", False) != None:
     for comment in node.getChild("commentsBefore").children:
+      # Additional new lines before big comment
+      if comment.get("detail", False) == "multi":
+        line()
+        line()
+
       pretty += comment.get("text")
       line()
 
-      # Additional new line after big comment
-      if comment.get("detail", False) == "multi":
-        line()
 
 
   ##################################################################
