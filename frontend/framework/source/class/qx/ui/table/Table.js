@@ -924,7 +924,7 @@ qx.Proto._changeInnerWidth = function(newValue, oldValue) {
     qx.ui.core.Widget.flushGlobalQueues();
   }, 0);
 
-  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
+  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerWidth.call(this, newValue, oldValue);
 }
 
 
@@ -936,7 +936,7 @@ qx.Proto._changeInnerHeight = function(newValue, oldValue) {
     qx.ui.core.Widget.flushGlobalQueues();
   }, 0);
 
-  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerWidth.call(this, newValue, oldValue);
+  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
 }
 
 
