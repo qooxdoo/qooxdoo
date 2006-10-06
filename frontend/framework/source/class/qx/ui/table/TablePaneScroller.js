@@ -1138,6 +1138,7 @@ qx.Proto._postponedUpdateContent = function() {
     window.setTimeout(function() {
       self._updateContent();
       self._updateContentPlanned = false;
+      qx.ui.core.Widget.flushGlobalQueues();
     }, 0);
     this._updateContentPlanned = true;
   }
