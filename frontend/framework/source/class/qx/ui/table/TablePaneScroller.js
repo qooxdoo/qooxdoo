@@ -432,23 +432,33 @@ qx.Proto._onmousemove = function(evt) {
     this._lastResizeWidth = newWidth;
   } else if (this._moveColumn != null) {
     // We are moving a column
-    this._lastMoveColPos += pageX - this._lastMoveMousePageX;
 
-    this._header.showColumnMoveFeedback(this._moveColumn, this._lastMoveColPos);
+    // Check whether we moved outside the click tolerance so we can start
+    // showing the column move feedback
+    // (showing the column move feedback prevents the onclick event)
+    var clickTolerance = qx.ui.table.TablePaneScroller.CLICK_TOLERANCE;
+    if (this._header.isShowingColumnMoveFeedback()
+      || pageX > this._lastMoveMousePageX + clickTolerance
+      || pageX < this._lastMoveMousePageX - clickTolerance)
+    {
+      this._lastMoveColPos += pageX - this._lastMoveMousePageX;
 
-    // Get the responsible scroller
-    var targetScroller = this._table.getTablePaneScrollerAtPageX(pageX);
-    if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
-      this._lastMoveTargetScroller.hideColumnMoveFeedback();
+      this._header.showColumnMoveFeedback(this._moveColumn, this._lastMoveColPos);
+
+      // Get the responsible scroller
+      var targetScroller = this._table.getTablePaneScrollerAtPageX(pageX);
+      if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
+        this._lastMoveTargetScroller.hideColumnMoveFeedback();
+      }
+      if (targetScroller != null) {
+        this._lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
+      } else {
+        this._lastMoveTargetX = null;
+      }
+
+      this._lastMoveTargetScroller = targetScroller;
+      this._lastMoveMousePageX = pageX;
     }
-    if (targetScroller != null) {
-      this._lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
-    } else {
-      this._lastMoveTargetX = null;
-    }
-
-    this._lastMoveTargetScroller = targetScroller;
-    this._lastMoveMousePageX = pageX;
   } else {
     // This is a normal mouse move
     var row = this._getRowForPagePos(pageX, pageY);
@@ -1257,6 +1267,12 @@ qx.Class.MIN_COLUMN_WIDTH = 10;
 
 /** {int} The radius of the resize region in pixels. */
 qx.Class.RESIZE_REGION_RADIUS = 5;
+
+/**
+ * {int} The number of pixels the mouse may move between mouse down and mouse up
+ * in order to count as a click.
+ */
+qx.Class.CLICK_TOLERANCE = 5;
 
 /**
  * {int} The mask for the horizontal scroll bar.
