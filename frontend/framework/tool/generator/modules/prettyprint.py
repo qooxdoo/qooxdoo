@@ -17,13 +17,17 @@ def getTokenSource(id):
 
 
 
-def line():
+def line(info=""):
 
   global indent
   global pretty
 
   if pretty == "":
     return
+
+  if info != "":
+    pass
+    #pretty += "[[ INFO %s ]]\n" % info
 
   pretty += "\n%s" % ("  " * indent)
 
@@ -67,7 +71,7 @@ def compile(node, enableDebug=False):
 
   compileNode(node, enableDebug)
 
-  return pretty
+  return pretty.strip()
 
 
 
@@ -79,22 +83,22 @@ def compileNode(node, enableDebug=False):
 
 
   if node.getChild("commentsBefore", False) != None:
-    line()
+    line("commentsbefore-1")
 
     for comment in node.getChild("commentsBefore").children:
       # Additional new lines before big comment
       if comment.get("detail", False) == "multi":
-        line()
+        line("commentsbefore-2")
 
       pretty += comment.get("text")
 
       # New line after singleline comment without line-ending
       if not comment.get("text").endswith("\n"):
-        line()
+        line("commentsbefore-3")
 
       # Additional new lines after big comment
       elif comment.get("detail", False) == "multi":
-        line()
+        line("commentsbefore-4")
 
 
 
@@ -106,29 +110,29 @@ def compileNode(node, enableDebug=False):
 
   if node.type == "map":
     if node.hasChildren():
-      line()
+      line("map-open-1")
 
     pretty += "{"
 
     if node.hasChildren():
       plus()
-      line()
+      line("map-open-2")
 
   elif node.type == "array":
     if node.hasChildren():
-      line()
+      line("array-open-1")
 
     pretty += "["
 
     if node.hasChildren():
       plus()
-      line()
+      line("array-open-2")
 
   elif node.type == "block":
-    line()
+    line("block-open-1")
     pretty += "{"
     plus()
-    line()
+    line("block-open-2")
 
   elif node.type == "params":
     pretty += "("
@@ -138,7 +142,7 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "case":
     minus()
-    line()
+    line("case-open")
     pretty += "case "
 
   elif node.type == "catch":
@@ -163,7 +167,7 @@ def compileNode(node, enableDebug=False):
       pretty += " " + node.get("label", False)
 
   elif node.type == "elseStatement":
-    line()
+    line("else-open")
     pretty += "else"
 
     # This is a elseStatement without a block around (a set of {})
@@ -193,10 +197,10 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "default":
     minus()
-    line()
+    line("default-open-1")
     pretty += "default:"
     plus()
-    line()
+    line("default-open-2")
 
 
 
@@ -454,11 +458,11 @@ def compileNode(node, enableDebug=False):
 
         elif node.type == "map":
           pretty += ", "
-          line()
+          line("map-separator")
 
         elif node.type == "array":
           pretty += ", "
-          line()
+          line("array-separator")
 
         elif node.type == "definitionList":
           pretty += ", "
@@ -485,7 +489,7 @@ def compileNode(node, enableDebug=False):
               pass
             else:
               # pretty += "[[LINE]]"
-              line()
+              line("block-divider")
 
 
 
@@ -505,28 +509,32 @@ def compileNode(node, enableDebug=False):
   if node.type == "map":
     if node.hasChildren():
       minus()
-      line()
+      line("map-close")
 
     pretty += "}"
 
   elif node.type == "array":
     if node.hasChildren():
       minus()
-      line()
+      line("array-close")
 
     pretty += "]"
 
   elif node.type == "block":
     minus()
-    line()
+    line("block-close-1")
     pretty += "}"
 
     # Not it:
-    # Function assignment
-    if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type == "right":
+    # Function assignment, params block, etc.
+    if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
       pass
+
+    #elif node.parent.type == "statement" and node.parent.parent.type == "loop":
+    #  pass
+
     else:
-      line()
+      line("block-close-2")
 
   elif node.type == "params":
     pretty += ")"
@@ -534,12 +542,12 @@ def compileNode(node, enableDebug=False):
   elif node.type == "switch" and node.get("switchType") == "case":
     minus()
     minus()
-    line()
+    line("switch-close-1")
     pretty += "}"
 
     # additional new line
-    line()
-    line()
+    line("switch-close-2")
+    line("switch-close-3")
 
   elif node.type == "group":
     pretty += ")"
@@ -547,7 +555,7 @@ def compileNode(node, enableDebug=False):
   elif node.type == "case":
     pretty += ":"
     plus()
-    line()
+    line("case-close")
 
   elif node.type == "call" and not callHasParams:
     pretty += "()"
@@ -562,14 +570,12 @@ def compileNode(node, enableDebug=False):
       pretty += ")"
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       pretty += ")"
-      line()
+      line("switch-case-close-1")
       pretty += "{"
       plus()
       plus()
 
-  elif node.type == "case":
-    plus()
-    line()
+
 
 
 
