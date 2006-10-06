@@ -209,7 +209,7 @@ def compileNode(node, enableDebug=False):
       print "ATTENTION: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    pretty += keyString + ":"
+    pretty += keyString + " : "
 
   elif node.type == "expression":
     if node.parent.type == "loop":
@@ -445,9 +445,11 @@ def compileNode(node, enableDebug=False):
 
         elif node.type == "map":
           pretty += ", "
+          line()
 
         elif node.type == "array":
           pretty += ", "
+          line()
 
         elif node.type == "definitionList":
           pretty += ", "
