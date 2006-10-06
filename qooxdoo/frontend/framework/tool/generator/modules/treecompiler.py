@@ -123,9 +123,6 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
   elif node.type == "default":
     compString += "default:"
 
-  elif node.type == "try":
-    compString += "try:"
-
 
 
 
@@ -252,7 +249,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
     # childrenNumber = len(node.children)
 
     for child in node.children:
-      if not (child.type == "commentsBefore" or child.type == "comments"):
+      if not (child.type == "commentsBefore" or child.type == "comment"):
         childrenNumber += 1
 
     previousType = None
@@ -263,7 +260,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
 
     for child in node.children:
-      if child.type == "commentsBefore" or child.type == "comments":
+      if child.type == "commentsBefore" or child.type == "comment":
         continue
 
 
