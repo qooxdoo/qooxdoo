@@ -36,6 +36,7 @@ def getparser():
   parser.add_option("--generate-source-script", action="store_true", dest="generateSourceScript", default=False, help="Generate source version.")
   parser.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
   parser.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
+  parser.add_option("--pretty-print", action="store_true", dest="prettyPrint", default=False, help="Pretty print source code.")
 
   # Debug Actions
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
@@ -826,6 +827,36 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
 
 
+
+
+
+  ######################################################################
+  #  GENERATION OF COMPILED VERSION
+  ######################################################################
+
+  if options.prettyPrint:
+    print
+    print "  GENERATION OF PRETTY PRINTED CODE:"
+    print "----------------------------------------------------------------------------"
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "  * Compiling tree..."
+      else:
+        print "  * Compiling tree: ",
+
+      if options.verbose:
+        print "    - Compiling %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      compiledFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options), options.enableDebug)
+
+      print
+      print
+      print compiledFileContent
+      print
 
 
 
