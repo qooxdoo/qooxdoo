@@ -188,6 +188,14 @@ qx.Proto.hideColumnMoveFeedback = function() {
 
 
 /**
+ * Returns whether the column move feedback is currently shown.
+ */
+qx.Proto.isShowingColumnMoveFeedback = function() {
+  return this._moveFeedback != null;
+}
+
+
+/**
  * Calculates the preferred height of the header cells.
  */
 qx.Proto.calculateHeaderHeight = function() {
