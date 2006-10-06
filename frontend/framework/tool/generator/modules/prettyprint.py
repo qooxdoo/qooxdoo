@@ -76,6 +76,14 @@ def compileNode(node, enableDebug=False):
   global pretty
 
 
+  if node.getChild("commentsBefore", False) != None:
+    for comment in node.getChild("commentsBefore").children:
+      pretty += comment.get("text")
+      line()
+
+      # Additional new line after big comment
+      if comment.get("detail", False) == "multi":
+        line()
 
 
   ##################################################################
@@ -165,7 +173,6 @@ def compileNode(node, enableDebug=False):
       pretty += " "
 
   elif node.type == "definitionList":
-    line()
     pretty += "var "
 
   elif node.type == "default":
@@ -303,10 +310,7 @@ def compileNode(node, enableDebug=False):
     # childrenNumber = len(node.children)
 
     for child in node.children:
-      if child.type == "comment":
-        print child.get("text")
-
-      elif child.type == "commentsBefore":
+      if child.type == "comment" or child.type == "commentsBefore":
         pass
 
       else:
@@ -320,10 +324,8 @@ def compileNode(node, enableDebug=False):
 
 
     for child in node.children:
-      if child.type == "commentsBefore" or child.type == "comment":
+      if child.type == "comment" or child.type == "commentsBefore":
         continue
-
-
 
 
 
@@ -401,8 +403,9 @@ def compileNode(node, enableDebug=False):
 
 
       # Last child
-      if child.parent.type == "block" and child.parent.getLastChild() == child and child.type in separators:
-        semicolon()
+      if child.parent.type == "block" or child.parent.type == "switch":
+        if child.parent.getLastChild() == child and child.type in separators:
+          semicolon()
 
 
 
@@ -506,7 +509,11 @@ def compileNode(node, enableDebug=False):
     minus()
     line()
     pretty += "}"
+
+    # additional new line
     line()
+    line()
+
 
   elif node.type == "group":
     pretty += ")"
