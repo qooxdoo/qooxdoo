@@ -13,7 +13,7 @@
 
   <div id="demoDescription">
     <p>A table with virtual scrolling, model-view-controller, renderers,
-      fixed columns, editing, sorting, column resizing, column reordering,
+      editing, sorting, column resizing, column reordering,
       column hiding.</p>
   </div>
 
@@ -39,8 +39,7 @@
     // table
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
-      set({ left:10, top:30, right:300, bottom:30 });
-      setMetaColumnCounts([1, -1]);
+      set({ left:10, top:30, right:300, bottom:30, border:qx.renderer.border.BorderPresets.getInstance().thinInset });
       getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
       getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
     };

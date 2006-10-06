@@ -12,15 +12,13 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>a table using divs and Array.join.</p>
+    <p>A table with fixed columns.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
-
-    qx.ui.table.TablePane.USE_ARRAY_JOIN = true;
 
     // table model
     var tableModel = new qx.ui.table.SimpleTableModel();
@@ -35,11 +33,11 @@
     tableModel.setData(rowData);
     tableModel.setColumnEditable(1, true);
     tableModel.setColumnEditable(2, true);
-  
+
     // table
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
-      set({ left:10, top:30, right:300, bottom:30, border:qx.renderer.border.BorderPresets.getInstance().thinInset });
+      set({ left:10, top:30, width:350, height:300, border:qx.renderer.border.BorderPresets.getInstance().thinInset });
       setMetaColumnCounts([1, -1]);
       getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
       getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
