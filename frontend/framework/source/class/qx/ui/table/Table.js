@@ -854,15 +854,19 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
 
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
+    menu.setRestrictToPageOnOpen(false);
     menu.setTop(qx.dom.DomLocation.getClientBoxBottom(btElem));
-    var right = this.getRight();
-    if (right === null) {
-      // No 'right' available.
-      // Determine 'right' from window width and table width
-      right = qx.dom.DomWindow.getInnerWidth(window) - this.getWidth();
-    }
-    menu.setRight(right);
-    menu.show();
+    menu.setLeft(-1000);
+
+    // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
+    //       at all.
+    window.setTimeout(function() {
+      menu.show();
+      qx.ui.core.Widget.flushGlobalQueues();
+
+      menu.setLeft(qx.dom.DomLocation.getClientBoxRight(btElem) - menu.getOffsetWidth());
+      qx.ui.core.Widget.flushGlobalQueues();
+    }, 0);
   } else {
     // hide the menu
     menu.hide();
@@ -875,12 +879,12 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
  * Cleans up the column visibility menu.
  */
 qx.Proto._cleanupColumnVisibilityMenu = function() {
-  if (this._columnVisibilityMenu != null) {
-    var scrollerArr = this._columnVisibilityMenu.getChildren();
-    for (var i = scrollerArr.length - 1; i >= 0; i++) {
-      var bt = scrollerArr[i];
-      this._columnVisibilityMenu.remove(bt);
-      bt.dispose();
+  if (this._columnVisibilityMenu != null && ! this._columnVisibilityMenu.getDisposed()) {
+    var checkBoxArr = this._columnVisibilityMenu.getChildren();
+    for (var i = checkBoxArr.length - 1; i >= 0; i++) {
+      var checkBox = checkBoxArr[i];
+      this._columnVisibilityMenu.remove(checkBox);
+      checkBox.dispose();
     }
 
     this._columnVisibilityMenu.dispose();
