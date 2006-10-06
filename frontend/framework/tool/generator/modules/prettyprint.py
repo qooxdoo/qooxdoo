@@ -50,8 +50,7 @@ def semicolon():
   global indent
   global pretty
 
-  if not pretty.endswith(";"):
-    pretty += ";"
+  pretty += ";"
 
 
 
@@ -92,11 +91,17 @@ def compileNode(node, enableDebug=False):
 
   if node.type == "map":
     pretty += "{"
-    plus()
+
+    if node.hasChildren():
+      plus()
+      line()
 
   elif node.type == "array":
     pretty += "["
-    plus()
+
+    if node.hasChildren():
+      plus()
+      line()
 
   elif node.type == "block":
     line()
@@ -149,12 +154,12 @@ def compileNode(node, enableDebug=False):
       pretty += " "
 
   elif node.type == "switch" and node.get("switchType") == "case":
-    semicolon()
+    # Additional line before switch statement
     line()
     pretty += "switch"
 
   elif node.type == "switch" and node.get("switchType") == "catch":
-    semicolon()
+    # Additional line before try statement
     line()
     pretty += "try"
 
@@ -318,9 +323,6 @@ def compileNode(node, enableDebug=False):
 
 
     previousType = None
-    separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
-    not_after = [ "case", "default" ]
-    not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
 
 
     for child in node.children:
@@ -387,13 +389,6 @@ def compileNode(node, enableDebug=False):
           pretty += getTokenSource(op)
 
 
-      # Separate execution blocks
-      elif not node.type in not_in:
-        if previousType in separators and child.type in separators:
-          if not previousType in not_after:
-            semicolon()
-            line()
-
 
 
 
@@ -402,10 +397,7 @@ def compileNode(node, enableDebug=False):
 
 
 
-      # Last child
-      if child.parent.type == "block" or child.parent.type == "switch":
-        if child.parent.getLastChild() == child and child.type in separators:
-          semicolon()
+
 
 
 
@@ -465,6 +457,22 @@ def compileNode(node, enableDebug=False):
           pretty += ", "
 
 
+      separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
+      not_after = [ "case", "default" ]
+      not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
+
+      if node.type in [ "block", "file", "switch" ]:
+        if not previousType in not_after:
+          if child.type in separators:
+            # pretty += "[[SEMI]]"
+            semicolon()
+
+            # not last child
+            if childPosition == childrenNumber and node.type in [ "block", "switch", "file" ]:
+              pass
+            else:
+              # pretty += "[[LINE]]"
+              line()
 
 
 
@@ -482,13 +490,17 @@ def compileNode(node, enableDebug=False):
   ##################################################################
 
   if node.type == "map":
-    minus()
-    line()
+    if node.hasChildren():
+      minus()
+      line()
+
     pretty += "}"
 
   elif node.type == "array":
-    minus()
-    line()
+    if node.hasChildren():
+      minus()
+      line()
+
     pretty += "]"
 
   elif node.type == "block":
@@ -496,9 +508,8 @@ def compileNode(node, enableDebug=False):
     line()
     pretty += "}"
 
-    if node.parent.type == "body" and node.parent.parent.type == "function":
-      pass
-    else:
+  elif node.type == "loop":
+    if node.parent.type != "block":
       line()
 
   elif node.type == "params":
@@ -513,7 +524,6 @@ def compileNode(node, enableDebug=False):
     # additional new line
     line()
     line()
-
 
   elif node.type == "group":
     pretty += ")"
