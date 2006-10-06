@@ -76,7 +76,7 @@ qx.Proto._getStyleFlags = function(cellInfo) {
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
-  return qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo));
+  return qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo));
 }
 
 
@@ -107,7 +107,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   if (textNode != null) {
     textNode.nodeValue = this._formatValue(cellInfo);
   } else {
-    cellElement.innerHTML = qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo));
+    cellElement.innerHTML = qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo));
   }
 }
 
@@ -151,7 +151,30 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push(qx.ui.basic.Label.htmlToText(this._formatValue(cellInfo)));
+  htmlArr.push(qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo)));
+}
+
+
+/**
+ * Escapes special HTML characters by their entities.
+ *
+ * @param html {string} The HTML to escape.
+ * @return {string} The escaped string showing HTML code as plain text.
+ */
+qx.Class.escapeHtml = function(html) {
+  return html.replace(/[<>&]/gi, qx.ui.table.DefaultDataCellRenderer._escapeHtmlReplacer);
+}
+
+
+/**
+ * Helper method for {@link #escapeHtml}.
+ */
+qx.Class._escapeHtmlReplacer = function(str) {
+  switch(str) {
+    case "<": return "&lt;";
+    case ">": return "&gt;";
+    case "&": return "&amp;";
+  }
 }
 
 
