@@ -120,6 +120,7 @@ def createItemNode(type, stream):
       commentNode = tree.Node("comment")
       commentNode.set("line", str(comment["line"]))
       commentNode.set("text", comment["source"])
+      commentNode.set("detail", comment["detail"])
       #print comment["source"]
       node.addListChild("commentsBefore", commentNode)
 
