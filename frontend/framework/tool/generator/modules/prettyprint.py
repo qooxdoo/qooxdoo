@@ -22,6 +22,9 @@ def line():
   global indent
   global pretty
 
+  if pretty == "":
+    return
+
   pretty += "\n%s" % ("  " * indent)
 
 
@@ -76,14 +79,24 @@ def compileNode(node, enableDebug=False):
 
 
   if node.getChild("commentsBefore", False) != None:
+    line()
+
     for comment in node.getChild("commentsBefore").children:
       # Additional new lines before big comment
       if comment.get("detail", False) == "multi":
         line()
-        line()
 
       pretty += comment.get("text")
-      line()
+
+      # New line after singleline comment without line-ending
+      if not comment.get("text").endswith("\n"):
+        line()
+
+      # Additional new lines after big comment
+      elif comment.get("detail", False) == "multi":
+        line()
+
+
 
 
 
@@ -92,6 +105,9 @@ def compileNode(node, enableDebug=False):
   ##################################################################
 
   if node.type == "map":
+    if node.hasChildren():
+      line()
+
     pretty += "{"
 
     if node.hasChildren():
@@ -99,6 +115,9 @@ def compileNode(node, enableDebug=False):
       line()
 
   elif node.type == "array":
+    if node.hasChildren():
+      line()
+
     pretty += "["
 
     if node.hasChildren():
@@ -144,11 +163,7 @@ def compileNode(node, enableDebug=False):
       pretty += " " + node.get("label", False)
 
   elif node.type == "elseStatement":
-    # This was a (if)statement without a block around (a set of {})
-    #if not node.parent.getChild("statement").hasChild("block"):
-    #  if not pretty.endswith(";") and not pretty.endswith("\n"):
-    #    pretty += ";"
-
+    line()
     pretty += "else"
 
     # This is a elseStatement without a block around (a set of {})
@@ -156,24 +171,18 @@ def compileNode(node, enableDebug=False):
       pretty += " "
 
   elif node.type == "switch" and node.get("switchType") == "case":
-    # Additional line before switch statement
-    line()
     pretty += "switch"
 
   elif node.type == "switch" and node.get("switchType") == "catch":
-    # Additional line before try statement
-    line()
     pretty += "try"
 
   elif node.type == "throw":
-    line()
     pretty += "throw "
 
   elif node.type == "instantiation":
     pretty += "new "
 
   elif node.type == "return":
-    line()
     pretty += "return"
 
     if node.hasChildren():
@@ -512,8 +521,11 @@ def compileNode(node, enableDebug=False):
     line()
     pretty += "}"
 
-  elif node.type == "loop":
-    if node.parent.type != "block":
+    # Not it:
+    # Function assignment
+    if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type == "right":
+      pass
+    else:
       line()
 
   elif node.type == "params":
