@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>A table having few rows.</p>
+    <p>A test for table model manipulation.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,7 +21,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     var main = new qx.ui.layout.VerticalBoxLayout();
-    main.set({ left:10, top:30, right:300, bottom:30 });
+    main.set({ left:10, top:30, right:300, bottom:30, spacing:5 });
 
     var nextId = 0;
     var createRandomRows = function(rowCount) {
@@ -35,10 +35,16 @@
       return rowData;
     };
 
+    // Create the initial data
+    var rowData = createRandomRows(50);
+
+    // Add some encoding relevant stuff
+    rowData[15][1] = "<b>A html &amp; entities escaping test</b>";
+
     // table model
     var tableModel = new qx.ui.table.SimpleTableModel();
     tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
-    tableModel.setData(createRandomRows(50));
+    tableModel.setData(rowData);
     tableModel.setColumnEditable(1, true);
     tableModel.setColumnEditable(2, true);
 
@@ -55,7 +61,7 @@
     main.add(table);
 
     var buttonBar = new qx.ui.layout.HorizontalBoxLayout();
-    buttonBar.setDimension("100%", "auto");
+    buttonBar.set({ width:"100%", height:"auto", spacing:5 });
     main.add(buttonBar);
 
     var button = new qx.ui.form.Button("Change row with ID 10");
