@@ -22,9 +22,6 @@ def line():
   global indent
   global pretty
 
-  if pretty.endswith(" ") or pretty.endswith("\n"):
-    return
-
   pretty += "\n%s" % ("  " * indent)
 
 
@@ -52,7 +49,6 @@ def semicolon():
 
   global indent
   global pretty
-
 
   if not pretty.endswith(";"):
     pretty += ";"
@@ -89,12 +85,10 @@ def compileNode(node, enableDebug=False):
   if node.type == "map":
     pretty += "{"
     plus()
-    line()
 
   elif node.type == "array":
     pretty += "["
     plus()
-    line()
 
   elif node.type == "block":
     line()
@@ -109,6 +103,8 @@ def compileNode(node, enableDebug=False):
     pretty += "("
 
   elif node.type == "case":
+    minus()
+    line()
     pretty += "case "
 
   elif node.type == "catch":
@@ -145,9 +141,13 @@ def compileNode(node, enableDebug=False):
       pretty += " "
 
   elif node.type == "switch" and node.get("switchType") == "case":
+    semicolon()
+    line()
     pretty += "switch"
 
   elif node.type == "switch" and node.get("switchType") == "catch":
+    semicolon()
+    line()
     pretty += "try"
 
   elif node.type == "throw":
@@ -169,12 +169,13 @@ def compileNode(node, enableDebug=False):
     pretty += "var "
 
   elif node.type == "default":
+    minus()
     line()
     pretty += "default:"
-
-  elif node.type == "try":
+    plus()
     line()
-    pretty += "try:"
+
+
 
 
 
@@ -302,13 +303,24 @@ def compileNode(node, enableDebug=False):
     # childrenNumber = len(node.children)
 
     for child in node.children:
-      if not (child.type == "commentsBefore" or child.type == "comments"):
+      if child.type == "comment":
+        print child.get("text")
+
+      elif child.type == "commentsBefore":
+        pass
+
+      else:
         childrenNumber += 1
 
 
+    previousType = None
+    separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "default", "case", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
+    not_after = [ "case", "default" ]
+    not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
+
 
     for child in node.children:
-      if child.type == "commentsBefore" or child.type == "comments":
+      if child.type == "commentsBefore" or child.type == "comment":
         continue
 
 
@@ -373,7 +385,12 @@ def compileNode(node, enableDebug=False):
           pretty += getTokenSource(op)
 
 
-
+      # Separate execution blocks
+      elif not node.type in not_in:
+        if previousType in separators and child.type in separators:
+          if not previousType in not_after:
+            semicolon()
+            line()
 
 
 
@@ -383,6 +400,9 @@ def compileNode(node, enableDebug=False):
 
 
 
+      # Last child
+      if child.parent.type == "block" and child.parent.getLastChild() == child and child.type in separators:
+        semicolon()
 
 
 
@@ -448,6 +468,7 @@ def compileNode(node, enableDebug=False):
 
       # Next...
       childPosition += 1
+      previousType = child.type
 
 
 
@@ -461,51 +482,42 @@ def compileNode(node, enableDebug=False):
     minus()
     line()
     pretty += "}"
-    line()
 
   elif node.type == "array":
     minus()
     line()
     pretty += "]"
-    line()
 
   elif node.type == "block":
     minus()
     line()
     pretty += "}"
-    line()
+
+    if node.parent.type == "body" and node.parent.parent.type == "function":
+      pass
+    else:
+      line()
 
   elif node.type == "params":
     pretty += ")"
 
   elif node.type == "switch" and node.get("switchType") == "case":
+    minus()
+    minus()
+    line()
     pretty += "}"
+    line()
 
   elif node.type == "group":
     pretty += ")"
 
   elif node.type == "case":
     pretty += ":"
+    plus()
+    line()
 
   elif node.type == "call" and not callHasParams:
     pretty += "()"
-    semicolon()
-
-    if not node.hasParent() or node.parent.getLastChild() != node:
-      line()
-
-  elif node.type == "assignment" or node.type == "definitionList":
-    if node.parent.type != "first":
-      semicolon()
-
-      if node.hasParent() and node.parent.getLastChild() != node:
-        line()
-
-  elif node.type == "return":
-    semicolon()
-
-    if node.hasParent() and node.parent.getLastChild() != node:
-      line()
 
   elif node.type == "function" and not functionDeclHasParams:
     pretty += "()"
@@ -516,9 +528,15 @@ def compileNode(node, enableDebug=False):
     elif node.parent.type == "catch":
       pretty += ")"
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      pretty += "){"
+      pretty += ")"
+      line()
+      pretty += "{"
+      plus()
+      plus()
 
-
+  elif node.type == "case":
+    plus()
+    line()
 
 
 
