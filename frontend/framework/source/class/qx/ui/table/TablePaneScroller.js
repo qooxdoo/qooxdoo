@@ -1021,7 +1021,8 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
 
   var headerElem = this._headerClipper.getElement();
   if (pageY >= qx.dom.DomLocation.getClientBoxTop(headerElem)
-    && pageY <= qx.dom.DomLocation.getClientBoxBottom(headerElem))
+    && pageY <= qx.dom.DomLocation.getClientBoxBottom(headerElem)
+    && pageX <= qx.dom.DomLocation.getClientBoxRight(headerElem))
   {
     // This event is in the pane -> Return -1 for the header
     return -1;
