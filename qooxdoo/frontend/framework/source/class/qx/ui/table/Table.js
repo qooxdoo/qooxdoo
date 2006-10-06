@@ -335,7 +335,6 @@ qx.Proto._onTableModelDataChanged = function(evt) {
     this._lastRowCount = rowCount;
 
     this._updateScrollBarVisibility();
-    window.setTimeout(qx.ui.core.Widget.flushGlobalQueues, 0);
   }
 };
 
@@ -917,17 +916,27 @@ qx.Proto.setColumnWidth = function(col, width) {
 }
 
 
-/**
- * Event handler. Called when the real width of the table has changed.
- *
- * @param newValue {int} the new width.
- * @param oldValue {int} the old width.
- */
-qx.Proto._changeBoxWidth = function(newValue, oldValue) {
+// overridden
+qx.Proto._changeInnerWidth = function(newValue, oldValue) {
   var self = this;
   window.setTimeout(function() {
     self._updateScrollBarVisibility();
+    qx.ui.core.Widget.flushGlobalQueues();
   }, 0);
+
+  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
+}
+
+
+// overridden
+qx.Proto._changeInnerHeight = function(newValue, oldValue) {
+  var self = this;
+  window.setTimeout(function() {
+    self._updateScrollBarVisibility();
+    qx.ui.core.Widget.flushGlobalQueues();
+  }, 0);
+
+  return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerWidth.call(this, newValue, oldValue);
 }
 
 
