@@ -365,14 +365,16 @@ def compileNode(node, enableDebug=False):
       elif node.type == "definition" and child.type == "assignment":
         oper = child.get("operator", False)
 
-        out(" ")
+        if not oper in [ "INC", "DEC" ]:
+          out(" ")
 
         if oper != None:
           out(getTokenSource(oper))
         else:
           out("=")
 
-        out(" ")
+        if not oper in [ "INC", "DEC" ]:
+          out(" ")
 
       elif node.type == "accessor" and child.type == "key":
         out("[")
@@ -395,7 +397,7 @@ def compileNode(node, enableDebug=False):
           if not pretty.endswith(";") and not pretty.endswith("\n"):
             out("; ")
 
-      elif node.type == "operation" and node.get("left", False) == "true":
+      elif node.type == "operation" and node.get("left", False) == True:
         op = node.get("operator")
 
         if op == "TYPEOF":
@@ -420,7 +422,7 @@ def compileNode(node, enableDebug=False):
 
 
 
-      if node.type == "operation" and child.type == "first" and node.get("left", False) != "true":
+      if node.type == "operation" and child.type == "first" and node.get("left", False) != True:
         op = node.get("operator")
 
         if op == "IN":

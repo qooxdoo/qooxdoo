@@ -143,7 +143,7 @@ def replace(node, stringList, var="$", verbose=False):
 
         newnode = tree.Node("accessor")
         newnode.set("line", line)
-        newnode.set("compressed", "true")
+        newnode.set("optimized", True)
         newnode.set("original", oldvalue)
         newnode.addChild(newidentifier)
         newnode.addChild(newkey)

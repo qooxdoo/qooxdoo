@@ -257,13 +257,13 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
   elif stream.currIsType("token", SINGLE_LEFT_OPERATORS):
     item = createItemNode("operation", stream)
     item.set("operator", stream.currDetail())
-    item.set("left", "true")
+    item.set("left", True)
     stream.next()
     item.addListChild("first", readExpression(stream))
   elif stream.currIsType("protected", "TYPEOF"):
     item = createItemNode("operation", stream)
     item.set("operator", "TYPEOF")
-    item.set("left", "true")
+    item.set("left", True)
     stream.next()
     item.addListChild("first", readExpression(stream))
   elif stream.currIsType("protected", "NEW"):

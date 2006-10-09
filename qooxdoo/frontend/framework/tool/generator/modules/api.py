@@ -177,7 +177,7 @@ def handleClassDefinition(docTree, item):
 
   if ctorItem and ctorItem.type == "function":
     ctor = handleFunction(ctorItem, commentNode, classNode)
-    ctor.set("isCtor", "true")
+    ctor.set("isCtor", True)
     classNode.addListChild("constructor", ctor)
 
     # Check for methods defined in the constructor
@@ -309,7 +309,7 @@ def handleMethodDefinition(item, isStatic, classNode):
   isPublic = name[0] != "_"
   listName = "methods"
   if isStatic:
-    node.set("isStatic", "true")
+    node.set("isStatic", True)
     listName += "-static"
   if isPublic:
     listName += "-pub"
@@ -369,7 +369,7 @@ def handleFunction(funcItem, commentNode, classNode):
     if firstStatement.type == "throw":
       # The first statement of the function is a throw statement
       # -> The function is abstract
-      node.set("isAbstract", "true")
+      node.set("isAbstract", True)
 
   # Read the doc comment
   if commentNode and commentNode.hasChildren():
@@ -463,7 +463,7 @@ def addError(node, msg, syntaxItem):
     errorNode.set("line", line)
 
   node.addListChild("errors", errorNode)
-  node.set("hasError", "true")
+  node.set("hasError", True)
 
 
 
@@ -631,7 +631,7 @@ def postWorkPackage(docTree, packageNode):
         childHasError = True
 
   if childHasError:
-    packageNode.set("hasWarning", "true")
+    packageNode.set("hasWarning", True)
 
   return childHasError
 
@@ -663,11 +663,11 @@ def postWorkClass(docTree, classNode):
     and classNode.getChild("methods-pub", False) == None \
     and classNode.getChild("methods-prot", False) == None:
     # This class has is static
-    classNode.set("isStatic", "true")
+    classNode.set("isStatic", True)
 
   # Check whether the class is abstract
   if isClassAbstract(docTree, classNode, {}):
-    classNode.set("isAbstract", "true")
+    classNode.set("isAbstract", True)
 
   # Check for errors
   childHasError = listHasError(classNode, "constructor") or listHasError(classNode, "properties") \
@@ -676,7 +676,7 @@ def postWorkClass(docTree, classNode):
     or listHasError(classNode, "constants")
 
   if childHasError:
-    classNode.set("hasWarning", "true")
+    classNode.set("hasWarning", True)
 
   return childHasError
 
@@ -782,7 +782,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
         if not docFound and itemNode.get("overriddenFrom", False):
           # This item is overridden, but we didn't find any documentation in the
           # super classes -> Add a warning
-          itemNode.set("hasWarning", "true")
+          itemNode.set("hasWarning", True)
 
 
 
