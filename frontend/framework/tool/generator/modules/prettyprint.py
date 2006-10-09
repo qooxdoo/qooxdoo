@@ -42,6 +42,10 @@ def line():
   if pretty == "":
     return
 
+  # only one spacer line allowed here
+  if pretty.endswith("\n"):
+    return
+
   pretty += "\n"
 
   needindent = True
@@ -80,20 +84,43 @@ def compile(node, enableDebug=False):
 
 def compileNode(node, enableDebug=False):
   global newline
+  global pretty
 
   if node.getChild("commentsBefore", False) != None:
     commentCounter = 0
 
-    for comment in node.getChild("commentsBefore").children:
-      if not node.hasParent() or (node.parent.getFirstChild(True, True) != node or commentCounter > 0):
-        line()
+    if node.getPreviousSibling(False):
+      prevCase = node.getPreviousSibling().type == "case"
+    else:
+      prevCase = False
 
-        if comment.get("detail") == "multi":
-          line()
+    for comment in node.getChild("commentsBefore").children:
+      if not prevCase:
+        if not node.isFirstChild() or commentCounter > 0:
+          if commentCounter == 0 or comment.get("detail") == "multi":
+            line()
+
+          if comment.get("detail") == "multi":
+            line()
 
       newline = True
       out(comment.get("text").strip())
       newline = True
+
+      if comment.get("detail") == "multi":
+
+        # documentation comment JavaDoc
+        if comment.get("text").startswith("/**"):
+          pass
+
+        # documentation comment Qt
+        elif comment.get("text").startswith("/*!"):
+          pass
+
+        else:
+          # Additional new line in cases, where the multi line comment
+          # is not for documentation reasons (separators, etc.)
+          line()
 
       commentCounter += 1
 
@@ -127,15 +154,21 @@ def compileNode(node, enableDebug=False):
       newline = True
 
   elif node.type == "block":
-    if node.get("compact"):
-      out(" ")
+    if node.hasChildren():
+      if node.get("compact"):
+        out(" ")
+
+      else:
+        newline = True
 
     else:
-      newline = True
+      out(" ")
 
     out("{")
-    plus()
-    newline = True
+
+    if node.hasChildren():
+      plus()
+      newline = True
 
   elif node.type == "params":
     out("(")
@@ -144,12 +177,16 @@ def compileNode(node, enableDebug=False):
     out("(")
 
   elif node.type == "case":
+    # Force a new line between all case members
+    if node.getPreviousSibling().type != "expression":
+      line()
+
     minus()
     newline = True
     out("case ")
 
   elif node.type == "catch":
-    # If this statement block or the previous try was compact, be compact here, too
+    # If this statement block or the previous try were compact, be compact here, too
     if node.getChild("statement").getChild("block").get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
       newline = False
       out(" ")
@@ -175,8 +212,16 @@ def compileNode(node, enableDebug=False):
       out(" " + node.get("label", False))
 
   elif node.type == "elseStatement":
-    # If this statement block or the previous try was compact, be compact here, too
-    if node.getChild("block").get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
+    # If this statement block and the previous if were compact, be compact here, too
+    child = node.getChild("block", False)
+
+    if child == None:
+      child = node.getChild("loop", False)
+
+      if child != None:
+        child = child.getChild("statement").getChild("block")
+
+    if child.get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
       newline = False
       out(" ")
 
@@ -199,6 +244,11 @@ def compileNode(node, enableDebug=False):
     out("new ")
 
   elif node.type == "return":
+    if node.parent.type == "block" and not node.parent.get("compact"):
+    #and node.parent.parent.type == "body" and node.parent.parent.parent.type == "function":
+      if node.isLastChild():
+        line()
+
     out("return")
 
     if node.hasChildren():
@@ -209,6 +259,7 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "default":
     minus()
+    line()
     newline = True
     out("default:")
     plus()
@@ -253,7 +304,12 @@ def compileNode(node, enableDebug=False):
       out("(")
 
   elif node.type == "loop":
+    # Additional new lines in complex loop types
+    if not node.getChild("statement").getChild("block").get("compact") and not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+      line()
+
     loopType = node.get("loopType")
+
     if loopType == "IF":
       out("if")
 
@@ -349,7 +405,6 @@ def compileNode(node, enableDebug=False):
         childrenNumber += 1
 
 
-    previousType = None
 
 
     for child in node.children:
@@ -425,15 +480,7 @@ def compileNode(node, enableDebug=False):
           else:
             realNode = node
 
-          inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-
-          if not inForLoop and not oper in [ "INC", "DEC" ]:
-            out(" ")
-
           out(getTokenSource(oper))
-
-          if not inForLoop and not oper in [ "INC", "DEC" ]:
-            out(" ")
 
 
 
@@ -526,26 +573,23 @@ def compileNode(node, enableDebug=False):
 
 
       separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
-      not_after = [ "case", "default" ]
-      not_in = [ "definitionList", "statementList", "params", "variable", "array" ]
 
       if node.type in [ "block", "file", "switch" ]:
-        if not previousType in not_after:
-          if child.type in separators:
-            semicolon()
+        if child.type in separators:
+          semicolon()
 
-            # not last child
-            if childPosition == childrenNumber and node.type in [ "block", "switch", "file" ]:
-              pass
-            else:
-              newline = True
+          # not last child
+          if childPosition == childrenNumber and node.type in [ "block", "switch", "file" ]:
+            pass
+          else:
+            newline = True
 
 
 
 
       # Next...
       childPosition += 1
-      previousType = child.type
+
 
 
 
@@ -570,16 +614,19 @@ def compileNode(node, enableDebug=False):
     out("]")
 
   elif node.type == "block":
-    minus()
-    newline = True
+    if node.hasChildren():
+      minus()
+      newline = True
+
     out("}")
 
-    # Not it function assignment and param blocks
-    if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
-      pass
+    if node.hasChildren():
+      # Not it function assignment and param blocks
+      if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
+        pass
 
-    else:
-      newline = True
+      else:
+        newline = True
 
   elif node.type == "params":
     out(")")
@@ -616,6 +663,11 @@ def compileNode(node, enableDebug=False):
       out("{")
       plus()
       plus()
+
+  elif node.type == "loop":
+    # Additional new lines in complex loop types
+    if not node.getChild("statement").getChild("block").get("compact") and not node.isLastChild() and not node.getChild("commentsBefore", False):
+      line()
 
 
 
