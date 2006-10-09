@@ -117,7 +117,12 @@ def compileNode(node, enableDebug=False):
       newline = True
 
   elif node.type == "block":
-    newline = True
+    if node.get("compact"):
+      out(" ")
+
+    else:
+      newline = True
+
     out("{")
     plus()
     newline = True
@@ -134,6 +139,11 @@ def compileNode(node, enableDebug=False):
     out("case ")
 
   elif node.type == "catch":
+    # If this statement block or the previous try was compact, be compact here, too
+    if node.getChild("statement").getChild("block").get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
+      newline = False
+      out(" ")
+
     out("catch")
 
   elif node.type == "finally":
@@ -155,7 +165,11 @@ def compileNode(node, enableDebug=False):
       out(" " + node.get("label", False))
 
   elif node.type == "elseStatement":
-    newline = True
+    # If this statement block or the previous try was compact, be compact here, too
+    if node.getChild("block").get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
+      newline = False
+      out(" ")
+
     out("else")
 
     # This is a elseStatement without a block around (a set of {})
@@ -379,7 +393,7 @@ def compileNode(node, enableDebug=False):
             out("(")
 
           if not pretty.endswith(";") and not pretty.endswith("\n"):
-            out(";")
+            out("; ")
 
       elif node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
@@ -511,13 +525,9 @@ def compileNode(node, enableDebug=False):
     newline = True
     out("}")
 
-    # Not it:
-    # Function assignment, params block, etc.
+    # Not it function assignment and param blocks
     if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
       pass
-
-    #elif node.parent.type == "statement" and node.parent.parent.type == "loop":
-    #  pass
 
     else:
       newline = True
