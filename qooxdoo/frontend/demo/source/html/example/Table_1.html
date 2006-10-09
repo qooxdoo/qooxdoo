@@ -93,6 +93,7 @@
     buttonBar.add(button);
 
     var checkBox = new qx.ui.form.CheckBox("keepFirstVisibleRowComplete", null, null, table.getKeepFirstVisibleRowComplete());
+    checkBox.setToolTip(new qx.ui.popup.ToolTip("Whether the the first visible row should be rendered completely when scrolling."));
     checkBox.addEventListener("changeChecked", function(evt) {
       table.setKeepFirstVisibleRowComplete(checkBox.getChecked());
       this.info("Set keepFirstVisibleRowComplete to: " + checkBox.getChecked());
