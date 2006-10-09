@@ -165,7 +165,7 @@ def readExpression (stream):
 
 
 
-def readStatement (stream, expressionMode = False, overrunSemicolon = True):
+def readStatement (stream, expressionMode = False, overrunSemicolon = True, inStatementList = False):
   item = None
 
   if currIsIdentifier(stream, True):
@@ -367,12 +367,12 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True):
         item.addListChild("third", readExpression(stream))
 
   # check whether this is a combined statement, e.g. "bla(), i++"
-  if not expressionMode and stream.currIsType("token", "COMMA"):
+  if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
     statementList = createItemNode("statementList", stream)
     statementList.addChild(item)
     while stream.currIsType("token", "COMMA"):
       stream.next()
-      statementList.addChild(readStatement(stream, False, False))
+      statementList.addChild(readStatement(stream, False, False, True))
     item = statementList
 
   # go over the optional semicolon
