@@ -16,20 +16,37 @@ def getTokenSource(id):
   return None
 
 
-
-def line(info=""):
+def out(txt):
 
   global indent
+  global newline
+  global needindent
+  global pretty
+
+  if newline:
+    pretty += "\n"
+    needindent = True
+    newline = False
+
+  if needindent:
+    pretty += ("  " * indent)
+    needindent = False
+
+  pretty += txt
+
+
+def line():
+
+  global indent
+  global needindent
   global pretty
 
   if pretty == "":
     return
 
-  if info != "":
-    pass
-    #pretty += "[[ INFO %s ]]\n" % info
+  pretty += "\n"
 
-  pretty += "\n%s" % ("  " * indent)
+  needindent = True
 
 
 
@@ -64,10 +81,14 @@ def semicolon():
 def compile(node, enableDebug=False):
 
   global indent
+  global needindent
+  global newline
   global pretty
 
   indent = 0
+  needindent = False
   pretty = ""
+  newline = False
 
   compileNode(node, enableDebug)
 
@@ -79,26 +100,16 @@ def compile(node, enableDebug=False):
 def compileNode(node, enableDebug=False):
 
   global indent
+  global newline
   global pretty
 
 
   if node.getChild("commentsBefore", False) != None:
-    line("commentsbefore-1")
-
     for comment in node.getChild("commentsBefore").children:
-      # Additional new lines before big comment
-      if comment.get("detail", False) == "multi":
-        line("commentsbefore-2")
+      newline = True
+      out(comment.get("text").strip())
+      newline = True
 
-      pretty += comment.get("text")
-
-      # New line after singleline comment without line-ending
-      if not comment.get("text").endswith("\n"):
-        line("commentsbefore-3")
-
-      # Additional new lines after big comment
-      elif comment.get("detail", False) == "multi":
-        line("commentsbefore-4")
 
 
 
@@ -110,97 +121,97 @@ def compileNode(node, enableDebug=False):
 
   if node.type == "map":
     if node.hasChildren():
-      line("map-open-1")
+      newline = True
 
-    pretty += "{"
+    out("{")
 
     if node.hasChildren():
       plus()
-      line("map-open-2")
+      newline = True
 
   elif node.type == "array":
     if node.hasChildren():
-      line("array-open-1")
+      newline = True
 
-    pretty += "["
+    out("[")
 
     if node.hasChildren():
       plus()
-      line("array-open-2")
+      newline = True
 
   elif node.type == "block":
-    line("block-open-1")
-    pretty += "{"
+    newline = True
+    out("{")
     plus()
-    line("block-open-2")
+    newline = True
 
   elif node.type == "params":
-    pretty += "("
+    out("(")
 
   elif node.type == "group":
-    pretty += "("
+    out("(")
 
   elif node.type == "case":
     minus()
-    line("case-open")
-    pretty += "case "
+    newline = True
+    out("case ")
 
   elif node.type == "catch":
-    pretty += "catch"
+    out("catch")
 
   elif node.type == "finally":
-    pretty += "finally"
+    out("finally")
 
   elif node.type == "delete":
-    pretty += "delete "
+    out("delete ")
 
   elif node.type == "break":
-    pretty += "break"
+    out("break")
 
     if node.get("label", False):
-      pretty += " " + node.get("label", False)
+      out(" " + node.get("label", False))
 
   elif node.type == "continue":
-    pretty += "continue"
+    out("continue")
 
     if node.get("label", False):
-      pretty += " " + node.get("label", False)
+      out(" " + node.get("label", False))
 
   elif node.type == "elseStatement":
-    line("else-open")
-    pretty += "else"
+    newline = True
+    out("else")
 
     # This is a elseStatement without a block around (a set of {})
     if not node.hasChild("block"):
-      pretty += " "
+      out(" ")
 
   elif node.type == "switch" and node.get("switchType") == "case":
-    pretty += "switch"
+    out("switch")
 
   elif node.type == "switch" and node.get("switchType") == "catch":
-    pretty += "try"
+    out("try")
 
   elif node.type == "throw":
-    pretty += "throw "
+    out("throw ")
 
   elif node.type == "instantiation":
-    pretty += "new "
+    out("new ")
 
   elif node.type == "return":
-    pretty += "return"
+    out("return")
 
     if node.hasChildren():
-      pretty += " "
+      out(" ")
 
   elif node.type == "definitionList":
-    pretty += "var "
+    out("var ")
 
   elif node.type == "default":
     minus()
-    line("default-open-1")
-    pretty += "default:"
+    newline = True
+    out("default:")
     plus()
-    line("default-open-2")
+    newline = True
 
 
 
@@ -222,92 +233,92 @@ def compileNode(node, enableDebug=False):
       print "ATTENTION: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    pretty += keyString + " : "
+    out(keyString + " : ")
 
   elif node.type == "expression":
     if node.parent.type == "loop":
       loopType = node.parent.get("loopType")
 
       if loopType == "DO":
-        pretty += "while"
+        out("while")
 
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
-      pretty += "("
+      out("(")
     elif node.parent.type == "catch":
       # open expression block of CATCH statement
-      pretty += "("
+      out("(")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       # open expression block of SWITCH statement
-      pretty += "("
+      out("(")
 
   elif node.type == "loop":
     loopType = node.get("loopType")
     if loopType == "IF":
-      pretty += "if"
+      out("if")
 
     elif loopType == "WHILE":
-      pretty += "while"
+      out("while")
 
     elif loopType == "FOR":
-      pretty += "for"
+      out("for")
 
     elif loopType == "DO":
-      pretty += "do"
+      out("do")
 
     elif loopType == "WITH":
-      pretty += "with"
+      out("with")
 
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
 
   elif node.type == "function":
     functionDeclHasParams = False
-    pretty += "function"
+    out("function")
 
     functionName = node.get("name", False)
     if functionName != None:
-      pretty += " %s" % functionName
+      out(" %s" % functionName)
 
   elif node.type == "identifier":
     name = node.get("name", False)
     if name != None:
-      pretty += name
+      out(name)
 
   elif node.type == "call":
     callHasParams = False
 
   elif node.type == "definition":
     if node.parent.type != "definitionList":
-      pretty += "var "
+      out("var ")
 
-    pretty += node.get("identifier")
+    out(node.get("identifier"))
 
   elif node.type == "constant":
     if node.get("constantType") == "string":
       if node.get("detail") == "singlequotes":
-        pretty += "'"
+        out("'")
       else:
-        pretty += '"'
+        out('"')
 
-      pretty += node.get("value")
+      out(node.get("value"))
 
       if node.get("detail") == "singlequotes":
-        pretty += "'"
+        out("'")
       else:
-        pretty += '"'
+        out('"')
 
     else:
-      pretty += node.get("value")
+      out(node.get("value"))
 
   elif node.type == "third":
     if node.parent.type == "operation":
       if node.parent.get("operator") == "HOOK":
-        pretty += " : "
+        out(" : ")
       else:
         print "Unknown third argument... Not a hook"
 
   elif node.type == "labelTerminator":
-    pretty += ":"
+    out(":")
 
 
 
@@ -357,51 +368,51 @@ def compileNode(node, enableDebug=False):
 
         elif child.type == "body" and not functionDeclHasParams:
           # has no params before body, fix it here, and add body afterwards
-          pretty += "()"
+          out("()")
           functionDeclHasParams = True
 
       elif node.type == "definition" and child.type == "assignment":
         oper = child.get("operator", False)
 
-        pretty += " "
+        out(" ")
 
         if oper != None:
-          pretty += getTokenSource(oper)
+          out(getTokenSource(oper))
         else:
-          pretty += "="
+          out("=")
 
-        pretty += " "
+        out(" ")
 
       elif node.type == "accessor" and child.type == "key":
-        pretty += "["
+        out("[")
 
       elif node.type == "accessor" and child.type == "right":
-        pretty += "."
+        out(".")
 
       elif node.type == "loop" and node.get("loopType") == "FOR":
         if child.type == "first":
-          pretty += "("
+          out("(")
         elif child.type == "statement":
-          pretty += ")"
+          out(")")
         else:
           if child.type == "second" and node.getChild("first", False) == None:
-            pretty += "("
+            out("(")
 
           if child.type == "third" and node.getChild("first", False) == None and node.getChild("second", False) == None:
-            pretty += "("
+            out("(")
 
           if not pretty.endswith(";") and not pretty.endswith("\n"):
-            pretty += ";"
+            out(";")
 
       elif node.type == "operation" and node.get("left", False) == "true":
         op = node.get("operator")
 
         if op == "TYPEOF":
-          pretty += "typeof "
+          out("typeof ")
         elif op == None:
           print "BAD OPERATOR [A]: %s" % op
         else:
-          pretty += getTokenSource(op)
+          out(getTokenSource(op))
 
 
 
@@ -422,30 +433,30 @@ def compileNode(node, enableDebug=False):
         op = node.get("operator")
 
         if op == "IN":
-          pretty += " in "
+          out(" in ")
         elif op == "INSTANCEOF":
-          pretty += " instanceof "
+          out(" instanceof ")
         elif op == None:
           print "BAD OPERATOR [B]: %s" % op
         else:
-          pretty += " "
-          pretty += getTokenSource(op)
-          pretty += " "
+          out(" ")
+          out(getTokenSource(op))
+          out(" ")
 
       elif node.type == "assignment" and child.type == "left":
         oper = node.get("operator", False)
 
-        pretty += " "
+        out(" ")
 
         if oper != None:
-          pretty += getTokenSource(oper)
+          out(getTokenSource(oper))
         else:
-          pretty += "="
+          out("=")
 
-        pretty += " "
+        out(" ")
 
       elif node.type == "accessor" and child.type == "key":
-        pretty += "]"
+        out("]")
 
 
 
@@ -454,24 +465,24 @@ def compileNode(node, enableDebug=False):
       # Separate children in parent list
       if childPosition < childrenNumber:
         if node.type == "variable":
-          pretty += "."
+          out(".")
 
         elif node.type == "map":
-          pretty += ", "
-          line("map-separator")
+          out(", ")
+          newline = True
 
         elif node.type == "array":
-          pretty += ", "
-          line("array-separator")
+          out(", ")
+          newline = True
 
         elif node.type == "definitionList":
-          pretty += ", "
+          out(", ")
 
         elif node.type == "params":
-          pretty += ", "
+          out(", ")
 
         elif node.type == "statementList":
-          pretty += ", "
+          out(", ")
 
 
       separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
@@ -481,15 +492,13 @@ def compileNode(node, enableDebug=False):
       if node.type in [ "block", "file", "switch" ]:
         if not previousType in not_after:
           if child.type in separators:
-            # pretty += "[[SEMI]]"
             semicolon()
 
             # not last child
             if childPosition == childrenNumber and node.type in [ "block", "switch", "file" ]:
               pass
             else:
-              # pretty += "[[LINE]]"
-              line("block-divider")
+              newline = True
 
 
 
@@ -509,21 +518,21 @@ def compileNode(node, enableDebug=False):
   if node.type == "map":
     if node.hasChildren():
       minus()
-      line("map-close")
+      newline = True
 
-    pretty += "}"
+    out("}")
 
   elif node.type == "array":
     if node.hasChildren():
       minus()
-      line("array-close")
+      newline = True
 
-    pretty += "]"
+    out("]")
 
   elif node.type == "block":
     minus()
-    line("block-close-1")
-    pretty += "}"
+    newline = True
+    out("}")
 
     # Not it:
     # Function assignment, params block, etc.
@@ -534,44 +543,41 @@ def compileNode(node, enableDebug=False):
     #  pass
 
     else:
-      line("block-close-2")
+      newline = True
 
   elif node.type == "params":
-    pretty += ")"
+    out(")")
 
   elif node.type == "switch" and node.get("switchType") == "case":
     minus()
     minus()
-    line("switch-close-1")
-    pretty += "}"
-
-    # additional new line
-    line("switch-close-2")
-    line("switch-close-3")
+    newline = True
+    out("}")
+    newline = True
 
   elif node.type == "group":
-    pretty += ")"
+    out(")")
 
   elif node.type == "case":
-    pretty += ":"
+    out(":")
     plus()
-    line("case-close")
+    newline = True
 
   elif node.type == "call" and not callHasParams:
-    pretty += "()"
+    out("()")
 
   elif node.type == "function" and not functionDeclHasParams:
-    pretty += "()"
+    out("()")
 
   elif node.type == "expression":
     if node.parent.type == "loop":
-      pretty += ")"
+      out(")")
     elif node.parent.type == "catch":
-      pretty += ")"
+      out(")")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      pretty += ")"
-      line("switch-case-close-1")
-      pretty += "{"
+      out(")")
+      newline = True
+      out("{")
       plus()
       plus()
 
