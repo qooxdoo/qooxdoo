@@ -63,7 +63,9 @@ def minus():
 
 def semicolon():
   global pretty
-  pretty += ";"
+
+  if not (pretty.endswith("\n") or pretty.endswith(";")):
+    pretty += ";"
 
 
 def compile(node, enableDebug=False):
@@ -246,7 +248,7 @@ def compileNode(node, enableDebug=False):
   elif node.type == "return":
     if node.parent.type == "block" and not node.parent.get("compact"):
     #and node.parent.parent.type == "body" and node.parent.parent.parent.type == "function":
-      if node.isLastChild():
+      if node.isLastChild() and not node.isFirstChild():
         line()
 
     out("return")
@@ -264,11 +266,6 @@ def compileNode(node, enableDebug=False):
     out("default:")
     plus()
     newline = True
-
-
-
-
-
 
   elif node.type == "keyvalue":
     keyString = node.get("key")
@@ -555,10 +552,12 @@ def compileNode(node, enableDebug=False):
           out(".")
 
         elif node.type == "map":
+          newline = False
           out(", ")
           newline = True
 
         elif node.type == "array":
+          newline = False
           out(", ")
           newline = True
 
@@ -669,6 +668,27 @@ def compileNode(node, enableDebug=False):
     if not node.getChild("statement").getChild("block").get("compact") and not node.isLastChild() and not node.getChild("commentsBefore", False):
       line()
 
+
+
+
+  # Additional newline aftet top-level functions calls and assignments
+  if node.type == "assignment" or node.type == "call":
+    if not node.isLastChild(True):
+      child = node
+      notInFunctionScope = True
+      while child.hasParent():
+        if child.type == "function":
+          notInFunctionScope = False
+          break
+
+        elif child.type in [ "left", "right", "accessor" ]:
+          break
+
+        child = child.parent
+
+      if notInFunctionScope:
+        semicolon()
+        line()
 
 
 
