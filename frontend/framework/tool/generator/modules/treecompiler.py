@@ -313,7 +313,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
             if enableNewLines:
               compString += "\n"
 
-      elif node.type == "operation" and node.get("left", False) == "true":
+      elif node.type == "operation" and node.get("left", False) == True:
         op = node.get("operator")
 
         if op == "TYPEOF":
@@ -344,7 +344,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
 
 
-      if node.type == "operation" and child.type == "first" and node.get("left", False) != "true":
+      if node.type == "operation" and child.type == "first" and node.get("left", False) != True:
         op = node.get("operator")
 
         if op == "IN":
