@@ -2067,7 +2067,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   ---------------------------------------------------------------------------
     END
   ---------------------------------------------------------------------------
-   */
+  */
 }, qx.Super.prototype._appearances);
 
 
@@ -2078,7 +2078,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 ---------------------------------------------------------------------------
   DEFER SINGLETON INSTANCE
 ---------------------------------------------------------------------------
- */
+*/
 
 /**
  * Singleton Instance Getter
@@ -2091,6 +2091,6 @@ qx.Class.getInstance = qx.util.Return.returnInstance;
 ---------------------------------------------------------------------------
   REGISTER TO MANAGER
 ---------------------------------------------------------------------------
- */
+*/
 
 qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(qx.Class);
