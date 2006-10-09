@@ -325,8 +325,23 @@ qx.Proto._updateHorScrollBarMaximum = function() {
 qx.Proto._updateVerScrollBarMaximum = function() {
   var rowCount = this.getTable().getTableModel().getRowCount();
   var rowHeight = this._tablePane.getTableRowHeight();
-  this._verScrollBar.setMaximum(rowCount * rowHeight);
+
+  if (this.getTable().getKeepFirstVisibleRowComplete()) {
+    this._verScrollBar.setMaximum((rowCount + 1) * rowHeight);
+  } else {
+    this._verScrollBar.setMaximum(rowCount * rowHeight);
+  }
 }
+
+
+/**
+ * Event handler. Called when the table property "keepFirstVisibleRowComplete"
+ * changed.
+ */
+qx.Proto._onKeepFirstVisibleRowCompleteChanged = function() {
+  this._updateVerScrollBarMaximum();
+  this._updateContent();
+};
 
 
 // overridden
@@ -1170,16 +1185,20 @@ qx.Proto._updateContent = function() {
   var oldFirstRow = this._tablePane.getFirstVisibleRow();
   this._tablePane.setFirstVisibleRow(firstRow);
 
-  // NOTE: We don't consider paneOffset, because this may cause alternating
-  //     adding and deleting of one row when scolling.
   var rowCount = Math.ceil(paneHeight / rowHeight);
+  var paneOffset = 0;
+  if (! this.getTable().getKeepFirstVisibleRowComplete()) {
+    // NOTE: We don't consider paneOffset, because this may cause alternating
+    //       adding and deleting of one row when scolling. Instead we add one row
+    //       in every case.
+    rowCount++;
+    paneOffset = scrollY % rowHeight;
+  }
   this._tablePane.setVisibleRowCount(rowCount);
 
   if (firstRow != oldFirstRow) {
     this._updateFocusIndicator();
   }
-
-  var paneOffset = scrollY % rowHeight;
 
   // Workaround: We can't use scrollLeft for the header because IE
   //       automatically scrolls the header back, when a column is
