@@ -126,6 +126,53 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
 
+  def getPreviousSibling(self, mandatory = True, ignoreComments = False):
+    if self.hasParent():
+      prev = None
+      for child in self.parent.children:
+        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore"):
+          continue
+
+        if child == self:
+          if prev != None:
+            return prev
+          else:
+            break
+
+        prev = child
+
+    if mandatory:
+      raise NodeAccessException("Node " + self.type + " has no previous sibling", self)
+
+  def getFollowingSibling(self, mandatory = True, ignoreComments = False):
+    if self.hasParent():
+      prev = None
+
+      for child in self.parent.children:
+        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore"):
+          continue
+
+        if prev != None:
+          return child
+
+        if child == self:
+          prev = child
+
+    if mandatory:
+      raise NodeAccessException("Node " + self.type + " has no following sibling", self)
+
+  def isFirstChild(self, ignoreComments = False):
+    if not self.hasParent():
+      return False
+
+    return self.parent.getFirstChild(True, ignoreComments) == self
+
+  def isLastChild(self, ignoreComments = False):
+    if not self.hasParent():
+      return False
+
+    return self.parent.getLastChild(True, ignoreComments) == self
+
   def addListChild(self, listName, childNode):
     listNode = self.getChild(listName, False)
     if not listNode:
