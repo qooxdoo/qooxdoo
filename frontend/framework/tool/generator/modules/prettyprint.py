@@ -365,7 +365,10 @@ def compileNode(node, enableDebug=False):
       elif node.type == "definition" and child.type == "assignment":
         oper = child.get("operator", False)
 
-        if not oper in [ "INC", "DEC" ]:
+        realNode = node.parent
+        inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
           out(" ")
 
         if oper != None:
@@ -373,7 +376,7 @@ def compileNode(node, enableDebug=False):
         else:
           out("=")
 
-        if not oper in [ "INC", "DEC" ]:
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
           out(" ")
 
       elif node.type == "accessor" and child.type == "key":
@@ -398,19 +401,28 @@ def compileNode(node, enableDebug=False):
             out("; ")
 
       elif node.type == "operation" and node.get("left", False) == True:
-        op = node.get("operator")
+        oper = node.get("operator")
 
-        if op == "TYPEOF":
+        if oper == "TYPEOF":
           out("typeof ")
-        elif op == None:
-          print "BAD OPERATOR [A]: %s" % op
+        elif oper == None:
+          print "BAD OPERATOR [A]: %s" % oper
         else:
-          if not oper in [ "INC", "DEC" ]:
+          inForLoop = False
+
+          if node.parent.type == "statementList":
+            realNode = node.parent
+          else:
+            realNode = node
+
+          inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+
+          if not inForLoop and not oper in [ "INC", "DEC" ]:
             out(" ")
 
-          out(getTokenSource(op))
+          out(getTokenSource(oper))
 
-          if not oper in [ "INC", "DEC" ]:
+          if not inForLoop and not oper in [ "INC", "DEC" ]:
             out(" ")
 
 
@@ -430,7 +442,14 @@ def compileNode(node, enableDebug=False):
       if node.type == "operation" and child.type == "first" and node.get("left", False) != True:
         oper = node.get("operator")
 
-        if not oper in [ "INC", "DEC" ]:
+        if node.parent.type == "statementList":
+          realNode = node.parent
+        else:
+          realNode = node
+
+        inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
           out(" ")
 
         if oper == "IN":
@@ -442,20 +461,29 @@ def compileNode(node, enableDebug=False):
         else:
           out(getTokenSource(oper))
 
-        if not oper in [ "INC", "DEC" ]:
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
           out(" ")
 
       elif node.type == "assignment" and child.type == "left":
         oper = node.get("operator", False)
 
-        out(" ")
+        if node.parent.type == "statementList":
+          realNode = node.parent
+        else:
+          realNode = node
+
+        inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
+          out(" ")
 
         if oper != None:
           out(getTokenSource(oper))
         else:
           out("=")
 
-        out(" ")
+        if not inForLoop and not oper in [ "INC", "DEC" ]:
+          out(" ")
 
       elif node.type == "accessor" and child.type == "key":
         out("]")
