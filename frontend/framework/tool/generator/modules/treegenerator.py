@@ -486,41 +486,17 @@ def readParamList (node, stream):
   stream.next()
 
 
-
 def readBlock(stream):
-  #return readBlock_simple(stream)
-  return readBlock_real(stream)
-
-
-
-def readBlock_real(stream):
   stream.expectCurrType("token", "LC")
-  stream.next()
-
   item = createItemNode("block", stream)
+
+  stream.next()
   while not stream.currIsType("token", "RC"):
     item.addChild(readStatement(stream))
 
   stream.next()
 
   return item
-
-
-
-def readBlock_simple(stream):
-  stream.expectCurrType("token", "LC")
-  stream.next()
-
-  level = 1
-  while not stream.finished() and level != 0:
-    if stream.currIsType("token", "LC"):
-      level += 1
-    elif stream.currIsType("token", "RC"):
-      level -= 1
-    stream.next()
-
-  return createItemNode("block", stream)
-
 
 
 def readMap(stream):
