@@ -324,7 +324,7 @@ qx.Proto._updateHorScrollBarMaximum = function() {
  */
 qx.Proto._updateVerScrollBarMaximum = function() {
   var rowCount = this.getTable().getTableModel().getRowCount();
-  var rowHeight = this._tablePane.getTableRowHeight();
+  var rowHeight = this.getTable().getRowHeight();
 
   if (this.getTable().getKeepFirstVisibleRowComplete()) {
     this._verScrollBar.setMaximum((rowCount + 1) * rowHeight);
@@ -399,7 +399,7 @@ qx.Proto._onScrollY = function(evt) {
  */
 qx.Proto._onmousewheel = function(evt) {
   this._verScrollBar.setValue(this._verScrollBar.getValue()
-    - evt.getWheelDelta() * this._tablePane.getTableRowHeight());
+    - evt.getWheelDelta() * this.getTable().getRowHeight());
 
   // Update the focus
   if (this._lastMousePageX && this.getFocusCellOnMouseMove()) {
@@ -838,7 +838,7 @@ qx.Proto.scrollCellVisible = function(col, row) {
 
     var colLeft = paneModel.getColumnLeft(col);
     var colWidth = columnModel.getColumnWidth(col);
-    var rowHeight = this._tablePane.getTableRowHeight();
+    var rowHeight = this.getTable().getRowHeight();
     var rowTop = row * rowHeight;
 
     var scrollX = this.getScrollX();
@@ -1035,7 +1035,7 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperBottomY = qx.dom.DomLocation.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
-    var rowHeight = this._tablePane.getTableRowHeight();
+    var rowHeight = this.getTable().getRowHeight();
 
     var scrollY = this._verScrollBar.getValue();
     if (this.getTable().getKeepFirstVisibleRowComplete()) {
@@ -1133,7 +1133,7 @@ qx.Proto.getNeededScrollBars = function(forceHorizontal, preventVertical) {
 
   // Get the (virtual) width and height of the pane
   var paneWidth = this.getTablePaneModel().getTotalWidth();
-  var paneHeight = this._tablePane.getTableRowHeight() * this.getTable().getTableModel().getRowCount();
+  var paneHeight = this.getTable().getRowHeight() * this.getTable().getTableModel().getRowCount();
 
   // Check which scrollbars are needed
   var horNeeded = false;
@@ -1184,7 +1184,7 @@ qx.Proto._updateContent = function() {
   var paneHeight = this._paneClipper.getInnerHeight();
   var scrollX = this._horScrollBar.getValue();
   var scrollY = this._verScrollBar.getValue();
-  var rowHeight = this._tablePane.getTableRowHeight();
+  var rowHeight = this.getTable().getRowHeight();
 
   var firstRow = Math.floor(scrollY / rowHeight);
   var oldFirstRow = this._tablePane.getFirstVisibleRow();
@@ -1231,7 +1231,7 @@ qx.Proto._updateFocusIndicator = function() {
       var paneModel = this.getTablePaneModel();
 
       var firstRow = this._tablePane.getFirstVisibleRow();
-      var rowHeight = this._tablePane.getTableRowHeight();
+      var rowHeight = this.getTable().getRowHeight();
 
       this._focusIndicator.setHeight(rowHeight + 3);
       this._focusIndicator.setWidth(columnModel.getColumnWidth(this._focusedCol) + 3);

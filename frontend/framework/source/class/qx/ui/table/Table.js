@@ -74,6 +74,9 @@ qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : 
 /** The table column model. */
 qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
 
+/** The height of the table rows. */
+qx.OO.addProperty({ name:"rowHeight", type:qx.constant.Type.NUMBER, defaultValue:15 });
+
 /** Whether to show the status bar */
 qx.OO.addProperty({ name:"statusBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
 
@@ -201,15 +204,11 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
     }
   }
 
-  // calculate the new row height
+  // calculate the new header height
   var maxHeaderHeight = 0;
-  var maxRowHeight = 0;
   for (var i = 0; i < scrollerArr.length; i++) {
     var headerHeight = scrollerArr[i].getHeader().calculateHeaderHeight();
     maxHeaderHeight = Math.max(headerHeight, maxHeaderHeight);
-
-    var rowHeight = scrollerArr[i].getTablePane().calculateTableRowHeight();
-    maxRowHeight = Math.max(rowHeight, maxRowHeight);
   }
 
   // Update all meta columns
@@ -219,9 +218,6 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
 
     // Set the right header height
     paneScroller.getHeader().setHeight(maxHeaderHeight);
-
-    // Set the right row height
-    paneScroller.getTablePane().setTableRowHeight(maxRowHeight);
 
     // Put the _columnVisibilityBt in the top right corner of the last meta column
     paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);

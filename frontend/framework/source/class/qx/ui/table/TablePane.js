@@ -40,9 +40,6 @@ function(paneScroller) {
   this._lastRowCount = 0;
 });
 
-/** The height of the table rows. */
-qx.OO.addProperty({ name:"tableRowHeight", type:qx.constant.Type.NUMBER, defaultValue:1 });
-
 /** The index of the first row to show. */
 qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaultValue:0 });
 
@@ -98,17 +95,6 @@ qx.Proto.getPaneScroller = function() {
 qx.Proto.getTable = function() {
   return this._paneScroller.getTable();
 };
-
-
-/**
- * Calculates the preferred height of a row shown in this pane.
- *
- * @return {int} the preferred row height in pixels.
- */
-qx.Proto.calculateTableRowHeight = function() {
-  // TODO: Create one row and measure its height
-  return 15;
-}
 
 
 /**
@@ -241,7 +227,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var colCount = paneModel.getColumnCount();
-  var rowHeight = this.getTableRowHeight();
+  var rowHeight = this.getTable().getRowHeight();
 
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
@@ -357,7 +343,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var colCount = paneModel.getColumnCount();
-  var rowHeight = this.getTableRowHeight();
+  var rowHeight = this.getTable().getRowHeight();
 
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
