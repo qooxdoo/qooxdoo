@@ -72,6 +72,7 @@ class Node:
   def replaceChild(self, oldChild, newChild):
     if self.hasChildren():
       self.children.insert(self.children.index(oldChild), newChild)
+      newChild.parent = self
       self.children.remove(oldChild)
 
   def getChild(self, type, mandatory = True):
