@@ -5,6 +5,51 @@ import config, tokenizer, treegenerator, filetool, stringoptimizer
 
 
 
+def validateFiles():
+
+  global internalModTime
+
+  base = os.path.dirname(os.path.abspath(sys.argv[0]))
+  if base.endswith("modules"):
+    path = base
+  else:
+    path = os.path.join(base, "modules")
+
+  maxFileModTime = os.stat(os.path.join(path, ".." + os.path.sep + "generator.py")).st_mtime
+
+  for root, dirs, files in os.walk(path):
+
+    # Filter ignored directories
+    for ignoredDir in config.DIRIGNORE:
+      if ignoredDir in dirs:
+        dirs.remove(ignoredDir)
+
+    # Searching for files
+    for fileName in files:
+      if os.path.splitext(fileName)[1] != config.PYEXT:
+        continue
+
+      filePath = os.path.join(root, fileName)
+      fileModTime = os.stat(filePath).st_mtime
+
+      if fileModTime > maxFileModTime:
+        maxFileModTime = fileModTime
+
+
+  internalModTime = maxFileModTime
+
+
+
+def getInternalModTime():
+
+  global internalModTime
+
+  if internalModTime == 0:
+    validateFiles()
+
+  return internalModTime
+
+
 
 def extractFileContentId(data):
   for item in config.QXHEAD["id"].findall(data):
@@ -144,7 +189,7 @@ def getTokens(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
         loadCache = True
 
     if loadCache:
@@ -181,7 +226,7 @@ def getTree(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
         loadCache = True
 
     if loadCache:
@@ -218,7 +263,7 @@ def getStrings(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
         loadCache = True
 
     if loadCache:
@@ -383,7 +428,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
     useCache = True
 
-    if not filetool.checkCache(filePath, cachePath):
+    if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
       loadCache = True
 
 

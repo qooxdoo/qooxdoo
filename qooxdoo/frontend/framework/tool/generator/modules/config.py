@@ -10,6 +10,7 @@ import re
 #
 
 JSEXT = ".js"
+PYEXT = ".py"
 XMLEXT = ".xml"
 TOKENEXT = ".txt"
 DIRIGNORE = [ ".svn", "CVS" ]

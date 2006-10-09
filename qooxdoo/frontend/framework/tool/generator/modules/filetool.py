@@ -56,12 +56,17 @@ def readCache(cachePath):
     sys.exit(1)
 
 
-def checkCache(filePath, cachePath):
+def checkCache(filePath, cachePath, internalModTime):
   fileModTime = os.stat(filePath).st_mtime
 
   try:
     cacheModTime = os.stat(cachePath).st_mtime
   except OSError:
     cacheModTime = 0
+
+  if internalModTime > cacheModTime:
+    # print "Invalid cache: %s" % filePath
+    # print "%s > %s" % (internalModTime, cacheModTime)
+    return True
 
   return fileModTime > cacheModTime
