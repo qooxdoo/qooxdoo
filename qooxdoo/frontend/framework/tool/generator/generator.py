@@ -289,8 +289,6 @@ def main():
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
-  loader.validateFiles()
-
   argparser(sys.argv[1:])
 
 
