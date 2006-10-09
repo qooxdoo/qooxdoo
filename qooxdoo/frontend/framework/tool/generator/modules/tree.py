@@ -244,8 +244,10 @@ def escapeXmlChars(text, inAttribute):
 
 def escapeJsonChars(text):
   if isinstance(text, basestring):
-    return text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+    text = text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
   elif isinstance(text, bool):
     text = str(text).lower()
   else:
     text = str(text)
+
+  return text
