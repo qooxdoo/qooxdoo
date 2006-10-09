@@ -52,13 +52,32 @@ def search(node, list, level=0, prefix="$"):
     # Replace variables in current scope
     update(node, list, prefix)
 
+  # File closed, update global code
+  elif node.type == "file":
+    # Iterate over content
+    # Replace variables in current scope
+    update(node, list, prefix)
 
 
 def update(node, list, prefix="$"):
   # Handle all identifiers
   if node.type == "identifier":
+
+    isFirstChild = False
+    isVariableMember = False
+
+    if node.parent.type == "variable":
+      isVariableMember = True
+      varParent = node.parent.parent
+      if not (varParent.type == "right" and varParent.parent.type == "accessor"):
+        isFirstChild = (node.parent.getFirstChild(True, True) == node)
+    elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
+        isVariableMember = True
+        accessor = node.parent.parent
+        isFirstChild = (accessor.parent.getFirstChild(True, True) == accessor)
+
     # inside a variable parent only respect the first member
-    if node.parent.type != "variable" or node.parent.getFirstChild(True, True) == node:
+    if not isVariableMember or isFirstChild:
       idenName = node.get("name", False)
 
       if idenName != None and idenName in list:
@@ -74,6 +93,16 @@ def update(node, list, prefix="$"):
     if idenName != None and idenName in list:
       replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
       node.set("identifier", replName)
+
+      # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+
+  # Handle function definition
+  elif node.type == "function":
+    idenName = node.get("name", False)
+
+    if idenName != None and idenName in list:
+      replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
+      node.set("name", replName)
 
       # print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
