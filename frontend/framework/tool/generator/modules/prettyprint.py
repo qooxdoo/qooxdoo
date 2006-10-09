@@ -82,10 +82,20 @@ def compileNode(node, enableDebug=False):
   global newline
 
   if node.getChild("commentsBefore", False) != None:
+    commentCounter = 0
+
     for comment in node.getChild("commentsBefore").children:
+      if not node.hasParent() or (node.parent.getFirstChild(True, True) != node or commentCounter > 0):
+        line()
+
+        if comment.get("detail") == "multi":
+          line()
+
       newline = True
       out(comment.get("text").strip())
       newline = True
+
+      commentCounter += 1
 
 
 
