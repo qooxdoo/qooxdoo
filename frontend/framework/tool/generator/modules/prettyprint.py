@@ -405,8 +405,13 @@ def compileNode(node, enableDebug=False):
         elif op == None:
           print "BAD OPERATOR [A]: %s" % op
         else:
+          if not oper in [ "INC", "DEC" ]:
+            out(" ")
+
           out(getTokenSource(op))
 
+          if not oper in [ "INC", "DEC" ]:
+            out(" ")
 
 
 
@@ -423,17 +428,21 @@ def compileNode(node, enableDebug=False):
 
 
       if node.type == "operation" and child.type == "first" and node.get("left", False) != True:
-        op = node.get("operator")
+        oper = node.get("operator")
 
-        if op == "IN":
-          out(" in ")
-        elif op == "INSTANCEOF":
-          out(" instanceof ")
-        elif op == None:
-          print "BAD OPERATOR [B]: %s" % op
-        else:
+        if not oper in [ "INC", "DEC" ]:
           out(" ")
-          out(getTokenSource(op))
+
+        if oper == "IN":
+          out("in")
+        elif oper == "INSTANCEOF":
+          out("instanceof")
+        elif oper == None:
+          print "BAD OPERATOR [B]: %s" % oper
+        else:
+          out(getTokenSource(oper))
+
+        if not oper in [ "INC", "DEC" ]:
           out(" ")
 
       elif node.type == "assignment" and child.type == "left":
