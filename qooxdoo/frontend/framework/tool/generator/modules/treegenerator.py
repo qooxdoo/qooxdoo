@@ -496,12 +496,14 @@ def readBlock(stream):
     child = readStatement(stream)
     item.addChild(child)
 
-    # ignore comments
-    if not child.type in [ "comment", "commentsBefore" ]:
-      counter += 1
+    counter += 1
 
     # complex inner blocks
     if child.type in [ "loop", "switch" ]:
+      counter += 1
+
+    # children with comments
+    if child.getChild("commentsBefore", False):
       counter += 1
 
   item.set("compact", counter < 2)
