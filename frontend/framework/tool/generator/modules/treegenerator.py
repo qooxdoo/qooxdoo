@@ -112,13 +112,13 @@ class SyntaxException (Exception):
 
 def createItemNode(type, stream):
   node = tree.Node(type)
-  node.set("line", str(stream.currLine()))
+  node.set("line", stream.currLine())
 
   comments = stream.clearCommentsBefore()
   if comments:
     for comment in comments:
       commentNode = tree.Node("comment")
-      commentNode.set("line", str(comment["line"]))
+      commentNode.set("line", comment["line"])
       commentNode.set("text", comment["source"])
       commentNode.set("detail", comment["detail"])
       #print comment["source"]
@@ -489,10 +489,22 @@ def readParamList (node, stream):
 def readBlock(stream):
   stream.expectCurrType("token", "LC")
   item = createItemNode("block", stream)
+  counter = 0
 
   stream.next()
   while not stream.currIsType("token", "RC"):
-    item.addChild(readStatement(stream))
+    child = readStatement(stream)
+    item.addChild(child)
+
+    # ignore comments
+    if not child.type in [ "comment", "commentsBefore" ]:
+      counter += 1
+
+    # complex inner blocks
+    if child.type in [ "loop", "switch" ]:
+      counter += 1
+
+  item.set("compact", counter < 2)
 
   stream.next()
 
