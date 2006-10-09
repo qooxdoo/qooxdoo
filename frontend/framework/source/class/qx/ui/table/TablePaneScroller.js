@@ -1035,9 +1035,14 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperBottomY = qx.dom.DomLocation.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
-    var scrollY = this._verScrollBar.getValue();
-    var tableY = scrollY + pageY - paneClipperTopY;
     var rowHeight = this._tablePane.getTableRowHeight();
+
+    var scrollY = this._verScrollBar.getValue();
+    if (this.getTable().getKeepFirstVisibleRowComplete()) {
+      scrollY = Math.floor(scrollY / rowHeight) * rowHeight;
+    }
+
+    var tableY = scrollY + pageY - paneClipperTopY;
     var row = Math.floor(tableY / rowHeight);
 
     var rowCount = this.getTable().getTableModel().getRowCount();
