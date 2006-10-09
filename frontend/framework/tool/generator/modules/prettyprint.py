@@ -180,7 +180,7 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "case":
     # Force a new line between all case members
-    if node.getPreviousSibling().type != "expression":
+    if not node.getPreviousSibling().type in [ "case", "expression" ]:
       line()
 
     minus()
