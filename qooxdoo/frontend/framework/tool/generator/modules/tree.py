@@ -15,8 +15,8 @@ class Node:
 
   def set(self, key, value):
     """Sets an attribute"""
-    if not isinstance(value, basestring):
-      raise NodeAccessException("'value' is no string: " + str(value), self)
+    if not isinstance(value, (basestring, int, long, float, complex, bool)):
+      raise NodeAccessException("'value' is no string or number: " + str(value), self)
     if not self.hasAttributes():
       self.attributes = {}
     self.attributes[key] = value
@@ -40,8 +40,16 @@ class Node:
   def hasParent(self):
     return hasattr(self, "parent")
 
-  def hasChildren(self):
-    return hasattr(self, "children")
+  def hasChildren(self, ignoreComments = False):
+    if not ignoreComments:
+      return hasattr(self, "children")
+    else:
+      if not hasattr(self, "children"):
+        return False
+
+      for child in self.children:
+        if child.type != "comment" and child.type != "commentsBefore":
+          return True
 
   def addChild(self, childNode, index = None):
     if childNode:
@@ -106,7 +114,7 @@ class Node:
         return self.children[-1]
       else:
         pos = len(self.children) - 1
-        while pos > 0:
+        while pos >= 0:
           child = self.children[pos]
 
           if child.type != "comment" and child.type != "commentsBefore":
