@@ -56,10 +56,13 @@ def search(node, list, level=0, prefix="$"):
   elif node.type == "file":
     # Iterate over content
     # Replace variables in current scope
-    update(node, list, prefix)
+
+    # update(node, list, prefix, True)
+    # We don't want to replace global variables
+    pass
 
 
-def update(node, list, prefix="$"):
+def update(node, list, prefix="$", debug=False):
   # Handle all identifiers
   if node.type == "identifier":
 
@@ -70,11 +73,11 @@ def update(node, list, prefix="$"):
       isVariableMember = True
       varParent = node.parent.parent
       if not (varParent.type == "right" and varParent.parent.type == "accessor"):
-        isFirstChild = (node.parent.getFirstChild(True, True) == node)
+        isFirstChild = node.parent.getFirstChild(True, True) == node
     elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
         isVariableMember = True
         accessor = node.parent.parent
-        isFirstChild = (accessor.parent.getFirstChild(True, True) == accessor)
+        isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
 
     # inside a variable parent only respect the first member
     if not isVariableMember or isFirstChild:
@@ -84,7 +87,8 @@ def update(node, list, prefix="$"):
         replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
         node.set("name", replName)
 
-        # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+        if debug:
+          print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
   # Handle variable definition
   elif node.type == "definition":
@@ -94,7 +98,8 @@ def update(node, list, prefix="$"):
       replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
       node.set("identifier", replName)
 
-      # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+      if debug:
+        print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
   # Handle function definition
   elif node.type == "function":
@@ -104,9 +109,10 @@ def update(node, list, prefix="$"):
       replName = "%s%s" % (prefix, mapper.convert(list.index(idenName)))
       node.set("name", replName)
 
-      # print "  - Replaced '%s' with '%s'" % (idenName, replName)
+      if debug:
+        print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
   # Iterate over children
   if node.hasChildren():
     for child in node.children:
-      update(child, list, prefix)
+      update(child, list, prefix, debug)
