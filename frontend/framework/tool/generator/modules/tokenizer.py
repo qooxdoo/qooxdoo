@@ -24,10 +24,10 @@ S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
 S_OPERATORS_4 = r"(\>\>\>=)"
 S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
-S_REGEXP = "(\/[^\t\n\r\f\v]+?\/[mgi]*)"
-S_REGEXP_A = "\.(match|search|split)\(" + S_REGEXP + "\)"
-S_REGEXP_B = "\.(replace)\(" + S_REGEXP + ","
-S_REGEXP_C = S_REGEXP + "\.(test|exec)\("
+S_REGEXP = "\s*(\/[^\t\n\r\f\v]+?\/[mgi]*)\s*"
+S_REGEXP_A = "\.(match|search|split)\s*\(" + S_REGEXP + "\)"
+S_REGEXP_B = "\.(replace)\s*\(" + S_REGEXP + ","
+S_REGEXP_C = S_REGEXP + "\.(test|exec)\s*\("
 S_REGEXP_D = S_REGEXP
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
