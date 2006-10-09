@@ -83,11 +83,30 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no child with type " + type, self)
 
+  def hasChildRecursive(self, type):
+    if isinstance(type, basestring):
+      if self.type == type:
+        return True
+    elif isinstance(type, list):
+      if self.type in type:
+        return True
+
+    if self.hasChildren():
+      for child in self.children:
+        if child.hasChildRecursive(type):
+          return True
+
+    return False
+
   def hasChild(self, type):
     if self.hasChildren():
       for child in self.children:
-        if child.type == type:
-          return True
+        if isinstance(type, basestring):
+          if child.type == type:
+            return True
+        elif isinstance(type, list):
+          if child.type in type:
+            return True
 
     return False
 
