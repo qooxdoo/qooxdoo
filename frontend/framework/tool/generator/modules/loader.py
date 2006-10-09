@@ -3,6 +3,7 @@
 import sys, string, re, os, random, cPickle, codecs
 import config, tokenizer, treegenerator, filetool, stringoptimizer
 
+internalModTime = 0
 
 
 def validateFiles():
