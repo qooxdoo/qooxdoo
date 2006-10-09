@@ -230,12 +230,21 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 def escapeXmlChars(text, inAttribute):
-  text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-  if inAttribute:
-    text = text.replace("\"", "&quot;")
+  if isinstance(text, basestring):
+    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    if inAttribute:
+      text = text.replace("\"", "&quot;")
+  else:
+    text = str(text)
+
   return text
 
 
 
 def escapeJsonChars(text):
-  return text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+  if isinstance(text, basestring):
+    return text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+  elif isinstance(text, bool):
+    text = str(text).lower()
+  else:
+    text = str(text)
