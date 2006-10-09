@@ -3,7 +3,6 @@
 import sys, string, re, os, random, optparse
 import config, tokenizer, filetool, treegenerator
 
-
 KEY = re.compile("^[A-Za-z0-9_]+$")
 
 
@@ -36,11 +35,10 @@ def out(txt):
 
 
 def line():
-
-  global indent
   global needindent
   global pretty
 
+  # ignore if this is the first content inside the file
   if pretty == "":
     return
 
@@ -49,37 +47,22 @@ def line():
   needindent = True
 
 
-
 def plus():
-
   global indent
-  global pretty
-
   indent += 1
 
 
-
 def minus():
-
   global indent
-  global pretty
-
-
   indent -= 1
 
 
-
 def semicolon():
-
-  global indent
   global pretty
-
   pretty += ";"
 
 
-
 def compile(node, enableDebug=False):
-
   global indent
   global needindent
   global newline
@@ -95,14 +78,8 @@ def compile(node, enableDebug=False):
   return pretty.strip()
 
 
-
-
 def compileNode(node, enableDebug=False):
-
-  global indent
   global newline
-  global pretty
-
 
   if node.getChild("commentsBefore", False) != None:
     for comment in node.getChild("commentsBefore").children:
