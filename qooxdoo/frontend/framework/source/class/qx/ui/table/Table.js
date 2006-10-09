@@ -92,6 +92,12 @@ qx.OO.addProperty({ name:"metaColumnCounts", type:qx.constant.Type.OBJECT });
  */
 qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, defaultValue:false });
 
+/**
+ * Whether the table should keep the first visible row complete. If set to false,
+ * the first row may be rendered partial, depending on the vertical scroll value.
+ */
+qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+
 
 // property modifier
 qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
@@ -233,6 +239,16 @@ qx.Proto._modifyFocusCellOnMouseMove = function(propValue, propOldValue, propDat
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
     scrollerArr[i].setFocusCellOnMouseMove(propValue);
+  }
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyKeepFirstVisibleRowComplete = function(propValue, propOldValue, propData) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
   }
   return true;
 };
