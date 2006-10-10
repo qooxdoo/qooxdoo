@@ -347,6 +347,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
     this._lastRowCount = rowCount;
 
     this._updateScrollBarVisibility();
+    this._updateStatusBar();
   }
 };
 
