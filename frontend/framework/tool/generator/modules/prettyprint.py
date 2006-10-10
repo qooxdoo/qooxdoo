@@ -234,7 +234,7 @@ def compileNode(node, enableDebug=False):
       out(" ")
 
   elif node.type == "switch" and node.get("switchType") == "case":
-    out("switch")
+    out("switch ")
 
   elif node.type == "switch" and node.get("switchType") == "catch":
     out("try")
@@ -289,7 +289,7 @@ def compileNode(node, enableDebug=False):
       loopType = node.parent.get("loopType")
 
       if loopType == "DO":
-        out("while")
+        out("while ")
 
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
       out("(")
@@ -301,26 +301,26 @@ def compileNode(node, enableDebug=False):
       out("(")
 
   elif node.type == "loop":
-    # Additional new lines in complex loop types
-    if not node.getChild("statement").getChild("block").get("compact") and not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+    # Additional new line before each loop
+    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
       line()
 
     loopType = node.get("loopType")
 
     if loopType == "IF":
-      out("if")
+      out("if ")
 
     elif loopType == "WHILE":
-      out("while")
+      out("while ")
 
     elif loopType == "FOR":
-      out("for")
+      out("for ")
 
     elif loopType == "DO":
-      out("do")
+      out("do ")
 
     elif loopType == "WITH":
-      out("with")
+      out("with ")
 
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
@@ -664,31 +664,10 @@ def compileNode(node, enableDebug=False):
       plus()
 
   elif node.type == "loop":
-    # Additional new lines in complex loop types
-    if not node.getChild("statement").getChild("block").get("compact") and not node.isLastChild() and not node.getChild("commentsBefore", False):
+    # Force a additinal line feed after each loop
+    if not node.isLastChild():
       line()
 
-
-
-
-  # Additional newline aftet top-level functions calls and assignments
-  if node.type == "assignment" or node.type == "call":
-    if not node.isLastChild(True):
-      child = node
-      notInFunctionScope = True
-      while child.hasParent():
-        if child.type == "function":
-          notInFunctionScope = False
-          break
-
-        elif child.type in [ "left", "right", "accessor" ]:
-          break
-
-        child = child.parent
-
-      if notInFunctionScope:
-        semicolon()
-        line()
 
 
 
