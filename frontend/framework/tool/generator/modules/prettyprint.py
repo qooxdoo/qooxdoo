@@ -234,7 +234,7 @@ def compileNode(node, enableDebug=False):
       out(" ")
 
   elif node.type == "switch" and node.get("switchType") == "case":
-    out("switch ")
+    out("switch")
 
   elif node.type == "switch" and node.get("switchType") == "catch":
     out("try")
@@ -620,7 +620,7 @@ def compileNode(node, enableDebug=False):
     out("}")
 
     if node.hasChildren():
-      # Not it function assignment and param blocks
+      # Not in function assignment and param blocks
       if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
         pass
 
