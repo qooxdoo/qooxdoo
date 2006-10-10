@@ -431,7 +431,7 @@ qx.Proto._onkeydown = function(evt) {
         var scroller = this.getPaneScroller(0);
         var pane = scroller.getTablePane();
         var rowCount = pane.getVisibleRowCount() - 1;
-        var rowHeight = pane.getTableRowHeight();
+        var rowHeight = this.getRowHeight();
         var direction = (keyCode == keys.pageup) ? -1 : 1;
         scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
         this.moveFocusedCell(0, direction * rowCount);
