@@ -499,7 +499,7 @@ def readBlock(stream):
     counter += 1
 
     # complex inner blocks
-    if child.hasChildRecursive([ "loop", "switch", "map", "array" ]):
+    if child.hasChildRecursive([ "loop", "switch", "map", "array", "function" ]):
       counter += 1
 
     # children with comments
