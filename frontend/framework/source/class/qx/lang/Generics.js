@@ -124,14 +124,14 @@ qx.lang.Generics.init = function()
 
       if (!constr[name])
       {
-        constr[methods[j]] = function(constr, name)
+        constr[methods[j]] = (function(constr, name)
         {
           return function(s)
           {
             var args = Array.prototype.slice.call(arguments, 1);
             return constr.prototype[name].apply(s, args);
           }
-        }(constr, name);
+        })(constr, name);
       }
     }
   }
