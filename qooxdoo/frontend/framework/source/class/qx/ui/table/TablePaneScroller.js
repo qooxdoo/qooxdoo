@@ -852,6 +852,9 @@ qx.Proto.scrollCellVisible = function(col, row) {
     this.setScrollX(Math.max(minScrollX, Math.min(maxScrollX, scrollX)));
 
     var minScrollY = rowTop + rowHeight - viewHeight;
+    if (this.getTable().getKeepFirstVisibleRowComplete()) {
+      minScrollY += rowHeight - 1;
+    }
     var maxScrollY = rowTop;
     this.setScrollY(Math.max(minScrollY, Math.min(maxScrollY, scrollY)));
   }
