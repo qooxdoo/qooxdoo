@@ -32,7 +32,7 @@ public class RemoteCallUtils {
      * A cache for all methods called by clients.
      */
 
-    protected static HashMap _methodCache = new HashMap();
+    protected HashMap _methodCache = new HashMap();
 
     
     /**
@@ -50,7 +50,7 @@ public class RemoteCallUtils {
      *                                          conversion is not possible.
      */
 
-    public static Object toJava(Object obj, Class targetType) {
+    public Object toJava(Object obj, Class targetType) {
         try {
             if (obj == JSONObject.NULL) {
                 if (targetType == Integer.TYPE || targetType == Double.TYPE ||
@@ -138,7 +138,7 @@ public class RemoteCallUtils {
      * Internal helper method.
      */
 
-    private static Map filter(Map map) {
+    private Map filter(Map map) {
         map.remove("class");
         return map;
     }
@@ -150,7 +150,7 @@ public class RemoteCallUtils {
      * @param       obj                 the object to convert.
      */
 
-    public static Object fromJava(Object obj) throws IllegalAccessException,
+    public Object fromJava(Object obj) throws IllegalAccessException,
                                               InvocationTargetException,
                                               NoSuchMethodException {
         if (obj == null) {
@@ -242,7 +242,7 @@ public class RemoteCallUtils {
      * Internal helper method.
      */
 
-    private static void convertParameters(JSONArray src, Object[] dest,
+    private void convertParameters(JSONArray src, Object[] dest,
                                           Class[] methodParameterTypes) {
         int length = dest.length;
         for (int i = 0; i < length; ++i) {
@@ -256,7 +256,7 @@ public class RemoteCallUtils {
      * allow a method to be called).
      */
 
-    protected static boolean throwsExpectedException(Method method) {
+    protected boolean throwsExpectedException(Method method) {
         Class[] methodExceptionTypes = method.getExceptionTypes();
         int exceptionCount = methodExceptionTypes.length;
         for (int i = 0; i < exceptionCount; ++i) {
@@ -288,7 +288,7 @@ public class RemoteCallUtils {
      *                                          produces an exception.
      */
 
-    protected static Object callCompatibleMethod(Object instance,
+    protected Object callCompatibleMethod(Object instance,
             String methodName, JSONArray parameters)
         throws NoSuchMethodException, IllegalAccessException,
                InvocationTargetException {
@@ -361,4 +361,3 @@ public class RemoteCallUtils {
     }
     
 }
-
