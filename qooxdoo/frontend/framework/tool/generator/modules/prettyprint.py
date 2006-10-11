@@ -122,27 +122,28 @@ def compileNode(node, enableDebug=False):
   if node.getChild("commentsBefore", False) != None:
     commentCounter = 0
 
-    if node.getPreviousSibling(False):
-      prevCase = node.getPreviousSibling().type == "case"
-    else:
-      prevCase = False
-
     for comment in node.getChild("commentsBefore").children:
-      if not prevCase:
-        if not node.isFirstChild() or commentCounter > 0:
-          if commentCounter == 0 or comment.get("multiline") == True:
-            line()
+      docComment = comment.get("detail") in [ "javadoc", "qtdoc" ]
+      headComment = comment.get("detail") in [ "header" ]
+      divComment = comment.get("detail") in [ "divider" ]
+
+      if not node.isFirstChild() or commentCounter > 0:
+        if commentCounter == 0 or comment.get("multiline") == True:
+          line()
 
       if not pretty.endswith("\n"):
-        newline = True
+        pretty += "\n"
+
+      if divComment:
+        pretty += ("\n" * 4)
 
       out(comment.get("text").strip())
       newline = True
 
       # Additional new line in cases, where the multi line comment
       # is not for documentation reasons (separators, etc.)
-      if comment.get("multiline") == True and not comment.get("detail") in [ "javadoc", "qtdoc" ]:
-        line()
+      if comment.get("multiline") == True and not docComment:
+        pretty += "\n\n"
 
       commentCounter += 1
 
@@ -200,10 +201,8 @@ def compileNode(node, enableDebug=False):
     out("(")
 
   elif node.type == "case":
-    if not node.isFirstChild():
-      # Force a new line between all case members
-      if not node.getPreviousSibling().type in [ "case", "expression" ]:
-        line()
+    if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
+      pretty += "\n\n"
 
     minus()
     newline = True
@@ -598,7 +597,7 @@ def compileNode(node, enableDebug=False):
 
       separators = [ "block", "assignment", "call", "operation", "definition", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
 
-      if node.type in [ "block", "file", "switch" ]:
+      if node.type in [ "block", "file" ] or (node.type == "statement" and node.parent.type == "switch" and node.parent.get("switchType") == "case"):
         if child.type in separators:
           semicolon()
 
