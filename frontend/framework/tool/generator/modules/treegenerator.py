@@ -44,6 +44,12 @@ class TokenStream:
   def currLine (self):
     return self.curr()["line"]
 
+  def currMultiline (self):
+    return self.curr()["multiline"]
+
+  def currConnection (self):
+    return self.curr()["connection"]
+
   def currIsType (self, tokenType, tokenDetail = None):
     if self.currType() != tokenType:
       return False
@@ -66,24 +72,59 @@ class TokenStream:
     # NOTE: the last token is end of file
     return self.parsepos >= len(self.tokens) - 1
 
-  def next (self):
+  def next (self, item=None, after=False):
     length = len(self.tokens)
     self.eolBefore = False
+    self.doubleEolBefore = False
 
     token = None
     while self.parsepos < length - 1:
       self.parsepos += 1
 
       token = self.tokens[self.parsepos]
+
       if token["type"] == "eol":
+        if self.eolBefore:
+          self.doubleEolBefore = True
+
         self.eolBefore = True
         # ignore end of line
         pass
-      elif token["type"] == "comment":
-        if not self.commentsBefore:
-          self.commentsBefore = []
 
-        self.commentsBefore.append(token)
+      elif token["type"] == "comment":
+        # After current item
+        if token["connection"] == "after":
+          if not token.has_key("inserted") or not token["inserted"]:
+            if item:
+              commentNode = tree.Node("comment")
+              commentNode.set("line", token["line"])
+              commentNode.set("text", token["source"])
+              commentNode.set("detail", token["detail"])
+              commentNode.set("multiline", token["multiline"])
+              commentNode.set("connection", token["connection"])
+
+              if after:
+                item.addListChild("commentsAfter", commentNode)
+              else:
+                item.addChild(commentNode)
+
+            else:
+              print "Found unresolved after comment in line %s" % token["line"]
+              print token["source"]
+              pass
+
+        # Documentation for next item
+        elif token["detail"] in [ "qtdoc", "javadoc" ]:
+          if not self.commentsBefore:
+            self.commentsBefore = []
+
+          self.commentsBefore.append(token)
+
+        # Just a block comment etc.
+        else:
+          # TODO: Block comment
+          pass
+
       else:
         break
 
@@ -95,8 +136,42 @@ class TokenStream:
     else:
       return token
 
+  # alternative to use, when we want to check if the next token
+  # is a comment, but are not able to use next() because if there is
+  # no comment we want to leave in our position
+  def comment (self, item, after=False):
+    length = len(self.tokens)
+
+    token = None
+    pos = self.parsepos
+
+    while pos < length - 1:
+      pos += 1
+      token = self.tokens[pos]
+
+      if token["type"] == "comment" and token["connection"] == "after" and (not token.has_key("inserted") or not token["inserted"]):
+        commentNode = tree.Node("comment")
+        commentNode.set("line", token["line"])
+        commentNode.set("text", token["source"])
+        commentNode.set("detail", token["detail"])
+        commentNode.set("multiline", token["multiline"])
+        commentNode.set("connection", token["connection"])
+
+        token["inserted"] = True
+
+        if after:
+          item.addListChild("commentsAfter", commentNode)
+        else:
+          item.addChild(commentNode)
+
+      else:
+        break
+
   def hadEolBefore(self):
     return self.eolBefore
+
+  def hadDoubleEolBefore(self):
+    return self.doubleEolBefore
 
   def clearCommentsBefore(self):
     commentsBefore = self.commentsBefore
@@ -121,7 +196,9 @@ def createItemNode(type, stream):
       commentNode.set("line", comment["line"])
       commentNode.set("text", comment["source"])
       commentNode.set("detail", comment["detail"])
-      #print comment["source"]
+      commentNode.set("multiline", comment["multiline"])
+      commentNode.set("connection", comment["connection"])
+
       node.addListChild("commentsBefore", commentNode)
 
   return node
@@ -177,7 +254,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
       # This is an assignment
       item = createItemNode("assignment", stream)
       item.set("operator", stream.currDetail())
-      stream.next()
+      stream.next(item)
 
       item.addListChild("left", variable)
       item.addListChild("right", readExpression(stream))
@@ -191,14 +268,13 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
       variable.removeChild(commentsChild)
       item.addChild(commentsChild, 0)
   elif stream.currIsType("protected", "FUNCTION"):
-    stream.next()
-
     item = createItemNode("function", stream)
+    stream.next(item)
 
     # Read optional function name
     if not expressionMode and stream.currIsType("name"):
       item.set("name", stream.currSource())
-      stream.next()
+      stream.next(item)
 
     readParamList(item, stream)
     item.addListChild("body", readBlock(stream))
@@ -212,44 +288,43 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
       readParamList(item, stream)
       item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LP"):
-    stream.next()
     item = createItemNode("group", stream)
-    if expressionMode:
-      item.addChild(readExpression(stream))
-    else:
-      item.addChild(readStatement(stream))
+    stream.next(item)
+    expr = readStatement(stream, expressionMode)
+    item.addChild(expr)
+    stream.comment(expr)
     stream.expectCurrType("token", "RP")
-    stream.next()
+    stream.next(item, True)
     item = readObjectOperation(stream, item)
   elif expressionMode and stream.currIsType("string"):
     item = createItemNode("constant", stream)
     item.set("constantType", "string")
     item.set("value", stream.currSource())
     item.set("detail", stream.currDetail())
-    stream.next()
+    stream.next(item, True)
     # Allow function calls for strings. E.g.: "a string".match(...)
     item = readObjectOperation(stream, item, True)
   elif expressionMode and stream.currIsType("number"):
     item = createItemNode("constant", stream)
     item.set("constantType", "number")
     item.set("value", stream.currSource())
-    stream.next()
+    stream.next(item, True)
   elif expressionMode and stream.currIsType("regexp"):
     item = createItemNode("constant", stream)
     item.set("constantType", "regexp")
     item.set("value", stream.currSource())
-    stream.next()
+    stream.next(item, True)
     item = readObjectOperation(stream, item)
   elif expressionMode and (stream.currIsType("protected", "TRUE") or stream.currIsType("protected", "FALSE")):
     item = createItemNode("constant", stream)
     item.set("constantType", "boolean")
     item.set("value", stream.currSource())
-    stream.next()
+    stream.next(item, True)
   elif expressionMode and stream.currIsType("protected", "NULL"):
     item = createItemNode("constant", stream)
     item.set("constantType", "null")
     item.set("value", stream.currSource())
-    stream.next()
+    stream.next(item, True)
   elif expressionMode and stream.currIsType("token", "LC"):
     item = readMap(stream)
   elif expressionMode and stream.currIsType("token", "LB"):
@@ -258,20 +333,22 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item = createItemNode("operation", stream)
     item.set("operator", stream.currDetail())
     item.set("left", True)
-    stream.next()
-    item.addListChild("first", readExpression(stream))
+    stream.next(item)
+    expr = readExpression(stream)
+    item.addListChild("first", expr)
+    stream.comment(expr, True)
   elif stream.currIsType("protected", "TYPEOF"):
     item = createItemNode("operation", stream)
     item.set("operator", "TYPEOF")
     item.set("left", True)
-    stream.next()
+    stream.next(item)
     item.addListChild("first", readExpression(stream))
   elif stream.currIsType("protected", "NEW"):
     item = readInstantiation(stream)
     item = readObjectOperation(stream, item)
   elif not expressionMode and stream.currIsType("protected", "VAR"):
     item = createItemNode("definitionList", stream)
-    stream.next()
+    stream.next(item)
     finished = False
     while not finished:
       if not currIsIdentifier(stream, False):
@@ -279,18 +356,23 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
       childitem = createItemNode("definition", stream)
       childitem.set("identifier", stream.currSource())
-      stream.next()
+      stream.next(childitem)
       if stream.currIsType("token", "ASSIGN"):
-        stream.next()
-        childitem.addListChild("assignment", readExpression(stream))
+        assign = createItemNode("assignment", stream)
+        childitem.addChild(assign)
+        stream.next(assign)
+        assign.addChild(readExpression(stream))
 
       item.addChild(childitem)
 
       # Check whether anothe definition follows, e.g. "var a, b=1, c=4"
       if stream.currIsType("token", "COMMA"):
-        stream.next()
+        stream.next(item)
       else:
         finished = True
+
+    stream.comment(item, True)
+
   elif not expressionMode and stream.currIsType("protected", LOOP_KEYWORDS):
     item = readLoop(stream)
   elif not expressionMode and stream.currIsType("protected", "DO"):
@@ -303,42 +385,47 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item = readBlock(stream)
   elif not expressionMode and stream.currIsType("protected", "RETURN"):
     item = createItemNode("return", stream)
-    stream.next()
+    stream.next(item)
     # NOTE: The expression after the return keyword is optional
     if not stream.currIsType("token", "SEMICOLON") and not stream.currIsType("token", "RC"):
       item.addListChild("expression", readExpression(stream))
+      stream.comment(item, True)
   elif not expressionMode and stream.currIsType("protected", "THROW"):
     item = createItemNode("throw", stream)
-    stream.next()
+    stream.next(item)
     item.addListChild("expression", readExpression(stream))
+    stream.comment(item, True)
   elif not expressionMode and stream.currIsType("protected", "DELETE"):
     item = createItemNode("delete", stream)
-    stream.next()
+    stream.next(item)
     item.addListChild("expression", readExpression(stream))
+    stream.comment(item, True)
   elif not expressionMode and stream.currIsType("protected", "BREAK"):
     item = createItemNode("break", stream)
-    stream.next()
+    stream.next(item)
     # NOTE: The label after the break keyword is optional
     if not stream.hadEolBefore() and stream.currIsType("name"):
       item.set("label", stream.currSource())
-      stream.next()
+      # As the label is an attribute, we need to put following comments into after
+      # to differenciate between comments before and after the label
+      stream.next(item, True)
   elif not expressionMode and stream.currIsType("protected", "CONTINUE"):
     item = createItemNode("continue", stream)
-    stream.next()
+    stream.next(item)
     # NOTE: The label after the continue keyword is optional
     if not stream.hadEolBefore() and stream.currIsType("name"):
       item.set("label", stream.currSource())
-      stream.next()
+      stream.next(item, True)
 
   if not item:
     if stream.currIsType("token", "SEMICOLON") and not expressionMode:
       # This is an empty statement
       item = createItemNode("emptyStatement", stream)
-      stream.next()
+      stream.next(item)
     elif stream.currIsType("token", "COLON"):
       # The previous identifier was a label
       item = createItemNode("labelTerminator", stream)
-      stream.next()
+      stream.next(item)
     else:
       if expressionMode:
         expectedDesc = "expression"
@@ -356,28 +443,30 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item = createItemNode("operation", stream)
     item.addListChild("first", parsedItem)
     item.set("operator", operator)
-    stream.next()
+    stream.next(item)
     if operator in MULTI_TOKEN_OPERATORS or operator in MULTI_PROTECTED_OPERATORS:
       # It's a multi operator -> There must be a second argument
       item.addListChild("second", readExpression(stream))
       if operator == "HOOK":
         # It's a "? :" operation -> There must be a third argument
         stream.expectCurrType("token", "COLON")
-        stream.next()
+        stream.next(item)
         item.addListChild("third", readExpression(stream))
+
+    stream.comment(item, True)
 
   # check whether this is a combined statement, e.g. "bla(), i++"
   if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
     statementList = createItemNode("statementList", stream)
     statementList.addChild(item)
     while stream.currIsType("token", "COMMA"):
-      stream.next()
+      stream.next(statementList)
       statementList.addChild(readStatement(stream, False, False, True))
     item = statementList
 
   # go over the optional semicolon
   if not expressionMode and overrunSemicolon and stream.currIsType("token", "SEMICOLON"):
-    stream.next()
+    stream.next(item, True)
 
   return item
 
@@ -404,17 +493,17 @@ def readVariable (stream, allowArrays):
 
     identifier = createItemNode("identifier", stream)
     identifier.set("name", stream.currSource())
-    stream.next()
+    stream.next(identifier)
 
     if allowArrays:
       while stream.currIsType("token", "LB"):
         accessor = createItemNode("accessor", stream)
-        stream.next()
+        stream.next(accessor)
         accessor.addListChild("identifier", identifier)
         accessor.addListChild("key", readExpression(stream))
 
         stream.expectCurrType("token", "RB")
-        stream.next()
+        stream.next(accessor, True)
 
         identifier = accessor
 
@@ -423,7 +512,7 @@ def readVariable (stream, allowArrays):
     firstIdentifier = False
 
     if stream.currIsType("token", "DOT"):
-      stream.next()
+      stream.next(item)
     else:
       done = True
 
@@ -435,7 +524,7 @@ def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
   if stream.currIsType("token", "DOT"):
     # This is a member accessor (E.g. "bla.blubb")
     item = createItemNode("accessor", stream)
-    stream.next()
+    stream.next(item)
     item.addListChild("left", operand)
     variable = readVariable(stream, False)
     item.addListChild("right", readObjectOperation(stream, variable))
@@ -448,12 +537,12 @@ def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
   elif stream.currIsType("token", "LB"):
     # This is an array access (E.g. "bla[...]")
     item = createItemNode("accessor", stream)
-    stream.next()
+    stream.next(item)
     item.addListChild("identifier", operand)
     item.addListChild("key", readExpression(stream))
 
     stream.expectCurrType("token", "RB")
-    stream.next()
+    stream.next(item, True)
     item = readObjectOperation(stream, item)
   else:
     item = operand
@@ -471,7 +560,11 @@ def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
 
 def readParamList (node, stream):
   stream.expectCurrType("token", "LP")
-  stream.next()
+
+  params = createItemNode("params", stream)
+  node.addChild(params)
+
+  stream.next(params)
 
   firstParam = True
   while not stream.currIsType("token", "RP"):
@@ -481,9 +574,11 @@ def readParamList (node, stream):
       stream.expectCurrType("token", "COMMA")
       stream.next()
 
-    node.addListChild("params", readExpression(stream))
+    params.addChild(readExpression(stream))
 
-  stream.next()
+  # Has an end defined by the loop above
+  # This means that all comments following are after item
+  stream.next(params, True)
 
 
 def readBlock(stream):
@@ -491,7 +586,7 @@ def readBlock(stream):
   item = createItemNode("block", stream)
   counter = 0
 
-  stream.next()
+  stream.next(item)
   while not stream.currIsType("token", "RC"):
     child = readStatement(stream)
     item.addChild(child)
@@ -508,21 +603,27 @@ def readBlock(stream):
 
   item.set("compact", counter < 2)
 
-  stream.next()
+  # Has an end defined by the loop above
+  # This means that all comments following are after item
+  stream.next(item, True)
 
   return item
 
 
 def readMap(stream):
   stream.expectCurrType("token", "LC")
+
   item = createItemNode("map", stream)
+  stream.next(item)
 
-  stream.next()
-
+  # NOTE: We use our own flag for checking whether the array already has entries
+  #       and not item.hasChildren(), because item.hasChildren() is also true
+  #       when there are comments before the array
+  hasEntries = False
   while not stream.currIsType("token", "RC"):
-    if item.hasChildren():
+    if hasEntries:
       stream.expectCurrType("token", "COMMA")
-      stream.next()
+      stream.next(item)
 
     if not currIsIdentifier(stream, True) and not stream.currIsType("string") and not stream.currIsType("number"):
       raiseSyntaxException(stream.curr(), "map key (identifier, string or number)")
@@ -531,16 +632,20 @@ def readMap(stream):
     keyvalue.set("key", stream.currSource())
 
     if stream.currIsType("string"):
-      keyvalue.set("quotation", stream.currDetail())
+      keyvalue.set("quote", stream.currDetail())
 
-    stream.next()
+    stream.next(keyvalue)
     stream.expectCurrType("token", "COLON")
-    stream.next()
+    stream.next(keyvalue, True)
     keyvalue.addListChild("value", readExpression(stream))
 
     item.addChild(keyvalue)
 
-  stream.next()
+    hasEntries = True
+
+  # Has an end defined by the loop above
+  # This means that all comments following are after item
+  stream.next(item, True)
 
   return item
 
@@ -548,9 +653,10 @@ def readMap(stream):
 
 def readArray(stream):
   stream.expectCurrType("token", "LB")
-  stream.next()
 
   item = createItemNode("array", stream)
+  stream.next(item)
+
   # NOTE: We use our own flag for checking whether the array already has entries
   #       and not item.hasChildren(), because item.hasChildren() is also true
   #       when there are comments before the array
@@ -558,12 +664,14 @@ def readArray(stream):
   while not stream.currIsType("token", "RB"):
     if hasEntries:
       stream.expectCurrType("token", "COMMA")
-      stream.next()
+      stream.next(item)
 
     item.addChild(readExpression(stream))
     hasEntries = True
 
-  stream.next()
+  # Has an end defined by the loop above
+  # This means that all comments following are after item
+  stream.next(item, True)
 
   return item
 
@@ -571,9 +679,9 @@ def readArray(stream):
 
 def readInstantiation(stream):
   stream.expectCurrType("protected", "NEW")
-  stream.next()
 
   item = createItemNode("instantiation", stream)
+  stream.next(item)
 
   variable = readVariable(stream, False)
   if stream.currIsType("token", "LP"):
@@ -596,43 +704,70 @@ def readLoop(stream):
   item = createItemNode("loop", stream)
   item.set("loopType", loopType)
 
-  stream.next()
-
+  stream.next(item)
   stream.expectCurrType("token", "LP")
-  stream.next()
 
   if loopType == "FOR":
+    stream.next(item)
+
     if not stream.currIsType("token", "SEMICOLON"):
       # Read the optional first statement
-      item.addListChild("first", readStatement(stream, False, False))
+      first = createItemNode("first", stream)
+      item.addChild(first)
+      stream.comment(first)
+      first.addChild(readStatement(stream, False, False))
+      stream.comment(first, True)
 
     if stream.currIsType("token", "SEMICOLON"):
       # It's a for (;;) loop
-      stream.next()
+      stream.next(item)
       if not stream.currIsType("token", "SEMICOLON"):
         # Read the optional second expression
-        item.addListChild("second", readExpression(stream))
+        second = createItemNode("second", stream)
+        item.addChild(second)
+        stream.comment(second)
+        second.addChild(readExpression(stream))
+        stream.comment(second, True)
+
       stream.expectCurrType("token", "SEMICOLON")
-      stream.next()
+      stream.next(item)
+
       if not stream.currIsType("token", "RP"):
         # Read the optional third statement
-        item.addListChild("third", readStatement(stream, False, False))
+        third = createItemNode("third", stream)
+        item.addChild(third)
+        stream.comment(third)
+        third.addChild(readStatement(stream, False, False))
+        stream.comment(third, True)
+
     elif stream.currIsType("token", "RP"):
       # It's a for ( in ) loop
       pass
+
     else:
       raiseSyntaxException(stream.curr(), "semicolon or in")
+
+    stream.expectCurrType("token", "RP")
+
   else:
-    item.addListChild("expression", readExpression(stream))
+    expr = createItemNode("expression", stream)
+    stream.next(expr)
+    expr.addChild(readExpression(stream))
+    item.addChild(expr)
+    stream.comment(expr, True)
+    stream.expectCurrType("token", "RP")
 
-  stream.expectCurrType("token", "RP")
+  # comments should be already completed from the above code
+  stmnt = createItemNode("statement", stream)
+  item.addChild(stmnt)
   stream.next()
-
-  item.addListChild("statement", readStatement(stream))
+  stmnt.addChild(readStatement(stream))
 
   if loopType == "IF" and stream.currIsType("protected", "ELSE"):
-    stream.next()
-    item.addListChild("elseStatement", readStatement(stream))
+    elseStmnt = createItemNode("elseStatement", stream)
+    item.addChild(elseStmnt)
+    stream.next(elseStmnt)
+    elseStmnt.addChild(readStatement(stream))
 
   return item
 
@@ -643,20 +778,25 @@ def readDoWhile(stream):
 
   item = createItemNode("loop", stream)
   item.set("loopType", "DO")
-  stream.next()
+  stream.next(item)
 
-  item.addListChild("statement", readStatement(stream))
+  stmnt = createItemNode("statement", stream)
+  item.addChild(stmnt)
+  stmnt.addChild(readStatement(stream))
 
   stream.expectCurrType("protected", "WHILE")
-  stream.next()
+  stream.next(item)
 
   stream.expectCurrType("token", "LP")
-  stream.next()
 
-  item.addListChild("expression", readExpression(stream))
+  expr = createItemNode("expression", stream)
+  item.addChild(expr)
+  stream.next(expr)
+
+  expr.addChild(readExpression(stream))
 
   stream.expectCurrType("token", "RP")
-  stream.next()
+  stream.next(item, True)
 
   return item
 
@@ -667,36 +807,47 @@ def readSwitch(stream):
   item = createItemNode("switch", stream)
   item.set("switchType", "case")
 
-  stream.next()
+  stream.next(item)
   stream.expectCurrType("token", "LP")
-  stream.next()
 
-  item.addListChild("expression", readExpression(stream))
+  expr = createItemNode("expression", stream)
+  stream.next(expr)
+  item.addChild(expr)
+  expr.addChild(readExpression(stream))
 
   stream.expectCurrType("token", "RP")
-  stream.next()
+  stream.next(expr, True)
+
   stream.expectCurrType("token", "LC")
-  stream.next()
+  stmnt = createItemNode("statement", stream)
+  item.addChild(stmnt)
+  stream.next(stmnt)
 
   while not stream.currIsType("token", "RC"):
     if stream.currIsType("protected", "CASE"):
       caseItem = createItemNode("case", stream)
-      stream.next()
+      stream.next(caseItem)
       caseItem.addListChild("expression", readExpression(stream))
-      item.addChild(caseItem)
+      stmnt.addChild(caseItem)
+
+      stream.expectCurrType("token", "COLON")
+      stream.next(caseItem, True)
+
     elif stream.currIsType("protected", "DEFAULT"):
       defaultItem = createItemNode("default", stream)
-      item.addChild(defaultItem)
-      stream.next()
+      stmnt.addChild(defaultItem)
+      stream.next(defaultItem)
+
+      stream.expectCurrType("token", "COLON")
+      stream.next(defaultItem, True)
+
     else:
       raiseSyntaxException(stream.curr(), "case or default")
-    stream.expectCurrType("token", "COLON")
-    stream.next()
 
     while not stream.currIsType("token", "RC") and not stream.currIsType("protected", "CASE") and not stream.currIsType("protected", "DEFAULT"):
-      item.addChild(readStatement(stream))
+      stmnt.addChild(readStatement(stream))
 
-  stream.next()
+  stream.next(stmnt, True)
 
   return item
 
@@ -706,29 +857,37 @@ def readTryCatch(stream):
 
   item = createItemNode("switch", stream)
   item.set("switchType", "catch")
-  stream.next()
+  stream.next(item)
 
   item.addListChild("statement", readStatement(stream))
 
   while stream.currIsType("protected", "CATCH"):
     catchItem = createItemNode("catch", stream)
-    stream.next()
+    stream.next(catchItem)
 
     stream.expectCurrType("token", "LP")
-    stream.next()
-    catchItem.addListChild("expression", readExpression(stream))
-    stream.expectCurrType("token", "RP")
-    stream.next()
 
-    catchItem.addListChild("statement", readStatement(stream))
+    exprItem = createItemNode("expression", stream)
+    catchItem.addChild(exprItem)
+    stream.next(exprItem)
+    exprItem.addChild(readExpression(stream))
+
+    stream.expectCurrType("token", "RP")
+    stream.next(exprItem, True)
+
+    stmnt = createItemNode("statement", stream)
+    catchItem.addChild(stmnt)
+    stmnt.addChild(readStatement(stream))
 
     item.addChild(catchItem)
 
   if stream.currIsType("protected", "FINALLY"):
     finallyItem = createItemNode("finally", stream)
-    stream.next()
+    stream.next(finallyItem)
 
-    finallyItem.addListChild("statement", readStatement(stream))
+    stmnt = createItemNode("statement", stream)
+    finallyItem.addChild(stmnt)
+    stmnt.addChild(readStatement(stream))
 
     item.addChild(finallyItem)
 

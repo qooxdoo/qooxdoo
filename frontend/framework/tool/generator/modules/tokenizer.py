@@ -139,6 +139,21 @@ def parseFragmentLead(content, fragment, tokens):
 
 
 
+def hasLeadingContent(tokens):
+  pos = len(tokens) - 1
+  while pos > 0:
+    if tokens[pos]["type"] == "eol":
+      break
+
+    else:
+      return True
+
+  return False
+
+
+
+
+
 def parseStream(content, uniqueId):
   # make global variables available
   global parseLine
@@ -162,16 +177,45 @@ def parseStream(content, uniqueId):
     # print "Found: '%s'" % fragment
 
     if R_MULTICOMMENT.match(fragment):
+      comment = recoverEscape(fragment)
+
+      if comment.startswith("/**"):
+        format = "javadoc"
+      elif comment.startswith("/*!"):
+        format = "qtdoc"
+      elif comment.startswith("/*\n----"):
+        format = "divider"
+      elif comment.startswith("/* *****"):
+        format = "header"
+      else:
+        format = "block"
+
+      if comment.find("\n") != -1:
+        multiline = True
+      else:
+        multiline = False
+
       # print "Type:MultiComment"
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "comment", "detail" : "multi", "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
 
+      if hasLeadingContent(tokens):
+        connection = "after"
+      else:
+        connection = "before"
+
+      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine })
       parseLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "comment", "detail" : "single", "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
+
+      if hasLeadingContent(tokens):
+        connection = "after"
+      else:
+        connection = "before"
+
+      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
