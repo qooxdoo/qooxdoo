@@ -392,10 +392,13 @@ def compileNode(node, enableDebug=False):
 
 
     for child in node.children:
-      if child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter":
+      if child.type == "commentsBefore" or child.type == "commentsAfter":
         continue
 
 
+      if child.type == "comment":
+        out(child.get("text"))
+        continue
 
 
       # Hints for close of node later
@@ -581,9 +584,17 @@ def compileNode(node, enableDebug=False):
 
 
 
+
   ##################################################################
   # Closing...
   ##################################################################
+
+  commentText = ""
+  if node.getChild("commentsAfter", False):
+    for comment in node.getChild("commentsAfter").children:
+      commentText += comment.get("text")
+
+
 
   if node.type == "map":
     if node.hasChildren():
@@ -606,6 +617,10 @@ def compileNode(node, enableDebug=False):
 
     out("}")
 
+    if commentText != "":
+      out(commentText)
+      commentText = ""
+
     if node.hasChildren():
       # Not in function assignment and param blocks
       if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
@@ -622,6 +637,11 @@ def compileNode(node, enableDebug=False):
     minus()
     newline = True
     out("}")
+
+    if commentText != "":
+      out(commentText)
+      commentText = ""
+
     newline = True
 
   elif node.type == "group":
@@ -629,6 +649,11 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "case":
     out(":")
+
+    if commentText != "":
+      out(commentText)
+      commentText = ""
+
     plus()
     newline = True
 
@@ -645,6 +670,11 @@ def compileNode(node, enableDebug=False):
       out(")")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       out(")")
+
+      if commentText != "":
+        out(commentText)
+        commentText = ""
+
       newline = True
       out("{")
       plus()
@@ -653,7 +683,17 @@ def compileNode(node, enableDebug=False):
   elif node.type == "loop":
     # Force a additinal line feed after each loop
     if not node.isLastChild():
+      if commentText != "":
+        out(commentText)
+        commentText = ""
+
       line()
+
+
+
+  if commentText != "":
+    out(commentText)
+
 
 
 
