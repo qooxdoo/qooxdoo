@@ -356,7 +356,7 @@ def handleFunction(funcItem, commentNode, classNode):
 
   # Read the parameters
   params = funcItem.getChild("params", False)
-  if params:
+  if params and params.hasChildren():
     for param in params.children:
       paramNode = tree.Node("param")
       paramNode.set("name", param.getFirstChild().get("name"))
