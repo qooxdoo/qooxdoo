@@ -129,10 +129,10 @@ qx.Proto.format = function(date) {
   var timezone = date.getTimezoneOffset() / 60;
 
   // Create the output
-  var formatTree = this._parseDateFormat(this._format);
+  this._initFormatTree();
   var output = "";
-  for (var i = 0; i < formatTree.length; i++) {
-    var currAtom = formatTree[i];
+  for (var i = 0; i < this._formatTree.length; i++) {
+    var currAtom = this._formatTree[i];
 
     if (currAtom.type == "literal") {
       output += currAtom.text;
@@ -268,20 +268,19 @@ qx.Proto.parse = function(dateStr) {
 
 /**
  * Helper method for {@link #format()} and {@link #parse()}.
- * Parses a date format.
- *
- * @param format {string} the date format to parse.
- * @return {Map[]} the parse tree of the format.
+ * Parses the date format.
  */
-qx.Proto._parseDateFormat = function(format) {
-  var formatTree = [];
+qx.Proto._initFormatTree = function() {
+  if (this._formatTree != null) {
+    return;
+  }
+
+  this._formatTree = [];
 
   var currWildcardChar;
   var currWildcardSize;
   var currLiteral = "";
-  if (format == null) {
-    com.ptvag.webcomponent.common.Log.printStackTrace();
-  }
+  var format = this._format;
   for (var i = 0; i < format.length; i++) {
     var currChar = format.charAt(i);
 
@@ -293,7 +292,7 @@ qx.Proto._parseDateFormat = function(format) {
         currWildcardSize++;
       } else {
         // It does not -> The current wildcard is done
-        formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
+        this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
         currWildcardChar = null;
       }
     }
@@ -305,7 +304,7 @@ qx.Proto._parseDateFormat = function(format) {
 
         // Add the literal
         if (currLiteral.length > 0) {
-          formatTree.push({ type:"literal", text:currLiteral });
+          this._formatTree.push({ type:"literal", text:currLiteral });
           currLiteral = "";
         }
 
@@ -321,12 +320,10 @@ qx.Proto._parseDateFormat = function(format) {
 
   // Add the last wildcard or literal
   if (currWildcardChar != null) {
-    formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
+    this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
   } else if (currLiteral.length > 0) {
-    formatTree.push({ type:"literal", text:currLiteral });
+    this._formatTree.push({ type:"literal", text:currLiteral });
   }
-
-  return formatTree;
 }
 
 
@@ -348,13 +345,13 @@ qx.Proto._initParseFeed = function() {
 
   // Initialize the rules
   this._initParseRules();
+  this._initFormatTree();
 
   // Get the used rules and construct the regex pattern
   var usedRules = [];
   var pattern = "^";
-  var formatTree = this._parseDateFormat(this._format);
-  for (var atomIdx = 0; atomIdx < formatTree.length; atomIdx++) {
-    var currAtom = formatTree[atomIdx];
+  for (var atomIdx = 0; atomIdx < this._formatTree.length; atomIdx++) {
+    var currAtom = this._formatTree[atomIdx];
 
     if (currAtom.type == "literal") {
       pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
