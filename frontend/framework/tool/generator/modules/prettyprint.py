@@ -99,30 +99,17 @@ def compileNode(node, enableDebug=False):
     for comment in node.getChild("commentsBefore").children:
       if not prevCase:
         if not node.isFirstChild() or commentCounter > 0:
-          if commentCounter == 0 or comment.get("detail") == "multi":
-            line()
-
-          if comment.get("detail") == "multi":
+          if commentCounter == 0 or comment.get("multiline") == True:
             line()
 
       newline = True
       out(comment.get("text").strip())
       newline = True
 
-      if comment.get("detail") == "multi":
-
-        # documentation comment JavaDoc
-        if comment.get("text").startswith("/**"):
-          pass
-
-        # documentation comment Qt
-        elif comment.get("text").startswith("/*!"):
-          pass
-
-        else:
-          # Additional new line in cases, where the multi line comment
-          # is not for documentation reasons (separators, etc.)
-          line()
+      # Additional new line in cases, where the multi line comment
+      # is not for documentation reasons (separators, etc.)
+      if comment.get("multiline") == True and not comment.get("detail") in [ "javadoc", "qtdoc" ]:
+        line()
 
       commentCounter += 1
 
@@ -269,7 +256,7 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "keyvalue":
     keyString = node.get("key")
-    keyQuote = node.get("quotation", False)
+    keyQuote = node.get("quote", False)
 
     if keyQuote != None:
       # print "USE QUOTATION"

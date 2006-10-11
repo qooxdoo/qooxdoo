@@ -128,7 +128,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
   elif node.type == "keyvalue":
     keyString = node.get("key")
-    keyQuote = node.get("quotation", False)
+    keyQuote = node.get("quote", False)
 
     if keyQuote != None:
       # print "USE QUOTATION"
@@ -249,7 +249,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
     # childrenNumber = len(node.children)
 
     for child in node.children:
-      if not (child.type == "commentsBefore" or child.type == "comment"):
+      if not (child.type == "commentsBefore" or child.type == "commentsAfter" or child.type == "comment"):
         childrenNumber += 1
 
     previousType = None
@@ -260,7 +260,7 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
 
 
     for child in node.children:
-      if child.type == "commentsBefore" or child.type == "comment":
+      if child.type == "commentsBefore" or child.type == "commentsAfter" or child.type == "comment":
         continue
 
 
