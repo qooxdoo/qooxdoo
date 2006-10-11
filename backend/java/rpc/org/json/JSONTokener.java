@@ -356,7 +356,7 @@ public class JSONTokener {
             m.group(4) + ":" + m.group(5) + ":" + m.group(6) + "." +
             (millis == null ? "0" : millis) + " GMT";
         Date retVal = internalDateFormat.parse(newDateString);
-        System.out.println("Millis of date: " + retVal.getTime());
+        //System.out.println("Millis of date: " + retVal.getTime());
         return retVal;
     }
     //
