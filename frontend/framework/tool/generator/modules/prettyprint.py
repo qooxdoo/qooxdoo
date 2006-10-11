@@ -19,11 +19,24 @@ def out(txt):
 
   global indent
   global newline
+  global hasbreak
   global needindent
   global pretty
 
-  if newline:
-    pretty += "\n"
+  if hasbreak:
+    if pretty.endswith("\n"):
+      pretty += "\n"
+    else:
+      pretty += "\n\n"
+
+    needindent = True
+    newline = False
+    hasbreak = False
+
+  elif newline:
+    if not pretty.endswith("\n"):
+      pretty += "\n"
+
     needindent = True
     newline = False
 
@@ -72,12 +85,14 @@ def compile(node, enableDebug=False):
   global indent
   global needindent
   global newline
+  global hasbreak
   global pretty
 
   indent = 0
   needindent = False
   pretty = ""
   newline = False
+  hasbreak = False
 
   compileNode(node, enableDebug)
 
@@ -86,7 +101,23 @@ def compile(node, enableDebug=False):
 
 def compileNode(node, enableDebug=False):
   global newline
+  global hasbreak
   global pretty
+
+  if node.get("eolBefore", False):
+    # print "EOL BEFORE"
+    pass
+
+  if node.get("breakBefore", False):
+    # print "BREAK BEFORE"
+    hasbreak = True
+
+    # Omit on first childs
+    if node.isFirstChild(True):
+      hasbreak = False
+
+
+
 
   if node.getChild("commentsBefore", False) != None:
     commentCounter = 0
@@ -102,7 +133,9 @@ def compileNode(node, enableDebug=False):
           if commentCounter == 0 or comment.get("multiline") == True:
             line()
 
-      newline = True
+      if not pretty.endswith("\n"):
+        newline = True
+
       out(comment.get("text").strip())
       newline = True
 
@@ -112,6 +145,7 @@ def compileNode(node, enableDebug=False):
         line()
 
       commentCounter += 1
+
 
 
 
@@ -166,9 +200,10 @@ def compileNode(node, enableDebug=False):
     out("(")
 
   elif node.type == "case":
-    # Force a new line between all case members
-    if not node.getPreviousSibling().type in [ "case", "expression" ]:
-      line()
+    if not node.isFirstChild():
+      # Force a new line between all case members
+      if not node.getPreviousSibling().type in [ "case", "expression" ]:
+        line()
 
     minus()
     newline = True
