@@ -709,7 +709,6 @@ def readLoop(stream):
       # Read the optional first statement
       first = createItemNode("first", stream)
       item.addChild(first)
-      stream.comment(first)
       first.addChild(readStatement(stream, False, False))
       stream.comment(first, True)
 
@@ -720,7 +719,6 @@ def readLoop(stream):
         # Read the optional second expression
         second = createItemNode("second", stream)
         item.addChild(second)
-        stream.comment(second)
         second.addChild(readExpression(stream))
         stream.comment(second, True)
 
@@ -731,7 +729,6 @@ def readLoop(stream):
         # Read the optional third statement
         third = createItemNode("third", stream)
         item.addChild(third)
-        stream.comment(third)
         third.addChild(readStatement(stream, False, False))
         stream.comment(third, True)
 
