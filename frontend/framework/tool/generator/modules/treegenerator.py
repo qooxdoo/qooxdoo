@@ -75,7 +75,7 @@ class TokenStream:
   def next (self, item=None, after=False):
     length = len(self.tokens)
     self.eolBefore = False
-    self.doubleEolBefore = False
+    self.breakBefore = False
 
     token = None
     while self.parsepos < length - 1:
@@ -85,7 +85,7 @@ class TokenStream:
 
       if token["type"] == "eol":
         if self.eolBefore:
-          self.doubleEolBefore = True
+          self.breakBefore = True
 
         self.eolBefore = True
         # ignore end of line
@@ -172,8 +172,8 @@ class TokenStream:
   def hadEolBefore(self):
     return self.eolBefore
 
-  def hadDoubleEolBefore(self):
-    return self.doubleEolBefore
+  def hadBreakBefore(self):
+    return self.breakBefore
 
   def clearCommentsBefore(self):
     commentsBefore = self.commentsBefore
@@ -239,6 +239,11 @@ def readExpression (stream):
 
 def readStatement (stream, expressionMode = False, overrunSemicolon = True, inStatementList = False):
   item = None
+
+  eolBefore = stream.hadEolBefore()
+  breakBefore = stream.hadBreakBefore()
+
+
 
   if currIsIdentifier(stream, True):
     # statement starts with an identifier
@@ -462,6 +467,10 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
   # go over the optional semicolon
   if not expressionMode and overrunSemicolon and stream.currIsType("token", "SEMICOLON"):
     stream.next(item, True)
+
+
+  item.set("eolBefore", eolBefore)
+  item.set("breakBefore", breakBefore)
 
   return item
 
