@@ -44,6 +44,13 @@ public class RpcServlet extends HttpServlet {
 
     
     /**
+     * The RemoteCallUtils instance that is used by this servlet.
+     */
+    
+    protected RemoteCallUtils _remoteCallUtils;
+    
+    
+    /**
      * Looks up an instance of a service and creates one if necessary.
      *
      * @param   session             the current session (for storing
@@ -240,7 +247,7 @@ public class RpcServlet extends HttpServlet {
             Object retVal = null;
             Throwable error = null;
             try {
-                retVal = RemoteCallUtils.callCompatibleMethod(inst, methodName, args);
+                retVal = _remoteCallUtils.callCompatibleMethod(inst, methodName, args);
             } catch (Throwable e) {
                 error = e;
             }
@@ -261,7 +268,7 @@ public class RpcServlet extends HttpServlet {
                 //error.printStackTrace();
                 // FIXME: Use proper logging (configurable; default: System.out)
             } else {
-                res.put("result", RemoteCallUtils.fromJava(retVal));
+                res.put("result", _remoteCallUtils.fromJava(retVal));
             }
         }
         return res.toString();
@@ -376,4 +383,23 @@ public class RpcServlet extends HttpServlet {
         }
     }
 
+    
+    /**
+     * Initializes this servlet.
+     */
+    
+    public void init() throws ServletException {
+        _remoteCallUtils = getRemoteCallUtils();
+    }
+
+    
+    /**
+     * Returns the <code>RemoteCallUtils</code> instance that should be used
+     * for processing RPC calls. 
+     */
+    
+    protected RemoteCallUtils getRemoteCallUtils() {
+        return new RemoteCallUtils();
+    }
+    
 }
