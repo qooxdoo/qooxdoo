@@ -2,7 +2,7 @@
 
 import tree, mapper
 
-def search(node, found, level=0, prefix="$", offset=0, register=False, debug=False):
+def search(node, found, level=0, prefix="$", register=False, debug=False):
   if node.type == "function":
     if register:
       name = node.get("name", False)
@@ -10,7 +10,7 @@ def search(node, found, level=0, prefix="$", offset=0, register=False, debug=Fal
         # print "Name: %s" % funcName
         found.append(name)
 
-    found = []
+    found = found[:]
     register = True
 
     if debug:
@@ -39,11 +39,11 @@ def search(node, found, level=0, prefix="$", offset=0, register=False, debug=Fal
   if node.hasChildren():
     if node.type == "function":
       for child in node.children:
-        search(child, found, level+1, prefix, offset + len(found), register, debug)
+        search(child, found, level+1, prefix, register, debug)
 
     else:
       for child in node.children:
-        search(child, found, level, prefix, offset + len(found), register, debug)
+        search(child, found, level, prefix, register, debug)
 
   # Function closed
   if node.type == "function":
@@ -56,11 +56,11 @@ def search(node, found, level=0, prefix="$", offset=0, register=False, debug=Fal
 
     # Iterate over content
     # Replace variables in current scope
-    update(node, found, prefix, offset, debug)
+    update(node, found, prefix, debug)
 
 
 
-def update(node, found, prefix="$", offset=0, debug=False):
+def update(node, found, prefix="$", debug=False):
   # Handle all identifiers
   if node.type == "identifier":
 
@@ -84,7 +84,7 @@ def update(node, found, prefix="$", offset=0, debug=False):
       idenName = node.get("name", False)
 
       if idenName != None and idenName in found:
-        replName = "%s%s" % (prefix, mapper.convert(offset + found.index(idenName)))
+        replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
         node.set("name", replName)
 
         if debug:
@@ -95,7 +95,7 @@ def update(node, found, prefix="$", offset=0, debug=False):
     idenName = node.get("identifier", False)
 
     if idenName != None and idenName in found:
-      replName = "%s%s" % (prefix, mapper.convert(offset + found.index(idenName)))
+      replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("identifier", replName)
 
       if debug:
@@ -106,7 +106,7 @@ def update(node, found, prefix="$", offset=0, debug=False):
     idenName = node.get("name", False)
 
     if idenName != None and idenName in found:
-      replName = "%s%s" % (prefix, mapper.convert(offset + found.index(idenName)))
+      replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("name", replName)
 
       if debug:
@@ -115,4 +115,4 @@ def update(node, found, prefix="$", offset=0, debug=False):
   # Iterate over children
   if node.hasChildren():
     for child in node.children:
-      update(child, found, prefix, offset, debug)
+      update(child, found, prefix, debug)
