@@ -382,7 +382,7 @@ def compileNode(node, enableDebug=False):
     # childrenNumber = len(node.children)
 
     for child in node.children:
-      if child.type == "comment" or child.type == "commentsBefore":
+      if child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter":
         pass
 
       else:
@@ -392,7 +392,7 @@ def compileNode(node, enableDebug=False):
 
 
     for child in node.children:
-      if child.type == "comment" or child.type == "commentsBefore":
+      if child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter":
         continue
 
 
