@@ -48,7 +48,7 @@ class Node:
         return False
 
       for child in self.children:
-        if child.type != "comment" and child.type != "commentsBefore":
+        if child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter":
           return True
 
   def addChild(self, childNode, index = None):
@@ -122,7 +122,7 @@ class Node:
   def getFirstChild(self, mandatory = True, ignoreComments = False):
     if self.hasChildren():
       for child in self.children:
-        if not ignoreComments or (child.type != "comment" and child.type != "commentsBefore"):
+        if not ignoreComments or (child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter"):
           return child
 
     if mandatory:
@@ -137,7 +137,7 @@ class Node:
         while pos >= 0:
           child = self.children[pos]
 
-          if child.type != "comment" and child.type != "commentsBefore":
+          if child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter":
             return child
 
           pos -= 1
@@ -149,7 +149,7 @@ class Node:
     if self.hasParent():
       prev = None
       for child in self.parent.children:
-        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore"):
+        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter"):
           continue
 
         if child == self:
@@ -168,7 +168,7 @@ class Node:
       prev = None
 
       for child in self.parent.children:
-        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore"):
+        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter"):
           continue
 
         if prev != None:
@@ -249,6 +249,9 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     if hasText:
       if node.hasChildren():
         asString += newLine + prefix + childPrefix
+      else:
+        asString += newLine + prefix + childPrefix
+
       asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>" + newLine
 
     if node.hasChildren():
