@@ -113,17 +113,19 @@ class TokenStream:
               print token["source"]
               pass
 
-        # Documentation for next item
-        elif token["detail"] in [ "qtdoc", "javadoc" ]:
+        # Documentation and Block comments of next item
+        else:
           if not self.commentsBefore:
             self.commentsBefore = []
 
-          self.commentsBefore.append(token)
+          commentNode = tree.Node("comment")
+          commentNode.set("line", token["line"])
+          commentNode.set("text", token["source"])
+          commentNode.set("detail", token["detail"])
+          commentNode.set("multiline", token["multiline"])
+          commentNode.set("connection", token["connection"])
 
-        # Just a block comment etc.
-        else:
-          # TODO: Block comment
-          pass
+          self.commentsBefore.append(commentNode)
 
       else:
         break
@@ -189,17 +191,10 @@ def createItemNode(type, stream):
   node = tree.Node(type)
   node.set("line", stream.currLine())
 
-  comments = stream.clearCommentsBefore()
-  if comments:
-    for comment in comments:
-      commentNode = tree.Node("comment")
-      commentNode.set("line", comment["line"])
-      commentNode.set("text", comment["source"])
-      commentNode.set("detail", comment["detail"])
-      commentNode.set("multiline", comment["multiline"])
-      commentNode.set("connection", comment["connection"])
-
-      node.addListChild("commentsBefore", commentNode)
+  commentsBefore = stream.clearCommentsBefore()
+  if commentsBefore:
+    for comment in commentsBefore:
+      node.addListChild("commentsBefore", comment)
 
   return node
 
