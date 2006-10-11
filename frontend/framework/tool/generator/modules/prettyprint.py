@@ -201,6 +201,7 @@ def compileNode(node, enableDebug=False):
     out("(")
 
   elif node.type == "case":
+    # force double new lines
     if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
       pretty += "\n\n"
 
@@ -282,8 +283,9 @@ def compileNode(node, enableDebug=False):
 
   elif node.type == "default":
     minus()
-    line()
-    newline = True
+
+    # force double new lines
+    pretty += "\n\n"
     out("default:")
     plus()
     newline = True
