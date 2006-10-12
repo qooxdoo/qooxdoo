@@ -634,7 +634,7 @@ def compileNode(node):
 
   if node.hasParent() and node.parent.type == "operation":
     if node.parent.get("left", False) == True:
-      oper = node.get("operator")
+      oper = node.parent.get("operator")
 
       if oper == "TYPEOF":
         out("typeof ")
@@ -925,9 +925,11 @@ def compileNode(node):
       if node.type == "identifier":
         if node.parent.type == "variable":
           out(".")
-          space()
+        elif node.parent.type == "accessor":
+          pass
         else:
-          print "Error: Identifier outside a variable"
+          print "Error: Identifier outside a variable/accessor"
+          print node.parent.type
 
       elif node.type == "keyvalue":
         if node.parent.type == "map":
@@ -935,6 +937,7 @@ def compileNode(node):
           space()
         else:
           print "Error: KeyValue outside a map"
+          print node.parent.type
 
       elif node.type == "definition":
         if node.parent.type == "definitionList":
@@ -942,6 +945,7 @@ def compileNode(node):
           space()
         else:
           print "Error: Definition outside definionlist"
+          print node.parent.type
 
       # These could have any child object, so we have no realistic chance to
       # detect them with the child type
