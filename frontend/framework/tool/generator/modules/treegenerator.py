@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, optparse, tokenizer, tree
+import sys, optparse, tokenizer, tree, filetool
 
 
 SINGLE_LEFT_OPERATORS = [ "NOT", "BITNOT", "SUB", "INC", "DEC" ]
