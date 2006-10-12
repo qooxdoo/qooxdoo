@@ -144,6 +144,9 @@ class Node:
       if self.hasChildren(True):
         return True
 
+    elif self.type == "comment" or self.type == "commentsBefore" or self.type == "commentsAfter":
+      return True
+
     elif self.hasChildren():
       for child in self.children:
         if child.isComplex():
