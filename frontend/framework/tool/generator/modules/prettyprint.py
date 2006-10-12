@@ -177,22 +177,9 @@ def compileNode(node):
   ##################################
 
   if node.type == "map":
-    if (node.hasChildren() and node.getChildrenLength(True) > 2) or node.hasComplexChildren():
-      line()
-
-      #maxKeyLength = 0
-      #for child in node.children:
-      #  if child.type == "keyvalue":
-      #    if len(child.get("key")) > maxKeyLength:
-      #      maxKeyLength = len(child.get("key"))
-      #print "KEY-MAX: %s" % maxKeyLength
-
     write("{")
 
-    if (node.hasChildren() and node.getChildrenLength(True) > 2) or node.hasComplexChildren():
-      plus()
-      line()
-    elif node.hasChildren():
+    if node.hasChildren(True):
       space()
 
 
@@ -201,15 +188,9 @@ def compileNode(node):
   ##################################
 
   elif node.type == "array":
-    if (node.hasChildren() and node.getChildrenLength(True) > 5) or node.hasComplexChildren():
-      line()
-
     write("[")
 
-    if (node.hasChildren() and node.getChildrenLength(True) > 5) or node.hasComplexChildren():
-      plus()
-      line()
-    elif node.hasChildren():
+    if node.hasChildren(True):
       space()
 
 
@@ -428,10 +409,13 @@ def compileNode(node):
         keyString = "'" + keyString + "'"
 
     elif keyString in config.JSPROTECTED or not KEY.match(keyString):
-      print "ATTENTION: Auto protect key: %s" % keyString
+      print "Warning: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    write(keyString + " : ")
+    write(keyString)
+    space()
+    write(":")
+    space()
 
 
   #
@@ -506,7 +490,7 @@ def compileNode(node):
       space()
 
     else:
-      print "UNKNOWN LOOP TYPE: %s" % loopType
+      print "Warning: Unknown loop type: %s" % loopType
 
 
   #
@@ -719,10 +703,7 @@ def compileNode(node):
   ##################################
 
   if node.type == "map":
-    if (node.hasChildren() and node.getChildrenLength(True) > 2) or node.hasComplexChildren():
-      minus()
-      line()
-    elif node.hasChildren():
+    if node.hasChildren(True):
       space()
 
     write("}")
@@ -733,10 +714,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "array":
-    if (node.hasChildren() and node.getChildrenLength(True) > 5) or node.hasComplexChildren():
-      minus()
-      line()
-    elif node.hasChildren():
+    if node.hasChildren(True):
       space()
 
     write("]")
@@ -963,6 +941,10 @@ def compileNode(node):
         else:
           print "Error: Identifier outside a variable/accessor"
           print node.parent.type
+
+      elif node.type == "accessor":
+        if node.parent.type == "variable":
+          write(".")
 
       elif node.type == "keyvalue":
         if node.parent.type == "map":
