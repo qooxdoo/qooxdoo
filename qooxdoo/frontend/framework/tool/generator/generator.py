@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, prettyprint
 
 
 
@@ -839,35 +839,36 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF PRETTY PRINTED CODE:"
     print "----------------------------------------------------------------------------"
 
+    if options.compiledScriptFile == None:
+      print "    * You must define the compiled script file!"
+      sys.exit(1)
+
     prettyOutput = ""
 
-    for fileId in sortedIncludeList:
-      if options.verbose:
-        print "  * Pretty printing..."
-      else:
-        print "  * Pretty printing: ",
+    if options.verbose:
+      print "  * Pretty printing..."
+    else:
+      print "  * Pretty printing: ",
 
+    for fileId in sortedIncludeList:
       if options.verbose:
         print "    - Compiling %s" % fileId
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      prettyFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options), options.enableDebug)
+      prettyFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options))
 
       if options.addFileIds:
         prettyOutput += "\n\n\n/* ID: " + fileId + " */\n" + prettyFileContent + "\n"
       else:
         prettyOutput += prettyFileContent
 
-      if not prettyOutput.endswith(";"):
-        prettyOutput += ";"
-
     if not options.verbose:
       print
 
     print "  * Storing output as %s..." % options.compiledScriptFile
-    filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
+    filetool.save(options.compiledScriptFile, prettyOutput, options.scriptOutputEncoding)
 
 
 
