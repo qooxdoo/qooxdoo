@@ -683,7 +683,7 @@ def compileNode(node):
   commentText = ""
   if node.getChild("commentsAfter", False):
     for comment in node.getChild("commentsAfter").children:
-      if not node.isFirstChild() and comment.get("connection") == "after":
+      if not comment.isFirstChild():
         commentText += " "
 
       commentText += comment.get("text")
@@ -964,7 +964,7 @@ def compileNode(node):
 
       # These could have any child object, so we have no realistic chance to
       # detect them with the child type
-      elif node.parent.type in [ "array", "params", "statementList" ]:
+      if node.parent.type in [ "array", "params", "statementList" ]:
         write(",")
         space()
 
