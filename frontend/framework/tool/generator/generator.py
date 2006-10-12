@@ -839,11 +839,13 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF PRETTY PRINTED CODE:"
     print "----------------------------------------------------------------------------"
 
+    prettyOutput = ""
+
     for fileId in sortedIncludeList:
       if options.verbose:
-        print "  * Compiling tree..."
+        print "  * Pretty printing..."
       else:
-        print "  * Compiling tree: ",
+        print "  * Pretty printing: ",
 
       if options.verbose:
         print "    - Compiling %s" % fileId
@@ -851,12 +853,22 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      compiledFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options), options.enableDebug)
+      prettyFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options), options.enableDebug)
 
+      if options.addFileIds:
+        prettyOutput += "\n\n\n/* ID: " + fileId + " */\n" + prettyFileContent + "\n"
+      else:
+        prettyOutput += prettyFileContent
+
+      if not prettyOutput.endswith(";"):
+        prettyOutput += ";"
+
+    if not options.verbose:
       print
-      print
-      print compiledFileContent
-      print
+
+    print "  * Storing output as %s..." % options.compiledScriptFile
+    filetool.save(options.compiledScriptFile, compiledOutput, options.scriptOutputEncoding)
+
 
 
 
