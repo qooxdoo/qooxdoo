@@ -20,12 +20,12 @@ def space():
   global indent
   global onNewLine
   global afterBreak
-  global pretty
+  global result
 
-  if afterBreak or onNewLine or pretty.endswith(" "):
+  if afterBreak or onNewLine or result.endswith(" "):
     return
 
-  pretty += " "
+  result += " "
 
 
 def out(txt=""):
@@ -33,28 +33,29 @@ def out(txt=""):
   global indent
   global onNewLine
   global afterBreak
-  global pretty
+  global result
 
+  # handle new line wishes
   if afterBreak:
-    if pretty.endswith("\n"):
-      pretty += "\n"
+    if result.endswith("\n"):
+      result += "\n"
     else:
-      pretty += "\n\n"
+      result += "\n\n"
 
   elif onNewLine:
-    if not pretty.endswith("\n"):
-      pretty += "\n"
+    if not result.endswith("\n"):
+      result += "\n"
 
   # reset
   onNewLine = False
   afterBreak = False
 
   # add indent (if needed)
-  if pretty.endswith("\n"):
-    pretty += ("  " * indent)
+  if result.endswith("\n"):
+    result += ("  " * indent)
 
   # append given text
-  pretty += txt
+  result += txt
 
 
 def line():
@@ -73,26 +74,26 @@ def minus():
 
 
 def semicolon():
-  global pretty
+  global result
 
-  if not (pretty.endswith("\n") or pretty.endswith(";")):
-    pretty += ";"
+  if not (result.endswith("\n") or result.endswith(";")):
+    result += ";"
 
 
 def compile(node):
   global indent
   global onNewLine
   global afterBreak
-  global pretty
+  global result
 
   indent = 0
-  pretty = ""
+  result = ""
   onNewLine = False
   afterBreak = False
 
   compileNode(node)
 
-  return pretty
+  return result
 
 
 
@@ -105,7 +106,7 @@ def compile(node):
 def compileNode(node):
   global onNewLine
   global afterBreak
-  global pretty
+  global result
 
 
   if node.type in [ "commentsBefore", "commentsAfter" ]:
@@ -127,24 +128,24 @@ def compileNode(node):
       divComment = comment.get("detail") in [ "divider" ]
 
       # new line above all comments
-      pretty += "\n"
+      result += "\n"
 
       # additional lines before divider comments
       if divComment:
-        pretty += "\n\n\n\n"
+        result += "\n\n\n\n"
 
       out(comment.get("text"))
 
       # new line after all comments
-      pretty += "\n"
+      result += "\n"
 
       # additional line after divider comments
       if divComment:
-        pretty += "\n"
+        result += "\n"
 
       # additional new line after block comments (not for documentation)
       elif comment.get("detail") == "block" and not docComment:
-        pretty += "\n"
+        result += "\n"
 
 
 
@@ -242,7 +243,7 @@ def compileNode(node):
   elif node.type == "case":
     # force double new lines
     if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
-      pretty += "\n\n"
+      result += "\n\n"
 
     minus()
     line()
@@ -384,7 +385,7 @@ def compileNode(node):
     minus()
 
     # force double new lines
-    pretty += "\n\n"
+    result += "\n\n"
     out("default:")
     plus()
     line()
@@ -618,7 +619,7 @@ def compileNode(node):
       if node.type == "third" and not node.parent.hasChild("first") and not node.parent.hasChild("second"):
         out("(")
 
-      if not pretty.endswith(";") and not pretty.endswith("\n"):
+      if not result.endswith(";") and not result.endswith("\n"):
         semicolon()
 
 
