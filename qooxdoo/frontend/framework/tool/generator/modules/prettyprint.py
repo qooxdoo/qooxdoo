@@ -37,7 +37,9 @@ def out(txt=""):
 
   # handle new line wishes
   if afterBreak:
-    if result.endswith("\n"):
+    if result.endswith("\n\n"):
+      pass
+    elif result.endswith("\n"):
       result += "\n"
     else:
       result += "\n\n"
@@ -56,6 +58,11 @@ def out(txt=""):
 
   # append given text
   result += txt
+
+
+def sep():
+  global afterBreak
+  afterBreak = True
 
 
 def line():
@@ -78,6 +85,14 @@ def semicolon():
 
   if not (result.endswith("\n") or result.endswith(";")):
     result += ";"
+
+
+
+
+
+
+
+
 
 
 def compile(node):
