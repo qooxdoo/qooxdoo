@@ -598,11 +598,11 @@ def readBlock(stream):
     counter += 1
 
     # complex inner blocks
-    if child.hasChildRecursive([ "loop", "switch", "map", "array", "function" ]):
+    if child.isComplex():
       counter += 1
 
     # children with comments
-    if child.getChild("commentsBefore", False):
+    if child.getChild("commentsBefore", False) or child.getChild("comment", False):
       counter += 1
 
   item.set("compact", counter < 2)
