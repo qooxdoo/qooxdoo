@@ -155,6 +155,12 @@ def hasLeadingContent(tokens):
 
 
 def parseStream(content, uniqueId):
+  # dos2unix
+  content = content.replace("\r\n", "\n")
+
+  # mac2unix
+  content = content.replace("\r", "\n")
+
   # make global variables available
   global parseLine
   global parseUniqueId
