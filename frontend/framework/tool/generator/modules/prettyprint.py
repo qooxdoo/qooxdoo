@@ -20,7 +20,6 @@ def space():
   global indent
   global onNewLine
   global afterBreak
-  global needsIndent
   global pretty
 
   if afterBreak or onNewLine or pretty.endswith(" "):
@@ -34,7 +33,6 @@ def out(txt=""):
   global indent
   global onNewLine
   global afterBreak
-  global needsIndent
   global pretty
 
   if afterBreak:
@@ -43,21 +41,19 @@ def out(txt=""):
     else:
       pretty += "\n\n"
 
-    needsIndent = True
-    onNewLine = False
-    afterBreak = False
-
   elif onNewLine:
     if not pretty.endswith("\n"):
       pretty += "\n"
 
-    needsIndent = True
-    onNewLine = False
+  # reset
+  onNewLine = False
+  afterBreak = False
 
-  if needsIndent:
+  # add indent (if needed)
+  if pretty.endswith("\n"):
     pretty += ("  " * indent)
-    needsIndent = False
 
+  # append given text
   pretty += txt
 
 
@@ -85,13 +81,11 @@ def semicolon():
 
 def compile(node):
   global indent
-  global needsIndent
   global onNewLine
   global afterBreak
   global pretty
 
   indent = 0
-  needsIndent = False
   pretty = ""
   onNewLine = False
   afterBreak = False
