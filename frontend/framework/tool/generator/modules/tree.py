@@ -110,6 +110,20 @@ class Node:
 
     return False
 
+  def getChildrenLength(self, ignoreComments=False):
+    if self.hasChildren():
+      if ignoreComments:
+        counter = 0
+        for child in self.children:
+          if not child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+            counter += 1
+        return counter
+
+      else:
+        return len(self.children)
+
+    return 0
+
   def isComplex(self):
     if self.type in [ "loop", "switch" ]:
       return True
@@ -131,6 +145,14 @@ class Node:
         return True
 
     elif self.hasChildren():
+      for child in self.children:
+        if child.isComplex():
+          return True
+
+    return False
+
+  def hasComplexChildren(self):
+    if self.hasChildren():
       for child in self.children:
         if child.isComplex():
           return True
