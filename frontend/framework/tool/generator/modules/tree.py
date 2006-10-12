@@ -110,6 +110,33 @@ class Node:
 
     return False
 
+  def isComplex(self):
+    if self.type in [ "loop", "switch" ]:
+      return True
+
+    elif self.type == "function":
+      if self.getChild("body").getChild("block").hasChildren(True):
+        return True
+
+    elif self.type == "array" :
+      if self.hasChildren(True):
+        return True
+
+    elif self.type == "map" :
+      if self.hasChild("keyvalue"):
+        return True
+
+    elif self.type == "block":
+      if self.hasChildren(True):
+        return True
+
+    elif self.hasChildren():
+      for child in self.children:
+        if child.isComplex():
+          return True
+
+    return False
+
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
