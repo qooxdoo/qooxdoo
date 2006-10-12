@@ -28,7 +28,7 @@ def space():
   result += " "
 
 
-def out(txt=""):
+def write(txt=""):
 
   global indent
   global onNewLine
@@ -149,7 +149,7 @@ def compileNode(node):
       if divComment:
         result += "\n\n\n\n"
 
-      out(comment.get("text"))
+      write(comment.get("text"))
 
       # new line after all comments
       result += "\n"
@@ -187,7 +187,7 @@ def compileNode(node):
       #      maxKeyLength = len(child.get("key"))
       #print "KEY-MAX: %s" % maxKeyLength
 
-    out("{")
+    write("{")
 
     if (node.hasChildren() and node.getChildrenLength(True) > 2) or node.hasComplexChildren():
       plus()
@@ -204,7 +204,7 @@ def compileNode(node):
     if (node.hasChildren() and node.getChildrenLength(True) > 5) or node.hasComplexChildren():
       line()
 
-    out("[")
+    write("[")
 
     if (node.hasChildren() and node.getChildrenLength(True) > 5) or node.hasComplexChildren():
       plus()
@@ -228,7 +228,7 @@ def compileNode(node):
     else:
       space()
 
-    out("{")
+    write("{")
 
     if node.hasChildren():
       plus()
@@ -240,7 +240,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "params":
-    out("(")
+    write("(")
 
 
   #
@@ -248,7 +248,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "group":
-    out("(")
+    write("(")
 
 
   #
@@ -262,7 +262,8 @@ def compileNode(node):
 
     minus()
     line()
-    out("case ")
+    write("case")
+    space()
 
 
   #
@@ -275,7 +276,7 @@ def compileNode(node):
       onNewLine = False
       space()
 
-    out("catch")
+    write("catch")
 
 
   #
@@ -283,11 +284,11 @@ def compileNode(node):
   ##################################
 
   elif node.type == "break":
-    out("break")
+    write("break")
 
     if node.get("label", False):
       space()
-      out(node.get("label", False))
+      write(node.get("label", False))
 
 
   #
@@ -295,11 +296,11 @@ def compileNode(node):
   ##################################
 
   elif node.type == "continue":
-    out("continue")
+    write("continue")
 
     if node.get("label", False):
       space()
-      out(node.get("label", False))
+      write(node.get("label", False))
 
 
   #
@@ -320,7 +321,7 @@ def compileNode(node):
       onNewLine = False
       space()
 
-    out("else")
+    write("else")
 
     # This is a elseStatement without a block around (a set of {})
     if not node.hasChild("block"):
@@ -333,9 +334,9 @@ def compileNode(node):
 
   elif node.type == "switch":
     if node.get("switchType") == "catch":
-      out("try")
+      write("try")
     elif node.get("switchType") == "case":
-      out("switch")
+      write("switch")
 
 
   #
@@ -343,7 +344,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "finally":
-    out("finally")
+    write("finally")
 
 
   #
@@ -351,7 +352,8 @@ def compileNode(node):
   ##################################
 
   elif node.type == "delete":
-    out("delete ")
+    write("delete")
+    space()
 
 
   #
@@ -359,14 +361,16 @@ def compileNode(node):
   ##################################
 
   elif node.type == "throw":
-    out("throw ")
+    write("throw")
+    space()
 
   #
   # OPEN: NEW
   ##################################
 
   elif node.type == "instantiation":
-    out("new ")
+    write("new")
+    space()
 
 
   #
@@ -378,7 +382,7 @@ def compileNode(node):
       if node.isLastChild() and not node.isFirstChild():
         line()
 
-    out("return")
+    write("return")
 
     if node.hasChildren():
       space()
@@ -389,7 +393,8 @@ def compileNode(node):
   ##################################
 
   elif node.type == "definitionList":
-    out("var ")
+    write("var")
+    space()
 
 
   #
@@ -401,7 +406,8 @@ def compileNode(node):
 
     # force double new lines
     result += "\n\n"
-    out("default:")
+    write("default")
+    write(":")
     plus()
     line()
 
@@ -425,7 +431,7 @@ def compileNode(node):
       print "ATTENTION: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    out(keyString + " : ")
+    write(keyString + " : ")
 
 
   #
@@ -434,7 +440,7 @@ def compileNode(node):
 
   elif node.type == "key":
     if node.parent.type == "accessor":
-      out("[")
+      write("[")
 
 
   #
@@ -443,7 +449,7 @@ def compileNode(node):
 
   elif node.type == "right":
     if node.parent.type == "accessor":
-      out(".")
+      write(".")
 
 
   #
@@ -455,16 +461,17 @@ def compileNode(node):
       loopType = node.parent.get("loopType")
 
       if loopType == "DO":
-        out("while ")
+        write("while")
+        space()
 
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
-      out("(")
+      write("(")
     elif node.parent.type == "catch":
       # open expression block of CATCH statement
-      out("(")
+      write("(")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       # open expression block of SWITCH statement
-      out("(")
+      write("(")
 
 
   #
@@ -479,19 +486,24 @@ def compileNode(node):
     loopType = node.get("loopType")
 
     if loopType == "IF":
-      out("if ")
+      write("if")
+      space()
 
     elif loopType == "WHILE":
-      out("while ")
+      write("while")
+      space()
 
     elif loopType == "FOR":
-      out("for ")
+      write("for")
+      space()
 
     elif loopType == "DO":
-      out("do ")
+      write("do")
+      space()
 
     elif loopType == "WITH":
-      out("with ")
+      write("with")
+      space()
 
     else:
       print "UNKNOWN LOOP TYPE: %s" % loopType
@@ -502,11 +514,12 @@ def compileNode(node):
   ##################################
 
   elif node.type == "function":
-    out("function")
+    write("function")
 
     functionName = node.get("name", False)
     if functionName != None:
-      out(" %s" % functionName)
+      space()
+      write(functionName)
 
 
   #
@@ -516,7 +529,7 @@ def compileNode(node):
   elif node.type == "identifier":
     name = node.get("name", False)
     if name != None:
-      out(name)
+      write(name)
 
 
   #
@@ -525,9 +538,10 @@ def compileNode(node):
 
   elif node.type == "definition":
     if node.parent.type != "definitionList":
-      out("var ")
+      write("var")
+      space()
 
-    out(node.get("identifier"))
+    write(node.get("identifier"))
 
 
   #
@@ -537,19 +551,19 @@ def compileNode(node):
   elif node.type == "constant":
     if node.get("constantType") == "string":
       if node.get("detail") == "singlequotes":
-        out("'")
+        write("'")
       else:
-        out('"')
+        write('"')
 
-      out(node.get("value"))
+      write(node.get("value"))
 
       if node.get("detail") == "singlequotes":
-        out("'")
+        write("'")
       else:
-        out('"')
+        write('"')
 
     else:
-      out(node.get("value"))
+      write(node.get("value"))
 
 
   #
@@ -559,7 +573,9 @@ def compileNode(node):
   elif node.type == "third":
     if node.parent.type == "operation":
       if node.parent.get("operator") == "HOOK":
-        out(" : ")
+        space()
+        write(":")
+        space()
 
 
   #
@@ -567,7 +583,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "labelTerminator":
-    out(":")
+    write(":")
 
 
   #
@@ -576,7 +592,7 @@ def compileNode(node):
 
   elif node.type == "body":
     if not node.parent.getChild("params"):
-      out("()")
+      write("()")
 
 
   #
@@ -588,7 +604,7 @@ def compileNode(node):
     if node.get("connection") == "after":
       space()
 
-    out(node.get("text"))
+    write(node.get("text"))
 
     # new line after inline comment (for example for syntactical reasons)
     if node.get("detail") == "inline":
@@ -610,9 +626,9 @@ def compileNode(node):
         space()
 
       if oper != None:
-        out(getTokenSource(oper))
+        write(getTokenSource(oper))
       else:
-        out("=")
+        write("=")
 
       if not inForLoop and not oper in [ "INC", "DEC" ]:
         space()
@@ -624,15 +640,15 @@ def compileNode(node):
 
   if node.hasParent() and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
     if node.type == "first":
-      out("(")
+      write("(")
     elif node.type == "statement":
-      out(")")
+      write(")")
     else:
       if node.type == "second" and not node.parent.hasChild("first"):
-        out("(")
+        write("(")
 
       if node.type == "third" and not node.parent.hasChild("first") and not node.parent.hasChild("second"):
-        out("(")
+        write("(")
 
       if not result.endswith(";") and not result.endswith("\n"):
         semicolon()
@@ -647,9 +663,10 @@ def compileNode(node):
       oper = node.parent.get("operator")
 
       if oper == "TYPEOF":
-        out("typeof ")
+        write("typeof")
+        space()
       else:
-        out(getTokenSource(oper))
+        write(getTokenSource(oper))
 
 
 
@@ -708,7 +725,7 @@ def compileNode(node):
     elif node.hasChildren():
       space()
 
-    out("}")
+    write("}")
 
 
   #
@@ -722,7 +739,7 @@ def compileNode(node):
     elif node.hasChildren():
       space()
 
-    out("]")
+    write("]")
 
 
   #
@@ -731,7 +748,7 @@ def compileNode(node):
 
   elif node.type == "key":
     if node.hasParent() and node.parent.type == "accessor":
-      out("]")
+      write("]")
 
 
   #
@@ -743,11 +760,11 @@ def compileNode(node):
       minus()
       line()
 
-    out("}")
+    write("}")
 
     if commentText != "":
       space()
-      out(commentText)
+      write(commentText)
       commentText = ""
 
     if node.hasChildren():
@@ -764,7 +781,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "params":
-    out(")")
+    write(")")
 
 
   #
@@ -776,11 +793,11 @@ def compileNode(node):
       minus()
       minus()
       line()
-      out("}")
+      write("}")
 
       if commentText != "":
         space()
-        out(commentText)
+        write(commentText)
         commentText = ""
 
       line()
@@ -791,7 +808,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "group":
-    out(")")
+    write(")")
 
 
   #
@@ -799,11 +816,11 @@ def compileNode(node):
   ##################################
 
   elif node.type == "case":
-    out(":")
+    write(":")
 
     if commentText != "":
       space()
-      out(commentText)
+      write(commentText)
       commentText = ""
 
     plus()
@@ -816,7 +833,7 @@ def compileNode(node):
 
   elif node.type == "call":
     if not node.getChild("params", False):
-      out("()")
+      write("()")
 
 
   #
@@ -825,7 +842,7 @@ def compileNode(node):
 
   elif node.type == "function":
     if not node.getChild("params", False):
-      out("()")
+      write("()")
 
 
   #
@@ -834,19 +851,19 @@ def compileNode(node):
 
   elif node.type == "expression":
     if node.parent.type == "loop":
-      out(")")
+      write(")")
     elif node.parent.type == "catch":
-      out(")")
+      write(")")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      out(")")
+      write(")")
 
       if commentText != "":
         space()
-        out(commentText)
+        write(commentText)
         commentText = ""
 
       line()
-      out("{")
+      write("{")
       plus()
       plus()
 
@@ -860,7 +877,7 @@ def compileNode(node):
     if not node.isLastChild():
       if commentText != "":
         space()
-        out(commentText)
+        write(commentText)
         commentText = ""
 
       line()
@@ -882,14 +899,18 @@ def compileNode(node):
       inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
 
       if oper == "IN":
-        out(" in ")
+        space()
+        write("in")
+        space()
       elif oper == "INSTANCEOF":
-        out(" instanceof ")
+        space()
+        write("instanceof")
+        space()
       else:
         if not inForLoop and not oper in [ "INC", "DEC" ]:
           space()
 
-        out(getTokenSource(oper))
+        write(getTokenSource(oper))
 
         if not inForLoop and not oper in [ "INC", "DEC" ]:
           space()
@@ -914,9 +935,9 @@ def compileNode(node):
         space()
 
       if oper != None:
-        out(getTokenSource(oper))
+        write(getTokenSource(oper))
       else:
-        out("=")
+        write("=")
 
       if not inForLoop and not oper in [ "INC", "DEC" ]:
         space()
@@ -926,7 +947,9 @@ def compileNode(node):
 
 
 
-
+  #
+  # CLOSE: OTHER
+  ##################################
 
   if node.hasParent() and not node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
     needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
@@ -934,7 +957,7 @@ def compileNode(node):
     if not node.isLastChild(True):
       if node.type == "identifier":
         if node.parent.type == "variable":
-          out(".")
+          write(".")
         elif node.parent.type == "accessor":
           pass
         else:
@@ -943,7 +966,7 @@ def compileNode(node):
 
       elif node.type == "keyvalue":
         if node.parent.type == "map":
-          out(",")
+          write(",")
           space()
         else:
           print "Error: KeyValue outside a map"
@@ -951,7 +974,7 @@ def compileNode(node):
 
       elif node.type == "definition":
         if node.parent.type == "definitionList":
-          out(",")
+          write(",")
           space()
         else:
           print "Error: Definition outside definionlist"
@@ -960,7 +983,7 @@ def compileNode(node):
       # These could have any child object, so we have no realistic chance to
       # detect them with the child type
       elif node.parent.type in [ "array", "params", "statementList" ]:
-        out(",")
+        write(",")
         space()
 
     # Semicolon handling
@@ -972,26 +995,11 @@ def compileNode(node):
       semicolon()
       line()
 
-
-
-
-
-
-
-
-
-
-  #####################################################################################################################
-  # POST CONTENT ...
-  #####################################################################################################################
-
   # Insert after comments
   if commentText != "":
     space()
-    out(commentText)
+    write(commentText)
     space()
-
-
 
 
 
