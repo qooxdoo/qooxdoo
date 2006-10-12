@@ -681,12 +681,16 @@ def compileNode(node):
   #####################################################################################################################
 
   commentText = ""
+  commentIsInline = False
   if node.getChild("commentsAfter", False):
     for comment in node.getChild("commentsAfter").children:
       if not comment.isFirstChild():
         commentText += " "
 
       commentText += comment.get("text")
+
+      if comment.get("detail") == "inline":
+        commentIsInline = True
 
 
 
@@ -745,6 +749,9 @@ def compileNode(node):
       write(commentText)
       commentText = ""
 
+      if commentIsInline:
+        line()
+
     if node.hasChildren():
       # Not in function assignment and param blocks
       if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
@@ -778,6 +785,9 @@ def compileNode(node):
         write(commentText)
         commentText = ""
 
+        if commentIsInline:
+          line()
+
       line()
 
 
@@ -800,6 +810,9 @@ def compileNode(node):
       space()
       write(commentText)
       commentText = ""
+
+      if commentIsInline:
+        line()
 
     plus()
     line()
@@ -840,6 +853,9 @@ def compileNode(node):
         write(commentText)
         commentText = ""
 
+        if commentIsInline:
+          line()
+
       line()
       write("{")
       plus()
@@ -857,6 +873,9 @@ def compileNode(node):
         space()
         write(commentText)
         commentText = ""
+
+        if commentIsInline:
+          line()
 
       line()
 
@@ -982,6 +1001,9 @@ def compileNode(node):
     space()
     write(commentText)
     space()
+
+    if commentIsInline:
+      line()
 
 
 
