@@ -290,9 +290,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
   elif stream.currIsType("token", "LP"):
     item = createItemNode("group", stream)
     stream.next(item)
-    expr = readStatement(stream, expressionMode)
-    item.addChild(expr)
-    stream.comment(expr)
+    item.addChild(readStatement(stream, expressionMode))
     stream.expectCurrType("token", "RP")
     stream.next(item, True)
     item = readObjectOperation(stream, item)
@@ -334,9 +332,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item.set("operator", stream.currDetail())
     item.set("left", True)
     stream.next(item)
-    expr = readExpression(stream)
-    item.addListChild("first", expr)
-    stream.comment(expr, True)
+    item.addListChild("first", readExpression(stream))
   elif stream.currIsType("protected", "TYPEOF"):
     item = createItemNode("operation", stream)
     item.set("operator", "TYPEOF")
