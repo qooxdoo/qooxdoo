@@ -70,6 +70,11 @@ def line():
   onNewLine = True
 
 
+def noline():
+  global onNewLine
+  onNewLine = False
+
+
 def plus():
   global indent
   indent += 1
@@ -87,7 +92,30 @@ def semicolon():
     result += ";"
 
 
+def comment(node):
+  commentText = ""
+  commentIsInline = False
 
+  afterBlock = node.getChild("commentsAfter", False)
+
+  if afterBlock and not afterBlock.get("inserted", False):
+    for child in afterBlock.children:
+      if not child.isFirstChild():
+        commentText += " "
+
+      commentText += child.get("text")
+
+      if child.get("detail") == "inline":
+        commentIsInline = True
+
+    if commentText != "":
+      space()
+      write(commentText)
+
+      if commentIsInline:
+        line()
+
+      afterBlock.set("inserted", True)
 
 
 
@@ -119,10 +147,6 @@ def compile(node):
 
 
 def compileNode(node):
-  global onNewLine
-  global afterBreak
-  global result
-
 
   if node.type in [ "commentsBefore", "commentsAfter" ]:
     return
@@ -130,38 +154,38 @@ def compileNode(node):
 
 
   if node.get("breakBefore", False) and not node.isFirstChild(True):
-    afterBreak = True
+    sep()
 
 
 
   if node.getChild("commentsBefore", False) != None:
     commentCounter = 0
+    commentsBefore = node.getChild("commentsBefore")
+    isFirst = node.isFirstChild()
 
-    for comment in node.getChild("commentsBefore").children:
-      docComment = comment.get("detail") in [ "javadoc", "qtdoc" ]
-      headComment = comment.get("detail") in [ "header" ]
-      divComment = comment.get("detail") in [ "divider" ]
+    for child in commentsBefore.children:
+      docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
+      headComment = child.get("detail") in [ "header" ]
+      divComment = child.get("detail") in [ "divider" ]
 
-      # new line above all comments
-      result += "\n"
+      if not isFirst:
+        sep()
 
-      # additional lines before divider comments
-      if divComment:
-        result += "\n\n\n\n"
+      else:
+        line()
 
-      write(comment.get("text"))
+      write(child.get("text"))
 
-      # new line after all comments
-      result += "\n"
+      # separator after divider/head comments
+      if divComment or headComment:
+        sep()
 
-      # additional line after divider comments
-      if divComment:
-        result += "\n"
+      # separator after block comments which are not for documentation
+      elif child.get("detail") == "block" and not docComment:
+        sep()
 
-      # additional new line after block comments (not for documentation)
-      elif comment.get("detail") == "block" and not docComment:
-        result += "\n"
-
+      else:
+        line()
 
 
 
@@ -256,7 +280,7 @@ def compileNode(node):
   elif node.type == "case":
     # force double new lines
     if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
-      result += "\n\n"
+      sep()
 
     minus()
     line()
@@ -271,7 +295,7 @@ def compileNode(node):
   elif node.type == "catch":
     # If this statement block or the previous try were not complex, be not complex here, too
     if not node.getChild("statement").getChild("block").get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
-      onNewLine = False
+      noline()
       space()
 
     write("catch")
@@ -316,7 +340,7 @@ def compileNode(node):
         child = child.getChild("statement").getChild("block")
 
     if not child.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
-      onNewLine = False
+      noline()
       space()
 
     write("else")
@@ -399,7 +423,7 @@ def compileNode(node):
     minus()
 
     # force double new lines
-    result += "\n\n"
+    sep()
     write("default")
     write(":")
     plus()
@@ -599,6 +623,7 @@ def compileNode(node):
   elif node.type == "comment":
     # after = space before
     if node.get("connection") == "after":
+      noline()
       space()
 
     write(node.get("text"))
@@ -687,30 +712,6 @@ def compileNode(node):
 
 
 
-
-
-  #####################################################################################################################
-  # Prepare after comment...
-  #####################################################################################################################
-
-  commentText = ""
-  commentIsInline = False
-  if node.getChild("commentsAfter", False):
-    for comment in node.getChild("commentsAfter").children:
-      if not comment.isFirstChild():
-        commentText += " "
-
-      commentText += comment.get("text")
-
-      if comment.get("detail") == "inline":
-        commentIsInline = True
-
-
-
-
-
-
-
   #####################################################################################################################
   # Closing node
   #####################################################################################################################
@@ -764,14 +765,7 @@ def compileNode(node):
       line()
 
     write("}")
-
-    if commentText != "":
-      space()
-      write(commentText)
-      commentText = ""
-
-      if commentIsInline:
-        line()
+    comment(node)
 
     if node.hasChildren():
       # Not in function assignment and param blocks
@@ -800,15 +794,7 @@ def compileNode(node):
       minus()
       line()
       write("}")
-
-      if commentText != "":
-        space()
-        write(commentText)
-        commentText = ""
-
-        if commentIsInline:
-          line()
-
+      comment(node)
       line()
 
 
@@ -826,15 +812,7 @@ def compileNode(node):
 
   elif node.type == "case":
     write(":")
-
-    if commentText != "":
-      space()
-      write(commentText)
-      commentText = ""
-
-      if commentIsInline:
-        line()
-
+    comment(node)
     plus()
     line()
 
@@ -868,15 +846,7 @@ def compileNode(node):
       write(")")
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       write(")")
-
-      if commentText != "":
-        space()
-        write(commentText)
-        commentText = ""
-
-        if commentIsInline:
-          line()
-
+      comment(node)
       line()
       write("{")
       plus()
@@ -890,14 +860,7 @@ def compileNode(node):
   elif node.type == "loop":
     # Force a additinal line feed after each loop
     if not node.isLastChild():
-      if commentText != "":
-        space()
-        write(commentText)
-        commentText = ""
-
-        if commentIsInline:
-          line()
-
+      comment(node)
       line()
 
 
@@ -994,6 +957,7 @@ def compileNode(node):
             line()
           else:
             space()
+
         else:
           print "Error: KeyValue outside a map"
           print node.parent.type
@@ -1021,14 +985,9 @@ def compileNode(node):
       semicolon()
       line()
 
-  # Insert after comments
-  if commentText != "":
-    space()
-    write(commentText)
-    space()
 
-    if commentIsInline:
-      line()
+  # Rest of the after comments (not inserted previously)
+  comment(node)
 
 
 
