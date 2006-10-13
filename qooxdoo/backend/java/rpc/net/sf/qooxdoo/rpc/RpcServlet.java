@@ -205,6 +205,38 @@ public class RpcServlet extends HttpServlet {
     
     
     /**
+     * Generates a JSONObject from an exception (for returning it to the
+     * client).
+     * 
+     * @param   error               the exception to convert.
+     * 
+     * @return  the converted exception.
+     */
+    
+    protected JSONObject convertException(Throwable error) {
+        if (error instanceof InvocationTargetException) {
+            error = ((InvocationTargetException)error).getTargetException();
+        }
+        JSONObject ex = new JSONObject();
+        ex.put("code", 500);    // 500: internal server error
+                                // (executing the method generated
+                                //  an exception)
+                                // TODO: properly detect common errors
+                                //       like "method not found" and
+                                //       return appropriate codes
+                                // TODO: fill in the origin property
+        ex.put("message", error.getClass().getName() + ": " + error.getMessage());
+        ex.put("class", error.getClass().getName());
+        ex.put("origMessage", error.getMessage());
+        Throwable cause = error.getCause();
+        if (cause != null) {
+            ex.put("cause", convertException(cause));
+        }
+        return ex;
+    }
+    
+    
+    /**
      * Handles an RPC call.
      * 
      * @param   request             the servlet request.
@@ -252,19 +284,7 @@ public class RpcServlet extends HttpServlet {
                 error = e;
             }
             if (error != null) {
-                if (error instanceof InvocationTargetException) {
-                    error = ((InvocationTargetException)error).getTargetException();
-                }
-                JSONObject ex = new JSONObject();
-                ex.put("code", 500);    // 500: internal server error
-                                        // (executing the method generated
-                                        //  an exception)
-                                        // TODO: properly detect common errors
-                                        //       like "method not found" and
-                                        //       return appropriate codes
-                                        // TODO: fill in the origin property
-                ex.put("message", error.getClass().getName() + ": " + error.getMessage());
-                res.put("error", ex);
+                res.put("error", convertException(error));
                 //error.printStackTrace();
                 // FIXME: Use proper logging (configurable; default: System.out)
             } else {
