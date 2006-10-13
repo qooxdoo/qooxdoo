@@ -162,6 +162,12 @@ def compileNode(node):
     commentCounter = 0
     commentsBefore = node.getChild("commentsBefore")
     isFirst = node.isFirstChild()
+    previous = node.getPreviousSibling(False, True)
+
+    if previous and previous.type == "case":
+      inCase = True
+    else:
+      inCase = False
 
     for child in commentsBefore.children:
       docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
@@ -169,6 +175,9 @@ def compileNode(node):
       divComment = child.get("detail") in [ "divider" ]
 
       if not child.isFirstChild():
+        pass
+
+      elif inCase:
         pass
 
       elif not isFirst:
@@ -333,18 +342,22 @@ def compileNode(node):
   ##################################
 
   elif node.type == "elseStatement":
-    # If this statement block and the previous if were not complex, be not complex here, too
-    child = node.getChild("block", False)
+    if node.hasChild("commentsBefore"):
+      pass
 
-    if child == None:
-      child = node.getChild("loop", False)
+    else:
+      # If this statement block and the previous if were not complex, be not complex here, too
+      innerBlock = node.getChild("block", False)
 
-      if child != None:
-        child = child.getChild("statement").getChild("block")
+      if innerBlock == None:
+        innerBlock = node.getChild("loop", False)
 
-    if not child.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
-      noline()
-      space()
+        if innerBlock != None:
+          innerBlock = innerBlock.getChild("statement").getChild("block")
+
+          if not innerBlock.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
+            noline()
+            space()
 
     write("else")
 
