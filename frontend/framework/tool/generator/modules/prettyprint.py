@@ -89,7 +89,7 @@ def semicolon():
   global result
 
   if not (result.endswith("\n") or result.endswith(";")):
-    result += ";"
+    write(";")
 
 
 def comment(node):
@@ -168,7 +168,10 @@ def compileNode(node):
       headComment = child.get("detail") in [ "header" ]
       divComment = child.get("detail") in [ "divider" ]
 
-      if not isFirst:
+      if not child.isFirstChild():
+        pass
+
+      elif not isFirst:
         sep()
 
       elif not headComment:
@@ -621,7 +624,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "comment":
-    # after = space before
+    # insert a space before and no newline in the case of after comments
     if node.get("connection") == "after":
       noline()
       space()
