@@ -1014,10 +1014,12 @@ def compileNode(node):
     # Semicolon handling
     if node.parent.type in [ "block", "file" ] and needsSeparation:
       semicolon()
+      comment(node)
       line()
 
     elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case" and needsSeparation:
       semicolon()
+      comment(node)
       line()
 
 
