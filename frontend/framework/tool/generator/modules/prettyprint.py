@@ -35,6 +35,10 @@ def write(txt=""):
   global afterBreak
   global result
 
+  # strip remaining whitespaces
+  if (afterBreak or onNewLine) and result.endswith(" "):
+    result = result.rstrip()
+
   # handle new line wishes
   if afterBreak:
     if result.endswith("\n\n"):
@@ -114,6 +118,8 @@ def comment(node):
 
       if commentIsInline:
         line()
+      else:
+        space()
 
       afterBlock.set("inserted", True)
 
@@ -666,6 +672,9 @@ def compileNode(node):
     if node.get("detail") == "inline":
       line()
 
+    else:
+      space()
+
 
   #
   # OPEN: ASSIGNMENT
@@ -877,8 +886,14 @@ def compileNode(node):
   elif node.type == "expression":
     if node.parent.type == "loop":
       write(")")
+
+      # E.g. a if-construct without a block {}
+      if not node.parent.getChild("statement").hasChild("block"):
+        space()
+
     elif node.parent.type == "catch":
       write(")")
+
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       write(")")
       comment(node)
@@ -1011,17 +1026,23 @@ def compileNode(node):
         write(",")
         space()
 
-    # Semicolon handling
+    # Default semicolon handling
     if node.parent.type in [ "block", "file" ] and needsSeparation:
       semicolon()
       comment(node)
       line()
 
+    # Special handling for switch statements
     elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case" and needsSeparation:
       semicolon()
       comment(node)
       line()
 
+    # Special handling for loops (e.g. if) without blocks {}
+    elif node.parent.type == "statement" and not node.parent.hasChild("block") and node.parent.parent.type == "loop" and needsSeparation:
+      semicolon()
+      comment(node)
+      line()
 
   # Rest of the after comments (not inserted previously)
   comment(node)
