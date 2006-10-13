@@ -23,6 +23,14 @@
     w1.setDimension(600, 400);
 
 
+    w1.addEventListener("load", function(e) {
+      this.debug("Content loaded: " + this.isLoaded());
+    });
+
+    w1.addEventListener("close", function(e) {
+      this.debug("Window closed: " + this.isClosed());
+    });
+
 
 
 
