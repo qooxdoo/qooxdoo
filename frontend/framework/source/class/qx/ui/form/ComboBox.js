@@ -411,7 +411,7 @@ qx.Proto._onmousedown = function(e)
       break;
 
     default:
-      if (vTarget instanceof qx.ui.form.ListItem)
+      if (vTarget instanceof qx.ui.form.ListItem && vTarget.getParent() == this._list)
       {
         this._list._onmousedown(e);
         this.setSelected(this._list.getSelectedItem());
@@ -587,7 +587,7 @@ qx.Proto._onkeydown = function(e)
       }
 
       break;
-      
+
     // Handle Alt+Down
     case vKeys.down:
       if (e.getAltKey())
@@ -595,7 +595,7 @@ qx.Proto._onkeydown = function(e)
         this._togglePopup();
         return;
       }
-      
+
       break;
   }
 
