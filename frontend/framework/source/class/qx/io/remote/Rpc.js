@@ -221,14 +221,8 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
     }
   }
 
-  var makeException = function(origin, code, message) {
-    var ex = new Object();
-
-    ex.origin = origin;
-    ex.code = code;
-    ex.message = message;
-
-    ex.toString = function() {
+  var addToStringToObject = function(obj) {
+    obj.toString = function() {
       switch(origin)
       {
       case qx.io.remote.Rpc.origin.server:
@@ -243,6 +237,15 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
         return "UNEXPECTED origin " + this.origin + " error " + this.code + ": " + this.message;
       }
     }
+  }
+  
+  var makeException = function(origin, code, message) {
+    var ex = new Object();
+
+    ex.origin = origin;
+    ex.code = code;
+    ex.message = message;
+    addToStringToObject(ex);
 
     return ex;
   }
@@ -278,7 +281,8 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
     var exTest = result["error"];
     if (exTest != null) {
       result = null;
-      ex = makeException(exTest.origin, exTest.code, exTest.message);
+      addToStringToObject(exTest);
+      ex = exTest;
     } else {
       result = result["result"];
       if (refreshSession) {
