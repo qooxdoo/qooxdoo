@@ -256,6 +256,24 @@ def compileNode(node):
       if node.get("complex"):
         line()
 
+      # in else, try to find the look of the previous if first
+      elif node.hasParent() and node.parent.type == "elseStatement":
+        stmnt = node.parent.parent.getChild("statement")
+
+        if stmnt.getChild("block", False) and stmnt.getChild("block", False).get("complex"):
+          line()
+
+        else:
+          space()
+
+      # in catch/finally, try to find the look of the try statement
+      elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
+        if node.parent.parent.parent.getChild("statement").getChild("block").get("complex"):
+          line()
+
+        else:
+          space()
+
       else:
         space()
 
@@ -346,7 +364,7 @@ def compileNode(node):
       pass
 
     else:
-      # If this statement block and the previous if were not complex, be not complex here, too
+      # If this statement block and the previous were not complex, be not complex here, too
       innerBlock = node.getChild("block", False)
 
       if innerBlock == None:
