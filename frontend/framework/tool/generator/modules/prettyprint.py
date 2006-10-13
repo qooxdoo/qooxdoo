@@ -177,9 +177,22 @@ def compileNode(node):
   ##################################
 
   if node.type == "map":
+    par = node.parent
+
+    # No break before return statement
+    if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
+      pass
+
+    elif node.get("complex"):
+      line()
+
     write("{")
 
-    if node.hasChildren(True):
+    if node.get("complex"):
+      line()
+      plus()
+
+    elif node.hasChildren(True):
       space()
 
 
@@ -190,7 +203,11 @@ def compileNode(node):
   elif node.type == "array":
     write("[")
 
-    if node.hasChildren(True):
+    if node.get("complex"):
+      line()
+      plus()
+
+    elif node.hasChildren(True):
       space()
 
 
@@ -200,11 +217,11 @@ def compileNode(node):
 
   elif node.type == "block":
     if node.hasChildren():
-      if not node.get("complex"):
-        space()
+      if node.get("complex"):
+        line()
 
       else:
-        line()
+        space()
 
     else:
       space()
@@ -703,7 +720,11 @@ def compileNode(node):
   ##################################
 
   if node.type == "map":
-    if node.hasChildren(True):
+    if node.get("complex"):
+      line()
+      minus()
+
+    elif node.hasChildren(True):
       space()
 
     write("}")
@@ -714,7 +735,11 @@ def compileNode(node):
   ##################################
 
   elif node.type == "array":
-    if node.hasChildren(True):
+    if node.get("complex"):
+      line()
+      minus()
+
+    elif node.hasChildren(True):
       space()
 
     write("]")
@@ -964,7 +989,11 @@ def compileNode(node):
       elif node.type == "keyvalue":
         if node.parent.type == "map":
           write(",")
-          space()
+
+          if node.parent.get("complex"):
+            line()
+          else:
+            space()
         else:
           print "Error: KeyValue outside a map"
           print node.parent.type
