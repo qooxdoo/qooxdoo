@@ -117,6 +117,12 @@ function()
 
 
   // ************************************************************************
+  //   WIDGET STATE EVENTS
+  // ************************************************************************
+  this.addEventListener(qx.constant.Event.BEFOREDISAPPEAR, this._onbeforedisappear);
+
+
+  // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
   this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
@@ -369,7 +375,10 @@ qx.Proto._oninput = function(e)
   delete this._fromInput;
 }
 
-
+qx.Proto._onbeforedisappear = function(e)
+{
+  this._testClosePopup();
+}
 
 
 
