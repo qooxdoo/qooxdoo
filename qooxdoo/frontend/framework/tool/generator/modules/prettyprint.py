@@ -171,7 +171,7 @@ def compileNode(node):
       if not isFirst:
         sep()
 
-      else:
+      elif not headComment:
         line()
 
       write(child.get("text"))
