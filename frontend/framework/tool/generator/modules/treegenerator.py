@@ -584,24 +584,14 @@ def readParamList (node, stream):
 def readBlock(stream):
   stream.expectCurrType("token", "LC")
   item = createItemNode("block", stream)
-  counter = 0
 
+  # Iterate through children
   stream.next(item)
   while not stream.currIsType("token", "RC"):
-    child = readStatement(stream)
-    item.addChild(child)
+    item.addChild(readStatement(stream))
 
-    counter += 1
-
-    # complex inner blocks
-    if child.isComplex():
-      counter += 1
-
-    # children with comments
-    if child.getChild("commentsBefore", False) or child.getChild("comment", False):
-      counter += 1
-
-  item.set("compact", counter < 2)
+  # Store complex
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
@@ -643,6 +633,9 @@ def readMap(stream):
 
     hasEntries = True
 
+  # Store complex
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
+
   # Has an end defined by the loop above
   # This means that all comments following are after item
   stream.next(item, True)
@@ -668,6 +661,9 @@ def readArray(stream):
 
     item.addChild(readExpression(stream))
     hasEntries = True
+
+  # Store complex
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
