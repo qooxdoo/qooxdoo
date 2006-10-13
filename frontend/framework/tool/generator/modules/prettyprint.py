@@ -920,7 +920,7 @@ def compileNode(node):
     # Force a additinal line feed after each loop
     if not node.isLastChild():
       comment(node)
-      line()
+      sep()
 
 
   #
@@ -1041,17 +1041,26 @@ def compileNode(node):
       comment(node)
       line()
 
+      if node.isComplex() and not node.isLastChild():
+        sep()
+
     # Special handling for switch statements
     elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case" and needsSeparation:
       semicolon()
       comment(node)
       line()
 
+      if node.isComplex() and not node.isLastChild():
+        sep()
+
     # Special handling for loops (e.g. if) without blocks {}
     elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop" and needsSeparation:
       semicolon()
       comment(node)
       line()
+
+      if node.isComplex() and not node.isLastChild():
+        sep()
 
   # Rest of the after comments (not inserted previously)
   comment(node)
