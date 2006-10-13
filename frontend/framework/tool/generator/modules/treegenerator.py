@@ -591,7 +591,7 @@ def readBlock(stream):
     item.addChild(readStatement(stream))
 
   # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
@@ -634,7 +634,7 @@ def readMap(stream):
     hasEntries = True
 
   # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
@@ -663,7 +663,7 @@ def readArray(stream):
     hasEntries = True
 
   # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 2)
+  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
