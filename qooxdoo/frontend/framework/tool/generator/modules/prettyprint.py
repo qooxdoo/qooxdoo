@@ -674,6 +674,7 @@ def compileNode(node):
 
       if not result.endswith(";") and not result.endswith("\n"):
         semicolon()
+        space()
 
 
   #
