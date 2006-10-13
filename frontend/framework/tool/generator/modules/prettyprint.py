@@ -200,7 +200,7 @@ def compileNode(node):
 
   elif node.type == "block":
     if node.hasChildren():
-      if node.get("compact"):
+      if not node.get("complex"):
         space()
 
       else:
@@ -252,8 +252,8 @@ def compileNode(node):
   ##################################
 
   elif node.type == "catch":
-    # If this statement block or the previous try were compact, be compact here, too
-    if node.getChild("statement").getChild("block").get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
+    # If this statement block or the previous try were not complex, be not complex here, too
+    if not node.getChild("statement").getChild("block").get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
       onNewLine = False
       space()
 
@@ -289,7 +289,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "elseStatement":
-    # If this statement block and the previous if were compact, be compact here, too
+    # If this statement block and the previous if were not complex, be not complex here, too
     child = node.getChild("block", False)
 
     if child == None:
@@ -298,7 +298,7 @@ def compileNode(node):
       if child != None:
         child = child.getChild("statement").getChild("block")
 
-    if child.get("compact") and node.parent.getChild("statement").getChild("block").get("compact"):
+    if not child.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
       onNewLine = False
       space()
 
@@ -359,10 +359,6 @@ def compileNode(node):
   ##################################
 
   elif node.type == "return":
-    if node.parent.type == "block" and not node.parent.get("compact"):
-      if node.isLastChild() and not node.isFirstChild():
-        line()
-
     write("return")
 
     if node.hasChildren():
