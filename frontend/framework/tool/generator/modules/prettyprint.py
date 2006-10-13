@@ -812,9 +812,18 @@ def compileNode(node):
     comment(node)
 
     if node.hasChildren():
-      # Not in function assignment and param blocks
-      if node.parent.type == "body" and node.parent.parent.type == "function" and node.parent.parent.parent.type in [ "right", "params" ]:
-        pass
+      # Newline afterwards
+      if node.parent.type == "body" and node.parent.parent.type == "function":
+
+        # But only when this isn't a function block inside a assignment
+        if node.parent.parent.parent.type in [ "right", "params" ]:
+          pass
+
+        elif node.parent.parent.parent.type == "value" and node.parent.parent.parent.parent.type == "keyvalue":
+          pass
+
+        else:
+          line()
 
       else:
         line()
