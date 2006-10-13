@@ -1039,7 +1039,7 @@ def compileNode(node):
       line()
 
     # Special handling for loops (e.g. if) without blocks {}
-    elif node.parent.type == "statement" and not node.parent.hasChild("block") and node.parent.parent.type == "loop" and needsSeparation:
+    elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop" and needsSeparation:
       semicolon()
       comment(node)
       line()
