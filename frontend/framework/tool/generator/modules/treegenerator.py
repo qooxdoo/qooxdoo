@@ -108,6 +108,9 @@ class TokenStream:
               else:
                 item.addChild(commentNode)
 
+              self.eolBefore = False
+              self.breakBefore = False
+
             else:
               print "Found unresolved after comment in line %s" % token["line"]
               print token["source"]
@@ -126,6 +129,9 @@ class TokenStream:
           commentNode.set("connection", token["connection"])
 
           self.commentsBefore.append(commentNode)
+
+          self.eolBefore = False
+          self.breakBefore = False
 
       else:
         break
@@ -448,8 +454,6 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.expectCurrType("token", "COLON")
         stream.next(item)
         item.addListChild("third", readExpression(stream))
-
-    stream.comment(item, True)
 
   # check whether this is a combined statement, e.g. "bla(), i++"
   if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
