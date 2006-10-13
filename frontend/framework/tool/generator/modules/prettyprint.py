@@ -377,11 +377,14 @@ def compileNode(node):
         innerBlock = node.getChild("loop", False)
 
         if innerBlock != None:
-          innerBlock = innerBlock.getChild("statement").getChild("block")
+          innerBlock = innerBlock.getChild("statement")
+          
+          if innerBlock != None:
+            innerBlock = innerBlock.getChild("block", False)
 
-          if not innerBlock.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
-            noline()
-            space()
+            if innerBlock and not innerBlock.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
+              noline()
+              space()
 
     write("else")
 
