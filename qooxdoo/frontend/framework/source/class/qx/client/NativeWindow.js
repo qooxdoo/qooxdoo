@@ -161,6 +161,15 @@ qx.OO.addProperty({ name : "allowScrollbars", type : qx.constant.Type.BOOLEAN, d
 
 
 
+/*
+---------------------------------------------------------------------------
+  STATE
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._loaded = false;
+
+
 
 
 /*
@@ -330,7 +339,9 @@ qx.Proto.close = function() {
   this.setOpen(false);
 }
 
-
+qx.Proto.isLoaded = function() {
+  return this._loaded;
+}
 
 
 
@@ -445,6 +456,7 @@ qx.Proto._open = function()
   }
 
   this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
+  this._window._native = this;
 
   if (this.isClosed())
   {
@@ -452,6 +464,8 @@ qx.Proto._open = function()
   }
   else
   {
+    this._window.onload = this._onload;
+
     // start timer for close detection
     this._timer.start();
 
@@ -480,6 +494,18 @@ qx.Proto._close = function()
   if (!this.isClosed()) {
     this._window.close();
   }
+
+  try
+  {
+    this._window._native = null;
+    this._window.onload = null;
+  }
+  catch(ex) {};
+
+  this._window = null;
+  this._loaded = false;
+
+  this.createDispatchEvent("close");
 }
 
 
@@ -561,6 +587,17 @@ qx.Proto._oninterval = function(e)
   }
 }
 
+qx.Proto._onload = function(e)
+{
+  var obj = this._native;
+
+  if (!obj._loaded)
+  {
+    obj._loaded = true;
+    obj.createDispatchEvent(qx.constant.Event.LOAD);
+  }
+}
+
 
 
 
@@ -588,7 +625,17 @@ qx.Proto.dispose = function()
     this._timer = null;
   }
 
-  this._window = null;
+  if (this._window)
+  {
+    try
+    {
+      this._window._native = null;
+      this._window.onload = null;
+    }
+    catch(ex) {};
+
+    this._window = null;
+  }
 
   return qx.core.Target.prototype.dispose.call(this);
 }
