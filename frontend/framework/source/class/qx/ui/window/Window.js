@@ -965,9 +965,6 @@ qx.Proto._onwindowmousedown = function(e)
 
   // stop event
   e.stopPropagation();
-
-  // We must not add this because then Firefox couldn't focus widgets inside this window anymore.
-  // e.preventDefault();
 }
 
 qx.Proto._onwindowmouseup = function(e)
@@ -1030,7 +1027,6 @@ qx.Proto._onwindowmouseup = function(e)
 
   // stop event
   e.stopPropagation();
-  e.preventDefault();
 }
 
 qx.Proto._near = function(p, e) {
@@ -1154,14 +1150,12 @@ qx.Proto._onwindowmousemove = function(e)
 
   // stop event
   e.stopPropagation();
-  e.preventDefault();
 }
 
 qx.Proto._onwindowclick = function(e)
 {
   // stop event
   e.stopPropagation();
-  e.preventDefault();
 };
 
 
@@ -1357,8 +1351,6 @@ qx.Proto._oncaptionmousemove = function(e)
 
   o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
   o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
-
-  e.preventDefault();
 }
 
 qx.Proto._oncaptiondblblick = function()
