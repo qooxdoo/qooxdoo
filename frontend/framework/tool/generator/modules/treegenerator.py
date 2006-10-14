@@ -683,14 +683,10 @@ def readInstantiation(stream):
   item = createItemNode("instantiation", stream)
   stream.next(item)
 
-  variable = readVariable(stream, False)
-  if stream.currIsType("token", "LP"):
-    callItem = createItemNode("call", stream)
-    callItem.addListChild("variable", variable)
-    readParamList(callItem, stream)
-    item.addListChild("expression", callItem)
-  else:
-    item.addListChild("expression", variable)
+  # Could be a simple variable or a just-in-time function declaration (closure)
+  # Read this as expression
+  stmnt = readStatement(stream, True, False)
+  item.addListChild("expression", stmnt)
 
   return item
 
