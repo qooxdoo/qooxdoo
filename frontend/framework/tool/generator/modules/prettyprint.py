@@ -371,20 +371,15 @@ def compileNode(node):
 
     else:
       # If this statement block and the previous were not complex, be not complex here, too
-      innerBlock = node.getChild("block", False)
+      inner = node.getChild("block", False)
+      selfSimple = not inner or not inner.get("complex")
 
-      if innerBlock == None:
-        innerBlock = node.getChild("loop", False)
+      prev = node.parent.getChild("statement")
+      prevSimple = not prev.hasChild("block") or not prev.getChild("block").get("complex")
 
-        if innerBlock != None:
-          innerBlock = innerBlock.getChild("statement")
-          
-          if innerBlock != None:
-            innerBlock = innerBlock.getChild("block", False)
-
-            if innerBlock and not innerBlock.get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
-              noline()
-              space()
+      if selfSimple and prevSimple and inner:
+        noline()
+        space()
 
     write("else")
 
@@ -995,7 +990,7 @@ def compileNode(node):
   ##################################
 
   if node.hasParent() and not node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
-    needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "function" ]
+    needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]
 
     if not node.isLastChild(True):
       if node.type == "identifier":
