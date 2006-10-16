@@ -310,6 +310,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "params":
+    noline()
     write("(")
 
 
@@ -925,24 +926,6 @@ def compileNode(node):
 
 
   #
-  # CLOSE: CALL
-  ##################################
-
-  elif node.type == "call":
-    if not node.getChild("params", False):
-      write("()")
-
-
-  #
-  # CLOSE: FUNCTION
-  ##################################
-
-  elif node.type == "function":
-    if not node.getChild("params", False):
-      write("()")
-
-
-  #
   # CLOSE: EXPRESSION
   ##################################
 
@@ -1073,7 +1056,7 @@ def compileNode(node):
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
       write(",")
 
-      if node.getChild("value").isComplex() and not node.isLastChild(True):
+      if node.getChild("value").isComplex():
         sep()
       elif node.parent.isComplex():
         line()
@@ -1088,7 +1071,11 @@ def compileNode(node):
   elif node.type == "definition":
     if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
       write(",")
-      space()
+
+      if node.hasComplexChildren():
+        line()
+      else:
+        space()
 
 
   #
@@ -1100,7 +1087,11 @@ def compileNode(node):
     # Add comma dividers between statements in these parents
     if node.parent.type in [ "array", "params", "statementList" ] and not node.isLastChild(True):
       write(",")
-      space()
+
+      if node.isComplex():
+        line()
+      else:
+        space()
 
     # Semicolon handling
     if node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
