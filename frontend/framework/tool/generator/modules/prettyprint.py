@@ -223,12 +223,12 @@ def compileNode(node):
     if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
       pass
 
-    elif node.get("complex"):
+    elif node.isComplex():
       line()
 
     write("{")
 
-    if node.get("complex"):
+    if node.isComplex():
       line()
       plus()
 
@@ -243,7 +243,7 @@ def compileNode(node):
   elif node.type == "array":
     write("[")
 
-    if node.get("complex"):
+    if node.isComplex():
       line()
       plus()
 
@@ -257,14 +257,14 @@ def compileNode(node):
 
   elif node.type == "block":
     if node.hasChildren():
-      if node.get("complex"):
+      if node.isComplex():
         line()
 
       # in else, try to find the mode of the previous if first
       elif node.hasParent() and node.parent.type == "elseStatement":
         stmnt = node.parent.parent.getChild("statement")
 
-        if stmnt.getChild("block", False) and stmnt.getChild("block", False).get("complex"):
+        if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
           line()
 
         else:
@@ -275,7 +275,7 @@ def compileNode(node):
         if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
           stmnt = node.parent.parent.parent.parent.getChild("statement")
 
-          if stmnt.getChild("block", False) and stmnt.getChild("block", False).get("complex"):
+          if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
             line()
 
           else:
@@ -286,7 +286,7 @@ def compileNode(node):
 
       # in catch/finally, try to find the mode of the try statement
       elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
-        if node.parent.parent.parent.getChild("statement").getChild("block").get("complex"):
+        if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
           line()
 
         else:
@@ -342,7 +342,7 @@ def compileNode(node):
 
   elif node.type == "catch":
     # If this statement block or the previous try were not complex, be not complex here, too
-    if not node.getChild("statement").getChild("block").get("complex") and not node.parent.getChild("statement").getChild("block").get("complex"):
+    if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
       noline()
       space()
 
@@ -389,10 +389,10 @@ def compileNode(node):
       if not inner and node.hasChild("loop"):
         inner = node.getChild("loop").getChild("statement").getChild("block", False)
 
-      selfSimple = not inner or not inner.get("complex")
+      selfSimple = not inner or not inner.isComplex()
 
       prev = node.parent.getChild("statement")
-      prevSimple = not prev.hasChild("block") or not prev.getChild("block").get("complex")
+      prevSimple = not prev.hasChild("block") or not prev.getChild("block").isComplex()
 
       if selfSimple and prevSimple and inner:
         noline()
@@ -412,7 +412,13 @@ def compileNode(node):
   elif node.type == "switch":
     # Additional new line before each switch/try
     if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-      sep()
+      prev = node.getPreviousSibling(False, True)
+
+      # No separation after case statements
+      if prev != None and prev.type == "case":
+        pass
+      else:
+        sep()
 
     if node.get("switchType") == "catch":
       write("try")
@@ -512,7 +518,7 @@ def compileNode(node):
     space()
 
     # Fill with spaces
-    if node.parent.get("complex"):
+    if node.parent.isComplex():
       write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
 
     write(":")
@@ -547,7 +553,7 @@ def compileNode(node):
 
       if loopType == "DO":
         stmnt = node.parent.getChild("statement")
-        compact = stmnt.hasChild("block") and not stmnt.getChild("block").get("complex")
+        compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
 
         if compact:
           noline()
@@ -575,7 +581,13 @@ def compileNode(node):
   elif node.type == "loop":
     # Additional new line before each loop
     if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-      sep()
+      prev = node.getPreviousSibling(False, True)
+
+      # No separation after case statements
+      if prev != None and prev.type == "case":
+        pass
+      else:
+        sep()
 
     loopType = node.get("loopType")
 
@@ -798,7 +810,7 @@ def compileNode(node):
   ##################################
 
   if node.type == "map":
-    if node.get("complex"):
+    if node.isComplex():
       line()
       minus()
 
@@ -813,7 +825,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "array":
-    if node.get("complex"):
+    if node.isComplex():
       line()
       minus()
 
@@ -1056,7 +1068,7 @@ def compileNode(node):
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
       write(",")
 
-      if node.parent.get("complex"):
+      if node.parent.isComplex():
         line()
       else:
         space()

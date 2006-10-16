@@ -124,43 +124,68 @@ class Node:
 
     return 0
 
-  def isComplex(self):
-    if self.type in [ "loop", "switch" ]:
+
+
+  def makeComplex(self):
+    if self.isComplex():
       return True
 
-    elif self.type == "function":
-      if self.getChild("body").getChild("block").hasChildren(True):
-        return True
+    elif self.type in [ "loop", "switch", "block", "function", "comment", "commentsBefore", "commentsAfter" ]:
+      return True
 
-    elif self.type == "array" :
-      if self.hasChildren(True):
-        return True
+    elif self.hasChild("commentsBefore"):
+      return True
+
+    else:
+      return self.hasComplexChildren()
+
+
+
+  def isComplex(self):
+    isComplex = self.get("complex", False)
+
+    if isComplex != None:
+      return isComplex
+
+    else:
+      isComplex = False
+
+
+    # First shot: Try the fast way
+    if self.type == "array" :
+      if self.getChildrenLength(True) > 5:
+        isComplex = True
 
     elif self.type == "map" :
-      if self.hasChild("keyvalue"):
-        return True
+      if self.getChildrenLength(True) > 2:
+        isComplex = True
 
     elif self.type == "block":
-      if self.hasChildren(True):
-        return True
+      if self.getChildrenLength() > 1:
+        isComplex = True
 
-    elif self.type == "comment" or self.type == "commentsBefore" or self.type == "commentsAfter":
-      return True
 
-    elif self.hasChildren():
-      for child in self.children:
-        if child.isComplex():
-          return True
+    # Second shot: Slower; ask the children
+    if self.hasComplexChildren():
+      isComplex = True
 
-    return False
+
+    # print self.type + " :: %s" % isComplex
+    self.set("complex", isComplex)
+
+    return isComplex
+
+
 
   def hasComplexChildren(self):
     if self.hasChildren():
       for child in self.children:
-        if child.isComplex():
+        if child.makeComplex():
           return True
 
     return False
+
+
 
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
