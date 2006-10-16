@@ -260,7 +260,7 @@ def compileNode(node):
       if node.get("complex"):
         line()
 
-      # in else, try to find the look of the previous if first
+      # in else, try to find the mode of the previous if first
       elif node.hasParent() and node.parent.type == "elseStatement":
         stmnt = node.parent.parent.getChild("statement")
 
@@ -270,7 +270,21 @@ def compileNode(node):
         else:
           space()
 
-      # in catch/finally, try to find the look of the try statement
+      # in if, try to find the mode of the parent if (if existent)
+      elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
+        if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
+          stmnt = node.parent.parent.parent.parent.getChild("statement")
+
+          if stmnt.getChild("block", False) and stmnt.getChild("block", False).get("complex"):
+            line()
+
+          else:
+            space()
+
+        else:
+          space()
+
+      # in catch/finally, try to find the mode of the try statement
       elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
         if node.parent.parent.parent.getChild("statement").getChild("block").get("complex"):
           line()
