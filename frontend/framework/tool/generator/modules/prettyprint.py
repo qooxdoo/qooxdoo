@@ -1012,14 +1012,16 @@ def compileNode(node):
   ##################################
 
   if node.hasParent() and not node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
-    needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]
 
+    # Add dividers between children of the same type
     if not node.isLastChild(True):
       if node.type == "identifier":
         if node.parent.type == "variable":
           write(".")
+
         elif node.parent.type == "accessor":
           pass
+
         else:
           print "Error: Identifier outside a variable/accessor"
           print node.parent.type
@@ -1045,6 +1047,7 @@ def compileNode(node):
         if node.parent.type == "definitionList":
           write(",")
           space()
+
         else:
           print "Error: Definition outside definionlist"
           print node.parent.type
@@ -1054,6 +1057,11 @@ def compileNode(node):
       if node.parent.type in [ "array", "params", "statementList" ]:
         write(",")
         space()
+
+
+
+    # Semicolon handling
+    needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]
 
     # Default semicolon handling
     if node.parent.type in [ "block", "file" ] and needsSeparation:
