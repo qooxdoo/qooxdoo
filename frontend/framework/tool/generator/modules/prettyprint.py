@@ -514,11 +514,16 @@ def compileNode(node):
       print "Warning: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
+    if node.getChild("value").isComplex() and not node.isFirstChild(True):
+      sep()
+
     write(keyString)
     space()
 
     # Fill with spaces
-    if node.parent.isComplex():
+    # Do this only if the parent is complex (many entries)
+    # But not if the value itself is complex
+    if node.parent.isComplex() and not node.getChild("value").isComplex():
       write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
 
     write(":")
@@ -1068,7 +1073,9 @@ def compileNode(node):
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
       write(",")
 
-      if node.parent.isComplex():
+      if node.getChild("value").isComplex() and not node.isLastChild(True):
+        sep()
+      elif node.parent.isComplex():
         line()
       else:
         space()
