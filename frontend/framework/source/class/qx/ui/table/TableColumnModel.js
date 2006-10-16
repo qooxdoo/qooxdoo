@@ -368,5 +368,5 @@ qx.Class.DEFAULT_HEADER_RENDERER = new qx.ui.table.DefaultHeaderCellRenderer;
 /** {DefaultDataCellRenderer} the default data cell renderer. */
 qx.Class.DEFAULT_DATA_RENDERER = new qx.ui.table.DefaultDataCellRenderer;
 
-/** {SimpleCellEditorFactory} the default editor factory. */
+/** {TextFieldCellEditorFactory} the default editor factory. */
 qx.Class.DEFAULT_EDITOR_FACTORY = new qx.ui.table.TextFieldCellEditorFactory;
