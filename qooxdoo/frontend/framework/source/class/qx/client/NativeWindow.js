@@ -456,7 +456,6 @@ qx.Proto._open = function()
   }
 
   this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
-  this._window._native = this;
 
   if (this.isClosed())
   {
@@ -464,7 +463,13 @@ qx.Proto._open = function()
   }
   else
   {
-    this._window.onload = this._onload;
+    // This try-catch is needed because of cross domain issues (access rights)
+    try
+    {
+      this._window._native = this;
+      this._window.onload = this._onload;
+    }
+    catch(ex) {}
 
     // start timer for close detection
     this._timer.start();
@@ -584,6 +589,19 @@ qx.Proto._oninterval = function(e)
 {
   if (this.isClosed()) {
     this.setOpen(false);
+  }
+  else if (!this._loaded)
+  {
+    // This try-catch is needed because of cross domain issues (access rights)
+    try
+    {
+      if (this._window.document && this._window.document.readyState == "complete")
+      {
+        this._loaded = true;
+        this.createDispatchEvent(qx.constant.Event.LOAD);
+      }
+    }
+    catch(ex) {};
   }
 }
 
