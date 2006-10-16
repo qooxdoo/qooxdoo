@@ -243,11 +243,7 @@ def compileNode(node):
   elif node.type == "array":
     write("[")
 
-    if node.isComplex():
-      line()
-      plus()
-
-    elif node.hasChildren(True):
+    if node.hasChildren(True):
       space()
 
 
@@ -831,11 +827,7 @@ def compileNode(node):
   ##################################
 
   elif node.type == "array":
-    if node.isComplex():
-      line()
-      minus()
-
-    elif node.hasChildren(True):
+    if node.hasChildren(True):
       space()
 
     write("]")
@@ -1085,16 +1077,17 @@ def compileNode(node):
   if node.hasParent() and not node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
 
     # Add comma dividers between statements in these parents
-    if node.parent.type in [ "array", "params", "statementList" ] and not node.isLastChild(True):
-      write(",")
+    if node.parent.type in [ "array", "params", "statementList" ]:
+      if not not node.isLastChild(True):
+        write(",")
 
-      if node.isComplex():
-        line()
-      else:
-        space()
+        if node.isComplex():
+          line()
+        else:
+          space()
 
     # Semicolon handling
-    if node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
+    elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
       # Default semicolon handling
       if node.parent.type in [ "block", "file" ]:
