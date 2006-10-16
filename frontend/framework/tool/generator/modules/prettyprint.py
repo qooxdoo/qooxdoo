@@ -1003,6 +1003,47 @@ def compileNode(node):
         space()
 
 
+  #
+  # CLOSE: IDENTIFIER
+  ##################################
+
+  elif node.type == "identifier":
+    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+      write(".")
+
+
+  #
+  # CLOSE: ACCESSOR
+  ##################################
+
+  elif node.type == "accessor":
+    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+      write(".")
+
+
+  #
+  # CLOSE: KEYVALUE
+  ##################################
+
+  elif node.type == "keyvalue":
+    if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
+      write(",")
+
+      if node.parent.get("complex"):
+        line()
+      else:
+        space()
+
+
+  #
+  # CLOSE: DEFINITION
+  ##################################
+
+  elif node.type == "definition":
+    if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
+      write(",")
+      space()
+
 
 
 
@@ -1013,50 +1054,12 @@ def compileNode(node):
 
   if node.hasParent() and not node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
 
-    # Add dividers between children of the same type
-    if not node.isLastChild(True):
-      if node.type == "identifier":
-        if node.parent.type == "variable":
-          write(".")
+    # Add comma dividers between statements in these parents
+    if node.parent.type in [ "array", "params", "statementList" ] and not node.isLastChild(True):
+      write(",")
+      space()
 
-        elif node.parent.type == "accessor":
-          pass
 
-        else:
-          print "Error: Identifier outside a variable/accessor"
-          print node.parent.type
-
-      elif node.type == "accessor":
-        if node.parent.type == "variable":
-          write(".")
-
-      elif node.type == "keyvalue":
-        if node.parent.type == "map":
-          write(",")
-
-          if node.parent.get("complex"):
-            line()
-          else:
-            space()
-
-        else:
-          print "Error: KeyValue outside a map"
-          print node.parent.type
-
-      elif node.type == "definition":
-        if node.parent.type == "definitionList":
-          write(",")
-          space()
-
-        else:
-          print "Error: Definition outside definionlist"
-          print node.parent.type
-
-      # These could have any child object, so we have no realistic chance to
-      # detect them with the child type
-      if node.parent.type in [ "array", "params", "statementList" ]:
-        write(",")
-        space()
 
 
 
