@@ -1045,9 +1045,6 @@ def compileNode(node):
       space()
 
 
-
-
-
   #
   # CLOSE: OTHER
   ##################################
@@ -1059,39 +1056,40 @@ def compileNode(node):
       write(",")
       space()
 
-
-
-
-
     # Semicolon handling
-    needsSeparation = node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]
+    if node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
-    # Default semicolon handling
-    if node.parent.type in [ "block", "file" ] and needsSeparation:
-      semicolon()
-      comment(node)
-      line()
+      # Default semicolon handling
+      if node.parent.type in [ "block", "file" ]:
+        semicolon()
+        comment(node)
+        line()
 
-      if node.isComplex() and not node.isLastChild():
-        sep()
+        if node.isComplex() and not node.isLastChild():
+          sep()
 
-    # Special handling for switch statements
-    elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case" and needsSeparation:
-      semicolon()
-      comment(node)
-      line()
+      # Special handling for switch statements
+      elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case":
+        semicolon()
+        comment(node)
+        line()
 
-      if node.isComplex() and not node.isLastChild():
-        sep()
+        if node.isComplex() and not node.isLastChild():
+          sep()
 
-    # Special handling for loops (e.g. if) without blocks {}
-    elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop" and needsSeparation:
-      semicolon()
-      comment(node)
-      line()
+      # Special handling for loops (e.g. if) without blocks {}
+      elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop":
+        semicolon()
+        comment(node)
+        line()
 
-      if node.isComplex() and not node.isLastChild():
-        sep()
+        if node.isComplex() and not node.isLastChild():
+          sep()
+
+
+  #
+  # CLOSE: COMMENT
+  ##################################
 
   # Rest of the after comments (not inserted previously)
   comment(node)
