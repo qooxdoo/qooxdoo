@@ -16,7 +16,6 @@ def getTokenSource(id):
 
 
 def space():
-
   global indent
   global onNewLine
   global afterBreak
@@ -29,7 +28,6 @@ def space():
 
 
 def write(txt=""):
-
   global indent
   global onNewLine
   global afterBreak
@@ -372,6 +370,11 @@ def compileNode(node):
     else:
       # If this statement block and the previous were not complex, be not complex here, too
       inner = node.getChild("block", False)
+
+      # Find inner IF statement (e.g. if; else if)
+      if not inner and node.hasChild("loop"):
+        inner = node.getChild("loop").getChild("statement").getChild("block", False)
+
       selfSimple = not inner or not inner.get("complex")
 
       prev = node.parent.getChild("statement")
