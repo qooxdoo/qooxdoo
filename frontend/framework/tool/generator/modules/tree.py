@@ -187,6 +187,25 @@ class Node:
 
 
 
+
+  def getChildPosition(self, searchedChild, ignoreComments = False):
+    if self.hasChildren() and searchedChild in self.children:
+      if ignoreComments:
+        counter = 0
+        for child in self.children:
+          if child == searchedChild:
+            return counter
+
+          if not child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+            counter += 1
+
+      else:
+        return self.children.index(searchedChild)
+
+    return -1
+
+
+
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
