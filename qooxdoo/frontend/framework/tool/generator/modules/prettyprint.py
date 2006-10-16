@@ -94,6 +94,12 @@ def semicolon():
     write(";")
 
 
+def pageEnds():
+  global result
+
+  print result.split("\n")[-1]
+
+
 def comment(node):
   commentText = ""
   commentIsInline = False
@@ -1078,8 +1084,10 @@ def compileNode(node):
 
     # Add comma dividers between statements in these parents
     if node.parent.type in [ "array", "params", "statementList" ]:
-      if not not node.isLastChild(True):
+      if not node.isLastChild(True):
         write(",")
+
+        #print pageEnds()
 
         if node.isComplex():
           line()
