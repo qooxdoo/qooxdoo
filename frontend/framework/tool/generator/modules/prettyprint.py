@@ -472,7 +472,7 @@ def compileNode(node):
 
 
   #
-  # OPEN: KEY-VALUE
+  # OPEN: KEYVALUE
   ##################################
 
   elif node.type == "keyvalue":
@@ -492,6 +492,11 @@ def compileNode(node):
 
     write(keyString)
     space()
+
+    # Fill with spaces
+    if node.parent.get("complex"):
+      write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
+
     write(":")
     space()
 
