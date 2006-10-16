@@ -523,14 +523,23 @@ def compileNode(node):
       loopType = node.parent.get("loopType")
 
       if loopType == "DO":
+        stmnt = node.parent.getChild("statement")
+        compact = stmnt.hasChild("block") and not stmnt.getChild("block").get("complex")
+
+        if compact:
+          noline()
+          space()
+
         write("while")
         space()
 
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
       write("(")
+
     elif node.parent.type == "catch":
       # open expression block of CATCH statement
       write("(")
+
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       # open expression block of SWITCH statement
       write("(")
@@ -897,8 +906,14 @@ def compileNode(node):
     if node.parent.type == "loop":
       write(")")
 
-      # E.g. a if-construct without a block {}
-      if not node.parent.getChild("statement").hasChild("block"):
+      # e.g. a if-construct without a block {}
+      if node.parent.getChild("statement").hasChild("block"):
+        pass
+
+      elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
+        pass
+
+      else:
         space()
 
     elif node.parent.type == "catch":
@@ -918,9 +933,13 @@ def compileNode(node):
   ##################################
 
   elif node.type == "loop":
+    if node.get("loopType") == "DO":
+      semicolon()
+
+    comment(node)
+
     # Force a additinal line feed after each loop
     if not node.isLastChild():
-      comment(node)
       sep()
 
 
