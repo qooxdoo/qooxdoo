@@ -614,6 +614,7 @@ def readMap(stream):
   #       and not item.hasChildren(), because item.hasChildren() is also true
   #       when there are comments before the array
   hasEntries = False
+  maxKeyLength = 0
   while not stream.currIsType("token", "RC"):
     if hasEntries:
       stream.expectCurrType("token", "COMMA")
@@ -625,8 +626,14 @@ def readMap(stream):
     keyvalue = createItemNode("keyvalue", stream)
     keyvalue.set("key", stream.currSource())
 
+    currKeyLength = len(stream.currSource())
+
     if stream.currIsType("string"):
       keyvalue.set("quote", stream.currDetail())
+      currKeyLength += 2
+
+    if currKeyLength > maxKeyLength:
+      maxKeyLength = currKeyLength
 
     stream.next(keyvalue)
     stream.expectCurrType("token", "COLON")
@@ -639,6 +646,9 @@ def readMap(stream):
 
   # Store complex
   item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
+
+  # Store max key length
+  item.set("maxKeyLength", maxKeyLength)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
