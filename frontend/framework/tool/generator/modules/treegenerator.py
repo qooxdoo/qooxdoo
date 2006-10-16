@@ -594,9 +594,6 @@ def readBlock(stream):
   while not stream.currIsType("token", "RC"):
     item.addChild(readStatement(stream))
 
-  # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
-
   # Has an end defined by the loop above
   # This means that all comments following are after item
   stream.next(item, True)
@@ -644,9 +641,6 @@ def readMap(stream):
 
     hasEntries = True
 
-  # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
-
   # Store max key length
   item.set("maxKeyLength", maxKeyLength)
 
@@ -675,9 +669,6 @@ def readArray(stream):
 
     item.addChild(readExpression(stream))
     hasEntries = True
-
-  # Store complex
-  item.set("complex", item.hasComplexChildren() or item.getChildrenLength() > 1)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
