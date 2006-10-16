@@ -396,6 +396,10 @@ def compileNode(node):
   ##################################
 
   elif node.type == "switch":
+    # Additional new line before each switch/try
+    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+      sep()
+
     if node.get("switchType") == "catch":
       write("try")
     elif node.get("switchType") == "case":
@@ -557,7 +561,7 @@ def compileNode(node):
   elif node.type == "loop":
     # Additional new line before each loop
     if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-      line()
+      sep()
 
     loopType = node.get("loopType")
 
@@ -864,6 +868,10 @@ def compileNode(node):
       write("}")
       comment(node)
       line()
+
+    # Force a additinal line feed after each switch/try
+    if not node.isLastChild():
+      sep()
 
 
   #
