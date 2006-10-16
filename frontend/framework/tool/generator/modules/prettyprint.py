@@ -94,12 +94,6 @@ def semicolon():
     write(";")
 
 
-def pageEnds():
-  global result
-
-  print result.split("\n")[-1]
-
-
 def comment(node):
   commentText = ""
   commentIsInline = False
@@ -126,6 +120,92 @@ def comment(node):
         space()
 
       afterBlock.set("inserted", True)
+
+
+
+
+def computeConstantLength(node):
+  length = len(node.get("value"))
+
+  if node.get("constantType") == "string":
+    length += 2
+
+  return length
+
+
+def computeVariableLength(node):
+  length = 0
+
+  for child in node.children:
+    if child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+      pass
+
+    elif child.type == "identifier":
+      length += len(child.get("name"))
+
+    elif child.type == "accessor":
+      iden = child.getChild("identifier")
+      if iden.hasChild("identifier"):
+        iden = iden.getChild("identifier")
+
+      name = iden.get("name", False)
+      if name != None:
+        length += len(name)
+
+      key = child.getChild("key")
+      if key.hasChild("variable"):
+        length += computeVariableLength(key.getChild("variable"))
+      elif key.hasChild("constant"):
+        length += computeConstantLength(key.getChild("constant"))
+      else:
+        print
+        print "Unsupported key"
+
+    else:
+      print
+      print "Problematic var member: %s" % child.type
+
+    if not child.isLastChild():
+      length += 1
+
+  return length
+
+
+def getItemLengths(node):
+  if hasattr(node, "itemLengths"):
+    return node.itemsLength
+
+  lengths = []
+
+  if node.hasChildren(True):
+    for child in node.children:
+      if child.type == "variable":
+        length = computeVariableLength(child)
+
+      elif child.type == "constant":
+        length = computeConstantLength(child)
+
+      elif child.isComplex():
+        length = 80
+
+      elif child.type in [ "function", "group" ]:
+        length = 80
+
+      else:
+        #print
+        #print "Could not handle type: " + child.type
+        length = 0
+
+      lengths.append(length)
+
+  node.itemsLength = lengths
+  return lengths
+
+
+def getLineLength():
+  global result
+
+  return len(result.split("\n")[-1])
 
 
 
@@ -827,6 +907,10 @@ def compileNode(node):
 
     write("}")
 
+    # If this thing was indented (to much content for one line)
+    if hasattr(node, "indented") and node.indented:
+      minus()
+
 
   #
   # CLOSE: ARRAY
@@ -838,6 +922,20 @@ def compileNode(node):
 
     write("]")
 
+    # If this thing was indented (to much content for one line)
+    if hasattr(node, "indented") and node.indented:
+      minus()
+
+
+  #
+  # CLOSE: STATEMENT LIST
+  ##################################
+
+  elif node.type == "statementList":
+    # If this thing was indented (to much content for one line)
+    if hasattr(node, "indented") and node.indented:
+      minus()
+
 
   #
   # CLOSE: KEY
@@ -846,6 +944,18 @@ def compileNode(node):
   elif node.type == "key":
     if node.hasParent() and node.parent.type == "accessor":
       write("]")
+
+
+  #
+  # CLOSE: PARAMS
+  ##################################
+
+  elif node.type == "params":
+    write(")")
+
+    # If this thing was indented (to much content for one line)
+    if hasattr(node, "indented") and node.indented:
+      minus()
 
 
   #
@@ -876,14 +986,6 @@ def compileNode(node):
 
       else:
         line()
-
-
-  #
-  # CLOSE: PARAMS
-  ##################################
-
-  elif node.type == "params":
-    write(")")
 
 
   #
@@ -1053,6 +1155,7 @@ def compileNode(node):
   elif node.type == "keyvalue":
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
       write(",")
+      comment(node)
 
       if node.getChild("value").isComplex():
         sep()
@@ -1069,6 +1172,7 @@ def compileNode(node):
   elif node.type == "definition":
     if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
       write(",")
+      comment(node)
 
       if node.hasComplexChildren():
         line()
@@ -1086,8 +1190,21 @@ def compileNode(node):
     if node.parent.type in [ "array", "params", "statementList" ]:
       if not node.isLastChild(True):
         write(",")
+        comment(node)
 
-        #print pageEnds()
+        if not node.isLastChild(True):
+          currentLength = getLineLength()
+          nextPos = node.parent.getChildPosition(node.getFollowingSibling())
+          nextLength = getItemLengths(node.parent)[nextPos]
+
+          # auto-wrap at 80
+          if currentLength + nextLength > 80:
+            line()
+
+            if not hasattr(node.parent, "indented"):
+              plus()
+
+            node.parent.indented = True
 
         if node.isComplex():
           line()
