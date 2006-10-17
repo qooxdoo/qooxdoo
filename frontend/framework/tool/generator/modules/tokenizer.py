@@ -13,6 +13,10 @@ R_NEWLINE = re.compile(r"(\n)")
 
 # builds regexp strings
 S_MULTICOMMENT = "/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/"
+S_MULTICOMMENT_JAVADOC = "/\*\*"
+S_MULTICOMMENT_QTDOC = "/\*!"
+S_MULTICOMMENT_DIVIDER = "/\*\n\s*----"
+S_MULTICOMMENT_HEADER = "/\* \*\*\*\*"
 S_SINGLECOMMENT = "//.*"
 S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
 S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
@@ -35,6 +39,10 @@ S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + 
 
 # compile regexp strings
 R_MULTICOMMENT = re.compile("^" + S_MULTICOMMENT + "$")
+R_MULTICOMMENT_JAVADOC = re.compile("^" + S_MULTICOMMENT_JAVADOC)
+R_MULTICOMMENT_QTDOC = re.compile("^" + S_MULTICOMMENT_QTDOC)
+R_MULTICOMMENT_DIVIDER = re.compile("^" + S_MULTICOMMENT_DIVIDER)
+R_MULTICOMMENT_HEADER = re.compile("^" + S_MULTICOMMENT_HEADER)
 R_SINGLECOMMENT = re.compile("^" + S_SINGLECOMMENT + "$")
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
 R_STRING_B = re.compile("^" + S_STRING_B + "$")
@@ -185,13 +193,13 @@ def parseStream(content, uniqueId):
     if R_MULTICOMMENT.match(fragment):
       comment = recoverEscape(fragment)
 
-      if comment.startswith("/**"):
+      if R_MULTICOMMENT_JAVADOC.search(comment):
         format = "javadoc"
-      elif comment.startswith("/*!"):
+      elif R_MULTICOMMENT_QTDOC.search(comment):
         format = "qtdoc"
-      elif comment.startswith("/*\n----"):
+      elif R_MULTICOMMENT_DIVIDER.search(comment):
         format = "divider"
-      elif comment.startswith("/* *****"):
+      elif R_MULTICOMMENT_HEADER.search(comment):
         format = "header"
       else:
         format = "block"
