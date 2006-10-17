@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * @event load {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.ui.embed.Iframe", qx.ui.basic.Terminator,
 function(vSource)
 {

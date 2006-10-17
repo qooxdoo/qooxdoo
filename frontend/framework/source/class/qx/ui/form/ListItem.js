@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * @event action {qx.event.type.Event} (Fired by {@link qx.ui.form.List})
+ */
 qx.OO.defineClass("qx.ui.form.ListItem", qx.ui.basic.Atom,
 function(vText, vIcon, vValue)
 {

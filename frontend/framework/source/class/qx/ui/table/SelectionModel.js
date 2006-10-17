@@ -23,6 +23,9 @@
 
 /**
  * A selection model.
+ *
+ * @event selectionChanged {qx.event.type.Event} Fired when the selection has
+ *        changed.
  */
 qx.OO.defineClass("qx.ui.table.SelectionModel", qx.core.Target,
 function() {

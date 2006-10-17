@@ -26,6 +26,12 @@
 
 ************************************************************************ */
 
+/**
+ * @event focusout {qx.event.type.FocusEvent}
+ * @event focusin {qx.event.type.FocusEvent}
+ * @event blur {qx.event.type.FocusEvent}
+ * @event focus {qx.event.type.FocusEvent}
+ */
 qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget,
 function()
 {

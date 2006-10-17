@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * @event execute {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.ui.form.RepeatButton", qx.ui.form.Button,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {

@@ -22,18 +22,22 @@
 
 ************************************************************************ */
 
-/*!
-  A combo-box for qooxdoo.
-
-  The major additional feature compared to typical select fields is that it allows
-  it to be editable. Also images are supported inside the popup list.
-
-  Features:
-  * Editable text field
-  * Complete key-navigation
-  * Images inside the list
-  * Images and text inside the list
-*/
+/**
+ * A combo-box for qooxdoo.
+ *
+ * The major additional feature compared to typical select fields is that it allows
+ * it to be editable. Also images are supported inside the popup list.
+ *
+ * Features:
+ * <ul>
+ * <li>Editable text field</li>
+ * <li>Complete key-navigation</li>
+ * <li>Images inside the list</li>
+ * <li>Images and text inside the list</li>
+ * </ul>
+ *
+ * @event beforeInitialOpen {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.ui.form.ComboBox", qx.ui.layout.HorizontalBoxLayout,
 function()
 {
