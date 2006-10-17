@@ -26,8 +26,6 @@ def createDoc(syntaxTree, docTree = None):
   if not docTree:
     docTree = tree.Node("doctree")
 
-  # TODO: Events
-
   try:
     currClassNode = None
     if not syntaxTree.hasChildren():
@@ -175,6 +173,31 @@ def handleClassDefinition(docTree, item):
 
   commentNode = parseDocComment(item)
 
+  # Read all @event attributes
+  if commentNode and commentNode.hasChildren():
+    # NOTE: We have to go backwards, because we'll remove children
+    attributesNode = commentNode.getChild("attributes")
+    attributesCount = len(attributesNode.children)
+    for i in range(attributesCount):
+      attrNode = attributesNode.children[attributesCount - i - 1]
+      attrText = attrNode.get("text")
+      if attrNode.get("name") == "event":
+        # This is a @event attribute
+        attributesNode.removeChild(attrNode)
+  
+        match = COMMENT_PARAM_ATTR_RE.search(attrText)
+        if not match:
+          addError(classNode, "doc comment has malformed attribute 'event': " + attrText, item)
+          continue
+  
+        # Add the event
+        addEventNode(classNode, item, match.group(1), match.group(3), attrText[match.end(0):]);
+
+    # remove the attributes node from the comment if it has no children any more
+    if not attributesNode.hasChildren():
+      commentNode.removeChild(attributesNode)
+
+  # Add the constructor
   if ctorItem and ctorItem.type == "function":
     ctor = handleFunction(ctorItem, commentNode, classNode)
     ctor.set("isCtor", True)
@@ -202,6 +225,22 @@ def handleClassDefinition(docTree, item):
         handleConstantDefinition(keyvalueItem, classNode)
 
   return classNode;
+
+
+
+def addEventNode(classNode, classItem, eventName, eventType, description):
+  node = tree.Node("event")
+
+  node.set("name", eventName);
+
+  if eventType:
+    node.set("type", eventType);
+  else:
+    addError(node, "Event '" + eventName + "' has no type", classItem)
+
+  node.addChild(tree.Node("desc").set("text", description))
+
+  classNode.addListChild("events", node)
 
 
 

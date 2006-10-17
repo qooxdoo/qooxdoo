@@ -135,6 +135,9 @@ qx.Class.getIconUrl = function(node, inherited) {
     case "property":
       constName = "ICON_PROPERTY";
       break;
+    case "event":
+      constName = "ICON_EVENT";
+      break;
     case "method":
       var isCtor = node.attributes.name == null;
       var isPublic = isCtor || (node.attributes.name.charAt(0) != "_");
@@ -237,6 +240,13 @@ qx.Class.ICON_PROPERTY_OVERRIDDEN       = [ qx.Class.ICON_PROPERTY, qx.Class.OVE
 qx.Class.ICON_PROPERTY_OVERRIDDEN_WARN  = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
 /** {string[]} The icon URL of an overridden property with error. */
 qx.Class.ICON_PROPERTY_OVERRIDDEN_ERROR = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+
+
+/** {string} The icon URL of an event. */
+qx.Class.ICON_EVENT = "api/event18.gif";
+
+/** {string[]} The icon URL of an inherited event. */
+qx.Class.ICON_EVENT_INHERITED = [ qx.Class.ICON_EVENT, qx.Class.OVERLAY_INHERITED ];
 
 
 /** {string} The icon URL of a public method. */
