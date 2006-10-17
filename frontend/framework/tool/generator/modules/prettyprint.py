@@ -498,7 +498,7 @@ def compileNode(node):
       prev = node.getPreviousSibling(False, True)
 
       # No separation after case statements
-      if prev != None and prev.type == "case":
+      if prev != None and prev.type in [ "case", "default" ]:
         pass
       else:
         sep()
@@ -672,7 +672,7 @@ def compileNode(node):
       prev = node.getPreviousSibling(False, True)
 
       # No separation after case statements
-      if prev != None and prev.type == "case":
+      if prev != None and prev.type in [ "case", "default" ]:
         pass
       else:
         sep()
