@@ -231,15 +231,21 @@ def compile(node):
 
 def compileNode(node):
 
-  if node.type in [ "commentsBefore", "commentsAfter" ]:
-    return
+  #####################################################################################################################
+  # Recover styling
+  #####################################################################################################################
 
-
-
+  # Recover exclicit breaks
   if node.get("breakBefore", False) and not node.isFirstChild(True):
     sep()
 
 
+
+
+
+  #####################################################################################################################
+  # Insert comments before
+  #####################################################################################################################
 
   if node.getChild("commentsBefore", False) != None:
     commentCounter = 0
@@ -292,221 +298,10 @@ def compileNode(node):
   #####################################################################################################################
 
   #
-  # OPEN: MAP
-  ##################################
-
-  if node.type == "map":
-    par = node.parent
-
-    # No break before return statement
-    if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
-      pass
-
-    elif node.isComplex():
-      line()
-
-    write("{")
-
-    if node.isComplex():
-      line()
-      plus()
-
-    elif node.hasChildren(True):
-      space()
-
-
-  #
-  # OPEN: ARRAY
-  ##################################
-
-  elif node.type == "array":
-    write("[")
-
-    if node.hasChildren(True):
-      space()
-
-
-  #
-  # OPEN: BLOCK
-  ##################################
-
-  elif node.type == "block":
-    if node.hasChildren():
-      if node.isComplex():
-        line()
-
-      # in else, try to find the mode of the previous if first
-      elif node.hasParent() and node.parent.type == "elseStatement":
-        stmnt = node.parent.parent.getChild("statement")
-
-        if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
-          line()
-
-        else:
-          space()
-
-      # in if, try to find the mode of the parent if (if existent)
-      elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
-        if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
-          stmnt = node.parent.parent.parent.parent.getChild("statement")
-
-          if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
-            line()
-
-          else:
-            space()
-
-        else:
-          space()
-
-      # in catch/finally, try to find the mode of the try statement
-      elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
-        if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
-          line()
-
-        else:
-          space()
-
-      else:
-        space()
-
-    else:
-      space()
-
-    write("{")
-
-    if node.hasChildren():
-      plus()
-      line()
-
-
-  #
-  # OPEN: PARAMS
-  ##################################
-
-  elif node.type == "params":
-    noline()
-    write("(")
-
-
-  #
-  # OPEN: GROUP
-  ##################################
-
-  elif node.type == "group":
-    write("(")
-
-
-  #
-  # OPEN: CASE
-  ##################################
-
-  elif node.type == "case":
-    # force double new lines
-    if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
-      sep()
-
-    minus()
-    line()
-    write("case")
-    space()
-
-
-  #
-  # OPEN: CATCH
-  ##################################
-
-  elif node.type == "catch":
-    # If this statement block or the previous try were not complex, be not complex here, too
-    if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
-      noline()
-      space()
-
-    write("catch")
-
-
-  #
-  # OPEN: BREAK
-  ##################################
-
-  elif node.type == "break":
-    write("break")
-
-    if node.get("label", False):
-      space()
-      write(node.get("label", False))
-
-
-  #
-  # OPEN: CONTINUE
-  ##################################
-
-  elif node.type == "continue":
-    write("continue")
-
-    if node.get("label", False):
-      space()
-      write(node.get("label", False))
-
-
-  #
-  # OPEN: ELSE
-  ##################################
-
-  elif node.type == "elseStatement":
-    if node.hasChild("commentsBefore"):
-      pass
-
-    else:
-      # If this statement block and the previous were not complex, be not complex here, too
-      inner = node.getChild("block", False)
-
-      # Find inner IF statement (e.g. if; else if)
-      if not inner and node.hasChild("loop"):
-        inner = node.getChild("loop").getChild("statement").getChild("block", False)
-
-      selfSimple = not inner or not inner.isComplex()
-
-      prev = node.parent.getChild("statement")
-      prevSimple = not prev.hasChild("block") or not prev.getChild("block").isComplex()
-
-      if selfSimple and prevSimple and inner:
-        noline()
-        space()
-
-    write("else")
-
-    # This is a elseStatement without a block around (a set of {})
-    if not node.hasChild("block"):
-      space()
-
-
-  #
-  # OPEN: TRY
-  ##################################
-
-  elif node.type == "switch":
-    # Additional new line before each switch/try
-    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-      prev = node.getPreviousSibling(False, True)
-
-      # No separation after case statements
-      if prev != None and prev.type in [ "case", "default" ]:
-        pass
-      else:
-        sep()
-
-    if node.get("switchType") == "catch":
-      write("try")
-    elif node.get("switchType") == "case":
-      write("switch")
-
-
-  #
   # OPEN: FINALLY
   ##################################
 
-  elif node.type == "finally":
+  if node.type == "finally":
     write("finally")
 
 
@@ -526,6 +321,7 @@ def compileNode(node):
   elif node.type == "throw":
     write("throw")
     space()
+
 
   #
   # OPEN: NEW
@@ -557,143 +353,35 @@ def compileNode(node):
 
 
   #
-  # OPEN: DEFAULT
+  # OPEN: BREAK
   ##################################
 
-  elif node.type == "default":
-    minus()
+  elif node.type == "break":
+    write("break")
 
-    # force double new lines
-    sep()
-    write("default")
+    if node.get("label", False):
+      space()
+      write(node.get("label", False))
+
+
+  #
+  # OPEN: CONTINUE
+  ##################################
+
+  elif node.type == "continue":
+    write("continue")
+
+    if node.get("label", False):
+      space()
+      write(node.get("label", False))
+
+
+  #
+  # OPEN: LABEL
+  ##################################
+
+  elif node.type == "labelTerminator":
     write(":")
-    plus()
-    line()
-
-
-  #
-  # OPEN: KEYVALUE
-  ##################################
-
-  elif node.type == "keyvalue":
-    keyString = node.get("key")
-    keyQuote = node.get("quote", False)
-
-    if keyQuote != None:
-      # print "USE QUOTATION"
-      if keyQuote == "doublequotes":
-        keyString = '"' + keyString + '"'
-      else:
-        keyString = "'" + keyString + "'"
-
-    elif keyString in config.JSPROTECTED or not KEY.match(keyString):
-      print "Warning: Auto protect key: %s" % keyString
-      keyString = "\"" + keyString + "\""
-
-    if node.getChild("value").isComplex() and not node.isFirstChild(True):
-      sep()
-
-    write(keyString)
-    space()
-
-    # Fill with spaces
-    # Do this only if the parent is complex (many entries)
-    # But not if the value itself is complex
-    if node.parent.isComplex() and not node.getChild("value").isComplex():
-      write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
-
-    write(":")
-    space()
-
-
-  #
-  # OPEN: KEY
-  ##################################
-
-  elif node.type == "key":
-    if node.parent.type == "accessor":
-      write("[")
-
-
-  #
-  # OPEN: RIGHT
-  ##################################
-
-  elif node.type == "right":
-    if node.parent.type == "accessor":
-      write(".")
-
-
-  #
-  # OPEN: EXPRESSION
-  ##################################
-
-  elif node.type == "expression":
-    if node.parent.type == "loop":
-      loopType = node.parent.get("loopType")
-
-      if loopType == "DO":
-        stmnt = node.parent.getChild("statement")
-        compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
-
-        if compact:
-          noline()
-          space()
-
-        write("while")
-        space()
-
-      # open expression block of IF/WHILE/DO-WHILE/FOR statements
-      write("(")
-
-    elif node.parent.type == "catch":
-      # open expression block of CATCH statement
-      write("(")
-
-    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-      # open expression block of SWITCH statement
-      write("(")
-
-
-  #
-  # OPEN: LOOP
-  ##################################
-
-  elif node.type == "loop":
-    # Additional new line before each loop
-    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-      prev = node.getPreviousSibling(False, True)
-
-      # No separation after case statements
-      if prev != None and prev.type in [ "case", "default" ]:
-        pass
-      else:
-        sep()
-
-    loopType = node.get("loopType")
-
-    if loopType == "IF":
-      write("if")
-      space()
-
-    elif loopType == "WHILE":
-      write("while")
-      space()
-
-    elif loopType == "FOR":
-      write("for")
-      space()
-
-    elif loopType == "DO":
-      write("do")
-      space()
-
-    elif loopType == "WITH":
-      write("with")
-      space()
-
-    else:
-      print "Warning: Unknown loop type: %s" % loopType
 
 
   #
@@ -753,30 +441,402 @@ def compileNode(node):
       write(node.get("value"))
 
 
+  #
+  # OPEN: COMMENT
+  ##################################
+
+  elif node.type == "comment":
+    # insert a space before and no newline in the case of after comments
+    if node.get("connection") == "after":
+      noline()
+      space()
+
+    write(node.get("text"))
+
+    # new line after inline comment (for example for syntactical reasons)
+    if node.get("detail") == "inline":
+      line()
+
+    else:
+      space()
+
+
+  #
+  # OPEN: RIGHT
+  ##################################
+
+  elif node.type == "right":
+    if node.parent.type == "accessor":
+      write(".")
+
+
+
 
 
 
   #
-  # OPEN: STATEMENT
+  # OPEN: ASSIGNMENT
   ##################################
 
-  elif node.type == "statement":
-    # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-      if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
-        write("(");
+  elif node.type == "assignment":
+    if node.parent.type == "definition":
+      oper = node.get("operator", False)
 
-      if node.parent.get("forVariant") == "iter":
-        if not node.parent.hasChild("third"):
-          write(";")
+      realNode = node.parent.parent
+      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
 
-          if not node.parent.hasChild("second"):
-            write(";")
-
-      write(")")
-
-      if not node.hasChild("block"):
+      if not inForLoop and not oper in [ "INC", "DEC" ]:
         space()
+
+      if oper != None:
+        write(getTokenSource(oper))
+      else:
+        write("=")
+
+      if not inForLoop and not oper in [ "INC", "DEC" ]:
+        space()
+
+
+
+
+
+  #
+  # OPEN: KEY
+  ##################################
+
+  elif node.type == "key":
+    if node.parent.type == "accessor":
+      write("[")
+
+
+  #
+  # OPEN: GROUP
+  ##################################
+
+  elif node.type == "group":
+    write("(")
+
+
+  #
+  # OPEN: ARRAY
+  ##################################
+
+  elif node.type == "array":
+    write("[")
+
+    if node.hasChildren(True):
+      space()
+
+
+  #
+  # OPEN: PARAMS
+  ##################################
+
+  elif node.type == "params":
+    noline()
+    write("(")
+
+
+
+
+
+
+
+
+  #
+  # OPEN: CASE
+  ##################################
+
+  elif node.type == "case":
+    # force double new lines
+    if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
+      sep()
+
+    minus()
+    line()
+    write("case")
+    space()
+
+
+  #
+  # OPEN: DEFAULT
+  ##################################
+
+  elif node.type == "default":
+    minus()
+
+    # force double new lines
+    sep()
+    write("default")
+    write(":")
+    plus()
+    line()
+
+
+
+
+
+
+  #
+  # OPEN: TRY
+  ##################################
+
+  elif node.type == "switch":
+    # Additional new line before each switch/try
+    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+      prev = node.getPreviousSibling(False, True)
+
+      # No separation after case statements
+      if prev != None and prev.type in [ "case", "default" ]:
+        pass
+      else:
+        sep()
+
+    if node.get("switchType") == "catch":
+      write("try")
+    elif node.get("switchType") == "case":
+      write("switch")
+
+
+  #
+  # OPEN: CATCH
+  ##################################
+
+  elif node.type == "catch":
+    # If this statement block or the previous try were not complex, be not complex here, too
+    if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
+      noline()
+      space()
+
+    write("catch")
+
+
+
+
+
+
+
+  #
+  # OPEN: MAP
+  ##################################
+
+  elif node.type == "map":
+    par = node.parent
+
+    # No break before return statement
+    if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
+      pass
+
+    elif node.isComplex():
+      line()
+
+    write("{")
+
+    if node.isComplex():
+      line()
+      plus()
+
+    elif node.hasChildren(True):
+      space()
+
+
+  #
+  # OPEN: KEYVALUE
+  ##################################
+
+  elif node.type == "keyvalue":
+    keyString = node.get("key")
+    keyQuote = node.get("quote", False)
+
+    if keyQuote != None:
+      # print "USE QUOTATION"
+      if keyQuote == "doublequotes":
+        keyString = '"' + keyString + '"'
+      else:
+        keyString = "'" + keyString + "'"
+
+    elif keyString in config.JSPROTECTED or not KEY.match(keyString):
+      print "Warning: Auto protect key: %s" % keyString
+      keyString = "\"" + keyString + "\""
+
+    if node.getChild("value").isComplex() and not node.isFirstChild(True):
+      sep()
+
+    write(keyString)
+    space()
+
+    # Fill with spaces
+    # Do this only if the parent is complex (many entries)
+    # But not if the value itself is complex
+    if node.parent.isComplex() and not node.getChild("value").isComplex():
+      write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
+
+    write(":")
+    space()
+
+
+
+
+
+
+
+  #
+  # OPEN: BLOCK
+  ##################################
+
+  elif node.type == "block":
+    if node.hasChildren():
+      if node.isComplex():
+        line()
+
+      # in else, try to find the mode of the previous if first
+      elif node.hasParent() and node.parent.type == "elseStatement":
+        stmnt = node.parent.parent.getChild("statement")
+
+        if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
+          line()
+
+        else:
+          space()
+
+      # in if, try to find the mode of the parent if (if existent)
+      elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
+        if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
+          stmnt = node.parent.parent.parent.parent.getChild("statement")
+
+          if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
+            line()
+
+          else:
+            space()
+
+        else:
+          space()
+
+      # in catch/finally, try to find the mode of the try statement
+      elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
+        if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
+          line()
+
+        else:
+          space()
+
+      else:
+        space()
+
+    else:
+      space()
+
+    write("{")
+
+    if node.hasChildren():
+      plus()
+      line()
+
+
+  #
+  # OPEN: LOOP
+  ##################################
+
+  elif node.type == "loop":
+    # Additional new line before each loop
+    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+      prev = node.getPreviousSibling(False, True)
+
+      # No separation after case statements
+      if prev != None and prev.type in [ "case", "default" ]:
+        pass
+      else:
+        sep()
+
+    loopType = node.get("loopType")
+
+    if loopType == "IF":
+      write("if")
+      space()
+
+    elif loopType == "WHILE":
+      write("while")
+      space()
+
+    elif loopType == "FOR":
+      write("for")
+      space()
+
+    elif loopType == "DO":
+      write("do")
+      space()
+
+    elif loopType == "WITH":
+      write("with")
+      space()
+
+    else:
+      print "Warning: Unknown loop type: %s" % loopType
+
+
+  #
+  # OPEN: ELSE
+  ##################################
+
+  elif node.type == "elseStatement":
+    if node.hasChild("commentsBefore"):
+      pass
+
+    else:
+      # If this statement block and the previous were not complex, be not complex here, too
+      inner = node.getChild("block", False)
+
+      # Find inner IF statement (e.g. if; else if)
+      if not inner and node.hasChild("loop"):
+        inner = node.getChild("loop").getChild("statement").getChild("block", False)
+
+      selfSimple = not inner or not inner.isComplex()
+
+      prev = node.parent.getChild("statement")
+      prevSimple = not prev.hasChild("block") or not prev.getChild("block").isComplex()
+
+      if selfSimple and prevSimple and inner:
+        noline()
+        space()
+
+    write("else")
+
+    # This is a elseStatement without a block around (a set of {})
+    if not node.hasChild("block"):
+      space()
+
+
+  #
+  # OPEN: EXPRESSION
+  ##################################
+
+  elif node.type == "expression":
+    if node.parent.type == "loop":
+      loopType = node.parent.get("loopType")
+
+      # only do-while loops
+      if loopType == "DO":
+        stmnt = node.parent.getChild("statement")
+        compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
+
+        if compact:
+          noline()
+          space()
+
+        write("while")
+        space()
+
+      # open expression block of IF/WHILE/DO-WHILE/FOR statements
+      write("(")
+
+    elif node.parent.type == "catch":
+      # open expression block of CATCH statement
+      write("(")
+
+    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+      # open expression block of SWITCH statement
+      write("(")
 
 
   #
@@ -835,59 +895,32 @@ def compileNode(node):
         space()
 
 
-
-
-
-
   #
-  # OPEN: LABEL
+  # OPEN: STATEMENT
   ##################################
 
-  elif node.type == "labelTerminator":
-    write(":")
+  elif node.type == "statement":
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+        write("(");
 
+      if node.parent.get("forVariant") == "iter":
+        if not node.parent.hasChild("third"):
+          write(";")
 
-  #
-  # OPEN: COMMENT
-  ##################################
+          if not node.parent.hasChild("second"):
+            write(";")
 
-  elif node.type == "comment":
-    # insert a space before and no newline in the case of after comments
-    if node.get("connection") == "after":
-      noline()
-      space()
+      write(")")
 
-    write(node.get("text"))
-
-    # new line after inline comment (for example for syntactical reasons)
-    if node.get("detail") == "inline":
-      line()
-
-    else:
-      space()
-
-
-  #
-  # OPEN: ASSIGNMENT
-  ##################################
-
-  elif node.type == "assignment":
-    if node.parent.type == "definition":
-      oper = node.get("operator", False)
-
-      realNode = node.parent.parent
-      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
+      if not node.hasChild("block"):
         space()
 
-      if oper != None:
-        write(getTokenSource(oper))
-      else:
-        write("=")
 
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
+
+
+
 
 
 
@@ -902,7 +935,8 @@ def compileNode(node):
 
   if node.hasChildren():
     for child in node.children:
-      compileNode(child)
+      if not node.type in [ "commentsBefore", "commentsAfter" ]:
+        compileNode(child)
 
 
 
@@ -917,22 +951,112 @@ def compileNode(node):
   #####################################################################################################################
 
   #
-  # CLOSE: MAP
+  # CLOSE: IDENTIFIER
   ##################################
 
-  if node.type == "map":
-    if node.isComplex():
-      line()
-      minus()
+  if node.type == "identifier":
+    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+      write(".")
 
-    elif node.hasChildren(True):
-      space()
 
-    write("}")
+  #
+  # CLOSE: ACCESSOR
+  ##################################
 
+  elif node.type == "accessor":
+    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+      write(".")
+
+
+  #
+  # CLOSE: KEYVALUE
+  ##################################
+
+  elif node.type == "keyvalue":
+    if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
+      write(",")
+      comment(node)
+
+      if node.getChild("value").isComplex():
+        sep()
+      elif node.parent.isComplex():
+        line()
+      else:
+        space()
+
+
+  #
+  # CLOSE: DEFINITION
+  ##################################
+
+  elif node.type == "definition":
+    if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
+      write(",")
+      comment(node)
+
+      if node.hasComplexChildren():
+        line()
+      else:
+        space()
+
+
+  #
+  # CLOSE: LEFT
+  ##################################
+
+  elif node.type == "left":
+    if node.hasParent() and node.parent.type == "assignment":
+      oper = node.parent.get("operator", False)
+
+      if node.parent.parent.type == "statementList":
+        realNode = node.parent.parent
+      else:
+        realNode = node.parent
+
+      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+
+      if not inForLoop and not oper in [ "INC", "DEC" ]:
+        space()
+
+      if oper != None:
+        write(getTokenSource(oper))
+      else:
+        write("=")
+
+      if not inForLoop and not oper in [ "INC", "DEC" ]:
+        space()
+
+
+  #
+  # CLOSE: STATEMENT LIST
+  ##################################
+
+  elif node.type == "statementList":
     # If this thing was indented (to much content for one line)
     if hasattr(node, "indented") and node.indented:
       minus()
+
+
+
+
+
+
+
+  #
+  # CLOSE: KEY
+  ##################################
+
+  elif node.type == "key":
+    if node.hasParent() and node.parent.type == "accessor":
+      write("]")
+
+
+  #
+  # CLOSE: GROUP
+  ##################################
+
+  elif node.type == "group":
+    write(")")
 
 
   #
@@ -951,25 +1075,6 @@ def compileNode(node):
 
 
   #
-  # CLOSE: STATEMENT LIST
-  ##################################
-
-  elif node.type == "statementList":
-    # If this thing was indented (to much content for one line)
-    if hasattr(node, "indented") and node.indented:
-      minus()
-
-
-  #
-  # CLOSE: KEY
-  ##################################
-
-  elif node.type == "key":
-    if node.hasParent() and node.parent.type == "accessor":
-      write("]")
-
-
-  #
   # CLOSE: PARAMS
   ##################################
 
@@ -979,6 +1084,68 @@ def compileNode(node):
     # If this thing was indented (to much content for one line)
     if hasattr(node, "indented") and node.indented:
       minus()
+
+
+
+
+
+
+  #
+  # CLOSE: MAP
+  ##################################
+
+  elif node.type == "map":
+    if node.isComplex():
+      line()
+      minus()
+
+    elif node.hasChildren(True):
+      space()
+
+    write("}")
+
+    # If this thing was indented (to much content for one line)
+    if hasattr(node, "indented") and node.indented:
+      minus()
+
+
+
+
+
+
+  #
+  # CLOSE: SWITCH
+  ##################################
+
+  elif node.type == "switch":
+    if node.get("switchType") == "case":
+      minus()
+      minus()
+      line()
+      write("}")
+      comment(node)
+      line()
+
+    # Force a additinal line feed after each switch/try
+    if not node.isLastChild():
+      sep()
+
+
+  #
+  # CLOSE: CASE
+  ##################################
+
+  elif node.type == "case":
+    write(":")
+    comment(node)
+    plus()
+    line()
+
+
+
+
+
+
 
 
   #
@@ -1012,40 +1179,18 @@ def compileNode(node):
 
 
   #
-  # CLOSE: SWITCH
+  # CLOSE: LOOP
   ##################################
 
-  elif node.type == "switch":
-    if node.get("switchType") == "case":
-      minus()
-      minus()
-      line()
-      write("}")
-      comment(node)
-      line()
+  elif node.type == "loop":
+    if node.get("loopType") == "DO":
+      semicolon()
 
-    # Force a additinal line feed after each switch/try
+    comment(node)
+
+    # Force a additinal line feed after each loop
     if not node.isLastChild():
       sep()
-
-
-  #
-  # CLOSE: GROUP
-  ##################################
-
-  elif node.type == "group":
-    write(")")
-
-
-  #
-  # CLOSE: CASE
-  ##################################
-
-  elif node.type == "case":
-    write(":")
-    comment(node)
-    plus()
-    line()
 
 
   #
@@ -1076,21 +1221,6 @@ def compileNode(node):
       write("{")
       plus()
       plus()
-
-
-  #
-  # CLOSE: LOOP
-  ##################################
-
-  elif node.type == "loop":
-    if node.get("loopType") == "DO":
-      semicolon()
-
-    comment(node)
-
-    # Force a additinal line feed after each loop
-    if not node.isLastChild():
-      sep()
 
 
   #
@@ -1146,81 +1276,6 @@ def compileNode(node):
       space()
 
 
-  #
-  # CLOSE: LEFT
-  ##################################
-
-  elif node.type == "left":
-    if node.hasParent() and node.parent.type == "assignment":
-      oper = node.parent.get("operator", False)
-
-      if node.parent.parent.type == "statementList":
-        realNode = node.parent.parent
-      else:
-        realNode = node.parent
-
-      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
-
-      if oper != None:
-        write(getTokenSource(oper))
-      else:
-        write("=")
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
-
-
-  #
-  # CLOSE: IDENTIFIER
-  ##################################
-
-  elif node.type == "identifier":
-    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
-      write(".")
-
-
-  #
-  # CLOSE: ACCESSOR
-  ##################################
-
-  elif node.type == "accessor":
-    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
-      write(".")
-
-
-  #
-  # CLOSE: KEYVALUE
-  ##################################
-
-  elif node.type == "keyvalue":
-    if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
-      write(",")
-      comment(node)
-
-      if node.getChild("value").isComplex():
-        sep()
-      elif node.parent.isComplex():
-        line()
-      else:
-        space()
-
-
-  #
-  # CLOSE: DEFINITION
-  ##################################
-
-  elif node.type == "definition":
-    if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
-      write(",")
-      comment(node)
-
-      if node.hasComplexChildren():
-        line()
-      else:
-        space()
 
 
 
