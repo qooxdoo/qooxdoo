@@ -1186,8 +1186,8 @@ qx.Proto._dispatchChange = function()
     return;
   }
 
-  if (this.hasEventListeners("changeSelection")) {
-    this.dispatchEvent(new qx.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
+  if (this.hasEventListeners(qx.constant.Event.CHANGESELECTION)) {
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.CHANGESELECTION, this.getSelectedItems()), true);
   }
 }
 
