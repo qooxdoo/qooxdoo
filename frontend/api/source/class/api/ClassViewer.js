@@ -48,6 +48,11 @@ qx.Proto._syncHtml = function() {
     "properties", "properties", this._createPropertyInfo,
     qx.util.Return.returnTrue, true, true);
 
+  // Add event info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_EVENT,
+    "events", "events", this._createEventInfo,
+    this._eventHasDetails, true, true);
+
   // Add public methods info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PUBLIC,
     "methods-pub", "public methods", this._createMethodInfo,
@@ -84,11 +89,12 @@ qx.Proto._syncHtml = function() {
   this._classDescElem = divArr[1];
   this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[2];
   this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[3];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[4];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[5];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[6];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[7];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[8];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].infoElem                   = divArr[4];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[5];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[6];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[7];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[8];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[9];
 
   // Get the child elements
   for (var nodeType in this._infoPanelHash) {
@@ -372,7 +378,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 
       // Sort the nodeArr by name
       nodeArr.sort(function(obj1, obj2) {
-        return (obj1.attributes.name < obj2.attributes.name) ? -1 : 1;
+        return (obj1.attributes.name.toLowerCase() < obj2.attributes.name.toLowerCase()) ? -1 : 1;
       });
     } else {
       var parentNode = api.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
@@ -703,6 +709,65 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
 
   return info;
 }
+
+
+/**
+ * Checks whether an event has details.
+ *
+ * @param node {Map} the doc node of the event.
+ * @param nodeType {int} the node type of the event.
+ * @param fromClassNode {Map} the doc node of the class the event was defined.
+ * @return {boolean} whether the event has details.
+ */
+qx.Proto._eventHasDetails = function(node, nodeType, fromClassNode) {
+  return (fromClassNode != this._currentClassDocNode) // event is inherited
+    || this._hasSeeAlsoHtml(node)
+    || this._hasErrorHtml(node)
+    || this._descHasDetails(node);
+};
+
+
+/**
+ * Creates the HTML showing the information about an event.
+ *
+ * @param node {Map} the doc node of the event.
+ * @param nodeType {int} the node type of the event.
+ * @param fromClassNode {Map} the doc node of the class the event was defined.
+ * @param showDetails {boolean} whether to show the details.
+ * @return {string} the HTML showing the information about the event.
+ */
+qx.Proto._createEventInfo = function(node, nodeType, fromClassNode, showDetails) {
+  var ClassViewer = api.ClassViewer;
+
+  var info = {}
+
+  var typeInfo = this._infoPanelHash[nodeType];
+
+  // Add the title
+  info.typeHtml = this._createTypeHtml(node, fromClassNode, "var");
+  info.titleHtml = node.attributes.name;
+
+  // Add the description
+  info.textHtml = this._createDescHtml(node, fromClassNode, showDetails);
+
+  if (showDetails) {
+    // Add inherited from or overridden from
+    if (fromClassNode && fromClassNode != this._currentClassDocNode) {
+      info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT
+        + this._createItemLinkHtml(fromClassNode.attributes.fullName)
+        + ClassViewer.DIV_END;
+    }
+
+    // Add @see attributes
+    info.textHtml += this._createSeeAlsoHtml(node, fromClassNode);
+
+    // Add documentation errors
+    info.textHtml += this._createErrorHtml(node, fromClassNode);
+  }
+
+  return info;
+};
 
 
 /**
@@ -1277,6 +1342,8 @@ qx.Proto._getTypeForItemNode = function(itemNode) {
     return ClassViewer.NODE_TYPE_CONSTANT;
   } else if (itemNode.type == "property") {
     return ClassViewer.NODE_TYPE_PROPERTY;
+  } else if (itemNode.type == "event") {
+    return ClassViewer.NODE_TYPE_EVENT;
   } else if (itemNode.type == "method") {
     var name = itemNode.attributes.name;
     if (name == null) {
@@ -1339,16 +1406,18 @@ qx.Class.SENTENCE_END_REGEX = /[^\.].\.\s/;
 qx.Class.NODE_TYPE_CONSTRUCTOR = 1;
 /** {int} The node type of a property. */
 qx.Class.NODE_TYPE_PROPERTY = 2;
+/** {int} The node type of an event. */
+qx.Class.NODE_TYPE_EVENT = 3;
 /** {int} The node type of a public method. */
-qx.Class.NODE_TYPE_METHOD_PUBLIC = 3;
+qx.Class.NODE_TYPE_METHOD_PUBLIC = 4;
 /** {int} The node type of a protected method. */
-qx.Class.NODE_TYPE_METHOD_PROTECTED = 4;
+qx.Class.NODE_TYPE_METHOD_PROTECTED = 5;
 /** {int} The node type of a static public method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 5;
+qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 6;
 /** {int} The node type of a static protected method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 6;
+qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 7;
 /** {int} The node type of a constant. */
-qx.Class.NODE_TYPE_CONSTANT = 7;
+qx.Class.NODE_TYPE_CONSTANT = 8;
 
 /** {string} The start tag of a div. */
 qx.Class.DIV_START = '<div>';
