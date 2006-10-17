@@ -22,9 +22,11 @@
 
 ************************************************************************ */
 
-/*!
-  Global timer support. Simplifies javascript intervals for objects.
-*/
+/**
+ * Global timer support. Simplifies javascript intervals for objects.
+ *
+ * @event interval {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.client.Timer", qx.core.Target,
 function(vInterval)
 {

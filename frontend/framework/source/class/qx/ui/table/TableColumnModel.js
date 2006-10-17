@@ -31,6 +31,33 @@
  * A model that contains all meta data about columns, such as width, renderers,
  * visibility and order.
  *
+ * @event widthChanged {qx.event.type.DataEvent} Fired when the width of a
+ *        column has changed. The data property of the event is a map having the
+ *        following attributes:
+ *        <ul>
+ *        <li>col: The model index of the column the width of which has changed.</li>
+ *        <li>newWidth: The new width of the column in pixels.</li>
+ *        <li>oldWidth: The old width of the column in pixels.</li>
+ *        </ul>
+ * @event visibilityChangedPre {qx.event.type.DataEvent} Fired when the
+ *        visibility of a column has changed. This event is equal to
+ *        "visibilityChanged", but is fired right before.
+ * @event visibilityChanged {qx.event.type.DataEvent} Fired when the
+ *        visibility of a column has changed. The data property of the
+ *        event is a map having the following attributes:
+ *        <ul>
+ *        <li>col: The model index of the column the visibility of which has changed.</li>
+ *        <li>visible: Whether the column is now visible.</li>
+ *        </ul>
+ * @event orderChanged {qx.event.type.DataEvent} Fired when the column order
+ *        has changed. The data property of the
+ *        event is a map having the following attributes:
+ *        <ul>
+ *        <li>col: The model index of the column that was moved.</li>
+ *        <li>fromOverXPos: The old overall x position of the column.</li>
+ *        <li>toOverXPos: The new overall x position of the column.</li>
+ *        </ul>
+ *
  * @see com.ptvag.webcomponent.ui.table.TableModel
  */
 qx.OO.defineClass("qx.ui.table.TableColumnModel", qx.core.Target,
