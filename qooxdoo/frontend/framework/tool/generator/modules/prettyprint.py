@@ -185,16 +185,8 @@ def getItemLengths(node):
       elif child.type == "constant":
         length = computeConstantLength(child)
 
-      elif child.isComplex():
-        length = 80
-
-      elif child.type in [ "function", "group" ]:
-        # split this thing itself, but don't push the whole to the next line
-        length = 0
-
+      # try to split other things elsewhere, ...
       else:
-        #print
-        #print "Could not handle type: " + child.type
         length = 0
 
       lengths.append(length)
@@ -1253,7 +1245,7 @@ def compileNode(node):
           nextLength = getItemLengths(node.parent)[nextPos]
 
           # auto-wrap at 80
-          if currentLength + nextLength > 80:
+          if nextLength != 0 and currentLength + nextLength > 80:
             line()
 
             if not hasattr(node.parent, "indented"):
