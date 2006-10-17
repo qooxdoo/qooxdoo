@@ -189,7 +189,8 @@ def getItemLengths(node):
         length = 80
 
       elif child.type in [ "function", "group" ]:
-        length = 80
+        # split this thing itself, but don't push the whole to the next line
+        length = 0
 
       else:
         #print
@@ -760,16 +761,90 @@ def compileNode(node):
       write(node.get("value"))
 
 
+
+
+
   #
-  # OPEN: THIRD (?: operation)
+  # OPEN: STATEMENT
+  ##################################
+
+  elif node.type == "statement":
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+        write("(");
+
+      if node.parent.get("forVariant") == "iter":
+        if not node.parent.hasChild("third"):
+          write(";")
+
+          if not node.parent.hasChild("second"):
+            write(";")
+
+      write(")")
+
+      if not node.hasChild("block"):
+        space()
+
+
+  #
+  # OPEN: FIRST
+  ##################################
+
+  elif node.type == "first":
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      write("(")
+
+    # operation
+    elif node.parent.type == "operation":
+      if node.parent.get("left", False) == True:
+        oper = node.parent.get("operator")
+
+        if oper == "TYPEOF":
+          write("typeof")
+          space()
+        else:
+          write(getTokenSource(oper))
+
+
+  #
+  # OPEN: SECOND
+  ##################################
+
+  elif node.type == "second":
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      if not node.parent.hasChild("first"):
+        write("(;")
+        space()
+
+
+  #
+  # OPEN: THIRD
   ##################################
 
   elif node.type == "third":
+    # (?: operation)
     if node.parent.type == "operation":
       if node.parent.get("operator") == "HOOK":
         space()
         write(":")
         space()
+
+    # for loop
+    elif node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      if not node.parent.hasChild("second"):
+        if node.parent.hasChild("first"):
+          write(";")
+        else:
+          write("(;;")
+
+        space()
+
+
+
+
 
 
   #
@@ -778,15 +853,6 @@ def compileNode(node):
 
   elif node.type == "labelTerminator":
     write(":")
-
-
-  #
-  # OPEN: BODY
-  ##################################
-
-  elif node.type == "body":
-    if not node.parent.getChild("params"):
-      write("()")
 
 
   #
@@ -832,43 +898,6 @@ def compileNode(node):
         space()
 
 
-  #
-  # INSIDE: FOR LOOP
-  ##################################
-
-  if node.hasParent() and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-    if node.type == "first":
-      write("(")
-    elif node.type == "statement":
-      write(")")
-    else:
-      if node.type == "second" and not node.parent.hasChild("first"):
-        write("(")
-
-      if node.type == "third" and not node.parent.hasChild("first") and not node.parent.hasChild("second"):
-        write("(")
-
-      if not result.endswith(";") and not result.endswith("\n"):
-        semicolon()
-        space()
-
-
-  #
-  # INSIDE: OPERATION
-  ##################################
-
-  if node.hasParent() and node.parent.type == "operation":
-    if node.parent.get("left", False) == True:
-      oper = node.parent.get("operator")
-
-      if oper == "TYPEOF":
-        write("typeof")
-        space()
-      else:
-        write(getTokenSource(oper))
-
-
-
 
 
 
@@ -882,6 +911,8 @@ def compileNode(node):
   if node.hasChildren():
     for child in node.children:
       compileNode(child)
+
+
 
 
 
@@ -1075,7 +1106,16 @@ def compileNode(node):
   ##################################
 
   elif node.type == "first":
-    if node.hasParent() and node.parent.type == "operation" and node.parent.get("left", False) != True:
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      if node.parent.hasChild("second") or node.parent.hasChild("third"):
+        write(";")
+
+        if node.parent.hasChild("second"):
+          space()
+
+    # operation
+    elif node.parent.type == "operation" and node.parent.get("left", False) != True:
       oper = node.parent.get("operator")
 
       if node.parent.parent.type == "statementList":
@@ -1101,6 +1141,17 @@ def compileNode(node):
 
         if not inForLoop and not oper in [ "INC", "DEC" ]:
           space()
+
+
+  #
+  # CLOSE: SECOND
+  ##################################
+
+  elif node.type == "second":
+    # for loop
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      write(";")
+      space()
 
 
   #
@@ -1178,6 +1229,10 @@ def compileNode(node):
         line()
       else:
         space()
+
+
+
+
 
 
   #
