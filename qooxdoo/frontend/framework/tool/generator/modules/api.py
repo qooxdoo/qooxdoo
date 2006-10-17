@@ -865,8 +865,8 @@ def sortByName(node, listName):
 
 
 def nameComparator(node1, node2):
-  name1 = node1.get("name")
-  name2 = node2.get("name")
+  name1 = node1.get("name").lower()
+  name2 = node2.get("name").lower()
   return cmp(name1, name2)
 
 
