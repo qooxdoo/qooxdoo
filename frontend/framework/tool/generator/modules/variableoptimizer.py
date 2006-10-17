@@ -10,7 +10,7 @@ def search(node, found, level=0, prefix="$", register=False, debug=False):
         # print "Name: %s" % funcName
         found.append(name)
 
-    found = found[:]
+    foundLen = len(found)
     register = True
 
     if debug:
@@ -57,6 +57,7 @@ def search(node, found, level=0, prefix="$", register=False, debug=False):
     # Iterate over content
     # Replace variables in current scope
     update(node, found, prefix, debug)
+    del found[foundLen:]
 
 
 
