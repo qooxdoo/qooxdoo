@@ -223,18 +223,18 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
 
   var addToStringToObject = function(obj) {
     obj.toString = function() {
-      switch(origin)
+      switch(obj.origin)
       {
       case qx.io.remote.Rpc.origin.server:
-        return "Server error " + this.code + ": " + this.message;
+        return "Server error " + obj.code + ": " + obj.message;
       case qx.io.remote.Rpc.origin.application:
-        return "Application error " + this.code + ": " + this.message;
+        return "Application error " + obj.code + ": " + obj.message;
       case qx.io.remote.Rpc.origin.transport:
-        return "Transport error " + this.code + ": " + this.message;
+        return "Transport error " + obj.code + ": " + obj.message;
       case qx.io.remote.Rpc.origin.local:
-        return "Local error " + this.code + ": " + this.message;
+        return "Local error " + obj.code + ": " + obj.message;
       default:
-        return "UNEXPECTED origin " + this.origin + " error " + this.code + ": " + this.message;
+        return "UNEXPECTED origin " + obj.origin + " error " + obj.code + ": " + obj.message;
       }
     }
   }
