@@ -17,11 +17,11 @@ def getTokenSource(id):
 
 def space():
   global indent
-  global onNewLine
+  global afterLine
   global afterBreak
   global result
 
-  if afterBreak or onNewLine or result.endswith(" "):
+  if afterBreak or afterLine or result.endswith(" "):
     return
 
   result += " "
@@ -29,30 +29,32 @@ def space():
 
 def write(txt=""):
   global indent
-  global onNewLine
+  global afterLine
   global afterBreak
+  global afterDivider
   global result
 
   # strip remaining whitespaces
-  if (afterBreak or onNewLine) and result.endswith(" "):
+  if (afterBreak or afterLine) and result.endswith(" "):
     result = result.rstrip()
 
   # handle new line wishes
-  if afterBreak:
-    if result.endswith("\n\n"):
-      pass
-    elif result.endswith("\n"):
-      result += "\n"
-    else:
-      result += "\n\n"
+  if afterDivider:
+    nr = 6
+  elif afterBreak:
+    nr = 2
+  elif afterLine:
+    nr = 1
+  else:
+    nr = 0
 
-  elif onNewLine:
-    if not result.endswith("\n"):
-      result += "\n"
+  while not result.endswith("\n" * nr):
+    result += "\n"
 
   # reset
-  onNewLine = False
+  afterLine = False
   afterBreak = False
+  afterDivider = False
 
   # add indent (if needed)
   if result.endswith("\n"):
@@ -62,19 +64,29 @@ def write(txt=""):
   result += txt
 
 
+def divide():
+  global afterDivider
+  afterDivider = True
+
+
 def sep():
   global afterBreak
   afterBreak = True
 
 
 def line():
-  global onNewLine
-  onNewLine = True
+  global afterLine
+  afterLine = True
 
 
 def noline():
-  global onNewLine
-  onNewLine = False
+  global afterLine
+  global afterBreak
+  global afterDivider
+
+  afterLine = False
+  afterBreak = False
+  afterDivider = False
 
 
 def plus():
@@ -100,10 +112,10 @@ def comment(node):
   commentText = ""
   commentIsInline = False
 
-  afterBlock = node.getChild("commentsAfter", False)
+  afterDivider = node.getChild("commentsAfter", False)
 
-  if afterBlock and not afterBlock.get("inserted", False):
-    for child in afterBlock.children:
+  if afterDivider and not afterDivider.get("inserted", False):
+    for child in afterDivider.children:
       if not child.isFirstChild():
         commentText += " "
 
@@ -121,7 +133,7 @@ def comment(node):
       else:
         space()
 
-      afterBlock.set("inserted", True)
+      afterDivider.set("inserted", True)
 
 
 
@@ -210,14 +222,16 @@ def getLineLength():
 
 def compile(node):
   global indent
-  global onNewLine
+  global afterLine
   global afterBreak
+  global afterDivider
   global result
 
   indent = 0
   result = ""
-  onNewLine = False
+  afterLine = False
   afterBreak = False
+  afterDivider = False
 
   compileNode(node)
 
@@ -255,21 +269,25 @@ def compileNode(node):
     isFirst = node.isFirstChild()
     previous = node.getPreviousSibling(False, True)
 
-    if previous and previous.type == "case":
+    if previous and previous.type in [ "case", "default" ]:
       inCase = True
     else:
       inCase = False
 
     for child in commentsBefore.children:
       docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
-      headComment = child.get("detail") in [ "header" ]
-      divComment = child.get("detail") in [ "divider" ]
+      headComment = child.get("detail") == "header"
+      divComment = child.get("detail") == "divider"
+      blockComment = child.get("detail") ==  "block"
 
       if not child.isFirstChild():
         pass
 
       elif inCase:
         pass
+
+      elif divComment:
+        divide()
 
       elif not isFirst:
         sep()
@@ -279,12 +297,8 @@ def compileNode(node):
 
       write(child.get("text"))
 
-      # separator after divider/head comments
-      if divComment or headComment:
-        sep()
-
-      # separator after block comments which are not for documentation
-      elif child.get("detail") == "block" and not docComment:
+      # separator after divider/head comments and after block comments which are not for documentation
+      if headComment or divComment or blockComment:
         sep()
 
       else:
