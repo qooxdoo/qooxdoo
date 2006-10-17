@@ -21,7 +21,7 @@ def space():
   global afterBreak
   global result
 
-  if afterBreak or afterLine or result.endswith(" "):
+  if afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
     return
 
   result += " "
@@ -35,7 +35,7 @@ def write(txt=""):
   global result
 
   # strip remaining whitespaces
-  if (afterBreak or afterLine) and result.endswith(" "):
+  if (afterLine or afterBreak or afterDivider) and result.endswith(" "):
     result = result.rstrip()
 
   # handle new line wishes
@@ -108,28 +108,6 @@ def semicolon():
     write(";")
 
 
-def wrapat(node):
-  if not node.isLastChild(True):
-    currentLength = getLineLength()
-    nextPos = node.parent.getChildPosition(node.getFollowingSibling())
-    nextLength = getItemLengths(node.parent)[nextPos]
-
-    # auto-wrap at 80
-    if nextLength != 0 and currentLength + nextLength > 80:
-      line()
-
-      if not hasattr(node.parent, "wrapped"):
-        plus()
-
-      node.parent.wrapped = True
-
-
-def unwrap(node):
-  # If this thing was wrapped (to much content for one line)
-  if hasattr(node, "wrapped") and node.wrapped:
-    minus()
-
-
 def comment(node):
   commentText = ""
   commentIsInline = False
@@ -156,6 +134,42 @@ def comment(node):
         space()
 
       afterDivider.set("inserted", True)
+
+
+
+
+
+
+
+
+
+def wrapAfter(node):
+
+  global result
+
+  if node.isLastChild(True):
+    return
+
+  currentLength = getLineLength()
+  nextPos = node.parent.getChildPosition(node.getFollowingSibling())
+  nextLength = getItemLengths(node.parent)[nextPos]
+
+  # auto-wrap at 80
+  if nextLength != 0 and currentLength + nextLength > 80:
+    line()
+
+    if not hasattr(node.parent, "wrapped"):
+      plus()
+
+    node.parent.wrapped = True
+
+
+def unwrap(node):
+  # If this thing was wrapped (to much content for one line)
+  if hasattr(node, "wrapped") and node.wrapped:
+    minus()
+
+
 
 
 
@@ -189,13 +203,9 @@ def computeVariableLength(node):
         length += len(name)
 
       key = child.getChild("key")
-      if key.hasChild("variable"):
-        length += computeVariableLength(key.getChild("variable"))
-      elif key.hasChild("constant"):
-        length += computeConstantLength(key.getChild("constant"))
-      else:
-        print
-        print "Unsupported key"
+
+      for subchild in key.children:
+        length += computeLength(subchild)
 
     else:
       print
@@ -207,6 +217,108 @@ def computeVariableLength(node):
   return length
 
 
+def computeCallLength(node):
+  length = 2
+
+  for child in node.children:
+    length += computeLength(child)
+
+  return length
+
+
+def computeOperationPartLength(node):
+  length = 0
+
+  for child in node.children:
+    if child.type == "operation":
+      # Only respect the first item of the following operation
+      length += computeOperationPartLength(node.getChild("operation").getChild("first"))
+    else:
+      length += computeLength(child)
+
+  return length
+
+
+def computeOperationLength(node):
+  length = 0
+
+  for child in node.children:
+    length += computeLength(child)
+
+  oper = node.get("operator")
+
+  if oper in [ "instanceof", "in" ]:
+    length += len(oper) + 2
+
+  elif oper in [ "typeof" ]:
+    length += len(oper) + 1
+
+  elif oper == "HOOK":
+    length += 6
+
+  else:
+    length += len(getTokenSource(oper))
+
+    if not oper in [ "INC", "DEC" ]:
+      length += 2
+
+  return length
+
+
+def computeOperandLength(node):
+  length = 0
+
+  if node.hasChildren():
+    for child in node.children:
+      length += computeLength(child)
+
+  return length
+
+
+def computeParamsLength(node):
+  length = 2
+
+  if node.hasChildren():
+    for child in node.children:
+      length += computeLength(child)
+      length += 2
+
+  return length
+
+
+def computeLength(node):
+  length = 0
+
+  if node.type == "variable":
+    length = computeVariableLength(node)
+
+  elif node.type == "constant":
+    length = computeConstantLength(node)
+
+  elif node.type in [ "first", "second", "third" ] and node.parent.type == "operation":
+    length = computeOperationPartLength(node)
+
+  elif node.type == "operation":
+    length = computeOperationLength(node)
+
+  elif node.type == "call":
+    length = computeCallLength(node)
+
+  elif node.type == "params":
+    length = computeParamsLength(node)
+
+  elif node.type == "operand":
+    length = computeOperandLength(node)
+
+  else:
+    # print ">>> Unsupported: %s" % node.type
+    pass
+
+  return length
+
+
+
+
 def getItemLengths(node):
   if hasattr(node, "itemLengths"):
     return node.itemsLength
@@ -215,17 +327,7 @@ def getItemLengths(node):
 
   if node.hasChildren(True):
     for child in node.children:
-      if child.type == "variable":
-        length = computeVariableLength(child)
-
-      elif child.type == "constant":
-        length = computeConstantLength(child)
-
-      # try to split other things elsewhere, ...
-      else:
-        length = 0
-
-      lengths.append(length)
+      lengths.append(computeLength(child))
 
   node.itemsLength = lengths
   return lengths
@@ -915,15 +1017,8 @@ def compileNode(node):
   ##################################
 
   elif node.type == "third":
-    # (?: operation)
-    if node.parent.type == "operation":
-      if node.parent.get("operator") == "HOOK":
-        space()
-        write(":")
-        space()
-
     # for loop
-    elif node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       if not node.parent.hasChild("second"):
         if node.parent.hasChild("first"):
           write(";")
@@ -1282,6 +1377,8 @@ def compileNode(node):
         if not inForLoop and not oper in [ "INC", "DEC" ]:
           space()
 
+        wrapAfter(node)
+
 
   #
   # CLOSE: SECOND
@@ -1292,6 +1389,13 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       write(";")
       space()
+
+    # (?: operation)
+    elif node.parent.type == "operation" and node.parent.get("operator") == "HOOK":
+      space()
+      write(":")
+      space()
+      wrapAfter(node)
 
 
 
@@ -1311,7 +1415,7 @@ def compileNode(node):
       if not node.isLastChild(True):
         write(",")
         comment(node)
-        wrapat(node)
+        wrapAfter(node)
 
         if node.isComplex():
           line()
