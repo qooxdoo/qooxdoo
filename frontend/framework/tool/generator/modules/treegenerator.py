@@ -716,6 +716,8 @@ def readLoop(stream):
 
     if stream.currIsType("token", "SEMICOLON"):
       # It's a for (;;) loop
+      item.set("forVariant", "iter")
+
       stream.next(item)
       if not stream.currIsType("token", "SEMICOLON"):
         # Read the optional second expression
@@ -736,6 +738,7 @@ def readLoop(stream):
 
     elif stream.currIsType("token", "RP"):
       # It's a for ( in ) loop
+      item.set("forVariant", "in")
       pass
 
     else:
