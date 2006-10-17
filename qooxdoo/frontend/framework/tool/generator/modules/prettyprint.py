@@ -108,7 +108,7 @@ def semicolon():
     write(";")
 
 
-def wrap(node):
+def wrapat(node):
   if not node.isLastChild(True):
     currentLength = getLineLength()
     nextPos = node.parent.getChildPosition(node.getFollowingSibling())
@@ -1311,7 +1311,7 @@ def compileNode(node):
       if not node.isLastChild(True):
         write(",")
         comment(node)
-        wrap(node)
+        wrapat(node)
 
         if node.isComplex():
           line()
