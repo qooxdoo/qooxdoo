@@ -690,6 +690,7 @@ def postWorkClass(docTree, classNode):
 
   # Mark overridden items
   postWorkItemList(docTree, classNode, "properties", True)
+  postWorkItemList(docTree, classNode, "events", False)
   postWorkItemList(docTree, classNode, "methods-pub", True)
   postWorkItemList(docTree, classNode, "methods-prot", True)
   postWorkItemList(docTree, classNode, "methods-static-pub", False)
