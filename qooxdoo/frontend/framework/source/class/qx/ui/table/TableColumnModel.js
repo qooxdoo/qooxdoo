@@ -386,7 +386,7 @@ qx.Proto.moveColumn = function(fromOverXPos, toOverXPos) {
 }
 
 
-/** {int} the default width of a column in pixes. */
+/** {int} the default width of a column in pixels. */
 qx.Class.DEFAULT_WIDTH = 100;
 
 /** {DefaultDataCellRenderer} the default header cell renderer. */
