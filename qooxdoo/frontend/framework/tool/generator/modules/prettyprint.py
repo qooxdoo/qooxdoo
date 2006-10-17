@@ -90,6 +90,8 @@ def minus():
 def semicolon():
   global result
 
+  noline()
+
   if not (result.endswith("\n") or result.endswith(";")):
     write(";")
 
