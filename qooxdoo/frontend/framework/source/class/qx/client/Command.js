@@ -22,11 +22,13 @@
 
 ************************************************************************ */
 
-/*!
-  This contains a command with shortcut.
-
-  Each command could be accigned to multiple widgets.
-*/
+/**
+ * This contains a command with shortcut.
+ *
+ * Each command could be accigned to multiple widgets.
+ *
+ * @event execute {qx.event.type.DataEvent} when the command is executed.
+ */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
 function(vShortcut, vKeyCode)
 {

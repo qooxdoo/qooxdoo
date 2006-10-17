@@ -21,6 +21,9 @@
 
 ************************************************************************ */
 
+/**
+ * @event loadComplete {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.ui.embed.GalleryList", qx.ui.basic.Terminator,
 function(galleryList)
 {

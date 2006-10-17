@@ -21,9 +21,11 @@
 
 ************************************************************************ */
 
-/*!
-  This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
-*/
+/**
+ * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
+ *
+ * @event change {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.type.Range", qx.core.Target,
 function() {
   qx.core.Target.call(this);

@@ -23,9 +23,11 @@
 
 ************************************************************************ */
 
-/*!
-  This widget is for all images in qooxdoo projects.
-*/
+/**
+ * This widget is for all images in qooxdoo projects.
+ *
+ * @event error {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.ui.basic.Image", qx.ui.basic.Terminator,
 function(vSource, vWidth, vHeight)
 {

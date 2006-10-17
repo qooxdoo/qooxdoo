@@ -30,6 +30,10 @@
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
+ *
+ * @event request {qx.event.type.DataEvent} Fired when the user moved in the
+ *        history. The data property of the event holds the command, which was
+ *        passed to {@link #addToHistory}.
  */
 qx.OO.defineClass("qx.client.History", qx.core.Target,
 function() {

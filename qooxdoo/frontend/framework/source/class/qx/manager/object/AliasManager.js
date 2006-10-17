@@ -22,9 +22,11 @@
 
 ************************************************************************ */
 
-/*!
-  This singleton manage global resource aliases
-*/
+/**
+ * This singleton manage global resource aliases
+ *
+ * @event change {qx.event.type.Event}
+ */
 qx.OO.defineClass("qx.manager.object.AliasManager", qx.core.Target,
 function()
 {
