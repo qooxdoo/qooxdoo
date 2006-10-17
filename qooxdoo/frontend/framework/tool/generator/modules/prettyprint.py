@@ -108,6 +108,28 @@ def semicolon():
     write(";")
 
 
+def wrap(node):
+  if not node.isLastChild(True):
+    currentLength = getLineLength()
+    nextPos = node.parent.getChildPosition(node.getFollowingSibling())
+    nextLength = getItemLengths(node.parent)[nextPos]
+
+    # auto-wrap at 80
+    if nextLength != 0 and currentLength + nextLength > 80:
+      line()
+
+      if not hasattr(node.parent, "wrapped"):
+        plus()
+
+      node.parent.wrapped = True
+
+
+def unwrap(node):
+  # If this thing was wrapped (to much content for one line)
+  if hasattr(node, "wrapped") and node.wrapped:
+    minus()
+
+
 def comment(node):
   commentText = ""
   commentIsInline = False
@@ -1043,17 +1065,6 @@ def compileNode(node):
         space()
 
 
-  #
-  # CLOSE: STATEMENT LIST
-  ##################################
-
-  elif node.type == "statementList":
-    # If this thing was indented (to much content for one line)
-    if hasattr(node, "indented") and node.indented:
-      minus()
-
-
-
 
 
 
@@ -1085,9 +1096,6 @@ def compileNode(node):
 
     write("]")
 
-    # If this thing was indented (to much content for one line)
-    if hasattr(node, "indented") and node.indented:
-      minus()
 
 
   #
@@ -1096,12 +1104,6 @@ def compileNode(node):
 
   elif node.type == "params":
     write(")")
-
-    # If this thing was indented (to much content for one line)
-    if hasattr(node, "indented") and node.indented:
-      minus()
-
-
 
 
 
@@ -1309,20 +1311,7 @@ def compileNode(node):
       if not node.isLastChild(True):
         write(",")
         comment(node)
-
-        if not node.isLastChild(True):
-          currentLength = getLineLength()
-          nextPos = node.parent.getChildPosition(node.getFollowingSibling())
-          nextLength = getItemLengths(node.parent)[nextPos]
-
-          # auto-wrap at 80
-          if nextLength != 0 and currentLength + nextLength > 80:
-            line()
-
-            if not hasattr(node.parent, "indented"):
-              plus()
-
-            node.parent.indented = True
+        wrap(node)
 
         if node.isComplex():
           line()
@@ -1361,12 +1350,14 @@ def compileNode(node):
 
 
   #
-  # CLOSE: COMMENT
+  # CLOSE: OTHER
   ##################################
 
   # Rest of the after comments (not inserted previously)
   comment(node)
 
+  # Unwrap if needed
+  unwrap(node)
 
 
 
