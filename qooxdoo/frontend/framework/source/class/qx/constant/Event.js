@@ -50,6 +50,7 @@ qx.OO.defineClass("qx.constant.Event",
   INPUT : "input",
   CHANGE : "change",
   RESIZE : "resize",
+  CHANGESELECTION : "changeSelection",
 
   INTERVAL : "interval",
   EXECUTE : "execute",
