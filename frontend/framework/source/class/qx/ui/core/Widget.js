@@ -60,6 +60,10 @@
  * @event keydown {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event keypress {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event keyup {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
+ * @event focusout {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event focusin {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event blur {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event focus {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  */
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
