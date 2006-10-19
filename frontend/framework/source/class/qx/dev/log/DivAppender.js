@@ -27,14 +27,14 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
- * @param divId {string,"log"} the ID of the div element to write the
+ * @param divId {string,"qx_log"} the ID of the div element to write the
  *        messages to.
  */
 qx.OO.defineClass("qx.dev.log.DivAppender", qx.dev.log.Appender,
 function(divId) {
   qx.dev.log.Appender.call(this);
 
-  this._divId = divId ? divId : "log";
+  this._divId = divId ? divId : "qx_log";
 });
 
 

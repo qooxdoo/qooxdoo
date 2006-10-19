@@ -28,6 +28,10 @@
  * <p>
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
+ * <p>
+ * It allows to go through the log messages step-by-step, since the alert 
+ * window temporarily halts the regular program execution. That way even 
+ * the dispose process can easily be debugged.
  */
 qx.OO.defineClass("qx.dev.log.AlertAppender", qx.dev.log.Appender,
 function() {
