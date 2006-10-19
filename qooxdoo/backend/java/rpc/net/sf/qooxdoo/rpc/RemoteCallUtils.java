@@ -54,7 +54,7 @@ public class RemoteCallUtils {
         try {
             if (obj == JSONObject.NULL) {
                 if (targetType == Integer.TYPE || targetType == Double.TYPE ||
-                    targetType == Boolean.TYPE) {
+                    targetType == Boolean.TYPE || targetType == Long.TYPE) {
                     // null does not work for primitive types
                     throw new Exception();
                 }
@@ -111,16 +111,20 @@ public class RemoteCallUtils {
                 return obj;
             }
             Class actualTargetType;
+            Class sourceType = obj.getClass();
             if (targetType == Integer.TYPE) {
                 actualTargetType = Integer.class;
             } else if (targetType == Double.TYPE) {
                 actualTargetType = Double.class;
             } else if (targetType == Boolean.TYPE) {
                 actualTargetType = Boolean.class;
+            } else if ((targetType == Long.TYPE || targetType == Long.class) &&
+                       Number.class.isAssignableFrom(sourceType)) {
+                return new Long(((Number)obj).longValue());
             } else {
                 actualTargetType = targetType;
             }
-            if (!actualTargetType.isAssignableFrom(obj.getClass())) {
+            if (!actualTargetType.isAssignableFrom(sourceType)) {
                 throw new Exception();
             }
             return obj;
