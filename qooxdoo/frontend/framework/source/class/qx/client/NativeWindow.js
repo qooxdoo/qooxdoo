@@ -452,7 +452,7 @@ qx.Proto._open = function()
   */
 
   if (qx.util.Validation.isInvalidString(this.getName())) {
-    this.setName("NativeWindow" + this.toHashCode());
+    this.setName("qx_NativeWindow" + this.toHashCode());
   }
 
   this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
