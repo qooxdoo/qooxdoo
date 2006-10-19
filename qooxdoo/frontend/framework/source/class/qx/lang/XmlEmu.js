@@ -45,8 +45,37 @@ if (qx.sys.Client.getInstance().isMshtml())
 
     parseFromString: function(str, contentType)
     {
-      var xmlDocument = new ActiveXObject("Microsoft.XMLDOM");
-      xmlDocument.loadXML(str);
+      var vServers =
+      [
+        "MSXML2.DomDocument.6.0",
+        "MSXML2.DomDocument.5.0",
+        "MSXML2.DomDocument.4.0",
+        "MSXML2.DomDocument.3.0",
+        "MSXML2.DomDocument.2.0",
+        "MSXML2.DomDocument",
+        "Microsoft.XMLDOM"
+      ];
+
+      var xmlDocument;
+
+      for (var i=0, l=vServers.length; i<l; i++)
+      {
+  
+        try
+        {
+          xmlDocument = new ActiveXObject(vServers[i]);
+          break;
+        }
+        catch(ex)
+        {
+          xmlDocument = null;
+        }
+      }
+
+      if(xmlDocument) {
+        xmlDocument.loadXML(str);
+      }
+
       return xmlDocument;
     },
 
