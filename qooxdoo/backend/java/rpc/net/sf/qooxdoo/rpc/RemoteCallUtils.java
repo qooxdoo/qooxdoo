@@ -114,10 +114,12 @@ public class RemoteCallUtils {
             Class sourceType = obj.getClass();
             if (targetType == Integer.TYPE) {
                 actualTargetType = Integer.class;
-            } else if (targetType == Double.TYPE) {
-                actualTargetType = Double.class;
             } else if (targetType == Boolean.TYPE) {
                 actualTargetType = Boolean.class;
+            } else if ((targetType == Double.TYPE || targetType == Double.class) &&
+                    Number.class.isAssignableFrom(sourceType)) {
+                return new Double(((Number)obj).doubleValue());
+                // TODO: maybe return obj directly if it's a Double 
             } else if ((targetType == Long.TYPE || targetType == Long.class) &&
                        Number.class.isAssignableFrom(sourceType)) {
                 return new Long(((Number)obj).longValue());
