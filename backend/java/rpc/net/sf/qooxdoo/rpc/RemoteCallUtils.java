@@ -141,10 +141,15 @@ public class RemoteCallUtils {
 
 
     /**
-     * Internal helper method.
+     * Filters away properties of an object before it's converted to JSON form.
+     * 
+     * @param   obj                 the original object.
+     * @param   map                 the properties map that was created from
+     *                              the object. Using its <code>remove</code>
+     *                              method, properties can be removed.
      */
 
-    private Map filter(Map map) {
+    protected Map filter(Object obj, Map map) {
         map.remove("class");
         return map;
     }
@@ -240,7 +245,7 @@ public class RemoteCallUtils {
             }
             return jsonObject;
         }
-        return fromJava(filter(PropertyUtils.describe(obj)));
+        return fromJava(filter(obj, PropertyUtils.describe(obj)));
     }
 
 
