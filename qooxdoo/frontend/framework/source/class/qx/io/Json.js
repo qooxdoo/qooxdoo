@@ -122,7 +122,12 @@ qx.io.Json = function ()
         if (x) {
           var a = [], b, f, i, l, v;
           if (x instanceof Array) {
+            var beautify = qx.io.Json._beautify;
             a[0] = '[';
+            if (beautify) {
+              qx.io.Json._indent += qx.io.Json.BEAUTIFYING_INDENT;
+              a.push(qx.io.Json._indent);
+            }
             l = x.length;
             for (i = 0; i < l; i += 1) {
               v = x[i];
@@ -132,11 +137,18 @@ qx.io.Json = function ()
                 if (typeof v == 'string') {
                   if (b) {
                     a[a.length] = ',';
+                    if (beautify) {
+                      a.push(qx.io.Json._indent);
+                    }
                   }
                   a[a.length] = v;
                   b = true;
                 }
               }
+            }
+            if (beautify) {
+              qx.io.Json._indent = qx.io.Json._indent.substring(0, qx.io.Json._indent.length - qx.io.Json.BEAUTIFYING_INDENT.length);
+              a.push(qx.io.Json._indent);
             }
             a[a.length] = ']';
           // AJ, DJL --
@@ -208,7 +220,12 @@ qx.io.Json = function ()
             return "new Date(Date.UTC(" + dateParams + "))";
           // -- AJ, DJL
           } else if (x instanceof Object) {
+            var beautify = qx.io.Json._beautify;
             a[0] = '{';
+            if (beautify) {
+              qx.io.Json._indent += qx.io.Json.BEAUTIFYING_INDENT;
+              a.push(qx.io.Json._indent);
+            }
             for (i in x) {
               v = x[i];
               f = s[typeof v];
@@ -217,11 +234,18 @@ qx.io.Json = function ()
                 if (typeof v == 'string') {
                   if (b) {
                     a[a.length] = ',';
+                    if (beautify) {
+                      a.push(qx.io.Json._indent);
+                    }
                   }
                   a.push(s.string(i), ':', v);
                   b = true;
                 }
               }
+            }
+            if (beautify) {
+              qx.io.Json._indent = qx.io.Json._indent.substring(0, qx.io.Json._indent.length - qx.io.Json.BEAUTIFYING_INDENT.length);
+              a.push(qx.io.Json._indent);
             }
             a[a.length] = '}';
           } else {
@@ -243,10 +267,19 @@ qx.io.Json = function ()
   return {
     copyright: '(c)2005 JSON.org',
     license: 'http://www.JSON.org/license.html',
-/*
-  Stringify a JavaScript value, producing a JSON text.
-*/
-    stringify: function (v) {
+
+    /**
+     * Stringify a JavaScript value, producing a JSON text.
+     *
+     * @param v {var} the object to serialize.
+     * @param beautify {boolean,false} whether to beautify the serialized string
+     *        by adding some white space that indents objects and arrays.
+     * @return {string} the serialized object.
+     */
+    stringify: function (v, beautify) {
+      this._beautify = beautify;
+      this._indent = this.BEAUTIFYING_LINE_END;
+
       var f = s[typeof v];
       // AJ, DJL --
       var ret = null;
@@ -346,3 +379,7 @@ qx.io.Json.parseQx = function(text) {
 
   return obj;
 }
+
+qx.io.Json.BEAUTIFYING_INDENT = "  ";
+
+qx.io.Json.BEAUTIFYING_LINE_END = "\n";
