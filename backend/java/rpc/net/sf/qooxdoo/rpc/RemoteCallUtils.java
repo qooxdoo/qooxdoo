@@ -93,7 +93,18 @@ public class RemoteCallUtils {
                     }
                     return retVal;
                 }
-                Object bean = targetType.newInstance();
+                Object bean;
+                String requestedTypeName = jsonObject.optString("class", null);
+                if (requestedTypeName != null) {
+                    Class clazz = resolveClassHint(requestedTypeName, targetType);
+                    if (clazz == null) {
+                        throw new Exception();
+                    }
+                    bean = clazz.newInstance();
+                    // TODO: support constructor parameters
+                } else {
+                    bean = targetType.newInstance();
+                }
                 if (names != null) {
                     int length = names.length();
                     String name;
@@ -140,6 +151,38 @@ public class RemoteCallUtils {
     }
 
 
+    /**
+     * Returns the actual class that a client-sent object should be converted
+     * into.
+     * <p>
+     * For example, an instance of "BaseClass" may be needed on the server, and
+     * the client may have specified "DerivedClass" as the class hint. The main
+     * responsibility of the <code>resolveClassHint</code> method is to
+     * check whether "DerivedClass" should actually be instantiated
+     * (which could pose a security risk, depending on the class).
+     * </p>
+     * <p>
+     * The default implementation of <code>resolveClassHint</code> returns
+     * <code>false</code>, but this may change in future versions, so be sure
+     * to call the super class method in derived classes instead of just
+     * returning <code>false</code>.
+     * </p>
+     * 
+     * @param   requestedTypeName   the fully qualified type requested by the
+     *                              client.
+     * @param   targetType          the type needed on the server.
+     * 
+     * @return  the type to instantiate (usually the result of calling
+     *          <code>Class.forName(requestedTypeName)</code>) or
+     *          <code>null</code> if instantiation is not allowed.
+     */
+    
+    protected Class resolveClassHint(String requestedTypeName,
+                                     Class targetType) {
+        return null;
+    }
+
+    
     /**
      * Filters away properties of an object before it's converted to JSON form.
      * 
