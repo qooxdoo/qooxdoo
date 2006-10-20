@@ -97,7 +97,7 @@ public class RemoteCallUtils {
                 String requestedTypeName = jsonObject.optString("class", null);
                 if (requestedTypeName != null) {
                     Class clazz = resolveClassHint(requestedTypeName, targetType);
-                    if (clazz == null) {
+                    if (clazz == null || !targetType.isAssignableFrom(clazz)) {
                         throw new Exception();
                     }
                     bean = clazz.newInstance();
@@ -167,6 +167,11 @@ public class RemoteCallUtils {
      * to call the super class method in derived classes instead of just
      * returning <code>false</code>.
      * </p>
+     * <p>
+     * If a <code>Class</code> is returned that is not compatible with
+     * <code>targetType</code>, an exception will be thrown later on (without
+     * creating an instance of the class first).
+     * </p>
      * 
      * @param   requestedTypeName   the fully qualified type requested by the
      *                              client.
@@ -175,10 +180,15 @@ public class RemoteCallUtils {
      * @return  the type to instantiate (usually the result of calling
      *          <code>Class.forName(requestedTypeName)</code>) or
      *          <code>null</code> if instantiation is not allowed.
+     * 
+     * @throws  Exception           thrown if anything goes wrong while
+     *                              resolving the hint. 
      */
     
     protected Class resolveClassHint(String requestedTypeName,
-                                     Class targetType) {
+                                     Class targetType)
+        throws Exception {
+        
         return null;
     }
 
