@@ -477,6 +477,46 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+  ######################################################################
+  #  GENERATION OF COMPILED VERSION
+  ######################################################################
+
+  if options.prettyPrint:
+    print
+    print "  GENERATION OF PRETTY PRINTED CODE:"
+    print "----------------------------------------------------------------------------"
+
+    if options.compiledScriptFile == None:
+      print "    * You must define the compiled script file!"
+      sys.exit(1)
+
+    prettyOutput = ""
+
+    if options.verbose:
+      print "  * Pretty printing..."
+    else:
+      print "  * Pretty printing: ",
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - Compiling %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), True)
+
+      filetool.save(fileDb[fileId]["path"], prettyFileContent)
+
+    if not options.verbose:
+      print
+
+    # ignore other jobs
+    return
+
+
+
   ######################################################################
   #  STRING OPTIMIZATION
   ######################################################################
@@ -679,6 +719,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+
   ######################################################################
   #  GENERATION OF API
   ######################################################################
@@ -835,50 +877,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   #  GENERATION OF COMPILED VERSION
   ######################################################################
 
-  if options.prettyPrint:
-    print
-    print "  GENERATION OF PRETTY PRINTED CODE:"
-    print "----------------------------------------------------------------------------"
-
-    if options.compiledScriptFile == None:
-      print "    * You must define the compiled script file!"
-      sys.exit(1)
-
-    prettyOutput = ""
-
-    if options.verbose:
-      print "  * Pretty printing..."
-    else:
-      print "  * Pretty printing: ",
-
-    for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - Compiling %s" % fileId
-      else:
-        sys.stdout.write(".")
-        sys.stdout.flush()
-
-      prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options))
-
-      if options.addFileIds:
-        prettyOutput += "\n\n\n/* ID: " + fileId + " */\n" + prettyFileContent + "\n"
-      else:
-        prettyOutput += prettyFileContent
-
-    if not options.verbose:
-      print
-
-    print "  * Storing output as %s..." % options.compiledScriptFile
-    filetool.save(options.compiledScriptFile, prettyOutput, options.scriptOutputEncoding)
-
-
-
-
-
-  ######################################################################
-  #  GENERATION OF COMPILED VERSION
-  ######################################################################
-
   if options.generateCompiledScript:
     print
     print "  GENERATION OF COMPILED SCRIPT:"
@@ -925,7 +923,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       else:
         compiledOutput += compiledFileContent
 
-      if not compiledOutput.endswith(";"):
+      if not compiledOutput.endswith(";") and not compiledOutput.endswith("\n"):
         compiledOutput += ";"
 
     if not options.verbose:
