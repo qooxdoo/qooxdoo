@@ -140,8 +140,31 @@
     });
 
 
+    var parent8 = new qx.ui.layout.VerticalBoxLayout();
+    parent8.set({ top:48, left:500, width:150, height:150, spacing:5,
+        border:qx.renderer.border.BorderPresets.getInstance().thinInset });
+    parent8.setPadding(5);
+    parent8.addEventListener("click", function() {
+      this.setWidth((this.getWidth() == 150) ? 200 : 150);
+    });
 
-    d.add(c1, c2, c3, c4, c5w, c6, c7);
+    var clickHint = new qx.ui.basic.Label("Click me");
+    clickHint.set({ width:"100%", height:"auto", wrap:true,
+        border:qx.renderer.border.BorderPresets.getInstance().thinOutset });
+    parent8.add(clickHint);
+
+    var wrapLabel1 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
+    wrapLabel1.set({ width:"100%", height:"auto", wrap:true,
+        border:qx.renderer.border.BorderPresets.getInstance().thinOutset });
+    parent8.add(wrapLabel1);
+
+    var wrapLabel2 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
+    wrapLabel2.set({ width:"100%", height:"auto", wrap:true,
+        border:qx.renderer.border.BorderPresets.getInstance().thinOutset });
+    parent8.add(wrapLabel2);
+
+
+    d.add(c1, c2, c3, c4, c5w, c6, c7, parent8);
 
   });
   </script>
