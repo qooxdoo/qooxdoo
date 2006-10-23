@@ -7,12 +7,43 @@ KEY = re.compile("^[A-Za-z0-9_]+$")
 
 
 
-def getTokenSource(id):
-  for key in config.JSTOKENS:
-    if config.JSTOKENS[key] == id:
-      return key
+def compileToken(name, compact=False):
+  ret = ""
 
-  return None
+  if name in [ "INC", "DEC", "TYPEOF" ]:
+    pass
+
+  elif name in [ "INSTANCEOF", "IN" ]:
+    ret += " "
+
+  elif not compact:
+    ret += " "
+
+
+
+  if name == None:
+    ret += "="
+
+  elif name in [ "TYPEOF", "INSTANCEOF", "IN" ]:
+    ret += name.lower()
+
+  else:
+    for key in config.JSTOKENS:
+      if config.JSTOKENS[key] == name:
+        ret += key
+
+
+
+  if name in [ "INC", "DEC" ]:
+    pass
+
+  elif name in [ "TYPEOF", "INSTANCEOF", "IN" ]:
+    ret += " "
+
+  elif not compact:
+    ret += " "
+
+  return ret
 
 
 def space():
@@ -135,208 +166,6 @@ def comment(node):
 
       afterDivider.set("inserted", True)
 
-
-
-
-
-
-
-
-
-def wrapAfter(node):
-
-  global result
-
-  if node.isLastChild(True):
-    return
-
-  currentLength = getLineLength()
-  nextPos = node.parent.getChildPosition(node.getFollowingSibling())
-  nextLength = getItemLengths(node.parent)[nextPos]
-
-  # auto-wrap at 80
-  if nextLength != 0 and currentLength + nextLength > 80:
-    line()
-
-    if not hasattr(node.parent, "wrapped"):
-      plus()
-
-    node.parent.wrapped = True
-
-
-def unwrap(node):
-  # If this thing was wrapped (to much content for one line)
-  if hasattr(node, "wrapped") and node.wrapped:
-    minus()
-
-
-
-
-
-
-def computeConstantLength(node):
-  length = len(node.get("value"))
-
-  if node.get("constantType") == "string":
-    length += 2
-
-  return length
-
-
-def computeVariableLength(node):
-  length = 0
-
-  for child in node.children:
-    if child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
-      pass
-
-    elif child.type == "identifier":
-      length += len(child.get("name"))
-
-    elif child.type == "accessor":
-      iden = child.getChild("identifier")
-      if iden.hasChild("identifier"):
-        iden = iden.getChild("identifier")
-
-      name = iden.get("name", False)
-      if name != None:
-        length += len(name)
-
-      key = child.getChild("key")
-
-      for subchild in key.children:
-        length += computeLength(subchild)
-
-    else:
-      print
-      print "Problematic var member: %s" % child.type
-
-    if not child.isLastChild():
-      length += 1
-
-  return length
-
-
-def computeCallLength(node):
-  length = 2
-
-  for child in node.children:
-    length += computeLength(child)
-
-  return length
-
-
-def computeOperationPartLength(node):
-  length = 0
-
-  for child in node.children:
-    if child.type == "operation":
-      # Only respect the first item of the following operation
-      length += computeOperationPartLength(node.getChild("operation").getChild("first"))
-    else:
-      length += computeLength(child)
-
-  return length
-
-
-def computeOperationLength(node):
-  length = 0
-
-  for child in node.children:
-    length += computeLength(child)
-
-  oper = node.get("operator")
-
-  if oper in [ "instanceof", "in" ]:
-    length += len(oper) + 2
-
-  elif oper in [ "typeof" ]:
-    length += len(oper) + 1
-
-  elif oper == "HOOK":
-    length += 6
-
-  else:
-    length += len(getTokenSource(oper))
-
-    if not oper in [ "INC", "DEC" ]:
-      length += 2
-
-  return length
-
-
-def computeOperandLength(node):
-  length = 0
-
-  if node.hasChildren():
-    for child in node.children:
-      length += computeLength(child)
-
-  return length
-
-
-def computeParamsLength(node):
-  length = 2
-
-  if node.hasChildren():
-    for child in node.children:
-      length += computeLength(child)
-      length += 2
-
-  return length
-
-
-def computeLength(node):
-  length = 0
-
-  if node.type == "variable":
-    length = computeVariableLength(node)
-
-  elif node.type == "constant":
-    length = computeConstantLength(node)
-
-  elif node.type in [ "first", "second", "third" ] and node.parent.type == "operation":
-    length = computeOperationPartLength(node)
-
-  elif node.type == "operation":
-    length = computeOperationLength(node)
-
-  elif node.type == "call":
-    length = computeCallLength(node)
-
-  elif node.type == "params":
-    length = computeParamsLength(node)
-
-  elif node.type == "operand":
-    length = computeOperandLength(node)
-
-  else:
-    # print ">>> Unsupported: %s" % node.type
-    pass
-
-  return length
-
-
-
-
-def getItemLengths(node):
-  if hasattr(node, "itemLengths"):
-    return node.itemsLength
-
-  lengths = []
-
-  if node.hasChildren(True):
-    for child in node.children:
-      lengths.append(computeLength(child))
-
-  node.itemsLength = lengths
-  return lengths
-
-
-def getLineLength():
-  global result
-
-  return len(result.split("\n")[-1])
 
 
 
@@ -623,18 +452,10 @@ def compileNode(node):
       oper = node.get("operator", False)
 
       realNode = node.parent.parent
-      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
 
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
-
-      if oper != None:
-        write(getTokenSource(oper))
-      else:
-        write("=")
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
+      # be compact in for-loops
+      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      write(compileToken(oper, compact))
 
 
 
@@ -991,13 +812,7 @@ def compileNode(node):
     # operation
     elif node.parent.type == "operation":
       if node.parent.get("left", False) == True:
-        oper = node.parent.get("operator")
-
-        if oper == "TYPEOF":
-          write("typeof")
-          space()
-        else:
-          write(getTokenSource(oper))
+        write(compileToken(node.parent.get("operator")))
 
 
   #
@@ -1146,18 +961,9 @@ def compileNode(node):
       else:
         realNode = node.parent
 
-      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
-
-      if oper != None:
-        write(getTokenSource(oper))
-      else:
-        write("=")
-
-      if not inForLoop and not oper in [ "INC", "DEC" ]:
-        space()
+      # be compact in for-loops
+      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      write(compileToken(oper, compact))
 
 
 
@@ -1358,26 +1164,8 @@ def compileNode(node):
       else:
         realNode = node.parent
 
-      inForLoop = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-
-      if oper == "IN":
-        space()
-        write("in")
-        space()
-      elif oper == "INSTANCEOF":
-        space()
-        write("instanceof")
-        space()
-      else:
-        if not inForLoop and not oper in [ "INC", "DEC" ]:
-          space()
-
-        write(getTokenSource(oper))
-
-        if not inForLoop and not oper in [ "INC", "DEC" ]:
-          space()
-
-        wrapAfter(node)
+      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      write(compileToken(oper, compact))
 
 
   #
@@ -1395,7 +1183,7 @@ def compileNode(node):
       space()
       write(":")
       space()
-      wrapAfter(node)
+
 
 
 
@@ -1415,7 +1203,6 @@ def compileNode(node):
       if not node.isLastChild(True):
         write(",")
         comment(node)
-        wrapAfter(node)
 
         if node.isComplex():
           line()
@@ -1460,8 +1247,6 @@ def compileNode(node):
   # Rest of the after comments (not inserted previously)
   comment(node)
 
-  # Unwrap if needed
-  unwrap(node)
 
 
 
