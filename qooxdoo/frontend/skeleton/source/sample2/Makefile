@@ -155,6 +155,12 @@ generate-api-data:
 	  --api-documentation-json-file api/script/data.js \
 	  --cache-directory $(CACHE)
 
+generate-pretty:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --pretty-print \
+	  --cache-directory $(CACHE)
+
 
 
 ###################################################################################
