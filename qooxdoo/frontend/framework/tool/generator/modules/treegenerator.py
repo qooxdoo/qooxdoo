@@ -300,24 +300,27 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     stream.expectCurrType("token", "RP")
     stream.next(item, True)
     item = readObjectOperation(stream, item)
-  elif expressionMode and stream.currIsType("string"):
+  elif stream.currIsType("string"):
     item = createItemNode("constant", stream)
     item.set("constantType", "string")
     item.set("value", stream.currSource())
     item.set("detail", stream.currDetail())
     stream.next(item, True)
-    # Allow function calls for strings. E.g.: "a string".match(...)
-    item = readObjectOperation(stream, item, True)
-  elif expressionMode and stream.currIsType("number"):
+    # This is a member accessor (E.g. "bla.blubb")
+    item = readObjectOperation(stream, item)
+  elif stream.currIsType("number"):
     item = createItemNode("constant", stream)
     item.set("constantType", "number")
     item.set("value", stream.currSource())
     stream.next(item, True)
-  elif expressionMode and stream.currIsType("regexp"):
+    # This is a member accessor (E.g. "bla.blubb")
+    item = readObjectOperation(stream, item)
+  elif stream.currIsType("regexp"):
     item = createItemNode("constant", stream)
     item.set("constantType", "regexp")
     item.set("value", stream.currSource())
     stream.next(item, True)
+    # This is a member accessor (E.g. "bla.blubb")
     item = readObjectOperation(stream, item)
   elif expressionMode and (stream.currIsType("protected", "TRUE") or stream.currIsType("protected", "FALSE")):
     item = createItemNode("constant", stream)
@@ -530,8 +533,14 @@ def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
     item = createItemNode("accessor", stream)
     stream.next(item)
     item.addListChild("left", operand)
-    variable = readVariable(stream, False)
-    item.addListChild("right", readObjectOperation(stream, variable))
+
+    # special mode for constants which should be assigned to an accessor first
+    if operand.type == "constant":
+      item.addListChild("right", readVariable(stream, False))
+      item = readObjectOperation(stream, item)
+    else:
+      item.addListChild("right", readObjectOperation(stream, readVariable(stream, False)))
+
   elif stream.currIsType("token", "LP"):
     # This is a function call (E.g. "bla(...)")
     item = createItemNode("call", stream)
