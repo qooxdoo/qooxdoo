@@ -469,24 +469,6 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  if (this._selectionModel != null) {
-    this._selectionModel.removeEventListener("selectionChanged", this._onSelectionChanged, this);
-  }
-
-  if (this._tableModel != null) {
-    this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-    this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-  }
-
-  if (this._tableColumnModel != null) {
-    this._tableColumnModel.removeEventListener("widthChanged", this._onWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
-  }
-
-  if (this._tablePaneModel != null) {
-    this._tablePaneModel.removeEventListener(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED, this._onPaneModelChanged, this);
-  }
-
   this._cleanUpRows(0);
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
