@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, prettyprint
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, compiler
 
 
 
@@ -79,7 +79,8 @@ def getparser():
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
-  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new tree compiler (not recommended).")
+  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new compiler (not recommended).")
+  parser.add_option("--use-tree-compiler", action="store_true", dest="useTreeCompiler", default=False, help="Use old tree compiler instead of new compiler (not recommended).")
 
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
@@ -857,7 +858,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      prettyFileContent = prettyprint.compile(loader.getTree(fileDb, fileId, options))
+      prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options))
 
       if options.addFileIds:
         prettyOutput += "\n\n\n/* ID: " + fileId + " */\n" + prettyFileContent + "\n"
@@ -894,11 +895,16 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         print "  * Compiling tokens..."
       else:
         print "  * Compiling tokens: ",
-    else:
+    elif options.useTreeCompiler:
       if options.verbose:
         print "  * Compiling tree..."
       else:
         print "  * Compiling tree: ",
+    else:
+      if options.verbose:
+        print "  * Compiling..."
+      else:
+        print "  * Compiling: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -909,8 +915,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
       if options.useTokenCompiler:
         compiledFileContent = tokencompiler.compile(loader.getTokens(fileDb, fileId, options), options.addNewLines, options.enableDebug)
-      else:
+      elif options.useTreeCompiler:
         compiledFileContent = treecompiler.compile(loader.getTree(fileDb, fileId, options), options.addNewLines, options.enableDebug)
+      else:
+        compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), False, options.addNewLines, options.enableDebug)
 
       if options.addFileIds:
         compiledOutput += "\n\n\n/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
