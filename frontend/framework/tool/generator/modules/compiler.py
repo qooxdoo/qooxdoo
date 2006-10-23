@@ -1340,6 +1340,7 @@ def main():
 
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
   parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+  parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
 
   (options, args) = parser.parse_args()
 
@@ -1353,7 +1354,7 @@ def main():
     else:
       print "Compiling %s => stdout" % fileName
 
-    compiledString = compile(treegenerator.createSyntaxTree(tokenizer.parseFile(fileName)))
+    compiledString = compile(treegenerator.createSyntaxTree(tokenizer.parseFile(fileName)), not options.compress)
     if options.write:
       filetool.save(fileName + options.extension, compiledString)
 
