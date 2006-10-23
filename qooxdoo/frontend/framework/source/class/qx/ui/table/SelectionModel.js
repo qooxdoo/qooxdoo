@@ -24,7 +24,7 @@
 /**
  * A selection model.
  *
- * @event selectionChanged {qx.event.type.Event} Fired when the selection has
+ * @event changeSelection {qx.event.type.Event} Fired when the selection has
  *        changed.
  */
 qx.OO.defineClass("qx.ui.table.SelectionModel", qx.core.Target,
@@ -101,7 +101,7 @@ qx.Proto.setBatchMode = function(batchMode) {
     this.hasBatchModeRefCount -= 1;
     if (this._hadChangeEventInBatchMode){
       this._hadChangeEventInBatchMode = false;
-      this._fireSelectionChanged();
+      this._fireChangeSelection();
     }
   }
   return this.hasBatchMode();
@@ -146,7 +146,7 @@ qx.Proto.getLeadSelectionIndex = function() {
 qx.Proto.clearSelection = function() {
   if (! this.isSelectionEmpty()) {
     this._clearSelection();
-    this._fireSelectionChanged();
+    this._fireChangeSelection();
   }
 }
 
@@ -259,7 +259,7 @@ qx.Proto.setSelectionInterval = function(fromIndex, toIndex) {
   this._clearSelection();
   this._addSelectionInterval(fromIndex, toIndex);
 
-  this._fireSelectionChanged();
+  this._fireChangeSelection();
 }
 
 
@@ -276,7 +276,7 @@ qx.Proto.addSelectionInterval = function(fromIndex, toIndex) {
       return;
     case SelectionModel.MULTIPLE_INTERVAL_SELECTION:
       this._addSelectionInterval(fromIndex, toIndex);
-      this._fireSelectionChanged();
+      this._fireChangeSelection();
       break;
     default:
       this.setSelectionInterval(fromIndex, toIndex);
@@ -337,7 +337,7 @@ qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
 
   //this._dumpRanges();
 
-  this._fireSelectionChanged();
+  this._fireChangeSelection();
 }
 
 
@@ -412,16 +412,16 @@ qx.Proto._dumpRanges = function() {
 
 
 /**
- * Fires the "selectionChanged" event to all registered listeners. If the selection model
+ * Fires the "changeSelection" event to all registered listeners. If the selection model
  * currently is in batch mode, only one event will be thrown when batch mode is ended.
  */
-qx.Proto._fireSelectionChanged = function() {
+qx.Proto._fireChangeSelection = function() {
   //In batch mode, remember event but do not throw (yet)
   if (this.hasBatchMode()){
     this._hadChangeEventInBatchMode = true;
   
   //If not in batch mode, throw event
-  } else if (this.hasEventListeners("selectionChanged")) {
-    this.dispatchEvent(new qx.event.type.Event("selectionChanged"), true);
+  } else if (this.hasEventListeners("changeSelection")) {
+    this.dispatchEvent(new qx.event.type.Event("changeSelection"), true);
   }
 }

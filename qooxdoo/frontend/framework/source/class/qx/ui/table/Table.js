@@ -107,9 +107,9 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
   this._selectionManager.setSelectionModel(propValue);
 
   if (propOldValue != null) {
-    propOldValue.removeEventListener("selectionChanged", this._onSelectionChanged, this);
+    propOldValue.removeEventListener("changeSelection", this._onSelectionChanged, this);
   }
-  propValue.addEventListener("selectionChanged", this._onSelectionChanged, this);
+  propValue.addEventListener("changeSelection", this._onSelectionChanged, this);
 
   return true;
 }
@@ -978,10 +978,22 @@ qx.Proto.dispose = function() {
 
   this._cleanUpMetaColumns(0);
 
-  if (this._tableColumnModel) {
-    this._tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-    this._tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
+  var selectionModel = this.getSelectionModel();
+  if (selectionModel != null) {
+    selectionModel.removeEventListener("changeSelection", this._onSelectionChanged, this);
+  }
+
+  var tableModel = this.getTableModel();
+  if (tableModel != null) {
+    tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+    tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+  }
+
+  var tableColumnModel = this.getTableColumnModel();
+  if (tableColumnModel) {
+    tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
+    tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
+    tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);

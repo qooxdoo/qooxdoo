@@ -292,19 +292,6 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  if (this._tableModel != null) {
-    this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-  }
-
-  if (this._tableColumnModel != null) {
-    this._tableColumnModel.removeEventListener("widthChanged", this._onWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
-  }
-
-  if (this._tablePaneModel != null) {
-    this._tablePaneModel.removeEventListener("modelChanged", this._onPaneModelChanged, this);
-  }
-
   this._cleanUpCells();
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);

@@ -1279,10 +1279,9 @@ qx.Proto.dispose = function() {
   this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick, this);
   this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout, this);
 
-  if (this._tableColumnModel != null) {
-    this._tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-    this._tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
-    this._tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
+  var tablePaneModel = this.getTablePaneModel();
+  if (tablePaneModel != null) {
+    tablePaneModel.removeEventListener("modelChanged", this._onPaneModelChanged, this);
   }
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
