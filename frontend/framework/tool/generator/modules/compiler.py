@@ -11,29 +11,27 @@ def compileToken(name, compact=False):
   global pretty
 
 
-  ret = ""
-
   if name in [ "INC", "DEC", "TYPEOF" ]:
     pass
 
   elif name in [ "INSTANCEOF", "IN" ]:
-    ret += " "
+    space()
 
   elif not compact and pretty:
-    ret += " "
+    space()
 
 
 
   if name == None:
-    ret += "="
+    write("=")
 
   elif name in [ "TYPEOF", "INSTANCEOF", "IN" ]:
-    ret += name.lower()
+    write(name.lower())
 
   else:
     for key in config.JSTOKENS:
       if config.JSTOKENS[key] == name:
-        ret += key
+        write(key)
 
 
 
@@ -41,12 +39,10 @@ def compileToken(name, compact=False):
     pass
 
   elif name in [ "TYPEOF", "INSTANCEOF", "IN" ]:
-    ret += " "
+    space()
 
   elif not compact and pretty:
-    ret += " "
-
-  return ret
+    space()
 
 
 def space(force=True):
@@ -493,7 +489,7 @@ def compileNode(node):
 
       # be compact in for-loops
       compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-      write(compileToken(oper, compact))
+      compileToken(oper, compact)
 
 
 
@@ -863,10 +859,10 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       write("(")
 
-    # operation
+    # operation (var a = -1)
     elif node.parent.type == "operation":
       if node.parent.get("left", False) == True:
-        write(compileToken(node.parent.get("operator")))
+        compileToken(node.parent.get("operator"), True)
 
 
   #
@@ -1021,7 +1017,7 @@ def compileNode(node):
 
       # be compact in for-loops
       compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-      write(compileToken(oper, compact))
+      compileToken(oper, compact)
 
 
 
@@ -1234,7 +1230,7 @@ def compileNode(node):
         realNode = node.parent
 
       compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
-      write(compileToken(oper, compact))
+      compileToken(oper, compact)
 
 
   #
