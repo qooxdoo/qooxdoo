@@ -35,7 +35,7 @@ all: build
 source: generate-source
 build: generate-build
 debug: generate-debug
-
+pretty: generate-pretty
 
 
 ###################################################################################
