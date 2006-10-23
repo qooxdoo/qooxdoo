@@ -92,7 +92,7 @@ def write(txt=""):
     while not result.endswith("\n" * nr):
       result += "\n"
 
-  elif breaks:
+  elif breaks and not result.endswith("\n"):
     if afterDivider or afterBreak or afterLine:
       result += "\n"
 
@@ -101,10 +101,9 @@ def write(txt=""):
   afterBreak = False
   afterDivider = False
 
-  if pretty:
-    # add indent (if needed)
-    if result.endswith("\n"):
-      result += ("  " * indent)
+  # add indent (if needed)
+  if pretty and result.endswith("\n"):
+    result += ("  " * indent)
 
   # append given text
   result += txt
@@ -147,11 +146,15 @@ def minus():
 
 def semicolon():
   global result
+  global breaks
 
   noline()
 
   if not (result.endswith("\n") or result.endswith(";")):
     write(";")
+
+    if breaks:
+      result += "\n"
 
 
 def comment(node):
@@ -214,20 +217,12 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 
   compileNode(node)
 
-  if not pretty:
-    optimize()
-
   return result
 
 
 
 
 
-
-def optimize():
-  global result
-
-  result = result.replace(";}", "}")
 
 
 
@@ -552,12 +547,14 @@ def compileNode(node):
   ##################################
 
   elif node.type == "case":
-    # force double new lines
-    if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
-      sep()
+    if pretty:
+      # force double new lines
+      if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
+        sep()
 
-    minus()
-    line()
+      minus()
+      line()
+
     write("case")
     space()
 
@@ -567,14 +564,18 @@ def compileNode(node):
   ##################################
 
   elif node.type == "default":
-    minus()
+    if pretty:
+      minus()
 
-    # force double new lines
-    sep()
+      # force double new lines
+      sep()
+
     write("default")
     write(":")
-    plus()
-    line()
+
+    if pretty:
+      plus()
+      line()
 
 
 
