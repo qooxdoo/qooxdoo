@@ -28,11 +28,11 @@ S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
 S_OPERATORS_4 = r"(\>\>\>=)"
 S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
-S_REGEXP = "(\/[^\t\n\r\f\v]+?\/[mgi]*)"
+S_REGEXP = "(\/[^\t\n\r\f\v!\/]+?\/[mgi]*)"
 S_REGEXP_A = "\.(match|search|split)\s*\(\s*" + S_REGEXP + "\s*\)"
 S_REGEXP_B = "\.(replace)\s*\(\s*" + S_REGEXP + "\s*,"
 S_REGEXP_C = S_REGEXP + "\.(test|exec)\s*\(\s*"
-S_REGEXP_D = S_REGEXP
+S_REGEXP_D = "(:|=)\s*" + S_REGEXP
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
 S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
@@ -257,28 +257,12 @@ def parseStream(content, uniqueId):
       if fragresult:
         # print "Type:RegExp: %s" % fragresult.group(0)
 
-        validregexp = False
-
-        if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment):
-          validregexp = True
-
-        elif R_REGEXP_D.match(fragment):
-          pos = content.find(fragment)
-          if pos > 0:
-            lead = content[0:pos].strip()
-
-            # Seems to be an assignment, the only valid other case (maybe currently ;))
-            if lead.endswith("=") or lead.endswith(":"):
-              validregexp = True
-
-        if validregexp:
+        if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment) or R_REGEXP_D.match(fragment):
           content = parseFragmentLead(content, fragresult.group(0), tokens)
           tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine })
-        else:
-          # print "Ignore regexp like code: %s" % fragment
 
-          content = parseFragmentLead(content, fragresult.group(0), tokens)
-          tokens.extend(parsePart(recoverEscape(fragment)))
+        else:
+          print "Bad regular expression: %s" % fragresult.group(0)
 
       else:
         print "Type:None!"
