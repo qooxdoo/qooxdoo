@@ -479,7 +479,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
   ######################################################################
-  #  GENERATION OF COMPILED VERSION
+  #  GENERATION OF PRETTY PRINTED CODE
   ######################################################################
 
   if options.prettyPrint:
@@ -500,6 +500,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.flush()
 
       prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), True)
+
+      if not prettyFileContent.endswith("\n"):
+        prettyFileContent += "\n"
 
       filetool.save(fileDb[fileId]["path"], prettyFileContent)
 
