@@ -147,3 +147,9 @@ generate-debug:
 	  --store-tree \
 	  --store-tokens \
 	  --cache-directory $(CACHE)
+
+generate-pretty:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --pretty-print \
+	  --cache-directory $(CACHE)
