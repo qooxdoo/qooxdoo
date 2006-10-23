@@ -378,6 +378,10 @@ def search(node, names):
               if name.startswith(item):
                 ignore = True
 
+          # only apply to names which starts with an underscore
+          if not name.startswith("_"):
+            ignore = True
+
           if not ignore:
             if not names.has_key(name):
               # print "Add %s" % name
