@@ -63,7 +63,7 @@ distclean: realclean
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) find tool -name "*.pyc" | xargs rm -f
-	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" -o -name "*.compiled" | xargs rm -rf
 
 
 
