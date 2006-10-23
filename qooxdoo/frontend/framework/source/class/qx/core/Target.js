@@ -267,19 +267,17 @@ qx.Proto.dispose = function()
   {
     for (var vType in this._listeners)
     {
-      for (var vKey in this._listeners[vType])
+      var listener = this._listeners[vType];
+      for (var vKey in listener)
       {
-        this._listeners[vType][vKey] = null;
-        delete this._listeners[vType][vKey];
+        listener[vKey] = null;
       }
 
       this._listeners[vType] = null;
-      delete this._listeners[vType];
     }
   }
 
   this._listeners = null;
-  delete this._listeners;
 
   return qx.core.Object.prototype.dispose.call(this);
 }
