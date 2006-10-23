@@ -753,7 +753,7 @@ def compileNode(node):
       # No separation after case statements
       if prev != None and prev.type in [ "case", "default" ]:
         pass
-      else:
+      elif node.getChild("statement").hasChild("block") or node.hasChild("elseStatement"):
         sep()
 
     loopType = node.get("loopType")
@@ -1169,7 +1169,8 @@ def compileNode(node):
 
       # Force a additinal line feed after each loop
       if not node.isLastChild():
-        sep()
+        if node.getChild("statement").hasChild("block") or node.hasChild("elseStatement"):
+          sep()
 
 
   #
