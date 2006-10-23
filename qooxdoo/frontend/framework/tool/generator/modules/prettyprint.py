@@ -8,6 +8,9 @@ KEY = re.compile("^[A-Za-z0-9_]+$")
 
 
 def compileToken(name, compact=False):
+  global pretty
+
+
   ret = ""
 
   if name in [ "INC", "DEC", "TYPEOF" ]:
@@ -16,7 +19,7 @@ def compileToken(name, compact=False):
   elif name in [ "INSTANCEOF", "IN" ]:
     ret += " "
 
-  elif not compact:
+  elif not compact and pretty:
     ret += " "
 
 
@@ -40,17 +43,21 @@ def compileToken(name, compact=False):
   elif name in [ "TYPEOF", "INSTANCEOF", "IN" ]:
     ret += " "
 
-  elif not compact:
+  elif not compact and pretty:
     ret += " "
 
   return ret
 
 
-def space():
+def space(force=True):
   global indent
+  global result
+  global pretty
   global afterLine
   global afterBreak
-  global result
+
+  if not force and not pretty:
+    return
 
   if afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
     return
@@ -60,36 +67,44 @@ def space():
 
 def write(txt=""):
   global indent
+  global result
+  global pretty
+  global breaks
   global afterLine
   global afterBreak
   global afterDivider
-  global result
 
   # strip remaining whitespaces
   if (afterLine or afterBreak or afterDivider) and result.endswith(" "):
     result = result.rstrip()
 
-  # handle new line wishes
-  if afterDivider:
-    nr = 6
-  elif afterBreak:
-    nr = 2
-  elif afterLine:
-    nr = 1
-  else:
-    nr = 0
+  if pretty:
+    # handle new line wishes
+    if afterDivider:
+      nr = 6
+    elif afterBreak:
+      nr = 2
+    elif afterLine:
+      nr = 1
+    else:
+      nr = 0
 
-  while not result.endswith("\n" * nr):
-    result += "\n"
+    while not result.endswith("\n" * nr):
+      result += "\n"
+
+  elif breaks:
+    if afterDivider or afterBreak or afterLine:
+      result += "\n"
 
   # reset
   afterLine = False
   afterBreak = False
   afterDivider = False
 
-  # add indent (if needed)
-  if result.endswith("\n"):
-    result += ("  " * indent)
+  if pretty:
+    # add indent (if needed)
+    if result.endswith("\n"):
+      result += ("  " * indent)
 
   # append given text
   result += txt
@@ -140,6 +155,11 @@ def semicolon():
 
 
 def comment(node):
+  global pretty
+
+  if not pretty:
+    return
+
   commentText = ""
   commentIsInline = False
 
@@ -173,20 +193,29 @@ def comment(node):
 
 
 
-def compile(node):
+def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global indent
+  global result
+  global pretty
+  global debug
+  global breaks
   global afterLine
   global afterBreak
   global afterDivider
-  global result
 
   indent = 0
   result = ""
+  pretty = enablePretty
+  debug = enableDebug
+  breaks = enableBreaks
   afterLine = False
   afterBreak = False
   afterDivider = False
 
   compileNode(node)
+
+  if not pretty:
+    optimize()
 
   return result
 
@@ -195,18 +224,30 @@ def compile(node):
 
 
 
+def optimize():
+  global result
+
+  result = result.replace(";}", "}")
+
+
 
 
 
 def compileNode(node):
 
+  global pretty
+
+
+
+
   #####################################################################################################################
   # Recover styling
   #####################################################################################################################
 
-  # Recover exclicit breaks
-  if node.get("breakBefore", False) and not node.isFirstChild(True):
-    sep()
+  if pretty:
+    # Recover exclicit breaks
+    if node.get("breakBefore", False) and not node.isFirstChild(True):
+      sep()
 
 
 
@@ -216,46 +257,47 @@ def compileNode(node):
   # Insert comments before
   #####################################################################################################################
 
-  if node.getChild("commentsBefore", False) != None:
-    commentCounter = 0
-    commentsBefore = node.getChild("commentsBefore")
-    isFirst = node.isFirstChild()
-    previous = node.getPreviousSibling(False, True)
+  if pretty:
+    if node.getChild("commentsBefore", False) != None:
+      commentCounter = 0
+      commentsBefore = node.getChild("commentsBefore")
+      isFirst = node.isFirstChild()
+      previous = node.getPreviousSibling(False, True)
 
-    if previous and previous.type in [ "case", "default" ]:
-      inCase = True
-    else:
-      inCase = False
-
-    for child in commentsBefore.children:
-      docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
-      headComment = child.get("detail") == "header"
-      divComment = child.get("detail") == "divider"
-      blockComment = child.get("detail") ==  "block"
-
-      if not child.isFirstChild():
-        pass
-
-      elif inCase:
-        pass
-
-      elif divComment:
-        divide()
-
-      elif not isFirst:
-        sep()
-
-      elif not headComment:
-        line()
-
-      write(child.get("text"))
-
-      # separator after divider/head comments and after block comments which are not for documentation
-      if headComment or divComment or blockComment:
-        sep()
-
+      if previous and previous.type in [ "case", "default" ]:
+        inCase = True
       else:
-        line()
+        inCase = False
+
+      for child in commentsBefore.children:
+        docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
+        headComment = child.get("detail") == "header"
+        divComment = child.get("detail") == "divider"
+        blockComment = child.get("detail") ==  "block"
+
+        if not child.isFirstChild():
+          pass
+
+        elif inCase:
+          pass
+
+        elif divComment:
+          divide()
+
+        elif not isFirst:
+          sep()
+
+        elif not headComment:
+          line()
+
+        write(child.get("text"))
+
+        # separator after divider/head comments and after block comments which are not for documentation
+        if headComment or divComment or blockComment:
+          sep()
+
+        else:
+          line()
 
 
 
@@ -415,19 +457,20 @@ def compileNode(node):
   ##################################
 
   elif node.type == "comment":
-    # insert a space before and no newline in the case of after comments
-    if node.get("connection") == "after":
-      noline()
-      space()
+    if pretty:
+      # insert a space before and no newline in the case of after comments
+      if node.get("connection") == "after":
+        noline()
+        space()
 
-    write(node.get("text"))
+      write(node.get("text"))
 
-    # new line after inline comment (for example for syntactical reasons)
-    if node.get("detail") == "inline":
-      line()
+      # new line after inline comment (for example for syntactical reasons)
+      if node.get("detail") == "inline":
+        line()
 
-    else:
-      space()
+      else:
+        space()
 
 
   #
@@ -486,7 +529,7 @@ def compileNode(node):
     write("[")
 
     if node.hasChildren(True):
-      space()
+      space(False)
 
 
   #
@@ -564,10 +607,11 @@ def compileNode(node):
   ##################################
 
   elif node.type == "catch":
-    # If this statement block or the previous try were not complex, be not complex here, too
-    if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
-      noline()
-      space()
+    if pretty:
+      # If this statement block or the previous try were not complex, be not complex here, too
+      if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
+        noline()
+        space()
 
     write("catch")
 
@@ -584,21 +628,23 @@ def compileNode(node):
   elif node.type == "map":
     par = node.parent
 
-    # No break before return statement
-    if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
-      pass
+    if pretty:
+      # No break before return statement
+      if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
+        pass
 
-    elif node.isComplex():
-      line()
+      elif node.isComplex():
+        line()
 
     write("{")
 
-    if node.isComplex():
-      line()
-      plus()
+    if pretty:
+      if node.isComplex():
+        line()
+        plus()
 
-    elif node.hasChildren(True):
-      space()
+      elif node.hasChildren(True):
+        space()
 
 
   #
@@ -620,20 +666,20 @@ def compileNode(node):
       print "Warning: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    if node.getChild("value").isComplex() and not node.isFirstChild(True):
+    if pretty and node.getChild("value").isComplex() and not node.isFirstChild(True):
       sep()
 
     write(keyString)
-    space()
+    space(False)
 
     # Fill with spaces
     # Do this only if the parent is complex (many entries)
     # But not if the value itself is complex
-    if node.parent.isComplex() and not node.getChild("value").isComplex():
+    if pretty and node.parent.isComplex() and not node.getChild("value").isComplex():
       write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
 
     write(":")
-    space()
+    space(False)
 
 
 
@@ -646,26 +692,39 @@ def compileNode(node):
   ##################################
 
   elif node.type == "block":
-    if node.hasChildren():
-      if node.isComplex():
-        line()
-
-      # in else, try to find the mode of the previous if first
-      elif node.hasParent() and node.parent.type == "elseStatement":
-        stmnt = node.parent.parent.getChild("statement")
-
-        if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
+    if pretty:
+      if node.hasChildren():
+        if node.isComplex():
           line()
 
-        else:
-          space()
-
-      # in if, try to find the mode of the parent if (if existent)
-      elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
-        if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
-          stmnt = node.parent.parent.parent.parent.getChild("statement")
+        # in else, try to find the mode of the previous if first
+        elif node.hasParent() and node.parent.type == "elseStatement":
+          stmnt = node.parent.parent.getChild("statement")
 
           if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
+            line()
+
+          else:
+            space()
+
+        # in if, try to find the mode of the parent if (if existent)
+        elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
+
+          if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
+            stmnt = node.parent.parent.parent.parent.getChild("statement")
+
+            if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
+              line()
+
+            else:
+              space()
+
+          else:
+            space()
+
+        # in catch/finally, try to find the mode of the try statement
+        elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
+          if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
             line()
 
           else:
@@ -674,25 +733,15 @@ def compileNode(node):
         else:
           space()
 
-      # in catch/finally, try to find the mode of the try statement
-      elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
-        if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
-          line()
-
-        else:
-          space()
-
       else:
         space()
 
-    else:
-      space()
-
     write("{")
 
-    if node.hasChildren():
-      plus()
-      line()
+    if pretty:
+      if node.hasChildren():
+        plus()
+        line()
 
 
   #
@@ -714,26 +763,27 @@ def compileNode(node):
 
     if loopType == "IF":
       write("if")
-      space()
+      space(False)
 
     elif loopType == "WHILE":
       write("while")
-      space()
+      space(False)
 
     elif loopType == "FOR":
       write("for")
-      space()
+      space(False)
 
     elif loopType == "DO":
       write("do")
-      space()
+      space(False)
 
     elif loopType == "WITH":
       write("with")
-      space()
+      space(False)
 
     else:
       print "Warning: Unknown loop type: %s" % loopType
+
 
 
   #
@@ -744,7 +794,7 @@ def compileNode(node):
     if node.hasChild("commentsBefore"):
       pass
 
-    else:
+    elif pretty:
       # If this statement block and the previous were not complex, be not complex here, too
       inner = node.getChild("block", False)
 
@@ -778,15 +828,18 @@ def compileNode(node):
 
       # only do-while loops
       if loopType == "DO":
-        stmnt = node.parent.getChild("statement")
-        compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
+        if pretty:
+          stmnt = node.parent.getChild("statement")
+          compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
 
-        if compact:
-          noline()
-          space()
+          if compact:
+            noline()
+            space()
 
         write("while")
-        space()
+
+        if pretty:
+          space()
 
       # open expression block of IF/WHILE/DO-WHILE/FOR statements
       write("(")
@@ -824,7 +877,7 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       if not node.parent.hasChild("first"):
         write("(;")
-        space()
+        space(False)
 
 
   #
@@ -840,7 +893,7 @@ def compileNode(node):
         else:
           write("(;;")
 
-        space()
+        space(False)
 
 
   #
@@ -863,7 +916,7 @@ def compileNode(node):
       write(")")
 
       if not node.hasChild("block"):
-        space()
+        space(False)
 
 
 
@@ -923,14 +976,16 @@ def compileNode(node):
   elif node.type == "keyvalue":
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
       write(",")
-      comment(node)
 
-      if node.getChild("value").isComplex():
-        sep()
-      elif node.parent.isComplex():
-        line()
-      else:
-        space()
+      if pretty:
+        comment(node)
+
+        if node.getChild("value").isComplex():
+          sep()
+        elif node.parent.isComplex():
+          line()
+        else:
+          space()
 
 
   #
@@ -940,12 +995,14 @@ def compileNode(node):
   elif node.type == "definition":
     if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
       write(",")
-      comment(node)
 
-      if node.hasComplexChildren():
-        line()
-      else:
-        space()
+      if pretty:
+        comment(node)
+
+        if node.hasComplexChildren():
+          line()
+        else:
+          space()
 
 
   #
@@ -993,7 +1050,7 @@ def compileNode(node):
 
   elif node.type == "array":
     if node.hasChildren(True):
-      space()
+      space(False)
 
     write("]")
 
@@ -1014,18 +1071,15 @@ def compileNode(node):
   ##################################
 
   elif node.type == "map":
-    if node.isComplex():
-      line()
-      minus()
+    if pretty:
+      if node.isComplex():
+        line()
+        minus()
 
-    elif node.hasChildren(True):
-      space()
+      elif node.hasChildren(True):
+        space()
 
     write("}")
-
-    # If this thing was indented (to much content for one line)
-    if hasattr(node, "indented") and node.indented:
-      minus()
 
 
 
@@ -1038,15 +1092,19 @@ def compileNode(node):
 
   elif node.type == "switch":
     if node.get("switchType") == "case":
-      minus()
-      minus()
-      line()
+      if pretty:
+        minus()
+        minus()
+        line()
+
       write("}")
-      comment(node)
-      line()
+
+      if pretty:
+        comment(node)
+        line()
 
     # Force a additinal line feed after each switch/try
-    if not node.isLastChild():
+    if pretty and not node.isLastChild():
       sep()
 
 
@@ -1056,9 +1114,11 @@ def compileNode(node):
 
   elif node.type == "case":
     write(":")
-    comment(node)
-    plus()
-    line()
+
+    if pretty:
+      comment(node)
+      plus()
+      line()
 
 
 
@@ -1072,29 +1132,31 @@ def compileNode(node):
   ##################################
 
   elif node.type == "block":
-    if node.hasChildren():
+    if pretty and node.hasChildren():
       minus()
       line()
 
     write("}")
-    comment(node)
 
-    if node.hasChildren():
-      # Newline afterwards
-      if node.parent.type == "body" and node.parent.parent.type == "function":
+    if pretty:
+      comment(node)
 
-        # But only when this isn't a function block inside a assignment
-        if node.parent.parent.parent.type in [ "right", "params" ]:
-          pass
+      if node.hasChildren():
+        # Newline afterwards
+        if node.parent.type == "body" and node.parent.parent.type == "function":
 
-        elif node.parent.parent.parent.type == "value" and node.parent.parent.parent.parent.type == "keyvalue":
-          pass
+          # But only when this isn't a function block inside a assignment
+          if node.parent.parent.parent.type in [ "right", "params" ]:
+            pass
+
+          elif node.parent.parent.parent.type == "value" and node.parent.parent.parent.parent.type == "keyvalue":
+            pass
+
+          else:
+            line()
 
         else:
           line()
-
-      else:
-        line()
 
 
   #
@@ -1105,11 +1167,12 @@ def compileNode(node):
     if node.get("loopType") == "DO":
       semicolon()
 
-    comment(node)
+    if pretty:
+      comment(node)
 
-    # Force a additinal line feed after each loop
-    if not node.isLastChild():
-      sep()
+      # Force a additinal line feed after each loop
+      if not node.isLastChild():
+        sep()
 
 
   #
@@ -1128,18 +1191,23 @@ def compileNode(node):
         pass
 
       else:
-        space()
+        space(False)
 
     elif node.parent.type == "catch":
       write(")")
 
     elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
       write(")")
-      comment(node)
-      line()
+
+      if pretty:
+        comment(node)
+        line()
+
       write("{")
-      plus()
-      plus()
+
+      if pretty:
+        plus()
+        plus()
 
 
   #
@@ -1153,7 +1221,7 @@ def compileNode(node):
         write(";")
 
         if node.parent.hasChild("second"):
-          space()
+          space(False)
 
     # operation
     elif node.parent.type == "operation" and node.parent.get("left", False) != True:
@@ -1176,13 +1244,13 @@ def compileNode(node):
     # for loop
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       write(";")
-      space()
+      space(False)
 
     # (?: operation)
     elif node.parent.type == "operation" and node.parent.get("operator") == "HOOK":
-      space()
+      space(False)
       write(":")
-      space()
+      space(False)
 
 
 
@@ -1202,12 +1270,14 @@ def compileNode(node):
     if node.parent.type in [ "array", "params", "statementList" ]:
       if not node.isLastChild(True):
         write(",")
-        comment(node)
 
-        if node.isComplex():
-          line()
-        else:
-          space()
+        if pretty:
+          comment(node)
+
+          if node.isComplex():
+            line()
+          else:
+            space()
 
     # Semicolon handling
     elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
@@ -1215,37 +1285,44 @@ def compileNode(node):
       # Default semicolon handling
       if node.parent.type in [ "block", "file" ]:
         semicolon()
-        comment(node)
-        line()
 
-        if node.isComplex() and not node.isLastChild():
-          sep()
+        if pretty:
+          comment(node)
+          line()
+
+          if node.isComplex() and not node.isLastChild():
+            sep()
 
       # Special handling for switch statements
       elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case":
         semicolon()
-        comment(node)
-        line()
 
-        if node.isComplex() and not node.isLastChild():
-          sep()
+        if pretty:
+          comment(node)
+          line()
+
+          if node.isComplex() and not node.isLastChild():
+            sep()
 
       # Special handling for loops (e.g. if) without blocks {}
       elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop":
         semicolon()
-        comment(node)
-        line()
 
-        if node.isComplex() and not node.isLastChild():
-          sep()
+        if pretty:
+          comment(node)
+          line()
+
+          if node.isComplex() and not node.isLastChild():
+            sep()
 
 
   #
   # CLOSE: OTHER
   ##################################
 
-  # Rest of the after comments (not inserted previously)
-  comment(node)
+  if pretty:
+    # Rest of the after comments (not inserted previously)
+    comment(node)
 
 
 
