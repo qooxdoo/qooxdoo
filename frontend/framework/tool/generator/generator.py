@@ -487,12 +487,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF PRETTY PRINTED CODE:"
     print "----------------------------------------------------------------------------"
 
-    if options.compiledScriptFile == None:
-      print "    * You must define the compiled script file!"
-      sys.exit(1)
-
-    prettyOutput = ""
-
     if options.verbose:
       print "  * Pretty printing..."
     else:
@@ -660,7 +654,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "----------------------------------------------------------------------------"
 
     if options.tokenOutputDirectory == None:
-      print "    * You must define the token output directory!"
+      print "  * You must define the token output directory!"
       sys.exit(1)
 
     if options.verbose:
@@ -695,7 +689,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "----------------------------------------------------------------------------"
 
     if options.treeOutputDirectory == None:
-      print "    * You must define the tree output directory!"
+      print "  * You must define the tree output directory!"
       sys.exit(1)
 
     if options.verbose:
@@ -731,7 +725,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "----------------------------------------------------------------------------"
 
     if options.apiDocumentationJsonFile == None and options.apiDocumentationXmlFile == None:
-      print "    * You must define one of JSON or XML API documentation file!"
+      print "  * You must define one of JSON or XML API documentation file!"
 
     docTree = None
 
@@ -835,7 +829,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "----------------------------------------------------------------------------"
 
     if options.sourceScriptFile == None:
-      print "    * You must define the source script file!"
+      print "  * You must define the source script file!"
       sys.exit(1)
 
     else:
@@ -885,7 +879,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     compiledOutput = settingsStr + "".join(additionalOutput)
 
     if options.compiledScriptFile == None:
-      print "    * You must define the compiled script file!"
+      print "  * You must define the compiled script file!"
       sys.exit(1)
 
     if options.useTokenCompiler:
