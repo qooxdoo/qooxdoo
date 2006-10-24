@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import sys, optparse, tokenizer, tree, filetool
+import sys, optparse
+import tokenizer, tree, filetool, variableoptimizer
 
 
-SINGLE_LEFT_OPERATORS = [ "NOT", "BITNOT", "SUB", "INC", "DEC" ]
+SINGLE_LEFT_OPERATORS = [ "NOT", "BITNOT", "ADD", "SUB", "INC", "DEC" ]
 
 SINGLE_RIGHT_OPERATORS = [ "INC", "DEC" ]
 
@@ -915,6 +916,8 @@ def main():
 
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
   parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+  parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
   (options, args) = parser.parse_args()
 
@@ -928,7 +931,12 @@ def main():
     else:
       print "Generating tree of %s => stdout" % fileName
 
-    compiledString = tree.nodeToXmlString(createSyntaxTree(tokenizer.parseFile(fileName)))
+    restree = createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
+
+    if options.optimizeVariables:
+      variableoptimizer.search(restree, [], 0, "$")
+
+    compiledString = tree.nodeToXmlString(restree)
     if options.write:
       filetool.save(fileName + options.extension, compiledString)
 
