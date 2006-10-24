@@ -25,7 +25,7 @@
 /**
  * A string builder class
  * <p>
- * += operator is faster in Firefox and Opera. 
+ * += operator is faster in Firefox and Opera.
  * Array push/join is faster in Internet Explorer
  * </p><p>
  * Even with this wrapper, which costs some time, this is
@@ -38,11 +38,12 @@
  * string concatination.</p>
  */
 qx.OO.defineClass("qx.type.StringBuilder", qx.core.Object,
-function(vStr)
+function()
 {
   qx.core.Object.call(this);
 
-  this.init(vStr);
+  this.init();
+  this.add.apply(this, arguments);
 });
 
 
@@ -56,12 +57,12 @@ if (qx.sys.Client.getInstance().isMshtml())
     return this._array.join(qx.constant.Core.EMPTY);
   }
 
-  qx.Proto.add = function(vStr) {
-    this._array.push(vStr);
+  qx.Proto.add = function() {
+    this._array.push.apply(this._array, arguments);
   }
 
-  qx.Proto.init = function(vStr) {
-    vStr !== qx.constant.Core.EMPTY ? this._array = [vStr] : this._array = [];
+  qx.Proto.init = function() {
+    this._array = [];
   }
 
   qx.Proto.dispose = function()
@@ -85,12 +86,12 @@ else
     return this._string;
   }
 
-  qx.Proto.add = function(vStr) {
-    this._string += vStr;
+  qx.Proto.add = function() {
+    this._string += Array.prototype.join.call(arguments, qx.constant.Core.EMPTY);
   }
 
-  qx.Proto.init = function(vStr) {
-    this._string = vStr || qx.constant.Core.EMPTY;
+  qx.Proto.init = function() {
+    this._string = qx.constant.Core.EMPTY;
   }
 
   qx.Proto.dispose = function()
