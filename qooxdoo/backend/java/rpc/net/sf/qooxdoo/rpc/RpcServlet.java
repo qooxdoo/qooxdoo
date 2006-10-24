@@ -316,16 +316,16 @@ public class RpcServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException("Cannot generate a response");
         }
-        String jsTransportId = request.getParameter("_jstransport_id");
+        String jsTransportId = request.getParameter("_ScriptTransport_id");
         if (jsTransportId != null) {
             try {
-                String requestString = request.getParameter("_jstransport_data");
+                String requestString = request.getParameter("_ScriptTransport_data");
                 //System.out.println("Request string: " + requestString);
                 //System.out.println("Session id: " + request.getSession().getId());
                 //System.out.println("Requested session id: " + request.getRequestedSessionId());
                 String res = handleRPC(request, requestString);
                 
-                responseWriter.write("qx.io.remote.JsTransport._requestFinished(\"" +
+                responseWriter.write("qx.io.remote.ScriptTransport._requestFinished(\"" +
                         jsTransportId + "\", " + res + ");");
             } catch (Exception e) {
                 throw new ServletException("Cannot execute remote method", e);
