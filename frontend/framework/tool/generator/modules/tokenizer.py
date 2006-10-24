@@ -275,7 +275,7 @@ def parseStream(content, uniqueId):
 
 
 def parseFile(fileName, uniqueId="", encoding="utf-8"):
-  return parseStream(codecs.open(fileName, "r", encoding).read(), uniqueId)
+  return parseStream(filetool.read(fileName, encoding), uniqueId)
 
 
 
