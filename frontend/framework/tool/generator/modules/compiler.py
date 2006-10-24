@@ -690,46 +690,8 @@ def compileNode(node):
 
   elif node.type == "block":
     if pretty:
-      if node.hasChildren():
-        if node.isComplex():
-          line()
-
-        # in else, try to find the mode of the previous if first
-        elif node.hasParent() and node.parent.type == "elseStatement":
-          stmnt = node.parent.parent.getChild("statement")
-
-          if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
-            line()
-
-          else:
-            space()
-
-        # in if, try to find the mode of the parent if (if existent)
-        elif node.hasParent() and node.parent.type == "statement" and node.parent.parent.type == "loop" and node.parent.parent.get("loopType") == "IF":
-
-          if node.parent.parent.hasParent() and node.parent.parent.parent.type == "elseStatement":
-            stmnt = node.parent.parent.parent.parent.getChild("statement")
-
-            if stmnt.getChild("block", False) and stmnt.getChild("block", False).isComplex():
-              line()
-
-            else:
-              space()
-
-          else:
-            space()
-
-        # in catch/finally, try to find the mode of the try statement
-        elif node.hasParent() and node.parent.hasParent() and node.parent.parent.type in [ "catch", "finally" ]:
-          if node.parent.parent.parent.getChild("statement").getChild("block").isComplex():
-            line()
-
-          else:
-            space()
-
-        else:
-          space()
-
+      if node.isComplex():
+        line()
       else:
         space()
 
@@ -753,8 +715,10 @@ def compileNode(node):
       # No separation after case statements
       if prev != None and prev.type in [ "case", "default" ]:
         pass
-      elif node.getChild("statement").hasChild("block") or node.hasChild("elseStatement"):
+      elif node.hasChild("elseStatement") or node.getChild("statement").hasComplexBlock():
         sep()
+      else:
+        line()
 
     loopType = node.get("loopType")
 
@@ -792,19 +756,7 @@ def compileNode(node):
       pass
 
     elif pretty:
-      # If this statement block and the previous were not complex, be not complex here, too
-      inner = node.getChild("block", False)
-
-      # Find inner IF statement (e.g. if; else if)
-      if not inner and node.hasChild("loop"):
-        inner = node.getChild("loop").getChild("statement").getChild("block", False)
-
-      selfSimple = not inner or not inner.isComplex()
-
-      prev = node.parent.getChild("statement")
-      prevSimple = not prev.hasChild("block") or not prev.getChild("block").isComplex()
-
-      if selfSimple and prevSimple and inner:
+      if not node.isComplex():
         noline()
         space()
 
@@ -1164,8 +1116,13 @@ def compileNode(node):
 
       # Force a additinal line feed after each loop
       if not node.isLastChild():
-        if node.getChild("statement").hasChild("block") or node.hasChild("elseStatement"):
+        if node.hasChild("elseStatement"):
           sep()
+        elif node.getChild("statement").hasChild("block"):
+          if node.getChild("statement").getChild("block").isComplex():
+            sep()
+          else:
+            line()
 
 
   #
