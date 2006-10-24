@@ -1570,7 +1570,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         left : 10,
         backgroundColor : this.bgcolor,
         paddingRight : 3,
-        paddingLeft : 4
+        paddingLeft : 4,
+        marginRight: 10
       });
     }
   },
