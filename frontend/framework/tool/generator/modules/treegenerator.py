@@ -279,7 +279,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     stream.next(item)
 
     # Read optional function name
-    if not expressionMode and stream.currIsType("name"):
+    if stream.currIsType("name"):
       item.set("name", stream.currSource())
       stream.next(item)
 
