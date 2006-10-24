@@ -127,22 +127,57 @@ class Node:
 
 
   def makeComplex(self):
-    if self.isComplex():
-      return True
+    makeComplex = self.get("makeComplex", False)
 
-    elif self.type in [ "loop", "switch", "block", "function", "comment", "commentsBefore", "commentsAfter" ]:
-      return True
-
-    elif self.hasChild("commentsBefore"):
-      return True
+    if makeComplex != None:
+      return makeComplex
 
     else:
-      return self.hasComplexChildren()
+      makeComplex = False
+
+
+
+    if self.type == "comment":
+      makeComplex = True
+
+    elif self.type == "block":
+      if self.hasChildren():
+        counter = 0
+        for child in self.children:
+          if child.type != "commentsAfter":
+            counter += 1
+            if counter > 1:
+              makeComplex = True
+
+    elif self.type == "loop":
+      if self.get("loopType") == "IF" and self.hasParent() and self.parent.type == "elseStatement":
+        pass
+      else:
+        makeComplex = True
+
+    elif self.type == "function":
+      makeComplex = self.getChild("body").hasChild("block") and self.getChild("body").getChild("block").getChildrenLength() > 0
+
+    elif self.type in [ "loop", "switch" ]:
+      makeComplex = True
+
+
+
+    # Final test: Ask the children (slower)
+    if not makeComplex and not self.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+      makeComplex = self.isComplex()
+
+
+    self.set("makeComplex", makeComplex)
+
+    # print "makeComplex: %s = %s" % (self.type, makeComplex)
+
+    return makeComplex
 
 
 
   def isComplex(self):
-    isComplex = self.get("complex", False)
+    isComplex = self.get("isComplex", False)
 
     if isComplex != None:
       return isComplex
@@ -151,8 +186,47 @@ class Node:
       isComplex = False
 
 
-    # First shot: Try the fast way
-    if self.type == "array" :
+
+    if not self.hasChildren():
+      isComplex = False
+
+    elif self.type == "block":
+      counter = 0
+      if self.hasChildren():
+        for child in self.children:
+          if child.type != "commentsAfter":
+            counter += 1
+            if counter > 1:
+              break
+
+      if counter > 1:
+        isComplex = True
+
+      else:
+        if self.getChildrenLength() == 0:
+          isComplex = False
+
+        # in else, try to find the mode of the previous if first
+        elif self.hasParent() and self.parent.type == "elseStatement":
+          isComplex = self.parent.parent.getChild("statement").hasComplexBlock()
+
+        # in if, try to find the mode of the parent if (if existent)
+        elif self.hasParent() and self.parent.type == "statement" and self.parent.parent.type == "loop" and self.parent.parent.get("loopType") == "IF":
+          if self.parent.parent.hasParent() and self.parent.parent.parent.hasParent():
+            if self.parent.parent.parent.parent.type == "loop":
+              isComplex = self.parent.parent.parent.parent.getChild("statement").hasComplexBlock()
+
+        # in catch/finally, try to find the mode of the try statement
+        elif self.hasParent() and self.parent.hasParent() and self.parent.parent.type in [ "catch", "finally" ]:
+          isComplex = self.parent.parent.parent.getChild("statement").hasComplexBlock()
+
+    elif self.type == "elseStatement":
+      if self.hasComplexBlock():
+        isComplex = True
+      elif self.hasChild("loop") and self.getChild("loop").getChild("statement").hasComplexBlock():
+        isComplex = True
+
+    elif self.type == "array" :
       if self.getChildrenLength(True) > 5:
         isComplex = True
 
@@ -160,18 +234,16 @@ class Node:
       if self.getChildrenLength(True) > 2:
         isComplex = True
 
-    elif self.type == "block":
-      if self.getChildrenLength() > 1:
-        isComplex = True
 
 
-    # Second shot: Slower; ask the children
-    if self.hasComplexChildren():
+    # Final test: Ask the children (slower)
+    if not isComplex and self.hasComplexChildren():
       isComplex = True
 
-
     # print self.type + " :: %s" % isComplex
-    self.set("complex", isComplex)
+    self.set("isComplex", isComplex)
+
+    # print "isComplex: %s = %s" % (self.type, isComplex)
 
     return isComplex
 
@@ -186,6 +258,11 @@ class Node:
     return False
 
 
+  def hasComplexBlock(self):
+    if self.hasChild("block"):
+      return self.getChild("block").isComplex()
+
+    return False
 
 
   def getChildPosition(self, searchedChild, ignoreComments = False):
