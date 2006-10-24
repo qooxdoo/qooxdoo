@@ -474,6 +474,7 @@ def main():
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
   parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
   (options, args) = parser.parse_args()
 
@@ -487,7 +488,7 @@ def main():
     else:
       print "Compiling %s => stdout" % fileName
 
-    tree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName))
+    tree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
 
     if options.optimizeVariables:
       variableoptimizer.search(tree, [], 0, "$")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, optparse
-import config, tokenizer, filetool, treegenerator
+import config, tokenizer, filetool, treegenerator, variableoptimizer
 
 KEY = re.compile("^[A-Za-z0-9_]+$")
 
@@ -203,7 +203,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global afterDivider
 
   indent = 0
-  result = ""
+  result = u""
   pretty = enablePretty
   debug = enableDebug
   breaks = enableBreaks
@@ -1309,6 +1309,8 @@ def main():
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
   parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
   parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
+  parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
   (options, args) = parser.parse_args()
 
@@ -1322,7 +1324,12 @@ def main():
     else:
       print "Compiling %s => stdout" % fileName
 
-    compiledString = compile(treegenerator.createSyntaxTree(tokenizer.parseFile(fileName)), not options.compress)
+    restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
+
+    if options.optimizeVariables:
+      variableoptimizer.search(restree, [], 0, "$")
+
+    compiledString = compile(restree, not options.compress)
     if options.write:
       filetool.save(fileName + options.extension, compiledString)
 

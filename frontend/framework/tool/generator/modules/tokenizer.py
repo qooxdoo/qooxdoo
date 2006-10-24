@@ -24,7 +24,7 @@ S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
 S_FLOAT = "([0-9]+\.[0-9]+)"
 
 S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(>>)|(<<)|(\^\|)|(\|=)|(\^=)|(&=)|(::)|(\.\.)"
-S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)"
+S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)|(\>\>\>)"
 S_OPERATORS_4 = r"(\>\>\>=)"
 S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
@@ -163,12 +163,6 @@ def hasLeadingContent(tokens):
 
 
 def parseStream(content, uniqueId):
-  # dos2unix
-  content = content.replace("\r\n", "\n")
-
-  # mac2unix
-  content = content.replace("\r", "\n")
-
   # make global variables available
   global parseLine
   global parseUniqueId
@@ -297,6 +291,7 @@ def main():
 
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
   parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".tokenized")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
   (options, args) = parser.parse_args()
 
@@ -310,7 +305,7 @@ def main():
     else:
       print "Compiling %s => stdout" % fileName
 
-    tokenString = convertTokensToString(parseFile(fileName))
+    tokenString = convertTokensToString(parseFile(fileName, "", options.encoding))
 
     if options.write:
       filetool.save(fileName + options.extension, tokenString)
