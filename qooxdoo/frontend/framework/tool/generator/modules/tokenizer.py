@@ -310,7 +310,12 @@ def main():
     if options.write:
       filetool.save(fileName + options.extension, tokenString)
     else:
-      print tokenString
+      try:
+        print tokenString
+
+      except UnicodeEncodeError:
+        print "  * Could not encode result to ascii. Use '-w' instead."
+        sys.exit(1)
 
 
 
