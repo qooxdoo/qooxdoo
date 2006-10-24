@@ -941,7 +941,12 @@ def main():
       filetool.save(fileName + options.extension, compiledString)
 
     else:
-      print compiledString
+      try:
+        print compiledString
+
+      except UnicodeEncodeError:
+        print "  * Could not encode result to ascii. Use '-w' instead."
+        sys.exit(1)
 
 
 
