@@ -581,14 +581,16 @@ def readParamList (node, stream):
   stream.next(params)
 
   firstParam = True
+  lastExpr = None
   while not stream.currIsType("token", "RP"):
     if firstParam:
       firstParam = False
     else:
       stream.expectCurrType("token", "COMMA")
-      stream.next()
+      stream.next(lastExpr, True)
 
-    params.addChild(readExpression(stream))
+    lastExpr = readExpression(stream)
+    params.addChild(lastExpr)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item
