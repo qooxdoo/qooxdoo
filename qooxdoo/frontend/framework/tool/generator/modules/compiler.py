@@ -267,12 +267,16 @@ def compileNode(node):
         headComment = child.get("detail") == "header"
         divComment = child.get("detail") == "divider"
         blockComment = child.get("detail") ==  "block"
+        singleLineBlock = child.get("detail") != "inline" and child.get("multiline") == False
 
         if not child.isFirstChild():
           pass
 
         elif inCase:
           pass
+
+        elif singleLineBlock:
+          space()
 
         elif divComment:
           divide()
@@ -285,8 +289,11 @@ def compileNode(node):
 
         write(child.get("text"))
 
+        if singleLineBlock:
+          space()
+
         # separator after divider/head comments and after block comments which are not for documentation
-        if headComment or divComment or blockComment:
+        elif headComment or divComment or blockComment:
           sep()
 
         else:
