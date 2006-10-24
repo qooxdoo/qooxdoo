@@ -566,7 +566,8 @@ def compileNode(node):
       minus()
 
       # force double new lines
-      sep()
+      if not node.getPreviousSibling(True).type == "case":
+        sep()
 
     write("default")
     write(":")
