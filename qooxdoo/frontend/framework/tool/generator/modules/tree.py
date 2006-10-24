@@ -364,13 +364,13 @@ class Node:
     if not self.hasParent():
       return False
 
-    return self.parent.getFirstChild(True, ignoreComments) == self
+    return self.parent.getFirstChild(False, ignoreComments) == self
 
   def isLastChild(self, ignoreComments = False):
     if not self.hasParent():
       return False
 
-    return self.parent.getLastChild(True, ignoreComments) == self
+    return self.parent.getLastChild(False, ignoreComments) == self
 
   def addListChild(self, listName, childNode):
     listNode = self.getChild(listName, False)
