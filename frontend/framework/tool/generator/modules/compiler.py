@@ -1258,8 +1258,14 @@ def compileNode(node):
     # Semicolon handling
     elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
+      # Special handling for labels
+      sibling = node.getFollowingSibling(False)
+      if node.type == "variable" and sibling and sibling.type == "labelTerminator":
+		# No semicolon between label and terminating colon
+		pass
+
       # Default semicolon handling
-      if node.parent.type in [ "block", "file" ]:
+      elif node.parent.type in [ "block", "file" ]:
         semicolon()
 
         if pretty:
