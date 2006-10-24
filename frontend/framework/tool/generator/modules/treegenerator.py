@@ -683,6 +683,9 @@ def readArray(stream):
   # This means that all comments following are after item
   stream.next(item, True)
 
+  # Support constructs like [ "foo", "bar" ].join("")
+  item = readObjectOperation(stream, item)
+
   return item
 
 
