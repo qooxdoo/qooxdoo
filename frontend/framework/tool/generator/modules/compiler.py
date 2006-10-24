@@ -240,7 +240,9 @@ def compileNode(node):
     if node.get("breakBefore", False) and not node.isFirstChild(True):
       sep()
 
-
+    # Additional explicit break before complex blocks
+    if node.hasParent() and not node.isFirstChild(True) and node.parent.type in [ "block", "file"] and node.isComplex():
+      sep()
 
 
 
@@ -715,7 +717,7 @@ def compileNode(node):
       # No separation after case statements
       if prev != None and prev.type in [ "case", "default" ]:
         pass
-      elif node.hasChild("elseStatement") or node.getChild("statement").hasComplexBlock():
+      elif node.hasChild("elseStatement") or node.getChild("statement").hasBlockChildren():
         sep()
       else:
         line()
@@ -756,7 +758,10 @@ def compileNode(node):
       pass
 
     elif pretty:
-      if not node.isComplex():
+      if not node.hasChild("block"):
+        pass
+
+      elif not node.isComplex():
         noline()
         space()
 
@@ -1118,11 +1123,22 @@ def compileNode(node):
       if not node.isLastChild():
         if node.hasChild("elseStatement"):
           sep()
-        elif node.getChild("statement").hasChild("block"):
-          if node.getChild("statement").getChild("block").isComplex():
-            sep()
-          else:
-            line()
+        elif node.getChild("statement").hasBlockChildren():
+          sep()
+        else:
+          line()
+
+
+  #
+  # CLOSE: FUNCTION
+  ##################################
+
+  elif node.type == "function":
+    if pretty:
+      comment(node)
+
+      if not node.isLastChild() and node.hasParent() and node.parent.type in [ "block", "file" ]:
+        sep()
 
 
   #
