@@ -874,7 +874,6 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       if not node.parent.hasChild("first"):
         write("(;")
-        space(False)
 
 
   #
@@ -887,10 +886,9 @@ def compileNode(node):
       if not node.parent.hasChild("second"):
         if node.parent.hasChild("first"):
           write(";")
+          space(False)
         else:
           write("(;;")
-
-        space(False)
 
 
   #
@@ -900,15 +898,12 @@ def compileNode(node):
   elif node.type == "statement":
     # for loop
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-      if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
-        write("(");
-
       if node.parent.get("forVariant") == "iter":
-        if not node.parent.hasChild("third"):
-          write(";")
+        if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+          write("(;;");
 
-          if not node.parent.hasChild("second"):
-            write(";")
+        elif not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+          write(";")
 
       write(")")
 
@@ -1215,7 +1210,7 @@ def compileNode(node):
   elif node.type == "first":
     # for loop
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-      if node.parent.hasChild("second") or node.parent.hasChild("third"):
+      if node.parent.get("forVariant") == "iter":
         write(";")
 
         if node.parent.hasChild("second"):
@@ -1242,7 +1237,9 @@ def compileNode(node):
     # for loop
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       write(";")
-      space(False)
+
+      if node.parent.hasChild("third"):
+        space(False)
 
     # (?: operation)
     elif node.parent.type == "operation" and node.parent.get("operator") == "HOOK":
