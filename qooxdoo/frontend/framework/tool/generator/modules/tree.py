@@ -265,6 +265,13 @@ class Node:
     return False
 
 
+  def hasBlockChildren(self):
+    if self.hasChild("block"):
+      return self.getChild("block").hasChildren()
+
+    return False
+
+
   def getChildPosition(self, searchedChild, ignoreComments = False):
     if self.hasChildren() and searchedChild in self.children:
       if ignoreComments:
