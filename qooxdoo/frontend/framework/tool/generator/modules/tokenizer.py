@@ -206,10 +206,9 @@ def parseStream(content, uniqueId):
       # print "Type:MultiComment"
       content = parseFragmentLead(content, fragment, tokens)
 
-      if hasLeadingContent(tokens):
-        connection = "after"
-      else:
-        connection = "before"
+      # block level comments are always before, because in general there is something behind them.
+      # e.g. /* int */ foo
+      connection = "before"
 
       tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine })
       parseLine += len(fragment.split("\n")) - 1
