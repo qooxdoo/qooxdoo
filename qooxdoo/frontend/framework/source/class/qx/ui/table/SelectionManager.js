@@ -142,6 +142,9 @@ qx.Proto._handleSelectEvent = function(index, evt) {
     if (index != leadIndex || selectionModel.isSelectionEmpty()) {
       // The lead selection index was changed
       var anchorIndex = selectionModel.getAnchorSelectionIndex();
+      if (anchorIndex == -1) {
+          anchorIndex = index;
+      }
       if (evt.isCtrlOrCommandPressed()) {
         selectionModel.addSelectionInterval(anchorIndex, index);
       } else {
