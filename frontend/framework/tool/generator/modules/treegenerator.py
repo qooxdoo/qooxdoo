@@ -103,6 +103,8 @@ class TokenStream:
               commentNode.set("detail", token["detail"])
               commentNode.set("multiline", token["multiline"])
               commentNode.set("connection", token["connection"])
+              commentNode.set("begin", token["begin"])
+              commentNode.set("end", token["end"])
 
               if after:
                 item.addListChild("commentsAfter", commentNode)
@@ -128,6 +130,8 @@ class TokenStream:
           commentNode.set("detail", token["detail"])
           commentNode.set("multiline", token["multiline"])
           commentNode.set("connection", token["connection"])
+          commentNode.set("begin", token["begin"])
+          commentNode.set("end", token["end"])
 
           self.commentsBefore.append(commentNode)
 
@@ -165,6 +169,8 @@ class TokenStream:
         commentNode.set("detail", token["detail"])
         commentNode.set("multiline", token["multiline"])
         commentNode.set("connection", token["connection"])
+        commentNode.set("begin", token["begin"])
+        commentNode.set("end", token["end"])
 
         token["inserted"] = True
 

@@ -276,7 +276,10 @@ def compileNode(node):
           pass
 
         elif singleLineBlock:
-          space()
+          if child.get("begin"):
+            sep()
+          else:
+            space()
 
         elif divComment:
           divide()
@@ -290,7 +293,10 @@ def compileNode(node):
         write(child.get("text"))
 
         if singleLineBlock:
-          space()
+          if child.get("end"):
+            sep()
+          else:
+            space()
 
         # separator after divider/head comments and after block comments which are not for documentation
         elif headComment or divComment or blockComment:
