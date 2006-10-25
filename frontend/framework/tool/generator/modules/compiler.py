@@ -522,6 +522,15 @@ def compileNode(node):
 
 
   #
+  # OPEN: VOID
+  ##################################
+
+  elif node.type == "void":
+    write("void")
+    write("(")
+
+
+  #
   # OPEN: ARRAY
   ##################################
 
@@ -766,7 +775,7 @@ def compileNode(node):
       pass
 
     elif pretty:
-      if not node.hasChild("block"):
+      if not node.hasChild("block") and not node.hasChild("loop"):
         pass
 
       elif not node.isComplex():
@@ -998,6 +1007,20 @@ def compileNode(node):
   ##################################
 
   elif node.type == "group":
+    if node.getChildrenLength(True) == 1:
+      noline()
+
+    write(")")
+
+
+  #
+  # CLOSE: VOID
+  ##################################
+
+  elif node.type == "void":
+    if node.getChildrenLength(True) == 1:
+      noline()
+
     write(")")
 
 
@@ -1012,15 +1035,12 @@ def compileNode(node):
     write("]")
 
 
-
   #
   # CLOSE: PARAMS
   ##################################
 
   elif node.type == "params":
     write(")")
-
-
 
 
   #
@@ -1261,8 +1281,8 @@ def compileNode(node):
       # Special handling for labels
       sibling = node.getFollowingSibling(False)
       if node.type == "variable" and sibling and sibling.type == "labelTerminator":
-		# No semicolon between label and terminating colon
-		pass
+        # No semicolon between label and terminating colon
+		    pass
 
       # Default semicolon handling
       elif node.parent.type in [ "block", "file" ]:
