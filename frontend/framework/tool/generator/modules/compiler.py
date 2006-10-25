@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, optparse
-import config, tokenizer, filetool, treegenerator, variableoptimizer
+import sys, string, re, optparse
+import config, tokenizer, filetool, treegenerator, variableoptimizer, comment
 
 KEY = re.compile("^[A-Za-z0-9_]+$")
+INDENTSPACES = 2
 
 
 
@@ -99,7 +100,7 @@ def write(txt=""):
 
   # add indent (if needed)
   if pretty and result.endswith("\n"):
-    result += ("  " * indent)
+    result += (" " * (INDENTSPACES * indent))
 
   # append given text
   result += txt
@@ -153,7 +154,7 @@ def semicolon():
       result += "\n"
 
 
-def comment(node):
+def commentNode(node):
   global pretty
 
   if not pretty:
@@ -227,6 +228,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 def compileNode(node):
 
   global pretty
+  global indent
 
 
 
@@ -290,7 +292,8 @@ def compileNode(node):
         elif not headComment:
           line()
 
-        write(child.get("text"))
+        # reindenting first
+        write(comment.indent(child.get("text"), INDENTSPACES * indent))
 
         if singleLineBlock:
           if child.get("end"):
@@ -950,7 +953,7 @@ def compileNode(node):
       write(",")
 
       if pretty:
-        comment(node)
+        commentNode(node)
 
         if node.getChild("value").isComplex():
           sep()
@@ -969,7 +972,7 @@ def compileNode(node):
       write(",")
 
       if pretty:
-        comment(node)
+        commentNode(node)
 
         if node.hasComplexChildren():
           line()
@@ -1083,7 +1086,7 @@ def compileNode(node):
       write("}")
 
       if pretty:
-        comment(node)
+        commentNode(node)
         line()
 
     # Force a additinal line feed after each switch/try
@@ -1099,7 +1102,7 @@ def compileNode(node):
     write(":")
 
     if pretty:
-      comment(node)
+      commentNode(node)
       plus()
       line()
 
@@ -1122,7 +1125,7 @@ def compileNode(node):
     write("}")
 
     if pretty:
-      comment(node)
+      commentNode(node)
 
       if node.hasChildren():
         # Newline afterwards
@@ -1151,7 +1154,7 @@ def compileNode(node):
       semicolon()
 
     if pretty:
-      comment(node)
+      commentNode(node)
 
       # Force a additinal line feed after each loop
       if not node.isLastChild():
@@ -1169,7 +1172,7 @@ def compileNode(node):
 
   elif node.type == "function":
     if pretty:
-      comment(node)
+      commentNode(node)
 
       if not node.isLastChild() and node.hasParent() and node.parent.type in [ "block", "file" ]:
         sep()
@@ -1200,7 +1203,7 @@ def compileNode(node):
       write(")")
 
       if pretty:
-        comment(node)
+        commentNode(node)
         line()
 
       write("{")
@@ -1274,7 +1277,7 @@ def compileNode(node):
         write(",")
 
         if pretty:
-          comment(node)
+          commentNode(node)
 
           if node.isComplex():
             line()
@@ -1295,7 +1298,7 @@ def compileNode(node):
         semicolon()
 
         if pretty:
-          comment(node)
+          commentNode(node)
           line()
 
           if node.isComplex() and not node.isLastChild():
@@ -1306,7 +1309,7 @@ def compileNode(node):
         semicolon()
 
         if pretty:
-          comment(node)
+          commentNode(node)
           line()
 
           if node.isComplex() and not node.isLastChild():
@@ -1317,7 +1320,7 @@ def compileNode(node):
         semicolon()
 
         if pretty:
-          comment(node)
+          commentNode(node)
           line()
 
           if node.isComplex() and not node.isLastChild():
@@ -1330,7 +1333,7 @@ def compileNode(node):
 
   if pretty:
     # Rest of the after comments (not inserted previously)
-    comment(node)
+    commentNode(node)
 
 
 

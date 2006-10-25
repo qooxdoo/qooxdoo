@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import sys, string, re, os, random, optparse, codecs
-import config, filetool
+import sys, string, re, optparse
+import config, filetool, comment
 
 R_WHITESPACE = re.compile(r"(\s+)")
 R_NONWHITESPACE = re.compile("\S+")
@@ -12,14 +12,14 @@ R_NEWLINE = re.compile(r"(\n)")
 # Multicomment RegExp inspired by: http://ostermiller.org/findcomment.html
 
 # builds regexp strings
-S_MULTICOMMENT = "/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/"
+S_MULTICOMMENT = "/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/"
 S_MULTICOMMENT_JAVADOC = "/\*\*"
 S_MULTICOMMENT_QTDOC = "/\*!"
 S_MULTICOMMENT_DIVIDER = "/\*\n\s*----"
 S_MULTICOMMENT_HEADER = "/\* \*\*\*\*"
 S_SINGLECOMMENT = "//.*"
-S_STRING_A = "'[^'\\\r\n]*(\\.[^'\\\r\n]*)*'"
-S_STRING_B = '"[^"\\\r\n]*(\\.[^"\\\r\n]*)*"'
+S_STRING_A = "'[^'\\\n]*(\\.[^'\\\n]*)*'"
+S_STRING_B = '"[^"\\\n]*(\\.[^"\\\n]*)*"'
 
 S_FLOAT = "([0-9]+\.[0-9]+)"
 
@@ -207,20 +207,20 @@ def parseStream(content, uniqueId):
     # print "Found: '%s'" % fragment
 
     if R_MULTICOMMENT.match(fragment):
-      comment = recoverEscape(fragment)
+      source = recoverEscape(fragment)
 
-      if R_MULTICOMMENT_JAVADOC.search(comment):
+      if R_MULTICOMMENT_JAVADOC.search(source):
         format = "javadoc"
-      elif R_MULTICOMMENT_QTDOC.search(comment):
+      elif R_MULTICOMMENT_QTDOC.search(source):
         format = "qtdoc"
-      elif R_MULTICOMMENT_DIVIDER.search(comment):
+      elif R_MULTICOMMENT_DIVIDER.search(source):
         format = "divider"
-      elif R_MULTICOMMENT_HEADER.search(comment):
+      elif R_MULTICOMMENT_HEADER.search(source):
         format = "header"
       else:
         format = "block"
 
-      if comment.find("\n") != -1:
+      if source.find("\n") != -1:
         multiline = True
       else:
         multiline = False
@@ -236,9 +236,9 @@ def parseStream(content, uniqueId):
 
       # print "Begin: %s, End: %s" % (atBegin, atEnd)
 
-      #if atBegin:
-      #  print "Fixing comment"
-      #  pass
+      # Fixing source content
+      if atBegin:
+        source = comment.normalize(source, parseColumn - 1)
 
       connection = "before"
 
@@ -247,11 +247,12 @@ def parseStream(content, uniqueId):
       else:
         connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
+      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
       parseLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
+      source = recoverEscape(fragment)
       content = parseFragmentLead(content, fragment, tokens)
 
       atBegin = hasLeadingContent(tokens)
@@ -262,7 +263,7 @@ def parseStream(content, uniqueId):
       else:
         connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
+      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
