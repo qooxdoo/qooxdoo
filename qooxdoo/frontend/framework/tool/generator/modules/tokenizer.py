@@ -3,7 +3,7 @@
 import sys, string, re, os, random, optparse, codecs
 import config, filetool
 
-R_WHITESPACE = re.compile("\s+")
+R_WHITESPACE = re.compile(r"(\s+)")
 R_NONWHITESPACE = re.compile("\S+")
 R_NUMBER = re.compile("^[0-9]+")
 R_NEWLINE = re.compile(r"(\n)")
@@ -58,7 +58,8 @@ R_ALL = re.compile(S_ALL)
 
 
 
-parseLine = 0
+parseLine = 1
+parseColumn = 1
 parseUniqueId = ""
 
 
@@ -73,65 +74,84 @@ def recoverEscape(s):
 
 
 
-def parseElement(content):
+def parseElement(element):
   global parseUniqueId
   global parseLine
+  global parseColumn
 
-  if config.JSPROTECTED.has_key(content):
+  if config.JSPROTECTED.has_key(element):
     # print "PROTECTED: %s" % PROTECTED[content]
-    return { "type" : "protected", "detail" : config.JSPROTECTED[content], "source" : content, "line" : parseLine, "id" : parseUniqueId }
+    obj = { "type" : "protected", "detail" : config.JSPROTECTED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-  elif content in config.JSBUILTIN:
+  elif element in config.JSBUILTIN:
     # print "BUILTIN: %s" % content
-    return { "type" : "builtin", "detail" : "", "source" : content, "line" : parseLine, "id" : parseUniqueId }
+    obj = { "type" : "builtin", "detail" : "", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-  elif R_NUMBER.search(content):
+  elif R_NUMBER.search(element):
     # print "NUMBER: %s" % content
-    return { "type" : "number", "detail" : "int", "source" : content, "line" : parseLine, "id" : parseUniqueId }
+    obj = { "type" : "number", "detail" : "int", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-  elif content.startswith("_"):
+  elif element.startswith("_"):
     # print "PRIVATE NAME: %s" % content
-    return { "type" : "name", "detail" : "private", "source" : content, "line" : parseLine, "id" : parseUniqueId }
+    obj = { "type" : "name", "detail" : "private", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-  elif len(content) > 0:
+  elif len(element) > 0:
     # print "PUBLIC NAME: %s" % content
-    return { "type" : "name", "detail" : "public", "source" : content, "line" : parseLine, "id" : parseUniqueId }
+    obj = { "type" : "name", "detail" : "public", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+
+  parseColumn += len(element)
+
+  return obj
 
 
-
-
-def parsePart(content):
+def parsePart(part):
   global parseUniqueId
   global parseLine
+  global parseColumn
 
   tokens = []
-  temp = ""
+  element = ""
 
-  for line in R_NEWLINE.split(content):
+  for line in R_NEWLINE.split(part):
     if line == "\n":
-      tokens.append({ "type" : "eol", "source" : "", "detail" : "", "line" : parseLine, "id" : parseUniqueId })
+      tokens.append({ "type" : "eol", "source" : "", "detail" : "", "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId })
+      parseColumn = 1
       parseLine += 1
 
     else:
       for item in R_WHITESPACE.split(line):
+        if item == "":
+          continue
+
+        if not R_NONWHITESPACE.search(item):
+          parseColumn += len(item)
+          continue
+
+        # print "ITEM: '%s'" % item
+
         for char in item:
+          # work on single character tokens, otherwise concat to a bigger element
           if config.JSTOKENS.has_key(char):
-            if temp != "":
-              if R_NONWHITESPACE.search(temp):
-                tokens.append(parseElement(temp))
+            # convert existing element
+            if element != "":
+              if R_NONWHITESPACE.search(element):
+                tokens.append(parseElement(element))
 
-              temp = ""
+              element = ""
 
-            tokens.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : parseLine, "id" : parseUniqueId })
+            # add character to token list
+            tokens.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId })
+            parseColumn += 1
 
           else:
-            temp += char
+            element += char
 
-        if temp != "":
-          if R_NONWHITESPACE.search(temp):
-            tokens.append(parseElement(temp))
+        # convert remaining stuff to tokens
+        if element != "":
+          if R_NONWHITESPACE.search(element):
+            tokens.append(parseElement(element))
 
-          temp = ""
+          element = ""
 
   return tokens
 
@@ -165,9 +185,11 @@ def hasLeadingContent(tokens):
 def parseStream(content, uniqueId):
   # make global variables available
   global parseLine
+  global parseColumn
   global parseUniqueId
 
   # reset global stuff
+  parseColumn = 1
   parseLine = 1
   parseUniqueId = uniqueId
 
@@ -214,6 +236,10 @@ def parseStream(content, uniqueId):
 
       # print "Begin: %s, End: %s" % (atBegin, atEnd)
 
+      #if atBegin:
+      #  print "Fixing comment"
+      #  pass
+
       connection = "before"
 
       if atEnd and not atBegin:
@@ -221,7 +247,7 @@ def parseStream(content, uniqueId):
       else:
         connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine, "begin" : atBegin, "end" : atEnd })
+      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
       parseLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
@@ -236,27 +262,27 @@ def parseStream(content, uniqueId):
       else:
         connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine, "begin" : atBegin, "end" : atEnd })
+      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine })
+      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine })
+      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "number", "detail" : "float", "source" : fragment, "id" : parseUniqueId, "line" : parseLine })
+      tokens.append({ "type" : "number", "detail" : "float", "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     elif R_OPERATORS.match(fragment):
       # print "Type:Operator: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine })
+      tokens.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     else:
       fragresult = R_REGEXP.search(fragment)
@@ -266,7 +292,7 @@ def parseStream(content, uniqueId):
 
         if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment) or R_REGEXP_D.match(fragment):
           content = parseFragmentLead(content, fragresult.group(0), tokens)
-          tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine })
+          tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
         else:
           print "Bad regular expression: %s" % fragresult.group(0)
@@ -275,7 +301,7 @@ def parseStream(content, uniqueId):
         print "Type:None!"
 
   tokens.extend(parsePart(recoverEscape(content)))
-  tokens.append({ "type" : "eof", "source" : "", "detail" : "", "line" : parseLine, "id" : parseUniqueId })
+  tokens.append({ "type" : "eof", "source" : "", "detail" : "", "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
   return tokens
 
