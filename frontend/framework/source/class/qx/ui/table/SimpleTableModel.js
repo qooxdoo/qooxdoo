@@ -171,7 +171,7 @@ qx.Proto.getRowCount = function() {
 // overridden
 qx.Proto.getValue = function(columnIndex, rowIndex) {
   if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
-    throw "this._rowArr out of bounds: " + this._rowArr + " (0.." + this._rowArr.length + ")";
+    throw new Error("this._rowArr out of bounds: " + rowIndex + " (0.." + this._rowArr.length + ")");
   }
 
   return this._rowArr[rowIndex][columnIndex];

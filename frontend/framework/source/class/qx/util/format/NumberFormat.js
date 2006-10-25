@@ -151,7 +151,7 @@ qx.Proto.parse = function(str) {
 
   var hit = regex.exec(str);
   if (hit == null) {
-    throw "Number string '" + str + "' does not match the number format";
+    throw new Error("Number string '" + str + "' does not match the number format");
   }
 
   var negative = (hit[1] == "-");
