@@ -252,7 +252,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
   eolBefore = stream.hadEolBefore()
   breakBefore = stream.hadBreakBefore()
 
-
+  # print "PROGRESS: %s - %s (%s) [expr=%s]" % (stream.currType(), stream.currDetail(), stream.currLine(), expressionMode)
 
   if currIsIdentifier(stream, True):
     # statement starts with an identifier
@@ -305,12 +305,26 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     stream.next(item, True)
     item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LP"):
-    item = createItemNode("group", stream)
+    igroup = createItemNode("group", stream)
     stream.next(item)
-    item.addChild(readStatement(stream, expressionMode))
+    igroup.addChild(readStatement(stream, expressionMode))
     stream.expectCurrType("token", "RP")
     stream.next(item, True)
-    item = readObjectOperation(stream, item)
+    oper = readObjectOperation(stream, igroup)
+
+    # supports e.g. (this.editor.object || this.editor.iframe).style.marginTop = null;
+    if stream.currIsType("token", ASSIGN_OPERATORS):
+      # This is an assignment
+      item = createItemNode("assignment", stream)
+      item.set("operator", stream.currDetail())
+      stream.next(item)
+
+      item.addListChild("left", oper)
+      item.addListChild("right", readExpression(stream))
+    else:
+      # Something else comes after the variable -> It's a sole variable
+      item = oper
+
   elif stream.currIsType("string"):
     item = createItemNode("constant", stream)
     item.set("constantType", "string")
