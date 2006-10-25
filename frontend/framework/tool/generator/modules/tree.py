@@ -196,6 +196,10 @@ class Node:
         for child in self.children:
           if child.type != "commentsAfter":
             counter += 1
+
+            if child.hasChild("commentsBefore"):
+              counter += 1
+
             if counter > 1:
               break
 
@@ -237,8 +241,9 @@ class Node:
 
 
     # Final test: Ask the children (slower)
-    if not isComplex and self.hasComplexChildren():
-      isComplex = True
+    if not (self.type == "elseStatement" and self.hasChild("loop")):
+      if not isComplex and self.hasComplexChildren():
+        isComplex = True
 
     # print self.type + " :: %s" % isComplex
     self.set("isComplex", isComplex)
