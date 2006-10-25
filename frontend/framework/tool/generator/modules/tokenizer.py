@@ -12,12 +12,6 @@ R_NEWLINE = re.compile(r"(\n)")
 # Multicomment RegExp inspired by: http://ostermiller.org/findcomment.html
 
 # builds regexp strings
-S_MULTICOMMENT = "/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/"
-S_MULTICOMMENT_JAVADOC = "/\*\*"
-S_MULTICOMMENT_QTDOC = "/\*!"
-S_MULTICOMMENT_DIVIDER = "/\*\n\s*----"
-S_MULTICOMMENT_HEADER = "/\* \*\*\*\*"
-S_SINGLECOMMENT = "//.*"
 S_STRING_A = "'[^'\\\n]*(\\.[^'\\\n]*)*'"
 S_STRING_B = '"[^"\\\n]*(\\.[^"\\\n]*)*"'
 
@@ -35,15 +29,9 @@ S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(test|exec)\s*\(\s*"
 S_REGEXP_D = "(:|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
-S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
+S_ALL = "(" + comment.S_MULTICOMMENT + "|" + comment.S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
 
 # compile regexp strings
-R_MULTICOMMENT = re.compile("^" + S_MULTICOMMENT + "$")
-R_MULTICOMMENT_JAVADOC = re.compile("^" + S_MULTICOMMENT_JAVADOC)
-R_MULTICOMMENT_QTDOC = re.compile("^" + S_MULTICOMMENT_QTDOC)
-R_MULTICOMMENT_DIVIDER = re.compile("^" + S_MULTICOMMENT_DIVIDER)
-R_MULTICOMMENT_HEADER = re.compile("^" + S_MULTICOMMENT_HEADER)
-R_SINGLECOMMENT = re.compile("^" + S_SINGLECOMMENT + "$")
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
 R_STRING_B = re.compile("^" + S_STRING_B + "$")
 R_FLOAT = re.compile("^" + S_FLOAT + "$")
@@ -206,24 +194,10 @@ def parseStream(content, uniqueId):
 
     # print "Found: '%s'" % fragment
 
-    if R_MULTICOMMENT.match(fragment):
+    if comment.R_MULTICOMMENT.match(fragment):
       source = recoverEscape(fragment)
-
-      if R_MULTICOMMENT_JAVADOC.search(source):
-        format = "javadoc"
-      elif R_MULTICOMMENT_QTDOC.search(source):
-        format = "qtdoc"
-      elif R_MULTICOMMENT_DIVIDER.search(source):
-        format = "divider"
-      elif R_MULTICOMMENT_HEADER.search(source):
-        format = "header"
-      else:
-        format = "block"
-
-      if source.find("\n") != -1:
-        multiline = True
-      else:
-        multiline = False
+      format = comment.getFormat(source)
+      multiline = comment.isMultiLine(source)
 
       # print "Type:MultiComment"
       content = parseFragmentLead(content, fragment, tokens)
@@ -238,7 +212,9 @@ def parseStream(content, uniqueId):
 
       # Fixing source content
       if atBegin:
-        source = comment.normalize(source, parseColumn - 1)
+        source = comment.outdent(source, parseColumn - 1)
+
+      source = comment.correct(source)
 
       connection = "before"
 
@@ -250,7 +226,7 @@ def parseStream(content, uniqueId):
       tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
       parseLine += len(fragment.split("\n")) - 1
 
-    elif R_SINGLECOMMENT.match(fragment):
+    elif comment.R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
       source = recoverEscape(fragment)
       content = parseFragmentLead(content, fragment, tokens)
@@ -262,6 +238,8 @@ def parseStream(content, uniqueId):
         connection = "after"
       else:
         connection = "before"
+
+      source = comment.correct(source)
 
       tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
 
