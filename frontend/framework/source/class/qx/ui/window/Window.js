@@ -481,10 +481,10 @@ qx.Proto._beforeDisappear = function()
   // Intentionally bypass superclass and call super.super._beforeDisappear
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-  // Reset focus root
+  // Reset focus root to document
   var vFocusRoot = qx.event.handler.EventHandler.getInstance().getFocusRoot();
   if (vFocusRoot == this || this.contains(vFocusRoot)) {
-    qx.event.handler.EventHandler.getInstance().setFocusRoot(null);
+    qx.event.handler.EventHandler.getInstance().setFocusRoot(qx.ui.core.ClientDocument.getInstance());
   }
 
   // Be sure to disable any capturing inside invisible parts
