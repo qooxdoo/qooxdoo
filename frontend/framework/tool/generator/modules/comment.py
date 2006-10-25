@@ -4,26 +4,18 @@ import sys, string, re
 import config
 
 S_MULTICOMMENT = "/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/"
-S_MULTICOMMENT_JAVADOC = "/\*\*"
-S_MULTICOMMENT_QTDOC = "/\*!"
-S_MULTICOMMENT_DIVIDER = "/\*\n\s*----"
-S_MULTICOMMENT_HEADER = "/\* \*\*\*\*"
-
 R_MULTICOMMENT = re.compile("^" + S_MULTICOMMENT + "$")
-R_MULTICOMMENT_JAVADOC = re.compile("^" + S_MULTICOMMENT_JAVADOC)
-R_MULTICOMMENT_QTDOC = re.compile("^" + S_MULTICOMMENT_QTDOC)
-R_MULTICOMMENT_DIVIDER = re.compile("^" + S_MULTICOMMENT_DIVIDER)
-R_MULTICOMMENT_HEADER = re.compile("^" + S_MULTICOMMENT_HEADER)
-
-
 
 S_SINGLECOMMENT = "//.*"
-S_SINGLECOMMENT_TIGHT = "^//(\S+)"
-S_SINGLECOMMENT_PURE = "^//"
-
 R_SINGLECOMMENT = re.compile("^" + S_SINGLECOMMENT + "$")
-R_SINGLECOMMENT_TIGHT = re.compile(S_SINGLECOMMENT_TIGHT)
-R_SINGLECOMMENT_PURE = re.compile(S_SINGLECOMMENT_PURE)
+
+R_MULTICOMMENT_JAVADOC = re.compile("^/\*\*")
+R_MULTICOMMENT_QTDOC = re.compile("^/\*!")
+R_MULTICOMMENT_DIVIDER = re.compile("^/\*\n\s*----")
+R_MULTICOMMENT_HEADER = re.compile("^/\* \*\*\*\*")
+
+R_SINGLECOMMENT_TIGHT = re.compile("^//(\S+)")
+R_SINGLECOMMENT_PURE = re.compile("^//")
 
 
 def outdent(source, indent):
