@@ -195,6 +195,8 @@ class SyntaxException (Exception):
 
 
 def createItemNode(type, stream):
+  # print "CREATE %s" % type
+
   node = tree.Node(type)
   node.set("line", stream.currLine())
 
@@ -452,20 +454,43 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     # its an operation -> We've already parsed the first operand (in item)
     parsedItem = item
 
-    operator = stream.currDetail()
+    oper = stream.currDetail()
 
     item = createItemNode("operation", stream)
     item.addListChild("first", parsedItem)
-    item.set("operator", operator)
+    item.set("operator", oper)
     stream.next(item)
-    if operator in MULTI_TOKEN_OPERATORS or operator in MULTI_PROTECTED_OPERATORS:
+
+    if oper in MULTI_TOKEN_OPERATORS or oper in MULTI_PROTECTED_OPERATORS:
       # It's a multi operator -> There must be a second argument
       item.addListChild("second", readExpression(stream))
-      if operator == "HOOK":
+      if oper == "HOOK":
         # It's a "? :" operation -> There must be a third argument
         stream.expectCurrType("token", "COLON")
         stream.next(item)
         item.addListChild("third", readExpression(stream))
+
+    # Deep scan on single right operators e.g. if(i-- > 4)
+    if oper in SINGLE_RIGHT_OPERATORS and stream.currIsType("token", MULTI_TOKEN_OPERATORS) and expressionMode:
+      paroper = stream.currDetail()
+
+      paritem = createItemNode("operation", stream)
+      paritem.addListChild("first", item)
+      paritem.set("operator", paroper)
+      stream.next(item)
+
+      if paroper in MULTI_TOKEN_OPERATORS or paroper in MULTI_PROTECTED_OPERATORS:
+        # It's a multi operator -> There must be a second argument
+        paritem.addListChild("second", readExpression(stream))
+        if paroper == "HOOK":
+          # It's a "? :" operation -> There must be a third argument
+          stream.expectCurrType("token", "COLON")
+          stream.next(item)
+          paritem.addListChild("third", readExpression(stream))
+
+      # return parent item
+      item = paritem
+
 
   # check whether this is a combined statement, e.g. "bla(), i++"
   if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
