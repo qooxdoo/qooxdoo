@@ -32,7 +32,7 @@ S_REGEXP = "(\/[^\t\n\r\f\v\/]+?\/[mgi]*)"
 S_REGEXP_A = "\.(match|search|split)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*\)"
 S_REGEXP_B = "\.(replace)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*?,?"
 S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(test|exec)\s*\(\s*"
-S_REGEXP_D = "(:|=)\s*\(*\s*" + S_REGEXP + "\s*\)*"
+S_REGEXP_D = "(:|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
 S_ALL = "(" + S_MULTICOMMENT + "|" + S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
