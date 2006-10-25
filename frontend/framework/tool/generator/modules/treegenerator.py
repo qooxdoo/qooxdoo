@@ -294,6 +294,14 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
       item.addListChild("operand", functionItem)
       readParamList(item, stream)
       item = readObjectOperation(stream, item)
+  elif stream.currIsType("protected", "VOID"):
+    stream.next(item)
+    item = createItemNode("void", stream)
+    stream.next(item)
+    item.addChild(readStatement(stream, expressionMode))
+    stream.expectCurrType("token", "RP")
+    stream.next(item, True)
+    item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LP"):
     item = createItemNode("group", stream)
     stream.next(item)
