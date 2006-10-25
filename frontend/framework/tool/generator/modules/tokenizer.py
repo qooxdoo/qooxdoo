@@ -206,23 +206,37 @@ def parseStream(content, uniqueId):
       # print "Type:MultiComment"
       content = parseFragmentLead(content, fragment, tokens)
 
-      # block level comments are always before, because in general there is something behind them.
-      # e.g. /* int */ foo
+      atBegin = not hasLeadingContent(tokens)
+      if re.compile("^\s*\n").search(content):
+        atEnd = True
+      else:
+        atEnd = False
+
+      # print "Begin: %s, End: %s" % (atBegin, atEnd)
+
       connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine })
+      if atEnd and not atBegin:
+        connection = "after"
+      else:
+        connection = "before"
+
+      tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : comment, "id" : parseUniqueId, "line" : parseLine, "begin" : atBegin, "end" : atEnd })
       parseLine += len(fragment.split("\n")) - 1
 
     elif R_SINGLECOMMENT.match(fragment):
       # print "Type:SingleComment"
       content = parseFragmentLead(content, fragment, tokens)
 
-      if hasLeadingContent(tokens):
+      atBegin = hasLeadingContent(tokens)
+      atEnd = True
+
+      if atBegin:
         connection = "after"
       else:
         connection = "before"
 
-      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine })
+      tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : recoverEscape(fragment), "id" : parseUniqueId, "line" : parseLine, "begin" : atBegin, "end" : atEnd })
 
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
