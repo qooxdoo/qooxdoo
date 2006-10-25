@@ -234,7 +234,7 @@ qx.Proto.parse = function(dateStr) {
   // Apply the regex
   var hit = this._parseFeed.regex.exec(dateStr);
   if (hit == null) {
-    throw "Date string '" + dateStr + "' does not match the date format: " + this._format;
+    throw new Error("Date string '" + dateStr + "' does not match the date format: " + this._format);
   }
 
   // Apply the rules
@@ -258,7 +258,7 @@ qx.Proto.parse = function(dateStr) {
     dateValues.min, dateValues.sec, dateValues.ms);
   if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear()) {
     // TODO: check if this is also necessary for the time components
-    throw "Error parsing date '" + dateStr + "': the value for day or month is too large";
+    throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
   }
 
   return date;
@@ -378,8 +378,8 @@ qx.Proto._initParseFeed = function() {
         for (var i = 0; i < wildcardSize; i++) {
           wildcardStr += wildcardChar;
         }
-        throw "Malformed date format: " + format + ". Wildcard "
-          + wildcardStr + " is not supported";
+        throw new Error("Malformed date format: " + format + ". Wildcard "
+          + wildcardStr + " is not supported");
       } else {
         // Add the rule to the pattern
         usedRules.push(wildcardRule);
@@ -395,7 +395,7 @@ qx.Proto._initParseFeed = function() {
     regex = new RegExp(pattern);
   }
   catch (exc) {
-    throw "Malformed date format: " + format;
+    throw new Error("Malformed date format: " + format);
   }
 
   // Create the this._parseFeed

@@ -96,8 +96,8 @@ qx.Proto.setColumnIds = function(columnIdArr) {
  */
 qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
   if (this._columnIdArr.length != columnNameArr.length) {
-    throw "this._columnIdArr and columnNameArr have different length: "
-      + this._columnIdArr.length + " != " + columnNameArr.length;
+    throw new Error("this._columnIdArr and columnNameArr have different length: "
+      + this._columnIdArr.length + " != " + columnNameArr.length);
   }
   this._columnNameArr = columnNameArr;
 
@@ -139,8 +139,8 @@ qx.Proto.setColumns = function(columnNameArr, columnIdArr) {
   }
 
   if (columnIdArr.length != columnNameArr.length) {
-    throw "columnIdArr and columnNameArr have different length: "
-      + columnIdArr.length + " != " + columnNameArr.length;
+    throw new Error("columnIdArr and columnNameArr have different length: "
+      + columnIdArr.length + " != " + columnNameArr.length);
   }
 
   this._internalChange = true;
