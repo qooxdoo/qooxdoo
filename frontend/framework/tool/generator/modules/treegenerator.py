@@ -45,6 +45,9 @@ class TokenStream:
   def currLine (self):
     return self.curr()["line"]
 
+  def currColumn (self):
+    return self.curr()["column"]
+
   def currMultiline (self):
     return self.curr()["multiline"]
 
@@ -99,6 +102,7 @@ class TokenStream:
             if item:
               commentNode = tree.Node("comment")
               commentNode.set("line", token["line"])
+              commentNode.set("column", token["column"])
               commentNode.set("text", token["source"])
               commentNode.set("detail", token["detail"])
               commentNode.set("multiline", token["multiline"])
@@ -115,7 +119,7 @@ class TokenStream:
               self.breakBefore = False
 
             else:
-              print "Found unresolved after comment in line %s" % token["line"]
+              print "Found unresolved after comment in line %s, column %s" % (token["line"], token["column"])
               print token["source"]
               pass
 
@@ -126,6 +130,7 @@ class TokenStream:
 
           commentNode = tree.Node("comment")
           commentNode.set("line", token["line"])
+          commentNode.set("column", token["column"])
           commentNode.set("text", token["source"])
           commentNode.set("detail", token["detail"])
           commentNode.set("multiline", token["multiline"])
@@ -165,6 +170,7 @@ class TokenStream:
       if token["type"] == "comment" and token["connection"] == "after" and (not token.has_key("inserted") or not token["inserted"]):
         commentNode = tree.Node("comment")
         commentNode.set("line", token["line"])
+        commentNode.set("column", token["column"])
         commentNode.set("text", token["source"])
         commentNode.set("detail", token["detail"])
         commentNode.set("multiline", token["multiline"])
@@ -205,6 +211,7 @@ def createItemNode(type, stream):
 
   node = tree.Node(type)
   node.set("line", stream.currLine())
+  node.set("column", stream.currColumn())
 
   commentsBefore = stream.clearCommentsBefore()
   if commentsBefore:
@@ -220,11 +227,16 @@ def raiseSyntaxException (token, expectedDesc = None):
     msg = "Expected " + expectedDesc + " but found "
   else:
     msg = "Unexpected "
+
   msg += token["type"]
+
   if token["detail"]:
     msg += "/" + token["detail"]
-  msg += ": '" + token["source"] + "'. file " + \
-    token["id"] + " line " + str(token["line"])
+
+  msg += ": '" + token["source"] + "'. file:" + \
+    token["id"] + ", line:" + str(token["line"]) + \
+    ", column:" + str(token["column"])
+
   raise SyntaxException(msg)
 
 
