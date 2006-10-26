@@ -212,6 +212,9 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   afterBreak = False
   afterDivider = False
 
+  if enablePretty:
+    comment.enhance(node)
+
   compileNode(node)
 
   return result
