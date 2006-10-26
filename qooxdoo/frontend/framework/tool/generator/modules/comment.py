@@ -27,6 +27,56 @@ R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
 
+VARPREFIXES = {
+  "a" : "array",
+  "b" : "boolean",
+  "d" : "date",
+  "f" : "function",
+  "i" : "int",
+  "h" : "map",
+  "m" : "map",
+  "n" : "number",
+  "o" : "object",
+  "s" : "string",
+  "v" : "variable",
+  "w" : "widget"
+}
+
+VARNAMES = {
+  "a" : "array",
+  "arr" : "array",
+
+  "e" : "event",
+  "ev" : "event",
+  "evt" : "event",
+
+  "el" : "element",
+  "elem" : "element",
+  "elm" : "element",
+
+  "ex" : "exception",
+  "exc" : "exception",
+
+  "f" : "function",
+  "func" : "function",
+
+  "h" : "map",
+  "hash" : "map",
+  "map" : "map",
+
+  "node" : "node",
+
+  "n" : "number",
+  "num" : "number",
+
+  "o" : "object",
+  "obj" : "object",
+
+  "s" : "string",
+  "str" : "string"
+}
+
+
 
 
 def outdent(source, indent):
@@ -89,53 +139,143 @@ def getFormat(source):
 
 
 
+def getReturns(node):
+  l = []
+  addReturns(node.getChild("body"), l)
+  return l
 
-def fromFunction(func):
+
+def addReturns(node, found):
+  if node.type == "function":
+    return
+
+  elif node.type == "return":
+    val = "variable"
+    if node.hasChild("expression"):
+      expr = node.getChild("expression")
+      if expr.hasChild("variable"):
+        var = expr.getChild("variable")
+        if var.getChildrenLength(True) == 1 and var.hasChild("identifier"):
+          val = nameToType(var.getChild("identifier").get("name"))
+        else:
+          val = "variable"
+
+      elif expr.hasChild("constant"):
+        val = expr.getChild("constant").get("constantType")
+
+        if val == "number":
+          val = expr.getChild("constant").get("detail")
+
+    if not val in found:
+      found.append(val)
+
+  elif node.hasChildren():
+    for child in node.children:
+      addReturns(child, found)
+
+
+
+def nameToType(name):
+  typ = "variable"
+
+  # Evaluate type from name
+  if name in VARNAMES:
+    typ = VARNAMES[name]
+
+  elif len(name) > 1:
+    if name[1].isupper():
+      if name[0] in VARPREFIXES:
+        typ = VARPREFIXES[name[0]]
+
+  return typ
+
+
+
+
+def fromFunction(func, name):
   s = "/**\n"
 
-  s += " * @brief\n"
-  s += " * TODO\n"
-  s += " *\n"
-  s += " * @param %s {type}\n"
+  # open comment
+  s += " * TODOC\n"
+
+  # add parameters
+  params = func.getChild("params")
+  if params.hasChildren():
+    s += " *\n"
+    for child in params.children:
+      if child.type == "variable":
+        pname = child.getChild("identifier").get("name")
+        ptype = nameToType(pname)
+
+        s += " * @param %s {%s} TODOC\n" % (pname, ptype)
+
+  # add return
+  returns = getReturns(func)
+  if len(returns) > 0:
+    s += " *\n"
+    s += " * @return {%s} TODOC\n" % ",".join(returns)
+  elif name != None and name.startswith("is"):
+    s += " *\n"
+    s += " * @return {%s} TODOC\n" % "boolean"
+
+  # close comment
   s += " */"
 
   return s
 
 
 
-def enhance(tree):
-  print "  * Enhancing tree..."
-
-  enhanceNode(tree)
-
-
-
-def enhanceNode(node):
-
+def enhance(node):
   if node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
     return
 
-
-  print ">>> %s" % node.type
-
   if node.type == "function":
-    commentNode = tree.Node("comment")
-    commentNode.set("source", fromFunction(node))
-    commentNode.set("text", fromFunction(node))
-    commentNode.set("detail", "block")
-    commentNode.set("multiline", True)
+    target = node
+    name = node.get("name", False)
 
-    commentsBefore = tree.Node("commentsBefore")
-    commentsBefore.addChild(commentNode)
+    # move comment to assignment
+    while target.parent.type == "right" and target.parent.parent.type == "assignment":
+      target = target.parent.parent
+      if target.hasChild("left"):
+        left = target.getChild("left")
+        if left and left.hasChild("variable"):
+          last = left.getChild("variable").getLastChild(False, True)
+          if last and last.type == "identifier":
+            name = last.get("name")
 
-    if node.parent.type == "right":
-      pass
+      elif target.parent.type == "definition":
+        name = target.parent.get("identifier")
 
+    # move comment to keyvalue
+    if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
+      target = target.parent.parent
+      name = target.get("key")
+
+
+    if target.hasChild("commentsBefore"):
+      commentsBefore = target.getChild("commentsBefore")
     else:
-      node.addChild(commentsBefore, 0)
+      commentsBefore = tree.Node("commentsBefore")
+      target.addChild(commentsBefore)
+
+    ignore = False
+
+    if commentsBefore.hasChild("comment"):
+      for child in commentsBefore.children:
+        if child.get("detail") in [ "javadoc", "qtdoc" ]:
+          ignore = True
+
+    # create comment node
+    if not ignore:
+      commentNode = tree.Node("comment")
+      commentNode.set("text", fromFunction(node, name))
+      commentNode.set("detail", "javadoc")
+      commentNode.set("multiline", True)
+
+      commentsBefore.addChild(commentNode)
 
 
   if node.hasChildren():
     for child in node.children:
-      enhanceNode(child)
+      enhance(child)
 
