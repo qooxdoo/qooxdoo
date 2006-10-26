@@ -355,6 +355,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item = createItemNode("constant", stream)
     item.set("constantType", "number")
     item.set("value", stream.currSource())
+    item.set("detail", stream.currDetail())
     stream.next(item, True)
     # This is a member accessor (E.g. "bla.blubb")
     item = readObjectOperation(stream, item)
