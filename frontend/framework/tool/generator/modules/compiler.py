@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, optparse
-import config, tokenizer, filetool, treegenerator, variableoptimizer, comment
+import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
 
 KEY = re.compile("^[A-Za-z0-9_]+$")
 INDENTSPACES = 2
@@ -116,6 +116,11 @@ def sep():
   afterBreak = True
 
 
+def nosep():
+  global afterBreak
+  afterBreak = False
+
+
 def line():
   global afterLine
   afterLine = True
@@ -214,6 +219,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 
   if enablePretty:
     comment.enhance(node)
+    #print tree.nodeToXmlString(node)
 
   compileNode(node)
 
@@ -694,7 +700,7 @@ def compileNode(node):
       print "Warning: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    if pretty and node.getChild("value").isComplex() and not node.isFirstChild(True):
+    if pretty and node.getChild("value").isComplex() and not node.isFirstChild(True) and not node.hasChild("commentsBefore"):
       sep()
 
     write(keyString)
