@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re
-import config
+import config, tree
 
 
 
@@ -85,3 +85,57 @@ def getFormat(source):
     return "header"
 
   return "block"
+
+
+
+
+
+def fromFunction(func):
+  s = "/**\n"
+
+  s += " * @brief\n"
+  s += " * TODO\n"
+  s += " *\n"
+  s += " * @param %s {type}\n"
+  s += " */"
+
+  return s
+
+
+
+def enhance(tree):
+  print "  * Enhancing tree..."
+
+  enhanceNode(tree)
+
+
+
+def enhanceNode(node):
+
+  if node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+    return
+
+
+  print ">>> %s" % node.type
+
+  if node.type == "function":
+    commentNode = tree.Node("comment")
+    commentNode.set("source", fromFunction(node))
+    commentNode.set("text", fromFunction(node))
+    commentNode.set("detail", "block")
+    commentNode.set("multiline", True)
+
+    commentsBefore = tree.Node("commentsBefore")
+    commentsBefore.addChild(commentNode)
+
+    if node.parent.type == "right":
+      pass
+
+    else:
+      node.addChild(commentsBefore, 0)
+
+
+  if node.hasChildren():
+    for child in node.children:
+      enhanceNode(child)
+
