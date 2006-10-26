@@ -732,7 +732,14 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
           this.setFocusRoot(vRoot);
 
           vRoot.setActiveChild(vTarget);
-          vRoot.setFocusedChild(vTarget.isFocusable() ? vTarget : vRoot);
+
+          // Active focus on element (if possible, else search up the parent tree)
+          var vFocusTarget = vTarget;
+          while (!vFocusTarget.isFocusable() && vFocusTarget != vRoot) {
+            vFocusTarget = vFocusTarget.getParent();
+          }
+
+          vRoot.setFocusedChild(vFocusTarget);
         }
 
         // the more intelli method, ignore blur after mousedown event
