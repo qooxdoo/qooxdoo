@@ -26,22 +26,22 @@ def indent(source, indent):
   return re.compile("\n").sub("\n" + (" " * indent), source)
 
 
-def correctSingleLine(source):
+def correctInline(source):
   if R_SINGLECOMMENT_TIGHT.search(source):
     return R_SINGLECOMMENT_PURE.sub("// ", source)
 
   return source
 
 
-def correctMultiLine(source):
+def correctBlock(source):
   return source
 
 
 def correct(source):
   if source.startswith("//"):
-    return correctSingleLine(source)
+    return correctInline(source)
   else:
-    return correctMultiLine(source)
+    return correctBlock(source)
 
 
 
