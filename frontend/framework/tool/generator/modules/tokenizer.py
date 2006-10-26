@@ -29,7 +29,7 @@ S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(test|exec)\s*\(\s*"
 S_REGEXP_D = "(:|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 
-S_ALL = "(" + comment.S_MULTICOMMENT + "|" + comment.S_SINGLECOMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
+S_ALL = "(" + comment.S_BLOCK_COMMENT + "|" + comment.S_INLINE_COMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
 
 # compile regexp strings
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
@@ -194,7 +194,7 @@ def parseStream(content, uniqueId):
 
     # print "Found: '%s'" % fragment
 
-    if comment.R_MULTICOMMENT.match(fragment):
+    if comment.R_BLOCK_COMMENT.match(fragment):
       source = recoverEscape(fragment)
       format = comment.getFormat(source)
       multiline = comment.isMultiLine(source)
@@ -226,7 +226,7 @@ def parseStream(content, uniqueId):
       tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
       parseLine += len(fragment.split("\n")) - 1
 
-    elif comment.R_SINGLECOMMENT.match(fragment):
+    elif comment.R_INLINE_COMMENT.match(fragment):
       # print "Type:SingleComment"
       source = recoverEscape(fragment)
       content = parseFragmentLead(content, fragment, tokens)
