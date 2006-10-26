@@ -700,7 +700,7 @@ def compileNode(node):
       print "Warning: Auto protect key: %s" % keyString
       keyString = "\"" + keyString + "\""
 
-    if pretty and node.getChild("value").isComplex() and not node.isFirstChild(True) and not node.hasChild("commentsBefore"):
+    if pretty and not node.isFirstChild(True) and not node.hasChild("commentsBefore") and node.getChild("value").isComplex():
       sep()
 
     write(keyString)
