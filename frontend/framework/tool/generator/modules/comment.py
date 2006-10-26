@@ -138,14 +138,29 @@ def getFormat(source):
 
 
 
+def hasThrows(node):
+  if node.type == "throw":
+    return True
+
+  if node.hasChildren():
+    for child in node.children:
+      if hasThrows(child):
+        return True
+
+  return False
+
+
+
+
+
 
 def getReturns(node):
   l = []
-  addReturns(node.getChild("body"), l)
+  _iterReturns(node.getChild("body"), l)
   return l
 
 
-def addReturns(node, found):
+def _iterReturns(node, found):
   if node.type == "function":
     return
 
@@ -171,7 +186,7 @@ def addReturns(node, found):
 
   elif node.hasChildren():
     for child in node.children:
-      addReturns(child, found)
+      _iterReturns(child, found)
 
 
 
@@ -195,13 +210,18 @@ def nameToType(name):
 def fromFunction(func, name):
   s = "/**\n"
 
+  #
   # open comment
+  ##############################################################
   s += " * TODOC\n"
+  s += " *\n"
 
-  # add parameters
+
+  #
+  # add @param
+  ##############################################################
   params = func.getChild("params")
   if params.hasChildren():
-    s += " *\n"
     for child in params.children:
       if child.type == "variable":
         pname = child.getChild("identifier").get("name")
@@ -209,16 +229,33 @@ def fromFunction(func, name):
 
         s += " * @param %s {%s} TODOC\n" % (pname, ptype)
 
-  # add return
+  #
+  # add @return
+  ##############################################################
   returns = getReturns(func)
-  if len(returns) > 0:
-    s += " *\n"
-    s += " * @return {%s} TODOC\n" % ",".join(returns)
-  elif name != None and name.startswith("is"):
-    s += " *\n"
-    s += " * @return {%s} TODOC\n" % "boolean"
+  retval = "undefined"
 
+  if len(returns) > 0:
+    retval = ",".join(returns)
+  elif name != None and name.startswith("is") and name[3].isupper():
+    retval = "boolean"
+
+  if retval == "undefined":
+    s += " * @return {%s}\n" % retval
+  else:
+    s += " * @return {%s} TODOC\n" % retval
+
+
+  #
+  # add @throws
+  ##############################################################
+  if hasThrows(func):
+    s += " * @throws TODOC\n"
+
+
+  #
   # close comment
+  ##############################################################
   s += " */"
 
   return s
