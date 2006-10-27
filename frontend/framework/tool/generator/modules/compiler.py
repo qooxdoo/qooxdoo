@@ -412,14 +412,6 @@ def compileNode(node):
 
 
   #
-  # OPEN: LABEL
-  ##################################
-
-  elif node.type == "labelTerminator":
-    write(":")
-
-
-  #
   # OPEN: FUNCTION
   ##################################
 
@@ -969,6 +961,8 @@ def compileNode(node):
   if node.type == "identifier":
     if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
       write(".")
+    elif node.hasParent() and node.parent.type == "label":
+      write(":")
 
 
   #
@@ -1327,14 +1321,8 @@ def compileNode(node):
     # Semicolon handling
     elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
-      # Special handling for labels
-      sibling = node.getFollowingSibling(False)
-      if node.type == "variable" and sibling and sibling.type == "labelTerminator":
-        # No semicolon between label and terminating colon
-		    pass
-
       # Default semicolon handling
-      elif node.parent.type in [ "block", "file" ]:
+      if node.parent.type in [ "block", "file" ]:
         semicolon()
 
         if pretty:
