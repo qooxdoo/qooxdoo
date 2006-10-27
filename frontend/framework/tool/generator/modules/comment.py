@@ -330,6 +330,9 @@ def enhance(node):
     alternative = False
     member = None
 
+    if name != None:
+      member = "scope"
+
     # move to hook operation
     while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
       alternative = True
@@ -349,7 +352,7 @@ def enhance(node):
 
           for child in var.children:
             if child.type == "identifier":
-              if child.get("name") in [ "prototype", "Proto" ]:
+              if child.get("name") in [ "prototype", "Proto", "this" ]:
                 member = "instance"
               elif child.get("name") in [ "class", "base", "Class" ]:
                 member = "static"
@@ -363,6 +366,7 @@ def enhance(node):
     # move to definition
     if target.parent.type == "assignment" and target.parent.parent.type == "definition" and target.parent.parent.parent.getChildrenLength(True) == 1:
       target = target.parent.parent.parent
+      member = "scope"
 
 
     # move comment to keyvalue
