@@ -345,6 +345,8 @@ qx.Proto.dispose = function()
     return;
   }
 
+  this.__onreadystatechange = this.__onload = null;
+
   if (this._iframeNode)
   {
     this._iframeNode.onreadystatechange = null;
