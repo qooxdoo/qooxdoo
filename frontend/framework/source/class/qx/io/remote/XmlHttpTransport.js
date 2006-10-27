@@ -97,15 +97,24 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 
   if (window.ActiveXObject)
   {
+    /*
+     According to information on the Microsoft XML Team's WebLog 
+     it is recommended to check for availability of MSXML versions 6.0 and 3.0.
+     Other versions are included for completeness, 5.0 is excluded as it is 
+     "off-by-default" in IE7 (which could trigger a goldbar).
+
+     http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
+     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
+
+     See similar code in qx.lang.Xml, qx.lang.XmlEmu
+    */
     var vServers =
     [
       "MSXML2.XMLHTTP.6.0",
-      "MSXML2.XMLHTTP.5.0",
-      "MSXML2.XMLHTTP.4.0",
       "MSXML2.XMLHTTP.3.0",
-      "MSXML2.XMLHTTP.2.0",
-      "MSXML2.XMLHTTP",
-      "Microsoft.XMLHTTP"
+      "MSXML2.XMLHTTP.4.0",
+      "MSXML2.XMLHTTP",    // v3.0
+      "Microsoft.XMLHTTP"  // v2.x
     ];
 
     var vObject;
