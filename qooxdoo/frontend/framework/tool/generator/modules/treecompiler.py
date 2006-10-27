@@ -190,7 +190,10 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
   elif node.type == "identifier":
     name = node.get("name", False)
     if name != None:
-      compString += name
+      if node.hasParent() and node.parent.type == "label":
+        compString += ";"+name+":"
+      else:
+        compString += name
 
   elif node.type == "call":
     callHasParams = False
@@ -225,8 +228,6 @@ def compileNode(node, level=0, enableNewLines=False, enableDebug=False):
       else:
         print "Unknown third argument... Not a hook"
 
-  elif node.type == "labelTerminator":
-    compString += ":"
 
 
 
