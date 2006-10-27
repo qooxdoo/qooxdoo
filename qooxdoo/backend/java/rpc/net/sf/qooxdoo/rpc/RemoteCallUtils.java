@@ -346,18 +346,16 @@ public class RemoteCallUtils {
      *                                  objects - must not be
      *                                  <code>null</code>).
      *
-     * @exception   NoSuchMethodException   thrown if no matching method
-     *                                      exists.
-     * @exception   IllegalAccessException  thrown if the matching method is
-     *                                      not accessible.
-     * @exception   InvocationTargetException   thrown if the method call
-     *                                          produces an exception.
+     * @exception   Exception           thrown if the method cannot be found
+     *                                  or if invoking it fails. If the method
+     *                                  cannot be found, a
+     *                                  <code>NoSuchMethodException</code> is
+     *                                  thrown.
      */
 
     protected Object callCompatibleMethod(Object instance,
             String methodName, JSONArray parameters)
-        throws NoSuchMethodException, IllegalAccessException,
-               InvocationTargetException {
+        throws Exception {
 
         Class clazz = instance.getClass();
         StringBuffer cacheKeyBuffer = new StringBuffer(clazz.getName());
